@@ -238,3 +238,48 @@ reports. Entries from 2026-09-16 evening (and carried historical items).
 - **Scientific impact:** none negative for the fixed-B contribution.
 - **Follow-up:** Phase-2 candidates drawn from P2-025..P2-039 only after further
   development evidence.
+
+## PF-019 - Stale P2 docs said Phase-1 "not executed" (2026-09-18)
+- **Where:** `docs/P2_IMPLEMENTATION_ROADMAP_2026_2027.md` (header "It has not
+  been executed"), `docs/ADAPTIVE_BUDGET_P2_PRE_REGISTRATION_NOTE.md` ("no P2
+  execution has started"), `reports/P2_ALGORITHM_LANDSCAPE_2026-09.md`
+  ("not executed here").
+- **Symptoms:** documentation conflicted with the executed-and-frozen P2
+  Phase-1 NEGATIVE closure (2026-09-18).
+- **Root cause:** those documents predated the Phase-1 execution; the closure
+  updated 00_CURRENT_RESEARCH_STATE.md / PROGRESS.md / DECISIONS.md but the
+  three historical P2 docs were not reconciled.
+- **Action:** reconciled all three headers/status lines to state the current
+  truth — Phase-1 EXECUTED on DEVELOPMENT, NEGATIVE closure, broader P2
+  program remains OPEN for possible Phase-2 candidates; MSC roadmap updated
+  with a 2026-09-18 block.
+- **Status:** RESOLVED (docs-only; ZERO API).
+
+## PF-020 - AI-blinded package needed neutral identity (2026-09-18)
+- **Where:** `research/semantic_audit/ai_blinded_v1/` preparation.
+- **Symptoms:** the original human packets/forms carry arm labels
+  (top_ranked_omitted / matched_random_omitted) and method context; raw reuse
+  would leak method/rank to the AI raters.
+- **Root cause:** the human audit was designed for humans, not for blinded AI
+  rating.
+- **Action:** derived AI-facing packets with neutral case/row/candidate IDs and
+  ONLY the semantic role (historical_changed_file / omitted_candidate_file);
+  original arms preserved in a sealed private mapping never sent to raters;
+  leak scan (FORBIDDEN_TOKENS) clean.
+- **Status:** RESOLVED (prepared; AWAITING_RATER_OUTPUTS).
+
+## PF-021 - Two frozen AI-audit outputs were not strict JSON (2026-09-18)
+- **Where:** inputs/semantic/results/chatgpt_batch_02_result.json and
+  chatgpt_batch_04_result.json (frozen rater outputs, as received).
+- **Symptoms:** json.loads failed — unescaped inner double quotes inside
+  vidence string values (e.g. select_related("parent", "placeholder"),
+  getattr(request, "placeholders", {}).values(), "oqn" corrected to "own").
+- **Root cause:** the external raters embedded code-ish quotes in evidence
+  strings without JSON escaping.
+- **Action:** created normalized syntax-only copies (deterministic tolerant
+  parse re-serialization; only unescaped quotes re-escaped, markdown fences +
+  trailing commas stripped); originals preserved byte-identical; full content
+  preservation verified by tolerant-parse equality; analysis ingested the
+  normalized copies.
+- **Status:** RESOLVED (syntax-only; no label/confidence/rationale/evidence/
+  case judgment changed; originals frozen and untouched).

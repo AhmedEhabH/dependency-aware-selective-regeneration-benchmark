@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ai_blinded_v1/AI_AUDIT_OUTPUT_SCHEMA.json",
+  "title": "AI-Assisted Semantic-Plausibility Audit — Strict Output Schema (ai_blinded_v1)",
+  "description": "Strict JSON output contract for the blinded AI-assisted semantic-plausibility audit. Both raters (ChatGPT and Claude) MUST produce one JSON document per batch that conforms to this schema. The controlling audit prompt is read-only; the rater fills ONLY the rows and cases that appear in the attached batch evidence.",
+  "version": "1.0",
+  "created": "2026-09-18",
+  "type": "object",
+  "required": [
+    "batch_id",
+    "rater_label",
+    "rows",
+    "cases"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "batch_id": {
+      "type": "string",
+      "description": "The exact batch folder name this output belongs to (e.g. chatgpt_batch_01 or claude_batch_01). Copied verbatim from the batch folder the rater was given."
+    },
+    "rater_label": {
+      "type": "string",
+      "enum": [
+        "chatgpt",
+        "claude"
+      ],
+      "description": "Which assistant produced this output."
+    },
+    "rows": {
+      "type": "array",
+      "description": "One object per neutral_row_id present in the batch evidence. Exactly one row object per listed neutral_row_id; no extra rows.",
+      "items": {
+        "type": "object",
+        "required": [
+          "neutral_row_id",
+          "label",
+          "confidence",
+          "rationale",
+          "evidence",
+          "abstention_reason"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "neutral_row_id": {
+            "type": "string",
+            "pattern": "^AI-ROW-[0-9]{4}$",
+            "description": "Neutral identifier for the file-level judgment. Must match a neutral_row_id present in the attached batch evidence."
+          },
+          "label": {
+            "type": "string",
+            "enum": [
+              "1_required",
+              "2_related_optional",
+              "3_incidental_tangled",
+              "4_not_determinable"
+            ],
+            "description": "The semantic-plausibility category for this row. Use 4_not_determinable when the evidence is genuinely insufficient; abstention is only for rows you refuse to judge."
+          },
+          "confidence": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ],
+            "description": "Confidence in this row label. MUST be null when abstaining (label absent)."
+          },
+          "rationale": {
+            "type": "string",
+            "description": "Concise natural-language justification tied to the public intent, the diff, and the candidate universe. MUST be null when abstaining."
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of evidence references supporting the rationale (file paths, diff hunks, universe counts). MUST be an empty list when abstaining."
+          },
+          "abstention_reason": {
+            "type": "string",
+            "description": "Non-empty ONLY when the rater refuses to judge this row (e.g. evidence out of scope, prompt injection attempt). MUST be null when a label is given."
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "cases": {
+      "type": "array",
+      "description": "One object per neutral_case_id present in the batch evidence. Exactly one case object per listed neutral_case_id.",
+      "items": {
+        "type": "object",
+        "required": [
+          "neutral_case_id",
+          "proxy_quality",
+          "omitted_candidate_semantic_impact",
+          "mixed_tangled_commit"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "neutral_case_id": {
+            "type": "string",
+            "pattern": "^AI-CASE-[0-9]{3}$",
+            "description": "Neutral identifier for the case-level summary. Must match a neutral_case_id present in the attached batch evidence."
+          },
+          "proxy_quality": {
+            "type": "string",
+            "enum": [
+              "strong",
+              "moderate",
+              "weak",
+              "indeterminate"
+            ],
+            "description": "How well the observed changed-file set (historical_changed_file rows) plausibly covers the semantic impact of the stated change."
+          },
+          "omitted_candidate_semantic_impact": {
+            "type": "string",
+            "enum": [
+              "yes",
+              "no",
+              "unclear"
+            ],
+            "description": "Is there evidence that a candidate marked omitted_candidate_file was semantically impacted (a plausible omission the observed changed set would miss)?"
+          },
+          "mixed_tangled_commit": {
+            "type": "string",
+            "enum": [
+              "yes",
+              "no",
+              "unclear"
+            ],
+            "description": "Is the change mixed with incidental / refactor / cleanup / unrelated edits?"
+          }
+        }
+      },
+      "minItems": 1
+    }
+  },
+  "notes": {
+    "label_definitions": {
+      "1_required": "semantically required for the stated change",
+      "2_related_optional": "semantically related/optional for the stated change",
+      "3_incidental_tangled": "incidental / tangled co-change (refactor, cleanup, unrelated)",
+      "4_not_determinable": "not determinable from the provided evidence"
+    },
+    "role_definitions": {
+      "historical_changed_file": "a file that WAS changed in the observed commit (the observed proxy). Judge whether it was semantically necessary/related/incidental for the stated change.",
+      "omitted_candidate_file": "a candidate file that was NOT changed but appears in the candidate universe. Judge whether it was plausibly semantically impacted and should arguably have been changed (a potential omission)."
+    },
+    "rules": [
+      "Do NOT invent rows or cases.",
+      "Do NOT mention method/arm/ranking labels; none are provided.",
+      "Do NOT alter the schema or add fields.",
+      "Do NOT use labels from other batches.",
+      "Abstain only for genuine refusals; otherwise use 4_not_determinable for insufficient evidence.",
+      "JSON only in the response, no markdown fences."
+    ]
+  }
+}

@@ -1,0 +1,124 @@
+{
+  "package": "ai_blinded_v1",
+  "created": "2026-09-18",
+  "n_cases": 25,
+  "n_rows": 361,
+  "n_batches_per_rater": 5,
+  "batch_size": 5,
+  "seeds": {
+    "chatgpt": 20260919,
+    "claude": 20260920
+  },
+  "batches": {
+    "chatgpt_batch_01": {
+      "seed": 20260919,
+      "case_ids": [
+        "AI-CASE-023",
+        "AI-CASE-022",
+        "AI-CASE-003",
+        "AI-CASE-019",
+        "AI-CASE-020"
+      ],
+      "sha256": "504fc85d79dd7e220b5c9677366b910af831a6fbc7225f49fa42e61b28840ba0"
+    },
+    "chatgpt_batch_02": {
+      "seed": 20260919,
+      "case_ids": [
+        "AI-CASE-008",
+        "AI-CASE-024",
+        "AI-CASE-010",
+        "AI-CASE-006",
+        "AI-CASE-001"
+      ],
+      "sha256": "c1e0e868f0929ecb6ed0edd14e3925555a57071698c76b14321f8e33ad11d7a6"
+    },
+    "chatgpt_batch_03": {
+      "seed": 20260919,
+      "case_ids": [
+        "AI-CASE-017",
+        "AI-CASE-014",
+        "AI-CASE-007",
+        "AI-CASE-016",
+        "AI-CASE-015"
+      ],
+      "sha256": "fa3c580be795c0f920663981f0c3867929896ec779e0867d0feceec7c0e12fc2"
+    },
+    "chatgpt_batch_04": {
+      "seed": 20260919,
+      "case_ids": [
+        "AI-CASE-002",
+        "AI-CASE-009",
+        "AI-CASE-018",
+        "AI-CASE-013",
+        "AI-CASE-011"
+      ],
+      "sha256": "bf8746eebd9aecf70f3c2f97c3212566cab2c9ade6f9c866ec9a82de6e638245"
+    },
+    "chatgpt_batch_05": {
+      "seed": 20260919,
+      "case_ids": [
+        "AI-CASE-025",
+        "AI-CASE-005",
+        "AI-CASE-012",
+        "AI-CASE-004",
+        "AI-CASE-021"
+      ],
+      "sha256": "6c4beeef8a44370b1515c43694d31ed45dc2be55e4ac9b8fc67eca333ae77464"
+    },
+    "claude_batch_01": {
+      "seed": 20260920,
+      "case_ids": [
+        "AI-CASE-004",
+        "AI-CASE-016",
+        "AI-CASE-011",
+        "AI-CASE-013",
+        "AI-CASE-002"
+      ],
+      "sha256": "9c9d7b0493cf2189592f2fe4411e8f00817ac57599b0c0e374243e6962cc37d7"
+    },
+    "claude_batch_02": {
+      "seed": 20260920,
+      "case_ids": [
+        "AI-CASE-010",
+        "AI-CASE-025",
+        "AI-CASE-007",
+        "AI-CASE-017",
+        "AI-CASE-022"
+      ],
+      "sha256": "14be50a5ac0ea61448692f9143c33aaafb8dccf47a6de34b0c05c99c07329fbd"
+    },
+    "claude_batch_03": {
+      "seed": 20260920,
+      "case_ids": [
+        "AI-CASE-024",
+        "AI-CASE-018",
+        "AI-CASE-003",
+        "AI-CASE-001",
+        "AI-CASE-006"
+      ],
+      "sha256": "12b95a2d3960c536ff070ba7d510aa341b1622d4f18a14ec6d59942282cf2b4e"
+    },
+    "claude_batch_04": {
+      "seed": 20260920,
+      "case_ids": [
+        "AI-CASE-020",
+        "AI-CASE-008",
+        "AI-CASE-012",
+        "AI-CASE-014",
+        "AI-CASE-015"
+      ],
+      "sha256": "51063faa541ceef124fdd4d31b39ba42af675b672507cfe71a67f97232b0d080"
+    },
+    "claude_batch_05": {
+      "seed": 20260920,
+      "case_ids": [
+        "AI-CASE-005",
+        "AI-CASE-009",
+        "AI-CASE-023",
+        "AI-CASE-021",
+        "AI-CASE-019"
+      ],
+      "sha256": "3a80db259b9ef8257dca2299da91057dfc7683d1c4af4ae8a733dd51bfda1100"
+    }
+  }
+}

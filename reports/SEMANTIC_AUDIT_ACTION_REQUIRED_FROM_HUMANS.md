@@ -84,3 +84,31 @@ HUMAN-work blocker, not a code blocker; do not spend coding time on it.
 - Do NOT tune the ranker using the audit.
 - Do NOT open djangoCMS/Saleor INTERNAL_TEST or RESERVE.
 - AI/machine notes are never semantic gold.
+
+## 11. Independent AI-assisted audit (parallel, does NOT replace human ratings)
+
+On 2026-09-18 an independent AI-assisted semantic-plausibility audit package
+was prepared (`research/semantic_audit/ai_blinded_v1/`): fully blinded
+ChatGPT + Claude batches (5 fresh chats each), neutral IDs, sealed private
+mapping, strict JSON schema, agreement script + tests, human minimal-spot-check
+generator. ZERO API. This is a separate descriptive track and does NOT unblock
+or replace the human ratings above — the human two-rater + adjudicator audit
+remains the semantic gold and is still **AWAITING_HUMAN_RATINGS**. Exact
+runbook: `reports/AI_SEMANTIC_AUDIT_ANALYSIS_PROTOCOL.md`.
+
+## 12. AI-assisted audit analysis delivered (2026-09-18; descriptive only)
+
+The 10 frozen AI rater outputs (5 ChatGPT + 5 Claude) were returned and
+analyzed (ZERO API): exact inter-model row agreement **0.6981** (252/361),
+Cohen's kappa **0.5579**, historical-changed 0.8468 vs omitted-candidate 0.6320,
+case-level proxy 0.56 / omitted-impact 0.48 / tangled 0.68; post-hoc omitted-role
+sensitivity (15 in-hist κ 0.17 vs 235 outside-hist κ 0.26); descriptive
+top-ranked-vs-random relevance per rater (ChatGPT 0.193 vs 0.099; Claude 0.053
+vs 0.008), never pooled as gold. **A new human minimal spot-check is now
+available:** `research/semantic_audit/ai_blinded_v1/human_spotcheck_form.csv`
+(119 rows = 109 inter-model disagreements + 10 deterministic agreement rows).
+Reviewing this form is a minimal human check of inter-model disagreement; it is
+NOT expert adjudication and does NOT satisfy the gold audit above. Full report:
+`reports/AI_SEMANTIC_AUDIT_AGREEMENT_REPORT.md`. This AI-assisted track remains
+an **independent AI-assisted semantic-plausibility audit / model-based semantic
+sensitivity analysis**, never human semantic gold.

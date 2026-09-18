@@ -775,3 +775,27 @@ must run on a fresh shared confirmatory split.
   only if justified; otherwise close P2 negative with the fixed-B thesis
   intact.
 - **Sealed now:** djangoCMS RESERVE, Saleor INTERNAL_TEST, Saleor RESERVE.
+
+## 2026-09-18 update — P2 PHASE-1 EXECUTED (NEGATIVE) + semantic AI-audit packages
+
+- **P2 Phase-1 WAS EXECUTED (2026-09-18; DEVELOPMENT; ZERO API).** The Nov 2026
+  window was brought forward: the common adaptive-budget harness
+  (`src/benchmark/p2/`) + four pre-registered interpretable policies
+  (P2-P1..P2-P4) were evaluated on djangoCMS DEV (174) + Saleor DEV (149).
+  **Result: all four NEGATIVE** (P2-P3 REJECTED_BY_DESIGN as a size/repo
+  artifact); strong-method gate FALSE; stronger methods NOT run. **P2 Phase-1 =
+  NEGATIVE (frozen).** Phase-2 candidates: NONE yet. The expanded landscape
+  (P2-025..P2-039) remains the Phase-2 candidate pool. The broader P2 program
+  remains OPEN for possible Phase-2 candidates. Fixed-B thesis (CONFIRMED)
+  intact. (`reports/P2_PHASE1_FINAL_REPORT.md`, tag
+  `p2-phase1-negative-closure-2026-09-18`.)
+- **Semantic-proxy human audit** remains **AWAITING_HUMAN_RATINGS**
+  (human-work blocker; machine prep complete and verified).
+- **Independent AI-assisted semantic-plausibility audit packages PREPARED
+  (2026-09-18; ZERO API):** fully blinded two-assistant audit batch packages
+  under `research/semantic_audit/ai_blinded_v1/` (five fresh-chat batches per
+  assistant, neutral IDs, sealed private mapping, strict JSON output schema,
+  agreement script + tests, human minimal-spot-check generator). Inter-model
+  agreement is NOT human agreement; the human audit remains the gold.
+- **Sealed now (unchanged):** djangoCMS RESERVE, Saleor INTERNAL_TEST, Saleor
+  RESERVE.

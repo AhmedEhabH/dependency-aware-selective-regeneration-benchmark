@@ -55,7 +55,9 @@ def part1_integrity() -> bool:
     manifest = json.loads((OUT / "sample_manifest.json").read_text(encoding="utf-8"))
     case_ids = manifest["case_ids"]
     audit_manifest = json.loads((OUT / "audit_file_manifest.json").read_text(encoding="utf-8"))
-    packets = set(p.name for p in OUT.iterdir() if p.is_dir())
+    # Packet dirs are the djangocms-rc-* evidence packets ONLY. Derived dirs
+    # (e.g. ai_blinded_v1) must NOT be treated as packets.
+    packets = {p.name for p in OUT.iterdir() if p.is_dir() and p.name.startswith("djangocms-rc-")}
 
     for cid in case_ids:
         p = OUT / cid

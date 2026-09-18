@@ -6,68 +6,83 @@ task, immediate next step, blockers). Scientific truth lives in
 `DECISIONS.md`.
 
 **Branch:** `main`
-**HEAD:** `bbf5005` (merge of `fix/p2-export-script-2026-09-18`)
+**HEAD:** `9dd9797` (merge of `docs/p2-final-report-2026-09-18`) → post-merge
+HEAD recorded in the closure report
 **Model:** openrouter/deepseek/deepseek-v4-flash-0731
-**Task:** P2 PHASE 1 + FIXED-ROUTE-B SCIENTIFIC CLOSURE (2026-09-18) — fixed
-Route-B reviewer closure (curve-level POST-HOC characterization, sparse-vs-full
-causal parity audit, dataset operational-definition audit; ZERO API); P2 common
-adaptive-budget DEVELOPMENT harness; P2-P1..P2-P4 implemented + evaluated on
-djangoCMS DEV + Saleor DEV; strong-method gate FALSE → **P2 Phase-1 = NEGATIVE
-(frozen), stronger methods NOT run**; literature landscape +15 verified entries;
-semantic-audit blocker reported (AWAITING_HUMAN_RATINGS); NestJS zero-API
-readiness; V1.5 patch list; validation 6/6 + audit PASS; merged to `main`
-(`248491d`), tagged `p2-phase1-negative-closure-2026-09-18`, LIGHT export
-created — **COMPLETE**
+**Task:** AI-ASSISTED SEMANTIC AUDIT — INGEST + AGREEMENT + POST-HOC
+SENSITIVITY + HUMAN SPOT-CHECK (2026-09-18) — the 10 frozen rater outputs
+(5 ChatGPT + 5 Claude) were validated (2 syntax-only repairs, content
+preserved, originals untouched), ingested against the sealed mapping, and
+agreement + post-hoc sensitivity + semantic-relevance analyses run (ZERO API):
+exact row agreement **0.6981** (252/361), Cohen's kappa **0.5579**,
+historical-changed agreement 0.8468 vs omitted 0.6320, case-level proxy 0.56;
+post-hoc omitted-role partition (15 in-hist vs 235 outside-hist);
+top-ranked-vs-random relevance descriptive per rater (ChatGPT 0.193 vs 0.099;
+Claude 0.053 vs 0.008); 119-row human minimal spot-check form generated;
+**19/19 unit tests PASS**; report delivered — **COMPLETE**
 
 ---
 
 ## Now executing
 
-- **MILESTONE COMPLETE.** P2 Phase-1 + fixed Route-B scientific closure
-  delivered: full suite 3334 passed / 33 skipped / 2 pre-existing env failures;
-  merged to `main` (`248491d`), tag `p2-phase1-negative-closure-2026-09-18`
-  (peel == `248491d` == merge; DEV-only milestone tag, NOT a stable-tag move),
-  post-tag tooling merge `bbf5005` (LIGHT export script), LIGHT export
-  `project-2026-09-18-0139.zip` created + verified.
-- **Remaining:** none for this mission. Final report delivered; next step is
-  Ahmed/supervisor review; Phase-2 candidates may be drawn from the expanded
-  landscape after further development evidence.
+- **MILESTONE COMPLETE.** The independent AI-assisted semantic-plausibility
+  audit analysis is delivered: the 10 frozen rater outputs were validated
+  exactly as received (chatgpt_02 + chatgpt_04 repaired syntax-only — unescaped
+  quotes in evidence strings — normalized copies created, originals untouched,
+  full content-preservation verified), staged under
+  `research/semantic_audit/ai_blinded_v1/rater_outputs/`, and analyzed against
+  the sealed mapping: exact agreement **0.6981**, Cohen's kappa **0.5579**,
+  confusion matrix, agreement-by-label, abstention 0/0, role split
+  (historical 0.8468 / omitted 0.6320), case-level (proxy 0.56, omitted impact
+  0.48, tangled 0.68), 109 disagreements, deterministic 10-row agreement
+  sample. POST-HOC sensitivity separated `sparse_omitted_and_historical_changed`
+  (n=15, κ=0.17) from `sparse_omitted_and_outside_historical_diff` (n=235,
+  κ=0.26). Descriptive top-ranked-vs-random relevance (outside historical diff)
+  reported per rater (ChatGPT 0.193 vs 0.099; Claude 0.053 vs 0.008); ChatGPT
+  and Claude kept separate, never pooled as gold. 119-row human minimal
+  spot-check form generated (109 disagreements + 10 deterministic agreement
+  rows). Explicitly recorded as an independent AI-assisted semantic-plausibility
+  audit / model-based semantic sensitivity analysis, NOT human semantic gold.
+- **Remaining:** none for this analysis. The human minimal spot-check form is
+  ready for the human reviewer; the human two-rater + adjudicator audit remains
+  **AWAITING_HUMAN_RATINGS**.
 
 ## Last completed task
 
-- P2 Phase-1 + fixed Route-B scientific closure (2026-09-18): all scientific
-  execution, validation, governance, git, tag, and LIGHT export COMPLETE.
-  ZERO new model calls.
+- AI-assisted semantic-audit agreement + post-hoc sensitivity + human
+  spot-check (2026-09-18): 10 frozen outputs validated/ingested, agreement +
+  post-hoc analyses run, 19/19 unit tests PASS, report + ledgers updated,
+  ZERO model/API calls.
 
 ## Immediate next step
 
-- Ahmed/supervisor review; then decide whether to pursue any Phase-2 candidate
-  from the expanded P2 landscape (P2-025..P2-039) with further development
-  evidence.
+- Deliver `research/semantic_audit/ai_blinded_v1/human_spotcheck_form.csv`
+  (119 rows) to the human reviewer as the first bounded check of inter-model
+  disagreement; the human semantic audit remains the gold.
 
 ## Blockers
 
-- None for this mission.
+- Semantic-proxy human audit remains **AWAITING_HUMAN_RATINGS** (human-work
+  blocker; machine-preparation complete and verified; the AI-assisted
+  descriptive track does NOT unblock it).
+- Human minimal spot-check (119 rows) awaits a human reviewer (no human
+  judgments fabricated in this closure).
 - Pre-existing environmental (2 full-suite failures, identical on clean base):
   pinned djangocms git cache absent at benchmark_data/repositories/djangocms
   (legacy parent-commit corpus not re-materializable; INTERNAL_TEST bundles
   were materialized from dist/real-commit-cache/djangocms instead).
 - Saleor parent-visible history cache absent (dist/real-commit-cache/saleor) —
   no Saleor co-change arm; recorded UNAVAILABLE in the ablation.
-- Semantic-proxy audit is **AWAITING_HUMAN_RATINGS** (human-work blocker;
-  machine-preparation complete and verified).
 
-## Full-suite state (P2 Phase-1 final gate, 2026-09-18)
+## Full-suite state (AI-audit analysis gate, 2026-09-18)
 
-- **3334 passed / 33 skipped / 2 pre-existing environmental failures**
-  (missing pinned djangocms repo checkout; identical on clean base).
-- 31 new P2 tests (15 policy unit + 10 evaluator unit + 6 integration).
-- Ruff clean on all changed Python files; mypy strict clean on
-  `src/benchmark/p2`; py_compile clean.
-- Six T3 validation gates + independent audit PASS.
-- Tag `p2-phase1-negative-closure-2026-09-18` (peel `248491d` == merge commit
-  == `main` at tag time; DEV-only milestone tag, NOT a stable-tag move).
-- LIGHT export: `project-2026-09-18-0139.zip`
-  SHA-256 `c11fb734ee0267ca9b08874ee179062ac9124f55d6aec45898e9c3e58f4f2c5b`
-  (required members `.git/HEAD`, `dist/pilot-kaggle-upload.zip`,
-  `.sha256` present).
+- **19/19 AI-audit unit tests PASS** (`tests/unit/test_semantic_ai_audit.py`):
+  16 prepare/agreement/spot-check + 3 new post-hoc tests; agreement + post-hoc
+  statistics independently recomputed (sklearn + pure-stdlib) and matching.
+- **Full suite (2026-09-18, AI-audit analysis gate): 3307 passed / 33 skipped /
+  2 pre-existing environmental failures** (missing pinned djangocms repo
+  checkout at benchmark_data/repositories/djangocms; identical on clean base).
+- Ruff clean on all changed Python files; mypy strict clean on the new post-hoc
+  script; py_compile clean.
+- LIGHT export (P2 closure, carried): `project-2026-09-18-0139.zip`
+  SHA-256 `c11fb734ee0267ca9b08874ee179062ac9124f55d6aec45898e9c3e58f4f2c5b`.

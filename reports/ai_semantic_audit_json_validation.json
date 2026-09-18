@@ -1,0 +1,51 @@
+{
+  "package": "ai_blinded_v1",
+  "validation_date": "2026-09-18",
+  "note": "Syntax-only validation of the 10 frozen rater outputs EXACTLY as received. Originals untouched. Two files had unescaped inner double-quotes inside evidence strings; normalized copies (syntax-only repair) were created alongside. No label/confidence/rationale/evidence/case judgment changed.",
+  "files": {
+    "chatgpt_batch_01_result.json": {
+      "status": "VALID_JSON_AS_RECEIVED",
+      "sha256_original": "5cc7c3a45e50e2b4591c44d3a70ce543ea0b3ff62690fe9692b962beb41d01de"
+    },
+    "chatgpt_batch_02_result.json": {
+      "status": "REPAIRED_SYNTAX_ONLY",
+      "error": "144:50 Expecting ',' delimiter",
+      "normalized_copy": "chatgpt_batch_02_result.json.normalized.json",
+      "sha256_original": "08cbff5078dd2de651697413e507cc969f1cbe87f5d703a8bd354a05d4bbc541"
+    },
+    "chatgpt_batch_03_result.json": {
+      "status": "VALID_JSON_AS_RECEIVED",
+      "sha256_original": "9081283911ac6a7a69a226128a84508ed5f8f04e34e26850c1037eb6c1ecbefb"
+    },
+    "chatgpt_batch_04_result.json": {
+      "status": "REPAIRED_SYNTAX_ONLY",
+      "error": "1:5269 Expecting ',' delimiter",
+      "normalized_copy": "chatgpt_batch_04_result.json.normalized.json",
+      "sha256_original": "a76f1b67d5e7af279ea700624f0ba51014fe2b950f3a118d59137cb7be9b306a"
+    },
+    "chatgpt_batch_05_result.json": {
+      "status": "VALID_JSON_AS_RECEIVED",
+      "sha256_original": "d5aeb9e75c1e75c4f82b8f6635f6c747a0a914cd0a2a7689ffe9a51efd8850db"
+    },
+    "claude_batch_01_result.json": {
+      "status": "VALID_JSON_AS_RECEIVED",
+      "sha256_original": "2aca6240854c31516b1921b84a0638ba3fe324a52c5c8ade4270970536270908"
+    },
+    "claude_batch_02_result.json": {
+      "status": "VALID_JSON_AS_RECEIVED",
+      "sha256_original": "15ebf12411ccf657316f76de9849c8d34674796f2766cf5fab8aefd52f40c1e4"
+    },
+    "claude_batch_03_result.json": {
+      "status": "VALID_JSON_AS_RECEIVED",
+      "sha256_original": "696a6802cc1bc69b8f109722d69671126fb25fd2111f4b69e14663c8e06ef37e"
+    },
+    "claude_batch_04_result.json": {
+      "status": "VALID_JSON_AS_RECEIVED",
+      "sha256_original": "c3736eb111e5c739b089412eb48ab4452b89cf09878d31ea8db800fb81a675b4"
+    },
+    "claude_batch_05_result.json": {
+      "status": "VALID_JSON_AS_RECEIVED",
+      "sha256_original": "2e9ed52d6cb2947c77dac84fa10fcd180ae973d0bd1d23ff0b1b53235f50347e"
+    }
+  }
+}

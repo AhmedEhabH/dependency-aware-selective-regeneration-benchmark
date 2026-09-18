@@ -1,0 +1,850 @@
+{
+  "analysis_date": "2026-09-18",
+  "package": "ai_blinded_v1",
+  "n_cases": 25,
+  "n_rows": 361,
+  "row_level": {
+    "n_total_rows": 361,
+    "n_rated_both": 361,
+    "n_agreements": 252,
+    "exact_row_agreement": 0.6981,
+    "cohen_kappa": 0.5579062085702087,
+    "confusion_matrix": [
+      [
+        88,
+        5,
+        0,
+        1
+      ],
+      [
+        0,
+        8,
+        22,
+        8
+      ],
+      [
+        0,
+        0,
+        127,
+        11
+      ],
+      [
+        12,
+        5,
+        45,
+        29
+      ]
+    ],
+    "confusion_labels": [
+      "1_required",
+      "2_related_optional",
+      "3_incidental_tangled",
+      "4_not_determinable"
+    ]
+  },
+  "agreement_by_label": {
+    "1_required": {
+      "both": 88,
+      "either": 106,
+      "pct_both_of_either": 0.8302
+    },
+    "2_related_optional": {
+      "both": 8,
+      "either": 48,
+      "pct_both_of_either": 0.1667
+    },
+    "3_incidental_tangled": {
+      "both": 127,
+      "either": 205,
+      "pct_both_of_either": 0.6195
+    },
+    "4_not_determinable": {
+      "both": 29,
+      "either": 111,
+      "pct_both_of_either": 0.2613
+    }
+  },
+  "abstention": {
+    "chatgpt": {
+      "n_abstained": 0,
+      "rate": 0.0
+    },
+    "claude": {
+      "n_abstained": 0,
+      "rate": 0.0
+    }
+  },
+  "role_split": {
+    "historical_changed_file": {
+      "n_total_rows": 111,
+      "n_rated_both": 111,
+      "n_agreements": 94,
+      "exact_row_agreement": 0.8468,
+      "cohen_kappa": 0.5006615506747817,
+      "confusion_matrix": [
+        [
+          86,
+          5,
+          0,
+          0
+        ],
+        [
+          0,
+          3,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          5,
+          0
+        ],
+        [
+          7,
+          3,
+          1,
+          0
+        ]
+      ],
+      "confusion_labels": [
+        "1_required",
+        "2_related_optional",
+        "3_incidental_tangled",
+        "4_not_determinable"
+      ],
+      "n_rows": 111
+    },
+    "omitted_candidate_file": {
+      "n_total_rows": 250,
+      "n_rated_both": 250,
+      "n_agreements": 158,
+      "exact_row_agreement": 0.632,
+      "cohen_kappa": 0.31240657698056806,
+      "confusion_matrix": [
+        [
+          2,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          5,
+          21,
+          8
+        ],
+        [
+          0,
+          0,
+          122,
+          11
+        ],
+        [
+          5,
+          2,
+          44,
+          29
+        ]
+      ],
+      "confusion_labels": [
+        "1_required",
+        "2_related_optional",
+        "3_incidental_tangled",
+        "4_not_determinable"
+      ],
+      "n_rows": 250
+    }
+  },
+  "case_level": {
+    "proxy_quality": {
+      "n_cases": 25,
+      "exact_agreement": 0.56,
+      "cohen_kappa": 0.20749279538904908
+    },
+    "omitted_candidate_semantic_impact": {
+      "n_cases": 25,
+      "exact_agreement": 0.48,
+      "cohen_kappa": 0.1095890410958904
+    },
+    "mixed_tangled_commit": {
+      "n_cases": 25,
+      "exact_agreement": 0.68,
+      "cohen_kappa": 0.45355191256830607
+    }
+  },
+  "n_disagreements": 109,
+  "disagreements": [
+    {
+      "neutral_row_id": "AI-ROW-0001",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0005",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0007",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0009",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0011",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "2_related_optional",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0020",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0023",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0026",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "3_incidental_tangled",
+      "claude_label": "4_not_determinable"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0033",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0035",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "2_related_optional",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0037",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "1_required",
+      "claude_label": "4_not_determinable"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0039",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0047",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0048",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "2_related_optional",
+      "claude_label": "4_not_determinable"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0054",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "3_incidental_tangled",
+      "claude_label": "4_not_determinable"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0061",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0068",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "3_incidental_tangled",
+      "claude_label": "4_not_determinable"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0076",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0082",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "2_related_optional",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0085",
+      "semantic_role": "historical_changed_file",
+      "chatgpt_label": "1_required",
+      "claude_label": "2_related_optional"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0086",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "2_related_optional",
+      "claude_label": "4_not_determinable"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0090",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "2_related_optional",
+      "claude_label": "4_not_determinable"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0091",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "2_related_optional",
+      "claude_label": "4_not_determinable"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0092",
+      "semantic_role": "historical_changed_file",
+      "chatgpt_label": "2_related_optional",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0094",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0096",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "1_required"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0097",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "1_required"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0102",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0103",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "2_related_optional",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0107",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "3_incidental_tangled",
+      "claude_label": "4_not_determinable"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0109",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "2_related_optional",
+      "claude_label": "4_not_determinable"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0116",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "3_incidental_tangled",
+      "claude_label": "4_not_determinable"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0131",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "2_related_optional",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0134",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0137",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "2_related_optional",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0141",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "2_related_optional",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0145",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "2_related_optional",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0146",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0149",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "2_related_optional",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0152",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0154",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0173",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0175",
+      "semantic_role": "historical_changed_file",
+      "chatgpt_label": "1_required",
+      "claude_label": "2_related_optional"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0177",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0179",
+      "semantic_role": "historical_changed_file",
+      "chatgpt_label": "1_required",
+      "claude_label": "2_related_optional"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0180",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0183",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0185",
+      "semantic_role": "historical_changed_file",
+      "chatgpt_label": "1_required",
+      "claude_label": "2_related_optional"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0188",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "2_related_optional",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0189",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "2_related_optional",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0198",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "2_related_optional",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0200",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "1_required"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0203",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "1_required"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0214",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0216",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0217",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0222",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0225",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "2_related_optional",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0231",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "2_related_optional"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0233",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0234",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "2_related_optional",
+      "claude_label": "4_not_determinable"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0236",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "2_related_optional",
+      "claude_label": "4_not_determinable"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0238",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "2_related_optional",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0239",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "2_related_optional",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0245",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0248",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "2_related_optional",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0254",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "2_related_optional",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0255",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "2_related_optional",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0262",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0264",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0266",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "2_related_optional"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0267",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0271",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "2_related_optional",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0273",
+      "semantic_role": "historical_changed_file",
+      "chatgpt_label": "1_required",
+      "claude_label": "2_related_optional"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0275",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0276",
+      "semantic_role": "historical_changed_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "2_related_optional"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0280",
+      "semantic_role": "historical_changed_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "2_related_optional"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0282",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0284",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0285",
+      "semantic_role": "historical_changed_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "2_related_optional"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0286",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0287",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0288",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "2_related_optional",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0292",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "2_related_optional",
+      "claude_label": "4_not_determinable"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0296",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0300",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "2_related_optional",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0302",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "3_incidental_tangled",
+      "claude_label": "4_not_determinable"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0303",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "3_incidental_tangled",
+      "claude_label": "4_not_determinable"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0310",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "3_incidental_tangled",
+      "claude_label": "4_not_determinable"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0312",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "3_incidental_tangled",
+      "claude_label": "4_not_determinable"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0313",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0314",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0315",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0316",
+      "semantic_role": "historical_changed_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0317",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "1_required"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0318",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0319",
+      "semantic_role": "historical_changed_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "1_required"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0320",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0321",
+      "semantic_role": "historical_changed_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "1_required"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0322",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0323",
+      "semantic_role": "historical_changed_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "1_required"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0324",
+      "semantic_role": "historical_changed_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "1_required"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0325",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0326",
+      "semantic_role": "historical_changed_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "1_required"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0327",
+      "semantic_role": "historical_changed_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "1_required"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0329",
+      "semantic_role": "historical_changed_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "1_required"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0330",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "4_not_determinable",
+      "claude_label": "3_incidental_tangled"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0353",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "3_incidental_tangled",
+      "claude_label": "4_not_determinable"
+    },
+    {
+      "neutral_row_id": "AI-ROW-0361",
+      "semantic_role": "omitted_candidate_file",
+      "chatgpt_label": "3_incidental_tangled",
+      "claude_label": "4_not_determinable"
+    }
+  ],
+  "agreement_spotcheck_sample": [
+    "AI-ROW-0333",
+    "AI-ROW-0110",
+    "AI-ROW-0328",
+    "AI-ROW-0055",
+    "AI-ROW-0212",
+    "AI-ROW-0018",
+    "AI-ROW-0209",
+    "AI-ROW-0342",
+    "AI-ROW-0150",
+    "AI-ROW-0123"
+  ],
+  "spotcheck_seed": 20260918,
+  "spotcheck_n": 10,
+  "note": "Inter-model agreement is NOT human agreement. No labels altered; no categories collapsed.",
+  "sealed_mapping_used": "research\\semantic_audit\\ai_blinded_v1\\sealed_mapping.json",
+  "outputs_dir_used": "research\\semantic_audit\\ai_blinded_v1\\rater_outputs"
+}

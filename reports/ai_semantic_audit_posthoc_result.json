@@ -1,0 +1,178 @@
+{
+  "analysis_date": "2026-09-18",
+  "package": "ai_blinded_v1",
+  "note": "POST-HOC sensitivity analysis. Frozen labels NOT altered. Splits omitted_candidate_file rows by whether the same file also appears in the case's historical changed set, because some rater rationales interpret 'omitted' as 'absent from the historical diff'. Inter-model agreement is NOT human agreement; the relevance comparison is descriptive AI-rated signal, NOT semantic gold, and ChatGPT/Claude are reported separately and never pooled into human ground truth.",
+  "n_omitted_total": 250,
+  "n_sparse_omitted_and_historical_changed": 15,
+  "n_sparse_omitted_and_outside_historical_diff": 235,
+  "partitions": {
+    "sparse_omitted_and_historical_changed": {
+      "n_total_rows": 15,
+      "n_rated_both": 15,
+      "n_agreements": 9,
+      "exact_row_agreement": 0.6,
+      "cohen_kappa": 0.16666666666666663,
+      "confusion_matrix": [
+        [
+          2,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          5,
+          0,
+          0,
+          7
+        ]
+      ],
+      "confusion_labels": [
+        "1_required",
+        "2_related_optional",
+        "3_incidental_tangled",
+        "4_not_determinable"
+      ]
+    },
+    "sparse_omitted_and_outside_historical_diff": {
+      "n_total_rows": 235,
+      "n_rated_both": 235,
+      "n_agreements": 149,
+      "exact_row_agreement": 0.634,
+      "cohen_kappa": 0.26046545667447296,
+      "confusion_matrix": [
+        [
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          5,
+          21,
+          8
+        ],
+        [
+          0,
+          0,
+          122,
+          11
+        ],
+        [
+          0,
+          2,
+          44,
+          22
+        ]
+      ],
+      "confusion_labels": [
+        "1_required",
+        "2_related_optional",
+        "3_incidental_tangled",
+        "4_not_determinable"
+      ]
+    }
+  },
+  "semantic_relevance_outside_historical_diff": {
+    "chatgpt": {
+      "matched_random_omitted": {
+        "n": 121,
+        "n_relevant": 12,
+        "rate_relevant": 0.0992,
+        "label_distribution": {
+          "1_required": 0,
+          "2_related_optional": 12,
+          "3_incidental_tangled": 79,
+          "4_not_determinable": 30
+        }
+      },
+      "top_ranked_omitted": {
+        "n": 114,
+        "n_relevant": 22,
+        "rate_relevant": 0.193,
+        "label_distribution": {
+          "1_required": 0,
+          "2_related_optional": 22,
+          "3_incidental_tangled": 54,
+          "4_not_determinable": 38
+        }
+      }
+    },
+    "claude": {
+      "matched_random_omitted": {
+        "n": 121,
+        "n_relevant": 1,
+        "rate_relevant": 0.0083,
+        "label_distribution": {
+          "1_required": 0,
+          "2_related_optional": 1,
+          "3_incidental_tangled": 105,
+          "4_not_determinable": 15
+        }
+      },
+      "top_ranked_omitted": {
+        "n": 114,
+        "n_relevant": 6,
+        "rate_relevant": 0.0526,
+        "label_distribution": {
+          "1_required": 0,
+          "2_related_optional": 6,
+          "3_incidental_tangled": 82,
+          "4_not_determinable": 26
+        }
+      }
+    },
+    "label_definition": "AI-rated semantic relevance = label in {1_required, 2_related_optional} among omitted candidates OUTSIDE the historical diff."
+  },
+  "agreement_row_level_reference": {
+    "n_total_rows": 361,
+    "n_rated_both": 361,
+    "n_agreements": 252,
+    "exact_row_agreement": 0.6981,
+    "cohen_kappa": 0.5579062085702087,
+    "confusion_matrix": [
+      [
+        88,
+        5,
+        0,
+        1
+      ],
+      [
+        0,
+        8,
+        22,
+        8
+      ],
+      [
+        0,
+        0,
+        127,
+        11
+      ],
+      [
+        12,
+        5,
+        45,
+        29
+      ]
+    ],
+    "confusion_labels": [
+      "1_required",
+      "2_related_optional",
+      "3_incidental_tangled",
+      "4_not_determinable"
+    ]
+  }
+}
