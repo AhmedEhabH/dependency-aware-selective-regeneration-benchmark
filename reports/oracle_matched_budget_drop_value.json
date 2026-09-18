@@ -1,0 +1,264 @@
+{
+  "package": "oracle_gap_v1",
+  "analysis_date": "2026-09-18",
+  "tier": "T3",
+  "note": "Matched-inspection comparison of oracle add-only vs bidirectional vs drop-only (DEVELOPMENT). INTERNAL_TEST unused.",
+  "repos": {
+    "djangocms_dev": [
+      {
+        "K": 1,
+        "add_only_A=K": {
+          "f1": 0.5915,
+          "P": 0.642,
+          "R": 0.5483
+        },
+        "drop_only_D=K": {
+          "f1": 0.3561,
+          "P": 0.641,
+          "R": 0.2465
+        },
+        "best_bidirectional": {
+          "A": 1,
+          "D": 0,
+          "f1": 0.5915,
+          "P": 0.642,
+          "R": 0.5483
+        },
+        "bi_beats_add_only": false
+      },
+      {
+        "K": 2,
+        "add_only_A=K": {
+          "f1": 0.7294,
+          "P": 0.7103,
+          "R": 0.7495
+        },
+        "drop_only_D=K": {
+          "f1": 0.3782,
+          "P": 0.8117,
+          "R": 0.2465
+        },
+        "best_bidirectional": {
+          "A": 2,
+          "D": 0,
+          "f1": 0.7294,
+          "P": 0.7103,
+          "R": 0.7495
+        },
+        "bi_beats_add_only": false
+      },
+      {
+        "K": 3,
+        "add_only_A=K": {
+          "f1": 0.7964,
+          "P": 0.7386,
+          "R": 0.8639
+        },
+        "drop_only_D=K": {
+          "f1": 0.3876,
+          "P": 0.9058,
+          "R": 0.2465
+        },
+        "best_bidirectional": {
+          "A": 3,
+          "D": 0,
+          "f1": 0.7964,
+          "P": 0.7386,
+          "R": 0.8639
+        },
+        "bi_beats_add_only": false
+      },
+      {
+        "K": 5,
+        "add_only_A=K": {
+          "f1": 0.8406,
+          "P": 0.7559,
+          "R": 0.9467
+        },
+        "drop_only_D=K": {
+          "f1": 0.3943,
+          "P": 0.9843,
+          "R": 0.2465
+        },
+        "best_bidirectional": {
+          "A": 3,
+          "D": 2,
+          "f1": 0.8994,
+          "P": 0.9379,
+          "R": 0.8639
+        },
+        "bi_beats_add_only": true
+      },
+      {
+        "K": 8,
+        "add_only_A=K": {
+          "f1": 0.8674,
+          "P": 0.7659,
+          "R": 1.0
+        },
+        "drop_only_D=K": {
+          "f1": 0.3956,
+          "P": 1.0,
+          "R": 0.2465
+        },
+        "best_bidirectional": {
+          "A": 5,
+          "D": 3,
+          "f1": 0.96,
+          "P": 0.9736,
+          "R": 0.9467
+        },
+        "bi_beats_add_only": true
+      },
+      {
+        "K": 10,
+        "add_only_A=K": {
+          "f1": 0.8674,
+          "P": 0.7659,
+          "R": 1.0
+        },
+        "drop_only_D=K": {
+          "f1": 0.3956,
+          "P": 1.0,
+          "R": 0.2465
+        },
+        "best_bidirectional": {
+          "A": 7,
+          "D": 3,
+          "f1": 0.9834,
+          "P": 0.9748,
+          "R": 0.9921
+        },
+        "bi_beats_add_only": true
+      }
+    ],
+    "saleor_dev": [
+      {
+        "K": 1,
+        "add_only_A=K": {
+          "f1": 0.5096,
+          "P": 0.5394,
+          "R": 0.4829
+        },
+        "drop_only_D=K": {
+          "f1": 0.2907,
+          "P": 0.4648,
+          "R": 0.2115
+        },
+        "best_bidirectional": {
+          "A": 1,
+          "D": 0,
+          "f1": 0.5096,
+          "P": 0.5394,
+          "R": 0.4829
+        },
+        "bi_beats_add_only": false
+      },
+      {
+        "K": 2,
+        "add_only_A=K": {
+          "f1": 0.6371,
+          "P": 0.6155,
+          "R": 0.6603
+        },
+        "drop_only_D=K": {
+          "f1": 0.3108,
+          "P": 0.5858,
+          "R": 0.2115
+        },
+        "best_bidirectional": {
+          "A": 2,
+          "D": 0,
+          "f1": 0.6371,
+          "P": 0.6155,
+          "R": 0.6603
+        },
+        "bi_beats_add_only": false
+      },
+      {
+        "K": 3,
+        "add_only_A=K": {
+          "f1": 0.7102,
+          "P": 0.6535,
+          "R": 0.7778
+        },
+        "drop_only_D=K": {
+          "f1": 0.322,
+          "P": 0.6735,
+          "R": 0.2115
+        },
+        "best_bidirectional": {
+          "A": 3,
+          "D": 0,
+          "f1": 0.7102,
+          "P": 0.6535,
+          "R": 0.7778
+        },
+        "bi_beats_add_only": false
+      },
+      {
+        "K": 5,
+        "add_only_A=K": {
+          "f1": 0.7816,
+          "P": 0.6872,
+          "R": 0.906
+        },
+        "drop_only_D=K": {
+          "f1": 0.335,
+          "P": 0.8049,
+          "R": 0.2115
+        },
+        "best_bidirectional": {
+          "A": 4,
+          "D": 1,
+          "f1": 0.8135,
+          "P": 0.7778,
+          "R": 0.8526
+        },
+        "bi_beats_add_only": true
+      },
+      {
+        "K": 8,
+        "add_only_A=K": {
+          "f1": 0.8186,
+          "P": 0.7035,
+          "R": 0.9786
+        },
+        "drop_only_D=K": {
+          "f1": 0.342,
+          "P": 0.8919,
+          "R": 0.2115
+        },
+        "best_bidirectional": {
+          "A": 5,
+          "D": 3,
+          "f1": 0.9021,
+          "P": 0.8983,
+          "R": 0.906
+        },
+        "bi_beats_add_only": true
+      },
+      {
+        "K": 10,
+        "add_only_A=K": {
+          "f1": 0.827,
+          "P": 0.7071,
+          "R": 0.9957
+        },
+        "drop_only_D=K": {
+          "f1": 0.3443,
+          "P": 0.9252,
+          "R": 0.2115
+        },
+        "best_bidirectional": {
+          "A": 6,
+          "D": 4,
+          "f1": 0.935,
+          "P": 0.9321,
+          "R": 0.938
+        },
+        "bi_beats_add_only": true
+      }
+    ]
+  }
+}

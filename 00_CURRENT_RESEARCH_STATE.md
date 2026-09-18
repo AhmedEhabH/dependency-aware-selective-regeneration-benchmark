@@ -63,7 +63,33 @@ ledger updated. The expanded landscape is the Phase-2 candidate pool.
 **+ human minimal spot-check delivered; ZERO new model calls; P2 Phase-1 =**
 **NEGATIVE and frozen; fixed Route-B confirmatory untouched; sealed sets**
 **untouched):**
- → **H. INDEPENDENT AI-ASSISTED SEMANTIC-PLAUSIBILITY AUDIT — ANALYSIS
+ **CURRENT TRUTH (2026-09-18, ORACLE-GAP DECOMPOSITION + BIDIRECTIONAL SET**
+**REPAIR EXPLORATION — new exploratory DEVELOPMENT line after the frozen P2**
+**Phase-1 negative closure; ZERO new model calls; P2 Phase-1 NEGATIVE and**
+**frozen; fixed Route-B confirmatory untouched; sealed sets untouched):**
+→ **H2. ORACLE-GAP DECOMPOSITION + BIDIRECTIONAL BOUNDED SET REPAIR =
+BIDIRECTIONAL_HEADROOM_ONLY (2026-09-18; DEVELOPMENT only; ZERO API):** the
+file-level Oracle/F1 gap was decomposed on djangoCMS DEV (174) + Saleor DEV
+(149). Confirmatory budget verified from frozen records (matches the working
+diagnostic: Sparse TP=51/FP=104/FN=199 F1=0.252; verifier B=5 F1=0.2387,
+acceptance precision 0.105). **Sparse baseline** djangoCMS 0.3177 (P 0.446/R
+0.247), Saleor 0.2605 (P 0.339/R 0.212). **Oracle-Add ALL** caps at 0.8674 /
+**0.8291** (perfect recall leaves the Sparse FP tail). **Oracle-Drop ALL**
+0.3956 / 0.3492 (recall pinned). **Bidirectional** reaches F1 1.0 at
+A=ALL,D=ALL; **F1=0.85 is NOT add-only-reachable on Saleor** (ceiling 0.8291)
+and requires bidirectional (e.g. A=3,D=5, 2.91 inspections/task); F1=0.90
+requires bidirectional on both repos. **Dominant bottleneck: FIRST-PASS RECALL
+LOSS** (75–79% of proxy positives missed; Oracle-Add ALL adds +0.55–0.57 F1),
+with review false-acceptance second (Route-B add-only LOWERS file-level F1 at
+every B) and ranking loss third; budget loss ≈0 → **not adaptive budget**.
+Observable FP-pruning signal is weak (flagged precision ≈ random control);
+heuristic BBSR fails the progression gate on both repos → no new verifier
+calls authorized. Decision **BIDIRECTIONAL_HEADROOM_ONLY**; next bottleneck =
+first-pass recall. Sealed sets untouched; spent djangoCMS INTERNAL_TEST used
+ONLY as labelled POST-HOC sanity. 16/16 new tests PASS + independent audit
+PASS. Reports: reports/ORACLE_GAP_{ERROR_DECOMPOSITION,F1_CEILING_AND_BUDGET_
+SURFACE,BIDIRECTIONAL_REPAIR_FINAL_REPORT,INDEPENDENT_AUDIT}.md + JSONs.
+→ **H. INDEPENDENT AI-ASSISTED SEMANTIC-PLAUSIBILITY AUDIT — ANALYSIS
 COMPLETE (2026-09-18; ZERO API; descriptive only, NOT human semantic gold):**
 the 10 frozen rater outputs (5 ChatGPT + 5 Claude fresh-chat batches) were
 validated exactly as received — 8 valid as-is; `chatgpt_batch_02` and

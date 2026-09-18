@@ -1,0 +1,36 @@
+{
+  "package": "oracle_gap_v1",
+  "analysis_date": "2026-09-18",
+  "tier": "T3",
+  "note": "DEVELOPMENT F1-loss decomposition. Verifier losses (4/5) exist only for the spent INTERNAL_TEST -> reported POST-HOC in the report.",
+  "repos": {
+    "djangocms_dev": {
+      "sparse_f1": 0.3177,
+      "route_b_add_only_B5_f1": 0.2257,
+      "route_b_B5_f1_delta_vs_sparse": -0.092,
+      "oracle_add_all_f1": 0.8674,
+      "oracle_drop_all_f1": 0.3956,
+      "first_pass_recall_loss_F1_delta_to_oracle_add": 0.5497,
+      "first_pass_precision_loss_F1_delta_to_oracle_drop": 0.0779,
+      "ranking_loss_at_B5": {
+        "oracle_recovery": 355,
+        "composite_recovery": 62,
+        "loss": 293
+      }
+    },
+    "saleor_dev": {
+      "sparse_f1": 0.2605,
+      "route_b_add_only_B5_f1": 0.2365,
+      "route_b_B5_f1_delta_vs_sparse": -0.024,
+      "oracle_add_all_f1": 0.8291,
+      "oracle_drop_all_f1": 0.3492,
+      "first_pass_recall_loss_F1_delta_to_oracle_add": 0.5686,
+      "first_pass_precision_loss_F1_delta_to_oracle_drop": 0.0887,
+      "ranking_loss_at_B5": {
+        "oracle_recovery": 325,
+        "composite_recovery": 79,
+        "loss": 246
+      }
+    }
+  }
+}

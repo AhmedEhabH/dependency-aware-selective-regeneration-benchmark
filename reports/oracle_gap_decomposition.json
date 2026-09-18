@@ -1,0 +1,60 @@
+{
+  "package": "oracle_gap_v1",
+  "analysis_date": "2026-09-18",
+  "tier": "T3",
+  "note": "DEVELOPMENT error decomposition. Verifier components (4/5) only exist for the spent INTERNAL_TEST and are reported POST-HOC in the report.",
+  "repos": {
+    "djangocms_dev": {
+      "n_tasks": 174,
+      "tp": 125,
+      "fp": 155,
+      "fn": 382,
+      "n_positives": 507,
+      "n_predicted": 280,
+      "first_pass_recall_loss": 0.7535,
+      "first_pass_precision_loss": 0.5536,
+      "recall": 0.2465,
+      "precision": 0.4464,
+      "ranking_loss_B5": {
+        "B": 5,
+        "oracle_add_recovery": 355,
+        "composite_recovery": 62,
+        "ranking_loss": 293
+      },
+      "ranking_loss_B10": {
+        "B": 10,
+        "oracle_add_recovery": 382,
+        "composite_recovery": 101,
+        "ranking_loss": 281
+      },
+      "budget_loss_B5": 27,
+      "budget_loss_B10": 0
+    },
+    "saleor_dev": {
+      "n_tasks": 149,
+      "tp": 99,
+      "fp": 193,
+      "fn": 369,
+      "n_positives": 468,
+      "n_predicted": 292,
+      "first_pass_recall_loss": 0.7885,
+      "first_pass_precision_loss": 0.661,
+      "recall": 0.2115,
+      "precision": 0.339,
+      "ranking_loss_B5": {
+        "B": 5,
+        "oracle_add_recovery": 325,
+        "composite_recovery": 79,
+        "ranking_loss": 246
+      },
+      "ranking_loss_B10": {
+        "B": 10,
+        "oracle_add_recovery": 367,
+        "composite_recovery": 111,
+        "ranking_loss": 256
+      },
+      "budget_loss_B5": 44,
+      "budget_loss_B10": 2
+    }
+  }
+}

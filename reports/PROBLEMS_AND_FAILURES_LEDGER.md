@@ -283,3 +283,18 @@ reports. Entries from 2026-09-16 evening (and carried historical items).
   normalized copies.
 - **Status:** RESOLVED (syntax-only; no label/confidence/rationale/evidence/
   case judgment changed; originals frozen and untouched).
+
+## PF-022 - Sparse first pass recalls only 21-25% of proxy positives (2026-09-18)
+- **Where:** Oracle-gap mission (DEVELOPMENT): djangoCMS DEV 174 + Saleor DEV 149.
+- **Symptoms:** Sparse F1 0.3177 / 0.2605; FN 382 / 369 (75-79% of positives
+  missed); Route-B add-only LOWERS file-level F1 at every B (B=5 0.2257/0.2365);
+  Oracle-Add ALL caps at 0.8674 / 0.8291.
+- **Root cause:** dominant FIRST-PASS RECALL LOSS + review false-acceptance
+  (composite add queue is FP-dominated; frozen verifier accepted only 10.5% of
+  B=5 additions). Not an adaptive-budget problem (budget loss ~0 at B=10).
+- **Action:** decomposed the gap; computed oracle ceilings (F1=0.85 NOT
+  add-only-reachable on Saleor); tested observable FP-pruning (weak signal);
+  simulated BBSR -> progression gate FAIL. Decision BIDIRECTIONAL_HEADROOM_ONLY;
+  next bottleneck = first-pass recall.
+- **Status:** RESOLVED (documented; no result fabricated; no model calls; sealed
+  sets untouched).
