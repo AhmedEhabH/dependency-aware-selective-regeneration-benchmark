@@ -1,20 +1,30 @@
-GIT_STATE.txt (auto-generated)
+GIT_STATE.txt (traceability metadata — schema v2)
+========================================================================
+SEMANTICS (schema v2, 2026-09-18):
+  - scientific_closure_* fields are IMMUTABLE scientific facts (safe to
+    embed; they do not change when docs commits advance main).
+  - Live HEAD / origin/main are RUNTIME git facts. A tracked file cannot
+    reliably embed its own final live HEAD SHA (committing metadata changes
+    HEAD again), so they are NEVER embedded here. Query them at read time:
+        git rev-parse HEAD
+        git rev-parse origin/main
+        git status --porcelain          # tree state
+========================================================================
+
 timestamp_utc=2026-09-18T08:07:00Z
 branch=main
-HEAD=8b2d1b6785b6bf9275d06f84eb992d8cb80789c2
-origin/main=8b2d1b6785b6bf9275d06f84eb992d8cb80789c2
-origin_HEAD_ref=8b2d1b6785b6bf9275d06f84eb992d8cb80789c2
-tree_state=clean
+scientific_closure_commit=8b2d1b6785b6bf9275d06f84eb992d8cb80789c2
+scientific_closure_tag_peel=8b2d1b6785b6bf9275d06f84eb992d8cb80789c2
 tag=oracle-gap-bidirectional-repair-2026-09-18
-tag_peel=8b2d1b6785b6bf9275d06f84eb992d8cb80789c2
-tag_peel==scientific_merge_8b2d1b6=true
-tag_peel==merge==origin_main_at_closure=true
 tag_meaning=DEV-evidence milestone tag; NOT a stable-tag move
-tag_note=post-tag docs commits advanced origin/main after closure; tag NOT moved (release-provenance invariant)
+tag_note=post-tag docs commits advanced main after closure; tag NOT moved (release-provenance invariant)
+tree_state_note=runtime fact — query `git status --porcelain` (do not trust an embedded value)
+live_head_note=runtime fact — query `git rev-parse HEAD`
+live_origin_main_note=runtime fact — query `git rev-parse origin/main`
+
 untracked_or_modified:
-  (T2 state reconciliation 2026-09-18: Oracle-gap bidirectional-repair mission
-  COMPLETE — decision BIDIRECTIONAL_HEADROOM_ONLY; DEVELOPMENT-only; ZERO API.
-  Scientific merge on main 8b2d1b6; tag oracle-gap-bidirectional-repair-2026-09-18
-  (peel 8b2d1b6 == merge == origin/main at closure, unchanged; post-tag docs
-  commits advanced origin/main without moving the tag). Next scientific task
-  (NOT started): FIRST-PASS RECALL BOTTLENECK on DEVELOPMENT only.)
+  (Oracle-gap bidirectional-repair mission COMPLETE — decision
+  BIDIRECTIONAL_HEADROOM_ONLY; DEVELOPMENT-only; ZERO API. Scientific merge
+  on main 8b2d1b6; tag oracle-gap-bidirectional-repair-2026-09-18 (peel
+  8b2d1b6 == scientific closure commit). Next scientific task (NOT started):
+  FIRST-PASS RECALL BOTTLENECK on DEVELOPMENT only.)

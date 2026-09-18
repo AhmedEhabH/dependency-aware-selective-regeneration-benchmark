@@ -6,12 +6,15 @@ task, immediate next step, blockers). Scientific truth lives in
 `DECISIONS.md`.
 
 **Branch:** `main`
-**HEAD:** `8b2d1b6` (merge of `research/oracle-gap-bidirectional-repair-2026-09-18`)
-**origin/main:** `8b2d1b6` (at Oracle-gap closure; post-tag T2 docs commits
-advanced origin/main afterward — state reconciliation, no tag move)
-**Tag:** `oracle-gap-bidirectional-repair-2026-09-18` — peel `8b2d1b6` == merge
-== origin/main at closure (unchanged; post-tag docs commits never move a tag;
-DEV evidence milestone tag, NOT a stable-tag move)
+**Scientific closure commit:** `8b2d1b6` (merge of
+`research/oracle-gap-bidirectional-repair-2026-09-18`; immutable scientific
+fact)
+**Scientific closure tag peel:** `8b2d1b6` (tag
+`oracle-gap-bidirectional-repair-2026-09-18`; immutable scientific fact)
+**Live HEAD / origin/main:** runtime git facts — a tracked file cannot embed
+its own final live HEAD SHA (committing metadata changes HEAD again). Query
+at read time: `git rev-parse HEAD`, `git rev-parse origin/main`,
+`git status --porcelain`.
 **Model:** openrouter/deepseek/deepseek-v4-flash-0731
 **Task:** ORACLE-GAP DECOMPOSITION + BIDIRECTIONAL BOUNDED SET REPAIR
 (2026-09-18) — exploratory DEVELOPMENT line after the frozen P2 Phase-1
@@ -80,11 +83,13 @@ untouched — **COMPLETE**
 ## Closure block (Oracle-gap mission, 2026-09-18)
 
 - Branch: `research/oracle-gap-bidirectional-repair-2026-09-18` → merged to
-  `main` (`8b2d1b6`, scientific merge commit).
-- Tag `oracle-gap-bidirectional-repair-2026-09-18` — peel `8b2d1b6` == merge
-  == origin/main at closure (unchanged; post-tag docs commit `f5366aa`
-  advanced origin/main afterward but does NOT move the tag; DEV evidence
-  milestone tag, NOT a stable-tag move).
+  `main` as **scientific closure commit `8b2d1b6`** (immutable scientific
+  fact).
+- Tag `oracle-gap-bidirectional-repair-2026-09-18` — **peel `8b2d1b6`** ==
+  scientific closure commit (unchanged; post-tag docs commits advance main but
+  never move the tag; DEV evidence milestone tag, NOT a stable-tag move).
+- Live HEAD / origin/main are runtime git facts (query with `git rev-parse`);
+  they are NOT embedded here because committing metadata changes HEAD.
 - LIGHT export (at scientific closure): `project-2026-09-18-0807.zip`
   SHA-256 `aea499406fecf6af37510e276fc272ed8025886b1640c7f6392569db560d192f`
   (required members `.git/HEAD`, `dist/pilot-kaggle-upload.zip`, `.sha256`
