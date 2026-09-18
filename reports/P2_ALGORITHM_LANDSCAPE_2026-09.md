@@ -1,11 +1,15 @@
 # P2 Algorithm Landscape — Adaptive-Budget Omission Recovery (2026-09)
 
-**Date:** 2026-09-17
+**Date:** 2026-09-18 (reconciled; original 2026-09-17)
 **Tier:** T0/T3-documentation — systematic literature landscape for the P2
 five-month program (ZERO API)
 **Model (authoring agent):** openrouter/deepseek/deepseek-v4-flash-0731
-**Status:** LANDSCAPE COMPLETE (development-stage); algorithm IMPLEMENTATION is
-the Nov 2026 – Mar 2027 program (not executed here).
+**Status:** LANDSCAPE COMPLETE (development-stage); **P2 Phase-1 was executed
+2026-09-18 on DEVELOPMENT and closed NEGATIVE** (P2-P1..P2-P4 implemented +
+evaluated on djangoCMS DEV + Saleor DEV; stronger methods NOT run per the
+strong-method gate; see `reports/P2_PHASE1_FINAL_REPORT.md`). The landscape
+remains the Phase-2 candidate pool; the Nov 2026 – Mar 2027 program window is
+brought forward for the executed Phase-1 only.
 **Basis:** the frozen Route-B confirmatory result (djangoCMS INTERNAL_TEST,
 **CONFIRMS**), the P2 preregistration note
 (`docs/ADAPTIVE_BUDGET_P2_PRE_REGISTRATION_NOTE.md`), the living systematic

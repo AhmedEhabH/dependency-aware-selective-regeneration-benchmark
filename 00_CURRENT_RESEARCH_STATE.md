@@ -58,7 +58,39 @@ ranking & selection, adaptive-kNN graph (latest Zhang-line), VOI/active search;
 primary sources verified via the arXiv API where accessible; classical works
 marked CLASSICAL; nothing fabricated. Landscape report §7 + literature decision
 ledger updated. The expanded landscape is the Phase-2 candidate pool.
-→ **D. SEMANTIC-AUDIT HUMAN BLOCKER (2026-09-18):** package re-verified
+**CURRENT TRUTH (2026-09-18, AI-ASSISTED SEMANTIC AUDIT ANALYSIS CLOSURE —**
+**10 frozen rater outputs validated + ingested; agreement + post-hoc sensitivity**
+**+ human minimal spot-check delivered; ZERO new model calls; P2 Phase-1 =**
+**NEGATIVE and frozen; fixed Route-B confirmatory untouched; sealed sets**
+**untouched):**
+ → **H. INDEPENDENT AI-ASSISTED SEMANTIC-PLAUSIBILITY AUDIT — ANALYSIS
+COMPLETE (2026-09-18; ZERO API; descriptive only, NOT human semantic gold):**
+the 10 frozen rater outputs (5 ChatGPT + 5 Claude fresh-chat batches) were
+validated exactly as received — 8 valid as-is; `chatgpt_batch_02` and
+`chatgpt_batch_04` had syntax-only defects (unescaped inner double-quotes in
+evidence strings) and received normalized syntax-only copies (originals
+untouched, full content preservation verified). Agreement against the sealed
+mapping: exact row agreement **0.6981** (252/361), Cohen's kappa **0.5579**
+(nominal/unweighted, sklearn-verified); confusion matrix dominated by ChatGPT
+`4_not_determinable`→Claude `3_incidental_tangled` (45) and
+`2_related_optional`→`3_incidental_tangled` (22); abstentions 0/0;
+role split historical_changed_file 0.8468 (κ 0.50) vs omitted_candidate_file
+0.6320 (κ 0.31); case-level proxy_quality 0.56 / omitted_candidate_semantic_
+impact 0.48 / mixed_tangled_commit 0.68. **POST-HOC sensitivity** (frozen labels
+NOT altered): 15 `omitted_candidate_file` rows whose file ALSO appears in the
+historical changed set (`sparse_omitted_and_historical_changed`, κ 0.17) vs 235
+outside the historical diff (κ 0.26) — consistent with raters interpreting
+"omitted" as "absent from the historical diff" on the ambiguous 15. Descriptive
+top-ranked-vs-random relevance OUTSIDE the historical diff, per rater and never
+pooled as gold: ChatGPT 0.193 vs 0.099; Claude 0.053 vs 0.008 (both raters show
+top-ranked > random in the same direction). **109 disagreements + deterministic
+10-row agreement sample (seed 20260918) → 119-row human minimal spot-check form
+** generated (NO fabricated human judgments; NOT expert adjudication). 19/19
+unit tests PASS; independent statistical audit (sklearn recompute) matches.
+Explicitly recorded as an **independent AI-assisted semantic-plausibility audit /
+model-based semantic sensitivity analysis**, NOT human semantic gold; the human
+two-rater + adjudicator audit remains **AWAITING_HUMAN_RATINGS**.
+ → **D. SEMANTIC-AUDIT HUMAN BLOCKER (2026-09-18):** package re-verified
 (PACKET_INTEGRITY PASS + SYNTHETIC_DRYRUN PASS); human-action report created
 (`reports/SEMANTIC_AUDIT_ACTION_REQUIRED_FROM_HUMANS.md`); scientific blocker =
 **AWAITING_HUMAN_RATINGS**. No coding time spent rebuilding ready forms.

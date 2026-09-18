@@ -239,3 +239,45 @@ Legend: PROPOSED / EXECUTED / REJECTED / DEFERRED / SUPERSEDED.
   10/10).
 - **Artifact:** reports/SPARSE_FULL_CAUSAL_PARITY_AUDIT.md.
 - **Revisit:** no (recorded configuration identity).
+
+## E-040 - Independent AI-assisted semantic-plausibility audit (2026-09-18)
+- **Status:** PREPARED (ZERO API; packages ready; AWAITING_RATER_OUTPUTS).
+- **Idea:** an independent, fully blinded two-assistant (ChatGPT + Claude)
+  semantic-plausibility audit of the 25 DEVELOPMENT packets, run in fresh
+  chats, with a sealed private arm mapping, strict JSON schema, agreement
+  analysis, and a human minimal-spot-check.
+- **Result (preparation):** 25 cases → AI-CASE-001..025; 361 file-level rows
+  (AI-ROW-0001..0361; 111 historical_changed_file + 250 omitted_candidate_file);
+  5 fresh-chat batches per rater (different fixed seeds 20260919/20260920);
+  leak scan clean; 15 unit tests PASS.
+- **Artifact:** research/semantic_audit/ai_blinded_v1/* +
+  scripts/semantic_ai_audit_{prepare,agreement,human_spotcheck}.py +
+  reports/AI_SEMANTIC_AUDIT_ANALYSIS_PROTOCOL.md.
+- **Revisit:** after the 10 fresh-chat runs are returned → agreement analysis
+  → human spot-check. Inter-model agreement is NOT human agreement; the human
+  audit remains gold.
+
+## E-041 - AI-assisted semantic audit — agreement + post-hoc sensitivity (2026-09-18)
+- **Status:** EXECUTED (ZERO API; descriptive; NOT human semantic gold).
+- **Result:** 10 frozen rater outputs validated as received (chatgpt_batch_02/
+  chatgpt_batch_04 syntax-only repaired — unescaped quotes in evidence strings,
+  normalized copies, originals untouched, content preserved). Agreement vs
+  sealed mapping: exact 0.6981 (252/361), Cohen's kappa 0.5579; abstentions
+  0/0; historical-changed 0.8468 vs omitted-candidate 0.6320; case-level proxy
+  0.56 / omitted-impact 0.48 / tangled 0.68. POST-HOC omitted-role partition:
+  sparse_omitted_and_historical_changed (n=15, kappa 0.17) vs
+  sparse_omitted_and_outside_historical_diff (n=235, kappa 0.26) — raters
+  appear to interpret "omitted" as "absent from the historical diff" on the
+  ambiguous 15. Descriptive top-ranked-vs-random relevance outside the
+  historical diff, per rater (ChatGPT 0.193 vs 0.099; Claude 0.053 vs 0.008):
+  both raters, same direction (top-ranked > random); absolute rates low;
+  NOT pooled as gold. 119-row human minimal spot-check form (109 disagreements
+  + 10 deterministic agreement rows seed 20260918).
+- **Artifact:** reports/ai_semantic_audit_{json_validation,agreement_result,
+  posthoc_result}.json, reports/AI_SEMANTIC_AUDIT_AGREEMENT_REPORT.md,
+  research/semantic_audit/ai_blinded_v1/rater_outputs/,
+  research/semantic_audit/ai_blinded_v1/human_spotcheck_form.csv,
+  scripts/semantic_ai_audit_posthoc.py, tests/unit/test_semantic_ai_audit.py
+  (19/19).
+- **Revisit:** after human review of the 119-row spot-check; the human
+  two-rater + adjudicator audit remains AWAITING_HUMAN_RATINGS.

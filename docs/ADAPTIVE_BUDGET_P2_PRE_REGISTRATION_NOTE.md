@@ -1,13 +1,14 @@
 # Adaptive Budget P2 — Pre-Registration Note
 
-**Date:** 2026-09-17 (updated same day for the V1.4 pre-confirmatory
-readiness mission; status unchanged)
+**Date:** 2026-09-18 (reconciled; original 2026-09-17)
 **Tier:** T3 scientific documentation (ZERO LLM)
 **Model:** openrouter/deepseek/deepseek-v4-flash-0731
 **Status:** **CONDITIONAL — AFTER FIXED ROUTE-B CONFIRMATION** (P2 is NOT
-complete; no learned adaptive policy is fitted here). P2 is a **development
-research program, not a proven contribution** (Nov 2026 – Mar 2027,
-djangoCMS DEV + Saleor DEV only).
+complete as a program; no learned adaptive policy is fitted here). **P2
+Phase-1 WAS executed 2026-09-18 on DEVELOPMENT and closed NEGATIVE** (see §8);
+the program remains open for possible Phase-2 candidates. P2 is a
+**development research program, not a proven contribution** (djangoCMS DEV +
+Saleor DEV only).
 
 ---
 
@@ -126,8 +127,11 @@ P2 becomes ACTIVE only when BOTH hold:
    frozen progression gate is PASS (or a frozen negative result is recorded) —
    **satisfied 2026-09-17: the confirmatory run CONFIRMED**;
 2. A separate pre-registered adaptive-budget protocol (with frozen τ constants
-   and evaluation plan) is approved — **still pending; no P2 execution has
-   started and no τ has been frozen from confirmatory outcomes**.
+   and evaluation plan) is approved — **still pending; only the DEVELOPMENT
+   Phase-1 of P2 was executed (2026-09-18, NEGATIVE closure — four
+   pre-registered policies evaluated on djangoCMS DEV + Saleor DEV, strong-method
+   gate FALSE, Phase-2 candidates NONE so far); no τ has been frozen from
+   confirmatory outcomes**.
 
 ## 9. Evidence that would CLOSE P2 as NEGATIVE
 

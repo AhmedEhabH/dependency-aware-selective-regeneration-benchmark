@@ -1,14 +1,19 @@
 # P2 Implementation Roadmap — November 2026 → March 2027
 
-**Date:** 2026-09-17
+**Date:** 2026-09-18 (reconciled; original 2026-09-17)
 **Tier:** T0 documentation (DEVELOPMENT-only program design; ZERO API here)
 **Model (authoring agent):** openrouter/deepseek/deepseek-v4-flash-0731
-**Status:** ROADMAP FROZEN (start: Nov 2026). Fixed Route-B is CONFIRMED and is
-NOT retuned. P2 runs on DEVELOPMENT only.
+**Status:** ROADMAP FROZEN (Nov 2026 window brought forward: **Phase-1 EXECUTED
+2026-09-18 on DEVELOPMENT, NEGATIVE closure**; Phase-2 candidates open). Fixed
+Route-B is CONFIRMED and is NOT retuned. P2 runs on DEVELOPMENT only.
 
-**Explicit status (2026-09-17):**
-- **P2 is NOT complete.** It has not been executed, has no learned policy, and
-  is not a proven contribution.
+**Explicit status (2026-09-18, reconciled):**
+- **P2 is NOT complete as a program.** P2 **Phase-1 WAS executed on DEVELOPMENT
+  and closed NEGATIVE on 2026-09-18** (four pre-registered interpretable
+  policies evaluated on djangoCMS DEV + Saleor DEV; strong-method gate FALSE;
+  see §4 below). The broader P2 program remains OPEN for possible Phase-2
+  candidates drawn from the expanded landscape. P2 has no learned policy and is
+  not a proven contribution.
 - **Fixed Route B is CONFIRMED** (djangoCMS INTERNAL_TEST, 2026-09-17) and is
   the frozen fallback thesis.
 - **P2 is a development research program**, not a completed contribution:

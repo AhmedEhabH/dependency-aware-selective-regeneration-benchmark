@@ -1,0 +1,856 @@
+{
+  "cases": [
+    {
+      "mixed_tangled_commit": "yes",
+      "omitted_candidate_semantic_impact": "no",
+      "proxy_quality": "strong",
+      "neutral_case_id": "AI-CASE-002"
+    },
+    {
+      "mixed_tangled_commit": "no",
+      "omitted_candidate_semantic_impact": "no",
+      "proxy_quality": "strong",
+      "neutral_case_id": "AI-CASE-009"
+    },
+    {
+      "mixed_tangled_commit": "no",
+      "omitted_candidate_semantic_impact": "unclear",
+      "proxy_quality": "strong",
+      "neutral_case_id": "AI-CASE-011"
+    },
+    {
+      "mixed_tangled_commit": "no",
+      "omitted_candidate_semantic_impact": "unclear",
+      "proxy_quality": "moderate",
+      "neutral_case_id": "AI-CASE-013"
+    },
+    {
+      "mixed_tangled_commit": "no",
+      "omitted_candidate_semantic_impact": "unclear",
+      "proxy_quality": "strong",
+      "neutral_case_id": "AI-CASE-018"
+    }
+  ],
+  "rows": [
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "cms/utils/permissions.py: get_page_actions_for_user/has_page_permission/subordinate user-group permission hunks",
+        "public intent: performant page-permission calculation and deprecation shims"
+      ],
+      "rationale": "This file is a central implementation point for page-permission calculation and is changed to delegate deprecated page checks to the new generic permission API and to consume permission tuples.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0015"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "cms/models/managers.py: get_change_permissions_perm_tuples import and Q allow-list construction",
+        "cms/models/permissionmodels.py: PermissionTuple.allow_list"
+      ],
+      "rationale": "The permission manager must consume the new permission-tuple representation instead of expanded page-id lists, so this change is directly required by the new calculation strategy.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0016"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "cms/admin/pageadmin.py: get_change_perm_tuples and PermissionTuple.contains usage",
+        "public intent: performant permission calculation"
+      ],
+      "rationale": "Page admin permission checks are updated from page-id membership to path containment over permission tuples, directly adapting a caller to the new permission representation.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0017"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "cms/utils/mail.py: login_url changed from http:// to https://",
+        "public intent contains permission-focused changes"
+      ],
+      "rationale": "Changing the generated login URL from HTTP to HTTPS is unrelated to page-permission calculation, caching, deprecation, or delete-permission behavior described by the change.",
+      "confidence": "high",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0018"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/middleware/**init**.py",
+        "diff centers on permission models/utilities, page admin, and menus"
+      ],
+      "rationale": "The middleware package initializer has no demonstrated connection to the permission-tuple refactor or permission APIs in the supplied diff.",
+      "confidence": "high",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0019"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/cache/page.py",
+        "public intent includes caching calculated permissions, but no cms/cache/page.py diff is shown"
+      ],
+      "rationale": "A page-cache module could interact with permission-sensitive rendering, but the packet provides no hunk or caller evidence showing that this file needed modification.",
+      "confidence": "medium",
+      "label": "4_not_determinable",
+      "neutral_row_id": "AI-ROW-0020"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "cms/cms_menus.py: get_visible_nodes rewritten around PagePermission.get_page_permission_tuple().contains",
+        "public intent: avoid evaluating the full page tree"
+      ],
+      "rationale": "Menu visibility previously expanded restrictions through page IDs and is rewritten to evaluate PagePermission tuples against page paths, making it a direct consumer of the new permission calculation.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0021"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/management/commands/subcommands/uninstall.py",
+        "permission-focused diff contains no uninstall-command references"
+      ],
+      "rationale": "The uninstall management command has no evident semantic role in runtime page-permission computation or the deprecated permission APIs.",
+      "confidence": "high",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0022"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/utils/page.py",
+        "diff references get_page_queryset but does not modify cms/utils/page.py"
+      ],
+      "rationale": "The generic page utility module could contain page helpers used by permission code, but no supplied evidence identifies a function there that should change.",
+      "confidence": "low",
+      "label": "4_not_determinable",
+      "neutral_row_id": "AI-ROW-0023"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/forms/login.py",
+        "no login-form references in the permission diff"
+      ],
+      "rationale": "The login form has no demonstrated dependency on the changed page-permission representation or APIs.",
+      "confidence": "high",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0024"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/utils/urlutils.py",
+        "no URL-utility changes or references in relevant hunks"
+      ],
+      "rationale": "URL utilities are not implicated by the permission tuple, permission cache, or delete-permission changes shown.",
+      "confidence": "high",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0025"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/cache/**init**.py",
+        "permission cache changes are exercised through cms.cache.permissions, not this initializer"
+      ],
+      "rationale": "The cache package initializer provides no evidence of needing modification for the permission-cache behavior changed elsewhere.",
+      "confidence": "medium",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0026"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "cms/menu_bases.py: \"oqn\" corrected to \"own\"",
+        "public intent is permission calculation and related fixes"
+      ],
+      "rationale": "The only change is a docstring spelling correction, which is incidental to the permission-performance feature.",
+      "confidence": "high",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0027"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/admin/forms.py",
+        "changed admin caller is cms/admin/pageadmin.py"
+      ],
+      "rationale": "Admin forms are adjacent to permission-management workflows, but no provided hunk or reference shows a form contract that needed to change.",
+      "confidence": "medium",
+      "label": "4_not_determinable",
+      "neutral_row_id": "AI-ROW-0028"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "cms/models/permissionmodels.py: new PermissionTuple.contains and allow_list",
+        "cms/models/permissionmodels.py: PagePermission.get_page_permission_tuple"
+      ],
+      "rationale": "This file introduces PermissionTuple and path/Q-based containment helpers used throughout the refactor, so it is foundational to avoiding full page-tree expansion.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0029"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/admin/useradmin.py",
+        "cms/utils/permissions.py changes subordinate-user/group queries"
+      ],
+      "rationale": "User administration may consume subordinate-user/group permission logic, but the packet does not show a direct API use requiring a change in this file.",
+      "confidence": "medium",
+      "label": "4_not_determinable",
+      "neutral_row_id": "AI-ROW-0030"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "cms/utils/page_permissions.py: imports RemovedInDjangoCMS43Warning",
+        "cms/utils/permissions.py: imports RemovedInDjangoCMS43Warning",
+        "candidate: cms/utils/compat/warnings.py"
+      ],
+      "rationale": "The changed code imports RemovedInDjangoCMS43Warning from this compatibility-warning module for new deprecation shims, making the file directly related, but the existing warning definition evidently sufficed without modification.",
+      "confidence": "high",
+      "label": "2_related_optional",
+      "neutral_row_id": "AI-ROW-0031"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "cms/utils/page_permissions.py: _get_page_permission_tuples_for_action and *_perm_tuples APIs",
+        "cms/utils/page_permissions.py: _perm_tuples_to_ids compatibility shims and delete-permission hunks"
+      ],
+      "rationale": "This is the core public permission API refactor: ID-list functions are replaced by permission-tuple functions, caching is changed, compatibility ID shims are added, and delete checks are adjusted.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0032"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "cms/menu_bases.py: CMSAttachMenu uses app.get_menus()",
+        "cms/app_base.py: get_menus contract clarification"
+      ],
+      "rationale": "The behavioral fix is here: attached menus are obtained through CMSApp.get_menus() instead of direct access to app.menus, resolving the incompatibility introduced by the newer apphook API.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0119"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/admin/dialog/forms.py",
+        "diff changes apphook/menu code and tests"
+      ],
+      "rationale": "Admin dialog forms have no demonstrated connection to the apphook menu accessor incompatibility.",
+      "confidence": "high",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0120"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/toolbar/toolbar.py",
+        "changed runtime file is cms/menu_bases.py"
+      ],
+      "rationale": "The toolbar module is menu-adjacent at a product level, but no supplied evidence links it to CMSAttachMenu or CMSApp.get_menus for this fix.",
+      "confidence": "medium",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0121"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/models/aliaspluginmodel.py",
+        "no plugin-model changes in this case"
+      ],
+      "rationale": "Alias plugin model behavior is unrelated to the apphook menu accessor change shown in the diff.",
+      "confidence": "high",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0122"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/admin/**init**.py",
+        "diff is limited to app/menu code plus tests"
+      ],
+      "rationale": "The admin package initializer has no indicated role in resolving the apphook menu incompatibility.",
+      "confidence": "high",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0123"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "cms/app_base.py: get_menus documentation expanded",
+        "cms/menu_bases.py: runtime switch to app.get_menus()"
+      ],
+      "rationale": "The CMSApp docstring is updated to clarify get_menus behavior needed by the fix, but the runtime compatibility fix itself is implemented in the caller.",
+      "confidence": "high",
+      "label": "2_related_optional",
+      "neutral_row_id": "AI-ROW-0124"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/admin/dialog/**init**.py",
+        "no admin-dialog references in the diff"
+      ],
+      "rationale": "The admin dialog package initializer has no shown relationship to apphook menu discovery.",
+      "confidence": "high",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0125"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/utils/compat/forms.py",
+        "cms/menu_bases.py is the behavioral fix site"
+      ],
+      "rationale": "Despite the generic word \"incompatibility,\" the diff identifies an apphook/menu API mismatch rather than Django form compatibility, and no form-compat code is implicated.",
+      "confidence": "medium",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0126"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/**init**.py",
+        "no corresponding references in the diff"
+      ],
+      "rationale": "The package initializer has no demonstrated role in CMSApp menu access or menu discovery.",
+      "confidence": "high",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0127"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/admin/change_list.py",
+        "diff contains no admin change-list behavior"
+      ],
+      "rationale": "Admin change-list handling is not implicated by the apphook menu accessor fix.",
+      "confidence": "high",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0128"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/models/query.py",
+        "diff contains no query-layer change"
+      ],
+      "rationale": "Model query helpers have no demonstrated relationship to get_menus or CMSAttachMenu in this case.",
+      "confidence": "high",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0129"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/utils/decorators.py",
+        "no decorator changes or references in the case diff"
+      ],
+      "rationale": "Generic decorators are not connected by the supplied evidence to the apphook menu API incompatibility.",
+      "confidence": "high",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0130"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/plugin_processors.py",
+        "cms/utils/plugins.py changes downcast_plugins"
+      ],
+      "rationale": "Plugin processors are plausibly adjacent to plugin downcasting, but the packet provides no direct reference showing that this module consumes the changed generator or ghost-filtering behavior.",
+      "confidence": "medium",
+      "label": "4_not_determinable",
+      "neutral_row_id": "AI-ROW-0146"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/toolbar/**init**.py",
+        "fix is in plugin downcasting/rendering flow"
+      ],
+      "rationale": "The toolbar package initializer has no demonstrated involvement in filtering ghost plugins during placeholder rendering.",
+      "confidence": "high",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0147"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "cms/utils/plugins.py: valid_parent check and generator yield",
+        "tests add ghost-plugin and ghost-plugin-with-child rendering cases"
+      ],
+      "rationale": "The defect is fixed directly in downcast_plugins by yielding only plugins whose parent is valid and present, preventing children of ghost plugins from surviving the downcast.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0148"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/models/aliaspluginmodel.py",
+        "cms/cms_plugins.py: AliasPlugin converts returned plugins to a list"
+      ],
+      "rationale": "Alias plugin modeling is related to plugin structure, and AliasPlugin is a consumer changed elsewhere, but there is no evidence that this model itself required modification.",
+      "confidence": "medium",
+      "label": "2_related_optional",
+      "neutral_row_id": "AI-ROW-0149"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/exceptions.py",
+        "no exception behavior changes in the diff"
+      ],
+      "rationale": "General CMS exceptions are not implicated by the ghost-plugin filtering logic shown.",
+      "confidence": "high",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0150"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/publisher/errors.py",
+        "no publisher-error references in the diff"
+      ],
+      "rationale": "Publisher error definitions have no demonstrated role in placeholder downcasting or ghost-parent filtering.",
+      "confidence": "high",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0151"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/plugin_pool.py",
+        "changed logic is downcast_plugins plus one consumer"
+      ],
+      "rationale": "The plugin pool is in the same subsystem, but no provided hunk or reference establishes that registry behavior needed to change for this ghost-plugin bug.",
+      "confidence": "medium",
+      "label": "4_not_determinable",
+      "neutral_row_id": "AI-ROW-0152"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "row role: omitted_candidate_file for cms/cms_plugins.py",
+        "diff: cms/cms_plugins.py adds plugins = list(plugins)",
+        "AI-ROW-0157 lists the same path as historical_changed_file"
+      ],
+      "rationale": "The packet is internally inconsistent for this row: it marks cms/cms_plugins.py as omitted even though the diff explicitly changes that same path, so omission status cannot be judged reliably.",
+      "confidence": "high",
+      "label": "4_not_determinable",
+      "neutral_row_id": "AI-ROW-0153"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/plugin_base.py",
+        "downcast_plugins implementation changes without plugin_base.py hunks"
+      ],
+      "rationale": "Plugin base classes are semantically adjacent, but the supplied evidence does not show a base-class contract that needed alteration.",
+      "confidence": "medium",
+      "label": "4_not_determinable",
+      "neutral_row_id": "AI-ROW-0154"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/admin/change_list.py",
+        "test and fix are in placeholder/plugin utilities"
+      ],
+      "rationale": "Admin change-list code has no demonstrated connection to placeholder ghost-plugin rendering.",
+      "confidence": "high",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0155"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/utils/compat/tests.py",
+        "no compatibility-layer changes in this case"
+      ],
+      "rationale": "Compatibility-test utilities are unrelated to the concrete ghost-plugin filtering behavior shown.",
+      "confidence": "high",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0156"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "cms/cms_plugins.py: plugins = list(plugins)",
+        "cms/utils/plugins.py: downcast_plugins now yields a generator"
+      ],
+      "rationale": "Because downcast_plugins now returns a generator, AliasPlugin materializes it as a list before subsequent use; this is a direct compatibility adjustment required by the implementation change.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0157"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "cms/templatetags/cms_tags.py: dynamic MIDDLEWARE/MIDDLEWARE_CLASSES lookup",
+        ".travis.yml and setup.py add Django 1.11 support"
+      ],
+      "rationale": "The template tag is adapted to Django's newer MIDDLEWARE setting while retaining compatibility with MIDDLEWARE_CLASSES, which is directly part of framework-version compatibility.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0171"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/admin/change_list.py",
+        "case diff contains other Django-admin/widget compatibility changes"
+      ],
+      "rationale": "Admin change-list internals are a plausible Django-version compatibility surface, but no supplied hunk identifies a required change in this module.",
+      "confidence": "medium",
+      "label": "4_not_determinable",
+      "neutral_row_id": "AI-ROW-0172"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/extensions/models.py",
+        "public intent is only \"Initial compatibility\""
+      ],
+      "rationale": "Extension models could be affected by a framework-version upgrade, but the packet gives no specific API or failure tying this file to the compatibility work.",
+      "confidence": "low",
+      "label": "4_not_determinable",
+      "neutral_row_id": "AI-ROW-0173"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/admin/pageadmin.py",
+        "diff changes cms/admin/forms.py and widget code instead"
+      ],
+      "rationale": "Page admin is a plausible Django-admin compatibility surface, yet the evidence shows no pageadmin-specific incompatibility requiring modification.",
+      "confidence": "medium",
+      "label": "4_not_determinable",
+      "neutral_row_id": "AI-ROW-0174"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "cms/utils/compat/**init**.py: adds DJANGO_1_11",
+        ".travis.yml/setup.py: Django 1.11 compatibility target"
+      ],
+      "rationale": "The compatibility module adds an explicit Django 1.11 version flag used by the broader compatibility work, making it directly required.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0175"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "cms/forms/widgets.py: template_name/get_context/create_option and renderer-aware render changes",
+        "new cms/templates/cms/widgets/* templates in the diff"
+      ],
+      "rationale": "Custom widgets are substantially rewritten for Django's template-based widget rendering and newer render/create_option APIs while retaining old-version branches.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0176"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/models/settingmodels.py",
+        "no setting-model hunk in the compatibility diff"
+      ],
+      "rationale": "A settings model can be framework-sensitive, but no concrete Django 1.11 incompatibility for this file is shown.",
+      "confidence": "low",
+      "label": "4_not_determinable",
+      "neutral_row_id": "AI-ROW-0177"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "cms/wizards/forms.py: WizardOptionWidgets and DJANGO_1_10 branch",
+        "cms/templates/cms/wizards/wizardoptionwidget.html added in the diff"
+      ],
+      "rationale": "Wizard form widgets are reimplemented with old/new Django rendering paths and a template-based RadioSelect, directly addressing widget API compatibility.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0178"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "cms/admin/forms.py: application_urls field now uses ApplicationConfigSelect",
+        "cms/forms/widgets.py: ApplicationConfigSelect compatibility rewrite"
+      ],
+      "rationale": "Admin forms switch the application field to the new custom ApplicationConfigSelect widget that carries the compatibility implementation.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0179"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/api.py",
+        "no cms/api.py hunk in the Django 1.11 compatibility diff"
+      ],
+      "rationale": "The public API module may depend on Django internals, but the supplied evidence does not identify any API-layer incompatibility that required a change.",
+      "confidence": "low",
+      "label": "4_not_determinable",
+      "neutral_row_id": "AI-ROW-0180"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/**init**.py",
+        "compatibility changes are localized to widgets, tags, wizards, setup, and tests"
+      ],
+      "rationale": "The package initializer has no demonstrated framework-specific behavior in the supplied evidence.",
+      "confidence": "medium",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0181"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "row role: omitted_candidate_file for cms/admin/forms.py",
+        "diff: cms/admin/forms.py changes ApplicationConfigSelect usage",
+        "AI-ROW-0179 lists the same path as historical_changed_file"
+      ],
+      "rationale": "The row is internally inconsistent because cms/admin/forms.py is marked omitted although the diff explicitly modifies that path and another row marks it historical.",
+      "confidence": "high",
+      "label": "4_not_determinable",
+      "neutral_row_id": "AI-ROW-0182"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: menus/models.py",
+        "no menus/models.py change in the supplied diff"
+      ],
+      "rationale": "Menu models could theoretically encounter framework-version changes, but no specific incompatibility or dependency is provided.",
+      "confidence": "low",
+      "label": "4_not_determinable",
+      "neutral_row_id": "AI-ROW-0183"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/admin/**init**.py",
+        "no initializer changes or references in the diff"
+      ],
+      "rationale": "The admin package initializer has no shown API surface affected by the Django 1.11 compatibility work.",
+      "confidence": "medium",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0184"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "cms/templatetags/cms_wizard_tags.py: uses wizard.widget_attributes and explicit tag registration",
+        "cms/wizards/wizard_base.py: adds widget_attributes"
+      ],
+      "rationale": "The wizard template tag is adapted to the new wizard widget-attribute representation and registration style used by the compatibility implementation.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0185"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "cms/wizards/wizard_base.py: cached widget_attributes property",
+        "cms/wizards/forms.py and cms_wizard_tags.py consume widget_attributes"
+      ],
+      "rationale": "The wizard base supplies cached widget_attributes consumed by the new wizard widget/tag rendering path, so it is directly part of the compatibility change.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0186"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/cache/choices.py",
+        "no cache-choice references in the compatibility hunks"
+      ],
+      "rationale": "Cache choice definitions have no demonstrated dependency on the Django 1.11 APIs changed in this commit.",
+      "confidence": "medium",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0187"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "cms/appresolver.py: app.get_urls(title.page, title.language)",
+        "public intent: allow passing a page object and language to CMSApp.urls replacement"
+      ],
+      "rationale": "App URL resolution is changed to call get_urls with the concrete page and language, which is the core purpose of the new CMSApp URL API.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0243"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/management/commands/subcommands/delete_orphaned_plugins.py",
+        "diff is confined to CMSApp/apphook resolution/menu consumers plus docs/tests"
+      ],
+      "rationale": "The orphaned-plugin cleanup command is unrelated to apphook URL/menu accessors.",
+      "confidence": "high",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0244"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/templatetags/cms_tags.py",
+        "runtime changes use get_urls/get_menus in appresolver, views, and cms_menus"
+      ],
+      "rationale": "CMS template tags may render pages that use apphooks, but the packet provides no direct API call or incompatibility showing this file needed modification.",
+      "confidence": "medium",
+      "label": "4_not_determinable",
+      "neutral_row_id": "AI-ROW-0245"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/utils/permissions.py",
+        "no permission behavior in the case diff"
+      ],
+      "rationale": "Permission utilities are not implicated by the new CMSApp URL/menu accessor API.",
+      "confidence": "high",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0246"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "cms/views.py: app.get_urls(page, current_language)",
+        "public intent: pass page/language to CMSApp.get_urls"
+      ],
+      "rationale": "The request detail view is a direct URL resolver consumer and must call get_urls(page, current_language) to support page- and language-dependent apphook URLs.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0247"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/utils/i18n.py",
+        "cms/views.py/appresolver.py/cms_menus.py pass current language to new APIs"
+      ],
+      "rationale": "Language utilities are semantically related because language becomes an explicit get_urls/get_menus argument, but existing language acquisition is sufficient and no utility change is shown as necessary.",
+      "confidence": "medium",
+      "label": "2_related_optional",
+      "neutral_row_id": "AI-ROW-0248"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "cms/cms_menus.py: extenders += app.get_menus(page, lang)",
+        "public intent: use new API for CMSApp.menus and add language argument"
+      ],
+      "rationale": "Menu-node construction must use get_menus(page, lang) so apphooks can select menus dynamically by page and language.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0249"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "cms/apphook_pool.py: app.get_urls() replaces app.urls",
+        "cms/app_base.py: backward-compatible get_urls API"
+      ],
+      "rationale": "The apphook registry must use get_urls rather than direct urls access so both new and backward-compatible CMSApp implementations are discovered consistently.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0250"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "cms/app_base.py: _urls/_menus, get_urls/get_menus, legacy accessors",
+        "public intent: method-based URL/menu API with backward compatibility"
+      ],
+      "rationale": "This file defines the new get_urls/get_menus methods, private backing attributes, and legacy property shims; it is the central implementation of the requested API.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0251"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "row role: omitted_candidate_file for cms/views.py",
+        "diff: cms/views.py switches to app.get_urls(page, current_language)",
+        "AI-ROW-0247 lists the same path as historical_changed_file"
+      ],
+      "rationale": "The row is internally inconsistent: cms/views.py is marked omitted while the diff explicitly changes it and another row marks it historical.",
+      "confidence": "high",
+      "label": "4_not_determinable",
+      "neutral_row_id": "AI-ROW-0252"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/forms/fields.py",
+        "no forms-field changes or references in the case diff"
+      ],
+      "rationale": "Generic form fields have no demonstrated role in apphook URL or menu selection.",
+      "confidence": "high",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0253"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: menus/templatetags/menu_tags.py",
+        "cms/cms_menus.py is the changed menu consumer"
+      ],
+      "rationale": "Menu template tags are semantically adjacent to the new dynamic menu API, but the supplied diff shows no call site there that required alteration.",
+      "confidence": "medium",
+      "label": "2_related_optional",
+      "neutral_row_id": "AI-ROW-0254"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: menus/menu_pool.py",
+        "cms/cms_menus.py changes apphook menu retrieval to get_menus(page, lang)"
+      ],
+      "rationale": "The menu pool participates in menu discovery and is therefore related to dynamic apphook menus, but the new API is integrated by cms_menus without evidence that the pool itself must change.",
+      "confidence": "medium",
+      "label": "2_related_optional",
+      "neutral_row_id": "AI-ROW-0255"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/utils/moderator.py",
+        "no moderation logic in the case diff"
+      ],
+      "rationale": "Moderator utilities have no demonstrated connection to CMSApp URL/menu accessor behavior.",
+      "confidence": "high",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0256"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "candidate: cms/utils/request_ip_resolvers.py",
+        "no IP-resolution behavior in the case diff"
+      ],
+      "rationale": "Request-IP resolution is unrelated to apphook URL/menu selection and backward compatibility.",
+      "confidence": "high",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0257"
+    }
+  ],
+  "rater_label": "chatgpt",
+  "batch_id": "chatgpt_batch_04"
+}

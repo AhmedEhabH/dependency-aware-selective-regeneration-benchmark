@@ -1,0 +1,102 @@
+{
+  "audit_date": "2026-09-18",
+  "package": "ai_blinded_v1",
+  "method": "pure-stdlib recomputation from raw frozen outputs + sealed mapping (no sklearn)",
+  "checks": {
+    "n_total_rows": 361,
+    "n_rated_both": 361,
+    "n_agreements": 252,
+    "exact_row_agreement": 0.6981,
+    "cohen_kappa": 0.5579062085702088,
+    "confusion_matrix": [
+      [
+        88,
+        5,
+        0,
+        1
+      ],
+      [
+        0,
+        8,
+        22,
+        8
+      ],
+      [
+        0,
+        0,
+        127,
+        11
+      ],
+      [
+        12,
+        5,
+        45,
+        29
+      ]
+    ],
+    "label_distribution": {
+      "chatgpt": {
+        "4_not_determinable": 91,
+        "3_incidental_tangled": 138,
+        "1_required": 94,
+        "2_related_optional": 38
+      },
+      "claude": {
+        "3_incidental_tangled": 194,
+        "4_not_determinable": 49,
+        "1_required": 100,
+        "2_related_optional": 18
+      }
+    },
+    "abstentions": {
+      "chatgpt": 0,
+      "claude": 0
+    },
+    "n_disagreements": 109,
+    "agreement_spotcheck_sample": [
+      "AI-ROW-0333",
+      "AI-ROW-0110",
+      "AI-ROW-0328",
+      "AI-ROW-0055",
+      "AI-ROW-0212",
+      "AI-ROW-0018",
+      "AI-ROW-0209",
+      "AI-ROW-0342",
+      "AI-ROW-0150",
+      "AI-ROW-0123"
+    ],
+    "role_historical_changed_file": {
+      "exact": 0.8468,
+      "kappa": 0.500662
+    },
+    "role_omitted_candidate_file": {
+      "exact": 0.632,
+      "kappa": 0.312407
+    },
+    "case_proxy_quality": {
+      "exact": 0.56,
+      "kappa": 0.207493
+    },
+    "case_omitted_candidate_semantic_impact": {
+      "exact": 0.48,
+      "kappa": 0.109589
+    },
+    "case_mixed_tangled_commit": {
+      "exact": 0.68,
+      "kappa": 0.453552
+    },
+    "posthoc_in_hist_n": 15,
+    "posthoc_outside_hist_n": 235,
+    "posthoc_relevance": {
+      "chatgpt": {
+        "matched_random_omitted": 0.0992,
+        "top_ranked_omitted": 0.193
+      },
+      "claude": {
+        "matched_random_omitted": 0.0083,
+        "top_ranked_omitted": 0.0526
+      }
+    }
+  },
+  "result": "PASS_ALL_CHECKS"
+}

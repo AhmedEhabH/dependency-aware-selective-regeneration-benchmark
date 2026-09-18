@@ -1,0 +1,919 @@
+{
+  "cases": [
+    {
+      "mixed_tangled_commit": "yes",
+      "omitted_candidate_semantic_impact": "unclear",
+      "proxy_quality": "strong",
+      "neutral_case_id": "AI-CASE-001"
+    },
+    {
+      "mixed_tangled_commit": "no",
+      "omitted_candidate_semantic_impact": "yes",
+      "proxy_quality": "strong",
+      "neutral_case_id": "AI-CASE-006"
+    },
+    {
+      "mixed_tangled_commit": "yes",
+      "omitted_candidate_semantic_impact": "unclear",
+      "proxy_quality": "strong",
+      "neutral_case_id": "AI-CASE-008"
+    },
+    {
+      "mixed_tangled_commit": "no",
+      "omitted_candidate_semantic_impact": "unclear",
+      "proxy_quality": "strong",
+      "neutral_case_id": "AI-CASE-010"
+    },
+    {
+      "mixed_tangled_commit": "no",
+      "omitted_candidate_semantic_impact": "no",
+      "proxy_quality": "strong",
+      "neutral_case_id": "AI-CASE-024"
+    }
+  ],
+  "rows": [
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/cache/choices.py",
+        "diff_patch: no hunk for cms/cache/choices.py"
+      ],
+      "rationale": "The cache-choice module is only named as a candidate; the diff provides no evidence that the new refresh setting or plugin-deletion fixes require a change there.",
+      "confidence": "low",
+      "label": "4_not_determinable",
+      "neutral_row_id": "AI-ROW-0001"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/utils/conf.py",
+        "diff_patch: cms/utils/conf.py adds ALWAYS_REFRESH_CONTENT to DEFAULTS"
+      ],
+      "rationale": "The row is marked omitted, but the supplied diff contains a change to this same file, so an omission judgment is internally inconsistent.",
+      "confidence": "low",
+      "label": "4_not_determinable",
+      "neutral_row_id": "AI-ROW-0002"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/management/commands/subcommands/delete_orphaned_plugins.py",
+        "diff_patch: no hunk for this file"
+      ],
+      "rationale": "This orphaned-plugin maintenance command concerns cleanup, while the observed plugin-deletion fix changes the admin response after deletion; no evidence links the command to that behavior.",
+      "confidence": "medium",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0003"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/utils/conf.py",
+        "diff_patch: DEFAULTS gains ALWAYS_REFRESH_CONTENT=False"
+      ],
+      "rationale": "The stated feature adds CMS_ALWAYS_REFRESH_CONTENT, and this file adds the corresponding ALWAYS_REFRESH_CONTENT default.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0004"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/models/apphooks_reload.py",
+        "diff_patch: no hunk for cms/models/apphooks_reload.py"
+      ],
+      "rationale": "The filename suggests reload behavior, but the packet provides no source or diff evidence showing that apphook reload logic must change for this setting.",
+      "confidence": "low",
+      "label": "4_not_determinable",
+      "neutral_row_id": "AI-ROW-0005"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/utils/mail.py",
+        "diff_patch: no hunk for cms/utils/mail.py"
+      ],
+      "rationale": "Mail utilities have no evident semantic connection to the refresh setting, plugin reload prefetch, or admin deletion-response fixes.",
+      "confidence": "medium",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0006"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/utils/**init**.py",
+        "diff_patch: no hunk for cms/utils/**init**.py"
+      ],
+      "rationale": "A package initializer is too generic to infer impact from its path alone, and no hunk or direct evidence is supplied.",
+      "confidence": "low",
+      "label": "4_not_determinable",
+      "neutral_row_id": "AI-ROW-0007"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/forms/utils.py",
+        "diff_patch: no hunk for cms/forms/utils.py"
+      ],
+      "rationale": "Form utilities are not implicated by the concrete setting, model reload, or placeholder-admin changes shown in the diff.",
+      "confidence": "medium",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0008"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/models/contentmodels.py",
+        "diff_patch: no hunk for cms/models/contentmodels.py"
+      ],
+      "rationale": "Content models are conceptually adjacent to content refresh, but the packet shows no concrete dependency requiring this file to change.",
+      "confidence": "low",
+      "label": "4_not_determinable",
+      "neutral_row_id": "AI-ROW-0009"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/**main**.py",
+        "diff_patch: no hunk for cms/**main**.py"
+      ],
+      "rationale": "The CMS command-line entry point has no evident relation to the setting or admin/plugin fixes in the observed diff.",
+      "confidence": "medium",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0010"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/admin/pageadmin.py",
+        "diff_patch: plugin deletion response changed in cms/admin/placeholderadmin.py, not pageadmin.py"
+      ],
+      "rationale": "Page administration is adjacent to the admin-side deletion flow, but the concrete fix is implemented in PlaceholderAdmin and the close-frame template, so a pageadmin change is not shown to be required.",
+      "confidence": "low",
+      "label": "2_related_optional",
+      "neutral_row_id": "AI-ROW-0011"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/admin/placeholderadmin.py",
+        "diff_patch: delete operation returns admin/cms/page/close_frame.html instead of HttpResponseRedirect"
+      ],
+      "rationale": "The stated deletion fix is implemented here by rendering the close-frame response instead of redirecting to the admin index.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0012"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/models/pluginmodel.py",
+        "diff_patch: reload() changes to select_related(\"parent",
+        "placeholder\")"
+      ],
+      "rationale": "The stated missing prefetch fix is implemented directly by reloading CMSPlugin with parent and placeholder selected.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0013"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/plugin_base.py",
+        "diff_patch: is_local = not get_cms_setting(\"ALWAYS_REFRESH_CONTENT\")"
+      ],
+      "rationale": "This is the core behavior controlled by the new setting: plugin locality now depends on ALWAYS_REFRESH_CONTENT.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0014"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/admin/useradmin.py",
+        "diff_patch: no hunk for cms/admin/useradmin.py"
+      ],
+      "rationale": "User administration is not directly implicated by adding PageContent admin or moving page add/change endpoints in the supplied diff.",
+      "confidence": "medium",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0074"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/admin/pageadmin.py",
+        "diff_patch: large PageAdmin/PageContentAdmin endpoint and admin-flow refactor"
+      ],
+      "rationale": "The page-admin implementation is extensively reworked to move translation/content operations to PageContent-oriented endpoints and remove page-type paths.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0075"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path menus/menu_pool.py",
+        "diff_patch: no hunk for menus/menu_pool.py"
+      ],
+      "rationale": "Menu pooling could be indirectly affected by removal of page types, but no source or diff evidence establishes a needed change.",
+      "confidence": "low",
+      "label": "4_not_determinable",
+      "neutral_row_id": "AI-ROW-0076"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path menus/**init**.py",
+        "diff_patch: no hunk for menus/**init**.py"
+      ],
+      "rationale": "The menus package initializer has no concrete relationship to the admin endpoint migration shown in the diff.",
+      "confidence": "medium",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0077"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/admin/forms.py",
+        "diff_patch: BasePageForm becomes BasePageContentForm; Add/Change forms target PageContent"
+      ],
+      "rationale": "Admin forms are converted from Page-based forms to PageContent-based forms and their save/change behavior is rewritten to match the new admin ownership.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0078"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/forms/validators.py",
+        "diff_patch: validate_url_uniqueness builds cms_pagecontent_change URL"
+      ],
+      "rationale": "URL uniqueness validation now points conflicts to cms_pagecontent_change and carries user language, directly supporting the moved change endpoint.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0079"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/models/titlemodels.py",
+        "diff_patch: PageContent gains update() and toggle_in_navigation(); default permissions adjusted"
+      ],
+      "rationale": "PageContent gains update and navigation-toggle behavior formerly associated with Page, supporting its new admin role.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0080"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/templatetags/cms_admin.py",
+        "diff_patch: get_admin_url_for_language uses cms_pagecontent_add/change"
+      ],
+      "rationale": "The admin template tags are updated to build add/change URLs for PageContent and to simplify controls for the new admin flow.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0081"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/wizards/urls.py",
+        "diff_patch: no hunk for cms/wizards/urls.py"
+      ],
+      "rationale": "Wizard URLs are semantically adjacent to page creation, so the endpoint move could affect them, but the packet supplies no direct evidence of a required modification.",
+      "confidence": "low",
+      "label": "2_related_optional",
+      "neutral_row_id": "AI-ROW-0082"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/cms_toolbars.py",
+        "diff_patch: toolbar admin_reverse calls switch to cms_pagecontent_* endpoints"
+      ],
+      "rationale": "Toolbar actions are rewired from Page/PageType admin URLs to PageContent add/change/delete/copy/template endpoints.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0083"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/admin/permissionadmin.py",
+        "diff_patch: cms/admin/permissionadmin.py is changed"
+      ],
+      "rationale": "The row is marked omitted, but the supplied diff contains changes to this same file, making an omission judgment inconsistent.",
+      "confidence": "low",
+      "label": "4_not_determinable",
+      "neutral_row_id": "AI-ROW-0084"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/models/pagemodel.py",
+        "diff_patch: Page.toggle_in_navigation removed"
+      ],
+      "rationale": "Page-level toggle_in_navigation is removed as that behavior is moved to PageContent, directly matching the refactor.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0085"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/utils/admin.py",
+        "diff_patch: no hunk for cms/utils/admin.py"
+      ],
+      "rationale": "Generic admin utilities could support the moved endpoints, but no hunk or direct reference in the packet demonstrates that a change was needed.",
+      "confidence": "low",
+      "label": "2_related_optional",
+      "neutral_row_id": "AI-ROW-0086"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/admin/settingsadmin.py",
+        "diff_patch: no hunk for cms/admin/settingsadmin.py"
+      ],
+      "rationale": "Settings administration has no evident relationship to the PageContent admin migration shown in the diff.",
+      "confidence": "medium",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0087"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/forms/wizards.py",
+        "diff_patch: form save result uses .page; page-type child logic removed"
+      ],
+      "rationale": "Wizard save handling is adapted because AddPageForm now returns PageContent, and page-type propagation logic is removed consistently with the stated removal.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0088"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/templatetags/cms_admin.py",
+        "diff_patch: cms/templatetags/cms_admin.py is changed"
+      ],
+      "rationale": "The row is marked omitted, but the supplied diff contains changes to this same file, so it cannot be evaluated as an unchanged omission.",
+      "confidence": "low",
+      "label": "4_not_determinable",
+      "neutral_row_id": "AI-ROW-0089"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/models/managers.py",
+        "diff_patch: no hunk for cms/models/managers.py"
+      ],
+      "rationale": "Model managers are plausibly adjacent to PageContent model behavior, but the evidence does not show a manager change required by the admin refactor.",
+      "confidence": "low",
+      "label": "2_related_optional",
+      "neutral_row_id": "AI-ROW-0090"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/extensions/admin.py",
+        "diff_patch: cms/tests/test_extensions.py changes while cms/extensions/admin.py has no hunk"
+      ],
+      "rationale": "Extension administration is plausibly affected by a major page-admin endpoint migration, and extension tests change in the commit, but no direct hunk shows that this file itself needed modification.",
+      "confidence": "medium",
+      "label": "2_related_optional",
+      "neutral_row_id": "AI-ROW-0091"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/admin/permissionadmin.py",
+        "diff_patch: permission inline compatibility/add-change permission behavior adjusted"
+      ],
+      "rationale": "Permission-admin inline behavior is adjusted alongside the page-admin restructuring; it supports the refactor but is not the central PageContent endpoint move.",
+      "confidence": "medium",
+      "label": "2_related_optional",
+      "neutral_row_id": "AI-ROW-0092"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/models/pagemodel.py",
+        "diff_patch: no hunk for cms/models/pagemodel.py"
+      ],
+      "rationale": "The Page model file has no shown role in replacing RequestContext instances; the actual context construction changes are confined to page_rendering.py.",
+      "confidence": "medium",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0107"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/plugin_processors.py",
+        "diff_patch: no hunk for cms/plugin_processors.py"
+      ],
+      "rationale": "Plugin processors may interact with rendering context, but no file content or diff evidence is provided to determine whether they should change.",
+      "confidence": "low",
+      "label": "4_not_determinable",
+      "neutral_row_id": "AI-ROW-0108"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/utils/placeholder.py",
+        "diff_patch: no hunk for cms/utils/placeholder.py"
+      ],
+      "rationale": "Placeholder utilities are related to rendering context in principle, but the packet does not show a concrete required change for removing these Context instances.",
+      "confidence": "low",
+      "label": "2_related_optional",
+      "neutral_row_id": "AI-ROW-0109"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/south_migrations/0054_new_publisher_data.py",
+        "diff_patch: no hunk for this migration"
+      ],
+      "rationale": "A historical South migration is unrelated to runtime replacement of RequestContext in page rendering.",
+      "confidence": "high",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0110"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/plugin_rendering.py",
+        "diff_patch: cms/plugin_rendering.py contains a comment-spacing change"
+      ],
+      "rationale": "The row is marked omitted even though the diff contains a change to plugin_rendering.py; the role and evidence conflict.",
+      "confidence": "low",
+      "label": "4_not_determinable",
+      "neutral_row_id": "AI-ROW-0111"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/**init**.py",
+        "diff_patch: no hunk for cms/**init**.py"
+      ],
+      "rationale": "The package initializer has no evident role in the RequestContext replacement shown in page rendering.",
+      "confidence": "medium",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0112"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/models/permissionmodels.py",
+        "diff_patch: no hunk for cms/models/permissionmodels.py"
+      ],
+      "rationale": "Permission models have no demonstrated connection to constructing the rendering context in the changed functions.",
+      "confidence": "medium",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0113"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/plugin_rendering.py",
+        "diff_patch: comment changes from \"#should\" to \"# should\" only"
+      ],
+      "rationale": "The only change in this file is whitespace in a comment, which is unrelated to removing Context instances.",
+      "confidence": "high",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0114"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/extensions/extension_pool.py",
+        "diff_patch: no hunk for cms/extensions/extension_pool.py"
+      ],
+      "rationale": "Extension-pool logic has no evident relationship to RequestContext construction in the observed diff.",
+      "confidence": "medium",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0115"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/admin/pageadmin.py",
+        "diff_patch: no hunk for cms/admin/pageadmin.py"
+      ],
+      "rationale": "Page administration is not implicated by the runtime rendering-context changes shown in page_rendering.py.",
+      "confidence": "medium",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0116"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/page_rendering.py",
+        "diff_patch: RequestContext retained only for DJANGO_1_7; otherwise context={}"
+      ],
+      "rationale": "This file directly replaces RequestContext with a plain dict on newer Django versions in both render_page and _handle_no_page.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0117"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/south_migrations/0007_apphook_longer.py",
+        "diff_patch: no hunk for this migration"
+      ],
+      "rationale": "An old South migration is unrelated to the runtime Context cleanup.",
+      "confidence": "high",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0118"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/utils/permissions.py",
+        "diff_patch: request.placeholders now stores (placeholder, permission-status) tuples in rendering code"
+      ],
+      "rationale": "Permission utilities are conceptually related because the new request.placeholders values carry edit-permission status, but no concrete required change is shown.",
+      "confidence": "low",
+      "label": "2_related_optional",
+      "neutral_row_id": "AI-ROW-0131"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/middleware/toolbar.py",
+        "diff_patch: cache-placeholder check iterates getattr(request, \"placeholders\", {}).values()"
+      ],
+      "rationale": "Toolbar middleware consumes request.placeholders, so it must adapt from iterating placeholders to iterating tuple values in the new dictionary.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0132"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/apps.py",
+        "diff_patch: no hunk for cms/apps.py"
+      ],
+      "rationale": "Application configuration has no evident role in the request.placeholders representation change.",
+      "confidence": "medium",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0133"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/middleware/user.py",
+        "diff_patch: no hunk for cms/middleware/user.py"
+      ],
+      "rationale": "User middleware could affect user state used in permission checks, but the packet does not show it reading or writing request.placeholders.",
+      "confidence": "low",
+      "label": "4_not_determinable",
+      "neutral_row_id": "AI-ROW-0134"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/cms_toolbars.py",
+        "diff_patch: placeholders default changes to {}; structure-mode test inspects mapping values and permission flags"
+      ],
+      "rationale": "The toolbar reads request.placeholders and is changed to consume the new mapping and stored edit-status values.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0135"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/utils/**init**.py",
+        "diff_patch: no hunk for cms/utils/**init**.py"
+      ],
+      "rationale": "The utils package initializer has no demonstrated relationship to the placeholder-state representation.",
+      "confidence": "medium",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0136"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/toolbar/items.py",
+        "diff_patch: no hunk for cms/toolbar/items.py"
+      ],
+      "rationale": "Toolbar item code is adjacent to the toolbar consumer of the new state, but there is no evidence that item classes themselves require a change.",
+      "confidence": "low",
+      "label": "2_related_optional",
+      "neutral_row_id": "AI-ROW-0137"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/plugin_rendering.py",
+        "diff_patch: request.placeholders becomes dict of slot -> (placeholder, perms)"
+      ],
+      "rationale": "This is a producer of request.placeholders and is directly refactored from a list to a slot-keyed mapping of placeholder and permission status.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0138"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/admin/useradmin.py",
+        "diff_patch: no hunk for cms/admin/useradmin.py"
+      ],
+      "rationale": "User administration has no evident relationship to the request.placeholders data representation.",
+      "confidence": "medium",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0139"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/cache/page.py",
+        "diff_patch: placeholders extracted from getattr(request, \"placeholders\", {}).values()"
+      ],
+      "rationale": "Page caching consumes request.placeholders and must extract placeholder objects from the new tuple-valued mapping.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0140"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/middleware/page.py",
+        "diff_patch: no hunk for cms/middleware/page.py"
+      ],
+      "rationale": "Page middleware is part of request handling and could be adjacent to placeholder state, but no evidence shows it accesses this attribute.",
+      "confidence": "low",
+      "label": "2_related_optional",
+      "neutral_row_id": "AI-ROW-0141"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/utils/compat/dj.py",
+        "diff_patch: no hunk for cms/utils/compat/dj.py"
+      ],
+      "rationale": "Django compatibility utilities are not implicated by the representation refactor shown in the changed consumers/producers.",
+      "confidence": "medium",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0142"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path menus/apps.py",
+        "diff_patch: no hunk for menus/apps.py"
+      ],
+      "rationale": "Menu application configuration has no evident relationship to request.placeholders.",
+      "confidence": "medium",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0143"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/templatetags/cms_tags.py",
+        "diff_patch: RenderPlaceholder builds slot -> (placeholder, perms) mapping"
+      ],
+      "rationale": "The template tag is another producer of request.placeholders and is refactored to store placeholder plus edit status in the new mapping.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0144"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/models/permissionmodels.py",
+        "diff_patch: no hunk for cms/models/permissionmodels.py"
+      ],
+      "rationale": "Permission models are conceptually related to editability status, but the diff does not show the representation change requiring model-layer permission changes.",
+      "confidence": "low",
+      "label": "2_related_optional",
+      "neutral_row_id": "AI-ROW-0145"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/models/settingmodels.py",
+        "diff_patch: UserSettings.user and clipboard gain on_delete=models.CASCADE"
+      ],
+      "rationale": "The file contains OneToOneField and ForeignKey declarations that receive explicit on_delete=models.CASCADE, exactly matching the stated change.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0331"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/models/pagemodel.py",
+        "diff_patch: site, publisher_public, PageNode.parent, and PageNode.site gain on_delete=models.CASCADE"
+      ],
+      "rationale": "Multiple Page/PageNode relations receive explicit on_delete behavior, directly implementing the stated all-FK/OneToOne update.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0332"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/models/titlemodels.py",
+        "diff_patch: Title.page and publisher_public gain on_delete=models.CASCADE"
+      ],
+      "rationale": "Title model ForeignKey/OneToOneField declarations are updated with explicit on_delete=models.CASCADE.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0333"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/models/fields.py",
+        "diff_patch: custom ForeignKey constructors add kwargs[\"on_delete\"] = models.CASCADE"
+      ],
+      "rationale": "Custom ForeignKey subclasses must pass an on_delete argument; both PlaceholderField and PageField now set models.CASCADE.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0334"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/models/static_placeholder.py",
+        "diff_patch: site ForeignKey gains on_delete=models.CASCADE"
+      ],
+      "rationale": "StaticPlaceholder.site is a ForeignKey and is updated with explicit on_delete=models.CASCADE.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0335"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/management/commands/cms.py",
+        "diff_patch: no hunk for cms/management/commands/cms.py"
+      ],
+      "rationale": "A management command is not a model field declaration, and the diff gives no evidence that explicit on_delete arguments require changes here.",
+      "confidence": "medium",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0336"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/signals/apphook.py",
+        "diff_patch: no hunk for cms/signals/apphook.py"
+      ],
+      "rationale": "Apphook signal handling is not where ForeignKey or OneToOneField declarations are defined; no required change is shown.",
+      "confidence": "medium",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0337"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/forms/fields.py",
+        "diff_patch: no hunk for cms/forms/fields.py"
+      ],
+      "rationale": "This is a forms field module, whereas the change targets ORM ForeignKey and OneToOneField declarations.",
+      "confidence": "high",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0338"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/utils/urlutils.py",
+        "diff_patch: no hunk for cms/utils/urlutils.py"
+      ],
+      "rationale": "URL utilities have no evident relation to adding on_delete parameters to ORM relation fields.",
+      "confidence": "high",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0339"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/utils/page_permissions.py",
+        "diff_patch: no hunk for cms/utils/page_permissions.py"
+      ],
+      "rationale": "Page-permission utilities may use related models but do not define the relation fields targeted by the stated compatibility change.",
+      "confidence": "medium",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0340"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/models/pluginmodel.py",
+        "diff_patch: placeholder and parent ForeignKeys gain on_delete=models.CASCADE"
+      ],
+      "rationale": "CMSPlugin placeholder and parent ForeignKeys gain explicit on_delete=models.CASCADE.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0341"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/signals/placeholder.py",
+        "diff_patch: no hunk for cms/signals/placeholder.py"
+      ],
+      "rationale": "Placeholder signal code does not itself define the ORM relation fields targeted by this change.",
+      "confidence": "medium",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0342"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/models/placeholderpluginmodel.py",
+        "diff_patch: cmsplugin_ptr OneToOneField gains on_delete=models.CASCADE"
+      ],
+      "rationale": "PlaceholderReference.cmsplugin_ptr is a OneToOneField and gains explicit on_delete=models.CASCADE.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0343"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/templates.py",
+        "diff_patch: no hunk for cms/templates.py"
+      ],
+      "rationale": "Template-loading code has no evident relationship to explicit ORM on_delete declarations.",
+      "confidence": "medium",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0344"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/signals/plugins.py",
+        "diff_patch: no hunk for cms/signals/plugins.py"
+      ],
+      "rationale": "Plugin signal handling is not a field declaration site and no change is shown as necessary for explicit on_delete arguments.",
+      "confidence": "medium",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0345"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/utils/compat/forms.py",
+        "diff_patch: no hunk for cms/utils/compat/forms.py"
+      ],
+      "rationale": "Forms compatibility helpers are outside the ORM relation-field declarations targeted by the change.",
+      "confidence": "high",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0346"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/models/permissionmodels.py",
+        "diff_patch: user, group, page, and created_by ForeignKeys gain on_delete=models.CASCADE"
+      ],
+      "rationale": "Several permission-model ForeignKeys gain explicit on_delete=models.CASCADE, directly matching the stated change.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0347"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/extensions/models.py",
+        "diff_patch: relation fields in extension models gain explicit on_delete"
+      ],
+      "rationale": "Extension model relation fields are updated with explicit on_delete=models.CASCADE as required by the stated all-relations change.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0348"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/models/aliaspluginmodel.py",
+        "diff_patch: relation fields gain explicit on_delete"
+      ],
+      "rationale": "Alias plugin relation fields are updated with explicit on_delete behavior, directly within scope of the stated change.",
+      "confidence": "high",
+      "label": "1_required",
+      "neutral_row_id": "AI-ROW-0349"
+    },
+    {
+      "abstention_reason": "",
+      "evidence": [
+        "parent_source_context: candidate path cms/signals/permissions.py",
+        "diff_patch: no hunk for cms/signals/permissions.py"
+      ],
+      "rationale": "Permission signal handling is not an ORM relation declaration site; no direct evidence indicates a required change.",
+      "confidence": "medium",
+      "label": "3_incidental_tangled",
+      "neutral_row_id": "AI-ROW-0350"
+    }
+  ],
+  "rater_label": "chatgpt",
+  "batch_id": "chatgpt_batch_02"
+}

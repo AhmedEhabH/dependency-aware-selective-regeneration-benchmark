@@ -1,0 +1,3051 @@
+{
+  "package": "ai_blinded_v1",
+  "created": "2026-09-18",
+  "seeds": {
+    "neutral_cases": 20260918,
+    "neutral_rows": 20260918,
+    "chatgpt": 20260919,
+    "claude": 20260920
+  },
+  "note": "PRIVATE. Never include this file in any rater package.",
+  "cases": {
+    "AI-CASE-001": {
+      "original_case_id": "djangocms-rc-1e2ff09e1134",
+      "public_intent": "feat: Add `CMS_ALWAYS_REFRESH_CONTENT` setting and other fixes (#8154) * feat: Add `CMS_ALWAYS_REFRESH_CONTENT` setting * fix: Default value not necessary * fix: add missing prefetch for reload * fix: Do not load admin site when after deleting plugin * fix tests * Update docstring * Update cms/models/pluginmodel.py --------- Co-authored-by: Vinit Kumar <mail@vinitkumar.me>",
+      "rows": [
+        {
+          "original_row_id": "djangocms-rc-1e2ff09e1134:item4",
+          "neutral_row_id": "AI-ROW-0001",
+          "neutral_candidate_id": "AI-CAND-0001",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/cache/choices.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-1e2ff09e1134:item3",
+          "neutral_row_id": "AI-ROW-0002",
+          "neutral_candidate_id": "AI-CAND-0002",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/conf.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-1e2ff09e1134:item0",
+          "neutral_row_id": "AI-ROW-0003",
+          "neutral_candidate_id": "AI-CAND-0003",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/management/commands/subcommands/delete_orphaned_plugins.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-1e2ff09e1134:item3",
+          "neutral_row_id": "AI-ROW-0004",
+          "neutral_candidate_id": "AI-CAND-0004",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/utils/conf.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-1e2ff09e1134:item2",
+          "neutral_row_id": "AI-ROW-0005",
+          "neutral_candidate_id": "AI-CAND-0005",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/models/apphooks_reload.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-1e2ff09e1134:item1",
+          "neutral_row_id": "AI-ROW-0006",
+          "neutral_candidate_id": "AI-CAND-0006",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/mail.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-1e2ff09e1134:item1",
+          "neutral_row_id": "AI-ROW-0007",
+          "neutral_candidate_id": "AI-CAND-0007",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/__init__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-1e2ff09e1134:item2",
+          "neutral_row_id": "AI-ROW-0008",
+          "neutral_candidate_id": "AI-CAND-0008",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/forms/utils.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-1e2ff09e1134:item4",
+          "neutral_row_id": "AI-ROW-0009",
+          "neutral_candidate_id": "AI-CAND-0009",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/models/contentmodels.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-1e2ff09e1134:item3",
+          "neutral_row_id": "AI-ROW-0010",
+          "neutral_candidate_id": "AI-CAND-0010",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/__main__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-1e2ff09e1134:item0",
+          "neutral_row_id": "AI-ROW-0011",
+          "neutral_candidate_id": "AI-CAND-0011",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/pageadmin.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-1e2ff09e1134:item0",
+          "neutral_row_id": "AI-ROW-0012",
+          "neutral_candidate_id": "AI-CAND-0012",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/admin/placeholderadmin.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-1e2ff09e1134:item1",
+          "neutral_row_id": "AI-ROW-0013",
+          "neutral_candidate_id": "AI-CAND-0013",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/models/pluginmodel.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-1e2ff09e1134:item2",
+          "neutral_row_id": "AI-ROW-0014",
+          "neutral_candidate_id": "AI-CAND-0014",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/plugin_base.py"
+        }
+      ]
+    },
+    "AI-CASE-002": {
+      "original_case_id": "djangocms-rc-8630db8aa177",
+      "public_intent": "feat: Performant permission calculation for pages (#7943) * Feat: Calculating page permissions does not require evaluating the full page tree * Fix N+1 issue, cache all calculated permissions * Deprecate `cms.utils.permissions.has_page_permission` in favor of `cms.utils.page_permissions.has_generic_permission` * Deprecate `.get_page_ids` since it is less efficient * Fix: get_draft_placholders * Fix: Delete permissions * Add compatibility shims with deprecation warning * Fix ruff issue",
+      "rows": [
+        {
+          "original_row_id": "djangocms-rc-8630db8aa177:item7",
+          "neutral_row_id": "AI-ROW-0015",
+          "neutral_candidate_id": "AI-CAND-0015",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/utils/permissions.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-8630db8aa177:item3",
+          "neutral_row_id": "AI-ROW-0016",
+          "neutral_candidate_id": "AI-CAND-0016",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/models/managers.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-8630db8aa177:item0",
+          "neutral_row_id": "AI-ROW-0017",
+          "neutral_candidate_id": "AI-CAND-0017",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/admin/pageadmin.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-8630db8aa177:item5",
+          "neutral_row_id": "AI-ROW-0018",
+          "neutral_candidate_id": "AI-CAND-0018",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/utils/mail.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-8630db8aa177:item1",
+          "neutral_row_id": "AI-ROW-0019",
+          "neutral_candidate_id": "AI-CAND-0019",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/middleware/__init__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-8630db8aa177:item0",
+          "neutral_row_id": "AI-ROW-0020",
+          "neutral_candidate_id": "AI-CAND-0020",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/cache/page.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-8630db8aa177:item1",
+          "neutral_row_id": "AI-ROW-0021",
+          "neutral_candidate_id": "AI-CAND-0021",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/cms_menus.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-8630db8aa177:item0",
+          "neutral_row_id": "AI-ROW-0022",
+          "neutral_candidate_id": "AI-CAND-0022",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/management/commands/subcommands/uninstall.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-8630db8aa177:item4",
+          "neutral_row_id": "AI-ROW-0023",
+          "neutral_candidate_id": "AI-CAND-0023",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/page.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-8630db8aa177:item3",
+          "neutral_row_id": "AI-ROW-0024",
+          "neutral_candidate_id": "AI-CAND-0024",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/forms/login.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-8630db8aa177:item2",
+          "neutral_row_id": "AI-ROW-0025",
+          "neutral_candidate_id": "AI-CAND-0025",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/urlutils.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-8630db8aa177:item3",
+          "neutral_row_id": "AI-ROW-0026",
+          "neutral_candidate_id": "AI-CAND-0026",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/cache/__init__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-8630db8aa177:item2",
+          "neutral_row_id": "AI-ROW-0027",
+          "neutral_candidate_id": "AI-CAND-0027",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/menu_bases.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-8630db8aa177:item1",
+          "neutral_row_id": "AI-ROW-0028",
+          "neutral_candidate_id": "AI-CAND-0028",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/forms.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-8630db8aa177:item4",
+          "neutral_row_id": "AI-ROW-0029",
+          "neutral_candidate_id": "AI-CAND-0029",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/models/permissionmodels.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-8630db8aa177:item2",
+          "neutral_row_id": "AI-ROW-0030",
+          "neutral_candidate_id": "AI-CAND-0030",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/useradmin.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-8630db8aa177:item4",
+          "neutral_row_id": "AI-ROW-0031",
+          "neutral_candidate_id": "AI-CAND-0031",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/compat/warnings.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-8630db8aa177:item6",
+          "neutral_row_id": "AI-ROW-0032",
+          "neutral_candidate_id": "AI-CAND-0032",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/utils/page_permissions.py"
+        }
+      ]
+    },
+    "AI-CASE-003": {
+      "original_case_id": "djangocms-rc-d648239f0c74",
+      "public_intent": "Fixed #5402 -- Recursion error when referencing same Alias plugin (#5568)",
+      "rows": [
+        {
+          "original_row_id": "djangocms-rc-d648239f0c74:item3",
+          "neutral_row_id": "AI-ROW-0033",
+          "neutral_candidate_id": "AI-CAND-0033",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/plugin_pool.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-d648239f0c74:item3",
+          "neutral_row_id": "AI-ROW-0034",
+          "neutral_candidate_id": "AI-CAND-0034",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "menus/templatetags/__init__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-d648239f0c74:item2",
+          "neutral_row_id": "AI-ROW-0035",
+          "neutral_candidate_id": "AI-CAND-0035",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/plugin_base.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-d648239f0c74:item2",
+          "neutral_row_id": "AI-ROW-0036",
+          "neutral_candidate_id": "AI-CAND-0036",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/dialog/__init__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-d648239f0c74:item0",
+          "neutral_row_id": "AI-ROW-0037",
+          "neutral_candidate_id": "AI-CAND-0037",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/cms_plugins.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-d648239f0c74:item4",
+          "neutral_row_id": "AI-ROW-0038",
+          "neutral_candidate_id": "AI-CAND-0038",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/urls.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-d648239f0c74:item4",
+          "neutral_row_id": "AI-ROW-0039",
+          "neutral_candidate_id": "AI-CAND-0039",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/plugin_processors.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-d648239f0c74:item0",
+          "neutral_row_id": "AI-ROW-0040",
+          "neutral_candidate_id": "AI-CAND-0040",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/cms_plugins.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-d648239f0c74:item1",
+          "neutral_row_id": "AI-ROW-0041",
+          "neutral_candidate_id": "AI-CAND-0041",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/toolbar/toolbar.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-d648239f0c74:item1",
+          "neutral_row_id": "AI-ROW-0042",
+          "neutral_candidate_id": "AI-CAND-0042",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/exceptions.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-d648239f0c74:item0",
+          "neutral_row_id": "AI-ROW-0043",
+          "neutral_candidate_id": "AI-CAND-0043",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/signals/page.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-d648239f0c74:item1",
+          "neutral_row_id": "AI-ROW-0044",
+          "neutral_candidate_id": "AI-CAND-0044",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/models/aliaspluginmodel.py"
+        }
+      ]
+    },
+    "AI-CASE-004": {
+      "original_case_id": "djangocms-rc-19804319f83b",
+      "public_intent": "Refactored the fallbacks handling logic (#6182)",
+      "rows": [
+        {
+          "original_row_id": "djangocms-rc-19804319f83b:item3",
+          "neutral_row_id": "AI-ROW-0045",
+          "neutral_candidate_id": "AI-CAND-0045",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/pageadmin.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-19804319f83b:item3",
+          "neutral_row_id": "AI-ROW-0046",
+          "neutral_candidate_id": "AI-CAND-0046",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/views.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-19804319f83b:item2",
+          "neutral_row_id": "AI-ROW-0047",
+          "neutral_candidate_id": "AI-CAND-0047",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/forms.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-19804319f83b:item3",
+          "neutral_row_id": "AI-ROW-0048",
+          "neutral_candidate_id": "AI-CAND-0048",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/middleware/language.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-19804319f83b:item6",
+          "neutral_row_id": "AI-ROW-0049",
+          "neutral_candidate_id": "AI-CAND-0049",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "menus/utils.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-19804319f83b:item4",
+          "neutral_row_id": "AI-ROW-0050",
+          "neutral_candidate_id": "AI-CAND-0050",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/permissionadmin.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-19804319f83b:item2",
+          "neutral_row_id": "AI-ROW-0051",
+          "neutral_candidate_id": "AI-CAND-0051",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/signals/permissions.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-19804319f83b:item2",
+          "neutral_row_id": "AI-ROW-0052",
+          "neutral_candidate_id": "AI-CAND-0052",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/toolbar/toolbar.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-19804319f83b:item1",
+          "neutral_row_id": "AI-ROW-0053",
+          "neutral_candidate_id": "AI-CAND-0053",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/__init__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-19804319f83b:item4",
+          "neutral_row_id": "AI-ROW-0054",
+          "neutral_candidate_id": "AI-CAND-0054",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/__init__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-19804319f83b:item4",
+          "neutral_row_id": "AI-ROW-0055",
+          "neutral_candidate_id": "AI-CAND-0055",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/wizards/views.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-19804319f83b:item5",
+          "neutral_row_id": "AI-ROW-0056",
+          "neutral_candidate_id": "AI-CAND-0056",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "menus/menu_pool.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-19804319f83b:item0",
+          "neutral_row_id": "AI-ROW-0057",
+          "neutral_candidate_id": "AI-CAND-0057",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/permissions.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-19804319f83b:item0",
+          "neutral_row_id": "AI-ROW-0058",
+          "neutral_candidate_id": "AI-CAND-0058",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/cms_menus.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-19804319f83b:item1",
+          "neutral_row_id": "AI-ROW-0059",
+          "neutral_candidate_id": "AI-CAND-0059",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/cms_toolbars.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-19804319f83b:item0",
+          "neutral_row_id": "AI-ROW-0060",
+          "neutral_candidate_id": "AI-CAND-0060",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/__init__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-19804319f83b:item1",
+          "neutral_row_id": "AI-ROW-0061",
+          "neutral_candidate_id": "AI-CAND-0061",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/admin.py"
+        }
+      ]
+    },
+    "AI-CASE-005": {
+      "original_case_id": "djangocms-rc-0fd4ea3e4e6a",
+      "public_intent": "Partially revert previous commit. Fix applied to the consumer of the method, to let the get_cached_ancestors behave like get_ancestors",
+      "rows": [
+        {
+          "original_row_id": "djangocms-rc-0fd4ea3e4e6a:item0",
+          "neutral_row_id": "AI-ROW-0062",
+          "neutral_candidate_id": "AI-CAND-0062",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/models/pagemodel.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-0fd4ea3e4e6a:item3",
+          "neutral_row_id": "AI-ROW-0063",
+          "neutral_candidate_id": "AI-CAND-0063",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/south_migrations/0022_login_required_added.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-0fd4ea3e4e6a:item1",
+          "neutral_row_id": "AI-ROW-0064",
+          "neutral_candidate_id": "AI-CAND-0064",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/south_migrations/0019_public_table_renames.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-0fd4ea3e4e6a:item3",
+          "neutral_row_id": "AI-ROW-0065",
+          "neutral_candidate_id": "AI-CAND-0065",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/page_resolver.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-0fd4ea3e4e6a:item2",
+          "neutral_row_id": "AI-ROW-0066",
+          "neutral_candidate_id": "AI-CAND-0066",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/conf.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-0fd4ea3e4e6a:item1",
+          "neutral_row_id": "AI-ROW-0067",
+          "neutral_candidate_id": "AI-CAND-0067",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/i18n.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-0fd4ea3e4e6a:item0",
+          "neutral_row_id": "AI-ROW-0068",
+          "neutral_candidate_id": "AI-CAND-0068",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/permissions.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-0fd4ea3e4e6a:item4",
+          "neutral_row_id": "AI-ROW-0069",
+          "neutral_candidate_id": "AI-CAND-0069",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/management/commands/subcommands/base.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-0fd4ea3e4e6a:item2",
+          "neutral_row_id": "AI-ROW-0070",
+          "neutral_candidate_id": "AI-CAND-0070",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/compat/tests.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-0fd4ea3e4e6a:item0",
+          "neutral_row_id": "AI-ROW-0071",
+          "neutral_candidate_id": "AI-CAND-0071",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/management/commands/subcommands/copy_lang.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-0fd4ea3e4e6a:item1",
+          "neutral_row_id": "AI-ROW-0072",
+          "neutral_candidate_id": "AI-CAND-0072",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/templatetags/cms_tags.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-0fd4ea3e4e6a:item4",
+          "neutral_row_id": "AI-ROW-0073",
+          "neutral_candidate_id": "AI-CAND-0073",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/__init__.py"
+        }
+      ]
+    },
+    "AI-CASE-006": {
+      "original_case_id": "djangocms-rc-2e090d6c2fd9",
+      "public_intent": "Added PageContent admin (#6503) * Added PageContent admin * Moved add/change endpoints to PageContent admin * Removed Page types (temporary)",
+      "rows": [
+        {
+          "original_row_id": "djangocms-rc-2e090d6c2fd9:item0",
+          "neutral_row_id": "AI-ROW-0074",
+          "neutral_candidate_id": "AI-CAND-0074",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/useradmin.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-2e090d6c2fd9:item1",
+          "neutral_row_id": "AI-ROW-0075",
+          "neutral_candidate_id": "AI-CAND-0075",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/admin/pageadmin.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-2e090d6c2fd9:item4",
+          "neutral_row_id": "AI-ROW-0076",
+          "neutral_candidate_id": "AI-CAND-0076",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "menus/menu_pool.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-2e090d6c2fd9:item0",
+          "neutral_row_id": "AI-ROW-0077",
+          "neutral_candidate_id": "AI-CAND-0077",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "menus/__init__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-2e090d6c2fd9:item0",
+          "neutral_row_id": "AI-ROW-0078",
+          "neutral_candidate_id": "AI-CAND-0078",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/admin/forms.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-2e090d6c2fd9:item4",
+          "neutral_row_id": "AI-ROW-0079",
+          "neutral_candidate_id": "AI-CAND-0079",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/forms/validators.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-2e090d6c2fd9:item7",
+          "neutral_row_id": "AI-ROW-0080",
+          "neutral_candidate_id": "AI-CAND-0080",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/models/titlemodels.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-2e090d6c2fd9:item8",
+          "neutral_row_id": "AI-ROW-0081",
+          "neutral_candidate_id": "AI-CAND-0081",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/templatetags/cms_admin.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-2e090d6c2fd9:item3",
+          "neutral_row_id": "AI-ROW-0082",
+          "neutral_candidate_id": "AI-CAND-0082",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/wizards/urls.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-2e090d6c2fd9:item3",
+          "neutral_row_id": "AI-ROW-0083",
+          "neutral_candidate_id": "AI-CAND-0083",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/cms_toolbars.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-2e090d6c2fd9:item2",
+          "neutral_row_id": "AI-ROW-0084",
+          "neutral_candidate_id": "AI-CAND-0084",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/permissionadmin.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-2e090d6c2fd9:item6",
+          "neutral_row_id": "AI-ROW-0085",
+          "neutral_candidate_id": "AI-CAND-0085",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/models/pagemodel.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-2e090d6c2fd9:item2",
+          "neutral_row_id": "AI-ROW-0086",
+          "neutral_candidate_id": "AI-CAND-0086",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/admin.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-2e090d6c2fd9:item4",
+          "neutral_row_id": "AI-ROW-0087",
+          "neutral_candidate_id": "AI-CAND-0087",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/settingsadmin.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-2e090d6c2fd9:item5",
+          "neutral_row_id": "AI-ROW-0088",
+          "neutral_candidate_id": "AI-CAND-0088",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/forms/wizards.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-2e090d6c2fd9:item1",
+          "neutral_row_id": "AI-ROW-0089",
+          "neutral_candidate_id": "AI-CAND-0089",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/templatetags/cms_admin.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-2e090d6c2fd9:item3",
+          "neutral_row_id": "AI-ROW-0090",
+          "neutral_candidate_id": "AI-CAND-0090",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/models/managers.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-2e090d6c2fd9:item1",
+          "neutral_row_id": "AI-ROW-0091",
+          "neutral_candidate_id": "AI-CAND-0091",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/extensions/admin.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-2e090d6c2fd9:item2",
+          "neutral_row_id": "AI-ROW-0092",
+          "neutral_candidate_id": "AI-CAND-0092",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/admin/permissionadmin.py"
+        }
+      ]
+    },
+    "AI-CASE-007": {
+      "original_case_id": "djangocms-rc-3a358b840d10",
+      "public_intent": "Fix Meta API deprecations",
+      "rows": [
+        {
+          "original_row_id": "djangocms-rc-3a358b840d10:item3",
+          "neutral_row_id": "AI-ROW-0093",
+          "neutral_candidate_id": "AI-CAND-0093",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/cache/placeholder.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-3a358b840d10:item3",
+          "neutral_row_id": "AI-ROW-0094",
+          "neutral_candidate_id": "AI-CAND-0094",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/__init__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-3a358b840d10:item1",
+          "neutral_row_id": "AI-ROW-0095",
+          "neutral_candidate_id": "AI-CAND-0095",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/placeholder.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-3a358b840d10:item0",
+          "neutral_row_id": "AI-ROW-0096",
+          "neutral_candidate_id": "AI-CAND-0096",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/models/pluginmodel.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-3a358b840d10:item1",
+          "neutral_row_id": "AI-ROW-0097",
+          "neutral_candidate_id": "AI-CAND-0097",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/check.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-3a358b840d10:item3",
+          "neutral_row_id": "AI-ROW-0098",
+          "neutral_candidate_id": "AI-CAND-0098",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/utils/check.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-3a358b840d10:item0",
+          "neutral_row_id": "AI-ROW-0099",
+          "neutral_candidate_id": "AI-CAND-0099",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/south_migrations/0040_auto__del_field_title_meta_keywords__chg_field_title_meta_description.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-3a358b840d10:item0",
+          "neutral_row_id": "AI-ROW-0100",
+          "neutral_candidate_id": "AI-CAND-0100",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/admin/placeholderadmin.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-3a358b840d10:item2",
+          "neutral_row_id": "AI-ROW-0101",
+          "neutral_candidate_id": "AI-CAND-0101",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/api.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-3a358b840d10:item2",
+          "neutral_row_id": "AI-ROW-0102",
+          "neutral_candidate_id": "AI-CAND-0102",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/management/commands/cms.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-3a358b840d10:item4",
+          "neutral_row_id": "AI-ROW-0103",
+          "neutral_candidate_id": "AI-CAND-0103",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/compat/tests.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-3a358b840d10:item2",
+          "neutral_row_id": "AI-ROW-0104",
+          "neutral_candidate_id": "AI-CAND-0104",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/models/pluginmodel.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-3a358b840d10:item4",
+          "neutral_row_id": "AI-ROW-0105",
+          "neutral_candidate_id": "AI-CAND-0105",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/forms.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-3a358b840d10:item1",
+          "neutral_row_id": "AI-ROW-0106",
+          "neutral_candidate_id": "AI-CAND-0106",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/extensions/models.py"
+        }
+      ]
+    },
+    "AI-CASE-008": {
+      "original_case_id": "djangocms-rc-61a5a1018e48",
+      "public_intent": "Remove some Context instances",
+      "rows": [
+        {
+          "original_row_id": "djangocms-rc-61a5a1018e48:item1",
+          "neutral_row_id": "AI-ROW-0107",
+          "neutral_candidate_id": "AI-CAND-0107",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/models/pagemodel.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-61a5a1018e48:item0",
+          "neutral_row_id": "AI-ROW-0108",
+          "neutral_candidate_id": "AI-CAND-0108",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/plugin_processors.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-61a5a1018e48:item2",
+          "neutral_row_id": "AI-ROW-0109",
+          "neutral_candidate_id": "AI-CAND-0109",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/placeholder.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-61a5a1018e48:item4",
+          "neutral_row_id": "AI-ROW-0110",
+          "neutral_candidate_id": "AI-CAND-0110",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/south_migrations/0054_new_publisher_data.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-61a5a1018e48:item1",
+          "neutral_row_id": "AI-ROW-0111",
+          "neutral_candidate_id": "AI-CAND-0111",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/plugin_rendering.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-61a5a1018e48:item3",
+          "neutral_row_id": "AI-ROW-0112",
+          "neutral_candidate_id": "AI-CAND-0112",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/__init__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-61a5a1018e48:item2",
+          "neutral_row_id": "AI-ROW-0113",
+          "neutral_candidate_id": "AI-CAND-0113",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/models/permissionmodels.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-61a5a1018e48:item1",
+          "neutral_row_id": "AI-ROW-0114",
+          "neutral_candidate_id": "AI-CAND-0114",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/plugin_rendering.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-61a5a1018e48:item3",
+          "neutral_row_id": "AI-ROW-0115",
+          "neutral_candidate_id": "AI-CAND-0115",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/extensions/extension_pool.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-61a5a1018e48:item4",
+          "neutral_row_id": "AI-ROW-0116",
+          "neutral_candidate_id": "AI-CAND-0116",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/pageadmin.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-61a5a1018e48:item0",
+          "neutral_row_id": "AI-ROW-0117",
+          "neutral_candidate_id": "AI-CAND-0117",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/page_rendering.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-61a5a1018e48:item0",
+          "neutral_row_id": "AI-ROW-0118",
+          "neutral_candidate_id": "AI-CAND-0118",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/south_migrations/0007_apphook_longer.py"
+        }
+      ]
+    },
+    "AI-CASE-009": {
+      "original_case_id": "djangocms-rc-54edd397e874",
+      "public_intent": "Fix incompatibility with 5299",
+      "rows": [
+        {
+          "original_row_id": "djangocms-rc-54edd397e874:item1",
+          "neutral_row_id": "AI-ROW-0119",
+          "neutral_candidate_id": "AI-CAND-0119",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/menu_bases.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-54edd397e874:item4",
+          "neutral_row_id": "AI-ROW-0120",
+          "neutral_candidate_id": "AI-CAND-0120",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/dialog/forms.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-54edd397e874:item0",
+          "neutral_row_id": "AI-ROW-0121",
+          "neutral_candidate_id": "AI-CAND-0121",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/toolbar/toolbar.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-54edd397e874:item1",
+          "neutral_row_id": "AI-ROW-0122",
+          "neutral_candidate_id": "AI-CAND-0122",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/models/aliaspluginmodel.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-54edd397e874:item1",
+          "neutral_row_id": "AI-ROW-0123",
+          "neutral_candidate_id": "AI-CAND-0123",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/__init__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-54edd397e874:item0",
+          "neutral_row_id": "AI-ROW-0124",
+          "neutral_candidate_id": "AI-CAND-0124",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/app_base.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-54edd397e874:item3",
+          "neutral_row_id": "AI-ROW-0125",
+          "neutral_candidate_id": "AI-CAND-0125",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/dialog/__init__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-54edd397e874:item3",
+          "neutral_row_id": "AI-ROW-0126",
+          "neutral_candidate_id": "AI-CAND-0126",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/compat/forms.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-54edd397e874:item0",
+          "neutral_row_id": "AI-ROW-0127",
+          "neutral_candidate_id": "AI-CAND-0127",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/__init__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-54edd397e874:item2",
+          "neutral_row_id": "AI-ROW-0128",
+          "neutral_candidate_id": "AI-CAND-0128",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/change_list.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-54edd397e874:item2",
+          "neutral_row_id": "AI-ROW-0129",
+          "neutral_candidate_id": "AI-CAND-0129",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/models/query.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-54edd397e874:item4",
+          "neutral_row_id": "AI-ROW-0130",
+          "neutral_candidate_id": "AI-CAND-0130",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/decorators.py"
+        }
+      ]
+    },
+    "AI-CASE-010": {
+      "original_case_id": "djangocms-rc-8579be00312e",
+      "public_intent": "Refactor request.placeholders to hold both placeholders and current user edit status for each",
+      "rows": [
+        {
+          "original_row_id": "djangocms-rc-8579be00312e:item1",
+          "neutral_row_id": "AI-ROW-0131",
+          "neutral_candidate_id": "AI-CAND-0131",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/permissions.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-8579be00312e:item2",
+          "neutral_row_id": "AI-ROW-0132",
+          "neutral_candidate_id": "AI-CAND-0132",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/middleware/toolbar.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-8579be00312e:item3",
+          "neutral_row_id": "AI-ROW-0133",
+          "neutral_candidate_id": "AI-CAND-0133",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/apps.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-8579be00312e:item0",
+          "neutral_row_id": "AI-ROW-0134",
+          "neutral_candidate_id": "AI-CAND-0134",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/middleware/user.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-8579be00312e:item1",
+          "neutral_row_id": "AI-ROW-0135",
+          "neutral_candidate_id": "AI-CAND-0135",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/cms_toolbars.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-8579be00312e:item2",
+          "neutral_row_id": "AI-ROW-0136",
+          "neutral_candidate_id": "AI-CAND-0136",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/__init__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-8579be00312e:item1",
+          "neutral_row_id": "AI-ROW-0137",
+          "neutral_candidate_id": "AI-CAND-0137",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/toolbar/items.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-8579be00312e:item3",
+          "neutral_row_id": "AI-ROW-0138",
+          "neutral_candidate_id": "AI-CAND-0138",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/plugin_rendering.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-8579be00312e:item3",
+          "neutral_row_id": "AI-ROW-0139",
+          "neutral_candidate_id": "AI-CAND-0139",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/useradmin.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-8579be00312e:item0",
+          "neutral_row_id": "AI-ROW-0140",
+          "neutral_candidate_id": "AI-CAND-0140",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/cache/page.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-8579be00312e:item4",
+          "neutral_row_id": "AI-ROW-0141",
+          "neutral_candidate_id": "AI-CAND-0141",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/middleware/page.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-8579be00312e:item0",
+          "neutral_row_id": "AI-ROW-0142",
+          "neutral_candidate_id": "AI-CAND-0142",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/compat/dj.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-8579be00312e:item4",
+          "neutral_row_id": "AI-ROW-0143",
+          "neutral_candidate_id": "AI-CAND-0143",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "menus/apps.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-8579be00312e:item4",
+          "neutral_row_id": "AI-ROW-0144",
+          "neutral_candidate_id": "AI-CAND-0144",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/templatetags/cms_tags.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-8579be00312e:item2",
+          "neutral_row_id": "AI-ROW-0145",
+          "neutral_candidate_id": "AI-CAND-0145",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/models/permissionmodels.py"
+        }
+      ]
+    },
+    "AI-CASE-011": {
+      "original_case_id": "djangocms-rc-f96c80357c71",
+      "public_intent": "Fixed an error caused by a ghost plugin with children (#5630)",
+      "rows": [
+        {
+          "original_row_id": "djangocms-rc-f96c80357c71:item3",
+          "neutral_row_id": "AI-ROW-0146",
+          "neutral_candidate_id": "AI-CAND-0146",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/plugin_processors.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-f96c80357c71:item1",
+          "neutral_row_id": "AI-ROW-0147",
+          "neutral_candidate_id": "AI-CAND-0147",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/toolbar/__init__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-f96c80357c71:item1",
+          "neutral_row_id": "AI-ROW-0148",
+          "neutral_candidate_id": "AI-CAND-0148",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/utils/plugins.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-f96c80357c71:item0",
+          "neutral_row_id": "AI-ROW-0149",
+          "neutral_candidate_id": "AI-CAND-0149",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/models/aliaspluginmodel.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-f96c80357c71:item0",
+          "neutral_row_id": "AI-ROW-0150",
+          "neutral_candidate_id": "AI-CAND-0150",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/exceptions.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-f96c80357c71:item4",
+          "neutral_row_id": "AI-ROW-0151",
+          "neutral_candidate_id": "AI-CAND-0151",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/publisher/errors.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-f96c80357c71:item2",
+          "neutral_row_id": "AI-ROW-0152",
+          "neutral_candidate_id": "AI-CAND-0152",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/plugin_pool.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-f96c80357c71:item4",
+          "neutral_row_id": "AI-ROW-0153",
+          "neutral_candidate_id": "AI-CAND-0153",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/cms_plugins.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-f96c80357c71:item1",
+          "neutral_row_id": "AI-ROW-0154",
+          "neutral_candidate_id": "AI-CAND-0154",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/plugin_base.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-f96c80357c71:item3",
+          "neutral_row_id": "AI-ROW-0155",
+          "neutral_candidate_id": "AI-CAND-0155",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/change_list.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-f96c80357c71:item2",
+          "neutral_row_id": "AI-ROW-0156",
+          "neutral_candidate_id": "AI-CAND-0156",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/compat/tests.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-f96c80357c71:item0",
+          "neutral_row_id": "AI-ROW-0157",
+          "neutral_candidate_id": "AI-CAND-0157",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/cms_plugins.py"
+        }
+      ]
+    },
+    "AI-CASE-012": {
+      "original_case_id": "djangocms-rc-3f68b1da08b1",
+      "public_intent": "add query string to static assets with cms version in order to bust cache every time new release is made",
+      "rows": [
+        {
+          "original_row_id": "djangocms-rc-3f68b1da08b1:item4",
+          "neutral_row_id": "AI-ROW-0158",
+          "neutral_candidate_id": "AI-CAND-0158",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/models/static_placeholder.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-3f68b1da08b1:item3",
+          "neutral_row_id": "AI-ROW-0159",
+          "neutral_candidate_id": "AI-CAND-0159",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/south_migrations/0072_auto__del_field_cmsplugin_rght__del_field_cmsplugin_level__del_field_c.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-3f68b1da08b1:item2",
+          "neutral_row_id": "AI-ROW-0160",
+          "neutral_candidate_id": "AI-CAND-0160",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/permissions.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-3f68b1da08b1:item2",
+          "neutral_row_id": "AI-ROW-0161",
+          "neutral_candidate_id": "AI-CAND-0161",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/wizards/forms.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-3f68b1da08b1:item1",
+          "neutral_row_id": "AI-ROW-0162",
+          "neutral_candidate_id": "AI-CAND-0162",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/cache/permissions.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-3f68b1da08b1:item1",
+          "neutral_row_id": "AI-ROW-0163",
+          "neutral_candidate_id": "AI-CAND-0163",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/signals/placeholder.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-3f68b1da08b1:item4",
+          "neutral_row_id": "AI-ROW-0164",
+          "neutral_candidate_id": "AI-CAND-0164",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/wizards/views.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-3f68b1da08b1:item0",
+          "neutral_row_id": "AI-ROW-0165",
+          "neutral_candidate_id": "AI-CAND-0165",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/cache/__init__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-3f68b1da08b1:item0",
+          "neutral_row_id": "AI-ROW-0166",
+          "neutral_candidate_id": "AI-CAND-0166",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/south_migrations/0032_auto__del_field_cmsplugin_publisher_public__del_field_cmsplugin_publis.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-3f68b1da08b1:item3",
+          "neutral_row_id": "AI-ROW-0167",
+          "neutral_candidate_id": "AI-CAND-0167",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/publisher/query.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-3f68b1da08b1:item1",
+          "neutral_row_id": "AI-ROW-0168",
+          "neutral_candidate_id": "AI-CAND-0168",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/templatetags/cms_admin.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-3f68b1da08b1:item0",
+          "neutral_row_id": "AI-ROW-0169",
+          "neutral_candidate_id": "AI-CAND-0169",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/forms/wizards.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-3f68b1da08b1:item2",
+          "neutral_row_id": "AI-ROW-0170",
+          "neutral_candidate_id": "AI-CAND-0170",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/models/query.py"
+        }
+      ]
+    },
+    "AI-CASE-013": {
+      "original_case_id": "djangocms-rc-b740724656f0",
+      "public_intent": "Initial compatibility",
+      "rows": [
+        {
+          "original_row_id": "djangocms-rc-b740724656f0:item2",
+          "neutral_row_id": "AI-ROW-0171",
+          "neutral_candidate_id": "AI-CAND-0171",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/templatetags/cms_tags.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-b740724656f0:item2",
+          "neutral_row_id": "AI-ROW-0172",
+          "neutral_candidate_id": "AI-CAND-0172",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/change_list.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-b740724656f0:item2",
+          "neutral_row_id": "AI-ROW-0173",
+          "neutral_candidate_id": "AI-CAND-0173",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/extensions/models.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-b740724656f0:item4",
+          "neutral_row_id": "AI-ROW-0174",
+          "neutral_candidate_id": "AI-CAND-0174",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/pageadmin.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-b740724656f0:item4",
+          "neutral_row_id": "AI-ROW-0175",
+          "neutral_candidate_id": "AI-CAND-0175",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/utils/compat/__init__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-b740724656f0:item1",
+          "neutral_row_id": "AI-ROW-0176",
+          "neutral_candidate_id": "AI-CAND-0176",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/forms/widgets.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-b740724656f0:item4",
+          "neutral_row_id": "AI-ROW-0177",
+          "neutral_candidate_id": "AI-CAND-0177",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/models/settingmodels.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-b740724656f0:item5",
+          "neutral_row_id": "AI-ROW-0178",
+          "neutral_candidate_id": "AI-CAND-0178",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/wizards/forms.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-b740724656f0:item0",
+          "neutral_row_id": "AI-ROW-0179",
+          "neutral_candidate_id": "AI-CAND-0179",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/admin/forms.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-b740724656f0:item1",
+          "neutral_row_id": "AI-ROW-0180",
+          "neutral_candidate_id": "AI-CAND-0180",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/api.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-b740724656f0:item0",
+          "neutral_row_id": "AI-ROW-0181",
+          "neutral_candidate_id": "AI-CAND-0181",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/__init__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-b740724656f0:item3",
+          "neutral_row_id": "AI-ROW-0182",
+          "neutral_candidate_id": "AI-CAND-0182",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/forms.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-b740724656f0:item3",
+          "neutral_row_id": "AI-ROW-0183",
+          "neutral_candidate_id": "AI-CAND-0183",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "menus/models.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-b740724656f0:item1",
+          "neutral_row_id": "AI-ROW-0184",
+          "neutral_candidate_id": "AI-CAND-0184",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/__init__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-b740724656f0:item3",
+          "neutral_row_id": "AI-ROW-0185",
+          "neutral_candidate_id": "AI-CAND-0185",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/templatetags/cms_wizard_tags.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-b740724656f0:item6",
+          "neutral_row_id": "AI-ROW-0186",
+          "neutral_candidate_id": "AI-CAND-0186",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/wizards/wizard_base.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-b740724656f0:item0",
+          "neutral_row_id": "AI-ROW-0187",
+          "neutral_candidate_id": "AI-CAND-0187",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/cache/choices.py"
+        }
+      ]
+    },
+    "AI-CASE-014": {
+      "original_case_id": "djangocms-rc-829f7e224887",
+      "public_intent": "Fixed #5947 -- Don't delete menu cache keys from the database",
+      "rows": [
+        {
+          "original_row_id": "djangocms-rc-829f7e224887:item1",
+          "neutral_row_id": "AI-ROW-0188",
+          "neutral_candidate_id": "AI-CAND-0188",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/cache/page.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-829f7e224887:item3",
+          "neutral_row_id": "AI-ROW-0189",
+          "neutral_candidate_id": "AI-CAND-0189",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/menu_bases.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-829f7e224887:item0",
+          "neutral_row_id": "AI-ROW-0190",
+          "neutral_candidate_id": "AI-CAND-0190",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/management/commands/subcommands/check.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-829f7e224887:item4",
+          "neutral_row_id": "AI-ROW-0191",
+          "neutral_candidate_id": "AI-CAND-0191",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/signals/permissions.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-829f7e224887:item2",
+          "neutral_row_id": "AI-ROW-0192",
+          "neutral_candidate_id": "AI-CAND-0192",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/forms/utils.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-829f7e224887:item0",
+          "neutral_row_id": "AI-ROW-0193",
+          "neutral_candidate_id": "AI-CAND-0193",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/cache/permissions.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-829f7e224887:item3",
+          "neutral_row_id": "AI-ROW-0194",
+          "neutral_candidate_id": "AI-CAND-0194",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/django_load.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-829f7e224887:item4",
+          "neutral_row_id": "AI-ROW-0195",
+          "neutral_candidate_id": "AI-CAND-0195",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/toolbar_base.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-829f7e224887:item0",
+          "neutral_row_id": "AI-ROW-0196",
+          "neutral_candidate_id": "AI-CAND-0196",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/cms_menus.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-829f7e224887:item1",
+          "neutral_row_id": "AI-ROW-0197",
+          "neutral_candidate_id": "AI-CAND-0197",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "menus/menu_pool.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-829f7e224887:item1",
+          "neutral_row_id": "AI-ROW-0198",
+          "neutral_candidate_id": "AI-CAND-0198",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "menus/modifiers.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-829f7e224887:item2",
+          "neutral_row_id": "AI-ROW-0199",
+          "neutral_candidate_id": "AI-CAND-0199",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "menus/models.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-829f7e224887:item2",
+          "neutral_row_id": "AI-ROW-0200",
+          "neutral_candidate_id": "AI-CAND-0200",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "menus/models.py"
+        }
+      ]
+    },
+    "AI-CASE-015": {
+      "original_case_id": "djangocms-rc-b4ca4580aaa7",
+      "public_intent": "Removed deprecated features (#5633) * Removed deprecated features * Removed deprecated CMS_UNESCAPED_RENDER_MODEL_TAGS setting and behavior * Added notes for preventing escape on render_x tags",
+      "rows": [
+        {
+          "original_row_id": "djangocms-rc-b4ca4580aaa7:item3",
+          "neutral_row_id": "AI-ROW-0201",
+          "neutral_candidate_id": "AI-CAND-0201",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/templatetags/cms_wizard_tags.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-b4ca4580aaa7:item8",
+          "neutral_row_id": "AI-ROW-0202",
+          "neutral_candidate_id": "AI-CAND-0202",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/utils/conf.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-b4ca4580aaa7:item1",
+          "neutral_row_id": "AI-ROW-0203",
+          "neutral_candidate_id": "AI-CAND-0203",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/models/pluginmodel.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-b4ca4580aaa7:item0",
+          "neutral_row_id": "AI-ROW-0204",
+          "neutral_candidate_id": "AI-CAND-0204",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/apphook_pool.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-b4ca4580aaa7:item2",
+          "neutral_row_id": "AI-ROW-0205",
+          "neutral_candidate_id": "AI-CAND-0205",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/plugin_base.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-b4ca4580aaa7:item6",
+          "neutral_row_id": "AI-ROW-0206",
+          "neutral_candidate_id": "AI-CAND-0206",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/toolbar_pool.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-b4ca4580aaa7:item4",
+          "neutral_row_id": "AI-ROW-0207",
+          "neutral_candidate_id": "AI-CAND-0207",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/moderator.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-b4ca4580aaa7:item5",
+          "neutral_row_id": "AI-ROW-0208",
+          "neutral_candidate_id": "AI-CAND-0208",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/templatetags/cms_tags.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-b4ca4580aaa7:item4",
+          "neutral_row_id": "AI-ROW-0209",
+          "neutral_candidate_id": "AI-CAND-0209",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/plugin_processors.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-b4ca4580aaa7:item3",
+          "neutral_row_id": "AI-ROW-0210",
+          "neutral_candidate_id": "AI-CAND-0210",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/plugin_pool.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-b4ca4580aaa7:item7",
+          "neutral_row_id": "AI-ROW-0211",
+          "neutral_candidate_id": "AI-CAND-0211",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/utils/check.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-b4ca4580aaa7:item0",
+          "neutral_row_id": "AI-ROW-0212",
+          "neutral_candidate_id": "AI-CAND-0212",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/models/titlemodels.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-b4ca4580aaa7:item0",
+          "neutral_row_id": "AI-ROW-0213",
+          "neutral_candidate_id": "AI-CAND-0213",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/templatetags/cms_js_tags.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-b4ca4580aaa7:item1",
+          "neutral_row_id": "AI-ROW-0214",
+          "neutral_candidate_id": "AI-CAND-0214",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/wizards/views.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-b4ca4580aaa7:item3",
+          "neutral_row_id": "AI-ROW-0215",
+          "neutral_candidate_id": "AI-CAND-0215",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/templatetags/cms_admin.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-b4ca4580aaa7:item4",
+          "neutral_row_id": "AI-ROW-0216",
+          "neutral_candidate_id": "AI-CAND-0216",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/wizards/wizard_pool.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-b4ca4580aaa7:item2",
+          "neutral_row_id": "AI-ROW-0217",
+          "neutral_candidate_id": "AI-CAND-0217",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/extensions/__init__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-b4ca4580aaa7:item2",
+          "neutral_row_id": "AI-ROW-0218",
+          "neutral_candidate_id": "AI-CAND-0218",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/models/aliaspluginmodel.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-b4ca4580aaa7:item1",
+          "neutral_row_id": "AI-ROW-0219",
+          "neutral_candidate_id": "AI-CAND-0219",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/models/pluginmodel.py"
+        }
+      ]
+    },
+    "AI-CASE-016": {
+      "original_case_id": "djangocms-rc-97c50fee715d",
+      "public_intent": "Initial implementation",
+      "rows": [
+        {
+          "original_row_id": "djangocms-rc-97c50fee715d:item2",
+          "neutral_row_id": "AI-ROW-0220",
+          "neutral_candidate_id": "AI-CAND-0220",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/change_list.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-97c50fee715d:item1",
+          "neutral_row_id": "AI-ROW-0221",
+          "neutral_candidate_id": "AI-CAND-0221",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/utils/conf.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-97c50fee715d:item0",
+          "neutral_row_id": "AI-ROW-0222",
+          "neutral_candidate_id": "AI-CAND-0222",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/__init__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-97c50fee715d:item4",
+          "neutral_row_id": "AI-ROW-0223",
+          "neutral_candidate_id": "AI-CAND-0223",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/dialog/forms.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-97c50fee715d:item2",
+          "neutral_row_id": "AI-ROW-0224",
+          "neutral_candidate_id": "AI-CAND-0224",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "menus/menu_pool.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-97c50fee715d:item3",
+          "neutral_row_id": "AI-ROW-0225",
+          "neutral_candidate_id": "AI-CAND-0225",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/extensions/toolbar.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-97c50fee715d:item4",
+          "neutral_row_id": "AI-ROW-0226",
+          "neutral_candidate_id": "AI-CAND-0226",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/decorators.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-97c50fee715d:item3",
+          "neutral_row_id": "AI-ROW-0227",
+          "neutral_candidate_id": "AI-CAND-0227",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/dialog/__init__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-97c50fee715d:item1",
+          "neutral_row_id": "AI-ROW-0228",
+          "neutral_candidate_id": "AI-CAND-0228",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/useradmin.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-97c50fee715d:item1",
+          "neutral_row_id": "AI-ROW-0229",
+          "neutral_candidate_id": "AI-CAND-0229",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/__init__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-97c50fee715d:item0",
+          "neutral_row_id": "AI-ROW-0230",
+          "neutral_candidate_id": "AI-CAND-0230",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/middleware/toolbar.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-97c50fee715d:item0",
+          "neutral_row_id": "AI-ROW-0231",
+          "neutral_candidate_id": "AI-CAND-0231",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/helpers.py"
+        }
+      ]
+    },
+    "AI-CASE-017": {
+      "original_case_id": "djangocms-rc-2403d4ea162b",
+      "public_intent": "fix: deleting users cascaded to deleting PageUser or PageUserGroup (#8167) * docs: Update release notes * fix: deleting users cascaded to deleting PageUser or PageUserGroup",
+      "rows": [
+        {
+          "original_row_id": "djangocms-rc-2403d4ea162b:item0",
+          "neutral_row_id": "AI-ROW-0232",
+          "neutral_candidate_id": "AI-CAND-0232",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/models/permissionmodels.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-2403d4ea162b:item2",
+          "neutral_row_id": "AI-ROW-0233",
+          "neutral_candidate_id": "AI-CAND-0233",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/__init__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-2403d4ea162b:item0",
+          "neutral_row_id": "AI-ROW-0234",
+          "neutral_candidate_id": "AI-CAND-0234",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/signals/permissions.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-2403d4ea162b:item0",
+          "neutral_row_id": "AI-ROW-0235",
+          "neutral_candidate_id": "AI-CAND-0235",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/extensions/extension_pool.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-2403d4ea162b:item2",
+          "neutral_row_id": "AI-ROW-0236",
+          "neutral_candidate_id": "AI-CAND-0236",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/permissions.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-2403d4ea162b:item1",
+          "neutral_row_id": "AI-ROW-0237",
+          "neutral_candidate_id": "AI-CAND-0237",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/templatetags/cms_static.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-2403d4ea162b:item3",
+          "neutral_row_id": "AI-ROW-0238",
+          "neutral_candidate_id": "AI-CAND-0238",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/page_permissions.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-2403d4ea162b:item4",
+          "neutral_row_id": "AI-ROW-0239",
+          "neutral_candidate_id": "AI-CAND-0239",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/cms_toolbars.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-2403d4ea162b:item4",
+          "neutral_row_id": "AI-ROW-0240",
+          "neutral_candidate_id": "AI-CAND-0240",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/forms.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-2403d4ea162b:item1",
+          "neutral_row_id": "AI-ROW-0241",
+          "neutral_candidate_id": "AI-CAND-0241",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/useradmin.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-2403d4ea162b:item3",
+          "neutral_row_id": "AI-ROW-0242",
+          "neutral_candidate_id": "AI-CAND-0242",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/cache/placeholder.py"
+        }
+      ]
+    },
+    "AI-CASE-018": {
+      "original_case_id": "djangocms-rc-4e69677c94cd",
+      "public_intent": "Use a method to get CMSApp.urls, to allow passing a page object to it (#5080) * Use a method to get CMSApp.urls, to allow passing a page object to it * Backward compatible implementation * Add generic kwargs to CMSApp.get_urls * Use new API for CMSApp.menus too * Add language argument to CMSApp.get_urls and CMSApp.get_menus * Add documentation * Add CMSApp documentation * Add tests * Ignore the menu nodes when we don't need them",
+      "rows": [
+        {
+          "original_row_id": "djangocms-rc-4e69677c94cd:item2",
+          "neutral_row_id": "AI-ROW-0243",
+          "neutral_candidate_id": "AI-CAND-0243",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/appresolver.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-4e69677c94cd:item3",
+          "neutral_row_id": "AI-ROW-0244",
+          "neutral_candidate_id": "AI-CAND-0244",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/management/commands/subcommands/delete_orphaned_plugins.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-4e69677c94cd:item3",
+          "neutral_row_id": "AI-ROW-0245",
+          "neutral_candidate_id": "AI-CAND-0245",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/templatetags/cms_tags.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-4e69677c94cd:item4",
+          "neutral_row_id": "AI-ROW-0246",
+          "neutral_candidate_id": "AI-CAND-0246",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/permissions.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-4e69677c94cd:item4",
+          "neutral_row_id": "AI-ROW-0247",
+          "neutral_candidate_id": "AI-CAND-0247",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/views.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-4e69677c94cd:item2",
+          "neutral_row_id": "AI-ROW-0248",
+          "neutral_candidate_id": "AI-CAND-0248",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/i18n.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-4e69677c94cd:item3",
+          "neutral_row_id": "AI-ROW-0249",
+          "neutral_candidate_id": "AI-CAND-0249",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/cms_menus.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-4e69677c94cd:item1",
+          "neutral_row_id": "AI-ROW-0250",
+          "neutral_candidate_id": "AI-CAND-0250",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/apphook_pool.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-4e69677c94cd:item0",
+          "neutral_row_id": "AI-ROW-0251",
+          "neutral_candidate_id": "AI-CAND-0251",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/app_base.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-4e69677c94cd:item1",
+          "neutral_row_id": "AI-ROW-0252",
+          "neutral_candidate_id": "AI-CAND-0252",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/views.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-4e69677c94cd:item0",
+          "neutral_row_id": "AI-ROW-0253",
+          "neutral_candidate_id": "AI-CAND-0253",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/forms/fields.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-4e69677c94cd:item1",
+          "neutral_row_id": "AI-ROW-0254",
+          "neutral_candidate_id": "AI-CAND-0254",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "menus/templatetags/menu_tags.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-4e69677c94cd:item0",
+          "neutral_row_id": "AI-ROW-0255",
+          "neutral_candidate_id": "AI-CAND-0255",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "menus/menu_pool.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-4e69677c94cd:item4",
+          "neutral_row_id": "AI-ROW-0256",
+          "neutral_candidate_id": "AI-CAND-0256",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/moderator.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-4e69677c94cd:item2",
+          "neutral_row_id": "AI-ROW-0257",
+          "neutral_candidate_id": "AI-CAND-0257",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/request_ip_resolvers.py"
+        }
+      ]
+    },
+    "AI-CASE-019": {
+      "original_case_id": "djangocms-rc-53e4e887073b",
+      "public_intent": "Renamed set_homepage to set_as_homepage (classmethod to method) (#6218) Also changed the default page cache prefix",
+      "rows": [
+        {
+          "original_row_id": "djangocms-rc-53e4e887073b:item1",
+          "neutral_row_id": "AI-ROW-0258",
+          "neutral_candidate_id": "AI-CAND-0258",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/admin/pageadmin.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-53e4e887073b:item0",
+          "neutral_row_id": "AI-ROW-0259",
+          "neutral_candidate_id": "AI-CAND-0259",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/cache/__init__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-53e4e887073b:item1",
+          "neutral_row_id": "AI-ROW-0260",
+          "neutral_candidate_id": "AI-CAND-0260",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/forms.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-53e4e887073b:item4",
+          "neutral_row_id": "AI-ROW-0261",
+          "neutral_candidate_id": "AI-CAND-0261",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/models/pagemodel.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-53e4e887073b:item4",
+          "neutral_row_id": "AI-ROW-0262",
+          "neutral_candidate_id": "AI-CAND-0262",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/models/query.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-53e4e887073b:item2",
+          "neutral_row_id": "AI-ROW-0263",
+          "neutral_candidate_id": "AI-CAND-0263",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/cache/__init__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-53e4e887073b:item3",
+          "neutral_row_id": "AI-ROW-0264",
+          "neutral_candidate_id": "AI-CAND-0264",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/cache/choices.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-53e4e887073b:item4",
+          "neutral_row_id": "AI-ROW-0265",
+          "neutral_candidate_id": "AI-CAND-0265",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/management/commands/subcommands/delete_orphaned_plugins.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-53e4e887073b:item2",
+          "neutral_row_id": "AI-ROW-0266",
+          "neutral_candidate_id": "AI-CAND-0266",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/cache/permissions.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-53e4e887073b:item0",
+          "neutral_row_id": "AI-ROW-0267",
+          "neutral_candidate_id": "AI-CAND-0267",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/models/metaclasses.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-53e4e887073b:item1",
+          "neutral_row_id": "AI-ROW-0268",
+          "neutral_candidate_id": "AI-CAND-0268",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/cache/placeholder.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-53e4e887073b:item3",
+          "neutral_row_id": "AI-ROW-0269",
+          "neutral_candidate_id": "AI-CAND-0269",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/management/commands/subcommands/copy.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-53e4e887073b:item3",
+          "neutral_row_id": "AI-ROW-0270",
+          "neutral_candidate_id": "AI-CAND-0270",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/compat/forms.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-53e4e887073b:item2",
+          "neutral_row_id": "AI-ROW-0271",
+          "neutral_candidate_id": "AI-CAND-0271",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/page_rendering.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-53e4e887073b:item5",
+          "neutral_row_id": "AI-ROW-0272",
+          "neutral_candidate_id": "AI-CAND-0272",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/utils/conf.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-53e4e887073b:item6",
+          "neutral_row_id": "AI-ROW-0273",
+          "neutral_candidate_id": "AI-CAND-0273",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "menus/menu_pool.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-53e4e887073b:item0",
+          "neutral_row_id": "AI-ROW-0274",
+          "neutral_candidate_id": "AI-CAND-0274",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/admin/forms.py"
+        }
+      ]
+    },
+    "AI-CASE-020": {
+      "original_case_id": "djangocms-rc-5cc4ba2f53d3",
+      "public_intent": "Final fixes?",
+      "rows": [
+        {
+          "original_row_id": "djangocms-rc-5cc4ba2f53d3:item1",
+          "neutral_row_id": "AI-ROW-0275",
+          "neutral_candidate_id": "AI-CAND-0275",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/__init__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-5cc4ba2f53d3:item0",
+          "neutral_row_id": "AI-ROW-0276",
+          "neutral_candidate_id": "AI-CAND-0276",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/cms_wizards.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-5cc4ba2f53d3:item4",
+          "neutral_row_id": "AI-ROW-0277",
+          "neutral_candidate_id": "AI-CAND-0277",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/dialog/forms.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-5cc4ba2f53d3:item2",
+          "neutral_row_id": "AI-ROW-0278",
+          "neutral_candidate_id": "AI-CAND-0278",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/permissionadmin.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-5cc4ba2f53d3:item4",
+          "neutral_row_id": "AI-ROW-0279",
+          "neutral_candidate_id": "AI-CAND-0279",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/useradmin.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-5cc4ba2f53d3:item1",
+          "neutral_row_id": "AI-ROW-0280",
+          "neutral_candidate_id": "AI-CAND-0280",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/forms/wizards.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-5cc4ba2f53d3:item1",
+          "neutral_row_id": "AI-ROW-0281",
+          "neutral_candidate_id": "AI-CAND-0281",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/views.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-5cc4ba2f53d3:item3",
+          "neutral_row_id": "AI-ROW-0282",
+          "neutral_candidate_id": "AI-CAND-0282",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/south_migrations/0030_limit_visibility_in_menu_step3of3.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-5cc4ba2f53d3:item2",
+          "neutral_row_id": "AI-ROW-0283",
+          "neutral_candidate_id": "AI-CAND-0283",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/change_list.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-5cc4ba2f53d3:item0",
+          "neutral_row_id": "AI-ROW-0284",
+          "neutral_candidate_id": "AI-CAND-0284",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/__init__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-5cc4ba2f53d3:item2",
+          "neutral_row_id": "AI-ROW-0285",
+          "neutral_candidate_id": "AI-CAND-0285",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/utils/permissions.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-5cc4ba2f53d3:item3",
+          "neutral_row_id": "AI-ROW-0286",
+          "neutral_candidate_id": "AI-CAND-0286",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/dialog/__init__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-5cc4ba2f53d3:item0",
+          "neutral_row_id": "AI-ROW-0287",
+          "neutral_candidate_id": "AI-CAND-0287",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/__init__.py"
+        }
+      ]
+    },
+    "AI-CASE-021": {
+      "original_case_id": "djangocms-rc-c9c4665b858e",
+      "public_intent": "Added logic to allow plugins to determine which child and parent classes are allowed per plugin instance.",
+      "rows": [
+        {
+          "original_row_id": "djangocms-rc-c9c4665b858e:item3",
+          "neutral_row_id": "AI-ROW-0288",
+          "neutral_candidate_id": "AI-CAND-0288",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/copy_plugins.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-c9c4665b858e:item2",
+          "neutral_row_id": "AI-ROW-0289",
+          "neutral_candidate_id": "AI-CAND-0289",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "menus/exceptions.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-c9c4665b858e:item4",
+          "neutral_row_id": "AI-ROW-0290",
+          "neutral_candidate_id": "AI-CAND-0290",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/management/commands/subcommands/list.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-c9c4665b858e:item0",
+          "neutral_row_id": "AI-ROW-0291",
+          "neutral_candidate_id": "AI-CAND-0291",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/plugin_base.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-c9c4665b858e:item1",
+          "neutral_row_id": "AI-ROW-0292",
+          "neutral_candidate_id": "AI-CAND-0292",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/cms_plugins.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-c9c4665b858e:item1",
+          "neutral_row_id": "AI-ROW-0293",
+          "neutral_candidate_id": "AI-CAND-0293",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/plugin_rendering.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-c9c4665b858e:item4",
+          "neutral_row_id": "AI-ROW-0294",
+          "neutral_candidate_id": "AI-CAND-0294",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/__init__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-c9c4665b858e:item0",
+          "neutral_row_id": "AI-ROW-0295",
+          "neutral_candidate_id": "AI-CAND-0295",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/plugins.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-c9c4665b858e:item3",
+          "neutral_row_id": "AI-ROW-0296",
+          "neutral_candidate_id": "AI-CAND-0296",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/signals/plugins.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-c9c4665b858e:item1",
+          "neutral_row_id": "AI-ROW-0297",
+          "neutral_candidate_id": "AI-CAND-0297",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/wizards/views.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-c9c4665b858e:item2",
+          "neutral_row_id": "AI-ROW-0298",
+          "neutral_candidate_id": "AI-CAND-0298",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/templatetags/cms_js_tags.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-c9c4665b858e:item2",
+          "neutral_row_id": "AI-ROW-0299",
+          "neutral_candidate_id": "AI-CAND-0299",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/forms/wizards.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-c9c4665b858e:item0",
+          "neutral_row_id": "AI-ROW-0300",
+          "neutral_candidate_id": "AI-CAND-0300",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/forms/fields.py"
+        }
+      ]
+    },
+    "AI-CASE-022": {
+      "original_case_id": "djangocms-rc-121ff74d760a",
+      "public_intent": "fix versioning links (#7795)",
+      "rows": [
+        {
+          "original_row_id": "djangocms-rc-121ff74d760a:item2",
+          "neutral_row_id": "AI-ROW-0301",
+          "neutral_candidate_id": "AI-CAND-0301",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/__init__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-121ff74d760a:item2",
+          "neutral_row_id": "AI-ROW-0302",
+          "neutral_candidate_id": "AI-CAND-0302",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/operations/__init__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-121ff74d760a:item4",
+          "neutral_row_id": "AI-ROW-0303",
+          "neutral_candidate_id": "AI-CAND-0303",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/pageadmin.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-121ff74d760a:item1",
+          "neutral_row_id": "AI-ROW-0304",
+          "neutral_candidate_id": "AI-CAND-0304",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/management/commands/subcommands/__init__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-121ff74d760a:item0",
+          "neutral_row_id": "AI-ROW-0305",
+          "neutral_candidate_id": "AI-CAND-0305",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/api.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-121ff74d760a:item1",
+          "neutral_row_id": "AI-ROW-0306",
+          "neutral_candidate_id": "AI-CAND-0306",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/extensions/models.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-121ff74d760a:item0",
+          "neutral_row_id": "AI-ROW-0307",
+          "neutral_candidate_id": "AI-CAND-0307",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/__init__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-121ff74d760a:item1",
+          "neutral_row_id": "AI-ROW-0308",
+          "neutral_candidate_id": "AI-CAND-0308",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/__main__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-121ff74d760a:item3",
+          "neutral_row_id": "AI-ROW-0309",
+          "neutral_candidate_id": "AI-CAND-0309",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/toolbar/__init__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-121ff74d760a:item3",
+          "neutral_row_id": "AI-ROW-0310",
+          "neutral_candidate_id": "AI-CAND-0310",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/forms.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-121ff74d760a:item4",
+          "neutral_row_id": "AI-ROW-0311",
+          "neutral_candidate_id": "AI-CAND-0311",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "menus/templatetags/menu_tags.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-121ff74d760a:item0",
+          "neutral_row_id": "AI-ROW-0312",
+          "neutral_candidate_id": "AI-CAND-0312",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/wizards/helpers.py"
+        }
+      ]
+    },
+    "AI-CASE-023": {
+      "original_case_id": "djangocms-rc-98e211c879c6",
+      "public_intent": "Initial commit",
+      "rows": [
+        {
+          "original_row_id": "djangocms-rc-98e211c879c6:item4",
+          "neutral_row_id": "AI-ROW-0313",
+          "neutral_candidate_id": "AI-CAND-0313",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/dialog/forms.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-98e211c879c6:item0",
+          "neutral_row_id": "AI-ROW-0314",
+          "neutral_candidate_id": "AI-CAND-0314",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/middleware/utils.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-98e211c879c6:item2",
+          "neutral_row_id": "AI-ROW-0315",
+          "neutral_candidate_id": "AI-CAND-0315",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/cms_wizards.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-98e211c879c6:item2",
+          "neutral_row_id": "AI-ROW-0316",
+          "neutral_candidate_id": "AI-CAND-0316",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/models/pagemodel.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-98e211c879c6:item4",
+          "neutral_row_id": "AI-ROW-0317",
+          "neutral_candidate_id": "AI-CAND-0317",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/helpers.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-98e211c879c6:item2",
+          "neutral_row_id": "AI-ROW-0318",
+          "neutral_candidate_id": "AI-CAND-0318",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/change_list.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-98e211c879c6:item6",
+          "neutral_row_id": "AI-ROW-0319",
+          "neutral_candidate_id": "AI-CAND-0319",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/templatetags/cms_tags.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-98e211c879c6:item0",
+          "neutral_row_id": "AI-ROW-0320",
+          "neutral_candidate_id": "AI-CAND-0320",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/__init__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-98e211c879c6:item7",
+          "neutral_row_id": "AI-ROW-0321",
+          "neutral_candidate_id": "AI-CAND-0321",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/utils/helpers.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-98e211c879c6:item3",
+          "neutral_row_id": "AI-ROW-0322",
+          "neutral_candidate_id": "AI-CAND-0322",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/dialog/__init__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-98e211c879c6:item3",
+          "neutral_row_id": "AI-ROW-0323",
+          "neutral_candidate_id": "AI-CAND-0323",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/models/placeholdermodel.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-98e211c879c6:item5",
+          "neutral_row_id": "AI-ROW-0324",
+          "neutral_candidate_id": "AI-CAND-0324",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/plugin_rendering.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-98e211c879c6:item1",
+          "neutral_row_id": "AI-ROW-0325",
+          "neutral_candidate_id": "AI-CAND-0325",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/__init__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-98e211c879c6:item0",
+          "neutral_row_id": "AI-ROW-0326",
+          "neutral_candidate_id": "AI-CAND-0326",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/cache/page.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-98e211c879c6:item1",
+          "neutral_row_id": "AI-ROW-0327",
+          "neutral_candidate_id": "AI-CAND-0327",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/cache/placeholder.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-98e211c879c6:item1",
+          "neutral_row_id": "AI-ROW-0328",
+          "neutral_candidate_id": "AI-CAND-0328",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/cms_plugins.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-98e211c879c6:item4",
+          "neutral_row_id": "AI-ROW-0329",
+          "neutral_candidate_id": "AI-CAND-0329",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/plugin_base.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-98e211c879c6:item3",
+          "neutral_row_id": "AI-ROW-0330",
+          "neutral_candidate_id": "AI-CAND-0330",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/toolbar/__init__.py"
+        }
+      ]
+    },
+    "AI-CASE-024": {
+      "original_case_id": "djangocms-rc-1f78303c1e5c",
+      "public_intent": "Refs #6083 -- Added on_delete for all ForeignKeys and OneToOneFields (#6108)",
+      "rows": [
+        {
+          "original_row_id": "djangocms-rc-1f78303c1e5c:item7",
+          "neutral_row_id": "AI-ROW-0331",
+          "neutral_candidate_id": "AI-CAND-0331",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/models/settingmodels.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-1f78303c1e5c:item3",
+          "neutral_row_id": "AI-ROW-0332",
+          "neutral_candidate_id": "AI-CAND-0332",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/models/pagemodel.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-1f78303c1e5c:item9",
+          "neutral_row_id": "AI-ROW-0333",
+          "neutral_candidate_id": "AI-CAND-0333",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/models/titlemodels.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-1f78303c1e5c:item2",
+          "neutral_row_id": "AI-ROW-0334",
+          "neutral_candidate_id": "AI-CAND-0334",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/models/fields.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-1f78303c1e5c:item8",
+          "neutral_row_id": "AI-ROW-0335",
+          "neutral_candidate_id": "AI-CAND-0335",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/models/static_placeholder.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-1f78303c1e5c:item3",
+          "neutral_row_id": "AI-ROW-0336",
+          "neutral_candidate_id": "AI-CAND-0336",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/management/commands/cms.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-1f78303c1e5c:item1",
+          "neutral_row_id": "AI-ROW-0337",
+          "neutral_candidate_id": "AI-CAND-0337",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/signals/apphook.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-1f78303c1e5c:item4",
+          "neutral_row_id": "AI-ROW-0338",
+          "neutral_candidate_id": "AI-CAND-0338",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/forms/fields.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-1f78303c1e5c:item4",
+          "neutral_row_id": "AI-ROW-0339",
+          "neutral_candidate_id": "AI-CAND-0339",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/urlutils.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-1f78303c1e5c:item0",
+          "neutral_row_id": "AI-ROW-0340",
+          "neutral_candidate_id": "AI-CAND-0340",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/page_permissions.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-1f78303c1e5c:item6",
+          "neutral_row_id": "AI-ROW-0341",
+          "neutral_candidate_id": "AI-CAND-0341",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/models/pluginmodel.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-1f78303c1e5c:item1",
+          "neutral_row_id": "AI-ROW-0342",
+          "neutral_candidate_id": "AI-CAND-0342",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/signals/placeholder.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-1f78303c1e5c:item5",
+          "neutral_row_id": "AI-ROW-0343",
+          "neutral_candidate_id": "AI-CAND-0343",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/models/placeholderpluginmodel.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-1f78303c1e5c:item0",
+          "neutral_row_id": "AI-ROW-0344",
+          "neutral_candidate_id": "AI-CAND-0344",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/templates.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-1f78303c1e5c:item2",
+          "neutral_row_id": "AI-ROW-0345",
+          "neutral_candidate_id": "AI-CAND-0345",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/signals/plugins.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-1f78303c1e5c:item2",
+          "neutral_row_id": "AI-ROW-0346",
+          "neutral_candidate_id": "AI-CAND-0346",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/compat/forms.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-1f78303c1e5c:item4",
+          "neutral_row_id": "AI-ROW-0347",
+          "neutral_candidate_id": "AI-CAND-0347",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/models/permissionmodels.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-1f78303c1e5c:item0",
+          "neutral_row_id": "AI-ROW-0348",
+          "neutral_candidate_id": "AI-CAND-0348",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/extensions/models.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-1f78303c1e5c:item1",
+          "neutral_row_id": "AI-ROW-0349",
+          "neutral_candidate_id": "AI-CAND-0349",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/models/aliaspluginmodel.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-1f78303c1e5c:item3",
+          "neutral_row_id": "AI-ROW-0350",
+          "neutral_candidate_id": "AI-CAND-0350",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/signals/permissions.py"
+        }
+      ]
+    },
+    "AI-CASE-025": {
+      "original_case_id": "djangocms-rc-475120cf18ce",
+      "public_intent": "removed old thing",
+      "rows": [
+        {
+          "original_row_id": "djangocms-rc-475120cf18ce:item3",
+          "neutral_row_id": "AI-ROW-0351",
+          "neutral_candidate_id": "AI-CAND-0351",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/models/static_placeholder.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-475120cf18ce:item4",
+          "neutral_row_id": "AI-ROW-0352",
+          "neutral_candidate_id": "AI-CAND-0352",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/utils/page.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-475120cf18ce:item1",
+          "neutral_row_id": "AI-ROW-0353",
+          "neutral_candidate_id": "AI-CAND-0353",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/management/commands/subcommands/mptt.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-475120cf18ce:item2",
+          "neutral_row_id": "AI-ROW-0354",
+          "neutral_candidate_id": "AI-CAND-0354",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/models/managers.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-475120cf18ce:item1",
+          "neutral_row_id": "AI-ROW-0355",
+          "neutral_candidate_id": "AI-CAND-0355",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/change_list.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-475120cf18ce:item2",
+          "neutral_row_id": "AI-ROW-0356",
+          "neutral_candidate_id": "AI-CAND-0356",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/forms.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-475120cf18ce:item0",
+          "neutral_row_id": "AI-ROW-0357",
+          "neutral_candidate_id": "AI-CAND-0357",
+          "original_arm": "observed_changed_file",
+          "semantic_role": "historical_changed_file",
+          "file_path": "cms/admin/__init__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-475120cf18ce:item0",
+          "neutral_row_id": "AI-ROW-0358",
+          "neutral_candidate_id": "AI-CAND-0358",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/__init__.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-475120cf18ce:item0",
+          "neutral_row_id": "AI-ROW-0359",
+          "neutral_candidate_id": "AI-CAND-0359",
+          "original_arm": "matched_random_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/toolbar_base.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-475120cf18ce:item4",
+          "neutral_row_id": "AI-ROW-0360",
+          "neutral_candidate_id": "AI-CAND-0360",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/permissionadmin.py"
+        },
+        {
+          "original_row_id": "djangocms-rc-475120cf18ce:item3",
+          "neutral_row_id": "AI-ROW-0361",
+          "neutral_candidate_id": "AI-CAND-0361",
+          "original_arm": "top_ranked_omitted",
+          "semantic_role": "omitted_candidate_file",
+          "file_path": "cms/admin/pageadmin.py"
+        }
+      ]
+    }
+  }
+}
