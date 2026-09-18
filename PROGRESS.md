@@ -16,52 +16,54 @@ its own final live HEAD SHA (committing metadata changes HEAD again). Query
 at read time: `git rev-parse HEAD`, `git rev-parse origin/main`,
 `git status --porcelain`.
 **Model:** openrouter/deepseek/deepseek-v4-flash-0731
-**Task:** RANKING BRIDGE + BOUNDED SEMANTIC FREEZE (2026-09-18; T3 DEVELOPMENT;
-ZERO API) — Section-1 ranking-gap reconfirmation freeze EXACT →
-Section-2 three transparent quantitative-structural rankers
-(R1/R2/R3, no formula material on both repos) → **CHEAP_RANKING_CLOSED_FOR_NOW**
-(negative frozen) → bounded semantic rerank/verify protocol + API budget
-PREPARED NOT EXECUTED → P2/adaptive-k gated → cross-language vs polyglot
-correction + Grafana FUTURE candidate → gap-reduction roadmap ladder —
-**COMPLETE**
+**Task:** PRECISION-SAFE ACCEPTANCE FEASIBILITY + PROTOCOL FREEZE (2026-09-18;
+T3 DEVELOPMENT; ZERO API) — post-Stage-4 failure anatomy of the frozen 300-call
+record (13 analyses) → POST-HOC feasibility (RANK → VERIFY → VARIABLE ACCEPT;
+family justified, specific frozen verifier not) → exactly ONE frozen next
+protocol + budget draft + audit/tests/docs — **COMPLETE**
 
 ---
 
 ## Now executing
 
-- **MILESTONE COMPLETE (AUTHORIZED PILOT).** Bounded semantic expansion pilot
-  (Stage 4, DEVELOPMENT, AUTHORIZED 2026-09-18): frozen registration written
-  BEFORE call 1 (60 tasks: 30 djangoCMS + 30 Saleor; pool = Route-B top-10 ∪
-  reverse-1hop consumers, cap 40); **real run: 300 calls (Arm A 240 + Arm B 60),
-  106,325 tokens, $0.0444, 553.6 s — all ceilings respected**. Arm A = frozen
-  Route-B verifier (4 calls/task); Arm B = expanded-pool bounded semantic
-  rerank/verify (1 call/task). **Preregistered gate = FAIL →
-  BOUNDED_SEMANTIC_NEGATIVE_FROZEN**: Arm B raises ORR on djangoCMS (+0.139 at
-  B=5) but NOT materially on Saleor (+0.023), and on djangoCMS naive final F1
-  falls materially (−0.069) — exactly the "ORR up but F1 down" failure the
-  protocol forbids claiming as success. No prompt/schema tuning. 6 Arm B
-  schema-invalid calls recorded fail-closed (no retries). Independent audit
-  8/8 PASS; affected suites 31/31.
-- **Remaining:** none for this mission. Stage 4 is closed NEGATIVE; the
-  gap-reduction ladder's Stage 5 (freeze method + fresh confirmatory) is NOT
-  reached. Any future semantic instrument needs a precision-safe acceptance
-  rule and its own explicit authorization.
+- **MILESTONE COMPLETE (ZERO API).** Precision-safe acceptance feasibility
+  (post-Stage-4, DEVELOPMENT, 2026-09-18): frozen Stage-4 negative verified
+  unchanged (300 calls / 106,325 tokens / $0.0444 / 553.6 s; ORR@5 recomputed
+  dc 0.1111/0.2500, saleor 0.3344/0.3574 == frozen). 13-item failure anatomy:
+  Arm-B FP tail is an acceptance-layer failure split across BOTH pool sources
+  (dc 68/51, saleor 71/48); cap C=40 loses 10+29 FNs; 6/6 schema-invalid =
+  non-pool-path + partial credit; B=10 5/5 folds both repos (motivation only).
+  POST-HOC feasibility (one principled family): AND-rule precision dc
+  0.105→0.146 / saleor 0.179→0.222 but F1 does NOT beat frozen Route-B verifier
+  (dc 0.407 vs 0.414; saleor 0.263 vs 0.287) — frozen verifier uncalibrated
+  (8.6–14% approval precision); consumer-only candidates never verifier-seen
+  (explicit insufficiency). Verdict: family justified, specific verifier not.
+  Exactly ONE frozen next protocol (RANK → VERIFY → VARIABLE ACCEPT, cap 80,
+  K=10, strict boolean-vector verifier, 0..K accepted, fresh sample seed
+  20260919, gate c1–c7 both repos) + budget draft (expected ~360 calls / ~$0.055;
+  ceilings 400 / 300k tok / $0.15 / 60 min) — **NOT EXECUTED**.
+- **Remaining:** none for this mission. Execution of the frozen pilot requires
+  the exact authorization sentence (budget draft §7). Stage 5 (confirmatory)
+  stays gated on a successful DEVELOPMENT pilot.
 
 ## Last completed task
 
-- Bounded semantic expansion pilot (2026-09-18): frozen registration +
-  300 real calls + metrics/gate/audit + closure report; scripts
-  `bounded_semantic_expansion_{pilot,analyze,audit}.py`; raw evidence under
-  `research/bounded-semantic-expansion/`.
+- Precision-safe acceptance feasibility (2026-09-18): failure anatomy +
+  feasibility + exactly one frozen protocol + budget freeze draft + independent
+  audit (11/11) + 13/13 new tests + docs synchronized. Scripts
+  `scripts/precision_safe_feasibility_{anatomy,audit}.py`; metrics under
+  `reports/precision_safe_feasibility_metrics.json`.
 
 ## Immediate next step
 
-- Await review. Freeze the negative; no further API spend. If the user later
-  wants a different bounded semantic protocol, it must be pre-registered
-  (precision-safe acceptance) and explicitly authorized with its own budget.
+- Await review. If the user authorizes (exact sentence, budget draft §7), the
+  frozen precision-safe DEVELOPMENT pilot is ready to execute. If rejected, the
+  feasibility conclusion is frozen as development evidence.
 
 ## Blockers
 
+- No API authorization exists for the frozen precision-safe pilot (by design;
+  ZERO API mandate).
 - Semantic-proxy human audit remains **AWAITING_HUMAN_RATINGS** (human-work
   blocker; the AI-assisted track is descriptive only, not gold).
 - Human minimal spot-check (119 rows) awaits a human reviewer.
@@ -70,25 +72,26 @@ correction + Grafana FUTURE candidate → gap-reduction roadmap ladder —
 - Saleor parent-visible history cache absent (dist/real-commit-cache/saleor) —
   no Saleor co-change arm; recorded UNAVAILABLE in the taxonomy/ceilings.
 
-## Full-suite state (Bounded semantic expansion pilot gate, 2026-09-18)
+## Full-suite state (Precision-safe acceptance feasibility gate, 2026-09-18)
 
-- **Affected suites PASS** (`test_recall_bottleneck.py` 19/19 +
-  `test_quant_ranking_bridge.py` 12/12 = 31/31).
+- **Affected suites PASS** (`test_precision_safe_feasibility.py` 13/13 +
+  previously green Stage-4 suites `test_recall_bottleneck.py` 19/19 +
+  `test_quant_ranking_bridge.py` 12/12).
 - Ruff clean; py_compile clean; `git diff --check` clean.
-- Independent audit recomputes headline metrics from raw per-run records
-  without importing the analyzer — **8/8 checks PASS**
-  (`reports/bounded_semantic_expansion_audit.json`).
-- Budget ledger verified: 300/300 calls, 106,325 tokens, $0.0444, 553.6 s,
-  sidecars 300/300 with 0 hash mismatches.
+- Independent audit recomputes headline numbers from raw records without
+  importing the analyzer — **11/11 PASS**
+  (`reports/precision_safe_feasibility_audit.json`); macro ORR matches frozen
+  Stage-4 metrics at every B.
 
-## Closure block (Bounded semantic expansion pilot, 2026-09-18)
+## Closure block (Precision-safe acceptance feasibility + protocol freeze, 2026-09-18)
 
-- AUTHORIZED real DEVELOPMENT pilot; `research/bounded-semantic-expansion/`
-  raw evidence + reports. Branch `research/bounded-semantic-expansion-pilot-2026-09-18`
-  merged to `main` as merge commit `09979c7` (immutable scientific fact).
-- DEV-evidence tag `bounded-semantic-expansion-pilot-2026-09-18` — peel
-  `09979c7` == merge == `main` (audited DEVELOPMENT evidence; NOT a stable-tag
-  move). Pushed to origin; origin/main == HEAD == tag peel.
+- ZERO-API DEVELOPMENT analysis; Stage-4 artifacts untouched
+  (`BOUNDED_SEMANTIC_NEGATIVE_FROZEN` + P65 immutable).
+- Branch `research/precision-safe-acceptance-feasibility-2026-09-18` merged to
+  `main` (merge commit in the final stop report).
+- DEV-evidence tag `precision-safe-acceptance-feasibility-2026-09-18` — peel ==
+  merge == `main` (audited DEVELOPMENT evidence; NOT a stable-tag move). Pushed
+  to origin; origin/main == HEAD == tag peel.
 - LIGHT export at scientific closure (filename/hash in the final stop report).
-- Next scientific task (NOT started, requires its own authorization): any
-  future bounded semantic instrument with a precision-safe acceptance rule.
+- Next scientific task (NOT started, requires explicit authorization): the
+  frozen precision-safe DEVELOPMENT pilot.

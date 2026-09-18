@@ -6,6 +6,46 @@ For historical closure records see `docs/PROJECT_HANDOFF.md`, `SYSTEM_STATE.md`,
 `TODO.md`, `docs/PAPER_WRITING_HANDOFF.md`, `docs/MSC_RESEARCH_ROADMAP_2026_2027.md`
 (all preserved verbatim below their HISTORICAL boundaries).
 
+**CURRENT TRUTH (2026-09-18, PRECISION-SAFE ACCEPTANCE FEASIBILITY + PROTOCOL
+FREEZE — post-Stage-4 DEVELOPMENT analysis complete; ZERO API; Stage-4 negative
++ P65 immutable; sealed sets untouched):**
+→ **PRECISION-SAFE ACCEPTANCE FEASIBILITY = FAMILY JUSTIFIED, SPECIFIC FROZEN
+VERIFIER NOT (2026-09-18; DEVELOPMENT only; ZERO API):** the frozen Stage-4
+300-call record was decomposed (13-item failure anatomy). Findings: Arm-B
+cumulative candidate precision by semantic rank is flat-low on djangoCMS
+(0.125 rank1 → 0.093 rank5) and decaying on Saleor (0.346 → 0.177 → 0.153);
+at B=5 Arm B adds 14/26 FNs but 119/119 FPs (cand-prec 0.105/0.179 vs Arm A
+0.143/0.256); **the FP tail is an acceptance-layer failure split across BOTH
+pool sources** (dc 68/51, saleor 71/48 route-B-top10 vs consumer-only); pool
+cap C=40 loses **10 (dc) + 29 (saleor) FNs** (cap-40 covers 52%/54%, cap-80
+66%/60%, cap-120 69%/69%); 6/6 schema-invalid Arm-B calls are non-pool-path
+hallucinations and the frozen analyzer granted them **partial credit**; B=10
+recovery is consistent (**5/5 positive folds BOTH repos**; Saleor mean per-task
+delta +0.146) — inspection-depth signal, DEVELOPMENT motivation only. **POST-HOC
+feasibility (exactly ONE principled family RANK → VERIFY → VARIABLE ACCEPT):**
+the AND-rule (semantic top-K AND frozen verifier approval) improves candidate
+precision (dc 0.105→0.146, saleor 0.179→0.222) and recovers Arm-B's F1 loss on
+dc (0.324→0.407) but does NOT beat the frozen Route-B verifier on F1 on either
+repo (dc 0.407 vs 0.414; saleor 0.263 vs 0.287) because the frozen verifier is
+uncalibrated for acceptance (8.6–14% approval precision). **Explicit
+insufficiency stated:** the frozen verifier never saw reverse-1hop-only
+candidates — no existing record can assess a verifier on them. **Verdict: the
+family is justified; the specific frozen verifier is not.** Exactly ONE next
+protocol frozen (`docs/PRECISION_SAFE_ACCEPTANCE_PROTOCOL_FROZEN.md`): Sparse →
+expanded pool (Route-B top-10 ∪ consumers, cap C=80 DEV-derived) → bounded
+semantic ranking (1 call/task) → top-K inspection set (K=10 DEV-derived) →
+strict fixed-length boolean-vector verifier (1 call/task; candidate-ID enum
+schema; NO partial credit) → variable accepted additions (0..K) → final file
+set; baseline = frozen Route-B verifier B∈{1,3,5,10}; fresh disjoint
+DEVELOPMENT sample (seed 20260919, 30/repo, 60 Stage-4 case_ids excluded; 123
+dc + 97 saleor fresh eligible remain); gate c1–c7 on BOTH repos. Budget draft
+`reports/PRECISION_SAFE_ACCEPTANCE_BUDGET_FREEZE_DRAFT.md`: expected ~360 calls
+/ ~140k tokens / ~$0.055; hard ceilings 400 calls / 300,000 tokens / $0.15 /
+60 min; **exact authorization sentence in §7; NO API call made by this
+mission**. Evidence: `reports/PRECISION_SAFE_ACCEPTANCE_FEASIBILITY_2026-09-18.md`
++ `reports/precision_safe_feasibility_metrics.json` + audit 11/11
+(`reports/PRECISION_SAFE_ACCEPTANCE_AUDIT.md` + `.json`); 13/13 new unit tests
+PASS; Stage-4 artifacts untouched.
 **CURRENT TRUTH (2026-09-18, BOUNDED SEMANTIC EXPANSION PILOT — AUTHORIZED real
 DEVELOPMENT pilot complete; 300 calls; Stage-4 of the gap-reduction ladder
 closed NEGATIVE; P2 Phase-1 NEGATIVE + First-Pass Recall + Oracle-gap + ranking
@@ -79,8 +119,10 @@ leakage, same proxy/leakage rules).
 → **GAP-REDUCTION ROADMAP (`reports/GAP_REDUCTION_ROADMAP.md`):** Stage 1 DONE
 (Sparse + Route-B recovery), Stage 2 DONE (FN anatomy; finding = availability high,
 ranking bottleneck), Stage 3 THIS MISSION (quant structural bridge = negative),
-Stage 4 NEXT IF AUTHORIZED (bounded semantic rerank/verify), Stage 5 freeze +
-fresh confirmatory if Stage 4 succeeds, Stage 6 adaptive-k later (gated), Stage 7
+Stage 4 DONE (authorized bounded semantic rerank/verify = NEGATIVE, frozen),
+Stage 4b THIS MISSION (precision-safe acceptance feasibility + ONE frozen
+protocol, NOT executed, ZERO API), Stage 5 freeze + fresh confirmatory if the
+Stage 4b pilot succeeds, Stage 6 adaptive-k later (gated), Stage 7
 generalization (cross-language + polyglot), Stage 8 repository-agent only if needed
 (fair LocAgent comparison under matched protocol).
 **Boundary held:** ZERO API; P2 Phase-1 NEGATIVE + Oracle-gap BIDIRECTIONAL_HEADROOM_ONLY
