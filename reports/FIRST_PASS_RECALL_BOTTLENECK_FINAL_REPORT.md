@@ -141,7 +141,37 @@ reviewer acceptance: the gap between naive-union F1 (≈0.23) and oracle-reviewe
 F1 (≈0.44) is reviewer acceptance; the gap between oracle-reviewer F1 (≈0.44)
 and Oracle-Add (≈0.72) is ranking.
 
-## 11. Dominant remaining loss
+## 11. Fair LocAgent / community-value interpretation
+
+No new LocAgent spend was made. The shared-protocol findings (P5/P5C) remain
+immutable. What this DEVELOPMENT result means:
+
+- **Scientific community:** the S006-style downstream/utility miss is not a
+  one-off — it generalises across two repositories (58.9%/82.1% of FNs are
+  downstream consumers of a seed; direct-1-hop FNs are ≈100% lexically
+  silent). Candidate *availability* is therefore not the first-pass problem;
+  *ranking* is. This redirects future work from "add more candidate sources"
+  to "order the available candidates better" (e.g., verifier-ranked
+  expansion), which is a cheaper, more reproducible target than expensive
+  agentic reasoning.
+- **Industrial use:** a simple reproducible recall-recovery step (source
+  pools + bounded ranking) is measurable BEFORE committing to expensive agent
+  inference. This study shows exactly which pools are worth inspecting and
+  which are not (2-hop and pure sibling signals add little; reverse-1hop
+  consumers carry most of the missed files), giving an actionable
+  zero-model pre-screen.
+- **Future researchers:** the negative is as valuable as the positive —
+  simple binary-flag queues do not beat Route-B at matched budget, so
+  repeating that recipe is unlikely to help. The frozen taxonomy, ceilings,
+  per-task FN sets (`research/first-pass-recall-bottleneck/fn_universe.json`)
+  and the reproducible toolchain (`src/benchmark/recall/`,
+  `scripts/fn_*.py`) are reusable for any follow-up.
+- **Boundary:** this is DEVELOPMENT evidence only; no universal superiority
+  claim over LocAgent or any LLM planner is made. A fair LocAgent comparison
+  remains pending a shared fresh confirmatory protocol
+  (`reports/LOCAGENT_FAIR_COMPARISON_PLAN_V2.md`).
+
+## 12. Dominant remaining loss
 
 1. **RANKING within the candidate universe** — the largest measured loss:
    BM25's oracle ceiling is 0.929/0.881 @K=5, actual recovery 0.149/0.209;
@@ -152,7 +182,7 @@ and Oracle-Add (≈0.72) is ranking.
 3. **Reviewer acceptance** — second, bounded by ranking (oracle-reviewer F1
    0.44 vs Oracle-Add 0.72).
 
-## 12. Progression gate result
+## 13. Progression gate result
 
 **`RECALL_SIGNAL_HEADROOM_ONLY`.**
 
@@ -163,14 +193,14 @@ LLM-verifier experiment is authorized by this mission. The headroom (Oracle-Add
 ranking signal than the simple binary-flag queues tested — the frozen verifier
 line remains the correct instrument for that, under its own frozen budget.
 
-## 13. Sealed sets untouched (verified)
+## 14. Sealed sets untouched (verified)
 
 djangoCMS RESERVE, Saleor INTERNAL_TEST + RESERVE never loaded. `load_dev_tasks`
 contains exactly 174 + 149 DEVELOPMENT case ids; `test_sealed_sets_guard`
 asserts no INTERNAL_TEST/RESERVE roles. The spent djangoCMS INTERNAL_TEST was
 not read for any selection decision.
 
-## 14. Tests / audits
+## 15. Tests / audits
 
 - 16 new unit tests PASS (`tests/unit/test_recall_bottleneck.py`): taxonomy
   determinism, graph-direction correctness, no-hidden-proxy feature
@@ -183,7 +213,7 @@ not read for any selection decision.
   `reports/FN_INDEPENDENT_AUDIT.md` + JSON).
 - Full-suite state and six T3 gates recorded in the audit/report.
 
-## 15. Docs / research-journey updates
+## 16. Docs / research-journey updates
 
 - `00_CURRENT_RESEARCH_STATE.md` (new CURRENT TRUTH block),
 - `PROGRESS.md` (execution truth),
@@ -193,15 +223,19 @@ not read for any selection decision.
   `reports/PROBLEMS_AND_FAILURES_LEDGER.md`),
 - README: concise current-status refresh only if the headline state changed.
 
-## 16. Git / tag / export
+## 17. Git / tag / export
 
-- Branch `research/first-pass-recall-bottleneck-2026-09-18`; tests → independent
-  audit → docs → commit → push → merge main → post-merge verify → push main.
-- Intentional DEV-evidence tag ONLY if the milestone is reproducible and fully
-  audited (per prior practice for DEVELOPMENT evidence tags). No stable-tag move.
-- Light export only if needed for handoff (Project Export Rule).
+- Branch `research/first-pass-recall-bottleneck-2026-09-18`; merge commit
+  `7a251f0` on `main` (immutable scientific fact).
+- DEV-evidence tag `first-pass-recall-bottleneck-2026-09-18` — annotated tag
+  object `4b649c4`, peel `7a251f0` == merge == main-at-tag-time (audited
+  DEVELOPMENT evidence; NOT a stable-tag move).
+- Post-tag docs commit `9bb6478` pushed (never moves the tag).
+- LIGHT export `project-2026-09-18-1725.zip` SHA-256
+  `3d13b9c00684c9db123cd7682fbc303917b10cb4a116e1523c3652f4911a4b9e`
+  (95,340,878 bytes; required members checked).
 
-## 17. ONE next scientific action
+## 18. ONE next scientific action
 
 The frozen **Route-B verifier line is the correct instrument for ranking
 recovery**: the oracle-reviewer simulation shows a perfect reviewer can turn
