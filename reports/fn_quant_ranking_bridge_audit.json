@@ -1,0 +1,41 @@
+{
+  "package": "fn_quant_ranking_bridge_audit",
+  "date": "2026-09-18",
+  "tier": "T3",
+  "verdict": "PASS",
+  "n_checks": 25,
+  "n_pass": 25,
+  "checks": {
+    "A1_djangocms_routeB_B1": true,
+    "A1_djangocms_routeB_B3": true,
+    "A1_djangocms_routeB_B5": true,
+    "A1_djangocms_routeB_B10": true,
+    "A1_saleor_routeB_B1": true,
+    "A1_saleor_routeB_B3": true,
+    "A1_saleor_routeB_B5": true,
+    "A1_saleor_routeB_B10": true,
+    "A2_djangocms_sparse_f1": true,
+    "A2_saleor_sparse_f1": true,
+    "A3_djangocms_rev1hop_avail": true,
+    "A3_saleor_rev1hop_avail": true,
+    "A4_djangocms_union_all_avail": true,
+    "A4_saleor_union_all_avail": true,
+    "A5_djangocms_R1_BM25+RevSupport_orr5": true,
+    "A5_djangocms_R2_BM25+BidirSupport_orr5": true,
+    "A5_djangocms_R3_BM25+BidirNorm_orr5": true,
+    "A5_saleor_R1_BM25+RevSupport_orr5": true,
+    "A5_saleor_R2_BM25+BidirSupport_orr5": true,
+    "A5_saleor_R3_BM25+BidirNorm_orr5": true,
+    "A6_gate_decision": true,
+    "A7_no_proxy_feature": true,
+    "A8_dev_counts_and_sealed": true,
+    "A9_determinism": true,
+    "A10_folds": true
+  },
+  "recomputed": {
+    "djangocms_routeB_B5": 0.1633,
+    "saleor_routeB_B5": 0.2369,
+    "djangocms_R1_B5": 0.1972,
+    "saleor_R1_B5": 0.2171
+  }
+}

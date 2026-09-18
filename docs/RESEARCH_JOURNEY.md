@@ -10,7 +10,7 @@ thesis failures: each saves future time, API cost, and effort by ruling out an
 approach already tested under this protocol.
 
 **Model (authoring agent):** openrouter/deepseek/deepseek-v4-flash-0731
-**Last update:** 2026-09-18 (T2 docs-only)
+**Last update:** 2026-09-18 (T2/T3 docs + ranking-bridge mission)
 
 ---
 
@@ -35,6 +35,8 @@ Date/Phase | Question | Method | Result | Decision | Why it matters | Revisit tr
 2026-09-18 | FP-pruning negative | Cheap observable features to flag selected-set false positives | Flagged precision ≈ random control; TP-loss risk 36–44% | **NEGATIVE** — cheap DROP signal too weak | Avoids a DROP queue based on cheap signals | Only with stronger (e.g. verified) signals | [FP pruning](../reports/SELECTED_SET_FP_PRUNING_FEASIBILITY.md)
 2026-09-18 | BBSR → `BIDIRECTIONAL_HEADROOM_ONLY` | Zero-LLM bidirectional bounded set repair simulation | Heuristic BBSR fails the progression gate on both repos; oracle headroom exists but cheap signals cannot realize the DROP side | **BIDIRECTIONAL_HEADROOM_ONLY** — no new verifier calls authorized | Rules out the DROP side; keeps ADD side | Only when a much stronger FP-discriminator exists | [BBSR](../reports/BBSR_DEVELOPMENT_SIMULATION.md) · [final report](../reports/ORACLE_GAP_BIDIRECTIONAL_REPAIR_FINAL_REPORT.md)
 2026-09-18 | First-Pass Recall Bottleneck | FN taxonomy → source-specific ceilings → ≤3 ADD queues → matched-budget DEV eval + oracle reviewer → progression gate (ZERO API) | S006-like indirect-utility misses are GENERAL (consumer flag 58.9%/82.1% of FNs; 1-hop FNs 98.6%/100% lexically silent); reverse-1hop consumer pool carries 55.8%/72.4% of FNs @K=5, UNION_ALL 72.5%/87.0%; **NO simple ADD queue beats Route-B at matched budget**; oracle-reviewer F1 0.44/0.43 @B=5 vs Oracle-Add 0.72/0.64 | **RECALL_SIGNAL_HEADROOM_ONLY** — availability is NOT the bottleneck; RANKING is | Rules out simple binary-flag queues; directs the next instrument to verifier-ranked expansion under its own frozen budget | Only with a verifier-ranked (not binary-flag) pool expansion mission | [Final report](../reports/FIRST_PASS_RECALL_BOTTLENECK_FINAL_REPORT.md) · [taxonomy](../reports/FN_TAXONOMY_DEVELOPMENT.md) · [gate](../reports/FN_PROGRESSION_GATE.md)
+2026-09-18 | Quantitative-structural ranking bridge | Exactly three transparent deterministic rankers (R1/R2/R3: BM25 + normalized reverse/bidirectional seed-support counts) over the high-coverage reverse-1hop pool, matched budget (ZERO API) | Section-1 reconfirmed the frozen gap EXACTLY; **best R1 at B=5 djangoCMS +0.034 but Saleor −0.020; NO formula material on BOTH repos**; folds not majority positive; artifact-free | **CHEAP_RANKING_CLOSED_FOR_NOW** — cheap count formulas cannot realize the ranking headroom | Rules out the last cheap-deterministic bridge; the bounded semantic middle layer is next | Only with a fundamentally stronger signal (e.g. typed edges, which the frozen graph does NOT expose) or the authorized semantic pilot | [Bridge report](../reports/QUANT_STRUCTURAL_RANKING_BRIDGE_REPORT.md) · [baseline freeze](../reports/fn_quant_ranking_bridge_baseline_freeze.json) · [audit](../reports/FN_QUANT_RANKING_BRIDGE_AUDIT.md)
+2026-09-18 | Bounded semantic rerank/verify FREEZE (prepared, not executed) | Frozen protocol + API budget for a bounded semantic decision layer over Route-B top-10 ∪ reverse-1hop consumers (pool cap 40; ≤300 calls / ≤300k tokens / ≤$0.30 / ≤60 min) | NOT EXECUTED — ZERO calls; protocol + budget + exact authorization sentence delivered | Middle layer READY but gated on user authorization | Defines Stage 4 of the gap-reduction ladder; no call made | Execute ONLY under the explicit authorization sentence in the budget draft | [Protocol](../docs/BOUNDED_SEMANTIC_RERANK_VERIFY_PROTOCOL_FROZEN.md) · [budget draft](../reports/BOUNDED_SEMANTIC_EXPANSION_BUDGET_FREEZE_DRAFT.md)
 
 ---
 
@@ -56,6 +58,11 @@ effort** by ruling out an approach under this protocol:
   matched-budget comparison: none beats Route-B at matched K, so repeating them
   (or adding more binary flags) is unlikely to help; the loss is ranking-driven
   and the instrument is a verifier-ranked expansion under its own frozen budget.
+- **Cheap quantitative-structural rankers for the reverse-1hop pool** — ruled
+  out by the ranking bridge: three transparent count/normalized formulas
+  (R1/R2/R3) give no material matched-budget ORR gain on BOTH repos
+  (CHEAP_RANKING_CLOSED_FOR_NOW); the frozen graph's untyped edges block the
+  typed-edge variant, and a semantic decision layer is the next instrument.
 
 Each has an explicit **revisit trigger** (new hypothesis, new protocol, more
 data, or a genuinely stronger signal) — never "re-run because we want a

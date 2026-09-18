@@ -316,3 +316,19 @@ reports. Entries from 2026-09-16 evening (and carried historical items).
 - **Status:** RESOLVED (documented; no fabrication; ZERO API; sealed sets untouched).
 - **Revisit:** a verifier-ranked expansion (not binary flags) is the natural next
   instrument, under its own frozen protocol/budget; requires a separate mission.
+
+- **Quantitative-structural ranking bridge = CHEAP_RANKING_CLOSED_FOR_NOW (2026-09-18; T3 DEV; ZERO API):**
+  quantitative support-count rankers (R1/R2/R3) over the high-coverage reverse-1hop pool
+  give matched-budget ORR at or below the frozen Route-B composite on at least one repo
+  (best R1 djangoCMS +0.034 but Saleor -0.020 @B=5); fold direction not majority
+  positive; no formula material on BOTH repos.
+- **Root cause:** normalized seed-support counts and BM25 are highly collinear with the
+  existing binary graph-neighbor boost on the top-ranked candidates; the residual ranking
+  loss needs a signal the frozen parent-visible features do not expose (e.g. typed edges
+  or semantic evidence), confirming RANKING as the dominant remaining loss.
+- **Action:** froze the negative (three formulas only, no proliferation); reconfirmed the
+  baseline EXACTLY; prepared (NOT executed) the frozen bounded-semantic rerank/verify
+  protocol + API budget (Stage 4 of the gap-reduction ladder).
+- **Status:** RESOLVED (documented; no fabrication; ZERO API; sealed sets untouched).
+- **Revisit:** bounded semantic rerank/verify under explicit authorization; typed-edge
+  graph features if a new extractor ever lands.

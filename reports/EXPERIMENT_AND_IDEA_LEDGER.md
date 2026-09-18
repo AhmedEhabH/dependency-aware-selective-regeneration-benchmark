@@ -316,3 +316,20 @@ Legend: PROPOSED / EXECUTED / REJECTED / DEFERRED / SUPERSEDED.
 - **Revisit:** a bounded verifier-ranked expansion (Route-B top-B + reverse-1hop
   pool) on DEVELOPMENT is the natural next instrument (frozen verifier protocol);
   NOT authorized by this mission.
+
+- **E-012 — Quantitative-structural ranking bridge (2026-09-18; T3 DEV; ZERO API):** can
+  quantitative structural support order the high-coverage reverse-1hop pool better than
+  the binary graph flag, without learned models/LLMs? EXACTLY three transparent formulas
+  (R1 BM25+RevSupport, R2 BM25+BidirSupport, R3 BM25+BidirNorm; parent-visible features
+  only; typed-edge support NOT available in the frozen graph). Result: best R1 at B=5
+  djangoCMS +0.034 (0.197) but Saleor -0.020 (0.217); no formula material on BOTH repos;
+  folds not majority positive; artifact-free; naive-F1 not clearly worse ->
+  CHEAP_RANKING_CLOSED_FOR_NOW. Idea B (typed edges) is blocked on graph schema (untyped
+  edges) and is a revisit trigger if a typed extractor lands.
+- **Artifact:** reports/QUANT_STRUCTURAL_RANKING_BRIDGE_REPORT.md +
+  fn_quant_ranking_bridge{,_gates,_baseline_freeze,_audit}.json,
+  src/benchmark/recall/quant_rankers.py, scripts/fn_quant_ranking_bridge*.py,
+  tests/unit/test_quant_ranking_bridge.py (12/12), audit 25/25.
+- **Revisit:** execute the frozen Stage-4 bounded semantic pilot ONLY under explicit
+  user authorization (protocol + budget draft); retest R2/R3 if typed edges become
+  available.

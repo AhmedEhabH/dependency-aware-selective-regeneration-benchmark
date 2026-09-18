@@ -172,3 +172,11 @@ fabrication; verification status explicit in the CSV):
   deferred per the no-neural-policy Phase-1 constraint.
 - No P2 method is selected using the opened djangoCMS INTERNAL_TEST; Saleor
   INTERNAL_TEST stays sealed.
+- **Adaptive-k / Shichao-Zhang status annotation (2026-09-18, ranking-bridge
+  mission):** the adaptive-budget / adaptive-k / demand-driven-k line is
+  **GATED, not deleted**. P2 Phase-1 is COMPLETE, NEGATIVE, frozen; adaptive
+  budget is NOT the current bottleneck and NOT active work. Revisit ONLY after
+  a stable ranking/recovery signal exists — choosing k cannot rescue a poorly
+  ordered candidate list (the ranking bridge just froze a cheap-ranking
+  negative, so no stable ranking signal exists yet). The P2-025..P2-039
+  landscape entries remain valid FUTURE WORK under that gate.

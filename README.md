@@ -121,10 +121,19 @@ FN taxonomy (deterministic) → S006-like pattern test (GENERAL_PATTERN)
 - **Sealed sets remain sealed:** djangoCMS RESERVE, Saleor INTERNAL_TEST +
   RESERVE are never opened; the spent djangoCMS INTERNAL_TEST is used only as
   labelled POST-HOC sanity.
-- **Next instrument (not authorized here):** bounded verifier-ranked expansion of
-  Route-B top-B + reverse-1hop consumer pool on DEVELOPMENT, under its own frozen
-  verifier protocol/budget.
-- Detail: [`reports/FIRST_PASS_RECALL_BOTTLENECK_FINAL_REPORT.md`](reports/FIRST_PASS_RECALL_BOTTLENECK_FINAL_REPORT.md).
+- **Latest (2026-09-18): quantitative-structural ranking bridge closed
+  NEGATIVE** — exactly three transparent count/normalized rankers
+  (R1/R2/R3) over the high-coverage reverse-1hop pool: none materially beats
+  Route-B on BOTH repos at matched budget (`CHEAP_RANKING_CLOSED_FOR_NOW`,
+  frozen). A **bounded semantic rerank/verify protocol + API budget is frozen
+  and ready** (Stage 4 of the gap-reduction ladder) but is NOT executed and
+  requires explicit authorization.
+- **Next instrument (not authorized here):** bounded semantic rerank/verify over
+  Route-B top-B + reverse-1hop consumer pool on DEVELOPMENT, under the frozen
+  protocol/budget (`docs/BOUNDED_SEMANTIC_RERANK_VERIFY_PROTOCOL_FROZEN.md`,
+  `reports/BOUNDED_SEMANTIC_EXPANSION_BUDGET_FREEZE_DRAFT.md`).
+- Detail: [`reports/FIRST_PASS_RECALL_BOTTLENECK_FINAL_REPORT.md`](reports/FIRST_PASS_RECALL_BOTTLENECK_FINAL_REPORT.md),
+  [`reports/QUANT_STRUCTURAL_RANKING_BRIDGE_REPORT.md`](reports/QUANT_STRUCTURAL_RANKING_BRIDGE_REPORT.md).
 
 ## 7. Evaluation and datasets
 

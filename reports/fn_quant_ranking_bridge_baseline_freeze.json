@@ -1,0 +1,100 @@
+{
+  "package": "fn_quant_ranking_bridge_baseline_freeze",
+  "date": "2026-09-18",
+  "tier": "T3",
+  "note": "Section-1 reconfirmation of the frozen ranking gap (DEVELOPMENT).",
+  "repos": {
+    "djangocms": {
+      "n_tasks": 174,
+      "sparse": {
+        "tp": 125,
+        "fp": 155,
+        "fn": 382,
+        "precision": 0.446429,
+        "recall": 0.246548,
+        "f1": 0.317662
+      },
+      "route_b_orr": {
+        "1": 0.0464,
+        "3": 0.1177,
+        "5": 0.1633,
+        "10": 0.2512
+      },
+      "bm25_only_orr": {
+        "1": 0.0459,
+        "3": 0.1132,
+        "5": 0.1606,
+        "10": 0.2259
+      },
+      "oracle_availability_reverse_1hop_K5": 0.5576,
+      "oracle_availability_consumer_provider_K5": 0.6047,
+      "oracle_availability_union_all_K5": 0.7251,
+      "oracle_add_f1_B5": 0.8406,
+      "oracle_reviewer_route_b_f1_B5": 0.4405,
+      "verify": {
+        "route_b_matches_frozen": {
+          "1": true,
+          "3": true,
+          "5": true,
+          "10": true
+        },
+        "bm25_matches_frozen": {
+          "1": true,
+          "3": true,
+          "5": true,
+          "10": true
+        },
+        "reverse_1hop_close": true,
+        "union_all_close": true,
+        "oracle_add_close": true,
+        "oracle_reviewer_route_b_close": true
+      }
+    },
+    "saleor": {
+      "n_tasks": 149,
+      "sparse": {
+        "tp": 99,
+        "fp": 193,
+        "fn": 369,
+        "precision": 0.339041,
+        "recall": 0.211538,
+        "f1": 0.260526
+      },
+      "route_b_orr": {
+        "1": 0.0775,
+        "3": 0.1576,
+        "5": 0.2369,
+        "10": 0.3173
+      },
+      "bm25_only_orr": {
+        "1": 0.0724,
+        "3": 0.1576,
+        "5": 0.2335,
+        "10": 0.3148
+      },
+      "oracle_availability_reverse_1hop_K5": 0.7236,
+      "oracle_availability_consumer_provider_K5": 0.8022,
+      "oracle_availability_union_all_K5": 0.8699,
+      "oracle_add_f1_B5": 0.7816,
+      "oracle_reviewer_route_b_f1_B5": 0.4243,
+      "verify": {
+        "route_b_matches_frozen": {
+          "1": true,
+          "3": true,
+          "5": true,
+          "10": true
+        },
+        "bm25_matches_frozen": {
+          "1": true,
+          "3": true,
+          "5": true,
+          "10": true
+        },
+        "reverse_1hop_close": true,
+        "union_all_close": true,
+        "oracle_add_close": true,
+        "oracle_reviewer_route_b_close": true
+      }
+    }
+  }
+}

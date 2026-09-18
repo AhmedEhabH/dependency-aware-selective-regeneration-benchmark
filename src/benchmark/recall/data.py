@@ -107,6 +107,29 @@ def _directed_consumers_providers(
     return consumers, providers
 
 
+def _directed_support_counts(
+    edges: tuple[tuple[str, str], ...], seeds: set[str], candidates: list[str]
+) -> tuple[dict[str, int], dict[str, int]]:
+    """Per-candidate quantitative structural support (parent-visible counts).
+
+    rev_support(p) = number of distinct seeds s with an edge (p -> s): the
+    candidate consumes / depends on that seed (downstream-consumer support).
+    fwd_support(p) = number of distinct seeds s with an edge (s -> p): the
+    candidate is a provider / upstream dependency of that seed.
+
+    Both are pure counts of distinct Sparse-selected seeds reachable in one
+    directed step; the hidden proxy never enters the count.
+    """
+    edge_set = set(edges)
+    seed_set = set(seeds)
+    rev: dict[str, int] = {}
+    fwd: dict[str, int] = {}
+    for f in candidates:
+        rev[f] = sum(1 for s in seed_set if (f, s) in edge_set)
+        fwd[f] = sum(1 for s in seed_set if (s, f) in edge_set)
+    return rev, fwd
+
+
 def _bfs_distances_undirected(
     edges: tuple[tuple[str, str], ...], seeds: set[str], nodes: list[str]
 ) -> dict[str, int]:
@@ -205,6 +228,7 @@ def _build_recall_task(cid: str, repo: str, role: str, rec: dict, case: dict, co
     omitted_paths = [p for p in paths if p not in write_set]
     dist = _bfs_distances_undirected(case["graph_edges"], seeds_as_set, omitted_paths)
     consumers, providers = _directed_consumers_providers(case["graph_edges"], seeds_as_set, omitted_paths)
+    rev_support, fwd_support = _directed_support_counts(case["graph_edges"], seeds_as_set, omitted_paths)
     nb_set = _neighbors(case["graph_edges"], seeds_as_set)
     seed_dirs = {str(Path(s).parent) for s in seeds}
     seed_modules = {str(records.get(s, {}).get("module", "")) for s in seeds}
@@ -235,6 +259,8 @@ def _build_recall_task(cid: str, repo: str, role: str, rec: dict, case: dict, co
                 "dist": dist.get(p, -1),
                 "consumer": int(p in consumers),
                 "provider": int(p in providers),
+                "rev_support": rev_support.get(p, 0),
+                "fwd_support": fwd_support.get(p, 0),
                 "sibling": int((str(Path(p).parent) in seed_dirs) or (module in seed_modules)),
                 "co_change": co.get(p, 0),
                 "history_available": int(repo == "djangocms"),

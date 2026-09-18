@@ -14,6 +14,12 @@ Route-B is CONFIRMED and is NOT retuned. P2 runs on DEVELOPMENT only.
   see §4 below). The broader P2 program remains OPEN for possible Phase-2
   candidates drawn from the expanded landscape. P2 has no learned policy and is
   not a proven contribution.
+- **Adaptive budget / adaptive-k is NOT the current bottleneck and is NOT
+  active work.** P2 Phase-1 is COMPLETE, NEGATIVE, frozen (2026-09-18). The
+  Shichao-Zhang / adaptive-k / demand-driven-k line remains FUTURE WORK and is
+  **GATED**: revisit only after a stable ranking/recovery signal exists,
+  because choosing k cannot rescue a poorly ordered candidate list. The line is
+  gated, not deleted.
 - **Fixed Route B is CONFIRMED** (djangoCMS INTERNAL_TEST, 2026-09-17) and is
   the frozen fallback thesis.
 - **P2 is a development research program**, not a completed contribution:
@@ -24,7 +30,11 @@ Route-B is CONFIRMED and is NOT retuned. P2 runs on DEVELOPMENT only.
   only under the common evaluation contract.
 - **NestJS/NextJS/cross-language extension is future external-validity work**
   (April 2027), conditional on the suitability gate AND TypeScript-extractor
-  readiness; it is outside the P2 five-month window.
+  readiness; it is outside the P2 five-month window. Terminology (2026-09-18):
+  "multi-language" means two distinct things — cross-language/cross-repository
+  generalization AND polyglot single-repository generalization (see
+  `docs/MSC_RESEARCH_ROADMAP_2026_2027.md` Stage 7); ambiguous wording is
+  renamed `cross-language + polyglot-repository generalization`.
 
 ---
 
