@@ -16,48 +16,42 @@ its own final live HEAD SHA (committing metadata changes HEAD again). Query
 at read time: `git rev-parse HEAD`, `git rev-parse origin/main`,
 `git status --porcelain`.
 **Model:** openrouter/deepseek/deepseek-v4-flash-0731
-**Task:** ORACLE-GAP DECOMPOSITION + BIDIRECTIONAL BOUNDED SET REPAIR
-(2026-09-18) — exploratory DEVELOPMENT line after the frozen P2 Phase-1
-negative closure: verified error budget from frozen records; computed
-Oracle-Add/Drop/Bidirectional F1 ceilings on djangoCMS DEV + Saleor DEV;
-decomposed the Oracle gap; tested observable FP-pruning; simulated a simple
-bidirectional candidate (BBSR). Result: **BIDIRECTIONAL_HEADROOM_ONLY** — the
-oracle surface shows F1 0.85–0.90 reachable bidirectionally (F1 0.85 NOT
-add-only-reachable on Saleor, ceiling 0.8291), but cheap observable DROP
-signals are insufficient and the heuristic BBSR fails the progression gate on
-both repos. ZERO API/model calls; **16/16 new tests PASS**; sealed sets
-untouched — **COMPLETE**
+**Task:** README REORGANIZATION + RESEARCH JOURNEY (2026-09-18; T2 docs-only) —
+README rebuilt as a concise ~5-minute entry point (problem → idea → status
+table → lessons → key numbers → bottleneck → datasets → governance → map →
+reproduce → claim labels); `docs/RESEARCH_JOURNEY.md` created (17 chronological
+milestones: tried/learned/ruled-out with revisit triggers); stale claims
+removed (Saleor "future", LocAgent "adapter pending", Route-B "development
+only", P2 "conditional", semantic audit "preparation", old 2026-09-16/17
+header); documentation-architecture decision recorded in DECISIONS.md; all
+links + headline numbers validated against authoritative reports; ZERO API —
+**COMPLETE**
 
 ---
 
 ## Now executing
 
-- **MILESTONE COMPLETE.** Oracle-gap decomposition + bidirectional bounded set
-  repair (EXPLORATORY DEVELOPMENT, ZERO API): (1) confirmatory error budget
-  verified from frozen records (Sparse TP=51/FP=104/FN=199 F1=0.252; verifier
-  B=5 TP=71/FP=274/FN=179 F1=0.239 — matches the working diagnostic); (2)
-  DEVELOPMENT oracle ceilings computed (Oracle-Add ALL 0.8674 djangoCMS /
-  0.8291 Saleor; Oracle-Drop ALL 0.3956 / 0.3492; bidirectional reaches F1 1.0
-  at A=ALL,D=ALL; **F1=0.85 NOT add-only-reachable on Saleor**); (3) gap
-  decomposition shows **first-pass recall loss dominates** (75–79% of proxy
-  positives missed) with review false-acceptance second and ranking loss third;
-  budget loss ≈0 → not adaptive budget; (4) observable FP-pruning signal is
-  weak (flagged precision ≈ random control); (5) heuristic BBSR fails the
-  progression gate on both repos → **no new verifier calls authorized**.
-- **Remaining:** none for this mission. The next bottleneck (first-pass recall)
-  is documented; human semantic-audit ratings remain an open blocker.
+- **MILESTONE COMPLETE.** README reorganization + research journey (T2
+  docs-only, ZERO API): README rebuilt as the concise entry point with the
+  mandated 11-section structure; `docs/RESEARCH_JOURNEY.md` created with 17
+  chronological milestones (each negative framed as a search-space reduction
+  with an explicit revisit trigger); stale-phrase audit clean; all 38 README
+  links + 28 journey links resolve; every headline number cross-checked
+  against authoritative reports; no scientific result changed.
+- **Remaining:** none for this docs mission. The next scientific task
+  (First-Pass Recall Bottleneck, DEVELOPMENT only) remains NOT started.
 
 ## Last completed task
 
-- Oracle-gap decomposition + bidirectional set-repair exploration (2026-09-18):
-  10 analysis scripts + 16 unit tests + 9 reports + independent audit + gates;
-  ZERO model/API calls; decision BIDIRECTIONAL_HEADROOM_ONLY.
+- README reorganization + research journey (2026-09-18): README.md rebuilt;
+  docs/RESEARCH_JOURNEY.md created; PROGRESS/DECISIONS updated; links +
+  numbers validated; ZERO model/API calls.
 
 ## Immediate next step
 
-- Pursue the **first-pass recall** bottleneck on DEVELOPMENT (the measured
-  largest lever: Oracle-Add headroom +0.55–0.57 F1), or unblock the human
-  semantic-audit ratings.
+- Begin the **first-pass recall bottleneck** study on DEVELOPMENT only
+  (FN taxonomy → source-specific ceilings → ADD queues → matched-budget DEV
+  comparison → gate; ZERO-API first).
 
 ## Blockers
 

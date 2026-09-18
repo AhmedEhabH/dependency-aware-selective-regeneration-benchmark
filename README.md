@@ -1,720 +1,201 @@
 # Repository-Level LLM Impact Selection Benchmark
 
-> **Current scientific state (2026-09-16/17):** the selection-stage benchmark is
-> **complete and audited**, the manuscript is **submitted** (IEEE-format V20
-> artifact; see `paper/v20-final/`). The **evening autonomous mission
-> (2026-09-16)** added: the supervisor-ready **MSc Proposal V1.2**
-> (`msc_proposal/MSC_PROPOSAL_V1_2.pdf`, 7 pages), a **Route B candidate-level
-> omission-recovery** zero-LLM study (Classical CIA beats Random at budget 5 on
-> development data — the first positive candidate-level signal), **Saleor
-> Stage-2 READY-TO-RUN** (sampling frame 6000→2409→1352→**1316** eligible;
-> split proposal; gates), a **LocAgent P5R** operational-robustness pilot
-> (0/5 usable; P5 immutable), a **semantic-proxy human-audit protocol** with 25
-> development-only evidence packets, a **BibTeX triage** of 13 uploaded exports,
-> and six **traceability ledgers**. V2 INTERNAL_TEST/RESERVE remain untouched.
-> The **POST-ICCI ZERO-API CLOSURE is COMPLETE** (2026-09-15), the **FIRST
-> POST-ICCI EXPERIMENTAL BLOCK is COMPLETE AND CLOSED (Protocol A — cheap
-> non-LLM baselines v1, 2026-09-16; merged to `main`; DEV tag
-> `cheap-baselines-v1-dev-2026-09-16`)**: TRAIN 24 +
-> VALIDATION 6 only (HELD_OUT_TEST ten permanently excluded), ZERO API calls,
-> six zero-API gates + independent audit PASS; **BM25@K is the strongest cheap
-> lexical baseline on development data** — VALIDATION primary
-> development-decision table: BM25@3 F1 0.279 (precision point) / BM25@10 F1
-> 0.306 (recall point), **K = operating-point curve, NOT a final
-> configuration**; Graph@K ≈ path_token@K (lexical seeds; no general graph
-> claim), Hybrid@K ≈ BM25@K, Random@K is a floor; **BM25 provides a meaningful
-> zero-LLM localization signal on development data — whether it matches or
-> underperforms LLM planners remains untested under a shared fresh
-> confirmatory protocol** (P1 Full/Sparse numbers are directional context
-> only); path-mention sensitivity diagnostic PASS (material ordering
-> unchanged). All "development evidence", not confirmatory (see
-> [`reports/CHEAP_BASELINES_V1_REPORT.md`](reports/CHEAP_BASELINES_V1_REPORT.md)).
-> **The PLUGGABLE RESEARCH HARNESS V1 + LIVING SYSTEMATIC REVIEW V1 milestone
-> is COMPLETE AND AUDITED (2026-09-16; T3 reusable experiment architecture;
-> ZERO API; six T3 gates + audit PASS; DEV tag
-> `research-harness-v1-dev-2026-09-16`; Protocol-A outputs reproduced
-> byte-for-byte through the compatibility layer; living review seeded with 12
-> competitor systems — see [`reports/RESEARCH_HARNESS_V1_REPORT.md`](reports/RESEARCH_HARNESS_V1_REPORT.md)
-> and [`docs/LIVING_SYSTEMATIC_REVIEW.md`](docs/LIVING_SYSTEMATIC_REVIEW.md)).**
-> The **OMISSION-RISK FEATURE STUDY V1** milestone (2026-09-16; T3) is COMPLETE
-> AND AUDITED in two stages: (1) deterministic-first-pass development analysis
-> (ZERO LLM/API calls; six gates + audit PASS), then (2) the **registered
-> Sparse-v2-label development-inference EXECUTED** after approval (90-cell run,
-> TRAIN/VALIDATION only; 90/90 valid; 490,747 tokens / $0.184 within the frozen
-> 600,000-token AND $0.30 hard stop; Sparse-v2 `has_fn` prevalence 86.7%
-> (26/30, 4 negatives); class-balance gate FAILED → descriptive/single-feature
-> only, no multivariable RiskScorer; no reliable risk signal survives the
-> random band) — see
-> [`reports/OMISSION_RISK_FEATURE_STUDY_V1_REPORT.md`](reports/OMISSION_RISK_FEATURE_STUDY_V1_REPORT.md)
-> (stage 1) and
-> [`reports/OMISSION_RISK_SPARSE_V2_INFERENCE_REPORT.md`](reports/OMISSION_RISK_SPARSE_V2_INFERENCE_REPORT.md)
-> (stage 2); frozen protocol
-> [`docs/OMISSION_RISK_DEVELOPMENT_INFERENCE_PROTOCOL.md`](docs/OMISSION_RISK_DEVELOPMENT_INFERENCE_PROTOCOL.md).
-> Governance: scientific truth =
-> [`00_CURRENT_RESEARCH_STATE.md`](00_CURRENT_RESEARCH_STATE.md), execution
-> truth = [`PROGRESS.md`](PROGRESS.md), decisions (append-only) =
-> [`DECISIONS.md`](DECISIONS.md); protocol v2 CURRENT PHASE = **Repository
-> change localization / impact selection**. Prior milestones: immutable
-> submission record, LocAgent two-way recomputation, four-action FN breakdown,
-> per-task error table, drafted next-experiment protocols (NOT executed) — all
-> with ZERO new scientific model/API calls in the baseline block. The ten-task
-> HELD_OUT_TEST split is PERMANENTLY EXPOSED (do-not-tune). Controlled
-> sparse-policy studies (M1A/M1B/M3) are complete; a 40-case real-history
-> corpus (M4A-1/M4A-2) is frozen; the 10-task held-out **Full-v2 vs Sparse-v2
-> evaluation (M4A-3 / P1) is EXECUTED** (60/60 cells valid); the **LocAgent
-> shared-protocol comparison (P5) is COMPLETE** (P5-B VALIDATION 6/6 + P5-C
-> HELD_OUT_TEST 10/10 on WSL2 Ubuntu; Full-v2/Sparse-v2/LocAgent shared table
-> + independent audit — see
-> [P5 shared comparison](#p5-locagent-shared-protocol-comparison)). The
-> serialized-record derived metric in the P1 result was corrected on 2026-09-14
-> (see [P1 serialization correction](#p1-serialized-record-metric-correction)).
+**Exact model for this documentation pass:** openrouter/deepseek/deepseek-v4-flash-0731
+**Last scientific tag:** `oracle-gap-bidirectional-repair-2026-09-18` (peel == scientific closure commit, see [Governance](#8-reproducibility--governance))
+
+> **Start here.** This README is a ~5-minute entry point. Detailed scientific
+> truth lives in
+> [`00_CURRENT_RESEARCH_STATE.md`](00_CURRENT_RESEARCH_STATE.md), the
+> chronological record of what was tried / learned / ruled out is in
+> [`docs/RESEARCH_JOURNEY.md`](docs/RESEARCH_JOURNEY.md), and every experiment's
+> evidence is in [`reports/`](reports/).
 
 ---
 
-## 1. What problem does this repository study?
+## 1. One-sentence problem
 
-Before an LLM edits a repository, it must decide **which files are affected by a change**.
+Repository-level LLMs must decide which files a requested change may affect;
+exhaustive reasoning over every candidate is costly, while sparse localization
+risks missing files the change actually touches.
 
-This project studies two separable problems:
+## 2. Current research idea
 
-1. **Impact inference:** did the model identify the right files?
-2. **Impact-policy representation:** can a complete file-action policy be expressed without wasting output budget on hundreds of repeated `PRESERVE` decisions?
-
-The core representation idea is **Preserve-by-Omission**:
-
-- emit only non-`PRESERVE` decisions;
-- reconstruct every omitted candidate deterministically as `PRESERVE`.
-
-It reduces serialization cost. It does **not** claim to make semantic impact reasoning universally better.
-
----
-
-## 2. Current headline results
-
-### Controlled 16K representation study — M1B (2026-09-12, audited)
-
-| Arm | Valid | Mean completion | Mean serialized records | Precision | Recall | F1 |
-|---|---|---:|---:|---:|---:|---:|
-| Full-v2 | 30/30 | 8,383 | 144.0 | 0.452 | 0.775 | 0.571 |
-| Sparse-v2 | 30/30 | 809 | 5.9 | 0.721 | 0.883 | 0.794 |
-
-Controlled descriptive reductions for Sparse-v2:
-- completion output: ~90.35% lower;
-- serialized records: ~95.9% lower;
-- cost: ~82.54% lower;
-- latency: ~63.29% lower.
-
-> **Footnote on the M1B serialized-record figure.** The originally published
-> Sparse-v2 figure (4.9) was the mean **REGENERATE write-set size**
-> (`len(decoded_write_set_ids)`), not the serialized decision count. The
-> corrected mean serialized decision count (recomputed from the persisted raw
-> responses; frozen M1B evidence unchanged) is **5.9**. See
-> [P1 serialized-record metric correction](#p1-serialized-record-metric-correction)
-> and technical-debt items TD-011/TD-012.
-
-**Important:** semantic effects were heterogeneous across the six independent
-task units. Do not interpret the table as proof that sparse encoding
-universally improves impact accuracy.
-
-### Real historical changes — M4A-3 / P1 (2026-09-14, executed)
-
-Frozen external-validity corpus:
-- 40 clean djangoCMS historical changes;
-- TRAIN 24 / VALIDATION 6 / HELD_OUT_TEST 10;
-- split frozen before scientific model output;
-- the historical changed-file set is an **OBSERVED CHANGE-SET PROXY**, not perfect semantic ground truth.
-
-Held-out experiment:
-`10 tasks × 2 arms × 3 nested repetitions = 60 cells`
-
-| Arm | Valid | Trunc. | Precision | Recall | F1 | Mean completion | Total cost |
-|---|---|---:|---:|---:|---:|---:|---:|
-| Full-v2 | 30/30 | 0 | 0.339 | 0.369 | 0.353 | 8,445.8 | $0.297623 |
-| Sparse-v2 | 30/30 | 0 | 0.387 | 0.261 | 0.312 | 599.0 | $0.062341 |
-
-Paired task-level result:
-- ΔF1 (Sparse − Full): −0.009, 95% bootstrap CI [−0.130, +0.119];
-- Δcompletion tokens: −7,848, CI excludes zero;
-- Δserialized records (corrected): −139.9, CI [−143.3, −137.0];
-- Δcost/task: −$0.0235, CI excludes zero.
-
-**Interpretation:** the representation/output-cost advantage transfers to
-independent real historical changes. Semantic superiority does not.
-
-#### P1 serialized-record metric correction
-
-On 2026-09-14 a code audit found that the P1 `serialized_records` metric was
-computed from `len(decoded_write_set_ids)` — the **predicted REGENERATE
-write-set size** — not the number of serialized decision records. The corrected
-value is recomputed from the persisted raw responses (ZERO API calls; raw bytes
-unchanged):
-
-| Quantity | Former (write-set size) | Corrected (serialized decisions) |
-|---|---:|---:|
-| Full-v2 mean | 4.03 | **144.0** |
-| Sparse-v2 mean | 2.50 | **4.07** |
-| Paired delta | −1.540 [−2.833, −0.367] | **−139.9 [−143.3, −137.0]** |
-
-Artifacts: `research/real-commit-p1-01/final_metrics_serialization_corrected.json`,
-`research/real-commit-p1-01/serialization_metric_corrected.json`,
-[`reports/REAL_COMMIT_M4A3_P1_SERIALIZATION_METRIC_CORRECTION.md`](reports/REAL_COMMIT_M4A3_P1_SERIALIZATION_METRIC_CORRECTION.md).
-P/R/F1/FNR, validity, truncation, tokens, cost, and latency are unchanged.
-
-### Exploratory graph study — M3 (2026-09-13, audited)
-
-| Condition | Precision | Recall | F1 | FN | FP | Interpretation |
-|---|---|---:|---:|---:|---:|---|
-| Graph OFF | 0.721 | 0.883 | 0.794 | 14 | 41 | baseline |
-| Graph Hints | 0.814 | 0.800 | 0.807 | 24 | 22 | more conservative; precision ↑, recall ↓ |
-| Graph-gated disclosure | — | — | — | — | — | not promising as implemented |
-
-The graph result is exploratory and does **not** support the general claim
-"graphs improve impact selection."
-
-### P5 — LocAgent shared-protocol comparison (2026-09-15, executed + audited)
-
-The pinned upstream LocAgent (`4935b557…`) was run on the SAME 10 P1
-held-out real djangoCMS changes via a POSIX (WSL2 Ubuntu) host, using the same
-**OpenRouter-routed `qwen/qwen3-coder`** model route, and scored with the SAME
-common evaluator against the SAME observed change-set proxy. This is a
-**system-level shared-task comparison** (P1 temperature 0 vs LocAgent upstream
-temperature 1), not an algorithm ablation.
-
-Execution/validity denominators are EXPLICIT and never mixed: Full/Sparse ran
-10 tasks × 3 nested repetitions = 30 cells; LocAgent ran 10 tasks × 1
-execution = 10 outcomes. "30/30" and "5/10" must not be compared as one
-`Valid` denominator.
-
-| System | Tasks | Runs/cells | Non-empty/parseable | Fail-closed/empty | Precision | Recall | F1 | FNR | Comp. tokens | Model calls | Cost | Latency |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| Full-v2 | 10 | 30 | 30 | 0 | 0.339 | 0.369 | 0.353 | 0.631 | 8,445.8 | 30 | $0.2976 | 1,715.7 s |
-| Sparse-v2 | 10 | 30 | 30 | 0 | 0.387 | 0.261 | 0.312 | 0.739 | 599.0 | 30 | $0.0623 | 200.4 s |
-| LocAgent | 10 | 10 | 5 | 5 | 0.435 | 0.270 | 0.333 | 0.730 | 11,325.6 | 402 | $9.9288 | 4,025.9 s |
-
-- LocAgent produced real localization on 5/10 held-out tasks; the other 5 were
-  persisted fail-closed as empty. Failure taxonomy from the raw logs
-  (corrected 2026-09-15): **2/10 genuine 900 s timeouts** (4307e1b8c2e2,
-  fdda30c271f0), **1/10 context-length `BadRequestError`** (66c70394c9e1),
-  **2/10 completed-but-empty** (9e33db4f4660, b39799f9fc1c — the upstream flow
-  logged "succeed" with no parseable file set). That is a **50%
-  empty/non-usable localization rate, NOT a 50% timeout rate**.
-- Authoritative LocAgent accounting: 402 LLM calls, 32,718,518 prompt +
-  113,256 completion tokens, estimated cost $9.9288 (frozen $0.30/$1.00 per 1M
-  pricing snapshot — a NORMALIZED estimate, not authoritative provider-billed
-  cost).
-- **Provider-route provenance (corrected 2026-09-15):** P5 wording is
-  **OpenRouter-routed Qwen3-Coder-480B-A35B-Instruct**. The ledger records the
-  OpenRouter gateway
-  (`provider="openrouter"`), not the resolved backend; raw logs show both
-  DeepInfra and Venice upstream errors, so an unqualified per-call DeepInfra
-  pin is NOT supported. P1's own DeepInfra endpoint freeze is separate
-  evidence.
-- Paired task-level ΔF1 (bootstrap over the 10 independent tasks): LocAgent −
-  Full −0.068 [−0.250, +0.170]; LocAgent − Sparse −0.061 [−0.306, +0.241];
-  both CIs cross zero (no clear detected difference, NOT equivalence).
-- LocAgent-native metrics (corrected 2026-09-15; official metric = task hit
-  iff correct-in-topK == min(proxy, K), mirroring the pinned upstream
-  `eval_metric.py` `acc_at_k`): **Acc@1 4/10, Acc@3 4/10, Acc@5 2/10**; simple
-  task-level Hit@K (≥1 proxy file in top-K) = 4/10 at every K. The historical
-  4/10, 8/10, 9/10 claims were cross-task sums of matching FILE ITEMS
-  (item-hits), not task accuracy, and are NOT reproduced by the official
-  metric.
-
-**Interpretation:** the accuracy–cost trade-off on these real tasks does not
-favor LocAgent — comparable-or-lower F1 at far higher resource cost
-(normalized per execution/task: ~245.7× the mean tokens and ~100.1× the mean
-cost of Full-v2; ~593.8× the mean tokens and ~477.8× the mean cost of
-Sparse-v2), with a 50% empty/non-usable localization rate. The
-representation-cost advantage of our method (RQ1/RQ3) persists; no semantic
-superiority is claimed in either direction. Details:
-[`reports/LOCAGENT_P5C_SHARED_COMPARISON.md`](reports/LOCAGENT_P5C_SHARED_COMPARISON.md),
-[`reports/LOCAGENT_P5C_AUDIT.md`](reports/LOCAGENT_P5C_AUDIT.md).
-
----
-
-## 3. Project map
-
-> Diagram fallback (static SVG; editable Mermaid source of truth:
-> [`docs/diagrams/project_map.mmd`](docs/diagrams/project_map.mmd)).
-
-![Project map](docs/assets/project_map.svg)
-
----
-
-## 4. Repository / dataset scope
-
-| Repository | Role | Approximate scale / status | Evidence type | Current status |
-|---|---|---|---|---|
-| Django Todo | Small controlled prototype | small bespoke repository | controlled component studies | complete / historical |
-| django CMS 5.0.0 | Main mechanism repository | 144 production Python candidates in frozen universe | curated scenarios + real historical commits | primary completed evidence |
-| Saleor Core 3.23.0 | Large cross-repository extension | defined, not scientifically executed | planned real-commit replication | future |
-| LocAgent upstream | External baseline system | graph-guided localization system | shared-protocol comparison | adapter ready; real pilot pending (Windows `fork` blocker) |
-
----
-
-## 5. Test-case / dataset taxonomy
-
-| Family | Count | How created | What it is for | Can it be used as final held-out evidence? |
-|---|---:|---|---|---:|
-| Todo cases | historical small set | bespoke controlled tasks | early pipeline/component validation | no |
-| djangoCMS curated mechanism scenarios | 6 retained | source-audited designed requirement changes | M1/M3 mechanism studies | no; development/mechanism evidence |
-| `MINER_DEV` real commits | 6 | real djangoCMS history | miner/schema/leakage development | no |
-| RealCommit scientific corpus | 40 | deterministic mining + frozen filters/dedup | external-validity dataset | yes, by split |
-| TRAIN | 24 | metadata-only frozen split | development/probes | no |
-| VALIDATION | 6 | metadata-only frozen split | protocol/capability validation | no |
-| HELD_OUT_TEST | 10 | metadata-only frozen split | one-shot P1 scientific evaluation | yes; P1 executed |
-
-Historical changed files are always described as an **OBSERVED CHANGE-SET PROXY**.
-
----
-
-## 5a. RealCommitImpactDataset-v1 — verified funnel and transparency
-
-The corpus is mined from **real GitHub history**, not synthetic edits:
-
-```text
-djangoCMS real Git history
-    ↓
-6000 historical commits scanned
-    ↓
-916 initially eligible
-    ↓
-334 after R1/R2 duplicate removal
-    ↓
-329 after R3 adjudication / independent eligible pool
-    ↓
-40 deliberately selected for v1
-    ↓
-24 TRAIN / 6 VALIDATION / 10 HELD_OUT_TEST
+```
+Change request
+  → Sparse first-pass impact plan (preserve-by-omission)
+  → omitted-candidate recovery / bounded verification
+  → final affected-file set
 ```
 
-Counts verified from the frozen adjudication artifacts
-(`reports/real_commit_m4a2_adjudication.json`; see
-[`reports/REAL_COMMIT_M4A2_ADJUDICATION.md`](reports/REAL_COMMIT_M4A2_ADJUDICATION.md)).
+- **Preserve-by-Omission is representation/cost, not semantic correctness.** It
+  emits only non-`PRESERVE` decisions and reconstructs the rest; this cuts
+  serialization/output cost but does not by itself improve impact accuracy.
+- **Fixed Route-B omission recovery is CONFIRMED** under the frozen djangoCMS
+  protocol (composite beats analytic Random at every budget; gate PASS).
+- **Current unsolved bottleneck = first-pass recall** (75–79% of proxy
+  positives missed on DEVELOPMENT; the fixed next task).
+- **The AI-assisted semantic audit is DESCRIPTIVE only** — inter-model
+  agreement (0.698 / κ 0.558) is not human semantic gold.
 
-Key facts:
+## 3. Current scientific status — at a glance
 
-- **Real GitHub history is used** (modern PR-era djangoCMS, newest 6000
-  ancestors of the frozen tag `5.0.0` anchor).
-- **Inference uses the parent commit P only**; the target commit T is hidden.
-- The **P→T changed production files are an OBSERVED CHANGE-SET PROXY**, not
-  semantic gold — no P/R/V/H gold is fabricated from Git diffs.
-- **Live GitHub HEAD is not used** because it moves and can leak future state.
+| Milestone | Status | Main result | Scientific meaning | Evidence |
+|---|---|:---|:---|:---|
+| Preserve-by-Omission controlled study (M1A/M1B) | CONFIRMED (development/controlled) | Full-v2 F1 0.571 vs Sparse-v2 F1 0.794; ~90% lower completion output | Representation/cost advantage, not semantic superiority | [M1B](reports/CONTROLLED_ENCODING_16K_RESULT.md) · [M1B JSON](research/controlled-encoding-ablation-16k-01/final_metrics.json) |
+| real-commit Full-vs-Sparse (M4A-3 / P1) | CONFIRMED (held-out 10) | ΔF1 (Sparse−Full) −0.009 CI [−0.130, +0.119]; Δcost/task −$0.0235 (CI excludes 0) | Cost effect transfers; semantic superiority does not | [P1 correction](reports/REAL_COMMIT_M4A3_P1_SERIALIZATION_METRIC_CORRECTION.md) |
+| LocAgent shared-protocol study (P5) | CONFIRMED (shared protocol) | LocAgent F1 0.333 (5/10 non-empty) vs Full 0.353 / Sparse 0.312; CIs cross zero | Comparable-or-lower F1 at far higher cost; 50% empty rate; NOT a faithful published-config reproduction | [P5C shared comparison](reports/LOCAGENT_P5C_SHARED_COMPARISON.md) |
+| Route-B candidate-level recovery | DEVELOPMENT (djangoCMS DEV + Saleor DEV) | CIA/Hybrid beat analytic Random at every B; Oracle headroom large | Cheap evidence can rank some omitted positives above Random | [Route-B V2](reports/ROUTE_B_V2_ROBUSTNESS_REPORT.md) |
+| Saleor DEVELOPMENT transfer | DEVELOPMENT | CIA B=5 macro ORR 0.237 vs random 0.006; **REPLICATES** | Cross-repository transfer on DEVELOPMENT | [Saleor transfer](reports/SALEOR_ROUTE_B_TRANSFER_REPORT.md) |
+| djangoCMS fixed Route-B confirmatory | CONFIRMED (spent INTERNAL_TEST) | Composite ORR B=5 0.165 vs random 0.028; gate PASS 5/5 folds, 4/4 B-points | Fixed Route-B omission recovery confirmed | [Confirmatory](reports/DJANGOCMS_ROUTE_B_CONFIRMATORY_RESULT.md) |
+| P2 adaptive-budget Phase 1 | NEGATIVE (frozen) | All four policies fail the strong-method gate on both repos | Choosing budget B is not the main bottleneck | [P2 final](reports/P2_PHASE1_FINAL_REPORT.md) |
+| AI-assisted semantic plausibility audit | DESCRIPTIVE (NOT gold) | Exact agreement 0.698 / κ 0.558; historical-changed 0.847 vs omitted 0.632 | Descriptive assistant reliability; human gold still AWAITING | [AI audit](reports/AI_SEMANTIC_AUDIT_AGREEMENT_REPORT.md) |
+| Oracle-gap / bidirectional repair exploration | POST-HOC (DEVELOPMENT) | Oracle-Add ALL F1 0.867/0.829; F1 0.85 NOT add-only-reachable on Saleor | First-pass recall is dominant; simple BBSR negative | [Oracle-gap](reports/ORACLE_GAP_BIDIRECTIONAL_REPAIR_FINAL_REPORT.md) |
+| **Next task: First-Pass Recall Bottleneck** | FUTURE (not started) | — | FN anatomy → source-specific ceilings → ADD queues → matched-budget DEV comparison → gate | [Oracle-gap §17](reports/ORACLE_GAP_BIDIRECTIONAL_REPAIR_FINAL_REPORT.md) |
 
-## 5b. The 30 development tasks (TRAIN + VALIDATION)
+Labels: **CONFIRMED** = frozen confirmatory evidence · **DEVELOPMENT** = TRAIN/VALIDATION-only design evidence · **NEGATIVE** = valid empirical boundary · **DESCRIPTIVE** = not human gold · **POST-HOC** = labelled characterization · **FUTURE** = not started.
 
-**30 = TRAIN (24) + VALIDATION (6)** development tasks. The **10 old
-HELD_OUT_TEST tasks are permanently exposed** after P1/P5 — all v1 40 tasks are
-therefore unavailable as a future untouched confirmatory set (see the V2
-protocol). Table generated from frozen artifacts (never hand-transcribed;
-generator `scripts/generate_transparency_tables.py`):
+## 4. What we have learned
 
-| Commit SHA | Split | Year | Candidates | Proxy | Bucket | Type | PUBLIC intent (shortened) |
-|---|---|---|---|---|---|---|---|
-| `06ecf3a8e8de` | TRAIN | 2023 | 140 | 1 | small | bugfix | fix: Update transifex source file (#7629) * Fix css glitc... |
-| `138abbb7e5f4` | TRAIN | 2016 | 148 | 1 | small | unknown | More efficient implementation of get_text_enabled_plugins... |
-| `1ff5bf9149b4` | TRAIN | 2017 | 152 | 2 | small | unknown | Fixed #6205 -- Require "Change advanced settings" permiss... |
-| `28ddd6d10308` | TRAIN | 2022 | 140 | 3 | medium | unknown | Fix page tree w/ empty page contents and language-aware a... |
-| `2efae8e43bd6` | TRAIN | 2025 | 144 | 1 | small | bugfix | fix: Grouper models w/o must not assume language grouper ... |
-| `33fbdb18e5d4` | TRAIN | 2023 | 140 | 2 | small | unknown | fix ruff |
-| `39442083f18a` | TRAIN | 2017 | 152 | 1 | small | unknown | Fixes #6189 -- Use only published languages when renderin... |
-| `3f8fcb5fb63b` | TRAIN | 2024 | 144 | 1 | small | bugfix | fix: Correct ContentRenderer logic for toolbar and page c... |
-| `497c3c67e813` | TRAIN | 2022 | 140 | 1 | small | unknown | Optimize populating title cache for Page model. (#7177) *... |
-| `4b8089b8b686` | TRAIN | 2016 | 148 | 3 | medium | unknown | Fixed #5752 -- Move pages relative to left or right sibli... |
-| `5ff38b521274` | TRAIN | 2022 | 140 | 2 | small | feature | feat: graceful plugin exceptions (#7423) * Fix: Catch exc... |
-| `807a87b1de71` | TRAIN | 2023 | 140 | 7 | large | bugfix | fix: Remove `can_publish` permission from django CMS 4 co... |
-| `9e508ff1c41e` | TRAIN | 2016 | 148 | 2 | small | unknown | Deprecated CMSPluginBase attribute; removed deprecated CM... |
-| `a1ac04d3f817` | TRAIN | 2018 | 140 | 2 | small | unknown | Optionally disable the sideframe (#6553) |
-| `a7df58dc5ff3` | TRAIN | 2018 | 140 | 1 | small | unknown | Rename default persist param |
-| `ac74c212719f` | TRAIN | 2023 | 140 | 2 | small | unknown | Fix: Open new plugin window in language of toolbar not of... |
-| `ada585d3f358` | TRAIN | 2025 | 144 | 1 | small | bugfix | fix: Complete #8176 (#8178) * fix: Show toolbar on v4 end... |
-| `c02308fc5261` | TRAIN | 2020 | 140 | 3 | medium | unknown | Add CMSAppExtension.ready which is called after all cms a... |
-| `ca16415b1022` | TRAIN | 2018 | 140 | 2 | small | unknown | Added language to Page translation operations |
-| `d88932559b00` | TRAIN | 2020 | 140 | 2 | small | unknown | Patch defects (#6930) Co-authored-by: Adam Murray <adam@A... |
-| `e429b4584a16` | TRAIN | 2020 | 140 | 2 | small | unknown | Provide a general get method that can be monkeypatched (#... |
-| `e88032bf704c` | TRAIN | 2023 | 143 | 2 | small | chore | chore: Merge `release/build` into `release/4.1.x` (#7729)... |
-| `f2c367ddc7b1` | TRAIN | 2024 | 144 | 1 | small | bugfix | fix: Adjust tests for updated django 5.2 admin templates ... |
-| `ff6cb9b5dced` | TRAIN | 2022 | 140 | 3 | medium | feature | feat: Added pre-migrate hook to check version 4 is intent... |
-| `0daae01f2f65` | VALIDATION | 2017 | 152 | 5 | medium | unknown | Fixed #6201 -- Don't allow users to paste a page if it do... |
-| `0fec81224889` | VALIDATION | 2020 | 140 | 3 | medium | unknown | Deprecate the core Alias plugin (#6918) * Add a deprecati... |
-| `1031d20fca28` | VALIDATION | 2024 | 144 | 9 | large | bugfix | fix: Replaced `languages` field from `Page` which used to... |
-| `47b63015feb1` | VALIDATION | 2024 | 144 | 2 | small | feature | feat: Improved delete page confirmation message (#8070) *... |
-| `a9e2a8d3b7a6` | VALIDATION | 2016 | 148 | 3 | medium | unknown | Mark CMSPlugin.render_plugin as PendingDeprecation |
-| `e3a23a7fc757` | VALIDATION | 2018 | 140 | 3 | medium | unknown | Removed resolve view |
+Each lesson: **Observation → Evidence → Consequence.**
 
-The "Type" column is a conservative public-intent-derived taxonomy (README-only,
-never used for model input / split / tuning). Any reader-friendly topic
-taxonomy added later must be derived from public intent only.
+1. **Sparse representation greatly reduces output/serialization burden, but sparse encoding is not semantic correctness.** M1B: ~90% lower completion output; P1: ΔF1 CI crosses zero. → Report representation cost separately from impact accuracy; never conflate the two.
+2. **Real historical evidence did not show universal Sparse semantic superiority.** P1 ΔF1 (Sparse−Full) −0.009, CI [−0.130, +0.119]. → Claim cost/representation effects only; semantic effects are task-heterogeneous.
+3. **LocAgent shared-protocol execution was very expensive/fragile in our setup; not a faithful published-config reproduction.** P5: 402 calls, ~32.8M prompt tokens, ~$9.93 normalized, 50% empty/non-usable rate, 900 s timeouts. → Use LocAgent numbers only under a shared protocol with explicit denominators; do not compare to its published headline.
+4. **Cheap candidate-level evidence can rank some omitted positives above Random; Route-B transferred on Saleor DEVELOPMENT and confirmed on djangoCMS INTERNAL_TEST.** Route-B V2 + transfer + confirmatory all PASS their gates. → The fixed-B omission-recovery line is the solid anchor.
+5. **Current graph-neighbor increment is small; most ranking signal is lexical/BM25.** Graph@K ≈ path_token@K; BM25@K is the strongest cheap baseline. → Do not assume graph evidence is the lever.
+6. **Simple adaptive-budget P2 policies failed; choosing B is not the main bottleneck.** P2 Phase-1 NEGATIVE on both repos (strong-method gate FALSE). → Budget adaptation was ruled out as the primary fix.
+7. **Add-only Route-B can improve omission recovery while lowering final file-level F1 because of false-positive additions.** Route-B add-only lowers F1 (djangoCMS B=5: 0.226 vs Sparse 0.318). → ORR and file-level F1 are different targets; FP additions must be controlled.
+8. **Oracle analysis shows first-pass recall is dominant: 75–79% of proxy positives missed on DEVELOPMENT; Oracle-Add headroom ~+0.55–0.57 F1.** Oracle-gap decomposition. → The next task is FN anatomy / first-pass recall recovery, ZERO-API first.
+9. **Cheap DROP/FP-pruning signal is too weak; simple BBSR failed despite oracle headroom.** FP-pruning flagged precision ≈ random; heuristic BBSR fails the progression gate on both repos. → A DROP queue is not yet viable with cheap observable signals.
+10. **Therefore next task = FN anatomy / first-pass recall recovery, ZERO-API first.** Oracle-Add ALL F1 0.867/0.829 vs Sparse 0.318/0.261. → Concentrate on the ADD side, not the DROP side.
 
-## 5c. Planner vs RiskScorer vs Verifier — what each component is
+**Why negatives are kept:** every negative above (P2, RiskScorer, graph, BBSR,
+LocAgent fragility) is a **search-space reduction under this protocol** — it
+saves future researchers/engineers time, API cost, and effort by ruling out an
+approach that was already tested. Negatives are empirical boundaries, not
+thesis failures. Full per-milestone detail and revisit triggers:
+[`docs/RESEARCH_JOURNEY.md`](docs/RESEARCH_JOURNEY.md).
 
-- **Sparse / Full planner** = predicts which files are affected.
-- **RiskScorer** = meta-decision layer estimating whether the current scope is
-  unsafe (a second-stage omission-risk signal).
-- **Verifier** = second-stage mechanism that revisits the scope/candidates.
-- **P1 60 cells** = Full-vs-Sparse file-selection/efficiency evaluation.
-- **M1/M1A/M2-style density/cap work** = representation/scaling question.
-- **Risk study** = can omission risk be predicted before gold reveal?
+## 5. Current key numbers
 
-**Current result:** a task-level RiskScorer v1 is **NOT justified** on the
-30-task development evidence (class-balance gate failed: 4 negatives < 10; no
-reliable feature survives the random band). See
-[`reports/OMISSION_RISK_SPARSE_V2_INFERENCE_REPORT.md`](reports/OMISSION_RISK_SPARSE_V2_INFERENCE_REPORT.md).
+Only current headline numbers, each linked to its authoritative report:
 
----
+- **Sparse representation cost/serialization:** M1B Sparse-v2 vs Full-v2: mean
+  completion 809 vs 8,383 tokens; mean serialized records 5.9 vs 144.0; ~90%
+  lower completion output
+  ([M1B report](reports/CONTROLLED_ENCODING_16K_RESULT.md) · [correction note](reports/REAL_COMMIT_M4A3_P1_SERIALIZATION_METRIC_CORRECTION.md)).
+- **Fixed Route-B confirmatory (djangoCMS INTERNAL_TEST, spent):** composite ORR
+  B=5 0.165 vs analytic Random 0.028; final selected set F1 0.239 (TP 71 /
+  FP 274 / FN 179)
+  ([confirmatory](reports/DJANGOCMS_ROUTE_B_CONFIRMATORY_RESULT.md)).
+- **Saleor DEVELOPMENT transfer:** CIA macro ORR B=5 0.237 vs random 0.006 —
+  **REPLICATES**
+  ([transfer](reports/SALEOR_ROUTE_B_TRANSFER_REPORT.md)).
+- **Oracle-gap DEVELOPMENT:** Sparse F1 0.318 (djangoCMS) / 0.261 (Saleor);
+  Oracle-Add ALL 0.867 / 0.829; F1 0.85 NOT add-only-reachable on Saleor
+  ([Oracle-gap](reports/ORACLE_GAP_BIDIRECTIONAL_REPAIR_FINAL_REPORT.md) ·
+  [surfaces](reports/oracle_f1_ceiling_and_budget_surface.json)).
+- **AI semantic-audit agreement (descriptive):** exact 0.698 / κ 0.558;
+  historical-changed 0.847 vs omitted 0.632
+  ([agreement](reports/AI_SEMANTIC_AUDIT_AGREEMENT_REPORT.md) ·
+  [result JSON](reports/ai_semantic_audit_agreement_result.json)).
 
-## 6. Experiment registry
+## 6. Current bottleneck and next experiment
 
-| ID | Question | Data | Arms / conditions | Calls/cells | Status | Main takeaway |
-|---|---|---|---|---:|---|---|
-| M1A | Can a full policy fit a 4096 cap? | 6 curated djangoCMS tasks / capability boundary | Full-v2 vs Sparse-v2 | capability probes | complete | explicit full serialization hits the cap; sparse can complete |
-| M1B | What is the representation cost when both arms can complete? | 6 curated tasks | Full-v2 vs Sparse-v2 @16K | 60 | complete/audited | ~90% lower completion output for sparse |
-| M3 | Does broadcast graph evidence help? | same mechanism set | Graph OFF / hints / gated disclosure | 90 new cells | complete/exploratory | precision ↑ but recall ↓; gating failed operationally |
-| M4A-1 | Can real commits be mined without leakage? | djangoCMS history | infrastructure only | 0 scientific calls | complete/audited | parent-only public/hidden corpus machinery |
-| M4A-2 | Can a scientific real-history corpus be frozen? | djangoCMS history | dataset construction | 0 scientific calls | complete/audited | 40 cases, 24/6/10 split |
-| M4A-3 / P1 | Does M1B's representation effect generalize? | 10 real held-out changes | Full-v2 vs Sparse-v2 @16K | 60 | complete/audited | cost/output effect replicates; semantic superiority does not |
-| P5-A | Can LocAgent be compared under our public/hidden boundary? | non-held-out only | adapter/common evaluator | 0 scientific calls | complete | leakage-safe adapter ready |
-| P5-B | Does real LocAgent execute under shared protocol? | VALIDATION (6) | LocAgent pilot on WSL2 Ubuntu | 6/6 executed | complete/audited | 3 valid + 3 fail-closed empty; POSIX `fork` + deadlock/BadRequest patch solved |
-| P5-C | Full-v2 / Sparse-v2 / LocAgent on the same held-out tasks? | 10 HELD_OUT_TEST | shared-protocol comparison | 10/10 executed | complete/audited | LocAgent F1 .333 (5/10 non-empty) vs Full .353 / Sparse .312; CIs cross zero; official native Acc@1 4/10, Acc@3 4/10, Acc@5 2/10 |
-| P2 | Can structure target likely omissions efficiently? | future TRAIN/VALIDATION | Random@K / Semantic@K / Graph@K / Hybrid@K | TBD | future | thesis-level hypothesis |
-| P3 | Does the result transfer to another large repository? | Saleor real commits | frozen method | TBD | future | cross-repository validity |
-| P4 / M2 | At what impact density does sparse serialization stop helping? | controlled density grid | Full vs Sparse | TBD | future | break-even/scaling boundary |
+**Bottleneck:** first-pass recall — 75–79% of proxy positives are missed before
+any correction; Oracle-Add headroom is ~+0.55–0.57 F1, the largest single lever.
 
----
+**Next experiment (fixed, NOT started):**
+```
+FN taxonomy → source-specific recovery ceilings → complementary ADD queues
+→ matched-budget DEVELOPMENT comparison → progression gate
+```
+- **ZERO-API first** (deterministic analysis over existing DEVELOPMENT evidence).
+- **Sealed sets remain sealed:** djangoCMS RESERVE, Saleor INTERNAL_TEST +
+  RESERVE are never opened; the spent djangoCMS INTERNAL_TEST is used only as
+  labelled POST-HOC sanity.
+- Detail: [`reports/ORACLE_GAP_BIDIRECTIONAL_REPAIR_FINAL_REPORT.md`](reports/ORACLE_GAP_BIDIRECTIONAL_REPAIR_FINAL_REPORT.md) §17.
 
-## 7. Experiment map
+## 7. Evaluation and datasets
 
-> Diagram fallback (static SVG; editable Mermaid source of truth:
-> [`docs/diagrams/experiment_map.mmd`](docs/diagrams/experiment_map.mmd)).
+| Repository | DEV (design evidence) | Confirmatory | Sealed |
+|---|---|---|---|
+| djangoCMS | 174 tasks (V1 30 + V2 DEV_TRAIN 117 + DEV_VALIDATION 27) | INTERNAL_TEST 80 — **spent** (Route-B confirmatory) | RESERVE 59 — sealed |
+| Saleor | 149 tasks | — | INTERNAL_TEST 80 + RESERVE 1086 — sealed |
 
-![Experiment map](docs/assets/experiment_map.svg)
+- **Observed change-set proxy:** the parent→target changed production-file set
+  is an **OBSERVED CHANGE-SET PROXY, not semantic gold**; no P/R/V/H gold is
+  fabricated from diffs.
+- **Public/hidden boundary:** inference uses parent commit only; target/hidden
+  data never enters prompts.
+- **HELD_OUT_TEST (10):** permanently exposed after P1/P5 — never tune on it.
+- **Semantic audit:** the AI-assisted audit is descriptive; human two-rater +
+  adjudicator ratings remain **AWAITING_HUMAN_RATINGS**.
+- Definitions: [`reports/DATASET_OPERATIONAL_DEFINITIONS.md`](reports/DATASET_OPERATIONAL_DEFINITIONS.md).
 
----
+## 8. Reproducibility / governance
 
-## 8. Repository map
+- **Scientific truth:** [`00_CURRENT_RESEARCH_STATE.md`](00_CURRENT_RESEARCH_STATE.md)
+- **Execution truth:** [`PROGRESS.md`](PROGRESS.md)
+- **Append-only decisions:** [`DECISIONS.md`](DECISIONS.md)
+- **Protocol v2:** [`docs/EXECUTION_AND_VALIDATION_PROTOCOL_V2.md`](docs/EXECUTION_AND_VALIDATION_PROTOCOL_V2.md)
+- **Chronological research history:** [`docs/RESEARCH_JOURNEY.md`](docs/RESEARCH_JOURNEY.md)
+- **Experiment evidence:** [`reports/`](reports/)
+- **Tags:** scientific milestones are DEV-evidence tags (e.g.
+  `oracle-gap-bidirectional-repair-2026-09-18`), NOT stable-tag moves.
 
-> Diagram fallback (static SVG; editable Mermaid source of truth:
-> [`docs/diagrams/repository_map.mmd`](docs/diagrams/repository_map.mmd)).
+**Traceability schema:** scientific closure commit and tag peel are **immutable
+scientific facts** embedded in `GIT_STATE.txt`
+(`scientific_closure_commit`, `scientific_closure_tag_peel`); **live
+HEAD/origin-main are runtime git facts** and are queried with
+`git rev-parse HEAD` / `git rev-parse origin/main` — a tracked file cannot
+embed its own final live HEAD SHA.
 
-![Repository map](docs/assets/repository_map.svg)
+## 9. Repository map
 
----
-
-## 9. The six Pre-Benchmark Validation gates
-
-The "six gates" are **six categories of pre-run checks**, not six model runs.
-
-| Gate | What it verifies | P1 example |
-|---|---|---|
-| 1. Dataset Validation | data identity and split correctness | exact 10 held-out IDs, corpus/split hashes, public/hidden boundary |
-| 2. Prompt Validation | prompt parity and leakage | same semantic contract; only serialization differs; no hidden proxy in prompt |
-| 3. Pipeline Smoke Test | code path works end-to-end on fixtures | render → decode → reconstruct policy |
-| 4. Dry Run | exact run plan without API calls | generate/freeze the 60-cell manifest with 0 calls |
-| 5. Integration Test | components interoperate correctly | fixture → decoder → predicted write set → evaluator |
-| 6. Metric Verification | scoring is mathematically correct | independently recompute TP/FP/FN/P/R/F1/FNR |
-
-After these six gates, an **independent Audit** checks persisted evidence and
-protocol invariants again.
-
----
-
-## 10. Running the benchmark
-
-### 10.1 Install
-
-```powershell
-git clone https://github.com/AhmedEhabH/dependency-aware-selective-regeneration-benchmark.git
-cd dependency-aware-selective-regeneration-benchmark
-
-python -m venv .venv
-.venv\Scripts\Activate.ps1
-python -m pip install -U pip
-pip install -e .[dev]
+```
+benchmark_data/      frozen datasets (real-commit V1/V2, Saleor)
+src/benchmark/       source (loaders, execution, impact strategies, evaluation)
+scripts/             reproducible experiment launchers + verification
+research/            per-milestone evidence (run records, manifests, raw responses)
+reports/             authoritative experiment reports + machine-readable JSON
+docs/                protocols, runbook, research journey, roadmap, handoffs
+msc_proposal/        proposal documents (V1.5 current)
+dist/                release/upload bundles
 ```
 
-Use the repository's exact dependency instructions if they differ from the
-generic commands above.
+Full map: [`docs/PROJECT_STRUCTURE_MAP.md`](docs/PROJECT_STRUCTURE_MAP.md).
 
-### 10.2 API credentials
-
-Keys are referenced by environment-variable name in configuration, never stored
-as literal secrets.
-
-#### OpenRouter
-
-```powershell
-$env:OPENROUTER_API_KEY = Read-Host "OpenRouter API key" -AsSecureString
-```
-
-#### DeepSeek direct — planned provider profile
-
-```powershell
-$env:DEEPSEEK_API_KEY = "<your key>"
-```
-
-#### Hugging Face Inference Providers — planned provider profile
-
-```powershell
-$env:HF_TOKEN = "<your fine-grained inference token>"
-```
-
----
-
-## 11. Dry run vs probe vs live
-
-### Dry run
-
-Purpose:
-- validates dataset;
-- resolves model/provider configuration;
-- renders prompts;
-- validates schemas;
-- freezes the manifest;
-- makes **ZERO external model calls**.
-
-```powershell
-python scripts/benchmark_cli.py dry-run --study real-commit-p1
-```
-
-### Capability probe
-
-Purpose:
-- a few non-held-out real API calls;
-- verifies endpoint availability, cap, response format and decoding;
-- never consumes held-out scientific cases.
-
-```powershell
-python scripts/benchmark_cli.py probe `
-  --study real-commit-p1 `
-  --model-profile qwen3-coder-openrouter-deepinfra
-```
-
-### Live scientific run
-
-Only after protocol freeze + six gates + audit:
-
-```powershell
-python scripts/benchmark_cli.py live `
-  --study real-commit-p1 `
-  --model-profile qwen3-coder-openrouter-deepinfra
-```
-
-### Verify (ZERO API)
-
-```powershell
-python scripts/benchmark_cli.py verify --study real-commit-p1
-```
-
-The unified CLI is a thin wrapper; study-specific launchers remain the
-reproducible source of truth (documented in `docs/BENCHMARK_RUNBOOK.md`).
-
----
-
-## 12. Model/provider architecture — target design
-
-Model choice must be dynamic **for future studies**, while every scientific run
-remains frozen and reproducible. Profiles live in
-[`config/model_profiles.yaml`](config/model_profiles.yaml) and are immutable
-once resolved. A live run refuses to continue if the resolved profile differs
-from the frozen manifest.
-
-Example profile:
-
-```yaml
-id: deepseek-v4-flash-openrouter
-gateway: openrouter
-base_url: https://openrouter.ai/api/v1
-model: deepseek/deepseek-v4-flash-0731
-provider_pin: null
-api_key_env: OPENROUTER_API_KEY
-temperature: 0
-max_completion_tokens: 16384
-structured_output: json_schema
-fallbacks: false
-```
-
-Recommended future profiles:
-- Qwen3-Coder-480B-A35B-Instruct / OpenRouter / pinned DeepInfra — historical primary profile;
-- DeepSeek V4 Flash 0731 / OpenRouter — low-cost cross-model candidate;
-- DeepSeek V4 Pro 0813 / OpenRouter or direct API — stronger-costlier robustness candidate;
-- Hugging Face Inference Providers profile(s), only when the selected model/provider supports the required structured-output contract.
-
-Never silently switch providers/models inside one frozen scientific arm. Full
-guide: [`docs/MODEL_PROVIDER_GUIDE.md`](docs/MODEL_PROVIDER_GUIDE.md).
-
----
-
-## 13. Using Hugging Face
-
-Hugging Face Inference Providers support an OpenAI-compatible chat endpoint and
-structured outputs for supported model/provider combinations.
-
-Target profile:
-
-```yaml
-id: hf-example
-gateway: huggingface
-base_url: https://router.huggingface.co/v1
-model: <repo-id>:<provider>
-api_key_env: HF_TOKEN
-structured_output: json_schema
-temperature: 0
-```
-
-Before admitting an HF profile into a scientific matrix:
-1. capability probe the exact model/provider;
-2. confirm JSON-schema support;
-3. confirm completion cap;
-4. freeze provider selection (`:provider` or explicit policy);
-5. disable silent failover when provider identity is part of the experimental control.
-
----
-
-## 14. Benchmark-user vs research-author workflows
-
-### I only want to use the idea on my repository
-
-Use the inference pipeline:
-1. provide a repository snapshot/base commit;
-2. generate the candidate universe;
-3. provide the natural-language requirement;
-4. run the Sparse policy;
-5. decode omitted candidates as `PRESERVE`;
-6. consume selected files in your editor/agent workflow.
-
-You do not need hidden proxies or scientific scoring.
-
-### I want to benchmark a model
-
-You need:
-1. frozen tasks;
-2. hidden observed targets/proxies;
-3. public/hidden leakage boundary;
-4. model profile;
-5. dry run;
-6. capability probe;
-7. six gates + audit;
-8. live run;
-9. scoring only after inference;
-10. immutable result manifest and raw-response hashes.
-
----
-
-## 15. Scientific cost controls
-
-Three different quantities must not be confused:
-
-| Name | Meaning |
-|---|---|
-| `budget_abort_ceiling_usd` | pre-run safety threshold; aborts a run before uncontrolled spending |
-| `estimated_api_cost_usd` | token usage × frozen endpoint prices |
-| `provider_billed_cost_usd` | actual provider/account billing, if an authoritative value is exposed |
-
-A budget ceiling is **not a scientific result**.
-
-For P1:
-- ceiling frozen before execution: $1.50;
-- estimated cost from persisted token usage and frozen prices: $0.359964.
-
----
-
-## 16. Current scope and limitations
-
-The project currently measures:
-- file-level impact selection;
-- operational validity/truncation;
-- representation size/tokens;
-- cost/latency/calls.
-
-It does not yet establish:
-- downstream patch correctness;
-- universal semantic superiority of Sparse-v2;
-- universal graph benefit;
-- cross-repository generalization to Saleor;
-- a shared-protocol numeric LocAgent result.
-
-Additional known limitations are tracked in
-[`docs/TECHNICAL_DEBT_REGISTER.md`](docs/TECHNICAL_DEBT_REGISTER.md) and the
-historical `## Known Limitations` section in
-[`docs/HISTORICAL_EXPERIMENT_LEDGER.md`](docs/HISTORICAL_EXPERIMENT_LEDGER.md).
-
----
-
-## 17. Next scientific priorities
-
-1. Paper V20 final submission using M1 + real-commit P1 + P5 shared comparison.
-2. ~~LocAgent P5-B/P5-C~~ — **COMPLETE** (2026-09-15) on WSL2 Ubuntu; see
-   [P5 shared comparison](#p5-locagent-shared-protocol-comparison).
-3. Graph/semantic omission-risk study (post-submission MSc roadmap):
-   - Random@K;
-   - Semantic@K;
-   - Graph@K;
-   - Hybrid@K.
-4. Saleor real-commit replication (post-submission).
-5. M2 serialization-density stress (post-submission).
-6. downstream functional correctness (post-submission).
-7. MSc proposal package (target 2026-10-07/08) — see
-   [`docs/MSC_RESEARCH_ROADMAP_2026_2027.md`](docs/MSC_RESEARCH_ROADMAP_2026_2027.md)
-   and the post-submission roadmap in `TODO.md`.
-
-See [`docs/MSC_RESEARCH_ROADMAP_2026_2027.md`](docs/MSC_RESEARCH_ROADMAP_2026_2027.md),
-[`docs/PAPER_WRITING_HANDOFF.md`](docs/PAPER_WRITING_HANDOFF.md), and
-[`docs/PROJECT_HANDOFF.md`](docs/PROJECT_HANDOFF.md) for the frozen execution
-state.
-
----
-
-## 18. Quickstart (no API key required)
-
-Reproduce the deterministic smoke-profile dry run (mock backend — zero model
-calls, zero tokens):
+## 10. Reproduce / test
 
 ```bash
+# Deterministic smoke-profile dry run (mock backend — zero model calls)
 python seven_arm_benchmark.py --dry-run --profile smoke
-```
 
-Recompute every headline manuscript metric from the frozen evidence:
-
-```bash
+# Recompute every headline manuscript metric from frozen evidence
 python scripts/verify_paper_claims.py
+
+# Run the test suite
+python -m pytest tests/unit tests/integration
 ```
 
-List available model profiles:
+Detailed: [`docs/BENCHMARK_RUNBOOK.md`](docs/BENCHMARK_RUNBOOK.md),
+[`docs/REPRODUCIBILITY_PROTOCOL.md`](docs/REPRODUCIBILITY_PROTOCOL.md).
 
-```bash
-python scripts/benchmark_cli.py models
-```
+## 11. Citation / claim status
+
+| Label | Meaning |
+|---|---|
+| **CONFIRMED** | frozen confirmatory evidence (e.g. djangoCMS INTERNAL_TEST) |
+| **DEVELOPMENT** | TRAIN/VALIDATION-only design evidence (not confirmatory) |
+| **NEGATIVE** | valid empirical boundary / search-space reduction |
+| **POST-HOC** | labelled characterization of frozen evidence (not preregistered) |
+| **DESCRIPTIVE** | e.g. AI-assisted semantic audit — NOT human semantic gold |
+| **FUTURE** | not started (e.g. First-Pass Recall Bottleneck) |
+
+Citation metadata: [`CITATION.cff`](CITATION.cff). License: MIT
+([`LICENSE`](LICENSE)).
 
 ---
 
-## 19. Deep historical documentation
-
-The detailed chronological record, the historical headline tables, the original
-Known Limitations list, and the full reproducibility index were moved to
-[`docs/HISTORICAL_EXPERIMENT_LEDGER.md`](docs/HISTORICAL_EXPERIMENT_LEDGER.md)
-to keep this README reader-first. Nothing was deleted — historical evidence and
-reports remain in `reports/` and Git history.
-
-Key entry points:
-- Model/provider guide: [`docs/MODEL_PROVIDER_GUIDE.md`](docs/MODEL_PROVIDER_GUIDE.md)
-- Benchmark runbook: [`docs/BENCHMARK_RUNBOOK.md`](docs/BENCHMARK_RUNBOOK.md)
-- Technical-debt register: [`docs/TECHNICAL_DEBT_REGISTER.md`](docs/TECHNICAL_DEBT_REGISTER.md)
-- Paper-writing handoff: [`docs/PAPER_WRITING_HANDOFF.md`](docs/PAPER_WRITING_HANDOFF.md)
-- Research roadmap: [`docs/MSC_RESEARCH_ROADMAP_2026_2027.md`](docs/MSC_RESEARCH_ROADMAP_2026_2027.md)
-- Claim → evidence map: [`reports/PAPER_CLAIM_EVIDENCE_MAP.md`](reports/PAPER_CLAIM_EVIDENCE_MAP.md)
-
----
-
-## License
-
-Original benchmark source code is licensed under the [MIT License](LICENSE).
-Third-party repositories, dependencies, model assets, and derived materials
-remain governed by their original licenses.
-
-## Citation
-
-See [`CITATION.cff`](CITATION.cff) (benchmark version 0.11.0).
-
-## Author
-
-**Ahmed Ehab** — GitHub: [AhmedEhabH](https://github.com/AhmedEhabH)
+**Author:** Ahmed Ehab — [AhmedEhabH](https://github.com/AhmedEhabH)

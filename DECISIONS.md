@@ -980,3 +980,13 @@ esearch/literature/idea_ledger.md I1/I2/I5/I6. Do NOT start:
 - **Rejected:** reopening P2 Phase-1; tuning on the spent INTERNAL_TEST; any model/API call; neural/RL; new LocAgent spend; forcing F1 0.85.
 - **Evidence:** reports/ORACLE_GAP_{ERROR_DECOMPOSITION,F1_CEILING_AND_BUDGET_SURFACE,BIDIRECTIONAL_REPAIR_FINAL_REPORT,INDEPENDENT_AUDIT}.md + JSONs, reports/SELECTED_SET_FP_PRUNING_FEASIBILITY.md, reports/BBSR_DEVELOPMENT_SIMULATION.md, reports/LOCAGENT_FAIR_COMPARISON_PLAN_V2.md, reports/BIDIRECTIONAL_SET_REPAIR_LITERATURE_CHECK.md, scripts/oracle_gap_*.py (10), tests/unit/test_oracle_gap.py (16/16), reports/oracle_gap_gates_validation.json.
 - **Revisit:** after a first-pass-recall improvement candidate is defined on DEVELOPMENT (the measured dominant bottleneck); human semantic-audit ratings remain an open blocker.
+
+## Decision P62 - README reorganization + research journey (documentation architecture) (2026-09-18)
+
+- **Status:** ADOPTED (mission OPENCODE_README_RESEARCH_JOURNEY_REORG_2026-09-18; T2 docs-only; ZERO API)
+- **Context:** the README had grown into a large chronological dump with stale claims (Saleor "future", LocAgent "adapter pending", Route-B "development only", P2 "conditional", semantic audit "preparation", old 2026-09-16/17 header), making the current state hard to find in ~5 minutes.
+- **Decision:** adopt a documentation architecture with fixed roles: **README.md** = concise navigation / current headline overview (11 mandated sections); **00_CURRENT_RESEARCH_STATE.md** = detailed scientific truth; **PROGRESS.md** = current execution truth; **DECISIONS.md** = append-only decisions; **docs/RESEARCH_JOURNEY.md** (new) = chronological tried/learned/ruled-out history with revisit triggers; **reports/** = authoritative experiment evidence. README reorganized so stale chronology cannot dominate the top again; stale claims replaced with current status; docs/RESEARCH_JOURNEY.md created with 17 milestones, negatives framed as search-space reductions.
+- **Rules:** do not change scientific numbers; do not delete historical evidence; do not create a parallel README; link to reports instead of duplicating tables.
+- **Rejected:** deleting historical reports; moving scientific tags; rewriting 00_CURRENT_RESEARCH_STATE.md scientific claims; any model/API call.
+- **Evidence:** README.md, docs/RESEARCH_JOURNEY.md (17 rows), DECISIONS.md P62, PROGRESS.md (docs task block).
+- **Revisit:** when the First-Pass Recall Bottleneck study produces new milestones; add rows to docs/RESEARCH_JOURNEY.md as experiments complete.
