@@ -90,13 +90,16 @@ correction + Grafana FUTURE candidate → gap-reduction roadmap ladder —
 
 ## Closure block (Ranking bridge + bounded semantic freeze mission, 2026-09-18)
 
-- Branch: `research/ranking-bridge-bounded-semantic-freeze-2026-09-18` →
-  merged to `main`.
+- Branch: `research/ranking-bridge-bounded-semantic-freeze-2026-09-18` → merged
+  to `main` as merge commit `2744f6f` (immutable scientific fact).
 - DEV-evidence tag `ranking-bridge-bounded-semantic-freeze-2026-09-18` — peel
-  == merge == `main` (audited DEVELOPMENT evidence; NOT a stable-tag move).
+  `2744f6f` == merge == `main` (audited DEVELOPMENT evidence; NOT a
+  stable-tag move). Pushed to origin; origin/main == HEAD == tag peel.
 - Live HEAD / origin/main are runtime git facts (query with `git rev-parse`).
-- LIGHT export at scientific closure (filename/hash recorded in the final
-  report).
+- LIGHT export (at scientific closure): `project-2026-09-18-1923.zip`
+  SHA-256 `7cf1f5594f006543d934e29dbf4a4a89980cfc8f489af9dbbe4dfb0d5195891d`
+  (95,607,842 bytes; required members `.git/HEAD`,
+  `dist/pilot-kaggle-upload.zip`, `.sha256` present; 9,101 entries).
 - Next scientific task (NOT started, requires its own authorization): bounded
   semantic rerank/verify pilot on DEVELOPMENT (Route-B top-B + reverse-1hop
   consumer pool), using the frozen protocol + budget draft.
