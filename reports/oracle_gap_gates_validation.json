@@ -1,0 +1,18 @@
+{
+  "mission": "OPENCODE_ORACLE_GAP_BIDIRECTIONAL_REPAIR_MISSION_2026-09-18",
+  "date": "2026-09-18",
+  "tier": "T3",
+  "model": "openrouter/deepseek/deepseek-v4-flash-0731",
+  "gates": [
+    {"name": "dataset", "scope": "load_dev_tasks (djangoCMS DEV 174 + Saleor DEV 149) reproduces frozen per_task_rows n_missed exactly", "passed": true, "detail": "tests/unit/test_oracle_gap.py::test_aggregate_matches_frozen_per_task_rows PASS"},
+    {"name": "input/prompt", "scope": "not applicable (no model inputs; ZERO API)", "passed": true, "detail": "no prompts constructed in this mission"},
+    {"name": "pipeline_smoke", "scope": "all 10 oracle-gap scripts py_compile + ruff clean", "passed": true, "detail": "py_compile OK; ruff all-checks-passed"},
+    {"name": "dry_run", "scope": "deterministic oracle simulations on DEVELOPMENT; no model calls", "passed": true, "detail": "ceilings/decomposition/pruning/BBSR all deterministic, seed-fixed where used"},
+    {"name": "integration", "scope": "oracle math tests + BBSR + fp-pruning + sealed-set guard", "passed": true, "detail": "tests/unit/test_oracle_gap.py 16/16 PASS; test_semantic_ai_audit + test_semantic_audit also green"},
+    {"name": "metrics", "scope": "F1/P/R/FNR recomputed independently (raw records) and matching reports", "passed": true, "detail": "reports/ORACLE_GAP_INDEPENDENT_AUDIT.md ALL CHECKS PASS"},
+    {"name": "leakage", "scope": "no hidden-proxy consumed by any heuristic policy; INTERNAL_TEST/RESERVE excluded from DEV load", "passed": true, "detail": "test_sealed_sets_guard PASS; BBSR heuristic uses composite/features only"},
+    {"name": "independent_audit", "scope": "headline numbers recomputed from raw frozen records without analysis-script imports", "passed": true, "detail": "reports/ORACLE_GAP_INDEPENDENT_AUDIT.md"}
+  ],
+  "all_passed": true,
+  "decision": "BIDIRECTIONAL_HEADROOM_ONLY"
+}

@@ -281,3 +281,16 @@ Legend: PROPOSED / EXECUTED / REJECTED / DEFERRED / SUPERSEDED.
   (19/19).
 - **Revisit:** after human review of the 119-row spot-check; the human
   two-rater + adjudicator audit remains AWAITING_HUMAN_RATINGS.
+
+## E-042 - Oracle-gap decomposition + bidirectional bounded set repair (2026-09-18)
+- **Status:** EXECUTED (DEVELOPMENT; ZERO API; decision BIDIRECTIONAL_HEADROOM_ONLY).
+- **Result:** confirmatory budget verified (Sparse F1 0.252; verifier B=5 F1
+  0.239). DEVELOPMENT Sparse baseline djangoCMS 0.3177 / Saleor 0.2605.
+  Oracle-Add ALL 0.8674 / 0.8291; Oracle-Drop ALL 0.3956 / 0.3492;
+  bidirectional reaches F1 1.0; **F1=0.85 NOT add-only-reachable on Saleor**.
+  Dominant bottleneck = first-pass recall (75-79% missed); Route-B add-only
+  lowers file-level F1. Observable FP-pruning ~ random; heuristic BBSR fails
+  the progression gate -> no verifier calls. Next = first-pass recall.
+- **Artifact:** reports/ORACLE_GAP_*.md + JSONs, scripts/oracle_gap_*.py (10),
+  tests/unit/test_oracle_gap.py (16/16), reports/oracle_gap_gates_validation.json.
+- **Revisit:** when a first-pass-recall improvement candidate is defined on DEV.
