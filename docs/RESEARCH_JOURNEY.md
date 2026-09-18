@@ -10,7 +10,7 @@ thesis failures: each saves future time, API cost, and effort by ruling out an
 approach already tested under this protocol.
 
 **Model (authoring agent):** openrouter/deepseek/deepseek-v4-flash-0731
-**Last update:** 2026-09-18 (T2/T3 docs + ranking-bridge mission)
+**Last update:** 2026-09-18 (T2/T3 docs + ranking-bridge mission + precision-safe acceptance feasibility)
 
 ---
 
@@ -38,6 +38,7 @@ Date/Phase | Question | Method | Result | Decision | Why it matters | Revisit tr
 2026-09-18 | Quantitative-structural ranking bridge | Exactly three transparent deterministic rankers (R1/R2/R3: BM25 + normalized reverse/bidirectional seed-support counts) over the high-coverage reverse-1hop pool, matched budget (ZERO API) | Section-1 reconfirmed the frozen gap EXACTLY; **best R1 at B=5 djangoCMS +0.034 but Saleor −0.020; NO formula material on BOTH repos**; folds not majority positive; artifact-free | **CHEAP_RANKING_CLOSED_FOR_NOW** — cheap count formulas cannot realize the ranking headroom | Rules out the last cheap-deterministic bridge; the bounded semantic middle layer is next | Only with a fundamentally stronger signal (e.g. typed edges, which the frozen graph does NOT expose) or the authorized semantic pilot | [Bridge report](../reports/QUANT_STRUCTURAL_RANKING_BRIDGE_REPORT.md) · [baseline freeze](../reports/fn_quant_ranking_bridge_baseline_freeze.json) · [audit](../reports/FN_QUANT_RANKING_BRIDGE_AUDIT.md)
 2026-09-18 | Bounded semantic rerank/verify FREEZE (prepared, not executed) | Frozen protocol + API budget for a bounded semantic decision layer over Route-B top-10 ∪ reverse-1hop consumers (pool cap 40; ≤300 calls / ≤300k tokens / ≤$0.30 / ≤60 min) | NOT EXECUTED — ZERO calls; protocol + budget + exact authorization sentence delivered | Middle layer READY but gated on user authorization | Defines Stage 4 of the gap-reduction ladder; no call made | Execute ONLY under the explicit authorization sentence in the budget draft | [Protocol](../docs/BOUNDED_SEMANTIC_RERANK_VERIFY_PROTOCOL_FROZEN.md) · [budget draft](../reports/BOUNDED_SEMANTIC_EXPANSION_BUDGET_FREEZE_DRAFT.md)
 2026-09-18 | Bounded semantic expansion pilot (AUTHORIZED) | Real Stage-4 run (300 calls: Arm A frozen Route-B verifier 240 + Arm B expanded-pool bounded rerank 60) on DEVELOPMENT under the frozen protocol/budget | Arm B raises ORR on djangoCMS (+0.139 @B=5) but NOT materially on Saleor (+0.023); naive final F1 falls materially on djangoCMS (−0.069); 106,325 tokens / $0.0444 / 553.6 s, ceilings respected | **BOUNDED_SEMANTIC_NEGATIVE_FROZEN** — preregistered gate FAIL (c1 saleor, c3 djangocms) | Closes Stage 4 NEGATIVE; the "ORR up but F1 down" case is not a success; no prompt/schema tuning | Only with a precision-safe acceptance rule (pre-registered) + explicit authorization | [Closure report](../reports/BOUNDED_SEMANTIC_EXPANSION_CLOSURE_REPORT.md) · [pilot report](../reports/BOUNDED_SEMANTIC_EXPANSION_PILOT_REPORT.md) · [audit](../reports/BOUNDED_SEMANTIC_EXPANSION_AUDIT.md) · [raw runs](../research/bounded-semantic-expansion/)
+2026-09-18 | Precision-safe acceptance feasibility + protocol freeze (ZERO API) | Zero-API failure anatomy of the frozen 300-call record (rank-position precision, source split, cap loss, schema taxonomy, B=10 consistency) + ONE POST-HOC feasibility rule (RANK → VERIFY → VARIABLE ACCEPT) + exactly one frozen next protocol | FP tail is an acceptance-layer failure split across BOTH pool sources (dc 68/51, saleor 71/48); semantic rank is the first real FN-recovery instrument (dc ORR 0.111→0.250 @B5; 5/5 folds @B10 both repos); cap C=40 loses 10+29 FNs; 6/6 invalid = non-pool-path + partial credit; frozen verifier too weak (8.6–14% approval precision) and never assessed on consumer-only candidates | **FAMILY justified, specific frozen verifier not**; one frozen protocol (cap 80, K=10, strict boolean-vector verifier, variable 0..K, fresh disjoint sample seed 20260919, gate c1–c7 both repos) + budget draft (≤400 calls / 300k tok / $0.15 / 60 min), NOT EXECUTED | Diagnoses WHY Stage-4 failed (acceptance, not ranking) and freezes the exact precision-safe next instrument; no API spend | Execute ONLY under the exact authorization sentence in the budget draft §7; on gate FAIL freeze the negative | [Feasibility report](../reports/PRECISION_SAFE_ACCEPTANCE_FEASIBILITY_2026-09-18.md) · [metrics](../reports/precision_safe_feasibility_metrics.json) · [protocol](../docs/PRECISION_SAFE_ACCEPTANCE_PROTOCOL_FROZEN.md) · [budget draft](../reports/PRECISION_SAFE_ACCEPTANCE_BUDGET_FREEZE_DRAFT.md) · [audit](../reports/PRECISION_SAFE_ACCEPTANCE_AUDIT.md)
 
 ---
 
@@ -70,6 +71,13 @@ effort** by ruling out an approach under this protocol:
   djangoCMS (−0.069) → BOUNDED_SEMANTIC_NEGATIVE_FROZEN. Repeating this exact
   protocol at higher budget is unlikely to help; any future semantic
   instrument needs a precision-safe acceptance rule.
+- **The Stage-4 frozen verifier as a precision-safe acceptance layer** — ruled
+  out POST-HOC by the feasibility anatomy: its approvals are 8.6–14% precise
+  (it approves ~everything it sees) and it never saw reverse-1hop-only
+  candidates, so an "AND verifier-approved" gate cannot rescue the FP tail
+  without also removing FN recovery. This is a diagnosis of the SPECIFIC
+  frozen instrument, NOT of the RANK → VERIFY → VARIABLE-ACCEPT family, which
+  remains the single frozen next instrument under a new strict verifier.
 
 Each has an explicit **revisit trigger** (new hypothesis, new protocol, more
 data, or a genuinely stronger signal) — never "re-run because we want a

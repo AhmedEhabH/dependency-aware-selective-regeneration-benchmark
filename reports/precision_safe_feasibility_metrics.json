@@ -1,0 +1,1090 @@
+{
+  "study_id": "precision-safe-acceptance-feasibility-2026-09-18",
+  "tier": "T3 (zero-API development analysis over frozen Stage-4 records)",
+  "model_authoring_agent": "openrouter/deepseek/deepseek-v4-flash-0731",
+  "stage4_evidence_verification": {
+    "stage4_verdict_frozen": "BOUNDED_SEMANTIC_NEGATIVE_FROZEN",
+    "calls_total": 300,
+    "calls_arm_a": 240,
+    "calls_arm_b": 60,
+    "tokens": 106325,
+    "cost_usd": 0.044399,
+    "wall_seconds": 553.6,
+    "ceilings_respected": true,
+    "arm_a_valid": 240,
+    "arm_b_valid": 54,
+    "arm_b_invalid": 6,
+    "orr5_recomputed": {
+      "djangocms": {
+        "arm_a": 0.1111,
+        "arm_b": 0.25
+      },
+      "saleor": {
+        "arm_a": 0.3344,
+        "arm_b": 0.3574
+      }
+    }
+  },
+  "arm_b_rank_position_precision": {
+    "djangocms": {
+      "cumulative": [
+        {
+          "rank": 1,
+          "n_tasks_with_rank": 24,
+          "cum_sel": 24,
+          "cum_fn": 3,
+          "cum_fp": 21,
+          "cum_candidate_precision": 0.125
+        },
+        {
+          "rank": 2,
+          "n_tasks_with_rank": 24,
+          "cum_sel": 48,
+          "cum_fn": 6,
+          "cum_fp": 42,
+          "cum_candidate_precision": 0.125
+        },
+        {
+          "rank": 3,
+          "n_tasks_with_rank": 24,
+          "cum_sel": 72,
+          "cum_fn": 8,
+          "cum_fp": 64,
+          "cum_candidate_precision": 0.1111
+        },
+        {
+          "rank": 4,
+          "n_tasks_with_rank": 24,
+          "cum_sel": 96,
+          "cum_fn": 8,
+          "cum_fp": 88,
+          "cum_candidate_precision": 0.0833
+        },
+        {
+          "rank": 5,
+          "n_tasks_with_rank": 22,
+          "cum_sel": 118,
+          "cum_fn": 11,
+          "cum_fp": 107,
+          "cum_candidate_precision": 0.0932
+        },
+        {
+          "rank": 6,
+          "n_tasks_with_rank": 18,
+          "cum_sel": 136,
+          "cum_fn": 14,
+          "cum_fp": 122,
+          "cum_candidate_precision": 0.1029
+        },
+        {
+          "rank": 7,
+          "n_tasks_with_rank": 12,
+          "cum_sel": 148,
+          "cum_fn": 15,
+          "cum_fp": 133,
+          "cum_candidate_precision": 0.1014
+        },
+        {
+          "rank": 8,
+          "n_tasks_with_rank": 7,
+          "cum_sel": 155,
+          "cum_fn": 15,
+          "cum_fp": 140,
+          "cum_candidate_precision": 0.0968
+        },
+        {
+          "rank": 9,
+          "n_tasks_with_rank": 3,
+          "cum_sel": 158,
+          "cum_fn": 15,
+          "cum_fp": 143,
+          "cum_candidate_precision": 0.0949
+        },
+        {
+          "rank": 10,
+          "n_tasks_with_rank": 3,
+          "cum_sel": 161,
+          "cum_fn": 15,
+          "cum_fp": 146,
+          "cum_candidate_precision": 0.0932
+        }
+      ],
+      "pointwise": [
+        {
+          "rank": 1,
+          "n_tasks_with_rank": 24,
+          "point_precision": 0.125
+        },
+        {
+          "rank": 2,
+          "n_tasks_with_rank": 24,
+          "point_precision": 0.125
+        },
+        {
+          "rank": 3,
+          "n_tasks_with_rank": 24,
+          "point_precision": 0.0833
+        },
+        {
+          "rank": 4,
+          "n_tasks_with_rank": 24,
+          "point_precision": 0.0
+        },
+        {
+          "rank": 5,
+          "n_tasks_with_rank": 22,
+          "point_precision": 0.1364
+        },
+        {
+          "rank": 6,
+          "n_tasks_with_rank": 18,
+          "point_precision": 0.1667
+        },
+        {
+          "rank": 7,
+          "n_tasks_with_rank": 12,
+          "point_precision": 0.0833
+        },
+        {
+          "rank": 8,
+          "n_tasks_with_rank": 7,
+          "point_precision": 0.0
+        },
+        {
+          "rank": 9,
+          "n_tasks_with_rank": 3,
+          "point_precision": 0.0
+        },
+        {
+          "rank": 10,
+          "n_tasks_with_rank": 3,
+          "point_precision": 0.0
+        }
+      ]
+    },
+    "saleor": {
+      "cumulative": [
+        {
+          "rank": 1,
+          "n_tasks_with_rank": 26,
+          "cum_sel": 26,
+          "cum_fn": 9,
+          "cum_fp": 17,
+          "cum_candidate_precision": 0.3462
+        },
+        {
+          "rank": 2,
+          "n_tasks_with_rank": 26,
+          "cum_sel": 52,
+          "cum_fn": 11,
+          "cum_fp": 41,
+          "cum_candidate_precision": 0.2115
+        },
+        {
+          "rank": 3,
+          "n_tasks_with_rank": 26,
+          "cum_sel": 78,
+          "cum_fn": 17,
+          "cum_fp": 61,
+          "cum_candidate_precision": 0.2179
+        },
+        {
+          "rank": 4,
+          "n_tasks_with_rank": 26,
+          "cum_sel": 104,
+          "cum_fn": 21,
+          "cum_fp": 83,
+          "cum_candidate_precision": 0.2019
+        },
+        {
+          "rank": 5,
+          "n_tasks_with_rank": 26,
+          "cum_sel": 130,
+          "cum_fn": 23,
+          "cum_fp": 107,
+          "cum_candidate_precision": 0.1769
+        },
+        {
+          "rank": 6,
+          "n_tasks_with_rank": 23,
+          "cum_sel": 153,
+          "cum_fn": 25,
+          "cum_fp": 128,
+          "cum_candidate_precision": 0.1634
+        },
+        {
+          "rank": 7,
+          "n_tasks_with_rank": 19,
+          "cum_sel": 172,
+          "cum_fn": 27,
+          "cum_fp": 145,
+          "cum_candidate_precision": 0.157
+        },
+        {
+          "rank": 8,
+          "n_tasks_with_rank": 13,
+          "cum_sel": 185,
+          "cum_fn": 29,
+          "cum_fp": 156,
+          "cum_candidate_precision": 0.1568
+        },
+        {
+          "rank": 9,
+          "n_tasks_with_rank": 10,
+          "cum_sel": 195,
+          "cum_fn": 30,
+          "cum_fp": 165,
+          "cum_candidate_precision": 0.1538
+        },
+        {
+          "rank": 10,
+          "n_tasks_with_rank": 8,
+          "cum_sel": 203,
+          "cum_fn": 31,
+          "cum_fp": 172,
+          "cum_candidate_precision": 0.1527
+        },
+        {
+          "rank": 11,
+          "n_tasks_with_rank": 2,
+          "cum_sel": 205,
+          "cum_fn": 31,
+          "cum_fp": 174,
+          "cum_candidate_precision": 0.1512
+        },
+        {
+          "rank": 12,
+          "n_tasks_with_rank": 1,
+          "cum_sel": 206,
+          "cum_fn": 31,
+          "cum_fp": 175,
+          "cum_candidate_precision": 0.1505
+        },
+        {
+          "rank": 13,
+          "n_tasks_with_rank": 1,
+          "cum_sel": 207,
+          "cum_fn": 31,
+          "cum_fp": 176,
+          "cum_candidate_precision": 0.1498
+        }
+      ],
+      "pointwise": [
+        {
+          "rank": 1,
+          "n_tasks_with_rank": 26,
+          "point_precision": 0.3462
+        },
+        {
+          "rank": 2,
+          "n_tasks_with_rank": 26,
+          "point_precision": 0.0769
+        },
+        {
+          "rank": 3,
+          "n_tasks_with_rank": 26,
+          "point_precision": 0.2308
+        },
+        {
+          "rank": 4,
+          "n_tasks_with_rank": 26,
+          "point_precision": 0.1538
+        },
+        {
+          "rank": 5,
+          "n_tasks_with_rank": 26,
+          "point_precision": 0.0769
+        },
+        {
+          "rank": 6,
+          "n_tasks_with_rank": 23,
+          "point_precision": 0.087
+        },
+        {
+          "rank": 7,
+          "n_tasks_with_rank": 19,
+          "point_precision": 0.1053
+        },
+        {
+          "rank": 8,
+          "n_tasks_with_rank": 13,
+          "point_precision": 0.1538
+        },
+        {
+          "rank": 9,
+          "n_tasks_with_rank": 10,
+          "point_precision": 0.1
+        },
+        {
+          "rank": 10,
+          "n_tasks_with_rank": 8,
+          "point_precision": 0.125
+        },
+        {
+          "rank": 11,
+          "n_tasks_with_rank": 2,
+          "point_precision": 0.0
+        },
+        {
+          "rank": 12,
+          "n_tasks_with_rank": 1,
+          "point_precision": 0.0
+        },
+        {
+          "rank": 13,
+          "n_tasks_with_rank": 1,
+          "point_precision": 0.0
+        }
+      ]
+    }
+  },
+  "per_b_anatomy": {
+    "djangocms": {
+      "1": {
+        "arm_a": {
+          "micro_orr": 0.0328,
+          "macro_orr": 0.0222,
+          "candidate_precision": 0.1667,
+          "fn_added": 2,
+          "fp_added": 10,
+          "n_selected": 12
+        },
+        "arm_b": {
+          "micro_orr": 0.082,
+          "macro_orr": 0.0722,
+          "candidate_precision": 0.1852,
+          "fn_added": 5,
+          "fp_added": 22,
+          "n_selected": 27
+        },
+        "arm_b_fp_by_source": {
+          "consumer_only": 10,
+          "route_b_top10": 12
+        },
+        "arm_b_fn_by_source": {
+          "consumer_only": 3,
+          "route_b_top10": 2
+        }
+      },
+      "3": {
+        "arm_a": {
+          "micro_orr": 0.0328,
+          "macro_orr": 0.0222,
+          "candidate_precision": 0.0513,
+          "fn_added": 2,
+          "fp_added": 37,
+          "n_selected": 39
+        },
+        "arm_b": {
+          "micro_orr": 0.1639,
+          "macro_orr": 0.1833,
+          "candidate_precision": 0.1235,
+          "fn_added": 10,
+          "fp_added": 71,
+          "n_selected": 81
+        },
+        "arm_b_fp_by_source": {
+          "consumer_only": 31,
+          "route_b_top10": 40
+        },
+        "arm_b_fn_by_source": {
+          "consumer_only": 4,
+          "route_b_top10": 6
+        }
+      },
+      "5": {
+        "arm_a": {
+          "micro_orr": 0.1148,
+          "macro_orr": 0.1111,
+          "candidate_precision": 0.1429,
+          "fn_added": 7,
+          "fp_added": 42,
+          "n_selected": 49
+        },
+        "arm_b": {
+          "micro_orr": 0.2295,
+          "macro_orr": 0.25,
+          "candidate_precision": 0.1053,
+          "fn_added": 14,
+          "fp_added": 119,
+          "n_selected": 133
+        },
+        "arm_b_fp_by_source": {
+          "consumer_only": 51,
+          "route_b_top10": 68
+        },
+        "arm_b_fn_by_source": {
+          "consumer_only": 6,
+          "route_b_top10": 8
+        }
+      },
+      "10": {
+        "arm_a": {
+          "micro_orr": 0.1475,
+          "macro_orr": 0.1389,
+          "candidate_precision": 0.0857,
+          "fn_added": 9,
+          "fp_added": 96,
+          "n_selected": 105
+        },
+        "arm_b": {
+          "micro_orr": 0.2951,
+          "macro_orr": 0.29,
+          "candidate_precision": 0.0984,
+          "fn_added": 18,
+          "fp_added": 165,
+          "n_selected": 183
+        },
+        "arm_b_fp_by_source": {
+          "consumer_only": 80,
+          "route_b_top10": 85
+        },
+        "arm_b_fn_by_source": {
+          "consumer_only": 9,
+          "route_b_top10": 9
+        }
+      }
+    },
+    "saleor": {
+      "1": {
+        "arm_a": {
+          "micro_orr": 0.0824,
+          "macro_orr": 0.1347,
+          "candidate_precision": 0.3684,
+          "fn_added": 7,
+          "fp_added": 12,
+          "n_selected": 19
+        },
+        "arm_b": {
+          "micro_orr": 0.1059,
+          "macro_orr": 0.1847,
+          "candidate_precision": 0.3103,
+          "fn_added": 9,
+          "fp_added": 20,
+          "n_selected": 29
+        },
+        "arm_b_fp_by_source": {
+          "route_b_top10": 16,
+          "consumer_only": 4
+        },
+        "arm_b_fn_by_source": {
+          "route_b_top10": 9
+        }
+      },
+      "3": {
+        "arm_a": {
+          "micro_orr": 0.1765,
+          "macro_orr": 0.2294,
+          "candidate_precision": 0.2632,
+          "fn_added": 15,
+          "fp_added": 42,
+          "n_selected": 57
+        },
+        "arm_b": {
+          "micro_orr": 0.2353,
+          "macro_orr": 0.2946,
+          "candidate_precision": 0.2299,
+          "fn_added": 20,
+          "fp_added": 67,
+          "n_selected": 87
+        },
+        "arm_b_fp_by_source": {
+          "route_b_top10": 48,
+          "consumer_only": 19
+        },
+        "arm_b_fn_by_source": {
+          "route_b_top10": 17,
+          "consumer_only": 3
+        }
+      },
+      "5": {
+        "arm_a": {
+          "micro_orr": 0.2588,
+          "macro_orr": 0.3344,
+          "candidate_precision": 0.2558,
+          "fn_added": 22,
+          "fp_added": 64,
+          "n_selected": 86
+        },
+        "arm_b": {
+          "micro_orr": 0.3059,
+          "macro_orr": 0.3574,
+          "candidate_precision": 0.1793,
+          "fn_added": 26,
+          "fp_added": 119,
+          "n_selected": 145
+        },
+        "arm_b_fp_by_source": {
+          "route_b_top10": 71,
+          "consumer_only": 48
+        },
+        "arm_b_fn_by_source": {
+          "route_b_top10": 21,
+          "consumer_only": 5
+        }
+      },
+      "10": {
+        "arm_a": {
+          "micro_orr": 0.2824,
+          "macro_orr": 0.3413,
+          "candidate_precision": 0.1412,
+          "fn_added": 24,
+          "fp_added": 146,
+          "n_selected": 170
+        },
+        "arm_b": {
+          "micro_orr": 0.4,
+          "macro_orr": 0.4869,
+          "candidate_precision": 0.1518,
+          "fn_added": 34,
+          "fp_added": 190,
+          "n_selected": 224
+        },
+        "arm_b_fp_by_source": {
+          "route_b_top10": 101,
+          "consumer_only": 89
+        },
+        "arm_b_fn_by_source": {
+          "route_b_top10": 25,
+          "consumer_only": 9
+        }
+      }
+    }
+  },
+  "source_anatomy_b5": {
+    "djangocms": {
+      "fn_added_route_b_top10": 7,
+      "fn_added_consumer_only": 4,
+      "fp_added_route_b_top10": 62,
+      "fp_added_consumer_only": 45,
+      "n_tasks_with_recovered_fn_in_overlap": 6,
+      "n_tasks_with_recovered_fn_consumer_only": 4
+    },
+    "saleor": {
+      "fn_added_route_b_top10": 19,
+      "fn_added_consumer_only": 4,
+      "fp_added_route_b_top10": 66,
+      "fp_added_consumer_only": 41,
+      "n_tasks_with_recovered_fn_in_overlap": 14,
+      "n_tasks_with_recovered_fn_consumer_only": 3
+    }
+  },
+  "pool_size": {
+    "djangocms": {
+      "min": 10,
+      "max": 40,
+      "n_at_cap": 21,
+      "n_tasks": 30,
+      "distribution": {
+        "10": 6,
+        "13": 1,
+        "25": 2,
+        "40": 21
+      }
+    },
+    "saleor": {
+      "min": 36,
+      "max": 40,
+      "n_at_cap": 29,
+      "n_tasks": 30,
+      "distribution": {
+        "36": 1,
+        "40": 29
+      }
+    }
+  },
+  "full_union_size": {
+    "djangocms": {
+      "min": 10,
+      "max": 117,
+      "mean": 61.8,
+      "p95": 116,
+      "n_gt_40": 21,
+      "n_gt_80": 12,
+      "distribution": {
+        "10": 6,
+        "13": 1,
+        "25": 2,
+        "41": 1,
+        "42": 1,
+        "56": 2,
+        "61": 1,
+        "64": 1,
+        "65": 1,
+        "67": 1,
+        "79": 1,
+        "81": 1,
+        "82": 1,
+        "86": 2,
+        "92": 1,
+        "107": 2,
+        "108": 2,
+        "110": 1,
+        "116": 1,
+        "117": 1
+      }
+    },
+    "saleor": {
+      "min": 36,
+      "max": 671,
+      "mean": 312.8,
+      "p95": 654,
+      "n_gt_40": 29,
+      "n_gt_80": 26,
+      "distribution": {
+        "36": 1,
+        "46": 1,
+        "70": 1,
+        "78": 1,
+        "129": 1,
+        "158": 1,
+        "164": 1,
+        "165": 1,
+        "189": 2,
+        "217": 2,
+        "218": 1,
+        "236": 1,
+        "245": 1,
+        "248": 1,
+        "252": 1,
+        "269": 1,
+        "287": 1,
+        "408": 1,
+        "412": 1,
+        "417": 1,
+        "487": 1,
+        "518": 1,
+        "580": 1,
+        "582": 1,
+        "620": 1,
+        "623": 1,
+        "654": 1,
+        "671": 1
+      }
+    }
+  },
+  "cap_loss": {
+    "djangocms": {
+      "total_fn_sampled_tasks": 61,
+      "fn_in_capped_pool": 32,
+      "fn_in_full_union": 42,
+      "fn_lost_by_cap": 10,
+      "fraction_fn_in_capped": 0.5246
+    },
+    "saleor": {
+      "total_fn_sampled_tasks": 85,
+      "fn_in_capped_pool": 46,
+      "fn_in_full_union": 75,
+      "fn_lost_by_cap": 29,
+      "fraction_fn_in_capped": 0.5412
+    }
+  },
+  "cap_coverage": {
+    "40": {
+      "djangocms": {
+        "fn_covered": 32,
+        "fraction_fn_covered": 0.5246
+      },
+      "saleor": {
+        "fn_covered": 46,
+        "fraction_fn_covered": 0.5412
+      }
+    },
+    "80": {
+      "djangocms": {
+        "fn_covered": 40,
+        "fraction_fn_covered": 0.6557
+      },
+      "saleor": {
+        "fn_covered": 51,
+        "fraction_fn_covered": 0.6
+      }
+    },
+    "120": {
+      "djangocms": {
+        "fn_covered": 42,
+        "fraction_fn_covered": 0.6885
+      },
+      "saleor": {
+        "fn_covered": 59,
+        "fraction_fn_covered": 0.6941
+      }
+    }
+  },
+  "schema_incidence": {
+    "djangocms": {
+      "arm_b_total": 30,
+      "arm_b_valid": 27,
+      "arm_b_invalid": 3
+    },
+    "saleor": {
+      "arm_b_total": 30,
+      "arm_b_valid": 27,
+      "arm_b_invalid": 3
+    }
+  },
+  "schema_invalid_taxonomy": {
+    "non_pool_path": 6
+  },
+  "schema_invalid_finish_reasons": {
+    "stop": 6
+  },
+  "schema_invalid_details": [
+    {
+      "run_id": "armB-djangocms-rc-0224f1e364b0",
+      "n_items": 7,
+      "n_nonpool": 1,
+      "n_dup": 0,
+      "nonpool_sample": [
+        "cms/plugin_rendering.py"
+      ]
+    },
+    {
+      "run_id": "armB-djangocms-rc-28ddd6d10308",
+      "n_items": 10,
+      "n_nonpool": 1,
+      "n_dup": 0,
+      "nonpool_sample": [
+        "cms/admin/pageadmin.py"
+      ]
+    },
+    {
+      "run_id": "armB-djangocms-rc-c9c4665b858e",
+      "n_items": 10,
+      "n_nonpool": 3,
+      "n_dup": 0,
+      "nonpool_sample": [
+        "cms/plugin_pool.py",
+        "cms/plugin_base.py",
+        "cms/models/pluginmodel.py"
+      ]
+    },
+    {
+      "run_id": "armB-saleor-rc-537b2594c907",
+      "n_items": 8,
+      "n_nonpool": 1,
+      "n_dup": 0,
+      "nonpool_sample": [
+        "saleor/order/utils.py"
+      ]
+    },
+    {
+      "run_id": "armB-saleor-rc-7bd135e0f109",
+      "n_items": 10,
+      "n_nonpool": 3,
+      "n_dup": 0,
+      "nonpool_sample": [
+        "saleor/plugins/base_plugin.py",
+        "saleor/plugins/manager.py",
+        "saleor/graphql/core/mutations.py"
+      ]
+    },
+    {
+      "run_id": "armB-saleor-rc-c4f01d449c62",
+      "n_items": 9,
+      "n_nonpool": 2,
+      "n_dup": 0,
+      "nonpool_sample": [
+        "saleor/webhook/models.py",
+        "saleor/webhook/payloads.py"
+      ]
+    }
+  ],
+  "task_heterogeneity_b5": {
+    "djangocms": {
+      "n_tasks": 30,
+      "n_b_gt_a": 8,
+      "n_b_lt_a": 1,
+      "n_b_eq_a": 21,
+      "delta_distribution": {
+        "min": -0.3333,
+        "max": 1.0,
+        "mean": 0.1389
+      }
+    },
+    "saleor": {
+      "n_tasks": 30,
+      "n_b_gt_a": 7,
+      "n_b_lt_a": 3,
+      "n_b_eq_a": 20,
+      "delta_distribution": {
+        "min": -1.0,
+        "max": 1.0,
+        "mean": 0.023
+      }
+    }
+  },
+  "fold_results_b5": {
+    "djangocms": {
+      "b5_fold_direction_frac": [
+        1.0,
+        1.0,
+        0.5,
+        1.0,
+        1.0
+      ],
+      "n_positive_folds": 5
+    },
+    "saleor": {
+      "b5_fold_direction_frac": [
+        1.0,
+        0.0,
+        0.5,
+        1.0,
+        0.0
+      ],
+      "n_positive_folds": 3
+    }
+  },
+  "b10_anatomy": {
+    "djangocms": {
+      "arm_a": {
+        "micro_orr": 0.1475,
+        "macro_orr": 0.1389,
+        "candidate_precision": 0.0857
+      },
+      "arm_b": {
+        "micro_orr": 0.2951,
+        "macro_orr": 0.29,
+        "candidate_precision": 0.0984
+      },
+      "n_tasks_delta_positive": 9,
+      "n_tasks_delta_nonpositive": 21,
+      "n_valid_tasks": 30,
+      "delta_distribution": {
+        "min": 0.0,
+        "max": 1.0,
+        "mean": 0.1511
+      },
+      "b10_fold_direction_frac": [
+        1.0,
+        1.0,
+        0.5,
+        1.0,
+        1.0
+      ],
+      "n_positive_folds_b10": 5
+    },
+    "saleor": {
+      "arm_a": {
+        "micro_orr": 0.2824,
+        "macro_orr": 0.3413,
+        "candidate_precision": 0.1412
+      },
+      "arm_b": {
+        "micro_orr": 0.4,
+        "macro_orr": 0.4869,
+        "candidate_precision": 0.1518
+      },
+      "n_tasks_delta_positive": 10,
+      "n_tasks_delta_nonpositive": 20,
+      "n_valid_tasks": 30,
+      "delta_distribution": {
+        "min": -0.25,
+        "max": 1.0,
+        "mean": 0.1456
+      },
+      "b10_fold_direction_frac": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "n_positive_folds_b10": 5
+    }
+  },
+  "feasibility": {
+    "family": "ranked_top_K_AND_verifier_approved",
+    "label": "POST-HOC DEVELOPMENT FEASIBILITY - NOT CONFIRMATORY EVIDENCE",
+    "verifier_source": "frozen Arm A B=10 reconsider decisions (Route-B top-10 only)",
+    "by_repo": {
+      "djangocms": {
+        "K5": {
+          "candidate_precision": 0.1458,
+          "macro_orr": 0.1296,
+          "fn_accepted": 7,
+          "fp_accepted": 41,
+          "n_accepted": 48,
+          "n_tasks": 27,
+          "accepted_per_task_distribution": {
+            "min": 0,
+            "max": 5,
+            "mean": 1.778,
+            "n_tasks_with_gt0": 19
+          },
+          "fn_in_topK_but_outside_verifier_coverage": 4,
+          "naive_union_f1": 0.4068,
+          "naive_union_tp_fp_fn": {
+            "tp": 36,
+            "fp": 58,
+            "fn": 47
+          }
+        },
+        "K10": {
+          "candidate_precision": 0.1429,
+          "macro_orr": 0.1481,
+          "fn_accepted": 8,
+          "fp_accepted": 48,
+          "n_accepted": 56,
+          "n_tasks": 27,
+          "accepted_per_task_distribution": {
+            "min": 0,
+            "max": 7,
+            "mean": 2.074,
+            "n_tasks_with_gt0": 19
+          },
+          "fn_in_topK_but_outside_verifier_coverage": 7,
+          "naive_union_f1": 0.4,
+          "naive_union_tp_fp_fn": {
+            "tp": 37,
+            "fp": 65,
+            "fn": 46
+          }
+        }
+      },
+      "saleor": {
+        "K5": {
+          "candidate_precision": 0.2222,
+          "macro_orr": 0.2192,
+          "fn_accepted": 16,
+          "fp_accepted": 56,
+          "n_accepted": 72,
+          "n_tasks": 27,
+          "accepted_per_task_distribution": {
+            "min": 0,
+            "max": 5,
+            "mean": 2.667,
+            "n_tasks_with_gt0": 26
+          },
+          "fn_in_topK_but_outside_verifier_coverage": 4,
+          "naive_union_f1": 0.2626,
+          "naive_union_tp_fp_fn": {
+            "tp": 26,
+            "fp": 89,
+            "fn": 57
+          }
+        },
+        "K10": {
+          "candidate_precision": 0.2128,
+          "macro_orr": 0.274,
+          "fn_accepted": 20,
+          "fp_accepted": 74,
+          "n_accepted": 94,
+          "n_tasks": 27,
+          "accepted_per_task_distribution": {
+            "min": 0,
+            "max": 8,
+            "mean": 3.481,
+            "n_tasks_with_gt0": 26
+          },
+          "fn_in_topK_but_outside_verifier_coverage": 8,
+          "naive_union_f1": 0.2727,
+          "naive_union_tp_fp_fn": {
+            "tp": 30,
+            "fp": 107,
+            "fn": 53
+          }
+        }
+      }
+    },
+    "explicit_insufficiency": "The frozen Arm A verifier only decided on Route-B top-10 candidates; it NEVER saw reverse-1hop-only candidates. Existing frozen records CANNOT assess a verifier on reverse-1hop-only candidates. Stated explicitly: NO such evidence exists in the 300-call record.",
+    "matched_subset_comparison": {
+      "djangocms": {
+        "n_valid_tasks": 27,
+        "sparse_f1": 0.4496,
+        "arm_a_b5_f1": 0.4142,
+        "arm_b_b5_f1": 0.3239,
+        "rule_K5_f1": 0.4068,
+        "rule_K10_f1": 0.4
+      },
+      "saleor": {
+        "n_valid_tasks": 27,
+        "sparse_f1": 0.1587,
+        "arm_a_b5_f1": 0.2871,
+        "arm_b_b5_f1": 0.2578,
+        "rule_K5_f1": 0.2626,
+        "rule_K10_f1": 0.2727
+      }
+    },
+    "frozen_verifier_strength_b10": {
+      "djangocms": {
+        "n_approved": 105,
+        "n_approved_fn": 9,
+        "approval_candidate_precision": 0.0857,
+        "routeb10_fn_total": 14,
+        "fn_recovery_among_routeb10": 0.6429
+      },
+      "saleor": {
+        "n_approved": 170,
+        "n_approved_fn": 24,
+        "approval_candidate_precision": 0.1412,
+        "routeb10_fn_total": 30,
+        "fn_recovery_among_routeb10": 0.8
+      }
+    }
+  },
+  "future_sample_availability": {
+    "djangocms": {
+      "eligible": 153,
+      "used_stage4": 30,
+      "remaining_fresh": 123
+    },
+    "saleor": {
+      "eligible": 127,
+      "used_stage4": 30,
+      "remaining_fresh": 97
+    }
+  },
+  "cost_basis": {
+    "djangocms": {
+      "arm_a": {
+        "n": 120,
+        "total_tokens": 29795,
+        "total_cost_usd": 0.010374,
+        "mean_total_tokens": 248.3,
+        "p95_total_tokens": 352,
+        "max_total_tokens": 424,
+        "mean_completion_tokens": 17.2,
+        "mean_cost_usd": 8.6e-05,
+        "max_cost_usd": 0.000156
+      },
+      "arm_b": {
+        "n": 30,
+        "total_tokens": 19753,
+        "total_cost_usd": 0.010035,
+        "mean_total_tokens": 658.4,
+        "p95_total_tokens": 906,
+        "max_total_tokens": 939,
+        "mean_completion_tokens": 195.8,
+        "mean_cost_usd": 0.000334,
+        "max_cost_usd": 0.000514
+      }
+    },
+    "saleor": {
+      "arm_a": {
+        "n": 120,
+        "total_tokens": 30255,
+        "total_cost_usd": 0.010563,
+        "mean_total_tokens": 252.1,
+        "p95_total_tokens": 356,
+        "max_total_tokens": 406,
+        "mean_completion_tokens": 17.7,
+        "mean_cost_usd": 8.8e-05,
+        "max_cost_usd": 0.000145
+      },
+      "arm_b": {
+        "n": 30,
+        "total_tokens": 26522,
+        "total_cost_usd": 0.013427,
+        "mean_total_tokens": 884.1,
+        "p95_total_tokens": 1094,
+        "max_total_tokens": 1098,
+        "mean_completion_tokens": 260.5,
+        "mean_cost_usd": 0.000448,
+        "max_cost_usd": 0.000612
+      }
+    }
+  },
+  "stage4_verdict": "BOUNDED_SEMANTIC_NEGATIVE_FROZEN (unchanged; not reinterpreted)"
+}
