@@ -1,0 +1,66 @@
+{
+  "reference_budget": 5,
+  "repos": {
+    "djangocms": {
+      "c1_orr_materially_above_armA": false,
+      "orr_delta_armB_minus_armA": -0.0702,
+      "c2_fold_majority_positive": false,
+      "fold_direction_frac": [
+        0.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      "c3_naive_f1_not_materially_worse": true,
+      "naive_f1_delta_armB_minus_armA": 0.0428,
+      "c4_candidate_precision_not_below_armA": true,
+      "candidate_precision_delta": 0.1094,
+      "c5_leak_free": true,
+      "c6_schema_rate_ge_90pct": true,
+      "c7_within_ceilings_and_cost_justified": true
+    },
+    "saleor": {
+      "c1_orr_materially_above_armA": true,
+      "orr_delta_armB_minus_armA": 0.0751,
+      "c2_fold_majority_positive": true,
+      "fold_direction_frac": [
+        0.5,
+        1.0,
+        0.5,
+        1.0,
+        1.0
+      ],
+      "c3_naive_f1_not_materially_worse": true,
+      "naive_f1_delta_armB_minus_armA": 0.0228,
+      "c4_candidate_precision_not_below_armA": true,
+      "candidate_precision_delta": 0.0281,
+      "c5_leak_free": true,
+      "c6_schema_rate_ge_90pct": true,
+      "c7_within_ceilings_and_cost_justified": true
+    }
+  },
+  "schema_rate_all_dispatched_calls": 1.0,
+  "n_dispatched_calls": 357,
+  "n_invalid_dispatched_calls": 0,
+  "zero_partial_credit": true,
+  "arm_b_calls_per_task": 2.0,
+  "decision": "PRECISION_SAFE_ACCEPTANCE_FAIL",
+  "pass": false,
+  "task_deltas_b5": {
+    "djangocms": {
+      "n_tasks": 30,
+      "n_b_gt_a": 4,
+      "n_b_lt_a": 3,
+      "n_b_eq_a": 23,
+      "mean_delta": -0.0702
+    },
+    "saleor": {
+      "n_tasks": 30,
+      "n_b_gt_a": 4,
+      "n_b_lt_a": 0,
+      "n_b_eq_a": 26,
+      "mean_delta": 0.0751
+    }
+  }
+}

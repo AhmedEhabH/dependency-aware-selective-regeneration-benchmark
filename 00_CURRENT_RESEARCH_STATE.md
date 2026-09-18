@@ -6,6 +6,37 @@ For historical closure records see `docs/PROJECT_HANDOFF.md`, `SYSTEM_STATE.md`,
 `TODO.md`, `docs/PAPER_WRITING_HANDOFF.md`, `docs/MSC_RESEARCH_ROADMAP_2026_2027.md`
 (all preserved verbatim below their HISTORICAL boundaries).
 
+**CURRENT TRUTH (2026-09-18, PRECISION-SAFE ACCEPTANCE PILOT — AUTHORIZED real
+DEVELOPMENT pilot complete; 357 calls; Stage-4b of the gap-reduction ladder
+closed NEGATIVE; Stage-4 + P65 + P66 immutable; sealed sets untouched):**
+→ **PRECISION-SAFE ACCEPTANCE PILOT = PRECISION_SAFE_ACCEPTANCE_FAIL
+(2026-09-18; DEVELOPMENT only; AUTHORIZED real run):** the user authorized the
+frozen RANK→VERIFY→VARIABLE-ACCEPT protocol under the frozen budget (≤400
+calls / ≤300,000 tokens / ≤$0.15 / ≤60 min, qwen3-coder, DEV only, sealed sets
+sealed). Registration frozen BEFORE call 1 (60 tasks = 30 djangoCMS + 30 Saleor
+DEVELOPMENT, seed 20260919, **Stage-4's 60 case_ids excluded**; pool = Route-B
+top-10 ∪ reverse-1hop consumers cap 80; K=10; candidate-ID enum + uniqueness
+rank schema; fixed-length boolean-vector verify schema). **Real run: 357
+dispatched calls (240 Arm A + 60 rank + 57 verify; 3 rank abstentions →
+fail-closed zero additions), 176,060 tokens, $0.0648, 718.8 s total wall —
+ceilings
+respected; sidecars 357/357 (0 mismatches); 0/357 schema-invalid dispatched
+calls** (Stage-4 was 6/60 — the enum schema eliminated hallucinated paths).
+Results @B=5: djangoCMS Arm A ORR 0.2225 / Arm B 0.1523 (Δ −0.0702), cand-prec
+0.141→0.250, naive F1 0.218→0.260; Saleor Arm A 0.1278 / Arm B 0.2029 (Δ
++0.0751), cand-prec 0.088→0.116, naive F1 0.174→0.197. **Preregistered gate =
+FAIL → PRECISION_SAFE_ACCEPTANCE_FAIL (negative frozen):** djangoCMS c1 ORR
+(−0.0702 < +0.05) and c2 folds (2/5) FAIL; Saleor c1/c2 PASS; c3–c7 PASS on
+BOTH repos. The precision-safe layer ELIMINATED the Stage-4 "ORR up, F1 down"
+failure (F1 and candidate precision improve on BOTH repos; variable 0..K
+acceptance removed the FP tail) and achieved material Saleor recovery, BUT on
+djangoCMS the conservative verifier over-rejects (misses the 3 M=1 easy
+recoveries Arm A got). No prompt/schema/threshold tuning. Independent audit
+11/11 PASS; affected suites 53/53 (9 new + 44 prior). **Stage 4b closed
+NEGATIVE; Stage 5 (freeze method + fresh confirmatory) NOT reached.** Any
+future instrument that keeps the precision/F1 gains while restoring djangoCMS
+ORR is a NEW protocol (e.g., calibrated acceptance criterion) with its own
+freeze, sample discipline, budget, and explicit authorization.
 **CURRENT TRUTH (2026-09-18, PRECISION-SAFE ACCEPTANCE FEASIBILITY + PROTOCOL
 FREEZE — post-Stage-4 DEVELOPMENT analysis complete; ZERO API; Stage-4 negative
 + P65 immutable; sealed sets untouched):**
