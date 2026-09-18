@@ -298,3 +298,21 @@ reports. Entries from 2026-09-16 evening (and carried historical items).
   next bottleneck = first-pass recall.
 - **Status:** RESOLVED (documented; no result fabricated; no model calls; sealed
   sets untouched).
+## PF-023 - Simple binary-flag ADD queues do NOT beat Route-B at matched budget (2026-09-18)
+- **Where:** First-pass recall mission (DEVELOPMENT): djangoCMS DEV 174 + Saleor DEV 149.
+- **Symptoms:** source ceilings show high candidate availability (reverse-1hop consumer
+  pool 55.8%/72.4% ORR @K=5; UNION_ALL 72.5%/87.0%), but three simple queues
+  (BM25+consumer, +consumer+provider, +2hop+cocchange+sibling) give matched-budget ORR
+  at or below the frozen Route-B composite (B=5 deltas -0.011/+0.001, -0.025/-0.001,
+  -0.086/-0.209). Q3 (ComplementaryUnion) is much worse because the sibling flag fires
+  on ~52% of non-FN candidates, diluting the ranking.
+- **Root cause:** FN files inside complementary pools are lexically distant (BM25~0),
+  so BM25-weighted queues cannot order the structural pool better than Route-B's
+  existing 1-hop graph-neighbor boost; the loss is RANKING, not candidate availability.
+- **Action:** quantified the taxonomy, oracle ceilings, complementarity, matched-budget
+  eval (View A + View B naive union F1 + View C oracle reviewer), and the progression
+  gate -> all three queues FAIL on both repos. Decision RECALL_SIGNAL_HEADROOM_ONLY;
+  no verifier calls authorized.
+- **Status:** RESOLVED (documented; no fabrication; ZERO API; sealed sets untouched).
+- **Revisit:** a verifier-ranked expansion (not binary flags) is the natural next
+  instrument, under its own frozen protocol/budget; requires a separate mission.

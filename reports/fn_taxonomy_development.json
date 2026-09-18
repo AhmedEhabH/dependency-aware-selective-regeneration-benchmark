@@ -1,0 +1,538 @@
+{
+  "package": "fn_taxonomy_development",
+  "date": "2026-09-18",
+  "tier": "T3",
+  "note": "Deterministic taxonomy on DEVELOPMENT only. Proxy used ONLY as post-hoc FN label. ZERO API.",
+  "categories": [
+    "DOWNSTREAM_CONSUMER",
+    "UPSTREAM_PROVIDER",
+    "DIRECT_DEPENDENCY",
+    "INDIRECT_DEPENDENCY_2HOP",
+    "HISTORY_COCHANGE",
+    "DIRECT_LEXICAL",
+    "CROSS_LAYER",
+    "STRUCTURAL_NEIGHBOR",
+    "NO_OBSERVABLE_SIGNAL"
+  ],
+  "djangocms_dev": {
+    "n_fn": 382,
+    "primary_counts": {
+      "DOWNSTREAM_CONSUMER": 64,
+      "UPSTREAM_PROVIDER": 6,
+      "DIRECT_DEPENDENCY": 1,
+      "INDIRECT_DEPENDENCY_2HOP": 43,
+      "HISTORY_COCHANGE": 86,
+      "DIRECT_LEXICAL": 95,
+      "CROSS_LAYER": 0,
+      "STRUCTURAL_NEIGHBOR": 0,
+      "NO_OBSERVABLE_SIGNAL": 87
+    },
+    "primary_pct": {
+      "DOWNSTREAM_CONSUMER": 16.75,
+      "UPSTREAM_PROVIDER": 1.57,
+      "DIRECT_DEPENDENCY": 0.26,
+      "INDIRECT_DEPENDENCY_2HOP": 11.26,
+      "HISTORY_COCHANGE": 22.51,
+      "DIRECT_LEXICAL": 24.87,
+      "CROSS_LAYER": 0.0,
+      "STRUCTURAL_NEIGHBOR": 0.0,
+      "NO_OBSERVABLE_SIGNAL": 22.77
+    },
+    "label_counts": {
+      "DOWNSTREAM_CONSUMER": 64,
+      "UPSTREAM_PROVIDER": 31,
+      "DIRECT_DEPENDENCY": 71,
+      "INDIRECT_DEPENDENCY_2HOP": 43,
+      "HISTORY_COCHANGE": 115,
+      "DIRECT_LEXICAL": 182,
+      "CROSS_LAYER": 45,
+      "STRUCTURAL_NEIGHBOR": 235,
+      "NO_OBSERVABLE_SIGNAL": 87
+    },
+    "overlap_matrix": {
+      "DOWNSTREAM_CONSUMER": {
+        "DOWNSTREAM_CONSUMER": 64,
+        "UPSTREAM_PROVIDER": 25,
+        "DIRECT_DEPENDENCY": 64,
+        "INDIRECT_DEPENDENCY_2HOP": 0,
+        "HISTORY_COCHANGE": 22,
+        "DIRECT_LEXICAL": 0,
+        "CROSS_LAYER": 10,
+        "STRUCTURAL_NEIGHBOR": 34
+      },
+      "UPSTREAM_PROVIDER": {
+        "DOWNSTREAM_CONSUMER": 25,
+        "UPSTREAM_PROVIDER": 31,
+        "DIRECT_DEPENDENCY": 31,
+        "INDIRECT_DEPENDENCY_2HOP": 0,
+        "HISTORY_COCHANGE": 8,
+        "DIRECT_LEXICAL": 0,
+        "CROSS_LAYER": 7,
+        "STRUCTURAL_NEIGHBOR": 24
+      },
+      "DIRECT_DEPENDENCY": {
+        "DOWNSTREAM_CONSUMER": 64,
+        "UPSTREAM_PROVIDER": 31,
+        "DIRECT_DEPENDENCY": 71,
+        "INDIRECT_DEPENDENCY_2HOP": 0,
+        "HISTORY_COCHANGE": 24,
+        "DIRECT_LEXICAL": 1,
+        "CROSS_LAYER": 10,
+        "STRUCTURAL_NEIGHBOR": 37
+      },
+      "INDIRECT_DEPENDENCY_2HOP": {
+        "DOWNSTREAM_CONSUMER": 0,
+        "UPSTREAM_PROVIDER": 0,
+        "DIRECT_DEPENDENCY": 0,
+        "INDIRECT_DEPENDENCY_2HOP": 43,
+        "HISTORY_COCHANGE": 5,
+        "DIRECT_LEXICAL": 0,
+        "CROSS_LAYER": 1,
+        "STRUCTURAL_NEIGHBOR": 17
+      },
+      "HISTORY_COCHANGE": {
+        "DOWNSTREAM_CONSUMER": 22,
+        "UPSTREAM_PROVIDER": 8,
+        "DIRECT_DEPENDENCY": 24,
+        "INDIRECT_DEPENDENCY_2HOP": 5,
+        "HISTORY_COCHANGE": 115,
+        "DIRECT_LEXICAL": 87,
+        "CROSS_LAYER": 13,
+        "STRUCTURAL_NEIGHBOR": 103
+      },
+      "DIRECT_LEXICAL": {
+        "DOWNSTREAM_CONSUMER": 0,
+        "UPSTREAM_PROVIDER": 0,
+        "DIRECT_DEPENDENCY": 1,
+        "INDIRECT_DEPENDENCY_2HOP": 0,
+        "HISTORY_COCHANGE": 87,
+        "DIRECT_LEXICAL": 182,
+        "CROSS_LAYER": 34,
+        "STRUCTURAL_NEIGHBOR": 182
+      },
+      "CROSS_LAYER": {
+        "DOWNSTREAM_CONSUMER": 10,
+        "UPSTREAM_PROVIDER": 7,
+        "DIRECT_DEPENDENCY": 10,
+        "INDIRECT_DEPENDENCY_2HOP": 1,
+        "HISTORY_COCHANGE": 13,
+        "DIRECT_LEXICAL": 34,
+        "CROSS_LAYER": 45,
+        "STRUCTURAL_NEIGHBOR": 41
+      },
+      "STRUCTURAL_NEIGHBOR": {
+        "DOWNSTREAM_CONSUMER": 34,
+        "UPSTREAM_PROVIDER": 24,
+        "DIRECT_DEPENDENCY": 37,
+        "INDIRECT_DEPENDENCY_2HOP": 17,
+        "HISTORY_COCHANGE": 103,
+        "DIRECT_LEXICAL": 182,
+        "CROSS_LAYER": 41,
+        "STRUCTURAL_NEIGHBOR": 235
+      }
+    },
+    "top_20_patterns": [
+      {
+        "pattern": "admin/pageadmin.py",
+        "count": 25
+      },
+      {
+        "pattern": "admin/forms.py",
+        "count": 14
+      },
+      {
+        "pattern": "cms/plugin_rendering.py",
+        "count": 14
+      },
+      {
+        "pattern": "cms/cms_toolbars.py",
+        "count": 13
+      },
+      {
+        "pattern": "models/pagemodel.py",
+        "count": 13
+      },
+      {
+        "pattern": "admin/placeholderadmin.py",
+        "count": 13
+      },
+      {
+        "pattern": "templatetags/cms_tags.py",
+        "count": 12
+      },
+      {
+        "pattern": "toolbar/toolbar.py",
+        "count": 11
+      },
+      {
+        "pattern": "cms/plugin_base.py",
+        "count": 11
+      },
+      {
+        "pattern": "cms/api.py",
+        "count": 9
+      },
+      {
+        "pattern": "cms/views.py",
+        "count": 9
+      },
+      {
+        "pattern": "utils/conf.py",
+        "count": 9
+      },
+      {
+        "pattern": "models/placeholdermodel.py",
+        "count": 8
+      },
+      {
+        "pattern": "models/pluginmodel.py",
+        "count": 8
+      },
+      {
+        "pattern": "middleware/toolbar.py",
+        "count": 8
+      },
+      {
+        "pattern": "forms/wizards.py",
+        "count": 7
+      },
+      {
+        "pattern": "utils/check.py",
+        "count": 7
+      },
+      {
+        "pattern": "cms/page_rendering.py",
+        "count": 6
+      },
+      {
+        "pattern": "wizards/forms.py",
+        "count": 6
+      },
+      {
+        "pattern": "cms/cms_menus.py",
+        "count": 6
+      }
+    ],
+    "dist_distribution": {
+      "-1": 79,
+      "0": 181,
+      "1": 71,
+      "2": 43,
+      "3": 5,
+      "4": 3
+    },
+    "bm25_distribution": {
+      "[0.000,0.001)": 201,
+      "[0.100,0.250)": 26,
+      "[0.250,0.500)": 58,
+      "[0.750,1.000)": 30,
+      "[0.500,0.750)": 33,
+      "[0.001,0.100)": 34
+    },
+    "per_task_fn_distribution": {
+      "0": 21,
+      "1": 51,
+      "2": 44,
+      "3": 32,
+      "4": 10,
+      "5": 3,
+      "6": 3,
+      "7": 6,
+      "8": 4
+    },
+    "n_tasks": 174,
+    "tasks_with_fn": 153
+  },
+  "saleor_dev": {
+    "n_fn": 369,
+    "primary_counts": {
+      "DOWNSTREAM_CONSUMER": 68,
+      "UPSTREAM_PROVIDER": 9,
+      "DIRECT_DEPENDENCY": 0,
+      "INDIRECT_DEPENDENCY_2HOP": 21,
+      "HISTORY_COCHANGE": 0,
+      "DIRECT_LEXICAL": 264,
+      "CROSS_LAYER": 0,
+      "STRUCTURAL_NEIGHBOR": 1,
+      "NO_OBSERVABLE_SIGNAL": 6
+    },
+    "primary_pct": {
+      "DOWNSTREAM_CONSUMER": 18.43,
+      "UPSTREAM_PROVIDER": 2.44,
+      "DIRECT_DEPENDENCY": 0.0,
+      "INDIRECT_DEPENDENCY_2HOP": 5.69,
+      "HISTORY_COCHANGE": 0.0,
+      "DIRECT_LEXICAL": 71.54,
+      "CROSS_LAYER": 0.0,
+      "STRUCTURAL_NEIGHBOR": 0.27,
+      "NO_OBSERVABLE_SIGNAL": 1.63
+    },
+    "label_counts": {
+      "DOWNSTREAM_CONSUMER": 68,
+      "UPSTREAM_PROVIDER": 31,
+      "DIRECT_DEPENDENCY": 77,
+      "INDIRECT_DEPENDENCY_2HOP": 21,
+      "HISTORY_COCHANGE": 0,
+      "DIRECT_LEXICAL": 264,
+      "CROSS_LAYER": 256,
+      "STRUCTURAL_NEIGHBOR": 304,
+      "NO_OBSERVABLE_SIGNAL": 6
+    },
+    "overlap_matrix": {
+      "DOWNSTREAM_CONSUMER": {
+        "DOWNSTREAM_CONSUMER": 68,
+        "UPSTREAM_PROVIDER": 22,
+        "DIRECT_DEPENDENCY": 68,
+        "INDIRECT_DEPENDENCY_2HOP": 0,
+        "HISTORY_COCHANGE": 0,
+        "DIRECT_LEXICAL": 0,
+        "CROSS_LAYER": 46,
+        "STRUCTURAL_NEIGHBOR": 33
+      },
+      "UPSTREAM_PROVIDER": {
+        "DOWNSTREAM_CONSUMER": 22,
+        "UPSTREAM_PROVIDER": 31,
+        "DIRECT_DEPENDENCY": 31,
+        "INDIRECT_DEPENDENCY_2HOP": 0,
+        "HISTORY_COCHANGE": 0,
+        "DIRECT_LEXICAL": 0,
+        "CROSS_LAYER": 11,
+        "STRUCTURAL_NEIGHBOR": 14
+      },
+      "DIRECT_DEPENDENCY": {
+        "DOWNSTREAM_CONSUMER": 68,
+        "UPSTREAM_PROVIDER": 31,
+        "DIRECT_DEPENDENCY": 77,
+        "INDIRECT_DEPENDENCY_2HOP": 0,
+        "HISTORY_COCHANGE": 0,
+        "DIRECT_LEXICAL": 0,
+        "CROSS_LAYER": 47,
+        "STRUCTURAL_NEIGHBOR": 37
+      },
+      "INDIRECT_DEPENDENCY_2HOP": {
+        "DOWNSTREAM_CONSUMER": 0,
+        "UPSTREAM_PROVIDER": 0,
+        "DIRECT_DEPENDENCY": 0,
+        "INDIRECT_DEPENDENCY_2HOP": 21,
+        "HISTORY_COCHANGE": 0,
+        "DIRECT_LEXICAL": 0,
+        "CROSS_LAYER": 10,
+        "STRUCTURAL_NEIGHBOR": 2
+      },
+      "HISTORY_COCHANGE": {
+        "DOWNSTREAM_CONSUMER": 0,
+        "UPSTREAM_PROVIDER": 0,
+        "DIRECT_DEPENDENCY": 0,
+        "INDIRECT_DEPENDENCY_2HOP": 0,
+        "HISTORY_COCHANGE": 0,
+        "DIRECT_LEXICAL": 0,
+        "CROSS_LAYER": 0,
+        "STRUCTURAL_NEIGHBOR": 0
+      },
+      "DIRECT_LEXICAL": {
+        "DOWNSTREAM_CONSUMER": 0,
+        "UPSTREAM_PROVIDER": 0,
+        "DIRECT_DEPENDENCY": 0,
+        "INDIRECT_DEPENDENCY_2HOP": 0,
+        "HISTORY_COCHANGE": 0,
+        "DIRECT_LEXICAL": 264,
+        "CROSS_LAYER": 199,
+        "STRUCTURAL_NEIGHBOR": 264
+      },
+      "CROSS_LAYER": {
+        "DOWNSTREAM_CONSUMER": 46,
+        "UPSTREAM_PROVIDER": 11,
+        "DIRECT_DEPENDENCY": 47,
+        "INDIRECT_DEPENDENCY_2HOP": 10,
+        "HISTORY_COCHANGE": 0,
+        "DIRECT_LEXICAL": 199,
+        "CROSS_LAYER": 256,
+        "STRUCTURAL_NEIGHBOR": 222
+      },
+      "STRUCTURAL_NEIGHBOR": {
+        "DOWNSTREAM_CONSUMER": 33,
+        "UPSTREAM_PROVIDER": 14,
+        "DIRECT_DEPENDENCY": 37,
+        "INDIRECT_DEPENDENCY_2HOP": 2,
+        "HISTORY_COCHANGE": 0,
+        "DIRECT_LEXICAL": 264,
+        "CROSS_LAYER": 222,
+        "STRUCTURAL_NEIGHBOR": 304
+      }
+    },
+    "top_20_patterns": [
+      {
+        "pattern": "utils/__init__.py",
+        "count": 8
+      },
+      {
+        "pattern": "order/utils.py",
+        "count": 7
+      },
+      {
+        "pattern": "product/schema.py",
+        "count": 6
+      },
+      {
+        "pattern": "checkout/complete_checkout.py",
+        "count": 6
+      },
+      {
+        "pattern": "checkout/utils.py",
+        "count": 6
+      },
+      {
+        "pattern": "plugins/manager.py",
+        "count": 6
+      },
+      {
+        "pattern": "types/products.py",
+        "count": 6
+      },
+      {
+        "pattern": "webhook/subscription_types.py",
+        "count": 6
+      },
+      {
+        "pattern": "payment/utils.py",
+        "count": 5
+      },
+      {
+        "pattern": "webhook/plugin.py",
+        "count": 5
+      },
+      {
+        "pattern": "saleor/settings.py",
+        "count": 5
+      },
+      {
+        "pattern": "order/types.py",
+        "count": 4
+      },
+      {
+        "pattern": "checkout/types.py",
+        "count": 4
+      },
+      {
+        "pattern": "webhook/payloads.py",
+        "count": 4
+      },
+      {
+        "pattern": "np_atobarai/api_helpers.py",
+        "count": 4
+      },
+      {
+        "pattern": "payment/interface.py",
+        "count": 4
+      },
+      {
+        "pattern": "bulk_mutations/products.py",
+        "count": 4
+      },
+      {
+        "pattern": "adyen/plugin.py",
+        "count": 4
+      },
+      {
+        "pattern": "types/common.py",
+        "count": 3
+      },
+      {
+        "pattern": "webhook/event_types.py",
+        "count": 3
+      }
+    ],
+    "dist_distribution": {
+      "-1": 2,
+      "0": 264,
+      "1": 77,
+      "2": 21,
+      "3": 5
+    },
+    "bm25_distribution": {
+      "[0.750,1.000)": 58,
+      "[0.500,0.750)": 71,
+      "[0.250,0.500)": 79,
+      "[0.000,0.001)": 118,
+      "[0.100,0.250)": 39,
+      "[0.001,0.100)": 4
+    },
+    "per_task_fn_distribution": {
+      "0": 22,
+      "1": 44,
+      "2": 28,
+      "3": 20,
+      "4": 10,
+      "5": 10,
+      "6": 3,
+      "7": 5,
+      "8": 2,
+      "9": 2,
+      "10": 1,
+      "11": 2
+    },
+    "n_tasks": 149,
+    "tasks_with_fn": 127
+  },
+  "s006_like_pattern_test": {
+    "djangocms": {
+      "n_fn": 382,
+      "raw_consumer_flag": 58.9,
+      "raw_provider_flag": 43.72,
+      "raw_consumer_or_provider": 64.66,
+      "primary_downstream_consumer": 16.75,
+      "primary_upstream_provider": 1.57,
+      "direct_1hop_count": 71,
+      "direct_1hop_lexically_silent_pct": 98.59,
+      "graph_distance_buckets_pct": {
+        "0_seed": 47.38,
+        "1_hop": 18.59,
+        "2_hop": 11.26,
+        "gt2": 2.09,
+        "unreachable": 20.68
+      },
+      "graph_distance_buckets_count": {
+        "0_seed": 181,
+        "1_hop": 71,
+        "2_hop": 43,
+        "gt2": 8,
+        "unreachable": 79
+      },
+      "distant_consumer_lexical_disconnect": 100.0,
+      "distant_provider_lexical_disconnect": 100.0
+    },
+    "saleor": {
+      "n_fn": 369,
+      "raw_consumer_flag": 82.11,
+      "raw_provider_flag": 71.54,
+      "raw_consumer_or_provider": 91.06,
+      "primary_downstream_consumer": 18.43,
+      "primary_upstream_provider": 2.44,
+      "direct_1hop_count": 77,
+      "direct_1hop_lexically_silent_pct": 100.0,
+      "graph_distance_buckets_pct": {
+        "0_seed": 71.54,
+        "1_hop": 20.87,
+        "2_hop": 5.69,
+        "gt2": 1.36,
+        "unreachable": 0.54
+      },
+      "graph_distance_buckets_count": {
+        "0_seed": 264,
+        "1_hop": 77,
+        "2_hop": 21,
+        "gt2": 5,
+        "unreachable": 2
+      },
+      "distant_consumer_lexical_disconnect": 100.0,
+      "distant_provider_lexical_disconnect": 100.0
+    },
+    "decision": "GENERAL_PATTERN",
+    "evidence": {
+      "djangocms_consumer_or_provider_pct": 64.66,
+      "saleor_consumer_or_provider_pct": 91.06,
+      "djangocms_direct_1hop_lexically_silent_pct": 98.59,
+      "saleor_direct_1hop_lexically_silent_pct": 100.0
+    }
+  }
+}

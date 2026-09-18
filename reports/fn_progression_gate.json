@@ -1,0 +1,369 @@
+{
+  "package": "fn_progression_gate",
+  "date": "2026-09-18",
+  "tier": "T3",
+  "note": "Progression gate for FN ADD queues on DEVELOPMENT (matched budget B=5 reference). ZERO API.",
+  "reference_budget": 5,
+  "queues": {
+    "BM25+ReverseDependency": {
+      "repos": {
+        "djangocms_dev": {
+          "n_tasks": 174,
+          "route_b_macro_orr": 0.1633,
+          "queue_macro_orr": 0.152,
+          "orr_delta_vs_route_b": -0.0113,
+          "materially_above": false,
+          "fold_direction_frac": [
+            0.466,
+            0.548,
+            0.516,
+            0.484,
+            0.5
+          ],
+          "fold_majority_positive": true,
+          "naive_union_f1": {
+            "tp": 188,
+            "fp": 962,
+            "fn": 319,
+            "precision": 0.1635,
+            "recall": 0.3708,
+            "f1": 0.2269
+          },
+          "route_b_naive_union_f1": {
+            "tp": 187,
+            "fp": 963,
+            "fn": 320,
+            "precision": 0.1626,
+            "recall": 0.3688,
+            "f1": 0.2257
+          },
+          "naive_f1_clearly_worse": false,
+          "oracle_reviewer_f1": {
+            "tp": 188,
+            "fp": 155,
+            "fn": 319,
+            "precision": 0.5481,
+            "recall": 0.3708,
+            "f1": 0.4424
+          },
+          "route_b_oracle_reviewer_f1": {
+            "tp": 187,
+            "fp": 155,
+            "fn": 320,
+            "precision": 0.5468,
+            "recall": 0.3688,
+            "f1": 0.4405
+          },
+          "oracle_reviewer_headroom": 0.2167,
+          "corr_universe_size": 0.058,
+          "corr_omitted_size": 0.058,
+          "artifact_free": true
+        },
+        "saleor_dev": {
+          "n_tasks": 149,
+          "route_b_macro_orr": 0.2369,
+          "queue_macro_orr": 0.238,
+          "orr_delta_vs_route_b": 0.0011,
+          "materially_above": false,
+          "fold_direction_frac": [
+            0.519,
+            0.5,
+            0.458,
+            0.538,
+            0.523
+          ],
+          "fold_majority_positive": true,
+          "naive_union_f1": {
+            "tp": 180,
+            "fp": 857,
+            "fn": 288,
+            "precision": 0.1736,
+            "recall": 0.3846,
+            "f1": 0.2392
+          },
+          "route_b_naive_union_f1": {
+            "tp": 178,
+            "fp": 859,
+            "fn": 290,
+            "precision": 0.1716,
+            "recall": 0.3803,
+            "f1": 0.2365
+          },
+          "naive_f1_clearly_worse": false,
+          "oracle_reviewer_f1": {
+            "tp": 180,
+            "fp": 193,
+            "fn": 288,
+            "precision": 0.4826,
+            "recall": 0.3846,
+            "f1": 0.4281
+          },
+          "route_b_oracle_reviewer_f1": {
+            "tp": 178,
+            "fp": 193,
+            "fn": 290,
+            "precision": 0.4798,
+            "recall": 0.3803,
+            "f1": 0.4243
+          },
+          "oracle_reviewer_headroom": 0.1916,
+          "corr_universe_size": -0.118,
+          "corr_omitted_size": -0.119,
+          "artifact_free": true
+        }
+      },
+      "gate": {
+        "c1_fn_recovery_materially_above": false,
+        "c2_direction_consistent_across_folds": true,
+        "c3_naive_f1_not_clearly_worse": true,
+        "c4_oracle_reviewer_headroom": true,
+        "c5_no_size_artifact": true,
+        "c6_no_leakage": true,
+        "c7_simple_or_comparable": true,
+        "gate_pass": false
+      }
+    },
+    "BM25+ProviderConsumerSupport": {
+      "repos": {
+        "djangocms_dev": {
+          "n_tasks": 174,
+          "route_b_macro_orr": 0.1633,
+          "queue_macro_orr": 0.1386,
+          "orr_delta_vs_route_b": -0.0248,
+          "materially_above": false,
+          "fold_direction_frac": [
+            0.517,
+            0.5,
+            0.452,
+            0.5,
+            0.467
+          ],
+          "fold_majority_positive": true,
+          "naive_union_f1": {
+            "tp": 182,
+            "fp": 968,
+            "fn": 325,
+            "precision": 0.1583,
+            "recall": 0.359,
+            "f1": 0.2197
+          },
+          "route_b_naive_union_f1": {
+            "tp": 187,
+            "fp": 963,
+            "fn": 320,
+            "precision": 0.1626,
+            "recall": 0.3688,
+            "f1": 0.2257
+          },
+          "naive_f1_clearly_worse": false,
+          "oracle_reviewer_f1": {
+            "tp": 182,
+            "fp": 155,
+            "fn": 325,
+            "precision": 0.5401,
+            "recall": 0.359,
+            "f1": 0.4313
+          },
+          "route_b_oracle_reviewer_f1": {
+            "tp": 187,
+            "fp": 155,
+            "fn": 320,
+            "precision": 0.5468,
+            "recall": 0.3688,
+            "f1": 0.4405
+          },
+          "oracle_reviewer_headroom": 0.2056,
+          "corr_universe_size": 0.016,
+          "corr_omitted_size": 0.016,
+          "artifact_free": true
+        },
+        "saleor_dev": {
+          "n_tasks": 149,
+          "route_b_macro_orr": 0.2369,
+          "queue_macro_orr": 0.2355,
+          "orr_delta_vs_route_b": -0.0014,
+          "materially_above": false,
+          "fold_direction_frac": [
+            0.519,
+            0.517,
+            0.479,
+            0.5,
+            0.523
+          ],
+          "fold_majority_positive": true,
+          "naive_union_f1": {
+            "tp": 180,
+            "fp": 857,
+            "fn": 288,
+            "precision": 0.1736,
+            "recall": 0.3846,
+            "f1": 0.2392
+          },
+          "route_b_naive_union_f1": {
+            "tp": 178,
+            "fp": 859,
+            "fn": 290,
+            "precision": 0.1716,
+            "recall": 0.3803,
+            "f1": 0.2365
+          },
+          "naive_f1_clearly_worse": false,
+          "oracle_reviewer_f1": {
+            "tp": 180,
+            "fp": 193,
+            "fn": 288,
+            "precision": 0.4826,
+            "recall": 0.3846,
+            "f1": 0.4281
+          },
+          "route_b_oracle_reviewer_f1": {
+            "tp": 178,
+            "fp": 193,
+            "fn": 290,
+            "precision": 0.4798,
+            "recall": 0.3803,
+            "f1": 0.4243
+          },
+          "oracle_reviewer_headroom": 0.1916,
+          "corr_universe_size": -0.05,
+          "corr_omitted_size": -0.051,
+          "artifact_free": true
+        }
+      },
+      "gate": {
+        "c1_fn_recovery_materially_above": false,
+        "c2_direction_consistent_across_folds": true,
+        "c3_naive_f1_not_clearly_worse": true,
+        "c4_oracle_reviewer_headroom": true,
+        "c5_no_size_artifact": true,
+        "c6_no_leakage": true,
+        "c7_simple_or_comparable": true,
+        "gate_pass": false
+      }
+    },
+    "BM25+ComplementaryUnion": {
+      "repos": {
+        "djangocms_dev": {
+          "n_tasks": 174,
+          "route_b_macro_orr": 0.1633,
+          "queue_macro_orr": 0.0773,
+          "orr_delta_vs_route_b": -0.086,
+          "materially_above": false,
+          "fold_direction_frac": [
+            0.379,
+            0.355,
+            0.419,
+            0.453,
+            0.517
+          ],
+          "fold_majority_positive": false,
+          "naive_union_f1": {
+            "tp": 156,
+            "fp": 994,
+            "fn": 351,
+            "precision": 0.1357,
+            "recall": 0.3077,
+            "f1": 0.1883
+          },
+          "route_b_naive_union_f1": {
+            "tp": 187,
+            "fp": 963,
+            "fn": 320,
+            "precision": 0.1626,
+            "recall": 0.3688,
+            "f1": 0.2257
+          },
+          "naive_f1_clearly_worse": false,
+          "oracle_reviewer_f1": {
+            "tp": 156,
+            "fp": 155,
+            "fn": 351,
+            "precision": 0.5016,
+            "recall": 0.3077,
+            "f1": 0.3814
+          },
+          "route_b_oracle_reviewer_f1": {
+            "tp": 187,
+            "fp": 155,
+            "fn": 320,
+            "precision": 0.5468,
+            "recall": 0.3688,
+            "f1": 0.4405
+          },
+          "oracle_reviewer_headroom": 0.1557,
+          "corr_universe_size": 0.063,
+          "corr_omitted_size": 0.067,
+          "artifact_free": true
+        },
+        "saleor_dev": {
+          "n_tasks": 149,
+          "route_b_macro_orr": 0.2369,
+          "queue_macro_orr": 0.0274,
+          "orr_delta_vs_route_b": -0.2095,
+          "materially_above": false,
+          "fold_direction_frac": [
+            0.231,
+            0.276,
+            0.292,
+            0.269,
+            0.364
+          ],
+          "fold_majority_positive": false,
+          "naive_union_f1": {
+            "tp": 106,
+            "fp": 931,
+            "fn": 362,
+            "precision": 0.1022,
+            "recall": 0.2265,
+            "f1": 0.1409
+          },
+          "route_b_naive_union_f1": {
+            "tp": 178,
+            "fp": 859,
+            "fn": 290,
+            "precision": 0.1716,
+            "recall": 0.3803,
+            "f1": 0.2365
+          },
+          "naive_f1_clearly_worse": true,
+          "oracle_reviewer_f1": {
+            "tp": 106,
+            "fp": 193,
+            "fn": 362,
+            "precision": 0.3545,
+            "recall": 0.2265,
+            "f1": 0.2764
+          },
+          "route_b_oracle_reviewer_f1": {
+            "tp": 178,
+            "fp": 193,
+            "fn": 290,
+            "precision": 0.4798,
+            "recall": 0.3803,
+            "f1": 0.4243
+          },
+          "oracle_reviewer_headroom": 0.03989999999999999,
+          "corr_universe_size": 0.077,
+          "corr_omitted_size": 0.078,
+          "artifact_free": true
+        }
+      },
+      "gate": {
+        "c1_fn_recovery_materially_above": false,
+        "c2_direction_consistent_across_folds": false,
+        "c3_naive_f1_not_clearly_worse": false,
+        "c4_oracle_reviewer_headroom": true,
+        "c5_no_size_artifact": true,
+        "c6_no_leakage": true,
+        "c7_simple_or_comparable": true,
+        "gate_pass": false
+      }
+    }
+  },
+  "decision": "RECALL_SIGNAL_HEADROOM_ONLY",
+  "rationale": {
+    "any_queue_gate_pass": false,
+    "oracle_ceiling_headroom": true,
+    "note": "Orchestration: queue ceilings (Sections 4-5) show the FN universe IS available in complementary pools (reverse-1hop consumers 55.8%/72.4% ORR ceiling @K=5), but no simple deterministic ADD queue beats Route-B at matched budget. Headroom exists but is not realizable by a simple queue alone."
+  }
+}

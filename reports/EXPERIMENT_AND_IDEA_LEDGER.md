@@ -294,3 +294,25 @@ Legend: PROPOSED / EXECUTED / REJECTED / DEFERRED / SUPERSEDED.
 - **Artifact:** reports/ORACLE_GAP_*.md + JSONs, scripts/oracle_gap_*.py (10),
   tests/unit/test_oracle_gap.py (16/16), reports/oracle_gap_gates_validation.json.
 - **Revisit:** when a first-pass-recall improvement candidate is defined on DEV.
+-Append-Marker
+## E-043 - First-Pass Recall Bottleneck: FN taxonomy + source ceilings + ADD queues (2026-09-18)
+- **Status:** EXECUTED (DEVELOPMENT only; ZERO API; decision RECALL_SIGNAL_HEADROOM_ONLY).
+- **Result:** baseline freeze reproduced frozen Route-B exactly (djangocms macro ORR
+  0.0464/0.1177/0.1633/0.2512). FN taxonomy (primary): djangoCMS DIRECT_LEXICAL 95
+  (24.9%), HISTORY_COCHANGE 86 (22.5%), NO_OBSERVABLE_SIGNAL 87 (22.8%),
+  DOWNSTREAM_CONSUMER 64 (16.8%), INDIRECT_2HOP 43 (11.3%); Saleor DIRECT_LEXICAL
+  264 (71.5%), DOWNSTREAM_CONSUMER 68 (18.4%). S006-like indirect-utility/downstream
+  misses = GENERAL_PATTERN (raw consumer flag 58.9%/82.1%; direct-1hop FNs 98.6%/100%
+  lexically silent). Source ceilings @K=5: GRAPH_REVERSE_1HOP ORR 0.558/0.724;
+  UNION_ALL 0.725/0.870; BM25 = budget headroom 0.929/0.881. Three simple queues
+  (BM25+ReverseDependency / +ProviderConsumerSupport / +ComplementaryUnion) do NOT
+  beat Route-B at matched budget (B=5 deltas -0.011/+0.001, -0.025/-0.001,
+  -0.086/-0.209). Oracle-reviewer F1 0.44/0.43 @B=5 vs Oracle-Add 0.72/0.64 ->
+  dominant remaining loss = RANKING, not availability or reviewer acceptance.
+- **Artifact:** reports/FIRST_PASS_RECALL_{BASELINE_FREEZE,FINAL_REPORT}.md,
+  reports/FN_{TAXONOMY_DEVELOPMENT,SOURCE_SPECIFIC_RECALL_CEILINGS,ADD_QUEUE_EVALUATION,PROGRESSION_GATE,INDEPENDENT_AUDIT}.md
+  + JSONs, src/benchmark/recall/, scripts/fn_*.py, tests/unit/test_recall_bottleneck.py (19/19),
+  research/first-pass-recall-bottleneck/fn_universe.json + cochange_cache.json.
+- **Revisit:** a bounded verifier-ranked expansion (Route-B top-B + reverse-1hop
+  pool) on DEVELOPMENT is the natural next instrument (frozen verifier protocol);
+  NOT authorized by this mission.

@@ -1,0 +1,17 @@
+{
+  "package": "fn_first_pass_recall_gates_validation",
+  "date": "2026-09-18",
+  "tier": "T3",
+  "gates": [
+    {"name": "G1_baseline_freezed_known_diagnostic", "details": "djangocms FN=382, saleor FN=369 recomputed", "passed": true},
+    {"name": "G2_route_b_reproduction_exact", "details": "djangocms macro ORR 0.0464/0.1177/0.1633/0.2512 == frozen route_b_v2_results.json", "passed": true},
+    {"name": "G3_taxonomy_determinism_and_invariants", "details": "unit tests: determinism, primary in categories, no-signal only when none, direction consistency", "passed": true},
+    {"name": "G4_no_hidden_proxy_features", "details": "feature set fixed; proxy only post-hoc label; unit test", "passed": true},
+    {"name": "G5_sealed_set_guard", "details": "DEV load = 174+149, no INTERNAL_TEST/RESERVE roles", "passed": true},
+    {"name": "G6_queue_matched_budget_eval", "details": "View A ORR + View B naive union F1 + View C oracle reviewer; budgets 1/3/5/10", "passed": true},
+    {"name": "G7_progression_gate", "details": "RECALL_SIGNAL_HEADROOM_ONLY; all 3 queues FAIL on both repos", "passed": true},
+    {"name": "G8_independent_audit", "details": "recomputed headline numbers from frozen records without importing analysis scripts; 19/19 checks PASS", "passed": true}
+  ],
+  "all_passed": true,
+  "extra": {"tests": "19/19 test_recall_bottleneck + 16/16 test_oracle_gap", "remaining_loss": "RANKING", "decision": "RECALL_SIGNAL_HEADROOM_ONLY"}
+}

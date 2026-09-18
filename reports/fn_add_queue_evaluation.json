@@ -1,0 +1,1031 @@
+{
+  "package": "fn_add_queue_evaluation",
+  "date": "2026-09-18",
+  "tier": "T3",
+  "note": "Matched-budget DEVELOPMENT comparison. Queue formulas frozen pre-run; no hidden-proxy features; ZERO API. View A = ranking/recovery quality; View B = naive final union F1.",
+  "queues": [
+    "BM25+ReverseDependency",
+    "BM25+ProviderConsumerSupport",
+    "BM25+ComplementaryUnion"
+  ],
+  "budgets": [
+    1,
+    3,
+    5,
+    10
+  ],
+  "repos": {
+    "djangocms_dev": {
+      "n_tasks": 174,
+      "total_fn": 382,
+      "sparse_baseline": {
+        "tp": 125,
+        "fp": 155,
+        "fn": 382,
+        "precision": 0.4464,
+        "recall": 0.2465,
+        "f1": 0.3177
+      },
+      "route_b_composite": {
+        "1": {
+          "macro_orr": 0.0464,
+          "random_orr": 0.0064,
+          "naive_union_f1": {
+            "tp": 142,
+            "fp": 312,
+            "fn": 365,
+            "precision": 0.3128,
+            "recall": 0.2801,
+            "f1": 0.2955
+          },
+          "oracle_reviewer_f1": {
+            "tp": 142,
+            "fp": 155,
+            "fn": 365,
+            "precision": 0.4781,
+            "recall": 0.2801,
+            "f1": 0.3532
+          }
+        },
+        "3": {
+          "macro_orr": 0.1177,
+          "random_orr": 0.0193,
+          "naive_union_f1": {
+            "tp": 168,
+            "fp": 634,
+            "fn": 339,
+            "precision": 0.2095,
+            "recall": 0.3314,
+            "f1": 0.2567
+          },
+          "oracle_reviewer_f1": {
+            "tp": 168,
+            "fp": 155,
+            "fn": 339,
+            "precision": 0.5201,
+            "recall": 0.3314,
+            "f1": 0.4048
+          }
+        },
+        "5": {
+          "macro_orr": 0.1633,
+          "random_orr": 0.0322,
+          "naive_union_f1": {
+            "tp": 187,
+            "fp": 963,
+            "fn": 320,
+            "precision": 0.1626,
+            "recall": 0.3688,
+            "f1": 0.2257
+          },
+          "oracle_reviewer_f1": {
+            "tp": 187,
+            "fp": 155,
+            "fn": 320,
+            "precision": 0.5468,
+            "recall": 0.3688,
+            "f1": 0.4405
+          }
+        },
+        "10": {
+          "macro_orr": 0.2512,
+          "random_orr": 0.0645,
+          "naive_union_f1": {
+            "tp": 226,
+            "fp": 1794,
+            "fn": 281,
+            "precision": 0.1119,
+            "recall": 0.4458,
+            "f1": 0.1789
+          },
+          "oracle_reviewer_f1": {
+            "tp": 226,
+            "fp": 155,
+            "fn": 281,
+            "precision": 0.5932,
+            "recall": 0.4458,
+            "f1": 0.509
+          }
+        }
+      },
+      "bm25_only": {
+        "1": {
+          "macro_orr": 0.0459,
+          "random_orr": 0.0064,
+          "naive_union_f1": {
+            "tp": 141,
+            "fp": 313,
+            "fn": 366,
+            "precision": 0.3106,
+            "recall": 0.2781,
+            "f1": 0.2934
+          },
+          "oracle_reviewer_f1": {
+            "tp": 141,
+            "fp": 155,
+            "fn": 366,
+            "precision": 0.4764,
+            "recall": 0.2781,
+            "f1": 0.3512
+          }
+        },
+        "3": {
+          "macro_orr": 0.1132,
+          "random_orr": 0.0193,
+          "naive_union_f1": {
+            "tp": 163,
+            "fp": 639,
+            "fn": 344,
+            "precision": 0.2032,
+            "recall": 0.3215,
+            "f1": 0.249
+          },
+          "oracle_reviewer_f1": {
+            "tp": 163,
+            "fp": 155,
+            "fn": 344,
+            "precision": 0.5126,
+            "recall": 0.3215,
+            "f1": 0.3952
+          }
+        },
+        "5": {
+          "macro_orr": 0.1606,
+          "random_orr": 0.0322,
+          "naive_union_f1": {
+            "tp": 182,
+            "fp": 968,
+            "fn": 325,
+            "precision": 0.1583,
+            "recall": 0.359,
+            "f1": 0.2197
+          },
+          "oracle_reviewer_f1": {
+            "tp": 182,
+            "fp": 155,
+            "fn": 325,
+            "precision": 0.5401,
+            "recall": 0.359,
+            "f1": 0.4313
+          }
+        },
+        "10": {
+          "macro_orr": 0.2259,
+          "random_orr": 0.0645,
+          "naive_union_f1": {
+            "tp": 215,
+            "fp": 1805,
+            "fn": 292,
+            "precision": 0.1064,
+            "recall": 0.4241,
+            "f1": 0.1702
+          },
+          "oracle_reviewer_f1": {
+            "tp": 215,
+            "fp": 155,
+            "fn": 292,
+            "precision": 0.5811,
+            "recall": 0.4241,
+            "f1": 0.4903
+          }
+        }
+      },
+      "queues": {
+        "BM25+ReverseDependency": {
+          "1": {
+            "viewA_macro_orr": 0.0474,
+            "viewA_unique_fn_vs_routeB": 4,
+            "viewA_overlap_routeB": 14,
+            "viewA_total_fn": 382,
+            "viewB_naive_union_f1": {
+              "tp": 143,
+              "fp": 311,
+              "fn": 364,
+              "precision": 0.315,
+              "recall": 0.2821,
+              "f1": 0.2976
+            },
+            "viewC_oracle_reviewer_f1": {
+              "tp": 143,
+              "fp": 155,
+              "fn": 364,
+              "precision": 0.4799,
+              "recall": 0.2821,
+              "f1": 0.3553
+            },
+            "n_accepted_by_reviewer": 18,
+            "n_fns_in_top": 18
+          },
+          "3": {
+            "viewA_macro_orr": 0.1137,
+            "viewA_unique_fn_vs_routeB": 8,
+            "viewA_overlap_routeB": 36,
+            "viewA_total_fn": 382,
+            "viewB_naive_union_f1": {
+              "tp": 169,
+              "fp": 633,
+              "fn": 338,
+              "precision": 0.2107,
+              "recall": 0.3333,
+              "f1": 0.2582
+            },
+            "viewC_oracle_reviewer_f1": {
+              "tp": 169,
+              "fp": 155,
+              "fn": 338,
+              "precision": 0.5216,
+              "recall": 0.3333,
+              "f1": 0.4067
+            },
+            "n_accepted_by_reviewer": 44,
+            "n_fns_in_top": 44
+          },
+          "5": {
+            "viewA_macro_orr": 0.152,
+            "viewA_unique_fn_vs_routeB": 10,
+            "viewA_overlap_routeB": 53,
+            "viewA_total_fn": 382,
+            "viewB_naive_union_f1": {
+              "tp": 188,
+              "fp": 962,
+              "fn": 319,
+              "precision": 0.1635,
+              "recall": 0.3708,
+              "f1": 0.2269
+            },
+            "viewC_oracle_reviewer_f1": {
+              "tp": 188,
+              "fp": 155,
+              "fn": 319,
+              "precision": 0.5481,
+              "recall": 0.3708,
+              "f1": 0.4424
+            },
+            "n_accepted_by_reviewer": 63,
+            "n_fns_in_top": 63
+          },
+          "10": {
+            "viewA_macro_orr": 0.2331,
+            "viewA_unique_fn_vs_routeB": 8,
+            "viewA_overlap_routeB": 89,
+            "viewA_total_fn": 382,
+            "viewB_naive_union_f1": {
+              "tp": 222,
+              "fp": 1798,
+              "fn": 285,
+              "precision": 0.1099,
+              "recall": 0.4379,
+              "f1": 0.1757
+            },
+            "viewC_oracle_reviewer_f1": {
+              "tp": 222,
+              "fp": 155,
+              "fn": 285,
+              "precision": 0.5889,
+              "recall": 0.4379,
+              "f1": 0.5023
+            },
+            "n_accepted_by_reviewer": 97,
+            "n_fns_in_top": 97
+          }
+        },
+        "BM25+ProviderConsumerSupport": {
+          "1": {
+            "viewA_macro_orr": 0.0392,
+            "viewA_unique_fn_vs_routeB": 4,
+            "viewA_overlap_routeB": 13,
+            "viewA_total_fn": 382,
+            "viewB_naive_union_f1": {
+              "tp": 142,
+              "fp": 312,
+              "fn": 365,
+              "precision": 0.3128,
+              "recall": 0.2801,
+              "f1": 0.2955
+            },
+            "viewC_oracle_reviewer_f1": {
+              "tp": 142,
+              "fp": 155,
+              "fn": 365,
+              "precision": 0.4781,
+              "recall": 0.2801,
+              "f1": 0.3532
+            },
+            "n_accepted_by_reviewer": 17,
+            "n_fns_in_top": 17
+          },
+          "3": {
+            "viewA_macro_orr": 0.1117,
+            "viewA_unique_fn_vs_routeB": 9,
+            "viewA_overlap_routeB": 34,
+            "viewA_total_fn": 382,
+            "viewB_naive_union_f1": {
+              "tp": 168,
+              "fp": 634,
+              "fn": 339,
+              "precision": 0.2095,
+              "recall": 0.3314,
+              "f1": 0.2567
+            },
+            "viewC_oracle_reviewer_f1": {
+              "tp": 168,
+              "fp": 155,
+              "fn": 339,
+              "precision": 0.5201,
+              "recall": 0.3314,
+              "f1": 0.4048
+            },
+            "n_accepted_by_reviewer": 43,
+            "n_fns_in_top": 43
+          },
+          "5": {
+            "viewA_macro_orr": 0.1386,
+            "viewA_unique_fn_vs_routeB": 10,
+            "viewA_overlap_routeB": 47,
+            "viewA_total_fn": 382,
+            "viewB_naive_union_f1": {
+              "tp": 182,
+              "fp": 968,
+              "fn": 325,
+              "precision": 0.1583,
+              "recall": 0.359,
+              "f1": 0.2197
+            },
+            "viewC_oracle_reviewer_f1": {
+              "tp": 182,
+              "fp": 155,
+              "fn": 325,
+              "precision": 0.5401,
+              "recall": 0.359,
+              "f1": 0.4313
+            },
+            "n_accepted_by_reviewer": 57,
+            "n_fns_in_top": 57
+          },
+          "10": {
+            "viewA_macro_orr": 0.2388,
+            "viewA_unique_fn_vs_routeB": 20,
+            "viewA_overlap_routeB": 75,
+            "viewA_total_fn": 382,
+            "viewB_naive_union_f1": {
+              "tp": 220,
+              "fp": 1800,
+              "fn": 287,
+              "precision": 0.1089,
+              "recall": 0.4339,
+              "f1": 0.1741
+            },
+            "viewC_oracle_reviewer_f1": {
+              "tp": 220,
+              "fp": 155,
+              "fn": 287,
+              "precision": 0.5867,
+              "recall": 0.4339,
+              "f1": 0.4989
+            },
+            "n_accepted_by_reviewer": 95,
+            "n_fns_in_top": 95
+          }
+        },
+        "BM25+ComplementaryUnion": {
+          "1": {
+            "viewA_macro_orr": 0.0196,
+            "viewA_unique_fn_vs_routeB": 6,
+            "viewA_overlap_routeB": 1,
+            "viewA_total_fn": 382,
+            "viewB_naive_union_f1": {
+              "tp": 132,
+              "fp": 322,
+              "fn": 375,
+              "precision": 0.2907,
+              "recall": 0.2604,
+              "f1": 0.2747
+            },
+            "viewC_oracle_reviewer_f1": {
+              "tp": 132,
+              "fp": 155,
+              "fn": 375,
+              "precision": 0.4599,
+              "recall": 0.2604,
+              "f1": 0.3325
+            },
+            "n_accepted_by_reviewer": 7,
+            "n_fns_in_top": 7
+          },
+          "3": {
+            "viewA_macro_orr": 0.0559,
+            "viewA_unique_fn_vs_routeB": 14,
+            "viewA_overlap_routeB": 9,
+            "viewA_total_fn": 382,
+            "viewB_naive_union_f1": {
+              "tp": 148,
+              "fp": 654,
+              "fn": 359,
+              "precision": 0.1845,
+              "recall": 0.2919,
+              "f1": 0.2261
+            },
+            "viewC_oracle_reviewer_f1": {
+              "tp": 148,
+              "fp": 155,
+              "fn": 359,
+              "precision": 0.4884,
+              "recall": 0.2919,
+              "f1": 0.3654
+            },
+            "n_accepted_by_reviewer": 23,
+            "n_fns_in_top": 23
+          },
+          "5": {
+            "viewA_macro_orr": 0.0773,
+            "viewA_unique_fn_vs_routeB": 15,
+            "viewA_overlap_routeB": 16,
+            "viewA_total_fn": 382,
+            "viewB_naive_union_f1": {
+              "tp": 156,
+              "fp": 994,
+              "fn": 351,
+              "precision": 0.1357,
+              "recall": 0.3077,
+              "f1": 0.1883
+            },
+            "viewC_oracle_reviewer_f1": {
+              "tp": 156,
+              "fp": 155,
+              "fn": 351,
+              "precision": 0.5016,
+              "recall": 0.3077,
+              "f1": 0.3814
+            },
+            "n_accepted_by_reviewer": 31,
+            "n_fns_in_top": 31
+          },
+          "10": {
+            "viewA_macro_orr": 0.1547,
+            "viewA_unique_fn_vs_routeB": 22,
+            "viewA_overlap_routeB": 38,
+            "viewA_total_fn": 382,
+            "viewB_naive_union_f1": {
+              "tp": 185,
+              "fp": 1835,
+              "fn": 322,
+              "precision": 0.0916,
+              "recall": 0.3649,
+              "f1": 0.1464
+            },
+            "viewC_oracle_reviewer_f1": {
+              "tp": 185,
+              "fp": 155,
+              "fn": 322,
+              "precision": 0.5441,
+              "recall": 0.3649,
+              "f1": 0.4368
+            },
+            "n_accepted_by_reviewer": 60,
+            "n_fns_in_top": 60
+          }
+        }
+      },
+      "oracle_add": {
+        "1": {
+          "tp": 278,
+          "fp": 155,
+          "fn": 229,
+          "precision": 0.642,
+          "recall": 0.5483,
+          "f1": 0.5915
+        },
+        "3": {
+          "tp": 438,
+          "fp": 155,
+          "fn": 69,
+          "precision": 0.7386,
+          "recall": 0.8639,
+          "f1": 0.7964
+        },
+        "5": {
+          "tp": 480,
+          "fp": 155,
+          "fn": 27,
+          "precision": 0.7559,
+          "recall": 0.9467,
+          "f1": 0.8406
+        },
+        "10": {
+          "tp": 507,
+          "fp": 155,
+          "fn": 0,
+          "precision": 0.7659,
+          "recall": 1.0,
+          "f1": 0.8674
+        }
+      }
+    },
+    "saleor_dev": {
+      "n_tasks": 149,
+      "total_fn": 369,
+      "sparse_baseline": {
+        "tp": 99,
+        "fp": 193,
+        "fn": 369,
+        "precision": 0.339,
+        "recall": 0.2115,
+        "f1": 0.2605
+      },
+      "route_b_composite": {
+        "1": {
+          "macro_orr": 0.0775,
+          "random_orr": 0.0015,
+          "naive_union_f1": {
+            "tp": 124,
+            "fp": 317,
+            "fn": 344,
+            "precision": 0.2812,
+            "recall": 0.265,
+            "f1": 0.2728
+          },
+          "oracle_reviewer_f1": {
+            "tp": 124,
+            "fp": 193,
+            "fn": 344,
+            "precision": 0.3912,
+            "recall": 0.265,
+            "f1": 0.3159
+          }
+        },
+        "3": {
+          "macro_orr": 0.1576,
+          "random_orr": 0.0045,
+          "naive_union_f1": {
+            "tp": 155,
+            "fp": 584,
+            "fn": 313,
+            "precision": 0.2097,
+            "recall": 0.3312,
+            "f1": 0.2568
+          },
+          "oracle_reviewer_f1": {
+            "tp": 155,
+            "fp": 193,
+            "fn": 313,
+            "precision": 0.4454,
+            "recall": 0.3312,
+            "f1": 0.3799
+          }
+        },
+        "5": {
+          "macro_orr": 0.2369,
+          "random_orr": 0.0075,
+          "naive_union_f1": {
+            "tp": 178,
+            "fp": 859,
+            "fn": 290,
+            "precision": 0.1716,
+            "recall": 0.3803,
+            "f1": 0.2365
+          },
+          "oracle_reviewer_f1": {
+            "tp": 178,
+            "fp": 193,
+            "fn": 290,
+            "precision": 0.4798,
+            "recall": 0.3803,
+            "f1": 0.4243
+          }
+        },
+        "10": {
+          "macro_orr": 0.3173,
+          "random_orr": 0.0149,
+          "naive_union_f1": {
+            "tp": 210,
+            "fp": 1572,
+            "fn": 258,
+            "precision": 0.1178,
+            "recall": 0.4487,
+            "f1": 0.1867
+          },
+          "oracle_reviewer_f1": {
+            "tp": 210,
+            "fp": 193,
+            "fn": 258,
+            "precision": 0.5211,
+            "recall": 0.4487,
+            "f1": 0.4822
+          }
+        }
+      },
+      "bm25_only": {
+        "1": {
+          "macro_orr": 0.0724,
+          "random_orr": 0.0015,
+          "naive_union_f1": {
+            "tp": 122,
+            "fp": 319,
+            "fn": 346,
+            "precision": 0.2766,
+            "recall": 0.2607,
+            "f1": 0.2684
+          },
+          "oracle_reviewer_f1": {
+            "tp": 122,
+            "fp": 193,
+            "fn": 346,
+            "precision": 0.3873,
+            "recall": 0.2607,
+            "f1": 0.3116
+          }
+        },
+        "3": {
+          "macro_orr": 0.1576,
+          "random_orr": 0.0045,
+          "naive_union_f1": {
+            "tp": 155,
+            "fp": 584,
+            "fn": 313,
+            "precision": 0.2097,
+            "recall": 0.3312,
+            "f1": 0.2568
+          },
+          "oracle_reviewer_f1": {
+            "tp": 155,
+            "fp": 193,
+            "fn": 313,
+            "precision": 0.4454,
+            "recall": 0.3312,
+            "f1": 0.3799
+          }
+        },
+        "5": {
+          "macro_orr": 0.2335,
+          "random_orr": 0.0075,
+          "naive_union_f1": {
+            "tp": 176,
+            "fp": 861,
+            "fn": 292,
+            "precision": 0.1697,
+            "recall": 0.3761,
+            "f1": 0.2339
+          },
+          "oracle_reviewer_f1": {
+            "tp": 176,
+            "fp": 193,
+            "fn": 292,
+            "precision": 0.477,
+            "recall": 0.3761,
+            "f1": 0.4205
+          }
+        },
+        "10": {
+          "macro_orr": 0.3148,
+          "random_orr": 0.0149,
+          "naive_union_f1": {
+            "tp": 210,
+            "fp": 1572,
+            "fn": 258,
+            "precision": 0.1178,
+            "recall": 0.4487,
+            "f1": 0.1867
+          },
+          "oracle_reviewer_f1": {
+            "tp": 210,
+            "fp": 193,
+            "fn": 258,
+            "precision": 0.5211,
+            "recall": 0.4487,
+            "f1": 0.4822
+          }
+        }
+      },
+      "queues": {
+        "BM25+ReverseDependency": {
+          "1": {
+            "viewA_macro_orr": 0.0724,
+            "viewA_unique_fn_vs_routeB": 3,
+            "viewA_overlap_routeB": 22,
+            "viewA_total_fn": 369,
+            "viewB_naive_union_f1": {
+              "tp": 124,
+              "fp": 317,
+              "fn": 344,
+              "precision": 0.2812,
+              "recall": 0.265,
+              "f1": 0.2728
+            },
+            "viewC_oracle_reviewer_f1": {
+              "tp": 124,
+              "fp": 193,
+              "fn": 344,
+              "precision": 0.3912,
+              "recall": 0.265,
+              "f1": 0.3159
+            },
+            "n_accepted_by_reviewer": 25,
+            "n_fns_in_top": 25
+          },
+          "3": {
+            "viewA_macro_orr": 0.1604,
+            "viewA_unique_fn_vs_routeB": 6,
+            "viewA_overlap_routeB": 52,
+            "viewA_total_fn": 369,
+            "viewB_naive_union_f1": {
+              "tp": 157,
+              "fp": 582,
+              "fn": 311,
+              "precision": 0.2124,
+              "recall": 0.3355,
+              "f1": 0.2601
+            },
+            "viewC_oracle_reviewer_f1": {
+              "tp": 157,
+              "fp": 193,
+              "fn": 311,
+              "precision": 0.4486,
+              "recall": 0.3355,
+              "f1": 0.3839
+            },
+            "n_accepted_by_reviewer": 58,
+            "n_fns_in_top": 58
+          },
+          "5": {
+            "viewA_macro_orr": 0.238,
+            "viewA_unique_fn_vs_routeB": 10,
+            "viewA_overlap_routeB": 71,
+            "viewA_total_fn": 369,
+            "viewB_naive_union_f1": {
+              "tp": 180,
+              "fp": 857,
+              "fn": 288,
+              "precision": 0.1736,
+              "recall": 0.3846,
+              "f1": 0.2392
+            },
+            "viewC_oracle_reviewer_f1": {
+              "tp": 180,
+              "fp": 193,
+              "fn": 288,
+              "precision": 0.4826,
+              "recall": 0.3846,
+              "f1": 0.4281
+            },
+            "n_accepted_by_reviewer": 81,
+            "n_fns_in_top": 81
+          },
+          "10": {
+            "viewA_macro_orr": 0.2882,
+            "viewA_unique_fn_vs_routeB": 7,
+            "viewA_overlap_routeB": 97,
+            "viewA_total_fn": 369,
+            "viewB_naive_union_f1": {
+              "tp": 203,
+              "fp": 1579,
+              "fn": 265,
+              "precision": 0.1139,
+              "recall": 0.4338,
+              "f1": 0.1804
+            },
+            "viewC_oracle_reviewer_f1": {
+              "tp": 203,
+              "fp": 193,
+              "fn": 265,
+              "precision": 0.5126,
+              "recall": 0.4338,
+              "f1": 0.4699
+            },
+            "n_accepted_by_reviewer": 104,
+            "n_fns_in_top": 104
+          }
+        },
+        "BM25+ProviderConsumerSupport": {
+          "1": {
+            "viewA_macro_orr": 0.0849,
+            "viewA_unique_fn_vs_routeB": 9,
+            "viewA_overlap_routeB": 20,
+            "viewA_total_fn": 369,
+            "viewB_naive_union_f1": {
+              "tp": 128,
+              "fp": 313,
+              "fn": 340,
+              "precision": 0.2902,
+              "recall": 0.2735,
+              "f1": 0.2816
+            },
+            "viewC_oracle_reviewer_f1": {
+              "tp": 128,
+              "fp": 193,
+              "fn": 340,
+              "precision": 0.3988,
+              "recall": 0.2735,
+              "f1": 0.3245
+            },
+            "n_accepted_by_reviewer": 29,
+            "n_fns_in_top": 29
+          },
+          "3": {
+            "viewA_macro_orr": 0.1706,
+            "viewA_unique_fn_vs_routeB": 11,
+            "viewA_overlap_routeB": 48,
+            "viewA_total_fn": 369,
+            "viewB_naive_union_f1": {
+              "tp": 158,
+              "fp": 581,
+              "fn": 310,
+              "precision": 0.2138,
+              "recall": 0.3376,
+              "f1": 0.2618
+            },
+            "viewC_oracle_reviewer_f1": {
+              "tp": 158,
+              "fp": 193,
+              "fn": 310,
+              "precision": 0.4501,
+              "recall": 0.3376,
+              "f1": 0.3858
+            },
+            "n_accepted_by_reviewer": 59,
+            "n_fns_in_top": 59
+          },
+          "5": {
+            "viewA_macro_orr": 0.2355,
+            "viewA_unique_fn_vs_routeB": 15,
+            "viewA_overlap_routeB": 66,
+            "viewA_total_fn": 369,
+            "viewB_naive_union_f1": {
+              "tp": 180,
+              "fp": 857,
+              "fn": 288,
+              "precision": 0.1736,
+              "recall": 0.3846,
+              "f1": 0.2392
+            },
+            "viewC_oracle_reviewer_f1": {
+              "tp": 180,
+              "fp": 193,
+              "fn": 288,
+              "precision": 0.4826,
+              "recall": 0.3846,
+              "f1": 0.4281
+            },
+            "n_accepted_by_reviewer": 81,
+            "n_fns_in_top": 81
+          },
+          "10": {
+            "viewA_macro_orr": 0.2871,
+            "viewA_unique_fn_vs_routeB": 17,
+            "viewA_overlap_routeB": 89,
+            "viewA_total_fn": 369,
+            "viewB_naive_union_f1": {
+              "tp": 205,
+              "fp": 1577,
+              "fn": 263,
+              "precision": 0.115,
+              "recall": 0.438,
+              "f1": 0.1822
+            },
+            "viewC_oracle_reviewer_f1": {
+              "tp": 205,
+              "fp": 193,
+              "fn": 263,
+              "precision": 0.5151,
+              "recall": 0.438,
+              "f1": 0.4734
+            },
+            "n_accepted_by_reviewer": 106,
+            "n_fns_in_top": 106
+          }
+        },
+        "BM25+ComplementaryUnion": {
+          "1": {
+            "viewA_macro_orr": 0.0076,
+            "viewA_unique_fn_vs_routeB": 0,
+            "viewA_overlap_routeB": 2,
+            "viewA_total_fn": 369,
+            "viewB_naive_union_f1": {
+              "tp": 101,
+              "fp": 340,
+              "fn": 367,
+              "precision": 0.229,
+              "recall": 0.2158,
+              "f1": 0.2222
+            },
+            "viewC_oracle_reviewer_f1": {
+              "tp": 101,
+              "fp": 193,
+              "fn": 367,
+              "precision": 0.3435,
+              "recall": 0.2158,
+              "f1": 0.2651
+            },
+            "n_accepted_by_reviewer": 2,
+            "n_fns_in_top": 2
+          },
+          "3": {
+            "viewA_macro_orr": 0.0243,
+            "viewA_unique_fn_vs_routeB": 0,
+            "viewA_overlap_routeB": 5,
+            "viewA_total_fn": 369,
+            "viewB_naive_union_f1": {
+              "tp": 104,
+              "fp": 635,
+              "fn": 364,
+              "precision": 0.1407,
+              "recall": 0.2222,
+              "f1": 0.1723
+            },
+            "viewC_oracle_reviewer_f1": {
+              "tp": 104,
+              "fp": 193,
+              "fn": 364,
+              "precision": 0.3502,
+              "recall": 0.2222,
+              "f1": 0.2719
+            },
+            "n_accepted_by_reviewer": 5,
+            "n_fns_in_top": 5
+          },
+          "5": {
+            "viewA_macro_orr": 0.0274,
+            "viewA_unique_fn_vs_routeB": 0,
+            "viewA_overlap_routeB": 7,
+            "viewA_total_fn": 369,
+            "viewB_naive_union_f1": {
+              "tp": 106,
+              "fp": 931,
+              "fn": 362,
+              "precision": 0.1022,
+              "recall": 0.2265,
+              "f1": 0.1409
+            },
+            "viewC_oracle_reviewer_f1": {
+              "tp": 106,
+              "fp": 193,
+              "fn": 362,
+              "precision": 0.3545,
+              "recall": 0.2265,
+              "f1": 0.2764
+            },
+            "n_accepted_by_reviewer": 7,
+            "n_fns_in_top": 7
+          },
+          "10": {
+            "viewA_macro_orr": 0.0361,
+            "viewA_unique_fn_vs_routeB": 0,
+            "viewA_overlap_routeB": 13,
+            "viewA_total_fn": 369,
+            "viewB_naive_union_f1": {
+              "tp": 112,
+              "fp": 1670,
+              "fn": 356,
+              "precision": 0.0629,
+              "recall": 0.2393,
+              "f1": 0.0996
+            },
+            "viewC_oracle_reviewer_f1": {
+              "tp": 112,
+              "fp": 193,
+              "fn": 356,
+              "precision": 0.3672,
+              "recall": 0.2393,
+              "f1": 0.2898
+            },
+            "n_accepted_by_reviewer": 13,
+            "n_fns_in_top": 13
+          }
+        }
+      },
+      "oracle_add": {
+        "1": {
+          "tp": 226,
+          "fp": 193,
+          "fn": 242,
+          "precision": 0.5394,
+          "recall": 0.4829,
+          "f1": 0.5096
+        },
+        "3": {
+          "tp": 364,
+          "fp": 193,
+          "fn": 104,
+          "precision": 0.6535,
+          "recall": 0.7778,
+          "f1": 0.7102
+        },
+        "5": {
+          "tp": 424,
+          "fp": 193,
+          "fn": 44,
+          "precision": 0.6872,
+          "recall": 0.906,
+          "f1": 0.7816
+        },
+        "10": {
+          "tp": 466,
+          "fp": 193,
+          "fn": 2,
+          "precision": 0.7071,
+          "recall": 0.9957,
+          "f1": 0.827
+        }
+      }
+    }
+  }
+}
