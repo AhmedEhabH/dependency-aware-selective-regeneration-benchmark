@@ -7,8 +7,8 @@ task, immediate next step, blockers). Scientific truth lives in
 
 **Branch:** `main`
 **HEAD:** `8b2d1b6` (merge of `research/oracle-gap-bidirectional-repair-2026-09-18`)
-**origin/main:** `8b2d1b6` (at Oracle-gap closure; post-tag docs commit
-`f5366aa` advanced origin/main afterward — T2 state reconciliation)
+**origin/main:** `8b2d1b6` (at Oracle-gap closure; post-tag docs commits
+`f5366aa`, `9a7b7ef` advanced origin/main afterward — T2 state reconciliation)
 **Tag:** `oracle-gap-bidirectional-repair-2026-09-18` — peel `8b2d1b6` == merge
 == origin/main at closure (unchanged; post-tag docs commits never move a tag;
 DEV evidence milestone tag, NOT a stable-tag move)
