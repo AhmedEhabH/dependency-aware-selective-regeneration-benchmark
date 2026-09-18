@@ -84,8 +84,11 @@ correction + Grafana FUTURE candidate → gap-reduction roadmap ladder —
 ## Closure block (Bounded semantic expansion pilot, 2026-09-18)
 
 - AUTHORIZED real DEVELOPMENT pilot; `research/bounded-semantic-expansion/`
-  raw evidence + reports. Merged to `main`.
-- DEV-evidence tag (see git section in the final stop report).
-- Next scientific task (NOT started, requires its own authorization):
-  any future bounded semantic instrument with a precision-safe acceptance
-  rule.
+  raw evidence + reports. Branch `research/bounded-semantic-expansion-pilot-2026-09-18`
+  merged to `main` as merge commit `09979c7` (immutable scientific fact).
+- DEV-evidence tag `bounded-semantic-expansion-pilot-2026-09-18` — peel
+  `09979c7` == merge == `main` (audited DEVELOPMENT evidence; NOT a stable-tag
+  move). Pushed to origin; origin/main == HEAD == tag peel.
+- LIGHT export at scientific closure (filename/hash in the final stop report).
+- Next scientific task (NOT started, requires its own authorization): any
+  future bounded semantic instrument with a precision-safe acceptance rule.
