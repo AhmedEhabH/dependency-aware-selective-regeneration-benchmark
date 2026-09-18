@@ -1,0 +1,28 @@
+{
+  "package": "bounded_semantic_expansion_audit",
+  "date": "2026-09-18",
+  "tier": "T3 (authorized real pilot; DEVELOPMENT)",
+  "verdict": "PASS",
+  "n_checks": 8,
+  "n_pass": 8,
+  "checks": {
+    "A1_ledger_within_ceilings": true,
+    "A2_sidecars": true,
+    "A3_counts": true,
+    "A4_orr_recompute": true,
+    "A5_decision": true,
+    "A6_gate_fail_points": true,
+    "A7_sealed": true,
+    "A8_no_prompt_leak": true
+  },
+  "recomputed_orr5": {
+    "djangocms": {
+      "arm_a": 0.1111,
+      "arm_b": 0.25
+    },
+    "saleor": {
+      "arm_a": 0.3344,
+      "arm_b": 0.3574
+    }
+  }
+}

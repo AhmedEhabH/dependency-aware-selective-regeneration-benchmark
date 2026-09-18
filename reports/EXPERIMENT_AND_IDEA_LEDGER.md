@@ -333,3 +333,7 @@ Legend: PROPOSED / EXECUTED / REJECTED / DEFERRED / SUPERSEDED.
 - **Revisit:** execute the frozen Stage-4 bounded semantic pilot ONLY under explicit
   user authorization (protocol + budget draft); retest R2/R3 if typed edges become
   available.
+
+- **E-013 — Bounded semantic expansion pilot (2026-09-18; T3 DEV; AUTHORIZED real run; 300 calls):** can a bounded semantic decision layer over the deterministic high-coverage pool (Route-B top-10 UNION reverse-1hop consumers, cap 40) convert availability headroom into realized FN recovery WITHOUT full agentic search? Arm A = frozen Route-B verifier (4 calls/task), Arm B = expanded-pool bounded rerank/verify (1 call/task). Result @B=5: djangoCMS Arm A ORR 0.111 / Arm B 0.250 (naive-F1 0.396/0.327); Saleor Arm A 0.334 / Arm B 0.357 (0.304/0.270). Preregistered gate FAIL -> BOUNDED_SEMANTIC_NEGATIVE_FROZEN (c1 saleor, c3 djangocms). Cost: 106,325 tokens / .0444 / 553.6 s. No prompt/schema tuning; 6 fail-closed schema-invalid Arm B calls.
+- **Artifact:** research/bounded-semantic-expansion/ (registration freeze, results, ledger, 300 raw runs + sha256), reports/BOUNDED_SEMANTIC_EXPANSION_{PILOT_REPORT,CLOSURE_REPORT,AUDIT}.md + json, scripts/bounded_semantic_expansion_{pilot,analyze,audit}.py.
+- **Revisit:** a precision-safe acceptance rule (e.g., verifier-approved AND ranked-gated) under a NEW pre-registered protocol + explicit authorization; otherwise Stage 4 stays NEGATIVE.

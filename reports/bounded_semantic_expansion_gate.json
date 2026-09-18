@@ -1,0 +1,39 @@
+{
+  "reference_budget": 5,
+  "repos": {
+    "djangocms": {
+      "c1_orr_materially_above_armA": true,
+      "orr_delta_armB_minus_armA": 0.1389,
+      "c2_fold_majority_positive": true,
+      "fold_direction_frac": [
+        1.0,
+        1.0,
+        0.5,
+        1.0,
+        1.0
+      ],
+      "c3_naive_f1_not_materially_worse": false,
+      "naive_f1_delta_armB_minus_armA": -0.0685,
+      "c4_leak_free": true,
+      "c5_cost_justified": true
+    },
+    "saleor": {
+      "c1_orr_materially_above_armA": false,
+      "orr_delta_armB_minus_armA": 0.023,
+      "c2_fold_majority_positive": true,
+      "fold_direction_frac": [
+        1.0,
+        0.0,
+        0.5,
+        1.0,
+        0.0
+      ],
+      "c3_naive_f1_not_materially_worse": true,
+      "naive_f1_delta_armB_minus_armA": -0.0335,
+      "c4_leak_free": true,
+      "c5_cost_justified": true
+    }
+  },
+  "decision": "BOUNDED_SEMANTIC_NEGATIVE_FROZEN",
+  "pass": false
+}
