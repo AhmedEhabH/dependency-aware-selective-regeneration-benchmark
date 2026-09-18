@@ -207,8 +207,8 @@ def test_no_proxy_in_features():
     tasks = _load()[:20]
     allowed = {"path", "module", "parent_dir", "bm25", "bm25_rank_pct", "pt_rank_pct",
                "graph_neighbor", "intent_overlap", "composite", "dist", "consumer",
-               "provider", "sibling", "co_change", "history_available",
-               "is_missed_positive"}
+               "provider", "rev_support", "fwd_support", "sibling", "co_change",
+               "history_available", "is_missed_positive"}
     for t in tasks:
         for c in t.candidates:
             extra = set(c.keys()) - allowed

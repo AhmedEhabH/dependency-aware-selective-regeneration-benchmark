@@ -526,14 +526,36 @@ budget (450 cells / 9M tokens / $3.00; INTERNAL_TEST/RESERVE sealed).
 Kaggle pilot evidence (saleor scenarios) is legacy/engineering only and is not
 confirmatory scientific evidence for this proposal line.
 
-**Generalization ladder (frozen, 2026-09-16):**
+**Generalization ladder (frozen, 2026-09-16; terminology corrected 2026-09-18):**
 - Stage 1 — djangoCMS V2-LARGE: within-repo large evidence + untouched internal test.
 - Stage 2 — Saleor: cross-repository evidence in a different real system
   (Python/Django; SUITABLE-WITH-DEVIATIONS).
-- Stage 3 — NestJS: cross-language / cross-framework evidence
+- Stage 3 — NestJS: **cross-language / cross-framework** evidence
   (TypeScript; `reports/NESTJS_REPOSITORY_SUITABILITY_AUDIT.md`,
   `docs/NESTJS_REAL_COMMIT_PROTOCOL_V1.md`; SUITABLE-WITH-DEVIATIONS;
   preferred but NOT forced — predeclared yield criterion, JabRef backup).
+- **Stage 7 (future) — polyglot SINGLE-REPOSITORY generalization (added
+  2026-09-18):** a FUTURE feasibility candidate is `grafana/grafana`, because
+  the same repository contains a Go backend and a TypeScript frontend with
+  documented backend/frontend parity paths. NOT scientifically accepted yet —
+  requires a repository feasibility audit, per-language production-source
+  universe definition, cross-language dependency/coupling representation,
+  ≥60 eligible real commits target if feasible, explicit mixed-language
+  commit strata, no generated/vendor/test leakage, and the same
+  proxy/leakage rules. Terminology rule (2026-09-18): **"multi-language"
+  future work has TWO distinct meanings that must not be conflated** — (A)
+  CROSS-LANGUAGE / CROSS-REPOSITORY (different repos from different
+  ecosystems: Python, TypeScript, Java, Go) vs (B) POLYGLOT
+  SINGLE-REPOSITORY (one repository containing substantial production code
+  in multiple languages with real cross-language change coupling). Ambiguous
+  roadmap wording is renamed to
+  `cross-language + polyglot-repository generalization`.
+- **P2 adaptive-budget / adaptive-k status (gated, not deleted;
+  2026-09-18):** P2 Phase-1 is COMPLETE, NEGATIVE, and frozen; adaptive
+  budget is NOT the current bottleneck and is NOT active work. The
+  Shichao-Zhang / adaptive-k / demand-driven-k line remains FUTURE WORK and
+  is gated: revisit ONLY after a stable ranking/recovery signal exists,
+  because choosing k cannot rescue a poorly ordered candidate list.
 
 ---
 

@@ -16,43 +16,56 @@ its own final live HEAD SHA (committing metadata changes HEAD again). Query
 at read time: `git rev-parse HEAD`, `git rev-parse origin/main`,
 `git status --porcelain`.
 **Model:** openrouter/deepseek/deepseek-v4-flash-0731
-**Task:** FIRST-PASS RECALL BOTTLENECK (2026-09-18; T3 DEVELOPMENT; ZERO API) —
-FN taxonomy → S006-like pattern test → source-specific recall ceilings →
-complementarity → ≤3 ADD queues → matched-budget eval → oracle-reviewer
-simulation → progression gate = **RECALL_SIGNAL_HEADROOM_ONLY**; sealed sets
-untouched; 19/19 tests + independent audit PASS — **COMPLETE**
+**Task:** RANKING BRIDGE + BOUNDED SEMANTIC FREEZE (2026-09-18; T3 DEVELOPMENT;
+ZERO API) — Section-1 ranking-gap reconfirmation freeze EXACT →
+Section-2 three transparent quantitative-structural rankers
+(R1/R2/R3, no formula material on both repos) → **CHEAP_RANKING_CLOSED_FOR_NOW**
+(negative frozen) → bounded semantic rerank/verify protocol + API budget
+PREPARED NOT EXECUTED → P2/adaptive-k gated → cross-language vs polyglot
+correction + Grafana FUTURE candidate → gap-reduction roadmap ladder —
+**COMPLETE**
 
 ---
 
 ## Now executing
 
-- **MILESTONE COMPLETE.** First-pass recall bottleneck study (DEVELOPMENT
-  only, T3, ZERO API): baseline freeze reproduced the frozen Route-B numbers
-  exactly; FN taxonomy (deterministic, parent-visible) per repo; S006-like
-  indirect-utility/downstream misses = **GENERAL_PATTERN** (consumer flag on
-  58.9%/82.1% of FNs; 98.6%/100% of direct-1hop FNs lexically silent);
-  source-specific oracle ceilings (reverse-1hop = 0.558/0.724 ORR @K=5;
-  UNION_ALL 0.725/0.870); three simple ADD queues defined (BM25+ReverseDep,
-  +ProviderConsumerSupport, +ComplementaryUnion) but **none beats Route-B at
-  matched budget**; oracle-reviewer F1 ≈ 0.44/0.43 @B=5 vs Oracle-Add
-  0.72/0.64 ⇒ dominant remaining loss = **RANKING**; progression gate =
-  **RECALL_SIGNAL_HEADROOM_ONLY** → no verifier calls authorized.
-- **Remaining:** none for this mission. The bounded verifier-ranked expansion
-  (Route-B top-B + reverse-1hop pool) on DEVELOPMENT is the next instrument but
-  requires a separate authorized mission.
+- **MILESTONE COMPLETE.** Ranking bridge + bounded semantic freeze (DEVELOPMENT
+  only, T3, ZERO API): Section-1 reconfirmation reproduced the frozen ranking
+  gap EXACTLY (Route-B 0.0464/0.1177/0.1633/0.2512 and 0.0775/0.1576/0.2369/
+  0.3173; reverse-1hop 0.558/0.724; UNION_ALL 0.725/0.870; Oracle-Add
+  0.841/0.782; oracle-reviewer 0.441/0.424 — all verification flags PASS).
+  Section-2 ran exactly three transparent quantitative-structural rankers
+  (R1 BM25+RevSupport, R2 BM25+BidirSupport, R3 BM25+BidirNorm) over the
+  high-coverage reverse-1hop pool at matched budget: best is R1 with
+  djangoCMS +0.034 but Saleor −0.020 at B=5; **NO formula materially beats
+  Route-B on BOTH repos** (c1/c2 fail on all three) →
+  **CHEAP_RANKING_CLOSED_FOR_NOW** (negative frozen; no fourth formula).
+  The bounded semantic rerank/verify protocol
+  (`docs/BOUNDED_SEMANTIC_RERANK_VERIFY_PROTOCOL_FROZEN.md`) + API budget
+  draft (`reports/BOUNDED_SEMANTIC_EXPANSION_BUDGET_FREEZE_DRAFT.md`) were
+  PREPARED but NOT EXECUTED (≤300 calls / ≤300k tokens / ≤$0.30 / ≤60 min
+  hard stop). P2/adaptive-k status gated (not active). Future-work
+  terminology corrected to cross-language + polyglot-repository
+  generalization; `grafana/grafana` added as FUTURE feasibility candidate
+  only. Gap-reduction roadmap ladder documented (Stages 1–8).
+- **Remaining:** none for this mission. The Stage-4 bounded semantic pilot
+  requires explicit user authorization (exact sentence in the budget draft).
 
 ## Last completed task
 
-- First-pass recall bottleneck (2026-09-18): reports + JSON,
-  `src/benchmark/recall/`, 6 scripts, `tests/unit/test_recall_bottleneck.py`
-  (19/19), independent audit (19/19 checks PASS); docs updated.
+- Ranking bridge + bounded semantic freeze (2026-09-18): Section-1 baseline
+  freeze artifact + Section-2 three-formula bridge + gate
+  `CHEAP_RANKING_CLOSED_FOR_NOW`; `src/benchmark/recall/quant_rankers.py`,
+  `scripts/fn_quant_ranking_bridge.py`, `scripts/fn_quant_ranking_bridge_audit.py`,
+  `tests/unit/test_quant_ranking_bridge.py` (12/12), independent audit
+  (25/25 PASS); docs updated.
 
 ## Immediate next step
 
-- Await review; a future follow-up mission may run a **bounded verifier-ranked
-  expansion** (existing frozen verifier protocol/budget) on DEVELOPMENT to test
-  whether verifier-ranked recovery converts the measured 0.73/0.87 availability
-  ceilings into realized recall — NOT authorized in this mission.
+- Await review/authorization. If the user authorizes the frozen Stage-4
+  protocol + budget, run the bounded semantic rerank/verify DEVELOPMENT pilot
+  (≤300 calls / ≤300k tokens / ≤$0.30 / ≤60 min); otherwise the cheap-ranking
+  negative and the frozen protocol/budget are the mission's deliverable.
 
 ## Blockers
 
@@ -64,29 +77,26 @@ untouched; 19/19 tests + independent audit PASS — **COMPLETE**
 - Saleor parent-visible history cache absent (dist/real-commit-cache/saleor) —
   no Saleor co-change arm; recorded UNAVAILABLE in the taxonomy/ceilings.
 
-## Full-suite state (First-pass recall mission gate, 2026-09-18)
+## Full-suite state (Ranking bridge mission gate, 2026-09-18)
 
-- **19/19 new unit tests PASS** (`tests/unit/test_recall_bottleneck.py`);
-  related `test_oracle_gap.py` 16/16 green (35 total).
-- Ruff clean on all changed Python; mypy clean on `src/benchmark/recall`;
-  py_compile clean; `git diff --check` clean.
+- **12/12 new unit tests PASS** (`tests/unit/test_quant_ranking_bridge.py`);
+  affected suites green (`test_recall_bottleneck.py` 19/19 +
+  `test_oracle_gap.py` 16/16 = 35/35).
+- Ruff clean on all changed Python; mypy strict clean on
+  `src/benchmark/recall`; py_compile clean; `git diff --check` clean.
 - Independent audit recomputes the headline numbers from frozen records
-  without importing the analysis scripts — **19/19 checks PASS**
-  (`reports/fn_independent_audit.json`).
+  without importing the analysis scripts — **25/25 checks PASS**
+  (`reports/fn_quant_ranking_bridge_audit.json`).
 
-## Closure block (First-pass recall mission, 2026-09-18)
+## Closure block (Ranking bridge + bounded semantic freeze mission, 2026-09-18)
 
-- Branch: `research/first-pass-recall-bottleneck-2026-09-18` → merged to
-  `main` as merge commit `7a251f0` (immutable scientific fact).
-- DEV-evidence tag `first-pass-recall-bottleneck-2026-09-18` — peel
-  `7a251f0` == merge == `main` (audited DEVELOPMENT evidence; NOT a
-  stable-tag move).
-- Live HEAD / origin/main are runtime git facts (query with `git rev-parse`);
-  they are NOT embedded here because committing metadata changes HEAD.
-- LIGHT export (at scientific closure): `project-2026-09-18-1725.zip`
-  SHA-256 `3d13b9c00684c9db123cd7682fbc303917b10cb4a116e1523c3652f4911a4b9e`
-  (95,340,878 bytes; required members `.git/HEAD`,
-  `dist/pilot-kaggle-upload.zip`, `.sha256` present; 9,036 entries).
+- Branch: `research/ranking-bridge-bounded-semantic-freeze-2026-09-18` →
+  merged to `main`.
+- DEV-evidence tag `ranking-bridge-bounded-semantic-freeze-2026-09-18` — peel
+  == merge == `main` (audited DEVELOPMENT evidence; NOT a stable-tag move).
+- Live HEAD / origin/main are runtime git facts (query with `git rev-parse`).
+- LIGHT export at scientific closure (filename/hash recorded in the final
+  report).
 - Next scientific task (NOT started, requires its own authorization): bounded
-  verifier-ranked expansion on DEVELOPMENT (Route-B top-B + reverse-1hop
-  consumer pool), using the existing frozen verifier protocol/budget.
+  semantic rerank/verify pilot on DEVELOPMENT (Route-B top-B + reverse-1hop
+  consumer pool), using the frozen protocol + budget draft.

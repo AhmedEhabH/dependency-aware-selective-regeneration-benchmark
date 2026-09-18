@@ -6,6 +6,63 @@ For historical closure records see `docs/PROJECT_HANDOFF.md`, `SYSTEM_STATE.md`,
 `TODO.md`, `docs/PAPER_WRITING_HANDOFF.md`, `docs/MSC_RESEARCH_ROADMAP_2026_2027.md`
 (all preserved verbatim below their HISTORICAL boundaries).
 
+**CURRENT TRUTH (2026-09-18, RANKING BRIDGE + BOUNDED SEMANTIC FREEZE — DEVELOPMENT-only
+T3 study complete; ZERO API; P2 Phase-1 NEGATIVE + First-Pass Recall + Oracle-gap
+conclusions frozen; sealed sets untouched):**
+→ **RANKING BRIDGE = CHEAP_RANKING_CLOSED_FOR_NOW (2026-09-18; DEVELOPMENT only;
+ZERO API):** Section-1 reconfirmed the frozen ranking gap EXACTLY on djangoCMS DEV
+(174) + Saleor DEV (149): Route-B composite macro ORR 0.0464/0.1177/0.1633/0.2512
+and 0.0775/0.1576/0.2369/0.3173; BM25-only @5 0.161/0.234; reverse-1hop oracle
+availability @K=5 0.558/0.724; consumer+provider 0.605/0.802; UNION_ALL 0.725/0.870;
+Oracle-Add F1@5 0.841/0.782; oracle-reviewer Route-B F1@5 0.441/0.424 — all
+verification flags PASS (baseline-freeze artifact
+`reports/fn_quant_ranking_bridge_baseline_freeze.json`). Section-2 evaluated exactly
+THREE transparent quantitative-structural rankers (frozen before outcome inspection;
+parent-visible features only): R1 BM25+RevSupport, R2 BM25+BidirSupport, R3
+BM25+BidirNorm. Typed-edge support is NOT available (frozen graph = untyped
+[src,dest] edges) and is documented. **Best R1 at B=5: djangoCMS +0.034 (0.197) but
+Saleor −0.020 (0.217); no formula materially beats Route-B on BOTH repos (gate c1/c2
+fail on all three); folds not majority positive; artifact-free; naive-F1 not clearly
+worse.** Decision **CHEAP_RANKING_CLOSED_FOR_NOW** (negative frozen; NO fourth
+formula). The bounded semantic middle layer is the next instrument.
+→ **BOUNDED SEMANTIC RERANK/VERIFY PROTOCOL + BUDGET PREPARED, NOT EXECUTED
+(2026-09-18; ZERO calls):** frozen protocol `docs/BOUNDED_SEMANTIC_RERANK_VERIFY_
+PROTOCOL_FROZEN.md` (pool = Route-B top-10 ∪ reverse-1hop consumers, dedupe,
+deterministic pre-order, hard cap C=40; qwen3-coder/OpenRouter temp 0 cap 512;
+strict JSON; fail-closed; no result-based retries; ≤30 tasks/repo DEVELOPMENT pilot;
+matched-budget Arm A Route-B verifier / Arm B expanded-pool bounded rerank / Arm C
+analytic references; primary ORR + P/R/F1/FNR + Oracle-Add-gap-closed; safety: no
+material F1 regression) + `reports/BOUNDED_SEMANTIC_EXPANSION_BUDGET_FREEZE_DRAFT.md`
+(≤300 calls / ≤300,000 tokens / ≤$0.30 / ≤60 min hard stop; per-call reservation
+ledger; **exact user authorization sentence required before any call**). NO model/API
+call made.
+→ **P2 / ADAPTIVE-K STATUS (2026-09-18):** P2 Phase-1 = COMPLETE, NEGATIVE, frozen;
+adaptive budget is NOT the current bottleneck and is NOT active work; the
+Shichao-Zhang / adaptive-k / demand-driven-k line remains FUTURE WORK and is GATED
+(revisit only after a stable ranking/recovery signal — choosing k cannot rescue a
+poorly ordered candidate list); line gated, not deleted.
+→ **FUTURE-WORK CORRECTION (2026-09-18):** "multi-language" has TWO distinct meanings
+— (A) CROSS-LANGUAGE / CROSS-REPOSITORY (different repos from different ecosystems)
+vs (B) POLYGLOT SINGLE-REPOSITORY (one repository with substantial production code
+in multiple languages and real cross-language change coupling). Ambiguous roadmap
+wording renamed `cross-language + polyglot-repository generalization`. **`grafana/grafana`
+= FUTURE feasibility candidate ONLY** (Go backend + TS frontend, documented parity
+paths; NOT scientifically accepted; requires feasibility audit, per-language
+production-universe definition, cross-language coupling representation, ≥60 eligible
+real commits if feasible, mixed-language commit strata, no generated/vendor/test
+leakage, same proxy/leakage rules).
+→ **GAP-REDUCTION ROADMAP (`reports/GAP_REDUCTION_ROADMAP.md`):** Stage 1 DONE
+(Sparse + Route-B recovery), Stage 2 DONE (FN anatomy; finding = availability high,
+ranking bottleneck), Stage 3 THIS MISSION (quant structural bridge = negative),
+Stage 4 NEXT IF AUTHORIZED (bounded semantic rerank/verify), Stage 5 freeze +
+fresh confirmatory if Stage 4 succeeds, Stage 6 adaptive-k later (gated), Stage 7
+generalization (cross-language + polyglot), Stage 8 repository-agent only if needed
+(fair LocAgent comparison under matched protocol).
+**Boundary held:** ZERO API; P2 Phase-1 NEGATIVE + Oracle-gap BIDIRECTIONAL_HEADROOM_ONLY
++ First-Pass RECALL_SIGNAL_HEADROOM_ONLY conclusions untouched; spent djangoCMS
+INTERNAL_TEST never used for selection; djangoCMS RESERVE + Saleor INTERNAL_TEST/
+RESERVE sealed; 12/12 new unit tests PASS + independent audit 25/25 PASS; affected
+suites 35/35.
 **CURRENT TRUTH (2026-09-18, FIRST-PASS RECALL BOTTLENECK — DEVELOPMENT-only
 T3 study complete; ZERO API; P2 Phase-1 NEGATIVE + fixed Route-B CONFIRMED and
 untouched; sealed sets untouched):**

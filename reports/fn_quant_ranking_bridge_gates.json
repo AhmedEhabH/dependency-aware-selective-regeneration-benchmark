@@ -1,0 +1,102 @@
+{
+  "gates": [
+    {
+      "name": "quant_ranking_bridge",
+      "passed": false,
+      "decision": "CHEAP_RANKING_CLOSED_FOR_NOW",
+      "detail": {
+        "decision": "CHEAP_RANKING_CLOSED_FOR_NOW",
+        "reference_budget": 5,
+        "rankers": {
+          "R1_BM25+RevSupport": {
+            "repos": {
+              "djangocms": {
+                "orr_delta": 0.0339,
+                "materially_better_orr": false,
+                "fold_majority_positive": false,
+                "naive_f1_not_clearly_worse": true,
+                "oracle_reviewer_improves_over_route_b": true,
+                "artifact_free": true
+              },
+              "saleor": {
+                "orr_delta": -0.0198,
+                "materially_better_orr": false,
+                "fold_majority_positive": false,
+                "naive_f1_not_clearly_worse": true,
+                "oracle_reviewer_improves_over_route_b": true,
+                "artifact_free": true
+              }
+            },
+            "gate": {
+              "c1_orr_materially_better_both": false,
+              "c2_fold_majority_both": false,
+              "c3_naive_f1_not_clearly_worse": true,
+              "c4_no_size_artifact": true,
+              "c5_no_leakage": true,
+              "c6_simpler_than_verifier": true,
+              "pass": false
+            }
+          },
+          "R2_BM25+BidirSupport": {
+            "repos": {
+              "djangocms": {
+                "orr_delta": 0.0298,
+                "materially_better_orr": false,
+                "fold_majority_positive": false,
+                "naive_f1_not_clearly_worse": true,
+                "oracle_reviewer_improves_over_route_b": true,
+                "artifact_free": true
+              },
+              "saleor": {
+                "orr_delta": -0.0197,
+                "materially_better_orr": false,
+                "fold_majority_positive": false,
+                "naive_f1_not_clearly_worse": true,
+                "oracle_reviewer_improves_over_route_b": false,
+                "artifact_free": true
+              }
+            },
+            "gate": {
+              "c1_orr_materially_better_both": false,
+              "c2_fold_majority_both": false,
+              "c3_naive_f1_not_clearly_worse": true,
+              "c4_no_size_artifact": true,
+              "c5_no_leakage": true,
+              "c6_simpler_than_verifier": true,
+              "pass": false
+            }
+          },
+          "R3_BM25+BidirNorm": {
+            "repos": {
+              "djangocms": {
+                "orr_delta": 0.0217,
+                "materially_better_orr": false,
+                "fold_majority_positive": false,
+                "naive_f1_not_clearly_worse": true,
+                "oracle_reviewer_improves_over_route_b": true,
+                "artifact_free": true
+              },
+              "saleor": {
+                "orr_delta": -0.0283,
+                "materially_better_orr": false,
+                "fold_majority_positive": false,
+                "naive_f1_not_clearly_worse": true,
+                "oracle_reviewer_improves_over_route_b": false,
+                "artifact_free": true
+              }
+            },
+            "gate": {
+              "c1_orr_materially_better_both": false,
+              "c2_fold_majority_both": false,
+              "c3_naive_f1_not_clearly_worse": true,
+              "c4_no_size_artifact": true,
+              "c5_no_leakage": true,
+              "c6_simpler_than_verifier": true,
+              "pass": false
+            }
+          }
+        }
+      }
+    }
+  ]
+}
