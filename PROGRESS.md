@@ -16,42 +16,43 @@ its own final live HEAD SHA (committing metadata changes HEAD again). Query
 at read time: `git rev-parse HEAD`, `git rev-parse origin/main`,
 `git status --porcelain`.
 **Model:** openrouter/deepseek/deepseek-v4-flash-0731
-**Task:** README REORGANIZATION + RESEARCH JOURNEY (2026-09-18; T2 docs-only) —
-README rebuilt as a concise ~5-minute entry point (problem → idea → status
-table → lessons → key numbers → bottleneck → datasets → governance → map →
-reproduce → claim labels); `docs/RESEARCH_JOURNEY.md` created (17 chronological
-milestones: tried/learned/ruled-out with revisit triggers); stale claims
-removed (Saleor "future", LocAgent "adapter pending", Route-B "development
-only", P2 "conditional", semantic audit "preparation", old 2026-09-16/17
-header); documentation-architecture decision recorded in DECISIONS.md; all
-links + headline numbers validated against authoritative reports; ZERO API —
-**COMPLETE**
+**Task:** FIRST-PASS RECALL BOTTLENECK (2026-09-18; T3 DEVELOPMENT; ZERO API) —
+FN taxonomy → S006-like pattern test → source-specific recall ceilings →
+complementarity → ≤3 ADD queues → matched-budget eval → oracle-reviewer
+simulation → progression gate = **RECALL_SIGNAL_HEADROOM_ONLY**; sealed sets
+untouched; 19/19 tests + independent audit PASS — **COMPLETE**
 
 ---
 
 ## Now executing
 
-- **MILESTONE COMPLETE.** README reorganization + research journey (T2
-  docs-only, ZERO API): README rebuilt as the concise entry point with the
-  mandated 11-section structure; `docs/RESEARCH_JOURNEY.md` created with 17
-  chronological milestones (each negative framed as a search-space reduction
-  with an explicit revisit trigger); stale-phrase audit clean; all 38 README
-  links + 28 journey links resolve; every headline number cross-checked
-  against authoritative reports; no scientific result changed.
-- **Remaining:** none for this docs mission. The next scientific task
-  (First-Pass Recall Bottleneck, DEVELOPMENT only) remains NOT started.
+- **MILESTONE COMPLETE.** First-pass recall bottleneck study (DEVELOPMENT
+  only, T3, ZERO API): baseline freeze reproduced the frozen Route-B numbers
+  exactly; FN taxonomy (deterministic, parent-visible) per repo; S006-like
+  indirect-utility/downstream misses = **GENERAL_PATTERN** (consumer flag on
+  58.9%/82.1% of FNs; 98.6%/100% of direct-1hop FNs lexically silent);
+  source-specific oracle ceilings (reverse-1hop = 0.558/0.724 ORR @K=5;
+  UNION_ALL 0.725/0.870); three simple ADD queues defined (BM25+ReverseDep,
+  +ProviderConsumerSupport, +ComplementaryUnion) but **none beats Route-B at
+  matched budget**; oracle-reviewer F1 ≈ 0.44/0.43 @B=5 vs Oracle-Add
+  0.72/0.64 ⇒ dominant remaining loss = **RANKING**; progression gate =
+  **RECALL_SIGNAL_HEADROOM_ONLY** → no verifier calls authorized.
+- **Remaining:** none for this mission. The bounded verifier-ranked expansion
+  (Route-B top-B + reverse-1hop pool) on DEVELOPMENT is the next instrument but
+  requires a separate authorized mission.
 
 ## Last completed task
 
-- README reorganization + research journey (2026-09-18): README.md rebuilt;
-  docs/RESEARCH_JOURNEY.md created; PROGRESS/DECISIONS updated; links +
-  numbers validated; ZERO model/API calls.
+- First-pass recall bottleneck (2026-09-18): reports + JSON,
+  `src/benchmark/recall/`, 6 scripts, `tests/unit/test_recall_bottleneck.py`
+  (19/19), independent audit (19/19 checks PASS); docs updated.
 
 ## Immediate next step
 
-- Begin the **first-pass recall bottleneck** study on DEVELOPMENT only
-  (FN taxonomy → source-specific ceilings → ADD queues → matched-budget DEV
-  comparison → gate; ZERO-API first).
+- Await review; a future follow-up mission may run a **bounded verifier-ranked
+  expansion** (existing frozen verifier protocol/budget) on DEVELOPMENT to test
+  whether verifier-ranked recovery converts the measured 0.73/0.87 availability
+  ceilings into realized recall — NOT authorized in this mission.
 
 ## Blockers
 
@@ -61,32 +62,24 @@ links + headline numbers validated against authoritative reports; ZERO API —
 - Pre-existing environmental (2 full-suite failures, identical on clean base):
   pinned djangocms git cache absent at benchmark_data/repositories/djangocms.
 - Saleor parent-visible history cache absent (dist/real-commit-cache/saleor) —
-  no Saleor co-change arm; recorded UNAVAILABLE in the ablation.
+  no Saleor co-change arm; recorded UNAVAILABLE in the taxonomy/ceilings.
 
-## Full-suite state (Oracle-gap mission gate, 2026-09-18)
+## Full-suite state (First-pass recall mission gate, 2026-09-18)
 
-- **16/16 new oracle-gap unit tests PASS** (`tests/unit/test_oracle_gap.py`);
-  related suites green (test_semantic_ai_audit 19, test_semantic_audit 7).
-- Ruff clean on all changed Python; py_compile clean; `git diff --check` clean.
-- Six T3 validation gates + independent audit PASS
-  (`reports/oracle_gap_gates_validation.json`,
-  `reports/ORACLE_GAP_INDEPENDENT_AUDIT.md`).
-- Prior AI-audit gate (2026-09-18, carried): full suite 3307 passed / 33
-  skipped / 2 pre-existing environmental failures.
+- **19/19 new unit tests PASS** (`tests/unit/test_recall_bottleneck.py`);
+  related `test_oracle_gap.py` 16/16 green (35 total).
+- Ruff clean on all changed Python; mypy clean on `src/benchmark/recall`;
+  py_compile clean; `git diff --check` clean.
+- Independent audit recomputes the headline numbers from frozen records
+  without importing the analysis scripts — **19/19 checks PASS**
+  (`reports/fn_independent_audit.json`).
 
-## Closure block (Oracle-gap mission, 2026-09-18)
+## Closure block (First-pass recall mission, 2026-09-18)
 
-- Branch: `research/oracle-gap-bidirectional-repair-2026-09-18` → merged to
-  `main` as **scientific closure commit `8b2d1b6`** (immutable scientific
-  fact).
-- Tag `oracle-gap-bidirectional-repair-2026-09-18` — **peel `8b2d1b6`** ==
-  scientific closure commit (unchanged; post-tag docs commits advance main but
-  never move the tag; DEV evidence milestone tag, NOT a stable-tag move).
-- Live HEAD / origin/main are runtime git facts (query with `git rev-parse`);
-  they are NOT embedded here because committing metadata changes HEAD.
-- LIGHT export (at scientific closure): `project-2026-09-18-0807.zip`
-  SHA-256 `aea499406fecf6af37510e276fc272ed8025886b1640c7f6392569db560d192f`
-  (required members `.git/HEAD`, `dist/pilot-kaggle-upload.zip`, `.sha256`
-  present).
-- Next scientific task (NOT started): FIRST-PASS RECALL BOTTLENECK on
-  DEVELOPMENT only.
+- Branch: `research/first-pass-recall-bottleneck-2026-09-18` → merged to
+  `main`; DEV-evidence milestone tag (no stable-tag move) only if the milestone
+  is fully audited and reproducible.
+- Prior scientific closure commit `8b2d1b6` / tag
+  `oracle-gap-bidirectional-repair-2026-09-18` remain immutable.
+- Next scientific task (NOT started, requires its own authorization): bounded
+  verifier-ranked expansion on DEVELOPMENT.

@@ -6,6 +6,32 @@ For historical closure records see `docs/PROJECT_HANDOFF.md`, `SYSTEM_STATE.md`,
 `TODO.md`, `docs/PAPER_WRITING_HANDOFF.md`, `docs/MSC_RESEARCH_ROADMAP_2026_2027.md`
 (all preserved verbatim below their HISTORICAL boundaries).
 
+**CURRENT TRUTH (2026-09-18, FIRST-PASS RECALL BOTTLENECK — DEVELOPMENT-only
+T3 study complete; ZERO API; P2 Phase-1 NEGATIVE + fixed Route-B CONFIRMED and
+untouched; sealed sets untouched):**
+→ **FIRST-PASS RECALL BOTTLENECK = RECALL_SIGNAL_HEADROOM_ONLY (2026-09-18;
+DEVELOPMENT only; ZERO API):** baseline freeze reproduced frozen Route-B
+exactly (djangocms composite macro ORR 0.0464/0.1177/0.1633/0.2512 == frozen
+results). Deterministic FN taxonomy (parent-visible features; proxy = post-hoc
+label only): djangoCMS (382 FN) DIRECT_LEXICAL 95, HISTORY_COCHANGE 86,
+NO_OBSERVABLE_SIGNAL 87, DOWNSTREAM_CONSUMER 64, INDIRECT_2HOP 43; Saleor (369
+FN) DIRECT_LEXICAL 264, DOWNSTREAM_CONSUMER 68. **S006-like indirect-utility /
+downstream misses = GENERAL_PATTERN** (consumer flag 58.9%/82.1% of FNs;
+direct-1hop FNs 98.6%/100% lexically silent; repo-consistent). Source-specific
+oracle recall ceilings @K=5: GRAPH_REVERSE_1HOP 0.558/0.724, UNION_ALL
+0.725/0.870; BM25 ceiling is budget headroom (0.929/0.881) → availability is
+NOT the binding constraint. Three simple ADD queues (BM25+ReverseDependency,
++ProviderConsumerSupport, +ComplementaryUnion) defined and compared at matched
+budget: **none beats Route-B** (B=5 Δ −0.011/+0.001, −0.025/−0.001,
+−0.086/−0.209). Oracle-reviewer simulation: perfect reviewer F1 ≈ 0.44/0.43
+@B=5 vs Oracle-Add 0.72/0.64 → **dominant remaining loss = RANKING** (not
+availability, not reviewer acceptance). Progression gate FAIL on all queues →
+**Decision RECALL_SIGNAL_HEADROOM_ONLY**; no verifier calls authorized. Next
+instrument (future authorized mission): bounded verifier-ranked expansion of
+Route-B top-B + reverse-1hop consumer pool on DEVELOPMENT. Boundary held:
+ZERO API; spent djangoCMS INTERNAL_TEST never used for selection; djangoCMS
+RESERVE + Saleor INTERNAL_TEST/RESERVE sealed; 19/19 new unit tests PASS +
+independent audit 19/19 PASS; Route-B reproduction exact.
 **CURRENT TRUTH (2026-09-18, P2 PHASE-1 + FIXED-ROUTE-B SCIENTIFIC CLOSURE —**
 **ZERO new model calls; P2 Phase-1 = NEGATIVE and frozen; fixed Route-B**
 **confirmatory untouched; sealed sets untouched):**

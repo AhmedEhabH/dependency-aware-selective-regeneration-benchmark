@@ -32,8 +32,9 @@ Change request
   serialization/output cost but does not by itself improve impact accuracy.
 - **Fixed Route-B omission recovery is CONFIRMED** under the frozen djangoCMS
   protocol (composite beats analytic Random at every budget; gate PASS).
-- **Current unsolved bottleneck = first-pass recall** (75–79% of proxy
-  positives missed on DEVELOPMENT; the fixed next task).
+- **Current unsolved bottleneck = first-pass recall RANKING** (75–79% of proxy
+  positives missed on DEVELOPMENT; simple ADD queues don't beat Route-B at
+  matched budget — the loss is ranking, not availability).
 - **The AI-assisted semantic audit is DESCRIPTIVE only** — inter-model
   agreement (0.698 / κ 0.558) is not human semantic gold.
 
@@ -50,7 +51,7 @@ Change request
 | P2 adaptive-budget Phase 1 | NEGATIVE (frozen) | All four policies fail the strong-method gate on both repos | Choosing budget B is not the main bottleneck | [P2 final](reports/P2_PHASE1_FINAL_REPORT.md) |
 | AI-assisted semantic plausibility audit | DESCRIPTIVE (NOT gold) | Exact agreement 0.698 / κ 0.558; historical-changed 0.847 vs omitted 0.632 | Descriptive assistant reliability; human gold still AWAITING | [AI audit](reports/AI_SEMANTIC_AUDIT_AGREEMENT_REPORT.md) |
 | Oracle-gap / bidirectional repair exploration | POST-HOC (DEVELOPMENT) | Oracle-Add ALL F1 0.867/0.829; F1 0.85 NOT add-only-reachable on Saleor | First-pass recall is dominant; simple BBSR negative | [Oracle-gap](reports/ORACLE_GAP_BIDIRECTIONAL_REPAIR_FINAL_REPORT.md) |
-| **Next task: First-Pass Recall Bottleneck** | FUTURE (not started) | — | FN anatomy → source-specific ceilings → ADD queues → matched-budget DEV comparison → gate | [Oracle-gap §17](reports/ORACLE_GAP_BIDIRECTIONAL_REPAIR_FINAL_REPORT.md) |
+| First-Pass Recall Bottleneck | DEVELOPMENT (complete) | S006-like utility misses GENERAL; reverse-1hop carries 55.8%/72.4% of FNs @K=5; **no simple ADD queue beats Route-B at matched budget** → RANKING is the main remaining loss | **RECALL_SIGNAL_HEADROOM_ONLY** — availability is not the gap; next instrument = verifier-ranked expansion under its own budget | [Final report](reports/FIRST_PASS_RECALL_BOTTLENECK_FINAL_REPORT.md) · [taxonomy](reports/FN_TAXONOMY_DEVELOPMENT.md) · [gate](reports/FN_PROGRESSION_GATE.md) |
 
 Labels: **CONFIRMED** = frozen confirmatory evidence · **DEVELOPMENT** = TRAIN/VALIDATION-only design evidence · **NEGATIVE** = valid empirical boundary · **DESCRIPTIVE** = not human gold · **POST-HOC** = labelled characterization · **FUTURE** = not started.
 
@@ -67,7 +68,7 @@ Each lesson: **Observation → Evidence → Consequence.**
 7. **Add-only Route-B can improve omission recovery while lowering final file-level F1 because of false-positive additions.** Route-B add-only lowers F1 (djangoCMS B=5: 0.226 vs Sparse 0.318). → ORR and file-level F1 are different targets; FP additions must be controlled.
 8. **Oracle analysis shows first-pass recall is dominant: 75–79% of proxy positives missed on DEVELOPMENT; Oracle-Add headroom ~+0.55–0.57 F1.** Oracle-gap decomposition. → The next task is FN anatomy / first-pass recall recovery, ZERO-API first.
 9. **Cheap DROP/FP-pruning signal is too weak; simple BBSR failed despite oracle headroom.** FP-pruning flagged precision ≈ random; heuristic BBSR fails the progression gate on both repos. → A DROP queue is not yet viable with cheap observable signals.
-10. **Therefore next task = FN anatomy / first-pass recall recovery, ZERO-API first.** Oracle-Add ALL F1 0.867/0.829 vs Sparse 0.318/0.261. → Concentrate on the ADD side, not the DROP side.
+10. **Therefore the next instrument is FN anatomy-then-recovery; simple binary-flag ADD queues do NOT beat Route-B at matched budget.** First-pass recall is dominant; the measured bottleneck is RANKING, not candidate availability. → Concentrate on the ADD side with verifier-ranked (not binary-flag) expansion under its own frozen budget.
 
 **Why negatives are kept:** every negative above (P2, RiskScorer, graph, BBSR,
 LocAgent fragility) is a **search-space reduction under this protocol** — it
@@ -102,19 +103,28 @@ Only current headline numbers, each linked to its authoritative report:
 
 ## 6. Current bottleneck and next experiment
 
-**Bottleneck:** first-pass recall — 75–79% of proxy positives are missed before
-any correction; Oracle-Add headroom is ~+0.55–0.57 F1, the largest single lever.
+**Bottleneck:** first-pass recall RANKING — 75–79% of proxy positives are missed
+on DEVELOPMENT; source ceilings show the FNs ARE available in cheap pools
+(reverse-1hop consumers carry 55.8%/72.4% of FNs @K=5, UNION_ALL 72.5%/87.0%),
+but simple binary-flag ADD queues do not beat Route-B at matched budget. The
+measured remaining loss is **ranking**, not candidate availability or reviewer
+acceptance (oracle-reviewer F1 ≈ 0.44/0.43 @B=5 vs Oracle-Add 0.72/0.64).
 
-**Next experiment (fixed, NOT started):**
+**Completed (2026-09-18, T3 DEVELOPMENT):**
 ```
-FN taxonomy → source-specific recovery ceilings → complementary ADD queues
-→ matched-budget DEVELOPMENT comparison → progression gate
+FN taxonomy (deterministic) → S006-like pattern test (GENERAL_PATTERN)
+→ source-specific recall ceilings → complementarity → 3 simple ADD queues
+→ matched-budget DEVELOPMENT comparison → oracle-reviewer simulation
+→ progression gate = RECALL_SIGNAL_HEADROOM_ONLY
 ```
 - **ZERO-API first** (deterministic analysis over existing DEVELOPMENT evidence).
 - **Sealed sets remain sealed:** djangoCMS RESERVE, Saleor INTERNAL_TEST +
   RESERVE are never opened; the spent djangoCMS INTERNAL_TEST is used only as
   labelled POST-HOC sanity.
-- Detail: [`reports/ORACLE_GAP_BIDIRECTIONAL_REPAIR_FINAL_REPORT.md`](reports/ORACLE_GAP_BIDIRECTIONAL_REPAIR_FINAL_REPORT.md) §17.
+- **Next instrument (not authorized here):** bounded verifier-ranked expansion of
+  Route-B top-B + reverse-1hop consumer pool on DEVELOPMENT, under its own frozen
+  verifier protocol/budget.
+- Detail: [`reports/FIRST_PASS_RECALL_BOTTLENECK_FINAL_REPORT.md`](reports/FIRST_PASS_RECALL_BOTTLENECK_FINAL_REPORT.md).
 
 ## 7. Evaluation and datasets
 

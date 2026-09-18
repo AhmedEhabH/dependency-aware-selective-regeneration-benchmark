@@ -34,7 +34,7 @@ Date/Phase | Question | Method | Result | Decision | Why it matters | Revisit tr
 2026-09-18 | Oracle-gap decomposition | Deterministic oracle add/drop ceilings + F1 reachability on DEVELOPMENT | First-pass recall loss 75–79%; Oracle-Add ALL F1 0.867/0.829; **F1 0.85 NOT add-only-reachable on Saleor** | First-pass recall is the dominant bottleneck | Redirects effort to the ADD side | — | [Oracle-gap](../reports/ORACLE_GAP_BIDIRECTIONAL_REPAIR_FINAL_REPORT.md)
 2026-09-18 | FP-pruning negative | Cheap observable features to flag selected-set false positives | Flagged precision ≈ random control; TP-loss risk 36–44% | **NEGATIVE** — cheap DROP signal too weak | Avoids a DROP queue based on cheap signals | Only with stronger (e.g. verified) signals | [FP pruning](../reports/SELECTED_SET_FP_PRUNING_FEASIBILITY.md)
 2026-09-18 | BBSR → `BIDIRECTIONAL_HEADROOM_ONLY` | Zero-LLM bidirectional bounded set repair simulation | Heuristic BBSR fails the progression gate on both repos; oracle headroom exists but cheap signals cannot realize the DROP side | **BIDIRECTIONAL_HEADROOM_ONLY** — no new verifier calls authorized | Rules out the DROP side; keeps ADD side | Only when a much stronger FP-discriminator exists | [BBSR](../reports/BBSR_DEVELOPMENT_SIMULATION.md) · [final report](../reports/ORACLE_GAP_BIDIRECTIONAL_REPAIR_FINAL_REPORT.md)
-FUTURE | **First-Pass Recall Bottleneck** (fixed next task, NOT started) | FN taxonomy → source-specific recovery ceilings → complementary ADD queues → matched-budget DEV comparison → gate; ZERO-API first | — | — | Addresses the dominant measured bottleneck | — | [Oracle-gap §17](../reports/ORACLE_GAP_BIDIRECTIONAL_REPAIR_FINAL_REPORT.md)
+2026-09-18 | First-Pass Recall Bottleneck | FN taxonomy → source-specific ceilings → ≤3 ADD queues → matched-budget DEV eval + oracle reviewer → progression gate (ZERO API) | S006-like indirect-utility misses are GENERAL (consumer flag 58.9%/82.1% of FNs; 1-hop FNs 98.6%/100% lexically silent); reverse-1hop consumer pool carries 55.8%/72.4% of FNs @K=5, UNION_ALL 72.5%/87.0%; **NO simple ADD queue beats Route-B at matched budget**; oracle-reviewer F1 0.44/0.43 @B=5 vs Oracle-Add 0.72/0.64 | **RECALL_SIGNAL_HEADROOM_ONLY** — availability is NOT the bottleneck; RANKING is | Rules out simple binary-flag queues; directs the next instrument to verifier-ranked expansion under its own frozen budget | Only with a verifier-ranked (not binary-flag) pool expansion mission | [Final report](../reports/FIRST_PASS_RECALL_BOTTLENECK_FINAL_REPORT.md) · [taxonomy](../reports/FN_TAXONOMY_DEVELOPMENT.md) · [gate](../reports/FN_PROGRESSION_GATE.md)
 
 ---
 
@@ -52,6 +52,10 @@ effort** by ruling out an approach under this protocol:
 - **LocAgent as a cheap competitor under our protocol** — ruled out by P5
   (fragility/cost), pending a faithful published-config reproduction.
 - **Bidirectional set repair** — bounded to `BIDIRECTIONAL_HEADROOM_ONLY`.
+- **Simple binary-flag ADD queues for first-pass recall** — ruled out by the
+  matched-budget comparison: none beats Route-B at matched K, so repeating them
+  (or adding more binary flags) is unlikely to help; the loss is ranking-driven
+  and the instrument is a verifier-ranked expansion under its own frozen budget.
 
 Each has an explicit **revisit trigger** (new hypothesis, new protocol, more
 data, or a genuinely stronger signal) — never "re-run because we want a

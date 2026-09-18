@@ -1,0 +1,230 @@
+{
+  "package": "fn_complementarity_v1",
+  "date": "2026-09-18",
+  "tier": "T3",
+  "note": "Top-K candidate-queue overlap + unique FN recovery. Deterministic rankers, ZERO API.",
+  "repos": {
+    "djangocms_dev": {
+      "n_tasks": 174,
+      "total_fn": 382,
+      "topK": {
+        "5": {
+          "jaccard_topK": {
+            "BM25": {
+              "BM25": 1.0,
+              "PATH_TOKEN": 0.5712,
+              "ROUTE_B_COMPOSITE": 0.7655
+            },
+            "PATH_TOKEN": {
+              "BM25": 0.5712,
+              "PATH_TOKEN": 1.0,
+              "ROUTE_B_COMPOSITE": 0.4452
+            },
+            "ROUTE_B_COMPOSITE": {
+              "BM25": 0.7655,
+              "PATH_TOKEN": 0.4452,
+              "ROUTE_B_COMPOSITE": 1.0
+            }
+          },
+          "fn_recovery": {
+            "BM25": {
+              "recovered_fns": 57,
+              "orr": 0.1492
+            },
+            "PATH_TOKEN": {
+              "recovered_fns": 50,
+              "orr": 0.1309
+            },
+            "ROUTE_B_COMPOSITE": {
+              "recovered_fns": 62,
+              "orr": 0.1623
+            }
+          }
+        },
+        "10": {
+          "jaccard_topK": {
+            "BM25": {
+              "BM25": 1.0,
+              "PATH_TOKEN": 0.6874,
+              "ROUTE_B_COMPOSITE": 0.7508
+            },
+            "PATH_TOKEN": {
+              "BM25": 0.6874,
+              "PATH_TOKEN": 1.0,
+              "ROUTE_B_COMPOSITE": 0.5301
+            },
+            "ROUTE_B_COMPOSITE": {
+              "BM25": 0.7508,
+              "PATH_TOKEN": 0.5301,
+              "ROUTE_B_COMPOSITE": 1.0
+            }
+          },
+          "fn_recovery": {
+            "BM25": {
+              "recovered_fns": 90,
+              "orr": 0.2356
+            },
+            "PATH_TOKEN": {
+              "recovered_fns": 90,
+              "orr": 0.2356
+            },
+            "ROUTE_B_COMPOSITE": {
+              "recovered_fns": 101,
+              "orr": 0.2644
+            }
+          }
+        }
+      }
+    },
+    "saleor_dev": {
+      "n_tasks": 149,
+      "total_fn": 369,
+      "topK": {
+        "5": {
+          "jaccard_topK": {
+            "BM25": {
+              "BM25": 1.0,
+              "PATH_TOKEN": 0.3054,
+              "ROUTE_B_COMPOSITE": 0.8544
+            },
+            "PATH_TOKEN": {
+              "BM25": 0.3054,
+              "PATH_TOKEN": 1.0,
+              "ROUTE_B_COMPOSITE": 0.2666
+            },
+            "ROUTE_B_COMPOSITE": {
+              "BM25": 0.8544,
+              "PATH_TOKEN": 0.2666,
+              "ROUTE_B_COMPOSITE": 1.0
+            }
+          },
+          "fn_recovery": {
+            "BM25": {
+              "recovered_fns": 77,
+              "orr": 0.2087
+            },
+            "PATH_TOKEN": {
+              "recovered_fns": 58,
+              "orr": 0.1572
+            },
+            "ROUTE_B_COMPOSITE": {
+              "recovered_fns": 79,
+              "orr": 0.2141
+            }
+          }
+        },
+        "10": {
+          "jaccard_topK": {
+            "BM25": {
+              "BM25": 1.0,
+              "PATH_TOKEN": 0.3383,
+              "ROUTE_B_COMPOSITE": 0.8305
+            },
+            "PATH_TOKEN": {
+              "BM25": 0.3383,
+              "PATH_TOKEN": 1.0,
+              "ROUTE_B_COMPOSITE": 0.2868
+            },
+            "ROUTE_B_COMPOSITE": {
+              "BM25": 0.8305,
+              "PATH_TOKEN": 0.2868,
+              "ROUTE_B_COMPOSITE": 1.0
+            }
+          },
+          "fn_recovery": {
+            "BM25": {
+              "recovered_fns": 111,
+              "orr": 0.3008
+            },
+            "PATH_TOKEN": {
+              "recovered_fns": 85,
+              "orr": 0.2304
+            },
+            "ROUTE_B_COMPOSITE": {
+              "recovered_fns": 111,
+              "orr": 0.3008
+            }
+          }
+        }
+      }
+    }
+  },
+  "union_gains_at_K5_pool_ceiling": {
+    "djangocms_dev": {
+      "BASE_ROUTE_B_1HOP": {
+        "oracle_union_ceil_fn": 71,
+        "oracle_union_ceil_orr": 0.1859,
+        "queue_total": 662,
+        "marginal_fn_over_prev": 71
+      },
+      "+REVERSE_1HOP": {
+        "oracle_union_ceil_fn": 219,
+        "oracle_union_ceil_orr": 0.5733,
+        "queue_total": 720,
+        "marginal_fn_over_prev": 148
+      },
+      "+FORWARD_1HOP": {
+        "oracle_union_ceil_fn": 231,
+        "oracle_union_ceil_orr": 0.6047,
+        "queue_total": 720,
+        "marginal_fn_over_prev": 12
+      },
+      "+2HOP": {
+        "oracle_union_ceil_fn": 272,
+        "oracle_union_ceil_orr": 0.712,
+        "queue_total": 720,
+        "marginal_fn_over_prev": 41
+      },
+      "+HISTORY": {
+        "oracle_union_ceil_fn": 272,
+        "oracle_union_ceil_orr": 0.712,
+        "queue_total": 720,
+        "marginal_fn_over_prev": 0
+      },
+      "+SIBLING": {
+        "oracle_union_ceil_fn": 277,
+        "oracle_union_ceil_orr": 0.7251,
+        "queue_total": 729,
+        "marginal_fn_over_prev": 5
+      }
+    },
+    "saleor_dev": {
+      "BASE_ROUTE_B_1HOP": {
+        "oracle_union_ceil_fn": 75,
+        "oracle_union_ceil_orr": 0.2033,
+        "queue_total": 700,
+        "marginal_fn_over_prev": 75
+      },
+      "+REVERSE_1HOP": {
+        "oracle_union_ceil_fn": 276,
+        "oracle_union_ceil_orr": 0.748,
+        "queue_total": 740,
+        "marginal_fn_over_prev": 201
+      },
+      "+FORWARD_1HOP": {
+        "oracle_union_ceil_fn": 296,
+        "oracle_union_ceil_orr": 0.8022,
+        "queue_total": 740,
+        "marginal_fn_over_prev": 20
+      },
+      "+2HOP": {
+        "oracle_union_ceil_fn": 315,
+        "oracle_union_ceil_orr": 0.8537,
+        "queue_total": 740,
+        "marginal_fn_over_prev": 19
+      },
+      "+HISTORY": {
+        "oracle_union_ceil_fn": 315,
+        "oracle_union_ceil_orr": 0.8537,
+        "queue_total": 740,
+        "marginal_fn_over_prev": 0
+      },
+      "+SIBLING": {
+        "oracle_union_ceil_fn": 321,
+        "oracle_union_ceil_orr": 0.8699,
+        "queue_total": 745,
+        "marginal_fn_over_prev": 6
+      }
+    }
+  }
+}

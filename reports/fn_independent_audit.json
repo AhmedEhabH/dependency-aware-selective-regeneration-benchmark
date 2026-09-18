@@ -1,0 +1,160 @@
+{
+  "package": "fn_independent_audit",
+  "date": "2026-09-18",
+  "tier": "T3",
+  "headline": {
+    "sparse": {
+      "djangocms": {
+        "tp": 125,
+        "fp": 155,
+        "fn": 382,
+        "p": 0.4464,
+        "r": 0.2465,
+        "f1": 0.3177
+      },
+      "saleor": {
+        "tp": 99,
+        "fp": 193,
+        "fn": 369,
+        "p": 0.339,
+        "r": 0.2115,
+        "f1": 0.2605
+      }
+    },
+    "fn_universe": {
+      "djangocms": 382,
+      "saleor": 369
+    },
+    "route_b_composite_orr": {
+      "djangocms": {
+        "1": 0.0464,
+        "3": 0.1177,
+        "5": 0.1633,
+        "10": 0.2512
+      },
+      "saleor": {
+        "1": 0.0775,
+        "3": 0.1576,
+        "5": 0.2369,
+        "10": 0.3173
+      }
+    }
+  },
+  "checks": [
+    {
+      "check": "djangocms_sparse_tp",
+      "recomputed": 125,
+      "persisted": 125,
+      "match": true
+    },
+    {
+      "check": "djangocms_sparse_fp",
+      "recomputed": 155,
+      "persisted": 155,
+      "match": true
+    },
+    {
+      "check": "djangocms_sparse_fn",
+      "recomputed": 382,
+      "persisted": 382,
+      "match": true
+    },
+    {
+      "check": "saleor_sparse_tp",
+      "recomputed": 99,
+      "persisted": 99,
+      "match": true
+    },
+    {
+      "check": "saleor_sparse_fp",
+      "recomputed": 193,
+      "persisted": 193,
+      "match": true
+    },
+    {
+      "check": "saleor_sparse_fn",
+      "recomputed": 369,
+      "persisted": 369,
+      "match": true
+    },
+    {
+      "check": "djangocms_routeB_B5",
+      "recomputed": 0.1633,
+      "persisted": 0.1633,
+      "match": true
+    },
+    {
+      "check": "saleor_routeB_B5",
+      "recomputed": 0.2369,
+      "persisted": 0.2369,
+      "match": true
+    },
+    {
+      "check": "djangocms_fn_universe",
+      "recomputed": 382,
+      "persisted": 382,
+      "match": true
+    },
+    {
+      "check": "saleor_fn_universe",
+      "recomputed": 369,
+      "persisted": 369,
+      "match": true
+    },
+    {
+      "check": "djangocms_total_tasks",
+      "recomputed": 174,
+      "persisted": 174,
+      "match": true
+    },
+    {
+      "check": "saleor_total_tasks",
+      "recomputed": 149,
+      "persisted": 149,
+      "match": true
+    },
+    {
+      "check": "djangocms_dev_primary_sums_to_total",
+      "recomputed": 382,
+      "persisted": 382,
+      "match": true
+    },
+    {
+      "check": "saleor_dev_primary_sums_to_total",
+      "recomputed": 369,
+      "persisted": 369,
+      "match": true
+    },
+    {
+      "check": "djangocms_dev_bm25_ceil_gte_reverse1hop",
+      "recomputed": 0.9293,
+      "persisted": 0.5576,
+      "match": true
+    },
+    {
+      "check": "saleor_dev_bm25_ceil_gte_reverse1hop",
+      "recomputed": 0.8808,
+      "persisted": 0.7236,
+      "match": true
+    },
+    {
+      "check": "djangocms_dev_q3_naive_f1_lt_q1",
+      "recomputed": 0.1883,
+      "persisted": 0.2269,
+      "match": true
+    },
+    {
+      "check": "saleor_dev_q3_naive_f1_lt_q1",
+      "recomputed": 0.1409,
+      "persisted": 0.2392,
+      "match": true
+    },
+    {
+      "check": "dev_case_count",
+      "recomputed": 323,
+      "persisted": 323,
+      "match": true
+    }
+  ],
+  "all_passed": true
+}
