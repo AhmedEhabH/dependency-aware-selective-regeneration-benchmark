@@ -4,13 +4,17 @@ branch=main
 HEAD=8b2d1b6785b6bf9275d06f84eb992d8cb80789c2
 origin/main=8b2d1b6785b6bf9275d06f84eb992d8cb80789c2
 origin_HEAD_ref=8b2d1b6785b6bf9275d06f84eb992d8cb80789c2
+tree_state=clean
 tag=oracle-gap-bidirectional-repair-2026-09-18
 tag_peel=8b2d1b6785b6bf9275d06f84eb992d8cb80789c2
-tag_peel==merge==origin/main=true
-tree_state=clean
+tag_peel==scientific_merge_8b2d1b6=true
+tag_peel==merge==origin_main_at_closure=true
+tag_meaning=DEV-evidence milestone tag; NOT a stable-tag move
+tag_note=post-tag docs commits advanced origin/main after closure; tag NOT moved (release-provenance invariant)
 untracked_or_modified:
   (T2 state reconciliation 2026-09-18: Oracle-gap bidirectional-repair mission
   COMPLETE — decision BIDIRECTIONAL_HEADROOM_ONLY; DEVELOPMENT-only; ZERO API.
-  Final merge on main 8b2d1b6; tag oracle-gap-bidirectional-repair-2026-09-18
-  (peel 8b2d1b6 == merge == origin/main, remote-verified). Next scientific task
+  Scientific merge on main 8b2d1b6; tag oracle-gap-bidirectional-repair-2026-09-18
+  (peel 8b2d1b6 == merge == origin/main at closure, unchanged; post-tag docs
+  commits advanced origin/main without moving the tag). Next scientific task
   (NOT started): FIRST-PASS RECALL BOTTLENECK on DEVELOPMENT only.)

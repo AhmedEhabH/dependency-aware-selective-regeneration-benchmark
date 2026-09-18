@@ -7,9 +7,11 @@ task, immediate next step, blockers). Scientific truth lives in
 
 **Branch:** `main`
 **HEAD:** `8b2d1b6` (merge of `research/oracle-gap-bidirectional-repair-2026-09-18`)
-**origin/main:** `8b2d1b6` (verified in sync; T2 state reconciliation 2026-09-18)
+**origin/main:** `8b2d1b6` (at Oracle-gap closure; post-tag docs commit
+`f5366aa` advanced origin/main afterward — T2 state reconciliation)
 **Tag:** `oracle-gap-bidirectional-repair-2026-09-18` — peel `8b2d1b6` == merge
-commit == origin/main (DEV evidence milestone tag; NOT a stable-tag move)
+== origin/main at closure (unchanged; post-tag docs commits never move a tag;
+DEV evidence milestone tag, NOT a stable-tag move)
 **Model:** openrouter/deepseek/deepseek-v4-flash-0731
 **Task:** ORACLE-GAP DECOMPOSITION + BIDIRECTIONAL BOUNDED SET REPAIR
 (2026-09-18) — exploratory DEVELOPMENT line after the frozen P2 Phase-1
@@ -78,11 +80,12 @@ untouched — **COMPLETE**
 ## Closure block (Oracle-gap mission, 2026-09-18)
 
 - Branch: `research/oracle-gap-bidirectional-repair-2026-09-18` → merged to
-  `main` (`8b2d1b6`, merge commit).
-- origin/main == local HEAD == `8b2d1b6` (post-merge verified).
+  `main` (`8b2d1b6`, scientific merge commit).
 - Tag `oracle-gap-bidirectional-repair-2026-09-18` — peel `8b2d1b6` == merge
-  == origin/main (DEV evidence milestone tag; NOT a stable-tag move).
-- LIGHT export: `project-2026-09-18-0807.zip`
+  == origin/main at closure (unchanged; post-tag docs commit `f5366aa`
+  advanced origin/main afterward but does NOT move the tag; DEV evidence
+  milestone tag, NOT a stable-tag move).
+- LIGHT export (at scientific closure): `project-2026-09-18-0807.zip`
   SHA-256 `aea499406fecf6af37510e276fc272ed8025886b1640c7f6392569db560d192f`
   (required members `.git/HEAD`, `dist/pilot-kaggle-upload.zip`, `.sha256`
   present).
