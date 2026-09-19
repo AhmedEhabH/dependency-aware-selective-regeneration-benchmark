@@ -6,6 +6,78 @@ For historical closure records see `docs/PROJECT_HANDOFF.md`, `SYSTEM_STATE.md`,
 `TODO.md`, `docs/PAPER_WRITING_HANDOFF.md`, `docs/MSC_RESEARCH_ROADMAP_2026_2027.md`
 (all preserved verbatim below their HISTORICAL boundaries).
 
+**CURRENT TRUTH (2026-09-19, STRONG LOCALIZATION SIGNAL BRIDGE — T3 DEVELOPMENT
+mission COMPLETE; ZERO API; Stage-4b closed with descriptive statistics; new
+specialized embedding diagnostic PASSES its frozen gate; P65–P67 immutable;
+sealed sets untouched):**
+→ **STAGE-4b STATISTICAL CLOSURE (2026-09-19; ZERO API; POST-HOC DESCRIPTIVE
+DEVELOPMENT ANALYSIS):** the frozen Stage-4b verdict
+**`PRECISION_SAFE_ACCEPTANCE_FAIL` is UNCHANGED** (`reports/STAGE4B_STATISTICAL_
+CLOSURE_2026-09-19.md`, `reports/stage4b_bootstrap_ci.json`). Task-paired
+bootstrap (10,000 resamples, fixed seed 20260919, task unit) reproduces the
+frozen point estimates EXACTLY (djangocms macro ORR 0.2225→0.1523, F1
+0.2176→0.2604; saleor 0.1278→0.2029, F1 0.1744→0.1972 @B=5). CI summary:
+djangocms ORR Δ−0.0702 [−0.196, +0.034] (crosses 0), final P Δ+0.0716 [0.009,
+0.151] (excl 0), F1 Δ+0.0427 [−0.013, +0.096]; saleor ORR Δ+0.0751 [0.004,
+0.175] (excl 0), recall Δ+0.0392 [0.009, 0.076] (excl 0). **djangoCMS
+phenomenon EXPLAINED from raw task data:** macro ORR is a per-task-ratio mean,
+so the conservative verifier's over-rejection of the three M=1 easy recoveries
+(three Δ=−1.0 task deltas) dominates the macro, while pooled TP/FP/FN/F1/P
+still improve because Arm B cuts the FP tail (40 vs 64 selected; cand-prec
+0.141→0.250) and recovers the same net FNs (9→10). Pooled Recall/F1 can rise
+while macro ORR falls — a macro-vs-pooled weighting artifact, not a sign the
+Arm-B final set is worse at file level. This does NOT alter P67.
+→ **DECISION `BOUNDED_CHEAP_SEMANTIC_CLOSED_FOR_NOW` (P68, 2026-09-19):** the
+accumulated evidence (cheap structural bridge negative P64; bounded semantic
+Stage-4 negative P65; precision-safe Stage-4b negative P67) closes the
+currently tested bounded generic-Qwen prompt/verifier/threshold family FOR NOW,
+narrowly scoped. No audit/reproducibility defect was found. It does NOT mean
+semantic localization is impossible, specialized models are ineffective, or
+fundamentally different signals are forbidden. Stage 4/4b NOT re-tuned; no
+verifier-v3; no threshold sweeps.
+→ **SWERANKEMBED-SMALL DEV EVALUATION = SWERANK_EMBED_PASS (2026-09-19; T3
+DEVELOPMENT; ZERO API; EXTERNAL PRETRAINED DIAGNOSTIC BASELINE):** the
+specialized issue-localization embedding signal was evaluated under a frozen
+protocol (`docs/SWERANK_EMBED_BASELINE_PROTOCOL_FROZEN.md`, frozen BEFORE any
+target-aware metric inspection; Route-B primary comparator, K=5 primary
+operating point, clarification recorded before inspection) on the FULL legal
+populations (djangoCMS DEV 174 + Saleor DEV 149). Pinned revision
+`745d2a06103a66d3cfa600aa52fc0d3523010daa` (137M, CC-BY-NC-4.0, trust_remote_
+code); frozen MAX-file adapter; parent-only queries; Route-B matched pool.
+**@B=5 vs frozen Route-B:** djangoCMS F1 0.226→0.280 (+0.054), P +0.039, R
++0.089, FNR −0.089, macro ORR 0.163→0.291, candP 0.071→0.123; Saleor F1
+0.237→0.288 (+0.052), P +0.038, R +0.083, FNR −0.083, macro ORR 0.237→0.327,
+candP 0.106→0.158. **Every metric improves at every B on BOTH repos; all six
+paired-bootstrap 95% CIs @B=5 exclude zero on BOTH repos.** Efficiency: **0
+API calls, $0**, local CPU; one-time corpus encode (49,705 units) dominates
+wall (~6.6 h); marginal per-task cost after indexing ~0.1 s. Independent audit
+**11/11 PASS** (recomputes everything from raw JSONs without importing the
+analyzer). **Frozen gate A–E PASS on BOTH repos → method FROZEN as the
+candidate-ranking signal** (Sparse write set + ranked additions). Next step
+(frozen selection): **A — use SweRankEmbed as the replacement candidate-ranking
+signal inside the bounded architecture** (zero-API); option B (official
+SweRankLLM listwise reranker, 7B LLM) is budget-planned but NOT executed
+(needs a new frozen budget + authorization). **PROVENANCE LABEL:** SweLoc
+training corpus overlap with djangoCMS/Saleor could NOT be ruled out
+(**verdict C** — `reports/SWERANK_TRAINING_PROVENANCE_AUDIT.md`), so the result
+is an EXTERNAL PRETRAINED DIAGNOSTIC BASELINE, NOT clean unseen generalization,
+NOT a confirmatory claim, NOT comparable to external SWE-Bench numbers. Stage 5
+confirmatory remains gated on a fresh frozen protocol + authorization.
+→ **REPOSITORY-MEMORY + READINESS (2026-09-19; ZERO API):** the documented
+"Saleor parent-visible history cache absent" blocker is RESOLVED — the FULL
+Saleor history (22,615 commits, anchor `2c48391b` == dataset anchor) is
+available locally at `dist/pilot-repo-cache/saleor`, so a parent-visible
+co-change/evolution memory cache is deterministically buildable
+(`reports/REPOSITORY_MEMORY_FEASIBILITY_2026-09-19.md`). Cross-language
+readiness documented for TS (nestjs/nest), Java (JabRef/jabref) and Go
+(prometheus/prometheus) with per-language universes and engineering gaps (no
+non-Python import extractors) (`reports/CROSS_LANGUAGE_READINESS_2026-09-19.md`);
+grafana/grafana true-polyglot (Go+TS) eligibility definition frozen
+(`reports/POLYGLOT_REPOSITORY_FEASIBILITY_2026-09-19.md`). Competitor review
+covers SweRank/SweLoc, SweRank+, LocAgent, RepoGraph, OrcaLoca, Agentless,
+CoSIL, repo-memory (external numbers = literature context only)
+(`reports/STRONG_LOCALIZATION_COMPETITOR_REVIEW_2026-09-19.md`). 38 new unit
+tests PASS; affected suites PASS; sealed sets untouched.
 **CURRENT TRUTH (2026-09-18, PRECISION-SAFE ACCEPTANCE PILOT — AUTHORIZED real
 DEVELOPMENT pilot complete; 357 calls; Stage-4b of the gap-reduction ladder
 closed NEGATIVE; Stage-4 + P65 + P66 immutable; sealed sets untouched):**

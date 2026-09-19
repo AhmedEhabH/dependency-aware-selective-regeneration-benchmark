@@ -16,47 +16,59 @@ its own final live HEAD SHA (committing metadata changes HEAD again). Query
 at read time: `git rev-parse HEAD`, `git rev-parse origin/main`,
 `git status --porcelain`.
 **Model:** openrouter/deepseek/deepseek-v4-flash-0731
-**Task:** PRECISION-SAFE ACCEPTANCE PILOT (2026-09-18; T3 DEVELOPMENT; AUTHORIZED
-real run) — frozen RANK→VERIFY→VARIABLE-ACCEPT pilot executed (357 calls,
-$0.0648) → preregistered gate FAIL (djangoCMS c1 ORR −0.0702, c2 folds 2/5;
-Saleor c1 +0.0751) → **PRECISION_SAFE_ACCEPTANCE_FAIL** (negative frozen; no
-tuning) → audit/tests/docs — **COMPLETE**
+**Task:** STRONG LOCALIZATION SIGNAL BRIDGE (2026-09-19; T3 DEVELOPMENT; ZERO API) —
+Stage-4b statistical closure + `BOUNDED_CHEAP_SEMANTIC_CLOSED_FOR_NOW` +
+SweRankEmbed-Small DEV evaluation (**SWERANK_EMBED_PASS**, external pretrained
+diagnostic baseline) + competitor review + repository-memory/cross-language/
+polyglot readiness — **COMPLETE**
 
 ---
 
 ## Now executing
 
-- **MILESTONE COMPLETE (AUTHORIZED PILOT).** Precision-safe acceptance pilot
-  (Stage 4b, DEVELOPMENT, AUTHORIZED 2026-09-18): registration frozen BEFORE
-  call 1 (60 fresh DEV tasks, seed 20260919, Stage-4's 60 case_ids excluded;
-  pool cap 80; K=10; candidate-ID enum rank schema; fixed-length boolean
-  verify schema). **Real run: 357 dispatched calls (240 Arm A + 60 rank + 57
-  verify; 3 rank abstentions), 176,060 tokens, $0.0648, 655.7 s — all ceilings
-  respected; 0/357 schema-invalid (vs Stage-4 6/60); resume 357 no double
-  spend**. **Preregistered gate = FAIL → PRECISION_SAFE_ACCEPTANCE_FAIL**:
-  djangoCMS ORR fell materially (−0.0702; 2/5 folds) — the conservative
-  verifier over-rejects the easy M=1 recoveries; Saleor ORR materially up
-  (+0.0751; 5/5 folds); F1 and candidate precision improve on BOTH repos (the
-  Stage-4 "ORR up, F1 down" failure is eliminated). No prompt/schema tuning.
-  Independent audit 11/11 PASS; affected suites 53/53.
-- **Remaining:** none for this mission. Stage 4b closed NEGATIVE; Stage 5
-  (freeze method + fresh confirmatory) NOT reached. Any future instrument that
-  keeps the precision/F1 gains while restoring djangoCMS ORR requires a new
-  freeze + explicit authorization.
+- **MILESTONE COMPLETE (ZERO API, T3).** Strong-localization-signal mission
+  (2026-09-19): (1) **Stage-4b statistical closure** — POST-HOC descriptive
+  uncertainty analysis with task-paired bootstrap (10,000 resamples, seed
+  20260919, task unit) at B=5; frozen point estimates reproduce EXACTLY;
+  djangoCMS ORR-down/F1-up phenomenon explained (macro-vs-pooled weighting +
+  conservative verifier over-rejecting three M=1 recoveries); **frozen verdict
+  `PRECISION_SAFE_ACCEPTANCE_FAIL` unchanged**. (2) **`BOUNDED_CHEAP_SEMANTIC_
+  CLOSED_FOR_NOW`** recorded (generic-Qwen prompt/verifier/threshold family
+  closed on the tested bounded semantic evidence). (3) **SweRankEmbed-Small
+  DEV evaluation on the FULL legal populations (djangocms 174 + saleor 149)**:
+  pinned revision `745d2a06…`, frozen MAX-file adapter, parent-only queries,
+  Route-B-matched; **SWERANK_EMBED_PASS** — every metric improves at every B on
+  both repos; all paired-bootstrap CIs @B=5 exclude zero (F1 +0.054 dc / +0.052
+  saleor vs frozen Route-B); **0 API calls / $0**; labeled EXTERNAL PRETRAINED
+  DIAGNOSTIC BASELINE (provenance verdict C). Method frozen as the
+  candidate-ranking signal; next step A (embed replacement) selected, option B
+  (SweRankLLM reranker) budget-planned not executed. (4) Competitor review
+  (SweRank/SweRank+/LocAgent/RepoGraph/OrcaLoca/CoSIL/Agentless/repo-memory),
+  repository-memory feasibility (Saleor history blocker RESOLVED:
+  `dist/pilot-repo-cache/saleor` has the full 22,615-commit history, anchor
+  matches the dataset), cross-language readiness (TS/Java/Go) + grafana
+  polyglot feasibility frozen criteria. (5) Independent audit 11/11; 36 new
+  unit tests PASS; ruff/py_compile/git diff --check clean.
+- **Remaining:** none for this mission. Next scientific action: the frozen
+  embed method is the candidate-ranking signal; a confirmatory protocol (Stage
+  5) or a budgeted SweRankLLM reranker (option B) each require a new freeze +
+  explicit authorization.
 
 ## Last completed task
 
-- Precision-safe acceptance pilot (2026-09-18): frozen registration + 357 real
-  calls + metrics/gate/audit + closure report; scripts
-  `precision_safe_acceptance_{pilot,analyze,audit}.py`; raw evidence under
-  `research/precision-safe-acceptance-pilot/`.
+- Strong-localization-signal mission (2026-09-19, ZERO API): Stage-4b
+  statistical closure + SweRankEmbed-Small DEV evaluation + competitor/
+  readiness studies; scripts
+  `stage4b_statistical_closure.py`,
+  `swerank_dev_eval.py`, `swerank_write_report.py`,
+  `swerank_independent_audit.py`; evidence under
+  `research/strong-localization-signal/`.
 
 ## Immediate next step
 
-- Await review. The negative is frozen; no further API spend without a new
-  protocol + explicit authorization. If the user wants to pursue the
-  precision/F1 gains while restoring djangoCMS ORR, a NEW protocol (e.g., a
-  calibrated acceptance criterion) must be pre-registered and authorized.
+- Await review. The embed method is frozen as a candidate-ranking signal
+  (diagnostic). Any confirmatory run or reranker experiment requires a NEW
+  frozen protocol + explicit authorization.
 
 ## Blockers
 
@@ -65,33 +77,35 @@ tuning) → audit/tests/docs — **COMPLETE**
 - Human minimal spot-check (119 rows) awaits a human reviewer.
 - Pre-existing environmental (2 full-suite failures, identical on clean base):
   pinned djangocms git cache absent at benchmark_data/repositories/djangocms.
-- Saleor parent-visible history cache absent (dist/real-commit-cache/saleor) —
-  no Saleor co-change arm; recorded UNAVAILABLE in the taxonomy/ceilings.
+- **Saleor history blocker RESOLVED (2026-09-19):** the documented
+  `dist/real-commit-cache/saleor` path is absent, but the full Saleor history
+  (22,615 commits, anchor `2c48391b` == dataset anchor) IS available locally at
+  `dist/pilot-repo-cache/saleor` — a parent-visible history cache can be built
+  deterministically (see `reports/REPOSITORY_MEMORY_FEASIBILITY_2026-09-19.md`).
+- Cross-language engineering gaps: no TS/Java/Go import extractors; no local
+  caches for NestJS/JabRef/prometheus (readiness only).
 
-## Full-suite state (Precision-safe acceptance pilot gate, 2026-09-18)
+## Full-suite state (Strong-localization-signal mission, 2026-09-19)
 
-- **Affected suites PASS** (`test_precision_safe_acceptance.py` 9/9 +
-  `test_precision_safe_feasibility.py` 13/13 + `test_recall_bottleneck.py`
-  19/19 + `test_quant_ranking_bridge.py` 12/12 = 53/53).
+- **Affected suites PASS**: new `test_signal_metrics.py` (13),
+  `test_signal_adapter.py` (13), `test_signal_leakage.py` (7),
+  `test_stage4b_closure.py` (5) = 38 new tests + prior affected suites
+  (test_precision_safe_acceptance, test_recall_bottleneck,
+  test_quant_ranking_bridge).
 - Ruff clean; py_compile clean; `git diff --check` clean.
-- Independent audit recomputes ORR@5, gate decision, schema rate, zero partial
-  credit, sealed+disjoint sample, and prompt determinism from raw records
-  without importing the analyzer — **11/11 PASS**
-  (`reports/precision_safe_acceptance_audit.json`).
-- Budget ledger verified: 357 dispatched calls, 176,060 tokens, $0.0648,
-  718.8 s total wall (655.7 s execution + resume reloads), sidecars 357/357
-  with 0 hash mismatches.
+- Independent audit recomputes formulas, macro ORR, gate A–E, folds, bootstrap
+  CIs, leakage, pin, efficiency from raw JSONs without importing the analyzer:
+  **11/11 PASS** (`reports/swerank_independent_audit.json`).
 
-## Closure block (Precision-safe acceptance pilot, 2026-09-18)
+## Closure block (Strong-localization-signal, 2026-09-19)
 
-- AUTHORIZED real DEVELOPMENT pilot; `research/precision-safe-acceptance-pilot/`
-  raw evidence + reports. Branch
-  `research/precision-safe-acceptance-pilot-2026-09-18` merged to `main`
-  (merge commit in the final stop report).
-- DEV-evidence tag `precision-safe-acceptance-pilot-2026-09-18` — peel ==
-  merge == `main` (audited DEVELOPMENT evidence; NOT a stable-tag move). Pushed
-  to origin; origin/main == HEAD == tag peel.
+- ZERO-API T3 DEVELOPMENT mission; branch
+  `research/strong-localization-signal-2026-09-19` merged to `main` (merge
+  commit in the final stop report).
+- DEV-evidence tag `strong-localization-signal-2026-09-19` — peel == merge ==
+  `main` (audited DEVELOPMENT evidence; NOT a stable-tag move). Pushed to
+  origin; origin/main == HEAD == tag peel.
 - LIGHT export at scientific closure (filename/hash in the final stop report).
-- Next scientific task (NOT started, requires its own authorization): any new
-  precision-safe instrument with a calibrated acceptance criterion, gated on
-  BOTH repositories.
+- Next scientific task (NOT started, requires its own authorization): freeze a
+  confirmatory protocol for the embed method OR a budgeted SweRankLLM
+  reranker experiment.

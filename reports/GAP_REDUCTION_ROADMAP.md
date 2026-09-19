@@ -28,14 +28,40 @@ Current ladder (each stage gates the next; negatives are preserved):
   semantic protocol; the "ORR up but F1 down" case is preserved. Revisit only
   with a precision-safe acceptance rule (e.g., verifier-approved AND
   ranked-gated) under a NEW pre-registered protocol + explicit authorization.
-- Stage 4b precision-safe acceptance: **frozen protocol NOT executed
-  (2026-09-18, ZERO API)**. The failure anatomy found the FP tail is an
+- Stage 4b precision-safe acceptance: **EXECUTED and FAILED its preregistered
+  gate (authorized pilot, 2026-09-18) → `PRECISION_SAFE_ACCEPTANCE_FAIL`,
+  negative frozen** (see the Stage 4b EXECUTION row above: 357 dispatched
+  calls, 176,060 tokens, $0.0648; djangoCMS c1 ORR −0.0702 and c2 folds 2/5
+  FAIL; Saleor c1/c2 PASS; F1 + candidate precision improve on BOTH repos).
+  The pre-execution feasibility stage (ZERO API) found the FP tail is an
   acceptance-layer failure (both sources) and the frozen verifier is
   uncalibrated for acceptance; the RANK → VERIFY → VARIABLE-ACCEPT family is
-  directionally supported and frozen as the ONE next DEVELOPMENT pilot
-  (`docs/PRECISION_SAFE_ACCEPTANCE_PROTOCOL_FROZEN.md`). Execute ONLY under the
+  directionally supported by the F1/precision gains. The frozen protocol
+  (`docs/PRECISION_SAFE_ACCEPTANCE_PROTOCOL_FROZEN.md`) was executed under the
   exact authorization sentence in
-  `reports/PRECISION_SAFE_ACCEPTANCE_BUDGET_FREEZE_DRAFT.md` §7; on gate FAIL,
-  freeze the negative (do NOT tune).
+  `reports/PRECISION_SAFE_ACCEPTANCE_BUDGET_FREEZE_DRAFT.md` §7; the gate FAILED
+  on djangoCMS and the negative is frozen — no tuning. A descriptive statistical
+  closure (POST-HOC, task-paired bootstrap) is recorded separately in
+  `reports/STAGE4B_STATISTICAL_CLOSURE_2026-09-19.md` and does NOT alter the
+  preregistered verdict. Any future instrument that keeps the precision/F1
+  gains while restoring djangoCMS ORR is a NEW protocol requiring its own
+  freeze + authorization.
+- **2026-09-19 addendum — statistical closure + new signal family:**
+  - Stage-4b descriptive closure (task-paired bootstrap, 10,000 resamples,
+    fixed seed) reproduces the frozen point estimates exactly and explains the
+    djangoCMS ORR-down/F1-up phenomenon (macro-vs-pooled weighting + verifier
+    over-rejecting three M=1 recoveries). The preregistered verdict is
+    UNCHANGED.
+  - `BOUNDED_CHEAP_SEMANTIC_CLOSED_FOR_NOW` (P68): the bounded generic-Qwen
+    prompt/verifier/threshold family is closed FOR NOW on the tested DEV
+    evidence (narrowly scoped).
+  - **NEW external diagnostic baseline (NOT part of the ladder):**
+    `Salesforce/SweRankEmbed-Small` evaluated on the FULL DEV populations
+    (djangocms 174 + saleor 149) under a frozen protocol →
+    **`SWERANK_EMBED_PASS`** (every metric improves at every B on both repos;
+    all paired-bootstrap CIs @B=5 exclude zero; 0 API calls / $0). Labeled
+    EXTERNAL PRETRAINED DIAGNOSTIC BASELINE (SweLoc provenance verdict C).
+    Method frozen as the candidate-ranking signal; confirmatory (Stage 5) or a
+    budgeted SweRankLLM reranker each require a NEW protocol + authorization.
 - Stage 6 adaptive-k: gated on a stable ranking signal (P2 Phase-1 negative is
   frozen; choosing k cannot rescue a poorly ordered list).
