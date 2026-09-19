@@ -16,62 +16,69 @@ its own final live HEAD SHA (committing metadata changes HEAD again). Query
 at read time: `git rev-parse HEAD`, `git rev-parse origin/main`,
 `git status --porcelain`.
 **Model:** openrouter/deepseek/deepseek-v4-flash-0731
-**Task:** STRONG LOCALIZATION SIGNAL BRIDGE (2026-09-19; T3 DEVELOPMENT; ZERO API) —
-Stage-4b statistical closure + `BOUNDED_CHEAP_SEMANTIC_CLOSED_FOR_NOW` +
-SweRankEmbed-Small DEV evaluation (**SWERANK_EMBED_PASS**, external pretrained
-diagnostic baseline) + competitor review + repository-memory/cross-language/
-polyglot readiness — **COMPLETE**
+**Task:** CONTAMINATION-ROBUSTNESS BRIDGE (2026-09-19; T3 DEVELOPMENT; scope
+change from the paused Stage-5 preparation) — **STAGE 5 CONFIRMATORY EXECUTION
+PAUSED — pending DEVELOPMENT-only contamination-robustness bridge.**
+SweRankEmbed result (`SWERANK_EMBED_PASS`) immutable; sealed confirmatory
+populations NOT opened; bridge STOPPED BEFORE CALL 1 (requested
+`qwen/qwen3-embedding-8b` unavailable on OpenRouter — 0 embedding models in the
+447-model catalog; documented; no paid call made).
 
 ---
 
 ## Now executing
 
-- **MILESTONE COMPLETE (ZERO API, T3).** Strong-localization-signal mission
-  (2026-09-19): (1) **Stage-4b statistical closure** — POST-HOC descriptive
-  uncertainty analysis with task-paired bootstrap (10,000 resamples, seed
-  20260919, task unit) at B=5; frozen point estimates reproduce EXACTLY;
-  djangoCMS ORR-down/F1-up phenomenon explained (macro-vs-pooled weighting +
-  conservative verifier over-rejecting three M=1 recoveries); **frozen verdict
-  `PRECISION_SAFE_ACCEPTANCE_FAIL` unchanged**. (2) **`BOUNDED_CHEAP_SEMANTIC_
-  CLOSED_FOR_NOW`** recorded (generic-Qwen prompt/verifier/threshold family
-  closed on the tested bounded semantic evidence). (3) **SweRankEmbed-Small
-  DEV evaluation on the FULL legal populations (djangocms 174 + saleor 149)**:
-  pinned revision `745d2a06…`, frozen MAX-file adapter, parent-only queries,
-  Route-B-matched; **SWERANK_EMBED_PASS** — every metric improves at every B on
-  both repos; all paired-bootstrap CIs @B=5 exclude zero (F1 +0.054 dc / +0.052
-  saleor vs frozen Route-B); **0 API calls / $0**; labeled EXTERNAL PRETRAINED
-  DIAGNOSTIC BASELINE (provenance verdict C). Method frozen as the
-  candidate-ranking signal; next step A (embed replacement) selected, option B
-  (SweRankLLM reranker) budget-planned not executed. (4) Competitor review
-  (SweRank/SweRank+/LocAgent/RepoGraph/OrcaLoca/CoSIL/Agentless/repo-memory),
-  repository-memory feasibility (Saleor history blocker RESOLVED:
-  `dist/pilot-repo-cache/saleor` has the full 22,615-commit history, anchor
-  matches the dataset), cross-language readiness (TS/Java/Go) + grafana
-  polyglot feasibility frozen criteria. (5) Independent audit 11/11; 36 new
-  unit tests PASS; ruff/py_compile/git diff --check clean.
-- **Remaining:** none for this mission. Next scientific action: the frozen
-  embed method is the candidate-ranking signal; a confirmatory protocol (Stage
-  5) or a budgeted SweRankLLM reranker (option B) each require a new freeze +
-  explicit authorization.
+- **MILESTONE COMPLETE (ZERO paid API, T3, scope change).** The Stage-5
+  confirmatory freeze/preparation mission was superseded by an explicit user
+  scope change: run a DEVELOPMENT-only contamination-robustness bridge
+  (`qwen/qwen3-embedding-8b` through the OpenRouter embeddings interface) to
+  test whether the SweRank DEV gain is a general dense-retrieval mechanism.
+  **Preflight result: the exact model is NOT available on OpenRouter** (full
+  447-model catalog contains zero embedding-capable models; 404 on all three
+  Qwen3-Embedding identifiers). Per the frozen stop conditions, **NO scientific
+  call was made** (0 calls, $0.00) and the bridge is frozen as
+  **`QWEN3_EMBED_BRIDGE_TECHNICALLY_INCONCLUSIVE`**. Delivered: deepened
+  SweRank provenance audit V2, budget freeze (NOT EXECUTED), frozen bridge
+  protocol (NOT EXECUTED), mock-tested OpenRouter embeddings client, sealed-data
+  guard, tests and independent audit. Stage 5 confirmatory remains **PAUSED and
+  SEALED** (`STAGE5_REMAINS_BLOCKED_BY_PROVENANCE_OR_NONREPLICATION`); the
+  recommended alternative control (local open-weight embedding model) is NOT
+  executed without new authorization.
+- **Remaining:** none for this mission. Next actions (each requires explicit
+  authorization): (a) run the contamination bridge IF a Qwen3-Embedding model
+  becomes available on OpenRouter or a substitute is authorized; (b) resume the
+  Stage-5 confirmatory protocol after a scientifically justified bridge
+  outcome.
 
 ## Last completed task
 
 - Strong-localization-signal mission (2026-09-19, ZERO API): Stage-4b
   statistical closure + SweRankEmbed-Small DEV evaluation + competitor/
-  readiness studies; scripts
-  `stage4b_statistical_closure.py`,
+  readiness studies; scripts `stage4b_statistical_closure.py`,
   `swerank_dev_eval.py`, `swerank_write_report.py`,
   `swerank_independent_audit.py`; evidence under
   `research/strong-localization-signal/`.
+- Contamination-robustness bridge preflight (2026-09-19, ZERO paid API): model
+  availability verified absent on OpenRouter; bridge STOPPED BEFORE CALL 1 and
+  frozen `QWEN3_EMBED_BRIDGE_TECHNICALLY_INCONCLUSIVE`; provenance audit V2 +
+  budget freeze + frozen protocol + client + tests + independent audit; docs
+  under `docs/QWEN3_EMBED_CONTAMINATION_*`, `reports/*_2026-09-19.md`,
+  `reports/CONTAMINATION_ROBUSTNESS_BRIDGE_CLOSURE_2026-09-19.md`.
 
 ## Immediate next step
 
-- Await review. The embed method is frozen as a candidate-ranking signal
-  (diagnostic). Any confirmatory run or reranker experiment requires a NEW
-  frozen protocol + explicit authorization.
+- Await review. Stage 5 confirmatory is PAUSED and sealed; the contamination
+  bridge could not run (model unavailable on the required interface). Any
+  bridge execution (with a substitute model) or Stage-5 confirmatory execution
+  requires a NEW explicit authorization.
 
 ## Blockers
 
+- **QWEN3 EMBEDDING BRIDGE BLOCKED (2026-09-19):** `qwen/qwen3-embedding-8b`
+  is not offered by OpenRouter (0 embedding models in the catalog). No
+  substitute was executed per the frozen stop conditions. Recommended
+  alternative (NOT executed): a local open-weight dense embedding model under a
+  new authorization.
 - Semantic-proxy human audit remains **AWAITING_HUMAN_RATINGS** (human-work
   blocker; the AI-assisted track is descriptive only, not gold).
 - Human minimal spot-check (119 rows) awaits a human reviewer.
@@ -83,29 +90,42 @@ polyglot readiness — **COMPLETE**
   `dist/pilot-repo-cache/saleor` — a parent-visible history cache can be built
   deterministically (see `reports/REPOSITORY_MEMORY_FEASIBILITY_2026-09-19.md`).
 - Cross-language engineering gaps: no TS/Java/Go import extractors; no local
-  caches for NestJS/JabRef/prometheus (readiness only).
+  caches for NestJS/JabRef/prometheus (readiness only; P1 deferred).
 
-## Full-suite state (Strong-localization-signal mission, 2026-09-19)
+## Full-suite state (Contamination-robustness bridge, 2026-09-19)
 
-- **Affected suites PASS**: new `test_signal_metrics.py` (13),
-  `test_signal_adapter.py` (13), `test_signal_leakage.py` (7),
-  `test_stage4b_closure.py` (5) = 38 new tests + prior affected suites
-  (test_precision_safe_acceptance, test_recall_bottleneck,
-  test_quant_ranking_bridge).
+- **Affected suites PASS**: prior signal suites (38 tests:
+  test_signal_metrics 13, test_signal_adapter 13, test_signal_leakage 7,
+  test_stage4b_closure 5) + new `test_or_embeddings.py` (client request
+  formatting, no fallback, batching determinism, hashing, cost accounting,
+  failure policy, sealed-data guard).
 - Ruff clean; py_compile clean; `git diff --check` clean.
-- Independent audit recomputes formulas, macro ORR, gate A–E, folds, bootstrap
-  CIs, leakage, pin, efficiency from raw JSONs without importing the analyzer:
-  **11/11 PASS** (`reports/swerank_independent_audit.json`).
+- Independent audit recomputes the availability finding, budget JSON, sealed
+  set guard and protocol hygiene WITHOUT importing the analyzer
+  (`reports/QWEN3_EMBED_INDEPENDENT_AUDIT.json`).
 
 ## Closure block (Strong-localization-signal, 2026-09-19)
 
 - ZERO-API T3 DEVELOPMENT mission; branch
   `research/strong-localization-signal-2026-09-19` merged to `main` (merge
-  commit in the final stop report).
+  commit `0c12223`).
 - DEV-evidence tag `strong-localization-signal-2026-09-19` — peel == merge ==
-  `main` (audited DEVELOPMENT evidence; NOT a stable-tag move). Pushed to
-  origin; origin/main == HEAD == tag peel.
+  main-at-tag-time (audited DEVELOPMENT evidence; NOT a stable-tag move).
+  Pushed to origin; post-tag docs commits `5326c3a`, `ba98854` advanced main.
 - LIGHT export at scientific closure (filename/hash in the final stop report).
 - Next scientific task (NOT started, requires its own authorization): freeze a
   confirmatory protocol for the embed method OR a budgeted SweRankLLM
-  reranker experiment.
+  reranker experiment — now PAUSED pending the contamination-robustness bridge.
+
+## Closure block (Contamination-robustness bridge, 2026-09-19)
+
+- ZERO-paid-API T3 DEVELOPMENT scope change; branch
+  `research/qwen3-embed-contamination-bridge-2026-09-19` merged to `main`
+  (merge commit in the final stop report).
+- DEV-evidence tag `qwen3-embed-contamination-bridge-2026-09-19` — peel ==
+  merge == main (audited DEVELOPMENT evidence; NOT a stable-tag move). Pushed
+  to origin; origin/main == HEAD == tag peel.
+- LIGHT export at scientific closure (filename/hash in the final stop report).
+- Next scientific task (NOT started, requires its own authorization): the
+  contamination bridge with an available control model, then the Stage-5
+  confirmatory decision.

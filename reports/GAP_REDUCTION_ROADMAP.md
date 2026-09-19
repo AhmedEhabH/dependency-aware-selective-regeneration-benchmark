@@ -63,5 +63,18 @@ Current ladder (each stage gates the next; negatives are preserved):
     EXTERNAL PRETRAINED DIAGNOSTIC BASELINE (SweLoc provenance verdict C).
     Method frozen as the candidate-ranking signal; confirmatory (Stage 5) or a
     budgeted SweRankLLM reranker each require a NEW protocol + authorization.
+- **2026-09-19 addendum — contamination-robustness bridge (scope change):**
+  Stage-5 confirmatory execution is **PAUSED** pending a DEVELOPMENT-only
+  contamination-robustness bridge that tests whether the SweRank DEV gain is a
+  general dense-retrieval mechanism. The bridge was **STOPPED BEFORE CALL 1**
+  (`qwen/qwen3-embedding-8b` unavailable on OpenRouter — 0 embedding models;
+  full-population cost projection exceeds the frozen $0.50 ceiling) →
+  **`QWEN3_EMBED_BRIDGE_TECHNICALLY_INCONCLUSIVE`**; 0 calls / $0. Provenance
+  audit V2 keeps verdict C (django-cms rank 11,118 in the 2026-09 top-PyPI
+  dump, outside the top-11k SweLoc cutoff; saleor absent from top-15k; no
+  released SweLoc manifest). **Stage-5 decision:
+  `STAGE5_REMAINS_BLOCKED_BY_PROVENANCE_OR_NONREPLICATION`** — confirmatory
+  stays sealed. Recommended alternative control (NOT executed): local
+  `BAAI/bge-m3` under a new freeze + authorization.
 - Stage 6 adaptive-k: gated on a stable ranking signal (P2 Phase-1 negative is
   frozen; choosing k cannot rescue a poorly ordered list).
