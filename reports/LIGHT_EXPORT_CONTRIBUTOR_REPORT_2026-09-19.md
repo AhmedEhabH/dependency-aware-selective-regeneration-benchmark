@@ -46,8 +46,30 @@ mission.
 ## 4. Verified git facts (recorded before omitting `.git`)
 
 - `HEAD == origin/main == 2053df5d602fd5df1ca1b1c4beadc8aee9fd3526`
-- remote URL: `https://github.com/AhmedEhabH/dependency-aware-selective-regeneration-benchmark.git`
+- remote URL: `https://github.com/AhmedEhabD/dependency-aware-selective-regeneration-benchmark.git`
 - scientific tags and peeled SHAs:
   - `strong-localization-signal-2026-09-19` → `0c12223b15de4fa704dd2200ccae15b088ce23be`
   - `qwen3-embed-contamination-bridge-2026-09-19` → `44866fcff5e06bfe1598902300ba593a438b905c`
   - `oracle-gap-bidirectional-repair-2026-09-18` → `8b2d1b6785b6bf9275d06f84eb992d8cb80789c2`
+
+## 5. UPDATE — QWEN3 two-realization replication closure (2026-09-20 01:57)
+
+TRUE LIGHT export re-built at the new scientific closure
+(`qwen3-two-realization-replication-2026-09-19` tag, merge `083a1b2…`,
+HEAD == origin/main == `083a1b2…`, clean tree):
+
+- **Project export: `project-2026-09-20-0157.zip`**
+  - **38,560,221 bytes (38.6 MB) ≤ 50 MB** (was 35.4 MB; +3.2 MB = the new
+    two-realization artifacts: full-file-score Parquet ×2, task_rankings ×2,
+    two_realization_metrics.json, reports, docs, tests).
+  - SHA-256 `334aaba7e475529e1c4096133a9b9124c34a1eb5c218a7da93e40bb14d22e5bf`
+  - 7,676 entries; git archive (no `.git`); same exclusions as §1
+    (pilot zip, tracked `*.zip`, `unit_manifest.json`, locagent verbose logs).
+  - Verified members: `00_CURRENT_RESEARCH_STATE.md`, `DECISIONS.md`,
+    `reports/QWEN3_TWO_REALIZATION_REPLICATION_REPORT_2026-09-19.md`,
+    `research/contamination-bridge/qwen_embed/realization_{A,B}/{full_file_scores.parquet,task_rankings.json}`.
+- Updated git facts at this closure: HEAD == origin/main ==
+  `083a1b2e9a14e484e166a58f729559070a3cf479`; new DEV-evidence tag
+  `qwen3-two-realization-replication-2026-09-19` peels to `083a1b2…`.
+- Budget: cumulative Qwen bridge spend ≈ **$0.439 ≤ $0.50** (A $0.1971 +
+  B $0.2188 + ~$0.023 probes).
