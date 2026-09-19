@@ -11,20 +11,24 @@ SEMANTICS (schema v2, 2026-09-18):
         git status --porcelain          # tree state
 ========================================================================
 
-timestamp_utc=2026-09-18T08:07:00Z
+timestamp_utc=2026-09-19T10:56:00Z
 branch=main
-scientific_closure_commit=8b2d1b6785b6bf9275d06f84eb992d8cb80789c2
-scientific_closure_tag_peel=8b2d1b6785b6bf9275d06f84eb992d8cb80789c2
-tag=oracle-gap-bidirectional-repair-2026-09-18
+scientific_closure_commit=0c12223b15de4fa704dd2200ccae15b088ce23be
+scientific_closure_tag_peel=0c12223b15de4fa704dd2200ccae15b088ce23be
+tag=strong-localization-signal-2026-09-19
 tag_meaning=DEV-evidence milestone tag; NOT a stable-tag move
-tag_note=post-tag docs commits advanced main after closure; tag NOT moved (release-provenance invariant)
+tag_note=post-tag docs commits (5326c3a stop report) advanced main after closure; tag NOT moved (release-provenance invariant)
 tree_state_note=runtime fact — query `git status --porcelain` (do not trust an embedded value)
 live_head_note=runtime fact — query `git rev-parse HEAD`
 live_origin_main_note=runtime fact — query `git rev-parse origin/main`
 
 untracked_or_modified:
-  (Oracle-gap bidirectional-repair mission COMPLETE — decision
-  BIDIRECTIONAL_HEADROOM_ONLY; DEVELOPMENT-only; ZERO API. Scientific merge
-  on main 8b2d1b6; tag oracle-gap-bidirectional-repair-2026-09-18 (peel
-  8b2d1b6 == scientific closure commit). Next scientific task (NOT started):
-  FIRST-PASS RECALL BOTTLENECK on DEVELOPMENT only.)
+  (STRONG LOCALIZATION SIGNAL BRIDGE mission COMPLETE — 2026-09-19; T3
+  DEVELOPMENT; ZERO API; Stage-4b statistical closure (verdict unchanged),
+  BOUNDED_CHEAP_SEMANTIC_CLOSED_FOR_NOW, SweRankEmbed-Small DEV evaluation =
+  SWERANK_EMBED_PASS (external pretrained diagnostic baseline; provenance
+  verdict C), competitor review + repository-memory/cross-language/polyglot
+  readiness. Scientific merge on main 0c12223; tag
+  strong-localization-signal-2026-09-19 (peel 0c12223 == scientific closure
+  commit). Next scientific task (NOT started): confirmatory protocol for the
+  frozen embed method or a budgeted SweRankLLM reranker experiment.)
