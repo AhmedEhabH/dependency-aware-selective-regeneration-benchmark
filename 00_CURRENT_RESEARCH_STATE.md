@@ -6,6 +6,37 @@ For historical closure records see `docs/PROJECT_HANDOFF.md`, `SYSTEM_STATE.md`,
 `TODO.md`, `docs/PAPER_WRITING_HANDOFF.md`, `docs/MSC_RESEARCH_ROADMAP_2026_2027.md`
 (all preserved verbatim below their HISTORICAL boundaries).
 
+**CURRENT TRUTH (2026-09-19, CONTAMINATION-ROBUSTNESS BRIDGE — scope change;
+T3 DEVELOPMENT; ZERO paid API; Stage-5 confirmatory PAUSED; sealed sets
+untouched):**
+→ **STAGE 5 CONFIRMATORY EXECUTION PAUSED — pending DEVELOPMENT-only
+contamination-robustness bridge.** The user authorized a DEVELOPMENT-only
+control: does an independently pretrained dense embedding model reproduce the
+SweRank DEV gain under the exact same parent-only protocol? Designated model
+`qwen/qwen3-embedding-8b` via the OpenRouter embeddings interface with a hard
+$0.50 scientific cost ceiling.
+→ **BRIDGE STOPPED BEFORE CALL 1 = `QWEN3_EMBED_BRIDGE_TECHNICALLY_INCONCLUSIVE`
+(P71, 2026-09-19):** preflight verification found (1) the exact model is NOT
+available on OpenRouter (447-model catalog, **0 embedding-capable models**;
+404 on qwen3-embedding-8b/4b/0.6b); (2) the required full DEVELOPMENT
+population (49,705 units = 21,870,401 unit tokens + 12,128 query tokens,
+Qwen3-Embedding-8B tokenizer) projects **>$0.50 at every realistic price**
+($1.09–$5.47 at $0.05–$0.25/M), and subsampling is forbidden without a
+documented limitation + new authorization. **NO scientific call was made (0
+calls, $0.00); no substitute model was executed.** Frozen protocol + budget +
+mock-tested OpenRouter client + sealed-data guard + independent preflight
+audit (9/9) delivered. **Provenance audit V2** (2026-09-01 top-PyPI dump,
+full SweRank repo history, paper text): django-cms rank **11,118** (just
+outside the top-11k SweLoc cutoff; 2025 rank unverifiable → cannot rule out),
+saleor absent from top-15k (unlikely, not impossible), no released SweLoc
+manifest found anywhere. **Verdict C UNCHANGED**
+(`TRAINING_PROVENANCE_INSUFFICIENT_TO_RULE_OUT_OVERLAP`) — SweRank results
+remain an EXTERNAL PRETRAINED DIAGNOSTIC BASELINE, NOT clean unseen
+generalization. **Stage-5 decision: `STAGE5_REMAINS_BLOCKED_BY_PROVENANCE_OR_
+NONREPLICATION`** — confirmatory stays PAUSED and SEALED (djangoCMS RESERVE 59,
+Saleor INTERNAL_TEST 80, Saleor RESERVE 1086; spent djangoCMS INTERNAL_TEST
+untouched). Recommended alternative control (NOT executed, needs new
+authorization): local `BAAI/bge-m3` under a new freeze.
 **CURRENT TRUTH (2026-09-19, STRONG LOCALIZATION SIGNAL BRIDGE — T3 DEVELOPMENT
 mission COMPLETE; ZERO API; Stage-4b closed with descriptive statistics; new
 specialized embedding diagnostic PASSES its frozen gate; P65–P67 immutable;

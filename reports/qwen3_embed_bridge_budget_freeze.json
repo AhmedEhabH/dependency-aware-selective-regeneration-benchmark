@@ -1,0 +1,66 @@
+{
+  "study_id": "qwen3-embed-contamination-bridge",
+  "status": "FROZEN_BUT_NOT_EXECUTED",
+  "stop_reason": "model_unavailable_on_openrouter_and_cost_ceiling_infeasible",
+  "label": "INFORMATIONAL budget freeze for the DEVELOPMENT-only contamination bridge",
+  "frozen_ceilings": {
+    "max_scientific_cost_usd": 0.5,
+    "max_wall_minutes": 120,
+    "max_transport_retries": 3,
+    "no_fallback": true,
+    "no_result_based_retry": true,
+    "batch_size": 64
+  },
+  "development_population": {
+    "djangocms": 174,
+    "saleor": 149
+  },
+  "inputs": {
+    "n_unique_code_units": 49705,
+    "n_query_texts": 323,
+    "unit_tokens_total": 21870401,
+    "query_tokens_total": 12128,
+    "combined_tokens_total": 21882529,
+    "unit_tokens_p50": 155,
+    "unit_tokens_p90": 766,
+    "unit_tokens_p99": 5591,
+    "unit_tokens_max": 23954,
+    "tokenizer": "Qwen/Qwen3-Embedding-8B"
+  },
+  "requests": {
+    "unit_requests_at_batch64": 777,
+    "query_requests_at_batch64": 6,
+    "total_requests": 783
+  },
+  "cost_sensitivity_usd_per_1m_tokens": {
+    "p05": 1.0941,
+    "p10": 2.1883,
+    "p15": 3.2824,
+    "p20": 4.3765,
+    "p25": 5.4706
+  },
+  "cost_assessment": "Even at an optimistic $0.05 per 1M tokens the full-corpus run would cost ~$1.09 (> $0.50 ceiling); at typical embedding prices ($0.10-$0.25/M) $2.19-$5.47. The model is not offered by OpenRouter, so no real price exists; the $0.50 ceiling therefore cannot be met for the REQUIRED full population, and subsampling is forbidden without documented technical/cost limitation + new authorization.",
+  "wall_time_minutes": "UNKNOWN (endpoint unavailable)",
+  "max_input_length": {
+    "max_unit_tokens": 23954,
+    "model_documented_max_tokens": 32768,
+    "would_require_truncation": false,
+    "note": "re-verify the model's documented max input length at run time if it becomes available"
+  },
+  "retry_failure_policy": {
+    "permitted": [
+      "timeout",
+      "network",
+      "transient 429/5xx"
+    ],
+    "max_retries": 3,
+    "forbidden": [
+      "result-based retry",
+      "provider/model fallback",
+      "batch-size change based on results",
+      "dropping unfavorable tasks"
+    ]
+  },
+  "token_ceiling_frozen": 25000000,
+  "sealed_data_guard": true
+}

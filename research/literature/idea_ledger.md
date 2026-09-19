@@ -189,3 +189,20 @@ Adaptive-k = cross-domain pattern.
   research/strong-localization-signal/swerank/*.json,
   reports/STRONG_LOCALIZATION_COMPETITOR_REVIEW_2026-09-19.md,
   docs/SWERANK_EMBED_BASELINE_PROTOCOL_FROZEN.md.
+- **CONTAMINATION-ROBUSTNESS BRIDGE (2026-09-19, T3, ZERO paid API; scope
+  change)**: Stage-5 confirmatory PAUSED pending a DEVELOPMENT-only
+  contamination control (does independent dense retrieval reproduce the
+  SweRank DEV gain?). Designated `qwen/qwen3-embedding-8b` (OpenRouter
+  embeddings, $0.50 hard ceiling) was verified **NOT AVAILABLE** (0 embedding
+  models in the 447-model catalog; 404 on all Qwen3-Embedding ids) and the
+  full-population cost projection exceeds $0.50 at every realistic rate →
+  **STOPPED BEFORE CALL 1**, `QWEN3_EMBED_BRIDGE_TECHNICALLY_INCONCLUSIVE`
+  (0 calls / $0). Provenance audit V2: django-cms rank 11,118 in the 2026-09
+  top-PyPI dump (outside the top-11k SweLoc cutoff; 2025 rank unverifiable),
+  saleor absent from top-15k, no released SweLoc manifest anywhere → verdict C
+  UNCHANGED. Stage-5 stays sealed
+  (`STAGE5_REMAINS_BLOCKED_BY_PROVENANCE_OR_NONREPLICATION`). Evidence:
+  reports/CONTAMINATION_ROBUSTNESS_BRIDGE_CLOSURE_2026-09-19.md,
+  reports/QWEN3_EMBED_CONTAMINATION_BRIDGE_BUDGET_FREEZE.md,
+  reports/SWERANK_TRAINING_PROVENANCE_AUDIT_V2_2026-09-19.md,
+  docs/QWEN3_EMBED_CONTAMINATION_ROBUSTNESS_PROTOCOL_FROZEN.md.
