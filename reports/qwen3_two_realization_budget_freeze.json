@@ -1,0 +1,80 @@
+{
+  "study_id": "qwen3-two-realization-replication",
+  "status": "FROZEN_BEFORE_CALL_1_TWO_REALIZATIONS",
+  "label": "Budget freeze v2 for the two-independent-realization Qwen3-Embedding-8B bridge (T3; live price re-verified before call 1; two complete realizations A and B)",
+  "supersedes_note": "This v2 freeze amends the v1 single-realization freeze (reports/qwen3_embed_bridge_budget_freeze.json) ONLY in that TWO complete realizations are now required (P74 amendment). Provider/model/settings/ceiling arithmetic unchanged and re-verified live.",
+  "frozen_ceilings": {
+    "cumulative_qwen_bridge_scientific_cost_usd": 0.5,
+    "expected_two_realizations_cost_usd": 0.4377,
+    "expected_cost_per_realization_usd": 0.2188,
+    "prior_technical_probe_spend_usd": 0.023,
+    "max_wall_minutes_per_realization": 300,
+    "max_transport_retries": 3,
+    "no_fallback": true,
+    "no_result_based_retry": true,
+    "batch_size": 64,
+    "max_wall_minutes_note": "extended from 180 to 300 by append-only P76 after measured rate ~192 units/min (cost ceiling remains the hard stop)"
+  },
+  "provider_pin": {
+    "model": "qwen/qwen3-embedding-8b",
+    "provider": "DeepInfra",
+    "price_per_1m_tokens_usd": 0.01,
+    "context_length": 32768,
+    "fallback_disabled": true,
+    "live_price_verified_utc": "2026-09-19 (pricing.prompt = 0.00000001)",
+    "provider_selection_basis": "frozen (P72); no provider switch based on results"
+  },
+  "cost_arithmetic_per_realization": {
+    "total_estimated_tokens": 21882529,
+    "price_per_1m_tokens_usd": 0.01,
+    "expected_cost_usd": 0.2188,
+    "formula": "total_estimated_tokens / 1_000_000 * price_per_1m_tokens_usd"
+  },
+  "two_realization_arithmetic": {
+    "n_realizations": 2,
+    "expected_total_cost_usd": 0.4377,
+    "projected_cumulative_including_prior_probes_usd": 0.4607,
+    "margin_to_ceiling_usd": 0.0393,
+    "formula": "2 * 0.2188 (realizations) + 0.023 (prior technical probes)"
+  },
+  "fail_closed_projection_guard": {
+    "rule": "after every batch, projected_final_cumulative = spent_usd + (remaining_estimated_tokens * price_per_1m / 1_000_000); if projected_final_cumulative >= 0.50 -> STOP before exceeding the ceiling and report the exact projection",
+    "ceiling_usd": 0.5
+  },
+  "development_population": {
+    "djangocms": 174,
+    "saleor": 149,
+    "no_subsampling": true
+  },
+  "inputs": {
+    "n_unique_code_units": 49705,
+    "n_query_texts": 323,
+    "unit_tokens_total": 21870401,
+    "query_tokens_total": 12128,
+    "combined_tokens_total": 21882529,
+    "tokenizer": "Qwen/Qwen3-Embedding-8B"
+  },
+  "requests_per_realization": {
+    "unit_requests_at_batch64": 777,
+    "query_requests_at_batch64": 6,
+    "total_requests": 783,
+    "two_realizations_total_requests": 1566
+  },
+  "retry_failure_policy": {
+    "permitted": [
+      "timeout",
+      "network",
+      "transient 429/5xx"
+    ],
+    "max_retries": 3,
+    "forbidden": [
+      "result-based retry",
+      "provider/model fallback",
+      "batch-size change based on results",
+      "dropping unfavorable tasks"
+    ]
+  },
+  "sealed_data_guard": true,
+  "stage5_not_executed": true,
+  "calibrated_set_selection_not_executed": true
+}

@@ -1,0 +1,23 @@
+{
+  "n_tasks_common": 323,
+  "exact_same_selected_set_task_percentage": 97.21,
+  "jaccard": {
+    "mean": 0.9907,
+    "median": 1.0,
+    "min": 0.6667,
+    "max": 1.0
+  },
+  "n_one_file_boundary_flip_tasks": 9,
+  "one_file_boundary_flip_case_ids": [
+    "djangocms-rc-47b63015feb1",
+    "djangocms-rc-95173e3367aa",
+    "djangocms-rc-95782b39ff54",
+    "djangocms-rc-d0f7b38f98b9",
+    "saleor-rc-07df0e0ff24f",
+    "saleor-rc-2da6d8c2d18f",
+    "saleor-rc-c8a9f86f47e1",
+    "saleor-rc-ce7d1e8d4d2b",
+    "saleor-rc-ded69f9c7097"
+  ],
+  "note": "one-file boundary flip = B=5 sets differ by EXACTLY one file"
+}

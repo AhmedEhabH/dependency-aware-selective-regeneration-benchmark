@@ -139,3 +139,34 @@ CORRECTION) re-probed with the CORRECT dedicated embeddings catalog:
   determinism-controllable LOCAL open-weight control (e.g., `BAAI/bge-m3`
   local inference where numerical determinism can be pinned) under a new
   freeze.
+## 12. UPDATE — two-realization replication (2026-09-19, T3)
+
+The bridge line is now CLOSED WITH A RESULT, NOT technically inconclusive for
+the conclusion-reproducibility question:
+
+- **P74 amendment (append-only, before any target-aware Qwen inspection):** two
+  complete independent realizations (A and B) of the hosted Qwen embeddings
+  replace the strict bitwise-determinism requirement. P73's determinism finding
+  remains a valid historical record; this mission evaluates CONCLUSION
+  REPRODUCIBILITY.
+- **Execution:** qwen/qwen3-embedding-8b @ DeepInfra (.01/M live-verified,
+  fallback disabled) over the FULL legal DEV population twice (49,703 units +
+  323 queries per realization; whitespace-only excluded per frozen 12.9).
+  Actual cost A .1971 / B .2188; cumulative incl. probes ~.439 < .50.
+  0 permanent failures.
+- **Result:** **INDEPENDENT_DENSE_RETRIEVAL_REPLICATED** — A and B BOTH pass
+  the frozen gate on djangoCMS AND Saleor @B=5 (Qwen F1 0.262/0.270 vs
+  Route-B 0.226/0.237; all file-level CIs exclude zero). A-vs-B: 97.21% exact
+  same selected set, mean Jaccard 0.9907, 9 one-file flips all FP-for-FP.
+- **NO OVERCLAIM:** Qwen does NOT beat Sparse final-set F1 (0.318/0.261) and
+  does NOT replace SweRankEmbed-Small (0.280/0.288).
+- **Engineering artifact:** label-free full-file-score Parquet tables
+  (143,852 rows/realization) for the future calibrated ADD+DROP study.
+- **Stage 5 remains PAUSED and SEALED**
+  (STAGE5_REMAINS_BLOCKED_BY_PROVENANCE_OR_NONREPLICATION): the dense
+  replication strengthens the mechanism hypothesis but does NOT prove unseen
+  generalization (provenance verdict C unchanged).
+- Evidence: reports/QWEN3_TWO_REALIZATION_REPLICATION_REPORT_2026-09-19.md,
+  research/contamination-bridge/qwen_embed/{realization_A,realization_B,two_realization_metrics}.json,
+  reports/qwen3_two_realization_{gate,reproducibility,audit}.json,
+  docs/CALIBRATED_SET_SELECTION_V1_DRAFT.md, DECISIONS.md P74/P75/P76.
