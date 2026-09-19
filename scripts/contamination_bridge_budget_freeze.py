@@ -25,18 +25,37 @@ REQS = UNIT_REQ + QUERY_REQ
 per_m = {"p05": 0.05, "p10": 0.10, "p15": 0.15, "p20": 0.20, "p25": 0.25}
 cost_rows = {k: round(TOTAL_TOK / 1e6 * v, 4) for k, v in per_m.items()}
 
+# ---- live pricing (2026-09-19; pinned provider DeepInfra @ $0.01/M) ----
+PINNED_PROVIDER = "DeepInfra"
+PRICE_PER_1M = 0.01
+EXPECTED_COST = round(TOTAL_TOK / 1e6 * PRICE_PER_1M, 4)
+
 data = {
     "study_id": "qwen3-embed-contamination-bridge",
-    "status": "FROZEN_BUT_NOT_EXECUTED",
-    "stop_reason": "model_unavailable_on_openrouter_and_cost_ceiling_infeasible",
-    "label": "INFORMATIONAL budget freeze for the DEVELOPMENT-only contamination bridge",
+    "status": "FROZEN_WITH_LIVE_PRICING; TECHNICAL PROBES EXECUTED; FULL RUN STOPPED (DETERMINISM)",
+    "label": "Budget freeze for the DEVELOPMENT-only contamination bridge (corrected availability probe; live provider pricing; stopped before full run on determinism)",
     "frozen_ceilings": {
         "max_scientific_cost_usd": 0.50,
-        "max_wall_minutes": 120,
+        "max_wall_minutes": 180,
         "max_transport_retries": 3,
         "no_fallback": True,
         "no_result_based_retry": True,
         "batch_size": BATCH,
+    },
+    "provider_pin": {
+        "model": "qwen/qwen3-embedding-8b",
+        "provider": PINNED_PROVIDER,
+        "price_per_1m_tokens_usd": PRICE_PER_1M,
+        "context_length": 32768,
+        "fallback_disabled": True,
+        "providers_at_0_01_per_m": ["DeepInfra", "Nebius"],
+        "provider_selection_basis": "availability, documented pricing, API compatibility, reproducibility (frozen before target-aware results)",
+    },
+    "cost_arithmetic": {
+        "total_estimated_tokens": TOTAL_TOK,
+        "price_per_1m_tokens_usd": PRICE_PER_1M,
+        "expected_cost_usd": EXPECTED_COST,
+        "formula": "total_estimated_tokens / 1_000_000 * price_per_1m_tokens_usd",
     },
     "development_population": {"djangocms": 174, "saleor": 149},
     "inputs": {
@@ -58,15 +77,12 @@ data = {
     },
     "cost_sensitivity_usd_per_1m_tokens": cost_rows,
     "cost_assessment": (
-        "Even at an optimistic $0.05 per 1M tokens the full-corpus run would "
-        f"cost ~${cost_rows['p05']:.2f} (> $0.50 ceiling); at typical embedding "
-        f"prices ($0.10-$0.25/M) ${cost_rows['p10']:.2f}-${cost_rows['p25']:.2f}. "
-        "The model is not offered by OpenRouter, so no real price exists; the "
-        "$0.50 ceiling therefore cannot be met for the REQUIRED full population, "
-        "and subsampling is forbidden without documented technical/cost "
-        "limitation + new authorization."
+        "LIVE pinned-provider price (DeepInfra) is $0.01 per 1M tokens; expected "
+        f"full-run input cost = {TOTAL_TOK} / 1,000,000 x $0.01 = ${EXPECTED_COST:.4f}, "
+        "well inside the $0.50 hard ceiling. The earlier $1.09-$5.47 projection used "
+        "stale assumed prices and is superseded."
     ),
-    "wall_time_minutes": "UNKNOWN (endpoint unavailable)",
+    "wall_time_minutes": "180 (documented before call 1; ~783 batched requests x provider latency)",
     "max_input_length": {
         "max_unit_tokens": _TOKEN["unit_tokens_max"],
         "model_documented_max_tokens": 32768,
@@ -88,16 +104,23 @@ OUT_MD = _REPORTS / "QWEN3_EMBED_CONTAMINATION_BRIDGE_BUDGET_FREEZE.md"
 OUT_JSON.write_text(json.dumps(data, indent=2), encoding="utf-8")
 
 md = [
-    "# Qwen3-Embedding Contamination Bridge — Budget Freeze (FROZEN, NOT EXECUTED)",
+    "# Qwen3-Embedding Contamination Bridge — Budget Freeze (v2, live pricing)",
     "",
-    "**Date:** 2026-09-19  **Tier:** T3  **Status:** FROZEN BEFORE CALL 1 — **NOT "
-    "EXECUTED** (model unavailable on OpenRouter; cost ceiling infeasible for the "
-    "required full population).",
+    "**Date:** 2026-09-19  **Tier:** T3  **Status:** FROZEN BEFORE CALL 1 with "
+    "corrected availability probe + live provider pricing. Technical probes "
+    "EXECUTED; the FULL scientific run was STOPPED on material embedding "
+    "nondeterminism (see `reports/QWEN3_EMBED_DEVELOPMENT_REPORT_2026-09-19.md`).",
     "",
     "**Hard safety ceilings (frozen):** total OpenRouter scientific cost **<= $0.50**; "
-    "wall <= 120 min; max transport retries 3 (timeout/network/transient 5xx only); "
+    "wall <= 180 min (documented before call 1: ~783 batched requests x provider "
+    "latency); max transport retries 3 (timeout/network/transient 5xx only); "
     "no fallback; no result-based retry; no batch-size change based on results; "
     "sealed-data guard ON.",
+    "",
+    "**Provider pin (frozen before call 1):** **DeepInfra** for "
+    "`qwen/qwen3-embedding-8b` at the documented **$0.01 / 1M tokens** (context "
+    "32,768; 100% 5-min uptime); routing pinned and fallbacks disabled per "
+    "request. Nebius also serves $0.01/M (recorded alternative).",
     "",
     "## 1. DEVELOPMENT inputs (measured with the Qwen3-Embedding-8B tokenizer)",
     "",
@@ -116,32 +139,20 @@ md = [
     f"- Query requests: ceil({QUERIES}/64) = **{QUERY_REQ}**",
     f"- Total embedding requests: **{REQS}**",
     "",
-    "## 3. USD cost assessment (informational)",
+    "## 3. Expected cost (explicit arithmetic, live pinned-provider price)",
     "",
-    "The model is NOT offered by OpenRouter (verified 2026-09-19), so no real "
-    "price exists. A sensitivity analysis over hypothetical per-1M-token prices "
-    "shows the REQUIRED full-corpus run cannot fit the $0.50 ceiling:",
+    "`expected_cost = total_estimated_tokens / 1_000_000 * price_per_1m`",
     "",
-    "| Price per 1M tokens | Projected full-run cost | Within $0.50? |",
-    "|---:|---:|:---:|",
-    "| $0.05 | " + f"${cost_rows['p05']:.2f}" + " | no |",
-    "| $0.10 | " + f"${cost_rows['p10']:.2f}" + " | no |",
-    "| $0.15 | " + f"${cost_rows['p15']:.2f}" + " | no |",
-    "| $0.20 | " + f"${cost_rows['p20']:.2f}" + " | no |",
-    "| $0.25 | " + f"${cost_rows['p25']:.2f}" + " | no |",
+    f"`= {TOTAL_TOK} / 1_000_000 * $0.01 = ${EXPECTED_COST:.4f}`",
     "",
-    "**Conclusion:** even at an optimistic $0.05/1M tokens the full-corpus run "
-    "would cost ~" + f"${cost_rows['p05']:.2f}" + ", above the frozen $0.50 "
-    "ceiling. Subsampling the DEVELOPMENT population is forbidden without a "
-    "documented technical/cost limitation AND new authorization. The $0.50 "
-    "ceiling therefore cannot be satisfied for the REQUIRED full population, "
-    "independently of the model-availability blocker.",
+    f"**Expected full-run input cost: ${EXPECTED_COST:.4f}** (hard ceiling $0.50). "
+    "The earlier $1.09-$5.47 projection used stale assumed prices and is "
+    "superseded by the live $0.01/M provider price.",
     "",
     "## 4. Max input length",
     "",
-    f"- Longest unit: {_TOKEN['unit_tokens_max']} tokens; model documented max: 32,768 "
-    "(re-verify at run time if the model becomes available) → no truncation "
-    "required at the documented max.",
+    f"- Longest unit: {_TOKEN['unit_tokens_max']} tokens; DeepInfra context "
+    f"32,768 → no truncation required at the documented max.",
     "",
     "## 5. Retry / failure policy (frozen)",
     "",
@@ -150,14 +161,14 @@ md = [
     "- Forbidden: result-based retry, provider/model fallback, batch-size change "
     "based on results, dropping unfavorable tasks.",
     "",
-    "## 6. STOP conditions actually triggered (2026-09-19)",
+    "## 6. Availability correction (2026-09-19)",
     "",
-    "1. **Model unavailable**: `qwen/qwen3-embedding-8b` is not in the OpenRouter "
-    "catalog (0 embedding models).",
-    "2. **Cost ceiling infeasible**: the required full-corpus run is projected "
-    "above $0.50 even at optimistic prices; no real price exists to freeze.",
+    "The dedicated embeddings catalog `GET /api/v1/embeddings/models` lists 33 "
+    "embedding models including `qwen/qwen3-embedding-8b` (context 32,768). The "
+    "prior probe used the GENERATION catalog (0 embedding models) and was "
+    "defective (P72: QWEN3_EMBED_AVAILABILITY_PROBE_DEFECT_CONFIRMED). The bridge "
+    "therefore RESUMES under the frozen protocol.",
     "",
-    "Per the frozen stop policy, **NO scientific call was made** (0 calls, $0.00). "
     "Machine-readable: `reports/qwen3_embed_bridge_budget_freeze.json`.",
 ]
 

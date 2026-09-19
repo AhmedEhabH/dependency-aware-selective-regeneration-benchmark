@@ -2,18 +2,21 @@
 
 **Tier:** T3 (new evaluation-strategy family: INDEPENDENT DENSE-RETRIEVAL
 CONTROL).
-**Status:** **FROZEN BUT NOT EXECUTED.** As of 2026-09-19 the designated model
-`qwen/qwen3-embedding-8b` is **not available on OpenRouter** (verified: full
-447-model catalog, zero embedding-capable models; 404 on all three
-Qwen3-Embedding identifiers). Per the mission's stop conditions, **no
-scientific call was made** and the bridge is frozen as
-`QWEN3_EMBED_BRIDGE_TECHNICALLY_INCONCLUSIVE`. This document is the frozen
-design that WOULD govern an authorized run (with the same model if it becomes
-available, or with an explicitly authorized substitute under a new freeze).
+**Status:** **FROZEN BUT NOT FULLY EXECUTED — STOPPED at the determinism
+probe.** P71 recorded the original (defective) probe; P72 confirmed the
+availability-probe defect (the model IS in the dedicated embeddings catalog,
+pinned DeepInfra $0.01/M). The determinism probe (§12.8) was then executed:
+cosine drift ~1.0e-4 with a file-level B=5 set flip on 1/5 sampled DEVELOPMENT
+tasks → per the frozen criterion this is material enough to destabilize the
+operating-point ranking → **STOP BEFORE THE FULL SCIENTIFIC RUN** (P73). The
+bridge remains `QWEN3_EMBED_BRIDGE_TECHNICALLY_INCONCLUSIVE` (root cause:
+material embedding nondeterminism at the file-level margin). Technical probes
+only (~$0.023 spend); no full scientific Qwen result was produced.
 **Mission:** contamination-robustness bridge (scope change; Stage-5
 confirmatory PAUSED).
 **Authoring agent:** openrouter/deepseek/deepseek-v4-flash-0731
-**Scientific spend to date:** 0 paid calls, $0.00.
+**Scientific spend to date:** ~$0.023 (technical probes only), 0 full-run
+calls.
 
 ---
 
@@ -134,3 +137,62 @@ trained dense embedding architecture reproduces the observed localization gain.
 Bridge STOPPED BEFORE CALL 1 because the exact model could not be verified on
 OpenRouter and no substitute is authorized. No Qwen3 embedding call was made.
 Stage-5 confirmatory execution remains PAUSED and SEALED.
+**SUPERSEDED by P72 (the availability probe was defective; the model IS
+available in the dedicated embeddings catalog).**
+
+## 12. EXECUTION CLARIFICATIONS (2026-09-19, frozen BEFORE call 1)
+
+The user authorized resumption after the availability-probe defect was
+confirmed (P72; the model IS in the dedicated embeddings catalog). The
+following API-specific details were genuinely unspecified and are now frozen
+ONCE, before any target-aware call:
+
+1. **Availability (corrected):** `GET https://openrouter.ai/api/v1/embeddings/models`
+   lists 33 embedding models; **`qwen/qwen3-embedding-8b` is present**
+   (context 32,768; HF `Qwen/Qwen3-Embedding-8B`). Scientific calls use
+   `POST https://openrouter.ai/api/v1/embeddings`.
+2. **Provider pin:** **DeepInfra** (documented $0.01/M prompt; context 32,768;
+   100% 5-min uptime; consistent with the project's prior frozen DeepInfra
+   route). Request carries
+   `"provider": {"order": ["DeepInfra"], "allow_fallbacks": false}` — routing
+   pinned, fallback disabled. Nebius ($0.01/M) is the recorded alternative;
+   no provider switch based on scientific output.
+3. **Price (documented):** $0.01 per 1M tokens (prompt). Expected full-run
+   cost = 21,882,529 / 1,000,000 × $0.01 = **$0.2188**. Hard ceiling $0.50.
+   If the exact full-run projected charge exceeds $0.50 → STOP before call 1.
+4. **Input semantics:** `input` = array of plain strings (code-unit texts for
+   the corpus; parent-visible intent texts for queries). NO instruction prefix
+   is added by us (the generic OpenRouter embeddings endpoint takes raw text;
+   the frozen benchmark query text is used verbatim). Batch size 64 (frozen;
+   ~28k tokens/request < DeepInfra 32,768 context).
+5. **Embedding dimension / normalization:** vectors are L2-normalized on both
+   sides and scored by dot product (= cosine), identical to the SweRank
+   adapter. This rule is frozen regardless of whether the provider returns
+   pre-normalized vectors.
+6. **Numeric gate clarification (primary replication requirement on BOTH
+   repos at B=5, vs Frozen Route-B):**
+   - A. `Delta F1 > 0` AND paired-bootstrap `95% CI lower bound for Delta F1 > 0`;
+   - B. `Delta Recall >= -0.02`;
+   - C. `Delta FNR <= +0.02`;
+   - D. `Delta Precision >= -0.02`;
+   - E. >= 3/5 seeded grouped folds with `Delta F1 >= 0`;
+   - F. zero target leakage;
+   - G. technically valid deterministic execution (>=95% valid requests after
+     permitted transport retries; determinism probe drift below a
+     rank-stable threshold);
+   - H. total cost <= frozen $0.50 ceiling.
+   Sparse is reported separately; a Qwen result that beats Route-B but stays
+   below Sparse is described as a `dense-ranking/recovery improvement`, NOT
+   `complete final-set superiority`.
+7. **Wall-time ceiling:** frozen 180 minutes (extended from 120 min, documented
+   before call 1: ~783 batched embedding requests × provider latency; cost
+   ceiling remains the hard stop).
+8. **Determinism probe:** ~200 already-exposed code units embedded twice with
+   identical input/provider/model/settings; report max cosine drift; if drift
+   could plausibly change ranking ties, STOP and report (technical freeze, not
+   scientific negative).
+9. **Input-preparation clarification (frozen after the first transport
+   validation error, BEFORE any target-aware call):** whitespace-only code
+   units are excluded (the endpoint rejects empty strings with HTTP 400). This
+   is a deterministic text-preparation rule with no target influence; the
+   affected units would contribute no discriminative signal (empty text).

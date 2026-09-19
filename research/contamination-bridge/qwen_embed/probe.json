@@ -1,0 +1,25 @@
+{
+  "n": 201,
+  "dim": 4096,
+  "max_cosine_drift": 9.614229202270508e-05,
+  "mean_cosine_drift": 4.127755164518021e-05,
+  "p99_cosine_drift": 9.065866470336914e-05,
+  "min_cosine_sim": 0.9999038577079773,
+  "max_cosine_sim": 1.0000001192092896,
+  "identical_vectors": false,
+  "anchor_cos_call1_vs_fresh": 0.9999488592147827,
+  "anchor_cos_call2_vs_fresh": 0.9999380707740784,
+  "rank_stability": {
+    "query_sha256": "bcf22c5c64e126ce70484f1b0fb77e6d4e7baa748658f023a442a8e21106eddb",
+    "top10_overlap_frac": 1.0,
+    "kendall_tau_full": 0.5007,
+    "max_cosine_drift": 9.6e-05,
+    "n_adjacent_pairs_full_with_gap_lt_2x_drift": 39,
+    "n_adjacent_pairs_top50_with_gap_lt_2x_drift": 8,
+    "verdict": "RANK_DRIFT_PLAUSIBLE"
+  },
+  "wall_seconds": 71.29,
+  "ledger_requests": 10,
+  "ledger_prompt_tokens": 116221,
+  "ledger_cost_usd": 0.00116221
+}

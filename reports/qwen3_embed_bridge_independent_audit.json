@@ -1,30 +1,36 @@
 {
  "overall_pass": true,
- "n_checks": 9,
+ "n_checks": 10,
  "checks": [
   {
    "code": "A1",
-   "name": "model availability verdict == STOP before call 1",
+   "name": "availability verdict (corrected embeddings-catalog probe) == available",
    "pass": true,
-   "detail": "catalog n=447, embedding models=0"
+   "detail": "catalog n=33, pinned=DeepInfra"
   },
   {
    "code": "A2",
-   "name": "no paid scientific call made",
+   "name": "no full scientific run produced (no metrics.json)",
    "pass": true,
-   "detail": "recorded 0 calls / $0.00"
+   "detail": "determinism stop before the full run"
+  },
+  {
+   "code": "A12",
+   "name": "determinism stop evidence (drift ~1e-4; file B=5 flip on 1/5 tasks)",
+   "pass": true,
+   "detail": "max_drift=9.61e-05, b5_overlap=[1.0, 1.0, 1.0, 0.8, 1.0]"
   },
   {
    "code": "A3",
-   "name": "budget JSON internally consistent (tokens, batching, $0.50 ceiling)",
+   "name": "budget JSON internally consistent (live $0.01/M price; expected $0.2188; $0.50 ceiling)",
    "pass": true,
-   "detail": "{\"unit_requests_at_batch64\": 777, \"query_requests_at_batch64\": 6, \"total_requests\": 783}"
+   "detail": "expected_cost=0.2188"
   },
   {
    "code": "A4",
-   "name": "budget JSON marked NOT EXECUTED",
+   "name": "budget JSON status reflects STOP (not executing)",
    "pass": true,
-   "detail": "FROZEN_BUT_NOT_EXECUTED"
+   "detail": "FROZEN_WITH_LIVE_PRICING; TECHNICAL PROBES EXECUTED; FULL RUN STOPPED (DETERMINISM)"
   },
   {
    "code": "A5",
@@ -40,15 +46,15 @@
   },
   {
    "code": "A7",
-   "name": "no-fallback enforcement present in client source",
+   "name": "no-fallback + provider pin present in client source",
    "pass": true,
-   "detail": "no-fallback guard in constructor"
+   "detail": "no-fallback + pinned provider"
   },
   {
    "code": "A8",
-   "name": "frozen gate (A\u2013J) + inconclusive label present in protocol",
+   "name": "frozen numeric gate (A\u2013H) + determinism criterion present",
    "pass": true,
-   "detail": "gate A\u2013J + CASE E label"
+   "detail": "numeric gate A\u2013H"
   },
   {
    "code": "A9",

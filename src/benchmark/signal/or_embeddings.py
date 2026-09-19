@@ -27,14 +27,27 @@ import urllib.request
 from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 
-# Frozen model identifier (verified absent on OpenRouter 2026-09-19).
+# Frozen model identifier (verified present on OpenRouter's embeddings catalog
+# 2026-09-19 via GET /api/v1/embeddings/models; the earlier generation-catalog
+# probe was defective).
 OPENROUTER_EMBED_MODEL = "qwen/qwen3-embedding-8b"
+
+# Pinned provider (frozen before call 1; both Nebius and DeepInfra serve at
+# $0.01/M; DeepInfra chosen for full 32,768 context, 100% 5m uptime, and the
+# project's prior frozen DeepInfra route). Provider routing is pinned and
+# fallback disabled per-request.
+OPENROUTER_EMBED_PROVIDER = "DeepInfra"
+OPENROUTER_EMBED_PRICE_PER_1M_USD = 0.01  # documented provider price (prompt)
 
 # Frozen request-contract constants (do not change without a new freeze).
 MAX_BATCH_SIZE = 64  # inputs per embeddings request (legal upper bound)
 MAX_TRANSPORT_RETRIES = 3  # timeout/network/transient 5xx only
 RETRYABLE_STATUS = {429, 500, 502, 503, 504}
 EMBED_ENDPOINT = "https://openrouter.ai/api/v1/embeddings"
+# Availability discovery MUST use the DEDICATED embeddings-model catalog, never
+# the generation-model catalog (the generation catalog has zero embedding
+# models; the 2026-09-19 P71 probe defect).
+EMBEDDINGS_CATALOG_ENDPOINT = "https://openrouter.ai/api/v1/embeddings/models"
 
 SEALED_ROLES = ("RESERVE", "INTERNAL_TEST")
 
@@ -156,6 +169,10 @@ class OpenRouterEmbeddingsClient:
                 "model": self.model,
                 "input": chunk,
                 "encoding_format": "float",
+                "provider": {
+                    "order": [OPENROUTER_EMBED_PROVIDER],
+                    "allow_fallbacks": False,
+                },
             }
             _, body = self._post(payload)
             data = body.get("data", [])

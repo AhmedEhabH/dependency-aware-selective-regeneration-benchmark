@@ -1,0 +1,26 @@
+{
+  "check_date": "2026-09-19",
+  "prior_probe_defective": true,
+  "prior_probe_error": "probed the GENERATION model catalog (GET /api/v1/models) which contains zero embedding models; the dedicated embeddings catalog was not queried",
+  "correct_catalog_endpoint": "https://openrouter.ai/api/v1/embeddings/models",
+  "scientific_endpoint": "https://openrouter.ai/api/v1/embeddings",
+  "catalog_scan": {
+    "n_embedding_models": 33,
+    "qwen3_embedding_8b_present": true,
+    "qwen3_embedding_8b_context_length": 32768,
+    "qwen3_embedding_4b_present": true,
+    "qwen3_embedding_4b_price_per_1m": 0.02,
+    "qwen3_embedding_0_6b_present": false
+  },
+  "qwen3_embedding_8b_providers": [
+    {"provider": "Nebius", "price_per_1m_usd": 0.01, "context_length": 32000, "max_completion_tokens": 28800},
+    {"provider": "DeepInfra", "price_per_1m_usd": 0.01, "context_length": 32768, "max_completion_tokens": 29491},
+    {"provider": "SiliconFlow", "price_per_1m_usd": 0.04, "context_length": 32768, "quantization": "fp8"}
+  ],
+  "pinned_provider": "DeepInfra",
+  "provider_routing_pinned": true,
+  "fallback_disabled": true,
+  "available_verdict": "MODEL_AVAILABLE_ON_OPENROUTER_EMBEDDINGS_CATALOG",
+  "stop_before_call_1": false,
+  "note": "P71 remains a true historical record of the defective probe; this v2 record is the corrected availability evidence."
+}

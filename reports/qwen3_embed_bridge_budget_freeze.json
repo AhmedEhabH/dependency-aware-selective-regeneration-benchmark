@@ -1,15 +1,32 @@
 {
   "study_id": "qwen3-embed-contamination-bridge",
-  "status": "FROZEN_BUT_NOT_EXECUTED",
-  "stop_reason": "model_unavailable_on_openrouter_and_cost_ceiling_infeasible",
-  "label": "INFORMATIONAL budget freeze for the DEVELOPMENT-only contamination bridge",
+  "status": "FROZEN_WITH_LIVE_PRICING; TECHNICAL PROBES EXECUTED; FULL RUN STOPPED (DETERMINISM)",
+  "label": "Budget freeze for the DEVELOPMENT-only contamination bridge (corrected availability probe; live provider pricing; stopped before full run on determinism)",
   "frozen_ceilings": {
     "max_scientific_cost_usd": 0.5,
-    "max_wall_minutes": 120,
+    "max_wall_minutes": 180,
     "max_transport_retries": 3,
     "no_fallback": true,
     "no_result_based_retry": true,
     "batch_size": 64
+  },
+  "provider_pin": {
+    "model": "qwen/qwen3-embedding-8b",
+    "provider": "DeepInfra",
+    "price_per_1m_tokens_usd": 0.01,
+    "context_length": 32768,
+    "fallback_disabled": true,
+    "providers_at_0_01_per_m": [
+      "DeepInfra",
+      "Nebius"
+    ],
+    "provider_selection_basis": "availability, documented pricing, API compatibility, reproducibility (frozen before target-aware results)"
+  },
+  "cost_arithmetic": {
+    "total_estimated_tokens": 21882529,
+    "price_per_1m_tokens_usd": 0.01,
+    "expected_cost_usd": 0.2188,
+    "formula": "total_estimated_tokens / 1_000_000 * price_per_1m_tokens_usd"
   },
   "development_population": {
     "djangocms": 174,
@@ -39,8 +56,8 @@
     "p20": 4.3765,
     "p25": 5.4706
   },
-  "cost_assessment": "Even at an optimistic $0.05 per 1M tokens the full-corpus run would cost ~$1.09 (> $0.50 ceiling); at typical embedding prices ($0.10-$0.25/M) $2.19-$5.47. The model is not offered by OpenRouter, so no real price exists; the $0.50 ceiling therefore cannot be met for the REQUIRED full population, and subsampling is forbidden without documented technical/cost limitation + new authorization.",
-  "wall_time_minutes": "UNKNOWN (endpoint unavailable)",
+  "cost_assessment": "LIVE pinned-provider price (DeepInfra) is $0.01 per 1M tokens; expected full-run input cost = 21882529 / 1,000,000 x $0.01 = $0.2188, well inside the $0.50 hard ceiling. The earlier $1.09-$5.47 projection used stale assumed prices and is superseded.",
+  "wall_time_minutes": "180 (documented before call 1; ~783 batched requests x provider latency)",
   "max_input_length": {
     "max_unit_tokens": 23954,
     "model_documented_max_tokens": 32768,

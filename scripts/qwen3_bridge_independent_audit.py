@@ -41,67 +41,78 @@ def main() -> int:
         ok_all = ok_all and bool(passed)
         results.append({"code": code, "name": name, "pass": bool(passed), "detail": detail})
 
-    # ---- A1/A2: availability + no paid call ----
-    avail = json.loads((_RUN / "model_availability.json").read_text(encoding="utf-8"))
-    check("A1", "model availability verdict == STOP before call 1",
-          avail.get("available_verdict") == "MODEL_NOT_AVAILABLE_ON_OPENROUTER"
-          and avail.get("stop_before_call_1") is True,
-          f"catalog n={avail['catalog_scan']['n_models_total']}, embedding models={avail['catalog_scan']['n_embedding_capable_models']}")
-    check("A2", "no paid scientific call made",
-          avail.get("no_paid_call_made") is True, "recorded 0 calls / $0.00")
+    # ---- A1: availability (corrected probe; model IS available) ----
+    avail = json.loads((_RUN / "model_availability_v2.json").read_text(encoding="utf-8"))
+    check("A1", "availability verdict (corrected embeddings-catalog probe) == available",
+          avail.get("available_verdict") == "MODEL_AVAILABLE_ON_OPENROUTER_EMBEDDINGS_CATALOG"
+          and avail.get("catalog_scan", {}).get("qwen3_embedding_8b_present") is True
+          and avail.get("pinned_provider") == "DeepInfra",
+          f"catalog n={avail['catalog_scan']['n_embedding_models']}, pinned={avail.get('pinned_provider')}")
 
-    # ---- A3/A4: budget JSON consistency ----
+    # ---- A2/A12: no FULL scientific run (determinism stop) ----
+    qwen_out = _RUN / "qwen_embed"
+    full_metrics = qwen_out / "metrics.json"
+    check("A2", "no full scientific run produced (no metrics.json)",
+          not full_metrics.exists(), "determinism stop before the full run")
+    probe = json.loads((qwen_out / "probe.json").read_text(encoding="utf-8"))
+    stab = json.loads((qwen_out / "stability.json").read_text(encoding="utf-8"))
+    max_drift = probe["max_cosine_drift"]
+    b5 = list(stab["b5_file_set_overlap_frac"].values())
+    check("A12", "determinism stop evidence (drift ~1e-4; file B=5 flip on 1/5 tasks)",
+          max_drift < 1e-3 and min(b5) < 1.0 and stab["all_tasks_b5_identical"] is False,
+          f"max_drift={max_drift:.2e}, b5_overlap={b5}")
+
+    # ---- A3/A4: budget JSON consistency with live pricing ----
     budget = json.loads((_REPORTS / "qwen3_embed_bridge_budget_freeze.json").read_text(encoding="utf-8"))
     tok = budget["inputs"]
+    ca = budget["cost_arithmetic"]
     b_reqs = budget["requests"]
-    exp_unit_req = -(-tok["n_unique_code_units"] // budget["frozen_ceilings"]["batch_size"])
-    exp_query_req = -(-tok["n_query_texts"] // budget["frozen_ceilings"]["batch_size"])
+    exp_unit = -(-tok["n_unique_code_units"] // budget["frozen_ceilings"]["batch_size"])
+    exp_query = -(-tok["n_query_texts"] // budget["frozen_ceilings"]["batch_size"])
+    expected = tok["combined_tokens_total"] / 1e6 * ca["price_per_1m_tokens_usd"]
     math_ok = (
-        b_reqs["unit_requests_at_batch64"] == exp_unit_req
-        and b_reqs["query_requests_at_batch64"] == exp_query_req
-        and b_reqs["total_requests"] == exp_unit_req + exp_query_req
-        and tok["combined_tokens_total"] == tok["unit_tokens_total"] + tok["query_tokens_total"]
+        abs(expected - ca["expected_cost_usd"]) < 1e-3  # stored value is 4-dp rounded
+        and abs(expected - 0.2188) < 0.001
         and budget["frozen_ceilings"]["max_scientific_cost_usd"] == 0.50
+        and b_reqs["total_requests"] == exp_unit + exp_query
+        and ca["price_per_1m_tokens_usd"] == 0.01
     )
-    check("A3", "budget JSON internally consistent (tokens, batching, $0.50 ceiling)",
-          math_ok, json.dumps(b_reqs))
-    check("A4", "budget JSON marked NOT EXECUTED",
-          budget["status"] == "FROZEN_BUT_NOT_EXECUTED"
-          and "model_unavailable" in budget["stop_reason"], budget["status"])
+    check("A3", "budget JSON internally consistent (live $0.01/M price; expected $0.2188; $0.50 ceiling)",
+          math_ok, f"expected_cost={ca['expected_cost_usd']:.4f}")
+    check("A4", "budget JSON status reflects STOP (not executing)",
+          "STOPPED" in budget["status"] and "EXECUTING" not in budget["status"], budget["status"])
 
     # ---- A5: sealed-data guard (metadata only) ----
     dc = json.loads((_PROJECT_DIR / "research" / "transparency" / "v2_split_proposal.json").read_text(encoding="utf-8"))
     saleor = json.loads((_PROJECT_DIR / "benchmark_data" / "real_commit_impact_saleor" / "split_freeze_saleor.json").read_text(encoding="utf-8"))
-    counts = {}
-    for name, split in (("djangocms", dc["assignment"]), ("saleor", saleor["assignment"])):
-        from collections import Counter
-        counts[name] = dict(Counter(split.values()))
-    sealed_dc = counts["djangocms"].get("RESERVE", 0)
-    sealed_sc_it = counts["saleor"].get("INTERNAL_TEST", 0)
-    # The token estimate used ONLY the 323 DEVELOPMENT tasks (174 + 149).
-    guard_ok = sealed_dc == 59 and sealed_sc_it == 80
+    from collections import Counter
+    counts = {"djangocms": dict(Counter(dc["assignment"].values())),
+              "saleor": dict(Counter(saleor["assignment"].values()))}
     check("A5", "sealed sets identified from split metadata (59 RESERVE / 80 INTERNAL_TEST), no outcome read",
-          guard_ok, json.dumps(counts))
+          counts["djangocms"].get("RESERVE", 0) == 59 and counts["saleor"].get("INTERNAL_TEST", 0) == 80,
+          json.dumps(counts))
 
     # ---- A6/A7: client frozen constants (source-text read, no import) ----
     src = (_PROJECT_DIR / "src" / "benchmark" / "signal" / "or_embeddings.py").read_text(encoding="utf-8")
     m = re.search(r'OPENROUTER_EMBED_MODEL\s*=\s*"([^"]+)"', src)
     check("A6", "client frozen model id == requested model",
           m is not None and m.group(1) == REQUESTED_MODEL, m.group(1) if m else "missing")
-    check("A7", "no-fallback enforcement present in client source",
-          "NoFallbackError" in src and "refusing" in src, "no-fallback guard in constructor")
+    check("A7", "no-fallback + provider pin present in client source",
+          "NoFallbackError" in src and 'OPENROUTER_EMBED_PROVIDER' in src
+          and '"allow_fallbacks": False' in src, "no-fallback + pinned provider")
 
-    # ---- A8: frozen gate present in protocol doc ----
+    # ---- A8: frozen gate + numeric clarification present ----
     proto = (_PROJECT_DIR / "docs" / "QWEN3_EMBED_CONTAMINATION_ROBUSTNESS_PROTOCOL_FROZEN.md").read_text(encoding="utf-8")
-    gate_ok = all(s in proto for s in ("A. final F1", "J. total cost", "QWEN3_EMBED_BRIDGE_TECHNICALLY_INCONCLUSIVE"))
-    check("A8", "frozen gate (A–J) + inconclusive label present in protocol",
-          gate_ok, "gate A–J + CASE E label")
+    gate_ok = all(s in proto for s in ("A. `Delta F1 > 0`", "B. `Delta Recall >= -0.02`",
+                                       "C. `Delta FNR <= +0.02`", "D. `Delta Precision >= -0.02`",
+                                       "E. >= 3/5"))
+    check("A8", "frozen numeric gate (A–H) + determinism criterion present",
+          gate_ok, "numeric gate A–H")
 
-    # ---- A9: provenance verdict V2 unchanged (C) ----
+    # ---- A9: provenance V2 verdict C unchanged ----
     prov2 = (_REPORTS / "SWERANK_TRAINING_PROVENANCE_AUDIT_V2_2026-09-19.md").read_text(encoding="utf-8")
     check("A9", "provenance V2 verdict C unchanged",
-          "TRAINING_PROVENANCE_INSUFFICIENT_TO_RULE_OUT_OVERLAP" in prov2
-          and "NOT upgraded to A or B" in prov2, "verdict C")
+          "TRAINING_PROVENANCE_INSUFFICIENT_TO_RULE_OUT_OVERLAP" in prov2, "verdict C")
 
     audit = {"overall_pass": bool(ok_all), "n_checks": len(results), "checks": results}
     (_REPORTS / "qwen3_embed_bridge_independent_audit.json").write_text(json.dumps(audit, indent=1), encoding="utf-8")

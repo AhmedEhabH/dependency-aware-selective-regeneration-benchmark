@@ -1,14 +1,18 @@
 """OpenRouter embeddings client tests (T3, ZERO network).
 
-The bridge is STOPPED before call 1 (model unavailable on OpenRouter as of
-2026-09-19); these tests exercise the frozen request contract through an
-injected fake transport only. No network call is made.
+The bridge exercises the frozen request contract through an injected fake
+transport (unit tests) and through the real endpoint during the authorized
+run. This file's tests never touch the network.
 """
 from __future__ import annotations
+
+import json
 
 import pytest
 
 from benchmark.signal.or_embeddings import (
+    EMBED_ENDPOINT,
+    EMBEDDINGS_CATALOG_ENDPOINT,
     MAX_BATCH_SIZE,
     NoFallbackError,
     OpenRouterEmbeddingsClient,
@@ -172,3 +176,37 @@ def test_empty_inputs_no_calls():
     client = OpenRouterEmbeddingsClient(api_key="k", transport=_fake_transport(handler))
     assert client.embed([]) == []
     assert calls == []
+
+
+def test_availability_discovery_uses_embeddings_catalog():
+    """Regression: availability checks MUST query the dedicated embeddings-model
+    catalog, never the generation-model catalog (the P71 probe defect)."""
+    assert EMBEDDINGS_CATALOG_ENDPOINT == "https://openrouter.ai/api/v1/embeddings/models"
+    assert EMBED_ENDPOINT == "https://openrouter.ai/api/v1/embeddings"
+    assert "/api/v1/embeddings/models" in EMBEDDINGS_CATALOG_ENDPOINT
+
+
+def test_provider_pinning_payload():
+    seen = {}
+
+    def handler(payload):
+        seen.update(payload)
+        return 200, _ok_body(len(payload["input"]))
+
+    client = OpenRouterEmbeddingsClient(api_key="k", transport=_fake_transport(handler))
+    client.embed(["a"])
+    assert seen["provider"]["order"] == ["DeepInfra"]
+    assert seen["provider"]["allow_fallbacks"] is False
+
+
+def test_recorded_availability_evidence_uses_embeddings_catalog():
+    """The recorded v2 availability evidence must cite the embeddings catalog."""
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parent.parent.parent
+    p = root / "research" / "contamination-bridge" / "model_availability_v2.json"
+    d = json.loads(p.read_text(encoding="utf-8"))
+    assert d["correct_catalog_endpoint"] == "https://openrouter.ai/api/v1/embeddings/models"
+    assert d["available_verdict"] == "MODEL_AVAILABLE_ON_OPENROUTER_EMBEDDINGS_CATALOG"
+    assert d["catalog_scan"]["qwen3_embedding_8b_present"] is True
+    assert d["pinned_provider"] == "DeepInfra"

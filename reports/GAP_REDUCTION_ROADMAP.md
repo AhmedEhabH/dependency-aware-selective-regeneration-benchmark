@@ -76,5 +76,18 @@ Current ladder (each stage gates the next; negatives are preserved):
   `STAGE5_REMAINS_BLOCKED_BY_PROVENANCE_OR_NONREPLICATION`** — confirmatory
   stays sealed. Recommended alternative control (NOT executed): local
   `BAAI/bge-m3` under a new freeze + authorization.
+- **2026-09-19 addendum — probe-defect CORRECTION + determinism stop:**
+  the availability probe was defective (generation catalog). Corrected probe
+  (dedicated embeddings catalog) confirmed `qwen/qwen3-embedding-8b` IS
+  available (DeepInfra pinned, $0.01/M; expected full-run $0.2188 < $0.50
+  ceiling). The frozen determinism probe then found cosine drift ~1.0e-4 that
+  **flips a file-level B=5 selection on 1/5 sampled DEVELOPMENT tasks** →
+  **STOPPED BEFORE THE FULL SCIENTIFIC RUN** (P73): the bridge remains
+  `QWEN3_EMBED_BRIDGE_TECHNICALLY_INCONCLUSIVE` (determinism root cause). Stage
+  5 stays PAUSED/SEALED. A determinism-controllable LOCAL control
+  (e.g. `BAAI/bge-m3` local inference) is the recommended next step under a
+  new authorization. Human-readable consolidation + TRUE LIGHT export
+  delivered (contributor report: 50 MB target unreachable without deleting
+  authoritative dataset/raw evidence).
 - Stage 6 adaptive-k: gated on a stable ranking signal (P2 Phase-1 negative is
   frozen; choosing k cannot rescue a poorly ordered list).

@@ -104,3 +104,38 @@ With explicit authorization, run the contamination bridge with an available
 independent dense-embedding control (recommended `BAAI/bge-m3`, local) under
 the frozen file-level protocol, then decide Stage-5 justification. Until a
 bridge outcome exists, Stage 5 remains paused/sealed.
+
+---
+
+## 11. UPDATE — probe-defect correction mission (2026-09-19)
+
+The user-authorized correction mission (QWEN3_EMBEDDING_BRIDGE_PROBE_DEFECT_
+CORRECTION) re-probed with the CORRECT dedicated embeddings catalog:
+
+- **P72 — availability probe defect confirmed.** `GET
+  https://openrouter.ai/api/v1/embeddings/models` lists 33 embedding models
+  including `qwen/qwen3-embedding-8b` (context 32,768; HF
+  Qwen/Qwen3-Embedding-8B). Providers: Nebius $0.01/M, **DeepInfra $0.01/M
+  (pinned)**, SiliconFlow $0.04/M. Expected full-run cost
+  `21,882,529 / 1e6 × $0.01 = $0.2188` (< $0.50 ceiling). P71 remains the true
+  historical record of the defective probe.
+- **P73 — STOPPED on material embedding nondeterminism (BEFORE the full
+  scientific run).** The frozen determinism probe (§12.8) found cosine drift
+  ~1.0e-4 (float-level) with unit top-10 overlap 1.0, BUT the file-level
+  stability check (5 complete djangoCMS DEV tasks × two independent
+  realizations) showed a **B=5 file-set flip on 1/5 tasks** (0.8 overlap).
+  Per the frozen criterion this is material enough to destabilize the
+  operating-point ranking → **STOP**. Technical probes only (~$0.023 spend,
+  0 full-run calls); the bridge remains
+  `QWEN3_EMBED_BRIDGE_TECHNICALLY_INCONCLUSIVE` (determinism root cause).
+- No scientific Qwen result was produced; no substitute model was executed;
+  sealed sets remain untouched; Stage-5 confirmatory remains PAUSED and SEALED
+  (`STAGE5_REMAINS_BLOCKED_BY_PROVENANCE_OR_NONREPLICATION`).
+- Evidence: `research/contamination-bridge/model_availability_v2.json`,
+  `research/contamination-bridge/qwen_embed/{probe,stability}.json`,
+  `reports/QWEN3_EMBED_DEVELOPMENT_REPORT_2026-09-19.md` (technical-stop
+  update), `docs/QWEN3_EMBED_CONTAMINATION_ROBUSTNESS_PROTOCOL_FROZEN.md`.
+- Recommended next step (NOT executed, needs new authorization): a
+  determinism-controllable LOCAL open-weight control (e.g., `BAAI/bge-m3`
+  local inference where numerical determinism can be pinned) under a new
+  freeze.

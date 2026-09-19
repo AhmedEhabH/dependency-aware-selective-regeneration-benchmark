@@ -6,6 +6,35 @@ For historical closure records see `docs/PROJECT_HANDOFF.md`, `SYSTEM_STATE.md`,
 `TODO.md`, `docs/PAPER_WRITING_HANDOFF.md`, `docs/MSC_RESEARCH_ROADMAP_2026_2027.md`
 (all preserved verbatim below their HISTORICAL boundaries).
 
+**CURRENT TRUTH (2026-09-19, QWEN3 BRIDGE PROBE-DEFECT CORRECTION — probe
+corrected, availability confirmed, then STOPPED on determinism; T3 DEVELOPMENT;
+~$0.023 technical spend; Stage-5 PAUSED; sealed sets untouched):**
+→ **P72 `QWEN3_EMBED_AVAILABILITY_PROBE_DEFECT_CONFIRMED`:** the original P71
+"model unavailable" verdict was caused by probing the GENERATION catalog. The
+dedicated embeddings catalog (`GET https://openrouter.ai/api/v1/embeddings/models`)
+lists **33 embedding models**, including **`qwen/qwen3-embedding-8b`** (context
+32,768; HF Qwen/Qwen3-Embedding-8B). Pinned provider **DeepInfra** at the
+documented **$0.01/M** (Nebius also $0.01/M; SiliconFlow $0.04/M); fallback
+disabled. Expected full-run cost `21,882,529 / 1e6 × $0.01 = $0.2188` (ceiling
+$0.50). P71 remains the true historical record of the defective probe.
+→ **P73 STOPPED ON MATERIAL EMBEDDING NONDETERMINISM (BEFORE the full
+scientific run):** the frozen determinism probe found cosine drift ~1.0e-4
+(float-level; unit top-10 overlap 1.0), but the FILE-level stability check (5
+complete djangoCMS DEV tasks, two independent realizations) showed a **B=5
+file-set flip on 1/5 tasks** (overlap 0.8). Per the frozen pre-committed
+criterion (protocol §12.8) this is material enough to destabilize the
+operating-point ranking → **STOP**. The bridge remains
+**`QWEN3_EMBED_BRIDGE_TECHNICALLY_INCONCLUSIVE`** (root cause: determinism; not
+unavailability). NO full scientific Qwen result was produced; technical probes
+only (~$0.023); no substitute model executed. **Stage-5 decision unchanged:
+`STAGE5_REMAINS_BLOCKED_BY_PROVENANCE_OR_NONREPLICATION`** — confirmatory stays
+PAUSED and SEALED (djangoCMS RESERVE 59, Saleor INTERNAL_TEST 80, Saleor
+RESERVE 1086; spent djangoCMS INTERNAL_TEST untouched). Recommended next
+(determinism-controllable LOCAL control, e.g. BAAI/bge-m3 local inference)
+requires new authorization. Human-readable consolidation + TRUE LIGHT export
+delivered (export contributor report: 50 MB target unreachable without deleting
+authoritative dataset/raw evidence; pilot-kaggle-upload.zip archived
+externally).
 **CURRENT TRUTH (2026-09-19, CONTAMINATION-ROBUSTNESS BRIDGE — scope change;
 T3 DEVELOPMENT; ZERO paid API; Stage-5 confirmatory PAUSED; sealed sets
 untouched):**

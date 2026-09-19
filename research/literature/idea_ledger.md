@@ -206,3 +206,4 @@ Adaptive-k = cross-domain pattern.
   reports/QWEN3_EMBED_CONTAMINATION_BRIDGE_BUDGET_FREEZE.md,
   reports/SWERANK_TRAINING_PROVENANCE_AUDIT_V2_2026-09-19.md,
   docs/QWEN3_EMBED_CONTAMINATION_ROBUSTNESS_PROTOCOL_FROZEN.md.
+- **QWEN3 BRIDGE PROBE-DEFECT CORRECTION (2026-09-19, T3, ~\.023 technical)**: the original availability probe was defective (generation catalog). Corrected embeddings-catalog probe confirmed qwen/qwen3-embedding-8b available (DeepInfra \.01/M; expected full-run \.2188 < \.50). The frozen determinism probe found cosine drift ~1.0e-4 that flips a file-level B=5 selection on 1/5 sampled DEVELOPMENT tasks -> STOPPED BEFORE THE FULL SCIENTIFIC RUN (P73). QWEN3_EMBED_BRIDGE_TECHNICALLY_INCONCLUSIVE (determinism root cause); Stage-5 stays PAUSED/SEALED. Evidence: research/contamination-bridge/qwen_embed/{probe,stability}.json, reports/QWEN3_EMBED_DEVELOPMENT_REPORT_2026-09-19.md, DECISIONS.md P72/P73.
