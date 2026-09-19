@@ -168,3 +168,24 @@ Adaptive-k = cross-domain pattern.
   sealed as possible future P2 confirmation (reports/P2_ALGORITHM_LANDSCAPE_2026-09.md,
   research/literature/p2_algorithm_landscape.csv,
   docs/P2_COMMON_EVALUATION_CONTRACT.md).
+- **STRONG LOCALIZATION SIGNAL BRIDGE (2026-09-19, T3, ZERO API)**:
+  Stage-4b statistical closure (task-paired bootstrap, 10k resamples, fixed
+  seed 20260919; frozen verdict PRECISION_SAFE_ACCEPTANCE_FAIL unchanged;
+  djangoCMS ORR-vs-F1 phenomenon explained by macro-vs-pooled weighting and
+  M=1 verifier over-rejection) + `BOUNDED_CHEAP_SEMANTIC_CLOSED_FOR_NOW`
+  (generic-Qwen prompt/verifier/threshold family closed) +
+  `Salesforce/SweRankEmbed-Small` DEV evaluation on the FULL legal populations
+  (djangocms 174 + saleor 149; pinned revision 745d2a06…; frozen MAX-file
+  adapter; parent-only queries). Result: **SWERANK_EMBED_PASS** — every metric
+  improves at every B on both repos; all paired-bootstrap 95% CIs exclude zero
+  @B=5 (F1 +0.054 dc / +0.052 saleor vs frozen Route-B); 0 API calls / $0.
+  Method frozen as the candidate-ranking signal; next step A (embed as
+  replacement signal) chosen over B (SweRankLLM reranker — needs a budget).
+  Labeled EXTERNAL PRETRAINED DIAGNOSTIC BASELINE
+  (TRAINING_PROVENANCE_INSUFFICIENT_TO_RULE_OUT_OVERLAP). Repository-memory,
+  cross-language (TS/Java/Go) and polyglot (grafana) readiness audited.
+  Evidence: reports/STAGE4B_STATISTICAL_CLOSURE_2026-09-19.md,
+  reports/SWERANK_EMBED_DEVELOPMENT_REPORT.md,
+  research/strong-localization-signal/swerank/*.json,
+  reports/STRONG_LOCALIZATION_COMPETITOR_REVIEW_2026-09-19.md,
+  docs/SWERANK_EMBED_BASELINE_PROTOCOL_FROZEN.md.

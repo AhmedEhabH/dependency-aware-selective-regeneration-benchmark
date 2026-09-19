@@ -1,0 +1,2637 @@
+{
+  "djangocms": {
+    "case_ids": [
+      "djangocms-rc-0526cdde8118",
+      "djangocms-rc-06ecf3a8e8de",
+      "djangocms-rc-087fa3ec709a",
+      "djangocms-rc-0fd4ea3e4e6a",
+      "djangocms-rc-1031d20fca28",
+      "djangocms-rc-1334c6d4257a",
+      "djangocms-rc-22ca030dbc20",
+      "djangocms-rc-241d1cbe47a6",
+      "djangocms-rc-302c1b5cc51e",
+      "djangocms-rc-33fbdb18e5d4",
+      "djangocms-rc-3ba27f11960b",
+      "djangocms-rc-3c8f701e576c",
+      "djangocms-rc-463294977e97",
+      "djangocms-rc-475120cf18ce",
+      "djangocms-rc-4777a022c421",
+      "djangocms-rc-5ff38b521274",
+      "djangocms-rc-7a6761bfbdf8",
+      "djangocms-rc-829f7e224887",
+      "djangocms-rc-8579be00312e",
+      "djangocms-rc-890451d3f92e",
+      "djangocms-rc-9488d4017519",
+      "djangocms-rc-97c50fee715d",
+      "djangocms-rc-a7df58dc5ff3",
+      "djangocms-rc-b4ca4580aaa7",
+      "djangocms-rc-ca16415b1022",
+      "djangocms-rc-cc3d14696eff",
+      "djangocms-rc-e3a23a7fc757",
+      "djangocms-rc-ee585da1ebd6",
+      "djangocms-rc-f86a6c5116b0",
+      "djangocms-rc-f96c80357c71"
+    ],
+    "arm_a": [
+      {
+        "case_id": "djangocms-rc-0526cdde8118",
+        "tp": 0,
+        "fp": 5,
+        "fn": 3,
+        "recovered": 0,
+        "missed": 3,
+        "cand_fn": 0,
+        "cand_sel": 2,
+        "additions": [
+          "cms/menu_bases.py",
+          "menus/base.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "cms/cms_toolbars.py",
+          "cms/models/pagemodel.py",
+          "cms/utils/permissions.py"
+        ],
+        "n_missed": 3
+      },
+      {
+        "case_id": "djangocms-rc-06ecf3a8e8de",
+        "tp": 1,
+        "fp": 1,
+        "fn": 0,
+        "recovered": 1,
+        "missed": 1,
+        "cand_fn": 1,
+        "cand_sel": 2,
+        "additions": [
+          "cms/models/contentmodels.py",
+          "cms/utils/helpers.py"
+        ],
+        "fn_additions": [
+          "cms/models/contentmodels.py"
+        ],
+        "fn_paths": [
+          "cms/models/contentmodels.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "djangocms-rc-087fa3ec709a",
+        "tp": 0,
+        "fp": 3,
+        "fn": 1,
+        "recovered": 0,
+        "missed": 1,
+        "cand_fn": 0,
+        "cand_sel": 3,
+        "additions": [
+          "cms/admin/__init__.py",
+          "cms/admin/forms.py",
+          "cms/admin/pageadmin.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "cms/utils/check.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "djangocms-rc-0fd4ea3e4e6a",
+        "tp": 0,
+        "fp": 3,
+        "fn": 2,
+        "recovered": 0,
+        "missed": 2,
+        "cand_fn": 0,
+        "cand_sel": 3,
+        "additions": [
+          "cms/utils/conf.py",
+          "cms/utils/page_resolver.py",
+          "cms/utils/permissions.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "cms/models/pagemodel.py",
+          "cms/templatetags/cms_tags.py"
+        ],
+        "n_missed": 2
+      },
+      {
+        "case_id": "djangocms-rc-1031d20fca28",
+        "tp": 1,
+        "fp": 4,
+        "fn": 8,
+        "recovered": 0,
+        "missed": 8,
+        "cand_fn": 0,
+        "cand_sel": 4,
+        "additions": [
+          "cms/forms/fields.py",
+          "cms/forms/validators.py",
+          "cms/models/fields.py",
+          "cms/utils/i18n.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "cms/admin/pageadmin.py",
+          "cms/api.py",
+          "cms/cms_menus.py",
+          "cms/management/commands/subcommands/copy.py",
+          "cms/templatetags/cms_admin.py",
+          "cms/utils/page.py",
+          "cms/views.py",
+          "menus/utils.py"
+        ],
+        "n_missed": 8
+      },
+      {
+        "case_id": "djangocms-rc-1334c6d4257a",
+        "tp": 2,
+        "fp": 5,
+        "fn": 6,
+        "recovered": 1,
+        "missed": 7,
+        "cand_fn": 1,
+        "cand_sel": 5,
+        "additions": [
+          "cms/cms_plugins.py",
+          "cms/plugin_base.py",
+          "cms/plugin_pool.py",
+          "cms/plugin_processors.py",
+          "cms/plugin_rendering.py"
+        ],
+        "fn_additions": [
+          "cms/plugin_base.py"
+        ],
+        "fn_paths": [
+          "cms/admin/forms.py",
+          "cms/admin/pageadmin.py",
+          "cms/admin/placeholderadmin.py",
+          "cms/api.py",
+          "cms/plugin_base.py",
+          "cms/signals/page.py",
+          "cms/utils/plugins.py"
+        ],
+        "n_missed": 7
+      },
+      {
+        "case_id": "djangocms-rc-22ca030dbc20",
+        "tp": 0,
+        "fp": 0,
+        "fn": 2,
+        "recovered": 0,
+        "missed": 2,
+        "cand_fn": 0,
+        "cand_sel": 0,
+        "additions": [],
+        "fn_additions": [],
+        "fn_paths": [
+          "cms/cache/__init__.py",
+          "cms/models/pagemodel.py"
+        ],
+        "n_missed": 2
+      },
+      {
+        "case_id": "djangocms-rc-241d1cbe47a6",
+        "tp": 0,
+        "fp": 1,
+        "fn": 2,
+        "recovered": 0,
+        "missed": 2,
+        "cand_fn": 0,
+        "cand_sel": 0,
+        "additions": [],
+        "fn_additions": [],
+        "fn_paths": [
+          "cms/api.py",
+          "cms/templatetags/cms_tags.py"
+        ],
+        "n_missed": 2
+      },
+      {
+        "case_id": "djangocms-rc-302c1b5cc51e",
+        "tp": 1,
+        "fp": 3,
+        "fn": 1,
+        "recovered": 0,
+        "missed": 1,
+        "cand_fn": 0,
+        "cand_sel": 3,
+        "additions": [
+          "cms/templatetags/cms_tags.py",
+          "cms/utils/i18n.py",
+          "menus/templatetags/menu_tags.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "cms/admin/pageadmin.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "djangocms-rc-33fbdb18e5d4",
+        "tp": 0,
+        "fp": 0,
+        "fn": 2,
+        "recovered": 0,
+        "missed": 2,
+        "cand_fn": 0,
+        "cand_sel": 0,
+        "additions": [],
+        "fn_additions": [],
+        "fn_paths": [
+          "cms/utils/check.py",
+          "cms/utils/encoder.py"
+        ],
+        "n_missed": 2
+      },
+      {
+        "case_id": "djangocms-rc-3ba27f11960b",
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "recovered": 0,
+        "missed": 1,
+        "cand_fn": 0,
+        "cand_sel": 0,
+        "additions": [],
+        "fn_additions": [],
+        "fn_paths": [
+          "cms/south_migrations/0075_use_structure.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "djangocms-rc-3c8f701e576c",
+        "tp": 2,
+        "fp": 3,
+        "fn": 3,
+        "recovered": 0,
+        "missed": 3,
+        "cand_fn": 0,
+        "cand_sel": 1,
+        "additions": [
+          "cms/plugin_pool.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "cms/admin/placeholderadmin.py",
+          "cms/models/placeholdermodel.py",
+          "cms/signals/plugins.py"
+        ],
+        "n_missed": 3
+      },
+      {
+        "case_id": "djangocms-rc-463294977e97",
+        "tp": 0,
+        "fp": 3,
+        "fn": 1,
+        "recovered": 0,
+        "missed": 1,
+        "cand_fn": 0,
+        "cand_sel": 2,
+        "additions": [
+          "cms/middleware/page.py",
+          "cms/page_rendering.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "cms/templatetags/cms_admin.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "djangocms-rc-475120cf18ce",
+        "tp": 0,
+        "fp": 4,
+        "fn": 1,
+        "recovered": 0,
+        "missed": 1,
+        "cand_fn": 0,
+        "cand_sel": 4,
+        "additions": [
+          "cms/admin/change_list.py",
+          "cms/admin/forms.py",
+          "cms/admin/pageadmin.py",
+          "cms/admin/permissionadmin.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "cms/admin/__init__.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "djangocms-rc-4777a022c421",
+        "tp": 0,
+        "fp": 4,
+        "fn": 1,
+        "recovered": 0,
+        "missed": 1,
+        "cand_fn": 0,
+        "cand_sel": 3,
+        "additions": [
+          "cms/api.py",
+          "cms/extensions/models.py",
+          "cms/utils/page.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "cms/admin/forms.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "djangocms-rc-5ff38b521274",
+        "tp": 2,
+        "fp": 6,
+        "fn": 0,
+        "recovered": 1,
+        "missed": 1,
+        "cand_fn": 1,
+        "cand_sel": 4,
+        "additions": [
+          "cms/page_rendering.py",
+          "cms/templatetags/cms_alias_tags.py",
+          "cms/utils/plugins.py",
+          "cms/views.py"
+        ],
+        "fn_additions": [
+          "cms/utils/plugins.py"
+        ],
+        "fn_paths": [
+          "cms/utils/plugins.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "djangocms-rc-7a6761bfbdf8",
+        "tp": 0,
+        "fp": 7,
+        "fn": 1,
+        "recovered": 0,
+        "missed": 1,
+        "cand_fn": 0,
+        "cand_sel": 1,
+        "additions": [
+          "cms/utils/compat/dj.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "cms/south_migrations/0077_auto__chg_field_usersettings_user.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "djangocms-rc-829f7e224887",
+        "tp": 3,
+        "fp": 3,
+        "fn": 0,
+        "recovered": 1,
+        "missed": 1,
+        "cand_fn": 1,
+        "cand_sel": 3,
+        "additions": [
+          "cms/cache/page.py",
+          "cms/menu_bases.py",
+          "menus/models.py"
+        ],
+        "fn_additions": [
+          "menus/models.py"
+        ],
+        "fn_paths": [
+          "menus/models.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "djangocms-rc-8579be00312e",
+        "tp": 1,
+        "fp": 1,
+        "fn": 4,
+        "recovered": 0,
+        "missed": 4,
+        "cand_fn": 0,
+        "cand_sel": 0,
+        "additions": [],
+        "fn_additions": [],
+        "fn_paths": [
+          "cms/cache/page.py",
+          "cms/cms_toolbars.py",
+          "cms/middleware/toolbar.py",
+          "cms/templatetags/cms_tags.py"
+        ],
+        "n_missed": 4
+      },
+      {
+        "case_id": "djangocms-rc-890451d3f92e",
+        "tp": 1,
+        "fp": 3,
+        "fn": 2,
+        "recovered": 1,
+        "missed": 3,
+        "cand_fn": 1,
+        "cand_sel": 4,
+        "additions": [
+          "cms/cache/__init__.py",
+          "cms/cache/page.py",
+          "cms/cache/permissions.py",
+          "cms/cache/placeholder.py"
+        ],
+        "fn_additions": [
+          "cms/cache/page.py"
+        ],
+        "fn_paths": [
+          "cms/cache/page.py",
+          "cms/models/placeholdermodel.py",
+          "cms/plugin_base.py"
+        ],
+        "n_missed": 3
+      },
+      {
+        "case_id": "djangocms-rc-9488d4017519",
+        "tp": 1,
+        "fp": 3,
+        "fn": 0,
+        "recovered": 1,
+        "missed": 1,
+        "cand_fn": 1,
+        "cand_sel": 3,
+        "additions": [
+          "cms/admin/forms.py",
+          "cms/utils/page_resolver.py",
+          "cms/utils/urlutils.py"
+        ],
+        "fn_additions": [
+          "cms/utils/urlutils.py"
+        ],
+        "fn_paths": [
+          "cms/utils/urlutils.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "djangocms-rc-97c50fee715d",
+        "tp": 0,
+        "fp": 0,
+        "fn": 2,
+        "recovered": 0,
+        "missed": 2,
+        "cand_fn": 0,
+        "cand_sel": 0,
+        "additions": [],
+        "fn_additions": [],
+        "fn_paths": [
+          "cms/middleware/toolbar.py",
+          "cms/utils/conf.py"
+        ],
+        "n_missed": 2
+      },
+      {
+        "case_id": "djangocms-rc-a7df58dc5ff3",
+        "tp": 1,
+        "fp": 2,
+        "fn": 0,
+        "recovered": 1,
+        "missed": 1,
+        "cand_fn": 1,
+        "cand_sel": 3,
+        "additions": [
+          "cms/__init__.py",
+          "cms/utils/conf.py",
+          "cms/utils/request_ip_resolvers.py"
+        ],
+        "fn_additions": [
+          "cms/utils/conf.py"
+        ],
+        "fn_paths": [
+          "cms/utils/conf.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "djangocms-rc-b4ca4580aaa7",
+        "tp": 1,
+        "fp": 2,
+        "fn": 8,
+        "recovered": 0,
+        "missed": 8,
+        "cand_fn": 0,
+        "cand_sel": 0,
+        "additions": [],
+        "fn_additions": [],
+        "fn_paths": [
+          "cms/apphook_pool.py",
+          "cms/models/pluginmodel.py",
+          "cms/plugin_base.py",
+          "cms/plugin_pool.py",
+          "cms/plugin_processors.py",
+          "cms/toolbar_pool.py",
+          "cms/utils/check.py",
+          "cms/utils/conf.py"
+        ],
+        "n_missed": 8
+      },
+      {
+        "case_id": "djangocms-rc-ca16415b1022",
+        "tp": 0,
+        "fp": 3,
+        "fn": 2,
+        "recovered": 0,
+        "missed": 2,
+        "cand_fn": 0,
+        "cand_sel": 1,
+        "additions": [
+          "cms/utils/i18n.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "cms/admin/forms.py",
+          "cms/admin/pageadmin.py"
+        ],
+        "n_missed": 2
+      },
+      {
+        "case_id": "djangocms-rc-cc3d14696eff",
+        "tp": 2,
+        "fp": 1,
+        "fn": 4,
+        "recovered": 1,
+        "missed": 5,
+        "cand_fn": 1,
+        "cand_sel": 2,
+        "additions": [
+          "cms/utils/admin.py",
+          "menus/menu_pool.py"
+        ],
+        "fn_additions": [
+          "menus/menu_pool.py"
+        ],
+        "fn_paths": [
+          "cms/middleware/toolbar.py",
+          "cms/signals/title.py",
+          "cms/utils/moderator.py",
+          "menus/base.py",
+          "menus/menu_pool.py"
+        ],
+        "n_missed": 5
+      },
+      {
+        "case_id": "djangocms-rc-e3a23a7fc757",
+        "tp": 0,
+        "fp": 4,
+        "fn": 3,
+        "recovered": 0,
+        "missed": 3,
+        "cand_fn": 0,
+        "cand_sel": 3,
+        "additions": [
+          "cms/admin/permissionadmin.py",
+          "cms/utils/page_permissions.py",
+          "cms/utils/permissions.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "cms/admin/pageadmin.py",
+          "cms/middleware/toolbar.py",
+          "cms/toolbar/toolbar.py"
+        ],
+        "n_missed": 3
+      },
+      {
+        "case_id": "djangocms-rc-ee585da1ebd6",
+        "tp": 0,
+        "fp": 1,
+        "fn": 4,
+        "recovered": 0,
+        "missed": 4,
+        "cand_fn": 0,
+        "cand_sel": 0,
+        "additions": [],
+        "fn_additions": [],
+        "fn_paths": [
+          "cms/admin/dialog/views.py",
+          "cms/admin/pageadmin.py",
+          "cms/admin/placeholderadmin.py",
+          "cms/utils/admin.py"
+        ],
+        "n_missed": 4
+      },
+      {
+        "case_id": "djangocms-rc-f86a6c5116b0",
+        "tp": 0,
+        "fp": 5,
+        "fn": 3,
+        "recovered": 0,
+        "missed": 3,
+        "cand_fn": 0,
+        "cand_sel": 5,
+        "additions": [
+          "cms/admin/pageadmin.py",
+          "cms/admin/permissionadmin.py",
+          "cms/admin/useradmin.py",
+          "cms/signals/page.py",
+          "cms/signals/title.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "cms/admin/placeholderadmin.py",
+          "cms/models/pluginmodel.py",
+          "cms/utils/plugins.py"
+        ],
+        "n_missed": 3
+      },
+      {
+        "case_id": "djangocms-rc-f96c80357c71",
+        "tp": 2,
+        "fp": 4,
+        "fn": 0,
+        "recovered": 1,
+        "missed": 1,
+        "cand_fn": 1,
+        "cand_sel": 3,
+        "additions": [
+          "cms/cms_plugins.py",
+          "cms/plugin_base.py",
+          "cms/plugin_pool.py"
+        ],
+        "fn_additions": [
+          "cms/cms_plugins.py"
+        ],
+        "fn_paths": [
+          "cms/cms_plugins.py"
+        ],
+        "n_missed": 1
+      }
+    ],
+    "arm_b": [
+      {
+        "case_id": "djangocms-rc-0526cdde8118",
+        "tp": 0,
+        "fp": 4,
+        "fn": 3,
+        "recovered": 0,
+        "missed": 3,
+        "cand_fn": 0,
+        "cand_sel": 1,
+        "additions": [
+          "cms/views.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "cms/cms_toolbars.py",
+          "cms/models/pagemodel.py",
+          "cms/utils/permissions.py"
+        ],
+        "n_missed": 3
+      },
+      {
+        "case_id": "djangocms-rc-06ecf3a8e8de",
+        "tp": 0,
+        "fp": 1,
+        "fn": 1,
+        "recovered": 0,
+        "missed": 1,
+        "cand_fn": 0,
+        "cand_sel": 1,
+        "additions": [
+          "cms/models/pagemodel.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "cms/models/contentmodels.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "djangocms-rc-087fa3ec709a",
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "recovered": 0,
+        "missed": 1,
+        "cand_fn": 0,
+        "cand_sel": 0,
+        "additions": [],
+        "fn_additions": [],
+        "fn_paths": [
+          "cms/utils/check.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "djangocms-rc-0fd4ea3e4e6a",
+        "tp": 0,
+        "fp": 1,
+        "fn": 2,
+        "recovered": 0,
+        "missed": 2,
+        "cand_fn": 0,
+        "cand_sel": 1,
+        "additions": [
+          "cms/api.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "cms/models/pagemodel.py",
+          "cms/templatetags/cms_tags.py"
+        ],
+        "n_missed": 2
+      },
+      {
+        "case_id": "djangocms-rc-1031d20fca28",
+        "tp": 2,
+        "fp": 0,
+        "fn": 7,
+        "recovered": 1,
+        "missed": 8,
+        "cand_fn": 1,
+        "cand_sel": 1,
+        "additions": [
+          "cms/utils/page.py"
+        ],
+        "fn_additions": [
+          "cms/utils/page.py"
+        ],
+        "fn_paths": [
+          "cms/admin/pageadmin.py",
+          "cms/api.py",
+          "cms/cms_menus.py",
+          "cms/management/commands/subcommands/copy.py",
+          "cms/templatetags/cms_admin.py",
+          "cms/utils/page.py",
+          "cms/views.py",
+          "menus/utils.py"
+        ],
+        "n_missed": 8
+      },
+      {
+        "case_id": "djangocms-rc-1334c6d4257a",
+        "tp": 3,
+        "fp": 4,
+        "fn": 5,
+        "recovered": 2,
+        "missed": 7,
+        "cand_fn": 2,
+        "cand_sel": 5,
+        "additions": [
+          "cms/cms_plugins.py",
+          "cms/plugin_base.py",
+          "cms/plugin_pool.py",
+          "cms/plugin_rendering.py",
+          "cms/utils/plugins.py"
+        ],
+        "fn_additions": [
+          "cms/plugin_base.py",
+          "cms/utils/plugins.py"
+        ],
+        "fn_paths": [
+          "cms/admin/forms.py",
+          "cms/admin/pageadmin.py",
+          "cms/admin/placeholderadmin.py",
+          "cms/api.py",
+          "cms/plugin_base.py",
+          "cms/signals/page.py",
+          "cms/utils/plugins.py"
+        ],
+        "n_missed": 7
+      },
+      {
+        "case_id": "djangocms-rc-22ca030dbc20",
+        "tp": 0,
+        "fp": 0,
+        "fn": 2,
+        "recovered": 0,
+        "missed": 2,
+        "cand_fn": 0,
+        "cand_sel": 0,
+        "additions": [],
+        "fn_additions": [],
+        "fn_paths": [
+          "cms/cache/__init__.py",
+          "cms/models/pagemodel.py"
+        ],
+        "n_missed": 2
+      },
+      {
+        "case_id": "djangocms-rc-241d1cbe47a6",
+        "tp": 1,
+        "fp": 1,
+        "fn": 1,
+        "recovered": 1,
+        "missed": 2,
+        "cand_fn": 1,
+        "cand_sel": 1,
+        "additions": [
+          "cms/templatetags/cms_tags.py"
+        ],
+        "fn_additions": [
+          "cms/templatetags/cms_tags.py"
+        ],
+        "fn_paths": [
+          "cms/api.py",
+          "cms/templatetags/cms_tags.py"
+        ],
+        "n_missed": 2
+      },
+      {
+        "case_id": "djangocms-rc-302c1b5cc51e",
+        "tp": 1,
+        "fp": 1,
+        "fn": 1,
+        "recovered": 0,
+        "missed": 1,
+        "cand_fn": 0,
+        "cand_sel": 1,
+        "additions": [
+          "cms/templatetags/cms_tags.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "cms/admin/pageadmin.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "djangocms-rc-33fbdb18e5d4",
+        "tp": 0,
+        "fp": 0,
+        "fn": 2,
+        "recovered": 0,
+        "missed": 2,
+        "cand_fn": 0,
+        "cand_sel": 0,
+        "additions": [],
+        "fn_additions": [],
+        "fn_paths": [
+          "cms/utils/check.py",
+          "cms/utils/encoder.py"
+        ],
+        "n_missed": 2
+      },
+      {
+        "case_id": "djangocms-rc-3ba27f11960b",
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "recovered": 0,
+        "missed": 1,
+        "cand_fn": 0,
+        "cand_sel": 0,
+        "additions": [],
+        "fn_additions": [],
+        "fn_paths": [
+          "cms/south_migrations/0075_use_structure.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "djangocms-rc-3c8f701e576c",
+        "tp": 2,
+        "fp": 3,
+        "fn": 3,
+        "recovered": 0,
+        "missed": 3,
+        "cand_fn": 0,
+        "cand_sel": 1,
+        "additions": [
+          "cms/plugin_pool.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "cms/admin/placeholderadmin.py",
+          "cms/models/placeholdermodel.py",
+          "cms/signals/plugins.py"
+        ],
+        "n_missed": 3
+      },
+      {
+        "case_id": "djangocms-rc-463294977e97",
+        "tp": 0,
+        "fp": 1,
+        "fn": 1,
+        "recovered": 0,
+        "missed": 1,
+        "cand_fn": 0,
+        "cand_sel": 0,
+        "additions": [],
+        "fn_additions": [],
+        "fn_paths": [
+          "cms/templatetags/cms_admin.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "djangocms-rc-475120cf18ce",
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "recovered": 0,
+        "missed": 1,
+        "cand_fn": 0,
+        "cand_sel": 0,
+        "additions": [],
+        "fn_additions": [],
+        "fn_paths": [
+          "cms/admin/__init__.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "djangocms-rc-4777a022c421",
+        "tp": 0,
+        "fp": 2,
+        "fn": 1,
+        "recovered": 0,
+        "missed": 1,
+        "cand_fn": 0,
+        "cand_sel": 1,
+        "additions": [
+          "cms/models/pagemodel.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "cms/admin/forms.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "djangocms-rc-5ff38b521274",
+        "tp": 2,
+        "fp": 4,
+        "fn": 0,
+        "recovered": 1,
+        "missed": 1,
+        "cand_fn": 1,
+        "cand_sel": 2,
+        "additions": [
+          "cms/templatetags/cms_tags.py",
+          "cms/utils/plugins.py"
+        ],
+        "fn_additions": [
+          "cms/utils/plugins.py"
+        ],
+        "fn_paths": [
+          "cms/utils/plugins.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "djangocms-rc-7a6761bfbdf8",
+        "tp": 0,
+        "fp": 8,
+        "fn": 1,
+        "recovered": 0,
+        "missed": 1,
+        "cand_fn": 0,
+        "cand_sel": 2,
+        "additions": [
+          "cms/south_migrations/0025_placeholder_migration.py",
+          "cms/south_migrations/0026_finish_placeholder_migration.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "cms/south_migrations/0077_auto__chg_field_usersettings_user.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "djangocms-rc-829f7e224887",
+        "tp": 2,
+        "fp": 2,
+        "fn": 1,
+        "recovered": 0,
+        "missed": 1,
+        "cand_fn": 0,
+        "cand_sel": 1,
+        "additions": [
+          "cms/cache/page.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "menus/models.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "djangocms-rc-8579be00312e",
+        "tp": 1,
+        "fp": 2,
+        "fn": 4,
+        "recovered": 0,
+        "missed": 4,
+        "cand_fn": 0,
+        "cand_sel": 1,
+        "additions": [
+          "cms/models/placeholdermodel.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "cms/cache/page.py",
+          "cms/cms_toolbars.py",
+          "cms/middleware/toolbar.py",
+          "cms/templatetags/cms_tags.py"
+        ],
+        "n_missed": 4
+      },
+      {
+        "case_id": "djangocms-rc-890451d3f92e",
+        "tp": 1,
+        "fp": 3,
+        "fn": 2,
+        "recovered": 1,
+        "missed": 3,
+        "cand_fn": 1,
+        "cand_sel": 4,
+        "additions": [
+          "cms/cache/__init__.py",
+          "cms/cache/page.py",
+          "cms/cache/permissions.py",
+          "cms/cache/placeholder.py"
+        ],
+        "fn_additions": [
+          "cms/cache/page.py"
+        ],
+        "fn_paths": [
+          "cms/cache/page.py",
+          "cms/models/placeholdermodel.py",
+          "cms/plugin_base.py"
+        ],
+        "n_missed": 3
+      },
+      {
+        "case_id": "djangocms-rc-9488d4017519",
+        "tp": 1,
+        "fp": 1,
+        "fn": 0,
+        "recovered": 1,
+        "missed": 1,
+        "cand_fn": 1,
+        "cand_sel": 1,
+        "additions": [
+          "cms/utils/urlutils.py"
+        ],
+        "fn_additions": [
+          "cms/utils/urlutils.py"
+        ],
+        "fn_paths": [
+          "cms/utils/urlutils.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "djangocms-rc-97c50fee715d",
+        "tp": 0,
+        "fp": 0,
+        "fn": 2,
+        "recovered": 0,
+        "missed": 2,
+        "cand_fn": 0,
+        "cand_sel": 0,
+        "additions": [],
+        "fn_additions": [],
+        "fn_paths": [
+          "cms/middleware/toolbar.py",
+          "cms/utils/conf.py"
+        ],
+        "n_missed": 2
+      },
+      {
+        "case_id": "djangocms-rc-a7df58dc5ff3",
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "recovered": 1,
+        "missed": 1,
+        "cand_fn": 1,
+        "cand_sel": 1,
+        "additions": [
+          "cms/utils/conf.py"
+        ],
+        "fn_additions": [
+          "cms/utils/conf.py"
+        ],
+        "fn_paths": [
+          "cms/utils/conf.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "djangocms-rc-b4ca4580aaa7",
+        "tp": 2,
+        "fp": 2,
+        "fn": 7,
+        "recovered": 1,
+        "missed": 8,
+        "cand_fn": 1,
+        "cand_sel": 1,
+        "additions": [
+          "cms/utils/conf.py"
+        ],
+        "fn_additions": [
+          "cms/utils/conf.py"
+        ],
+        "fn_paths": [
+          "cms/apphook_pool.py",
+          "cms/models/pluginmodel.py",
+          "cms/plugin_base.py",
+          "cms/plugin_pool.py",
+          "cms/plugin_processors.py",
+          "cms/toolbar_pool.py",
+          "cms/utils/check.py",
+          "cms/utils/conf.py"
+        ],
+        "n_missed": 8
+      },
+      {
+        "case_id": "djangocms-rc-ca16415b1022",
+        "tp": 0,
+        "fp": 5,
+        "fn": 2,
+        "recovered": 0,
+        "missed": 2,
+        "cand_fn": 0,
+        "cand_sel": 3,
+        "additions": [
+          "cms/models/pagemodel.py",
+          "cms/models/titlemodels.py",
+          "cms/utils/i18n.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "cms/admin/forms.py",
+          "cms/admin/pageadmin.py"
+        ],
+        "n_missed": 2
+      },
+      {
+        "case_id": "djangocms-rc-cc3d14696eff",
+        "tp": 2,
+        "fp": 1,
+        "fn": 4,
+        "recovered": 1,
+        "missed": 5,
+        "cand_fn": 1,
+        "cand_sel": 2,
+        "additions": [
+          "menus/menu_pool.py",
+          "menus/templatetags/menu_tags.py"
+        ],
+        "fn_additions": [
+          "menus/menu_pool.py"
+        ],
+        "fn_paths": [
+          "cms/middleware/toolbar.py",
+          "cms/signals/title.py",
+          "cms/utils/moderator.py",
+          "menus/base.py",
+          "menus/menu_pool.py"
+        ],
+        "n_missed": 5
+      },
+      {
+        "case_id": "djangocms-rc-e3a23a7fc757",
+        "tp": 0,
+        "fp": 3,
+        "fn": 3,
+        "recovered": 0,
+        "missed": 3,
+        "cand_fn": 0,
+        "cand_sel": 2,
+        "additions": [
+          "cms/cms_toolbars.py",
+          "cms/extensions/toolbar.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "cms/admin/pageadmin.py",
+          "cms/middleware/toolbar.py",
+          "cms/toolbar/toolbar.py"
+        ],
+        "n_missed": 3
+      },
+      {
+        "case_id": "djangocms-rc-ee585da1ebd6",
+        "tp": 0,
+        "fp": 2,
+        "fn": 4,
+        "recovered": 0,
+        "missed": 4,
+        "cand_fn": 0,
+        "cand_sel": 1,
+        "additions": [
+          "cms/templatetags/cms_tags.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "cms/admin/dialog/views.py",
+          "cms/admin/pageadmin.py",
+          "cms/admin/placeholderadmin.py",
+          "cms/utils/admin.py"
+        ],
+        "n_missed": 4
+      },
+      {
+        "case_id": "djangocms-rc-f86a6c5116b0",
+        "tp": 0,
+        "fp": 5,
+        "fn": 3,
+        "recovered": 0,
+        "missed": 3,
+        "cand_fn": 0,
+        "cand_sel": 5,
+        "additions": [
+          "cms/admin/pageadmin.py",
+          "cms/admin/permissionadmin.py",
+          "cms/admin/useradmin.py",
+          "cms/api.py",
+          "cms/signals/title.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "cms/admin/placeholderadmin.py",
+          "cms/models/pluginmodel.py",
+          "cms/utils/plugins.py"
+        ],
+        "n_missed": 3
+      },
+      {
+        "case_id": "djangocms-rc-f96c80357c71",
+        "tp": 1,
+        "fp": 3,
+        "fn": 1,
+        "recovered": 0,
+        "missed": 1,
+        "cand_fn": 0,
+        "cand_sel": 1,
+        "additions": [
+          "cms/plugin_pool.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "cms/cms_plugins.py"
+        ],
+        "n_missed": 1
+      }
+    ]
+  },
+  "saleor": {
+    "case_ids": [
+      "saleor-rc-1088948818ee",
+      "saleor-rc-15ce02ce683e",
+      "saleor-rc-2a7f13c25908",
+      "saleor-rc-2c573fa90db9",
+      "saleor-rc-39b4138e8550",
+      "saleor-rc-4f70686fa303",
+      "saleor-rc-5a6f954424f3",
+      "saleor-rc-67c9eefa587e",
+      "saleor-rc-6f37bd256e12",
+      "saleor-rc-71054e115170",
+      "saleor-rc-7568e157e864",
+      "saleor-rc-7c3c6b5c0045",
+      "saleor-rc-823b899757ab",
+      "saleor-rc-836d01d8429f",
+      "saleor-rc-865b9c805236",
+      "saleor-rc-8f76ddc6267f",
+      "saleor-rc-91e2826c47f7",
+      "saleor-rc-a10573bcea7c",
+      "saleor-rc-a3c478408852",
+      "saleor-rc-b14def73518c",
+      "saleor-rc-b6051eb07680",
+      "saleor-rc-ba60125e45a0",
+      "saleor-rc-d1e6e0e2bbbc",
+      "saleor-rc-db658943bed8",
+      "saleor-rc-ddaa9d05ff5f",
+      "saleor-rc-e3b6df2eba77",
+      "saleor-rc-ed023a25834d",
+      "saleor-rc-f17ea2612b8b",
+      "saleor-rc-f73c4e95c828",
+      "saleor-rc-fa9ea3af1251"
+    ],
+    "arm_a": [
+      {
+        "case_id": "saleor-rc-1088948818ee",
+        "tp": 1,
+        "fp": 3,
+        "fn": 0,
+        "recovered": 1,
+        "missed": 1,
+        "cand_fn": 1,
+        "cand_sel": 4,
+        "additions": [
+          "saleor/graphql/product/filters.py",
+          "saleor/graphql/product/mutations/product/product_update.py",
+          "saleor/graphql/product/resolvers.py",
+          "saleor/graphql/product/types/categories.py"
+        ],
+        "fn_additions": [
+          "saleor/graphql/product/filters.py"
+        ],
+        "fn_paths": [
+          "saleor/graphql/product/filters.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "saleor-rc-15ce02ce683e",
+        "tp": 1,
+        "fp": 1,
+        "fn": 2,
+        "recovered": 1,
+        "missed": 3,
+        "cand_fn": 1,
+        "cand_sel": 2,
+        "additions": [
+          "saleor/discount/utils/order.py",
+          "saleor/graphql/core/types/taxes.py"
+        ],
+        "fn_additions": [
+          "saleor/graphql/core/types/taxes.py"
+        ],
+        "fn_paths": [
+          "saleor/discount/utils/checkout.py",
+          "saleor/graphql/core/types/taxes.py",
+          "saleor/order/base_calculations.py"
+        ],
+        "n_missed": 3
+      },
+      {
+        "case_id": "saleor-rc-2a7f13c25908",
+        "tp": 0,
+        "fp": 2,
+        "fn": 2,
+        "recovered": 0,
+        "missed": 2,
+        "cand_fn": 0,
+        "cand_sel": 2,
+        "additions": [
+          "saleor/graphql/discount/enums.py",
+          "saleor/graphql/product/enums.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/checkout/utils.py",
+          "saleor/product/utils/availability.py"
+        ],
+        "n_missed": 2
+      },
+      {
+        "case_id": "saleor-rc-2c573fa90db9",
+        "tp": 0,
+        "fp": 3,
+        "fn": 2,
+        "recovered": 0,
+        "missed": 2,
+        "cand_fn": 0,
+        "cand_sel": 2,
+        "additions": [
+          "saleor/core/tracing.py",
+          "saleor/graphql/attribute/mutations.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/graphql/attribute/types.py",
+          "saleor/graphql/decorators.py"
+        ],
+        "n_missed": 2
+      },
+      {
+        "case_id": "saleor-rc-39b4138e8550",
+        "tp": 0,
+        "fp": 0,
+        "fn": 3,
+        "recovered": 0,
+        "missed": 3,
+        "cand_fn": 0,
+        "cand_sel": 0,
+        "additions": [],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/graphql/api.py",
+          "saleor/graphql/payment/schema.py",
+          "saleor/graphql/payment/types.py"
+        ],
+        "n_missed": 3
+      },
+      {
+        "case_id": "saleor-rc-4f70686fa303",
+        "tp": 2,
+        "fp": 10,
+        "fn": 4,
+        "recovered": 0,
+        "missed": 4,
+        "cand_fn": 0,
+        "cand_sel": 4,
+        "additions": [
+          "saleor/giftcard/utils.py",
+          "saleor/graphql/giftcard/mutations.py",
+          "saleor/graphql/giftcard/schema.py",
+          "saleor/graphql/giftcard/types.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/giftcard/notifications.py",
+          "saleor/graphql/webhook/enums.py",
+          "saleor/plugins/manager.py",
+          "saleor/plugins/webhook/plugin.py"
+        ],
+        "n_missed": 4
+      },
+      {
+        "case_id": "saleor-rc-5a6f954424f3",
+        "tp": 1,
+        "fp": 4,
+        "fn": 1,
+        "recovered": 0,
+        "missed": 1,
+        "cand_fn": 0,
+        "cand_sel": 2,
+        "additions": [
+          "saleor/graphql/order/enums.py",
+          "saleor/graphql/order/resolvers.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/order/models.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "saleor-rc-67c9eefa587e",
+        "tp": 0,
+        "fp": 5,
+        "fn": 3,
+        "recovered": 0,
+        "missed": 3,
+        "cand_fn": 0,
+        "cand_sel": 5,
+        "additions": [
+          "saleor/graphql/core/types/sort_input.py",
+          "saleor/graphql/core/utils/reordering.py",
+          "saleor/graphql/order/sorters.py",
+          "saleor/graphql/product/descriptions.py",
+          "saleor/graphql/utils/sorting.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/graphql/menu/types.py",
+          "saleor/graphql/product/mutations/attributes.py",
+          "saleor/graphql/product/mutations/products.py"
+        ],
+        "n_missed": 3
+      },
+      {
+        "case_id": "saleor-rc-6f37bd256e12",
+        "tp": 1,
+        "fp": 2,
+        "fn": 1,
+        "recovered": 1,
+        "missed": 2,
+        "cand_fn": 1,
+        "cand_sel": 2,
+        "additions": [
+          "saleor/order/notifications.py",
+          "saleor/webhook/payloads.py"
+        ],
+        "fn_additions": [
+          "saleor/webhook/payloads.py"
+        ],
+        "fn_paths": [
+          "saleor/plugins/webhook/tasks.py",
+          "saleor/webhook/payloads.py"
+        ],
+        "n_missed": 2
+      },
+      {
+        "case_id": "saleor-rc-71054e115170",
+        "tp": 0,
+        "fp": 2,
+        "fn": 5,
+        "recovered": 0,
+        "missed": 5,
+        "cand_fn": 0,
+        "cand_sel": 2,
+        "additions": [
+          "saleor/graphql/attribute/descriptions.py",
+          "saleor/graphql/core/descriptions.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/graphql/checkout/types.py",
+          "saleor/graphql/product/bulk_mutations/product_bulk_create.py",
+          "saleor/graphql/product/mutations/channels.py",
+          "saleor/graphql/product/types/channels.py",
+          "saleor/graphql/product/types/products.py"
+        ],
+        "n_missed": 5
+      },
+      {
+        "case_id": "saleor-rc-7568e157e864",
+        "tp": 0,
+        "fp": 1,
+        "fn": 1,
+        "recovered": 0,
+        "missed": 1,
+        "cand_fn": 0,
+        "cand_sel": 1,
+        "additions": [
+          "saleor/graphql/core/utils/__init__.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/core/editorjs/converters.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "saleor-rc-7c3c6b5c0045",
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "recovered": 0,
+        "missed": 1,
+        "cand_fn": 0,
+        "cand_sel": 0,
+        "additions": [],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/payment/gateways/np_atobarai/api_helpers.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "saleor-rc-823b899757ab",
+        "tp": 1,
+        "fp": 2,
+        "fn": 1,
+        "recovered": 0,
+        "missed": 1,
+        "cand_fn": 0,
+        "cand_sel": 1,
+        "additions": [
+          "saleor/product/utils/availability.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/graphql/product/schema.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "saleor-rc-836d01d8429f",
+        "tp": 2,
+        "fp": 2,
+        "fn": 1,
+        "recovered": 1,
+        "missed": 2,
+        "cand_fn": 1,
+        "cand_sel": 3,
+        "additions": [
+          "saleor/attribute/models/page.py",
+          "saleor/graphql/attribute/types.py",
+          "saleor/graphql/page/filters.py"
+        ],
+        "fn_additions": [
+          "saleor/graphql/page/filters.py"
+        ],
+        "fn_paths": [
+          "saleor/graphql/core/filters/where_input.py",
+          "saleor/graphql/page/filters.py"
+        ],
+        "n_missed": 2
+      },
+      {
+        "case_id": "saleor-rc-865b9c805236",
+        "tp": 0,
+        "fp": 0,
+        "fn": 7,
+        "recovered": 0,
+        "missed": 7,
+        "cand_fn": 0,
+        "cand_sel": 0,
+        "additions": [],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/account/notifications.py",
+          "saleor/graphql/account/mutations/account.py",
+          "saleor/graphql/checkout/mutations.py",
+          "saleor/plugins/admin_email/tasks.py",
+          "saleor/plugins/email_common.py",
+          "saleor/plugins/user_email/plugin.py",
+          "saleor/plugins/user_email/tasks.py"
+        ],
+        "n_missed": 7
+      },
+      {
+        "case_id": "saleor-rc-8f76ddc6267f",
+        "tp": 1,
+        "fp": 2,
+        "fn": 1,
+        "recovered": 0,
+        "missed": 1,
+        "cand_fn": 0,
+        "cand_sel": 2,
+        "additions": [
+          "saleor/giftcard/events.py",
+          "saleor/graphql/giftcard/mutations.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/graphql/webhook/subscription_types.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "saleor-rc-91e2826c47f7",
+        "tp": 0,
+        "fp": 1,
+        "fn": 5,
+        "recovered": 0,
+        "missed": 5,
+        "cand_fn": 0,
+        "cand_sel": 1,
+        "additions": [
+          "saleor/shipping/models.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/core/payments.py",
+          "saleor/graphql/checkout/types.py",
+          "saleor/payment/gateways/adyen/plugin.py",
+          "saleor/plugins/base_plugin.py",
+          "saleor/plugins/manager.py"
+        ],
+        "n_missed": 5
+      },
+      {
+        "case_id": "saleor-rc-a10573bcea7c",
+        "tp": 1,
+        "fp": 1,
+        "fn": 1,
+        "recovered": 0,
+        "missed": 1,
+        "cand_fn": 0,
+        "cand_sel": 1,
+        "additions": [
+          "saleor/graphql/account/mutations/permission_group.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/checkout/models.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "saleor-rc-a3c478408852",
+        "tp": 1,
+        "fp": 3,
+        "fn": 1,
+        "recovered": 0,
+        "missed": 1,
+        "cand_fn": 0,
+        "cand_sel": 3,
+        "additions": [
+          "saleor/graphql/checkout/dataloaders.py",
+          "saleor/order/notifications.py",
+          "saleor/webhook/payload_serializers.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/webhook/serializers.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "saleor-rc-b14def73518c",
+        "tp": 1,
+        "fp": 3,
+        "fn": 9,
+        "recovered": 0,
+        "missed": 9,
+        "cand_fn": 0,
+        "cand_sel": 3,
+        "additions": [
+          "saleor/graphql/translations/dataloaders.py",
+          "saleor/graphql/translations/mutations/shop_settings_translate.py",
+          "saleor/graphql/translations/mutations/utils.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/attribute/models/base.py",
+          "saleor/checkout/utils.py",
+          "saleor/discount/models.py",
+          "saleor/menu/models.py",
+          "saleor/order/utils.py",
+          "saleor/page/models.py",
+          "saleor/product/models.py",
+          "saleor/shipping/models.py",
+          "saleor/site/models.py"
+        ],
+        "n_missed": 9
+      },
+      {
+        "case_id": "saleor-rc-b6051eb07680",
+        "tp": 1,
+        "fp": 4,
+        "fn": 1,
+        "recovered": 1,
+        "missed": 2,
+        "cand_fn": 1,
+        "cand_sel": 5,
+        "additions": [
+          "saleor/__init__.py",
+          "saleor/__main__.py",
+          "saleor/account/__init__.py",
+          "saleor/account/apps.py",
+          "saleor/account/error_codes.py"
+        ],
+        "fn_additions": [
+          "saleor/__init__.py"
+        ],
+        "fn_paths": [
+          "saleor/__init__.py",
+          "saleor/graphql/core/descriptions.py"
+        ],
+        "n_missed": 2
+      },
+      {
+        "case_id": "saleor-rc-ba60125e45a0",
+        "tp": 0,
+        "fp": 4,
+        "fn": 4,
+        "recovered": 0,
+        "missed": 4,
+        "cand_fn": 0,
+        "cand_sel": 3,
+        "additions": [
+          "saleor/graphql/order/mutations/orders.py",
+          "saleor/order/models.py",
+          "saleor/plugins/manager.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/account/utils.py",
+          "saleor/core/utils/random_data.py",
+          "saleor/graphql/account/mutations/account.py",
+          "saleor/graphql/account/mutations/staff.py"
+        ],
+        "n_missed": 4
+      },
+      {
+        "case_id": "saleor-rc-d1e6e0e2bbbc",
+        "tp": 1,
+        "fp": 1,
+        "fn": 2,
+        "recovered": 0,
+        "missed": 2,
+        "cand_fn": 0,
+        "cand_sel": 1,
+        "additions": [
+          "saleor/graphql/payment/filters.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/graphql/payment/enums.py",
+          "saleor/payment/models.py"
+        ],
+        "n_missed": 2
+      },
+      {
+        "case_id": "saleor-rc-db658943bed8",
+        "tp": 0,
+        "fp": 4,
+        "fn": 1,
+        "recovered": 0,
+        "missed": 1,
+        "cand_fn": 0,
+        "cand_sel": 3,
+        "additions": [
+          "saleor/app/models.py",
+          "saleor/graphql/app/mutations.py",
+          "saleor/graphql/app/types.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/warehouse/tasks.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "saleor-rc-ddaa9d05ff5f",
+        "tp": 1,
+        "fp": 3,
+        "fn": 0,
+        "recovered": 1,
+        "missed": 1,
+        "cand_fn": 1,
+        "cand_sel": 3,
+        "additions": [
+          "saleor/graphql/order/mutations/discount_order.py",
+          "saleor/graphql/order/types.py",
+          "saleor/order/utils.py"
+        ],
+        "fn_additions": [
+          "saleor/graphql/order/mutations/discount_order.py"
+        ],
+        "fn_paths": [
+          "saleor/graphql/order/mutations/discount_order.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "saleor-rc-e3b6df2eba77",
+        "tp": 0,
+        "fp": 3,
+        "fn": 5,
+        "recovered": 0,
+        "missed": 5,
+        "cand_fn": 0,
+        "cand_sel": 3,
+        "additions": [
+          "saleor/graphql/account/utils.py",
+          "saleor/graphql/checkout/mutations/utils.py",
+          "saleor/graphql/core/validators/__init__.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/graphql/core/utils/__init__.py",
+          "saleor/graphql/translations/mutations.py",
+          "saleor/graphql/utils/__init__.py",
+          "saleor/payment/gateways/adyen/webhooks.py",
+          "saleor/plugins/webhook/shipping.py"
+        ],
+        "n_missed": 5
+      },
+      {
+        "case_id": "saleor-rc-ed023a25834d",
+        "tp": 0,
+        "fp": 3,
+        "fn": 7,
+        "recovered": 0,
+        "missed": 7,
+        "cand_fn": 0,
+        "cand_sel": 3,
+        "additions": [
+          "saleor/checkout/base_calculations.py",
+          "saleor/checkout/models.py",
+          "saleor/order/models.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/core/prices.py",
+          "saleor/graphql/order/mutations/orders.py",
+          "saleor/graphql/payment/mutations.py",
+          "saleor/payment/gateways/adyen/plugin.py",
+          "saleor/payment/gateways/adyen/utils.py",
+          "saleor/payment/gateways/adyen/webhooks.py",
+          "saleor/payment/utils.py"
+        ],
+        "n_missed": 7
+      },
+      {
+        "case_id": "saleor-rc-f17ea2612b8b",
+        "tp": 0,
+        "fp": 2,
+        "fn": 1,
+        "recovered": 0,
+        "missed": 1,
+        "cand_fn": 0,
+        "cand_sel": 2,
+        "additions": [
+          "saleor/graphql/account/mutations/permission_group.py",
+          "saleor/permission/utils.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/graphql/account/schema.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "saleor-rc-f73c4e95c828",
+        "tp": 0,
+        "fp": 3,
+        "fn": 6,
+        "recovered": 0,
+        "missed": 6,
+        "cand_fn": 0,
+        "cand_sel": 3,
+        "additions": [
+          "saleor/graphql/meta/mutations/delete_private_metadata.py",
+          "saleor/webhook/__init__.py",
+          "saleor/webhook/payload_serializers.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/app/tasks.py",
+          "saleor/core/models.py",
+          "saleor/core/tasks.py",
+          "saleor/webhook/transport/asynchronous/transport.py",
+          "saleor/webhook/transport/synchronous/transport.py",
+          "saleor/webhook/transport/utils.py"
+        ],
+        "n_missed": 6
+      },
+      {
+        "case_id": "saleor-rc-fa9ea3af1251",
+        "tp": 1,
+        "fp": 2,
+        "fn": 7,
+        "recovered": 0,
+        "missed": 7,
+        "cand_fn": 0,
+        "cand_sel": 2,
+        "additions": [
+          "saleor/graphql/product/dataloaders/products.py",
+          "saleor/graphql/product/filters.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/graphql/attribute/filters.py",
+          "saleor/graphql/order/utils.py",
+          "saleor/graphql/product/resolvers.py",
+          "saleor/graphql/product/schema.py",
+          "saleor/graphql/product/types/categories.py",
+          "saleor/graphql/product/types/collections.py",
+          "saleor/graphql/product/types/products.py"
+        ],
+        "n_missed": 7
+      }
+    ],
+    "arm_b": [
+      {
+        "case_id": "saleor-rc-1088948818ee",
+        "tp": 1,
+        "fp": 2,
+        "fn": 0,
+        "recovered": 1,
+        "missed": 1,
+        "cand_fn": 1,
+        "cand_sel": 3,
+        "additions": [
+          "saleor/graphql/product/filters.py",
+          "saleor/graphql/product/resolvers.py",
+          "saleor/graphql/product/types/categories.py"
+        ],
+        "fn_additions": [
+          "saleor/graphql/product/filters.py"
+        ],
+        "fn_paths": [
+          "saleor/graphql/product/filters.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "saleor-rc-15ce02ce683e",
+        "tp": 1,
+        "fp": 4,
+        "fn": 2,
+        "recovered": 1,
+        "missed": 3,
+        "cand_fn": 1,
+        "cand_sel": 5,
+        "additions": [
+          "saleor/discount/utils/order.py",
+          "saleor/discount/utils/promotion.py",
+          "saleor/graphql/core/types/taxes.py",
+          "saleor/graphql/discount/resolvers.py",
+          "saleor/graphql/discount/types/promotions.py"
+        ],
+        "fn_additions": [
+          "saleor/graphql/core/types/taxes.py"
+        ],
+        "fn_paths": [
+          "saleor/discount/utils/checkout.py",
+          "saleor/graphql/core/types/taxes.py",
+          "saleor/order/base_calculations.py"
+        ],
+        "n_missed": 3
+      },
+      {
+        "case_id": "saleor-rc-2a7f13c25908",
+        "tp": 0,
+        "fp": 5,
+        "fn": 2,
+        "recovered": 0,
+        "missed": 2,
+        "cand_fn": 0,
+        "cand_sel": 5,
+        "additions": [
+          "saleor/attribute/models/base.py",
+          "saleor/attribute/models/page.py",
+          "saleor/attribute/models/product.py",
+          "saleor/attribute/models/product_variant.py",
+          "saleor/attribute/utils.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/checkout/utils.py",
+          "saleor/product/utils/availability.py"
+        ],
+        "n_missed": 2
+      },
+      {
+        "case_id": "saleor-rc-2c573fa90db9",
+        "tp": 0,
+        "fp": 1,
+        "fn": 2,
+        "recovered": 0,
+        "missed": 2,
+        "cand_fn": 0,
+        "cand_sel": 0,
+        "additions": [],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/graphql/attribute/types.py",
+          "saleor/graphql/decorators.py"
+        ],
+        "n_missed": 2
+      },
+      {
+        "case_id": "saleor-rc-39b4138e8550",
+        "tp": 0,
+        "fp": 5,
+        "fn": 3,
+        "recovered": 0,
+        "missed": 3,
+        "cand_fn": 0,
+        "cand_sel": 5,
+        "additions": [
+          "saleor/graphql/discount/enums.py",
+          "saleor/graphql/discount/inputs.py",
+          "saleor/graphql/discount/types/promotion_events.py",
+          "saleor/graphql/plugins/enums.py",
+          "saleor/graphql/product/enums.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/graphql/api.py",
+          "saleor/graphql/payment/schema.py",
+          "saleor/graphql/payment/types.py"
+        ],
+        "n_missed": 3
+      },
+      {
+        "case_id": "saleor-rc-4f70686fa303",
+        "tp": 2,
+        "fp": 10,
+        "fn": 4,
+        "recovered": 0,
+        "missed": 4,
+        "cand_fn": 0,
+        "cand_sel": 4,
+        "additions": [
+          "saleor/giftcard/models.py",
+          "saleor/graphql/giftcard/mutations.py",
+          "saleor/graphql/webhook/mutations/webhook_trigger.py",
+          "saleor/plugins/webhook/tasks.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/giftcard/notifications.py",
+          "saleor/graphql/webhook/enums.py",
+          "saleor/plugins/manager.py",
+          "saleor/plugins/webhook/plugin.py"
+        ],
+        "n_missed": 4
+      },
+      {
+        "case_id": "saleor-rc-5a6f954424f3",
+        "tp": 2,
+        "fp": 5,
+        "fn": 0,
+        "recovered": 1,
+        "missed": 1,
+        "cand_fn": 1,
+        "cand_sel": 4,
+        "additions": [
+          "saleor/graphql/order/enums.py",
+          "saleor/graphql/order/resolvers.py",
+          "saleor/graphql/utils/sorting.py",
+          "saleor/order/models.py"
+        ],
+        "fn_additions": [
+          "saleor/order/models.py"
+        ],
+        "fn_paths": [
+          "saleor/order/models.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "saleor-rc-67c9eefa587e",
+        "tp": 0,
+        "fp": 1,
+        "fn": 3,
+        "recovered": 0,
+        "missed": 3,
+        "cand_fn": 0,
+        "cand_sel": 1,
+        "additions": [
+          "saleor/graphql/core/types/sort_input.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/graphql/menu/types.py",
+          "saleor/graphql/product/mutations/attributes.py",
+          "saleor/graphql/product/mutations/products.py"
+        ],
+        "n_missed": 3
+      },
+      {
+        "case_id": "saleor-rc-6f37bd256e12",
+        "tp": 1,
+        "fp": 3,
+        "fn": 1,
+        "recovered": 1,
+        "missed": 2,
+        "cand_fn": 1,
+        "cand_sel": 3,
+        "additions": [
+          "saleor/graphql/meta/schema.py",
+          "saleor/graphql/meta/types.py",
+          "saleor/webhook/payloads.py"
+        ],
+        "fn_additions": [
+          "saleor/webhook/payloads.py"
+        ],
+        "fn_paths": [
+          "saleor/plugins/webhook/tasks.py",
+          "saleor/webhook/payloads.py"
+        ],
+        "n_missed": 2
+      },
+      {
+        "case_id": "saleor-rc-71054e115170",
+        "tp": 0,
+        "fp": 1,
+        "fn": 5,
+        "recovered": 0,
+        "missed": 5,
+        "cand_fn": 0,
+        "cand_sel": 1,
+        "additions": [
+          "saleor/graphql/attribute/descriptions.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/graphql/checkout/types.py",
+          "saleor/graphql/product/bulk_mutations/product_bulk_create.py",
+          "saleor/graphql/product/mutations/channels.py",
+          "saleor/graphql/product/types/channels.py",
+          "saleor/graphql/product/types/products.py"
+        ],
+        "n_missed": 5
+      },
+      {
+        "case_id": "saleor-rc-7568e157e864",
+        "tp": 0,
+        "fp": 2,
+        "fn": 1,
+        "recovered": 0,
+        "missed": 1,
+        "cand_fn": 0,
+        "cand_sel": 2,
+        "additions": [
+          "saleor/core/error_codes.py",
+          "saleor/core/exceptions.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/core/editorjs/converters.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "saleor-rc-7c3c6b5c0045",
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "recovered": 0,
+        "missed": 1,
+        "cand_fn": 0,
+        "cand_sel": 0,
+        "additions": [],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/payment/gateways/np_atobarai/api_helpers.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "saleor-rc-823b899757ab",
+        "tp": 2,
+        "fp": 2,
+        "fn": 0,
+        "recovered": 1,
+        "missed": 1,
+        "cand_fn": 1,
+        "cand_sel": 2,
+        "additions": [
+          "saleor/graphql/product/schema.py",
+          "saleor/product/models.py"
+        ],
+        "fn_additions": [
+          "saleor/graphql/product/schema.py"
+        ],
+        "fn_paths": [
+          "saleor/graphql/product/schema.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "saleor-rc-836d01d8429f",
+        "tp": 2,
+        "fp": 3,
+        "fn": 1,
+        "recovered": 1,
+        "missed": 2,
+        "cand_fn": 1,
+        "cand_sel": 4,
+        "additions": [
+          "saleor/attribute/models/page.py",
+          "saleor/graphql/page/filters.py",
+          "saleor/graphql/page/schema.py",
+          "saleor/graphql/page/types.py"
+        ],
+        "fn_additions": [
+          "saleor/graphql/page/filters.py"
+        ],
+        "fn_paths": [
+          "saleor/graphql/core/filters/where_input.py",
+          "saleor/graphql/page/filters.py"
+        ],
+        "n_missed": 2
+      },
+      {
+        "case_id": "saleor-rc-865b9c805236",
+        "tp": 0,
+        "fp": 0,
+        "fn": 7,
+        "recovered": 0,
+        "missed": 7,
+        "cand_fn": 0,
+        "cand_sel": 0,
+        "additions": [],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/account/notifications.py",
+          "saleor/graphql/account/mutations/account.py",
+          "saleor/graphql/checkout/mutations.py",
+          "saleor/plugins/admin_email/tasks.py",
+          "saleor/plugins/email_common.py",
+          "saleor/plugins/user_email/plugin.py",
+          "saleor/plugins/user_email/tasks.py"
+        ],
+        "n_missed": 7
+      },
+      {
+        "case_id": "saleor-rc-8f76ddc6267f",
+        "tp": 1,
+        "fp": 2,
+        "fn": 1,
+        "recovered": 0,
+        "missed": 1,
+        "cand_fn": 0,
+        "cand_sel": 2,
+        "additions": [
+          "saleor/plugins/webhook/plugin.py",
+          "saleor/plugins/webhook/tasks.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/graphql/webhook/subscription_types.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "saleor-rc-91e2826c47f7",
+        "tp": 0,
+        "fp": 5,
+        "fn": 5,
+        "recovered": 0,
+        "missed": 5,
+        "cand_fn": 0,
+        "cand_sel": 5,
+        "additions": [
+          "saleor/graphql/payment/mutations.py",
+          "saleor/graphql/payment/schema.py",
+          "saleor/graphql/payment/types.py",
+          "saleor/payment/models.py",
+          "saleor/payment/utils.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/core/payments.py",
+          "saleor/graphql/checkout/types.py",
+          "saleor/payment/gateways/adyen/plugin.py",
+          "saleor/plugins/base_plugin.py",
+          "saleor/plugins/manager.py"
+        ],
+        "n_missed": 5
+      },
+      {
+        "case_id": "saleor-rc-a10573bcea7c",
+        "tp": 1,
+        "fp": 0,
+        "fn": 1,
+        "recovered": 0,
+        "missed": 1,
+        "cand_fn": 0,
+        "cand_sel": 0,
+        "additions": [],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/checkout/models.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "saleor-rc-a3c478408852",
+        "tp": 1,
+        "fp": 5,
+        "fn": 1,
+        "recovered": 0,
+        "missed": 1,
+        "cand_fn": 0,
+        "cand_sel": 5,
+        "additions": [
+          "saleor/checkout/fetch.py",
+          "saleor/checkout/models.py",
+          "saleor/checkout/utils.py",
+          "saleor/graphql/checkout/mutations/checkout_create.py",
+          "saleor/webhook/payload_serializers.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/webhook/serializers.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "saleor-rc-b14def73518c",
+        "tp": 2,
+        "fp": 3,
+        "fn": 8,
+        "recovered": 1,
+        "missed": 9,
+        "cand_fn": 1,
+        "cand_sel": 4,
+        "additions": [
+          "saleor/graphql/product/types/products.py",
+          "saleor/graphql/translations/mutations/product_translate.py",
+          "saleor/graphql/translations/mutations/product_variant_translate.py",
+          "saleor/product/models.py"
+        ],
+        "fn_additions": [
+          "saleor/product/models.py"
+        ],
+        "fn_paths": [
+          "saleor/attribute/models/base.py",
+          "saleor/checkout/utils.py",
+          "saleor/discount/models.py",
+          "saleor/menu/models.py",
+          "saleor/order/utils.py",
+          "saleor/page/models.py",
+          "saleor/product/models.py",
+          "saleor/shipping/models.py",
+          "saleor/site/models.py"
+        ],
+        "n_missed": 9
+      },
+      {
+        "case_id": "saleor-rc-b6051eb07680",
+        "tp": 1,
+        "fp": 0,
+        "fn": 1,
+        "recovered": 1,
+        "missed": 2,
+        "cand_fn": 1,
+        "cand_sel": 1,
+        "additions": [
+          "saleor/__init__.py"
+        ],
+        "fn_additions": [
+          "saleor/__init__.py"
+        ],
+        "fn_paths": [
+          "saleor/__init__.py",
+          "saleor/graphql/core/descriptions.py"
+        ],
+        "n_missed": 2
+      },
+      {
+        "case_id": "saleor-rc-ba60125e45a0",
+        "tp": 0,
+        "fp": 6,
+        "fn": 4,
+        "recovered": 0,
+        "missed": 4,
+        "cand_fn": 0,
+        "cand_sel": 5,
+        "additions": [
+          "saleor/graphql/order/bulk_mutations/draft_orders.py",
+          "saleor/graphql/order/mutations/draft_orders.py",
+          "saleor/graphql/order/mutations/fulfillments.py",
+          "saleor/graphql/order/mutations/orders.py",
+          "saleor/order/actions.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/account/utils.py",
+          "saleor/core/utils/random_data.py",
+          "saleor/graphql/account/mutations/account.py",
+          "saleor/graphql/account/mutations/staff.py"
+        ],
+        "n_missed": 4
+      },
+      {
+        "case_id": "saleor-rc-d1e6e0e2bbbc",
+        "tp": 1,
+        "fp": 2,
+        "fn": 2,
+        "recovered": 0,
+        "missed": 2,
+        "cand_fn": 0,
+        "cand_sel": 2,
+        "additions": [
+          "saleor/graphql/payment/filters.py",
+          "saleor/graphql/payment/schema.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/graphql/payment/enums.py",
+          "saleor/payment/models.py"
+        ],
+        "n_missed": 2
+      },
+      {
+        "case_id": "saleor-rc-db658943bed8",
+        "tp": 0,
+        "fp": 4,
+        "fn": 1,
+        "recovered": 0,
+        "missed": 1,
+        "cand_fn": 0,
+        "cand_sel": 3,
+        "additions": [
+          "saleor/graphql/app/mutations.py",
+          "saleor/graphql/app/resolvers.py",
+          "saleor/graphql/app/utils.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/warehouse/tasks.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "saleor-rc-ddaa9d05ff5f",
+        "tp": 1,
+        "fp": 5,
+        "fn": 0,
+        "recovered": 1,
+        "missed": 1,
+        "cand_fn": 1,
+        "cand_sel": 5,
+        "additions": [
+          "saleor/graphql/order/mutations/discount_order.py",
+          "saleor/graphql/order/mutations/draft_orders.py",
+          "saleor/graphql/order/mutations/orders.py",
+          "saleor/order/actions.py",
+          "saleor/order/models.py"
+        ],
+        "fn_additions": [
+          "saleor/graphql/order/mutations/discount_order.py"
+        ],
+        "fn_paths": [
+          "saleor/graphql/order/mutations/discount_order.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "saleor-rc-e3b6df2eba77",
+        "tp": 0,
+        "fp": 5,
+        "fn": 5,
+        "recovered": 0,
+        "missed": 5,
+        "cand_fn": 0,
+        "cand_sel": 5,
+        "additions": [
+          "saleor/graphql/checkout/mutations/checkout_add_promo_code.py",
+          "saleor/graphql/checkout/mutations/checkout_complete.py",
+          "saleor/graphql/checkout/mutations/checkout_lines_add.py",
+          "saleor/graphql/checkout/mutations/checkout_lines_update.py",
+          "saleor/graphql/checkout/mutations/utils.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/graphql/core/utils/__init__.py",
+          "saleor/graphql/translations/mutations.py",
+          "saleor/graphql/utils/__init__.py",
+          "saleor/payment/gateways/adyen/webhooks.py",
+          "saleor/plugins/webhook/shipping.py"
+        ],
+        "n_missed": 5
+      },
+      {
+        "case_id": "saleor-rc-ed023a25834d",
+        "tp": 0,
+        "fp": 5,
+        "fn": 7,
+        "recovered": 0,
+        "missed": 7,
+        "cand_fn": 0,
+        "cand_sel": 5,
+        "additions": [
+          "saleor/checkout/base_calculations.py",
+          "saleor/checkout/models.py",
+          "saleor/payment/gateways/razorpay/errors.py",
+          "saleor/plugins/avatax/plugin.py",
+          "saleor/plugins/avatax/tasks.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/core/prices.py",
+          "saleor/graphql/order/mutations/orders.py",
+          "saleor/graphql/payment/mutations.py",
+          "saleor/payment/gateways/adyen/plugin.py",
+          "saleor/payment/gateways/adyen/utils.py",
+          "saleor/payment/gateways/adyen/webhooks.py",
+          "saleor/payment/utils.py"
+        ],
+        "n_missed": 7
+      },
+      {
+        "case_id": "saleor-rc-f17ea2612b8b",
+        "tp": 0,
+        "fp": 1,
+        "fn": 1,
+        "recovered": 0,
+        "missed": 1,
+        "cand_fn": 0,
+        "cand_sel": 1,
+        "additions": [
+          "saleor/permission/enums.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/graphql/account/schema.py"
+        ],
+        "n_missed": 1
+      },
+      {
+        "case_id": "saleor-rc-f73c4e95c828",
+        "tp": 0,
+        "fp": 1,
+        "fn": 6,
+        "recovered": 0,
+        "missed": 6,
+        "cand_fn": 0,
+        "cand_sel": 1,
+        "additions": [
+          "saleor/webhook/payloads.py"
+        ],
+        "fn_additions": [],
+        "fn_paths": [
+          "saleor/app/tasks.py",
+          "saleor/core/models.py",
+          "saleor/core/tasks.py",
+          "saleor/webhook/transport/asynchronous/transport.py",
+          "saleor/webhook/transport/synchronous/transport.py",
+          "saleor/webhook/transport/utils.py"
+        ],
+        "n_missed": 6
+      },
+      {
+        "case_id": "saleor-rc-fa9ea3af1251",
+        "tp": 2,
+        "fp": 2,
+        "fn": 6,
+        "recovered": 1,
+        "missed": 7,
+        "cand_fn": 1,
+        "cand_sel": 3,
+        "additions": [
+          "saleor/graphql/product/dataloaders/products.py",
+          "saleor/graphql/product/resolvers.py",
+          "saleor/product/models.py"
+        ],
+        "fn_additions": [
+          "saleor/graphql/product/resolvers.py"
+        ],
+        "fn_paths": [
+          "saleor/graphql/attribute/filters.py",
+          "saleor/graphql/order/utils.py",
+          "saleor/graphql/product/resolvers.py",
+          "saleor/graphql/product/schema.py",
+          "saleor/graphql/product/types/categories.py",
+          "saleor/graphql/product/types/collections.py",
+          "saleor/graphql/product/types/products.py"
+        ],
+        "n_missed": 7
+      }
+    ]
+  }
+}

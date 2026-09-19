@@ -1,0 +1,72 @@
+{
+ "overall_pass": true,
+ "n_checks": 11,
+ "checks": [
+  {
+   "code": "S1",
+   "name": "metric formulas (P/R/F1/FNR) recompute from TP/FP/FN",
+   "pass": true,
+   "detail": "recomputed from metrics.json B=5"
+  },
+  {
+   "code": "S2",
+   "name": "macro ORR recomputed from raw rankings @B=5",
+   "pass": true,
+   "detail": "swe/routeb/bm25 x both repos"
+  },
+  {
+   "code": "S3",
+   "name": "pooled final P/R/F1/FNR recomputed from raw rankings @B=5",
+   "pass": true,
+   "detail": "swe/routeb/bm25 x both repos"
+  },
+  {
+   "code": "S4",
+   "name": "frozen gate A-E recomputed from raw rankings",
+   "pass": true,
+   "detail": "both repos + folds"
+  },
+  {
+   "code": "S5",
+   "name": "paired bootstrap CI deterministic under fixed seed",
+   "pass": true,
+   "detail": "djangocms final_f1 mini-bootstrap [0.0285,0.0810]"
+  },
+  {
+   "code": "S6",
+   "name": "leakage surface: query hashes + real paths + fn subset of proxy",
+   "pass": true,
+   "detail": "60-task sample"
+  },
+  {
+   "code": "S7",
+   "name": "deterministic ranking inputs (stable unit manifest)",
+   "pass": true,
+   "detail": "unit_manifest keys"
+  },
+  {
+   "code": "S8",
+   "name": "pinned model revision + license",
+   "pass": true,
+   "detail": "745d2a06103a66d3cfa600aa52fc0d3523010daa"
+  },
+  {
+   "code": "S9",
+   "name": "zero API calls / zero API cost",
+   "pass": true,
+   "detail": "{\"api_calls\": 0, \"api_cost_usd\": 0.0, \"model_load_seconds\": 17.59, \"materialize_seconds\": 901.39, \"encode_seconds\": 23907.77, \"per_task_scoring_seconds\": 32.42, \"total_seconds\": 24877.09, \"distinct_blobs\": 14807, \"distinct_units\": 49705, \"missing_blobs\": 0, \"cached_unit_embeddings\": 49705, \"embedding_cache_bytes\": 152693888, \"per_query_seconds_est\": 74.1182}"
+  },
+  {
+   "code": "S10",
+   "name": "Stage-4b closure reproduces frozen pilot point estimates",
+   "pass": true,
+   "detail": "both repos @B=5"
+  },
+  {
+   "code": "S11",
+   "name": "Stage-4b preregistered verdict unchanged",
+   "pass": true,
+   "detail": "PRECISION_SAFE_ACCEPTANCE_FAIL"
+  }
+ ]
+}
