@@ -29,17 +29,16 @@ Total excluded: **~38.8 MB** (tracked-tree items) + `.git` + pilot zip.
 
 ## 3. Verdict
 
-**The 50 MB target is NOT reachable without deleting authoritative scientific
-evidence** (the 132 MB dataset + 47 MB raw evidence). The mission explicitly
-forbids deleting "raw scientific evidence required to reproduce published
-numbers merely to hit the size target". Therefore the TRUE LIGHT export is the
-maximum-lightweight authoritative tree above (~188 MB raw; compressed size
-reported at build time), and the 50 MB target is documented as unreachable
-under the constraint that reproducibility of the published numbers is
-preserved.
+**The compressed TRUE LIGHT export is 35,398,954 bytes (35.4 MB) — WITHIN the
+50 MB target.** The uncompressed tree is 187.75 MB (dominated by the 132.6 MB
+authoritative dataset + 47 MB raw evidence), but JSON/text compresses ~5:1, so
+the delivered export meets the size requirement WITHOUT deleting any
+authoritative scientific evidence. The pilot `pilot-kaggle-upload.zip`
+(37.1 MB) was moved to the external historical archive, `.git/` was omitted
+(verified facts in §4), and the derived/verbose artifacts in §1 were excluded.
 
-**If a smaller transfer is ever required**, the only compliant options are:
-(a) a curated *read-only summary pack* (human-readable docs + cheatsheet +
+**If an even smaller transfer is ever required**, the only compliant options
+are (a) a curated read-only summary pack (human-readable docs + cheatsheet +
 key JSONs only, not a reproduction bundle), or (b) an authorized dataset
 download/regeneration path for the receiver. Neither is implemented in this
 mission.
