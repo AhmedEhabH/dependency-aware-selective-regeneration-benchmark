@@ -55,6 +55,17 @@ the Oracle ceilings is still large (F1 0.28 vs 0.87 ceiling) — the ceiling
 itself is not the target; the signal is a ranking/recovery improvement, not
 final-set superiority.
 
+**UPDATE (2026-09-19): the Qwen3-Embedding-8B two-realization replication
+(`INDEPENDENT_DENSE_RETRIEVAL_REPLICATED`) independently reproduced this
+dense-ranking/recovery direction** under the identical parent-only protocol
+(Qwen F1 djangoCMS 0.226→0.262, Saleor 0.237→0.270 vs Route-B; all file-level
+CIs exclude zero; 97.21% A-vs-B set agreement). This strengthens the
+"dense retrieval as a general mechanism" reading of the ranking bottleneck.
+It does NOT change the position in this section: the signal is a
+ranking/recovery improvement, not final-set superiority — Qwen does not beat
+Sparse final-set F1 (0.318/0.261) and does not replace SweRankEmbed-Small
+(0.280/0.288).
+
 ## 5. What this does NOT mean
 
 - F1 = 0.85 is an aspirational analysis point, NOT a tuning target.

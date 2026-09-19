@@ -79,6 +79,39 @@ F1 0.396→0.327; Saleor ORR 0.334→0.357 but F1 0.304→0.270.
 - Determinism probe: max cosine drift ~1.0e-4; unit top-10 overlap 1.0; file
   B=5 set flipped 1/5 tasks → **STOP** (P73). Spend ~$0.023 (technical only).
 
+## Qwen3 two-realization replication (2026-09-19; verdict: INDEPENDENT_DENSE_RETRIEVAL_REPLICATED)
+
+P74 amendment: two complete independent realizations (A and B) replace the
+bitwise-determinism requirement. Model `qwen/qwen3-embedding-8b` @ DeepInfra
+$0.01/M (live-verified), fallback disabled. Full DEV population embedded twice
+(49,703 units + 323 queries/realization). Actual: A $0.1971 / B $0.2188;
+cumulative incl. ~$0.023 probes ≈ **$0.439 < $0.50**.
+
+| @B=5 | Repo | Method | P | R | F1 | FNR | ORR | candP | TP/FP/FN |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| Qwen A (= B pooled) | djangoCMS | 0.1887 | 0.4280 | **0.2619** | 0.5720 | 0.2419 | 0.1057 | 217/933/290 |
+| Qwen A (= B pooled) | Saleor | 0.1958 | 0.4338 | **0.2698** | 0.5662 | 0.2958 | 0.1396 | 203/834/265 |
+| Route-B | djangoCMS | 0.1626 | 0.3688 | 0.2257 | 0.6312 | 0.1633 | 0.0713 | 187/963/320 |
+| Route-B | Saleor | 0.1716 | 0.3803 | 0.2365 | 0.6197 | 0.2369 | 0.1060 | 178/859/290 |
+
+A-vs-B (B=5): exact same set 97.21%; mean Jaccard 0.9907 (median 1.0,
+min 0.6667); 9 one-file flips all FP-for-FP (pooled metrics identical).
+CIs (Qwen − RouteB) exclude zero for file-level P/R/F1/FNR on both repos both
+realizations (djangoCMS F1 +0.0362 [0.0134, 0.0592]; Saleor +0.0333
+[0.0042, 0.0616]). Saleor macro ORR CI crosses zero (diagnostic).
+**NO OVERCLAIM:** Qwen beats Route-B (dense-ranking/recovery) but does NOT beat
+Sparse final-set F1 (0.318/0.261) and does NOT replace SweRankEmbed-Small
+(0.280/0.288). Source:
+`research/contamination-bridge/qwen_embed/two_realization_metrics.json`,
+`reports/QWEN3_TWO_REALIZATION_REPLICATION_REPORT_2026-09-19.md`.
+
+## Set-selection diagnosis (POST-HOC DEV; verified from artifacts)
+
+SweRank exact-rank omitted-positive hit rates (FN hits at rank k / n_tasks):
+djangoCMS 0.241/0.132/0.109; Saleor 0.262/0.174/0.128 (ranks 1/2/3). Mean
+|Sparse| 1.61/1.96; mean |proxy changed set| 2.91/3.14; Sparse empty 53/174
+and 41/149. Frequencies, NOT calibrated probabilities.
+
 ## Historical confirmatory anchor (for context; sealed now)
 
 djangoCMS Route-B confirmatory (2026-09-17): 80 tasks, 560 calls / 1,470,174

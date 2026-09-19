@@ -1,0 +1,98 @@
+{
+  "audit_date": "2026-09-19",
+  "n_checks": 13,
+  "passed": 13,
+  "failed": 0,
+  "checks": [
+    {
+      "check": "A index entries == 50026",
+      "value": 50026,
+      "pass": true
+    },
+    {
+      "check": "A cumulative spend <= ceiling",
+      "value": 0.19708685999999992,
+      "pass": true
+    },
+    {
+      "check": "A djangocms pooled F1 >= 0.25 (recomputed)",
+      "value": 0.2619,
+      "pass": true
+    },
+    {
+      "check": "A saleor pooled F1 >= 0.25 (recomputed)",
+      "value": 0.2698,
+      "pass": true
+    },
+    {
+      "check": "A parquet label-free",
+      "value": [
+        "case_id",
+        "dense_file_score",
+        "dense_rank",
+        "file_path",
+        "in_sparse",
+        "model_id",
+        "parent_commit",
+        "provider",
+        "query_sha256",
+        "realization_id",
+        "repository"
+      ],
+      "pass": true
+    },
+    {
+      "check": "A parquet rows == 143852",
+      "value": 143852,
+      "pass": true
+    },
+    {
+      "check": "B index entries == 50026",
+      "value": 50026,
+      "pass": true
+    },
+    {
+      "check": "B cumulative spend <= ceiling",
+      "value": 0.21882526,
+      "pass": true
+    },
+    {
+      "check": "B djangocms pooled F1 >= 0.25 (recomputed)",
+      "value": 0.2619,
+      "pass": true
+    },
+    {
+      "check": "B saleor pooled F1 >= 0.25 (recomputed)",
+      "value": 0.2698,
+      "pass": true
+    },
+    {
+      "check": "B parquet label-free",
+      "value": [
+        "case_id",
+        "dense_file_score",
+        "dense_rank",
+        "file_path",
+        "in_sparse",
+        "model_id",
+        "parent_commit",
+        "provider",
+        "query_sha256",
+        "realization_id",
+        "repository"
+      ],
+      "pass": true
+    },
+    {
+      "check": "B parquet rows == 143852",
+      "value": 143852,
+      "pass": true
+    },
+    {
+      "check": "exact same set % >= 95",
+      "value": 97.21,
+      "pass": true
+    }
+  ],
+  "verdict": "PASS"
+}

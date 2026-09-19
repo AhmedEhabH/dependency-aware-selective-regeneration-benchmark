@@ -230,3 +230,29 @@ real-commit protocol (frozen design, NOT executed):**
    matched-protocol head-to-head — external paper numbers remain context only.
 6. Treat any external multilingual model as an EXTERNAL PRETRAINED DIAGNOSTIC
    BASELINE with the same contamination caveat as SweRankEmbed-Small.
+## 13. Update — Qwen3-Embedding independent dense control + competitor discipline (2026-09-19, T3)
+
+The contamination-robustness bridge line is now **CLOSED WITH A RESULT**
+(INDEPENDENT_DENSE_RETRIEVAL_REPLICATED, see
+eports/QWEN3_TWO_REALIZATION_REPLICATION_REPORT_2026-09-19.md): an
+independently trained multilingual dense embedding family (Qwen3-Embedding-8B
+@ DeepInfra, hosted, two independent realizations) reproduces the broad
+direction and magnitude of SweRankEmbed-Small's DEV ranking/recovery gains
+under the identical parent-only protocol. This is DENSE-RETRIEVAL-MECHANISM
+evidence for the method family; it does NOT change the SweRank position in the
+table above (SweRankEmbed-Small remains the strongest frozen signal; Qwen A/B
+F1 0.262/0.270 vs SweRank 0.280/0.288 on djangoCMS/Saleor).
+
+**Competitor discipline (documented, NOT run in this mission):**
+- **LocAgent:** published Acc@k is NOT directly comparable with our set-based
+  P/R/F1 (different metric, protocol, population, and budget). Our own
+  shared-protocol LocAgent comparison already exists (P5/P5C, F1 0.333 on 10
+  held-out). No additional LocAgent spend is authorized by this mission.
+- **Agentless:** documented (Section 6). The pipeline shape (localize-first,
+  cheap deterministic stages) is aligned with our Sparse -> ranked-additions
+  architecture, but no full competitor run happens before our method is
+  frozen.
+- **Loc-Bench:** a future external-validity/comparability benchmark AFTER the
+  final policy (e.g., CALIBRATED_SET_SELECTION_V1) is frozen. NOT run now.
+- **Budget principle:** do not spend a large API budget on a full competitor
+  run before the method itself is frozen.

@@ -6,6 +6,68 @@ For historical closure records see `docs/PROJECT_HANDOFF.md`, `SYSTEM_STATE.md`,
 `TODO.md`, `docs/PAPER_WRITING_HANDOFF.md`, `docs/MSC_RESEARCH_ROADMAP_2026_2027.md`
 (all preserved verbatim below their HISTORICAL boundaries).
 
+**CURRENT TRUTH (2026-09-19, QWEN3 TWO-REALIZATION REPLICATION — T3 scientific
+continuation of the contamination bridge COMPLETE; verdict
+`INDEPENDENT_DENSE_RETRIEVAL_REPLICATED`; full label-free file-score tables
+persisted for the future calibrated ADD+DROP study; sealed sets untouched;
+Stage 5 PAUSED/SEALED):**
+→ **P74 amendment + P75 budget v2 + P76 wall-ceiling extension recorded
+append-only BEFORE the target-aware Qwen P/R/F1 inspection:** two complete
+independent realizations (A and B) of the hosted Qwen embeddings
+(`qwen/qwen3-embedding-8b` @ **DeepInfra**, live $0.01/M re-verified, fallback
+disabled) replace the strict bitwise-determinism requirement for the bridge
+conclusion. P73 (determinism STOP) remains a valid historical record; the
+protocol amendment deliberately moves to CONCLUSION REPRODUCIBILITY.
+→ **FULL legal DEVELOPMENT population embedded TWICE** (49,703 embeddable
+code units + 323 queries per realization; whitespace-only units excluded per
+frozen §12.9; deterministic ordering; resume-safe chunked caches on E:).
+Actual usage: A ≈ $0.1971, B ≈ $0.2188; cumulative (incl. ~$0.023 prior
+probes) ≈ **$0.439 < $0.50 ceiling**; 0 permanent failures (2 transient 429s
+retried per policy and resumed).
+→ **VERDICT = `INDEPENDENT_DENSE_RETRIEVAL_REPLICATED`:** realizations A and B
+BOTH pass the frozen replication gate on djangoCMS AND Saleor @B=5. Qwen F1
+djangoCMS 0.226→**0.262**, Saleor 0.237→**0.270** (vs frozen Route-B); every
+file-level paired-bootstrap 95% CI excludes zero on both repos in both
+realizations (final F1 Δ djangoCMS +0.0362 CI [0.0134, 0.0592]; Saleor
++0.0333 CI [0.0042, 0.0616]). **Reproducibility A-vs-B (B=5, 323 tasks):
+97.21% exact same selected set; mean Jaccard 0.9907; median 1.0; min 0.6667;
+9 one-file boundary flips — ALL swapped one FP for another FP (pooled
+metrics identical A vs B, Δ=0.0000 on every metric).** The dense ranking
+signal now has **independent support** as a general mechanism.
+→ **NO OVERCLAIM:** Qwen improves dense ranking/recovery over Route-B but does
+NOT beat Sparse final-set F1 (0.318/0.261) and does NOT replace
+SweRankEmbed-Small (0.280/0.288) — the frozen SweRank evidence stays explicit
+(see the report §7). SweRank diagnostic B=1 (0.348/0.304) remains diagnostic,
+NOT the primary point.
+→ **NEW ENGINEERING ARTIFACT — full-file score tables:** label-free zstd
+Parquet per realization (`research/contamination-bridge/qwen_embed/realization_{A,B}/full_file_scores.parquet`,
+1.13 MB, 143,852 rows each; case_id/repository/parent_commit/file_path/
+dense_file_score/dense_rank/in_sparse/query_sha256/model_id/provider/
+realization_id). Purpose: the future DEV-only calibrated ADD+DROP study —
+NO extra embedding run needed later. No target labels; evaluation joins
+labels AFTER ranking is frozen.
+→ **POST-HOC set-selection diagnosis verified** from source artifacts: SweRank
+exact-rank omitted-positive hit rates djangoCMS 0.241/0.132/0.109 and Saleor
+0.262/0.174/0.128 (ranks 1/2/3); mean |Sparse| 1.61/1.96, mean |proxy changed
+set| 2.91/3.14, Sparse empty 53/174 and 41/149 — the dense signal is useful
+but a fixed addition budget creates an increasing FP tail (rank hit-rates are
+frequencies, NOT calibrated probabilities).
+→ **CALIBRATED_SET_SELECTION_V1 DRAFTED, NOT EXECUTED**
+(`docs/CALIBRATED_SET_SELECTION_V1_DRAFT.md`): minimal L2-LR feature set
+(dense score/rank/gap/in_sparse/|Sparse|), grouped task-level OOF
+probabilities on DEV, F1 threshold derived only inside training folds, ADD and
+DROP permitted, no "min one file" constraint. **Lipton et al. 2014
+F1-threshold theory documented as theory motivation only** (t = F1*/2 for
+well-calibrated probabilities; NOT applied to raw cosine/rank/frequencies).
+→ **Competitors documented, NOT run:** LocAgent (Acc@k not comparable with
+set-based P/R/F1), Agentless, Loc-Bench (future external-validity benchmark
+after the policy is frozen).
+→ **Stage-5 decision unchanged: `STAGE5_REMAINS_BLOCKED_BY_PROVENANCE_OR_
+NONREPLICATION`** — confirmatory stays PAUSED and SEALED (djangoCMS RESERVE
+59, Saleor INTERNAL_TEST 80, Saleor RESERVE 1086; spent djangoCMS
+INTERNAL_TEST untouched). The dense-replication result strengthens the
+dense-mechanism hypothesis but does NOT prove unseen generalization (SweRank
+provenance verdict C unchanged) and does NOT by itself unlock Stage 5.
 **CURRENT TRUTH (2026-09-19, QWEN3 BRIDGE PROBE-DEFECT CORRECTION — probe
 corrected, availability confirmed, then STOPPED on determinism; T3 DEVELOPMENT;
 ~$0.023 technical spend; Stage-5 PAUSED; sealed sets untouched):**
