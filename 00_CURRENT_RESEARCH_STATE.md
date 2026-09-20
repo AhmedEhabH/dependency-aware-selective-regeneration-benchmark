@@ -6,7 +6,64 @@ For historical closure records see `docs/PROJECT_HANDOFF.md`, `SYSTEM_STATE.md`,
 `TODO.md`, `docs/PAPER_WRITING_HANDOFF.md`, `docs/MSC_RESEARCH_ROADMAP_2026_2027.md`
 (all preserved verbatim below their HISTORICAL boundaries).
 
-**CURRENT TRUTH (2026-09-20, STAGE5_V2_EXECUTION_INVALID_EMBEDDING_COVERAGE_DEFECT —
+**CURRENT TRUTH (2026-09-20, STAGE5_CORRECTED_REEXECUTION — embedding-coverage
+execution defect repaired and the frozen Stage-5 V2 pipeline re-run on the SAME
+139 exposed tasks; verdict `STAGE5_CORRECTED_REEXECUTION_POSITIVE`
+(diagnostic/corrective, NOT untouched confirmation);
+`IMPACT_LOCALIZATION_METHOD_SELECTION_CLOSED` holds):**
+→ **P86 (execution-invalid) + P87 (corrected re-execution) recorded APPEND-ONLY.**
+The first Stage-5 evaluation was EXECUTION-INVALID (finite -1e9 sentinel for
+Stage-5 blobs missing from the DEV cache). The corrected re-execution repaired
+ONLY embedding coverage: CASE A cache hit reused realization-A exactly; CASE B
+1,241 missing Stage-5 blobs materialized from the pinned git caches (SHA-256
+verified) and 1,489 missing code units embedded (qwen/qwen3-embedding-8b @
+DeepInfra, fallback disabled, same MAX-cosine aggregation; paid $0.019927 +
+$0.000058 queries = $0.019985 << $0.25 ceiling); CASE C no-unit files -> NaN
+(frozen DEV semantics). Sparse write sets REUSED exactly (no Sparse LLM
+re-call). HARD PIPELINE GUARDS added: fail if |dense_file_score| > 10 for any
+finite candidate score, fail on embeddable-blob-without-embedding, fail on
+silent finite-sentinel cache resolution, fail on out-of-range scores; no silent
+fallback.
+→ **LABEL-FREE PARITY GATE PASSED BEFORE any corrected label access**
+(`reports/stage5_parity_gate.json` 8/8 + independent audit
+`reports/stage5_parity_gate_audit.json` 8/8): 0 embedding misses (69,164
+blobs-with-units, 100% coverage); 0 finite sentinels; NaN rate djangoCMS 5.19%
+/ Saleor 8.07% within ±3pp of DEV (5.27%/8.35%); finite dense-score range
+[0.092, 0.820] within [-1.5, +1.5]; feature-distribution parity within 3 DEV
+SD for all 9 continuous features; candidate-rows/task within ±25% of DEV
+(32.6/34.9 vs 31.9/34.8); exact 11-feature schema; frozen model hash
+8925d29a + threshold 0.20.
+→ **CORRECTED PRIMARY RESULT (audited 13/13 PASS):** pooled V2 F1 **0.3419** vs
+Sparse 0.2857; **Delta F1 = +0.0562, 95% CI [+0.0185, +0.0945]** (excludes
+zero, positive); criterion A PASS (point > 0, CI lower > 0); criterion B PASS
+(djangoCMS +0.0228, Saleor +0.0780, both positive). Per-repo: djangoCMS Sparse
+0.3028 vs V2 0.3256; Saleor Sparse 0.2744 vs V2 0.3524. **Verdict
+`STAGE5_CORRECTED_REEXECUTION_POSITIVE`** (NOT `STAGE5_V2_FINAL_CONFIRMATION_
+PASS` because the population is no longer untouched). The corrected run answers
+ONLY: "What would the original frozen Stage-5 V2 pipeline have produced if the
+documented execution bug had not corrupted dense features?"
+→ **DEFECT IMPACT (invalid vs corrected):** 60,485 file scores changed; 4,438
+candidate probabilities changed; 81 selected flags changed; 60 forced-zero
+Sparse files -> 39 restored by corrected V2; of the 34 affected Sparse proxy
+TPs, 27 retained by corrected V2; pooled TP 70->113, FP 178->179, FN 299->256,
+F1 0.2269->0.3419 (Δ +0.1150); dense rank-1 changed on 50/139 tasks and dense
+top-20 changed on 118/139 tasks (structural-memory seeds and candidate
+universes recomputed). The embedding-coverage defect MATERIALLY changed the
+Stage-5 conclusion; the old negative numbers must NOT be cited as V2
+generalization evidence.
+→ **SECONDARY (descriptive, NOT gates):** corrected Acc@1/3/5 (139) =
+0.3741/0.1871/0.2302, Hit@1/3/5 = 0.3741/0.6115/0.6906, Recall@1/3/5 =
+0.1603/0.3341/0.4456 (invalid was Acc@1 0.2374/Hit@5 0.4748). Corrected V2 set
+sizes dc mean 1.93 / saleor 2.23 (empty 18/7), additions 0.53/0.96, drops
+0.41/0.66.
+→ **CLEAN UNTOUCHED REPLICATION:** NOT executed.
+`CLEAN_SALEOR_RESERVE_REPLICATION_AWAITS_AHMED_AUTHORIZATION`; draft
+preregistration prepared for Ahmed's review (Saleor-only, 150 RESERVE sampled
+seed 20260920, corrected frozen V2 pipeline, same parity gate, Sparse
+comparator, Delta F1 endpoint, projected ~$0.61-0.62). NO untouched djangoCMS
+confirmation population remains in the current split.
+**PRIOR TRUTH (2026-09-20, SUPERSEDED by the corrected re-execution —
+STAGE5_V2_EXECUTION_INVALID_EMBEDDING_COVERAGE_DEFECT —
 first Stage-5 evaluation declared EXECUTION-INVALID and its FAIL label
 SCIENTIFICALLY SUPERSEDED; corrected re-execution on the SAME 139 exposed
 tasks is diagnostic/corrective, NOT a new untouched confirmation;

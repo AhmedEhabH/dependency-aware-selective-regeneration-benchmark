@@ -1,0 +1,126 @@
+{
+ "pass": 13,
+ "total": 13,
+ "checks": [
+  {
+   "name": "R1.task_counts",
+   "pass": true,
+   "detail": "total=139 dc=59 saleor=80"
+  },
+  {
+   "name": "R2.sparse_reused",
+   "pass": true,
+   "detail": "n=139 succeeded=139"
+  },
+  {
+   "name": "R3.v2_sets",
+   "pass": true,
+   "detail": "tasks_with_v2_set=139"
+  },
+  {
+   "name": "R4.sparse_conf_recomputed",
+   "pass": true,
+   "detail": "dc_sparse_f1=0.3028 saleor_sparse_f1=0.2744"
+  },
+  {
+   "name": "R5.v2_conf_recomputed",
+   "pass": true,
+   "detail": "dc_v2_f1=0.3256 saleor_v2_f1=0.3524"
+  },
+  {
+   "name": "R6.p_r_f1_fnr",
+   "pass": true,
+   "detail": "{\"djangocms\": {\"v2\": {\"tp\": 42, \"fp\": 72, \"fn\": 102, \"precision\": 0.3684210526315789, \"recall\": 0.2916666666666667, \"f1\": 0.32558139534883723, \"fnr\": 0.7083333333333333}, \"sparse\": {\"tp\": 38, \"fp\": 69, \"fn\": 106, \"precision\": 0.35514018691588783, \"recall\": 0.2638888888888889, \"f1\": 0.30278884462151395, \"fnr\": 0.7361111111111112}, \"delta_f1\": 0.02279255072732328, \"delta_precision\": 0.013280865715691093, \"delta_recall\": 0.02777777777777779, \"delta_fnr\": -0.0277777777777779}, \"saleor\": {\"v2\": {\"tp\": 71, \"fp\": 107, \"fn\": 154, \"precision\": 0.398876404494382, \"recall\": 0.31555555555555553, \"f1\": 0.3523573200992556, \"fnr\": 0.6844444444444444}, \"sparse\": {\"tp\": 52, \"fp\": 102, \"fn\": 173, \"precision\": 0.33766233766233766, \"recall\": 0.2311111111111111, \"f1\": 0.27440633245382584, \"fnr\": 0.768888888888889}, \"delta_f1\": 0.07795098764542974, \"delta_precision\": 0.061214066832044334, \"delta_recall\": 0.08444444444444443, \"delta_fnr\": -0.08444444444444454}}"
+  },
+  {
+   "name": "R7.per_repo_delta_f1",
+   "pass": true,
+   "detail": "dc_delta=0.0228 saleor_delta=0.0780 (both positive)"
+  },
+  {
+   "name": "R8.pooled_bootstrap",
+   "pass": true,
+   "detail": "delta=0.0562 CI=[0.0185,0.0945] (positive, excludes zero)"
+  },
+  {
+   "name": "R9.label",
+   "pass": true,
+   "detail": "label=STAGE5_CORRECTED_REEXECUTION_POSITIVE (A=True, B=True)"
+  },
+  {
+   "name": "R10.compat",
+   "pass": true,
+   "detail": "n=139 acc1=0.3741 acc3=0.1871 acc5=0.2302 hit5=0.6906 rec1=0.1603"
+  },
+  {
+   "name": "R11.config_frozen",
+   "pass": true,
+   "detail": "config_sha256=8925d29a8e065bc864cd16e755ac0e896c7675b4a12f68fb66c35e5bd644ea95 threshold=0.2 realization=A schema_11=True"
+  },
+  {
+   "name": "R12.no_refit",
+   "pass": true,
+   "detail": "frozen deployment artifact reused (model/scaler/threshold unchanged); no refit on the 139 exposed cases"
+  },
+  {
+   "name": "R13.sparse_outputs_reused",
+   "pass": true,
+   "detail": "candidate_rows in_sparse == persisted sparse write sets for all 139 tasks"
+  }
+ ],
+ "per_repo": {
+  "djangocms": {
+   "v2": {
+    "tp": 42,
+    "fp": 72,
+    "fn": 102,
+    "precision": 0.3684210526315789,
+    "recall": 0.2916666666666667,
+    "f1": 0.32558139534883723,
+    "fnr": 0.7083333333333333
+   },
+   "sparse": {
+    "tp": 38,
+    "fp": 69,
+    "fn": 106,
+    "precision": 0.35514018691588783,
+    "recall": 0.2638888888888889,
+    "f1": 0.30278884462151395,
+    "fnr": 0.7361111111111112
+   },
+   "delta_f1": 0.02279255072732328,
+   "delta_precision": 0.013280865715691093,
+   "delta_recall": 0.02777777777777779,
+   "delta_fnr": -0.0277777777777779
+  },
+  "saleor": {
+   "v2": {
+    "tp": 71,
+    "fp": 107,
+    "fn": 154,
+    "precision": 0.398876404494382,
+    "recall": 0.31555555555555553,
+    "f1": 0.3523573200992556,
+    "fnr": 0.6844444444444444
+   },
+   "sparse": {
+    "tp": 52,
+    "fp": 102,
+    "fn": 173,
+    "precision": 0.33766233766233766,
+    "recall": 0.2311111111111111,
+    "f1": 0.27440633245382584,
+    "fnr": 0.768888888888889
+   },
+   "delta_f1": 0.07795098764542974,
+   "delta_precision": 0.061214066832044334,
+   "delta_recall": 0.08444444444444443,
+   "delta_fnr": -0.08444444444444454
+  }
+ },
+ "pooled": {
+  "delta_f1": 0.05619191700886106,
+  "ci95_lower": 0.018500536475101824,
+  "ci95_upper": 0.0945252936615038
+ }
+}

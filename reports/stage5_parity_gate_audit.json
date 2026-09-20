@@ -1,0 +1,46 @@
+{
+ "pass": 8,
+ "total": 8,
+ "checks": [
+  {
+   "name": "P1.embedding_misses",
+   "pass": true,
+   "detail": "misses=0"
+  },
+  {
+   "name": "P2.sentinel_count",
+   "pass": true,
+   "detail": "==-1e9=0"
+  },
+  {
+   "name": "P3.nan_rate",
+   "pass": true,
+   "detail": "djangocms:0.0519(dev 0.0527,within:True); saleor:0.0807(dev 0.0835,within:True)"
+  },
+  {
+   "name": "P4.finite_range",
+   "pass": true,
+   "detail": "min=0.092204 max=0.820072"
+  },
+  {
+   "name": "P5.feature_means",
+   "pass": true,
+   "detail": "dense_file_score:0.490694(dev 0.492203,within:True); log_rank:3.171268(dev 3.112802,within:True); gap_to_top1:0.137550(dev 0.130560,within:True); log_sparse_set_size:0.874764(dev 0.839890,within:True); sparse_rank_interaction:0.142547(dev 0.129670,within:True); cochange_sparse:0.096374(dev 0.093718,within:True); cochange_top1:0.068893(dev 0.068152,within:True); log_history_change_count:3.449903(dev 3.448687,within:True); episode_similarity:0.309285(dev 0.301106,within:True)"
+  },
+  {
+   "name": "P6.candidate_rows_per_task",
+   "pass": true,
+   "detail": "djangocms:32.576(dev 31.868,within:True); saleor:34.850(dev 34.826,within:True)"
+  },
+  {
+   "name": "P7.model_hash",
+   "pass": true,
+   "detail": "config_sha256=8925d29a8e065bc864cd16e755ac0e896c7675b4a12f68fb66c35e5bd644ea95 threshold=0.2"
+  },
+  {
+   "name": "P8.primary_parity_agreement",
+   "pass": true,
+   "detail": "primary=8/8 independent=7/7"
+  }
+ ]
+}

@@ -1,0 +1,46 @@
+{
+ "pass": 8,
+ "total": 8,
+ "checks": [
+  {
+   "name": "A.embedding_coverage",
+   "pass": true,
+   "detail": "blobs_with_units=69164 unresolved_misses=0"
+  },
+  {
+   "name": "B.no_finite_sentinels",
+   "pass": true,
+   "detail": "==-1e9:0 other_sentinels:0 abs>10:0"
+  },
+  {
+   "name": "C.nan_no_unit_rate",
+   "pass": true,
+   "detail": "djangocms dev=0.0527 s5=0.0519 within\u00b13.0pp:True; saleor dev=0.0835 s5=0.0807 within\u00b13.0pp:True"
+  },
+  {
+   "name": "D.finite_score_range",
+   "pass": true,
+   "detail": "finite_n=69164 min=0.0922 max=0.8201 bound=1.5"
+  },
+  {
+   "name": "E.feature_distribution_parity",
+   "pass": true,
+   "detail": "dense_file_score: dev_mean=0.492203 dev_sd=0.128049 s5_mean=0.490694 within3.0sd:True; log_rank: dev_mean=3.112802 dev_sd=1.295999 s5_mean=3.171268 within3.0sd:True; gap_to_top1: dev_mean=0.130560 dev_sd=0.113966 s5_mean=0.137550 within3.0sd:True; log_sparse_set_size: dev_mean=0.839890 dev_sd=0.660866 s5_mean=0.874764 within3.0sd:True; sparse_rank_interaction: dev_mean=0.129670 dev_sd=0.637088 s5_mean=0.142547 within3.0sd:True; cochange_sparse: dev_mean=0.093718 dev_sd=0.230294 s5_mean=0.096374 within3.0sd:True; cochange_top1: dev_mean=0.068152 dev_sd=0.178969 s5_mean=0.068893 within3.0sd:True; log_history_change_count: dev_mean=3.448687 dev_sd=1.454907 s5_mean=3.449903 within3.0sd:True; episode_similarity: dev_mean=0.301106 dev_sd=0.406165 s5_mean=0.309285 within3.0sd:True"
+  },
+  {
+   "name": "F.candidate_row_count",
+   "pass": true,
+   "detail": "djangocms dev_mean=31.868 s5_mean=32.576 within\u00b125%:True; saleor dev_mean=34.826 s5_mean=34.850 within\u00b125%:True"
+  },
+  {
+   "name": "G.feature_schema",
+   "pass": true,
+   "detail": "cols_match=True features_match=True dtypes_match=True"
+  },
+  {
+   "name": "H.model_hash",
+   "pass": true,
+   "detail": "config_sha256=8925d29a8e065bc864cd16e755ac0e896c7675b4a12f68fb66c35e5bd644ea95 threshold=0.2 prereg_sha=None"
+  }
+ ]
+}

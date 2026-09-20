@@ -89,6 +89,30 @@ class MemoryBundle:
     episodic: list[str] | None = None
 
 
+def assert_finite_dense_score_bounds(parquet_df: pd.DataFrame,
+                                     bound: float = 10.0) -> None:
+    """HARD PIPELINE GUARD (P86): fail if any FINITE candidate dense score has
+    |score| > bound.
+
+    The frozen DEV dense-file-score distribution is ~[0.07, 0.82]. A finite
+    value outside [-bound, +bound] indicates a pipeline defect (e.g. the
+    pre-P86 finite -1e9 sentinel), NOT a legitimate score. NO silent fallback.
+    """
+    finite = parquet_df.loc[
+        np.isfinite(parquet_df["dense_file_score"].to_numpy(dtype=np.float64)),
+        "dense_file_score",
+    ]
+    if finite.empty:
+        return
+    bad = finite.loc[finite.abs() > bound]
+    if len(bad):
+        raise ValueError(
+            f"dense_file_score out of scientific bounds: {len(bad)} finite "
+            f"value(s) with |score| > {bound} (min {float(bad.min())}, "
+            f"max {float(bad.max())}); possible finite missing-sentinel "
+            f"contamination. FAIL.")
+
+
 @dataclass(frozen=True)
 class CandidateRow:
     """One V2 candidate-file row (11 features + evaluation label)."""
@@ -136,6 +160,7 @@ def build_rows_with_provenance(
     (used ONLY for the descriptive error decomposition, mission §25).
     """
     floor = no_units_score(parquet_df)
+    assert_finite_dense_score_bounds(parquet_df)
     log1p_cache: dict[int, float] = {}
     rows: list[CandidateRow] = []
     provenance: dict[str, dict[str, frozenset]] = {}

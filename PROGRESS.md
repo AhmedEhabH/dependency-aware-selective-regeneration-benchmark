@@ -18,16 +18,15 @@ at read time: `git rev-parse HEAD`, `git rev-parse origin/main`,
 **Model:** openrouter/deepseek/deepseek-v4-flash-0731
 **Task:** STAGE5_V2_EXECUTION_INVALID_EMBEDDING_COVERAGE_DEFECT - REPAIR THE
 EXECUTION DEFECT IN THE FROZEN STAGE-5 V2 PIPELINE (2026-09-20; T3;
-governance-first P86): the first Stage-5 run was EXECUTION-INVALID (finite
--1e9 sentinel instead of NaN/new embeddings for Stage-5 blobs missing from the
-DEV cache; superseded `STAGE5_V2_FINAL_CONFIRMATION_FAIL`); fix embedding
-coverage ONLY, add hard pipeline guards, run the label-free parity gate +
-independent parity audit, corrected re-execution on the SAME 139 exposed tasks
-reusing persisted Sparse write sets, corrected metrics/bootstrap (seed
-20260920), defect impact analysis, Acc@K descriptive, independent result audit,
-governance after corrected run, new tag `stage5-corrected-reexecution-2026-09-20`;
+governance-first P86) - **COMPLETE:
+`STAGE5_CORRECTED_REEXECUTION_POSITIVE`** (diagnostic/corrective, NOT untouched
+confirmation; embedding-coverage defect repaired: 1,489 missing units embedded
+$0.019985 << $0.25; parity gate 8/8 + independent parity audit 8/8 PASS;
+pooled Delta F1 +0.0562 CI [+0.0185, +0.0945], A and B PASS, both repos
+positive; Sparse outputs reused exactly; result audit 13/13; invalid FAIL label
+superseded by P86; defect impact: TP 70->113, F1 0.2269->0.3419;
 `IMPACT_LOCALIZATION_METHOD_SELECTION_CLOSED` holds; Saleor RESERVE sealed;
-draft clean-replication preregistration prepared for Ahmed review ONLY.
+clean-replication draft prepared for Ahmed review ONLY).
 
 ---
 

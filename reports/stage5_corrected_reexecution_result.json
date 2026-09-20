@@ -1,0 +1,96 @@
+{
+ "primary_endpoint": {
+  "n_dc": 59,
+  "n_saleor": 80,
+  "n_total": 139,
+  "pooled_v2_f1": 0.34190620272314676,
+  "pooled_sparse_f1": 0.2857142857142857,
+  "delta_f1_point": 0.05619191700886106,
+  "ci95_lower": 0.018500536475101824,
+  "ci95_upper": 0.0945252936615038,
+  "resamples": 10000,
+  "seed": 20260920
+ },
+ "direction_consistency": {
+  "dc_delta_f1": 0.02279255072732328,
+  "saleor_delta_f1": 0.07795098764542974,
+  "pass": true
+ },
+ "criteria": {
+  "A_pooled_pass": true,
+  "B_direction_pass": true
+ },
+ "repo_metrics": {
+  "djangocms": {
+   "v2": {
+    "tp": 42,
+    "fp": 72,
+    "fn": 102,
+    "precision": 0.3684210526315789,
+    "recall": 0.2916666666666667,
+    "f1": 0.32558139534883723,
+    "fnr": 0.7083333333333334
+   },
+   "sparse": {
+    "tp": 38,
+    "fp": 69,
+    "fn": 106,
+    "precision": 0.35514018691588783,
+    "recall": 0.2638888888888889,
+    "f1": 0.30278884462151395,
+    "fnr": 0.7361111111111112
+   },
+   "n_tasks": 59
+  },
+  "saleor": {
+   "v2": {
+    "tp": 71,
+    "fp": 107,
+    "fn": 154,
+    "precision": 0.398876404494382,
+    "recall": 0.31555555555555553,
+    "f1": 0.3523573200992556,
+    "fnr": 0.6844444444444444
+   },
+   "sparse": {
+    "tp": 52,
+    "fp": 102,
+    "fn": 173,
+    "precision": 0.33766233766233766,
+    "recall": 0.2311111111111111,
+    "f1": 0.27440633245382584,
+    "fnr": 0.7688888888888888
+   },
+   "n_tasks": 80
+  }
+ },
+ "repo_conf": {
+  "djangocms": {
+   "v2": [
+    42,
+    72,
+    102
+   ],
+   "sparse": [
+    38,
+    69,
+    106
+   ]
+  },
+  "saleor": {
+   "v2": [
+    71,
+    107,
+    154
+   ],
+   "sparse": [
+    52,
+    102,
+    173
+   ]
+  }
+ },
+ "verdict": "STAGE5_CORRECTED_REEXECUTION_POSITIVE",
+ "impact_localization_selection_closed": "IMPACT_LOCALIZATION_METHOD_SELECTION_CLOSED",
+ "disclosed_deviation": "embedding-coverage execution defect repaired; population previously exposed"
+}

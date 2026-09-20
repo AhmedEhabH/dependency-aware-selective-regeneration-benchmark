@@ -1,0 +1,119 @@
+{
+ "file_scores_changed": 60485,
+ "candidate_probabilities_changed": 4438,
+ "selected_flags_changed": 81,
+ "previously_forced_zero_sparse_files": 60,
+ "forced_zero_sparse_restored_by_corrected_v2": 39,
+ "affected_sparse_proxy_tp_count": 34,
+ "affected_sparse_proxy_tp_retained_by_corrected_v2": 27,
+ "affected_sparse_proxy_tp_in_corrected_universe": 34,
+ "pooled_invalid_vs_corrected": {
+  "tpfpfn_inv": [
+   70,
+   178,
+   299
+  ],
+  "tpfpfn_cor": [
+   113,
+   179,
+   256
+  ],
+  "confusion_inv": {
+   "tp": 70,
+   "fp": 178,
+   "fn": 299,
+   "precision": 0.28225806451612906,
+   "recall": 0.1897018970189702,
+   "f1": 0.22690437601296595,
+   "fnr": 0.8102981029810298
+  },
+  "confusion_cor": {
+   "tp": 113,
+   "fp": 179,
+   "fn": 256,
+   "precision": 0.386986301369863,
+   "recall": 0.3062330623306233,
+   "f1": 0.34190620272314676,
+   "fnr": 0.6937669376693767
+  },
+  "delta_tp": 43,
+  "delta_fp": 1,
+  "delta_fn": -43,
+  "delta_f1": 0.1150018267101808
+ },
+ "per_repo_invalid_vs_corrected": {
+  "djangocms": {
+   "invalid": {
+    "tpfpfn": [
+     30,
+     75,
+     114
+    ],
+    "tp": 30,
+    "fp": 75,
+    "fn": 114,
+    "precision": 0.2857142857142857,
+    "recall": 0.20833333333333334,
+    "f1": 0.24096385542168675,
+    "fnr": 0.7916666666666666
+   },
+   "corrected": {
+    "tpfpfn": [
+     42,
+     72,
+     102
+    ],
+    "tp": 42,
+    "fp": 72,
+    "fn": 102,
+    "precision": 0.3684210526315789,
+    "recall": 0.2916666666666667,
+    "f1": 0.32558139534883723,
+    "fnr": 0.7083333333333334
+   },
+   "delta_tp": 12,
+   "delta_fp": -3,
+   "delta_fn": -12,
+   "delta_f1": 0.08461753992715049
+  },
+  "saleor": {
+   "invalid": {
+    "tpfpfn": [
+     40,
+     103,
+     185
+    ],
+    "tp": 40,
+    "fp": 103,
+    "fn": 185,
+    "precision": 0.27972027972027974,
+    "recall": 0.17777777777777778,
+    "f1": 0.21739130434782608,
+    "fnr": 0.8222222222222222
+   },
+   "corrected": {
+    "tpfpfn": [
+     71,
+     107,
+     154
+    ],
+    "tp": 71,
+    "fp": 107,
+    "fn": 154,
+    "precision": 0.398876404494382,
+    "recall": 0.31555555555555553,
+    "f1": 0.3523573200992556,
+    "fnr": 0.6844444444444444
+   },
+   "delta_tp": 31,
+   "delta_fp": 4,
+   "delta_fn": -31,
+   "delta_f1": 0.1349660157514295
+  }
+ },
+ "ranking_effects": {
+  "tasks_with_dense_rank1_changed": 24,
+  "tasks_with_dense_top20_changed": 76,
+  "n_tasks": 139
+ }
+}
