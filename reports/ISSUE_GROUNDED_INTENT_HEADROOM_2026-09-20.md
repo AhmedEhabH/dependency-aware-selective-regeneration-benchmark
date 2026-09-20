@@ -197,7 +197,7 @@ files). Headroom gate identical in A and B.
 - Qwen query cost: **$0.000057** (hard ceiling $0.05; projected $0.00004).
 - Wall time: resolution ~30 min (flaky network retries), ARM I ~4 s.
 - Frozen issue-corpus size: 323 records, 56.6 KB JSON; SHA-256
-  `8527bd1e8e63b851b104ba80df421133eefebeb4db7c9ac0d80eec21f646fb81`.
+  `d43987b4f9f75ace3c26597002526d0f6579c9554cc3229425648d37ad135d0f`.
 - No corpus re-embed, no model download, no sealed evidence.
 
 ---
@@ -216,7 +216,7 @@ files). Headroom gate identical in A and B.
   by this evidence.
 
 ## 4. Validation
-- 26/26 new unit tests PASS (`tests/unit/test_issue_grounded.py`).
+- 27/27 new unit tests PASS (`tests/unit/test_issue_grounded.py`).
 - Independent audit **12/12 PASS** (`reports/issue_grounded_audit.json`);
   recomputes every claim WITHOUT importing the analyzer.
 - ruff clean; py_compile clean; `git diff --check` clean on changed files.

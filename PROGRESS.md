@@ -120,7 +120,7 @@ in BOTH realizations A and B; Saleor passes; Stage 5 stays PAUSED/SEALED).
   successful final policy.
 ## Full-suite state (ISSUE_GROUNDED_INTENT_HEADROOM, 2026-09-20)
 
-- New unit tests `tests/unit/test_issue_grounded.py` **26/26 PASS**
+- New unit tests `tests/unit/test_issue_grounded.py` **27/27 PASS**
   (reference parsing; repo-local resolution; issue-vs-PR distinction; no-PR
   text; temporal-clean rule; updated_at guard; corpus hashing; ranking
   aggregation unchanged; Recall@K formulas; task-paired bootstrap; path-mention
