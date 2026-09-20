@@ -856,3 +856,32 @@ must run on a fresh shared confirmatory split.
   capacity.
 - **Sealed now (unchanged):** djangoCMS RESERVE, Saleor INTERNAL_TEST, Saleor
   RESERVE. Stage 5 PAUSED/SEALED (`FINAL_POLICY_NOT_FROZEN`).
+
+## 2026-09-20 update - STAGE5_V2_FINAL (one-shot untouched confirmatory; method selection CLOSED)
+
+- **STAGE5_V2_FINAL EXECUTED (2026-09-20; T3; paid $0.544067).** Best frozen DEV
+  candidate = Repository Memory V2; final deployment model refit on all 323 DEV
+  (threshold 0.20); preregistration frozen/committed/pushed/tagged
+  (`stage5-v2-final-preregistered-2026-09-20`) BEFORE unsealing; ONE-SHOT
+  evaluation on dc RESERVE 59 + Saleor INTERNAL_TEST 80.
+  **Result: `STAGE5_V2_FINAL_CONFIRMATION_FAIL`** — pooled V2 F1 0.2269 vs
+  Sparse 0.2857; Delta F1 **−0.0588 CI [−0.1119,−0.0084]**; djangoCMS −0.0618
+  and Saleor −0.0570 (both negative). The DEV improvement did not transfer to
+  untouched evidence. **Method-search phase CLOSED
+  (`NO_FURTHER_LOCALIZATION_METHOD_SHOPPING_FOR_CURRENT_THESIS`)**
+- **`THESIS_AND_PAPER_EVIDENCE_CLOSURE`**: thesis reports Sparse, dense
+  recovery, V1, Repository Memory V2, untouched confirmation outcome,
+  limitations. Future methods remain future work.
+- **Next recommended scientific phase (separate authorized mission):
+  `EXTERNAL_VALIDITY_AND_END_TO_END_REGENERATION`** — cross-repository/language
+  transfer; downstream code regeneration; Functional Correctness; Preservation;
+  Architecture Compliance; end-to-end efficiency. NOT implemented here.
+- **Future-work list retained (NOT executed):** Energy-Based Change-Set
+  Completion, adaptive-k candidate/motif retrieval, negative association rules,
+  JEPA / Repository World Model, temporal hypergraph / commit-set prediction,
+  provenance-by-construction, richer archival issue reconstruction, matched
+  Loc-Bench evaluation, additional embedding/model families, broader
+  cross-language/polyglot expansion.
+- **Sealed now (unchanged):** djangoCMS RESERVE (remaining), Saleor RESERVE.
+  Saleor INTERNAL_TEST (80) consumed by the one authorized Stage-5 run; never
+  re-run.

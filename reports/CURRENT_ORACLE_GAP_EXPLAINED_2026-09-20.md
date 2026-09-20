@@ -140,3 +140,11 @@ Interpretation:
   than random).
 - It does NOT mean candidate coverage is solved (156/129 still not generated).
 - It does NOT unlock Stage 5 and does NOT change any frozen verdict.
+## STAGE5_V2_FINAL addendum (2026-09-20)
+
+The one-shot untouched confirmation (`STAGE5_V2_FINAL_CONFIRMATION_FAIL`)
+shows the first-pass recall/ranking bottleneck remains dominant on untouched
+evidence: frozen V2 Delta F1 −0.0588 (CI [−0.1119,−0.0084]), both repos
+negative. The learned additions do not transfer; Sparse remains the stronger
+first-pass selector on unseen data. No further localization method is pursued
+in this thesis (method-search phase CLOSED).

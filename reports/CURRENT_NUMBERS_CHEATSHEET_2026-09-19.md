@@ -190,3 +190,17 @@ deterministic rerun identical (SHA 4e2c880…); audit 23/23; unit tests 36/36.
 `CALIBRATED_SET_SELECTION_V2_FULL_UNIVERSE` = `FULL_UNIVERSE_V2_CANCELLED_AS_
 NON_BINDING_ABLATION` (V1 selected non-Sparse only at ranks 1-4 = 172/93/20/3;
 max non-Sparse prob 0.188 @5-20 / 0.065 @15-20 < all thresholds 0.17-0.21).
+## STAGE5_V2_FINAL (2026-09-20; untouched confirmatory; one-shot; frozen negative)
+
+Population: dc RESERVE 59 + Saleor INTERNAL_TEST 80 = 139. Paid $0.544067.
+Verdict: `STAGE5_V2_FINAL_CONFIRMATION_FAIL`; `IMPACT_LOCALIZATION_METHOD_SELECTION_CLOSED`.
+
+| repo | n | Sparse F1 | V2 F1 | Delta F1 |
+|---|---:|---:|---:|---:|
+| djangoCMS | 59 | 0.3028 | 0.2410 | −0.0618 |
+| Saleor | 80 | 0.2744 | 0.2174 | −0.0570 |
+| POOLED stratified | 139 | 0.2857 | 0.2269 | **−0.0588 CI [−0.1119,−0.0084]** |
+
+Criteria: A FAIL (CI excludes zero, negative); B FAIL (both repos negative).
+Sparse is more precise AND more sensitive than V2 on untouched data.
+V2 Acc@1/3/5 (139): 0.2374/0.1223/0.1223; Hit@5 0.4748 (descriptive).

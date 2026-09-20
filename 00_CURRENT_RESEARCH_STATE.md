@@ -6,7 +6,61 @@ For historical closure records see `docs/PROJECT_HANDOFF.md`, `SYSTEM_STATE.md`,
 `TODO.md`, `docs/PAPER_WRITING_HANDOFF.md`, `docs/MSC_RESEARCH_ROADMAP_2026_2027.md`
 (all preserved verbatim below their HISTORICAL boundaries).
 
-**CURRENT TRUTH (2026-09-20, ISSUE-GROUNDED INTENT HEADROOM — T3 minimal-cost
+**CURRENT TRUTH (2026-09-20, STAGE5_V2_FINAL — FINAL THESIS IMPACT-LOCALIZATION
+FREEZE + ONE-SHOT STAGE-5 CONFIRMATORY EVALUATION; verdict
+`STAGE5_V2_FINAL_CONFIRMATION_FAIL` + `IMPACT_LOCALIZATION_METHOD_SELECTION_CLOSED`;
+the frozen DEV-selected V2 policy did NOT survive the untouched confirmatory
+evaluation; method-search phase CLOSED):**
+→ **P84 governance (approved by Ahmed) + full preregistration frozen BEFORE
+unsealing:** candidate = `PARENT_ONLY_REPOSITORY_MEMORY_RESCUE_V2`
+(`BEST_FROZEN_DEV_CANDIDATE_NOT_CONFIRMED_SUPERIOR_ON_BOTH_REPOS`); population
+EXACTLY djangoCMS RESERVE 59 + Saleor INTERNAL_TEST 80 = 139
+(`SALEOR_RESERVE_POWER_EXTENSION = NO`); `QWEN_REALIZATION = A`; final V2
+deployment model refit on ALL 323 DEV (L2-LR C=1.0 liblinear max_iter=1000
+random_state=0; threshold 0.20 via 5-fold task-grouped OOF argmax pooled
+micro-F1, tie-break HIGHER; config_sha256 `8925d29a…`); preregistration
+committed `4badcea1…`, pushed, tagged `stage5-v2-final-preregistered-2026-09-20`
+BEFORE any Stage-5 outcome (commit==tag peel==origin/main==HEAD `4badcea1`);
+`STAGE5_IRREVERSIBLE_CHECKPOINT_REACHED` printed; primary endpoint =
+repo-stratified pooled micro-F1 diff (V2 minus Sparse), 10,000 resamples seed
+20260920, CI95 [Q2.5,Q97.5]; success rule A (pooled delta>0 AND CI lower>0) AND
+B (dc point delta>0 AND saleor point delta>0); per-repo CIs secondary,
+non-gating.
+→ **Stage-5 execution (one-shot; paid cost $0.544067 << $1.00 ceiling; live
+price verified):** all 139 case bundles materialized (zero-API; dc RESERVE 59 +
+saleor IT 80; hidden proxies present); Sparse write sets generated with the
+frozen Sparse-v2 strategy (qwen3-coder, 139/139 succeeded, schema-valid,
+1,702,783 tokens, $0.544009); Qwen query embeddings 5,827 tokens $0.000058 (all
+41,996 Stage-5 code units already in the persisted realization-A E: cache -> no
+corpus re-embed); parent-only memory built for all 139; frozen V2 model +
+threshold 0.20 applied.
+→ **PRIMARY RESULT (audited 10/10):** pooled V2 F1 0.2269 vs Sparse 0.2857;
+**Delta F1 = −0.0588, 95% CI [−0.1119, −0.0084]** (excludes zero, negative);
+**criterion A FAIL** (point<0, CI lower<0); **criterion B FAIL** (djangoCMS
+point delta −0.0618 < 0 AND Saleor point delta −0.0570 < 0). **Verdict
+`STAGE5_V2_FINAL_CONFIRMATION_FAIL`.** Both repositories point in the same
+negative direction: the DEV V2 improvement did not transfer; on untouched
+evidence Sparse is BOTH more precise and more sensitive than V2. Per-repo:
+djangoCMS Sparse F1 0.3028 vs V2 0.2410; Saleor Sparse 0.2744 vs V2 0.2174.
+→ **Secondary + Acc@K (descriptive, NOT gate):** set sizes mean 1.79-1.93;
+additions/drops ~0.56-0.98; V2 Acc@1/3/5 (139) 0.2374/0.1223/0.1223, Hit@5
+0.4748; per-repo values in `reports/stage5_secondary_result.json`.
+→ **Efficiency:** paid $0.544067 total (Sparse $0.544009 + query $0.000058),
+1,708,610 tokens, hard $1.00 ceiling respected; zero corpus re-embed; zero
+model downloads; local memory build.
+→ **Independent audit `reports/stage5_independent_audit.json` 10/10 PASS**
+(recomputes task counts, Sparse/V2 TP/FP/FN, per-repo P/R/F1/FNR, pooled
+stratified Delta F1 + bootstrap CI, direction consistency, Acc@K/Hit@K/Recall@K,
+final label WITHOUT importing the primary analyzer). 10 pre-unsealing tests
+PASS; ruff clean; py_compile clean; git diff --check clean.
+→ **Stage-5 decision:** `IMPACT_LOCALIZATION_METHOD_SELECTION_CLOSED`; the
+current false-negative/Sparse-recovery research question is now closed by the
+untouched confirmation. Next phase (separate authorized mission):
+`EXTERNAL_VALIDITY_AND_END_TO_END_REGENERATION` (cross-repo/language transfer,
+downstream regeneration, Functional Correctness, Preservation, Architecture
+Compliance, end-to-end efficiency). NO further localization method shopping for
+the current thesis; future methods remain future work.
+**PRIOR TRUTH (2026-09-20, ISSUE-GROUNDED INTENT HEADROOM — T3 minimal-cost
 scientific test of whether a real pre-change issue description fixes the
 information bottleneck; verdict `ISSUE_GROUNDED_INTENT_SIGNAL_NOT_SUPPORTED`
 (frozen negative); strict temporal rule; kept the short commit-message proxy;

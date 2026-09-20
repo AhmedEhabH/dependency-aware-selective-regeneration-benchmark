@@ -1,0 +1,69 @@
+{
+ "primary_endpoint": {
+  "n_dc": 59,
+  "n_saleor": 80,
+  "n_total": 139,
+  "pooled_v2_f1": 0.22690437601296595,
+  "pooled_sparse_f1": 0.2857142857142857,
+  "delta_f1_point": -0.058809909701319746,
+  "ci95_lower": -0.1119214370366331,
+  "ci95_upper": -0.008440825413304228,
+  "resamples": 10000,
+  "seed": 20260920
+ },
+ "direction_consistency": {
+  "dc_delta_f1": -0.06182498919982721,
+  "saleor_delta_f1": -0.05701502810599976,
+  "pass": false
+ },
+ "criteria": {
+  "A_pooled_pass": false,
+  "B_direction_pass": false
+ },
+ "repo_metrics": {
+  "djangocms": {
+   "v2": {
+    "tp": 30,
+    "fp": 75,
+    "fn": 114,
+    "precision": 0.2857142857142857,
+    "recall": 0.20833333333333334,
+    "f1": 0.24096385542168675,
+    "fnr": 0.7916666666666666
+   },
+   "sparse": {
+    "tp": 38,
+    "fp": 69,
+    "fn": 106,
+    "precision": 0.35514018691588783,
+    "recall": 0.2638888888888889,
+    "f1": 0.30278884462151395,
+    "fnr": 0.7361111111111112
+   },
+   "n_tasks": 59
+  },
+  "saleor": {
+   "v2": {
+    "tp": 40,
+    "fp": 103,
+    "fn": 185,
+    "precision": 0.27972027972027974,
+    "recall": 0.17777777777777778,
+    "f1": 0.21739130434782608,
+    "fnr": 0.8222222222222222
+   },
+   "sparse": {
+    "tp": 52,
+    "fp": 102,
+    "fn": 173,
+    "precision": 0.33766233766233766,
+    "recall": 0.2311111111111111,
+    "f1": 0.27440633245382584,
+    "fnr": 0.7688888888888888
+   },
+   "n_tasks": 80
+  }
+ },
+ "verdict": "STAGE5_V2_FINAL_CONFIRMATION_FAIL",
+ "impact_localization_selection_closed": "IMPACT_LOCALIZATION_METHOD_SELECTION_CLOSED"
+}

@@ -16,7 +16,12 @@ its own final live HEAD SHA (committing metadata changes HEAD again). Query
 at read time: `git rev-parse HEAD`, `git rev-parse origin/main`,
 `git status --porcelain`.
 **Model:** openrouter/deepseek/deepseek-v4-flash-0731
-**Task:** ISSUE-GROUNDED INTENT HEADROOM -
+**Task:** STAGE5_V2_FINAL - FINAL THESIS IMPACT-LOCALIZATION FREEZE + ONE-SHOT
+STAGE-5 CONFIRMATORY EVALUATION (2026-09-20; T3; $0.544067) - **COMPLETE:
+`STAGE5_V2_FINAL_CONFIRMATION_FAIL`** (frozen negative; pooled Delta F1 −0.0588,
+CI [−0.1119, −0.0084]; A and B FAIL; both repos negative; V2 did not survive
+untouched confirmation; method-search phase CLOSED). Previous task -
+ISSUE-GROUNDED INTENT HEADROOM -
 DOES A REAL PRE-CHANGE PROBLEM DESCRIPTION FIX THE INFORMATION BOTTLENECK?
 (2026-09-20; T3 DEVELOPMENT; minimal-cost) - **COMPLETE:
 `ISSUE_GROUNDED_INTENT_SIGNAL_NOT_SUPPORTED`** (frozen negative; strict
@@ -150,3 +155,30 @@ in BOTH realizations A and B; Saleor passes; Stage 5 stays PAUSED/SEALED).
   a near-empty Saleor population) and pre-register a larger clean corpus;
   Stage 5 remains gated on a frozen successful final policy.
 - TRUE LIGHT export at scientific closure: project-LIGHT-2026-09-20-0746.zip (40.22 MB <= 50 MB; SHA-256 d6a3af836dd127ec539a602120a4c854ce31664af231d7a90d09099f93b292c7; HEAD 939e5a2; origin/main == HEAD == tag peel).
+
+## Full-suite state (STAGE5_V2_FINAL, 2026-09-20)
+
+- Pre-unsealing tests `tests/unit/test_stage5_v2_final.py` **10/10 PASS**
+  (feature schema exact-11; threshold reproducibility; serialization/reload;
+  candidate determinism; Sparse determinism; Qwen config; parent-only guard;
+  preregistration hash).
+- Independent audit `reports/stage5_independent_audit.json` **10/10 PASS**
+  (recomputes task counts, Sparse/V2 confusion, per-repo P/R/F1/FNR, pooled
+  stratified Delta-F1 bootstrap, direction consistency, Acc@K/Hit@K/Recall@K,
+  final label WITHOUT importing the primary analyzer).
+- Metric-compatibility audit `reports/stage5_native_compat_audit.json` 7/7 PASS.
+- Ruff clean; py_compile clean; git diff --check clean.
+
+## Closure block (STAGE5_V2_FINAL, 2026-09-20)
+
+- ONE-SHOT untouched confirmatory evaluation of the best frozen DEV candidate
+  (`PARENT_ONLY_REPOSITORY_MEMORY_RESCUE_V2`); frozen negative
+  `STAGE5_V2_FINAL_CONFIRMATION_FAIL` + `IMPACT_LOCALIZATION_METHOD_SELECTION_CLOSED`.
+- Population: dc RESERVE 59 + Saleor INTERNAL_TEST 80 = 139 (Saleor RESERVE
+  untouched). Paid $0.544067 (Sparse 139 tasks + query embeddings) << $1.00.
+- Primary: pooled V2 F1 0.2269 vs Sparse 0.2857; Delta F1 −0.0588
+  CI [−0.1119, −0.0084]; A and B FAIL; both repos negative.
+- Method-search phase CLOSED; next phase external-validity-and-end-to-end
+  regeneration (separate mission); Stage 5 never re-run.
+- TRUE LIGHT export at scientific closure: filename/hash in the final stop
+  report.

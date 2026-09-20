@@ -80,3 +80,13 @@ training overlap) is unchanged — so Stage 5 stays sealed.
    Qwen3 two-realization replication outcome.
 5. `reports/CONTAMINATION_ROBUSTNESS_BRIDGE_CLOSURE_2026-09-19.md` — the Qwen
    bridge arc (probe defect → availability → determinism → replication).
+## STAGE5_V2_FINAL (2026-09-20) — one-shot untouched confirmatory: FAIL
+
+The best frozen DEV candidate (Repository Memory V2) was evaluated ONCE on
+untouched evidence (dc RESERVE 59 + Saleor INTERNAL_TEST 80) after full
+preregistration. **Verdict: `STAGE5_V2_FINAL_CONFIRMATION_FAIL`** — pooled
+Delta F1 −0.0588 (95% CI [−0.1119,−0.0084]); both repositories negative
+(dc −0.0618, Saleor −0.0570). The V2 improvement did not transfer to untouched
+data; Sparse is more precise and more sensitive on the confirmatory population.
+Method-search phase CLOSED; thesis reports the negative confirmation; next
+phase = external-validity-and-end-to-end-regeneration (separate mission).

@@ -1,0 +1,56 @@
+{
+ "pass": 10,
+ "total": 10,
+ "checks": [
+  {
+   "name": "A1.task_counts",
+   "pass": true,
+   "detail": "total=139 dc=59 saleor=80"
+  },
+  {
+   "name": "A2.sparse_records",
+   "pass": true,
+   "detail": "n=139 succeeded=139"
+  },
+  {
+   "name": "A3.proxies",
+   "pass": true,
+   "detail": "all 139 hidden proxies loaded"
+  },
+  {
+   "name": "A5.sparse_positive",
+   "pass": true,
+   "detail": "dc_sparse_f1=0.3028 saleor_sparse_f1=0.2744"
+  },
+  {
+   "name": "A6.v2_metrics_recomputed",
+   "pass": true,
+   "detail": "dc_v2_f1=0.2410 saleor_v2_f1=0.2174"
+  },
+  {
+   "name": "A7.pooled_bootstrap",
+   "pass": true,
+   "detail": "delta=-0.0588 CI=[-0.1119,-0.0084]"
+  },
+  {
+   "name": "A8.direction_consistency",
+   "pass": true,
+   "detail": "dc_delta=-0.0618 saleor_delta=-0.0570 (both negative)"
+  },
+  {
+   "name": "A9.compat",
+   "pass": true,
+   "detail": "n=139 acc1=0.2374 acc3=0.1223 acc5=0.1223"
+  },
+  {
+   "name": "A10.final_label",
+   "pass": true,
+   "detail": "label=STAGE5_V2_FINAL_CONFIRMATION_FAIL (A=False, B=False)"
+  },
+  {
+   "name": "A11.no_reserve_no_tuning",
+   "pass": true,
+   "detail": "Saleor RESERVE population untouched; no post-unseal tuning; one-shot run"
+  }
+ ]
+}
