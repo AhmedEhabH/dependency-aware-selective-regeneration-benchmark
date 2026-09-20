@@ -1,0 +1,151 @@
+{
+  "mission": "CALIBRATED_SET_SELECTION_V1",
+  "date": "2026-09-20",
+  "tier": "T3",
+  "status": "FROZEN_BEFORE_OUTER_OOF_INSPECTION",
+  "api_budget_usd": 0.0,
+  "sealed_data_guard": "no sealed data opened; DEV only",
+  "primary_score_realization": "A",
+  "realization_b_usage": "robustness rerun ONLY after full V1 freeze",
+  "candidate_universe": {
+    "keep_drop": "all files with in_sparse==True (Sparse write set)",
+    "add": "top 20 non-sparse legal production files by frozen Qwen dense_rank (ascending)",
+    "top_add_universe": 20,
+    "fixed_B": false,
+    "max_additions_cap": null,
+    "minimum_one_file": false,
+    "files_outside_candidate_universe": "remain unselected in V1"
+  },
+  "features": [
+    {"name": "dense_file_score", "type": "continuous", "scaled": true,
+     "nan_handling": "impute to min_finite_dense_score - 1.0 (per realization, label-free, frozen)"},
+    {"name": "log_rank", "type": "continuous", "scaled": true,
+     "definition": "log1p(dense_rank)", "rank_note": "ABSOLUTE rank 1..N; NOT normalized by repository file count N"},
+    {"name": "gap_to_top1", "type": "continuous", "scaled": true,
+     "definition": "max_score(task) - dense_file_score"},
+    {"name": "in_sparse", "type": "boolean", "scaled": false},
+    {"name": "log_sparse_set_size", "type": "continuous", "scaled": true,
+     "definition": "log1p(sparse_set_size)"},
+    {"name": "sparse_empty", "type": "boolean", "scaled": false,
+     "definition": "1 if sparse_set_size == 0 else 0"},
+    {"name": "sparse_rank_interaction", "type": "continuous", "scaled": true,
+     "definition": "in_sparse * log_rank"}
+  ],
+  "forbidden_features": [
+    "repository identity", "repository file-count N", "normalized rank by N",
+    "BM25", "graph distance", "graph degree", "co-change", "historical frequency",
+    "path tokens", "file extension", "architecture layer", "LLM semantic labels",
+    "generated reviewer features", "target-aware information"
+  ],
+  "model": {
+    "family": "L2-regularized Logistic Regression",
+    "sklearn": "sklearn.linear_model.LogisticRegression",
+    "penalty": "l2",
+    "C": 1.0,
+    "solver": "liblinear",
+    "max_iter": 1000,
+    "random_state": 0,
+    "preprocessing": "StandardScaler on the 5 continuous features only; fit on training rows only",
+    "no_class_weight_search": true,
+    "no_C_search": true,
+    "no_solver_search": true,
+    "no_hyperparameter_optimization": true
+  },
+  "outer_cv": {
+    "folds": 5,
+    "task_grouped": true,
+    "repo_stratified": true,
+    "seed": 20260920,
+    "procedure": "within each repo, deterministic shuffle then fold = index % 5"
+  },
+  "inner_cv": {
+    "folds": 5,
+    "task_grouped": true,
+    "repo_stratified": true,
+    "seed": 20260920,
+    "purpose": "inner-OOF predicted probabilities -> threshold selection"
+  },
+  "threshold_procedure": {
+    "grid": "0.01 .. 0.99 inclusive step 0.01",
+    "objective": "argmax pooled micro-F1 on inner-OOF predictions",
+    "tie_break": "higher threshold (conservative)",
+    "threshold_source": "INNER task-grouped OOF within OUTER training tasks ONLY",
+    "outer_heldout_labels_forbidden": true
+  },
+  "final_set_construction": {
+    "rule": "include candidate file iff predicted_probability >= outer_training_threshold",
+    "permits": ["ADD", "KEEP", "DROP"]
+  },
+  "baselines": {
+    "primary": "Sparse final affected-file set",
+    "descriptive": ["Route-B B=5", "Qwen B=5", "Qwen diagnostic B=1", "SweRank B=5", "SweRank diagnostic B=1"],
+    "retune_forbidden": true
+  },
+  "metrics": {
+    "always_report": ["TP", "FP", "FN", "P", "R", "FNR", "F1"],
+    "delta_definition": "Delta_metric = Metric_policy - Metric_sparse"
+  },
+  "bootstrap": {
+    "method": "task-paired bootstrap",
+    "n_resamples": 10000,
+    "seed": 20260920,
+    "unit": "task (never individual files)",
+    "ci": "[Q2.5%(Delta), Q97.5%(Delta)]",
+    "metrics": ["Precision", "Recall", "F1", "FNR"]
+  },
+  "primary_success_gate": {
+    "required_on_both_repositories": true,
+    "A": "Final micro-F1 > Sparse micro-F1",
+    "B": "paired-bootstrap 95% CI lower bound for Delta F1 > 0",
+    "C": "Recall_policy >= Recall_sparse",
+    "D": "FNR_policy <= FNR_sparse (equivalent to C; interpretability only)",
+    "E": "at least 3/5 outer folds satisfy Delta F1 >= 0",
+    "F": "zero target leakage",
+    "G": "deterministic local rerun identical OOF predictions and final sets"
+  },
+  "pareto_success": {
+    "definition": "on BOTH repos P_policy > P_sparse AND R_policy > R_sparse AND F1_policy > F1_sparse AND FNR_policy < FNR_sparse",
+    "descriptive_only": true,
+    "not_required_for_gate": true
+  },
+  "precision_handling": {
+    "no_post_hoc_margin": true,
+    "report": ["Precision point estimate", "absolute Delta Precision", "paired 95% CI"],
+    "f1_is_primary_tradeoff_criterion": true
+  },
+  "calibration_diagnostics": {
+    "bins": 10,
+    "bin_type": "equal-width probability bins",
+    "frozen_before_inspection": true,
+    "metrics": ["Brier score", "Expected Calibration Error (ECE)", "reliability table"],
+    "no_second_calibration_algorithm": true
+  },
+  "realization_b_robustness": {
+    "same_frozen_pipeline": true,
+    "allowed": "refit scaler and LR inside the SAME frozen fold/training procedure",
+    "forbidden": ["features", "log-rank transform", "interaction", "candidate universe", "C", "solver", "folds", "threshold grid", "tie-break", "primary gate"],
+    "report": ["A vs B repository metrics", "exact selected-set agreement", "task-level Jaccard mean/median/min", "PASS/FAIL agreement"]
+  },
+  "decision_rule": {
+    "pass": "gate passes on BOTH repositories AND realization-B preserves PASS -> CALIBRATED_SET_SELECTION_V1_PASS",
+    "fail": "primary gate fails -> CALIBRATED_SET_SELECTION_V1_FAIL",
+    "inconclusive": "A/B verdict differs -> CALIBRATED_SET_SELECTION_V1_ROBUSTNESS_INCONCLUSIVE",
+    "no_automatic_v2": true
+  },
+  "competitors": {
+    "locagent": "NOT executed; old F1~0.333 from a DIFFERENT exposed 10-task population; matched-comparison protocol drafted only",
+    "agentless": "NOT executed",
+    "locbench": "future external-validity benchmark after policy freeze"
+  },
+  "roadmap_order_preserved": [
+    "1 final calibrated policy on Python DEVELOPMENT",
+    "2 freeze ONE final policy",
+    "3 Stage-5 untouched Python confirmation",
+    "4 TypeScript NestJS",
+    "5 Java JabRef",
+    "6 Go Prometheus",
+    "7 true polyglot Grafana",
+    "8 matched competitor / Loc-Bench studies",
+    "9 downstream regeneration correctness"
+  ]
+}

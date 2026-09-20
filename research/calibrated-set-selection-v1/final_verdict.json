@@ -1,0 +1,28 @@
+{
+ "verdict": "CALIBRATED_SET_SELECTION_V1_FAIL",
+ "verdict_A": "CALIBRATED_SET_SELECTION_V1_FAIL",
+ "verdict_B": "CALIBRATED_SET_SELECTION_V1_FAIL",
+ "robustness": {
+  "n_tasks_common": 323,
+  "exact_same_selected_set_percentage": 83.28,
+  "jaccard_mean": 0.9284,
+  "jaccard_median": 1.0,
+  "jaccard_min": 0.0,
+  "jaccard_max": 1.0,
+  "gate_verdict_same": true,
+  "gate_a": {
+   "djangocms": false,
+   "saleor": true
+  },
+  "gate_b": {
+   "djangocms": false,
+   "saleor": true
+  },
+  "f1_djangocms_A": 0.3341288782816229,
+  "f1_djangocms_B": 0.34088200238379024,
+  "delta_f1_djangocms_A_minus_B": -0.006753124102167329,
+  "f1_saleor_A": 0.3356164383561644,
+  "f1_saleor_B": 0.33221850613154963,
+  "delta_f1_saleor_A_minus_B": 0.0033979322246147636
+ }
+}

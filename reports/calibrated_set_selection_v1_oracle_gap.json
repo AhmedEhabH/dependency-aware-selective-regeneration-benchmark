@@ -1,0 +1,26 @@
+{
+ "realization": "A",
+ "date": "2026-09-20",
+ "decomposition": {
+  "djangocms": {
+   "n_positives": 507,
+   "sparse_fn_total": 382,
+   "coverage_error_fns_outside_top20": 199,
+   "fn_in_top20_add_pool": 183,
+   "add_decision_error_fn_in_pool_not_added": 154,
+   "fn_correctly_added": 29,
+   "drop_decision_error_sparse_tp_dropped": 14,
+   "total_policy_fn": 367
+  },
+  "saleor": {
+   "n_positives": 468,
+   "sparse_fn_total": 369,
+   "coverage_error_fns_outside_top20": 177,
+   "fn_in_top20_add_pool": 192,
+   "add_decision_error_fn_in_pool_not_added": 138,
+   "fn_correctly_added": 54,
+   "drop_decision_error_sparse_tp_dropped": 6,
+   "total_policy_fn": 321
+  }
+ }
+}

@@ -1,0 +1,54 @@
+{
+ "gate": {
+  "djangocms": {
+   "A_f1_policy_gt_sparse": true,
+   "A_f1_policy": 0.3341288782816229,
+   "A_f1_sparse": 0.3176620076238882,
+   "B_ci_lower_delta_f1_gt0": false,
+   "B_delta_f1": 0.016466870657734722,
+   "B_ci95_lower": -0.01898192787703497,
+   "B_ci95_upper": 0.05252364397193995,
+   "C_recall_policy_ge_sparse": true,
+   "D_fnr_policy_le_sparse": true,
+   "E_folds_delta_f1_ge0": true,
+   "E_n_folds_ge0": 3,
+   "E_n_folds": 5,
+   "fold_deltas": [
+    0.064158,
+    -0.01892,
+    0.081509,
+    0.018613,
+    -0.042084
+   ],
+   "pass": false
+  },
+  "saleor": {
+   "A_f1_policy_gt_sparse": true,
+   "A_f1_policy": 0.3356164383561644,
+   "A_f1_sparse": 0.26052631578947366,
+   "B_ci_lower_delta_f1_gt0": true,
+   "B_delta_f1": 0.07509012256669073,
+   "B_ci95_lower": 0.04156271702970323,
+   "B_ci95_upper": 0.10828292375008255,
+   "C_recall_policy_ge_sparse": true,
+   "D_fnr_policy_le_sparse": true,
+   "E_folds_delta_f1_ge0": true,
+   "E_n_folds_ge0": 4,
+   "E_n_folds": 5,
+   "fold_deltas": [
+    0.106947,
+    0.04172,
+    -0.021995,
+    0.11836,
+    0.126069
+   ],
+   "pass": true
+  }
+ },
+ "pareto_success": false,
+ "pareto_per_repo": {
+  "djangocms": false,
+  "saleor": true
+ },
+ "both_repos_pass": false
+}
