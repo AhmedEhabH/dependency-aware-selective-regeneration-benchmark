@@ -123,3 +123,18 @@ Current ladder (each stage gates the next; negatives are preserved):
     NEW mission + NEW frozen hypothesis (no automatic V3).
 - Stage 6 adaptive-k: gated on a stable ranking signal (P2 Phase-1 negative is
   frozen; choosing k cannot rescue a poorly ordered list).
+
+## STAGE 5 COMPLETE — SALEOR RESERVE 300 clean untouched replication (2026-09-20)
+
+The final planned impact-localization evaluation is COMPLETE. On a preregistered
+sample of exactly 300 Saleor RESERVE tasks (seed 20260920), the frozen method
+**RM-CSS** (Repository-Memory Calibrated Set Selection = SIP + Qwen dense +
+parent-only Repository Memory + calibrated set selection) improved file-set F1
+over **SIP** (Sparse Impact Plan): Delta F1 **+0.0921** (95% CI [+0.0691,
++0.1156]) -> SALEOR_RESERVE_300_RMCSS_PASS. A djangoCMS-DEV-only-trained
+RM-CSS policy also transferred (Delta F1 +0.0742, CI [+0.0535,+0.0957]) ->
+SECONDARY_CROSS_REPO_TRANSFER_PASS. Label-free parity gate 10/10 + audit
+11/11; result audit 15/15; cost .619525 < .75. 786 Saleor RESERVE tasks
+remain untouched. IMPACT_LOCALIZATION_METHOD_SELECTION_CLOSED permanent; no
+V3. Next phase (separate authorized mission): END_TO_END_SELECTIVE_REGENERATION
+(Functional Correctness, Preservation, Architecture Compliance, Efficiency).

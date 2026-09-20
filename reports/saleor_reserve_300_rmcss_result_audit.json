@@ -1,0 +1,81 @@
+{
+ "pass": 15,
+ "total": 15,
+ "checks": [
+  {
+   "name": "R1.sample_ids",
+   "pass": true,
+   "detail": "n=300 unique=300 sha=445b5e9d0aeeab95..."
+  },
+  {
+   "name": "R2.exclusions",
+   "pass": true,
+   "detail": "ok=300 excluded=0"
+  },
+  {
+   "name": "R3.sip_categories",
+   "pass": true,
+   "detail": "{\"succeeded\": 228, \"completed_empty\": 70, \"HTTP Error 429: Too Many Requests\": 2}"
+  },
+  {
+   "name": "R4.sip_conf",
+   "pass": true,
+   "detail": "{\"tp\": 193, \"fp\": 344, \"fn\": 728, \"precision\": 0.35940409683426444, \"recall\": 0.20955483170466885, \"f1\": 0.26474622770919065, \"fnr\": 0.7904451682953312}"
+  },
+  {
+   "name": "R5.rmcss_conf",
+   "pass": true,
+   "detail": "{\"tp\": 283, \"fp\": 382, \"fn\": 638, \"precision\": 0.4255639097744361, \"recall\": 0.30727470141150925, \"f1\": 0.35687263556116017, \"fnr\": 0.6927252985884907}"
+  },
+  {
+   "name": "R6.p_r_f1_fnr",
+   "pass": true,
+   "detail": "rmcss_f1=0.3569 sip_f1=0.2647"
+  },
+  {
+   "name": "R7.primary_delta_f1",
+   "pass": true,
+   "detail": "delta_f1=0.0921"
+  },
+  {
+   "name": "R8.primary_bootstrap_ci",
+   "pass": true,
+   "detail": "CI=[0.0684,0.1154]"
+  },
+  {
+   "name": "R9.primary_verdict",
+   "pass": true,
+   "detail": "SALEOR_RESERVE_300_RMCSS_PASS"
+  },
+  {
+   "name": "R10.transfer_conf",
+   "pass": true,
+   "detail": "{\"tp\": 262, \"fp\": 363, \"fn\": 659, \"precision\": 0.4192, \"recall\": 0.28447339847991315, \"f1\": 0.3389391979301423, \"fnr\": 0.7155266015200868}"
+  },
+  {
+   "name": "R11.transfer_delta_f1",
+   "pass": true,
+   "detail": "delta_f1=0.0742"
+  },
+  {
+   "name": "R12.transfer_bootstrap_ci",
+   "pass": true,
+   "detail": "CI=[0.0533,0.0954]"
+  },
+  {
+   "name": "R13.transfer_verdict",
+   "pass": true,
+   "detail": "SECONDARY_CROSS_REPO_TRANSFER_PASS"
+  },
+  {
+   "name": "R14.acc_hit_k",
+   "pass": true,
+   "detail": "n=300 acc1=0.4833 acc3=0.2867 acc5=0.3067 hit5=0.7700"
+  },
+  {
+   "name": "R15.hashes_thresholds",
+   "pass": true,
+   "detail": "primary_sha=8925d29a8e06 transfer_sha=efb38c079a6e thr=0.2/0.2"
+  }
+ ]
+}

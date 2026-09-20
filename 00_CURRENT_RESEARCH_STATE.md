@@ -15,33 +15,56 @@ artifact paths are NOT renamed; old reports keep their original wording.
 
 **CURRENT TRUTH (2026-09-20, SALEOR RESERVE 300 — FINAL CLEAN RM-CSS
 REPLICATION + PRE-REGISTERED CROSS-REPOSITORY TRANSFER TEST; AUTHORIZED BY
-AHMED: ONE clean untouched evaluation on a preregistered sample of exactly 300
-Saleor RESERVE tasks; `IMPACT_LOCALIZATION_METHOD_SELECTION_CLOSED` permanent;
-in progress):**
-→ **Mission (T3):** PRIMARY — does frozen RM-CSS improve exact
-affected-file-set F1 over SIP on a new untouched Saleor sample? SECONDARY — can
-the EXACT SAME RM-CSS learning recipe trained ONLY on djangoCMS DEV transfer,
-without Saleor training labels, to the same untouched Saleor sample?
-→ **Impact declaration + glossary recorded APPEND-ONLY BEFORE implementation**
-(`docs/SALEOR_RESERVE_300_RMCSS_IMPACT_DECLARATION_2026-09-20.md`,
-`docs/GLOSSARY.md`). Preserved exactly: all historical results, the invalid
-Stage-5 FAIL (historical only), and `STAGE5_CORRECTED_REEXECUTION_POSITIVE`
-(with the explicit limitation that the 139-task population was exposed).
-→ **Verified corrected evidence (motivation only):** djangoCMS SIP F1 0.3028 /
-RM-CSS 0.3256 / Δ +0.0228; Saleor SIP 0.2744 / RM-CSS 0.3524 / Δ +0.0780;
-pooled SIP 0.2857 / RM-CSS 0.3419 / Δ +0.0562 CI [+0.0185, +0.0945].
-→ **Cross-repository diagnostic VERIFIED on exposed data**
-(`reports/v2_cross_repo_transfer.json`): TRAIN djangoCMS DEV → TEST Saleor DEV:
-SIP F1 0.2605, django-trained RM-CSS 0.3350, Δ +0.0745, CI [+0.0441, +0.1061]
-(reference ≈ [+0.0441, +0.1064]); TRAIN djangoCMS DEV → TEST corrected exposed
-Saleor Stage-5: SIP 0.2744, RM-CSS 0.3520, Δ +0.0776, CI [+0.0237, +0.1312]
-(reference ≈ [+0.0240, +0.1302]); django-only threshold 0.20; reverse Saleor
-DEV → djangoCMS DEV Δ +0.0213 CI [−0.0145, +0.0559] (crosses zero; weaker,
-non-significant). EXPOSED-DATA MOTIVATION ONLY.
-→ **In progress:** secondary django-only transfer model (djangoCMS DEV ONLY,
-exact RM-CSS recipe), 300-task Saleor RESERVE sampling (seed 20260920),
-label-free preflight, temporal descriptor, preregistration, parity gate,
-SIP execution, PRIMARY/SECONDARY evaluation, audits, reports, tag
+AHMED: ONE clean untouched evaluation of exactly 300 Saleor RESERVE tasks;
+verdict PRIMARY `SALEOR_RESERVE_300_RMCSS_PASS` + SECONDARY
+`SECONDARY_CROSS_REPO_TRANSFER_PASS`;
+`IMPACT_LOCALIZATION_METHOD_SELECTION_CLOSED` permanent):**
+→ **P88 (preregistration) + P89 (cost-ceiling amendment $1.50→$1.75) + P90
+(outcome) recorded APPEND-ONLY.** Terminology freeze SIP (Sparse Impact Plan) /
+RM-CSS (Repository-Memory Calibrated Set Selection) in `docs/GLOSSARY.md`.
+→ **Cross-repo diagnostic verified on exposed data:** djangoCMS DEV → Saleor DEV
+Δ +0.0745 CI [+0.0441,+0.1061]; → corrected exposed Saleor Stage-5 Δ +0.0776 CI
+[+0.0237,+0.1312]; threshold 0.20; reverse weak. EXPOSED-DATA MOTIVATION ONLY.
+→ **Execution (actual cost $1.619525 < $1.75 amended ceiling; outcomes opened
+once after parity):** 300 label-free public bundles; SIP 300/300 (228
+succeeded / 70 completed-empty / 2 transport-failed→fail-closed EMPTY; $1.59349;
+5,094,731 tokens); 2,076 missing Qwen units + 299 unique queries embedded
+(P86-corrected, $0.026035, 0 sentinels, 0 unresolved misses); RM-CSS
+candidate/features label-free; label-free parity gate **10/10 PASS** + independent
+parity audit **11/11 PASS** (0 misses, 0 sentinels, NaN 7.93% vs DEV 8.35%,
+finite [0.072,0.805], feature means within 3 DEV SD, candidate rows/task 34.84,
+schema + hashes + sample hash exact); irreversible checkpoint; outcomes opened
+once (921 proxy files).
+→ **PRIMARY RESULT (untouched, n=300):** RM-CSS 283/382/638 (P 0.4256 / R
+0.3073 / F1 **0.3569** / FNR 0.6927) vs SIP 193/344/728 (P 0.3594 / R 0.2096 /
+F1 0.2647 / FNR 0.7904); **Delta F1 +0.0921, 95% CI [+0.0691, +0.1156]**
+(excludes zero); Delta P [+0.0259,+0.1034], Delta R [+0.0752,+0.1207], Delta
+FNR [−0.1208,−0.0753]. **Verdict `SALEOR_RESERVE_300_RMCSS_PASS`.**
+→ **SECONDARY CROSS-REPO TRANSFER RESULT (non-gating):** django-only RM-CSS
+262/363/659 (P 0.4192 / R 0.2845 / F1 **0.3389**) vs SIP 0.2647; **Delta F1
++0.0742, 95% CI [+0.0535, +0.0957]** (excludes zero). **Verdict
+`SECONDARY_CROSS_REPO_TRANSFER_PASS`** (a policy trained ONLY on djangoCMS
+DEVELOPMENT labels improved F1 over SIP on the untouched Saleor sample).
+→ **Ranking (descriptive):** Acc@1/3/5 0.4833/0.2867/0.3067; Hit@1/3/5
+0.4833/0.7067/0.7700; Recall@1/3/5 0.2333/0.4238/0.5162; |G|=1 (89 tasks)
+Hit@1 0.3933. Characterization: target files mean 3.07/median 2; SIP empty 72,
+RM-CSS empty 29; candidate set 34.84; RM-CSS set 2.22; SIP set 1.79. Error
+decomposition: SIP TP retained 175 / dropped 18; SIP FP dropped 150 / retained
+194; omitted positives added 108; new FP 188. Independent result audit **15/15
+PASS** (task counts, SIP/RM-CSS/transfer confusion, P/R/F1/FNR, DeltaF1,
+bootstrap CIs, verdicts, Acc@K, hashes, thresholds, sample hash).
+→ **Claims (frozen, allowed):** "Frozen RM-CSS replicated a positive
+affected-file-set F1 improvement over SIP on a preregistered untouched Saleor
+RESERVE sample." + "The same RM-CSS learning recipe, trained using djangoCMS
+DEVELOPMENT labels only, also improved F1 over SIP on the untouched Saleor
+sample." Forbidden: untouched djangoCMS confirmation; all-repository/language
+generalization; universal superiority; SOTA; direct superiority over
+LocAgent/RepoMem.
+→ **Remaining untouched Saleor RESERVE: 786 tasks.** No post-unseal tuning; no
+V3. `IMPACT_LOCALIZATION_METHOD_SELECTION_CLOSED` permanent;
+`IMPACT_LOCALIZATION_EVIDENCE_COLLECTION_CLOSED` NOT recorded. Next phase:
+`END_TO_END_SELECTIVE_REGENERATION` (handoff prepared, NOT executed). Tags:
+`...-preregistered-2026-09-20`, `...-preregistration-cost-amendment-2026-09-20`,
 `saleor-reserve-300-rmcss-final-replication-2026-09-20`.
 
 **CURRENT TRUTH (2026-09-20, STAGE5_CORRECTED_REEXECUTION — embedding-coverage

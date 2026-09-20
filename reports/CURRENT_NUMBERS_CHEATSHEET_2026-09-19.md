@@ -204,3 +204,26 @@ Verdict: `STAGE5_V2_FINAL_CONFIRMATION_FAIL`; `IMPACT_LOCALIZATION_METHOD_SELECT
 Criteria: A FAIL (CI excludes zero, negative); B FAIL (both repos negative).
 Sparse is more precise AND more sensitive than V2 on untouched data.
 V2 Acc@1/3/5 (139): 0.2374/0.1223/0.1223; Hit@5 0.4748 (descriptive).
+
+## SALEOR_RESERVE_300_RMCSS (2026-09-20; FINAL CLEAN UNTOUCHED; PRIMARY PASS + SECONDARY TRANSFER PASS)
+
+Population: 300/1,086 Saleor RESERVE (seed 20260920, manifest SHA `445b5e9d…`),
+0 label-free exclusions; actual cost **$1.619525 < $1.75** (P89 amendment).
+Terminology: **SIP** = Sparse Impact Plan; **RM-CSS** = Repository-Memory
+Calibrated Set Selection (see `docs/GLOSSARY.md`).
+
+| arm | TP/FP/FN | P | R | F1 | FNR | Delta F1 (95% CI) | verdict |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| SIP | 193/344/728 | 0.3594 | 0.2096 | 0.2647 | 0.7904 | — | — |
+| PRIMARY RM-CSS (frozen all-DEV) | 283/382/638 | 0.4256 | 0.3073 | 0.3569 | 0.6927 | **+0.0921 [+0.0691, +0.1156]** | `SALEOR_RESERVE_300_RMCSS_PASS` |
+| SECONDARY django-only RM-CSS | 262/363/659 | 0.4192 | 0.2845 | 0.3389 | 0.7155 | **+0.0742 [+0.0535, +0.0957]** | `SECONDARY_CROSS_REPO_TRANSFER_PASS` |
+
+PRIMARY paired CIs: Delta P [+0.0259,+0.1034]; Delta R [+0.0752,+0.1207];
+Delta FNR [−0.1208,−0.0753]. Ranking (descriptive): Acc@1/3/5
+0.4833/0.2867/0.3067; Hit@5 0.7700; Recall@1/3/5 0.2333/0.4238/0.5162; |G|=1
+(89 tasks) Hit@1 0.3933. SIP empty 72/300; RM-CSS empty 29/300; RM-CSS set
+mean 2.22 / SIP 1.79. Parity gate 10/10 + audit 11/11; result audit 15/15.
+Remaining untouched Saleor RESERVE: 786. `IMPACT_LOCALIZATION_METHOD_SELECTION_CLOSED`
+permanent. Sources: `reports/saleor_reserve_300_rmcss_result.json`,
+`reports/saleor_reserve_300_rmcss_secondary_metrics.json`,
+`reports/saleor_reserve_300_rmcss_result_audit.json`.

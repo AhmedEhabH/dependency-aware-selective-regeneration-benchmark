@@ -1,0 +1,56 @@
+{
+ "ranking_compatibility": {
+  "n_tasks": 300,
+  "acc": {
+   "1": 0.483333,
+   "3": 0.286667,
+   "5": 0.306667
+  },
+  "hit": {
+   "1": 0.483333,
+   "3": 0.706667,
+   "5": 0.77
+  },
+  "recall": {
+   "1": 0.233273,
+   "3": 0.423788,
+   "5": 0.516175
+  },
+  "g1_slice": {
+   "n_tasks": 89,
+   "hit": {
+    "1": 0.393258,
+    "3": 0.58427,
+    "5": 0.662921
+   }
+  }
+ },
+ "characterization": {
+  "final_n": 300,
+  "target_file_count": {
+   "mean": 3.07,
+   "median": 2.0,
+   "min": 1,
+   "max": 12
+  },
+  "sip_empty_count": 72,
+  "rmcss_empty_count": 29,
+  "candidate_set_size_mean": 34.84,
+  "rmcss_selected_set_size_mean": 2.2167,
+  "sip_selected_set_size_mean": 1.79,
+  "commit_message_word_count": {
+   "mean": 23.11,
+   "median": 12.0,
+   "min": 1,
+   "max": 321
+  }
+ },
+ "error_decomposition": {
+  "sip_tp_retained": 175,
+  "sip_tp_dropped": 18,
+  "sip_fp_dropped": 150,
+  "sip_fp_retained": 194,
+  "omitted_positives_added": 108,
+  "new_fp_added": 188
+ }
+}

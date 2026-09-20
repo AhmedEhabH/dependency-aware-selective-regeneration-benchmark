@@ -18,28 +18,22 @@ at read time: `git rev-parse HEAD`, `git rev-parse origin/main`,
 **Model:** openrouter/deepseek/deepseek-v4-flash-0731
 **Task:** SALEOR_RESERVE_300_RMCSS - FINAL CLEAN RM-CSS REPLICATION +
 PRE-REGISTERED CROSS-REPOSITORY TRANSFER TEST (2026-09-20; T3; ONE clean
-untouched evaluation of 300 Saleor RESERVE tasks; APPROVED BY AHMED) - **STOPPED
-AT THE FROZEN COST GUARD (NO PAID CALLS MADE; NO OUTCOMES OPENED):**
-preregistration committed/pushed/tagged
-`saleor-reserve-300-rmcss-preregistered-2026-09-20` (commit 04abef5, tag
-6ec7a99f, peel 04abef5 == HEAD == origin/main); terminology freeze SIP/RM-CSS
-(docs/GLOSSARY.md); corrected evidence verified; cross-repo diagnostic verified
-on exposed data; sample 300/1086 RESERVE seed 20260920 (manifest SHA
-445b5e9d...); label-free preflight 300/300 (0 exclusions); temporal wording B;
-secondary DJANGO_ONLY_RMCSS_TRANSFER_MODEL fit (threshold 0.20, artifact SHA
-efb38c07...); 300 label-free public bundles materialized (0 hidden dirs, 0
-change_statuses); P88 recorded. **COST GUARD (frozen \$1.50 ceiling) PROJECTED
-\$1.6509 > \$1.50 -> MANDATORY STOP BEFORE PAID CALLS** (exact-prompt
-projection: 300 SIP calls \$1.6124 [16,104,012 prompt chars -> 5,051,344 prompt
-tokens @ \$0.30/M calibrated 0.31367 tokens/char on the 80 stage-5 saleor IT
-tasks + 96,990 completion tokens @ \$1.00/M] + missing embeddings \$0.0384
-[1,710 blobs materialized sha-verified, 2,076 new units] + queries \$0.000126;
-`research/saleor-reserve-300-rmcss/saleor_reserve_300_cost_projection.json`).
-Zero paid calls this mission; zero outcome/proxy reads. NEEDS AHMED
-AUTHORIZATION: (a) raise the ceiling (~\$1.75-2.00) via a pre-unsealing
-preregistration amendment, or (b) reduce the sample with an amended
-preregistration, or (c) other instruction. Everything else is ready: SIP runner,
-dense/embedding pipeline (P86-corrected), parity gate, evaluation, audits.
+untouched evaluation of 300 Saleor RESERVE tasks; APPROVED BY AHMED) -
+**COMPLETE: PRIMARY `SALEOR_RESERVE_300_RMCSS_PASS` + SECONDARY
+`SECONDARY_CROSS_REPO_TRANSFER_PASS`.** Actual cost $1.619525 < $1.75 amended
+ceiling (P89). SIP 300/300 (228 succeeded / 70 completed-empty / 2
+transport-failed -> fail-closed EMPTY; $1.59349); embeddings 2,076 units + 299
+queries ($0.026035); parity gate 10/10 + independent parity audit 11/11 PASS;
+PRIMARY RM-CSS F1 0.3569 vs SIP 0.2647, Delta F1 +0.0921 CI [+0.0691,+0.1156];
+SECONDARY django-only F1 0.3389 vs SIP 0.2647, Delta F1 +0.0742 CI
+[+0.0535,+0.0957]; result audit 15/15; outcomes opened once; 786 Saleor RESERVE
+tasks remain untouched; `IMPACT_LOCALIZATION_METHOD_SELECTION_CLOSED` permanent;
+no post-unseal tuning; no V3. Previous task - STAGE5_CORRECTED_REEXECUTION
+(2026-09-20; P86/P87; corrected 139-task result on EXPOSED population:
+`STAGE5_CORRECTED_REEXECUTION_POSITIVE`, pooled SIP 0.2857 / RM-CSS 0.3419 /
+Delta +0.0562 CI [+0.0185,+0.0945]).
+
+---
 
 ---
 

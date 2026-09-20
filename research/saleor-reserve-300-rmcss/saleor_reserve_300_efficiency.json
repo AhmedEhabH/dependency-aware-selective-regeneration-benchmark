@@ -1,0 +1,41 @@
+{
+ "sip": {
+  "calls": 300,
+  "prompt_tokens": 5001746,
+  "completion_tokens": 92985,
+  "total_tokens": 5094731,
+  "cost_usd": 1.59349,
+  "wall_seconds": 2950.0,
+  "latency_sum_seconds": 2945.2,
+  "success": 228,
+  "completed_empty": 70,
+  "transport_failed": 2
+ },
+ "qwen_embeddings": {
+  "missing_corpus_units": 2076,
+  "unit_est_tokens": 2590915,
+  "unit_cost_usd": 0.025909,
+  "query_count_unique": 299,
+  "query_est_tokens": 12558,
+  "query_cost_usd": 0.000126,
+  "embedding_cost_usd_total": 0.026035,
+  "embedding_calls": 33
+ },
+ "repository_memory": {
+  "index": "cached on D:/opencode_cache/memory_rescue_v2 (djangocms_commits.json + saleor_commits.json)",
+  "per_task_seconds": 0.57,
+  "total_memory_wall_seconds": 172.0
+ },
+ "rmcss_classifier": {
+  "seconds": 5.0,
+  "note": "in-memory L2-LR over 10452 candidate rows"
+ },
+ "totals": {
+  "total_incremental_cost_usd": 1.619525,
+  "ceiling_usd": 1.75,
+  "wall_seconds": 3757.0,
+  "peak_ram_estimate_gb": 2.0,
+  "cache_growth": "E:/opencode/qwen3-embed-cache-saleor-reserve-300-2026-09-20 (2076 unit vectors + 299 query vectors); E:/opencode/saleor-reserve-300-2026-09-20 (blob texts + unit texts)"
+ },
+ "distinguish": "one-time preprocessing: embedding cache build + memory index (amortized across prior missions / this run); per-change inference: SIP call (~3-9 s) + dense scoring (~0.03 s/task) + RM-CSS classifier (~0.01 s/task)"
+}

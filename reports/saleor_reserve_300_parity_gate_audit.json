@@ -1,0 +1,61 @@
+{
+ "pass": 11,
+ "total": 11,
+ "checks": [
+  {
+   "name": "A1.cache_coverage",
+   "pass": true,
+   "detail": "unresolved_misses=0"
+  },
+  {
+   "name": "A2.sentinel_count",
+   "pass": true,
+   "detail": "==-1e9:0"
+  },
+  {
+   "name": "A3.nan_rate",
+   "pass": true,
+   "detail": "dev=0.0835 s5=0.0793"
+  },
+  {
+   "name": "A4.finite_range",
+   "pass": true,
+   "detail": "min=0.072431 max=0.805434"
+  },
+  {
+   "name": "A5.feature_means",
+   "pass": true,
+   "detail": "all 9 continuous features within 3 Saleor DEV SD"
+  },
+  {
+   "name": "A6.candidate_rows_per_task",
+   "pass": true,
+   "detail": "dev=34.826 s5=34.840"
+  },
+  {
+   "name": "A7.schema",
+   "pass": true,
+   "detail": "11-feature schema exact"
+  },
+  {
+   "name": "A8.primary_hashes",
+   "pass": true,
+   "detail": "config_sha256=8925d29a8e065bc864cd16e755ac0e896c7675b4a12f68fb66c35e5bd644ea95 threshold=0.2"
+  },
+  {
+   "name": "A9.transfer_hashes",
+   "pass": true,
+   "detail": "artifact_sha256=efb38c079a6ea15e6ada4ecdb65810f4afd1f5614ad28274f9516d2112740a67 threshold=0.2"
+  },
+  {
+   "name": "A10.sample_hash",
+   "pass": true,
+   "detail": "sha=445b5e9d0aeeab9551e8feeb3e59e6b5bcfee793f029810a6efe0cbc8f126447"
+  },
+  {
+   "name": "A11.primary_agreement",
+   "pass": true,
+   "detail": "primary=10/10 independent=10/10"
+  }
+ ]
+}
