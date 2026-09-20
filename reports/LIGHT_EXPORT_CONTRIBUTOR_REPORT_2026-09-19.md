@@ -73,3 +73,33 @@ HEAD == origin/main == `083a1b2…`, clean tree):
   `qwen3-two-realization-replication-2026-09-19` peels to `083a1b2…`.
 - Budget: cumulative Qwen bridge spend ≈ **$0.439 ≤ $0.50** (A $0.1971 +
   B $0.2188 + ~$0.023 probes).
+
+## 6. UPDATE — CALIBRATED_SET_SELECTION_V1 closure (2026-09-20 03:35)
+
+TRUE LIGHT export re-built at the new scientific closure
+(`calibrated-set-selection-v1-2026-09-20` tag, merge `0bd3f8a…`,
+HEAD == origin/main == `0bd3f8a…`, clean tree at tag time; ZERO API):
+
+- **TRUE LIGHT export: `project-2026-09-20-0335.zip`**
+  - **37,883,542 bytes (37.9 MB) ≤ 50 MB**
+  - SHA-256 `46a8124307f0d1c47b433a0c633ff7f1598778a9f4d8baf9af14452f514875b7`
+  - 7,713 entries; git archive (no `.git`); same exclusions as §1 (pilot zip,
+    tracked `*.zip`, `unit_manifest.json`, locagent verbose logs).
+  - New artifacts: `research/calibrated-set-selection-v1/*` (candidate
+    universes, OOF probabilities, fold details, thresholds, repo metrics,
+    bootstrap CIs, calibration, error decomposition, set-size, A/B robustness,
+    verdicts), `src/benchmark/calibrated/`, run/audit/report scripts,
+    `reports/CALIBRATED_SET_SELECTION_V1_REPORT_2026-09-20.md`,
+    `reports/CURRENT_ORACLE_GAP_EXPLAINED_2026-09-20.md`,
+    `reports/LOCAGENT_MATCHED_COMPARISON_PROTOCOL_DRAFT_2026-09-20.md`.
+- **STOP audit ZIP (AGENTS.md rule, WITH `.git`): `project-2026-09-20-0334.zip`**
+  - 98,292,751 bytes; SHA-256
+    `2b8ac48fde4bbd188207538206c59d6084e0fc7b720e91b7226da08ef9334db2`
+  - includes `.git/HEAD`; `dist/pilot-kaggle-upload.zip` + `.sha256` are NOT
+    on disk (moved to the external `_historical_archive` per §1).
+- Updated git facts at this closure: HEAD == origin/main ==
+  `0bd3f8ae8e81225311c6b8f39e3336a335331c18`; new DEV-evidence tag
+  `calibrated-set-selection-v1-2026-09-20` peels to `0bd3f8a…`.
+- Verdict: `CALIBRATED_SET_SELECTION_V1_FAIL` (frozen negative; primary gate
+  fails on djangoCMS criterion B in realizations A and B; Saleor passes);
+  independent audit 20/20; unit tests 18/18.
