@@ -103,3 +103,37 @@ HEAD == origin/main == `0bd3f8a…`, clean tree at tag time; ZERO API):
 - Verdict: `CALIBRATED_SET_SELECTION_V1_FAIL` (frozen negative; primary gate
   fails on djangoCMS criterion B in realizations A and B; Saleor passes);
   independent audit 20/20; unit tests 18/18.
+
+## 7. UPDATE — PARENT_ONLY_REPOSITORY_MEMORY_RESCUE_V2 closure (2026-09-20 05:21)
+
+TRUE LIGHT export re-built at the new scientific closure
+(`parent-only-repository-memory-rescue-v2-2026-09-20` tag, merge `14f125a…`,
+HEAD == origin/main == `14f125a…`, clean tree; ZERO API):
+
+- **TRUE LIGHT export: `project-LIGHT-2026-09-20-0521.zip`**
+  - **39,829,885 bytes (39.8 MB) ≤ 50 MB**
+  - SHA-256 `7437137762d202271dbb952d97d08c19907865092be14713805d28a49c9d76e0`
+  - 7,772 entries; git archive (no `.git`); same exclusions as §1 (pilot zip,
+    tracked `*.zip`, `unit_manifest.json`, locagent verbose logs).
+  - New artifacts: `research/memory-rescue-v2/*` (candidate universes, OOF
+    probabilities, provenance, gate, bootstrap CIs, error decomposition,
+    intent stratification, sparse-empty, robustness, deep-FN coverage,
+    ablations, verdicts), `src/benchmark/memory_rescue/`,
+    run/history/diagnostics/ablation/audit scripts,
+    `reports/PARENT_ONLY_REPOSITORY_MEMORY_RESCUE_V2_REPORT_2026-09-20.md`,
+    `reports/PARENT_ONLY_REPOSITORY_MEMORY_RESCUE_V2_DIAGNOSTICS_2026-09-20.md`,
+    `reports/PROVENANCE_BY_CONSTRUCTION_DIRECTION_NOTE_2026-09-20.md`,
+    `docs/PARENT_ONLY_REPOSITORY_MEMORY_RESCUE_V2_IMPACT_DECLARATION_2026-09-20.md`.
+- **STOP audit ZIP (AGENTS.md rule, WITH `.git`): `project-2026-09-20-0516.zip`**
+  - 101,444,752 bytes; SHA-256
+    `af77824211f29fb1411adf1fd5b80b8442e97396c93399d81ffbc0e1cc3dc4d0`
+  - includes `.git/HEAD`; `dist/pilot-kaggle-upload.zip` + `.sha256` are NOT
+    on disk (moved to the external `_historical_archive` per §1).
+- Updated git facts at this closure: HEAD == origin/main ==
+  `14f125a08d80b4ef113b4bc37d23a0fc960996b3`; new DEV-evidence tag
+  `parent-only-repository-memory-rescue-v2-2026-09-20` peels to `14f125a…`.
+- Verdict: `PARENT_ONLY_REPOSITORY_MEMORY_RESCUE_V2_FAIL` (frozen negative;
+  repository history is an orthogonal zero-API signal that recovers deep dense
+  misses at the candidate level, but the unchanged final-set gate fails on
+  djangoCMS criterion B in realizations A and B; Saleor passes); independent
+  audit 23/23; unit tests 36/36.
