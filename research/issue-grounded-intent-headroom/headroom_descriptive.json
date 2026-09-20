@@ -1,0 +1,133 @@
+{
+ "path_mentions": {
+  "n_tasks": 12,
+  "with_mention": 4,
+  "without_mention": 8,
+  "mention_examples": [
+   {
+    "case_id": "djangocms-rc-38621b4b3e9e",
+    "detection": {
+     "exact_path": [
+      "cms/management/commands/subcommands/base.py"
+     ],
+     "basename": [
+      "cms/management/commands/subcommands/base.py"
+     ],
+     "module": [
+      "cms/management/commands/subcommands/base.py",
+      "cms/management/commands/subcommands/uninstall.py"
+     ],
+     "any_mention": [
+      "cms/management/commands/subcommands/base.py",
+      "cms/management/commands/subcommands/uninstall.py"
+     ]
+    }
+   },
+   {
+    "case_id": "djangocms-rc-693e910c3ff1",
+    "detection": {
+     "exact_path": [
+      "cms/middleware/language.py"
+     ],
+     "basename": [
+      "cms/middleware/language.py"
+     ],
+     "module": [
+      "cms/middleware/language.py",
+      "cms/middleware/page.py",
+      "cms/middleware/toolbar.py",
+      "cms/middleware/user.py",
+      "cms/middleware/utils.py"
+     ],
+     "any_mention": [
+      "cms/middleware/language.py",
+      "cms/middleware/page.py",
+      "cms/middleware/toolbar.py",
+      "cms/middleware/user.py",
+      "cms/middleware/utils.py"
+     ]
+    }
+   },
+   {
+    "case_id": "djangocms-rc-79a063f210e4",
+    "detection": {
+     "exact_path": [
+      "cms/utils/apphook_reload.py"
+     ],
+     "basename": [
+      "cms/utils/apphook_reload.py"
+     ],
+     "module": [
+      "cms/utils/apphook_reload.py"
+     ],
+     "any_mention": [
+      "cms/utils/apphook_reload.py"
+     ]
+    }
+   },
+   {
+    "case_id": "djangocms-rc-bc32c15a9555",
+    "detection": {
+     "exact_path": [
+      "cms/utils/reversion_hacks.py"
+     ],
+     "basename": [
+      "cms/utils/reversion_hacks.py"
+     ],
+     "module": [
+      "cms/utils/reversion_hacks.py"
+     ],
+     "any_mention": [
+      "cms/utils/reversion_hacks.py"
+     ]
+    }
+   }
+  ],
+  "mention_subgroup": {
+   "with_mention_ids": [
+    "djangocms-rc-38621b4b3e9e",
+    "djangocms-rc-693e910c3ff1",
+    "djangocms-rc-79a063f210e4",
+    "djangocms-rc-bc32c15a9555"
+   ],
+   "without_mention_ids": [
+    "djangocms-rc-1ff5bf9149b4",
+    "djangocms-rc-2403d4ea162b",
+    "djangocms-rc-5ff38b521274",
+    "djangocms-rc-6272761f9033",
+    "djangocms-rc-6731f246ef1d",
+    "djangocms-rc-8630db8aa177",
+    "djangocms-rc-ada585d3f358",
+    "djangocms-rc-d648239f0c74"
+   ],
+   "with_mention_Recall20": {
+    "message": 0.583333,
+    "issue": 0.583333
+   },
+   "without_mention_Recall20": {
+    "message": 0.75,
+    "issue": 0.8
+   }
+  }
+ },
+ "intent_length": {
+  "commit_message_buckets": {
+   "<=6": 107,
+   ">15": 133,
+   "7-15": 83
+  },
+  "issue_text_buckets": {
+   "7-15": 1,
+   ">15": 11
+  },
+  "commit_message_words": {
+   "median": 11,
+   "mean": 21.97
+  },
+  "issue_text_words": {
+   "median": 174.0,
+   "mean": 209.58
+  },
+  "short_intent_tasks": []
+ }
+}

@@ -209,3 +209,24 @@ Adaptive-k = cross-domain pattern.
 - **QWEN3 BRIDGE PROBE-DEFECT CORRECTION (2026-09-19, T3, ~\.023 technical)**: the original availability probe was defective (generation catalog). Corrected embeddings-catalog probe confirmed qwen/qwen3-embedding-8b available (DeepInfra \.01/M; expected full-run \.2188 < \.50). The frozen determinism probe found cosine drift ~1.0e-4 that flips a file-level B=5 selection on 1/5 sampled DEVELOPMENT tasks -> STOPPED BEFORE THE FULL SCIENTIFIC RUN (P73). QWEN3_EMBED_BRIDGE_TECHNICALLY_INCONCLUSIVE (determinism root cause); Stage-5 stays PAUSED/SEALED. Evidence: research/contamination-bridge/qwen_embed/{probe,stability}.json, reports/QWEN3_EMBED_DEVELOPMENT_REPORT_2026-09-19.md, DECISIONS.md P72/P73.
 
 - **QWEN3 TWO-REALIZATION REPLICATION (2026-09-19, T3, ~$0.416 realizations + ~$0.023 probes = ~$0.439 cumulative < $0.50)**: the contamination bridge RESUMED under the P74 protocol amendment (two independent complete realizations A and B replace the bitwise-determinism requirement; recorded before any target-aware Qwen P/R/F1 inspection). Full legal DEV population embedded twice (49,703 embeddable units + 323 queries per realization; whitespace-only units excluded per protocol 12.9; qwen/qwen3-embedding-8b @ DeepInfra $0.01/M, fallback disabled, live price re-verified). **VERDICT = INDEPENDENT_DENSE_RETRIEVAL_REPLICATED**: A and B BOTH pass the frozen gate on djangoCMS AND Saleor @B=5 (djangocms F1 0.226->0.262, saleor 0.237->0.270; every file-level CI excludes zero on both repos both realizations). Reproducibility: 97.21% exact same selected set, mean Jaccard 0.9907, 9 one-file boundary flips ALL FP-for-FP (pooled metrics identical A vs B). The ranking signal now has independent dense support; Qwen is a dense-ranking/recovery improvement over Route-B but does NOT beat Sparse final-set F1 (0.318/0.261) and does NOT replace SweRankEmbed-Small (0.280/0.288) - no overclaim. Full-file label-free score tables persisted (Parquet, 143,852 rows/realization) for the future calibrated ADD+DROP study. CALIBRATED_SET_SELECTION_V1 drafted NOT executed; Lipton 2014 F1-threshold literature note added (theory motivation only). Competitors (LocAgent/Agentless/Loc-Bench) documented, NOT run. Stage-5 stays PAUSED/SEALED. Evidence: reports/QWEN3_TWO_REALIZATION_REPLICATION_REPORT_2026-09-19.md, research/contamination-bridge/qwen_embed/{realization_A,realization_B,two_realization_metrics}.json, reports/qwen3_two_realization_{gate,reproducibility,audit}.json, docs/CALIBRATED_SET_SELECTION_V1_DRAFT.md, DECISIONS.md P74/P75/P76.
+
+## I40 - Issue-grounded intent as the localization signal (TEST, closed negative)
+**Source:** ISSUE_GROUNDED_INTENT_HEADROOM mission (2026-09-20).
+**Idea:** replace the short commit-message intent proxy with a temporally valid
+pre-change GitHub issue title+body and re-run the frozen dense ranking to test
+whether the proxy was suppressing localization information.
+**Disposition:** TESTED and frozen NEGATIVE
+(`ISSUE_GROUNDED_INTENT_SIGNAL_NOT_SUPPORTED`). Strict temporal rule leaves a
+near-empty clean population (djangocms 12 / saleor 0); on the 12 djangocms
+tasks Recall@20 point-rises but paired CI crosses zero and median rank
+worsens; saleor unevaluable. Revisit only with a deliberately-chosen temporal
+rule and a pre-registered larger clean corpus.
+
+## I41 - Energy-based change-set completion (WATCH, documented only)
+**Source:** V2 diagnostic (many positives generated as candidates but rejected
+by independent per-file classification) + LeCun et al. EBL.
+**Idea:** score complete predicted file SETS: E(q,S) = -sum unary -sum
+pairwise + size penalty; pairwise evidence = parent-visible co-change, parent
+dependency adjacency, negative historical association.
+**Disposition:** WATCH - documented in the impact declaration; NO novelty
+claim; a dedicated literature review is required before any execution.
