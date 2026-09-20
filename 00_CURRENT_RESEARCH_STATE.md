@@ -6,7 +6,76 @@ For historical closure records see `docs/PROJECT_HANDOFF.md`, `SYSTEM_STATE.md`,
 `TODO.md`, `docs/PAPER_WRITING_HANDOFF.md`, `docs/MSC_RESEARCH_ROADMAP_2026_2027.md`
 (all preserved verbatim below their HISTORICAL boundaries).
 
-**CURRENT TRUTH (2026-09-20, STAGE5_V2_FINAL — FINAL THESIS IMPACT-LOCALIZATION
+**CURRENT TRUTH (2026-09-20, STAGE5_V2_EXECUTION_INVALID_EMBEDDING_COVERAGE_DEFECT —
+first Stage-5 evaluation declared EXECUTION-INVALID and its FAIL label
+SCIENTIFICALLY SUPERSEDED; corrected re-execution on the SAME 139 exposed
+tasks is diagnostic/corrective, NOT a new untouched confirmation;
+`IMPACT_LOCALIZATION_METHOD_SELECTION_CLOSED` holds):**
+→ **P86 governance recorded APPEND-ONLY BEFORE any Stage-5 execution-code
+change** (mission governance-first). The first Stage-5 run did NOT execute the
+preregistered V2 dense-score pipeline correctly: `scripts/stage5_v2_dense_scores.py`
+reused the DEV blob-text/unit cache, and for Stage-5 blobs unseen in that DEV
+cache it failed to construct/embed the new code units and assigned a FINITE
+SENTINEL `dense_file_score = -1e9`. Because `-1e9` is finite, the frozen
+feature builder's NaN no-unit imputation (`no_units_score` -> `min_finite - 1`
+in `src/benchmark/memory_rescue/candidates.py`) never fired; StandardScaler
+received extreme values; dense-score/gap features became extreme; LR
+probabilities collapsed to zero for affected candidate rows. This violates the
+frozen Stage-5 preregistration (new corpus embeddings REQUIRED when the cache
+does not cover the tasks) and the frozen DEV missing-unit rule (NaN, never a
+finite sentinel).
+→ **EXACT defect reproduction verified independently from the persisted
+invalid artifacts** (`reports/stage5_execution_defect_reproduction.json`):
+A. 7,074/74,918 full-file-score rows == finite sentinel -1e9; B. among those,
+2,062 rows (djangoCMS 268, Saleor 1,794) are files whose paths had valid
+embeddings in DEV; C. 245/4,815 candidate rows forced to predicted probability
+exactly 0; D. 60/261 Sparse candidate rows forced to 0; E. 34 of those 60 are
+proxy true positives; F. total Sparse true positives dropped by the invalid V2
+= 39, of which 34/39 were directly hit by the embedding-coverage defect
+(own score == -1e9 sentinel, prob == 0); G. 63/162 gold non-Sparse candidate
+rows forced to zero; H. candidate dense-file-score distribution grossly
+inconsistent with DEV (mean ≈ -50.9M vs DEV 0.379, because of finite-sentinel
+contamination; DEV NaN rates dc 5.27% / saleor 8.35%).
+→ **FIX ONLY pipeline correctness (embedding coverage):** CASE A cache hit ->
+reuse realization-A embedding exactly; CASE B cache miss but file has
+embeddable units -> materialize/split the Stage-5 blob with the SAME frozen
+unit splitter and embed the missing units (`qwen/qwen3-embedding-8b` @
+DeepInfra, fallback disabled, same MAX-cosine aggregation); CASE C no
+embeddable unit -> dense score MUST be NaN/missing per frozen DEV semantics;
+NEVER a finite sentinel (-1e9/-1e6/-999999). HARD PIPELINE GUARDS: fail if
+`abs(dense_file_score) > 10` for any finite candidate dense score; fail if a
+blob has embeddable units but no embedding result; fail if a cache lookup
+silently resolves to a finite sentinel; fail if dense scores are out of range
+without an explicit documented reason; NO silent fallback. Cost guard: hard
+incremental ceiling $0.25 for new embeddings (live price verified pre-call).
+→ **LABEL-FREE PARITY GATE BEFORE any corrected Stage-5 label access**
+(`reports/stage5_parity_gate.json`): embedding coverage 100% (0 unresolved
+misses), zero finite sentinels, NaN/no-unit rate within ±3pp of DEV per repo
+(dc ≈5.3%, saleor ≈8.4%), all finite dense scores within [-1.5,+1.5],
+feature-distribution parity within 3 DEV SD, candidate-row-count parity within
+±25%, exact 11-feature schema, frozen model/scaler/threshold hashes. An
+INDEPENDENT parity audit recomputes every check without importing the primary
+analyzer. If ANY parity check fails: STOP (no corrected label/result
+inspection, no rule loosening).
+→ **CORRECTED RE-EXECUTION** on the SAME previously exposed djangoCMS RESERVE
+59 + Saleor INTERNAL_TEST 80 = 139 tasks, reusing the exact persisted Sparse
+write sets (no Sparse LLM re-call), frozen V2 model/scaler/threshold 0.20,
+realization A, endpoint repo-stratified pooled Delta F1 (10,000 resamples, seed
+20260920). Result label will be `STAGE5_CORRECTED_REEXECUTION_POSITIVE` /
+`_NEGATIVE` / `_MIXED` (NOT `STAGE5_V2_FINAL_CONFIRMATION_PASS`) because the
+population is no longer untouched. The corrected run answers ONLY: "What would
+the original frozen Stage-5 V2 pipeline have produced if the documented
+execution bug had not corrupted dense features?"
+→ **Clean untouched replication: NOT executed.** `CLEAN_SALEOR_RESERVE_
+REPLICATION_AWAITS_AHMED_AUTHORIZATION`; a draft preregistration (Saleor
+RESERVE 150, seed 20260920, same label-free parity gate, Sparse comparator,
+Delta F1 endpoint) is prepared for Ahmed's review only. There is NO remaining
+untouched djangoCMS confirmation population in the current benchmark split (the
+59 djangoCMS RESERVE tasks are exposed); a future clean djangoCMS confirmation
+would require newly mined / different-slice data or a new benchmark
+construction mission — NOT performed in this mission.
+**PRIOR TRUTH (2026-09-20, SUPERSEDED by the execution-defect correction —
+STAGE5_V2_FINAL — FINAL THESIS IMPACT-LOCALIZATION
 FREEZE + ONE-SHOT STAGE-5 CONFIRMATORY EVALUATION; verdict
 `STAGE5_V2_FINAL_CONFIRMATION_FAIL` + `IMPACT_LOCALIZATION_METHOD_SELECTION_CLOSED`;
 the frozen DEV-selected V2 policy did NOT survive the untouched confirmatory

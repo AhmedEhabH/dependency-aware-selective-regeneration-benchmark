@@ -1,0 +1,31 @@
+{
+ "mission": "STAGE5_V2_EXECUTION_INVALID_EMBEDDING_COVERAGE_DEFECT",
+ "reproduced_from": "persisted invalid Stage-5 artifacts (research/stage5-v2-final)",
+ "sentinel": -1000000000.0,
+ "A_full_file_score_sentinel_rows": 7074,
+ "B_sentinel_rows_with_valid_dev_embedding_path": {
+  "total": 2062,
+  "djangocms": 268,
+  "saleor": 1794
+ },
+ "C_candidate_rows_forced_prob0": {
+  "forced0": 245,
+  "total": 4815
+ },
+ "D_sparse_candidate_rows_forced_prob0": {
+  "forced0": 60,
+  "total": 261
+ },
+ "E_sparse_proxy_tp_among_forced0": 34,
+ "F_sparse_tp_dropped_by_invalid_v2": {
+  "dropped_total": 39,
+  "directly_hit_by_defect": 34
+ },
+ "G_gold_non_sparse_candidate_rows_forced0": {
+  "forced0": 63,
+  "total": 162
+ },
+ "H_candidate_dense_score_mean": -50882657.89277285,
+ "H_dev_dense_score_mean": 0.3792775722657533,
+ "H_distribution_inconsistent": true
+}

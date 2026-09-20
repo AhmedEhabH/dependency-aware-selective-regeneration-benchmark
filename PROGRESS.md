@@ -16,11 +16,31 @@ its own final live HEAD SHA (committing metadata changes HEAD again). Query
 at read time: `git rev-parse HEAD`, `git rev-parse origin/main`,
 `git status --porcelain`.
 **Model:** openrouter/deepseek/deepseek-v4-flash-0731
-**Task:** STAGE5_V2_FINAL - FINAL THESIS IMPACT-LOCALIZATION FREEZE + ONE-SHOT
-STAGE-5 CONFIRMATORY EVALUATION (2026-09-20; T3; $0.544067) - **COMPLETE:
+**Task:** STAGE5_V2_EXECUTION_INVALID_EMBEDDING_COVERAGE_DEFECT - REPAIR THE
+EXECUTION DEFECT IN THE FROZEN STAGE-5 V2 PIPELINE (2026-09-20; T3;
+governance-first P86): the first Stage-5 run was EXECUTION-INVALID (finite
+-1e9 sentinel instead of NaN/new embeddings for Stage-5 blobs missing from the
+DEV cache; superseded `STAGE5_V2_FINAL_CONFIRMATION_FAIL`); fix embedding
+coverage ONLY, add hard pipeline guards, run the label-free parity gate +
+independent parity audit, corrected re-execution on the SAME 139 exposed tasks
+reusing persisted Sparse write sets, corrected metrics/bootstrap (seed
+20260920), defect impact analysis, Acc@K descriptive, independent result audit,
+governance after corrected run, new tag `stage5-corrected-reexecution-2026-09-20`;
+`IMPACT_LOCALIZATION_METHOD_SELECTION_CLOSED` holds; Saleor RESERVE sealed;
+draft clean-replication preregistration prepared for Ahmed review ONLY.
+
+---
+
+**Previous task (2026-09-20, one-shot untouched confirmatory; SUPERSEDED by the
+execution-defect correction):** STAGE5_V2_FINAL -
+FINAL THESIS IMPACT-LOCALIZATION FREEZE + ONE-SHOT STAGE-5 CONFIRMATORY
+EVALUATION (T3; $0.544067) - **COMPLETE:
 `STAGE5_V2_FINAL_CONFIRMATION_FAIL`** (frozen negative; pooled Delta F1 −0.0588,
 CI [−0.1119, −0.0084]; A and B FAIL; both repos negative; V2 did not survive
-untouched confirmation; method-search phase CLOSED). Previous task -
+untouched confirmation; method-search phase CLOSED). **The first Stage-5 run is
+now EXECUTION-INVALID (P86: finite -1e9 sentinel embedding-coverage defect);
+its FAIL label is superseded by
+`STAGE5_V2_EXECUTION_INVALID_EMBEDDING_COVERAGE_DEFECT`.** Previous task -
 ISSUE-GROUNDED INTENT HEADROOM -
 DOES A REAL PRE-CHANGE PROBLEM DESCRIPTION FIX THE INFORMATION BOTTLENECK?
 (2026-09-20; T3 DEVELOPMENT; minimal-cost) - **COMPLETE:
