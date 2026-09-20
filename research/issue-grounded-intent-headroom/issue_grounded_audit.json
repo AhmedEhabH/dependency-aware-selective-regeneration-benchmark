@@ -1,0 +1,66 @@
+{
+ "pass": 12,
+ "total": 12,
+ "checks": [
+  {
+   "name": "S1.reference_counts",
+   "pass": true,
+   "detail": "djangocms=99/174 saleor=112/149"
+  },
+  {
+   "name": "S2.provenance_categories",
+   "pass": true,
+   "detail": "counts={'NO_REFERENCE': 112, 'PR_NO_LINKED': 145, 'DIRECT_ISSUE': 28, 'PR_MULTI_LINKED': 8, 'PR_ONE_LINKED': 30}"
+  },
+  {
+   "name": "S3.temporal_rule",
+   "pass": true,
+   "detail": "clean_issues=15 uncertain=65"
+  },
+  {
+   "name": "S4.clean_population",
+   "pass": true,
+   "detail": "djangocms=12 saleor=0"
+  },
+  {
+   "name": "S5.arm_i_present",
+   "pass": true,
+   "detail": "n_tasks=12"
+  },
+  {
+   "name": "S6.arm_m_recall20",
+   "pass": true,
+   "detail": "recall_m@20(djangocms pooled)=0.687500"
+  },
+  {
+   "name": "S7.arm_i_recall20",
+   "pass": true,
+   "detail": "recall_i@20(djangocms pooled)=0.718750"
+  },
+  {
+   "name": "S8.bootstrap",
+   "pass": true,
+   "detail": "delta=0.0201 CI[-0.0875,0.138]"
+  },
+  {
+   "name": "S9.no_forbidden_content",
+   "pass": true,
+   "detail": "forbidden_hits=0"
+  },
+  {
+   "name": "S10.corpus_sha256",
+   "pass": true,
+   "detail": "recomputed=8507057548dd31cf stored=8507057548dd31cf"
+  },
+  {
+   "name": "S13.sealed_data_guard",
+   "pass": true,
+   "detail": "clean population roles verified non-sealed"
+  },
+  {
+   "name": "S14.ab_realization_agreement",
+   "pass": true,
+   "detail": "exact proxy-rank agreement A/B=0.9062"
+  }
+ ]
+}

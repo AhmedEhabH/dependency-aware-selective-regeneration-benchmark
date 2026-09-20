@@ -1,0 +1,332 @@
+{
+ "model": "qwen/qwen3-embedding-8b",
+ "provider": "DeepInfra",
+ "n_tasks": 12,
+ "tasks": {
+  "djangocms-rc-1ff5bf9149b4": {
+   "A": {
+    "repository": "djangocms",
+    "proxy": [
+     "cms/admin/pageadmin.py",
+     "cms/cms_toolbars.py"
+    ],
+    "proxy_dense_rank": {
+     "cms/admin/pageadmin.py": 1,
+     "cms/cms_toolbars.py": 20
+    }
+   },
+   "B": {
+    "repository": "djangocms",
+    "proxy": [
+     "cms/admin/pageadmin.py",
+     "cms/cms_toolbars.py"
+    ],
+    "proxy_dense_rank": {
+     "cms/admin/pageadmin.py": 1,
+     "cms/cms_toolbars.py": 20
+    }
+   }
+  },
+  "djangocms-rc-2403d4ea162b": {
+   "A": {
+    "repository": "djangocms",
+    "proxy": [
+     "cms/models/permissionmodels.py"
+    ],
+    "proxy_dense_rank": {
+     "cms/models/permissionmodels.py": 1
+    }
+   },
+   "B": {
+    "repository": "djangocms",
+    "proxy": [
+     "cms/models/permissionmodels.py"
+    ],
+    "proxy_dense_rank": {
+     "cms/models/permissionmodels.py": 1
+    }
+   }
+  },
+  "djangocms-rc-38621b4b3e9e": {
+   "A": {
+    "repository": "djangocms",
+    "proxy": [
+     "cms/management/commands/subcommands/base.py",
+     "cms/management/commands/subcommands/uninstall.py"
+    ],
+    "proxy_dense_rank": {
+     "cms/management/commands/subcommands/base.py": 64,
+     "cms/management/commands/subcommands/uninstall.py": 65
+    }
+   },
+   "B": {
+    "repository": "djangocms",
+    "proxy": [
+     "cms/management/commands/subcommands/base.py",
+     "cms/management/commands/subcommands/uninstall.py"
+    ],
+    "proxy_dense_rank": {
+     "cms/management/commands/subcommands/base.py": 64,
+     "cms/management/commands/subcommands/uninstall.py": 65
+    }
+   }
+  },
+  "djangocms-rc-5ff38b521274": {
+   "A": {
+    "repository": "djangocms",
+    "proxy": [
+     "cms/plugin_rendering.py",
+     "cms/utils/plugins.py"
+    ],
+    "proxy_dense_rank": {
+     "cms/plugin_rendering.py": 13,
+     "cms/utils/plugins.py": 12
+    }
+   },
+   "B": {
+    "repository": "djangocms",
+    "proxy": [
+     "cms/plugin_rendering.py",
+     "cms/utils/plugins.py"
+    ],
+    "proxy_dense_rank": {
+     "cms/plugin_rendering.py": 13,
+     "cms/utils/plugins.py": 12
+    }
+   }
+  },
+  "djangocms-rc-6272761f9033": {
+   "A": {
+    "repository": "djangocms",
+    "proxy": [
+     "cms/utils/plugins.py"
+    ],
+    "proxy_dense_rank": {
+     "cms/utils/plugins.py": 71
+    }
+   },
+   "B": {
+    "repository": "djangocms",
+    "proxy": [
+     "cms/utils/plugins.py"
+    ],
+    "proxy_dense_rank": {
+     "cms/utils/plugins.py": 71
+    }
+   }
+  },
+  "djangocms-rc-6731f246ef1d": {
+   "A": {
+    "repository": "djangocms",
+    "proxy": [
+     "cms/constants.py",
+     "cms/plugin_rendering.py",
+     "cms/templatetags/cms_js_tags.py"
+    ],
+    "proxy_dense_rank": {
+     "cms/constants.py": 9,
+     "cms/plugin_rendering.py": 31,
+     "cms/templatetags/cms_js_tags.py": 36
+    }
+   },
+   "B": {
+    "repository": "djangocms",
+    "proxy": [
+     "cms/constants.py",
+     "cms/plugin_rendering.py",
+     "cms/templatetags/cms_js_tags.py"
+    ],
+    "proxy_dense_rank": {
+     "cms/constants.py": 9,
+     "cms/plugin_rendering.py": 31,
+     "cms/templatetags/cms_js_tags.py": 36
+    }
+   }
+  },
+  "djangocms-rc-693e910c3ff1": {
+   "A": {
+    "repository": "djangocms",
+    "proxy": [
+     "cms/middleware/language.py",
+     "cms/middleware/page.py",
+     "cms/middleware/toolbar.py",
+     "cms/middleware/user.py",
+     "cms/middleware/utils.py"
+    ],
+    "proxy_dense_rank": {
+     "cms/middleware/language.py": 2,
+     "cms/middleware/page.py": 51,
+     "cms/middleware/toolbar.py": 1,
+     "cms/middleware/user.py": 3,
+     "cms/middleware/utils.py": 6
+    }
+   },
+   "B": {
+    "repository": "djangocms",
+    "proxy": [
+     "cms/middleware/language.py",
+     "cms/middleware/page.py",
+     "cms/middleware/toolbar.py",
+     "cms/middleware/user.py",
+     "cms/middleware/utils.py"
+    ],
+    "proxy_dense_rank": {
+     "cms/middleware/language.py": 1,
+     "cms/middleware/page.py": 51,
+     "cms/middleware/toolbar.py": 2,
+     "cms/middleware/user.py": 3,
+     "cms/middleware/utils.py": 6
+    }
+   }
+  },
+  "djangocms-rc-79a063f210e4": {
+   "A": {
+    "repository": "djangocms",
+    "proxy": [
+     "cms/admin/forms.py",
+     "cms/admin/pageadmin.py",
+     "cms/forms/wizards.py",
+     "cms/utils/apphook_reload.py"
+    ],
+    "proxy_dense_rank": {
+     "cms/admin/forms.py": 33,
+     "cms/admin/pageadmin.py": 12,
+     "cms/forms/wizards.py": 100,
+     "cms/utils/apphook_reload.py": 4
+    }
+   },
+   "B": {
+    "repository": "djangocms",
+    "proxy": [
+     "cms/admin/forms.py",
+     "cms/admin/pageadmin.py",
+     "cms/forms/wizards.py",
+     "cms/utils/apphook_reload.py"
+    ],
+    "proxy_dense_rank": {
+     "cms/admin/forms.py": 33,
+     "cms/admin/pageadmin.py": 12,
+     "cms/forms/wizards.py": 100,
+     "cms/utils/apphook_reload.py": 4
+    }
+   }
+  },
+  "djangocms-rc-8630db8aa177": {
+   "A": {
+    "repository": "djangocms",
+    "proxy": [
+     "cms/admin/pageadmin.py",
+     "cms/cms_menus.py",
+     "cms/menu_bases.py",
+     "cms/models/managers.py",
+     "cms/models/permissionmodels.py",
+     "cms/utils/mail.py",
+     "cms/utils/page_permissions.py",
+     "cms/utils/permissions.py"
+    ],
+    "proxy_dense_rank": {
+     "cms/admin/pageadmin.py": 5,
+     "cms/cms_menus.py": 1,
+     "cms/menu_bases.py": 11,
+     "cms/models/managers.py": 4,
+     "cms/models/permissionmodels.py": 3,
+     "cms/utils/mail.py": 103,
+     "cms/utils/page_permissions.py": 10,
+     "cms/utils/permissions.py": 2
+    }
+   },
+   "B": {
+    "repository": "djangocms",
+    "proxy": [
+     "cms/admin/pageadmin.py",
+     "cms/cms_menus.py",
+     "cms/menu_bases.py",
+     "cms/models/managers.py",
+     "cms/models/permissionmodels.py",
+     "cms/utils/mail.py",
+     "cms/utils/page_permissions.py",
+     "cms/utils/permissions.py"
+    ],
+    "proxy_dense_rank": {
+     "cms/admin/pageadmin.py": 5,
+     "cms/cms_menus.py": 1,
+     "cms/menu_bases.py": 11,
+     "cms/models/managers.py": 4,
+     "cms/models/permissionmodels.py": 3,
+     "cms/utils/mail.py": 103,
+     "cms/utils/page_permissions.py": 10,
+     "cms/utils/permissions.py": 2
+    }
+   }
+  },
+  "djangocms-rc-ada585d3f358": {
+   "A": {
+    "repository": "djangocms",
+    "proxy": [
+     "cms/middleware/toolbar.py"
+    ],
+    "proxy_dense_rank": {
+     "cms/middleware/toolbar.py": 1
+    }
+   },
+   "B": {
+    "repository": "djangocms",
+    "proxy": [
+     "cms/middleware/toolbar.py"
+    ],
+    "proxy_dense_rank": {
+     "cms/middleware/toolbar.py": 2
+    }
+   }
+  },
+  "djangocms-rc-bc32c15a9555": {
+   "A": {
+    "repository": "djangocms",
+    "proxy": [
+     "cms/utils/reversion_hacks.py"
+    ],
+    "proxy_dense_rank": {
+     "cms/utils/reversion_hacks.py": 4
+    }
+   },
+   "B": {
+    "repository": "djangocms",
+    "proxy": [
+     "cms/utils/reversion_hacks.py"
+    ],
+    "proxy_dense_rank": {
+     "cms/utils/reversion_hacks.py": 4
+    }
+   }
+  },
+  "djangocms-rc-d648239f0c74": {
+   "A": {
+    "repository": "djangocms",
+    "proxy": [
+     "cms/cms_plugins.py",
+     "cms/models/aliaspluginmodel.py"
+    ],
+    "proxy_dense_rank": {
+     "cms/cms_plugins.py": 1,
+     "cms/models/aliaspluginmodel.py": 2
+    }
+   },
+   "B": {
+    "repository": "djangocms",
+    "proxy": [
+     "cms/cms_plugins.py",
+     "cms/models/aliaspluginmodel.py"
+    ],
+    "proxy_dense_rank": {
+     "cms/cms_plugins.py": 1,
+     "cms/models/aliaspluginmodel.py": 2
+    }
+   }
+  }
+ },
+ "query_ledger": {
+  "prompt_tokens": 5662,
+  "cost_usd": 5.662e-05,
+  "requests": 1
+ }
+}

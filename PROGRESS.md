@@ -16,8 +16,15 @@ its own final live HEAD SHA (committing metadata changes HEAD again). Query
 at read time: `git rev-parse HEAD`, `git rev-parse origin/main`,
 `git status --porcelain`.
 **Model:** openrouter/deepseek/deepseek-v4-flash-0731
-**Task:** PARENT-ONLY REPOSITORY MEMORY RESCUE V2 —
-HISTORY-AUGMENTED DEEP FALSE-NEGATIVE RECOVERY
+**Task:** ISSUE-GROUNDED INTENT HEADROOM -
+DOES A REAL PRE-CHANGE PROBLEM DESCRIPTION FIX THE INFORMATION BOTTLENECK?
+(2026-09-20; T3 DEVELOPMENT; minimal-cost) - **COMPLETE:
+`ISSUE_GROUNDED_INTENT_SIGNAL_NOT_SUPPORTED`** (frozen negative; strict
+temporal rule leaves 12 djangocms + 0 saleor clean paired tasks; djangoCMS
+Recall@20 point-rises 0.6875->0.7188 but paired CI crosses zero and median
+rank worsens; Saleor unevaluable; no full issue-grounded pipeline justified;
+Stage 5 stays PAUSED/SEALED). Previous task - PARENT-ONLY REPOSITORY MEMORY
+RESCUE V2 - HISTORY-AUGMENTED DEEP FALSE-NEGATIVE RECOVERY
 (2026-09-20; T3 DEVELOPMENT; ZERO API) — **COMPLETE:
 `PARENT_ONLY_REPOSITORY_MEMORY_RESCUE_V2_FAIL`** (frozen negative; parent-only
 repository-history memory recovers deep dense misses at the candidate level
@@ -111,3 +118,35 @@ in BOTH realizations A and B; Saleor passes; Stage 5 stays PAUSED/SEALED).
 - Next scientific action (NOT started): a V3 would require a NEW mission and
   NEW frozen hypothesis (no automatic V3); Stage 5 remains gated on a frozen
   successful final policy.
+## Full-suite state (ISSUE_GROUNDED_INTENT_HEADROOM, 2026-09-20)
+
+- New unit tests `tests/unit/test_issue_grounded.py` **26/26 PASS**
+  (reference parsing; repo-local resolution; issue-vs-PR distinction; no-PR
+  text; temporal-clean rule; updated_at guard; corpus hashing; ranking
+  aggregation unchanged; Recall@K formulas; task-paired bootstrap; path-mention
+  detection; sealed-data guard; 404 -> unresolved; ARM I query construction).
+- Independent audit **12/12 PASS** (`reports/issue_grounded_audit.json`):
+  recomputes reference counts, provenance, temporal flags, clean population,
+  ARM M/I Recall@20, bootstrap CI, corpus SHA256, A/B agreement WITHOUT
+  importing the analyzer.
+- Ruff clean; py_compile clean; `git diff --check` clean.
+- Cost: GitHub metadata free (cached); Qwen issue-query embeddings only
+  5,662 prompt tokens / $0.000057 (live $0.01/M verified); no corpus re-embed.
+
+## Closure block (ISSUE_GROUNDED_INTENT_HEADROOM, 2026-09-20)
+
+- T3 minimal-cost DEVELOPMENT closure; frozen negative
+  `ISSUE_GROUNDED_INTENT_SIGNAL_NOT_SUPPORTED` recorded.
+- Reference counts verified: djangocms 99/174, saleor 112/149 (recomputed,
+  matches prior descriptive claim). Strict temporal rule -> clean population =
+  djangocms 12 / saleor 0. Primary gate fails on djangoCMS (paired CI for
+  Delta Recall@20 crosses zero; median rank worsens); Saleor unevaluable.
+  Realization A == B. DeepFNRescue@20 = 0.143 (1/7). History BM25 arm NOT
+  improved by issue query (candidate precision 0.0885 -> 0.0431).
+- No full issue-grounded pipeline justified by this evidence; commit-message
+  proxy not demonstrated to suppress useful localization information.
+- Next scientific action (NOT started): a future issue-grounded mission must
+  deliberately decide the temporal rule (the strict `updated_at` rule produces
+  a near-empty Saleor population) and pre-register a larger clean corpus;
+  Stage 5 remains gated on a frozen successful final policy.
+- LIGHT export at scientific closure (filename/hash in the final stop report).

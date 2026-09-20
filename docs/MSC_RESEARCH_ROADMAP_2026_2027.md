@@ -821,3 +821,38 @@ must run on a fresh shared confirmatory split.
   agreement is NOT human agreement; the human audit remains the gold.
 - **Sealed now (unchanged):** djangoCMS RESERVE, Saleor INTERNAL_TEST, Saleor
   RESERVE.
+
+## 2026-09-20 update - ISSUE-GROUNDED INTENT HEADROOM
+
+- **ISSUE-GROUNDED INTENT HEADROOM EXECUTED (2026-09-20; T3 DEVELOPMENT;
+  minimal-cost).** Does a real pre-change GitHub issue description materially
+  improve localization signal vs the short commit-message intent proxy on the
+  same DEVELOPMENT tasks? References verified: djangocms 99/174, saleor
+  112/149 commit messages contain `#NNNN`; 262 refs across 211 tasks resolved
+  through the GitHub API (DIRECT_ISSUE 28, PR_ONE_LINKED 30, PR_MULTI_LINKED
+  8, PR_NO_LINKED 145, NO_REFERENCE 112). Strict temporal rule (created_at <
+  target AND updated_at <= target) leaves a PRIMARY clean paired population of
+  only **djangocms 12 / saleor 0**. On the 12 djangocms tasks: ARM I (issue
+  title+body) Recall@20 0.7188 vs ARM M 0.6875 (paired bootstrap CI
+  [-0.0875, +0.1375] crosses zero; pooled median target rank worsens 6.0 ->
+  7.5) -> frozen gate FAIL on djangoCMS, Saleor unevaluable ->
+  **`ISSUE_GROUNDED_INTENT_SIGNAL_NOT_SUPPORTED`** (negative frozen).
+  DeepFNRescue@20 = 0.143 (1/7); history BM25 arm precision 0.0885 -> 0.0431
+  (issue query worse on this sample); path-mention descriptive split shows the
+  small R20 gain is in the no-mention subgroup, not trivial path disclosure.
+  Cost: $0.000057 (5,662 Qwen query tokens) + free cached GitHub reads; no
+  corpus re-embed. 26/26 tests + 12/12 audit. **Conclusion: no full
+  issue-grounded pipeline justified by this evidence.**
+- **ENERGY_BASED_CHANGE_SET_COMPLETION (documented only, NOT executed;**
+  `docs/ISSUE_GROUNDED_INTENT_HEADROOM_IMPACT_DECLARATION_2026-09-20.md` ##17).
+  Future structured-prediction hypothesis: score complete predicted file SETS
+  rather than independent files; E(q,S) = -sum unary file scores -sum pairwise
+  compatibility + set-size penalty; pairwise evidence = parent-visible
+  co-change, parent dependency adjacency, negative historical association;
+  reference LeCun et al. EBL. NO novelty claim; dedicated literature review
+  required before execution.
+- **JEPA / world-model (supervisor-discussion direction only, NOT executed).**
+  Current highest-value question is information quality, not neural model
+  capacity.
+- **Sealed now (unchanged):** djangoCMS RESERVE, Saleor INTERNAL_TEST, Saleor
+  RESERVE. Stage 5 PAUSED/SEALED (`FINAL_POLICY_NOT_FROZEN`).

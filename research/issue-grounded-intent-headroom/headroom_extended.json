@@ -1,0 +1,110 @@
+{
+ "deep_dense_miss_rescue": {
+  "djangocms": {
+   "n_deep_misses_eligible": 7,
+   "deep_misses_in_primary_population": [
+    {
+     "case_id": "djangocms-rc-38621b4b3e9e",
+     "path": "cms/management/commands/subcommands/base.py",
+     "message_dense_rank": 135,
+     "issue_dense_rank": 64
+    },
+    {
+     "case_id": "djangocms-rc-38621b4b3e9e",
+     "path": "cms/management/commands/subcommands/uninstall.py",
+     "message_dense_rank": 128,
+     "issue_dense_rank": 65
+    },
+    {
+     "case_id": "djangocms-rc-6272761f9033",
+     "path": "cms/utils/plugins.py",
+     "message_dense_rank": 63,
+     "issue_dense_rank": 71
+    },
+    {
+     "case_id": "djangocms-rc-6731f246ef1d",
+     "path": "cms/templatetags/cms_js_tags.py",
+     "message_dense_rank": 46,
+     "issue_dense_rank": 36
+    },
+    {
+     "case_id": "djangocms-rc-693e910c3ff1",
+     "path": "cms/middleware/page.py",
+     "message_dense_rank": 92,
+     "issue_dense_rank": 51
+    },
+    {
+     "case_id": "djangocms-rc-8630db8aa177",
+     "path": "cms/menu_bases.py",
+     "message_dense_rank": 38,
+     "issue_dense_rank": 11
+    },
+    {
+     "case_id": "djangocms-rc-8630db8aa177",
+     "path": "cms/utils/mail.py",
+     "message_dense_rank": 88,
+     "issue_dense_rank": 103
+    }
+   ],
+   "entering_top": {
+    "1": 0,
+    "3": 0,
+    "5": 0,
+    "10": 0,
+    "20": 1
+   },
+   "counts_by_message_rank_bin": {
+    "<=5": 0,
+    "6-20": 0,
+    ">20": 7,
+    "None": 0
+   },
+   "IssueDeepFNRescue@20": 0.14285714285714285
+  },
+  "saleor": {
+   "n_deep_misses_eligible": 0,
+   "deep_misses_in_primary_population": [],
+   "entering_top": {
+    "1": 0,
+    "3": 0,
+    "5": 0,
+    "10": 0,
+    "20": 0
+   },
+   "counts_by_message_rank_bin": {
+    "<=5": 0,
+    "6-20": 0,
+    ">20": 0,
+    "None": 0
+   },
+   "IssueDeepFNRescue@20": 0.0
+  }
+ },
+ "history_arm": {
+  "djangocms": {
+   "arm_m": {
+    "useful_hist_files_n": 6,
+    "episode_files_n": 113,
+    "proxy_hits_episode": 10,
+    "deep_in_episode": 1,
+    "tasks_with_episodes": 12,
+    "n_tasks": 12,
+    "candidate_precision": 0.088496
+   },
+   "arm_i": {
+    "useful_hist_files_n": 3,
+    "episode_files_n": 116,
+    "proxy_hits_episode": 5,
+    "deep_in_episode": 0,
+    "tasks_with_episodes": 12,
+    "n_tasks": 12,
+    "candidate_precision": 0.043103
+   },
+   "deepmisses_total": 199,
+   "deepmisses_in_clean_pop": 7
+  },
+  "saleor": {
+   "n_tasks": 0
+  }
+ }
+}

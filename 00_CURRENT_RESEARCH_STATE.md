@@ -6,7 +6,88 @@ For historical closure records see `docs/PROJECT_HANDOFF.md`, `SYSTEM_STATE.md`,
 `TODO.md`, `docs/PAPER_WRITING_HANDOFF.md`, `docs/MSC_RESEARCH_ROADMAP_2026_2027.md`
 (all preserved verbatim below their HISTORICAL boundaries).
 
-**CURRENT TRUTH (2026-09-20, PARENT-ONLY REPOSITORY MEMORY RESCUE V2 — T3
+**CURRENT TRUTH (2026-09-20, ISSUE-GROUNDED INTENT HEADROOM — T3 minimal-cost
+scientific test of whether a real pre-change issue description fixes the
+information bottleneck; verdict `ISSUE_GROUNDED_INTENT_SIGNAL_NOT_SUPPORTED`
+(frozen negative); strict temporal rule; kept the short commit-message proxy;
+no new final policy; no V1/V2/Sparse changes; no corpus re-embed; no Stage 5;
+sealed sets untouched):**
+→ **P82 governance amendment + frozen protocol recorded APPEND-ONLY and BEFORE
+any issue-ranking outcome inspection** (`docs/ISSUE_GROUNDED_INTENT_HEADROOM_IMPACT_DECLARATION_2026-09-20.md`
++ `reports/issue_grounded_intent_freeze.json`): primary alternative intent =
+ISSUE TITLE + ISSUE BODY (PR body/diff/review/comments/target paths FORBIDDEN);
+deterministic `#NNNN` parsing + repository-local resolution; provenance
+categories DIRECT_ISSUE / PR_ONE_LINKED / PR_MULTI_LINKED / PR_NO_LINKED /
+UNRESOLVED; multiple linked issues concatenated in ascending number order;
+STRICT temporal rule (`created_at < target_time` AND `updated_at <=
+target_time`; else TEMPORALLY_UNCERTAIN, descriptive only); frozen issue corpus
++ SHA256 manifest before ranking; PRIMARY paired population = same DEV task ids
+in both arms; ARM M = frozen Qwen message rankings, ARM I = ONLY new issue-query
+embeddings (against the persisted E: code-unit cache); unchanged file-MAX
+aggregation / cosine / tie-break / full-universe dense rank; robustness vs both
+realizations; metrics = target-file Recall@1/3/5/10/20 + coverage + median rank
++ MRR + rank distribution + top-K precision + exact rank movement + task-paired
+bootstrap 10,000 (seed 20260920); DeepFNRescue@20 with the frozen deep-dense-miss
+definition; frozen parent-only episode BM25 arm (message vs issue query);
+path-mention sensitivity (descriptive, pre-registered, no task deletion);
+intent-length analysis (descriptive pods); gate frozen BEFORE outcomes:
+SUPPORTED needs A Recall@20(I)>Recall@20(M) AND B CI lower >0 AND C median rank
+improves/equal AND D no leakage, on BOTH repos; one repo -> MIXED; neither ->
+NOT_SUPPORTED.
+→ **Reference verification (recomputed, NOT copied):** djangocms 99/174 and
+saleor 112/149 commit messages contain `#NNNN` references (matches the prior
+descriptive claim exactly); 262 refs over 211 tasks; 257 distinct repo-local
+objects resolved via GitHub API (REST + GraphQL, free, cached). Provenance:
+DIRECT_ISSUE 28 (dc 27 / sc 1), PR_ONE_LINKED 30 (16/14), PR_MULTI_LINKED 8
+(5/3), PR_NO_LINKED 145 (51/94), NO_REFERENCE 112 (75/37). Tasks with a
+resolvable issue-grounded candidate: djangocms 48, saleor 18.
+→ **Strict temporal result (the dominant finding):** PRIMARY temporally-clean
+paired population = **djangocms 12 / saleor 0** (12/174 = 6.9%; 0/149 = 0%).
+15 clean issues across the 12 djangocms tasks; the exclusion is dominated by
+`updated_at > target` (GitHub issues often updated/closed at/after the merge
+commit, often only seconds later). 36 djangocms + 18 saleor tasks had
+candidates but NONE clean.
+→ **Headroom (djangocms clean n=12; identical in realizations A and B):**
+ARM M / ARM I pooled Recall@1 0.1875/0.1875, @3 0.3438/0.3438, @5 0.4688/0.4688,
+@10 0.5938/0.5625, **@20 0.6875/0.7188**; task-paired bootstrap (10,000) for
+Delta Recall@20 point **+0.0201**, CI **[-0.0875, +0.1375]** (crosses zero);
+pooled median target rank **6.0 -> 7.5** (worsens); MRR 0.3510 -> 0.3750; per
+task mean-of-medians 21.54 -> 18.92 (improves). Rank movement per file:
+13 improved / 15 worsened / 4 unchanged (A). **Gate: djangocms REPO_FAIL** (A
+passes; B CI lower <=0 FAIL; C FAIL); **saleor no clean population -> cannot
+demonstrate support** -> overall **`ISSUE_GROUNDED_INTENT_SIGNAL_NOT_SUPPORTED`**.
+→ **DeepFNRescue@20 (frozen V1 deep miss within the primary population):**
+djangocms 7 eligible (saleor 0); **1/7 moved into top20 by issue intent
+(0.143)**; strong per-file improvements (e.g. cms/menu_bases.py 38->11,
+cms/management/commands/subcommands/base.py 135->64) but only one crossed the
+top-20 line. Historical-episode BM25 arm: ARM M candidate precision 0.0885
+(113 files) vs ARM I 0.0431 (116 files) -> issue query LOWERS episodic
+precision on this sample; no DeepFNRecovery gain.
+→ **Path-mention sensitivity (descriptive):** 4/12 clean issue texts contain an
+exact/basename target-file mention; Recall@20 with-mention M/I 0.5833/0.5833
+(no change), without-mention 0.7500/0.8000 (+0.05) -> the small R20 gain is NOT
+trivial explicit path disclosure. Intent length: issues median 174 words
+(mean 209.6) vs messages median 11 words (mean 22.0); ~16x longer.
+→ **Cost / reversibility (class GREEN / LOW):** GitHub API reads free (cached);
+Qwen issue-query embeddings ONLY: **5,662 prompt tokens, $0.000057** (live
+$0.01/M verified 2026-09-20 before call-1); hard ceiling $0.05 respected;
+no corpus re-embed; no model download; no sealed evidence. Frozen issue corpus
+323 records / 56.6 KB; SHA-256 `8527bd1e8e63b851b104ba80df421133eefebeb4db7c9ac0d80eec21f646fb81`.
+→ **Validation:** 26/26 new unit tests PASS; independent audit **12/12 PASS**
+(`reports/issue_grounded_audit.json`) recomputes every claim WITHOUT importing
+the analyzer; ruff clean; py_compile clean; git diff --check clean.
+→ **Verdict:** `ISSUE_GROUNDED_INTENT_SIGNAL_NOT_SUPPORTED` frozen (no full
+issue-grounded pipeline; do NOT rerun V1/V2 with issue text). Interpretation:
+the commit-message proxy was NOT demonstrated to suppress useful localization
+information under the strict temporal rule; the bottleneck is compounded by the
+near-emptiness of the temporally-clean issue-grounded population (esp. Saleor).
+Future roadmap (documented only, NOT executed): ENERGY_BASED_CHANGE_SET_COMPLETION
+(structured prediction over file sets, LeCun-EBL reference, dedicated literature
+review required) + JEPA/world-model supervisor-discussion direction.
+**Stage-5 decision unchanged: `FINAL_POLICY_NOT_FROZEN`** - confirmatory stays
+PAUSED and SEALED (djangoCMS RESERVE 59, Saleor INTERNAL_TEST 80, Saleor RESERVE
+1086; spent djangoCMS INTERNAL_TEST untouched).
+**PRIOR TRUTH (2026-09-20, PARENT-ONLY REPOSITORY MEMORY RESCUE V2 — T3
 scientific continuation of the history-augmented deep false-negative recovery
 line; verdict `PARENT_ONLY_REPOSITORY_MEMORY_RESCUE_V2_FAIL` (frozen negative);
 parent-only repository-history memory as an ORTHOGONAL signal; ZERO API; sealed

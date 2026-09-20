@@ -1,0 +1,35 @@
+{
+ "n_tasks": 323,
+ "provenance_counts": {
+  "NO_REFERENCE": 112,
+  "PR_NO_LINKED": 145,
+  "DIRECT_ISSUE": 28,
+  "PR_MULTI_LINKED": 8,
+  "PR_ONE_LINKED": 30
+ },
+ "provenance_by_repo": {
+  "djangocms::NO_REFERENCE": 75,
+  "djangocms::PR_NO_LINKED": 51,
+  "djangocms::DIRECT_ISSUE": 27,
+  "djangocms::PR_MULTI_LINKED": 5,
+  "djangocms::PR_ONE_LINKED": 16,
+  "saleor::NO_REFERENCE": 37,
+  "saleor::PR_NO_LINKED": 94,
+  "saleor::PR_ONE_LINKED": 14,
+  "saleor::PR_MULTI_LINKED": 3,
+  "saleor::DIRECT_ISSUE": 1
+ },
+ "temporal_breakdown": {
+  "djangocms::no_candidate": 126,
+  "djangocms::clean=0": 36,
+  "djangocms::clean=1": 11,
+  "djangocms::clean=4": 1,
+  "saleor::no_candidate": 131,
+  "saleor::clean=0": 18
+ },
+ "corpus_manifest": {
+  "corpus_sha256": "8507057548dd31cf6256a328c6aa60f4fb1a9ec3b36694ab274d468ec68c064e",
+  "records": 323,
+  "path": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\issue-grounded-intent-headroom\\issue_corpus.json"
+ }
+}

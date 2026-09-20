@@ -1,0 +1,235 @@
+{
+ "results": {
+  "A": {
+   "djangocms": {
+    "n_tasks": 12,
+    "arm_m": {
+     "Recall@1": {
+      "pooled": 0.1875,
+      "macro": 0.21458333333333335
+     },
+     "Recall@3": {
+      "pooled": 0.34375,
+      "macro": 0.3770833333333334
+     },
+     "Recall@5": {
+      "pooled": 0.46875,
+      "macro": 0.5194444444444445
+     },
+     "Recall@10": {
+      "pooled": 0.59375,
+      "macro": 0.6097222222222222
+     },
+     "Recall@20": {
+      "pooled": 0.6875,
+      "macro": 0.6888888888888888
+     },
+     "coverage": {
+      "@1": 0.5,
+      "@3": 0.583333,
+      "@5": 0.75,
+      "@10": 0.833333,
+      "@20": 0.833333
+     },
+     "mrr": {
+      "mean": 0.350951,
+      "n": 12
+     },
+     "median_rank": {
+      "mean": 21.5417,
+      "n": 12
+     },
+     "n_tasks": 12.0
+    },
+    "arm_i": {
+     "Recall@1": {
+      "pooled": 0.1875,
+      "macro": 0.27708333333333335
+     },
+     "Recall@3": {
+      "pooled": 0.34375,
+      "macro": 0.3729166666666666
+     },
+     "Recall@5": {
+      "pooled": 0.46875,
+      "macro": 0.4979166666666666
+     },
+     "Recall@10": {
+      "pooled": 0.5625,
+      "macro": 0.5527777777777777
+     },
+     "Recall@20": {
+      "pooled": 0.71875,
+      "macro": 0.7090277777777777
+     },
+     "coverage": {
+      "@1": 0.5,
+      "@3": 0.5,
+      "@5": 0.666667,
+      "@10": 0.75,
+      "@20": 0.833333
+     },
+     "mrr": {
+      "mean": 0.374966,
+      "n": 12
+     },
+     "median_rank": {
+      "mean": 18.9167,
+      "n": 12
+     },
+     "n_tasks": 12.0
+    },
+    "gate": {
+     "k": 20,
+     "recall_m": 0.6875,
+     "recall_i": 0.71875,
+     "A_recall_i_gt_recall_m": true,
+     "B_ci_lower_gt_0": false,
+     "C_median_rank_improves_or_equal": false,
+     "median_rank_m": 6.0,
+     "median_rank_i": 7.5,
+     "bootstrap": {
+      "point_delta": 0.020139,
+      "ci_lower": -0.0875,
+      "ci_upper": 0.1375,
+      "mean": 0.019686,
+      "std": 0.057818,
+      "n_boot": 10000,
+      "n_tasks": 12
+     }
+    },
+    "rank_movement": {
+     "n_moved": 32,
+     "improved": 13,
+     "worsened": 15,
+     "unchanged": 4,
+     "median_change": 0.0,
+     "mean_change": -4.5938
+    },
+    "bootstrap_resamples": 10000
+   }
+  },
+  "B": {
+   "djangocms": {
+    "n_tasks": 12,
+    "arm_m": {
+     "Recall@1": {
+      "pooled": 0.1875,
+      "macro": 0.21458333333333335
+     },
+     "Recall@3": {
+      "pooled": 0.34375,
+      "macro": 0.3770833333333334
+     },
+     "Recall@5": {
+      "pooled": 0.5,
+      "macro": 0.5611111111111111
+     },
+     "Recall@10": {
+      "pooled": 0.59375,
+      "macro": 0.6097222222222222
+     },
+     "Recall@20": {
+      "pooled": 0.6875,
+      "macro": 0.6888888888888888
+     },
+     "coverage": {
+      "@1": 0.5,
+      "@3": 0.583333,
+      "@5": 0.833333,
+      "@10": 0.833333,
+      "@20": 0.833333
+     },
+     "mrr": {
+      "mean": 0.352206,
+      "n": 12
+     },
+     "median_rank": {
+      "mean": 21.5417,
+      "n": 12
+     },
+     "n_tasks": 12.0
+    },
+    "arm_i": {
+     "Recall@1": {
+      "pooled": 0.15625,
+      "macro": 0.19375
+     },
+     "Recall@3": {
+      "pooled": 0.34375,
+      "macro": 0.3729166666666666
+     },
+     "Recall@5": {
+      "pooled": 0.46875,
+      "macro": 0.4979166666666666
+     },
+     "Recall@10": {
+      "pooled": 0.5625,
+      "macro": 0.5527777777777777
+     },
+     "Recall@20": {
+      "pooled": 0.71875,
+      "macro": 0.7090277777777777
+     },
+     "coverage": {
+      "@1": 0.416667,
+      "@3": 0.5,
+      "@5": 0.666667,
+      "@10": 0.75,
+      "@20": 0.833333
+     },
+     "mrr": {
+      "mean": 0.333299,
+      "n": 12
+     },
+     "median_rank": {
+      "mean": 19.0,
+      "n": 12
+     },
+     "n_tasks": 12.0
+    },
+    "gate": {
+     "k": 20,
+     "recall_m": 0.6875,
+     "recall_i": 0.71875,
+     "A_recall_i_gt_recall_m": true,
+     "B_ci_lower_gt_0": false,
+     "C_median_rank_improves_or_equal": false,
+     "median_rank_m": 5.5,
+     "median_rank_i": 7.5,
+     "bootstrap": {
+      "point_delta": 0.020139,
+      "ci_lower": -0.0875,
+      "ci_upper": 0.1375,
+      "mean": 0.019686,
+      "std": 0.057818,
+      "n_boot": 10000,
+      "n_tasks": 12
+     }
+    },
+    "rank_movement": {
+     "n_moved": 32,
+     "improved": 14,
+     "worsened": 17,
+     "unchanged": 1,
+     "median_change": 1.0,
+     "mean_change": -4.5625
+    },
+    "bootstrap_resamples": 10000
+   }
+  }
+ },
+ "verdict_by_repo": {
+  "djangocms": "REPO_FAIL"
+ },
+ "overall": {
+  "verdict": "ISSUE_GROUNDED_INTENT_SIGNAL_NOT_SUPPORTED",
+  "repos_with_population": [
+   "djangocms"
+  ],
+  "repo_passage": {
+   "djangocms": false
+  },
+  "n_repos_pass": 0
+ }
+}

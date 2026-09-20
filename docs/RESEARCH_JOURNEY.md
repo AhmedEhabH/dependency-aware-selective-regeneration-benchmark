@@ -10,7 +10,7 @@ thesis failures: each saves future time, API cost, and effort by ruling out an
 approach already tested under this protocol.
 
 **Model (authoring agent):** openrouter/deepseek/deepseek-v4-flash-0731
-**Last update:** 2026-09-20 (PARENT-ONLY REPOSITORY MEMORY RESCUE V2: frozen negative PARENT_ONLY_REPOSITORY_MEMORY_RESCUE_V2_FAIL; parent-only history memory; ZERO API)
+**Last update:** 2026-09-20 (ISSUE-GROUNDED INTENT HEADROOM: frozen negative ISSUE_GROUNDED_INTENT_SIGNAL_NOT_SUPPORTED; strict temporal rule; minimal-cost; Stage 5 PAUSED/SEALED)
 
 ---
 
@@ -121,4 +121,4 @@ README = concise navigation/current headline overview ·
 scientific truth · [`PROGRESS.md`](../PROGRESS.md) = current execution truth ·
 [`DECISIONS.md`](../DECISIONS.md) = append-only decisions · this file =
 chronological tried/learned/ruled-out history · [`reports/`](../reports/) =
-authoritative experiment evidence.
+authoritative experiment evidence.2026-09-20 | ISSUE-GROUNDED INTENT HEADROOM (T3) | Replace the commit-message intent proxy with a temporally clean GitHub issue title+body; ARM M frozen Qwen dense vs ARM I new issue-query dense on the SAME DEV tasks | NOT_SUPPORTED: strict temporal rule -> clean paired population djangocms 12 / saleor 0; djangocms Recall@20 0.6875->0.7188 but paired CI [-0.0875,+0.1375]; median rank 6.0->7.5; DeepFNRescue@20 0.143; history BM25 precision 0.0885->0.0431 | Frozen negative `ISSUE_GROUNDED_INTENT_SIGNAL_NOT_SUPPORTED`; no full issue-grounded pipeline; Stage 5 stays PAUSED/SEALED | Ref-count proxy is real (99/174, 112/149) but pre-change issue text under the strict rule is rarely available; on the small clean population issue text does NOT materially improve the dense signal; commit-message proxy not demonstrated information-suppressing | Revisit ONLY with a deliberately chosen temporal rule + pre-registered larger clean corpus | [ISSUE_GROUNDED_INTENT_HEADROOM report](../reports/ISSUE_GROUNDED_INTENT_HEADROOM_2026-09-20.md) | [comparability map](../reports/LOCALIZATION_COMPARABILITY_MAP_2026-09-20.md) | [audit](../reports/issue_grounded_audit.json) | [artifacts](../research/issue-grounded-intent-headroom/)
