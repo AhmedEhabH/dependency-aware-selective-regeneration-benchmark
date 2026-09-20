@@ -6,6 +6,75 @@ For historical closure records see `docs/PROJECT_HANDOFF.md`, `SYSTEM_STATE.md`,
 `TODO.md`, `docs/PAPER_WRITING_HANDOFF.md`, `docs/MSC_RESEARCH_ROADMAP_2026_2027.md`
 (all preserved verbatim below their HISTORICAL boundaries).
 
+**CURRENT TRUTH (2026-09-20, CALIBRATED SET SELECTION V1 — T3 scientific
+continuation of the two-realization line; verdict
+`CALIBRATED_SET_SELECTION_V1_FAIL` (frozen negative); DEV-ONLY FINAL FILE-SET
+POLICY; ZERO API; sealed sets untouched; Stage 5 stays PAUSED/SEALED):**
+→ **P78 governance amendment + frozen config recorded APPEND-ONLY and BEFORE
+any outer-OOF inspection:** `INDEPENDENT_DENSE_RETRIEVAL_REPLICATED` means lack
+of independent replication is NO LONGER a Stage-5 blocker; Stage 5 remains
+paused because **`FINAL_POLICY_NOT_FROZEN`**; the pretrained-model provenance
+claim boundary preserved (independent replication weakens, does NOT eliminate,
+the possibility that a pretrained model saw public target-repository code;
+verdict C unchanged).
+→ **ONE minimal interpretable repository-independent decision policy
+evaluated (ZERO API):** candidate universe = Sparse files (KEEP/DROP) UNION
+top-20 NON-SPARSE files by the frozen Qwen dense rank (TOP_ADD_UNIVERSE=20,
+no fixed B, no max-additions cap, no min-one-file); features EXACTLY
+[dense_file_score (NaN imputed to min_finite-1), log_rank=log1p(ABSOLUTE
+dense_rank), gap_to_top1, in_sparse, log_sparse_set_size, sparse_empty,
+sparse_rank_interaction]; L2-LR (C=1.0, liblinear, max_iter=1000, seed 0) +
+StandardScaler on the 5 continuous features fit on training rows ONLY; nested
+5-fold OUTER task-grouped repo-stratified CV + 5-fold INNER task-grouped OOF
+threshold selection (grid 0.01..0.99 step 0.01, argmax pooled micro-F1,
+tie-break HIGHER); final set = {candidate: P ≥ threshold}; primary baseline =
+Sparse; paired task bootstrap (10,000 resamples, seed 20260920).
+→ **Result (realization A, Qwen full-file scores):** djangoCMS Sparse
+TP/FP/FN 125/155/382 (P 0.446/R 0.247/F1 0.318/FNR 0.753) → policy 140/191/367
+(P 0.423/R 0.276/F1 0.334/FNR 0.724), Delta F1 +0.0165 CI [−0.0190,+0.0525];
+Saleor Sparse 99/193/369 (P 0.339/R 0.212/F1 0.261/FNR 0.788) → policy
+147/261/321 (P 0.360/R 0.314/F1 0.336/FNR 0.686), Delta F1 +0.0751 CI
+[+0.0416,+0.1083]. **Primary gate FAIL** (both realizations A and B fail the
+SAME criterion): djangoCMS criterion B (paired-bootstrap 95% CI lower for
+Delta F1) crosses zero; Saleor PASSES (A-E all pass). Fold criterion E:
+djangoCMS 3/5, Saleor 4/5 (A). **PARETO_SUCCESS = FALSE** (Saleor Pareto-only).
+→ **Realization-B robustness (same frozen pipeline):** exact same selected
+set 83.28%; mean Jaccard 0.9284 (median 1.0, min 0.0); F1 A vs B djangoCMS
+0.334 vs 0.341, Saleor 0.336 vs 0.332; verdict agreement SAME (both FAIL).
+→ **Error decomposition (realization A):** djangoCMS Sparse TP retained 111 /
+incorrectly dropped 14 / Sparse FP dropped 44 / retained 111 / omitted
+positives added 29 / new FP added 80; Saleor 93/6/57/136/54/125. F1 gain
+comes from BOTH dropped Sparse FPs and added omitted positives.
+→ **Set-size analysis (A):** mean |Sparse| 1.61/1.96 → mean |Policy| 1.90/2.74;
+empty Sparse 53/174, 41/149; empty Policy 45/174, 12/149; mean additions/task
+0.63/1.20 (no fixed B).
+→ **Calibration (outer OOF, frozen 10 equal-width bins):** Brier 0.064,
+ECE 0.0057 — the LR probabilities are well calibrated; reliability table
+tracks closely.
+→ **Oracle gap after V1 (dated successor `reports/CURRENT_ORACLE_GAP_EXPLAINED_2026-09-20.md`):**
+remaining policy FN decomposes into ranking/candidate-coverage error 199/177,
+ADD decision error 154/138, DROP decision error 14/6, plus proxy ambiguity.
+First-pass recall/coverage remains the dominant loss.
+→ **Lipton et al. 2014 note:** used as THEORETICAL MOTIVATION only (t=F1*/2
+for well-calibrated probabilities); chosen thresholds (0.17–0.21) are below
+the descriptive F1*/2 (0.21–0.23) — reported descriptively; NOT applied to raw
+scores/ranks.
+→ **POST-HOC verification correction:** the historical two-realization report
+listed SweRank rank-4/5 hit rates as djangoCMS 0.023/0.034 / Saleor
+0.074/0.034; fresh recomputation from the SAME artifact gives djangoCMS
+0.080/0.052 / Saleor 0.134/0.094. Ranks 1-3 (used by every frozen conclusion)
+are IDENTICAL; no frozen conclusion changed (transcription error noted).
+→ **Competitors documented, NOT run** (`reports/LOCAGENT_MATCHED_COMPARISON_PROTOCOL_DRAFT_2026-09-20.md`):
+LocAgent F1≈0.333 came from a DIFFERENT exposed 10-task population and is NOT
+comparable; matched-comparison protocol drafted (same tasks/evaluator/
+universe/proxy/metrics; fail-closed + usable-only separately; tokens/calls/
+cost/latency); NO claim the current method beats LocAgent.
+→ **Verdict:** `CALIBRATED_SET_SELECTION_V1_FAIL` frozen (no automatic V2;
+any V2 needs a NEW mission + NEW frozen hypothesis). **Stage-5 decision:**
+`FINAL_POLICY_NOT_FROZEN` — confirmatory stays PAUSED and SEALED (djangoCMS
+RESERVE 59, Saleor INTERNAL_TEST 80, Saleor RESERVE 1086; spent djangoCMS
+INTERNAL_TEST untouched). The dense-mechanism replication is complete and
+accepted, but the final-set decision policy is not solved on DEVELOPMENT.
 **CURRENT TRUTH (2026-09-19, QWEN3 TWO-REALIZATION REPLICATION — T3 scientific
 continuation of the contamination bridge COMPLETE; verdict
 `INDEPENDENT_DENSE_RETRIEVAL_REPLICATED`; full label-free file-score tables

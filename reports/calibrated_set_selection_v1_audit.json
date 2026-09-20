@@ -1,0 +1,160 @@
+{
+  "audit_date": "2026-09-20",
+  "n_checks": 20,
+  "passed": 20,
+  "failed": 0,
+  "checks": [
+    {
+      "check": "candidate universe == 323 DEV tasks",
+      "value": 323,
+      "pass": true
+    },
+    {
+      "check": "DEV repos only",
+      "value": [
+        "djangocms",
+        "saleor"
+      ],
+      "pass": true
+    },
+    {
+      "check": "Sparse baseline djangocms TP/FP/FN == frozen",
+      "value": [
+        125,
+        155,
+        382
+      ],
+      "pass": true
+    },
+    {
+      "check": "Sparse baseline saleor TP/FP/FN == frozen",
+      "value": [
+        99,
+        193,
+        369
+      ],
+      "pass": true
+    },
+    {
+      "check": "OOF covers every task exactly once",
+      "value": 323,
+      "pass": true
+    },
+    {
+      "check": "fold assignment covers all 323 tasks",
+      "value": 323,
+      "pass": true
+    },
+    {
+      "check": "final sets recomputed from OOF probs + thresholds == persisted",
+      "value": "323/323",
+      "pass": true
+    },
+    {
+      "check": "repo_metrics djangocms recomputed == persisted",
+      "value": [
+        140,
+        191,
+        367,
+        0.3341
+      ],
+      "pass": true
+    },
+    {
+      "check": "repo_metrics saleor recomputed == persisted",
+      "value": [
+        147,
+        261,
+        321,
+        0.3356
+      ],
+      "pass": true
+    },
+    {
+      "check": "independent bootstrap F1 CI djangocms matches",
+      "value": [
+        -0.0197,
+        0.0511
+      ],
+      "pass": true
+    },
+    {
+      "check": "independent bootstrap F1 CI saleor matches",
+      "value": [
+        0.0419,
+        0.1083
+      ],
+      "pass": true
+    },
+    {
+      "check": "folds repository-stratified (<=1 task imbalance per repo)",
+      "value": {
+        "djangocms": {
+          "2": 35,
+          "1": 35,
+          "3": 35,
+          "4": 34,
+          "0": 35
+        },
+        "saleor": {
+          "4": 29,
+          "3": 30,
+          "2": 30,
+          "0": 30,
+          "1": 30
+        }
+      },
+      "pass": true
+    },
+    {
+      "check": "no repository-identity or file-count-N feature present",
+      "value": [],
+      "pass": true
+    },
+    {
+      "check": "all frozen feature definitions recompute exactly",
+      "value": "ok",
+      "pass": true
+    },
+    {
+      "check": "gate G: deterministic rerun identical",
+      "value": true,
+      "pass": true
+    },
+    {
+      "check": "calibration (Brier/ECE) recomputed",
+      "value": [
+        0.063851,
+        0.005655
+      ],
+      "pass": true
+    },
+    {
+      "check": "A/B robustness recomputed == persisted",
+      "value": [
+        83.28,
+        0.9284
+      ],
+      "pass": true
+    },
+    {
+      "check": "A/B gate verdict agreement stable",
+      "value": [
+        "CALIBRATED_SET_SELECTION_V1_FAIL",
+        "CALIBRATED_SET_SELECTION_V1_FAIL"
+      ],
+      "pass": true
+    },
+    {
+      "check": "gate logic recomputed matches persisted pass flags",
+      "value": "ok",
+      "pass": true
+    },
+    {
+      "check": "LR coefficients + scaler parameters finite",
+      "value": "ok",
+      "pass": true
+    }
+  ],
+  "verdict": "PASS"
+}

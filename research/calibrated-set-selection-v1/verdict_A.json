@@ -1,0 +1,196 @@
+{
+ "realization": "A",
+ "verdict": "CALIBRATED_SET_SELECTION_V1_FAIL",
+ "gate": {
+  "gate": {
+   "djangocms": {
+    "A_f1_policy_gt_sparse": true,
+    "A_f1_policy": 0.3341288782816229,
+    "A_f1_sparse": 0.3176620076238882,
+    "B_ci_lower_delta_f1_gt0": false,
+    "B_delta_f1": 0.016466870657734722,
+    "B_ci95_lower": -0.01898192787703497,
+    "B_ci95_upper": 0.05252364397193995,
+    "C_recall_policy_ge_sparse": true,
+    "D_fnr_policy_le_sparse": true,
+    "E_folds_delta_f1_ge0": true,
+    "E_n_folds_ge0": 3,
+    "E_n_folds": 5,
+    "fold_deltas": [
+     0.064158,
+     -0.01892,
+     0.081509,
+     0.018613,
+     -0.042084
+    ],
+    "pass": false
+   },
+   "saleor": {
+    "A_f1_policy_gt_sparse": true,
+    "A_f1_policy": 0.3356164383561644,
+    "A_f1_sparse": 0.26052631578947366,
+    "B_ci_lower_delta_f1_gt0": true,
+    "B_delta_f1": 0.07509012256669073,
+    "B_ci95_lower": 0.04156271702970323,
+    "B_ci95_upper": 0.10828292375008255,
+    "C_recall_policy_ge_sparse": true,
+    "D_fnr_policy_le_sparse": true,
+    "E_folds_delta_f1_ge0": true,
+    "E_n_folds_ge0": 4,
+    "E_n_folds": 5,
+    "fold_deltas": [
+     0.106947,
+     0.04172,
+     -0.021995,
+     0.11836,
+     0.126069
+    ],
+    "pass": true
+   }
+  },
+  "pareto_success": false,
+  "pareto_per_repo": {
+   "djangocms": false,
+   "saleor": true
+  },
+  "both_repos_pass": false
+ },
+ "baselines_verified": {
+  "djangocms": {
+   "sparse": {
+    "tp": 125,
+    "fp": 155,
+    "fn": 382,
+    "f1": 0.3176620076238882,
+    "precision": 0.44642857142857145,
+    "recall": 0.2465483234714004,
+    "fnr": 0.7534516765285996
+   },
+   "routeb_b5": {
+    "tp": 187,
+    "fp": 963,
+    "fn": 320,
+    "f1": 0.22570911285455642,
+    "precision": 0.16260869565217392,
+    "recall": 0.368836291913215,
+    "fnr": 0.631163708086785
+   },
+   "qwen_b5": {
+    "tp": 217,
+    "fp": 933,
+    "fn": 290,
+    "f1": 0.2619191309595655,
+    "precision": 0.18869565217391304,
+    "recall": 0.4280078895463511,
+    "fnr": 0.571992110453649
+   },
+   "qwen_b1": {
+    "tp": 158,
+    "fp": 296,
+    "fn": 349,
+    "f1": 0.32882414151925077,
+    "precision": 0.34801762114537443,
+    "recall": 0.3116370808678501,
+    "fnr": 0.6883629191321499
+   },
+   "swerank_b5": {
+    "tp": 232,
+    "fp": 918,
+    "fn": 275,
+    "f1": 0.28002414001207,
+    "precision": 0.20173913043478262,
+    "recall": 0.45759368836291914,
+    "fnr": 0.5424063116370809
+   },
+   "swerank_b1": {
+    "tp": 167,
+    "fp": 287,
+    "fn": 340,
+    "f1": 0.34755463059313213,
+    "precision": 0.36784140969163,
+    "recall": 0.32938856015779094,
+    "fnr": 0.6706114398422091
+   }
+  },
+  "saleor": {
+   "sparse": {
+    "tp": 99,
+    "fp": 193,
+    "fn": 369,
+    "f1": 0.26052631578947366,
+    "precision": 0.339041095890411,
+    "recall": 0.21153846153846154,
+    "fnr": 0.7884615384615384
+   },
+   "routeb_b5": {
+    "tp": 178,
+    "fp": 859,
+    "fn": 290,
+    "f1": 0.23654485049833887,
+    "precision": 0.171648987463838,
+    "recall": 0.3803418803418803,
+    "fnr": 0.6196581196581197
+   },
+   "qwen_b5": {
+    "tp": 203,
+    "fp": 834,
+    "fn": 265,
+    "f1": 0.26976744186046514,
+    "precision": 0.19575699132111862,
+    "recall": 0.4337606837606838,
+    "fnr": 0.5662393162393162
+   },
+   "qwen_b1": {
+    "tp": 140,
+    "fp": 301,
+    "fn": 328,
+    "f1": 0.30803080308030806,
+    "precision": 0.31746031746031744,
+    "recall": 0.29914529914529914,
+    "fnr": 0.7008547008547008
+   },
+   "swerank_b5": {
+    "tp": 217,
+    "fp": 820,
+    "fn": 251,
+    "f1": 0.28837209302325584,
+    "precision": 0.20925747348119575,
+    "recall": 0.4636752136752137,
+    "fnr": 0.5363247863247863
+   },
+   "swerank_b1": {
+    "tp": 138,
+    "fp": 303,
+    "fn": 330,
+    "f1": 0.30363036303630364,
+    "precision": 0.3129251700680272,
+    "recall": 0.2948717948717949,
+    "fnr": 0.7051282051282052
+   }
+  },
+  "swerank_rank_hits": {
+   "djangocms": {
+    "1": 42,
+    "2": 23,
+    "3": 19,
+    "4": 14,
+    "5": 9
+   },
+   "saleor": {
+    "1": 39,
+    "2": 26,
+    "3": 19,
+    "4": 20,
+    "5": 14
+   }
+  }
+ },
+ "determinism": {
+  "reruns": 2,
+  "oof_and_sets_identical": true,
+  "sha256": [
+   "04ee5a5c4dd3a8b1910d676a7f402e71bc77ba73d1e16a4a562f4b086dd744da",
+   "04ee5a5c4dd3a8b1910d676a7f402e71bc77ba73d1e16a4a562f4b086dd744da"
+  ]
+ }
+}

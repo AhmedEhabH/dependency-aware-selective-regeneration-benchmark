@@ -16,43 +16,49 @@ its own final live HEAD SHA (committing metadata changes HEAD again). Query
 at read time: `git rev-parse HEAD`, `git rev-parse origin/main`,
 `git status --porcelain`.
 **Model:** openrouter/deepseek/deepseek-v4-flash-0731
-**Task:** QWEN3 TWO-REALIZATION REPLICATION + FULL SCORE PERSISTENCE
-(2026-09-19; T3 scientific continuation of the contamination-bridge line) —
-**COMPLETE: `INDEPENDENT_DENSE_RETRIEVAL_REPLICATED`**; A and B both pass the
-frozen gate on djangoCMS AND Saleor @B=5; full label-free file-score tables
-persisted for the future calibrated ADD+DROP study; Stage 5 stays PAUSED/SEALED.
+**Task:** CALIBRATED SET SELECTION V1 — DEV-ONLY FINAL FILE-SET POLICY
+(2026-09-20; T3 DEVELOPMENT; ZERO API) — **COMPLETE:
+`CALIBRATED_SET_SELECTION_V1_FAIL`** (frozen negative; primary gate fails on
+djangoCMS criterion B — Delta-F1 CI crosses zero — in BOTH realizations A and
+B; Saleor passes; final-set decision policy NOT frozen; Stage 5 stays
+PAUSED/SEALED).
 
 ---
 
 ## Now executing
 
-- **MILESTONE COMPLETE (T3, authorized paid run ≤ $0.50).** The
-  contamination-robustness bridge line is CLOSED WITH A RESULT. Two complete
-  independent realizations (A and B) of `qwen/qwen3-embedding-8b` @ DeepInfra
-  ($0.01/M live-reverified, fallback disabled) were run over the FULL legal
-  DEV population (49,703 units + 323 queries per realization; whitespace-only
-  excluded; caches on E:). Actual cost A ≈ $0.1971 / B ≈ $0.2188; cumulative
-  incl. prior probes ≈ **$0.439 < $0.50**. 0 permanent failures.
-  **Verdict = `INDEPENDENT_DENSE_RETRIEVAL_REPLICATED`** (A and B both PASS
-  djangoCMS and Saleor @B=5; all file-level CIs exclude zero). A-vs-B
-  reproducibility: 97.21% exact same set, mean Jaccard 0.9907, 9 one-file
-  flips all FP-for-FP. Full label-free file-score Parquet tables persisted
-  (143,852 rows/realization) for the future calibrated ADD+DROP study.
-  CALIBRATED_SET_SELECTION_V1 DRAFTED (NOT executed). Lipton 2014 literature
-  note added. Competitors documented, NOT run.
-- **Remaining:** none for this mission (closure follows: commit/merge/push/
+- **MILESTONE COMPLETE (T3, ZERO paid API).** A single minimal interpretable
+  repository-independent decision policy (L2-LR, 7 frozen features, nested
+  5×5 task-grouped CV, inner-OOF F1 threshold, ADD/KEEP/DROP, no fixed B) was
+  evaluated on DEVELOPMENT using the persisted Qwen full-file scores
+  (realization A primary; B robustness). **Verdict =
+  `CALIBRATED_SET_SELECTION_V1_FAIL`** (frozen negative; no V2): djangoCMS F1
+  0.318 → 0.334 (point) but paired-bootstrap 95% CI for Delta F1 =
+  [+0.017, CI −0.019..+0.053] crosses zero → gate criterion B fails; Saleor
+  F1 0.261 → 0.336 (CI +0.042..+0.108, PASS). Realization B reproduces the
+  same verdict (A=B; 83.28% exact same set; mean Jaccard 0.9284). Independent
+  audit 20/20 PASS. Calibration excellent (Brier 0.064, ECE 0.0057). Oracle
+  gap after V1 decomposed (coverage 199/177, ADD decision 154/138, DROP
+  decision 14/6).
+- **Remaining:** closure (governance docs already updated; commit/merge/push/
   tag/export/STOP report).
 
 ## Last completed task
 
-- QWEN3 two-realization replication (2026-09-19, T3): two independent full
-  realizations of the hosted Qwen embeddings on DEV; per-realization metrics +
-  paired bootstrap CIs + frozen gate (PASS everywhere); A/B reproducibility;
-  full-file label-free score persistence; set-selection diagnosis verified;
-  CALIBRATED_SET_SELECTION_V1 draft; Lipton literature note; competitor note.
-  Scripts `scripts/qwen3_two_realization_{run,analyze,reports,audit}.py`;
-  evidence under `research/contamination-bridge/qwen_embed/`;
-  reports `reports/QWEN3_TWO_REALIZATION_REPLICATION_REPORT_2026-09-19.md`.
+- CALIBRATED_SET_SELECTION_V1 (2026-09-20, T3, ZERO API): frozen config +
+  governance amendment (P78) recorded BEFORE implementation; candidate
+  universe (Sparse ∪ top-20 non-sparse by Qwen dense rank); 7 frozen features;
+  L2-LR C=1.0 liblinear; nested 5×5 task-grouped repo-stratified CV; inner-OOF
+  F1 threshold (grid 0.01..0.99, tie-break higher); final sets by threshold;
+  per-repo metrics + paired task bootstrap CIs + calibration (10 equal-width
+  bins) + error decomposition + set-size analysis + A/B robustness; primary
+  gate A–G (FAIL: djangoCMS criterion B); deterministic rerun identical;
+  independent audit 20/20 PASS. Scripts
+  `scripts/calibrated_set_selection_v1_{run,audit,report}.py`;
+  evidence under `research/calibrated-set-selection-v1/`;
+  reports `reports/CALIBRATED_SET_SELECTION_V1_REPORT_2026-09-20.md`,
+  `reports/CURRENT_ORACLE_GAP_EXPLAINED_2026-09-20.md`,
+  `reports/LOCAGENT_MATCHED_COMPARISON_PROTOCOL_DRAFT_2026-09-20.md`.
 
 ## Immediate next step
 
@@ -66,30 +72,33 @@ persisted for the future calibrated ADD+DROP study; Stage 5 stays PAUSED/SEALED.
 - Human minimal spot-check (119 rows) awaits a human reviewer.
 - Pre-existing environmental (2 full-suite failures, identical on clean base):
   pinned djangocms git cache absent at benchmark_data/repositories/djangocms.
-- Stage 5 confirmatory stays PAUSED/SEALED pending a fresh frozen protocol +
-  authorization; the dense-replication result does NOT unlock it by itself
-  (provenance verdict C unchanged).
+- Stage 5 confirmatory stays PAUSED/SEALED: **`FINAL_POLICY_NOT_FROZEN`**
+  (the V1 final-set policy FAILED its frozen gate; the dense-mechanism
+  replication removed the non-replication blocker, but a frozen successful
+  policy does not exist yet).
 
-## Full-suite state (QWEN3 two-realization replication, 2026-09-19)
+## Full-suite state (CALIBRATED_SET_SELECTION_V1, 2026-09-20)
 
-- New unit tests `tests/unit/test_qwen3_two_realization.py` **6/6 PASS**
-  (whitespace-unit rule, ChunkCache round-trip, budget projection guard,
-  analyzer contributions, reproducibility stats, label-free schema).
-- Affected suites PASS (signal metrics, or_embeddings).
-- Independent audit **13/13 PASS** (`reports/qwen3_two_realization_audit.json`):
-  corpus index 50,026 entries/realization, cumulative spend < ceiling,
-  pooled F1 recomputed ≥ 0.25 on both repos both realizations, label-free
-  Parquet (143,852 rows), reproducibility ≥ 95%.
+- New unit tests `tests/unit/test_calibrated_set_selection.py` **18/18 PASS**
+  (task grouping; repo-stratified folds; train-only scaling/fitting; inner-OOF
+  threshold + tie-break; no outer-label leakage flip-test; candidate
+  universe; absolute log-rank; N-not-a-feature; interaction; ADD/KEEP/DROP
+  accounting; metric formulas; bootstrap determinism; robustness; sealed
+  guard; gate/PARETO evaluation).
+- Independent audit **20/20 PASS**
+  (`reports/calibrated_set_selection_v1_audit.json`): recomputes every claim
+  from persisted artifacts WITHOUT importing the analyzer.
 - Ruff clean; py_compile clean; `git diff --check` clean.
+- Affected suites: `tests/unit/test_calibrated_set_selection.py` 18/18.
 
-## Closure block (QWEN3 two-realization replication, 2026-09-19)
+## Closure block (CALIBRATED_SET_SELECTION_V1, 2026-09-20)
 
-- T3 authorized paid run (≤ $0.50; actual ≈ $0.439 cumulative).
+- T3 ZERO-API DEVELOPMENT closure; frozen negative
+  `CALIBRATED_SET_SELECTION_V1_FAIL` recorded.
 - DEV-evidence tag (peel == merge == main-at-tag-time; audited DEVELOPMENT
   evidence; NOT a stable-tag move). Pushed to origin; origin/main == HEAD ==
   tag peel.
 - LIGHT export at scientific closure (filename/hash in the final stop report).
-- Next scientific task (NOT started, requires its own authorization):
-  **CALIBRATED_SET_SELECTION_V1** (DEV only; draft at
-  `docs/CALIBRATED_SET_SELECTION_V1_DRAFT.md`), then a Stage-5 confirmatory
-  decision.
+- Next scientific action (NOT started): a V2 calibrated set-selection policy
+  would require a NEW mission and NEW frozen hypothesis (mission §32 forbids
+  automatic V2); Stage 5 remains gated on a frozen successful final policy.
