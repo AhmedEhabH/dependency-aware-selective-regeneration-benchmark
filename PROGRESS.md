@@ -114,7 +114,7 @@ in BOTH realizations A and B; Saleor passes; Stage 5 stays PAUSED/SEALED).
 - DEV-evidence tag (peel == merge == main-at-tag-time; audited DEVELOPMENT
   evidence; NOT a stable-tag move). Pushed to origin; origin/main == HEAD ==
   tag peel.
-- LIGHT export at scientific closure (filename/hash in the final stop report).
+- TRUE LIGHT export at scientific closure: project-LIGHT-2026-09-20-0746.zip (40.22 MB <= 50 MB; SHA-256 d6a3af836dd127ec539a602120a4c854ce31664af231d7a90d09099f93b292c7; HEAD 939e5a2; origin/main == HEAD == tag peel).
 - Next scientific action (NOT started): a V3 would require a NEW mission and
   NEW frozen hypothesis (no automatic V3); Stage 5 remains gated on a frozen
   successful final policy.
@@ -149,4 +149,4 @@ in BOTH realizations A and B; Saleor passes; Stage 5 stays PAUSED/SEALED).
   deliberately decide the temporal rule (the strict `updated_at` rule produces
   a near-empty Saleor population) and pre-register a larger clean corpus;
   Stage 5 remains gated on a frozen successful final policy.
-- LIGHT export at scientific closure (filename/hash in the final stop report).
+- TRUE LIGHT export at scientific closure: project-LIGHT-2026-09-20-0746.zip (40.22 MB <= 50 MB; SHA-256 d6a3af836dd127ec539a602120a4c854ce31664af231d7a90d09099f93b292c7; HEAD 939e5a2; origin/main == HEAD == tag peel).
