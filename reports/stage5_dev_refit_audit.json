@@ -1,0 +1,51 @@
+{
+ "pass": 9,
+ "total": 9,
+ "checks": [
+  {
+   "name": "A1.dev_tasks",
+   "pass": true,
+   "detail": "n=323"
+  },
+  {
+   "name": "A2.candidate_rows",
+   "pass": true,
+   "detail": "rows=10734"
+  },
+  {
+   "name": "A2.feature_schema",
+   "pass": true,
+   "detail": "11 features exact order"
+  },
+  {
+   "name": "A3.threshold",
+   "pass": true,
+   "detail": "threshold=0.2"
+  },
+  {
+   "name": "A4.model_recompute",
+   "pass": true,
+   "detail": "coef/intercept/scaler match"
+  },
+  {
+   "name": "A5.prereg_hash",
+   "pass": true,
+   "detail": "hash=a4f484a9c075b015"
+  },
+  {
+   "name": "A6.no_sealed_in_dev",
+   "pass": true,
+   "detail": "sealed_in_dev=0"
+  },
+  {
+   "name": "A7.qwen_constants",
+   "pass": true,
+   "detail": "qwen/qwen3-embedding-8b @ DeepInfra"
+  },
+  {
+   "name": "A8.endpoint_frozen",
+   "pass": true,
+   "detail": "resamples/seed/success-rule match preregistration"
+  }
+ ]
+}

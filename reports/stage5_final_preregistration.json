@@ -1,0 +1,134 @@
+{
+ "artifact_hashes": {
+  "research/contamination-bridge/qwen_embed/realization_A/full_file_scores.parquet": "43936f7fa6b16b90fd14cba9f901005ca7f5f7b7c363a19cad2a15a9ea953aa7",
+  "research/memory-rescue-v2/fold_assignments_A.json": "2e81d3d8efcbdbb1c09c2becf2d8f93f542476fd11ed373fa41bba791eea23e8",
+  "research/stage5-v2-final/deployment_artifact.json": "7e9f82bc4d0a4acba114e80000a4246cb05e9f9b01a1ca2ce3c7c0a672dc4171",
+  "research/stage5-v2-final/deployment_candidate_rows.parquet": "b359bfa76b28c8ca067965efdf70ab43f5739a3f4e503afc9423b17942b39b42"
+ },
+ "budget": {
+  "hard_incremental_ceiling_usd": 1.0,
+  "no_extra_realization": true,
+  "no_fallback": true,
+  "no_model_substitution": true,
+  "qwen_model_required": "qwen/qwen3-embedding-8b",
+  "qwen_provider": "DeepInfra",
+  "stop_before_paid_calls_if_projected_over_ceiling": true,
+  "verify_live_price_before_paid_call": true
+ },
+ "created_at_utc": "2026-09-20T05:55:12.470294+00:00",
+ "final_dev_model": {
+  "C": 1.0,
+  "config_sha256": "8925d29a8e065bc864cd16e755ac0e896c7675b4a12f68fb66c35e5bd644ea95",
+  "fold_seed": 20260920,
+  "lr_coef": [
+   0.4494145842214377,
+   -0.39872084612452363,
+   -0.29169936538128205,
+   0.062068759265826855,
+   0.07952879741893729,
+   0.5042505639476919,
+   0.1591878798365017,
+   0.28454322767043544,
+   0.4000038749835328,
+   -0.15220381052833856,
+   0.4836546669039643
+  ],
+  "lr_intercept": -3.4741396051551754,
+  "max_iter": 1000,
+  "model": "L2 LogisticRegression",
+  "n_dev_rows": 10734,
+  "n_dev_tasks": 323,
+  "n_folds": 5,
+  "random_state": 0,
+  "scaler_mean": [
+   0.4922027473584531,
+   3.112802221041042,
+   0.13055952196517026,
+   0.8398904457123686,
+   0.12967036702008336,
+   0.09371821643334806,
+   0.06815153951972826,
+   3.4486874367322065,
+   0.30110576199134936
+  ],
+  "scaler_scale": [
+   0.12804323074366175,
+   1.2959386261400339,
+   0.11396073402437183,
+   0.660835627855601,
+   0.6370581200793527,
+   0.23028349604881093,
+   0.17896112294567473,
+   1.4548393726258109,
+   0.4061456554382544
+  ],
+  "solver": "liblinear",
+  "threshold": 0.2,
+  "threshold_method": "5-fold task-grouped OOF argmax pooled micro-F1, tie-break HIGHER"
+ },
+ "labels": {
+  "FAIL": "STAGE5_V2_FINAL_CONFIRMATION_FAIL + IMPACT_LOCALIZATION_METHOD_SELECTION_CLOSED",
+  "MIXED": "STAGE5_V2_FINAL_CONFIRMATION_MIXED + IMPACT_LOCALIZATION_METHOD_SELECTION_CLOSED",
+  "PASS": "STAGE5_V2_FINAL_CONFIRMATION_PASS + IMPACT_LOCALIZATION_METHOD_SELECTION_CLOSED"
+ },
+ "mission": "STAGE5_V2_FINAL",
+ "preregistration_sha256": "a4f484a9c075b015df87dee2eaa7c885b18b120e3ab0511dc450c68dd6edf670",
+ "primary_endpoint": {
+  "ci": "95% [Q2.5, Q97.5]",
+  "name": "repo-stratified pooled micro-F1 difference (V2 minus Sparse)",
+  "population": "djangocms RESERVE 59 + saleor INTERNAL_TEST 80",
+  "resamples": 10000,
+  "seed": 20260920
+ },
+ "python_version": "3.11.5",
+ "qwen_realization": "A",
+ "sealed_data_guard": {
+  "no_second_chance": true,
+  "one_shot_only": true,
+  "tag": "stage5-v2-final-preregistered-2026-09-20",
+  "unseal_only_after_preregistration_tag": true
+ },
+ "sealed_population": {
+  "djangocms_reserve_n": 59,
+  "note": "populations defined by the frozen split manifests (research/transparency/v2_split_proposal.json RESERVE=59; benchmark_data/real_commit_impact_saleor/split_freeze_saleor.json INTERNAL_TEST=80)",
+  "saleor_internal_test_n": 80,
+  "saleor_reserve_extension": "NO",
+  "total_n": 139
+ },
+ "source_commit_at_build": "8ff7657222906b69705b97caa87fd720133a7f01",
+ "success_rule": {
+  "A": "pooled stratified Delta F1 point > 0 AND 95% CI lower > 0",
+  "B": "djangoCMS Stage-5 point Delta F1 > 0 AND Saleor Stage-5 point Delta F1 > 0",
+  "per_repo_ci_gating": false
+ },
+ "v2_policy_frozen": {
+  "candidate_universe": [
+   "Sparse files",
+   "Qwen dense top-20 NON-SPARSE",
+   "parent-only structural memory top-10",
+   "parent-only episodic memory top-10"
+  ],
+  "features": [
+   "dense_file_score",
+   "log_rank",
+   "gap_to_top1",
+   "in_sparse",
+   "log_sparse_set_size",
+   "sparse_empty",
+   "sparse_rank_interaction",
+   "cochange_sparse",
+   "cochange_top1",
+   "log_history_change_count",
+   "episode_similarity"
+  ],
+  "forbidden": [
+   "new features",
+   "feature deletion",
+   "graph features",
+   "class weighting",
+   "issue text",
+   "adaptive K",
+   "repository ID"
+  ]
+ }
+}
