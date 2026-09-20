@@ -1,0 +1,336 @@
+{
+ "preregistration": "SALEOR_RESERVE_300_RMCSS",
+ "date": "2026-09-20",
+ "mission": "FINAL CLEAN RM-CSS REPLICATION + PRE-REGISTERED CROSS-REPOSITORY TRANSFER TEST",
+ "authorizing_agent": "Ahmed",
+ "tier": "T3",
+ "impact_declaration": "docs/SALEOR_RESERVE_300_RMCSS_IMPACT_DECLARATION_2026-09-20.md",
+ "terminology": {
+  "SIP": "Sparse Impact Plan (the Sparse baseline; old thesis-facing names: Sparse-v2 / sparse impact plan)",
+  "RM-CSS": "Repository-Memory Calibrated Set Selection = SIP + Qwen dense ranking + parent-only Repository Memory + calibrated ADD/KEEP/DROP set selection (old thesis-facing name: V2)",
+  "note": "thesis-facing/report terminology only; historical code identifiers/commits/tags/artifact paths are NOT renamed"
+ },
+ "population": {
+  "source_role": "Saleor RESERVE",
+  "population_count": 1086,
+  "sample_size": 300,
+  "sampling_seed": 20260920,
+  "sampling_rng": "numpy.random.default_rng(20260920)",
+  "sampling_algorithm": "lexicographically sort RESERVE case IDs; rng.choice(n, size=300, replace=False); output sorted lexicographically",
+  "selected_ids_sha256": "445b5e9d0aeeab9551e8feeb3e59e6b5bcfee793f029810a6efe0cbc8f126447",
+  "sample_manifest": "research/saleor-reserve-300-rmcss/saleor_reserve_300_sample.json",
+  "sample_txt_sha256": "91f5d4f00c24e680aae82c78ee80e7cd180ca3db08ac043904796126f34aab13",
+  "selected_ids_file": "research/saleor-reserve-300-rmcss/saleor_reserve_300_sample.txt",
+  "preflight": "research/saleor-reserve-300-rmcss/saleor_reserve_300_preflight.json",
+  "preflight_ok": 300,
+  "preflight_excluded": 0
+ },
+ "temporal_descriptor": {
+  "wording": "B",
+  "wording_label": "same/overlapping-period disjoint-commit Saleor replication",
+  "sample_earliest": "2020-05-20",
+  "sample_latest": "2026-08-05",
+  "sample_median": "2023-07-20",
+  "dev_earliest": "2020-06-30",
+  "dev_latest": "2026-08-10",
+  "note": "NOT labelled temporal generalization (periods overlap)"
+ },
+ "exclusion_rule": {
+  "description": "A sampled task may be excluded ONLY if the evaluation bundle cannot be constructed because of a label-free infrastructure condition (parent commit unavailable / intent unavailable / legal file universe unavailable / repository state unavailable)",
+  "no_replacement_sampling": true,
+  "no_difficulty_exclusion": true,
+  "no_label_count_inspection": true
+ },
+ "primary_model": {
+  "name": "frozen corrected RM-CSS deployment artifact",
+  "artifact": "research/stage5-v2-final/deployment_artifact.json",
+  "file_sha256": "7e9f82bc4d0a4acba114e80000a4246cb05e9f9b01a1ca2ce3c7c0a672dc4171",
+  "config_sha256": "8925d29a8e065bc864cd16e755ac0e896c7675b4a12f68fb66c35e5bd644ea95",
+  "threshold": 0.2,
+  "realization": "A",
+  "features": 11,
+  "model": "L2 LogisticRegression C=1.0 liblinear max_iter=1000 random_state=0",
+  "feature_names": [
+   "dense_file_score",
+   "log_rank",
+   "gap_to_top1",
+   "in_sparse",
+   "log_sparse_set_size",
+   "sparse_empty",
+   "sparse_rank_interaction",
+   "cochange_sparse",
+   "cochange_top1",
+   "log_history_change_count",
+   "episode_similarity"
+  ],
+  "continuous_features": 9,
+  "boolean_features": 2,
+  "immutable": true,
+  "no_refit": true
+ },
+ "secondary_model": {
+  "name": "DJANGO_ONLY_RMCSS_TRANSFER_MODEL",
+  "artifact": "research/saleor-reserve-300-rmcss/django_only_rmcss_transfer_model.json",
+  "file_sha256": "7e5a46a980b2174c69c6d4259d8158fc94cff254eede02a719312841a92e7422",
+  "artifact_sha256": "efb38c079a6ea15e6ada4ecdb65810f4afd1f5614ad28274f9516d2112740a67",
+  "threshold": 0.2,
+  "training": "djangoCMS DEVELOPMENT tasks ONLY (174 tasks; no Saleor labels)",
+  "recipe": "EXACT RM-CSS recipe (L2-LR C=1.0 liblinear max_iter=1000 random_state=0; StandardScaler on 9 continuous; threshold 5-fold task-grouped OOF on djangoCMS DEV, grid 0.01..0.99, argmax micro-F1, tie-break higher)",
+  "secondary": true,
+  "gates_primary": false
+ },
+ "sip": {
+  "baseline": "SIP (Sparse Impact Plan)",
+  "protocol": "exact frozen SIP prompt/protocol",
+  "failure_semantics": {
+   "transport_error_retry": "may be retried with BYTE-IDENTICAL request, max 3 retries; ONLY transport failures may be retried",
+   "schema_invalid": "fail-closed EMPTY SIP set",
+   "truncated": "fail-closed EMPTY SIP set",
+   "completed_empty": "fail-closed EMPTY SIP set",
+   "parse_invalid": "fail-closed EMPTY SIP set under the frozen parser",
+   "rmcss_semantics_for_empty_sip": "sparse_empty=1 with frozen SIP-empty feature semantics"
+  },
+  "no_manual_repairs": true
+ },
+ "qwen": {
+  "model": "qwen/qwen3-embedding-8b",
+  "provider": "DeepInfra",
+  "realization": "A",
+  "fallback": "disabled",
+  "unit_splitter": "benchmark.signal.code_units.extract_code_units (frozen)",
+  "aggregation": "MAX cosine over code units (frozen)",
+  "embedding_coverage_rule": {
+   "CASE_A": "cached -> reuse exactly",
+   "CASE_B": "not cached but embeddable units -> embed missing units (frozen model/provider/realization A)",
+   "CASE_C": "no embeddable units -> dense score NaN (frozen corrected semantics)",
+   "forbidden_sentinels": [
+    "-1e9",
+    "-1e6",
+    "any arbitrary finite missing value"
+   ]
+  },
+  "hard_guard": "if any finite |dense_file_score| > 10 reaches the feature builder: RAISE and STOP"
+ },
+ "label_free_parity_gate": {
+  "output": "reports/saleor_reserve_300_parity_gate.json",
+  "checks": [
+   "unresolved cache misses for embeddable blobs = 0",
+   "finite missing-sentinel count = 0",
+   "no-unit / NaN rate within \u00b13pp of frozen Saleor DEV rate (~8.35%)",
+   "finite dense scores within [-1.5, +1.5]",
+   "each continuous feature mean within 3 Saleor DEV SD of DEV mean",
+   "candidate rows/task within \u00b125% of Saleor DEV",
+   "exact 11-feature names/order",
+   "primary model/scaler/threshold hashes exact",
+   "secondary django-only model/scaler/threshold hashes exact",
+   "sample manifest hash exact"
+  ],
+  "fail_action": "STOP; do NOT read hidden target outcomes; do NOT loosen the rule",
+  "independent_audit_required": true
+ },
+ "primary_endpoint": {
+  "comparison": "frozen all-DEV RM-CSS vs SIP",
+  "metrics": [
+   "TP",
+   "FP",
+   "FN",
+   "Precision",
+   "Recall",
+   "FNR",
+   "F1"
+  ],
+  "delta": "DeltaF1 = F1_RMCSS - F1_SIP",
+  "bootstrap": {
+   "n_resamples": 10000,
+   "seed": 20260920,
+   "ci": "[Q2.5%(DeltaF1), Q97.5%(DeltaF1)]"
+  },
+  "success_rule": {
+   "PASS": "SALEOR_RESERVE_300_RMCSS_PASS iff DeltaF1 point > 0 AND 95% CI lower > 0",
+   "INCONCLUSIVE": "SALEOR_RESERVE_300_RMCSS_INCONCLUSIVE iff DeltaF1 > 0 but CI crosses/includes 0",
+   "FAIL": "SALEOR_RESERVE_300_RMCSS_FAIL iff DeltaF1 <= 0"
+  }
+ },
+ "secondary_endpoint": {
+  "comparison": "DJANGO_ONLY_RMCSS_TRANSFER_MODEL vs SIP (same sample)",
+  "delta": "DeltaF1_transfer = F1_django_only_RMCSS - F1_SIP",
+  "bootstrap": {
+   "n_resamples": 10000,
+   "seed": 20260920
+  },
+  "labels": {
+   "PASS": "SECONDARY_CROSS_REPO_TRANSFER_PASS iff point > 0 AND CI lower > 0",
+   "INCONCLUSIVE": "SECONDARY_CROSS_REPO_TRANSFER_INCONCLUSIVE iff point > 0 but CI crosses 0",
+   "FAIL": "SECONDARY_CROSS_REPO_TRANSFER_FAIL iff point <= 0"
+  },
+  "gates_primary": false
+ },
+ "secondary_metrics_required": {
+  "per_arm": [
+   "TP",
+   "FP",
+   "FN",
+   "Precision",
+   "Recall",
+   "FNR",
+   "F1"
+  ],
+  "primary_extra_ci": [
+   "Delta Precision",
+   "Delta Recall",
+   "Delta FNR",
+   "Delta F1"
+  ],
+  "set_sizes": [
+   "mean",
+   "median",
+   "empty rate"
+  ],
+  "set_changes": [
+   "mean additions vs SIP",
+   "mean drops vs SIP"
+  ]
+ },
+ "ranking_compatibility": {
+  "metrics": [
+   "Acc@1",
+   "Acc@3",
+   "Acc@5",
+   "Hit@1",
+   "Hit@3",
+   "Hit@5",
+   "Recall@1",
+   "Recall@3",
+   "Recall@5"
+  ],
+  "definitions": "exact audited LocAgent-compatible definitions",
+  "g1_slice": "|G| = 1 slice reported separately if sample size permits",
+  "descriptive_only": true,
+  "no_headline_competitor_claim": true
+ },
+ "error_decomposition": {
+  "sip_retained_tp": true,
+  "sip_tp_dropped": true,
+  "sip_fp_dropped": true,
+  "sip_fp_retained": true,
+  "omitted_positives_added": true,
+  "new_fp_added": true,
+  "remaining_fn": {
+   "not_generated": true,
+   "generated_but_rejected": true,
+   "sip_tp_dropped": true
+  },
+  "descriptive_only": true
+ },
+ "efficiency_reporting": {
+  "sip": [
+   "calls",
+   "tokens",
+   "cost",
+   "latency"
+  ],
+  "qwen": [
+   "missing corpus units",
+   "query tokens",
+   "embedding calls",
+   "embedding cost"
+  ],
+  "memory": [
+   "index/build time if any",
+   "per-task retrieval time"
+  ],
+  "rmcss": [
+   "classifier time"
+  ],
+  "totals": [
+   "total incremental cost",
+   "wall time",
+   "peak RAM where practical",
+   "cache size growth"
+  ],
+  "distinguish": "one-time preprocessing vs per-change inference"
+ },
+ "cost": {
+  "hard_total_incremental_ceiling_usd": 1.5,
+  "live_price_verified_before_paid_execution": true,
+  "no_alternate_provider": true,
+  "no_fallback_model": true,
+  "no_model_substitution": true
+ },
+ "irreversible_checkpoint": "SALEOR_RESERVE_300_IRREVERSIBLE_CHECKPOINT printed after preregistration + parity PASS and BEFORE label access",
+ "outcomes_opened_once": true,
+ "no_post_unseal_changes": [
+  "tuning",
+  "retraining",
+  "threshold change",
+  "candidate change",
+  "feature change",
+  "exclusion change",
+  "sample replacement"
+ ],
+ "independent_audit": {
+  "must_not_import_primary_analyzer": true,
+  "recompute": [
+   "sample IDs",
+   "exclusion counts",
+   "SIP failure categories",
+   "SIP TP/FP/FN",
+   "PRIMARY RM-CSS TP/FP/FN",
+   "P/R/F1/FNR",
+   "DeltaF1",
+   "10,000-bootstrap CI",
+   "verdicts",
+   "Acc@K/Hit@K/Recall@K",
+   "model/config hashes",
+   "thresholds",
+   "sample hash"
+  ],
+  "disagreement_action": "STOP"
+ },
+ "claim_boundaries": {
+  "primary_pass": "Frozen RM-CSS replicated a positive affected-file-set F1 improvement over SIP on a preregistered untouched Saleor RESERVE sample.",
+  "transfer_pass": "The same RM-CSS learning recipe, trained using djangoCMS DEVELOPMENT labels only, also improved F1 over SIP on the untouched Saleor sample.",
+  "forbidden_claims": [
+   "untouched djangoCMS confirmation",
+   "all-repository generalization",
+   "universal superiority",
+   "state-of-the-art",
+   "direct superiority over LocAgent",
+   "direct superiority over RepoMem"
+  ]
+ },
+ "method_selection_closure": {
+  "always": "IMPACT_LOCALIZATION_METHOD_SELECTION_CLOSED",
+  "never": "IMPACT_LOCALIZATION_EVIDENCE_COLLECTION_CLOSED",
+  "third_repo_eval_only_with_ahmed_auth": true
+ },
+ "future_work_freeze": [
+  "Energy-Based Change-Set Completion",
+  "adaptive-k",
+  "negative association rules",
+  "JEPA / repository world models",
+  "temporal hypergraphs",
+  "provenance-by-construction",
+  "improved issue archival reconstruction",
+  "LocBench matched evaluation",
+  "additional dense models"
+ ],
+ "next_thesis_phase": "END_TO_END_SELECTIVE_REGENERATION (Functional Correctness, Preservation, Architecture Compliance, Efficiency) - handoff prepared, NOT executed",
+ "not_authorized": [
+  "new localization method",
+  "V3",
+  "feature search",
+  "threshold tuning",
+  "Energy-Based models",
+  "adaptive-k",
+  "negative association rule redesign",
+  "JEPA/world models",
+  "provenance-by-construction",
+  "issue re-mining",
+  "new embedding models",
+  "LocAgent/Agentless runs",
+  "opening more than the preregistered 300 Saleor RESERVE tasks",
+  "modifying RM-CSS after unsealing"
+ ],
+ "preregistration_sha256": "097b86251af4bf32db117b141983107b99154c6ce56a77b2553b0672676da597"
+}

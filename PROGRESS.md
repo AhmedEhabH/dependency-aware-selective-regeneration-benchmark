@@ -16,17 +16,21 @@ its own final live HEAD SHA (committing metadata changes HEAD again). Query
 at read time: `git rev-parse HEAD`, `git rev-parse origin/main`,
 `git status --porcelain`.
 **Model:** openrouter/deepseek/deepseek-v4-flash-0731
-**Task:** STAGE5_V2_EXECUTION_INVALID_EMBEDDING_COVERAGE_DEFECT - REPAIR THE
-EXECUTION DEFECT IN THE FROZEN STAGE-5 V2 PIPELINE (2026-09-20; T3;
-governance-first P86) - **COMPLETE:
-`STAGE5_CORRECTED_REEXECUTION_POSITIVE`** (diagnostic/corrective, NOT untouched
-confirmation; embedding-coverage defect repaired: 1,489 missing units embedded
-$0.019985 << $0.25; parity gate 8/8 + independent parity audit 8/8 PASS;
-pooled Delta F1 +0.0562 CI [+0.0185, +0.0945], A and B PASS, both repos
-positive; Sparse outputs reused exactly; result audit 13/13; invalid FAIL label
-superseded by P86; defect impact: TP 70->113, F1 0.2269->0.3419;
-`IMPACT_LOCALIZATION_METHOD_SELECTION_CLOSED` holds; Saleor RESERVE sealed;
-clean-replication draft prepared for Ahmed review ONLY).
+**Task:** SALEOR_RESERVE_300_RMCSS - FINAL CLEAN RM-CSS REPLICATION +
+PRE-REGISTERED CROSS-REPOSITORY TRANSFER TEST (2026-09-20; T3; ONE clean
+untouched evaluation of 300 Saleor RESERVE tasks; APPROVED BY AHMED) - **IN
+PROGRESS (preregistration stage):** terminology freeze (SIP/RM-CSS, docs/GLOSSARY.md);
+corrected evidence verified; cross-repo diagnostic verified on exposed data
+(reports/v2_cross_repo_transfer.json: dc->sc DEV Δ+0.0745 CI[+0.0441,+0.1061],
+dc->sc stage5 Δ+0.0776 CI[+0.0237,+0.1312], threshold 0.20, reverse weak);
+sample of 300 Saleor RESERVE IDs drawn (seed 20260920, manifest SHA
+445b5e9d...); label-free preflight 300/300 OK (0 exclusions); temporal
+descriptor wording B (same/overlapping-period disjoint-commit); secondary
+DJANGO_ONLY_RMCSS_TRANSFER_MODEL fit (django DEV only, threshold 0.20, artifact
+SHA efb38c07...); preregistration + P88 recorded; next = git checkpoint (tag
+saleor-reserve-300-rmcss-preregistered-2026-09-20), then cost guard, SIP run,
+parity gate, irreversible checkpoint, PRIMARY + SECONDARY evaluation, audits,
+final report + tag saleor-reserve-300-rmcss-final-replication-2026-09-20.
 
 ---
 

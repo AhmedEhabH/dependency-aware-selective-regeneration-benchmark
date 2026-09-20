@@ -6,6 +6,44 @@ For historical closure records see `docs/PROJECT_HANDOFF.md`, `SYSTEM_STATE.md`,
 `TODO.md`, `docs/PAPER_WRITING_HANDOFF.md`, `docs/MSC_RESEARCH_ROADMAP_2026_2027.md`
 (all preserved verbatim below their HISTORICAL boundaries).
 
+**TERMINOLOGY (thesis-facing; `docs/GLOSSARY.md`):** **SIP — Sparse Impact Plan**
+replaces old "V2"/"Sparse-v2"/"sparse impact plan" (the Sparse baseline).
+**RM-CSS — Repository-Memory Calibrated Set Selection** replaces current "V2"
+(RM-CSS = SIP + Qwen dense ranking + parent-only Repository Memory + calibrated
+ADD/KEEP/DROP set selection). Historical code identifiers, commits, tags and
+artifact paths are NOT renamed; old reports keep their original wording.
+
+**CURRENT TRUTH (2026-09-20, SALEOR RESERVE 300 — FINAL CLEAN RM-CSS
+REPLICATION + PRE-REGISTERED CROSS-REPOSITORY TRANSFER TEST; AUTHORIZED BY
+AHMED: ONE clean untouched evaluation on a preregistered sample of exactly 300
+Saleor RESERVE tasks; `IMPACT_LOCALIZATION_METHOD_SELECTION_CLOSED` permanent;
+in progress):**
+→ **Mission (T3):** PRIMARY — does frozen RM-CSS improve exact
+affected-file-set F1 over SIP on a new untouched Saleor sample? SECONDARY — can
+the EXACT SAME RM-CSS learning recipe trained ONLY on djangoCMS DEV transfer,
+without Saleor training labels, to the same untouched Saleor sample?
+→ **Impact declaration + glossary recorded APPEND-ONLY BEFORE implementation**
+(`docs/SALEOR_RESERVE_300_RMCSS_IMPACT_DECLARATION_2026-09-20.md`,
+`docs/GLOSSARY.md`). Preserved exactly: all historical results, the invalid
+Stage-5 FAIL (historical only), and `STAGE5_CORRECTED_REEXECUTION_POSITIVE`
+(with the explicit limitation that the 139-task population was exposed).
+→ **Verified corrected evidence (motivation only):** djangoCMS SIP F1 0.3028 /
+RM-CSS 0.3256 / Δ +0.0228; Saleor SIP 0.2744 / RM-CSS 0.3524 / Δ +0.0780;
+pooled SIP 0.2857 / RM-CSS 0.3419 / Δ +0.0562 CI [+0.0185, +0.0945].
+→ **Cross-repository diagnostic VERIFIED on exposed data**
+(`reports/v2_cross_repo_transfer.json`): TRAIN djangoCMS DEV → TEST Saleor DEV:
+SIP F1 0.2605, django-trained RM-CSS 0.3350, Δ +0.0745, CI [+0.0441, +0.1061]
+(reference ≈ [+0.0441, +0.1064]); TRAIN djangoCMS DEV → TEST corrected exposed
+Saleor Stage-5: SIP 0.2744, RM-CSS 0.3520, Δ +0.0776, CI [+0.0237, +0.1312]
+(reference ≈ [+0.0240, +0.1302]); django-only threshold 0.20; reverse Saleor
+DEV → djangoCMS DEV Δ +0.0213 CI [−0.0145, +0.0559] (crosses zero; weaker,
+non-significant). EXPOSED-DATA MOTIVATION ONLY.
+→ **In progress:** secondary django-only transfer model (djangoCMS DEV ONLY,
+exact RM-CSS recipe), 300-task Saleor RESERVE sampling (seed 20260920),
+label-free preflight, temporal descriptor, preregistration, parity gate,
+SIP execution, PRIMARY/SECONDARY evaluation, audits, reports, tag
+`saleor-reserve-300-rmcss-final-replication-2026-09-20`.
+
 **CURRENT TRUTH (2026-09-20, STAGE5_CORRECTED_REEXECUTION — embedding-coverage
 execution defect repaired and the frozen Stage-5 V2 pipeline re-run on the SAME
 139 exposed tasks; verdict `STAGE5_CORRECTED_REEXECUTION_POSITIVE`

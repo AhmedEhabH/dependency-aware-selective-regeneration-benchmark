@@ -1,0 +1,36 @@
+{
+ "temporal_descriptor_wording": "B",
+ "wording_A": "later-period untouched Saleor replication",
+ "wording_B": "same/overlapping-period disjoint-commit Saleor replication",
+ "date_ranges": {
+  "sample_300": {
+   "n": 300,
+   "earliest": "2020-05-20",
+   "latest": "2026-08-05",
+   "median": "2023-07-20",
+   "missing_dates": 0
+  },
+  "reserve_1086": {
+   "n": 1086,
+   "earliest": "2020-05-20",
+   "latest": "2026-08-17",
+   "median": "2023-04-24",
+   "missing_dates": 0
+  },
+  "dev_150": {
+   "n": 150,
+   "earliest": "2020-06-30",
+   "latest": "2026-08-10",
+   "median": "2022-12-13",
+   "missing_dates": 0
+  },
+  "internal_test_80": {
+   "n": 80,
+   "earliest": "2020-07-27",
+   "latest": "2026-07-29",
+   "median": "2023-04-28",
+   "missing_dates": 0
+  }
+ },
+ "note": "target-commit dates are commit metadata only; no target labels disclosed"
+}
