@@ -180,3 +180,37 @@ fabrication; verification status explicit in the CSV):
   ordered candidate list (the ranking bridge just froze a cheap-ranking
   negative, so no stable ranking signal exists yet). The P2-025..P2-039
   landscape entries remain valid FUTURE WORK under that gate.
+- **2026-09-20 addendum — repository-memory prior art + selective prediction:**
+  - **Repository-memory localization is PRIOR ART (recorded explicitly,
+    mission §6):** "Improving Code Localization with Repository Memory"
+    (arXiv 2510.01003, ICLR 2026; `repo_memory_loc` in
+    `research/literature/review_matrix.csv`, VERIFIED primary source). Also
+    related: RepoCoder / RepoAgent (memory-conditioned generation),
+    CommitDistill (deterministic git-history mining + TF-IDF), CoSIL
+    (co-change + issue), classical co-change / evolutionary-coupling /
+    version-history bug localization lines (Youm et al. 2015/2017; Wang & Lo
+    2014; Abdeen et al. 2015; "Is Code Co-Committal an Indicator of
+    Evolutionary Coupling" 2026). **Implication: commit history, co-change,
+    historical issue/commit retrieval, and repository memory are ALL prior
+    art; NO novelty is claimed for them.** The current narrower empirical
+    question (frozen V2): can a deterministic, parent-only, zero-API
+    repository-memory RESCUE layer recover deep dense misses and improve a
+    calibrated final file-set policy under Sparse + dense localization?
+    **Any novelty claim remains UNCONFIRMED until a dedicated literature
+    review.**
+  - **Selective prediction / reject-option (recorded for the FUTURE
+    `INTENT_ADAPTIVE_SELECTIVE_LOCALIZATION` hypothesis, mission §27 — NOT
+    implemented in V2):** Chow's optimum rejection 1957; El-Yaniv & Wiener
+    selective prediction 2010 (coverage-controlled abstention); SelectNet /
+    SelectiveNet (Geifman & El-Yaniv 2017/2019); learning-to-defer
+    (Madras et al. 2018); conformal selective prediction with cost-aware
+    deferral (2026); P2-026/P2-039 in the P2 landscape. **Implication:** a
+    future instrument may abstain from narrow selective localization when
+    confidence/intent specificity is low (broaden scope or request a
+    clarification) and be evaluated on a risk-coverage / cost-risk curve, NOT
+    only pooled F1. Documented as FUTURE WORK only.
+  - **Traceability prior art (recorded for the `PROVENANCE_BY_CONSTRUCTION`
+    strategic note, mission §28 — NOT implemented):** requirements-to-code
+    traceability recovery (Cleland-Huang et al. line; neural traceability),
+    model-driven trace links / incremental transformation traceability, and
+    recent LLM traceability systems. **`SUPERVISOR_DISCUSSION_REQUIRED_BEFORE_EXECUTION`.**

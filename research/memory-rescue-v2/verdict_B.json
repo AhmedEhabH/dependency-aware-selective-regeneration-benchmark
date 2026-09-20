@@ -1,0 +1,58 @@
+{
+ "realization": "B",
+ "verdict": "PARENT_ONLY_REPOSITORY_MEMORY_RESCUE_V2_FAIL",
+ "gate": {
+  "gate": {
+   "djangocms": {
+    "A_f1_policy_gt_sparse": true,
+    "A_f1_policy": 0.34506242905788875,
+    "A_f1_sparse": 0.3176620076238882,
+    "B_ci_lower_delta_f1_gt0": false,
+    "B_delta_f1": 0.027400421434000566,
+    "B_ci95_lower": -0.01034497895377164,
+    "B_ci95_upper": 0.06381894734701936,
+    "C_recall_policy_ge_sparse": true,
+    "D_fnr_policy_le_sparse": true,
+    "E_folds_delta_f1_ge0": true,
+    "E_n_folds_ge0": 3,
+    "E_n_folds": 5,
+    "fold_deltas": [
+     0.075269,
+     -0.011499,
+     0.083333,
+     0.03822,
+     -0.037975
+    ],
+    "pass": false
+   },
+   "saleor": {
+    "A_f1_policy_gt_sparse": true,
+    "A_f1_policy": 0.34945054945054943,
+    "A_f1_sparse": 0.26052631578947366,
+    "B_ci_lower_delta_f1_gt0": true,
+    "B_delta_f1": 0.08892423366107577,
+    "B_ci95_lower": 0.052890236168822935,
+    "B_ci95_upper": 0.12548254414049784,
+    "C_recall_policy_ge_sparse": true,
+    "D_fnr_policy_le_sparse": true,
+    "E_folds_delta_f1_ge0": true,
+    "E_n_folds_ge0": 5,
+    "E_n_folds": 5,
+    "fold_deltas": [
+     0.096618,
+     0.057284,
+     0.0355,
+     0.115367,
+     0.128608
+    ],
+    "pass": true
+   }
+  },
+  "pareto_success": false,
+  "pareto_per_repo": {
+   "djangocms": false,
+   "saleor": true
+  },
+  "both_repos_pass": false
+ }
+}

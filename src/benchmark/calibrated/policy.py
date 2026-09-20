@@ -34,15 +34,16 @@ BOOTSTRAP_SEED = 20260920
 
 def fit_policy(X_train: np.ndarray, y_train: np.ndarray,
                continuous_cols: tuple = CONTINUOUS_FEATURES,
-               boolean_cols: tuple = BOOLEAN_FEATURES) -> tuple[StandardScaler, LogisticRegression]:
+               boolean_cols: tuple = BOOLEAN_FEATURES,
+               feature_names: tuple = FEATURE_NAMES) -> tuple[StandardScaler, LogisticRegression]:
     """Fit StandardScaler (continuous features only) + L2-LR on training rows.
 
-    The feature matrix X is assumed to have columns in FEATURE_NAMES order.
-    The scaler is fit ONLY on the continuous columns; boolean columns pass
-    through unscaled.
+    The feature matrix X is assumed to have columns in `feature_names` order
+    (defaults to the frozen V1 FEATURE_NAMES). The scaler is fit ONLY on the
+    continuous columns; boolean columns pass through unscaled.
     """
-    idx_cont = [FEATURE_NAMES.index(c) for c in continuous_cols]
-    idx_bool = [FEATURE_NAMES.index(c) for c in boolean_cols]
+    idx_cont = [feature_names.index(c) for c in continuous_cols]
+    idx_bool = [feature_names.index(c) for c in boolean_cols]
     if not idx_cont or not idx_bool:
         raise ValueError("feature index split is empty; frozen feature order changed")
     scaler = StandardScaler()
@@ -59,10 +60,11 @@ def fit_policy(X_train: np.ndarray, y_train: np.ndarray,
 def predict_proba(scaler: StandardScaler, model: LogisticRegression,
                   X: np.ndarray,
                   continuous_cols: tuple = CONTINUOUS_FEATURES,
-                  boolean_cols: tuple = BOOLEAN_FEATURES) -> np.ndarray:
-    """Positive-class probability for rows X (columns in FEATURE_NAMES order)."""
-    idx_cont = [FEATURE_NAMES.index(c) for c in continuous_cols]
-    idx_bool = [FEATURE_NAMES.index(c) for c in boolean_cols]
+                  boolean_cols: tuple = BOOLEAN_FEATURES,
+                  feature_names: tuple = FEATURE_NAMES) -> np.ndarray:
+    """Positive-class probability for rows X (columns in `feature_names` order)."""
+    idx_cont = [feature_names.index(c) for c in continuous_cols]
+    idx_bool = [feature_names.index(c) for c in boolean_cols]
     X_cont = scaler.transform(X[:, idx_cont])
     X_bool = X[:, idx_bool].astype(np.float64)
     X_scaled = np.concatenate([X_cont, X_bool], axis=1)

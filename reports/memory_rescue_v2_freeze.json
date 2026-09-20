@@ -1,0 +1,178 @@
+{
+ "mission": "PARENT_ONLY_REPOSITORY_MEMORY_RESCUE_V2",
+ "date": "2026-09-20",
+ "tier": "T3",
+ "status": "FROZEN_BEFORE_OUTER_OOF_INSPECTION",
+ "api_budget_usd": 0.0,
+ "api_calls": 0,
+ "sealed_data_guard": "no sealed data opened; DEV only (djangoCMS 174 + Saleor 149 = 323)",
+ "primary_score_realization": "A",
+ "realization_b_usage": "robustness rerun ONLY after full V2 freeze; no averaging; no redesign on B",
+ "preserved_frozen_results": [
+  "INDEPENDENT_DENSE_RETRIEVAL_REPLICATED",
+  "CALIBRATED_SET_SELECTION_V1_FAIL"
+ ],
+ "cancelled": {
+  "name": "CALIBRATED_SET_SELECTION_V2_FULL_UNIVERSE",
+  "decision": "FULL_UNIVERSE_V2_CANCELLED_AS_NON_BINDING_ABLATION",
+  "basis": "V1 non-Sparse selected additions only at ranks 1-4 (172/93/20/3, ranks 5-20 = 0); max non-Sparse outer-OOF prob ranks 5-20 = 0.1880 (p95 0.0886), ranks 15-20 = 0.0650 (p95 0.0428); all V1 thresholds 0.17-0.21 strictly above; top-20 boundary never active at the decision boundary; descriptive decision from exposed DEV/V1 artifacts, NOT a new experiment"
+ },
+ "deep_dense_miss": {
+  "definition": "historical-proxy positive file that remains a V1 false negative AND was outside the V1 frozen candidate universe (Sparse UNION dense-top20)",
+  "counts": {"djangocms": 199, "saleor": 177},
+  "median_dense_rank": {"djangocms": 62, "saleor": 70}
+ },
+ "history_visibility": {
+  "rule": "strict parent-only: only provable ancestors of parent P via git rev-list <P>",
+  "fail_closed": "any ancestor commit missing from the local index aborts the task",
+  "forbidden": ["target commit", "target diff", "child revision", "future commit", "future issue/PR metadata", "later branch state"],
+  "repositories": {
+   "djangocms": "dist/real-commit-cache/djangocms",
+   "saleor": "dist/pilot-repo-cache/saleor"
+  }
+ },
+ "history_window": "ALL available parent-visible production-changing history before P; NO last-N / time-window / recency / 1yr-vs-2yr / 500-vs-2000 tuning; cumulative repository memory frozen",
+ "production_file_filter": "commit is production-changing iff it touches >=1 file in the task's legal production universe (candidate_universe paths); commits modifying only excluded files are excluded",
+ "channel_A_structural_cochange": {
+  "C_f": "number of parent-visible production-changing commits touching f",
+  "C_s": "number touching s",
+  "C_fs": "number touching both",
+  "Jaccard_fs": "C_fs / (C_f + C_s - C_fs)",
+  "support_threshold": 2,
+  "support_threshold_frozen": true,
+  "no_sweep": true,
+  "seeds": ["all Sparse-selected files", "Qwen dense rank-1 file"],
+  "no_target_label_seeding": true,
+  "cochange_sparse": "max Jaccard(f,s) over Sparse; 0 if Sparse empty",
+  "cochange_top1": "Jaccard(f, dense-rank1-file)",
+  "cochange_memory_score": "max(cochange_sparse, cochange_top1)"
+ },
+ "channel_B_episodic": {
+  "document": "commit subject + body (NO web/API enrichment; no issue text)",
+  "retrieval": "deterministic BM25 over HISTORICAL CHANGE TEXT (reuses benchmark.cheap_baselines.bm25)",
+  "query": "exact frozen parent-visible task intent (intent.json)",
+  "EPISODIC_TOP_CHANGES": 10,
+  "no_k_sweep": true,
+  "episode_similarity": "max normalized BM25 score among retrieved top-10 episodes that modified f; 0 if none (normalization = score / max score within the retrieved top-10)",
+  "episode_hit_count": "descriptive ONLY; NOT a V2 model feature"
+ },
+ "file_history_frequency": {
+  "history_change_count": "number of parent-visible production-changing commits touching f",
+  "feature": "log_history_change_count = log1p(history_change_count)",
+  "no_recency_weighting": true
+ },
+ "memory_candidate_generation": {
+  "structural_candidates": "top 10 NON-SPARSE files by cochange_memory_score > 0",
+  "episodic_candidates": "top 10 NON-SPARSE files by episode_similarity > 0",
+  "COCHANGE_TOP_FILES": 10,
+  "EPISODIC_TOP_FILES": 10,
+  "tie_break": ["higher score", "higher historical support where relevant", "normalized path ascending"],
+  "memory_candidate_set": "union(structural, episodic)",
+  "no_k_tuning": true
+ },
+ "v2_candidate_universe": [
+  "ALL Sparse files",
+  "Qwen dense top-20 NON-SPARSE files",
+  "frozen memory candidate set"
+ ],
+ "v2_universe_note": "the FULL repository universe is NOT used for classification",
+ "features": [
+  {"name": "dense_file_score", "type": "continuous", "scaled": true, "nan_handling": "impute to min_finite_dense_score - 1.0 (per realization, label-free, frozen)"},
+  {"name": "log_rank", "type": "continuous", "scaled": true, "definition": "log1p(ABSOLUTE dense_rank), NOT normalized by N"},
+  {"name": "gap_to_top1", "type": "continuous", "scaled": true},
+  {"name": "in_sparse", "type": "boolean", "scaled": false},
+  {"name": "log_sparse_set_size", "type": "continuous", "scaled": true, "definition": "log1p(|Sparse|)"},
+  {"name": "sparse_empty", "type": "boolean", "scaled": false},
+  {"name": "sparse_rank_interaction", "type": "continuous", "scaled": true, "definition": "in_sparse * log_rank"},
+  {"name": "cochange_sparse", "type": "continuous", "scaled": true},
+  {"name": "cochange_top1", "type": "continuous", "scaled": true},
+  {"name": "log_history_change_count", "type": "continuous", "scaled": true},
+  {"name": "episode_similarity", "type": "continuous", "scaled": true}
+ ],
+ "feature_count": 11,
+ "forbidden_features": ["repository ID", "graph features", "code BM25", "path features", "file extension", "target labels", "LLM-generated features", "recency features", "issue categories", "episode_hit_count"],
+ "model": {
+  "family": "L2-regularized Logistic Regression",
+  "sklearn": "sklearn.linear_model.LogisticRegression",
+  "penalty": "l2",
+  "C": 1.0,
+  "solver": "liblinear",
+  "max_iter": 1000,
+  "random_state": 0,
+  "preprocessing": "StandardScaler on the continuous features ONLY; fit on training rows ONLY; boolean features unscaled",
+  "no_class_weight_search": true,
+  "no_model_search": true,
+  "no_threshold_rule_change": true,
+  "reuse_v1": true
+ },
+ "outer_cv": {
+  "folds": 5,
+  "task_grouped": true,
+  "repository_stratified": true,
+  "fold_seed": 20260920,
+  "reuse_exact_v1_fold_assignments": true
+ },
+ "inner_cv": {
+  "folds": 5,
+  "task_grouped": true,
+  "seed": 20260920,
+  "threshold": "argmax pooled micro-F1",
+  "grid": "0.01..0.99 step 0.01",
+  "tie_break": "HIGHER threshold"
+ },
+ "final_set": "candidate file included iff predicted_probability >= outer-training threshold",
+ "primary_baseline": "Sparse",
+ "descriptive_comparators": ["V1", "Qwen fixed B=5", "Qwen diagnostic B=1", "SweRank B=5", "SweRank diagnostic B=1"],
+ "metrics": {
+  "P": "TP / (TP + FP)",
+  "R": "TP / (TP + FN)",
+  "FNR": "FN / (TP + FN) = 1 - R",
+  "F1": "2TP / (2TP + FP + FN)",
+  "Delta_metric": "Metric_V2 - Metric_Sparse",
+  "bootstrap": "task-paired, >= 10,000 resamples, fixed seed 20260920 (same seed as V1), CI95 = [Q2.5, Q97.5]"
+ },
+ "primary_success_gate": {
+  "A": "final micro-F1 > Sparse",
+  "B": "paired-bootstrap 95% CI lower bound for Delta F1 > 0",
+  "C": "Recall >= Sparse",
+  "D": "FNR <= Sparse",
+  "E": ">= 3/5 outer folds Delta F1 >= 0",
+  "F": "zero target leakage",
+  "G": "deterministic local rerun identical",
+  "precision_handling": "always report point estimate + Delta Precision + 95% CI; NO post-hoc Precision margin",
+  "pareto_success": "descriptive only (P> and R> and F1> and FNR< on BOTH repos)"
+ },
+ "descriptive_only": {
+  "dependency_cluster_diagnostic": "oracle-style; NEVER inference seeds; NO graph features in V2",
+  "deep_fn_coverage_report": "after freezing the generator, before fitting; NOT used to modify K/support/features/window",
+  "mechanism_baselines": "historical-popularity + seeded deterministic random (seed 20260920, 1000 resamples); NOT used to tune memory",
+  "channel_ablations": "remove structural / remove episodic; mechanism understanding only; NOT used to redefine V2",
+  "intent_stratification": "buckets <=6 / 7-15 / >15 words; NOT a feature, NOT a gate; descriptive hypothesis-generating only",
+  "sparse_empty_results": "reported descriptively"
+ },
+ "realization_b_robustness": {
+  "rule": "rerun the EXACT pipeline with Qwen realization B dense scores; report P/R/F1/FNR A-vs-B, exact-set agreement, task Jaccard, PASS/FAIL agreement",
+  "verdict_change_rule": "if verdicts differ -> PARENT_ONLY_REPOSITORY_MEMORY_RESCUE_V2_ROBUSTNESS_INCONCLUSIVE"
+ },
+ "decision_rule": {
+  "PASS": "gate on BOTH repos AND realization B preserves the verdict -> PARENT_ONLY_REPOSITORY_MEMORY_RESCUE_V2_PASS",
+  "FAIL": "otherwise -> PARENT_ONLY_REPOSITORY_MEMORY_RESCUE_V2_FAIL and STOP",
+  "no_automatic_v3": true
+ },
+ "literature_boundary": {
+  "repository_memory_is_prior_art": "Improving Code Localization with Repository Memory (arXiv 2510.01003)",
+  "no_novelty_claim": true,
+  "novelty": "UNCONFIRMED until a dedicated literature review"
+ },
+ "expensive_irreversible_guard": [
+  "do NOT open sealed datasets",
+  "do NOT execute Stage 5",
+  "do NOT run paid APIs",
+  "do NOT download another embedding model",
+  "do NOT run LocAgent",
+  "do NOT clone cross-language repositories",
+  "do NOT switch thesis scope to provenance-by-construction (strategic note only)"
+ ],
+ "storage": "history/co-change/BM25 caches OUTSIDE Git on D:/opencode_cache/memory_rescue_v2; TRUE LIGHT export <= 50 MB",
+ "verification": "independent audit does NOT import the primary analyzer; tests cover parent-only visibility, no leakage, ancestry, production filtering, co-change counts, Jaccard, support>=2, Sparse-empty, dense-rank1 seed, commit-text indexing, BM25 determinism, structural/episodic top10, candidate-union, V1 fold/LR/threshold reuse, metrics, bootstrap, intent buckets (NOT feature), realization-B robustness, sealed guard"
+}
