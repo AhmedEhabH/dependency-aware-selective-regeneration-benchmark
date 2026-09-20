@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-fa113018cb83",
+ "intent_sha256": "875fc6768812e011d7b2ee75ef2aefd1c0bb99f42c9ba75a0986bddc35a83939",
+ "intent_source": "commit_message",
+ "intent_text": "Add replica usage to permissions related queries (#15604) * Add replica usages to order related queries * Add replica usages to checkout and shipping related queries * Use database_connection_name instead of manager._allow_replica * Add replica usages to permissions * Use replica in sites * Add replica usage to user group resolvers",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "fa113018cb83e49f137ec47169cfae7856fd4dcb",
+ "target_commit_time": "2024-03-20T08:18:34+00:00"
+}

@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-cae629dc4166",
+ "intent_sha256": "436d6d133740e6acba414a32f6e66b7c552ddfda88f0dbae17d7912d1b8ee675",
+ "intent_source": "commit_message",
+ "intent_text": "Bulk create attribute value (#15494) * Bulk create attribute value (#14985) Conflicts: saleor/attribute/models/base.py saleor/graphql/attribute/utils.py * Fix saving attribute values in order (#15269) * add indexing for attribute value saving * change comment * refactor, revert break * Add ingore_conficlts option in bulk_create in AttributeValueManager * Fix failing tests --------- Co-authored-by: Krzysztof Kwa\u015bniak <mr.brzys@gmail.com> Co-authored-by: Jakub <jakub.kuc@saleor.io>",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "cae629dc41669454d71bff48238b7eeaaa651656",
+ "target_commit_time": "2024-02-28T13:24:41+00:00"
+}

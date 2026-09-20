@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-aa814bd5f355",
+ "intent_sha256": "e2d707ec5df618f2412a96ac9e9b22ee11052bf48506f66b0d9fb4b36e50bafb",
+ "intent_source": "commit_message",
+ "intent_text": "Async payload generation (#16999) * Async payload generation (#16808) * Add draft of async payload generation for checkout_updated * Generate deferred payload with promises * Use is_deferred_payload flag in checkout actions * Fix getting requestor * Add error handling * Save payload instance after deferred payload is generated; add tests * Fix tests * Revert getting plugin promise changes for now * Fix tests * Update comment and function name * Change error log to warning * Fix review comments * Add separate task for payload generation * Adjust tests * Revert test changes * Support deferred payloads in webhookTrigger mutation * Add bulk saving of deferred payloads * Use default queue for payload generation * Extract function to generate deliveries for deferred payloads * Move import to local function (#16990) * Allow to user writer in generate_deferred_payloads task",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "aa814bd5f35544df10e5ac258913d14e59343e4e",
+ "target_commit_time": "2024-11-15T09:57:13+00:00"
+}

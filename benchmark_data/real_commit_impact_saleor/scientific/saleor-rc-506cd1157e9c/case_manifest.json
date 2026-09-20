@@ -1,0 +1,24 @@
+{
+ "canonical_record_sha256": "99d3ddad8eff8e2a92f4be640b302d72dfd360f528e7d56ef48a7e4732309885",
+ "label_free": true,
+ "miner_version": "real-commit-miner-v1.0.0",
+ "public_artifact_paths": {
+  "candidate_universe": "public/candidate_universe.json",
+  "dependency_graph": "public/dependency_graph.json",
+  "intent": "public/intent.json"
+ },
+ "record": {
+  "candidate_universe_count": 1010,
+  "candidate_universe_sha256": "45da06a4ed3889396b50a0caa17a48ebdfcfaed1d7d3c0b6a5633c65bdc34cc7",
+  "case_id": "saleor-rc-506cd1157e9c",
+  "created_utc": "2026-09-20T00:00:00+00:00",
+  "dependency_graph_sha256": "99e4b66919948ed9dc5a7faf33d1f9bb0a97cc2a39f58c7e6568be5e26ebc412",
+  "intent_sha256": "6a58453377cef527a4b08673dfd2765f398aed39bb2804e16f17f1f0b5c6b18f",
+  "label_free_manifest": true,
+  "parent_commit": "17eba06ac9a7b998ab88cd88e223e6b40bc6f1a8",
+  "partition_role": "SCIENTIFIC",
+  "repository": "saleor",
+  "split": "RESERVE",
+  "target_commit": "506cd1157e9c1bb83b6153b6561a179ad92dd17f"
+ }
+}

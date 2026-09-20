@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-9c032845e29b",
+ "intent_sha256": "8cf2038b5845c9b47d5540b973eb01a2a0b4cc680a2abf096b28c3be97c7d799",
+ "intent_source": "commit_message",
+ "intent_text": "Add paginated `productVariants` to `Product` type (#16998) * Add paginated `productVariants` to `Product` type * add changelog * Review fixes - change cost map definition - Add label ADDED_IN - Fix logic regarding channels: - it's not needed to check for channel in resolver, as channel will always be provided in ChannelContext",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "9c032845e29b8d5dc1d40ee812fc2111b6bb2f42",
+ "target_commit_time": "2024-11-20T09:26:09+00:00"
+}

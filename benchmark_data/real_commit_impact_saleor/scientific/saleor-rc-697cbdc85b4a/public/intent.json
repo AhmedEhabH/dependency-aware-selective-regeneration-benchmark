@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-697cbdc85b4a",
+ "intent_sha256": "697d3dcb7cdaa23b03b8f3affca109018d2d979091bf1c6c4f8870b13dd0a410",
+ "intent_source": "commit_message",
+ "intent_text": "Add fractional amount to the Money type (#18007) * Add fractional amount to the Money type This should ease the job for payment gateway implementers as payment gateways typically expect amounts to be passed in fractional amounts. * Add test for JPY",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "697cbdc85b4a184c1b07c91303e47506d30b0b1e",
+ "target_commit_time": "2025-07-30T14:20:24+00:00"
+}

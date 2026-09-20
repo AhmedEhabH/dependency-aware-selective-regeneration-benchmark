@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-95db464ad4ea",
+ "intent_sha256": "f6e371f4078a7997a595c51c0f9ab2dcbda6e8d2c6d4334d5d187cf8f191880d",
+ "intent_source": "commit_message",
+ "intent_text": "Add `uuid` field to App and AppInstallation - zero-downtime migration (#12631) * Extend App and AppInstallation models and add migration with celery task * Set uuid in appCreate mutation * Remove invoking celery task from migration * Make App and AppInstallation uuid fields non-nullable",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "95db464ad4ea43495af45a296ca5fbd5114823df",
+ "target_commit_time": "2023-04-28T07:57:08+00:00"
+}

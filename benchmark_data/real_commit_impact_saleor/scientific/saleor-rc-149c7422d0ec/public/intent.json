@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-149c7422d0ec",
+ "intent_sha256": "449a378a621ef21390ca6886ac96cce3411107b48573a47aaddd19acac7db473",
+ "intent_source": "commit_message",
+ "intent_text": "Remove obsolete comment (#14640) All mutations that update the App instance fetch it independently. Webhook mutations use it but don't write back to the App instance.",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "149c7422d0ec6c48317a7ee5998dbddb0375738c",
+ "target_commit_time": "2023-11-06T11:35:02+00:00"
+}

@@ -1,0 +1,6408 @@
+{
+ "case_id": "saleor-rc-1fa6a637c7fc",
+ "count": 453,
+ "parent_commit": "dbbece976cc7c492aeb27b0fd3101c7d4ff510be",
+ "records": [
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 1,
+   "loc": 4,
+   "module": "saleor",
+   "path": "saleor/__init__.py",
+   "sha256": "d99115c9bb14bd2eb802d7f616e6e81c595ea53c261a52892246a38f0121b6c4"
+  },
+  {
+   "classes": [
+    "CustomerEvents"
+   ],
+   "functions": [],
+   "import_count": 0,
+   "loc": 40,
+   "module": "saleor.account",
+   "path": "saleor/account/__init__.py",
+   "sha256": "6c444da7e53c4307d188434613ab56da01a7eee3e2133dc02cbceb410f374b5f"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "_send_account_confirmation_email",
+    "_send_account_delete_confirmation_email_with_url",
+    "_send_delete_confirmation_email",
+    "_send_password_reset_email",
+    "_send_password_reset_email_with_url",
+    "_send_request_email_change_email",
+    "_send_set_password_email",
+    "_send_set_user_password_email_with_url",
+    "_send_user_change_email_notification",
+    "send_account_confirmation_email",
+    "send_account_delete_confirmation_email_with_url",
+    "send_set_password_email_with_url",
+    "send_user_change_email_notification",
+    "send_user_change_email_url",
+    "send_user_password_reset_email_with_url"
+   ],
+   "import_count": 7,
+   "loc": 160,
+   "module": "saleor.account.emails",
+   "path": "saleor/account/emails.py",
+   "sha256": "df266835dd5f356e4d251d9ea59a76952f51d13b3cee9027cc3675984680274c"
+  },
+  {
+   "classes": [
+    "AccountErrorCode",
+    "PermissionGroupErrorCode"
+   ],
+   "functions": [],
+   "import_count": 1,
+   "loc": 45,
+   "module": "saleor.account.error_codes",
+   "path": "saleor/account/error_codes.py",
+   "sha256": "9f7137fb677460dffc72b88494c4425a538bbf144e477f18912de232055508b3"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "customer_account_created_event",
+    "customer_added_to_note_order_event",
+    "customer_downloaded_a_digital_link_event",
+    "customer_email_change_request_event",
+    "customer_email_changed_event",
+    "customer_password_changed_event",
+    "customer_password_reset_event",
+    "customer_password_reset_link_sent_event",
+    "customer_placed_order_event",
+    "staff_user_added_note_to_a_customer_event",
+    "staff_user_assigned_email_to_a_customer_event",
+    "staff_user_assigned_name_to_a_customer_event",
+    "staff_user_deleted_a_customer_event"
+   ],
+   "import_count": 4,
+   "loc": 114,
+   "module": "saleor.account.events",
+   "path": "saleor/account/events.py",
+   "sha256": "d3c1c292cf374739ae1efbcfbedd48bdabde9f6764b0bd32ac503e906d31fe3c"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "get_address_form"
+   ],
+   "import_count": 2,
+   "loc": 35,
+   "module": "saleor.account.forms",
+   "path": "saleor/account/forms.py",
+   "sha256": "37bd6a77ad769e27e88a7d681cbe742fa5ca0c125e0c714f5b9801a8fa626579"
+  },
+  {
+   "classes": [
+    "AddressForm",
+    "AddressMetaForm",
+    "CountryAreaChoiceField",
+    "CountryAwareAddressForm",
+    "PossiblePhoneNumberFormField"
+   ],
+   "functions": [
+    "construct_address_form",
+    "get_address_form_class",
+    "get_form_i18n_lines",
+    "update_base_fields"
+   ],
+   "import_count": 9,
+   "loc": 285,
+   "module": "saleor.account.i18n",
+   "path": "saleor/account/i18n.py",
+   "sha256": "2bb49ae39e61071e1bd385bdcadf46c0dcc872499da8d0c768e809678976cc74"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.account.management",
+   "path": "saleor/account/management/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.account.management.commands",
+   "path": "saleor/account/management/commands/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 1,
+   "loc": 3,
+   "module": "saleor.account.management.commands.changepassword",
+   "path": "saleor/account/management/commands/changepassword.py",
+   "sha256": "a65fa8846cb1c7db081d747072e733aff2f81c3443d072a3860111d18e5e387b"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 1,
+   "loc": 3,
+   "module": "saleor.account.management.commands.createsuperuser",
+   "path": "saleor/account/management/commands/createsuperuser.py",
+   "sha256": "c7516afade4700a4d93736837699a7708d377208aba01b7bf0c6b31419e3d30f"
+  },
+  {
+   "classes": [
+    "Address",
+    "AddressQueryset",
+    "CustomerEvent",
+    "CustomerNote",
+    "PossiblePhoneNumberField",
+    "StaffNotificationRecipient",
+    "User",
+    "UserManager"
+   ],
+   "functions": [],
+   "import_count": 18,
+   "loc": 261,
+   "module": "saleor.account.models",
+   "path": "saleor/account/models.py",
+   "sha256": "62436b54bad9a38f5c1ba137f880cba4bab56f71a47d6256915352b4fbbdb9c1"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.account.templatetags",
+   "path": "saleor/account/templatetags/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "format_address"
+   ],
+   "import_count": 3,
+   "loc": 21,
+   "module": "saleor.account.templatetags.i18n_address_tags",
+   "path": "saleor/account/templatetags/i18n_address_tags.py",
+   "sha256": "a064f07047503c2ec754d93a846285793e30625099c950d23cbac7fc0d84c2ed"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "create_user_avatar_thumbnails"
+   ],
+   "import_count": 3,
+   "loc": 11,
+   "module": "saleor.account.thumbnails",
+   "path": "saleor/account/thumbnails.py",
+   "sha256": "37974c56ad0bd8fb1bb54dec166cb5fad9691cfad2fcb000f6d2d192c63639f3"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "change_user_default_address",
+    "create_superuser",
+    "remove_staff_member",
+    "set_user_default_billing_address",
+    "set_user_default_shipping_address",
+    "store_user_address"
+   ],
+   "import_count": 4,
+   "loc": 74,
+   "module": "saleor.account.utils",
+   "path": "saleor/account/utils.py",
+   "sha256": "e8d4c74c581af20ce3a512afb45e4a915d97a4a07ed9d2d94d1e7ea9f8c94a45"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "validate_possible_number"
+   ],
+   "import_count": 4,
+   "loc": 18,
+   "module": "saleor.account.validators",
+   "path": "saleor/account/validators.py",
+   "sha256": "a40dc02df692ed34986634f7831ccf4413be2303c8eef27c67e77e13b53f7b5d"
+  },
+  {
+   "classes": [
+    "DatalistTextWidget"
+   ],
+   "functions": [],
+   "import_count": 1,
+   "loc": 14,
+   "module": "saleor.account.widgets",
+   "path": "saleor/account/widgets.py",
+   "sha256": "55f391361453c290b6bf39921c249aca9646da35b189ca6ea7eceaae51708374"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.app",
+   "path": "saleor/app/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [
+    "AppErrorCode"
+   ],
+   "functions": [],
+   "import_count": 1,
+   "loc": 17,
+   "module": "saleor.app.error_codes",
+   "path": "saleor/app/error_codes.py",
+   "sha256": "88a07421780faa4e0591f78e23c866c61dddccb9d89c88c712f9c8bd785de0b4"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "install_app",
+    "send_app_token",
+    "validate_manifest_fields"
+   ],
+   "import_count": 6,
+   "loc": 65,
+   "module": "saleor.app.installation_utils",
+   "path": "saleor/app/installation_utils.py",
+   "sha256": "791ff1f078073e4a8bcb1c7b333ebca3f67cfed0c007e1bf20f41f01de577d12"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.app.management",
+   "path": "saleor/app/management/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.app.management.commands",
+   "path": "saleor/app/management/commands/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [
+    "Command"
+   ],
+   "functions": [],
+   "import_count": 9,
+   "loc": 65,
+   "module": "saleor.app.management.commands.create_app",
+   "path": "saleor/app/management/commands/create_app.py",
+   "sha256": "67a11ecd56b70b94063d6059a5709399f5a8704fae71dcc79a011d1065cd561d"
+  },
+  {
+   "classes": [
+    "Command"
+   ],
+   "functions": [],
+   "import_count": 11,
+   "loc": 62,
+   "module": "saleor.app.management.commands.install_app",
+   "path": "saleor/app/management/commands/install_app.py",
+   "sha256": "9ea85743532d1093ecbb87bdcc11ec3cacdbc1e8dc5976763dc9e0d02794f2ef"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "clean_permissions"
+   ],
+   "import_count": 3,
+   "loc": 19,
+   "module": "saleor.app.management.commands.utils",
+   "path": "saleor/app/management/commands/utils.py",
+   "sha256": "19406c73b7ef7ce15c21d8f4d8445e24f5d67a31db87e88047f913c914f39616"
+  },
+  {
+   "classes": [
+    "App",
+    "AppInstallation",
+    "AppToken"
+   ],
+   "functions": [],
+   "import_count": 7,
+   "loc": 88,
+   "module": "saleor.app.models",
+   "path": "saleor/app/models.py",
+   "sha256": "2f855803d21bb922003d5b85fda099fa614e283c97e8767df668964f3cf98a0e"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "install_app_task"
+   ],
+   "import_count": 6,
+   "loc": 27,
+   "module": "saleor.app.tasks",
+   "path": "saleor/app/tasks.py",
+   "sha256": "7cac0aa3c1e7f608d1d573bd113ebe792c17b625e8a191b8e6202dbcdc9cf8c1"
+  },
+  {
+   "classes": [
+    "AppType"
+   ],
+   "functions": [],
+   "import_count": 0,
+   "loc": 5,
+   "module": "saleor.app.types",
+   "path": "saleor/app/types.py",
+   "sha256": "a83688649c260161528f662734c067dc032643a54313dd3eedd6835679e41c4d"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 3,
+   "loc": 18,
+   "module": "saleor.asgi",
+   "path": "saleor/asgi/__init__.py",
+   "sha256": "82046e55d4c658db94087f926b15686cd0ce3fd66d9b88122f42f6d93c4e0c01"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "health_check"
+   ],
+   "import_count": 0,
+   "loc": 15,
+   "module": "saleor.asgi.health_check",
+   "path": "saleor/asgi/health_check.py",
+   "sha256": "3630da36975460614d9a6ac7848264eb13f2cd2f23c40a0113c8a0c52ef872ad"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 4,
+   "loc": 14,
+   "module": "saleor.celeryconf",
+   "path": "saleor/celeryconf.py",
+   "sha256": "e52dfffac576e00bfac126b2b90d0545a4fdd4ab16be2eaae11e849946f0993c"
+  },
+  {
+   "classes": [
+    "AddressType"
+   ],
+   "functions": [],
+   "import_count": 1,
+   "loc": 13,
+   "module": "saleor.checkout",
+   "path": "saleor/checkout/__init__.py",
+   "sha256": "265e059b38a170f819d872c4ac04dd8ab7e157fe11f53550a92e958d56e2fe0b"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "base_checkout_line_total",
+    "base_checkout_shipping_price",
+    "base_checkout_subtotal",
+    "base_checkout_total"
+   ],
+   "import_count": 6,
+   "loc": 55,
+   "module": "saleor.checkout.base_calculations",
+   "path": "saleor/checkout/base_calculations.py",
+   "sha256": "0c9e9f3263dd0e13e663b47243cf0dd1df70cab828a6d2d06ac27d74c0cc6dc2"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "calculate_checkout_total_with_gift_cards",
+    "checkout_line_total",
+    "checkout_shipping_price",
+    "checkout_subtotal",
+    "checkout_total"
+   ],
+   "import_count": 7,
+   "loc": 85,
+   "module": "saleor.checkout.calculations",
+   "path": "saleor/checkout/calculations.py",
+   "sha256": "b1fc5a1ca0b2c5bfff625c1524cef5147ef04a8375fdd2f031cc78be4dc24ccb"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "clean_billing_address",
+    "clean_checkout_payment",
+    "clean_checkout_shipping"
+   ],
+   "import_count": 8,
+   "loc": 77,
+   "module": "saleor.checkout.checkout_cleaner",
+   "path": "saleor/checkout/checkout_cleaner.py",
+   "sha256": "21ffb6c3cddf4a68edd51d636d6dabca5d4c2d8c0188eef503266a03aab3f8ff"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "_create_line_for_order",
+    "_create_order",
+    "_get_order_data",
+    "_get_voucher_data_for_order",
+    "_prepare_checkout",
+    "_prepare_order_data",
+    "_process_payment",
+    "_process_shipping_data_for_order",
+    "_process_user_data_for_order",
+    "_validate_gift_cards",
+    "complete_checkout",
+    "release_voucher_usage"
+   ],
+   "import_count": 34,
+   "loc": 431,
+   "module": "saleor.checkout.complete_checkout",
+   "path": "saleor/checkout/complete_checkout.py",
+   "sha256": "237676cf2b940f1a45f46cf92d45b23b993f68a36ba619c6c4b8971e130cd930"
+  },
+  {
+   "classes": [
+    "CheckoutErrorCode"
+   ],
+   "functions": [],
+   "import_count": 1,
+   "loc": 24,
+   "module": "saleor.checkout.error_codes",
+   "path": "saleor/checkout/error_codes.py",
+   "sha256": "8b2680a320d52fe9a8fdc8a7768bbe2e2f48da7ad22683d2bb25c5831ac52b59"
+  },
+  {
+   "classes": [
+    "Checkout",
+    "CheckoutLine",
+    "CheckoutQueryset"
+   ],
+   "functions": [
+    "get_default_country"
+   ],
+   "import_count": 21,
+   "loc": 215,
+   "module": "saleor.checkout.models",
+   "path": "saleor/checkout/models.py",
+   "sha256": "6a6d9e2408c5d3e6e01311ae49d9a7f7d50fb0e5bac63217ab4ce554cdbdee94"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "_check_new_checkout_address",
+    "_get_products_voucher_discount",
+    "_get_shipping_voucher_discount_for_checkout",
+    "add_promo_code_to_checkout",
+    "add_variant_to_checkout",
+    "add_voucher_code_to_checkout",
+    "add_voucher_to_checkout",
+    "cancel_active_payments",
+    "change_billing_address_in_checkout",
+    "change_shipping_address_in_checkout",
+    "check_variant_in_stock",
+    "clean_checkout",
+    "clear_shipping_method",
+    "get_prices_of_discounted_specific_product",
+    "get_shipping_price_estimate",
+    "get_user_checkout",
+    "get_valid_shipping_methods_for_checkout",
+    "get_voucher_discount_for_checkout",
+    "get_voucher_for_checkout",
+    "is_fully_paid",
+    "is_valid_shipping_method",
+    "recalculate_checkout_discount",
+    "remove_promo_code_from_checkout",
+    "remove_voucher_code_from_checkout",
+    "remove_voucher_from_checkout",
+    "update_checkout_quantity"
+   ],
+   "import_count": 21,
+   "loc": 545,
+   "module": "saleor.checkout.utils",
+   "path": "saleor/checkout/utils.py",
+   "sha256": "ef0c37cb6ad3951604117d071e69736af67204118409de6c2d804674e15e553a"
+  },
+  {
+   "classes": [
+    "JobStatus"
+   ],
+   "functions": [],
+   "import_count": 0,
+   "loc": 12,
+   "module": "saleor.core",
+   "path": "saleor/core/__init__.py",
+   "sha256": "7de4d61e0081cfaf7eb95707f116c1cf50f737ff6816a63c01619d9d734b52d2"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "_report",
+    "ga_report",
+    "get_client_id",
+    "get_order_payloads",
+    "get_view_payloads",
+    "report_order",
+    "report_view"
+   ],
+   "import_count": 5,
+   "loc": 85,
+   "module": "saleor.core.analytics",
+   "path": "saleor/core/analytics.py",
+   "sha256": "9501d88d44bb4a6c3ec93d6220a84fce15196f6a51c28322667933a7e3fc73f5"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "obfuscate_address",
+    "obfuscate_email",
+    "obfuscate_string"
+   ],
+   "import_count": 0,
+   "loc": 30,
+   "module": "saleor.core.anonymize",
+   "path": "saleor/core/anonymize.py",
+   "sha256": "3e29fa101e52f385d79bb0dbf24781c707e24421482690b7bf2340d1b637532d"
+  },
+  {
+   "classes": [
+    "JSONWebTokenBackend"
+   ],
+   "functions": [],
+   "import_count": 3,
+   "loc": 47,
+   "module": "saleor.core.auth_backend",
+   "path": "saleor/core/auth_backend.py",
+   "sha256": "a87610339ee085bb5944593a678001267b873c179a9014bdc9e2c2f6a1ad2f05"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.core.db",
+   "path": "saleor/core/db/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [
+    "SanitizedJSONField"
+   ],
+   "functions": [],
+   "import_count": 3,
+   "loc": 22,
+   "module": "saleor.core.db.fields",
+   "path": "saleor/core/db/fields.py",
+   "sha256": "8143111ddd8b6b5f75eab9f5c10e7f369015323bf1daf22089f9a203f3d871b4"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "get_email_context"
+   ],
+   "import_count": 1,
+   "loc": 11,
+   "module": "saleor.core.emails",
+   "path": "saleor/core/emails.py",
+   "sha256": "d07ec8285d1d8d3515de5fa60a1939adb63ee3d9f16b2ca121e09d4e7e59c3e3"
+  },
+  {
+   "classes": [
+    "MetadataErrorCode",
+    "ShopErrorCode",
+    "TranslationErrorCode"
+   ],
+   "functions": [],
+   "import_count": 1,
+   "loc": 23,
+   "module": "saleor.core.error_codes",
+   "path": "saleor/core/error_codes.py",
+   "sha256": "8daa282ac26d0fe664e86a332016dbea38d57e4e3e23ad6a1cc2fbd82ded86d5"
+  },
+  {
+   "classes": [
+    "AllocationError",
+    "InsufficientStock",
+    "PermissionDenied",
+    "ProductNotPublished",
+    "ReadOnlyException"
+   ],
+   "functions": [],
+   "import_count": 1,
+   "loc": 41,
+   "module": "saleor.core.exceptions",
+   "path": "saleor/core/exceptions.py",
+   "sha256": "636056d616e0a1089fe64ae8521549038429bdc0012cd25b0491059fc9ab9b8b"
+  },
+  {
+   "classes": [
+    "SortedFilterSet"
+   ],
+   "functions": [],
+   "import_count": 2,
+   "loc": 25,
+   "module": "saleor.core.filters",
+   "path": "saleor/core/filters.py",
+   "sha256": "a455864b36f4f171ce70a6dd1c7f20361e118e1bbaa794ed960bf23b693654e5"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "create_access_token",
+    "create_access_token_for_app",
+    "create_refresh_token",
+    "create_token",
+    "get_token_from_request",
+    "get_user_from_access_token",
+    "get_user_from_payload",
+    "jwt_base_payload",
+    "jwt_decode",
+    "jwt_encode",
+    "jwt_user_payload"
+   ],
+   "import_count": 9,
+   "loc": 155,
+   "module": "saleor.core.jwt",
+   "path": "saleor/core/jwt.py",
+   "sha256": "00e4b4be05d9121dd17db4638e51110551f7724a4d28904d54b4555e8bbeb13c"
+  },
+  {
+   "classes": [
+    "JsonFormatter"
+   ],
+   "functions": [],
+   "import_count": 3,
+   "loc": 12,
+   "module": "saleor.core.logging",
+   "path": "saleor/core/logging.py",
+   "sha256": "8ee2e39c59072cc5a92e16b0f29a12d712fb7daef00a484c55f382f12e537aa8"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.core.management",
+   "path": "saleor/core/management/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.core.management.commands",
+   "path": "saleor/core/management/commands/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [
+    "Command"
+   ],
+   "functions": [],
+   "import_count": 9,
+   "loc": 53,
+   "module": "saleor.core.management.commands.change_currency",
+   "path": "saleor/core/management/commands/change_currency.py",
+   "sha256": "c232d1784b0e77be6a4016b714d5596e49f56867f29edaf279bdb8f51a42e3c9"
+  },
+  {
+   "classes": [
+    "Command"
+   ],
+   "functions": [],
+   "import_count": 14,
+   "loc": 111,
+   "module": "saleor.core.management.commands.cleardb",
+   "path": "saleor/core/management/commands/cleardb.py",
+   "sha256": "396e3a3eb9fcd99a45faea68fd15ec84ba876de7d58715f8578601a12caf34b8"
+  },
+  {
+   "classes": [
+    "Command"
+   ],
+   "functions": [],
+   "import_count": 4,
+   "loc": 32,
+   "module": "saleor.core.management.commands.create_thumbnails",
+   "path": "saleor/core/management/commands/create_thumbnails.py",
+   "sha256": "0565785f7a0cb08eb2f48d5ea7bd98fe98b12127310e13b10019331e157387ed"
+  },
+  {
+   "classes": [
+    "Command"
+   ],
+   "functions": [],
+   "import_count": 8,
+   "loc": 130,
+   "module": "saleor.core.management.commands.populatedb",
+   "path": "saleor/core/management/commands/populatedb.py",
+   "sha256": "ee2dbbb72d3c42d486a078b98cc702ebd91e4c7de5719a25a19a91caf260e57a"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "country",
+    "currency",
+    "discounts",
+    "google_analytics",
+    "jwt_refresh_token_middleware",
+    "plugins",
+    "request_time",
+    "site"
+   ],
+   "import_count": 14,
+   "loc": 142,
+   "module": "saleor.core.middleware",
+   "path": "saleor/core/middleware.py",
+   "sha256": "049d9f556184ce834c5de5f8fd2e56abca0eda1a0699ac1d0b053b2ebe084ad5"
+  },
+  {
+   "classes": [
+    "Job",
+    "ModelWithMetadata",
+    "PublishableModel",
+    "PublishedQuerySet",
+    "SortableModel"
+   ],
+   "functions": [],
+   "import_count": 8,
+   "loc": 127,
+   "module": "saleor.core.models",
+   "path": "saleor/core/models.py",
+   "sha256": "71170c5aef56bf2733d28030dc1af167273f056cf4a852cd28f07c765896daf1"
+  },
+  {
+   "classes": [
+    "PaymentInterface"
+   ],
+   "functions": [],
+   "import_count": 5,
+   "loc": 78,
+   "module": "saleor.core.payments",
+   "path": "saleor/core/payments.py",
+   "sha256": "bcb3c4db5dd8fa570bf36bbd332a738b781391ff6063f8d88218ac11cad91a27"
+  },
+  {
+   "classes": [
+    "AccountPermissions",
+    "AppPermission",
+    "BasePermissionEnum",
+    "CheckoutPermissions",
+    "DiscountPermissions",
+    "GiftcardPermissions",
+    "MenuPermissions",
+    "OrderPermissions",
+    "PagePermissions",
+    "PluginsPermissions",
+    "ProductPermissions",
+    "ShippingPermissions",
+    "SitePermissions"
+   ],
+   "functions": [
+    "get_permission_names",
+    "get_permissions",
+    "get_permissions_codename",
+    "get_permissions_enum_dict",
+    "get_permissions_enum_list",
+    "get_permissions_from_names",
+    "split_permission_codename"
+   ],
+   "import_count": 3,
+   "loc": 136,
+   "module": "saleor.core.permissions",
+   "path": "saleor/core/permissions.py",
+   "sha256": "046208e6ee3dd3e0771f5d0810d1175504d690b0c33a18007af85bf795ad34d5"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "quantize_price"
+   ],
+   "import_count": 4,
+   "loc": 15,
+   "module": "saleor.core.prices",
+   "path": "saleor/core/prices.py",
+   "sha256": "bf14b226dcf32a11db4a46cce795984fce12e93216818e6c13e1d8ff317b3618"
+  },
+  {
+   "classes": [
+    "GCSMediaStorage",
+    "S3MediaStorage"
+   ],
+   "functions": [],
+   "import_count": 3,
+   "loc": 16,
+   "module": "saleor.core.storages",
+   "path": "saleor/core/storages.py",
+   "sha256": "6fc656c57c74d6df6335d66bf54e868c28533081240fe3a5a62cac5901263218"
+  },
+  {
+   "classes": [
+    "TaxError",
+    "TaxType"
+   ],
+   "functions": [
+    "charge_taxes_on_shipping",
+    "display_gross_prices",
+    "get_display_price",
+    "include_taxes_in_prices",
+    "zero_money",
+    "zero_taxed_money"
+   ],
+   "import_count": 5,
+   "loc": 60,
+   "module": "saleor.core.taxes",
+   "path": "saleor/core/taxes.py",
+   "sha256": "3b5f4f35350dd001578d5b73e28fe53b4de10c4366586582bc0a158634bbfe7c"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.core.templatetags",
+   "path": "saleor/core/templatetags/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "placeholder"
+   ],
+   "import_count": 2,
+   "loc": 9,
+   "module": "saleor.core.templatetags.placeholder",
+   "path": "saleor/core/templatetags/placeholder.py",
+   "sha256": "4d3b9a507b6cf96d6f9d1fca0da8360cd865e5a0a9110509a5bfb3bd5c0abcee"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "price"
+   ],
+   "import_count": 3,
+   "loc": 18,
+   "module": "saleor.core.templatetags.taxed_prices",
+   "path": "saleor/core/templatetags/taxed_prices.py",
+   "sha256": "cb84cc15aed6be998084735247dc64836ac4485a187bd189c7986eccc86a490a"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "is_default_resolver",
+    "is_introspection_field",
+    "should_trace"
+   ],
+   "import_count": 3,
+   "loc": 32,
+   "module": "saleor.core.tracing",
+   "path": "saleor/core/tracing.py",
+   "sha256": "073777d587533f4c799fa56d0f93fa3eadf4694d2150eda599e96ceb328e49f5"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "transaction_with_commit_on_errors"
+   ],
+   "import_count": 2,
+   "loc": 18,
+   "module": "saleor.core.transactions",
+   "path": "saleor/core/transactions.py",
+   "sha256": "68a850a70fd5012b8d8d2406086a6a0d436fdbff4527a8a6eb2633dbecca45ef"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "_get_geo_data_by_ip",
+    "build_absolute_uri",
+    "create_thumbnails",
+    "generate_unique_slug",
+    "get_client_ip",
+    "get_country_by_ip",
+    "get_currency_for_country",
+    "is_valid_ipv4",
+    "is_valid_ipv6",
+    "to_local_currency"
+   ],
+   "import_count": 17,
+   "loc": 170,
+   "module": "saleor.core.utils",
+   "path": "saleor/core/utils/__init__.py",
+   "sha256": "777568b238ad25f8f6f7d8438894261f99173316ac20403f538d3846d13bbd8e"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "_fake_save",
+    "anonymize_checkout",
+    "anonymize_order",
+    "generate_fake_address",
+    "generate_fake_user"
+   ],
+   "import_count": 8,
+   "loc": 81,
+   "module": "saleor.core.utils.anonymization",
+   "path": "saleor/core/utils/anonymization.py",
+   "sha256": "5f2c20898ac0b0d37ef2a151e20e230ff42ccf52f71a52ada68a838b7fb1c1cc"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "json_content_to_raw_text"
+   ],
+   "import_count": 1,
+   "loc": 16,
+   "module": "saleor.core.utils.draftjs",
+   "path": "saleor/core/utils/draftjs.py",
+   "sha256": "aec21fa3b6b443c5b766dbf28c3e543380bdc9d865decf802a1c3e18a9f3c717"
+  },
+  {
+   "classes": [
+    "CustomJsonEncoder",
+    "HTMLSafeJSON",
+    "Serializer"
+   ],
+   "functions": [],
+   "import_count": 3,
+   "loc": 26,
+   "module": "saleor.core.utils.json_serializer",
+   "path": "saleor/core/utils/json_serializer.py",
+   "sha256": "7842defdd1c38f639e247ccb82f8414f7bce554511e8fc4fb02dac01ea78ec52"
+  },
+  {
+   "classes": [
+    "InvalidPromoCode",
+    "PromoCodeAlreadyExists"
+   ],
+   "functions": [
+    "generate_promo_code",
+    "is_available_promo_code",
+    "promo_code_is_gift_card",
+    "promo_code_is_voucher"
+   ],
+   "import_count": 5,
+   "loc": 48,
+   "module": "saleor.core.utils.promo_code",
+   "path": "saleor/core/utils/promo_code.py",
+   "sha256": "33ba7698ec1e7dce69e1f27e1ebddf4baca269ed91a75b4bebb0baccfb9ac49e"
+  },
+  {
+   "classes": [
+    "SaleorProvider"
+   ],
+   "functions": [
+    "add_address_to_admin",
+    "assign_attributes_to_product_types",
+    "assign_attributes_to_products",
+    "assign_attributes_to_variants",
+    "assign_products_to_collections",
+    "create_address",
+    "create_attributes",
+    "create_attributes_values",
+    "create_categories",
+    "create_collections",
+    "create_fake_order",
+    "create_fake_payment",
+    "create_fake_sale",
+    "create_fake_user",
+    "create_fulfillments",
+    "create_gift_card",
+    "create_group",
+    "create_menus",
+    "create_order_lines",
+    "create_orders",
+    "create_page",
+    "create_permission_groups",
+    "create_product_image",
+    "create_product_sales",
+    "create_product_types",
+    "create_product_variants",
+    "create_products",
+    "create_products_by_schema",
+    "create_shipping_zone",
+    "create_shipping_zones",
+    "create_staff_users",
+    "create_stocks",
+    "create_users",
+    "create_vouchers",
+    "create_warehouses",
+    "generate_menu_items",
+    "generate_menu_tree",
+    "get_email",
+    "get_image",
+    "get_product_list_images_dir",
+    "get_weight",
+    "set_field_as_money",
+    "set_homepage_collection"
+   ],
+   "import_count": 44,
+   "loc": 1231,
+   "module": "saleor.core.utils.random_data",
+   "path": "saleor/core/utils/random_data.py",
+   "sha256": "fbe966c23241d3fc2583eda724dcfef16619503e415fe533bad6d8044326fd81"
+  },
+  {
+   "classes": [
+    "TranslationProxy",
+    "TranslationWrapper"
+   ],
+   "functions": [],
+   "import_count": 1,
+   "loc": 30,
+   "module": "saleor.core.utils.translations",
+   "path": "saleor/core/utils/translations.py",
+   "sha256": "9cb10bcc7f3dc43d463c661f462f1e69f2c2695d1ee12a60c70d639a5076d7ae"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "prepare_url",
+    "validate_storefront_url"
+   ],
+   "import_count": 4,
+   "loc": 35,
+   "module": "saleor.core.utils.url",
+   "path": "saleor/core/utils/url.py",
+   "sha256": "525eb7ba306902f36131c71a94765b2bde591806a72fe89a449b0f809b2fb058"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "home"
+   ],
+   "import_count": 2,
+   "loc": 13,
+   "module": "saleor.core.views",
+   "path": "saleor/core/views.py",
+   "sha256": "a69bcc60bf6459f3052b217756cbd778d386b0397093f1ea9f05a2e358b21194"
+  },
+  {
+   "classes": [
+    "WeightUnits"
+   ],
+   "functions": [
+    "convert_weight",
+    "convert_weight_to_default_weight_unit",
+    "get_default_weight_unit",
+    "zero_weight"
+   ],
+   "import_count": 2,
+   "loc": 61,
+   "module": "saleor.core.weight",
+   "path": "saleor/core/weight.py",
+   "sha256": "6d6ce36ec57a7297cf1bda89d6a2616bb34e64a64f345cf09cda5e8a25d8c987"
+  },
+  {
+   "classes": [
+    "ExportEvents",
+    "FileTypes"
+   ],
+   "functions": [],
+   "import_count": 0,
+   "loc": 34,
+   "module": "saleor.csv",
+   "path": "saleor/csv/__init__.py",
+   "sha256": "a65ea4756f077f0bc5f71899634c577d28248f5432948bc5f45ff17fb4133297"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "send_email_with_link_to_download_file",
+    "send_export_failed_info"
+   ],
+   "import_count": 7,
+   "loc": 46,
+   "module": "saleor.csv.emails",
+   "path": "saleor/csv/emails.py",
+   "sha256": "78733b0d9100e9c8fb5a6ead342877bf1d927c2ff1d2e98a2f02dbdc3afaf754"
+  },
+  {
+   "classes": [
+    "ExportErrorCode"
+   ],
+   "functions": [],
+   "import_count": 1,
+   "loc": 7,
+   "module": "saleor.csv.error_codes",
+   "path": "saleor/csv/error_codes.py",
+   "sha256": "0b0c90bfd7e58c3dde4b4d88ae0ab97bdf8c3f0759433003046fdfa0f92b4f9f"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "export_deleted_event",
+    "export_failed_event",
+    "export_failed_info_sent_event",
+    "export_file_sent_event",
+    "export_started_event",
+    "export_success_event"
+   ],
+   "import_count": 6,
+   "loc": 66,
+   "module": "saleor.csv.events",
+   "path": "saleor/csv/events.py",
+   "sha256": "5e23bbdb94da63f87f6c97e6a017c58858439b908ca35f50f08002b6ed24aaa7"
+  },
+  {
+   "classes": [
+    "ExportEvent",
+    "ExportFile"
+   ],
+   "functions": [],
+   "import_count": 8,
+   "loc": 36,
+   "module": "saleor.csv.models",
+   "path": "saleor/csv/models.py",
+   "sha256": "32a7e06d293edf4f1141bbb3d4407a5b04dc836ea981aeca69a3c8d4dce6f9a8"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "export_products_task",
+    "on_task_failure",
+    "on_task_success"
+   ],
+   "import_count": 7,
+   "loc": 52,
+   "module": "saleor.csv.tasks",
+   "path": "saleor/csv/tasks.py",
+   "sha256": "2b5979cb0d349d0129848330f1f4a6f811a6eb9b455b44c41d8b2400032f6fa8"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.csv.utils",
+   "path": "saleor/csv/utils/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "append_to_file",
+    "create_file_with_headers",
+    "export_products",
+    "export_products_in_batches",
+    "get_filename",
+    "get_product_queryset",
+    "queryset_in_batches",
+    "save_csv_file_in_export_file"
+   ],
+   "import_count": 11,
+   "loc": 157,
+   "module": "saleor.csv.utils.export",
+   "path": "saleor/csv/utils/export.py",
+   "sha256": "b08ec2560b4994ff35eb652f958295f346eb5b735f63fe33d1f5f88003aaa973"
+  },
+  {
+   "classes": [
+    "ProductExportFields"
+   ],
+   "functions": [
+    "add_attribute_info_to_data",
+    "add_collection_info_to_data",
+    "add_image_uris_to_data",
+    "add_warehouse_info_to_data",
+    "get_attributes_headers",
+    "get_export_fields_and_headers_info",
+    "get_product_export_fields_and_headers",
+    "get_products_data",
+    "get_products_relations_data",
+    "get_variants_relations_data",
+    "get_warehouses_headers",
+    "prepare_products_relations_data",
+    "prepare_variants_relations_data"
+   ],
+   "import_count": 10,
+   "loc": 463,
+   "module": "saleor.csv.utils.products_data",
+   "path": "saleor/csv/utils/products_data.py",
+   "sha256": "bb0f15fecc5c01de6c9de51e2146b82b6de6cbec8cc5a3e859a24c6d7e14c142"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.data_feeds",
+   "path": "saleor/data_feeds/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "get_feed_file_url",
+    "get_feed_items",
+    "item_attributes",
+    "item_availability",
+    "item_brand",
+    "item_condition",
+    "item_description",
+    "item_google_product_category",
+    "item_group_id",
+    "item_guid",
+    "item_id",
+    "item_image_link",
+    "item_mpn",
+    "item_price",
+    "item_sale_price",
+    "item_tax",
+    "item_title",
+    "update_feed",
+    "write_feed"
+   ],
+   "import_count": 16,
+   "loc": 266,
+   "module": "saleor.data_feeds.google_merchant",
+   "path": "saleor/data_feeds/google_merchant.py",
+   "sha256": "3ae1a9644f6fdd0c75bd1c8eb781c992a26709803589483df12bcb478750649e"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.data_feeds.management",
+   "path": "saleor/data_feeds/management/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.data_feeds.management.commands",
+   "path": "saleor/data_feeds/management/commands/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [
+    "Command"
+   ],
+   "functions": [],
+   "import_count": 2,
+   "loc": 10,
+   "module": "saleor.data_feeds.management.commands.update_feeds",
+   "path": "saleor/data_feeds/management/commands/update_feeds.py",
+   "sha256": "2958dfe2e758a3f0e799e0c9ff9754d421dcb5b7627c885fd5018ec23cb09c44"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 3,
+   "loc": 12,
+   "module": "saleor.data_feeds.urls",
+   "path": "saleor/data_feeds/urls.py",
+   "sha256": "705c7981b5cc355c416e14e536e00f48053afe9b892b0ecc61cb7f2bf2d42f52"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.demo",
+   "path": "saleor/demo/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.demo.management",
+   "path": "saleor/demo/management/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.demo.management.commands",
+   "path": "saleor/demo/management/commands/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [
+    "Command"
+   ],
+   "functions": [
+    "configure_braintree"
+   ],
+   "import_count": 4,
+   "loc": 42,
+   "module": "saleor.demo.management.commands.populatedb",
+   "path": "saleor/demo/management/commands/populatedb.py",
+   "sha256": "a30db1361a92284a31bbca26b9c8ad8bfde8ee0b046d0d38013c49ca4e9c4fb0"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "_get_project_name_from_url",
+    "before_send"
+   ],
+   "import_count": 4,
+   "loc": 87,
+   "module": "saleor.demo.settings",
+   "path": "saleor/demo/settings.py",
+   "sha256": "fa58c89d71db8b9b55cd2e7ec153ce99c7459701d988678e4e88a88225ed8402"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 5,
+   "loc": 12,
+   "module": "saleor.demo.urls",
+   "path": "saleor/demo/urls.py",
+   "sha256": "ea4c19a19b65f6d496d16291a18f7899b1312d820049fcd342c0d9ad02fe0d34"
+  },
+  {
+   "classes": [
+    "DemoGraphQLView"
+   ],
+   "functions": [],
+   "import_count": 2,
+   "loc": 33,
+   "module": "saleor.demo.views",
+   "path": "saleor/demo/views.py",
+   "sha256": "93ab559f6e1cdfe1e759d82e938a0d3328440772b8c7dfcb3735e9da2da5d0cd"
+  },
+  {
+   "classes": [
+    "DiscountInfo",
+    "DiscountValueType",
+    "VoucherType"
+   ],
+   "functions": [],
+   "import_count": 4,
+   "loc": 38,
+   "module": "saleor.discount",
+   "path": "saleor/discount/__init__.py",
+   "sha256": "fe65d1ac51892c7e7158a35a8c2b8237c1f4cbd91e5b9512ef327d2c41b42119"
+  },
+  {
+   "classes": [
+    "DiscountErrorCode"
+   ],
+   "functions": [],
+   "import_count": 1,
+   "loc": 10,
+   "module": "saleor.discount.error_codes",
+   "path": "saleor/discount/error_codes.py",
+   "sha256": "1847b8927e7ade45721a0d817466c99186dcff665ecb74e449c674c78717193f"
+  },
+  {
+   "classes": [
+    "NotApplicable",
+    "Sale",
+    "SaleQueryset",
+    "SaleTranslation",
+    "Voucher",
+    "VoucherCustomer",
+    "VoucherQueryset",
+    "VoucherTranslation"
+   ],
+   "functions": [],
+   "import_count": 13,
+   "loc": 255,
+   "module": "saleor.discount.models",
+   "path": "saleor/discount/models.py",
+   "sha256": "b56175ace72eb185242b53ce553be8417fb47efe3e898394f40bfacc98dad5fc"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.discount.templatetags",
+   "path": "saleor/discount/templatetags/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "discount_as_negative"
+   ],
+   "import_count": 3,
+   "loc": 11,
+   "module": "saleor.discount.templatetags.voucher",
+   "path": "saleor/discount/templatetags/voucher.py",
+   "sha256": "28d6a8491bb0f87f3ce4047e0ad096d366376bf560ae81c40fa79db1dff16dde"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "_fetch_categories",
+    "_fetch_collections",
+    "_fetch_products",
+    "add_voucher_usage_by_customer",
+    "calculate_discounted_price",
+    "decrease_voucher_usage",
+    "fetch_active_discounts",
+    "fetch_discounts",
+    "get_discounted_lines",
+    "get_product_discount_on_sale",
+    "get_product_discounts",
+    "get_products_voucher_discount",
+    "increase_voucher_usage",
+    "remove_voucher_usage_by_customer",
+    "validate_voucher",
+    "validate_voucher_for_checkout",
+    "validate_voucher_in_order"
+   ],
+   "import_count": 15,
+   "loc": 222,
+   "module": "saleor.discount.utils",
+   "path": "saleor/discount/utils.py",
+   "sha256": "7c91d4be955796939d521976ae5fb87b7a284fa23b038d63d9d890bf6b6d8e36"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.giftcard",
+   "path": "saleor/giftcard/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [
+    "GiftCardErrorCode"
+   ],
+   "functions": [],
+   "import_count": 1,
+   "loc": 10,
+   "module": "saleor.giftcard.error_codes",
+   "path": "saleor/giftcard/error_codes.py",
+   "sha256": "5d598e33f97ac8ae0683de1d1531e62b65a552e13224b6c60aeb7e396e1f9dc7"
+  },
+  {
+   "classes": [
+    "GiftCard",
+    "GiftCardQueryset"
+   ],
+   "functions": [],
+   "import_count": 6,
+   "loc": 66,
+   "module": "saleor.giftcard.models",
+   "path": "saleor/giftcard/models.py",
+   "sha256": "bb686d5cc6c96d6c7bc9cc560b778c2953690c237de73611a165bc832d0e9bec"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "activate_gift_card",
+    "add_gift_card_code_to_checkout",
+    "deactivate_gift_card",
+    "remove_gift_card_code_from_checkout"
+   ],
+   "import_count": 4,
+   "loc": 38,
+   "module": "saleor.giftcard.utils",
+   "path": "saleor/giftcard/utils.py",
+   "sha256": "2e9e141681928d325dba432ca70770f32b0d6326cd96572e7593e9702443751b"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.graphql",
+   "path": "saleor/graphql/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.graphql.account",
+   "path": "saleor/graphql/account/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [
+    "CustomerBulkDelete",
+    "StaffBulkDelete",
+    "UserBulkDelete",
+    "UserBulkSetActive"
+   ],
+   "functions": [],
+   "import_count": 10,
+   "loc": 112,
+   "module": "saleor.graphql.account.bulk_mutations",
+   "path": "saleor/graphql/account/bulk_mutations.py",
+   "sha256": "f4dbdd9f32f925171e5587c1a56bee5a385297e79e4715cb63616f49d06e3bcf"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.graphql.account.deprecated",
+   "path": "saleor/graphql/account/deprecated/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [
+    "ServiceAccountFilter"
+   ],
+   "functions": [],
+   "import_count": 3,
+   "loc": 13,
+   "module": "saleor.graphql.account.deprecated.filters",
+   "path": "saleor/graphql/account/deprecated/filters.py",
+   "sha256": "cf6206e58a5b062355df466139eb909ff7ec8f63948f3e099d42f65a66863b51"
+  },
+  {
+   "classes": [
+    "ServiceAccountClearPrivateMeta",
+    "ServiceAccountCreate",
+    "ServiceAccountDelete",
+    "ServiceAccountInput",
+    "ServiceAccountTokenCreate",
+    "ServiceAccountTokenDelete",
+    "ServiceAccountTokenInput",
+    "ServiceAccountUpdate",
+    "ServiceAccountUpdatePrivateMeta"
+   ],
+   "functions": [],
+   "import_count": 12,
+   "loc": 260,
+   "module": "saleor.graphql.account.deprecated.mutations_service_account",
+   "path": "saleor/graphql/account/deprecated/mutations_service_account.py",
+   "sha256": "02b3f7e4fcf986243adba9de54b02cd5c7441f73e3409c8cb330e0634847d9d1"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "resolve_service_accounts"
+   ],
+   "import_count": 1,
+   "loc": 5,
+   "module": "saleor.graphql.account.deprecated.resolvers",
+   "path": "saleor/graphql/account/deprecated/resolvers.py",
+   "sha256": "a7afdd17d168ad786e9314d4f99e281493a8eed3b1c6336c7cd927c1d6a3709b"
+  },
+  {
+   "classes": [
+    "ServiceAccountSortField",
+    "ServiceAccountSortingInput"
+   ],
+   "functions": [],
+   "import_count": 2,
+   "loc": 25,
+   "module": "saleor.graphql.account.deprecated.sorters",
+   "path": "saleor/graphql/account/deprecated/sorters.py",
+   "sha256": "aa1cbbebfbe911a76f52edcc7240263bf30dbd0ed11dd728141bf16e996ee763"
+  },
+  {
+   "classes": [
+    "ServiceAccount",
+    "ServiceAccountFilterInput",
+    "ServiceAccountToken"
+   ],
+   "functions": [],
+   "import_count": 10,
+   "loc": 88,
+   "module": "saleor.graphql.account.deprecated.types",
+   "path": "saleor/graphql/account/deprecated/types.py",
+   "sha256": "27b148c1fda99a33199b6b7b5d33d32b99fe483c303fe747353093e340c79777"
+  },
+  {
+   "classes": [
+    "StaffMemberStatus"
+   ],
+   "functions": [],
+   "import_count": 6,
+   "loc": 20,
+   "module": "saleor.graphql.account.enums",
+   "path": "saleor/graphql/account/enums.py",
+   "sha256": "e765fc902cbdda83a1cc7eca11ead03d1729082a303c603d63f975133d90f5ea"
+  },
+  {
+   "classes": [
+    "CustomerFilter",
+    "PermissionGroupFilter",
+    "StaffUserFilter"
+   ],
+   "functions": [
+    "filter_date_joined",
+    "filter_money_spent",
+    "filter_number_of_orders",
+    "filter_placed_orders",
+    "filter_search",
+    "filter_staff_search",
+    "filter_status"
+   ],
+   "import_count": 7,
+   "loc": 98,
+   "module": "saleor.graphql.account.filters",
+   "path": "saleor/graphql/account/filters.py",
+   "sha256": "a777b657adbd72bb45d05ebb87b5b41ac099c5c5a978c74aab06aebfaa478d1e"
+  },
+  {
+   "classes": [
+    "I18nMixin"
+   ],
+   "functions": [],
+   "import_count": 4,
+   "loc": 56,
+   "module": "saleor.graphql.account.i18n",
+   "path": "saleor/graphql/account/i18n.py",
+   "sha256": "ed766553a73a06eea054a80203c7488ad9737181c186644d90a88a3150f18db7"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.graphql.account.mutations",
+   "path": "saleor/graphql/account/mutations/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [
+    "AccountAddressCreate",
+    "AccountAddressDelete",
+    "AccountAddressUpdate",
+    "AccountDelete",
+    "AccountInput",
+    "AccountRegister",
+    "AccountRegisterInput",
+    "AccountRequestDeletion",
+    "AccountSetDefaultAddress",
+    "AccountUpdate",
+    "AccountUpdateMeta",
+    "ConfirmEmailChange",
+    "RequestEmailChange"
+   ],
+   "functions": [],
+   "import_count": 20,
+   "loc": 481,
+   "module": "saleor.graphql.account.mutations.account",
+   "path": "saleor/graphql/account/mutations/account.py",
+   "sha256": "f1c45acd317dee75fc126dc0a58a21c386ae31ebfd67dacbc659032c71d53854"
+  },
+  {
+   "classes": [
+    "BaseAddressDelete",
+    "BaseAddressUpdate",
+    "BaseCustomerCreate",
+    "ConfirmAccount",
+    "CustomerInput",
+    "PasswordChange",
+    "RequestPasswordReset",
+    "SetPassword",
+    "UserAddressInput",
+    "UserClearMeta",
+    "UserCreateInput",
+    "UserInput",
+    "UserUpdateMeta"
+   ],
+   "functions": [
+    "can_edit_address"
+   ],
+   "import_count": 18,
+   "loc": 453,
+   "module": "saleor.graphql.account.mutations.base",
+   "path": "saleor/graphql/account/mutations/base.py",
+   "sha256": "7a5ddee88085ef8eb7c6384741dc603eedddc3ecc2173a8ada6b74977b540ac9"
+  },
+  {
+   "classes": [
+    "CreateToken",
+    "DeactivateAllUserTokens",
+    "RefreshToken",
+    "VerifyToken"
+   ],
+   "functions": [
+    "get_payload",
+    "get_user"
+   ],
+   "import_count": 14,
+   "loc": 278,
+   "module": "saleor.graphql.account.mutations.jwt",
+   "path": "saleor/graphql/account/mutations/jwt.py",
+   "sha256": "a810e72ae9b76f6f2df5b1014d70df5718a84fc43f61f28b907d152e8912b08e"
+  },
+  {
+   "classes": [
+    "PermissionGroupCreate",
+    "PermissionGroupCreateInput",
+    "PermissionGroupDelete",
+    "PermissionGroupInput",
+    "PermissionGroupUpdate",
+    "PermissionGroupUpdateInput"
+   ],
+   "functions": [],
+   "import_count": 14,
+   "loc": 454,
+   "module": "saleor.graphql.account.mutations.permission_group",
+   "path": "saleor/graphql/account/mutations/permission_group.py",
+   "sha256": "e29fbae1f8029a1160f9960280e8c35b03d35aa9f57b2bb2c84993373d0a6ddb"
+  },
+  {
+   "classes": [
+    "AddressCreate",
+    "AddressDelete",
+    "AddressSetDefault",
+    "AddressUpdate",
+    "CustomerCreate",
+    "CustomerDelete",
+    "CustomerUpdate",
+    "StaffCreate",
+    "StaffCreateInput",
+    "StaffDelete",
+    "StaffInput",
+    "StaffUpdate",
+    "StaffUpdateInput",
+    "UserAvatarDelete",
+    "UserAvatarUpdate",
+    "UserClearPrivateMeta",
+    "UserDelete",
+    "UserUpdatePrivateMeta"
+   ],
+   "functions": [],
+   "import_count": 24,
+   "loc": 586,
+   "module": "saleor.graphql.account.mutations.staff",
+   "path": "saleor/graphql/account/mutations/staff.py",
+   "sha256": "bfaa2d704b721b5767ae5c5da317f82bb32656d0b5d9d69d73a1c405eac081dc"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "prepare_graphql_payment_sources_type",
+    "resolve_address",
+    "resolve_address_validation_rules",
+    "resolve_customers",
+    "resolve_payment_sources",
+    "resolve_permission_groups",
+    "resolve_permissions",
+    "resolve_staff_users",
+    "resolve_user"
+   ],
+   "import_count": 14,
+   "loc": 159,
+   "module": "saleor.graphql.account.resolvers",
+   "path": "saleor/graphql/account/resolvers.py",
+   "sha256": "a56a57073cf907d0f5a3330927fb618d09a21f8076967838d75d88f9ce48be83"
+  },
+  {
+   "classes": [
+    "AccountMutations",
+    "AccountQueries",
+    "CustomerFilterInput",
+    "PermissionGroupFilterInput",
+    "StaffUserInput"
+   ],
+   "functions": [],
+   "import_count": 20,
+   "loc": 352,
+   "module": "saleor.graphql.account.schema",
+   "path": "saleor/graphql/account/schema.py",
+   "sha256": "b3acca0e701316fca6bf88dd255acfdad78ea9caf2658b95153f10b9d968fb49"
+  },
+  {
+   "classes": [
+    "PermissionGroupSortField",
+    "PermissionGroupSortingInput",
+    "UserSortField",
+    "UserSortingInput"
+   ],
+   "functions": [],
+   "import_count": 3,
+   "loc": 46,
+   "module": "saleor.graphql.account.sorters",
+   "path": "saleor/graphql/account/sorters.py",
+   "sha256": "f19451bea80223cb3271ff51de2d5e16bafc5af209ee4a96a9aefd229573253d"
+  },
+  {
+   "classes": [
+    "Address",
+    "AddressInput",
+    "AddressValidationData",
+    "ChoiceValue",
+    "CustomerEvent",
+    "Group",
+    "StaffNotificationRecipient",
+    "User",
+    "UserPermission"
+   ],
+   "functions": [],
+   "import_count": 24,
+   "loc": 438,
+   "module": "saleor.graphql.account.types",
+   "path": "saleor/graphql/account/types.py",
+   "sha256": "9046a0170290135749972e5e07caa74e29e46bb63eb0d2734d84faecb12e2cb0"
+  },
+  {
+   "classes": [
+    "CustomerDeleteMixin",
+    "StaffDeleteMixin",
+    "UserDeleteMixin"
+   ],
+   "functions": [
+    "can_manage_app",
+    "can_user_manage_group",
+    "get_allowed_fields_camel_case",
+    "get_group_permission_codes",
+    "get_group_to_permissions_and_users_mapping",
+    "get_groups_which_user_can_manage",
+    "get_not_manageable_permissions",
+    "get_not_manageable_permissions_after_group_deleting",
+    "get_not_manageable_permissions_after_removing_perms_from_group",
+    "get_not_manageable_permissions_after_removing_users_from_group",
+    "get_not_manageable_permissions_when_deactivate_or_remove_users",
+    "get_out_of_scope_permissions",
+    "get_out_of_scope_users",
+    "get_required_fields_camel_case",
+    "get_user_permissions",
+    "get_users_and_look_for_permissions_in_groups_with_manage_staff",
+    "look_for_permission_in_users_with_manage_staff",
+    "requestor_has_access",
+    "validation_field_to_camel_case"
+   ],
+   "import_count": 15,
+   "loc": 464,
+   "module": "saleor.graphql.account.utils",
+   "path": "saleor/graphql/account/utils.py",
+   "sha256": "d4ae81d067fa97a0841f4fd80a8572c414d8108f2da68b75c09f0260cb78d476"
+  },
+  {
+   "classes": [
+    "Mutation",
+    "Query"
+   ],
+   "functions": [],
+   "import_count": 21,
+   "loc": 72,
+   "module": "saleor.graphql.api",
+   "path": "saleor/graphql/api.py",
+   "sha256": "3dfbdf6ba59405cd2a66a2b8465a4d3aaaf746abcd73deeccf0484d7f940bff5"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.graphql.app",
+   "path": "saleor/graphql/app/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 2,
+   "loc": 4,
+   "module": "saleor.graphql.app.enums",
+   "path": "saleor/graphql/app/enums.py",
+   "sha256": "da75d02c82ca7dc78f97e17f86db50d10c1c236d00d6fadd771a7fd82ad3bfb7"
+  },
+  {
+   "classes": [
+    "AppFilter"
+   ],
+   "functions": [
+    "filter_app_search",
+    "filter_type"
+   ],
+   "import_count": 6,
+   "loc": 29,
+   "module": "saleor.graphql.app.filters",
+   "path": "saleor/graphql/app/filters.py",
+   "sha256": "54b6d0f5a0f48827447405ed5b3d0dd850dbadc7cec33cec6f30f4d9a7db286a"
+  },
+  {
+   "classes": [
+    "AppActivate",
+    "AppCreate",
+    "AppDeactivate",
+    "AppDelete",
+    "AppDeleteFailedInstallation",
+    "AppFetchManifest",
+    "AppInput",
+    "AppInstall",
+    "AppInstallInput",
+    "AppRetryInstall",
+    "AppTokenCreate",
+    "AppTokenDelete",
+    "AppTokenInput",
+    "AppTokenVerify",
+    "AppUpdate"
+   ],
+   "functions": [],
+   "import_count": 17,
+   "loc": 536,
+   "module": "saleor.graphql.app.mutations",
+   "path": "saleor/graphql/app/mutations.py",
+   "sha256": "49dbeb09cefac9f9fee10df0fdd43f4a2089770ff59df0debec7d575996827cc"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "resolve_access_token",
+    "resolve_apps",
+    "resolve_apps_installations"
+   ],
+   "import_count": 3,
+   "loc": 21,
+   "module": "saleor.graphql.app.resolvers",
+   "path": "saleor/graphql/app/resolvers.py",
+   "sha256": "1215cc7ed1cb76c4db3248c90cb5a689b896e84257a0c2c772c21750bda21d7b"
+  },
+  {
+   "classes": [
+    "AppFilterInput",
+    "AppMutations",
+    "AppQueries"
+   ],
+   "functions": [],
+   "import_count": 10,
+   "loc": 79,
+   "module": "saleor.graphql.app.schema",
+   "path": "saleor/graphql/app/schema.py",
+   "sha256": "a90b7cd59b31e03c5b5f2d5c094e016d80b05882cfcc5fde659160cfe4ea7b2f"
+  },
+  {
+   "classes": [
+    "AppSortField",
+    "AppSortingInput"
+   ],
+   "functions": [],
+   "import_count": 2,
+   "loc": 21,
+   "module": "saleor.graphql.app.sorters",
+   "path": "saleor/graphql/app/sorters.py",
+   "sha256": "b816bf2011b7f62e92a2f07d92e1eb1987a0cddb96a0d1d74e64a28ad29966ab"
+  },
+  {
+   "classes": [
+    "App",
+    "AppInstallation",
+    "AppToken",
+    "Manifest"
+   ],
+   "functions": [],
+   "import_count": 13,
+   "loc": 144,
+   "module": "saleor.graphql.app.types",
+   "path": "saleor/graphql/app/types.py",
+   "sha256": "69cca925dbf219f01cf0e7fb248946ae6976722c8b1e7858fe8d4974e5eed988"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "ensure_can_manage_permissions"
+   ],
+   "import_count": 4,
+   "loc": 23,
+   "module": "saleor.graphql.app.utils",
+   "path": "saleor/graphql/app/utils.py",
+   "sha256": "e8a2eac36d521f2b302befaeb224ded314bc5d327b7f4d006e4c746d34653f1a"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.graphql.checkout",
+   "path": "saleor/graphql/checkout/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [
+    "CheckoutLinesByCheckoutTokenLoader"
+   ],
+   "functions": [],
+   "import_count": 3,
+   "loc": 15,
+   "module": "saleor.graphql.checkout.dataloaders",
+   "path": "saleor/graphql/checkout/dataloaders.py",
+   "sha256": "7da9ab07e47cd4a08fb28abe49a8a255ea61ae6c41d408fdd0381a0dcab18a89"
+  },
+  {
+   "classes": [
+    "CheckoutAddPromoCode",
+    "CheckoutBillingAddressUpdate",
+    "CheckoutClearMeta",
+    "CheckoutClearPrivateMeta",
+    "CheckoutComplete",
+    "CheckoutCreate",
+    "CheckoutCreateInput",
+    "CheckoutCustomerAttach",
+    "CheckoutCustomerDetach",
+    "CheckoutEmailUpdate",
+    "CheckoutLineDelete",
+    "CheckoutLineInput",
+    "CheckoutLinesAdd",
+    "CheckoutLinesUpdate",
+    "CheckoutRemovePromoCode",
+    "CheckoutShippingAddressUpdate",
+    "CheckoutShippingMethodUpdate",
+    "CheckoutUpdateMeta",
+    "CheckoutUpdatePrivateMeta"
+   ],
+   "functions": [
+    "check_lines_quantity",
+    "clean_shipping_method",
+    "update_checkout_shipping_method_if_invalid",
+    "validate_variants_available_for_purchase"
+   ],
+   "import_count": 28,
+   "loc": 939,
+   "module": "saleor.graphql.checkout.mutations",
+   "path": "saleor/graphql/checkout/mutations.py",
+   "sha256": "7532c68e0cf6d83d45dca0d0c1b005d1beba814677e4fb0c34a499e7f3016aae"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "resolve_checkout",
+    "resolve_checkout_lines",
+    "resolve_checkouts"
+   ],
+   "import_count": 3,
+   "loc": 35,
+   "module": "saleor.graphql.checkout.resolvers",
+   "path": "saleor/graphql/checkout/resolvers.py",
+   "sha256": "b16265cee2ec167a6b0af2fe359de589256702072818867cd4895af18f003535"
+  },
+  {
+   "classes": [
+    "CheckoutMutations",
+    "CheckoutQueries"
+   ],
+   "functions": [],
+   "import_count": 9,
+   "loc": 101,
+   "module": "saleor.graphql.checkout.schema",
+   "path": "saleor/graphql/checkout/schema.py",
+   "sha256": "dd1b32c8bf51a4c0b8c46b3df7382be4bddb6449b624952a2280f6f1035d89bf"
+  },
+  {
+   "classes": [
+    "Checkout",
+    "CheckoutLine",
+    "GatewayConfigLine",
+    "PaymentGateway"
+   ],
+   "functions": [],
+   "import_count": 20,
+   "loc": 265,
+   "module": "saleor.graphql.checkout.types",
+   "path": "saleor/graphql/checkout/types.py",
+   "sha256": "7034f31967483e8623c4f93da45cdec3af238ad2ced9e649b4ce49b3bd33deeb"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 1,
+   "loc": 1,
+   "module": "saleor.graphql.core",
+   "path": "saleor/graphql/core/__init__.py",
+   "sha256": "6f3503a25ef6219795a3aea69bbaaa4db00abcd46b331b06d64573089adb69c1"
+  },
+  {
+   "classes": [
+    "CountableConnection",
+    "CountableDjangoObjectType",
+    "NonNullConnection"
+   ],
+   "functions": [
+    "_get_edges_for_connection",
+    "_get_page_info",
+    "_get_sorting_direction",
+    "_get_sorting_fields",
+    "_prepare_filter",
+    "_prepare_filter_expression",
+    "_validate_connection_args",
+    "connection_from_queryset_slice",
+    "from_global_cursor",
+    "get_field_value",
+    "to_global_cursor"
+   ],
+   "import_count": 10,
+   "loc": 279,
+   "module": "saleor.graphql.core.connection",
+   "path": "saleor/graphql/core/connection.py",
+   "sha256": "54e6e7ad0356ed51219ae2ef7fbf7fa6408ad182f28b6f2c64946ae41eb408d6"
+  },
+  {
+   "classes": [
+    "DataLoader"
+   ],
+   "functions": [],
+   "import_count": 6,
+   "loc": 47,
+   "module": "saleor.graphql.core.dataloaders",
+   "path": "saleor/graphql/core/dataloaders.py",
+   "sha256": "ca367918a0e0f151aa946c84a933b31c359591cacf49fc6ede538f94e6a46865"
+  },
+  {
+   "classes": [
+    "OrderDirection",
+    "ReportingPeriod"
+   ],
+   "functions": [
+    "to_enum"
+   ],
+   "import_count": 23,
+   "loc": 111,
+   "module": "saleor.graphql.core.enums",
+   "path": "saleor/graphql/core/enums.py",
+   "sha256": "2b9320d5adc7a3a7ac3c8cd67f858dc6556b165982342200185d4e2230d1c048"
+  },
+  {
+   "classes": [
+    "BaseConnectionField",
+    "BaseDjangoConnectionField",
+    "FilterInputConnectionField",
+    "PrefetchingConnectionField"
+   ],
+   "functions": [
+    "patch_pagination_args"
+   ],
+   "import_count": 10,
+   "loc": 195,
+   "module": "saleor.graphql.core.fields",
+   "path": "saleor/graphql/core/fields.py",
+   "sha256": "d699bc0e224d649a14645721c1e72721571638a83a75a12bdc59930bc4afc00b"
+  },
+  {
+   "classes": [
+    "BaseJobFilter",
+    "DefaultMultipleChoiceField",
+    "EnumFilter",
+    "ListObjectTypeFilter",
+    "ObjectTypeFilter"
+   ],
+   "functions": [
+    "filter_created_at",
+    "filter_status",
+    "filter_updated_at"
+   ],
+   "import_count": 6,
+   "loc": 80,
+   "module": "saleor.graphql.core.filters",
+   "path": "saleor/graphql/core/filters.py",
+   "sha256": "6a846eca29c7a5d212bbb0e891373d4d356d81f737f0a23aa9815189de8ac1e3"
+  },
+  {
+   "classes": [
+    "BaseBulkMutation",
+    "BaseMutation",
+    "ModelBulkDeleteMutation",
+    "ModelDeleteMutation",
+    "ModelMutation",
+    "ModelMutationOptions"
+   ],
+   "functions": [
+    "get_error_fields",
+    "get_model_name",
+    "validation_error_to_error_type"
+   ],
+   "import_count": 16,
+   "loc": 601,
+   "module": "saleor.graphql.core.mutations",
+   "path": "saleor/graphql/core/mutations.py",
+   "sha256": "9d00d0582cbfb10a882599768b6ee42396bb64a6b33c391cffd5a04cc4812d22"
+  },
+  {
+   "classes": [
+    "Decimal",
+    "PositiveDecimal",
+    "UUID",
+    "WeightScalar"
+   ],
+   "functions": [],
+   "import_count": 6,
+   "loc": 127,
+   "module": "saleor.graphql.core.scalars",
+   "path": "saleor/graphql/core/scalars.py",
+   "sha256": "744b97d0a8421f668bca4cacbe8336eec95fb96b454e03abfce56bc4d08bc9fe"
+  },
+  {
+   "classes": [
+    "CoreQueries"
+   ],
+   "functions": [],
+   "import_count": 2,
+   "loc": 16,
+   "module": "saleor.graphql.core.schema",
+   "path": "saleor/graphql/core/schema.py",
+   "sha256": "9df2037aef739d5731b2af7209104aaa56a3611eea192191068b475959b99707"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 5,
+   "loc": 15,
+   "module": "saleor.graphql.core.types",
+   "path": "saleor/graphql/core/types/__init__.py",
+   "sha256": "1e8b2aeb4fe339a3c49723b852a731bc500efa243ae95cb499ccc06c44e5584e"
+  },
+  {
+   "classes": [
+    "AccountError",
+    "AppError",
+    "BulkProductError",
+    "BulkStockError",
+    "CheckoutError",
+    "CountryDisplay",
+    "DateRangeInput",
+    "DateTimeRangeInput",
+    "DiscountError",
+    "Error",
+    "ExportError",
+    "GiftCardError",
+    "Image",
+    "IntRangeInput",
+    "InvoiceError",
+    "Job",
+    "LanguageDisplay",
+    "MenuError",
+    "MetadataError",
+    "OrderError",
+    "PageError",
+    "PaymentError",
+    "Permission",
+    "PermissionGroupError",
+    "PluginError",
+    "PriceRangeInput",
+    "ProductAttributeError",
+    "ProductError",
+    "SeoInput",
+    "ShippingError",
+    "ShopError",
+    "StaffError",
+    "StockError",
+    "TaxType",
+    "TranslationError",
+    "WarehouseError",
+    "WebhookError",
+    "Weight",
+    "WishlistError"
+   ],
+   "functions": [],
+   "import_count": 5,
+   "loc": 315,
+   "module": "saleor.graphql.core.types.common",
+   "path": "saleor/graphql/core/types/common.py",
+   "sha256": "658db754a4d7c42bb6623c6689eca69f8ee10fc0cdeaf68ea55966ed6c1f6d2a"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "convert_convert_enum",
+    "convert_field_measurements",
+    "convert_field_money",
+    "convert_field_taxed_money",
+    "convert_list_object_type",
+    "convert_phone_number_field_to_string"
+   ],
+   "import_count": 9,
+   "loc": 41,
+   "module": "saleor.graphql.core.types.converter",
+   "path": "saleor/graphql/core/types/converter.py",
+   "sha256": "ec1f2986f986a7131bd3b3bf0fd2f51d2bce9d7a3af9d9a23d72f6316aa09b08"
+  },
+  {
+   "classes": [
+    "FilterInputObjectType"
+   ],
+   "functions": [],
+   "import_count": 5,
+   "loc": 64,
+   "module": "saleor.graphql.core.types.filter_input",
+   "path": "saleor/graphql/core/types/filter_input.py",
+   "sha256": "39f60784922044c981e6adbf4350bf07b23530f6eb0d8825d0c9219436cdd8e5"
+  },
+  {
+   "classes": [
+    "Money",
+    "MoneyRange",
+    "ReducedRate",
+    "TaxedMoney",
+    "TaxedMoneyRange",
+    "VAT"
+   ],
+   "functions": [],
+   "import_count": 4,
+   "loc": 95,
+   "module": "saleor.graphql.core.types.money",
+   "path": "saleor/graphql/core/types/money.py",
+   "sha256": "3df6d49eef9eef3866b8c3594a05cf54eda23848b65bc41099b328fae09e701f"
+  },
+  {
+   "classes": [
+    "SortInputMeta",
+    "SortInputObjectType"
+   ],
+   "functions": [],
+   "import_count": 3,
+   "loc": 37,
+   "module": "saleor.graphql.core.types.sort_input",
+   "path": "saleor/graphql/core/types/sort_input.py",
+   "sha256": "973a067146bf96b7c907ee422a075a2318a1f924503e516287ecf7c977db9408"
+  },
+  {
+   "classes": [
+    "Upload"
+   ],
+   "functions": [],
+   "import_count": 1,
+   "loc": 23,
+   "module": "saleor.graphql.core.types.upload",
+   "path": "saleor/graphql/core/types/upload.py",
+   "sha256": "36d7bf315389df5cc39a1fbe504b6e1df48061d136ee51730e68730458a94654"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "clean_seo_fields",
+    "from_global_id_strict_type",
+    "get_duplicated_values",
+    "get_duplicates_ids",
+    "snake_to_camel_case",
+    "str_to_enum",
+    "validate_image_file",
+    "validate_required_string_field",
+    "validate_slug_and_generate_if_needed",
+    "validate_slug_value"
+   ],
+   "import_count": 7,
+   "loc": 121,
+   "module": "saleor.graphql.core.utils",
+   "path": "saleor/graphql/core/utils/__init__.py",
+   "sha256": "650f5e870fb4bde267a7cf5162c295b0783d831e89514e3a2d49e601cd02d41b"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "get_error_code_from_error"
+   ],
+   "import_count": 15,
+   "loc": 86,
+   "module": "saleor.graphql.core.utils.error_codes",
+   "path": "saleor/graphql/core/utils/error_codes.py",
+   "sha256": "8d83a31a2068b604c6adfb1f509d8e112f3b0a5b0845075cb0b46c6db4322df8"
+  },
+  {
+   "classes": [
+    "FinalSortOrder",
+    "Reordering"
+   ],
+   "functions": [
+    "perform_reordering"
+   ],
+   "import_count": 6,
+   "loc": 174,
+   "module": "saleor.graphql.core.utils.reordering",
+   "path": "saleor/graphql/core/utils/reordering.py",
+   "sha256": "e13351c4053fb3eb330168ed0a935357a24055900fb2f72b52bd5b3d651cedb5"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "validate_one_of_args_is_in_query",
+    "validate_price_precision"
+   ],
+   "import_count": 6,
+   "loc": 39,
+   "module": "saleor.graphql.core.validators",
+   "path": "saleor/graphql/core/validators.py",
+   "sha256": "41d370047d9681fbe7c7bc3adb80488f02afd622835f5055f92fe1fd8d651b38"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.graphql.csv",
+   "path": "saleor/graphql/csv/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [
+    "ExportScope",
+    "ProductFieldEnum"
+   ],
+   "functions": [],
+   "import_count": 3,
+   "loc": 44,
+   "module": "saleor.graphql.csv.enums",
+   "path": "saleor/graphql/csv/enums.py",
+   "sha256": "b73dd7e0bd7f206cc01cbfe4e656b0eca44c0f94793551312d3aa524f878c698"
+  },
+  {
+   "classes": [
+    "ExportFileFilter",
+    "ExportFileFilterInput"
+   ],
+   "functions": [
+    "filter_app",
+    "filter_user"
+   ],
+   "import_count": 4,
+   "loc": 33,
+   "module": "saleor.graphql.csv.filters",
+   "path": "saleor/graphql/csv/filters.py",
+   "sha256": "f3468c9c27eae50651b2a2915491051a7b83d02dc02652c38065abad3f03eb6e"
+  },
+  {
+   "classes": [
+    "ExportInfoInput",
+    "ExportProducts",
+    "ExportProductsInput"
+   ],
+   "functions": [],
+   "import_count": 16,
+   "loc": 147,
+   "module": "saleor.graphql.csv.mutations",
+   "path": "saleor/graphql/csv/mutations.py",
+   "sha256": "cd8ab8a56b5f4e474cd520a40962678544c18bd1ab54a2bbd476dad4758e192a"
+  },
+  {
+   "classes": [
+    "CsvMutations",
+    "CsvQueries"
+   ],
+   "functions": [],
+   "import_count": 9,
+   "loc": 38,
+   "module": "saleor.graphql.csv.schema",
+   "path": "saleor/graphql/csv/schema.py",
+   "sha256": "bf9c3b61503b3402bed6903603eb0a12aa3e4ad702d48467ee8821f679d7f9a9"
+  },
+  {
+   "classes": [
+    "ExportFileSortField",
+    "ExportFileSortingInput"
+   ],
+   "functions": [],
+   "import_count": 2,
+   "loc": 22,
+   "module": "saleor.graphql.csv.sorters",
+   "path": "saleor/graphql/csv/sorters.py",
+   "sha256": "d92b63531e4150d8242b4b9aaf22ba331607231443a3d49562755210fc93514a"
+  },
+  {
+   "classes": [
+    "ExportEvent",
+    "ExportFile"
+   ],
+   "functions": [],
+   "import_count": 11,
+   "loc": 89,
+   "module": "saleor.graphql.csv.types",
+   "path": "saleor/graphql/csv/types.py",
+   "sha256": "efb055155f0a1b62dc7c45cd9b884e1f55125525489305669ecc97404677e733"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "_permission_required",
+    "account_passes_test",
+    "context",
+    "one_of_permissions_required",
+    "permission_required"
+   ],
+   "import_count": 6,
+   "loc": 74,
+   "module": "saleor.graphql.decorators",
+   "path": "saleor/graphql/decorators.py",
+   "sha256": "211a86a4659d2d1f79ab83e7c622fe2c52d3794b3685ddb4c205dbc689dd4432"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.graphql.discount",
+   "path": "saleor/graphql/discount/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [
+    "SaleBulkDelete",
+    "VoucherBulkDelete"
+   ],
+   "functions": [],
+   "import_count": 5,
+   "loc": 34,
+   "module": "saleor.graphql.discount.bulk_mutations",
+   "path": "saleor/graphql/discount/bulk_mutations.py",
+   "sha256": "5118982f470f94ab1b8541e3a42b217b95360a55ee214092a0c72b86292b73fe"
+  },
+  {
+   "classes": [
+    "DiscountsByDateTimeLoader"
+   ],
+   "functions": [],
+   "import_count": 5,
+   "loc": 73,
+   "module": "saleor.graphql.discount.dataloaders",
+   "path": "saleor/graphql/discount/dataloaders.py",
+   "sha256": "9f8bbd15905aa2c06ba54252ff269ec5ebbd7911d62ef2f57cacc0e45f875adf"
+  },
+  {
+   "classes": [
+    "DiscountStatusEnum",
+    "DiscountValueTypeEnum",
+    "VoucherDiscountType",
+    "VoucherTypeEnum"
+   ],
+   "functions": [],
+   "import_count": 2,
+   "loc": 26,
+   "module": "saleor.graphql.discount.enums",
+   "path": "saleor/graphql/discount/enums.py",
+   "sha256": "dc659fe17968e8dcd944ee848e4284e08e96d58b3ac572a89e2b46c525e3dd3d"
+  },
+  {
+   "classes": [
+    "SaleFilter",
+    "VoucherFilter"
+   ],
+   "functions": [
+    "filter_discount_type",
+    "filter_sale_search",
+    "filter_sale_type",
+    "filter_started",
+    "filter_status",
+    "filter_times_used",
+    "filter_voucher_search"
+   ],
+   "import_count": 10,
+   "loc": 103,
+   "module": "saleor.graphql.discount.filters",
+   "path": "saleor/graphql/discount/filters.py",
+   "sha256": "71edeeba7450d8310dd94777819db54085cc833cceb9c161f745b843e41b983f"
+  },
+  {
+   "classes": [
+    "BaseDiscountCatalogueMutation",
+    "CatalogueInput",
+    "SaleAddCatalogues",
+    "SaleBaseCatalogueMutation",
+    "SaleCreate",
+    "SaleDelete",
+    "SaleInput",
+    "SaleRemoveCatalogues",
+    "SaleUpdate",
+    "SaleUpdateMinimalVariantPriceMixin",
+    "VoucherAddCatalogues",
+    "VoucherBaseCatalogueMutation",
+    "VoucherCreate",
+    "VoucherDelete",
+    "VoucherInput",
+    "VoucherRemoveCatalogues",
+    "VoucherUpdate"
+   ],
+   "functions": [],
+   "import_count": 14,
+   "loc": 369,
+   "module": "saleor.graphql.discount.mutations",
+   "path": "saleor/graphql/discount/mutations.py",
+   "sha256": "278fd6ecb098a617a3fb08604ec18f7cf4a389fe82022c5db77e035a252911d5"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "resolve_sales",
+    "resolve_vouchers"
+   ],
+   "import_count": 2,
+   "loc": 15,
+   "module": "saleor.graphql.discount.resolvers",
+   "path": "saleor/graphql/discount/resolvers.py",
+   "sha256": "0671907aa17afcbeb495936998a552ffbdbeaa3cbf3865236fb58559449f31a9"
+  },
+  {
+   "classes": [
+    "DiscountMutations",
+    "DiscountQueries",
+    "SaleFilterInput",
+    "VoucherFilterInput"
+   ],
+   "functions": [],
+   "import_count": 12,
+   "loc": 97,
+   "module": "saleor.graphql.discount.schema",
+   "path": "saleor/graphql/discount/schema.py",
+   "sha256": "d8bbf702a80346a4ec594a05bc5441abdb859648d090a63cff00e73389bf444f"
+  },
+  {
+   "classes": [
+    "SaleSortField",
+    "SaleSortingInput",
+    "VoucherSortField",
+    "VoucherSortingInput"
+   ],
+   "functions": [],
+   "import_count": 2,
+   "loc": 47,
+   "module": "saleor.graphql.discount.sorters",
+   "path": "saleor/graphql/discount/sorters.py",
+   "sha256": "5537651f3ea025b5ff122b237f1a336e2682b23492aa2fe77a8bb32e85baae18"
+  },
+  {
+   "classes": [
+    "Sale",
+    "Voucher"
+   ],
+   "functions": [],
+   "import_count": 10,
+   "loc": 111,
+   "module": "saleor.graphql.discount.types",
+   "path": "saleor/graphql/discount/types.py",
+   "sha256": "f2a3e385049fd4004186313398e0689806e15cff084a7b43bf61affd0ce13a1e"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.graphql.giftcard",
+   "path": "saleor/graphql/giftcard/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [
+    "GiftCardActivate",
+    "GiftCardCreate",
+    "GiftCardCreateInput",
+    "GiftCardDeactivate",
+    "GiftCardUpdate",
+    "GiftCardUpdateInput"
+   ],
+   "functions": [],
+   "import_count": 13,
+   "loc": 142,
+   "module": "saleor.graphql.giftcard.mutations",
+   "path": "saleor/graphql/giftcard/mutations.py",
+   "sha256": "8fc081fc82f702aa41d29e950b9b5cdc5609c92e9bbf3e10dd1b23567d46b05b"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "resolve_gift_card",
+    "resolve_gift_cards"
+   ],
+   "import_count": 3,
+   "loc": 12,
+   "module": "saleor.graphql.giftcard.resolvers",
+   "path": "saleor/graphql/giftcard/resolvers.py",
+   "sha256": "592a30f0911a2f15a6129498b8e17c7975e8df60748c0c42d2919f01d971541c"
+  },
+  {
+   "classes": [
+    "GiftCardMutations",
+    "GiftCardQueries"
+   ],
+   "functions": [],
+   "import_count": 7,
+   "loc": 39,
+   "module": "saleor.graphql.giftcard.schema",
+   "path": "saleor/graphql/giftcard/schema.py",
+   "sha256": "32dd5266650720fd1ea62d79630463f5d694d3c33e2d07746278ed632f510bc7"
+  },
+  {
+   "classes": [
+    "GiftCard"
+   ],
+   "functions": [],
+   "import_count": 7,
+   "loc": 60,
+   "module": "saleor.graphql.giftcard.types",
+   "path": "saleor/graphql/giftcard/types.py",
+   "sha256": "f869171010f0d705bbc4b946aac581e95990f051a9ccbba5ea91ed291e089afc"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.graphql.invoice",
+   "path": "saleor/graphql/invoice/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [
+    "InvoiceCreate",
+    "InvoiceCreateInput",
+    "InvoiceDelete",
+    "InvoiceRequest",
+    "InvoiceRequestDelete",
+    "InvoiceSendEmail",
+    "InvoiceUpdate",
+    "UpdateInvoiceInput"
+   ],
+   "functions": [],
+   "import_count": 12,
+   "loc": 312,
+   "module": "saleor.graphql.invoice.mutations",
+   "path": "saleor/graphql/invoice/mutations.py",
+   "sha256": "368fe4030bdb2d7adaa47d6ca273bf4c7286ba38282a354ec3d388539c88c641"
+  },
+  {
+   "classes": [
+    "InvoiceMutations"
+   ],
+   "functions": [],
+   "import_count": 2,
+   "loc": 19,
+   "module": "saleor.graphql.invoice.schema",
+   "path": "saleor/graphql/invoice/schema.py",
+   "sha256": "3c57122c68fd22227f4290bf771c983699cf2cb4f554945fe3a57b281fc5294b"
+  },
+  {
+   "classes": [
+    "Invoice"
+   ],
+   "functions": [],
+   "import_count": 5,
+   "loc": 22,
+   "module": "saleor.graphql.invoice.types",
+   "path": "saleor/graphql/invoice/types.py",
+   "sha256": "fe19853e916d5a4f45ba6911998fc781735d2ec028d251787b351c4a14d4f6a7"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.graphql.management",
+   "path": "saleor/graphql/management/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.graphql.management.commands",
+   "path": "saleor/graphql/management/commands/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [
+    "Command"
+   ],
+   "functions": [],
+   "import_count": 3,
+   "loc": 21,
+   "module": "saleor.graphql.management.commands.get_graphql_schema",
+   "path": "saleor/graphql/management/commands/get_graphql_schema.py",
+   "sha256": "b0fcba13ef47b1040802dfb63fc8c5a8ff1540b7c8dd7e80de9be8699cb27acf"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.graphql.menu",
+   "path": "saleor/graphql/menu/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [
+    "MenuBulkDelete",
+    "MenuItemBulkDelete"
+   ],
+   "functions": [],
+   "import_count": 5,
+   "loc": 34,
+   "module": "saleor.graphql.menu.bulk_mutations",
+   "path": "saleor/graphql/menu/bulk_mutations.py",
+   "sha256": "0878b096e419942daf88487510383185cf2a8e62a00bb6225c7906da288455f3"
+  },
+  {
+   "classes": [
+    "MenuByIdLoader",
+    "MenuItemByIdLoader",
+    "MenuItemChildrenLoader",
+    "MenuItemsByParentMenuLoader"
+   ],
+   "functions": [],
+   "import_count": 3,
+   "loc": 42,
+   "module": "saleor.graphql.menu.dataloaders",
+   "path": "saleor/graphql/menu/dataloaders.py",
+   "sha256": "c6bb87d828910c28002098c2c4ca3120917425e52c956adb06ce95ae87c4e5cf"
+  },
+  {
+   "classes": [
+    "NavigationType"
+   ],
+   "functions": [],
+   "import_count": 1,
+   "loc": 14,
+   "module": "saleor.graphql.menu.enums",
+   "path": "saleor/graphql/menu/enums.py",
+   "sha256": "147b3c68101f6e4190b70578607fdbcf91ea4437a6404d810dfc313b0350e970"
+  },
+  {
+   "classes": [
+    "MenuFilter",
+    "MenuFilterInput",
+    "MenuItemFilter",
+    "MenuItemFilterInput"
+   ],
+   "functions": [
+    "filter_menu_item_search",
+    "filter_menu_search"
+   ],
+   "import_count": 4,
+   "loc": 43,
+   "module": "saleor.graphql.menu.filters",
+   "path": "saleor/graphql/menu/filters.py",
+   "sha256": "d90718e138496df9b6639ea208b1d5ded3d43090f4e4f57a1b73c060c300f888"
+  },
+  {
+   "classes": [
+    "AssignNavigation",
+    "MenuCreate",
+    "MenuCreateInput",
+    "MenuDelete",
+    "MenuInput",
+    "MenuItemCreate",
+    "MenuItemCreateInput",
+    "MenuItemDelete",
+    "MenuItemInput",
+    "MenuItemMove",
+    "MenuItemUpdate",
+    "MenuUpdate",
+    "_MenuMoveOperation"
+   ],
+   "functions": [
+    "_validate_menu_item_instance"
+   ],
+   "import_count": 20,
+   "loc": 422,
+   "module": "saleor.graphql.menu.mutations",
+   "path": "saleor/graphql/menu/mutations.py",
+   "sha256": "03fcc3791f40797b407ca719c5e2956a7204b51ae95454912eaf0de474ccbf9d"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "resolve_menu",
+    "resolve_menu_items",
+    "resolve_menus"
+   ],
+   "import_count": 5,
+   "loc": 27,
+   "module": "saleor.graphql.menu.resolvers",
+   "path": "saleor/graphql/menu/resolvers.py",
+   "sha256": "2d8dc23d500381ea3e2272a8d731049d1b70cbbf8c0b12093f58327348c6a5f3"
+  },
+  {
+   "classes": [
+    "MenuMutations",
+    "MenuQueries"
+   ],
+   "functions": [],
+   "import_count": 9,
+   "loc": 75,
+   "module": "saleor.graphql.menu.schema",
+   "path": "saleor/graphql/menu/schema.py",
+   "sha256": "36e62bc6663cc79d2d0dafa0fe370de4cd782f59624df7a555c96e1e289402e8"
+  },
+  {
+   "classes": [
+    "MenuItemSortingInput",
+    "MenuItemsSortField",
+    "MenuSortField",
+    "MenuSortingInput"
+   ],
+   "functions": [],
+   "import_count": 3,
+   "loc": 43,
+   "module": "saleor.graphql.menu.sorters",
+   "path": "saleor/graphql/menu/sorters.py",
+   "sha256": "57f85c67924eb9b2989cdc3a0b39c646858dadcbc8e256fea96783d1e2aaa5fe"
+  },
+  {
+   "classes": [
+    "Menu",
+    "MenuItem",
+    "MenuItemMoveInput"
+   ],
+   "functions": [],
+   "import_count": 9,
+   "loc": 104,
+   "module": "saleor.graphql.menu.types",
+   "path": "saleor/graphql/menu/types.py",
+   "sha256": "33b18b66bfbca0b6c9a79eae9990b4ac489f9538cf710ce7bfb569dd34b869e8"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.graphql.meta",
+   "path": "saleor/graphql/meta/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.graphql.meta.deprecated",
+   "path": "saleor/graphql/meta/deprecated/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [
+    "BaseMetadataMutation",
+    "ClearMetaBaseMutation",
+    "MetaUpdateOptions",
+    "UpdateMetaBaseMutation"
+   ],
+   "functions": [
+    "get_output_fields"
+   ],
+   "import_count": 5,
+   "loc": 143,
+   "module": "saleor.graphql.meta.deprecated.mutations",
+   "path": "saleor/graphql/meta/deprecated/mutations.py",
+   "sha256": "ba8bb64b3c82ee3d3e260c001d3fb42985217f8ba68e0539d269fb6ec6df1a13"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "resolve_meta",
+    "resolve_private_meta"
+   ],
+   "import_count": 0,
+   "loc": 7,
+   "module": "saleor.graphql.meta.deprecated.resolvers",
+   "path": "saleor/graphql/meta/deprecated/resolvers.py",
+   "sha256": "da0e1f74a6e608c2b84b5ddf69d31cabe4d7539afa4ac64d9cd292f5a9870a48"
+  },
+  {
+   "classes": [
+    "MetaClientStore",
+    "MetaInput",
+    "MetaItem",
+    "MetaPath",
+    "MetaStore"
+   ],
+   "functions": [],
+   "import_count": 2,
+   "loc": 57,
+   "module": "saleor.graphql.meta.deprecated.types",
+   "path": "saleor/graphql/meta/deprecated/types.py",
+   "sha256": "b88450885f4e87f845a171114071a57a463b9dfad93c2d3c1d434c3ce23f574c"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "extra_product_actions"
+   ],
+   "import_count": 0,
+   "loc": 5,
+   "module": "saleor.graphql.meta.extra_methods",
+   "path": "saleor/graphql/meta/extra_methods.py",
+   "sha256": "2300c9e256d21647efd71d11c06733167de843984b190df2f0ef2674575af219"
+  },
+  {
+   "classes": [
+    "BaseMetadataMutation",
+    "DeleteMetadata",
+    "DeletePrivateMetadata",
+    "MetadataInput",
+    "MetadataPermissionOptions",
+    "UpdateMetadata",
+    "UpdatePrivateMetadata"
+   ],
+   "functions": [],
+   "import_count": 10,
+   "loc": 209,
+   "module": "saleor.graphql.meta.mutations",
+   "path": "saleor/graphql/meta/mutations.py",
+   "sha256": "f4291ef65f2276ed69cc4952164eb6cf1d34b734916980915a589d198d93522c"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "app_permissions",
+    "checkout_permissions",
+    "invoice_permissions",
+    "no_permissions",
+    "order_permissions",
+    "private_user_permissions",
+    "product_permissions",
+    "public_user_permissions"
+   ],
+   "import_count": 4,
+   "loc": 96,
+   "module": "saleor.graphql.meta.permissions",
+   "path": "saleor/graphql/meta/permissions.py",
+   "sha256": "4e016f2fb6c90e1b5dbb0f86c491da40c79bcb9ba26c0b4dc5ca3c0ff38285bb"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "resolve_metadata",
+    "resolve_object_with_metadata_type",
+    "resolve_private_metadata"
+   ],
+   "import_count": 17,
+   "loc": 68,
+   "module": "saleor.graphql.meta.resolvers",
+   "path": "saleor/graphql/meta/resolvers.py",
+   "sha256": "63f35e1a01ceb35a12ff30d13b828fd3055dc957d510f19dca0b66c1ff1137e6"
+  },
+  {
+   "classes": [
+    "MetaMutations"
+   ],
+   "functions": [],
+   "import_count": 2,
+   "loc": 15,
+   "module": "saleor.graphql.meta.schema",
+   "path": "saleor/graphql/meta/schema.py",
+   "sha256": "fbd19ff345aef00be538be2b9ae2822677a5ea6abfe3f26036ddb4aeff33b5af"
+  },
+  {
+   "classes": [
+    "MetadataItem",
+    "ObjectWithMetadata"
+   ],
+   "functions": [],
+   "import_count": 3,
+   "loc": 62,
+   "module": "saleor.graphql.meta.types",
+   "path": "saleor/graphql/meta/types.py",
+   "sha256": "363ffbff42f46b2f96441b9be612c8cb24ddca53cdfcfc77851b1d0f892bc7ff"
+  },
+  {
+   "classes": [
+    "JWTMiddleware",
+    "OpentracingGrapheneMiddleware",
+    "ReadOnlyMiddleware"
+   ],
+   "functions": [
+    "app_middleware",
+    "get_app",
+    "get_user",
+    "process_view"
+   ],
+   "import_count": 14,
+   "loc": 130,
+   "module": "saleor.graphql.middleware",
+   "path": "saleor/graphql/middleware.py",
+   "sha256": "806ac6dc67f79b70486745832f53337722e858fe44eb0f02ca0538c40b78bc92"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.graphql.order",
+   "path": "saleor/graphql/order/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.graphql.order.bulk_mutations",
+   "path": "saleor/graphql/order/bulk_mutations/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [
+    "DraftOrderBulkDelete",
+    "DraftOrderLinesBulkDelete"
+   ],
+   "functions": [],
+   "import_count": 7,
+   "loc": 60,
+   "module": "saleor.graphql.order.bulk_mutations.draft_orders",
+   "path": "saleor/graphql/order/bulk_mutations/draft_orders.py",
+   "sha256": "9c0709bbfcf986a6fbb1e171125800c9cb073a436e89daefa5c4f89c050752e6"
+  },
+  {
+   "classes": [
+    "OrderBulkCancel"
+   ],
+   "functions": [],
+   "import_count": 7,
+   "loc": 36,
+   "module": "saleor.graphql.order.bulk_mutations.orders",
+   "path": "saleor/graphql/order/bulk_mutations/orders.py",
+   "sha256": "49bc6d49698f78c2a65fbc9a52051128f4ec4fbfc8b32a72899574da4cae12ce"
+  },
+  {
+   "classes": [
+    "OrderStatusFilter"
+   ],
+   "functions": [],
+   "import_count": 3,
+   "loc": 16,
+   "module": "saleor.graphql.order.enums",
+   "path": "saleor/graphql/order/enums.py",
+   "sha256": "03cb0ea2765dd7eb50cf735959d5c277ad032fb5221dfb234eb40cd153ce7091"
+  },
+  {
+   "classes": [
+    "DraftOrderFilter",
+    "OrderFilter"
+   ],
+   "functions": [
+    "filter_created_range",
+    "filter_customer",
+    "filter_order_by_payment",
+    "filter_order_search",
+    "filter_payment_status",
+    "filter_status",
+    "get_payment_id_from_query"
+   ],
+   "import_count": 9,
+   "loc": 106,
+   "module": "saleor.graphql.order.filters",
+   "path": "saleor/graphql/order/filters.py",
+   "sha256": "8a7066dc5568f331dd2a29f1356a813688c0223ba8716babb2126a3e5ccd6af5"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.graphql.order.mutations",
+   "path": "saleor/graphql/order/mutations/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [
+    "DraftOrderComplete",
+    "DraftOrderCreate",
+    "DraftOrderCreateInput",
+    "DraftOrderDelete",
+    "DraftOrderInput",
+    "DraftOrderLineDelete",
+    "DraftOrderLineUpdate",
+    "DraftOrderLinesCreate",
+    "DraftOrderUpdate",
+    "OrderLineCreateInput",
+    "OrderLineInput"
+   ],
+   "functions": [],
+   "import_count": 21,
+   "loc": 464,
+   "module": "saleor.graphql.order.mutations.draft_orders",
+   "path": "saleor/graphql/order/mutations/draft_orders.py",
+   "sha256": "ff6a74e297ad988dcfbc52a65d5a1ead2ae99fdaef9226ad138f710d39ee312b"
+  },
+  {
+   "classes": [
+    "FulfillmentCancel",
+    "FulfillmentCancelInput",
+    "FulfillmentClearMeta",
+    "FulfillmentClearPrivateMeta",
+    "FulfillmentUpdateMeta",
+    "FulfillmentUpdatePrivateMeta",
+    "FulfillmentUpdateTracking",
+    "FulfillmentUpdateTrackingInput",
+    "OrderFulfill",
+    "OrderFulfillInput",
+    "OrderFulfillLineInput",
+    "OrderFulfillStockInput"
+   ],
+   "functions": [],
+   "import_count": 17,
+   "loc": 342,
+   "module": "saleor.graphql.order.mutations.fulfillments",
+   "path": "saleor/graphql/order/mutations/fulfillments.py",
+   "sha256": "e1a3016d545d0f337802b5d80fe9505cab7029004ed67ebded2fda9ce37956db"
+  },
+  {
+   "classes": [
+    "OrderAddNote",
+    "OrderAddNoteInput",
+    "OrderCancel",
+    "OrderCapture",
+    "OrderClearMeta",
+    "OrderClearPrivateMeta",
+    "OrderMarkAsPaid",
+    "OrderRefund",
+    "OrderUpdate",
+    "OrderUpdateInput",
+    "OrderUpdateMeta",
+    "OrderUpdatePrivateMeta",
+    "OrderUpdateShipping",
+    "OrderUpdateShippingInput",
+    "OrderVoid"
+   ],
+   "functions": [
+    "clean_order_cancel",
+    "clean_order_capture",
+    "clean_order_update_shipping",
+    "clean_payment",
+    "clean_refund_payment",
+    "clean_void_payment",
+    "try_payment_action"
+   ],
+   "import_count": 20,
+   "loc": 524,
+   "module": "saleor.graphql.order.mutations.orders",
+   "path": "saleor/graphql/order/mutations/orders.py",
+   "sha256": "c0ae64d1b6a0063972c34ea30fce6b5a7f8c15d728e81e557c39dff15a182b82"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "filter_orders",
+    "resolve_draft_orders",
+    "resolve_homepage_events",
+    "resolve_order",
+    "resolve_order_by_token",
+    "resolve_orders",
+    "resolve_orders_total"
+   ],
+   "import_count": 8,
+   "loc": 66,
+   "module": "saleor.graphql.order.resolvers",
+   "path": "saleor/graphql/order/resolvers.py",
+   "sha256": "da902b2418448feb6bb8bddddbf9ff8718757efbd1e7a847806e2eeb166acf6c"
+  },
+  {
+   "classes": [
+    "OrderDraftFilterInput",
+    "OrderFilterInput",
+    "OrderMutations",
+    "OrderQueries"
+   ],
+   "functions": [],
+   "import_count": 17,
+   "loc": 219,
+   "module": "saleor.graphql.order.schema",
+   "path": "saleor/graphql/order/schema.py",
+   "sha256": "ab9c8ff80b9c467c95336ed8e326ff14b94762b0a3d3f15f439069d5e3355f4a"
+  },
+  {
+   "classes": [
+    "OrderSortField",
+    "OrderSortingInput"
+   ],
+   "functions": [],
+   "import_count": 4,
+   "loc": 38,
+   "module": "saleor.graphql.order.sorters",
+   "path": "saleor/graphql/order/sorters.py",
+   "sha256": "7c826f999fe98da0eff5cadc739a24ea5a9069164d6854b04ff0e02667984e56"
+  },
+  {
+   "classes": [
+    "Fulfillment",
+    "FulfillmentLine",
+    "Order",
+    "OrderEvent",
+    "OrderEventOrderLineObject",
+    "OrderLine"
+   ],
+   "functions": [],
+   "import_count": 30,
+   "loc": 555,
+   "module": "saleor.graphql.order.types",
+   "path": "saleor/graphql/order/types.py",
+   "sha256": "7871aab21348347cc3af0037c4e73392267083977b5bcce6995157b6d5abb7fa"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "validate_draft_order",
+    "validate_order_lines",
+    "validate_product_is_available_for_purchase",
+    "validate_product_is_published",
+    "validate_shipping_method",
+    "validate_total_quantity"
+   ],
+   "import_count": 4,
+   "loc": 106,
+   "module": "saleor.graphql.order.utils",
+   "path": "saleor/graphql/order/utils.py",
+   "sha256": "c5abcc52075f35d2ad44b13ca3dacf905c82e93d7a37aa029d15b1744bb838cd"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.graphql.page",
+   "path": "saleor/graphql/page/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [
+    "PageBulkDelete",
+    "PageBulkPublish"
+   ],
+   "functions": [],
+   "import_count": 5,
+   "loc": 41,
+   "module": "saleor.graphql.page.bulk_mutations",
+   "path": "saleor/graphql/page/bulk_mutations.py",
+   "sha256": "88a32d9bc3b64c36f784fd5b44a415c84c2b9448fef623223998bff17ba7d3f9"
+  },
+  {
+   "classes": [
+    "PageByIdLoader"
+   ],
+   "functions": [],
+   "import_count": 2,
+   "loc": 10,
+   "module": "saleor.graphql.page.dataloaders",
+   "path": "saleor/graphql/page/dataloaders.py",
+   "sha256": "5f435e4190081680fb02f4022b12439e6d229398edf1dca1cc69cfecee73b1e2"
+  },
+  {
+   "classes": [
+    "PageFilter",
+    "PageFilterInput"
+   ],
+   "functions": [
+    "filter_page_search"
+   ],
+   "import_count": 4,
+   "loc": 24,
+   "module": "saleor.graphql.page.filters",
+   "path": "saleor/graphql/page/filters.py",
+   "sha256": "ce77f226895cfa03483578c3fa84faad370d6f7f73492a2f2176e814af8644bc"
+  },
+  {
+   "classes": [
+    "PageCreate",
+    "PageDelete",
+    "PageInput",
+    "PageUpdate"
+   ],
+   "functions": [],
+   "import_count": 8,
+   "loc": 79,
+   "module": "saleor.graphql.page.mutations",
+   "path": "saleor/graphql/page/mutations.py",
+   "sha256": "3bef9b77fe7227a04777ec7d081be2c7d4e11edb4f826729aed878589d0f2b63"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "resolve_page",
+    "resolve_pages"
+   ],
+   "import_count": 2,
+   "loc": 20,
+   "module": "saleor.graphql.page.resolvers",
+   "path": "saleor/graphql/page/resolvers.py",
+   "sha256": "491e87868add66b8187eac9e86175abd925372b42cb5266eff935cab3fad5a86"
+  },
+  {
+   "classes": [
+    "PageMutations",
+    "PageQueries"
+   ],
+   "functions": [],
+   "import_count": 9,
+   "loc": 40,
+   "module": "saleor.graphql.page.schema",
+   "path": "saleor/graphql/page/schema.py",
+   "sha256": "e8b49511003aac9c3acec7e184b22dbdb32d9ae00acce7b3219b2660b8cb0d5e"
+  },
+  {
+   "classes": [
+    "PageSortField",
+    "PageSortingInput"
+   ],
+   "functions": [],
+   "import_count": 2,
+   "loc": 24,
+   "module": "saleor.graphql.page.sorters",
+   "path": "saleor/graphql/page/sorters.py",
+   "sha256": "6f7397a138ca9fc76de03c6f80d914bc2157160d6235433a71effd2084250b47"
+  },
+  {
+   "classes": [
+    "Page"
+   ],
+   "functions": [],
+   "import_count": 5,
+   "loc": 30,
+   "module": "saleor.graphql.page.types",
+   "path": "saleor/graphql/page/types.py",
+   "sha256": "8e23642b0b5cddccfdb5f4a7212b49d542a236d89b7d5dd6c4ac5898e6838fc3"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.graphql.payment",
+   "path": "saleor/graphql/payment/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [
+    "OrderAction"
+   ],
+   "functions": [],
+   "import_count": 3,
+   "loc": 25,
+   "module": "saleor.graphql.payment.enums",
+   "path": "saleor/graphql/payment/enums.py",
+   "sha256": "22103c775228d8deb709bd257720a88ec98e560acae144196fd60db783a00c88"
+  },
+  {
+   "classes": [
+    "CheckoutPaymentCreate",
+    "PaymentCapture",
+    "PaymentInput",
+    "PaymentRefund",
+    "PaymentVoid"
+   ],
+   "functions": [],
+   "import_count": 20,
+   "loc": 256,
+   "module": "saleor.graphql.payment.mutations",
+   "path": "saleor/graphql/payment/mutations.py",
+   "sha256": "936157891a57b38ad784c0c572367d7c8ff4bb143d08c4363a3931cf8d742e6e"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "resolve_client_token",
+    "resolve_payments"
+   ],
+   "import_count": 3,
+   "loc": 15,
+   "module": "saleor.graphql.payment.resolvers",
+   "path": "saleor/graphql/payment/resolvers.py",
+   "sha256": "a4517f3bbc86a86aec384e87d49595ba63a85ada9b6c844d5fee3568bd136f17"
+  },
+  {
+   "classes": [
+    "PaymentMutations",
+    "PaymentQueries"
+   ],
+   "functions": [],
+   "import_count": 7,
+   "loc": 33,
+   "module": "saleor.graphql.payment.schema",
+   "path": "saleor/graphql/payment/schema.py",
+   "sha256": "2fc81a955952afe9e49da072a3c72913f7c53142aee4f8f525532d25c96eaf74"
+  },
+  {
+   "classes": [
+    "CreditCard",
+    "Payment",
+    "PaymentSource",
+    "Transaction"
+   ],
+   "functions": [],
+   "import_count": 6,
+   "loc": 154,
+   "module": "saleor.graphql.payment.types",
+   "path": "saleor/graphql/payment/types.py",
+   "sha256": "12a0e258f69d9be053d515950546d37891e7ede7737913c9f79b8bb8a37d85d6"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.graphql.plugins",
+   "path": "saleor/graphql/plugins/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 2,
+   "loc": 4,
+   "module": "saleor.graphql.plugins.enums",
+   "path": "saleor/graphql/plugins/enums.py",
+   "sha256": "f57d0348a0c2df86644c499964a428b6c780e04d3b15f25d9613c96329e5bcb3"
+  },
+  {
+   "classes": [
+    "PluginFilterInput"
+   ],
+   "functions": [
+    "filter_plugin_search"
+   ],
+   "import_count": 3,
+   "loc": 30,
+   "module": "saleor.graphql.plugins.filters",
+   "path": "saleor/graphql/plugins/filters.py",
+   "sha256": "6059a37683a37a436f42355e0b84b09719e8d7d36eee648256fc1cca539de5f1"
+  },
+  {
+   "classes": [
+    "ConfigurationItemInput",
+    "PluginUpdate",
+    "PluginUpdateInput"
+   ],
+   "functions": [],
+   "import_count": 8,
+   "loc": 61,
+   "module": "saleor.graphql.plugins.mutations",
+   "path": "saleor/graphql/plugins/mutations.py",
+   "sha256": "a906fae10a4e64e37d14fb1c80962d793cc9525a9e703dc825bf86cc01fa4b26"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "resolve_plugin",
+    "resolve_plugins"
+   ],
+   "import_count": 5,
+   "loc": 47,
+   "module": "saleor.graphql.plugins.resolvers",
+   "path": "saleor/graphql/plugins/resolvers.py",
+   "sha256": "3da8194c653cf2039b132bbb7ab8abaec89507fc38daf365ddf54fded36e208b"
+  },
+  {
+   "classes": [
+    "PluginsMutations",
+    "PluginsQueries"
+   ],
+   "functions": [],
+   "import_count": 9,
+   "loc": 38,
+   "module": "saleor.graphql.plugins.schema",
+   "path": "saleor/graphql/plugins/schema.py",
+   "sha256": "b07980e9d212faf50d5f05da9cf7afaf8d71c0c696ba021405faf58fdf208223"
+  },
+  {
+   "classes": [
+    "PluginSortField",
+    "PluginSortingInput"
+   ],
+   "functions": [
+    "sort_plugins"
+   ],
+   "import_count": 4,
+   "loc": 50,
+   "module": "saleor.graphql.plugins.sorters",
+   "path": "saleor/graphql/plugins/sorters.py",
+   "sha256": "96c12de4d21736a2d3b4f032c14ec10c244fced6594427b591484982dbe1dd41"
+  },
+  {
+   "classes": [
+    "ConfigurationItem",
+    "Plugin"
+   ],
+   "functions": [
+    "hide_private_configuration_fields"
+   ],
+   "import_count": 7,
+   "loc": 68,
+   "module": "saleor.graphql.plugins.types",
+   "path": "saleor/graphql/plugins/types.py",
+   "sha256": "86818b9a2197a865edf68931e1588752504ee785539e69c1336b1b6d2ea01b24"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.graphql.product",
+   "path": "saleor/graphql/product/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.graphql.product.bulk_mutations",
+   "path": "saleor/graphql/product/bulk_mutations/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [
+    "AttributeBulkDelete",
+    "AttributeValueBulkDelete"
+   ],
+   "functions": [],
+   "import_count": 5,
+   "loc": 36,
+   "module": "saleor.graphql.product.bulk_mutations.attributes",
+   "path": "saleor/graphql/product/bulk_mutations/attributes.py",
+   "sha256": "664161492d0904a802180d16b6ef904eea10b1a4ac5bb6ff4001484f08cf2697"
+  },
+  {
+   "classes": [
+    "CategoryBulkDelete",
+    "CollectionBulkDelete",
+    "CollectionBulkPublish",
+    "ProductBulkDelete",
+    "ProductBulkPublish",
+    "ProductImageBulkDelete",
+    "ProductTypeBulkDelete",
+    "ProductVariantBulkCreate",
+    "ProductVariantBulkCreateInput",
+    "ProductVariantBulkDelete",
+    "ProductVariantStocksCreate",
+    "ProductVariantStocksDelete",
+    "ProductVariantStocksUpdate"
+   ],
+   "functions": [],
+   "import_count": 22,
+   "loc": 581,
+   "module": "saleor.graphql.product.bulk_mutations.products",
+   "path": "saleor/graphql/product/bulk_mutations/products.py",
+   "sha256": "cff08f1439416b94a4cdde253eca2879ab187a26ec1bd4a4f5e1b0685a880985"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 2,
+   "loc": 29,
+   "module": "saleor.graphql.product.dataloaders",
+   "path": "saleor/graphql/product/dataloaders/__init__.py",
+   "sha256": "98c011b07faa598c64b0ce53d1b7b9310af91b9176cf5a8bdb952d88ed297981"
+  },
+  {
+   "classes": [
+    "AssignedProductAttributesByProductIdLoader",
+    "AssignedVariantAttributesByProductVariantId",
+    "AttributeProductsByProductTypeIdLoader",
+    "AttributeValueByIdLoader",
+    "AttributeValuesByAssignedProductAttributeIdLoader",
+    "AttributeValuesByAssignedVariantAttributeIdLoader",
+    "AttributeValuesByAttributeIdLoader",
+    "AttributeVariantsByProductTypeIdLoader",
+    "AttributesByAttributeId",
+    "SelectedAttributesByProductIdLoader",
+    "SelectedAttributesByProductVariantIdLoader"
+   ],
+   "functions": [],
+   "import_count": 6,
+   "loc": 350,
+   "module": "saleor.graphql.product.dataloaders.attributes",
+   "path": "saleor/graphql/product/dataloaders/attributes.py",
+   "sha256": "a301a4fa78ae2f42be3dae5f5da2bea897a6303dc652f7fe8f39fae0969d9c35"
+  },
+  {
+   "classes": [
+    "CategoryByIdLoader",
+    "CollectionByIdLoader",
+    "CollectionsByProductIdLoader",
+    "ImagesByProductIdLoader",
+    "ImagesByProductVariantIdLoader",
+    "ProductByIdLoader",
+    "ProductVariantByIdLoader",
+    "ProductVariantsByProductIdLoader"
+   ],
+   "functions": [],
+   "import_count": 3,
+   "loc": 106,
+   "module": "saleor.graphql.product.dataloaders.products",
+   "path": "saleor/graphql/product/dataloaders/products.py",
+   "sha256": "83d901eae5002b4ec88da87954b6fadf6b5e80f8f1c449f21881581cffb34917"
+  },
+  {
+   "classes": [
+    "AttributeDescriptions",
+    "AttributeValueDescriptions"
+   ],
+   "functions": [],
+   "import_count": 0,
+   "loc": 25,
+   "module": "saleor.graphql.product.descriptions",
+   "path": "saleor/graphql/product/descriptions.py",
+   "sha256": "4ab19d4a6fec1464b58200ce5e204fde833faa591d0d4e8719e15a374b31607a"
+  },
+  {
+   "classes": [
+    "AttributeTypeEnum",
+    "AttributeValueType",
+    "CollectionPublished",
+    "ProductTypeConfigurable",
+    "ProductTypeEnum",
+    "StockAvailability"
+   ],
+   "functions": [],
+   "import_count": 3,
+   "loc": 38,
+   "module": "saleor.graphql.product.enums",
+   "path": "saleor/graphql/product/enums.py",
+   "sha256": "30a4410da8e1da89a174380b3524cd298abce09cb28fe3a1f6fa9d1cb070c8c4"
+  },
+  {
+   "classes": [
+    "AttributeFilter",
+    "AttributeFilterInput",
+    "CategoryFilter",
+    "CategoryFilterInput",
+    "CollectionFilter",
+    "CollectionFilterInput",
+    "ProductFilter",
+    "ProductFilterInput",
+    "ProductStockFilterInput",
+    "ProductTypeFilter",
+    "ProductTypeFilterInput"
+   ],
+   "functions": [
+    "_clean_product_attributes_filter_input",
+    "filter_attributes",
+    "filter_attributes_by_product_types",
+    "filter_categories",
+    "filter_collection_publish",
+    "filter_collections",
+    "filter_fields_containing_value",
+    "filter_has_category",
+    "filter_minimal_price",
+    "filter_product_type",
+    "filter_product_type_configurable",
+    "filter_products_by_attributes",
+    "filter_products_by_categories",
+    "filter_products_by_collections",
+    "filter_products_by_minimal_price",
+    "filter_products_by_stock_availability",
+    "filter_products_by_variant_price",
+    "filter_quantity",
+    "filter_search",
+    "filter_stock_availability",
+    "filter_stocks",
+    "filter_variant_price",
+    "filter_warehouses"
+   ],
+   "import_count": 19,
+   "loc": 433,
+   "module": "saleor.graphql.product.filters",
+   "path": "saleor/graphql/product/filters.py",
+   "sha256": "8901b5e43c7a6abcecc51220817fd9141bcc3f4c6598636fd7f2a0218459f5bd"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.graphql.product.mutations",
+   "path": "saleor/graphql/product/mutations/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [
+    "AttributeAssign",
+    "AttributeAssignInput",
+    "AttributeClearMeta",
+    "AttributeClearPrivateMeta",
+    "AttributeCreate",
+    "AttributeCreateInput",
+    "AttributeDelete",
+    "AttributeMixin",
+    "AttributeReorderValues",
+    "AttributeUnassign",
+    "AttributeUpdate",
+    "AttributeUpdateInput",
+    "AttributeUpdateMeta",
+    "AttributeUpdatePrivateMeta",
+    "AttributeValueCreate",
+    "AttributeValueCreateInput",
+    "AttributeValueDelete",
+    "AttributeValueUpdate",
+    "ProductTypeReorderAttributes"
+   ],
+   "functions": [
+    "validate_value_is_unique"
+   ],
+   "import_count": 19,
+   "loc": 805,
+   "module": "saleor.graphql.product.mutations.attributes",
+   "path": "saleor/graphql/product/mutations/attributes.py",
+   "sha256": "afb439bb1bca7f0e1a08a2eabbb8df9d649ddde7db5a6a56f0ef1179d8a5559f"
+  },
+  {
+   "classes": [
+    "ReorderInput"
+   ],
+   "functions": [],
+   "import_count": 1,
+   "loc": 12,
+   "module": "saleor.graphql.product.mutations.common",
+   "path": "saleor/graphql/product/mutations/common.py",
+   "sha256": "a47d77f215a4800591040244bb9750fcb19ffe2b5fca74b886efcd97207fd76c"
+  },
+  {
+   "classes": [
+    "DigitalContentCreate",
+    "DigitalContentDelete",
+    "DigitalContentInput",
+    "DigitalContentUpdate",
+    "DigitalContentUploadInput",
+    "DigitalContentUrlCreate",
+    "DigitalContentUrlCreateInput"
+   ],
+   "functions": [],
+   "import_count": 10,
+   "loc": 247,
+   "module": "saleor.graphql.product.mutations.digital_contents",
+   "path": "saleor/graphql/product/mutations/digital_contents.py",
+   "sha256": "26565e57456620c6bca0f12f032f12bc6447a4cfd6ce32385608f68e5426b054"
+  },
+  {
+   "classes": [
+    "AttributeAssignmentMixin",
+    "AttributeValueInput",
+    "CategoryClearMeta",
+    "CategoryClearPrivateMeta",
+    "CategoryCreate",
+    "CategoryDelete",
+    "CategoryInput",
+    "CategoryUpdate",
+    "CategoryUpdateMeta",
+    "CategoryUpdatePrivateMeta",
+    "CollectionAddProducts",
+    "CollectionClearMeta",
+    "CollectionClearPrivateMeta",
+    "CollectionCreate",
+    "CollectionCreateInput",
+    "CollectionDelete",
+    "CollectionInput",
+    "CollectionRemoveProducts",
+    "CollectionReorderProducts",
+    "CollectionUpdate",
+    "CollectionUpdateMeta",
+    "CollectionUpdatePrivateMeta",
+    "MoveProductInput",
+    "ProductClearMeta",
+    "ProductClearPrivateMeta",
+    "ProductCreate",
+    "ProductCreateInput",
+    "ProductDelete",
+    "ProductImageCreate",
+    "ProductImageCreateInput",
+    "ProductImageDelete",
+    "ProductImageReorder",
+    "ProductImageUpdate",
+    "ProductImageUpdateInput",
+    "ProductInput",
+    "ProductSetAvailabilityForPurchase",
+    "ProductTypeClearMeta",
+    "ProductTypeClearPrivateMeta",
+    "ProductTypeCreate",
+    "ProductTypeDelete",
+    "ProductTypeInput",
+    "ProductTypeUpdate",
+    "ProductTypeUpdateMeta",
+    "ProductTypeUpdatePrivateMeta",
+    "ProductUpdate",
+    "ProductUpdateMeta",
+    "ProductUpdatePrivateMeta",
+    "ProductVariantClearMeta",
+    "ProductVariantClearPrivateMeta",
+    "ProductVariantCreate",
+    "ProductVariantCreateInput",
+    "ProductVariantDelete",
+    "ProductVariantInput",
+    "ProductVariantReorder",
+    "ProductVariantSetDefault",
+    "ProductVariantUpdate",
+    "ProductVariantUpdateMeta",
+    "ProductVariantUpdatePrivateMeta",
+    "StockInput",
+    "VariantImageAssign",
+    "VariantImageUnassign"
+   ],
+   "functions": [],
+   "import_count": 31,
+   "loc": 2066,
+   "module": "saleor.graphql.product.mutations.products",
+   "path": "saleor/graphql/product/mutations/products.py",
+   "sha256": "8ebfd145bc6f2070dd10ba09c01f9e157475bb5e2a120f362c0e269b82447c53"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "resolve_attributes",
+    "resolve_categories",
+    "resolve_category_by_slug",
+    "resolve_collection_by_slug",
+    "resolve_collections",
+    "resolve_digital_contents",
+    "resolve_product_by_slug",
+    "resolve_product_types",
+    "resolve_product_variants",
+    "resolve_products",
+    "resolve_report_product_sales"
+   ],
+   "import_count": 6,
+   "loc": 94,
+   "module": "saleor.graphql.product.resolvers",
+   "path": "saleor/graphql/product/resolvers.py",
+   "sha256": "13f067c191e547c2f968eee943cf9524556bea498ccb78d0dd0cf4ab06386cd6"
+  },
+  {
+   "classes": [
+    "ProductMutations",
+    "ProductQueries"
+   ],
+   "functions": [],
+   "import_count": 17,
+   "loc": 527,
+   "module": "saleor.graphql.product.schema",
+   "path": "saleor/graphql/product/schema.py",
+   "sha256": "d96da126a1e54fbef5f2d9a2f95d96363dd773ee32312a9b86fb6d9497f61db4"
+  },
+  {
+   "classes": [
+    "AttributeSortField",
+    "AttributeSortingInput",
+    "CategorySortField",
+    "CategorySortingInput",
+    "CollectionSortField",
+    "CollectionSortingInput",
+    "ProductOrder",
+    "ProductOrderField",
+    "ProductTypeSortField",
+    "ProductTypeSortingInput"
+   ],
+   "functions": [],
+   "import_count": 5,
+   "loc": 201,
+   "module": "saleor.graphql.product.sorters",
+   "path": "saleor/graphql/product/sorters.py",
+   "sha256": "2e8fcf02752da91d5af0f087d3d1c83995c65828deb44ef0e0e68ba3e1aa3db8"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 3,
+   "loc": 11,
+   "module": "saleor.graphql.product.types",
+   "path": "saleor/graphql/product/types/__init__.py",
+   "sha256": "a0c874202f814090f3ba67d9bda8f5a3657f847077356742435411ad8104f704"
+  },
+  {
+   "classes": [
+    "Attribute",
+    "AttributeInput",
+    "AttributeValue",
+    "SelectedAttribute"
+   ],
+   "functions": [
+    "resolve_attribute_value_type"
+   ],
+   "import_count": 14,
+   "loc": 172,
+   "module": "saleor.graphql.product.types.attributes",
+   "path": "saleor/graphql/product/types/attributes.py",
+   "sha256": "408b2ba56917e6fbb00dc886be570d24ddd2a266b0d32f21629b3505b38d77dd"
+  },
+  {
+   "classes": [
+    "DigitalContent",
+    "DigitalContentUrl"
+   ],
+   "functions": [],
+   "import_count": 9,
+   "loc": 58,
+   "module": "saleor.graphql.product.types.digital_contents",
+   "path": "saleor/graphql/product/types/digital_contents.py",
+   "sha256": "b3534c27dada15ab2eaf69fc3fd66c2a492730a6cdaabdcd8c5ed8009e199f61"
+  },
+  {
+   "classes": [
+    "BasePricingInfo",
+    "Category",
+    "Collection",
+    "Margin",
+    "Product",
+    "ProductImage",
+    "ProductPricingInfo",
+    "ProductType",
+    "ProductVariant",
+    "VariantPricingInfo"
+   ],
+   "functions": [
+    "resolve_attribute_list"
+   ],
+   "import_count": 36,
+   "loc": 919,
+   "module": "saleor.graphql.product.types.products",
+   "path": "saleor/graphql/product/types/products.py",
+   "sha256": "9afebde9834f14fc495b4a53f32029d03881b02dc1687670bbc6d22e26bf7020"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "create_stocks",
+    "get_used_attribute_values_for_variant",
+    "get_used_variants_attribute_values",
+    "validate_attribute_input_for_product",
+    "validate_attribute_input_for_variant"
+   ],
+   "import_count": 11,
+   "loc": 122,
+   "module": "saleor.graphql.product.utils",
+   "path": "saleor/graphql/product/utils.py",
+   "sha256": "5269667b55aea378bceb8914c780b16e830c9b60a3150f7b7f063f50c01b6ec5"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.graphql.shipping",
+   "path": "saleor/graphql/shipping/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [
+    "ShippingPriceBulkDelete",
+    "ShippingZoneBulkDelete"
+   ],
+   "functions": [],
+   "import_count": 5,
+   "loc": 38,
+   "module": "saleor.graphql.shipping.bulk_mutations",
+   "path": "saleor/graphql/shipping/bulk_mutations.py",
+   "sha256": "e3094af71ab74e54d37be2387efdf506d41ab0018ee0663545994818c67fca1e"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 2,
+   "loc": 4,
+   "module": "saleor.graphql.shipping.enums",
+   "path": "saleor/graphql/shipping/enums.py",
+   "sha256": "86a2612319c7d148199bebde54b4431bdba192eb19954d1cf3c3549edc9d02a7"
+  },
+  {
+   "classes": [
+    "ShippingPriceCreate",
+    "ShippingPriceDelete",
+    "ShippingPriceInput",
+    "ShippingPriceMixin",
+    "ShippingPriceUpdate",
+    "ShippingZoneCreate",
+    "ShippingZoneCreateInput",
+    "ShippingZoneDelete",
+    "ShippingZoneMixin",
+    "ShippingZoneUpdate",
+    "ShippingZoneUpdateInput"
+   ],
+   "functions": [],
+   "import_count": 14,
+   "loc": 342,
+   "module": "saleor.graphql.shipping.mutations",
+   "path": "saleor/graphql/shipping/mutations.py",
+   "sha256": "43bb522ce634d219f83fb872ac3582c3b5bdfcf1de44b9f46e5a842f18c2f162"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "resolve_shipping_zones"
+   ],
+   "import_count": 1,
+   "loc": 5,
+   "module": "saleor.graphql.shipping.resolvers",
+   "path": "saleor/graphql/shipping/resolvers.py",
+   "sha256": "e756ecc0668bb299dba7369676ed2b8c7fd72d7a6ee09125c8a4b663edaca2dc"
+  },
+  {
+   "classes": [
+    "ShippingMutations",
+    "ShippingQueries"
+   ],
+   "functions": [],
+   "import_count": 9,
+   "loc": 51,
+   "module": "saleor.graphql.shipping.schema",
+   "path": "saleor/graphql/shipping/schema.py",
+   "sha256": "4244d0bb0b02b4fb1a7369bf54fcb2b0614c1754df94978f0792b81ea4b50b36"
+  },
+  {
+   "classes": [
+    "ShippingMethod",
+    "ShippingZone"
+   ],
+   "functions": [],
+   "import_count": 10,
+   "loc": 89,
+   "module": "saleor.graphql.shipping.types",
+   "path": "saleor/graphql/shipping/types.py",
+   "sha256": "c5e0de1307eba31305120161d549e6f0d223d6b3770a84cfbfcf4fc1ee6b336e"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.graphql.shop",
+   "path": "saleor/graphql/shop/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 3,
+   "loc": 12,
+   "module": "saleor.graphql.shop.enums",
+   "path": "saleor/graphql/shop/enums.py",
+   "sha256": "9e399294cfe1a7e9a7c9b416408d4e83c37af53c6c8e8a3cda7dda56a55bbf6e"
+  },
+  {
+   "classes": [
+    "AuthorizationKeyAdd",
+    "AuthorizationKeyDelete",
+    "AuthorizationKeyInput",
+    "HomepageCollectionUpdate",
+    "ShopAddressUpdate",
+    "ShopDomainUpdate",
+    "ShopFetchTaxRates",
+    "ShopSettingsInput",
+    "ShopSettingsUpdate",
+    "SiteDomainInput",
+    "StaffNotificationRecipientCreate",
+    "StaffNotificationRecipientDelete",
+    "StaffNotificationRecipientInput",
+    "StaffNotificationRecipientUpdate"
+   ],
+   "functions": [],
+   "import_count": 14,
+   "loc": 393,
+   "module": "saleor.graphql.shop.mutations",
+   "path": "saleor/graphql/shop/mutations.py",
+   "sha256": "7abbff921818372a50f83111b345bdb40b92c40a94785b84e29ce6c498c8d253"
+  },
+  {
+   "classes": [
+    "ShopMutations",
+    "ShopQueries"
+   ],
+   "functions": [],
+   "import_count": 4,
+   "loc": 41,
+   "module": "saleor.graphql.shop.schema",
+   "path": "saleor/graphql/shop/schema.py",
+   "sha256": "5486e196164b942c8955ff57ec368b81356fcf0439fa6017d29bc5fa03315d8c"
+  },
+  {
+   "classes": [
+    "AuthorizationKey",
+    "Domain",
+    "Geolocalization",
+    "Navigation",
+    "Shop"
+   ],
+   "functions": [],
+   "import_count": 28,
+   "loc": 347,
+   "module": "saleor.graphql.shop.types",
+   "path": "saleor/graphql/shop/types.py",
+   "sha256": "134b4222ef4134d61135e65a80517c210648cabbd4e89519dbb7f2da0eb720eb"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.graphql.translations",
+   "path": "saleor/graphql/translations/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [
+    "TranslationDescriptions"
+   ],
+   "functions": [],
+   "import_count": 0,
+   "loc": 3,
+   "module": "saleor.graphql.translations.descriptions",
+   "path": "saleor/graphql/translations/descriptions.py",
+   "sha256": "2986697ad9cf34cfc57ce44080ac93d74b4ad0cc97b7c9e362966779288285a9"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 2,
+   "loc": 7,
+   "module": "saleor.graphql.translations.enums",
+   "path": "saleor/graphql/translations/enums.py",
+   "sha256": "ddb0d1e2d3f06aad3c75c2d3b1ca59fe07d5c81a89b89089c1669fe99fac1102"
+  },
+  {
+   "classes": [
+    "TranslationField"
+   ],
+   "functions": [],
+   "import_count": 4,
+   "loc": 21,
+   "module": "saleor.graphql.translations.fields",
+   "path": "saleor/graphql/translations/fields.py",
+   "sha256": "c1f2d55980e131757edd39797f32260fb80d61968efb440a345f8b65a06442ee"
+  },
+  {
+   "classes": [
+    "AttributeTranslate",
+    "AttributeValueTranslate",
+    "BaseTranslateMutation",
+    "CategoryTranslate",
+    "CollectionTranslate",
+    "MenuItemTranslate",
+    "NameTranslationInput",
+    "PageTranslate",
+    "PageTranslationInput",
+    "ProductTranslate",
+    "ProductVariantTranslate",
+    "SaleTranslate",
+    "SeoTranslationInput",
+    "ShippingPriceTranslate",
+    "ShopSettingsTranslate",
+    "ShopSettingsTranslationInput",
+    "TranslationInput",
+    "VoucherTranslate"
+   ],
+   "functions": [],
+   "import_count": 13,
+   "loc": 256,
+   "module": "saleor.graphql.translations.mutations",
+   "path": "saleor/graphql/translations/mutations.py",
+   "sha256": "211654bb5e6b8b8bd5bcfd7b9364bb1bbd8e7fc686f34232a4ba6cc12851be82"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "resolve_attribute_values",
+    "resolve_shipping_methods",
+    "resolve_translation"
+   ],
+   "import_count": 2,
+   "loc": 15,
+   "module": "saleor.graphql.translations.resolvers",
+   "path": "saleor/graphql/translations/resolvers.py",
+   "sha256": "a83d405517da5319a1839f7a2d31b4e105654acba6e9b78667c531b4917a2dd9"
+  },
+  {
+   "classes": [
+    "TranslatableItem",
+    "TranslatableItemConnection",
+    "TranslatableKinds",
+    "TranslationQueries"
+   ],
+   "functions": [],
+   "import_count": 16,
+   "loc": 131,
+   "module": "saleor.graphql.translations.schema",
+   "path": "saleor/graphql/translations/schema.py",
+   "sha256": "c331089f20aef95c542f3f0000494129f082c879ee2403b6033e9ee48ac1d629"
+  },
+  {
+   "classes": [
+    "AttributeTranslatableContent",
+    "AttributeTranslation",
+    "AttributeValueTranslatableContent",
+    "AttributeValueTranslation",
+    "BaseTranslationType",
+    "CategoryTranslatableContent",
+    "CategoryTranslation",
+    "CollectionTranslatableContent",
+    "CollectionTranslation",
+    "MenuItemTranslatableContent",
+    "MenuItemTranslation",
+    "PageTranslatableContent",
+    "PageTranslation",
+    "ProductTranslatableContent",
+    "ProductTranslation",
+    "ProductVariantTranslatableContent",
+    "ProductVariantTranslation",
+    "SaleTranslatableContent",
+    "SaleTranslation",
+    "ShippingMethodTranslatableContent",
+    "ShippingMethodTranslation",
+    "ShopTranslation",
+    "VoucherTranslatableContent",
+    "VoucherTranslation"
+   ],
+   "functions": [],
+   "import_count": 15,
+   "loc": 378,
+   "module": "saleor.graphql.translations.types",
+   "path": "saleor/graphql/translations/types.py",
+   "sha256": "db204f6c2e1d9a203e4c445a6fe321fd4439c8a1e7e5580bedb4995e59d766f8"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "_resolve_graphene_type",
+    "format_permissions_for_display",
+    "get_database_id",
+    "get_nodes",
+    "get_user_or_app_from_context",
+    "requestor_is_superuser",
+    "resolve_global_ids_to_primary_keys"
+   ],
+   "import_count": 9,
+   "loc": 133,
+   "module": "saleor.graphql.utils",
+   "path": "saleor/graphql/utils/__init__.py",
+   "sha256": "eff35a666d353991fbdddc01499be034c1c52a4222802d250327a36cdb5df8e2"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "filter_by_period",
+    "filter_by_query_param",
+    "filter_range_field",
+    "reporting_period_to_date"
+   ],
+   "import_count": 3,
+   "loc": 51,
+   "module": "saleor.graphql.utils.filters",
+   "path": "saleor/graphql/utils/filters.py",
+   "sha256": "38864181a8724bfebe57c35226774f7c8fc577b2eb1656a5abb502ef0efa8a5b"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "_sort_queryset_by_attribute",
+    "get_model_default_ordering",
+    "sort_queryset",
+    "sort_queryset_by_default",
+    "sort_queryset_for_connection"
+   ],
+   "import_count": 6,
+   "loc": 112,
+   "module": "saleor.graphql.utils.sorting",
+   "path": "saleor/graphql/utils/sorting.py",
+   "sha256": "f1ef2748768e23f7c4f2fe27c51dad399192024600d2205bbda359cc6ff34386"
+  },
+  {
+   "classes": [
+    "GraphQLView"
+   ],
+   "functions": [
+    "get_key",
+    "get_shallow_property",
+    "obj_set",
+    "tracing_wrapper"
+   ],
+   "import_count": 23,
+   "loc": 355,
+   "module": "saleor.graphql.views",
+   "path": "saleor/graphql/views.py",
+   "sha256": "83b7dc078d3c8c5ed1b0008ec517aab9e8d99bab02256a627a70a12e06badb69"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.graphql.warehouse",
+   "path": "saleor/graphql/warehouse/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [
+    "AvailableQuantityByProductVariantIdAndCountryCodeLoader"
+   ],
+   "functions": [],
+   "import_count": 5,
+   "loc": 80,
+   "module": "saleor.graphql.warehouse.dataloaders",
+   "path": "saleor/graphql/warehouse/dataloaders.py",
+   "sha256": "679d9da1369f0df5974c92c93d1297593d6e4e73aae17b45702a78233972657a"
+  },
+  {
+   "classes": [
+    "StockFilter",
+    "StockFilterInput",
+    "WarehouseFilter",
+    "WarehouseFilterInput"
+   ],
+   "functions": [
+    "filter_search_stock",
+    "filter_search_warehouse",
+    "prefech_qs_for_filter"
+   ],
+   "import_count": 5,
+   "loc": 70,
+   "module": "saleor.graphql.warehouse.filters",
+   "path": "saleor/graphql/warehouse/filters.py",
+   "sha256": "e80b98339b87c207943315f06e4cfc23149eb0fb097c4e23aee942a0ed59b420"
+  },
+  {
+   "classes": [
+    "WarehouseCreate",
+    "WarehouseDelete",
+    "WarehouseMixin",
+    "WarehouseShippingZoneAssign",
+    "WarehouseShippingZoneUnassign",
+    "WarehouseUpdate"
+   ],
+   "functions": [],
+   "import_count": 12,
+   "loc": 167,
+   "module": "saleor.graphql.warehouse.mutations",
+   "path": "saleor/graphql/warehouse/mutations.py",
+   "sha256": "0f23d41e04a361d7f75191c88ffe0b23de0d088a0dc464366e045564575b8d8b"
+  },
+  {
+   "classes": [
+    "StockQueries",
+    "WarehouseMutations",
+    "WarehouseQueries"
+   ],
+   "functions": [],
+   "import_count": 9,
+   "loc": 71,
+   "module": "saleor.graphql.warehouse.schema",
+   "path": "saleor/graphql/warehouse/schema.py",
+   "sha256": "0adde02275940dec82d57288037d9ed0e6d33976f0ed97e0a73a1dac39524eeb"
+  },
+  {
+   "classes": [
+    "WarehouseSortField",
+    "WarehouseSortingInput"
+   ],
+   "functions": [],
+   "import_count": 2,
+   "loc": 20,
+   "module": "saleor.graphql.warehouse.sorters",
+   "path": "saleor/graphql/warehouse/sorters.py",
+   "sha256": "842d6aa0c250a33e7b9d7c1dfaf91f1001ea71beb8ce765a55db29fdfcd12cbe"
+  },
+  {
+   "classes": [
+    "Stock",
+    "Warehouse",
+    "WarehouseAddressInput",
+    "WarehouseCreateInput",
+    "WarehouseInput",
+    "WarehouseUpdateInput"
+   ],
+   "functions": [],
+   "import_count": 8,
+   "loc": 88,
+   "module": "saleor.graphql.warehouse.types",
+   "path": "saleor/graphql/warehouse/types.py",
+   "sha256": "458ae3a8777ac493b51d07a23a01c1442998e034acc5e9356c7d39e8434dfc82"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.graphql.webhook",
+   "path": "saleor/graphql/webhook/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 3,
+   "loc": 17,
+   "module": "saleor.graphql.webhook.enums",
+   "path": "saleor/graphql/webhook/enums.py",
+   "sha256": "f827667bcb4c48c2d240e18d8e222f6aabc3c0318590894de9e3592e9a0e0974"
+  },
+  {
+   "classes": [
+    "WebhookFilter",
+    "WebhookFilterInput"
+   ],
+   "functions": [
+    "filter_webhook_search"
+   ],
+   "import_count": 4,
+   "loc": 25,
+   "module": "saleor.graphql.webhook.filters",
+   "path": "saleor/graphql/webhook/filters.py",
+   "sha256": "98b25e565ba5b5ea932225d59c423bbc288832fde3f2ebf607c9849561ce77c3"
+  },
+  {
+   "classes": [
+    "WebhookCreate",
+    "WebhookCreateInput",
+    "WebhookDelete",
+    "WebhookUpdate",
+    "WebhookUpdateInput"
+   ],
+   "functions": [],
+   "import_count": 8,
+   "loc": 207,
+   "module": "saleor.graphql.webhook.mutations",
+   "path": "saleor/graphql/webhook/mutations.py",
+   "sha256": "db7e58ab11b6f4ff1a6cf2d83396c1d643328ad083111ffb3b0eea0512854615"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "resolve_sample_payload",
+    "resolve_webhook",
+    "resolve_webhook_events",
+    "resolve_webhooks"
+   ],
+   "import_count": 6,
+   "loc": 48,
+   "module": "saleor.graphql.webhook.resolvers",
+   "path": "saleor/graphql/webhook/resolvers.py",
+   "sha256": "7a486a59cc160476a4639148b3ace68af71ecc2ceba2087364d8db532524e402"
+  },
+  {
+   "classes": [
+    "WebhookMutations",
+    "WebhookQueries"
+   ],
+   "functions": [],
+   "import_count": 10,
+   "loc": 75,
+   "module": "saleor.graphql.webhook.schema",
+   "path": "saleor/graphql/webhook/schema.py",
+   "sha256": "2911ba6b88d960e07cb204b92e6cc5a5d56d31d54bdb55463967c262a8da2d56"
+  },
+  {
+   "classes": [
+    "WebhookSortField",
+    "WebhookSortingInput"
+   ],
+   "functions": [],
+   "import_count": 2,
+   "loc": 28,
+   "module": "saleor.graphql.webhook.sorters",
+   "path": "saleor/graphql/webhook/sorters.py",
+   "sha256": "67744fea5794f6cc758e78e18cc2ba0f661dd14f93f9eaa13fd0fcac256daf5e"
+  },
+  {
+   "classes": [
+    "Webhook",
+    "WebhookEvent"
+   ],
+   "functions": [],
+   "import_count": 6,
+   "loc": 59,
+   "module": "saleor.graphql.webhook.types",
+   "path": "saleor/graphql/webhook/types.py",
+   "sha256": "9f879d545ab795076672202c7b5577d269a2b1d5b8c91feb29d9351f3ef9530d"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.graphql.wishlist",
+   "path": "saleor/graphql/wishlist/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [
+    "WishlistAddProductMutation",
+    "WishlistAddProductVariantMutation",
+    "WishlistRemoveProductMutation",
+    "WishlistRemoveProductVariantMutation",
+    "_BaseWishlistMutation",
+    "_BaseWishlistProductMutation",
+    "_BaseWishlistVariantMutation"
+   ],
+   "functions": [],
+   "import_count": 6,
+   "loc": 106,
+   "module": "saleor.graphql.wishlist.mutations",
+   "path": "saleor/graphql/wishlist/mutations.py",
+   "sha256": "b6ff3037ed19073560a01dbc359c566f38ba5aa03f7c0717e58f839f7d8da8d7"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "resolve_wishlist_from_info",
+    "resolve_wishlist_from_user",
+    "resolve_wishlist_items_from_user"
+   ],
+   "import_count": 6,
+   "loc": 28,
+   "module": "saleor.graphql.wishlist.resolvers",
+   "path": "saleor/graphql/wishlist/resolvers.py",
+   "sha256": "7c1f2949b20c23dd3551a87a682ea0315d50fdd0ecd7a0eacd3bc116f70b9ff2"
+  },
+  {
+   "classes": [
+    "WishlistMutations"
+   ],
+   "functions": [],
+   "import_count": 2,
+   "loc": 21,
+   "module": "saleor.graphql.wishlist.schema",
+   "path": "saleor/graphql/wishlist/schema.py",
+   "sha256": "17414a4a2d34376b14d995a2d847276512655decf80a8cabbc9e36e891714b5a"
+  },
+  {
+   "classes": [
+    "Wishlist",
+    "WishlistItem"
+   ],
+   "functions": [],
+   "import_count": 3,
+   "loc": 22,
+   "module": "saleor.graphql.wishlist.types",
+   "path": "saleor/graphql/wishlist/types.py",
+   "sha256": "992b2193ce0f0daf66bb07a6c5333010b8045c2babfb5bb557dc68f282189dd3"
+  },
+  {
+   "classes": [
+    "InvoiceEvents"
+   ],
+   "functions": [],
+   "import_count": 0,
+   "loc": 14,
+   "module": "saleor.invoice",
+   "path": "saleor/invoice/__init__.py",
+   "sha256": "7bc625bd124a34321db7a06d4d75ddf1ed04b915656b372a902cbfcc2078e81a"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "collect_invoice_data_for_email",
+    "send_invoice"
+   ],
+   "import_count": 7,
+   "loc": 34,
+   "module": "saleor.invoice.emails",
+   "path": "saleor/invoice/emails.py",
+   "sha256": "c691be777370d1b496b58be2c898824a939547fb752053d8790962491359eb47"
+  },
+  {
+   "classes": [
+    "InvoiceErrorCode"
+   ],
+   "functions": [],
+   "import_count": 1,
+   "loc": 11,
+   "module": "saleor.invoice.error_codes",
+   "path": "saleor/invoice/error_codes.py",
+   "sha256": "e9dacc397b5ea604575cdebdc742e3d1659bdbcaab8d9698c9587ddad8c5f70f"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "_user_is_valid",
+    "invoice_created_event",
+    "invoice_deleted_event",
+    "invoice_requested_deletion_event",
+    "invoice_requested_event",
+    "invoice_sent_event"
+   ],
+   "import_count": 4,
+   "loc": 70,
+   "module": "saleor.invoice.events",
+   "path": "saleor/invoice/events.py",
+   "sha256": "7f1c8c997d34a1847f59b2713ccce662dec0cd27d35a2d5fb01de67489881efd"
+  },
+  {
+   "classes": [
+    "Invoice",
+    "InvoiceEvent",
+    "InvoiceQueryset"
+   ],
+   "functions": [],
+   "import_count": 10,
+   "loc": 73,
+   "module": "saleor.invoice.models",
+   "path": "saleor/invoice/models.py",
+   "sha256": "3c636d7dd20962e993fa4ad3a8a136dc17a86e590368d74f06c6a1364c7bd726"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.menu",
+   "path": "saleor/menu/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [
+    "MenuErrorCode"
+   ],
+   "functions": [],
+   "import_count": 1,
+   "loc": 13,
+   "module": "saleor.menu.error_codes",
+   "path": "saleor/menu/error_codes.py",
+   "sha256": "541c488c41cda75645d8fb0bb178bf7e1e45bbb60b849e36dd10efbdc11a7830"
+  },
+  {
+   "classes": [
+    "Menu",
+    "MenuItem",
+    "MenuItemTranslation"
+   ],
+   "functions": [],
+   "import_count": 8,
+   "loc": 85,
+   "module": "saleor.menu.models",
+   "path": "saleor/menu/models.py",
+   "sha256": "f3a6568f4f01b9717bbb4adb70457dee129b41e4b90dc64645cbd13d33e5ea3d"
+  },
+  {
+   "classes": [
+    "FulfillmentStatus",
+    "OrderEvents",
+    "OrderEventsEmails",
+    "OrderStatus"
+   ],
+   "functions": [],
+   "import_count": 0,
+   "loc": 122,
+   "module": "saleor.order",
+   "path": "saleor/order/__init__.py",
+   "sha256": "9a6f999bd83f68de652dcb9ebb590e2eadd97bc9cb5acf5305241d76d3a8872b"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "_create_fulfillment_lines",
+    "automatically_fulfill_digital_lines",
+    "cancel_fulfillment",
+    "cancel_order",
+    "clean_mark_order_as_paid",
+    "create_fulfillments",
+    "fulfill_order_line",
+    "fulfillment_tracking_updated",
+    "handle_fully_paid_order",
+    "mark_order_as_paid",
+    "order_authorized",
+    "order_captured",
+    "order_created",
+    "order_fulfilled",
+    "order_refunded",
+    "order_shipping_updated",
+    "order_voided"
+   ],
+   "import_count": 18,
+   "loc": 376,
+   "module": "saleor.order.actions",
+   "path": "saleor/order/actions.py",
+   "sha256": "ca26ff39e0872fc9e9312d3fa39c330d6e9910f6e864f9f3a94663394ea74272"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "collect_data_for_email",
+    "collect_data_for_fulfillment_email",
+    "collect_staff_order_notification_data",
+    "prepare_order_details_url",
+    "send_fulfillment_confirmation",
+    "send_fulfillment_confirmation_to_customer",
+    "send_fulfillment_update",
+    "send_order_canceled",
+    "send_order_canceled_confirmation",
+    "send_order_confirmation",
+    "send_order_refunded",
+    "send_order_refunded_confirmation",
+    "send_payment_confirmation",
+    "send_staff_order_confirmation"
+   ],
+   "import_count": 12,
+   "loc": 182,
+   "module": "saleor.order.emails",
+   "path": "saleor/order/emails.py",
+   "sha256": "c7d238ba5a24d8d6ff703887434c0780873a0d32d7f6446a49a5318f6d9b2cee"
+  },
+  {
+   "classes": [
+    "OrderErrorCode"
+   ],
+   "functions": [],
+   "import_count": 1,
+   "loc": 29,
+   "module": "saleor.order.error_codes",
+   "path": "saleor/order/error_codes.py",
+   "sha256": "94107d27aea9efac3bbf74135f3994176cb07bea0b38d5ed17dbf081ff693792"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "_get_payment_data",
+    "_lines_per_quantity_to_line_object_list",
+    "_user_is_valid",
+    "draft_order_added_products_event",
+    "draft_order_created_event",
+    "draft_order_oversold_items_event",
+    "draft_order_removed_products_event",
+    "email_resent_event",
+    "email_sent_event",
+    "external_notification_event",
+    "fulfillment_canceled_event",
+    "fulfillment_fulfilled_items_event",
+    "fulfillment_restocked_items_event",
+    "fulfillment_tracking_updated_event",
+    "invoice_generated_event",
+    "invoice_requested_event",
+    "invoice_sent_event",
+    "invoice_updated_event",
+    "order_canceled_event",
+    "order_created_event",
+    "order_fully_paid_event",
+    "order_manually_marked_as_paid_event",
+    "order_note_added_event",
+    "payment_authorized_event",
+    "payment_captured_event",
+    "payment_failed_event",
+    "payment_refunded_event",
+    "payment_voided_event"
+   ],
+   "import_count": 8,
+   "loc": 355,
+   "module": "saleor.order.events",
+   "path": "saleor/order/events.py",
+   "sha256": "42302f6128b204e81623d510e3cbbcc5aa36ee7f2f8891cdd36928fbe43fdb28"
+  },
+  {
+   "classes": [
+    "Fulfillment",
+    "FulfillmentLine",
+    "Order",
+    "OrderEvent",
+    "OrderLine",
+    "OrderLineQueryset",
+    "OrderQueryset"
+   ],
+   "functions": [],
+   "import_count": 26,
+   "loc": 531,
+   "module": "saleor.order.models",
+   "path": "saleor/order/models.py",
+   "sha256": "0e06df5de1f93944e8d2842b509c73e654fba1ccd836cbbcd2af1f93fa590a7d"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.order.templatetags",
+   "path": "saleor/order/templatetags/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "display_translated_order_line_name"
+   ],
+   "import_count": 2,
+   "loc": 12,
+   "module": "saleor.order.templatetags.order_lines",
+   "path": "saleor/order/templatetags/order_lines.py",
+   "sha256": "0598fa47703f530a6b0d10e7df69dd75bce5a32ff58cea315b31e40fc509c824"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "add_gift_card_to_order",
+    "add_variant_to_draft_order",
+    "change_order_line_quantity",
+    "delete_order_line",
+    "get_order_country",
+    "get_prices_of_discounted_specific_product",
+    "get_products_voucher_discount_for_order",
+    "get_valid_shipping_methods_for_order",
+    "get_voucher_discount_for_order",
+    "match_orders_with_new_user",
+    "order_line_needs_automatic_fulfillment",
+    "order_needs_automatic_fulfillment",
+    "recalculate_order",
+    "recalculate_order_weight",
+    "restock_fulfillment_lines",
+    "restock_order_lines",
+    "sum_order_totals",
+    "update_order_prices",
+    "update_order_status",
+    "update_voucher_discount"
+   ],
+   "import_count": 19,
+   "loc": 363,
+   "module": "saleor.order.utils",
+   "path": "saleor/order/utils.py",
+   "sha256": "a33f42a021b074852ff02aa97dbf5326b54da3186407174c5e3c8268af10ac30"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.page",
+   "path": "saleor/page/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [
+    "PageErrorCode"
+   ],
+   "functions": [],
+   "import_count": 1,
+   "loc": 9,
+   "module": "saleor.page.error_codes",
+   "path": "saleor/page/error_codes.py",
+   "sha256": "0ed3d2896e49a2c4ae14c560882d7860fcdf5bcc4524e87af1987179209387d0"
+  },
+  {
+   "classes": [
+    "Page",
+    "PagePublishedQuerySet",
+    "PageTranslation"
+   ],
+   "functions": [],
+   "import_count": 7,
+   "loc": 62,
+   "module": "saleor.page.models",
+   "path": "saleor/page/models.py",
+   "sha256": "1f8bbdff8291174f7c59b0afb43382cc04bf1179aa5b76d8c0fbef99f9d119a3"
+  },
+  {
+   "classes": [
+    "ChargeStatus",
+    "CustomPaymentChoices",
+    "GatewayError",
+    "OperationType",
+    "PaymentError",
+    "TransactionError",
+    "TransactionKind"
+   ],
+   "functions": [],
+   "import_count": 1,
+   "loc": 119,
+   "module": "saleor.payment",
+   "path": "saleor/payment/__init__.py",
+   "sha256": "7623a5e3b30d51cd7c8a1717993e98feaf5c7f4edf9a0dcf3e9eb9fed36c286a"
+  },
+  {
+   "classes": [
+    "PaymentErrorCode"
+   ],
+   "functions": [],
+   "import_count": 1,
+   "loc": 16,
+   "module": "saleor.payment.error_codes",
+   "path": "saleor/payment/error_codes.py",
+   "sha256": "4a2fc5beaaf482505eb1db41bce60e3d791d748d11f6e76229a66a1e77426f7a"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "_fetch_gateway_response",
+    "_get_past_transaction_token",
+    "_validate_refund_amount",
+    "authorize",
+    "capture",
+    "confirm",
+    "get_client_token",
+    "list_gateways",
+    "list_payment_sources",
+    "payment_postprocess",
+    "payment_refund_or_void",
+    "process_payment",
+    "raise_payment_error",
+    "refund",
+    "require_active_payment",
+    "void",
+    "with_locked_payment"
+   ],
+   "import_count": 10,
+   "loc": 280,
+   "module": "saleor.payment.gateway",
+   "path": "saleor/payment/gateway.py",
+   "sha256": "59a4c595d55a0111ffc99725422b8c1c372932b70058b370c849f54b5fedb2e7"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.payment.gateways",
+   "path": "saleor/payment/gateways/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.payment.gateways.adyen",
+   "path": "saleor/payment/gateways/adyen/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [
+    "AdyenGatewayPlugin"
+   ],
+   "functions": [
+    "require_active_plugin"
+   ],
+   "import_count": 18,
+   "loc": 534,
+   "module": "saleor.payment.gateways.adyen.plugin",
+   "path": "saleor/payment/gateways/adyen/plugin.py",
+   "sha256": "c51401928ca7eec3b068d20705348d45c259d94bfe9d650fc7a89f933f949510"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "api_call",
+    "append_klarna_data",
+    "call_capture",
+    "from_adyen_price",
+    "get_payment_method_info",
+    "get_shopper_locale_value",
+    "request_data_for_gateway_config",
+    "request_data_for_payment",
+    "request_for_payment_cancel",
+    "request_for_payment_capture",
+    "request_for_payment_refund",
+    "to_adyen_price",
+    "update_payment_with_action_required_data"
+   ],
+   "import_count": 15,
+   "loc": 292,
+   "module": "saleor.payment.gateways.adyen.utils",
+   "path": "saleor/payment/gateways/adyen/utils.py",
+   "sha256": "b4a5fa0918faf4ec07399db921b17b920f07e4b1bff5bc4a04910e8ca547953c"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "_get_kind",
+    "create_new_transaction",
+    "create_order",
+    "create_payment_notification_for_order",
+    "get_checkout",
+    "get_payment",
+    "get_transaction",
+    "handle_additional_actions",
+    "handle_api_response",
+    "handle_authorization",
+    "handle_cancel_or_refund",
+    "handle_cancellation",
+    "handle_capture",
+    "handle_failed_capture",
+    "handle_failed_refund",
+    "handle_not_created_order",
+    "handle_pending",
+    "handle_refund",
+    "handle_refund_with_data",
+    "handle_reversed_refund",
+    "handle_webhook",
+    "prepare_api_request_data",
+    "prepare_redirect_url",
+    "validate_auth_user",
+    "validate_hmac_signature",
+    "webhook_not_implemented"
+   ],
+   "import_count": 31,
+   "loc": 724,
+   "module": "saleor.payment.gateways.adyen.webhooks",
+   "path": "saleor/payment/gateways/adyen/webhooks.py",
+   "sha256": "e5d07bf3db49600cffe7b965a4d6cff32903530b3e62f453ec218ed3656ff0bb"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "authorize",
+    "capture",
+    "create_token_params",
+    "extract_credit_card_data",
+    "extract_gateway_response",
+    "get_billing_data",
+    "get_braintree_gateway",
+    "get_client_token",
+    "get_customer_data",
+    "get_error_for_client",
+    "list_client_sources",
+    "process_payment",
+    "refund",
+    "transaction_for_existing_customer",
+    "transaction_for_new_customer",
+    "void"
+   ],
+   "import_count": 6,
+   "loc": 305,
+   "module": "saleor.payment.gateways.braintree",
+   "path": "saleor/payment/gateways/braintree/__init__.py",
+   "sha256": "9098e8024f95782a5bd3c2ef4a3df7c1e434600fcd26a836a311fdcfe1f41b9e"
+  },
+  {
+   "classes": [
+    "BraintreeException"
+   ],
+   "functions": [
+    "get_error_type"
+   ],
+   "import_count": 1,
+   "loc": 119,
+   "module": "saleor.payment.gateways.braintree.errors",
+   "path": "saleor/payment/gateways/braintree/errors.py",
+   "sha256": "b6018db9b045e5bbfbbaaf975611d39ef5626824ecbcc20bc87bbfe04695ec8d"
+  },
+  {
+   "classes": [
+    "BraintreeGatewayPlugin"
+   ],
+   "functions": [
+    "require_active_plugin"
+   ],
+   "import_count": 6,
+   "loc": 167,
+   "module": "saleor.payment.gateways.braintree.plugin",
+   "path": "saleor/payment/gateways/braintree/plugin.py",
+   "sha256": "4bf7d0c91fb6a2d5afd3c6e60bcb73692084d43a4dcd29bac7c625ec1f42f8e1"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "authorize",
+    "capture",
+    "confirm",
+    "dummy_success",
+    "get_client_token",
+    "process_payment",
+    "refund",
+    "void"
+   ],
+   "import_count": 3,
+   "loc": 140,
+   "module": "saleor.payment.gateways.dummy",
+   "path": "saleor/payment/gateways/dummy/__init__.py",
+   "sha256": "bfb5879380b9de95f087121fdc313716f3b4909a69d4bb055a072b6bcadfcf3c"
+  },
+  {
+   "classes": [
+    "DummyGatewayPlugin"
+   ],
+   "functions": [
+    "require_active_plugin"
+   ],
+   "import_count": 6,
+   "loc": 125,
+   "module": "saleor.payment.gateways.dummy.plugin",
+   "path": "saleor/payment/gateways/dummy/plugin.py",
+   "sha256": "ce2a6e8b3b96e255e21c38755f3caf91e12175ebeffc8fe383daa57058a09bad"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "authorize",
+    "capture",
+    "confirm",
+    "dummy_success",
+    "get_client_token",
+    "process_payment",
+    "refund",
+    "validate_token",
+    "void"
+   ],
+   "import_count": 4,
+   "loc": 148,
+   "module": "saleor.payment.gateways.dummy_credit_card",
+   "path": "saleor/payment/gateways/dummy_credit_card/__init__.py",
+   "sha256": "8713240dd229075eecfc257f419db544a1351cf46ef0c542ebec96e3c8598539"
+  },
+  {
+   "classes": [
+    "DummyCreditCardGatewayPlugin"
+   ],
+   "functions": [
+    "require_active_plugin"
+   ],
+   "import_count": 6,
+   "loc": 125,
+   "module": "saleor.payment.gateways.dummy_credit_card.plugin",
+   "path": "saleor/payment/gateways/dummy_credit_card/plugin.py",
+   "sha256": "404c307afad01a01183b7a3142c97c546d2439b6f17a65e77bb7ac1fffa2eb76"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "_generate_response",
+    "capture",
+    "check_payment_supported",
+    "clean_razorpay_response",
+    "get_client",
+    "get_client_token",
+    "get_error_message_from_razorpay_error",
+    "process_payment",
+    "refund"
+   ],
+   "import_count": 10,
+   "loc": 157,
+   "module": "saleor.payment.gateways.razorpay",
+   "path": "saleor/payment/gateways/razorpay/__init__.py",
+   "sha256": "c16937a74d74c32adc915a2fd8f1e706177625fc768bda419c712dee89967efa"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 4,
+   "module": "saleor.payment.gateways.razorpay.errors",
+   "path": "saleor/payment/gateways/razorpay/errors.py",
+   "sha256": "2e6301dc82043910fe918eb8309981f383f5eb079e5e8257bba4e54a3d87b779"
+  },
+  {
+   "classes": [
+    "RazorpayGatewayPlugin"
+   ],
+   "functions": [
+    "require_active_plugin"
+   ],
+   "import_count": 5,
+   "loc": 111,
+   "module": "saleor.payment.gateways.razorpay.plugin",
+   "path": "saleor/payment/gateways/razorpay/plugin.py",
+   "sha256": "542bf9a5e4f9dbb52cafe5603e11aada0dac045decc01430136a44c29e738372"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "get_amount_for_razorpay",
+    "get_error_response"
+   ],
+   "import_count": 1,
+   "loc": 17,
+   "module": "saleor.payment.gateways.razorpay.utils",
+   "path": "saleor/payment/gateways/razorpay/utils.py",
+   "sha256": "6a928a399dccc70f72f1839b321372fc28343790badcf98b216be48b9a51067f"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "_error_response",
+    "_get_client",
+    "_success_response",
+    "authorize",
+    "capture",
+    "confirm",
+    "fill_card_details",
+    "get_client_token",
+    "list_client_sources",
+    "process_payment",
+    "refund",
+    "void"
+   ],
+   "import_count": 5,
+   "loc": 243,
+   "module": "saleor.payment.gateways.stripe",
+   "path": "saleor/payment/gateways/stripe/__init__.py",
+   "sha256": "f3f20929b304dd58f0a5159adb02c72d2b94458480e499e52a8047b32deed916"
+  },
+  {
+   "classes": [
+    "StripeGatewayPlugin"
+   ],
+   "functions": [
+    "require_active_plugin"
+   ],
+   "import_count": 6,
+   "loc": 141,
+   "module": "saleor.payment.gateways.stripe.plugin",
+   "path": "saleor/payment/gateways/stripe/plugin.py",
+   "sha256": "10b68855ba297b7784d1111bc5b39965e7e367f1525b397fdc9c3acd2b4f09ef"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "get_amount_for_stripe",
+    "get_amount_from_stripe",
+    "get_currency_for_stripe",
+    "get_currency_from_stripe",
+    "get_payment_billing_fullname",
+    "shipping_to_stripe_dict"
+   ],
+   "import_count": 4,
+   "loc": 98,
+   "module": "saleor.payment.gateways.stripe.utils",
+   "path": "saleor/payment/gateways/stripe/utils.py",
+   "sha256": "6d32e576df07aaff335b8523d2fb4c515085d9c0843f783dda9a40ed12d16b2c"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "get_supported_currencies"
+   ],
+   "import_count": 4,
+   "loc": 27,
+   "module": "saleor.payment.gateways.utils",
+   "path": "saleor/payment/gateways/utils.py",
+   "sha256": "cedc2d8dad0cbf692e90486210a028985c4f107b00e6c4c963569d2049975c43"
+  },
+  {
+   "classes": [
+    "AddressData",
+    "CustomerSource",
+    "GatewayConfig",
+    "GatewayResponse",
+    "PaymentData",
+    "PaymentGateway",
+    "PaymentMethodInfo",
+    "TokenConfig"
+   ],
+   "functions": [],
+   "import_count": 3,
+   "loc": 125,
+   "module": "saleor.payment.interface",
+   "path": "saleor/payment/interface.py",
+   "sha256": "f1d1639c729130bd18f63773fd6d486e887433dc77c13b459de1f450be81fa7c"
+  },
+  {
+   "classes": [
+    "Payment",
+    "Transaction"
+   ],
+   "functions": [],
+   "import_count": 12,
+   "loc": 235,
+   "module": "saleor.payment.models",
+   "path": "saleor/payment/models.py",
+   "sha256": "5abc7ed0dc1d8ce7790cb193ff6cb5daf679c5551415e2a39a30ed7cb521e42e"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "clean_authorize",
+    "clean_capture",
+    "create_payment",
+    "create_payment_information",
+    "create_transaction",
+    "fetch_customer_id",
+    "gateway_postprocess",
+    "get_already_processed_transaction",
+    "get_already_processed_transaction_or_create_new_transaction",
+    "get_payment_token",
+    "is_currency_supported",
+    "prepare_key_for_gateway_customer_id",
+    "store_customer_id",
+    "update_payment_method_details",
+    "validate_gateway_response"
+   ],
+   "import_count": 16,
+   "loc": 368,
+   "module": "saleor.payment.utils",
+   "path": "saleor/payment/utils.py",
+   "sha256": "2f325d1f156d279e0f36a0c521bfa8cd719e719d23a14978b3403e1ba1395cab"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "discover_plugins_modules"
+   ],
+   "import_count": 3,
+   "loc": 19,
+   "module": "saleor.plugins",
+   "path": "saleor/plugins/__init__.py",
+   "sha256": "e09b3b76536c601a8ea1cdc95172820ce8000e5158458cf0f457bc0615478511"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "obfuscate_order"
+   ],
+   "import_count": 1,
+   "loc": 12,
+   "module": "saleor.plugins.anonymize",
+   "path": "saleor/plugins/anonymize/__init__.py",
+   "sha256": "4896e8b4e0013c9467d9c5587fc07f77712e593c59b09179471b15204095b8d0"
+  },
+  {
+   "classes": [
+    "AnonymizePlugin"
+   ],
+   "functions": [],
+   "import_count": 6,
+   "loc": 46,
+   "module": "saleor.plugins.anonymize.plugin",
+   "path": "saleor/plugins/anonymize/plugin.py",
+   "sha256": "67add6607fff44a795b8ade935b78d34c7b2606040a7e7ee12782c71a21cfa0f"
+  },
+  {
+   "classes": [
+    "AvataxConfiguration",
+    "CustomerErrors",
+    "TransactionType"
+   ],
+   "functions": [
+    "_fetch_new_taxes_data",
+    "_retrieve_from_cache",
+    "_validate_adddress_details",
+    "_validate_checkout",
+    "_validate_order",
+    "api_get_request",
+    "api_post_request",
+    "append_line_to_data",
+    "append_shipping_to_data",
+    "generate_request_data",
+    "generate_request_data_from_checkout",
+    "generate_tax_codes_dict",
+    "get_api_url",
+    "get_cached_response_or_fetch",
+    "get_cached_tax_codes_or_fetch",
+    "get_checkout_lines_data",
+    "get_checkout_tax_data",
+    "get_order_lines_data",
+    "get_order_request_data",
+    "get_order_tax_data",
+    "retrieve_tax_code_from_meta",
+    "taxes_need_new_fetch"
+   ],
+   "import_count": 17,
+   "loc": 480,
+   "module": "saleor.plugins.avatax",
+   "path": "saleor/plugins/avatax/__init__.py",
+   "sha256": "c84aef2d6da15fe74b12c691f1012d6e12f902489cca4e8da1c8fe003b478571"
+  },
+  {
+   "classes": [
+    "AvataxPlugin"
+   ],
+   "functions": [],
+   "import_count": 18,
+   "loc": 467,
+   "module": "saleor.plugins.avatax.plugin",
+   "path": "saleor/plugins/avatax/plugin.py",
+   "sha256": "f34e870a49339915250561f9befeb4f155a5d84fcc62e9d90cb97205b8fa73d8"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "api_post_request_task"
+   ],
+   "import_count": 6,
+   "loc": 41,
+   "module": "saleor.plugins.avatax.tasks",
+   "path": "saleor/plugins/avatax/tasks.py",
+   "sha256": "8e39cdc0528c32685f6baa7a0f65f59aea9a2e75ef50ec88ebe8017f4014ebc0"
+  },
+  {
+   "classes": [
+    "BasePlugin",
+    "ConfigurationTypeField"
+   ],
+   "functions": [],
+   "import_count": 16,
+   "loc": 544,
+   "module": "saleor.plugins.base_plugin",
+   "path": "saleor/plugins/base_plugin.py",
+   "sha256": "bff2995bc85f8b6130d1440f8500ac9d3ac6c9af8181eef1c8294666a7b95f8e"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "check_manager",
+    "check_plugin_fields",
+    "check_plugins",
+    "check_single_plugin"
+   ],
+   "import_count": 5,
+   "loc": 58,
+   "module": "saleor.plugins.checks",
+   "path": "saleor/plugins/checks.py",
+   "sha256": "ffe4ac764dd0d6672e8a004ddcfa0fcf820b6f4ac241731862d0f0e369e461ab"
+  },
+  {
+   "classes": [
+    "PluginErrorCode"
+   ],
+   "functions": [],
+   "import_count": 1,
+   "loc": 10,
+   "module": "saleor.plugins.error_codes",
+   "path": "saleor/plugins/error_codes.py",
+   "sha256": "22adcb35a491ca094fd2a11437a58c5bdf1d807488b2aad0bdc730d88544ef17"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.plugins.invoicing",
+   "path": "saleor/plugins/invoicing/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [
+    "InvoicingPlugin"
+   ],
+   "functions": [],
+   "import_count": 8,
+   "loc": 37,
+   "module": "saleor.plugins.invoicing.plugin",
+   "path": "saleor/plugins/invoicing/plugin.py",
+   "sha256": "956cdc8e99848266f9bc355a680a31185411e79cb008aebb303e8390d2c05879"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "chunk_products",
+    "generate_invoice_number",
+    "generate_invoice_pdf",
+    "get_product_limit_first_page",
+    "make_full_invoice_number",
+    "parse_invoice_dates"
+   ],
+   "import_count": 8,
+   "loc": 89,
+   "module": "saleor.plugins.invoicing.utils",
+   "path": "saleor/plugins/invoicing/utils.py",
+   "sha256": "eca6a38dd2cbeca92686a62f44a63190ded1a68a4b56d206f4cac8c2a359b3ed"
+  },
+  {
+   "classes": [
+    "PluginsManager"
+   ],
+   "functions": [
+    "get_plugins_manager"
+   ],
+   "import_count": 22,
+   "loc": 525,
+   "module": "saleor.plugins.manager",
+   "path": "saleor/plugins/manager.py",
+   "sha256": "538a698a8004e18bf137f4c0b01db41911adacb3ec3992c20235ffd8d133a9d1"
+  },
+  {
+   "classes": [
+    "PluginConfiguration"
+   ],
+   "functions": [],
+   "import_count": 4,
+   "loc": 21,
+   "module": "saleor.plugins.models",
+   "path": "saleor/plugins/models.py",
+   "sha256": "9a3121f2dabc683890242a8aa192b6fa653b32f34acd6bb5b12dbc159f624c02"
+  },
+  {
+   "classes": [
+    "TaxRateType",
+    "VatlayerConfiguration"
+   ],
+   "functions": [
+    "_convert_to_naive_taxed_money",
+    "apply_tax_to_price",
+    "get_tax_rate_by_name",
+    "get_taxed_shipping_price",
+    "get_taxes_for_country"
+   ],
+   "import_count": 4,
+   "loc": 144,
+   "module": "saleor.plugins.vatlayer",
+   "path": "saleor/plugins/vatlayer/__init__.py",
+   "sha256": "9741b201c6a8490730985622459c6f2d0c7fe47d1cb6b602ebe0cfd6100d6b50"
+  },
+  {
+   "classes": [
+    "VatlayerPlugin"
+   ],
+   "functions": [],
+   "import_count": 18,
+   "loc": 313,
+   "module": "saleor.plugins.vatlayer.plugin",
+   "path": "saleor/plugins/vatlayer/plugin.py",
+   "sha256": "7485cad96b4b451eb0c2a329207b6e75e83f9a430a99f2f057cb69b9053e850e"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "handle_plugin_webhook"
+   ],
+   "import_count": 3,
+   "loc": 9,
+   "module": "saleor.plugins.views",
+   "path": "saleor/plugins/views.py",
+   "sha256": "66f594ad152336472e3abbf3f2fc999a2ec203cf9e4cd9f628dcb13509cad65d"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "signature_for_payload"
+   ],
+   "import_count": 2,
+   "loc": 9,
+   "module": "saleor.plugins.webhook",
+   "path": "saleor/plugins/webhook/__init__.py",
+   "sha256": "62519102d2c5c0d1a5df73708c9913b70c9763882ef6fa2deb506b82af7bbb5c"
+  },
+  {
+   "classes": [
+    "WebhookPlugin"
+   ],
+   "functions": [],
+   "import_count": 10,
+   "loc": 141,
+   "module": "saleor.plugins.webhook.plugin",
+   "path": "saleor/plugins/webhook/plugin.py",
+   "sha256": "af9069dc99fd5f4b299db7dba6479805b50aaa2105c03deb679599f87128149d"
+  },
+  {
+   "classes": [
+    "WebhookSchemes"
+   ],
+   "functions": [
+    "send_webhook_request",
+    "send_webhook_using_aws_sqs",
+    "send_webhook_using_google_cloud_pubsub",
+    "send_webhook_using_http",
+    "trigger_webhooks_for_event"
+   ],
+   "import_count": 12,
+   "loc": 140,
+   "module": "saleor.plugins.webhook.tasks",
+   "path": "saleor/plugins/webhook/tasks.py",
+   "sha256": "420367586b2c150841de9ab131c303ebbfb8361c8e98bb87453cc44a247fec2b"
+  },
+  {
+   "classes": [
+    "AttributeInputType",
+    "ProductAvailabilityStatus",
+    "VariantAvailabilityStatus"
+   ],
+   "functions": [],
+   "import_count": 1,
+   "loc": 57,
+   "module": "saleor.product",
+   "path": "saleor/product/__init__.py",
+   "sha256": "0fb4050571e75277c66caefde02b341f881167dafea47face388f6e743d40b9f"
+  },
+  {
+   "classes": [
+    "ProductErrorCode"
+   ],
+   "functions": [],
+   "import_count": 1,
+   "loc": 16,
+   "module": "saleor.product.error_codes",
+   "path": "saleor/product/error_codes.py",
+   "sha256": "00a29c5da7ab6147458387873a34223c559503f103e1c6df842a8d89d64dccde"
+  },
+  {
+   "classes": [
+    "AttributeValuesFilter",
+    "ProductFilter"
+   ],
+   "functions": [
+    "filter_products_by_attributes_values"
+   ],
+   "import_count": 10,
+   "loc": 135,
+   "module": "saleor.product.filters",
+   "path": "saleor/product/filters.py",
+   "sha256": "7055014eb028307e3958cecf02f2dec6a08e6c6c52a97fdad564147e775bc483"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.product.management",
+   "path": "saleor/product/management/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.product.management.commands",
+   "path": "saleor/product/management/commands/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [
+    "Command"
+   ],
+   "functions": [],
+   "import_count": 6,
+   "loc": 23,
+   "module": "saleor.product.management.commands.update_all_products_minimal_variant_prices",
+   "path": "saleor/product/management/commands/update_all_products_minimal_variant_prices.py",
+   "sha256": "cfd78b0bd943f80439bad18d6d72ac9b28a292641515a53477320c57c4e8e9b0"
+  },
+  {
+   "classes": [
+    "AssignedProductAttribute",
+    "AssignedVariantAttribute",
+    "AssociatedAttributeQuerySet",
+    "Attribute",
+    "AttributeProduct",
+    "AttributeQuerySet",
+    "AttributeTranslation",
+    "AttributeValue",
+    "AttributeValueTranslation",
+    "AttributeVariant",
+    "BaseAssignedAttribute",
+    "BaseAttributeQuerySet",
+    "Category",
+    "CategoryTranslation",
+    "Collection",
+    "CollectionProduct",
+    "CollectionTranslation",
+    "DigitalContent",
+    "DigitalContentUrl",
+    "Product",
+    "ProductImage",
+    "ProductTranslation",
+    "ProductType",
+    "ProductVariant",
+    "ProductVariantQueryset",
+    "ProductVariantTranslation",
+    "ProductsQueryset",
+    "VariantImage"
+   ],
+   "functions": [],
+   "import_count": 34,
+   "loc": 897,
+   "module": "saleor.product.models",
+   "path": "saleor/product/models.py",
+   "sha256": "57bd06a8bf0df1e994e76f8269a6c01a91d3b4a54c1b8da38154c2a39a48b1ef"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "_update_variants_names",
+    "update_product_minimal_variant_price_task",
+    "update_products_minimal_variant_prices_of_catalogues_task",
+    "update_products_minimal_variant_prices_of_discount_task",
+    "update_products_minimal_variant_prices_task",
+    "update_variants_names"
+   ],
+   "import_count": 6,
+   "loc": 70,
+   "module": "saleor.product.tasks",
+   "path": "saleor/product/tasks.py",
+   "sha256": "f2819262045d3751cdee4f0ea93cf71683bde5fd175b0725c0df9c13c1a7a10d"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.product.templatetags",
+   "path": "saleor/product/templatetags/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "choose_placeholder",
+    "get_available_sizes",
+    "get_available_sizes_by_method",
+    "get_product_image_thumbnail",
+    "get_thumbnail",
+    "get_thumbnail_size"
+   ],
+   "import_count": 6,
+   "loc": 103,
+   "module": "saleor.product.templatetags.product_images",
+   "path": "saleor/product/templatetags/product_images.py",
+   "sha256": "7f15b0148d32f7b97492e63725a148b40775eeb01029d7f23f0599be8a0768f6"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "create_category_background_image_thumbnails",
+    "create_collection_background_image_thumbnails",
+    "create_product_thumbnails"
+   ],
+   "import_count": 3,
+   "loc": 31,
+   "module": "saleor.product.thumbnails",
+   "path": "saleor/product/thumbnails.py",
+   "sha256": "edc64ac8eb7a416686021350186f88794fd7cabd8d333bf75b891d022c159951"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "calculate_revenue_for_variant",
+    "collect_categories_tree_products",
+    "delete_categories",
+    "get_default_variant",
+    "set_variant_as_default"
+   ],
+   "import_count": 10,
+   "loc": 74,
+   "module": "saleor.product.utils",
+   "path": "saleor/product/utils/__init__.py",
+   "sha256": "b96a2855aa77ba48c761d99441a6ee5907bba580f29f8a8bf323d1cb4431652f"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "_associate_attribute_to_instance",
+    "associate_attribute_values_to_instance",
+    "generate_name_for_variant",
+    "validate_attribute_owns_values"
+   ],
+   "import_count": 3,
+   "loc": 89,
+   "module": "saleor.product.utils.attributes",
+   "path": "saleor/product/utils/attributes.py",
+   "sha256": "134d699d28c68185feb16ecdd3e09dd490c14d91f6f0082f8334623e79c5c243"
+  },
+  {
+   "classes": [
+    "ProductAvailability",
+    "VariantAvailability"
+   ],
+   "functions": [
+    "_get_product_price_range",
+    "_get_total_discount",
+    "_get_total_discount_from_range",
+    "get_product_availability",
+    "get_product_availability_status",
+    "get_product_price_range",
+    "get_variant_availability",
+    "get_variant_price"
+   ],
+   "import_count": 13,
+   "loc": 265,
+   "module": "saleor.product.utils.availability",
+   "path": "saleor/product/utils/availability.py",
+   "sha256": "155e4d81daa5e6b0eefffa83164ba596cbeba3e02882a34650fe9353e9c06930"
+  },
+  {
+   "classes": [
+    "CostsData"
+   ],
+   "functions": [
+    "get_cost_data_from_variants",
+    "get_cost_price",
+    "get_margin_for_variant",
+    "get_product_costs_data",
+    "get_variant_costs_data"
+   ],
+   "import_count": 6,
+   "loc": 76,
+   "module": "saleor.product.utils.costs",
+   "path": "saleor/product/utils/costs.py",
+   "sha256": "c82f1f71d1f5795d7a6219d7c856af429415d8ceaa84ab9ae8012857baecaed3"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "digital_content_url_is_valid",
+    "get_default_digital_content_settings",
+    "increment_download_count"
+   ],
+   "import_count": 5,
+   "loc": 55,
+   "module": "saleor.product.utils.digital_products",
+   "path": "saleor/product/utils/digital_products.py",
+   "sha256": "334a0078226f543e2e722fc41fb508e47f3b8a211a345841ac83bd4fea2f3b23"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "_get_product_minimal_variant_price",
+    "update_product_minimal_variant_price",
+    "update_products_minimal_variant_prices",
+    "update_products_minimal_variant_prices_of_catalogues",
+    "update_products_minimal_variant_prices_of_discount"
+   ],
+   "import_count": 7,
+   "loc": 78,
+   "module": "saleor.product.utils.variant_prices",
+   "path": "saleor/product/utils/variant_prices.py",
+   "sha256": "3e404e5c10d645fd4febc87c27ae02cb25e81f9e0809b6fce12f133ce384c09a"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "digital_product"
+   ],
+   "import_count": 7,
+   "loc": 37,
+   "module": "saleor.product.views",
+   "path": "saleor/product/views.py",
+   "sha256": "b0d0916a9bfd6bb12d524a8690e8f300b2207e3d2a22b0c7528c99acad08b133"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.search",
+   "path": "saleor/search/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.search.backends",
+   "path": "saleor/search/backends/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "pick_backend"
+   ],
+   "import_count": 2,
+   "loc": 10,
+   "module": "saleor.search.backends.picker",
+   "path": "saleor/search/backends/picker.py",
+   "sha256": "1cee8e03182de5443d62cd1ce008e101d16d97fb9282eb185aa93589ef6502c5"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "search_storefront"
+   ],
+   "import_count": 1,
+   "loc": 5,
+   "module": "saleor.search.backends.postgresql",
+   "path": "saleor/search/backends/postgresql.py",
+   "sha256": "c793dfec7e60e525e3d0dfa52410e06051575f45f78f97b2bb5b8a5e4964c92f"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "search"
+   ],
+   "import_count": 3,
+   "loc": 24,
+   "module": "saleor.search.backends.postgresql_storefront",
+   "path": "saleor/search/backends/postgresql_storefront.py",
+   "sha256": "0b92e94fed2edd8844a3baad6b9aef2b5c531f79a233072ffd9207594a08ea7b"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.search.management",
+   "path": "saleor/search/management/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.search.management.commands",
+   "path": "saleor/search/management/commands/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.seo",
+   "path": "saleor/seo/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [
+    "SeoModel",
+    "SeoModelTranslation"
+   ],
+   "functions": [],
+   "import_count": 2,
+   "loc": 26,
+   "module": "saleor.seo.models",
+   "path": "saleor/seo/models.py",
+   "sha256": "8b4665695238ed5378f0806601b29cd845f57254aa4f98fd556b0ea0aede2737"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.seo.schema",
+   "path": "saleor/seo/schema/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "get_order_confirmation_markup",
+    "get_organization",
+    "get_product_data"
+   ],
+   "import_count": 6,
+   "loc": 65,
+   "module": "saleor.seo.schema.email",
+   "path": "saleor/seo/schema/email.py",
+   "sha256": "40c55ecb0168c0289048148bcae20b31c67b47589d924932efbb394ffa8f2d39"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "get_bool_from_env",
+    "get_host",
+    "get_list"
+   ],
+   "import_count": 17,
+   "loc": 583,
+   "module": "saleor.settings",
+   "path": "saleor/settings.py",
+   "sha256": "094a6eef9f17f8ebc391a780bf2e44f149e3ad0d3ab4bcf08987a8d255dee677"
+  },
+  {
+   "classes": [
+    "ShippingMethodType"
+   ],
+   "functions": [],
+   "import_count": 0,
+   "loc": 8,
+   "module": "saleor.shipping",
+   "path": "saleor/shipping/__init__.py",
+   "sha256": "6c82aa9aa9e861a343d918a3fd6c5e44f5d9084ae69c2de707bb7a3356bfb0a2"
+  },
+  {
+   "classes": [
+    "ShippingErrorCode"
+   ],
+   "functions": [],
+   "import_count": 1,
+   "loc": 12,
+   "module": "saleor.shipping.error_codes",
+   "path": "saleor/shipping/error_codes.py",
+   "sha256": "52353dfa13f27da8c80f27d6f3528531c9662005f8af23d456226ea1a4705acf"
+  },
+  {
+   "classes": [
+    "ShippingMethod",
+    "ShippingMethodQueryset",
+    "ShippingMethodTranslation",
+    "ShippingZone"
+   ],
+   "functions": [
+    "_applicable_price_based_methods",
+    "_applicable_weight_based_methods",
+    "_get_weight_type_display"
+   ],
+   "import_count": 15,
+   "loc": 216,
+   "module": "saleor.shipping.models",
+   "path": "saleor/shipping/models.py",
+   "sha256": "0a748b6e7e144d91f58168870040af7d23a70fb494b62be87bc1a447783df52b"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "default_shipping_zone_exists",
+    "get_countries_without_shipping_zone"
+   ],
+   "import_count": 2,
+   "loc": 15,
+   "module": "saleor.shipping.utils",
+   "path": "saleor/shipping/utils.py",
+   "sha256": "5a51b7886b44bba1e5ae9e2968eba7838535e58b13bdd4f598dfae34e0bf9bcd"
+  },
+  {
+   "classes": [
+    "AuthenticationBackends"
+   ],
+   "functions": [],
+   "import_count": 0,
+   "loc": 5,
+   "module": "saleor.site",
+   "path": "saleor/site/__init__.py",
+   "sha256": "682095ae573a27213961ac00fe0844b8520cbd8745f88ffb14ac788e5902d683"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "site"
+   ],
+   "import_count": 5,
+   "loc": 16,
+   "module": "saleor.site.context_processors",
+   "path": "saleor/site/context_processors.py",
+   "sha256": "e001559bca9bc029aefe2310d8c3863acafaefc3235f787c96d9953f1b83bae9"
+  },
+  {
+   "classes": [
+    "SiteErrorCode"
+   ],
+   "functions": [],
+   "import_count": 1,
+   "loc": 6,
+   "module": "saleor.site.error_codes",
+   "path": "saleor/site/error_codes.py",
+   "sha256": "0cb58fa0f818c75a9e5f465c911e1ad27effa9ecd1a74c396f741a0d2bef89bb"
+  },
+  {
+   "classes": [
+    "AuthorizationKey",
+    "SiteSettings",
+    "SiteSettingsTranslation"
+   ],
+   "functions": [
+    "email_sender_name_validators"
+   ],
+   "import_count": 14,
+   "loc": 143,
+   "module": "saleor.site.models",
+   "path": "saleor/site/models.py",
+   "sha256": "7ecc2f0c5ca3ae0b23a8eeb290b874a4c320ee350bd1b3d025477e7ad6199a3e"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "new_clear_cache",
+    "new_get_by_natural_key",
+    "new_get_current",
+    "patch_contrib_sites"
+   ],
+   "import_count": 5,
+   "loc": 71,
+   "module": "saleor.site.patch_sites",
+   "path": "saleor/site/patch_sites.py",
+   "sha256": "d156369e034aedc2a993062c768dfa857e3fd245bc9d1646cce3171a17749a2c"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "get_authorization_key_for_backend"
+   ],
+   "import_count": 3,
+   "loc": 13,
+   "module": "saleor.site.utils",
+   "path": "saleor/site/utils.py",
+   "sha256": "978b71a0b4c7b6893759d7fb058a5c85b522ced34e37f408af946f851236bbb1"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 13,
+   "loc": 45,
+   "module": "saleor.urls",
+   "path": "saleor/urls.py",
+   "sha256": "c3da4ff7e41acdacb24caecdae4b6f94a37e47186f5ec86d30bc06e8af83d3e1"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.warehouse",
+   "path": "saleor/warehouse/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "_get_available_quantity",
+    "_get_quantity_allocated",
+    "are_all_product_variants_in_stock",
+    "check_stock_quantity",
+    "get_available_quantity",
+    "get_available_quantity_for_customer",
+    "get_quantity_allocated",
+    "is_product_in_stock",
+    "is_variant_in_stock"
+   ],
+   "import_count": 8,
+   "loc": 121,
+   "module": "saleor.warehouse.availability",
+   "path": "saleor/warehouse/availability.py",
+   "sha256": "fcef1027e3da3f79bc32c1cdbb631586dc54cfad52bebf562454e713a2ab0506"
+  },
+  {
+   "classes": [
+    "StockErrorCode",
+    "WarehouseErrorCode"
+   ],
+   "functions": [],
+   "import_count": 1,
+   "loc": 19,
+   "module": "saleor.warehouse.error_codes",
+   "path": "saleor/warehouse/error_codes.py",
+   "sha256": "ac1302601559fcec40e12b45763586be6eb900cc92e6fd81fe93ca6a565c6e9b"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "allocate_stock",
+    "deallocate_stock",
+    "deallocate_stock_for_order",
+    "decrease_stock",
+    "increase_stock"
+   ],
+   "import_count": 8,
+   "loc": 187,
+   "module": "saleor.warehouse.management",
+   "path": "saleor/warehouse/management.py",
+   "sha256": "0b0742a9b7f643ff25950a549db05034ceb7695c135ac2e55dcaf21554939c8c"
+  },
+  {
+   "classes": [
+    "Allocation",
+    "Stock",
+    "StockQuerySet",
+    "Warehouse",
+    "WarehouseQueryset"
+   ],
+   "functions": [],
+   "import_count": 10,
+   "loc": 133,
+   "module": "saleor.warehouse.models",
+   "path": "saleor/warehouse/models.py",
+   "sha256": "35c4b61f5ff6f5773a5704e79f0f144b9321042d826681d6a0acf33682c317a8"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "validate_warehouse_count"
+   ],
+   "import_count": 2,
+   "loc": 26,
+   "module": "saleor.warehouse.validation",
+   "path": "saleor/warehouse/validation.py",
+   "sha256": "4ccfb6ce774f660d667f508f9a91296b5ffef16071df45f0d50b407c43d66e15"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.webhook",
+   "path": "saleor/webhook/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [
+    "WebhookErrorCode"
+   ],
+   "functions": [],
+   "import_count": 1,
+   "loc": 9,
+   "module": "saleor.webhook.error_codes",
+   "path": "saleor/webhook/error_codes.py",
+   "sha256": "3b22be9d47083ac56c9177997a4229aa8e035902c9f58f4472daeebedf2a138c"
+  },
+  {
+   "classes": [
+    "WebhookEventType"
+   ],
+   "functions": [],
+   "import_count": 1,
+   "loc": 90,
+   "module": "saleor.webhook.event_types",
+   "path": "saleor/webhook/event_types.py",
+   "sha256": "3336adb06a12e5ade724cb09af66cc344755f75459da7254d38ff645d185a3ab"
+  },
+  {
+   "classes": [
+    "Webhook",
+    "WebhookEvent",
+    "WebhookURLField"
+   ],
+   "functions": [],
+   "import_count": 3,
+   "loc": 28,
+   "module": "saleor.webhook.models",
+   "path": "saleor/webhook/models.py",
+   "sha256": "13fc61dcbed6b6a47249e48dc79ce996f77b9253208ebfe06e9be930d4e44124"
+  },
+  {
+   "classes": [
+    "PayloadSerializer",
+    "PythonSerializer"
+   ],
+   "functions": [],
+   "import_count": 6,
+   "loc": 96,
+   "module": "saleor.webhook.payload_serializers",
+   "path": "saleor/webhook/payload_serializers.py",
+   "sha256": "66fc8b5cf6359b35e4d97abaca34f792a142a4f861886c0bdd99a36cfca3e6c4"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "_generate_sample_order_payload",
+    "_get_sample_object",
+    "generate_checkout_payload",
+    "generate_customer_payload",
+    "generate_fulfillment_lines_payload",
+    "generate_fulfillment_payload",
+    "generate_invoice_payload",
+    "generate_order_payload",
+    "generate_product_payload",
+    "generate_sample_payload"
+   ],
+   "import_count": 16,
+   "loc": 340,
+   "module": "saleor.webhook.payloads",
+   "path": "saleor/webhook/payloads.py",
+   "sha256": "873bc5029559b797254727e84eb97d3127908fdd88fa66f393291a4cdc4b1854"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "serialize_checkout_lines"
+   ],
+   "import_count": 2,
+   "loc": 24,
+   "module": "saleor.webhook.serializers",
+   "path": "saleor/webhook/serializers.py",
+   "sha256": "457a137282a07e6582cff38570bb614d6ce435c68755d32d567ec5b4ad4fe13c"
+  },
+  {
+   "classes": [],
+   "functions": [],
+   "import_count": 0,
+   "loc": 0,
+   "module": "saleor.wishlist",
+   "path": "saleor/wishlist/__init__.py",
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "classes": [
+    "WishlistErrorCode"
+   ],
+   "functions": [],
+   "import_count": 1,
+   "loc": 9,
+   "module": "saleor.wishlist.error_codes",
+   "path": "saleor/wishlist/error_codes.py",
+   "sha256": "379d95d99287e7ea3feb867eb61e5d59ad8a1c457194b6e70747d5ca86f531d4"
+  },
+  {
+   "classes": [
+    "Wishlist",
+    "WishlistItem",
+    "WishlistItemQuerySet"
+   ],
+   "functions": [],
+   "import_count": 4,
+   "loc": 89,
+   "module": "saleor.wishlist.models",
+   "path": "saleor/wishlist/models.py",
+   "sha256": "f9cec6ce65797482c6052cd048c11b5e736c1dbfcdbde77bd80b85c8802c7212"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "get_allowed_host_lazy"
+   ],
+   "import_count": 5,
+   "loc": 45,
+   "module": "saleor.wsgi",
+   "path": "saleor/wsgi/__init__.py",
+   "sha256": "3b65e34f97193110da2e92a9792212207dbbc91657e94f503ea6548b1ad4b4e9"
+  },
+  {
+   "classes": [],
+   "functions": [
+    "health_check"
+   ],
+   "import_count": 0,
+   "loc": 8,
+   "module": "saleor.wsgi.health_check",
+   "path": "saleor/wsgi/health_check.py",
+   "sha256": "ad9cbb968f2367c24a8f7332443e32803883a3ece16b6f276ed9f18c49a3ba6b"
+  }
+ ],
+ "schema_version": "real-commit-impact-dataset-v1",
+ "sha256": "260be622c8878de2203badd880f185083562f7622a94456b17d60910e52eb623"
+}

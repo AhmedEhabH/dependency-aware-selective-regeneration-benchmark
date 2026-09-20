@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-39ef77fc9bcb",
+ "intent_sha256": "4b515e0241ec56305e1f3fefd3e850a75044c72ef84e6a370aa1f0a4b6816684",
+ "intent_source": "commit_message",
+ "intent_text": "Improve docstring for GraphQL refreshToken mutation (#12613) * Improve docstring for GraphQL refreshToken mutation This improves the auto-generated documentation at https://docs.saleor.io/docs/3.x/api-reference/authentication/mutations/token-refresh by removing a out of the place or accidental `-` and will format variable names and cookie name as inline code (`<code>`). * Format csrfToken variable as inline-code * Add missing space in docstring",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "39ef77fc9bcb0f7240408fa415603cc454a8d0e2",
+ "target_commit_time": "2023-04-21T08:13:23+00:00"
+}

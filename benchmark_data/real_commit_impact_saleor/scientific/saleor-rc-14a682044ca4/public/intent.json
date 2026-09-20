@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-14a682044ca4",
+ "intent_sha256": "909a9821359ff5cf2c75bd1d4e0d8846e687680b94ce2ffbd179ab8844221748",
+ "intent_source": "commit_message",
+ "intent_text": "Add `undiscounted_base_shipping_price` to `Order` (#16279) * Add undiscounted_base_shipping_price to Order Use order.undiscounted_base_shipping_price Set undiscounted_base_shipping_price during checkout completion Add migration for setting undiscounted base shipping price Make undiscounted_base_shipping_price_amount nullable Update migration Update batch sizes Ensure that undiscounted_base_shipping_price is set when order is created Update migration task Add undiscountedShippingPrice to Order type Fix invalid undiscounted_total calculations in complete checkout Add comment to set_udniscounted_base_shipping_price_on_orders_task Clean after cherry pick * Move task to migration code * Make undiscounted_base_shipping_price_amount non-nullable on Order model * Make order.undiscounted_shipping_price required * Use order.undiscounted_base_shipping_price in calculations * Update set_udniscounted_base_shipping_price_on_orders migration * Use database_connection_name in order_undiscounted_shipping",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "14a682044ca49af5406781e8b921fce6fe4f3d85",
+ "target_commit_time": "2024-07-25T05:19:58+00:00"
+}

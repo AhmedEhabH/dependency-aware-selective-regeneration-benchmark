@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-c12e83aac8f6",
+ "intent_sha256": "0c49298f4a0ec2ec8706300d1cd3e523d2e0462356c33514a162d0cc4e6f2237",
+ "intent_source": "commit_message",
+ "intent_text": "Clean up order discounts (#16116) (#16164) * Fix applying shipping voucher on order and TaxableObject.shipping_price resolver for Order * Add is_order_level_voucher utils * Update TaxableObject.discounts resolver for Order * Add more tests for create_deliveries_for_taxes and adjust TaxableObject.discounts for apply_once_per_order vouchers * Update descriptions of unit_price and total_price on TaxableObjectLine * Aplpy code review suggestions",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "c12e83aac8f643ef1c393e6762d4cbe6dd1af102",
+ "target_commit_time": "2024-06-21T07:30:22+00:00"
+}

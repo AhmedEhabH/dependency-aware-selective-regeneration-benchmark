@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-29c2d1abdce0",
+ "intent_sha256": "406d5cdcfefcc44f8bf36336df3b2a11512d20becf2f56e14c0bb0b346b0f3f1",
+ "intent_source": "commit_message",
+ "intent_text": "Fix Avalara caching. (#7036) * Add test for avalara caching * fix calculate_checkout_line_total * Fix calculate_checkout_line_unit_price * Fix get_checkout_line_tax_rate * Refactor test for get_checkout_shipping_tax_rate * Refactor total price resolver on checkout line * Changelog * Add tests for avalara caching",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "29c2d1abdce021bc32ca41b15da5ce10175227ed",
+ "target_commit_time": "2021-03-23T10:08:52+00:00"
+}

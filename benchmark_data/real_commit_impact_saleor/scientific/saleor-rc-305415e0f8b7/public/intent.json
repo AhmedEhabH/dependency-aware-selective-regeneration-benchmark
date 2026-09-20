@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-305415e0f8b7",
+ "intent_sha256": "85a30708b518a2e06ba946ea1fd75601f9cbe910f14a094114098113e10311b0",
+ "intent_source": "commit_message",
+ "intent_text": "Add refund products support (#6530) * Add init commit for refund products mutation and resolver * Add dataloader for lines available for refund. add tests * Extend refund logic to handle stocks * Extend mutation to support sepparatly order lines and fulfillment lines * Fix typo in variable name * Remove inccorect condition * Add some tests for refund_fulfillment * Fix issue related with stock. Fix tests * Drop unneded resolver. Add tests for logic * Improve the descriptions of input fields * Change absolute import to relative * Update changelog * Fix mypy errors * Change order_id input field to order * Apply changes after review * Apply changes after review. Clean up and increase the readability of the refund function * Include shipping costs only when the amount is calculated by backend * Remove validation connected with empty lines and validation for amount+shipping costs",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "305415e0f8b76b0460949f76f1793db8f3faa722",
+ "target_commit_time": "2020-11-30T19:49:45+00:00"
+}

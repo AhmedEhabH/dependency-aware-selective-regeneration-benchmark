@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-1f47b503f69e",
+ "intent_sha256": "9471c74cc8a6d3b818bc488c3898dd62f39cddc4cf44c1309d941c24d0b4e547",
+ "intent_source": "commit_message",
+ "intent_text": "Fix refund payment when cannot create an order in Stripe - 3.1 (#8546) * Fix refund payment when cannot create an order in Stripe * Handle a validation error raised by checkout logic * Fix tests * Add logging for case when we were not able to create order Co-authored-by: L3str4nge <mtszzwdzk@gmail.com>",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "1f47b503f69e6c027117b7da53fcdce39ed81751",
+ "target_commit_time": "2021-11-15T07:44:59+00:00"
+}

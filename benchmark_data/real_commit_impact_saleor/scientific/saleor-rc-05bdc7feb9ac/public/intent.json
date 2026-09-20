@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-05bdc7feb9ac",
+ "intent_sha256": "00d1e5350bcb6e585cdd5fa75bd9d3f556b511066ed97f1eec9752fc0728a15a",
+ "intent_source": "commit_message",
+ "intent_text": "Return Products (#6599) * Init mutation for refund products * Add validation for creating line with non existing variant * Extend logic for better handling the return process * Solve mypy errors * Add test for checking the return for order_line and fulfillment_line in the same request * Add missing migration changes * Add missing fulfillment status to choices * Add some tests to cover mutation * Solve issue with empty fulfillments * Add event for creating draft order from order * Clean up before review * Change scheme for repalced orders * Fix for moving refunded lines to returned fulfillment (#6619) * Apply changes after review * merge migrations",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "05bdc7feb9acfba14424dc97a6dbefdd8ab8ecae",
+ "target_commit_time": "2020-12-17T07:51:42+00:00"
+}

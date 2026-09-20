@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-ce3b63edecef",
+ "intent_sha256": "91e8013cc8c793df3fd61dcf8f589e39c1d47e428d839918546bb4348b32e8d1",
+ "intent_source": "commit_message",
+ "intent_text": "Wait for read replice before building deferred payload (#18638) * Wait for read replice before building deferred payload * Use event delivery created time, to check replica lag * Add transaction to confirm that we use single replica while checking lag+building paylaod * Apply changes after review * Set DelaySeconds for each message with eta * Add tests for SQS transport layer",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "ce3b63edecef7c942ac88888a4bc77149086bbd3",
+ "target_commit_time": "2025-12-23T08:53:00+00:00"
+}

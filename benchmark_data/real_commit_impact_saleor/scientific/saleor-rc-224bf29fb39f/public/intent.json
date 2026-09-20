@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-224bf29fb39f",
+ "intent_sha256": "10507f57dbef5e890af287681f69663e82c9eb66fc0537391c12662387beba9c",
+ "intent_source": "commit_message",
+ "intent_text": "Remove deprecated orderAddNote mutation (#19579) * Remove deprecated orderAddNote mutation Drop the `orderAddNote` mutation together with its `OrderAddNote` type and `OrderAddNoteInput` input. It was deprecated in favour of `orderNoteAdd`, which it subclassed and which stays unchanged. Regenerate schema.graphql and add a breaking-changes CHANGELOG entry. Co-Authored-By: Claude <noreply@anthropic.com> * Align order note add test names with the mutation Rename the two leftover `test_order_add_note_*` functions to `test_order_note_add_*` so every test in the file matches the `orderNoteAdd` mutation it exercises. Co-Authored-By: Claude <noreply@anthropic.com> --------- Co-authored-by: Claude <noreply@anthropic.com>",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "224bf29fb39fd14645a5adfda42008ea5fb8d799",
+ "target_commit_time": "2026-07-31T11:28:01+00:00"
+}

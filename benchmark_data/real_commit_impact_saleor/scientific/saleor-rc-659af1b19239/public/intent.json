@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-659af1b19239",
+ "intent_sha256": "e6cfa57f7d6237bc2ebbe113ff1c7975bdcd58095f34a279570de7b8c61d3e52",
+ "intent_source": "commit_message",
+ "intent_text": "Allow setting shipping address in case CC was changed to standard delivery method (#17525) * Allow to set shipping address after switching from CC to standard delivery method * Fix tests * Do not save checkout in update_checkout_shipping_method_if_invalid * Add e2e test * Apply code review suggestion",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "659af1b19239efec168ffd752bb908f9e93ea65e",
+ "target_commit_time": "2025-03-26T08:24:38+00:00"
+}

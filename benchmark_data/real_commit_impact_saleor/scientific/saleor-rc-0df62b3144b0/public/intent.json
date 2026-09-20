@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-0df62b3144b0",
+ "intent_sha256": "3e2e058366588560598a3f59315f729619d0840716ce1ee4e230c6dcfe7c07f6",
+ "intent_source": "commit_message",
+ "intent_text": "Observability reporter - move JSON serialization step (#14992) * Add json serialization to generate_api_call_payload * Add json serialization to generate_event_delivery_attempt_payload * Change dump_payload to encode payload * Remove serialization from observability buffer * Drop serialization on while sending observability events * Fix sending observability events in batches * Refactor tests * Update CHANGELOG",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "0df62b3144b0ef536b8ecc96aaa2a51f3b8ee175",
+ "target_commit_time": "2023-12-13T13:45:36+00:00"
+}

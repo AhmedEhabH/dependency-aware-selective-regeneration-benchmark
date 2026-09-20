@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-f3a111394d43",
+ "intent_sha256": "6df43390cc447677277064cd14e6e3537f8f6f581156d025de6aa97bc1cdffa7",
+ "intent_source": "commit_message",
+ "intent_text": "Optimize SQL queries for fetching product variants (#16262) * Refactor SQL queries for fetching product varints from subqueries to joins * Fix query to user replica DB * Fix refering to variants QS in manager method * Add changelog",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "f3a111394d437982a6e0e6bb40a959a60e03924c",
+ "target_commit_time": "2024-07-08T07:01:27+00:00"
+}

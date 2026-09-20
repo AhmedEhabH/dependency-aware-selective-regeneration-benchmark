@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-349d88efcfec",
+ "intent_sha256": "01e385d9bdb441ed311ccc968388abfe4438133c2238863c828ad97f1c36c1ab",
+ "intent_source": "commit_message",
+ "intent_text": "Remove stock rows from lock during `checkoutComplete` (#11069) * remove stock rows from lock during checkoutComplete * Revert \"remove stock rows from lock during checkoutComplete\" This reverts commit baada98fcf774aef2daeccc7f183c6e4d61634ad. * split complete_checkout function into two transactions; add reserving additional stocks to mimic stock rows lock for the time of processing payment * handle case, when site has reservations disabled. * include all the checks from first transaction in the second one * fix failing test * move checkout complete logic out of mutation body * fix failing tests * import sort fix * delete reservations when checkout has changed during payment processing * cover changes with test * split test",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "349d88efcfec17730095838fd523d05174686e3b",
+ "target_commit_time": "2022-11-07T14:15:34+00:00"
+}

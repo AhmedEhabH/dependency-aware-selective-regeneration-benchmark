@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-a11ed9984b87",
+ "intent_sha256": "25666eda67a6d52112b8366eeca2d0887a69fd4e0666d3052d912897224e1915",
+ "intent_source": "commit_message",
+ "intent_text": "Fix a bug where task deleting expired checkouts would end prematurely (#18324) (#18334) due to stale data being read from database replica.",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "a11ed9984b877994ab32b21fabfff62ef501d407",
+ "target_commit_time": "2025-10-17T13:29:05+00:00"
+}

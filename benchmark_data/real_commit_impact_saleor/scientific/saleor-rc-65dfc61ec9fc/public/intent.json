@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-65dfc61ec9fc",
+ "intent_sha256": "86178d2042c00f46bc5092e4ef36b8a0129fa27e5c709b72cde33ea118bc69b5",
+ "intent_source": "commit_message",
+ "intent_text": "Handle concurrency `checkoutPaymentCreate` and `checkoutComplete` (#15994) * Add migration that fixes invalid payments for Atobarai gateway * Handle concurrency checkoutPaymentCreate and checkoutCompelte Extend Checkout model with completing_started_at Update completing_started_at checkout value in complete_checkout Add validation in CheckoutPaymentCreate Drop unused variable from _process_payment Adjust _release_checkout_voucher_usage * Merge checkout migrations",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "65dfc61ec9fc5cd69439816bf1b68fe8c6df71c3",
+ "target_commit_time": "2024-05-16T13:08:53+00:00"
+}

@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-1f9b5c53a63a",
+ "intent_sha256": "187bee1b8db584b1ab48b45a028ea94089e38b5e41f461a460658f775655aa13",
+ "intent_source": "commit_message",
+ "intent_text": "Fix: Cannot return null for non-nullable field Webhook.name. (#13074) * Fix:Cannot return null for non-nullable field Webhook.name * Updated changelog * Updated GraphQL Schema * Added test case for webhook without name * Fixed permission error in test cases * Update CHANGELOG.md --------- Co-authored-by: Marcin G\u0119bala <5421321+maarcingebala@users.noreply.github.com>",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "1f9b5c53a63a04fae221cb65832fae3c3a61c236",
+ "target_commit_time": "2023-06-19T10:29:00+00:00"
+}

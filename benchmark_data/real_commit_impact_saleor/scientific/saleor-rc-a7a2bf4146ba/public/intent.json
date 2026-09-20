@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-a7a2bf4146ba",
+ "intent_sha256": "e4194ca44b418b3536c9d162885eddea9cf4a02a4585c8327e929250d1d5c951",
+ "intent_source": "commit_message",
+ "intent_text": "Fix attribute value matching during attribute update (#10881) * Fix attribute value matching during attribute update (#10833) * change function in pre_save_values from get_or_create to update_or_create * add proper fix for get or create and add test * fix tests * fix tests * Add changelog Co-authored-by: Marcin G\u0119bala <maarcin.gebala@gmail.com>",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "a7a2bf4146ba1afa6ac8e048e209d631e5443711",
+ "target_commit_time": "2022-10-10T08:53:40+00:00"
+}

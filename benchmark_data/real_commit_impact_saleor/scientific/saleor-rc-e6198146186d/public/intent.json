@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-e6198146186d",
+ "intent_sha256": "12c4c2e90460ee37f8fbdff7a5221296b0475e656c75a4d913103a5284943d78",
+ "intent_source": "commit_message",
+ "intent_text": "Make `amount` optional in `transactionEventReport` for `REFUND_REVERSE`, `CHARGEBACK`, `INFO`, and all `*_FAILURE` events (#16705) * Add get_transaction_event_amount payment utils method * Make amount optional for transactionEventReport mutation * Add more tests to transactionEventReport with optional amount * Update amount input field description in TransactionEventReport",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "e6198146186d1c782bf46f6c9439fa05b1049b2f",
+ "target_commit_time": "2024-09-16T08:23:42+00:00"
+}

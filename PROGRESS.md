@@ -18,19 +18,28 @@ at read time: `git rev-parse HEAD`, `git rev-parse origin/main`,
 **Model:** openrouter/deepseek/deepseek-v4-flash-0731
 **Task:** SALEOR_RESERVE_300_RMCSS - FINAL CLEAN RM-CSS REPLICATION +
 PRE-REGISTERED CROSS-REPOSITORY TRANSFER TEST (2026-09-20; T3; ONE clean
-untouched evaluation of 300 Saleor RESERVE tasks; APPROVED BY AHMED) - **IN
-PROGRESS (preregistration stage):** terminology freeze (SIP/RM-CSS, docs/GLOSSARY.md);
-corrected evidence verified; cross-repo diagnostic verified on exposed data
-(reports/v2_cross_repo_transfer.json: dc->sc DEV Δ+0.0745 CI[+0.0441,+0.1061],
-dc->sc stage5 Δ+0.0776 CI[+0.0237,+0.1312], threshold 0.20, reverse weak);
-sample of 300 Saleor RESERVE IDs drawn (seed 20260920, manifest SHA
-445b5e9d...); label-free preflight 300/300 OK (0 exclusions); temporal
-descriptor wording B (same/overlapping-period disjoint-commit); secondary
-DJANGO_ONLY_RMCSS_TRANSFER_MODEL fit (django DEV only, threshold 0.20, artifact
-SHA efb38c07...); preregistration + P88 recorded; next = git checkpoint (tag
-saleor-reserve-300-rmcss-preregistered-2026-09-20), then cost guard, SIP run,
-parity gate, irreversible checkpoint, PRIMARY + SECONDARY evaluation, audits,
-final report + tag saleor-reserve-300-rmcss-final-replication-2026-09-20.
+untouched evaluation of 300 Saleor RESERVE tasks; APPROVED BY AHMED) - **STOPPED
+AT THE FROZEN COST GUARD (NO PAID CALLS MADE; NO OUTCOMES OPENED):**
+preregistration committed/pushed/tagged
+`saleor-reserve-300-rmcss-preregistered-2026-09-20` (commit 04abef5, tag
+6ec7a99f, peel 04abef5 == HEAD == origin/main); terminology freeze SIP/RM-CSS
+(docs/GLOSSARY.md); corrected evidence verified; cross-repo diagnostic verified
+on exposed data; sample 300/1086 RESERVE seed 20260920 (manifest SHA
+445b5e9d...); label-free preflight 300/300 (0 exclusions); temporal wording B;
+secondary DJANGO_ONLY_RMCSS_TRANSFER_MODEL fit (threshold 0.20, artifact SHA
+efb38c07...); 300 label-free public bundles materialized (0 hidden dirs, 0
+change_statuses); P88 recorded. **COST GUARD (frozen \$1.50 ceiling) PROJECTED
+\$1.6509 > \$1.50 -> MANDATORY STOP BEFORE PAID CALLS** (exact-prompt
+projection: 300 SIP calls \$1.6124 [16,104,012 prompt chars -> 5,051,344 prompt
+tokens @ \$0.30/M calibrated 0.31367 tokens/char on the 80 stage-5 saleor IT
+tasks + 96,990 completion tokens @ \$1.00/M] + missing embeddings \$0.0384
+[1,710 blobs materialized sha-verified, 2,076 new units] + queries \$0.000126;
+`research/saleor-reserve-300-rmcss/saleor_reserve_300_cost_projection.json`).
+Zero paid calls this mission; zero outcome/proxy reads. NEEDS AHMED
+AUTHORIZATION: (a) raise the ceiling (~\$1.75-2.00) via a pre-unsealing
+preregistration amendment, or (b) reduce the sample with an amended
+preregistration, or (c) other instruction. Everything else is ready: SIP runner,
+dense/embedding pipeline (P86-corrected), parity gate, evaluation, audits.
 
 ---
 

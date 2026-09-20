@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-8b0cbe2fb72f",
+ "intent_sha256": "7657638962795864e8e4a550b5b61d2dfc14c7641ff36de053b33a56be671773",
+ "intent_source": "commit_message",
+ "intent_text": "Do not create order in gateways when checkout line variant is deleted (#8945) * Prevent from creating order when checkout line variant is delted in adyen gateway * Prevent from creating order when checkout line variant is delted in stripe gateway * Get rid of duplicated refund and void action calls in adyen plugin",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "8b0cbe2fb72f0137567c64d16bd3bfa12962cbd3",
+ "target_commit_time": "2022-01-19T12:17:41+00:00"
+}

@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-1af1c3a368ec",
+ "intent_sha256": "0fe61016f2ee6c49ec4e532359e48c8830744b4dca02bb38f1b04f5f0c043899",
+ "intent_source": "commit_message",
+ "intent_text": "Default to serving 4K images instead of originals (#11996) This changes the default behavior to return a 4K thumbnail instead of the original which could be tens of MiB. Not requesting an appropriate thumbnail is among API users' most common mistakes.",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "1af1c3a368ec7488f7460a059f20d8db4bf5bd99",
+ "target_commit_time": "2023-02-17T15:52:53+00:00"
+}

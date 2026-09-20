@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-07c8859c0ac3",
+ "intent_sha256": "0b614145cffac26e02ce30c01fa93924c1e759eb23bf7dae65fc9bfe666f1559",
+ "intent_source": "commit_message",
+ "intent_text": "[main] Allow editing Shop.name via shopSettingsUpdate (#19469) Extend `ShopSettingsInput` with a new `name` field (ADDED_IN_3.23) so the shop's name can be updated through `shopSettingsUpdate`, alongside the existing `shopDomainUpdate` mutation. The name is stored on the Django `Site` object (not on `SiteSettings`), so it is popped from the cleaned input before `construct_instance` and written to the `Site` separately. `clean_instance` runs before saving so that an over-length name (Site.name is max_length=50) returns a proper ValidationError instead of a database error. Adds tests covering a successful name update and the too-long-name validation error, and regenerates the GraphQL schema. Co-authored-by: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "07c8859c0ac3031174d6946371341c93175d176a",
+ "target_commit_time": "2026-07-14T08:03:39+00:00"
+}

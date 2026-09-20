@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-19bb9b070965",
+ "intent_sha256": "3bf5fa27acf6c6ecca4e522626c55de5dfe4ea1126d50a337122157d4947f3f8",
+ "intent_source": "commit_message",
+ "intent_text": "Add `TaxableObjectDiscountType` to inform tax apps how to distribute discounts. (#16630) * Add TaxableObjectDiscountType * Add manual discount split logic; update resolver * Adjust tests * Test split_manual_discount function * Add changelog entry * Apply review comments",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "19bb9b0709654010d1b4e4e9049af119d3b28815",
+ "target_commit_time": "2024-09-05T12:43:46+00:00"
+}

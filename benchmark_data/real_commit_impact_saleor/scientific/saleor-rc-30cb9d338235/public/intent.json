@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-30cb9d338235",
+ "intent_sha256": "c09b423a0edb4823b81aaa4c3a58a13339fda8d4891290ee67e2785ce46f02b3",
+ "intent_source": "commit_message",
+ "intent_text": "Process `handle-promotion-toggle` task in batches. (#14982) * Fetch product ids in batches. * Order queryset inside 'queryset_in_batches' function. * Add test for queryset_in_batches function. * Change batch size. * Process the task in batches. * Add loggers for tests. * Clean after testing. * Allow changing consts with env vars. * Remove previous changes. * Remove fteching const values from env vars. * Self review changes.",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "30cb9d3382353550502f375145df4fe841bfc9db",
+ "target_commit_time": "2023-12-14T14:20:21+00:00"
+}

@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-940b8d83ec5c",
+ "intent_sha256": "19d10d5481f71d6604cd23c343d4f3c3c7e15438cc726bafcce04bbbd7113c88",
+ "intent_source": "commit_message",
+ "intent_text": "Fix a bug where Checkout having Transaction and Gift Card couldn't be completed due to incorrectly raised `CHECKOUT_NOT_FULLY_PAID` error (#18103) * Fix a bug where Checkout having Transaction and Gift Card couldn't be completed due to incorrectly raised `CHECKOUT_NOT_FULLY_PAID` error * Make Checkout status calculcation take into account available gift cards balance. Tests show in some cases order status changed from `UNFULFILLED` to `UNCONFIRMED`. This is because checkout completion now goes through \"with transaction\" branch rather than \"with payment\" branch. The first one exhibits a bug where order status is initially not correct but is immediately fixed on database transaction on commit hook. * Fix refetch condition * Force other Checkouts to have their status recalculcated after Gift Card gets used * Remove unnecessary code * Refactor the code to its previous form * Add more tests ensuring that status recalculation takes into account gift cards attached to a Checkout * Add more information to change log * Improve function docstring * Simplify the code * Fix expected query count * Adjust test setup to more realistically represent data state",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "940b8d83ec5c09aa19416c8bcf38d5c28696a991",
+ "target_commit_time": "2025-09-04T07:26:22+00:00"
+}

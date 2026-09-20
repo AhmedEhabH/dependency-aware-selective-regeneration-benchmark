@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-e2031f0dc458",
+ "intent_sha256": "09d302c988c7f69c2019a0b7834f0ce94183c45c107434da6aaeeecca6871950",
+ "intent_source": "commit_message",
+ "intent_text": "FIX for migration from 3.17 version (#14786) * fix for migration from 3.17 version * add default for created_at on VoucherCode model * add Coalesce function to return first non-null value while annotate vouchers",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "e2031f0dc458bf0c7bfba37e89b77ee7012f62e8",
+ "target_commit_time": "2023-11-21T08:35:48+00:00"
+}

@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-18e25b92e0bd",
+ "intent_sha256": "ebcdfbe475770567ccdd64d96e21245b29ed7dacb3c8be5fedc684dca2e78dbd",
+ "intent_source": "commit_message",
+ "intent_text": "Order subtotal performance (#7174) * Benchmarks for totalCaptured, totalAuthorized, events and subtotal on Order type * Performance improvement for order totalCaptured resolver * Move fixme placing * Performance improvement for order subtotal resolver * Move model helpers out of utils, move PaymentsByOrderIdLoader to payments * Update changelog",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "18e25b92e0bdda4cbd27f0a50fea3e593daea8fe",
+ "target_commit_time": "2021-04-21T09:52:24+00:00"
+}

@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-693eb302968c",
+ "intent_sha256": "9d3e81f4c1a98e912013c25e1031346ed0d4d677660af6848a674a25d70baa15",
+ "intent_source": "commit_message",
+ "intent_text": "Add order shipping tax rate (#6678) * Add shipping_tax_rate field on Order * Add plugins methods for getting shipping tax rate * Add manager tests for getting shipping tax rates * Add vatlayer tests for get_checkout_shipping_tax_rate and get_order_shipping_tax_rate * Add avatax tests for get_checkout_shipping_tax_rate and get_order_shipping_tax_rate * Set order shipping_tax_rate * Add shipping_tax_rate to webhook payload * Update changelog",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "693eb302968cc2633ed75af6bb9a8159599242fd",
+ "target_commit_time": "2021-01-05T08:45:32+00:00"
+}

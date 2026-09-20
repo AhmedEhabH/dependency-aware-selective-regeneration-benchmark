@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-f3a0bc28797b",
+ "intent_sha256": "9a2105396c0b7eff3e3af1fbe5a27f7a15695ebcd1c48364ed750f7456143c6e",
+ "intent_source": "commit_message",
+ "intent_text": "Add filterable subscription for order webhooks (#16323) * Add filterable subscription for webhooks * Filter out the orders before calling subscription payload generator * Add tests for SubscriptionQuery.get_filterable_arguments * Denormalize filterable channel slugs on Webhook model * Apply changes after review. * Add filterable webhook events for draft orders (#16327) * Apply changes after review.",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "f3a0bc28797b59bf52e7746d5c0991c744b9eb20",
+ "target_commit_time": "2024-08-23T04:56:50+00:00"
+}

@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-f4eeba7fab16",
+ "intent_sha256": "7451ba2d59ea27bc7fd07d046bc1cf5dc108cbb6ba1f5c45878af1da3d4050d4",
+ "intent_source": "commit_message",
+ "intent_text": "Extend order with subtotal (#14887) * add fields for subtotal in Order and migration to support population those fields with data * modify get_subtotal function on Order model, adjust tests * make update_order_subtotals more flexible with finding minimum number in Order * create regular migration from celery task",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "f4eeba7fab16c9ab74ea14e8ff9fe1b2d60f2438",
+ "target_commit_time": "2023-12-19T09:48:05+00:00"
+}

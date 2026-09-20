@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-b60266933f7a",
+ "intent_sha256": "e8244f1f1e0ce64fc39c34dae32cc88bfbcd9495521932961e01faa2f1bda3d4",
+ "intent_source": "commit_message",
+ "intent_text": "Drop fallback for company address (#7736) * Unify isAvailable and quantityAvailable resolvers * Fallback to country code from a first warehouse in channel * Get first channel's warehouse address in checkout mutations * Add tests",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "b60266933f7a9563613de9e6e9d151e6ade36c97",
+ "target_commit_time": "2021-08-04T13:37:56+00:00"
+}

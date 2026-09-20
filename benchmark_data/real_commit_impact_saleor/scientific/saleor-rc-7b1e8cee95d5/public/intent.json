@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-7b1e8cee95d5",
+ "intent_sha256": "f2f54069e78c26a39c87e91ea077c5b1e474c346471281cee4a1df5c5b860edd",
+ "intent_source": "commit_message",
+ "intent_text": "Extend `Attribute` with `values` (#17924) * Extend Attribute type with values field * Do not use ConnectionField for attribute.values, use list with limit instead * Move limit validation to dataloader * Use settings variable * Update changelog",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "7b1e8cee95d53c6662953ff86a63d8b1761055a7",
+ "target_commit_time": "2025-07-08T12:47:09+00:00"
+}

@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-481c2d367c6f",
+ "intent_sha256": "5d9eaa2f26fb929393e0c9feea04468b786a87cd38a9b9236db2a3310a463ca5",
+ "intent_source": "commit_message",
+ "intent_text": "Remove deprecated ProductType.isDigital GraphQL surface (#19512) * Remove deprecated ProductType.isDigital GraphQL surface The `isDigital` field/input had no effect and was marked for removal in v3.24.0. Remove the deprecated API surface: - `ProductType.isDigital` output field - `ProductTypeInput.isDigital` mutation input - `DIGITAL` value from `ProductTypeEnum` (product type filter), which was the last GraphQL reader of the `is_digital` column The `is_digital` model column is kept for now (still read by the DIGITAL sort field); comment updated to flag it for removal via a future migration. Regenerated schema, updated e2e helpers and filter tests, added changelog. Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com> * Remove deprecated DIGITAL value from ProductTypeSortField The DIGITAL sort field had no effect and was marked for removal in v3.24.0; it was the last GraphQL reader of the `is_digital` column. Remove it and its schema entry, drop the sort test cases, and update the model comment now that the entire isDigital GraphQL surface (field, input, filter, sort) is gone. Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com> --------- Co-authored-by: Claude Opus 4.8 (1M context) <noreply@anthropic.com>",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "481c2d367c6ffe14a5dff85aa983adbea911285c",
+ "target_commit_time": "2026-07-21T12:26:26+00:00"
+}

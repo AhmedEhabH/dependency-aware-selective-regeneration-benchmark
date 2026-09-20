@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-d7b03a3eeec0",
+ "intent_sha256": "e853ce3fbc223b9fa5633257b74a54d00aa55d1cf64c898d0d2a40c74272e9db",
+ "intent_source": "commit_message",
+ "intent_text": "Update denormalized discounts when adding a new line discount (#17612) * Update denormalized discounts when adding a new line discount * Use update_unit_discount_data_on_order_line in update_discount_for_order_line * Apply changes after review * Remove adding empty lines to the file * Apply changes after review",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "d7b03a3eeec016efdcc6119ae4cd77726df9b282",
+ "target_commit_time": "2025-04-22T12:01:41+00:00"
+}

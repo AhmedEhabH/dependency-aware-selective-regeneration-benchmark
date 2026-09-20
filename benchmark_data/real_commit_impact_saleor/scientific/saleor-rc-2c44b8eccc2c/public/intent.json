@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-2c44b8eccc2c",
+ "intent_sha256": "a35cb72a3fe9bed5700df0530c4c4945de41bd9058f85774b44426593b8fd4da",
+ "intent_source": "commit_message",
+ "intent_text": "Allow to add a gift card to a checkout without email (#13019) * Allow to add a gift card to a checkout without email * Unit tests for missing email of user when adding gift cards * Extra test for used_by existing user * Update changelog * Drop rules of user validation on gift cards and fix tests accordingly * Modify gift card used_by and used_by_email each time user uses it * Code resolver logic changes * Fix changelog * Move changelog entry to 3.14",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "2c44b8eccc2ce985dade55a4e1efd0e113bd92a0",
+ "target_commit_time": "2023-06-12T07:55:35+00:00"
+}

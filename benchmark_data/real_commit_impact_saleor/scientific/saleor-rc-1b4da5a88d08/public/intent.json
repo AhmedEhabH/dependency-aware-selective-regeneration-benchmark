@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-1b4da5a88d08",
+ "intent_sha256": "59e1110503d28b496cfb85ad6187a8f8874cb4e02e496e64d655b1efe4217049",
+ "intent_source": "commit_message",
+ "intent_text": "Adyene check giftcard balance mutation (#8472) * Add PaymentCheckBalance mutation * Rename value with amount and use validate_channel util function * Change Float to PositiveDecimal in money input, change error fields, change field description * Build amount request data explicit/hide real gift card nunber * Fix json dumps Decimal object error * Use price_to_minor_unit function to convert Decimal to Long",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "1b4da5a88d08b71a5315749a0352ddd9cc0dad39",
+ "target_commit_time": "2021-10-28T11:20:53+00:00"
+}

@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-ccd3960acd1d",
+ "intent_sha256": "e62cbc43f1470f18f5b3b3ef8419392a0db92a23bfae1ebf474f593d3ce788f9",
+ "intent_source": "commit_message",
+ "intent_text": "Fix race condition with checkout complete process and TransactionEventReport mutation. (#17776) (#17789) * Add test for race condition * Fix race condtion * Move order lock to TransactionEventReport mutation",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "ccd3960acd1d058528d9796c2b9ff096f28d848e",
+ "target_commit_time": "2025-06-05T08:11:08+00:00"
+}

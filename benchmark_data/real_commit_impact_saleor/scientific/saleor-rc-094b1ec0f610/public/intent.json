@@ -1,0 +1,9 @@
+{
+ "case_id": "saleor-rc-094b1ec0f610",
+ "intent_sha256": "c6fdc73561222cb438e137d7bdc097d6815578a79162d3ad8ebe97934b6575a0",
+ "intent_source": "commit_message",
+ "intent_text": "Add new fields to Order type to show authorize/charge statuses (#9795) * Add new field to Order type. totalAuthorized and totalCharged * Correct number of migrations. Fix incorrect call of mutation's method * Add tests, fix issues discovered during adding the tests * Add new fields to store authorize status and charge status. Add filter support * Add changelog entry. Add preview and added_in_34 labels * Update indexes and mgiration file after review * Apply changes after review * Fix incorrect status when order is fully refunded * Fix migration numbers",
+ "schema_version": "real-commit-impact-dataset-v1",
+ "target_commit": "094b1ec0f61011d423c04a736976f3286037d5a1",
+ "target_commit_time": "2022-05-30T10:12:42+00:00"
+}
