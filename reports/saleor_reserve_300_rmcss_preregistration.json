@@ -251,7 +251,7 @@
   "distinguish": "one-time preprocessing vs per-change inference"
  },
  "cost": {
-  "hard_total_incremental_ceiling_usd": 1.5,
+  "hard_total_incremental_ceiling_usd": 1.75,
   "live_price_verified_before_paid_execution": true,
   "no_alternate_provider": true,
   "no_fallback_model": true,
@@ -332,5 +332,40 @@
   "opening more than the preregistered 300 Saleor RESERVE tasks",
   "modifying RM-CSS after unsealing"
  ],
- "preregistration_sha256": "097b86251af4bf32db117b141983107b99154c6ce56a77b2553b0672676da597"
+ "amendment": {
+  "id": "P89 - PRE-UNSEALING COST-CEILING AMENDMENT",
+  "date": "2026-09-20",
+  "authorized_by": "Ahmed",
+  "old_hard_total_incremental_ceiling_usd": 1.5,
+  "new_hard_total_incremental_ceiling_usd": 1.75,
+  "exact_projected_total_usd": 1.650909,
+  "breakdown_usd": {
+   "sip": 1.612393,
+   "missing_embeddings": 0.03839,
+   "queries": 0.000126
+  },
+  "reason": "preserve the preregistered n=300 sample (statistical power) rather than alter it; .75 provides a small execution cushion",
+  "timing_zero_paid_calls_before_amendment": true,
+  "timing_zero_outcomes_opened_before_amendment": true,
+  "scientific_fields_unchanged": [
+   "sample_size_300",
+   "sample_ids",
+   "sample_seed_20260920",
+   "SIP baseline",
+   "primary RM-CSS",
+   "django-only transfer model",
+   "feature set",
+   "thresholds",
+   "Qwen realization A",
+   "candidate constants",
+   "primary endpoint",
+   "secondary endpoint",
+   "bootstrap",
+   "success criteria",
+   "exclusion rules",
+   "parity gate"
+  ],
+  "tag": "saleor-reserve-300-rmcss-preregistration-cost-amendment-2026-09-20"
+ },
+ "preregistration_sha256": "3bedb7d6ccd4cb738d539e6808eb4776fb313743ab4291140ceba9f3b9c8c982"
 }

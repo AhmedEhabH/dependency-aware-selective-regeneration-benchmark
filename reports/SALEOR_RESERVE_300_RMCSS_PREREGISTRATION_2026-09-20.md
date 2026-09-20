@@ -161,3 +161,25 @@ bootstrap, metrics, independent audit) + ruff + py_compile + git diff --check.
   changes; Energy-Based/adaptive-k/negative-association-rule/JEPA redesigns;
   provenance-by-construction; issue re-mining; new embedding models;
   LocAgent/Agentless runs.
+
+---
+
+# AMENDMENT — P89 PRE-UNSEALING COST-CEILING AMENDMENT (2026-09-20)
+
+- **Authorized by:** Ahmed.
+- **Old ceiling:** $1.50. **New ceiling:** **$1.75** (ONLY the hard incremental
+  cost ceiling changed).
+- **Exact label-free projection:** SIP $1.612393 + missing embeddings $0.038390
+  + queries $0.000126 = **$1.650909** (evidence:
+  `research/saleor-reserve-300-rmcss/saleor_reserve_300_cost_projection.json`).
+- **Reason:** preserve the preregistered n=300 sample (statistical power) rather
+  than alter it; $1.75 provides a small execution cushion.
+- **Zero paid calls before this amendment; zero outcomes opened before this
+  amendment.**
+- **Explicitly UNCHANGED:** sample size 300; sample IDs; sample seed 20260920;
+  SIP baseline; primary RM-CSS; django-only transfer model; feature set;
+  thresholds; Qwen realization A; candidate constants; primary endpoint;
+  secondary endpoint; bootstrap; success criteria; exclusion rules; parity gate.
+- **Preregistration SHA256 updated to:** `3bedb7d6ccd4cb738d539e6808eb4776fb313743ab4291140ceba9f3b9c8c982`.
+- **Amendment tag:** `saleor-reserve-300-rmcss-preregistration-cost-amendment-2026-09-20`
+  (original preregistration tag `saleor-reserve-300-rmcss-preregistered-2026-09-20` NOT moved).
