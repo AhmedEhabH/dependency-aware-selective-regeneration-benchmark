@@ -75,16 +75,27 @@ def build_corpus_record(
 
 
 def save_corpus(path: Path, records: list[dict[str, Any]]) -> dict[str, str]:
-    """Persist the corpus + compute a corpus-level SHA256 manifest.
+    """Persist the corpus + compute a deterministic corpus-level SHA256.
 
-    Returns {"corpus_sha256": ..., "records": count, "path": str}.
+    GETSHA: the digest is computed over the CANONICAL corpus content with only
+    the volatile wall-clock timestamps (generated_at_utc / retrieved_at_utc)
+    stripped, so a frozen corpus hash is stable across regeneration runs. The
+    timestamps are still persisted for the retrieval-timestamp record; they
+    are just not part of the SHA.
     """
     path.parent.mkdir(parents=True, exist_ok=True)
-    # Deterministic byte layout: records sorted by (repository, case_id).
     sorted_records = sorted(records, key=lambda r: (r["repository"], r["case_id"]))
-    payload = {"corpus_version": 1, "generated_at_utc": _utcnow_iso(), "records": sorted_records}
-    blob = json.dumps(payload, indent=1, sort_keys=True).encode("utf-8")
-    digest = hashlib.sha256(blob).hexdigest()
+    canonical = {
+        "corpus_version": 1,
+        "records": [
+            {k: v for k, v in r.items() if k not in ("retrieved_at_utc",)}
+            for r in sorted_records
+        ],
+    }
+    digest = hashlib.sha256(
+        json.dumps(canonical, indent=1, sort_keys=True).encode("utf-8")).hexdigest()
+    payload = {"corpus_version": 1, "generated_at_utc": _utcnow_iso(),
+               "corpus_sha256": digest, "records": sorted_records}
     path.write_text(json.dumps(payload, indent=1, sort_keys=True), encoding="utf-8")
     manifest = {
         "corpus_sha256": digest,

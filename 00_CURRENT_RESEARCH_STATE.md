@@ -72,8 +72,8 @@ trivial explicit path disclosure. Intent length: issues median 174 words
 Qwen issue-query embeddings ONLY: **5,662 prompt tokens, $0.000057** (live
 $0.01/M verified 2026-09-20 before call-1); hard ceiling $0.05 respected;
 no corpus re-embed; no model download; no sealed evidence. Frozen issue corpus
-323 records / 56.6 KB; SHA-256 `8527bd1e8e63b851b104ba80df421133eefebeb4db7c9ac0d80eec21f646fb81`.
-→ **Validation:** 26/26 new unit tests PASS; independent audit **12/12 PASS**
+323 records / 56.6 KB; SHA-256 `d43987b4f9f75ace3c26597002526d0f6579c9554cc3229425648d37ad135d0f`.
+→ **Validation:** 27/27 new unit tests PASS; independent audit **12/12 PASS**
 (`reports/issue_grounded_audit.json`) recomputes every claim WITHOUT importing
 the analyzer; ruff clean; py_compile clean; git diff --check clean.
 → **Verdict:** `ISSUE_GROUNDED_INTENT_SIGNAL_NOT_SUPPORTED` frozen (no full

@@ -136,7 +136,15 @@ def main() -> int:
     _p("S9.no_forbidden_content", forbidden == 0, f"forbidden_hits={forbidden}")
 
     # S10 corpus SHA256 (manifest is in resolution_summary.json)
-    digest = hashlib.sha256(json.dumps(corpus, indent=1, sort_keys=True).encode("utf-8")).hexdigest()
+    canonical = {
+        "corpus_version": 1,
+        "records": [
+            {k: v for k, v in r.items() if k not in ("retrieved_at_utc",)}
+            for r in corpus["records"]
+        ],
+    }
+    digest = hashlib.sha256(
+        json.dumps(canonical, indent=1, sort_keys=True).encode("utf-8")).hexdigest()
     summary = json.loads((OUT / "resolution_summary.json").read_text(encoding="utf-8"))
     stored = summary["corpus_manifest"]["corpus_sha256"]
     _p("S10.corpus_sha256", digest == stored,

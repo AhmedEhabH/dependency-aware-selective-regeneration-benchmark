@@ -95,6 +95,16 @@ class TestCorpus:
         assert manifest["records"] == 1
         assert len(manifest["corpus_sha256"]) == 64
 
+    def test_corpus_hash_is_volatile_timestamp_invariant(self, tmp_path: Path) -> None:
+        rec = build_corpus_record(
+            case_id="c1", repository="djangocms", provenance="DIRECT_ISSUE",
+            issue_numbers=(1,), created_at=("2020-01-01T00:00:00Z",),
+            updated_at=("2020-01-02T00:00:00Z",), titles=("t",), bodies=("b",),
+            temporal_flags=(CLEAN,), target_commit_time="2020-01-03T00:00:00+00:00")
+        m1 = save_corpus(tmp_path / "c1.json", [rec])
+        m2 = save_corpus(tmp_path / "c2.json", [rec])
+        assert m1["corpus_sha256"] == m2["corpus_sha256"]
+
 
 class TestDense:
     def test_arm_i_query_only_clean_issues(self) -> None:
