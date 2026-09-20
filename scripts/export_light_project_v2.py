@@ -42,6 +42,21 @@ def should_exclude(rel: str) -> bool:
         rel.endswith("localize.log") or rel.endswith("loc_trajs.jsonl")
     ):
         return True
+    # Derived per-case artifacts of the real-commit datasets. The authoritative
+    # science is the committed git history; candidate universe / dependency graph
+    # are deterministically re-derivable from the pinned repository caches (the
+    # same derived/reproducible category as the unit_manifest exclusion). Hidden
+    # proxies, case manifests and ALL result/report/score artifacts remain.
+    if "/real_commit_impact_v2/scientific/" in rel and (
+        rel.endswith("/candidate_universe.json")
+        or rel.endswith("/dependency_graph.json")
+    ):
+        return True
+    if "/real_commit_impact_saleor/scientific/" in rel and (
+        rel.endswith("/candidate_universe.json")
+        or rel.endswith("/dependency_graph.json")
+    ):
+        return True
     return False
 
 
