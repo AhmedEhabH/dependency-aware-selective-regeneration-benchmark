@@ -18,7 +18,6 @@ Items verified (WP-0 §17):
 
 from __future__ import annotations
 
-import ast
 import io
 import json
 import re

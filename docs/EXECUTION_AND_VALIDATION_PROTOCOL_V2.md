@@ -148,3 +148,151 @@ final report MUST be detailed and MUST contain ALL of the following sections:
 This exception exists so that milestone closures and mandatory stops leave a
 durable, auditable record without weakening the one-line rule for normal
 progress.
+
+---
+
+## 11. OpenCode Language Policy — Mandatory
+
+All OpenCode-generated content MUST be written in English only.
+
+This includes:
+
+- chat/status responses;
+- STOP reports;
+- code comments;
+- documentation;
+- Markdown reports;
+- governance records;
+- commit messages;
+- test descriptions;
+- generated prompts and handoff artifacts.
+
+Do NOT write Arabic in repository files or OpenCode status reports.
+
+Historical content does NOT need retrospective translation.
+
+Arabic communication with Ahmed is handled outside OpenCode.
+
+Violation of this rule is a documentation/process defect and must be
+corrected before task closure.
+
+---
+
+## 12. Mandatory FULL + TRUE LIGHT Export at Every STOP / Closure
+
+Every one of the following:
+
+- T2 completion;
+- T3 completion;
+- mandatory STOP;
+- blocker STOP;
+- handoff;
+- scientific closure;
+
+is INCOMPLETE until BOTH exports exist and are verified.
+
+### 12.A FULL AUDIT EXPORT
+
+Filename:
+
+`project-YYYY-MM-DD-HHmm.zip`
+
+Use the established FULL export script/rule.
+
+The final report MUST contain:
+
+```
+PROJECT_EXPORT_READY
+PROJECT_EXPORT_NAME=
+PROJECT_EXPORT_PATH=
+PROJECT_EXPORT_SIZE_BYTES=
+PROJECT_EXPORT_SHA256=
+```
+
+Where applicable verify:
+
+`.git/HEAD`
+
+and all currently available required project-export members.
+
+KNOWN EXCEPTION:
+
+`dist/pilot-kaggle-upload.zip`
+and
+`dist/pilot-kaggle-upload.zip.sha256`
+
+are currently archived externally and may not exist locally.
+
+If the FULL export script returns non-zero ONLY because these two
+documented archived members are absent, but:
+
+- the FULL ZIP was actually created;
+- `.git/HEAD` is present;
+- the ZIP opens successfully;
+- all other expected checks pass;
+
+record:
+
+`KNOWN_ARCHIVED_EXPORT_MEMBER_MISSING`
+
+and do NOT fabricate/recreate the archived pilot files.
+
+Any other export validation failure is a blocker.
+
+### 12.B TRUE LIGHT EXPORT
+
+Filename:
+
+`project-LIGHT-YYYY-MM-DD-HHmm.zip`
+
+Target size:
+
+<= 50 MB whenever scientifically possible.
+
+Use the established TRUE LIGHT export implementation.
+
+The final report MUST contain:
+
+```
+LIGHT_EXPORT_READY
+LIGHT_EXPORT_NAME=
+LIGHT_EXPORT_PATH=
+LIGHT_EXPORT_SIZE_BYTES=
+LIGHT_EXPORT_SHA256=
+WITHIN_50MB=
+```
+
+The TRUE LIGHT artifact may exclude documented reproducible/heavy state,
+including:
+
+- `.git/`;
+- caches;
+- virtual environments;
+- external repository clones;
+- large reproducible embeddings;
+- nested ZIPs;
+- temporary artifacts;
+- other explicitly documented reproducible files.
+
+It MUST retain enough material for another AI/researcher to understand and
+continue the work, including as applicable:
+
+- source code;
+- tests;
+- governance;
+- current-state documentation;
+- compact scientific evidence;
+- experiment definitions;
+- reports necessary to interpret the current state.
+
+If either FULL or TRUE LIGHT export is missing:
+
+DO NOT report the work package COMPLETE.
+
+Report:
+
+`EXPORT_CLOSURE_INCOMPLETE`
+
+Finish the exports first.
+
+Ahmed must never need to remind OpenCode to produce the two exports.

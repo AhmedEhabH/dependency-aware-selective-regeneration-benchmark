@@ -1404,3 +1404,35 @@ esearch/bounded-semantic-expansion/pilot_registration_freeze.json — 60 DEVELOP
 | Q | LED-Q | Ripple competitive-position correction | ACCEPTED retraction + BLOCKED head-to-head | original +10.7/+43% mixed granularity; confounded by benchmark/language/macro vs micro/seed assumption; exact file-level seed treatment unresolved | WP-0 §1/§2 | NO | NO | Ripple exact file-level seed convention established from authors/replication |
 | R | LED-R | Read-only macro/seed sensitivity diagnostics | ACCEPTED AS DIAGNOSTIC ONLY | 0.581/0.200 sensitivity bounds, not competitor/headline results | WP-0 §2 | NO | NO | n/a |
 | S | WP0-AMEND | WP0_SCOPE_AMENDMENT_RUNRECORD_AUDITABILITY | ACCEPTED | hard requirement/AC-0.4 #5 needs RunRecord field + pipeline pass-through | this decision | NO | NO | n/a |
+
+---
+
+## Decision WP1-INT — WP-0 Integration / Governance Closure (2026-09-20)
+
+- **Status:** IN_PROGRESS until main integration + both exports pass.
+- **Context:** Integration/governance closure of the completed WP-0 (G7)
+  ground-truth leakage fix. Tier T2. Scientific API spend $0.00.
+- **Decisions appended (append-only):**
+
+### OPENCODE_ENGLISH_ONLY_POLICY — ACCEPTED
+- All OpenCode-generated content must be English only (chat, STOP reports,
+  code comments, docs, Markdown, governance, commit messages, tests,
+  generated prompts/handoffs). No Arabic in repository files or status
+  reports. Historical content needs no retrospective translation. Arabic
+  communication with Ahmed is outside OpenCode.
+- Scope change: NO scientific scope change.
+
+### MANDATORY_DUAL_EXPORT_POLICY — ACCEPTED
+- Every T2/T3 closure or STOP requires BOTH FULL (`project-*.zip`) and
+  TRUE LIGHT (`project-LIGHT-*.zip`) exports.
+- Reason: OpenCode omitted the exports at two consecutive STOP/closure events
+  and only generated them after Ahmed explicitly reminded it. This removes
+  reliance on operator memory.
+- Scientific scope changed: NO. Frozen evidence changed: NO.
+
+### WP0_INTEGRATION_CLOSURE — IN_PROGRESS
+- Status IN_PROGRESS until main integration and both exports pass.
+
+### WP1_REPOSITORY_AGENT_SELECTION_BASELINE — DEFERRED / AWAITING_AHMED_AUTHORIZATION
+- Do NOT execute. Draft specification only at
+  `docs/WP1_REPOSITORY_AGENT_SELECTION_ONLY_BASELINE_DRAFT.md`.
