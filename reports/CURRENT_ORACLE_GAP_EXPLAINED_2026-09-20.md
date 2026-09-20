@@ -87,3 +87,56 @@ BEFORE any outer-OOF inspection.
   mission and a new frozen hypothesis).
 - It does NOT unlock Stage 5 and does NOT change any frozen verdict
   (SweRank/Qwen diagnostics, provenance verdict C, Stage-4/4b negatives).
+
+---
+
+## 2. PARENT-ONLY REPOSITORY MEMORY RESCUE V2 update (2026-09-20)
+
+The V2 memory-augmented policy (`PARENT_ONLY_REPOSITORY_MEMORY_RESCUE_V2_FAIL`,
+frozen negative) was evaluated on DEVELOPMENT. Candidate universe = Sparse ∪
+Qwen dense top-20 ∪ memory candidates (top-10 structural co-change ∪ top-10
+episodic BM25). Features = 11 (the 7 V1 + cochange_sparse + cochange_top1 +
+log_history_change_count + episode_similarity); model/CV/threshold EXACTLY V1.
+
+### 2.1 The Oracle gap after V2 (decomposed, realization A)
+
+| Error source (djangoCMS / Saleor) | Count | Meaning |
+|---|---:|---|
+| 1. Ranking / candidate-coverage error | 156 / 129 | proxy positives that are NOT in the V2 candidate universe (Sparse ∪ dense-top-20 ∪ memory) |
+| 2. ADD decision error | 184 / 176 | proxy positives IN the V2 candidate universe but below the learned threshold |
+| 3. DROP decision error | 15 / 5 | Sparse true positives accidentally dropped |
+| **Total policy FN** | **355 / 310** | matches the pooled FN of the V2 final set |
+
+Interpretation:
+
+1. **Candidate coverage FELL from 199/177 to 156/129** (−43 / −48) thanks to
+   the memory candidate set: 21.6% / 27.1% of the V1 deep dense misses became
+   reachable. This is the first instrument in this line to move the
+   candidate-coverage boundary with a zero-API deterministic signal.
+2. **ADD decision error ROSE from 154/138 to 184/176** — the newly reachable
+   memory candidates are mostly rejected by the learned threshold (they carry
+   low dense score and the threshold is conservative), which is why the
+   final-set gate still fails on djangoCMS.
+3. **DROP decision error 15/5** is small but real (V1 was 14/6).
+4. Proxy ambiguity remains unquantified.
+
+### 2.2 What this means
+
+- Parent-visible repository history is ORTHOGONAL to dense similarity: it
+  attacks exactly the dominant error source (candidate coverage) that dense
+  ranking could not reach (deep misses at median dense rank 62/70).
+- But candidate generation alone is NOT the final-set decision: converting
+  recovered candidates into recovered positives requires an acceptance layer
+  that does not inflate the FP tail. The frozen L2-LR threshold rejects most
+  memory candidates (rejected 184/176) — the decision layer, not the
+  generator, is now the binding constraint on djangoCMS.
+- Verdict: `PARENT_ONLY_REPOSITORY_MEMORY_RESCUE_V2_FAIL` (robust A/B).
+  Stage 5 stays PAUSED/SEALED (`FINAL_POLICY_NOT_FROZEN`).
+
+### 2.3 What this does NOT mean
+
+- It does NOT mean repository history is useless (it recovered 43/48 deep
+  misses at the candidate level; better than popularity on Saleor, far better
+  than random).
+- It does NOT mean candidate coverage is solved (156/129 still not generated).
+- It does NOT unlock Stage 5 and does NOT change any frozen verdict.

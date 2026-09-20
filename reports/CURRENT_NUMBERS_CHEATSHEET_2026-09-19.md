@@ -125,3 +125,68 @@ CI [+0.075, +0.205]) → CONFIRMS. That split is permanently spent.
 - `reports/precision_safe_acceptance_metrics.json`
 - `research/bounded-semantic-expansion/*`
 - `research/contamination-bridge/qwen_embed/{probe,stability}.json`
+
+## PARENT-ONLY REPOSITORY MEMORY RESCUE V2 (2026-09-20; frozen negative PARENT_ONLY_REPOSITORY_MEMORY_RESCUE_V2_FAIL; ZERO API)
+
+Candidate universe = Sparse ∪ Qwen dense top-20 ∪ memory candidates
+(top-10 structural co-change Jaccard support≥2 ∪ top-10 episodic BM25).
+Features = 11 (7 V1 + cochange_sparse + cochange_top1 +
+log_history_change_count + episode_similarity). Model/CV/threshold EXACTLY V1.
+
+### Final P/R/F1/FNR (realization A; primary baseline Sparse)
+
+| Repo | Sparse TP/FP/FN (F1) | V1 (F1) | V2 TP/FP/FN (F1) | Delta F1 (95% CI) | gate B |
+|---|---:|---:|---:|---:|---:|
+| djangoCMS | 125/155/382 (0.3177) | 140/191/367 (0.3341) | 152/222/355 (0.3451) | +0.0274 [−0.0102, +0.0636] | FAIL (crosses 0) |
+| Saleor | 99/193/369 (0.2605) | 147/261/321 (0.3356) | 158/283/310 (0.3476) | +0.0871 [+0.0515, +0.1229] | PASS |
+
+V2 Delta P: djangoCMS −0.0400 [−0.0843, +0.0036]; Saleor +0.0192 [−0.0348, +0.0657].
+V2 Delta R: djangoCMS +0.0533 [+0.0148, +0.0884]; Saleor +0.1261 [+0.0896, +0.1648].
+V2 Delta FNR: djangoCMS −0.0533 [−0.0886, −0.0156]; Saleor −0.1261 [−0.1639, −0.0902].
+
+Realization B (same frozen pipeline): 99.07% exact same selected set, mean
+Jaccard 0.9964; djangoCMS F1 0.3451 (identical), Saleor 0.3495; verdict SAME
+(FAIL).
+
+### Deep dense misses + coverage (descriptive, pre-model)
+
+- DEEP_DENSE_MISS (V1 FN outside Sparse∪dense-top-20): djangoCMS 199 / Saleor 177;
+  median dense rank 62 / 70.
+- Memory candidate set recovery: union 43/199 (0.216) / 48/177 (0.271);
+  structural-only 14/20; episodic-only 23/24; both 6/4; unrecovered 156/129.
+- Sparse-empty recovery: 22/105 (0.210) / 16/69 (0.232).
+- Baselines (same budget): popularity 41 (0.206) / 18 (0.102); random
+  (seed 20260920, 1000 resamples) 11.1 (0.056) / 2.45 (0.014).
+- Dependency-cluster diagnostic (oracle-style, NOT features):
+  A 109/130; B 25/49; C 56/76.
+
+### Error decomposition (A) — ADD/KEEP/DROP
+
+| Repo | TP retained | TP dropped | FP dropped | FP retained | added (dense/struct/epis/multi) | new FP |
+|---|---:|---:|---:|---:|---:|---:|
+| djangoCMS | 110 | 15 | 49 | 106 | 42 (0/8/6/28) | 116 |
+| Saleor | 94 | 5 | 65 | 128 | 64 (4/20/12/28) | 155 |
+
+Remaining FN: djangoCMS not-generated 156 / rejected 184 / Sparse-TP-dropped 15;
+Saleor 129/176/5.
+
+### Set sizes + sparse-empty + intent (A)
+
+- Policy mean |set| 2.15 / 2.96 (Sparse 1.61 / 1.96); empty-policy 37 / 10
+  (empty-Sparse 53 / 41).
+- Sparse-empty tasks: djangoCMS (n=53) P 0.208/R 0.036/F1 0.062/FNR 0.964;
+  Saleor (n=41) P 0.333/R 0.194/F1 0.245/FNR 0.806.
+- Intent buckets (descriptive): djangoCMS <=6 F1 0.209 / 7-15 0.376 / >15 0.432;
+  Saleor <=6 0.276 / 7-15 0.286 / >15 0.402.
+
+### Efficiency
+
+0 API calls / $0.00; history build ≈ 183 s one-time (index 7.4 MB + 10.2 MB +
+bundles 15.8 MB on D:, outside Git); classifier ≈ 25–40 s/realization;
+deterministic rerun identical (SHA 4e2c880…); audit 23/23; unit tests 36/36.
+
+### Cancelled
+
+`CALIBRATED_SET_SELECTION_V2_FULL_UNIVERSE` = `FULL_UNIVERSE_V2_CANCELLED_AS_
+NON_BINDING_ABLATION` (V1 selected non-Sparse only at ranks 1-4 = 172/93/20/3;
+max non-Sparse prob 0.188 @5-20 / 0.065 @15-20 < all thresholds 0.17-0.21).

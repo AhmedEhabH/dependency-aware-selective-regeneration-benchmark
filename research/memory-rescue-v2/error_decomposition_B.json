@@ -1,0 +1,52 @@
+{
+ "djangocms": {
+  "A_sparse_tp_retained": 110,
+  "B_sparse_tp_incorrectly_dropped": 15,
+  "C_sparse_fp_correctly_dropped": 49,
+  "D_sparse_fp_retained": 106,
+  "E_sparse_fn_added_by_channel": {
+   "dense_only": 0,
+   "structural": 8,
+   "episodic": 6,
+   "multiple_memory": 28,
+   "sparse_universe": 0
+  },
+  "F_new_fp_added_by_channel": {
+   "dense_only": 0,
+   "structural": 32,
+   "episodic": 38,
+   "multiple_memory": 46,
+   "sparse_universe": 0
+  },
+  "remaining_fn_class": {
+   "not_generated": 156,
+   "rejected": 184,
+   "sparse_tp_dropped": 15
+  }
+ },
+ "saleor": {
+  "A_sparse_tp_retained": 94,
+  "B_sparse_tp_incorrectly_dropped": 5,
+  "C_sparse_fp_correctly_dropped": 65,
+  "D_sparse_fp_retained": 128,
+  "E_sparse_fn_added_by_channel": {
+   "dense_only": 4,
+   "structural": 21,
+   "episodic": 12,
+   "multiple_memory": 28,
+   "sparse_universe": 0
+  },
+  "F_new_fp_added_by_channel": {
+   "dense_only": 22,
+   "structural": 50,
+   "episodic": 45,
+   "multiple_memory": 38,
+   "sparse_universe": 0
+  },
+  "remaining_fn_class": {
+   "not_generated": 129,
+   "rejected": 175,
+   "sparse_tp_dropped": 5
+  }
+ }
+}

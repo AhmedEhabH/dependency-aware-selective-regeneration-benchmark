@@ -1,0 +1,102 @@
+{
+ "djangocms": {
+  "precision": {
+   "metric": "precision",
+   "n_tasks": 174,
+   "n_resamples": 10000,
+   "seed": 20260920,
+   "point_policy": 0.40641711229946526,
+   "point_sparse": 0.44642857142857145,
+   "point_delta": -0.0400114591291062,
+   "ci95_lower": -0.08428089147930369,
+   "ci95_upper": 0.0035719195952204864,
+   "ci95_excludes_zero": false
+  },
+  "recall": {
+   "metric": "recall",
+   "n_tasks": 174,
+   "n_resamples": 10000,
+   "seed": 20260920,
+   "point_policy": 0.29980276134122286,
+   "point_sparse": 0.2465483234714004,
+   "point_delta": 0.05325443786982245,
+   "ci95_lower": 0.014814423302795417,
+   "ci95_upper": 0.08839806141388704,
+   "ci95_excludes_zero": true
+  },
+  "f1": {
+   "metric": "f1",
+   "n_tasks": 174,
+   "n_resamples": 10000,
+   "seed": 20260920,
+   "point_policy": 0.34506242905788875,
+   "point_sparse": 0.3176620076238882,
+   "point_delta": 0.027400421434000566,
+   "ci95_lower": -0.01024363001316319,
+   "ci95_upper": 0.06363646578140962,
+   "ci95_excludes_zero": false
+  },
+  "fnr": {
+   "metric": "fnr",
+   "n_tasks": 174,
+   "n_resamples": 10000,
+   "seed": 20260920,
+   "point_policy": 0.7001972386587771,
+   "point_sparse": 0.7534516765285996,
+   "point_delta": -0.053254437869822424,
+   "ci95_lower": -0.08860820467793472,
+   "ci95_upper": -0.015563446790827764,
+   "ci95_excludes_zero": true
+  }
+ },
+ "saleor": {
+  "precision": {
+   "metric": "precision",
+   "n_tasks": 149,
+   "n_resamples": 10000,
+   "seed": 20260920,
+   "point_policy": 0.35827664399092973,
+   "point_sparse": 0.339041095890411,
+   "point_delta": 0.01923554810051875,
+   "ci95_lower": -0.034819460244618836,
+   "ci95_upper": 0.06567916604097358,
+   "ci95_excludes_zero": false
+  },
+  "recall": {
+   "metric": "recall",
+   "n_tasks": 149,
+   "n_resamples": 10000,
+   "seed": 20260920,
+   "point_policy": 0.33760683760683763,
+   "point_sparse": 0.21153846153846154,
+   "point_delta": 0.1260683760683761,
+   "ci95_lower": 0.08962240133727854,
+   "ci95_upper": 0.16481189821681344,
+   "ci95_excludes_zero": true
+  },
+  "f1": {
+   "metric": "f1",
+   "n_tasks": 149,
+   "n_resamples": 10000,
+   "seed": 20260920,
+   "point_policy": 0.34763476347634764,
+   "point_sparse": 0.26052631578947366,
+   "point_delta": 0.08710844768687398,
+   "ci95_lower": 0.05151940532931262,
+   "ci95_upper": 0.12288854177685306,
+   "ci95_excludes_zero": true
+  },
+  "fnr": {
+   "metric": "fnr",
+   "n_tasks": 149,
+   "n_resamples": 10000,
+   "seed": 20260920,
+   "point_policy": 0.6623931623931624,
+   "point_sparse": 0.7884615384615384,
+   "point_delta": -0.12606837606837606,
+   "ci95_lower": -0.16393525585717125,
+   "ci95_upper": -0.09018036072144298,
+   "ci95_excludes_zero": true
+  }
+ }
+}

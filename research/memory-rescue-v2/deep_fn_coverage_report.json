@@ -1,0 +1,118 @@
+{
+ "deep_dense_miss_counts": {
+  "djangocms": 199,
+  "saleor": 177
+ },
+ "deep_dense_miss_dense_rank_distribution": {
+  "djangocms": {
+   "count": 199,
+   "median": 62.0,
+   "mean": 75.6,
+   "p25": 37.0,
+   "p75": 100.5
+  },
+  "saleor": {
+   "count": 177,
+   "median": 70.0,
+   "mean": 130.1,
+   "p25": 42.0,
+   "p75": 163.0
+  }
+ },
+ "deep_fn_coverage": {
+  "djangocms": {
+   "n_deep_dense_misses": 199,
+   "structural_only": 14,
+   "episodic_only": 23,
+   "both": 6,
+   "union": 43,
+   "unrecovered": 156,
+   "deep_fn_recovery_structural_only": 0.0704,
+   "deep_fn_recovery_episodic_only": 0.1156,
+   "deep_fn_recovery_both": 0.0302,
+   "deep_fn_recovery_union": 0.2161,
+   "sparse_empty_tasks_deep_misses": 105,
+   "sparse_empty_tasks_recovered": 22,
+   "sparse_empty_recovery_rate": 0.2095
+  },
+  "saleor": {
+   "n_deep_dense_misses": 177,
+   "structural_only": 20,
+   "episodic_only": 24,
+   "both": 4,
+   "union": 48,
+   "unrecovered": 129,
+   "deep_fn_recovery_structural_only": 0.113,
+   "deep_fn_recovery_episodic_only": 0.1356,
+   "deep_fn_recovery_both": 0.0226,
+   "deep_fn_recovery_union": 0.2712,
+   "sparse_empty_tasks_deep_misses": 69,
+   "sparse_empty_tasks_recovered": 16,
+   "sparse_empty_recovery_rate": 0.2319
+  }
+ },
+ "popularity_baseline": {
+  "djangocms": {
+   "covered": 41,
+   "n_deep_dense_misses": 199,
+   "coverage_rate": 0.206
+  },
+  "saleor": {
+   "covered": 18,
+   "n_deep_dense_misses": 177,
+   "coverage_rate": 0.1017
+  }
+ },
+ "random_baseline": {
+  "djangocms": {
+   "n_resamples": 1000,
+   "seed": 20260920,
+   "n_deep_dense_misses": 199,
+   "mean_covered": 11.1,
+   "mean_coverage_rate": 0.0558,
+   "ci95_covered": [
+    5.0,
+    18.0
+   ],
+   "ci95_coverage_rate": [
+    0.0251,
+    0.0905
+   ]
+  },
+  "saleor": {
+   "n_resamples": 1000,
+   "seed": 20260920,
+   "n_deep_dense_misses": 177,
+   "mean_covered": 2.45,
+   "mean_coverage_rate": 0.0138,
+   "ci95_covered": [
+    0.0,
+    6.0
+   ],
+   "ci95_coverage_rate": [
+    0.0,
+    0.0339
+   ]
+  }
+ },
+ "dependency_cluster_diagnostic": {
+  "djangocms": {
+   "n_deep_dense_misses": 199,
+   "A_direct_relation_to_other_proxy_positive": 109,
+   "A_rate": 0.5477,
+   "B_adjacent_to_v1_true_positive": 25,
+   "B_rate": 0.1256,
+   "C_within_2_hops_of_v1_true_positive": 56,
+   "C_rate": 0.2814
+  },
+  "saleor": {
+   "n_deep_dense_misses": 177,
+   "A_direct_relation_to_other_proxy_positive": 130,
+   "A_rate": 0.7345,
+   "B_adjacent_to_v1_true_positive": 49,
+   "B_rate": 0.2768,
+   "C_within_2_hops_of_v1_true_positive": 76,
+   "C_rate": 0.4294
+  }
+ }
+}

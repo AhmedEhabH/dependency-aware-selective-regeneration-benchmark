@@ -89,5 +89,37 @@ Current ladder (each stage gates the next; negatives are preserved):
   new authorization. Human-readable consolidation + TRUE LIGHT export
   delivered (contributor report: 50 MB target unreachable without deleting
   authoritative dataset/raw evidence).
+- **2026-09-20 addendum — CALIBRATED_SET_SELECTION_V1 + PARENT-ONLY REPOSITORY
+  MEMORY RESCUE V2:**
+  - **Stage 1-4/4b negatives all preserved.** V1 (2026-09-20) = frozen
+    negative `CALIBRATED_SET_SELECTION_V1_FAIL`: one minimal calibrated
+    ADD/KEEP/DROP policy (7 dense/sparse features, L2-LR, nested CV, inner-OOF
+    F1 threshold, no fixed B) improves point F1 on both repos but fails the
+    frozen gate on djangoCMS (Delta-F1 CI crosses zero), robustly A/B.
+  - **Full-Universe V2 cancelled** = `FULL_UNIVERSE_V2_CANCELLED_AS_NON_BINDING_
+    ABLATION`: V1 never selected any non-Sparse candidate beyond rank 4
+    (172/93/20/3, ranks 5-20 = 0); max non-Sparse probability 0.188 @5-20 /
+    0.065 @15-20 is strictly below every learned threshold (0.17-0.21) — the
+    top-20 boundary was never active at the decision boundary; expanding it
+    while keeping the rank-monotone signal would be a near-null rerun.
+  - **V2 (2026-09-20) = frozen negative `PARENT_ONLY_REPOSITORY_MEMORY_RESCUE_V2_FAIL`:**
+    a deterministic parent-only repository-memory generator (structural
+    co-change Jaccard support≥2 + episodic BM25 over commit text) recovers
+    deep dense misses at the CANDIDATE level (21.6%/27.1% of the 199/177 deep
+    misses; median dense rank 62/70; better than popularity on Saleor and far
+    better than random), and V2 point F1 improves over Sparse and V1 on both
+    repos — but the unchanged final-set gate still fails on djangoCMS
+    (Delta-F1 CI crosses zero in A and B). **Conclusion: candidate generation
+    is no longer the binding constraint; the acceptance/decision layer over
+    recovered candidates is.** Deep-FN coverage and dependency-cluster
+    headroom are documented; graph features were NOT added to V2 (isolation of
+    the history signal).
+  - **Future hypotheses (documented, NOT executed):**
+    `INTENT_ADAPTIVE_SELECTIVE_LOCALIZATION` (abstain/broaden when confidence
+    low; risk-coverage evaluation, selective-prediction literature note);
+    `PROVENANCE_BY_CONSTRUCTION` (trace links requirement→files→symbols→tests;
+    supervisor-facing strategic note; `SUPERVISOR_DISCUSSION_REQUIRED_BEFORE_EXECUTION`).
+  - Stage 5 stays PAUSED/SEALED (`FINAL_POLICY_NOT_FROZEN`); any V3 needs a
+    NEW mission + NEW frozen hypothesis (no automatic V3).
 - Stage 6 adaptive-k: gated on a stable ranking signal (P2 Phase-1 negative is
   frozen; choosing k cannot rescue a poorly ordered list).

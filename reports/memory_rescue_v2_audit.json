@@ -1,0 +1,198 @@
+{
+ "n_checks": 23,
+ "n_pass": 23,
+ "all_pass": true,
+ "checks": [
+  {
+   "name": "sealed_guard_323_dev_only",
+   "pass": true,
+   "detail": "n=323"
+  },
+  {
+   "name": "v1_fold_reuse_exact",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "name": "deep_fn_counts",
+   "pass": true,
+   "detail": "dc=199 saleor=177"
+  },
+  {
+   "name": "deep_fn_median_rank",
+   "pass": true,
+   "detail": "{'djangocms': 62.0, 'saleor': 70.0}"
+  },
+  {
+   "name": "deep_fn_coverage_union_positive",
+   "pass": true,
+   "detail": "{'djangocms': {'n': 199, 'union_recovered': 43, 'rate': 0.2161}, 'saleor': {'n': 177, 'union_recovered': 48, 'rate': 0.2712}}"
+  },
+  {
+   "name": "dependency_cluster_diagnostic",
+   "pass": true,
+   "detail": "{'djangocms': {'n': 199, 'A': 109, 'B': 25, 'C': 56}, 'saleor': {'n': 177, 'A': 130, 'B': 49, 'C': 76}}"
+  },
+  {
+   "name": "v2_A_djangocms_metrics_recompute",
+   "pass": true,
+   "detail": "persisted={'tp': 152, 'fp': 222, 'fn': 355, 'precision': 0.40641711229946526, 'recall': 0.29980276134122286, 'f1': 0.34506242905788875, 'fnr': 0.7001972386587771} audited={'tp': 152, 'fp': 222, 'fn': 355, 'precision': 0.40641711229946526, 'recall': 0.29980276134122286, 'f1': 0.34506242905788875, 'fnr': 0.7001972386587771}"
+  },
+  {
+   "name": "v2_A_saleor_metrics_recompute",
+   "pass": true,
+   "detail": "persisted={'tp': 158, 'fp': 283, 'fn': 310, 'precision': 0.35827664399092973, 'recall': 0.33760683760683763, 'f1': 0.34763476347634764, 'fnr': 0.6623931623931624} audited={'tp': 158, 'fp': 283, 'fn': 310, 'precision': 0.35827664399092973, 'recall': 0.33760683760683763, 'f1': 0.34763476347634764, 'fnr': 0.6623931623931624}"
+  },
+  {
+   "name": "v2_B_djangocms_metrics_recompute",
+   "pass": true,
+   "detail": "persisted={'tp': 152, 'fp': 222, 'fn': 355, 'precision': 0.40641711229946526, 'recall': 0.29980276134122286, 'f1': 0.34506242905788875, 'fnr': 0.7001972386587771} audited={'tp': 152, 'fp': 222, 'fn': 355, 'precision': 0.40641711229946526, 'recall': 0.29980276134122286, 'f1': 0.34506242905788875, 'fnr': 0.7001972386587771}"
+  },
+  {
+   "name": "v2_B_saleor_metrics_recompute",
+   "pass": true,
+   "detail": "persisted={'tp': 159, 'fp': 283, 'fn': 309, 'precision': 0.3597285067873303, 'recall': 0.33974358974358976, 'f1': 0.34945054945054943, 'fnr': 0.6602564102564102} audited={'tp': 159, 'fp': 283, 'fn': 309, 'precision': 0.3597285067873303, 'recall': 0.33974358974358976, 'f1': 0.34945054945054943, 'fnr': 0.6602564102564102}"
+  },
+  {
+   "name": "v2_A_djangocms_ci_crosses_zero",
+   "pass": true,
+   "detail": "{'metric': 'f1', 'n_tasks': 174, 'n_resamples': 10000, 'seed': 20260920, 'point_policy': 0.34506242905788875, 'point_sparse': 0.3176620076238882, 'point_delta': 0.027400421434000566, 'ci95_lower': -0.01024363001316319, 'ci95_upper': 0.06363646578140962, 'ci95_excludes_zero': False}"
+  },
+  {
+   "name": "v2_A_saleor_ci_excludes_zero",
+   "pass": true,
+   "detail": "{'metric': 'f1', 'n_tasks': 149, 'n_resamples': 10000, 'seed': 20260920, 'point_policy': 0.34763476347634764, 'point_sparse': 0.26052631578947366, 'point_delta': 0.08710844768687398, 'ci95_lower': 0.05151940532931262, 'ci95_upper': 0.12288854177685306, 'ci95_excludes_zero': True}"
+  },
+  {
+   "name": "v2_B_djangocms_ci_crosses_zero",
+   "pass": true,
+   "detail": "{'metric': 'f1', 'n_tasks': 174, 'n_resamples': 10000, 'seed': 20260920, 'point_policy': 0.34506242905788875, 'point_sparse': 0.3176620076238882, 'point_delta': 0.027400421434000566, 'ci95_lower': -0.01034497895377164, 'ci95_upper': 0.06381894734701936, 'ci95_excludes_zero': False}"
+  },
+  {
+   "name": "v2_B_saleor_ci_excludes_zero",
+   "pass": true,
+   "detail": "{'metric': 'f1', 'n_tasks': 149, 'n_resamples': 10000, 'seed': 20260920, 'point_policy': 0.34945054945054943, 'point_sparse': 0.26052631578947366, 'point_delta': 0.08892423366107577, 'ci95_lower': 0.052890236168822935, 'ci95_upper': 0.12548254414049784, 'ci95_excludes_zero': True}"
+  },
+  {
+   "name": "robustness_exact_same_set_high",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "name": "robustness_jaccard_mean_high",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "name": "robustness_verdict_same",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "name": "gate_A_djangocms_fail",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "name": "gate_A_saleor_pass",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "name": "gate_B_djangocms_fail",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "name": "gate_B_saleor_pass",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "name": "final_verdict_fail",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "name": "zero_api_by_construction",
+   "pass": true,
+   "detail": "no network/model code path in this mission"
+  }
+ ],
+ "deep_dense_miss_counts": {
+  "djangocms": 199,
+  "saleor": 177
+ },
+ "deep_dense_miss_median_rank": {
+  "djangocms": 62.0,
+  "saleor": 70.0
+ },
+ "deep_fn_coverage": {
+  "djangocms": {
+   "n": 199,
+   "union_recovered": 43,
+   "rate": 0.2161
+  },
+  "saleor": {
+   "n": 177,
+   "union_recovered": 48,
+   "rate": 0.2712
+  }
+ },
+ "dependency_cluster_diagnostic": {
+  "djangocms": {
+   "n": 199,
+   "A": 109,
+   "B": 25,
+   "C": 56
+  },
+  "saleor": {
+   "n": 177,
+   "A": 130,
+   "B": 49,
+   "C": 76
+  }
+ },
+ "v2_repo_metrics": {
+  "A": {
+   "djangocms": {
+    "tp": 152,
+    "fp": 222,
+    "fn": 355,
+    "precision": 0.40641711229946526,
+    "recall": 0.29980276134122286,
+    "f1": 0.34506242905788875,
+    "fnr": 0.7001972386587771
+   },
+   "saleor": {
+    "tp": 158,
+    "fp": 283,
+    "fn": 310,
+    "precision": 0.35827664399092973,
+    "recall": 0.33760683760683763,
+    "f1": 0.34763476347634764,
+    "fnr": 0.6623931623931624
+   }
+  },
+  "B": {
+   "djangocms": {
+    "tp": 152,
+    "fp": 222,
+    "fn": 355,
+    "precision": 0.40641711229946526,
+    "recall": 0.29980276134122286,
+    "f1": 0.34506242905788875,
+    "fnr": 0.7001972386587771
+   },
+   "saleor": {
+    "tp": 159,
+    "fp": 283,
+    "fn": 309,
+    "precision": 0.3597285067873303,
+    "recall": 0.33974358974358976,
+    "f1": 0.34945054945054943,
+    "fnr": 0.6602564102564102
+   }
+  }
+ }
+}

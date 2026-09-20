@@ -6,6 +6,99 @@ For historical closure records see `docs/PROJECT_HANDOFF.md`, `SYSTEM_STATE.md`,
 `TODO.md`, `docs/PAPER_WRITING_HANDOFF.md`, `docs/MSC_RESEARCH_ROADMAP_2026_2027.md`
 (all preserved verbatim below their HISTORICAL boundaries).
 
+**CURRENT TRUTH (2026-09-20, PARENT-ONLY REPOSITORY MEMORY RESCUE V2 — T3
+scientific continuation of the history-augmented deep false-negative recovery
+line; verdict `PARENT_ONLY_REPOSITORY_MEMORY_RESCUE_V2_FAIL` (frozen negative);
+parent-only repository-history memory as an ORTHOGONAL signal; ZERO API; sealed
+sets untouched; Stage 5 stays PAUSED/SEALED):**
+→ **P80 governance amendment + frozen config + Full-Universe cancellation
+recorded APPEND-ONLY and BEFORE any implementation/outer-OOF inspection:**
+`FULL_UNIVERSE_V2_CANCELLED_AS_NON_BINDING_ABLATION` — verified from already-
+exposed V1 artifacts WITHOUT fitting a new model: V1 selected non-Sparse
+additions ONLY at dense ranks 1-4 (rank1 172, rank2 93, rank3 20, rank4 3,
+ranks 5-20 = 0; n=4,981 pool rows, 0 selected); max outer-OOF probability
+among non-Sparse ranks 5-20 = 0.1880 (p95 0.0886) and ranks 15-20 = 0.0650
+(p95 0.0428); all five V1 thresholds 0.17-0.21 strictly above → the top-20
+boundary was NEVER active at the decision boundary; removing it while keeping
+the rank-monotone signal would be a near-null rerun with forking-path risk.
+Descriptive decision from exposed DEV/V1 artifacts, NOT a new experiment.
+→ **ONE high-level hypothesis tested (ZERO API):** parent-visible repository
+history contains localization signal orthogonal to current-code dense
+similarity and can rescue affected files deep in the Qwen dense ranking.
+→ **Deep dense misses (verified):** `DEEP_DENSE_MISS` = historical-proxy
+positive file that remains a V1 false negative AND was outside the V1 frozen
+candidate universe (Sparse UNION dense-top20): djangoCMS **199** / Saleor **177**;
+median dense rank 62 / 70. Dependency-cluster diagnostic (descriptive
+oracle-style, NEVER inference seeds, NO graph features in V2): A direct
+relation to another proxy positive 109/199 and 130/177; B adjacent to V1 TP
+25 and 49; C within 2 hops 56 and 76.
+→ **Frozen memory generator (parent-only; fail-closed ancestry; ALL parent-
+visible production-changing history; caches on D: outside Git, 33.5 MB):**
+Channel A structural co-change: Jaccard = C(f,s)/(C(f)+C(s)-C(f,s)), pair
+score 0 if C(f,s)<2 (frozen support 2), seeds = Sparse files + Qwen dense
+rank-1 file; cochange_memory_score = max(cochange_sparse, cochange_top1).
+Channel B episodic: deterministic BM25 over historical commit text (subject +
+body; no web/API enrichment), query = frozen task intent,
+EPISODIC_TOP_CHANGES = 10; episode_similarity(f) = max normalized BM25 among
+retrieved top-10 episodes touching f (0 if none); episode_hit_count
+descriptive only. log_history_change_count = log1p(C(f)). Memory candidate
+set = top-10 NON-SPARSE structural ∪ top-10 NON-SPARSE episodic (union;
+tie-break higher score / higher support / path ascending).
+→ **Deep-FN coverage before modeling (frozen generator):** union recovery of
+DEEP_DENSE_MISS by the memory candidate set: djangoCMS 43/199 (0.216;
+structural 14 / episodic 23 / both 6), Saleor 48/177 (0.271; 20/24/4);
+unrecovered 156/129. Sparse-empty recovery: 22/105 (0.210) / 16/69 (0.232).
+Mechanism baselines (same budget): popularity 41 (0.206) / 18 (0.102); seeded
+deterministic random (seed 20260920, 1000 resamples) 11.1 (0.056) / 2.45
+(0.014). Memory > popularity on Saleor, >> random on both. NO 15% threshold;
+preregistered V2 continued regardless.
+→ **V2 result (realization A, Qwen full-file scores; EXACTLY V1 model/CV/
+threshold; 11 features = 7 V1 + cochange_sparse + cochange_top1 +
+log_history_change_count + episode_similarity):** djangoCMS Sparse
+125/155/382 (P 0.4464/R 0.2465/F1 0.3177/FNR 0.7535) → V2 152/222/355
+(P 0.4064/R 0.2998/F1 0.3451/FNR 0.7002), Delta F1 +0.0274 CI
+[−0.0102, +0.0636] CROSSES ZERO; Saleor Sparse 99/193/369 (P 0.3390/R 0.2115/
+F1 0.2605/FNR 0.7885) → V2 158/283/310 (P 0.3583/R 0.3376/F1 0.3476/FNR
+0.6624), Delta F1 +0.0871 CI [+0.0515, +0.1229] PASS. **Primary gate FAIL**
+(djangoCMS criterion B) in BOTH realizations A and B → **verdict
+`PARENT_ONLY_REPOSITORY_MEMORY_RESCUE_V2_FAIL`** (robust FAIL; 99.07% exact
+same set, mean Jaccard 0.9964). V2 point F1 improves over BOTH Sparse and V1
+on BOTH repos (djangoCMS 0.318→0.334→0.345; Saleor 0.261→0.336→0.348).
+→ **Error decomposition (A):** djangoCMS retained 110 / dropped 15 / FP
+dropped 49 / FP retained 106; added positives 42 = 0 dense-only + 8 structural
++ 6 episodic + 28 multiple-memory (ALL added positives were history-involved);
+new FP 116; remaining FN not-generated 156 / rejected 184 / Sparse-TP-dropped
+15. Saleor retained 94 / dropped 5 / FP dropped 65 / FP retained 128; added
+64 = 4/20/12/28; new FP 155; remaining FN 129/176/5. Set sizes: policy mean
+2.15/2.96, empty-policy 37/10 (vs empty-Sparse 53/41). Sparse-empty metrics
+(djangocms n=53: F1 0.062; Saleor n=41: F1 0.245). Intent stratification
+(descriptive, NOT a feature/gate): short intents (<=6 words) are hardest on
+DEV (djangocms <=6 F1 0.209 vs >15 0.432; Saleor <=6 0.276 vs >15 0.402);
+hypothesis-generating only, no causal/information-theoretic claim.
+→ **Channel ablations (descriptive; NOT used to redefine V2):** structural-
+removed F1 0.3459/0.3333; episodic-removed 0.3462/0.3326; FULL V2 0.3451/
+0.3476 — each channel adds a small descriptive amount on Saleor; verdict
+unchanged everywhere.
+→ **Determinism (gate G):** 2 reruns identical (SHA 4e2c880…). Independent
+audit **23/23 PASS** (recomputes every claim from artifacts WITHOUT importing
+the analyzer). New unit tests **36/36 PASS**; V1 calibrated suite 18/18 still
+PASS. Efficiency: 0 API calls / $0.00; history build ≈ 183 s one-time;
+classifier ≈ 25-40 s/realization; D: cache 33.5 MB (outside Git).
+→ **Future hypotheses documented, NOT executed:** `INTENT_ADAPTIVE_SELECTIVE_
+LOCALIZATION` (abstain/broaden when confidence low; risk-coverage evaluation)
+added to the roadmap; `PROVENANCE_BY_CONSTRUCTION` strategic note
+(`reports/PROVENANCE_BY_CONSTRUCTION_DIRECTION_NOTE_2026-09-20.md`) created
+(`SUPERVISOR_DISCUSSION_REQUIRED_BEFORE_EXECUTION`; NOT a scope change).
+→ **Verdict:** `PARENT_ONLY_REPOSITORY_MEMORY_RESCUE_V2_FAIL` frozen (no
+automatic V3; any V3 needs a NEW mission + NEW frozen hypothesis).
+Interpretation: parent-visible repository history IS an orthogonal real
+zero-API signal (it recovers deep dense misses at the candidate level), but
+the unchanged final-set gate still fails on djangoCMS. **Stage-5 decision:**
+`FINAL_POLICY_NOT_FROZEN` — confirmatory stays PAUSED and SEALED (djangoCMS
+RESERVE 59, Saleor INTERNAL_TEST 80, Saleor RESERVE 1086; spent djangoCMS
+INTERNAL_TEST untouched). No novelty claim (repository-memory is prior art,
+arXiv 2510.01003).
+
 **CURRENT TRUTH (2026-09-20, CALIBRATED SET SELECTION V1 — T3 scientific
 continuation of the two-realization line; verdict
 `CALIBRATED_SET_SELECTION_V1_FAIL` (frozen negative); DEV-ONLY FINAL FILE-SET
