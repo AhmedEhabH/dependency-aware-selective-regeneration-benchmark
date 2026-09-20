@@ -34,6 +34,7 @@ class PipelineConfig:
     validation_python: str | None = None
     scientific_gold_isolation: bool = False
     selection_only: bool = False
+    allow_ground_truth_universe: bool = False
     extra: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
@@ -172,6 +173,7 @@ class BenchmarkPipeline:
             validation_python=self._config.validation_python,
             scientific_gold_isolation=self._config.scientific_gold_isolation,
             selection_only=self._config.selection_only,
+            allow_ground_truth_universe=self._config.allow_ground_truth_universe,
         )
         return BenchmarkRunner(
             strategy=self._strategy,

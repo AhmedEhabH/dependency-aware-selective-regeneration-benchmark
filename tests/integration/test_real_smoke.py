@@ -169,6 +169,7 @@ class TestRealSmokeEndToEnd:
             timeout_seconds=0,
             max_attempts_per_run=3,
             dry_run=False,
+            allow_ground_truth_universe=True,
         )
         pipeline = BenchmarkPipeline(
             strategy=strategy,

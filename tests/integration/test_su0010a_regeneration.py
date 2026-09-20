@@ -103,6 +103,7 @@ def _make_runner(
     max_tokens: int = 0,
     editable_artifact_paths: tuple[str, ...] = ("src/a.py",),
     timeout_seconds: int = 0,
+    allow_ground_truth_universe: bool | None = None,
 ) -> BenchmarkRunner:
     config = RunnerConfig(
         strategy_name=strategy_name,
@@ -115,6 +116,11 @@ def _make_runner(
         validation_command=validation_command,
         validation_timeout=validation_timeout,
         editable_artifact_paths=editable_artifact_paths,
+        allow_ground_truth_universe=(
+            not enable_regeneration
+            if allow_ground_truth_universe is None
+            else allow_ground_truth_universe
+        ),
     )
     return BenchmarkRunner(
         strategy=strategy,

@@ -87,6 +87,7 @@ def _make_runner(
         backend_name="test_backend",
         protocol_version="1.0",
         max_attempts=max_attempts,
+        allow_ground_truth_universe=True,
     )
     return BenchmarkRunner(
         strategy=strategy,

@@ -317,6 +317,7 @@ class TestBenchmarkRunner:
             backend_name="test_backend",
             protocol_version="1.0",
             max_attempts=3,
+            allow_ground_truth_universe=True,
         )
         runner = BenchmarkRunner(
             strategy=strategy,
@@ -355,6 +356,7 @@ class TestBenchmarkRunner:
             backend_name="test_backend",
             protocol_version="1.0",
             max_attempts=3,
+            allow_ground_truth_universe=True,
         )
         runner = BenchmarkRunner(
             strategy=strategy,
@@ -413,6 +415,7 @@ class TestBenchmarkRunner:
             backend_name="test_backend",
             protocol_version="1.0",
             max_attempts=3,
+            allow_ground_truth_universe=True,
         )
         runner = BenchmarkRunner(
             strategy=strategy,
@@ -689,6 +692,7 @@ class TestArtifactUniverseConstruction:
             protocol_version="1.0",
             max_attempts=1,
             enable_regeneration=False,
+            allow_ground_truth_universe=True,
         )
         runner = BenchmarkRunner(
             strategy=strategy,
@@ -886,6 +890,7 @@ class TestRepositorySnapshotPathConsistency:
             protocol_version="1.0",
             max_attempts=1,
             enable_regeneration=False,
+            allow_ground_truth_universe=True,
         )
         runner = BenchmarkRunner(
             strategy=strategy,
@@ -1001,6 +1006,7 @@ class TestActiveSnapshotFailClosed:
             protocol_version="1.0",
             max_attempts=1,
             enable_regeneration=False,
+            allow_ground_truth_universe=True,
         )
         runner = BenchmarkRunner(
             strategy=strategy,

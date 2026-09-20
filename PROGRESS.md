@@ -208,3 +208,40 @@ in BOTH realizations A and B; Saleor passes; Stage 5 stays PAUSED/SEALED).
   regeneration (separate mission); Stage 5 never re-run.
 - TRUE LIGHT export at scientific closure: filename/hash in the final stop
   report.
+
+## WP-0 (2026-09-20) — G7 Ground-Truth Leakage Fix (ArtifactUniverse de-repo)
+
+**Task:** WP-0 — G7 Ground-Truth Leakage Fix. **Branch:**
+`fix/wp0-artifact-universe-no-ground-truth`. **Tier:** T3. **Scientific API
+spend:** $0.00. **Measurement-infrastructure repair; no scientific claim.**
+
+- **Completed (AC-0.1..AC-0.5 + independent audit):** `_build_artifact_universe`
+  now derives the eligible artifact universe from the parent-commit repository
+  state for every non-fixture execution; legacy fixture behavior moved behind
+  explicit `allow_ground_truth_universe` (default False) and auditable on
+  `RunRecord`; fail-closed config (fixture incompatible with regeneration and
+  with selection-only); pass-through in `PipelineConfig`.
+- **RED->GREEN:** regression test
+  `test_production_universe_never_consults_expected_affected` failed pre-fix
+  (universe was `{'hidden/secret.py'}` — ground truth) and passed post-fix
+  (repository-derived). New suite
+  `tests/unit/test_artifact_universe_no_ground_truth.py` 14/14.
+- **AC-0.1 hidden-truth independence:** PASS (140-file repo universe built
+  with hidden proxy unreadable, ground-truth path absent, flag False).
+- **AC-0.2 static search:** PASS (only guarded fixture occurrence of
+  `expected_affected_artifacts` in execution code; no proxy/hidden reads).
+- **AC-0.3 3-task sanity:** PASS — repo-derived vs public candidate-universe
+  counts: 140/140, 152/152, 140/140 (djangocms-rc-06ecf3a8e8de,
+  -0daae01f2f65, -0fec81224889).
+- **AC-0.4:** new + affected regression suites pass; ruff PASS; mypy strict
+  PASS; py_compile PASS; git diff --check PASS.
+- **AC-0.5:** `selective_updates/records/SU-0012-artifact-universe-derepo.md`.
+- **Independent audit:** 6/6 PASS (computed without importing audited helpers).
+- **Governance:** DECISIONS.md — Decision WP0 + full event/deferral ledger
+  (LED-A..S) appended; `WP0_SCOPE_AMENDMENT_RUNRECORD_AUDITABILITY` ACCEPTED.
+- **Status:** WP-0 acceptance criteria all PASS; commit + push of feature
+  branch only; NOT merged to main; no scientific tag.
+
+**Next step (NOT started):** WP-1 Repository-Agent Selection-Only Baseline —
+AWAITING AHMED AUTHORIZATION. WP-2 E2E Phase-0 instrument DEFERRED. G6 oracle
+unresolved. No Smoke / Pilot / Research Run. No E2E scientific claim allowed.

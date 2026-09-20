@@ -585,6 +585,13 @@ class RunRecord:
     # selection-only path).
     selection_study: dict[str, Any] | None = None
 
+    # Ground-truth universe auditability (WP-0 / G7). True ONLY when the run
+    # explicitly opted into legacy fixture behavior
+    # (``allow_ground_truth_universe=True``), meaning ArtifactUniverse was
+    # derived from ``scenario.expected_affected_artifacts`` rather than from the
+    # parent repository state. Production/scientific runs keep this False.
+    allow_ground_truth_universe: bool = False
+
     def __post_init__(self) -> None:
         if self.duration_seconds < 0:
             raise ValueError("RunRecord.duration_seconds must be >= 0")
@@ -756,6 +763,9 @@ class RunRecord:
             raise ValueError("RunRecord.planner_latency_seconds must be a number, not bool")
         if not math.isfinite(self.planner_latency_seconds) or self.planner_latency_seconds < 0:
             raise ValueError("RunRecord.planner_latency_seconds must be finite and >= 0")
+
+        if not isinstance(self.allow_ground_truth_universe, bool):
+            raise ValueError("RunRecord.allow_ground_truth_universe must be a bool")
 
 
 # ---------------------------------------------------------------------------

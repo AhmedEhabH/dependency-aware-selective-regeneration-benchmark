@@ -289,6 +289,7 @@ class RunnerConfig:
     validation_python: str | None = None
     scientific_gold_isolation: bool = False
     selection_only: bool = False
+    allow_ground_truth_universe: bool = False
     extra: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
@@ -318,6 +319,23 @@ class RunnerConfig:
             n = self.agent_control_max_completion_tokens
             raise ValueError(
                 "RunnerConfig.agent_control_max_completion_tokens must be > 0, got {n}"
+            )
+        if not isinstance(self.allow_ground_truth_universe, bool):
+            raise ValueError(
+                "RunnerConfig.allow_ground_truth_universe must be a bool, "
+                f"got {self.allow_ground_truth_universe!r}"
+            )
+        if self.allow_ground_truth_universe and self.enable_regeneration:
+            raise ValueError(
+                "allow_ground_truth_universe=True is incompatible with "
+                "enable_regeneration=True: regeneration is a scientific path "
+                "and must derive ArtifactUniverse from the parent repository state."
+            )
+        if self.allow_ground_truth_universe and self.selection_only:
+            raise ValueError(
+                "allow_ground_truth_universe=True is incompatible with "
+                "selection_only=True: selection-only is a scientific path "
+                "and must derive ArtifactUniverse from the parent repository state."
             )
         _ = self.resolved_max_total_workflow_tokens
 
@@ -899,7 +917,12 @@ class BenchmarkRunner:
                 self._state.succeed()
             elif not self._state.is_terminal:
                 self._state.fail()
-            return replace(record, identity=identity, duration_seconds=duration)
+            return replace(
+                record,
+                identity=identity,
+                duration_seconds=duration,
+                allow_ground_truth_universe=self._config.allow_ground_truth_universe,
+            )
 
         # Preflight scientific configuration before model generation
         if self._config.enable_regeneration:
@@ -976,7 +999,12 @@ class BenchmarkRunner:
             strategy_name=self._config.strategy_name,
         )
 
-        return replace(record, identity=identity, duration_seconds=duration)
+        return replace(
+            record,
+            identity=identity,
+            duration_seconds=duration,
+            allow_ground_truth_universe=self._config.allow_ground_truth_universe,
+        )
 
     def dry_run(self, scenario: Scenario) -> RunRecord:
         self._state.start()
@@ -986,6 +1014,7 @@ class BenchmarkRunner:
             identity=identity,
             status=RunStatus.succeeded,
             duration_seconds=0.0,
+            allow_ground_truth_universe=self._config.allow_ground_truth_universe,
         )
 
     def _workflow_budget_exhausted_record(
@@ -2779,17 +2808,24 @@ class BenchmarkRunner:
         )
 
     def _build_artifact_universe(self, scenario: Scenario) -> ArtifactUniverse:
-        if self._config.enable_regeneration or self._config.selection_only:
+        if self._config.allow_ground_truth_universe:
+            # Explicit fixture-only opt-in (WP-0 / G7): the universe MAY be
+            # derived from ``scenario.expected_affected_artifacts``. This is
+            # auditable via ``RunRecord.allow_ground_truth_universe`` and is
+            # never reachable from a scientific path (fail-closed config).
             return ArtifactUniverse(
-                artifacts=resolve_allowed_artifacts(
-                    self._active_snapshot(),
-                    self._config.editable_artifact_paths,
-                )
+                artifacts=scenario.expected_affected_artifacts
             )
 
-        # Legacy impact-only fixture compatibility only.
+        # Production path: derive the eligible artifact universe from the
+        # repository state at the task's PARENT commit (the active snapshot).
+        # Ground truth (expected_affected_artifacts, hidden proxies, target
+        # diff / changed-file labels) is NEVER consulted here.
         return ArtifactUniverse(
-            artifacts=scenario.expected_affected_artifacts
+            artifacts=resolve_allowed_artifacts(
+                self._active_snapshot(),
+                self._config.editable_artifact_paths,
+            )
         )
 
     def _build_failure_record(
@@ -2802,4 +2838,5 @@ class BenchmarkRunner:
             status=RunStatus.failed,
             failures=failures,
             duration_seconds=0.0,
+            allow_ground_truth_universe=self._config.allow_ground_truth_universe,
         )

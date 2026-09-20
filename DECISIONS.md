@@ -1337,3 +1337,70 @@ esearch/bounded-semantic-expansion/pilot_registration_freeze.json — 60 DEVELOP
 - **Rejected:** new localization method; V3; feature/threshold/candidate-budget changes; Energy-Based/adaptive-k/negative-association-rule/JEPA redesigns; provenance-by-construction; issue re-mining; new embedding models; LocAgent/Agentless runs; opening more than the 300; modifying RM-CSS after unsealing.
 - **Evidence:** reports/SALEOR_RESERVE_300_RMCSS_FINAL_REPLICATION_2026-09-20.md, reports/saleor_reserve_300_rmcss_result.json, reports/saleor_reserve_300_rmcss_secondary_metrics.json, reports/saleor_reserve_300_rmcss_result_audit.json, reports/saleor_reserve_300_parity_gate.json, reports/saleor_reserve_300_parity_gate_audit.json, reports/saleor_reserve_300_efficiency.json, research/saleor-reserve-300-rmcss/*, scripts/saleor_reserve_300_*, reports/v2_cross_repo_transfer.json, this decision.
 - **Revisit:** next phase = `END_TO_END_SELECTIVE_REGENERATION` (prepared handoff, NOT executed); final tag `saleor-reserve-300-rmcss-final-replication-2026-09-20`.
+
+---
+
+## Decision WP0 — G7 Ground-Truth Leakage Fix (ArtifactUniverse de-repo) (2026-09-20)
+
+- **Status:** ADOPTED (this WP-0; measurement-infrastructure repair, NOT a scientific claim)
+- **Context:** The execution Runner could derive `ArtifactUniverse` from
+  `scenario.expected_affected_artifacts` on the legacy impact-only path,
+  exposing ground truth (G7). A valid E2E execution must derive the eligible
+  artifact universe from the parent-commit repository state.
+- **Decision:**
+  1. `BenchmarkRunner._build_artifact_universe` now derives the universe from
+     the parent repository state (active snapshot via `resolve_allowed_artifacts`)
+     for every non-fixture execution.
+  2. Legacy fixture behavior (universe from `expected_affected_artifacts`) is
+     preserved ONLY behind an explicit `allow_ground_truth_universe` flag
+     (default `False`), auditable on the produced `RunRecord`.
+  3. Fail-closed config: `allow_ground_truth_universe=True` is incompatible
+     with `enable_regeneration=True` and with `selection_only=True`; non-bool
+     flag rejected.
+  4. Added pass-through in `PipelineConfig` -> `RunnerConfig`.
+- **Rationale:** removes the documented G7 ground-truth leakage blocker before
+  any scientific E2E execution. Scientific scope unchanged; frozen evidence
+  unchanged; localization science (SIP/RM-CSS) untouched.
+- **Scope amendment:** `WP0_SCOPE_AMENDMENT_RUNRECORD_AUDITABILITY`
+  (ACCEPTED) authorized the minimal additions to
+  `src/benchmark/core/models.py` (RunRecord auditable field) and
+  `src/benchmark/execution/pipeline.py` (flag pass-through). Scientific scope
+  changed: NO. Frozen evidence changed: NO.
+- **Impact:** production/selection-only/regeneration executions are now
+  ground-truth-independent; legacy fixture tests moved to explicit opt-in.
+  RED->GREEN regression proven; AC-0.1..AC-0.5 PASS; independent audit 6/6
+  PASS. Scientific API spend $0.00.
+- **Evidence:** `tests/unit/test_artifact_universe_no_ground_truth.py`,
+  `scripts/ac01_hidden_truth_independence.py`,
+  `scripts/ac03_universe_sanity.py`, `scripts/wp0_independent_audit.py`,
+  `selective_updates/records/SU-0012-artifact-universe-derepo.md`.
+- **Revisit:** WP-1 Repository-Agent Selection-Only baseline
+  (DEFERRED, AWAITING AHMED AUTHORIZATION after WP-0); WP-2 E2E Phase-0
+  instrument (DEFERRED). G6 F2P/P2P oracle still unresolved; no E2E
+  scientific claims allowed yet.
+
+---
+
+## WP-0 Event / Decision / Deferral Ledger (2026-09-20) — append-only
+
+| # | id | title | status | reason | evidence | sci-scope | frozen-evidence | reopen |
+|---|---|---|---|---|---|---|---|---|
+| A | LED-A | IMPACT_LOCALIZATION_METHOD_SELECTION_CLOSED | ACCEPTED | permanent for current thesis | P88/P89/P90 | NO | NO | new mission + frozen hypothesis |
+| B | LED-B | 786 Saleor RESERVE outcomes remain unread | ACCEPTED | hard boundary; outcomes untouched | WP-0 hard boundary B2 | NO | NO | n/a |
+| C | LED-C | WP-1 Repository-Agent Selection-Only same-protocol baseline | DEFERRED | requires Ahmed authorization after WP-0 | PROGRESS.md | NO | NO | Ahmed explicit authorization after WP-0 |
+| D | LED-D | WP-2 E2E Phase-0 instrument on Todo | DEFERRED | requires WP-0 PASS + Ahmed authorization | PROGRESS.md | NO | NO | WP-0 PASS + Ahmed authorization |
+| E | LED-E | G6 F2P/P2P real-task oracle | DEFERRED | oracle not yet established | docs/ | NO | NO | WP-1/2 progress |
+| F | LED-F | NestJS external validity | FUTURE_WORK | cross-language | docs/CROSS_LANGUAGE_READINESS | NO | NO | future |
+| G | LED-G | JabRef Java external validity | FUTURE_WORK | cross-language | docs/CROSS_LANGUAGE_READINESS | NO | NO | future |
+| H | LED-H | Prometheus Go external validity | FUTURE_WORK | cross-language | docs/CROSS_LANGUAGE_READINESS | NO | NO | future |
+| I | LED-I | Grafana Go+TypeScript true polyglot | FUTURE_WORK | cross-language | docs/POLYGLOT_REPOSITORY_FEASIBILITY | NO | NO | future |
+| J | LED-J | Energy-Based Change-Set Completion | FUTURE_WORK | roadmap | reports/ | NO | NO | future |
+| K | LED-K | Adaptive-k / negative association rules | FUTURE_WORK | roadmap | reports/ | NO | NO | future |
+| L | LED-L | JEPA / Repository World Model | FUTURE_WORK | roadmap | reports/ | NO | NO | future |
+| M | LED-M | Provenance-by-construction | FUTURE_WORK | roadmap | reports/PROVENANCE_BY_CONSTRUCTION_DIRECTION_NOTE | NO | NO | supervisor discussion |
+| N | LED-N | Conformal Risk Control / risk-controlled scope | FUTURE_WORK | do not implement | roadmap | NO | NO | future |
+| O | LED-O | Cost-optimal scope threshold / expected-cost objective | FUTURE_WORK | pending E2E regeneration/repair cost measurement | END_TO_END_MEASUREMENT_BOUNDARY | NO | NO | E2E cost measurement |
+| P | LED-P | Validation-driven scope escalation | FUTURE_WORK | roadmap | roadmap | NO | NO | future |
+| Q | LED-Q | Ripple competitive-position correction | ACCEPTED retraction + BLOCKED head-to-head | original +10.7/+43% mixed granularity; confounded by benchmark/language/macro vs micro/seed assumption; exact file-level seed treatment unresolved | WP-0 §1/§2 | NO | NO | Ripple exact file-level seed convention established from authors/replication |
+| R | LED-R | Read-only macro/seed sensitivity diagnostics | ACCEPTED AS DIAGNOSTIC ONLY | 0.581/0.200 sensitivity bounds, not competitor/headline results | WP-0 §2 | NO | NO | n/a |
+| S | WP0-AMEND | WP0_SCOPE_AMENDMENT_RUNRECORD_AUDITABILITY | ACCEPTED | hard requirement/AC-0.4 #5 needs RunRecord field + pipeline pass-through | this decision | NO | NO | n/a |
