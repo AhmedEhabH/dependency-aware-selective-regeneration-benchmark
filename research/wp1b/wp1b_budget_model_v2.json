@@ -1,0 +1,2481 @@
+{
+ "artifact": "wp1b_budget_model_v2",
+ "mission": "WP1B_PREFLIGHT_FREEZE_2026-09-21",
+ "date": "2026-09-21",
+ "api_calls": 0,
+ "labels_used": "opened RESERVE-300 proxies only; 786 untouched",
+ "model": "qwen/qwen3-coder",
+ "provider": "deepinfra/turbo (through OpenRouter)",
+ "pricing": {
+  "prompt_per_1m_usd": 0.3,
+  "completion_per_1m_usd": 1.0
+ },
+ "agent": {
+  "MAX_AGENT_CALLS": 8,
+  "agent_control_max_completion_tokens": 1024,
+  "tool_output_chars_per_round": 2000.0,
+  "result_tag_overhead_chars": 60.0,
+  "tokens_per_char": 0.3137,
+  "safety_factor": 1.5
+ },
+ "universe": {
+  "mean_size": 810.245,
+  "note": "universe from each task's real public candidate_universe.json (production path, allow_ground_truth_universe=False)"
+ },
+ "v1_frozen_model": {
+  "projected_prompt_tokens": 1729114,
+  "ceiling_usd": 1.103733,
+  "prompt_base_chars_est": 6000
+ },
+ "worst_case_per_task": {
+  "saleor-rc-0179b331be38": {
+   "base_prompt_chars": 52029.0,
+   "base_prompt_tokens": 16321.4973,
+   "worst_case_prompt_tokens": 148666.1944,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 156858.1944,
+   "worst_case_usd": 0.052792
+  },
+  "saleor-rc-02d266b6e34b": {
+   "base_prompt_chars": 19228.0,
+   "base_prompt_tokens": 6031.8236,
+   "worst_case_prompt_tokens": 66348.8048,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 74540.8048,
+   "worst_case_usd": 0.028097
+  },
+  "saleor-rc-02dfdad9985b": {
+   "base_prompt_chars": 48718.0,
+   "base_prompt_tokens": 15282.8366,
+   "worst_case_prompt_tokens": 140356.9088,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 148548.9088,
+   "worst_case_usd": 0.050299
+  },
+  "saleor-rc-032b98afff20": {
+   "base_prompt_chars": 52915.0,
+   "base_prompt_tokens": 16599.4355,
+   "worst_case_prompt_tokens": 150889.7,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 159081.7,
+   "worst_case_usd": 0.053459
+  },
+  "saleor-rc-03be7057c1f1": {
+   "base_prompt_chars": 18348.0,
+   "base_prompt_tokens": 5755.7676,
+   "worst_case_prompt_tokens": 64140.3568,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 72332.3568,
+   "worst_case_usd": 0.027434
+  },
+  "saleor-rc-03c5a9916858": {
+   "base_prompt_chars": 20106.0,
+   "base_prompt_tokens": 6307.2522,
+   "worst_case_prompt_tokens": 68552.2336,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 76744.2336,
+   "worst_case_usd": 0.028758
+  },
+  "saleor-rc-05bdc7feb9ac": {
+   "base_prompt_chars": 19575.0,
+   "base_prompt_tokens": 6140.6775,
+   "worst_case_prompt_tokens": 67219.636,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 75411.636,
+   "worst_case_usd": 0.028358
+  },
+  "saleor-rc-069b6a39f683": {
+   "base_prompt_chars": 48336.0,
+   "base_prompt_tokens": 15163.0032,
+   "worst_case_prompt_tokens": 139398.2416,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 147590.2416,
+   "worst_case_usd": 0.050011
+  },
+  "saleor-rc-070f4bd7c042": {
+   "base_prompt_chars": 21527.0,
+   "base_prompt_tokens": 6753.0199,
+   "worst_case_prompt_tokens": 72118.3752,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 80310.3752,
+   "worst_case_usd": 0.029828
+  },
+  "saleor-rc-0713acb0f004": {
+   "base_prompt_chars": 19474.0,
+   "base_prompt_tokens": 6108.9938,
+   "worst_case_prompt_tokens": 66966.1664,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 75158.1664,
+   "worst_case_usd": 0.028282
+  },
+  "saleor-rc-07c8859c0ac3": {
+   "base_prompt_chars": 54860.0,
+   "base_prompt_tokens": 17209.582,
+   "worst_case_prompt_tokens": 155770.872,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 163962.872,
+   "worst_case_usd": 0.054923
+  },
+  "saleor-rc-07f02e2c40ae": {
+   "base_prompt_chars": 50887.0,
+   "base_prompt_tokens": 15963.2519,
+   "worst_case_prompt_tokens": 145800.2312,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 153992.2312,
+   "worst_case_usd": 0.051932
+  },
+  "saleor-rc-094b1ec0f610": {
+   "base_prompt_chars": 26723.0,
+   "base_prompt_tokens": 8383.0051,
+   "worst_case_prompt_tokens": 85158.2568,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 93350.2568,
+   "worst_case_usd": 0.033739
+  },
+  "saleor-rc-0ad61b3f0096": {
+   "base_prompt_chars": 53457.0,
+   "base_prompt_tokens": 16769.4609,
+   "worst_case_prompt_tokens": 152249.9032,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 160441.9032,
+   "worst_case_usd": 0.053867
+  },
+  "saleor-rc-0b46c89dfd9e": {
+   "base_prompt_chars": 28789.0,
+   "base_prompt_tokens": 9031.1093,
+   "worst_case_prompt_tokens": 90343.0904,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 98535.0904,
+   "worst_case_usd": 0.035295
+  },
+  "saleor-rc-0c1062eb0da6": {
+   "base_prompt_chars": 48348.0,
+   "base_prompt_tokens": 15166.7676,
+   "worst_case_prompt_tokens": 139428.3568,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 147620.3568,
+   "worst_case_usd": 0.050021
+  },
+  "saleor-rc-0df62b3144b0": {
+   "base_prompt_chars": 48559.0,
+   "base_prompt_tokens": 15232.9583,
+   "worst_case_prompt_tokens": 139957.8824,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 148149.8824,
+   "worst_case_usd": 0.050179
+  },
+  "saleor-rc-0e895847d8ae": {
+   "base_prompt_chars": 50137.0,
+   "base_prompt_tokens": 15727.9769,
+   "worst_case_prompt_tokens": 143918.0312,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 152110.0312,
+   "worst_case_usd": 0.051367
+  },
+  "saleor-rc-0f16ed78b02b": {
+   "base_prompt_chars": 52063.0,
+   "base_prompt_tokens": 16332.1631,
+   "worst_case_prompt_tokens": 148751.5208,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 156943.5208,
+   "worst_case_usd": 0.052817
+  },
+  "saleor-rc-0fd3a4d986a0": {
+   "base_prompt_chars": 34701.0,
+   "base_prompt_tokens": 10885.7037,
+   "worst_case_prompt_tokens": 105179.8456,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 113371.8456,
+   "worst_case_usd": 0.039746
+  },
+  "saleor-rc-1075496c64dd": {
+   "base_prompt_chars": 48700.0,
+   "base_prompt_tokens": 15277.19,
+   "worst_case_prompt_tokens": 140311.736,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 148503.736,
+   "worst_case_usd": 0.050286
+  },
+  "saleor-rc-10889526d151": {
+   "base_prompt_chars": 20888.0,
+   "base_prompt_tokens": 6552.5656,
+   "worst_case_prompt_tokens": 70514.7408,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 78706.7408,
+   "worst_case_usd": 0.029346
+  },
+  "saleor-rc-11756ee6b65a": {
+   "base_prompt_chars": 54017.0,
+   "base_prompt_tokens": 16945.1329,
+   "worst_case_prompt_tokens": 153655.2792,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 161847.2792,
+   "worst_case_usd": 0.054289
+  },
+  "saleor-rc-12007c00e480": {
+   "base_prompt_chars": 19199.0,
+   "base_prompt_tokens": 6022.7263,
+   "worst_case_prompt_tokens": 66276.0264,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 74468.0264,
+   "worst_case_usd": 0.028075
+  },
+  "saleor-rc-12b7ff7a4d0f": {
+   "base_prompt_chars": 48558.0,
+   "base_prompt_tokens": 15232.6446,
+   "worst_case_prompt_tokens": 139955.3728,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 148147.3728,
+   "worst_case_usd": 0.050179
+  },
+  "saleor-rc-138ee68c3818": {
+   "base_prompt_chars": 52681.0,
+   "base_prompt_tokens": 16526.0297,
+   "worst_case_prompt_tokens": 150302.4536,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 158494.4536,
+   "worst_case_usd": 0.053283
+  },
+  "saleor-rc-149c7422d0ec": {
+   "base_prompt_chars": 48525.0,
+   "base_prompt_tokens": 15222.2925,
+   "worst_case_prompt_tokens": 139872.556,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 148064.556,
+   "worst_case_usd": 0.050154
+  },
+  "saleor-rc-14a682044ca4": {
+   "base_prompt_chars": 49623.0,
+   "base_prompt_tokens": 15566.7351,
+   "worst_case_prompt_tokens": 142628.0968,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 150820.0968,
+   "worst_case_usd": 0.05098
+  },
+  "saleor-rc-14f2176b5d8c": {
+   "base_prompt_chars": 33445.0,
+   "base_prompt_tokens": 10491.6965,
+   "worst_case_prompt_tokens": 102027.788,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 110219.788,
+   "worst_case_usd": 0.0388
+  },
+  "saleor-rc-17c8d807b3d1": {
+   "base_prompt_chars": 35970.0,
+   "base_prompt_tokens": 11283.789,
+   "worst_case_prompt_tokens": 108364.528,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 116556.528,
+   "worst_case_usd": 0.040701
+  },
+  "saleor-rc-18430f2a7a16": {
+   "base_prompt_chars": 36429.0,
+   "base_prompt_tokens": 11427.7773,
+   "worst_case_prompt_tokens": 109516.4344,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 117708.4344,
+   "worst_case_usd": 0.041047
+  },
+  "saleor-rc-18e25b92e0bd": {
+   "base_prompt_chars": 20360.0,
+   "base_prompt_tokens": 6386.932,
+   "worst_case_prompt_tokens": 69189.672,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 77381.672,
+   "worst_case_usd": 0.028949
+  },
+  "saleor-rc-19bb9b070965": {
+   "base_prompt_chars": 49296.0,
+   "base_prompt_tokens": 15464.1552,
+   "worst_case_prompt_tokens": 141807.4576,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 149999.4576,
+   "worst_case_usd": 0.050734
+  },
+  "saleor-rc-1a8b592913a0": {
+   "base_prompt_chars": 49804.0,
+   "base_prompt_tokens": 15623.5148,
+   "worst_case_prompt_tokens": 143082.3344,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 151274.3344,
+   "worst_case_usd": 0.051117
+  },
+  "saleor-rc-1abda1e0d36e": {
+   "base_prompt_chars": 36449.0,
+   "base_prompt_tokens": 11434.0513,
+   "worst_case_prompt_tokens": 109566.6264,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 117758.6264,
+   "worst_case_usd": 0.041062
+  },
+  "saleor-rc-1af1c3a368ec": {
+   "base_prompt_chars": 34946.0,
+   "base_prompt_tokens": 10962.5602,
+   "worst_case_prompt_tokens": 105794.6976,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 113986.6976,
+   "worst_case_usd": 0.03993
+  },
+  "saleor-rc-1b4da5a88d08": {
+   "base_prompt_chars": 22249.0,
+   "base_prompt_tokens": 6979.5113,
+   "worst_case_prompt_tokens": 73930.3064,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 82122.3064,
+   "worst_case_usd": 0.030371
+  },
+  "saleor-rc-1cc263035113": {
+   "base_prompt_chars": 54156.0,
+   "base_prompt_tokens": 16988.7372,
+   "worst_case_prompt_tokens": 154004.1136,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 162196.1136,
+   "worst_case_usd": 0.054393
+  },
+  "saleor-rc-1cca40939fac": {
+   "base_prompt_chars": 17918.0,
+   "base_prompt_tokens": 5620.8766,
+   "worst_case_prompt_tokens": 63061.2288,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 71253.2288,
+   "worst_case_usd": 0.02711
+  },
+  "saleor-rc-1f47b503f69e": {
+   "base_prompt_chars": 22180.0,
+   "base_prompt_tokens": 6957.866,
+   "worst_case_prompt_tokens": 73757.144,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 81949.144,
+   "worst_case_usd": 0.030319
+  },
+  "saleor-rc-1f6fbe2ebf9b": {
+   "base_prompt_chars": 18007.0,
+   "base_prompt_tokens": 5648.7959,
+   "worst_case_prompt_tokens": 63284.5832,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 71476.5832,
+   "worst_case_usd": 0.027177
+  },
+  "saleor-rc-1f9b5c53a63a": {
+   "base_prompt_chars": 38244.0,
+   "base_prompt_tokens": 11997.1428,
+   "worst_case_prompt_tokens": 114071.3584,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 122263.3584,
+   "worst_case_usd": 0.042413
+  },
+  "saleor-rc-1fa6a637c7fc": {
+   "base_prompt_chars": 18174.0,
+   "base_prompt_tokens": 5701.1838,
+   "worst_case_prompt_tokens": 63703.6864,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 71895.6864,
+   "worst_case_usd": 0.027303
+  },
+  "saleor-rc-208833e2fa53": {
+   "base_prompt_chars": 17556.0,
+   "base_prompt_tokens": 5507.3172,
+   "worst_case_prompt_tokens": 62152.7536,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 70344.7536,
+   "worst_case_usd": 0.026838
+  },
+  "saleor-rc-224bf29fb39f": {
+   "base_prompt_chars": 54461.0,
+   "base_prompt_tokens": 17084.4157,
+   "worst_case_prompt_tokens": 154769.5416,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 162961.5416,
+   "worst_case_usd": 0.054623
+  },
+  "saleor-rc-22a30bf2e4cc": {
+   "base_prompt_chars": 53612.0,
+   "base_prompt_tokens": 16818.0844,
+   "worst_case_prompt_tokens": 152638.8912,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 160830.8912,
+   "worst_case_usd": 0.053984
+  },
+  "saleor-rc-24f9b244d6bc": {
+   "base_prompt_chars": 19103.0,
+   "base_prompt_tokens": 5992.6111,
+   "worst_case_prompt_tokens": 66035.1048,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 74227.1048,
+   "worst_case_usd": 0.028003
+  },
+  "saleor-rc-255d39da978a": {
+   "base_prompt_chars": 48281.0,
+   "base_prompt_tokens": 15145.7497,
+   "worst_case_prompt_tokens": 139260.2136,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 147452.2136,
+   "worst_case_usd": 0.04997
+  },
+  "saleor-rc-27b65eae2a9a": {
+   "base_prompt_chars": 22649.0,
+   "base_prompt_tokens": 7104.9913,
+   "worst_case_prompt_tokens": 74934.1464,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 83126.1464,
+   "worst_case_usd": 0.030672
+  },
+  "saleor-rc-28799575c518": {
+   "base_prompt_chars": 19143.0,
+   "base_prompt_tokens": 6005.1591,
+   "worst_case_prompt_tokens": 66135.4888,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 74327.4888,
+   "worst_case_usd": 0.028033
+  },
+  "saleor-rc-29c2d1abdce0": {
+   "base_prompt_chars": 19381.0,
+   "base_prompt_tokens": 6079.8197,
+   "worst_case_prompt_tokens": 66732.7736,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 74924.7736,
+   "worst_case_usd": 0.028212
+  },
+  "saleor-rc-2a59d31fc839": {
+   "base_prompt_chars": 28741.0,
+   "base_prompt_tokens": 9016.0517,
+   "worst_case_prompt_tokens": 90222.6296,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 98414.6296,
+   "worst_case_usd": 0.035259
+  },
+  "saleor-rc-2a740b36af0a": {
+   "base_prompt_chars": 46394.0,
+   "base_prompt_tokens": 14553.7978,
+   "worst_case_prompt_tokens": 134524.5984,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 142716.5984,
+   "worst_case_usd": 0.048549
+  },
+  "saleor-rc-2c218aadc9b7": {
+   "base_prompt_chars": 19175.0,
+   "base_prompt_tokens": 6015.1975,
+   "worst_case_prompt_tokens": 66215.796,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 74407.796,
+   "worst_case_usd": 0.028057
+  },
+  "saleor-rc-2c44b8eccc2c": {
+   "base_prompt_chars": 38329.0,
+   "base_prompt_tokens": 12023.8073,
+   "worst_case_prompt_tokens": 114284.6744,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 122476.6744,
+   "worst_case_usd": 0.042477
+  },
+  "saleor-rc-2c770c685a57": {
+   "base_prompt_chars": 53030.0,
+   "base_prompt_tokens": 16635.511,
+   "worst_case_prompt_tokens": 151178.304,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 159370.304,
+   "worst_case_usd": 0.053545
+  },
+  "saleor-rc-2d1599f1f8e2": {
+   "base_prompt_chars": 28010.0,
+   "base_prompt_tokens": 8786.737,
+   "worst_case_prompt_tokens": 88388.112,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 96580.112,
+   "worst_case_usd": 0.034708
+  },
+  "saleor-rc-305415e0f8b7": {
+   "base_prompt_chars": 19731.0,
+   "base_prompt_tokens": 6189.6147,
+   "worst_case_prompt_tokens": 67611.1336,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 75803.1336,
+   "worst_case_usd": 0.028475
+  },
+  "saleor-rc-308413ed9c19": {
+   "base_prompt_chars": 22356.0,
+   "base_prompt_tokens": 7013.0772,
+   "worst_case_prompt_tokens": 74198.8336,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 82390.8336,
+   "worst_case_usd": 0.030452
+  },
+  "saleor-rc-30b4edece5aa": {
+   "base_prompt_chars": 53907.0,
+   "base_prompt_tokens": 16910.6259,
+   "worst_case_prompt_tokens": 153379.2232,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 161571.2232,
+   "worst_case_usd": 0.054206
+  },
+  "saleor-rc-30cb9d338235": {
+   "base_prompt_chars": 48572.0,
+   "base_prompt_tokens": 15237.0364,
+   "worst_case_prompt_tokens": 139990.5072,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 148182.5072,
+   "worst_case_usd": 0.050189
+  },
+  "saleor-rc-30fe250747ae": {
+   "base_prompt_chars": 18955.0,
+   "base_prompt_tokens": 5946.1835,
+   "worst_case_prompt_tokens": 65663.684,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 73855.684,
+   "worst_case_usd": 0.027891
+  },
+  "saleor-rc-32f73ff32b2b": {
+   "base_prompt_chars": 18025.0,
+   "base_prompt_tokens": 5654.4425,
+   "worst_case_prompt_tokens": 63329.756,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 71521.756,
+   "worst_case_usd": 0.027191
+  },
+  "saleor-rc-33010c0d5f7f": {
+   "base_prompt_chars": 33266.0,
+   "base_prompt_tokens": 10435.5442,
+   "worst_case_prompt_tokens": 101578.5696,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 109770.5696,
+   "worst_case_usd": 0.038666
+  },
+  "saleor-rc-333febd35223": {
+   "base_prompt_chars": 53580.0,
+   "base_prompt_tokens": 16808.046,
+   "worst_case_prompt_tokens": 152558.584,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 160750.584,
+   "worst_case_usd": 0.05396
+  },
+  "saleor-rc-349d46d906ad": {
+   "base_prompt_chars": 52641.0,
+   "base_prompt_tokens": 16513.4817,
+   "worst_case_prompt_tokens": 150202.0696,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 158394.0696,
+   "worst_case_usd": 0.053253
+  },
+  "saleor-rc-349d88efcfec": {
+   "base_prompt_chars": 29246.0,
+   "base_prompt_tokens": 9174.4702,
+   "worst_case_prompt_tokens": 91489.9776,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 99681.9776,
+   "worst_case_usd": 0.035639
+  },
+  "saleor-rc-349fe0c194a1": {
+   "base_prompt_chars": 46396.0,
+   "base_prompt_tokens": 14554.4252,
+   "worst_case_prompt_tokens": 134529.6176,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 142721.6176,
+   "worst_case_usd": 0.048551
+  },
+  "saleor-rc-3513064157fa": {
+   "base_prompt_chars": 28666.0,
+   "base_prompt_tokens": 8992.5242,
+   "worst_case_prompt_tokens": 90034.4096,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 98226.4096,
+   "worst_case_usd": 0.035202
+  },
+  "saleor-rc-367b8038f6b9": {
+   "base_prompt_chars": 16611.0,
+   "base_prompt_tokens": 5210.8707,
+   "worst_case_prompt_tokens": 59781.1816,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 67973.1816,
+   "worst_case_usd": 0.026126
+  },
+  "saleor-rc-36a9a14e8d12": {
+   "base_prompt_chars": 49726.0,
+   "base_prompt_tokens": 15599.0462,
+   "worst_case_prompt_tokens": 142886.5856,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 151078.5856,
+   "worst_case_usd": 0.051058
+  },
+  "saleor-rc-36c0a2029b60": {
+   "base_prompt_chars": 33218.0,
+   "base_prompt_tokens": 10420.4866,
+   "worst_case_prompt_tokens": 101458.1088,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 109650.1088,
+   "worst_case_usd": 0.038629
+  },
+  "saleor-rc-373efa067922": {
+   "base_prompt_chars": 48280.0,
+   "base_prompt_tokens": 15145.436,
+   "worst_case_prompt_tokens": 139257.704,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 147449.704,
+   "worst_case_usd": 0.049969
+  },
+  "saleor-rc-37a3a7bbec31": {
+   "base_prompt_chars": 18920.0,
+   "base_prompt_tokens": 5935.204,
+   "worst_case_prompt_tokens": 65575.848,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 73767.848,
+   "worst_case_usd": 0.027865
+  },
+  "saleor-rc-381d4354ead1": {
+   "base_prompt_chars": 36207.0,
+   "base_prompt_tokens": 11358.1359,
+   "worst_case_prompt_tokens": 108959.3032,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 117151.3032,
+   "worst_case_usd": 0.04088
+  },
+  "saleor-rc-39ef77fc9bcb": {
+   "base_prompt_chars": 36603.0,
+   "base_prompt_tokens": 11482.3611,
+   "worst_case_prompt_tokens": 109953.1048,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 118145.1048,
+   "worst_case_usd": 0.041178
+  },
+  "saleor-rc-3bf31ab2fefc": {
+   "base_prompt_chars": 53191.0,
+   "base_prompt_tokens": 16686.0167,
+   "worst_case_prompt_tokens": 151582.3496,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 159774.3496,
+   "worst_case_usd": 0.053667
+  },
+  "saleor-rc-3cac33590b90": {
+   "base_prompt_chars": 53828.0,
+   "base_prompt_tokens": 16885.8436,
+   "worst_case_prompt_tokens": 153180.9648,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 161372.9648,
+   "worst_case_usd": 0.054146
+  },
+  "saleor-rc-3d304a30a5bc": {
+   "base_prompt_chars": 49576.0,
+   "base_prompt_tokens": 15551.9912,
+   "worst_case_prompt_tokens": 142510.1456,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 150702.1456,
+   "worst_case_usd": 0.050945
+  },
+  "saleor-rc-3f8a4320b1c9": {
+   "base_prompt_chars": 19106.0,
+   "base_prompt_tokens": 5993.5522,
+   "worst_case_prompt_tokens": 66042.6336,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 74234.6336,
+   "worst_case_usd": 0.028005
+  },
+  "saleor-rc-4086a98fdc78": {
+   "base_prompt_chars": 54064.0,
+   "base_prompt_tokens": 16959.8768,
+   "worst_case_prompt_tokens": 153773.2304,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 161965.2304,
+   "worst_case_usd": 0.054324
+  },
+  "saleor-rc-43262efc09bb": {
+   "base_prompt_chars": 17728.0,
+   "base_prompt_tokens": 5561.2736,
+   "worst_case_prompt_tokens": 62584.4048,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 70776.4048,
+   "worst_case_usd": 0.026967
+  },
+  "saleor-rc-438595033c60": {
+   "base_prompt_chars": 49516.0,
+   "base_prompt_tokens": 15533.1692,
+   "worst_case_prompt_tokens": 142359.5696,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 150551.5696,
+   "worst_case_usd": 0.0509
+  },
+  "saleor-rc-4386f322f659": {
+   "base_prompt_chars": 48486.0,
+   "base_prompt_tokens": 15210.0582,
+   "worst_case_prompt_tokens": 139774.6816,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 147966.6816,
+   "worst_case_usd": 0.050124
+  },
+  "saleor-rc-45301d74fb45": {
+   "base_prompt_chars": 22553.0,
+   "base_prompt_tokens": 7074.8761,
+   "worst_case_prompt_tokens": 74693.2248,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 82885.2248,
+   "worst_case_usd": 0.0306
+  },
+  "saleor-rc-45cfb26218c8": {
+   "base_prompt_chars": 46304.0,
+   "base_prompt_tokens": 14525.5648,
+   "worst_case_prompt_tokens": 134298.7344,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 142490.7344,
+   "worst_case_usd": 0.048482
+  },
+  "saleor-rc-46456e7317ca": {
+   "base_prompt_chars": 53908.0,
+   "base_prompt_tokens": 16910.9396,
+   "worst_case_prompt_tokens": 153381.7328,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 161573.7328,
+   "worst_case_usd": 0.054207
+  },
+  "saleor-rc-477f7178142c": {
+   "base_prompt_chars": 21085.0,
+   "base_prompt_tokens": 6614.3645,
+   "worst_case_prompt_tokens": 71009.132,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 79201.132,
+   "worst_case_usd": 0.029495
+  },
+  "saleor-rc-4800fa0beb60": {
+   "base_prompt_chars": 49652.0,
+   "base_prompt_tokens": 15575.8324,
+   "worst_case_prompt_tokens": 142700.8752,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 150892.8752,
+   "worst_case_usd": 0.051002
+  },
+  "saleor-rc-481c2d367c6f": {
+   "base_prompt_chars": 55463.0,
+   "base_prompt_tokens": 17398.7431,
+   "worst_case_prompt_tokens": 157284.1608,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 165476.1608,
+   "worst_case_usd": 0.055377
+  },
+  "saleor-rc-484ce8815cf4": {
+   "base_prompt_chars": 23043.0,
+   "base_prompt_tokens": 7228.5891,
+   "worst_case_prompt_tokens": 75922.9288,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 84114.9288,
+   "worst_case_usd": 0.030969
+  },
+  "saleor-rc-4902175839c9": {
+   "base_prompt_chars": 20160.0,
+   "base_prompt_tokens": 6324.192,
+   "worst_case_prompt_tokens": 68687.752,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 76879.752,
+   "worst_case_usd": 0.028798
+  },
+  "saleor-rc-4931e989d82d": {
+   "base_prompt_chars": 33960.0,
+   "base_prompt_tokens": 10653.252,
+   "worst_case_prompt_tokens": 103320.232,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 111512.232,
+   "worst_case_usd": 0.039188
+  },
+  "saleor-rc-4adf36dfdbe7": {
+   "base_prompt_chars": 28081.0,
+   "base_prompt_tokens": 8809.0097,
+   "worst_case_prompt_tokens": 88566.2936,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 96758.2936,
+   "worst_case_usd": 0.034762
+  },
+  "saleor-rc-4d82a7601853": {
+   "base_prompt_chars": 18152.0,
+   "base_prompt_tokens": 5694.2824,
+   "worst_case_prompt_tokens": 63648.4752,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 71840.4752,
+   "worst_case_usd": 0.027287
+  },
+  "saleor-rc-4e45b83e7475": {
+   "base_prompt_chars": 28063.0,
+   "base_prompt_tokens": 8803.3631,
+   "worst_case_prompt_tokens": 88521.1208,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 96713.1208,
+   "worst_case_usd": 0.034748
+  },
+  "saleor-rc-4fa88efe7c69": {
+   "base_prompt_chars": 52025.0,
+   "base_prompt_tokens": 16320.2425,
+   "worst_case_prompt_tokens": 148656.156,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 156848.156,
+   "worst_case_usd": 0.052789
+  },
+  "saleor-rc-4fc702179851": {
+   "base_prompt_chars": 22161.0,
+   "base_prompt_tokens": 6951.9057,
+   "worst_case_prompt_tokens": 73709.4616,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 81901.4616,
+   "worst_case_usd": 0.030305
+  },
+  "saleor-rc-506cd1157e9c": {
+   "base_prompt_chars": 48267.0,
+   "base_prompt_tokens": 15141.3579,
+   "worst_case_prompt_tokens": 139225.0792,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 147417.0792,
+   "worst_case_usd": 0.04996
+  },
+  "saleor-rc-50eff94aa37c": {
+   "base_prompt_chars": 18879.0,
+   "base_prompt_tokens": 5922.3423,
+   "worst_case_prompt_tokens": 65472.9544,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 73664.9544,
+   "worst_case_usd": 0.027834
+  },
+  "saleor-rc-5144ee6bd55f": {
+   "base_prompt_chars": 51364.0,
+   "base_prompt_tokens": 16112.8868,
+   "worst_case_prompt_tokens": 146997.3104,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 155189.3104,
+   "worst_case_usd": 0.052291
+  },
+  "saleor-rc-52a797b00af3": {
+   "base_prompt_chars": 19010.0,
+   "base_prompt_tokens": 5963.437,
+   "worst_case_prompt_tokens": 65801.712,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 73993.712,
+   "worst_case_usd": 0.027933
+  },
+  "saleor-rc-5477b7dd3867": {
+   "base_prompt_chars": 49724.0,
+   "base_prompt_tokens": 15598.4188,
+   "worst_case_prompt_tokens": 142881.5664,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 151073.5664,
+   "worst_case_usd": 0.051056
+  },
+  "saleor-rc-54b2e510c366": {
+   "base_prompt_chars": 20993.0,
+   "base_prompt_tokens": 6585.5041,
+   "worst_case_prompt_tokens": 70778.2488,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 78970.2488,
+   "worst_case_usd": 0.029425
+  },
+  "saleor-rc-54bbb04b8954": {
+   "base_prompt_chars": 21694.0,
+   "base_prompt_tokens": 6805.4078,
+   "worst_case_prompt_tokens": 72537.4784,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 80729.4784,
+   "worst_case_usd": 0.029953
+  },
+  "saleor-rc-55ff6b5b2b65": {
+   "base_prompt_chars": 34727.0,
+   "base_prompt_tokens": 10893.8599,
+   "worst_case_prompt_tokens": 105245.0952,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 113437.0952,
+   "worst_case_usd": 0.039766
+  },
+  "saleor-rc-571a3b145aea": {
+   "base_prompt_chars": 22553.0,
+   "base_prompt_tokens": 7074.8761,
+   "worst_case_prompt_tokens": 74693.2248,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 82885.2248,
+   "worst_case_usd": 0.0306
+  },
+  "saleor-rc-57441a31a14b": {
+   "base_prompt_chars": 16807.0,
+   "base_prompt_tokens": 5272.3559,
+   "worst_case_prompt_tokens": 60273.0632,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 68465.0632,
+   "worst_case_usd": 0.026274
+  },
+  "saleor-rc-5821309aed09": {
+   "base_prompt_chars": 19214.0,
+   "base_prompt_tokens": 6027.4318,
+   "worst_case_prompt_tokens": 66313.6704,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 74505.6704,
+   "worst_case_usd": 0.028086
+  },
+  "saleor-rc-585562cf1cec": {
+   "base_prompt_chars": 20782.0,
+   "base_prompt_tokens": 6519.3134,
+   "worst_case_prompt_tokens": 70248.7232,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 78440.7232,
+   "worst_case_usd": 0.029267
+  },
+  "saleor-rc-598aca390888": {
+   "base_prompt_chars": 24458.0,
+   "base_prompt_tokens": 7672.4746,
+   "worst_case_prompt_tokens": 79474.0128,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 87666.0128,
+   "worst_case_usd": 0.032034
+  },
+  "saleor-rc-5adf2a55d3e7": {
+   "base_prompt_chars": 17696.0,
+   "base_prompt_tokens": 5551.2352,
+   "worst_case_prompt_tokens": 62504.0976,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 70696.0976,
+   "worst_case_usd": 0.026943
+  },
+  "saleor-rc-5af4a7b5656e": {
+   "base_prompt_chars": 49436.0,
+   "base_prompt_tokens": 15508.0732,
+   "worst_case_prompt_tokens": 142158.8016,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 150350.8016,
+   "worst_case_usd": 0.05084
+  },
+  "saleor-rc-5c458f26276d": {
+   "base_prompt_chars": 20262.0,
+   "base_prompt_tokens": 6356.1894,
+   "worst_case_prompt_tokens": 68943.7312,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 77135.7312,
+   "worst_case_usd": 0.028875
+  },
+  "saleor-rc-5c50110d46a2": {
+   "base_prompt_chars": 18143.0,
+   "base_prompt_tokens": 5691.4591,
+   "worst_case_prompt_tokens": 63625.8888,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 71817.8888,
+   "worst_case_usd": 0.02728
+  },
+  "saleor-rc-5d2721a36364": {
+   "base_prompt_chars": 48215.0,
+   "base_prompt_tokens": 15125.0455,
+   "worst_case_prompt_tokens": 139094.58,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 147286.58,
+   "worst_case_usd": 0.04992
+  },
+  "saleor-rc-5ed60eba096a": {
+   "base_prompt_chars": 53407.0,
+   "base_prompt_tokens": 16753.7759,
+   "worst_case_prompt_tokens": 152124.4232,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 160316.4232,
+   "worst_case_usd": 0.053829
+  },
+  "saleor-rc-5f78ba7b1647": {
+   "base_prompt_chars": 19364.0,
+   "base_prompt_tokens": 6074.4868,
+   "worst_case_prompt_tokens": 66690.1104,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 74882.1104,
+   "worst_case_usd": 0.028199
+  },
+  "saleor-rc-5f8b1cc4db2d": {
+   "base_prompt_chars": 49458.0,
+   "base_prompt_tokens": 15514.9746,
+   "worst_case_prompt_tokens": 142214.0128,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 150406.0128,
+   "worst_case_usd": 0.050856
+  },
+  "saleor-rc-6370f4a6b8a5": {
+   "base_prompt_chars": 18936.0,
+   "base_prompt_tokens": 5940.2232,
+   "worst_case_prompt_tokens": 65616.0016,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 73808.0016,
+   "worst_case_usd": 0.027877
+  },
+  "saleor-rc-63a25a0c46d5": {
+   "base_prompt_chars": 48913.0,
+   "base_prompt_tokens": 15344.0081,
+   "worst_case_prompt_tokens": 140846.2808,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 149038.2808,
+   "worst_case_usd": 0.050446
+  },
+  "saleor-rc-63a31dd3c8ca": {
+   "base_prompt_chars": 17528.0,
+   "base_prompt_tokens": 5498.5336,
+   "worst_case_prompt_tokens": 62082.4848,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 70274.4848,
+   "worst_case_usd": 0.026817
+  },
+  "saleor-rc-65643ec7c37f": {
+   "base_prompt_chars": 28407.0,
+   "base_prompt_tokens": 8911.2759,
+   "worst_case_prompt_tokens": 89384.4232,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 97576.4232,
+   "worst_case_usd": 0.035007
+  },
+  "saleor-rc-659af1b19239": {
+   "base_prompt_chars": 49885.0,
+   "base_prompt_tokens": 15648.9245,
+   "worst_case_prompt_tokens": 143285.612,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 151477.612,
+   "worst_case_usd": 0.051178
+  },
+  "saleor-rc-65a07d9986ec": {
+   "base_prompt_chars": 40813.0,
+   "base_prompt_tokens": 12803.0381,
+   "worst_case_prompt_tokens": 120518.5208,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 128710.5208,
+   "worst_case_usd": 0.044348
+  },
+  "saleor-rc-65dfc61ec9fc": {
+   "base_prompt_chars": 48738.0,
+   "base_prompt_tokens": 15289.1106,
+   "worst_case_prompt_tokens": 140407.1008,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 148599.1008,
+   "worst_case_usd": 0.050314
+  },
+  "saleor-rc-663543eaf563": {
+   "base_prompt_chars": 50791.0,
+   "base_prompt_tokens": 15933.1367,
+   "worst_case_prompt_tokens": 145559.3096,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 153751.3096,
+   "worst_case_usd": 0.05186
+  },
+  "saleor-rc-66907b149076": {
+   "base_prompt_chars": 38175.0,
+   "base_prompt_tokens": 11975.4975,
+   "worst_case_prompt_tokens": 113898.196,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 122090.196,
+   "worst_case_usd": 0.042361
+  },
+  "saleor-rc-67cd71a9e0b7": {
+   "base_prompt_chars": 48307.0,
+   "base_prompt_tokens": 15153.9059,
+   "worst_case_prompt_tokens": 139325.4632,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 147517.4632,
+   "worst_case_usd": 0.04999
+  },
+  "saleor-rc-68777a15d2a4": {
+   "base_prompt_chars": 49334.0,
+   "base_prompt_tokens": 15476.0758,
+   "worst_case_prompt_tokens": 141902.8224,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 150094.8224,
+   "worst_case_usd": 0.050763
+  },
+  "saleor-rc-68fb4bf4a458": {
+   "base_prompt_chars": 24681.0,
+   "base_prompt_tokens": 7742.4297,
+   "worst_case_prompt_tokens": 80033.6536,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 88225.6536,
+   "worst_case_usd": 0.032202
+  },
+  "saleor-rc-693eb302968c": {
+   "base_prompt_chars": 19347.0,
+   "base_prompt_tokens": 6069.1539,
+   "worst_case_prompt_tokens": 66647.4472,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 74839.4472,
+   "worst_case_usd": 0.028186
+  },
+  "saleor-rc-697cbdc85b4a": {
+   "base_prompt_chars": 52156.0,
+   "base_prompt_tokens": 16361.3372,
+   "worst_case_prompt_tokens": 148984.9136,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 157176.9136,
+   "worst_case_usd": 0.052887
+  },
+  "saleor-rc-6a1f884168d2": {
+   "base_prompt_chars": 19152.0,
+   "base_prompt_tokens": 6007.9824,
+   "worst_case_prompt_tokens": 66158.0752,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 74350.0752,
+   "worst_case_usd": 0.028039
+  },
+  "saleor-rc-6c928b72daa4": {
+   "base_prompt_chars": 21060.0,
+   "base_prompt_tokens": 6606.522,
+   "worst_case_prompt_tokens": 70946.392,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 79138.392,
+   "worst_case_usd": 0.029476
+  },
+  "saleor-rc-73b8f4c2a451": {
+   "base_prompt_chars": 21185.0,
+   "base_prompt_tokens": 6645.7345,
+   "worst_case_prompt_tokens": 71260.092,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 79452.092,
+   "worst_case_usd": 0.02957
+  },
+  "saleor-rc-74fbba6d0734": {
+   "base_prompt_chars": 48654.0,
+   "base_prompt_tokens": 15262.7598,
+   "worst_case_prompt_tokens": 140196.2944,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 148388.2944,
+   "worst_case_usd": 0.050251
+  },
+  "saleor-rc-7691de1ea22e": {
+   "base_prompt_chars": 46166.0,
+   "base_prompt_tokens": 14482.2742,
+   "worst_case_prompt_tokens": 133952.4096,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 142144.4096,
+   "worst_case_usd": 0.048378
+  },
+  "saleor-rc-78c9081e2731": {
+   "base_prompt_chars": 49432.0,
+   "base_prompt_tokens": 15506.8184,
+   "worst_case_prompt_tokens": 142148.7632,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 150340.7632,
+   "worst_case_usd": 0.050837
+  },
+  "saleor-rc-78d985111cd9": {
+   "base_prompt_chars": 26223.0,
+   "base_prompt_tokens": 8226.1551,
+   "worst_case_prompt_tokens": 83903.4568,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 92095.4568,
+   "worst_case_usd": 0.033363
+  },
+  "saleor-rc-796f4a0fd969": {
+   "base_prompt_chars": 54148.0,
+   "base_prompt_tokens": 16986.2276,
+   "worst_case_prompt_tokens": 153984.0368,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 162176.0368,
+   "worst_case_usd": 0.054387
+  },
+  "saleor-rc-799a9f1c915a": {
+   "base_prompt_chars": 26625.0,
+   "base_prompt_tokens": 8352.2625,
+   "worst_case_prompt_tokens": 84912.316,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 93104.316,
+   "worst_case_usd": 0.033666
+  },
+  "saleor-rc-7b1e8cee95d5": {
+   "base_prompt_chars": 51490.0,
+   "base_prompt_tokens": 16152.413,
+   "worst_case_prompt_tokens": 147313.52,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 155505.52,
+   "worst_case_usd": 0.052386
+  },
+  "saleor-rc-7b3fbb77c331": {
+   "base_prompt_chars": 21506.0,
+   "base_prompt_tokens": 6746.4322,
+   "worst_case_prompt_tokens": 72065.6736,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 80257.6736,
+   "worst_case_usd": 0.029812
+  },
+  "saleor-rc-7bbeb193b718": {
+   "base_prompt_chars": 22505.0,
+   "base_prompt_tokens": 7059.8185,
+   "worst_case_prompt_tokens": 74572.764,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 82764.764,
+   "worst_case_usd": 0.030564
+  },
+  "saleor-rc-7e42fc67ce72": {
+   "base_prompt_chars": 53931.0,
+   "base_prompt_tokens": 16918.1547,
+   "worst_case_prompt_tokens": 153439.4536,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 161631.4536,
+   "worst_case_usd": 0.054224
+  },
+  "saleor-rc-7f841e468194": {
+   "base_prompt_chars": 18000.0,
+   "base_prompt_tokens": 5646.6,
+   "worst_case_prompt_tokens": 63267.016,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 71459.016,
+   "worst_case_usd": 0.027172
+  },
+  "saleor-rc-80a33b28b80d": {
+   "base_prompt_chars": 49386.0,
+   "base_prompt_tokens": 15492.3882,
+   "worst_case_prompt_tokens": 142033.3216,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 150225.3216,
+   "worst_case_usd": 0.050802
+  },
+  "saleor-rc-81d02e76b22e": {
+   "base_prompt_chars": 24596.0,
+   "base_prompt_tokens": 7715.7652,
+   "worst_case_prompt_tokens": 79820.3376,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 88012.3376,
+   "worst_case_usd": 0.032138
+  },
+  "saleor-rc-8220a53473bb": {
+   "base_prompt_chars": 16517.0,
+   "base_prompt_tokens": 5181.3829,
+   "worst_case_prompt_tokens": 59545.2792,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 67737.2792,
+   "worst_case_usd": 0.026056
+  },
+  "saleor-rc-82cc17adedba": {
+   "base_prompt_chars": 48270.0,
+   "base_prompt_tokens": 15142.299,
+   "worst_case_prompt_tokens": 139232.608,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 147424.608,
+   "worst_case_usd": 0.049962
+  },
+  "saleor-rc-8406dce8d1b7": {
+   "base_prompt_chars": 28576.0,
+   "base_prompt_tokens": 8964.2912,
+   "worst_case_prompt_tokens": 89808.5456,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 98000.5456,
+   "worst_case_usd": 0.035135
+  },
+  "saleor-rc-843a2c1905ad": {
+   "base_prompt_chars": 48506.0,
+   "base_prompt_tokens": 15216.3322,
+   "worst_case_prompt_tokens": 139824.8736,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 148016.8736,
+   "worst_case_usd": 0.050139
+  },
+  "saleor-rc-85d416c024e1": {
+   "base_prompt_chars": 18878.0,
+   "base_prompt_tokens": 5922.0286,
+   "worst_case_prompt_tokens": 65470.4448,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 73662.4448,
+   "worst_case_usd": 0.027833
+  },
+  "saleor-rc-884327b653cc": {
+   "base_prompt_chars": 21173.0,
+   "base_prompt_tokens": 6641.9701,
+   "worst_case_prompt_tokens": 71229.9768,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 79421.9768,
+   "worst_case_usd": 0.029561
+  },
+  "saleor-rc-897f9e7d6766": {
+   "base_prompt_chars": 48725.0,
+   "base_prompt_tokens": 15285.0325,
+   "worst_case_prompt_tokens": 140374.476,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 148566.476,
+   "worst_case_usd": 0.050304
+  },
+  "saleor-rc-8a03c74411d7": {
+   "base_prompt_chars": 51651.0,
+   "base_prompt_tokens": 16202.9187,
+   "worst_case_prompt_tokens": 147717.5656,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 155909.5656,
+   "worst_case_usd": 0.052507
+  },
+  "saleor-rc-8b0cbe2fb72f": {
+   "base_prompt_chars": 22727.0,
+   "base_prompt_tokens": 7129.4599,
+   "worst_case_prompt_tokens": 75129.8952,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 83321.8952,
+   "worst_case_usd": 0.030731
+  },
+  "saleor-rc-8c8d9db54d63": {
+   "base_prompt_chars": 47197.0,
+   "base_prompt_tokens": 14805.6989,
+   "worst_case_prompt_tokens": 136539.8072,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 144731.8072,
+   "worst_case_usd": 0.049154
+  },
+  "saleor-rc-8d911cb27289": {
+   "base_prompt_chars": 28538.0,
+   "base_prompt_tokens": 8952.3706,
+   "worst_case_prompt_tokens": 89713.1808,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 97905.1808,
+   "worst_case_usd": 0.035106
+  },
+  "saleor-rc-8e6164e3d123": {
+   "base_prompt_chars": 55983.0,
+   "base_prompt_tokens": 17561.8671,
+   "worst_case_prompt_tokens": 158589.1528,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 166781.1528,
+   "worst_case_usd": 0.055769
+  },
+  "saleor-rc-8eb11da07f09": {
+   "base_prompt_chars": 51954.0,
+   "base_prompt_tokens": 16297.9698,
+   "worst_case_prompt_tokens": 148477.9744,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 156669.9744,
+   "worst_case_usd": 0.052735
+  },
+  "saleor-rc-8f99df03562b": {
+   "base_prompt_chars": 19159.0,
+   "base_prompt_tokens": 6010.1783,
+   "worst_case_prompt_tokens": 66175.6424,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 74367.6424,
+   "worst_case_usd": 0.028045
+  },
+  "saleor-rc-9057e82cea23": {
+   "base_prompt_chars": 19038.0,
+   "base_prompt_tokens": 5972.2206,
+   "worst_case_prompt_tokens": 65871.9808,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 74063.9808,
+   "worst_case_usd": 0.027954
+  },
+  "saleor-rc-940b759d6c6f": {
+   "base_prompt_chars": 34900.0,
+   "base_prompt_tokens": 10948.13,
+   "worst_case_prompt_tokens": 105679.256,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 113871.256,
+   "worst_case_usd": 0.039896
+  },
+  "saleor-rc-940b8d83ec5c": {
+   "base_prompt_chars": 53096.0,
+   "base_prompt_tokens": 16656.2152,
+   "worst_case_prompt_tokens": 151343.9376,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 159535.9376,
+   "worst_case_usd": 0.053595
+  },
+  "saleor-rc-954887b39f13": {
+   "base_prompt_chars": 52182.0,
+   "base_prompt_tokens": 16369.4934,
+   "worst_case_prompt_tokens": 149050.1632,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 157242.1632,
+   "worst_case_usd": 0.052907
+  },
+  "saleor-rc-95db464ad4ea": {
+   "base_prompt_chars": 36442.0,
+   "base_prompt_tokens": 11431.8554,
+   "worst_case_prompt_tokens": 109549.0592,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 117741.0592,
+   "worst_case_usd": 0.041057
+  },
+  "saleor-rc-95dbffbc523a": {
+   "base_prompt_chars": 52923.0,
+   "base_prompt_tokens": 16601.9451,
+   "worst_case_prompt_tokens": 150909.7768,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 159101.7768,
+   "worst_case_usd": 0.053465
+  },
+  "saleor-rc-9701eb8d7ec2": {
+   "base_prompt_chars": 18165.0,
+   "base_prompt_tokens": 5698.3605,
+   "worst_case_prompt_tokens": 63681.1,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 71873.1,
+   "worst_case_usd": 0.027296
+  },
+  "saleor-rc-99041211cf9e": {
+   "base_prompt_chars": 17983.0,
+   "base_prompt_tokens": 5641.2671,
+   "worst_case_prompt_tokens": 63224.3528,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 71416.3528,
+   "worst_case_usd": 0.027159
+  },
+  "saleor-rc-99f9e28f8b6f": {
+   "base_prompt_chars": 48939.0,
+   "base_prompt_tokens": 15352.1643,
+   "worst_case_prompt_tokens": 140911.5304,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 149103.5304,
+   "worst_case_usd": 0.050465
+  },
+  "saleor-rc-9abf7176cfdc": {
+   "base_prompt_chars": 19118.0,
+   "base_prompt_tokens": 5997.3166,
+   "worst_case_prompt_tokens": 66072.7488,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 74264.7488,
+   "worst_case_usd": 0.028014
+  },
+  "saleor-rc-9b88221ba8c2": {
+   "base_prompt_chars": 26214.0,
+   "base_prompt_tokens": 8223.3318,
+   "worst_case_prompt_tokens": 83880.8704,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 92072.8704,
+   "worst_case_usd": 0.033356
+  },
+  "saleor-rc-9b96c1602b1f": {
+   "base_prompt_chars": 33465.0,
+   "base_prompt_tokens": 10497.9705,
+   "worst_case_prompt_tokens": 102077.98,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 110269.98,
+   "worst_case_usd": 0.038815
+  },
+  "saleor-rc-9bc1b1134cc3": {
+   "base_prompt_chars": 50632.0,
+   "base_prompt_tokens": 15883.2584,
+   "worst_case_prompt_tokens": 145160.2832,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 153352.2832,
+   "worst_case_usd": 0.05174
+  },
+  "saleor-rc-9c032845e29b": {
+   "base_prompt_chars": 49551.0,
+   "base_prompt_tokens": 15544.1487,
+   "worst_case_prompt_tokens": 142447.4056,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 150639.4056,
+   "worst_case_usd": 0.050926
+  },
+  "saleor-rc-a11ed9984b87": {
+   "base_prompt_chars": 52976.0,
+   "base_prompt_tokens": 16618.5712,
+   "worst_case_prompt_tokens": 151042.7856,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 159234.7856,
+   "worst_case_usd": 0.053505
+  },
+  "saleor-rc-a17f11cf7e87": {
+   "base_prompt_chars": 21792.0,
+   "base_prompt_tokens": 6836.1504,
+   "worst_case_prompt_tokens": 72783.4192,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 80975.4192,
+   "worst_case_usd": 0.030027
+  },
+  "saleor-rc-a1e1e2554327": {
+   "base_prompt_chars": 51081.0,
+   "base_prompt_tokens": 16024.1097,
+   "worst_case_prompt_tokens": 146287.0936,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 154479.0936,
+   "worst_case_usd": 0.052078
+  },
+  "saleor-rc-a25c73e9f74b": {
+   "base_prompt_chars": 48318.0,
+   "base_prompt_tokens": 15157.3566,
+   "worst_case_prompt_tokens": 139353.0688,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 147545.0688,
+   "worst_case_usd": 0.049998
+  },
+  "saleor-rc-a36d8a8d0c0c": {
+   "base_prompt_chars": 48534.0,
+   "base_prompt_tokens": 15225.1158,
+   "worst_case_prompt_tokens": 139895.1424,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 148087.1424,
+   "worst_case_usd": 0.050161
+  },
+  "saleor-rc-a576e993bab7": {
+   "base_prompt_chars": 43058.0,
+   "base_prompt_tokens": 13507.2946,
+   "worst_case_prompt_tokens": 126152.5728,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 134344.5728,
+   "worst_case_usd": 0.046038
+  },
+  "saleor-rc-a5e831779345": {
+   "base_prompt_chars": 20067.0,
+   "base_prompt_tokens": 6295.0179,
+   "worst_case_prompt_tokens": 68454.3592,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 76646.3592,
+   "worst_case_usd": 0.028728
+  },
+  "saleor-rc-a650f8f05c02": {
+   "base_prompt_chars": 46881.0,
+   "base_prompt_tokens": 14706.5697,
+   "worst_case_prompt_tokens": 135746.7736,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 143938.7736,
+   "worst_case_usd": 0.048916
+  },
+  "saleor-rc-a6c09d5579d6": {
+   "base_prompt_chars": 48524.0,
+   "base_prompt_tokens": 15221.9788,
+   "worst_case_prompt_tokens": 139870.0464,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 148062.0464,
+   "worst_case_usd": 0.050153
+  },
+  "saleor-rc-a7a2bf4146ba": {
+   "base_prompt_chars": 28861.0,
+   "base_prompt_tokens": 9053.6957,
+   "worst_case_prompt_tokens": 90523.7816,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 98715.7816,
+   "worst_case_usd": 0.035349
+  },
+  "saleor-rc-a9121e630814": {
+   "base_prompt_chars": 28582.0,
+   "base_prompt_tokens": 8966.1734,
+   "worst_case_prompt_tokens": 89823.6032,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 98015.6032,
+   "worst_case_usd": 0.035139
+  },
+  "saleor-rc-a93a877388ae": {
+   "base_prompt_chars": 20049.0,
+   "base_prompt_tokens": 6289.3713,
+   "worst_case_prompt_tokens": 68409.1864,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 76601.1864,
+   "worst_case_usd": 0.028715
+  },
+  "saleor-rc-a9e79dac40a2": {
+   "base_prompt_chars": 50968.0,
+   "base_prompt_tokens": 15988.6616,
+   "worst_case_prompt_tokens": 146003.5088,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 154195.5088,
+   "worst_case_usd": 0.051993
+  },
+  "saleor-rc-aa2bcdd0c218": {
+   "base_prompt_chars": 20093.0,
+   "base_prompt_tokens": 6303.1741,
+   "worst_case_prompt_tokens": 68519.6088,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 76711.6088,
+   "worst_case_usd": 0.028748
+  },
+  "saleor-rc-aa814bd5f355": {
+   "base_prompt_chars": 50101.0,
+   "base_prompt_tokens": 15716.6837,
+   "worst_case_prompt_tokens": 143827.6856,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 152019.6856,
+   "worst_case_usd": 0.05134
+  },
+  "saleor-rc-ab6c29ba265d": {
+   "base_prompt_chars": 18150.0,
+   "base_prompt_tokens": 5693.655,
+   "worst_case_prompt_tokens": 63643.456,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 71835.456,
+   "worst_case_usd": 0.027285
+  },
+  "saleor-rc-add4064d238e": {
+   "base_prompt_chars": 19484.0,
+   "base_prompt_tokens": 6112.1308,
+   "worst_case_prompt_tokens": 66991.2624,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 75183.2624,
+   "worst_case_usd": 0.028289
+  },
+  "saleor-rc-aea05da547c8": {
+   "base_prompt_chars": 49347.0,
+   "base_prompt_tokens": 15480.1539,
+   "worst_case_prompt_tokens": 141935.4472,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 150127.4472,
+   "worst_case_usd": 0.050773
+  },
+  "saleor-rc-b0245506e69b": {
+   "base_prompt_chars": 45790.0,
+   "base_prompt_tokens": 14364.323,
+   "worst_case_prompt_tokens": 133008.8,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 141200.8,
+   "worst_case_usd": 0.048095
+  },
+  "saleor-rc-b05633dae118": {
+   "base_prompt_chars": 49547.0,
+   "base_prompt_tokens": 15542.8939,
+   "worst_case_prompt_tokens": 142437.3672,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 150629.3672,
+   "worst_case_usd": 0.050923
+  },
+  "saleor-rc-b0672eea0422": {
+   "base_prompt_chars": 24440.0,
+   "base_prompt_tokens": 7666.828,
+   "worst_case_prompt_tokens": 79428.84,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 87620.84,
+   "worst_case_usd": 0.032021
+  },
+  "saleor-rc-b2622810adf1": {
+   "base_prompt_chars": 20365.0,
+   "base_prompt_tokens": 6388.5005,
+   "worst_case_prompt_tokens": 69202.22,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 77394.22,
+   "worst_case_usd": 0.028953
+  },
+  "saleor-rc-b2e3652af826": {
+   "base_prompt_chars": 28307.0,
+   "base_prompt_tokens": 8879.9059,
+   "worst_case_prompt_tokens": 89133.4632,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 97325.4632,
+   "worst_case_usd": 0.034932
+  },
+  "saleor-rc-b356a525ba2a": {
+   "base_prompt_chars": 53335.0,
+   "base_prompt_tokens": 16731.1895,
+   "worst_case_prompt_tokens": 151943.732,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 160135.732,
+   "worst_case_usd": 0.053775
+  },
+  "saleor-rc-b35783838e51": {
+   "base_prompt_chars": 52031.0,
+   "base_prompt_tokens": 16322.1247,
+   "worst_case_prompt_tokens": 148671.2136,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 156863.2136,
+   "worst_case_usd": 0.052793
+  },
+  "saleor-rc-b41168d9077d": {
+   "base_prompt_chars": 48277.0,
+   "base_prompt_tokens": 15144.4949,
+   "worst_case_prompt_tokens": 139250.1752,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 147442.1752,
+   "worst_case_usd": 0.049967
+  },
+  "saleor-rc-b60266933f7a": {
+   "base_prompt_chars": 20958.0,
+   "base_prompt_tokens": 6574.5246,
+   "worst_case_prompt_tokens": 70690.4128,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 78882.4128,
+   "worst_case_usd": 0.029399
+  },
+  "saleor-rc-b79cf8f91f04": {
+   "base_prompt_chars": 50198.0,
+   "base_prompt_tokens": 15747.1126,
+   "worst_case_prompt_tokens": 144071.1168,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 152263.1168,
+   "worst_case_usd": 0.051413
+  },
+  "saleor-rc-b84bf6595f49": {
+   "base_prompt_chars": 48422.0,
+   "base_prompt_tokens": 15189.9814,
+   "worst_case_prompt_tokens": 139614.0672,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 147806.0672,
+   "worst_case_usd": 0.050076
+  },
+  "saleor-rc-b8786c1bf4d3": {
+   "base_prompt_chars": 33486.0,
+   "base_prompt_tokens": 10504.5582,
+   "worst_case_prompt_tokens": 102130.6816,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 110322.6816,
+   "worst_case_usd": 0.038831
+  },
+  "saleor-rc-b97d1d9c7064": {
+   "base_prompt_chars": 51392.0,
+   "base_prompt_tokens": 16121.6704,
+   "worst_case_prompt_tokens": 147067.5792,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 155259.5792,
+   "worst_case_usd": 0.052312
+  },
+  "saleor-rc-ba0f225cc7d3": {
+   "base_prompt_chars": 48304.0,
+   "base_prompt_tokens": 15152.9648,
+   "worst_case_prompt_tokens": 139317.9344,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 147509.9344,
+   "worst_case_usd": 0.049987
+  },
+  "saleor-rc-ba4ff17faab4": {
+   "base_prompt_chars": 19080.0,
+   "base_prompt_tokens": 5985.396,
+   "worst_case_prompt_tokens": 65977.384,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 74169.384,
+   "worst_case_usd": 0.027985
+  },
+  "saleor-rc-bcd9f60d2aef": {
+   "base_prompt_chars": 28840.0,
+   "base_prompt_tokens": 9047.108,
+   "worst_case_prompt_tokens": 90471.08,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 98663.08,
+   "worst_case_usd": 0.035333
+  },
+  "saleor-rc-bd0c56fc787e": {
+   "base_prompt_chars": 21142.0,
+   "base_prompt_tokens": 6632.2454,
+   "worst_case_prompt_tokens": 71152.1792,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 79344.1792,
+   "worst_case_usd": 0.029538
+  },
+  "saleor-rc-bd11af3ea0a4": {
+   "base_prompt_chars": 50774.0,
+   "base_prompt_tokens": 15927.8038,
+   "worst_case_prompt_tokens": 145516.6464,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 153708.6464,
+   "worst_case_usd": 0.051847
+  },
+  "saleor-rc-bd64d6fdbe4b": {
+   "base_prompt_chars": 37929.0,
+   "base_prompt_tokens": 11898.3273,
+   "worst_case_prompt_tokens": 113280.8344,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 121472.8344,
+   "worst_case_usd": 0.042176
+  },
+  "saleor-rc-bdb2f9d05d33": {
+   "base_prompt_chars": 51971.0,
+   "base_prompt_tokens": 16303.3027,
+   "worst_case_prompt_tokens": 148520.6376,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 156712.6376,
+   "worst_case_usd": 0.052748
+  },
+  "saleor-rc-bf938e731bd8": {
+   "base_prompt_chars": 19672.0,
+   "base_prompt_tokens": 6171.1064,
+   "worst_case_prompt_tokens": 67463.0672,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 75655.0672,
+   "worst_case_usd": 0.028431
+  },
+  "saleor-rc-c0d4785abd74": {
+   "base_prompt_chars": 46883.0,
+   "base_prompt_tokens": 14707.1971,
+   "worst_case_prompt_tokens": 135751.7928,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 143943.7928,
+   "worst_case_usd": 0.048918
+  },
+  "saleor-rc-c12e83aac8f6": {
+   "base_prompt_chars": 48650.0,
+   "base_prompt_tokens": 15261.505,
+   "worst_case_prompt_tokens": 140186.256,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 148378.256,
+   "worst_case_usd": 0.050248
+  },
+  "saleor-rc-c18e40f5b6f3": {
+   "base_prompt_chars": 48304.0,
+   "base_prompt_tokens": 15152.9648,
+   "worst_case_prompt_tokens": 139317.9344,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 147509.9344,
+   "worst_case_usd": 0.049987
+  },
+  "saleor-rc-c27cc94d06ff": {
+   "base_prompt_chars": 28599.0,
+   "base_prompt_tokens": 8971.5063,
+   "worst_case_prompt_tokens": 89866.2664,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 98058.2664,
+   "worst_case_usd": 0.035152
+  },
+  "saleor-rc-c31fb4cfd08f": {
+   "base_prompt_chars": 52914.0,
+   "base_prompt_tokens": 16599.1218,
+   "worst_case_prompt_tokens": 150887.1904,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 159079.1904,
+   "worst_case_usd": 0.053458
+  },
+  "saleor-rc-c38263743e9e": {
+   "base_prompt_chars": 48276.0,
+   "base_prompt_tokens": 15144.1812,
+   "worst_case_prompt_tokens": 139247.6656,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 147439.6656,
+   "worst_case_usd": 0.049966
+  },
+  "saleor-rc-c428b47bddc5": {
+   "base_prompt_chars": 28586.0,
+   "base_prompt_tokens": 8967.4282,
+   "worst_case_prompt_tokens": 89833.6416,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 98025.6416,
+   "worst_case_usd": 0.035142
+  },
+  "saleor-rc-c4dac9df4baf": {
+   "base_prompt_chars": 48320.0,
+   "base_prompt_tokens": 15157.984,
+   "worst_case_prompt_tokens": 139358.088,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 147550.088,
+   "worst_case_usd": 0.049999
+  },
+  "saleor-rc-c6220233ccb1": {
+   "base_prompt_chars": 24592.0,
+   "base_prompt_tokens": 7714.5104,
+   "worst_case_prompt_tokens": 79810.2992,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 88002.2992,
+   "worst_case_usd": 0.032135
+  },
+  "saleor-rc-c7207e71e0d3": {
+   "base_prompt_chars": 28288.0,
+   "base_prompt_tokens": 8873.9456,
+   "worst_case_prompt_tokens": 89085.7808,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 97277.7808,
+   "worst_case_usd": 0.034918
+  },
+  "saleor-rc-c74d62286403": {
+   "base_prompt_chars": 53104.0,
+   "base_prompt_tokens": 16658.7248,
+   "worst_case_prompt_tokens": 151364.0144,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 159556.0144,
+   "worst_case_usd": 0.053601
+  },
+  "saleor-rc-c87441bb1464": {
+   "base_prompt_chars": 21181.0,
+   "base_prompt_tokens": 6644.4797,
+   "worst_case_prompt_tokens": 71250.0536,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 79442.0536,
+   "worst_case_usd": 0.029567
+  },
+  "saleor-rc-c8d4cb2844e6": {
+   "base_prompt_chars": 50992.0,
+   "base_prompt_tokens": 15996.1904,
+   "worst_case_prompt_tokens": 146063.7392,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 154255.7392,
+   "worst_case_usd": 0.052011
+  },
+  "saleor-rc-c9c1cc0968d3": {
+   "base_prompt_chars": 21159.0,
+   "base_prompt_tokens": 6637.5783,
+   "worst_case_prompt_tokens": 71194.8424,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 79386.8424,
+   "worst_case_usd": 0.02955
+  },
+  "saleor-rc-cae629dc4166": {
+   "base_prompt_chars": 48684.0,
+   "base_prompt_tokens": 15272.1708,
+   "worst_case_prompt_tokens": 140271.5824,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 148463.5824,
+   "worst_case_usd": 0.050273
+  },
+  "saleor-rc-cbd7310268c6": {
+   "base_prompt_chars": 48273.0,
+   "base_prompt_tokens": 15143.2401,
+   "worst_case_prompt_tokens": 139240.1368,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 147432.1368,
+   "worst_case_usd": 0.049964
+  },
+  "saleor-rc-ccd3960acd1d": {
+   "base_prompt_chars": 50878.0,
+   "base_prompt_tokens": 15960.4286,
+   "worst_case_prompt_tokens": 145777.6448,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 153969.6448,
+   "worst_case_usd": 0.051925
+  },
+  "saleor-rc-cd076fed6118": {
+   "base_prompt_chars": 18196.0,
+   "base_prompt_tokens": 5708.0852,
+   "worst_case_prompt_tokens": 63758.8976,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 71950.8976,
+   "worst_case_usd": 0.02732
+  },
+  "saleor-rc-cdcbd5cda46e": {
+   "base_prompt_chars": 54119.0,
+   "base_prompt_tokens": 16977.1303,
+   "worst_case_prompt_tokens": 153911.2584,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 162103.2584,
+   "worst_case_usd": 0.054365
+  },
+  "saleor-rc-ce3b63edecef": {
+   "base_prompt_chars": 53463.0,
+   "base_prompt_tokens": 16771.3431,
+   "worst_case_prompt_tokens": 152264.9608,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 160456.9608,
+   "worst_case_usd": 0.053871
+  },
+  "saleor-rc-cff241afc8d7": {
+   "base_prompt_chars": 48418.0,
+   "base_prompt_tokens": 15188.7266,
+   "worst_case_prompt_tokens": 139604.0288,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 147796.0288,
+   "worst_case_usd": 0.050073
+  },
+  "saleor-rc-d24336188b88": {
+   "base_prompt_chars": 53198.0,
+   "base_prompt_tokens": 16688.2126,
+   "worst_case_prompt_tokens": 151599.9168,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 159791.9168,
+   "worst_case_usd": 0.053672
+  },
+  "saleor-rc-d299e27e5f04": {
+   "base_prompt_chars": 46110.0,
+   "base_prompt_tokens": 14464.707,
+   "worst_case_prompt_tokens": 133811.872,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 142003.872,
+   "worst_case_usd": 0.048336
+  },
+  "saleor-rc-d361479ab7da": {
+   "base_prompt_chars": 54397.0,
+   "base_prompt_tokens": 17064.3389,
+   "worst_case_prompt_tokens": 154608.9272,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 162800.9272,
+   "worst_case_usd": 0.054575
+  },
+  "saleor-rc-d3ab58054844": {
+   "base_prompt_chars": 21172.0,
+   "base_prompt_tokens": 6641.6564,
+   "worst_case_prompt_tokens": 71227.4672,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 79419.4672,
+   "worst_case_usd": 0.02956
+  },
+  "saleor-rc-d498167dcd30": {
+   "base_prompt_chars": 53763.0,
+   "base_prompt_tokens": 16865.4531,
+   "worst_case_prompt_tokens": 153017.8408,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 161209.8408,
+   "worst_case_usd": 0.054097
+  },
+  "saleor-rc-d4fcbd22a853": {
+   "base_prompt_chars": 49773.0,
+   "base_prompt_tokens": 15613.7901,
+   "worst_case_prompt_tokens": 143004.5368,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 151196.5368,
+   "worst_case_usd": 0.051093
+  },
+  "saleor-rc-d52a55471bfc": {
+   "base_prompt_chars": 22207.0,
+   "base_prompt_tokens": 6966.3359,
+   "worst_case_prompt_tokens": 73824.9032,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 82016.9032,
+   "worst_case_usd": 0.030339
+  },
+  "saleor-rc-d6656e0f2a1d": {
+   "base_prompt_chars": 54012.0,
+   "base_prompt_tokens": 16943.5644,
+   "worst_case_prompt_tokens": 153642.7312,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 161834.7312,
+   "worst_case_usd": 0.054285
+  },
+  "saleor-rc-d78378d275dd": {
+   "base_prompt_chars": 48338.0,
+   "base_prompt_tokens": 15163.6306,
+   "worst_case_prompt_tokens": 139403.2608,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 147595.2608,
+   "worst_case_usd": 0.050013
+  },
+  "saleor-rc-d7b03a3eeec0": {
+   "base_prompt_chars": 50265.0,
+   "base_prompt_tokens": 15768.1305,
+   "worst_case_prompt_tokens": 144239.26,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 152431.26,
+   "worst_case_usd": 0.051464
+  },
+  "saleor-rc-d8a4cd122bf0": {
+   "base_prompt_chars": 20335.0,
+   "base_prompt_tokens": 6379.0895,
+   "worst_case_prompt_tokens": 69126.932,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 77318.932,
+   "worst_case_usd": 0.02893
+  },
+  "saleor-rc-dacded922b1f": {
+   "base_prompt_chars": 49283.0,
+   "base_prompt_tokens": 15460.0771,
+   "worst_case_prompt_tokens": 141774.8328,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 149966.8328,
+   "worst_case_usd": 0.050724
+  },
+  "saleor-rc-db5440f7994f": {
+   "base_prompt_chars": 54068.0,
+   "base_prompt_tokens": 16961.1316,
+   "worst_case_prompt_tokens": 153783.2688,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 161975.2688,
+   "worst_case_usd": 0.054327
+  },
+  "saleor-rc-dc08f06119f5": {
+   "base_prompt_chars": 48272.0,
+   "base_prompt_tokens": 15142.9264,
+   "worst_case_prompt_tokens": 139237.6272,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 147429.6272,
+   "worst_case_usd": 0.049963
+  },
+  "saleor-rc-dd8ead382526": {
+   "base_prompt_chars": 34810.0,
+   "base_prompt_tokens": 10919.897,
+   "worst_case_prompt_tokens": 105453.392,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 113645.392,
+   "worst_case_usd": 0.039828
+  },
+  "saleor-rc-ddb8921a6744": {
+   "base_prompt_chars": 48239.0,
+   "base_prompt_tokens": 15132.5743,
+   "worst_case_prompt_tokens": 139154.8104,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 147346.8104,
+   "worst_case_usd": 0.049938
+  },
+  "saleor-rc-dea5ffb730ac": {
+   "base_prompt_chars": 49006.0,
+   "base_prompt_tokens": 15373.1822,
+   "worst_case_prompt_tokens": 141079.6736,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 149271.6736,
+   "worst_case_usd": 0.050516
+  },
+  "saleor-rc-deb12c0433a5": {
+   "base_prompt_chars": 19694.0,
+   "base_prompt_tokens": 6178.0078,
+   "worst_case_prompt_tokens": 67518.2784,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 75710.2784,
+   "worst_case_usd": 0.028447
+  },
+  "saleor-rc-def20fe86d03": {
+   "base_prompt_chars": 22937.0,
+   "base_prompt_tokens": 7195.3369,
+   "worst_case_prompt_tokens": 75656.9112,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 83848.9112,
+   "worst_case_usd": 0.030889
+  },
+  "saleor-rc-df270700f16e": {
+   "base_prompt_chars": 50439.0,
+   "base_prompt_tokens": 15822.7143,
+   "worst_case_prompt_tokens": 144675.9304,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 152867.9304,
+   "worst_case_usd": 0.051595
+  },
+  "saleor-rc-df7c7d4e8466": {
+   "base_prompt_chars": 27017.0,
+   "base_prompt_tokens": 8475.2329,
+   "worst_case_prompt_tokens": 85896.0792,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 94088.0792,
+   "worst_case_usd": 0.033961
+  },
+  "saleor-rc-e0890780bf56": {
+   "base_prompt_chars": 53762.0,
+   "base_prompt_tokens": 16865.1394,
+   "worst_case_prompt_tokens": 153015.3312,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 161207.3312,
+   "worst_case_usd": 0.054097
+  },
+  "saleor-rc-e089e93419bf": {
+   "base_prompt_chars": 19019.0,
+   "base_prompt_tokens": 5966.2603,
+   "worst_case_prompt_tokens": 65824.2984,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 74016.2984,
+   "worst_case_usd": 0.027939
+  },
+  "saleor-rc-e0f2933d58b9": {
+   "base_prompt_chars": 54307.0,
+   "base_prompt_tokens": 17036.1059,
+   "worst_case_prompt_tokens": 154383.0632,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 162575.0632,
+   "worst_case_usd": 0.054507
+  },
+  "saleor-rc-e12689231d3b": {
+   "base_prompt_chars": 53171.0,
+   "base_prompt_tokens": 16679.7427,
+   "worst_case_prompt_tokens": 151532.1576,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 159724.1576,
+   "worst_case_usd": 0.053652
+  },
+  "saleor-rc-e129a4d6f9b1": {
+   "base_prompt_chars": 48278.0,
+   "base_prompt_tokens": 15144.8086,
+   "worst_case_prompt_tokens": 139252.6848,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 147444.6848,
+   "worst_case_usd": 0.049968
+  },
+  "saleor-rc-e2031f0dc458": {
+   "base_prompt_chars": 48570.0,
+   "base_prompt_tokens": 15236.409,
+   "worst_case_prompt_tokens": 139985.488,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 148177.488,
+   "worst_case_usd": 0.050188
+  },
+  "saleor-rc-e28ca6ad6442": {
+   "base_prompt_chars": 48419.0,
+   "base_prompt_tokens": 15189.0403,
+   "worst_case_prompt_tokens": 139606.5384,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 147798.5384,
+   "worst_case_usd": 0.050074
+  },
+  "saleor-rc-e429b8be07fd": {
+   "base_prompt_chars": 48220.0,
+   "base_prompt_tokens": 15126.614,
+   "worst_case_prompt_tokens": 139107.128,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 147299.128,
+   "worst_case_usd": 0.049924
+  },
+  "saleor-rc-e6198146186d": {
+   "base_prompt_chars": 49283.0,
+   "base_prompt_tokens": 15460.0771,
+   "worst_case_prompt_tokens": 141774.8328,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 149966.8328,
+   "worst_case_usd": 0.050724
+  },
+  "saleor-rc-e7175003a542": {
+   "base_prompt_chars": 53517.0,
+   "base_prompt_tokens": 16788.2829,
+   "worst_case_prompt_tokens": 152400.4792,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 160592.4792,
+   "worst_case_usd": 0.053912
+  },
+  "saleor-rc-e71c1f4caef7": {
+   "base_prompt_chars": 49381.0,
+   "base_prompt_tokens": 15490.8197,
+   "worst_case_prompt_tokens": 142020.7736,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 150212.7736,
+   "worst_case_usd": 0.050798
+  },
+  "saleor-rc-e8733aee630a": {
+   "base_prompt_chars": 53749.0,
+   "base_prompt_tokens": 16861.0613,
+   "worst_case_prompt_tokens": 152982.7064,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 161174.7064,
+   "worst_case_usd": 0.054087
+  },
+  "saleor-rc-ea98ffa79753": {
+   "base_prompt_chars": 34721.0,
+   "base_prompt_tokens": 10891.9777,
+   "worst_case_prompt_tokens": 105230.0376,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 113422.0376,
+   "worst_case_usd": 0.039761
+  },
+  "saleor-rc-eaf1577585a2": {
+   "base_prompt_chars": 21534.0,
+   "base_prompt_tokens": 6755.2158,
+   "worst_case_prompt_tokens": 72135.9424,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 80327.9424,
+   "worst_case_usd": 0.029833
+  },
+  "saleor-rc-eb61406cecc5": {
+   "base_prompt_chars": 49271.0,
+   "base_prompt_tokens": 15456.3127,
+   "worst_case_prompt_tokens": 141744.7176,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 149936.7176,
+   "worst_case_usd": 0.050715
+  },
+  "saleor-rc-ee2b248d8076": {
+   "base_prompt_chars": 33192.0,
+   "base_prompt_tokens": 10412.3304,
+   "worst_case_prompt_tokens": 101392.8592,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 109584.8592,
+   "worst_case_usd": 0.03861
+  },
+  "saleor-rc-ef4d31a09e7c": {
+   "base_prompt_chars": 19151.0,
+   "base_prompt_tokens": 6007.6687,
+   "worst_case_prompt_tokens": 66155.5656,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 74347.5656,
+   "worst_case_usd": 0.028039
+  },
+  "saleor-rc-f1d4e82c1dea": {
+   "base_prompt_chars": 20747.0,
+   "base_prompt_tokens": 6508.3339,
+   "worst_case_prompt_tokens": 70160.8872,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 78352.8872,
+   "worst_case_usd": 0.02924
+  },
+  "saleor-rc-f2207c408917": {
+   "base_prompt_chars": 26217.0,
+   "base_prompt_tokens": 8224.2729,
+   "worst_case_prompt_tokens": 83888.3992,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 92080.3992,
+   "worst_case_usd": 0.033359
+  },
+  "saleor-rc-f3a0bc28797b": {
+   "base_prompt_chars": 49062.0,
+   "base_prompt_tokens": 15390.7494,
+   "worst_case_prompt_tokens": 141220.2112,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 149412.2112,
+   "worst_case_usd": 0.050558
+  },
+  "saleor-rc-f3a111394d43": {
+   "base_prompt_chars": 48748.0,
+   "base_prompt_tokens": 15292.2476,
+   "worst_case_prompt_tokens": 140432.1968,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 148624.1968,
+   "worst_case_usd": 0.050322
+  },
+  "saleor-rc-f3a1ec65571f": {
+   "base_prompt_chars": 18010.0,
+   "base_prompt_tokens": 5649.737,
+   "worst_case_prompt_tokens": 63292.112,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 71484.112,
+   "worst_case_usd": 0.02718
+  },
+  "saleor-rc-f46a0a307197": {
+   "base_prompt_chars": 28528.0,
+   "base_prompt_tokens": 8949.2336,
+   "worst_case_prompt_tokens": 89688.0848,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 97880.0848,
+   "worst_case_usd": 0.035098
+  },
+  "saleor-rc-f4cf223ac3f6": {
+   "base_prompt_chars": 51965.0,
+   "base_prompt_tokens": 16301.4205,
+   "worst_case_prompt_tokens": 148505.58,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 156697.58,
+   "worst_case_usd": 0.052744
+  },
+  "saleor-rc-f4eeba7fab16": {
+   "base_prompt_chars": 48459.0,
+   "base_prompt_tokens": 15201.5883,
+   "worst_case_prompt_tokens": 139706.9224,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 147898.9224,
+   "worst_case_usd": 0.050104
+  },
+  "saleor-rc-f5d2c47e47c3": {
+   "base_prompt_chars": 49297.0,
+   "base_prompt_tokens": 15464.4689,
+   "worst_case_prompt_tokens": 141809.9672,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 150001.9672,
+   "worst_case_usd": 0.050735
+  },
+  "saleor-rc-f605058a13e8": {
+   "base_prompt_chars": 48573.0,
+   "base_prompt_tokens": 15237.3501,
+   "worst_case_prompt_tokens": 139993.0168,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 148185.0168,
+   "worst_case_usd": 0.05019
+  },
+  "saleor-rc-f623ab428821": {
+   "base_prompt_chars": 50925.0,
+   "base_prompt_tokens": 15975.1725,
+   "worst_case_prompt_tokens": 145895.596,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 154087.596,
+   "worst_case_usd": 0.051961
+  },
+  "saleor-rc-f6a3751a8bc2": {
+   "base_prompt_chars": 50039.0,
+   "base_prompt_tokens": 15697.2343,
+   "worst_case_prompt_tokens": 143672.0904,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 151864.0904,
+   "worst_case_usd": 0.051294
+  },
+  "saleor-rc-f74a5394c7f1": {
+   "base_prompt_chars": 50415.0,
+   "base_prompt_tokens": 15815.1855,
+   "worst_case_prompt_tokens": 144615.7,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 152807.7,
+   "worst_case_usd": 0.051577
+  },
+  "saleor-rc-f76d0093b450": {
+   "base_prompt_chars": 19525.0,
+   "base_prompt_tokens": 6124.9925,
+   "worst_case_prompt_tokens": 67094.156,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 75286.156,
+   "worst_case_usd": 0.02832
+  },
+  "saleor-rc-f953990d221b": {
+   "base_prompt_chars": 21515.0,
+   "base_prompt_tokens": 6749.2555,
+   "worst_case_prompt_tokens": 72088.26,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 80280.26,
+   "worst_case_usd": 0.029818
+  },
+  "saleor-rc-fa113018cb83": {
+   "base_prompt_chars": 48569.0,
+   "base_prompt_tokens": 15236.0953,
+   "worst_case_prompt_tokens": 139982.9784,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 148174.9784,
+   "worst_case_usd": 0.050187
+  },
+  "saleor-rc-fa1ed1794a8a": {
+   "base_prompt_chars": 49388.0,
+   "base_prompt_tokens": 15493.0156,
+   "worst_case_prompt_tokens": 142038.3408,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 150230.3408,
+   "worst_case_usd": 0.050804
+  },
+  "saleor-rc-fbfc66e3a46b": {
+   "base_prompt_chars": 18858.0,
+   "base_prompt_tokens": 5915.7546,
+   "worst_case_prompt_tokens": 65420.2528,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 73612.2528,
+   "worst_case_usd": 0.027818
+  },
+  "saleor-rc-fc4883ed7da4": {
+   "base_prompt_chars": 20336.0,
+   "base_prompt_tokens": 6379.4032,
+   "worst_case_prompt_tokens": 69129.4416,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 77321.4416,
+   "worst_case_usd": 0.028931
+  },
+  "saleor-rc-fd463c8aae38": {
+   "base_prompt_chars": 53632.0,
+   "base_prompt_tokens": 16824.3584,
+   "worst_case_prompt_tokens": 152689.0832,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 160881.0832,
+   "worst_case_usd": 0.053999
+  },
+  "saleor-rc-fd5b7971c5d2": {
+   "base_prompt_chars": 19162.0,
+   "base_prompt_tokens": 6011.1194,
+   "worst_case_prompt_tokens": 66183.1712,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 74375.1712,
+   "worst_case_usd": 0.028047
+  },
+  "saleor-rc-fdca49f190e2": {
+   "base_prompt_chars": 49742.0,
+   "base_prompt_tokens": 15604.0654,
+   "worst_case_prompt_tokens": 142926.7392,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 151118.7392,
+   "worst_case_usd": 0.05107
+  },
+  "saleor-rc-fe6e46266e81": {
+   "base_prompt_chars": 49250.0,
+   "base_prompt_tokens": 15449.725,
+   "worst_case_prompt_tokens": 141692.016,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 149884.016,
+   "worst_case_usd": 0.0507
+  },
+  "saleor-rc-ff0d35878a50": {
+   "base_prompt_chars": 48657.0,
+   "base_prompt_tokens": 15263.7009,
+   "worst_case_prompt_tokens": 140203.8232,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 148395.8232,
+   "worst_case_usd": 0.050253
+  },
+  "saleor-rc-ffe3a3ece0fb": {
+   "base_prompt_chars": 53016.0,
+   "base_prompt_tokens": 16631.1192,
+   "worst_case_prompt_tokens": 151143.1696,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 159335.1696,
+   "worst_case_usd": 0.053535
+  }
+ },
+ "totals": {
+  "calibration_3": {
+   "prompt_tokens": 366464.34,
+   "completion_tokens": 24576.0,
+   "total_tokens": 391040.34,
+   "usd_base": 0.134515
+  },
+  "main_50": {
+   "prompt_tokens": 5505818.9688,
+   "completion_tokens": 409600.0,
+   "total_tokens": 5915418.9688,
+   "usd_base": 2.061346
+  },
+  "main_150": {
+   "prompt_tokens": 15871119.4648,
+   "completion_tokens": 1220608.0,
+   "total_tokens": 17091727.4648,
+   "usd_base": 5.981944
+  },
+  "main_297": {
+   "prompt_tokens": 33312415.3424,
+   "completion_tokens": 2433024.0,
+   "total_tokens": 35745439.3424,
+   "usd_base": 12.426749
+  },
+  "variance_substudy_15x3": {
+   "usd_base": 2.016722
+  }
+ },
+ "with_safety_x1_5": {
+  "calibration_3": 0.201773,
+  "main_50": 3.092019,
+  "main_150": 8.972916,
+  "main_297": 18.640123,
+  "variance_substudy_15x3": 3.025083
+ },
+ "frozen_ceilings": {
+  "calibration_3": 0.25,
+  "main": 21.5,
+  "variance_substudy": 3.5,
+  "total": 25.25
+ },
+ "ceiling_checks": {
+  "calibration_3_with_safety_below_d5": true,
+  "main_297_with_safety_below_d5": true,
+  "variance_with_safety_below_d5": true
+ },
+ "underestimate_factor_vs_v1_prompt_53": 3.3961,
+ "abort_rule_v2": "If the main-run ceiling is hit before all N tasks finish, the primary result is BUDGET_ABORT_INVALID_FOR_PRIMARY_COMPARISON. Exception, preregistered now: if the first 50 tasks in frozen order (the nested MAIN_50) finished, MAIN_50 may be analysed as UNDERPOWERED_FALLBACK - never as the primary claim."
+}

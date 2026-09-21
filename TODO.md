@@ -2340,3 +2340,37 @@ timeout / 12 scenarios / 2 strategies / 2 repetitions = 48 cells.
 
 | K- | **DJANGOCMS-IMPACTPLAN-FULL-PLAN-16K-DIAGNOSTIC-01 (D058, POST-HOC/EXPLORATORY/ONE-SCENARIO) - TERMINATES**: the single 16K diagnostic on djangocms-external-validity-004 (cap 16384, ONLY treatment difference) finished `finish_reason=stop` at **10650 completion tokens** (< 16384), schema-valid, no invalid paths -> `FULL_PLAN_16K_DIAGNOSTIC=TERMINATES` (CASE A); TP4/FP5/FN0, precision 0.444444, recall 1.0, F1 0.615385, FNR 0.0, full_recall; 1 call, 179.172 s, $0.01148; full raw response persisted (42,773 bytes / SHA-256 `5f66423e...`); emitted_entry_count 143/144 (valid-JSON; cms/toolbar/utils.py defaulted to PRESERVE). Primary 4096 study unchanged (71/71); 8192 probe unchanged; six gates + audit PASS pre/post. NO 30-run 16K ablation; NO 32K. | **STOPPED - awaiting GPT-5.6 SOL review; recommend Compact/Sparse ImpactPlan-v2** |
 | K- | **DJANGOCMS-IMPACTPLAN-CAP-ABLATION-01 (D057, POST-HOC/EXPLORATORY) - STOPPED at 8192 cost/validity probe**: the single 8192 probe on djangocms-external-validity-004 TRUNCATED at exactly 8192 completion tokens (finish_reason=length) -> `CAP_8192_PROBE_TRUNCATION`; 30-cell ablation NOT launched; 16K NOT jumped to automatically; primary 4096 study unchanged (71/71 hashes). Six gates + audit PASS; closure gates + audit PASS; ablation-only runner + configurable ImpactPlan cap committed. | **STOPPED - awaiting GPT-5.6 SOL audit** |
+
+## WP-1b Preflight (2026-09-21) — REAL_DEFECT backlog (from A2 known-failure baseline)
+
+These three REAL_DEFECT pre-existing full-suite failures were NOT fixed in the
+WP1B_PREFLIGHT_FREEZE mission (contract forbids fixing a REAL_DEFECT outside
+WP-1 code). Each must be triaged in a future mission.
+
+### K-WP1B-1 — test_d96_kaggle_github_boundary: github.py docstring contains GITHUB_TOKEN
+- **Priority:** MEDIUM
+- **Category:** REAL_DEFECT
+- **Description:** tests/integration/test_d96_kaggle_github_boundary.py::test_runtime_launch_resume_path_has_no_github_machinery
+  asserts src/benchmark/issue_grounded/github.py must not contain the literal
+  GITHUB_TOKEN; the file still carries it inside a docstring.
+- **Acceptance Criteria:** decide either to scrub the docstring or amend the
+  boundary test; full suite must equal the known-failure set afterwards.
+- **Status:** OPEN (recorded 2026-09-21)
+
+### K-WP1B-2 — test_model_identity_policy: README model-name policy
+- **Priority:** MEDIUM
+- **Category:** REAL_DEFECT
+- **Description:** tests/unit/test_model_identity_policy.py::test_full_model_name_present_in_current_facing_docs
+  requires README.md to use the full model name Qwen3-Coder-480B-A35B-Instruct.
+- **Acceptance Criteria:** align README model naming with the policy test or
+  amend the policy; full suite must equal the known-failure set afterwards.
+- **Status:** OPEN (recorded 2026-09-21)
+
+### K-WP1B-3 — test_readme_markdown_tables: README SVG fallback missing
+- **Priority:** MEDIUM
+- **Category:** REAL_DEFECT
+- **Description:** tests/unit/test_readme_markdown_tables.py::TestReadmeSvgFallbacks::test_svg_fallbacks_exist_and_are_embedded
+  requires README to embed docs/assets/experiment_map.svg.
+- **Acceptance Criteria:** regenerate/embed the SVG fallback in README or amend
+  the test; full suite must equal the known-failure set afterwards.
+- **Status:** OPEN (recorded 2026-09-21)

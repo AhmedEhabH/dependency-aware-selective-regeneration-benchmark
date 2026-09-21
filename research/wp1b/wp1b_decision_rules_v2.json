@@ -1,0 +1,82 @@
+{
+ "artifact": "wp1b_decision_rules_v2",
+ "date": "2026-09-21",
+ "mission": "WP1B_PREFLIGHT_FREEZE_2026-09-21",
+ "status": "FROZEN_BEFORE_RESULT",
+ "supersedes": "research/wp1a/wp1a_cost_quality_categories.json (kept as history; the word 'dominance' is retired for WP-1b)",
+ "authority": "D1 (G1 margin), B3 (wp1b_ni_margin_frozen.json), B4",
+ "analyses": {
+  "P_primary_fail_closed": "every agent EMPTY prediction counts as an empty predicted set",
+  "S_instrument_failure_excluded_paired": "drop from BOTH arms every task whose agent empty_reason in {truncation, parser_failure, infrastructure}; report how many were dropped. round_cap is NOT dropped: failing to decide within 8 calls is agent behaviour, not an instrument failure."
+ },
+ "quality_verdicts_ordered": [
+  {
+   "id": 1,
+   "verdict": "SUPERIOR",
+   "condition": "Q5(D) > -0.05 in both P and S, and Q2.5(D) > 0 in P"
+  },
+  {
+   "id": 2,
+   "verdict": "NI_SUPPORTED_AGENT_BETTER_WITHIN_MARGIN",
+   "condition": "Q5(D) > -0.05 in both P and S, and Q97.5(D) < 0 in P (non-inferior, but statistically lower F1 inside the margin; this must be stated in every summary)"
+  },
+  {
+   "id": 3,
+   "verdict": "NI_SUPPORTED",
+   "condition": "Q5(D) > -0.05 in both P and S"
+  },
+  {
+   "id": 4,
+   "verdict": "NI_NOT_ROBUST",
+   "condition": "Q5(D) > -0.05 in exactly one of P, S"
+  },
+  {
+   "id": 5,
+   "verdict": "AGENT_MATERIALLY_BETTER",
+   "condition": "Q97.5(D) < -0.05 in P"
+  },
+  {
+   "id": 6,
+   "verdict": "AGENT_BETTER",
+   "condition": "Q97.5(D) < 0 in P"
+  },
+  {
+   "id": 7,
+   "verdict": "INCONCLUSIVE_AT_THIS_N",
+   "condition": "none of the above. Never call this 'equivalence'."
+  }
+ ],
+ "quality_verdict_rule": "Take the FIRST row that matches, top to bottom. One-sided alpha = 0.05; NI first, then superiority; no multiplicity correction needed for this order.",
+ "cost_verdict": {
+  "statistic": "ratio RM-CSS / Agent of the per-task means for total tokens, model calls, and USD, with paired task-bootstrap CIs (same resampling as B3)",
+  "views": "two views in wp1a_accounting_schema.json (marginal; amortized setup at N)",
+  "CHEAPER": "the upper 95% CI bound of the ratio is below 1 on all three dimensions, decided on View A (marginal cost); View B (amortized setup) is reported alongside"
+ },
+ "final_categories": [
+  {
+   "category": "RMCSS_SUPERIOR_AT_LOWER_COST",
+   "rule": "verdict 1 + CHEAPER"
+  },
+  {
+   "category": "RMCSS_NONINFERIOR_AT_LOWER_COST",
+   "rule": "verdict 2 or 3 + CHEAPER (verdict 2 carries its mandatory note)"
+  },
+  {
+   "category": "INCONCLUSIVE_QUALITY_AT_LOWER_COST",
+   "rule": "verdict 4 or 7 + CHEAPER"
+  },
+  {
+   "category": "COST_QUALITY_TRADEOFF",
+   "rule": "verdict 5 or 6 + CHEAPER"
+  },
+  {
+   "category": "NO_EFFICIENCY_ADVANTAGE",
+   "rule": "not CHEAPER (report the quality verdict alongside)"
+  }
+ ],
+ "dominance_retired": "The word 'dominance' is retired for WP-1b.",
+ "notes": [
+  "Both analyses P and S are preregistered; the primary fail-closed analysis and the instrument-failure-excluded sensitivity analysis remain distinct.",
+  "round_cap is NOT excluded by the instrument-failure sensitivity analysis (agent behaviour)."
+ ]
+}

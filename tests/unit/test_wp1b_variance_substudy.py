@@ -36,14 +36,15 @@ EXPECTED = [
 ]
 
 
-def test_selection_is_deterministic() -> None:
+def test_selection_is_deterministic(tmp_path: Path) -> None:
     result = subprocess.run(
-        [sys.executable, str(PROJECT_DIR / "scripts" / "wp1b_variance_substudy_selection.py")],
+        [sys.executable, str(PROJECT_DIR / "scripts" / "wp1b_variance_substudy_selection.py"),
+         "--out", str(tmp_path)],
         cwd=PROJECT_DIR, capture_output=True, text=True, timeout=120,
     )
     assert result.returncode == 0, result.stdout + result.stderr
     manifest = json.loads(
-        (ARTIFACTS / "wp1b_variance_substudy_preregistration_2026-09-21.json").read_text(encoding="utf-8")
+        (tmp_path / "wp1b_variance_substudy_preregistration_2026-09-21.json").read_text(encoding="utf-8")
     )
     assert manifest["salt"] == SALT
     assert manifest["selected_15_task_ids"] == EXPECTED

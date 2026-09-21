@@ -163,3 +163,77 @@ spend:** $0.00. **Measurement-infrastructure repair; no scientific claim.**
 AWAITING AHMED AUTHORIZATION (WP-1a preparation COMPLETE; see
 `research/wp1a/`). WP-2 E2E Phase-0 instrument DEFERRED. G6 oracle
 unresolved. No Smoke / Pilot / Research Run. No E2E scientific claim allowed.
+
+## WP-1b Preflight Freeze (2026-09-21) - Phase 0/A/B COMPLETE (T3; zero API)
+
+**Task:** WP1B_PREFLIGHT_FREEZE_2026-09-21. **Branch:**
+wp1b/preflight-freeze-2026-09-21. **Tier:** T3. **Scientific API spend:**
+\.00 through Phases 0/A/B. Pre-result freeze; no paid inference yet.
+
+- **Phase 0 (git sync):** origin/main was at 87c86f5; pushed local main 1ae7058
+  (push succeeded on the 60s retry after an initial network failure); verified
+  local main == origin/main == 1ae7058 via ls-remote; branch created.
+- **Phase A1 (test mutation):** the four WP-1 generator entry points
+  (wp1a_independent_audit, wp1a_acceptance_report, wp1b_closure_recompute,
+  wp1b_variance_substudy_selection) now accept --out <dir> so tests redirect
+  outputs to a pytest tmp_path; default human-run behaviour byte-identical.
+  NEW artifacts store repository-relative POSIX paths. Added
+  tests/unit/test_no_tracked_artifact_mutation.py (6 tests) proving the four
+  generators do not mutate tracked artifacts/ and research/wp1a/ files.
+  Absolute-path leak recorded as a cosmetic defect in DECISIONS.md (frozen
+  artifacts not rewritten). A1 acceptance: targeted WP-0/WP-1 suite green,
+  git status --porcelain empty (AC-P1/AC-P2).
+- **Phase A2 (name the 5 pre-existing failures):** full suite on clean checkout
+  = 5 failed / 3700 passed / 35 skipped. Recorded node IDs + classes in
+  docs/KNOWN_TEST_FAILURES_2026-09-21.md and
+  artifacts/known_test_failures_2026-09-21.json (REAL_DEFECT x3,
+  ENV_OR_DATA_MISSING x2). New full-suite acceptance rule: failing node-ID set
+  == known list (AC-P3). TODO.md REAL_DEFECT entries added.
+- **Phase A3 (audit packet v2):** exports/wp1a_independent_audit_packet_2026-09-21_v2/
+  (v1 untouched) adds the coefficient-order trap (lr_coef = continuous +
+  boolean, NOT feature_names; 0/300 vs 174/300) and the FULL-only inputs list
+  (public candidate_universe.json / dependency_graph.json / saleor manifest).
+- **Phase A4 (export member):** restored the provenance-verified D13R2
+  pilot-kaggle-upload.zip (SHA 65269528...) from _historical_archive into dist/
+  so the FULL export includes it; DECISIONS.md line.
+- **Appendix R re-derivation:** every R number independently re-derived with
+  scripts/wp1b_appendix_r_rederivation.py; 125 comparisons, 0 disagreements,
+  status ALL_AGREE (research/wp1b/wp1b_appendix_r_agreement.json).
+- **Phase B1 (budget v2, G8):** research/wp1b/wp1b_budget_model_v2.json. Real
+  ArtifactUniverse per task (production path, allow_ground_truth_universe=False)
+  + exact initial prompt rendered; worst case (8 calls, cap 1024); totals for
+  Calibration-3/Main-50/150/297/variance(15x3) x1.5; NO ceiling below worst case
+  x1.5 (cal 0.202<=0.25; main-297 18.640<=21.50; variance 3.025<=3.50);
+  underestimate factor ~3.40x vs v1. Abort rule v2 preregistered (AC-P6).
+- **Phase B2 (sample-size, G9):** wp1b_main_297_manifest.json (n=297, first 50
+  == WP-1a MAIN_50 exact, calibration absent, hashes recorded),
+  wp1b_main_150_manifest.json (n=149; one calibration task removed),
+  wp1b_main_50_manifest.json (unchanged). Power doc
+  docs/WP1B_POWER_AND_SAMPLE_SIZE_2026-09-21.md re-derives R-C (AGREE) (AC-P7).
+- **Phase B3 (freeze G1):** research/wp1b/wp1b_ni_margin_frozen.json +
+  docs/WP1B_NI_MARGIN_FROZEN_2026-09-21.md (Delta=0.05, Q5 rule, inheritance,
+  coherence anchor, relative size) (AC-P8).
+- **Phase B4 (decision rules v2):** research/wp1b/wp1b_decision_rules_v2.json
+  (P/S dual analysis, seven ordered quality verdicts, cost CHEAPER rule, five
+  final categories; 'dominance' retired) (AC-P9).
+- **Phase B5 (freeze G2):** DECISIONS.md WP1B_G2_COMPLETION_CAP_2026_09_21
+  EFFECTIVE (D3); research/wp1b/wp1b_frozen_agent_protocol_v2.json (cap 1024);
+  tests/unit/test_wp1b_g2_cap_freeze.py asserts 1024 + frozen SIP/RM-CSS
+  artifacts unchanged (AC-P10).
+- **Phase B6 (agent telemetry, G10):** additive per-call sidecar JSONL +
+  per-task observation metrics in iterative_agent.py + telemetry.py; behavior
+  preservation proven by stub-backend golden test
+  (tests/unit/test_wp1b_agent_telemetry_golden.py); disclosure
+  docs/WP1B_AGENT_BASELINE_DISCLOSURE_2026-09-21.md (AC-P11).
+- **Phase B7 (exploratory prereg):** research/wp1b/wp1b_exploratory_prereg.json
+  X1-X5, status EXPLORATORY_PREREGISTERED, only after primary frozen/tagged
+  (AC-P12).
+- **Validation:** ruff PASS, mypy strict PASS (production files), git diff
+  --check PASS; targeted WP-0/WP-1 suite 47 passed; no new artifact contains an
+  absolute machine path (AC-P13); API spend \.00 (AC-P14).
+
+**Next step:** B8 integration (merge --no-ff to main, annotated tag
+wp1b-preflight-freeze-2026-09-21, push main + tag, PROGRESS/00_CURRENT/
+START_HERE updates, TRUE LIGHT export), then Phase C Calibration-3 (D6 YES,
+cap 1024, ceiling 0.25). MAIN_297/variance NOT authorized (D7 NO) until Ahmed
+reviews the Calibration-3 STOP report.

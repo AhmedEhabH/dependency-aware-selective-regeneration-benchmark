@@ -38,7 +38,18 @@ def select_subset(task_ids: list[str], salt: str = SALT, size: int = SUBSET_SIZE
     return [tid for _, tid in entries[:size]]
 
 
-def main() -> int:
+def main(out_dir: Path | None = None) -> int:
+    """Run the variance-substudy subset selection.
+
+    ``out_dir`` (optional, default ``None``) redirects ONLY the written
+    ``wp1b_variance_substudy_preregistration_2026-09-21.json`` into ``out_dir``
+    (used by the test suite with a pytest ``tmp_path`` so tracked artifacts are
+    never rewritten). All input reads keep using the repository paths. When
+    ``out_dir`` is ``None`` the default (human-run) behaviour is byte-identical
+    to the pre-fix script.
+    """
+    write_dir = out_dir if out_dir is not None else OUT.parent
+    out_path = out_dir / OUT.name if out_dir is not None else OUT
     main_manifest = json.loads(MAIN_50.read_text(encoding="utf-8"))
     task_ids = main_manifest["task_ids"]
     assert len(task_ids) == 50, f"expected 50 main tasks, got {len(task_ids)}"
@@ -68,8 +79,8 @@ def main() -> int:
         ).hexdigest(),
         "no_outcome_used": True,
     }
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps(manifest, indent=1), encoding="utf-8")
+    write_dir.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(json.dumps(manifest, indent=1), encoding="utf-8")
 
     print(f"[variance-substudy] salt: {SALT}")
     print(f"[variance-substudy] selected 15: {selected}")
@@ -78,4 +89,8 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    import sys
+    out_arg: Path | None = None
+    if "--out" in sys.argv:
+        out_arg = Path(sys.argv[sys.argv.index("--out") + 1])
+    raise SystemExit(main(out_dir=out_arg))

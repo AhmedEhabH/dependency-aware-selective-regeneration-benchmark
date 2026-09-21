@@ -71,7 +71,17 @@ def _check(checks: list[dict], name: str, ok: bool, detail: str) -> None:
     checks.append({"name": name, "pass": bool(ok), "detail": detail})
 
 
-def main() -> int:
+def main(out_dir: Path | None = None) -> int:
+    """Run the WP-1a same-session cross-check.
+
+    ``out_dir`` (optional, default ``None``) redirects ONLY the written
+    ``wp1a_independent_audit.json`` into ``out_dir`` (used by the test suite
+    with a pytest ``tmp_path`` so tracked artifacts are never rewritten).
+    All input reads keep using the repository paths. When ``out_dir`` is
+    ``None`` the default (human-run) behaviour is byte-identical to the
+    pre-fix script.
+    """
+    write_dir = out_dir if out_dir is not None else OUT_DIR
     import numpy as np
     import pandas as pd
 
@@ -248,7 +258,8 @@ def main() -> int:
         "benchmark.wp1a helpers (NOT an independent/external audit)",
     }
     OUT_DIR.mkdir(parents=True, exist_ok=True)
-    (OUT_DIR / "wp1a_independent_audit.json").write_text(json.dumps(result, indent=1), encoding="utf-8")
+    write_dir.mkdir(parents=True, exist_ok=True)
+    (write_dir / "wp1a_independent_audit.json").write_text(json.dumps(result, indent=1), encoding="utf-8")
     for c in checks:
         print(f"[audit] {c['name']}: {'PASS' if c['pass'] else 'FAIL'} - {c['detail']}")
     print(f"[audit] {passed}/{total} PASS; status={result['status']}")
@@ -256,4 +267,8 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    import sys
+    out_arg: Path | None = None
+    if "--out" in sys.argv:
+        out_arg = Path(sys.argv[sys.argv.index("--out") + 1])
+    raise SystemExit(main(out_dir=out_arg))

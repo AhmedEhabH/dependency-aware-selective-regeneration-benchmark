@@ -13,6 +13,39 @@ replaces old "V2"/"Sparse-v2"/"sparse impact plan" (the Sparse baseline).
 ADD/KEEP/DROP set selection). Historical code identifiers, commits, tags and
 artifact paths are NOT renamed; old reports keep their original wording.
 
+**CURRENT TRUTH (2026-09-21, WP-1b PREFLIGHT FREEZE — PHASE 0/A/B COMPLETE;
+ZERO API; pre-result freeze of G1/G2, budget v2, n amendment, decision rules
+v2, agent telemetry; Calibration-3 authorized (D6 YES); Main/variance NOT
+authorized (D7 NO)):** Branch `wp1b/preflight-freeze-2026-09-21`. WP-1a
+selection-baseline preparation is complete and merged (G1/G2 were the two
+remaining scientific blockers). This freeze resolves them prospectively:
+- **G1 NI margin frozen (D1/D2):** Δ = 0.05 absolute pooled micro-F1
+  (sensitivity 0.03/0.10), Q5 one-sided 95% lower bound > −0.05; margin only
+  inherited from Design-V2 H1 (recall-superiority half NOT inherited).
+  `research/wp1b/wp1b_ni_margin_frozen.json`,
+  `docs/WP1B_NI_MARGIN_FROZEN_2026-09-21.md`.
+- **G2 completion cap EFFECTIVE (D3):** amendment
+  `WP1B_G2_COMPLETION_CAP_2026_09_21` 512→1024; protocol v2 written; runner
+  config test asserts 1024. `research/wp1b/wp1b_frozen_agent_protocol_v2.json`.
+- **Budget model v2 (G8):** real ArtifactUniverse + exact prompt; worst cases
+  all below D5 ceilings ×1.5; underestimate factor ~3.40×.
+  `research/wp1b/wp1b_budget_model_v2.json`.
+- **Sample-size amendment (G9):** MAIN_297 manifest (n=297) + MAIN_150 (n=149)
+  + MAIN_50; power doc re-derives R-C (AGREE).
+- **Decision rules v2 (B4):** P/S dual analysis, seven ordered quality
+  verdicts, cost CHEAPER rule; "dominance" retired.
+- **Agent telemetry (G10):** additive per-call sidecar + observation metrics,
+  behavior-preserving (golden test).
+- **Exploratory prereg (B7):** X1–X5, only after the primary result is frozen
+  and tagged.
+- **All Appendix R numbers independently re-derived: 125 comparisons, 0
+  disagreements, ALL_AGREE** (`research/wp1b/wp1b_appendix_r_agreement.json`).
+- **API spend through Phase B: $0.00.** Calibration-3 (3 tasks, cap 1024,
+  ceiling $0.25) is authorized (D6 YES) and runs after B8 integration. MAIN_297,
+  MAIN_50, MAIN_150 and the variance substudy require a NEW Ahmed authorization
+  (D7 NO) after he reviews the Calibration-3 STOP report. The 786 sealed Saleor
+  RESERVE outcomes remain untouched.
+
 **CURRENT TRUTH (2026-09-20, SALEOR RESERVE 300 — FINAL CLEAN RM-CSS
 REPLICATION + PRE-REGISTERED CROSS-REPOSITORY TRANSFER TEST; AUTHORIZED BY
 AHMED: ONE clean untouched evaluation of exactly 300 Saleor RESERVE tasks;

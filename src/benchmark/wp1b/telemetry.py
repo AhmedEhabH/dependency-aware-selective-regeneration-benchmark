@@ -54,6 +54,30 @@ PER_TASK_FIELDS: tuple[str, ...] = (
     "empty_reason",
     "prediction_empty",
     "final_answer_truncated",
+    "observation_truncation_rate",
+    "paths_read",
+    "paths_surfaced",
+    "tool_output_chars_raw_total",
+    "tool_output_chars_shown_total",
+)
+
+CALL_SIDECAR_FIELDS: tuple[str, ...] = (
+    "task_id",
+    "call_index",
+    "force_final",
+    "action",
+    "path",
+    "query",
+    "tool_output_chars_raw",
+    "tool_output_chars_shown",
+    "observation_truncated",
+    "finish_reason",
+    "prompt_tokens",
+    "completion_tokens",
+    "usd",
+    "latency_s",
+    "raw_response_text",
+    "raw_response_sha256",
 )
 
 
@@ -74,7 +98,22 @@ def strategy_telemetry(
         "empty_reason": empty_reason,
         "prediction_empty": empty_reason != "none",
         "final_answer_truncated": empty_reason == "truncation",
+        "observation_truncation_rate": strategy.observation_truncation_rate(),
+        "paths_read": list(strategy.paths_read),
+        "paths_surfaced": list(strategy.paths_surfaced),
+        "tool_output_chars_raw_total": strategy.tool_output_chars_raw_total,
+        "tool_output_chars_shown_total": strategy.tool_output_chars_shown_total,
     }
+
+
+def call_sidecar_records(
+    strategy: IterativeRepositoryAgentStrategy, *, task_id: str = ""
+) -> list[dict[str, Any]]:
+    """Build the per-call sidecar JSONL records (additive WP-1b telemetry)."""
+    return [
+        {"task_id": task_id, **dict(rec)}
+        for rec in strategy.call_sidecar
+    ]
 
 
 def aggregate(records: list[dict[str, Any]]) -> dict[str, Any]:
