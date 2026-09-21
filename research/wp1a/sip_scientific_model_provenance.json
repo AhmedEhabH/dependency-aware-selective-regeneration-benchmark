@@ -1,0 +1,81 @@
+{
+ "wp1a": "sip_scientific_model_provenance",
+ "generated_utc": "2026-09-21T00:44:40.540119+00:00",
+ "source": "research/saleor-reserve-300-rmcss/sip_300_run_records.jsonl (authoritative)",
+ "n_records": 300,
+ "identity": {
+  "scientific_model": {
+   "value": "qwen/qwen3-coder",
+   "n_matching": 300,
+   "n_total": 300,
+   "consistent_across_all_tasks": true
+  },
+  "provider_tag": {
+   "value": "deepinfra/turbo",
+   "n_matching": 300,
+   "n_total": 300,
+   "consistent_across_all_tasks": true
+  },
+  "exact_model": {
+   "value": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "n_matching": 300,
+   "n_total": 300,
+   "consistent_across_all_tasks": true
+  },
+  "temperature": {
+   "value": "0.0",
+   "n_matching": 300,
+   "n_total": 300,
+   "consistent_across_all_tasks": true
+  },
+  "completion_cap": {
+   "value": "16384",
+   "n_matching": 300,
+   "n_total": 300,
+   "consistent_across_all_tasks": true
+  },
+  "graph": {
+   "value": "OFF",
+   "n_matching": 300,
+   "n_total": 300,
+   "consistent_across_all_tasks": true
+  },
+  "serialization_policy": {
+   "value": "sparse_v2",
+   "n_matching": 300,
+   "n_total": 300,
+   "consistent_across_all_tasks": true
+  }
+ },
+ "terminal_status": {
+  "succeeded": 228,
+  "succeeded_empty": 70,
+  "transport_failed": 2
+ },
+ "per_task_prompt_hash": {
+  "n_unique": 300,
+  "n_total": 300,
+  "example": [
+   "0037ab33e3a6f13376d8570390a2dfa28e4faad24bea0027f848ca54f2ce454f",
+   "015c931e26c37acb79ad01b339ee322a7a5c14ed9cfe7fdbea059bdc1aaf8b7a",
+   "02d67559fcb9ca64e96c2bd7017e7fdeedd42a4f76a10560dcb041b381e5086c"
+  ]
+ },
+ "per_task_raw_response_hash": {
+  "n_unique": 298,
+  "n_total": 300
+ },
+ "pricing_source": {
+  "frozen DeepInfra-through-OpenRouter pricing ($0.30/$1.00 per 1M); verified live 2026-09-20": 298
+ },
+ "provider_name": {
+  "DeepInfra": 298
+ },
+ "prompt_template_source": {
+  "path": "src/benchmark/real_commits/p1_evaluation.py",
+  "sha256": "65eb7e9a0202df388dd4303bd7ee3e6eb11d6873d54ac8d3f5fec86e949a9842",
+  "note": "P1_COMMON_PROMPT_TEMPLATE + P1_SERIALIZATION_POLICY_SPARSE + P1_MODEL/P1_PROVIDER_TAG/P1_TEMPERATURE/P1_MAX_COMPLETION_TOKENS defined here; prompt_sha256 per task recorded in run records."
+ },
+ "conclusion": "IDENTITY_MECHANICALLY_RECOVERED_AND_CONSISTENT",
+ "future_agent_arm_model_requirement": "The future WP-1b repository-agent generative arm MUST use the SAME scientific model identity as the frozen SIP run to avoid model mismatch. The OpenCode coding model is NOT the scientific arm model."
+}

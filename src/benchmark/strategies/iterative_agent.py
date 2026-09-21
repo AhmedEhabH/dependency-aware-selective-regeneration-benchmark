@@ -246,6 +246,13 @@ class IterativeRepositoryAgentStrategy:
         self._last_control_truncation: bool = False
         self._selection_raw_hashes: list[str] = []
         self._last_finish_reason: str = ""
+        self._finish_reason_counts: dict[str, int] = {}
+        self._control_truncation_count: int = 0
+        self._control_malformed_count: int = 0
+        self._control_schema_invalid_count: int = 0
+        self._valid_final_count: int = 0
+        self._last_control_error: str = "none"
+        self._empty_reason: str = "none"
 
     def begin_run(self, workspace_root: str | Path) -> None:
         root = Path(workspace_root).resolve()
@@ -266,6 +273,13 @@ class IterativeRepositoryAgentStrategy:
         self._last_control_truncation = False
         self._selection_raw_hashes = []
         self._last_finish_reason = ""
+        self._finish_reason_counts = {}
+        self._control_truncation_count = 0
+        self._control_malformed_count = 0
+        self._control_schema_invalid_count = 0
+        self._valid_final_count = 0
+        self._last_control_error = "none"
+        self._empty_reason = "none"
         from benchmark.strategies.repository_tools import RepositoryTools
         self._tools = RepositoryTools(
             workspace_root=root,
@@ -338,6 +352,11 @@ class IterativeRepositoryAgentStrategy:
         if tok:
             self._record_call(tok.prompt_tokens, tok.completion_tokens, tok.total_tokens)
         self._last_finish_reason = response.finish_reason or ""
+        self._finish_reason_counts[self._last_finish_reason] = (
+            self._finish_reason_counts.get(self._last_finish_reason, 0) + 1
+        )
+        if response.finish_reason == "length":
+            self._control_truncation_count += 1
         if getattr(response, "text", ""):
             self._selection_raw_hashes.append(
                 hashlib.sha256(response.text.encode("utf-8")).hexdigest()
@@ -358,6 +377,23 @@ class IterativeRepositoryAgentStrategy:
         repeated = signature == self._last_tool_request
         self._last_tool_request = signature
         return repeated
+
+    def _classify_empty_reason(self) -> str:
+        """Classify why the strategy produced an EMPTY prediction.
+
+        Precedence (deterministic):
+        truncation -> infrastructure -> parser_failure -> round_cap
+        """
+        if self._last_control_truncation:
+            return "truncation"
+        if self._model_call_budget_exhausted:
+            return "infrastructure"
+        if (
+            self._last_control_error in ("malformed", "schema_invalid")
+            and self._remaining_agent_calls <= 0
+        ):
+            return "parser_failure"
+        return "round_cap"
 
     def _invoke_tool(
         self,
@@ -440,6 +476,7 @@ class IterativeRepositoryAgentStrategy:
             except AgentCallsExhaustedError:
                 if selected_paths:
                     break
+                self._empty_reason = "round_cap"
                 return ImpactPrediction(
                     token_usage=TokenUsage(
                         prompt_tokens=self._prompt_tokens - prompt_tok_before,
@@ -476,6 +513,8 @@ class IterativeRepositoryAgentStrategy:
 
             action, parse_mode = _parse_action_response(response.text)
             if action is None:
+                self._control_malformed_count += 1
+                self._last_control_error = "malformed"
                 prompt += "\n[error] Invalid JSON response"
                 if self._remaining_agent_calls <= 0:
                     break
@@ -495,31 +534,42 @@ class IterativeRepositoryAgentStrategy:
                 raw_paths = action.get("selected_paths", [])
                 if not isinstance(raw_paths, list):
                     prompt += "\n[error] selected_paths must be a list"
+                    self._control_schema_invalid_count += 1
+                    self._last_control_error = "schema_invalid"
                     if self._remaining_agent_calls <= 0:
                         break
                     continue
                 if not raw_paths:
                     prompt += "\n[error] selected_paths must be non-empty"
+                    self._control_schema_invalid_count += 1
+                    self._last_control_error = "schema_invalid"
                     if self._remaining_agent_calls <= 0:
                         break
                     continue
                 if not all(isinstance(p, str) for p in raw_paths):
                     prompt += "\n[error] every selected_path item must be a string"
+                    self._control_schema_invalid_count += 1
+                    self._last_control_error = "schema_invalid"
                     if self._remaining_agent_calls <= 0:
                         break
                     continue
                 if len(raw_paths) != len(set(raw_paths)):
                     prompt += "\n[error] selected_paths must be unique"
+                    self._control_schema_invalid_count += 1
+                    self._last_control_error = "schema_invalid"
                     if self._remaining_agent_calls <= 0:
                         break
                     continue
                 if not all(p in editable_set for p in raw_paths):
                     bad = [p for p in raw_paths if p not in editable_set]
                     prompt += f"\n[error] paths not in editable universe: {bad}"
+                    self._control_schema_invalid_count += 1
+                    self._last_control_error = "schema_invalid"
                     if self._remaining_agent_calls <= 0:
                         break
                     continue
                 selected_paths = list(raw_paths)
+                self._valid_final_count += 1
                 self._last_requires_iteration = _parse_requires_iteration(action)
                 logger.info(
                     "AGENT_FINAL selected_count=%d selected_paths=%s",
@@ -547,6 +597,7 @@ class IterativeRepositoryAgentStrategy:
 
         if not selected_paths:
             self._last_requires_iteration = False
+            self._empty_reason = self._classify_empty_reason()
             return ImpactPrediction(
                 token_usage=TokenUsage(
                     prompt_tokens=delta_prompt,
@@ -683,6 +734,8 @@ class IterativeRepositoryAgentStrategy:
 
             action, parse_mode = _parse_action_response(response.text)
             if action is None:
+                self._control_malformed_count += 1
+                self._last_control_error = "malformed"
                 prompt += "\n[error] Invalid JSON response"
                 if self._remaining_agent_calls <= 0:
                     break
@@ -702,27 +755,37 @@ class IterativeRepositoryAgentStrategy:
                 raw_paths = action.get("selected_paths", [])
                 if not isinstance(raw_paths, list):
                     prompt += "\n[error] selected_paths must be a list"
+                    self._control_schema_invalid_count += 1
+                    self._last_control_error = "schema_invalid"
                     if self._remaining_agent_calls <= 0:
                         break
                     continue
                 if not raw_paths:
                     prompt += "\n[error] selected_paths must be non-empty"
+                    self._control_schema_invalid_count += 1
+                    self._last_control_error = "schema_invalid"
                     if self._remaining_agent_calls <= 0:
                         break
                     continue
                 if not all(isinstance(p, str) for p in raw_paths):
                     prompt += "\n[error] every selected_path item must be a string"
+                    self._control_schema_invalid_count += 1
+                    self._last_control_error = "schema_invalid"
                     if self._remaining_agent_calls <= 0:
                         break
                     continue
                 if len(raw_paths) != len(set(raw_paths)):
                     prompt += "\n[error] selected_paths must be unique"
+                    self._control_schema_invalid_count += 1
+                    self._last_control_error = "schema_invalid"
                     if self._remaining_agent_calls <= 0:
                         break
                     continue
                 if not all(p in editable_set for p in raw_paths):
                     bad = [p for p in raw_paths if p not in editable_set]
                     prompt += f"\n[error] paths not in editable universe: {bad}"
+                    self._control_schema_invalid_count += 1
+                    self._last_control_error = "schema_invalid"
                     if self._remaining_agent_calls <= 0:
                         break
                     continue
@@ -857,3 +920,34 @@ class IterativeRepositoryAgentStrategy:
     @property
     def selection_finish_reason(self) -> str:
         return self._last_finish_reason
+
+    @property
+    def selection_truncation_count(self) -> int:
+        """Number of control calls that hit the completion cap (finish_reason=length)."""
+        return self._control_truncation_count
+
+    @property
+    def selection_malformed_count(self) -> int:
+        """Number of control calls whose response was not parseable JSON."""
+        return self._control_malformed_count
+
+    @property
+    def selection_schema_invalid_count(self) -> int:
+        """Number of final answers rejected by the schema/validation rules."""
+        return self._control_schema_invalid_count
+
+    @property
+    def selection_valid_final_count(self) -> int:
+        """Number of final answers accepted as a valid prediction."""
+        return self._valid_final_count
+
+    @property
+    def selection_finish_reason_distribution(self) -> dict[str, int]:
+        """Distribution of finish_reason values across control calls."""
+        return dict(self._finish_reason_counts)
+
+    @property
+    def selection_empty_reason(self) -> str:
+        """Why an EMPTY prediction was produced: truncation | round_cap |
+        parser_failure | infrastructure | none."""
+        return self._empty_reason

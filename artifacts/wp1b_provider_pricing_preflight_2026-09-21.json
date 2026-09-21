@@ -1,0 +1,77 @@
+{
+ "artifact": "wp1b_provider_pricing_preflight",
+ "generated_utc": "2026-09-21T03:21:01.736990+00:00",
+ "live_metadata_available": true,
+ "model": {
+  "id": "qwen/qwen3-coder",
+  "name": "Qwen: Qwen3 Coder 480B A35B",
+  "context_length": 262144,
+  "pricing_per_token": {
+   "prompt": "0.0000003",
+   "completion": "0.000001",
+   "input_cache_read": "0.0000001"
+  },
+  "pricing_per_1m_usd": {
+   "prompt": 0.3,
+   "completion": 1.0,
+   "input_cache_read": 0.09999999999999999
+  },
+  "top_provider_max_completion_tokens": 65536,
+  "supported_parameters": [
+   "frequency_penalty",
+   "logit_bias",
+   "logprobs",
+   "max_tokens",
+   "min_p",
+   "presence_penalty",
+   "repetition_penalty",
+   "response_format",
+   "seed",
+   "stop",
+   "structured_outputs",
+   "temperature",
+   "tool_choice",
+   "tools",
+   "top_k",
+   "top_logprobs",
+   "top_p"
+  ],
+  "structured_outputs_supported": true,
+  "response_format_supported": true,
+  "tools_supported": true
+ },
+ "deepinfra_route": {
+  "tag": "deepinfra/turbo",
+  "quantization": "fp4",
+  "context_length": 262144,
+  "max_completion_tokens": 65536,
+  "pricing_per_1m_usd": {
+   "prompt": 0.3,
+   "completion": 1.0,
+   "input_cache_read": 0.09999999999999999
+  },
+  "status": -2,
+  "uptime_last_1d_pct": 97.9739807756049
+ },
+ "available_endpoint_tags": [
+  "google-vertex/us-south1",
+  "deepinfra/turbo",
+  "venice/fp8",
+  "novita/fp8",
+  "alibaba/opensource"
+ ],
+ "frozen_protocol": {
+  "model": "qwen/qwen3-coder",
+  "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+  "prompt_per_1m_usd": 0.3,
+  "completion_per_1m_usd": 1.0
+ },
+ "checks": {
+  "model_matches_frozen": true,
+  "route_matches_frozen": true,
+  "prompt_price_matches_frozen": true,
+  "completion_price_matches_frozen": true,
+  "no_drift": true
+ },
+ "note": "Fetched from OpenRouter public metadata API at execution time; no paid inference was invoked."
+}

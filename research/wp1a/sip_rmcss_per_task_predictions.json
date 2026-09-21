@@ -1,0 +1,3822 @@
+{
+ "wp1a": "sip_rmcss_per_task_predictions",
+ "generated_utc": "2026-09-21T00:40:51.905754+00:00",
+ "source_artifacts": {
+  "sip_run_records": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\saleor-reserve-300-rmcss\\sip_300_run_records.jsonl",
+  "candidate_rows": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\saleor-reserve-300-rmcss\\candidate_rows_saleor300.parquet",
+  "deployment_artifact": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\stage5-v2-final\\deployment_artifact.json",
+  "deployment_config_sha256": "8925d29a8e065bc864cd16e755ac0e896c7675b4a12f68fb66c35e5bd644ea95",
+  "threshold": 0.2,
+  "realization": "A"
+ },
+ "model_identity": {
+  "scientific_model": "qwen/qwen3-coder",
+  "provider_tag": "deepinfra/turbo",
+  "note": "SIP stored predictions reused verbatim; no LLM re-call. RM-CSS is a frozen deterministic classifier (L2-LR), not a generative model."
+ },
+ "n_tasks": 300,
+ "manifest_sha256": "60f4ab3a17ceca985dee2364fb1b767df7772711fe6e41c1aff21bc325edde5e",
+ "per_task": {
+  "saleor-rc-0179b331be38": {
+   "task_id": "saleor-rc-0179b331be38",
+   "sip_predicted_set": [
+    "saleor/graphql/page/dataloaders.py",
+    "saleor/graphql/page/resolvers.py",
+    "saleor/graphql/page/schema.py"
+   ],
+   "sip_prediction_hash": "112c4debc26cab28e07f65112f7728fcf3998bd8916735195c74a838db0afc3b",
+   "rmcss_predicted_set": [
+    "saleor/graphql/page/dataloaders.py",
+    "saleor/graphql/page/resolvers.py",
+    "saleor/graphql/page/schema.py"
+   ],
+   "rmcss_prediction_hash": "112c4debc26cab28e07f65112f7728fcf3998bd8916735195c74a838db0afc3b"
+  },
+  "saleor-rc-02d266b6e34b": {
+   "task_id": "saleor-rc-02d266b6e34b",
+   "sip_predicted_set": [
+    "saleor/plugins/__init__.py",
+    "saleor/plugins/manager.py"
+   ],
+   "sip_prediction_hash": "c6d9838de35bd56c7db8c7283c006b3c3584d580fbfb446d1cf27276d37fa3c4",
+   "rmcss_predicted_set": [],
+   "rmcss_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "saleor-rc-02dfdad9985b": {
+   "task_id": "saleor-rc-02dfdad9985b",
+   "sip_predicted_set": [
+    "saleor/graphql/checkout/dataloaders.py"
+   ],
+   "sip_prediction_hash": "9cf7f6165125e66921fc710ac8998796d1499a433528ed86a6fc7d0d5a4bc3a0",
+   "rmcss_predicted_set": [
+    "saleor/graphql/checkout/dataloaders.py",
+    "saleor/graphql/checkout/types.py",
+    "saleor/graphql/webhook/dataloaders.py"
+   ],
+   "rmcss_prediction_hash": "cd91d4c834b14158b7bf588aa561a2fede7f371e589cb1b4360f3585d2183ddc"
+  },
+  "saleor-rc-032b98afff20": {
+   "task_id": "saleor-rc-032b98afff20",
+   "sip_predicted_set": [
+    "saleor/core/sqs.py"
+   ],
+   "sip_prediction_hash": "234753781b4fb43ab5a8ca0665ceec9d881678d343d55ddeddc980044567716d",
+   "rmcss_predicted_set": [
+    "saleor/core/sqs.py"
+   ],
+   "rmcss_prediction_hash": "234753781b4fb43ab5a8ca0665ceec9d881678d343d55ddeddc980044567716d"
+  },
+  "saleor-rc-03be7057c1f1": {
+   "task_id": "saleor-rc-03be7057c1f1",
+   "sip_predicted_set": [
+    "saleor/payment/gateway.py",
+    "saleor/payment/models.py"
+   ],
+   "sip_prediction_hash": "82b4079b04af39c64c2419b581c8d675a3a1bb20e959ac3c83b7928e4f9319cf",
+   "rmcss_predicted_set": [
+    "saleor/graphql/payment/mutations.py",
+    "saleor/payment/gateway.py",
+    "saleor/payment/models.py"
+   ],
+   "rmcss_prediction_hash": "657cfd388d016591f3692fbc0315635ead247c387c814345d8978ee4bd0577fb"
+  },
+  "saleor-rc-03c5a9916858": {
+   "task_id": "saleor-rc-03c5a9916858",
+   "sip_predicted_set": [
+    "saleor/graphql/product/__init__.py",
+    "saleor/graphql/product/resolvers.py",
+    "saleor/graphql/product/types/products.py"
+   ],
+   "sip_prediction_hash": "957a7b75c0e373e89844608e4d0cec4be922f97ae9e5b4ab466738b0f3a4bb78",
+   "rmcss_predicted_set": [
+    "saleor/graphql/product/resolvers.py",
+    "saleor/graphql/product/schema.py",
+    "saleor/graphql/product/types/products.py"
+   ],
+   "rmcss_prediction_hash": "c215c6b3a9db88c95d814793e6c1fc0d2c64f56cf7141b3eb4d0152cc600756e"
+  },
+  "saleor-rc-05bdc7feb9ac": {
+   "task_id": "saleor-rc-05bdc7feb9ac",
+   "sip_predicted_set": [
+    "saleor/graphql/order/mutations/fulfillments.py",
+    "saleor/order/actions.py",
+    "saleor/order/events.py",
+    "saleor/order/models.py",
+    "saleor/order/utils.py"
+   ],
+   "sip_prediction_hash": "2af04054bac81eec329b352730a0c25dc9cb63ac768871f560ab8a27a34c0f9d",
+   "rmcss_predicted_set": [
+    "saleor/graphql/order/mutations/fulfillments.py",
+    "saleor/order/actions.py",
+    "saleor/order/events.py",
+    "saleor/order/models.py",
+    "saleor/order/utils.py"
+   ],
+   "rmcss_prediction_hash": "2af04054bac81eec329b352730a0c25dc9cb63ac768871f560ab8a27a34c0f9d"
+  },
+  "saleor-rc-069b6a39f683": {
+   "task_id": "saleor-rc-069b6a39f683",
+   "sip_predicted_set": [
+    "saleor/graphql/core/dataloaders.py"
+   ],
+   "sip_prediction_hash": "a9c05940667a18b8137f27389d14e8e2be9d61b13991d8a58ca225f4399f8d34",
+   "rmcss_predicted_set": [
+    "saleor/graphql/core/dataloaders.py"
+   ],
+   "rmcss_prediction_hash": "a9c05940667a18b8137f27389d14e8e2be9d61b13991d8a58ca225f4399f8d34"
+  },
+  "saleor-rc-070f4bd7c042": {
+   "task_id": "saleor-rc-070f4bd7c042",
+   "sip_predicted_set": [
+    "saleor/webhook/payloads.py"
+   ],
+   "sip_prediction_hash": "ec3617c5fe3b16ee657128e0f46d1a59d970e27d1435b1462d660b493d7bb478",
+   "rmcss_predicted_set": [
+    "saleor/payment/gateways/stripe/consts.py",
+    "saleor/payment/utils.py",
+    "saleor/webhook/payloads.py"
+   ],
+   "rmcss_prediction_hash": "3b186823d4797af398cdb412c9b571cc074f42d64786fcd55ebfd26fa07c5808"
+  },
+  "saleor-rc-0713acb0f004": {
+   "task_id": "saleor-rc-0713acb0f004",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [],
+   "rmcss_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "saleor-rc-07c8859c0ac3": {
+   "task_id": "saleor-rc-07c8859c0ac3",
+   "sip_predicted_set": [
+    "saleor/graphql/shop/mutations/shop_settings_update.py",
+    "saleor/graphql/shop/schema.py"
+   ],
+   "sip_prediction_hash": "733f9d3e5c3954667be7977faac622491becc97a65e834f7476cac4f8f04f4d9",
+   "rmcss_predicted_set": [
+    "saleor/graphql/shop/mutations/shop_domain_update.py",
+    "saleor/graphql/shop/mutations/shop_settings_update.py",
+    "saleor/graphql/shop/schema.py",
+    "saleor/graphql/shop/types.py"
+   ],
+   "rmcss_prediction_hash": "d39910ad0aeeedbb28d7254547709bf1106f9414a1a21b96ef4dfd6a7dd1df35"
+  },
+  "saleor-rc-07f02e2c40ae": {
+   "task_id": "saleor-rc-07f02e2c40ae",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/checkout/calculations.py"
+   ],
+   "rmcss_prediction_hash": "3a4d5975bee96cf58c1c7f362360641d5cf6030a1817e0b14ea92561d98e28ee"
+  },
+  "saleor-rc-094b1ec0f610": {
+   "task_id": "saleor-rc-094b1ec0f610",
+   "sip_predicted_set": [
+    "saleor/graphql/order/filters.py",
+    "saleor/graphql/order/types.py",
+    "saleor/order/models.py"
+   ],
+   "sip_prediction_hash": "335a3800a02a69390696003c22e6989d117865c85bb2dcb8494cdf0b89b58d66",
+   "rmcss_predicted_set": [
+    "saleor/graphql/order/filters.py",
+    "saleor/graphql/order/types.py",
+    "saleor/order/models.py",
+    "saleor/order/utils.py"
+   ],
+   "rmcss_prediction_hash": "21aeff93e7e4707b6f477b21d60e430c668be9c3dde302f6215ef36a3600d6d1"
+  },
+  "saleor-rc-0ad61b3f0096": {
+   "task_id": "saleor-rc-0ad61b3f0096",
+   "sip_predicted_set": [
+    "saleor/app/__init__.py",
+    "saleor/graphql/app/enums.py"
+   ],
+   "sip_prediction_hash": "7ae0375d14db494d1531e203b4c91e35af53a319b4dc0a3d4d3d11d0a1e510ee",
+   "rmcss_predicted_set": [
+    "saleor/app/types.py",
+    "saleor/graphql/app/enums.py"
+   ],
+   "rmcss_prediction_hash": "e792e18a90d3a32484acf1d0f38aa416685f0bee78764acf4bea1a4a6e1ee8dd"
+  },
+  "saleor-rc-0b46c89dfd9e": {
+   "task_id": "saleor-rc-0b46c89dfd9e",
+   "sip_predicted_set": [
+    "saleor/graphql/warehouse/mutations.py"
+   ],
+   "sip_prediction_hash": "6f44f5e2762a80d389e0e339b9feda2afa9c511efdc970598bae08096eba22a9",
+   "rmcss_predicted_set": [
+    "saleor/graphql/product/mutations/products.py"
+   ],
+   "rmcss_prediction_hash": "9d03b8a78715de52df7201669f6562433435a51201f0635f274370e10b2083e8"
+  },
+  "saleor-rc-0c1062eb0da6": {
+   "task_id": "saleor-rc-0c1062eb0da6",
+   "sip_predicted_set": [
+    "saleor/app/headers.py"
+   ],
+   "sip_prediction_hash": "b182ee0e7d5f5f3134e56aa18a0ffd811d0a6de7db7861486ff459834348b5db",
+   "rmcss_predicted_set": [
+    "saleor/webhook/validators.py"
+   ],
+   "rmcss_prediction_hash": "295ede34ab3243792ac4afb22401a4d6410baf2f559949d9ab0e44b56e0530df"
+  },
+  "saleor-rc-0df62b3144b0": {
+   "task_id": "saleor-rc-0df62b3144b0",
+   "sip_predicted_set": [
+    "saleor/webhook/observability/buffers.py",
+    "saleor/webhook/observability/payloads.py",
+    "saleor/webhook/payloads.py"
+   ],
+   "sip_prediction_hash": "c5475f8292ab14caadcb26a875328cf0b36867042e9f84b8222e215a4543ec03",
+   "rmcss_predicted_set": [
+    "saleor/plugins/webhook/tasks.py",
+    "saleor/webhook/observability/buffers.py",
+    "saleor/webhook/observability/payload_schema.py",
+    "saleor/webhook/observability/payloads.py"
+   ],
+   "rmcss_prediction_hash": "d5235d8a4d834c9c0c7dba857b13fabf2d7db9447618de29236a109d752a9958"
+  },
+  "saleor-rc-0e895847d8ae": {
+   "task_id": "saleor-rc-0e895847d8ae",
+   "sip_predicted_set": [
+    "saleor/asgi/telemetry.py",
+    "saleor/core/telemetry/__init__.py",
+    "saleor/core/telemetry/metric.py",
+    "saleor/core/telemetry/saleor_attributes.py",
+    "saleor/core/telemetry/trace.py",
+    "saleor/core/telemetry/utils.py"
+   ],
+   "sip_prediction_hash": "77c5427ddbaf7b9720c3109e3fb90f59d165a6ca3785ca4eda41f51ece3c05c9",
+   "rmcss_predicted_set": [
+    "saleor/asgi/telemetry.py",
+    "saleor/core/telemetry/__init__.py",
+    "saleor/core/telemetry/utils.py"
+   ],
+   "rmcss_prediction_hash": "4139e5a7c74dab164c7dfab3a49a7163f8027ae47acb0f0b37adc86961c5bd6a"
+  },
+  "saleor-rc-0f16ed78b02b": {
+   "task_id": "saleor-rc-0f16ed78b02b",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/order/actions.py"
+   ],
+   "rmcss_prediction_hash": "45007f7469800f0df7ae204bece8aa9303d0b7261e52ac1fdd9a5d710d089368"
+  },
+  "saleor-rc-0fd3a4d986a0": {
+   "task_id": "saleor-rc-0fd3a4d986a0",
+   "sip_predicted_set": [
+    "saleor/account/notifications.py"
+   ],
+   "sip_prediction_hash": "d009235de2fb75fd04fccec895d5e765a44fb9a76b25d14b688f2cfa12681ca7",
+   "rmcss_predicted_set": [
+    "saleor/account/notifications.py"
+   ],
+   "rmcss_prediction_hash": "d009235de2fb75fd04fccec895d5e765a44fb9a76b25d14b688f2cfa12681ca7"
+  },
+  "saleor-rc-1075496c64dd": {
+   "task_id": "saleor-rc-1075496c64dd",
+   "sip_predicted_set": [
+    "saleor/payment/models.py"
+   ],
+   "sip_prediction_hash": "4a13662131edd564c1df2bac9cdc32c59c8b09b9b24310cc9040b3b9d24995b7",
+   "rmcss_predicted_set": [
+    "saleor/graphql/payment/types.py",
+    "saleor/payment/models.py"
+   ],
+   "rmcss_prediction_hash": "94b0cd62bc97ebb5231bd9a0cbf04036e6556782a316448831dbc2d426cb4f2c"
+  },
+  "saleor-rc-10889526d151": {
+   "task_id": "saleor-rc-10889526d151",
+   "sip_predicted_set": [
+    "saleor/graphql/invoice/mutations.py",
+    "saleor/invoice/models.py",
+    "saleor/invoice/notifications.py"
+   ],
+   "sip_prediction_hash": "21ff2240ec8bec5937db4eb5b2a33cf2889617abf5b2ea9bc3ebb39dfcc7cb09",
+   "rmcss_predicted_set": [
+    "saleor/graphql/invoice/mutations.py",
+    "saleor/invoice/models.py",
+    "saleor/invoice/notifications.py"
+   ],
+   "rmcss_prediction_hash": "21ff2240ec8bec5937db4eb5b2a33cf2889617abf5b2ea9bc3ebb39dfcc7cb09"
+  },
+  "saleor-rc-11756ee6b65a": {
+   "task_id": "saleor-rc-11756ee6b65a",
+   "sip_predicted_set": [
+    "saleor/account/events.py"
+   ],
+   "sip_prediction_hash": "d475e150a4846e29fb98b4343fbed3154eea49fc0e86aa065f645c2ab2b89320",
+   "rmcss_predicted_set": [
+    "saleor/account/events.py",
+    "saleor/graphql/webhook/subscription_types.py"
+   ],
+   "rmcss_prediction_hash": "73c969faa2fbcc8f96c4e1281461d46617a79dccc60b02a90e05b5bea0eb9f43"
+  },
+  "saleor-rc-12007c00e480": {
+   "task_id": "saleor-rc-12007c00e480",
+   "sip_predicted_set": [
+    "saleor/graphql/shipping/mutations/shippings.py",
+    "saleor/graphql/shipping/types.py",
+    "saleor/shipping/models.py"
+   ],
+   "sip_prediction_hash": "493e54e5e1b33fa2b8b19c5c5d38b33bde974acd4bc101776f301589ab3acba4",
+   "rmcss_predicted_set": [
+    "saleor/graphql/shipping/types.py",
+    "saleor/shipping/models.py"
+   ],
+   "rmcss_prediction_hash": "2d2f8fe778f036d0113ff0f91b70dfc00649c5cbb5631a2e4d6c34bb6d89685e"
+  },
+  "saleor-rc-12b7ff7a4d0f": {
+   "task_id": "saleor-rc-12b7ff7a4d0f",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [],
+   "rmcss_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "saleor-rc-138ee68c3818": {
+   "task_id": "saleor-rc-138ee68c3818",
+   "sip_predicted_set": [
+    "saleor/invoice/models.py"
+   ],
+   "sip_prediction_hash": "638d0b41386311e1c56b5af80ad731b1083138cdc0c9ac127b94a1633d681d76",
+   "rmcss_predicted_set": [
+    "saleor/invoice/models.py"
+   ],
+   "rmcss_prediction_hash": "638d0b41386311e1c56b5af80ad731b1083138cdc0c9ac127b94a1633d681d76"
+  },
+  "saleor-rc-149c7422d0ec": {
+   "task_id": "saleor-rc-149c7422d0ec",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/graphql/webhook/subscription_types.py"
+   ],
+   "rmcss_prediction_hash": "9c54157b19112e64b106b815fcd3e343768125f884888f77d573ea0aab7d7325"
+  },
+  "saleor-rc-14a682044ca4": {
+   "task_id": "saleor-rc-14a682044ca4",
+   "sip_predicted_set": [
+    "saleor/checkout/complete_checkout.py",
+    "saleor/order/calculations.py",
+    "saleor/order/models.py"
+   ],
+   "sip_prediction_hash": "8c00c39517fb8ea98e06eeecee70a5090973578c9a376d113e837ac21d935e39",
+   "rmcss_predicted_set": [
+    "saleor/checkout/complete_checkout.py",
+    "saleor/order/base_calculations.py",
+    "saleor/order/calculations.py",
+    "saleor/order/models.py"
+   ],
+   "rmcss_prediction_hash": "ad5caaa23b6dd22d85e4d5f7c0b7eb3a065bb279e3406498be3773018ea270ad"
+  },
+  "saleor-rc-14f2176b5d8c": {
+   "task_id": "saleor-rc-14f2176b5d8c",
+   "sip_predicted_set": [
+    "saleor/graphql/product/filters.py",
+    "saleor/graphql/product/schema.py"
+   ],
+   "sip_prediction_hash": "434a0f3557fc9bab3d0048abd6a483aab7507f355b89686354a645b8b29be5a9",
+   "rmcss_predicted_set": [
+    "saleor/graphql/product/filters.py",
+    "saleor/graphql/product/schema.py"
+   ],
+   "rmcss_prediction_hash": "434a0f3557fc9bab3d0048abd6a483aab7507f355b89686354a645b8b29be5a9"
+  },
+  "saleor-rc-17c8d807b3d1": {
+   "task_id": "saleor-rc-17c8d807b3d1",
+   "sip_predicted_set": [
+    "saleor/attribute/__init__.py",
+    "saleor/attribute/models/base.py",
+    "saleor/graphql/attribute/mutations/attribute_create.py",
+    "saleor/graphql/attribute/mutations/attribute_update.py",
+    "saleor/graphql/attribute/mutations/validators.py"
+   ],
+   "sip_prediction_hash": "afa4d47d7be7df83d07a9d903e46507b8864a078728edc802928d4ecb1b71bb6",
+   "rmcss_predicted_set": [
+    "saleor/attribute/__init__.py",
+    "saleor/attribute/models/base.py",
+    "saleor/graphql/attribute/mutations/attribute_create.py",
+    "saleor/graphql/attribute/mutations/attribute_update.py",
+    "saleor/graphql/attribute/mutations/mixins.py"
+   ],
+   "rmcss_prediction_hash": "791338ca932b942f5e989591612c5b68e3b1e981bcf19d9931e1ed67cdfe6ce2"
+  },
+  "saleor-rc-18430f2a7a16": {
+   "task_id": "saleor-rc-18430f2a7a16",
+   "sip_predicted_set": [
+    "saleor/payment/gateways/stripe/plugin.py",
+    "saleor/payment/gateways/stripe/stripe_api.py",
+    "saleor/payment/gateways/stripe/webhooks.py"
+   ],
+   "sip_prediction_hash": "6a08e80b99058403b0947a4283f0c02a9a363a19ea801a93806664c028a95d53",
+   "rmcss_predicted_set": [
+    "saleor/payment/gateways/stripe/plugin.py"
+   ],
+   "rmcss_prediction_hash": "77de48e329877f8072853679e89e603708af2f16ec1b76f8357af6c1d7f42499"
+  },
+  "saleor-rc-18e25b92e0bd": {
+   "task_id": "saleor-rc-18e25b92e0bd",
+   "sip_predicted_set": [
+    "saleor/graphql/order/resolvers.py",
+    "saleor/order/models.py",
+    "saleor/payment/dataloaders.py",
+    "saleor/payment/model_helpers.py"
+   ],
+   "sip_prediction_hash": "9ae8a157f127a01006cede257e6a9002027b6935f1ba2ac525ae123c53ffdcdb",
+   "rmcss_predicted_set": [
+    "saleor/graphql/order/resolvers.py",
+    "saleor/graphql/order/types.py",
+    "saleor/order/models.py",
+    "saleor/payment/dataloaders.py",
+    "saleor/payment/model_helpers.py"
+   ],
+   "rmcss_prediction_hash": "042181b562953a7965bd312b8eeab781b9584086c3a58ebcaef13d2846e6e531"
+  },
+  "saleor-rc-19bb9b070965": {
+   "task_id": "saleor-rc-19bb9b070965",
+   "sip_predicted_set": [
+    "saleor/discount/utils/manual_discount.py"
+   ],
+   "sip_prediction_hash": "3152d1faf7153b086a10a743fee52c509c6b4cd7c94820f8a5bb9b9ec425bc14",
+   "rmcss_predicted_set": [
+    "saleor/graphql/core/types/taxes.py"
+   ],
+   "rmcss_prediction_hash": "735fe040385fe3147687cfdc031a8ebf680cfdc0021c54718f17426f31aac869"
+  },
+  "saleor-rc-1a8b592913a0": {
+   "task_id": "saleor-rc-1a8b592913a0",
+   "sip_predicted_set": [
+    "saleor/shipping/__init__.py",
+    "saleor/tax/calculations/checkout.py"
+   ],
+   "sip_prediction_hash": "f7c69db46da1330bd43fb20a96b8527ecbf2ce346292127b25063e1aba8374ef",
+   "rmcss_predicted_set": [
+    "saleor/graphql/order/types.py",
+    "saleor/tax/calculations/checkout.py",
+    "saleor/tax/utils.py"
+   ],
+   "rmcss_prediction_hash": "d53e09069a2f46b11df53f6b0a551eead5d5d4ea7f453ff1340da3759f6c1ee2"
+  },
+  "saleor-rc-1abda1e0d36e": {
+   "task_id": "saleor-rc-1abda1e0d36e",
+   "sip_predicted_set": [
+    "saleor/plugins/webhook/shipping.py"
+   ],
+   "sip_prediction_hash": "16e4e40b7fabb97e39bcc07946748855f14df9168ea7f97628a2b9bfbafea426",
+   "rmcss_predicted_set": [
+    "saleor/checkout/fetch.py",
+    "saleor/plugins/webhook/plugin.py",
+    "saleor/plugins/webhook/shipping.py"
+   ],
+   "rmcss_prediction_hash": "52d19d534f94352755735e519bb13239ff3d37262242d7fb65f2bda5300dac90"
+  },
+  "saleor-rc-1af1c3a368ec": {
+   "task_id": "saleor-rc-1af1c3a368ec",
+   "sip_predicted_set": [
+    "saleor/product/product_images.py",
+    "saleor/thumbnail/__init__.py",
+    "saleor/thumbnail/utils.py",
+    "saleor/thumbnail/views.py"
+   ],
+   "sip_prediction_hash": "81499df817f69dfe08734f625a1c2b045d2f2489b23e7bc5ea2f3b7442fecab5",
+   "rmcss_predicted_set": [
+    "saleor/product/product_images.py",
+    "saleor/thumbnail/__init__.py",
+    "saleor/thumbnail/utils.py",
+    "saleor/thumbnail/views.py"
+   ],
+   "rmcss_prediction_hash": "81499df817f69dfe08734f625a1c2b045d2f2489b23e7bc5ea2f3b7442fecab5"
+  },
+  "saleor-rc-1b4da5a88d08": {
+   "task_id": "saleor-rc-1b4da5a88d08",
+   "sip_predicted_set": [
+    "saleor/graphql/giftcard/mutations.py",
+    "saleor/graphql/payment/mutations.py",
+    "saleor/payment/gateways/adyen/plugin.py"
+   ],
+   "sip_prediction_hash": "c3e9f6d4b1717c137a048ded02e99e9351991415e85ace8eb957bd348aa3e75d",
+   "rmcss_predicted_set": [
+    "saleor/graphql/giftcard/mutations.py",
+    "saleor/graphql/payment/mutations.py",
+    "saleor/payment/gateways/adyen/plugin.py"
+   ],
+   "rmcss_prediction_hash": "c3e9f6d4b1717c137a048ded02e99e9351991415e85ace8eb957bd348aa3e75d"
+  },
+  "saleor-rc-1cc263035113": {
+   "task_id": "saleor-rc-1cc263035113",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/graphql/core/utils/__init__.py"
+   ],
+   "rmcss_prediction_hash": "49b45f224daeaed23cfc4a19f956c588071fae3f97494be88617f04894be099b"
+  },
+  "saleor-rc-1cca40939fac": {
+   "task_id": "saleor-rc-1cca40939fac",
+   "sip_predicted_set": [
+    "saleor/order/events.py"
+   ],
+   "sip_prediction_hash": "d69e2aba76cd715d7585b2e9efdced294f7403da6610aae1509da56949483ed2",
+   "rmcss_predicted_set": [
+    "saleor/order/__init__.py",
+    "saleor/order/events.py"
+   ],
+   "rmcss_prediction_hash": "0063afe772e0304643536f976a3d699217a0c842e31874981bcb044c3f0ba5c3"
+  },
+  "saleor-rc-1f47b503f69e": {
+   "task_id": "saleor-rc-1f47b503f69e",
+   "sip_predicted_set": [
+    "saleor/payment/gateways/stripe/__init__.py",
+    "saleor/payment/gateways/stripe/plugin.py",
+    "saleor/payment/gateways/stripe/webhooks.py"
+   ],
+   "sip_prediction_hash": "4ff57f7f1c26910a68367d1132575fe285615d0cc2d8fa160da4eb04eb8b5593",
+   "rmcss_predicted_set": [
+    "saleor/payment/gateways/stripe/plugin.py",
+    "saleor/payment/gateways/stripe/webhooks.py"
+   ],
+   "rmcss_prediction_hash": "57cb7c84cf283e0be1065fae8f8557e13335cd87848aabc9948841234a2063c8"
+  },
+  "saleor-rc-1f6fbe2ebf9b": {
+   "task_id": "saleor-rc-1f6fbe2ebf9b",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/payment/models.py"
+   ],
+   "rmcss_prediction_hash": "4a13662131edd564c1df2bac9cdc32c59c8b09b9b24310cc9040b3b9d24995b7"
+  },
+  "saleor-rc-1f9b5c53a63a": {
+   "task_id": "saleor-rc-1f9b5c53a63a",
+   "sip_predicted_set": [
+    "saleor/graphql/app/types.py",
+    "saleor/graphql/webhook/types.py",
+    "saleor/webhook/models.py"
+   ],
+   "sip_prediction_hash": "4dd89d664b6dbfbf3695260bf26c8b6d2dfef1dc288bc97b42d138356647c0c7",
+   "rmcss_predicted_set": [
+    "saleor/graphql/app/types.py",
+    "saleor/graphql/webhook/types.py",
+    "saleor/webhook/models.py"
+   ],
+   "rmcss_prediction_hash": "4dd89d664b6dbfbf3695260bf26c8b6d2dfef1dc288bc97b42d138356647c0c7"
+  },
+  "saleor-rc-1fa6a637c7fc": {
+   "task_id": "saleor-rc-1fa6a637c7fc",
+   "sip_predicted_set": [
+    "saleor/product/models.py"
+   ],
+   "sip_prediction_hash": "55247c7e4e5c19d25de333c8753fd90e7aa55af9918ed82bd461918e3a1a23af",
+   "rmcss_predicted_set": [
+    "saleor/graphql/product/mutations/products.py",
+    "saleor/product/models.py"
+   ],
+   "rmcss_prediction_hash": "5cef4d434676f7c6484e24178a4f5a9958374ab14db156815b6f76750786496f"
+  },
+  "saleor-rc-208833e2fa53": {
+   "task_id": "saleor-rc-208833e2fa53",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/payment/gateways/dummy/__init__.py"
+   ],
+   "rmcss_prediction_hash": "b82a1cc84c4f7bb7c497f6b37e8c8ae2fb00b04c4dcf43ff8c6961e72ff9b7ee"
+  },
+  "saleor-rc-224bf29fb39f": {
+   "task_id": "saleor-rc-224bf29fb39f",
+   "sip_predicted_set": [
+    "saleor/graphql/core/schema.py",
+    "saleor/graphql/graphql_core.py",
+    "saleor/graphql/order/mutations/order_note_add.py",
+    "saleor/graphql/order/mutations/order_note_common.py",
+    "saleor/graphql/order/mutations/order_note_update.py"
+   ],
+   "sip_prediction_hash": "2be1e0e26b4c4f71c2965fe1034358e63095c3e18821cf9125591e7a1162d004",
+   "rmcss_predicted_set": [
+    "saleor/graphql/order/mutations/order_note_add.py",
+    "saleor/graphql/order/mutations/order_note_common.py",
+    "saleor/graphql/order/mutations/order_note_update.py"
+   ],
+   "rmcss_prediction_hash": "7316130fa366d2f1483ad0d2ec7f792b6d542107177555a68ef2b245a04a6d87"
+  },
+  "saleor-rc-22a30bf2e4cc": {
+   "task_id": "saleor-rc-22a30bf2e4cc",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [],
+   "rmcss_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "saleor-rc-24f9b244d6bc": {
+   "task_id": "saleor-rc-24f9b244d6bc",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/order/utils.py"
+   ],
+   "rmcss_prediction_hash": "4a221ee97d6e98628550f0ebc6c5ed664c783464b545c676378cec2e77c8a13e"
+  },
+  "saleor-rc-255d39da978a": {
+   "task_id": "saleor-rc-255d39da978a",
+   "sip_predicted_set": [
+    "saleor/graphql/attribute/bulk_mutations.py",
+    "saleor/graphql/attribute/mutations/validators.py"
+   ],
+   "sip_prediction_hash": "fc5ece5c46539fbc97b8e52cb1722a5a5ce5729f94e93a02bab2affe6a3f4168",
+   "rmcss_predicted_set": [
+    "saleor/graphql/core/types/common.py"
+   ],
+   "rmcss_prediction_hash": "1b4e5b1beff7adf25cbcb937f22e2370d80b023a2ae9fe36fbcdfe4e54ccf6ba"
+  },
+  "saleor-rc-27b65eae2a9a": {
+   "task_id": "saleor-rc-27b65eae2a9a",
+   "sip_predicted_set": [
+    "saleor/checkout/base_calculations.py",
+    "saleor/checkout/calculations.py",
+    "saleor/checkout/utils.py"
+   ],
+   "sip_prediction_hash": "f0c29e7358e0997995f0ef54b6fc7e559d4d8b4c176b4c2a89b2f7bca22794b8",
+   "rmcss_predicted_set": [
+    "saleor/checkout/base_calculations.py",
+    "saleor/checkout/calculations.py",
+    "saleor/checkout/utils.py"
+   ],
+   "rmcss_prediction_hash": "f0c29e7358e0997995f0ef54b6fc7e559d4d8b4c176b4c2a89b2f7bca22794b8"
+  },
+  "saleor-rc-28799575c518": {
+   "task_id": "saleor-rc-28799575c518",
+   "sip_predicted_set": [
+    "saleor/plugins/manager.py"
+   ],
+   "sip_prediction_hash": "1bf28a4b42aef76b4f96587d1266f03cff756c32d3379a697afe2719165581f5",
+   "rmcss_predicted_set": [
+    "saleor/core/permissions.py",
+    "saleor/plugins/base_plugin.py",
+    "saleor/plugins/manager.py"
+   ],
+   "rmcss_prediction_hash": "f06fa36fbb94990262461d429ff53e8c2560f2e4a5375326fe564820b4f017dc"
+  },
+  "saleor-rc-29c2d1abdce0": {
+   "task_id": "saleor-rc-29c2d1abdce0",
+   "sip_predicted_set": [
+    "saleor/checkout/calculations.py",
+    "saleor/checkout/utils.py",
+    "saleor/plugins/avatax/plugin.py",
+    "saleor/plugins/avatax/tasks.py"
+   ],
+   "sip_prediction_hash": "ed2e0ff919fb4245818a468b109bc2f738f77d028a9123564ec421b479b2a54a",
+   "rmcss_predicted_set": [
+    "saleor/checkout/base_calculations.py",
+    "saleor/checkout/calculations.py",
+    "saleor/checkout/utils.py",
+    "saleor/plugins/avatax/__init__.py",
+    "saleor/plugins/avatax/plugin.py",
+    "saleor/plugins/base_plugin.py",
+    "saleor/plugins/vatlayer/plugin.py"
+   ],
+   "rmcss_prediction_hash": "a186ce2efc9b0b04ca8af5172d3be64822f3e9c63ef90542a24a022fa454e419"
+  },
+  "saleor-rc-2a59d31fc839": {
+   "task_id": "saleor-rc-2a59d31fc839",
+   "sip_predicted_set": [
+    "saleor/core/jwt.py",
+    "saleor/core/jwt_manager.py",
+    "saleor/core/tokens.py"
+   ],
+   "sip_prediction_hash": "e434cd1d86ac54ce0128ba8a4ba584002edff6b9a516e2c3f4d080ffd49bdc1d",
+   "rmcss_predicted_set": [
+    "saleor/core/jwt.py",
+    "saleor/core/jwt_manager.py"
+   ],
+   "rmcss_prediction_hash": "035436b948b10aad42f02d7063985375e1d1f7d325234e3a245cdce6c75962db"
+  },
+  "saleor-rc-2a740b36af0a": {
+   "task_id": "saleor-rc-2a740b36af0a",
+   "sip_predicted_set": [
+    "saleor/graphql/checkout/mutations/checkout_line_delete.py"
+   ],
+   "sip_prediction_hash": "c674c32dbc06380fe338d280fcc352436af5b645c84ff72f4e7e1767aa12f5fb",
+   "rmcss_predicted_set": [
+    "saleor/graphql/checkout/mutations/checkout_line_delete.py",
+    "saleor/graphql/checkout/mutations/checkout_lines_delete.py",
+    "saleor/graphql/checkout/mutations/checkout_remove_promo_code.py"
+   ],
+   "rmcss_prediction_hash": "b635c64d89e311e1da8c98eb26c4a2ac31cf32f2d0b1f2b4f7b4e0ed53e72fad"
+  },
+  "saleor-rc-2c218aadc9b7": {
+   "task_id": "saleor-rc-2c218aadc9b7",
+   "sip_predicted_set": [
+    "saleor/order/events.py",
+    "saleor/order/models.py"
+   ],
+   "sip_prediction_hash": "16b011a4f2b3fa5ea158886b7b441ac34b6f07a370a49c02fd2fa9dac1136da5",
+   "rmcss_predicted_set": [
+    "saleor/order/events.py",
+    "saleor/order/models.py"
+   ],
+   "rmcss_prediction_hash": "16b011a4f2b3fa5ea158886b7b441ac34b6f07a370a49c02fd2fa9dac1136da5"
+  },
+  "saleor-rc-2c44b8eccc2c": {
+   "task_id": "saleor-rc-2c44b8eccc2c",
+   "sip_predicted_set": [
+    "saleor/giftcard/__init__.py",
+    "saleor/giftcard/models.py",
+    "saleor/giftcard/utils.py",
+    "saleor/graphql/checkout/__init__.py",
+    "saleor/graphql/checkout/mutations/checkout_add_promo_code.py",
+    "saleor/graphql/checkout/resolvers.py",
+    "saleor/graphql/checkout/types.py",
+    "saleor/graphql/giftcard/__init__.py",
+    "saleor/graphql/giftcard/mutations.py",
+    "saleor/graphql/giftcard/resolvers.py",
+    "saleor/graphql/giftcard/types.py"
+   ],
+   "sip_prediction_hash": "2dcc2a483bb37d79db4ef6d62d91aba459eaa76d54016aba51536b9e59673f24",
+   "rmcss_predicted_set": [
+    "saleor/giftcard/models.py",
+    "saleor/giftcard/utils.py",
+    "saleor/graphql/checkout/types.py",
+    "saleor/graphql/giftcard/mutations.py",
+    "saleor/graphql/giftcard/types.py"
+   ],
+   "rmcss_prediction_hash": "f41b9f3e4b3369c4389af587ed59be8b442f1e16e4158feaedaf8a0b94746a0d"
+  },
+  "saleor-rc-2c770c685a57": {
+   "task_id": "saleor-rc-2c770c685a57",
+   "sip_predicted_set": [
+    "saleor/checkout/fetch.py"
+   ],
+   "sip_prediction_hash": "5a54270e2348834ab39cc8dad39a34ea8325790056481def4dc8334d5e0cdf6d",
+   "rmcss_predicted_set": [
+    "saleor/checkout/calculations.py",
+    "saleor/checkout/fetch.py"
+   ],
+   "rmcss_prediction_hash": "25ea47eb63a13433bb19a303f77eaacbb2ebb8567e5730805cc8e606a3e33c14"
+  },
+  "saleor-rc-2d1599f1f8e2": {
+   "task_id": "saleor-rc-2d1599f1f8e2",
+   "sip_predicted_set": [
+    "saleor/__init__.py"
+   ],
+   "sip_prediction_hash": "283aaa1ee93918419de1155d9e074f8ac99cae2daf4a478a8764769b6c3f94dd",
+   "rmcss_predicted_set": [],
+   "rmcss_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "saleor-rc-305415e0f8b7": {
+   "task_id": "saleor-rc-305415e0f8b7",
+   "sip_predicted_set": [
+    "saleor/graphql/order/__init__.py",
+    "saleor/graphql/order/mutations/__init__.py",
+    "saleor/graphql/order/mutations/fulfillments.py",
+    "saleor/graphql/order/mutations/orders.py",
+    "saleor/order/__init__.py",
+    "saleor/order/models.py",
+    "saleor/warehouse/__init__.py",
+    "saleor/warehouse/models.py"
+   ],
+   "sip_prediction_hash": "46ef04688275263e0c06764ea99678bd84601e3f0b9a40809a8c9af58f15e7af",
+   "rmcss_predicted_set": [
+    "saleor/graphql/order/mutations/fulfillments.py",
+    "saleor/graphql/order/mutations/orders.py",
+    "saleor/order/models.py",
+    "saleor/order/utils.py"
+   ],
+   "rmcss_prediction_hash": "7d33f4ddd47b06fa0136be7a5f529ac4d1f8fa4f1eab0b4e3d99b3fd8c36f12c"
+  },
+  "saleor-rc-308413ed9c19": {
+   "task_id": "saleor-rc-308413ed9c19",
+   "sip_predicted_set": [
+    "saleor/graphql/checkout/mutations.py"
+   ],
+   "sip_prediction_hash": "c70a2160c49088fa171fda2b4904744130f9cfa1476711c26813f0cf744f20fe",
+   "rmcss_predicted_set": [
+    "saleor/graphql/checkout/mutations.py",
+    "saleor/graphql/order/mutations/orders.py"
+   ],
+   "rmcss_prediction_hash": "9a594d799babca68cfc08707fdf91751cabbad84804d4babcef16b69a45486b9"
+  },
+  "saleor-rc-30b4edece5aa": {
+   "task_id": "saleor-rc-30b4edece5aa",
+   "sip_predicted_set": [
+    "saleor/graphql/app/__init__.py",
+    "saleor/graphql/meta/__init__.py",
+    "saleor/graphql/meta/mutations/base.py",
+    "saleor/graphql/meta/mutations/delete_metadata.py",
+    "saleor/graphql/meta/mutations/delete_private_metadata.py",
+    "saleor/graphql/meta/mutations/update_metadata.py",
+    "saleor/graphql/meta/mutations/update_private_metadata.py",
+    "saleor/graphql/meta/permissions.py"
+   ],
+   "sip_prediction_hash": "0ec67b640f7df3a734170bd1a25adf0b368c7b2922d7b2286b74d2b6cb8f82e3",
+   "rmcss_predicted_set": [
+    "saleor/graphql/meta/mutations/base.py",
+    "saleor/graphql/meta/permissions.py"
+   ],
+   "rmcss_prediction_hash": "9bbe51ee2c52241891443700058c84be81a9b3c1c665401fa87d81cb1c60e436"
+  },
+  "saleor-rc-30cb9d338235": {
+   "task_id": "saleor-rc-30cb9d338235",
+   "sip_predicted_set": [
+    "saleor/discount/tasks.py"
+   ],
+   "sip_prediction_hash": "440853189d17f33702551ba5d2c6ebcf4dd9783964995ba055bd88f4828bd1c0",
+   "rmcss_predicted_set": [
+    "saleor/discount/tasks.py"
+   ],
+   "rmcss_prediction_hash": "440853189d17f33702551ba5d2c6ebcf4dd9783964995ba055bd88f4828bd1c0"
+  },
+  "saleor-rc-30fe250747ae": {
+   "task_id": "saleor-rc-30fe250747ae",
+   "sip_predicted_set": [
+    "saleor/graphql/attribute/resolvers.py"
+   ],
+   "sip_prediction_hash": "804f8c2c2155ae2872c962a9e27529a724dcb2c76f9432791abce5756669bd21",
+   "rmcss_predicted_set": [],
+   "rmcss_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "saleor-rc-32f73ff32b2b": {
+   "task_id": "saleor-rc-32f73ff32b2b",
+   "sip_predicted_set": [
+    "saleor/order/utils.py"
+   ],
+   "sip_prediction_hash": "4a221ee97d6e98628550f0ebc6c5ed664c783464b545c676378cec2e77c8a13e",
+   "rmcss_predicted_set": [
+    "saleor/checkout/utils.py",
+    "saleor/graphql/order/types.py",
+    "saleor/graphql/product/types/products.py",
+    "saleor/order/utils.py"
+   ],
+   "rmcss_prediction_hash": "a6fc323baf0ae1a92364c9e33c9169004e8e7430d0aded200a2c7d3439af37e1"
+  },
+  "saleor-rc-33010c0d5f7f": {
+   "task_id": "saleor-rc-33010c0d5f7f",
+   "sip_predicted_set": [
+    "saleor/graphql/webhook/subscription_payload.py",
+    "saleor/plugins/webhook/plugin.py",
+    "saleor/webhook/payloads.py"
+   ],
+   "sip_prediction_hash": "8056e39cae4a568bb2525ebf56a319ae6753089e8ea844739527bd179b5ba8b0",
+   "rmcss_predicted_set": [
+    "saleor/graphql/webhook/subscription_payload.py",
+    "saleor/plugins/webhook/plugin.py",
+    "saleor/plugins/webhook/tasks.py",
+    "saleor/webhook/payloads.py"
+   ],
+   "rmcss_prediction_hash": "57212e4f60d6aa001f2edffbf2760feaa57bfdba3522d27e74f981548f07c05c"
+  },
+  "saleor-rc-333febd35223": {
+   "task_id": "saleor-rc-333febd35223",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/checkout/models.py",
+    "saleor/graphql/checkout/types.py"
+   ],
+   "rmcss_prediction_hash": "e7220e750158d6d688f663687340c8297aee3316e1438ba1990b820616967121"
+  },
+  "saleor-rc-349d46d906ad": {
+   "task_id": "saleor-rc-349d46d906ad",
+   "sip_predicted_set": [
+    "saleor/celeryconf.py"
+   ],
+   "sip_prediction_hash": "62dad51334718d3cbd9f79986b1e1270bd5305fdc445770c6853188f2630009a",
+   "rmcss_predicted_set": [
+    "saleor/celeryconf.py"
+   ],
+   "rmcss_prediction_hash": "62dad51334718d3cbd9f79986b1e1270bd5305fdc445770c6853188f2630009a"
+  },
+  "saleor-rc-349d88efcfec": {
+   "task_id": "saleor-rc-349d88efcfec",
+   "sip_predicted_set": [
+    "saleor/checkout/complete_checkout.py",
+    "saleor/graphql/checkout/mutations/checkout_complete.py",
+    "saleor/graphql/checkout/mutations/order_create_from_checkout.py",
+    "saleor/warehouse/reservations.py"
+   ],
+   "sip_prediction_hash": "43fac3160f7f11322fe6b6e9e82863ad356f7270eb81b784a5c97dd9c61be1f7",
+   "rmcss_predicted_set": [
+    "saleor/checkout/complete_checkout.py",
+    "saleor/graphql/checkout/mutations/checkout_complete.py",
+    "saleor/warehouse/reservations.py"
+   ],
+   "rmcss_prediction_hash": "27edf4c84876ef77e0f665e814b24f5e9b11104b11820b2f4b3c2a2c289e5897"
+  },
+  "saleor-rc-349fe0c194a1": {
+   "task_id": "saleor-rc-349fe0c194a1",
+   "sip_predicted_set": [
+    "saleor/webhook/event_types.py"
+   ],
+   "sip_prediction_hash": "5a0804e94997ddb69a34a6c2a9db000ce8dfacfb05f939d60b2db913873e647b",
+   "rmcss_predicted_set": [
+    "saleor/graphql/webhook/subscription_types.py",
+    "saleor/plugins/manager.py",
+    "saleor/plugins/webhook/plugin.py",
+    "saleor/webhook/event_types.py"
+   ],
+   "rmcss_prediction_hash": "caf062866c611efadce2eae2f5cacfdd920316c96b9c82d4f35785932ca66528"
+  },
+  "saleor-rc-3513064157fa": {
+   "task_id": "saleor-rc-3513064157fa",
+   "sip_predicted_set": [
+    "saleor/graphql/checkout/mutations/checkout_customer_attach.py"
+   ],
+   "sip_prediction_hash": "66d7064fb4723d52675cfd5ff34f028f4a2401f4d323d9d2a11ede13d54c3a74",
+   "rmcss_predicted_set": [
+    "saleor/graphql/checkout/mutations/checkout_customer_attach.py",
+    "saleor/graphql/checkout/mutations/checkout_customer_detach.py",
+    "saleor/graphql/checkout/mutations/checkout_language_code_update.py"
+   ],
+   "rmcss_prediction_hash": "fa3802c1a9a8927d8ec01893fdadfc2afc9f6f6e3f475a1dc10bc656ba88dae3"
+  },
+  "saleor-rc-367b8038f6b9": {
+   "task_id": "saleor-rc-367b8038f6b9",
+   "sip_predicted_set": [
+    "saleor/csv/models.py",
+    "saleor/graphql/csv/filters.py"
+   ],
+   "sip_prediction_hash": "94a19babad7681812cb1a8851e6a94484eea9bcdd01b092ba576b6be8dfb2bed",
+   "rmcss_predicted_set": [
+    "saleor/csv/models.py",
+    "saleor/graphql/csv/filters.py"
+   ],
+   "rmcss_prediction_hash": "94a19babad7681812cb1a8851e6a94484eea9bcdd01b092ba576b6be8dfb2bed"
+  },
+  "saleor-rc-36a9a14e8d12": {
+   "task_id": "saleor-rc-36a9a14e8d12",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/plugins/email_common.py"
+   ],
+   "rmcss_prediction_hash": "c881393c24f405e20ac1fbf55e010aaa9000a173166e660f1fb208b675c5e9eb"
+  },
+  "saleor-rc-36c0a2029b60": {
+   "task_id": "saleor-rc-36c0a2029b60",
+   "sip_predicted_set": [
+    "saleor/discount/utils.py"
+   ],
+   "sip_prediction_hash": "188400a2029dee6a16328567db51966c73cde686ab1270df00e5d9c5dfc6b413",
+   "rmcss_predicted_set": [
+    "saleor/checkout/utils.py",
+    "saleor/discount/utils.py"
+   ],
+   "rmcss_prediction_hash": "129af0560a27a0e58ef79946254c311b2a86cc29c9b5c5d196e6ddf8c9fa3265"
+  },
+  "saleor-rc-373efa067922": {
+   "task_id": "saleor-rc-373efa067922",
+   "sip_predicted_set": [
+    "saleor/webhook/deprecated_event_types.py",
+    "saleor/webhook/error_codes.py",
+    "saleor/webhook/event_types.py",
+    "saleor/webhook/models.py"
+   ],
+   "sip_prediction_hash": "e912d935415c27b2fa85afcb6bef3b41317b9932dc65c71d3acbf27e10ee3643",
+   "rmcss_predicted_set": [
+    "saleor/graphql/webhook/subscription_types.py",
+    "saleor/plugins/webhook/plugin.py",
+    "saleor/webhook/deprecated_event_types.py",
+    "saleor/webhook/error_codes.py",
+    "saleor/webhook/event_types.py",
+    "saleor/webhook/models.py"
+   ],
+   "rmcss_prediction_hash": "2084ad52809328818a56eaf3c748d1bcd0e0392d70ca55bf8e1e0d406fe1ced9"
+  },
+  "saleor-rc-37a3a7bbec31": {
+   "task_id": "saleor-rc-37a3a7bbec31",
+   "sip_predicted_set": [
+    "saleor/invoice/emails.py",
+    "saleor/order/emails.py"
+   ],
+   "sip_prediction_hash": "857de774709b898350de22ee814f758597a48c31a770fa62a43e169b5915fba0",
+   "rmcss_predicted_set": [
+    "saleor/order/emails.py"
+   ],
+   "rmcss_prediction_hash": "72e4af63a43e180acad7a4aa25f6e169fa6d0f696236cf48b210b02dbcfd11e4"
+  },
+  "saleor-rc-381d4354ead1": {
+   "task_id": "saleor-rc-381d4354ead1",
+   "sip_predicted_set": [
+    "saleor/channel/models.py"
+   ],
+   "sip_prediction_hash": "e6cd8086b1c5a760f9e6315e50511ad546026c4e6a40e3c4c67cc999d2f88629",
+   "rmcss_predicted_set": [
+    "saleor/channel/models.py"
+   ],
+   "rmcss_prediction_hash": "e6cd8086b1c5a760f9e6315e50511ad546026c4e6a40e3c4c67cc999d2f88629"
+  },
+  "saleor-rc-39ef77fc9bcb": {
+   "task_id": "saleor-rc-39ef77fc9bcb",
+   "sip_predicted_set": [
+    "saleor/graphql/account/mutations/authentication.py"
+   ],
+   "sip_prediction_hash": "52f9f9c99148edba9e6bf73abc434ee5f27a2cf89c1820b4bdfc31b88813192c",
+   "rmcss_predicted_set": [
+    "saleor/graphql/account/mutations/authentication.py"
+   ],
+   "rmcss_prediction_hash": "52f9f9c99148edba9e6bf73abc434ee5f27a2cf89c1820b4bdfc31b88813192c"
+  },
+  "saleor-rc-3bf31ab2fefc": {
+   "task_id": "saleor-rc-3bf31ab2fefc",
+   "sip_predicted_set": [
+    "saleor/giftcard/__init__.py",
+    "saleor/giftcard/models.py",
+    "saleor/giftcard/utils.py"
+   ],
+   "sip_prediction_hash": "4b83428d3974c7737671d706d220853e036e4c8afcbb2c5f0d0781e607e8bdb5",
+   "rmcss_predicted_set": [
+    "saleor/giftcard/__init__.py",
+    "saleor/giftcard/utils.py",
+    "saleor/graphql/checkout/mutations/checkout_lines_update.py"
+   ],
+   "rmcss_prediction_hash": "a9e49a9d8470ad0a29fe9d8361800024929f49e7f4f64c87eb6737d57445fb09"
+  },
+  "saleor-rc-3cac33590b90": {
+   "task_id": "saleor-rc-3cac33590b90",
+   "sip_predicted_set": [
+    "saleor/graphql/attribute/filters.py",
+    "saleor/graphql/page/filters.py",
+    "saleor/graphql/product/filters/__init__.py",
+    "saleor/graphql/product/filters/product.py",
+    "saleor/graphql/product/filters/product_attributes.py"
+   ],
+   "sip_prediction_hash": "0b4477e252b57be5d8e846b236bfca306b4e4e14f16336b364f68fe6bb8db75b",
+   "rmcss_predicted_set": [
+    "saleor/graphql/attribute/filters.py",
+    "saleor/graphql/attribute/shared_filters.py",
+    "saleor/graphql/page/filters.py",
+    "saleor/graphql/product/filters/product.py",
+    "saleor/graphql/product/filters/product_attributes.py",
+    "saleor/graphql/product/filters/product_variant.py"
+   ],
+   "rmcss_prediction_hash": "322b6321677ed967f4e8dc41a0103417c1bfbb731187bebc7f6ee55063d912de"
+  },
+  "saleor-rc-3d304a30a5bc": {
+   "task_id": "saleor-rc-3d304a30a5bc",
+   "sip_predicted_set": [
+    "saleor/checkout/__init__.py",
+    "saleor/checkout/models.py",
+    "saleor/checkout/utils.py",
+    "saleor/graphql/checkout/__init__.py",
+    "saleor/graphql/checkout/mutations/checkout_shipping_address_update.py"
+   ],
+   "sip_prediction_hash": "d9ff6d9c036b2ecc07072b0a0fbede37661c151400be0006f99cf08868de8b11",
+   "rmcss_predicted_set": [
+    "saleor/checkout/models.py",
+    "saleor/checkout/utils.py",
+    "saleor/graphql/checkout/mutations/checkout_complete.py",
+    "saleor/graphql/checkout/mutations/checkout_delivery_method_update.py",
+    "saleor/graphql/checkout/mutations/checkout_shipping_address_update.py"
+   ],
+   "rmcss_prediction_hash": "4e4433a3e7363ca793dffc6e8e745307f08663a3505d00b4add78b776d505dd1"
+  },
+  "saleor-rc-3f8a4320b1c9": {
+   "task_id": "saleor-rc-3f8a4320b1c9",
+   "sip_predicted_set": [
+    "saleor/channel/models.py",
+    "saleor/graphql/channel/types.py"
+   ],
+   "sip_prediction_hash": "e1f1d8bb805ad2f75b363ab456ec4740697871633bb7503ad33811e5743fac34",
+   "rmcss_predicted_set": [
+    "saleor/graphql/shipping/mutations/channels.py",
+    "saleor/shipping/models.py"
+   ],
+   "rmcss_prediction_hash": "830f60e29134f204c76e0969405132bf529fedf5ef5661e79568a8292c714ebf"
+  },
+  "saleor-rc-4086a98fdc78": {
+   "task_id": "saleor-rc-4086a98fdc78",
+   "sip_predicted_set": [
+    "saleor/graphql/app/mutations/app_fetch_manifest.py"
+   ],
+   "sip_prediction_hash": "4c9705ffafc0951dd60ebceb8edcc061caa54ca787dbe3004edf1d111f58c635",
+   "rmcss_predicted_set": [
+    "saleor/graphql/app/mutations/app_fetch_manifest.py",
+    "saleor/graphql/app/types.py"
+   ],
+   "rmcss_prediction_hash": "7a255515030a06105deb28646dcc49e81e834bf307a97eafa8a59ac6ef248bbd"
+  },
+  "saleor-rc-43262efc09bb": {
+   "task_id": "saleor-rc-43262efc09bb",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/core/db/fields.py"
+   ],
+   "rmcss_prediction_hash": "fc1aa230be95addb139d588f67f711a45f14c3d7b7e74884de2b3e255bd4d608"
+  },
+  "saleor-rc-438595033c60": {
+   "task_id": "saleor-rc-438595033c60",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [],
+   "rmcss_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "saleor-rc-4386f322f659": {
+   "task_id": "saleor-rc-4386f322f659",
+   "sip_predicted_set": [
+    "saleor/attribute/utils.py"
+   ],
+   "sip_prediction_hash": "8d1f8805b6495568d817f833a3f8e60aa9087b8733d383b84d55d13aa15b1960",
+   "rmcss_predicted_set": [
+    "saleor/attribute/utils.py",
+    "saleor/core/utils/__init__.py",
+    "saleor/graphql/attribute/utils.py"
+   ],
+   "rmcss_prediction_hash": "efd73965ed7ab6d5b8b17dd913b02a2460b0a55554eaec76ee609bb4fedd0176"
+  },
+  "saleor-rc-45301d74fb45": {
+   "task_id": "saleor-rc-45301d74fb45",
+   "sip_predicted_set": [
+    "saleor/checkout/utils.py",
+    "saleor/shipping/models.py"
+   ],
+   "sip_prediction_hash": "f27a272c702e1784c29bcd346bfd6ce189d38af8ba6163b59b454fac8c5fd664",
+   "rmcss_predicted_set": [
+    "saleor/checkout/fetch.py",
+    "saleor/checkout/utils.py",
+    "saleor/graphql/checkout/mutations.py",
+    "saleor/graphql/checkout/types.py",
+    "saleor/order/utils.py",
+    "saleor/shipping/models.py"
+   ],
+   "rmcss_prediction_hash": "5ce6fd708415c77d5925a7f34082a0a46720973cd652fb381f4e3b1f7a3a096f"
+  },
+  "saleor-rc-45cfb26218c8": {
+   "task_id": "saleor-rc-45cfb26218c8",
+   "sip_predicted_set": [
+    "saleor/channel/__init__.py",
+    "saleor/channel/models.py",
+    "saleor/graphql/channel/__init__.py",
+    "saleor/graphql/channel/types.py"
+   ],
+   "sip_prediction_hash": "aac3af084d7219b28bf122d760e96db3444252b6019f0c72f3089ae1128a1c78",
+   "rmcss_predicted_set": [
+    "saleor/graphql/channel/types.py",
+    "saleor/graphql/webhook/subscription_types.py"
+   ],
+   "rmcss_prediction_hash": "6a0470f6383939be0cb4e00f895a9d484485292ddcca2473c8a06c9c4ac351b7"
+  },
+  "saleor-rc-46456e7317ca": {
+   "task_id": "saleor-rc-46456e7317ca",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [],
+   "rmcss_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "saleor-rc-477f7178142c": {
+   "task_id": "saleor-rc-477f7178142c",
+   "sip_predicted_set": [
+    "saleor/plugins/manager.py"
+   ],
+   "sip_prediction_hash": "1bf28a4b42aef76b4f96587d1266f03cff756c32d3379a697afe2719165581f5",
+   "rmcss_predicted_set": [
+    "saleor/plugins/manager.py"
+   ],
+   "rmcss_prediction_hash": "1bf28a4b42aef76b4f96587d1266f03cff756c32d3379a697afe2719165581f5"
+  },
+  "saleor-rc-4800fa0beb60": {
+   "task_id": "saleor-rc-4800fa0beb60",
+   "sip_predicted_set": [
+    "saleor/webhook/payloads.py",
+    "saleor/webhook/utils.py"
+   ],
+   "sip_prediction_hash": "326f7a4445166f81d30ba9ec4013e1e1420d3f9c76a7fd29fd8cf27e77b77074",
+   "rmcss_predicted_set": [
+    "saleor/plugins/webhook/plugin.py",
+    "saleor/webhook/payloads.py"
+   ],
+   "rmcss_prediction_hash": "7d8c977cd7de33bc35d7920b024d96ba4e73562709cedafbdd8f310aeafd71ef"
+  },
+  "saleor-rc-481c2d367c6f": {
+   "task_id": "saleor-rc-481c2d367c6f",
+   "sip_predicted_set": [
+    "saleor/graphql/product/sorters.py",
+    "saleor/graphql/product/types/products.py"
+   ],
+   "sip_prediction_hash": "642595e661a3d93670c05c3262d2015c6e9e2cd6f34957e905c69301d31ab1d0",
+   "rmcss_predicted_set": [
+    "saleor/graphql/product/enums.py",
+    "saleor/graphql/product/sorters.py",
+    "saleor/graphql/product/types/products.py"
+   ],
+   "rmcss_prediction_hash": "6aab1fb03bc4d3f0d877c99caf8388c40c48c9b7fef14c916c938735114757bc"
+  },
+  "saleor-rc-484ce8815cf4": {
+   "task_id": "saleor-rc-484ce8815cf4",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/order/actions.py",
+    "saleor/payment/gateways/np_atobarai/api_helpers.py",
+    "saleor/payment/gateways/np_atobarai/utils.py",
+    "saleor/payment/interface.py"
+   ],
+   "rmcss_prediction_hash": "2f191209bca7086cae80ab8cd0640dbc90a0380117c5d9f6ab588d2da7c37a4d"
+  },
+  "saleor-rc-4902175839c9": {
+   "task_id": "saleor-rc-4902175839c9",
+   "sip_predicted_set": [
+    "saleor/account/thumbnails.py",
+    "saleor/order/templatetags/order_lines.py"
+   ],
+   "sip_prediction_hash": "da4cfdba3abc36fe748818e0bd6fda7c695d919806d315da6b3a52c67cec46b0",
+   "rmcss_predicted_set": [
+    "saleor/graphql/order/types.py"
+   ],
+   "rmcss_prediction_hash": "a30ab26dd98c31d5ba38e4ab786f5ad6d046298f9a53a41165b9c409d2ed569c"
+  },
+  "saleor-rc-4931e989d82d": {
+   "task_id": "saleor-rc-4931e989d82d",
+   "sip_predicted_set": [
+    "saleor/payment/gateways/stripe/plugin.py",
+    "saleor/payment/gateways/stripe/stripe_api.py"
+   ],
+   "sip_prediction_hash": "be051304d26e73e3a4056bd2b2083ff2dc4580b70aaa6cf1fcf1bf39ed4e1fd0",
+   "rmcss_predicted_set": [
+    "saleor/payment/gateways/stripe/plugin.py",
+    "saleor/payment/gateways/stripe/stripe_api.py",
+    "saleor/payment/gateways/stripe/webhooks.py"
+   ],
+   "rmcss_prediction_hash": "6a08e80b99058403b0947a4283f0c02a9a363a19ea801a93806664c028a95d53"
+  },
+  "saleor-rc-4adf36dfdbe7": {
+   "task_id": "saleor-rc-4adf36dfdbe7",
+   "sip_predicted_set": [
+    "saleor/thumbnail/__init__.py",
+    "saleor/thumbnail/models.py",
+    "saleor/thumbnail/views.py"
+   ],
+   "sip_prediction_hash": "84492cf1a2fbfd84430461e16cc95b175dc6a9f500c07ebe9caaec53fc9c88df",
+   "rmcss_predicted_set": [
+    "saleor/thumbnail/models.py",
+    "saleor/thumbnail/views.py"
+   ],
+   "rmcss_prediction_hash": "f9c0b5794abd95ec186cdfd4398a3aac538f5300dce543807064abbfd9353dc2"
+  },
+  "saleor-rc-4d82a7601853": {
+   "task_id": "saleor-rc-4d82a7601853",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [],
+   "rmcss_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "saleor-rc-4e45b83e7475": {
+   "task_id": "saleor-rc-4e45b83e7475",
+   "sip_predicted_set": [
+    "saleor/graphql/order/mutations/order_mark_as_paid.py"
+   ],
+   "sip_prediction_hash": "474089ea5a3097874f8b3da03a9bcc2b12908076c4d7743c130080eea41bbfbd",
+   "rmcss_predicted_set": [
+    "saleor/graphql/order/mutations/order_mark_as_paid.py"
+   ],
+   "rmcss_prediction_hash": "474089ea5a3097874f8b3da03a9bcc2b12908076c4d7743c130080eea41bbfbd"
+  },
+  "saleor-rc-4fa88efe7c69": {
+   "task_id": "saleor-rc-4fa88efe7c69",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [],
+   "rmcss_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "saleor-rc-4fc702179851": {
+   "task_id": "saleor-rc-4fc702179851",
+   "sip_predicted_set": [
+    "saleor/product/models.py",
+    "saleor/warehouse/models.py"
+   ],
+   "sip_prediction_hash": "e230857418580ff215794a06707e6f0c32d5290076c51f0ed216b2c347bd94ed",
+   "rmcss_predicted_set": [
+    "saleor/graphql/product/filters.py",
+    "saleor/product/models.py",
+    "saleor/warehouse/models.py"
+   ],
+   "rmcss_prediction_hash": "b5854406d801d3d8420728127d73644343897338e4047d8909d1f41a5f02f92e"
+  },
+  "saleor-rc-506cd1157e9c": {
+   "task_id": "saleor-rc-506cd1157e9c",
+   "sip_predicted_set": [
+    "saleor/invoice/models.py"
+   ],
+   "sip_prediction_hash": "638d0b41386311e1c56b5af80ad731b1083138cdc0c9ac127b94a1633d681d76",
+   "rmcss_predicted_set": [
+    "saleor/invoice/models.py"
+   ],
+   "rmcss_prediction_hash": "638d0b41386311e1c56b5af80ad731b1083138cdc0c9ac127b94a1633d681d76"
+  },
+  "saleor-rc-50eff94aa37c": {
+   "task_id": "saleor-rc-50eff94aa37c",
+   "sip_predicted_set": [
+    "saleor/graphql/product/filters.py",
+    "saleor/graphql/product/resolvers.py",
+    "saleor/graphql/product/sorters.py"
+   ],
+   "sip_prediction_hash": "9ac9c69ea115d877fbf1524e3d557d75942a1e4a189d15964a4a1c0356bf9e14",
+   "rmcss_predicted_set": [
+    "saleor/graphql/product/filters.py",
+    "saleor/graphql/product/resolvers.py"
+   ],
+   "rmcss_prediction_hash": "435c3f6d31745a28a1ad67aaaea52ba4347ed8ac247d8a50c0a5d81a96b22d05"
+  },
+  "saleor-rc-5144ee6bd55f": {
+   "task_id": "saleor-rc-5144ee6bd55f",
+   "sip_predicted_set": [
+    "saleor/graphql/account/filters.py",
+    "saleor/graphql/order/filters.py"
+   ],
+   "sip_prediction_hash": "d3e0e4b595b6bcf909039d9242d41785016161d4c99dab89cf70a0113ddeebfd",
+   "rmcss_predicted_set": [
+    "saleor/graphql/account/filters.py",
+    "saleor/graphql/order/filters.py",
+    "saleor/graphql/order/schema.py"
+   ],
+   "rmcss_prediction_hash": "8cf06eb014cbb3bd874cc788b2fed264f84fd91f05bbfa7db4c929bad4c54e59"
+  },
+  "saleor-rc-52a797b00af3": {
+   "task_id": "saleor-rc-52a797b00af3",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/graphql/product/mutations/products.py",
+    "saleor/graphql/product/types/products.py",
+    "saleor/graphql/translations/types.py"
+   ],
+   "rmcss_prediction_hash": "58d39e29bf1c186afa3d5db5b7cd8dbbad3bc78aab2c89ae044bc3274de979cc"
+  },
+  "saleor-rc-5477b7dd3867": {
+   "task_id": "saleor-rc-5477b7dd3867",
+   "sip_predicted_set": [
+    "saleor/graphql/checkout/mutations/checkout_lines_add.py",
+    "saleor/graphql/checkout/mutations/checkout_lines_update.py"
+   ],
+   "sip_prediction_hash": "aaf520d612167578f42eb73b2e1bdb758c06fa30e6f7a165b94363a498f05c51",
+   "rmcss_predicted_set": [
+    "saleor/graphql/checkout/mutations/checkout_create.py",
+    "saleor/graphql/checkout/mutations/checkout_lines_add.py",
+    "saleor/graphql/checkout/mutations/checkout_lines_update.py",
+    "saleor/graphql/checkout/mutations/utils.py"
+   ],
+   "rmcss_prediction_hash": "0b62e56f622a090329a67044e4f4c910baea06da73ac14268cab1c501133569f"
+  },
+  "saleor-rc-54b2e510c366": {
+   "task_id": "saleor-rc-54b2e510c366",
+   "sip_predicted_set": [
+    "saleor/warehouse/availability.py",
+    "saleor/warehouse/models.py"
+   ],
+   "sip_prediction_hash": "c7a41929f9f5017a08b60f2d6efe09b6f2c27ab4f52fc4872fa2e62b2caf1ed7",
+   "rmcss_predicted_set": [
+    "saleor/product/models.py",
+    "saleor/warehouse/availability.py",
+    "saleor/warehouse/models.py"
+   ],
+   "rmcss_prediction_hash": "8fed374a31bc9cfbd7ae13706a78bdce4c71c7a10e1ce78c0d79b5c818a86ba8"
+  },
+  "saleor-rc-54bbb04b8954": {
+   "task_id": "saleor-rc-54bbb04b8954",
+   "sip_predicted_set": [
+    "saleor/checkout/complete_checkout.py",
+    "saleor/graphql/checkout/mutations.py"
+   ],
+   "sip_prediction_hash": "a30f3f714a73dd55588503f91c934cb5e9e4d54a292ff691fb50c6449ee24f48",
+   "rmcss_predicted_set": [
+    "saleor/checkout/complete_checkout.py",
+    "saleor/checkout/utils.py",
+    "saleor/graphql/checkout/mutations.py"
+   ],
+   "rmcss_prediction_hash": "dfd63bc6ab1a52b882b9368c2eae5177aeb6aef5c09d0865feb8be54813286c1"
+  },
+  "saleor-rc-55ff6b5b2b65": {
+   "task_id": "saleor-rc-55ff6b5b2b65",
+   "sip_predicted_set": [
+    "saleor/asgi/cors_handler.py"
+   ],
+   "sip_prediction_hash": "0ce030ce9eef820e0f0b90fe3baeb23c6534d8d07770d447aed8c71e16682949",
+   "rmcss_predicted_set": [
+    "saleor/asgi/cors_handler.py"
+   ],
+   "rmcss_prediction_hash": "0ce030ce9eef820e0f0b90fe3baeb23c6534d8d07770d447aed8c71e16682949"
+  },
+  "saleor-rc-571a3b145aea": {
+   "task_id": "saleor-rc-571a3b145aea",
+   "sip_predicted_set": [
+    "saleor/checkout/complete_checkout.py",
+    "saleor/checkout/utils.py"
+   ],
+   "sip_prediction_hash": "5db4a8d504748d022a00425a9d19aeb30cacaca793a7549f36c5e764756c8da5",
+   "rmcss_predicted_set": [
+    "saleor/checkout/complete_checkout.py",
+    "saleor/checkout/utils.py",
+    "saleor/graphql/payment/mutations.py"
+   ],
+   "rmcss_prediction_hash": "8c576ae5c2bad3a5445b0cddbb21a57b626f0cdac7a4e42b21a6736fbfed0a72"
+  },
+  "saleor-rc-57441a31a14b": {
+   "task_id": "saleor-rc-57441a31a14b",
+   "sip_predicted_set": [
+    "saleor/invoice/emails.py",
+    "saleor/invoice/events.py"
+   ],
+   "sip_prediction_hash": "f7d1c38de918c557aa614c5bb1d120dd38adc376a47b71f7e95d2062bdba6d87",
+   "rmcss_predicted_set": [
+    "saleor/invoice/emails.py",
+    "saleor/invoice/events.py"
+   ],
+   "rmcss_prediction_hash": "f7d1c38de918c557aa614c5bb1d120dd38adc376a47b71f7e95d2062bdba6d87"
+  },
+  "saleor-rc-5821309aed09": {
+   "task_id": "saleor-rc-5821309aed09",
+   "sip_predicted_set": [
+    "saleor/warehouse/availability.py",
+    "saleor/warehouse/validation.py"
+   ],
+   "sip_prediction_hash": "b66a39c15c5df6d5f74288420c8ee2b9f94e1f5ef1834194170f2d7696c8602c",
+   "rmcss_predicted_set": [
+    "saleor/warehouse/availability.py",
+    "saleor/warehouse/models.py",
+    "saleor/warehouse/validation.py"
+   ],
+   "rmcss_prediction_hash": "58e04783d1946d9cc4286a748e74c76ac42fbed3c70acd52edf50b5c56956b5f"
+  },
+  "saleor-rc-585562cf1cec": {
+   "task_id": "saleor-rc-585562cf1cec",
+   "sip_predicted_set": [
+    "saleor/graphql/attribute/types.py",
+    "saleor/graphql/webhook/__init__.py",
+    "saleor/webhook/__init__.py"
+   ],
+   "sip_prediction_hash": "768d21a522b5ba609954f24a12b0e94b04bd8702cd3e39519050790b37073a21",
+   "rmcss_predicted_set": [
+    "saleor/graphql/attribute/types.py",
+    "saleor/graphql/translations/mutations.py"
+   ],
+   "rmcss_prediction_hash": "8c9816ebd05ee571e078d166bdd575b6ab04ea751b0a3bffeb7954f0c4beff2b"
+  },
+  "saleor-rc-598aca390888": {
+   "task_id": "saleor-rc-598aca390888",
+   "sip_predicted_set": [
+    "saleor/webhook/models.py",
+    "saleor/webhook/payloads.py"
+   ],
+   "sip_prediction_hash": "56339b9dc7204f5ebed59028f6a814293aadac8aeb6cb210b5e2ad405bf50d55",
+   "rmcss_predicted_set": [
+    "saleor/core/models.py",
+    "saleor/webhook/models.py"
+   ],
+   "rmcss_prediction_hash": "6be6fe65d38855b53faee475013837c39c593a8bcaae3e87b547be3e79e527e9"
+  },
+  "saleor-rc-5adf2a55d3e7": {
+   "task_id": "saleor-rc-5adf2a55d3e7",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [],
+   "rmcss_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "saleor-rc-5af4a7b5656e": {
+   "task_id": "saleor-rc-5af4a7b5656e",
+   "sip_predicted_set": [
+    "saleor/core/transactions.py"
+   ],
+   "sip_prediction_hash": "061a402873756d23abec70eae6bd7a5c81d417e71af279250c28e0eba4ab52e8",
+   "rmcss_predicted_set": [],
+   "rmcss_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "saleor-rc-5c458f26276d": {
+   "task_id": "saleor-rc-5c458f26276d",
+   "sip_predicted_set": [
+    "saleor/graphql/product/resolvers.py"
+   ],
+   "sip_prediction_hash": "f824de1594a96b5dad18a8025364d2ac422e760da1fdcbc218a1c0210fb80997",
+   "rmcss_predicted_set": [
+    "saleor/graphql/product/resolvers.py",
+    "saleor/graphql/product/schema.py"
+   ],
+   "rmcss_prediction_hash": "6229523a24491d5e8610d1a33bebe90dab595ebe2accb30b973d0668bce68fe0"
+  },
+  "saleor-rc-5c50110d46a2": {
+   "task_id": "saleor-rc-5c50110d46a2",
+   "sip_predicted_set": [
+    "saleor/core/taxes.py"
+   ],
+   "sip_prediction_hash": "34977f255ee827092c067828ec46608123d47ad6815ac09cb72bbdd4856fbfc9",
+   "rmcss_predicted_set": [],
+   "rmcss_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "saleor-rc-5d2721a36364": {
+   "task_id": "saleor-rc-5d2721a36364",
+   "sip_predicted_set": [
+    "saleor/core/weight.py"
+   ],
+   "sip_prediction_hash": "9466a44c94b80c4e5874b53100eb7812a0abde54164d84e67eae886fbaa4de98",
+   "rmcss_predicted_set": [
+    "saleor/core/weight.py"
+   ],
+   "rmcss_prediction_hash": "9466a44c94b80c4e5874b53100eb7812a0abde54164d84e67eae886fbaa4de98"
+  },
+  "saleor-rc-5ed60eba096a": {
+   "task_id": "saleor-rc-5ed60eba096a",
+   "sip_predicted_set": [
+    "saleor/app/installation_utils.py",
+    "saleor/app/models.py",
+    "saleor/app/utils.py"
+   ],
+   "sip_prediction_hash": "65099d87c97ed0fdd67b9d4b76e26a3b59c1a9adf869aea9366641e54819938e",
+   "rmcss_predicted_set": [
+    "saleor/app/installation_utils.py",
+    "saleor/app/models.py",
+    "saleor/graphql/app/resolvers.py",
+    "saleor/graphql/app/types.py"
+   ],
+   "rmcss_prediction_hash": "581e9f4bddc809c0750fdd06e0fefc179433048c0765b7954758e9e1687d258f"
+  },
+  "saleor-rc-5f78ba7b1647": {
+   "task_id": "saleor-rc-5f78ba7b1647",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/checkout/utils.py"
+   ],
+   "rmcss_prediction_hash": "2f35ab82d7f669cedfbd9a04be1c39c1a1c3ee299730d7f0470254f5cc37721f"
+  },
+  "saleor-rc-5f8b1cc4db2d": {
+   "task_id": "saleor-rc-5f8b1cc4db2d",
+   "sip_predicted_set": [
+    "saleor/account/search.py",
+    "saleor/graphql/account/resolvers.py",
+    "saleor/graphql/core/connection.py"
+   ],
+   "sip_prediction_hash": "09940b674f79fc8ca4af3c7e3a68c1266803f654e545bcffe4c5b926fc9e24b8",
+   "rmcss_predicted_set": [
+    "saleor/graphql/core/connection.py"
+   ],
+   "rmcss_prediction_hash": "c129f0309bed74b385b1712b54b0d66baa16ade407c93719a663940add4a9340"
+  },
+  "saleor-rc-6370f4a6b8a5": {
+   "task_id": "saleor-rc-6370f4a6b8a5",
+   "sip_predicted_set": [
+    "saleor/graphql/menu/resolvers.py",
+    "saleor/graphql/product/resolvers.py"
+   ],
+   "sip_prediction_hash": "8611d94968bcd510f2edc01388b9cbdad1dbae8ad011a5d21a14b9570f5ef9c2",
+   "rmcss_predicted_set": [
+    "saleor/graphql/menu/resolvers.py",
+    "saleor/graphql/product/resolvers.py",
+    "saleor/graphql/translations/types.py"
+   ],
+   "rmcss_prediction_hash": "c7bc9a3025b12c1a0aa97bc51d1f65ce61e1bff6dbb48b02662737b305965bc4"
+  },
+  "saleor-rc-63a25a0c46d5": {
+   "task_id": "saleor-rc-63a25a0c46d5",
+   "sip_predicted_set": [
+    "saleor/plugins/webhook/plugin.py",
+    "saleor/webhook/transport/synchronous/transport.py"
+   ],
+   "sip_prediction_hash": "15d76c96ad23f94c2a62cf63b209408d691317d28c0d51f3defda04ed3ac83aa",
+   "rmcss_predicted_set": [
+    "saleor/plugins/webhook/plugin.py",
+    "saleor/webhook/transport/asynchronous/transport.py",
+    "saleor/webhook/transport/synchronous/transport.py"
+   ],
+   "rmcss_prediction_hash": "7008efe5a6e3d6e4d6d412b634f5164f3f75da5aec5c442f19d2600d3693376d"
+  },
+  "saleor-rc-63a31dd3c8ca": {
+   "task_id": "saleor-rc-63a31dd3c8ca",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/graphql/account/mutations/staff.py"
+   ],
+   "rmcss_prediction_hash": "bda9efa9a3c28cf0ae8514aa78841b00e17145aad643201889e89c5b042207de"
+  },
+  "saleor-rc-65643ec7c37f": {
+   "task_id": "saleor-rc-65643ec7c37f",
+   "sip_predicted_set": [
+    "saleor/graphql/attribute/descriptions.py",
+    "saleor/graphql/core/descriptions.py"
+   ],
+   "sip_prediction_hash": "c396f4b83a7f71751898327df8831f2cba65a01dd4a16404d2c9b1b40ba0c008",
+   "rmcss_predicted_set": [
+    "saleor/graphql/attribute/descriptions.py",
+    "saleor/graphql/core/descriptions.py"
+   ],
+   "rmcss_prediction_hash": "c396f4b83a7f71751898327df8831f2cba65a01dd4a16404d2c9b1b40ba0c008"
+  },
+  "saleor-rc-659af1b19239": {
+   "task_id": "saleor-rc-659af1b19239",
+   "sip_predicted_set": [
+    "saleor/checkout/__init__.py",
+    "saleor/checkout/actions.py",
+    "saleor/checkout/checkout_cleaner.py",
+    "saleor/checkout/utils.py",
+    "saleor/graphql/checkout/__init__.py",
+    "saleor/graphql/checkout/mutations/checkout_delivery_method_update.py",
+    "saleor/graphql/checkout/mutations/checkout_shipping_address_update.py",
+    "saleor/graphql/checkout/mutations/checkout_shipping_method_update.py"
+   ],
+   "sip_prediction_hash": "fd983b063bd02c8e1e1dca33ec8e79294633f1056994150b30e404576704b1df",
+   "rmcss_predicted_set": [
+    "saleor/checkout/checkout_cleaner.py",
+    "saleor/checkout/utils.py",
+    "saleor/graphql/checkout/mutations/checkout_billing_address_update.py",
+    "saleor/graphql/checkout/mutations/checkout_delivery_method_update.py",
+    "saleor/graphql/checkout/mutations/checkout_shipping_address_update.py",
+    "saleor/graphql/checkout/mutations/checkout_shipping_method_update.py",
+    "saleor/graphql/checkout/mutations/utils.py",
+    "saleor/order/utils.py"
+   ],
+   "rmcss_prediction_hash": "cf18506fd9b48da3278ba54e0b4507edef5b27de249362ea95bfb0312b370952"
+  },
+  "saleor-rc-65a07d9986ec": {
+   "task_id": "saleor-rc-65a07d9986ec",
+   "sip_predicted_set": [
+    "saleor/graphql/account/dataloaders.py",
+    "saleor/graphql/app/dataloaders.py",
+    "saleor/graphql/attribute/dataloaders.py",
+    "saleor/graphql/channel/dataloaders.py",
+    "saleor/graphql/checkout/dataloaders.py",
+    "saleor/graphql/discount/dataloaders.py",
+    "saleor/graphql/giftcard/dataloaders.py",
+    "saleor/graphql/invoice/dataloaders.py",
+    "saleor/graphql/menu/dataloaders.py",
+    "saleor/graphql/order/dataloaders.py",
+    "saleor/graphql/page/dataloaders.py",
+    "saleor/graphql/payment/dataloaders.py",
+    "saleor/graphql/plugins/dataloaders.py",
+    "saleor/graphql/product/dataloaders/__init__.py",
+    "saleor/graphql/shipping/dataloaders.py",
+    "saleor/graphql/site/dataloaders.py",
+    "saleor/graphql/tax/dataloaders.py",
+    "saleor/graphql/translations/dataloaders.py",
+    "saleor/graphql/warehouse/dataloaders.py",
+    "saleor/graphql/webhook/dataloaders.py",
+    "saleor/payment/dataloaders.py"
+   ],
+   "sip_prediction_hash": "4e6583753efbe24fa2a0cffcfd4e5200b800c27bc8de5d38c6aadb79d591e591",
+   "rmcss_predicted_set": [
+    "saleor/graphql/checkout/dataloaders.py",
+    "saleor/graphql/discount/dataloaders.py",
+    "saleor/graphql/plugins/dataloaders.py",
+    "saleor/graphql/translations/dataloaders.py",
+    "saleor/graphql/warehouse/dataloaders.py"
+   ],
+   "rmcss_prediction_hash": "5eea0a0d9c8f38e173d54eda18f89128a16936f3616ced260deef17437564370"
+  },
+  "saleor-rc-65dfc61ec9fc": {
+   "task_id": "saleor-rc-65dfc61ec9fc",
+   "sip_predicted_set": [
+    "saleor/checkout/__init__.py",
+    "saleor/checkout/actions.py",
+    "saleor/checkout/complete_checkout.py",
+    "saleor/checkout/models.py",
+    "saleor/checkout/payment_utils.py",
+    "saleor/graphql/checkout/mutations/checkout_complete.py",
+    "saleor/graphql/payment/mutations/__init__.py"
+   ],
+   "sip_prediction_hash": "7a74db407c51b885e27adfaacc26a0c8390194cc5da7ba44e0365082a437d65c",
+   "rmcss_predicted_set": [
+    "saleor/checkout/__init__.py",
+    "saleor/checkout/complete_checkout.py",
+    "saleor/checkout/models.py",
+    "saleor/checkout/payment_utils.py",
+    "saleor/checkout/utils.py",
+    "saleor/graphql/checkout/mutations/checkout_complete.py"
+   ],
+   "rmcss_prediction_hash": "8cbabb6fcb96f2920004b2eb006e563cfbf3817fe0feda06eb69302e6de2983a"
+  },
+  "saleor-rc-663543eaf563": {
+   "task_id": "saleor-rc-663543eaf563",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/graphql/payment/types.py",
+    "saleor/payment/utils.py",
+    "saleor/plugins/webhook/plugin.py"
+   ],
+   "rmcss_prediction_hash": "450027ba77843529ba9439937a811d4fada698e6e92382612a8b81900cf6a56f"
+  },
+  "saleor-rc-66907b149076": {
+   "task_id": "saleor-rc-66907b149076",
+   "sip_predicted_set": [
+    "saleor/graphql/attribute/mutations/mixins.py",
+    "saleor/graphql/product/mutations/attributes.py"
+   ],
+   "sip_prediction_hash": "4226ed6668675457f921b0384f878da6de2f675a4d4ae2db84b5d1d0691bdad4",
+   "rmcss_predicted_set": [
+    "saleor/graphql/attribute/mutations/attribute_update.py",
+    "saleor/graphql/attribute/mutations/attribute_value_delete.py",
+    "saleor/graphql/product/mutations/attributes.py",
+    "saleor/graphql/product/mutations/product/product_update.py"
+   ],
+   "rmcss_prediction_hash": "9e849d7c3727db87368b53288703a7d1f69af390d88bb31fd03432c303ce2f2e"
+  },
+  "saleor-rc-67cd71a9e0b7": {
+   "task_id": "saleor-rc-67cd71a9e0b7",
+   "sip_predicted_set": [
+    "saleor/thumbnail/utils.py"
+   ],
+   "sip_prediction_hash": "3a6118e65929436390a568b5f9d36b84811a1e1ec0d6ccd74cfad7730a6fb652",
+   "rmcss_predicted_set": [
+    "saleor/thumbnail/utils.py",
+    "saleor/thumbnail/views.py"
+   ],
+   "rmcss_prediction_hash": "7de31cd4cbb0cd4c00177119f4db4f4982bf91503d290c3272b48090c4022674"
+  },
+  "saleor-rc-68777a15d2a4": {
+   "task_id": "saleor-rc-68777a15d2a4",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/graphql/warehouse/filters.py"
+   ],
+   "rmcss_prediction_hash": "de15e76b59b54c5aa1d437c431fc26bc2438b73ff78cf2d8fb7b68c6e185110c"
+  },
+  "saleor-rc-68fb4bf4a458": {
+   "task_id": "saleor-rc-68fb4bf4a458",
+   "sip_predicted_set": [
+    "saleor/graphql/order/dataloaders.py"
+   ],
+   "sip_prediction_hash": "635033226db4cc0dd7af0fef1c288af8da0bb68a3ecc77e8a15c63412c16063a",
+   "rmcss_predicted_set": [
+    "saleor/graphql/order/dataloaders.py",
+    "saleor/graphql/order/types.py"
+   ],
+   "rmcss_prediction_hash": "ed756a58a7d61a1c475b53c66320dca7c55f3f7123bcbffd3a3f512a233f5ef1"
+  },
+  "saleor-rc-693eb302968c": {
+   "task_id": "saleor-rc-693eb302968c",
+   "sip_predicted_set": [
+    "saleor/order/models.py",
+    "saleor/plugins/avatax/plugin.py",
+    "saleor/plugins/manager.py",
+    "saleor/plugins/vatlayer/plugin.py",
+    "saleor/webhook/payloads.py"
+   ],
+   "sip_prediction_hash": "da0a3074080759feec4d6d5c174235baa14c0e710bb15d845a422e25c5d609bd",
+   "rmcss_predicted_set": [
+    "saleor/order/models.py",
+    "saleor/plugins/avatax/plugin.py",
+    "saleor/plugins/base_plugin.py",
+    "saleor/plugins/manager.py",
+    "saleor/plugins/vatlayer/plugin.py"
+   ],
+   "rmcss_prediction_hash": "73a30592b1a93a08d0ca7cbcffe9dd1ecf1ed151adfe5f8592a61585e46a8881"
+  },
+  "saleor-rc-697cbdc85b4a": {
+   "task_id": "saleor-rc-697cbdc85b4a",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/core/utils/random_data.py",
+    "saleor/graphql/core/types/money.py"
+   ],
+   "rmcss_prediction_hash": "030c3fab7a2f001d0751320acdaeae8f13e976537eba4318b0140381eb864deb"
+  },
+  "saleor-rc-6a1f884168d2": {
+   "task_id": "saleor-rc-6a1f884168d2",
+   "sip_predicted_set": [
+    "saleor/shipping/models.py"
+   ],
+   "sip_prediction_hash": "9afc58bf8ebfa6a87d537779f3c333d8310297ad86c01f90adb0c0c9173802c0",
+   "rmcss_predicted_set": [
+    "saleor/graphql/shipping/types.py",
+    "saleor/shipping/models.py"
+   ],
+   "rmcss_prediction_hash": "2d2f8fe778f036d0113ff0f91b70dfc00649c5cbb5631a2e4d6c34bb6d89685e"
+  },
+  "saleor-rc-6c928b72daa4": {
+   "task_id": "saleor-rc-6c928b72daa4",
+   "sip_predicted_set": [
+    "saleor/attribute/__init__.py",
+    "saleor/attribute/models/base.py",
+    "saleor/graphql/attribute/__init__.py",
+    "saleor/graphql/attribute/resolvers.py",
+    "saleor/graphql/attribute/types.py"
+   ],
+   "sip_prediction_hash": "16c6cb4583d492fb6a5c5345e82734fbddafbdbd878ed8f19662d9fbb13604ab",
+   "rmcss_predicted_set": [
+    "saleor/attribute/__init__.py",
+    "saleor/attribute/models/base.py",
+    "saleor/graphql/attribute/types.py"
+   ],
+   "rmcss_prediction_hash": "7ce4e1b31f8cd0d03a7f960f048febc1deb18c76ebeec32cb044671fd26da1f7"
+  },
+  "saleor-rc-73b8f4c2a451": {
+   "task_id": "saleor-rc-73b8f4c2a451",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [],
+   "rmcss_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "saleor-rc-74fbba6d0734": {
+   "task_id": "saleor-rc-74fbba6d0734",
+   "sip_predicted_set": [
+    "saleor/account/models.py"
+   ],
+   "sip_prediction_hash": "d3f3110b79c4687f3b7c7e15fb7d273a8a42b49d92293d72533a6d4b1c7045bf",
+   "rmcss_predicted_set": [
+    "saleor/account/models.py"
+   ],
+   "rmcss_prediction_hash": "d3f3110b79c4687f3b7c7e15fb7d273a8a42b49d92293d72533a6d4b1c7045bf"
+  },
+  "saleor-rc-7691de1ea22e": {
+   "task_id": "saleor-rc-7691de1ea22e",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/graphql/order/schema.py",
+    "saleor/graphql/order/types.py"
+   ],
+   "rmcss_prediction_hash": "0e3b2d9f40bb8a811bab29892f72bf429732dbbee761acf2c9417473068c42a5"
+  },
+  "saleor-rc-78c9081e2731": {
+   "task_id": "saleor-rc-78c9081e2731",
+   "sip_predicted_set": [
+    "saleor/graphql/product/sorters.py"
+   ],
+   "sip_prediction_hash": "580852c043f83a520220d76d65f9f700e755b6d9a5ac33ecd960e35e7989ef65",
+   "rmcss_predicted_set": [
+    "saleor/graphql/product/sorters.py",
+    "saleor/product/models.py"
+   ],
+   "rmcss_prediction_hash": "e1aa6710fbad245d0005a414ea3efbc47865f621107cbd5eb322942121954683"
+  },
+  "saleor-rc-78d985111cd9": {
+   "task_id": "saleor-rc-78d985111cd9",
+   "sip_predicted_set": [
+    "saleor/graphql/context.py"
+   ],
+   "sip_prediction_hash": "78cd4d860eea19038fdd44a4475dce91603c339cd33e14f8c2f5b9d490318849",
+   "rmcss_predicted_set": [],
+   "rmcss_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "saleor-rc-796f4a0fd969": {
+   "task_id": "saleor-rc-796f4a0fd969",
+   "sip_predicted_set": [
+    "saleor/graphql/product/bulk_mutations/product_bulk_create.py"
+   ],
+   "sip_prediction_hash": "f1a9d12a3bebbec570f3f319e637a410611f71e3f8e6e35b3e7bf030c8a1ef60",
+   "rmcss_predicted_set": [
+    "saleor/graphql/core/types/common.py",
+    "saleor/graphql/product/bulk_mutations/product_bulk_create.py",
+    "saleor/graphql/product/bulk_mutations/product_variant_bulk_create.py"
+   ],
+   "rmcss_prediction_hash": "9dfd241f16d3ec4c8962be39df67479b119f9db966dfc02f5f8b0828f3650e82"
+  },
+  "saleor-rc-799a9f1c915a": {
+   "task_id": "saleor-rc-799a9f1c915a",
+   "sip_predicted_set": [
+    "saleor/payment/dataloaders.py"
+   ],
+   "sip_prediction_hash": "25aa1f63e64251690ec8a3b463f7a8d2d58bae047db6718b9e2d43a252773288",
+   "rmcss_predicted_set": [
+    "saleor/graphql/payment/types.py",
+    "saleor/payment/dataloaders.py"
+   ],
+   "rmcss_prediction_hash": "6fb5932d5cee2f7e27acf5262bc2d769f18ecf912b6d4537c8979bfc03e2b523"
+  },
+  "saleor-rc-7b1e8cee95d5": {
+   "task_id": "saleor-rc-7b1e8cee95d5",
+   "sip_predicted_set": [
+    "saleor/graphql/attribute/dataloaders.py",
+    "saleor/graphql/attribute/resolvers.py",
+    "saleor/graphql/attribute/types.py"
+   ],
+   "sip_prediction_hash": "fe2ad474b9a637e3cc933b836f78d42ca458f9231d01e88aade714f2590e3486",
+   "rmcss_predicted_set": [
+    "saleor/graphql/attribute/dataloaders.py",
+    "saleor/graphql/attribute/types.py"
+   ],
+   "rmcss_prediction_hash": "2896993e6fd2b49b895d9f0003b9fde6b423afdad149fd4f4aaccc5e769abb6b"
+  },
+  "saleor-rc-7b3fbb77c331": {
+   "task_id": "saleor-rc-7b3fbb77c331",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/checkout/complete_checkout.py",
+    "saleor/payment/gateways/dummy/__init__.py",
+    "saleor/payment/utils.py"
+   ],
+   "rmcss_prediction_hash": "348c6a8f630d01f95145c11b68518a721b3207949f88ac2c9f63109fa5a526e0"
+  },
+  "saleor-rc-7bbeb193b718": {
+   "task_id": "saleor-rc-7bbeb193b718",
+   "sip_predicted_set": [
+    "saleor/graphql/product/dataloaders/products.py"
+   ],
+   "sip_prediction_hash": "a544264c8044e4b3574793b7298dedb6e30f69bdf835df058bfcdec6dfff5009",
+   "rmcss_predicted_set": [
+    "saleor/graphql/product/dataloaders/__init__.py",
+    "saleor/graphql/product/dataloaders/products.py"
+   ],
+   "rmcss_prediction_hash": "aa00beff10a5d9c54b51a5d9b75881d75ea66918b25d20e25141965fb2c23c3a"
+  },
+  "saleor-rc-7e42fc67ce72": {
+   "task_id": "saleor-rc-7e42fc67ce72",
+   "sip_predicted_set": [
+    "saleor/app/manifest_validations.py"
+   ],
+   "sip_prediction_hash": "da6282fc9c554cf4120ba88e149f390573652c24eb785c7f2639e2eaa4a58812",
+   "rmcss_predicted_set": [
+    "saleor/app/installation_utils.py",
+    "saleor/app/manifest_validations.py",
+    "saleor/graphql/app/types.py"
+   ],
+   "rmcss_prediction_hash": "0d2e5b3fa27340a24c59211810f8ea2399ec78964029d09860ca140919193263"
+  },
+  "saleor-rc-7f841e468194": {
+   "task_id": "saleor-rc-7f841e468194",
+   "sip_predicted_set": [
+    "saleor/product/models.py"
+   ],
+   "sip_prediction_hash": "55247c7e4e5c19d25de333c8753fd90e7aa55af9918ed82bd461918e3a1a23af",
+   "rmcss_predicted_set": [
+    "saleor/graphql/product/mutations/products.py",
+    "saleor/graphql/product/types/products.py",
+    "saleor/product/models.py"
+   ],
+   "rmcss_prediction_hash": "c90a9ec3ecd77be99f1bb861102b9b45e861b9315c34da87d59d009524c21a12"
+  },
+  "saleor-rc-80a33b28b80d": {
+   "task_id": "saleor-rc-80a33b28b80d",
+   "sip_predicted_set": [
+    "saleor/graphql/webhook/dataloaders/pregenerated_payloads_for_checkout_filter_shipping_methods.py"
+   ],
+   "sip_prediction_hash": "190b2cb1d91292fa2e42ad8c08aeba7fd595c2f86baf274c853b9ca9c36b82aa",
+   "rmcss_predicted_set": [
+    "saleor/graphql/webhook/dataloaders/pregenerated_payloads_for_checkout_filter_shipping_methods.py",
+    "saleor/plugins/webhook/plugin.py",
+    "saleor/webhook/transport/shipping.py"
+   ],
+   "rmcss_prediction_hash": "cc4a7ba78b853b20b164bbfc7f220548842640e77853e23bb3d4ba29fe28b692"
+  },
+  "saleor-rc-81d02e76b22e": {
+   "task_id": "saleor-rc-81d02e76b22e",
+   "sip_predicted_set": [
+    "saleor/app/__init__.py",
+    "saleor/app/management/commands/create_app.py",
+    "saleor/app/models.py",
+    "saleor/graphql/app/mutations.py"
+   ],
+   "sip_prediction_hash": "049f5d99cfe3c67c1bc57bcff146fe077862a02b713a01f18e6012c7961a96d2",
+   "rmcss_predicted_set": [
+    "saleor/app/models.py",
+    "saleor/graphql/app/mutations.py",
+    "saleor/graphql/app/types.py"
+   ],
+   "rmcss_prediction_hash": "2cd45dc8876c726941430084b2fd353913b0c1db9fdf6176020df9ecdcba7d66"
+  },
+  "saleor-rc-8220a53473bb": {
+   "task_id": "saleor-rc-8220a53473bb",
+   "sip_predicted_set": [
+    "saleor/graphql/csv/mutations.py"
+   ],
+   "sip_prediction_hash": "b5993caab6a2535923768fabfedd912c987bf2c2b65b1e9e5011f2870f4ceef0",
+   "rmcss_predicted_set": [
+    "saleor/graphql/csv/mutations.py"
+   ],
+   "rmcss_prediction_hash": "b5993caab6a2535923768fabfedd912c987bf2c2b65b1e9e5011f2870f4ceef0"
+  },
+  "saleor-rc-82cc17adedba": {
+   "task_id": "saleor-rc-82cc17adedba",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/graphql/webhook/subscription_types.py"
+   ],
+   "rmcss_prediction_hash": "9c54157b19112e64b106b815fcd3e343768125f884888f77d573ea0aab7d7325"
+  },
+  "saleor-rc-8406dce8d1b7": {
+   "task_id": "saleor-rc-8406dce8d1b7",
+   "sip_predicted_set": [
+    "saleor/graphql/product/mutations/product_type_update.py"
+   ],
+   "sip_prediction_hash": "74d68aa90a1c838c95b24e04755ce1013eeb411119fa2236d00444bb3896684e",
+   "rmcss_predicted_set": [
+    "saleor/graphql/product/mutations/product_type_update.py"
+   ],
+   "rmcss_prediction_hash": "74d68aa90a1c838c95b24e04755ce1013eeb411119fa2236d00444bb3896684e"
+  },
+  "saleor-rc-843a2c1905ad": {
+   "task_id": "saleor-rc-843a2c1905ad",
+   "sip_predicted_set": [
+    "saleor/order/models.py",
+    "saleor/payment/models.py"
+   ],
+   "sip_prediction_hash": "368f80e62201c0983a210fa7835956b012f0c223123ff1c2749edb815bb2f076",
+   "rmcss_predicted_set": [
+    "saleor/order/models.py",
+    "saleor/order/utils.py",
+    "saleor/payment/interface.py",
+    "saleor/payment/models.py"
+   ],
+   "rmcss_prediction_hash": "854f7264266ae3e4fc2325a116dfd83838f27c88159158908e6b638cbb41d1aa"
+  },
+  "saleor-rc-85d416c024e1": {
+   "task_id": "saleor-rc-85d416c024e1",
+   "sip_predicted_set": [
+    "saleor/graphql/order/mutations/orders.py",
+    "saleor/graphql/order/types.py",
+    "saleor/order/models.py"
+   ],
+   "sip_prediction_hash": "3e7507652697f41414a421218833dd117b80cbafeb9a8f1242bfa3d96612ac79",
+   "rmcss_predicted_set": [
+    "saleor/graphql/order/mutations/orders.py",
+    "saleor/order/emails.py",
+    "saleor/order/models.py"
+   ],
+   "rmcss_prediction_hash": "5188c8d67480a4ab1f1dd7b7d887c66030ea34b960502f69422b4aa019e6897e"
+  },
+  "saleor-rc-884327b653cc": {
+   "task_id": "saleor-rc-884327b653cc",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/order/events.py"
+   ],
+   "rmcss_prediction_hash": "d69e2aba76cd715d7585b2e9efdced294f7403da6610aae1509da56949483ed2"
+  },
+  "saleor-rc-897f9e7d6766": {
+   "task_id": "saleor-rc-897f9e7d6766",
+   "sip_predicted_set": [
+    "saleor/graphql/checkout/dataloaders.py"
+   ],
+   "sip_prediction_hash": "9cf7f6165125e66921fc710ac8998796d1499a433528ed86a6fc7d0d5a4bc3a0",
+   "rmcss_predicted_set": [
+    "saleor/graphql/checkout/dataloaders.py"
+   ],
+   "rmcss_prediction_hash": "9cf7f6165125e66921fc710ac8998796d1499a433528ed86a6fc7d0d5a4bc3a0"
+  },
+  "saleor-rc-8a03c74411d7": {
+   "task_id": "saleor-rc-8a03c74411d7",
+   "sip_predicted_set": [
+    "saleor/checkout/calculations.py"
+   ],
+   "sip_prediction_hash": "3a4d5975bee96cf58c1c7f362360641d5cf6030a1817e0b14ea92561d98e28ee",
+   "rmcss_predicted_set": [
+    "saleor/checkout/base_calculations.py",
+    "saleor/checkout/calculations.py",
+    "saleor/checkout/utils.py",
+    "saleor/graphql/checkout/types.py",
+    "saleor/plugins/manager.py"
+   ],
+   "rmcss_prediction_hash": "6a1c4eaa88d10644e1a9f1551a76c5d5347b4901d1577e11f3b52e8729970d36"
+  },
+  "saleor-rc-8b0cbe2fb72f": {
+   "task_id": "saleor-rc-8b0cbe2fb72f",
+   "sip_predicted_set": [
+    "saleor/payment/gateways/adyen/plugin.py",
+    "saleor/payment/gateways/stripe/plugin.py"
+   ],
+   "sip_prediction_hash": "5e88b9c57ea1c5ab9d08b3d72ec98da3caa7171adb3e18bd3071505f4968bd2e",
+   "rmcss_predicted_set": [
+    "saleor/graphql/order/mutations/orders.py",
+    "saleor/payment/gateways/adyen/plugin.py",
+    "saleor/payment/gateways/stripe/plugin.py"
+   ],
+   "rmcss_prediction_hash": "acf7e3dd21df28510fd1061d2fb8fa8ce56a771774fabb715c4152bbd243b5e5"
+  },
+  "saleor-rc-8c8d9db54d63": {
+   "task_id": "saleor-rc-8c8d9db54d63",
+   "sip_predicted_set": [
+    "saleor/account/search.py",
+    "saleor/giftcard/search.py",
+    "saleor/order/search.py",
+    "saleor/product/search.py"
+   ],
+   "sip_prediction_hash": "a165cd0f42e49985228463d804ce4a8e420871191ce5b9273adda332a6684b24",
+   "rmcss_predicted_set": [
+    "saleor/account/search.py",
+    "saleor/product/search.py"
+   ],
+   "rmcss_prediction_hash": "4432fd99cebb6707ea7c9093a019c53c438f9424e990440a83ed0ba4f5a60e5f"
+  },
+  "saleor-rc-8d911cb27289": {
+   "task_id": "saleor-rc-8d911cb27289",
+   "sip_predicted_set": [
+    "saleor/graphql/attribute/sorters.py"
+   ],
+   "sip_prediction_hash": "430fd8c5eedf9d5590830c8001aa4f5f3d5e9985a38d76861e08163ac9780d80",
+   "rmcss_predicted_set": [
+    "saleor/graphql/attribute/sorters.py"
+   ],
+   "rmcss_prediction_hash": "430fd8c5eedf9d5590830c8001aa4f5f3d5e9985a38d76861e08163ac9780d80"
+  },
+  "saleor-rc-8e6164e3d123": {
+   "task_id": "saleor-rc-8e6164e3d123",
+   "sip_predicted_set": [
+    "saleor/graphql/app/mutations/app_create.py",
+    "saleor/graphql/app/mutations/app_update.py"
+   ],
+   "sip_prediction_hash": "663c4789ed514be0b4078388d40efc6fcedc3e4c8411d8d54746acd3ee84b84c",
+   "rmcss_predicted_set": [
+    "saleor/graphql/app/mutations/app_create.py",
+    "saleor/graphql/app/mutations/app_token_create.py",
+    "saleor/graphql/app/mutations/app_update.py"
+   ],
+   "rmcss_prediction_hash": "ae56f9c5fd06e9a986f96ab31e8fd7fdf1d99b8f8913a2f06052fcf0c051eb4f"
+  },
+  "saleor-rc-8eb11da07f09": {
+   "task_id": "saleor-rc-8eb11da07f09",
+   "sip_predicted_set": [
+    "saleor/graphql/attribute/__init__.py",
+    "saleor/graphql/attribute/bulk_mutations.py",
+    "saleor/graphql/attribute/mutations/attribute_bulk_create.py",
+    "saleor/graphql/attribute/mutations/attribute_update.py",
+    "saleor/graphql/attribute/mutations/attribute_value_create.py",
+    "saleor/graphql/attribute/mutations/attribute_value_update.py",
+    "saleor/graphql/attribute/types.py"
+   ],
+   "sip_prediction_hash": "8dfb3b55c9d71818d7345e2f7799ff2a865ff83604f2992ceb0efbb8b1ada455",
+   "rmcss_predicted_set": [
+    "saleor/graphql/attribute/mutations/attribute_bulk_create.py",
+    "saleor/graphql/attribute/mutations/attribute_update.py",
+    "saleor/graphql/attribute/mutations/attribute_value_create.py",
+    "saleor/graphql/attribute/mutations/mixins.py",
+    "saleor/graphql/attribute/types.py"
+   ],
+   "rmcss_prediction_hash": "b77bd21fb55fd9caee74e1ceda565f41f37d3f9e94e53b094f3cc1c332c6c1aa"
+  },
+  "saleor-rc-8f99df03562b": {
+   "task_id": "saleor-rc-8f99df03562b",
+   "sip_predicted_set": [
+    "saleor/checkout/base_calculations.py",
+    "saleor/checkout/calculations.py",
+    "saleor/checkout/utils.py"
+   ],
+   "sip_prediction_hash": "f0c29e7358e0997995f0ef54b6fc7e559d4d8b4c176b4c2a89b2f7bca22794b8",
+   "rmcss_predicted_set": [
+    "saleor/checkout/__init__.py",
+    "saleor/checkout/base_calculations.py",
+    "saleor/checkout/calculations.py",
+    "saleor/checkout/utils.py"
+   ],
+   "rmcss_prediction_hash": "8b17907f14bdc7ea557e3fb9856cc9398a1968d7bc101a71bd1ceb33f0f18e16"
+  },
+  "saleor-rc-9057e82cea23": {
+   "task_id": "saleor-rc-9057e82cea23",
+   "sip_predicted_set": [
+    "saleor/graphql/checkout/types.py",
+    "saleor/graphql/order/types.py"
+   ],
+   "sip_prediction_hash": "04cfa7122e6ae2cde6058762a4b5dbade124dc5080ba1e7371e0efc09b9c206a",
+   "rmcss_predicted_set": [
+    "saleor/checkout/utils.py",
+    "saleor/graphql/checkout/types.py",
+    "saleor/graphql/order/types.py",
+    "saleor/order/utils.py"
+   ],
+   "rmcss_prediction_hash": "9eec6326e9d60458e7d1f6f0d6bd04eb97bc0f49864498a62035f07bafd16580"
+  },
+  "saleor-rc-940b759d6c6f": {
+   "task_id": "saleor-rc-940b759d6c6f",
+   "sip_predicted_set": [
+    "saleor/graphql/order/__init__.py",
+    "saleor/graphql/order/resolvers.py"
+   ],
+   "sip_prediction_hash": "241bb99be48d33a9c664d513bb579321c863c6ff6b2fef93b33417f07fd04c7d",
+   "rmcss_predicted_set": [
+    "saleor/graphql/order/resolvers.py"
+   ],
+   "rmcss_prediction_hash": "2caa897a00e041df71334fa7aa05ac6dad1e1ae890133637b839ccf1b5720f9f"
+  },
+  "saleor-rc-940b8d83ec5c": {
+   "task_id": "saleor-rc-940b8d83ec5c",
+   "sip_predicted_set": [
+    "saleor/checkout/calculations.py",
+    "saleor/checkout/complete_checkout.py",
+    "saleor/checkout/payment_utils.py"
+   ],
+   "sip_prediction_hash": "399358b3bd91cd4bb0dd866117cd479bd720440b2a766c0e2600eebefe85713d",
+   "rmcss_predicted_set": [
+    "saleor/checkout/actions.py",
+    "saleor/checkout/calculations.py",
+    "saleor/checkout/complete_checkout.py",
+    "saleor/checkout/payment_utils.py",
+    "saleor/graphql/channel/types.py"
+   ],
+   "rmcss_prediction_hash": "7f7d16cfb3cd54c99a77cee7ca0cf394073273763d92da6455fafa11b9492d40"
+  },
+  "saleor-rc-954887b39f13": {
+   "task_id": "saleor-rc-954887b39f13",
+   "sip_predicted_set": [
+    "saleor/graphql/app/mutations/app_reenable_sync_webhooks.py"
+   ],
+   "sip_prediction_hash": "42527114ae3e1fa141e052a050502b3452768cc338f9bd1a5acb338f69076b74",
+   "rmcss_predicted_set": [
+    "saleor/graphql/app/mutations/app_reenable_sync_webhooks.py",
+    "saleor/webhook/transport/synchronous/transport.py"
+   ],
+   "rmcss_prediction_hash": "643121da187273d1af56bad7c41214ac2a305b8568aa499e1033fd9b38869ce3"
+  },
+  "saleor-rc-95db464ad4ea": {
+   "task_id": "saleor-rc-95db464ad4ea",
+   "sip_predicted_set": [
+    "saleor/app/models.py",
+    "saleor/app/tasks.py",
+    "saleor/graphql/app/mutations/app_create.py"
+   ],
+   "sip_prediction_hash": "93685d049c03ce6d6304f66ecb86e399441ed6b5329a398371481f3be2e483c6",
+   "rmcss_predicted_set": [
+    "saleor/app/models.py",
+    "saleor/app/tasks.py",
+    "saleor/graphql/app/mutations/app_create.py",
+    "saleor/graphql/app/schema.py",
+    "saleor/graphql/app/types.py"
+   ],
+   "rmcss_prediction_hash": "1710a840f35ff45ebc350ebe4ce2e9fd60f9b50601bd6de3b2aff5964d42e3a2"
+  },
+  "saleor-rc-95dbffbc523a": {
+   "task_id": "saleor-rc-95dbffbc523a",
+   "sip_predicted_set": [
+    "saleor/order/__init__.py",
+    "saleor/webhook/payloads.py"
+   ],
+   "sip_prediction_hash": "e217337634647e551119038593a912ef09d499f98fd16d19fd113bcc8a75d16c",
+   "rmcss_predicted_set": [
+    "saleor/order/__init__.py",
+    "saleor/order/actions.py",
+    "saleor/plugins/manager.py",
+    "saleor/plugins/webhook/plugin.py",
+    "saleor/webhook/payloads.py"
+   ],
+   "rmcss_prediction_hash": "25821986eb49d3d58a24efbd4d7b918a984e0f97d4754d97669d0bf1f16db0e0"
+  },
+  "saleor-rc-9701eb8d7ec2": {
+   "task_id": "saleor-rc-9701eb8d7ec2",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/graphql/order/mutations/fulfillments.py",
+    "saleor/order/models.py"
+   ],
+   "rmcss_prediction_hash": "bafa66ce9937605104c741b90bffb4eeadc9a877ff7792fe4afcef1779c5c076"
+  },
+  "saleor-rc-99041211cf9e": {
+   "task_id": "saleor-rc-99041211cf9e",
+   "sip_predicted_set": [
+    "saleor/order/emails.py"
+   ],
+   "sip_prediction_hash": "72e4af63a43e180acad7a4aa25f6e169fa6d0f696236cf48b210b02dbcfd11e4",
+   "rmcss_predicted_set": [
+    "saleor/order/emails.py"
+   ],
+   "rmcss_prediction_hash": "72e4af63a43e180acad7a4aa25f6e169fa6d0f696236cf48b210b02dbcfd11e4"
+  },
+  "saleor-rc-99f9e28f8b6f": {
+   "task_id": "saleor-rc-99f9e28f8b6f",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [],
+   "rmcss_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "saleor-rc-9abf7176cfdc": {
+   "task_id": "saleor-rc-9abf7176cfdc",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [],
+   "rmcss_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "saleor-rc-9b88221ba8c2": {
+   "task_id": "saleor-rc-9b88221ba8c2",
+   "sip_predicted_set": [
+    "saleor/app/models.py",
+    "saleor/graphql/app/mutations.py",
+    "saleor/webhook/deprecated_event_types.py",
+    "saleor/webhook/event_types.py"
+   ],
+   "sip_prediction_hash": "438ff84b9a75b0e6f2f3a49ca9a273edc1d98106ce3419fca4152a87c0cf2ad9",
+   "rmcss_predicted_set": [
+    "saleor/app/models.py",
+    "saleor/graphql/app/mutations.py",
+    "saleor/plugins/webhook/plugin.py",
+    "saleor/webhook/event_types.py"
+   ],
+   "rmcss_prediction_hash": "844bfd76549f6909c6968d87967e83eaabffce51cfa64947763392ba15c244f0"
+  },
+  "saleor-rc-9b96c1602b1f": {
+   "task_id": "saleor-rc-9b96c1602b1f",
+   "sip_predicted_set": [
+    "saleor/graphql/checkout/mutations/checkout_add_promo_code.py",
+    "saleor/graphql/checkout/mutations/checkout_remove_promo_code.py"
+   ],
+   "sip_prediction_hash": "c9c4253b27b544378fe95c1eceda7b76af0784cc720ad1056ed8d7fc429be9ec",
+   "rmcss_predicted_set": [
+    "saleor/checkout/utils.py",
+    "saleor/graphql/checkout/mutations/checkout_add_promo_code.py"
+   ],
+   "rmcss_prediction_hash": "e7c87fa94506473f39ac863b32b2a1e47059c1becc1b373486adc414104929fb"
+  },
+  "saleor-rc-9bc1b1134cc3": {
+   "task_id": "saleor-rc-9bc1b1134cc3",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [],
+   "rmcss_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "saleor-rc-9c032845e29b": {
+   "task_id": "saleor-rc-9c032845e29b",
+   "sip_predicted_set": [
+    "saleor/graphql/product/resolvers.py",
+    "saleor/graphql/product/schema.py",
+    "saleor/graphql/product/types/products.py"
+   ],
+   "sip_prediction_hash": "c215c6b3a9db88c95d814793e6c1fc0d2c64f56cf7141b3eb4d0152cc600756e",
+   "rmcss_predicted_set": [
+    "saleor/graphql/product/dataloaders/products.py",
+    "saleor/graphql/product/resolvers.py",
+    "saleor/graphql/product/schema.py",
+    "saleor/graphql/product/types/products.py"
+   ],
+   "rmcss_prediction_hash": "184aaffd6c371250a34cf12992e6f4961a7a1f659129244cdc3ab83e20ecdc45"
+  },
+  "saleor-rc-a11ed9984b87": {
+   "task_id": "saleor-rc-a11ed9984b87",
+   "sip_predicted_set": [
+    "saleor/checkout/tasks.py"
+   ],
+   "sip_prediction_hash": "7931732d2028a23d762b8866d429412b85759bf619ffcc96cd6c1c44cb06bdd5",
+   "rmcss_predicted_set": [
+    "saleor/checkout/tasks.py"
+   ],
+   "rmcss_prediction_hash": "7931732d2028a23d762b8866d429412b85759bf619ffcc96cd6c1c44cb06bdd5"
+  },
+  "saleor-rc-a17f11cf7e87": {
+   "task_id": "saleor-rc-a17f11cf7e87",
+   "sip_predicted_set": [
+    "saleor/giftcard/models.py",
+    "saleor/giftcard/utils.py"
+   ],
+   "sip_prediction_hash": "e93e27e8472c7b9a676825a68e2211c3b1b4c16f5e57deb60e87f112e000cccb",
+   "rmcss_predicted_set": [
+    "saleor/checkout/complete_checkout.py",
+    "saleor/giftcard/models.py",
+    "saleor/giftcard/utils.py",
+    "saleor/graphql/order/mutations/fulfillments.py"
+   ],
+   "rmcss_prediction_hash": "65de7beb95f77a543922bdcaca852055fe9415042973fc8c937a86190fa13b6c"
+  },
+  "saleor-rc-a1e1e2554327": {
+   "task_id": "saleor-rc-a1e1e2554327",
+   "sip_predicted_set": [
+    "saleor/graphql/app/__init__.py",
+    "saleor/graphql/app/dataloaders/app_extension.py",
+    "saleor/graphql/app/resolvers.py",
+    "saleor/graphql/app/types.py"
+   ],
+   "sip_prediction_hash": "4bca7d9c59ea349ab0282f9d9a48df90c1919249152b5eb49099fdf32579d1ce",
+   "rmcss_predicted_set": [
+    "saleor/graphql/app/resolvers.py",
+    "saleor/graphql/app/types.py",
+    "saleor/graphql/meta/permissions.py"
+   ],
+   "rmcss_prediction_hash": "6a002450df2d6563a12654f833c662550c54f5c93432c752aebe9871d8921a97"
+  },
+  "saleor-rc-a25c73e9f74b": {
+   "task_id": "saleor-rc-a25c73e9f74b",
+   "sip_predicted_set": [
+    "saleor/graphql/account/resolvers.py",
+    "saleor/graphql/context.py",
+    "saleor/graphql/core/context.py"
+   ],
+   "sip_prediction_hash": "8b5b86a1f0ef68894348b9f21ffdb7131b9b1f52e132a609a6ace4fc21c11c04",
+   "rmcss_predicted_set": [
+    "saleor/core/db/connection.py"
+   ],
+   "rmcss_prediction_hash": "cd8d9ec34b703f276d5dcc796d4af00c6f10da4d62c19a7b766a27f52073dfa7"
+  },
+  "saleor-rc-a36d8a8d0c0c": {
+   "task_id": "saleor-rc-a36d8a8d0c0c",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/graphql/core/types/common.py"
+   ],
+   "rmcss_prediction_hash": "1b4e5b1beff7adf25cbcb937f22e2370d80b023a2ae9fe36fbcdfe4e54ccf6ba"
+  },
+  "saleor-rc-a576e993bab7": {
+   "task_id": "saleor-rc-a576e993bab7",
+   "sip_predicted_set": [
+    "saleor/giftcard/__init__.py",
+    "saleor/graphql/giftcard/__init__.py",
+    "saleor/graphql/giftcard/filters.py"
+   ],
+   "sip_prediction_hash": "174d41b470437c2689cb5fda87d1ea71bf1fd85b9cadec7f731c7e28045127d3",
+   "rmcss_predicted_set": [
+    "saleor/giftcard/__init__.py",
+    "saleor/graphql/giftcard/filters.py"
+   ],
+   "rmcss_prediction_hash": "0df968258a1416e11e7f57843e723a0a21a450d92a8ae6b484c8a5eb630acc39"
+  },
+  "saleor-rc-a5e831779345": {
+   "task_id": "saleor-rc-a5e831779345",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/graphql/product/bulk_mutations/products.py",
+    "saleor/plugins/base_plugin.py",
+    "saleor/plugins/webhook/plugin.py"
+   ],
+   "rmcss_prediction_hash": "b47916a78883f5e05eefac89a1f367ee1c8863d18cdfb91b498cffec1e3ef39f"
+  },
+  "saleor-rc-a650f8f05c02": {
+   "task_id": "saleor-rc-a650f8f05c02",
+   "sip_predicted_set": [
+    "saleor/webhook/payloads.py"
+   ],
+   "sip_prediction_hash": "ec3617c5fe3b16ee657128e0f46d1a59d970e27d1435b1462d660b493d7bb478",
+   "rmcss_predicted_set": [
+    "saleor/plugins/webhook/tasks.py",
+    "saleor/webhook/payloads.py"
+   ],
+   "rmcss_prediction_hash": "d0677f780db85961299efb684612889add113e8955ee37be33b8e58b182ad1b9"
+  },
+  "saleor-rc-a6c09d5579d6": {
+   "task_id": "saleor-rc-a6c09d5579d6",
+   "sip_predicted_set": [
+    "saleor/checkout/tasks.py",
+    "saleor/discount/tasks.py",
+    "saleor/product/tasks.py",
+    "saleor/shipping/tasks.py"
+   ],
+   "sip_prediction_hash": "89d1005f8f07f3def388b64b5b22db17b4f0a42f387379fb7774039a5ac5151b",
+   "rmcss_predicted_set": [
+    "saleor/discount/tasks.py",
+    "saleor/product/tasks.py"
+   ],
+   "rmcss_prediction_hash": "7f172db02cd744fd57c495b9a6d41e0ff96985d57ebc74794a5ebf4ee7202145"
+  },
+  "saleor-rc-a7a2bf4146ba": {
+   "task_id": "saleor-rc-a7a2bf4146ba",
+   "sip_predicted_set": [
+    "saleor/attribute/utils.py"
+   ],
+   "sip_prediction_hash": "8d1f8805b6495568d817f833a3f8e60aa9087b8733d383b84d55d13aa15b1960",
+   "rmcss_predicted_set": [
+    "saleor/attribute/utils.py"
+   ],
+   "rmcss_prediction_hash": "8d1f8805b6495568d817f833a3f8e60aa9087b8733d383b84d55d13aa15b1960"
+  },
+  "saleor-rc-a9121e630814": {
+   "task_id": "saleor-rc-a9121e630814",
+   "sip_predicted_set": [
+    "saleor/graphql/account/filters.py"
+   ],
+   "sip_prediction_hash": "b34964bcdf865f266218c2bf8180c649f4c6ce3eb1e8c966c0ec5b0a35a5c32f",
+   "rmcss_predicted_set": [
+    "saleor/graphql/account/filters.py",
+    "saleor/graphql/account/schema.py"
+   ],
+   "rmcss_prediction_hash": "2cb049f7eeedde97d743d3424a6badb263540eb3927891eb7d374cebdd6204d7"
+  },
+  "saleor-rc-a93a877388ae": {
+   "task_id": "saleor-rc-a93a877388ae",
+   "sip_predicted_set": [
+    "saleor/product/signals.py"
+   ],
+   "sip_prediction_hash": "d74e44dc51906f042c6e4739ce7e33fca46c6cc6477dbb444386ba95cc2628bf",
+   "rmcss_predicted_set": [
+    "saleor/graphql/product/mutations/products.py",
+    "saleor/product/signals.py"
+   ],
+   "rmcss_prediction_hash": "4f2ecc3e8d815938cadb1892e327d276cf86f6d229c673b6b646a50d9be19025"
+  },
+  "saleor-rc-a9e79dac40a2": {
+   "task_id": "saleor-rc-a9e79dac40a2",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/graphql/app/types.py"
+   ],
+   "rmcss_prediction_hash": "20719a1ecd5fca39026d4ba8fca30fbef3feec642ccc6faee682fc0c99cfa928"
+  },
+  "saleor-rc-aa2bcdd0c218": {
+   "task_id": "saleor-rc-aa2bcdd0c218",
+   "sip_predicted_set": [
+    "saleor/attribute/__init__.py",
+    "saleor/attribute/utils.py",
+    "saleor/graphql/attribute/resolvers.py"
+   ],
+   "sip_prediction_hash": "adce7a0b75831cd18ab9863d76a801fc33de6542009dfd8c23da0c05f4528fee",
+   "rmcss_predicted_set": [
+    "saleor/attribute/__init__.py"
+   ],
+   "rmcss_prediction_hash": "301f403fb296acd34537182b053bc87a380044c5f119ddfbe64a4bf0cb2411b6"
+  },
+  "saleor-rc-aa814bd5f355": {
+   "task_id": "saleor-rc-aa814bd5f355",
+   "sip_predicted_set": [
+    "saleor/checkout/actions.py",
+    "saleor/checkout/tasks.py",
+    "saleor/graphql/webhook/mutations/webhook_trigger.py",
+    "saleor/webhook/payloads.py"
+   ],
+   "sip_prediction_hash": "4bc3e635106fed47a5c4df3c3b66f01341f79628808ca8b3c8ba440681ff8f3a",
+   "rmcss_predicted_set": [
+    "saleor/checkout/tasks.py",
+    "saleor/plugins/webhook/plugin.py",
+    "saleor/webhook/payloads.py",
+    "saleor/webhook/transport/asynchronous/transport.py",
+    "saleor/webhook/transport/synchronous/transport.py"
+   ],
+   "rmcss_prediction_hash": "2396f9fb2ee0a9f0d28b945b053ca5233cd195d59f9a39dad3ea635155d7067b"
+  },
+  "saleor-rc-ab6c29ba265d": {
+   "task_id": "saleor-rc-ab6c29ba265d",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/graphql/core/types/common.py"
+   ],
+   "rmcss_prediction_hash": "1b4e5b1beff7adf25cbcb937f22e2370d80b023a2ae9fe36fbcdfe4e54ccf6ba"
+  },
+  "saleor-rc-add4064d238e": {
+   "task_id": "saleor-rc-add4064d238e",
+   "sip_predicted_set": [
+    "saleor/account/events.py",
+    "saleor/account/notifications.py"
+   ],
+   "sip_prediction_hash": "f8c96e2fa38b0169f69fccc258d8ae179327217c3ca63b290e4b081ae3f0d1d4",
+   "rmcss_predicted_set": [
+    "saleor/account/events.py",
+    "saleor/account/notifications.py"
+   ],
+   "rmcss_prediction_hash": "f8c96e2fa38b0169f69fccc258d8ae179327217c3ca63b290e4b081ae3f0d1d4"
+  },
+  "saleor-rc-aea05da547c8": {
+   "task_id": "saleor-rc-aea05da547c8",
+   "sip_predicted_set": [
+    "saleor/graphql/product/bulk_mutations/product_variant_bulk_update.py"
+   ],
+   "sip_prediction_hash": "bbf3a5d52188183ef6767e65f6cd0cd9a2095046fd3f634b5a620db9a0d581b8",
+   "rmcss_predicted_set": [
+    "saleor/graphql/product/bulk_mutations/product_bulk_create.py",
+    "saleor/graphql/product/bulk_mutations/product_variant_bulk_create.py",
+    "saleor/graphql/product/bulk_mutations/product_variant_bulk_update.py"
+   ],
+   "rmcss_prediction_hash": "462df510b34f39f8ca34f664c8840b6063172df6849d316ee3cb6ad494cb2ba8"
+  },
+  "saleor-rc-b0245506e69b": {
+   "task_id": "saleor-rc-b0245506e69b",
+   "sip_predicted_set": [
+    "saleor/account/events.py"
+   ],
+   "sip_prediction_hash": "d475e150a4846e29fb98b4343fbed3154eea49fc0e86aa065f645c2ab2b89320",
+   "rmcss_predicted_set": [
+    "saleor/account/events.py",
+    "saleor/graphql/webhook/subscription_types.py"
+   ],
+   "rmcss_prediction_hash": "73c969faa2fbcc8f96c4e1281461d46617a79dccc60b02a90e05b5bea0eb9f43"
+  },
+  "saleor-rc-b05633dae118": {
+   "task_id": "saleor-rc-b05633dae118",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/plugins/base_plugin.py",
+    "saleor/plugins/manager.py",
+    "saleor/plugins/webhook/plugin.py"
+   ],
+   "rmcss_prediction_hash": "fe5b35140e14889ac4f71611c7587c59b0082fd8818958e6efde2a5fb4bbdfbc"
+  },
+  "saleor-rc-b0672eea0422": {
+   "task_id": "saleor-rc-b0672eea0422",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/graphql/product/mutations/products.py",
+    "saleor/product/models.py"
+   ],
+   "rmcss_prediction_hash": "5cef4d434676f7c6484e24178a4f5a9958374ab14db156815b6f76750786496f"
+  },
+  "saleor-rc-b2622810adf1": {
+   "task_id": "saleor-rc-b2622810adf1",
+   "sip_predicted_set": [
+    "saleor/payment/gateway.py"
+   ],
+   "sip_prediction_hash": "a4e635957e8997cfe8ceb717742203d46961fc97d4290cbcffccc3cd6e1df5be",
+   "rmcss_predicted_set": [
+    "saleor/graphql/checkout/mutations.py",
+    "saleor/payment/gateway.py"
+   ],
+   "rmcss_prediction_hash": "54f3cac32a422aa7229687e1732be00702fe85eebdc3becb1d0095d8faff6b67"
+  },
+  "saleor-rc-b2e3652af826": {
+   "task_id": "saleor-rc-b2e3652af826",
+   "sip_predicted_set": [
+    "saleor/checkout/base_calculations.py",
+    "saleor/checkout/calculations.py",
+    "saleor/checkout/fetch.py",
+    "saleor/checkout/models.py",
+    "saleor/checkout/utils.py"
+   ],
+   "sip_prediction_hash": "5ec0cf948391a0b509494e6eee3187b6bc0870cbcc20e565abbf666fa63f3b4f",
+   "rmcss_predicted_set": [
+    "saleor/checkout/base_calculations.py",
+    "saleor/checkout/calculations.py",
+    "saleor/checkout/fetch.py",
+    "saleor/checkout/utils.py",
+    "saleor/discount/utils.py",
+    "saleor/graphql/order/types.py"
+   ],
+   "rmcss_prediction_hash": "a66119f9395d190924744d646397e26bcac36bc5cf87ffec2602e5d1c1f3cab5"
+  },
+  "saleor-rc-b356a525ba2a": {
+   "task_id": "saleor-rc-b356a525ba2a",
+   "sip_predicted_set": [
+    "saleor/app/__init__.py",
+    "saleor/app/manifest_validations.py",
+    "saleor/app/validators.py",
+    "saleor/graphql/app/types.py"
+   ],
+   "sip_prediction_hash": "2edeb3da6b15f358acc7c3876f71b29adbd9c02e1c66f3d3ca34edbfe760e485",
+   "rmcss_predicted_set": [
+    "saleor/app/manifest_validations.py",
+    "saleor/app/validators.py",
+    "saleor/graphql/app/types.py"
+   ],
+   "rmcss_prediction_hash": "8a4351ed6524846da07a4ac588daaa1f8568e4578189f329d10abc64eb2e8807"
+  },
+  "saleor-rc-b35783838e51": {
+   "task_id": "saleor-rc-b35783838e51",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [],
+   "rmcss_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "saleor-rc-b41168d9077d": {
+   "task_id": "saleor-rc-b41168d9077d",
+   "sip_predicted_set": [
+    "saleor/account/events.py"
+   ],
+   "sip_prediction_hash": "d475e150a4846e29fb98b4343fbed3154eea49fc0e86aa065f645c2ab2b89320",
+   "rmcss_predicted_set": [],
+   "rmcss_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "saleor-rc-b60266933f7a": {
+   "task_id": "saleor-rc-b60266933f7a",
+   "sip_predicted_set": [
+    "saleor/graphql/checkout/mutations.py"
+   ],
+   "sip_prediction_hash": "c70a2160c49088fa171fda2b4904744130f9cfa1476711c26813f0cf744f20fe",
+   "rmcss_predicted_set": [
+    "saleor/graphql/checkout/mutations.py",
+    "saleor/graphql/product/types/products.py",
+    "saleor/graphql/shop/types.py"
+   ],
+   "rmcss_prediction_hash": "2d56be5f414ab0921350d262a8602d52092fb40a876a4e2c928bc19877500e1e"
+  },
+  "saleor-rc-b79cf8f91f04": {
+   "task_id": "saleor-rc-b79cf8f91f04",
+   "sip_predicted_set": [
+    "saleor/graphql/schema_printer.py"
+   ],
+   "sip_prediction_hash": "702777059dcd6f5f520d6e510d6ef1b3124344caab12e2208f371a9768c232cd",
+   "rmcss_predicted_set": [
+    "saleor/graphql/webhook/subscription_types.py",
+    "saleor/plugins/webhook/plugin.py"
+   ],
+   "rmcss_prediction_hash": "264e73e875f6c4329f49e7e2d3683761898dd1217aa2489c1b0d1a7e021f16c6"
+  },
+  "saleor-rc-b84bf6595f49": {
+   "task_id": "saleor-rc-b84bf6595f49",
+   "sip_predicted_set": [
+    "saleor/graphql/channel/dataloaders.py",
+    "saleor/graphql/checkout/dataloaders.py"
+   ],
+   "sip_prediction_hash": "4036e968a0367222e2548838195087e0d93dfb9e7cb7de0de9eac9b86d1153ca",
+   "rmcss_predicted_set": [
+    "saleor/graphql/channel/dataloaders.py",
+    "saleor/graphql/checkout/dataloaders.py"
+   ],
+   "rmcss_prediction_hash": "4036e968a0367222e2548838195087e0d93dfb9e7cb7de0de9eac9b86d1153ca"
+  },
+  "saleor-rc-b8786c1bf4d3": {
+   "task_id": "saleor-rc-b8786c1bf4d3",
+   "sip_predicted_set": [
+    "saleor/payment/gateways/adyen/__init__.py",
+    "saleor/payment/gateways/adyen/plugin.py",
+    "saleor/payment/gateways/adyen/webhooks.py"
+   ],
+   "sip_prediction_hash": "30f2a17a71338a400d37cb7946c31dc1eae6e625bf8d2c0cdbcc89cb23a966f6",
+   "rmcss_predicted_set": [
+    "saleor/payment/gateways/adyen/plugin.py",
+    "saleor/payment/gateways/adyen/webhooks.py"
+   ],
+   "rmcss_prediction_hash": "eee433713ca850797a66996e216d7641cda55b5b303123d0f05f7ed9aa668443"
+  },
+  "saleor-rc-b97d1d9c7064": {
+   "task_id": "saleor-rc-b97d1d9c7064",
+   "sip_predicted_set": [
+    "saleor/account/search.py"
+   ],
+   "sip_prediction_hash": "cb0f49ba2ff56ef5431a3417a1ea21c11a12e779c020521c4b1443e048559b81",
+   "rmcss_predicted_set": [
+    "saleor/account/utils.py"
+   ],
+   "rmcss_prediction_hash": "455b89338b1547766667ce8398e92e70d3b1a99ffc828b8edda355eb82dbcba8"
+  },
+  "saleor-rc-ba0f225cc7d3": {
+   "task_id": "saleor-rc-ba0f225cc7d3",
+   "sip_predicted_set": [
+    "saleor/graphql/core/validators/query_cost.py"
+   ],
+   "sip_prediction_hash": "5d2b044351ecbed43d4c2fd470c83bc5e351c7e559700bafa230d434ad4d47da",
+   "rmcss_predicted_set": [
+    "saleor/graphql/core/validators/query_cost.py",
+    "saleor/graphql/utils/validators.py"
+   ],
+   "rmcss_prediction_hash": "cb6adc6353fff2dd48c571911d1a8d5311b16aefefcde437c688ef849b2b466d"
+  },
+  "saleor-rc-ba4ff17faab4": {
+   "task_id": "saleor-rc-ba4ff17faab4",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [],
+   "rmcss_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "saleor-rc-bcd9f60d2aef": {
+   "task_id": "saleor-rc-bcd9f60d2aef",
+   "sip_predicted_set": [
+    "saleor/graphql/attribute/dataloaders.py",
+    "saleor/graphql/attribute/types.py"
+   ],
+   "sip_prediction_hash": "2896993e6fd2b49b895d9f0003b9fde6b423afdad149fd4f4aaccc5e769abb6b",
+   "rmcss_predicted_set": [
+    "saleor/graphql/attribute/types.py",
+    "saleor/graphql/translations/mutations.py",
+    "saleor/graphql/translations/types.py"
+   ],
+   "rmcss_prediction_hash": "1114ba934f988676e01bc846f56222d019598bf8fdd752440fc1e786cd6fdae0"
+  },
+  "saleor-rc-bd0c56fc787e": {
+   "task_id": "saleor-rc-bd0c56fc787e",
+   "sip_predicted_set": [
+    "saleor/settings.py"
+   ],
+   "sip_prediction_hash": "6f9125d0cdebd02df5fd2213618763cca9860e3c79a07860878d81466671027f",
+   "rmcss_predicted_set": [],
+   "rmcss_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "saleor-rc-bd11af3ea0a4": {
+   "task_id": "saleor-rc-bd11af3ea0a4",
+   "sip_predicted_set": [
+    "saleor/graphql/checkout/resolvers.py",
+    "saleor/graphql/checkout/types.py"
+   ],
+   "sip_prediction_hash": "b2848c3c8a5a5dc0b25128e3797c96efdcf10f1c190b2e4c42a02ecbf43199ed",
+   "rmcss_predicted_set": [
+    "saleor/graphql/checkout/types.py"
+   ],
+   "rmcss_prediction_hash": "473baa60c7b2166e11d93921bf9fee5243a14adb9198e5ddc452d1cc8776ec6c"
+  },
+  "saleor-rc-bd64d6fdbe4b": {
+   "task_id": "saleor-rc-bd64d6fdbe4b",
+   "sip_predicted_set": [
+    "saleor/app/models.py"
+   ],
+   "sip_prediction_hash": "219e2fd9d2ba0ca0e06694a5fa45d270c2a8c82c4640a919ad60d8fa1b7a931b",
+   "rmcss_predicted_set": [
+    "saleor/graphql/payment/types.py"
+   ],
+   "rmcss_prediction_hash": "a5ec8861a37bb971cbfe0b5fff62d4c509e018f976e5735b6f2a37ee0f11bfc1"
+  },
+  "saleor-rc-bdb2f9d05d33": {
+   "task_id": "saleor-rc-bdb2f9d05d33",
+   "sip_predicted_set": [
+    "saleor/product/__init__.py",
+    "saleor/product/models.py"
+   ],
+   "sip_prediction_hash": "3b24fdcc0989d848d86daba3391140a7b632879caba05e236b8e513b059555d5",
+   "rmcss_predicted_set": [
+    "saleor/product/models.py"
+   ],
+   "rmcss_prediction_hash": "55247c7e4e5c19d25de333c8753fd90e7aa55af9918ed82bd461918e3a1a23af"
+  },
+  "saleor-rc-bf938e731bd8": {
+   "task_id": "saleor-rc-bf938e731bd8",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/graphql/core/utils/error_codes.py"
+   ],
+   "rmcss_prediction_hash": "0910f2a940d54cd572a15b3f7db839415739cd5c2412fb0928fac7dc97f9c7b3"
+  },
+  "saleor-rc-c0d4785abd74": {
+   "task_id": "saleor-rc-c0d4785abd74",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/graphql/payment/types.py"
+   ],
+   "rmcss_prediction_hash": "a5ec8861a37bb971cbfe0b5fff62d4c509e018f976e5735b6f2a37ee0f11bfc1"
+  },
+  "saleor-rc-c12e83aac8f6": {
+   "task_id": "saleor-rc-c12e83aac8f6",
+   "sip_predicted_set": [
+    "saleor/discount/models.py",
+    "saleor/discount/utils.py",
+    "saleor/order/calculations.py",
+    "saleor/order/models.py",
+    "saleor/order/utils.py"
+   ],
+   "sip_prediction_hash": "ba8bc2dcc2e3a390ddef1097dae7fe026c73ea06bdfe91bb643a5de073468e7f",
+   "rmcss_predicted_set": [
+    "saleor/checkout/base_calculations.py",
+    "saleor/checkout/complete_checkout.py",
+    "saleor/checkout/fetch.py",
+    "saleor/checkout/utils.py",
+    "saleor/discount/models.py",
+    "saleor/discount/utils.py",
+    "saleor/order/base_calculations.py",
+    "saleor/order/calculations.py",
+    "saleor/order/models.py",
+    "saleor/order/utils.py"
+   ],
+   "rmcss_prediction_hash": "c820237fca6903be22fa6b968d91c031eb878b262bf392e06bbbabd4e947cb44"
+  },
+  "saleor-rc-c18e40f5b6f3": {
+   "task_id": "saleor-rc-c18e40f5b6f3",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/checkout/utils.py",
+    "saleor/discount/utils.py"
+   ],
+   "rmcss_prediction_hash": "129af0560a27a0e58ef79946254c311b2a86cc29c9b5c5d196e6ddf8c9fa3265"
+  },
+  "saleor-rc-c27cc94d06ff": {
+   "task_id": "saleor-rc-c27cc94d06ff",
+   "sip_predicted_set": [
+    "saleor/plugins/sendgrid/plugin.py"
+   ],
+   "sip_prediction_hash": "4702746eb8c6ca8e4e18ff1f052b15d792d3a16a625a92cb7685e8bc4ec895e8",
+   "rmcss_predicted_set": [
+    "saleor/plugins/sendgrid/plugin.py"
+   ],
+   "rmcss_prediction_hash": "4702746eb8c6ca8e4e18ff1f052b15d792d3a16a625a92cb7685e8bc4ec895e8"
+  },
+  "saleor-rc-c31fb4cfd08f": {
+   "task_id": "saleor-rc-c31fb4cfd08f",
+   "sip_predicted_set": [
+    "saleor/graphql/app/mutations/app_install.py"
+   ],
+   "sip_prediction_hash": "eeffa5e2872490e3c62c6bd15e0d25db8e4e4e82986d6065e04c35cf76cd31fb",
+   "rmcss_predicted_set": [
+    "saleor/graphql/app/mutations/app_install.py"
+   ],
+   "rmcss_prediction_hash": "eeffa5e2872490e3c62c6bd15e0d25db8e4e4e82986d6065e04c35cf76cd31fb"
+  },
+  "saleor-rc-c38263743e9e": {
+   "task_id": "saleor-rc-c38263743e9e",
+   "sip_predicted_set": [
+    "saleor/app/headers.py"
+   ],
+   "sip_prediction_hash": "b182ee0e7d5f5f3134e56aa18a0ffd811d0a6de7db7861486ff459834348b5db",
+   "rmcss_predicted_set": [
+    "saleor/app/headers.py"
+   ],
+   "rmcss_prediction_hash": "b182ee0e7d5f5f3134e56aa18a0ffd811d0a6de7db7861486ff459834348b5db"
+  },
+  "saleor-rc-c428b47bddc5": {
+   "task_id": "saleor-rc-c428b47bddc5",
+   "sip_predicted_set": [
+    "saleor/graphql/order/mutations/draft_order_create.py"
+   ],
+   "sip_prediction_hash": "1a06b204c3c11135d81f369b343066aa49f34cdabc59e3e1e8595bc90e5c9dd4",
+   "rmcss_predicted_set": [
+    "saleor/graphql/order/mutations/draft_order_create.py",
+    "saleor/graphql/order/mutations/order_update_shipping.py"
+   ],
+   "rmcss_prediction_hash": "2d1a80433331dd3450b5b6a66f71eafeb0dceb496610c55902dfe0ba77c8e716"
+  },
+  "saleor-rc-c4dac9df4baf": {
+   "task_id": "saleor-rc-c4dac9df4baf",
+   "sip_predicted_set": [
+    "saleor/graphql/payment/mutations/transaction/transaction_create.py",
+    "saleor/graphql/payment/mutations/transaction/transaction_update.py",
+    "saleor/payment/dataloaders.py",
+    "saleor/payment/models.py"
+   ],
+   "sip_prediction_hash": "1597d6c0aa61a3cc2b5043756d538fc2f9cd31d33e406f362e94c3d054fddf53",
+   "rmcss_predicted_set": [
+    "saleor/graphql/payment/mutations/transaction/transaction_update.py",
+    "saleor/payment/models.py"
+   ],
+   "rmcss_prediction_hash": "222a89e29d5096d4d97fc1107ba732a9f6b56c4a14227ecbbc1f4be6f508c091"
+  },
+  "saleor-rc-c6220233ccb1": {
+   "task_id": "saleor-rc-c6220233ccb1",
+   "sip_predicted_set": [
+    "saleor/graphql/order/mutations/fulfillments.py"
+   ],
+   "sip_prediction_hash": "bb17901778348f1cf6d54c9c0b102b8e7ea967d9df62385315c45c786d93ffc9",
+   "rmcss_predicted_set": [
+    "saleor/graphql/order/mutations/fulfillments.py",
+    "saleor/order/actions.py"
+   ],
+   "rmcss_prediction_hash": "38312154563608110194b83dcf4deac62d4789b7fb1593ffd477a911c8e2caa9"
+  },
+  "saleor-rc-c7207e71e0d3": {
+   "task_id": "saleor-rc-c7207e71e0d3",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/order/actions.py",
+    "saleor/plugins/webhook/plugin.py"
+   ],
+   "rmcss_prediction_hash": "64b10a179ec5941410f61695dc57a8ca2ce56f7ed8132286f93f2c1da3cbba64"
+  },
+  "saleor-rc-c74d62286403": {
+   "task_id": "saleor-rc-c74d62286403",
+   "sip_predicted_set": [
+    "saleor/graphql/promise.py"
+   ],
+   "sip_prediction_hash": "77bb39aa834203fe9ce4dcf70621d4d33f89121c9ca1de4da73b2212f3558c80",
+   "rmcss_predicted_set": [
+    "saleor/graphql/promise.py",
+    "saleor/graphql/webhook/subscription_payload.py"
+   ],
+   "rmcss_prediction_hash": "c7a1f1a512d03689d2a09186dcd895b5ab8791e4fd9b1e3944a2038bc3fe83e7"
+  },
+  "saleor-rc-c87441bb1464": {
+   "task_id": "saleor-rc-c87441bb1464",
+   "sip_predicted_set": [
+    "saleor/account/validators.py"
+   ],
+   "sip_prediction_hash": "8ba31f3a6eb682a823e1d319777f956bf42fd2cf044d6b2c1466cf6a1ec0df32",
+   "rmcss_predicted_set": [
+    "saleor/graphql/giftcard/mutations.py"
+   ],
+   "rmcss_prediction_hash": "cdbbcebffcdba0d4f4dd3a7c8ed82d34bdeb0e5ee1262bdb3681d86bed4197d8"
+  },
+  "saleor-rc-c8d4cb2844e6": {
+   "task_id": "saleor-rc-c8d4cb2844e6",
+   "sip_predicted_set": [
+    "saleor/graphql/order/filters.py"
+   ],
+   "sip_prediction_hash": "5e4b12ee3c1700a10b5be7c30ab1eb9fec456386778f09bf0eb784b8fd297b06",
+   "rmcss_predicted_set": [
+    "saleor/graphql/order/filters.py",
+    "saleor/graphql/order/schema.py"
+   ],
+   "rmcss_prediction_hash": "1c7ee9c133a5c215ffaddf314ae426c34376a3e162e91a10df48e897a9a4c3d5"
+  },
+  "saleor-rc-c9c1cc0968d3": {
+   "task_id": "saleor-rc-c9c1cc0968d3",
+   "sip_predicted_set": [
+    "saleor/graphql/order/mutations/fulfillments.py",
+    "saleor/order/actions.py"
+   ],
+   "sip_prediction_hash": "38312154563608110194b83dcf4deac62d4789b7fb1593ffd477a911c8e2caa9",
+   "rmcss_predicted_set": [
+    "saleor/graphql/order/mutations/fulfillments.py",
+    "saleor/order/actions.py"
+   ],
+   "rmcss_prediction_hash": "38312154563608110194b83dcf4deac62d4789b7fb1593ffd477a911c8e2caa9"
+  },
+  "saleor-rc-cae629dc4166": {
+   "task_id": "saleor-rc-cae629dc4166",
+   "sip_predicted_set": [
+    "saleor/attribute/models/base.py",
+    "saleor/graphql/attribute/utils.py"
+   ],
+   "sip_prediction_hash": "1f08e4a7a97252baaf05ebd104995fb7b581bbe129ba19e0cd9705a8d15f19b3",
+   "rmcss_predicted_set": [
+    "saleor/attribute/models/base.py",
+    "saleor/graphql/attribute/utils.py",
+    "saleor/graphql/core/types/common.py"
+   ],
+   "rmcss_prediction_hash": "be38a2798f31d72fecf2eac9e9faa3307979b88d8e8f38c215e6052a96e75bfb"
+  },
+  "saleor-rc-cbd7310268c6": {
+   "task_id": "saleor-rc-cbd7310268c6",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/checkout/problems.py",
+    "saleor/core/exceptions.py",
+    "saleor/warehouse/availability.py"
+   ],
+   "rmcss_prediction_hash": "562fca6b8eb6c714153623312e2a1a9214362341e3a080903311f17883b04e35"
+  },
+  "saleor-rc-ccd3960acd1d": {
+   "task_id": "saleor-rc-ccd3960acd1d",
+   "sip_predicted_set": [
+    "saleor/checkout/complete_checkout.py",
+    "saleor/graphql/checkout/mutations/checkout_complete.py",
+    "saleor/graphql/payment/mutations/transaction/transaction_event_report.py"
+   ],
+   "sip_prediction_hash": "d8f7a16bf291ed00326701f93ab2a6a26ca24b5ec30b701b09f1c6a4d54e3862",
+   "rmcss_predicted_set": [
+    "saleor/checkout/complete_checkout.py",
+    "saleor/graphql/channel/types.py",
+    "saleor/graphql/checkout/mutations/checkout_complete.py",
+    "saleor/graphql/payment/mutations/transaction/transaction_event_report.py"
+   ],
+   "rmcss_prediction_hash": "692e21a20d0fb86d6f5bb14d555d07d1f2e85ff6d1f97fddc2113b9f23ec5beb"
+  },
+  "saleor-rc-cd076fed6118": {
+   "task_id": "saleor-rc-cd076fed6118",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/graphql/product/mutations/products.py",
+    "saleor/product/models.py"
+   ],
+   "rmcss_prediction_hash": "5cef4d434676f7c6484e24178a4f5a9958374ab14db156815b6f76750786496f"
+  },
+  "saleor-rc-cdcbd5cda46e": {
+   "task_id": "saleor-rc-cdcbd5cda46e",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/payment/utils.py"
+   ],
+   "rmcss_prediction_hash": "d236b14a274fe4e7a0a8db63f9fbfd0b39e61484e371e5410fd32250fcde75ba"
+  },
+  "saleor-rc-ce3b63edecef": {
+   "task_id": "saleor-rc-ce3b63edecef",
+   "sip_predicted_set": [
+    "saleor/core/sqs.py"
+   ],
+   "sip_prediction_hash": "234753781b4fb43ab5a8ca0665ceec9d881678d343d55ddeddc980044567716d",
+   "rmcss_predicted_set": [
+    "saleor/webhook/transport/asynchronous/transport.py"
+   ],
+   "rmcss_prediction_hash": "4aee7e0f9b89a0b53cb423d21bc286688cc3da495a135d4ecf26dce64bcd0851"
+  },
+  "saleor-rc-cff241afc8d7": {
+   "task_id": "saleor-rc-cff241afc8d7",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/graphql/core/types/common.py"
+   ],
+   "rmcss_prediction_hash": "1b4e5b1beff7adf25cbcb937f22e2370d80b023a2ae9fe36fbcdfe4e54ccf6ba"
+  },
+  "saleor-rc-d24336188b88": {
+   "task_id": "saleor-rc-d24336188b88",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/graphql/webhook/subscription_types.py",
+    "saleor/product/models.py"
+   ],
+   "rmcss_prediction_hash": "429332fe4e56086b2724ad93e15cd31ed6320c55890d111023d53e2feb6c870f"
+  },
+  "saleor-rc-d299e27e5f04": {
+   "task_id": "saleor-rc-d299e27e5f04",
+   "sip_predicted_set": [
+    "saleor/graphql/checkout/dataloaders.py",
+    "saleor/graphql/checkout/types.py"
+   ],
+   "sip_prediction_hash": "fc491c8b1fa2e7ee5cc079de0f80805f9852374a4bd32ed28609ca3dfadc4980",
+   "rmcss_predicted_set": [
+    "saleor/graphql/checkout/dataloaders.py",
+    "saleor/graphql/checkout/types.py"
+   ],
+   "rmcss_prediction_hash": "fc491c8b1fa2e7ee5cc079de0f80805f9852374a4bd32ed28609ca3dfadc4980"
+  },
+  "saleor-rc-d361479ab7da": {
+   "task_id": "saleor-rc-d361479ab7da",
+   "sip_predicted_set": [
+    "saleor/thumbnail/utils.py",
+    "saleor/thumbnail/validators.py"
+   ],
+   "sip_prediction_hash": "6a2d1be75883c7d14419231c8b832bfd1a3be25f8521c0f9417f9263817a7823",
+   "rmcss_predicted_set": [
+    "saleor/graphql/core/validators/file.py",
+    "saleor/thumbnail/utils.py",
+    "saleor/thumbnail/validators.py"
+   ],
+   "rmcss_prediction_hash": "6efb2fe73b6978d41d8765d338a338274a033ee405a3faab3b408e8a16447754"
+  },
+  "saleor-rc-d3ab58054844": {
+   "task_id": "saleor-rc-d3ab58054844",
+   "sip_predicted_set": [
+    "saleor/giftcard/events.py",
+    "saleor/giftcard/models.py",
+    "saleor/giftcard/utils.py"
+   ],
+   "sip_prediction_hash": "0505da189de7bcebcd95eb5ec73b6c0b18c0804bc4953d2305cbc4375ed380ea",
+   "rmcss_predicted_set": [
+    "saleor/giftcard/__init__.py",
+    "saleor/giftcard/events.py",
+    "saleor/giftcard/models.py",
+    "saleor/giftcard/utils.py",
+    "saleor/graphql/giftcard/mutations.py"
+   ],
+   "rmcss_prediction_hash": "6a65a59219d507191a30fa62a19a49e2bd25ebb9d076a20ac47a195a867d4792"
+  },
+  "saleor-rc-d498167dcd30": {
+   "task_id": "saleor-rc-d498167dcd30",
+   "sip_predicted_set": [
+    "saleor/checkout/models.py"
+   ],
+   "sip_prediction_hash": "abc3aea2c78800aa0b846a5ba8e551550b11883a817fc9469de65a909e95fb19",
+   "rmcss_predicted_set": [
+    "saleor/checkout/models.py"
+   ],
+   "rmcss_prediction_hash": "abc3aea2c78800aa0b846a5ba8e551550b11883a817fc9469de65a909e95fb19"
+  },
+  "saleor-rc-d4fcbd22a853": {
+   "task_id": "saleor-rc-d4fcbd22a853",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/checkout/utils.py"
+   ],
+   "rmcss_prediction_hash": "2f35ab82d7f669cedfbd9a04be1c39c1a1c3ee299730d7f0470254f5cc37721f"
+  },
+  "saleor-rc-d52a55471bfc": {
+   "task_id": "saleor-rc-d52a55471bfc",
+   "sip_predicted_set": [
+    "saleor/graphql/shipping/__init__.py",
+    "saleor/graphql/shipping/resolvers.py",
+    "saleor/graphql/translations/dataloaders.py"
+   ],
+   "sip_prediction_hash": "d5015bf6cd68f1b8ec54d865b1e7fc5a087ef6390e5e547463f7c06f7e1b56fa",
+   "rmcss_predicted_set": [
+    "saleor/graphql/translations/dataloaders.py"
+   ],
+   "rmcss_prediction_hash": "dacd350f533c3f8329345b44519881705cb7859ecc98b6e3dfefd17460803ad1"
+  },
+  "saleor-rc-d6656e0f2a1d": {
+   "task_id": "saleor-rc-d6656e0f2a1d",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/graphql/product/types/products.py",
+    "saleor/graphql/webhook/subscription_types.py"
+   ],
+   "rmcss_prediction_hash": "a76d2974d3d733b18e0a5757771b03e7402d85f8f4ebbe0a79fcf8ad00d14068"
+  },
+  "saleor-rc-d78378d275dd": {
+   "task_id": "saleor-rc-d78378d275dd",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [],
+   "rmcss_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "saleor-rc-d7b03a3eeec0": {
+   "task_id": "saleor-rc-d7b03a3eeec0",
+   "sip_predicted_set": [
+    "saleor/discount/utils/order.py"
+   ],
+   "sip_prediction_hash": "46ec73189ecbc2ec67de24564bf65ccfca483259e9b5fc50e4496ff35995400b",
+   "rmcss_predicted_set": [
+    "saleor/discount/utils/order.py",
+    "saleor/discount/utils/voucher.py",
+    "saleor/order/calculations.py",
+    "saleor/order/utils.py"
+   ],
+   "rmcss_prediction_hash": "909fb6ec7f97126473fcb8cf88f5bd54691538206b72748daeff249363875c66"
+  },
+  "saleor-rc-d8a4cd122bf0": {
+   "task_id": "saleor-rc-d8a4cd122bf0",
+   "sip_predicted_set": [
+    "saleor/discount/models.py",
+    "saleor/giftcard/models.py"
+   ],
+   "sip_prediction_hash": "8db35e56d47b3fd0ce258898566552810b978461cc0bed6d1ba0b80b58811874",
+   "rmcss_predicted_set": [
+    "saleor/checkout/utils.py",
+    "saleor/discount/models.py",
+    "saleor/giftcard/models.py",
+    "saleor/graphql/discount/mutations.py"
+   ],
+   "rmcss_prediction_hash": "14de64f684b4620926b8088e5f4811338490c7376417112fecbdde519b13062a"
+  },
+  "saleor-rc-dacded922b1f": {
+   "task_id": "saleor-rc-dacded922b1f",
+   "sip_predicted_set": [
+    "saleor/graphql/warehouse/bulk_mutations/stock_bulk_update.py"
+   ],
+   "sip_prediction_hash": "17958ecb176d6d8ce943e133beb498dd555d92c528edd396eac837183735dd0c",
+   "rmcss_predicted_set": [
+    "saleor/graphql/core/types/common.py",
+    "saleor/graphql/warehouse/bulk_mutations/__init__.py",
+    "saleor/graphql/warehouse/bulk_mutations/stock_bulk_update.py",
+    "saleor/graphql/warehouse/schema.py"
+   ],
+   "rmcss_prediction_hash": "306f7aec4cf83fc612aa179691f72a7e7b117855eef83a274cebeca3ec4092fc"
+  },
+  "saleor-rc-db5440f7994f": {
+   "task_id": "saleor-rc-db5440f7994f",
+   "sip_predicted_set": [
+    "saleor/attribute/models/base.py",
+    "saleor/attribute/models/page.py",
+    "saleor/attribute/models/product.py",
+    "saleor/attribute/models/product_variant.py",
+    "saleor/graphql/attribute/types.py",
+    "saleor/graphql/translations/__init__.py"
+   ],
+   "sip_prediction_hash": "3ec6447bc7f3eebccfd9c1409a4f15356f2c4e0316c9adb8c6f8ca318300afbd",
+   "rmcss_predicted_set": [
+    "saleor/attribute/models/base.py",
+    "saleor/graphql/attribute/types.py"
+   ],
+   "rmcss_prediction_hash": "aaf55ef47778368dd1e5f22efd4fdb63efc89cf710a1b07e90f5ec01c5df4e8d"
+  },
+  "saleor-rc-dc08f06119f5": {
+   "task_id": "saleor-rc-dc08f06119f5",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/graphql/webhook/schema.py",
+    "saleor/webhook/utils.py"
+   ],
+   "rmcss_prediction_hash": "88a95dc11a900abc9acab6b6e5c87fa886a38541d13dbf998a599eea8824ccad"
+  },
+  "saleor-rc-dd8ead382526": {
+   "task_id": "saleor-rc-dd8ead382526",
+   "sip_predicted_set": [
+    "saleor/app/headers.py"
+   ],
+   "sip_prediction_hash": "b182ee0e7d5f5f3134e56aa18a0ffd811d0a6de7db7861486ff459834348b5db",
+   "rmcss_predicted_set": [
+    "saleor/app/headers.py"
+   ],
+   "rmcss_prediction_hash": "b182ee0e7d5f5f3134e56aa18a0ffd811d0a6de7db7861486ff459834348b5db"
+  },
+  "saleor-rc-ddb8921a6744": {
+   "task_id": "saleor-rc-ddb8921a6744",
+   "sip_predicted_set": [
+    "saleor/webhook/const.py",
+    "saleor/webhook/models.py",
+    "saleor/webhook/payloads.py"
+   ],
+   "sip_prediction_hash": "e0a18a591c33756c7e50f6525a76c0f6ce061860196519da786977c35e24081c",
+   "rmcss_predicted_set": [
+    "saleor/graphql/webhook/subscription_types.py",
+    "saleor/plugins/manager.py",
+    "saleor/plugins/webhook/plugin.py",
+    "saleor/webhook/event_types.py",
+    "saleor/webhook/payloads.py"
+   ],
+   "rmcss_prediction_hash": "e5e6e10f16e296707a44da7c8d52ee6a180a60e0848e9aca43bfd0db1f17940f"
+  },
+  "saleor-rc-dea5ffb730ac": {
+   "task_id": "saleor-rc-dea5ffb730ac",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/graphql/discount/mutations/utils.py"
+   ],
+   "rmcss_prediction_hash": "ca6aad4ed83aff148ac7b725a5ab7b92f01f39ebcad59500904c51a69fb03894"
+  },
+  "saleor-rc-deb12c0433a5": {
+   "task_id": "saleor-rc-deb12c0433a5",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/order/utils.py"
+   ],
+   "rmcss_prediction_hash": "4a221ee97d6e98628550f0ebc6c5ed664c783464b545c676378cec2e77c8a13e"
+  },
+  "saleor-rc-def20fe86d03": {
+   "task_id": "saleor-rc-def20fe86d03",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/plugins/webhook/tasks.py"
+   ],
+   "rmcss_prediction_hash": "3d657e12eff3967280bb900639b154295d5fb2b35f8b3b01489c4c541c255b05"
+  },
+  "saleor-rc-df270700f16e": {
+   "task_id": "saleor-rc-df270700f16e",
+   "sip_predicted_set": [
+    "saleor/graphql/order/mutations/draft_order_update.py"
+   ],
+   "sip_prediction_hash": "b75f5606c15de91b27c1a5b8a689112ae2353f46f2a5446ba119b7d6974ff2d9",
+   "rmcss_predicted_set": [
+    "saleor/graphql/order/mutations/draft_order_create.py",
+    "saleor/graphql/order/mutations/draft_order_update.py",
+    "saleor/graphql/order/mutations/order_update.py",
+    "saleor/graphql/webhook/subscription_types.py"
+   ],
+   "rmcss_prediction_hash": "07b448641b76f268322de1b0acf4c7d96a78eb2bcd1aa69cd81a71066a08e85d"
+  },
+  "saleor-rc-df7c7d4e8466": {
+   "task_id": "saleor-rc-df7c7d4e8466",
+   "sip_predicted_set": [
+    "saleor/core/jwt.py",
+    "saleor/core/jwt_manager.py",
+    "saleor/webhook/payloads.py",
+    "saleor/webhook/utils.py"
+   ],
+   "sip_prediction_hash": "d699c4a0ac512c15241c2b53c50399e8a8220159e791579095b9558a8e58ed73",
+   "rmcss_predicted_set": [
+    "saleor/core/jwt.py"
+   ],
+   "rmcss_prediction_hash": "9c13a265b6f63be6b5a10caffce6650e9257bc39043420847391a08aa251522d"
+  },
+  "saleor-rc-e0890780bf56": {
+   "task_id": "saleor-rc-e0890780bf56",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/graphql/core/types/common.py"
+   ],
+   "rmcss_prediction_hash": "1b4e5b1beff7adf25cbcb937f22e2370d80b023a2ae9fe36fbcdfe4e54ccf6ba"
+  },
+  "saleor-rc-e089e93419bf": {
+   "task_id": "saleor-rc-e089e93419bf",
+   "sip_predicted_set": [
+    "saleor/webhook/__init__.py",
+    "saleor/webhook/event_types.py",
+    "saleor/webhook/models.py",
+    "saleor/webhook/payloads.py"
+   ],
+   "sip_prediction_hash": "a4badb16b70109460cee9cd00c3e307fdc88acfe2f7ce3886b9005976e30a6f6",
+   "rmcss_predicted_set": [
+    "saleor/graphql/webhook/mutations.py",
+    "saleor/plugins/webhook/plugin.py",
+    "saleor/webhook/event_types.py",
+    "saleor/webhook/payloads.py"
+   ],
+   "rmcss_prediction_hash": "1b3a4a17594114d5df7ad5257dfd7c9093a8e176572a770da40f26f744fff1fa"
+  },
+  "saleor-rc-e0f2933d58b9": {
+   "task_id": "saleor-rc-e0f2933d58b9",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/graphql/core/fields.py"
+   ],
+   "rmcss_prediction_hash": "d3ea3eb5b7f5b2617087eff456e8816a105cdfaaf122666219df84403060e517"
+  },
+  "saleor-rc-e12689231d3b": {
+   "task_id": "saleor-rc-e12689231d3b",
+   "sip_predicted_set": [
+    "saleor/graphql/payment/mutations/transaction/transaction_event_report.py"
+   ],
+   "sip_prediction_hash": "850f0a2d537ad67cc360772fe481004eb12fc506b2f83b01843611e41b69b784",
+   "rmcss_predicted_set": [
+    "saleor/checkout/complete_checkout.py",
+    "saleor/graphql/payment/mutations/transaction/transaction_event_report.py"
+   ],
+   "rmcss_prediction_hash": "b99668d26268b45f6670ae4ae5a0decbc727e73263a3dada50c1e47ca74fcc9b"
+  },
+  "saleor-rc-e129a4d6f9b1": {
+   "task_id": "saleor-rc-e129a4d6f9b1",
+   "sip_predicted_set": [
+    "saleor/graphql/product/mutations/product_variant/product_variant_create.py"
+   ],
+   "sip_prediction_hash": "389b1dd8df6934cd8a2a4130528e18e56efce76530b1bde8a03b8e9954183597",
+   "rmcss_predicted_set": [
+    "saleor/graphql/core/types/common.py",
+    "saleor/graphql/product/bulk_mutations/product_variant_bulk_create.py",
+    "saleor/graphql/product/mutations/product_variant/product_variant_create.py"
+   ],
+   "rmcss_prediction_hash": "d4e53344578d77bbf842606651f7631b91f2a757a77d73bd76f8b2a1b75fe614"
+  },
+  "saleor-rc-e2031f0dc458": {
+   "task_id": "saleor-rc-e2031f0dc458",
+   "sip_predicted_set": [
+    "saleor/discount/models.py"
+   ],
+   "sip_prediction_hash": "a9d95a35b8a29a0f6ff91190a38077cb4def3b7286d5997812773f61618cdb2c",
+   "rmcss_predicted_set": [
+    "saleor/discount/models.py"
+   ],
+   "rmcss_prediction_hash": "a9d95a35b8a29a0f6ff91190a38077cb4def3b7286d5997812773f61618cdb2c"
+  },
+  "saleor-rc-e28ca6ad6442": {
+   "task_id": "saleor-rc-e28ca6ad6442",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/attribute/models/base.py",
+    "saleor/core/models.py"
+   ],
+   "rmcss_prediction_hash": "8edec0f19544f524c38b5adf39038e304c53b1894d8e9d10bd2452a2e1efedf7"
+  },
+  "saleor-rc-e429b8be07fd": {
+   "task_id": "saleor-rc-e429b8be07fd",
+   "sip_predicted_set": [
+    "saleor/graphql/warehouse/bulk_mutations/stock_bulk_update.py"
+   ],
+   "sip_prediction_hash": "17958ecb176d6d8ce943e133beb498dd555d92c528edd396eac837183735dd0c",
+   "rmcss_predicted_set": [
+    "saleor/graphql/core/types/common.py",
+    "saleor/graphql/warehouse/bulk_mutations/stock_bulk_update.py"
+   ],
+   "rmcss_prediction_hash": "c85de8cd1f0b3731199ac59f389aba63c39029ade6aa000d48e53a2d77bedb4b"
+  },
+  "saleor-rc-e6198146186d": {
+   "task_id": "saleor-rc-e6198146186d",
+   "sip_predicted_set": [
+    "saleor/graphql/payment/mutations/transaction/transaction_event_report.py",
+    "saleor/payment/utils.py"
+   ],
+   "sip_prediction_hash": "4b94c1ca1251087e73eb086c3610223d274ed3fd16a3d7d6bba8fae82c63e5ac",
+   "rmcss_predicted_set": [
+    "saleor/graphql/payment/mutations/transaction/transaction_event_report.py",
+    "saleor/payment/__init__.py",
+    "saleor/payment/utils.py"
+   ],
+   "rmcss_prediction_hash": "699a3f24ec3ed9d5a8a1168d632a81b2c42581752a250093c6802a93ce667196"
+  },
+  "saleor-rc-e7175003a542": {
+   "task_id": "saleor-rc-e7175003a542",
+   "sip_predicted_set": [
+    "saleor/csv/utils/export.py",
+    "saleor/csv/utils/product_headers.py",
+    "saleor/csv/utils/products_data.py"
+   ],
+   "sip_prediction_hash": "3ae21630214637e033156a74e4a85f44e86ab86317c1dec097862edabe946b3d",
+   "rmcss_predicted_set": [
+    "saleor/csv/utils/export.py",
+    "saleor/csv/utils/products_data.py"
+   ],
+   "rmcss_prediction_hash": "4a9c4e1da3f0432ec4ae4580ef1991bf622715aa6aec3420de2f785f8aa0cc81"
+  },
+  "saleor-rc-e71c1f4caef7": {
+   "task_id": "saleor-rc-e71c1f4caef7",
+   "sip_predicted_set": [
+    "saleor/core/jwt.py"
+   ],
+   "sip_prediction_hash": "9c13a265b6f63be6b5a10caffce6650e9257bc39043420847391a08aa251522d",
+   "rmcss_predicted_set": [
+    "saleor/core/jwt.py"
+   ],
+   "rmcss_prediction_hash": "9c13a265b6f63be6b5a10caffce6650e9257bc39043420847391a08aa251522d"
+  },
+  "saleor-rc-e8733aee630a": {
+   "task_id": "saleor-rc-e8733aee630a",
+   "sip_predicted_set": [
+    "saleor/plugins/avatax/plugin.py"
+   ],
+   "sip_prediction_hash": "a16e376d8ac603e92068425c05a94f92c244d747ac39119b3fd6b7ed17947972",
+   "rmcss_predicted_set": [
+    "saleor/plugins/avatax/__init__.py",
+    "saleor/plugins/avatax/plugin.py"
+   ],
+   "rmcss_prediction_hash": "00a8519163138bed1cd2e248c1b784d3b96f70e7585e4ce5d1c988c57678cee2"
+  },
+  "saleor-rc-ea98ffa79753": {
+   "task_id": "saleor-rc-ea98ffa79753",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [],
+   "rmcss_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "saleor-rc-eaf1577585a2": {
+   "task_id": "saleor-rc-eaf1577585a2",
+   "sip_predicted_set": [
+    "saleor/payment/models.py"
+   ],
+   "sip_prediction_hash": "4a13662131edd564c1df2bac9cdc32c59c8b09b9b24310cc9040b3b9d24995b7",
+   "rmcss_predicted_set": [
+    "saleor/payment/models.py",
+    "saleor/payment/utils.py"
+   ],
+   "rmcss_prediction_hash": "834912a8fcee66abc234eeb3d6efa6ee1c06ee86922d5a6faf1be767724dd622"
+  },
+  "saleor-rc-eb61406cecc5": {
+   "task_id": "saleor-rc-eb61406cecc5",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/graphql/product/filters.py",
+    "saleor/graphql/warehouse/types.py"
+   ],
+   "rmcss_prediction_hash": "9648cc9f9faaaf556dd9523d4940b7f555d79d678257a6e48db58e242f781b6c"
+  },
+  "saleor-rc-ee2b248d8076": {
+   "task_id": "saleor-rc-ee2b248d8076",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [],
+   "rmcss_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "saleor-rc-ef4d31a09e7c": {
+   "task_id": "saleor-rc-ef4d31a09e7c",
+   "sip_predicted_set": [
+    "saleor/graphql/order/__init__.py",
+    "saleor/graphql/order/mutations/orders.py",
+    "saleor/graphql/order/types.py",
+    "saleor/order/__init__.py",
+    "saleor/order/actions.py",
+    "saleor/order/models.py",
+    "saleor/order/utils.py"
+   ],
+   "sip_prediction_hash": "c61be690bf5aa831982b2863d68dcc7e846c3db03e9dac8529e05fcd69b33128",
+   "rmcss_predicted_set": [
+    "saleor/graphql/order/mutations/orders.py",
+    "saleor/graphql/order/types.py",
+    "saleor/order/__init__.py",
+    "saleor/order/actions.py",
+    "saleor/order/models.py",
+    "saleor/order/utils.py",
+    "saleor/warehouse/management.py"
+   ],
+   "rmcss_prediction_hash": "a0c17bab1636416aca754e5fd1b738314e95426a1a937cd97b30636c85e0e53d"
+  },
+  "saleor-rc-f1d4e82c1dea": {
+   "task_id": "saleor-rc-f1d4e82c1dea",
+   "sip_predicted_set": [
+    "saleor/graphql/meta/resolvers.py"
+   ],
+   "sip_prediction_hash": "d275b70175a4656207945aea597b7bad66dcaa2c9c2dc2235c745abb5e5bbff3",
+   "rmcss_predicted_set": [
+    "saleor/graphql/meta/resolvers.py",
+    "saleor/graphql/meta/types.py"
+   ],
+   "rmcss_prediction_hash": "b48021a64fbf62b8e8da886a3fce2e18085b5e75185dc11a1ce82ddddc779cbd"
+  },
+  "saleor-rc-f2207c408917": {
+   "task_id": "saleor-rc-f2207c408917",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/graphql/attribute/utils.py"
+   ],
+   "rmcss_prediction_hash": "634204fc1ab1e5203d48aebbe95dad6d03f712294b39a80122bf8ef46e6eaf84"
+  },
+  "saleor-rc-f3a0bc28797b": {
+   "task_id": "saleor-rc-f3a0bc28797b",
+   "sip_predicted_set": [
+    "saleor/graphql/webhook/subscription_payload.py",
+    "saleor/graphql/webhook/subscription_query.py",
+    "saleor/webhook/models.py"
+   ],
+   "sip_prediction_hash": "b32c478ac69720ba155b138578d2080c5691ebc52aeff8ab46c88fce1800aacb",
+   "rmcss_predicted_set": [
+    "saleor/graphql/webhook/subscription_payload.py",
+    "saleor/graphql/webhook/subscription_types.py",
+    "saleor/plugins/webhook/plugin.py"
+   ],
+   "rmcss_prediction_hash": "e77045c65c1d7eb2884a17864336c42b461e68ecb6f1c0b98d4005f57e4e30eb"
+  },
+  "saleor-rc-f3a111394d43": {
+   "task_id": "saleor-rc-f3a111394d43",
+   "sip_predicted_set": [
+    "saleor/product/managers.py",
+    "saleor/product/models.py",
+    "saleor/product/utils/variants.py"
+   ],
+   "sip_prediction_hash": "2912defe0bc9cf94ee118345e3a866ebd41305486db31abf936f82a4a626f44a",
+   "rmcss_predicted_set": [
+    "saleor/graphql/product/filters.py",
+    "saleor/product/managers.py",
+    "saleor/product/models.py"
+   ],
+   "rmcss_prediction_hash": "47fb7afc74840324ae8f584d59794cba753a61cd31e5955239f0897ab05c2715"
+  },
+  "saleor-rc-f3a1ec65571f": {
+   "task_id": "saleor-rc-f3a1ec65571f",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/checkout/utils.py"
+   ],
+   "rmcss_prediction_hash": "2f35ab82d7f669cedfbd9a04be1c39c1a1c3ee299730d7f0470254f5cc37721f"
+  },
+  "saleor-rc-f46a0a307197": {
+   "task_id": "saleor-rc-f46a0a307197",
+   "sip_predicted_set": [
+    "saleor/graphql/tax/mutations/tax_exemption_manage.py"
+   ],
+   "sip_prediction_hash": "6728bc64495fc11680f570d4b84420f81fe3422ad0caca6f06d936a82192e54d",
+   "rmcss_predicted_set": [
+    "saleor/graphql/tax/mutations/__init__.py",
+    "saleor/graphql/tax/mutations/tax_exemption_manage.py"
+   ],
+   "rmcss_prediction_hash": "246bc6d16a65a3216bddc77ecfae803b663e8b55b0836f46591674f7cf2fff62"
+  },
+  "saleor-rc-f4cf223ac3f6": {
+   "task_id": "saleor-rc-f4cf223ac3f6",
+   "sip_predicted_set": [
+    "saleor/attribute/__init__.py",
+    "saleor/attribute/models/page.py",
+    "saleor/attribute/utils.py",
+    "saleor/page/__init__.py",
+    "saleor/page/models.py"
+   ],
+   "sip_prediction_hash": "93fc083de48b22b1b97a5cf6fdf1b323bc4a30169e3cd161a98aae518ceb0dcf",
+   "rmcss_predicted_set": [
+    "saleor/attribute/__init__.py",
+    "saleor/attribute/models/page.py",
+    "saleor/graphql/page/dataloaders.py",
+    "saleor/page/models.py"
+   ],
+   "rmcss_prediction_hash": "7472fe95ef0e8f15b44c9f645a3d1061e41139265429c25dbc4da9b7fde71d04"
+  },
+  "saleor-rc-f4eeba7fab16": {
+   "task_id": "saleor-rc-f4eeba7fab16",
+   "sip_predicted_set": [
+    "saleor/order/models.py",
+    "saleor/order/tasks.py"
+   ],
+   "sip_prediction_hash": "fa72d9b5bcdb1cb28ba8a62748a9c3751483cbfffe8cd69664ec703c88d24028",
+   "rmcss_predicted_set": [
+    "saleor/order/calculations.py",
+    "saleor/order/models.py",
+    "saleor/order/utils.py"
+   ],
+   "rmcss_prediction_hash": "d81310c20679e5a11a33a98a43678990a1ce293f821ab8ebb49536676622e76b"
+  },
+  "saleor-rc-f5d2c47e47c3": {
+   "task_id": "saleor-rc-f5d2c47e47c3",
+   "sip_predicted_set": [
+    "saleor/core/prices.py",
+    "saleor/core/taxes.py"
+   ],
+   "sip_prediction_hash": "76d975c1c902e2d40f529cb6015e10247e93c217f6d9d7ed41c1a8b455227bea",
+   "rmcss_predicted_set": [
+    "saleor/order/utils.py"
+   ],
+   "rmcss_prediction_hash": "4a221ee97d6e98628550f0ebc6c5ed664c783464b545c676378cec2e77c8a13e"
+  },
+  "saleor-rc-f605058a13e8": {
+   "task_id": "saleor-rc-f605058a13e8",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [],
+   "rmcss_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "saleor-rc-f623ab428821": {
+   "task_id": "saleor-rc-f623ab428821",
+   "sip_predicted_set": [
+    "saleor/graphql/order/filters.py"
+   ],
+   "sip_prediction_hash": "5e4b12ee3c1700a10b5be7c30ab1eb9fec456386778f09bf0eb784b8fd297b06",
+   "rmcss_predicted_set": [
+    "saleor/graphql/order/filters.py"
+   ],
+   "rmcss_prediction_hash": "5e4b12ee3c1700a10b5be7c30ab1eb9fec456386778f09bf0eb784b8fd297b06"
+  },
+  "saleor-rc-f6a3751a8bc2": {
+   "task_id": "saleor-rc-f6a3751a8bc2",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/checkout/complete_checkout.py",
+    "saleor/checkout/utils.py",
+    "saleor/product/tasks.py"
+   ],
+   "rmcss_prediction_hash": "a52007bec0c5854e5551e0b2ae95c328edaaede4f702005378a9104bf61de017"
+  },
+  "saleor-rc-f74a5394c7f1": {
+   "task_id": "saleor-rc-f74a5394c7f1",
+   "sip_predicted_set": [
+    "saleor/core/tokens.py"
+   ],
+   "sip_prediction_hash": "6fd10cfbfcba5e099104c31c7b5fe79242a2565ceb40221790c37403c2ed1cf7",
+   "rmcss_predicted_set": [],
+   "rmcss_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "saleor-rc-f76d0093b450": {
+   "task_id": "saleor-rc-f76d0093b450",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [],
+   "rmcss_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "saleor-rc-f953990d221b": {
+   "task_id": "saleor-rc-f953990d221b",
+   "sip_predicted_set": [
+    "saleor/payment/models.py"
+   ],
+   "sip_prediction_hash": "4a13662131edd564c1df2bac9cdc32c59c8b09b9b24310cc9040b3b9d24995b7",
+   "rmcss_predicted_set": [
+    "saleor/payment/interface.py",
+    "saleor/payment/models.py",
+    "saleor/payment/utils.py"
+   ],
+   "rmcss_prediction_hash": "d243b9fc4e72b38744e4072a2826e39b8babdc8169f2eb97ac3b35f70238b550"
+  },
+  "saleor-rc-fa113018cb83": {
+   "task_id": "saleor-rc-fa113018cb83",
+   "sip_predicted_set": [
+    "saleor/checkout/__init__.py",
+    "saleor/checkout/models.py",
+    "saleor/order/__init__.py",
+    "saleor/order/models.py",
+    "saleor/permission/__init__.py",
+    "saleor/permission/models.py",
+    "saleor/shipping/__init__.py",
+    "saleor/shipping/models.py",
+    "saleor/site/__init__.py",
+    "saleor/site/models.py"
+   ],
+   "sip_prediction_hash": "de15f431b70a1f744e64afa809992ef4dc004c93ed88835987a7b719ee948241",
+   "rmcss_predicted_set": [
+    "saleor/checkout/models.py",
+    "saleor/graphql/core/context.py",
+    "saleor/order/models.py",
+    "saleor/shipping/models.py"
+   ],
+   "rmcss_prediction_hash": "539d936b74d1374d512f24a205bced923be3d731cbf32012ecd82d369ed64c6b"
+  },
+  "saleor-rc-fa1ed1794a8a": {
+   "task_id": "saleor-rc-fa1ed1794a8a",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/graphql/core/mutations.py"
+   ],
+   "rmcss_prediction_hash": "1344607fa32430d8bfbb4804b0517725fd8992d9c1b47cb2bc54017f2aad1406"
+  },
+  "saleor-rc-fbfc66e3a46b": {
+   "task_id": "saleor-rc-fbfc66e3a46b",
+   "sip_predicted_set": [
+    "saleor/graphql/webhook/__init__.py",
+    "saleor/graphql/webhook/mutations.py",
+    "saleor/graphql/webhook/schema.py",
+    "saleor/graphql/webhook/types.py",
+    "saleor/page/__init__.py",
+    "saleor/webhook/__init__.py",
+    "saleor/webhook/event_types.py",
+    "saleor/webhook/models.py",
+    "saleor/webhook/payload_serializers.py"
+   ],
+   "sip_prediction_hash": "e94dba4f8622931b635c02520403da576f8254ea520808def642f3e12ab501f6",
+   "rmcss_predicted_set": [
+    "saleor/graphql/webhook/mutations.py",
+    "saleor/graphql/webhook/schema.py",
+    "saleor/graphql/webhook/types.py",
+    "saleor/webhook/event_types.py",
+    "saleor/webhook/models.py"
+   ],
+   "rmcss_prediction_hash": "cc481a9e95035e585dfdc80b7a65f9e0852b3fe6373a772565c0722806680b04"
+  },
+  "saleor-rc-fc4883ed7da4": {
+   "task_id": "saleor-rc-fc4883ed7da4",
+   "sip_predicted_set": [
+    "saleor/app/tasks.py",
+    "saleor/celeryconf.py"
+   ],
+   "sip_prediction_hash": "b8a68e1da57b5c1dded2f91380aa84782c3a48872a4a2dcd15b40b815b41fc90",
+   "rmcss_predicted_set": [
+    "saleor/celeryconf.py"
+   ],
+   "rmcss_prediction_hash": "62dad51334718d3cbd9f79986b1e1270bd5305fdc445770c6853188f2630009a"
+  },
+  "saleor-rc-fd463c8aae38": {
+   "task_id": "saleor-rc-fd463c8aae38",
+   "sip_predicted_set": [
+    "saleor/core/utils/events.py"
+   ],
+   "sip_prediction_hash": "e3588b76eef16f80f553d760c2f91b8a81c9d1f5ceea1b86c2085ebdd654b7aa",
+   "rmcss_predicted_set": [],
+   "rmcss_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "saleor-rc-fd5b7971c5d2": {
+   "task_id": "saleor-rc-fd5b7971c5d2",
+   "sip_predicted_set": [
+    "saleor/warehouse/models.py"
+   ],
+   "sip_prediction_hash": "8b094ce7590f1743fbd142516feaa62d8284db628e5663d0c3c7768e49f0ffe3",
+   "rmcss_predicted_set": [
+    "saleor/warehouse/models.py"
+   ],
+   "rmcss_prediction_hash": "8b094ce7590f1743fbd142516feaa62d8284db628e5663d0c3c7768e49f0ffe3"
+  },
+  "saleor-rc-fdca49f190e2": {
+   "task_id": "saleor-rc-fdca49f190e2",
+   "sip_predicted_set": [
+    "saleor/graphql/webhook/mutations/webhook_trigger.py"
+   ],
+   "sip_prediction_hash": "fdaa344f514dcfa238c64ab47e8199252695f679b3f12294fc7e5ad2e4e9fcac",
+   "rmcss_predicted_set": [
+    "saleor/graphql/webhook/mutations/webhook_trigger.py",
+    "saleor/webhook/transport/synchronous/transport.py"
+   ],
+   "rmcss_prediction_hash": "0433c3d00adb4e0f7ee7dad9eba1e822efff3bfe233d8462519cb81f3887feab"
+  },
+  "saleor-rc-fe6e46266e81": {
+   "task_id": "saleor-rc-fe6e46266e81",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/discount/tasks.py",
+    "saleor/product/tasks.py"
+   ],
+   "rmcss_prediction_hash": "7f172db02cd744fd57c495b9a6d41e0ff96985d57ebc74794a5ebf4ee7202145"
+  },
+  "saleor-rc-ff0d35878a50": {
+   "task_id": "saleor-rc-ff0d35878a50",
+   "sip_predicted_set": [],
+   "sip_prediction_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "rmcss_predicted_set": [
+    "saleor/core/tasks.py"
+   ],
+   "rmcss_prediction_hash": "e4f6ba21aba4ad21d7b7237642816c87785a7e6372bc46f58c6cda92e5a1b948"
+  },
+  "saleor-rc-ffe3a3ece0fb": {
+   "task_id": "saleor-rc-ffe3a3ece0fb",
+   "sip_predicted_set": [
+    "saleor/graphql/shop/mutations/refund_reason_reference_type_clear.py"
+   ],
+   "sip_prediction_hash": "1e73672a8ac6b1475fa6eaf6387689f857b354e7115b8518dae2712f5a173a84",
+   "rmcss_predicted_set": [
+    "saleor/graphql/core/types/common.py",
+    "saleor/graphql/shop/mutations/refund_reason_reference_type_clear.py",
+    "saleor/order/models.py"
+   ],
+   "rmcss_prediction_hash": "91f6c170a373b27b29827f3b6fd6123a4fa3fed00a0684e525181b72ced58978"
+  }
+ }
+}

@@ -1,0 +1,139 @@
+{
+ "wp1a": "wp1a_frozen_agent_protocol",
+ "status": "FROZEN_FOR_FUTURE_EXECUTION",
+ "execution_authorization": "WP-1b AWAITING AHMED AUTHORIZATION - NOT executed in WP-1a",
+ "implementation_source": "src/benchmark/strategies/iterative_agent.py (IterativeRepositoryAgentStrategy) + src/benchmark/strategies/repository_tools.py (RepositoryTools)",
+ "generated_utc": "2026-09-21T00:45:09.711913+00:00",
+ "sections": {
+  "initial_system_prompt": {
+   "template": "INITIAL_SYSTEM_PROMPT (iterative_agent.py)",
+   "fields": [
+    "before",
+    "after",
+    "acceptance_criteria",
+    "editable_paths",
+    "TOOL_SCHEMA"
+   ],
+   "task_intent_placement": "RequirementChange.before / .after and acceptance_criteria; the WP-1b per-task intent MUST be the byte-identical stored SIP intent (see wp1a_intent_parity.json)."
+  },
+  "revision_prompt": {
+   "template": "REVISE_SYSTEM_PROMPT",
+   "note": "Used only when validation fails in an E2E setting; the WP-1 selection-only comparison does NOT execute regeneration/validation, so revise_plan is NOT part of the selection-only arm."
+  },
+  "tools": [
+   {
+    "name": "list_files",
+    "schema_key": "AGENT_ACTION_SCHEMA",
+    "args": [
+     "path"
+    ]
+   },
+   {
+    "name": "read_file",
+    "schema_key": "AGENT_ACTION_SCHEMA",
+    "args": [
+     "path"
+    ]
+   },
+   {
+    "name": "search_text",
+    "schema_key": "AGENT_ACTION_SCHEMA",
+    "args": [
+     "query",
+     "path"
+    ]
+   }
+  ],
+  "tool_schemas": {
+   "AGENT_ACTION_SCHEMA": {
+    "type": "object",
+    "properties": [
+     "action(list_files|read_file|search_text|final)",
+     "path",
+     "query",
+     "selected_paths",
+     "rationale",
+     "requires_iteration"
+    ],
+    "required": [
+     "action"
+    ],
+    "additionalProperties": false
+   },
+   "AGENT_FINAL_SCHEMA": {
+    "type": "object",
+    "properties": [
+     "action(const=final)",
+     "selected_paths(minItems 1)",
+     "rationale",
+     "requires_iteration"
+    ],
+    "required": [
+     "action",
+     "selected_paths",
+     "rationale"
+    ],
+    "additionalProperties": false
+   }
+  },
+  "parent_repository_snapshot_source": "Active snapshot / workspace root at the task's PARENT commit (WP-0 repository-derived ArtifactUniverse; NOT expected_affected_artifacts).",
+  "candidate_universe_boundary": "ArtifactUniverse derived from the parent repository state via resolve_allowed_artifacts (runner._build_artifact_universe). selected_paths MUST be a non-empty subset of editable paths.",
+  "allowed_directories_file_types": {
+   "root": "workspace root (parent snapshot) only",
+   "skip_patterns": [
+    ".git/*",
+    "__pycache__/*",
+    ".pytest_cache/*",
+    ".eggs/*",
+    "*.pyc",
+    "*.pyo",
+    ".DS_Store"
+   ],
+   "binary_extensions": [
+    "*.pyc",
+    "*.so",
+    "*.png",
+    "*.zip",
+    "*.pdf",
+    "..."
+   ]
+  },
+  "file_read_policy": {
+   "MAX_FILE_SIZE": "200 KB (files larger are rejected, not truncated)",
+   "MAX_READ_CHARS": 12000,
+   "encoding": "utf-8 only"
+  },
+  "search_policy": {
+   "method": "case-insensitive substring",
+   "MAX_SEARCH_RESULTS": 50,
+   "MAX_LIST_ENTRIES": 200
+  },
+  "context_retention_policy": "Accumulated tool results are appended to the live prompt; tool output truncated to 2000 chars per result; validation feedback compacted (head 700 / tail 1800).",
+  "context_truncation_policy": "finish_reason=length -> control response truncated at cap; loop breaks; if no paths selected -> EMPTY prediction (fail-closed).",
+  "round_definition": "One round = one model call that may be followed by at most one tool invocation (list_files/read_file/search_text) OR the final decision. Repeated identical tool request is rejected (control warning).",
+  "proposed_hard_max_rounds": {
+   "MAX_AGENT_CALLS": 8,
+   "note": "calls 1..7 explore, call 8 is the reserved final call (force_final). The WP-1 draft proposed 10 rounds; the authoritative implementation is 8 total calls. WP-1a freezes the implemented 8 (no behavioral change)."
+  },
+  "completion_token_cap_per_model_response": {
+   "agent_control_max_completion_tokens": 512,
+   "note": "WP-1b should use the frozen 512 control cap; any cap change requires a protocol amendment."
+  },
+  "stop_rule": "agent returns action=final with a valid non-empty, unique, editable-subset selected_paths -> accept and stop. Otherwise continue while remaining calls > 0.",
+  "timeout_rule": "cooperative workflow deadline (ModelCallBudgetExhaustedError) checked before/after each model call -> break; fail-closed EMPTY if no paths selected.",
+  "retry_rule": "TRANSPORT errors may be retried with a byte-identical request, max 3 retries (SIP precedent); ONLY transport failures may be retried. No content/schema retry.",
+  "malformed_output_rule": "invalid JSON -> append '[error] Invalid JSON response' and continue if calls remain; otherwise break with EMPTY prediction.",
+  "empty_output_rule": "empty selected_paths / missing selected_paths -> error message appended; if calls remain continue; else EMPTY prediction.",
+  "path_outside_universe_handling": "any selected path outside the editable universe -> error list appended; continue if calls remain; else EMPTY prediction. Tools reject traversal/absolute/backslash paths.",
+  "duplicate_path_normalization": "duplicate selected paths rejected (must be unique); paths are compared exactly against the editable universe (no fuzzy match).",
+  "allow_ground_truth_universe": false,
+  "runrecord_audit_field": "RunRecord.allow_ground_truth_universe must be persisted and False for every WP-1b agent RunRecord; verified by the WP-1b independent-audit pack (future external audit).",
+  "final_file_set_json_schema": "AGENT_FINAL_SCHEMA: {action: 'final', selected_paths: [str, ...], rationale: str, requires_iteration: bool} - selected_paths is the predicted file set for the arm.",
+  "fail_closed_semantics": "no-paths / truncated / exhausted-calls / deadline / malformed -> EMPTY prediction in the primary fail-closed analysis with a separate failure flag.",
+  "labels_never_accessed": "The prediction pipeline (agent + candidate universe) MUST NOT access label/outcome columns, hidden proxy, target diff, expected affected artifacts, or target outcomes (AC-1A.2)."
+ },
+ "mock_executability": {
+  "proven_by": "tests/unit/test_wp1a_frozen_protocol.py (stub backend, parent-only workspace, no label access)",
+  "no_live_model_call": true
+ }
+}

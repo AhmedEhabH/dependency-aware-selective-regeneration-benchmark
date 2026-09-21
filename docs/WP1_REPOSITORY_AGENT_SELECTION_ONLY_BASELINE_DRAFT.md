@@ -2,6 +2,15 @@
 
 **STATUS: DRAFT — AWAITING AHMED AUTHORIZATION — DO NOT EXECUTE**
 
+**WP-1a preparation (2026-09-21): COMPLETE on branch
+`feat/wp1a-selection-baseline-preparation`. Model-parity correction below
+REPLACES the earlier DeepSeek claim; the WP-1a artifacts under
+`research/wp1a/` freeze model/provider provenance, label-free prediction
+schemas, deterministic per-task re-derivation, main-50/calibration-3 sample
+freeze, intent parity, the repository-agent protocol, failure semantics,
+shared scorer, accounting, budget model, and outcome categories. This document
+remains a DRAFT and remains DO_NOT_EXECUTE.
+
 This document is a specification DRAFT only. It defines a future work
 package. It does NOT authorize or perform any execution: no API calls, no
 agent execution, no predictions, no scoring, and no newly accessed target
@@ -50,7 +59,16 @@ All arms MUST use:
 - temperature = 0;
 - the same timeout/error accounting rules.
 
-Model: `openrouter/deepseek/deepseek-v4-flash-0731`.
+Model: `openrouter/deepseek/deepseek-v4-flash-0731`. **CORRECTED BY WP-1a
+(2026-09-21):** the frozen Saleor-300 SIP run was mechanically verified to use
+**`qwen/qwen3-coder` @ `deepinfra/turbo` (exact route
+`openrouter:qwen/qwen3-coder@deepinfra/turbo`), temperature 0.0, completion cap
+16384, 300/300 consistent** — see
+`research/wp1a/sip_scientific_model_provenance.json`. The future repository-agent
+generative arm MUST use the SAME scientific model identity (Qwen3-Coder) as the
+frozen SIP predictions to avoid model mismatch. The OpenCode coding model is NOT
+the scientific arm model. Do NOT hard-code either claim; recover it from the
+frozen run records.
 
 SIP and RM-CSS use their ALREADY-STORED predictions for those 50 tasks. Do
 NOT call the LLM again for SIP or RM-CSS.
@@ -232,11 +250,11 @@ Draft ACs:
   task IDs. Mechanical assertion: byte-identical sorted task-ID manifests.
 - **AC-1.2 — Leakage fence:** repository agent reads only parent-state/public
   information. `allow_ground_truth_universe=False`. No target diff / hidden
-  proxy / expected affected artifacts. Independent audit PASS.
+  proxy / expected affected artifacts. Alternate-implementation cross-check PASS.
 - **AC-1.3 — Prediction freeze:** all repository-agent predictions and hashes
   persisted before the scorer loads outcomes.
 - **AC-1.4 — Shared scorer:** all three arms scored by the same scorer
-  implementation. Independent audit re-derives every
+  implementation. Alternate-implementation cross-check re-derives every
   TP/FP/FN/P/R/FNR/F1.
 - **AC-1.5 — Efficiency accounting:** tokens/calls/latency/USD recorded
   mechanically from raw run artifacts. Accounting identity passes.
@@ -246,7 +264,9 @@ Draft ACs:
   call.
 - **AC-1.8 — Statistical output:** 10,000-task-level paired bootstrap with
   seed 20260920 reproduces from raw per-task records.
-- **AC-1.9 — Independent audit:** an independent script recomputes all
+- **AC-1.9 — Independent audit (external, required for future execution):** a
+  blind, genuinely independent script (not produced in the same execution
+  context that produced the WP-1 implementation) recomputes all
   headline values.
 - **AC-1.10 — Claim boundary:** final report explicitly states
   "same-protocol n=50 selection-only comparison; not E2E; not universal
@@ -268,3 +288,14 @@ Do not renumber existing records.
 `AWAITING_AHMED_AUTHORIZATION`
 
 `DO_NOT_EXECUTE`
+
+### WP-1a preparation status (2026-09-21)
+
+- **WP-1a artifacts:** `research/wp1a/` (model provenance, label-free schema,
+  per-task predictions + SHA-256 manifest, re-derivation verification, main-50
+  and calibration-3 manifests, intent parity, frozen agent protocol, failure
+  semantics, shared scorer schema, accounting schema, budget model,
+  cost-quality categories, same-session cross-check, acceptance report).
+- **AC-1A.1..AC-1A.12:** all PASS (see `research/wp1a/wp1a_acceptance_report.json`).
+- **WP-1b:** NOT executed; remains `WP-1b Calibration + Main n=50 Selection
+  Run — AWAITING AHMED AUTHORIZATION`.

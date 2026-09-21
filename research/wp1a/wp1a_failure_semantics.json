@@ -1,0 +1,23 @@
+{
+ "wp1a": "wp1a_failure_semantics",
+ "generated_utc": "2026-09-21T00:40:50.235622+00:00",
+ "primary_analysis_rule": "ALL-TASKS / FAIL-CLOSED. No silent exclusions. Strategy-level completion without selected paths -> EMPTY prediction. Unrecoverable execution or transport failure -> EMPTY prediction in the primary analysis with a separate failure flag. Sensitivity analysis may exclude ONLY pre-defined infrastructure failures and must be reported alongside the primary, never instead of it.",
+ "interpretation_rule": "If RM-CSS appears better mainly because the repository-agent instrument produces many empty/failed outputs, report that as an instrument/operational finding, not pure method superiority.",
+ "per_arm_failure_rates": [
+  "empty_set_rate",
+  "timeout_rate",
+  "malformed_output_rate",
+  "transport_failure_rate",
+  "other_instrument_failure_rate"
+ ],
+ "retry": {
+  "transport": "max 3 byte-identical retries; ONLY transport failures may be retried"
+ },
+ "timeout": "cooperative workflow deadline; fail-closed EMPTY",
+ "malformed": "invalid JSON -> error appended; continue if calls remain; else EMPTY",
+ "empty": "no paths selected -> EMPTY prediction (fail-closed)",
+ "invalid_paths": "outside editable universe -> error; continue if calls remain; else EMPTY",
+ "round_cap_reached": "remaining agent calls exhausted without final -> EMPTY prediction",
+ "partial_tool_failure": "tool error result returned to the agent; loop continues; repeated identical tool request rejected",
+ "no_silent_exclusions": true
+}

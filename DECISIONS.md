@@ -1436,3 +1436,168 @@ esearch/bounded-semantic-expansion/pilot_registration_freeze.json — 60 DEVELOP
 ### WP1_REPOSITORY_AGENT_SELECTION_BASELINE — DEFERRED / AWAITING_AHMED_AUTHORIZATION
 - Do NOT execute. Draft specification only at
   `docs/WP1_REPOSITORY_AGENT_SELECTION_ONLY_BASELINE_DRAFT.md`.
+
+---
+
+## Decision WP1A - Repository-Agent Selection Baseline Preparation (2026-09-21)
+
+- **Status:** ADOPTED (this WP-1a; zero-API preparation; Tier T3; $0.00
+  scientific API spend; freezes future WP-1b invariants)
+- **Context:** WP-1 (Repository-Agent Selection-Only Baseline) must be prepared
+  before any paid run. The WP-1 draft claimed the SIP scientific model as
+  DeepSeek; the frozen Saleor-300 SIP run records mechanically show
+  `qwen/qwen3-coder @ deepinfra/turbo` (300/300 consistent). `candidate_rows
+  _saleor300.parquet` contains a `label` column needing a prediction-side
+  boundary. The future WP-1b must compare repository_agent vs SIP vs RM-CSS on
+  a frozen main-50 sample with a separate calibration-3 set.
+- **Decision:**
+  1. **Model parity (AC-1A.1):** SIP scientific model mechanically recovered as
+     `qwen/qwen3-coder @ deepinfra/turbo` (exact route
+     `openrouter:qwen/qwen3-coder@deepinfra/turbo`, temp 0.0, cap 16384,
+     300/300). The WP-1 draft DeepSeek claim is CORRECTED. The future WP-1b
+     repository-agent generative arm MUST use the same Qwen3-Coder identity.
+     The OpenCode coding model is NOT the scientific arm model. Artifact:
+     `research/wp1a/sip_scientific_model_provenance.json`.
+  2. **Label isolation (AC-1A.2):** prediction-side loaders drop/deny
+     label/outcome columns at the boundary (`src/benchmark/wp1a/schema.py`);
+     repository-agent universe comes from parent-state/public sources only.
+  3. **Exact 300 re-derivation (AC-1A.3):** deterministic zero-API per-task
+     SIP/RM-CSS re-derivation reproduces the authoritative headline values
+     EXACTLY (SIP F1 0.2647462277, RM-CSS F1 0.3568726356, DeltaF1
+     +0.09212640785196952). Persisted with SHA-256 manifest; historical
+     Saleor-300 artifact NOT replaced.
+  4. **Sample freeze (AC-1A.4):** main n=50 = first 50 of the frozen
+     Saleor-300 ordering (SHA `9b26ad59…`); calibration n=3 = deterministic
+     complement draw, seed 20260921 (SHA `23f520d8…`); intersection empty;
+     both from the already-opened 300; 786 RESERVE untouched.
+  5. **Intent parity (AC-1A.5):** 53/53 canonical hash match to the stored SIP
+     intent (`research/wp1a/wp1a_intent_parity.json`); future agent input MUST
+     be byte/canonical-hash-identical.
+  6. **Frozen agent protocol (AC-1A.6):** `wp1a_frozen_agent_protocol.json`
+     freezes the authoritative iterative repository-agent protocol
+     (MAX_AGENT_CALLS=8, control cap 512, tools, schemas, parent-only boundary,
+     allow_ground_truth_universe=False, fail-closed semantics);
+     mock-executable with a stub backend.
+  7. **Failure semantics (section 8):** ALL-TASKS / FAIL-CLOSED primary
+     analysis; EMPTY prediction on no-paths/transport/deadline/malformed;
+     sensitivity excludes ONLY pre-defined infrastructure failures, reported
+     alongside primary.
+  8. **Shared scorer (AC-1A.7):** one scorer for repository_agent/SIP/RM-CSS
+     (TP/FP/FN/P/R/FNR/F1, mean set size, empty rate; paired task bootstrap
+     10,000 seed 20260920; CI crossing zero = NO_DIFFERENCE_DETECTED_AT_THIS_N).
+  9. **Accounting (AC-1A.8):** per-arm tokens/calls/wall/USD; RM-CSS TWO views
+     (marginal/per-change vs one-time setup) with amortized N=50/N=300; no
+     double counting; latency descriptive.
+  10. **Budget (AC-1A.9):** label-free model; recommended future ceiling ~$1.10
+      for Ahmed review (NOT auto-accepted); cumulative USD guard before each
+      paid request; main-run ceiling frozen before main task 1; hitting the
+      ceiling mid-main-run = `BUDGET_ABORT_INVALID_FOR_PRIMARY_COMPARISON`
+      (no ordered partial n<50 primary table).
+  11. **Outcome categories (section 12):** RM_CSS_COST_QUALITY_DOMINANCE /
+      COST_QUALITY_TRADEOFF / NO_RM_CSS_EFFICIENCY_ADVANTAGE /
+      RM_CSS_EFFICIENCY_HYPOTHESIS_FALSIFIED; latency not a hard gate;
+      no universal/SOTA claim.
+  12. **Independent audit (AC-1A.10):** 19/19 PASS without importing audited
+      helpers (`research/wp1a/wp1a_independent_audit.json`).
+- **Rationale:** freezes scientific harness semantics, leakage boundaries,
+  accounting and future experiment invariants BEFORE any paid WP-1b call.
+- **Impact:** WP-1a acceptance criteria AC-1A.1..AC-1A.12 ALL PASS
+  (`research/wp1a/wp1a_acceptance_report.json`); new selective-update record
+  `SU-0013-repository-agent-selection-baseline-preparation.md`. No production
+  runtime change required (existing iterative agent already parent-only).
+- **Evidence:** `docs/WP1A_IMPACT_DECLARATION_2026-09-21.md`,
+  `research/wp1a/*`, `scripts/wp1a_*.py`, `src/benchmark/wp1a/*`,
+  `tests/unit/test_wp1a_*.py`, this decision.
+- **Revisit:** WP-1b Calibration + Main n=50 Selection Run — AWAITING AHMED
+  AUTHORIZATION. NOT executed here.
+
+### WP1A_MODEL_PARITY - ACCEPTED
+- SIP scientific model mechanically recovered = `qwen/qwen3-coder @
+  deepinfra/turbo` (not DeepSeek). Future agent arm MUST use the same model.
+- Scope change: NO scientific scope change.
+
+### WP1A_LABEL_ISOLATION - ACCEPTED
+- Prediction-side loaders deny label/outcome columns at the boundary;
+  repository-agent universe is parent-state/public only.
+- Scope change: NO.
+
+### WP1A_SAMPLE_FREEZE - ACCEPTED
+- main n=50 + calibration n=3 frozen, disjoint, deterministic, label-free,
+  from the already-opened 300 only.
+- Scope change: NO.
+
+### WP1A_FAILURE_SEMANTICS - ACCEPTED
+- ALL-TASKS / FAIL-CLOSED primary; EMPTY prediction on no-paths/transport/
+  deadline/malformed; no silent exclusions.
+- Scope change: NO.
+
+### WP1A_COST_ACCOUNTING - ACCEPTED
+- Two RM-CSS cost views (marginal + setup) + amortized N=50/N=300; no double
+  counting; latency descriptive.
+- Scope change: NO.
+
+### WP1A_BUDGET_ABORT - ACCEPTED
+- Cumulative USD guard before each paid request; main-run ceiling frozen before
+  main task 1; ceiling hit mid-main-run =
+  `BUDGET_ABORT_INVALID_FOR_PRIMARY_COMPARISON`.
+- Scope change: NO.
+
+### WP1B_CALIBRATION_AND_MAIN - AWAITING_AHMED_AUTHORIZATION
+- WP-1b Calibration + Main n=50 Selection Run NOT started; requires Ahmed
+  authorization after reviewing the WP-1a STOP report.
+
+---
+
+## Decision WP1B_G1_NI_MARGIN — DECISION REQUIRED (2026-09-21)
+
+- **Status:** BLOCKER G1 — DECISION REQUIRED. No authoritative pre-result
+  artifact freezes an F1 non-inferiority margin for the WP-1b selection-only
+  comparison.
+- **Provenance:** DA-08 Δ=0.05 governs regression pass rate (H2), not F1;
+  docs/EXPERIMENTAL_DESIGN_V2.md H1 defines F1 NI Δ=0.05 for
+  hybrid_selective vs epository_agent (candidate, authority not
+  established for this experiment); WP-1a scorer schema explicitly says "no
+  non-inferiority margin is silently chosen"; WP-1a cost-quality categories
+  use a point-estimate rule.
+- **Decision:** Do NOT invent a margin. Prepared
+  docs/WP1B_NI_MARGIN_DECISION_REQUIRED_2026-09-21.md +
+  rtifacts/wp1b_ci_decision_rule_preregistration_2026-09-21.json. NO PAID
+  WP-1b EXECUTION IS AUTHORIZED UNTIL THIS VALUE IS FROZEN.
+- **Scope change:** NO (no margin invented).
+
+## Decision WP1B_G2_COMPLETION_CAP — DECISION REQUIRED (2026-09-21)
+
+- **Status:** BLOCKER G2 — DECISION REQUIRED. 512 (pilot-derived) vs 1024
+  (v1.1 scientific-run value) cannot be resolved from valid prospective
+  evidence alone.
+- **Decision:** Do NOT silently change 512 to 1024. Prepared
+  docs/WP1B_AGENT_COMPLETION_CAP_PROVENANCE_2026-09-21.md +
+  docs/WP1B_AGENT_COMPLETION_CAP_AMENDMENT_2026-09-21.md (PROPOSED,
+  NOT EFFECTIVE). Paid WP-1b blocked until the cap decision is made.
+- **Scope change:** NO.
+
+## Decision WP1B_G3_LOOP_SEMANTICS — INSTRUMENTED (2026-09-21)
+
+- **Status:** Resolved. Forced-final/round-cap precedence derived from code
+  (iterative_agent.py) and frozen protocol; no code/protocol contradiction.
+- **Decision:** Add behavior-preserving truncation/EMPTY telemetry to
+  IterativeRepositoryAgentStrategy + src/benchmark/wp1b/telemetry.py;
+  document state machine in
+  docs/WP1B_AGENT_LOOP_TERMINATION_SEMANTICS_2026-09-21.md. Transport-retry
+  count gap recorded (frozen rule says max 3; backend default 1) — WP-1b must
+  configure/confirm before paid execution.
+- **Scope change:** NO behavior change to selection.
+
+## Decision WP1A_AUDIT_TERMINOLOGY_CORRECTION — ADOPTED (2026-09-21)
+
+- **Status:** Terminology corrected. The WP-1a "independent audit 19/19" was a
+  SAME-SESSION alternate-implementation cross-check (same execution context
+  authored both implementation and checker). It is not an independent/external
+  audit.
+- **Decision:** Relabel WP-1a artifacts/scripts/docs accordingly
+  (wp1a_independent_audit.json, wp1a_acceptance_report.json AC-1A.10,
+  wp1a_frozen_agent_protocol.json runrecord_audit_field, WP-1 draft, WP-1a
+  impact declaration, PROGRESS.md, test docstrings). Prepared a blind
+  independent-audit packet at
+  xports/wp1a_independent_audit_packet_2026-09-21/.
+- **Scope change:** NO.

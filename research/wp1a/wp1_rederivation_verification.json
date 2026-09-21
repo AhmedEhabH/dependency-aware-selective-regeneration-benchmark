@@ -1,0 +1,26 @@
+{
+ "verification": "EXACT_REPRODUCTION",
+ "sip": {
+  "tp": 193,
+  "fp": 344,
+  "fn": 728,
+  "precision": 0.35940409683426444,
+  "recall": 0.20955483170466885,
+  "f1": 0.26474622770919065
+ },
+ "rmcss": {
+  "tp": 283,
+  "fp": 382,
+  "fn": 638,
+  "precision": 0.4255639097744361,
+  "recall": 0.30727470141150925,
+  "f1": 0.35687263556116017
+ },
+ "delta_f1": 0.09212640785196952,
+ "expected_delta_f1": 0.09212640785196952,
+ "n_tasks": 300,
+ "tolerance": 1e-09,
+ "diffs": [],
+ "per_task_artifact_sha256": "76f16217f11043338ebfeb2c402bc4eaef8e6673394d93232fc41ddb21123e8f",
+ "label_loaded_after_prediction_hash_persisted": true
+}

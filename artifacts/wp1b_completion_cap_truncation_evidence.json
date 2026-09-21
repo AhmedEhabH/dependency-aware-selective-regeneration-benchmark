@@ -1,0 +1,27 @@
+{
+ "run_records_path": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\reports\\scientific_microstudy_v11\\run_records.jsonl",
+ "run_records_sha256": "fadc6d63846046083d6c3737968a174a67531b50db88eb87f80250cecd317435",
+ "n_records": 30,
+ "agent_control_cap_distribution": {
+  "1024": 30
+ },
+ "status_distribution": {
+  "failed": 30
+ },
+ "message_scan_counts": {
+  "cap_hit_control_truncation": 0,
+  "malformed_json": 0,
+  "no_paths_selected": 0,
+  "no_remaining_agent_calls": 0,
+  "revision_failed_to_select_paths": 15
+ },
+ "truncation_rate_per_record": 0.0,
+ "selection_completion_tokens": {
+  "n": 30,
+  "min": 0,
+  "max": 3513,
+  "mean": 1589.1333333333334
+ },
+ "records_reaching_8_selection_calls": 15,
+ "note": "Message-scan classification over stored failure_details; the v1.1 run schema did not persist per-call finish_reason."
+}

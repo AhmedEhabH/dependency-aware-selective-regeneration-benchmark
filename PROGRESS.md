@@ -5,7 +5,8 @@ task, immediate next step, blockers). Scientific truth lives in
 `00_CURRENT_RESEARCH_STATE.md`; decisions are recorded append-only in
 `DECISIONS.md`.
 
-**Branch:** `main`
+**Branch:** `main` (WP-1a work executed on
+`feat/wp1a-selection-baseline-preparation`, NOT merged)
 **Scientific closure commit:** `8b2d1b6` (merge of
 `research/oracle-gap-bidirectional-repair-2026-09-18`; immutable scientific
 fact)
@@ -15,23 +16,27 @@ fact)
 its own final live HEAD SHA (committing metadata changes HEAD again). Query
 at read time: `git rev-parse HEAD`, `git rev-parse origin/main`,
 `git status --porcelain`.
-**Model:** openrouter/deepseek/deepseek-v4-flash-0731
-**Task:** SALEOR_RESERVE_300_RMCSS - FINAL CLEAN RM-CSS REPLICATION +
-PRE-REGISTERED CROSS-REPOSITORY TRANSFER TEST (2026-09-20; T3; ONE clean
-untouched evaluation of 300 Saleor RESERVE tasks; APPROVED BY AHMED) -
-**COMPLETE: PRIMARY `SALEOR_RESERVE_300_RMCSS_PASS` + SECONDARY
-`SECONDARY_CROSS_REPO_TRANSFER_PASS`.** Actual cost $1.619525 < $1.75 amended
-ceiling (P89). SIP 300/300 (228 succeeded / 70 completed-empty / 2
-transport-failed -> fail-closed EMPTY; $1.59349); embeddings 2,076 units + 299
-queries ($0.026035); parity gate 10/10 + independent parity audit 11/11 PASS;
-PRIMARY RM-CSS F1 0.3569 vs SIP 0.2647, Delta F1 +0.0921 CI [+0.0691,+0.1156];
-SECONDARY django-only F1 0.3389 vs SIP 0.2647, Delta F1 +0.0742 CI
-[+0.0535,+0.0957]; result audit 15/15; outcomes opened once; 786 Saleor RESERVE
-tasks remain untouched; `IMPACT_LOCALIZATION_METHOD_SELECTION_CLOSED` permanent;
-no post-unseal tuning; no V3. Previous task - STAGE5_CORRECTED_REEXECUTION
-(2026-09-20; P86/P87; corrected 139-task result on EXPOSED population:
-`STAGE5_CORRECTED_REEXECUTION_POSITIVE`, pooled SIP 0.2857 / RM-CSS 0.3419 /
-Delta +0.0562 CI [+0.0185,+0.0945]).
+**Model:** openrouter/deepseek/deepseek-v4-flash-0731 (OpenCode coding model;
+NOT the WP-1 scientific arm model — the frozen SIP scientific model is
+qwen/qwen3-coder @ deepinfra/turbo, see research/wp1a/)
+**Task:** WP-1a Repository-Agent Selection Baseline PREPARATION (2026-09-21;
+T3; ZERO API; $0.00 scientific spend) - **COMPLETE: AC-1A.1..AC-1A.12 ALL
+PASS.** SIP scientific model parity mechanically established (qwen/qwen3-coder
+@ deepinfra/turbo, 300/300, NOT DeepSeek); label-free prediction boundary
+closed (candidate_rows label column denied); exact 300-task SIP/RM-CSS
+re-derivation reproduced (SIP F1 0.2647462277 / RM-CSS F1 0.3568726356 /
+DeltaF1 +0.09212640785196952); main-50 + calibration-3 sample frozen
+(disjoint, deterministic, label-free); intent parity 53/53; repository-agent
+protocol frozen + mock-executable; failure semantics / shared scorer /
+accounting / budget (recommended ceiling ~$1.10 for Ahmed review) /
+cost-quality categories pre-registered; same-session cross-check 19/19 PASS
+(TERMINOLOGY CORRECTED 2026-09-21: NOT an independent audit; blind
+independent-audit packet at exports/wp1a_independent_audit_packet_2026-09-21/).
+WP-1b
+NOT started. Previous task - SALEOR_RESERVE_300_RMCSS
+(2026-09-20; PRIMARY `SALEOR_RESERVE_300_RMCSS_PASS` + SECONDARY
+`SECONDARY_CROSS_REPO_TRANSFER_PASS`; RM-CSS F1 0.3569 vs SIP 0.2647, Delta F1
++0.0921 CI [+0.0691,+0.1156]).
 
 ---
 
@@ -64,7 +69,7 @@ in BOTH realizations A and B; Saleor passes; Stage 5 stays PAUSED/SEALED).
 
 ---
 
-## Current active state (2026-09-20, normalized)
+## Current active state (2026-09-21, normalized)
 
 - **Phase:** 5 — End-to-End Selective Regeneration.
 - **WP-0 (G7) ground-truth leakage fix:** COMPLETE and merged into `main`
@@ -72,20 +77,29 @@ in BOTH realizations A and B; Saleor passes; Stage 5 stays PAUSED/SEALED).
   parent-commit repository state; legacy fixture behavior is behind an
   explicit `allow_ground_truth_universe` flag (default False), auditable on
   `RunRecord`. AC-0.1..AC-0.5 PASS; independent audit 6/6 PASS.
+- **WP-1a (this session):** Repository-Agent Selection Baseline PREPARATION
+  COMPLETE on `feat/wp1a-selection-baseline-preparation` (NOT merged). AC-1A.1..
+  AC-1A.12 ALL PASS; same-session cross-check 19/19 (NOT an independent audit);
+50 new unit tests; ruff/mypy
+  strict/py_compile/git diff --check PASS. Scientific API spend $0.00.
 - **Localization method selection:** CLOSED — `IMPACT_LOCALIZATION_METHOD_SELECTION_CLOSED`
   permanent. No V3.
 - **Frozen scientific result (unchanged):** SALEOR_RESERVE_300_RMCSS — RM-CSS
   F1 0.3569 vs SIP 0.2647, Delta F1 +0.0921 CI [+0.0691,+0.1156]; secondary
   cross-repo transfer PASS.
+- **WP-1 frozen artifacts:** `research/wp1a/` (model provenance, label-free
+  schema, per-task predictions + SHA-256, re-derivation verification, main-50
+  + calibration-3 manifests, intent parity, frozen agent protocol, failure
+  semantics, shared scorer schema, accounting schema, budget model,
+  cost-quality categories, same-session cross-check, acceptance report).
 - **Remaining untouched Saleor RESERVE:** 786 tasks (outcomes unread).
-- **Next candidate scientific work package:** WP-1 Repository-Agent
-  Selection-Only Baseline — AWAITING AHMED AUTHORIZATION. NOT started.
+- **Next candidate scientific work package:** WP-1b Repository-Agent
+  Calibration + Main n=50 Selection Run — AWAITING AHMED AUTHORIZATION. NOT
+  started.
 - **Pending:** WP-2 E2E Phase-0 instrument (DEFERRED); G6 F2P/P2P oracle
   (DEFERRED/unresolved).
 - **No E2E scientific claim exists yet.** No Smoke / Pilot / Research Run.
-- **Blockers:** none for the current integration closure. Historical
-  human-audit and Stage-5 final-policy blockers are superseded (method-search
-  phase CLOSED).
+- **Blockers:** none for the WP-1a closure. WP-1b requires Ahmed authorization.
 
 ## Historical per-experiment records
 
@@ -129,6 +143,7 @@ spend:** $0.00. **Measurement-infrastructure repair; no scientific claim.**
   Legacy fixture behavior is explicit-opt-in only via
   `allow_ground_truth_universe` (default False), auditable on `RunRecord`.
 
-**Next step (NOT started):** WP-1 Repository-Agent Selection-Only Baseline —
-AWAITING AHMED AUTHORIZATION. WP-2 E2E Phase-0 instrument DEFERRED. G6 oracle
+**Next step (NOT started):** WP-1b Calibration + Main n=50 Selection Run —
+AWAITING AHMED AUTHORIZATION (WP-1a preparation COMPLETE; see
+`research/wp1a/`). WP-2 E2E Phase-0 instrument DEFERRED. G6 oracle
 unresolved. No Smoke / Pilot / Research Run. No E2E scientific claim allowed.
