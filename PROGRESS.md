@@ -6,7 +6,9 @@ task, immediate next step, blockers). Scientific truth lives in
 `DECISIONS.md`.
 
 **Branch:** `main` (WP-1a closure work INTEGRATED 2026-09-21 via --no-ff merge
-`18652d6` "chore(wp1a): close integration and preregister WP1b blockers")
+`18652d6` "chore(wp1a): close integration and preregister WP1b blockers";
+pushed to origin/main; evidence-freeze tag `wp1a-integration-closure-2026-09-21`
+@ `87c86f5` created + pushed)
 **Scientific closure commit:** `8b2d1b6` (merge of
 `research/oracle-gap-bidirectional-repair-2026-09-18`; immutable scientific
 fact)

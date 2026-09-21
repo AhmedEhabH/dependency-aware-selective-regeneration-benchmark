@@ -26,9 +26,10 @@ changed, no Saleor RESERVE outcomes were opened, and no paid inference ran
   branch; merge `18652d6` ("chore(wp1a): close integration and preregister
   WP1b blockers") on `main`; followed by `32d7933` (closure machine-readable
   output + governance).
-- **Merge state:** merged (--no-ff). main HEAD = `32d7933` at report write
-  time. origin/main still `f25950f` — **PUSH PENDING** (github.com was
-  unreachable during this session; see section 16).
+- **Merge state:** merged (--no-ff). main HEAD = `87c86f5` at report write
+  time. **PUSHED to origin/main** (`f25950f..87c86f5`); feature branch pushed
+  (`c53d918..a9a5c2f`); evidence-freeze tag
+  `wp1a-integration-closure-2026-09-21` (peel `87c86f5`) created and pushed.
 - Working tree at STOP: clean.
 
 # 3. Verified evidence
@@ -286,8 +287,7 @@ Concretely: Ahmed/supervisor reviews `docs/WP1B_NI_MARGIN_DECISION_REQUIRED_2026
 freezes a margin prospectively, then resolves G2
 (`docs/WP1B_AGENT_COMPLETION_CAP_AMENDMENT_2026-09-21.md`), then provides an
 explicit WP-1b spend authorization. Until the margin and cap are frozen, paid
-WP-1b must not run. Separately, origin/main must be pushed once github.com is
-reachable (see below).
+WP-1b must not run.
 
 ---
 
@@ -295,11 +295,9 @@ reachable (see below).
 
 Covered in section 14.
 
-## Push status
+## Push / tag status
 
-`git push` of main and the feature branch was attempted but github.com was
-unreachable (connect timeout on port 443) at STOP time. All closure evidence is
-committed locally on `main` (`32d7933`). **PUSH PENDING — not a scientific
-blocker; the next session/step should push origin/main + the feature branch.**
-The feature branch was previously pushed (origin/feat/wp1a-selection-baseline-preparation
-@ `c53d918`); the new branch commits since then are local.
+- `main` pushed to origin (`f25950f..87c86f5`).
+- `feat/wp1a-selection-baseline-preparation` pushed (`c53d918..a9a5c2f`).
+- Evidence-freeze tag `wp1a-integration-closure-2026-09-21` created (annotated,
+  peel `87c86f5`) and pushed. No existing tag was moved or overwritten.
