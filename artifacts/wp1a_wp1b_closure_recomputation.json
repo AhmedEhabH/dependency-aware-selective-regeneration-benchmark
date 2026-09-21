@@ -1,0 +1,89 @@
+{
+ "mission": "WP1A_WP1B_SCIENTIFIC_CLOSURE",
+ "purpose": "independent raw evidence recomputation (PHASE 2); no benchmark.wp1a helpers imported",
+ "generated_utc": null,
+ "sample_and_splits": {
+  "sample_ordering_sha256": "445b5e9d0aeeab9551e8feeb3e59e6b5bcfee793f029810a6efe0cbc8f126447",
+  "sample_ordering_sha256_expected": "445b5e9d0aeeab9551e8feeb3e59e6b5bcfee793f029810a6efe0cbc8f126447",
+  "sample_hash_match": true,
+  "main_50": {
+   "n": 50,
+   "n_unique": 50,
+   "task_ids_sha256": "9b26ad5965f6f6a134c7defe50e20c5811df46f7d703ce7fdf954e572db8ee32",
+   "manifest_sha256": "299c045ff557c689bf09f670df3c76faed2eedaa0570eb9e0128b21b8958d90b"
+  },
+  "calibration_3": {
+   "n": 3,
+   "n_unique": 3,
+   "task_ids": [
+    "saleor-rc-349d46d906ad",
+    "saleor-rc-b05633dae118",
+    "saleor-rc-d52a55471bfc"
+   ],
+   "task_ids_sha256": "23f520d8164721885583a926c40dc71cb100b14bb47758dc3bb480279e0847e0",
+   "manifest_sha256": "d14388a80536b39b1c8856388fdeeb09d9b5fdfa61d8ed9dbfc9f35b3dab19e4"
+  },
+  "intersection": {
+   "size": 0,
+   "empty": true
+  },
+  "all_from_opened_300": true
+ },
+ "pooled_metrics": {
+  "n_tasks": 300,
+  "sip": {
+   "tp": 193,
+   "fp": 344,
+   "fn": 728,
+   "precision": 0.35940409683426444,
+   "recall": 0.20955483170466885,
+   "f1": 0.26474622770919065
+  },
+  "rmcss": {
+   "tp": 283,
+   "fp": 382,
+   "fn": 638,
+   "precision": 0.4255639097744361,
+   "recall": 0.30727470141150925,
+   "f1": 0.35687263556116017
+  },
+  "delta_f1": 0.09212640785196952,
+  "expected": {
+   "sip_f1": 0.26474622770919065,
+   "rmcss_f1": 0.35687263556116017,
+   "delta_f1": 0.09212640785196952
+  },
+  "sip_f1_match": true,
+  "rmcss_f1_match": true,
+  "delta_f1_match": true,
+  "all_sip_prediction_hashes_ok": true,
+  "all_rmcss_prediction_hashes_ok": true,
+  "labels_loaded_after_prediction_freeze": true
+ },
+ "v11_truncation_evidence": {
+  "run_records_path": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\reports\\scientific_microstudy_v11\\run_records.jsonl",
+  "run_records_sha256": "fadc6d63846046083d6c3737968a174a67531b50db88eb87f80250cecd317435",
+  "n_records": 30,
+  "agent_control_cap_distribution": {
+   "1024": 30
+  },
+  "status_distribution": {
+   "failed": 30
+  },
+  "message_scan_counts": {
+   "cap_hit_control_truncation": 0,
+   "malformed_json": 0,
+   "no_paths_selected": 0,
+   "no_remaining_agent_calls": 0,
+   "revision_failed_to_select_paths": 15
+  },
+  "truncation_rate_per_record": 0.0,
+  "selection_completion_tokens": {
+   "n": 30,
+   "min": 0,
+   "max": 3513,
+   "mean": 1589.1333333333334
+  },
+  "records_reaching_8_selection_calls": 15
+ }
+}
