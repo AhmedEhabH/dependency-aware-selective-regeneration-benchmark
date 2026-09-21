@@ -1928,3 +1928,29 @@ esearch/bounded-semantic-expansion/pilot_registration_freeze.json — 60 DEVELOP
 - **Remaining failing set (3 node IDs):** the D96 GitHub-token REAL_DEFECT and
   the two djangocms ENV_OR_DATA_MISSING nodes (unchanged from v1).
 - **Scope change:** NO scientific scope change.
+
+## Decision WP1B_CALIBRATION_3B — EXECUTED, GATE V2 PASS (2026-09-21)
+
+- **Status:** EXECUTED. Calibration-3b run authorized (D4 = YES), protocol v2
+  (cap 1024), frozen provider/route/pricing, cumulative USD guard ≤ $0.25.
+- **Run:** the SAME 3 tasks as Calibration-3 (paired instrument revalidation of
+  the D2 tool-budget fix, NOT a fresh performance sample) via
+  `scripts/wp1b_calibration_run.py`; output under
+  `research/wp1b/calibration-3b-2026-09-21/`.
+- **Cost:** cumulative **$0.070028 ≤ $0.25** (per task $0.021543 / $0.031885 /
+  $0.016599). Per-task cost / budget-v2 worst-case ratios
+  **0.405 / 0.626 / 0.547** — all within 1.2× (BUDGET_MODEL_V2_OK).
+- **Gate:** **CG-1..CG-11 all PASS**
+  (`wp1b_calibration_gate_v2_result.json`). **CG-10 PASS (0 instrument-class
+  errors) · CG-11 PASS (3 successful reads).**
+- **Instrument VALID (raw per-call outcomes):** 21 calls; tool_ok 7; rejected
+  repeats 11 (1/6/4); 0 instrument errors, 0 agent-misuse, 0
+  frozen-policy-limit; 0 search-result-cap hits (max 11 results, 1,106 files
+  scanned per task). 0 EMPTY. 0 cap hits.
+- **Calibration-3b is NOT scored against labels** (paired instrument
+  revalidation only; no F1/performance claim).
+- **STOPPED after Phase C** (contract §6 step 7), regardless of the PASS.
+  MAIN_297 + variance substudy NOT authorized (D5/D7 NO): requires a separate
+  explicit Ahmed decision after he reviews the Calibration-3b evidence. The
+  786 sealed Saleor RESERVE outcomes remain untouched.
+- **Scope change:** NO scientific scope change.
