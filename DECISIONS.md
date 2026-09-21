@@ -1819,3 +1819,112 @@ esearch/bounded-semantic-expansion/pilot_registration_freeze.json — 60 DEVELOP
   `artifact_manifest.json`, `recompute_instructions.md` and `sha256sums.txt`
   updated to match (deployment artifact + full_file_scores + FULL-only list).
 - **Scope change:** NO scientific scope change.
+
+## Decision WP1B_TOOLFIX_LIVESTATUS_2026_09_21 — AHMED DECISION BLOCK (2026-09-21)
+
+- **Status:** ADOPTED — authorization record for mission
+  `WP1B_TOOLFIX_LIVESTATUS_2026-09-21` (T3). Copied verbatim from the mission
+  contract §0, with every field resolved.
+- **D1 — Calibration-3 classification:** **GATE_V1_PASS / INSTRUMENT_INVALID**.
+  MAIN_297 blocked until a clean Calibration-3b.
+- **D2 — Tool-budget semantics (amendment `WP1B_G11_TOOL_BUDGET_2026_09_21`):**
+  **APPROVED**: `search_text` no longer consumes the distinct-file budget;
+  `read_file` keeps `MAX_DISTINCT_FILES = 30`. No other agent knob changes.
+- **D3 — Calibration gate v2 (CG-10, CG-11 + report-only metrics, §4 A5):**
+  **APPROVED**.
+- **D4 — Phase C — Calibration-3b (same 3 tasks, not scored, ceiling $0.25):**
+  **YES**.
+- **D5 — MAIN_297 + variance substudy:** **NO** (separate message after the
+  Calibration-3b report). MAIN_297 is NOT authorized under any circumstance in
+  this mission.
+- **D6 — Single source of truth `docs/LIVE_STATUS.json` + rendered README /
+  START_HERE / PROGRESS blocks:** **YES**.
+- **Decided by:** Ahmed Ehab, 2026-09-21. Supervisor informed: **no**.
+- **Additional authoritative clarifications (Ahmed, 2026-09-21):**
+  - `docs/LIVE_STATUS.json` is the single current-state source of truth; its
+    rendered LIVE block must be generated and byte-for-byte tested in FOUR
+    current-facing files: `README.md`, `START_HERE_CURRENT_2026-09-21b.md`,
+    `PROGRESS.md`, `00_CURRENT_RESEARCH_STATE.md`. `test_live_status_blocks.py`
+    must validate all four rendered targets.
+  - D2 tool-budget amendment: `search_text` backend scanning does NOT consume
+    `MAX_DISTINCT_FILES`; `MAX_DISTINCT_FILES = 30` continues to bound
+    successful explicit `read_file` exposure; no other scientific Agent knob
+    may change.
+  - Add behavior-preserving, report-only search telemetry before
+    Calibration-3b (`search_files_scanned`, `search_results_returned`,
+    `search_result_cap_hit`, `unique_paths_surfaced`, `tool_duration_seconds`).
+    `MAX_SEARCH_RESULTS=50`, search ordering, and the 2,000-char observation
+    window stay unchanged.
+  - Tool errors use three conceptual classes without weakening CG-10:
+    `INSTRUMENT_ERROR` (gating), `AGENT_MISUSE` (report-only), and
+    `FROZEN_POLICY_LIMIT` (report-only). Fail-closed semantics preserved.
+  - Calibration-3b is a paired instrument revalidation of D2, NOT a fresh
+    independent performance sample. No labels loaded or scored; no prompt or
+    Agent-behavior tuning; no F1/performance claim from Calibration-3 or
+    Calibration-3b.
+  - The old Calibration-3 call audit is re-derived mechanically from
+    `research/wp1b/calibration-3-2026-09-21/wp1b_call_sidecar.jsonl`.
+  - Calibration-3 is preserved historically and reclassified prospectively as
+    `GATE_V1_PASS / INSTRUMENT_INVALID`.
+  - Gate v2 must FAIL on the old Calibration-3 evidence before it is trusted on
+    Calibration-3b (RED → GREEN evidence preserved).
+  - Calibration-3b may run only when every Phase A/B acceptance criterion
+    passes, all zero-API work is committed/integrated, the tool-fix tag is
+    pushed and verified, the working tree is clean, the scientific
+    model/provider/route and 1024-token cap match the frozen protocol, and
+    spend before Phase C is exactly $0.00.
+  - Calibration-3b STOP conditions: CG-10/CG-11 fail; any new instrument-class
+    tool error; any task exceeds 1.2× budget-v2 worst-case; scientific
+    configuration drifts; completing the task would require another
+    behavior-changing fix. No repair-and-continue in the same paid run.
+  - The 786 unread Saleor RESERVE outcomes remain sealed.
+  - MAIN_297 and the 15×3 variance substudy remain forbidden even if
+    Calibration-3b passes perfectly.
+  - Current-facing documentation updated from repository evidence, not previous
+    reports; namespace prefixes `WP1B-G*` and `E2E-G*`; no invented Phase 0–4
+    numbering; no AI-assistant names in public/thesis-facing docs.
+- **Scope change:** NO scientific scope change.
+
+## Decision WP1B_CALIBRATION_3_RECLASSIFIED — GATE_V1_PASS / INSTRUMENT_INVALID (2026-09-21)
+
+- **Status:** CORRECTION — prospective reclassification of the Calibration-3
+  instrument finding (D1). The Calibration-3 STOP report and frozen artifacts
+  are NOT edited; this entry supersedes their interpretation going forward.
+- **Classification:** **`GATE_V1_PASS / INSTRUMENT_INVALID`**. The frozen gate
+  (CG-1..CG-9) passed, but the agent's tools were defective: 0 of 3 tasks
+  successfully read a file, and most searches returned the frozen
+  `Max distinct files limit (30) reached` error.
+- **Mechanical audit:** `scripts/wp1b_sidecar_tool_audit.py` re-derives the
+  24-call Calibration-3 sidecar:
+  `research/wp1b/calibration-3-2026-09-21/wp1b_tool_audit.json` — **3 forced
+  final answers / 5 tool calls returning data (3 list_files + 2 search_text) /
+  9 tool errors from the 30-file limit (7 search_text + 2 read_file) /
+  7 rejected repeated requests / 0 successful `read_file`** (AC-T1).
+- **v1.1 check re-derived (AC-T2):** `reports/scientific_microstudy_v11/run_records.jsonl`
+  0 occurrences of `Max distinct files limit`; `selection_inspected_file_count`
+  distribution {0:15, 2:3, 3:7, 4:5}, max 4, over 30 runs. On Todo the
+  30-file budget never bound, so D2 restores on Saleor the behaviour the v1.1
+  agent actually had.
+- **Defect doc:** `docs/WP1B_AGENT_TOOL_BUDGET_DEFECT_2026-09-21.md`.
+- **Fix (D2):** amendment `WP1B_G11_TOOL_BUDGET_2026_09_21` — `search_text`
+  no longer consumes the distinct-file budget; `read_file` keeps
+  `MAX_DISTINCT_FILES = 30`.
+- **Gate v2 (D3):** `artifacts/wp1b_calibration_gate_v2.json` adds CG-10
+  (0 instrument-class tool errors) and CG-11 (>= 1 successful `read_file` in
+  >= 1 task). Gate v2 run on the old Calibration-3 records is expected
+  **CG-10 FAIL** (RED), then PASS on Calibration-3b (GREEN).
+- **Scope change:** NO scientific scope change.
+
+## Decision WP1B_KNOWN_TEST_FAILURES_V2 — README NODE IDS REMOVED (2026-09-21)
+
+- **Status:** ADOPTED. `artifacts/known_test_failures_2026-09-21_v2.json`
+  supersedes the v1 acceptance set (v1 preserved as history).
+- **Decision:** the two README REAL_DEFECT node IDs are FIXED by the B2
+  current-state rewrite and REMOVED from the failing set:
+  - `test_full_model_name_present_in_current_facing_docs` (README now carries
+    the full model name `Qwen3-Coder-480B-A35B-Instruct`);
+  - `test_svg_fallbacks_exist_and_are_embedded` (README now embeds
+    `docs/assets/experiment_map.svg` and the other SVG fallbacks).
+- **Remaining failing set (3 node IDs):** the D96 GitHub-token REAL_DEFECT and
+  the two djangocms ENV_OR_DATA_MISSING nodes (unchanged from v1).
+- **Scope change:** NO scientific scope change.
