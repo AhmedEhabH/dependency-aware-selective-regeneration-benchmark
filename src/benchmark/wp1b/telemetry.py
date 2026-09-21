@@ -59,6 +59,17 @@ PER_TASK_FIELDS: tuple[str, ...] = (
     "paths_surfaced",
     "tool_output_chars_raw_total",
     "tool_output_chars_shown_total",
+    # A4: per-task tool telemetry (report-only, behavior-preserving).
+    "successful_reads",
+    "search_calls_with_hits",
+    "rejected_repeat_count",
+    "tool_error_counts",
+    # A4/G11: report-only search telemetry.
+    "search_files_scanned",
+    "search_results_returned",
+    "search_result_cap_hits",
+    "unique_paths_surfaced",
+    "tool_duration_seconds_total",
 )
 
 CALL_SIDECAR_FIELDS: tuple[str, ...] = (
@@ -68,9 +79,17 @@ CALL_SIDECAR_FIELDS: tuple[str, ...] = (
     "action",
     "path",
     "query",
+    # A4: per-call tool outcome.
+    "tool_ok",
+    "tool_error",
+    "tool_duration_seconds",
     "tool_output_chars_raw",
     "tool_output_chars_shown",
     "observation_truncated",
+    # A4/G11: per-call search telemetry (search_text only; 0 defaults otherwise).
+    "search_files_scanned",
+    "search_results_returned",
+    "search_result_cap_hit",
     "finish_reason",
     "prompt_tokens",
     "completion_tokens",
@@ -103,6 +122,15 @@ def strategy_telemetry(
         "paths_surfaced": list(strategy.paths_surfaced),
         "tool_output_chars_raw_total": strategy.tool_output_chars_raw_total,
         "tool_output_chars_shown_total": strategy.tool_output_chars_shown_total,
+        "successful_reads": strategy.successful_reads,
+        "search_calls_with_hits": strategy.search_calls_with_hits,
+        "rejected_repeat_count": strategy.rejected_repeat_count,
+        "tool_error_counts": dict(strategy.tool_error_counts),
+        "search_files_scanned": strategy.search_files_scanned,
+        "search_results_returned": strategy.search_results_returned,
+        "search_result_cap_hits": strategy.search_result_cap_hits,
+        "unique_paths_surfaced": len(set(strategy.paths_surfaced)),
+        "tool_duration_seconds_total": strategy.tool_duration_seconds,
     }
 
 
