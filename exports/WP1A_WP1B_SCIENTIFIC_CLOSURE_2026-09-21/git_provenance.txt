@@ -1,5 +1,7 @@
-HEAD=b2917bcf0c3c8f729e894506fcf188eb4e4e3d39
+HEAD=7546d877608cb7713607409c1e75a44310a88a63
 
+7546d87 docs(wp1b): record final push + evidence-freeze tag state (origin/main 87c86f5; tag wp1a-integration-closure-2026-09-21)
+87c86f5 chore(wp1a): build traceable WP-1a/WP-1b closure export package (MANIFEST + SHA256SUMS + git provenance)
 b2917bc docs(wp1b): add WP-1a/WP-1b scientific closure STOP report (DECISION BLOCKED; G1/G2 decisions required; zero API spend)
 32d7933 docs(wp1a): record WP-1b closure machine-readable output + governance updates (DECISION BLOCKED; G1/G2 require decisions)
 18652d6 chore(wp1a): close integration and preregister WP1b blockers
@@ -38,5 +40,3 @@ fc9c5e4 chore(issue-grounded): deterministic corpus-sha (timestamp-invariant man
 ba0f094 docs(stop): PARENT_ONLY_REPOSITORY_MEMORY_RESCUE_V2 final STOP report - PARENT_ONLY_REPOSITORY_MEMORY_RESCUE_V2_FAIL; 30-item report; export SHAs recorded; T3, ZERO API
 ac06911 docs(export): update TRUE LIGHT export for PARENT_ONLY_REPOSITORY_MEMORY_RESCUE_V2 closure - 39.8 MB <= 50 MB (project-LIGHT-2026-09-20-0521.zip; SHA 74371377...; +memory-rescue-v2 artifacts; T3, ZERO API)
 14f125a Merge branch 'research/parent-only-repository-memory-rescue-v2-2026-09-20' - PARENT_ONLY_REPOSITORY_MEMORY_RESCUE_V2 (PARENT_ONLY_REPOSITORY_MEMORY_RESCUE_V2_FAIL frozen negative; parent-only history memory orthogonal signal; ZERO API; P80 governance amendment + Full-Universe cancellation + P81 outcome; audit 23/23; tests 36/36; T3)
-6c4a334 feat(memory-rescue): PARENT_ONLY_REPOSITORY_MEMORY_RESCUE_V2 - PARENT_ONLY_REPOSITORY_MEMORY_RESCUE_V2_FAIL (frozen negative; parent-only repository-history memory is an orthogonal zero-API signal that rescues deep dense misses at the candidate level, but the unchanged final-set gate fails on djangoCMS in A and B; Saleor PASS; Stage 5 stays PAUSED/SEALED; T3; ZERO API; P80 governance amendment + FULL_UNIVERSE_V2_CANCELLED_AS_NON_BINDING_ABLATION + P81 outcome; audit 23/23; tests 36/36)
-021d636 docs(export): update TRUE LIGHT export for CALIBRATED_SET_SELECTION_V1 closure - 37.9 MB <= 50 MB (project-2026-09-20-0335.zip; SHA 46a81243...; +new calibrated artifacts; T3, ZERO API)
