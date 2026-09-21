@@ -1601,3 +1601,39 @@ esearch/bounded-semantic-expansion/pilot_registration_freeze.json — 60 DEVELOP
   independent-audit packet at
   xports/wp1a_independent_audit_packet_2026-09-21/.
 - **Scope change:** NO.
+
+---
+
+## Decision WP1A_INTEGRATION_CLOSURE — ADOPTED (2026-09-21)
+
+- **Status:** WP-1a integration closed. All AC-1A.1..12 PASS; G1/G2 are
+  explicitly FAIL-CLOSED blockers for paid WP-1b; G3/G4/G5/G6 closed; merged
+  to main via --no-ff (merge commit 18652d6,
+  "chore(wp1a): close integration and preregister WP1b blockers").
+- **Merge rationale:** the contract authorizes merging when all integration
+  criteria pass and G1/G2 ambiguities cannot contaminate WP-1b interpretation
+  (WP-1b is fail-closed until both decisions are frozen; the merge-message
+  example "close integration and preregister WP1b blockers" matches this
+  mission). No squash; scientific amendment history preserved.
+- **Post-merge re-audit:** 146 targeted passed / 1 skipped from main;
+  recompute + cross-check PASS; full suite 3700/35/5 where the 5 failures are
+  PRE-EXISTING baseline failures (also fail at 25950f); no material
+  post-merge difference vs the branch.
+- **Scope change:** NO scientific scope change.
+
+## Decision PROGRESS_FORMAT — AUTHORITY RESOLUTION (2026-09-21)
+
+- A5 of the task contract lists Arabic standing-section headers for
+  PROGRESS.md; A12 and protocol v2 section 11 mandate English-only content.
+- Resolution: PROGRESS.md stays in the existing English narrative format
+  (English-only rule governs; the Arabic-header requirement conflicts with the
+  standing English-only protocol). Recorded here as an explicit authority
+  resolution; no silent convenience choice.
+
+## Decision WP1B_CLOSURE_DECISION — BLOCKED (2026-09-21)
+
+- **WP-1b is NOT ready for authorization.** G1 (NI margin) and G2 (completion
+  cap) require Ahmed/supervisor prospective decisions. Paid WP-1b inference is
+  not authorized and was not run. API spend for this mission: .00.
+- Next permitted actions: resolve G1 (margin), then G2 (cap), then obtain
+  spend authorization (contract section 25/35-16).

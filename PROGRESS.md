@@ -5,8 +5,8 @@ task, immediate next step, blockers). Scientific truth lives in
 `00_CURRENT_RESEARCH_STATE.md`; decisions are recorded append-only in
 `DECISIONS.md`.
 
-**Branch:** `main` (WP-1a work executed on
-`feat/wp1a-selection-baseline-preparation`, NOT merged)
+**Branch:** `main` (WP-1a closure work INTEGRATED 2026-09-21 via --no-ff merge
+`18652d6` "chore(wp1a): close integration and preregister WP1b blockers")
 **Scientific closure commit:** `8b2d1b6` (merge of
 `research/oracle-gap-bidirectional-repair-2026-09-18`; immutable scientific
 fact)
@@ -19,20 +19,24 @@ at read time: `git rev-parse HEAD`, `git rev-parse origin/main`,
 **Model:** openrouter/deepseek/deepseek-v4-flash-0731 (OpenCode coding model;
 NOT the WP-1 scientific arm model — the frozen SIP scientific model is
 qwen/qwen3-coder @ deepinfra/turbo, see research/wp1a/)
-**Task:** WP-1a Repository-Agent Selection Baseline PREPARATION (2026-09-21;
-T3; ZERO API; $0.00 scientific spend) - **COMPLETE: AC-1A.1..AC-1A.12 ALL
-PASS.** SIP scientific model parity mechanically established (qwen/qwen3-coder
-@ deepinfra/turbo, 300/300, NOT DeepSeek); label-free prediction boundary
-closed (candidate_rows label column denied); exact 300-task SIP/RM-CSS
-re-derivation reproduced (SIP F1 0.2647462277 / RM-CSS F1 0.3568726356 /
-DeltaF1 +0.09212640785196952); main-50 + calibration-3 sample frozen
-(disjoint, deterministic, label-free); intent parity 53/53; repository-agent
-protocol frozen + mock-executable; failure semantics / shared scorer /
-accounting / budget (recommended ceiling ~$1.10 for Ahmed review) /
-cost-quality categories pre-registered; same-session cross-check 19/19 PASS
-(TERMINOLOGY CORRECTED 2026-09-21: NOT an independent audit; blind
-independent-audit packet at exports/wp1a_independent_audit_packet_2026-09-21/).
-WP-1b
+**Task:** WP-1a INTEGRATION CLOSURE → WP-1b READINESS (2026-09-21; T3; ZERO
+API; $0.00 scientific spend) - **COMPLETE: DECISION = BLOCKED (WP-1b not
+ready for authorization).** Independent raw-evidence recomputation PASS (sample
+hash, main/cal disjointness, pooled SIP/RM-CSS F1, per-task hashes, v1.1
+truncation evidence); G1 NI margin = DECISION REQUIRED (no margin frozen; no
+margin invented; decision-required doc
+`docs/WP1B_NI_MARGIN_DECISION_REQUIRED_2026-09-21.md`); G2 completion cap =
+DECISION REQUIRED (512 pilot-derived vs 1024 v1.1; provenance + proposed
+amendment documented); G3 loop-termination semantics instrumented (telemetry +
+tests, behavior-preserving); G4 audit terminology corrected (same-session
+cross-check, NOT independent audit) + blind independent-audit packet prepared;
+G5 variance substudy preregistered (15 of main-50, salt frozen); G6 pricing
+preflight PASS (live OpenRouter metadata, no drift); Calibration-3 gate frozen
+before inference; WP-1a integration closure table recorded; merged to `main`
+(`18652d6`); post-merge re-audit from main PASS (146 targeted passed + 1
+skipped; full suite 3700/35/5 where the 5 failures are PRE-EXISTING baseline
+failures also present at `f25950f`); FULL + TRUE LIGHT exports produced. WP-1a
+preparation AC-1A.1..AC-1A.12 ALL PASS. WP-1b
 NOT started. Previous task - SALEOR_RESERVE_300_RMCSS
 (2026-09-20; PRIMARY `SALEOR_RESERVE_300_RMCSS_PASS` + SECONDARY
 `SECONDARY_CROSS_REPO_TRANSFER_PASS`; RM-CSS F1 0.3569 vs SIP 0.2647, Delta F1
@@ -77,11 +81,18 @@ in BOTH realizations A and B; Saleor passes; Stage 5 stays PAUSED/SEALED).
   parent-commit repository state; legacy fixture behavior is behind an
   explicit `allow_ground_truth_universe` flag (default False), auditable on
   `RunRecord`. AC-0.1..AC-0.5 PASS; independent audit 6/6 PASS.
-- **WP-1a (this session):** Repository-Agent Selection Baseline PREPARATION
-  COMPLETE on `feat/wp1a-selection-baseline-preparation` (NOT merged). AC-1A.1..
+- **WP-1a (2026-09-21):** Repository-Agent Selection Baseline PREPARATION
+  COMPLETE + INTEGRATION CLOSURE merged to `main` (`18652d6`). AC-1A.1..
   AC-1A.12 ALL PASS; same-session cross-check 19/19 (NOT an independent audit);
-50 new unit tests; ruff/mypy
+  50 new unit tests + WP-1b closure tests; ruff/mypy
   strict/py_compile/git diff --check PASS. Scientific API spend $0.00.
+- **WP-1b readiness (2026-09-21):** DECISION = **BLOCKED**. G1 NI margin and
+  G2 completion cap require prospective decisions; paid WP-1b is FAIL-CLOSED
+  until both are frozen. G3 loop semantics instrumented; G4 audit terminology
+  corrected + independent-audit packet prepared; G5 variance substudy
+  preregistered; G6 pricing preflight PASS; Calibration-3 gate frozen before
+  inference. Full closure deliverables under `docs/WP1B_*`,
+  `artifacts/wp1b_*`, `exports/`.
 - **Localization method selection:** CLOSED — `IMPACT_LOCALIZATION_METHOD_SELECTION_CLOSED`
   permanent. No V3.
 - **Frozen scientific result (unchanged):** SALEOR_RESERVE_300_RMCSS — RM-CSS
@@ -94,12 +105,15 @@ in BOTH realizations A and B; Saleor passes; Stage 5 stays PAUSED/SEALED).
   cost-quality categories, same-session cross-check, acceptance report).
 - **Remaining untouched Saleor RESERVE:** 786 tasks (outcomes unread).
 - **Next candidate scientific work package:** WP-1b Repository-Agent
-  Calibration + Main n=50 Selection Run — AWAITING AHMED AUTHORIZATION. NOT
-  started.
+  Calibration + Main n=50 Selection Run — BLOCKED until (1) an F1
+  non-inferiority margin is prospectively frozen (G1) and (2) the agent-control
+  completion cap is decided (G2). After that, a fresh Ahmed spend authorization
+  is required.
 - **Pending:** WP-2 E2E Phase-0 instrument (DEFERRED); G6 F2P/P2P oracle
   (DEFERRED/unresolved).
 - **No E2E scientific claim exists yet.** No Smoke / Pilot / Research Run.
-- **Blockers:** none for the WP-1a closure. WP-1b requires Ahmed authorization.
+- **Blockers:** G1 (NI margin decision required) and G2 (completion-cap
+  decision required) block paid WP-1b. No spend authorization exists.
 
 ## Historical per-experiment records
 
