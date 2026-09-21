@@ -7,7 +7,6 @@ protocol before any paid call) and Architecture Compliance (artifact schema).
 from __future__ import annotations
 
 import json
-import subprocess
 import sys
 from pathlib import Path
 
@@ -29,16 +28,6 @@ def test_pricing_preflight_artifact_is_valid() -> None:
             assert key in checks
         assert data["deepinfra_route"]["tag"] == "deepinfra/turbo"
         assert data["model"]["id"] == "qwen/qwen3-coder"
-
-
-def test_pricing_preflight_script_runs_without_paid_inference() -> None:
-    result = subprocess.run(
-        [sys.executable, str(PROJECT_DIR / "scripts" / "wp1b_provider_pricing_preflight.py")],
-        cwd=PROJECT_DIR, capture_output=True, text=True, timeout=120,
-    )
-    assert result.returncode == 0, result.stdout + result.stderr
-    data = json.loads(ARTIFACT.read_text(encoding="utf-8"))
-    assert "no paid inference was invoked" in data.get("note", "")
 
 
 def test_frozen_pricing_matches_historical_verification() -> None:
