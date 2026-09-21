@@ -137,21 +137,27 @@ class TestSearchText:
         result = tools.search_text("", ".")
         assert not result.ok
 
-    def test_search_inspects_files(self, tmp_path: Path) -> None:
+    def test_search_does_not_reserve_distinct_files(self, tmp_path: Path) -> None:
+        """D2 (WP1B_G11_TOOL_BUDGET_2026_09_21): search_text backend scanning
+        does NOT consume the distinct-file budget (read_file-only budget)."""
         _make_file(tmp_path, "a.py", "apple")
         _make_file(tmp_path, "b.py", "banana")
         _make_file(tmp_path, "c.py", "cherry")
         tools = RepositoryTools(tmp_path)
-        tools.search_text("a", ".")
-        assert tools.distinct_file_count >= 1
+        result = tools.search_text("a", ".")
+        assert result.ok
+        assert tools.distinct_file_count == 0
 
-    def test_search_respects_file_cap(self, tmp_path: Path) -> None:
+    def test_search_ignores_read_file_cap(self, tmp_path: Path) -> None:
+        """D2: the distinct-file budget is read_file-only; a small
+        max_distinct_files must not block search scanning."""
         tools = RepositoryTools(tmp_path, max_distinct_files=2)
         for i in range(5):
             _make_file(tmp_path, f"f{i}.py", f"content{i}")
         result = tools.search_text("content", ".")
-        assert result.ok or "limit" in result.error.lower()
-        assert tools.distinct_file_count <= 2
+        assert result.ok
+        assert "limit" not in result.error.lower()
+        assert tools.distinct_file_count == 0
 
     def test_search_escaping_symlink_skipped(self, tmp_path: Path) -> None:
         if os.name == "nt":
