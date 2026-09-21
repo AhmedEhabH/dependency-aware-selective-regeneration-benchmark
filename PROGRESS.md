@@ -4,7 +4,7 @@
 
 ## LIVE STATUS — single current-state source of truth
 
-**Position:** WP-1b Calibration-3 passed its frozen v1 gate (CG-1..CG-9) but the agent's tools were defective: 0 of 3 tasks read any file (INSTRUMENT_INVALID). The tool-budget defect is now fixed (D2: search_text no longer consumes the 30-file read budget), gate v2 (CG-10/CG-11) is written and FAILS on the old Calibration-3 records, and Calibration-3b is authorized (D4 = YES, ceiling $0.25). MAIN_297 remains blocked until a clean Calibration-3b and a separate D7 decision.
+**Position:** WP-1b Calibration-3b (paired instrument revalidation of the D2 tool-budget fix) is COMPLETE and PASSES gate v2 (CG-1..CG-11): 21 calls, 3 successful read_file, 0 instrument errors, $0.070028 ≤ $0.25, all cost ratios ≤ 1.2. The agent is now instrument-valid. MAIN_297 and the variance substudy remain NOT authorized until Ahmed reviews the Calibration-3b evidence and issues a separate D7 decision.
 
 **Research pipeline:**
 
@@ -16,8 +16,8 @@
 | WP-1b preflight freeze | DONE | G1 Δ=0.05 · G2 cap 1024 · n=297 · budget v2 · rules v2 |
 | WP-1b Calibration-3 | DEFECT | v1 gate PASS, $0.081, 24 calls — 0 successful reads; INSTRUMENT_INVALID |
 | Tool-budget fix + gate v2 | DONE | D2: search_text does not consume the 30-file budget; CG-10/CG-11 written; RED on Calibration-3 |
-| WP-1b Calibration-3b | NEXT | authorized (D4 YES), ceiling $0.25, paired instrument revalidation of D2 |
-| WP-1b MAIN_297 + variance 15×3 | BLOCKED | needs a clean 3b and D7 = YES |
+| WP-1b Calibration-3b | PASS | gate v2 CG-1..CG-11 PASS; $0.070028; 3 successful reads; 0 instrument errors; agent instrument-valid |
+| WP-1b MAIN_297 + variance 15×3 | BLOCKED | needs D7 = YES after Ahmed reviews Calibration-3b |
 | WP-2 shared E2E instrument | NOT STARTED | same generator/validator/repair for every arm |
 | E2E-G6 F2P/P2P oracle | NOT STARTED | fail-to-pass + pass-to-pass tests per task |
 | E2E Smoke → Pilot → Research Run | NOT STARTED | staged; each stage can stop the run |
@@ -30,7 +30,7 @@
 | RM-CSS on top of SIP | 0 extra coder calls | local logistic regression + repository memory |
 | Qwen embeddings (RM-CSS) | 33 batched calls | 2,076 file units + 299 queries · $0.026 |
 | WP-1b Calibration-3 agent | 24 calls (8/task) | $0.081 · 7 of 24 were rejected repeats · 0 successful reads (INSTRUMENT_INVALID) |
-| WP-1b Calibration-3b agent (authorized) | ≤ 24 calls | 3 × 8, ceiling $0.25, paired revalidation of the D2 fix |
+| WP-1b Calibration-3b agent | 21 calls (5/8/8) | $0.070028 · 3 successful reads · 0 instrument errors · gate v2 CG-1..CG-11 PASS |
 | MAIN_297 agent (ceiling) | ≤ 2,376 calls | 297 × 8; not authorized |
 | Variance substudy (ceiling) | ≤ 360 calls | 15 tasks × 3 runs × 8 |
 | E2E generation + repair | not frozen yet | defined by WP-2 |
@@ -44,11 +44,11 @@
 | 786 Saleor RESERVE outcomes | SEALED | never opened/read/scored/sampled |
 | Calibration-3 / Calibration-3b F1 claims | NOT PERMITTED | instrument checks only; no labels loaded or scored |
 
-**Next action:** Phase C (authorized, ceiling $0.25): Calibration-3b with the D2 fix, same 3 tasks, not scored. Gate v2 (CG-1..CG-11) must pass; report per-task tool telemetry. STOP after 3b regardless of outcome.
+**Next action:** STOPPED per contract after Calibration-3b. Ahmed reviews the Calibration-3b evidence (gate v2 PASS, CG-10/CG-11, per-task tool telemetry) and issues a separate explicit D7-style authorization for MAIN_297. No further paid run in this mission.
 
 **End-to-end status:** WP-2 has **not started**; E2E-G6 F2P/P2P oracle has **not started**; **no** E2E Smoke, Pilot or Research Run exists yet.
 
-*Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-09-21 21:30 (Africa/Cairo).*
+*Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-09-21 23:00 (Africa/Cairo).*
 <!-- LIVE_STATUS:END -->
 
 **Role:** Execution source of truth (what is being executed now, last completed
@@ -56,9 +56,10 @@ task, immediate next step, blockers). Scientific truth lives in
 `00_CURRENT_RESEARCH_STATE.md`; decisions are recorded append-only in
 `DECISIONS.md`.
 
-**Branch:** `wp1b/toolfix-livestatus-2026-09-21` (T3 mission
-`WP1B_TOOLFIX_LIVESTATUS_2026-09-21`; Phases 0/A/B ZERO API; to be merged to
-`main` with `--no-ff` + tag `wp1b-toolfix-2026-09-21` before Phase C)
+**Branch:** `wp1b/calibration-3b-2026-09-21` (T3 mission
+`WP1B_TOOLFIX_LIVESTATUS_2026-09-21`; Phase C = Calibration-3b, D4 YES, ceiling
+$0.25; Phases A/B merged to `main` `f6c858b` with tag
+`wp1b-toolfix-2026-09-21`)
 **Scientific closure commit:** `8b2d1b6` (merge of
 `research/oracle-gap-bidirectional-repair-2026-09-18`; immutable scientific
 fact)
@@ -71,24 +72,18 @@ at read time: `git rev-parse HEAD`, `git rev-parse origin/main`,
 **Model:** openrouter/deepseek/deepseek-v4-flash-0731 (OpenCode coding model;
 NOT the WP-1 scientific arm model — the frozen SIP scientific model is
 qwen/qwen3-coder @ deepinfra/turbo, see research/wp1a/)
-**Task:** WP1B_TOOLFIX_LIVESTATUS_2026-09-21 (T3; Phases 0/A/B ZERO API;
-$0.00 scientific spend through Phase B) - **IN PROGRESS → Phase C authorized
-(D4 = YES).** Calibration-3 reclassified **`GATE_V1_PASS / INSTRUMENT_INVALID`**
-(D1): v1 gate CG-1..CG-9 PASS ($0.081142, 24 calls) but 0 successful reads.
-Mechanical audit (`scripts/wp1b_sidecar_tool_audit.py`) reproduces
-3 final / 5 tool-ok / 9 limit errors / 7 rejected repeats / 0 reads (AC-T1).
-D2 fix (`WP1B_G11_TOOL_BUDGET_2026_09_21`): `search_text` no longer consumes
-`MAX_DISTINCT_FILES`; `read_file` keeps 30 (AC-T3). Gate v2 (`--gate v2`,
-CG-10/CG-11) FAILS on old Calibration-3 records (RED, AC-T4). A4 telemetry
-adds `tool_ok`/`tool_error` + search telemetry, behavior-preserving (AC-T5).
-LIVE_STATUS single source of truth rendered into FOUR current-facing files
-(AC-T7/T8). README tests + model-identity tests + SVG fallback fixed (AC-T9/
-T10); GLOSSARY namespaces + G6 collision recorded (AC-T11); AGENTS.md
-end-of-mission rule added (AC-T12). **Phase C = Calibration-3b** (same 3
-tasks, protocol v2 cap 1024, frozen model/route/pricing, USD guard ≤ $0.25,
-not scored) — RUNS ONLY after Phases A/B merged + tag pushed/verified + clean
-tree. MAIN_297/variance NOT authorized (D5/D7 NO); 786 sealed RESERVE outcomes
-untouched.
+**Task:** WP1B_TOOLFIX_LIVESTATUS_2026-09-21 (T3) - **COMPLETE: DECISION =
+CALIBRATION_3B_DONE(CG-1..CG-11 PASS).** Calibration-3 reclassified
+**`GATE_V1_PASS / INSTRUMENT_INVALID`** (D1). D2 fix
+(`WP1B_G11_TOOL_BUDGET_2026_09_21`): `search_text` no longer consumes
+`MAX_DISTINCT_FILES`; `read_file` keeps 30. Gate v2 (CG-10/CG-11) FAILS on old
+Calibration-3 (RED) and **PASSES on Calibration-3b (GREEN)** — 21 calls, 3
+successful reads, 0 instrument errors, $0.070028 ≤ $0.25, cost ratios ≤ 1.2.
+A4 telemetry (tool_ok/tool_error + search telemetry). LIVE_STATUS single source
+of truth rendered into FOUR current-facing files. README/GLOSSARY/AGENTS.md
+updated. **STOP after Phase C (contract §6 step 7).** MAIN_297/variance NOT
+authorized (D5/D7 NO) — requires a separate explicit Ahmed decision after he
+reviews Calibration-3b. 786 sealed RESERVE outcomes untouched.
 **Previous task - WP-1b Calibration-3 (2026-09-21; D6 YES, ceiling $0.25):**
 **COMPLETE: DECISION = CALIBRATION_DONE(CG-1..CG-9 PASS)** ($0.081142; 24
 calls; 0 cap hits; 0 EMPTY; 0 observation truncation) — **subsequently
@@ -154,12 +149,16 @@ in BOTH realizations A and B; Saleor passes; Stage 5 stays PAUSED/SEALED).
   v1 gate CG-1..CG-9 PASS) — **reclassified `GATE_V1_PASS / INSTRUMENT_INVALID`**
   (D1) by the tool-fix mission: the agent's tools were blind (0 successful
   reads).
-- **WP-1b tool-fix + gate v2 + LIVE_STATUS (2026-09-21, THIS MISSION, ZERO
-  API):** D2 fix `WP1B_G11_TOOL_BUDGET_2026_09_21` (`search_text` no longer
+- **WP-1b tool-fix + gate v2 + LIVE_STATUS (2026-09-21, ZERO API):**
+  D2 fix `WP1B_G11_TOOL_BUDGET_2026_09_21` (`search_text` no longer
   consumes `MAX_DISTINCT_FILES`; `read_file` keeps 30); gate v2 (CG-10/CG-11)
   FAILS on old Calibration-3 (RED); A4 telemetry; `docs/LIVE_STATUS.json` +
-  renderer + 4 rendered blocks. Phase C = **Calibration-3b** (authorized D4
-  YES, ceiling $0.25) runs after Phases A/B merged + tagged + clean tree.
+  renderer + 4 rendered blocks.
+- **WP-1b Calibration-3b (2026-09-21, Phase C, D4 YES):** **COMPLETE —
+  DECISION = `CALIBRATION_3B_DONE(CG-1..CG-11 PASS)`.** 21 calls, 3 successful
+  reads, 0 instrument errors, $0.070028 ≤ $0.25, cost ratios 0.405/0.626/0.547
+  (≤ 1.2). Agent instrument-valid. STOP after Phase C. MAIN_297/variance NOT
+  authorized (D5/D7 NO).
 - **Localization method selection:** CLOSED — `IMPACT_LOCALIZATION_METHOD_SELECTION_CLOSED`
   permanent. No V3.
 - **Frozen scientific result (unchanged):** SALEOR_RESERVE_300_RMCSS — RM-CSS
@@ -171,14 +170,15 @@ in BOTH realizations A and B; Saleor passes; Stage 5 stays PAUSED/SEALED).
   semantics, shared scorer schema, accounting schema, budget model,
   cost-quality categories, same-session cross-check, acceptance report).
 - **Remaining untouched Saleor RESERVE:** 786 tasks (outcomes unread).
-- **Next candidate scientific work package:** WP-1b Calibration-3b (Phase C,
-  D4 YES) then MAIN_297 — MAIN_297 requires a clean Calibration-3b and a
-  separate Ahmed authorization (D7).
+- **Next candidate scientific work package:** MAIN_297 — requires a separate
+  explicit Ahmed authorization (D7) after he reviews the Calibration-3b
+  evidence.
 - **Pending:** WP-2 E2E Phase-0 instrument (DEFERRED); E2E-G6 F2P/P2P oracle
   (DEFERRED/unresolved).
 - **No E2E scientific claim exists yet.** No Smoke / Pilot / Research Run.
-- **Blockers:** MAIN_297 is BLOCKED on a clean Calibration-3b + D7. Calibration-3b
-  itself is authorized (D4 YES) with the Phase A/B preconditions listed above.
+- **Blockers:** MAIN_297 is BLOCKED on D7 = YES. The agent is instrument-valid
+  (gate v2 PASS on Calibration-3b); no further paid run is permitted in this
+  mission.
 
 ## Historical per-experiment records
 
