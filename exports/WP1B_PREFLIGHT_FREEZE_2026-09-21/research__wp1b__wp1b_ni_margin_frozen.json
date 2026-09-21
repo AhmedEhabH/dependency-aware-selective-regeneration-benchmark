@@ -1,0 +1,45 @@
+{
+ "artifact": "wp1b_ni_margin_frozen",
+ "date": "2026-09-21",
+ "mission": "WP1B_PREFLIGHT_FREEZE_2026-09-21",
+ "status": "FROZEN_BEFORE_RESULT",
+ "authority": "D1 (Ahmed decision block) + D2 (margin inherited from docs/EXPERIMENTAL_DESIGN_V2.md H1; recall-superiority half NOT inherited)",
+ "margin": {
+  "delta": 0.05,
+  "unit": "absolute pooled micro-F1",
+  "sensitivity": [0.03, 0.10],
+  "sensitivity_role": "reported, not decisive"
+ },
+ "statistic": "D = F1_pooled(RM-CSS) - F1_pooled(Agent) over the same N task IDs, where F1_pooled = 2*sum(TP) / (sum(|pred|) + sum(|gold|)). This is the aggregation that reproduces the frozen RESERVE-300 values 0.26474622770919065 (SIP) / 0.35687263556116017 (RM-CSS).",
+ "ci_method": {
+  "type": "paired task bootstrap",
+  "n_resamples": 10000,
+  "seed": 20260920,
+  "unit": "task (resample task IDs with replacement and recompute both pooled F1 values each draw)",
+  "reporting_ci": "[Q2.5, Q97.5]"
+ },
+ "ni_decision": {
+  "rule": "the 5th percentile (Q5) of the bootstrap D distribution (one-sided 95% lower bound, per docs/STATISTICAL_ANALYSIS_PLAN.md section 3) > -0.05",
+  "note": "The NI decision uses Q5, while the reporting CI in wp1a_shared_scorer_schema.json is [Q2.5, Q97.5]. They are different quantities, not a conflict."
+ },
+ "coherence_anchor": {
+  "rmcss_minus_sip_gain_reserve300": 0.0921,
+  "ci": [0.0691, 0.1156],
+  "note": "Delta=0.05 is below the lower bound 0.0691, so an NI verdict cannot hide an F1 loss as large as the method gain the thesis itself claims. Delta=0.03 is about 50% of that lower bound (the stricter sensitivity).",
+  "source": "pre-result frozen data"
+ },
+ "relative_size": {
+  "delta_0_05_percent_of_rmcss_f1_reserve300": 14.0,
+  "delta_0_05_percent_of_rmcss_f1_main50": 12.7,
+  "rmcss_f1_reserve300": 0.3569,
+  "rmcss_f1_main50": 0.3923,
+  "note": "Delta=0.05 is about 14.0% of RM-CSS F1 on RESERVE-300 (0.3569) and about 12.7% on MAIN_50 (0.3923)."
+ },
+ "inheritance_quote": "H1: Impact accuracy | A | hybrid_selective vs repository_agent / single_shot_llm_scope | F1 non-inferiority (Delta=0.05) + recall superiority",
+ "inheritance_record": "Only the margin is inherited (D2). The recall-superiority half of H1 is NOT inherited; recall is reported as a secondary descriptive metric with CI.",
+ "recall_secondary": "recall reported as a secondary descriptive metric with CI, never as a primary claim",
+ "falsifiers": [
+  "This freeze is wrong if an authoritative frozen artifact defines a different F1 NI margin for the selection-only comparison (none found; see WP1B_NI_MARGIN_DECISION_REQUIRED_2026-09-21.md).",
+  "It is wrong if the margin is interpreted as the [Q2.5,Q97.5] reporting CI rather than the Q5 one-sided rule."
+ ]
+}

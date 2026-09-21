@@ -1,0 +1,34 @@
+{
+ "wp1a": "wp1a_shared_scorer_schema",
+ "generated_utc": "2026-09-21T00:40:50.235622+00:00",
+ "arms": [
+  "repository_agent",
+  "SIP",
+  "RM-CSS"
+ ],
+ "inputs": [
+  "frozen predictions (task_id -> set of file paths)",
+  "labels loaded ONLY after prediction freeze",
+  "identical task IDs across arms"
+ ],
+ "metrics": [
+  "tp",
+  "fp",
+  "fn",
+  "precision",
+  "recall",
+  "fnr",
+  "f1",
+  "mean_predicted_set_size",
+  "empty_set_rate"
+ ],
+ "bootstrap": {
+  "n_resamples": 10000,
+  "seed": 20260920,
+  "ci": "[Q2.5,Q97.5] percentile",
+  "unit": "task",
+  "delta_f1": "F1(RM-CSS) - F1(repository_agent)",
+  "ci_crosses_zero": "NO_DIFFERENCE_DETECTED_AT_THIS_N (not equivalence)",
+  "no_silent_margin": "No non-inferiority margin is silently chosen."
+ }
+}

@@ -1,0 +1,105 @@
+{
+ "packet": "wp1a_independent_audit_packet_2026-09-21",
+ "prepared_utc_note": "generated 2026-09-21 (WP-1a integration closure mission)",
+ "instructions": "Recompute each criterion from raw artifacts WITHOUT importing benchmark.wp1a.* or scripts/wp1a_*.py. Do not assume PASS. See recompute_instructions.md.",
+ "acceptance_criteria": {
+  "AC-1A.1": {
+   "title": "Scientific model/provider provenance",
+   "required_evidence": [
+    "Open research/saleor-reserve-300-rmcss/sip_300_run_records.jsonl (300 records).",
+    "Count records where the recorded scientific model equals qwen/qwen3-coder and provider equals deepinfra/turbo (or the exact route openrouter:qwen/qwen3-coder@deepinfra/turbo).",
+    "Report (n_matching, n_total).",
+    "Cross-check temperature and completion cap consistency."
+   ]
+  },
+  "AC-1A.2": {
+   "title": "Label isolation / no prediction-side outcome access",
+   "required_evidence": [
+    "Read research/saleor-reserve-300-rmcss/candidate_rows_saleor300.parquet columns.",
+    "Confirm a label/outcome column exists in the raw artifact and is all-zero.",
+    "Confirm the prediction side (research/wp1a/sip_rmcss_per_task_predictions.json) exposes only task_id + predicted sets + hashes (no label/outcome).",
+    "State whether the tested leakage vector was non-informative (do NOT claim informative labels previously leaked)."
+   ]
+  },
+  "AC-1A.3": {
+   "title": "Exact 300-task SIP/RM-CSS re-derivation",
+   "required_evidence": [
+    "Recompute pooled micro TP/FP/FN for SIP and RM-CSS from research/wp1a/sip_rmcss_per_task_predictions.json scored against research/saleor-reserve-300-rmcss/saleor_reserve_300_proxies.json (task = resampling unit; do not import benchmark.wp1a.scorer).",
+    "Report SIP F1, RM-CSS F1, Delta F1 = F1_RM-CSS - F1_SIP.",
+    "Compare to the stored wp1_rederivation_verification.json values and the frozen Saleor-300 result."
+   ]
+  },
+  "AC-1A.4": {
+   "title": "Main-50 and calibration-3 deterministic freeze + disjointness",
+   "required_evidence": [
+    "From research/saleor-reserve-300-rmcss/saleor_reserve_300_sample.json selected_ids (300): main = first 50.",
+    "Calibration = numpy.random.default_rng(20260921).choice over sorted complement, size 3, replace=False, output sorted.",
+    "Recompute task_ids_sha256 (sha256 of newline-joined ids + trailing newline) for both sets.",
+    "Recompute the intersection; report size (must be 0)."
+   ]
+  },
+  "AC-1A.5": {
+   "title": "Intent parity",
+   "required_evidence": [
+    "For the 53 tasks in research/wp1a/wp1a_intent_parity.json, re-read benchmark_data/real_commit_impact_saleor/scientific/<case_id>/public/intent.json and confirm the stored intent text hash equals the frozen intent_text_sha256 (canonical hash match).",
+    "Report n_matching / 53."
+   ]
+  },
+  "AC-1A.6": {
+   "title": "Agent protocol fully specified and mock-executable",
+   "required_evidence": [
+    "Confirm research/wp1a/wp1a_frozen_agent_protocol.json contains the 25 required sections (initial_system_prompt, tools, tool_schemas, parent_repository_snapshot_source, candidate_universe_boundary, allowed_directories_file_types, file_read_policy, search_policy, context_retention_policy, context_truncation_policy, round_definition, proposed_hard_max_rounds, completion_token_cap_per_model_response, stop_rule, timeout_rule, retry_rule, malformed_output_rule, empty_output_rule, path_outside_universe_handling, duplicate_path_normalization, allow_ground_truth_universe, runrecord_audit_field, final_file_set_json_schema, fail_closed_semantics, labels_never_accessed).",
+    "Optionally run tests/unit/test_wp1a_frozen_protocol.py (stub backend, no live model call)."
+   ]
+  },
+  "AC-1A.7": {
+   "title": "Shared scorer tests",
+   "required_evidence": [
+    "Synthetic check: predicted {a,b}, label {a,c} -> tp=1 fp=1 fn=1 -> F1 = 2/(4) = 0.5.",
+    "Confirm the same metric formulas are defined for repository_agent/SIP/RM-CSS."
+   ]
+  },
+  "AC-1A.8": {
+   "title": "Efficiency accounting identities",
+   "required_evidence": [
+    "Confirm research/wp1a/wp1a_accounting_schema.json defines per-arm prompt/completion/total tokens, model calls, wall seconds, USD cost.",
+    "Confirm the RM-CSS two-view rule (marginal vs setup) with amortized N=50/N=300 and no double-counting."
+   ]
+  },
+  "AC-1A.9": {
+   "title": "Budget feasibility / pre-request guard design",
+   "required_evidence": [
+    "Confirm research/wp1a/wp1a_budget_model.json contains main_n=50, calibration_n=3, max_calls_per_task=8, completion_cap, projected token counts, recommended ceiling USD, cumulative-USD-guard rule, and the BUDGET_ABORT rule (partial n<50 is invalid for the primary comparison).",
+    "State whether the ceiling is a recommendation pending Ahmed review (it is NOT auto-accepted)."
+   ]
+  },
+  "AC-1A.10": {
+   "title": "Same-session cross-check (NOT independent audit)",
+   "required_evidence": [
+    "Confirm the file research/wp1a/wp1a_independent_audit.json is labeled as a SAME-SESSION cross-check (terminology corrected 2026-09-21).",
+    "Re-run scripts/wp1a_independent_audit.py (local, zero API) and confirm 19/19 pass OR report which checks fail.",
+    "NOTE: this is NOT an independent audit. This packet is the handoff for the real independent audit."
+   ]
+  },
+  "AC-1A.11": {
+   "title": "No scientific API calls / $0.00",
+   "required_evidence": [
+    "Confirm no WP-1a/WP-1b-closure script invokes a paid model/API endpoint (source scan).",
+    "Confirm the mission report declares $0.00 scientific spend."
+   ]
+  },
+  "AC-1A.12": {
+   "title": "786 remaining RESERVE outcomes untouched",
+   "required_evidence": [
+    "Confirm the WP-1a scripts reference only the already-opened 300 proxies and never read the unopened Saleor RESERVE outcome metadata.",
+    "Confirm research/wp1a artifacts do not contain unread RESERVE outcome data."
+   ]
+  }
+ },
+ "prohibited_actions": [
+  "Do not run paid inference.",
+  "Do not import benchmark.wp1a.* or scripts/wp1a_*.py for implementation-independent checks.",
+  "Do not treat this packet's prose as evidence.",
+  "Do not open the 786 unread Saleor RESERVE outcomes."
+ ]
+}

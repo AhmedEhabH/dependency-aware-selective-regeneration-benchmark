@@ -1,0 +1,25 @@
+{
+ "wp1a": "wp1a_cost_quality_categories",
+ "generated_utc": "2026-09-21T00:40:50.235622+00:00",
+ "hypothesis": "H_WP1: frozen RM-CSS provides a lower-cost file-selection operating point than the iterative repository agent without lower file-set F1 on the same main sample.",
+ "categories": {
+  "RM_CSS_COST_QUALITY_DOMINANCE": {
+   "condition": "RM-CSS F1 >= Agent F1 AND RM-CSS total tokens lower AND RM-CSS model calls lower AND RM-CSS USD cost lower",
+   "meaning": "frozen RM-CSS dominates the repository agent on the frozen cost-quality operating point"
+  },
+  "COST_QUALITY_TRADEOFF": {
+   "condition": "RM-CSS cheaper on the core efficiency metrics (tokens / calls / USD) BUT RM-CSS F1 < Agent F1",
+   "meaning": "report the frontier/trade-off; do NOT call this superiority"
+  },
+  "NO_RM_CSS_EFFICIENCY_ADVANTAGE": {
+   "condition": "RM-CSS does not reduce the pre-registered core efficiency dimensions (total tokens, total model calls, USD cost)",
+   "meaning": "no RM-CSS efficiency advantage detected"
+  },
+  "RM_CSS_EFFICIENCY_HYPOTHESIS_FALSIFIED": {
+   "condition": "RM-CSS F1 < Agent F1 OR RM-CSS fails to reduce one or more of the pre-registered core efficiency dimensions (total tokens, total model calls, USD cost)",
+   "meaning": "the narrow hypothesis 'lower cost without lower F1' is falsified on this main sample"
+  }
+ },
+ "dominance_gate_latency_rule": "Latency is NOT a hard dominance gate unless same-machine matched latency is available (stored SIP/RM-CSS latency is descriptive only).",
+ "claim_boundary": "No universal/SOTA claim regardless of result. This is a same-protocol n=50 (main) selection-only comparison."
+}

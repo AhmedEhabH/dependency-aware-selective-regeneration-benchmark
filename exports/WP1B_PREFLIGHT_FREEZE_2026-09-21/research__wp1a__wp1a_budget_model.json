@@ -1,0 +1,37 @@
+{
+ "model": "qwen/qwen3-coder",
+ "provider": "deepinfra/turbo (through OpenRouter)",
+ "pricing": {
+  "model": "qwen/qwen3-coder",
+  "provider": "deepinfra/turbo (through OpenRouter)",
+  "prompt_per_1m_usd": 0.3,
+  "completion_per_1m_usd": 1.0,
+  "source": "frozen DeepInfra-through-OpenRouter pricing ($0.30/$1.00 per 1M); verified live 2026-09-20"
+ },
+ "main_n": 50,
+ "calibration_n": 3,
+ "max_calls_per_task": 8,
+ "completion_cap": 512,
+ "prompt_base_chars_est": 6000.0,
+ "tool_output_chars_per_round_est": 2000.0,
+ "chars_per_token_est": 3.1878,
+ "safety_factor": 1.5,
+ "projected_prompt_tokens": 1729114.0,
+ "projected_completion_tokens": 217088,
+ "projected_total_tokens": 1946202.0,
+ "projected_base_usd": 0.735822,
+ "projected_with_safety_usd": 1.103733,
+ "recommended_ceiling_usd": 1.103733,
+ "calibration_cannot_prove_worst_case": true,
+ "hard_protection": [
+  "fixed max rounds (8 calls/task)",
+  "fixed response cap (512 completion tokens/response)",
+  "explicit context cap/policy",
+  "cumulative USD guard checked before each paid request",
+  "main-run ceiling frozen before main task 1"
+ ],
+ "abort_rule": "If the main run hits its hard ceiling before completing all 50 tasks, the primary WP-1b main run is BUDGET_ABORT_INVALID_FOR_PRIMARY_COMPARISON. Do NOT report an ordered partial n<50 table as the primary result.",
+ "ceiling_status": "RECOMMENDED_FOR_AHMED_REVIEW - WP-1a spends NO money",
+ "generated_utc": "2026-09-21T00:40:50.235622+00:00",
+ "wp1a": "wp1a_budget_model"
+}
