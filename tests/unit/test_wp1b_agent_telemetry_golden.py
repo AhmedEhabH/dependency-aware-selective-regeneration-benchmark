@@ -40,7 +40,9 @@ from benchmark.strategies.iterative_agent import IterativeRepositoryAgentStrateg
 
 SIDECAR_FIELDS = [
     "call_index", "force_final", "action", "path", "query",
+    "tool_ok", "tool_error", "tool_duration_seconds",
     "tool_output_chars_raw", "tool_output_chars_shown", "observation_truncated",
+    "search_files_scanned", "search_results_returned", "search_result_cap_hit",
     "finish_reason", "prompt_tokens", "completion_tokens", "usd", "latency_s",
     "raw_response_text", "raw_response_sha256",
 ]

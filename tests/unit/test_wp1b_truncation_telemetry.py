@@ -43,6 +43,15 @@ def _record(
         "paths_surfaced": [],
         "tool_output_chars_raw_total": 0,
         "tool_output_chars_shown_total": 0,
+        "successful_reads": 0,
+        "search_calls_with_hits": 0,
+        "rejected_repeat_count": 0,
+        "tool_error_counts": {},
+        "search_files_scanned": 0,
+        "search_results_returned": 0,
+        "search_result_cap_hits": 0,
+        "unique_paths_surfaced": 0,
+        "tool_duration_seconds_total": 0.0,
     }
 
 
@@ -120,6 +129,38 @@ def test_strategy_telemetry_requires_strategy_with_selection_telemetry() -> None
         @property
         def paths_surfaced(self) -> list[str]:
             return []
+
+        @property
+        def successful_reads(self) -> int:
+            return 0
+
+        @property
+        def search_calls_with_hits(self) -> int:
+            return 0
+
+        @property
+        def rejected_repeat_count(self) -> int:
+            return 0
+
+        @property
+        def tool_error_counts(self) -> dict[str, int]:
+            return {}
+
+        @property
+        def search_files_scanned(self) -> int:
+            return 0
+
+        @property
+        def search_results_returned(self) -> int:
+            return 0
+
+        @property
+        def search_result_cap_hits(self) -> int:
+            return 0
+
+        @property
+        def tool_duration_seconds(self) -> float:
+            return 0.0
 
     rec = strategy_telemetry(_StubStrategy(), task_id="x")  # type: ignore[arg-type]
     validate(rec)

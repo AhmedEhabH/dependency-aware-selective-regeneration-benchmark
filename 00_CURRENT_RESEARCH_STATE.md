@@ -13,6 +13,98 @@ replaces old "V2"/"Sparse-v2"/"sparse impact plan" (the Sparse baseline).
 ADD/KEEP/DROP set selection). Historical code identifiers, commits, tags and
 artifact paths are NOT renamed; old reports keep their original wording.
 
+<!-- LIVE_STATUS:BEGIN -->
+
+## LIVE STATUS — single current-state source of truth
+
+**Position:** WP-1b Calibration-3 passed its frozen v1 gate (CG-1..CG-9) but the agent's tools were defective: 0 of 3 tasks read any file (INSTRUMENT_INVALID). The tool-budget defect is now fixed (D2: search_text no longer consumes the 30-file read budget), gate v2 (CG-10/CG-11) is written and FAILS on the old Calibration-3 records, and Calibration-3b is authorized (D4 = YES, ceiling $0.25). MAIN_297 remains blocked until a clean Calibration-3b and a separate D7 decision.
+
+**Research pipeline:**
+
+| Step | Status | Note |
+| :---|:---|:---|
+| Localization method selection | CLOSED | RM-CSS frozen; Saleor-300 PASS (+0.0921 F1) |
+| WP-0 leakage fix (G7) | DONE | ArtifactUniverse built from the parent repository |
+| WP-1a preparation | DONE | zero API; frozen predictions, manifests, agent protocol |
+| WP-1b preflight freeze | DONE | G1 Δ=0.05 · G2 cap 1024 · n=297 · budget v2 · rules v2 |
+| WP-1b Calibration-3 | DEFECT | v1 gate PASS, $0.081, 24 calls — 0 successful reads; INSTRUMENT_INVALID |
+| Tool-budget fix + gate v2 | DONE | D2: search_text does not consume the 30-file budget; CG-10/CG-11 written; RED on Calibration-3 |
+| WP-1b Calibration-3b | NEXT | authorized (D4 YES), ceiling $0.25, paired instrument revalidation of D2 |
+| WP-1b MAIN_297 + variance 15×3 | BLOCKED | needs a clean 3b and D7 = YES |
+| WP-2 shared E2E instrument | NOT STARTED | same generator/validator/repair for every arm |
+| E2E-G6 F2P/P2P oracle | NOT STARTED | fail-to-pass + pass-to-pass tests per task |
+| E2E Smoke → Pilot → Research Run | NOT STARTED | staged; each stage can stop the run |
+
+**LLM-call accounting:**
+
+| Workflow | Calls | Note |
+| :---|:---|:---|
+| SIP on Saleor-300 | 300 coder calls (1/task) | 315 HTTP attempts incl. retries · 5.09 M tokens · $1.593 |
+| RM-CSS on top of SIP | 0 extra coder calls | local logistic regression + repository memory |
+| Qwen embeddings (RM-CSS) | 33 batched calls | 2,076 file units + 299 queries · $0.026 |
+| WP-1b Calibration-3 agent | 24 calls (8/task) | $0.081 · 7 of 24 were rejected repeats · 0 successful reads (INSTRUMENT_INVALID) |
+| WP-1b Calibration-3b agent (authorized) | ≤ 24 calls | 3 × 8, ceiling $0.25, paired revalidation of the D2 fix |
+| MAIN_297 agent (ceiling) | ≤ 2,376 calls | 297 × 8; not authorized |
+| Variance substudy (ceiling) | ≤ 360 calls | 15 tasks × 3 runs × 8 |
+| E2E generation + repair | not frozen yet | defined by WP-2 |
+
+**Authorized / not authorized:**
+
+| Item | Status | Note |
+| :---|:---|:---|
+| Calibration-3b (Phase C) | AUTHORIZED | D4 = YES, ceiling $0.25, paired revalidation of the D2 tool fix |
+| MAIN_297 + variance 15×3 | NOT AUTHORIZED | requires D7 = YES after Ahmed reviews Calibration-3b |
+| 786 Saleor RESERVE outcomes | SEALED | never opened/read/scored/sampled |
+| Calibration-3 / Calibration-3b F1 claims | NOT PERMITTED | instrument checks only; no labels loaded or scored |
+
+**Next action:** Phase C (authorized, ceiling $0.25): Calibration-3b with the D2 fix, same 3 tasks, not scored. Gate v2 (CG-1..CG-11) must pass; report per-task tool telemetry. STOP after 3b regardless of outcome.
+
+**End-to-end status:** WP-2 has **not started**; E2E-G6 F2P/P2P oracle has **not started**; **no** E2E Smoke, Pilot or Research Run exists yet.
+
+*Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-09-21 21:30 (Africa/Cairo).*
+<!-- LIVE_STATUS:END -->
+
+**CURRENT TRUTH (2026-09-21, WP1B_TOOLFIX_LIVESTATUS — TOOL-BUDGET DEFECT
+FIXED + GATE V2 + LIVE_STATUS; PHASES 0/A/B COMPLETE, ZERO API; Calibration-3b
+authorized (D4 YES); Main/variance NOT authorized (D5/D7 NO)):** Branch
+`wp1b/toolfix-livestatus-2026-09-21`. Calibration-3 is reclassified
+prospectively as **`GATE_V1_PASS / INSTRUMENT_INVALID`** (D1): the frozen v1
+gate (CG-1..CG-9) passed ($0.081142, 24 calls, 0 cap hits, 0 EMPTY) but the
+agent's tools were defective — 0 of 3 tasks successfully read a file, and 9 of
+24 calls returned the 37-char `Max distinct files limit (30) reached` error.
+- **Defect + mechanical audit:** `docs/WP1B_AGENT_TOOL_BUDGET_DEFECT_2026-09-21.md`;
+  `scripts/wp1b_sidecar_tool_audit.py` re-derives the 24-call sidecar into
+  `research/wp1b/calibration-3-2026-09-21/wp1b_tool_audit.json` —
+  **3 final / 5 tool-ok (3 list + 2 search) / 9 limit errors (7 search + 2
+  read) / 7 rejected repeats / 0 successful reads** (AC-T1).
+- **v1.1 check re-derived (AC-T2):** 0 `Max distinct files limit` occurrences;
+  `inspected_file_count` distribution {0:15, 2:3, 3:7, 4:5}, max 4 (30 runs).
+- **D2 fix (`WP1B_G11_TOOL_BUDGET_2026_09_21`):** `search_text` no longer
+  consumes the distinct-file budget; `read_file` keeps `MAX_DISTINCT_FILES =
+  30`. A2 test 1 was RED before and is GREEN after (AC-T3).
+- **Gate v2 (D3):** `artifacts/wp1b_calibration_gate_v2.json` adds CG-10
+  (0 instrument-class tool errors) + CG-11 (≥ 1 task with ≥ 1 successful
+  read_file). On the old Calibration-3 records: **CG-10 FAIL (9 instrument
+  errors), CG-11 FAIL** (`wp1b_calibration_gate_v2_result.json`) — the RED
+  evidence (AC-T4).
+- **A4 telemetry (behavior-preserving):** per-call `tool_ok`/`tool_error`/
+  `tool_duration_seconds` + per-call search telemetry (`search_files_scanned`,
+  `search_results_returned`, `search_result_cap_hit`) + per-task
+  `successful_reads`, `search_calls_with_hits`, `tool_error_counts`,
+  `rejected_repeat_count`, `unique_paths_surfaced`; `paths_read` now records
+  only SUCCESSFUL reads; `paths_surfaced` stores paths only (AC-T5).
+- **LIVE_STATUS (D6):** `docs/LIVE_STATUS.json` is the single current-state
+  source of truth; `scripts/render_live_status.py` renders the block into
+  FOUR current-facing files (README, START_HERE_CURRENT_2026-09-21b, PROGRESS,
+  00_CURRENT_RESEARCH_STATE) and `tests/unit/test_live_status_blocks.py`
+  validates byte-for-byte sync (AC-T7/T8). Calibration-3 is preserved
+  historically; its old STOP report is NOT rewritten.
+- **API spend through Phase B: $0.00.** Calibration-3b (same 3 tasks, protocol
+  v2 cap 1024, ceiling $0.25, not scored) is authorized (D4 YES) only after the
+  tool-fix tag is pushed/verified and the tree is clean. MAIN_297, MAIN_50,
+  MAIN_150 and the variance substudy require a NEW Ahmed authorization (D5/D7
+  NO). The 786 sealed Saleor RESERVE outcomes remain untouched.
+
 **CURRENT TRUTH (2026-09-21, WP-1b PREFLIGHT FREEZE — PHASE 0/A/B COMPLETE;
 ZERO API; pre-result freeze of G1/G2, budget v2, n amendment, decision rules
 v2, agent telemetry; Calibration-3 authorized (D6 YES); Main/variance NOT

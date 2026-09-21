@@ -1,0 +1,53 @@
+{
+ "artifact": "wp1b_calibration_gate_result",
+ "evaluated_utc": "2026-09-21T15:41:43.986593+00:00",
+ "gate_status": "PASS",
+ "checks": [
+  {
+   "id": "CG-1",
+   "pass": true,
+   "detail": "records=3/3 metadata_complete=True"
+  },
+  {
+   "id": "CG-2",
+   "pass": true,
+   "detail": "all protocol metadata fields match frozen values"
+  },
+  {
+   "id": "CG-3",
+   "pass": true,
+   "detail": "telemetry=3/3 all_classified=True"
+  },
+  {
+   "id": "CG-4",
+   "pass": true,
+   "detail": "silent_parser_failures=0"
+  },
+  {
+   "id": "CG-5",
+   "pass": true,
+   "detail": "unclassified_EMPTY=0"
+  },
+  {
+   "id": "CG-6",
+   "pass": true,
+   "detail": "pricing_no_drift=True record_route_ok=True"
+  },
+  {
+   "id": "CG-7",
+   "pass": true,
+   "detail": "unexpected_knob_drift=False"
+  },
+  {
+   "id": "CG-8",
+   "pass": true,
+   "detail": "accounting_identity_ok=True"
+  },
+  {
+   "id": "CG-9",
+   "pass": true,
+   "detail": "calibration_usd=0.081142 ceiling=0.250000"
+  }
+ ],
+ "note": "Calibration gate evaluated on a frozen check-set (artifacts/wp1b_calibration_gate.json). It is an instrumentation/protocol sanity gate; calibration F1 does not gate the main run."
+}

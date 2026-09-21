@@ -40,6 +40,15 @@ TRACKED_DIRS = (
     PROJECT_DIR / "research" / "wp1a",
 )
 
+# wp1a_independent_audit reads the FULL-only per-case candidate_universe.json
+# (excluded from the TRUE LIGHT export). Skip on a LIGHT checkout instead of
+# failing; on the FULL checkout these must run and pass.
+_FULL_ONLY_UNIVERSE = (
+    PROJECT_DIR
+    / "benchmark_data" / "real_commit_impact_saleor" / "scientific"
+    / "saleor-rc-0179b331be38" / "public" / "candidate_universe.json"
+)
+
 GENERATOR_SCRIPTS = (
     "wp1a_independent_audit.py",
     "wp1a_acceptance_report.py",
@@ -87,6 +96,8 @@ def _run_generator(module, name: str, out_dir: Path) -> None:
 
 
 def test_four_generator_entry_points_do_not_mutate_tracked_artifacts(tmp_path: Path) -> None:
+    if not _FULL_ONLY_UNIVERSE.is_file():
+        pytest.skip(f"requires FULL export: {_FULL_ONLY_UNIVERSE}")
     before = _snapshot()
     modules = {name: _load_script(name) for name in GENERATOR_SCRIPTS}
     out_dir = tmp_path / "out"
@@ -98,6 +109,8 @@ def test_four_generator_entry_points_do_not_mutate_tracked_artifacts(tmp_path: P
 
 
 def test_generators_write_into_tmp_path_when_out_given(tmp_path: Path) -> None:
+    if not _FULL_ONLY_UNIVERSE.is_file():
+        pytest.skip(f"requires FULL export: {_FULL_ONLY_UNIVERSE}")
     modules = {name: _load_script(name) for name in GENERATOR_SCRIPTS}
     out_dir = tmp_path / "out"
     out_dir.mkdir(parents=True, exist_ok=True)

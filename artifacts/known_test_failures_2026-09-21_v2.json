@@ -1,0 +1,45 @@
+{
+  "artifact": "known_test_failures_v2",
+  "date": "2026-09-21",
+  "supersedes": "known_test_failures_2026-09-21.json (v1, preserved as history)",
+  "mission": "WP1B_TOOLFIX_LIVESTATUS_2026-09-21",
+  "baseline_commit": "1ae7058331445ef2fa25d784b2356f19702815dc",
+  "summary": "3 failed / 3700+ passed / 35+ skipped expected on clean checkout (v2); the two README node IDs are FIXED and removed",
+  "acceptance_rule": "From now on the full-suite acceptance rule is: the set of failing node IDs == this list. Any new node ID is a failure of the mission.",
+  "classification": {
+    "ENV_OR_DATA_MISSING": "pinned djangocms repository snapshot absent from this checkout",
+    "REAL_DEFECT": "pre-existing frozen test/source inconsistency outside WP-1 code; not fixed in this mission; TODO.md entries added"
+  },
+  "node_ids": [
+    "tests/integration/test_d96_kaggle_github_boundary.py::test_runtime_launch_resume_path_has_no_github_machinery",
+    "tests/integration/test_stagec_djangocms_runtime_wiring.py::test_all_six_gates_pass",
+    "tests/integration/test_stagec_djangocms_runtime_wiring.py::test_pinned_source_available"
+  ],
+  "removed_in_v2": [
+    {
+      "node_id": "tests/unit/test_model_identity_policy.py::test_full_model_name_present_in_current_facing_docs",
+      "reason": "FIXED by WP1B_TOOLFIX_LIVESTATUS_2026-09-21 B2: README now carries the full model name Qwen3-Coder-480B-A35B-Instruct."
+    },
+    {
+      "node_id": "tests/unit/test_readme_markdown_tables.py::TestReadmeSvgFallbacks::test_svg_fallbacks_exist_and_are_embedded",
+      "reason": "FIXED by WP1B_TOOLFIX_LIVESTATUS_2026-09-21 B2: README embeds docs/assets/experiment_map.svg (and the other SVG fallbacks)."
+    }
+  ],
+  "details": [
+    {
+      "node_id": "tests/integration/test_d96_kaggle_github_boundary.py::test_runtime_launch_resume_path_has_no_github_machinery",
+      "first_error_line": "AssertionError: src\\benchmark\\issue_grounded\\github.py must not contain 'GITHUB_TOKEN'",
+      "class": "REAL_DEFECT"
+    },
+    {
+      "node_id": "tests/integration/test_stagec_djangocms_runtime_wiring.py::test_all_six_gates_pass",
+      "first_error_line": "FileNotFoundError: benchmark_data/repositories/djangocms missing",
+      "class": "ENV_OR_DATA_MISSING"
+    },
+    {
+      "node_id": "tests/integration/test_stagec_djangocms_runtime_wiring.py::test_pinned_source_available",
+      "first_error_line": "assert False (pinned djangocms source absent)",
+      "class": "ENV_OR_DATA_MISSING"
+    }
+  ]
+}

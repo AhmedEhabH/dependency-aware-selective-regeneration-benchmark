@@ -11,11 +11,27 @@ import subprocess
 import sys
 from pathlib import Path
 
+import pytest
+
 PROJECT_DIR = Path(__file__).resolve().parent.parent.parent
 if str(PROJECT_DIR) not in sys.path:
     sys.path.insert(0, str(PROJECT_DIR))
 
 WP1A = PROJECT_DIR / "research" / "wp1a"
+
+# The independent audit reads the FULL-only per-case candidate_universe.json
+# (excluded from the TRUE LIGHT export). Skip on a LIGHT checkout instead of
+# failing; on the FULL checkout these must run and pass.
+_FULL_ONLY_UNIVERSE = (
+    PROJECT_DIR
+    / "benchmark_data" / "real_commit_impact_saleor" / "scientific"
+    / "saleor-rc-0179b331be38" / "public" / "candidate_universe.json"
+)
+
+
+def _require_full_export() -> None:
+    if not _FULL_ONLY_UNIVERSE.is_file():
+        pytest.skip(f"requires FULL export: {_FULL_ONLY_UNIVERSE}")
 
 
 def _run_script(name: str, out_dir: Path) -> subprocess.CompletedProcess:
@@ -26,6 +42,7 @@ def _run_script(name: str, out_dir: Path) -> subprocess.CompletedProcess:
 
 
 def test_independent_audit_passes(tmp_path: Path) -> None:
+    _require_full_export()
     result = _run_script("wp1a_independent_audit.py", tmp_path)
     assert result.returncode == 0, result.stdout + result.stderr
     audit = json.loads((tmp_path / "wp1a_independent_audit.json").read_text(encoding="utf-8"))
@@ -34,6 +51,7 @@ def test_independent_audit_passes(tmp_path: Path) -> None:
 
 
 def test_acceptance_report_all_pass(tmp_path: Path) -> None:
+    _require_full_export()
     audit = _run_script("wp1a_independent_audit.py", tmp_path)
     assert audit.returncode == 0, audit.stdout + audit.stderr
     result = _run_script("wp1a_acceptance_report.py", tmp_path)

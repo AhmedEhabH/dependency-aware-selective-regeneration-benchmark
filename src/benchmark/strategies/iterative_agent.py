@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import json
 import logging
+import re
 import time
 from collections.abc import Callable
 from pathlib import Path
@@ -29,6 +30,11 @@ if TYPE_CHECKING:
 logger = logging.getLogger(__name__)
 
 MAX_AGENT_CALLS: int = 8
+
+# A search_text output line has the form "path:line:content". This regex keeps
+# the path before the first ":<digits>:" separator so paths_surfaced stores
+# paths, not match snippets (A4 telemetry fix).
+_SEARCH_MATCH_LINE = re.compile(r"^(.*?):\d+:")
 
 # Control-plane output bound for the repository agent's own tool-use / analysis
 # responses (selection JSON, revision JSON).  The agent's control-plane output
@@ -175,7 +181,9 @@ def _surface_paths(output: str) -> set[str]:
 
     Behavior-preserving telemetry helper: it only inspects the output for path
     strings (repository-relative POSIX paths); it never changes the output that
-    is appended to the prompt.
+    is appended to the prompt. For search_text lines of the form
+    ``path:line:content``, only the part before the first ``:<digits>:`` is
+    kept (the path), so ``paths_surfaced`` stores paths, not match snippets.
     """
     found: set[str] = set()
     for line in output.splitlines():
@@ -184,6 +192,11 @@ def _surface_paths(output: str) -> set[str]:
             continue
         # list_files / search_text typically emit lines like "- path/to/file.py"
         candidate = stripped[2:].strip() if stripped.startswith("- ") else stripped
+        # search_text emits "path:line:content" — keep the path before the
+        # first ":<digits>:" separator (regex-driven, no heuristic splits).
+        m = _SEARCH_MATCH_LINE.match(candidate)
+        if m is not None:
+            candidate = m.group(1)
         if (candidate.endswith(".py") or "/" in candidate) and not candidate.startswith(
             ("#", "[", "(", "<", "|", "=", "*", "•", "```")
         ):
@@ -280,6 +293,15 @@ class IterativeRepositoryAgentStrategy:
         self._paths_surfaced: set[str] = set()
         self._tool_output_chars_raw_total: int = 0
         self._tool_output_chars_shown_total: int = 0
+        # A4 per-task tool telemetry (report-only, behavior-preserving).
+        self._successful_reads: int = 0
+        self._search_calls_with_hits: int = 0
+        self._rejected_repeat_count: int = 0
+        self._tool_error_counts: dict[str, int] = {}
+        self._search_files_scanned: int = 0
+        self._search_results_returned: int = 0
+        self._search_result_cap_hits: int = 0
+        self._search_unique_paths_surfaced: int = 0
 
     def begin_run(self, workspace_root: str | Path) -> None:
         root = Path(workspace_root).resolve()
@@ -313,6 +335,14 @@ class IterativeRepositoryAgentStrategy:
         self._paths_surfaced = set()
         self._tool_output_chars_raw_total = 0
         self._tool_output_chars_shown_total = 0
+        self._successful_reads = 0
+        self._search_calls_with_hits = 0
+        self._rejected_repeat_count = 0
+        self._tool_error_counts = {}
+        self._search_files_scanned = 0
+        self._search_results_returned = 0
+        self._search_result_cap_hits = 0
+        self._search_unique_paths_surfaced = 0
         from benchmark.strategies.repository_tools import RepositoryTools
         self._tools = RepositoryTools(
             workspace_root=root,
@@ -369,9 +399,15 @@ class IterativeRepositoryAgentStrategy:
             "action": "",
             "path": "",
             "query": "",
+            "tool_ok": False,
+            "tool_error": "",
+            "tool_duration_seconds": 0.0,
             "tool_output_chars_raw": 0,
             "tool_output_chars_shown": 0,
             "observation_truncated": False,
+            "search_files_scanned": 0,
+            "search_results_returned": 0,
+            "search_result_cap_hit": False,
             "finish_reason": "",
             "prompt_tokens": 0,
             "completion_tokens": 0,
@@ -495,13 +531,30 @@ class IterativeRepositoryAgentStrategy:
         self._record_tool(action_name, tool_path_display,
             result.output[:200] if result.ok else result.error, dur)
         tag = action_name
+        # Tool error accounting (A4): successful read_file targets are recorded
+        # in paths_read; failed reads are NOT counted as read paths.
+        if not result.ok:
+            err = result.error or ""
+            self._tool_error_counts[err] = self._tool_error_counts.get(err, 0) + 1
         if action_name == "read_file":
             self._inspected_files.add(str(action.get("path", "")))
-            self._paths_read.add(str(action.get("path", "")))
+            if result.ok:
+                self._paths_read.add(str(action.get("path", "")))
+                self._successful_reads += 1
         # Track surfaced paths (paths that appear in search_text / list_files
         # output). Behavior-preserving: the same bounded output is appended.
         if action_name in ("search_text", "list_files") and result.ok:
-            self._paths_surfaced.update(_surface_paths(result.output))
+            surfaced = _surface_paths(result.output)
+            self._paths_surfaced.update(surfaced)
+            if action_name == "search_text":
+                self._search_unique_paths_surfaced += len(surfaced)
+        if action_name == "search_text":
+            self._search_files_scanned += result.search_files_scanned
+            self._search_results_returned += result.search_results_returned
+            if result.search_result_cap_hit:
+                self._search_result_cap_hits += 1
+            if result.ok and result.search_results_returned > 0:
+                self._search_calls_with_hits += 1
         raw_chars = len(result.output) if result.ok else len(result.error)
         shown = result.output[:2000] if result.ok else result.error
         shown_chars = len(shown)
@@ -511,9 +564,16 @@ class IterativeRepositoryAgentStrategy:
             self._current_sidecar["action"] = action_name
             self._current_sidecar["path"] = str(action.get("path", ""))
             self._current_sidecar["query"] = str(action.get("query", ""))
+            self._current_sidecar["tool_ok"] = bool(result.ok)
+            self._current_sidecar["tool_error"] = result.error if not result.ok else ""
+            self._current_sidecar["tool_duration_seconds"] = dur
             self._current_sidecar["tool_output_chars_raw"] = raw_chars
             self._current_sidecar["tool_output_chars_shown"] = shown_chars
             self._current_sidecar["observation_truncated"] = raw_chars > shown_chars
+            if action_name == "search_text":
+                self._current_sidecar["search_files_scanned"] = result.search_files_scanned
+                self._current_sidecar["search_results_returned"] = result.search_results_returned
+                self._current_sidecar["search_result_cap_hit"] = bool(result.search_result_cap_hit)
         out = shown
         return f"\n[result] {tag}:\n{out}"
 
@@ -681,6 +741,7 @@ class IterativeRepositoryAgentStrategy:
 
             if action_name in ("list_files", "read_file", "search_text"):
                 if self._is_repeated_tool_request(action_name, action):
+                    self._rejected_repeat_count += 1
                     prompt += (
                         "\n[control warning] Repeated identical tool request rejected; "
                         "use new evidence or submit final."
@@ -921,6 +982,7 @@ class IterativeRepositoryAgentStrategy:
 
             if action_name in ("list_files", "read_file", "search_text"):
                 if self._is_repeated_tool_request(action_name, action):
+                    self._rejected_repeat_count += 1
                     prompt += (
                         "\n[control warning] Repeated identical tool request rejected; "
                         "use new evidence or submit final."
@@ -1066,13 +1128,55 @@ class IterativeRepositoryAgentStrategy:
 
     @property
     def paths_read(self) -> tuple[str, ...]:
-        """Targets of read_file calls (WP-1b per-task telemetry)."""
+        """Targets of SUCCESSFUL read_file calls (WP-1b per-task telemetry).
+
+        A4 correction: only successful reads are recorded here. The
+        strategy-side ``_inspected_files`` read-TARGET counter is unchanged and
+        continues to feed ``selection_inspected_file_count`` scientific
+        accounting.
+        """
         return tuple(sorted(self._paths_read))
 
     @property
     def paths_surfaced(self) -> tuple[str, ...]:
-        """Paths appearing in search_text / list_files output (WP-1b telemetry)."""
+        """Paths appearing in search_text / list_files output (WP-1b telemetry).
+
+        A4 correction: for search_text match lines of the form
+        ``path:line:content`` only the path is kept.
+        """
         return tuple(sorted(self._paths_surfaced))
+
+    @property
+    def successful_reads(self) -> int:
+        return self._successful_reads
+
+    @property
+    def search_calls_with_hits(self) -> int:
+        return self._search_calls_with_hits
+
+    @property
+    def rejected_repeat_count(self) -> int:
+        return self._rejected_repeat_count
+
+    @property
+    def tool_error_counts(self) -> dict[str, int]:
+        return dict(self._tool_error_counts)
+
+    @property
+    def search_files_scanned(self) -> int:
+        return self._search_files_scanned
+
+    @property
+    def search_results_returned(self) -> int:
+        return self._search_results_returned
+
+    @property
+    def search_result_cap_hits(self) -> int:
+        return self._search_result_cap_hits
+
+    @property
+    def search_unique_paths_surfaced(self) -> int:
+        return self._search_unique_paths_surfaced
 
     @property
     def tool_output_chars_raw_total(self) -> int:
