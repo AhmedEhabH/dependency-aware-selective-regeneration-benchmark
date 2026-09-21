@@ -17,7 +17,7 @@ Usage:
   python scripts/wp1b_calibration_gate.py <calibration_dir>
 With no argument, prints the frozen gate definition only (exit 0).
 
-Output: artifacts/wp1b_calibration_gate_result.json
+Result is written as <calibration_dir>/wp1b_calibration_gate_result.json.
 """
 from __future__ import annotations
 
@@ -28,7 +28,6 @@ from pathlib import Path
 
 _PROJECT_DIR = Path(__file__).resolve().parent.parent
 GATE = _PROJECT_DIR / "artifacts" / "wp1b_calibration_gate.json"
-RESULT_OUT = _PROJECT_DIR / "artifacts" / "wp1b_calibration_gate_result.json"
 
 FROZEN_MODEL = "qwen/qwen3-coder"
 FROZEN_TEMPERATURE = 0.0
@@ -136,7 +135,8 @@ def evaluate(cal_dir: Path) -> dict:
         "note": "Calibration gate evaluated on a frozen check-set (artifacts/wp1b_calibration_gate.json). "
                 "It is an instrumentation/protocol sanity gate; calibration F1 does not gate the main run.",
     }
-    RESULT_OUT.write_text(json.dumps(result, indent=1), encoding="utf-8")
+    (cal_dir / "wp1b_calibration_gate_result.json").write_text(
+        json.dumps(result, indent=1), encoding="utf-8")
     for c in results:
         print(f"[gate] {c['id']}: {'PASS' if c['pass'] else 'FAIL'} - {c['detail']}")
     print(f"[gate] GATE: {result['gate_status']}")

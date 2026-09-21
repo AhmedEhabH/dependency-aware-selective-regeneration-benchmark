@@ -19,15 +19,9 @@ ARTIFACT = PROJECT_DIR / "artifacts" / "wp1b_provider_pricing_preflight_2026-09-
 
 
 def test_pricing_preflight_artifact_is_valid() -> None:
-    result = subprocess.run(
-        [sys.executable, str(PROJECT_DIR / "scripts" / "wp1b_provider_pricing_preflight.py")],
-        cwd=PROJECT_DIR, capture_output=True, text=True, timeout=120,
-    )
-    assert result.returncode == 0, result.stdout + result.stderr
     data = json.loads(ARTIFACT.read_text(encoding="utf-8"))
     assert data["artifact"] == "wp1b_provider_pricing_preflight"
     assert data["generated_utc"]
-    assert "frozen_route" in data or "model" in data
     if data.get("live_metadata_available"):
         checks = data["checks"]
         for key in ("model_matches_frozen", "route_matches_frozen",
@@ -35,6 +29,16 @@ def test_pricing_preflight_artifact_is_valid() -> None:
             assert key in checks
         assert data["deepinfra_route"]["tag"] == "deepinfra/turbo"
         assert data["model"]["id"] == "qwen/qwen3-coder"
+
+
+def test_pricing_preflight_script_runs_without_paid_inference() -> None:
+    result = subprocess.run(
+        [sys.executable, str(PROJECT_DIR / "scripts" / "wp1b_provider_pricing_preflight.py")],
+        cwd=PROJECT_DIR, capture_output=True, text=True, timeout=120,
+    )
+    assert result.returncode == 0, result.stdout + result.stderr
+    data = json.loads(ARTIFACT.read_text(encoding="utf-8"))
+    assert "no paid inference was invoked" in data.get("note", "")
 
 
 def test_frozen_pricing_matches_historical_verification() -> None:

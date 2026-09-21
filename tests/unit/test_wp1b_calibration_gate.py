@@ -90,7 +90,7 @@ def test_gate_pass_on_clean_synthetic_calibration(tmp_path: Path) -> None:
     _write_synthetic_calibration(cal_dir)
     result = _run_gate(cal_dir)
     assert result.returncode == 0, result.stdout + result.stderr
-    out = json.loads((ARTIFACTS / "wp1b_calibration_gate_result.json").read_text(encoding="utf-8"))
+    out = json.loads((cal_dir / "wp1b_calibration_gate_result.json").read_text(encoding="utf-8"))
     assert out["gate_status"] == "PASS"
     assert all(c["pass"] for c in out["checks"])
 
@@ -100,7 +100,7 @@ def test_gate_fails_on_silent_parser_failure(tmp_path: Path) -> None:
     _write_synthetic_calibration(cal_dir, silent_parser=True)
     result = _run_gate(cal_dir)
     assert result.returncode == 1
-    out = json.loads((ARTIFACTS / "wp1b_calibration_gate_result.json").read_text(encoding="utf-8"))
+    out = json.loads((cal_dir / "wp1b_calibration_gate_result.json").read_text(encoding="utf-8"))
     assert out["gate_status"] == "FAIL"
     cg4 = next(c for c in out["checks"] if c["id"] == "CG-4")
     assert cg4["pass"] is False
@@ -111,7 +111,7 @@ def test_gate_fails_on_corrupted_accounting(tmp_path: Path) -> None:
     _write_synthetic_calibration(cal_dir, accounting_corrupt=True)
     result = _run_gate(cal_dir)
     assert result.returncode == 1
-    out = json.loads((ARTIFACTS / "wp1b_calibration_gate_result.json").read_text(encoding="utf-8"))
+    out = json.loads((cal_dir / "wp1b_calibration_gate_result.json").read_text(encoding="utf-8"))
     assert out["gate_status"] == "FAIL"
     cg8 = next(c for c in out["checks"] if c["id"] == "CG-8")
     assert cg8["pass"] is False
