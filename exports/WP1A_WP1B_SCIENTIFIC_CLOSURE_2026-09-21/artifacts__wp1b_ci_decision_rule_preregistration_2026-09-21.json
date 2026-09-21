@@ -1,0 +1,40 @@
+{
+ "artifact": "wp1b_ci_decision_rule_preregistration",
+ "date": "2026-09-21",
+ "status": "PREREGISTERED_PENDING_MARGIN_FREEZE",
+ "purpose": "G1 CI-based decision rule clarification (mission section 8). Defines how the paired F1 difference D is compared once an NI margin is prospectively frozen. Does NOT invent a margin.",
+ "comparison": {
+  "statistic": "D = F1(RM-CSS) - F1(repository_agent)",
+  "unit": "task-paired (same 50 task IDs across arms)",
+  "ci_method": "paired task bootstrap, N_RESAMPLES=10000, seed=20260920, 95% percentile CI [Q2.5, Q97.5] (frozen in research/wp1a/wp1a_shared_scorer_schema.json)",
+  "ni_procedure": "frozen statistical plan H2 precedent: one-sided 95% CI lower bound > -margin (DA-08 procedure, applied to F1 once margin is frozen)"
+ },
+ "decision_categories": {
+  "NON_INFERIORITY_SUPPORTED": {
+   "condition": "one-sided 95% CI lower bound for D > -margin (margin frozen prospectively)",
+   "wording": "RM-CSS is statistically non-inferior to the repository agent in file-set F1 at the frozen margin"
+  },
+  "STATISTICAL_SUPERIORITY": {
+   "condition": "two-sided 95% CI for D lies entirely above 0",
+   "wording": "RM-CSS F1 is statistically superior; 'superiority' only, never 'dominance'"
+  },
+  "DESCRIPTIVE_POINT_ADVANTAGE": {
+   "condition": "point estimate D > 0 but the frozen CI rule does not reach non-inferiority/superiority",
+   "wording": "descriptive point advantage only; no statistical claim; report alongside cost-quality categories"
+  },
+  "INCONCLUSIVE": {
+   "condition": "CI crosses the frozen decision boundary",
+   "wording": "inconclusive comparison at this n; report as NO_DIFFERENCE_DETECTED_AT_THIS_N (not equivalence)"
+  }
+ },
+ "prohibited_interpretations": [
+  "A positive point estimate D alone is never labeled dominance or superiority without the CI rule.",
+  "CI crossing zero is never labeled equivalence.",
+  "A margin selected after observing WP-1b outcomes is invalid (post-outcome protocol modification)."
+ ],
+ "activation_rule": "This decision rule is ACTIVATED only together with a prospectively frozen numeric NI margin recorded in an authoritative pre-result artifact. Until then, only descriptive cost-quality categories may be reported.",
+ "falsifiers": [
+  "The rule is wrong if a frozen authoritative protocol defines a different decision procedure for the selection-only F1 comparison (use that procedure instead).",
+  "The rule is wrong if the frozen statistical plan's H2 one-sided procedure is explicitly inapplicable to F1 non-inferiority (then the governing procedure must be resolved prospectively)."
+ ]
+}

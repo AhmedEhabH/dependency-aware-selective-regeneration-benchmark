@@ -1,0 +1,92 @@
+{
+  "mission": "WP1A_WP1B_SCIENTIFIC_CLOSURE",
+  "date": "2026-09-21",
+  "api_spend_usd": 0.0,
+  "repository": {
+    "start_commit": "f25950f7a673e135bbb2c40d447a2265a6b73180",
+    "end_commit": "18652d6031aa3e94138e30fa8e9a81cbbd4ed388",
+    "main_commit_after_integration": "18652d6031aa3e94138e30fa8e9a81cbbd4ed388",
+    "merge_commit": "18652d6031aa3e94138e30fa8e9a81cbbd4ed388",
+    "working_tree_clean": true
+  },
+  "gates": {
+    "G1_ni_margin": "BLOCKED_DECISION_REQUIRED",
+    "G2_completion_cap": "BLOCKED_DECISION_REQUIRED",
+    "G3_loop_semantics": "RESOLVED_INSTRUMENTED",
+    "G4_audit_independence": "RESOLVED_TERMINOLOGY_CORRECTED_AUDIT_PACKET_READY",
+    "G5_variance_design": "PREREGISTERED",
+    "G6_pricing_route": "PASS_NO_DRIFT"
+  },
+  "wp1b_ready_for_authorization": false,
+  "paid_execution_authorized": false,
+  "acceptance_criteria": {
+    "AC-1A.1": "PASS",
+    "AC-1A.2": "PASS",
+    "AC-1A.3": "PASS",
+    "AC-1A.4": "PASS",
+    "AC-1A.5": "PASS",
+    "AC-1A.6": "PASS",
+    "AC-1A.7": "PASS",
+    "AC-1A.8": "PASS",
+    "AC-1A.9": "PASS",
+    "AC-1A.10": "PASS (same-session cross-check; independent packet prepared)",
+    "AC-1A.11": "PASS",
+    "AC-1A.12": "PASS",
+    "AC-01": "PASS (authority inventory + hashes)",
+    "AC-02": "PASS (independent recomputation of sample hash, splits, metrics, v1.1 evidence)",
+    "AC-03": "PASS (main/calibration intersection recomputed = 0)",
+    "AC-04": "PASS (no margin invented; decision-required blocker raised)",
+    "AC-05": "PASS (CI rule preregistered; point estimate alone not used for dominance)",
+    "AC-06": "PASS (512/1024 provenance documented; change proposed as amendment, not silently applied)",
+    "AC-07": "PASS (first-class truncation/cap/failure telemetry instrumented + tested)",
+    "AC-08": "PASS (forced-final/round-cap precedence unambiguous + tested)",
+    "AC-09": "PASS (same-session verification not labeled independent)",
+    "AC-10": "PASS (blind independent-audit packet exists with manifest + hashes)",
+    "AC-11": "PASS (15-task subset selection frozen prospectively)",
+    "AC-12": "PASS (live route/model/pricing recorded without paid inference)",
+    "AC-13": "PASS (calibration gate frozen before inference)",
+    "AC-14": "PASS (no paid inference occurred; spend authorization NOT granted)",
+    "AC-15": "PASS (post-merge ZERO-API validation from main; no material difference)"
+  },
+  "verified_claims": [
+    "Sample ordering hash 445b5e9d... recomputed from saleor_reserve_300_sample.json (PASS)",
+    "main-50 task_ids_sha256 9b26ad59... and manifest_sha256 299c045f... recomputed (PASS)",
+    "calibration-3 task_ids_sha256 23f520d8... and manifest_sha256 d14388a8... recomputed (PASS)",
+    "main-50 ∩ calibration-3 = empty (recomputed)",
+    "SIP pooled F1 0.26474622770919065 recomputed from frozen per-task predictions + proxies (PASS)",
+    "RM-CSS pooled F1 0.35687263556116017 recomputed (PASS)",
+    "DeltaF1 +0.09212640785196952 recomputed (PASS)",
+    "300 per-task SIP/RM-CSS prediction hashes recomputed (all match)",
+    "v1.1 microstudy: 30/30 records agent_control cap 1024; 0 control-truncation messages (recomputed)",
+    "OpenRouter live metadata: qwen/qwen3-coder @ deepinfra/turbo, $0.30/$1.00 per 1M, no drift vs frozen protocol (2026-09-21T02:59:03Z)",
+    "Post-merge targeted suite 146 passed / 1 skipped from main; full suite 3700 passed / 35 skipped / 5 pre-existing baseline failures (also fail on f25950f)",
+    "iterative_agent.py forced-final call-8 semantics verified from code; telemetry additive and behavior-preserving"
+  ],
+  "claimed_only": [
+    "The v1.1 scientific run token totals and status distribution beyond the recomputed truncation evidence (recorded in the historical report)",
+    "Any 'independent audit' claim in historical (non-WP-1a) reports"
+  ],
+  "inferred_claims": [
+    "The WP-1a 'no_silent_margin' scorer note and the point-estimate cost-quality categories imply no WP-1b F1 NI margin is frozen (assumption: the WP-1a artifacts are the governing set)",
+    "A 512 cap poses a-priori instrument-harm risk to the agent arm's final answer on large Saleor tasks (assumption: forced-final answer size scales with repository size)",
+    "CI crossing zero = inconclusive at this n, not equivalence (assumption: paired bootstrap CI is the governing uncertainty procedure)"
+  ],
+  "remaining_unknowns": [
+    "Method-level inference reproducibility of the repository-agent arm (scoring reproducibility is proven; method reproducibility is not)",
+    "The exact numeric F1 non-inferiority margin for WP-1b (G1 decision required)",
+    "The final agent-control completion cap for WP-1b (G2 decision required)",
+    "Execution variance outside the 15-task variance substudy",
+    "Cross-provider / cross-model generalization",
+    "The external/independent audit result (packet prepared, not yet executed by an independent auditor)",
+    "Whether the 5 pre-existing full-suite baseline failures will be addressed separately (unrelated to WP-1a/WP-1b)"
+  ],
+  "blocking_reasons": [
+    "G1: no authoritative F1 non-inferiority margin is frozen for the WP-1b selection-only comparison; a prospective decision is required before paid WP-1b.",
+    "G2: the agent-control completion cap (512 vs 1024) is unresolved; a prospective amendment decision is required before paid WP-1b.",
+    "Paid WP-1b execution has no spend authorization (mission spend budget $0.00)."
+  ],
+  "wording_corrections": [
+    "WP-1a 'independent audit 19/19' relabelled to 'same-session alternate-implementation cross-check' (G4).",
+    "AC-1A.10 relabelled accordingly; blind independent-audit packet prepared."
+  ]
+}

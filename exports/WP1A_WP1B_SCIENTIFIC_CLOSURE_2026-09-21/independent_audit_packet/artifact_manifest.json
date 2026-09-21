@@ -1,0 +1,40 @@
+{
+ "packet": "wp1a_independent_audit_packet_2026-09-21",
+ "purpose": "Blind audit manifest: every artifact and stored value the auditor needs, with paths relative to the repository root.",
+ "expected_stored_values": {
+  "saleor_300_sample_ordering_sha256": "445b5e9d0aeeab9551e8feeb3e59e6b5bcfee793f029810a6efe0cbc8f126447",
+  "main_50_task_ids_sha256": "9b26ad5965f6f6a134c7defe50e20c5811df46f7d703ce7fdf954e572db8ee32",
+  "calibration_3_task_ids_sha256": "23f520d8164721885583a926c40dc71cb100b14bb47758dc3bb480279e0847e0",
+  "calibration_3_task_ids": ["saleor-rc-349d46d906ad", "saleor-rc-b05633dae118", "saleor-rc-d52a55471bfc"],
+  "main_calibration_intersection_size": 0,
+  "sip_f1": 0.26474622770919065,
+  "rmcss_f1": 0.35687263556116017,
+  "delta_f1_rmcss_minus_sip": 0.09212640785196952,
+  "sip_confusion": {"tp": 193, "fp": 344, "fn": 728},
+  "rmcss_confusion": {"tp": 283, "fp": 382, "fn": 638}
+ },
+ "artifacts": {
+  "sample": "research/saleor-reserve-300-rmcss/saleor_reserve_300_sample.json",
+  "sip_run_records": "research/saleor-reserve-300-rmcss/sip_300_run_records.jsonl",
+  "candidate_rows": "research/saleor-reserve-300-rmcss/candidate_rows_saleor300.parquet",
+  "proxies": "research/saleor-reserve-300-rmcss/saleor_reserve_300_proxies.json",
+  "per_task_predictions": "research/wp1a/sip_rmcss_per_task_predictions.json",
+  "rederivation_verification": "research/wp1a/wp1_rederivation_verification.json",
+  "main_50_manifest": "research/wp1a/wp1_main_50_manifest.json",
+  "calibration_3_manifest": "research/wp1a/wp1_calibration_3_manifest.json",
+  "sample_freeze": "research/wp1a/wp1_sample_freeze.json",
+  "intent_parity": "research/wp1a/wp1a_intent_parity.json",
+  "frozen_agent_protocol": "research/wp1a/wp1a_frozen_agent_protocol.json",
+  "failure_semantics": "research/wp1a/wp1a_failure_semantics.json",
+  "shared_scorer_schema": "research/wp1a/wp1a_shared_scorer_schema.json",
+  "accounting_schema": "research/wp1a/wp1a_accounting_schema.json",
+  "budget_model": "research/wp1a/wp1a_budget_model.json",
+  "cost_quality_categories": "research/wp1a/wp1a_cost_quality_categories.json",
+  "model_provenance": "research/wp1a/sip_scientific_model_provenance.json",
+  "acceptance_report": "research/wp1a/wp1a_acceptance_report.json",
+  "cross_check_result": "research/wp1a/wp1a_independent_audit.json",
+  "saleor_result": "reports/saleor_reserve_300_rmcss_result.json"
+ },
+ "hashes_file": "sha256sums.txt",
+ "recompute_instructions": "recompute_instructions.md"
+}

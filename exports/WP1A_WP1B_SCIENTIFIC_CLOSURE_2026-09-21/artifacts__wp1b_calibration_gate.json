@@ -1,0 +1,58 @@
+{
+ "artifact": "wp1b_calibration_gate",
+ "date": "2026-09-21",
+ "status": "FROZEN_BEFORE_INFERENCE",
+ "scope": "Calibration-3 instrumentation/protocol sanity gate. NOT a performance gate. Calibration is an instrumentation sanity check, not an opportunity to tune the method against performance.",
+ "mission_section": 23,
+ "checks": [
+  {
+   "id": "CG-1",
+   "description": "3/3 requested calibration tasks executed under the intended protocol",
+   "condition": "n_records == 3 AND every record carries complete protocol metadata"
+  },
+  {
+   "id": "CG-2",
+   "description": "3/3 protocol metadata records complete",
+   "condition": "per record: model identity, provider/route, temperature, agent-control cap, MAX_AGENT_CALLS, task_id all present and equal to the frozen values"
+  },
+  {
+   "id": "CG-3",
+   "description": "3/3 valid final outputs OR failure explicitly classified",
+   "condition": "per task: valid_final_count > 0 OR empty_reason in (truncation, round_cap, parser_failure, infrastructure)"
+  },
+  {
+   "id": "CG-4",
+   "description": "0 silent parser failures",
+   "condition": "any record with malformed_count > 0 must have empty_reason == parser_failure"
+  },
+  {
+   "id": "CG-5",
+   "description": "0 unclassified EMPTY predictions",
+   "condition": "aggregate unclassified_EMPTY_count == 0"
+  },
+  {
+   "id": "CG-6",
+   "description": "0 route/model drift",
+   "condition": "pricing preflight checks.no_drift is True AND every record's scientific model == qwen/qwen3-coder AND route contains deepinfra/turbo"
+  },
+  {
+   "id": "CG-7",
+   "description": "0 unexpected scientific-knob drift",
+   "condition": "every record's agent_control cap, temperature (0.0), and MAX_AGENT_CALLS (8) equal the frozen values"
+  },
+  {
+   "id": "CG-8",
+   "description": "0 corrupted accounting records",
+   "condition": "per record: token_usage.total_tokens == prompt_tokens + completion_tokens"
+  },
+  {
+   "id": "CG-9",
+   "description": "0 unexplained budget overrun",
+   "condition": "cumulative calibration USD <= frozen calibration ceiling (proportional share of the budget model's recommended ceiling) after the cumulative-USD guard"
+  }
+ ],
+ "truncation_handling": "Report exact cap-hit / truncation counts from the first-class telemetry. Use the frozen G2 cap rule. Do NOT invent a post-calibration cap change.",
+ "performance_rule": "No F1-based calibration continuation rule is frozen. Calibration F1 alone MUST NOT tune or cancel the main experiment (mission section 24).",
+ "stop_trigger": "The frozen pre-run protocol does not declare any cap hit/truncation as a stop trigger; cap hits during calibration are reported, not a stop trigger.",
+ "evaluation": "scripts/wp1b_calibration_gate.py evaluates these checks against a calibration results directory (ZERO API, deterministic)."
+}
