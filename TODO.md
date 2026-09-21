@@ -2347,12 +2347,12 @@ These three REAL_DEFECT pre-existing full-suite failures were NOT fixed in the
 WP1B_PREFLIGHT_FREEZE mission (contract forbids fixing a REAL_DEFECT outside
 WP-1 code). Each must be triaged in a future mission.
 
-### K-WP1B-1 — test_d96_kaggle_github_boundary: github.py docstring contains GITHUB_TOKEN
+### K-WP1B-1 — test_d96_kaggle_github_boundary: github.py docstring contains the GitHub auth env-var name
 - **Priority:** MEDIUM
 - **Category:** REAL_DEFECT
 - **Description:** tests/integration/test_d96_kaggle_github_boundary.py::test_runtime_launch_resume_path_has_no_github_machinery
   asserts src/benchmark/issue_grounded/github.py must not contain the literal
-  GITHUB_TOKEN; the file still carries it inside a docstring.
+  GitHub auth env-var name; the file still carries it inside a docstring.
 - **Acceptance Criteria:** decide either to scrub the docstring or amend the
   boundary test; full suite must equal the known-failure set afterwards.
 - **Status:** OPEN (recorded 2026-09-21)
