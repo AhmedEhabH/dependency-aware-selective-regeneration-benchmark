@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
-"""WP-1a independent audit (AC-1A.10).
+"""WP-1a same-session alternate-implementation cross-check (AC-1A.10).
+
+TERMINOLOGY CORRECTED 2026-09-21: this checker is a SAME-SESSION
+alternate-implementation cross-check (isolated recomputation). It is NOT an
+independent/external audit: the same execution context authored both the WP-1a
+implementation and this checker. A blind independent-audit packet is prepared
+at exports/wp1a_independent_audit_packet_2026-09-21/.
 
 This checker does NOT import the WP-1a helpers being audited
 (benchmark.wp1a.schema / rederive / scorer / accounting / budget /
@@ -238,7 +244,8 @@ def main() -> int:
         "total": total,
         "status": "PASS" if passed == total else "FAIL",
         "checks": checks,
-        "note": "independent recomputation WITHOUT importing benchmark.wp1a helpers",
+        "note": "same-session alternate-implementation cross-check WITHOUT importing "
+        "benchmark.wp1a helpers (NOT an independent/external audit)",
     }
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     (OUT_DIR / "wp1a_independent_audit.json").write_text(json.dumps(result, indent=1), encoding="utf-8")

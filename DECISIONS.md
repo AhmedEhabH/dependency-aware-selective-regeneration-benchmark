@@ -1545,3 +1545,59 @@ esearch/bounded-semantic-expansion/pilot_registration_freeze.json — 60 DEVELOP
 ### WP1B_CALIBRATION_AND_MAIN - AWAITING_AHMED_AUTHORIZATION
 - WP-1b Calibration + Main n=50 Selection Run NOT started; requires Ahmed
   authorization after reviewing the WP-1a STOP report.
+
+---
+
+## Decision WP1B_G1_NI_MARGIN — DECISION REQUIRED (2026-09-21)
+
+- **Status:** BLOCKER G1 — DECISION REQUIRED. No authoritative pre-result
+  artifact freezes an F1 non-inferiority margin for the WP-1b selection-only
+  comparison.
+- **Provenance:** DA-08 Δ=0.05 governs regression pass rate (H2), not F1;
+  docs/EXPERIMENTAL_DESIGN_V2.md H1 defines F1 NI Δ=0.05 for
+  hybrid_selective vs epository_agent (candidate, authority not
+  established for this experiment); WP-1a scorer schema explicitly says "no
+  non-inferiority margin is silently chosen"; WP-1a cost-quality categories
+  use a point-estimate rule.
+- **Decision:** Do NOT invent a margin. Prepared
+  docs/WP1B_NI_MARGIN_DECISION_REQUIRED_2026-09-21.md +
+  rtifacts/wp1b_ci_decision_rule_preregistration_2026-09-21.json. NO PAID
+  WP-1b EXECUTION IS AUTHORIZED UNTIL THIS VALUE IS FROZEN.
+- **Scope change:** NO (no margin invented).
+
+## Decision WP1B_G2_COMPLETION_CAP — DECISION REQUIRED (2026-09-21)
+
+- **Status:** BLOCKER G2 — DECISION REQUIRED. 512 (pilot-derived) vs 1024
+  (v1.1 scientific-run value) cannot be resolved from valid prospective
+  evidence alone.
+- **Decision:** Do NOT silently change 512 to 1024. Prepared
+  docs/WP1B_AGENT_COMPLETION_CAP_PROVENANCE_2026-09-21.md +
+  docs/WP1B_AGENT_COMPLETION_CAP_AMENDMENT_2026-09-21.md (PROPOSED,
+  NOT EFFECTIVE). Paid WP-1b blocked until the cap decision is made.
+- **Scope change:** NO.
+
+## Decision WP1B_G3_LOOP_SEMANTICS — INSTRUMENTED (2026-09-21)
+
+- **Status:** Resolved. Forced-final/round-cap precedence derived from code
+  (iterative_agent.py) and frozen protocol; no code/protocol contradiction.
+- **Decision:** Add behavior-preserving truncation/EMPTY telemetry to
+  IterativeRepositoryAgentStrategy + src/benchmark/wp1b/telemetry.py;
+  document state machine in
+  docs/WP1B_AGENT_LOOP_TERMINATION_SEMANTICS_2026-09-21.md. Transport-retry
+  count gap recorded (frozen rule says max 3; backend default 1) — WP-1b must
+  configure/confirm before paid execution.
+- **Scope change:** NO behavior change to selection.
+
+## Decision WP1A_AUDIT_TERMINOLOGY_CORRECTION — ADOPTED (2026-09-21)
+
+- **Status:** Terminology corrected. The WP-1a "independent audit 19/19" was a
+  SAME-SESSION alternate-implementation cross-check (same execution context
+  authored both implementation and checker). It is not an independent/external
+  audit.
+- **Decision:** Relabel WP-1a artifacts/scripts/docs accordingly
+  (wp1a_independent_audit.json, wp1a_acceptance_report.json AC-1A.10,
+  wp1a_frozen_agent_protocol.json runrecord_audit_field, WP-1 draft, WP-1a
+  impact declaration, PROGRESS.md, test docstrings). Prepared a blind
+  independent-audit packet at
+  xports/wp1a_independent_audit_packet_2026-09-21/.
+- **Scope change:** NO.

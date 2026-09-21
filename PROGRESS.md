@@ -29,7 +29,10 @@ DeltaF1 +0.09212640785196952); main-50 + calibration-3 sample frozen
 (disjoint, deterministic, label-free); intent parity 53/53; repository-agent
 protocol frozen + mock-executable; failure semantics / shared scorer /
 accounting / budget (recommended ceiling ~$1.10 for Ahmed review) /
-cost-quality categories pre-registered; independent audit 19/19 PASS. WP-1b
+cost-quality categories pre-registered; same-session cross-check 19/19 PASS
+(TERMINOLOGY CORRECTED 2026-09-21: NOT an independent audit; blind
+independent-audit packet at exports/wp1a_independent_audit_packet_2026-09-21/).
+WP-1b
 NOT started. Previous task - SALEOR_RESERVE_300_RMCSS
 (2026-09-20; PRIMARY `SALEOR_RESERVE_300_RMCSS_PASS` + SECONDARY
 `SECONDARY_CROSS_REPO_TRANSFER_PASS`; RM-CSS F1 0.3569 vs SIP 0.2647, Delta F1
@@ -76,7 +79,8 @@ in BOTH realizations A and B; Saleor passes; Stage 5 stays PAUSED/SEALED).
   `RunRecord`. AC-0.1..AC-0.5 PASS; independent audit 6/6 PASS.
 - **WP-1a (this session):** Repository-Agent Selection Baseline PREPARATION
   COMPLETE on `feat/wp1a-selection-baseline-preparation` (NOT merged). AC-1A.1..
-  AC-1A.12 ALL PASS; independent audit 19/19; 50 new unit tests; ruff/mypy
+  AC-1A.12 ALL PASS; same-session cross-check 19/19 (NOT an independent audit);
+50 new unit tests; ruff/mypy
   strict/py_compile/git diff --check PASS. Scientific API spend $0.00.
 - **Localization method selection:** CLOSED — `IMPACT_LOCALIZATION_METHOD_SELECTION_CLOSED`
   permanent. No V3.
@@ -87,7 +91,7 @@ in BOTH realizations A and B; Saleor passes; Stage 5 stays PAUSED/SEALED).
   schema, per-task predictions + SHA-256, re-derivation verification, main-50
   + calibration-3 manifests, intent parity, frozen agent protocol, failure
   semantics, shared scorer schema, accounting schema, budget model,
-  cost-quality categories, independent audit, acceptance report).
+  cost-quality categories, same-session cross-check, acceptance report).
 - **Remaining untouched Saleor RESERVE:** 786 tasks (outcomes unread).
 - **Next candidate scientific work package:** WP-1b Repository-Agent
   Calibration + Main n=50 Selection Run — AWAITING AHMED AUTHORIZATION. NOT

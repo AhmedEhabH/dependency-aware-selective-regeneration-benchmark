@@ -3,8 +3,10 @@
 
 Reads the already-generated WP-1a artifacts and emits
 research/wp1a/wp1a_acceptance_report.json with PASS/FAIL + evidence for every
-criterion. No recomputation is performed here; the independent audit performs
-the independent recomputation.
+criterion. No recomputation is performed here; the same-session cross-check
+(scripts/wp1a_independent_audit.py) performs the recomputation. TERMINOLOGY
+CORRECTED 2026-09-21: AC-1A.10 is a same-session alternate-implementation
+cross-check, NOT an independent/external audit.
 """
 from __future__ import annotations
 
@@ -85,10 +87,12 @@ def main() -> int:
          _audit_check("A14.budget_inputs"),
          "label-free projection; recommended ceiling for Ahmed review; "
          "cumulative USD guard before each paid request; BUDGET_ABORT rule pre-registered"),
-        ("AC-1A.10", "Independent audit",
+        ("AC-1A.10", "Alternate-implementation cross-check (same-session; NOT an independent audit)",
          AUDIT_RESULT["status"] == "PASS",
-         f"{AUDIT_RESULT['pass']}/{AUDIT_RESULT['total']} independent checks PASS "
-         f"(no import of audited helpers)"),
+         f"{AUDIT_RESULT['pass']}/{AUDIT_RESULT['total']} same-session "
+         f"alternate-implementation checks PASS (no import of audited helpers); "
+         f"blind independent-audit packet at "
+         f"exports/wp1a_independent_audit_packet_2026-09-21/"),
         ("AC-1A.11", "No scientific API calls / $0.00",
          no_paid_calls,
          "all WP-1a scripts are local recomputation; no paid model/API call made"),

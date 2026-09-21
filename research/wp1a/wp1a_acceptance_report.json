@@ -1,6 +1,6 @@
 {
  "wp1a": "wp1a_acceptance_report",
- "generated_utc": "2026-09-21T00:46:14.304457+00:00",
+ "generated_utc": "2026-09-21T02:48:29.525086+00:00",
  "status": "ALL_PASS",
  "criteria": [
   {
@@ -59,9 +59,9 @@
   },
   {
    "criterion": "AC-1A.10",
-   "title": "Independent audit",
+   "title": "Alternate-implementation cross-check (same-session; NOT an independent audit)",
    "pass": true,
-   "evidence": "19/19 independent checks PASS (no import of audited helpers)"
+   "evidence": "19/19 same-session alternate-implementation checks PASS (no import of audited helpers); blind independent-audit packet at exports/wp1a_independent_audit_packet_2026-09-21/"
   },
   {
    "criterion": "AC-1A.11",

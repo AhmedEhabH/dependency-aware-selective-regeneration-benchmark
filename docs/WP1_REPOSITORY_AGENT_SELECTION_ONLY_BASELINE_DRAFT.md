@@ -250,11 +250,11 @@ Draft ACs:
   task IDs. Mechanical assertion: byte-identical sorted task-ID manifests.
 - **AC-1.2 — Leakage fence:** repository agent reads only parent-state/public
   information. `allow_ground_truth_universe=False`. No target diff / hidden
-  proxy / expected affected artifacts. Independent audit PASS.
+  proxy / expected affected artifacts. Alternate-implementation cross-check PASS.
 - **AC-1.3 — Prediction freeze:** all repository-agent predictions and hashes
   persisted before the scorer loads outcomes.
 - **AC-1.4 — Shared scorer:** all three arms scored by the same scorer
-  implementation. Independent audit re-derives every
+  implementation. Alternate-implementation cross-check re-derives every
   TP/FP/FN/P/R/FNR/F1.
 - **AC-1.5 — Efficiency accounting:** tokens/calls/latency/USD recorded
   mechanically from raw run artifacts. Accounting identity passes.
@@ -264,7 +264,9 @@ Draft ACs:
   call.
 - **AC-1.8 — Statistical output:** 10,000-task-level paired bootstrap with
   seed 20260920 reproduces from raw per-task records.
-- **AC-1.9 — Independent audit:** an independent script recomputes all
+- **AC-1.9 — Independent audit (external, required for future execution):** a
+  blind, genuinely independent script (not produced in the same execution
+  context that produced the WP-1 implementation) recomputes all
   headline values.
 - **AC-1.10 — Claim boundary:** final report explicitly states
   "same-protocol n=50 selection-only comparison; not E2E; not universal
@@ -293,7 +295,7 @@ Do not renumber existing records.
   per-task predictions + SHA-256 manifest, re-derivation verification, main-50
   and calibration-3 manifests, intent parity, frozen agent protocol, failure
   semantics, shared scorer schema, accounting schema, budget model,
-  cost-quality categories, independent audit, acceptance report).
+  cost-quality categories, same-session cross-check, acceptance report).
 - **AC-1A.1..AC-1A.12:** all PASS (see `research/wp1a/wp1a_acceptance_report.json`).
 - **WP-1b:** NOT executed; remains `WP-1b Calibration + Main n=50 Selection
   Run — AWAITING AHMED AUTHORIZATION`.

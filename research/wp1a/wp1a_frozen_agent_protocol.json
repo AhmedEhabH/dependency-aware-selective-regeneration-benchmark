@@ -127,7 +127,7 @@
   "path_outside_universe_handling": "any selected path outside the editable universe -> error list appended; continue if calls remain; else EMPTY prediction. Tools reject traversal/absolute/backslash paths.",
   "duplicate_path_normalization": "duplicate selected paths rejected (must be unique); paths are compared exactly against the editable universe (no fuzzy match).",
   "allow_ground_truth_universe": false,
-  "runrecord_audit_field": "RunRecord.allow_ground_truth_universe must be persisted and False for every WP-1b agent RunRecord; audited by the independent audit.",
+  "runrecord_audit_field": "RunRecord.allow_ground_truth_universe must be persisted and False for every WP-1b agent RunRecord; verified by the WP-1b independent-audit pack (future external audit).",
   "final_file_set_json_schema": "AGENT_FINAL_SCHEMA: {action: 'final', selected_paths: [str, ...], rationale: str, requires_iteration: bool} - selected_paths is the predicted file set for the arm.",
   "fail_closed_semantics": "no-paths / truncated / exhausted-calls / deadline / malformed -> EMPTY prediction in the primary fail-closed analysis with a separate failure flag.",
   "labels_never_accessed": "The prediction pipeline (agent + candidate universe) MUST NOT access label/outcome columns, hidden proxy, target diff, expected affected artifacts, or target outcomes (AC-1A.2)."

@@ -1,4 +1,8 @@
-"""WP-1a independent audit + acceptance tests (AC-1A.10, section 14)."""
+"""WP-1a same-session cross-check + acceptance tests (AC-1A.10, section 14).
+
+TERMINOLOGY CORRECTED 2026-09-21: the WP-1a 19-check pass is a same-session
+alternate-implementation cross-check, NOT an independent/external audit.
+"""
 
 from __future__ import annotations
 

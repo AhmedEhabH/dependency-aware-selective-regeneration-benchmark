@@ -87,7 +87,9 @@ New files (this branch):
   + recommended future ceiling.
 - `research/wp1a/wp1a_cost_quality_categories.json` — pre-registered outcome
   categories.
-- `research/wp1a/wp1a_independent_audit.json` — independent audit result.
+- `research/wp1a/wp1a_independent_audit.json` — same-session
+  alternate-implementation cross-check result (TERMINOLOGY CORRECTED
+  2026-09-21; not an independent/external audit).
 - `research/wp1a/wp1a_acceptance_report.json` — AC-1A.1..12 report.
 - `scripts/wp1a_*.py` — generation/verification/audit scripts (one per
   deliverable).
@@ -178,5 +180,7 @@ AC-1A.1 model/provider provenance; AC-1A.2 label isolation; AC-1A.3 exact 300
 re-derivation; AC-1A.4 main-50/cal-3 deterministic freeze + disjointness;
 AC-1A.5 intent parity; AC-1A.6 agent protocol frozen + mock-executable;
 AC-1A.7 shared scorer tests; AC-1A.8 accounting identities; AC-1A.9 budget
-feasibility/pre-request guard; AC-1A.10 independent audit; AC-1A.11 $0.00
+feasibility/pre-request guard; AC-1A.10 same-session cross-check (NOT an
+independent audit; blind independent-audit packet prepared 2026-09-21);
+AC-1A.11 $0.00
 scientific API spend; AC-1A.12 786 RESERVE outcomes untouched.
