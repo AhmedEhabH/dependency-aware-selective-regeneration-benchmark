@@ -832,3 +832,18 @@ UPLOAD_THIS_FILE=project-YYYY-MM-DD-HHmm.zip
 
 The Stop Report must include this filename so the user knows which file to
 upload.
+
+## End-of-mission state update (mandatory)
+
+Standing rule for every future mission (WP1B_TOOLFIX_LIVESTATUS_2026-09-21, B5):
+
+1. Update `docs/LIVE_STATUS.json` with the mission's outcome (keep every
+   schema key; an external study-deck builder consumes it).
+2. Run `python scripts/render_live_status.py --write` to regenerate the block
+   in the four current-facing files (README.md,
+   START_HERE_CURRENT_2026-09-21b.md, PROGRESS.md,
+   00_CURRENT_RESEARCH_STATE.md).
+3. `tests/unit/test_live_status_blocks.py` must pass (byte-for-byte sync).
+4. Distinguish "gate passed" from "instrument valid" in every STOP report:
+   tally raw per-call outcomes from the sidecar
+   (`scripts/wp1b_sidecar_tool_audit.py`), not only the gate result.

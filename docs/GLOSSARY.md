@@ -56,3 +56,27 @@ RM-CSS = SIP
 | Saleor RESERVE | the only untouched sealed population (1,086 tasks); this mission samples 300 |
 | Embedding-coverage correction | P86 fix: never use finite sentinels for missing embeddings; NaN for no-unit files; embed missing units |
 | `IMPACT_LOCALIZATION_METHOD_SELECTION_CLOSED` | permanent: no new localization method will be designed/tuned for the current thesis |
+
+## WP-1b / E2E closure ID namespaces (2026-09-21)
+
+New text MUST use the prefixed IDs below. Old text keeps its original wording
+(e.g. bare "G6" in earlier documents means the pilot pricing-preflight gate).
+
+- `E2E-G6` = F2P/P2P oracle (fail-to-pass + pass-to-pass tests per task).
+- `E2E-G7` = ArtifactUniverse leakage closure (WP-0).
+- `WP1B-G1` = F1 non-inferiority margin freeze (Δ = 0.05).
+- `WP1B-G2` = agent-control completion cap (amendment 512 → 1024).
+- `WP1B-G3` = agent loop-termination semantics (instrumented).
+- `WP1B-G4` = audit terminology correction (same-session cross-check, not
+  independent audit).
+- `WP1B-G5` = variance-substudy preregistration (15 tasks × 3 runs).
+- `WP1B-G6` = provider pricing preflight (live OpenRouter metadata, no drift).
+- `WP1B-G8` = budget model (v1 → v2, 3.4× prompt-token underestimate factor).
+- `WP1B-G9` = sample size (MAIN_297 / MAIN_150 / MAIN_50 manifests).
+- `WP1B-G10` = telemetry (per-call sidecar + per-task observation metrics).
+- `WP1B-G11` = tool budget (amendment `WP1B_G11_TOOL_BUDGET_2026_09_21`: D2 —
+  `search_text` no longer consumes `MAX_DISTINCT_FILES`; `read_file` keeps 30).
+
+**Recorded collision:** bare "G6" meant two different things — the E2E F2P/P2P
+oracle gate (E2E-G6) and the WP-1b pricing-preflight closure item (WP1B-G6).
+Use the prefixed IDs in all new text; old text is left as it is.
