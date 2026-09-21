@@ -297,7 +297,13 @@ Covered in section 14.
 
 ## Push / tag status
 
-- `main` pushed to origin (`f25950f..87c86f5`).
+- `main` pushed to origin at `87c86f5` (`f25950f..87c86f5`).
 - `feat/wp1a-selection-baseline-preparation` pushed (`c53d918..a9a5c2f`).
 - Evidence-freeze tag `wp1a-integration-closure-2026-09-21` created (annotated,
   peel `87c86f5`) and pushed. No existing tag was moved or overwritten.
+- **Final local-state delta at STOP:** github.com became intermittently
+  unreachable; the final three documentation-only commits
+  (`7546d87`, `03f081d`, and this report note) are committed locally on `main`
+  (`03f081d…`) but not yet pushed to origin/main. origin/main remains at
+  `87c86f5` (the fully functional closure state). Push these three commits when
+  connectivity returns; no scientific content is affected.
