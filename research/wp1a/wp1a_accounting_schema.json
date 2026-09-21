@@ -1,0 +1,36 @@
+{
+ "wp1a": "wp1a_accounting_schema",
+ "generated_utc": "2026-09-21T00:40:50.235622+00:00",
+ "per_arm_fields": [
+  "prompt_tokens",
+  "completion_tokens",
+  "total_tokens",
+  "model_calls",
+  "wall_seconds",
+  "usd_cost",
+  "mean_per_task_tokens",
+  "mean_per_task_calls",
+  "mean_per_task_usd",
+  "mean_per_task_wall_seconds"
+ ],
+ "rmcss_marginal_view_fields": [
+  "sip_inference_cost_usd",
+  "query_embedding_incremental_cost_usd",
+  "dense_incremental_cost_usd",
+  "memory_lookup_incremental_cost_usd",
+  "classifier_incremental_cost_usd",
+  "total_marginal_usd",
+  "note_no_double_counting"
+ ],
+ "rmcss_setup_view_fields": [
+  "embedding_corpus_index_build_usd",
+  "repository_memory_index_build_usd",
+  "setup_wall_seconds",
+  "setup_compute_provenance",
+  "amortized_at_n50_usd_per_task",
+  "amortized_at_n300_usd_per_task"
+ ],
+ "rmcss_two_views_rule": "View A marginal/per-change operational cost (no double counting of already-built reusable indexes); View B preprocessing/setup cost (one-time builds). Report amortized examples at N=50 and N=300. Do not hide one-time preprocessing; do not charge the full one-time build to every task.",
+ "latency_provenance_rule": "Stored SIP/RM-CSS latency from an earlier endpoint/machine is NOT directly same-machine comparable with fresh repository-agent latency. Latency stays descriptive unless re-measured under a matched environment WITHOUT changing predictions.",
+ "frozen_efficiency_reference": "research/saleor-reserve-300-rmcss/saleor_reserve_300_efficiency.json"
+}

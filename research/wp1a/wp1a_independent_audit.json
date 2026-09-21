@@ -1,0 +1,104 @@
+{
+ "wp1a": "wp1a_independent_audit",
+ "pass": 19,
+ "total": 19,
+ "status": "PASS",
+ "checks": [
+  {
+   "name": "A1.sample_hash",
+   "pass": true,
+   "detail": "len=300 sha=445b5e9d0aeeab95..."
+  },
+  {
+   "name": "A1.main_50",
+   "pass": true,
+   "detail": "n=50 unique=50"
+  },
+  {
+   "name": "A2.calibration_3",
+   "pass": true,
+   "detail": "n=3 unique=3"
+  },
+  {
+   "name": "A3.disjointness",
+   "pass": true,
+   "detail": "intersection=0"
+  },
+  {
+   "name": "A1.main_50_matches_frozen",
+   "pass": true,
+   "detail": "exact list equality"
+  },
+  {
+   "name": "A2.calibration_matches_frozen",
+   "pass": true,
+   "detail": "exact list equality"
+  },
+  {
+   "name": "A5.intent_parity",
+   "pass": true,
+   "detail": "status=WP1A_INTENT_PARITY_PASS match=53/53"
+  },
+  {
+   "name": "A6.raw_artifact_forbidden_present",
+   "pass": true,
+   "detail": "detected forbidden col(s) in raw: ['label']"
+  },
+  {
+   "name": "A6.prediction_view_label_free",
+   "pass": true,
+   "detail": "forbidden after boundary drop: []"
+  },
+  {
+   "name": "A7.universe_is_public_parent_state",
+   "pass": true,
+   "detail": "universe n=1086 hidden_dir_present=False"
+  },
+  {
+   "name": "A8.exact_reproduction",
+   "pass": true,
+   "detail": "verification=EXACT_REPRODUCTION sip_f1=0.26474622770919065 rmcss_f1=0.35687263556116017 delta=0.09212640785196952"
+  },
+  {
+   "name": "A9.per_task_prediction_hashes",
+   "pass": true,
+   "detail": "n=300 hashes_ok=True"
+  },
+  {
+   "name": "A10.model_provenance",
+   "pass": true,
+   "detail": "model=qwen/qwen3-coder provider=deepinfra/turbo"
+  },
+  {
+   "name": "A11.protocol_complete",
+   "pass": true,
+   "detail": "25 required keys present"
+  },
+  {
+   "name": "A12.scorer_formula",
+   "pass": true,
+   "detail": "tp=1 fp=1 fn=1 f1=0.5"
+  },
+  {
+   "name": "A13.accounting_identity_fields",
+   "pass": true,
+   "detail": "tokens = prompt + completion identity present in schema"
+  },
+  {
+   "name": "A14.budget_inputs",
+   "pass": true,
+   "detail": "main=50 cal=3 ceiling_usd=1.103733"
+  },
+  {
+   "name": "A15.allow_ground_truth_universe_false",
+   "pass": true,
+   "detail": "protocol allow_ground_truth_universe == False"
+  },
+  {
+   "name": "A16.no_786_access",
+   "pass": true,
+   "detail": "wp1a scripts do not open unread RESERVE outcomes (source scan + artifact uses only opened 300 proxies)"
+  }
+ ],
+ "note": "independent recomputation WITHOUT importing benchmark.wp1a helpers"
+}

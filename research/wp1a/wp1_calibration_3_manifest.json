@@ -1,0 +1,16 @@
+{
+ "wp1a": "wp1_calibration_3_manifest",
+ "n": 3,
+ "selection_rule": "numpy.random.default_rng(20260921).choice over the sorted complement of the main-50, size 3, replace=False, output sorted; no label/difficulty filtering",
+ "sample_source": "research/saleor-reserve-300-rmcss/saleor_reserve_300_sample.json",
+ "sample_sha256": "445b5e9d0aeeab9551e8feeb3e59e6b5bcfee793f029810a6efe0cbc8f126447",
+ "task_ids": [
+  "saleor-rc-349d46d906ad",
+  "saleor-rc-b05633dae118",
+  "saleor-rc-d52a55471bfc"
+ ],
+ "task_ids_sha256": "23f520d8164721885583a926c40dc71cb100b14bb47758dc3bb480279e0847e0",
+ "manifest_sha256": "d14388a80536b39b1c8856388fdeeb09d9b5fdfa61d8ed9dbfc9f35b3dab19e4",
+ "labels_not_used": true,
+ "786_reserve_outcomes_not_accessed": true
+}
