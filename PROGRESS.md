@@ -237,3 +237,26 @@ wp1b-preflight-freeze-2026-09-21, push main + tag, PROGRESS/00_CURRENT/
 START_HERE updates, TRUE LIGHT export), then Phase C Calibration-3 (D6 YES,
 cap 1024, ceiling 0.25). MAIN_297/variance NOT authorized (D7 NO) until Ahmed
 reviews the Calibration-3 STOP report.
+
+## WP-1b Calibration-3 (2026-09-21) - EXECUTED; STOP after Phase C (D7 = NO)
+
+**Phase C run (D6 YES, ceiling \.25):** exactly the 3 tasks in
+research/wp1a/wp1_calibration_3_manifest.json with protocol v2 (cap 1024),
+frozen qwen/qwen3-coder @ deepinfra/turbo, temp 0.0. Ran via
+scripts/wp1b_calibration_run.py into research/wp1b/calibration-3-2026-09-21/.
+
+- **Cost:** cumulative \.081142 <= \.25 (per task 0.033858 / 0.031420 /
+  0.015865). Per-task / B1 worst-case ratios 0.636 / 0.617 / 0.523 - all
+  within 1.2x (BUDGET_MODEL_V2_OK).
+- **Gate:** CG-1..CG-9 all PASS.
+- **Instrument:** 0 cap hits, 0 observation truncations, 0 EMPTY (all valid
+  finals), finish-reason distribution 24x stop; 24 per-call sidecar records.
+- **Not scored against labels** (instrument check only).
+- **STOP after Phase C:** the main run (MAIN_297) and the variance substudy
+  are NOT authorized (D7 = NO). MAIN_297 requires a new explicit Ahmed
+  authorization after he reviews the Calibration-3 STOP report.
+- Branch: wp1b/calibration-3-2026-09-21 (calibration records + gate result).
+
+**Next step:** Ahmed reviews the Calibration-3 STOP report; then a new
+authorization (D7 = YES) is required before MAIN_297 / variance. The 786 sealed
+Saleor RESERVE outcomes remain untouched.

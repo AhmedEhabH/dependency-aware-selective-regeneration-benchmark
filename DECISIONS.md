@@ -1727,6 +1727,28 @@ esearch/bounded-semantic-expansion/pilot_registration_freeze.json — 60 DEVELOP
 - **Scope change:** the ONLY frozen scientific knob amended is G2 (D3). All
   other frozen knobs unchanged.
 
+## Decision WP1B_CALIBRATION_3 — EXECUTED (2026-09-21)
+
+- **Status:** EXECUTED. Calibration-3 run authorized (D6 = YES), protocol v2
+  (cap 1024), frozen provider/route/pricing, cumulative USD guard ≤ $0.25.
+- **Run:** exactly the 3 tasks in `research/wp1a/wp1_calibration_3_manifest.json`
+  (`saleor-rc-349d46d906ad`, `saleor-rc-b05633dae118`, `saleor-rc-d52a55471bfc`)
+  via `scripts/wp1b_calibration_run.py`; output under
+  `research/wp1b/calibration-3-2026-09-21/`.
+- **Cost:** cumulative **$0.081142 ≤ $0.25** (per task $0.033858 / $0.031420 /
+  $0.015865). Per-task cost / B1 worst case ratios 0.636 / 0.617 / 0.523 — all
+  within 1.2× (BUDGET_MODEL_V2_OK; no BUDGET_MODEL_V2_WRONG stop).
+- **Gate:** CG-1..CG-9 all **PASS**
+  (`research/wp1b/calibration-3-2026-09-21/wp1b_calibration_gate_result.json`).
+- **Instrument findings:** 0 cap hits (finish_reason=length), 0 observation
+  truncations (0%), 0 EMPTY predictions (all 3 valid finals), finish-reason
+  distribution 24× `stop`; 24 per-call sidecar records.
+- **Calibration is NOT scored against labels** (instrument check only).
+- **STOP after Phase C:** the main run (MAIN_297) and the variance substudy are
+  NOT authorized (D7 = NO). MAIN_297 requires a new explicit Ahmed
+  authorization after he reviews this Calibration-3 STOP report.
+- **Scope change:** NO scientific scope change.
+
 ## Decision WP1B_PREFLIGHT_APPENDIX_R_REDERIVATION — ALL_AGREE (2026-09-21)
 
 - **Status:** ADOPTED. Every Appendix R number was independently re-derived with
