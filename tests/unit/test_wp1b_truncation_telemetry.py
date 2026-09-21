@@ -38,6 +38,11 @@ def _record(
         "empty_reason": empty_reason,
         "prediction_empty": empty_reason != "none",
         "final_answer_truncated": empty_reason == "truncation",
+        "observation_truncation_rate": 0.0,
+        "paths_read": [],
+        "paths_surfaced": [],
+        "tool_output_chars_raw_total": 0,
+        "tool_output_chars_shown_total": 0,
     }
 
 
@@ -102,6 +107,19 @@ def test_strategy_telemetry_requires_strategy_with_selection_telemetry() -> None
         selection_valid_final_count = 0
         selection_finish_reason_distribution = {"stop": 8}
         selection_empty_reason = "round_cap"
+        tool_output_chars_raw_total = 0
+        tool_output_chars_shown_total = 0
+
+        def observation_truncation_rate(self) -> float:
+            return 0.0
+
+        @property
+        def paths_read(self) -> list[str]:
+            return []
+
+        @property
+        def paths_surfaced(self) -> list[str]:
+            return []
 
     rec = strategy_telemetry(_StubStrategy(), task_id="x")  # type: ignore[arg-type]
     validate(rec)

@@ -224,8 +224,19 @@ def recompute_v11_truncation_evidence() -> dict[str, object]:
     }
 
 
-def main() -> int:
-    ARTIFACTS.mkdir(parents=True, exist_ok=True)
+def main(out_dir: Path | None = None) -> int:
+    """Run the WP-1b closure recomputation.
+
+    ``out_dir`` (optional, default ``None``) redirects ONLY the written
+    ``wp1a_wp1b_closure_recomputation.json`` and
+    ``wp1b_completion_cap_truncation_evidence.json`` into ``out_dir`` (used by
+    the test suite with a pytest ``tmp_path`` so tracked artifacts are never
+    rewritten). All input reads keep using the repository paths. When
+    ``out_dir`` is ``None`` the default (human-run) behaviour is byte-identical
+    to the pre-fix script.
+    """
+    write_dir = out_dir if out_dir is not None else ARTIFACTS
+    write_dir.mkdir(parents=True, exist_ok=True)
 
     splits = recompute_sample_and_splits()
     metrics = recompute_pooled_metrics()
@@ -239,10 +250,10 @@ def main() -> int:
         "pooled_metrics": metrics,
         "v11_truncation_evidence": {k: v for k, v in v11.items() if k != "note"},
     }
-    out_path = ARTIFACTS / "wp1a_wp1b_closure_recomputation.json"
+    out_path = write_dir / "wp1a_wp1b_closure_recomputation.json"
     out_path.write_text(json.dumps(recomputation, indent=1), encoding="utf-8")
 
-    v11_path = ARTIFACTS / "wp1b_completion_cap_truncation_evidence.json"
+    v11_path = write_dir / "wp1b_completion_cap_truncation_evidence.json"
     v11_path.write_text(json.dumps(v11, indent=1), encoding="utf-8")
 
     ok = (
@@ -272,4 +283,8 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    import sys
+    out_arg: Path | None = None
+    if "--out" in sys.argv:
+        out_arg = Path(sys.argv[sys.argv.index("--out") + 1])
+    raise SystemExit(main(out_dir=out_arg))

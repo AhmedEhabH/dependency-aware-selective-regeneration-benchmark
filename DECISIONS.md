@@ -1637,3 +1637,163 @@ esearch/bounded-semantic-expansion/pilot_registration_freeze.json — 60 DEVELOP
   not authorized and was not run. API spend for this mission: .00.
 - Next permitted actions: resolve G1 (margin), then G2 (cap), then obtain
   spend authorization (contract section 25/35-16).
+
+## Decision WP1B_PREFLIGHT_A1_ARTIFACT_ABSOLUTE_PATH_LEAK — COSMETIC DEFECT (2026-09-21)
+
+- **Status:** RECORDED as a known cosmetic defect (not fixed in place).
+- **Context:** three frozen tracked artifacts contain machine-absolute Windows
+  paths (`C:\Users\...`): `artifacts/wp1b_variance_substudy_preregistration_2026-09-21.json`
+  (`source_manifest`), `artifacts/wp1b_completion_cap_truncation_evidence.json`
+  (`run_records_path`), `artifacts/wp1a_wp1b_closure_recomputation.json`
+  (`v11_truncation_evidence.run_records_path`); `research/wp1a/wp1a_acceptance_report.json`
+  rewrites `generated_utc` on every generator run.
+- **Decision:** do NOT rewrite the already-frozen artifacts to "clean" their
+  absolute paths (that would change their frozen SHA-256 values). All NEW
+  artifacts created in this mission store repository-relative POSIX paths. The
+  four generator scripts (`wp1a_independent_audit.py`, `wp1a_acceptance_report.py`,
+  `wp1b_closure_recompute.py`, `wp1b_variance_substudy_selection.py`) now accept
+  `--out <dir>` so tests redirect outputs into a pytest `tmp_path`; default
+  human-run behaviour is byte-identical to before.
+- **Scope change:** NO scientific scope change.
+
+## Decision WP1B_G2_COMPLETION_CAP_2026_09_21 — EFFECTIVE (2026-09-21)
+
+- **Status:** **EFFECTIVE** — authority D3. The proposed prospective amendment
+  `docs/WP1B_AGENT_COMPLETION_CAP_AMENDMENT_2026-09-21.md`
+  (`agent_control_max_completion_tokens` 512 → 1024) is APPROVED and in force
+  for WP-1b.
+- **Four recorded reasons:**
+  1. The loop breaks on `finish_reason == "length"` at **any** of the 8 calls,
+     not only the final one (`iterative_agent.py` line ~507 in `analyze_impact`).
+     One verbose exploration reply at 512 ends the task as EMPTY.
+  2. A cap only matters when it is hit. `max_tokens` stops generation; it does
+     not change the tokens generated before that point. A reply that fits in 512
+     tokens is unaffected by raising the cap. Raising it can only turn a
+     would-be truncation into a complete reply.
+  3. EMPTY counts as F1 = 0 for the agent. A 512 cap would therefore bias the
+     comparison **toward RM-CSS**. 1024 is the conservative choice relative to
+     our own hypothesis.
+  4. The runaway-loop risk that motivated 512 is already bounded by
+     `MAX_AGENT_CALLS = 8` and the per-request USD guard.
+- **Artifacts:** `research/wp1b/wp1b_frozen_agent_protocol_v2.json` (v1
+  `research/wp1a/wp1a_frozen_agent_protocol.json` untouched); WP-1b runner
+  configuration passes 1024 explicitly (covered by a unit test asserting the
+  WP-1b configuration resolves to 1024 and that the SIP / RM-CSS artifacts'
+  SHA-256 values are unchanged).
+- **Scope change:** this is the ONLY frozen scientific knob amended in this
+  mission (G2, approved by D3). All other frozen knobs unchanged.
+- **Revisit:** the value is immutable for a WP-1b run once it starts; any
+  further change requires a new prospective amendment.
+
+## Decision WP1B_PREFLIGHT_PHASE_B — ADOPTED (2026-09-21)
+
+- **Status:** ADOPTED. Phase B pre-result freeze complete (B1–B7), zero API
+  spend.
+- **B1 Budget model v2 (G8):** `research/wp1b/wp1b_budget_model_v2.json`. The
+  real ArtifactUniverse per task (production path,
+  `allow_ground_truth_universe=False`, from each case's public
+  `candidate_universe.json`) and the exact initial prompt (`_build_initial_prompt`)
+  are rendered label-free. Worst case (8 calls, cap 1024) per task and totals
+  for Calibration-3 / Main-50 / Main-150 / Main-297 / variance (15×3) with the
+  1.5× safety factor. **No ceiling below worst case ×1.5** (cal $0.202 ≤ $0.25;
+  main-297 $18.640 ≤ $21.50; variance $3.025 ≤ $3.50). Underestimate factor vs
+  the v1 model ≈ 3.40×. Abort rule v2 preregistered (BUDGET_ABORT + nested
+  MAIN_50 `UNDERPOWERED_FALLBACK` exception).
+- **B2 Sample-size amendment (G9):** `research/wp1b/wp1b_main_297_manifest.json`
+  (n=297, first 50 == WP-1a MAIN_50 exactly, calibration IDs absent, hashes
+  recorded), `wp1b_main_150_manifest.json` (n=149; one calibration task
+  `saleor-rc-349d46d906ad` removed), `wp1b_main_50_manifest.json` (unchanged
+  reference). Execution order = manifest order. Power doc
+  `docs/WP1B_POWER_AND_SAMPLE_SIZE_2026-09-21.md` re-derives R-C (AGREE).
+- **B3 G1 freeze:** `research/wp1b/wp1b_ni_margin_frozen.json` +
+  `docs/WP1B_NI_MARGIN_FROZEN_2026-09-21.md`: Δ=0.05 (sensitivity 0.03/0.10),
+  pooled micro-F1, Q5 one-sided rule, inheritance record (margin only),
+  coherence anchor + relative size. AC-P8 satisfied.
+- **B4 Decision rules v2:** `research/wp1b/wp1b_decision_rules_v2.json` — P/S
+  dual analysis, seven ordered quality verdicts, cost verdict + CHEAPER rule,
+  five final categories; "dominance" retired for WP-1b. AC-P9 satisfied.
+- **B5 G2 freeze (D3):** `WP1B_G2_COMPLETION_CAP_2026_09_21` EFFECTIVE (recorded
+  above); `research/wp1b/wp1b_frozen_agent_protocol_v2.json` (cap 1024, v1
+  untouched); runner-config test asserts 1024 + frozen SIP/RM-CSS artifacts
+  unchanged. AC-P10 satisfied.
+- **B6 Agent telemetry (G10):** additive per-call sidecar JSONL + per-task
+  observation metrics in `iterative_agent.py` + `telemetry.py`; behavior
+  preservation proven by the stub-backend golden test
+  (`tests/unit/test_wp1b_agent_telemetry_golden.py`); disclosure
+  `docs/WP1B_AGENT_BASELINE_DISCLOSURE_2026-09-21.md`. AC-P11 satisfied.
+- **B7 Exploratory preregistration:** `research/wp1b/wp1b_exploratory_prereg.json`
+  X1–X5, status `EXPLORATORY_PREREGISTERED`, computed only after the primary
+  result is frozen and tagged, never part of the primary verdict. AC-P12.
+- **Scope change:** the ONLY frozen scientific knob amended is G2 (D3). All
+  other frozen knobs unchanged.
+
+## Decision WP1B_PREFLIGHT_APPENDIX_R_REDERIVATION — ALL_AGREE (2026-09-21)
+
+- **Status:** ADOPTED. Every Appendix R number was independently re-derived with
+  OpenCode's own code (`scripts/wp1b_appendix_r_rederivation.py`), NOT copied
+  from the external reference evidence script (which was never committed).
+  Comparison: `scripts/wp1b_appendix_r_agreement.py`.
+- **Result:** **125 comparisons, 0 disagreements, status ALL_AGREE**:
+  - R-A pooled micro-F1 (RESERVE-300 SIP 0.26474622770919065 / RM-CSS
+    0.35687263556116017 / delta +0.09212640785196952; MAIN_50 0.30204 / 0.39231
+    / +0.09027) — AGREE.
+  - R-B RM-CSS reproduction: 0/300 mismatches with `continuous_features +
+    boolean_features` order; 174/300 if `feature_names` order — AGREE.
+  - R-C bootstrap SE (0.0377 / 0.0277) + power table n=50/150/297 — AGREE.
+  - R-D budget (universe mean 810 [438,1140], editable-path tokens ~11190/call,
+    underestimation factor 3.398) — AGREE.
+  - R-E exploratory headroom (gold 921, in-pool 689/74.8%, TP 283/FP 382,
+    FN in-pool 406/out-pool 232, oracle 0.856, bands) — AGREE.
+- Artifact: `research/wp1b/wp1b_appendix_r_agreement.json` (125-entry
+  machine-readable record).
+- **Scope change:** NO scientific scope change.
+
+## Decision WP1B_PREFLIGHT_A2_KNOWN_TEST_FAILURES — ACCEPTED (2026-09-21)
+
+- **Status:** ADOPTED. Full suite on clean checkout: **5 failed / 3700 passed /
+  35 skipped** at baseline `1ae7058`.
+- **Decision:** the full-suite acceptance rule is now **set of failing node IDs
+  == `artifacts/known_test_failures_2026-09-21.json`**. Recorded node IDs and
+  classes in `docs/KNOWN_TEST_FAILURES_2026-09-21.md`:
+  - REAL_DEFECT: `test_d96_..._no_github_machinery` (github.py docstring
+    contains `GITHUB_TOKEN`),
+    `test_model_identity_policy_..._current_facing_docs` (README model-name
+    policy), `test_readme_markdown_tables_..._svg_fallbacks` (README SVG
+    embed policy).
+  - ENV_OR_DATA_MISSING: `test_stagec_..._all_six_gates_pass`,
+    `test_stagec_..._pinned_source_available` (pinned djangocms repo absent).
+- These are pre-existing (fail at the pre-WP-1a baseline `f25950f`) and are NOT
+  fixed in this mission (contract forbids fixing a REAL_DEFECT outside WP-1
+  code); each REAL_DEFECT got a `TODO.md` entry.
+- **Scope change:** NO.
+
+## Decision WP1B_PREFLIGHT_A4_EXPORT_MEMBER — RESOLVED (2026-09-21)
+
+- **Status:** RESOLVED by restoring the archived member.
+- **Context:** `KNOWN_ARCHIVED_EXPORT_MEMBER_MISSING` for
+  `dist/pilot-kaggle-upload.zip` (+ `.sha256`) — the pilot artifacts were
+  archived externally and absent locally, so the FULL export could not include
+  them as required members.
+- **Decision:** RESTORE the member: copied the provenance-verified D13R2
+  candidate `pilot-kaggle-upload.zip` (SHA-256
+  `65269528049b1f22f277c508f0b0db5b09d536e99fd31d306cfbbfb42e47ef9f`, sidecar
+  matches) from `_historical_archive/` back into `dist/`. The expected-member
+  list stays unchanged. No scientific effect.
+
+## Decision WP1B_PREFLIGHT_A3_AUDIT_PACKET_V2 — ADOPTED (2026-09-21)
+
+- **Status:** ADOPTED. Created `exports/wp1a_independent_audit_packet_2026-09-21_v2/`
+  (v1 untouched as history).
+- **Decision:** corrected `README_AUDITOR.md` adds two reproduction traps found
+  by the external review: (1) **coefficient order** — in
+  `research/stage5-v2-final/deployment_artifact.json` `lr_coef` is ordered
+  `continuous_features + boolean_features`, NOT the `feature_names` order; using
+  `feature_names` order fails on 174/300 tasks, the documented order gives
+  0/300 mismatches; (2) **FULL-only inputs** — `benchmark_data/
+  real_commit_impact_saleor/scientific/<case_id>/public/candidate_universe.json`
+  and `dependency_graph.json` (530 cases each) plus
+  `saleor_development_manifest.json` are excluded from the LIGHT export and are
+  required for the RM-CSS reproduction and the WP-1a A7 universe check.
+  `artifact_manifest.json`, `recompute_instructions.md` and `sha256sums.txt`
+  updated to match (deployment artifact + full_file_scores + FULL-only list).
+- **Scope change:** NO scientific scope change.

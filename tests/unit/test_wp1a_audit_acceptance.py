@@ -18,25 +18,27 @@ if str(PROJECT_DIR) not in sys.path:
 WP1A = PROJECT_DIR / "research" / "wp1a"
 
 
-def _run_script(name: str) -> subprocess.CompletedProcess:
+def _run_script(name: str, out_dir: Path) -> subprocess.CompletedProcess:
     return subprocess.run(
-        [sys.executable, str(PROJECT_DIR / "scripts" / name)],
+        [sys.executable, str(PROJECT_DIR / "scripts" / name), "--out", str(out_dir)],
         cwd=PROJECT_DIR, capture_output=True, text=True, timeout=300,
     )
 
 
-def test_independent_audit_passes() -> None:
-    result = _run_script("wp1a_independent_audit.py")
+def test_independent_audit_passes(tmp_path: Path) -> None:
+    result = _run_script("wp1a_independent_audit.py", tmp_path)
     assert result.returncode == 0, result.stdout + result.stderr
-    audit = json.loads((WP1A / "wp1a_independent_audit.json").read_text(encoding="utf-8"))
+    audit = json.loads((tmp_path / "wp1a_independent_audit.json").read_text(encoding="utf-8"))
     assert audit["status"] == "PASS"
     assert audit["pass"] == audit["total"]
 
 
-def test_acceptance_report_all_pass() -> None:
-    result = _run_script("wp1a_acceptance_report.py")
+def test_acceptance_report_all_pass(tmp_path: Path) -> None:
+    audit = _run_script("wp1a_independent_audit.py", tmp_path)
+    assert audit.returncode == 0, audit.stdout + audit.stderr
+    result = _run_script("wp1a_acceptance_report.py", tmp_path)
     assert result.returncode == 0, result.stdout + result.stderr
-    report = json.loads((WP1A / "wp1a_acceptance_report.json").read_text(encoding="utf-8"))
+    report = json.loads((tmp_path / "wp1a_acceptance_report.json").read_text(encoding="utf-8"))
     assert report["status"] == "ALL_PASS"
     for c in report["criteria"]:
         assert c["pass"], c["criterion"]

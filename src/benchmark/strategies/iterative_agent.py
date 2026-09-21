@@ -170,6 +170,27 @@ def _parse_action_response(text: str) -> tuple[dict[str, Any] | None, str]:
     return None, "not_object"
 
 
+def _surface_paths(output: str) -> set[str]:
+    """Extract file/dir paths mentioned in a search_text / list_files result.
+
+    Behavior-preserving telemetry helper: it only inspects the output for path
+    strings (repository-relative POSIX paths); it never changes the output that
+    is appended to the prompt.
+    """
+    found: set[str] = set()
+    for line in output.splitlines():
+        stripped = line.strip()
+        if not stripped:
+            continue
+        # list_files / search_text typically emit lines like "- path/to/file.py"
+        candidate = stripped[2:].strip() if stripped.startswith("- ") else stripped
+        if (candidate.endswith(".py") or "/" in candidate) and not candidate.startswith(
+            ("#", "[", "(", "<", "|", "=", "*", "•", "```")
+        ):
+            found.add(candidate)
+    return found
+
+
 def _parse_requires_iteration(action: dict[str, Any]) -> bool:
     val = action.get("requires_iteration", True) if isinstance(action, dict) else True
     return bool(val)
@@ -253,6 +274,12 @@ class IterativeRepositoryAgentStrategy:
         self._valid_final_count: int = 0
         self._last_control_error: str = "none"
         self._empty_reason: str = "none"
+        self._call_sidecar: list[dict[str, Any]] = []
+        self._current_sidecar: dict[str, Any] | None = None
+        self._paths_read: set[str] = set()
+        self._paths_surfaced: set[str] = set()
+        self._tool_output_chars_raw_total: int = 0
+        self._tool_output_chars_shown_total: int = 0
 
     def begin_run(self, workspace_root: str | Path) -> None:
         root = Path(workspace_root).resolve()
@@ -280,6 +307,12 @@ class IterativeRepositoryAgentStrategy:
         self._valid_final_count = 0
         self._last_control_error = "none"
         self._empty_reason = "none"
+        self._call_sidecar = []
+        self._current_sidecar = None
+        self._paths_read = set()
+        self._paths_surfaced = set()
+        self._tool_output_chars_raw_total = 0
+        self._tool_output_chars_shown_total = 0
         from benchmark.strategies.repository_tools import RepositoryTools
         self._tools = RepositoryTools(
             workspace_root=root,
@@ -293,6 +326,13 @@ class IterativeRepositoryAgentStrategy:
         self._prompt_tokens += prompt_tok
         self._completion_tokens += completion_tok
         self._total_tokens += total_tok
+
+    @staticmethod
+    def _estimate_usd(tok: TokenUsage) -> float:
+        """Estimate USD from the frozen DeepInfra-through-OpenRouter pricing
+        ($0.30 prompt / $1.00 completion per 1M). Descriptive accounting only;
+        does not gate any model call."""
+        return tok.prompt_tokens / 1e6 * 0.30 + tok.completion_tokens / 1e6 * 1.00
 
     def _record_tool(self, name: str, path: str, result: str, duration: float) -> None:
         self._tool_calls += 1
@@ -322,6 +362,26 @@ class IterativeRepositoryAgentStrategy:
                 "\n[control] This is call 8, the reserved final call. "
                 "You MUST return action=final now; no tool action is permitted."
             )
+        call_index = self._model_calls + 1
+        sidecar: dict[str, Any] = {
+            "call_index": call_index,
+            "force_final": force_final,
+            "action": "",
+            "path": "",
+            "query": "",
+            "tool_output_chars_raw": 0,
+            "tool_output_chars_shown": 0,
+            "observation_truncated": False,
+            "finish_reason": "",
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "usd": 0.0,
+            "latency_s": 0.0,
+            "raw_response_text": "",
+            "raw_response_sha256": "",
+        }
+        self._current_sidecar = sidecar
+        t0 = time.monotonic()
         try:
             loop = asyncio.get_event_loop()
         except RuntimeError:
@@ -345,7 +405,8 @@ class IterativeRepositoryAgentStrategy:
                     temperature=0.0,
                     max_tokens=max_completion_tokens,
                 )
-)
+            )
+        latency_s = time.monotonic() - t0
         if not isinstance(response, LLMResponse):
             raise TypeError("agent backend returned a non-LLMResponse value")
         tok = response.token_usage
@@ -357,10 +418,21 @@ class IterativeRepositoryAgentStrategy:
         )
         if response.finish_reason == "length":
             self._control_truncation_count += 1
-        if getattr(response, "text", ""):
+        raw_text = getattr(response, "text", "") or ""
+        if raw_text:
             self._selection_raw_hashes.append(
-                hashlib.sha256(response.text.encode("utf-8")).hexdigest()
+                hashlib.sha256(raw_text.encode("utf-8")).hexdigest()
             )
+        sidecar.update({
+            "finish_reason": self._last_finish_reason,
+            "prompt_tokens": tok.prompt_tokens if tok else 0,
+            "completion_tokens": tok.completion_tokens if tok else 0,
+            "usd": self._estimate_usd(tok) if tok else 0.0,
+            "latency_s": latency_s,
+            "raw_response_text": raw_text,
+            "raw_response_sha256": hashlib.sha256(raw_text.encode("utf-8")).hexdigest(),
+        })
+        self._call_sidecar.append(sidecar)
         if self._model_call_guard is not None and not self._model_call_guard():
             self._model_call_budget_exhausted = True
         return response
@@ -425,8 +497,34 @@ class IterativeRepositoryAgentStrategy:
         tag = action_name
         if action_name == "read_file":
             self._inspected_files.add(str(action.get("path", "")))
-        out = result.output[:2000] if result.ok else result.error
+            self._paths_read.add(str(action.get("path", "")))
+        # Track surfaced paths (paths that appear in search_text / list_files
+        # output). Behavior-preserving: the same bounded output is appended.
+        if action_name in ("search_text", "list_files") and result.ok:
+            self._paths_surfaced.update(_surface_paths(result.output))
+        raw_chars = len(result.output) if result.ok else len(result.error)
+        shown = result.output[:2000] if result.ok else result.error
+        shown_chars = len(shown)
+        self._tool_output_chars_raw_total += raw_chars
+        self._tool_output_chars_shown_total += shown_chars
+        if self._current_sidecar is not None:
+            self._current_sidecar["action"] = action_name
+            self._current_sidecar["path"] = str(action.get("path", ""))
+            self._current_sidecar["query"] = str(action.get("query", ""))
+            self._current_sidecar["tool_output_chars_raw"] = raw_chars
+            self._current_sidecar["tool_output_chars_shown"] = shown_chars
+            self._current_sidecar["observation_truncated"] = raw_chars > shown_chars
+        out = shown
         return f"\n[result] {tag}:\n{out}"
+
+    def _finalize_call_sidecar(self) -> None:
+        """Close the current in-progress call record pointer.
+
+        Each call is already appended to ``_call_sidecar`` when it completes;
+        this simply clears the mutable pointer so a later call starts fresh.
+        Behavior-preserving: never changes the call sequence or selected_paths.
+        """
+        self._current_sidecar = None
 
     def analyze_impact(
         self,
@@ -571,6 +669,9 @@ class IterativeRepositoryAgentStrategy:
                 selected_paths = list(raw_paths)
                 self._valid_final_count += 1
                 self._last_requires_iteration = _parse_requires_iteration(action)
+                if self._current_sidecar is not None:
+                    self._current_sidecar["action"] = "final"
+                    self._current_sidecar["path"] = ",".join(sorted(selected_paths))
                 logger.info(
                     "AGENT_FINAL selected_count=%d selected_paths=%s",
                     len(selected_paths),
@@ -594,6 +695,8 @@ class IterativeRepositoryAgentStrategy:
         delta_prompt = self._prompt_tokens - prompt_tok_before
         delta_completion = self._completion_tokens - completion_tok_before
         delta_total = self._total_tokens - total_tok_before
+
+        self._finalize_call_sidecar()
 
         if not selected_paths:
             self._last_requires_iteration = False
@@ -951,3 +1054,39 @@ class IterativeRepositoryAgentStrategy:
         """Why an EMPTY prediction was produced: truncation | round_cap |
         parser_failure | infrastructure | none."""
         return self._empty_reason
+
+    @property
+    def call_sidecar(self) -> tuple[dict[str, Any], ...]:
+        """Per-call sidecar records (additive WP-1b telemetry). Each record:
+        call_index, force_final, action, path, query, tool_output_chars_raw,
+        tool_output_chars_shown, observation_truncated, finish_reason,
+        prompt_tokens, completion_tokens, usd, latency_s, raw_response_text,
+        raw_response_sha256."""
+        return tuple(self._call_sidecar)
+
+    @property
+    def paths_read(self) -> tuple[str, ...]:
+        """Targets of read_file calls (WP-1b per-task telemetry)."""
+        return tuple(sorted(self._paths_read))
+
+    @property
+    def paths_surfaced(self) -> tuple[str, ...]:
+        """Paths appearing in search_text / list_files output (WP-1b telemetry)."""
+        return tuple(sorted(self._paths_surfaced))
+
+    @property
+    def tool_output_chars_raw_total(self) -> int:
+        return self._tool_output_chars_raw_total
+
+    @property
+    def tool_output_chars_shown_total(self) -> int:
+        return self._tool_output_chars_shown_total
+
+    def observation_truncation_rate(self) -> float:
+        """Fraction of tool-output characters truncated by the 2000-char window
+        (0.0 when no tool output was produced)."""
+        if self._tool_output_chars_raw_total <= 0:
+            return 0.0
+        return (
+            self._tool_output_chars_raw_total - self._tool_output_chars_shown_total
+        ) / self._tool_output_chars_raw_total
