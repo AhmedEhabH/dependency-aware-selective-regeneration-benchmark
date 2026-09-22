@@ -17,7 +17,7 @@ artifact paths are NOT renamed; old reports keep their original wording.
 
 ## LIVE STATUS — single current-state source of truth
 
-**Position:** Calibration-3c is CLEAN (protocol v3 + gate v3): CG-1..CG-12 all PASS, $0.063205 <= $0.25, 1 rejected repeat (5.6% share, was 52.4%), longest rejection run 1 (was 6/4), 4 successful reads, 0 instrument errors, 0 BLOCKING review-card flags (4 INFORMATIONAL). G12 removed the deterministic context loop. Mission STOPPED per D3 = MANUAL; MAIN_297 + variance + scoring remain NOT authorized until a separate decision.
+**Position:** MAIN_297 + variance 15×3 + scoring AUTHORIZED (D3 = YES, 2026-09-22) under protocol v3 with a resume-safe harness (frozen 3-retry rule, spend ledger, instrument-only halting, label-access guards). Preregistration addendum v2 (X6–X11) and the AG16 budget-sensitivity design were frozen before any MAIN_297 output. Calibration-3c remains CLEAN.
 
 **Research pipeline:**
 
@@ -32,7 +32,7 @@ artifact paths are NOT renamed; old reports keep their original wording.
 | WP-1b Calibration-3b | PASS | gate v2 PASS · $0.070 · 3 reads · 0 instrument errors · 11/21 calls rejected repeats (loop) |
 | G12 agent context hygiene | DONE | D1 APPROVED, zero API: echo, call counter, named rejection, truncation note; gate v3 CG-12 FAILS 3b (runs 1/6/4); protocol v3 |
 | WP-1b Calibration-3c | PASS | gate v3 CG-1..CG-12 PASS · $0.063205 · 4 reads · 1/18 rejected (5.6%) · longest run 1 · 0 blocking review-card flags · NOT scored |
-| WP-1b MAIN_297 + variance 15x3 | BLOCKED | forbidden this mission (D3 MANUAL); requires a separate decision after 3c |
+| WP-1b MAIN_297 + variance 15x3 | RUNNING | D3 = YES; protocol v3; ceilings $21.50/$3.50; resume-safe harness (execution addendum 2026-09-22) |
 | WP-2 shared E2E instrument | NOT STARTED | same generator/validator/repair for every arm |
 | E2E-G6 F2P/P2P oracle | NOT STARTED | fail-to-pass + pass-to-pass tests per task |
 | E2E Smoke → Pilot → Research Run | NOT STARTED | staged; each stage can stop the run |
@@ -56,16 +56,17 @@ artifact paths are NOT renamed; old reports keep their original wording.
 
 | Item | Status | Note |
 | :---|:---|:---|
-| Calibration-3b (Phase C) | AUTHORIZED | D4 = YES, ceiling $0.25, paired revalidation of the D2 tool fix |
-| MAIN_297 + variance 15×3 | NOT AUTHORIZED | requires D7 = YES after Ahmed reviews Calibration-3b |
-| 786 Saleor RESERVE outcomes | SEALED | never opened/read/scored/sampled |
-| Calibration-3 / Calibration-3b F1 claims | NOT PERMITTED | instrument checks only; no labels loaded or scored |
+| Calibration-3c | DONE (CLEAN) | gate v3 CG-1..CG-12 PASS; $0.063205; NOT scored |
+| MAIN_297 + variance 15×3 + scoring | AUTHORIZED (D3 = YES) | protocol v3; ceilings $21.50 / $3.50; resume-safe harness (execution addendum 2026-09-22) |
+| Agent budget-sensitivity arm (AG16, MAIN_50) | PREREGISTERED, NOT AUTHORIZED | design frozen before MAIN_297 outputs; needs decision D6 |
+| 786 Saleor RESERVE outcomes | SEALED | never opened/read/scored/sampled; guarded by the label-access audit hook |
+| Calibration-3 / 3b / 3c F1 claims | NOT PERMITTED | instrument checks only; no labels loaded or scored |
 
-**Next action:** STOPPED per contract after Calibration-3c (D3 = MANUAL), regardless of the clean result. Ahmed reviews the Calibration-3c evidence (gate v3 CG-1..CG-12 PASS, review card 0 blocking / 4 informational) and issues a separate explicit MAIN_297 authorization (protocol v3, manifest order, ceilings $21.50 / $3.50). No further paid run in this mission.
+**Next action:** Run MAIN_297 in frozen order (ceiling $21.50), freeze + tag predictions, run variance 15×3 (label-blind, $3.50), freeze + tag, score with decision rules v2, then X1–X11.
 
 **End-to-end status:** WP-2 has **not started**; E2E-G6 F2P/P2P oracle has **not started**; **no** E2E Smoke, Pilot or Research Run exists yet.
 
-*Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-09-22 05:30 (Africa/Cairo).*
+*Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-09-22 08:27 (Africa/Cairo).*
 <!-- LIVE_STATUS:END -->
 
 **CURRENT TRUTH (2026-09-21, WP1B_TOOLFIX_LIVESTATUS — CALIBRATION-3b DONE;

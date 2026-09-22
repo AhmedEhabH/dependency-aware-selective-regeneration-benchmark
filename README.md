@@ -9,7 +9,8 @@
 > [`00_CURRENT_RESEARCH_STATE.md`](00_CURRENT_RESEARCH_STATE.md), the
 > chronological record of what was tried / learned / ruled out is in
 > [`docs/RESEARCH_JOURNEY.md`](docs/RESEARCH_JOURNEY.md), and every experiment's
-> evidence is in [`reports/`](reports/).
+> evidence is in [`reports/`](reports/). Quick answers:
+> [FAQ / Q&A](#12-faq--qa).
 
 ---
 
@@ -38,8 +39,10 @@ Change request
   preserving patches? This is **not yet answered** — no E2E Smoke, Pilot or
   Research Run exists.
 - **WP-1b (selection-only agent comparison) is LIVE**: a paid same-protocol
-  comparison of a repository agent vs SIP vs RM-CSS on MAIN_297 (G1: Δ=0.05
-  non-inferiority; G2: 1024-token agent cap). See the LIVE STATUS block in §3.
+  comparison of a budget-bounded repository agent vs SIP vs RM-CSS on MAIN_297
+  (G1: Δ=0.05 non-inferiority; G2: 1024-token agent cap). The agent became
+  instrument-valid only after two harness fixes (G11 tools, G12 context
+  hygiene); Calibration-3c is CLEAN. See the LIVE STATUS block in §3.
 - **Earlier milestones (history):** Route-B omission recovery, oracle-gap /
   bidirectional repair, first-pass recall bottleneck, and the P2 adaptive
   budget results are preserved below as historical record; they are NOT the
@@ -52,7 +55,7 @@ Change request
 | Localization method selection | CLOSED (permanent) | RM-CSS frozen as the method | no new localization method will be designed/tuned | [Decision](DECISIONS.md) |
 | Saleor-300 RM-CSS replication | **CONFIRMED** | RM-CSS F1 0.3569 vs SIP 0.2647; Δ +0.0921 CI [+0.0691, +0.1156] | RM-CSS > SIP on the untouched Saleor RESERVE sample | [Result](reports/saleor_reserve_300_rmcss_result.json) |
 | Stage-5 (earlier confirmatory) | EXECUTION_INVALID → corrected | first run had a finite-sentinel defect; corrected re-execution positive | Stage-5 correction is historical; superseded by Saleor-300 | [Stage-5](docs/STAGE5_EXECUTION_DEFECT_CORRECTION_IMPACT_DECLARATION_2026-09-20.md) |
-| WP-1b agent comparison | **LIVE** | Calibration-3: v1 gate PASS but agent blind (INSTRUMENT_INVALID); tool fix + gate v2 done; Calibration-3b authorized | MAIN_297 blocked until a clean Calibration-3b and D7 | [Defect](docs/WP1B_AGENT_TOOL_BUDGET_DEFECT_2026-09-21.md) |
+| WP-1b agent comparison | **LIVE** | Calibration-3 blind (G11 fix) → 3b loop (G12 fix) → **3c CLEAN** (gate v3 CG-1..CG-12, 1/18 rejected, $0.063) | the agent baseline is instrument-valid; MAIN_297 is the first accuracy comparison (not scored yet) | [3c STOP](docs/WP1B_CALIBRATION_3C_STOP_REPORT_2026-09-22.md) · [loop](docs/WP1B_AGENT_CONTEXT_LOOP_2026-09-22.md) · [addendum](docs/WP1B_MAIN297_EXECUTION_ADDENDUM_2026-09-22.md) |
 
 **End-to-end status:** WP-2 has **not started**; E2E-G6 F2P/P2P oracle has
 **not started**; **no** E2E Smoke, Pilot or Research Run exists yet.
@@ -61,7 +64,7 @@ Change request
 
 ## LIVE STATUS — single current-state source of truth
 
-**Position:** Calibration-3c is CLEAN (protocol v3 + gate v3): CG-1..CG-12 all PASS, $0.063205 <= $0.25, 1 rejected repeat (5.6% share, was 52.4%), longest rejection run 1 (was 6/4), 4 successful reads, 0 instrument errors, 0 BLOCKING review-card flags (4 INFORMATIONAL). G12 removed the deterministic context loop. Mission STOPPED per D3 = MANUAL; MAIN_297 + variance + scoring remain NOT authorized until a separate decision.
+**Position:** MAIN_297 + variance 15×3 + scoring AUTHORIZED (D3 = YES, 2026-09-22) under protocol v3 with a resume-safe harness (frozen 3-retry rule, spend ledger, instrument-only halting, label-access guards). Preregistration addendum v2 (X6–X11) and the AG16 budget-sensitivity design were frozen before any MAIN_297 output. Calibration-3c remains CLEAN.
 
 **Research pipeline:**
 
@@ -76,7 +79,7 @@ Change request
 | WP-1b Calibration-3b | PASS | gate v2 PASS · $0.070 · 3 reads · 0 instrument errors · 11/21 calls rejected repeats (loop) |
 | G12 agent context hygiene | DONE | D1 APPROVED, zero API: echo, call counter, named rejection, truncation note; gate v3 CG-12 FAILS 3b (runs 1/6/4); protocol v3 |
 | WP-1b Calibration-3c | PASS | gate v3 CG-1..CG-12 PASS · $0.063205 · 4 reads · 1/18 rejected (5.6%) · longest run 1 · 0 blocking review-card flags · NOT scored |
-| WP-1b MAIN_297 + variance 15x3 | BLOCKED | forbidden this mission (D3 MANUAL); requires a separate decision after 3c |
+| WP-1b MAIN_297 + variance 15x3 | RUNNING | D3 = YES; protocol v3; ceilings $21.50/$3.50; resume-safe harness (execution addendum 2026-09-22) |
 | WP-2 shared E2E instrument | NOT STARTED | same generator/validator/repair for every arm |
 | E2E-G6 F2P/P2P oracle | NOT STARTED | fail-to-pass + pass-to-pass tests per task |
 | E2E Smoke → Pilot → Research Run | NOT STARTED | staged; each stage can stop the run |
@@ -100,16 +103,17 @@ Change request
 
 | Item | Status | Note |
 | :---|:---|:---|
-| Calibration-3b (Phase C) | AUTHORIZED | D4 = YES, ceiling $0.25, paired revalidation of the D2 tool fix |
-| MAIN_297 + variance 15×3 | NOT AUTHORIZED | requires D7 = YES after Ahmed reviews Calibration-3b |
-| 786 Saleor RESERVE outcomes | SEALED | never opened/read/scored/sampled |
-| Calibration-3 / Calibration-3b F1 claims | NOT PERMITTED | instrument checks only; no labels loaded or scored |
+| Calibration-3c | DONE (CLEAN) | gate v3 CG-1..CG-12 PASS; $0.063205; NOT scored |
+| MAIN_297 + variance 15×3 + scoring | AUTHORIZED (D3 = YES) | protocol v3; ceilings $21.50 / $3.50; resume-safe harness (execution addendum 2026-09-22) |
+| Agent budget-sensitivity arm (AG16, MAIN_50) | PREREGISTERED, NOT AUTHORIZED | design frozen before MAIN_297 outputs; needs decision D6 |
+| 786 Saleor RESERVE outcomes | SEALED | never opened/read/scored/sampled; guarded by the label-access audit hook |
+| Calibration-3 / 3b / 3c F1 claims | NOT PERMITTED | instrument checks only; no labels loaded or scored |
 
-**Next action:** STOPPED per contract after Calibration-3c (D3 = MANUAL), regardless of the clean result. Ahmed reviews the Calibration-3c evidence (gate v3 CG-1..CG-12 PASS, review card 0 blocking / 4 informational) and issues a separate explicit MAIN_297 authorization (protocol v3, manifest order, ceilings $21.50 / $3.50). No further paid run in this mission.
+**Next action:** Run MAIN_297 in frozen order (ceiling $21.50), freeze + tag predictions, run variance 15×3 (label-blind, $3.50), freeze + tag, score with decision rules v2, then X1–X11.
 
 **End-to-end status:** WP-2 has **not started**; E2E-G6 F2P/P2P oracle has **not started**; **no** E2E Smoke, Pilot or Research Run exists yet.
 
-*Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-09-22 05:30 (Africa/Cairo).*
+*Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-09-22 08:27 (Africa/Cairo).*
 <!-- LIVE_STATUS:END -->
 
 ### Earlier milestones (history)
@@ -143,8 +147,9 @@ Labels: **CONFIRMED** = frozen confirmatory evidence · **DEVELOPMENT** = TRAIN/
 
 ## 4. What we have learned
 
-The lessons below are the project's accumulated record. The first two are the
-current frontier; the Route-B-era lessons (3–10) are historical.
+The lessons below are the project's accumulated record. Lessons 0–1d are the
+current frontier; the Route-B-era lessons (2–11) are historical and kept on
+purpose.
 
 0. **Localization method selection is CLOSED; RM-CSS is the frozen method.**
    Saleor-300 RM-CSS **PASS** — F1 0.3569 vs SIP 0.2647, Δ +0.0921 CI
@@ -154,6 +159,34 @@ current frontier; the Route-B-era lessons (3–10) are historical.
    Calibration-3 passed its frozen v1 gate but the agent's tools were blind
    (0/3 tasks read a file; `GATE_V1_PASS / INSTRUMENT_INVALID`). → Tool
    function, not just protocol/cost, is a precondition for a MAIN_297 verdict.
+
+   1a. **Calibration must test information flow, not only protocol completion.**
+   A gate can pass while the agent sees nothing. → Gate v2 added CG-10/CG-11
+   (tool and read validity); gate v3 added CG-12 (no ≥ 3 consecutive rejected
+   repeats); every paid run ends with a Review Card.
+
+   1b. **Agent quality cannot be separated from harness quality.** G11 made the
+   tools work; G12 (action echo, call counter, named rejection, truncation note)
+   removed a deterministic context loop: rejected repeats 11/21 (52.4%) → 1/18
+   (5.6%), longest run 6 → 1, successful reads 3 → 4, cost $0.070 → $0.063. →
+   Before judging an agent, prove the scaffold is not disabling it.
+
+   1c. **The agent is budget-bounded by design, and the bound is visible.** 8
+   calls, 1024-token control cap, 2000-char observation window, substring search,
+   no paging. In Calibration-3c one of three tasks reached the forced final at
+   call 8 while still searching, and 26–41% of tool-output characters were cut.
+   Only 6 of its 7 searches were distinct, and 3 multi-word search calls returned
+   nothing (the search is a substring match). → Claims are against a budget-bounded agent, never
+   "the best possible agent"; a budget-sensitivity arm is preregistered.
+
+   1d. **A calibration runner is not a production runner.** The 3-task runner did
+   not persist predicted sets, wrote records only at the end, deleted its output
+   directory on start, and used one immediate transport retry instead of the
+   frozen three. → MAIN_297 uses a separate resume-safe runner with a spend
+   ledger, the frozen retry rule and instrument-only halting
+   ([addendum](docs/WP1B_MAIN297_EXECUTION_ADDENDUM_2026-09-22.md)). Cost signal
+   so far is descriptive only: on the same 3 calibration tasks the agent used
+   ≈3.8× SIP's tokens and ≈3.7× its USD.
 2. **Sparse representation greatly reduces output/serialization burden, but sparse encoding is not semantic correctness.** M1B: ~90% lower completion output; P1: ΔF1 CI crosses zero. → Report representation cost separately from impact accuracy; never conflate the two.
 3. **Real historical evidence did not show universal Sparse semantic superiority.** P1 ΔF1 (Sparse−Full) −0.009, CI [−0.130, +0.119]. → Claim cost/representation effects only; semantic effects are task-heterogeneous.
 4. **LocAgent shared-protocol execution was very expensive/fragile in our setup; not a faithful published-config reproduction.** P5: 402 calls, ~32.8M prompt tokens, ~$9.93 normalized, 50% empty/non-usable rate, 900 s timeouts. → Use LocAgent numbers only under a shared protocol with explicit denominators; do not compare to its published headline.
@@ -180,10 +213,11 @@ Only current headline numbers, each linked to its authoritative report:
   FNR 0.6927) vs SIP 0.2647; Δ +0.0921 CI [+0.0691, +0.1156]
   ([result](reports/saleor_reserve_300_rmcss_result.json) ·
   [parity gate](reports/saleor_reserve_300_parity_gate.json)).
-- **WP-1b Calibration-3 (instrument):** v1 gate CG-1..CG-9 PASS, $0.081142,
-  24 calls — but 0 successful reads (`GATE_V1_PASS / INSTRUMENT_INVALID`);
-  gate v2 CG-10 FAIL (9 limit errors) on those records
-  ([defect](docs/WP1B_AGENT_TOOL_BUDGET_DEFECT_2026-09-21.md)).
+- **WP-1b Calibration-3c (instrument, CLEAN):** gate v3 CG-1..CG-12 PASS,
+  18 calls, 1 rejected repeat (5.6%), 4 successful reads, 0 instrument errors,
+  $0.063205 — NOT scored
+  ([3c STOP](docs/WP1B_CALIBRATION_3C_STOP_REPORT_2026-09-22.md)). History:
+  Calibration-3 blind (0 reads), Calibration-3b loop (11/21 rejected).
 - **Sealed outcomes:** 786 Saleor RESERVE outcomes remain unread.
 - **Sparse representation cost/serialization (history):** M1B Sparse-v2 vs
   Full-v2: mean completion 809 vs 8,383 tokens; ~90% lower completion output
@@ -197,50 +231,29 @@ Only current headline numbers, each linked to its authoritative report:
 
 ## 6. Current bottleneck and next experiment
 
-**Bottleneck (current):** the WP-1b agent comparison is the live scientific
-instrument. Calibration-3 exposed a tool-budget defect (the agent was blind —
-`INSTRUMENT_INVALID`), now fixed (D2) with gate v2 (CG-10/CG-11) enforcing
-instrument validity. **MAIN_297 is NOT authorized** until a clean
-Calibration-3b and a separate Ahmed decision (D7). After WP-1b, the Phase-5
-question — can cheaper, imperfect scope still produce correct and preserving
-patches? — is answered by WP-2 (shared E2E instrument) + E2E-G6 F2P/P2P oracle;
-**neither has started**, and no E2E Smoke/Pilot/Research Run exists.
+**Bottleneck (current):** WP-1b MAIN_297 — the first accuracy comparison of
+RM-CSS vs a budget-bounded repository agent under one frozen protocol (v3). The
+agent is instrument-valid (Calibration-3c CLEAN). The one-amendment rule is
+closed: no further agent, prompt, tool or knob change.
 
-**Completed in this mission (2026-09-21, T3, ZERO API):**
+**Next experiment (WP-1b MAIN_297 + variance + scoring):**
 ```
-sidecar tool audit (3/5/9/7, 0 reads) → D2 tool-budget fix (search_text no
-longer consumes the 30-file budget) → gate v2 (CG-10/CG-11) RED on old
-Calibration-3 → A4 telemetry (tool_ok/tool_error + search telemetry)
-→ LIVE_STATUS single source of truth (4 rendered blocks)
-→ Phase C = Calibration-3b (authorized, $0.25, not scored)
+zero-API harness (resume-safe runner, frozen 3-retry rule, spend ledger,
+instrument-only halting) → zero-API dry run on all 297 tasks
+→ MAIN_297 (frozen manifest order; ceiling $21.50) → prediction freeze + tag
+→ variance 15×3 (label-blind; ceiling $3.50) → freeze + tag
+→ scoring with decision rules v2 (P/S, Q5 vs Δ=0.05, 7 verdicts, cost view A/B)
+→ exploratory X1–X11 (after the primary result is tagged)
 ```
-- **Next instrument (Calibration-3b):** the same 3 calibration tasks, protocol
-  v2 (cap 1024), frozen model/route/pricing, USD guard ≤ $0.25; gate v2 must
-  PASS; not scored against labels.
-- **Never:** MAIN_297 / variance substudy without a separate D7-style
-  authorization; the 786 sealed Saleor RESERVE outcomes stay sealed.
-
-**Historical (2026-09-18, T3 DEVELOPMENT — superseded by the current frontier):**
-```
-FN taxonomy (deterministic) → S006-like pattern test (GENERAL_PATTERN)
-→ source-specific recall ceilings → complementarity → 3 simple ADD queues
-→ matched-budget DEVELOPMENT comparison → oracle-reviewer simulation
-→ progression gate = RECALL_SIGNAL_HEADROOM_ONLY
-```
-- **ZERO-API first** (deterministic analysis over existing DEVELOPMENT evidence).
-- **Sealed sets remain sealed:** djangoCMS RESERVE, Saleor INTERNAL_TEST +
-  RESERVE are never opened; the spent djangoCMS INTERNAL_TEST is used only as
-  labelled POST-HOC sanity.
-- **Latest (2026-09-18): quantitative-structural ranking bridge closed
-  NEGATIVE** — exactly three transparent count/normalized rankers
-  (R1/R2/R3) over the high-coverage reverse-1hop pool: none materially beats
-  Route-B on BOTH repos at matched budget (`CHEAP_RANKING_CLOSED_FOR_NOW`,
-  frozen). The **authorized bounded semantic expansion pilot (Stage 4) also
-  closed NEGATIVE** (`BOUNDED_SEMANTIC_NEGATIVE_FROZEN`): Arm B raised ORR on
-  djangoCMS but not materially on Saleor and materially lowered naive final F1
-  on djangoCMS — 300 calls, $0.0444, preregistered gate FAIL, no tuning.
-- Detail: [`reports/FIRST_PASS_RECALL_BOTTLENECK_FINAL_REPORT.md`](reports/FIRST_PASS_RECALL_BOTTLENECK_FINAL_REPORT.md),
-  [`reports/QUANT_STRUCTURAL_RANKING_BRIDGE_REPORT.md`](reports/QUANT_STRUCTURAL_RANKING_BRIDGE_REPORT.md).
+- **Preregistered before any MAIN_297 output:** exploratory addendum v2 (X6
+  confidence-based escalation frontier, X7 heterogeneity, X8 cost per correct
+  file, X9 budget binding, X10 zero-generative dense anchor, X11 tool quality)
+  and an agent budget-sensitivity arm (16 calls / 8000-char window on MAIN_50;
+  runs only with a separate decision, regardless of the MAIN_297 verdict).
+- **After WP-1b:** the Phase-5 question — can cheaper, imperfect scope still
+  produce correct and preserving patches? — needs WP-2 (shared E2E instrument)
+  and the E2E-G6 F2P/P2P oracle; **neither has started**.
+- **Never:** the 786 sealed Saleor RESERVE outcomes stay sealed.
 
 ## 7. Evaluation and datasets
 
@@ -321,6 +334,63 @@ Detailed: [`docs/BENCHMARK_RUNBOOK.md`](docs/BENCHMARK_RUNBOOK.md),
 
 Citation metadata: [`CITATION.cff`](CITATION.cff). License: MIT
 ([`LICENSE`](LICENSE)).
+
+## 12. FAQ / Q&A
+
+**What problem does this thesis address?** Given a change request and the
+repository at its parent commit, which files will the change touch? Exhaustive
+reasoning over every file is expensive; sparse selection risks misses. The goal
+is a cheaper selector that stays accurate. ([§1](#1-one-sentence-problem))
+
+**What is SIP?** Sparse Impact Plan: one model call that lists only the files it
+would change; unlisted files default to "preserve". It cut completion output by
+~90% in the controlled study, but sparse encoding is not semantic correctness.
+([M1B](reports/CONTROLLED_ENCODING_16K_RESULT.md))
+
+**What is RM-CSS?** Repository-Memory Calibrated Set Selection: SIP + Qwen dense
+file ranking + parent-only repository memory + a frozen logistic classifier that
+decides ADD/KEEP/DROP. It adds no generative call on top of SIP.
+([glossary](docs/GLOSSARY.md))
+
+**What did Saleor-300 establish?** On 300 untouched Saleor RESERVE tasks, RM-CSS
+F1 0.3569 vs SIP 0.2647; Δ +0.0921, CI [+0.0691, +0.1156].
+([result](reports/saleor_reserve_300_rmcss_result.json))
+
+**Why is recall still a limitation?** RM-CSS recall is 0.307 (FNR 0.693). About
+25% of changed files never enter its candidate pool; of its misses, ~64% are
+decisions inside the pool and ~36% are files outside it.
+([bottleneck](reports/FIRST_PASS_RECALL_BOTTLENECK_FINAL_REPORT.md))
+
+**What is WP-1b?** A paid, same-model, same-protocol comparison of SIP, RM-CSS and
+a budget-bounded iterative repository agent, scored with a preregistered
+non-inferiority rule (Δ = 0.05 pooled micro-F1, paired bootstrap, fail-closed
+EMPTY). ([decision rules](research/wp1b/wp1b_decision_rules_v2.json))
+
+**What is MAIN_297?** The 300 RESERVE tasks minus the 3 calibration tasks, in
+frozen order; the first 50 are the nested MAIN_50 fallback.
+([manifest](research/wp1b/wp1b_main_297_manifest.json))
+
+**Why were Calibration-3, 3b and 3c needed?** Calibration-3 passed its gate with
+a blind agent (0 reads); 3b exposed a deterministic repeat loop (52% rejected
+calls); 3c confirmed both fixes (5.6% rejected, 0 instrument errors). None of
+them is scored. ([3c STOP](docs/WP1B_CALIBRATION_3C_STOP_REPORT_2026-09-22.md))
+
+**What exactly is the agent baseline?** Protocol v3: Qwen3-Coder-480B-A35B via
+OpenRouter → DeepInfra turbo (listed as FP4 in the 2026-09-21 pricing preflight; the
+same route serves SIP), temperature 0, ≤ 8 calls (call 8 forced final), 1024-token
+control cap, tools list/read/search (substring), 2000-char observation window,
+30-file read budget. ([protocol v3](research/wp1b/wp1b_frozen_agent_protocol_v3.json))
+
+**Do we claim to beat LocAgent or Ripple?** No. The LocAgent shared-protocol study
+is not a faithful published-configuration reproduction, and no head-to-head with
+Ripple exists. ([P5](reports/LOCAGENT_P5C_SHARED_COMPARISON.md))
+
+**Are F2P/P2P tests or end-to-end correctness done?** No. WP-2 (shared E2E
+instrument) and E2E-G6 (F2P/P2P oracle) have not started; no Smoke, Pilot or
+Research Run exists.
+
+**What happens next?** MAIN_297 + variance 15×3 + scoring, then X1–X11, then WP-2.
+([§6](#6-current-bottleneck-and-next-experiment))
 
 ---
 

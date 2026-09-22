@@ -35,7 +35,10 @@ TARGETS = (
     _PROJECT_DIR / "00_CURRENT_RESEARCH_STATE.md",
 )
 
-# Authorized / not authorized derived from the LIVE_STATUS fields.
+# Authorized / not authorized: read from LIVE_STATUS.json key "authorization"
+# (list of {item, status, note}). The tuple below is only the legacy fallback
+# for an older LIVE_STATUS.json without that key (it was hard-coded until
+# 2026-09-22 and went stale; the JSON is now the single source).
 _AUTHORIZED_LINES = (
     ("Calibration-3b (Phase C)", "AUTHORIZED", "D4 = YES, ceiling $0.25, paired revalidation of the D2 tool fix"),
     ("MAIN_297 + variance 15×3", "NOT AUTHORIZED", "requires D7 = YES after Ahmed reviews Calibration-3b"),
@@ -75,9 +78,13 @@ def render(data: dict) -> str:
     out.append("")
     out.append("**Authorized / not authorized:**")
     out.append("")
+    auth = data.get("authorization")
+    auth_rows = (
+        [(a["item"], a["status"], a["note"]) for a in auth] if auth else list(_AUTHORIZED_LINES)
+    )
     out.append(_table(
         ("Item", "Status", "Note"),
-        list(_AUTHORIZED_LINES),
+        auth_rows,
     ))
     out.append("")
     out.append(f"**Next action:** {data['next_action']}")
