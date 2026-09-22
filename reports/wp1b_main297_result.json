@@ -1,0 +1,181 @@
+{
+ "P_primary_fail_closed": {
+  "n_tasks": 297,
+  "point": -0.006243848339918201,
+  "q025": -0.04488048757621672,
+  "q05": -0.0383314093433751,
+  "q975": 0.030762547682913435
+ },
+ "S_instrument_failure_excluded": {
+  "dropped_task_ids": [
+   "saleor-rc-094b1ec0f610",
+   "saleor-rc-37a3a7bbec31"
+  ],
+  "n_dropped": 2,
+  "n_tasks": 295,
+  "point": -0.011504765649930193,
+  "q025": -0.050202368045461694,
+  "q05": -0.04336616199062976,
+  "q975": 0.025468095259528607
+ },
+ "agent_empty_by_reason": {
+  "parser_failure": 2
+ },
+ "analysis": "PRIMARY_MAIN_297",
+ "arms": {
+  "Agent": {
+   "empty_set_rate": 0.006734006734006734,
+   "f1": 0.363069245165315,
+   "f2": 0.3346366145354186,
+   "fn": 624,
+   "fnr": 0.6819672131147541,
+   "fp": 397,
+   "mean_predicted_set_size": 2.3164983164983166,
+   "n_tasks": 297,
+   "precision": 0.42296511627906974,
+   "recall": 0.3180327868852459,
+   "tp": 291
+  },
+  "RM-CSS": {
+   "empty_set_rate": 0.09764309764309764,
+   "f1": 0.3568253968253968,
+   "f2": 0.32523148148148145,
+   "fn": 634,
+   "fnr": 0.692896174863388,
+   "fp": 379,
+   "mean_predicted_set_size": 2.2222222222222223,
+   "n_tasks": 297,
+   "precision": 0.4257575757575758,
+   "recall": 0.307103825136612,
+   "tp": 281
+  },
+  "SIP": {
+   "empty_set_rate": 0.23905723905723905,
+   "f1": 0.26519337016574585,
+   "f2": 0.22895301693298353,
+   "fn": 723,
+   "fnr": 0.7901639344262295,
+   "fp": 341,
+   "mean_predicted_set_size": 1.7946127946127945,
+   "n_tasks": 297,
+   "precision": 0.3602251407129456,
+   "recall": 0.2098360655737705,
+   "tp": 192
+  }
+ },
+ "artifact": "wp1b_main_result",
+ "bootstrap": {
+  "n_resamples": 10000,
+  "seed": 20260920,
+  "unit": "task (paired)"
+ },
+ "cheaper_view_A": true,
+ "cost_sensitivity_not_decisive": {
+  "coder_calls_only": {
+   "agent_mean": 7.282828282828283,
+   "ci95_lower": 0.13543091655266756,
+   "ci95_upper": 0.13930581613508444,
+   "ratio_point": 0.13730929264909847,
+   "rmcss_mean": 1.0
+  },
+  "generative_tokens_only": {
+   "agent_mean": 79531.47474747474,
+   "ci95_lower": 0.2092887602865407,
+   "ci95_upper": 0.21739018643847557,
+   "ratio_point": 0.21336613317184888,
+   "rmcss_mean": 16969.323232323233
+  }
+ },
+ "cost_view_A_marginal": {
+  "model_calls": {
+   "agent_mean": 7.282828282828283,
+   "ci95_lower": 0.2708618331053351,
+   "ci95_upper": 0.2786116322701689,
+   "ratio_point": 0.27461858529819694,
+   "rmcss_mean": 2.0
+  },
+  "total_tokens": {
+   "agent_mean": 79531.47474747474,
+   "ci95_lower": 0.209803826701223,
+   "ci95_upper": 0.21793570430908216,
+   "ratio_point": 0.21389422598206467,
+   "rmcss_mean": 17011.323232323233
+  },
+  "usd": {
+   "agent_mean": 0.024051911784511784,
+   "ci95_lower": 0.21636400950249024,
+   "ci95_upper": 0.22498220760393717,
+   "ratio_point": 0.22071509763724523,
+   "rmcss_mean": 0.0053086200578809275
+  }
+ },
+ "cost_view_B_setup": {
+  "amortized_setup_usd_per_task": 8.723569023569025e-05,
+  "embedding_corpus_build_usd": 0.025909,
+  "repository_memory_build_usd": 0.0,
+  "rmcss_view_b_usd_per_task": 0.005395855748116618
+ },
+ "descriptive": {
+  "RMCSS_minus_SIP_on_this_subset": {
+   "n_tasks": 297,
+   "point": 0.09163202665965098,
+   "q025": 0.06897264397000066,
+   "q05": 0.07249370989983496,
+   "q975": 0.11526019362144675
+  },
+  "SIP_minus_Agent": {
+   "n_tasks": 297,
+   "point": -0.09787587499956918,
+   "q025": -0.1349744746254545,
+   "q05": -0.1289069365688333,
+   "q975": -0.06178153365041636
+  }
+ },
+ "dominance_word_retired": true,
+ "final_category": "RMCSS_NONINFERIOR_AT_LOWER_COST",
+ "labels": "opened RESERVE-300 proxies only; 786 sealed outcomes untouched",
+ "margin": 0.05,
+ "n_tasks": 297,
+ "prediction_freeze": {
+  "commit": "de64b4ba7bc4d09b51ae483beee0ee7c9204c78b",
+  "freeze_sha256": "c78968ef3fc83af4c067958a529df3b49752ab176d6b2c5f1919962958afd99c",
+  "remote_object": "e792a15f279ab19890355c408b7e9f3418828ad4",
+  "tag": "wp1b-main297-predictions-frozen-2026-09-22",
+  "tag_object": "e792a15f279ab19890355c408b7e9f3418828ad4"
+ },
+ "quality_verdict": {
+  "id": 3,
+  "mandatory_note": null,
+  "verdict": "NI_SUPPORTED"
+ },
+ "rmcss_calls_per_task_view_a": 2,
+ "run_summary": {
+  "artifact": "wp1b_main_run_summary",
+  "ceiling_usd": 21.5,
+  "completed": 297,
+  "completion_tokens": 81683,
+  "detail": "all items finished",
+  "failed_calls": 1,
+  "finished_utc": "2026-09-22T08:52:20.658773+00:00",
+  "http_attempts": 2178,
+  "kind": "main297",
+  "ledger_usd": 7.147415,
+  "logical_calls": 2164,
+  "prompt_tokens": 23552440,
+  "run_label": "MAIN_297",
+  "status": "COMPLETE",
+  "total": 297
+ },
+ "scorer_sanity_reserve300": {
+  "delta_f1": 0.09212640785196952,
+  "rmcss_f1": 0.35687263556116017,
+  "sip_f1": 0.26474622770919065,
+  "verification": "EXACT_REPRODUCTION_RESERVE_300"
+ },
+ "sensitivity_margins_not_decisive": {
+  "0.03": "INCONCLUSIVE_AT_THIS_N",
+  "0.10": "NI_SUPPORTED"
+ },
+ "statistic": "D = F1_pooled(RM-CSS) - F1_pooled(Agent)",
+ "task_order_for_bootstrap": "sorted task IDs (wp1a convention)"
+}

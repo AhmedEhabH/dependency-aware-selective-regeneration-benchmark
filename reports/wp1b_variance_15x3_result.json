@@ -1,0 +1,484 @@
+{
+ "aggregate_pooled_f1_by_replicate": {
+  "1": 0.3888888888888889,
+  "2": 0.4383561643835616,
+  "3": 0.4788732394366197
+ },
+ "aggregate_pooled_f1_mean": 0.43537276423635674,
+ "aggregate_pooled_f1_range": 0.0899843505477308,
+ "artifact": "wp1b_variance_substudy_result",
+ "cap_hit_frequency": 0,
+ "empty_frequency": 0,
+ "final_answer_truncation_frequency": 0,
+ "freeze_tag": "wp1b-variance-predictions-frozen-2026-09-22",
+ "interpretation_boundary": "Execution variability only; NOT evidence equivalent to three complete MAIN_50 replications. The main execution is not replicate 1.",
+ "mean_completion_token_variance": 609.6296296296296,
+ "mean_latency_variance": 1155.685307274074,
+ "mean_prediction_size_variance": 0.34074074074074073,
+ "mean_prompt_token_variance": 9805398.311111111,
+ "mean_usd_variance": 9.123411265185179e-07,
+ "n_runs": 45,
+ "n_tasks": 15,
+ "per_task": [
+  {
+   "calls_by_replicate": [
+    7,
+    8,
+    8
+   ],
+   "completion_token_variance": 1980.6666666666667,
+   "empty_by_replicate": [
+    "none",
+    "none",
+    "none"
+   ],
+   "f1_by_replicate": [
+    0.8,
+    0.8571428571428571,
+    0.5
+   ],
+   "f1_mean": 0.719047619047619,
+   "f1_range": 0.3571428571428571,
+   "jaccard_vs_main_run_descriptive": [
+    0.5,
+    1.0,
+    0.25
+   ],
+   "latency_variance": 879.4189806666667,
+   "prompt_token_variance": 57575246.0,
+   "size_variance": 1.5555555555555554,
+   "task_id": "saleor-rc-032b98afff20",
+   "usd_variance": 5.3719392066666695e-06
+  },
+  {
+   "calls_by_replicate": [
+    8,
+    8,
+    8
+   ],
+   "completion_token_variance": 500.6666666666667,
+   "empty_by_replicate": [
+    "none",
+    "none",
+    "none"
+   ],
+   "f1_by_replicate": [
+    0.5,
+    0.5,
+    0.5
+   ],
+   "f1_mean": 0.5,
+   "f1_range": 0.0,
+   "jaccard_vs_main_run_descriptive": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "latency_variance": 1101.3567868888888,
+   "prompt_token_variance": 1258564.2222222222,
+   "size_variance": 0.0,
+   "task_id": "saleor-rc-070f4bd7c042",
+   "usd_variance": 1.2736484666666726e-07
+  },
+  {
+   "calls_by_replicate": [
+    4,
+    4,
+    3
+   ],
+   "completion_token_variance": 331.5555555555556,
+   "empty_by_replicate": [
+    "none",
+    "none",
+    "none"
+   ],
+   "f1_by_replicate": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "f1_mean": 0.0,
+   "f1_range": 0.0,
+   "jaccard_vs_main_run_descriptive": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "latency_variance": 15.507864222222226,
+   "prompt_token_variance": 8605717.555555554,
+   "size_variance": 0.0,
+   "task_id": "saleor-rc-0713acb0f004",
+   "usd_variance": 8.063760022222221e-07
+  },
+  {
+   "calls_by_replicate": [
+    8,
+    8,
+    8
+   ],
+   "completion_token_variance": 96.88888888888887,
+   "empty_by_replicate": [
+    "none",
+    "none",
+    "none"
+   ],
+   "f1_by_replicate": [
+    0.5,
+    0.5,
+    0.5
+   ],
+   "f1_mean": 0.5,
+   "f1_range": 0.0,
+   "jaccard_vs_main_run_descriptive": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "latency_variance": 65.93958466666668,
+   "prompt_token_variance": 107.55555555555554,
+   "size_variance": 0.0,
+   "task_id": "saleor-rc-07c8859c0ac3",
+   "usd_variance": 1.007022222221931e-10
+  },
+  {
+   "calls_by_replicate": [
+    5,
+    5,
+    5
+   ],
+   "completion_token_variance": 10.888888888888891,
+   "empty_by_replicate": [
+    "none",
+    "none",
+    "none"
+   ],
+   "f1_by_replicate": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "f1_mean": 1.0,
+   "f1_range": 0.0,
+   "jaccard_vs_main_run_descriptive": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "latency_variance": 575.7253335555557,
+   "prompt_token_variance": 0.0,
+   "size_variance": 0.0,
+   "task_id": "saleor-rc-0ad61b3f0096",
+   "usd_variance": 1.088888888888214e-11
+  },
+  {
+   "calls_by_replicate": [
+    7,
+    7,
+    7
+   ],
+   "completion_token_variance": 2.888888888888889,
+   "empty_by_replicate": [
+    "none",
+    "none",
+    "none"
+   ],
+   "f1_by_replicate": [
+    0.6666666666666666,
+    0.5,
+    0.6666666666666666
+   ],
+   "f1_mean": 0.611111111111111,
+   "f1_range": 0.16666666666666663,
+   "jaccard_vs_main_run_descriptive": [
+    1.0,
+    0.6666666666666666,
+    1.0
+   ],
+   "latency_variance": 5.6762726666666685,
+   "prompt_token_variance": 131755.55555555553,
+   "size_variance": 0.22222222222222224,
+   "task_id": "saleor-rc-0df62b3144b0",
+   "usd_variance": 1.1604222222221998e-08
+  },
+  {
+   "calls_by_replicate": [
+    7,
+    7,
+    7
+   ],
+   "completion_token_variance": 192.88888888888889,
+   "empty_by_replicate": [
+    "none",
+    "none",
+    "none"
+   ],
+   "f1_by_replicate": [
+    1.0,
+    0.8,
+    0.8
+   ],
+   "f1_mean": 0.8666666666666667,
+   "f1_range": 0.19999999999999996,
+   "jaccard_vs_main_run_descriptive": [
+    1.0,
+    0.6666666666666666,
+    0.6666666666666666
+   ],
+   "latency_variance": 839.0461722222223,
+   "prompt_token_variance": 17672.0,
+   "size_variance": 0.22222222222222224,
+   "task_id": "saleor-rc-0f16ed78b02b",
+   "usd_variance": 1.82096888888868e-09
+  },
+  {
+   "calls_by_replicate": [
+    8,
+    8,
+    8
+   ],
+   "completion_token_variance": 168.0,
+   "empty_by_replicate": [
+    "none",
+    "none",
+    "none"
+   ],
+   "f1_by_replicate": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "f1_mean": 0.0,
+   "f1_range": 0.0,
+   "jaccard_vs_main_run_descriptive": [
+    0.5,
+    1.0,
+    0.3333333333333333
+   ],
+   "latency_variance": 1853.1777335555553,
+   "prompt_token_variance": 397533.55555555556,
+   "size_variance": 0.2222222222222222,
+   "task_id": "saleor-rc-11756ee6b65a",
+   "usd_variance": 3.465842000000077e-08
+  },
+  {
+   "calls_by_replicate": [
+    8,
+    8,
+    8
+   ],
+   "completion_token_variance": 56.0,
+   "empty_by_replicate": [
+    "none",
+    "none",
+    "none"
+   ],
+   "f1_by_replicate": [
+    0.0,
+    0.3333333333333333,
+    0.4
+   ],
+   "f1_mean": 0.24444444444444446,
+   "f1_range": 0.4,
+   "jaccard_vs_main_run_descriptive": [
+    0.4,
+    1.0,
+    0.75
+   ],
+   "latency_variance": 394.0459775555555,
+   "prompt_token_variance": 1295168.2222222222,
+   "size_variance": 0.22222222222222224,
+   "task_id": "saleor-rc-14f2176b5d8c",
+   "usd_variance": 1.1477633999999804e-07
+  },
+  {
+   "calls_by_replicate": [
+    7,
+    7,
+    7
+   ],
+   "completion_token_variance": 1001.5555555555555,
+   "empty_by_replicate": [
+    "none",
+    "none",
+    "none"
+   ],
+   "f1_by_replicate": [
+    0.4,
+    0.4,
+    0.4
+   ],
+   "f1_mean": 0.4000000000000001,
+   "f1_range": 0.0,
+   "jaccard_vs_main_run_descriptive": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "latency_variance": 311.6587775555556,
+   "prompt_token_variance": 5618.0,
+   "size_variance": 0.0,
+   "task_id": "saleor-rc-19bb9b070965",
+   "usd_variance": 1.0831755555555876e-09
+  },
+  {
+   "calls_by_replicate": [
+    8,
+    8,
+    7
+   ],
+   "completion_token_variance": 1736.222222222222,
+   "empty_by_replicate": [
+    "none",
+    "none",
+    "none"
+   ],
+   "f1_by_replicate": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "f1_mean": 0.0,
+   "f1_range": 0.0,
+   "jaccard_vs_main_run_descriptive": [
+    0.5,
+    0.6666666666666666,
+    0.0
+   ],
+   "latency_variance": 1668.5370595555557,
+   "prompt_token_variance": 61708643.55555555,
+   "size_variance": 0.22222222222222224,
+   "task_id": "saleor-rc-1a8b592913a0",
+   "usd_variance": 5.696602675555547e-06
+  },
+  {
+   "calls_by_replicate": [
+    7,
+    8,
+    7
+   ],
+   "completion_token_variance": 580.2222222222222,
+   "empty_by_replicate": [
+    "none",
+    "none",
+    "none"
+   ],
+   "f1_by_replicate": [
+    0.36363636363636365,
+    0.36363636363636365,
+    0.6666666666666666
+   ],
+   "f1_mean": 0.4646464646464647,
+   "f1_range": 0.303030303030303,
+   "jaccard_vs_main_run_descriptive": [
+    0.16666666666666666,
+    0.16666666666666666,
+    0.3333333333333333
+   ],
+   "latency_variance": 46.32003355555555,
+   "prompt_token_variance": 13568096.888888888,
+   "size_variance": 0.22222222222222224,
+   "task_id": "saleor-rc-1b4da5a88d08",
+   "usd_variance": 1.2741958755555543e-06
+  },
+  {
+   "calls_by_replicate": [
+    8,
+    8,
+    8
+   ],
+   "completion_token_variance": 40.22222222222222,
+   "empty_by_replicate": [
+    "none",
+    "none",
+    "none"
+   ],
+   "f1_by_replicate": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "f1_mean": 0.0,
+   "f1_range": 0.0,
+   "jaccard_vs_main_run_descriptive": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "latency_variance": 3060.6425482222226,
+   "prompt_token_variance": 0.0,
+   "size_variance": 0.0,
+   "task_id": "saleor-rc-1f6fbe2ebf9b",
+   "usd_variance": 4.022222222222789e-11
+  },
+  {
+   "calls_by_replicate": [
+    8,
+    8,
+    8
+   ],
+   "completion_token_variance": 2076.222222222222,
+   "empty_by_replicate": [
+    "none",
+    "none",
+    "none"
+   ],
+   "f1_by_replicate": [
+    0.0,
+    0.6666666666666666,
+    0.6666666666666666
+   ],
+   "f1_mean": 0.4444444444444444,
+   "f1_range": 0.6666666666666666,
+   "jaccard_vs_main_run_descriptive": [
+    0.5,
+    1.0,
+    1.0
+   ],
+   "latency_variance": 37.13525066666667,
+   "prompt_token_variance": 1043784.0,
+   "size_variance": 0.2222222222222222,
+   "task_id": "saleor-rc-1f9b5c53a63a",
+   "usd_variance": 1.210499822222237e-07
+  },
+  {
+   "calls_by_replicate": [
+    8,
+    8,
+    8
+   ],
+   "completion_token_variance": 369.5555555555555,
+   "empty_by_replicate": [
+    "none",
+    "none",
+    "none"
+   ],
+   "f1_by_replicate": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "f1_mean": 0.0,
+   "f1_range": 0.0,
+   "jaccard_vs_main_run_descriptive": [
+    0.0,
+    0.5,
+    0.5
+   ],
+   "latency_variance": 6481.091233555555,
+   "prompt_token_variance": 1473067.5555555557,
+   "size_variance": 2.0,
+   "task_id": "saleor-rc-22a30bf2e4cc",
+   "usd_variance": 1.2349336888888928e-07
+  }
+ ],
+ "per_task_f1_mean_of_ranges": 0.13956709956709956,
+ "provider_route_frequency": "not observable per call; single pinned provider deepinfra/turbo with allow_fallbacks=false and require_parameters=true",
+ "replicates": [
+  1,
+  2,
+  3
+ ],
+ "selected_set_all_replicates_identical_rate": 0.3333333333333333,
+ "selected_set_exact_match_rate_pairwise": 0.4444444444444444,
+ "selected_set_mean_pairwise_jaccard": 0.6422222222222221
+}
