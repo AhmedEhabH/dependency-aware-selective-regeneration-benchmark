@@ -1,0 +1,49 @@
+{
+ "artifact": "wp1b_loop_audit",
+ "per_task": [
+  {
+   "task_id": "saleor-rc-349d46d906ad",
+   "calls": 4,
+   "useful_tool_calls": 3,
+   "rejected_repeat": 0,
+   "final": 1,
+   "longest_rejection_run": 0,
+   "rejected_spend_usd": 0.0,
+   "rejected_prompt_growth_pairs": [],
+   "rejected_prompt_growth_deltas": [],
+   "uniform_rejected_prompt_growth_tokens": null
+  },
+  {
+   "task_id": "saleor-rc-b05633dae118",
+   "calls": 8,
+   "useful_tool_calls": 7,
+   "rejected_repeat": 0,
+   "final": 1,
+   "longest_rejection_run": 0,
+   "rejected_spend_usd": 0.0,
+   "rejected_prompt_growth_pairs": [],
+   "rejected_prompt_growth_deltas": [],
+   "uniform_rejected_prompt_growth_tokens": null
+  },
+  {
+   "task_id": "saleor-rc-d52a55471bfc",
+   "calls": 6,
+   "useful_tool_calls": 4,
+   "rejected_repeat": 1,
+   "final": 1,
+   "longest_rejection_run": 1,
+   "rejected_spend_usd": 0.002094,
+   "rejected_prompt_growth_pairs": [],
+   "rejected_prompt_growth_deltas": [],
+   "uniform_rejected_prompt_growth_tokens": null
+  }
+ ],
+ "aggregate": {
+  "calls": 18,
+  "useful_tool_calls": 14,
+  "rejected_repeat": 1,
+  "final": 3,
+  "rejected_spend_usd": 0.002094,
+  "uniform_rejected_prompt_growth_tokens": null
+ }
+}
