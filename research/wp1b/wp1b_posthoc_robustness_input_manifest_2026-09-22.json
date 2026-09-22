@@ -1,0 +1,111 @@
+{
+  "artifact": "wp1b_posthoc_robustness_input_manifest",
+  "date": "2026-09-22",
+  "mission": "wp1b-postmain-wp2-census",
+  "analysis_code_supplied": false,
+  "note": "No brain-reviewed statistical script was supplied before mission start. OpenCode performed no new statistical inference; the document docs/WP1B_POSTHOC_ROBUSTNESS_AND_LIMITATIONS_2026-09-22.md quotes frozen JSONs only and labels every item PRIMARY/SECONDARY/EXPLORATORY PREREGISTERED, POST-HOC DESCRIPTIVE, or PENDING EXTERNAL/BRAIN SCRIPT.",
+  "allowed_labels": [
+    "PRIMARY PREREGISTERED",
+    "SECONDARY PREREGISTERED",
+    "EXPLORATORY PREREGISTERED",
+    "POST-HOC DESCRIPTIVE",
+    "PENDING EXTERNAL/BRAIN SCRIPT"
+  ],
+  "inputs": [
+    {
+      "path": "reports/wp1b_main297_result.json",
+      "sha256": "d671024c1053dbc7bf211ae5492f305a2a40b4d0375c17d72b823fd872d5a736",
+      "role": "primary + sensitivity result",
+      "label": "PRIMARY PREREGISTERED"
+    },
+    {
+      "path": "reports/wp1b_variance_15x3_result.json",
+      "sha256": "b55951ba4af4facc926cc74ff434ffe20000d3edbd1711916d3681c9be9eda89",
+      "role": "variance substudy",
+      "label": "POST-HOC DESCRIPTIVE"
+    },
+    {
+      "path": "reports/wp1b_main297_exploratory.json",
+      "sha256": "4e2832c2681e5958a563da023db1a51b4be5b0f155d9ebb7ca5a5506aec0e2fc",
+      "role": "exploratory X1-X11",
+      "label": "EXPLORATORY PREREGISTERED"
+    },
+    {
+      "path": "research/wp1b/wp1b_agent_budget_sensitivity_prereg.json",
+      "sha256": "8388734cc2dc48c17b5674d71791115ab404006b3040bd907a936389c52a40a9",
+      "role": "AG16 design reference",
+      "label": "PRIMARY PREREGISTERED"
+    },
+    {
+      "path": "research/wp1b/wp1b_main_297_manifest.json",
+      "sha256": "d858316667c4a3e28f7bf759001dc1fd8746b93c710592ff646f3f91584811eb",
+      "role": "MAIN_297 task scope",
+      "label": "PRIMARY PREREGISTERED"
+    },
+    {
+      "path": "research/wp1b/wp1b_main_50_manifest.json",
+      "sha256": "6b49166644e1f6a3a0c976f018984aac98b6d26e0d42e2757de0d4b5513c530f",
+      "role": "MAIN_50 nested sample reference",
+      "label": "PRIMARY PREREGISTERED"
+    },
+    {
+      "path": "research/wp1b/wp1b_decision_rules_v2.json",
+      "sha256": "1aebc84f616c74228de2eaa36f9657c715b454347bfc98a3efe4ff1d0d71439c",
+      "role": "verdict ordering / margin",
+      "label": "PRIMARY PREREGISTERED"
+    },
+    {
+      "path": "reports/WP1B_MAIN297_RESULT.md",
+      "sha256": "cd814ab4cd219b9eb95bc69606638b26efe6c9953d75b25461b7cd385f601a9c",
+      "role": "narrative result report",
+      "label": "PRIMARY PREREGISTERED"
+    },
+    {
+      "path": "reports/WP1B_VARIANCE_15X3_RESULT.md",
+      "sha256": "2a1a29d13fe02e86c42fda3085d4ad36749836e2bcc256b7965e90c0ca08ffe2",
+      "role": "narrative variance report",
+      "label": "POST-HOC DESCRIPTIVE"
+    },
+    {
+      "path": "reports/WP1B_MAIN297_EXPLORATORY.md",
+      "sha256": "55831f1271ef86f3808325e03480dd2e706d3d0d6b2f9c8ee748cef0cca7f56e",
+      "role": "narrative exploratory report",
+      "label": "EXPLORATORY PREREGISTERED"
+    },
+    {
+      "path": "research/wp1b/key-usage-2026-09-22/main297_before.json",
+      "sha256": "2fc561acdf0570bda96babb4afc6d0b2de616850ef9636a7c247ab1ff94bbbe3",
+      "role": "OpenRouter usage before MAIN_297",
+      "label": "POST-HOC DESCRIPTIVE"
+    },
+    {
+      "path": "research/wp1b/key-usage-2026-09-22/main297_after.json",
+      "sha256": "9886138489e666165a0d094a332998f18053d7f12481f9f468f46a3876a36345",
+      "role": "OpenRouter usage after MAIN_297",
+      "label": "POST-HOC DESCRIPTIVE"
+    },
+    {
+      "path": "research/wp1b/key-usage-2026-09-22/variance_before.json",
+      "sha256": "53c544c0a4aa8f7ea0c065a8ade9fd9deada143562a1ca7b6b97b49e8bd24134",
+      "role": "OpenRouter usage before variance",
+      "label": "POST-HOC DESCRIPTIVE"
+    },
+    {
+      "path": "research/wp1b/key-usage-2026-09-22/variance_after.json",
+      "sha256": "7d6299969548ac80ab71bbdd65d1fd1d03c38245050d5194b460ac98b1d9094a",
+      "role": "OpenRouter usage after variance",
+      "label": "POST-HOC DESCRIPTIVE"
+    },
+    {
+      "path": "research/transparency/saleor_candidate_metadata.json",
+      "sha256": "af853824e0ebc75f9f8b96c671b1460e9e8a4abf66ad04eef32e77b0851e50c3",
+      "role": "already-opened Saleor case metadata (census input)",
+      "label": "POST-HOC DESCRIPTIVE"
+    }
+  ],
+  "billed_deltas_usd": {
+    "main297": 3.430202,
+    "variance_15x3": 0.623265,
+    "note": "descriptive OpenRouter usage deltas only; provider caching affects billed vs list price; never used as the preregistered normalized cost verdict"
+  }
+}

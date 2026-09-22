@@ -1,0 +1,93 @@
+{
+  "artifact": "wp2_saleor_environment_feasibility",
+  "date": "2026-09-22",
+  "mission": "wp1b-postmain-wp2-census",
+  "non_destructive": true,
+  "no_services_started": true,
+  "no_install_performed": true,
+  "no_docker_used": true,
+  "evidence_scope": "static repository inspection of the local Saleor cache (dist/pilot-repo-cache/saleor, HEAD) + non-destructive local machine probes",
+  "findings": {
+    "python_tooling_visible": {
+      "status": "AVAILABLE",
+      "evidence": [
+        "pyproject.toml: requires-python = \">=3.12,<3.13\"; build-system hatchling",
+        "local interpreter is Python 3.11.5 (below the Saleor HEAD range; a suitable interpreter/venv would be required at execution time)"
+      ]
+    },
+    "test_runner_framework": {
+      "status": "AVAILABLE",
+      "evidence": [
+        "setup.cfg [tool:pytest] present; testpaths = saleor; addopts = -n auto --record-mode=none --ds=saleor.tests.settings --disable-socket --allow-hosts 127.0.0.1,::1",
+        "Django TestCase / pytest with saleor.tests.settings; manage.py present",
+        "pytest module IS installed in the current interpreter"
+      ]
+    },
+    "database_requirements": {
+      "status": "AVAILABLE",
+      "evidence": [
+        "saleor/settings.py DATABASES default = postgres://saleor:saleor@localhost:5432/saleor",
+        "PostgreSQL x64 service 17 is RUNNING locally (Get-Service postgresql-x64-17)",
+        "port 5432 not observed listening in the current session probe (service running; connectivity not verified, and NOT started/changed here)"
+      ]
+    },
+    "redis_cache_requirements": {
+      "status": "AVAILABLE",
+      "evidence": [
+        "saleor/settings.py CACHES = django_cache_url.config(); REDIS_URL fallback; webhook circuit-breaker RedisStorage",
+        "Redis service is RUNNING locally (Get-Service Redis)",
+        "redis module NOT installed in the current interpreter (would be needed if tests touch Redis paths)"
+      ]
+    },
+    "celery_background_worker": {
+      "status": "AVAILABLE",
+      "evidence": [
+        "saleor/settings.py imports celery.schedules, django-celery-beat, CELERY_RESTRICT_WRITER_METHOD",
+        "saleor/tests/settings.py sets CELERY_TASK_ALWAYS_EAGER = True -> most unit tests run eager, no worker required",
+        "celery module NOT installed in the current interpreter"
+      ]
+    },
+    "environment_variables_settings_required": {
+      "status": "AVAILABLE",
+      "evidence": [
+        ".env.example present at repo root (DATABASE_URL / CACHE_URL style)",
+        "saleor/tests/settings.py hard-codes SECRET_KEY = \"NOTREALLY\", PUBLIC_URL, EMAIL_BACKEND locmem, POPULATE_DEFAULTS = False",
+        "setup.cfg pins --ds=saleor.tests.settings and --disable-socket (offline by default)"
+      ]
+    },
+    "docker_container_support": {
+      "status": "AVAILABLE",
+      "evidence": [
+        "Dockerfile present at repo root; docker CLI exists locally",
+        "no docker-compose file visible at repo root HEAD (deployment/elasticbeanstalk exists)",
+        "Docker NOT used in this census (non-destructive)"
+      ]
+    },
+    "postgresql_available_locally": {
+      "status": "AVAILABLE",
+      "evidence": ["Get-Service postgresql-x64-17 -> Running; PostgreSQL 17 installed"]
+    },
+    "redis_available_locally": {
+      "status": "AVAILABLE",
+      "evidence": ["Get-Service Redis -> Running; redis-cli.exe present"]
+    },
+    "required_python_dependencies_installed": {
+      "status": "UNKNOWN",
+      "evidence": [
+        "django INSTALLED, pytest INSTALLED in current interpreter",
+        "celery NOT_INSTALLED, redis NOT_INSTALLED, psycopg2 NOT_INSTALLED, graphql NOT_INSTALLED in current interpreter",
+        "Saleor .venv exists in the local cache but its completeness/version match was not verified",
+        "whether the exact Saleor dependency set is installed is UNKNOWN until a non-destructive check is run at execution time"
+      ]
+    },
+    "no_network_local_test_feasible": {
+      "status": "AVAILABLE_WITH_SETUP",
+      "evidence": [
+        "setup.cfg addopts already includes --disable-socket --allow-hosts 127.0.0.1,::1 (offline test posture designed in)",
+        "a local Postgres DB + Redis are running, so a local loopback test run is structurally feasible",
+        "feasibility is NOT a measured runtime: a real no-network test run would require installing the Saleor dependency set into a suitable interpreter and provisioning the test database; both are deliberately NOT done in this zero-API census"
+      ]
+    }
+  },
+  "conclusion": "AVAILABLE / NOT_AVAILABLE / UNKNOWN as recorded above. No claim of measured runtime is made. Test execution is deliberately out of scope for this census."
+}

@@ -7,6 +7,11 @@
 (single front door); execution truth = `PROGRESS.md`; decisions = `DECISIONS.md`
 (append-only). Protocol v2 CURRENT PHASE = **Repository change localization /
 impact selection** (`docs/EXECUTION_AND_VALIDATION_PROTOCOL_V2.md`).
+**Current position (2026-09-22):** WP-1b MAIN_297 complete and frozen
+(`RMCSS_NONINFERIOR_AT_LOWER_COST`, NI_SUPPORTED); post-MAIN_297 docs closure,
+AG16 readiness handoff (prereg verified, runner needs brain bundle), and the
+WP-2 zero-API MAIN_297 census are DONE. **No E2E execution yet.** Next = brain
+AG16 bundle → AG16 sensitivity → WP-2 shared E2E executor → E2E-G6 oracle.
 **Current phase:** Paper submitted (ICCI shorthand; IEEE-format V20 artifact)
 + **OMISSION-RISK FEATURE STUDY V1 COMPLETE + AUDITED IN TWO STAGES
 (2026-09-16). Stage 1 deterministic-first-pass development analysis (T3; ZERO
@@ -2399,3 +2404,18 @@ WP-1 code). Each must be triaged in a future mission.
   (`reports/real_commit_m4a3_p1_*.json`, `reports/REAL_COMMIT_M4A3_P1_VALIDATION.md`,
   `research/djangocms-confirmatory-route-b/dryrun/*`). These changes must be
   restored with `git checkout -- <file>` after the full suite and never committed.
+
+## Post-MAIN_297 WP2 census + AG16 readiness mission (2026-09-22) — ZERO API
+
+- [x] P0 git/authority inspection (main==origin/main==cf84fd0; tags verified local+origin)
+- [x] P1 Impact Declaration + decision block (committed before substantive edits)
+- [x] P2 README + current docs correction (static drift removed; `What we have learned` 1f-1j; FAQ expanded)
+- [x] P3 WP-1b claim sheet (`docs/WP1B_CLAIM_SHEET_2026-09-22.md`)
+- [x] P4 robustness/limitations + input manifest (labels PRIMARY/EXPLORATORY/POST-HOC/PENDING)
+- [x] P5 AG16 readiness pack (prereg verified; NOT runnable; brain handoff package + SHA256SUMS)
+- [x] P6 WP-2 zero-API MAIN_297 census (297/297; script + JSON + CSV; self-checks pass)
+- [x] P7 WP-2 feasibility + smoke proposal (env feasibility AVAILABLE; 8 outcome-blind candidates)
+- [x] P8 targeted validation (ruff/py_compile/tests PASS; 26 tests; git diff --check clean)
+- [x] P9 governance: LIVE_STATUS updated + rendered; PROGRESS/TODO/README/START_HERE updated
+- [ ] P10 commit + push + merge + tag `wp1b-postmain-wp2-census-2026-09-22`
+- [ ] P11 FULL + TRUE LIGHT exports + STOP report

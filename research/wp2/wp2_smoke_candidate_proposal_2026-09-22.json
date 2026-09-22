@@ -1,0 +1,138 @@
+{
+ "artifact": "wp2_smoke_candidate_proposal",
+ "date": "2026-09-22",
+ "status": "SMOKE_CANDIDATE_PROPOSAL_ONLY",
+ "not_a_frozen_scientific_sample": true,
+ "requires_brain_ahmed_review": true,
+ "method": {
+  "source": "research/wp2/wp2_saleor_main297_census_2026-09-22.json",
+  "rules": [
+   "Group A: added/modified target tests, no migration/config-heavy marker",
+   "Group B: changed tests + migration/config-heavy",
+   "Group C: no changed test evidence",
+   "Group D: metadata/materialization problem (if any)",
+   "selection favors Group A; includes diversity in changed-file count; never selects by RM-CSS/Agent success/failure; never selects by E2E outcome (none exist); tie-break by SHA-256 of fixed salt + task_id; if any Group-A STRONG_F2P_CANDIDATE exists, the top one (by tie-key) is always included"
+  ],
+  "tie_break_salt": "wp2-smoke-proposal-v1-2026-09-22",
+  "candidate_count": 8,
+  "group_a_cap": 6,
+  "group_b_cap": 1,
+  "group_c_cap": 1
+ },
+ "groups": {
+  "A": {
+   "rule": "f2p_candidacy in {STRONG_F2P_CANDIDATE, MODIFIED_TEST_CANDIDATE} and n_migration == 0 and n_config_or_infra == 0",
+   "n": 187
+  },
+  "B": {
+   "rule": "f2p_candidacy in {STRONG_F2P_CANDIDATE, MODIFIED_TEST_CANDIDATE} and (n_migration > 0 or n_config_or_infra > 0)",
+   "n": 33
+  },
+  "C": {
+   "rule": "f2p_candidacy == NO_CHANGED_TEST_EVIDENCE",
+   "n": 77
+  },
+  "D": {
+   "rule": "status != OK (metadata/materialization problem), if any",
+   "n": 0
+  }
+ },
+ "proposed_candidates": [
+  {
+   "task_id": "saleor-rc-b8786c1bf4d3",
+   "group": "A",
+   "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+   "n_changed": 3,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "n_migration": 0,
+   "n_config_or_infra": 0,
+   "tie_key": "0035628bea3a4fae3eda3fcc2e8fb071061ccf4110d88fa32386148dfa8550e8",
+   "rationale": "deterministic structural selection; outcome-blind"
+  },
+  {
+   "task_id": "saleor-rc-11756ee6b65a",
+   "group": "A",
+   "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+   "n_changed": 3,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "n_migration": 0,
+   "n_config_or_infra": 0,
+   "tie_key": "0073569a7b6fef0c8dcf51c3d460d52384d3f3350a750778dd8be91fcc21470b",
+   "rationale": "deterministic structural selection; outcome-blind"
+  },
+  {
+   "task_id": "saleor-rc-14f2176b5d8c",
+   "group": "A",
+   "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+   "n_changed": 5,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "n_migration": 0,
+   "n_config_or_infra": 0,
+   "tie_key": "02e4f658b38bcf7bdd7fd69a398ef0f473e8f0c72fa7cfcf7f9cb6fcacac307f",
+   "rationale": "deterministic structural selection; outcome-blind"
+  },
+  {
+   "task_id": "saleor-rc-bd0c56fc787e",
+   "group": "A",
+   "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+   "n_changed": 3,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "n_migration": 0,
+   "n_config_or_infra": 0,
+   "tie_key": "035e5ffef77478d8ed1bf971d45155e0c19df0d0e2b31d12c0c88cfc3c9f7a22",
+   "rationale": "deterministic structural selection; outcome-blind"
+  },
+  {
+   "task_id": "saleor-rc-10889526d151",
+   "group": "A",
+   "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+   "n_changed": 2,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "n_migration": 0,
+   "n_config_or_infra": 0,
+   "tie_key": "05a98ac4dc7c23c8b389b5f7f8f99a669cb85a8db532d8e86a90508dbb845fb6",
+   "rationale": "deterministic structural selection; outcome-blind"
+  },
+  {
+   "task_id": "saleor-rc-a9e79dac40a2",
+   "group": "B",
+   "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+   "n_changed": 7,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "n_migration": 1,
+   "n_config_or_infra": 0,
+   "tie_key": "08a7851c062e87c18f2e4692845cb3301ebe9f37d1b7a0cc7c34e3c21fc3b95d",
+   "rationale": "deterministic structural selection; outcome-blind"
+  },
+  {
+   "task_id": "saleor-rc-b84bf6595f49",
+   "group": "C",
+   "f2p_candidacy": "NO_CHANGED_TEST_EVIDENCE",
+   "n_changed": 4,
+   "n_test_added": 0,
+   "n_test_modified": 0,
+   "n_migration": 0,
+   "n_config_or_infra": 0,
+   "tie_key": "0921deb9f64b626a36f40b32f27bdafee92145e404506397a2ce95beb065f9ea",
+   "rationale": "deterministic structural selection; outcome-blind"
+  },
+  {
+   "task_id": "saleor-rc-cae629dc4166",
+   "group": "A",
+   "f2p_candidacy": "STRONG_F2P_CANDIDATE",
+   "n_changed": 6,
+   "n_test_added": 1,
+   "n_test_modified": 1,
+   "n_migration": 0,
+   "n_config_or_infra": 0,
+   "tie_key": "26b5e1e29f04446823b1a8739694ccd0ba753ebb8f4d8b22b69b04fe1985f4e9",
+   "rationale": "deterministic structural selection; outcome-blind"
+  }
+ ]
+}

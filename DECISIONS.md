@@ -2153,3 +2153,19 @@ esearch/bounded-semantic-expansion/pilot_registration_freeze.json — 60 DEVELOP
   `reports/WP1B_VARIANCE_15X3_RESULT.md`; result tag
   `wp1b-main297-result-2026-09-22` on origin.
 - **Scope change:** NO scientific scope change.
+
+## Decision WP1B_POSTMAIN_WP2_CENSUS - APPROVED (2026-09-22)
+
+| ID | Decision | Value |
+|---|---|---|
+| D1 | Post-MAIN_297 zero-API closure | **APPROVED** |
+| D2 | README/current-doc refresh + FAQ + develop `What we have learned` | **APPROVED** |
+| D3 | WP-1b claim sheet | **APPROVED** |
+| D4 | New post-hoc statistics | **NOT AUTHORIZED** unless an externally supplied brain-reviewed script already exists; OpenCode must not invent the analysis |
+| D5 | WP-2 MAIN_297 static/deterministic census | **APPROVED — ZERO API ONLY** |
+| D6 | AG16 paid execution | **NOT IN THIS MISSION** — readiness/preparation only; runner/config must be brain-built and independently supplied/tested first |
+| D6b | AG16 factorial extension `(16,2000)` / `(8,8000)` | **NO** |
+| D6c | AG16 MAIN_150 extension | **NO** |
+| D7 | Access to the 786 sealed Saleor RESERVE outcomes | **FORBIDDEN** |
+| D8 | Polyglot / JabRef / NestJS / Grafana execution now | **NO** — future external-validity work after core E2E evidence |
+| — | Decided by | Ahmed Ehab, 2026-09-22. Supervisor informed: **no** |

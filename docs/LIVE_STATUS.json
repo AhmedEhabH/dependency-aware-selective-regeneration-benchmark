@@ -1,16 +1,16 @@
 {
   "schema": "live_status_v1",
-  "as_of_local": "2026-09-22 09:40 (Africa/Cairo)",
-  "evidence_snapshot": "main (merge of wp1b/main-297-2026-09-22) + tags wp1b-main297-harness-prereg / wp1b-main297-predictions-frozen / wp1b-variance-predictions-frozen / wp1b-main297-result (all 2026-09-22)",
+  "as_of_local": "2026-09-22 17:18 (Africa/Cairo)",
+  "evidence_snapshot": "main (merge of wp1b/main-297-2026-09-22) + tags wp1b-main297-harness-prereg / wp1b-main297-predictions-frozen / wp1b-variance-predictions-frozen / wp1b-main297-result (all 2026-09-22); post-MAIN_297 closure + zero-API WP-2 census on branch wp1b/postmain-wp2-census-2026-09-22",
   "phase": "Phase 5 — End-to-End Selective Regeneration",
-  "position": "MAIN_297 RESULT: RMCSS_NONINFERIOR_AT_LOWER_COST (decision rules v2, NI_SUPPORTED). P (n=297): D −0.0062 [−0.0449, +0.0308], Q5 −0.0383. S (n=295, 2 EMPTY dropped): D −0.0115 [−0.0502, +0.0255], Q5 −0.0434. Agent F1 0.363 vs RM-CSS 0.357 vs SIP 0.265. RM-CSS cheaper (View A: 0.27× calls, 0.21× generative tokens/task). EMPTY rate 0.67% (2/297, parser failure). MAIN run $7.15 (2,164 calls, 23.6M prompt tokens); variance 15×3 $1.19 (331 calls). X6 ESCALATION_NO_GAIN; X3 NO_TEACHER_HEADROOM.",
-  "position_short": "MAIN_297 DONE: RM-CSS non-inferior at lower cost (NI_SUPPORTED, D −0.0062)",
-  "now_short": "WP-1b: MAIN_297 + variance + scoring COMPLETE; Ahmed reviews → D6 (AG16) + WP-2.",
-  "next_action": "Ahmed reviews MAIN_297 → decides D6 (AG16 budget-sensitivity arm on MAIN_50, ceiling $12.20) → starts WP-2 shared E2E instrument.",
-  "next_short": "Ahmed reviews MAIN_297 → D6 (AG16) → WP-2",
-  "priority_chain": "MAIN_297 + variance + scoring DONE -> D6 (AG16 budget-sensitivity on MAIN_50) -> WP-2 shared E2E instrument -> E2E-G6 F2P/P2P oracle -> Smoke -> Pilot -> Research Run",
-  "weakest_risk": "RM-CSS is non-inferior to the budget-bounded agent at lower cost (NI_SUPPORTED), but the claim is localization-only: E2E correctness, WP-2 and the F2P/P2P oracle have not started, and the agent is a budget-bounded baseline (AG16 budget-sensitivity is preregistered, not run).",
-  "wp1b_short": "Paid same-protocol comparison of a repository agent vs SIP vs RM-CSS on MAIN_297 (G1: delta=0.05 NI rule; G2: cap 1024; decision rules v2). RESULT: RMCSS_NONINFERIOR_AT_LOWER_COST (NI_SUPPORTED); D −0.0062 [−0.0449,+0.0308] Q5 −0.0383; RM-CSS cheaper. Variance 15x3 pooled F1 0.389/0.438/0.479, pairwise exact match 0.444. X1-X11 exploratory labelled. Total agent spend $8.34 (main $7.15 + variance $1.19).",
+  "position": "MAIN_297 primary WP-1b result complete and frozen: RMCSS_NONINFERIOR_AT_LOWER_COST (decision rules v2, NI_SUPPORTED). WP-1b claim sheet/docs closure complete. AG16 prereg exists; runner implementation still requires a brain-built/tested bundle. WP-2 zero-API MAIN_297 census complete (297/297; 20 STRONG / 200 MODIFIED / 77 no-test-evidence F2P candidates; 0 materialization errors). NO E2E execution yet. Next = brain builds/reviews AG16 harness bundle and/or freezes WP-2 executor/oracle mission.",
+  "position_short": "MAIN_297 frozen + WP-1b docs closed; AG16 prereg needs brain bundle; WP-2 zero-API census DONE; E2E not started",
+  "now_short": "Post-MAIN_297 zero-API closure + WP-2 census COMPLETE; next = brain AG16 bundle + WP-2 design.",
+  "next_action": "Ahmed reviews this closure → brain builds/reviews the AG16 executable bundle from the frozen readiness requirements → then AG16 calibration + MAIN_50 sensitivity; in parallel the WP-2 census is ready for the brain to design the shared E2E executor and F2P/P2P oracle.",
+  "next_short": "Brain AG16 bundle → AG16 sensitivity → WP-2 design",
+  "priority_chain": "MAIN_297 + variance + scoring DONE -> WP-1b docs closure + zero-API WP-2 census DONE -> brain AG16 bundle -> AG16 sensitivity (MAIN_50) -> WP-2 shared E2E instrument -> E2E-G6 F2P/P2P oracle -> Smoke -> Pilot -> Research Run",
+  "weakest_risk": "RM-CSS is non-inferior to the budget-bounded agent at lower cost (NI_SUPPORTED), but the claim is localization-only: E2E correctness, WP-2 execution and the F2P/P2P oracle have not started; the agent is a budget-bounded baseline (AG16 budget-sensitivity is preregistered, runner not yet built).",
+  "wp1b_short": "Paid same-protocol comparison of a repository agent vs SIP vs RM-CSS on MAIN_297 (G1: delta=0.05 NI rule; G2: cap 1024; decision rules v2). RESULT: RMCSS_NONINFERIOR_AT_LOWER_COST (NI_SUPPORTED); D −0.0062 [−0.0449,+0.0308] Q5 −0.0383; RM-CSS cheaper. Variance 15x3 pooled F1 0.389/0.438/0.479, pairwise exact match 0.444. X1-X11 exploratory labelled. Total agent spend $8.34 (main $7.15 + variance $1.19). Post-MAIN_297: claim sheet + docs closure complete; AG16 prereg verified, runner needs brain bundle; WP-2 zero-API census complete.",
   "pipeline": [
     {
       "step": "Localization method selection",
@@ -61,6 +61,21 @@
       "step": "WP-1b MAIN_297 + variance 15x3",
       "status": "DONE",
       "note": "RMCSS_NONINFERIOR_AT_LOWER_COST (NI_SUPPORTED); main $7.15 + variance $1.19; scored with decision rules v2; X1-X11 exploratory"
+    },
+    {
+      "step": "WP-1b post-MAIN_297 docs closure + claim sheet",
+      "status": "DONE",
+      "note": "claim sheet, robustness/limitations, README/FAQ updated; zero API"
+    },
+    {
+      "step": "AG16 budget sensitivity (MAIN_50)",
+      "status": "PREREGISTERED, NOT RUNNABLE",
+      "note": "brain-built/tested bundle required first (iterative_agent_budget.py + golden parity + dry-run); ceilings $0.80 cal / $12.20 MAIN_50"
+    },
+    {
+      "step": "WP-2 zero-API MAIN_297 census",
+      "status": "DONE",
+      "note": "297/297 materializable; 20 STRONG / 200 MODIFIED / 77 no-test-evidence F2P candidates; proposal-only Smoke candidates 8; zero API"
     },
     {
       "step": "WP-2 shared E2E instrument",
@@ -246,6 +261,11 @@
       "note": "ledger $1.194 · pooled F1 0.389/0.438/0.479 · pairwise exact match 0.444 · 0 EMPTY"
     },
     {
+      "workflow": "WP-2 zero-API MAIN_297 census",
+      "calls": "0",
+      "note": "deterministic read-only git diff over already-opened case metadata; $0.00"
+    },
+    {
       "workflow": "E2E generation + repair",
       "calls": "not frozen yet",
       "note": "defined by WP-2"
@@ -264,8 +284,13 @@
     },
     {
       "item": "Agent budget-sensitivity arm (AG16, MAIN_50)",
-      "status": "PREREGISTERED, NOT AUTHORIZED",
-      "note": "design frozen before MAIN_297 outputs; needs decision D6"
+      "status": "PREREGISTERED, NOT AUTHORIZED; runner NOT built",
+      "note": "design frozen before MAIN_297 outputs; needs brain-built/tested bundle + decision D6"
+    },
+    {
+      "item": "WP-2 zero-API MAIN_297 census",
+      "status": "DONE",
+      "note": "deterministic planning evidence only; no E2E execution; no F2P/P2P oracle"
     },
     {
       "item": "786 Saleor RESERVE outcomes",
