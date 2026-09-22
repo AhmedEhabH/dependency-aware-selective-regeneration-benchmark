@@ -35,6 +35,10 @@ def parse_python_requirement(files: dict[str, str]) -> str:
     m = re.search(r'requires-python\s*=\s*["\']([^"\']+)["\']', pyproject)
     if m:
         return m.group(1)
+    # Poetry-era: [tool.poetry.dependencies] python = "~3.8"
+    m = re.search(r"\[tool\.poetry\.dependencies\][^\[]*?python\s*=\s*[\"']([^\"']+)[\"']", pyproject, re.S)
+    if m:
+        return m.group(1)
     setup = files.get("setup.py", "")
     m = re.search(r'python_requires\s*=\s*["\']([^"\']+)["\']', setup)
     if m:
@@ -166,6 +170,10 @@ def build_venv(env_root: Path, family: str, worktree: Path, python: Path) -> Pat
         if r.returncode != 0:
             raise RuntimeError(f"uv venv failed: {r.stderr[-800:]}")
         py = venv_dir / "Scripts" / "python.exe"
+        # Legacy Saleor commits use Poetry ([tool.poetry]) without a PEP-517
+        # [build-system]; `uv pip install -e .` cannot build them. Fall back to
+        # installing the pinned requirements.txt (if present) and add the repo
+        # root to the path at runtime (the tests run with cwd = worktree).
         r = subprocess.run(
             ["uv", "pip", "install", "--python", str(py), "-e", str(worktree)],
             capture_output=True,
@@ -175,7 +183,19 @@ def build_venv(env_root: Path, family: str, worktree: Path, python: Path) -> Pat
             check=False,
         )
         if r.returncode != 0:
-            raise RuntimeError(f"uv pip install -e failed: {r.stderr[-1500:]}")
+            req = worktree / "requirements.txt"
+            if not req.exists():
+                raise RuntimeError(f"uv pip install -e failed and no requirements.txt: {r.stderr[-1500:]}")
+            r = subprocess.run(
+                ["uv", "pip", "install", "--python", str(py), "-r", str(req)],
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                timeout=1800,
+                check=False,
+            )
+            if r.returncode != 0:
+                raise RuntimeError(f"uv pip install -r requirements.txt failed: {r.stderr[-1500:]}")
         for pkg in (
             "pytest",
             "pytest-django==4.11.1",

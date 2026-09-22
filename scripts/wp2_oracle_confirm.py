@@ -497,12 +497,21 @@ def build_family_python(tid: str, target_wt: Path):
 
 
 def _minor_from_requirement(req: str) -> str:
-    """Extract major.minor from a PEP-508 python requirement, defaulting to 3.12."""
+    """Extract major.minor from a PEP-508 / Poetry python requirement.
+
+    Maps ranges (>=3.12,<3.13 / ~3.8 / ^3.9) to the concrete interpreter
+    minor the era needs, defaulting to 3.12.
+    """
     import re
 
+    req = (req or "").strip()
+    if not req or req == "UNKNOWN":
+        return "3.12"
     m = re.search(r"(3\.\d{1,2})", req)
     if m:
-        return m.group(1)
+        minor = m.group(1)
+        # For open ranges like >=3.12,<3.13 use the lower bound as-is.
+        return minor
     return "3.12"
 
 
