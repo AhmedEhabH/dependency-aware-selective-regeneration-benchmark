@@ -2169,3 +2169,26 @@ esearch/bounded-semantic-expansion/pilot_registration_freeze.json — 60 DEVELOP
 | D7 | Access to the 786 sealed Saleor RESERVE outcomes | **FORBIDDEN** |
 | D8 | Polyglot / JabRef / NestJS / Grafana execution now | **NO** — future external-validity work after core E2E evidence |
 | — | Decided by | Ahmed Ehab, 2026-09-22. Supervisor informed: **no** |
+
+## Decision WP2_ORACLE_CONFIRMATION_DESIGN_V1 - APPROVED (2026-09-22)
+
+| ID | Decision | Value |
+|---|---|---|
+| O1 | WP-2 census/oracle terminology and selection rationale | **APPROVED** |
+| O2 | Oracle Confirmation harness and deterministic test execution | **APPROVED - ZERO LLM/API** |
+| O3 | Oracle Confirmation scope | **All 20 strong + deterministic stratified modified-test waves under section 11** |
+| O4 | 786 sealed Saleor RESERVE outcomes | **FORBIDDEN - never access** |
+| O5 | Calibration-3/3b/3c task reuse in WP-2 oracle corpus | **NO** |
+| O6 | Test patches / F2P/P2P labels visible to future generator | **NO - evaluator-only** |
+| O7 | F2P failure taxonomy | **Behavioral, symbol-absence, environment, patch-apply, flaky, P2P-only; never collapse them silently** |
+| O8 | New-component ImportError/AttributeError | **DO NOT automatically discard; classify separately** |
+| O9 | WP-2 Design v1 causal arms | **DESIGN ONLY - no paid execution in this mission** |
+| O10 | Primary generator specification source | **No target-derived test content or gold-patch details; existing label-free intent + parent repository only** |
+| O11 | Target-derived component signatures/docstrings | **NOT in primary. May be proposed only as a separately labelled oracle-assisted/spec-augmented sensitivity after Pilot gate and before Research Run freeze** |
+| O12 | Random placebo scope | **APPROVED in design; size-matched, outcome-blind, fixed seed, source-file universe only** |
+| O13 | Gold-minus-one | **APPROVED in design on a bounded subset only; causal omission analysis, not primary arm** |
+| O14 | Generation replicates | **Do not freeze >=3 for every condition yet; Pilot estimates run-to-run variance first** |
+| O15 | Test/oracle flakiness screen | **3 independent executions per state required** |
+| O16 | AG16 | **Parallel future track; no paid execution here** |
+| O17 | External validity repositories | **Not in this mission** |
+| - | Decided by | Ahmed Ehab, 2026-09-22. Supervisor informed: no |
