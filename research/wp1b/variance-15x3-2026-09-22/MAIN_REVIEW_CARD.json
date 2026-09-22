@@ -1,0 +1,59 @@
+{
+ "artifact": "wp1b_main_review_card",
+ "blocking": [],
+ "informational": {
+  "calls_histogram": {
+   "3": 1,
+   "4": 2,
+   "5": 3,
+   "7": 13,
+   "8": 26
+  },
+  "cost_ratio_to_worst_case": {
+   "items_above_1": 0,
+   "max": 0.6981107016592155,
+   "mean": 0.5658991322514836
+  },
+  "empty_by_reason": {},
+  "empty_rate": 0.0,
+  "forced_final_items": 26,
+  "http_attempts": 331,
+  "infra_failure_items": 0,
+  "instrument_error_items": 0,
+  "items_with_rejected_repeats": 23,
+  "items_with_zero_reads": 21,
+  "logical_calls": 325,
+  "mean_successful_reads": 1.0222222222222221,
+  "rejected_repeat_share_of_calls": 0.16307692307692306,
+  "resolved_halts_before_completion": [],
+  "tool_quality_X11": {
+   "multi_word_search_share": 0.29878048780487804,
+   "multi_word_zero_result_share": 0.5918367346938775,
+   "non_consecutive_duplicate_requests": 23,
+   "non_consecutive_duplicate_share": 0.1013215859030837,
+   "note": "search_text is a case-insensitive SUBSTRING match of the whole query; the frozen rejection rule only rejects CONSECUTIVE identical requests.",
+   "search_calls": 164,
+   "tool_calls_executed": 227,
+   "zero_result_search_share": 0.3780487804878049
+  },
+  "transport_retries": 6,
+  "usd_per_item": {
+   "mean": 0.025979460000000003,
+   "median": 0.028544599999999996
+  }
+ },
+ "items": "45/45",
+ "ledger_reconciliation_AC14": {
+  "abandoned_attempts": 1,
+  "abandoned_attempts_usd": 0.025037,
+  "kept_records_usd": 1.169076,
+  "ledger_total_usd": 1.194112,
+  "ok": true,
+  "per_record_mismatches": [],
+  "total_matches": true
+ },
+ "ledger_usd": 1.194112,
+ "run_label": "VARIANCE_15x3",
+ "status": "COMPLETE",
+ "verdict": "NO_BLOCKING_INSTRUMENT_ANOMALIES"
+}

@@ -1,0 +1,84 @@
+{
+ "agent_control_max_completion_tokens": 1024,
+ "ceiling_usd": 3.5,
+ "code_sha256": {
+  "protocol_v3": "3b5f518773b8ea8db60641c7d29ce5d1a5ca652b1b921dc67f84c39a6de95c0f",
+  "scripts/wp1b_main_run.py": "cdbd93db4ed5dec2de19ab8787335c0d4fab184f3d4eba6140b4464265779ccf",
+  "src/benchmark/strategies/iterative_agent.py": "94baf4d3c557838b434869a60850a4cf62bd652c283206cd33260d7f799cff62",
+  "src/benchmark/strategies/repository_tools.py": "251fd8d65835da56ef99dcd7a9df56044725c06151b90c7d8573bd0d4160cc35",
+  "src/benchmark/wp1b/label_guard.py": "6a07e31fe55eac37c3f198313ec5b34c4898bb62d5a937c23c6c2c7df7576452",
+  "src/benchmark/wp1b/main_runner.py": "fc82237b24988a102c232ce21c0e038c31eee7478da1d228724b2eea685e4b3a",
+  "src/benchmark/wp1b/resilient_backend.py": "8bbd6e1c3e61d612ba15af4da51946941cdb53bbd92950a7fad4dd085465d241",
+  "src/benchmark/wp1b/telemetry.py": "dbb48c6bf7dbfe69bec18530ee7af178f686bdeba1c25dc802ac15d3062a53f5"
+ },
+ "created_utc": "2026-09-22T08:55:51.230544+00:00",
+ "kind": "variance",
+ "manifest_sha256": "c2cfbcce85768097d32562cbc585abffaf06119d77927de17900058b426a5da9",
+ "max_agent_calls": 8,
+ "model": "qwen/qwen3-coder",
+ "n_items": 45,
+ "protocol": "wp1b_frozen_agent_protocol_v3",
+ "resumes": [
+  {
+   "archived_halt": null,
+   "completed_before": 15,
+   "utc": "2026-09-22T09:23:40.178211+00:00"
+  },
+  {
+   "archived_halt": null,
+   "completed_before": 30,
+   "utc": "2026-09-22T09:29:35.068246+00:00"
+  }
+ ],
+ "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+ "run_label": "VARIANCE_15x3",
+ "schema": "wp1b_main_run_state_v1",
+ "sessions": [
+  {
+   "code_sha256": {
+    "protocol_v3": "3b5f518773b8ea8db60641c7d29ce5d1a5ca652b1b921dc67f84c39a6de95c0f",
+    "scripts/wp1b_main_run.py": "cdbd93db4ed5dec2de19ab8787335c0d4fab184f3d4eba6140b4464265779ccf",
+    "src/benchmark/strategies/iterative_agent.py": "94baf4d3c557838b434869a60850a4cf62bd652c283206cd33260d7f799cff62",
+    "src/benchmark/strategies/repository_tools.py": "251fd8d65835da56ef99dcd7a9df56044725c06151b90c7d8573bd0d4160cc35",
+    "src/benchmark/wp1b/label_guard.py": "6a07e31fe55eac37c3f198313ec5b34c4898bb62d5a937c23c6c2c7df7576452",
+    "src/benchmark/wp1b/main_runner.py": "fc82237b24988a102c232ce21c0e038c31eee7478da1d228724b2eea685e4b3a",
+    "src/benchmark/wp1b/resilient_backend.py": "8bbd6e1c3e61d612ba15af4da51946941cdb53bbd92950a7fad4dd085465d241",
+    "src/benchmark/wp1b/telemetry.py": "dbb48c6bf7dbfe69bec18530ee7af178f686bdeba1c25dc802ac15d3062a53f5"
+   },
+   "completed_before": 0,
+   "session": "s1",
+   "utc": "2026-09-22T08:55:51.265951+00:00"
+  },
+  {
+   "code_sha256": {
+    "protocol_v3": "3b5f518773b8ea8db60641c7d29ce5d1a5ca652b1b921dc67f84c39a6de95c0f",
+    "scripts/wp1b_main_run.py": "cdbd93db4ed5dec2de19ab8787335c0d4fab184f3d4eba6140b4464265779ccf",
+    "src/benchmark/strategies/iterative_agent.py": "94baf4d3c557838b434869a60850a4cf62bd652c283206cd33260d7f799cff62",
+    "src/benchmark/strategies/repository_tools.py": "251fd8d65835da56ef99dcd7a9df56044725c06151b90c7d8573bd0d4160cc35",
+    "src/benchmark/wp1b/label_guard.py": "6a07e31fe55eac37c3f198313ec5b34c4898bb62d5a937c23c6c2c7df7576452",
+    "src/benchmark/wp1b/main_runner.py": "fc82237b24988a102c232ce21c0e038c31eee7478da1d228724b2eea685e4b3a",
+    "src/benchmark/wp1b/resilient_backend.py": "8bbd6e1c3e61d612ba15af4da51946941cdb53bbd92950a7fad4dd085465d241",
+    "src/benchmark/wp1b/telemetry.py": "dbb48c6bf7dbfe69bec18530ee7af178f686bdeba1c25dc802ac15d3062a53f5"
+   },
+   "completed_before": 15,
+   "session": "s2",
+   "utc": "2026-09-22T09:23:40.178211+00:00"
+  },
+  {
+   "code_sha256": {
+    "protocol_v3": "3b5f518773b8ea8db60641c7d29ce5d1a5ca652b1b921dc67f84c39a6de95c0f",
+    "scripts/wp1b_main_run.py": "cdbd93db4ed5dec2de19ab8787335c0d4fab184f3d4eba6140b4464265779ccf",
+    "src/benchmark/strategies/iterative_agent.py": "94baf4d3c557838b434869a60850a4cf62bd652c283206cd33260d7f799cff62",
+    "src/benchmark/strategies/repository_tools.py": "251fd8d65835da56ef99dcd7a9df56044725c06151b90c7d8573bd0d4160cc35",
+    "src/benchmark/wp1b/label_guard.py": "6a07e31fe55eac37c3f198313ec5b34c4898bb62d5a937c23c6c2c7df7576452",
+    "src/benchmark/wp1b/main_runner.py": "fc82237b24988a102c232ce21c0e038c31eee7478da1d228724b2eea685e4b3a",
+    "src/benchmark/wp1b/resilient_backend.py": "8bbd6e1c3e61d612ba15af4da51946941cdb53bbd92950a7fad4dd085465d241",
+    "src/benchmark/wp1b/telemetry.py": "dbb48c6bf7dbfe69bec18530ee7af178f686bdeba1c25dc802ac15d3062a53f5"
+   },
+   "completed_before": 30,
+   "session": "s3",
+   "utc": "2026-09-22T09:29:35.068246+00:00"
+  }
+ ],
+ "temperature": 0.0
+}
