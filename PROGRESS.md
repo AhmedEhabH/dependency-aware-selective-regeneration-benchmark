@@ -4,7 +4,7 @@
 
 ## LIVE STATUS — single current-state source of truth
 
-**Position:** MAIN_297 RESULT: RMCSS_NONINFERIOR_AT_LOWER_COST (decision rules v2, NI_SUPPORTED). P (n=297): D −0.0062 [−0.0449, +0.0308], Q5 −0.0383. S (n=295, 2 EMPTY dropped): D −0.0115 [−0.0502, +0.0255], Q5 −0.0434. Agent F1 0.363 vs RM-CSS 0.357 vs SIP 0.265. RM-CSS cheaper (View A: 0.27× calls, 0.21× generative tokens/task). EMPTY rate 0.67% (2/297, parser failure). MAIN run $7.15 (2,164 calls, 23.6M prompt tokens); variance 15×3 $1.19 (331 calls). X6 ESCALATION_NO_GAIN; X3 NO_TEACHER_HEADROOM.
+**Position:** MAIN_297 primary WP-1b result complete and frozen: RMCSS_NONINFERIOR_AT_LOWER_COST (decision rules v2, NI_SUPPORTED). WP-1b claim sheet/docs closure complete. AG16 prereg exists; runner implementation still requires a brain-built/tested bundle. WP-2 zero-API MAIN_297 census complete (297/297; 20 STRONG / 200 MODIFIED / 77 no-test-evidence F2P candidates; 0 materialization errors). NO E2E execution yet. Next = brain builds/reviews AG16 harness bundle and/or freezes WP-2 executor/oracle mission.
 
 **Research pipeline:**
 
@@ -20,6 +20,9 @@
 | G12 agent context hygiene | DONE | D1 APPROVED, zero API: echo, call counter, named rejection, truncation note; gate v3 CG-12 FAILS 3b (runs 1/6/4); protocol v3 |
 | WP-1b Calibration-3c | PASS | gate v3 CG-1..CG-12 PASS · $0.063205 · 4 reads · 1/18 rejected (5.6%) · longest run 1 · 0 blocking review-card flags · NOT scored |
 | WP-1b MAIN_297 + variance 15x3 | DONE | RMCSS_NONINFERIOR_AT_LOWER_COST (NI_SUPPORTED); main $7.15 + variance $1.19; scored with decision rules v2; X1-X11 exploratory |
+| WP-1b post-MAIN_297 docs closure + claim sheet | DONE | claim sheet, robustness/limitations, README/FAQ updated; zero API |
+| AG16 budget sensitivity (MAIN_50) | PREREGISTERED, NOT RUNNABLE | brain-built/tested bundle required first (iterative_agent_budget.py + golden parity + dry-run); ceilings $0.80 cal / $12.20 MAIN_50 |
+| WP-2 zero-API MAIN_297 census | DONE | 297/297 materializable; 20 STRONG / 200 MODIFIED / 77 no-test-evidence F2P candidates; proposal-only Smoke candidates 8; zero API |
 | WP-2 shared E2E instrument | NOT STARTED | same generator/validator/repair for every arm |
 | E2E-G6 F2P/P2P oracle | NOT STARTED | fail-to-pass + pass-to-pass tests per task |
 | E2E Smoke → Pilot → Research Run | NOT STARTED | staged; each stage can stop the run |
@@ -37,6 +40,7 @@
 | WP-1b Calibration-3c agent | 18 calls (4/8/6) | $0.063205 · 4 successful reads · 1/18 rejected repeats (5.6%) · longest run 1 · gate v3 CG-1..CG-12 PASS · NOT scored |
 | MAIN_297 agent | 2,164 logical / 2,178 HTTP attempts | ledger $7.147 · 23.55M prompt / 81.7K completion tokens · 147 forced finals · 2 EMPTY (parser_failure) · 8 transport retries |
 | Variance substudy 15x3 | 331 logical / 341 HTTP attempts | ledger $1.194 · pooled F1 0.389/0.438/0.479 · pairwise exact match 0.444 · 0 EMPTY |
+| WP-2 zero-API MAIN_297 census | 0 | deterministic read-only git diff over already-opened case metadata; $0.00 |
 | E2E generation + repair | not frozen yet | defined by WP-2 |
 
 **Authorized / not authorized:**
@@ -45,15 +49,16 @@
 | :---|:---|:---|
 | Calibration-3c | DONE (CLEAN) | gate v3 CG-1..CG-12 PASS; $0.063205; NOT scored |
 | MAIN_297 + variance 15×3 + scoring | DONE (D3 = YES) | RMCSS_NONINFERIOR_AT_LOWER_COST (NI_SUPPORTED); main $7.15 + variance $1.19; predictions frozen/tagged before any label load |
-| Agent budget-sensitivity arm (AG16, MAIN_50) | PREREGISTERED, NOT AUTHORIZED | design frozen before MAIN_297 outputs; needs decision D6 |
+| Agent budget-sensitivity arm (AG16, MAIN_50) | PREREGISTERED, NOT AUTHORIZED; runner NOT built | design frozen before MAIN_297 outputs; needs brain-built/tested bundle + decision D6 |
+| WP-2 zero-API MAIN_297 census | DONE | deterministic planning evidence only; no E2E execution; no F2P/P2P oracle |
 | 786 Saleor RESERVE outcomes | SEALED | never opened/read/scored/sampled; guarded by the label-access audit hook |
 | Calibration-3 / 3b / 3c F1 claims | NOT PERMITTED | instrument checks only; no labels loaded or scored |
 
-**Next action:** Ahmed reviews MAIN_297 → decides D6 (AG16 budget-sensitivity arm on MAIN_50, ceiling $12.20) → starts WP-2 shared E2E instrument.
+**Next action:** Ahmed reviews this closure → brain builds/reviews the AG16 executable bundle from the frozen readiness requirements → then AG16 calibration + MAIN_50 sensitivity; in parallel the WP-2 census is ready for the brain to design the shared E2E executor and F2P/P2P oracle.
 
 **End-to-end status:** WP-2 has **not started**; E2E-G6 F2P/P2P oracle has **not started**; **no** E2E Smoke, Pilot or Research Run exists yet.
 
-*Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-09-22 09:40 (Africa/Cairo).*
+*Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-09-22 17:18 (Africa/Cairo).*
 <!-- LIVE_STATUS:END -->
 
 **Role:** Execution source of truth (what is being executed now, last completed
@@ -130,60 +135,55 @@ in BOTH realizations A and B; Saleor passes; Stage 5 stays PAUSED/SEALED).
 
 ---
 
-## Current active state (2026-09-21, normalized)
+## Current active state (2026-09-22, normalized)
 
 - **Phase:** 5 — End-to-End Selective Regeneration.
-- **WP-0 (G7) ground-truth leakage fix:** COMPLETE and merged into `main`
-  (fast-forward integration). `ArtifactUniverse` is now derived from the
-  parent-commit repository state; legacy fixture behavior is behind an
-  explicit `allow_ground_truth_universe` flag (default False), auditable on
-  `RunRecord`. AC-0.1..AC-0.5 PASS; independent audit 6/6 PASS.
-- **WP-1a (2026-09-21):** Repository-Agent Selection Baseline PREPARATION
-  COMPLETE + INTEGRATION CLOSURE merged to `main` (`18652d6`). AC-1A.1..
-  AC-1A.12 ALL PASS; same-session cross-check 19/19 (NOT an independent audit);
-  50 new unit tests + WP-1b closure tests; ruff/mypy
-  strict/py_compile/git diff --check PASS. Scientific API spend $0.00.
-- **WP-1b readiness (2026-09-21):** DECISION = **BLOCKED**. G1 NI margin and
-  G2 completion cap require prospective decisions; paid WP-1b is FAIL-CLOSED
-  until both are frozen. G3 loop semantics instrumented; G4 audit terminology
-  corrected + independent-audit packet prepared; G5 variance substudy
-  preregistered; G6 pricing preflight PASS; Calibration-3 gate frozen before
-  inference. Full closure deliverables under `docs/WP1B_*`,
-  `artifacts/wp1b_*`, `exports/`.
-- **WP-1b Calibration-3 (2026-09-21):** EXECUTED (D6 YES, $0.081142, 24 calls,
-  v1 gate CG-1..CG-9 PASS) — **reclassified `GATE_V1_PASS / INSTRUMENT_INVALID`**
-  (D1) by the tool-fix mission: the agent's tools were blind (0 successful
-  reads).
-- **WP-1b tool-fix + gate v2 + LIVE_STATUS (2026-09-21, ZERO API):**
-  D2 fix `WP1B_G11_TOOL_BUDGET_2026_09_21` (`search_text` no longer
-  consumes `MAX_DISTINCT_FILES`; `read_file` keeps 30); gate v2 (CG-10/CG-11)
-  FAILS on old Calibration-3 (RED); A4 telemetry; `docs/LIVE_STATUS.json` +
-  renderer + 4 rendered blocks.
-- **WP-1b Calibration-3b (2026-09-21, Phase C, D4 YES):** **COMPLETE —
-  DECISION = `CALIBRATION_3B_DONE(CG-1..CG-11 PASS)`.** 21 calls, 3 successful
-  reads, 0 instrument errors, $0.070028 ≤ $0.25, cost ratios 0.405/0.626/0.547
-  (≤ 1.2). Agent instrument-valid. STOP after Phase C. MAIN_297/variance NOT
-  authorized (D5/D7 NO).
 - **Localization method selection:** CLOSED — `IMPACT_LOCALIZATION_METHOD_SELECTION_CLOSED`
-  permanent. No V3.
+  permanent; RM-CSS is the frozen method.
 - **Frozen scientific result (unchanged):** SALEOR_RESERVE_300_RMCSS — RM-CSS
   F1 0.3569 vs SIP 0.2647, Delta F1 +0.0921 CI [+0.0691,+0.1156]; secondary
   cross-repo transfer PASS.
-- **WP-1 frozen artifacts:** `research/wp1a/` (model provenance, label-free
-  schema, per-task predictions + SHA-256, re-derivation verification, main-50
-  + calibration-3 manifests, intent parity, frozen agent protocol, failure
-  semantics, shared scorer schema, accounting schema, budget model,
-  cost-quality categories, same-session cross-check, acceptance report).
-- **Remaining untouched Saleor RESERVE:** 786 tasks (outcomes unread).
-- **Next candidate scientific work package:** MAIN_297 — requires a separate
-  explicit Ahmed authorization (D7) after he reviews the Calibration-3b
-  evidence.
-- **Pending:** WP-2 E2E Phase-0 instrument (DEFERRED); E2E-G6 F2P/P2P oracle
-  (DEFERRED/unresolved).
+- **WP-1b MAIN_297 (2026-09-22):** COMPLETE and FROZEN. Primary result =
+  `RMCSS_NONINFERIOR_AT_LOWER_COST` (decision rules v2, `NI_SUPPORTED`).
+  P n=297: D −0.0062 [−0.0449,+0.0308], Q5 −0.0383. S n=295 (2 parser-failure
+  EMPTY dropped): D −0.0115 [−0.0502,+0.0255], Q5 −0.0434. Agent F1 0.363 vs
+  RM-CSS 0.357 vs SIP 0.265 (pooled micro-F1). RM-CSS cheaper (View A: 0.27×
+  calls, 0.21× generative tokens/task). Variance 15×3 pooled F1
+  0.389/0.438/0.479, pairwise exact match 0.444. X1-X11 exploratory labelled.
+  Selection-stage result, NOT E2E. Run spend $7.15 (main) + $1.19 (variance);
+  billed OpenRouter deltas are descriptive ($3.43 main, $0.62 variance) and are
+  never the normalized cost verdict.
+- **WP-1b post-MAIN_297 closure (2026-09-22, ZERO API):** claim sheet
+  (`docs/WP1B_CLAIM_SHEET_2026-09-22.md`), robustness/limitations
+  (`docs/WP1B_POSTHOC_ROBUSTNESS_AND_LIMITATIONS_2026-09-22.md`), README/FAQ
+  correction, impact declaration committed before substantive edits, decision
+  block appended to `DECISIONS.md`.
+- **AG16 (budget sensitivity, MAIN_50):** PREREGISTERED, NOT RUNNABLE. Design
+  frozen before MAIN_297 outputs (8 → 16 calls; 2000 → 8000 chars; ceilings
+  $0.80 cal / $12.20 MAIN_50). A separate brain-built/tested bundle is
+  required (`iterative_agent_budget.py` + golden parity `(8,2000)` + dry-run
+  + AG16 calibration gating + parameterized paid runner + AG16 scoring).
+  Readiness audit + brain handoff package:
+  `docs/WP1B_AG16_READINESS_2026-09-22.md`,
+  `research/wp1b/wp1b_ag16_harness_requirements_2026-09-22.json`,
+  `exports/WP1B_AG16_BRAIN_HANDOFF_2026-09-22/`. Zero paid calls this mission.
+- **WP-2 zero-API MAIN_297 census (2026-09-22):** DONE, deterministic planning
+  evidence only. 297/297 materializable in the local Saleor cache (0 metadata/
+  materialization problems); read-only git diff parent..target; 20
+  STRONG_F2P_CANDIDATE, 200 MODIFIED_TEST_CANDIDATE, 77 NO_CHANGED_TEST_EVIDENCE;
+  never F2P_CONFIRMED. Environment feasibility recorded; proposal-only Smoke
+  candidates (8) selected outcome-blind:
+  `docs/WP2_MAIN297_ZERO_API_CENSUS_2026-09-22.md`, `research/wp2/`.
+- **Remaining untouched Saleor RESERVE:** 786 tasks (outcomes unread, never
+  accessed).
+- **Pending:** WP-2 shared E2E instrument (NOT STARTED); E2E-G6 F2P/P2P oracle
+  (NOT STARTED); Smoke / Pilot / Research Run (NOT STARTED). AG16 runner
+  implementation (needs brain-built/tested bundle + D6 authorization).
 - **No E2E scientific claim exists yet.** No Smoke / Pilot / Research Run.
-- **Blockers:** MAIN_297 is BLOCKED on D7 = YES. The agent is instrument-valid
-  (gate v2 PASS on Calibration-3b); no further paid run is permitted in this
-  mission.
+- **Next:** Brain builds/reviews the AG16 executable bundle from the frozen
+  readiness requirements; then Ahmed may authorize AG16 calibration + MAIN_50
+  sensitivity. In parallel, the WP-2 census is ready for the brain to design the
+  shared E2E executor and F2P/P2P oracle.
 
 ## Historical per-experiment records
 

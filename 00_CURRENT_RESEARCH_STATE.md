@@ -17,7 +17,7 @@ artifact paths are NOT renamed; old reports keep their original wording.
 
 ## LIVE STATUS — single current-state source of truth
 
-**Position:** MAIN_297 RESULT: RMCSS_NONINFERIOR_AT_LOWER_COST (decision rules v2, NI_SUPPORTED). P (n=297): D −0.0062 [−0.0449, +0.0308], Q5 −0.0383. S (n=295, 2 EMPTY dropped): D −0.0115 [−0.0502, +0.0255], Q5 −0.0434. Agent F1 0.363 vs RM-CSS 0.357 vs SIP 0.265. RM-CSS cheaper (View A: 0.27× calls, 0.21× generative tokens/task). EMPTY rate 0.67% (2/297, parser failure). MAIN run $7.15 (2,164 calls, 23.6M prompt tokens); variance 15×3 $1.19 (331 calls). X6 ESCALATION_NO_GAIN; X3 NO_TEACHER_HEADROOM.
+**Position:** MAIN_297 primary WP-1b result complete and frozen: RMCSS_NONINFERIOR_AT_LOWER_COST (decision rules v2, NI_SUPPORTED). WP-1b claim sheet/docs closure complete. AG16 prereg exists; runner implementation still requires a brain-built/tested bundle. WP-2 zero-API MAIN_297 census complete (297/297; 20 STRONG / 200 MODIFIED / 77 no-test-evidence F2P candidates; 0 materialization errors). NO E2E execution yet. Next = brain builds/reviews AG16 harness bundle and/or freezes WP-2 executor/oracle mission.
 
 **Research pipeline:**
 
@@ -33,6 +33,9 @@ artifact paths are NOT renamed; old reports keep their original wording.
 | G12 agent context hygiene | DONE | D1 APPROVED, zero API: echo, call counter, named rejection, truncation note; gate v3 CG-12 FAILS 3b (runs 1/6/4); protocol v3 |
 | WP-1b Calibration-3c | PASS | gate v3 CG-1..CG-12 PASS · $0.063205 · 4 reads · 1/18 rejected (5.6%) · longest run 1 · 0 blocking review-card flags · NOT scored |
 | WP-1b MAIN_297 + variance 15x3 | DONE | RMCSS_NONINFERIOR_AT_LOWER_COST (NI_SUPPORTED); main $7.15 + variance $1.19; scored with decision rules v2; X1-X11 exploratory |
+| WP-1b post-MAIN_297 docs closure + claim sheet | DONE | claim sheet, robustness/limitations, README/FAQ updated; zero API |
+| AG16 budget sensitivity (MAIN_50) | PREREGISTERED, NOT RUNNABLE | brain-built/tested bundle required first (iterative_agent_budget.py + golden parity + dry-run); ceilings $0.80 cal / $12.20 MAIN_50 |
+| WP-2 zero-API MAIN_297 census | DONE | 297/297 materializable; 20 STRONG / 200 MODIFIED / 77 no-test-evidence F2P candidates; proposal-only Smoke candidates 8; zero API |
 | WP-2 shared E2E instrument | NOT STARTED | same generator/validator/repair for every arm |
 | E2E-G6 F2P/P2P oracle | NOT STARTED | fail-to-pass + pass-to-pass tests per task |
 | E2E Smoke → Pilot → Research Run | NOT STARTED | staged; each stage can stop the run |
@@ -50,6 +53,7 @@ artifact paths are NOT renamed; old reports keep their original wording.
 | WP-1b Calibration-3c agent | 18 calls (4/8/6) | $0.063205 · 4 successful reads · 1/18 rejected repeats (5.6%) · longest run 1 · gate v3 CG-1..CG-12 PASS · NOT scored |
 | MAIN_297 agent | 2,164 logical / 2,178 HTTP attempts | ledger $7.147 · 23.55M prompt / 81.7K completion tokens · 147 forced finals · 2 EMPTY (parser_failure) · 8 transport retries |
 | Variance substudy 15x3 | 331 logical / 341 HTTP attempts | ledger $1.194 · pooled F1 0.389/0.438/0.479 · pairwise exact match 0.444 · 0 EMPTY |
+| WP-2 zero-API MAIN_297 census | 0 | deterministic read-only git diff over already-opened case metadata; $0.00 |
 | E2E generation + repair | not frozen yet | defined by WP-2 |
 
 **Authorized / not authorized:**
@@ -58,15 +62,16 @@ artifact paths are NOT renamed; old reports keep their original wording.
 | :---|:---|:---|
 | Calibration-3c | DONE (CLEAN) | gate v3 CG-1..CG-12 PASS; $0.063205; NOT scored |
 | MAIN_297 + variance 15×3 + scoring | DONE (D3 = YES) | RMCSS_NONINFERIOR_AT_LOWER_COST (NI_SUPPORTED); main $7.15 + variance $1.19; predictions frozen/tagged before any label load |
-| Agent budget-sensitivity arm (AG16, MAIN_50) | PREREGISTERED, NOT AUTHORIZED | design frozen before MAIN_297 outputs; needs decision D6 |
+| Agent budget-sensitivity arm (AG16, MAIN_50) | PREREGISTERED, NOT AUTHORIZED; runner NOT built | design frozen before MAIN_297 outputs; needs brain-built/tested bundle + decision D6 |
+| WP-2 zero-API MAIN_297 census | DONE | deterministic planning evidence only; no E2E execution; no F2P/P2P oracle |
 | 786 Saleor RESERVE outcomes | SEALED | never opened/read/scored/sampled; guarded by the label-access audit hook |
 | Calibration-3 / 3b / 3c F1 claims | NOT PERMITTED | instrument checks only; no labels loaded or scored |
 
-**Next action:** Ahmed reviews MAIN_297 → decides D6 (AG16 budget-sensitivity arm on MAIN_50, ceiling $12.20) → starts WP-2 shared E2E instrument.
+**Next action:** Ahmed reviews this closure → brain builds/reviews the AG16 executable bundle from the frozen readiness requirements → then AG16 calibration + MAIN_50 sensitivity; in parallel the WP-2 census is ready for the brain to design the shared E2E executor and F2P/P2P oracle.
 
 **End-to-end status:** WP-2 has **not started**; E2E-G6 F2P/P2P oracle has **not started**; **no** E2E Smoke, Pilot or Research Run exists yet.
 
-*Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-09-22 09:40 (Africa/Cairo).*
+*Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-09-22 17:18 (Africa/Cairo).*
 <!-- LIVE_STATUS:END -->
 
 **CURRENT TRUTH (2026-09-21, WP1B_TOOLFIX_LIVESTATUS — CALIBRATION-3b DONE;
@@ -1594,6 +1599,13 @@ tag moved.
 
 ## 8. Next experiment — ONLY ONE (not started, not authorized without review)
 
+**WP-1b MAIN_297 is COMPLETE and FROZEN (2026-09-22):**
+`RMCSS_NONINFERIOR_AT_LOWER_COST` (decision rules v2, `NI_SUPPORTED`; P n=297
+D −0.0062 [−0.0449,+0.0308] Q5 −0.0383; S n=295 D −0.0115; Agent pooled F1
+0.363 vs RM-CSS 0.357). Selection-stage only — NOT E2E. Post-MAIN_297 closure,
+AG16 readiness handoff, and the WP-2 zero-API MAIN_297 census are DONE
+(`docs/WP1B_POSTMAIN_WP2_CENSUS_STOP_REPORT_2026-09-22.md`).
+
 **Protocol A (cheap non-LLM baselines v1) is COMPLETE AND CLOSED (2026-09-16;
 TRAIN 24 + VALIDATION 6; ZERO API; six gates + audit PASS; merged to main; DEV
 tag `cheap-baselines-v1-dev-2026-09-16`).**
@@ -1619,13 +1631,14 @@ survives the random band; report `reports/OMISSION_RISK_SPARSE_V2_INFERENCE_REPO
 audit PASS. Saleor remains the second-repository confirmatory line,
 DOCUMENT-ONLY for now (`docs/SALEOR_CONFIRMATORY_PROTOCOL_DRAFT.md`).
 
-Sequence per the MSc roadmap:
-`Sparse first pass → omission-risk detection → selective graph-guided escalation
-→ bounded false-negative verification`.
+Sequence per the WP-1b→E2E roadmap:
+`AG16 sensitivity (brain bundle) → close WP-1 → WP-2 shared executor → E2E-G6
+F2P/P2P oracle → Smoke → Pilot → Research Run`.
 
-Do NOT automatically begin: Saleor scientific execution, risk-detector
-training, selective escalation, faithful LocAgent inference, new LLM calls, or
-new model-family runs.
+Do NOT automatically begin: AG16 paid execution, WP-2 execution, F2P/P2P
+oracle design, E2E Smoke/Pilot/Research Run, Saleor scientific execution,
+risk-detector training, selective escalation, faithful LocAgent inference, new
+LLM calls, or new model-family runs.
 
 ## 9. DO-NOT warnings (operational)
 
