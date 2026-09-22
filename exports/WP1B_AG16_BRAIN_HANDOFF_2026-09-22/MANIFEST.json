@@ -1,0 +1,125 @@
+{
+ "package": "WP1B_AG16_BRAIN_HANDOFF_2026-09-22",
+ "kind": "requirements_and_evidence_handoff_only",
+ "executable_ag16_bundle": false,
+ "paid_calls": 0,
+ "source_branch": "wp1b/postmain-wp2-census-2026-09-22",
+ "source_base": "cf84fd061ac534b0c4200650e5f3d01c4857ae28 (main)",
+ "files": [
+  {
+   "path": "ag16_requirements/wp1b_ag16_harness_requirements_2026-09-22.json",
+   "sha256": "db85eab85bcf5f94dbeb3eb94fc92e9469c5c6495ea9eae52de6d16d720d6b82",
+   "bytes": 3658
+  },
+  {
+   "path": "ag16_requirements/WP1B_AG16_READINESS_2026-09-22.md",
+   "sha256": "f7be87e72ab141c06ef383179c00cb3c8337c660054c2a98f36edb2e05f2c640",
+   "bytes": 6859
+  },
+  {
+   "path": "calibration/wp1b_calibration_gate.py",
+   "sha256": "5b67c188ca245757448b9f2d6065bb06e0fb5103b7f8884a269b4f7c9cc89fdc",
+   "bytes": 25148
+  },
+  {
+   "path": "calibration/wp1b_calibration_run.py",
+   "sha256": "b49eb8f238e8a44f1aa50ca4557afb224ab54b3bd8702b0a71db27534105e431",
+   "bytes": 8992
+  },
+  {
+   "path": "existing_tests/test_agent_context_hygiene.py",
+   "sha256": "835bce2116139f261a4737d934599629996f10c5f3be4382d47e3019aeb1ef13",
+   "bytes": 6254
+  },
+  {
+   "path": "existing_tests/test_agent_control_cap.py",
+   "sha256": "624320c358416e363f51c4d1e122f617e01a3686482ad754d0e0d3a39474363e",
+   "bytes": 10470
+  },
+  {
+   "path": "existing_tests/test_su0011_iterative_agent.py",
+   "sha256": "10d460721f1a3cd862e2d0e62535e9162a1e4e43b2b6e1e8489e63b753661955",
+   "bytes": 45202
+  },
+  {
+   "path": "existing_tests/test_wp1b_agent_telemetry_golden.py",
+   "sha256": "ad718daa07c69060057346986f57dc68620567c5b2c9f872c3dbd2e898e4ed63",
+   "bytes": 8382
+  },
+  {
+   "path": "existing_tests/test_wp1b_loop_termination.py",
+   "sha256": "e787bfd3f08c869e847d8a8523766306741b2523473ea77f30e4376559d137dd",
+   "bytes": 13385
+  },
+  {
+   "path": "existing_tests/test_wp1b_main_runner.py",
+   "sha256": "c398db7de9a7d0a501dc9291213d26ff91f8ff646dae43e1f9c92fcadb7b63f8",
+   "bytes": 33797
+  },
+  {
+   "path": "freeze_scoring/wp1b_freeze_predictions.py",
+   "sha256": "8fd61cf9cf9c3ef520074d02bb2076817cb5c08b447d9998a6fb657ce9881c76",
+   "bytes": 2664
+  },
+  {
+   "path": "freeze_scoring/wp1b_main_review_card.py",
+   "sha256": "c74b9af829972eadff5b94439f6fbe55774a0f32626c476a8eee8cdd12d287eb",
+   "bytes": 10552
+  },
+  {
+   "path": "freeze_scoring/wp1b_score_main.py",
+   "sha256": "f1c46f3d658162abfd62766b2c979631eeef677fd6be0f7ed86edd4f75f96e81",
+   "bytes": 7258
+  },
+  {
+   "path": "frozen_agent_code/iterative_agent.py",
+   "sha256": "94baf4d3c557838b434869a60850a4cf62bd652c283206cd33260d7f799cff62",
+   "bytes": 51601
+  },
+  {
+   "path": "frozen_agent_code/repository_tools.py",
+   "sha256": "251fd8d65835da56ef99dcd7a9df56044725c06151b90c7d8573bd0d4160cc35",
+   "bytes": 8905
+  },
+  {
+   "path": "frozen_prereg/wp1b_agent_budget_sensitivity_prereg.json",
+   "sha256": "8388734cc2dc48c17b5674d71791115ab404006b3040bd907a936389c52a40a9",
+   "bytes": 3384
+  },
+  {
+   "path": "frozen_protocol/wp1b_frozen_agent_protocol_v3.json",
+   "sha256": "3b5f518773b8ea8db60641c7d29ce5d1a5ca652b1b921dc67f84c39a6de95c0f",
+   "bytes": 10374
+  },
+  {
+   "path": "manifests/wp1b_main_50_manifest.json",
+   "sha256": "6b49166644e1f6a3a0c976f018984aac98b6d26e0d42e2757de0d4b5513c530f",
+   "bytes": 2158
+  },
+  {
+   "path": "README_BRAIN.md",
+   "sha256": "5b605f1d86a9e87e12b27275a47bbc0b49601b5edce8ef1c27707b17f9d140a8",
+   "bytes": 4396
+  },
+  {
+   "path": "runner_cli/wp1b_main_run.py",
+   "sha256": "cdbd93db4ed5dec2de19ab8787335c0d4fab184f3d4eba6140b4464265779ccf",
+   "bytes": 14681
+  },
+  {
+   "path": "runner_core/label_guard.py",
+   "sha256": "6a07e31fe55eac37c3f198313ec5b34c4898bb62d5a937c23c6c2c7df7576452",
+   "bytes": 5101
+  },
+  {
+   "path": "runner_core/main_runner.py",
+   "sha256": "fc82237b24988a102c232ce21c0e038c31eee7478da1d228724b2eea685e4b3a",
+   "bytes": 47632
+  },
+  {
+   "path": "runner_core/resilient_backend.py",
+   "sha256": "8bbd6e1c3e61d612ba15af4da51946941cdb53bbd92950a7fad4dd085465d241",
+   "bytes": 14452
+  }
+ ]
+}
