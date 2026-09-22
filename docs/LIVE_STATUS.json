@@ -1,16 +1,16 @@
 {
   "schema": "live_status_v1",
-  "as_of_local": "2026-09-22 08:27 (Africa/Cairo)",
-  "evidence_snapshot": "main c929418 + harness branch wp1b/main297-harness-2026-09-22 (tag wp1b-main297-harness-prereg-2026-09-22) + paid branch wp1b/main-297-2026-09-22",
+  "as_of_local": "2026-09-22 09:40 (Africa/Cairo)",
+  "evidence_snapshot": "main (merge of wp1b/main-297-2026-09-22) + tags wp1b-main297-harness-prereg / wp1b-main297-predictions-frozen / wp1b-variance-predictions-frozen / wp1b-main297-result (all 2026-09-22)",
   "phase": "Phase 5 — End-to-End Selective Regeneration",
-  "position": "MAIN_297 + variance 15×3 + scoring AUTHORIZED (D3 = YES, 2026-09-22) under protocol v3 with a resume-safe harness (frozen 3-retry rule, spend ledger, instrument-only halting, label-access guards). Preregistration addendum v2 (X6–X11) and the AG16 budget-sensitivity design were frozen before any MAIN_297 output. Calibration-3c remains CLEAN.",
-  "position_short": "MAIN_297 authorized and starting (protocol v3; harness + prereg v2 tagged)",
-  "now_short": "WP-1b: MAIN_297 running (chunked, resume-safe)",
-  "next_action": "Run MAIN_297 in frozen order (ceiling $21.50), freeze + tag predictions, run variance 15×3 (label-blind, $3.50), freeze + tag, score with decision rules v2, then X1–X11.",
-  "next_short": "Freeze → variance → score",
-  "priority_chain": "MAIN_297 (protocol v3) -> freeze predictions -> variance 15x3 -> freeze -> score with decision rules v2 -> X1-X11 -> WP-2 shared E2E instrument -> E2E-G6 F2P/P2P oracle -> Smoke -> Pilot -> Research Run",
-  "weakest_risk": "MAIN_297 has not run and nothing has been scored; provider/credit risk is bounded by the resume-safe harness and ceilings. E2E correctness is still untested; WP-2 and E2E-G6 F2P/P2P have not started.",
-  "wp1b_short": "Paid same-protocol comparison of a repository agent vs SIP vs RM-CSS on MAIN_297 (G1: delta=0.05 NI rule; G2: cap 1024). Tools fixed (G11); Calibration-3b passed gate v2; G12 (echo, counter, named rejection, truncation note) removed the loop; Calibration-3c CLEAN (gate v3 CG-1..CG-12 PASS). MAIN_297 + variance + scoring AUTHORIZED (D3 = YES) and running with the resume-safe harness (execution addendum 2026-09-22).",
+  "position": "MAIN_297 RESULT: RMCSS_NONINFERIOR_AT_LOWER_COST (decision rules v2, NI_SUPPORTED). P (n=297): D −0.0062 [−0.0449, +0.0308], Q5 −0.0383. S (n=295, 2 EMPTY dropped): D −0.0115 [−0.0502, +0.0255], Q5 −0.0434. Agent F1 0.363 vs RM-CSS 0.357 vs SIP 0.265. RM-CSS cheaper (View A: 0.27× calls, 0.21× generative tokens/task). EMPTY rate 0.67% (2/297, parser failure). MAIN run $7.15 (2,164 calls, 23.6M prompt tokens); variance 15×3 $1.19 (331 calls). X6 ESCALATION_NO_GAIN; X3 NO_TEACHER_HEADROOM.",
+  "position_short": "MAIN_297 DONE: RM-CSS non-inferior at lower cost (NI_SUPPORTED, D −0.0062)",
+  "now_short": "WP-1b: MAIN_297 + variance + scoring COMPLETE; Ahmed reviews → D6 (AG16) + WP-2.",
+  "next_action": "Ahmed reviews MAIN_297 → decides D6 (AG16 budget-sensitivity arm on MAIN_50, ceiling $12.20) → starts WP-2 shared E2E instrument.",
+  "next_short": "Ahmed reviews MAIN_297 → D6 (AG16) → WP-2",
+  "priority_chain": "MAIN_297 + variance + scoring DONE -> D6 (AG16 budget-sensitivity on MAIN_50) -> WP-2 shared E2E instrument -> E2E-G6 F2P/P2P oracle -> Smoke -> Pilot -> Research Run",
+  "weakest_risk": "RM-CSS is non-inferior to the budget-bounded agent at lower cost (NI_SUPPORTED), but the claim is localization-only: E2E correctness, WP-2 and the F2P/P2P oracle have not started, and the agent is a budget-bounded baseline (AG16 budget-sensitivity is preregistered, not run).",
+  "wp1b_short": "Paid same-protocol comparison of a repository agent vs SIP vs RM-CSS on MAIN_297 (G1: delta=0.05 NI rule; G2: cap 1024; decision rules v2). RESULT: RMCSS_NONINFERIOR_AT_LOWER_COST (NI_SUPPORTED); D −0.0062 [−0.0449,+0.0308] Q5 −0.0383; RM-CSS cheaper. Variance 15x3 pooled F1 0.389/0.438/0.479, pairwise exact match 0.444. X1-X11 exploratory labelled. Total agent spend $8.34 (main $7.15 + variance $1.19).",
   "pipeline": [
     {
       "step": "Localization method selection",
@@ -59,8 +59,8 @@
     },
     {
       "step": "WP-1b MAIN_297 + variance 15x3",
-      "status": "RUNNING",
-      "note": "D3 = YES; protocol v3; ceilings $21.50/$3.50; resume-safe harness (execution addendum 2026-09-22)"
+      "status": "DONE",
+      "note": "RMCSS_NONINFERIOR_AT_LOWER_COST (NI_SUPPORTED); main $7.15 + variance $1.19; scored with decision rules v2; X1-X11 exploratory"
     },
     {
       "step": "WP-2 shared E2E instrument",
@@ -236,14 +236,14 @@
       "note": "$0.063205 · 4 successful reads · 1/18 rejected repeats (5.6%) · longest run 1 · gate v3 CG-1..CG-12 PASS · NOT scored"
     },
     {
-      "workflow": "MAIN_297 agent (ceiling)",
-      "calls": "≤ 2,376 calls",
-      "note": "297 × 8; not authorized"
+      "workflow": "MAIN_297 agent",
+      "calls": "2,164 logical / 2,178 HTTP attempts",
+      "note": "ledger $7.147 · 23.55M prompt / 81.7K completion tokens · 147 forced finals · 2 EMPTY (parser_failure) · 8 transport retries"
     },
     {
-      "workflow": "Variance substudy (ceiling)",
-      "calls": "≤ 360 calls",
-      "note": "15 tasks × 3 runs × 8"
+      "workflow": "Variance substudy 15x3",
+      "calls": "331 logical / 341 HTTP attempts",
+      "note": "ledger $1.194 · pooled F1 0.389/0.438/0.479 · pairwise exact match 0.444 · 0 EMPTY"
     },
     {
       "workflow": "E2E generation + repair",
@@ -259,8 +259,8 @@
     },
     {
       "item": "MAIN_297 + variance 15×3 + scoring",
-      "status": "AUTHORIZED (D3 = YES)",
-      "note": "protocol v3; ceilings $21.50 / $3.50; resume-safe harness (execution addendum 2026-09-22)"
+      "status": "DONE (D3 = YES)",
+      "note": "RMCSS_NONINFERIOR_AT_LOWER_COST (NI_SUPPORTED); main $7.15 + variance $1.19; predictions frozen/tagged before any label load"
     },
     {
       "item": "Agent budget-sensitivity arm (AG16, MAIN_50)",
@@ -294,7 +294,7 @@
     "questions": [
       "What did G12 change and did Calibration-3c confirm it?",
       "Why is fixing the loop not tuning?",
-      "When do the real comparisons start?"
+      "What did MAIN_297 show and what happens next?"
     ],
     "items": [
       {
@@ -308,10 +308,60 @@
         "ar": "إصلاح الحلقة مش tuning: بيعيد معلومات الـharness كان شايلها، بدون labels، وبيرجّح المنافس قبل المقارنة — اتجاه محافظ ومسجل مرة واحدة."
       },
       {
-        "a": "After the clean Calibration-3c, the next step is MAIN_297 on 297 Saleor tasks (protocol v3), then predictions are frozen and scored with the preregistered delta=0.05 rule. Per D3 = MANUAL this mission STOPPED after 3c; the MAIN_297 run needs a separate explicit decision.",
+        "a": "MAIN_297 (297 tasks, protocol v3) scored with decision rules v2: RMCSS_NONINFERIOR_AT_LOWER_COST (NI_SUPPORTED). P: D −0.0062 [−0.0449,+0.0308], Q5 −0.0383; S: D −0.0115 [−0.0502,+0.0255], Q5 −0.0434. RM-CSS is non-inferior to the budget-bounded agent at lower cost (View A: 0.27× calls, 0.21× generative tokens/task). Variance 15x3 pooled F1 0.389/0.438/0.479. Next: Ahmed decides D6 (AG16 budget-sensitivity on MAIN_50) and WP-2.",
         "s": "LIVE",
-        "ar": "الخطوة الجاية MAIN_297 على 297 مهمة Saleor، ثم تجميد التوقعات وتسجيلها بقاعدة Δ=0.05. المهمة دي وقفت بعد 3c حسب D3=MANUAL وبتستنى قرار مستقل."
+        "ar": "MAIN_297 اتحسب بقواعد v2: RM-CSS غير أدنى من الـagent الأرخص (NI_SUPPORTED). D −0.0062 والقرار ميكانيكي من الـJSON. الجاي: قرار D6 (AG16) وبداية WP-2."
       }
     ]
+  },
+  "wp1b_main297": {
+    "final_category": "RMCSS_NONINFERIOR_AT_LOWER_COST",
+    "quality_verdict": "NI_SUPPORTED",
+    "P_primary_fail_closed": {
+      "n": 297,
+      "D": -0.0062,
+      "q025": -0.0449,
+      "q05": -0.0383,
+      "q975": 0.0308
+    },
+    "S_instrument_failure_excluded": {
+      "n": 295,
+      "n_dropped": 2,
+      "D": -0.0115,
+      "q025": -0.0502,
+      "q05": -0.0434,
+      "q975": 0.0255
+    },
+    "arms_f1": {
+      "Agent": 0.3631,
+      "RM-CSS": 0.3568,
+      "SIP": 0.2652
+    },
+    "cheaper_view_A": true,
+    "cost_ratios_view_A": {
+      "calls": 0.2746,
+      "generative_tokens": 0.2134
+    },
+    "empty_rate": 0.0067,
+    "empty_by_reason": {
+      "parser_failure": 2
+    },
+    "run_spend_usd": 7.147415,
+    "variance_spend_usd": 1.194112,
+    "main_logical_calls": 2164,
+    "main_http_attempts": 2178,
+    "variance_pooled_f1_by_replicate": [
+      0.3889,
+      0.4384,
+      0.4789
+    ],
+    "variance_pairwise_exact_match": 0.4444,
+    "variance_mean_pairwise_jaccard": 0.6422,
+    "exploratory": {
+      "X3": "NO_TEACHER_HEADROOM",
+      "X6": "ESCALATION_NO_GAIN",
+      "X10_dense_anchor_size_matched_F1": 0.2781,
+      "X11_non_consecutive_duplicate_share": 0.1270
+    }
   }
 }

@@ -64,7 +64,7 @@ Change request
 
 ## LIVE STATUS — single current-state source of truth
 
-**Position:** MAIN_297 + variance 15×3 + scoring AUTHORIZED (D3 = YES, 2026-09-22) under protocol v3 with a resume-safe harness (frozen 3-retry rule, spend ledger, instrument-only halting, label-access guards). Preregistration addendum v2 (X6–X11) and the AG16 budget-sensitivity design were frozen before any MAIN_297 output. Calibration-3c remains CLEAN.
+**Position:** MAIN_297 RESULT: RMCSS_NONINFERIOR_AT_LOWER_COST (decision rules v2, NI_SUPPORTED). P (n=297): D −0.0062 [−0.0449, +0.0308], Q5 −0.0383. S (n=295, 2 EMPTY dropped): D −0.0115 [−0.0502, +0.0255], Q5 −0.0434. Agent F1 0.363 vs RM-CSS 0.357 vs SIP 0.265. RM-CSS cheaper (View A: 0.27× calls, 0.21× generative tokens/task). EMPTY rate 0.67% (2/297, parser failure). MAIN run $7.15 (2,164 calls, 23.6M prompt tokens); variance 15×3 $1.19 (331 calls). X6 ESCALATION_NO_GAIN; X3 NO_TEACHER_HEADROOM.
 
 **Research pipeline:**
 
@@ -79,7 +79,7 @@ Change request
 | WP-1b Calibration-3b | PASS | gate v2 PASS · $0.070 · 3 reads · 0 instrument errors · 11/21 calls rejected repeats (loop) |
 | G12 agent context hygiene | DONE | D1 APPROVED, zero API: echo, call counter, named rejection, truncation note; gate v3 CG-12 FAILS 3b (runs 1/6/4); protocol v3 |
 | WP-1b Calibration-3c | PASS | gate v3 CG-1..CG-12 PASS · $0.063205 · 4 reads · 1/18 rejected (5.6%) · longest run 1 · 0 blocking review-card flags · NOT scored |
-| WP-1b MAIN_297 + variance 15x3 | RUNNING | D3 = YES; protocol v3; ceilings $21.50/$3.50; resume-safe harness (execution addendum 2026-09-22) |
+| WP-1b MAIN_297 + variance 15x3 | DONE | RMCSS_NONINFERIOR_AT_LOWER_COST (NI_SUPPORTED); main $7.15 + variance $1.19; scored with decision rules v2; X1-X11 exploratory |
 | WP-2 shared E2E instrument | NOT STARTED | same generator/validator/repair for every arm |
 | E2E-G6 F2P/P2P oracle | NOT STARTED | fail-to-pass + pass-to-pass tests per task |
 | E2E Smoke → Pilot → Research Run | NOT STARTED | staged; each stage can stop the run |
@@ -95,8 +95,8 @@ Change request
 | WP-1b Calibration-3b agent | 21 calls (5/8/8) | $0.070028 · 3 successful reads · 0 instrument errors · gate v2 PASS · loop: 11/21 rejected repeats |
 | WP-1b G12 (zero API) | 0 | agent context hygiene amendment D1 APPROVED: echo, call counter, named rejection, truncation note; gate v3 CG-12 FAILS 3b |
 | WP-1b Calibration-3c agent | 18 calls (4/8/6) | $0.063205 · 4 successful reads · 1/18 rejected repeats (5.6%) · longest run 1 · gate v3 CG-1..CG-12 PASS · NOT scored |
-| MAIN_297 agent (ceiling) | ≤ 2,376 calls | 297 × 8; not authorized |
-| Variance substudy (ceiling) | ≤ 360 calls | 15 tasks × 3 runs × 8 |
+| MAIN_297 agent | 2,164 logical / 2,178 HTTP attempts | ledger $7.147 · 23.55M prompt / 81.7K completion tokens · 147 forced finals · 2 EMPTY (parser_failure) · 8 transport retries |
+| Variance substudy 15x3 | 331 logical / 341 HTTP attempts | ledger $1.194 · pooled F1 0.389/0.438/0.479 · pairwise exact match 0.444 · 0 EMPTY |
 | E2E generation + repair | not frozen yet | defined by WP-2 |
 
 **Authorized / not authorized:**
@@ -104,16 +104,16 @@ Change request
 | Item | Status | Note |
 | :---|:---|:---|
 | Calibration-3c | DONE (CLEAN) | gate v3 CG-1..CG-12 PASS; $0.063205; NOT scored |
-| MAIN_297 + variance 15×3 + scoring | AUTHORIZED (D3 = YES) | protocol v3; ceilings $21.50 / $3.50; resume-safe harness (execution addendum 2026-09-22) |
+| MAIN_297 + variance 15×3 + scoring | DONE (D3 = YES) | RMCSS_NONINFERIOR_AT_LOWER_COST (NI_SUPPORTED); main $7.15 + variance $1.19; predictions frozen/tagged before any label load |
 | Agent budget-sensitivity arm (AG16, MAIN_50) | PREREGISTERED, NOT AUTHORIZED | design frozen before MAIN_297 outputs; needs decision D6 |
 | 786 Saleor RESERVE outcomes | SEALED | never opened/read/scored/sampled; guarded by the label-access audit hook |
 | Calibration-3 / 3b / 3c F1 claims | NOT PERMITTED | instrument checks only; no labels loaded or scored |
 
-**Next action:** Run MAIN_297 in frozen order (ceiling $21.50), freeze + tag predictions, run variance 15×3 (label-blind, $3.50), freeze + tag, score with decision rules v2, then X1–X11.
+**Next action:** Ahmed reviews MAIN_297 → decides D6 (AG16 budget-sensitivity arm on MAIN_50, ceiling $12.20) → starts WP-2 shared E2E instrument.
 
 **End-to-end status:** WP-2 has **not started**; E2E-G6 F2P/P2P oracle has **not started**; **no** E2E Smoke, Pilot or Research Run exists yet.
 
-*Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-09-22 08:27 (Africa/Cairo).*
+*Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-09-22 09:40 (Africa/Cairo).*
 <!-- LIVE_STATUS:END -->
 
 ### Earlier milestones (history)
@@ -184,9 +184,23 @@ purpose.
    directory on start, and used one immediate transport retry instead of the
    frozen three. → MAIN_297 uses a separate resume-safe runner with a spend
    ledger, the frozen retry rule and instrument-only halting
-   ([addendum](docs/WP1B_MAIN297_EXECUTION_ADDENDUM_2026-09-22.md)). Cost signal
-   so far is descriptive only: on the same 3 calibration tasks the agent used
-   ≈3.8× SIP's tokens and ≈3.7× its USD.
+([addendum](docs/WP1B_MAIN297_EXECUTION_ADDENDUM_2026-09-22.md)). Cost signal
+    so far is descriptive only: on the same 3 calibration tasks the agent used
+    ≈3.8× SIP's tokens and ≈3.7× its USD.
+
+    1e. **MAIN_297 primary verdict: NI_SUPPORTED — RM-CSS is non-inferior to the
+    budget-bounded repository agent, at lower cost.** "RM-CSS was non-inferior to
+    the budget-bounded repository agent (margin 0.05 pooled micro-F1), at lower
+    cost." P analysis (n=297, fail-closed): D −0.0062, 95% CI [−0.0449, +0.0308],
+    Q5 −0.0383 (inside the −0.05 margin). S analysis (n=295; 2 parser-failure
+    EMPTY dropped): D −0.0115, CI [−0.0502, +0.0255], Q5 −0.0434. Agent F1 0.363
+    vs RM-CSS 0.357 (pooled micro-F1); RM-CSS cheaper (View A: 0.27× agent calls,
+    0.21× agent generative tokens per task); EMPTY rate 0.67% (2/297, parser
+    failure); run spend $7.15 for 2,164 calls / 23.6M prompt tokens.
+    ([result](reports/WP1B_MAIN297_RESULT.md) ·
+    [exploratory](reports/WP1B_MAIN297_EXPLORATORY.md)) → The frozen decision
+    rules v2 verdict stands mechanically; no "dominance" claim; the agent remains
+    a budget-bounded baseline (AG16 budget-sensitivity arm is preregistered).
 2. **Sparse representation greatly reduces output/serialization burden, but sparse encoding is not semantic correctness.** M1B: ~90% lower completion output; P1: ΔF1 CI crosses zero. → Report representation cost separately from impact accuracy; never conflate the two.
 3. **Real historical evidence did not show universal Sparse semantic superiority.** P1 ΔF1 (Sparse−Full) −0.009, CI [−0.130, +0.119]. → Claim cost/representation effects only; semantic effects are task-heterogeneous.
 4. **LocAgent shared-protocol execution was very expensive/fragile in our setup; not a faithful published-config reproduction.** P5: 402 calls, ~32.8M prompt tokens, ~$9.93 normalized, 50% empty/non-usable rate, 900 s timeouts. → Use LocAgent numbers only under a shared protocol with explicit denominators; do not compare to its published headline.
@@ -385,11 +399,21 @@ control cap, tools list/read/search (substring), 2000-char observation window,
 is not a faithful published-configuration reproduction, and no head-to-head with
 Ripple exists. ([P5](reports/LOCAGENT_P5C_SHARED_COMPARISON.md))
 
+**What did MAIN_297 show?** "RM-CSS was non-inferior to the budget-bounded
+repository agent (margin 0.05 pooled micro-F1), at lower cost." P analysis
+(n=297): D −0.0062, 95% CI [−0.0449, +0.0308], Q5 −0.0383; S analysis (n=295):
+D −0.0115, CI [−0.0502, +0.0255], Q5 −0.0434. Agent F1 0.363 vs RM-CSS 0.357;
+RM-CSS cheaper (View A: 0.27× calls, 0.21× generative tokens per task); EMPTY
+2/297 (0.67%); spend $7.15 for 2,164 calls / 23.6M prompt tokens.
+([result](reports/WP1B_MAIN297_RESULT.md) ·
+[exploratory](reports/WP1B_MAIN297_EXPLORATORY.md))
+
 **Are F2P/P2P tests or end-to-end correctness done?** No. WP-2 (shared E2E
 instrument) and E2E-G6 (F2P/P2P oracle) have not started; no Smoke, Pilot or
 Research Run exists.
 
-**What happens next?** MAIN_297 + variance 15×3 + scoring, then X1–X11, then WP-2.
+**What happens next?** Ahmed reviews MAIN_297 and decides D6 (the AG16
+budget-sensitivity arm on MAIN_50, ceiling $12.20) and the WP-2 start.
 ([§6](#6-current-bottleneck-and-next-experiment))
 
 ---
