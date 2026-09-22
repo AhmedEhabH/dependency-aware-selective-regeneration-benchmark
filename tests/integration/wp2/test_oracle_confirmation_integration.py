@@ -13,17 +13,12 @@ Proves, on minimal synthetic repositories with real pytest subprocesses:
 from __future__ import annotations
 
 import json
-import shutil
 import subprocess
 import sys
 from pathlib import Path
 
-import pytest
-
 from benchmark.wp2.oracle_confirmation import (
     FLAKY,
-    OTHER_REVIEW_REQUIRED,
-    SYMBOL_ABSENCE_F2P,
     derive_test_only_patch_bytes,
     parse_junit,
 )
@@ -108,7 +103,8 @@ def test_behavioral_f2p_on_synthetic_repo(tmp_path: Path) -> None:
     _write(
         repo,
         "tests/test_greeter.py",
-        "from greeter import greet\n\ndef test_greet():\n    assert greet('World') == 'Hello World'\n\ndef test_excited():\n    assert greet('World', excited=True) == 'Hello World!'\n",
+        "from greeter import greet\n\ndef test_greet():\n    assert greet('World') == 'Hello World'\n"
+        "\ndef test_excited():\n    assert greet('World', excited=True) == 'Hello World!'\n",
     )
     target = _commit_all(repo, "target")
 

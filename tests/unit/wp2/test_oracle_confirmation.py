@@ -13,8 +13,8 @@ import json
 import pytest
 
 from benchmark.wp2.environment_manager import (
-    fingerprint_family,
     fingerprint_commit_from_files,
+    fingerprint_family,
 )
 from benchmark.wp2.oracle_confirmation import (
     FLAKY,
@@ -28,8 +28,8 @@ from benchmark.wp2.oracle_confirmation import (
     parse_junit,
     reconcile_attrition,
     select_strong_tasks,
-    three_run_stability,
     task_eligibility,
+    three_run_stability,
 )
 
 
@@ -67,7 +67,11 @@ def test_parse_junit_nodes() -> None:
 
 
 def test_parse_junit_skipped() -> None:
-    xml = """<testsuite name="pytest" tests="1"><testcase classname="c" name="t" file="f.py"><skipped/></testcase></testsuite>"""
+    xml = (
+        '<testsuite name="pytest" tests="1">'
+        '<testcase classname="c" name="t" file="f.py"><skipped/></testcase>'
+        "</testsuite>"
+    )
     nodes = parse_junit(xml)
     assert nodes["f.py::t"] == "skipped"
 
@@ -332,6 +336,6 @@ def test_selection_manifest_no_selector_outcomes() -> None:
     )
     forbidden = ("f1", "success", "tp", "fp", "fn", "recall", "precision")
     assert not any(
-        any(k in forbidden for k in item.keys())
+        any(k in forbidden for k in item)
         for item in manifest.get("selection", {}).get("tasks", [])
     )

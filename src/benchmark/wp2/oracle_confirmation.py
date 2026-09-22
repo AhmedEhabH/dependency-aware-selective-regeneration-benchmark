@@ -56,9 +56,7 @@ def is_sealed_outcome_source(path: str) -> bool:
         return True
     if "saleor_candidate_metadata" in low or "candidate_metadata" in low:
         return True
-    if "/transparency/" in low:
-        return True
-    return False
+    return "/transparency/" in low
 
 
 # ---------------------------------------------------------------------------
@@ -165,10 +163,7 @@ _SYMBOL_ABSENCE_PATTERNS = (
 
 
 def _looks_like_symbol_absence(failure_text: str) -> bool:
-    for pat in _SYMBOL_ABSENCE_PATTERNS:
-        if pat in failure_text:
-            return True
-    return False
+    return any(pat in failure_text for pat in _SYMBOL_ABSENCE_PATTERNS)
 
 
 def classify_failure_reason(
@@ -228,7 +223,7 @@ def select_strong_tasks(candidates: list[dict]) -> list[dict]:
 
 
 def _selection_rank(task_id: str) -> str:
-    return hashlib.sha256(f"{SELECTION_SALT}|{task_id}".encode("utf-8")).hexdigest()
+    return hashlib.sha256(f"{SELECTION_SALT}|{task_id}".encode()).hexdigest()
 
 
 def build_selection_order(tasks: list[dict]) -> list[dict]:
