@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """WP-1b Calibration gate evaluator (mission section 23; ZERO API).
 
-Reads the frozen gate definition (artifacts/wp1b_calibration_gate.json for v1
-or artifacts/wp1b_calibration_gate_v2.json for --gate v2) and evaluates each
+Reads the frozen gate definition (artifacts/wp1b_calibration_gate.json for v1,
+artifacts/wp1b_calibration_gate_v2.json for --gate v2, or
+artifacts/wp1b_calibration_gate_v3.json for --gate v3) and evaluates each
 check against a calibration results directory. The gate is frozen BEFORE
 inference; this script is the machine-checkable evaluation.
 
@@ -38,6 +39,7 @@ from typing import Any
 _PROJECT_DIR = Path(__file__).resolve().parent.parent
 GATE = _PROJECT_DIR / "artifacts" / "wp1b_calibration_gate.json"
 GATE_V2 = _PROJECT_DIR / "artifacts" / "wp1b_calibration_gate_v2.json"
+GATE_V3 = _PROJECT_DIR / "artifacts" / "wp1b_calibration_gate_v3.json"
 
 FROZEN_MODEL = "qwen/qwen3-coder"
 FROZEN_TEMPERATURE = 0.0
@@ -343,14 +345,172 @@ def evaluate_v2(cal_dir: Path) -> dict:
     return result
 
 
+def _rejection_run_analysis(sidecar: list[dict]) -> dict:
+    """Per-task longest run of consecutive rejected repeats + aggregate share.
+
+    CG-12: a run of >= 3 consecutive identical rejected requests is the
+    deterministic context loop (Calibration-3b had runs of 6 and 4). Uses the
+    same classify_record source of truth as the audit.
+    """
+    from wp1b_sidecar_tool_audit import classify_record
+
+    per_task_longest: dict[str, int] = {}
+    per_task_runs: dict[str, list[int]] = {}
+    current: dict[str, int] = {}
+    rejected_total = 0
+    calls_total = 0
+    for rec in sidecar:
+        calls_total += 1
+        tid = rec.get("task_id", "")
+        cls = classify_record(rec)
+        if cls == "rejected_repeat":
+            rejected_total += 1
+            current[tid] = current.get(tid, 0) + 1
+        else:
+            if current.get(tid, 0):
+                per_task_runs.setdefault(tid, []).append(current[tid])
+                per_task_longest[tid] = max(per_task_longest.get(tid, 0), current[tid])
+                current[tid] = 0
+    for tid, run in current.items():
+        if run:
+            per_task_runs.setdefault(tid, []).append(run)
+            per_task_longest[tid] = max(per_task_longest.get(tid, 0), run)
+    return {
+        "per_task_longest_run": per_task_longest,
+        "per_task_runs": per_task_runs,
+        "rejected_repeat_calls": rejected_total,
+        "calls": calls_total,
+        "rejected_repeat_share": (rejected_total / calls_total) if calls_total else 0.0,
+    }
+
+
+def evaluate_v3(cal_dir: Path) -> dict:
+    """Gate v3: CG-1..CG-11 (as v2) + CG-12 (no >= 3 consecutive rejected repeats).
+
+    Also reports the rejected-repeat share of all calls. Run against the
+    Calibration-3b records BEFORE Calibration-3c: CG-12 must FAIL (runs of 6
+    and 4) as the RED proof that the gate catches the loop prospectively.
+    """
+    data = _load_records(cal_dir, with_sidecar=True)
+    results: list[dict] = []
+    _run_cg1_9(results, data)
+
+    sidecar = data.get("sidecar", [])
+    sidecar_ok = len(sidecar) > 0
+    tallies: dict[str, Any] = (
+        _classify_sidecar_for_gate(sidecar) if sidecar else {
+            "instrument_errors": 0, "agent_misuse": 0, "frozen_policy_limit": 0,
+            "successful_reads": 0, "rejected_repeat": 0, "tool_ok": 0,
+            "tool_error_total": 0, "per_task_reads": {}, "per_task_search_hits": {},
+            "per_task_rejects": {}, "instrument_messages": {},
+            "agent_misuse_messages": {}, "frozen_policy_messages": {},
+        }
+    )
+
+    _check(results, "CG-10", sidecar_ok and tallies["instrument_errors"] == 0,
+           f"instrument_errors={tallies['instrument_errors']} "
+           f"messages={tallies['instrument_messages']} sidecar={sidecar_ok}")
+
+    max_reads = max(tallies["per_task_reads"].values(), default=0)
+    _check(results, "CG-11", sidecar_ok and max_reads >= 1,
+           f"per_task_successful_reads={tallies['per_task_reads']} max={max_reads}")
+
+    run_analysis = _rejection_run_analysis(sidecar)
+    longest_by_task = run_analysis["per_task_longest_run"]
+    cg12_ok = sidecar_ok and all(v <= 2 for v in longest_by_task.values())
+    _check(results, "CG-12", cg12_ok,
+           f"per_task_longest_rejection_run={longest_by_task} "
+           f"rejected_share={run_analysis['rejected_repeat_share']:.3f} "
+           f"rejected_calls={run_analysis['rejected_repeat_calls']}")
+
+    # ---------- report-only metrics ----------
+    worst_case = _load_budget_worst_case()
+    cost_ratios: dict[str, float | None] = {}
+    for r in data["records"]:
+        tid = r.get("task_id", "")
+        usd = float(r.get("token_usage", {}).get("usd_cost", 0.0))
+        wc = worst_case.get(tid)
+        cost_ratios[tid] = (usd / wc) if wc else None
+
+    report_only: dict[str, Any] = {
+        "per_task": [],
+        "aggregate": {
+            "calls": len(sidecar),
+            "tool_ok": tallies["tool_ok"],
+            "instrument_errors": tallies["instrument_errors"],
+            "agent_misuse": tallies["agent_misuse"],
+            "frozen_policy_limit": tallies["frozen_policy_limit"],
+            "rejected_repeat": tallies["rejected_repeat"],
+            "rejected_repeat_share": run_analysis["rejected_repeat_share"],
+            "successful_reads": tallies["successful_reads"],
+            "instrument_messages": tallies["instrument_messages"],
+            "agent_misuse_messages": tallies["agent_misuse_messages"],
+            "frozen_policy_messages": tallies["frozen_policy_messages"],
+        },
+    }
+    tel_by_task = {t["task_id"]: t for t in data["telemetry"]}
+    for tid in sorted({r.get("task_id", "") for r in data["records"]}):
+        t = tel_by_task.get(tid, {})
+        report_only["per_task"].append({
+            "task_id": tid,
+            "llm_calls": int(t.get("model_calls", 0)),
+            "successful_reads": tallies["per_task_reads"].get(tid, 0),
+            "search_calls_with_hits": tallies["per_task_search_hits"].get(tid, 0),
+            "rejected_repeat": tallies["per_task_rejects"].get(tid, 0),
+            "longest_rejection_run": longest_by_task.get(tid, 0),
+            "observation_truncation_rate": t.get("observation_truncation_rate", 0.0),
+            "finish_reason_distribution": t.get("finish_reason_distribution", {}),
+            "prompt_tokens": int(
+                next((r.get("token_usage", {}).get("prompt_tokens", 0)
+                      for r in data["records"] if r.get("task_id") == tid), 0)),
+            "completion_tokens": int(
+                next((r.get("token_usage", {}).get("completion_tokens", 0)
+                      for r in data["records"] if r.get("task_id") == tid), 0)),
+            "total_tokens": int(
+                next((r.get("token_usage", {}).get("total_tokens", 0)
+                      for r in data["records"] if r.get("task_id") == tid), 0)),
+            "actual_usd": float(
+                next((r.get("token_usage", {}).get("usd_cost", 0.0)
+                      for r in data["records"] if r.get("task_id") == tid), 0.0)),
+            "worst_case_usd": worst_case.get(tid),
+            "cost_ratio": cost_ratios.get(tid),
+        })
+
+    all_pass = all(c["pass"] for c in results)
+    result = {
+        "artifact": "wp1b_calibration_gate_v3_result",
+        "evaluated_utc": datetime.datetime.now(datetime.UTC).isoformat(),
+        "gate_status": "PASS" if all_pass else "FAIL",
+        "checks": results,
+        "report_only": report_only,
+        "note": "Gate v3 evaluated on a frozen check-set (artifacts/wp1b_calibration_gate_v3.json). "
+                "CG-12 makes a run of >= 3 consecutive rejected repeats a GATING instrument defect "
+                "(the deterministic context loop). CG-10/CG-11/CG-12 check the INSTRUMENT validity "
+                "of the agent's tools, NOT labels and NOT F1. Distinguish GATE PASS from INSTRUMENT VALID.",
+    }
+    (cal_dir / "wp1b_calibration_gate_v3_result.json").write_text(
+        json.dumps(result, indent=1), encoding="utf-8")
+    for c in results:
+        print(f"[gate] {c['id']}: {'PASS' if c['pass'] else 'FAIL'} - {c['detail']}")
+    print(f"[gate] GATE: {result['gate_status']}")
+    print(f"[gate] report_only: instrument_errors={report_only['aggregate']['instrument_errors']} "
+          f"successful_reads={report_only['aggregate']['successful_reads']} "
+          f"rejected_repeat={report_only['aggregate']['rejected_repeat']} "
+          f"rejected_share={report_only['aggregate']['rejected_repeat_share']:.3f}")
+    return result
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="WP-1b calibration gate evaluator")
     parser.add_argument("calibration_dir", nargs="?")
-    parser.add_argument("--gate", choices=("v1", "v2"), default="v1",
+    parser.add_argument("--gate", choices=("v1", "v2", "v3"), default="v1",
                         help="gate version to evaluate (default v1)")
     args = parser.parse_args()
 
-    if args.gate == "v2":
+    if args.gate == "v3":
+        gate = json.loads(GATE_V3.read_text(encoding="utf-8"))
+        artifact_name = gate["artifact"]
+    elif args.gate == "v2":
         gate = json.loads(GATE_V2.read_text(encoding="utf-8"))
         artifact_name = gate["artifact"]
     else:
@@ -367,7 +527,12 @@ def main() -> int:
         print(f"[gate] ERROR: calibration directory not found: {cal_dir}")
         return 1
 
-    result = evaluate_v2(cal_dir) if args.gate == "v2" else evaluate(cal_dir)
+    if args.gate == "v3":
+        result = evaluate_v3(cal_dir)
+    elif args.gate == "v2":
+        result = evaluate_v2(cal_dir)
+    else:
+        result = evaluate(cal_dir)
     return 0 if result["gate_status"] == "PASS" else 1
 
 

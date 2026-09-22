@@ -1,0 +1,91 @@
+{
+ "artifact": "wp1b_calibration_gate_v3",
+ "date": "2026-09-22",
+ "status": "FROZEN_BEFORE_INFERENCE",
+ "supersedes": "wp1b_calibration_gate_v2 (v2 preserved as history). CG-1..CG-11 unchanged; CG-12 added.",
+ "scope": "Calibration-3c instrumentation/protocol sanity gate. NOT a performance gate. CG-12 makes the deterministic context-loop (a run of >= 3 consecutive rejected repeated requests) a GATING instrument defect so the gate catches the Calibration-3b loop prospectively. Calibration is an instrumentation sanity check, not an opportunity to tune the method against performance.",
+ "mission_section": "WP1B_G12_TO_MAIN297_2026-09-22 A4 (gate v3, run against Calibration-3b BEFORE Calibration-3c)",
+ "amendment": "WP1B_G12_AGENT_CONTEXT_HYGIENE_2026_09_22 (D1 APPROVED): echo action + arguments, call counter, named rejection, truncation note. NO scientific knob changed.",
+ "checks": [
+  {
+   "id": "CG-1",
+   "description": "3/3 requested calibration tasks executed under the intended protocol",
+   "condition": "n_records == 3 AND every record carries complete protocol metadata"
+  },
+  {
+   "id": "CG-2",
+   "description": "3/3 protocol metadata records complete",
+   "condition": "per record: model identity, provider/route, temperature, agent-control cap, MAX_AGENT_CALLS, task_id all present and equal to the frozen values"
+  },
+  {
+   "id": "CG-3",
+   "description": "3/3 valid final outputs OR failure explicitly classified",
+   "condition": "per task: valid_final_count > 0 OR empty_reason in (truncation, round_cap, parser_failure, infrastructure)"
+  },
+  {
+   "id": "CG-4",
+   "description": "0 silent parser failures",
+   "condition": "any record with malformed_count > 0 must have empty_reason == parser_failure"
+  },
+  {
+   "id": "CG-5",
+   "description": "0 unclassified EMPTY predictions",
+   "condition": "aggregate unclassified_EMPTY_count == 0"
+  },
+  {
+   "id": "CG-6",
+   "description": "0 route/model drift",
+   "condition": "pricing preflight checks.no_drift is True AND every record's scientific model == qwen/qwen3-coder AND route contains deepinfra/turbo"
+  },
+  {
+   "id": "CG-7",
+   "description": "0 unexpected scientific-knob drift",
+   "condition": "every record's agent_control cap, temperature (0.0), and MAX_AGENT_CALLS (8) equal the frozen values"
+  },
+  {
+   "id": "CG-8",
+   "description": "0 corrupted accounting records",
+   "condition": "per record: token_usage.total_tokens == prompt_tokens + completion_tokens"
+  },
+  {
+   "id": "CG-9",
+   "description": "0 unexplained budget overrun",
+   "condition": "cumulative calibration USD <= frozen calibration ceiling (proportional share of the budget model's recommended ceiling) after the cumulative-USD guard"
+  },
+  {
+   "id": "CG-10",
+   "description": "0 instrument-class tool errors across the whole calibration run",
+   "condition": "per-call sidecar classification: 0 tool_error in the INSTRUMENT_ERROR class. Instrument class = the 30-file-limit defect ('Max distinct files limit...'), 'Cannot read file' on a path that exists as an allowed UTF-8 text file in the workspace, and 'Skipped path' for a path inside the ArtifactUniverse. Agent-class errors ('Invalid path', 'Not a file', 'Not a directory', 'Not a file or directory', 'Empty query') and frozen-policy limits ('File too large', 'Binary file') are reported, NOT gating. Fail-closed: an unknown/unclassifiable tool error counts as instrument."
+  },
+  {
+   "id": "CG-11",
+   "description": "at least one task made >= 1 successful read_file",
+   "condition": "max over tasks of successful read_file count >= 1; else STOP_FOR_REVIEW (the agent was blind)"
+  },
+  {
+   "id": "CG-12",
+   "description": "no task has >= 3 consecutive rejected repeated requests (deterministic context-loop gate)",
+   "condition": "per task, the longest run of consecutive rejected_repeat sidecar calls is <= 2. A run of >= 3 identical rejected requests is the deterministic harness loop (Calibration-3b: runs of 6 and 4); after G12 it must not recur. Also report the rejected-repeat share of all calls."
+  }
+ ],
+ "stop_rule_v3": "Calibration-3c STOPs if: any CG-1..CG-12 fails; the cost ratio to the budget-v2 worst case is > 1.0 on any task; any new instrument-class error appears; scientific configuration drifts; the review card shows any BLOCKING anomaly; or completing the task would require another behavior-changing fix (D5 binding).",
+ "report_only": "per task: total LLM calls, successful read_file count, successful search calls with hits, instrument errors, agent-misuse errors, frozen-policy-limit events, rejected repeated requests (count + longest run), rejected-repeat share of calls, search-files-scanned, returned search results, search-result-cap hits, unique surfaced paths, observation truncation, finish-reason distribution, prompt/completion/total tokens, actual USD cost, actual/worst-case budget ratio. Distinguish GATE PASS from INSTRUMENT VALID.",
+ "clean_criteria_cal3c": [
+  "CG-1..CG-12 PASS",
+  "at least 2 of 3 tasks have >= 1 successful read_file",
+  "the rejected-repeat share is <= 25% of all calls",
+  "no run of >= 3 consecutive identical rejected requests",
+  "the cost ratio to the budget-v2 worst case is <= 1.0 on every task",
+  "zero BLOCKING Review Card anomalies"
+ ],
+ "informational_do_not_fail": [
+  "an individual task with zero read_file calls",
+  "search/list-only task behavior",
+  "ordinary frozen-policy-limit events",
+  "identical normalized tool output/error repeated >= 3 times",
+  "prompt growth < 25 tokens across >= 2 consecutive calls"
+ ],
+ "truncation_handling": "Report exact cap-hit / truncation counts from the first-class telemetry. Use the frozen G2 cap rule. Do NOT invent a post-calibration cap change.",
+ "performance_rule": "No F1-based calibration continuation rule is frozen. Calibration F1 alone MUST NOT tune or cancel the main experiment. No labels are loaded or scored for Calibration-3c.",
+ "evaluation": "scripts/wp1b_calibration_gate.py --gate v3 evaluates these checks against a calibration results directory (ZERO API, deterministic)."
+}

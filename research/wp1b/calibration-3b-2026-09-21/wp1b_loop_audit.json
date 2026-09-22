@@ -1,0 +1,101 @@
+{
+ "artifact": "wp1b_loop_audit",
+ "per_task": [
+  {
+   "task_id": "saleor-rc-349d46d906ad",
+   "calls": 5,
+   "useful_tool_calls": 3,
+   "rejected_repeat": 1,
+   "final": 1,
+   "longest_rejection_run": 1,
+   "rejected_spend_usd": 0.004352,
+   "rejected_prompt_growth_pairs": [],
+   "rejected_prompt_growth_deltas": [],
+   "uniform_rejected_prompt_growth_tokens": null
+  },
+  {
+   "task_id": "saleor-rc-b05633dae118",
+   "calls": 8,
+   "useful_tool_calls": 1,
+   "rejected_repeat": 6,
+   "final": 1,
+   "longest_rejection_run": 6,
+   "rejected_spend_usd": 0.023907,
+   "rejected_prompt_growth_pairs": [
+    {
+     "from_prompt_tokens": 13080,
+     "to_prompt_tokens": 13098,
+     "delta_tokens": 18
+    },
+    {
+     "from_prompt_tokens": 13098,
+     "to_prompt_tokens": 13116,
+     "delta_tokens": 18
+    },
+    {
+     "from_prompt_tokens": 13116,
+     "to_prompt_tokens": 13134,
+     "delta_tokens": 18
+    },
+    {
+     "from_prompt_tokens": 13134,
+     "to_prompt_tokens": 13152,
+     "delta_tokens": 18
+    },
+    {
+     "from_prompt_tokens": 13152,
+     "to_prompt_tokens": 13170,
+     "delta_tokens": 18
+    }
+   ],
+   "rejected_prompt_growth_deltas": [
+    18,
+    18,
+    18,
+    18,
+    18
+   ],
+   "uniform_rejected_prompt_growth_tokens": 18
+  },
+  {
+   "task_id": "saleor-rc-d52a55471bfc",
+   "calls": 8,
+   "useful_tool_calls": 3,
+   "rejected_repeat": 4,
+   "final": 1,
+   "longest_rejection_run": 4,
+   "rejected_spend_usd": 0.008468,
+   "rejected_prompt_growth_pairs": [
+    {
+     "from_prompt_tokens": 6953,
+     "to_prompt_tokens": 6971,
+     "delta_tokens": 18
+    },
+    {
+     "from_prompt_tokens": 6971,
+     "to_prompt_tokens": 6989,
+     "delta_tokens": 18
+    },
+    {
+     "from_prompt_tokens": 6989,
+     "to_prompt_tokens": 7007,
+     "delta_tokens": 18
+    }
+   ],
+   "rejected_prompt_growth_deltas": [
+    18,
+    18,
+    18
+   ],
+   "uniform_rejected_prompt_growth_tokens": 18
+  }
+ ],
+ "aggregate": {
+  "calls": 21,
+  "useful_tool_calls": 7,
+  "rejected_repeat": 11,
+  "final": 3,
+  "rejected_spend_usd": 0.036727,
+  "uniform_rejected_prompt_growth_tokens": 18
+ }
+}

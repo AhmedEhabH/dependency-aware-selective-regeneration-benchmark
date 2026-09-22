@@ -748,6 +748,13 @@ by the v0.9.22 candidate. Report:
 6. Full Pytest only before commit/merge or when shared interfaces changed
 7. Bundle only when production code changed
 
+## WP-1b review card
+
+Every paid agent run ends with a Review Card (`scripts/run_review_card.py
+<records_dir>` writes `REVIEW_CARD.md`), and the STOP report quotes its
+BLOCKING and INFORMATIONAL anomaly flags. BLOCKING anomalies fail the run;
+INFORMATIONAL anomalies are reported but do not fail it.
+
 ## Resource rules
 
 - No pytest-xdist by default
@@ -755,6 +762,11 @@ by the v0.9.22 candidate. Report:
 - No full test suite after every small patch
 - No parallel heavy commands
 - Trim logs to first root cause and relevant tail (~120 lines max)
+- **Full-suite runtime policy:** the full suite takes ~44-50 min on Ahmed's
+  machine. Use a pytest tool timeout of >= 3,600,000 ms (60 min; prefer
+  4,500,000 ms / 75 min). Run it exactly once at the final validation gate;
+  never restart it after a timeout unless the previous pytest process is
+  confirmed terminated (check `Get-Process python*` / poll the log).
 
 ## Git rules
 

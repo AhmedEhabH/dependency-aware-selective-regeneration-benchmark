@@ -55,9 +55,11 @@ class _ScriptedBackend(MockLLMBackend):
     def __init__(self, script: list[dict]) -> None:
         self._script = script
         self._i = 0
+        self.prompts: list[str] = []
         super().__init__("mock response")
 
     async def generate(self, prompt, temperature=0.0, max_tokens=4096):
+        self.prompts.append(prompt)
         item = self._script[min(self._i, len(self._script) - 1)]
         self._i += 1
         text = item["text"]
@@ -111,6 +113,7 @@ def _run_golden() -> tuple[list[str], list[str], dict]:
             "tool_output_chars_raw_total": strategy.tool_output_chars_raw_total,
             "tool_output_chars_shown_total": strategy.tool_output_chars_shown_total,
             "observation_truncation_rate": strategy.observation_truncation_rate(),
+            "prompts": list(backend.prompts),
         }
         return selected, call_sequence, telemetry
     finally:
@@ -164,3 +167,22 @@ def test_sidecar_json_serializable() -> None:
     _, _, telemetry = _run_golden()
     for rec in telemetry["call_sidecar"]:
         json.dumps(rec)  # must not raise
+
+
+def test_g12_prompt_additions_and_unchanged_call_sequence() -> None:
+    """G12: the call sequence is unchanged for a non-repeating stub; only the
+    prompt text differs by the four additions (echo + call counter; the
+    non-repeating golden script exercises no rejection and no truncation)."""
+    selected, seq, telemetry = _run_golden()
+    prompts = telemetry["prompts"]
+    # Unchanged scientific behavior: same selection, same call sequence.
+    assert selected == ["src/a.py"]
+    assert seq == ["list_files", "search_text", "final"]
+    assert len(prompts) == 3
+    # G12 change 2: call counter before every non-final call.
+    assert "[control] Call 1 of 8. Calls left before the forced final: 7." in prompts[0]
+    assert "[control] Call 2 of 8. Calls left before the forced final: 6." in prompts[1]
+    assert "[control] Call 3 of 8. Calls left before the forced final: 5." in prompts[2]
+    # G12 change 1: the agent's own request is echoed before its result.
+    assert '[call 1/8] you requested: list_files path="."' in prompts[1]
+    assert '[call 2/8] you requested: search_text path="." query="def"' in prompts[2]

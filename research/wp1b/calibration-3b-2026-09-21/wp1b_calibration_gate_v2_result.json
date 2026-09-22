@@ -1,0 +1,130 @@
+{
+ "artifact": "wp1b_calibration_gate_v2_result",
+ "evaluated_utc": "2026-09-21T22:22:45.269298+00:00",
+ "gate_status": "PASS",
+ "checks": [
+  {
+   "id": "CG-1",
+   "pass": true,
+   "detail": "records=3/3 metadata_complete=True"
+  },
+  {
+   "id": "CG-2",
+   "pass": true,
+   "detail": "all protocol metadata fields match frozen values"
+  },
+  {
+   "id": "CG-3",
+   "pass": true,
+   "detail": "telemetry=3/3 all_classified=True"
+  },
+  {
+   "id": "CG-4",
+   "pass": true,
+   "detail": "silent_parser_failures=0"
+  },
+  {
+   "id": "CG-5",
+   "pass": true,
+   "detail": "unclassified_EMPTY=0"
+  },
+  {
+   "id": "CG-6",
+   "pass": true,
+   "detail": "pricing_no_drift=True record_route_ok=True"
+  },
+  {
+   "id": "CG-7",
+   "pass": true,
+   "detail": "unexpected_knob_drift=False"
+  },
+  {
+   "id": "CG-8",
+   "pass": true,
+   "detail": "accounting_identity_ok=True"
+  },
+  {
+   "id": "CG-9",
+   "pass": true,
+   "detail": "calibration_usd=0.070028 ceiling=0.250000"
+  },
+  {
+   "id": "CG-10",
+   "pass": true,
+   "detail": "instrument_errors=0 messages={} sidecar=True"
+  },
+  {
+   "id": "CG-11",
+   "pass": true,
+   "detail": "per_task_successful_reads={'saleor-rc-349d46d906ad': 2, 'saleor-rc-d52a55471bfc': 1} max=2"
+  }
+ ],
+ "report_only": {
+  "per_task": [
+   {
+    "task_id": "saleor-rc-349d46d906ad",
+    "llm_calls": 5,
+    "successful_reads": 2,
+    "search_calls_with_hits": 1,
+    "rejected_repeat": 1,
+    "observation_truncation_rate": 0.0,
+    "finish_reason_distribution": {
+     "stop": 5
+    },
+    "prompt_tokens": 71230,
+    "completion_tokens": 174,
+    "total_tokens": 71404,
+    "actual_usd": 0.021543,
+    "worst_case_usd": 0.053253,
+    "cost_ratio": 0.40454058926257674
+   },
+   {
+    "task_id": "saleor-rc-b05633dae118",
+    "llm_calls": 8,
+    "successful_reads": 0,
+    "search_calls_with_hits": 1,
+    "rejected_repeat": 6,
+    "observation_truncation_rate": 0.0,
+    "finish_reason_distribution": {
+     "stop": 8
+    },
+    "prompt_tokens": 104881,
+    "completion_tokens": 421,
+    "total_tokens": 105302,
+    "actual_usd": 0.0318853,
+    "worst_case_usd": 0.050923,
+    "cost_ratio": 0.6261473204642303
+   },
+   {
+    "task_id": "saleor-rc-d52a55471bfc",
+    "llm_calls": 8,
+    "successful_reads": 1,
+    "search_calls_with_hits": 2,
+    "rejected_repeat": 4,
+    "observation_truncation_rate": 0.45285740039661077,
+    "finish_reason_distribution": {
+     "stop": 8
+    },
+    "prompt_tokens": 54315,
+    "completion_tokens": 305,
+    "total_tokens": 54620,
+    "actual_usd": 0.0165995,
+    "worst_case_usd": 0.030339,
+    "cost_ratio": 0.5471340518804179
+   }
+  ],
+  "aggregate": {
+   "calls": 21,
+   "tool_ok": 7,
+   "instrument_errors": 0,
+   "agent_misuse": 0,
+   "frozen_policy_limit": 0,
+   "rejected_repeat": 11,
+   "successful_reads": 3,
+   "instrument_messages": {},
+   "agent_misuse_messages": {},
+   "frozen_policy_messages": {}
+  }
+ },
+ "note": "Gate v2 evaluated on a frozen check-set (artifacts/wp1b_calibration_gate_v2.json). CG-10/CG-11 check the INSTRUMENT validity of the agent's tools, NOT labels and NOT F1. Distinguish GATE PASS from INSTRUMENT VALID."
+}
