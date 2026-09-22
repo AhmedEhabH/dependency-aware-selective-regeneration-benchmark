@@ -4,7 +4,7 @@
 
 ## LIVE STATUS — single current-state source of truth
 
-**Position:** MAIN_297 + variance 15×3 + scoring AUTHORIZED (D3 = YES, 2026-09-22) under protocol v3 with a resume-safe harness (frozen 3-retry rule, spend ledger, instrument-only halting, label-access guards). Preregistration addendum v2 (X6–X11) and the AG16 budget-sensitivity design were frozen before any MAIN_297 output. Calibration-3c remains CLEAN.
+**Position:** MAIN_297 RESULT: RMCSS_NONINFERIOR_AT_LOWER_COST (decision rules v2, NI_SUPPORTED). P (n=297): D −0.0062 [−0.0449, +0.0308], Q5 −0.0383. S (n=295, 2 EMPTY dropped): D −0.0115 [−0.0502, +0.0255], Q5 −0.0434. Agent F1 0.363 vs RM-CSS 0.357 vs SIP 0.265. RM-CSS cheaper (View A: 0.27× calls, 0.21× generative tokens/task). EMPTY rate 0.67% (2/297, parser failure). MAIN run $7.15 (2,164 calls, 23.6M prompt tokens); variance 15×3 $1.19 (331 calls). X6 ESCALATION_NO_GAIN; X3 NO_TEACHER_HEADROOM.
 
 **Research pipeline:**
 
@@ -19,7 +19,7 @@
 | WP-1b Calibration-3b | PASS | gate v2 PASS · $0.070 · 3 reads · 0 instrument errors · 11/21 calls rejected repeats (loop) |
 | G12 agent context hygiene | DONE | D1 APPROVED, zero API: echo, call counter, named rejection, truncation note; gate v3 CG-12 FAILS 3b (runs 1/6/4); protocol v3 |
 | WP-1b Calibration-3c | PASS | gate v3 CG-1..CG-12 PASS · $0.063205 · 4 reads · 1/18 rejected (5.6%) · longest run 1 · 0 blocking review-card flags · NOT scored |
-| WP-1b MAIN_297 + variance 15x3 | RUNNING | D3 = YES; protocol v3; ceilings $21.50/$3.50; resume-safe harness (execution addendum 2026-09-22) |
+| WP-1b MAIN_297 + variance 15x3 | DONE | RMCSS_NONINFERIOR_AT_LOWER_COST (NI_SUPPORTED); main $7.15 + variance $1.19; scored with decision rules v2; X1-X11 exploratory |
 | WP-2 shared E2E instrument | NOT STARTED | same generator/validator/repair for every arm |
 | E2E-G6 F2P/P2P oracle | NOT STARTED | fail-to-pass + pass-to-pass tests per task |
 | E2E Smoke → Pilot → Research Run | NOT STARTED | staged; each stage can stop the run |
@@ -35,8 +35,8 @@
 | WP-1b Calibration-3b agent | 21 calls (5/8/8) | $0.070028 · 3 successful reads · 0 instrument errors · gate v2 PASS · loop: 11/21 rejected repeats |
 | WP-1b G12 (zero API) | 0 | agent context hygiene amendment D1 APPROVED: echo, call counter, named rejection, truncation note; gate v3 CG-12 FAILS 3b |
 | WP-1b Calibration-3c agent | 18 calls (4/8/6) | $0.063205 · 4 successful reads · 1/18 rejected repeats (5.6%) · longest run 1 · gate v3 CG-1..CG-12 PASS · NOT scored |
-| MAIN_297 agent (ceiling) | ≤ 2,376 calls | 297 × 8; not authorized |
-| Variance substudy (ceiling) | ≤ 360 calls | 15 tasks × 3 runs × 8 |
+| MAIN_297 agent | 2,164 logical / 2,178 HTTP attempts | ledger $7.147 · 23.55M prompt / 81.7K completion tokens · 147 forced finals · 2 EMPTY (parser_failure) · 8 transport retries |
+| Variance substudy 15x3 | 331 logical / 341 HTTP attempts | ledger $1.194 · pooled F1 0.389/0.438/0.479 · pairwise exact match 0.444 · 0 EMPTY |
 | E2E generation + repair | not frozen yet | defined by WP-2 |
 
 **Authorized / not authorized:**
@@ -44,16 +44,16 @@
 | Item | Status | Note |
 | :---|:---|:---|
 | Calibration-3c | DONE (CLEAN) | gate v3 CG-1..CG-12 PASS; $0.063205; NOT scored |
-| MAIN_297 + variance 15×3 + scoring | AUTHORIZED (D3 = YES) | protocol v3; ceilings $21.50 / $3.50; resume-safe harness (execution addendum 2026-09-22) |
+| MAIN_297 + variance 15×3 + scoring | DONE (D3 = YES) | RMCSS_NONINFERIOR_AT_LOWER_COST (NI_SUPPORTED); main $7.15 + variance $1.19; predictions frozen/tagged before any label load |
 | Agent budget-sensitivity arm (AG16, MAIN_50) | PREREGISTERED, NOT AUTHORIZED | design frozen before MAIN_297 outputs; needs decision D6 |
 | 786 Saleor RESERVE outcomes | SEALED | never opened/read/scored/sampled; guarded by the label-access audit hook |
 | Calibration-3 / 3b / 3c F1 claims | NOT PERMITTED | instrument checks only; no labels loaded or scored |
 
-**Next action:** Run MAIN_297 in frozen order (ceiling $21.50), freeze + tag predictions, run variance 15×3 (label-blind, $3.50), freeze + tag, score with decision rules v2, then X1–X11.
+**Next action:** Ahmed reviews MAIN_297 → decides D6 (AG16 budget-sensitivity arm on MAIN_50, ceiling $12.20) → starts WP-2 shared E2E instrument.
 
 **End-to-end status:** WP-2 has **not started**; E2E-G6 F2P/P2P oracle has **not started**; **no** E2E Smoke, Pilot or Research Run exists yet.
 
-*Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-09-22 08:27 (Africa/Cairo).*
+*Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-09-22 09:40 (Africa/Cairo).*
 <!-- LIVE_STATUS:END -->
 
 **Role:** Execution source of truth (what is being executed now, last completed
@@ -61,10 +61,10 @@ task, immediate next step, blockers). Scientific truth lives in
 `00_CURRENT_RESEARCH_STATE.md`; decisions are recorded append-only in
 `DECISIONS.md`.
 
-**Branch:** `wp1b/calibration-3b-2026-09-21` (T3 mission
-`WP1B_TOOLFIX_LIVESTATUS_2026-09-21`; Phase C = Calibration-3b, D4 YES, ceiling
-$0.25; Phases A/B merged to `main` `f6c858b` with tag
-`wp1b-toolfix-2026-09-21`)
+**Branch:** `wp1b/main-297-2026-09-22` (overnight mission
+`OPENCODE_OVERNIGHT_WP1B_MAIN297_FULL_2026-09-22`; MAIN_297 + variance 15×3 +
+scoring + X1–X11; result `RMCSS_NONINFERIOR_AT_LOWER_COST`, NI_SUPPORTED).
+Main merged; result tag `wp1b-main297-result-2026-09-22`.
 **Scientific closure commit:** `8b2d1b6` (merge of
 `research/oracle-gap-bidirectional-repair-2026-09-18`; immutable scientific
 fact)

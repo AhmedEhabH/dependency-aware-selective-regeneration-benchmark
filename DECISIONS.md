@@ -2113,3 +2113,43 @@ esearch/bounded-semantic-expansion/pilot_registration_freeze.json — 60 DEVELOP
   (design only).
 - **AG16 execution is NOT authorized** (needs D6); only the design is frozen.
 - **Scope change:** NO scientific scope change.
+
+## Decision WP1B_MAIN297 - EXECUTED (2026-09-22)
+
+- **Status:** EXECUTED (D3 = YES). Resume-safe harness (execution addendum),
+  protocol v3, frozen order, ceilings $21.50 (main) / $3.50 (variance).
+- **MAIN_297 run:** 297/297 complete; ledger **$7.147415** (<= $21.50); 2,164
+  logical calls / 2,178 HTTP attempts; 23,552,440 prompt tokens; 81,683
+  completion tokens; 147 forced finals; 2 EMPTY (parser_failure); 0 instrument
+  errors; 8 transport retries; 0 halts. Attempt-aware ledger reconciliation OK
+  (AC-14 M6 absent; kept $7.143418 + abandoned $0.003997 = $7.147415).
+  MAIN-mode Review Card verdict: **NO_BLOCKING_INSTRUMENT_ANOMALIES**.
+- **Variance 15x3 run:** 45/45 complete; ledger **$1.194112** (<= $3.50); 331
+  logical calls / 341 HTTP attempts; 0 EMPTY; 26 forced finals. Review Card:
+  NO_BLOCKING_INSTRUMENT_ANOMALIES.
+- **Freeze/tag order (labels never before tags):** predictions frozen and tagged
+  `wp1b-main297-predictions-frozen-2026-09-22` and
+  `wp1b-variance-predictions-frozen-2026-09-22` on origin BEFORE the scorer
+  loaded any label. Scorer verified the freeze tag object locally == origin and
+  re-scored RESERVE-300 (EXACT_REPRODUCTION: RM-CSS 0.3569, SIP 0.2647,
+  delta +0.0921).
+- **Scope change:** NO scientific scope change (harness/analysis/docs only).
+
+## Decision WP1B_MAIN297_RESULT - RMCSS_NONINFERIOR_AT_LOWER_COST (2026-09-22)
+
+- **Status:** EXECUTED. Verdict mechanically from decision rules v2 (scorer
+  output unedited; `dominance_word_retired: true`).
+- **P primary (fail-closed, n=297):** D **-0.0062** [**-0.0449**, +0.0308], Q5
+  **-0.0383** (inside the -0.05 margin) -> **NI_SUPPORTED** (verdict id 3).
+- **S (instrument-failure excluded, n=295, 2 dropped):** D **-0.0115**
+  [-0.0502, +0.0255], Q5 **-0.0434**.
+- **Arms (pooled micro-F1):** Agent **0.3631**, RM-CSS **0.3568**, SIP **0.2652**.
+- **Cost (View A decides):** RM-CSS cheaper -> `RMCSS_NONINFERIOR_AT_LOWER_COST`;
+  0.27x agent calls, 0.21x agent generative tokens per task.
+- **Exploratory (X1-X11, never primary):** X6 **ESCALATION_NO_GAIN**; X3
+  **NO_TEACHER_HEADROOM**; X10 dense-anchor size-matched F1 0.278 vs RM-CSS
+  0.357; X11 non-consecutive duplicate share 0.127 (search is substring).
+- **Reports:** `reports/WP1B_MAIN297_RESULT.md`, `reports/WP1B_MAIN297_EXPLORATORY.md`,
+  `reports/WP1B_VARIANCE_15X3_RESULT.md`; result tag
+  `wp1b-main297-result-2026-09-22` on origin.
+- **Scope change:** NO scientific scope change.

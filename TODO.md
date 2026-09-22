@@ -2384,14 +2384,14 @@ WP-1 code). Each must be triaged in a future mission.
 - [x] A4 governance records (DECISIONS.md: §0 block, harness gaps, 3c record correction, prereg v2 + AG16 design)
 - [x] A5 LIVE_STATUS pre-run (blocks test pass; authorization key AUTHORIZED D3=YES)
 - [x] A6 zero-API dry run (DRY_RUN_PASS; D3 max diff 62 chars; D4 projected 0.44-2.66 h; D5 projected $4.11-$8.02)
-- [ ] A7 commit + full suite + merge + tag (in progress)
-- [ ] B MAIN_297 0/297 (ledger USD 0.00; projected $4.11-$8.02)
-- [ ] B-end freeze + tag predictions
-- [ ] C variance 0/45 (ceiling $3.50)
-- [ ] C-end freeze + tag
-- [ ] D scoring + tag
-- [ ] E exploratory X1-X11
-- [ ] F docs + LIVE_STATUS post-run
+- [x] A7 commit + full suite + merge + tag (full suite 3 failed / 3825 passed / 34 skipped == known set; prereg tag on origin)
+- [x] B MAIN_297 297/297 complete (ledger $7.147415; projected $4.11-$8.02 was the estimate; actual $7.15)
+- [x] B-end freeze + tag predictions (wp1b-main297-predictions-frozen-2026-09-22 on origin)
+- [x] C variance 45/45 complete (ledger $1.194112; ceiling $3.50)
+- [x] C-end freeze + tag (wp1b-variance-predictions-frozen-2026-09-22 on origin)
+- [x] D scoring + tag (RMCSS_NONINFERIOR_AT_LOWER_COST / NI_SUPPORTED; result tag on origin)
+- [x] E exploratory X1-X11 (X6 ESCALATION_NO_GAIN; X3 NO_TEACHER_HEADROOM; all labelled exploratory)
+- [ ] F docs + LIVE_STATUS post-run (in progress)
 - [ ] F merge + exports + STOP report + restore power
 
 ### Tech-debt (2026-09-22): tests write tracked evidence files
