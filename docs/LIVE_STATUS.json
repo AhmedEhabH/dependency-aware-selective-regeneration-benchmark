@@ -1,16 +1,16 @@
 {
   "schema": "live_status_v1",
-  "as_of_local": "2026-09-21 23:00 (Africa/Cairo)",
-  "evidence_snapshot": "project-LIGHT-2026-09-21-1854.zip — main f3cbe03 (tag wp1b-preflight-freeze-2026-09-21) + branch wp1b/calibration-3-2026-09-21 + branch wp1b/toolfix-livestatus-2026-09-21 (tag wp1b-toolfix-2026-09-21 @ f6c858b) + branch wp1b/calibration-3b-2026-09-21",
+  "as_of_local": "2026-09-22 05:09 (Africa/Cairo)",
+  "evidence_snapshot": "main ea72c53 (tag wp1b-g12-context-2026-09-22) + branch wp1b/calibration-3b-2026-09-21 + branch wp1b/calibration-3c-2026-09-22 (to be created)",
   "phase": "Phase 5 — End-to-End Selective Regeneration",
-  "position": "WP-1b Calibration-3b (paired instrument revalidation of the D2 tool-budget fix) is COMPLETE and PASSES gate v2 (CG-1..CG-11): 21 calls, 3 successful read_file, 0 instrument errors, $0.070028 ≤ $0.25, all cost ratios ≤ 1.2. The agent is now instrument-valid. MAIN_297 and the variance substudy remain NOT authorized until Ahmed reviews the Calibration-3b evidence and issues a separate D7 decision.",
-  "position_short": "Calibration-3b PASS (gate v2); agent instrument-valid; MAIN_297 awaits D7",
-  "now_short": "WP-1b: Ahmed reviews Calibration-3b → D7 decision for MAIN_297.",
-  "next_action": "STOPPED per contract after Calibration-3b. Ahmed reviews the Calibration-3b evidence (gate v2 PASS, CG-10/CG-11, per-task tool telemetry) and issues a separate explicit D7-style authorization for MAIN_297. No further paid run in this mission.",
-  "next_short": "Ahmed reviews 3b → D7 for MAIN_297",
-  "priority_chain": "Ahmed reviews Calibration-3b → D7 for MAIN_297 → variance 15×3 → WP-2 shared E2E instrument → E2E-G6 F2P/P2P oracle → Smoke → Pilot → Research Run",
-  "weakest_risk": "The agent is instrument-valid (gate v2 PASS) but MAIN_297 has NOT run. E2E correctness is still untested; WP-2 and E2E-G6 F2P/P2P have not started, and no E2E Smoke/Pilot/Research Run exists.",
-  "wp1b_short": "Paid same-protocol comparison of a repository agent vs SIP vs RM-CSS on MAIN_297 (G1: Δ=0.05 NI rule; G2: cap 1024). Preflight frozen; Calibration-3 blind (INSTRUMENT_INVALID); D2 tool fix + gate v2 done; Calibration-3b PASS (CG-1..CG-11). MAIN_297 blocked until D7 = YES.",
+  "position": "G12 (agent context hygiene, D1 APPROVED) is applied zero-API: the selection loop now echoes each action with its arguments, shows a call counter before every non-final call, names the exact repeated request in the rejection warning, and marks truncated reads. Gate v3 (CG-12: no task with >= 3 consecutive rejected repeats) FAILS Calibration-3b prospectively (runs 1/6/4; 52% of spend on repeats) — the RED proof. Calibration-3c (same 3 tasks, protocol v3, gate v3, NOT scored, <= $0.25) is next. MAIN_297 + variance + scoring remain NOT authorized (D3 = MANUAL = stop after Calibration-3c).",
+  "position_short": "G12 applied (zero API); gate v3 CG-12 catches the 3b loop; Calibration-3c next",
+  "now_short": "WP-1b: run Calibration-3c (<= $0.25, protocol v3, gate v3, not scored), then STOP.",
+  "next_action": "Run Calibration-3c on the same 3 calibration tasks (protocol v3, gate v3, not scored, ceiling $0.25). Per D3 = MANUAL the mission STOPS after Calibration-3c regardless of outcome; MAIN_297 + variance + scoring require a separate explicit decision. No label loading; no F1.",
+  "next_short": "Calibration-3c -> STOP",
+  "priority_chain": "G12 applied (zero API) -> Calibration-3c (<= $0.25) -> STOP (D3 MANUAL) -> MAIN_297 + variance 15x3 + scoring -> WP-2 shared E2E instrument -> E2E-G6 F2P/P2P oracle -> Smoke -> Pilot -> Research Run",
+  "weakest_risk": "G12 removes the deterministic context loop the harness itself created (the transcript withheld the agent's own requests, so at temperature 0 the model repeated itself). Calibration-3c verifies the fix; E2E correctness is still untested.",
+  "wp1b_short": "Paid same-protocol comparison of a repository agent vs SIP vs RM-CSS on MAIN_297 (G1: delta=0.05 NI rule; G2: cap 1024). Tools fixed (G11) and Calibration-3b passed gate v2; the agent looped on repeats because its transcript hid its own requests. G12 (echo, call counter, named rejection, truncation note) applied zero-API; gate v3 CG-12 catches the loop. Calibration-3c (protocol v3) next; MAIN_297 blocked until a separate decision after 3c.",
   "pipeline": [
     {
       "step": "Localization method selection",
@@ -30,7 +30,7 @@
     {
       "step": "WP-1b preflight freeze",
       "status": "DONE",
-      "note": "G1 Δ=0.05 · G2 cap 1024 · n=297 · budget v2 · rules v2"
+      "note": "G1 delta=0.05 · G2 cap 1024 · n=297 · budget v2 · rules v2"
     },
     {
       "step": "WP-1b Calibration-3",
@@ -45,12 +45,22 @@
     {
       "step": "WP-1b Calibration-3b",
       "status": "PASS",
-      "note": "gate v2 CG-1..CG-11 PASS; $0.070028; 3 successful reads; 0 instrument errors; agent instrument-valid"
+      "note": "gate v2 PASS · $0.070 · 3 reads · 0 instrument errors · 11/21 calls rejected repeats (loop)"
     },
     {
-      "step": "WP-1b MAIN_297 + variance 15×3",
+      "step": "G12 agent context hygiene",
+      "status": "DONE",
+      "note": "D1 APPROVED, zero API: echo, call counter, named rejection, truncation note; gate v3 CG-12 FAILS 3b (runs 1/6/4); protocol v3"
+    },
+    {
+      "step": "WP-1b Calibration-3c",
+      "status": "NOT STARTED",
+      "note": "same 3 tasks, protocol v3, gate v3, NOT scored, ceiling $0.25; then STOP (D3 MANUAL)"
+    },
+    {
+      "step": "WP-1b MAIN_297 + variance 15x3",
       "status": "BLOCKED",
-      "note": "needs D7 = YES after Ahmed reviews Calibration-3b"
+      "note": "forbidden this mission (D3 MANUAL); requires a separate decision after 3c"
     },
     {
       "step": "WP-2 shared E2E instrument",
@@ -96,31 +106,31 @@
     }
   ],
   "calibration_3": {
-    "title": "Calibration-3b: gate v2 PASS — agent instrument-valid (D2 fix confirmed)",
-    "subtitle": "Paired instrument revalidation of the D2 tool-budget fix on the SAME 3 calibration tasks. Not scored; not a fresh performance sample. Calibration-3 is preserved historically as GATE_V1_PASS / INSTRUMENT_INVALID.",
+    "title": "Calibration-3 → 3b → G12: the agent's tools work; the loop is gated",
+    "subtitle": "Same 3 tasks, never scored. G11 made the tools work; G12 (prospective, label-blind) removes the deterministic context loop the harness created. Gate v3 CG-12 now gates on >= 3 consecutive rejected repeats.",
     "tiles": [
       {
-        "big": "21",
-        "small": "agent calls (5/8/8 per task)",
-        "tone": "info"
-      },
-      {
-        "big": "$0.070",
-        "small": "cost of 3 tasks (ceiling $0.25)",
+        "big": "G12",
+        "small": "4 prompt changes, zero API (echo / counter / named rejection / truncation)",
         "tone": "good"
       },
       {
-        "big": "0",
-        "small": "instrument errors",
-        "tone": "good"
+        "big": "CG-12",
+        "small": "FAIL on Calibration-3b: runs 1/6/4 (RED proof)",
+        "tone": "bad"
       },
       {
         "big": "3",
-        "small": "files actually read",
+        "small": "files read (Calibration-3: 0)",
         "tone": "good"
+      },
+      {
+        "big": "11/21",
+        "small": "calls were rejected repeats in 3b (52% of spend)",
+        "tone": "bad"
       }
     ],
-    "chart_title": "What the 21 agent calls did",
+    "chart_title": "What the agent's calls did (3b) and what G12 changes",
     "tool_outcomes": [
       {
         "label": "Final answers",
@@ -139,13 +149,17 @@
         "n": 0
       }
     ],
-    "finding_title": "Instrument VALID (GATE PASS)",
-    "finding": "With the D2 fix, the agent's tools work: 3 successful read_file calls (tasks 1 and 3), 4 searches with hits, 0 instrument-class errors, 0 search-result-cap hits, 0 frozen-policy-limit events. Gate v2 CG-1..CG-11 all PASS. Task 2 still shows agent-side repetition (6 rejected repeats) — behavior, not an instrument defect.",
-    "source": "research/wp1b/calibration-3b-2026-09-21/wp1b_calibration_gate_v2_result.json (scripts/wp1b_calibration_gate.py --gate v2) + wp1b_tool_audit.json (scripts/wp1b_sidecar_tool_audit.py).",
+    "finding_title": "G12 removes a deterministic harness loop",
+    "finding": "The transcript showed tool results but never the agent's own requests, and a rejected repeat added only 18 tokens, so at temperature 0 the model repeated itself (task 2 sent the same search 6 times). G12 restores the withheld information: action echo, call counter, named rejection, truncation note. Gate v3 CG-12 FAILS Calibration-3b prospectively (runs 1/6/4, share 0.524) and must PASS on Calibration-3c.",
+    "source": "research/wp1b/calibration-3b-2026-09-21/wp1b_call_sidecar.jsonl; scripts/wp1b_loop_audit.py (reproduces 21/7/11, runs 1/6/4, 18-token growth, $0.036727 rejected spend); artifacts/wp1b_calibration_gate_v3.json (CG-12); docs/WP1B_AGENT_CONTEXT_LOOP_2026-09-22.md; src/benchmark/strategies/iterative_agent.py (G12).",
     "raw": {
       "tasks": 3,
       "calls": 21,
-      "calls_per_task": [5, 8, 8],
+      "calls_per_task": [
+        5,
+        8,
+        8
+      ],
       "usd": 0.070028,
       "ceiling_usd": 0.25,
       "prompt_tokens": 230426,
@@ -154,7 +168,39 @@
       "empty": 0,
       "gate": "CG-1..CG-11 PASS (gate v2)",
       "gate_v2": "CG-10 PASS (0 instrument errors) · CG-11 PASS (3 successful reads)",
+      "gate_v3": "CG-12 FAIL: per_task_longest_rejection_run {1,6,4}, rejected_share 0.524 (RED proof on 3b)",
       "successful_reads": 3
+    },
+    "compare": {
+      "categories": [
+        "Final answers",
+        "Tool OK",
+        "Instrument errors",
+        "Rejected repeats",
+        "Successful reads"
+      ],
+      "series": [
+        {
+          "name": "Calibration-3 (24 calls)",
+          "values": [
+            3,
+            5,
+            9,
+            7,
+            0
+          ]
+        },
+        {
+          "name": "Calibration-3b (21 calls)",
+          "values": [
+            3,
+            7,
+            0,
+            11,
+            3
+          ]
+        }
+      ]
     }
   },
   "llm_calls": [
@@ -181,7 +227,17 @@
     {
       "workflow": "WP-1b Calibration-3b agent",
       "calls": "21 calls (5/8/8)",
-      "note": "$0.070028 · 3 successful reads · 0 instrument errors · gate v2 CG-1..CG-11 PASS"
+      "note": "$0.070028 · 3 successful reads · 0 instrument errors · gate v2 CG-1..CG-11 PASS · loop: 11/21 rejected repeats"
+    },
+    {
+      "workflow": "WP-1b G12 (zero API)",
+      "calls": "0",
+      "note": "agent context hygiene amendment D1 APPROVED: echo, call counter, named rejection, truncation note; gate v3 CG-12 FAILS 3b"
+    },
+    {
+      "workflow": "WP-1b Calibration-3c agent (ceiling)",
+      "calls": "<= 24 calls",
+      "note": "same 3 tasks, protocol v3, gate v3, not scored; ceiling $0.25; authorized"
     },
     {
       "workflow": "MAIN_297 agent (ceiling)",
@@ -209,5 +265,30 @@
     "rmcss_fnr": "0.6927",
     "reserve_unread": "786"
   },
-  "schema_note": "Keys are consumed by build_study_deck.py and by the README/START_HERE renderer. Keep every key; update values after each mission."
+  "schema_note": "Keys are consumed by build_study_deck.py and by the README/START_HERE renderer. Keep every key; update values after each mission.",
+  "live_recall": {
+    "chapter": "Where we are now",
+    "questions": [
+      "What changed between Calibration-3b and after G12?",
+      "Why is fixing the loop not tuning?",
+      "When do the real comparisons start?"
+    ],
+    "items": [
+      {
+        "a": "Nothing scientific: G12 is a prospective, label-blind scaffold amendment (D1 APPROVED, zero API). The agent now sees its own requests, a call counter, a named rejection, and a truncation flag — information the harness already had and withheld. Gate v3 CG-12 (no task with >= 3 consecutive rejected repeats) FAILS Calibration-3b (runs 1/6/4, share 0.524) as the RED proof.",
+        "s": "LIVE",
+        "ar": "G12 بيعيد للـagent معلومات الـharness كان شايلها: هو طلب إيه، رقم النداء، سبب الرفض، وعلامة الاقتطاع. التعديل ببلind للـlabels وبيرجع معلومات موجودة أصلًا."
+      },
+      {
+        "a": "The loop was created by the harness: the transcript showed results but not the agent's own requests, and a rejection added only 18 tokens, so at temperature 0 the model repeated itself. Fixing it is label-blind and strengthens the competitor, which is conservative for our non-inferiority claim, and it is bounded (one preregistered amendment, D5).",
+        "s": "LIVE",
+        "ar": "التكرار ده كان عيب في الـharness مش اختيار من الـmodel. إصلاحه بدون labels وبيعزز المنافس قبل المقارنة — اتجاه محافظ، وتعديل واحد مسجل مسبقًا."
+      },
+      {
+        "a": "After a clean Calibration-3c (protocol v3, gate v3, <= $0.25, not scored): MAIN_297 on 297 Saleor tasks, then predictions are frozen and scored with the preregistered delta=0.05 rule. Per D3 = MANUAL this mission STOPS after Calibration-3c; the MAIN_297 run needs a separate decision.",
+        "s": "LIVE",
+        "ar": "بعد Calibration-3c النظيفة: MAIN_297 على 297 مهمة Saleor، ثم تجميد التوقعات وتسجيلها بقاعدة Δ=0.05. المهمة دي بتتوقف بعد 3c حسب القرار D3=MANUAL."
+      }
+    ]
+  }
 }

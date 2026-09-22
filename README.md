@@ -61,7 +61,7 @@ Change request
 
 ## LIVE STATUS — single current-state source of truth
 
-**Position:** WP-1b Calibration-3b (paired instrument revalidation of the D2 tool-budget fix) is COMPLETE and PASSES gate v2 (CG-1..CG-11): 21 calls, 3 successful read_file, 0 instrument errors, $0.070028 ≤ $0.25, all cost ratios ≤ 1.2. The agent is now instrument-valid. MAIN_297 and the variance substudy remain NOT authorized until Ahmed reviews the Calibration-3b evidence and issues a separate D7 decision.
+**Position:** G12 (agent context hygiene, D1 APPROVED) is applied zero-API: the selection loop now echoes each action with its arguments, shows a call counter before every non-final call, names the exact repeated request in the rejection warning, and marks truncated reads. Gate v3 (CG-12: no task with >= 3 consecutive rejected repeats) FAILS Calibration-3b prospectively (runs 1/6/4; 52% of spend on repeats) — the RED proof. Calibration-3c (same 3 tasks, protocol v3, gate v3, NOT scored, <= $0.25) is next. MAIN_297 + variance + scoring remain NOT authorized (D3 = MANUAL = stop after Calibration-3c).
 
 **Research pipeline:**
 
@@ -70,11 +70,13 @@ Change request
 | Localization method selection | CLOSED | RM-CSS frozen; Saleor-300 PASS (+0.0921 F1) |
 | WP-0 leakage fix (G7) | DONE | ArtifactUniverse built from the parent repository |
 | WP-1a preparation | DONE | zero API; frozen predictions, manifests, agent protocol |
-| WP-1b preflight freeze | DONE | G1 Δ=0.05 · G2 cap 1024 · n=297 · budget v2 · rules v2 |
+| WP-1b preflight freeze | DONE | G1 delta=0.05 · G2 cap 1024 · n=297 · budget v2 · rules v2 |
 | WP-1b Calibration-3 | DEFECT | v1 gate PASS, $0.081, 24 calls — 0 successful reads; INSTRUMENT_INVALID |
 | Tool-budget fix + gate v2 | DONE | D2: search_text does not consume the 30-file budget; CG-10/CG-11 written; RED on Calibration-3 |
-| WP-1b Calibration-3b | PASS | gate v2 CG-1..CG-11 PASS; $0.070028; 3 successful reads; 0 instrument errors; agent instrument-valid |
-| WP-1b MAIN_297 + variance 15×3 | BLOCKED | needs D7 = YES after Ahmed reviews Calibration-3b |
+| WP-1b Calibration-3b | PASS | gate v2 PASS · $0.070 · 3 reads · 0 instrument errors · 11/21 calls rejected repeats (loop) |
+| G12 agent context hygiene | DONE | D1 APPROVED, zero API: echo, call counter, named rejection, truncation note; gate v3 CG-12 FAILS 3b (runs 1/6/4); protocol v3 |
+| WP-1b Calibration-3c | NOT STARTED | same 3 tasks, protocol v3, gate v3, NOT scored, ceiling $0.25; then STOP (D3 MANUAL) |
+| WP-1b MAIN_297 + variance 15x3 | BLOCKED | forbidden this mission (D3 MANUAL); requires a separate decision after 3c |
 | WP-2 shared E2E instrument | NOT STARTED | same generator/validator/repair for every arm |
 | E2E-G6 F2P/P2P oracle | NOT STARTED | fail-to-pass + pass-to-pass tests per task |
 | E2E Smoke → Pilot → Research Run | NOT STARTED | staged; each stage can stop the run |
@@ -87,7 +89,9 @@ Change request
 | RM-CSS on top of SIP | 0 extra coder calls | local logistic regression + repository memory |
 | Qwen embeddings (RM-CSS) | 33 batched calls | 2,076 file units + 299 queries · $0.026 |
 | WP-1b Calibration-3 agent | 24 calls (8/task) | $0.081 · 7 of 24 were rejected repeats · 0 successful reads (INSTRUMENT_INVALID) |
-| WP-1b Calibration-3b agent | 21 calls (5/8/8) | $0.070028 · 3 successful reads · 0 instrument errors · gate v2 CG-1..CG-11 PASS |
+| WP-1b Calibration-3b agent | 21 calls (5/8/8) | $0.070028 · 3 successful reads · 0 instrument errors · gate v2 CG-1..CG-11 PASS · loop: 11/21 rejected repeats |
+| WP-1b G12 (zero API) | 0 | agent context hygiene amendment D1 APPROVED: echo, call counter, named rejection, truncation note; gate v3 CG-12 FAILS 3b |
+| WP-1b Calibration-3c agent (ceiling) | <= 24 calls | same 3 tasks, protocol v3, gate v3, not scored; ceiling $0.25; authorized |
 | MAIN_297 agent (ceiling) | ≤ 2,376 calls | 297 × 8; not authorized |
 | Variance substudy (ceiling) | ≤ 360 calls | 15 tasks × 3 runs × 8 |
 | E2E generation + repair | not frozen yet | defined by WP-2 |
@@ -101,11 +105,11 @@ Change request
 | 786 Saleor RESERVE outcomes | SEALED | never opened/read/scored/sampled |
 | Calibration-3 / Calibration-3b F1 claims | NOT PERMITTED | instrument checks only; no labels loaded or scored |
 
-**Next action:** STOPPED per contract after Calibration-3b. Ahmed reviews the Calibration-3b evidence (gate v2 PASS, CG-10/CG-11, per-task tool telemetry) and issues a separate explicit D7-style authorization for MAIN_297. No further paid run in this mission.
+**Next action:** Run Calibration-3c on the same 3 calibration tasks (protocol v3, gate v3, not scored, ceiling $0.25). Per D3 = MANUAL the mission STOPS after Calibration-3c regardless of outcome; MAIN_297 + variance + scoring require a separate explicit decision. No label loading; no F1.
 
 **End-to-end status:** WP-2 has **not started**; E2E-G6 F2P/P2P oracle has **not started**; **no** E2E Smoke, Pilot or Research Run exists yet.
 
-*Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-09-21 23:00 (Africa/Cairo).*
+*Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-09-22 05:09 (Africa/Cairo).*
 <!-- LIVE_STATUS:END -->
 
 ### Earlier milestones (history)
