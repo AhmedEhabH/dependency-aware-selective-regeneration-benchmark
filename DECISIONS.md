@@ -1954,3 +1954,77 @@ esearch/bounded-semantic-expansion/pilot_registration_freeze.json — 60 DEVELOP
   explicit Ahmed decision after he reviews the Calibration-3b evidence. The
   786 sealed Saleor RESERVE outcomes remain untouched.
 - **Scope change:** NO scientific scope change.
+
+## Decision WP1B_G12_TO_MAIN297 - §0 DECISION BLOCK (2026-09-22)
+
+- **Status:** ADOPTED (this mission, verbatim per the contract §0).
+- **Contract:** `_workspace/active/OPENCODE_CONTRACT_WP1B_G12_TO_MAIN297_2026-09-22.md`.
+  The block below is copied verbatim into this append-only record; the
+  `[CHOOSE]` placeholders are superseded by Ahmed's explicit decisions stated
+  in the mission message (2026-09-22).
+- **Decision block (verbatim):**
+
+> | ID | Decision | Value |
+> |----|----------|-------|
+> | D1 | Amendment `WP1B_G12_AGENT_CONTEXT_HYGIENE_2026_09_22` (§2 A3, exactly 4 changes) | **APPROVED** |
+> | D2 | Calibration-3c (same 3 tasks, protocol v3, gate v3, not scored, ceiling $0.25) | **YES** |
+> | D3 | MAIN_297 + variance 15×3 + scoring | **MANUAL = stop after 3c** |
+> | D4 | Ceilings (unchanged from preflight) | 3c **$0.25** · MAIN_297 **$21.50** · variance **$3.50** |
+> | D5 | One-amendment rule | **APPROVED** (No scaffold or agent change after D1, whatever 3c or MAIN_297 shows) |
+> | — | Decided by | Ahmed Ehab, 2026-09-22. Supervisor informed: **no** |
+
+- **Authoritative clarifications (Ahmed, 2026-09-22):**
+  1. **STOP after Calibration-3c.** MAIN_297, the variance substudy, label
+     loading and scoring are NOT authorized. Even a fully clean Calibration-3c
+     does not continue to Phase C.
+  2. **G12 is prospective and label-blind**, NOT behavior-preserving. Its
+     purpose is to remove deterministic context-loop artifacts before the
+     baseline is evaluated.
+  3. **G12 elements:** echo the actual previous tool action + arguments before
+     its result; show the current call number and calls remaining; name the
+     exact repeated request in the rejection warning; explicitly mark truncated
+     tool output.
+  4. **No new strategic guidance.** Early `action=final` IS already explicitly
+     visible to the model (TOOL_SCHEMA item 4 lists `final` with its JSON, the
+     `AGENT_ACTION_SCHEMA` enum includes `final`, and `INITIAL_SYSTEM_PROMPT`
+     states call 8 is forced to final). Therefore the counter message uses ONLY
+     `[control] Call {k} of 8. Calls left before the forced final: {8-k}.` and
+     does NOT repeat or emphasize early-final availability.
+  5. **Review Card semantics:** BLOCKING = any instrument-class error; >= 3
+     consecutive identical rejected requests; zero successful reads across ALL
+     THREE tasks; cost-ratio violation; other contract-defined hard failures.
+     INFORMATIONAL = an individual task with zero `read_file` calls;
+     search/list-only task behavior; ordinary frozen-policy-limit events.
+     Do NOT force every individual task to read a file.
+  6. **Anomaly wording:** "identical normalized tool output/error repeated >= 3
+     times" replaces "same tool-output length repeated >= 3 times" (equal string
+     length alone cannot create a false anomaly).
+  7. **Calibration-3c clean criteria:** CG-1..CG-12 PASS; >= 2 of 3 tasks with
+     >= 1 successful `read_file`; rejected-repeat share <= 25% of all calls; no
+     run of >= 3 consecutive identical rejected requests; cost ratio <= 1.0 on
+     every task; zero BLOCKING Review Card anomalies. INFORMATIONAL flags do not
+     independently fail the calibration.
+  8. **Gate v3 is run against Calibration-3b BEFORE 3c** and must catch the
+     repeat loop prospectively (RED evidence preserved).
+  9. **Same 3 calibration tasks**; unscored paired harness regression check; do
+     not load labels and do not calculate F1.
+  10. **No knob change** (model/provider/route, temperature, MAX_AGENT_CALLS=8,
+      completion cap=1024, tools or arguments, read budget=30,
+      MAX_SEARCH_RESULTS=50, search ordering, 2000-char observation window,
+      MAX_READ_CHARS, editable paths, schemas, SIP/RM-CSS predictions, NI rules,
+      sample manifests, budget-v2 ceilings, or any other scientific knob).
+  11. **If Calibration-3c reveals any new issue: STOP.** No second scaffold fix
+      in this mission. D5 is binding.
+  12. The final STOP report includes call-by-call review evidence (calls/task,
+      useful calls, successful reads/task, rejected repeats/task, longest
+      consecutive rejected-request run, rejected-call share, prompt growth,
+      truncation events, instrument errors, review-card blocking + informational
+      flags, token counts, USD spend, budget ratios).
+  13. Standing Execution & Validation Protocol v2 applies (Impact Declaration
+      first, targeted tests before full suite, append-only DECISIONS.md,
+      smallest defensible diff, push/tag stable T3 work, update LIVE_STATUS,
+      FULL + TRUE LIGHT exports).
+- **Authorization boundary:** Phase A zero-API G12 work AUTHORIZED.
+  Calibration-3c AUTHORIZED up to $0.25. MAIN_297 and all scoring FORBIDDEN.
+  STOP after Calibration-3c regardless of outcome.
+- **Scope change:** NO scientific scope change.

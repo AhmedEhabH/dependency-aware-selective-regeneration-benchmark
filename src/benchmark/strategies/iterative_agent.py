@@ -159,6 +159,66 @@ def _format_criteria(criteria: tuple[str, ...]) -> str:
     return "\n".join(f"  - {c}" for c in criteria)
 
 
+# G12 context-hygiene constants (WP1B_G12_AGENT_CONTEXT_HYGIENE_2026_09_22).
+# The observation window is the frozen 2000-char tool-output window; nothing
+# scientific changes, the agent is only shown information the harness already
+# has (its own actions, the call count, and a truncation flag).
+OBSERVATION_WINDOW_CHARS: int = 2000
+
+
+def _format_action_fields(action_name: str, action: dict[str, Any]) -> str:
+    """Render the action name plus its non-empty path/query arguments.
+
+    Empty fields are omitted so the echoed line is exactly what the agent
+    requested (e.g. ``read_file path="src/a.py"`` without a trailing
+    ``query=""``).
+    """
+    parts = [action_name]
+    path = str(action.get("path", "") or "")
+    if path:
+        parts.append(f'path="{path}"')
+    query = str(action.get("query", "") or "")
+    if query:
+        parts.append(f'query="{query}"')
+    return " ".join(parts)
+
+
+def _format_action_echo(call_index: int, action_name: str, action: dict[str, Any]) -> str:
+    """G12 change 1: prepend the agent's own request to every tool result."""
+    return f"[call {call_index}/{MAX_AGENT_CALLS}] you requested: {_format_action_fields(action_name, action)}"
+
+
+def _format_call_counter(call_index: int) -> str:
+    """G12 change 2: the current call number and calls left.
+
+    Early ``action=final`` availability is ALREADY visible to the model in the
+    frozen schema (TOOL_SCHEMA item 4, the AGENT_ACTION_SCHEMA enum, and the
+    reserved-call-8 note in INITIAL_SYSTEM_PROMPT), so it is NOT repeated here
+    (Ahmed's clarification 2026-09-22).
+    """
+    return (
+        f"[control] Call {call_index} of {MAX_AGENT_CALLS}. "
+        f"Calls left before the forced final: {MAX_AGENT_CALLS - call_index}."
+    )
+
+
+def _format_named_rejection(action_name: str, action: dict[str, Any]) -> str:
+    """G12 change 3: the rejection names the exact repeated request."""
+    return (
+        f"[control warning] Rejected: identical to your previous request "
+        f"({_format_action_fields(action_name, action)}). "
+        "Its result is shown above. Choose a different action or return action=final."
+    )
+
+
+def _format_truncation_note(raw_chars: int, shown_chars: int = OBSERVATION_WINDOW_CHARS) -> str:
+    """G12 change 4: explicitly mark truncated tool output."""
+    return (
+        f"[note] Output truncated: showing the first {shown_chars} of {raw_chars} "
+        "characters. Re-reading the same path returns the same text."
+    )
+
+
 def _compact_feedback(text: str, *, head: int = 700, tail: int = 1800) -> str:
     """Retain the beginning and traceback root at the end of validation output."""
     if len(text) <= head + tail + 32:
@@ -508,6 +568,8 @@ class IterativeRepositoryAgentStrategy:
         action_name: str,
         action: dict[str, Any],
         prompt: str,
+        *,
+        context_hygiene: bool = False,
     ) -> str:
         tools = self._tools
         assert tools is not None
@@ -575,7 +637,13 @@ class IterativeRepositoryAgentStrategy:
                 self._current_sidecar["search_results_returned"] = result.search_results_returned
                 self._current_sidecar["search_result_cap_hit"] = bool(result.search_result_cap_hit)
         out = shown
-        return f"\n[result] {tag}:\n{out}"
+        text = f"\n[result] {tag}:\n{out}"
+        if context_hygiene:
+            echo = _format_action_echo(self._model_calls, action_name, action)
+            text = f"\n{echo}{text}"
+            if raw_chars > shown_chars:
+                text += "\n" + _format_truncation_note(raw_chars, shown_chars)
+        return text
 
     def _finalize_call_sidecar(self) -> None:
         """Close the current in-progress call record pointer.
@@ -625,11 +693,14 @@ class IterativeRepositoryAgentStrategy:
             )
             if allowance <= 0:
                 break
+            force_final = self._remaining_agent_calls == 1
+            if not force_final:
+                prompt += "\n" + _format_call_counter(self._model_calls + 1)
             try:
                 response = self._generate_agent_response(
                     prompt,
                     allowance,
-                    force_final=self._remaining_agent_calls == 1,
+                    force_final=force_final,
                 )
             except AgentCallsExhaustedError:
                 if selected_paths:
@@ -742,12 +813,11 @@ class IterativeRepositoryAgentStrategy:
             if action_name in ("list_files", "read_file", "search_text"):
                 if self._is_repeated_tool_request(action_name, action):
                     self._rejected_repeat_count += 1
-                    prompt += (
-                        "\n[control warning] Repeated identical tool request rejected; "
-                        "use new evidence or submit final."
-                    )
+                    prompt += "\n" + _format_named_rejection(action_name, action)
                 else:
-                    prompt += self._invoke_tool(action_name, action, prompt)
+                    prompt += self._invoke_tool(
+                        action_name, action, prompt, context_hygiene=True
+                    )
             else:
                 prompt += f"\n[error] Unknown action: {action_name}"
                 if self._remaining_agent_calls <= 0:
