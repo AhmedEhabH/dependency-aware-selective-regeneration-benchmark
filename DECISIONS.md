@@ -2192,3 +2192,16 @@ esearch/bounded-semantic-expansion/pilot_registration_freeze.json — 60 DEVELOP
 | O16 | AG16 | **Parallel future track; no paid execution here** |
 | O17 | External validity repositories | **Not in this mission** |
 | - | Decided by | Ahmed Ehab, 2026-09-22. Supervisor informed: no |
+
+## Execution safety correction - WP-2 isolated Postgres (2026-09-22)
+
+- **Correction:** never use \Get-Process postgres | Stop-Process -Force\; it can
+  terminate unrelated PostgreSQL instances/services on this machine.
+- **Isolated instance:** WP-2 Oracle Confirmation uses its own cluster at
+  \..\_workspace\wp2_oracle_confirmation\pgdata\ (initdb, trust auth) on
+  127.0.0.1:5433, managed ONLY by its postmaster.pid / exact PID, never by
+  process name.
+- **Pre-existing cluster:** the postgresql-x64-17 service (port 5432) was NOT
+  touched; verified still Running after WP-2 cluster start.
+- **Status:** isolated 5433 healthy (SELECT 1 OK). No global system config
+  changed.

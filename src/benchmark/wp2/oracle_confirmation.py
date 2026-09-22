@@ -95,7 +95,10 @@ def derive_test_only_patch_bytes(full_diff: str, test_paths: list[str]) -> str:
     flush()
     if not hunks:
         raise ValueError("test-only patch is empty")
-    return "\n\n".join(hunks)
+    result = "\n\n".join(hunks)
+    if not result.endswith("\n"):
+        result += "\n"
+    return result
 
 
 # ---------------------------------------------------------------------------
@@ -104,8 +107,10 @@ def derive_test_only_patch_bytes(full_diff: str, test_paths: list[str]) -> str:
 def parse_junit(xml_text: str) -> dict[str, str]:
     """Parse pytest JUnit XML into {node_id: outcome}.
 
-    node_id is reconstructed as ``<file>::<classname>::<name>`` when a
-    classname is present, else ``<file>::<name>``. Outcome is one of
+    node_id is reconstructed to match pytest's collection node id:
+    ``<file>::<name>`` when a ``file`` attribute is present, else
+    ``<classname-as-path>.py::<name>`` (classname is the dotted module name,
+    e.g. ``tests.test_m`` -> ``tests/test_m.py``). Outcome is one of
     passed/failed/error/skipped.
     """
     import xml.etree.ElementTree as ET
@@ -113,13 +118,17 @@ def parse_junit(xml_text: str) -> dict[str, str]:
     nodes: dict[str, str] = {}
     root = ET.fromstring(xml_text)
     for tc in root.iter("testcase"):
-        fname = tc.get("file") or "?"
+        fname = tc.get("file")
         cname = tc.get("classname")
         name = tc.get("name") or "?"
-        if cname:
+        if fname:
             node_id = f"{fname}::{name}"
+        elif cname:
+            rel = cname.replace(".", "/") + ".py"
+            node_id = f"{rel}::{name}"
         else:
-            node_id = f"{fname}::{name}"
+            # collection failure: classname is empty and name is the module path
+            node_id = name.replace(".", "/") + ".py"
         if tc.find("failure") is not None:
             nodes[node_id] = "failed"
         elif tc.find("error") is not None:
