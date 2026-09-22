@@ -1,0 +1,1266 @@
+from __future__ import annotations
+
+import hashlib
+import json
+import logging
+import re
+import time
+from collections.abc import Callable
+from pathlib import Path
+from typing import TYPE_CHECKING, Any
+
+from benchmark.core.enums import ActionKind
+from benchmark.core.models import (
+    ArtifactUniverse,
+    ImpactDecision,
+    ImpactPrediction,
+    LLMResponse,
+    RepositorySnapshot,
+    RequirementChange,
+    SupportingEvidence,
+    TokenUsage,
+)
+from benchmark.execution.budgets import resolve_completion_allowance
+from benchmark.llm.output_normalization import parse_single_json_object
+
+if TYPE_CHECKING:
+    from benchmark.core.protocols import LLMBackend
+    from benchmark.strategies.repository_tools import RepositoryTools
+
+logger = logging.getLogger(__name__)
+
+MAX_AGENT_CALLS: int = 8
+
+# A search_text output line has the form "path:line:content". This regex keeps
+# the path before the first ":<digits>:" separator so paths_surfaced stores
+# paths, not match snippets (A4 telemetry fix).
+_SEARCH_MATCH_LINE = re.compile(r"^(.*?):\d+:")
+
+# Control-plane output bound for the repository agent's own tool-use / analysis
+# responses (selection JSON, revision JSON).  The agent's control-plane output
+# is bounded SEPARATELY from the source-edit completion cap: the agent only
+# returns small structured JSON, so a full 4096-cap here would let a runaway
+# control loop burn the whole workflow budget before any source edit happens.
+AGENT_CONTROL_MAX_COMPLETION_TOKENS: int = 512
+V11_AGENT_CONTROL_MAX_COMPLETION_TOKENS: int = 1024
+
+_ACTION_NAMES = ("list_files", "read_file", "search_text", "final")
+AGENT_ACTION_SCHEMA: dict[str, Any] = {
+    "type": "object",
+    "properties": {
+        "action": {"type": "string", "enum": list(_ACTION_NAMES)},
+        "path": {"type": "string"},
+        "query": {"type": "string"},
+        "selected_paths": {"type": "array", "items": {"type": "string"}},
+        "rationale": {"type": "string"},
+        "requires_iteration": {"type": "boolean"},
+    },
+    "required": ["action"],
+    "additionalProperties": False,
+}
+AGENT_FINAL_SCHEMA: dict[str, Any] = {
+    "type": "object",
+    "properties": {
+        "action": {"type": "string", "const": "final"},
+"selected_paths": {
+            "type": "array",
+            "minItems": 1,
+            "items": {"type": "string"},
+        },
+        "rationale": {"type": "string"},
+        "requires_iteration": {"type": "boolean"},
+    },
+    "required": ["action", "selected_paths", "rationale"],
+    "additionalProperties": False,
+}
+
+
+class AgentCallsExhaustedError(Exception):
+    """Raised when the agent has no remaining LLM calls."""
+    pass
+
+
+class ModelCallBudgetExhaustedError(Exception):
+    """Raised when the cooperative workflow deadline fires before a model call.
+
+    The strategy records the flag (``model_call_budget_exhausted``) before
+    raising; the runner maps it to a scientific ``scientific_budget_exhausted``
+    terminal outcome. This is a cooperative boundary, not a thread kill.
+    """
+    pass
+
+TOOL_SCHEMA = """
+You have access to the following tools. Respond with exactly one JSON object.
+
+1. list_files — List files in the repository.
+   {"action": "list_files", "path": "<directory>"}
+
+2. read_file — Read contents of a file.
+   {"action": "read_file", "path": "<file_path>"}
+
+3. search_text — Case-insensitive text search.
+   {"action": "search_text", "query": "<text>", "path": "<file_or_directory>"}
+
+4. final — Submit your final selected paths.
+   {"action": "final", "selected_paths": ["path1", "path2"], "rationale": "..."}
+"""
+
+INITIAL_SYSTEM_PROMPT = """\
+You are analyzing a code repository to determine which files need to be modified.
+Use the tools to explore the repository, then submit your final selection.
+
+Requirement change:
+  Before: {before}
+  After: {after}
+
+Acceptance criteria:
+{acceptance_criteria}
+
+Editable paths:
+{editable_paths}
+
+{TOOL_SCHEMA}
+
+Important rules:
+- Calls 1 through 7 may explore. Call 8 is reserved and forced to final.
+- selected_paths must be a non-empty subset of the editable paths.
+- Only include paths that actually need changes.
+"""
+
+REVISE_SYSTEM_PROMPT = """\
+You previously selected files for modification. The validation step failed.
+Revise your selection using the same tools.
+
+Requirement change:
+  Before: {before}
+  After: {after}
+
+Acceptance criteria:
+{acceptance_criteria}
+
+Editable paths:
+{editable_paths}
+
+Previous selected_paths: {previous_paths}
+Validation exit code: {exit_code}
+Validation stdout: {val_stdout}
+Validation stderr: {val_stderr}
+
+{TOOL_SCHEMA}
+
+You have {remaining_calls} tool calls remaining.
+Submit a revised final selection.
+"""
+
+
+def _format_criteria(criteria: tuple[str, ...]) -> str:
+    if not criteria:
+        return "  (none specified)"
+    return "\n".join(f"  - {c}" for c in criteria)
+
+
+# G12 context-hygiene constants (WP1B_G12_AGENT_CONTEXT_HYGIENE_2026_09_22).
+# The observation window is the frozen 2000-char tool-output window; nothing
+# scientific changes, the agent is only shown information the harness already
+# has (its own actions, the call count, and a truncation flag).
+OBSERVATION_WINDOW_CHARS: int = 2000
+
+
+def _format_action_fields(action_name: str, action: dict[str, Any]) -> str:
+    """Render the action name plus its non-empty path/query arguments.
+
+    Empty fields are omitted so the echoed line is exactly what the agent
+    requested (e.g. ``read_file path="src/a.py"`` without a trailing
+    ``query=""``).
+    """
+    parts = [action_name]
+    path = str(action.get("path", "") or "")
+    if path:
+        parts.append(f'path="{path}"')
+    query = str(action.get("query", "") or "")
+    if query:
+        parts.append(f'query="{query}"')
+    return " ".join(parts)
+
+
+def _format_action_echo(call_index: int, action_name: str, action: dict[str, Any]) -> str:
+    """G12 change 1: prepend the agent's own request to every tool result."""
+    return f"[call {call_index}/{MAX_AGENT_CALLS}] you requested: {_format_action_fields(action_name, action)}"
+
+
+def _format_call_counter(call_index: int) -> str:
+    """G12 change 2: the current call number and calls left.
+
+    Early ``action=final`` availability is ALREADY visible to the model in the
+    frozen schema (TOOL_SCHEMA item 4, the AGENT_ACTION_SCHEMA enum, and the
+    reserved-call-8 note in INITIAL_SYSTEM_PROMPT), so it is NOT repeated here
+    (Ahmed's clarification 2026-09-22).
+    """
+    return (
+        f"[control] Call {call_index} of {MAX_AGENT_CALLS}. "
+        f"Calls left before the forced final: {MAX_AGENT_CALLS - call_index}."
+    )
+
+
+def _format_named_rejection(action_name: str, action: dict[str, Any]) -> str:
+    """G12 change 3: the rejection names the exact repeated request."""
+    return (
+        f"[control warning] Rejected: identical to your previous request "
+        f"({_format_action_fields(action_name, action)}). "
+        "Its result is shown above. Choose a different action or return action=final."
+    )
+
+
+def _format_truncation_note(raw_chars: int, shown_chars: int = OBSERVATION_WINDOW_CHARS) -> str:
+    """G12 change 4: explicitly mark truncated tool output."""
+    return (
+        f"[note] Output truncated: showing the first {shown_chars} of {raw_chars} "
+        "characters. Re-reading the same path returns the same text."
+    )
+
+
+def _compact_feedback(text: str, *, head: int = 700, tail: int = 1800) -> str:
+    """Retain the beginning and traceback root at the end of validation output."""
+    if len(text) <= head + tail + 32:
+        return text
+    omitted = len(text) - head - tail
+    return f"{text[:head]}\n... [{omitted} chars omitted] ...\n{text[-tail:]}"
+
+
+def _parse_action_response(text: str) -> tuple[dict[str, Any] | None, str]:
+    data, reason = parse_single_json_object(text)
+    if data is None:
+        return None, reason
+    if "action" in data:
+        return data, reason
+    return None, "not_object"
+
+
+def _surface_paths(output: str) -> set[str]:
+    """Extract file/dir paths mentioned in a search_text / list_files result.
+
+    Behavior-preserving telemetry helper: it only inspects the output for path
+    strings (repository-relative POSIX paths); it never changes the output that
+    is appended to the prompt. For search_text lines of the form
+    ``path:line:content``, only the part before the first ``:<digits>:`` is
+    kept (the path), so ``paths_surfaced`` stores paths, not match snippets.
+    """
+    found: set[str] = set()
+    for line in output.splitlines():
+        stripped = line.strip()
+        if not stripped:
+            continue
+        # list_files / search_text typically emit lines like "- path/to/file.py"
+        candidate = stripped[2:].strip() if stripped.startswith("- ") else stripped
+        # search_text emits "path:line:content" — keep the path before the
+        # first ":<digits>:" separator (regex-driven, no heuristic splits).
+        m = _SEARCH_MATCH_LINE.match(candidate)
+        if m is not None:
+            candidate = m.group(1)
+        if (candidate.endswith(".py") or "/" in candidate) and not candidate.startswith(
+            ("#", "[", "(", "<", "|", "=", "*", "•", "```")
+        ):
+            found.add(candidate)
+    return found
+
+
+def _parse_requires_iteration(action: dict[str, Any]) -> bool:
+    val = action.get("requires_iteration", True) if isinstance(action, dict) else True
+    return bool(val)
+
+
+def _build_tool_context() -> str:
+    return TOOL_SCHEMA.strip()
+
+
+def _build_initial_prompt(
+    requirement_change: RequirementChange,
+    editable_paths: tuple[str, ...],
+) -> str:
+    return INITIAL_SYSTEM_PROMPT.format(
+        before=requirement_change.before,
+        after=requirement_change.after,
+        acceptance_criteria=_format_criteria(requirement_change.acceptance_criteria),
+        editable_paths="\n".join(f"  - {p}" for p in editable_paths),
+        TOOL_SCHEMA=_build_tool_context(),
+    )
+
+
+def _build_revise_prompt(
+    requirement_change: RequirementChange,
+    editable_paths: tuple[str, ...],
+    previous_paths: tuple[str, ...],
+    exit_code: int,
+    val_stdout: str,
+    val_stderr: str,
+    remaining_calls: int,
+) -> str:
+    return REVISE_SYSTEM_PROMPT.format(
+        before=requirement_change.before,
+        after=requirement_change.after,
+        acceptance_criteria=_format_criteria(requirement_change.acceptance_criteria),
+        editable_paths="\n".join(f"  - {p}" for p in editable_paths),
+        previous_paths=", ".join(previous_paths),
+        exit_code=exit_code,
+        val_stdout=_compact_feedback(val_stdout),
+        val_stderr=_compact_feedback(val_stderr),
+        TOOL_SCHEMA=_build_tool_context(),
+        remaining_calls=remaining_calls,
+    )
+
+
+class IterativeRepositoryAgentStrategy:
+    def __init__(
+        self,
+        backend: LLMBackend,
+        *,
+        agent_control_max_completion_tokens: int = AGENT_CONTROL_MAX_COMPLETION_TOKENS,
+    ) -> None:
+        if agent_control_max_completion_tokens <= 0:
+            raise ValueError(
+                "agent_control_max_completion_tokens must be a positive integer, "
+                f"got {agent_control_max_completion_tokens}"
+            )
+        self._backend = backend
+        self._agent_control_max_completion_tokens = agent_control_max_completion_tokens
+        self._tool_calls: int = 0
+        self._model_calls: int = 0
+        self._tool_duration: float = 0.0
+        self._prompt_tokens: int = 0
+        self._completion_tokens: int = 0
+        self._total_tokens: int = 0
+        self._inspected_files: set[str] = set()
+        self._tool_transcript: list[str] = []
+        self._last_requires_iteration: bool = True
+        self._remaining_agent_calls: int = 0
+        self._model_call_guard: Callable[[], bool] | None = None
+        self._model_call_budget_exhausted: bool = False
+        self._tools: RepositoryTools | None = None
+        self._last_tool_request: str | None = None
+        self._last_control_truncation: bool = False
+        self._selection_raw_hashes: list[str] = []
+        self._last_finish_reason: str = ""
+        self._finish_reason_counts: dict[str, int] = {}
+        self._control_truncation_count: int = 0
+        self._control_malformed_count: int = 0
+        self._control_schema_invalid_count: int = 0
+        self._valid_final_count: int = 0
+        self._last_control_error: str = "none"
+        self._empty_reason: str = "none"
+        self._call_sidecar: list[dict[str, Any]] = []
+        self._current_sidecar: dict[str, Any] | None = None
+        self._paths_read: set[str] = set()
+        self._paths_surfaced: set[str] = set()
+        self._tool_output_chars_raw_total: int = 0
+        self._tool_output_chars_shown_total: int = 0
+        # A4 per-task tool telemetry (report-only, behavior-preserving).
+        self._successful_reads: int = 0
+        self._search_calls_with_hits: int = 0
+        self._rejected_repeat_count: int = 0
+        self._tool_error_counts: dict[str, int] = {}
+        self._search_files_scanned: int = 0
+        self._search_results_returned: int = 0
+        self._search_result_cap_hits: int = 0
+        self._search_unique_paths_surfaced: int = 0
+
+    def begin_run(self, workspace_root: str | Path) -> None:
+        root = Path(workspace_root).resolve()
+        if not root.is_dir():
+            raise ValueError(f"workspace_root must be an existing directory: {root}")
+        self._tool_calls = 0
+        self._model_calls = 0
+        self._tool_duration = 0.0
+        self._prompt_tokens = 0
+        self._completion_tokens = 0
+        self._total_tokens = 0
+        self._inspected_files = set()
+        self._tool_transcript = []
+        self._last_requires_iteration = True
+        self._remaining_agent_calls = 8
+        self._model_call_budget_exhausted = False
+        self._last_tool_request = None
+        self._last_control_truncation = False
+        self._selection_raw_hashes = []
+        self._last_finish_reason = ""
+        self._finish_reason_counts = {}
+        self._control_truncation_count = 0
+        self._control_malformed_count = 0
+        self._control_schema_invalid_count = 0
+        self._valid_final_count = 0
+        self._last_control_error = "none"
+        self._empty_reason = "none"
+        self._call_sidecar = []
+        self._current_sidecar = None
+        self._paths_read = set()
+        self._paths_surfaced = set()
+        self._tool_output_chars_raw_total = 0
+        self._tool_output_chars_shown_total = 0
+        self._successful_reads = 0
+        self._search_calls_with_hits = 0
+        self._rejected_repeat_count = 0
+        self._tool_error_counts = {}
+        self._search_files_scanned = 0
+        self._search_results_returned = 0
+        self._search_result_cap_hits = 0
+        self._search_unique_paths_surfaced = 0
+        from benchmark.strategies.repository_tools import RepositoryTools
+        self._tools = RepositoryTools(
+            workspace_root=root,
+            max_distinct_files=30,
+        )
+
+    def _record_call(
+        self, prompt_tok: int, completion_tok: int, total_tok: int
+    ) -> None:
+        self._model_calls += 1
+        self._prompt_tokens += prompt_tok
+        self._completion_tokens += completion_tok
+        self._total_tokens += total_tok
+
+    @staticmethod
+    def _estimate_usd(tok: TokenUsage) -> float:
+        """Estimate USD from the frozen DeepInfra-through-OpenRouter pricing
+        ($0.30 prompt / $1.00 completion per 1M). Descriptive accounting only;
+        does not gate any model call."""
+        return tok.prompt_tokens / 1e6 * 0.30 + tok.completion_tokens / 1e6 * 1.00
+
+    def _record_tool(self, name: str, path: str, result: str, duration: float) -> None:
+        self._tool_calls += 1
+        self._tool_duration += duration
+        self._tool_transcript.append(f"[{self._tool_calls}] {name} {path} -> {result[:100]}")
+
+    def _generate_agent_response(
+        self,
+        prompt: str,
+        max_completion_tokens: int,
+        *,
+        force_final: bool,
+    ) -> LLMResponse:
+        import asyncio
+        if self._remaining_agent_calls <= 0:
+            raise AgentCallsExhaustedError("No remaining agent calls")
+        if self._model_call_guard is not None and not self._model_call_guard():
+            self._model_call_budget_exhausted = True
+            raise ModelCallBudgetExhaustedError(
+                "Workflow deadline reached before agent model call"
+            )
+        self._remaining_agent_calls -= 1
+        schema_name = "agent_final" if force_final else "agent_action"
+        schema = AGENT_FINAL_SCHEMA if force_final else AGENT_ACTION_SCHEMA
+        if force_final:
+            prompt += (
+                "\n[control] This is call 8, the reserved final call. "
+                "You MUST return action=final now; no tool action is permitted."
+            )
+        call_index = self._model_calls + 1
+        sidecar: dict[str, Any] = {
+            "call_index": call_index,
+            "force_final": force_final,
+            "action": "",
+            "path": "",
+            "query": "",
+            "tool_ok": False,
+            "tool_error": "",
+            "tool_duration_seconds": 0.0,
+            "tool_output_chars_raw": 0,
+            "tool_output_chars_shown": 0,
+            "observation_truncated": False,
+            "search_files_scanned": 0,
+            "search_results_returned": 0,
+            "search_result_cap_hit": False,
+            "finish_reason": "",
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "usd": 0.0,
+            "latency_s": 0.0,
+            "raw_response_text": "",
+            "raw_response_sha256": "",
+        }
+        self._current_sidecar = sidecar
+        t0 = time.monotonic()
+        try:
+            loop = asyncio.get_event_loop()
+        except RuntimeError:
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+        generate_structured = getattr(self._backend, "generate_structured", None)
+        if callable(generate_structured):
+            response = loop.run_until_complete(
+                generate_structured(
+                    prompt=prompt,
+                    schema_name=schema_name,
+                    schema=schema,
+                    temperature=0.0,
+                    max_tokens=max_completion_tokens,
+                )
+            )
+        else:
+            response = loop.run_until_complete(
+                self._backend.generate(
+                    prompt=prompt,
+                    temperature=0.0,
+                    max_tokens=max_completion_tokens,
+                )
+            )
+        latency_s = time.monotonic() - t0
+        if not isinstance(response, LLMResponse):
+            raise TypeError("agent backend returned a non-LLMResponse value")
+        tok = response.token_usage
+        if tok:
+            self._record_call(tok.prompt_tokens, tok.completion_tokens, tok.total_tokens)
+        self._last_finish_reason = response.finish_reason or ""
+        self._finish_reason_counts[self._last_finish_reason] = (
+            self._finish_reason_counts.get(self._last_finish_reason, 0) + 1
+        )
+        if response.finish_reason == "length":
+            self._control_truncation_count += 1
+        raw_text = getattr(response, "text", "") or ""
+        if raw_text:
+            self._selection_raw_hashes.append(
+                hashlib.sha256(raw_text.encode("utf-8")).hexdigest()
+            )
+        sidecar.update({
+            "finish_reason": self._last_finish_reason,
+            "prompt_tokens": tok.prompt_tokens if tok else 0,
+            "completion_tokens": tok.completion_tokens if tok else 0,
+            "usd": self._estimate_usd(tok) if tok else 0.0,
+            "latency_s": latency_s,
+            "raw_response_text": raw_text,
+            "raw_response_sha256": hashlib.sha256(raw_text.encode("utf-8")).hexdigest(),
+        })
+        self._call_sidecar.append(sidecar)
+        if self._model_call_guard is not None and not self._model_call_guard():
+            self._model_call_budget_exhausted = True
+        return response
+
+    def _is_repeated_tool_request(
+        self, action_name: str, action: dict[str, Any]
+    ) -> bool:
+        relevant = {"action": action_name}
+        if action_name in ("list_files", "read_file", "search_text"):
+            relevant["path"] = str(action.get("path", "."))
+        if action_name == "search_text":
+            relevant["query"] = str(action.get("query", ""))
+        signature = json.dumps(relevant, sort_keys=True, separators=(",", ":"))
+        repeated = signature == self._last_tool_request
+        self._last_tool_request = signature
+        return repeated
+
+    def _classify_empty_reason(self) -> str:
+        """Classify why the strategy produced an EMPTY prediction.
+
+        Precedence (deterministic):
+        truncation -> infrastructure -> parser_failure -> round_cap
+        """
+        if self._last_control_truncation:
+            return "truncation"
+        if self._model_call_budget_exhausted:
+            return "infrastructure"
+        if (
+            self._last_control_error in ("malformed", "schema_invalid")
+            and self._remaining_agent_calls <= 0
+        ):
+            return "parser_failure"
+        return "round_cap"
+
+    def _invoke_tool(
+        self,
+        action_name: str,
+        action: dict[str, Any],
+        prompt: str,
+        *,
+        context_hygiene: bool = False,
+    ) -> str:
+        tools = self._tools
+        assert tools is not None
+        t0 = time.monotonic()
+        if action_name == "list_files":
+            tool_path = action.get("path", ".")
+            result = tools.list_files(tool_path)
+        elif action_name == "read_file":
+            tool_path = action.get("path", "")
+            result = tools.read_file(tool_path)
+        elif action_name == "search_text":
+            query = action.get("query", "")
+            tool_path = action.get("path", ".")
+            result = tools.search_text(query, tool_path)
+        else:
+            return f"\n[error] Unknown action: {action_name}"
+        dur = time.monotonic() - t0
+        tool_path_display = action.get("path", ".")
+        if action_name == "search_text":
+            tool_path_display = f"{action.get('query', '')} in {action.get('path', '.')}"
+        self._record_tool(action_name, tool_path_display,
+            result.output[:200] if result.ok else result.error, dur)
+        tag = action_name
+        # Tool error accounting (A4): successful read_file targets are recorded
+        # in paths_read; failed reads are NOT counted as read paths.
+        if not result.ok:
+            err = result.error or ""
+            self._tool_error_counts[err] = self._tool_error_counts.get(err, 0) + 1
+        if action_name == "read_file":
+            self._inspected_files.add(str(action.get("path", "")))
+            if result.ok:
+                self._paths_read.add(str(action.get("path", "")))
+                self._successful_reads += 1
+        # Track surfaced paths (paths that appear in search_text / list_files
+        # output). Behavior-preserving: the same bounded output is appended.
+        if action_name in ("search_text", "list_files") and result.ok:
+            surfaced = _surface_paths(result.output)
+            self._paths_surfaced.update(surfaced)
+            if action_name == "search_text":
+                self._search_unique_paths_surfaced += len(surfaced)
+        if action_name == "search_text":
+            self._search_files_scanned += result.search_files_scanned
+            self._search_results_returned += result.search_results_returned
+            if result.search_result_cap_hit:
+                self._search_result_cap_hits += 1
+            if result.ok and result.search_results_returned > 0:
+                self._search_calls_with_hits += 1
+        raw_chars = len(result.output) if result.ok else len(result.error)
+        shown = result.output[:2000] if result.ok else result.error
+        shown_chars = len(shown)
+        self._tool_output_chars_raw_total += raw_chars
+        self._tool_output_chars_shown_total += shown_chars
+        if self._current_sidecar is not None:
+            self._current_sidecar["action"] = action_name
+            self._current_sidecar["path"] = str(action.get("path", ""))
+            self._current_sidecar["query"] = str(action.get("query", ""))
+            self._current_sidecar["tool_ok"] = bool(result.ok)
+            self._current_sidecar["tool_error"] = result.error if not result.ok else ""
+            self._current_sidecar["tool_duration_seconds"] = dur
+            self._current_sidecar["tool_output_chars_raw"] = raw_chars
+            self._current_sidecar["tool_output_chars_shown"] = shown_chars
+            self._current_sidecar["observation_truncated"] = raw_chars > shown_chars
+            if action_name == "search_text":
+                self._current_sidecar["search_files_scanned"] = result.search_files_scanned
+                self._current_sidecar["search_results_returned"] = result.search_results_returned
+                self._current_sidecar["search_result_cap_hit"] = bool(result.search_result_cap_hit)
+        out = shown
+        text = f"\n[result] {tag}:\n{out}"
+        if context_hygiene:
+            echo = _format_action_echo(self._model_calls, action_name, action)
+            text = f"\n{echo}{text}"
+            if raw_chars > shown_chars:
+                text += "\n" + _format_truncation_note(raw_chars, shown_chars)
+        return text
+
+    def _finalize_call_sidecar(self) -> None:
+        """Close the current in-progress call record pointer.
+
+        Each call is already appended to ``_call_sidecar`` when it completes;
+        this simply clears the mutable pointer so a later call starts fresh.
+        Behavior-preserving: never changes the call sequence or selected_paths.
+        """
+        self._current_sidecar = None
+
+    def analyze_impact(
+        self,
+        repository: RepositorySnapshot,
+        requirement_change: RequirementChange,
+        artifact_universe: ArtifactUniverse,
+        max_tokens: int = 0,
+        *,
+        max_completion_tokens_per_call: int = 4096,
+        remaining_total_workflow_tokens: int | None = None,
+    ) -> ImpactPrediction:
+        tools = self._tools
+        assert tools is not None, "begin_run() must be called before analyze_impact()"
+        editable_paths = tuple(a.path for a in artifact_universe.artifacts)
+        editable_set = set(editable_paths)
+        selected_paths: list[str] = []
+        local_remaining = remaining_total_workflow_tokens
+        has_limit = remaining_total_workflow_tokens is not None
+
+        prompt = _build_initial_prompt(requirement_change, editable_paths)
+
+        prompt_tok_before = self._prompt_tokens
+        completion_tok_before = self._completion_tokens
+        total_tok_before = self._total_tokens
+
+        step_index = 0
+
+        control_cap = min(
+            max_completion_tokens_per_call, self._agent_control_max_completion_tokens
+        )
+
+        while True:
+            prompt_estimate = self._backend.count_prompt_tokens(prompt)
+            allowance = resolve_completion_allowance(
+                max_completion_tokens_per_call=control_cap,
+                remaining_total_workflow_tokens=local_remaining,
+                prompt_tokens=prompt_estimate,
+            )
+            if allowance <= 0:
+                break
+            force_final = self._remaining_agent_calls == 1
+            if not force_final:
+                prompt += "\n" + _format_call_counter(self._model_calls + 1)
+            try:
+                response = self._generate_agent_response(
+                    prompt,
+                    allowance,
+                    force_final=force_final,
+                )
+            except AgentCallsExhaustedError:
+                if selected_paths:
+                    break
+                self._empty_reason = "round_cap"
+                return ImpactPrediction(
+                    token_usage=TokenUsage(
+                        prompt_tokens=self._prompt_tokens - prompt_tok_before,
+                        completion_tokens=self._completion_tokens - completion_tok_before,
+                        total_tokens=self._total_tokens - total_tok_before,
+                    ),
+                    errors=("iterative_agent: no remaining agent calls",),
+                    decisions=tuple(
+                        ImpactDecision(
+                            artifact=a,
+                            action=ActionKind.preserve,
+                            rationale="iterative_agent: no remaining calls",
+                        )
+                        for a in artifact_universe.artifacts
+                    ),
+                )
+            except ModelCallBudgetExhaustedError:
+                break
+
+            usage = response.token_usage
+            if has_limit and local_remaining is not None:
+                if usage.completion_tokens > allowance:
+                    break
+                if local_remaining > 0 and usage.total_tokens > local_remaining:
+                    break
+                local_remaining = max(0, local_remaining - usage.total_tokens)
+
+            if response.finish_reason == "length":
+                self._last_control_truncation = True
+                break
+
+            if self._model_call_budget_exhausted:
+                break
+
+            action, parse_mode = _parse_action_response(response.text)
+            if action is None:
+                self._control_malformed_count += 1
+                self._last_control_error = "malformed"
+                prompt += "\n[error] Invalid JSON response"
+                if self._remaining_agent_calls <= 0:
+                    break
+                continue
+
+            step_index += 1
+            action_name = action.get("action", "")
+            logger.info(
+                "AGENT_STEP index=%d/%d parse=%s action=%s remaining=%d",
+                step_index,
+                MAX_AGENT_CALLS,
+                parse_mode,
+                action_name,
+                MAX_AGENT_CALLS - step_index,
+            )
+            if action_name == "final":
+                raw_paths = action.get("selected_paths", [])
+                if not isinstance(raw_paths, list):
+                    prompt += "\n[error] selected_paths must be a list"
+                    self._control_schema_invalid_count += 1
+                    self._last_control_error = "schema_invalid"
+                    if self._remaining_agent_calls <= 0:
+                        break
+                    continue
+                if not raw_paths:
+                    prompt += "\n[error] selected_paths must be non-empty"
+                    self._control_schema_invalid_count += 1
+                    self._last_control_error = "schema_invalid"
+                    if self._remaining_agent_calls <= 0:
+                        break
+                    continue
+                if not all(isinstance(p, str) for p in raw_paths):
+                    prompt += "\n[error] every selected_path item must be a string"
+                    self._control_schema_invalid_count += 1
+                    self._last_control_error = "schema_invalid"
+                    if self._remaining_agent_calls <= 0:
+                        break
+                    continue
+                if len(raw_paths) != len(set(raw_paths)):
+                    prompt += "\n[error] selected_paths must be unique"
+                    self._control_schema_invalid_count += 1
+                    self._last_control_error = "schema_invalid"
+                    if self._remaining_agent_calls <= 0:
+                        break
+                    continue
+                if not all(p in editable_set for p in raw_paths):
+                    bad = [p for p in raw_paths if p not in editable_set]
+                    prompt += f"\n[error] paths not in editable universe: {bad}"
+                    self._control_schema_invalid_count += 1
+                    self._last_control_error = "schema_invalid"
+                    if self._remaining_agent_calls <= 0:
+                        break
+                    continue
+                selected_paths = list(raw_paths)
+                self._valid_final_count += 1
+                self._last_requires_iteration = _parse_requires_iteration(action)
+                if self._current_sidecar is not None:
+                    self._current_sidecar["action"] = "final"
+                    self._current_sidecar["path"] = ",".join(sorted(selected_paths))
+                logger.info(
+                    "AGENT_FINAL selected_count=%d selected_paths=%s",
+                    len(selected_paths),
+                    selected_paths,
+                )
+                break
+
+            if action_name in ("list_files", "read_file", "search_text"):
+                if self._is_repeated_tool_request(action_name, action):
+                    self._rejected_repeat_count += 1
+                    prompt += "\n" + _format_named_rejection(action_name, action)
+                else:
+                    prompt += self._invoke_tool(
+                        action_name, action, prompt, context_hygiene=True
+                    )
+            else:
+                prompt += f"\n[error] Unknown action: {action_name}"
+                if self._remaining_agent_calls <= 0:
+                    break
+
+        delta_prompt = self._prompt_tokens - prompt_tok_before
+        delta_completion = self._completion_tokens - completion_tok_before
+        delta_total = self._total_tokens - total_tok_before
+
+        self._finalize_call_sidecar()
+
+        if not selected_paths:
+            self._last_requires_iteration = False
+            self._empty_reason = self._classify_empty_reason()
+            return ImpactPrediction(
+                token_usage=TokenUsage(
+                    prompt_tokens=delta_prompt,
+                    completion_tokens=delta_completion,
+                    total_tokens=delta_total,
+                ),
+                errors=((
+                    "finish_reason=length: iterative agent control response truncated "
+                    f"at cap {control_cap}"
+                ) if self._last_control_truncation else (
+                    "iterative_agent: no paths selected after exploration"
+                ),),
+                decisions=tuple(
+                    ImpactDecision(
+                        artifact=a,
+                        action=ActionKind.preserve,
+                        rationale="iterative_agent: no paths selected",
+                    )
+                    for a in artifact_universe.artifacts
+                ),
+            )
+
+        selected_set = set(selected_paths)
+        decisions: list[ImpactDecision] = []
+        for artifact in artifact_universe.artifacts:
+            if artifact.path in selected_set:
+                decisions.append(
+                    ImpactDecision(
+                        artifact=artifact,
+                        action=ActionKind.regenerate,
+                        rationale="iterative_agent: selected by repository exploration",
+                        supporting_evidence=(
+                            SupportingEvidence(
+                                description="Selected through bounded tool exploration",
+                                source="iterative_agent_strategy",
+                            ),
+                        ),
+                    )
+                )
+            else:
+                decisions.append(
+                    ImpactDecision(
+                        artifact=artifact,
+                        action=ActionKind.preserve,
+                        rationale="iterative_agent: outside selected scope",
+                    )
+                )
+        return ImpactPrediction(
+            decisions=tuple(decisions),
+            token_usage=TokenUsage(
+                prompt_tokens=delta_prompt,
+                completion_tokens=delta_completion,
+                total_tokens=delta_total,
+            ),
+        )
+
+    def revise_plan(
+        self,
+        requirement_change: RequirementChange,
+        artifact_universe: ArtifactUniverse,
+        previous_prediction: ImpactPrediction,
+        exit_code: int,
+        val_stdout: str,
+        val_stderr: str,
+        workspace_summary: str,
+        remaining_attempts: int,
+        remaining_tokens: int,
+        *,
+        max_completion_tokens_per_call: int = 4096,
+        remaining_total_workflow_tokens: int | None = None,
+    ) -> ImpactPrediction:
+        tools = self._tools
+        assert tools is not None, "begin_run() must be called before revise_plan()"
+        editable_paths = tuple(a.path for a in artifact_universe.artifacts)
+        previous_paths = tuple(
+            d.artifact.path for d in previous_prediction.decisions
+            if d.action == ActionKind.regenerate
+        )
+        local_remaining = remaining_total_workflow_tokens
+        has_limit = remaining_total_workflow_tokens is not None
+
+        prompt = _build_revise_prompt(
+            requirement_change, editable_paths, previous_paths,
+            exit_code, val_stdout, val_stderr, self._remaining_agent_calls,
+        )
+        prompt += f"\nWorkspace summary:\n{workspace_summary[:2000]}"
+
+        editable_set = set(editable_paths)
+
+        prompt_tok_before = self._prompt_tokens
+        completion_tok_before = self._completion_tokens
+        total_tok_before = self._total_tokens
+
+        step_index = 0
+
+        control_cap = min(
+            max_completion_tokens_per_call, self._agent_control_max_completion_tokens
+        )
+
+        while True:
+            prompt_estimate = self._backend.count_prompt_tokens(prompt)
+            allowance = resolve_completion_allowance(
+                max_completion_tokens_per_call=control_cap,
+                remaining_total_workflow_tokens=local_remaining,
+                prompt_tokens=prompt_estimate,
+            )
+            if allowance <= 0:
+                break
+            try:
+                response = self._generate_agent_response(
+                    prompt,
+                    allowance,
+                    force_final=self._remaining_agent_calls == 1,
+                )
+            except AgentCallsExhaustedError:
+                break
+            except ModelCallBudgetExhaustedError:
+                break
+
+            usage = response.token_usage
+            if has_limit and local_remaining is not None:
+                if usage.completion_tokens > allowance:
+                    break
+                if local_remaining > 0 and usage.total_tokens > local_remaining:
+                    break
+                local_remaining = max(0, local_remaining - usage.total_tokens)
+
+            if response.finish_reason == "length":
+                self._last_control_truncation = True
+                break
+
+            if self._model_call_budget_exhausted:
+                break
+
+            action, parse_mode = _parse_action_response(response.text)
+            if action is None:
+                self._control_malformed_count += 1
+                self._last_control_error = "malformed"
+                prompt += "\n[error] Invalid JSON response"
+                if self._remaining_agent_calls <= 0:
+                    break
+                continue
+
+            step_index += 1
+            action_name = action.get("action", "")
+            logger.info(
+                "AGENT_STEP index=%d/%d parse=%s action=%s remaining=%d",
+                step_index,
+                MAX_AGENT_CALLS,
+                parse_mode,
+                action_name,
+                MAX_AGENT_CALLS - step_index,
+            )
+            if action_name == "final":
+                raw_paths = action.get("selected_paths", [])
+                if not isinstance(raw_paths, list):
+                    prompt += "\n[error] selected_paths must be a list"
+                    self._control_schema_invalid_count += 1
+                    self._last_control_error = "schema_invalid"
+                    if self._remaining_agent_calls <= 0:
+                        break
+                    continue
+                if not raw_paths:
+                    prompt += "\n[error] selected_paths must be non-empty"
+                    self._control_schema_invalid_count += 1
+                    self._last_control_error = "schema_invalid"
+                    if self._remaining_agent_calls <= 0:
+                        break
+                    continue
+                if not all(isinstance(p, str) for p in raw_paths):
+                    prompt += "\n[error] every selected_path item must be a string"
+                    self._control_schema_invalid_count += 1
+                    self._last_control_error = "schema_invalid"
+                    if self._remaining_agent_calls <= 0:
+                        break
+                    continue
+                if len(raw_paths) != len(set(raw_paths)):
+                    prompt += "\n[error] selected_paths must be unique"
+                    self._control_schema_invalid_count += 1
+                    self._last_control_error = "schema_invalid"
+                    if self._remaining_agent_calls <= 0:
+                        break
+                    continue
+                if not all(p in editable_set for p in raw_paths):
+                    bad = [p for p in raw_paths if p not in editable_set]
+                    prompt += f"\n[error] paths not in editable universe: {bad}"
+                    self._control_schema_invalid_count += 1
+                    self._last_control_error = "schema_invalid"
+                    if self._remaining_agent_calls <= 0:
+                        break
+                    continue
+                self._last_requires_iteration = _parse_requires_iteration(action)
+                selected_set = set(raw_paths)
+                logger.info(
+                    "AGENT_FINAL selected_count=%d selected_paths=%s",
+                    len(raw_paths),
+                    sorted(raw_paths),
+                )
+                decisions = [
+                    ImpactDecision(
+                        artifact=a,
+                        action=ActionKind.regenerate if a.path in selected_set else ActionKind.preserve,
+                        rationale="iterative_agent: revised selection",
+                    )
+                    for a in artifact_universe.artifacts
+                ]
+                delta_prompt = self._prompt_tokens - prompt_tok_before
+                delta_completion = self._completion_tokens - completion_tok_before
+                delta_total = self._total_tokens - total_tok_before
+                return ImpactPrediction(
+                    decisions=tuple(decisions),
+                    token_usage=TokenUsage(
+                        prompt_tokens=delta_prompt,
+                        completion_tokens=delta_completion,
+                        total_tokens=delta_total,
+                    ),
+                )
+
+            if action_name in ("list_files", "read_file", "search_text"):
+                if self._is_repeated_tool_request(action_name, action):
+                    self._rejected_repeat_count += 1
+                    prompt += (
+                        "\n[control warning] Repeated identical tool request rejected; "
+                        "use new evidence or submit final."
+                    )
+                else:
+                    prompt += self._invoke_tool(action_name, action, prompt)
+            else:
+                prompt += f"\n[error] Unknown action: {action_name}"
+                if self._remaining_agent_calls <= 0:
+                    break
+
+        self._last_requires_iteration = False
+        delta_prompt = self._prompt_tokens - prompt_tok_before
+        delta_completion = self._completion_tokens - completion_tok_before
+        delta_total = self._total_tokens - total_tok_before
+        return ImpactPrediction(
+            token_usage=TokenUsage(
+                prompt_tokens=delta_prompt,
+                completion_tokens=delta_completion,
+                total_tokens=delta_total,
+            ),
+            errors=((
+                "finish_reason=length: iterative agent control response truncated "
+                f"at cap {control_cap}"
+            ) if self._last_control_truncation else (
+                "iterative_agent: revision failed to select paths"
+            ),),
+            decisions=tuple(
+                ImpactDecision(
+                    artifact=a,
+                    action=ActionKind.preserve,
+                    rationale="iterative_agent: revision failed",
+                )
+                for a in artifact_universe.artifacts
+            ),
+        )
+
+    def _set_requires_iteration(self, value: bool) -> None:
+        self._last_requires_iteration = value
+
+    def set_model_call_guard(self, guard: Callable[[], bool] | None) -> None:
+        """Install the cooperative workflow-deadline guard.
+
+        The guard is checked immediately before and immediately after every
+        internal selection/revision model call. When it returns False the
+        strategy records ``model_call_budget_exhausted`` and makes no further
+        model call or tool action.
+        """
+        self._model_call_guard = guard
+
+    @property
+    def model_call_budget_exhausted(self) -> bool:
+        return self._model_call_budget_exhausted
+
+    @property
+    def last_requires_iteration(self) -> bool:
+        return self._last_requires_iteration
+
+    @property
+    def tool_call_count(self) -> int:
+        return self._tool_calls
+
+    @property
+    def tool_duration_seconds(self) -> float:
+        return self._tool_duration
+
+    @property
+    def model_call_count(self) -> int:
+        return self._model_calls
+
+    @property
+    def prompt_tokens(self) -> int:
+        return self._prompt_tokens
+
+    @property
+    def completion_tokens(self) -> int:
+        return self._completion_tokens
+
+    @property
+    def total_tokens(self) -> int:
+        return self._total_tokens
+
+    @property
+    def inspected_file_count(self) -> int:
+        return len(self._inspected_files)
+
+    @property
+    def remaining_agent_calls(self) -> int:
+        return self._remaining_agent_calls
+
+    @property
+    def compact_tool_transcript(self) -> tuple[str, ...]:
+        return tuple(self._tool_transcript)
+
+    @property
+    def selection_raw_response_hashes(self) -> tuple[str, ...]:
+        """SHA-256 of every control-plane raw response text (selection-only)."""
+        return tuple(self._selection_raw_hashes)
+
+    @property
+    def selection_finish_reason(self) -> str:
+        return self._last_finish_reason
+
+    @property
+    def selection_truncation_count(self) -> int:
+        """Number of control calls that hit the completion cap (finish_reason=length)."""
+        return self._control_truncation_count
+
+    @property
+    def selection_malformed_count(self) -> int:
+        """Number of control calls whose response was not parseable JSON."""
+        return self._control_malformed_count
+
+    @property
+    def selection_schema_invalid_count(self) -> int:
+        """Number of final answers rejected by the schema/validation rules."""
+        return self._control_schema_invalid_count
+
+    @property
+    def selection_valid_final_count(self) -> int:
+        """Number of final answers accepted as a valid prediction."""
+        return self._valid_final_count
+
+    @property
+    def selection_finish_reason_distribution(self) -> dict[str, int]:
+        """Distribution of finish_reason values across control calls."""
+        return dict(self._finish_reason_counts)
+
+    @property
+    def selection_empty_reason(self) -> str:
+        """Why an EMPTY prediction was produced: truncation | round_cap |
+        parser_failure | infrastructure | none."""
+        return self._empty_reason
+
+    @property
+    def call_sidecar(self) -> tuple[dict[str, Any], ...]:
+        """Per-call sidecar records (additive WP-1b telemetry). Each record:
+        call_index, force_final, action, path, query, tool_output_chars_raw,
+        tool_output_chars_shown, observation_truncated, finish_reason,
+        prompt_tokens, completion_tokens, usd, latency_s, raw_response_text,
+        raw_response_sha256."""
+        return tuple(self._call_sidecar)
+
+    @property
+    def paths_read(self) -> tuple[str, ...]:
+        """Targets of SUCCESSFUL read_file calls (WP-1b per-task telemetry).
+
+        A4 correction: only successful reads are recorded here. The
+        strategy-side ``_inspected_files`` read-TARGET counter is unchanged and
+        continues to feed ``selection_inspected_file_count`` scientific
+        accounting.
+        """
+        return tuple(sorted(self._paths_read))
+
+    @property
+    def paths_surfaced(self) -> tuple[str, ...]:
+        """Paths appearing in search_text / list_files output (WP-1b telemetry).
+
+        A4 correction: for search_text match lines of the form
+        ``path:line:content`` only the path is kept.
+        """
+        return tuple(sorted(self._paths_surfaced))
+
+    @property
+    def successful_reads(self) -> int:
+        return self._successful_reads
+
+    @property
+    def search_calls_with_hits(self) -> int:
+        return self._search_calls_with_hits
+
+    @property
+    def rejected_repeat_count(self) -> int:
+        return self._rejected_repeat_count
+
+    @property
+    def tool_error_counts(self) -> dict[str, int]:
+        return dict(self._tool_error_counts)
+
+    @property
+    def search_files_scanned(self) -> int:
+        return self._search_files_scanned
+
+    @property
+    def search_results_returned(self) -> int:
+        return self._search_results_returned
+
+    @property
+    def search_result_cap_hits(self) -> int:
+        return self._search_result_cap_hits
+
+    @property
+    def search_unique_paths_surfaced(self) -> int:
+        return self._search_unique_paths_surfaced
+
+    @property
+    def tool_output_chars_raw_total(self) -> int:
+        return self._tool_output_chars_raw_total
+
+    @property
+    def tool_output_chars_shown_total(self) -> int:
+        return self._tool_output_chars_shown_total
+
+    def observation_truncation_rate(self) -> float:
+        """Fraction of tool-output characters truncated by the 2000-char window
+        (0.0 when no tool output was produced)."""
+        if self._tool_output_chars_raw_total <= 0:
+            return 0.0
+        return (
+            self._tool_output_chars_raw_total - self._tool_output_chars_shown_total
+        ) / self._tool_output_chars_raw_total
