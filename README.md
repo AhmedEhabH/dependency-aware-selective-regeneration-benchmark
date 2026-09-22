@@ -61,7 +61,7 @@ Change request
 
 ## LIVE STATUS — single current-state source of truth
 
-**Position:** G12 (agent context hygiene, D1 APPROVED) is applied zero-API: the selection loop now echoes each action with its arguments, shows a call counter before every non-final call, names the exact repeated request in the rejection warning, and marks truncated reads. Gate v3 (CG-12: no task with >= 3 consecutive rejected repeats) FAILS Calibration-3b prospectively (runs 1/6/4; 52% of spend on repeats) — the RED proof. Calibration-3c (same 3 tasks, protocol v3, gate v3, NOT scored, <= $0.25) is next. MAIN_297 + variance + scoring remain NOT authorized (D3 = MANUAL = stop after Calibration-3c).
+**Position:** Calibration-3c is CLEAN (protocol v3 + gate v3): CG-1..CG-12 all PASS, $0.063205 <= $0.25, 1 rejected repeat (5.6% share, was 52.4%), longest rejection run 1 (was 6/4), 4 successful reads, 0 instrument errors, 0 BLOCKING review-card flags (4 INFORMATIONAL). G12 removed the deterministic context loop. Mission STOPPED per D3 = MANUAL; MAIN_297 + variance + scoring remain NOT authorized until a separate decision.
 
 **Research pipeline:**
 
@@ -75,7 +75,7 @@ Change request
 | Tool-budget fix + gate v2 | DONE | D2: search_text does not consume the 30-file budget; CG-10/CG-11 written; RED on Calibration-3 |
 | WP-1b Calibration-3b | PASS | gate v2 PASS · $0.070 · 3 reads · 0 instrument errors · 11/21 calls rejected repeats (loop) |
 | G12 agent context hygiene | DONE | D1 APPROVED, zero API: echo, call counter, named rejection, truncation note; gate v3 CG-12 FAILS 3b (runs 1/6/4); protocol v3 |
-| WP-1b Calibration-3c | NOT STARTED | same 3 tasks, protocol v3, gate v3, NOT scored, ceiling $0.25; then STOP (D3 MANUAL) |
+| WP-1b Calibration-3c | PASS | gate v3 CG-1..CG-12 PASS · $0.063205 · 4 reads · 1/18 rejected (5.6%) · longest run 1 · 0 blocking review-card flags · NOT scored |
 | WP-1b MAIN_297 + variance 15x3 | BLOCKED | forbidden this mission (D3 MANUAL); requires a separate decision after 3c |
 | WP-2 shared E2E instrument | NOT STARTED | same generator/validator/repair for every arm |
 | E2E-G6 F2P/P2P oracle | NOT STARTED | fail-to-pass + pass-to-pass tests per task |
@@ -89,9 +89,9 @@ Change request
 | RM-CSS on top of SIP | 0 extra coder calls | local logistic regression + repository memory |
 | Qwen embeddings (RM-CSS) | 33 batched calls | 2,076 file units + 299 queries · $0.026 |
 | WP-1b Calibration-3 agent | 24 calls (8/task) | $0.081 · 7 of 24 were rejected repeats · 0 successful reads (INSTRUMENT_INVALID) |
-| WP-1b Calibration-3b agent | 21 calls (5/8/8) | $0.070028 · 3 successful reads · 0 instrument errors · gate v2 CG-1..CG-11 PASS · loop: 11/21 rejected repeats |
+| WP-1b Calibration-3b agent | 21 calls (5/8/8) | $0.070028 · 3 successful reads · 0 instrument errors · gate v2 PASS · loop: 11/21 rejected repeats |
 | WP-1b G12 (zero API) | 0 | agent context hygiene amendment D1 APPROVED: echo, call counter, named rejection, truncation note; gate v3 CG-12 FAILS 3b |
-| WP-1b Calibration-3c agent (ceiling) | <= 24 calls | same 3 tasks, protocol v3, gate v3, not scored; ceiling $0.25; authorized |
+| WP-1b Calibration-3c agent | 18 calls (4/8/6) | $0.063205 · 4 successful reads · 1/18 rejected repeats (5.6%) · longest run 1 · gate v3 CG-1..CG-12 PASS · NOT scored |
 | MAIN_297 agent (ceiling) | ≤ 2,376 calls | 297 × 8; not authorized |
 | Variance substudy (ceiling) | ≤ 360 calls | 15 tasks × 3 runs × 8 |
 | E2E generation + repair | not frozen yet | defined by WP-2 |
@@ -105,11 +105,11 @@ Change request
 | 786 Saleor RESERVE outcomes | SEALED | never opened/read/scored/sampled |
 | Calibration-3 / Calibration-3b F1 claims | NOT PERMITTED | instrument checks only; no labels loaded or scored |
 
-**Next action:** Run Calibration-3c on the same 3 calibration tasks (protocol v3, gate v3, not scored, ceiling $0.25). Per D3 = MANUAL the mission STOPS after Calibration-3c regardless of outcome; MAIN_297 + variance + scoring require a separate explicit decision. No label loading; no F1.
+**Next action:** STOPPED per contract after Calibration-3c (D3 = MANUAL), regardless of the clean result. Ahmed reviews the Calibration-3c evidence (gate v3 CG-1..CG-12 PASS, review card 0 blocking / 4 informational) and issues a separate explicit MAIN_297 authorization (protocol v3, manifest order, ceilings $21.50 / $3.50). No further paid run in this mission.
 
 **End-to-end status:** WP-2 has **not started**; E2E-G6 F2P/P2P oracle has **not started**; **no** E2E Smoke, Pilot or Research Run exists yet.
 
-*Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-09-22 05:09 (Africa/Cairo).*
+*Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-09-22 05:30 (Africa/Cairo).*
 <!-- LIVE_STATUS:END -->
 
 ### Earlier milestones (history)
