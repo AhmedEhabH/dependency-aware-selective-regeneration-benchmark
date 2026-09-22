@@ -2393,3 +2393,9 @@ WP-1 code). Each must be triaged in a future mission.
 - [ ] E exploratory X1-X11
 - [ ] F docs + LIVE_STATUS post-run
 - [ ] F merge + exports + STOP report + restore power
+
+### Tech-debt (2026-09-22): tests write tracked evidence files
+- Several tests rewrite tracked evidence files as a side effect of running
+  (`reports/real_commit_m4a3_p1_*.json`, `reports/REAL_COMMIT_M4A3_P1_VALIDATION.md`,
+  `research/djangocms-confirmatory-route-b/dryrun/*`). These changes must be
+  restored with `git checkout -- <file>` after the full suite and never committed.
