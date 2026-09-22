@@ -2374,3 +2374,28 @@ WP-1 code). Each must be triaged in a future mission.
 - **Acceptance Criteria:** regenerate/embed the SVG fallback in README or amend
   the test; full suite must equal the known-failure set afterwards.
 - **Status:** OPEN (recorded 2026-09-21)
+
+## Overnight MAIN_297 mission (2026-09-22) — LIVE progress
+
+- [x] A0 identity + git state + power settings (orig AC standby/hibernate = 0, kept 0)
+- [x] A1 integrate open branches (main = Calibration-3c evidence @ c929418)
+- [x] A2 apply bundle (SHA-256 7345ed34... OK; 37 files, 0 conflicts)
+- [x] A3 targeted validation (90/90 new tests pass; only known d96 failure; ruff/mypy clean; frozen files byte-unchanged)
+- [x] A4 governance records (DECISIONS.md: §0 block, harness gaps, 3c record correction, prereg v2 + AG16 design)
+- [x] A5 LIVE_STATUS pre-run (blocks test pass; authorization key AUTHORIZED D3=YES)
+- [x] A6 zero-API dry run (DRY_RUN_PASS; D3 max diff 62 chars; D4 projected 0.44-2.66 h; D5 projected $4.11-$8.02)
+- [ ] A7 commit + full suite + merge + tag (in progress)
+- [ ] B MAIN_297 0/297 (ledger USD 0.00; projected $4.11-$8.02)
+- [ ] B-end freeze + tag predictions
+- [ ] C variance 0/45 (ceiling $3.50)
+- [ ] C-end freeze + tag
+- [ ] D scoring + tag
+- [ ] E exploratory X1-X11
+- [ ] F docs + LIVE_STATUS post-run
+- [ ] F merge + exports + STOP report + restore power
+
+### Tech-debt (2026-09-22): tests write tracked evidence files
+- Several tests rewrite tracked evidence files as a side effect of running
+  (`reports/real_commit_m4a3_p1_*.json`, `reports/REAL_COMMIT_M4A3_P1_VALIDATION.md`,
+  `research/djangocms-confirmatory-route-b/dryrun/*`). These changes must be
+  restored with `git checkout -- <file>` after the full suite and never committed.

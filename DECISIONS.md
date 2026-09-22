@@ -2058,3 +2058,58 @@ esearch/bounded-semantic-expansion/pilot_registration_freeze.json — 60 DEVELOP
   authorized; no second scaffold fix (D5 binding). Report:
   `docs/WP1B_CALIBRATION_3C_STOP_REPORT_2026-09-22.md`.
 - **Scope change:** NO scientific scope change.
+
+## Decision WP1B_MAIN297 - §0 DECISION BLOCK (2026-09-22)
+
+- **Status:** ADOPTED (this mission, verbatim per the overnight contract §0).
+- **Contract:** `_workspace/active/OPENCODE_OVERNIGHT_WP1B_MAIN297_FULL_2026-09-22.md`.
+- **Decision block (verbatim):**
+
+> | ID | Decision | Value |
+> |----|----------|-------|
+> | D1 | Harness + analysis bundle `WP1B_MAIN297_HARNESS_2026_09_22` (new files + documentation; no frozen scientific file modified) | **APPROVED** |
+> | D2 | Preregistration addendum v2 (X6–X11) + agent budget-sensitivity DESIGN (execution NOT authorized) — committed and tagged BEFORE the first paid call | **APPROVED** |
+> | D3 | MAIN_297 + variance 15×3 + scoring + exploratory X1–X11 | **YES** |
+> | D4 | Ceilings (unchanged) | MAIN_297 **$21.50** · variance **$3.50** |
+> | D5 | One-amendment rule | **CLOSED** — no agent / scaffold / prompt / tool / knob change, whatever MAIN_297 shows |
+> | D6 | Agent budget-sensitivity arm (AG16 on MAIN_50) | **NOT IN THIS MISSION** (design frozen only; separate decision) |
+> | D7 | Documentation housekeeping (README lessons 1a–1d + FAQ §12, AGENTS.md archive, MISSION_TEMPLATE §4/§4b, Calibration-3c record correction, LIVE_STATUS `authorization` key) | **APPROVED** |
+> | — | Decided by | Ahmed Ehab, 2026-09-22. Supervisor informed: **no** |
+
+- **Scope change:** NO scientific scope change (harness/analysis/docs only).
+
+## Decision WP1B_MAIN297_HARNESS - ADOPTED (2026-09-22)
+
+- **Status:** ADOPTED. Harness + analysis bundle `WP1B_MAIN297_HARNESS_2026_09_22`
+  (D1 APPROVED). Pointer: `docs/WP1B_MAIN297_EXECUTION_ADDENDUM_2026-09-22.md`.
+- **Five harness gaps of the calibration runner and their fixes (addendum §1):**
+  - G-A: predictions not persisted (only run records) → per-item prediction
+    persistence + freeze script.
+  - G-B: calibration runner writes only at the end and `rmtree`s the out dir on
+    re-entry → per-item fsync commit + `--resume` + never-delete rule.
+  - G-C: 1 immediate transport retry vs the frozen 3-retry rule → frozen
+    3-retry rule (10/60/180 s) in `resilient_backend`.
+  - G-D: unhandled transport error could surface as an unexpected crash → item
+    restart ×2 + session halt (exit 4) without recording the item.
+  - G-E: calibration card blocks on agent behaviour → MAIN-mode card blocks on
+    instrument-level anomalies only (M1–M5); per-task agent behaviour is data.
+- **NO scientific knob changed** (model/route/temp/cap/calls/prompts/tools/
+  schemas/budgets/manifests unchanged).
+- **Scope change:** NO scientific scope change.
+
+## Decision WP1B_CALIBRATION_3C_RECORD_CORRECTION - ADOPTED (2026-09-22)
+
+- **Status:** ADOPTED. Pointer:
+  `docs/WP1B_CALIBRATION_3C_RECORD_CORRECTION_2026-09-22.md`.
+- **Correction:** "7 distinct searches" → 6 distinct + 1 non-adjacent repeat; task
+  2 reached the forced final at call 8. Verdict **CLEAN unchanged**.
+- **Scope change:** NO scientific scope change (record precision only).
+
+## Decision WP1B_EXPLORATORY_PREREG_V2_AND_AG16_DESIGN - FROZEN (2026-09-22)
+
+- **Status:** FROZEN before any MAIN_297 output (D2 APPROVED).
+- **Pointers:** `research/wp1b/wp1b_exploratory_prereg_addendum_v2.json`
+  (X6–X11) and `research/wp1b/wp1b_agent_budget_sensitivity_prereg.json`
+  (design only).
+- **AG16 execution is NOT authorized** (needs D6); only the design is frozen.
+- **Scope change:** NO scientific scope change.

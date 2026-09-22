@@ -61,6 +61,28 @@ Only if D3 = AUTO_IF_CLEAN and all clean criteria hold, or a later message
 says `D3 = YES`. Freeze predictions before any label load (tag pushed first).
 Score with decision rules exactly. Name the arm. No "dominance", no E2E claim.
 
+Standing execution rules for Phase C
+(`docs/WP1B_MAIN297_EXECUTION_ADDENDUM_2026-09-22.md`):
+- Use `scripts/wp1b_main_run.py` (never the calibration runner) after a zero-API
+  `--kind dry_run` over the full manifest.
+- Chunked execution: `--resume --max-items N`, one chunk per tool call
+  (<= 45 min), TODO updated after each chunk with the `progress.json` line.
+- Halting is instrument-level only (H1-H7). Agent behaviour is data. Use the
+  MAIN-mode card (`scripts/wp1b_main_review_card.py`), not the calibration card.
+- Harness defect → fix only the harness file with a failing test first and a
+  DECISIONS.md entry; a crash inside frozen agent code → STOP and report.
+- Record OpenRouter key usage before/after each paid run (billed vs list price).
+
+## §4b Standing operational rules (every mission)
+
+- Visible TODO: update after every phase/subphase and whenever the active item
+  changes; one item in progress; long runs report `<label> — k/N complete`.
+- Full pytest suite: 90-min tool timeout (5,400,000 ms), output redirected to a
+  log file, never `Select-Object -Last` as the live pipe, run once at the final
+  gate, never relaunch before the previous process is confirmed dead.
+- Never read `DECISIONS.md`, `TODO.md`, `00_CURRENT_RESEARCH_STATE.md` whole;
+  search, then read the needed range.
+
 ## §5 Acceptance criteria
 
 | ID | Check |
@@ -76,6 +98,9 @@ Score with decision rules exactly. Name the arm. No "dominance", no E2E claim.
 | AC-9 | Phase A spend = $0.00 |
 | AC-10 | (Phase C) predictions freeze tag pushed before any label load |
 | AC-11 | (Phase C) verdict follows decision rules mechanically |
+| AC-12 | (Phase C) zero-API dry run over the full manifest passed before call 1 |
+| AC-13 | (Phase C) MAIN-mode Review Card: 0 BLOCKING (M1-M5) |
+| AC-14 | (Phase C) ledger spend == sum of record USD (±$0.000001); billed/list ratio recorded |
 
 ## §6 Final response format
 

@@ -1,0 +1,40 @@
+{
+ "artifact": "wp1b_dry_run_check",
+ "verdict": "DRY_RUN_PASS",
+ "checks": {
+  "D1_complete": {
+   "records": 297,
+   "expected": 297,
+   "torn_lines": 0,
+   "halt_report_present": false,
+   "infra": 0
+  },
+  "D2_non_empty_stub_predictions": {
+   "empty": 0,
+   "first": []
+  },
+  "D3_prompt_vs_budget_v2": {
+   "tasks_compared": 297,
+   "max_abs_diff_chars": 62.0,
+   "worst_task": "saleor-rc-fe6e46266e81",
+   "median_signed_diff_chars": 60.0,
+   "note": "stub token count = len(prompt)//4, so chars are approximate (+-3); the G12 counter adds ~70 chars"
+  },
+  "D4_runtime": {
+   "median_item_wall_seconds_dry": 1.39,
+   "max_item_wall_seconds_dry": 2.11,
+   "projected_paid_hours_range": [
+    0.44,
+    2.66
+   ]
+  },
+  "D5_projected_paid_cost_usd": {
+   "budget_v2_worst_case_sum": 12.4267,
+   "projected_range_from_cal3c_ratios": [
+    4.11,
+    8.02
+   ],
+   "frozen_ceiling": 21.5
+  }
+ }
+}

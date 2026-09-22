@@ -1,16 +1,16 @@
 {
   "schema": "live_status_v1",
-  "as_of_local": "2026-09-22 05:30 (Africa/Cairo)",
-  "evidence_snapshot": "main 2c6ecf5 (tag wp1b-g12-context-2026-09-22) + branch wp1b/calibration-3b-2026-09-21 + branch wp1b/calibration-3c-2026-09-22 (Calibration-3c records + review card)",
+  "as_of_local": "2026-09-22 08:27 (Africa/Cairo)",
+  "evidence_snapshot": "main c929418 + harness branch wp1b/main297-harness-2026-09-22 (tag wp1b-main297-harness-prereg-2026-09-22) + paid branch wp1b/main-297-2026-09-22",
   "phase": "Phase 5 — End-to-End Selective Regeneration",
-  "position": "Calibration-3c is CLEAN (protocol v3 + gate v3): CG-1..CG-12 all PASS, $0.063205 <= $0.25, 1 rejected repeat (5.6% share, was 52.4%), longest rejection run 1 (was 6/4), 4 successful reads, 0 instrument errors, 0 BLOCKING review-card flags (4 INFORMATIONAL). G12 removed the deterministic context loop. Mission STOPPED per D3 = MANUAL; MAIN_297 + variance + scoring remain NOT authorized until a separate decision.",
-  "position_short": "Calibration-3c CLEAN (gate v3 CG-1..CG-12); loop gone; STOPPED per D3; MAIN_297 awaits decision",
-  "now_short": "WP-1b: Ahmed reviews Calibration-3c -> decides MAIN_297 (protocol v3).",
-  "next_action": "STOPPED per contract after Calibration-3c (D3 = MANUAL), regardless of the clean result. Ahmed reviews the Calibration-3c evidence (gate v3 CG-1..CG-12 PASS, review card 0 blocking / 4 informational) and issues a separate explicit MAIN_297 authorization (protocol v3, manifest order, ceilings $21.50 / $3.50). No further paid run in this mission.",
-  "next_short": "Ahmed decides MAIN_297",
-  "priority_chain": "Ahmed reviews Calibration-3c -> MAIN_297 + variance 15x3 + scoring -> WP-2 shared E2E instrument -> E2E-G6 F2P/P2P oracle -> Smoke -> Pilot -> Research Run",
-  "weakest_risk": "The agent is instrument-valid and no longer loops (Calibration-3c clean), but MAIN_297 has NOT run and nothing has been scored. E2E correctness is still untested; WP-2 and E2E-G6 F2P/P2P have not started.",
-  "wp1b_short": "Paid same-protocol comparison of a repository agent vs SIP vs RM-CSS on MAIN_297 (G1: delta=0.05 NI rule; G2: cap 1024). Tools fixed (G11); Calibration-3b passed gate v2 but looped (11/21 rejected repeats); G12 (echo, counter, named rejection, truncation note) removed the loop; Calibration-3c CLEAN (gate v3 CG-1..CG-12 PASS, 1/18 rejected). MAIN_297 blocked until a separate Ahmed decision.",
+  "position": "MAIN_297 + variance 15×3 + scoring AUTHORIZED (D3 = YES, 2026-09-22) under protocol v3 with a resume-safe harness (frozen 3-retry rule, spend ledger, instrument-only halting, label-access guards). Preregistration addendum v2 (X6–X11) and the AG16 budget-sensitivity design were frozen before any MAIN_297 output. Calibration-3c remains CLEAN.",
+  "position_short": "MAIN_297 authorized and starting (protocol v3; harness + prereg v2 tagged)",
+  "now_short": "WP-1b: MAIN_297 running (chunked, resume-safe)",
+  "next_action": "Run MAIN_297 in frozen order (ceiling $21.50), freeze + tag predictions, run variance 15×3 (label-blind, $3.50), freeze + tag, score with decision rules v2, then X1–X11.",
+  "next_short": "Freeze → variance → score",
+  "priority_chain": "MAIN_297 (protocol v3) -> freeze predictions -> variance 15x3 -> freeze -> score with decision rules v2 -> X1-X11 -> WP-2 shared E2E instrument -> E2E-G6 F2P/P2P oracle -> Smoke -> Pilot -> Research Run",
+  "weakest_risk": "MAIN_297 has not run and nothing has been scored; provider/credit risk is bounded by the resume-safe harness and ceilings. E2E correctness is still untested; WP-2 and E2E-G6 F2P/P2P have not started.",
+  "wp1b_short": "Paid same-protocol comparison of a repository agent vs SIP vs RM-CSS on MAIN_297 (G1: delta=0.05 NI rule; G2: cap 1024). Tools fixed (G11); Calibration-3b passed gate v2; G12 (echo, counter, named rejection, truncation note) removed the loop; Calibration-3c CLEAN (gate v3 CG-1..CG-12 PASS). MAIN_297 + variance + scoring AUTHORIZED (D3 = YES) and running with the resume-safe harness (execution addendum 2026-09-22).",
   "pipeline": [
     {
       "step": "Localization method selection",
@@ -59,8 +59,8 @@
     },
     {
       "step": "WP-1b MAIN_297 + variance 15x3",
-      "status": "BLOCKED",
-      "note": "forbidden this mission (D3 MANUAL); requires a separate decision after 3c"
+      "status": "RUNNING",
+      "note": "D3 = YES; protocol v3; ceilings $21.50/$3.50; resume-safe harness (execution addendum 2026-09-22)"
     },
     {
       "step": "WP-2 shared E2E instrument",
@@ -150,7 +150,7 @@
       }
     ],
     "finding_title": "G12 removed the deterministic context loop",
-    "finding": "Calibration-3b: 11/21 calls (52%) were rejected repeats because the transcript hid the agent's own requests. G12 (echo, call counter, named rejection, truncation note) restores that information. Calibration-3c: 1/18 rejected (5.6%), longest run 1, 4 reads, 0 instrument errors, $0.063205. Gate v3 CG-12 PASS. Task 2 now uses 7 distinct searches instead of repeating one search 6 times.",
+    "finding": "Calibration-3b: 11/21 calls (52%) were rejected repeats because the transcript hid the agent's own requests. G12 (echo, call counter, named rejection, truncation note) restores that information. Calibration-3c: 1/18 rejected (5.6%), longest run 1, 4 reads, 0 instrument errors, $0.063205. Gate v3 CG-12 PASS. Task 2 now makes 7 search calls (6 distinct; one non-adjacent repeat) instead of repeating one search 6 times, and it reached the forced final at call 8 (record correction: docs/WP1B_CALIBRATION_3C_RECORD_CORRECTION_2026-09-22.md).",
     "source": "research/wp1b/calibration-3c-2026-09-22/ (wp1b_call_sidecar.jsonl, wp1b_calibration_gate_v3_result.json, REVIEW_CARD.md); docs/WP1B_CALIBRATION_3C_STOP_REPORT_2026-09-22.md; docs/WP1B_AGENT_CONTEXT_LOOP_2026-09-22.md.",
     "raw": {
       "tasks": 3,
@@ -249,6 +249,33 @@
       "workflow": "E2E generation + repair",
       "calls": "not frozen yet",
       "note": "defined by WP-2"
+    }
+  ],
+  "authorization": [
+    {
+      "item": "Calibration-3c",
+      "status": "DONE (CLEAN)",
+      "note": "gate v3 CG-1..CG-12 PASS; $0.063205; NOT scored"
+    },
+    {
+      "item": "MAIN_297 + variance 15×3 + scoring",
+      "status": "AUTHORIZED (D3 = YES)",
+      "note": "protocol v3; ceilings $21.50 / $3.50; resume-safe harness (execution addendum 2026-09-22)"
+    },
+    {
+      "item": "Agent budget-sensitivity arm (AG16, MAIN_50)",
+      "status": "PREREGISTERED, NOT AUTHORIZED",
+      "note": "design frozen before MAIN_297 outputs; needs decision D6"
+    },
+    {
+      "item": "786 Saleor RESERVE outcomes",
+      "status": "SEALED",
+      "note": "never opened/read/scored/sampled; guarded by the label-access audit hook"
+    },
+    {
+      "item": "Calibration-3 / 3b / 3c F1 claims",
+      "status": "NOT PERMITTED",
+      "note": "instrument checks only; no labels loaded or scored"
     }
   ],
   "key_numbers": {
