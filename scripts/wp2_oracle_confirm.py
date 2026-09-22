@@ -42,7 +42,6 @@ from benchmark.wp2.oracle_confirmation import (  # noqa: E402
 )
 from benchmark.wp2.paths import (  # noqa: E402
     envs_root,
-    resolve_python_312,
     saleor_cache_venv_python,
 )
 
@@ -420,7 +419,8 @@ def confirm_one(
                 "task_id": tid,
                 "status": "COLLECTION_FAILED",
                 "classification": "ENV_BROKEN",
-                "error": f"no test nodes collected: {discovery['stdout_tail'][-800:]}",
+                "error": f"no test nodes collected: "
+                f"{discovery['stderr_tail'][-1000:] or discovery['stdout_tail'][-1000:]}",
                 "test_patch_sha256": patch_sha,
                 "n_behavioral_f2p": 0,
                 "n_symbol_absence_f2p": 0,
@@ -466,20 +466,27 @@ def build_family_python(tid: str, target_wt: Path):
     """Return the python executable for this task's env family.
 
     Uses the isolated per-family venv (built once per fingerprint family by
-    scripts; uv creates it lazily). Falls back to the cache venv for
-    HEAD-era tasks. Returns None if no environment can be constructed.
+    scripts; uv creates it lazily). The interpreter is resolved from the
+    fingerprint's Python requirement (era-aware). Falls back to the cache venv
+    for HEAD-era tasks. Returns None if no environment can be constructed.
     """
     from benchmark.wp2.environment_manager import (
         build_venv,
     )
+    from benchmark.wp2.paths import resolve_python
 
     fingerprints = json.loads(FINGERPRINTS_OUT.read_text(encoding="utf-8"))["tasks"]
     fp = fingerprints.get(tid)
     if fp is not None:
         family = fp["family"].split("::")[-1]
         env_root = ENVS_ROOT
+        py_req = fp["target"].get("python_requirement") or "UNKNOWN"
+        interpreter = resolve_python(_minor_from_requirement(py_req))
+        if interpreter is None:
+            print(f"[wp2] no interpreter for {tid} python requirement '{py_req}'")
+            return None
         try:
-            venv = build_venv(env_root, family, target_wt, PY312)
+            venv = build_venv(env_root, family, target_wt, interpreter)
             return venv / "Scripts" / "python.exe"
         except Exception as exc:
             print(f"[wp2] env build failed for {tid}: {str(exc)[:300]}")
@@ -487,6 +494,16 @@ def build_family_python(tid: str, target_wt: Path):
     if ORACLE_PYTHON.exists():
         return ORACLE_PYTHON
     return None
+
+
+def _minor_from_requirement(req: str) -> str:
+    """Extract major.minor from a PEP-508 python requirement, defaulting to 3.12."""
+    import re
+
+    m = re.search(r"(3\.\d{1,2})", req)
+    if m:
+        return m.group(1)
+    return "3.12"
 
 
 def classify_task(
@@ -609,8 +626,6 @@ def classify_task(
 ORACLE_PYTHON = saleor_cache_venv_python()
 
 ENVS_ROOT = envs_root()
-
-PY312 = resolve_python_312()
 
 
 if __name__ == "__main__":

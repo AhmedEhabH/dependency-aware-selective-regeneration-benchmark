@@ -14,6 +14,7 @@ The Saleor cache repository is never modified; worktrees live under
 """
 from __future__ import annotations
 
+import os
 import shutil
 import subprocess
 import time
@@ -121,6 +122,9 @@ class OracleConfirmationRunner:
     # ------------------------------------------------------------------ #
     def discover_test_nodes(self, worktree: Path, test_files: list[str], python: Path) -> dict:
         """Run pytest --collect-only on target to obtain exact node IDs."""
+        env = os.environ.copy()
+        env["DATABASE_URL"] = "postgres://saleor:saleor@127.0.0.1:5433/saleor"
+        env["CACHE_URL"] = "locmem://"
         cmd = [
             str(python),
             "-m",
@@ -131,14 +135,29 @@ class OracleConfirmationRunner:
             "-q",
             "-o",
             "addopts=",
+            "--ds=saleor.tests.settings",
         ] + test_files
-        r = _run(cmd, worktree, timeout_s=900)
+        r = subprocess.run(
+            cmd,
+            cwd=str(worktree),
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            timeout=900,
+            env=env,
+            check=False,
+        )
         nodes: list[str] = []
         for line in r.stdout.splitlines():
             line = line.strip()
             if "::" in line and not line.startswith(("=", "ERROR", "error", "No tests")):
                 nodes.append(line)
-        return {"nodes": nodes, "returncode": r.returncode, "stdout_tail": r.stdout[-2000:]}
+        return {
+            "nodes": nodes,
+            "returncode": r.returncode,
+            "stdout_tail": r.stdout[-2000:],
+            "stderr_tail": r.stderr[-2000:],
+        }
 
     def run_evaluator(
         self,
@@ -149,10 +168,9 @@ class OracleConfirmationRunner:
         timeout_s: int = 900,
     ) -> dict:
         """Run pytest --junitxml with the exact node IDs; return structured output."""
-        env = {
-            "DATABASE_URL": "postgres://saleor:saleor@127.0.0.1:5433/saleor",
-            "CACHE_URL": "locmem://",
-        }
+        env = os.environ.copy()
+        env["DATABASE_URL"] = "postgres://saleor:saleor@127.0.0.1:5433/saleor"
+        env["CACHE_URL"] = "locmem://"
         cmd = [
             str(python),
             "-m",

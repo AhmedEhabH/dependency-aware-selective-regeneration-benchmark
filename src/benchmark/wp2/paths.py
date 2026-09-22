@@ -135,13 +135,36 @@ def _resolved_python(python: Path) -> str:
     return str(python)
 
 
-def resolve_python_312(override: str | Path | None = None) -> Path | None:
-    """Resolve a Python 3.12 interpreter deterministically.
+def _python_version(python: Path) -> str:
+    try:
+        r = subprocess.run(
+            [str(python), "-c", "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')"],
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            check=False,
+            timeout=20,
+        )
+    except (OSError, subprocess.TimeoutExpired):
+        return ""
+    if r.returncode == 0 and r.stdout.strip():
+        return r.stdout.strip()
+    return ""
 
-    Precedence: explicit override -> ``WP2_PYTHON`` env -> ``py -3.12``
-    launcher -> ``uv python find 3.12`` -> ``shutil.which("python3.12")`` ->
-    ``shutil.which("python")`` if it reports 3.12. Returns None if none is
-    found or none validates as 3.12.
+
+def resolve_python_312(override: str | Path | None = None) -> Path | None:
+    """Resolve a Python 3.12 interpreter deterministically."""
+    return resolve_python("3.12", override=override)
+
+
+def resolve_python(minor: str, override: str | Path | None = None) -> Path | None:
+    """Resolve a Python interpreter for a ``major.minor`` (e.g. "3.9").
+
+    Precedence: explicit override -> ``WP2_PYTHON`` env -> ``py -<minor>``
+    launcher -> ``uv python find <minor>`` -> ``shutil.which("python<minor>")``
+    -> ``uv python install <minor>`` (network install into the uv-managed
+    directory) -> bare ``python`` if it reports the requested minor. Returns
+    None if none is found or none validates.
     """
     candidates: list[Path | None] = []
     if override:
@@ -152,7 +175,7 @@ def resolve_python_312(override: str | Path | None = None) -> Path | None:
     py_launcher = shutil.which("py")
     if py_launcher:
         r = subprocess.run(
-            [py_launcher, "-3.12", "-c", "import sys; print(sys.executable)"],
+            [py_launcher, f"-{minor}", "-c", "import sys; print(sys.executable)"],
             capture_output=True,
             text=True,
             encoding="utf-8",
@@ -163,7 +186,7 @@ def resolve_python_312(override: str | Path | None = None) -> Path | None:
 
     if shutil.which("uv"):
         r = subprocess.run(
-            ["uv", "python", "find", "3.12"],
+            ["uv", "python", "find", minor],
             capture_output=True,
             text=True,
             encoding="utf-8",
@@ -171,10 +194,27 @@ def resolve_python_312(override: str | Path | None = None) -> Path | None:
         )
         if r.returncode == 0 and r.stdout.strip():
             candidates.append(Path(r.stdout.strip()))
+        else:
+            # allow a managed install (isolated uv-managed dir, not a global change)
+            subprocess.run(
+                ["uv", "python", "install", minor],
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                check=False,
+            )
+            r = subprocess.run(
+                ["uv", "python", "find", minor],
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                check=False,
+            )
+            if r.returncode == 0 and r.stdout.strip():
+                candidates.append(Path(r.stdout.strip()))
 
-    candidates.append(Path(shutil.which("python3.12")) if shutil.which("python3.12") else None)
+    candidates.append(Path(shutil.which(f"python{minor}")) if shutil.which(f"python{minor}") else None)
 
-    # last resort: bare 'python' if it is 3.12
     which_python = shutil.which("python")
     if which_python:
         candidates.append(Path(which_python))
@@ -188,8 +228,7 @@ def resolve_python_312(override: str | Path | None = None) -> Path | None:
         if key in seen:
             continue
         seen.add(key)
-        ver = _version(resolved)
-        if "3.12" in ver:
+        if _python_version(resolved) == minor:
             return resolved
     return None
 

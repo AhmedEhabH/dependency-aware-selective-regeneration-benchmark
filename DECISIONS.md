@@ -2217,3 +2217,13 @@ esearch/bounded-semantic-expansion/pilot_registration_freeze.json — 60 DEVELOP
 - Guard: the cache repository working tree is never checked out or modified;
   only detached worktrees under `..\_workspace\wp2_oracle_confirmation\worktrees\`
   are used.
+## Operational decision - billiard pin for WP-2 family venvs (2026-09-22)
+
+- The target-era Saleor pyproject resolves celery>=4.4.5,<6 -> celery 5.6.3 ->
+  billiard 4.3.0, which imports the Unix-only esource\ module unguarded on
+  Windows and breaks pytest collection.
+- The project's verified Saleor environment (used for MAIN_297 and validated
+  tests) uses billiard 4.2.1 / celery 5.5.3, which work on Windows.
+- Action: build_venv pins \illiard<4.3\ so family venvs run on Windows.
+  This is an operational environment-compatibility pin, not a scientific knob
+  and not a change to any frozen protocol.

@@ -176,7 +176,13 @@ def build_venv(env_root: Path, family: str, worktree: Path, python: Path) -> Pat
         )
         if r.returncode != 0:
             raise RuntimeError(f"uv pip install -e failed: {r.stderr[-1500:]}")
-        for pkg in ("pytest", "pytest-django", "pytest-socket", "pytest-xdist"):
+        for pkg in (
+            "pytest",
+            "pytest-django==4.11.1",
+            "pytest-socket",
+            "pytest-xdist",
+            "billiard<4.3",
+        ):
             r = subprocess.run(
                 ["uv", "pip", "install", "--python", str(py), pkg],
                 capture_output=True,
