@@ -261,9 +261,13 @@ def run_oracle(runner, args) -> int:
     """Execute Oracle Confirmation for the selected tasks (resume-safe).
 
     Runs Wave A (all 20 strong), then Wave B (first 60 of the frozen
-    modified-test order). Per task: isolated worktrees, test-only patch on
-    parent, 3x target + 3x parent+testpatch runs, taxonomy classification,
-    persisted to per_task.jsonl / per_test.jsonl.
+    modified-test order), then Wave C expansion in waves of 40 from the frozen
+    modified-test order until >=60 primary behavioral F2P eligible, all 200
+    modified candidates are attempted, the timebox fires, or a hard stop.
+
+    Per task: isolated worktrees, test-only patch on parent, 3x target + 3x
+    parent+testpatch runs, taxonomy classification, persisted to per_task.jsonl
+    / per_test.jsonl. Progress is streamed and flushed per task.
     """
     from benchmark.wp2.oracle_runner import (
         collect_test_files,
@@ -276,10 +280,18 @@ def run_oracle(runner, args) -> int:
 
     if args.task_id:
         wave_tasks = [args.task_id]
-    else:
+    elif args.max_tasks > 0:
         wave_tasks = list(waves["A_strong_all_20"]) + list(waves["B_modified_first_60"])
-        if args.max_tasks > 0:
-            wave_tasks = wave_tasks[: args.max_tasks]
+        wave_tasks = wave_tasks[: args.max_tasks]
+    else:
+        # Full automatic run: Wave A (20) + Wave B (60) + Wave C expansion
+        # (waves of 40 from the frozen modified order) until 60 behavioral F2P
+        # or the modified pool is exhausted. The loop below breaks on the rule.
+        wave_tasks = (
+            list(waves["A_strong_all_20"])
+            + list(waves["B_modified_first_60"])
+            + list(waves["expansion_order"])
+        )
 
     RUN_DIR.mkdir(parents=True, exist_ok=True)
     per_task_path = RUN_DIR / "per_task.jsonl"
@@ -300,17 +312,26 @@ def run_oracle(runner, args) -> int:
     n_behavioral = 0
     started = time.monotonic()
     with open(per_task_path, "a", encoding="utf-8") as pt, open(per_test_path, "a", encoding="utf-8") as ptest:
-        for idx, tid in enumerate(wave_tasks, 1):
+        for tid in wave_tasks:
             if tid in done:
                 continue
-            print(f"[wp2] oracle {idx}/{total} {tid}")
+            t_start = time.monotonic()
+            task_no = len(done) + 1
             t = by_id.get(tid)
             if t is None:
                 rec = {"task_id": tid, "status": "NOT_IN_CENSUS"}
                 pt.write(json.dumps(rec) + "\n")
+                print(f"[wp2] task {task_no} {tid} NOT_IN_CENSUS", flush=True)
                 continue
             parent, target = t["parent_commit"], t["target_commit"]
             test_files = collect_test_files(SALEOR_CACHE, parent, target)
+            print(
+                f"[wp2] task {task_no}/{total} {tid} | stage=start | "
+                f"elapsed_task_s={time.monotonic()-t_start:.1f} | "
+                f"running B={counts.get('BEHAVIORAL_F2P',0)} S={counts.get('SYMBOL_ABSENCE_F2P',0)} "
+                f"P2P={counts.get('P2P_ONLY',0)} ENV={counts.get('ENV_BROKEN',0)} FLAKY={counts.get('FLAKY',0)}",
+                flush=True,
+            )
             try:
                 result = confirm_one(
                     runner,
@@ -336,13 +357,22 @@ def run_oracle(runner, args) -> int:
                 n_behavioral += 1
             result["wave"] = "A" if tid in waves["A_strong_all_20"] else "B"
             pt.write(json.dumps(result, ensure_ascii=False) + "\n")
+            pt.flush()
             done[tid] = cls
             print(
-                f"[wp2] ORACLE: attempted {idx}/{total} selected | "
-                f"behavioral F2P {n_behavioral} | {cls}"
+                f"[wp2] ORACLE: task {task_no}/{total} {tid} | {cls} | "
+                f"elapsed_task_s={time.monotonic()-t_start:.1f} | "
+                f"behavioral F2P {n_behavioral} | symbol {counts.get('SYMBOL_ABSENCE_F2P',0)} | "
+                f"P2P {counts.get('P2P_ONLY',0)} | env-broken {counts.get('ENV_BROKEN',0)} | "
+                f"flaky {counts.get('FLAKY',0)}",
+                flush=True,
             )
             if time.monotonic() - started > 12 * 3600:
-                print("[wp2] ORACLE_CONFIRMATION_TIMEBOX_COMPLETE")
+                print("[wp2] ORACLE_CONFIRMATION_TIMEBOX_COMPLETE", flush=True)
+                break
+            # §9.4 automatic expansion stop: >=60 primary behavioral F2P eligible
+            if n_behavioral >= 60:
+                print("[wp2] expansion rule satisfied: n_behavioral >= 60", flush=True)
                 break
 
     state = {
@@ -356,7 +386,7 @@ def run_oracle(runner, args) -> int:
         "wave_b": list(waves["B_modified_first_60"]),
     }
     run_state_path.write_text(json.dumps(state, indent=1, ensure_ascii=False), encoding="utf-8")
-    print(f"[wp2] run state: {run_state_path}")
+    print(f"[wp2] run state: {run_state_path}", flush=True)
     return 0
 
 
@@ -485,10 +515,14 @@ def build_family_python(tid: str, target_wt: Path):
         if interpreter is None:
             print(f"[wp2] no interpreter for {tid} python requirement '{py_req}'")
             return None
+        fail_marker = env_root / f"{family}.failed"
+        if fail_marker.exists():
+            return None
         try:
             venv = build_venv(env_root, family, target_wt, interpreter)
             return venv / "Scripts" / "python.exe"
         except Exception as exc:
+            fail_marker.write_text(str(exc)[:2000], encoding="utf-8")
             print(f"[wp2] env build failed for {tid}: {str(exc)[:300]}")
             return None
     if ORACLE_PYTHON.exists():
