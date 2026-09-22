@@ -15,11 +15,18 @@ run happen here.
 ## New artifacts (intended)
 
 **src/benchmark/wp2/**
+- `paths.py` — portable, tested repository-root / workspace-root / env-root /
+  worktree-root / Python-3.12 / PostgreSQL-bin discovery (env-var overrides,
+  no machine-specific paths).
 - `oracle_confirmation.py` — deterministic F2P/P2P oracle semantics: state
   construction, test discovery, JUnit parsing, 3-run stability classification,
   failure taxonomy, eligibility flags.
 - `environment_manager.py` — isolated, version-aware environment fingerprinting
-  and construction under `..\_workspace\wp2_oracle_confirmation\`.
+  and construction under `..\_workspace\wp2_oracle_confirmation\` (workspace
+  root resolved dynamically via `WP2_WORKSPACE_ROOT` or repository-relative
+  default).
+- `oracle_runner.py` — per-task runner: worktree isolation, test-only patch
+  application, 3x parent + 3x target runs, classification.
 
 **scripts/**
 - `wp2_oracle_confirm.py` — Oracle Confirmation launcher (worktree isolation,

@@ -13,6 +13,7 @@ from __future__ import annotations
 import hashlib
 import re
 from dataclasses import asdict, dataclass, field
+from pathlib import Path
 
 FAMILY_SALT = "wp2-env-family-2026-09-22"
 
@@ -130,3 +131,66 @@ def fingerprint_commit_from_files(files: dict[str, str | bytes]) -> EnvFingerpri
 
 def fingerprint_family(fp: EnvFingerprint) -> str:
     return fp.family()
+
+
+def short_family(fp: EnvFingerprint, n: int = 12) -> str:
+    """Short, filesystem-safe family key (first n hex chars of the hash)."""
+    return fp.family().split("::")[-1][:n]
+
+
+def build_venv(env_root: Path, family: str, worktree: Path, python: Path) -> Path:
+    """Build an isolated venv for a fingerprint family using uv.
+
+    Uses ``uv venv`` + ``uv pip install -e <worktree>`` so the commit-era
+    dependencies are installed exactly. Tests for other tasks in the same
+    family reuse this venv by running pytest from their own worktree cwd
+    (cwd takes import precedence for the ``saleor`` package). Raises
+    RuntimeError if the build fails.
+    """
+    import shutil
+    import subprocess
+
+    venv_dir = env_root / family
+    if (venv_dir / "Scripts" / "python.exe").exists():
+        return venv_dir
+    venv_dir.mkdir(parents=True, exist_ok=True)
+    try:
+        r = subprocess.run(
+            ["uv", "venv", "--python", str(python), str(venv_dir)],
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            timeout=300,
+            check=False,
+        )
+        if r.returncode != 0:
+            raise RuntimeError(f"uv venv failed: {r.stderr[-800:]}")
+        py = venv_dir / "Scripts" / "python.exe"
+        r = subprocess.run(
+            ["uv", "pip", "install", "--python", str(py), "-e", str(worktree)],
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            timeout=1800,
+            check=False,
+        )
+        if r.returncode != 0:
+            raise RuntimeError(f"uv pip install -e failed: {r.stderr[-1500:]}")
+        for pkg in ("pytest", "pytest-django", "pytest-socket", "pytest-xdist"):
+            r = subprocess.run(
+                ["uv", "pip", "install", "--python", str(py), pkg],
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                timeout=600,
+                check=False,
+            )
+            if r.returncode != 0:
+                raise RuntimeError(f"uv pip install {pkg} failed: {r.stderr[-500:]}")
+    except subprocess.TimeoutExpired as exc:
+        shutil.rmtree(venv_dir, ignore_errors=True)
+        raise RuntimeError(f"venv build timed out for family {family}") from exc
+    except Exception:
+        shutil.rmtree(venv_dir, ignore_errors=True)
+        raise
+    return venv_dir

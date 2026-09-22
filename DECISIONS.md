@@ -2205,3 +2205,15 @@ esearch/bounded-semantic-expansion/pilot_registration_freeze.json — 60 DEVELOP
   touched; verified still Running after WP-2 cluster start.
 - **Status:** isolated 5433 healthy (SELECT 1 OK). No global system config
   changed.
+
+## Operational decision - core.longpaths for WP-2 worktrees (2026-09-22)
+
+- Saleor contains filenames longer than the Windows 260-char MAX_PATH (long
+  migration names and cassette .yaml paths). git worktree checkout from the
+  read-only cache fails with "Filename too long" unless long paths are enabled.
+- Action: set `core.longpaths=true` on the read-only cache repo
+  (dist/pilot-repo-cache/saleor). This is an operational git setting; no commit,
+  tree, blob, or working file content was changed. Worktrees inherit it.
+- Guard: the cache repository working tree is never checked out or modified;
+  only detached worktrees under `..\_workspace\wp2_oracle_confirmation\worktrees\`
+  are used.
