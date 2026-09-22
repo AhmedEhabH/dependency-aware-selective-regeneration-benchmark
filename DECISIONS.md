@@ -2028,3 +2028,33 @@ esearch/bounded-semantic-expansion/pilot_registration_freeze.json — 60 DEVELOP
   Calibration-3c AUTHORIZED up to $0.25. MAIN_297 and all scoring FORBIDDEN.
   STOP after Calibration-3c regardless of outcome.
 - **Scope change:** NO scientific scope change.
+
+## Decision WP1B_CALIBRATION_3C - EXECUTED, GATE V3 PASS, CLEAN (2026-09-22)
+
+- **Status:** EXECUTED. Calibration-3c run authorized (D2 = YES, ceiling $0.25),
+  protocol v3 (G12 applied), gate v3 (CG-1..CG-12), frozen provider/route/
+  pricing, cumulative USD guard <= $0.25. **NOT scored**; no labels loaded; no
+  F1 (paired unscored harness regression).
+- **Run:** the SAME 3 tasks as Calibration-3/3b via
+  `scripts/wp1b_calibration_run.py`; output under
+  `research/wp1b/calibration-3c-2026-09-22/`; branch
+  `wp1b/calibration-3c-2026-09-22`.
+- **Cost:** cumulative **$0.063205 <= $0.25** (per task $0.017620 / $0.032844 /
+  $0.012740). Per-task cost / budget-v2 worst-case ratios
+  **0.331 / 0.645 / 0.420** - all <= 1.0.
+- **Gate:** **CG-1..CG-12 all PASS** (`wp1b_calibration_gate_v3_result.json`).
+  CG-12 PASS: longest rejection run = 1, rejected share 5.6% (was runs 6/4,
+  share 52.4% in 3b).
+- **Clean criteria (clarification 7):** all six PASS. Instrument VALID (raw
+  per-call outcomes): 18 calls; tool_ok 14; rejected repeats 1 (5.6%); 4
+  successful reads (tasks 1 and 3 have 2 each; task 2 is search-only, 0 reads);
+  0 instrument errors, 0 agent-misuse, 2 frozen-policy events (search-result
+  cap hits) - informational only; 0 cap hits; 0 EMPTY; 0 malformed.
+- **Review Card:** `REVIEW_CARD.md` - **0 BLOCKING**, 4 INFORMATIONAL
+  (I1/I2 task b05633dae118 search/list-only, I3 x2 search-result-cap hits).
+  INFORMATIONAL flags do not fail the calibration.
+- **STOPPED per D3 = MANUAL** (contract section 3), regardless of the clean
+  result. MAIN_297 + variance substudy + label loading + scoring NOT
+  authorized; no second scaffold fix (D5 binding). Report:
+  `docs/WP1B_CALIBRATION_3C_STOP_REPORT_2026-09-22.md`.
+- **Scope change:** NO scientific scope change.
