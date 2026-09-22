@@ -88,3 +88,8 @@ research/omission-risk-feature-study-v1/sparse_v2_trainval_runs/raw/*.sha256 tex
 # content (same convention as v1).
 research/omission-risk-feature-study-v1/v2_trainval/v2_trainval_runs/raw/*.txt text eol=lf
 research/omission-risk-feature-study-v1/v2_trainval/v2_trainval_runs/raw/*.sha256 text eol=lf
+
+# WP-1b AG16 brain handoff package: byte-frozen with recorded SHA-256 in
+# MANIFEST.json and SHA256SUMS.txt computed from canonical LF content. Pin LF so
+# Windows core.autocrlf cannot invalidate the handoff hash contract.
+exports/WP1B_AG16_BRAIN_HANDOFF_2026-09-22/** text eol=lf
