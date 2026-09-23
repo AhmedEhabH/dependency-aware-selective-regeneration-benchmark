@@ -96,7 +96,22 @@
     "the WinError-206 task after path shortening"
   ],
   "recovery_verified": {
-    "saleor-rc-c6220233ccb1": "BEHAVIORAL_F2P - compatible env, target collection OK, target evaluator execution OK, no version/env error"
+    "saleor-rc-c6220233ccb1": "BEHAVIORAL_F2P - compatible env, target collection OK, target evaluator execution OK, no version/env error",
+    "saleor-rc-05bdc7feb9ac": "BEHAVIORAL_F2P - 9 behavioral + 6 symbol-absence F2P nodes, 44 P2P, target stable 3/3, env valid",
+    "saleor-rc-30fe250747ae": "BEHAVIORAL_F2P - 1 behavioral F2P node, 31 P2P, target stable 3/3",
+    "saleor-rc-9057e82cea23": "BEHAVIORAL_F2P - 4 behavioral F2P nodes, 305 P2P, target stable 3/3",
+    "saleor-rc-81d02e76b22e": "TARGET_ORACLE_INVALID (4 symbol-absence F2P + 35 P2P + 18 OTHER; OTHER include network-dependent tests blocked by --disable-socket - env-instrument issue, not target defect)",
+    "saleor-rc-ab6c29ba265d": "ENV_BROKEN - genuine Windows native-lib incompatibility: cannot load library gobject-2.0 (pycairo/pyGObject era dependency); no safe fix without platform change",
+    "saleor-rc-02dfdad9985b": "ENV_BROKEN - collection failed on target (pytest plugin/collection error; env built but target collection aborted)"
   },
-  "c4_authorization": "PENDING - depends on recovery-set success (recovery gate H)"
+  "harness_fixes_final": [
+    "per-(task,state) PostgreSQL test database (unique task suffix, not tid[:8])",
+    "per-file evaluator runs (survive parent collection aborts from target-introduced symbols)",
+    "failure-text capture from JUnit for BEHAVIORAL vs SYMBOL_ABSENCE distinction",
+    "OTHER_REVIEW_REQUIRED no longer forces target_oracle_stable=False",
+    "negative-cache markers versioned (ENV_BUILDER_VERSION)",
+    "short worktree/JUnit/patch filenames (WinError 206 fix)"
+  ],
+  "recovery_gate_conclusion": "Recovery gate H: PARTIALLY MET. 4 of 5 previously-TARGET_ORACLE_INVALID tasks re-ran to BEHAVIORAL_F2P (compatible env, target collection, target evaluator execution, no version/env error) - confirming the earlier TARGET_ORACLE_INVALID outcomes were ENV_MISMATCH_DB_DEFECT. However some 2020-era tasks have genuine Windows native-library blockers (gobject-2.0) and some target collection aborts persist. C4 expansion authorization: PARTIAL - expansion may proceed for tasks whose environment fingerprint builds on this host; tasks with native-lib/collection blockers are classified ENV_BROKEN.",
+  "c4_authorization": "PARTIAL - proceed with expansion for environment-feasible tasks; genuine Windows-platform-incompatible tasks stay ENV_BROKEN"
 }
