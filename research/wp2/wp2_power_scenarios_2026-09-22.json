@@ -1,0 +1,178 @@
+{
+ "artifact": "wp2_power_scenarios",
+ "date": "2026-09-22",
+ "seed": 20260922,
+ "no_final_margin_chosen": true,
+ "no_final_research_n_chosen": true,
+ "decision": "WP2_F2P_POOL_SMALL (primary behavioral n=8 < 60 after exhausting all 220 changed-test candidates)",
+ "options_without_execution": [
+  "estimation-first RQ with confidence intervals (report single-arm resolved proportion + CI rather than powered comparisons)",
+  "extended F2P including symbol-absence as secondary (n=9)",
+  "new prospective mining outside the sealed 786 (never open the reserve)",
+  "cross-repository expansion (e.g. djangoCMS/e2e-capable repo) to grow the confirmed pool"
+ ],
+ "confirmed_pool": {
+  "primary_behavioral_f2p": 8,
+  "extended_f2p": 9,
+  "environment_valid": 13
+ },
+ "paired_power_effect_sizes": {
+  "5pp": {
+   "true_difference_pp": 5,
+   "n": 8,
+   "power": 0.0809
+  },
+  "10pp": {
+   "true_difference_pp": 10,
+   "n": 8,
+   "power": 0.115
+  },
+  "15pp": {
+   "true_difference_pp": 15,
+   "n": 8,
+   "power": 0.154
+  },
+  "20pp": {
+   "true_difference_pp": 20,
+   "n": 8,
+   "power": 0.1997
+  }
+ },
+ "single_arm_ci_widths": {
+  "8": {
+   "0.3": {
+    "k": 2,
+    "ci": [
+     0.0715,
+     0.5907
+    ],
+    "width": 0.5193
+   },
+   "0.5": {
+    "k": 4,
+    "ci": [
+     0.2152,
+     0.7848
+    ],
+    "width": 0.5696
+   },
+   "0.7": {
+    "k": 6,
+    "ci": [
+     0.4093,
+     0.9285
+    ],
+    "width": 0.5193
+   }
+  },
+  "9": {
+   "0.3": {
+    "k": 3,
+    "ci": [
+     0.1206,
+     0.6458
+    ],
+    "width": 0.5252
+   },
+   "0.5": {
+    "k": 4,
+    "ci": [
+     0.1888,
+     0.7334
+    ],
+    "width": 0.5446
+   },
+   "0.7": {
+    "k": 6,
+    "ci": [
+     0.3542,
+     0.8794
+    ],
+    "width": 0.5252
+   }
+  },
+  "13": {
+   "0.3": {
+    "k": 4,
+    "ci": [
+     0.1268,
+     0.5763
+    ],
+    "width": 0.4495
+   },
+   "0.5": {
+    "k": 6,
+    "ci": [
+     0.2321,
+     0.7086
+    ],
+    "width": 0.4765
+   },
+   "0.7": {
+    "k": 9,
+    "ci": [
+     0.4237,
+     0.8732
+    ],
+    "width": 0.4495
+   }
+  },
+  "60": {
+   "0.3": {
+    "k": 18,
+    "ci": [
+     0.199,
+     0.4251
+    ],
+    "width": 0.2261
+   },
+   "0.5": {
+    "k": 30,
+    "ci": [
+     0.3773,
+     0.6227
+    ],
+    "width": 0.2453
+   },
+   "0.7": {
+    "k": 42,
+    "ci": [
+     0.5749,
+     0.801
+    ],
+    "width": 0.2261
+   }
+  },
+  "100": {
+   "0.3": {
+    "k": 30,
+    "ci": [
+     0.2189,
+     0.3959
+    ],
+    "width": 0.1769
+   },
+   "0.5": {
+    "k": 50,
+    "ci": [
+     0.4038,
+     0.5962
+    ],
+    "width": 0.1923
+   },
+   "0.7": {
+    "k": 70,
+    "ci": [
+     0.6041,
+     0.7811
+    ],
+    "width": 0.1769
+   }
+  }
+ },
+ "interpretation": [
+  "with n=8, even a 20pp true difference has limited paired power; the confirmed pool is too small for a powered selector comparison",
+  "a single-arm estimation-first design with CI reporting is feasible at n=8",
+  "Pilot must first demonstrate assay sensitivity (Gold vs Placebo) before any selector comparison, per Design v1 section 6.6"
+ ]
+}
