@@ -1,15 +1,15 @@
 {
   "schema": "live_status_v1",
-  "as_of_local": "2026-09-22 17:18 (Africa/Cairo)",
-  "evidence_snapshot": "main (merge of wp1b/main-297-2026-09-22) + tags wp1b-main297-harness-prereg / wp1b-main297-predictions-frozen / wp1b-variance-predictions-frozen / wp1b-main297-result (all 2026-09-22); post-MAIN_297 closure + zero-API WP-2 census on branch wp1b/postmain-wp2-census-2026-09-22",
+  "as_of_local": "2026-09-22 (Africa/Cairo)",
+  "evidence_snapshot": "main (merge of wp1b/main-297-2026-09-22) + tags wp1b-main297-harness-prereg / wp1b-main297-predictions-frozen / wp1b-variance-predictions-frozen / wp1b-main297-result (all 2026-09-22); branch wp2/oracle-confirmation-design-v1-2026-09-22",
   "phase": "Phase 5 — End-to-End Selective Regeneration",
-  "position": "MAIN_297 primary WP-1b result complete and frozen: RMCSS_NONINFERIOR_AT_LOWER_COST (decision rules v2, NI_SUPPORTED). WP-1b claim sheet/docs closure complete. AG16 prereg exists; runner implementation still requires a brain-built/tested bundle. WP-2 zero-API MAIN_297 census complete (297/297; 20 STRONG / 200 MODIFIED / 77 no-test-evidence F2P candidates; 0 materialization errors). NO E2E execution yet. Next = brain builds/reviews AG16 harness bundle and/or freezes WP-2 executor/oracle mission.",
-  "position_short": "MAIN_297 frozen + WP-1b docs closed; AG16 prereg needs brain bundle; WP-2 zero-API census DONE; E2E not started",
-  "now_short": "Post-MAIN_297 zero-API closure + WP-2 census COMPLETE; next = brain AG16 bundle + WP-2 design.",
-  "next_action": "Ahmed reviews this closure → brain builds/reviews the AG16 executable bundle from the frozen readiness requirements → then AG16 calibration + MAIN_50 sensitivity; in parallel the WP-2 census is ready for the brain to design the shared E2E executor and F2P/P2P oracle.",
-  "next_short": "Brain AG16 bundle → AG16 sensitivity → WP-2 design",
-  "priority_chain": "MAIN_297 + variance + scoring DONE -> WP-1b docs closure + zero-API WP-2 census DONE -> brain AG16 bundle -> AG16 sensitivity (MAIN_50) -> WP-2 shared E2E instrument -> E2E-G6 F2P/P2P oracle -> Smoke -> Pilot -> Research Run",
-  "weakest_risk": "RM-CSS is non-inferior to the budget-bounded agent at lower cost (NI_SUPPORTED), but the claim is localization-only: E2E correctness, WP-2 execution and the F2P/P2P oracle have not started; the agent is a budget-bounded baseline (AG16 budget-sensitivity is preregistered, runner not yet built).",
+  "position": "MAIN_297 primary WP-1b result complete and frozen: RMCSS_NONINFERIOR_AT_LOWER_COST (NI_SUPPORTED). WP-2 Oracle Confirmation infrastructure built and validated (zero-API): deterministic harness, per-state test DB, per-file evaluator, failure taxonomy. All 220 changed-test candidates attempted; 8 primary behavioral F2P eligible + 1 symbol-absence eligible confirmed. Environment is the dominant blocker on this host (207/220 ENV_BROKEN: native libs, ? in filenames, Unix-only resource module). WP-2 Design v1 (causal), power/assay-sensitivity planning, and Smoke v2 proposal emitted. NO E2E execution, NO paid calls.",
+  "position_short": "WP-2 oracle/design v1 done: 8 confirmed behavioral F2P oracles; env-dominant blocker; E2E not started",
+  "now_short": "WP-2 Design v1 + Oracle Confirmation substrate complete (8 behavioral F2P); next = brain reviews Smoke v2 + environment bundle + AG16 bundle.",
+  "next_action": "Ahmed/brain review WP-2 Design v1 + Smoke v2 (8 confirmed oracle tasks); build a version-aware Saleor environment bundle to lift the env blocker; in parallel build/review the AG16 executable bundle. Then AG16 sensitivity and WP-2 Smoke can be authorized.",
+  "next_short": "Brain: WP-2 Smoke v2 + env bundle + AG16 bundle → AG16 + WP-2 Smoke",
+  "priority_chain": "MAIN_297 + variance + scoring DONE -> WP-1b docs closure DONE -> WP-2 census DONE -> WP-2 Oracle Confirmation + Design v1 DONE (8 behavioral F2P oracles) -> brain AG16 bundle + WP-2 env bundle + Smoke v2 review -> AG16 sensitivity -> WP-2 Smoke -> Pilot -> Research Run",
+  "weakest_risk": "WP-1b claim is localization-only and remains frozen. WP-2 confirmed oracle pool is small (n=8 behavioral) and the environment is the dominant blocker on this Windows host; without a version-aware Saleor environment bundle, WP-2 E2E execution cannot proceed. The 786 sealed reserve stays sealed.",
   "wp1b_short": "Paid same-protocol comparison of a repository agent vs SIP vs RM-CSS on MAIN_297 (G1: delta=0.05 NI rule; G2: cap 1024; decision rules v2). RESULT: RMCSS_NONINFERIOR_AT_LOWER_COST (NI_SUPPORTED); D −0.0062 [−0.0449,+0.0308] Q5 −0.0383; RM-CSS cheaper. Variance 15x3 pooled F1 0.389/0.438/0.479, pairwise exact match 0.444. X1-X11 exploratory labelled. Total agent spend $8.34 (main $7.15 + variance $1.19). Post-MAIN_297: claim sheet + docs closure complete; AG16 prereg verified, runner needs brain bundle; WP-2 zero-API census complete.",
   "pipeline": [
     {
@@ -76,6 +76,11 @@
       "step": "WP-2 zero-API MAIN_297 census",
       "status": "DONE",
       "note": "297/297 materializable; 20 STRONG / 200 MODIFIED / 77 no-test-evidence F2P candidates; proposal-only Smoke candidates 8; zero API"
+    },
+    {
+      "step": "WP-2 Oracle Confirmation + Design v1",
+      "status": "DONE (zero-API)",
+      "note": "harness validated; 220/220 changed-test candidates attempted; 8 primary behavioral F2P + 1 symbol-absence eligible; causal Design v1, power planning, Smoke v2 emitted; environment-dominant blocker on this host"
     },
     {
       "step": "WP-2 shared E2E instrument",
@@ -291,6 +296,11 @@
       "item": "WP-2 zero-API MAIN_297 census",
       "status": "DONE",
       "note": "deterministic planning evidence only; no E2E execution; no F2P/P2P oracle"
+    },
+    {
+      "item": "WP-2 Oracle Confirmation (zero-API) + Design v1",
+      "status": "DONE",
+      "note": "8 primary behavioral F2P + 1 symbol-absence eligible confirmed; causal Design v1 + power planning + Smoke v2 proposal; NO E2E execution"
     },
     {
       "item": "786 Saleor RESERVE outcomes",

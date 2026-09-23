@@ -2419,3 +2419,29 @@ WP-1 code). Each must be triaged in a future mission.
 - [x] P9 governance: LIVE_STATUS updated + rendered; PROGRESS/TODO/README/START_HERE updated
 - [ ] P10 commit + push + merge + tag `wp1b-postmain-wp2-census-2026-09-22`
 - [ ] P11 FULL + TRUE LIGHT exports + STOP report
+
+## WP-2 Oracle Confirmation + Design V1 mission (2026-09-22) — ZERO API
+
+- [x] A0 git/authority/remote identity (main==origin/main==2a24621; origin identity verified)
+- [x] A1 Impact Declaration + decision block O1..O17 (committed before edits)
+- [x] A2 terminology/rationale + verified references (census/task/3 candidate meanings; bib + manifest)
+- [x] A3 WP-2 causal Design v1 (GOLD_HARD/RMCSS_HARD/AGENT_HARD/PLACEBO_HARD/RMCSS_SOFT/GOLD_MINUS_ONE)
+- [x] B1 oracle harness RED tests (33 unit)
+- [x] B2 oracle harness implementation (oracle_confirmation.py, environment_manager.py)
+- [x] B2a portability / dynamic-path hardening (paths.py; no machine-specific paths; 11 portability tests)
+- [x] B3 synthetic integration + real-task dry run (7 integration tests; env/DB setup)
+- [x] C1 environment fingerprint 220 changed-test tasks
+- [x] C2 Wave A strong 20/20 attempted
+- [x] C3 Wave B modified 60/60 attempted
+- [x] C3a environment-validity audit (distinguished defects vs genuine blockers; 5 harness fixes)
+- [x] C3b representative environment recovery (4/5 previously-TARGET_ORACLE_INVALID -> BEHAVIORAL_F2P)
+- [x] C4 expansion 140/140 attempted (all 220 changed-test candidates done)
+- [x] D1 oracle summary/attrition (8 behavioral + 1 symbol F2P; 220 attempted; attrition preserved)
+- [x] D2 power/assay-sensitivity planning (WP2_F2P_POOL_SMALL; estimation-first recommended)
+- [x] D3 Smoke proposal v2 (8 confirmed-oracle tasks; proposal-only)
+- [x] D4 novelty/related-work boundary (candidate differentiators only)
+- [ ] E1 docs/LIVE_STATUS/PROGRESS (in progress)
+- [ ] E2 targeted + full validation
+- [ ] E3 commit/merge/tag/push (wp2-oracle-confirmation-design-v1-2026-09-22)
+- [ ] E4 FULL + TRUE LIGHT exports
+- [ ] STOP report
