@@ -1,0 +1,96 @@
+{
+  "artifact": "wp2_e2e_design_v1",
+  "date": "2026-09-22",
+  "status": "DESIGN_ONLY_NO_EXECUTION",
+  "paid_execution": false,
+  "core_thesis_question": "Is a low-cost predicted impact scope functionally sufficient for correct, preservation-safe LLM-driven software evolution, and what is the effect of enforcing that scope as a hard editing contract?",
+  "causal_principle": "hold task, parent repo, task spec, generator/model, temperature/config, repair policy, validator, evaluation oracle fixed; change ONLY the scope contract",
+  "arms": {
+    "GOLD_HARD": {
+      "editable_scope": "observed target-changed SOURCE files only; tests excluded",
+      "gate": "hard",
+      "purpose": "feasibility ceiling / scope upper reference, not deployable method"
+    },
+    "RMCSS_HARD": {
+      "editable_scope": "frozen RM-CSS predictions",
+      "gate": "hard",
+      "purpose": "thesis treatment arm"
+    },
+    "AGENT_HARD": {
+      "editable_scope": "frozen protocol-v3 Agent predictions",
+      "gate": "hard",
+      "purpose": "matched comparator using Agent file selection under the same downstream generator/validator"
+    },
+    "PLACEBO_HARD": {
+      "editable_scope": "size-matched random source-file set with exactly |RMCSS_HARD| files; fixed seed; same eligible parent-only source universe; no test/vendor/generated files; selected without gold/RM-CSS/Agent/E2E outcome",
+      "gate": "hard",
+      "purpose": "assay sensitivity / location-value negative control"
+    },
+    "RMCSS_SOFT": {
+      "editable_scope": "RM-CSS predicted files provided as starting context/hints; editing NOT restricted",
+      "gate": "soft",
+      "purpose": "directly test the scientific effect of the HARD selective-regeneration contract vs the same localizer as a soft navigation hint"
+    },
+    "GOLD_MINUS_ONE": {
+      "editable_scope": "subset only; tasks with >=2 and bounded gold source files; remove one gold source file, everything else fixed",
+      "gate": "hard",
+      "purpose": "causal Critical Omission Risk; NOT a primary all-task arm; bounded cost/sample plan"
+    }
+  },
+  "core_arms_research_run": ["GOLD_HARD", "RMCSS_HARD", "AGENT_HARD", "PLACEBO_HARD"],
+  "secondary_arms": ["RMCSS_SOFT"],
+  "mechanistic_subset": ["GOLD_MINUS_ONE"],
+  "final_paid_authorization_not_frozen": true,
+  "sample_sizes_not_frozen": true,
+  "assay_sensitivity": {
+    "requirement": "a future RMCSS ~= Agent functionally result is interpretable only if the instrument can show that scope matters",
+    "pilot_must_demonstrate": [
+      "Gold/meaningful scope is not indistinguishable from random placebo merely because the generator has a floor effect",
+      "the generator can solve a non-trivial fraction of confirmed tasks"
+    ],
+    "numeric_pilot_threshold": "NOT invented in this mission; set from confirmed oracle yield, task strata, environment success, future Smoke/Pilot runtime, zero-API power/sensitivity scenarios"
+  },
+  "specification_policy": {
+    "primary_source": ["existing label-free task intent", "parent repository information"],
+    "excluded_from_primary": [
+      "target test content in prompt",
+      "target patch",
+      "target file list",
+      "target-derived signatures/docstrings",
+      "tests/evaluator metadata"
+    ],
+    "reason": "target-derived signatures can make an under-specified task easier using privileged future information, changing the question; FEA-Bench provides signatures as part of its benchmark contract, our benchmark has a different task contract",
+    "spec_augmented_sensitivity": {
+      "status": "prepare but do not silently activate",
+      "label": "SPEC_AUGMENTED_SENSITIVITY",
+      "rule": "frozen before Research Run; must identify parent-available/public vs target-derived/oracle-assisted information"
+    }
+  },
+  "test_hiding": {
+    "never_seen_by_generator": [
+      "target test patch",
+      "F2P/P2P node IDs",
+      "target changed-file list",
+      "target patch",
+      "test expected outputs beyond the task spec"
+    ],
+    "evaluator_may_use": "after generation"
+  },
+  "migration_policy": {
+    "rule": "identical deterministic post-processing allowed only if available to EVERY arm and outputs obey that arm's edit-scope contract; otherwise migration generation is part of the generator's responsibility",
+    "migration_heavy_tasks": "recorded as a stratum",
+    "final_policy": "frozen before Smoke"
+  },
+  "repetition_policy": {
+    "test_oracle": "3 runs per parent state and 3 runs per target state",
+    "llm_generation": "do NOT force >=3 replicates per arm/task yet; Pilot estimates run-to-run variance and cost first; Research Run replicate count preregistered from Pilot evidence"
+  },
+  "estimands_planned": [
+    "functional resolution (F2P pass) rate",
+    "P2P / preservation violation rate",
+    "over-edit / out-of-scope edit rate",
+    "total pipeline cost (selection + generation + validation + repair)",
+    "per-arm pooled and stratified estimates with paired bootstrap CIs across confirmed oracle tasks"
+  ],
+  "reference_manifest": "research/wp2/wp2_design_reference_manifest_2026-09-22.json"
+}

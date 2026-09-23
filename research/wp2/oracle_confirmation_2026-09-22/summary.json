@@ -1,0 +1,79 @@
+{
+ "artifact": "wp2_oracle_confirmation_summary",
+ "date": "2026-09-22",
+ "attempted": 220,
+ "counts": {
+  "BEHAVIORAL_F2P": 8,
+  "ENV_BROKEN": 207,
+  "TARGET_ORACLE_INVALID": 2,
+  "FLAKY": 2,
+  "SYMBOL_ABSENCE_F2P": 1
+ },
+ "by_original_class": {
+  "STRONG_20": {
+   "behavioral_f2p": 1,
+   "symbol_absence": 0,
+   "p2p_only": 0,
+   "env_broken": 19,
+   "flaky": 0,
+   "target_oracle_invalid": 0,
+   "other": 0,
+   "total": 20
+  },
+  "MODIFIED_60": {
+   "behavioral_f2p": 4,
+   "symbol_absence": 0,
+   "p2p_only": 0,
+   "env_broken": 55,
+   "flaky": 0,
+   "target_oracle_invalid": 1,
+   "other": 0,
+   "total": 60
+  },
+  "EXPANSION_140": {
+   "behavioral_f2p": 3,
+   "symbol_absence": 1,
+   "p2p_only": 0,
+   "env_broken": 133,
+   "flaky": 2,
+   "target_oracle_invalid": 1,
+   "other": 0,
+   "total": 140
+  }
+ },
+ "f2p_pools": {
+  "primary_behavioral_eligible": 8,
+  "symbol_absence_eligible": 1,
+  "extended_f2p_eligible": 9,
+  "behavioral_task_ids": [
+   "saleor-rc-05bdc7feb9ac",
+   "saleor-rc-30fe250747ae",
+   "saleor-rc-9057e82cea23",
+   "saleor-rc-2a59d31fc839",
+   "saleor-rc-c6220233ccb1",
+   "saleor-rc-305415e0f8b7",
+   "saleor-rc-367b8038f6b9",
+   "saleor-rc-a7a2bf4146ba"
+  ],
+  "symbol_task_ids": [
+   "saleor-rc-c7207e71e0d3"
+  ]
+ },
+ "substrata": {
+  "environment_valid": 13,
+  "target_stable": 9,
+  "migration_config_heavy": 0,
+  "env_families_count": 140
+ },
+ "attrition_flow": {
+  "census_297": 297,
+  "changed_test_candidates_220": 220,
+  "attempted": 220,
+  "environment_valid": 13,
+  "target_stable": 9,
+  "parent_discriminative_behavioral": 8,
+  "parent_discriminative_symbol": 1,
+  "p2p_only": 0
+ },
+ "note": "environment-broken dominates on this Windows host (native libs, ? in filenames, Unix-only resource module); every attrition reason preserved; no task silently dropped"
+}

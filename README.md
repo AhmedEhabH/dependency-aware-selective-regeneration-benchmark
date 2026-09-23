@@ -68,7 +68,7 @@ Change request
 
 ## LIVE STATUS — single current-state source of truth
 
-**Position:** MAIN_297 primary WP-1b result complete and frozen: RMCSS_NONINFERIOR_AT_LOWER_COST (decision rules v2, NI_SUPPORTED). WP-1b claim sheet/docs closure complete. AG16 prereg exists; runner implementation still requires a brain-built/tested bundle. WP-2 zero-API MAIN_297 census complete (297/297; 20 STRONG / 200 MODIFIED / 77 no-test-evidence F2P candidates; 0 materialization errors). NO E2E execution yet. Next = brain builds/reviews AG16 harness bundle and/or freezes WP-2 executor/oracle mission.
+**Position:** MAIN_297 primary WP-1b result complete and frozen: RMCSS_NONINFERIOR_AT_LOWER_COST (NI_SUPPORTED). WP-2 Oracle Confirmation infrastructure built and validated (zero-API): deterministic harness, per-state test DB, per-file evaluator, failure taxonomy. All 220 changed-test candidates attempted; 8 primary behavioral F2P eligible + 1 symbol-absence eligible confirmed. Environment is the dominant blocker on this host (207/220 ENV_BROKEN: native libs, ? in filenames, Unix-only resource module). WP-2 Design v1 (causal), power/assay-sensitivity planning, and Smoke v2 proposal emitted. NO E2E execution, NO paid calls.
 
 **Research pipeline:**
 
@@ -87,6 +87,7 @@ Change request
 | WP-1b post-MAIN_297 docs closure + claim sheet | DONE | claim sheet, robustness/limitations, README/FAQ updated; zero API |
 | AG16 budget sensitivity (MAIN_50) | PREREGISTERED, NOT RUNNABLE | brain-built/tested bundle required first (iterative_agent_budget.py + golden parity + dry-run); ceilings $0.80 cal / $12.20 MAIN_50 |
 | WP-2 zero-API MAIN_297 census | DONE | 297/297 materializable; 20 STRONG / 200 MODIFIED / 77 no-test-evidence F2P candidates; proposal-only Smoke candidates 8; zero API |
+| WP-2 Oracle Confirmation + Design v1 | DONE (zero-API) | harness validated; 220/220 changed-test candidates attempted; 8 primary behavioral F2P + 1 symbol-absence eligible; causal Design v1, power planning, Smoke v2 emitted; environment-dominant blocker on this host |
 | WP-2 shared E2E instrument | NOT STARTED | same generator/validator/repair for every arm |
 | E2E-G6 F2P/P2P oracle | NOT STARTED | fail-to-pass + pass-to-pass tests per task |
 | E2E Smoke → Pilot → Research Run | NOT STARTED | staged; each stage can stop the run |
@@ -115,14 +116,15 @@ Change request
 | MAIN_297 + variance 15×3 + scoring | DONE (D3 = YES) | RMCSS_NONINFERIOR_AT_LOWER_COST (NI_SUPPORTED); main $7.15 + variance $1.19; predictions frozen/tagged before any label load |
 | Agent budget-sensitivity arm (AG16, MAIN_50) | PREREGISTERED, NOT AUTHORIZED; runner NOT built | design frozen before MAIN_297 outputs; needs brain-built/tested bundle + decision D6 |
 | WP-2 zero-API MAIN_297 census | DONE | deterministic planning evidence only; no E2E execution; no F2P/P2P oracle |
+| WP-2 Oracle Confirmation (zero-API) + Design v1 | DONE | 8 primary behavioral F2P + 1 symbol-absence eligible confirmed; causal Design v1 + power planning + Smoke v2 proposal; NO E2E execution |
 | 786 Saleor RESERVE outcomes | SEALED | never opened/read/scored/sampled; guarded by the label-access audit hook |
 | Calibration-3 / 3b / 3c F1 claims | NOT PERMITTED | instrument checks only; no labels loaded or scored |
 
-**Next action:** Ahmed reviews this closure → brain builds/reviews the AG16 executable bundle from the frozen readiness requirements → then AG16 calibration + MAIN_50 sensitivity; in parallel the WP-2 census is ready for the brain to design the shared E2E executor and F2P/P2P oracle.
+**Next action:** Ahmed/brain review WP-2 Design v1 + Smoke v2 (8 confirmed oracle tasks); build a version-aware Saleor environment bundle to lift the env blocker; in parallel build/review the AG16 executable bundle. Then AG16 sensitivity and WP-2 Smoke can be authorized.
 
 **End-to-end status:** WP-2 has **not started**; E2E-G6 F2P/P2P oracle has **not started**; **no** E2E Smoke, Pilot or Research Run exists yet.
 
-*Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-09-22 17:18 (Africa/Cairo).*
+*Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-09-22 (Africa/Cairo).*
 <!-- LIVE_STATUS:END -->
 
 ### Earlier milestones (history)
@@ -519,6 +521,42 @@ calls (call 8 forced final), 1024-token control cap, tools list/read/search
 **What happens next?** Ahmed reviews this closure and MAIN_297, then decides D6
 (AG16 budget-sensitivity on MAIN_50, ceiling $12.20) and the WP-2 start.
 ([§6](#6-current-bottleneck-and-next-experiment))
+
+**What was the WP-2 census?** A zero-API, exhaustive structural inspection of
+the 297 already-opened MAIN_297 Saleor tasks (parent/target diffs), producing
+measured counts of changed-test evidence before any generation.
+([census](docs/WP2_MAIN297_ZERO_API_CENSUS_2026-09-22.md))
+
+**Why were 20 called strong candidates?** Because their target commit adds ≥1
+test file — the clearest structural signal for a fail-to-pass oracle. They were
+candidates, not confirmed: flakiness, environment, and patch-apply issues could
+still disqualify them. ([rationale](docs/WP2_CENSUS_TASK_CANDIDATE_SELECTION_RATIONALE_2026-09-22.md))
+
+**Why were 200 only modified-test candidates?** Because they modify test files
+without adding one. This is weaker but not bad evidence — some still yield valid
+F2P tests. None were called "F2P" before execution.
+
+**Were the other 77 discarded?** No. They have no changed-test path in the
+historical diff, so they are outside this automated F2P-extraction path, but
+they are not deleted and remain available for manual/external oracles later.
+
+**How is a candidate promoted to confirmed F2P?** By Oracle Confirmation: the
+changed target tests must pass 3/3 at the target state and fail 3/3 at the
+parent + test-only-patch state, with a compatible environment and stable target.
+8 tasks were confirmed primary behavioral F2P.
+([report](docs/WP2_ORACLE_CONFIRMATION_REPORT_2026-09-22.md))
+
+**Why are ImportError cases separated rather than silently removed?** Because a
+newly-added test importing a target-introduced symbol fails to import at parent
+— that is natural pre-change state (FEA-Bench makes the same point), not an
+environment failure. They are classified separately as symbol-absence F2P and
+reported transparently. ([rationale](docs/WP2_CENSUS_TASK_CANDIDATE_SELECTION_RATIONALE_2026-09-22.md))
+
+**How will the final Smoke tasks be chosen?** From the confirmed oracle pool
+(primary behavioral F2P preferred), with size/migration coverage and one
+symbol-absence stress case, deterministically and without using any selector or
+generator performance. Proposal v2 is ready for brain/Ahmed review.
+([Smoke v2](docs/WP2_SMOKE_SELECTION_V2_2026-09-22.md))
 
 ---
 

@@ -1,0 +1,95 @@
+{
+  "artifact": "wp2_smoke_candidate_proposal_v2",
+  "date": "2026-09-22",
+  "status": "SMOKE_V2_PROPOSAL_ONLY",
+  "requires_brain_ahmed_review": true,
+  "based_on": "confirmed oracle evidence (research/wp2/oracle_confirmation_2026-09-22/) and census (research/wp2/wp2_saleor_main297_census_2026-09-22.json)",
+  "selection_hierarchy": [
+    "1. Prefer PRIMARY_BEHAVIORAL_F2P_ELIGIBLE tasks",
+    "2. Include at least one SMALL, one MEDIUM, one larger (if executable), one migration/config-heavy (if environment-valid)",
+    "3. Include one SYMBOL_ABSENCE_F2P as an explicit secondary-oracle stress case, labelled as such",
+    "4. Do NOT include P2P-only as a core F2P Smoke task",
+    "5. Tie-break deterministically with fixed salt",
+    "6. Never use RM-CSS/Agent/generation performance"
+  ],
+  "tie_break_salt": "wp2-smoke-v2-2026-09-22",
+  "candidate_pool": {
+    "primary_behavioral_f2p_eligible": [
+      "saleor-rc-05bdc7feb9ac", "saleor-rc-30fe250747ae", "saleor-rc-9057e82cea23",
+      "saleor-rc-2a59d31fc839", "saleor-rc-c6220233ccb1", "saleor-rc-305415e0f8b7",
+      "saleor-rc-367b8038f6b9", "saleor-rc-a7a2bf4146ba"
+    ],
+    "symbol_absence_f2p_eligible": ["saleor-rc-c7207e71e0d3"]
+  },
+  "proposed_candidates": [
+    {
+      "task_id": "saleor-rc-30fe250747ae",
+      "oracle_class": "BEHAVIORAL_F2P",
+      "size_bin": "SMALL",
+      "n_changed_production": 3,
+      "rationale": "primary behavioral F2P; SMALL size; deterministic tie-break"
+    },
+    {
+      "task_id": "saleor-rc-c6220233ccb1",
+      "oracle_class": "BEHAVIORAL_F2P",
+      "size_bin": "SMALL",
+      "n_changed_production": 2,
+      "rationale": "primary behavioral F2P; SMALL size; 2 confirmed behavioral nodes"
+    },
+    {
+      "task_id": "saleor-rc-9057e82cea23",
+      "oracle_class": "BEHAVIORAL_F2P",
+      "size_bin": "SMALL",
+      "n_changed_production": 3,
+      "rationale": "primary behavioral F2P; SMALL size; 4 behavioral nodes"
+    },
+    {
+      "task_id": "saleor-rc-2a59d31fc839",
+      "oracle_class": "BEHAVIORAL_F2P",
+      "size_bin": "MEDIUM",
+      "n_changed_production": 4,
+      "rationale": "primary behavioral F2P; MEDIUM size"
+    },
+    {
+      "task_id": "saleor-rc-305415e0f8b7",
+      "oracle_class": "BEHAVIORAL_F2P",
+      "size_bin": "MEDIUM",
+      "migration_or_config_heavy": true,
+      "n_changed_production": 10,
+      "rationale": "primary behavioral F2P; migration-heavy (environment stress); MEDIUM"
+    },
+    {
+      "task_id": "saleor-rc-a7a2bf4146ba",
+      "oracle_class": "BEHAVIORAL_F2P",
+      "size_bin": "SMALL",
+      "n_changed_production": 2,
+      "rationale": "primary behavioral F2P; SMALL; 176 P2P nodes (preservation coverage)"
+    },
+    {
+      "task_id": "saleor-rc-05bdc7feb9ac",
+      "oracle_class": "BEHAVIORAL_F2P",
+      "size_bin": "LARGE (9 production files incl. migration)",
+      "n_changed_production": 8,
+      "rationale": "primary behavioral F2P; largest confirmed task; 9 behavioral + 6 symbol nodes"
+    },
+    {
+      "task_id": "saleor-rc-c7207e71e0d3",
+      "oracle_class": "SYMBOL_ABSENCE_F2P",
+      "size_bin": "MEDIUM",
+      "n_changed_production": 7,
+      "rationale": "explicit SYMBOL_ABSENCE secondary-oracle stress case, labelled as such"
+    }
+  ],
+  "coverage_check": {
+    "small": "saleor-rc-30fe250747ae, saleor-rc-c6220233ccb1, saleor-rc-9057e82cea23, saleor-rc-a7a2bf4146ba",
+    "medium": "saleor-rc-2a59d31fc839, saleor-rc-305415e0f8b7, saleor-rc-c7207e71e0d3",
+    "larger": "saleor-rc-05bdc7feb9ac",
+    "migration_config_heavy": "saleor-rc-305415e0f8b7",
+    "symbol_absence_stress": "saleor-rc-c7207e71e0d3"
+  },
+  "not_included_by_design": {
+    "p2p_only_tasks": "excluded from core F2P Smoke (preservation/negative-control only)",
+    "no_changed_test_evidence_77": "deferred from automatic confirmation; may be used for manual/external oracles later"
+  },
+  "note": "Final Smoke sample requires brain/Ahmed review before execution."
+}

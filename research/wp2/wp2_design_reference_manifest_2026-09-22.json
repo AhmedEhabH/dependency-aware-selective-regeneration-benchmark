@@ -1,0 +1,95 @@
+{
+  "artifact": "wp2_design_reference_manifest",
+  "date": "2026-09-22",
+  "mission": "wp2-oracle-confirmation-design-v1",
+  "purpose": "machine-readable record of the verified literature references used by WP-2 Design v1 (docs/WP2_E2E_CAUSAL_DESIGN_V1_2026-09-22.md) and the census/oracle rationale (docs/WP2_CENSUS_TASK_CANDIDATE_SELECTION_RATIONALE_2026-09-22.md)",
+  "bibtex_path": "research/literature/wp2_verified_references_2026-09-22.bib",
+  "fastcontext": {
+    "status": "WITHDRAWN (current arXiv v4)",
+    "usage_rule": "recorded only for literature hygiene; do not use as positive evidence in thesis-facing related work without an explicit withdrawal note",
+    "eprint": "2606.14066"
+  },
+  "references": [
+    {
+      "key": "Jimenez2024SWEbench",
+      "title": "SWE-bench: Can Language Models Resolve Real-World GitHub Issues?",
+      "venue": "ICLR 2024",
+      "eprint": "arXiv:2310.06770",
+      "url": "https://arxiv.org/abs/2310.06770",
+      "relevance_statements": [
+        "real issue/repository evaluation",
+        "evaluation separates FAIL_TO_PASS and PASS_TO_PASS",
+        "a task is fully resolved only when F2P and P2P conditions pass",
+        "evaluation data such as test patches belongs to the evaluator, not the solution-generation prompt"
+      ]
+    },
+    {
+      "key": "Li2025FEABenchACL",
+      "title": "FEA-Bench: A Benchmark for Evaluating Repository-Level Code Generation for Feature Implementation",
+      "venue": "ACL 2025, DOI 10.18653/v1/2025.acl-long.839",
+      "url": "https://aclanthology.org/2025.acl-long.839/",
+      "relevance_statements": [
+        "repository-level incremental feature implementation",
+        "candidate tasks are collected from changes involving tests",
+        "test patch is run before and after the gold patch",
+        "paper does NOT automatically reject ImportError or AttributeError before the gold patch because new components may not exist",
+        "provides new-component signatures/docstrings as benchmark metadata; our primary protocol deliberately does NOT silently import target-derived signatures because our task contract is different",
+        "Oracle context generally beats BM25 only modestly and can be worse on simplest one-file cases, motivating direct functional evaluation rather than treating historical changed-file overlap as the final endpoint"
+      ]
+    },
+    {
+      "key": "Awad2026Loc2Repair",
+      "title": "Loc2Repair: A Framework for Evaluating the Impact of File-Level Issue Localization in Repo-Level LLM Repair",
+      "venue": "arXiv:2606.30963",
+      "url": "https://arxiv.org/abs/2606.30963",
+      "relevance_statements": [
+        "isolates localization as an upstream variable under a shared repair runtime",
+        "pooled resolved rate around 44.7% without localization, 48.9/49.1% with predicted localization, 52.4% with gold localization",
+        "demonstrates both that localization matters and that even gold localization leaves substantial downstream failures",
+        "WP-2 must prove the E2E assay can discriminate scope quality, rather than interpreting no-difference automatically as equivalence"
+      ]
+    },
+    {
+      "key": "Awad2026CostEffective",
+      "title": "Cost-Effective Repository Exploration for Agentic Issue Localization",
+      "venue": "arXiv:2608.29675",
+      "url": "https://arxiv.org/abs/2608.29675",
+      "relevance_statements": [
+        "distinguishes recoverable ranking/coverage handoffs from restrictive file gates where F1/exact-set behavior matters",
+        "restrictive gate as a concept is NOT our novelty",
+        "our question is downstream: what does the hard-vs-soft contract do to functional correctness, preservation, over-editing, and total pipeline cost"
+      ]
+    },
+    {
+      "key": "Xia2024Agentless",
+      "title": "Agentless: Demystifying LLM-based Software Engineering Agents",
+      "venue": "arXiv:2407.01489",
+      "url": "https://arxiv.org/abs/2407.01489",
+      "relevance_statements": [
+        "a localization -> repair -> validation pipeline predates our WP-2",
+        "do not claim localize-then-bounded-repair as new by itself"
+      ]
+    },
+    {
+      "key": "Yadavally2026RIPPLE",
+      "title": "From Seed to Scope: Reasoning to Identify Change Impact Sets",
+      "venue": "ICSE 2026, DOI 10.1145/3744916.3773265",
+      "url": "https://dl.acm.org/doi/10.1145/3744916.3773265",
+      "relevance_statements": [
+        "intent-aware change impact analysis with dependency/evolutionary coupling is prior art",
+        "graph/impact-set prediction alone is not the new contribution"
+      ]
+    },
+    {
+      "key": "Jha2026Placebo",
+      "title": "Does Fault Localization Beat a Fresh Attempt? A Placebo-Controlled Study of Test-Guided Code Repair",
+      "venue": "arXiv:2609.00854",
+      "url": "https://arxiv.org/abs/2609.00854",
+      "relevance_statements": [
+        "includes a random-span placebo matched to the localized edit size",
+        "demonstrates why location effects should be separated from generic small-edit / second-attempt effects",
+        "supports a size-matched random-scope placebo in WP-2"
+      ]
+    }
+  ]
+}

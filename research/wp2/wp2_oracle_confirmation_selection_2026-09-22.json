@@ -1,0 +1,2010 @@
+{
+ "artifact": "wp2_oracle_confirmation_selection",
+ "date": "2026-09-22",
+ "status": "FROZEN_BEFORE_ORACLE_EXECUTION",
+ "selection_never_uses": [
+  "RM-CSS per-task success",
+  "Agent per-task success",
+  "localization F1",
+  "future generation outcome",
+  "future E2E result"
+ ],
+ "population": {
+  "MAIN_297": 297,
+  "strong_candidates": 20,
+  "modified_candidates": 200,
+  "no_changed_test_evidence": 77
+ },
+ "waves": {
+  "A_strong_all_20": [
+   "saleor-rc-05bdc7feb9ac",
+   "saleor-rc-1abda1e0d36e",
+   "saleor-rc-24f9b244d6bc",
+   "saleor-rc-29c2d1abdce0",
+   "saleor-rc-45cfb26218c8",
+   "saleor-rc-65643ec7c37f",
+   "saleor-rc-659af1b19239",
+   "saleor-rc-663543eaf563",
+   "saleor-rc-697cbdc85b4a",
+   "saleor-rc-940b8d83ec5c",
+   "saleor-rc-aa814bd5f355",
+   "saleor-rc-ab6c29ba265d",
+   "saleor-rc-b60266933f7a",
+   "saleor-rc-b79cf8f91f04",
+   "saleor-rc-bd11af3ea0a4",
+   "saleor-rc-c38263743e9e",
+   "saleor-rc-cae629dc4166",
+   "saleor-rc-ce3b63edecef",
+   "saleor-rc-e0f2933d58b9",
+   "saleor-rc-f3a0bc28797b"
+  ],
+  "B_modified_first_60": [
+   "saleor-rc-1f47b503f69e",
+   "saleor-rc-add4064d238e",
+   "saleor-rc-8c8d9db54d63",
+   "saleor-rc-5c458f26276d",
+   "saleor-rc-46456e7317ca",
+   "saleor-rc-5f78ba7b1647",
+   "saleor-rc-02dfdad9985b",
+   "saleor-rc-14a682044ca4",
+   "saleor-rc-f5d2c47e47c3",
+   "saleor-rc-18430f2a7a16",
+   "saleor-rc-fbfc66e3a46b",
+   "saleor-rc-50eff94aa37c",
+   "saleor-rc-b356a525ba2a",
+   "saleor-rc-3bf31ab2fefc",
+   "saleor-rc-0fd3a4d986a0",
+   "saleor-rc-0b46c89dfd9e",
+   "saleor-rc-dacded922b1f",
+   "saleor-rc-eb61406cecc5",
+   "saleor-rc-63a25a0c46d5",
+   "saleor-rc-03be7057c1f1",
+   "saleor-rc-796f4a0fd969",
+   "saleor-rc-3cac33590b90",
+   "saleor-rc-ffe3a3ece0fb",
+   "saleor-rc-95dbffbc523a",
+   "saleor-rc-28799575c518",
+   "saleor-rc-ef4d31a09e7c",
+   "saleor-rc-80a33b28b80d",
+   "saleor-rc-54bbb04b8954",
+   "saleor-rc-a17f11cf7e87",
+   "saleor-rc-4e45b83e7475",
+   "saleor-rc-30fe250747ae",
+   "saleor-rc-9057e82cea23",
+   "saleor-rc-843a2c1905ad",
+   "saleor-rc-99f9e28f8b6f",
+   "saleor-rc-e089e93419bf",
+   "saleor-rc-094b1ec0f610",
+   "saleor-rc-2a59d31fc839",
+   "saleor-rc-f605058a13e8",
+   "saleor-rc-78c9081e2731",
+   "saleor-rc-484ce8815cf4",
+   "saleor-rc-b8786c1bf4d3",
+   "saleor-rc-9b96c1602b1f",
+   "saleor-rc-c6220233ccb1",
+   "saleor-rc-81d02e76b22e",
+   "saleor-rc-d4fcbd22a853",
+   "saleor-rc-1a8b592913a0",
+   "saleor-rc-ccd3960acd1d",
+   "saleor-rc-07f02e2c40ae",
+   "saleor-rc-f623ab428821",
+   "saleor-rc-a9e79dac40a2",
+   "saleor-rc-2c770c685a57",
+   "saleor-rc-138ee68c3818",
+   "saleor-rc-e129a4d6f9b1",
+   "saleor-rc-4800fa0beb60",
+   "saleor-rc-33010c0d5f7f",
+   "saleor-rc-0df62b3144b0",
+   "saleor-rc-db5440f7994f",
+   "saleor-rc-eaf1577585a2",
+   "saleor-rc-f953990d221b",
+   "saleor-rc-7b3fbb77c331"
+  ],
+  "expansion_order": [
+   "saleor-rc-2c44b8eccc2c",
+   "saleor-rc-85d416c024e1",
+   "saleor-rc-d7b03a3eeec0",
+   "saleor-rc-14f2176b5d8c",
+   "saleor-rc-0c1062eb0da6",
+   "saleor-rc-4386f322f659",
+   "saleor-rc-65dfc61ec9fc",
+   "saleor-rc-03c5a9916858",
+   "saleor-rc-3513064157fa",
+   "saleor-rc-a9121e630814",
+   "saleor-rc-1fa6a637c7fc",
+   "saleor-rc-5477b7dd3867",
+   "saleor-rc-349fe0c194a1",
+   "saleor-rc-032b98afff20",
+   "saleor-rc-f74a5394c7f1",
+   "saleor-rc-cbd7310268c6",
+   "saleor-rc-66907b149076",
+   "saleor-rc-10889526d151",
+   "saleor-rc-c12e83aac8f6",
+   "saleor-rc-255d39da978a",
+   "saleor-rc-4931e989d82d",
+   "saleor-rc-8eb11da07f09",
+   "saleor-rc-954887b39f13",
+   "saleor-rc-208833e2fa53",
+   "saleor-rc-5f8b1cc4db2d",
+   "saleor-rc-1af1c3a368ec",
+   "saleor-rc-dd8ead382526",
+   "saleor-rc-ea98ffa79753",
+   "saleor-rc-0ad61b3f0096",
+   "saleor-rc-d8a4cd122bf0",
+   "saleor-rc-7691de1ea22e",
+   "saleor-rc-c428b47bddc5",
+   "saleor-rc-b2622810adf1",
+   "saleor-rc-5c50110d46a2",
+   "saleor-rc-bcd9f60d2aef",
+   "saleor-rc-349d88efcfec",
+   "saleor-rc-224bf29fb39f",
+   "saleor-rc-8e6164e3d123",
+   "saleor-rc-fa1ed1794a8a",
+   "saleor-rc-438595033c60",
+   "saleor-rc-e0890780bf56",
+   "saleor-rc-30b4edece5aa",
+   "saleor-rc-aa2bcdd0c218",
+   "saleor-rc-45301d74fb45",
+   "saleor-rc-a1e1e2554327",
+   "saleor-rc-5144ee6bd55f",
+   "saleor-rc-f3a1ec65571f",
+   "saleor-rc-32f73ff32b2b",
+   "saleor-rc-5821309aed09",
+   "saleor-rc-6a1f884168d2",
+   "saleor-rc-fd5b7971c5d2",
+   "saleor-rc-cd076fed6118",
+   "saleor-rc-b0245506e69b",
+   "saleor-rc-d299e27e5f04",
+   "saleor-rc-74fbba6d0734",
+   "saleor-rc-27b65eae2a9a",
+   "saleor-rc-305415e0f8b7",
+   "saleor-rc-0e895847d8ae",
+   "saleor-rc-f6a3751a8bc2",
+   "saleor-rc-67cd71a9e0b7",
+   "saleor-rc-7b1e8cee95d5",
+   "saleor-rc-b97d1d9c7064",
+   "saleor-rc-07c8859c0ac3",
+   "saleor-rc-c7207e71e0d3",
+   "saleor-rc-1b4da5a88d08",
+   "saleor-rc-a5e831779345",
+   "saleor-rc-52a797b00af3",
+   "saleor-rc-6c928b72daa4",
+   "saleor-rc-b0672eea0422",
+   "saleor-rc-481c2d367c6f",
+   "saleor-rc-17c8d807b3d1",
+   "saleor-rc-d361479ab7da",
+   "saleor-rc-e8733aee630a",
+   "saleor-rc-d498167dcd30",
+   "saleor-rc-d3ab58054844",
+   "saleor-rc-bd0c56fc787e",
+   "saleor-rc-884327b653cc",
+   "saleor-rc-a576e993bab7",
+   "saleor-rc-585562cf1cec",
+   "saleor-rc-373efa067922",
+   "saleor-rc-df7c7d4e8466",
+   "saleor-rc-bf938e731bd8",
+   "saleor-rc-b35783838e51",
+   "saleor-rc-55ff6b5b2b65",
+   "saleor-rc-4adf36dfdbe7",
+   "saleor-rc-7e42fc67ce72",
+   "saleor-rc-e7175003a542",
+   "saleor-rc-36a9a14e8d12",
+   "saleor-rc-f1d4e82c1dea",
+   "saleor-rc-693eb302968c",
+   "saleor-rc-f4eeba7fab16",
+   "saleor-rc-dea5ffb730ac",
+   "saleor-rc-8220a53473bb",
+   "saleor-rc-0179b331be38",
+   "saleor-rc-0f16ed78b02b",
+   "saleor-rc-d6656e0f2a1d",
+   "saleor-rc-1f9b5c53a63a",
+   "saleor-rc-11756ee6b65a",
+   "saleor-rc-e6198146186d",
+   "saleor-rc-19bb9b070965",
+   "saleor-rc-a93a877388ae",
+   "saleor-rc-9b88221ba8c2",
+   "saleor-rc-b2e3652af826",
+   "saleor-rc-fd463c8aae38",
+   "saleor-rc-333febd35223",
+   "saleor-rc-95db464ad4ea",
+   "saleor-rc-367b8038f6b9",
+   "saleor-rc-f76d0093b450",
+   "saleor-rc-506cd1157e9c",
+   "saleor-rc-a7a2bf4146ba",
+   "saleor-rc-1f6fbe2ebf9b",
+   "saleor-rc-37a3a7bbec31",
+   "saleor-rc-6370f4a6b8a5",
+   "saleor-rc-2c218aadc9b7",
+   "saleor-rc-ddb8921a6744",
+   "saleor-rc-5d2721a36364",
+   "saleor-rc-e429b8be07fd",
+   "saleor-rc-c4dac9df4baf",
+   "saleor-rc-99041211cf9e",
+   "saleor-rc-c0d4785abd74",
+   "saleor-rc-a650f8f05c02",
+   "saleor-rc-a36d8a8d0c0c",
+   "saleor-rc-e28ca6ad6442",
+   "saleor-rc-9c032845e29b",
+   "saleor-rc-3d304a30a5bc",
+   "saleor-rc-aea05da547c8",
+   "saleor-rc-571a3b145aea",
+   "saleor-rc-fe6e46266e81",
+   "saleor-rc-ba4ff17faab4",
+   "saleor-rc-c31fb4cfd08f",
+   "saleor-rc-ba0f225cc7d3",
+   "saleor-rc-8a03c74411d7",
+   "saleor-rc-63a31dd3c8ca",
+   "saleor-rc-12007c00e480",
+   "saleor-rc-c87441bb1464",
+   "saleor-rc-bd64d6fdbe4b",
+   "saleor-rc-22a30bf2e4cc",
+   "saleor-rc-8b0cbe2fb72f",
+   "saleor-rc-b41168d9077d",
+   "saleor-rc-c9c1cc0968d3"
+  ]
+ },
+ "selection": {
+  "tasks": [
+   {
+    "task_id": "saleor-rc-05bdc7feb9ac",
+    "f2p_candidacy": "STRONG_F2P_CANDIDATE",
+    "env_family": null,
+    "migration_or_config_heavy": null,
+    "changed_source_bin": null,
+    "n_modified_test_files_bin": null
+   },
+   {
+    "task_id": "saleor-rc-1abda1e0d36e",
+    "f2p_candidacy": "STRONG_F2P_CANDIDATE",
+    "env_family": null,
+    "migration_or_config_heavy": null,
+    "changed_source_bin": null,
+    "n_modified_test_files_bin": null
+   },
+   {
+    "task_id": "saleor-rc-24f9b244d6bc",
+    "f2p_candidacy": "STRONG_F2P_CANDIDATE",
+    "env_family": null,
+    "migration_or_config_heavy": null,
+    "changed_source_bin": null,
+    "n_modified_test_files_bin": null
+   },
+   {
+    "task_id": "saleor-rc-29c2d1abdce0",
+    "f2p_candidacy": "STRONG_F2P_CANDIDATE",
+    "env_family": null,
+    "migration_or_config_heavy": null,
+    "changed_source_bin": null,
+    "n_modified_test_files_bin": null
+   },
+   {
+    "task_id": "saleor-rc-45cfb26218c8",
+    "f2p_candidacy": "STRONG_F2P_CANDIDATE",
+    "env_family": null,
+    "migration_or_config_heavy": null,
+    "changed_source_bin": null,
+    "n_modified_test_files_bin": null
+   },
+   {
+    "task_id": "saleor-rc-65643ec7c37f",
+    "f2p_candidacy": "STRONG_F2P_CANDIDATE",
+    "env_family": null,
+    "migration_or_config_heavy": null,
+    "changed_source_bin": null,
+    "n_modified_test_files_bin": null
+   },
+   {
+    "task_id": "saleor-rc-659af1b19239",
+    "f2p_candidacy": "STRONG_F2P_CANDIDATE",
+    "env_family": null,
+    "migration_or_config_heavy": null,
+    "changed_source_bin": null,
+    "n_modified_test_files_bin": null
+   },
+   {
+    "task_id": "saleor-rc-663543eaf563",
+    "f2p_candidacy": "STRONG_F2P_CANDIDATE",
+    "env_family": null,
+    "migration_or_config_heavy": null,
+    "changed_source_bin": null,
+    "n_modified_test_files_bin": null
+   },
+   {
+    "task_id": "saleor-rc-697cbdc85b4a",
+    "f2p_candidacy": "STRONG_F2P_CANDIDATE",
+    "env_family": null,
+    "migration_or_config_heavy": null,
+    "changed_source_bin": null,
+    "n_modified_test_files_bin": null
+   },
+   {
+    "task_id": "saleor-rc-940b8d83ec5c",
+    "f2p_candidacy": "STRONG_F2P_CANDIDATE",
+    "env_family": null,
+    "migration_or_config_heavy": null,
+    "changed_source_bin": null,
+    "n_modified_test_files_bin": null
+   },
+   {
+    "task_id": "saleor-rc-aa814bd5f355",
+    "f2p_candidacy": "STRONG_F2P_CANDIDATE",
+    "env_family": null,
+    "migration_or_config_heavy": null,
+    "changed_source_bin": null,
+    "n_modified_test_files_bin": null
+   },
+   {
+    "task_id": "saleor-rc-ab6c29ba265d",
+    "f2p_candidacy": "STRONG_F2P_CANDIDATE",
+    "env_family": null,
+    "migration_or_config_heavy": null,
+    "changed_source_bin": null,
+    "n_modified_test_files_bin": null
+   },
+   {
+    "task_id": "saleor-rc-b60266933f7a",
+    "f2p_candidacy": "STRONG_F2P_CANDIDATE",
+    "env_family": null,
+    "migration_or_config_heavy": null,
+    "changed_source_bin": null,
+    "n_modified_test_files_bin": null
+   },
+   {
+    "task_id": "saleor-rc-b79cf8f91f04",
+    "f2p_candidacy": "STRONG_F2P_CANDIDATE",
+    "env_family": null,
+    "migration_or_config_heavy": null,
+    "changed_source_bin": null,
+    "n_modified_test_files_bin": null
+   },
+   {
+    "task_id": "saleor-rc-bd11af3ea0a4",
+    "f2p_candidacy": "STRONG_F2P_CANDIDATE",
+    "env_family": null,
+    "migration_or_config_heavy": null,
+    "changed_source_bin": null,
+    "n_modified_test_files_bin": null
+   },
+   {
+    "task_id": "saleor-rc-c38263743e9e",
+    "f2p_candidacy": "STRONG_F2P_CANDIDATE",
+    "env_family": null,
+    "migration_or_config_heavy": null,
+    "changed_source_bin": null,
+    "n_modified_test_files_bin": null
+   },
+   {
+    "task_id": "saleor-rc-cae629dc4166",
+    "f2p_candidacy": "STRONG_F2P_CANDIDATE",
+    "env_family": null,
+    "migration_or_config_heavy": null,
+    "changed_source_bin": null,
+    "n_modified_test_files_bin": null
+   },
+   {
+    "task_id": "saleor-rc-ce3b63edecef",
+    "f2p_candidacy": "STRONG_F2P_CANDIDATE",
+    "env_family": null,
+    "migration_or_config_heavy": null,
+    "changed_source_bin": null,
+    "n_modified_test_files_bin": null
+   },
+   {
+    "task_id": "saleor-rc-e0f2933d58b9",
+    "f2p_candidacy": "STRONG_F2P_CANDIDATE",
+    "env_family": null,
+    "migration_or_config_heavy": null,
+    "changed_source_bin": null,
+    "n_modified_test_files_bin": null
+   },
+   {
+    "task_id": "saleor-rc-f3a0bc28797b",
+    "f2p_candidacy": "STRONG_F2P_CANDIDATE",
+    "env_family": null,
+    "migration_or_config_heavy": null,
+    "changed_source_bin": null,
+    "n_modified_test_files_bin": null
+   },
+   {
+    "task_id": "saleor-rc-1f47b503f69e",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::00cc6cd03f46a08f17a3039cd5f821e683fb673608c9474ae3642b89e867813d",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-add4064d238e",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::02e282056eaea56c639bec104937eac5cdb88b80464ee5387f254aa45aab00af",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-8c8d9db54d63",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::0320ceb7bc2881e7b138aaafe357da5b9fff5154d625b3a805619a21a9791496",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-5c458f26276d",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::03b0a3caf840548b208d0c7d6695d8d48f66442003f0147793ad5d45d73ca064",
+    "migration_or_config_heavy": true,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-46456e7317ca",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::047c8a0b5da6b382eb0c311fcd13aa24660c33639544beda111bf8ef926ed0cd",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-5f78ba7b1647",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::04e7b4dc0743ddc39c5a1d42fe65c5a782cb2039f332f5b4b760965c39597aa0",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-02dfdad9985b",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::04fde2da2fe68cebb37a902a4844e21a914d72acb11835e86714fadf9c9baf20",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-14a682044ca4",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::04fde2da2fe68cebb37a902a4844e21a914d72acb11835e86714fadf9c9baf20",
+    "migration_or_config_heavy": true,
+    "changed_source_bin": "LARGE",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-f5d2c47e47c3",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::07020e35632b95fc2e4ba194c469f5c910ee7b3ab308731db4970417254342f6",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-18430f2a7a16",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::072093fae087c2ffa23a1c88c347d585f388b9d73706af53c82d8dfc040719c2",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-fbfc66e3a46b",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::0a21778390e5a912b93cb9dfc415446489c2b07759e9585668b0f919a30ae2bf",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-50eff94aa37c",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::0a21778390e5a912b93cb9dfc415446489c2b07759e9585668b0f919a30ae2bf",
+    "migration_or_config_heavy": true,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-b356a525ba2a",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::0c21d2f685e35e3815624356bfb0f6ee3c762c8061c68fc36a644824ac7a672e",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-3bf31ab2fefc",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::0c21d2f685e35e3815624356bfb0f6ee3c762c8061c68fc36a644824ac7a672e",
+    "migration_or_config_heavy": true,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-0fd3a4d986a0",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::0cf5780599f3309837798017cd9abe6e1ac13d3cd7dbdf57bf4a1c299ecc969c",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-0b46c89dfd9e",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::0d2909067f25e0022a2b0095fd28a9bf0645163b2d94401c92cea93d147140ad",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-dacded922b1f",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::1132558eee2e95d9616700d9f576d3c797f2057992f58edecae181c48993b64c",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-eb61406cecc5",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::1132558eee2e95d9616700d9f576d3c797f2057992f58edecae181c48993b64c",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-63a25a0c46d5",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::11a3a51efb58fa8e10d4691c39725e1261b0c06af9b204940b81fd90d3eb1526",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-03be7057c1f1",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::154ab459ed6029b7f4bfc5e2fd789377866afbf71c039fc6773a04f826f5037e",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-796f4a0fd969",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::1611b6778c922c7d8994ab1fe5e8fff1976011e01897a38a71768ce3edf5395c",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-3cac33590b90",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::16dda498e0d4fb11caaf8be9d659a938340ce8b513431b80428cfead36b029dc",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-ffe3a3ece0fb",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::1f169c6f7d73ee59c115a93a8ad2d0e287251b61b28f0d8747c5eeffcb8b4e05",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-95dbffbc523a",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::1f169c6f7d73ee59c115a93a8ad2d0e287251b61b28f0d8747c5eeffcb8b4e05",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-28799575c518",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::246d099015648ef3a5816cab9c52d10412dbee6856fd0d99ffebeb0bac0415cd",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-ef4d31a09e7c",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::246d099015648ef3a5816cab9c52d10412dbee6856fd0d99ffebeb0bac0415cd",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-80a33b28b80d",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::27c6f4fd37ff55c368289ae54e103963f6e778cd616458faae4a68f00cf947b6",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-54bbb04b8954",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::29d8f9749981cbc1d006bb49915fab8a57f92a33cac0b3c4922de02267f3c016",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-a17f11cf7e87",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::29d8f9749981cbc1d006bb49915fab8a57f92a33cac0b3c4922de02267f3c016",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-4e45b83e7475",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::2a89864ef89ccdd4b0ea57f398366b97e4c82fac8ffb4a811dc3b474ae31b5f1",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-30fe250747ae",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::2b412bff7c3b2a0d6fb1cf9f5ee88f42fe99aea06e63e0f1ad61b67a2c0a26c9",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-9057e82cea23",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::2b412bff7c3b2a0d6fb1cf9f5ee88f42fe99aea06e63e0f1ad61b67a2c0a26c9",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-843a2c1905ad",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::2e159c825b1298fb2142ae2372c79bb78f0abe98fc694a0fae0f10371955cc89",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-99f9e28f8b6f",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::30af04af486ad3e7c094790463a2fdc65ceb80802a45e8f687f8a8226c2ca7b5",
+    "migration_or_config_heavy": true,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-e089e93419bf",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::33c8cc7ce3c1d278213ab8c555c1c5ecf5ae15fd5ac53986ab4939a0cd81efe1",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "LARGE",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-094b1ec0f610",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::33d17b1ac696cf9c1394116696e8190def2cb860082d89d44418747ba5562187",
+    "migration_or_config_heavy": true,
+    "changed_source_bin": "LARGE",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-2a59d31fc839",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::34afd9a1cddb4df264584a2e715b3326058ddae3ed52b7afe16806592449a127",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-f605058a13e8",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::34f99cad6ddd1f55026d6b5bf938cde7ed0116b1436e9c837339646a4de51c8f",
+    "migration_or_config_heavy": true,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-78c9081e2731",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::35ce19d286e3e1ebfa260a631411b44a6e39d9ce3a7313af5d9787a66e97bfaf",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-484ce8815cf4",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::39afdc6e258413da9cdfab945d2e325d7ab975bb8c4f23735115c247cc471a87",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-b8786c1bf4d3",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::3b6c2df8301d0a6babb4a0050713db5f3de45cdd508f3cb30c4abe3824a85401",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-9b96c1602b1f",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::3b6c2df8301d0a6babb4a0050713db5f3de45cdd508f3cb30c4abe3824a85401",
+    "migration_or_config_heavy": true,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-c6220233ccb1",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::3f368efb1b8e21fc011cf0b0bff9fc30928948be7f573bd0d4f0149b78e2da78",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-81d02e76b22e",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::3f368efb1b8e21fc011cf0b0bff9fc30928948be7f573bd0d4f0149b78e2da78",
+    "migration_or_config_heavy": true,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-d4fcbd22a853",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::441a421897ee169e7ee430867ea154eda73d9600d29444dfd1fc30cfb6c22b00",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-1a8b592913a0",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::441a421897ee169e7ee430867ea154eda73d9600d29444dfd1fc30cfb6c22b00",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-ccd3960acd1d",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::459389e9b67f1ba47e72db62a1b52cb549b10509dda4471eb9cd8a00e3ddc439",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-07f02e2c40ae",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::459389e9b67f1ba47e72db62a1b52cb549b10509dda4471eb9cd8a00e3ddc439",
+    "migration_or_config_heavy": true,
+    "changed_source_bin": "LARGE",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-f623ab428821",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::459389e9b67f1ba47e72db62a1b52cb549b10509dda4471eb9cd8a00e3ddc439",
+    "migration_or_config_heavy": true,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-a9e79dac40a2",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::459389e9b67f1ba47e72db62a1b52cb549b10509dda4471eb9cd8a00e3ddc439",
+    "migration_or_config_heavy": true,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-2c770c685a57",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::48e7bc9becc1475f181308a4ed9c36d02110d0464ace526220969dea30e3c19b",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-138ee68c3818",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::48e7bc9becc1475f181308a4ed9c36d02110d0464ace526220969dea30e3c19b",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-e129a4d6f9b1",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::4c32206c57feee5f2070b4e454e168545fc426a7228137a7c4fd0fcb368e4889",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-4800fa0beb60",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::4c5eb6a5812d7cb75046c6379755ef3ff7ddf7d2812675921ce8140cfc5c684b",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-33010c0d5f7f",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::4c5f98b60e145c792c7432d033ccc79702f4ba268ccd1cde1dee5a65d5e79be5",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-0df62b3144b0",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::4cec92e6d9fdc84564a17f65e20074345294367e2d2a889ce494636b82a2cca0",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-db5440f7994f",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::4d7237e61869807ffe77749a4b52028cc895b0b357d50f5c323aa2ee332a517c",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-eaf1577585a2",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::4dcbd0392a426f70bdab4949bafb9c58d8045d01abd49cffdbf8e25f66a8ac71",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-f953990d221b",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::4dcbd0392a426f70bdab4949bafb9c58d8045d01abd49cffdbf8e25f66a8ac71",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-7b3fbb77c331",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::4dcbd0392a426f70bdab4949bafb9c58d8045d01abd49cffdbf8e25f66a8ac71",
+    "migration_or_config_heavy": true,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-2c44b8eccc2c",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::4dd11dabd99d1b43ffcc1454cb14f820bb2a31dec9aa7007c22090d4062b22e8",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-85d416c024e1",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::4df1ff8f4326eb63080adc39f41dc2cf0ad60317746c09049b5ab9e8822472bf",
+    "migration_or_config_heavy": true,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-d7b03a3eeec0",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::4f4c4a57cc76905783ddfd3ff60d08e55e132494677751dc74e08aebe633c977",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-14f2176b5d8c",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::5156cb032e3d9b02ee719330a5777d85328d6cee5c73f873ea3b426771ba1857",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-0c1062eb0da6",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::54285a9de30b218a94b9c93c22b5c11302526ecace0abd2dad71b0c21d1467bd",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-4386f322f659",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::54285a9de30b218a94b9c93c22b5c11302526ecace0abd2dad71b0c21d1467bd",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-65dfc61ec9fc",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::54285a9de30b218a94b9c93c22b5c11302526ecace0abd2dad71b0c21d1467bd",
+    "migration_or_config_heavy": true,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-03c5a9916858",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::54ea9c0b531d45507c5920b6096b41119c4e6f06d2d2810c006653555277b8dd",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-3513064157fa",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::562f12b68acb2e4f56d2fd29d54724f0079e4f91911420340aac6c30613ef0b4",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-a9121e630814",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::562f12b68acb2e4f56d2fd29d54724f0079e4f91911420340aac6c30613ef0b4",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-1fa6a637c7fc",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::58c38ff447eafe0935b73aba42f4495eb292b0eab45beebedffedb9bf6d8633d",
+    "migration_or_config_heavy": true,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-5477b7dd3867",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::5a25230ded047084b6ca7643b691ee6b7e22bc3506a0523a7826b76fc8646e43",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-349fe0c194a1",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::5ab6e1668defbf9e4d62f35c4973d381be0fae6e2580dbaffd287a469e2e4355",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-032b98afff20",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::5b3ce5e4e12e3c2608240186b7ab57debed31e8b1c5235f2bfbf0bb16316ef78",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-f74a5394c7f1",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::5e58c29b8e1906c8ddb6a84f70083b167c1856baf96ea4897f6c7125c51d31b9",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-cbd7310268c6",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::5f17a0f9c9bbe231e204673a7cef8b193067d35fc9284df102c5456e81dfc60e",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-66907b149076",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::606e7f8174d998c38ecd10c33b47cb7e2d727563f4ddb60aa789d78c48def371",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-10889526d151",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::60b03403530eac7b06d92a75c62fa92a23078312b5d2e9d67640fd6e3b021ea0",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-c12e83aac8f6",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::636ca4dbab55c336c65b2b21a87ac559057b28255778a377f2967da04f546d02",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-255d39da978a",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::636ca4dbab55c336c65b2b21a87ac559057b28255778a377f2967da04f546d02",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-4931e989d82d",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::65cb831502b75b46a8bd12933466107a69da5d284c6cd0f59ce260c366fbbab1",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-8eb11da07f09",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::65f7b89a09a02a81d91edd43f1ad3e0e7d28d3ceffcd617debe6003bb166419a",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-954887b39f13",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::65f7b89a09a02a81d91edd43f1ad3e0e7d28d3ceffcd617debe6003bb166419a",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-208833e2fa53",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::66bed1bfa6c7dc459e26b925fd665776b0b02ef058bd4672ef349791ebc71480",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-5f8b1cc4db2d",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::70f221ba98111dfe319496583b07e6c6f368c583fe95f3f2c19418323f2aa24e",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-1af1c3a368ec",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::715160298e7a2da450f58865fe3b6ec982bb08a3cfb2182554894e54471fa699",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "LARGE",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-dd8ead382526",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::715160298e7a2da450f58865fe3b6ec982bb08a3cfb2182554894e54471fa699",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-ea98ffa79753",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::715160298e7a2da450f58865fe3b6ec982bb08a3cfb2182554894e54471fa699",
+    "migration_or_config_heavy": true,
+    "changed_source_bin": "LARGE",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-0ad61b3f0096",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::73ea64443cd9dce245e6e53a256ea90b8a5bb561319909560e398def4a2a264d",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-d8a4cd122bf0",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::75862af67b1c4faac8279f44de34f7963d1a37d72dddccdffe5a293d8e8de4a1",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-7691de1ea22e",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::763941d68b3626289ddcc617f87e6177ba0d8b411bedd6598694e7652b97ecc0",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-c428b47bddc5",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::77561db1613073115e3c3f0484f2efa011cb6bd9b60cd619e66657d471361733",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-b2622810adf1",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::7841e1f8cfa0e4f45b9e04541e0f3a6777e9b534ba73d643f16a9bda403c7864",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-5c50110d46a2",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::789042098598bbf1749b0dd71ec1761d9d16884da8034524e97a061568250f99",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-bcd9f60d2aef",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::7af5bd648cb8b8dac80994b0e95ef09823d109b321507a96d676d00345d964e1",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-349d88efcfec",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::7af5bd648cb8b8dac80994b0e95ef09823d109b321507a96d676d00345d964e1",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-224bf29fb39f",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::7dc25f62bf12a0fe0bec474bd746972754799eae81f9d9186f8fc3c7119c1f33",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-8e6164e3d123",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::7dc25f62bf12a0fe0bec474bd746972754799eae81f9d9186f8fc3c7119c1f33",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-fa1ed1794a8a",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::82451c82779e8c97d7504b3e3fc987084cde1c729e69a36aa48c7e73cca3daf6",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-438595033c60",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::82451c82779e8c97d7504b3e3fc987084cde1c729e69a36aa48c7e73cca3daf6",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-e0890780bf56",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::83dba6dc2ad94439b023ee7b9682874c8a6b17aa199743ec3ec7911a0296d476",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-30b4edece5aa",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::83dba6dc2ad94439b023ee7b9682874c8a6b17aa199743ec3ec7911a0296d476",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-aa2bcdd0c218",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::85f4a677e47c842e8ca6d7eac79ded224eb943c73c2e38f03dd438a5ec332c5f",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-45301d74fb45",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::888a7f7811a1762aa5d75d3a9eaf362ceb70a265169dab779fbf98759a2dfff9",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-a1e1e2554327",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::89031d877409e78b0bb0589bdeb11a6e99a50b3cb22327c36820bbb537036b8a",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-5144ee6bd55f",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::89031d877409e78b0bb0589bdeb11a6e99a50b3cb22327c36820bbb537036b8a",
+    "migration_or_config_heavy": true,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-f3a1ec65571f",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::8dd66e0f108d5b687514943a20c27bc8fcc2017bf374a334eace1b52f8827f7f",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-32f73ff32b2b",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::8dd66e0f108d5b687514943a20c27bc8fcc2017bf374a334eace1b52f8827f7f",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-5821309aed09",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::8fbeccf36c5eb8e45149bc43155482d6bbf6d7822ba2034a038a2ba5d9a8feb8",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-6a1f884168d2",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::8fbeccf36c5eb8e45149bc43155482d6bbf6d7822ba2034a038a2ba5d9a8feb8",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-fd5b7971c5d2",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::8fbeccf36c5eb8e45149bc43155482d6bbf6d7822ba2034a038a2ba5d9a8feb8",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-cd076fed6118",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::8fc11a95183889eb00c606196178ceeaaa303236fe68f5d55775a61cc2f691ad",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-b0245506e69b",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::9052cabaf8fdc591539632cb7141afb54b956c8fd35dafc62fd35aa1e2a4d95c",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-d299e27e5f04",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::9052cabaf8fdc591539632cb7141afb54b956c8fd35dafc62fd35aa1e2a4d95c",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-74fbba6d0734",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::90f7884b1a94918ba8f82b3248e2e64823d1f9c49748c1d4b12cb0f5d9f9c095",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-27b65eae2a9a",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::986d4ee214861925d36c95b25fea32506ff82d9f0c5b816ec338ae98916a18ce",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-305415e0f8b7",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::98c2eed7fab0daa3e7a40c465af9bf339e5f42ef8817aeb5583b921d0e635e1e",
+    "migration_or_config_heavy": true,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-0e895847d8ae",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::9a8109d61b4713d91903c011fe3a61cc89bac3ed30fcbde4ae63e75a68d6c481",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-f6a3751a8bc2",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::9a8109d61b4713d91903c011fe3a61cc89bac3ed30fcbde4ae63e75a68d6c481",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-67cd71a9e0b7",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::9b4e28b1d0f8120586c9133513e3d183b888bff88ef238ca186abc398c5f78ee",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-7b1e8cee95d5",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::9e9e2acc9be399b141ea149b213aa3ca500ad191c6d941a20bcdf1b8c49f72de",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-b97d1d9c7064",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::9e9e2acc9be399b141ea149b213aa3ca500ad191c6d941a20bcdf1b8c49f72de",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-07c8859c0ac3",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::a1423744431100db160802db19920f5db2add5654fce7b96c40b393353d062cd",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-c7207e71e0d3",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::a674b5f78a97b69a1c08d2065f084b4450b803350e10e29ec4d49842f8707be6",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-1b4da5a88d08",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::a8a7bb2838ef2d4dea5c903d1508244ff12236e919f24f68c08bf43e33e5435e",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-a5e831779345",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::a8f4fc31ae22d38b0f37a299321e8aff23c03bbb9ddb4c65e5324418e76eb955",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-52a797b00af3",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::a922f8316a27a46c6e476e6eaa0d25589bf7b551dd544318b74b9aa2a946438e",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-6c928b72daa4",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::aae75c7356f7b12ffdf26d2ee54394e4455d33c75fbdb5576ec55c754becc1b4",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-b0672eea0422",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::ae0c43780fe3315c155fda064da4a835781a0a63dec14c46425f8fd71688badb",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-481c2d367c6f",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::b05a6b80af8ff29e243d24fe41a962f8658734d46f14d320940584e7b886bee6",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-17c8d807b3d1",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::b6c4b4478d9c725122988c102da2a9698386fa0cd438eedb4b66463479c60364",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-d361479ab7da",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::b921c76fb1eb32cf74435426df475cdcb6a17c6f4efd7dbbb3e134a2c1c9ba25",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-e8733aee630a",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::ba301a58240f5a1dd2a3908babaff5698aa17b29958b6a39d909c97a342c6bd2",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-d498167dcd30",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::ba301a58240f5a1dd2a3908babaff5698aa17b29958b6a39d909c97a342c6bd2",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-d3ab58054844",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::bb5bcaf2cfadc98c2df9da7a694af3011647aa1c251a38af53e196ce81876522",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-bd0c56fc787e",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::bb5bcaf2cfadc98c2df9da7a694af3011647aa1c251a38af53e196ce81876522",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-884327b653cc",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::bb5bcaf2cfadc98c2df9da7a694af3011647aa1c251a38af53e196ce81876522",
+    "migration_or_config_heavy": true,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-a576e993bab7",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::bba718bc6ed4c6089dbdd8c4ce304d112df43dee69da4af11df7f67c979bf047",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-585562cf1cec",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::bba8b6dfe50baab5ac533019f10ae986e2028549c176ccd25babc5779014ff52",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-373efa067922",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::bd8cc8644a5328f559c200786b432518a098aa890b93bb859b2f5fdcf6dfbdaf",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-df7c7d4e8466",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::c17bb2122810c1b0d5fcfac6258c039a76c3a2d8c97e064ae3ac8c0f09f44bfa",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-bf938e731bd8",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::c21de0b0c494a7a02d02d0a0d5a9c09af67444042456d428d40d1e6c7e6c43ce",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "LARGE",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-b35783838e51",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::c25c44a8eb8612e93091c0d2bc6d9fb96ba989ea093efb91d4c823ea09738edb",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-55ff6b5b2b65",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::c48ed79d4d8eec092994e374df8cf7bf534d09eff8fa4612f62f10d29793ac78",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-4adf36dfdbe7",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::c4b2f74e87e7b0c167d45a9075c565892dd0d86c262c811aff6525e90eaa668b",
+    "migration_or_config_heavy": true,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-7e42fc67ce72",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::c7c0514e4c5f9eebad61987f497995775efea7013ba61464257d53efd69d9c93",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-e7175003a542",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::c7c0514e4c5f9eebad61987f497995775efea7013ba61464257d53efd69d9c93",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-36a9a14e8d12",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::cc75506f930a8fecbf3db2aee7db41991d96267941dd399956bd41a80d8cb5f6",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-f1d4e82c1dea",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::cec89279d96025ffc5d4a8417a7e5c66d5bb66e03a43d3a66ac2f65011c3e22f",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-693eb302968c",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::cf9f7cf57841d8ba608b6368ab5ce58587af4e68c3803a903d03c2db9f4955c7",
+    "migration_or_config_heavy": true,
+    "changed_source_bin": "LARGE",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-f4eeba7fab16",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::d0a123e299a61e84e492eb664dc0ddbfe18670c6dae12e79f0554542ed5663f6",
+    "migration_or_config_heavy": true,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-dea5ffb730ac",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::d0d5dd7ab63cf037259ce23fe0de6d8988c2bc9284fbdf80f93462348e4f7510",
+    "migration_or_config_heavy": true,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-8220a53473bb",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::d3001a08f65782adfbbd8ef442290fb869272887a0008497ffa7f9781cb4f8f6",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-0179b331be38",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::d9edfb8a81efd5d49524ea49c100a7d6029695e48b53be9150e3258f5744f40e",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-0f16ed78b02b",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::d9edfb8a81efd5d49524ea49c100a7d6029695e48b53be9150e3258f5744f40e",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-d6656e0f2a1d",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::db1986bfa903205ee32465301ef551dafe443d1a90acbb3623f7b67b6f62abca",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-1f9b5c53a63a",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::dbbf160270e98ab4954787284fb23e634c22656b75a3459e3e55e7668a79e88a",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-11756ee6b65a",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::ddfe8b33218949d723c49f348e533556cf01956b7aa8d7247b9bb62ffa4d4b1e",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-e6198146186d",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::df02bced77e855615efce6b7e49fc2c46c7ccd8af46c203fb6b32307eadca6b9",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-19bb9b070965",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::df3789fa06f5d52e02a57462453f66fb7f0711162777979ba5e922da07c12d90",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-a93a877388ae",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::e624ec52bf993fa369b11e0b956036178aa3262fd93037ff2b04be6963053b19",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-9b88221ba8c2",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::e837cca1d50dcbaaea27f88711fe9f3b910ded1824ca694e2a23f1bd149035cc",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-b2e3652af826",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::ea671e81498fbc3990a8fc2a349752a6ef883cf04509e46f9c5db757ed93fe8e",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-fd463c8aae38",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::eba7c53c01abf83b3be5af98af58b4e0073ab96756ee04da7901c74f26f1d7da",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-333febd35223",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::eba7c53c01abf83b3be5af98af58b4e0073ab96756ee04da7901c74f26f1d7da",
+    "migration_or_config_heavy": true,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-95db464ad4ea",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::ec8791a127a768548905445c13e45bcd134da85b090072a74d988de7cc91f0dd",
+    "migration_or_config_heavy": true,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-367b8038f6b9",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::eead97db622f221f631880d63a37f0f268cfb778998c2dace0e290cb9b6519dd",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-f76d0093b450",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::ef5c13e4b0a7baec221b15db4a9739d5715dd9c3b608c47d6e788ba8d4d09bec",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-506cd1157e9c",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::f0c9f341494f462cc8f434f4e26772816bb2a8c0c5d868f650b37c633930d2f0",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-a7a2bf4146ba",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::f18082308db6efea2fe030811a1059f28be1c1e1f685e03243564b0e364b8ee9",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-1f6fbe2ebf9b",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::f2e958aa2b1e9c04b9cc5824f25b6a4cee68e50268f9366ecd81e194f42bbd8f",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-37a3a7bbec31",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::f49c516697e37c134a1b582122d0c688047c3bfdc9cac0af29bb7b5b151708cb",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-6370f4a6b8a5",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::f49c516697e37c134a1b582122d0c688047c3bfdc9cac0af29bb7b5b151708cb",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-2c218aadc9b7",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::f49c516697e37c134a1b582122d0c688047c3bfdc9cac0af29bb7b5b151708cb",
+    "migration_or_config_heavy": true,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-ddb8921a6744",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::f85a7dacf67fbde0f5fb4ed8b2b04a24cee9575e1418d33b7ce4f91c98988db8",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "LARGE",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-5d2721a36364",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::f85a7dacf67fbde0f5fb4ed8b2b04a24cee9575e1418d33b7ce4f91c98988db8",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-e429b8be07fd",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::f85a7dacf67fbde0f5fb4ed8b2b04a24cee9575e1418d33b7ce4f91c98988db8",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-c4dac9df4baf",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::f85a7dacf67fbde0f5fb4ed8b2b04a24cee9575e1418d33b7ce4f91c98988db8",
+    "migration_or_config_heavy": true,
+    "changed_source_bin": "LARGE",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-99041211cf9e",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::f8c978653f12e8cdef30aaaf7c33723f4806704ccacf452335ecf10f23d49a44",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-c0d4785abd74",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::fa6f33e864419570ba6ed003798ef49087dab9cd8b33395807e0db48c649b449",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-a650f8f05c02",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::fa6f33e864419570ba6ed003798ef49087dab9cd8b33395807e0db48c649b449",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-a36d8a8d0c0c",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::fb008969e2926d9a68ca256e3aa3ce3ca25c0563ae5fe6274db20367eae4ec7e",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-e28ca6ad6442",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::fbc217246041d790cec37212103182c7d7b009d71fe269ea3d655f18c5fd794d",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-9c032845e29b",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::fddc32682cb252758aa5479691509d30f37ae624eb53dc1ef2c60a3f11351d54",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-3d304a30a5bc",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::ffbb11b55035baeaf040ed524404ead4b9844606bb52d5d3b61a2de811d83207",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-aea05da547c8",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::ffbb11b55035baeaf040ed524404ead4b9844606bb52d5d3b61a2de811d83207",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-571a3b145aea",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::ffbf74eaea309e1c5a507c16aadbfa362506e98517089f86df37a96de99c7706",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-fe6e46266e81",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::1132558eee2e95d9616700d9f576d3c797f2057992f58edecae181c48993b64c",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-ba4ff17faab4",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::246d099015648ef3a5816cab9c52d10412dbee6856fd0d99ffebeb0bac0415cd",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-c31fb4cfd08f",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::48e7bc9becc1475f181308a4ed9c36d02110d0464ace526220969dea30e3c19b",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-ba0f225cc7d3",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::54285a9de30b218a94b9c93c22b5c11302526ecace0abd2dad71b0c21d1467bd",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-8a03c74411d7",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::65f7b89a09a02a81d91edd43f1ad3e0e7d28d3ceffcd617debe6003bb166419a",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-63a31dd3c8ca",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::66bed1bfa6c7dc459e26b925fd665776b0b02ef058bd4672ef349791ebc71480",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-12007c00e480",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::98c2eed7fab0daa3e7a40c465af9bf339e5f42ef8817aeb5583b921d0e635e1e",
+    "migration_or_config_heavy": true,
+    "changed_source_bin": "MEDIUM",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-c87441bb1464",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::bb5bcaf2cfadc98c2df9da7a694af3011647aa1c251a38af53e196ce81876522",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-bd64d6fdbe4b",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::dbbf160270e98ab4954787284fb23e634c22656b75a3459e3e55e7668a79e88a",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-22a30bf2e4cc",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::eba7c53c01abf83b3be5af98af58b4e0073ab96756ee04da7901c74f26f1d7da",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-8b0cbe2fb72f",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::ffbf74eaea309e1c5a507c16aadbfa362506e98517089f86df37a96de99c7706",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": ">1"
+   },
+   {
+    "task_id": "saleor-rc-b41168d9077d",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::54285a9de30b218a94b9c93c22b5c11302526ecace0abd2dad71b0c21d1467bd",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   },
+   {
+    "task_id": "saleor-rc-c9c1cc0968d3",
+    "f2p_candidacy": "MODIFIED_TEST_CANDIDATE",
+    "env_family": "wp2-env-family-2026-09-22::bb5bcaf2cfadc98c2df9da7a694af3011647aa1c251a38af53e196ce81876522",
+    "migration_or_config_heavy": false,
+    "changed_source_bin": "SMALL",
+    "n_modified_test_files_bin": "1"
+   }
+  ]
+ }
+}

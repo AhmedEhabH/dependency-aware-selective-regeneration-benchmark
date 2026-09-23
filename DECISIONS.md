@@ -2169,3 +2169,61 @@ esearch/bounded-semantic-expansion/pilot_registration_freeze.json — 60 DEVELOP
 | D7 | Access to the 786 sealed Saleor RESERVE outcomes | **FORBIDDEN** |
 | D8 | Polyglot / JabRef / NestJS / Grafana execution now | **NO** — future external-validity work after core E2E evidence |
 | — | Decided by | Ahmed Ehab, 2026-09-22. Supervisor informed: **no** |
+
+## Decision WP2_ORACLE_CONFIRMATION_DESIGN_V1 - APPROVED (2026-09-22)
+
+| ID | Decision | Value |
+|---|---|---|
+| O1 | WP-2 census/oracle terminology and selection rationale | **APPROVED** |
+| O2 | Oracle Confirmation harness and deterministic test execution | **APPROVED - ZERO LLM/API** |
+| O3 | Oracle Confirmation scope | **All 20 strong + deterministic stratified modified-test waves under section 11** |
+| O4 | 786 sealed Saleor RESERVE outcomes | **FORBIDDEN - never access** |
+| O5 | Calibration-3/3b/3c task reuse in WP-2 oracle corpus | **NO** |
+| O6 | Test patches / F2P/P2P labels visible to future generator | **NO - evaluator-only** |
+| O7 | F2P failure taxonomy | **Behavioral, symbol-absence, environment, patch-apply, flaky, P2P-only; never collapse them silently** |
+| O8 | New-component ImportError/AttributeError | **DO NOT automatically discard; classify separately** |
+| O9 | WP-2 Design v1 causal arms | **DESIGN ONLY - no paid execution in this mission** |
+| O10 | Primary generator specification source | **No target-derived test content or gold-patch details; existing label-free intent + parent repository only** |
+| O11 | Target-derived component signatures/docstrings | **NOT in primary. May be proposed only as a separately labelled oracle-assisted/spec-augmented sensitivity after Pilot gate and before Research Run freeze** |
+| O12 | Random placebo scope | **APPROVED in design; size-matched, outcome-blind, fixed seed, source-file universe only** |
+| O13 | Gold-minus-one | **APPROVED in design on a bounded subset only; causal omission analysis, not primary arm** |
+| O14 | Generation replicates | **Do not freeze >=3 for every condition yet; Pilot estimates run-to-run variance first** |
+| O15 | Test/oracle flakiness screen | **3 independent executions per state required** |
+| O16 | AG16 | **Parallel future track; no paid execution here** |
+| O17 | External validity repositories | **Not in this mission** |
+| - | Decided by | Ahmed Ehab, 2026-09-22. Supervisor informed: no |
+
+## Execution safety correction - WP-2 isolated Postgres (2026-09-22)
+
+- **Correction:** never use \Get-Process postgres | Stop-Process -Force\; it can
+  terminate unrelated PostgreSQL instances/services on this machine.
+- **Isolated instance:** WP-2 Oracle Confirmation uses its own cluster at
+  \..\_workspace\wp2_oracle_confirmation\pgdata\ (initdb, trust auth) on
+  127.0.0.1:5433, managed ONLY by its postmaster.pid / exact PID, never by
+  process name.
+- **Pre-existing cluster:** the postgresql-x64-17 service (port 5432) was NOT
+  touched; verified still Running after WP-2 cluster start.
+- **Status:** isolated 5433 healthy (SELECT 1 OK). No global system config
+  changed.
+
+## Operational decision - core.longpaths for WP-2 worktrees (2026-09-22)
+
+- Saleor contains filenames longer than the Windows 260-char MAX_PATH (long
+  migration names and cassette .yaml paths). git worktree checkout from the
+  read-only cache fails with "Filename too long" unless long paths are enabled.
+- Action: set `core.longpaths=true` on the read-only cache repo
+  (dist/pilot-repo-cache/saleor). This is an operational git setting; no commit,
+  tree, blob, or working file content was changed. Worktrees inherit it.
+- Guard: the cache repository working tree is never checked out or modified;
+  only detached worktrees under `..\_workspace\wp2_oracle_confirmation\worktrees\`
+  are used.
+## Operational decision - billiard pin for WP-2 family venvs (2026-09-22)
+
+- The target-era Saleor pyproject resolves celery>=4.4.5,<6 -> celery 5.6.3 ->
+  billiard 4.3.0, which imports the Unix-only esource\ module unguarded on
+  Windows and breaks pytest collection.
+- The project's verified Saleor environment (used for MAIN_297 and validated
+  tests) uses billiard 4.2.1 / celery 5.5.3, which work on Windows.
+- Action: build_venv pins \illiard<4.3\ so family venvs run on Windows.
+  This is an operational environment-compatibility pin, not a scientific knob
+  and not a change to any frozen protocol.

@@ -1,0 +1,117 @@
+{
+  "artifact": "wp2_oracle_environment_validity_audit",
+  "date": "2026-09-22",
+  "mission": "wp2-oracle-confirmation-design-v1",
+  "raw_evidence_preserved": true,
+  "raw_per_task_rows": 81,
+  "raw_unique_tasks": 81,
+  "reclassified_via": "NEW artifact only; original per_task.jsonl records NOT edited",
+  "purpose": "Environment-validity gate before C4 expansion: distinguish genuine environment unavailability from harness/environment-manager defects, transient failures, Windows platform incompatibilities, and DB/schema defects.",
+  "harness_defects_found_and_fixed": [
+    {
+      "id": "H1",
+      "defect": "single shared test_saleor PostgreSQL database reused across different-era Saleor tasks; stale migration state (1437 django_migrations rows, auth_permission table missing) caused all evaluator runs to fail with 'relation auth_permission does not exist'",
+      "symptom": "5 tasks classified TARGET_ORACLE_INVALID with env_valid=True but every node erroring on a missing table",
+      "fix": "per-(task,state) test database (oracle_<tid8>_target / _parent); Django creates test_<name> fresh and runs era-correct migrations",
+      "reclassification": "the 5 raw TARGET_ORACLE_INVALID records are re-audited as ENV_MISMATCH (DB/schema defect) rather than valid target-oracle outcomes; re-run with the fixed harness",
+      "verified": "saleor-rc-c6220233ccb1 re-run with fix -> BEHAVIORAL_F2P (2 nodes), 50 P2P_ONLY, target stable 3/3, env valid"
+    },
+    {
+      "id": "H2",
+      "defect": "classification forced target_oracle_stable=False for OTHER_REVIEW_REQUIRED (node missing from one JUnit side), poisoning otherwise-clean tasks into TARGET_ORACLE_INVALID",
+      "fix": "OTHER_REVIEW_REQUIRED now only counts as unclassifiable node; does not set target_oracle_stable=False",
+      "verified": "c6220233ccb1 with 1 OTHER_REVIEW_REQUIRED node is now BEHAVIORAL_F2P"
+    },
+    {
+      "id": "H3",
+      "defect": "parent failure text not captured from JUnit, so BEHAVIORAL vs SYMBOL_ABSENCE could not be distinguished (classify_failure_reason received empty text)",
+      "fix": "parse_junit_with_failures captures per-node failure/error text; classification uses it",
+      "verified": "2 nodes now correctly classified BEHAVIORAL_F2P"
+    },
+    {
+      "id": "H4",
+      "defect": "negative-cache .failed markers written as plain text without builder schema version; a stale marker could permanently condemn a family after the builder changed",
+      "fix": "markers now JSON with builder_version; markers without the current version are ignored and unlinked",
+      "verified": "17 stale plain-text markers invalidated (ENV_BUILDER_VERSION=3)"
+    },
+    {
+      "id": "H5",
+      "defect": "WinError 206 filename-too-long on long task names in worktree/JUnit paths",
+      "fix": "worktree names, JUnit xml names, and patch file names shortened to tid[:12]",
+      "verified": "no path-length failure in the fixed re-run"
+    }
+  ],
+  "raw_classification_counts": {
+    "ENV_BROKEN": 75,
+    "TARGET_ORACLE_INVALID": 5,
+    "OTHER_REVIEW_REQUIRED": 1
+  },
+  "env_broken_breakdown": {
+    "COLLECTION_FAILED": 34,
+    "GENUINE_ENV_UNAVAILABLE": 28,
+    "WORKTREE_ADD_FAILURE": 13,
+    "note": "breakdown computed from the raw error text; WORKTREE_ADD_FAILURE (13) are all the same root cause: a Saleor cassette filename containing '?' (test_get_oembed_data[http:/www.youtube.com/watch?v=...].yaml) which is an invalid Windows path - a genuine Windows platform incompatibility, not a harness defect"
+  },
+  "target_oracle_invalid_reaudit": [
+    {
+      "task_id": "saleor-rc-05bdc7feb9ac",
+      "required_python": "~3.8",
+      "required_django": "django==3.1.4",
+      "raw_error_root_cause": "relation auth_permission does not exist (shared test DB schema defect)",
+      "verdict": "ENV_MISMATCH_DB_DEFECT (not a valid oracle outcome); re-run with fixed harness"
+    },
+    {
+      "task_id": "saleor-rc-30fe250747ae",
+      "required_python": "~3.8",
+      "required_django": "django==3.1.4",
+      "raw_error_root_cause": "relation auth_permission does not exist (shared test DB schema defect)",
+      "verdict": "ENV_MISMATCH_DB_DEFECT; re-run with fixed harness"
+    },
+    {
+      "task_id": "saleor-rc-9057e82cea23",
+      "required_python": "~3.8",
+      "required_django": "django==3.1.4",
+      "raw_error_root_cause": "relation auth_permission does not exist (shared test DB schema defect)",
+      "verdict": "ENV_MISMATCH_DB_DEFECT; re-run with fixed harness"
+    },
+    {
+      "task_id": "saleor-rc-c6220233ccb1",
+      "required_python": "~3.9",
+      "required_django": "django==3.2.13",
+      "raw_error_root_cause": "relation auth_permission does not exist (shared test DB schema defect)",
+      "verdict": "RE-RUN WITH FIX -> BEHAVIORAL_F2P (verified)"
+    },
+    {
+      "task_id": "saleor-rc-81d02e76b22e",
+      "required_python": "~3.9",
+      "required_django": "django==3.2.13",
+      "raw_error_root_cause": "relation auth_permission does not exist (shared test DB schema defect)",
+      "verdict": "ENV_MISMATCH_DB_DEFECT; re-run with fixed harness"
+    }
+  ],
+  "recovery_set": [
+    "2 failed old-era families (Django 3.x era tasks)",
+    "2 failed newer-era families",
+    "at least 1 previously TARGET_ORACLE_INVALID task (saleor-rc-c6220233ccb1 - done, BEHAVIORAL_F2P)",
+    "the WinError-206 task after path shortening"
+  ],
+  "recovery_verified": {
+    "saleor-rc-c6220233ccb1": "BEHAVIORAL_F2P - compatible env, target collection OK, target evaluator execution OK, no version/env error",
+    "saleor-rc-05bdc7feb9ac": "BEHAVIORAL_F2P - 9 behavioral + 6 symbol-absence F2P nodes, 44 P2P, target stable 3/3, env valid",
+    "saleor-rc-30fe250747ae": "BEHAVIORAL_F2P - 1 behavioral F2P node, 31 P2P, target stable 3/3",
+    "saleor-rc-9057e82cea23": "BEHAVIORAL_F2P - 4 behavioral F2P nodes, 305 P2P, target stable 3/3",
+    "saleor-rc-81d02e76b22e": "TARGET_ORACLE_INVALID (4 symbol-absence F2P + 35 P2P + 18 OTHER; OTHER include network-dependent tests blocked by --disable-socket - env-instrument issue, not target defect)",
+    "saleor-rc-ab6c29ba265d": "ENV_BROKEN - genuine Windows native-lib incompatibility: cannot load library gobject-2.0 (pycairo/pyGObject era dependency); no safe fix without platform change",
+    "saleor-rc-02dfdad9985b": "ENV_BROKEN - collection failed on target (pytest plugin/collection error; env built but target collection aborted)"
+  },
+  "harness_fixes_final": [
+    "per-(task,state) PostgreSQL test database (unique task suffix, not tid[:8])",
+    "per-file evaluator runs (survive parent collection aborts from target-introduced symbols)",
+    "failure-text capture from JUnit for BEHAVIORAL vs SYMBOL_ABSENCE distinction",
+    "OTHER_REVIEW_REQUIRED no longer forces target_oracle_stable=False",
+    "negative-cache markers versioned (ENV_BUILDER_VERSION)",
+    "short worktree/JUnit/patch filenames (WinError 206 fix)"
+  ],
+  "recovery_gate_conclusion": "Recovery gate H: PARTIALLY MET. 4 of 5 previously-TARGET_ORACLE_INVALID tasks re-ran to BEHAVIORAL_F2P (compatible env, target collection, target evaluator execution, no version/env error) - confirming the earlier TARGET_ORACLE_INVALID outcomes were ENV_MISMATCH_DB_DEFECT. However some 2020-era tasks have genuine Windows native-library blockers (gobject-2.0) and some target collection aborts persist. C4 expansion authorization: PARTIAL - expansion may proceed for tasks whose environment fingerprint builds on this host; tasks with native-lib/collection blockers are classified ENV_BROKEN.",
+  "c4_authorization": "PARTIAL - proceed with expansion for environment-feasible tasks; genuine Windows-platform-incompatible tasks stay ENV_BROKEN"
+}
