@@ -406,8 +406,9 @@ def confirm_one(
         derive_test_only_patch_from_cache,
     )
 
-    wt_target = f"{tid[:12]}_t"
-    wt_parent = f"{tid[:12]}_p"
+    task_suffix_short = tid.split("saleor-rc-")[-1][:12]
+    wt_target = f"{task_suffix_short}_t"
+    wt_parent = f"{task_suffix_short}_p"
     patch_bytes = derive_test_only_patch_from_cache(SALEOR_CACHE, parent, target)
     patch_sha = hashlib.sha256(patch_bytes).hexdigest()
 
@@ -458,7 +459,7 @@ def confirm_one(
             }
 
         # apply test-only patch to parent
-        patch_path = runner.worktrees_root / f"{tid[:12]}_test.patch"
+        patch_path = runner.worktrees_root / f"{task_suffix_short}_test.patch"
         if not _patch_applies(parent_wt, patch_bytes, patch_path):
             return {
                 "task_id": tid,
@@ -473,20 +474,22 @@ def confirm_one(
         _apply_patch(parent_wt, patch_path)
 
         # 3x target runs (per-state test database so era migrations do not
-        # collide across tasks/states)
+        # collide across tasks/states). Use the unique task-id suffix
+        # (after the saleor-rc- prefix) for a truly per-task DB name.
+        task_suffix = tid.split("saleor-rc-")[-1][:12]
         target_runs = []
-        runner._test_db = f"oracle_{tid[:8]}_target"
+        runner._test_db = f"oracle_{task_suffix}_target"
         for i in range(3):
-            xml = runner.worktrees_root / f"{tid[:12]}_t{i}.xml"
-            res = runner.run_evaluator(target_wt, node_ids, family_python, xml)
+            xml = runner.worktrees_root / f"{task_suffix}_t{i}.xml"
+            res = runner.run_evaluator_by_file(target_wt, test_files, family_python, xml)
             target_runs.append(res)
 
-        # 3x parent+testpatch runs
+        # 3x parent+testpatch runs (per-file to survive collection aborts)
         parent_runs = []
-        runner._test_db = f"oracle_{tid[:8]}_parent"
+        runner._test_db = f"oracle_{task_suffix}_parent"
         for i in range(3):
-            xml = runner.worktrees_root / f"{tid[:12]}_p{i}.xml"
-            res = runner.run_evaluator(parent_wt, node_ids, family_python, xml)
+            xml = runner.worktrees_root / f"{task_suffix}_p{i}.xml"
+            res = runner.run_evaluator_by_file(parent_wt, test_files, family_python, xml)
             parent_runs.append(res)
 
         return classify_task(

@@ -236,6 +236,81 @@ class OracleConfirmationRunner:
             "stderr_tail": r.stderr[-2000:],
         }
 
+    def run_evaluator_by_file(
+        self,
+        worktree: Path,
+        test_files: list[str],
+        python: Path,
+        junit_path: Path,
+        timeout_s: int = 900,
+    ) -> dict:
+        """Run pytest once per changed test file, merging JUnit outcomes.
+
+        Saleor changed-test sets frequently contain files that import
+        target-introduced symbols; at the parent state those files abort
+        collection for the WHOLE set, masking the other files' outcomes. This
+        method isolates each file so a collection error in one file does not
+        hide pass/fail in the rest. Merged node ids follow parse_junit.
+        """
+        env = os.environ.copy()
+        env["DATABASE_URL"] = f"postgres://saleor:saleor@127.0.0.1:5433/{self._test_db}"
+        env["CACHE_URL"] = "locmem://"
+        merged: dict[str, str] = {}
+        merged_failures: dict[str, str] = {}
+        t0 = time.monotonic()
+        for idx, test_file in enumerate(test_files):
+            file_junit = junit_path.parent / f"{junit_path.stem}_f{idx}.xml"
+            cmd = [
+                str(python),
+                "-m",
+                "pytest",
+                "-p",
+                "no:cacheprovider",
+                "-o",
+                "addopts=",
+                "--ds=saleor.tests.settings",
+                "--disable-socket",
+                "--reuse-db",
+                "--junitxml",
+                str(file_junit),
+                "-q",
+                test_file,
+            ]
+            try:
+                subprocess.run(
+                    cmd,
+                    cwd=str(worktree),
+                    capture_output=True,
+                    text=True,
+                    encoding="utf-8",
+                    timeout=timeout_s,
+                    env=env,
+                    check=False,
+                )
+            except subprocess.TimeoutExpired:
+                merged[test_file] = "error"
+                merged_failures[test_file] = "TIMEOUT"
+                continue
+            if file_junit.exists():
+                from benchmark.wp2.oracle_confirmation import parse_junit_with_failures
+
+                try:
+                    nodes, fails = parse_junit_with_failures(file_junit.read_text(encoding="utf-8"))
+                except Exception:
+                    nodes, fails = {}, {}
+                merged.update(nodes)
+                merged_failures.update(fails)
+        return {
+            "returncode": 0,
+            "timed_out": False,
+            "duration_s": round(time.monotonic() - t0, 3),
+            "junit": merged,
+            "junit_failures": merged_failures,
+            "stdout_tail": "",
+            "stderr_tail": "",
+            "per_file": True,
+        }
+
 
 def collect_test_files(cache: Path, parent: str, target: str) -> list[str]:
     diff = _git(cache, "diff", "--name-status", parent, target)
