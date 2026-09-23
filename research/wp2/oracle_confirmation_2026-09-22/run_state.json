@@ -3,12 +3,14 @@
  "date": "2026-09-22",
  "status": "COMPLETE",
  "counts": {
-  "ENV_BROKEN": 55,
-  "BEHAVIORAL_F2P": 4,
+  "ENV_BROKEN": 133,
+  "FLAKY": 2,
+  "BEHAVIORAL_F2P": 3,
+  "SYMBOL_ABSENCE_F2P": 1,
   "TARGET_ORACLE_INVALID": 1
  },
- "n_behavioral_f2p": 4,
- "n_attempted": 80,
+ "n_behavioral_f2p": 3,
+ "n_attempted": 220,
  "wave_a": [
   "saleor-rc-05bdc7feb9ac",
   "saleor-rc-1abda1e0d36e",
