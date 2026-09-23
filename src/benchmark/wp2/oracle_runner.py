@@ -22,7 +22,6 @@ from pathlib import Path
 
 from benchmark.wp2.oracle_confirmation import (
     is_test_path,
-    parse_junit,
 )
 from benchmark.wp2.paths import resolve_pg_bin, worktrees_root
 
@@ -101,6 +100,8 @@ class OracleConfirmationRunner:
         self.cache = cache
         self.worktrees_root = worktrees_root
         self.worktrees_root.mkdir(parents=True, exist_ok=True)
+        # Per-task/state PostgreSQL test database; set before each evaluator run.
+        self._test_db: str = "saleor"
 
     # ------------------------------------------------------------------ #
     def _add_worktree(self, name: str, commit: str) -> Path:
@@ -123,7 +124,7 @@ class OracleConfirmationRunner:
     def discover_test_nodes(self, worktree: Path, test_files: list[str], python: Path) -> dict:
         """Run pytest --collect-only on target to obtain exact node IDs."""
         env = os.environ.copy()
-        env["DATABASE_URL"] = "postgres://saleor:saleor@127.0.0.1:5433/saleor"
+        env["DATABASE_URL"] = f"postgres://saleor:saleor@127.0.0.1:5433/{self._test_db}"
         env["CACHE_URL"] = "locmem://"
         cmd = [
             str(python),
@@ -167,9 +168,15 @@ class OracleConfirmationRunner:
         junit_path: Path,
         timeout_s: int = 900,
     ) -> dict:
-        """Run pytest --junitxml with the exact node IDs; return structured output."""
+        """Run pytest --junitxml with the exact node IDs; return structured output.
+
+        A per-(task,state) PostgreSQL database name is derived so that each
+        task/state runs its own era-correct migration plan and never collides
+        with other tasks or the shared `saleor` database. ``--reuse-db`` keeps
+        the first run's migrations for the subsequent runs of the same state.
+        """
         env = os.environ.copy()
-        env["DATABASE_URL"] = "postgres://saleor:saleor@127.0.0.1:5433/saleor"
+        env["DATABASE_URL"] = f"postgres://saleor:saleor@127.0.0.1:5433/{self._test_db}"
         env["CACHE_URL"] = "locmem://"
         cmd = [
             str(python),
@@ -209,9 +216,14 @@ class OracleConfirmationRunner:
             }
         duration = time.monotonic() - t0
         junit_nodes: dict[str, str] = {}
+        junit_failures: dict[str, str] = {}
         if junit_path.exists():
             try:
-                junit_nodes = parse_junit(junit_path.read_text(encoding="utf-8"))
+                from benchmark.wp2.oracle_confirmation import parse_junit_with_failures
+
+                junit_nodes, junit_failures = parse_junit_with_failures(
+                    junit_path.read_text(encoding="utf-8")
+                )
             except Exception as exc:
                 junit_nodes = {"__junit_parse_error__": str(exc)}
         return {
@@ -219,6 +231,7 @@ class OracleConfirmationRunner:
             "timed_out": False,
             "duration_s": round(duration, 3),
             "junit": junit_nodes,
+            "junit_failures": junit_failures,
             "stdout_tail": r.stdout[-2000:],
             "stderr_tail": r.stderr[-2000:],
         }

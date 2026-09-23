@@ -406,8 +406,8 @@ def confirm_one(
         derive_test_only_patch_from_cache,
     )
 
-    wt_target = f"{tid}_target"
-    wt_parent = f"{tid}_parent"
+    wt_target = f"{tid[:12]}_t"
+    wt_parent = f"{tid[:12]}_p"
     patch_bytes = derive_test_only_patch_from_cache(SALEOR_CACHE, parent, target)
     patch_sha = hashlib.sha256(patch_bytes).hexdigest()
 
@@ -458,7 +458,7 @@ def confirm_one(
             }
 
         # apply test-only patch to parent
-        patch_path = runner.worktrees_root / f"{tid}_test_only.patch"
+        patch_path = runner.worktrees_root / f"{tid[:12]}_test.patch"
         if not _patch_applies(parent_wt, patch_bytes, patch_path):
             return {
                 "task_id": tid,
@@ -472,16 +472,21 @@ def confirm_one(
             }
         _apply_patch(parent_wt, patch_path)
 
-        # 3x target runs
+        # 3x target runs (per-state test database so era migrations do not
+        # collide across tasks/states)
         target_runs = []
+        runner._test_db = f"oracle_{tid[:8]}_target"
         for i in range(3):
-            res = runner.run_evaluator(target_wt, node_ids, family_python, runner.worktrees_root / f"{tid}_t{i}.xml")
+            xml = runner.worktrees_root / f"{tid[:12]}_t{i}.xml"
+            res = runner.run_evaluator(target_wt, node_ids, family_python, xml)
             target_runs.append(res)
 
         # 3x parent+testpatch runs
         parent_runs = []
+        runner._test_db = f"oracle_{tid[:8]}_parent"
         for i in range(3):
-            res = runner.run_evaluator(parent_wt, node_ids, family_python, runner.worktrees_root / f"{tid}_p{i}.xml")
+            xml = runner.worktrees_root / f"{tid[:12]}_p{i}.xml"
+            res = runner.run_evaluator(parent_wt, node_ids, family_python, xml)
             parent_runs.append(res)
 
         return classify_task(
@@ -517,12 +522,23 @@ def build_family_python(tid: str, target_wt: Path):
             return None
         fail_marker = env_root / f"{family}.failed"
         if fail_marker.exists():
-            return None
+            # Negative-cache with builder schema version: a stale marker from an
+            # older environment-builder must not permanently condemn a family.
+            try:
+                marker = json.loads(fail_marker.read_text(encoding="utf-8"))
+            except (json.JSONDecodeError, OSError):
+                marker = {}
+            if marker.get("builder_version") == ENV_BUILDER_VERSION:
+                return None
+            fail_marker.unlink(missing_ok=True)
         try:
             venv = build_venv(env_root, family, target_wt, interpreter)
             return venv / "Scripts" / "python.exe"
         except Exception as exc:
-            fail_marker.write_text(str(exc)[:2000], encoding="utf-8")
+            fail_marker.write_text(
+                json.dumps({"builder_version": ENV_BUILDER_VERSION, "error": str(exc)[:2000]}),
+                encoding="utf-8",
+            )
             print(f"[wp2] env build failed for {tid}: {str(exc)[:300]}")
             return None
     if ORACLE_PYTHON.exists():
@@ -569,11 +585,18 @@ def classify_task(
     for nid in node_ids:
         t_out = []
         p_out = []
+        p_fail = []
         for tr in target_runs:
             t_out.append(tr["junit"].get(nid, "missing"))
         for pr in parent_runs:
             p_out.append(pr["junit"].get(nid, "missing"))
-        node_outcomes[nid] = {"target": t_out, "parent": p_out}
+            if nid in pr.get("junit_failures", {}):
+                p_fail.append(pr["junit_failures"][nid])
+        node_outcomes[nid] = {
+            "target": t_out,
+            "parent": p_out,
+            "parent_failure_text": "\n".join(p_fail),
+        }
 
     n_behavioral = 0
     n_symbol = 0
@@ -592,7 +615,7 @@ def classify_task(
             reason = classify_failure_reason(
                 out["target"],
                 out["parent"],
-                parent_failure_text="",
+                parent_failure_text=out["parent_failure_text"],
             )
         if reason == "BEHAVIORAL_F2P":
             n_behavioral += 1
@@ -609,8 +632,9 @@ def classify_task(
         elif reason == "ENV_BROKEN":
             env_valid = False
         else:
+            # OTHER_REVIEW_REQUIRED (e.g. node missing from one JUnit side):
+            # unclassifiable node only; it does NOT prove target instability.
             n_other += 1
-            target_oracle_stable = False
 
         per_test_path.write(
             json.dumps(
@@ -669,6 +693,10 @@ def classify_task(
 ORACLE_PYTHON = saleor_cache_venv_python()
 
 ENVS_ROOT = envs_root()
+
+# Bump whenever environment-builder logic changes; stale .failed markers from
+# older builders are then ignored (audit F: no permanent condemnation).
+ENV_BUILDER_VERSION = 3
 
 
 if __name__ == "__main__":

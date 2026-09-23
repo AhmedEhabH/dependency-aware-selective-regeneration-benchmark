@@ -138,6 +138,41 @@ def parse_junit(xml_text: str) -> dict[str, str]:
     return nodes
 
 
+def parse_junit_with_failures(xml_text: str) -> tuple[dict[str, str], dict[str, str]]:
+    """Return (outcomes, failure_text) maps; node ids follow parse_junit.
+
+    failure_text is the concatenated <failure>/<error> text per node, used to
+    distinguish BEHAVIORAL vs SYMBOL_ABSENCE vs OTHER at the parent state.
+    """
+    import xml.etree.ElementTree as ET
+
+    outcomes: dict[str, str] = {}
+    failures: dict[str, str] = {}
+    root = ET.fromstring(xml_text)
+    for tc in root.iter("testcase"):
+        fname = tc.get("file")
+        cname = tc.get("classname")
+        name = tc.get("name") or "?"
+        if fname:
+            node_id = f"{fname}::{name}"
+        elif cname:
+            rel = cname.replace(".", "/") + ".py"
+            node_id = f"{rel}::{name}"
+        else:
+            node_id = name.replace(".", "/") + ".py"
+        if tc.find("failure") is not None:
+            outcomes[node_id] = "failed"
+            failures[node_id] = (tc.find("failure").text or "")[:4000]
+        elif tc.find("error") is not None:
+            outcomes[node_id] = "error"
+            failures[node_id] = (tc.find("error").text or "")[:4000]
+        elif tc.find("skipped") is not None:
+            outcomes[node_id] = "skipped"
+        else:
+            outcomes[node_id] = "passed"
+    return outcomes, failures
+
+
 # ---------------------------------------------------------------------------
 # 3-run stability
 # ---------------------------------------------------------------------------
