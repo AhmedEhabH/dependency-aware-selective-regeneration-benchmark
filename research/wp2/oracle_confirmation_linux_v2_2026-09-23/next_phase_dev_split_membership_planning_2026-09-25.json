@@ -1,0 +1,29 @@
+{
+ "artifact": "wp2_next_phase_dev_split_membership_planning",
+ "date": "2026-09-25",
+ "status": "PLANNING_CLOSURE_METADATA_ONLY (no generation/assay executed)",
+ "oracle_valid_dev_tasks": 47,
+ "oracle_valid_by_frozen_split_role": {
+  "DEV_VALIDATION": 9,
+  "DEV_TRAIN_ASSAY_HOLDOUT": 29,
+  "DEV_TRAIN_ENG": 9
+ },
+ "per_original_split_attrition": {
+  "DEV_TRAIN_ENG": {
+   "changed_test_candidates": 29,
+   "oracle_valid": 9,
+   "not_oracle_valid": 20
+  },
+  "DEV_TRAIN_ASSAY_HOLDOUT": {
+   "changed_test_candidates": 62,
+   "oracle_valid": 29,
+   "not_oracle_valid": 33
+  },
+  "DEV_VALIDATION": {
+   "changed_test_candidates": 20,
+   "oracle_valid": 9,
+   "not_oracle_valid": 11
+  }
+ },
+ "next_action": "Brain authorization for DEV Smoke / assay-sensitivity design over DEV_TRAIN_ASSAY_HOLDOUT + DEV_VALIDATION oracle-valid tasks (frozen design); DEV_TRAIN_ENG available for harness/generator engineering per amendment F."
+}
