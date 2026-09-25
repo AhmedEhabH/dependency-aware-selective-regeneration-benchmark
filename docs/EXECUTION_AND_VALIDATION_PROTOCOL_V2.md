@@ -296,3 +296,31 @@ Report:
 Finish the exports first.
 
 Ahmed must never need to remind OpenCode to produce the two exports.
+
+---
+
+## 13. Todo Synchronization — Mandatory
+
+The visible Todo list is a **live execution-state mirror**, not a
+retrospective checklist. Stale Todo state is an execution-protocol defect and
+must be corrected before starting another phase.
+
+Rules:
+
+1. **Update before each phase** — mark the incoming item active (`[•]`)
+   BEFORE beginning work.
+2. **Update after every durable chunk/checkpoint** — keep `[•]` but update
+   the progress counter in the item text (e.g. `Node discovery — 41/47`).
+   Update at least once per completed chunk for long-running batches.
+3. **Update immediately after validation** — only after the durable output
+   AND its validation gate both exist, flip `[•]` -> `[✓]`.
+4. **Status must derive from persisted state** — use the filesystem/artifacts
+   (JSON/JSONL, progress files, manifests, completed task IDs) as
+   authoritative; never infer progress only from chat prose.
+5. **Status symbols** — `[ ]` not started / `[•]` actively executing or
+   partially complete / `[✓]` durably complete and validated / `[!]` blocked
+   or STOP condition (include the concise blocker in the item).
+6. **Before beginning the next Todo item**, synchronize the entire list once.
+7. Do NOT update Todo after every individual shell command; that is noise.
+   Use meaningful durable checkpoints (task/chunk completion, artifact
+   creation, validation completion, phase transition, STOP/blocker).

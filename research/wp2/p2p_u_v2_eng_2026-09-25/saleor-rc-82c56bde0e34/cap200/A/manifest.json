@@ -1,0 +1,101 @@
+{
+ "artifact": "wp2_p2p_u_v2_eng_exec",
+ "exec_version": "p2p-u-v2-eng-exec-2026-09-25",
+ "task_id": "saleor-rc-82c56bde0e34",
+ "split_role": "DEV_TRAIN_ENG",
+ "era_key": "py39",
+ "cap": 200,
+ "run_label": "A",
+ "rule_version": "p2p-u-v2-2026-09-25",
+ "membership_sha256": "8325747f7967729e544de4dacb76ac69fde187b7dc05d59e1f24fdef7d20daac",
+ "rule_sha256": "78a089bb3cea599b2d4040e92388f3e011860da07e4522670c260ec61f8d63e1",
+ "inventory_sha256": "0ae5699b890ed3fe7a18cdbfb59bcb53d31d21f091102bef87f15b241ce2bf61",
+ "test_patch_applied_on_parent": true,
+ "workers": 1,
+ "n_selected_nodes": 200,
+ "n_chunks": 1,
+ "n_pytest_invocations": 6,
+ "class_counts": {
+  "COLLECTION_ERROR": 4,
+  "STABLE_P2P": 195,
+  "BOTH_FAIL": 1,
+  "TARGET_BROKEN": 0,
+  "PARENT_BROKEN": 0,
+  "FLAKY": 0
+ },
+ "n_stable_p2p": 195,
+ "stable_over_selected": 0.975,
+ "preservation_set_sha256": "c4f1d0fde1ae472a84c8d662e12305f48409641422917f8ddeb22dbbdeb4a9ac",
+ "n_preservation_files": 142,
+ "composition": {
+  "selected_proximal": 150,
+  "selected_distal": 50,
+  "stable_proximal": 148,
+  "stable_distal": 47
+ },
+ "measurements": {
+  "setup_s": 3.9,
+  "target_wall_s": 345.0,
+  "parent_wall_s": 337.3,
+  "target_per_rep_s": [
+   228.0,
+   50.0,
+   51.0
+  ],
+  "parent_per_rep_s": [
+   228.0,
+   49.0,
+   49.0
+  ],
+  "total_wall_s": 686.2,
+  "n_resource_samples": 92,
+  "disk_before_c_free_gib": 52.4,
+  "worktrees_mib_before": "1",
+  "db_lifecycle": {
+   "drop": {
+    "t": {
+     "db": "saleor_82c56bde0e34_c200_t",
+     "drop_ok": true,
+     "drop_s": 0.7
+    },
+    "p": {
+     "db": "saleor_82c56bde0e34_c200_p",
+     "drop_ok": true,
+     "drop_s": 0.61
+    }
+   }
+  },
+  "worktrees_mib_after": "1",
+  "disk_after_c_free_gib": 52.2,
+  "reclaimed_disk_gib": -0.2
+ },
+ "states": {
+  "t": {
+   "error": null,
+   "wall_s": 345.0,
+   "per_rep_s": [
+    228.0,
+    50.0,
+    51.0
+   ]
+  },
+  "p": {
+   "error": null,
+   "wall_s": 337.3,
+   "per_rep_s": [
+    228.0,
+    49.0,
+    49.0
+   ]
+  }
+ },
+ "evidence_integrity": {
+  "n_expected": 200,
+  "n_records": 200,
+  "n_missing_nodes": 0,
+  "n_duplicate_nodes": 0,
+  "n_orphan_nodes": 0,
+  "junit_refs_ok": true,
+  "ok": true
+ }
+}

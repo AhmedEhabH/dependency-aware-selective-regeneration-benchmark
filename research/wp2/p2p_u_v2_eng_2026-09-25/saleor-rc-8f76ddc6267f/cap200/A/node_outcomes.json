@@ -1,0 +1,3202 @@
+{
+ "saleor/graphql/webhook/tests/queries/test_event_delivery_query.py::test_webhook_delivery_attempt_query": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/deprecated/test_webhook.py::test_webhook_create_by_app": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_webhook.py::test_webhook_with_invalid_object_type": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/order/tests/mutations/test_order_update_shipping.py::test_order_shipping_update_mutation_properly_recalculate_total": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_sample_payload.py::test_sample_payload_query_by_app[WebhookSampleEventTypeEnum.PAGE_DELETED-False]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_event_delivery_filter.py::test_delivery_status_filter_no_results": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/test_subscription_query.py::test_get_events_from_field": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/shop/tests/test_shop.py::test_limit_quantity_per_checkout_neg_or_zero_value[-25]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/webhook/tests/mutations/test_webhook_trigger.py::test_webhook_trigger_missing_user_permission": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/mutations/test_webhook_delete.py::test_webhook_delete_by_app_and_webhook_assigned_to_other_app": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/mutations/test_delivery_retry.py::test_webhook_delivery_retry_without_permission": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/checkout/tests/test_checkout_digital.py::test_remove_shipping_method_if_only_digital_in_checkout": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/webhook/tests/mutations/test_webhook_create.py::test_webhook_create_invalid_custom_headers": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/mutations/test_webhook_update.py::test_webhook_update_app_cant_change_webhooks_ownership": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/benchmark/test_webhook_events.py::test_webhooks": {
+  "parent_outcomes": [
+   "error",
+   "error",
+   "error"
+  ],
+  "target_outcomes": [
+   "error",
+   "error",
+   "error"
+  ],
+  "class": "COLLECTION_ERROR",
+  "parent_failure": "file /workspace/8f76ddc6267f_c200_p/saleor/graphql/webhook/tests/benchmark/test_webhook_events.py, line 32\n  @pytest.mark.django_db\n  @pytest.mark.count_queries(autouse=False)\n  def test_webhooks(\nE       fixture 'count_queries' not found\n>       available fixtures: _dj_autoclear_mailbox, _django_clear_site_cache, _django_db_helper, _django_db_marker, _django_set_urlconf, _django_setup_unittest, _fail_for_invalid_template_variable, _live_server_helper, _session_faker, _template_string_if_invalid_marker, action_required_gateway_response, address, address_other_country, address_usa, address_with_areas, admin_client, admin_user, all_plugins_manager, allocation, allocations, anonymous_plugins, any_webhook, anyio_backend, anyio_backend_name, anyio_backend_options, api_client, app, app_api_client, app_export_event, app_export_file, app_installation, app_manifest, app_manifest_webhook, app_with_extensions, app_with_token, apps_without_webhooks, assert_max_num_queries, assert_num_queries, async_client, async_rf, attribute_choices_for_sorting, attribute_without_values, author_page_attribute, boolean_attribute, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, capture_queries, categories, categories_tree, categories_tree_with_published_products, category, category_translation_fr, category_with_image, channel_JPY, channel_PLN, channel_USD, channel_plugin_configurations, channels_for_benchmark, check_payment_balance_input, checkout, checkout_JPY, checkout_JPY_with_item, checkout_for_cc, checkout_info, checkout_line, checkout_line_with_one_reservation, checkout_line_with_preorder_item, checkout_line_with_reservation_in_many_stocks, checkout_line_with_reserved_preorder_item, checkout_lines_info, checkout_lines_with_multiple_quantity_info, checkout_ready_to_complete, checkout_with_digital_item, checkout_with_gift_card, checkout_with_gift_card_items, checkout_with_item, checkout_with_item_and_preorder_item, checkout_with_item_and_shipping_method, checkout_with_item_and_tax_exemption, checkout_with_item_and_transaction_item, checkout_with_item_and_voucher, checkout_with_item_and_voucher_once_per_order, checkout_with_item_and_voucher_specific_products, checkout_with_item_for_cc, checkout_with_item_total_0, checkout_with_items, checkout_with_items_and_shipping, checkout_with_items_for_cc, checkout_with_payments, checkout_with_preorders_and_regular_variant, checkout_with_preorders_only, checkout_with_prices, checkout_with_same_items_in_multiple_lines, checkout_with_shipping_address, checkout_with_shipping_address_for_cc, checkout_with_shipping_required, checkout_with_single_item, checkout_with_variant_without_inventory_tracking, checkout_with_variants, checkout_with_variants_for_cc, checkout_with_voucher, checkout_with_voucher_free_shipping, checkout_with_voucher_percentage, checkout_with_voucher_percentage_and_shipping, checkout_without_shipping_required, checkouts_assigned_to_customer, checkouts_list, client, collection, collection_list, collection_translation_fr, collection_with_image, collection_with_products, color_attribute, color_attribute_with_translations, color_attribute_without_values, customer_user, customer_user2, customer_users, date_attribute, date_time_attribute, db, default_tax_class, delivery_attempts, delivery_method, description_json, digital_content, digital_content_url, discount_info, discount_info_JPY, discount_info_for_new_sale, django_assert_max_num_queries, django_assert_num_queries, django_capture_on_commit_callbacks, django_db_blocker, django_db_createdb, django_db_keepdb, django_db_modify_db_settings, django_db_modify_db_settings_parallel_suffix, django_db_modify_db_settings_tox_suffix, django_db_modify_db_settings_xdist_suffix, django_db_reset_sequences, django_db_serialized_rollback, django_db_setup, django_db_use_migrations, django_mail_dnsname, django_mail_patch_dns, django_test_environment, django_user_model, django_username_field, doctest_namespace, draft_order, draft_order_list, draft_order_with_fixe",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/tax/tests/queries/test_tax_classes.py::test_tax_classes_query_staff_user": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_event_delivery_sort.py::test_webhook_delivery_attempt_query_sort_asc": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/deprecated/test_webhook.py::test_webhook_create_app_doesnt_exist": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_webhook.py::test_query_webhook_by_staff": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/product/tests/queries/test_product_variants_query.py::test_fetch_all_variants_staff_user_without_channel": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_sample_payload.py::test_sample_payload_query_by_staff[WebhookSampleEventTypeEnum.ORDER_FULFILLED-False]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_event_delivery_filter.py::test_delivery_status_filter": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/test_subscription_query.py::test_query_validation[\\n            subscription {\\n                event {\\n                    ... MyFragment\\n                }\\n            }\\n            -Unknown fragment \"MyFragment\".-GraphQLError-WebhookErrorCode.GRAPHQL_ERROR]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/shipping/tests/mutations/test_shipping_method_channel_listing_update.py::test_shipping_method_channel_listing_update_with_negative_min_value": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/webhook/tests/mutations/test_webhook_trigger.py::test_webhook_trigger_event_not_supported": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/mutations/test_webhook_delete.py::test_webhook_delete_when_app_doesnt_exist": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/mutations/test_delivery_retry.py::test_delivery_retry_mutation": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/app/tests/queries/test_app.py::test_app_without_id_as_staff": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/webhook/tests/mutations/test_webhook_create.py::test_webhook_create_by_staff_without_permission": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/mutations/test_webhook_update.py::test_webhook_update_by_inactive_app": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_event_delivery_sort.py::test_webhook_delivery_query_sort_asc": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/account/tests/mutations/test_external_verify.py::test_external_verify_plugin_not_active": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/webhook/tests/deprecated/test_webhook.py::test_webhook_create_inactive_app": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_webhook.py::test_query_webhook_by_staff_without_permission": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_sample_payload.py::test_sample_payload_query_by_app[WebhookSampleEventTypeEnum.ORDER_CANCELLED-True]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/product/tests/benchmark/test_homepage.py::test_retrieve_product_list": {
+  "parent_outcomes": [
+   "error",
+   "error",
+   "error"
+  ],
+  "target_outcomes": [
+   "error",
+   "error",
+   "error"
+  ],
+  "class": "COLLECTION_ERROR",
+  "parent_failure": "file /workspace/8f76ddc6267f_c200_p/saleor/graphql/product/tests/benchmark/test_homepage.py, line 7\n  @pytest.mark.django_db\n  @pytest.mark.count_queries(autouse=False)\n  def test_retrieve_product_list(\nE       fixture 'count_queries' not found\n>       available fixtures: _dj_autoclear_mailbox, _django_clear_site_cache, _django_db_helper, _django_db_marker, _django_set_urlconf, _django_setup_unittest, _fail_for_invalid_template_variable, _live_server_helper, _session_faker, _template_string_if_invalid_marker, action_required_gateway_response, address, address_other_country, address_usa, address_with_areas, admin_client, admin_user, all_plugins_manager, allocation, allocations, anonymous_plugins, any_webhook, anyio_backend, anyio_backend_name, anyio_backend_options, api_client, app, app_api_client, app_export_event, app_export_file, app_installation, app_manifest, app_manifest_webhook, app_with_extensions, app_with_token, apps_without_webhooks, assert_max_num_queries, assert_num_queries, async_client, async_rf, attribute_choices_for_sorting, attribute_without_values, author_page_attribute, boolean_attribute, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, capture_queries, categories, categories_tree, categories_tree_with_published_products, categories_with_children, category, category_translation_fr, category_with_image, category_with_products, channel_JPY, channel_PLN, channel_USD, channel_plugin_configurations, channels_for_benchmark, check_payment_balance_input, checkout, checkout_JPY, checkout_JPY_with_item, checkout_for_cc, checkout_info, checkout_line, checkout_line_with_one_reservation, checkout_line_with_preorder_item, checkout_line_with_reservation_in_many_stocks, checkout_line_with_reserved_preorder_item, checkout_lines_info, checkout_lines_with_multiple_quantity_info, checkout_ready_to_complete, checkout_with_digital_item, checkout_with_gift_card, checkout_with_gift_card_items, checkout_with_item, checkout_with_item_and_preorder_item, checkout_with_item_and_shipping_method, checkout_with_item_and_tax_exemption, checkout_with_item_and_transaction_item, checkout_with_item_and_voucher, checkout_with_item_and_voucher_once_per_order, checkout_with_item_and_voucher_specific_products, checkout_with_item_for_cc, checkout_with_item_total_0, checkout_with_items, checkout_with_items_and_shipping, checkout_with_items_for_cc, checkout_with_payments, checkout_with_preorders_and_regular_variant, checkout_with_preorders_only, checkout_with_prices, checkout_with_same_items_in_multiple_lines, checkout_with_shipping_address, checkout_with_shipping_address_for_cc, checkout_with_shipping_required, checkout_with_single_item, checkout_with_variant_without_inventory_tracking, checkout_with_variants, checkout_with_variants_for_cc, checkout_with_voucher, checkout_with_voucher_free_shipping, checkout_with_voucher_percentage, checkout_with_voucher_percentage_and_shipping, checkout_without_shipping_required, checkouts_assigned_to_customer, checkouts_list, client, collection, collection_list, collection_translation_fr, collection_with_image, collection_with_products, color_attribute, color_attribute_with_translations, color_attribute_without_values, customer_user, customer_user2, customer_users, date_attribute, date_time_attribute, db, default_tax_class, delivery_attempts, delivery_method, description_json, digital_content, digital_content_url, discount_info, discount_info_JPY, discount_info_for_new_sale, django_assert_max_num_queries, django_assert_num_queries, django_capture_on_commit_callbacks, django_db_blocker, django_db_createdb, django_db_keepdb, django_db_modify_db_settings, django_db_modify_db_settings_parallel_suffix, django_db_modify_db_settings_tox_suffix, django_db_modify_db_settings_xdist_suffix, django_db_reset_sequences, django_db_serialized_rollback, django_db_setup, django_db_use_migrations, django_mail_dnsname, django_mail_patch_dns, django_test_environment, django_user_model, django_username_field, doctest_namespa",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/webhook/tests/test_subscription_query.py::test_subscription_query": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/mutations/test_webhook_trigger.py::test_webhook_trigger_missing_subscription_query": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/mutations/test_webhook_delete.py::test_webhook_delete_by_app": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/app/tests/mutations/test_app_retry_install.py::test_retry_install_app_mutation_app_has_more_permission_than_app_requestor": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/webhook/tests/mutations/test_delivery_retry.py::test_delivery_retry_mutation_wrong_id": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/mutations/test_webhook_create.py::test_webhook_create_by_app": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/mutations/test_webhook_update.py::test_webhook_update_by_app": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/shipping/tests/mutations/test_shipping_price_remove_product_from_exclude.py::test_remove_products_from_excluded_products_for_shipping_method_trigger_webhook[app]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_event_delivery_sort.py::test_webhook_delivery_attempt_query_sort_desc": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/deprecated/test_webhook.py::test_query_webhook_by_staff": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_webhook.py::test_query_webhook_sync_and_async_events": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/checkout/tests/mutations/test_checkout_remove_promo_code.py::test_checkout_remove_promo_code_invalid_object_type": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_sample_payload.py::test_sample_payload_query_by_staff[WebhookSampleEventTypeEnum.FULFILLMENT_CANCELED-False]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/test_subscription_query.py::test_query_validation[\\n            subscription {\\n              event {\\n                issuedAt\\n              }\\n            }\\n            -Can't find a single event.-ValidationError-WebhookErrorCode.MISSING_EVENT]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/mutations/test_webhook_trigger.py::test_webhook_trigger_fail": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/order/tests/queries/test_pagination.py::test_order_query_pagination_with_filter_payment_status[orders_filter5-0-fully-refunded-orders_order5]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/webhook/tests/mutations/test_webhook_delete.py::test_webhook_delete_by_inactive_app": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/mutations/test_delivery_retry.py::test_webhook_delivery_retry_wrong_type": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/mutations/test_webhook_create.py::test_webhook_create_without_app": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/plugins/tests/test_mutation_plugin_update.py::test_plugin_configuration_update_channel_slug_required": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/webhook/tests/mutations/test_webhook_update.py::test_webhook_update_invalid_custom_headers": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_event_delivery_sort.py::test_webhook_delivery_query_sort_dsc": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/deprecated/test_webhook.py::test_webhook_create_by_staff_with_inactive_app": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/page/tests/deprecated/test_page_sorting.py::test_query_pages_with_sort[page_sort9-result_order9]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_webhook.py::test_query_webhook_by_app_without_permission": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_sample_payload.py::test_sample_payload_query_by_app[WebhookSampleEventTypeEnum.PRODUCT_CREATED-False]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/test_subscription_query.py::test_get_event_type_from_subscription[\\n            subscription{\\n              event{\\n                ...on ProductUpdated{\\n                  product{\\n                    id\\n                  }\\n                }\\n              }\\n              event{\\n                ...on ProductCreated{\\n                  product{\\n                    id\\n                  }\\n                }\\n              }\\n            }\\n            -events7]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/order/tests/queries/test_order_line.py::test_order_query_product_image_size_and_format_given_proxy_url_returned": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/webhook/tests/mutations/test_webhook_trigger.py::test_webhook_trigger_staff_user_not_authorized": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/mutations/test_webhook_delete.py::test_webhook_delete_by_app_and_missing_webhook": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/mutations/test_webhook_create.py::test_webhook_create_app_doesnt_exist": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/giftcard/tests/mutations/test_gift_card_create.py::test_create_gift_card_with_expiry_date_type_invalid[date_value1]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/webhook/tests/mutations/test_webhook_update.py::test_webhook_update_by_other_app": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/deprecated/test_webhook.py::test_query_webhook_events_without_permissions": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_webhook.py::test_query_webhook_by_app": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/tests/test_middleware.py::test_middleware_invalid_name": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_sample_payload.py::test_sample_payload_query_by_staff[WebhookSampleEventTypeEnum.ORDER_CREATED-False1]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/test_subscription_query.py::test_get_event_type_from_subscription[\\n            fragment EventFragment on Event {\\n              ... on OrderUpdated {\\n                order {\\n                    id\\n                }\\n              }\\n              ... on OrderCreated {\\n                order {\\n                    id\\n                }\\n              }\\n            }\\n\\n            subscription {\\n              event {\\n                ... EventFragment\\n                ... on ProductCreated {\\n                    product {\\n                        id\\n                    }\\n                }\\n              }\\n            }\\n            -events5]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/mutations/test_webhook_trigger.py::test_webhook_trigger_success": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/product/tests/test_bulk_delete.py::test_delete_product_types_with_file_attributes": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/webhook/tests/mutations/test_webhook_delete.py::test_webhook_delete_deactivates_before_deletion": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/mutations/test_webhook_create.py::test_webhook_create_inactive_app": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/mutations/test_webhook_update.py::test_webhook_update_inherit_events_from_query": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/order/tests/deprecated/test_order.py::test_update_order_line_discount_old_id[draft]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/webhook/tests/deprecated/test_webhook.py::test_webhook_create_without_app": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_webhook.py::test_webhook_query_invalid_id": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_sample_payload.py::test_sample_payload_query_by_app[WebhookSampleEventTypeEnum.FULFILLMENT_CREATED-True]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/giftcard/tests/benchmark/test_gift_card_mutations.py::test_update_gift_card": {
+  "parent_outcomes": [
+   "error",
+   "error",
+   "error"
+  ],
+  "target_outcomes": [
+   "error",
+   "error",
+   "error"
+  ],
+  "class": "COLLECTION_ERROR",
+  "parent_failure": "file /workspace/8f76ddc6267f_c200_p/saleor/graphql/giftcard/tests/benchmark/test_gift_card_mutations.py, line 103\n  @pytest.mark.django_db\n  @pytest.mark.count_queries(autouse=False)\n  def test_update_gift_card(\nE       fixture 'count_queries' not found\n>       available fixtures: _dj_autoclear_mailbox, _django_clear_site_cache, _django_db_helper, _django_db_marker, _django_set_urlconf, _django_setup_unittest, _fail_for_invalid_template_variable, _live_server_helper, _session_faker, _template_string_if_invalid_marker, action_required_gateway_response, address, address_other_country, address_usa, address_with_areas, admin_client, admin_user, all_plugins_manager, allocation, allocations, anonymous_plugins, any_webhook, anyio_backend, anyio_backend_name, anyio_backend_options, api_client, app, app_api_client, app_export_event, app_export_file, app_installation, app_manifest, app_manifest_webhook, app_with_extensions, app_with_token, apps_without_webhooks, assert_max_num_queries, assert_num_queries, async_client, async_rf, attribute_choices_for_sorting, attribute_without_values, author_page_attribute, boolean_attribute, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, capture_queries, categories, categories_tree, categories_tree_with_published_products, category, category_translation_fr, category_with_image, channel_JPY, channel_PLN, channel_USD, channel_plugin_configurations, channels_for_benchmark, check_payment_balance_input, checkout, checkout_JPY, checkout_JPY_with_item, checkout_for_cc, checkout_info, checkout_line, checkout_line_with_one_reservation, checkout_line_with_preorder_item, checkout_line_with_reservation_in_many_stocks, checkout_line_with_reserved_preorder_item, checkout_lines_info, checkout_lines_with_multiple_quantity_info, checkout_ready_to_complete, checkout_with_digital_item, checkout_with_gift_card, checkout_with_gift_card_items, checkout_with_item, checkout_with_item_and_preorder_item, checkout_with_item_and_shipping_method, checkout_with_item_and_tax_exemption, checkout_with_item_and_transaction_item, checkout_with_item_and_voucher, checkout_with_item_and_voucher_once_per_order, checkout_with_item_and_voucher_specific_products, checkout_with_item_for_cc, checkout_with_item_total_0, checkout_with_items, checkout_with_items_and_shipping, checkout_with_items_for_cc, checkout_with_payments, checkout_with_preorders_and_regular_variant, checkout_with_preorders_only, checkout_with_prices, checkout_with_same_items_in_multiple_lines, checkout_with_shipping_address, checkout_with_shipping_address_for_cc, checkout_with_shipping_required, checkout_with_single_item, checkout_with_variant_without_inventory_tracking, checkout_with_variants, checkout_with_variants_for_cc, checkout_with_voucher, checkout_with_voucher_free_shipping, checkout_with_voucher_percentage, checkout_with_voucher_percentage_and_shipping, checkout_without_shipping_required, checkouts_assigned_to_customer, checkouts_list, client, collection, collection_list, collection_translation_fr, collection_with_image, collection_with_products, color_attribute, color_attribute_with_translations, color_attribute_without_values, customer_user, customer_user2, customer_users, date_attribute, date_time_attribute, db, default_tax_class, delivery_attempts, delivery_method, description_json, digital_content, digital_content_url, discount_info, discount_info_JPY, discount_info_for_new_sale, django_assert_max_num_queries, django_assert_num_queries, django_capture_on_commit_callbacks, django_db_blocker, django_db_createdb, django_db_keepdb, django_db_modify_db_settings, django_db_modify_db_settings_parallel_suffix, django_db_modify_db_settings_tox_suffix, django_db_modify_db_settings_xdist_suffix, django_db_reset_sequences, django_db_serialized_rollback, django_db_setup, django_db_use_migrations, django_mail_dnsname, django_mail_patch_dns, django_test_environment, django_user_model, django_username_field, doctest_namespace, draft_order, draft_order_list, draft_",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/webhook/tests/test_subscription_query.py::test_query_validation[\\n            fragment NotUsedEvents on Order {\\n              id\\n            }\\n            subscription {\\n              event {\\n                ... on OrderUpdated {\\n                  order {\\n                    id\\n                  }\\n                }\\n              }\\n            }\\n            -Fragment \"NotUsedEvents\" is never used.-GraphQLError-WebhookErrorCode.GRAPHQL_ERROR]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/mutations/test_webhook_trigger.py::test_webhook_trigger_object_id_does_not_match_event": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/mutations/test_webhook_delete.py::test_webhook_delete_raises_integrity_error": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/attribute/tests/mutations/test_attribute_value_update.py::test_update_attribute_value_by_external_reference_not_existing": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/webhook/tests/mutations/test_webhook_create.py::test_webhook_create_by_staff_with_inactive_app": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/mutations/test_webhook_update.py::test_webhook_update_by_app_and_missing_webhook": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/deprecated/test_webhook.py::test_webhook_create_by_staff_without_permission": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/giftcard/tests/queries/test_gift_card_sorting.py::test_sorting_gift_cards_by_product[DESC]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_webhook.py::test_query_webhook_with_subscription_query_by_staff": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_sample_payload.py::test_sample_payload_query_by_staff[WebhookSampleEventTypeEnum.FULFILLMENT_CREATED-False]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/test_subscription_query.py::test_get_event_type_from_subscription[\\n            subscription InvoiceRequested {\\n              event {\\n                ...InvoiceRequestedPayload\\n                }\\n              }\\n              fragment InvoiceRequestedPayload on InvoiceRequested {\\n                invoice {\\n                  id\\n                }\\n              }\\n            -events6]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/checkout/tests/deprecated/test_checkout.py::test_checkout_by_token": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/webhook/tests/mutations/test_webhook_trigger.py::test_webhook_trigger_invalid_subscription_query": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/mutations/test_webhook_create.py::test_webhook_create_by_app_invalid_query": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/mutations/test_webhook_update.py::test_webhook_update_by_staff_without_permission": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/shipping/tests/mutations/test_shipping_price_delete.py::test_delete_shipping_method_trigger_webhook": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/webhook/tests/deprecated/test_webhook.py::test_webhook_create_by_staff": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_webhook.py::test_webhook_query_object_with_given_id_does_not_exist": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_sample_payload.py::test_sample_payload_query_by_staff[WebhookSampleEventTypeEnum.ORDER_UPDATED-False]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/order/tests/queries/test_order_with_filter.py::test_order_query_with_filter_status[orders_filter0-2-unfulfilled]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/webhook/tests/test_subscription_query.py::test_query_validation[\\n            mutation SomeMutation {\\n                someMutation(input: {}) {\\n                    result {\\n                        id\\n                    }\\n                }\\n            }\\n            -Cannot query field \"someMutation\" on type \"Mutation\".-GraphQLError-WebhookErrorCode.GRAPHQL_ERROR]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/mutations/test_webhook_create.py::test_webhook_create_inherit_events_from_query": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/mutations/test_webhook_update.py::test_webhook_update_by_staff": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/order/tests/queries/test_order_get_variants.py::test_get_variant_from_order_line_variant_not_published_as_admin": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/webhook/tests/deprecated/test_webhook.py::test_webhook_update_by_staff": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_sample_payload.py::test_sample_payload_query_by_app[WebhookSampleEventTypeEnum.ORDER_CREATED-True0]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/test_subscription_query.py::test_get_event_type_from_subscription[\\n            fragment MyFragment on Event {\\n                ... on OrderCreated{\\n                  order{\\n                    id\\n                  }\\n                }\\n                ... on OrderUpdated{\\n                  order{\\n                    id\\n                  }\\n                }\\n                ... on ProductCreated{\\n                  product{\\n                    id\\n                  }\\n                }\\n            }\\n            subscription {\\n                event {\\n                    ... MyFragment\\n                }\\n            }\\n            -events4]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/product/tests/test_category.py::test_create_category_with_given_slug[-test-category]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/webhook/tests/mutations/test_webhook_create.py::test_webhook_create_by_staff": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/mutations/test_webhook_update.py::test_webhook_update_when_app_doesnt_exist": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/deprecated/test_webhook.py::test_webhook_update_by_staff_without_permission": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/giftcard/tests/mutations/test_gift_card_delete.py::test_delete_gift_card_trigger_webhook": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_sample_payload.py::test_sample_payload_query_by_staff[WebhookSampleEventTypeEnum.ORDER_CANCELLED-False]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/test_subscription_query.py::test_query_validation[\\n            query {\\n              channels {\\n                name\\n              }\\n            }\\n            -Subscription operation can't be found.-ValidationError-WebhookErrorCode.MISSING_SUBSCRIPTION]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/deprecated/test_webhook.py::test_query_webhook_events": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/page/tests/mutations/test_page_types_bulk_delete.py::test_page_type_bulk_delete_by_app": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_sample_payload.py::test_sample_payload_query_by_staff[WebhookSampleEventTypeEnum.PRODUCT_UPDATED-True]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/test_subscription_query.py::test_get_event_type_from_subscription[\\n            fragment OrderFragment on Order {\\n                id\\n            }\\n\\n            fragment EventFragment on Event {\\n              issuedAt\\n              ... on OrderUpdated {\\n                order {\\n                    ... OrderFragment\\n                }\\n              }\\n            }\\n\\n            subscription {\\n              event {\\n                ... EventFragment\\n              }\\n            }\\n            -events2]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_sample_payload.py::test_sample_payload_query_by_app[WebhookSampleEventTypeEnum.PAGE_UPDATED-False]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/order/tests/integration/test_draft_order.py::test_create_order_by_staff_in_accessible_channel": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/webhook/tests/test_subscription_query.py::test_query_validation[\\n            query {{\\n            }\\n            -Syntax Error GraphQL (2:20) Expected Name, found-GraphQLSyntaxError-WebhookErrorCode.SYNTAX]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_sample_payload.py::test_sample_payload_query_by_staff[WebhookSampleEventTypeEnum.PAGE_UPDATED-True]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/test_subscription_query.py::test_get_event_type_from_subscription[\\n            subscription {\\n              event{\\n                ... on OrderCreated{\\n                  order{\\n                    id\\n                  }\\n                }\\n                ... on OrderFullyPaid{\\n                  order{\\n                    id\\n                  }\\n                }\\n                ... on ProductCreated{\\n                  product{\\n                    id\\n                  }\\n                }\\n              }\\n            }\\n            -events3]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/product/tests/mutations/test_product_create.py::test_create_product_with_date_attribute": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_sample_payload.py::test_sample_payload_query_by_app[WebhookSampleEventTypeEnum.CUSTOMER_CREATED-False]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/test_subscription_query.py::test_get_event_type_from_subscription[\\n            subscription {\\n              event {\\n                ...on OrderCreated {\\n                  order {\\n                    id\\n                  }\\n                }\\n              }\\n            }\\n            -events0]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_sample_payload.py::test_sample_payload_query_by_app[WebhookSampleEventTypeEnum.ORDER_UPDATED-True]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/page/tests/mutations/test_page_create.py::test_page_create_mutation_missing_required_attributes": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/webhook/tests/test_subscription_query.py::test_get_event_type_from_subscription[\\n            fragment OrderFragment on Order {\\n              id\\n              number\\n              lines {\\n                id\\n              }\\n            }\\n            subscription {\\n              event {\\n                ...on OrderCreated {\\n                  order {\\n                    ...OrderFragment\\n                  }\\n                }\\n              }\\n            }\\n            -events1]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_sample_payload.py::test_sample_payload_query_by_app[WebhookSampleEventTypeEnum.ORDER_CREATED-True1]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_sample_payload.py::test_sample_payload_query_by_app[WebhookSampleEventTypeEnum.CHECKOUT_UPDATED-False]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/attribute/tests/mutations/test_attribute_reorder_values.py::test_sort_values_within_attribute": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_sample_payload.py::test_sample_payload_query_by_app[WebhookSampleEventTypeEnum.ORDER_FULFILLED-True]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_sample_payload.py::test_sample_payload_query_by_app[WebhookSampleEventTypeEnum.FULFILLMENT_CANCELED-True]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_sample_payload.py::test_sample_payload_query_by_staff[WebhookSampleEventTypeEnum.CHECKOUT_UPDATED-True]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/account/tests/mutations/test_tokens_deactivate_all.py::test_deactivate_all_user_tokens_access_token": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_sample_payload.py::test_sample_payload_query_by_staff[WebhookSampleEventTypeEnum.CHECKOUT_CREATED-True]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_sample_payload.py::test_sample_payload_query_by_app[WebhookSampleEventTypeEnum.CHECKOUT_CREATED-False]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_sample_payload.py::test_sample_payload_query_by_staff[WebhookSampleEventTypeEnum.ORDER_FULLY_PAID-False]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/tests/test_utils.py::test_format_error_hides_internal_error_msg_in_production_mode": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_sample_payload.py::test_sample_payload_query_by_app[WebhookSampleEventTypeEnum.PAGE_CREATED-False]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_sample_payload.py::test_sample_payload_query_by_staff[WebhookSampleEventTypeEnum.PRODUCT_CREATED-True]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_sample_payload.py::test_sample_payload_query_by_app[WebhookSampleEventTypeEnum.ORDER_FULLY_PAID-True]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/checkout/tests/mutations/test_checkout_shipping_method_update.py::test_checkout_shipping_method_update_with_not_valid_shipping_address_data": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_sample_payload.py::test_sample_payload_query_by_app[WebhookSampleEventTypeEnum.PRODUCT_UPDATED-False]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_sample_payload.py::test_sample_payload_query_by_staff[WebhookSampleEventTypeEnum.ORDER_CREATED-False0]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_sample_payload.py::test_sample_payload_query_by_staff[WebhookSampleEventTypeEnum.CUSTOMER_CREATED-True]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/tax/tests/mutations/test_tax_class_update.py::test_raise_duplicated_item_error": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_sample_payload.py::test_sample_payload_query_by_staff[WebhookSampleEventTypeEnum.PAGE_DELETED-True]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/webhook/tests/queries/test_sample_payload.py::test_sample_payload_query_by_staff[WebhookSampleEventTypeEnum.PAGE_CREATED-True]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 2,
+  "proximal_distal": "PROXIMAL"
+ },
+ "saleor/graphql/order/tests/mutations/test_order_cancel.py::test_order_cancel": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/attribute/tests/mutations/test_attribute_create.py::test_create_attribute_with_reference_input_type_entity_type_not_given": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/product/tests/mutations/test_product_variant_bulk_update.py::test_product_variant_bulk_update_stocks": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/product/tests/benchmark/test_collection.py::test_collection_bulk_delete": {
+  "parent_outcomes": [
+   "error",
+   "error",
+   "error"
+  ],
+  "target_outcomes": [
+   "error",
+   "error",
+   "error"
+  ],
+  "class": "COLLECTION_ERROR",
+  "parent_failure": "file /workspace/8f76ddc6267f_c200_p/saleor/graphql/product/tests/benchmark/test_collection.py, line 348\n  def test_collection_bulk_delete(\nE       fixture 'count_queries' not found\n>       available fixtures: _dj_autoclear_mailbox, _django_clear_site_cache, _django_db_helper, _django_db_marker, _django_set_urlconf, _django_setup_unittest, _fail_for_invalid_template_variable, _live_server_helper, _session_faker, _template_string_if_invalid_marker, action_required_gateway_response, address, address_other_country, address_usa, address_with_areas, admin_client, admin_user, all_plugins_manager, allocation, allocations, anonymous_plugins, any_webhook, anyio_backend, anyio_backend_name, anyio_backend_options, api_client, app, app_api_client, app_export_event, app_export_file, app_installation, app_manifest, app_manifest_webhook, app_with_extensions, app_with_token, apps_without_webhooks, assert_max_num_queries, assert_num_queries, async_client, async_rf, attribute_choices_for_sorting, attribute_without_values, author_page_attribute, boolean_attribute, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, capture_queries, categories, categories_tree, categories_tree_with_published_products, categories_with_children, category, category_translation_fr, category_with_image, category_with_products, channel_JPY, channel_PLN, channel_USD, channel_plugin_configurations, channels_for_benchmark, check_payment_balance_input, checkout, checkout_JPY, checkout_JPY_with_item, checkout_for_cc, checkout_info, checkout_line, checkout_line_with_one_reservation, checkout_line_with_preorder_item, checkout_line_with_reservation_in_many_stocks, checkout_line_with_reserved_preorder_item, checkout_lines_info, checkout_lines_with_multiple_quantity_info, checkout_ready_to_complete, checkout_with_digital_item, checkout_with_gift_card, checkout_with_gift_card_items, checkout_with_item, checkout_with_item_and_preorder_item, checkout_with_item_and_shipping_method, checkout_with_item_and_tax_exemption, checkout_with_item_and_transaction_item, checkout_with_item_and_voucher, checkout_with_item_and_voucher_once_per_order, checkout_with_item_and_voucher_specific_products, checkout_with_item_for_cc, checkout_with_item_total_0, checkout_with_items, checkout_with_items_and_shipping, checkout_with_items_for_cc, checkout_with_payments, checkout_with_preorders_and_regular_variant, checkout_with_preorders_only, checkout_with_prices, checkout_with_same_items_in_multiple_lines, checkout_with_shipping_address, checkout_with_shipping_address_for_cc, checkout_with_shipping_required, checkout_with_single_item, checkout_with_variant_without_inventory_tracking, checkout_with_variants, checkout_with_variants_for_cc, checkout_with_voucher, checkout_with_voucher_free_shipping, checkout_with_voucher_percentage, checkout_with_voucher_percentage_and_shipping, checkout_without_shipping_required, checkouts_assigned_to_customer, checkouts_list, client, collection, collection_list, collection_translation_fr, collection_with_image, collection_with_products, color_attribute, color_attribute_with_translations, color_attribute_without_values, customer_user, customer_user2, customer_users, date_attribute, date_time_attribute, db, default_tax_class, delivery_attempts, delivery_method, description_json, digital_content, digital_content_url, discount_info, discount_info_JPY, discount_info_for_new_sale, django_assert_max_num_queries, django_assert_num_queries, django_capture_on_commit_callbacks, django_db_blocker, django_db_createdb, django_db_keepdb, django_db_modify_db_settings, django_db_modify_db_settings_parallel_suffix, django_db_modify_db_settings_tox_suffix, django_db_modify_db_settings_xdist_suffix, django_db_reset_sequences, django_db_serialized_rollback, django_db_setup, django_db_use_migrations, django_mail_dnsname, django_mail_patch_dns, django_test_environment, django_user_model, django_username_field, doctest_namespace, draft_order, draft_order_list, draft_order_with_fixed_discou",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/invoice/tests/test_invoice_request_delete.py::test_invoice_request_delete_invalid_id": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/giftcard/tests/queries/test_gift_cards_currencies.py::test_fetch_gift_card_currencies_no_permission": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/order/tests/mutations/test_order_mark_as_paid.py::test_draft_order_mark_as_paid_check_price_recalculation_with_payment": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/csv/tests/mutations/test_export_products.py::test_export_products_mutation_by_app": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/attribute/tests/mutations/test_attribute_value_delete.py::test_delete_attribute_value": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/invoice/tests/test_invoice_delete.py::test_invoice_delete_invalid_id": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/discount/tests/mutations/test_sale_channel_listing_update.py::test_sale_channel_listing_update_as_staff_user": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/core/tests/test_view.py::test_permission_denied_query_graphql_errors_are_logged_in_another_logger": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/page/tests/mutations/test_page_bulk_publish.py::test_bulk_unpublish": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/product/tests/deprecated/test_collection.py::test_collections_query_with_default_channel_slug": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/checkout/tests/deprecated/test_checkout_billing_address_update.py::test_checkout_billing_address_update_by_token_without_required_fields": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/payment/tests/queries/test_payments_filter.py::test_query_payments_filter_by_not_existing_id": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/tax/tests/queries/test_tax_configuration.py::test_tax_configuration_query_no_permissions": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/channel/tests/mutations/test_channel_reorder_warehouses.py::test_sort_warehouses_with_channel[moves4-expected_order4]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py::test_product_variant_bulk_create_duplicated_sku_when_ignore_failed": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/product/tests/mutations/test_product_update.py::test_update_product_with_plain_text_attribute_value": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/product/tests/test_collection_filtering_and_sorting_with_channels.py::test_collections_with_sorting_and_without_channel[sort_by1]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/giftcard/tests/queries/test_gift_card_tags.py::test_query_gift_card_tags_by_app": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/product/tests/mutations/test_product_delete.py::test_delete_product_removes_checkout_lines": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/order/tests/deprecated/test_discount_order.py::test_delete_order_discount_from_order_with_old_id[unconfirmed]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/order/tests/mutations/test_order_void.py::test_order_void_by_user_no_channel_access": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/order/tests/queries/test_order_entity.py::test_customer_query_order_without_permission_for_federation": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/product/tests/mutations/test_product_variant_stocks_delete.py::test_product_variant_stocks_delete_mutation_invalid_object_type_of_warehouse_id": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/product/tests/mutations/test_product_variant_create.py::test_create_variant_with_date_attribute": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/account/tests/benchmark/test_account.py::test_query_staff_user": {
+  "parent_outcomes": [
+   "error",
+   "error",
+   "error"
+  ],
+  "target_outcomes": [
+   "error",
+   "error",
+   "error"
+  ],
+  "class": "COLLECTION_ERROR",
+  "parent_failure": "file /workspace/8f76ddc6267f_c200_p/saleor/graphql/account/tests/benchmark/test_account.py, line 11\n  @pytest.mark.django_db\n  @pytest.mark.count_queries(autouse=False)\n  def test_query_staff_user(\nE       fixture 'count_queries' not found\n>       available fixtures: _dj_autoclear_mailbox, _django_clear_site_cache, _django_db_helper, _django_db_marker, _django_set_urlconf, _django_setup_unittest, _fail_for_invalid_template_variable, _live_server_helper, _session_faker, _template_string_if_invalid_marker, action_required_gateway_response, address, address_other_country, address_usa, address_with_areas, admin_client, admin_user, all_plugins_manager, allocation, allocations, anonymous_plugins, any_webhook, anyio_backend, anyio_backend_name, anyio_backend_options, api_client, app, app_api_client, app_export_event, app_export_file, app_installation, app_manifest, app_manifest_webhook, app_with_extensions, app_with_token, apps_without_webhooks, assert_max_num_queries, assert_num_queries, async_client, async_rf, attribute_choices_for_sorting, attribute_without_values, author_page_attribute, boolean_attribute, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, capture_queries, categories, categories_tree, categories_tree_with_published_products, category, category_translation_fr, category_with_image, channel_JPY, channel_PLN, channel_USD, channel_plugin_configurations, channels_for_benchmark, check_payment_balance_input, checkout, checkout_JPY, checkout_JPY_with_item, checkout_for_cc, checkout_info, checkout_line, checkout_line_with_one_reservation, checkout_line_with_preorder_item, checkout_line_with_reservation_in_many_stocks, checkout_line_with_reserved_preorder_item, checkout_lines_info, checkout_lines_with_multiple_quantity_info, checkout_ready_to_complete, checkout_with_digital_item, checkout_with_gift_card, checkout_with_gift_card_items, checkout_with_item, checkout_with_item_and_preorder_item, checkout_with_item_and_shipping_method, checkout_with_item_and_tax_exemption, checkout_with_item_and_transaction_item, checkout_with_item_and_voucher, checkout_with_item_and_voucher_once_per_order, checkout_with_item_and_voucher_specific_products, checkout_with_item_for_cc, checkout_with_item_total_0, checkout_with_items, checkout_with_items_and_shipping, checkout_with_items_for_cc, checkout_with_payments, checkout_with_preorders_and_regular_variant, checkout_with_preorders_only, checkout_with_prices, checkout_with_same_items_in_multiple_lines, checkout_with_shipping_address, checkout_with_shipping_address_for_cc, checkout_with_shipping_required, checkout_with_single_item, checkout_with_variant_without_inventory_tracking, checkout_with_variants, checkout_with_variants_for_cc, checkout_with_voucher, checkout_with_voucher_free_shipping, checkout_with_voucher_percentage, checkout_with_voucher_percentage_and_shipping, checkout_without_shipping_required, checkouts_assigned_to_customer, checkouts_list, client, collection, collection_list, collection_translation_fr, collection_with_image, collection_with_products, color_attribute, color_attribute_with_translations, color_attribute_without_values, customer_user, customer_user2, customer_users, date_attribute, date_time_attribute, db, default_tax_class, delivery_attempts, delivery_method, description_json, digital_content, digital_content_url, discount_info, discount_info_JPY, discount_info_for_new_sale, django_assert_max_num_queries, django_assert_num_queries, django_capture_on_commit_callbacks, django_db_blocker, django_db_createdb, django_db_keepdb, django_db_modify_db_settings, django_db_modify_db_settings_parallel_suffix, django_db_modify_db_settings_tox_suffix, django_db_modify_db_settings_xdist_suffix, django_db_reset_sequences, django_db_serialized_rollback, django_db_setup, django_db_use_migrations, django_mail_dnsname, django_mail_patch_dns, django_test_environment, django_user_model, django_username_field, doctest_namespace, draft_order, draft_order_list, draft_order_with_fix",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/app/tests/mutations/test_app_update.py::test_app_update_mutation_for_app_out_of_scope_app": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/channel/tests/mutations/test_channel_update.py::test_channel_update_mutation_remove_shipping_zone": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/account/tests/test_i18n.py::test_validate_address_no_city": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/product/tests/deprecated/test_collection_channel_listing_update.py::test_collection_channel_listing_update_update_publication_date_and_published_at": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/translations/tests/mutations/test_attribute_bulk_translate.py::test_attribute_bulk_translate_return_error_when_invalid_attr_external_ref": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/page/tests/deprecated/test_page_create.py::test_page_create_mutation_with_publication_date": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/order/tests/mutations/test_order_capture.py::test_order_capture": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/payment/tests/mutations/test_payment_capture.py::test_payment_capture_with_payment_non_authorized_yet": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/order/tests/queries/test_order_total_balance.py::test_total_balance_with_granted_refund_and_transactions": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/warehouse/tests/benchmark/test_stocks.py::test_stocks_query": {
+  "parent_outcomes": [
+   "error",
+   "error",
+   "error"
+  ],
+  "target_outcomes": [
+   "error",
+   "error",
+   "error"
+  ],
+  "class": "COLLECTION_ERROR",
+  "parent_failure": "file /workspace/8f76ddc6267f_c200_p/saleor/graphql/warehouse/tests/benchmark/test_stocks.py, line 44\n  @pytest.mark.django_db\n  @pytest.mark.count_queries(autouse=False)\n  def test_stocks_query(\nE       fixture 'count_queries' not found\n>       available fixtures: _dj_autoclear_mailbox, _django_clear_site_cache, _django_db_helper, _django_db_marker, _django_set_urlconf, _django_setup_unittest, _fail_for_invalid_template_variable, _live_server_helper, _session_faker, _template_string_if_invalid_marker, action_required_gateway_response, address, address_other_country, address_usa, address_with_areas, admin_client, admin_user, all_plugins_manager, allocation, allocations, anonymous_plugins, any_webhook, anyio_backend, anyio_backend_name, anyio_backend_options, api_client, app, app_api_client, app_export_event, app_export_file, app_installation, app_manifest, app_manifest_webhook, app_with_extensions, app_with_token, apps_without_webhooks, assert_max_num_queries, assert_num_queries, async_client, async_rf, attribute_choices_for_sorting, attribute_without_values, author_page_attribute, boolean_attribute, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, capture_queries, categories, categories_tree, categories_tree_with_published_products, category, category_translation_fr, category_with_image, channel_JPY, channel_PLN, channel_USD, channel_plugin_configurations, channels_for_benchmark, check_payment_balance_input, checkout, checkout_JPY, checkout_JPY_with_item, checkout_for_cc, checkout_info, checkout_line, checkout_line_with_one_reservation, checkout_line_with_preorder_item, checkout_line_with_reservation_in_many_stocks, checkout_line_with_reserved_preorder_item, checkout_lines_info, checkout_lines_with_multiple_quantity_info, checkout_ready_to_complete, checkout_with_digital_item, checkout_with_gift_card, checkout_with_gift_card_items, checkout_with_item, checkout_with_item_and_preorder_item, checkout_with_item_and_shipping_method, checkout_with_item_and_tax_exemption, checkout_with_item_and_transaction_item, checkout_with_item_and_voucher, checkout_with_item_and_voucher_once_per_order, checkout_with_item_and_voucher_specific_products, checkout_with_item_for_cc, checkout_with_item_total_0, checkout_with_items, checkout_with_items_and_shipping, checkout_with_items_for_cc, checkout_with_payments, checkout_with_preorders_and_regular_variant, checkout_with_preorders_only, checkout_with_prices, checkout_with_same_items_in_multiple_lines, checkout_with_shipping_address, checkout_with_shipping_address_for_cc, checkout_with_shipping_required, checkout_with_single_item, checkout_with_variant_without_inventory_tracking, checkout_with_variants, checkout_with_variants_for_cc, checkout_with_voucher, checkout_with_voucher_free_shipping, checkout_with_voucher_percentage, checkout_with_voucher_percentage_and_shipping, checkout_without_shipping_required, checkouts_assigned_to_customer, checkouts_list, client, collection, collection_list, collection_translation_fr, collection_with_image, collection_with_products, color_attribute, color_attribute_with_translations, color_attribute_without_values, customer_user, customer_user2, customer_users, date_attribute, date_time_attribute, db, default_tax_class, delivery_attempts, delivery_method, description_json, digital_content, digital_content_url, discount_info, discount_info_JPY, discount_info_for_new_sale, django_assert_max_num_queries, django_assert_num_queries, django_capture_on_commit_callbacks, django_db_blocker, django_db_createdb, django_db_keepdb, django_db_modify_db_settings, django_db_modify_db_settings_parallel_suffix, django_db_modify_db_settings_tox_suffix, django_db_modify_db_settings_xdist_suffix, django_db_reset_sequences, django_db_serialized_rollback, django_db_setup, django_db_use_migrations, django_mail_dnsname, django_mail_patch_dns, django_test_environment, django_user_model, django_username_field, doctest_namespace, draft_order, draft_order_list, draft_order_with_fixed_",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/tax/tests/queries/test_tax_country_configurations.py::test_tax_country_configurations_query_app": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/account/tests/test_account_utils.py::test_get_user_permissions_only_permissions": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/core/tests/test_graphql.py::test_from_global_id_or_error_wth_type": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/checkout/tests/deprecated/test_checkout_shipping_method_update.py::test_checkout_shipping_method_update_by_id": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/payment/tests/deprecated/test_checkout_payment_create.py::test_checkout_add_payment_both_token_and_id_given": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/giftcard/tests/mutations/test_gift_card_add_note.py::test_gift_card_add_note_as_app": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/graphql/shop/tests/test_gift_card_settings_update.py::test_gift_card_settings_update_by_customer": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ }
+}

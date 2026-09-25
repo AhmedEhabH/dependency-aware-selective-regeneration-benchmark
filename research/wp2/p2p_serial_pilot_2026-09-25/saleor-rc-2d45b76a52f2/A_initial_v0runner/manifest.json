@@ -1,0 +1,89 @@
+{
+ "task_id": "saleor-rc-2d45b76a52f2",
+ "run_label": "A",
+ "pilot_version": "p2p-serial-pilot-v1-2026-09-25",
+ "era_key": "py39",
+ "python_requirement": "~3.9",
+ "inventory_sha256": "7fa102d76a043ed1fc7982201848473e5cb9755d48ebaaa105d7c7700284fff7",
+ "n_associated_test_files": 21,
+ "n_discovered_candidate_nodes": 176,
+ "n_candidate_nodes_executed": 176,
+ "test_patch_applied_on_parent": true,
+ "class_counts": {
+  "COLLECTION_ERROR": 44,
+  "STABLE_P2P": 132,
+  "TARGET_BROKEN": 0,
+  "PARENT_BROKEN": 0,
+  "BOTH_FAIL": 0,
+  "FLAKY": 0
+ },
+ "n_stable_p2p": 132,
+ "stable_over_discovered": 0.75,
+ "measurements": {
+  "setup_env_s": 0.4,
+  "target_wall_s": 483.0,
+  "parent_wall_s": 481.6,
+  "target_per_rep_s": [
+   224.0,
+   120.0,
+   119.0
+  ],
+  "parent_per_rep_s": [
+   226.0,
+   120.0,
+   121.0
+  ],
+  "total_wall_s": 965.0,
+  "peak_wsl_ram_gib": 13.0,
+  "wsl_mem_before_gib": 13.0,
+  "worktrees_mib_before": "179",
+  "disk_before_c_free_gib": 56.9,
+  "db_lifecycle": {
+   "target_db": "saleor_2d45b76a52f2_t",
+   "parent_db": "saleor_2d45b76a52f2_p",
+   "drop": {
+    "t": {
+     "db": "saleor_2d45b76a52f2_t",
+     "drop_ok": true,
+     "drop_s": 0.51
+    },
+    "p": {
+     "db": "saleor_2d45b76a52f2_p",
+     "drop_ok": true,
+     "drop_s": 0.88
+    }
+   }
+  },
+  "worktrees_mib_after": "76",
+  "disk_after_c_free_gib": 56.6,
+  "reclaimed_disk_gib": -0.24
+ },
+ "states": {
+  "t": {
+   "error": null,
+   "wall_s": 483.0,
+   "per_rep_s": [
+    224.0,
+    120.0,
+    119.0
+   ]
+  },
+  "p": {
+   "error": null,
+   "wall_s": 481.6,
+   "per_rep_s": [
+    226.0,
+    120.0,
+    121.0
+   ]
+  }
+ },
+ "evidence_integrity": {
+  "n_expected": 176,
+  "n_records": 176,
+  "n_missing_nodes": 0,
+  "n_duplicate_nodes": 0,
+  "n_orphan_nodes": 0,
+  "ok": true
+ }
+}

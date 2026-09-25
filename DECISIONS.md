@@ -2227,3 +2227,64 @@ esearch/bounded-semantic-expansion/pilot_registration_freeze.json — 60 DEVELOP
 - Action: build_venv pins \illiard<4.3\ so family venvs run on Windows.
   This is an operational environment-compatibility pin, not a scientific knob
   and not a change to any frozen protocol.
+
+## Decision - Todo Synchronization Mandatory protocol rule (2026-09-25, Mission-08)
+
+- The visible Todo list is a live execution-state mirror, not a retrospective checklist.
+- Rule added verbatim as section 13 "Todo Synchronization - Mandatory" in
+  docs/EXECUTION_AND_VALIDATION_PROTOCOL_V2.md (single authoritative protocol).
+- Todo status must derive from persisted durable state (JSON/JSONL/progress/manifests), not chat prose.
+- Symbols: [ ] not started / [•] active or partial / [✓] durably complete and validated / [!] blocked or STOP.
+- Update before each phase, after every durable chunk, immediately after validation, and before starting the next item.
+- Stale Todo state is an execution-protocol defect.
+
+## Decision - P2P-U V2 extended preservation design freeze (2026-09-25, Mission-09)
+
+- V1 remains immutable historical evidence. Mission-09 freezes P2P-U V2 as an
+  explicitly versioned amendment BEFORE any V2 outcome execution (rule freeze
+  artifact + membership artifact, both SHA-pinned).
+- Salt frozen: `wp2-p2p-u-v2-2026-09-25`. Caps: PRIMARY 200 / ENG sensitivity 400.
+- Proximity = max over KNOWN touched production files of longest common leading
+  component count after `saleor/`; UNKNOWN touched paths contribute no score;
+  all-UNKNOWN task -> proximity=0 + flag.
+- PROXIMAL (proximity>=2) / DISTAL (<=1) pools; 3:1 interleave (P,P,P,D);
+  deterministic outcome-blind ordering; first_200 subset first_400 exactly;
+  pool shortage backfills deterministically; never invent candidates.
+- cap200 PRIMARY by preregistration; cap400 descriptive sensitivity only.
+- Classification precedence FLAKY > COLLECTION_ERROR > STABLE_P2P >
+  TARGET_BROKEN > PARENT_BROKEN > BOTH_FAIL; only STABLE_P2P nodes freeze.
+
+## Decision - P2P-S primary preservation freeze (2026-09-25, Mission-09)
+
+- P2P-S uses the existing frozen C2/C4 P2P_ONLY classification (node in changed/
+  test-patch scope; parent+frozen-test-patch STABLE_PASS 3/3; target STABLE_PASS
+  3/3). No new oracle construction execution.
+- 46/47 oracle-valid DEV tasks defined; 1 undefined (ENG saleor-rc-39b4138e8550);
+  8 sparse (<10 nodes). Zero-node task = UNDEFINED, never automatic PASS.
+- Primary task metric denominator = P2P-S-defined tasks only; node-level secondary.
+
+## Decision - Mission-08 errata recorded (2026-09-25, Mission-09)
+
+- ERRATUM A: wsl_mem_before_gib=13.0 was WSL TOTAL, not peak; true peak not
+  measured; do not claim 13 GiB peak RAM nor that workers=2 is impossible.
+- ERRATUM B: ~92.1% = task-test-file association occurrences; ~54.7% = unique
+  associated test files under GraphQL; do not conflate.
+- ERRATUM C: Smoke draft DEV inventory SHA corrected to the final Mission-08
+  SHA 0ae5699b... (was stale 7ac2bd8d...).
+- No Mission-08 rerun authorized by these errata.
+
+## Decision - ENG P2P-U V2 execution + resource instrumentation (2026-09-25)
+
+- Executed 8 ENG tasks x 2 caps (cap200 + cap400), workers=1, 3+3 reps;
+  saleor-rc-9258154b8a0b P2P-U UNDEFINED (zero candidates), not executed.
+- Evidence integrity PASS everywhere (0 missing/dup/orphan; valid JUnit refs).
+- Overlap repeatability (first-200 identities, independent 200/400): class
+  agreement = 1.0 all 8 tasks; Jaccard(STABLE_P2P) = 1.0. cap400/cap200 wall
+  multiplier ~1.37x. No material instability -> decision token P2P_V2_ENG_READY
+  (pending final report).
+- Resource sampler (separate process, 5 s interval, monotonic ts) corrects the
+  Mission-08 gap; no total-as-peak confusion. ENG WSL peak used ~1.6 GiB.
+- Known instrumentation limitation: during the 16 ENG runs the sampler queried
+  wp2-pg only; per-test-container RAM not separately captured (bounded by WSL
+  used peak). Sampler + runner fixed to auto-discover wp2-test-* containers for
+  future DEV-47 / MAIN runs.

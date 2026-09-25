@@ -1,0 +1,6402 @@
+{
+ "saleor/order/tests/test_actions.py::test_order_created_order_confirmed_with_turned_flag_on[order_status5]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_apply_order_discount.py::test_apply_subtotal_discount_to_order_lines_order_with_single_line[10000]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_notifications.py::test_get_default_order_payload": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_base_order_line_total.py::test_base_order_line_total": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions_create_fulfillments_for_returned_products.py::test_create_return_fulfillment_only_order_lines_with_refund": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_event_missing_filter_shipping_method_webhook[order_created]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_fulfillments_actions.py::test_create_fullfilment_with_out_of_stock_webhook": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_recalculate_with_plugins_tax_error_shipping_price": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions_refund_products.py::test_create_refund_fulfillment_custom_amount": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[draft-5-5-0-0]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/benchmark/test_fetch_order_prices.py::test_fetch_order_prices_catalogue_discount": {
+  "parent_outcomes": [
+   "error",
+   "error",
+   "error"
+  ],
+  "target_outcomes": [
+   "error",
+   "error",
+   "error"
+  ],
+  "class": "COLLECTION_ERROR",
+  "parent_failure": "file /workspace/dfe77ac1c5dc_c400_p/saleor/order/tests/benchmark/test_fetch_order_prices.py, line 24\n  @pytest.mark.django_db\n  @pytest.mark.count_queries(autouse=False)\n  def test_fetch_order_prices_catalogue_discount(\nE       fixture 'count_queries' not found\n>       available fixtures: _dj_autoclear_mailbox, _django_clear_site_cache, _django_db_helper, _django_db_marker, _django_set_urlconf, _django_setup_unittest, _fail_for_invalid_template_variable, _live_server_helper, _session_faker, _template_string_if_invalid_marker, action_required_gateway_response, address, address_other_country, address_usa, address_with_areas, admin_client, admin_user, all_plugins_manager, allocation, allocations, anonymous_plugins, any_webhook, anyio_backend, anyio_backend_name, anyio_backend_options, api_client, app, app_api_client, app_export_event, app_export_file, app_installation, app_manifest, app_manifest_webhook, app_marked_to_be_removed, app_with_extensions, app_with_token, apps_without_webhooks, assert_max_num_queries, assert_num_queries, async_client, async_rf, async_subscription_webhooks_with_root_objects, attribute_choices_for_sorting, attribute_generator, attribute_value_generator, attribute_values_generator, attribute_without_values, author_page_attribute, boolean_attribute, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, capture_queries, catalogue_predicate, catalogue_promotion, catalogue_promotion_with_single_rule, catalogue_promotion_without_rules, categories, categories_tree, categories_tree_with_published_products, categories_with_children, category, category_generator, category_list, category_translation_fr, category_translation_with_slug_pl, category_with_image, category_with_products, channel_JPY, channel_PLN, channel_USD, channel_plugin_configurations, channels_for_benchmark, check_payment_balance_input, checkout, checkout_JPY, checkout_JPY_with_item, checkout_for_cc, checkout_info, checkout_line, checkout_line_with_one_reservation, checkout_line_with_preorder_item, checkout_line_with_reservation_in_many_stocks, checkout_line_with_reserved_preorder_item, checkout_lines, checkout_lines_info, checkout_lines_with_multiple_quantity_info, checkout_preorder_with_charged_payment, checkout_ready_to_complete, checkout_with_billing_address, checkout_with_billing_address_for_cc, checkout_with_charged_payment, checkout_with_charged_payment_for_cc, checkout_with_delivery_method_for_cc, checkout_with_digital_item, checkout_with_digital_line_with_charged_payment, checkout_with_gift_card, checkout_with_gift_card_items, checkout_with_item, checkout_with_item_and_gift_promotion, checkout_with_item_and_order_discount, checkout_with_item_and_preorder_item, checkout_with_item_and_shipping, checkout_with_item_and_shipping_method, checkout_with_item_and_tax_exemption, checkout_with_item_and_transaction_item, checkout_with_item_and_voucher, checkout_with_item_and_voucher_and_shipping_method, checkout_with_item_and_voucher_once_per_order, checkout_with_item_and_voucher_specific_products, checkout_with_item_for_cc, checkout_with_item_on_promotion, checkout_with_item_on_sale, checkout_with_item_total_0, checkout_with_items, checkout_with_items_and_shipping, checkout_with_items_and_shipping_info, checkout_with_items_for_cc, checkout_with_line_without_listing, checkout_with_payments, checkout_with_preorders_and_regular_variant, checkout_with_preorders_only, checkout_with_prices, checkout_with_problems, checkout_with_same_items_in_multiple_lines, checkout_with_shipping_address, checkout_with_shipping_address_for_cc, checkout_with_shipping_method, checkout_with_shipping_required, checkout_with_single_item, checkout_with_variant_without_inventory_tracking, checkout_with_variants, checkout_with_variants_for_cc, checkout_with_voucher, checkout_with_voucher_free_shipping, checkout_with_voucher_percentage, checkout_with_voucher_percentage_and_shipping, checkout_without_shipping_required, checkouts_assigned_to_customer, checkouts_for_benchmarks, ",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_base_order_total.py::test_base_order_total_with_fixed_manual_discount_and_zero_order_total": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_tasks.py::test_send_order_updated": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_search.py::test_prepare_order_search_vector_value_no_relations_data": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_fetch.py::test_editable_order_line_info_variant_discounted_price": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_order_queryset_drafts": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_actions.py::test_order_created_order_confirmed_with_turned_flag_off[order_status4]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_apply_order_discount.py::test_apply_subtotal_discount_to_order_lines_order_with_single_line[0]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_notifications.py::test_get_address_payload": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions_create_fulfillments_for_returned_products.py::test_create_return_fulfillment_only_order_lines": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_events_skips_tax_webhook_when_prices_are_valid[order_confirmed]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_fulfillments_actions.py::test_create_fulfillments": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_fetch_order_data_plugin_tax_data_with_negative_values": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions_refund_products.py::test_create_refund_fulfillment_only_fulfillment_lines": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_utils.py::test_get_order_country_use_channel_country": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/benchmark/test_fetch_order_prices.py::test_fetch_order_prices_multiple_catalogue_discounts": {
+  "parent_outcomes": [
+   "error",
+   "error",
+   "error"
+  ],
+  "target_outcomes": [
+   "error",
+   "error",
+   "error"
+  ],
+  "class": "COLLECTION_ERROR",
+  "parent_failure": "file /workspace/dfe77ac1c5dc_c400_p/saleor/order/tests/benchmark/test_fetch_order_prices.py, line 52\n  @pytest.mark.django_db\n  @pytest.mark.count_queries(autouse=False)\n  def test_fetch_order_prices_multiple_catalogue_discounts(\nE       fixture 'count_queries' not found\n>       available fixtures: _dj_autoclear_mailbox, _django_clear_site_cache, _django_db_helper, _django_db_marker, _django_set_urlconf, _django_setup_unittest, _fail_for_invalid_template_variable, _live_server_helper, _session_faker, _template_string_if_invalid_marker, action_required_gateway_response, address, address_other_country, address_usa, address_with_areas, admin_client, admin_user, all_plugins_manager, allocation, allocations, anonymous_plugins, any_webhook, anyio_backend, anyio_backend_name, anyio_backend_options, api_client, app, app_api_client, app_export_event, app_export_file, app_installation, app_manifest, app_manifest_webhook, app_marked_to_be_removed, app_with_extensions, app_with_token, apps_without_webhooks, assert_max_num_queries, assert_num_queries, async_client, async_rf, async_subscription_webhooks_with_root_objects, attribute_choices_for_sorting, attribute_generator, attribute_value_generator, attribute_values_generator, attribute_without_values, author_page_attribute, boolean_attribute, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, capture_queries, catalogue_predicate, catalogue_promotion, catalogue_promotion_with_single_rule, catalogue_promotion_without_rules, categories, categories_tree, categories_tree_with_published_products, categories_with_children, category, category_generator, category_list, category_translation_fr, category_translation_with_slug_pl, category_with_image, category_with_products, channel_JPY, channel_PLN, channel_USD, channel_plugin_configurations, channels_for_benchmark, check_payment_balance_input, checkout, checkout_JPY, checkout_JPY_with_item, checkout_for_cc, checkout_info, checkout_line, checkout_line_with_one_reservation, checkout_line_with_preorder_item, checkout_line_with_reservation_in_many_stocks, checkout_line_with_reserved_preorder_item, checkout_lines, checkout_lines_info, checkout_lines_with_multiple_quantity_info, checkout_preorder_with_charged_payment, checkout_ready_to_complete, checkout_with_billing_address, checkout_with_billing_address_for_cc, checkout_with_charged_payment, checkout_with_charged_payment_for_cc, checkout_with_delivery_method_for_cc, checkout_with_digital_item, checkout_with_digital_line_with_charged_payment, checkout_with_gift_card, checkout_with_gift_card_items, checkout_with_item, checkout_with_item_and_gift_promotion, checkout_with_item_and_order_discount, checkout_with_item_and_preorder_item, checkout_with_item_and_shipping, checkout_with_item_and_shipping_method, checkout_with_item_and_tax_exemption, checkout_with_item_and_transaction_item, checkout_with_item_and_voucher, checkout_with_item_and_voucher_and_shipping_method, checkout_with_item_and_voucher_once_per_order, checkout_with_item_and_voucher_specific_products, checkout_with_item_for_cc, checkout_with_item_on_promotion, checkout_with_item_on_sale, checkout_with_item_total_0, checkout_with_items, checkout_with_items_and_shipping, checkout_with_items_and_shipping_info, checkout_with_items_for_cc, checkout_with_line_without_listing, checkout_with_payments, checkout_with_preorders_and_regular_variant, checkout_with_preorders_only, checkout_with_prices, checkout_with_problems, checkout_with_same_items_in_multiple_lines, checkout_with_shipping_address, checkout_with_shipping_address_for_cc, checkout_with_shipping_method, checkout_with_shipping_required, checkout_with_single_item, checkout_with_variant_without_inventory_tracking, checkout_with_variants, checkout_with_variants_for_cc, checkout_with_voucher, checkout_with_voucher_free_shipping, checkout_with_voucher_percentage, checkout_with_voucher_percentage_and_shipping, checkout_without_shipping_required, checkouts_assigned_to_customer, checkouts_for_be",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_base_order_total.py::test_base_order_total_with_fixed_voucher_more_then_total": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_tasks.py::test_delete_expired_orders_task_orders_with_payment_objects": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_search.py::test_prepare_order_search_vector_value_empty_relation_fields": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_fetch.py::test_editable_order_line_info_variant_discounted_price_without_listing": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_order_update_charge_status_with_transaction_item_and_granted_refund[granted_refund_amount2-charged_amount2-none]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_actions.py::test_order_created_order_confirmed_with_turned_flag_on[order_status3]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_apply_order_discount.py::test_apply_order_discounts_zero_discount": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_notifications.py::test_send_confirmation_emails_without_addresses_for_order": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions_create_fulfillments_for_returned_products.py::test_create_return_fulfillment_only_fulfillment_lines": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_event_missing_filter_shipping_method_webhook[order_refunded]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_fulfillments_actions.py::test_create_fulfillments_without_notification": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_fetch_order_prices_when_tax_exemption[True]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions_refund_products.py::test_create_refund_fulfillment_only_order_lines": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_utils.py::test_get_total_order_discount_excluding_shipping_no_discounts": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_base_order_total.py::test_base_order_total_with_percentage_manual_discount_and_fixed_voucher": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_tasks.py::test_expire_orders_task_creates_order_events": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_search.py::test_update_order_search_vector_auto_save": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_fetch.py::test_fetch_draft_order_lines_info": {
+  "parent_outcomes": [
+   "error",
+   "error",
+   "error"
+  ],
+  "target_outcomes": [
+   "error",
+   "error",
+   "error"
+  ],
+  "class": "COLLECTION_ERROR",
+  "parent_failure": "file /workspace/dfe77ac1c5dc_c400_p/saleor/order/tests/test_fetch.py, line 9\n  @pytest.mark.django_db\n  @pytest.mark.count_queries(autouse=False)\n  def test_fetch_draft_order_lines_info(\nE       fixture 'count_queries' not found\n>       available fixtures: _dj_autoclear_mailbox, _django_clear_site_cache, _django_db_helper, _django_db_marker, _django_set_urlconf, _django_setup_unittest, _fail_for_invalid_template_variable, _live_server_helper, _session_faker, _template_string_if_invalid_marker, action_required_gateway_response, address, address_other_country, address_usa, address_with_areas, admin_client, admin_user, all_plugins_manager, allocation, allocations, anonymous_plugins, any_webhook, anyio_backend, anyio_backend_name, anyio_backend_options, api_client, app, app_api_client, app_export_event, app_export_file, app_installation, app_manifest, app_manifest_webhook, app_marked_to_be_removed, app_with_extensions, app_with_token, apps_without_webhooks, assert_max_num_queries, assert_num_queries, async_client, async_rf, async_subscription_webhooks_with_root_objects, attribute_choices_for_sorting, attribute_generator, attribute_value_generator, attribute_values_generator, attribute_without_values, author_page_attribute, boolean_attribute, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, capture_queries, catalogue_predicate, catalogue_promotion, catalogue_promotion_with_single_rule, catalogue_promotion_without_rules, categories, categories_tree, categories_tree_with_published_products, categories_with_children, category, category_generator, category_list, category_translation_fr, category_translation_with_slug_pl, category_with_image, category_with_products, channel_JPY, channel_PLN, channel_USD, channel_plugin_configurations, channels_for_benchmark, check_payment_balance_input, checkout, checkout_JPY, checkout_JPY_with_item, checkout_for_cc, checkout_info, checkout_line, checkout_line_with_one_reservation, checkout_line_with_preorder_item, checkout_line_with_reservation_in_many_stocks, checkout_line_with_reserved_preorder_item, checkout_lines, checkout_lines_info, checkout_lines_with_multiple_quantity_info, checkout_preorder_with_charged_payment, checkout_ready_to_complete, checkout_with_billing_address, checkout_with_billing_address_for_cc, checkout_with_charged_payment, checkout_with_charged_payment_for_cc, checkout_with_delivery_method_for_cc, checkout_with_digital_item, checkout_with_digital_line_with_charged_payment, checkout_with_gift_card, checkout_with_gift_card_items, checkout_with_item, checkout_with_item_and_gift_promotion, checkout_with_item_and_order_discount, checkout_with_item_and_preorder_item, checkout_with_item_and_shipping, checkout_with_item_and_shipping_method, checkout_with_item_and_tax_exemption, checkout_with_item_and_transaction_item, checkout_with_item_and_voucher, checkout_with_item_and_voucher_and_shipping_method, checkout_with_item_and_voucher_once_per_order, checkout_with_item_and_voucher_specific_products, checkout_with_item_for_cc, checkout_with_item_on_promotion, checkout_with_item_on_sale, checkout_with_item_total_0, checkout_with_items, checkout_with_items_and_shipping, checkout_with_items_and_shipping_info, checkout_with_items_for_cc, checkout_with_line_without_listing, checkout_with_payments, checkout_with_preorders_and_regular_variant, checkout_with_preorders_only, checkout_with_prices, checkout_with_problems, checkout_with_same_items_in_multiple_lines, checkout_with_shipping_address, checkout_with_shipping_address_for_cc, checkout_with_shipping_method, checkout_with_shipping_required, checkout_with_single_item, checkout_with_variant_without_inventory_tracking, checkout_with_variants, checkout_with_variants_for_cc, checkout_with_voucher, checkout_with_voucher_free_shipping, checkout_with_voucher_percentage, checkout_with_voucher_percentage_and_shipping, checkout_without_shipping_required, checkouts_assigned_to_customer, checkouts_for_benchmarks, checkouts_list, client, collectio",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_validate_voucher_in_order_without_voucher": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_actions.py::test_order_created_order_confirmed_with_turned_flag_off[order_status6]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_apply_order_discount.py::test_apply_order_discounts_manual_discount_percentage": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_notifications.py::test_send_email_order_refunded_by_app": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions_create_fulfillments_for_returned_products.py::test_create_return_fulfillment_only_order_lines_with_old_ids": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_event_triggers_sync_webhook[order_cancelled]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_fulfillments_actions.py::test_create_fullfilment_with_out_of_stock_webhook_not_triggered": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_order_subtotal": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions_refund_products.py::test_create_refund_fulfillment_included_shipping_costs": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_utils.py::test_calculate_order_granted_refund_status[none-refund_reverse]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_base_order_total.py::test_base_order_total_with_fixed_manual_discount_and_percentage_voucher": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_tasks.py::test_expire_orders_task_with_transaction_item": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_search.py::test_prepare_order_search_vector_value": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_fetch.py::test_editable_order_line_info_variant_discounted_price_when_listing_without_price": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_get_order_weight_non_existing_product": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_actions.py::test_order_created_order_confirmed_with_turned_flag_off[order_status1]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_apply_order_discount.py::test_apply_subtotal_discount_to_order_lines[17.3]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_notifications.py::test_get_custom_order_payload": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions_create_fulfillments_for_returned_products.py::test_create_return_fulfillment_only_order_lines_included_shipping_costs": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_mark_as_paid_with_external_reference_with_transaction": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_fulfillments_actions.py::test_create_fulfillments_require_approval": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_order_line_unit": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_utils.py::test_update_order_display_gross_prices_use_default_tax_settings": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_base_order_total.py::test_base_order_total_with_percentage_voucher_and_percentage_manual_discount": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_tasks.py::test_delete_expired_orders_task_schedule_itself": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_search.py::test_update_order_search_vector_without_save": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_email_sent_event_with_user_without_app[event_fulfillment_confirmed_notification-fulfillment_confirmation]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_actions.py::test_order_created_order_confirmed_with_turned_flag_on[order_status4]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_apply_order_discount.py::test_apply_order_discounts_voucher_entire_order_and_manual_discount_percentage": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_notifications.py::test_get_default_images_payload": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions_create_fulfillments_for_returned_products.py::test_create_return_fulfillment_with_lines_already_refunded": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_event_skips_sync_webhooks_when_order_not_editable[order_refunded]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_fulfillments_actions.py::test_create_fulfillments_with_variant_without_inventory_tracking_and_without_stock": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_fetch_order_data_tax_data_with_negative_values[False-test.app]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_utils.py::test_calculate_order_granted_refund_status[failure-refund_failure]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_base_order_total.py::test_base_order_total_with_percentage_voucher_and_fixed_manual_discount": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_tasks.py::test_expire_orders_task_with_payment": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_order_update_total_authorize_data_with_transaction_item": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_actions.py::test_order_created_order_confirmed_with_turned_flag_on[order_status8]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_apply_order_discount.py::test_apply_order_discounts_subtotal_zero": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_notifications.py::test_send_email_order_refunded_by_user": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions_create_fulfillments_for_returned_products.py::test_create_return_fulfillment_only_fulfillment_lines_replace_order": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_events_incorrect_webhook_event": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_fulfillments_actions.py::test_create_fulfillments_with_one_line_empty_quantity": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_fetch_order_data_calls_plugin": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_utils.py::test_match_orders_with_new_user": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_base_order_total.py::test_base_order_total_with_fixed_manual_discount_and_fixed_voucher": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_tasks.py::test_delete_expired_orders_task_multiple_channels_one_without_delete": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_update_order_status_waiting_for_approval": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_actions.py::test_order_created_order_confirmed_with_turned_flag_off[order_status5]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_apply_order_discount.py::test_apply_order_discounts_voucher_entire_order": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_notifications.py::test_send_confirmation_emails_without_addresses_for_payment": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions_create_fulfillments_for_returned_products.py::test_create_return_fulfillment_only_order_lines_with_replace_request": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_order_transaction_updated_order_fully_refunded": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_fulfillments_actions.py::test_create_fulfillments_warehouse_without_stock": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_fetch_order_prices_if_expired_use_base_shipping_price": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[unconfirmed-2-5-3-0]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_base_order_total.py::test_base_order_total": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_tasks.py::test_delete_expired_orders_task": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_add_variant_to_draft_order_adds_line_for_variant_with_price_0": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_actions.py::test_order_created_order_confirmed_with_turned_flag_off[order_status3]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_apply_order_discount.py::test_apply_order_discounts_manual_discount_percentage_and_voucher_entire_order": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_notifications.py::test_send_email_order_confirmation": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_events_skips_sync_webhooks_when_order_not_editable[draft_order_created]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_fulfillments_actions.py::test_create_fulfillments_quantity_allocated_lower_than_line_quantity": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_fetch_order_data_tax_data_with_price_overflow[False-None]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_utils.py::test_get_valid_shipping_methods_for_order": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_base_order_total.py::test_base_order_total_with_fixed_voucher_and_percentage_manual_discount": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_tasks.py::test_delete_expired_orders_task_channel_without_delete": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_ordered_item_change_quantity": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_actions.py::test_order_created_order_confirmed_with_turned_flag_on[order_status0]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_apply_order_discount.py::test_apply_subtotal_discount_to_order_lines[50]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_notifications.py::test_send_fulfillment_update": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_handle_fully_paid_order_no_email": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_fulfillments_actions.py::test_create_fulfillments_many_warehouses": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_recalculate_with_plugins_tax_error[get_order_shipping_tax_rate]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[draft-5-2-0-3]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_base_order_total.py::test_base_order_total_with_percentage_manual_discount": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_tasks.py::test_bulk_release_voucher_usage_voucher_usage_mismatch": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_get_voucher_discount_for_order_voucher_validation": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_actions.py::test_order_created_order_confirmed_with_turned_flag_off[order_status7]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_apply_order_discount.py::test_apply_order_discounts_shipping_voucher": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_notifications.py::test_send_fulfillment_confirmation_by_user": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_order_transaction_updated_order_fully_refunded_with_transaction_and_payment": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_fulfillments_actions.py::test_create_fulfillments_with_variant_without_inventory_tracking": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_recalculate_prices_empty_tax_data_logging_address[None]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_utils.py::test_get_total_order_discount_excluding_shipping_no_shipping_discounts": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_base_order_total.py::test_base_order_total_with_fixed_voucher_and_fixed_manual_discount": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_tasks.py::test_delete_expired_orders_task_multiple_channels_with_different_deletion_time": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_send_fulfillment_order_lines_mails_by_app[True-True]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_actions.py::test_order_created_order_confirmed_with_turned_flag_off[order_status2]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_apply_order_discount.py::test_apply_subtotal_discount_to_order_lines_order_with_single_line[17.3]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_notifications.py::test_send_email_order_canceled_by_user": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_order_voided_triggers_webhooks": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_fulfillments_actions.py::test_create_fulfillments_without_allocations": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_fetch_order_data_tax_data_with_price_overflow[True-test.app]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_utils.py::test_calculate_order_granted_refund_status[none-charge_success]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_base_order_total.py::test_base_order_total_with_fixed_manual_discount_more_then_total": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_tasks.py::test_delete_expired_orders_task_orders_with_different_status_than_expired": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_email_sent_event_without_user_pk[event_payment_confirmed_notification-payment_confirmation]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_actions.py::test_order_created_order_confirmed_with_turned_flag_on[order_status7]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_apply_order_discount.py::test_apply_subtotal_discount_to_order_lines_order_with_single_line[1]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_notifications.py::test_get_order_line_payload": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_events_skips_tax_webhook_when_prices_are_valid[order_cancelled]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_fulfillments_actions.py::test_create_fulfillments_require_approval_as_app": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_order_line_tax_rate": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_utils.py::test_add_gift_cards_to_order_no_checkout_user": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_base_order_total.py::test_base_order_total_with_fixed_manual_discount": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_tasks.py::test_expire_orders_task_none_expiration_time[-1]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_add_variant_to_order_adds_line_with_custom_price_for_new_variant": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_actions.py::test_order_created_order_confirmed_with_turned_flag_on[order_status2]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_apply_order_discount.py::test_apply_order_discounts_voucher_entire_order_exceed_subtotal": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_notifications.py::test_send_fulfillment_confirmation_by_app": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_events_skips_sync_webhooks_when_order_not_editable[order_fully_paid]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_fetch_order_prices_when_tax_exemption[False]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_utils.py::test_get_valid_shipping_methods_for_order_no_channel_shipping_zones": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_base_order_total.py::test_base_order_total_with_percentage_manual_discount_and_percentage_voucher": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_tasks.py::test_expire_orders_task_none_expiration_time[0]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_email_sent_event_with_app[event_fulfillment_digital_links_notification-digital_links]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_actions.py::test_order_created_order_confirmed_with_turned_flag_on[order_status1]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_apply_order_discount.py::test_apply_order_discounts_manual_discount_exceed_total": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_notifications.py::test_send_email_payment_confirmation": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_event_missing_filter_shipping_method_webhook[order_updated]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_recalculate_prices_empty_tax_data_logging_address[test.app]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_utils.py::test_create_order_line_discounts": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_base_order_total.py::test_base_order_total_with_fixed_voucher": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_tasks.py::test_expire_orders_task_do_not_call_sync_webhooks": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_order_update_charge_data_with_transaction_item": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_actions.py::test_order_created_order_confirmed_with_turned_flag_off[order_status8]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_apply_order_discount.py::test_apply_subtotal_discount_to_order_lines[10]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_notifications.py::test_get_order_line_payload_deleted_variant": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_event_skips_sync_webhooks_when_order_not_editable[order_fulfilled]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_order_undiscounted_total": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_utils.py::test_get_valid_shipping_methods_for_order_shipping_not_required": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_base_order_total.py::test_base_order_total_with_percentage_voucher": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_tasks.py::test_expire_orders_task_none_expiration_time[None]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_email_sent_event_with_user[event_payment_confirmed_notification-payment_confirmation]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_actions.py::test_order_created_order_confirmed_with_turned_flag_on[order_status6]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_apply_order_discount.py::test_apply_subtotal_discount_to_order_lines_order_with_single_line[10]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_notifications.py::test_get_default_fulfillment_payload": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_handle_fully_paid_order_for_draft_order[False]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_recalculate_with_plugins_tax_error[calculate_order_shipping]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_utils.py::test_change_quantity_update_line_fields": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_tasks.py::test_expire_orders_task_check_voucher": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_email_sent_event_without_user_pk[event_order_confirmation_notification-order_confirmation]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_actions.py::test_order_created_order_confirmed_with_turned_flag_off[order_status0]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_apply_order_discount.py::test_apply_order_discounts_voucher_entire_order_percentage": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_notifications.py::test_send_email_order_canceled_by_app": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_events_missing_filter_shipping_method_webhook[order_created]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_fetch_order_data_plugin_tax_data_price_overflow": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_utils.py::test_add_gift_cards_to_order": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_tasks.py::test_expire_orders_task_after": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_order_update_charge_status_with_transaction_item_and_granted_refund[granted_refund_amount0-charged_amount0-none]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_apply_order_discount.py::test_apply_order_discounts_voucher_entire_order_and_manual_discount_fixed": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_notifications.py::test_send_email_order_confirmation_for_cc": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_events_triggers_sync_webhook[order_fully_refunded]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_fetch_order_prices_if_expired_prefetch": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_utils.py::test_add_variant_to_order": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_tasks.py::test_expire_orders_task_check_multiple_vouchers": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_order_update_charge_status_with_transaction_item_and_granted_refund[granted_refund_amount5-charged_amount5-full]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_apply_order_discount.py::test_apply_order_discounts_manual_discount_no_lines": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_cancel_fulfillment_variant_witout_inventory_tracking": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_recalculate_with_plugins_tax_error_line_prices": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[unconfirmed-2-0-0-2]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_total_setter": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_apply_order_discount.py::test_apply_order_discounts_manual_discount": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_order_transaction_updated_with_the_same_transaction_authorized_amount": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_fetch_order_data_tax_data_with_negative_values[False-None]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_utils.py::test_add_gift_cards_to_order_with_more_than_total": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_add_variant_to_order_adds_translations_in_order_language": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_apply_order_discount.py::test_apply_order_discounts_manual_discount_fixed_and_voucher_entire_order": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_event_missing_filter_shipping_method_webhook[order_expired]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_fetch_order_prices_if_expired_prefetch_with_lines": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_utils.py::test_match_draft_order_with_new_user": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_order_update_total_authorize_data_with_transaction_item_and_payment": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_handle_fully_paid_order_gift_cards_not_created": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_apply_tax_data[True]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_utils.py::test_update_order_display_gross_prices_use_country_specific_tax_settings": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_order_update_total_authorize_data_with_payment": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_events_triggers_sync_webhook[order_expired]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_recalculate_prices_line_quantity_changed": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_utils.py::test_get_total_order_discount_excluding_shipping": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_order_update_charge_data_with_payment": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_event_missing_filter_shipping_method_webhook[order_fully_refunded]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_fetch_order_data_tax_data_with_price_overflow[True-None]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_utils.py::test_get_valid_shipping_methods_for_order_no_shipping_address": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_validate_fulfillment_tracking_number_as_url": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_events_triggers_sync_webhook[order_confirmed]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_recalculate_with_plugins_tax_error[calculate_order_line_unit]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_utils.py::test_calculate_order_granted_refund_status[success-refund_success]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_email_sent_event_with_user_without_app[event_fulfillment_digital_links_notification-digital_links]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_order_refunded_triggers_webhooks": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_fetch_order_data_tax_data_with_wrong_number_of_lines[False-None]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_utils.py::test_calculate_order_granted_refund_status[pending-refund_request]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_email_sent_event_without_user_and_app_pk[event_fulfillment_confirmed_notification-fulfillment_confirmation]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_event_missing_filter_shipping_method_webhook[order_metadata_updated]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_fetch_order_data_tax_data_with_negative_values[True-test.app]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_utils.py::test_order_info_for_logs": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_update_order_status_unfulfilled": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_event_skips_sync_webhooks_when_order_not_editable[draft_order_created]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_recalculate_with_plugins": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_restock_fulfillment_lines": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_event_triggers_sync_webhook[order_fully_paid]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_fetch_order_data_tax_data_with_wrong_number_of_lines[True-None]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_recalculate_order_keeps_weight_unit": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_event_skips_tax_webhook_when_prices_are_valid[order_updated]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_fetch_order_prices_if_expired_recalculate_all_prices[False]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_send_fulfillment_order_lines_mails_by_user[False-True]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_fulfill_digital_lines": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_fetch_order_prices_if_expired_flat_rates[True]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_order_weight_change_line_quantity": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_order_transaction_updated_order_partially_paid_and_multiple_transactions": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_fetch_order_prices_if_expired_flat_rates_and_no_tax_calc_strategy[True]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_queryset_ready_to_capture": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_events_skips_sync_webhooks_when_draft_order_deleted": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_order_total": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_calculate_order_weight": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_handle_fully_paid_order_digital_lines": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_order_shipping": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_email_sent_event_without_user_and_app_pk[event_fulfillment_digital_links_notification-digital_links]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_mark_as_paid_with_payment": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_fetch_order_prices_if_expired_flat_rates_and_no_tax_calc_strategy[False]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_available_collection_points_for_preorders_and_regular_variants_in_order": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_mark_as_paid_with_transaction": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_fetch_order_data_calls_tax_app": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_send_fulfillment_order_lines_mails_by_user[True-True]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_events_missing_filter_shipping_method_webhook[order_paid]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_recalculate_with_plugins_tax_error[calculate_order_line_total]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_email_sent_event_with_app[event_order_refunded_notification-order_refund]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_events_triggers_sync_webhook[order_updated]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_order_shipping_tax_rate": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_update_order_status_fulfilled": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_order_refunded_by_app": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_fetch_order_prices_if_expired_webhooks_success": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_order_update_charge_data_with_transaction_item_and_payment": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_events_triggers_sync_webhook[order_fulfilled]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_recalculate_with_plugins_tax_error[get_order_line_tax_rate]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_order_update_charge_status_with_transaction_item_and_granted_refund[granted_refund_amount1-charged_amount1-full]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_event_skips_tax_webhook_when_prices_are_valid[order_cancelled]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_fetch_order_data_tax_data_with_wrong_number_of_lines[False-test.app]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_email_sent_event_with_app[event_order_cancelled_notification-order_cancel]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_order_transaction_updated_for_charged_triggers_webhooks": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_order_line_total": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_order_update_charge_status_with_transaction_item_and_granted_refund[granted_refund_amount4-charged_amount4-partial]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_event_skips_sync_webhooks_when_order_not_editable[order_cancelled]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_fetch_order_prices_if_expired_flat_rates[False]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_order_get_subtotal": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_order_confirmed_triggers_webhooks": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_fetch_order_prices_if_expired_recalculate_all_prices[True]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_order_weight_add_new_variant": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_handle_fully_paid_order_with_gateway": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_fetch_order_prices_on_promotion_if_expired_recalculate_all_prices": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_email_sent_event_without_user_and_app_pk[event_order_cancelled_notification-order_cancel]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_event_triggers_sync_webhook[order_metadata_updated]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_fetch_order_data_tax_data_with_price_overflow[False-test.app]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_email_sent_event_with_user_without_app[event_order_refunded_notification-order_refund]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_fulfill_order_lines_with_variant_deleted": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_recalculate_with_plugins_order_discounts_and_total_undiscounted_price_changed": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_add_variant_to_order_adds_line_for_new_variant": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_events_skips_sync_webhooks_when_order_not_editable[order_cancelled]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_apply_tax_data[False]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_add_variant_to_order_adds_line_for_new_variant_on_promotion_with_custom_price": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_order_transaction_updated_for_refunded_triggers_webhooks": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_fetch_order_data_calls_inactive_plugin": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_email_sent_event_without_user_and_app_pk[event_order_refunded_notification-order_refund]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_event_missing_filter_shipping_method_webhook[order_confirmed]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_fetch_order_prices_if_expired_plugins": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_send_fulfillment_order_lines_mails_by_app[False-True]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_order_transaction_updated_with_the_same_transaction_charged_amount": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_recalculate_prices_total_shipping_price_changed": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_order_weight_add_more_variant": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_events_skips_when_sync_webhooks_missing": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_fetch_order_data_tax_data_with_negative_values[True-None]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_send_fulfillment_order_lines_mails_by_user[True-False]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_cancel_order": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_calculations.py::test_fetch_order_data_tax_data_with_wrong_number_of_lines[True-test.app]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_order_update_charge_status_with_transaction_item_and_granted_refund[granted_refund_amount7-charged_amount7-overcharged]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_events_missing_filter_shipping_method_webhook[order_expired]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_add_variant_to_order_edits_line_for_existing_variant": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_fulfill_order_lines_without_inventory_tracking": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_update_order_status_partially_returned": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_event_skips_tax_webhook_when_prices_are_valid[order_paid]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_add_variant_to_order_not_allocates_stock_for_existing_variant": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_events_skips_sync_webhooks_when_order_not_editable[order_refunded]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_send_fulfillment_order_lines_mails_by_app[True-False]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_event_skips_tax_webhook_when_prices_are_valid[order_metadata_updated]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_update_order_status_partially_fulfilled": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_handle_fully_paid_order_for_draft_order[True]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_order_weight_delete_line": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_event_skips_tax_webhook_when_prices_are_valid[draft_order_updated]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_add_variant_to_order_adds_line_for_new_variant_on_promotion": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_event_triggers_sync_webhook[order_confirmed]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_order_queryset_to_ship": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_event_missing_filter_shipping_method_webhook[order_paid]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_order_queryset_confirmed": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_event_skips_tax_webhook_when_prices_are_valid[order_expired]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_update_order_status_returned": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_handle_fully_paid_order_triggers_webhooks": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_order_update_charge_status_with_transaction_item_and_granted_refund[granted_refund_amount3-charged_amount3-partial]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_events_missing_filter_shipping_method_webhook[order_fully_paid]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_available_collection_points_for_preorders_variants_in_order": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_events_skips_tax_webhook_when_prices_are_valid[order_created]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_email_sent_event_with_user_without_app[event_order_cancelled_notification-order_cancel]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_events_skips_sync_webhooks_when_order_not_editable[order_created]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_add_variant_to_order_not_allocates_stock_for_new_variant": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_events_triggers_sync_webhook[order_refunded]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_email_sent_event_with_app[event_fulfillment_confirmed_notification-fulfillment_confirmation]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_order_awaits_fulfillment_approval_triggers_webhooks": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_change_order_line_quantity_changes_total_prices": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_event_skips_tax_webhook_when_prices_are_valid[order_fulfilled]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_email_sent_event_with_user[event_order_confirmation_notification-order_confirmation]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_events_missing_filter_shipping_method_webhook[order_refunded]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order.py::test_order_update_charge_status_with_transaction_item_and_granted_refund[granted_refund_amount6-charged_amount6-full]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_event_skips_sync_webhooks_when_order_not_editable[order_metadata_updated]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_events_missing_filter_shipping_method_webhook[order_confirmed]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_event_triggers_sync_webhook[order_expired]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_events_skips_when_async_webhooks_missing": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_events_skips_sync_webhooks_when_order_not_editable[draft_order_updated]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_event_missing_filter_shipping_method_webhook[order_fulfilled]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_order_created_triggers_webhooks": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_order_transaction_updated_order_partially_refunded": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_order_transaction_updated_order_fully_refunded_and_multiple_transactions": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_event_skips_tax_webhook_when_prices_are_valid[order_created]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_events_skips_tax_webhook_when_prices_are_valid[order_fully_paid]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_events_skips_sync_webhooks_when_order_not_editable[order_expired]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_event_skips_sync_webhooks_when_order_not_editable[order_updated]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_event_skips_sync_webhooks_when_draft_order_deleted": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_events_skips_tax_webhook_when_prices_are_valid[order_updated]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_order_transaction_updated_for_authorized_triggers_webhooks": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_clean_mark_order_as_paid": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_event_skips_sync_webhooks_when_order_not_editable[order_paid]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_order_transaction_updated_order_partially_authorized_and_multiple_transactions": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_events_missing_filter_shipping_method_webhook[order_updated]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_event_skips_sync_webhooks_when_order_not_editable[order_created]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_events_skips_sync_webhooks_when_order_not_editable[order_confirmed]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_events_skips_tax_webhook_when_prices_are_valid[draft_order_created]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_mark_as_paid_with_external_reference_with_payment": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_events_triggers_sync_webhook[order_cancelled]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_events_skips_sync_webhooks_when_order_not_editable[order_paid]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_event_missing_filter_shipping_method_webhook[order_cancelled]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_fulfill_digital_lines_no_allocation": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_event_skips_tax_webhook_when_prices_are_valid[order_fully_paid]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_event_skips_tax_webhook_when_prices_are_valid[draft_order_created]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_event_incorrect_webhook_event": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_events_skips_tax_webhook_when_prices_are_valid[order_fulfilled]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_events_skips_tax_webhook_when_prices_are_valid[order_refunded]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_event_skips_tax_webhook_when_prices_are_valid[order_confirmed]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_events_missing_filter_shipping_method_webhook[order_cancelled]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_cancel_fulfillment": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_events_skips_tax_webhook_when_prices_are_valid[order_fully_refunded]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_event_skips_sync_webhooks_when_order_not_editable[order_fully_refunded]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_order_authorized_triggers_webhooks": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_events_skips_tax_webhook_when_prices_are_valid[order_expired]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_event_skips_sync_webhooks_when_order_not_editable[order_confirmed]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_call_order_event_skips_sync_webhooks_when_order_not_editable[draft_order_updated]": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ },
+ "saleor/order/tests/test_order_actions.py::test_cancel_order_dont_trigger_webhooks": {
+  "parent_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "target_outcomes": [
+   "passed",
+   "passed",
+   "passed"
+  ],
+  "class": "STABLE_P2P",
+  "parent_failure": "",
+  "proximity": 1,
+  "proximal_distal": "DISTAL"
+ }
+}

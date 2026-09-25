@@ -1,0 +1,95 @@
+{
+ "artifact": "wp2_p2p_u_v2_dev47_and_main_estimate",
+ "date": "2026-09-25",
+ "mission": "Mission-09 section 22 (ESTIMATE ONLY - no execution)",
+ "calibration": {
+  "eng_tasks_measured": 8,
+  "per_node_wall_s_central": 2.836,
+  "per_node_wall_s_optimistic": 2.065,
+  "per_node_wall_s_conservative": 3.431,
+  "per_state_setup_s_central": 3.7,
+  "per_task_rates_s_per_node": {
+   "saleor-rc-2d45b76a52f2": 2.065,
+   "saleor-rc-39b4138e8550": 3.262,
+   "saleor-rc-74538ea00ce9": 2.944,
+   "saleor-rc-82c56bde0e34": 3.431,
+   "saleor-rc-8f76ddc6267f": 2.596,
+   "saleor-rc-d220843b5418": 2.836,
+   "saleor-rc-dfe77ac1c5dc": 2.568,
+   "saleor-rc-e03ee76d2b89": 2.28
+  }
+ },
+ "dev_47_cap200_estimate": {
+  "n_executable_tasks": 43,
+  "zero_node_tasks": [
+   "saleor-rc-0491163b00ea",
+   "saleor-rc-4f70686fa303",
+   "saleor-rc-9258154b8a0b",
+   "saleor-rc-c4f01d449c62"
+  ],
+  "optimistic": {
+   "n_tasks": 43,
+   "n_selected_nodes": 8402,
+   "total_wall_s": 17671.2,
+   "total_wall_h": 4.9,
+   "total_wall_days": 0.2,
+   "per_era_h": {
+    "py312": 1.5,
+    "py38": 0.2,
+    "py39": 3.2
+   }
+  },
+  "central": {
+   "n_tasks": 43,
+   "n_selected_nodes": 8402,
+   "total_wall_s": 24146.3,
+   "total_wall_h": 6.7,
+   "total_wall_days": 0.28,
+   "per_era_h": {
+    "py312": 2.1,
+    "py38": 0.3,
+    "py39": 4.3
+   }
+  },
+  "conservative": {
+   "n_tasks": 43,
+   "n_selected_nodes": 8402,
+   "total_wall_s": 29145.5,
+   "total_wall_h": 8.1,
+   "total_wall_days": 0.34,
+   "per_era_h": {
+    "py312": 2.5,
+    "py38": 0.4,
+    "py39": 5.2
+   }
+  },
+  "evidence_growth_mib_est": 316.3,
+  "min_projected_c_free_gib": 52.69111328125,
+  "resource_risk": "low RAM (ENG peak WSL used 1.6 GiB; host headroom verified); wall-time bound (multi-day serial) is the main constraint; overnight execution requires checkpointing/resume."
+ },
+ "main_future_cap200_estimate": {
+  "population_authority_unresolved": true,
+  "behavioral_only": {
+   "population_label": "behavioral-only (71)",
+   "n_tasks": 71,
+   "est_raw_nodes": 289157,
+   "est_selected_nodes_cap200": 13952,
+   "central_wall_h": 11.1,
+   "central_wall_days": 0.46
+  },
+  "behavioral_union_symbol": {
+   "population_label": "behavioral ∪ symbol (83)",
+   "n_tasks": 83,
+   "est_raw_nodes": 339139,
+   "est_selected_nodes_cap200": 16034,
+   "central_wall_h": 12.8,
+   "central_wall_days": 0.53
+  }
+ },
+ "workers2_recommendation": "ENG cap200 measured: wall ≈ 4346.9 s for 1576 selected nodes across 8 tasks (≈ 543 s/task, ~2.76 s/node-state incl. setup). Per-state setup ≈ 3.7 s. The 400/200 wall multiplier was 1.63x for a 2x node increase (supra-linear per-task via independent 400-run), but at the task level the dominant cost is node execution not setup, so a workers=2 performance gate MAY be worth testing for MAIN only — NOT run in Mission-09 (workers frozen at 1).",
+ "notes": [
+  "Estimated from REAL Mission-09 ENG cap200 data (measured per-node wall, setup cost), not from node count alone (Mission-09 section 22).",
+  "C4 historical runtime used only as a covariate check, not as setup time.",
+  "MAIN raw candidate discovery has NOT run; MAIN estimate uses the corrected DEV nodes/file ratio over the MAIN inventory associated-file counts and must be re-derived once a frozen MAIN population decision exists."
+ ]
+}

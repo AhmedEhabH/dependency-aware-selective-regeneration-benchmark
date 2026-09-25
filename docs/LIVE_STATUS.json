@@ -1,15 +1,15 @@
 {
  "schema": "live_status_v1",
  "as_of_local": "2026-09-25 (Africa/Cairo)",
- "evidence_snapshot": "main (HEAD 493924e, dirty worktree) + WP-2 Linux V2: WSL-local Docker substrate, era images py38/py39/py312 (digests frozen), C2 MAIN 220 oracle rerun + C4 DEV 111 changed-test oracle, harness_v2_freeze_REVISED, dry-run gate, D1-D4 analyses",
- "phase": "Phase 5 — End-to-End Selective Regeneration (WP-2 oracle substrate complete)",
- "position": "Mission-07 WP-2 Linux Oracle V2 + DEV pool COMPLETE (zero-API, deterministic). Windows v1 (8 behavioral F2P) -> Linux V2: MAIN 71 primary behavioral-eligible / 220 (env-failed 60, executable 160); DEV 43 primary-eligible / 111 (env-failed 24, executable 87). Dry-run gate + C1-PERF-V2 (5/5 equivalence, 1.52x). C2/C4 evidence + JUnit rescue persisted. No generation/Smoke/Pilot/E2E. MAIN quarantined; INTERNAL_TEST untouched; 786 RESERVE sealed.",
- "position_short": "WP-2 Linux V2 oracle substrate DONE: MAIN 71 + DEV 43 primary-eligible F2P tasks on Linux",
- "now_short": "WP-2 Linux V2 oracle + DEV pool evidence closed (C2+C4). Next: DEV split ENG/HOLDOUT onto oracle-valid DEV tasks (planning only).",
- "next_action": "Record-only next phase: join frozen DEV_TRAIN_ENG/ASSAY_HOLDOUT/VALIDATION split onto the oracle-valid DEV tasks; then brain authorization for DEV Smoke/assay design. No generation.",
- "next_short": "Planning: DEV split membership on oracle-valid DEV tasks -> DEV Smoke design (frozen semantics)",
- "priority_chain": "MAIN_297 + variance DONE -> WP-2 census DONE -> WP-2 Oracle Confirmation v1 DONE (8) -> WP-2 Linux V2 oracle + DEV pool DONE (MAIN 71 + DEV 43 primary-eligible) -> DEV split planning -> DEV Smoke design -> Pilot -> Research Run",
- "weakest_risk": "Oracle pool on Linux is materially larger than Windows v1 but per-task flakiness is high (C2 FLAKY 1636, C4 FLAKY 510) with --reuse-db; environment attrition persists (C2 60/220, C4 24/111 env/install-failed). WP-1b claim unchanged and remains localization-only. 786 sealed reserve stays sealed.",
+ "evidence_snapshot": "main + Mission-09: P2P-S primary preservation frozen (46/47 defined) + P2P-U V2 extended preservation rule frozen (salt wp2-p2p-u-v2-2026-09-25, caps 200/400) + ENG 8 tasks x 2 caps executed workers=1, integrity PASS, overlap repeatability 1.0. Real resource sampler (host/WSL/container/CPU/disk) replaces Mission-08 total-as-peak.",
+ "phase": "Phase 5 — End-to-End Selective Regeneration (WP-2 preservation oracle: P2P-S + P2P-U V2 frozen)",
+ "position": "Mission-09 P2P V2 GOLD FREEZE + ENG execution COMPLETE (zero-API). P2P-S frozen (46/47 defined; 1 undefined; 8 sparse). P2P-U V2 rule+membership frozen before any V2 outcome execution; ENG cap200 + cap400 executed independently workers=1 (8 executable tasks x 2 caps; saleor-rc-9258154b8a0b P2P-U UNDEFINED). Overlap class agreement 1.0; cap400/cap200 wall ~1.37x; WSL peak used ~1.6 GiB. DEV-47 cap200 estimated ~4.9-8.1 h serial (central 6.7 h); MAIN est ~11-13 h. No generation/Smoke/assay/E2E/HOLDOUT/MAIN execution. MAIN quarantined; INTERNAL_TEST untouched; 786 RESERVE sealed.",
+ "position_short": "P2P-S + P2P-U V2 preserved oracle FROZEN; ENG cap200/cap400 executed (repeatability 1.0)",
+ "now_short": "Mission-09 complete: P2P-S and P2P-U V2 preservation sets frozen; ENG executed 8x2 with integrity PASS. Next: Ahmed approval for Smoke freeze and full DEV-47 cap200 execution.",
+ "next_action": "Decision gate (Ahmed): (1) Smoke freeze authorization; (2) full 47-task P2P-U cap200 execution (est ~6.7 h central, overnight with resume); (3) MAIN population authority (71 behavioral vs 83 union); (4) workers=2 MAIN-only perf gate decision. No generation.",
+ "next_short": "Ahmed decision: Smoke freeze + full DEV-47 P2P-U cap200 execution authorization",
+ "priority_chain": "MAIN_297 DONE -> WP-2 census DONE -> Oracle Confirmation DONE -> Linux V2 oracle+DEV pool DONE -> Mission-08 DEV P2P inventory + SMALL pilot DONE -> Mission-09 P2P-S + P2P-U V2 freeze + ENG execution DONE -> DEV Smoke freeze (awaiting approval) -> full DEV-47 P2P-U cap200 -> Pilot -> Research Run",
+ "weakest_risk": "Mission-09 instrumentation limitation: per-test-container RAM not separately captured during the 16 ENG runs (sampler queried wp2-pg only); bounded by WSL used peak ~1.6 GiB. Sampler+runner fixed for future runs. Per-task flakiness/collection-error remains (some COLLECTION_ERROR/BOTH_FAIL/ FLAKY, deterministic across independent 200/400 runs). 786 sealed reserve stays sealed.",
  "wp1b_short": "Paid same-protocol comparison of a repository agent vs SIP vs RM-CSS on MAIN_297 (G1: delta=0.05 NI rule; G2: cap 1024; decision rules v2). RESULT: RMCSS_NONINFERIOR_AT_LOWER_COST (NI_SUPPORTED); D −0.0062 [−0.0449,+0.0308] Q5 −0.0383; RM-CSS cheaper. Variance 15x3 pooled F1 0.389/0.438/0.479, pairwise exact match 0.444. X1-X11 exploratory labelled. Total agent spend $8.34 (main $7.15 + variance $1.19). Post-MAIN_297: claim sheet + docs closure complete; AG16 prereg verified, runner needs brain bundle; WP-2 zero-API census complete.",
  "pipeline": [
   {
@@ -88,14 +88,19 @@
    "note": "same generator/validator/repair for every arm"
   },
   {
-   "step": "E2E-G6 F2P/P2P oracle",
-   "status": "NOT STARTED",
-   "note": "fail-to-pass + pass-to-pass tests per task"
-  },
-  {
    "step": "E2E Smoke → Pilot → Research Run",
    "status": "NOT STARTED",
    "note": "staged; each stage can stop the run"
+  },
+  {
+   "step": "WP-2 preservation oracle (P2P-S + P2P-U V2)",
+   "status": "FROZEN (Mission-09)",
+   "note": "P2P-S 46/47 defined; P2P-U V2 rule+membership frozen; ENG cap200+cap400 executed, repeatability 1.0"
+  },
+  {
+   "step": "Full DEV-47 P2P-U cap200 execution",
+   "status": "NOT STARTED (awaits approval)",
+   "note": "est ~4.9-8.1 h serial central 6.7 h; overnight-feasible with resume; zero-node tasks UNDEFINED"
   }
  ],
  "preflight": [
@@ -311,6 +316,21 @@
    "item": "Calibration-3 / 3b / 3c F1 claims",
    "status": "NOT PERMITTED",
    "note": "instrument checks only; no labels loaded or scored"
+  },
+  {
+   "item": "Mission-09 P2P-S + P2P-U V2 freeze",
+   "status": "DONE",
+   "note": "zero-API; P2P-S (46/47) + P2P-U V2 rule/membership frozen before any V2 outcome execution"
+  },
+  {
+   "item": "Mission-09 ENG P2P-U V2 execution (cap200 + cap400)",
+   "status": "DONE",
+   "note": "8 executable ENG tasks x 2 caps, workers=1, 3+3 reps, integrity PASS; no Smoke/full-DEV/MAIN execution"
+  },
+  {
+   "item": "Full DEV-47 P2P-U cap200 + Smoke freeze",
+   "status": "NOT AUTHORIZED",
+   "note": "requires Ahmed decision; estimates ready (DEV ~6.7 h central)"
   }
  ],
  "key_numbers": {

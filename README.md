@@ -68,7 +68,7 @@ Change request
 
 ## LIVE STATUS — single current-state source of truth
 
-**Position:** Mission-07 WP-2 Linux Oracle V2 + DEV pool COMPLETE (zero-API, deterministic). Windows v1 (8 behavioral F2P) -> Linux V2: MAIN 71 primary behavioral-eligible / 220 (env-failed 60, executable 160); DEV 43 primary-eligible / 111 (env-failed 24, executable 87). Dry-run gate + C1-PERF-V2 (5/5 equivalence, 1.52x). C2/C4 evidence + JUnit rescue persisted. No generation/Smoke/Pilot/E2E. MAIN quarantined; INTERNAL_TEST untouched; 786 RESERVE sealed.
+**Position:** Mission-09 P2P V2 GOLD FREEZE + ENG execution COMPLETE (zero-API). P2P-S frozen (46/47 defined; 1 undefined; 8 sparse). P2P-U V2 rule+membership frozen before any V2 outcome execution; ENG cap200 + cap400 executed independently workers=1 (8 executable tasks x 2 caps; saleor-rc-9258154b8a0b P2P-U UNDEFINED). Overlap class agreement 1.0; cap400/cap200 wall ~1.37x; WSL peak used ~1.6 GiB. DEV-47 cap200 estimated ~4.9-8.1 h serial (central 6.7 h); MAIN est ~11-13 h. No generation/Smoke/assay/E2E/HOLDOUT/MAIN execution. MAIN quarantined; INTERNAL_TEST untouched; 786 RESERVE sealed.
 
 **Research pipeline:**
 
@@ -89,8 +89,9 @@ Change request
 | WP-2 zero-API MAIN_297 census | DONE | 297/297 materializable; 20 STRONG / 200 MODIFIED / 77 no-test-evidence F2P candidates; proposal-only Smoke candidates 8; zero API |
 | WP-2 Oracle Confirmation + Design v1 | DONE (zero-API) | harness validated; 220/220 changed-test candidates attempted; 8 primary behavioral F2P + 1 symbol-absence eligible; causal Design v1, power planning, Smoke v2 emitted; environment-dominant blocker on this host |
 | WP-2 shared E2E instrument | NOT STARTED | same generator/validator/repair for every arm |
-| E2E-G6 F2P/P2P oracle | NOT STARTED | fail-to-pass + pass-to-pass tests per task |
 | E2E Smoke → Pilot → Research Run | NOT STARTED | staged; each stage can stop the run |
+| WP-2 preservation oracle (P2P-S + P2P-U V2) | FROZEN (Mission-09) | P2P-S 46/47 defined; P2P-U V2 rule+membership frozen; ENG cap200+cap400 executed, repeatability 1.0 |
+| Full DEV-47 P2P-U cap200 execution | NOT STARTED (awaits approval) | est ~4.9-8.1 h serial central 6.7 h; overnight-feasible with resume; zero-node tasks UNDEFINED |
 
 **LLM-call accounting:**
 
@@ -119,8 +120,11 @@ Change request
 | WP-2 Oracle Confirmation (zero-API) + Design v1 | DONE | 8 primary behavioral F2P + 1 symbol-absence eligible confirmed; causal Design v1 + power planning + Smoke v2 proposal; NO E2E execution |
 | 786 Saleor RESERVE outcomes | SEALED | never opened/read/scored/sampled; guarded by the label-access audit hook |
 | Calibration-3 / 3b / 3c F1 claims | NOT PERMITTED | instrument checks only; no labels loaded or scored |
+| Mission-09 P2P-S + P2P-U V2 freeze | DONE | zero-API; P2P-S (46/47) + P2P-U V2 rule/membership frozen before any V2 outcome execution |
+| Mission-09 ENG P2P-U V2 execution (cap200 + cap400) | DONE | 8 executable ENG tasks x 2 caps, workers=1, 3+3 reps, integrity PASS; no Smoke/full-DEV/MAIN execution |
+| Full DEV-47 P2P-U cap200 + Smoke freeze | NOT AUTHORIZED | requires Ahmed decision; estimates ready (DEV ~6.7 h central) |
 
-**Next action:** Record-only next phase: join frozen DEV_TRAIN_ENG/ASSAY_HOLDOUT/VALIDATION split onto the oracle-valid DEV tasks; then brain authorization for DEV Smoke/assay design. No generation.
+**Next action:** Decision gate (Ahmed): (1) Smoke freeze authorization; (2) full 47-task P2P-U cap200 execution (est ~6.7 h central, overnight with resume); (3) MAIN population authority (71 behavioral vs 83 union); (4) workers=2 MAIN-only perf gate decision. No generation.
 
 **End-to-end status:** WP-2 has **not started**; E2E-G6 F2P/P2P oracle has **not started**; **no** E2E Smoke, Pilot or Research Run exists yet.
 

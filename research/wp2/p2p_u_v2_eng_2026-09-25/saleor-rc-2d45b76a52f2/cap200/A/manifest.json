@@ -1,0 +1,101 @@
+{
+ "artifact": "wp2_p2p_u_v2_eng_exec",
+ "exec_version": "p2p-u-v2-eng-exec-2026-09-25",
+ "task_id": "saleor-rc-2d45b76a52f2",
+ "split_role": "DEV_TRAIN_ENG",
+ "era_key": "py39",
+ "cap": 200,
+ "run_label": "A",
+ "rule_version": "p2p-u-v2-2026-09-25",
+ "membership_sha256": "8325747f7967729e544de4dacb76ac69fde187b7dc05d59e1f24fdef7d20daac",
+ "rule_sha256": "78a089bb3cea599b2d4040e92388f3e011860da07e4522670c260ec61f8d63e1",
+ "inventory_sha256": "0ae5699b890ed3fe7a18cdbfb59bcb53d31d21f091102bef87f15b241ce2bf61",
+ "test_patch_applied_on_parent": true,
+ "workers": 1,
+ "n_selected_nodes": 176,
+ "n_chunks": 1,
+ "n_pytest_invocations": 6,
+ "class_counts": {
+  "STABLE_P2P": 176,
+  "TARGET_BROKEN": 0,
+  "PARENT_BROKEN": 0,
+  "BOTH_FAIL": 0,
+  "FLAKY": 0,
+  "COLLECTION_ERROR": 0
+ },
+ "n_stable_p2p": 176,
+ "stable_over_selected": 1.0,
+ "preservation_set_sha256": "36237bb3a4b287887880d3b783cbe3448388099b58aebc158d9e8934981e4059",
+ "n_preservation_files": 19,
+ "composition": {
+  "selected_proximal": 0,
+  "selected_distal": 176,
+  "stable_proximal": 0,
+  "stable_distal": 176
+ },
+ "measurements": {
+  "setup_s": 3.5,
+  "target_wall_s": 165.1,
+  "parent_wall_s": 194.9,
+  "target_per_rep_s": [
+   120.0,
+   16.0,
+   15.0
+  ],
+  "parent_per_rep_s": [
+   155.0,
+   16.0,
+   16.0
+  ],
+  "total_wall_s": 363.5,
+  "n_resource_samples": 50,
+  "disk_before_c_free_gib": 53.2,
+  "worktrees_mib_before": "1",
+  "db_lifecycle": {
+   "drop": {
+    "t": {
+     "db": "saleor_2d45b76a52f2_c200_t",
+     "drop_ok": true,
+     "drop_s": 0.61
+    },
+    "p": {
+     "db": "saleor_2d45b76a52f2_c200_p",
+     "drop_ok": true,
+     "drop_s": 0.48
+    }
+   }
+  },
+  "worktrees_mib_after": "1",
+  "disk_after_c_free_gib": 53.1,
+  "reclaimed_disk_gib": -0.15
+ },
+ "states": {
+  "t": {
+   "error": null,
+   "wall_s": 165.1,
+   "per_rep_s": [
+    120.0,
+    16.0,
+    15.0
+   ]
+  },
+  "p": {
+   "error": null,
+   "wall_s": 194.9,
+   "per_rep_s": [
+    155.0,
+    16.0,
+    16.0
+   ]
+  }
+ },
+ "evidence_integrity": {
+  "n_expected": 176,
+  "n_records": 176,
+  "n_missing_nodes": 0,
+  "n_duplicate_nodes": 0,
+  "n_orphan_nodes": 0,
+  "junit_refs_ok": true,
+  "ok": true
+ }
+}

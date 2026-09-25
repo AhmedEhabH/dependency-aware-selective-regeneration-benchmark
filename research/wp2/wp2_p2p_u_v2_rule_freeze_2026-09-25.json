@@ -1,0 +1,25 @@
+{
+ "artifact": "wp2_p2p_u_v2_rule_freeze",
+ "artifact_version": "p2p-u-v2-2026-09-25",
+ "date": "2026-09-25",
+ "status": "FROZEN_BEFORE_ANY_V2_OUTCOME_EXECUTION",
+ "salt": "wp2-p2p-u-v2-2026-09-25",
+ "primary_cap": 200,
+ "sensitivity_cap": 400,
+ "primary_target_composition": {
+  "proximal": 150,
+  "distal": 50
+ },
+ "sensitivity_target_composition": {
+  "proximal": 300,
+  "distal": 100
+ },
+ "proximal_threshold": "file proximity >= 2",
+ "distal_threshold": "file proximity <= 1 (incl. 0 / UNKNOWN-derived)",
+ "salt_note": "Frozen BEFORE any V2 outcome execution; never changed after outcomes are observed.",
+ "rule_text": "P2P-U V2 EXTENDED PRESERVATION (unchanged-test regression oracle). V1 remains immutable historical evidence. V2 fixes V1's coarse Saleor top-level-app scaling problem with an outcome-blind, proximity-aware, deterministic PRE-execution selection rule. CANDIDATE POOL: the FINAL corrected Mission-08 frozen DEV unchanged-test discovered nodes; no rediscovery. PROXIMITY: for each candidate test file, proximity(test_file) = max over KNOWN touched production files of the longest common leading component count after 'saleor/'. Touched paths whose frozen top_level_app result is UNKNOWN contribute NO proximity score (not silently reinterpreted); if ALL touched production paths for a task are UNKNOWN, all candidates receive proximity=0 for ranking and all_touched_paths_unknown=true is flagged. No outcome information is used in proximity computation. POOLS: PROXIMAL = candidates whose file proximity >= 2 (same sub-package beyond merely sharing the top-level Saleor app); DISTAL = all remaining candidates in the frozen V1 candidate pool (proximity <= 1, including proximity=0 / UNKNOWN-derived). This prevents the cap from being filled only with tests nearest to gold files. SALT (frozen BEFORE any V2 outcome execution, never changed afterwards): 'wp2-p2p-u-v2-2026-09-25'. ORDERING within PROXIMAL: (1) group files by proximity score descending; (2) within each proximity stratum order FILES by sha256(salt|file_path); (3) within each file order NODES by sha256(salt|node_id); (4) round-robin one node per file per round within the current stratum; (5) exhaust higher proximity strata before lower. ORDERING within DISTAL: (1) order FILES by sha256(salt|file_path); (2) order nodes within each file by sha256(salt|node_id); (3) round-robin one node per file per round. Do NOT alphabetically order ties as the scientific ordering rule. FINAL ORDER: interleave P,P,P,D,P,P,P,D,... exhausting one list then continuing with the other. The final candidate list must satisfy first_200 subset first_400 exactly. CAPS (pre-execution, outcome-blind; never depend on pass/fail, flaky, model/arm output, future generated patch, or observed F2P result): PRIMARY K=200 (target composition 150 PROXIMAL / 50 DISTAL); ENG SENSITIVITY K=400 (target composition 300 PROXIMAL / 100 DISTAL). If fewer than K raw candidates: take all. If one pool is insufficient: consume all of that pool, deterministically backfill from the other pool, record requested vs achieved; never invent candidates. cap200 and cap400 MUST be executed independently (no inferring cap200 outcomes from cap400). EXECUTION: PARENT = parent commit + SAME frozen test patch used by Linux V2 F2P (TEST_PATCH_APPLIED_ON_PARENT=true); TARGET = target commit; 3 parent + 3 target complete repetitions, no early stopping; workers=1; prefer ONE pytest invocation per state-repetition with explicit node IDs (chunk deterministically if needed, identical chunks across states/repetitions). TAXONOMY (exactly one class per node, precedence): 1 FLAKY (either side non-stable/mixed) > 2 COLLECTION_ERROR (after excluding flaky, either side stable collection error) > 3 STABLE_P2P (parent STABLE_PASS, target STABLE_PASS) > 4 TARGET_BROKEN > 5 PARENT_BROKEN > 6 BOTH_FAIL. Only STABLE_P2P nodes become the frozen P2P-U preservation set. FIREWALL: node identities, gold touched paths, test patch, cap memberships, proximity scores, proximal/distal labels, target diff and target P2P outcomes remain invisible to every generation/repair arm; evaluator sets frozen before any generation; all future arms use the same frozen evaluator.",
+ "hashes": {
+  "rule_sha256": "78a089bb3cea599b2d4040e92388f3e011860da07e4522670c260ec61f8d63e1",
+  "salt_sha256": "b1157852ea504e08dc9fec88757b88745b39b76dd1dd19fb7ebe0126af1318e3"
+ }
+}

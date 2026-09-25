@@ -1,0 +1,108 @@
+{
+ "artifact": "wp2_dev_p2p_feasibility_analysis",
+ "date": "2026-09-25",
+ "revision": 2,
+ "mission": "Mission-08 Phase A (addendum Q7 runtime guard)",
+ "status": "STOP_FOR_SCIENTIFIC_REVIEW",
+ "finding": "Frozen P2P Preservation Rule V1's POST-STABILITY cap makes raw candidate-node execution computationally infeasible at the DEV 47-task scale (corrected discovery: 230,181 raw nodes).",
+ "discovery_correction_note": "Revision 1 contained a discovery-mechanism bug (inline mapfile through bash -lc silently read 0 lines for 43/47 tasks -> whole-suite node sets; cassette []-path args made pytest error; __init__.py args caused package-leak of changed files). Fixed by: (a) script-file execution, (b) .py-only collect args, (c) excluding __init__.py/conftest.py + []-paths. Final discovery validated: 0/47 subset violations, deterministic re-run identical.",
+ "execution_condition": {
+  "parent": "parent commit + SAME frozen test patch as Linux V2 F2P oracle (TEST_PATCH_APPLIED_ON_PARENT=true)",
+  "target": "target commit",
+  "repetitions": "3 parent + 3 target (frozen, not reduced)",
+  "cap": "fixed-seed 400 applied to STABLE_P2P set only, AFTER stability execution"
+ },
+ "inventory": {
+  "artifact": "wp2_dev_unchanged_p2p_candidate_inventory_v1_2026-09-25.json",
+  "inventory_sha256": "0ae5699b890ed3fe7a18cdbfb59bcb53d31d21f091102bef87f15b241ce2bf61",
+  "n_oracle_valid_tasks": 47,
+  "n_raw_candidate_nodes": 230181,
+  "n_file_groups": 14908,
+  "zero_node_tasks": ["saleor-rc-0491163b00ea", "saleor-rc-4f70686fa303", "saleor-rc-9258154b8a0b", "saleor-rc-c4f01d449c62"],
+  "zero_node_reason": "webhook/observability/tests/conftest.py imports fakeredis, absent from the FROZEN py39 era deps (environment-collection limitation; unchanged-test discovery yields 0 nodes; deterministic)"
+ },
+ "discovery_distribution": {
+  "min": 0, "max": 12213, "median": 4809, "p75": 6338, "p90": 10726,
+  "tasks_gt_400": 39, "tasks_gt_1000": 32, "tasks_gt_5000": 22, "tasks_gt_10000": 9
+ },
+ "serial_pilot": {
+  "task": "saleor-rc-2d45b76a52f2",
+  "run_label": "A",
+  "n_nodes": 176,
+  "n_associated_files": 21,
+  "n_file_groups": 19,
+  "era": "py39",
+  "workers": 1,
+  "class_counts": {"STABLE_P2P": 176, "TARGET_BROKEN": 0, "PARENT_BROKEN": 0, "BOTH_FAIL": 0, "FLAKY": 0, "COLLECTION_ERROR": 0},
+  "n_stable_p2p": 176,
+  "stable_over_discovered": 1.0,
+  "target_wall_s": 595.1,
+  "parent_wall_s": 703.4,
+  "total_wall_s": 1299.0,
+  "peak_wsl_ram_gib": 13.0,
+  "evidence_integrity": {"n_expected": 176, "n_missing_nodes": 0, "n_duplicate_nodes": 0, "n_orphan_nodes": 0, "ok": true},
+  "worktrees_removed_after_verification": true,
+  "db_dropped": true
+ },
+ "measured_rates": {
+  "per_node_execution_s_central": 0.6,
+  "per_invocation_overhead_s_central": 2.5,
+  "setup_per_state_s_central": 120
+ },
+ "estimated_47_task_runtime_hours": {
+  "optimistic": 206,
+  "central": 295,
+  "conservative": 398
+ },
+ "estimated_47_task_runtime_days": {
+  "optimistic": 8.6,
+  "central": 12.3,
+  "conservative": 16.6
+ },
+ "estimated_large_pilot_task": {
+  "task": "saleor-rc-d220843b5418",
+  "n_nodes": 10726,
+  "runtime_hours": {"optimistic": 9.4, "central": 13.6, "conservative": 18.3}
+ },
+ "per_split_central_hours": {
+  "DEV_TRAIN_ENG": 66,
+  "DEV_TRAIN_ASSAY_HOLDOUT": 169,
+  "DEV_VALIDATION": 60
+ },
+ "per_era_central_hours": {"py39": 145, "py312": 142, "py38": 8},
+ "eng8_preservation_only_central_hours": 65.6,
+ "storage": {
+  "evidence_total_mib_est": 115,
+  "worktree_peak_gib_serial": 0.1,
+  "c_free_gib_current": 55.0,
+  "storage_blocking": false,
+  "maintenance_boundary_likely": true,
+  "maintenance_note": "wall-time bound; ~12-day serial run needs checkpointing/resume (C4 precedent)"
+ },
+ "perf_gate": {
+  "trigger_eval": "conservative 398h >> 8h threshold",
+  "ran": false,
+  "reason": "addendum runtime guard forbids large-task P2P execution; minimum valid gate requires a bounded gate set whose largest member is computationally infeasible under frozen V1 semantics; perf-gate worker scaling cannot fix frozen-semantics infeasibility",
+  "conclusion": "Do NOT run perf gate under frozen V1 semantics"
+ },
+ "decision": {
+  "token": "P2P_DEV_INVENTORY_BLOCKED",
+  "phase_a_execution": "STOPPED before LARGE pilot and before full 47-task P2P",
+  "requires": "scientifically defensible P2P V2 scaling amendment (see options)",
+  "no_precap": "no pre-stability cap or raw-node sampling was introduced"
+ },
+ "amendment_options": [
+  {"id": "V2-A", "title": "Two-stage preservation oracle", "description": "Run ALL raw nodes once at target and once at parent (2x, not 3x3); apply cap=400 deterministically to the raw discovered set BEFORE execution; classify only the capped 400 nodes 3/3+3/3. Requires amending the frozen V1 repetition/cap semantics."},
+  {"id": "V2-B", "title": "Stratified node cap at discovery", "description": "Deterministic fixed-seed cap applied to discovered nodes per top-level app/file stratum, then full 3x3 on the capped set. Changes the preservation population definition."},
+  {"id": "V2-C", "title": "Task-subsampled preservation", "description": "Preserve frozen V1 semantics but evaluate preservation on a small deterministic task subsample (e.g. ENG 9) and report as pilot-only preservation evidence, not full-population."},
+  {"id": "V2-D", "title": "Single-shot + stability spot-check", "description": "Run each raw node 1x per state for all nodes (fast screening), then 3x3 only on nodes that passed 1x1 and on a deterministic spot-check sample. Explicitly amends repetition semantics."}
+ ],
+ "guard_confirmations": {
+  "no_large_pilot_executed": true,
+  "no_47_task_evaluation_executed": true,
+  "no_smoke_execution": true,
+  "no_generation": true,
+  "no_holdout_or_validation_tuning": true,
+  "frozen_v1_salt_reused": "wp2-p2p-unchanged-sample-v1-2026-09-23"
+ }
+}
