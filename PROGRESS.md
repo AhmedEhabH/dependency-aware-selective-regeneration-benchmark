@@ -4,7 +4,7 @@
 
 ## LIVE STATUS — single current-state source of truth
 
-**Position:** MAIN_297 primary WP-1b result complete and frozen: RMCSS_NONINFERIOR_AT_LOWER_COST (NI_SUPPORTED). WP-2 Oracle Confirmation infrastructure built and validated (zero-API): deterministic harness, per-state test DB, per-file evaluator, failure taxonomy. All 220 changed-test candidates attempted; 8 primary behavioral F2P eligible + 1 symbol-absence eligible confirmed. Environment is the dominant blocker on this host (207/220 ENV_BROKEN: native libs, ? in filenames, Unix-only resource module). WP-2 Design v1 (causal), power/assay-sensitivity planning, and Smoke v2 proposal emitted. NO E2E execution, NO paid calls.
+**Position:** Mission-07 WP-2 Linux Oracle V2 + DEV pool COMPLETE (zero-API, deterministic). Windows v1 (8 behavioral F2P) -> Linux V2: MAIN 71 primary behavioral-eligible / 220 (env-failed 60, executable 160); DEV 43 primary-eligible / 111 (env-failed 24, executable 87). Dry-run gate + C1-PERF-V2 (5/5 equivalence, 1.52x). C2/C4 evidence + JUnit rescue persisted. No generation/Smoke/Pilot/E2E. MAIN quarantined; INTERNAL_TEST untouched; 786 RESERVE sealed.
 
 **Research pipeline:**
 
@@ -56,11 +56,11 @@
 | 786 Saleor RESERVE outcomes | SEALED | never opened/read/scored/sampled; guarded by the label-access audit hook |
 | Calibration-3 / 3b / 3c F1 claims | NOT PERMITTED | instrument checks only; no labels loaded or scored |
 
-**Next action:** Ahmed/brain review WP-2 Design v1 + Smoke v2 (8 confirmed oracle tasks); build a version-aware Saleor environment bundle to lift the env blocker; in parallel build/review the AG16 executable bundle. Then AG16 sensitivity and WP-2 Smoke can be authorized.
+**Next action:** Record-only next phase: join frozen DEV_TRAIN_ENG/ASSAY_HOLDOUT/VALIDATION split onto the oracle-valid DEV tasks; then brain authorization for DEV Smoke/assay design. No generation.
 
 **End-to-end status:** WP-2 has **not started**; E2E-G6 F2P/P2P oracle has **not started**; **no** E2E Smoke, Pilot or Research Run exists yet.
 
-*Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-09-22 (Africa/Cairo).*
+*Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-09-25 (Africa/Cairo).*
 <!-- LIVE_STATUS:END -->
 
 **Role:** Execution source of truth (what is being executed now, last completed
