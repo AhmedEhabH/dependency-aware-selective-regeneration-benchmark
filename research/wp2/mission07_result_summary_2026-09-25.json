@@ -1,0 +1,64 @@
+{
+  "artifact": "wp2_mission07_result_summary",
+  "date": "2026-09-25",
+  "status": "FINAL_MISSION07_RECONCILED",
+  "note": "MAIN (C2) and DEV (C4) kept scientifically separate; denominators stated explicitly; runner DONE does not imply environment success.",
+  "C2_MAIN": {
+    "pool": "220 changed-test MAIN candidates (WP-2 census)",
+    "total": 220,
+    "terminal_outer_done": 220,
+    "environment_install_task_collection_failure": 60,
+    "executable": 160,
+    "tasks_primary_behavioral_eligible": 71,
+    "tasks_symbol_absence_ge1": 17,
+    "node_totals": {
+      "BEHAVIORAL_F2P": 731,
+      "SYMBOL_ABSENCE_F2P": 64,
+      "PARENT_COLLECTION_ERROR": 0,
+      "FLAKY": 1636,
+      "TARGET_ORACLE_INVALID": 7946,
+      "P2P_ONLY": 10517,
+      "OTHER_REVIEW_REQUIRED": 0
+    },
+    "era_yield": {
+      "py38": {"attempted": 22, "env_failed": 2, "executable": 20, "primary": 1},
+      "py39": {"attempted": 121, "env_failed": 25, "executable": 96, "primary": 39},
+      "py312": {"attempted": 77, "env_failed": 33, "executable": 44, "primary": 31}
+    }
+  },
+  "C4_DEV": {
+    "pool": "111 DEV changed-test candidates (frozen DEV_TRAIN + DEV_VALIDATION)",
+    "total": 111,
+    "terminal_outer_done": 111,
+    "environment_install_task_collection_failure": 24,
+    "executable": 87,
+    "tasks_primary_behavioral_eligible": 43,
+    "tasks_symbol_absence_ge1": 6,
+    "node_totals": {
+      "BEHAVIORAL_F2P": 538,
+      "SYMBOL_ABSENCE_F2P": 25,
+      "PARENT_COLLECTION_ERROR": 0,
+      "FLAKY": 510,
+      "TARGET_ORACLE_INVALID": 3727,
+      "P2P_ONLY": 5355,
+      "OTHER_REVIEW_REQUIRED": 0
+    },
+    "era_yield": {
+      "py38": {"attempted": 10, "env_failed": 0, "executable": 10, "primary": 2},
+      "py39": {"attempted": 67, "env_failed": 9, "executable": 58, "primary": 28},
+      "py312": {"attempted": 34, "env_failed": 15, "executable": 19, "primary": 13}
+    }
+  },
+  "cross_pool_identity": {
+    "C2_semantic_freeze_identity_recorded": "b11374fe (original freeze hardcode); executed bundle documented in REVISED freeze",
+    "C4_semantic_freeze_identity": "01c3430f221e70fb75ff4dbf1c0e5093a3c1305f2c870e1b20e2b6c4b64dd337",
+    "C4_persistence_revision": "c4-persistence-v2-2026-09-23",
+    "workers": 1,
+    "test_patch_rule_sha256": "f64ff583daea4b8bdec7f40293069cb009494a569a75c92d34819cd10030a969"
+  },
+  "guards": {
+    "MAIN_generation": "QUARANTINED",
+    "INTERNAL_TEST": "UNTOUCHED",
+    "RESERVE": "SEALED"
+  }
+}

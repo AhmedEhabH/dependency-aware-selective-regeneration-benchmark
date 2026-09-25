@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="11" time="2.995" timestamp="2026-09-24T15:57:06.924640" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.page.tests.queries.test_page_type" name="test_page_type_query_by_staff" time="1.662" /><testcase classname="saleor.graphql.page.tests.queries.test_page_type" name="test_page_type_query_by_staff_with_page_type_permission" time="0.144" /><testcase classname="saleor.graphql.page.tests.queries.test_page_type" name="test_page_type_query_by_staff_no_perm" time="0.124" /><testcase classname="saleor.graphql.page.tests.queries.test_page_type" name="test_page_type_query_by_app" time="0.059" /><testcase classname="saleor.graphql.page.tests.queries.test_page_type" name="test_page_type_query_by_app_no_perm" time="0.046" /><testcase classname="saleor.graphql.page.tests.queries.test_page_type" name="test_staff_query_page_type_by_invalid_id" time="0.109"><failure message="assert &quot;Couldn't resolve id: bh/.&quot; == 'Invalid ID: ...ed: PageType.'&#10;  - Invalid ID: bh/. Expected: PageType.&#10;  + Couldn't resolve id: bh/.">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7dc1d8ba9790&gt;
+page_type = &lt;PageType: PageType object (21)&gt;
+
+    def test_staff_query_page_type_by_invalid_id(staff_api_client, page_type):
+        id = "bh/"
+        variables = {"id": id}
+        response = staff_api_client.post_graphql(PAGE_TYPE_QUERY, variables)
+        content = get_graphql_content_from_response(response)
+        assert len(content["errors"]) == 1
+&gt;       assert content["errors"][0]["message"] == f"Invalid ID: {id}. Expected: PageType."
+E       assert "Couldn't resolve id: bh/." == 'Invalid ID: ...ed: PageType.'
+E         - Invalid ID: bh/. Expected: PageType.
+E         + Couldn't resolve id: bh/.
+
+saleor/graphql/page/tests/queries/test_page_type.py:162: AssertionError</failure></testcase><testcase classname="saleor.graphql.page.tests.queries.test_page_type" name="test_staff_query_page_type_with_invalid_object_type" time="0.105" /><testcase classname="saleor.graphql.page.tests.queries.test_page_type" name="test_page_type_query_filter_unassigned_attributes" time="0.128" /><testcase classname="saleor.graphql.page.tests.queries.test_page_type" name="test_page_type_query_where_filter_unassigned_attributes" time="0.133" /><testcase classname="saleor.graphql.page.tests.queries.test_page_type" name="test_page_type_query_no_pages" time="0.130" /><testcase classname="saleor.graphql.page.tests.queries.test_page_type" name="test_query_page_types_for_federation" time="0.032" /></testsuite></testsuites>

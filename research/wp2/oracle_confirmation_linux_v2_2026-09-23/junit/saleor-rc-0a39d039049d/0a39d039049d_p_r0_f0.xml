@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="8" skipped="0" tests="38" time="112.787" timestamp="2026-09-24T14:47:20.454516-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_create" name="test_product_variant_bulk_create_by_name" time="103.032" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_create" name="test_product_variant_bulk_create_by_attribute_id" time="0.239" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_create" name="test_product_variant_bulk_create_with_swatch_attribute" time="0.283" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_create" name="test_product_variant_bulk_create_with_plain_text_attribute" time="0.171"><failure message="AssertionError: [{'message': 'Variable &quot;$variants&quot; got invalid value [{&quot;attributes&quot;: [{&quot;id&quot;: &quot;QXR0cmlidXRlOjEw&quot;, &quot;plainText&quot;: &quot;Test Text&quot;}], &quot;sku&quot;: &quot;72890450-6a7&quot;, &quot;trackInventory&quot;: true, &quot;weight&quot;: 2.5}].\nIn element #0: In field &quot;attributes&quot;: In element #0: In field &quot;plainText&quot;: Unknown field.', 'locations': [{'line': 3, 'column': 9}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x74b2143d4b20&gt;
+product = &lt;saleor.product.models.Product(pk=4, name='Test product')&gt;
+plain_text_attribute = &lt;Attribute: Plain text&gt;
+permission_manage_products = &lt;Permission: product | product | Manage products.&gt;
+
+    def test_product_variant_bulk_create_with_plain_text_attribute(
+        staff_api_client, product, plain_text_attribute, permission_manage_products
+    ):
+        # given
+        product_variant_count = ProductVariant.objects.count()
+        product.product_type.variant_attributes.add(plain_text_attribute)
+    
+        product_id = graphene.Node.to_global_id("Product", product.pk)
+        attribute_id = graphene.Node.to_global_id("Attribute", plain_text_attribute.pk)
+        plain_text = "Test Text"
+        sku = str(uuid4())[:12]
+        variants = [
+            {
+                "sku": sku,
+                "weight": 2.5,
+                "trackInventory": True,
+                "attributes": [{"id": attribute_id, "plainText": plain_text}],
+            }
+        ]
+    
+        variables = {"productId": product_id, "variants": variants}
+    
+        # when
+        staff_api_client.user.user_permissions.add(permission_manage_products)
+        response = staff_api_client.post_graphql(
+            PRODUCT_VARIANT_BULK_CREATE_MUTATION, variables
+        )
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py:277: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': 'Variable "$variants" got invalid value [{"attributes": [{"id": "QXR0cmlidXRlOjEw", "plainText": "Test Text"}], "sku": "72890450-6a7", "trackInventory": true, "weight": 2.5}].\nIn element #0: In field "attributes": In element #0: In field "plainText": Unknown field.', 'locations': [{'line': 3, 'column': 9}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_create" name="test_product_variant_bulk_create_with_date_attribute" time="0.265"><failure message="AssertionError: [{'message': 'Variable &quot;$variants&quot; got invalid value [{&quot;attributes&quot;: [{&quot;date&quot;: &quot;2020-05-05&quot;, &quot;id&quot;: &quot;QXR0cmlidXRlOjEz&quot;}], &quot;sku&quot;: &quot;e0358867-a84&quot;, &quot;trackInventory&quot;: true, &quot;weight&quot;: 2.5}].\nIn element #0: In field &quot;attributes&quot;: In element #0: In field &quot;date&quot;: Unknown field.', 'locations': [{'line': 3, 'column': 9}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x74b21485ba90&gt;
+product = &lt;saleor.product.models.Product(pk=5, name='Test product')&gt;
+date_attribute = &lt;Attribute: Release date&gt;
+permission_manage_products = &lt;Permission: product | product | Manage products.&gt;
+
+    @freeze_time(datetime(2020, 5, 5, 5, 5, 5, tzinfo=pytz.utc))
+    def test_product_variant_bulk_create_with_date_attribute(
+        staff_api_client, product, date_attribute, permission_manage_products
+    ):
+        # given
+        product_variant_count = ProductVariant.objects.count()
+        product.product_type.variant_attributes.add(date_attribute)
+    
+        product_id = graphene.Node.to_global_id("Product", product.pk)
+        attribute_id = graphene.Node.to_global_id("Attribute", date_attribute.pk)
+        date_time_value = datetime.now(tz=pytz.utc)
+        date_value = date_time_value.date()
+    
+        sku = str(uuid4())[:12]
+        variants = [
+            {
+                "sku": sku,
+                "weight": 2.5,
+                "trackInventory": True,
+                "attributes": [{"id": attribute_id, "date": date_value}],
+            }
+        ]
+    
+        variables = {"productId": product_id, "variants": variants}
+    
+        # when
+        staff_api_client.user.user_permissions.add(permission_manage_products)
+        response = staff_api_client.post_graphql(
+            PRODUCT_VARIANT_BULK_CREATE_MUTATION, variables
+        )
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py:318: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': 'Variable "$variants" got invalid value [{"attributes": [{"date": "2020-05-05", "id": "QXR0cmlidXRlOjEz"}], "sku": "e0358867-a84", "trackInventory": true, "weight": 2.5}].\nIn element #0: In field "attributes": In element #0: In field "date": Unknown field.', 'locations': [{'line': 3, 'column': 9}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_create" name="test_product_variant_bulk_create_with_file_attribute" time="0.168"><failure message="AssertionError: [{'message': 'Variable &quot;$variants&quot; got invalid value [{&quot;attributes&quot;: [{&quot;file&quot;: &quot;http://mirumee.com/media/test_file.txt&quot;, &quot;id&quot;: &quot;QXR0cmlidXRlOjE2&quot;}], &quot;sku&quot;: &quot;1e855098-363&quot;, &quot;trackInventory&quot;: true, &quot;weight&quot;: 2.5}].\nIn element #0: In field &quot;attributes&quot;: In element #0: In field &quot;file&quot;: Unknown field.', 'locations': [{'line': 3, 'column': 9}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x74b21521b910&gt;
+product = &lt;saleor.product.models.Product(pk=6, name='Test product')&gt;
+file_attribute = &lt;Attribute: Image&gt;
+permission_manage_products = &lt;Permission: product | product | Manage products.&gt;
+site_settings = &lt;SiteSettings: SiteSettings object (7)&gt;
+
+    def test_product_variant_bulk_create_with_file_attribute(
+        staff_api_client, product, file_attribute, permission_manage_products, site_settings
+    ):
+        # given
+        product_variant_count = ProductVariant.objects.count()
+        product.product_type.variant_attributes.add(file_attribute)
+    
+        product_id = graphene.Node.to_global_id("Product", product.pk)
+        attribute_id = graphene.Node.to_global_id("Attribute", file_attribute.pk)
+        existing_value = file_attribute.values.first()
+        domain = site_settings.site.domain
+        file_url = f"http://{domain}{settings.MEDIA_URL}{existing_value.file_url}"
+    
+        sku = str(uuid4())[:12]
+        variants = [
+            {
+                "sku": sku,
+                "weight": 2.5,
+                "trackInventory": True,
+                "attributes": [{"id": attribute_id, "file": file_url}],
+            }
+        ]
+    
+        variables = {"productId": product_id, "variants": variants}
+    
+        # when
+        staff_api_client.user.user_permissions.add(permission_manage_products)
+        response = staff_api_client.post_graphql(
+            PRODUCT_VARIANT_BULK_CREATE_MUTATION, variables
+        )
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py:359: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': 'Variable "$variants" got invalid value [{"attributes": [{"file": "http://mirumee.com/media/test_file.txt", "id": "QXR0cmlidXRlOjE2"}], "sku": "1e855098-363", "trackInventory": true, "weight": 2.5}].\nIn element #0: In field "attributes": In element #0: In field "file": Unknown field.', 'locations': [{'line': 3, 'column': 9}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_create" name="test_product_variant_bulk_create_with_datetime_attribute" time="0.189"><failure message="AssertionError: [{'message': 'Variable &quot;$variants&quot; got invalid value [{&quot;attributes&quot;: [{&quot;dateTime&quot;: &quot;2020-05-05T05:05:05Z&quot;, &quot;id&quot;: &quot;QXR0cmlidXRlOjE5&quot;}], &quot;sku&quot;: &quot;f9ee1d02-03d&quot;, &quot;trackInventory&quot;: true, &quot;weight&quot;: 2.5}].\nIn element #0: In field &quot;attributes&quot;: In element #0: In field &quot;dateTime&quot;: Unknown field.', 'locations': [{'line': 3, 'column': 9}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x74b2143c43d0&gt;
+product = &lt;saleor.product.models.Product(pk=7, name='Test product')&gt;
+date_time_attribute = &lt;Attribute: Release date time&gt;
+permission_manage_products = &lt;Permission: product | product | Manage products.&gt;
+site_settings = &lt;SiteSettings: SiteSettings object (8)&gt;
+
+    @freeze_time(datetime(2020, 5, 5, 5, 5, 5, tzinfo=pytz.utc))
+    def test_product_variant_bulk_create_with_datetime_attribute(
+        staff_api_client,
+        product,
+        date_time_attribute,
+        permission_manage_products,
+        site_settings,
+    ):
+        # given
+        product_variant_count = ProductVariant.objects.count()
+        product.product_type.variant_attributes.add(date_time_attribute)
+    
+        product_id = graphene.Node.to_global_id("Product", product.pk)
+        attribute_id = graphene.Node.to_global_id("Attribute", date_time_attribute.pk)
+        date_time_value = datetime.now(tz=pytz.utc)
+    
+        sku = str(uuid4())[:12]
+        variants = [
+            {
+                "sku": sku,
+                "weight": 2.5,
+                "trackInventory": True,
+                "attributes": [{"id": attribute_id, "dateTime": date_time_value}],
+            }
+        ]
+    
+        variables = {"productId": product_id, "variants": variants}
+    
+        # when
+        staff_api_client.user.user_permissions.add(permission_manage_products)
+        response = staff_api_client.post_graphql(
+            PRODUCT_VARIANT_BULK_CREATE_MUTATION, variables
+        )
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py:403: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': 'Variable "$variants" got invalid value [{"attributes": [{"dateTime": "2020-05-05T05:05:05Z", "id": "QXR0cmlidXRlOjE5"}], "sku": "f9ee1d02-03d", "trackInventory": true, "weight": 2.5}].\nIn element #0: In field "attributes": In element #0: In field "dateTime": Unknown field.', 'locations': [{'line': 3, 'column': 9}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_create" name="test_product_variant_bulk_create_with_rich_text_attribute" time="0.170"><failure message="AssertionError: [{'message': 'Variable &quot;$variants&quot; got invalid value [{&quot;attributes&quot;: [{&quot;id&quot;: &quot;QXR0cmlidXRlOjIy&quot;, &quot;richText&quot;: &quot;{\\&quot;blocks\\&quot;: [{\\&quot;data\\&quot;: {\\&quot;text\\&quot;: \\&quot;Sample text\\&quot;}, \\&quot;type\\&quot;: \\&quot;paragraph\\&quot;}]}&quot;}], &quot;sku&quot;: &quot;9ba0866a-1d8&quot;, &quot;trackInventory&quot;: true, &quot;weight&quot;: 2.5}].\nIn element #0: In field &quot;attributes&quot;: In element #0: In field &quot;richText&quot;: Unknown field.', 'locations': [{'line': 3, 'column': 9}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x74b2148be850&gt;
+product = &lt;saleor.product.models.Product(pk=8, name='Test product')&gt;
+rich_text_attribute = &lt;Attribute: Text&gt;
+permission_manage_products = &lt;Permission: product | product | Manage products.&gt;
+site_settings = &lt;SiteSettings: SiteSettings object (9)&gt;
+
+    def test_product_variant_bulk_create_with_rich_text_attribute(
+        staff_api_client,
+        product,
+        rich_text_attribute,
+        permission_manage_products,
+        site_settings,
+    ):
+        # given
+        product_variant_count = ProductVariant.objects.count()
+        product.product_type.variant_attributes.add(rich_text_attribute)
+    
+        product_id = graphene.Node.to_global_id("Product", product.pk)
+        attribute_id = graphene.Node.to_global_id("Attribute", rich_text_attribute.pk)
+        rich_text = json.dumps(dummy_editorjs("Sample text"))
+    
+        sku = str(uuid4())[:12]
+        variants = [
+            {
+                "sku": sku,
+                "weight": 2.5,
+                "trackInventory": True,
+                "attributes": [{"id": attribute_id, "richText": rich_text}],
+            }
+        ]
+    
+        variables = {"productId": product_id, "variants": variants}
+    
+        # when
+        staff_api_client.user.user_permissions.add(permission_manage_products)
+        response = staff_api_client.post_graphql(
+            PRODUCT_VARIANT_BULK_CREATE_MUTATION, variables
+        )
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py:446: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': 'Variable "$variants" got invalid value [{"attributes": [{"id": "QXR0cmlidXRlOjIy", "richText": "{\\"blocks\\": [{\\"data\\": {\\"text\\": \\"Sample text\\"}, \\"type\\": \\"paragraph\\"}]}"}], "sku": "9ba0866a-1d8", "trackInventory": true, "weight": 2.5}].\nIn element #0: In field "attributes": In element #0: In field "richText": Unknown field.', 'locations': [{'line': 3, 'column': 9}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_create" name="test_product_variant_bulk_create_with_numeric_attribute" time="0.290" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_create" name="test_product_variant_bulk_create_with_page_reference_attribute" time="0.211"><failure message="AssertionError: [{'message': 'Variable &quot;$variants&quot; got invalid value [{&quot;attributes&quot;: [{&quot;id&quot;: &quot;QXR0cmlidXRlOjI4&quot;, &quot;references&quot;: [&quot;UGFnZTox&quot;]}], &quot;sku&quot;: &quot;eeb74865-4e9&quot;, &quot;trackInventory&quot;: true, &quot;weight&quot;: 2.5}].\nIn element #0: In field &quot;attributes&quot;: In element #0: In field &quot;references&quot;: Unknown field.', 'locations': [{'line': 3, 'column': 9}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x74b215b77fa0&gt;
+product = &lt;saleor.product.models.Product(pk=10, name='Test product')&gt;
+product_type_page_reference_attribute = &lt;Attribute: Page reference&gt;
+permission_manage_products = &lt;Permission: product | product | Manage products.&gt;
+site_settings = &lt;SiteSettings: SiteSettings object (11)&gt;
+page = &lt;Page: Test page&gt;
+
+    def test_product_variant_bulk_create_with_page_reference_attribute(
+        staff_api_client,
+        product,
+        product_type_page_reference_attribute,
+        permission_manage_products,
+        site_settings,
+        page,
+    ):
+        # given
+        product_variant_count = ProductVariant.objects.count()
+        product.product_type.variant_attributes.add(product_type_page_reference_attribute)
+    
+        product_id = graphene.Node.to_global_id("Product", product.pk)
+        reference_attr_id = graphene.Node.to_global_id(
+            "Attribute", product_type_page_reference_attribute.id
+        )
+        reference = graphene.Node.to_global_id("Page", page.pk)
+    
+        sku = str(uuid4())[:12]
+        variants = [
+            {
+                "sku": sku,
+                "weight": 2.5,
+                "trackInventory": True,
+                "attributes": [{"id": reference_attr_id, "references": [reference]}],
+            }
+        ]
+    
+        variables = {"productId": product_id, "variants": variants}
+    
+        # when
+        staff_api_client.user.user_permissions.add(permission_manage_products)
+        response = staff_api_client.post_graphql(
+            PRODUCT_VARIANT_BULK_CREATE_MUTATION, variables
+        )
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py:535: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': 'Variable "$variants" got invalid value [{"attributes": [{"id": "QXR0cmlidXRlOjI4", "references": ["UGFnZTox"]}], "sku": "eeb74865-4e9", "trackInventory": true, "weight": 2.5}].\nIn element #0: In field "attributes": In element #0: In field "references": Unknown field.', 'locations': [{'line': 3, 'column': 9}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_create" name="test_product_variant_bulk_create_with_dropdown_attribute" time="0.157"><failure message="AssertionError: [{'message': 'Variable &quot;$variants&quot; got invalid value [{&quot;attributes&quot;: [{&quot;dropdown&quot;: {&quot;id&quot;: &quot;QXR0cmlidXRlVmFsdWU6NjI=&quot;}, &quot;id&quot;: &quot;QXR0cmlidXRlOjMy&quot;}], &quot;sku&quot;: &quot;643c18b5-07e&quot;, &quot;trackInventory&quot;: true, &quot;weight&quot;: 2.5}].\nIn element #0: In field &quot;attributes&quot;: In element #0: In field &quot;dropdown&quot;: Unknown field.', 'locations': [{'line': 3, 'column': 9}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x74b215c5ca00&gt;
+product = &lt;saleor.product.models.Product(pk=11, name='Test product')&gt;
+size_attribute = &lt;Attribute: Size&gt;
+permission_manage_products = &lt;Permission: product | product | Manage products.&gt;
+
+    def test_product_variant_bulk_create_with_dropdown_attribute(
+        staff_api_client,
+        product,
+        size_attribute,
+        permission_manage_products,
+    ):
+        # given
+        product_variant_count = ProductVariant.objects.count()
+        product.product_type.variant_attributes.add(size_attribute)
+    
+        product_id = graphene.Node.to_global_id("Product", product.pk)
+        attribute_id = graphene.Node.to_global_id("Attribute", size_attribute.pk)
+        attribute_value = size_attribute.values.last()
+        attribute_value_id = graphene.Node.to_global_id(
+            "AttributeValue", attribute_value.pk
+        )
+        sku = str(uuid4())[:12]
+        variants = [
+            {
+                "sku": sku,
+                "weight": 2.5,
+                "trackInventory": True,
+                "attributes": [
+                    {
+                        "id": attribute_id,
+                        "dropdown": {
+                            "id": attribute_value_id,
+                        },
+                    }
+                ],
+            }
+        ]
+    
+        variables = {"productId": product_id, "variants": variants}
+    
+        # when
+        staff_api_client.user.user_permissions.add(permission_manage_products)
+        response = staff_api_client.post_graphql(
+            PRODUCT_VARIANT_BULK_CREATE_MUTATION, variables
+        )
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py:586: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': 'Variable "$variants" got invalid value [{"attributes": [{"dropdown": {"id": "QXR0cmlidXRlVmFsdWU6NjI="}, "id": "QXR0cmlidXRlOjMy"}], "sku": "643c18b5-07e", "trackInventory": true, "weight": 2.5}].\nIn element #0: In field "attributes": In element #0: In field "dropdown": Unknown field.', 'locations': [{'line': 3, 'column': 9}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_create" name="test_product_variant_bulk_create_with_multiselect_attribute" time="0.155"><failure message="AssertionError: [{'message': 'Variable &quot;$variants&quot; got invalid value [{&quot;attributes&quot;: [{&quot;id&quot;: &quot;QXR0cmlidXRlOjM0&quot;, &quot;multiselect&quot;: [{&quot;id&quot;: &quot;QXR0cmlidXRlVmFsdWU6NjY=&quot;}]}], &quot;sku&quot;: &quot;9b07f647-44c&quot;, &quot;trackInventory&quot;: true, &quot;weight&quot;: 2.5}].\nIn element #0: In field &quot;attributes&quot;: In element #0: In field &quot;multiselect&quot;: Unknown field.', 'locations': [{'line': 3, 'column': 9}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x74b215b2a7c0&gt;
+product = &lt;saleor.product.models.Product(pk=12, name='Test product')&gt;
+size_attribute = &lt;Attribute: Size&gt;
+permission_manage_products = &lt;Permission: product | product | Manage products.&gt;
+
+    def test_product_variant_bulk_create_with_multiselect_attribute(
+        staff_api_client,
+        product,
+        size_attribute,
+        permission_manage_products,
+    ):
+        # given
+        product_variant_count = ProductVariant.objects.count()
+        size_attribute.input_type = AttributeInputType.MULTISELECT
+        size_attribute.save(update_fields=["input_type"])
+    
+        product_id = graphene.Node.to_global_id("Product", product.pk)
+        attribute_id = graphene.Node.to_global_id("Attribute", size_attribute.pk)
+        attribute_value = size_attribute.values.last()
+        attribute_value_id = graphene.Node.to_global_id(
+            "AttributeValue", attribute_value.pk
+        )
+        sku = str(uuid4())[:12]
+        variants = [
+            {
+                "sku": sku,
+                "weight": 2.5,
+                "trackInventory": True,
+                "attributes": [
+                    {"id": attribute_id, "multiselect": [{"id": attribute_value_id}]},
+                ],
+            }
+        ]
+    
+        variables = {"productId": product_id, "variants": variants}
+    
+        # when
+        staff_api_client.user.user_permissions.add(permission_manage_products)
+        response = staff_api_client.post_graphql(
+            PRODUCT_VARIANT_BULK_CREATE_MUTATION, variables
+        )
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py:633: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': 'Variable "$variants" got invalid value [{"attributes": [{"id": "QXR0cmlidXRlOjM0", "multiselect": [{"id": "QXR0cmlidXRlVmFsdWU6NjY="}]}], "sku": "9b07f647-44c", "trackInventory": true, "weight": 2.5}].\nIn element #0: In field "attributes": In element #0: In field "multiselect": Unknown field.', 'locations': [{'line': 3, 'column': 9}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_create" name="test_product_variant_bulk_create_only_not_variant_selection_attributes" time="0.260" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_create" name="test_product_variant_bulk_create_empty_attribute" time="0.195" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_create" name="test_product_variant_bulk_create_with_new_attribute_value" time="0.316" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_create" name="test_product_variant_bulk_create_variant_selection_and_other_attributes" time="0.240" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_create" name="test_product_variant_bulk_create_attribute_with_blank_value" time="0.169" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_create" name="test_product_variant_bulk_create_stocks_input" time="0.284" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_create" name="test_product_variant_bulk_create_duplicated_warehouses" time="0.198" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_create" name="test_product_variant_bulk_create_duplicated_warehouses_when_ignore_failed" time="0.277" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_create" name="test_product_variant_bulk_create_channel_listings_input" time="0.275" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_create" name="test_product_variant_bulk_create_preorder_channel_listings_input" time="0.285" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_create" name="test_product_variant_bulk_create_duplicated_channels" time="0.202" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_create" name="test_product_variant_bulk_create_duplicated_channels_when_ignore_failed" time="0.257" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_create" name="test_product_variant_bulk_create_too_many_decimal_places_in_price" time="0.193" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_create" name="test_product_variant_bulk_create_too_many_price_decimal_places_when_ignore_failed" time="0.246" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_create" name="test_product_variant_bulk_create_product_not_assigned_to_channel" time="0.200" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_create" name="test_product_variant_bulk_create_duplicated_sku" time="0.206" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_create" name="test_product_variant_bulk_create_duplicated_sku_when_ignore_failed" time="0.222" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_create" name="test_product_variant_bulk_create_duplicated_sku_in_input" time="0.186" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_create" name="test_product_variant_bulk_create_duplicated_sku_in_input_when_ignore_failed" time="0.204" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_create" name="test_product_variant_bulk_create_without_sku" time="0.261" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_create" name="test_product_variant_bulk_create_many_errors" time="0.200" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_create" name="test_product_variant_bulk_create_many_errors_with_ignore_failed" time="0.283" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_create" name="test_product_variant_bulk_create_many_errors_with_reject_failed_rows" time="0.253" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_create" name="test_product_variant_bulk_create_two_variants_duplicated_attribute_value" time="0.179" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_create" name="test_product_variant_bulk_create_two_variants_duplicated_attribute_value_in_input" time="0.186" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_create" name="test_product_variant_bulk_create_two_variants_duplicated_one_attribute_value" time="0.253" /></testsuite></testsuites>

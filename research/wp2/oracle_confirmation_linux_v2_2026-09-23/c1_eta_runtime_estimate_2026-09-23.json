@@ -1,0 +1,53 @@
+{
+  "artifact": "wp2_c1_eta_runtime_estimate",
+  "date": "2026-09-23",
+  "source": "actual B3 Linux dry-run wall-clock measurements (dryrun_2026-09-23.json)",
+  "b3_per_task_seconds": [
+    {"task_id": "saleor-rc-24f9b244d6bc", "category": "prior-windows-path-failure", "era": "py39", "n_test_files": 1, "wall_s": 218.1},
+    {"task_id": "saleor-rc-65643ec7c37f", "category": "prior-unix-resource-failure", "era": "py39", "n_test_files": 1, "wall_s": 471.0},
+    {"task_id": "saleor-rc-ab6c29ba265d", "category": "prior-native-lib-failure", "era": "py38", "n_test_files": 3, "wall_s": 751.5},
+    {"task_id": "saleor-rc-3cac33590b90", "category": "newer-era-2026-py312", "era": "py312", "n_test_files": 3, "wall_s": 1023.6},
+    {"task_id": "saleor-rc-05bdc7feb9ac", "category": "old-era-py38-2020", "era": "py38", "n_test_files": 8, "wall_s": 1168.0}
+  ],
+  "statistics_seconds": {
+    "median": 751.5,
+    "p75": 751.5,
+    "p90": 1023.6,
+    "min": 218.1,
+    "max": 1168.0,
+    "n": 5
+  },
+  "setup_vs_execution": {
+    "note": "wall_s includes per-container venv creation + commit dependency install (network-bound) + 3x target + 3x parent per-file runs + junit parsing. Era image builds (~2-5 min each) and cache copy (~1-2 min) are one-time and amortized; postgres start ~10s.",
+    "one_time_setup_s": "era builds ~150-300s each (3 images); cache copy ~60-120s; postgres ~10s"
+  },
+  "cache_warm_vs_cold": {
+    "observation": "repeated task reruns did not warm deps (containers are --rm; uv cache per-container), but failed-run reruns dropped from 579s to 218s once postgres was healthy - the drop is defect-removal, not cache warming",
+    "conclusion": "treat every task as cache-cold for deps; pip install dominates for small test sets"
+  },
+  "c2_main_220_projection": {
+    "n_tasks": 220,
+    "sequential_wall_range_hours": [27.0, 62.0],
+    "typical_hours": 46.0,
+    "basis": "220 x [median 751s .. p90 1024s]; min realistic small-task 218s; MAIN 220 are predominantly MODIFIED with 1-3 changed test files",
+    "chunking": "resumable; worktrees persist on Linux ext4; per-task JSON records support resume"
+  },
+  "c4_dev_projection": {
+    "n_changed_test_candidates": 111,
+    "sequential_wall_range_hours": [14.0, 32.0],
+    "typical_hours": 23.0,
+    "basis": "DEV census: 111/150 tasks have changed-test evidence; 111 x [median 751s .. p90 1024s]"
+  },
+  "disk_usage_estimate": {
+    "per_worktree_gb": "~0.3-0.5",
+    "c2_worktrees_total_gb": "~130-220 (220 tasks x 2 states)",
+    "c4_worktrees_total_gb": "~67-111 (111 tasks x 2 states)",
+    "era_images_gb": "~5 (3 era images + postgres/redis)",
+    "available_free_gb": 947
+  },
+  "parallelism": {
+    "recommendation": "SEQUENTIAL only",
+    "reason": "mission resource rule forbids parallel heavy commands; shared postgres with Django test-DB creation/migrations would contend; 13GB RAM supports 1-2 concurrent but DB isolation per-state already implemented; conservative sequential is the frozen scientific-safe choice",
+    "semantics_unchanged": true
+  }
+}

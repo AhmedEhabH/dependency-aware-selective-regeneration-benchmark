@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="1" time="0.400" timestamp="2026-09-24T20:50:51.586662-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="" name="saleor.order.tests.test_order" time="0.000"><error message="collection failure">ImportError while importing test module '/workspace/b14def73518c_p/saleor/order/tests/test_order.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+saleor/order/tests/test_order.py:8: in &lt;module&gt;
+    from ...core.utils.translations import get_translation
+E   ImportError: cannot import name 'get_translation' from 'saleor.core.utils.translations' (/workspace/b14def73518c_p/saleor/core/utils/translations.py)</error></testcase></testsuite></testsuites>

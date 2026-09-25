@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="14" time="2.370" timestamp="2026-09-24T20:33:44.021094-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.shipping.tests.test_shipping_method_channel_listing_update" name="test_shipping_method_channel_listing_create_as_staff_user" time="1.328" /><testcase classname="saleor.graphql.shipping.tests.test_shipping_method_channel_listing_update" name="test_shipping_method_channel_listing_update_as_staff_user" time="0.075" /><testcase classname="saleor.graphql.shipping.tests.test_shipping_method_channel_listing_update" name="test_shipping_method_channel_listing_update_with_negative_price" time="0.034" /><testcase classname="saleor.graphql.shipping.tests.test_shipping_method_channel_listing_update" name="test_shipping_method_channel_listing_update_with_negative_min_value" time="0.032" /><testcase classname="saleor.graphql.shipping.tests.test_shipping_method_channel_listing_update" name="test_shipping_method_channel_listing_update_with_negative_max_value" time="0.033" /><testcase classname="saleor.graphql.shipping.tests.test_shipping_method_channel_listing_update" name="test_shipping_method_channel_listing_update_with_max_less_than_min" time="0.059" /><testcase classname="saleor.graphql.shipping.tests.test_shipping_method_channel_listing_update" name="test_shipping_method_channel_listing_create_without_price" time="0.063" /><testcase classname="saleor.graphql.shipping.tests.test_shipping_method_channel_listing_update" name="test_shipping_method_channel_listing_update_with_to_many_decimal_places_in_price" time="0.059" /><testcase classname="saleor.graphql.shipping.tests.test_shipping_method_channel_listing_update" name="test_shipping_method_channel_listing_update_with_to_many_decimal_places_in_min_val" time="0.058" /><testcase classname="saleor.graphql.shipping.tests.test_shipping_method_channel_listing_update" name="test_shipping_method_channel_listing_update_with_to_many_decimal_places_in_max_val" time="0.064" /><testcase classname="saleor.graphql.shipping.tests.test_shipping_method_channel_listing_update" name="test_shipping_method_channel_listing_create_channel_not_valid" time="0.067" /><testcase classname="saleor.graphql.shipping.tests.test_shipping_method_channel_listing_update" name="test_shipping_method_channel_listing_update_remove_channels" time="0.069" /><testcase classname="saleor.graphql.shipping.tests.test_shipping_method_channel_listing_update" name="test_shipping_method_channel_listing_create_channel_max_value_validation[1000000000-2-3-price]" time="0.072"><failure message="AssertionError: [{'message': 'numeric field overflow\nDETAIL:  A field with precision 12, scale 3 must round to an absolute value less than 10^9.\n', 'locations': [{'line': 6, 'column': 5}], 'path': ['shippingMethodChannelListingUpdate'], 'extensions': {'exception': {'code': 'DataError'}}}]">price = 1000000000, min_price = 2, max_price = 3, invalid_field = 'price'
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x798bf60352b0&gt;
+shipping_method = ShippingMethod(type=price)
+permission_manage_shipping = &lt;Permission: shipping | shipping zone | Manage shipping.&gt;
+channel_PLN = &lt;Channel: c-pln&gt;
+
+    @pytest.mark.parametrize(
+        "price, min_price, max_price, invalid_field",
+        [(10 ** 9, 2, 3, "price"), (1, 2, 10 ** 11, "maximumOrderPrice")],
+    )
+    def test_shipping_method_channel_listing_create_channel_max_value_validation(
+        price,
+        min_price,
+        max_price,
+        invalid_field,
+        staff_api_client,
+        shipping_method,
+        permission_manage_shipping,
+        channel_PLN,
+    ):
+        # given
+        shipping_method.shipping_zone.channels.add(channel_PLN)
+        shipping_method_id = graphene.Node.to_global_id(
+            "ShippingMethodType", shipping_method.pk
+        )
+        channel_id = graphene.Node.to_global_id("Channel", channel_PLN.id)
+        variables = {
+            "id": shipping_method_id,
+            "input": {
+                "addChannels": [
+                    {
+                        "channelId": channel_id,
+                        "price": price,
+                        "minimumOrderPrice": min_price,
+                        "maximumOrderPrice": max_price,
+                    }
+                ]
+            },
+        }
+    
+        # when
+    
+        response = staff_api_client.post_graphql(
+            SHIPPING_METHOD_CHANNEL_LISTING_UPDATE_MUTATION,
+            variables=variables,
+            permissions=(permission_manage_shipping,),
+        )
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/shipping/tests/test_shipping_method_channel_listing_update.py:656: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': 'numeric field overflow\nDETAIL:  A field with precision 12, scale 3 must round to an absolute value less than 10^9.\n', 'locations': [{'line': 6, 'column': 5}], 'path': ['shippingMethodChannelListingUpdate'], 'extensions': {'exception': {'code': 'DataError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.shipping.tests.test_shipping_method_channel_listing_update" name="test_shipping_method_channel_listing_create_channel_max_value_validation[1-2-100000000000-maximumOrderPrice]" time="0.071"><failure message="AssertionError: [{'message': 'numeric field overflow\nDETAIL:  A field with precision 12, scale 3 must round to an absolute value less than 10^9.\n', 'locations': [{'line': 6, 'column': 5}], 'path': ['shippingMethodChannelListingUpdate'], 'extensions': {'exception': {'code': 'DataError'}}}]">price = 1, min_price = 2, max_price = 100000000000
+invalid_field = 'maximumOrderPrice'
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x798bf5f4e070&gt;
+shipping_method = ShippingMethod(type=price)
+permission_manage_shipping = &lt;Permission: shipping | shipping zone | Manage shipping.&gt;
+channel_PLN = &lt;Channel: c-pln&gt;
+
+    @pytest.mark.parametrize(
+        "price, min_price, max_price, invalid_field",
+        [(10 ** 9, 2, 3, "price"), (1, 2, 10 ** 11, "maximumOrderPrice")],
+    )
+    def test_shipping_method_channel_listing_create_channel_max_value_validation(
+        price,
+        min_price,
+        max_price,
+        invalid_field,
+        staff_api_client,
+        shipping_method,
+        permission_manage_shipping,
+        channel_PLN,
+    ):
+        # given
+        shipping_method.shipping_zone.channels.add(channel_PLN)
+        shipping_method_id = graphene.Node.to_global_id(
+            "ShippingMethodType", shipping_method.pk
+        )
+        channel_id = graphene.Node.to_global_id("Channel", channel_PLN.id)
+        variables = {
+            "id": shipping_method_id,
+            "input": {
+                "addChannels": [
+                    {
+                        "channelId": channel_id,
+                        "price": price,
+                        "minimumOrderPrice": min_price,
+                        "maximumOrderPrice": max_price,
+                    }
+                ]
+            },
+        }
+    
+        # when
+    
+        response = staff_api_client.post_graphql(
+            SHIPPING_METHOD_CHANNEL_LISTING_UPDATE_MUTATION,
+            variables=variables,
+            permissions=(permission_manage_shipping,),
+        )
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/shipping/tests/test_shipping_method_channel_listing_update.py:656: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': 'numeric field overflow\nDETAIL:  A field with precision 12, scale 3 must round to an absolute value less than 10^9.\n', 'locations': [{'line': 6, 'column': 5}], 'path': ['shippingMethodChannelListingUpdate'], 'extensions': {'exception': {'code': 'DataError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase></testsuite></testsuites>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="1" time="0.440" timestamp="2026-09-25T01:13:30.662819-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="" name="saleor.payment.tests.test_utils" time="0.000"><error message="collection failure">ImportError while importing test module '/workspace/f365f77eb905_p/saleor/payment/tests/test_utils.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+saleor/payment/tests/test_utils.py:14: in &lt;module&gt;
+    from ..interface import PaymentLineData, PaymentLinesData
+E   ImportError: cannot import name 'PaymentLinesData' from 'saleor.payment.interface' (/workspace/f365f77eb905_p/saleor/payment/interface.py)</error></testcase></testsuite></testsuites>

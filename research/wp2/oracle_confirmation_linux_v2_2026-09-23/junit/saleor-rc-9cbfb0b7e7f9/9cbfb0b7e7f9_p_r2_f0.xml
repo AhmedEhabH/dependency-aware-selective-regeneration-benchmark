@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="2" time="2.079" timestamp="2026-09-24T20:20:16.642479-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.account.tests.mutations.authentication.test_external_refresh" name="test_external_refresh_plugin_not_active" time="1.628" /><testcase classname="saleor.graphql.account.tests.mutations.authentication.test_external_refresh" name="test_external_refresh" time="0.127"><failure message="assert None&#10; +  where None = &lt;User: df75b855-62ab-45f9-bf31-168fd52af233&gt;.last_login">mock_refresh_token_middleware = &lt;MagicMock name='jwt_decode_with_exception_handler' id='134731053637440'&gt;
+api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7a8984bf96d0&gt;
+customer_user = &lt;User: df75b855-62ab-45f9-bf31-168fd52af233&gt;
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7a8984cbddc0&gt;
+rf = &lt;django.test.client.RequestFactory object at 0x7a8984b5ffa0&gt;
+
+    @freeze_time("2018-05-31 12:00:00")
+    @patch("saleor.core.middleware.jwt_decode_with_exception_handler")
+    def test_external_refresh(
+        mock_refresh_token_middleware, api_client, customer_user, monkeypatch, rf
+    ):
+        expected_token = "token1"
+        expected_refresh_token = "refresh2"
+        expected_csrf_token = "csrf3"
+        mocked_plugin_fun = Mock()
+        expected_return = ExternalAccessTokens(
+            token=expected_token,
+            refresh_token=expected_refresh_token,
+            csrf_token=expected_csrf_token,
+            user=customer_user,
+        )
+        mocked_plugin_fun.return_value = expected_return
+        monkeypatch.setattr(
+            "saleor.plugins.manager.PluginsManager.external_refresh", mocked_plugin_fun
+        )
+        variables = {"pluginId": "pluginId1", "input": json.dumps({"refreshToken": "ABCD"})}
+        response = api_client.post_graphql(MUTATION_EXTERNAL_REFRESH, variables)
+        content = get_graphql_content(response)
+        data = content["data"]["externalRefresh"]
+        assert data["token"] == expected_token
+        assert data["refreshToken"] == expected_refresh_token
+        assert data["csrfToken"] == expected_csrf_token
+        assert data["user"]["email"] == customer_user.email
+&gt;       assert customer_user.last_login
+E       assert None
+E        +  where None = &lt;User: df75b855-62ab-45f9-bf31-168fd52af233&gt;.last_login
+
+saleor/graphql/account/tests/mutations/authentication/test_external_refresh.py:65: AssertionError</failure></testcase></testsuite></testsuites>

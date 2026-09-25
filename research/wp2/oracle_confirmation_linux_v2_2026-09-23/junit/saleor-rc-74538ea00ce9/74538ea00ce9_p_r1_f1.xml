@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="44" time="13.562" timestamp="2026-09-24T18:09:34.109737-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_existing_channel_id" time="1.384" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_voucher_not_available" time="0.144" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_with_voucher_entire_order" time="0.448" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_with_voucher_specific_product" time="0.500" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_with_voucher_apply_once_per_order" time="0.431" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_clear_voucher" time="0.281" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_clear_voucher_code" time="0.275" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_clear_voucher_and_reduce_voucher_usage" time="0.285"><failure message="assert 1 == (1 - 1)&#10; +  where 1 = &lt;VoucherCode: VoucherCode object (5b7b0866-851b-44b5-b96d-b9b1f48f1bf3)&gt;.used">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x71c543c1cbf0&gt;
+permission_group_manage_orders = &lt;Group: Manage orders group.&gt;
+draft_order = &lt;Order #UUID('77eaa5b6-2868-4b22-9cba-c243111ba03b')&gt;
+voucher = &lt;Voucher: Voucher object (59)&gt;
+
+    def test_draft_order_update_clear_voucher_and_reduce_voucher_usage(
+        staff_api_client,
+        permission_group_manage_orders,
+        draft_order,
+        voucher,
+    ):
+        # given
+        order = draft_order
+        order.voucher = voucher
+        code_instance = voucher.codes.first()
+        order.voucher_code = code_instance.code
+        order.save(update_fields=["voucher", "voucher_code"])
+    
+        code_instance.used += 1
+        code_instance.save(update_fields=["used"])
+        code_used = code_instance.used
+    
+        voucher.usage_limit = 5
+        voucher.save(update_fields=["usage_limit"])
+    
+        channel = order.channel
+        channel.include_draft_order_in_voucher_usage = True
+        channel.save(update_fields=["include_draft_order_in_voucher_usage"])
+    
+        voucher_listing = voucher.channel_listings.get(channel=channel)
+        discount_amount = voucher_listing.discount_value
+        order.discounts.create(
+            voucher=voucher,
+            value=discount_amount,
+            type=DiscountType.VOUCHER,
+        )
+    
+        order.total_gross_amount -= discount_amount
+        order.total_net_amount -= discount_amount
+        order.save(update_fields=["total_net_amount", "total_gross_amount"])
+    
+        permission_group_manage_orders.user_set.add(staff_api_client.user)
+        query = DRAFT_ORDER_UPDATE_MUTATION
+        order_id = graphene.Node.to_global_id("Order", order.id)
+        order_total = order.undiscounted_total_net_amount
+    
+        variables = {
+            "id": order_id,
+            "input": {
+                "voucher": None,
+            },
+        }
+    
+        # when
+        response = staff_api_client.post_graphql(query, variables)
+    
+        # then
+        content = get_graphql_content(response)
+        data = content["data"]["draftOrderUpdate"]
+    
+        assert data["order"]["undiscountedTotal"]["net"]["amount"] == order_total
+        assert data["order"]["total"]["net"]["amount"] == order_total
+        assert not data["order"]["voucher"]
+        assert not data["order"]["voucherCode"]
+    
+        assert not data["errors"]
+        order.refresh_from_db()
+        assert not order.voucher
+        assert order.search_vector
+    
+        assert not order.discounts.count()
+        code_instance.refresh_from_db()
+&gt;       assert code_instance.used == code_used - 1
+E       assert 1 == (1 - 1)
+E        +  where 1 = &lt;VoucherCode: VoucherCode object (5b7b0866-851b-44b5-b96d-b9b1f48f1bf3)&gt;.used
+
+saleor/graphql/order/tests/mutations/test_draft_order_update.py:662: AssertionError</failure></testcase><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_clear_voucher_code_and_reduce_voucher_usage" time="0.316"><failure message="assert 1 == (1 - 1)&#10; +  where 1 = &lt;VoucherCode: VoucherCode object (397d69c5-bc07-4913-a97c-c5cb19bf6973)&gt;.used">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x71c541108dd0&gt;
+permission_group_manage_orders = &lt;Group: Manage orders group.&gt;
+draft_order = &lt;Order #UUID('25d8d4f6-f4cf-4ab1-baa8-41c6bad2d04b')&gt;
+voucher = &lt;Voucher: Voucher object (60)&gt;
+
+    def test_draft_order_update_clear_voucher_code_and_reduce_voucher_usage(
+        staff_api_client,
+        permission_group_manage_orders,
+        draft_order,
+        voucher,
+    ):
+        # given
+        order = draft_order
+        code_instance = voucher.codes.first()
+        order.voucher = voucher
+        order.voucher_code = code_instance.code
+        order.save(update_fields=["voucher", "voucher_code"])
+    
+        code_instance.used += 1
+        code_instance.save(update_fields=["used"])
+        code_used = code_instance.used
+    
+        voucher.usage_limit = 5
+        voucher.save(update_fields=["usage_limit"])
+    
+        channel = order.channel
+        channel.include_draft_order_in_voucher_usage = True
+        channel.save(update_fields=["include_draft_order_in_voucher_usage"])
+    
+        voucher_listing = voucher.channel_listings.get(channel=channel)
+        discount_amount = voucher_listing.discount_value
+        order.discounts.create(
+            voucher=voucher,
+            value=discount_amount,
+            type=DiscountType.VOUCHER,
+        )
+    
+        order.total_gross_amount -= discount_amount
+        order.total_net_amount -= discount_amount
+        order.save(update_fields=["total_net_amount", "total_gross_amount"])
+    
+        permission_group_manage_orders.user_set.add(staff_api_client.user)
+        query = DRAFT_ORDER_UPDATE_MUTATION
+        order_id = graphene.Node.to_global_id("Order", order.id)
+        order_total = order.undiscounted_total_net_amount
+    
+        variables = {
+            "id": order_id,
+            "input": {
+                "voucherCode": None,
+            },
+        }
+    
+        # when
+        response = staff_api_client.post_graphql(query, variables)
+    
+        # then
+        content = get_graphql_content(response)
+        data = content["data"]["draftOrderUpdate"]
+    
+        assert data["order"]["undiscountedTotal"]["net"]["amount"] == order_total
+        assert data["order"]["total"]["net"]["amount"] == order_total
+        assert not data["order"]["voucher"]
+        assert not data["order"]["voucherCode"]
+    
+        assert not data["errors"]
+        order.refresh_from_db()
+        assert not order.voucher
+        assert order.search_vector
+    
+        assert not order.discounts.count()
+        code_instance.refresh_from_db()
+&gt;       assert code_instance.used == code_used - 1
+E       assert 1 == (1 - 1)
+E        +  where 1 = &lt;VoucherCode: VoucherCode object (397d69c5-bc07-4913-a97c-c5cb19bf6973)&gt;.used
+
+saleor/graphql/order/tests/mutations/test_draft_order_update.py:732: AssertionError</failure></testcase><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_with_voucher_and_voucher_code" time="0.162" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_with_voucher_including_drafts_in_voucher_usage" time="0.310" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_with_voucher_code_including_drafts_in_voucher_usage" time="0.302" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_voucher_including_drafts_in_voucher_usage_invalid_code" time="0.151" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_add_voucher_code_remove_order_promotion" time="0.307" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_add_voucher_code_remove_gift_promotion" time="0.374" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_remove_voucher_code_add_order_promotion" time="0.299" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_remove_voucher_code_add_gift_promotion" time="0.419" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_with_non_draft_order" time="0.130" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_invalid_address" time="0.213" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_invalid_address_skip_validation" time="0.455" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_by_user_no_channel_access" time="0.148" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_by_app" time="0.213" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_doing_nothing_generates_no_events" time="0.127" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_free_shipping_voucher" time="0.211" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_when_not_existing_customer_email_provided" time="0.194" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_assign_user_when_existing_customer_email_provided" time="0.199" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_by_external_reference" time="0.212" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_by_both_id_and_external_reference" time="0.043" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_by_external_reference_not_existing" time="0.044" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_with_non_unique_external_reference" time="0.155" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_shipping_method_from_different_channel" time="0.373" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_shipping_method_prices_updates" time="0.291" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_shipping_method_clear_with_none" time="0.286" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_shipping_method" time="0.302" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_no_shipping_method_channel_listings" time="0.154" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_order_promotion" time="0.390" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_gift_promotion" time="0.522" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_with_cc_warehouse_as_shipping_method" time="0.176" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_undiscounted_base_shipping_price_set" time="0.355" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_ensure_entire_order_voucher_discount_is_overridden" time="0.287" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_remove_entire_order_voucher" time="0.282" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_replace_entire_order_voucher_with_shipping_voucher" time="0.319" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_triggers_webhooks" time="0.383" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_triggers_webhooks_when_tax_webhook_not_needed" time="0.288" /></testsuite></testsuites>

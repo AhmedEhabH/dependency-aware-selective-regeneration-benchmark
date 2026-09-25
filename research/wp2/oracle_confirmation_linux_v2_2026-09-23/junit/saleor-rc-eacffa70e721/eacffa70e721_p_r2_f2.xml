@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="18" time="3.105" timestamp="2026-09-25T00:57:05.445211-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.order.tests.test_notifications" name="test_get_custom_order_payload" time="1.272"><failure message="AssertionError: assert {'domain': 'm...'mirumee.com'} == {'domain': 'm...'mirumee.com'}&#10;  &#10;  Omitting 3 identical items, use -vv to show&#10;  Differing items:&#10;  {'order': {'billing_address': {'city': 'WROCŁAW', 'city_area': '', 'company_name': 'Mirumee Software', 'country': 'PL', ...}, 'channel_slug': 'main', 'collection_point_name': None, 'created': '2026-09-25 05:57:06.733817+00:00', ...}} != {'order': {'billing_address': {'city': 'WROCŁAW', 'city_area': '', 'company_name': 'Mirumee Software', 'country': 'PL', ...}, 'channel_slug': 'main', 'collection_point_name': None, 'created': '2026-09-25 05:57:06.733817+00:00', ...}}&#10;  Use -v to get more diff">order = &lt;Order #UUID('a738044f-35b5-467d-983c-d9d9c0368228')&gt;
+
+    def test_get_custom_order_payload(order):
+        expected_payload = get_custom_order_payload(order)
+&gt;       assert expected_payload == {
+            "order": {
+                "id": to_global_id_or_none(order),
+                "number": order.id,
+                "private_metadata": {},
+                "metadata": order.metadata,
+                "status": "unfulfilled",
+                "language_code": "en",
+                "currency": "USD",
+                "token": expected_payload["order"]["token"],
+                "total_net_amount": 0,
+                "undiscounted_total_net_amount": 0,
+                "total_gross_amount": 0,
+                "undiscounted_total_gross_amount": 0,
+                "display_gross_prices": True,
+                "channel_slug": "main",
+                "created": expected_payload["order"]["created"],
+                "shipping_price_net_amount": 0,
+                "shipping_price_gross_amount": 0,
+                "order_details_url": "",
+                "email": "test@example.com",
+                "subtotal_gross_amount": expected_payload["order"]["subtotal_gross_amount"],
+                "subtotal_net_amount": expected_payload["order"]["subtotal_net_amount"],
+                "tax_amount": 0,
+                "lines": [],
+                "billing_address": {
+                    "first_name": "John",
+                    "last_name": "Doe",
+                    "company_name": "Mirumee Software",
+                    "street_address_1": "Tęczowa 7",
+                    "street_address_2": "",
+                    "city": "WROCŁAW",
+                    "city_area": "",
+                    "postal_code": "53-601",
+                    "country": "PL",
+                    "country_area": "",
+                    "phone": "+48713988102",
+                },
+                "shipping_address": {
+                    "first_name": "John",
+                    "last_name": "Doe",
+                    "company_name": "Mirumee Software",
+                    "street_address_1": "Tęczowa 7",
+                    "street_address_2": "",
+                    "city": "WROCŁAW",
+                    "city_area": "",
+                    "postal_code": "53-601",
+                    "country": "PL",
+                    "country_area": "",
+                    "phone": "+48713988102",
+                },
+                "shipping_method_name": None,
+                "collection_point_name": None,
+                "voucher_discount": None,
+                "discounts": [],
+                "discount_amount": 0,
+            },
+            "recipient_email": "test@example.com",
+            "domain": "mirumee.com",
+            "site_name": "mirumee.com",
+        }
+E       AssertionError: assert {'domain': 'm...'mirumee.com'} == {'domain': 'm...'mirumee.com'}
+E         
+E         Omitting 3 identical items, use -vv to show
+E         Differing items:
+E         {'order': {'billing_address': {'city': 'WROCŁAW', 'city_area': '', 'company_name': 'Mirumee Software', 'country': 'PL', ...}, 'channel_slug': 'main', 'collection_point_name': None, 'created': '2026-09-25 05:57:06.733817+00:00', ...}} != {'order': {'billing_address': {'city': 'WROCŁAW', 'city_area': '', 'company_name': 'Mirumee Software', 'country': 'PL', ...}, 'channel_slug': 'main', 'collection_point_name': None, 'created': '2026-09-25 05:57:06.733817+00:00', ...}}
+E         Use -v to get more diff
+
+saleor/order/tests/test_notifications.py:29: AssertionError</failure></testcase><testcase classname="saleor.order.tests.test_notifications" name="test_get_order_line_payload" time="0.099" /><testcase classname="saleor.order.tests.test_notifications" name="test_get_order_line_payload_deleted_variant" time="0.077" /><testcase classname="saleor.order.tests.test_notifications" name="test_get_address_payload" time="0.012" /><testcase classname="saleor.order.tests.test_notifications" name="test_get_default_order_payload" time="0.113"><failure message="AssertionError: assert {'billing_add...2+00:00', ...} == {'billing_add...2+00:00', ...}&#10;  &#10;  Omitting 29 identical items, use -vv to show&#10;  Differing items:&#10;  {'private_metadata': {'secret_key': 'secret_value'}} != {'private_metadata': {}}&#10;  Use -v to get more diff">order_line = &lt;OrderLine: Test product (SKU_A)&gt;
+
+    def test_get_default_order_payload(order_line):
+        order_line.refresh_from_db()
+        order = order_line.order
+        order_line_payload = get_order_line_payload(order_line)
+        redirect_url = "http://redirect.com/path"
+        subtotal = order.get_subtotal()
+        order.total = subtotal + order.shipping_price
+        tax = order.total_gross_amount - order.total_net_amount
+    
+        value = Decimal("20")
+        discount = partial(fixed_discount, discount=Money(value, order.currency))
+        order.undiscounted_total = order.total
+        order.total = discount(order.total)
+        order.discounts.create(
+            value_type=DiscountValueType.FIXED,
+            value=value,
+            reason="Discount reason",
+            amount=(order.undiscounted_total - order.total).gross,
+            # type: ignore
+        )
+        order.save()
+    
+        payload = get_default_order_payload(order, redirect_url)
+    
+&gt;       assert payload == {
+            "discounts": [
+                {
+                    "amount_value": Decimal("20.000"),
+                    "name": None,
+                    "reason": "Discount reason",
+                    "translated_name": None,
+                    "type": "manual",
+                    "value": Decimal("20.000"),
+                    "value_type": "fixed",
+                }
+            ],
+            "channel_slug": order.channel.slug,
+            "id": to_global_id_or_none(order),
+            "number": order.id,
+            "token": order.id,
+            "created": str(order.created_at),
+            "display_gross_prices": order.display_gross_prices,
+            "currency": order.currency,
+            "total_gross_amount": order.total_gross_amount,
+            "total_net_amount": order.total_net_amount,
+            "shipping_method_name": order.shipping_method_name,
+            "collection_point_name": order.collection_point_name,
+            "status": order.status,
+            "metadata": order.metadata,
+            "private_metadata": {},
+            "shipping_price_net_amount": order.shipping_price_net_amount,
+            "shipping_price_gross_amount": order.shipping_price_gross_amount,
+            "order_details_url": f"{redirect_url}?token={order.id}",
+            "email": order.get_customer_email(),
+            "subtotal_gross_amount": subtotal.gross.amount,
+            "subtotal_net_amount": subtotal.net.amount,
+            "tax_amount": tax,
+            "lines": [order_line_payload],
+            "billing_address": get_address_payload(order.billing_address),
+            "shipping_address": get_address_payload(order.shipping_address),
+            "language_code": order.language_code,
+            "discount_amount": Decimal("20.000"),
+            "undiscounted_total_gross_amount": order.undiscounted_total.gross.amount,
+            "undiscounted_total_net_amount": order.undiscounted_total.net.amount,
+            "voucher_discount": None,
+        }
+E       AssertionError: assert {'billing_add...2+00:00', ...} == {'billing_add...2+00:00', ...}
+E         
+E         Omitting 29 identical items, use -vv to show
+E         Differing items:
+E         {'private_metadata': {'secret_key': 'secret_value'}} != {'private_metadata': {}}
+E         Use -v to get more diff
+
+saleor/order/tests/test_notifications.py:226: AssertionError</failure></testcase><testcase classname="saleor.order.tests.test_notifications" name="test_get_default_fulfillment_payload" time="0.178" /><testcase classname="saleor.order.tests.test_notifications" name="test_send_email_payment_confirmation" time="0.115" /><testcase classname="saleor.order.tests.test_notifications" name="test_send_email_order_confirmation" time="0.031" /><testcase classname="saleor.order.tests.test_notifications" name="test_send_email_order_confirmation_for_cc" time="0.104" /><testcase classname="saleor.order.tests.test_notifications" name="test_send_confirmation_emails_without_addresses_for_payment" time="0.145" /><testcase classname="saleor.order.tests.test_notifications" name="test_send_confirmation_emails_without_addresses_for_order" time="0.083" /><testcase classname="saleor.order.tests.test_notifications" name="test_send_fulfillment_confirmation_by_user" time="0.151" /><testcase classname="saleor.order.tests.test_notifications" name="test_send_fulfillment_confirmation_by_app" time="0.151" /><testcase classname="saleor.order.tests.test_notifications" name="test_send_fulfillment_update" time="0.151" /><testcase classname="saleor.order.tests.test_notifications" name="test_send_email_order_canceled_by_user" time="0.029" /><testcase classname="saleor.order.tests.test_notifications" name="test_send_email_order_canceled_by_app" time="0.029" /><testcase classname="saleor.order.tests.test_notifications" name="test_send_email_order_refunded_by_user" time="0.029" /><testcase classname="saleor.order.tests.test_notifications" name="test_send_email_order_refunded_by_app" time="0.031" /></testsuite></testsuites>

@@ -1,0 +1,17 @@
+{
+ "artifact": "wp2_protected_pools_untouched_proof",
+ "date": "2026-09-23",
+ "INTERNAL_TEST": {
+  "status": "UNTOUCHED",
+  "n": 80,
+  "role_sha256": "2022f54784b91276a3ef8f882271e3f8b67a59ed4e7071c85c8a25f28fbc7985",
+  "guard": "assert_task_allowed refuses INTERNAL_TEST access; no oracle/census/generation access performed (amendment G)",
+  "sealed": true
+ },
+ "RESERVE": {
+  "status": "UNTOUCHED",
+  "n": 1086,
+  "note": "786 sealed RESERVE outcomes never listed/read/opened/scored beyond already-authorized aggregate metadata; guard refuses RESERVE access",
+  "sealed": true
+ }
+}

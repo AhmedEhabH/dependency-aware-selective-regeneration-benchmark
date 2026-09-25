@@ -1,0 +1,1045 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="12" failures="0" skipped="0" tests="12" time="2.529" timestamp="2026-09-25T01:32:44.408890-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.channel.tests.test_channel_queries" name="test_query_channels_as_staff_user" time="0.430"><error message="failed on setup with &quot;ValueError: Found wrong number (0) of constraints for product_attributevalue(name, attribute_id)&quot;">request = &lt;SubRequest 'django_db_setup' for &lt;Function test_query_channels_as_staff_user&gt;&gt;
+django_test_environment = None
+django_db_blocker = &lt;pytest_django.plugin.DjangoDbBlocker object at 0x704d82926dc0&gt;
+django_db_use_migrations = True, django_db_keepdb = True
+django_db_createdb = False, django_db_modify_db_settings = None
+
+    @pytest.fixture(scope="session")
+    def django_db_setup(
+        request: pytest.FixtureRequest,
+        django_test_environment: None,
+        django_db_blocker: DjangoDbBlocker,
+        django_db_use_migrations: bool,
+        django_db_keepdb: bool,
+        django_db_createdb: bool,
+        django_db_modify_db_settings: None,
+    ) -&gt; Generator[None, None, None]:
+        """Top level fixture to ensure test databases are available"""
+        from django.test.utils import setup_databases, teardown_databases
+    
+        setup_databases_args = {}
+    
+        if not django_db_use_migrations:
+            _disable_migrations()
+    
+        if django_db_keepdb and not django_db_createdb:
+            setup_databases_args["keepdb"] = True
+    
+        aliases, serialized_aliases = _get_databases_for_setup(request.session.items)
+    
+        with django_db_blocker.unblock():
+&gt;           db_cfg = setup_databases(
+                verbosity=request.config.option.verbose,
+                interactive=False,
+                aliases=aliases,
+                serialized_aliases=serialized_aliases,
+                **setup_databases_args,
+            )
+
+/opt/venv/lib/python3.9/site-packages/pytest_django/fixtures.py:198: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.9/site-packages/django/test/utils.py:179: in setup_databases
+    connection.creation.create_test_db(
+/opt/venv/lib/python3.9/site-packages/django/db/backends/base/creation.py:74: in create_test_db
+    call_command(
+/opt/venv/lib/python3.9/site-packages/django/core/management/__init__.py:181: in call_command
+    return command.execute(*args, **defaults)
+/opt/venv/lib/python3.9/site-packages/django/core/management/base.py:398: in execute
+    output = self.handle(*args, **options)
+/opt/venv/lib/python3.9/site-packages/django/core/management/base.py:89: in wrapped
+    res = handle_func(*args, **kwargs)
+/opt/venv/lib/python3.9/site-packages/django/core/management/commands/migrate.py:244: in handle
+    post_migrate_state = executor.migrate(
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/executor.py:117: in migrate
+    state = self._migrate_all_forwards(state, plan, full_plan, fake=fake, fake_initial=fake_initial)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/executor.py:147: in _migrate_all_forwards
+    state = self.apply_migration(state, migration, fake=fake, fake_initial=fake_initial)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/executor.py:227: in apply_migration
+    state = migration.apply(state, schema_editor)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/migration.py:126: in apply
+    operation.database_forwards(self.app_label, schema_editor, old_state, project_state)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/operations/models.py:528: in database_forwards
+    alter_together(
+/opt/venv/lib/python3.9/site-packages/django/db/backends/base/schema.py:415: in alter_unique_together
+    self._delete_composed_index(model, fields, {'unique': True}, self.sql_delete_unique)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;django.db.backends.postgresql.schema.DatabaseSchemaEditor object at 0x704d74f355e0&gt;
+model = &lt;class '__fake__.AttributeValue'&gt;, fields = ('name', 'attribute')
+constraint_kwargs = {'unique': True}
+sql = 'ALTER TABLE %(table)s DROP CONSTRAINT %(name)s'
+
+    def _delete_composed_index(self, model, fields, constraint_kwargs, sql):
+        meta_constraint_names = {constraint.name for constraint in model._meta.constraints}
+        meta_index_names = {constraint.name for constraint in model._meta.indexes}
+        columns = [model._meta.get_field(field).column for field in fields]
+        constraint_names = self._constraint_names(
+            model, columns, exclude=meta_constraint_names | meta_index_names,
+            **constraint_kwargs
+        )
+        if len(constraint_names) != 1:
+&gt;           raise ValueError("Found wrong number (%s) of constraints for %s(%s)" % (
+                len(constraint_names),
+                model._meta.db_table,
+                ", ".join(columns),
+            ))
+E           ValueError: Found wrong number (0) of constraints for product_attributevalue(name, attribute_id)
+
+/opt/venv/lib/python3.9/site-packages/django/db/backends/base/schema.py:451: ValueError</error></testcase><testcase classname="saleor.graphql.channel.tests.test_channel_queries" name="test_query_channels_as_app" time="0.001"><error message="failed on setup with &quot;ValueError: Found wrong number (0) of constraints for product_attributevalue(name, attribute_id)&quot;">request = &lt;SubRequest 'django_db_setup' for &lt;Function test_query_channels_as_staff_user&gt;&gt;
+django_test_environment = None
+django_db_blocker = &lt;pytest_django.plugin.DjangoDbBlocker object at 0x704d82926dc0&gt;
+django_db_use_migrations = True, django_db_keepdb = True
+django_db_createdb = False, django_db_modify_db_settings = None
+
+    @pytest.fixture(scope="session")
+    def django_db_setup(
+        request: pytest.FixtureRequest,
+        django_test_environment: None,
+        django_db_blocker: DjangoDbBlocker,
+        django_db_use_migrations: bool,
+        django_db_keepdb: bool,
+        django_db_createdb: bool,
+        django_db_modify_db_settings: None,
+    ) -&gt; Generator[None, None, None]:
+        """Top level fixture to ensure test databases are available"""
+        from django.test.utils import setup_databases, teardown_databases
+    
+        setup_databases_args = {}
+    
+        if not django_db_use_migrations:
+            _disable_migrations()
+    
+        if django_db_keepdb and not django_db_createdb:
+            setup_databases_args["keepdb"] = True
+    
+        aliases, serialized_aliases = _get_databases_for_setup(request.session.items)
+    
+        with django_db_blocker.unblock():
+&gt;           db_cfg = setup_databases(
+                verbosity=request.config.option.verbose,
+                interactive=False,
+                aliases=aliases,
+                serialized_aliases=serialized_aliases,
+                **setup_databases_args,
+            )
+
+/opt/venv/lib/python3.9/site-packages/pytest_django/fixtures.py:198: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.9/site-packages/django/test/utils.py:179: in setup_databases
+    connection.creation.create_test_db(
+/opt/venv/lib/python3.9/site-packages/django/db/backends/base/creation.py:74: in create_test_db
+    call_command(
+/opt/venv/lib/python3.9/site-packages/django/core/management/__init__.py:181: in call_command
+    return command.execute(*args, **defaults)
+/opt/venv/lib/python3.9/site-packages/django/core/management/base.py:398: in execute
+    output = self.handle(*args, **options)
+/opt/venv/lib/python3.9/site-packages/django/core/management/base.py:89: in wrapped
+    res = handle_func(*args, **kwargs)
+/opt/venv/lib/python3.9/site-packages/django/core/management/commands/migrate.py:244: in handle
+    post_migrate_state = executor.migrate(
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/executor.py:117: in migrate
+    state = self._migrate_all_forwards(state, plan, full_plan, fake=fake, fake_initial=fake_initial)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/executor.py:147: in _migrate_all_forwards
+    state = self.apply_migration(state, migration, fake=fake, fake_initial=fake_initial)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/executor.py:227: in apply_migration
+    state = migration.apply(state, schema_editor)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/migration.py:126: in apply
+    operation.database_forwards(self.app_label, schema_editor, old_state, project_state)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/operations/models.py:528: in database_forwards
+    alter_together(
+/opt/venv/lib/python3.9/site-packages/django/db/backends/base/schema.py:415: in alter_unique_together
+    self._delete_composed_index(model, fields, {'unique': True}, self.sql_delete_unique)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;django.db.backends.postgresql.schema.DatabaseSchemaEditor object at 0x704d74f355e0&gt;
+model = &lt;class '__fake__.AttributeValue'&gt;, fields = ('name', 'attribute')
+constraint_kwargs = {'unique': True}
+sql = 'ALTER TABLE %(table)s DROP CONSTRAINT %(name)s'
+
+    def _delete_composed_index(self, model, fields, constraint_kwargs, sql):
+        meta_constraint_names = {constraint.name for constraint in model._meta.constraints}
+        meta_index_names = {constraint.name for constraint in model._meta.indexes}
+        columns = [model._meta.get_field(field).column for field in fields]
+        constraint_names = self._constraint_names(
+            model, columns, exclude=meta_constraint_names | meta_index_names,
+            **constraint_kwargs
+        )
+        if len(constraint_names) != 1:
+&gt;           raise ValueError("Found wrong number (%s) of constraints for %s(%s)" % (
+                len(constraint_names),
+                model._meta.db_table,
+                ", ".join(columns),
+            ))
+E           ValueError: Found wrong number (0) of constraints for product_attributevalue(name, attribute_id)
+
+/opt/venv/lib/python3.9/site-packages/django/db/backends/base/schema.py:451: ValueError</error></testcase><testcase classname="saleor.graphql.channel.tests.test_channel_queries" name="test_query_channels_as_customer" time="0.001"><error message="failed on setup with &quot;ValueError: Found wrong number (0) of constraints for product_attributevalue(name, attribute_id)&quot;">request = &lt;SubRequest 'django_db_setup' for &lt;Function test_query_channels_as_staff_user&gt;&gt;
+django_test_environment = None
+django_db_blocker = &lt;pytest_django.plugin.DjangoDbBlocker object at 0x704d82926dc0&gt;
+django_db_use_migrations = True, django_db_keepdb = True
+django_db_createdb = False, django_db_modify_db_settings = None
+
+    @pytest.fixture(scope="session")
+    def django_db_setup(
+        request: pytest.FixtureRequest,
+        django_test_environment: None,
+        django_db_blocker: DjangoDbBlocker,
+        django_db_use_migrations: bool,
+        django_db_keepdb: bool,
+        django_db_createdb: bool,
+        django_db_modify_db_settings: None,
+    ) -&gt; Generator[None, None, None]:
+        """Top level fixture to ensure test databases are available"""
+        from django.test.utils import setup_databases, teardown_databases
+    
+        setup_databases_args = {}
+    
+        if not django_db_use_migrations:
+            _disable_migrations()
+    
+        if django_db_keepdb and not django_db_createdb:
+            setup_databases_args["keepdb"] = True
+    
+        aliases, serialized_aliases = _get_databases_for_setup(request.session.items)
+    
+        with django_db_blocker.unblock():
+&gt;           db_cfg = setup_databases(
+                verbosity=request.config.option.verbose,
+                interactive=False,
+                aliases=aliases,
+                serialized_aliases=serialized_aliases,
+                **setup_databases_args,
+            )
+
+/opt/venv/lib/python3.9/site-packages/pytest_django/fixtures.py:198: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.9/site-packages/django/test/utils.py:179: in setup_databases
+    connection.creation.create_test_db(
+/opt/venv/lib/python3.9/site-packages/django/db/backends/base/creation.py:74: in create_test_db
+    call_command(
+/opt/venv/lib/python3.9/site-packages/django/core/management/__init__.py:181: in call_command
+    return command.execute(*args, **defaults)
+/opt/venv/lib/python3.9/site-packages/django/core/management/base.py:398: in execute
+    output = self.handle(*args, **options)
+/opt/venv/lib/python3.9/site-packages/django/core/management/base.py:89: in wrapped
+    res = handle_func(*args, **kwargs)
+/opt/venv/lib/python3.9/site-packages/django/core/management/commands/migrate.py:244: in handle
+    post_migrate_state = executor.migrate(
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/executor.py:117: in migrate
+    state = self._migrate_all_forwards(state, plan, full_plan, fake=fake, fake_initial=fake_initial)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/executor.py:147: in _migrate_all_forwards
+    state = self.apply_migration(state, migration, fake=fake, fake_initial=fake_initial)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/executor.py:227: in apply_migration
+    state = migration.apply(state, schema_editor)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/migration.py:126: in apply
+    operation.database_forwards(self.app_label, schema_editor, old_state, project_state)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/operations/models.py:528: in database_forwards
+    alter_together(
+/opt/venv/lib/python3.9/site-packages/django/db/backends/base/schema.py:415: in alter_unique_together
+    self._delete_composed_index(model, fields, {'unique': True}, self.sql_delete_unique)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;django.db.backends.postgresql.schema.DatabaseSchemaEditor object at 0x704d74f355e0&gt;
+model = &lt;class '__fake__.AttributeValue'&gt;, fields = ('name', 'attribute')
+constraint_kwargs = {'unique': True}
+sql = 'ALTER TABLE %(table)s DROP CONSTRAINT %(name)s'
+
+    def _delete_composed_index(self, model, fields, constraint_kwargs, sql):
+        meta_constraint_names = {constraint.name for constraint in model._meta.constraints}
+        meta_index_names = {constraint.name for constraint in model._meta.indexes}
+        columns = [model._meta.get_field(field).column for field in fields]
+        constraint_names = self._constraint_names(
+            model, columns, exclude=meta_constraint_names | meta_index_names,
+            **constraint_kwargs
+        )
+        if len(constraint_names) != 1:
+&gt;           raise ValueError("Found wrong number (%s) of constraints for %s(%s)" % (
+                len(constraint_names),
+                model._meta.db_table,
+                ", ".join(columns),
+            ))
+E           ValueError: Found wrong number (0) of constraints for product_attributevalue(name, attribute_id)
+
+/opt/venv/lib/python3.9/site-packages/django/db/backends/base/schema.py:451: ValueError</error></testcase><testcase classname="saleor.graphql.channel.tests.test_channel_queries" name="test_query_channels_as_anonymous" time="0.001"><error message="failed on setup with &quot;ValueError: Found wrong number (0) of constraints for product_attributevalue(name, attribute_id)&quot;">request = &lt;SubRequest 'django_db_setup' for &lt;Function test_query_channels_as_staff_user&gt;&gt;
+django_test_environment = None
+django_db_blocker = &lt;pytest_django.plugin.DjangoDbBlocker object at 0x704d82926dc0&gt;
+django_db_use_migrations = True, django_db_keepdb = True
+django_db_createdb = False, django_db_modify_db_settings = None
+
+    @pytest.fixture(scope="session")
+    def django_db_setup(
+        request: pytest.FixtureRequest,
+        django_test_environment: None,
+        django_db_blocker: DjangoDbBlocker,
+        django_db_use_migrations: bool,
+        django_db_keepdb: bool,
+        django_db_createdb: bool,
+        django_db_modify_db_settings: None,
+    ) -&gt; Generator[None, None, None]:
+        """Top level fixture to ensure test databases are available"""
+        from django.test.utils import setup_databases, teardown_databases
+    
+        setup_databases_args = {}
+    
+        if not django_db_use_migrations:
+            _disable_migrations()
+    
+        if django_db_keepdb and not django_db_createdb:
+            setup_databases_args["keepdb"] = True
+    
+        aliases, serialized_aliases = _get_databases_for_setup(request.session.items)
+    
+        with django_db_blocker.unblock():
+&gt;           db_cfg = setup_databases(
+                verbosity=request.config.option.verbose,
+                interactive=False,
+                aliases=aliases,
+                serialized_aliases=serialized_aliases,
+                **setup_databases_args,
+            )
+
+/opt/venv/lib/python3.9/site-packages/pytest_django/fixtures.py:198: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.9/site-packages/django/test/utils.py:179: in setup_databases
+    connection.creation.create_test_db(
+/opt/venv/lib/python3.9/site-packages/django/db/backends/base/creation.py:74: in create_test_db
+    call_command(
+/opt/venv/lib/python3.9/site-packages/django/core/management/__init__.py:181: in call_command
+    return command.execute(*args, **defaults)
+/opt/venv/lib/python3.9/site-packages/django/core/management/base.py:398: in execute
+    output = self.handle(*args, **options)
+/opt/venv/lib/python3.9/site-packages/django/core/management/base.py:89: in wrapped
+    res = handle_func(*args, **kwargs)
+/opt/venv/lib/python3.9/site-packages/django/core/management/commands/migrate.py:244: in handle
+    post_migrate_state = executor.migrate(
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/executor.py:117: in migrate
+    state = self._migrate_all_forwards(state, plan, full_plan, fake=fake, fake_initial=fake_initial)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/executor.py:147: in _migrate_all_forwards
+    state = self.apply_migration(state, migration, fake=fake, fake_initial=fake_initial)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/executor.py:227: in apply_migration
+    state = migration.apply(state, schema_editor)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/migration.py:126: in apply
+    operation.database_forwards(self.app_label, schema_editor, old_state, project_state)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/operations/models.py:528: in database_forwards
+    alter_together(
+/opt/venv/lib/python3.9/site-packages/django/db/backends/base/schema.py:415: in alter_unique_together
+    self._delete_composed_index(model, fields, {'unique': True}, self.sql_delete_unique)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;django.db.backends.postgresql.schema.DatabaseSchemaEditor object at 0x704d74f355e0&gt;
+model = &lt;class '__fake__.AttributeValue'&gt;, fields = ('name', 'attribute')
+constraint_kwargs = {'unique': True}
+sql = 'ALTER TABLE %(table)s DROP CONSTRAINT %(name)s'
+
+    def _delete_composed_index(self, model, fields, constraint_kwargs, sql):
+        meta_constraint_names = {constraint.name for constraint in model._meta.constraints}
+        meta_index_names = {constraint.name for constraint in model._meta.indexes}
+        columns = [model._meta.get_field(field).column for field in fields]
+        constraint_names = self._constraint_names(
+            model, columns, exclude=meta_constraint_names | meta_index_names,
+            **constraint_kwargs
+        )
+        if len(constraint_names) != 1:
+&gt;           raise ValueError("Found wrong number (%s) of constraints for %s(%s)" % (
+                len(constraint_names),
+                model._meta.db_table,
+                ", ".join(columns),
+            ))
+E           ValueError: Found wrong number (0) of constraints for product_attributevalue(name, attribute_id)
+
+/opt/venv/lib/python3.9/site-packages/django/db/backends/base/schema.py:451: ValueError</error></testcase><testcase classname="saleor.graphql.channel.tests.test_channel_queries" name="test_query_channels_with_has_orders_order" time="0.001"><error message="failed on setup with &quot;ValueError: Found wrong number (0) of constraints for product_attributevalue(name, attribute_id)&quot;">request = &lt;SubRequest 'django_db_setup' for &lt;Function test_query_channels_as_staff_user&gt;&gt;
+django_test_environment = None
+django_db_blocker = &lt;pytest_django.plugin.DjangoDbBlocker object at 0x704d82926dc0&gt;
+django_db_use_migrations = True, django_db_keepdb = True
+django_db_createdb = False, django_db_modify_db_settings = None
+
+    @pytest.fixture(scope="session")
+    def django_db_setup(
+        request: pytest.FixtureRequest,
+        django_test_environment: None,
+        django_db_blocker: DjangoDbBlocker,
+        django_db_use_migrations: bool,
+        django_db_keepdb: bool,
+        django_db_createdb: bool,
+        django_db_modify_db_settings: None,
+    ) -&gt; Generator[None, None, None]:
+        """Top level fixture to ensure test databases are available"""
+        from django.test.utils import setup_databases, teardown_databases
+    
+        setup_databases_args = {}
+    
+        if not django_db_use_migrations:
+            _disable_migrations()
+    
+        if django_db_keepdb and not django_db_createdb:
+            setup_databases_args["keepdb"] = True
+    
+        aliases, serialized_aliases = _get_databases_for_setup(request.session.items)
+    
+        with django_db_blocker.unblock():
+&gt;           db_cfg = setup_databases(
+                verbosity=request.config.option.verbose,
+                interactive=False,
+                aliases=aliases,
+                serialized_aliases=serialized_aliases,
+                **setup_databases_args,
+            )
+
+/opt/venv/lib/python3.9/site-packages/pytest_django/fixtures.py:198: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.9/site-packages/django/test/utils.py:179: in setup_databases
+    connection.creation.create_test_db(
+/opt/venv/lib/python3.9/site-packages/django/db/backends/base/creation.py:74: in create_test_db
+    call_command(
+/opt/venv/lib/python3.9/site-packages/django/core/management/__init__.py:181: in call_command
+    return command.execute(*args, **defaults)
+/opt/venv/lib/python3.9/site-packages/django/core/management/base.py:398: in execute
+    output = self.handle(*args, **options)
+/opt/venv/lib/python3.9/site-packages/django/core/management/base.py:89: in wrapped
+    res = handle_func(*args, **kwargs)
+/opt/venv/lib/python3.9/site-packages/django/core/management/commands/migrate.py:244: in handle
+    post_migrate_state = executor.migrate(
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/executor.py:117: in migrate
+    state = self._migrate_all_forwards(state, plan, full_plan, fake=fake, fake_initial=fake_initial)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/executor.py:147: in _migrate_all_forwards
+    state = self.apply_migration(state, migration, fake=fake, fake_initial=fake_initial)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/executor.py:227: in apply_migration
+    state = migration.apply(state, schema_editor)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/migration.py:126: in apply
+    operation.database_forwards(self.app_label, schema_editor, old_state, project_state)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/operations/models.py:528: in database_forwards
+    alter_together(
+/opt/venv/lib/python3.9/site-packages/django/db/backends/base/schema.py:415: in alter_unique_together
+    self._delete_composed_index(model, fields, {'unique': True}, self.sql_delete_unique)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;django.db.backends.postgresql.schema.DatabaseSchemaEditor object at 0x704d74f355e0&gt;
+model = &lt;class '__fake__.AttributeValue'&gt;, fields = ('name', 'attribute')
+constraint_kwargs = {'unique': True}
+sql = 'ALTER TABLE %(table)s DROP CONSTRAINT %(name)s'
+
+    def _delete_composed_index(self, model, fields, constraint_kwargs, sql):
+        meta_constraint_names = {constraint.name for constraint in model._meta.constraints}
+        meta_index_names = {constraint.name for constraint in model._meta.indexes}
+        columns = [model._meta.get_field(field).column for field in fields]
+        constraint_names = self._constraint_names(
+            model, columns, exclude=meta_constraint_names | meta_index_names,
+            **constraint_kwargs
+        )
+        if len(constraint_names) != 1:
+&gt;           raise ValueError("Found wrong number (%s) of constraints for %s(%s)" % (
+                len(constraint_names),
+                model._meta.db_table,
+                ", ".join(columns),
+            ))
+E           ValueError: Found wrong number (0) of constraints for product_attributevalue(name, attribute_id)
+
+/opt/venv/lib/python3.9/site-packages/django/db/backends/base/schema.py:451: ValueError</error></testcase><testcase classname="saleor.graphql.channel.tests.test_channel_queries" name="test_query_channels_with_has_orders_without_permission" time="0.001"><error message="failed on setup with &quot;ValueError: Found wrong number (0) of constraints for product_attributevalue(name, attribute_id)&quot;">request = &lt;SubRequest 'django_db_setup' for &lt;Function test_query_channels_as_staff_user&gt;&gt;
+django_test_environment = None
+django_db_blocker = &lt;pytest_django.plugin.DjangoDbBlocker object at 0x704d82926dc0&gt;
+django_db_use_migrations = True, django_db_keepdb = True
+django_db_createdb = False, django_db_modify_db_settings = None
+
+    @pytest.fixture(scope="session")
+    def django_db_setup(
+        request: pytest.FixtureRequest,
+        django_test_environment: None,
+        django_db_blocker: DjangoDbBlocker,
+        django_db_use_migrations: bool,
+        django_db_keepdb: bool,
+        django_db_createdb: bool,
+        django_db_modify_db_settings: None,
+    ) -&gt; Generator[None, None, None]:
+        """Top level fixture to ensure test databases are available"""
+        from django.test.utils import setup_databases, teardown_databases
+    
+        setup_databases_args = {}
+    
+        if not django_db_use_migrations:
+            _disable_migrations()
+    
+        if django_db_keepdb and not django_db_createdb:
+            setup_databases_args["keepdb"] = True
+    
+        aliases, serialized_aliases = _get_databases_for_setup(request.session.items)
+    
+        with django_db_blocker.unblock():
+&gt;           db_cfg = setup_databases(
+                verbosity=request.config.option.verbose,
+                interactive=False,
+                aliases=aliases,
+                serialized_aliases=serialized_aliases,
+                **setup_databases_args,
+            )
+
+/opt/venv/lib/python3.9/site-packages/pytest_django/fixtures.py:198: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.9/site-packages/django/test/utils.py:179: in setup_databases
+    connection.creation.create_test_db(
+/opt/venv/lib/python3.9/site-packages/django/db/backends/base/creation.py:74: in create_test_db
+    call_command(
+/opt/venv/lib/python3.9/site-packages/django/core/management/__init__.py:181: in call_command
+    return command.execute(*args, **defaults)
+/opt/venv/lib/python3.9/site-packages/django/core/management/base.py:398: in execute
+    output = self.handle(*args, **options)
+/opt/venv/lib/python3.9/site-packages/django/core/management/base.py:89: in wrapped
+    res = handle_func(*args, **kwargs)
+/opt/venv/lib/python3.9/site-packages/django/core/management/commands/migrate.py:244: in handle
+    post_migrate_state = executor.migrate(
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/executor.py:117: in migrate
+    state = self._migrate_all_forwards(state, plan, full_plan, fake=fake, fake_initial=fake_initial)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/executor.py:147: in _migrate_all_forwards
+    state = self.apply_migration(state, migration, fake=fake, fake_initial=fake_initial)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/executor.py:227: in apply_migration
+    state = migration.apply(state, schema_editor)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/migration.py:126: in apply
+    operation.database_forwards(self.app_label, schema_editor, old_state, project_state)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/operations/models.py:528: in database_forwards
+    alter_together(
+/opt/venv/lib/python3.9/site-packages/django/db/backends/base/schema.py:415: in alter_unique_together
+    self._delete_composed_index(model, fields, {'unique': True}, self.sql_delete_unique)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;django.db.backends.postgresql.schema.DatabaseSchemaEditor object at 0x704d74f355e0&gt;
+model = &lt;class '__fake__.AttributeValue'&gt;, fields = ('name', 'attribute')
+constraint_kwargs = {'unique': True}
+sql = 'ALTER TABLE %(table)s DROP CONSTRAINT %(name)s'
+
+    def _delete_composed_index(self, model, fields, constraint_kwargs, sql):
+        meta_constraint_names = {constraint.name for constraint in model._meta.constraints}
+        meta_index_names = {constraint.name for constraint in model._meta.indexes}
+        columns = [model._meta.get_field(field).column for field in fields]
+        constraint_names = self._constraint_names(
+            model, columns, exclude=meta_constraint_names | meta_index_names,
+            **constraint_kwargs
+        )
+        if len(constraint_names) != 1:
+&gt;           raise ValueError("Found wrong number (%s) of constraints for %s(%s)" % (
+                len(constraint_names),
+                model._meta.db_table,
+                ", ".join(columns),
+            ))
+E           ValueError: Found wrong number (0) of constraints for product_attributevalue(name, attribute_id)
+
+/opt/venv/lib/python3.9/site-packages/django/db/backends/base/schema.py:451: ValueError</error></testcase><testcase classname="saleor.graphql.channel.tests.test_channel_queries" name="test_query_channel_as_staff_user" time="0.001"><error message="failed on setup with &quot;ValueError: Found wrong number (0) of constraints for product_attributevalue(name, attribute_id)&quot;">request = &lt;SubRequest 'django_db_setup' for &lt;Function test_query_channels_as_staff_user&gt;&gt;
+django_test_environment = None
+django_db_blocker = &lt;pytest_django.plugin.DjangoDbBlocker object at 0x704d82926dc0&gt;
+django_db_use_migrations = True, django_db_keepdb = True
+django_db_createdb = False, django_db_modify_db_settings = None
+
+    @pytest.fixture(scope="session")
+    def django_db_setup(
+        request: pytest.FixtureRequest,
+        django_test_environment: None,
+        django_db_blocker: DjangoDbBlocker,
+        django_db_use_migrations: bool,
+        django_db_keepdb: bool,
+        django_db_createdb: bool,
+        django_db_modify_db_settings: None,
+    ) -&gt; Generator[None, None, None]:
+        """Top level fixture to ensure test databases are available"""
+        from django.test.utils import setup_databases, teardown_databases
+    
+        setup_databases_args = {}
+    
+        if not django_db_use_migrations:
+            _disable_migrations()
+    
+        if django_db_keepdb and not django_db_createdb:
+            setup_databases_args["keepdb"] = True
+    
+        aliases, serialized_aliases = _get_databases_for_setup(request.session.items)
+    
+        with django_db_blocker.unblock():
+&gt;           db_cfg = setup_databases(
+                verbosity=request.config.option.verbose,
+                interactive=False,
+                aliases=aliases,
+                serialized_aliases=serialized_aliases,
+                **setup_databases_args,
+            )
+
+/opt/venv/lib/python3.9/site-packages/pytest_django/fixtures.py:198: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.9/site-packages/django/test/utils.py:179: in setup_databases
+    connection.creation.create_test_db(
+/opt/venv/lib/python3.9/site-packages/django/db/backends/base/creation.py:74: in create_test_db
+    call_command(
+/opt/venv/lib/python3.9/site-packages/django/core/management/__init__.py:181: in call_command
+    return command.execute(*args, **defaults)
+/opt/venv/lib/python3.9/site-packages/django/core/management/base.py:398: in execute
+    output = self.handle(*args, **options)
+/opt/venv/lib/python3.9/site-packages/django/core/management/base.py:89: in wrapped
+    res = handle_func(*args, **kwargs)
+/opt/venv/lib/python3.9/site-packages/django/core/management/commands/migrate.py:244: in handle
+    post_migrate_state = executor.migrate(
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/executor.py:117: in migrate
+    state = self._migrate_all_forwards(state, plan, full_plan, fake=fake, fake_initial=fake_initial)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/executor.py:147: in _migrate_all_forwards
+    state = self.apply_migration(state, migration, fake=fake, fake_initial=fake_initial)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/executor.py:227: in apply_migration
+    state = migration.apply(state, schema_editor)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/migration.py:126: in apply
+    operation.database_forwards(self.app_label, schema_editor, old_state, project_state)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/operations/models.py:528: in database_forwards
+    alter_together(
+/opt/venv/lib/python3.9/site-packages/django/db/backends/base/schema.py:415: in alter_unique_together
+    self._delete_composed_index(model, fields, {'unique': True}, self.sql_delete_unique)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;django.db.backends.postgresql.schema.DatabaseSchemaEditor object at 0x704d74f355e0&gt;
+model = &lt;class '__fake__.AttributeValue'&gt;, fields = ('name', 'attribute')
+constraint_kwargs = {'unique': True}
+sql = 'ALTER TABLE %(table)s DROP CONSTRAINT %(name)s'
+
+    def _delete_composed_index(self, model, fields, constraint_kwargs, sql):
+        meta_constraint_names = {constraint.name for constraint in model._meta.constraints}
+        meta_index_names = {constraint.name for constraint in model._meta.indexes}
+        columns = [model._meta.get_field(field).column for field in fields]
+        constraint_names = self._constraint_names(
+            model, columns, exclude=meta_constraint_names | meta_index_names,
+            **constraint_kwargs
+        )
+        if len(constraint_names) != 1:
+&gt;           raise ValueError("Found wrong number (%s) of constraints for %s(%s)" % (
+                len(constraint_names),
+                model._meta.db_table,
+                ", ".join(columns),
+            ))
+E           ValueError: Found wrong number (0) of constraints for product_attributevalue(name, attribute_id)
+
+/opt/venv/lib/python3.9/site-packages/django/db/backends/base/schema.py:451: ValueError</error></testcase><testcase classname="saleor.graphql.channel.tests.test_channel_queries" name="test_query_channel_as_app" time="0.001"><error message="failed on setup with &quot;ValueError: Found wrong number (0) of constraints for product_attributevalue(name, attribute_id)&quot;">request = &lt;SubRequest 'django_db_setup' for &lt;Function test_query_channels_as_staff_user&gt;&gt;
+django_test_environment = None
+django_db_blocker = &lt;pytest_django.plugin.DjangoDbBlocker object at 0x704d82926dc0&gt;
+django_db_use_migrations = True, django_db_keepdb = True
+django_db_createdb = False, django_db_modify_db_settings = None
+
+    @pytest.fixture(scope="session")
+    def django_db_setup(
+        request: pytest.FixtureRequest,
+        django_test_environment: None,
+        django_db_blocker: DjangoDbBlocker,
+        django_db_use_migrations: bool,
+        django_db_keepdb: bool,
+        django_db_createdb: bool,
+        django_db_modify_db_settings: None,
+    ) -&gt; Generator[None, None, None]:
+        """Top level fixture to ensure test databases are available"""
+        from django.test.utils import setup_databases, teardown_databases
+    
+        setup_databases_args = {}
+    
+        if not django_db_use_migrations:
+            _disable_migrations()
+    
+        if django_db_keepdb and not django_db_createdb:
+            setup_databases_args["keepdb"] = True
+    
+        aliases, serialized_aliases = _get_databases_for_setup(request.session.items)
+    
+        with django_db_blocker.unblock():
+&gt;           db_cfg = setup_databases(
+                verbosity=request.config.option.verbose,
+                interactive=False,
+                aliases=aliases,
+                serialized_aliases=serialized_aliases,
+                **setup_databases_args,
+            )
+
+/opt/venv/lib/python3.9/site-packages/pytest_django/fixtures.py:198: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.9/site-packages/django/test/utils.py:179: in setup_databases
+    connection.creation.create_test_db(
+/opt/venv/lib/python3.9/site-packages/django/db/backends/base/creation.py:74: in create_test_db
+    call_command(
+/opt/venv/lib/python3.9/site-packages/django/core/management/__init__.py:181: in call_command
+    return command.execute(*args, **defaults)
+/opt/venv/lib/python3.9/site-packages/django/core/management/base.py:398: in execute
+    output = self.handle(*args, **options)
+/opt/venv/lib/python3.9/site-packages/django/core/management/base.py:89: in wrapped
+    res = handle_func(*args, **kwargs)
+/opt/venv/lib/python3.9/site-packages/django/core/management/commands/migrate.py:244: in handle
+    post_migrate_state = executor.migrate(
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/executor.py:117: in migrate
+    state = self._migrate_all_forwards(state, plan, full_plan, fake=fake, fake_initial=fake_initial)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/executor.py:147: in _migrate_all_forwards
+    state = self.apply_migration(state, migration, fake=fake, fake_initial=fake_initial)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/executor.py:227: in apply_migration
+    state = migration.apply(state, schema_editor)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/migration.py:126: in apply
+    operation.database_forwards(self.app_label, schema_editor, old_state, project_state)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/operations/models.py:528: in database_forwards
+    alter_together(
+/opt/venv/lib/python3.9/site-packages/django/db/backends/base/schema.py:415: in alter_unique_together
+    self._delete_composed_index(model, fields, {'unique': True}, self.sql_delete_unique)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;django.db.backends.postgresql.schema.DatabaseSchemaEditor object at 0x704d74f355e0&gt;
+model = &lt;class '__fake__.AttributeValue'&gt;, fields = ('name', 'attribute')
+constraint_kwargs = {'unique': True}
+sql = 'ALTER TABLE %(table)s DROP CONSTRAINT %(name)s'
+
+    def _delete_composed_index(self, model, fields, constraint_kwargs, sql):
+        meta_constraint_names = {constraint.name for constraint in model._meta.constraints}
+        meta_index_names = {constraint.name for constraint in model._meta.indexes}
+        columns = [model._meta.get_field(field).column for field in fields]
+        constraint_names = self._constraint_names(
+            model, columns, exclude=meta_constraint_names | meta_index_names,
+            **constraint_kwargs
+        )
+        if len(constraint_names) != 1:
+&gt;           raise ValueError("Found wrong number (%s) of constraints for %s(%s)" % (
+                len(constraint_names),
+                model._meta.db_table,
+                ", ".join(columns),
+            ))
+E           ValueError: Found wrong number (0) of constraints for product_attributevalue(name, attribute_id)
+
+/opt/venv/lib/python3.9/site-packages/django/db/backends/base/schema.py:451: ValueError</error></testcase><testcase classname="saleor.graphql.channel.tests.test_channel_queries" name="test_query_channel_as_customer" time="0.001"><error message="failed on setup with &quot;ValueError: Found wrong number (0) of constraints for product_attributevalue(name, attribute_id)&quot;">request = &lt;SubRequest 'django_db_setup' for &lt;Function test_query_channels_as_staff_user&gt;&gt;
+django_test_environment = None
+django_db_blocker = &lt;pytest_django.plugin.DjangoDbBlocker object at 0x704d82926dc0&gt;
+django_db_use_migrations = True, django_db_keepdb = True
+django_db_createdb = False, django_db_modify_db_settings = None
+
+    @pytest.fixture(scope="session")
+    def django_db_setup(
+        request: pytest.FixtureRequest,
+        django_test_environment: None,
+        django_db_blocker: DjangoDbBlocker,
+        django_db_use_migrations: bool,
+        django_db_keepdb: bool,
+        django_db_createdb: bool,
+        django_db_modify_db_settings: None,
+    ) -&gt; Generator[None, None, None]:
+        """Top level fixture to ensure test databases are available"""
+        from django.test.utils import setup_databases, teardown_databases
+    
+        setup_databases_args = {}
+    
+        if not django_db_use_migrations:
+            _disable_migrations()
+    
+        if django_db_keepdb and not django_db_createdb:
+            setup_databases_args["keepdb"] = True
+    
+        aliases, serialized_aliases = _get_databases_for_setup(request.session.items)
+    
+        with django_db_blocker.unblock():
+&gt;           db_cfg = setup_databases(
+                verbosity=request.config.option.verbose,
+                interactive=False,
+                aliases=aliases,
+                serialized_aliases=serialized_aliases,
+                **setup_databases_args,
+            )
+
+/opt/venv/lib/python3.9/site-packages/pytest_django/fixtures.py:198: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.9/site-packages/django/test/utils.py:179: in setup_databases
+    connection.creation.create_test_db(
+/opt/venv/lib/python3.9/site-packages/django/db/backends/base/creation.py:74: in create_test_db
+    call_command(
+/opt/venv/lib/python3.9/site-packages/django/core/management/__init__.py:181: in call_command
+    return command.execute(*args, **defaults)
+/opt/venv/lib/python3.9/site-packages/django/core/management/base.py:398: in execute
+    output = self.handle(*args, **options)
+/opt/venv/lib/python3.9/site-packages/django/core/management/base.py:89: in wrapped
+    res = handle_func(*args, **kwargs)
+/opt/venv/lib/python3.9/site-packages/django/core/management/commands/migrate.py:244: in handle
+    post_migrate_state = executor.migrate(
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/executor.py:117: in migrate
+    state = self._migrate_all_forwards(state, plan, full_plan, fake=fake, fake_initial=fake_initial)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/executor.py:147: in _migrate_all_forwards
+    state = self.apply_migration(state, migration, fake=fake, fake_initial=fake_initial)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/executor.py:227: in apply_migration
+    state = migration.apply(state, schema_editor)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/migration.py:126: in apply
+    operation.database_forwards(self.app_label, schema_editor, old_state, project_state)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/operations/models.py:528: in database_forwards
+    alter_together(
+/opt/venv/lib/python3.9/site-packages/django/db/backends/base/schema.py:415: in alter_unique_together
+    self._delete_composed_index(model, fields, {'unique': True}, self.sql_delete_unique)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;django.db.backends.postgresql.schema.DatabaseSchemaEditor object at 0x704d74f355e0&gt;
+model = &lt;class '__fake__.AttributeValue'&gt;, fields = ('name', 'attribute')
+constraint_kwargs = {'unique': True}
+sql = 'ALTER TABLE %(table)s DROP CONSTRAINT %(name)s'
+
+    def _delete_composed_index(self, model, fields, constraint_kwargs, sql):
+        meta_constraint_names = {constraint.name for constraint in model._meta.constraints}
+        meta_index_names = {constraint.name for constraint in model._meta.indexes}
+        columns = [model._meta.get_field(field).column for field in fields]
+        constraint_names = self._constraint_names(
+            model, columns, exclude=meta_constraint_names | meta_index_names,
+            **constraint_kwargs
+        )
+        if len(constraint_names) != 1:
+&gt;           raise ValueError("Found wrong number (%s) of constraints for %s(%s)" % (
+                len(constraint_names),
+                model._meta.db_table,
+                ", ".join(columns),
+            ))
+E           ValueError: Found wrong number (0) of constraints for product_attributevalue(name, attribute_id)
+
+/opt/venv/lib/python3.9/site-packages/django/db/backends/base/schema.py:451: ValueError</error></testcase><testcase classname="saleor.graphql.channel.tests.test_channel_queries" name="test_query_channel_as_anonymous" time="0.001"><error message="failed on setup with &quot;ValueError: Found wrong number (0) of constraints for product_attributevalue(name, attribute_id)&quot;">request = &lt;SubRequest 'django_db_setup' for &lt;Function test_query_channels_as_staff_user&gt;&gt;
+django_test_environment = None
+django_db_blocker = &lt;pytest_django.plugin.DjangoDbBlocker object at 0x704d82926dc0&gt;
+django_db_use_migrations = True, django_db_keepdb = True
+django_db_createdb = False, django_db_modify_db_settings = None
+
+    @pytest.fixture(scope="session")
+    def django_db_setup(
+        request: pytest.FixtureRequest,
+        django_test_environment: None,
+        django_db_blocker: DjangoDbBlocker,
+        django_db_use_migrations: bool,
+        django_db_keepdb: bool,
+        django_db_createdb: bool,
+        django_db_modify_db_settings: None,
+    ) -&gt; Generator[None, None, None]:
+        """Top level fixture to ensure test databases are available"""
+        from django.test.utils import setup_databases, teardown_databases
+    
+        setup_databases_args = {}
+    
+        if not django_db_use_migrations:
+            _disable_migrations()
+    
+        if django_db_keepdb and not django_db_createdb:
+            setup_databases_args["keepdb"] = True
+    
+        aliases, serialized_aliases = _get_databases_for_setup(request.session.items)
+    
+        with django_db_blocker.unblock():
+&gt;           db_cfg = setup_databases(
+                verbosity=request.config.option.verbose,
+                interactive=False,
+                aliases=aliases,
+                serialized_aliases=serialized_aliases,
+                **setup_databases_args,
+            )
+
+/opt/venv/lib/python3.9/site-packages/pytest_django/fixtures.py:198: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.9/site-packages/django/test/utils.py:179: in setup_databases
+    connection.creation.create_test_db(
+/opt/venv/lib/python3.9/site-packages/django/db/backends/base/creation.py:74: in create_test_db
+    call_command(
+/opt/venv/lib/python3.9/site-packages/django/core/management/__init__.py:181: in call_command
+    return command.execute(*args, **defaults)
+/opt/venv/lib/python3.9/site-packages/django/core/management/base.py:398: in execute
+    output = self.handle(*args, **options)
+/opt/venv/lib/python3.9/site-packages/django/core/management/base.py:89: in wrapped
+    res = handle_func(*args, **kwargs)
+/opt/venv/lib/python3.9/site-packages/django/core/management/commands/migrate.py:244: in handle
+    post_migrate_state = executor.migrate(
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/executor.py:117: in migrate
+    state = self._migrate_all_forwards(state, plan, full_plan, fake=fake, fake_initial=fake_initial)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/executor.py:147: in _migrate_all_forwards
+    state = self.apply_migration(state, migration, fake=fake, fake_initial=fake_initial)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/executor.py:227: in apply_migration
+    state = migration.apply(state, schema_editor)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/migration.py:126: in apply
+    operation.database_forwards(self.app_label, schema_editor, old_state, project_state)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/operations/models.py:528: in database_forwards
+    alter_together(
+/opt/venv/lib/python3.9/site-packages/django/db/backends/base/schema.py:415: in alter_unique_together
+    self._delete_composed_index(model, fields, {'unique': True}, self.sql_delete_unique)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;django.db.backends.postgresql.schema.DatabaseSchemaEditor object at 0x704d74f355e0&gt;
+model = &lt;class '__fake__.AttributeValue'&gt;, fields = ('name', 'attribute')
+constraint_kwargs = {'unique': True}
+sql = 'ALTER TABLE %(table)s DROP CONSTRAINT %(name)s'
+
+    def _delete_composed_index(self, model, fields, constraint_kwargs, sql):
+        meta_constraint_names = {constraint.name for constraint in model._meta.constraints}
+        meta_index_names = {constraint.name for constraint in model._meta.indexes}
+        columns = [model._meta.get_field(field).column for field in fields]
+        constraint_names = self._constraint_names(
+            model, columns, exclude=meta_constraint_names | meta_index_names,
+            **constraint_kwargs
+        )
+        if len(constraint_names) != 1:
+&gt;           raise ValueError("Found wrong number (%s) of constraints for %s(%s)" % (
+                len(constraint_names),
+                model._meta.db_table,
+                ", ".join(columns),
+            ))
+E           ValueError: Found wrong number (0) of constraints for product_attributevalue(name, attribute_id)
+
+/opt/venv/lib/python3.9/site-packages/django/db/backends/base/schema.py:451: ValueError</error></testcase><testcase classname="saleor.graphql.channel.tests.test_channel_queries" name="test_query_channel_by_invalid_id" time="0.009"><error message="failed on setup with &quot;ValueError: Found wrong number (0) of constraints for product_attributevalue(name, attribute_id)&quot;">request = &lt;SubRequest 'django_db_setup' for &lt;Function test_query_channels_as_staff_user&gt;&gt;
+django_test_environment = None
+django_db_blocker = &lt;pytest_django.plugin.DjangoDbBlocker object at 0x704d82926dc0&gt;
+django_db_use_migrations = True, django_db_keepdb = True
+django_db_createdb = False, django_db_modify_db_settings = None
+
+    @pytest.fixture(scope="session")
+    def django_db_setup(
+        request: pytest.FixtureRequest,
+        django_test_environment: None,
+        django_db_blocker: DjangoDbBlocker,
+        django_db_use_migrations: bool,
+        django_db_keepdb: bool,
+        django_db_createdb: bool,
+        django_db_modify_db_settings: None,
+    ) -&gt; Generator[None, None, None]:
+        """Top level fixture to ensure test databases are available"""
+        from django.test.utils import setup_databases, teardown_databases
+    
+        setup_databases_args = {}
+    
+        if not django_db_use_migrations:
+            _disable_migrations()
+    
+        if django_db_keepdb and not django_db_createdb:
+            setup_databases_args["keepdb"] = True
+    
+        aliases, serialized_aliases = _get_databases_for_setup(request.session.items)
+    
+        with django_db_blocker.unblock():
+&gt;           db_cfg = setup_databases(
+                verbosity=request.config.option.verbose,
+                interactive=False,
+                aliases=aliases,
+                serialized_aliases=serialized_aliases,
+                **setup_databases_args,
+            )
+
+/opt/venv/lib/python3.9/site-packages/pytest_django/fixtures.py:198: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.9/site-packages/django/test/utils.py:179: in setup_databases
+    connection.creation.create_test_db(
+/opt/venv/lib/python3.9/site-packages/django/db/backends/base/creation.py:74: in create_test_db
+    call_command(
+/opt/venv/lib/python3.9/site-packages/django/core/management/__init__.py:181: in call_command
+    return command.execute(*args, **defaults)
+/opt/venv/lib/python3.9/site-packages/django/core/management/base.py:398: in execute
+    output = self.handle(*args, **options)
+/opt/venv/lib/python3.9/site-packages/django/core/management/base.py:89: in wrapped
+    res = handle_func(*args, **kwargs)
+/opt/venv/lib/python3.9/site-packages/django/core/management/commands/migrate.py:244: in handle
+    post_migrate_state = executor.migrate(
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/executor.py:117: in migrate
+    state = self._migrate_all_forwards(state, plan, full_plan, fake=fake, fake_initial=fake_initial)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/executor.py:147: in _migrate_all_forwards
+    state = self.apply_migration(state, migration, fake=fake, fake_initial=fake_initial)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/executor.py:227: in apply_migration
+    state = migration.apply(state, schema_editor)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/migration.py:126: in apply
+    operation.database_forwards(self.app_label, schema_editor, old_state, project_state)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/operations/models.py:528: in database_forwards
+    alter_together(
+/opt/venv/lib/python3.9/site-packages/django/db/backends/base/schema.py:415: in alter_unique_together
+    self._delete_composed_index(model, fields, {'unique': True}, self.sql_delete_unique)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;django.db.backends.postgresql.schema.DatabaseSchemaEditor object at 0x704d74f355e0&gt;
+model = &lt;class '__fake__.AttributeValue'&gt;, fields = ('name', 'attribute')
+constraint_kwargs = {'unique': True}
+sql = 'ALTER TABLE %(table)s DROP CONSTRAINT %(name)s'
+
+    def _delete_composed_index(self, model, fields, constraint_kwargs, sql):
+        meta_constraint_names = {constraint.name for constraint in model._meta.constraints}
+        meta_index_names = {constraint.name for constraint in model._meta.indexes}
+        columns = [model._meta.get_field(field).column for field in fields]
+        constraint_names = self._constraint_names(
+            model, columns, exclude=meta_constraint_names | meta_index_names,
+            **constraint_kwargs
+        )
+        if len(constraint_names) != 1:
+&gt;           raise ValueError("Found wrong number (%s) of constraints for %s(%s)" % (
+                len(constraint_names),
+                model._meta.db_table,
+                ", ".join(columns),
+            ))
+E           ValueError: Found wrong number (0) of constraints for product_attributevalue(name, attribute_id)
+
+/opt/venv/lib/python3.9/site-packages/django/db/backends/base/schema.py:451: ValueError</error></testcase><testcase classname="saleor.graphql.channel.tests.test_channel_queries" name="test_query_channel_with_invalid_object_type" time="0.001"><error message="failed on setup with &quot;ValueError: Found wrong number (0) of constraints for product_attributevalue(name, attribute_id)&quot;">request = &lt;SubRequest 'django_db_setup' for &lt;Function test_query_channels_as_staff_user&gt;&gt;
+django_test_environment = None
+django_db_blocker = &lt;pytest_django.plugin.DjangoDbBlocker object at 0x704d82926dc0&gt;
+django_db_use_migrations = True, django_db_keepdb = True
+django_db_createdb = False, django_db_modify_db_settings = None
+
+    @pytest.fixture(scope="session")
+    def django_db_setup(
+        request: pytest.FixtureRequest,
+        django_test_environment: None,
+        django_db_blocker: DjangoDbBlocker,
+        django_db_use_migrations: bool,
+        django_db_keepdb: bool,
+        django_db_createdb: bool,
+        django_db_modify_db_settings: None,
+    ) -&gt; Generator[None, None, None]:
+        """Top level fixture to ensure test databases are available"""
+        from django.test.utils import setup_databases, teardown_databases
+    
+        setup_databases_args = {}
+    
+        if not django_db_use_migrations:
+            _disable_migrations()
+    
+        if django_db_keepdb and not django_db_createdb:
+            setup_databases_args["keepdb"] = True
+    
+        aliases, serialized_aliases = _get_databases_for_setup(request.session.items)
+    
+        with django_db_blocker.unblock():
+&gt;           db_cfg = setup_databases(
+                verbosity=request.config.option.verbose,
+                interactive=False,
+                aliases=aliases,
+                serialized_aliases=serialized_aliases,
+                **setup_databases_args,
+            )
+
+/opt/venv/lib/python3.9/site-packages/pytest_django/fixtures.py:198: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.9/site-packages/django/test/utils.py:179: in setup_databases
+    connection.creation.create_test_db(
+/opt/venv/lib/python3.9/site-packages/django/db/backends/base/creation.py:74: in create_test_db
+    call_command(
+/opt/venv/lib/python3.9/site-packages/django/core/management/__init__.py:181: in call_command
+    return command.execute(*args, **defaults)
+/opt/venv/lib/python3.9/site-packages/django/core/management/base.py:398: in execute
+    output = self.handle(*args, **options)
+/opt/venv/lib/python3.9/site-packages/django/core/management/base.py:89: in wrapped
+    res = handle_func(*args, **kwargs)
+/opt/venv/lib/python3.9/site-packages/django/core/management/commands/migrate.py:244: in handle
+    post_migrate_state = executor.migrate(
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/executor.py:117: in migrate
+    state = self._migrate_all_forwards(state, plan, full_plan, fake=fake, fake_initial=fake_initial)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/executor.py:147: in _migrate_all_forwards
+    state = self.apply_migration(state, migration, fake=fake, fake_initial=fake_initial)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/executor.py:227: in apply_migration
+    state = migration.apply(state, schema_editor)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/migration.py:126: in apply
+    operation.database_forwards(self.app_label, schema_editor, old_state, project_state)
+/opt/venv/lib/python3.9/site-packages/django/db/migrations/operations/models.py:528: in database_forwards
+    alter_together(
+/opt/venv/lib/python3.9/site-packages/django/db/backends/base/schema.py:415: in alter_unique_together
+    self._delete_composed_index(model, fields, {'unique': True}, self.sql_delete_unique)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;django.db.backends.postgresql.schema.DatabaseSchemaEditor object at 0x704d74f355e0&gt;
+model = &lt;class '__fake__.AttributeValue'&gt;, fields = ('name', 'attribute')
+constraint_kwargs = {'unique': True}
+sql = 'ALTER TABLE %(table)s DROP CONSTRAINT %(name)s'
+
+    def _delete_composed_index(self, model, fields, constraint_kwargs, sql):
+        meta_constraint_names = {constraint.name for constraint in model._meta.constraints}
+        meta_index_names = {constraint.name for constraint in model._meta.indexes}
+        columns = [model._meta.get_field(field).column for field in fields]
+        constraint_names = self._constraint_names(
+            model, columns, exclude=meta_constraint_names | meta_index_names,
+            **constraint_kwargs
+        )
+        if len(constraint_names) != 1:
+&gt;           raise ValueError("Found wrong number (%s) of constraints for %s(%s)" % (
+                len(constraint_names),
+                model._meta.db_table,
+                ", ".join(columns),
+            ))
+E           ValueError: Found wrong number (0) of constraints for product_attributevalue(name, attribute_id)
+
+/opt/venv/lib/python3.9/site-packages/django/db/backends/base/schema.py:451: ValueError</error></testcase></testsuite></testsuites>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="5" time="2.130" timestamp="2026-09-24T16:15:58.072338-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.discount.tests.test_bulk_delete" name="test_delete_sales" time="1.041" /><testcase classname="saleor.graphql.discount.tests.test_bulk_delete" name="test_delete_sales_triggers_webhook" time="0.137" /><testcase classname="saleor.graphql.discount.tests.test_bulk_delete" name="test_delete_sales_with_variants_triggers_webhook" time="0.254"><failure message="AssertionError: assert [{'categories_added': [], 'categories_removed': ['Q2F0ZWdvcnk6Mw=='], 'collections_added': [], 'collections_removed': ['Q29sbGVjdGlvbjoz'], ...}] in [[{'categories_added': [], 'categories_removed': [], 'collections_added': [], 'collections_removed': [], ...}], [{'cat..., ...}], [{'categories_added': [], 'categories_removed': [], 'collections_added': [], 'collections_removed': [], ...}]]">mocked_webhook_trigger = &lt;MagicMock name='trigger_webhooks_async' id='128275834437792'&gt;
+mocked_get_webhooks_for_event = &lt;MagicMock name='get_webhooks_for_event' id='128275834370368'&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x74aa8b8b8f10&gt;
+sale_list = [Sale(name='Sale 1', type=fixed), Sale(name='Sale 2', type=fixed), Sale(name='Sale 3', type=fixed)]
+permission_manage_discounts = &lt;Permission: discount | sale | Manage sales and vouchers.&gt;
+any_webhook = &lt;Webhook: Any webhook&gt;
+settings = &lt;pytest_django.fixtures.SettingsWrapper object at 0x74aa8c426f40&gt;
+product = &lt;saleor.product.models.Product(pk=3, name='Test product')&gt;
+collection = &lt;Collection: Collection&gt;, category = &lt;Category: Default&gt;
+product_variant_list = [&lt;ProductVariant: 1&gt;, &lt;ProductVariant: 2&gt;, &lt;ProductVariant: 3&gt;, &lt;ProductVariant: 4&gt;]
+
+    @mock.patch("saleor.plugins.webhook.plugin.get_webhooks_for_event")
+    @mock.patch("saleor.plugins.webhook.plugin.trigger_webhooks_async")
+    def test_delete_sales_with_variants_triggers_webhook(
+        mocked_webhook_trigger,
+        mocked_get_webhooks_for_event,
+        staff_api_client,
+        sale_list,
+        permission_manage_discounts,
+        any_webhook,
+        settings,
+        product,
+        collection,
+        category,
+        product_variant_list,
+    ):
+        # given
+        for sale in sale_list:
+            sale.products.add(product)
+            sale.collections.add(collection)
+            sale.categories.add(category)
+            sale.variants.add(*product_variant_list)
+    
+        # create list of payloads that should be called in mutation
+        payloads_per_sale = []
+        for sale in sale_list:
+            payloads_per_sale.append(
+                generate_sale_payload(
+                    sale,
+                    convert_catalogue_info_to_global_ids(fetch_catalogue_info(sale)),
+                    requestor=staff_api_client.user,
+                )
+            )
+    
+        mocked_get_webhooks_for_event.return_value = [any_webhook]
+        settings.PLUGINS = ["saleor.plugins.webhook.plugin.WebhookPlugin"]
+        variables = {
+            "ids": [graphene.Node.to_global_id("Sale", sale.id) for sale in sale_list]
+        }
+        # when
+        response = staff_api_client.post_graphql(
+            SALE_BULK_DELETE_MUTATION, variables, permissions=[permission_manage_discounts]
+        )
+        content = get_graphql_content(response)
+        # create a list of payloads with which the webhook was called
+        called_payloads_list = []
+        for arg_list in mocked_webhook_trigger.call_args_list:
+            called_arg = json.loads(arg_list[0][0])
+            # we don't want to compare meta fields, only rest of payloads
+            called_arg[0].pop("meta")
+            called_payloads_list.append(called_arg)
+    
+        # then
+        for payload in payloads_per_sale:
+            payload = json.loads(payload)
+            payload[0].pop("meta")
+&gt;           assert payload in called_payloads_list
+E           AssertionError: assert [{'categories_added': [], 'categories_removed': ['Q2F0ZWdvcnk6Mw=='], 'collections_added': [], 'collections_removed': ['Q29sbGVjdGlvbjoz'], ...}] in [[{'categories_added': [], 'categories_removed': [], 'collections_added': [], 'collections_removed': [], ...}], [{'cat..., ...}], [{'categories_added': [], 'categories_removed': [], 'collections_added': [], 'collections_removed': [], ...}]]
+
+saleor/graphql/discount/tests/test_bulk_delete.py:165: AssertionError</failure></testcase><testcase classname="saleor.graphql.discount.tests.test_bulk_delete" name="test_delete_vouchers" time="0.138" /><testcase classname="saleor.graphql.discount.tests.test_bulk_delete" name="test_delete_vouchers_trigger_webhook" time="0.129" /></testsuite></testsuites>

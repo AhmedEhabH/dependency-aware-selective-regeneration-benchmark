@@ -1,0 +1,79 @@
+{
+  "artifact": "wp2_linux_dryrun_gate",
+  "date": "2026-09-23",
+  "status": "PASS",
+  "amendment_e": "bounded real-task Linux dry run complete: all Mission-07 categories plus at least one 2025-2026/Python 3.12 task; RED/GREEN classification tests pass before any full sweep",
+  "red_green_tests": {
+    "wp2_unit_tests": 119,
+    "result": "PASS"
+  },
+  "task_matrix": [
+    {
+      "task_id": "saleor-rc-05bdc7feb9ac",
+      "category": "old-era (py3.8, target 2020-12-17)",
+      "era": "py38",
+      "counts": {"BEHAVIORAL_F2P": 25, "FLAKY": 209, "TARGET_ORACLE_INVALID": 34},
+      "primary_eligible": true,
+      "note": "matches V1 confirmed BEHAVIORAL_F2P; flakiness high (DB reuse across reps) - sweep-prep item"
+    },
+    {
+      "task_id": "saleor-rc-24f9b244d6bc",
+      "category": "prior Windows path failure (? cassette filename)",
+      "era": "py39",
+      "counts": {"FLAKY": 2},
+      "primary_eligible": false,
+      "note": "historical '?' cassette checkout SUCCEEDS on Linux ext4 worktree (V1 Windows blocker resolved); single test node flaky across runs"
+    },
+    {
+      "task_id": "saleor-rc-65643ec7c37f",
+      "category": "prior Unix-resource failure",
+      "era": "py39",
+      "counts": {"SYMBOL_ABSENCE_F2P": 2, "P2P_ONLY": 10},
+      "primary_eligible": false,
+      "note": "resource module works on Linux (V1 Windows-only failure resolved); 2 symbol-absence F2P nodes"
+    },
+    {
+      "task_id": "saleor-rc-ab6c29ba265d",
+      "category": "prior native-lib failure (gobject/pango/weasyprint)",
+      "era": "py38",
+      "counts": {"FLAKY": 11, "TARGET_ORACLE_INVALID": 276},
+      "primary_eligible": false,
+      "note": "era system superset (pango/cairo/pixbuf) recovered collection (3->276 nodes); execution still blocked on native rendering chain; recorded as infeasible as oracle (Mission 07 'if feasible')"
+    },
+    {
+      "task_id": "saleor-rc-3cac33590b90",
+      "category": "newer-era + 2025-2026 / Python 3.12 (target 2026-08-05)",
+      "era": "py312",
+      "counts": {"BEHAVIORAL_F2P": 4, "P2P_ONLY": 142},
+      "primary_eligible": true,
+      "note": "2026/Py3.12 task yields 4 confirmed behavioral F2P + 142 P2P nodes; full dev-group resolution conflict documented (cryptography>=49), explicit declared test deps used"
+    }
+  ],
+  "windows_to_linux_recovery_observed": [
+    "? cassette filename checkout: BLOCKED on Windows -> WORKS on Linux ext4",
+    "resource module import: BLOCKED on Windows -> WORKS on Linux",
+    "native libs (gobject/pango): partially recovered with era system superset; execution infeasible for that task",
+    "old-era (2020) and 2026-era tasks both yield confirmed BEHAVIORAL_F2P nodes on Linux"
+  ],
+  "environment_attrition_findings": [
+    "libmagic1 required by python-magic (versatileimagefield) - added to era superset",
+    "setuptools>=81 removed pkg_resources; pinned setuptools<81 for pytest-django",
+    "2026-era [dependency-groups] dev full resolution conflicts with commit's own cryptography>=49 pin; explicit declared test deps (freezegun, fakeredis) used and documented",
+    "pango-1.0/weasyprint native chain added to py38/py39 era superset"
+  ],
+  "provenance": {
+    "harness_version": "wp2-linux-harness-dryrun-v0.1",
+    "substrate": "WSL-local Docker Engine (Ubuntu-24.04, docker 29.1.3)",
+    "test_patch_rule_sha256": "f64ff583daea4b8bdec7f40293069cb009494a569a75c92d34819cd10030a969",
+    "era_image_digests": {
+      "py38": "sha256:1d52838af602b4b5a831beb13a0e4d073280665ea7be7f69ce2382f29c5a613f",
+      "py39": "sha256:2d97f6910b16bd338d3060f261f53f144965f755599aab1acda1e13cf1731b1b",
+      "py312": "sha256:2f17fc044b579bab302c2e8054d3a686e2cb9a83de48e70534b94cd8ebbe06a9"
+    },
+    "service_digests": {
+      "postgres": "sha256:f7d23353e1b15400d22ebe31189f4d314b87a4c129cc400c8c2d8d4ca127bf81",
+      "redis": "sha256:858f009f9709ce576febc734aa78b8f6d624b82571f9ddb6bda4377c833b3499"
+    }
+  },
+  "gate_conclusion": "Dry-run gate PASSED. Full MAIN 220 + DEV changed-test sweep may proceed after harness V2 SHA freeze (C1) with the era resolver + env construction recorded here."
+}

@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="2" failures="0" skipped="0" tests="75" time="11.729" timestamp="2026-09-24T23:00:23.024437-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.product.tests.test_variant" name="test_fetch_variant" time="1.564"><error message="failed on setup with &quot;OSError: [Errno 24] Too many open files&quot;">product_type = &lt;saleor.product.models.ProductType(pk=316, name='Default Type')&gt;
+category = &lt;Category: Default&gt;, warehouse = &lt;Warehouse: Example Warehouse&gt;
+channel_USD = &lt;Channel: main&gt;
+
+&gt;   ???
+
+saleor/tests/fixtures.py:1074: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.8/site-packages/django/db/models/manager.py:85: in manager_method
+    ???
+/opt/venv/lib/python3.8/site-packages/django/db/models/query.py:447: in create
+    ???
+/opt/venv/lib/python3.8/site-packages/django/db/models/base.py:753: in save
+    ???
+/opt/venv/lib/python3.8/site-packages/django/db/models/base.py:790: in save_base
+    ???
+/opt/venv/lib/python3.8/site-packages/django/db/models/base.py:895: in _save_table
+    ???
+/opt/venv/lib/python3.8/site-packages/django/db/models/base.py:933: in _do_insert
+    ???
+/opt/venv/lib/python3.8/site-packages/django/db/models/manager.py:85: in manager_method
+    ???
+/opt/venv/lib/python3.8/site-packages/django/db/models/query.py:1254: in _insert
+    ???
+/opt/venv/lib/python3.8/site-packages/django/db/models/sql/compiler.py:1395: in execute_sql
+    ???
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    ???
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:259: in cursor
+    ???
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:235: in _cursor
+    ???
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:19: in inner
+    ???
+/usr/local/lib/python3.8/asyncio/events.py:636: in get_event_loop
+    ???
+/usr/local/lib/python3.8/asyncio/events.py:656: in new_event_loop
+    ???
+/usr/local/lib/python3.8/asyncio/unix_events.py:54: in __init__
+    ???
+/usr/local/lib/python3.8/asyncio/selector_events.py:61: in __init__
+    self._make_self_pipe()
+/usr/local/lib/python3.8/asyncio/selector_events.py:108: in _make_self_pipe
+    self._ssock, self._csock = socket.socketpair()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+family = &lt;AddressFamily.AF_UNIX: 1&gt;, type = &lt;SocketKind.SOCK_STREAM: 1&gt;
+proto = 0
+
+    def socketpair(family=None, type=SOCK_STREAM, proto=0):
+        if family is None:
+            try:
+                family = AF_UNIX
+            except NameError:
+                family = AF_INET
+&gt;       a, b = _socket.socketpair(family, type, proto)
+E       OSError: [Errno 24] Too many open files
+
+/usr/local/lib/python3.8/socket.py:620: OSError</error></testcase><testcase classname="saleor.graphql.product.tests.test_variant" name="test_get_product_variant_channel_listing_as_staff_user" time="0.168" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_get_product_variant_channel_listing_as_app" time="0.112" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_get_product_variant_channel_listing_as_customer" time="0.093" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_get_product_variant_channel_listing_as_anonymous" time="0.085" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_create_variant" time="0.198" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_create_variant_with_file_attribute" time="0.193" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_create_variant_with_file_attribute_new_value" time="0.151" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_create_variant_with_file_attribute_no_file_url_given" time="0.170" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_create_product_variant_with_negative_weight" time="0.108" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_create_product_variant_without_attributes" time="0.100" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_create_product_variant_not_all_attributes" time="0.119" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_create_product_variant_duplicated_attributes" time="0.166" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_create_variant_invalid_variant_attributes" time="0.147" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_create_product_variant_update_with_new_attributes" time="0.151" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_update_product_variant" time="0.141" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_update_product_variant_with_negative_weight" time="0.095" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_update_product_variant_not_all_attributes" time="0.117" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_update_product_variant_with_current_attribute" time="0.168" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_update_product_variant_with_new_attribute" time="0.210" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_update_product_variant_with_duplicated_attribute" time="0.161" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_update_product_variant_with_current_file_attribute" time="0.174" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_update_product_variant_with_duplicated_file_attribute" time="0.203" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_update_product_variant_with_file_attribute_new_value_is_not_created" time="0.225" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_update_product_variant_requires_values[values0-Attribute expects a value but none were given]" time="0.124" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_update_product_variant_requires_values[values1-Attribute must take only one value]" time="0.144" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_update_product_variant_requires_values[values2-Attribute values cannot be blank]" time="0.128" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_update_product_variant_requires_values[values3-Attribute values cannot be blank]" time="0.115" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_update_product_variant_with_price_does_not_raise_price_validation_error" time="0.132" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_delete_variant" time="0.129" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_delete_variant_in_draft_order" time="0.080"><error message="failed on setup with &quot;TypeError: OrderLine() got an unexpected keyword argument 'total_price'&quot;">order = &lt;Order #47&gt;, variant = &lt;ProductVariant: SKU_A&gt;
+
+    @pytest.fixture
+    def order_line(order, variant):
+        product = variant.product
+        channel = order.channel
+        channel_listing = variant.channel_listings.get(channel=channel)
+        net = variant.get_price(product, [], channel, channel_listing)
+        currency = net.currency
+        gross = Money(amount=net.amount * Decimal(1.23), currency=currency)
+        quantity = 3
+        unit_price = TaxedMoney(net=net, gross=gross)
+&gt;       return order.lines.create(
+            product_name=str(product),
+            variant_name=str(variant),
+            product_sku=variant.sku,
+            is_shipping_required=variant.is_shipping_required(),
+            quantity=quantity,
+            variant=variant,
+            unit_price=unit_price,
+            total_price=unit_price * quantity,
+            tax_rate=23,
+        )
+
+saleor/tests/fixtures.py:1943: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.8/site-packages/django/db/models/fields/related_descriptors.py:677: in create
+    return super(RelatedManager, self.db_manager(db)).create(**kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/models/manager.py:85: in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/models/query.py:445: in create
+    obj = self.model(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;OrderLine: Test product (SKU_A)&gt;, args = ()
+kwargs = {'total_price': TaxedMoney(net=Money('30.000', 'USD'), gross=Money('36.89999999999999946709294818', 'USD'))}
+cls = &lt;class 'saleor.order.models.OrderLine'&gt;, opts = &lt;Options for OrderLine&gt;
+_setattr = &lt;built-in function setattr&gt;, _DEFERRED = &lt;Deferred field&gt;
+fields_iter = &lt;tuple_iterator object at 0x7b4a4cef7e80&gt;
+val = TaxedMoney(net=Money('10.000', 'USD'), gross=Money('12.29999999999999982236431606', 'USD'))
+field = &lt;django_prices.models.TaxedMoneyField object at 0x7b4a48f74370&gt;
+is_related_object = False, rel_obj = &lt;ProductVariant: SKU_A&gt;
+property_names = frozenset({'is_digital', 'pk', 'quantity_unfulfilled'})
+
+    def __init__(self, *args, **kwargs):
+        # Alias some things as locals to avoid repeat global lookups
+        cls = self.__class__
+        opts = self._meta
+        _setattr = setattr
+        _DEFERRED = DEFERRED
+    
+        pre_init.send(sender=cls, args=args, kwargs=kwargs)
+    
+        # Set up the storage for instance state
+        self._state = ModelState()
+    
+        # There is a rather weird disparity here; if kwargs, it's set, then args
+        # overrides it. It should be one or the other; don't duplicate the work
+        # The reason for the kwargs check is that standard iterator passes in by
+        # args, and instantiation for iteration is 33% faster.
+        if len(args) &gt; len(opts.concrete_fields):
+            # Daft, but matches old exception sans the err msg.
+            raise IndexError("Number of args exceeds number of fields")
+    
+        if not kwargs:
+            fields_iter = iter(opts.concrete_fields)
+            # The ordering of the zip calls matter - zip throws StopIteration
+            # when an iter throws it. So if the first iter throws it, the second
+            # is *not* consumed. We rely on this, so don't change the order
+            # without changing the logic.
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+        else:
+            # Slower, kwargs-ready version.
+            fields_iter = iter(opts.fields)
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+                kwargs.pop(field.name, None)
+    
+        # Now we're left with the unprocessed fields that *must* come from
+        # keywords, or default.
+    
+        for field in fields_iter:
+            is_related_object = False
+            # Virtual field
+            if field.attname not in kwargs and field.column is None:
+                continue
+            if kwargs:
+                if isinstance(field.remote_field, ForeignObjectRel):
+                    try:
+                        # Assume object instance was passed in.
+                        rel_obj = kwargs.pop(field.name)
+                        is_related_object = True
+                    except KeyError:
+                        try:
+                            # Object instance wasn't passed in -- must be an ID.
+                            val = kwargs.pop(field.attname)
+                        except KeyError:
+                            val = field.get_default()
+                else:
+                    try:
+                        val = kwargs.pop(field.attname)
+                    except KeyError:
+                        # This is done with an exception rather than the
+                        # default argument on pop because we don't want
+                        # get_default() to be evaluated, and then not used.
+                        # Refs #12057.
+                        val = field.get_default()
+            else:
+                val = field.get_default()
+    
+            if is_related_object:
+                # If we are passed a related instance, set it using the
+                # field.name instead of field.attname (e.g. "user" instead of
+                # "user_id") so that the object gets properly cached (and type
+                # checked) by the RelatedObjectDescriptor.
+                if rel_obj is not _DEFERRED:
+                    _setattr(self, field.name, rel_obj)
+            else:
+                if val is not _DEFERRED:
+                    _setattr(self, field.attname, val)
+    
+        if kwargs:
+            property_names = opts._property_names
+            for prop in tuple(kwargs):
+                try:
+                    # Any remaining kwargs must correspond to properties or
+                    # virtual fields.
+                    if prop in property_names or opts.get_field(prop):
+                        if kwargs[prop] is not _DEFERRED:
+                            _setattr(self, prop, kwargs[prop])
+                        del kwargs[prop]
+                except (AttributeError, FieldDoesNotExist):
+                    pass
+            for kwarg in kwargs:
+&gt;               raise TypeError("%s() got an unexpected keyword argument '%s'" % (cls.__name__, kwarg))
+E               TypeError: OrderLine() got an unexpected keyword argument 'total_price'
+
+/opt/venv/lib/python3.8/site-packages/django/db/models/base.py:501: TypeError</error></testcase><testcase classname="saleor.graphql.product.tests.test_variant" name="test_delete_default_variant" time="0.116" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_delete_not_default_variant_left_default_variant_unchanged" time="0.123" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_delete_default_all_product_variant_left_product_default_variant_unset" time="0.203" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_fetch_all_variants_staff_user" time="0.161" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_fetch_all_variants_staff_user_with_channel" time="0.062" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_fetch_all_variants_staff_user_without_channel" time="0.060" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_fetch_all_variants_customer" time="0.106" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_fetch_all_variants_anonymous_user" time="0.073" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_product_variants_by_ids" time="0.090" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_product_variants_visible_in_listings_by_customer" time="0.094" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_product_variants_visible_in_listings_by_staff_without_perm" time="0.101" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_product_variants_visible_in_listings_by_staff_with_perm" time="0.114" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_product_variants_visible_in_listings_by_app_without_perm" time="0.104" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_product_variants_visible_in_listings_by_app_with_perm" time="0.096" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_fetch_unpublished_variant_staff_user" time="0.073" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_fetch_unpublished_variant_customer" time="0.078" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_fetch_unpublished_variant_anonymous_user" time="0.074" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_product_variant_bulk_create_by_attribute_id" time="0.134" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_product_variant_bulk_create_only_not_variant_selection_attributes" time="0.171" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_product_variant_bulk_create_empty_attribute" time="0.129" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_product_variant_bulk_create_with_new_attribute_value" time="0.170" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_product_variant_bulk_create_variant_selection_and_other_attributes" time="0.138" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_product_variant_bulk_create_stocks_input" time="0.178" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_product_variant_bulk_create_duplicated_warehouses" time="0.110" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_product_variant_bulk_create_channel_listings_input" time="0.167" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_product_variant_bulk_create_duplicated_channels" time="0.100" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_product_variant_bulk_create_too_many_decimal_places_in_price" time="0.110" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_product_variant_bulk_create_product_not_assigned_to_channel" time="0.103" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_product_variant_bulk_create_duplicated_sku" time="0.112" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_product_variant_bulk_create_duplicated_sku_in_input" time="0.110" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_product_variant_bulk_create_many_errors" time="0.112" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_product_variant_bulk_create_two_variants_duplicated_attribute_value" time="0.094" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_product_variant_bulk_create_two_variants_duplicated_attribute_value_in_input" time="0.100" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_product_variant_bulk_create_two_variants_duplicated_one_attribute_value" time="0.171" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_variant_stocks_create" time="0.133" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_variant_stocks_create_empty_stock_input" time="0.101" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_variant_stocks_create_stock_already_exists" time="0.126" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_variant_stocks_create_stock_duplicated_warehouse" time="0.126" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_variant_stocks_create_stock_duplicated_warehouse_and_warehouse_already_exists" time="0.122" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_product_variant_stocks_update" time="0.128" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_product_variant_stocks_update_with_empty_stock_list" time="0.100" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_variant_stocks_update_stock_duplicated_warehouse" time="0.095" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_product_variant_stocks_delete_mutation" time="0.106" /><testcase classname="saleor.graphql.product.tests.test_variant" name="test_product_variant_stocks_delete_mutation_invalid_warehouse_id" time="0.103" /></testsuite></testsuites>

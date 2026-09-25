@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="15" time="3.744" timestamp="2026-09-24T23:21:42.297902-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_stocks_update" name="test_product_variant_stocks_update" time="1.621" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_stocks_update" name="test_product_variant_stocks_update_with_empty_stock_list" time="0.180" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_stocks_update" name="test_variant_stocks_update_stock_duplicated_warehouse" time="0.181" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_stocks_update" name="test_product_variant_stocks_update_too_big_quantity_value" time="0.159" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_stocks_update" name="test_create_stocks" time="0.086" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_stocks_update" name="test_create_stocks_failed" time="0.054" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_stocks_update" name="test_update_or_create_variant_stocks" time="0.091" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_stocks_update" name="test_update_or_create_variant_stocks_when_stock_out_of_quantity" time="0.085" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_stocks_update" name="test_update_or_create_variant_stocks_empty_stocks_data" time="0.083" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_stocks_update" name="test_update_or_create_variant_with_back_in_stock_webhooks_only_success" time="0.090" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_stocks_update" name="test_update_or_create_variant_with_back_in_stock_webhooks_only_failed" time="0.080"><failure message="AttributeError: &lt;class 'saleor.plugins.manager.PluginsManager'&gt; does not have the attribute 'product_variant_stock_updated'">args = ()
+keywargs = {'settings': &lt;pytest_django.fixtures.SettingsWrapper object at 0x74a7983f2700&gt;, 'variant': &lt;ProductVariant: SKU_A&gt;, 'warehouses': [&lt;Warehouse: Warehouse PL&gt;, &lt;Warehouse: Warehouse USA&gt;]}
+
+    @wraps(func)
+    def patched(*args, **keywargs):
+&gt;       with self.decoration_helper(patched,
+                                    args,
+                                    keywargs) as (newargs, newkeywargs):
+
+/usr/local/lib/python3.9/unittest/mock.py:1333: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.9/contextlib.py:119: in __enter__
+    return next(self.gen)
+/usr/local/lib/python3.9/unittest/mock.py:1315: in decoration_helper
+    arg = exit_stack.enter_context(patching)
+/usr/local/lib/python3.9/contextlib.py:448: in enter_context
+    result = _cm_type.__enter__(cm)
+/usr/local/lib/python3.9/unittest/mock.py:1404: in __enter__
+    original, local = self.get_original()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;unittest.mock._patch object at 0x74a798394eb0&gt;
+
+    def get_original(self):
+        target = self.getter()
+        name = self.attribute
+    
+        original = DEFAULT
+        local = False
+    
+        try:
+            original = target.__dict__[name]
+        except (AttributeError, KeyError):
+            original = getattr(target, name, DEFAULT)
+        else:
+            local = True
+    
+        if name in _builtins and isinstance(target, ModuleType):
+            self.create = True
+    
+        if not self.create and original is DEFAULT:
+&gt;           raise AttributeError(
+                "%s does not have the attribute %r" % (target, name)
+            )
+E           AttributeError: &lt;class 'saleor.plugins.manager.PluginsManager'&gt; does not have the attribute 'product_variant_stock_updated'
+
+/usr/local/lib/python3.9/unittest/mock.py:1377: AttributeError</failure></testcase><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_stocks_update" name="test_update_or_create_variant_with_back_in_stock_webhooks_with_allocations" time="0.073"><failure message="AttributeError: &lt;class 'saleor.plugins.manager.PluginsManager'&gt; does not have the attribute 'product_variant_stock_updated'">args = ()
+keywargs = {'variant': &lt;ProductVariant: SKU_A&gt;, 'warehouse': &lt;Warehouse: Example Warehouse&gt;}
+
+    @wraps(func)
+    def patched(*args, **keywargs):
+&gt;       with self.decoration_helper(patched,
+                                    args,
+                                    keywargs) as (newargs, newkeywargs):
+
+/usr/local/lib/python3.9/unittest/mock.py:1333: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.9/contextlib.py:119: in __enter__
+    return next(self.gen)
+/usr/local/lib/python3.9/unittest/mock.py:1315: in decoration_helper
+    arg = exit_stack.enter_context(patching)
+/usr/local/lib/python3.9/contextlib.py:448: in enter_context
+    result = _cm_type.__enter__(cm)
+/usr/local/lib/python3.9/unittest/mock.py:1404: in __enter__
+    original, local = self.get_original()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;unittest.mock._patch object at 0x74a7983a4130&gt;
+
+    def get_original(self):
+        target = self.getter()
+        name = self.attribute
+    
+        original = DEFAULT
+        local = False
+    
+        try:
+            original = target.__dict__[name]
+        except (AttributeError, KeyError):
+            original = getattr(target, name, DEFAULT)
+        else:
+            local = True
+    
+        if name in _builtins and isinstance(target, ModuleType):
+            self.create = True
+    
+        if not self.create and original is DEFAULT:
+&gt;           raise AttributeError(
+                "%s does not have the attribute %r" % (target, name)
+            )
+E           AttributeError: &lt;class 'saleor.plugins.manager.PluginsManager'&gt; does not have the attribute 'product_variant_stock_updated'
+
+/usr/local/lib/python3.9/unittest/mock.py:1377: AttributeError</failure></testcase><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_stocks_update" name="test_update_or_create_variant_with_out_of_stock_webhooks_with_allocations" time="0.079" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_stocks_update" name="test_update_or_create_variant_stocks_with_out_of_stock_webhook_only" time="0.080"><failure message="AttributeError: &lt;class 'saleor.plugins.manager.PluginsManager'&gt; does not have the attribute 'product_variant_stock_updated'">args = ()
+keywargs = {'settings': &lt;pytest_django.fixtures.SettingsWrapper object at 0x74a7979b0a90&gt;, 'variant': &lt;ProductVariant: SKU_A&gt;, 'warehouses': [&lt;Warehouse: Warehouse PL&gt;, &lt;Warehouse: Warehouse USA&gt;]}
+
+    @wraps(func)
+    def patched(*args, **keywargs):
+&gt;       with self.decoration_helper(patched,
+                                    args,
+                                    keywargs) as (newargs, newkeywargs):
+
+/usr/local/lib/python3.9/unittest/mock.py:1333: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.9/contextlib.py:119: in __enter__
+    return next(self.gen)
+/usr/local/lib/python3.9/unittest/mock.py:1315: in decoration_helper
+    arg = exit_stack.enter_context(patching)
+/usr/local/lib/python3.9/contextlib.py:448: in enter_context
+    result = _cm_type.__enter__(cm)
+/usr/local/lib/python3.9/unittest/mock.py:1404: in __enter__
+    original, local = self.get_original()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;unittest.mock._patch object at 0x74a7983a4520&gt;
+
+    def get_original(self):
+        target = self.getter()
+        name = self.attribute
+    
+        original = DEFAULT
+        local = False
+    
+        try:
+            original = target.__dict__[name]
+        except (AttributeError, KeyError):
+            original = getattr(target, name, DEFAULT)
+        else:
+            local = True
+    
+        if name in _builtins and isinstance(target, ModuleType):
+            self.create = True
+    
+        if not self.create and original is DEFAULT:
+&gt;           raise AttributeError(
+                "%s does not have the attribute %r" % (target, name)
+            )
+E           AttributeError: &lt;class 'saleor.plugins.manager.PluginsManager'&gt; does not have the attribute 'product_variant_stock_updated'
+
+/usr/local/lib/python3.9/unittest/mock.py:1377: AttributeError</failure></testcase><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_stocks_update" name="test_invalidate_stocks_dataloader_on_update_stocks" time="0.268" /></testsuite></testsuites>

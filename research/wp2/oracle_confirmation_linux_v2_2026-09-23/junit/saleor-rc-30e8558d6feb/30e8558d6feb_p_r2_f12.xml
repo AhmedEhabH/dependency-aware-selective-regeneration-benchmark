@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="12" time="3.624" timestamp="2026-09-24T16:06:28.037960" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.menu.tests.mutations.test_menu_item_move" name="test_menu_reorder" time="1.707" /><testcase classname="saleor.graphql.menu.tests.mutations.test_menu_item_move" name="test_menu_reorder_trigger_webhook" time="0.160" /><testcase classname="saleor.graphql.menu.tests.mutations.test_menu_item_move" name="test_menu_reorder_move_the_same_item_multiple_times" time="0.151" /><testcase classname="saleor.graphql.menu.tests.mutations.test_menu_item_move" name="test_menu_reorder_move_without_effect" time="0.142" /><testcase classname="saleor.graphql.menu.tests.mutations.test_menu_item_move" name="test_menu_reorder_assign_parent" time="0.158" /><testcase classname="saleor.graphql.menu.tests.mutations.test_menu_item_move" name="test_menu_reorder_assign_and_unassign_parent" time="0.159" /><testcase classname="saleor.graphql.menu.tests.mutations.test_menu_item_move" name="test_menu_reorder_unassign_and_assign_parent" time="0.159" /><testcase classname="saleor.graphql.menu.tests.mutations.test_menu_item_move" name="test_menu_reorder_assign_parent_to_top_level" time="0.146" /><testcase classname="saleor.graphql.menu.tests.mutations.test_menu_item_move" name="test_menu_reorder_cannot_assign_to_ancestor" time="0.139" /><testcase classname="saleor.graphql.menu.tests.mutations.test_menu_item_move" name="test_menu_reorder_cannot_assign_to_itself" time="0.128" /><testcase classname="saleor.graphql.menu.tests.mutations.test_menu_item_move" name="test_menu_cannot_get_menu_item_not_from_same_menu" time="0.131" /><testcase classname="saleor.graphql.menu.tests.mutations.test_menu_item_move" name="test_menu_cannot_pass_an_invalid_menu_item_node_type" time="0.133"><failure message="AssertionError: assert {'menuItemMov...'menu': None}} == {'menuItemMov...'menu': None}}&#10;  Differing items:&#10;  {'menuItemMove': {'errors': [{'field': 'item', 'message': 'Must receive a MenuItem id.'}], 'menu': None}} != {'menuItemMove': {'errors': [{'field': 'item', 'message': 'Invalid ID: VXNlcjoxOTEx. Expected: MenuItem, received: User.'}], 'menu': None}}&#10;  Use -v to get more diff">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721764e91790&gt;
+staff_user = &lt;User: a00f1b6c-8084-4cff-ac60-a43d32822af0&gt;
+permission_manage_menus = &lt;Permission: menu | menu | Manage navigation.&gt;
+menu_item = &lt;MenuItem: Link 1&gt;
+
+    def test_menu_cannot_pass_an_invalid_menu_item_node_type(
+        staff_api_client, staff_user, permission_manage_menus, menu_item
+    ):
+        """You shouldn't be able to pass a menu item node
+        that is not an actual MenuType."""
+    
+        # given
+        menu_without_items = Menu.objects.create(
+            name="this menu has no items", slug="menu-without-items"
+        )
+    
+        menu_id = graphene.Node.to_global_id("Menu", menu_without_items.id)
+        node_id = graphene.Node.to_global_id("User", staff_user.pk)
+        moves = [{"itemId": node_id}]
+    
+        # when
+        response = staff_api_client.post_graphql(
+            QUERY_REORDER_MENU, {"moves": moves, "menu": menu_id}, [permission_manage_menus]
+        )
+    
+        # then
+        message = f"Invalid ID: {node_id}. Expected: MenuItem, received: User."
+&gt;       assert json.loads(response.content)["data"] == {
+            "menuItemMove": {
+                "errors": [
+                    {
+                        "field": "item",
+                        "message": message,
+                    }
+                ],
+                "menu": None,
+            }
+        }
+E       AssertionError: assert {'menuItemMov...'menu': None}} == {'menuItemMov...'menu': None}}
+E         Differing items:
+E         {'menuItemMove': {'errors': [{'field': 'item', 'message': 'Must receive a MenuItem id.'}], 'menu': None}} != {'menuItemMove': {'errors': [{'field': 'item', 'message': 'Invalid ID: VXNlcjoxOTEx. Expected: MenuItem, received: User.'}], 'menu': None}}
+E         Use -v to get more diff
+
+saleor/graphql/menu/tests/mutations/test_menu_item_move.py:634: AssertionError</failure></testcase></testsuite></testsuites>

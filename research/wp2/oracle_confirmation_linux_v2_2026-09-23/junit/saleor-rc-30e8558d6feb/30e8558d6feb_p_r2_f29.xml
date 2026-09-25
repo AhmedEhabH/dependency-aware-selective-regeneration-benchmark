@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="6" time="0.235" timestamp="2026-09-24T16:09:56.106849" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.shipping.tests.queries.test_shipping_zone" name="test_shipping_zone_query" time="1.933" /><testcase classname="saleor.graphql.shipping.tests.queries.test_shipping_zone" name="test_shipping_zone_query_weights_returned_in_default_unit" time="0.167" /><testcase classname="saleor.graphql.shipping.tests.queries.test_shipping_zone" name="test_staff_query_shipping_zone_by_invalid_id" time="0.151"><failure message="assert &quot;Couldn't resolve id: bh/.&quot; == 'Invalid ID: ...ShippingZone.'&#10;  - Invalid ID: bh/. Expected: ShippingZone.&#10;  + Couldn't resolve id: bh/.">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7575134bb580&gt;
+shipping_zone = &lt;ShippingZone: Europe&gt;
+permission_manage_shipping = &lt;Permission: shipping | shipping zone | Manage shipping.&gt;
+
+    def test_staff_query_shipping_zone_by_invalid_id(
+        staff_api_client, shipping_zone, permission_manage_shipping
+    ):
+        # given
+        id = "bh/"
+        variables = {"id": id}
+    
+        # when
+        response = staff_api_client.post_graphql(
+            SHIPPING_ZONE_QUERY, variables, permissions=[permission_manage_shipping]
+        )
+    
+        # then
+        content = get_graphql_content_from_response(response)
+        assert len(content["errors"]) == 1
+&gt;       assert (
+            content["errors"][0]["message"] == f"Invalid ID: {id}. Expected: ShippingZone."
+        )
+E       assert "Couldn't resolve id: bh/." == 'Invalid ID: ...ShippingZone.'
+E         - Invalid ID: bh/. Expected: ShippingZone.
+E         + Couldn't resolve id: bh/.
+
+saleor/graphql/shipping/tests/queries/test_shipping_zone.py:148: AssertionError</failure></testcase><testcase classname="saleor.graphql.shipping.tests.queries.test_shipping_zone" name="test_staff_query_shipping_zone_object_given_id_does_not_exists" time="0.135" /><testcase classname="saleor.graphql.shipping.tests.queries.test_shipping_zone" name="test_shipping_method_tax_class_query_by_app" time="0.052" /><testcase classname="saleor.graphql.shipping.tests.queries.test_shipping_zone" name="test_shipping_method_tax_class_query_by_staff" time="0.125" /></testsuite></testsuites>

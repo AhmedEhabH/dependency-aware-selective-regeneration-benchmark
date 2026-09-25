@@ -1,0 +1,2256 @@
+{
+ "artifact": "wp2_c2_runtime_forecast",
+ "date": "2026-09-23",
+ "note": "monitoring/planning only; calibrated from 220 completed C2 tasks; never alters inclusion/order/workers/oracle semantics",
+ "calibration_thresholds_s": {
+  "Q1": 12.1,
+  "Q2": 310.6,
+  "Q3": 472.8
+ },
+ "bucket_definition": "FAST<=Q1, MEDIUM=(Q1,Q2], SLOW=(Q2,Q3], VERY_SLOW>Q3",
+ "buckets": {
+  "FAST": {
+   "count": 56,
+   "completed": 56,
+   "remaining": 0,
+   "median_wall_s": 8.6,
+   "estimated_remaining_wall_s": 0.0
+  },
+  "MEDIUM": {
+   "count": 54,
+   "completed": 54,
+   "remaining": 0,
+   "median_wall_s": 161.5,
+   "estimated_remaining_wall_s": 0.0
+  },
+  "SLOW": {
+   "count": 55,
+   "completed": 55,
+   "remaining": 0,
+   "median_wall_s": 365.8,
+   "estimated_remaining_wall_s": 0.0
+  },
+  "VERY_SLOW": {
+   "count": 55,
+   "completed": 55,
+   "remaining": 0,
+   "median_wall_s": 641.6,
+   "estimated_remaining_wall_s": 0.0
+  }
+ },
+ "top_20_slowest_remaining": [],
+ "expected_c2_completion": "COMPLETE (2026-09-24T17:47:14Z)",
+ "c4_projection": {
+  "n_changed_test_candidates": 111,
+  "bucket_counts": {
+   "FAST": 41,
+   "MEDIUM": 30,
+   "SLOW": 33,
+   "VERY_SLOW": 7
+  },
+  "estimated_remaining_wall_s": 21760.0,
+  "note": "uses calibrated C2 bucket medians applied to DEV structural features"
+ },
+ "tasks": {
+  "saleor-rc-05bdc7feb9ac": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 559.6,
+   "era": "py38",
+   "n_production": 8,
+   "n_test": 8,
+   "n_test_added": 4,
+   "n_test_modified": 4,
+   "migration_or_config_heavy": true
+  },
+  "saleor-rc-1abda1e0d36e": {
+   "bucket": "SLOW",
+   "wall_s": 363.0,
+   "era": "py39",
+   "n_production": 3,
+   "n_test": 2,
+   "n_test_added": 1,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-24f9b244d6bc": {
+   "bucket": "MEDIUM",
+   "wall_s": 61.0,
+   "era": "py39",
+   "n_production": 7,
+   "n_test": 1,
+   "n_test_added": 1,
+   "n_test_modified": 0,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-29c2d1abdce0": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 832.8,
+   "era": "py39",
+   "n_production": 10,
+   "n_test": 17,
+   "n_test_added": 1,
+   "n_test_modified": 16,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-45cfb26218c8": {
+   "bucket": "SLOW",
+   "wall_s": 407.4,
+   "era": "py39",
+   "n_production": 8,
+   "n_test": 2,
+   "n_test_added": 2,
+   "n_test_modified": 0,
+   "migration_or_config_heavy": true
+  },
+  "saleor-rc-65643ec7c37f": {
+   "bucket": "MEDIUM",
+   "wall_s": 271.9,
+   "era": "py39",
+   "n_production": 4,
+   "n_test": 1,
+   "n_test_added": 1,
+   "n_test_modified": 0,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-659af1b19239": {
+   "bucket": "FAST",
+   "wall_s": 12.1,
+   "era": "py312",
+   "n_production": 7,
+   "n_test": 6,
+   "n_test_added": 1,
+   "n_test_modified": 5,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-663543eaf563": {
+   "bucket": "FAST",
+   "wall_s": 10.9,
+   "era": "py312",
+   "n_production": 2,
+   "n_test": 4,
+   "n_test_added": 3,
+   "n_test_modified": 0,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-697cbdc85b4a": {
+   "bucket": "FAST",
+   "wall_s": 10.6,
+   "era": "py312",
+   "n_production": 3,
+   "n_test": 2,
+   "n_test_added": 2,
+   "n_test_modified": 0,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-940b8d83ec5c": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 1537.5,
+   "era": "py312",
+   "n_production": 4,
+   "n_test": 9,
+   "n_test_added": 2,
+   "n_test_modified": 7,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-aa814bd5f355": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 1221.6,
+   "era": "py312",
+   "n_production": 6,
+   "n_test": 10,
+   "n_test_added": 1,
+   "n_test_modified": 9,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-ab6c29ba265d": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 636.5,
+   "era": "py38",
+   "n_production": 4,
+   "n_test": 3,
+   "n_test_added": 1,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-b60266933f7a": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 1295.4,
+   "era": "py39",
+   "n_production": 8,
+   "n_test": 10,
+   "n_test_added": 2,
+   "n_test_modified": 8,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-b79cf8f91f04": {
+   "bucket": "FAST",
+   "wall_s": 9.9,
+   "era": "py312",
+   "n_production": 6,
+   "n_test": 6,
+   "n_test_added": 4,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-bd11af3ea0a4": {
+   "bucket": "FAST",
+   "wall_s": 8.7,
+   "era": "py312",
+   "n_production": 1,
+   "n_test": 1,
+   "n_test_added": 1,
+   "n_test_modified": 0,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-c38263743e9e": {
+   "bucket": "MEDIUM",
+   "wall_s": 238.5,
+   "era": "py39",
+   "n_production": 5,
+   "n_test": 1,
+   "n_test_added": 1,
+   "n_test_modified": 0,
+   "migration_or_config_heavy": true
+  },
+  "saleor-rc-cae629dc4166": {
+   "bucket": "FAST",
+   "wall_s": 8.0,
+   "era": "py39",
+   "n_production": 4,
+   "n_test": 2,
+   "n_test_added": 1,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-ce3b63edecef": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 2344.7,
+   "era": "py312",
+   "n_production": 4,
+   "n_test": 18,
+   "n_test_added": 1,
+   "n_test_modified": 17,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-e0f2933d58b9": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 522.8,
+   "era": "py312",
+   "n_production": 1,
+   "n_test": 2,
+   "n_test_added": 1,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-f3a0bc28797b": {
+   "bucket": "FAST",
+   "wall_s": 9.2,
+   "era": "py39",
+   "n_production": 8,
+   "n_test": 19,
+   "n_test_added": 16,
+   "n_test_modified": 3,
+   "migration_or_config_heavy": true
+  },
+  "saleor-rc-1f47b503f69e": {
+   "bucket": "SLOW",
+   "wall_s": 323.4,
+   "era": "py39",
+   "n_production": 2,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-add4064d238e": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 664.7,
+   "era": "py39",
+   "n_production": 9,
+   "n_test": 6,
+   "n_test_added": 0,
+   "n_test_modified": 6,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-8c8d9db54d63": {
+   "bucket": "SLOW",
+   "wall_s": 472.8,
+   "era": "py39",
+   "n_production": 2,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-5c458f26276d": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 546.7,
+   "era": "py39",
+   "n_production": 3,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": true
+  },
+  "saleor-rc-46456e7317ca": {
+   "bucket": "SLOW",
+   "wall_s": 350.0,
+   "era": "py312",
+   "n_production": 1,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-5f78ba7b1647": {
+   "bucket": "MEDIUM",
+   "wall_s": 142.7,
+   "era": "py39",
+   "n_production": 5,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-02dfdad9985b": {
+   "bucket": "FAST",
+   "wall_s": 6.4,
+   "era": "py39",
+   "n_production": 4,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-14a682044ca4": {
+   "bucket": "FAST",
+   "wall_s": 6.7,
+   "era": "py39",
+   "n_production": 12,
+   "n_test": 15,
+   "n_test_added": 0,
+   "n_test_modified": 15,
+   "migration_or_config_heavy": true
+  },
+  "saleor-rc-f5d2c47e47c3": {
+   "bucket": "FAST",
+   "wall_s": 8.3,
+   "era": "py312",
+   "n_production": 4,
+   "n_test": 4,
+   "n_test_added": 0,
+   "n_test_modified": 4,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-18430f2a7a16": {
+   "bucket": "SLOW",
+   "wall_s": 364.7,
+   "era": "py39",
+   "n_production": 1,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-fbfc66e3a46b": {
+   "bucket": "MEDIUM",
+   "wall_s": 234.4,
+   "era": "py39",
+   "n_production": 8,
+   "n_test": 3,
+   "n_test_added": 0,
+   "n_test_modified": 3,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-50eff94aa37c": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 734.2,
+   "era": "py39",
+   "n_production": 8,
+   "n_test": 4,
+   "n_test_added": 0,
+   "n_test_modified": 4,
+   "migration_or_config_heavy": true
+  },
+  "saleor-rc-b356a525ba2a": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 589.4,
+   "era": "py312",
+   "n_production": 8,
+   "n_test": 7,
+   "n_test_added": 0,
+   "n_test_modified": 7,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-3bf31ab2fefc": {
+   "bucket": "SLOW",
+   "wall_s": 352.4,
+   "era": "py312",
+   "n_production": 3,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": true
+  },
+  "saleor-rc-0fd3a4d986a0": {
+   "bucket": "SLOW",
+   "wall_s": 446.0,
+   "era": "py39",
+   "n_production": 3,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-0b46c89dfd9e": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 757.6,
+   "era": "py39",
+   "n_production": 5,
+   "n_test": 4,
+   "n_test_added": 0,
+   "n_test_modified": 4,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-dacded922b1f": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 698.1,
+   "era": "py312",
+   "n_production": 7,
+   "n_test": 6,
+   "n_test_added": 0,
+   "n_test_modified": 6,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-eb61406cecc5": {
+   "bucket": "SLOW",
+   "wall_s": 411.8,
+   "era": "py312",
+   "n_production": 2,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-63a25a0c46d5": {
+   "bucket": "FAST",
+   "wall_s": 7.9,
+   "era": "py39",
+   "n_production": 1,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-03be7057c1f1": {
+   "bucket": "MEDIUM",
+   "wall_s": 13.8,
+   "era": "py38",
+   "n_production": 3,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-796f4a0fd969": {
+   "bucket": "SLOW",
+   "wall_s": 368.2,
+   "era": "py312",
+   "n_production": 1,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-3cac33590b90": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 554.5,
+   "era": "py312",
+   "n_production": 3,
+   "n_test": 3,
+   "n_test_added": 0,
+   "n_test_modified": 3,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-ffe3a3ece0fb": {
+   "bucket": "SLOW",
+   "wall_s": 351.2,
+   "era": "py312",
+   "n_production": 1,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-95dbffbc523a": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 669.7,
+   "era": "py312",
+   "n_production": 1,
+   "n_test": 3,
+   "n_test_added": 0,
+   "n_test_modified": 3,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-28799575c518": {
+   "bucket": "SLOW",
+   "wall_s": 453.2,
+   "era": "py39",
+   "n_production": 6,
+   "n_test": 6,
+   "n_test_added": 0,
+   "n_test_modified": 6,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-ef4d31a09e7c": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 695.7,
+   "era": "py39",
+   "n_production": 3,
+   "n_test": 10,
+   "n_test_added": 0,
+   "n_test_modified": 10,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-80a33b28b80d": {
+   "bucket": "FAST",
+   "wall_s": 8.0,
+   "era": "py312",
+   "n_production": 3,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-54bbb04b8954": {
+   "bucket": "MEDIUM",
+   "wall_s": 153.6,
+   "era": "py39",
+   "n_production": 3,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-a17f11cf7e87": {
+   "bucket": "MEDIUM",
+   "wall_s": 194.5,
+   "era": "py39",
+   "n_production": 3,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-4e45b83e7475": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 682.0,
+   "era": "py39",
+   "n_production": 1,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-30fe250747ae": {
+   "bucket": "MEDIUM",
+   "wall_s": 144.0,
+   "era": "py38",
+   "n_production": 3,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-9057e82cea23": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 994.9,
+   "era": "py38",
+   "n_production": 3,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-843a2c1905ad": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 493.2,
+   "era": "py39",
+   "n_production": 3,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-99f9e28f8b6f": {
+   "bucket": "MEDIUM",
+   "wall_s": 191.1,
+   "era": "py312",
+   "n_production": 1,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": true
+  },
+  "saleor-rc-e089e93419bf": {
+   "bucket": "MEDIUM",
+   "wall_s": 127.8,
+   "era": "py39",
+   "n_production": 12,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-094b1ec0f610": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 836.0,
+   "era": "py39",
+   "n_production": 12,
+   "n_test": 7,
+   "n_test_added": 0,
+   "n_test_modified": 7,
+   "migration_or_config_heavy": true
+  },
+  "saleor-rc-2a59d31fc839": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 889.3,
+   "era": "py39",
+   "n_production": 4,
+   "n_test": 9,
+   "n_test_added": 0,
+   "n_test_modified": 9,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-f605058a13e8": {
+   "bucket": "FAST",
+   "wall_s": 7.7,
+   "era": "py39",
+   "n_production": 3,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": true
+  },
+  "saleor-rc-78c9081e2731": {
+   "bucket": "FAST",
+   "wall_s": 9.2,
+   "era": "py312",
+   "n_production": 2,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-484ce8815cf4": {
+   "bucket": "SLOW",
+   "wall_s": 389.7,
+   "era": "py39",
+   "n_production": 4,
+   "n_test": 4,
+   "n_test_added": 0,
+   "n_test_modified": 4,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-b8786c1bf4d3": {
+   "bucket": "SLOW",
+   "wall_s": 442.6,
+   "era": "py39",
+   "n_production": 1,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-9b96c1602b1f": {
+   "bucket": "MEDIUM",
+   "wall_s": 275.3,
+   "era": "py39",
+   "n_production": 3,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": true
+  },
+  "saleor-rc-c6220233ccb1": {
+   "bucket": "MEDIUM",
+   "wall_s": 310.6,
+   "era": "py39",
+   "n_production": 2,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-81d02e76b22e": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 633.6,
+   "era": "py39",
+   "n_production": 8,
+   "n_test": 11,
+   "n_test_added": 0,
+   "n_test_modified": 11,
+   "migration_or_config_heavy": true
+  },
+  "saleor-rc-d4fcbd22a853": {
+   "bucket": "FAST",
+   "wall_s": 9.4,
+   "era": "py312",
+   "n_production": 1,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-1a8b592913a0": {
+   "bucket": "FAST",
+   "wall_s": 8.6,
+   "era": "py312",
+   "n_production": 2,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-ccd3960acd1d": {
+   "bucket": "FAST",
+   "wall_s": 8.4,
+   "era": "py312",
+   "n_production": 2,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-07f02e2c40ae": {
+   "bucket": "FAST",
+   "wall_s": 8.2,
+   "era": "py312",
+   "n_production": 12,
+   "n_test": 9,
+   "n_test_added": 0,
+   "n_test_modified": 9,
+   "migration_or_config_heavy": true
+  },
+  "saleor-rc-f623ab428821": {
+   "bucket": "FAST",
+   "wall_s": 7.7,
+   "era": "py312",
+   "n_production": 6,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": true
+  },
+  "saleor-rc-a9e79dac40a2": {
+   "bucket": "FAST",
+   "wall_s": 8.9,
+   "era": "py312",
+   "n_production": 4,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": true
+  },
+  "saleor-rc-2c770c685a57": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 846.6,
+   "era": "py312",
+   "n_production": 5,
+   "n_test": 6,
+   "n_test_added": 0,
+   "n_test_modified": 6,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-138ee68c3818": {
+   "bucket": "SLOW",
+   "wall_s": 318.3,
+   "era": "py312",
+   "n_production": 1,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-e129a4d6f9b1": {
+   "bucket": "FAST",
+   "wall_s": 7.5,
+   "era": "py39",
+   "n_production": 1,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-4800fa0beb60": {
+   "bucket": "FAST",
+   "wall_s": 9.6,
+   "era": "py312",
+   "n_production": 1,
+   "n_test": 3,
+   "n_test_added": 0,
+   "n_test_modified": 3,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-33010c0d5f7f": {
+   "bucket": "MEDIUM",
+   "wall_s": 270.7,
+   "era": "py39",
+   "n_production": 2,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-0df62b3144b0": {
+   "bucket": "FAST",
+   "wall_s": 6.9,
+   "era": "py39",
+   "n_production": 7,
+   "n_test": 5,
+   "n_test_added": 0,
+   "n_test_modified": 5,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-db5440f7994f": {
+   "bucket": "SLOW",
+   "wall_s": 353.6,
+   "era": "py312",
+   "n_production": 2,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-eaf1577585a2": {
+   "bucket": "MEDIUM",
+   "wall_s": 171.0,
+   "era": "py39",
+   "n_production": 5,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-f953990d221b": {
+   "bucket": "MEDIUM",
+   "wall_s": 169.4,
+   "era": "py39",
+   "n_production": 2,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-7b3fbb77c331": {
+   "bucket": "MEDIUM",
+   "wall_s": 286.5,
+   "era": "py39",
+   "n_production": 3,
+   "n_test": 3,
+   "n_test_added": 0,
+   "n_test_modified": 3,
+   "migration_or_config_heavy": true
+  },
+  "saleor-rc-2c44b8eccc2c": {
+   "bucket": "SLOW",
+   "wall_s": 457.0,
+   "era": "py39",
+   "n_production": 5,
+   "n_test": 3,
+   "n_test_added": 0,
+   "n_test_modified": 3,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-85d416c024e1": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 641.6,
+   "era": "py38",
+   "n_production": 6,
+   "n_test": 4,
+   "n_test_added": 0,
+   "n_test_modified": 4,
+   "migration_or_config_heavy": true
+  },
+  "saleor-rc-d7b03a3eeec0": {
+   "bucket": "FAST",
+   "wall_s": 9.7,
+   "era": "py312",
+   "n_production": 7,
+   "n_test": 14,
+   "n_test_added": 0,
+   "n_test_modified": 14,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-14f2176b5d8c": {
+   "bucket": "MEDIUM",
+   "wall_s": 271.7,
+   "era": "py39",
+   "n_production": 4,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-0c1062eb0da6": {
+   "bucket": "FAST",
+   "wall_s": 6.5,
+   "era": "py39",
+   "n_production": 3,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-4386f322f659": {
+   "bucket": "FAST",
+   "wall_s": 6.7,
+   "era": "py39",
+   "n_production": 2,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-65dfc61ec9fc": {
+   "bucket": "FAST",
+   "wall_s": 7.1,
+   "era": "py39",
+   "n_production": 6,
+   "n_test": 3,
+   "n_test_added": 0,
+   "n_test_modified": 3,
+   "migration_or_config_heavy": true
+  },
+  "saleor-rc-03c5a9916858": {
+   "bucket": "MEDIUM",
+   "wall_s": 84.7,
+   "era": "py39",
+   "n_production": 2,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-3513064157fa": {
+   "bucket": "MEDIUM",
+   "wall_s": 275.2,
+   "era": "py39",
+   "n_production": 2,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-a9121e630814": {
+   "bucket": "SLOW",
+   "wall_s": 428.4,
+   "era": "py39",
+   "n_production": 3,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-1fa6a637c7fc": {
+   "bucket": "SLOW",
+   "wall_s": 465.2,
+   "era": "py38",
+   "n_production": 5,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": true
+  },
+  "saleor-rc-5477b7dd3867": {
+   "bucket": "FAST",
+   "wall_s": 7.7,
+   "era": "py312",
+   "n_production": 5,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-349fe0c194a1": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 505.6,
+   "era": "py39",
+   "n_production": 9,
+   "n_test": 5,
+   "n_test_added": 0,
+   "n_test_modified": 5,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-032b98afff20": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 3599.4,
+   "era": "py312",
+   "n_production": 3,
+   "n_test": 37,
+   "n_test_added": 0,
+   "n_test_modified": 37,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-f74a5394c7f1": {
+   "bucket": "FAST",
+   "wall_s": 8.8,
+   "era": "py312",
+   "n_production": 10,
+   "n_test": 9,
+   "n_test_added": 0,
+   "n_test_modified": 9,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-cbd7310268c6": {
+   "bucket": "FAST",
+   "wall_s": 6.6,
+   "era": "py39",
+   "n_production": 2,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-66907b149076": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 816.2,
+   "era": "py39",
+   "n_production": 7,
+   "n_test": 8,
+   "n_test_added": 0,
+   "n_test_modified": 8,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-10889526d151": {
+   "bucket": "MEDIUM",
+   "wall_s": 83.3,
+   "era": "py39",
+   "n_production": 1,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-c12e83aac8f6": {
+   "bucket": "FAST",
+   "wall_s": 7.5,
+   "era": "py39",
+   "n_production": 8,
+   "n_test": 7,
+   "n_test_added": 0,
+   "n_test_modified": 7,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-255d39da978a": {
+   "bucket": "FAST",
+   "wall_s": 7.0,
+   "era": "py39",
+   "n_production": 1,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-4931e989d82d": {
+   "bucket": "SLOW",
+   "wall_s": 410.2,
+   "era": "py39",
+   "n_production": 1,
+   "n_test": 3,
+   "n_test_added": 0,
+   "n_test_modified": 3,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-8eb11da07f09": {
+   "bucket": "FAST",
+   "wall_s": 9.2,
+   "era": "py312",
+   "n_production": 4,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-954887b39f13": {
+   "bucket": "FAST",
+   "wall_s": 8.8,
+   "era": "py312",
+   "n_production": 3,
+   "n_test": 5,
+   "n_test_added": 0,
+   "n_test_modified": 5,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-208833e2fa53": {
+   "bucket": "SLOW",
+   "wall_s": 354.7,
+   "era": "py38",
+   "n_production": 1,
+   "n_test": 3,
+   "n_test_added": 0,
+   "n_test_modified": 3,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-5f8b1cc4db2d": {
+   "bucket": "FAST",
+   "wall_s": 8.5,
+   "era": "py312",
+   "n_production": 2,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-1af1c3a368ec": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 898.6,
+   "era": "py39",
+   "n_production": 11,
+   "n_test": 7,
+   "n_test_added": 0,
+   "n_test_modified": 7,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-dd8ead382526": {
+   "bucket": "SLOW",
+   "wall_s": 369.7,
+   "era": "py39",
+   "n_production": 3,
+   "n_test": 4,
+   "n_test_added": 0,
+   "n_test_modified": 4,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-ea98ffa79753": {
+   "bucket": "SLOW",
+   "wall_s": 365.8,
+   "era": "py39",
+   "n_production": 15,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": true
+  },
+  "saleor-rc-0ad61b3f0096": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 535.4,
+   "era": "py312",
+   "n_production": 2,
+   "n_test": 5,
+   "n_test_added": 0,
+   "n_test_modified": 5,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-d8a4cd122bf0": {
+   "bucket": "MEDIUM",
+   "wall_s": 235.1,
+   "era": "py39",
+   "n_production": 3,
+   "n_test": 3,
+   "n_test_added": 0,
+   "n_test_modified": 3,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-7691de1ea22e": {
+   "bucket": "SLOW",
+   "wall_s": 362.5,
+   "era": "py39",
+   "n_production": 2,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-c428b47bddc5": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 612.3,
+   "era": "py39",
+   "n_production": 2,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-b2622810adf1": {
+   "bucket": "SLOW",
+   "wall_s": 327.7,
+   "era": "py39",
+   "n_production": 4,
+   "n_test": 3,
+   "n_test_added": 0,
+   "n_test_modified": 3,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-5c50110d46a2": {
+   "bucket": "MEDIUM",
+   "wall_s": 219.8,
+   "era": "py38",
+   "n_production": 6,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-bcd9f60d2aef": {
+   "bucket": "SLOW",
+   "wall_s": 436.5,
+   "era": "py39",
+   "n_production": 4,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-349d88efcfec": {
+   "bucket": "SLOW",
+   "wall_s": 414.3,
+   "era": "py39",
+   "n_production": 3,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-224bf29fb39f": {
+   "bucket": "SLOW",
+   "wall_s": 355.3,
+   "era": "py312",
+   "n_production": 4,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-8e6164e3d123": {
+   "bucket": "SLOW",
+   "wall_s": 405.4,
+   "era": "py312",
+   "n_production": 3,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-fa1ed1794a8a": {
+   "bucket": "FAST",
+   "wall_s": 9.1,
+   "era": "py312",
+   "n_production": 1,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-438595033c60": {
+   "bucket": "FAST",
+   "wall_s": 10.2,
+   "era": "py312",
+   "n_production": 2,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-e0890780bf56": {
+   "bucket": "SLOW",
+   "wall_s": 345.7,
+   "era": "py312",
+   "n_production": 3,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-30b4edece5aa": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 555.3,
+   "era": "py312",
+   "n_production": 1,
+   "n_test": 4,
+   "n_test_added": 0,
+   "n_test_modified": 4,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-aa2bcdd0c218": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 570.9,
+   "era": "py39",
+   "n_production": 3,
+   "n_test": 3,
+   "n_test_added": 0,
+   "n_test_modified": 3,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-45301d74fb45": {
+   "bucket": "SLOW",
+   "wall_s": 416.3,
+   "era": "py39",
+   "n_production": 4,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-a1e1e2554327": {
+   "bucket": "FAST",
+   "wall_s": 9.2,
+   "era": "py312",
+   "n_production": 2,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-5144ee6bd55f": {
+   "bucket": "MEDIUM",
+   "wall_s": 12.2,
+   "era": "py312",
+   "n_production": 7,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": true
+  },
+  "saleor-rc-f3a1ec65571f": {
+   "bucket": "MEDIUM",
+   "wall_s": 102.1,
+   "era": "py38",
+   "n_production": 2,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-32f73ff32b2b": {
+   "bucket": "SLOW",
+   "wall_s": 388.4,
+   "era": "py38",
+   "n_production": 3,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-5821309aed09": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 788.2,
+   "era": "py39",
+   "n_production": 6,
+   "n_test": 9,
+   "n_test_added": 0,
+   "n_test_modified": 9,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-6a1f884168d2": {
+   "bucket": "MEDIUM",
+   "wall_s": 184.6,
+   "era": "py39",
+   "n_production": 2,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-fd5b7971c5d2": {
+   "bucket": "MEDIUM",
+   "wall_s": 103.1,
+   "era": "py39",
+   "n_production": 2,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-cd076fed6118": {
+   "bucket": "FAST",
+   "wall_s": 7.1,
+   "era": "py38",
+   "n_production": 3,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-b0245506e69b": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 719.1,
+   "era": "py39",
+   "n_production": 10,
+   "n_test": 5,
+   "n_test_added": 0,
+   "n_test_modified": 5,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-d299e27e5f04": {
+   "bucket": "SLOW",
+   "wall_s": 359.1,
+   "era": "py39",
+   "n_production": 2,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-74fbba6d0734": {
+   "bucket": "FAST",
+   "wall_s": 8.2,
+   "era": "py39",
+   "n_production": 3,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-27b65eae2a9a": {
+   "bucket": "MEDIUM",
+   "wall_s": 262.8,
+   "era": "py39",
+   "n_production": 2,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-305415e0f8b7": {
+   "bucket": "MEDIUM",
+   "wall_s": 179.7,
+   "era": "py38",
+   "n_production": 10,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": true
+  },
+  "saleor-rc-0e895847d8ae": {
+   "bucket": "MEDIUM",
+   "wall_s": 13.1,
+   "era": "py312",
+   "n_production": 1,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-f6a3751a8bc2": {
+   "bucket": "FAST",
+   "wall_s": 11.8,
+   "era": "py312",
+   "n_production": 1,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-67cd71a9e0b7": {
+   "bucket": "FAST",
+   "wall_s": 8.6,
+   "era": "py39",
+   "n_production": 1,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-7b1e8cee95d5": {
+   "bucket": "FAST",
+   "wall_s": 9.3,
+   "era": "py312",
+   "n_production": 7,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-b97d1d9c7064": {
+   "bucket": "FAST",
+   "wall_s": 8.9,
+   "era": "py312",
+   "n_production": 2,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-07c8859c0ac3": {
+   "bucket": "SLOW",
+   "wall_s": 356.9,
+   "era": "py312",
+   "n_production": 2,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-c7207e71e0d3": {
+   "bucket": "SLOW",
+   "wall_s": 345.1,
+   "era": "py39",
+   "n_production": 7,
+   "n_test": 3,
+   "n_test_added": 0,
+   "n_test_modified": 3,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-1b4da5a88d08": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 479.4,
+   "era": "py39",
+   "n_production": 8,
+   "n_test": 7,
+   "n_test_added": 0,
+   "n_test_modified": 7,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-a5e831779345": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 714.8,
+   "era": "py39",
+   "n_production": 1,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-52a797b00af3": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 991.8,
+   "era": "py39",
+   "n_production": 9,
+   "n_test": 5,
+   "n_test_added": 0,
+   "n_test_modified": 5,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-6c928b72daa4": {
+   "bucket": "MEDIUM",
+   "wall_s": 119.7,
+   "era": "py39",
+   "n_production": 4,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-b0672eea0422": {
+   "bucket": "MEDIUM",
+   "wall_s": 88.1,
+   "era": "py39",
+   "n_production": 3,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-481c2d367c6f": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 583.7,
+   "era": "py312",
+   "n_production": 8,
+   "n_test": 5,
+   "n_test_added": 0,
+   "n_test_modified": 5,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-17c8d807b3d1": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 512.7,
+   "era": "py39",
+   "n_production": 1,
+   "n_test": 3,
+   "n_test_added": 0,
+   "n_test_modified": 3,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-d361479ab7da": {
+   "bucket": "SLOW",
+   "wall_s": 392.5,
+   "era": "py312",
+   "n_production": 1,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-e8733aee630a": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 596.7,
+   "era": "py312",
+   "n_production": 2,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-d498167dcd30": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 1740.5,
+   "era": "py312",
+   "n_production": 2,
+   "n_test": 6,
+   "n_test_added": 0,
+   "n_test_modified": 6,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-d3ab58054844": {
+   "bucket": "MEDIUM",
+   "wall_s": 252.9,
+   "era": "py39",
+   "n_production": 6,
+   "n_test": 4,
+   "n_test_added": 0,
+   "n_test_modified": 4,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-bd0c56fc787e": {
+   "bucket": "MEDIUM",
+   "wall_s": 169.6,
+   "era": "py39",
+   "n_production": 2,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-884327b653cc": {
+   "bucket": "MEDIUM",
+   "wall_s": 73.0,
+   "era": "py39",
+   "n_production": 4,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": true
+  },
+  "saleor-rc-a576e993bab7": {
+   "bucket": "SLOW",
+   "wall_s": 315.8,
+   "era": "py39",
+   "n_production": 3,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-585562cf1cec": {
+   "bucket": "MEDIUM",
+   "wall_s": 90.9,
+   "era": "py39",
+   "n_production": 3,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-373efa067922": {
+   "bucket": "SLOW",
+   "wall_s": 362.9,
+   "era": "py39",
+   "n_production": 2,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-df7c7d4e8466": {
+   "bucket": "MEDIUM",
+   "wall_s": 282.5,
+   "era": "py39",
+   "n_production": 4,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-bf938e731bd8": {
+   "bucket": "MEDIUM",
+   "wall_s": 81.2,
+   "era": "py39",
+   "n_production": 13,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-b35783838e51": {
+   "bucket": "SLOW",
+   "wall_s": 331.7,
+   "era": "py312",
+   "n_production": 4,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-55ff6b5b2b65": {
+   "bucket": "MEDIUM",
+   "wall_s": 259.5,
+   "era": "py39",
+   "n_production": 2,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-4adf36dfdbe7": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 486.3,
+   "era": "py39",
+   "n_production": 3,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": true
+  },
+  "saleor-rc-7e42fc67ce72": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 499.7,
+   "era": "py312",
+   "n_production": 4,
+   "n_test": 4,
+   "n_test_added": 0,
+   "n_test_modified": 4,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-e7175003a542": {
+   "bucket": "SLOW",
+   "wall_s": 386.8,
+   "era": "py312",
+   "n_production": 2,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-36a9a14e8d12": {
+   "bucket": "FAST",
+   "wall_s": 12.0,
+   "era": "py312",
+   "n_production": 2,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-f1d4e82c1dea": {
+   "bucket": "SLOW",
+   "wall_s": 380.5,
+   "era": "py39",
+   "n_production": 3,
+   "n_test": 3,
+   "n_test_added": 0,
+   "n_test_modified": 3,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-693eb302968c": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 1004.9,
+   "era": "py39",
+   "n_production": 13,
+   "n_test": 7,
+   "n_test_added": 0,
+   "n_test_modified": 7,
+   "migration_or_config_heavy": true
+  },
+  "saleor-rc-f4eeba7fab16": {
+   "bucket": "FAST",
+   "wall_s": 7.7,
+   "era": "py39",
+   "n_production": 6,
+   "n_test": 12,
+   "n_test_added": 0,
+   "n_test_modified": 12,
+   "migration_or_config_heavy": true
+  },
+  "saleor-rc-dea5ffb730ac": {
+   "bucket": "SLOW",
+   "wall_s": 330.7,
+   "era": "py312",
+   "n_production": 9,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": true
+  },
+  "saleor-rc-8220a53473bb": {
+   "bucket": "MEDIUM",
+   "wall_s": 75.8,
+   "era": "py38",
+   "n_production": 4,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-0179b331be38": {
+   "bucket": "SLOW",
+   "wall_s": 335.5,
+   "era": "py312",
+   "n_production": 1,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-0f16ed78b02b": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 540.0,
+   "era": "py312",
+   "n_production": 2,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-d6656e0f2a1d": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 522.6,
+   "era": "py312",
+   "n_production": 1,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-1f9b5c53a63a": {
+   "bucket": "SLOW",
+   "wall_s": 355.8,
+   "era": "py39",
+   "n_production": 3,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-11756ee6b65a": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 475.7,
+   "era": "py312",
+   "n_production": 1,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-e6198146186d": {
+   "bucket": "MEDIUM",
+   "wall_s": 249.4,
+   "era": "py312",
+   "n_production": 5,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-19bb9b070965": {
+   "bucket": "MEDIUM",
+   "wall_s": 283.6,
+   "era": "py312",
+   "n_production": 6,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-a93a877388ae": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 676.6,
+   "era": "py39",
+   "n_production": 3,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-9b88221ba8c2": {
+   "bucket": "SLOW",
+   "wall_s": 383.1,
+   "era": "py39",
+   "n_production": 9,
+   "n_test": 4,
+   "n_test_added": 0,
+   "n_test_modified": 4,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-b2e3652af826": {
+   "bucket": "MEDIUM",
+   "wall_s": 292.2,
+   "era": "py39",
+   "n_production": 2,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-fd463c8aae38": {
+   "bucket": "SLOW",
+   "wall_s": 424.8,
+   "era": "py312",
+   "n_production": 2,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-333febd35223": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 489.9,
+   "era": "py312",
+   "n_production": 1,
+   "n_test": 3,
+   "n_test_added": 0,
+   "n_test_modified": 3,
+   "migration_or_config_heavy": true
+  },
+  "saleor-rc-95db464ad4ea": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 605.3,
+   "era": "py39",
+   "n_production": 1,
+   "n_test": 5,
+   "n_test_added": 0,
+   "n_test_modified": 5,
+   "migration_or_config_heavy": true
+  },
+  "saleor-rc-367b8038f6b9": {
+   "bucket": "MEDIUM",
+   "wall_s": 129.9,
+   "era": "py38",
+   "n_production": 2,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-f76d0093b450": {
+   "bucket": "MEDIUM",
+   "wall_s": 77.8,
+   "era": "py39",
+   "n_production": 3,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-506cd1157e9c": {
+   "bucket": "SLOW",
+   "wall_s": 454.8,
+   "era": "py39",
+   "n_production": 3,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-a7a2bf4146ba": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 518.9,
+   "era": "py39",
+   "n_production": 2,
+   "n_test": 4,
+   "n_test_added": 0,
+   "n_test_modified": 4,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-1f6fbe2ebf9b": {
+   "bucket": "MEDIUM",
+   "wall_s": 93.9,
+   "era": "py38",
+   "n_production": 2,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-37a3a7bbec31": {
+   "bucket": "MEDIUM",
+   "wall_s": 96.7,
+   "era": "py38",
+   "n_production": 3,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-6370f4a6b8a5": {
+   "bucket": "MEDIUM",
+   "wall_s": 173.9,
+   "era": "py38",
+   "n_production": 3,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-2c218aadc9b7": {
+   "bucket": "SLOW",
+   "wall_s": 369.2,
+   "era": "py38",
+   "n_production": 7,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": true
+  },
+  "saleor-rc-ddb8921a6744": {
+   "bucket": "FAST",
+   "wall_s": 8.2,
+   "era": "py39",
+   "n_production": 13,
+   "n_test": 12,
+   "n_test_added": 0,
+   "n_test_modified": 12,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-5d2721a36364": {
+   "bucket": "FAST",
+   "wall_s": 8.5,
+   "era": "py39",
+   "n_production": 2,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-e429b8be07fd": {
+   "bucket": "FAST",
+   "wall_s": 9.4,
+   "era": "py39",
+   "n_production": 2,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-c4dac9df4baf": {
+   "bucket": "FAST",
+   "wall_s": 10.9,
+   "era": "py39",
+   "n_production": 13,
+   "n_test": 4,
+   "n_test_added": 0,
+   "n_test_modified": 4,
+   "migration_or_config_heavy": true
+  },
+  "saleor-rc-99041211cf9e": {
+   "bucket": "MEDIUM",
+   "wall_s": 139.1,
+   "era": "py38",
+   "n_production": 5,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-c0d4785abd74": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 549.5,
+   "era": "py39",
+   "n_production": 8,
+   "n_test": 7,
+   "n_test_added": 0,
+   "n_test_modified": 7,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-a650f8f05c02": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 616.1,
+   "era": "py39",
+   "n_production": 3,
+   "n_test": 9,
+   "n_test_added": 0,
+   "n_test_modified": 9,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-a36d8a8d0c0c": {
+   "bucket": "FAST",
+   "wall_s": 8.1,
+   "era": "py39",
+   "n_production": 3,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-e28ca6ad6442": {
+   "bucket": "FAST",
+   "wall_s": 8.9,
+   "era": "py39",
+   "n_production": 1,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-9c032845e29b": {
+   "bucket": "SLOW",
+   "wall_s": 362.4,
+   "era": "py312",
+   "n_production": 5,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-3d304a30a5bc": {
+   "bucket": "MEDIUM",
+   "wall_s": 12.6,
+   "era": "py312",
+   "n_production": 5,
+   "n_test": 8,
+   "n_test_added": 0,
+   "n_test_modified": 8,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-aea05da547c8": {
+   "bucket": "FAST",
+   "wall_s": 12.1,
+   "era": "py312",
+   "n_production": 1,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-571a3b145aea": {
+   "bucket": "SLOW",
+   "wall_s": 466.4,
+   "era": "py39",
+   "n_production": 2,
+   "n_test": 4,
+   "n_test_added": 0,
+   "n_test_modified": 4,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-fe6e46266e81": {
+   "bucket": "SLOW",
+   "wall_s": 321.5,
+   "era": "py312",
+   "n_production": 1,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-ba4ff17faab4": {
+   "bucket": "VERY_SLOW",
+   "wall_s": 882.8,
+   "era": "py39",
+   "n_production": 2,
+   "n_test": 3,
+   "n_test_added": 0,
+   "n_test_modified": 3,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-c31fb4cfd08f": {
+   "bucket": "SLOW",
+   "wall_s": 364.7,
+   "era": "py312",
+   "n_production": 1,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-ba0f225cc7d3": {
+   "bucket": "FAST",
+   "wall_s": 11.2,
+   "era": "py39",
+   "n_production": 1,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-8a03c74411d7": {
+   "bucket": "FAST",
+   "wall_s": 11.1,
+   "era": "py312",
+   "n_production": 3,
+   "n_test": 17,
+   "n_test_added": 0,
+   "n_test_modified": 17,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-63a31dd3c8ca": {
+   "bucket": "MEDIUM",
+   "wall_s": 125.1,
+   "era": "py38",
+   "n_production": 2,
+   "n_test": 3,
+   "n_test_added": 0,
+   "n_test_modified": 3,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-12007c00e480": {
+   "bucket": "MEDIUM",
+   "wall_s": 228.2,
+   "era": "py38",
+   "n_production": 6,
+   "n_test": 3,
+   "n_test_added": 0,
+   "n_test_modified": 3,
+   "migration_or_config_heavy": true
+  },
+  "saleor-rc-c87441bb1464": {
+   "bucket": "MEDIUM",
+   "wall_s": 85.6,
+   "era": "py39",
+   "n_production": 2,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-bd64d6fdbe4b": {
+   "bucket": "SLOW",
+   "wall_s": 356.2,
+   "era": "py39",
+   "n_production": 1,
+   "n_test": 2,
+   "n_test_added": 0,
+   "n_test_modified": 2,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-22a30bf2e4cc": {
+   "bucket": "SLOW",
+   "wall_s": 344.6,
+   "era": "py312",
+   "n_production": 1,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-8b0cbe2fb72f": {
+   "bucket": "SLOW",
+   "wall_s": 375.8,
+   "era": "py39",
+   "n_production": 2,
+   "n_test": 3,
+   "n_test_added": 0,
+   "n_test_modified": 3,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-b41168d9077d": {
+   "bucket": "FAST",
+   "wall_s": 10.6,
+   "era": "py39",
+   "n_production": 2,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  },
+  "saleor-rc-c9c1cc0968d3": {
+   "bucket": "MEDIUM",
+   "wall_s": 105.1,
+   "era": "py39",
+   "n_production": 3,
+   "n_test": 1,
+   "n_test_added": 0,
+   "n_test_modified": 1,
+   "migration_or_config_heavy": false
+  }
+ }
+}

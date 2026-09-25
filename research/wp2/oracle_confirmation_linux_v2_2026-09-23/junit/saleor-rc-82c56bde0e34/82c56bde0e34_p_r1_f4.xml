@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="6" skipped="0" tests="28" time="4.132" timestamp="2026-09-24T18:33:33.519321-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_trigger_webhook_sync" time="1.535" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_trigger_webhook_sync_with_subscription" time="0.126" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_send_webhook_request_sync_failed_attempt" time="0.099" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_send_webhook_request_sync_successful_attempt" time="0.061" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_send_webhook_request_sync_request_exception" time="0.096" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_send_webhook_request_sync_when_exception_with_response" time="0.061" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_send_webhook_request_sync_json_parsing_error" time="0.063" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_send_webhook_request_with_proper_timeout" time="0.067" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_send_webhook_request_sync_invalid_scheme" time="0.058" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_get_payment_gateways" time="0.026"><failure message="TypeError: get_payment_gateways() takes 4 positional arguments but 5 were given">mock_send_request = &lt;MagicMock name='send_webhook_request_sync' id='126372216780016'&gt;
+payment_app = &lt;App: Payment App&gt;
+permission_manage_payments = &lt;Permission: payment | payment | Handle payments&gt;
+webhook_plugin = &lt;function webhook_plugin.&lt;locals&gt;.factory at 0x72ef533dadc0&gt;
+
+    @mock.patch("saleor.plugins.webhook.tasks.send_webhook_request_sync")
+    def test_get_payment_gateways(
+        mock_send_request, payment_app, permission_manage_payments, webhook_plugin
+    ):
+        # Create second app to test results from multiple apps.
+        app_2 = App.objects.create(name="Payment App 2", is_active=True)
+        app_2.tokens.create(name="Default")
+        app_2.permissions.add(permission_manage_payments)
+        webhook = Webhook.objects.create(
+            name="payment-webhook-2",
+            app=app_2,
+            target_url="https://payment-gateway-2.com/api/",
+        )
+        webhook.events.bulk_create(
+            [
+                WebhookEvent(event_type=event_type, webhook=webhook)
+                for event_type in WebhookEventSyncType.PAYMENT_EVENTS
+            ]
+        )
+    
+        plugin = webhook_plugin()
+        mock_json_response = [
+            {
+                "id": "credit-card",
+                "name": "Credit Card",
+                "currencies": ["USD", "EUR"],
+                "config": [],
+            }
+        ]
+        mock_send_request.return_value = mock_json_response
+&gt;       response_data = plugin.get_payment_gateways("USD", None, None, None)
+E       TypeError: get_payment_gateways() takes 4 positional arguments but 5 were given
+
+saleor/plugins/webhook/tests/test_payment_webhook.py:289: TypeError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_get_payment_gateways_with_transactions" time="0.021"><failure message="TypeError: get_payment_gateways() takes 4 positional arguments but 5 were given">mock_send_request = &lt;MagicMock name='send_webhook_request_sync' id='126372226884224'&gt;
+permission_manage_payments = &lt;Permission: payment | payment | Handle payments&gt;
+webhook_plugin = &lt;function webhook_plugin.&lt;locals&gt;.factory at 0x72ef530a9f70&gt;
+
+    @mock.patch("saleor.plugins.webhook.tasks.send_webhook_request_sync")
+    def test_get_payment_gateways_with_transactions(
+        mock_send_request, permission_manage_payments, webhook_plugin
+    ):
+        # given
+        app_name = "Payment App 2"
+        app_identifier = "app2"
+        app = App.objects.create(name=app_name, is_active=True, identifier=app_identifier)
+        app.permissions.add(permission_manage_payments)
+        webhook = Webhook.objects.create(
+            name="payment-webhook-2",
+            app=app,
+            target_url="https://payment-gateway-2.com/api/",
+        )
+        WebhookEvent.objects.create(
+            event_type=WebhookEventSyncType.TRANSACTION_INITIALIZE_SESSION, webhook=webhook
+        )
+    
+        plugin = webhook_plugin()
+    
+        # when
+&gt;       response_data = plugin.get_payment_gateways("USD", None, None, None)
+E       TypeError: get_payment_gateways() takes 4 positional arguments but 5 were given
+
+saleor/plugins/webhook/tests/test_payment_webhook.py:322: TypeError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_get_payment_gateways_with_transactions_and_app_without_identifier" time="0.020"><failure message="TypeError: get_payment_gateways() takes 4 positional arguments but 5 were given">mock_send_request = &lt;MagicMock name='send_webhook_request_sync' id='126372227776464'&gt;
+permission_manage_payments = &lt;Permission: payment | payment | Handle payments&gt;
+webhook_plugin = &lt;function webhook_plugin.&lt;locals&gt;.factory at 0x72ef533dad30&gt;
+
+    @mock.patch("saleor.plugins.webhook.tasks.send_webhook_request_sync")
+    def test_get_payment_gateways_with_transactions_and_app_without_identifier(
+        mock_send_request, permission_manage_payments, webhook_plugin
+    ):
+        # given
+        app_name = "Payment App 2"
+        app_identifier = None
+        app = App.objects.create(name=app_name, is_active=True, identifier=app_identifier)
+        app.permissions.add(permission_manage_payments)
+        webhook = Webhook.objects.create(
+            name="payment-webhook-2",
+            app=app,
+            target_url="https://payment-gateway-2.com/api/",
+        )
+        WebhookEvent.objects.create(
+            event_type=WebhookEventSyncType.TRANSACTION_INITIALIZE_SESSION, webhook=webhook
+        )
+    
+        plugin = webhook_plugin()
+    
+        # when
+&gt;       response_data = plugin.get_payment_gateways("USD", None, None, None)
+E       TypeError: get_payment_gateways() takes 4 positional arguments but 5 were given
+
+saleor/plugins/webhook/tests/test_payment_webhook.py:353: TypeError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_get_payment_gateways_multiple_webhooks_in_the_same_app" time="0.022"><failure message="TypeError: get_payment_gateways() takes 4 positional arguments but 5 were given">mock_send_request = &lt;MagicMock name='send_webhook_request_sync' id='126372216067216'&gt;
+payment_app = &lt;App: Payment App&gt;
+permission_manage_payments = &lt;Permission: payment | payment | Handle payments&gt;
+webhook_plugin = &lt;function webhook_plugin.&lt;locals&gt;.factory at 0x72ef530be4c0&gt;
+
+    @mock.patch("saleor.plugins.webhook.tasks.send_webhook_request_sync")
+    def test_get_payment_gateways_multiple_webhooks_in_the_same_app(
+        mock_send_request, payment_app, permission_manage_payments, webhook_plugin
+    ):
+        # given
+        # create the second webhook with the same event
+        webhook = Webhook.objects.create(
+            name="payment-webhook-2",
+            app=payment_app,
+            target_url="https://payment-gateway-2.com/api/",
+        )
+        webhook.events.bulk_create(
+            [
+                WebhookEvent(event_type=event_type, webhook=webhook)
+                for event_type in WebhookEventSyncType.PAYMENT_EVENTS
+            ]
+        )
+    
+        plugin = webhook_plugin()
+        mock_json_response = [
+            {
+                "id": "credit-card",
+                "name": "Credit Card",
+                "currencies": ["USD", "EUR"],
+                "config": [],
+            }
+        ]
+        mock_send_request.return_value = mock_json_response
+    
+        # when
+&gt;       response_data = plugin.get_payment_gateways("USD", None, None, None)
+E       TypeError: get_payment_gateways() takes 4 positional arguments but 5 were given
+
+saleor/plugins/webhook/tests/test_payment_webhook.py:389: TypeError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_get_payment_gateways_filters_out_unsupported_currencies" time="0.022"><failure message="TypeError: get_payment_gateways() takes 4 positional arguments but 5 were given">mock_send_request = &lt;MagicMock name='send_webhook_request_sync' id='126372216801552'&gt;
+payment_app = &lt;App: Payment App&gt;
+webhook_plugin = &lt;function webhook_plugin.&lt;locals&gt;.factory at 0x72ef530be820&gt;
+
+    @mock.patch("saleor.plugins.webhook.tasks.send_webhook_request_sync")
+    def test_get_payment_gateways_filters_out_unsupported_currencies(
+        mock_send_request, payment_app, webhook_plugin
+    ):
+        plugin = webhook_plugin()
+        mock_json_response = [
+            {
+                "id": "credit-card",
+                "name": "Credit Card",
+                "currencies": ["USD", "EUR"],
+                "config": [],
+            }
+        ]
+        mock_send_request.return_value = mock_json_response
+&gt;       response_data = plugin.get_payment_gateways("PLN", None, None, None)
+E       TypeError: get_payment_gateways() takes 4 positional arguments but 5 were given
+
+saleor/plugins/webhook/tests/test_payment_webhook.py:417: TypeError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_get_payment_gateways_for_checkout" time="0.280"><failure message="TypeError: get_payment_gateways() takes 4 positional arguments but 5 were given">mock_generate_payload = &lt;MagicMock name='generate_list_gateways_payload' id='126372215345792'&gt;
+mock_send_request = &lt;MagicMock name='send_webhook_request_sync' id='126372215362224'&gt;
+checkout_info = CheckoutInfo(checkout=&lt;Checkout: Checkout object (d7ee403b-3512-4a3f-919b-df83b56a51a4)&gt;, user=None, channel=&lt;Channel:...zyObject: &lt;function update_delivery_method_lists_for_checkout_info.&lt;locals&gt;.&lt;lambda&gt; at 0x72ef53009e50&gt;&gt;, voucher=None)
+payment_app = &lt;App: Payment App&gt;
+webhook_plugin = &lt;function webhook_plugin.&lt;locals&gt;.factory at 0x72ef530170d0&gt;
+
+    @mock.patch("saleor.plugins.webhook.tasks.send_webhook_request_sync")
+    @mock.patch("saleor.plugins.webhook.plugin.generate_list_gateways_payload")
+    def test_get_payment_gateways_for_checkout(
+        mock_generate_payload, mock_send_request, checkout_info, payment_app, webhook_plugin
+    ):
+        plugin = webhook_plugin()
+        mock_json_response = [
+            {
+                "id": "credit-card",
+                "name": "Credit Card",
+                "currencies": ["USD", "EUR"],
+                "config": [],
+            }
+        ]
+        mock_send_request.return_value = mock_json_response
+        mock_generate_payload.return_value = ""
+&gt;       plugin.get_payment_gateways("USD", checkout_info, None, None)
+E       TypeError: get_payment_gateways() takes 4 positional arguments but 5 were given
+
+saleor/plugins/webhook/tests/test_payment_webhook.py:437: TypeError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_run_payment_webhook[auth-authorize_payment]" time="0.111" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_run_payment_webhook[capture-capture_payment]" time="0.109" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_run_payment_webhook[refund-refund_payment]" time="0.106" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_run_payment_webhook[void-void_payment]" time="0.108" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_run_payment_webhook[confirm-confirm_payment]" time="0.110" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_run_payment_webhook[capture-process_payment]" time="0.109" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_run_payment_webhook_invalid_app" time="0.093" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_run_payment_webhook_no_payment_app_data" time="0.091" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_run_payment_webhook_inactive_plugin" time="0.097" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_run_payment_webhook_no_response" time="0.106" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_run_payment_webhook_empty_response" time="0.107" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_check_plugin_id" time="0.021" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_webhook_plugin_token_is_not_required" time="0.016" /></testsuite></testsuites>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="4" skipped="0" tests="45" time="5.860" timestamp="2026-09-24T21:46:42.999173+00:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_attribute" time="1.274" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_attribute_trigger_webhook" time="0.212" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_attribute_remove_and_add_values" time="0.118" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_empty_attribute_and_add_values" time="0.310" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_empty_attribute_and_add_values_name_not_given" time="0.066" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_attribute_with_file_input_type" time="0.082" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_attribute_with_numeric_input_type" time="0.089" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_attribute_with_file_input_type_and_values" time="0.064" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_attribute_with_file_input_type_invalid_settings" time="0.072" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_attribute_provide_existing_value_name" time="0.074" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_attribute_slug[test-slug-test-slug-None]" time="0.078" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_attribute_slug[--Slug value cannot be blank.]" time="0.068" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_attribute_slug[None--Slug value cannot be blank.]" time="0.068" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_attribute_slug_exists" time="0.072" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_attribute_slug_and_name[test-slug-test-slug-New name-None-None]" time="0.070" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_attribute_slug_and_name[--New name-Slug value cannot be blank.-slug]" time="0.064" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_attribute_slug_and_name[None--New name-Slug value cannot be blank.-slug]" time="0.067" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_attribute_slug_and_name[test-slug--None-This field cannot be blank.-name]" time="0.066" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_attribute_slug_and_name[test-slug---This field cannot be blank.-name]" time="0.065" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_attribute_slug_and_name[None-None-None-Slug value cannot be blank.-slug]" time="0.068" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_attribute_and_add_attribute_values_errors[Red color-Red color-Provided values are not unique.-AttributeErrorCode.UNIQUE]" time="0.082" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_attribute_and_add_attribute_values_errors[Red color-red color-Provided values are not unique.-AttributeErrorCode.UNIQUE]" time="0.078" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_attribute_and_add_attribute_values_errors[Red color -Red color-Provided values are not unique.-AttributeErrorCode.UNIQUE]" time="0.078" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_attribute_and_remove_others_attribute_value" time="0.083" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_attribute_by_external_reference" time="0.077" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_attribute_by_both_id_and_external_reference" time="0.066" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_attribute_by_external_reference_not_existing" time="0.069" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_attribute_with_non_unique_external_reference" time="0.087" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_attribute_name_similar_value" time="0.090" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_attribute_reference_types[single-reference]" time="0.109" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_attribute_reference_types[reference]" time="0.107" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_attribute_clear_reference_types" time="0.100" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_reference_attribute_with_reference_types_not_valid_entity_type[Collection]" time="0.089" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_reference_attribute_with_reference_types_not_valid_entity_type[Category]" time="0.089" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_attribute_with_reference_types_invalid_input_type" time="0.085" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_attribute_with_reference_types_limit_exceeded" time="0.080" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_attribute_with_reference_types_page_types_provided_for_variant_ref" time="0.084" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_attribute_with_reference_types_product_types_provided_for_page_ref" time="0.083" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_attribute_remove_value_marks_product_search_index_dirty" time="0.264" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_attribute_add_value_does_not_mark_product_search_index_dirty" time="0.153" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_attribute_remove_value_marks_page_search_index_dirty" time="0.112"><failure message="AssertionError: [{'message': 'To access this path, you need one of the following permissions: MANAGE_PRODUCT_TYPES_AND_ATTRIBUTES', 'locations': [{'line': 5, 'column': 5}], 'path': ['attributeUpdate'], 'extensions': {'exception': {'code': 'PermissionDenied'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7a2dd1be3650&gt;
+page = &lt;Page: Test page&gt;
+permission_manage_page_types_and_attributes = &lt;Permission: Page | page type | Manage page types and attributes.&gt;
+
+    def test_update_attribute_remove_value_marks_page_search_index_dirty(
+        staff_api_client, page, permission_manage_page_types_and_attributes
+    ):
+        # given
+        value = page.attributevalues.first().value
+        attribute = value.attribute
+    
+        assert page.search_index_dirty is False
+    
+        node_id = graphene.Node.to_global_id("Attribute", attribute.id)
+        value_id = graphene.Node.to_global_id("AttributeValue", value.id)
+        variables = {
+            "id": node_id,
+            "input": {
+                "removeValues": [value_id],
+                "addValues": [],
+            },
+        }
+    
+        # when
+        response = staff_api_client.post_graphql(
+            UPDATE_ATTRIBUTE_MUTATION,
+            variables,
+            permissions=[permission_manage_page_types_and_attributes],
+        )
+    
+        # then
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/attribute/tests/mutations/test_attribute_update.py:1243: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+ignore_errors = False
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': 'To access this path, you need one of the following permissions: MANAGE_PRODUCT_TYPES_AND_ATTRIBUTES', 'locations': [{'line': 5, 'column': 5}], 'path': ['attributeUpdate'], 'extensions': {'exception': {'code': 'PermissionDenied'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_attribute_add_value_does_not_mark_page_search_index_dirty" time="0.104"><failure message="AssertionError: [{'message': 'To access this path, you need one of the following permissions: MANAGE_PRODUCT_TYPES_AND_ATTRIBUTES', 'locations': [{'line': 5, 'column': 5}], 'path': ['attributeUpdate'], 'extensions': {'exception': {'code': 'PermissionDenied'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7a2dcbb56ba0&gt;
+page = &lt;Page: Test page&gt;
+permission_manage_page_types_and_attributes = &lt;Permission: Page | page type | Manage page types and attributes.&gt;
+
+    def test_update_attribute_add_value_does_not_mark_page_search_index_dirty(
+        staff_api_client, page, permission_manage_page_types_and_attributes
+    ):
+        # given
+        attribute = page.attributevalues.first().value.attribute
+    
+        assert page.search_index_dirty is False
+    
+        node_id = graphene.Node.to_global_id("Attribute", attribute.id)
+        variables = {
+            "id": node_id,
+            "input": {
+                "addValues": [{"name": "New value"}],
+            },
+        }
+    
+        # when
+        response = staff_api_client.post_graphql(
+            UPDATE_ATTRIBUTE_MUTATION,
+            variables,
+            permissions=[permission_manage_page_types_and_attributes],
+        )
+    
+        # then
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/attribute/tests/mutations/test_attribute_update.py:1275: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+ignore_errors = False
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': 'To access this path, you need one of the following permissions: MANAGE_PRODUCT_TYPES_AND_ATTRIBUTES', 'locations': [{'line': 5, 'column': 5}], 'path': ['attributeUpdate'], 'extensions': {'exception': {'code': 'PermissionDenied'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_page_attribute_with_page_type_permission" time="0.066"><failure message="AssertionError: [{'message': 'To access this path, you need one of the following permissions: MANAGE_PRODUCT_TYPES_AND_ATTRIBUTES', 'locations': [{'line': 5, 'column': 5}], 'path': ['attributeUpdate'], 'extensions': {'exception': {'code': 'PermissionDenied'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7a2dd1bf30e0&gt;
+size_page_attribute = &lt;Attribute: Page size&gt;
+permission_manage_page_types_and_attributes = &lt;Permission: Page | page type | Manage page types and attributes.&gt;
+
+    def test_update_page_attribute_with_page_type_permission(
+        staff_api_client, size_page_attribute, permission_manage_page_types_and_attributes
+    ):
+        # given
+        attribute = size_page_attribute
+        name = "Updated page attribute name"
+        node_id = graphene.Node.to_global_id("Attribute", attribute.id)
+        variables = {"id": node_id, "input": {"name": name}}
+    
+        # when
+        response = staff_api_client.post_graphql(
+            UPDATE_ATTRIBUTE_MUTATION,
+            variables,
+            permissions=[permission_manage_page_types_and_attributes],
+        )
+    
+        # then
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/attribute/tests/mutations/test_attribute_update.py:1300: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+ignore_errors = False
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': 'To access this path, you need one of the following permissions: MANAGE_PRODUCT_TYPES_AND_ATTRIBUTES', 'locations': [{'line': 5, 'column': 5}], 'path': ['attributeUpdate'], 'extensions': {'exception': {'code': 'PermissionDenied'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_page_attribute_without_page_type_permission" time="0.086"><failure message="AssertionError: {'data': {'attributeUpdate': {'errors': [], 'attribute': {'name': 'Updated page attribute name', 'slug': 'page-size', 'unit': None, 'entityType': None, 'referenceTypes': [], 'externalReference': None, 'choices': {'edges': [{'node': {'name': '10', 'slug': '10'}}, {'node': {'name': '15', 'slug': '15'}}]}, 'productTypes': {'edges': []}}}}, 'extensions': {'cost': {'requestedQueryCost': 120, 'maximumAvailable': 50000}}}">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7a2dd1a4c530&gt;
+size_page_attribute = &lt;Attribute: Page size&gt;
+permission_manage_product_types_and_attributes = &lt;Permission: Product | product type | Manage product types and attributes.&gt;
+
+    def test_update_page_attribute_without_page_type_permission(
+        staff_api_client,
+        size_page_attribute,
+        permission_manage_product_types_and_attributes,
+    ):
+        # given
+        attribute = size_page_attribute
+        name = "Updated page attribute name"
+        node_id = graphene.Node.to_global_id("Attribute", attribute.id)
+        variables = {"id": node_id, "input": {"name": name}}
+    
+        # when
+        response = staff_api_client.post_graphql(
+            UPDATE_ATTRIBUTE_MUTATION,
+            variables,
+            permissions=[permission_manage_product_types_and_attributes],
+        )
+    
+        # then
+&gt;       assert_no_permission(response)
+
+saleor/graphql/attribute/tests/mutations/test_attribute_update.py:1327: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+&gt;       assert "errors" in content, content
+               ^^^^^^^^^^^^^^^^^^^
+E       AssertionError: {'data': {'attributeUpdate': {'errors': [], 'attribute': {'name': 'Updated page attribute name', 'slug': 'page-size', 'unit': None, 'entityType': None, 'referenceTypes': [], 'externalReference': None, 'choices': {'edges': [{'node': {'name': '10', 'slug': '10'}}, {'node': {'name': '15', 'slug': '15'}}]}, 'productTypes': {'edges': []}}}}, 'extensions': {'cost': {'requestedQueryCost': 120, 'maximumAvailable': 50000}}}
+
+saleor/graphql/tests/utils.py:24: AssertionError</failure></testcase><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_update" name="test_update_product_attribute_without_product_type_permission" time="0.065" /></testsuite></testsuites>

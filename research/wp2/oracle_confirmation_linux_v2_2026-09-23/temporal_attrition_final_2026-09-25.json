@@ -1,0 +1,202 @@
+{
+ "artifact": "wp2_d1_temporal_attrition_final",
+ "date": "2026-09-25",
+ "C2_MAIN": {
+  "per_era": {
+   "py38": {
+    "attempted": 22,
+    "env_failed": 2,
+    "executable": 20,
+    "primary": 1,
+    "symbol": 1,
+    "attrition_rate": 0.091,
+    "oracle_yield_rate": 0.045
+   },
+   "py39": {
+    "attempted": 121,
+    "env_failed": 25,
+    "executable": 96,
+    "primary": 39,
+    "symbol": 12,
+    "attrition_rate": 0.207,
+    "oracle_yield_rate": 0.322
+   },
+   "py312": {
+    "attempted": 77,
+    "env_failed": 33,
+    "executable": 44,
+    "primary": 31,
+    "symbol": 4,
+    "attrition_rate": 0.429,
+    "oracle_yield_rate": 0.403
+   }
+  },
+  "per_year": {
+   "2020": {
+    "attempted": 21,
+    "env_failed": 2,
+    "executable": 19,
+    "primary": 1,
+    "attrition_rate": 0.095,
+    "oracle_yield_rate": 0.048
+   },
+   "2021": {
+    "attempted": 42,
+    "env_failed": 0,
+    "executable": 42,
+    "primary": 1,
+    "attrition_rate": 0.0,
+    "oracle_yield_rate": 0.024
+   },
+   "2022": {
+    "attempted": 26,
+    "env_failed": 0,
+    "executable": 26,
+    "primary": 19,
+    "attrition_rate": 0.0,
+    "oracle_yield_rate": 0.731
+   },
+   "2023": {
+    "attempted": 34,
+    "env_failed": 5,
+    "executable": 29,
+    "primary": 19,
+    "attrition_rate": 0.147,
+    "oracle_yield_rate": 0.559
+   },
+   "2024": {
+    "attempted": 32,
+    "env_failed": 23,
+    "executable": 9,
+    "primary": 3,
+    "attrition_rate": 0.719,
+    "oracle_yield_rate": 0.094
+   },
+   "2025": {
+    "attempted": 43,
+    "env_failed": 30,
+    "executable": 13,
+    "primary": 11,
+    "attrition_rate": 0.698,
+    "oracle_yield_rate": 0.256
+   },
+   "2026": {
+    "attempted": 22,
+    "env_failed": 0,
+    "executable": 22,
+    "primary": 17,
+    "attrition_rate": 0.0,
+    "oracle_yield_rate": 0.773
+   }
+  }
+ },
+ "C4_DEV": {
+  "per_era": {
+   "py39": {
+    "attempted": 67,
+    "env_failed": 9,
+    "executable": 58,
+    "primary": 28,
+    "symbol": 4,
+    "attrition_rate": 0.134,
+    "oracle_yield_rate": 0.418
+   },
+   "py312": {
+    "attempted": 34,
+    "env_failed": 15,
+    "executable": 19,
+    "primary": 13,
+    "symbol": 1,
+    "attrition_rate": 0.441,
+    "oracle_yield_rate": 0.382
+   },
+   "py38": {
+    "attempted": 10,
+    "env_failed": 0,
+    "executable": 10,
+    "primary": 2,
+    "symbol": 1,
+    "attrition_rate": 0.0,
+    "oracle_yield_rate": 0.2
+   }
+  },
+  "per_year": {
+   "2020": {
+    "attempted": 10,
+    "env_failed": 0,
+    "executable": 10,
+    "primary": 2,
+    "attrition_rate": 0.0,
+    "oracle_yield_rate": 0.2
+   },
+   "2021": {
+    "attempted": 22,
+    "env_failed": 0,
+    "executable": 22,
+    "primary": 2,
+    "attrition_rate": 0.0,
+    "oracle_yield_rate": 0.091
+   },
+   "2022": {
+    "attempted": 19,
+    "env_failed": 0,
+    "executable": 19,
+    "primary": 13,
+    "attrition_rate": 0.0,
+    "oracle_yield_rate": 0.684
+   },
+   "2023": {
+    "attempted": 19,
+    "env_failed": 2,
+    "executable": 17,
+    "primary": 13,
+    "attrition_rate": 0.105,
+    "oracle_yield_rate": 0.684
+   },
+   "2024": {
+    "attempted": 13,
+    "env_failed": 10,
+    "executable": 3,
+    "primary": 2,
+    "attrition_rate": 0.769,
+    "oracle_yield_rate": 0.154
+   },
+   "2025": {
+    "attempted": 22,
+    "env_failed": 12,
+    "executable": 10,
+    "primary": 6,
+    "attrition_rate": 0.545,
+    "oracle_yield_rate": 0.273
+   },
+   "2026": {
+    "attempted": 6,
+    "env_failed": 0,
+    "executable": 6,
+    "primary": 5,
+    "attrition_rate": 0.0,
+    "oracle_yield_rate": 0.833
+   }
+  }
+ },
+ "amendment_m": {
+  "C2_era_oracle_yield_rates": {
+   "py38": 0.045,
+   "py39": 0.322,
+   "py312": 0.403
+  },
+  "C4_era_oracle_yield_rates": {
+   "py39": 0.418,
+   "py312": 0.382,
+   "py38": 0.2
+  },
+  "analysis": "C2 py38 yield (1/22 = 0.045) is sharply lower than py39/py312 (~0.3-0.4). Evidence of non-harness cause: (a) the same frozen harness produced BEHAVIORAL_F2P on a py38 task in the B3 dry run (05bdc7feb9ac, 24-25 nodes); (b) py38's high TARGET_ORACLE_INVALID node count shows tests attempt execution but fail on the 2020-era native dependency chain (weasyprint/pango), matching the documented dry-run attrition. C4 py38 (n=10, yield 0.20) is small-n; interpretation kept conservative. Hard stop NOT triggered.",
+  "verdict": "HARD_STOP_NOT_TRIGGERED (evidence demonstrates era-dependency attrition, not a harness artifact)"
+ },
+ "notes": [
+  "runner outer DONE does not imply environment success; env/install failures reported separately.",
+  "env failures are NOT oracle negatives.",
+  "py38 conclusions kept conservative (small n: C2 22, C4 10).",
+  "MAIN and DEV kept scientifically separate (different pools, different split roles)."
+ ]
+}

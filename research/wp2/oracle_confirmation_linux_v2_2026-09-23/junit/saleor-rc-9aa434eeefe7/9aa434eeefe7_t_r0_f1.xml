@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="35" time="9.238" timestamp="2026-09-25T00:34:45.819916+00:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.checkout.tests.test_tasks" name="test_delete_expired_anonymous_checkouts" time="1.628" /><testcase classname="saleor.checkout.tests.test_tasks" name="test_delete_expired_user_checkouts" time="0.168" /><testcase classname="saleor.checkout.tests.test_tasks" name="test_delete_empty_checkouts" time="0.155" /><testcase classname="saleor.checkout.tests.test_tasks" name="test_delete_expired_checkouts" time="0.166" /><testcase classname="saleor.checkout.tests.test_tasks" name="test_delete_expired_checkouts_doesnt_delete_when_transaction_amount_exists[0-0-0-0-0-0-0-0-2]" time="0.159" /><testcase classname="saleor.checkout.tests.test_tasks" name="test_delete_expired_checkouts_doesnt_delete_when_transaction_amount_exists[1-0-0-0-0-0-0-0-5]" time="0.151" /><testcase classname="saleor.checkout.tests.test_tasks" name="test_delete_expired_checkouts_doesnt_delete_when_transaction_amount_exists[0-1-0-0-0-0-0-0-5]" time="0.154" /><testcase classname="saleor.checkout.tests.test_tasks" name="test_delete_expired_checkouts_doesnt_delete_when_transaction_amount_exists[0-0-1-0-0-0-0-0-5]" time="0.147" /><testcase classname="saleor.checkout.tests.test_tasks" name="test_delete_expired_checkouts_doesnt_delete_when_transaction_amount_exists[0-0-0-1-0-0-0-0-5]" time="0.148" /><testcase classname="saleor.checkout.tests.test_tasks" name="test_delete_expired_checkouts_doesnt_delete_when_transaction_amount_exists[0-0-0-0-1-0-0-0-5]" time="0.146" /><testcase classname="saleor.checkout.tests.test_tasks" name="test_delete_expired_checkouts_doesnt_delete_when_transaction_amount_exists[0-0-0-0-0-1-0-0-2]" time="0.154" /><testcase classname="saleor.checkout.tests.test_tasks" name="test_delete_expired_checkouts_doesnt_delete_when_transaction_amount_exists[0-0-0-0-0-0-1-0-2]" time="0.161" /><testcase classname="saleor.checkout.tests.test_tasks" name="test_delete_expired_checkouts_doesnt_delete_when_transaction_amount_exists[0-0-0-0-0-0-0-1-5]" time="0.151" /><testcase classname="saleor.checkout.tests.test_tasks" name="test_delete_expired_checkouts_doesnt_delete_when_transaction_amount_exists[1-1-1-1-1-1-1-1-5]" time="0.141" /><testcase classname="saleor.checkout.tests.test_tasks" name="test_delete_expired_checkouts_no_checkouts_to_delete" time="0.036" /><testcase classname="saleor.checkout.tests.test_tasks" name="test_delete_checkouts_until_done" time="0.090" /><testcase classname="saleor.checkout.tests.test_tasks" name="test_aborts_deleting_checkouts_when_invocation_count_exhausted" time="0.059" /><testcase classname="saleor.checkout.tests.test_tasks" name="test_automatic_checkout_completion_transaction_flow" time="0.761"><failure message="assert 4 == 2&#10; +  where 4 = len([&lt;LogRecord: saleor.checkout.tasks, 20, /workspace/9aa434eeefe7_t/saleor/checkout/tasks.py, 247, &quot;Automatic checkout c... /workspace/9aa434eeefe7_t/saleor/checkout/tasks.py, 275, &quot;Automatic checkout completion succeeded for checkout: %s.&quot;&gt;])&#10; +    where [&lt;LogRecord: saleor.checkout.tasks, 20, /workspace/9aa434eeefe7_t/saleor/checkout/tasks.py, 247, &quot;Automatic checkout c... /workspace/9aa434eeefe7_t/saleor/checkout/tasks.py, 275, &quot;Automatic checkout completion succeeded for checkout: %s.&quot;&gt;] = &lt;_pytest.logging.LogCaptureFixture object at 0x7f1d961854c0&gt;.records">checkout_with_prices = &lt;Checkout: Checkout object (7baa0f00-d6d0-4d21-ae5b-964577cf95a6)&gt;
+transaction_item_generator = &lt;function transaction_item_generator.&lt;locals&gt;.create_transaction at 0x7f1d95d4f600&gt;
+app = &lt;App: Sample app objects&gt;
+caplog = &lt;_pytest.logging.LogCaptureFixture object at 0x7f1d961854c0&gt;
+django_capture_on_commit_callbacks = &lt;bound method TestCase.captureOnCommitCallbacks of &lt;class 'django.test.testcases.TestCase'&gt;&gt;
+
+    def test_automatic_checkout_completion_transaction_flow(
+        checkout_with_prices,
+        transaction_item_generator,
+        app,
+        caplog,
+        django_capture_on_commit_callbacks,
+    ):
+        # given
+        checkout = checkout_with_prices
+        checkout_pk = checkout.pk
+    
+        # allow catching the log in caplog
+        parent_logger = task_logger.parent
+        parent_logger.propagate = True
+    
+        transaction_item_generator(
+            checkout_id=checkout.pk, charged_value=checkout.total.gross.amount
+        )
+    
+        # when
+        with django_capture_on_commit_callbacks(execute=True):
+            automatic_checkout_completion_task(checkout.pk)
+    
+        # then
+        assert not Checkout.objects.filter(pk=checkout_pk).exists()
+        order = Order.objects.filter(checkout_token=checkout_pk).first()
+        assert order
+        assert order.events.filter(
+            type=OrderEvents.PLACED_AUTOMATICALLY_FROM_PAID_CHECKOUT
+        ).exists()
+    
+        checkout_id = graphene.Node.to_global_id("Checkout", checkout_pk)
+&gt;       assert len(caplog.records) == 2
+E       assert 4 == 2
+E        +  where 4 = len([&lt;LogRecord: saleor.checkout.tasks, 20, /workspace/9aa434eeefe7_t/saleor/checkout/tasks.py, 247, "Automatic checkout c... /workspace/9aa434eeefe7_t/saleor/checkout/tasks.py, 275, "Automatic checkout completion succeeded for checkout: %s."&gt;])
+E        +    where [&lt;LogRecord: saleor.checkout.tasks, 20, /workspace/9aa434eeefe7_t/saleor/checkout/tasks.py, 247, "Automatic checkout c... /workspace/9aa434eeefe7_t/saleor/checkout/tasks.py, 275, "Automatic checkout completion succeeded for checkout: %s."&gt;] = &lt;_pytest.logging.LogCaptureFixture object at 0x7f1d961854c0&gt;.records
+
+saleor/checkout/tests/test_tasks.py:630: AssertionError</failure></testcase><testcase classname="saleor.checkout.tests.test_tasks" name="test_automatic_checkout_completion_payment_flow" time="0.888" /><testcase classname="saleor.checkout.tests.test_tasks" name="test_automatic_checkout_completion_missing_checkout" time="0.040" /><testcase classname="saleor.checkout.tests.test_tasks" name="test_automatic_checkout_completion_unavailable_variant" time="0.416" /><testcase classname="saleor.checkout.tests.test_tasks" name="test_automatic_checkout_completion_line_without_listing[ProductVariantChannelListing-variant_id]" time="0.422" /><testcase classname="saleor.checkout.tests.test_tasks" name="test_automatic_checkout_completion_line_without_listing[ProductChannelListing-product__variants__id]" time="0.415" /><testcase classname="saleor.checkout.tests.test_tasks" name="test_automatic_checkout_completion_error_raised" time="0.068" /><testcase classname="saleor.checkout.tests.test_tasks" name="test_trigger_automatic_checkout_completion_task_no_channels" time="0.044" /><testcase classname="saleor.checkout.tests.test_tasks" name="test_trigger_automatic_checkout_completion_task_no_eligible_checkouts" time="0.182" /><testcase classname="saleor.checkout.tests.test_tasks" name="test_trigger_automatic_checkout_completion_task_with_eligible_checkouts" time="0.405" /><testcase classname="saleor.checkout.tests.test_tasks" name="test_trigger_automatic_checkout_completion_task_checkout_not_eligible_due_to_delay" time="0.397" /><testcase classname="saleor.checkout.tests.test_tasks" name="test_trigger_automatic_checkout_completion_task_checkout_too_old" time="0.388" /><testcase classname="saleor.checkout.tests.test_tasks" name="test_trigger_automatic_checkout_completion_task_respects_batch_size[1]" time="0.081" /><testcase classname="saleor.checkout.tests.test_tasks" name="test_trigger_automatic_checkout_completion_task_respects_batch_size[2]" time="0.079" /><testcase classname="saleor.checkout.tests.test_tasks" name="test_trigger_automatic_checkout_completion_task_respects_batch_size[5]" time="0.084" /><testcase classname="saleor.checkout.tests.test_tasks" name="test_trigger_automatic_checkout_completion_task_prioritizes_never_attempted" time="0.089" /><testcase classname="saleor.checkout.tests.test_tasks" name="test_trigger_automatic_checkout_completion_task_multiple_channels" time="0.096" /><testcase classname="saleor.checkout.tests.test_tasks" name="test_trigger_automatic_checkout_completion_task_with_cut_off_date" time="0.093" /></testsuite></testsuites>

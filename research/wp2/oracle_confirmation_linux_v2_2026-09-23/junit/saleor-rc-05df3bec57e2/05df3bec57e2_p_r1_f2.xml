@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="9" skipped="0" tests="9" time="3.334" timestamp="2026-09-24T13:24:22.889014-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_update" name="test_product_variant_bulk_update" time="1.581"><failure message="AssertionError: [{'message': 'Cannot query field &quot;path&quot; on type &quot;ProductVariantBulkError&quot;.', 'locations': [{'line': 13, 'column': 25}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">product_variant_created_webhook_mock = &lt;MagicMock name='product_variant_updated' id='139229966696944'&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7ea100db1460&gt;
+product_with_single_variant = &lt;saleor.product.models.Product(pk=134, name='Test product with single variant')&gt;
+size_attribute = &lt;Attribute: Size&gt;
+permission_manage_products = &lt;Permission: product | product | Manage products.&gt;
+
+    @patch("saleor.plugins.manager.PluginsManager.product_variant_updated")
+    def test_product_variant_bulk_update(
+        product_variant_created_webhook_mock,
+        staff_api_client,
+        product_with_single_variant,
+        size_attribute,
+        permission_manage_products,
+    ):
+        # given
+        variant = product_with_single_variant.variants.last()
+        product_id = graphene.Node.to_global_id("Product", product_with_single_variant.pk)
+        variant_id = graphene.Node.to_global_id("ProductVariant", variant.pk)
+        old_name = variant.name
+        new_name = "new-random-name"
+        metadata_key = "md key"
+        metadata_value = "md value"
+    
+        variants = [
+            {
+                "id": variant_id,
+                "name": new_name,
+                "metadata": [{"key": metadata_key, "value": metadata_value}],
+            }
+        ]
+    
+        variables = {"productId": product_id, "variants": variants}
+    
+        # when
+        staff_api_client.user.user_permissions.add(permission_manage_products)
+        response = staff_api_client.post_graphql(
+            PRODUCT_VARIANT_BULK_UPDATE_MUTATION, variables
+        )
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/product/tests/mutations/test_product_variant_bulk_update.py:102: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': 'Cannot query field "path" on type "ProductVariantBulkError".', 'locations': [{'line': 13, 'column': 25}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_update" name="test_product_variant_bulk_update_stocks" time="0.173"><failure message="AssertionError: [{'message': 'Cannot query field &quot;path&quot; on type &quot;ProductVariantBulkError&quot;.', 'locations': [{'line': 13, 'column': 25}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7ea100501820&gt;
+variant_with_many_stocks = &lt;ProductVariant: SKU_A&gt;
+warehouse = &lt;Warehouse: Example Warehouse&gt;, size_attribute = &lt;Attribute: Size&gt;
+permission_manage_products = &lt;Permission: product | product | Manage products.&gt;
+
+    def test_product_variant_bulk_update_stocks(
+        staff_api_client,
+        variant_with_many_stocks,
+        warehouse,
+        size_attribute,
+        permission_manage_products,
+    ):
+        # given
+        variant = variant_with_many_stocks
+        product_id = graphene.Node.to_global_id("Product", variant.product_id)
+        variant_id = graphene.Node.to_global_id("ProductVariant", variant.pk)
+        stocks = variant.stocks.all()
+        assert len(stocks) == 2
+        stock_to_update = stocks[0]
+        new_quantity = 999
+        assert stock_to_update.quantity != new_quantity
+        new_stock_quantity = 100
+    
+        variants = [
+            {
+                "id": variant_id,
+                "stocks": {
+                    "create": [
+                        {
+                            "quantity": new_stock_quantity,
+                            "warehouse": graphene.Node.to_global_id(
+                                "Warehouse", warehouse.pk
+                            ),
+                        },
+                    ],
+                    "update": [
+                        {
+                            "quantity": new_quantity,
+                            "stock": graphene.Node.to_global_id(
+                                "Stock", stock_to_update.pk
+                            ),
+                        },
+                    ],
+                },
+            }
+        ]
+    
+        variables = {"productId": product_id, "variants": variants}
+    
+        # when
+        staff_api_client.user.user_permissions.add(permission_manage_products)
+        response = staff_api_client.post_graphql(
+            PRODUCT_VARIANT_BULK_UPDATE_MUTATION, variables
+        )
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/product/tests/mutations/test_product_variant_bulk_update.py:167: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': 'Cannot query field "path" on type "ProductVariantBulkError".', 'locations': [{'line': 13, 'column': 25}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_update" name="test_product_variant_bulk_update_and_remove_stock" time="0.179"><failure message="AssertionError: [{'message': 'Cannot query field &quot;path&quot; on type &quot;ProductVariantBulkError&quot;.', 'locations': [{'line': 13, 'column': 25}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7ea1005e9b50&gt;
+variant_with_many_stocks = &lt;ProductVariant: SKU_A&gt;
+warehouse = &lt;Warehouse: Example Warehouse&gt;, size_attribute = &lt;Attribute: Size&gt;
+permission_manage_products = &lt;Permission: product | product | Manage products.&gt;
+
+    def test_product_variant_bulk_update_and_remove_stock(
+        staff_api_client,
+        variant_with_many_stocks,
+        warehouse,
+        size_attribute,
+        permission_manage_products,
+    ):
+        # given
+        variant = variant_with_many_stocks
+        product_id = graphene.Node.to_global_id("Product", variant.product_id)
+        variant_id = graphene.Node.to_global_id("ProductVariant", variant.pk)
+        stocks = variant.stocks.all()
+        assert len(stocks) == 2
+        stock_to_remove = stocks[0]
+    
+        variants = [
+            {
+                "id": variant_id,
+                "stocks": {
+                    "remove": [graphene.Node.to_global_id("Stock", stock_to_remove.pk)]
+                },
+            }
+        ]
+    
+        variables = {"productId": product_id, "variants": variants}
+    
+        # when
+        staff_api_client.user.user_permissions.add(permission_manage_products)
+        response = staff_api_client.post_graphql(
+            PRODUCT_VARIANT_BULK_UPDATE_MUTATION, variables
+        )
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/product/tests/mutations/test_product_variant_bulk_update.py:211: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': 'Cannot query field "path" on type "ProductVariantBulkError".', 'locations': [{'line': 13, 'column': 25}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_update" name="test_product_variant_bulk_update_and_remove_stock_when_stock_not_exists" time="0.183"><failure message="AssertionError: [{'message': 'Cannot query field &quot;path&quot; on type &quot;ProductVariantBulkError&quot;.', 'locations': [{'line': 13, 'column': 25}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7ea101450850&gt;
+variant_with_many_stocks = &lt;ProductVariant: SKU_A&gt;
+warehouse = &lt;Warehouse: Example Warehouse&gt;, size_attribute = &lt;Attribute: Size&gt;
+permission_manage_products = &lt;Permission: product | product | Manage products.&gt;
+
+    def test_product_variant_bulk_update_and_remove_stock_when_stock_not_exists(
+        staff_api_client,
+        variant_with_many_stocks,
+        warehouse,
+        size_attribute,
+        permission_manage_products,
+    ):
+        # given
+        variant = variant_with_many_stocks
+        product_id = graphene.Node.to_global_id("Product", variant.product_id)
+        variant_id = graphene.Node.to_global_id("ProductVariant", variant.pk)
+        stocks = variant.stocks.all()
+        assert len(stocks) == 2
+    
+        variants = [
+            {
+                "id": variant_id,
+                "stocks": {"remove": [graphene.Node.to_global_id("Stock", "randomID")]},
+            }
+        ]
+    
+        variables = {"productId": product_id, "variants": variants}
+    
+        # when
+        staff_api_client.user.user_permissions.add(permission_manage_products)
+        response = staff_api_client.post_graphql(
+            PRODUCT_VARIANT_BULK_UPDATE_MUTATION, variables
+        )
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/product/tests/mutations/test_product_variant_bulk_update.py:249: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': 'Cannot query field "path" on type "ProductVariantBulkError".', 'locations': [{'line': 13, 'column': 25}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_update" name="test_product_variant_bulk_update_stocks_with_invalid_warehouse" time="0.183"><failure message="AssertionError: [{'message': 'Cannot query field &quot;path&quot; on type &quot;ProductVariantBulkError&quot;.', 'locations': [{'line': 13, 'column': 25}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7ea101376910&gt;
+variant_with_many_stocks = &lt;ProductVariant: SKU_A&gt;
+warehouse = &lt;Warehouse: Example Warehouse&gt;, size_attribute = &lt;Attribute: Size&gt;
+permission_manage_products = &lt;Permission: product | product | Manage products.&gt;
+
+    def test_product_variant_bulk_update_stocks_with_invalid_warehouse(
+        staff_api_client,
+        variant_with_many_stocks,
+        warehouse,
+        size_attribute,
+        permission_manage_products,
+    ):
+        # given
+        variant = variant_with_many_stocks
+        product_id = graphene.Node.to_global_id("Product", variant.product_id)
+        variant_id = graphene.Node.to_global_id("ProductVariant", variant.pk)
+        stocks = variant.stocks.all()
+        assert len(stocks) == 2
+        stock_to_update = stocks[0]
+        not_existing_warehouse_id = "aaa="
+    
+        variants = [
+            {
+                "id": variant_id,
+                "stocks": {
+                    "create": [{"quantity": 10, "warehouse": not_existing_warehouse_id}]
+                },
+            }
+        ]
+    
+        variables = {"productId": product_id, "variants": variants}
+    
+        # when
+        staff_api_client.user.user_permissions.add(permission_manage_products)
+        response = staff_api_client.post_graphql(
+            PRODUCT_VARIANT_BULK_UPDATE_MUTATION, variables
+        )
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/product/tests/mutations/test_product_variant_bulk_update.py:293: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': 'Cannot query field "path" on type "ProductVariantBulkError".', 'locations': [{'line': 13, 'column': 25}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_update" name="test_product_variant_bulk_update_channel_listings_input" time="0.187"><failure message="KeyError: 'data'">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7ea100b36700&gt;
+variant = &lt;ProductVariant: SKU_A&gt;
+permission_manage_products = &lt;Permission: product | product | Manage products.&gt;
+warehouses = [&lt;Warehouse: Warehouse PL&gt;, &lt;Warehouse: Warehouse USA&gt;]
+size_attribute = &lt;Attribute: Size&gt;, channel_USD = &lt;Channel: main&gt;
+channel_PLN = &lt;Channel: c-pln&gt;
+
+    def test_product_variant_bulk_update_channel_listings_input(
+        staff_api_client,
+        variant,
+        permission_manage_products,
+        warehouses,
+        size_attribute,
+        channel_USD,
+        channel_PLN,
+    ):
+        # given
+        product = variant.product
+        variant_id = graphene.Node.to_global_id("ProductVariant", variant.pk)
+    
+        ProductChannelListing.objects.create(product=product, channel=channel_PLN)
+        existing_variant_listing = variant.channel_listings.last()
+    
+        assert variant.channel_listings.count() == 1
+        product_id = graphene.Node.to_global_id("Product", product.pk)
+    
+        new_price_for_existing_variant_listing = 50.0
+        not_existing_variant_listing_price = 20.0
+    
+        variants = [
+            {
+                "id": variant_id,
+                "channelListings": {
+                    "update": [
+                        {
+                            "price": new_price_for_existing_variant_listing,
+                            "channelListing": graphene.Node.to_global_id(
+                                "ProductVariantChannelListing", existing_variant_listing.id
+                            ),
+                        }
+                    ],
+                    "create": [
+                        {
+                            "price": not_existing_variant_listing_price,
+                            "channelId": graphene.Node.to_global_id(
+                                "Channel", channel_PLN.pk
+                            ),
+                        }
+                    ],
+                },
+            },
+        ]
+    
+        # when
+        variables = {"productId": product_id, "variants": variants}
+        staff_api_client.user.user_permissions.add(permission_manage_products)
+        response = staff_api_client.post_graphql(
+            PRODUCT_VARIANT_BULK_UPDATE_MUTATION, variables
+        )
+        content = get_graphql_content(response, ignore_errors=True)
+&gt;       data = content["data"]["productVariantBulkUpdate"]
+E       KeyError: 'data'
+
+saleor/graphql/product/tests/mutations/test_product_variant_bulk_update.py:362: KeyError</failure></testcase><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_update" name="test_product_variant_bulk_update_and_remove_channel_listings" time="0.169"><failure message="KeyError: 'data'">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7ea1013c9640&gt;
+variant = &lt;ProductVariant: SKU_A&gt;
+permission_manage_products = &lt;Permission: product | product | Manage products.&gt;
+warehouses = [&lt;Warehouse: Warehouse PL&gt;, &lt;Warehouse: Warehouse USA&gt;]
+size_attribute = &lt;Attribute: Size&gt;, channel_USD = &lt;Channel: main&gt;
+channel_PLN = &lt;Channel: c-pln&gt;
+
+    def test_product_variant_bulk_update_and_remove_channel_listings(
+        staff_api_client,
+        variant,
+        permission_manage_products,
+        warehouses,
+        size_attribute,
+        channel_USD,
+        channel_PLN,
+    ):
+        # given
+        product = variant.product
+        variant_id = graphene.Node.to_global_id("ProductVariant", variant.pk)
+    
+        ProductChannelListing.objects.create(product=product, channel=channel_PLN)
+        existing_variant_listing = variant.channel_listings.last()
+    
+        assert variant.channel_listings.count() == 1
+        product_id = graphene.Node.to_global_id("Product", product.pk)
+    
+        variants = [
+            {
+                "id": variant_id,
+                "channelListings": {
+                    "remove": [
+                        graphene.Node.to_global_id(
+                            "ProductVariantChannelListing", existing_variant_listing.id
+                        )
+                    ]
+                },
+            },
+        ]
+    
+        # when
+        variables = {"productId": product_id, "variants": variants}
+        staff_api_client.user.user_permissions.add(permission_manage_products)
+        response = staff_api_client.post_graphql(
+            PRODUCT_VARIANT_BULK_UPDATE_MUTATION, variables
+        )
+        content = get_graphql_content(response, ignore_errors=True)
+&gt;       data = content["data"]["productVariantBulkUpdate"]
+E       KeyError: 'data'
+
+saleor/graphql/product/tests/mutations/test_product_variant_bulk_update.py:418: KeyError</failure></testcase><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_update" name="test_product_variant_bulk_update_channel_listings_with_invalid_price" time="0.173"><failure message="KeyError: 'data'">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7ea1013c9b20&gt;
+variant = &lt;ProductVariant: SKU_A&gt;
+permission_manage_products = &lt;Permission: product | product | Manage products.&gt;
+warehouses = [&lt;Warehouse: Warehouse PL&gt;, &lt;Warehouse: Warehouse USA&gt;]
+size_attribute = &lt;Attribute: Size&gt;, channel_USD = &lt;Channel: main&gt;
+channel_PLN = &lt;Channel: c-pln&gt;
+
+    def test_product_variant_bulk_update_channel_listings_with_invalid_price(
+        staff_api_client,
+        variant,
+        permission_manage_products,
+        warehouses,
+        size_attribute,
+        channel_USD,
+        channel_PLN,
+    ):
+        # given
+        product = variant.product
+        variant_id = graphene.Node.to_global_id("ProductVariant", variant.pk)
+    
+        ProductChannelListing.objects.create(product=product, channel=channel_PLN)
+        existing_variant_listing = variant.channel_listings.last()
+    
+        assert variant.channel_listings.count() == 1
+        product_id = graphene.Node.to_global_id("Product", product.pk)
+        variants = [
+            {
+                "id": variant_id,
+                "name": "RandomName",
+                "channelListings": {
+                    "update": [
+                        {
+                            "price": 0.99999,
+                            "channelListing": graphene.Node.to_global_id(
+                                "ProductVariantChannelListing", existing_variant_listing.pk
+                            ),
+                        },
+                    ],
+                },
+            },
+        ]
+    
+        # when
+        variables = {"productId": product_id, "variants": variants}
+        staff_api_client.user.user_permissions.add(permission_manage_products)
+        response = staff_api_client.post_graphql(
+            PRODUCT_VARIANT_BULK_UPDATE_MUTATION, variables
+        )
+        content = get_graphql_content(response, ignore_errors=True)
+&gt;       data = content["data"]["productVariantBulkUpdate"]
+E       KeyError: 'data'
+
+saleor/graphql/product/tests/mutations/test_product_variant_bulk_update.py:468: KeyError</failure></testcase><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_bulk_update" name="test_product_variant_bulk_update_with_already_existing_sku" time="0.137"><failure message="AssertionError: [{'message': 'Cannot query field &quot;path&quot; on type &quot;ProductVariantBulkError&quot;.', 'locations': [{'line': 13, 'column': 25}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7ea101401760&gt;
+product_with_two_variants = &lt;saleor.product.models.Product(pk=142, name='Test product with two variants')&gt;
+size_attribute = &lt;Attribute: Size&gt;
+permission_manage_products = &lt;Permission: product | product | Manage products.&gt;
+
+    def test_product_variant_bulk_update_with_already_existing_sku(
+        staff_api_client,
+        product_with_two_variants,
+        size_attribute,
+        permission_manage_products,
+    ):
+        # given
+        variants = product_with_two_variants.variants.all()
+        variant_1 = variants[0]
+        variant_2 = variants[1]
+        product_id = graphene.Node.to_global_id("Product", product_with_two_variants.pk)
+        variant_id = graphene.Node.to_global_id("ProductVariant", variant_1.pk)
+    
+        variants = [{"id": variant_id, "sku": variant_2.sku}]
+    
+        variables = {"productId": product_id, "variants": variants}
+    
+        # when
+        staff_api_client.user.user_permissions.add(permission_manage_products)
+        response = staff_api_client.post_graphql(
+            PRODUCT_VARIANT_BULK_UPDATE_MUTATION, variables
+        )
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/product/tests/mutations/test_product_variant_bulk_update.py:503: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': 'Cannot query field "path" on type "ProductVariantBulkError".', 'locations': [{'line': 13, 'column': 25}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase></testsuite></testsuites>

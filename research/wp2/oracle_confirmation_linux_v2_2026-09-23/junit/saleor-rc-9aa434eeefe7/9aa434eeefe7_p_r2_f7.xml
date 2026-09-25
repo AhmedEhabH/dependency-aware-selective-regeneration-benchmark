@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="73" time="38.098" timestamp="2026-09-25T01:04:15.317044+00:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_for_checkout_without_payment_gateway_data" time="1.941" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_for_checkout_transactions_limit_on_transaction_initialize" time="0.451" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_for_checkout_with_idempotency_key" time="0.552" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_for_checkout_amount_with_lot_of_decimal_places" time="0.577" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_for_checkout_with_multiple_calls_and_idempotency_key" time="0.710" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_for_order_with_multiple_calls_and_idempotency_key" time="0.439" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_for_order_with_idempotency_key" time="0.259" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_for_order_without_payment_gateway_data" time="0.271" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_checkout_with_pending_amount" time="0.556" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_order_with_pending_amount" time="0.251" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_checkout_with_action_required_response" time="0.754" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_order_with_action_required_response" time="0.179" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_checkout_with_action_required_response_and_missing_psp_reference" time="0.463" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_order_with_action_required_response_and_missing_psp_reference" time="0.167" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_checkout_when_amount_is_not_provided" time="0.581" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_order_when_amount_is_not_provided" time="0.292" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_order_status_with_order_confirmation[True-unfulfilled]" time="0.284" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_order_status_with_order_confirmation[False-unconfirmed]" time="0.268" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_draft_order_status_with_order_confirmation[True]" time="0.254" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_draft_order_status_with_order_confirmation[False]" time="0.259" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_order_with_transaction_when_amount_is_not_provided" time="0.273" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_checkout_with_transaction_when_amount_is_not_provided" time="0.541" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_app_with_action_field_and_handle_payments" time="0.569" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_uses_default_channel_action" time="0.563" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_transaction_initialize_for_already_used_idempotency_key" time="0.485" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_transaction_initialize_for_already_used_idempotency_key_and_different_input" time="0.286" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_transaction_initialize_for_empty_string_as_idempotency_key" time="0.438" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_transaction_initialize_for_removed_app" time="0.449" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_transaction_initialize_for_disabled_app" time="0.441" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_app_with_action_field" time="0.477" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_customer_with_action_field" time="0.457" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_incorrect_source_object_id" time="0.352" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_checkout_doesnt_exist" time="0.358" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_order_doesnt_exists" time="0.171" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_checkout_fully_paid[charge_request]" time="0.527" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_checkout_fully_paid[charge_success]" time="0.542" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_checkout_fully_paid_pending_charge" time="0.532" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_checkout_fully_authorized[authorization_request]" time="0.532" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_checkout_fully_authorized[authorization_success]" time="0.551" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_checkout_fully_authorized_pending_authorization" time="0.773"><failure message="saleor.checkout.models.Checkout.DoesNotExist: Checkout matching query does not exist.">mocked_initialize = &lt;MagicMock name='transaction_initialize_session' id='136712749354256'&gt;
+mocked_fully_paid = &lt;MagicMock name='checkout_fully_paid' id='136712749442272'&gt;
+mocked_fully_authorized = &lt;MagicMock name='checkout_fully_authorized' id='136712749437184'&gt;
+user_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7c56eaa78230&gt;
+checkout_with_prices = &lt;Checkout: Checkout object (14cd339f-a344-44da-9ee5-278c65ea85ed)&gt;
+webhook_app = &lt;App: Webhook app&gt;
+transaction_session_response = {'pspReference': 'psp-123', 'data': {'some-json': 'data'}, 'result': 'CHARGE_SUCCESS', 'amount': '10.00', ...}
+plugins_manager = &lt;saleor.plugins.manager.PluginsManager object at 0x7c56eadcab70&gt;
+
+    @mock.patch("saleor.plugins.manager.PluginsManager.checkout_fully_authorized")
+    @mock.patch("saleor.plugins.manager.PluginsManager.checkout_fully_paid")
+    @mock.patch("saleor.plugins.manager.PluginsManager.transaction_initialize_session")
+    def test_checkout_fully_authorized_pending_authorization(
+        mocked_initialize,
+        mocked_fully_paid,
+        mocked_fully_authorized,
+        user_api_client,
+        checkout_with_prices,
+        webhook_app,
+        transaction_session_response,
+        plugins_manager,
+    ):
+        # given
+        checkout = checkout_with_prices
+        lines, _ = fetch_checkout_lines(checkout)
+        checkout_info = fetch_checkout_info(checkout, lines, plugins_manager)
+        checkout_info, _ = fetch_checkout_data(checkout_info, plugins_manager, lines)
+        expected_app_identifier = "webhook.app.identifier"
+        webhook_app.identifier = expected_app_identifier
+        webhook_app.save()
+    
+        channel = checkout_info.channel
+        channel.automatically_complete_fully_paid_checkouts = True
+        channel.save(update_fields=["automatically_complete_fully_paid_checkouts"])
+    
+        expected_psp_reference = "ppp-123"
+        expected_response = transaction_session_response.copy()
+        expected_response["amount"] = str(checkout_info.checkout.total_gross_amount)
+        expected_response["result"] = TransactionEventType.AUTHORIZATION_REQUEST.upper()
+        expected_response["pspReference"] = expected_psp_reference
+        mocked_initialize.return_value = TransactionSessionResult(
+            app_identifier=expected_app_identifier, response=expected_response
+        )
+    
+        variables = {
+            "action": None,
+            "amount": None,
+            "id": to_global_id_or_none(checkout),
+            "paymentGateway": {"id": expected_app_identifier, "data": None},
+        }
+    
+        # when
+        response = user_api_client.post_graphql(TRANSACTION_INITIALIZE, variables)
+    
+        # then
+        content = get_graphql_content(response)
+        assert not content["data"]["transactionInitialize"]["errors"]
+&gt;       checkout.refresh_from_db()
+
+saleor/graphql/payment/tests/mutations/test_transaction_initialize.py:2041: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.12/site-packages/django/db/models/base.py:737: in refresh_from_db
+    db_instance = db_instance_qs.get()
+                  ^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;QuerySet []&gt;, args = (), kwargs = {}
+
+    def get(self, *args, **kwargs):
+        """
+        Perform the query and return a single object matching the given
+        keyword arguments.
+        """
+        if self.query.combinator and (args or kwargs):
+            raise NotSupportedError(
+                "Calling QuerySet.get(...) with filters after %s() is not "
+                "supported." % self.query.combinator
+            )
+        clone = self._chain() if self.query.combinator else self.filter(*args, **kwargs)
+        if self.query.can_filter() and not self.query.distinct_fields:
+            clone = clone.order_by()
+        limit = None
+        if (
+            not clone.query.select_for_update
+            or connections[clone.db].features.supports_select_for_update_with_limit
+        ):
+            limit = MAX_GET_RESULTS
+            clone.query.set_limits(high=limit)
+        num = len(clone)
+        if num == 1:
+            return clone._result_cache[0]
+        if not num:
+&gt;           raise self.model.DoesNotExist(
+                "%s matching query does not exist." % self.model._meta.object_name
+            )
+E           saleor.checkout.models.Checkout.DoesNotExist: Checkout matching query does not exist.
+
+/opt/venv/lib/python3.12/site-packages/django/db/models/query.py:635: DoesNotExist</failure></testcase><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_user_missing_permission_for_customer_ip_address" time="0.145" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_app_missing_permission_for_customer_ip_address" time="0.147" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_with_customer_ip_address" time="0.237" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_sets_customer_ip_address_when_not_provided" time="0.254" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_customer_ip_address_wrong_format" time="0.160" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_customer_ip_address_ipv6" time="0.243" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_updates_checkout_last_transaction_modified_at[None]" time="0.663" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_updates_checkout_last_transaction_modified_at[previous_last_transaction_modified_at1]" time="0.521" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_for_locked_checkout" time="0.416" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_for_checkout_with_payments" time="0.527" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_for_checkout_with_payments_error_raised" time="0.439" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_for_checkout_too_long_message_in_response" time="0.522" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_for_checkout_empty_message" time="0.543" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_for_checkout_with_shipping_app" time="0.743" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_for_checkout_with_tax_app" time="0.942" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_for_order_with_tax_app" time="0.361" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_transaction_initialize_checkout_completed_race_condition" time="0.768" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_invalidate_stored_payment_methods_for_order[authorization_request]" time="0.276" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_invalidate_stored_payment_methods_for_order[authorization_success]" time="0.466" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_invalidate_stored_payment_methods_for_order[charge_request]" time="0.324" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_invalidate_stored_payment_methods_for_order[charge_success]" time="0.350" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_invalidate_stored_payment_methods_for_checkout[authorization_request]" time="0.625" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_invalidate_stored_payment_methods_for_checkout[authorization_success]" time="0.720" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_invalidate_stored_payment_methods_for_checkout[charge_request]" time="0.550" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_invalidate_stored_payment_methods_for_checkout[charge_success]" time="0.582" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_stored_payment_methods_not_invalidated_for_order[authorization_failure]" time="0.465" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_stored_payment_methods_not_invalidated_for_order[charge_action_required]" time="0.183" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_stored_payment_methods_not_invalidated_for_order[charge_failure]" time="0.176" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_invalidate_stored_payment_methods_not_invalidated_for_checkout[authorization_failure]" time="0.482" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_invalidate_stored_payment_methods_not_invalidated_for_checkout[charge_action_required]" time="0.483" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_invalidate_stored_payment_methods_not_invalidated_for_checkout[charge_failure]" time="0.482" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_lock_order_during_updating_order_amounts" time="2.204" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_lock_checkout_during_updating_checkout_amounts" time="2.726" /></testsuite></testsuites>

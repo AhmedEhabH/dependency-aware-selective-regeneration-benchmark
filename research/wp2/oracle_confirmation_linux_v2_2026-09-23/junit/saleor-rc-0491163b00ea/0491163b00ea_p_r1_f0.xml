@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="60" time="6.144" timestamp="2026-09-24T13:16:39.607245-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_webhook_create_by_app" time="1.566" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_webhook_create_inactive_app" time="0.039" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_webhook_create_without_app" time="0.029" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_webhook_create_app_doesnt_exist" time="0.037" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_webhook_create_by_staff" time="0.156" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_webhook_create_by_staff_with_inactive_app" time="0.111" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_webhook_create_by_staff_without_permission" time="0.112" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_webhook_create_by_staff_invalid_query" time="0.032" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_webhook_create_by_staff_invalid_query_multiple_level_fields" time="0.027" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_webhook_delete_by_app" time="0.033" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_webhook_delete_by_app_and_webhook_assigned_to_other_app" time="0.032" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_webhook_delete_by_app_and_missing_webhook" time="0.029"><failure message="AssertionError: assert 'GRAPHQL_ERROR' == 'NOT_FOUND'&#10;  &#10;  - NOT_FOUND&#10;  + GRAPHQL_ERROR">app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7487726491f0&gt;
+webhook = &lt;Webhook: Simple webhook&gt;
+
+    def test_webhook_delete_by_app_and_missing_webhook(app_api_client, webhook):
+        query = WEBHOOK_DELETE_BY_APP
+        webhook_id = graphene.Node.to_global_id("Webhook", webhook.pk)
+        variables = {"id": webhook_id}
+        webhook.delete()
+    
+        response = app_api_client.post_graphql(query, variables=variables)
+        content = get_graphql_content(response)
+        errors = content["data"]["webhookDelete"]["errors"]
+&gt;       assert errors[0]["code"] == "NOT_FOUND"
+E       AssertionError: assert 'GRAPHQL_ERROR' == 'NOT_FOUND'
+E         
+E         - NOT_FOUND
+E         + GRAPHQL_ERROR
+
+saleor/graphql/webhook/tests/test_webhook.py:295: AssertionError</failure></testcase><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_webhook_delete_by_inactive_app" time="0.024" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_webhook_delete_deactivates_before_deletion" time="0.026"><failure message="assert True is False&#10; +  where True = &lt;Webhook: Simple webhook&gt;.is_active">mocked_delete = &lt;MagicMock name='delete' id='128125078425216'&gt;
+app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x748771c9db20&gt;
+webhook = &lt;Webhook: Simple webhook&gt;
+
+    @patch("saleor.webhook.models.Webhook.delete")
+    def test_webhook_delete_deactivates_before_deletion(
+        mocked_delete, app_api_client, webhook
+    ):
+        # given
+        query = WEBHOOK_DELETE_BY_APP
+        webhook_id = graphene.Node.to_global_id("Webhook", webhook.pk)
+        variables = {"id": webhook_id}
+    
+        # when
+        response = app_api_client.post_graphql(query, variables=variables)
+        get_graphql_content(response)
+    
+        # then
+        webhook.refresh_from_db()
+&gt;       assert webhook.is_active is False
+E       assert True is False
+E        +  where True = &lt;Webhook: Simple webhook&gt;.is_active
+
+saleor/graphql/webhook/tests/test_webhook.py:324: AssertionError</failure></testcase><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_webhook_delete_raises_integrity_error" time="0.026"><failure message="AssertionError: [{'message': &quot;&lt;Mock id='128125089625856'&gt;&quot;, 'locations': [{'line': 3, 'column': 7}], 'path': ['webhookDelete'], 'extensions': {'exception': {'code': 'IntegrityError'}}}]">mocked_delete = &lt;MagicMock name='delete' id='128125089626000'&gt;
+app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7487727435e0&gt;
+webhook = &lt;Webhook: Simple webhook&gt;
+
+    @patch("saleor.webhook.models.Webhook.delete")
+    def test_webhook_delete_raises_integrity_error(mocked_delete, app_api_client, webhook):
+        # given
+        query = WEBHOOK_DELETE_BY_APP
+        mocked_delete.side_effect = IntegrityError(Mock(return_value={"as": "sa"}))
+        webhook_id = graphene.Node.to_global_id("Webhook", webhook.pk)
+        variables = {"id": webhook_id}
+    
+        # when
+        response = app_api_client.post_graphql(query, variables=variables)
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/webhook/tests/test_webhook.py:337: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "&lt;Mock id='128125089625856'&gt;", 'locations': [{'line': 3, 'column': 7}], 'path': ['webhookDelete'], 'extensions': {'exception': {'code': 'IntegrityError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_webhook_delete_when_app_doesnt_exist" time="0.032" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_webhook_update_not_allowed_by_app" time="0.023" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_webhook_update_by_staff" time="0.111" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_webhook_update_by_staff_without_permission" time="0.104" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_query_webhook_by_staff" time="0.109" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_query_webhook_with_subscription_query_by_staff" time="0.119" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_query_webhook_by_staff_without_permission" time="0.105" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_query_webhook_by_app" time="0.025" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_query_webhook_by_app_without_permission" time="0.023" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_query_webhook_sync_and_async_events" time="0.104" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_webhook_query_invalid_id" time="0.098" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_webhook_query_object_with_given_id_does_not_exist" time="0.107" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_webhook_with_invalid_object_type" time="0.106" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_sample_payload_query_by_app[WebhookSampleEventTypeEnum.ORDER_CREATED-True0]" time="0.029" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_sample_payload_query_by_app[WebhookSampleEventTypeEnum.ORDER_CREATED-True1]" time="0.030" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_sample_payload_query_by_app[WebhookSampleEventTypeEnum.ORDER_FULLY_PAID-True]" time="0.029" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_sample_payload_query_by_app[WebhookSampleEventTypeEnum.ORDER_UPDATED-True]" time="0.030" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_sample_payload_query_by_app[WebhookSampleEventTypeEnum.ORDER_CANCELLED-True]" time="0.031" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_sample_payload_query_by_app[WebhookSampleEventTypeEnum.ORDER_FULFILLED-True]" time="0.031" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_sample_payload_query_by_app[WebhookSampleEventTypeEnum.CUSTOMER_CREATED-False]" time="0.031" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_sample_payload_query_by_app[WebhookSampleEventTypeEnum.PRODUCT_CREATED-False]" time="0.030" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_sample_payload_query_by_app[WebhookSampleEventTypeEnum.PRODUCT_UPDATED-False]" time="0.030" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_sample_payload_query_by_app[WebhookSampleEventTypeEnum.CHECKOUT_CREATED-False]" time="0.030" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_sample_payload_query_by_app[WebhookSampleEventTypeEnum.CHECKOUT_UPDATED-False]" time="0.029" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_sample_payload_query_by_app[WebhookSampleEventTypeEnum.FULFILLMENT_CREATED-True]" time="0.034" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_sample_payload_query_by_app[WebhookSampleEventTypeEnum.FULFILLMENT_CANCELED-True]" time="0.030" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_sample_payload_query_by_app[WebhookSampleEventTypeEnum.PAGE_CREATED-False]" time="0.029" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_sample_payload_query_by_app[WebhookSampleEventTypeEnum.PAGE_UPDATED-False]" time="0.030" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_sample_payload_query_by_app[WebhookSampleEventTypeEnum.PAGE_DELETED-False]" time="0.031" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_sample_payload_query_by_staff[WebhookSampleEventTypeEnum.ORDER_CREATED-False0]" time="0.110" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_sample_payload_query_by_staff[WebhookSampleEventTypeEnum.ORDER_CREATED-False1]" time="0.141" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_sample_payload_query_by_staff[WebhookSampleEventTypeEnum.ORDER_FULLY_PAID-False]" time="0.129" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_sample_payload_query_by_staff[WebhookSampleEventTypeEnum.ORDER_UPDATED-False]" time="0.160" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_sample_payload_query_by_staff[WebhookSampleEventTypeEnum.ORDER_CANCELLED-False]" time="0.141" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_sample_payload_query_by_staff[WebhookSampleEventTypeEnum.ORDER_FULFILLED-False]" time="0.112" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_sample_payload_query_by_staff[WebhookSampleEventTypeEnum.CUSTOMER_CREATED-True]" time="0.111" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_sample_payload_query_by_staff[WebhookSampleEventTypeEnum.PRODUCT_CREATED-True]" time="0.116" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_sample_payload_query_by_staff[WebhookSampleEventTypeEnum.PRODUCT_UPDATED-True]" time="0.113" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_sample_payload_query_by_staff[WebhookSampleEventTypeEnum.CHECKOUT_CREATED-True]" time="0.126" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_sample_payload_query_by_staff[WebhookSampleEventTypeEnum.CHECKOUT_UPDATED-True]" time="0.117" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_sample_payload_query_by_staff[WebhookSampleEventTypeEnum.FULFILLMENT_CREATED-False]" time="0.119" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_sample_payload_query_by_staff[WebhookSampleEventTypeEnum.FULFILLMENT_CANCELED-False]" time="0.135" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_sample_payload_query_by_staff[WebhookSampleEventTypeEnum.PAGE_CREATED-True]" time="0.113" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_sample_payload_query_by_staff[WebhookSampleEventTypeEnum.PAGE_UPDATED-True]" time="0.113" /><testcase classname="saleor.graphql.webhook.tests.test_webhook" name="test_sample_payload_query_by_staff[WebhookSampleEventTypeEnum.PAGE_DELETED-True]" time="0.114" /></testsuite></testsuites>

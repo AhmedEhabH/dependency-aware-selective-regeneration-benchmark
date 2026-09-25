@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="1" time="0.608" timestamp="2026-09-25T00:14:47.256640+00:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="" name="saleor.graphql.checkout.tests.mutations.test_checkout_lines_update" time="0.000"><error message="collection failure">ImportError while importing test module '/workspace/9698135fe4fc_p/saleor/graphql/checkout/tests/mutations/test_checkout_lines_update.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+saleor/graphql/checkout/tests/mutations/test_checkout_lines_update.py:34: in &lt;module&gt;
+    from ....core.mutations import MISSING_NODE_ERROR_MESSAGE_PREFIX
+E   ImportError: cannot import name 'MISSING_NODE_ERROR_MESSAGE_PREFIX' from 'saleor.graphql.core.mutations' (/workspace/9698135fe4fc_p/saleor/graphql/core/mutations.py)</error></testcase></testsuite></testsuites>

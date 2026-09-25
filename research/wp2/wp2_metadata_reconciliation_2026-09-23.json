@@ -1,0 +1,46 @@
+{
+ "artifact": "wp2_metadata_reconciliation",
+ "date": "2026-09-23",
+ "old_evidence_preserved": true,
+ "findings": {
+  "ci_width_n8": {
+   "document_reported": "n=8 single-arm CI width approx 0.6 (rounded text in WP2_ORACLE_CONFIRMATION_DESIGN_V1_STOP_REPORT_2026-09-22.md)",
+   "authoritative_json": {
+    "0.3": 0.5193,
+    "0.5": 0.5696,
+    "0.7": 0.5193
+   },
+   "resolution": "JSON is the authoritative computation (scripts/wp2_power_scenarios.py, exact Clopper-Pearson widths 0.5193-0.5696 at n=8); current-facing docs corrected to JSON-exact values"
+  },
+  "empty_set": {
+   "agent_empty_count": 2,
+   "agent_empty_note": "Agent EMPTY 2/297 (parser_failure), from reports/wp1b_main297_result.json agent_empty_by_reason",
+   "rmcss_empty_count": 29,
+   "rmcss_empty_note": "RM-CSS 29/297 empty MAIN scopes (empty r mcss_predicted_set), matching Claude audit",
+   "scope_identical_count": 31,
+   "resolution": "claim sheet EMPTY 2/297 refers to the Agent only; RM-CSS empty count reported separately"
+  },
+  "env_families_147_vs_140": {
+   "count_147": 147,
+   "count_147_source": "unique TARGET-state fingerprint families from environment_fingerprints.json (canonical V2 rule)",
+   "count_140": 140,
+   "count_140_source": "selection-manifest unique env_family values (139 real + 1 UNKNOWN bucket: 20 Wave-A tasks have env_family None)",
+   "resolution": "canonical V2 fingerprint rule = unique target-state family over the 220 candidates; 147 used for V2 reporting; the 140 is a different (selection-manifest) count, documented not contradictory"
+  },
+  "migration_config_heavy": {
+   "summary_value": 0,
+   "summary_defect": "summary.json substrata.migration_config_heavy=0 because per_task.jsonl rows lack n_migration/n_config_or_infra fields",
+   "census_recomputed_297": 40,
+   "census_recomputed_220": 40,
+   "smoke_evidence_example": [
+    "saleor-rc-05bdc7feb9ac",
+    "saleor-rc-07f02e2c40ae",
+    "saleor-rc-094b1ec0f610",
+    "saleor-rc-1075496c64dd",
+    "saleor-rc-12007c00e480"
+   ],
+   "resolution": "recomputed from census source: 40/297 tasks have migration/config changes; summary.json 0 is a summary-script field defect, corrected in current-facing docs"
+  }
+ },
+ "reconciliation_artifact_md": "docs/WP2_METADATA_RECONCILIATION_2026-09-23.md"
+}

@@ -1,0 +1,97 @@
+{
+ "artifact": "wp2_harness_v2_freeze_REVISED",
+ "date": "2026-09-23",
+ "revision": "C1-PERF-V2",
+ "supersedes": "harness_v2_freeze_2026-09-23.json (preserved)",
+ "semantics_version": "oracle-semantics-v2-2026-09-23",
+ "provenance_schema": "oracle_harness_schema_v2",
+ "harness_version": "wp2-linux-harness-v2-2026-09-23",
+ "git_head": "493924efd7d3f95bbf9f734bc51c15a48b79c1b9",
+ "git_dirty": true,
+ "test_patch_rule_sha256": "f64ff583daea4b8bdec7f40293069cb009494a569a75c92d34819cd10030a969",
+ "classifier_bundle_sha256": "7bdbf71404d6103a707667a3ff9bfd78de067b2b9fb9f7c3abfef8b8ff8e6aee",
+ "harness_files": {
+  "src/benchmark/wp2/oracle_semantics_v2.py": "aa85f4953bea36974b77340c38fe8219e5a8d577d5e786ff74c06de2fc07423d",
+  "src/benchmark/wp2/provenance_schema_v2.py": "f6e00537935b1ff963593044cd6d1d1a75475586958c413d18f8d2c5bf1da515",
+  "src/benchmark/wp2/era_resolver.py": "38b346a30fd9467ed73cd7c988f24d39242774978bc01a44415a30c2d5facdd3",
+  "src/benchmark/wp2/linux_adapter.py": "5b4604d22e4b41d389f698957885ef25aaf665b69c09670e903c57f0924214f1",
+  "src/benchmark/wp2/dev_split_v2.py": "7c4d73629e6e6fffee55db32ab7f6b06e87bce20c2d331a217e71d7e962b45e4",
+  "src/benchmark/wp2/census_metadata_v2.py": "9398fc77327e8511d608d12f663eea478fa200ff063f54bdd3d93d7c424fb264",
+  "src/benchmark/wp2/p2p_inventory_v1.py": "430cf7fbde72defa1cfbf16b6db471c16a4a39c81e6614edbce52ec4470ba1e9",
+  "src/benchmark/wp2/oracle_confirmation.py": "4609a2256d0803c1029fae572db62c28f6885b8a12628094a9e10bcb65b752d1",
+  "src/benchmark/wp2/environment_manager.py": "8fd6ac3a934265160ecadfa2a10d4918d600ee2e635b873b4a77d35c407c6734",
+  "scripts/wp2_linux_dryrun.py": "ad3ef5301a74b67ec7348c2b310b3a467e1607fc7ce6dc2ca8934e8fccb49a9e",
+  "scripts/wp2_linux_main_sweep.py": "78ed50def5b686d0f4857cb233e2f1b684d437008d7b5c416ad31cc5d8d94bcc",
+  "scripts/wp2_linux_dev_sweep.py": "eee9186b969c3accdca8bdb174fbd4469ab9b96cd98c167c0749b0ac8400b801",
+  "scripts/wp2_linux_main_orchestrator.py": "64371661108f986e5a9efb8103bef2fbd6687e14bc01cdf000b6e2f6962746a0"
+ },
+ "era_images": {
+  "py38": "python:3.8-slim",
+  "py39": "python:3.9-slim",
+  "py312": "python:3.12-slim"
+ },
+ "era_image_digests": {
+  "py38": "sha256:1d52838af602b4b5a831beb13a0e4d073280665ea7be7f69ce2382f29c5a613f",
+  "py39": "sha256:2d97f6910b16bd338d3060f261f53f144965f755599aab1acda1e13cf1731b1b",
+  "py312": "sha256:2f17fc044b579bab302c2e8054d3a686e2cb9a83de48e70534b94cd8ebbe06a9"
+ },
+ "service_images": {
+  "postgres": "postgres:15-alpine",
+  "postgres_digest": "sha256:f7d23353e1b15400d22ebe31189f4d314b87a4c129cc400c8c2d8d4ca127bf81",
+  "redis": "redis:7-alpine",
+  "redis_digest": "sha256:858f009f9709ce576febc734aa78b8f6d624b82571f9ddb6bda4377c833b3499"
+ },
+ "python_versions": {
+  "py38": "3.8",
+  "py39": "3.9",
+  "py312": "3.12"
+ },
+ "installers": {
+  "py38": "uv-0.11.32",
+  "py39": "uv-0.11.32",
+  "py312": "uv-0.11.32"
+ },
+ "postgres_test_settings": {
+  "fsync": "off",
+  "synchronous_commit": "off",
+  "full_page_writes": "off",
+  "note": "disposable per-(task,state) test databases only; recorded per amendment D/C1-PERF-V2"
+ },
+ "uv_cache_policy": {
+  "volume": "wp2-uv-cache",
+  "policy": "persistent uv dependency-cache volume mounted into task containers; same resolved wheels (no version drift), no silent dependency fallback"
+ },
+ "execution": {
+  "workers": 1,
+  "early_exit": "DISABLED",
+  "stability": "3 target + 3 parent runs"
+ },
+ "filesystem_identity": "WSL Ubuntu-24.04 ext4 (/opt/wp2_v2); historical checkouts NOT NTFS-backed",
+ "b3_equivalence": {
+  "status": "PASS 5/5",
+  "median_speedup": 1.52,
+  "weighted_speedup": 1.52,
+  "max_speedup": 2.13,
+  "task_results": "baseline vs optimized classifications MATCH on all 5 frozen B3 tasks"
+ },
+ "eta_before_after": {
+  "C2_before_hours": [
+   27.0,
+   62.0
+  ],
+  "C2_typical_before_hours": 46.0,
+  "C2_after_hours": [
+   9.0,
+   37.0
+  ],
+  "C2_typical_after_hours": 20.0,
+  "C4_after_hours": [
+   5.0,
+   19.0
+  ],
+  "C4_typical_after_hours": 10.0
+ },
+ "no_provenance_field_none": true,
+ "provenance_note": "C2 MAIN 220 records record classifier_bundle_sha256=b11374fe (the original pre-optimization freeze hash hardcoded by the C2 runner). The bundle actually executed at C2 run time (era-key fix + uv-cache/PostgreSQL optimization, 5/5 B3-equivalence PASS) is captured by the revised freeze. The classifier-semantics files (oracle_semantics_v2.py, oracle_confirmation.py, provenance_schema_v2.py) are byte-identical across freeze revisions, so no semantic harness versions are mixed. C4's 4 existing records recorded b5074bff (the freeze current when they ran); this manifest's current bundle hash reflects the orchestration-only orchestrator fix. A runner-hardcoded bundle hash is self-referential and is a KNOWN provenance-hardening item to resolve when the C4 persistence change is adopted (record the freeze-manifest hash, not a runner hardcode).",
+ "status": "FROZEN"
+}

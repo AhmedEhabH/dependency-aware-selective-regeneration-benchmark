@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="15" time="3.545" timestamp="2026-09-24T13:10:59.896855-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.product.tests.test_product" name="test_filtering_by_attribute" time="1.533" /><testcase classname="saleor.product.tests.test_product" name="test_clean_product_attributes_date_time_range_filter_input" time="0.035" /><testcase classname="saleor.product.tests.test_product" name="test_clean_product_attributes_boolean_filter_input" time="0.050" /><testcase classname="saleor.product.tests.test_product" name="test_get_price[expected_price0-True]" time="0.250" /><testcase classname="saleor.product.tests.test_product" name="test_get_price[expected_price1-False]" time="0.141" /><testcase classname="saleor.product.tests.test_product" name="test_product_get_price_do_not_charge_taxes" time="0.115" /><testcase classname="saleor.product.tests.test_product" name="test_digital_product_view" time="0.134" /><testcase classname="saleor.product.tests.test_product" name="test_digital_product_increment_download[False-False]" time="0.141" /><testcase classname="saleor.product.tests.test_product" name="test_digital_product_increment_download[False-True]" time="0.110" /><testcase classname="saleor.product.tests.test_product" name="test_digital_product_increment_download[True-True]" time="0.091" /><testcase classname="saleor.product.tests.test_product" name="test_digital_product_view_url_downloaded_max_times" time="0.045" /><testcase classname="saleor.product.tests.test_product" name="test_digital_product_view_url_expired" time="0.136" /><testcase classname="saleor.product.tests.test_product" name="test_costs_get_margin_for_variant_channel_listing[price0-cost0]" time="0.067" /><testcase classname="saleor.product.tests.test_product" name="test_costs_get_margin_for_variant_channel_listing[price1-None]" time="0.083" /><testcase classname="saleor.product.tests.test_product" name="test_product_media_delete" time="0.106"><failure message="AssertionError: expected call not found.&#10;Expected: delay('/tmp/pytest-of-root/pytest-7/test_product_media_delete0/media/products/product.jpg')&#10;Actual: delay('products/product.jpg')">delete_from_storage_task_mock = &lt;MagicMock name='delay' id='133944477197888'&gt;
+product_with_image = &lt;saleor.product.models.Product(pk=172, name='Test product')&gt;
+
+    @patch("saleor.product.signals.delete_from_storage_task.delay")
+    def test_product_media_delete(delete_from_storage_task_mock, product_with_image):
+        # given
+        media = product_with_image.media.first()
+    
+        # when
+        media.delete()
+    
+        # then
+&gt;       delete_from_storage_task_mock.assert_called_once_with(media.image.path)
+
+saleor/product/tests/test_product.py:383: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.9/unittest/mock.py:919: in assert_called_once_with
+    return self.assert_called_with(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;MagicMock name='delay' id='133944477197888'&gt;
+args = ('/tmp/pytest-of-root/pytest-7/test_product_media_delete0/media/products/product.jpg',)
+kwargs = {}
+expected = call('/tmp/pytest-of-root/pytest-7/test_product_media_delete0/media/products/product.jpg')
+actual = call('products/product.jpg')
+_error_message = &lt;function NonCallableMock.assert_called_with.&lt;locals&gt;._error_message at 0x79d2611d65e0&gt;
+cause = None
+
+    def assert_called_with(self, /, *args, **kwargs):
+        """assert that the last call was made with the specified arguments.
+    
+        Raises an AssertionError if the args and keyword args passed in are
+        different to the last call to the mock."""
+        if self.call_args is None:
+            expected = self._format_mock_call_signature(args, kwargs)
+            actual = 'not called.'
+            error_message = ('expected call not found.\nExpected: %s\nActual: %s'
+                    % (expected, actual))
+            raise AssertionError(error_message)
+    
+        def _error_message():
+            msg = self._format_mock_failure_message(args, kwargs)
+            return msg
+        expected = self._call_matcher(_Call((args, kwargs), two=True))
+        actual = self._call_matcher(self.call_args)
+        if actual != expected:
+            cause = expected if isinstance(expected, Exception) else None
+&gt;           raise AssertionError(_error_message()) from cause
+E           AssertionError: expected call not found.
+E           Expected: delay('/tmp/pytest-of-root/pytest-7/test_product_media_delete0/media/products/product.jpg')
+E           Actual: delay('products/product.jpg')
+
+/usr/local/lib/python3.9/unittest/mock.py:907: AssertionError</failure></testcase></testsuite></testsuites>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="1" time="0.389" timestamp="2026-09-25T00:53:40.420745+00:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="" name="saleor.core.tests.test_schedules" time="0.000"><error message="collection failure">ImportError while importing test module '/workspace/9aa434eeefe7_p/saleor/core/tests/test_schedules.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+saleor/core/tests/test_schedules.py:11: in &lt;module&gt;
+    from ..schedules import (
+E   ImportError: cannot import name 'checkout_automatic_completion_schedule' from 'saleor.core.schedules' (/workspace/9aa434eeefe7_p/saleor/core/schedules.py)</error></testcase></testsuite></testsuites>

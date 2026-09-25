@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="1" time="0.364" timestamp="2026-09-24T18:21:50.004245-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="" name="saleor.graphql.checkout.tests.mutations.test_checkout_complete" time="0.000"><error message="collection failure">ImportError while importing test module '/workspace/7d4bcc752c20_t/saleor/graphql/checkout/tests/mutations/test_checkout_complete.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+saleor/graphql/checkout/tests/mutations/test_checkout_complete.py:5: in &lt;module&gt;
+    import before_after
+E   ModuleNotFoundError: No module named 'before_after'</error></testcase></testsuite></testsuites>

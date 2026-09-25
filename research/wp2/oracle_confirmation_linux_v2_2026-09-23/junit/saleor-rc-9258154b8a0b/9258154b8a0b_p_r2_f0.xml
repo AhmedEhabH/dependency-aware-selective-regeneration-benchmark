@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="2" failures="0" skipped="0" tests="7" time="3.071" timestamp="2026-09-24T18:52:48.679966-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.order.tests.mutations.test_fulfillment_update_tracking" name="test_fulfillment_update_tracking" time="1.769" /><testcase classname="saleor.graphql.order.tests.mutations.test_fulfillment_update_tracking" name="test_fulfillment_update_tracking_by_user_no_channel_access" time="0.214" /><testcase classname="saleor.graphql.order.tests.mutations.test_fulfillment_update_tracking" name="test_fulfillment_update_tracking_by_app" time="0.124" /><testcase classname="saleor.graphql.order.tests.mutations.test_fulfillment_update_tracking" name="test_fulfillment_update_tracking_send_notification_true" time="0.202" /><testcase classname="saleor.graphql.order.tests.mutations.test_fulfillment_update_tracking" name="test_fulfillment_update_tracking_send_notification_false" time="0.199" /><testcase classname="saleor.graphql.order.tests.mutations.test_fulfillment_update_tracking" name="test_fulfillment_tracking_number_updated_event_triggered[True]" time="0.111"><error message="failed on setup with &quot;AttributeError: type object 'WebhookEventAsyncType' has no attribute 'FULFILLMENT_TRACKING_NUMBER_UPDATED'&quot;">subscription_webhook = &lt;function subscription_webhook.&lt;locals&gt;.fun at 0x7907fb97ea60&gt;
+
+    @pytest.fixture
+    def subscription_fulfillment_tracking_number_updated(subscription_webhook):
+        return subscription_webhook(
+            queries.FULFILLMENT_TRACKING_NUMBER_UPDATED,
+&gt;           WebhookEventAsyncType.FULFILLMENT_TRACKING_NUMBER_UPDATED,
+        )
+E       AttributeError: type object 'WebhookEventAsyncType' has no attribute 'FULFILLMENT_TRACKING_NUMBER_UPDATED'
+
+saleor/plugins/webhook/tests/subscription_webhooks/fixtures.py:664: AttributeError</error></testcase><testcase classname="saleor.graphql.order.tests.mutations.test_fulfillment_update_tracking" name="test_fulfillment_tracking_number_updated_event_triggered[False]" time="0.112"><error message="failed on setup with &quot;AttributeError: type object 'WebhookEventAsyncType' has no attribute 'FULFILLMENT_TRACKING_NUMBER_UPDATED'&quot;">subscription_webhook = &lt;function subscription_webhook.&lt;locals&gt;.fun at 0x7907fb9e7b80&gt;
+
+    @pytest.fixture
+    def subscription_fulfillment_tracking_number_updated(subscription_webhook):
+        return subscription_webhook(
+            queries.FULFILLMENT_TRACKING_NUMBER_UPDATED,
+&gt;           WebhookEventAsyncType.FULFILLMENT_TRACKING_NUMBER_UPDATED,
+        )
+E       AttributeError: type object 'WebhookEventAsyncType' has no attribute 'FULFILLMENT_TRACKING_NUMBER_UPDATED'
+
+saleor/plugins/webhook/tests/subscription_webhooks/fixtures.py:664: AttributeError</error></testcase></testsuite></testsuites>

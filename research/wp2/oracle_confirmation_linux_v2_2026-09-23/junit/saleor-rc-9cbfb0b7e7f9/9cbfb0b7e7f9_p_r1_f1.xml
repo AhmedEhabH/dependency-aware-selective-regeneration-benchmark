@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="11" time="2.951" timestamp="2026-09-24T20:20:01.947671-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.account.tests.mutations.authentication.test_token_refresh" name="test_refresh_token_with_audience" time="1.803"><failure message="assert None&#10; +  where None = &lt;User: e866573b-14f9-4bf3-94cd-0f1587415f55&gt;.last_login">api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x727b0948bca0&gt;
+customer_user = &lt;User: e866573b-14f9-4bf3-94cd-0f1587415f55&gt;
+settings = &lt;pytest_django.fixtures.SettingsWrapper object at 0x727b09ce3fa0&gt;
+
+    @freeze_time("2020-03-18 12:00:00")
+    def test_refresh_token_with_audience(api_client, customer_user, settings):
+        csrf_token = _get_new_csrf_token()
+        token_audience = "custom:dashboard"
+        refresh_token = create_refresh_token(
+            customer_user, {"csrfToken": csrf_token, "aud": token_audience}
+        )
+        variables = {"token": None, "csrf_token": csrf_token}
+        api_client.cookies[JWT_REFRESH_TOKEN_COOKIE_NAME] = refresh_token
+        api_client.cookies[JWT_REFRESH_TOKEN_COOKIE_NAME]["httponly"] = True
+        response = api_client.post_graphql(MUTATION_TOKEN_REFRESH, variables)
+        content = get_graphql_content(response)
+    
+        data = content["data"]["tokenRefresh"]
+        errors = data["errors"]
+    
+        assert not errors
+        token = data.get("token")
+        assert token
+        payload = jwt_decode(token)
+        assert payload["email"] == customer_user.email
+        assert datetime.fromtimestamp(payload["iat"]) == datetime.utcnow()
+        assert (
+            datetime.fromtimestamp(payload["exp"])
+            == datetime.utcnow() + settings.JWT_TTL_ACCESS
+        )
+        assert payload["type"] == JWT_ACCESS_TYPE
+        assert payload["token"] == customer_user.jwt_token_key
+        assert payload["aud"] == token_audience
+        customer_user.refresh_from_db()
+&gt;       assert customer_user.last_login
+E       assert None
+E        +  where None = &lt;User: e866573b-14f9-4bf3-94cd-0f1587415f55&gt;.last_login
+
+saleor/graphql/account/tests/mutations/authentication/test_token_refresh.py:62: AssertionError</failure></testcase><testcase classname="saleor.graphql.account.tests.mutations.authentication.test_token_refresh" name="test_refresh_token_get_token_from_cookie" time="0.134" /><testcase classname="saleor.graphql.account.tests.mutations.authentication.test_token_refresh" name="test_refresh_token_get_token_from_input" time="0.142" /><testcase classname="saleor.graphql.account.tests.mutations.authentication.test_token_refresh" name="test_refresh_token_get_token_missing_token" time="0.027" /><testcase classname="saleor.graphql.account.tests.mutations.authentication.test_token_refresh" name="test_access_token_used_as_a_refresh_token" time="0.066" /><testcase classname="saleor.graphql.account.tests.mutations.authentication.test_token_refresh" name="test_access_app_token_used_as_a_refresh_token" time="0.079" /><testcase classname="saleor.graphql.account.tests.mutations.authentication.test_token_refresh" name="test_refresh_token_get_token_missing_csrf_token" time="0.065" /><testcase classname="saleor.graphql.account.tests.mutations.authentication.test_token_refresh" name="test_refresh_token_get_token_incorrect_csrf_token" time="0.069" /><testcase classname="saleor.graphql.account.tests.mutations.authentication.test_token_refresh" name="test_refresh_token_when_expired" time="0.096" /><testcase classname="saleor.graphql.account.tests.mutations.authentication.test_token_refresh" name="test_refresh_token_when_incorrect_token" time="0.069" /><testcase classname="saleor.graphql.account.tests.mutations.authentication.test_token_refresh" name="test_refresh_token_when_user_deactivated_token" time="0.071" /></testsuite></testsuites>

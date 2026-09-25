@@ -1,0 +1,665 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="8" skipped="0" tests="9" time="3.161" timestamp="2026-09-25T01:44:45.833858-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.plugins.webhook.tests.test_payment_gateway_initialize_session_webhook" name="test_gateway_initialize_checkout_without_request_data_and_static_payload" time="1.600"><failure message="AssertionError: expected call not found.&#10;Expected: send_webhook_request_sync(&lt;EventDelivery: EventDelivery object (161)&gt;)&#10;Actual: send_webhook_request_sync(&lt;App: Webhook app&gt;, &lt;EventDelivery: EventDelivery object (161)&gt;)">mock_request = &lt;MagicMock name='send_webhook_request_sync' id='140484627729520'&gt;
+webhook_plugin = &lt;function webhook_plugin.&lt;locals&gt;.factory at 0x7fc52111ce50&gt;
+webhook_app = &lt;App: Webhook app&gt;
+checkout = &lt;Checkout: Checkout object (3d513328-97e5-443d-83c1-b51010e15e25)&gt;
+permission_manage_payments = &lt;Permission: payment | payment | Handle payments&gt;
+
+    @freeze_time()
+    @mock.patch("saleor.plugins.webhook.tasks.send_webhook_request_sync")
+    def test_gateway_initialize_checkout_without_request_data_and_static_payload(
+        mock_request, webhook_plugin, webhook_app, checkout, permission_manage_payments
+    ):
+        # given
+        expected_data = {"some": "json data"}
+        mock_request.return_value = expected_data
+        plugin = webhook_plugin()
+    
+        webhook_app.identifier = "app.identifier"
+        webhook_app.save()
+        webhook_app.permissions.add(permission_manage_payments)
+        webhook = Webhook.objects.create(
+            name="Webhook",
+            app=webhook_app,
+        )
+        event_type = WebhookEventSyncType.PAYMENT_GATEWAY_INITIALIZE_SESSION
+        webhook.events.create(event_type=event_type)
+        amount = Decimal("10.00")
+        # when
+        response = plugin.payment_gateway_initialize_session(
+            amount=amount,
+            payment_gateways=None,
+            source_object=checkout,
+            previous_value=None,
+        )
+    
+        # then
+&gt;       _assert_with_static_payload(
+            checkout, None, amount, webhook, expected_data, response, mock_request
+        )
+
+saleor/plugins/webhook/tests/test_payment_gateway_initialize_session_webhook.py:120: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/plugins/webhook/tests/test_payment_gateway_initialize_session_webhook.py:71: in _assert_with_static_payload
+    _assert_fields(payload, webhook, expected_data, response, mock_request)
+saleor/plugins/webhook/tests/test_payment_gateway_initialize_session_webhook.py:85: in _assert_fields
+    mock_request.assert_called_once_with(delivery)
+/usr/local/lib/python3.9/unittest/mock.py:919: in assert_called_once_with
+    return self.assert_called_with(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;MagicMock name='send_webhook_request_sync' id='140484627729520'&gt;
+args = (&lt;EventDelivery: EventDelivery object (161)&gt;,), kwargs = {}
+expected = call(&lt;EventDelivery: EventDelivery object (161)&gt;)
+actual = call(&lt;App: Webhook app&gt;, &lt;EventDelivery: EventDelivery object (161)&gt;)
+_error_message = &lt;function NonCallableMock.assert_called_with.&lt;locals&gt;._error_message at 0x7fc52005baf0&gt;
+cause = None
+
+    def assert_called_with(self, /, *args, **kwargs):
+        """assert that the last call was made with the specified arguments.
+    
+        Raises an AssertionError if the args and keyword args passed in are
+        different to the last call to the mock."""
+        if self.call_args is None:
+            expected = self._format_mock_call_signature(args, kwargs)
+            actual = 'not called.'
+            error_message = ('expected call not found.\nExpected: %s\nActual: %s'
+                    % (expected, actual))
+            raise AssertionError(error_message)
+    
+        def _error_message():
+            msg = self._format_mock_failure_message(args, kwargs)
+            return msg
+        expected = self._call_matcher(_Call((args, kwargs), two=True))
+        actual = self._call_matcher(self.call_args)
+        if actual != expected:
+            cause = expected if isinstance(expected, Exception) else None
+&gt;           raise AssertionError(_error_message()) from cause
+E           AssertionError: expected call not found.
+E           Expected: send_webhook_request_sync(&lt;EventDelivery: EventDelivery object (161)&gt;)
+E           Actual: send_webhook_request_sync(&lt;App: Webhook app&gt;, &lt;EventDelivery: EventDelivery object (161)&gt;)
+
+/usr/local/lib/python3.9/unittest/mock.py:907: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_payment_gateway_initialize_session_webhook" name="test_gateway_initialize_checkout_with_request_data_and_static_payload" time="0.077"><failure message="AssertionError: expected call not found.&#10;Expected: send_webhook_request_sync(&lt;EventDelivery: EventDelivery object (162)&gt;)&#10;Actual: send_webhook_request_sync(&lt;App: Webhook app&gt;, &lt;EventDelivery: EventDelivery object (162)&gt;)">mock_request = &lt;MagicMock name='send_webhook_request_sync' id='140484631976448'&gt;
+webhook_plugin = &lt;function webhook_plugin.&lt;locals&gt;.factory at 0x7fc520fdbf70&gt;
+webhook_app = &lt;App: Webhook app&gt;
+checkout = &lt;Checkout: Checkout object (3e64b710-1a50-41f8-83ce-0b1fac1dad83)&gt;
+permission_manage_payments = &lt;Permission: payment | payment | Handle payments&gt;
+
+    @freeze_time()
+    @mock.patch("saleor.plugins.webhook.tasks.send_webhook_request_sync")
+    def test_gateway_initialize_checkout_with_request_data_and_static_payload(
+        mock_request, webhook_plugin, webhook_app, checkout, permission_manage_payments
+    ):
+        # given
+        data = {"some": "request-data"}
+        expected_data = {"some": "json data"}
+        mock_request.return_value = expected_data
+        plugin = webhook_plugin()
+    
+        webhook_app.identifier = "app.identifier"
+        webhook_app.save()
+        webhook_app.permissions.add(permission_manage_payments)
+        webhook = Webhook.objects.create(
+            name="Webhook",
+            app=webhook_app,
+        )
+        event_type = WebhookEventSyncType.PAYMENT_GATEWAY_INITIALIZE_SESSION
+        webhook.events.create(event_type=event_type)
+        amount = Decimal("10.00")
+    
+        # when
+        response = plugin.payment_gateway_initialize_session(
+            amount=amount,
+            payment_gateways=[
+                PaymentGatewayData(app_identifier=webhook_app.identifier, data=data)
+            ],
+            source_object=checkout,
+            previous_value=None,
+        )
+    
+        # then
+&gt;       _assert_with_static_payload(
+            checkout, data, amount, webhook, expected_data, response, mock_request
+        )
+
+saleor/plugins/webhook/tests/test_payment_gateway_initialize_session_webhook.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/plugins/webhook/tests/test_payment_gateway_initialize_session_webhook.py:71: in _assert_with_static_payload
+    _assert_fields(payload, webhook, expected_data, response, mock_request)
+saleor/plugins/webhook/tests/test_payment_gateway_initialize_session_webhook.py:85: in _assert_fields
+    mock_request.assert_called_once_with(delivery)
+/usr/local/lib/python3.9/unittest/mock.py:919: in assert_called_once_with
+    return self.assert_called_with(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;MagicMock name='send_webhook_request_sync' id='140484631976448'&gt;
+args = (&lt;EventDelivery: EventDelivery object (162)&gt;,), kwargs = {}
+expected = call(&lt;EventDelivery: EventDelivery object (162)&gt;)
+actual = call(&lt;App: Webhook app&gt;, &lt;EventDelivery: EventDelivery object (162)&gt;)
+_error_message = &lt;function NonCallableMock.assert_called_with.&lt;locals&gt;._error_message at 0x7fc51fcadee0&gt;
+cause = None
+
+    def assert_called_with(self, /, *args, **kwargs):
+        """assert that the last call was made with the specified arguments.
+    
+        Raises an AssertionError if the args and keyword args passed in are
+        different to the last call to the mock."""
+        if self.call_args is None:
+            expected = self._format_mock_call_signature(args, kwargs)
+            actual = 'not called.'
+            error_message = ('expected call not found.\nExpected: %s\nActual: %s'
+                    % (expected, actual))
+            raise AssertionError(error_message)
+    
+        def _error_message():
+            msg = self._format_mock_failure_message(args, kwargs)
+            return msg
+        expected = self._call_matcher(_Call((args, kwargs), two=True))
+        actual = self._call_matcher(self.call_args)
+        if actual != expected:
+            cause = expected if isinstance(expected, Exception) else None
+&gt;           raise AssertionError(_error_message()) from cause
+E           AssertionError: expected call not found.
+E           Expected: send_webhook_request_sync(&lt;EventDelivery: EventDelivery object (162)&gt;)
+E           Actual: send_webhook_request_sync(&lt;App: Webhook app&gt;, &lt;EventDelivery: EventDelivery object (162)&gt;)
+
+/usr/local/lib/python3.9/unittest/mock.py:907: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_payment_gateway_initialize_session_webhook" name="test_gateway_initialize_checkout_without_request_data" time="0.078"><failure message="AssertionError: expected call not found.&#10;Expected: send_webhook_request_sync(&lt;EventDelivery: EventDelivery object (163)&gt;)&#10;Actual: send_webhook_request_sync(&lt;App: Webhook app&gt;, &lt;EventDelivery: EventDelivery object (163)&gt;)">mock_request = &lt;MagicMock name='send_webhook_request_sync' id='140484637827472'&gt;
+webhook_plugin = &lt;function webhook_plugin.&lt;locals&gt;.factory at 0x7fc51fcada60&gt;
+webhook_app = &lt;App: Webhook app&gt;
+checkout = &lt;Checkout: Checkout object (e047e803-a56e-4317-bef0-b0c38cdef3d6)&gt;
+permission_manage_payments = &lt;Permission: payment | payment | Handle payments&gt;
+
+    @freeze_time()
+    @mock.patch("saleor.plugins.webhook.tasks.send_webhook_request_sync")
+    def test_gateway_initialize_checkout_without_request_data(
+        mock_request, webhook_plugin, webhook_app, checkout, permission_manage_payments
+    ):
+        # given
+        expected_data = {"some": "json data"}
+        mock_request.return_value = expected_data
+        plugin = webhook_plugin()
+    
+        webhook_app.identifier = "app.identifier"
+        webhook_app.save()
+        webhook_app.permissions.add(permission_manage_payments)
+        webhook = Webhook.objects.create(
+            name="Webhook",
+            app=webhook_app,
+            subscription_query=PAYMENT_GATEWAY_INITIALIZE_SESSION,
+        )
+        event_type = WebhookEventSyncType.PAYMENT_GATEWAY_INITIALIZE_SESSION
+        webhook.events.create(event_type=event_type)
+        amount = Decimal("10.00")
+    
+        # when
+        response = plugin.payment_gateway_initialize_session(
+            amount=amount,
+            payment_gateways=None,
+            source_object=checkout,
+            previous_value=None,
+        )
+    
+        # then
+&gt;       _assert_with_subscription(
+            checkout, None, amount, webhook, expected_data, response, mock_request
+        )
+
+saleor/plugins/webhook/tests/test_payment_gateway_initialize_session_webhook.py:194: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/plugins/webhook/tests/test_payment_gateway_initialize_session_webhook.py:55: in _assert_with_subscription
+    _assert_fields(payload, webhook, expected_data, response, mock_request)
+saleor/plugins/webhook/tests/test_payment_gateway_initialize_session_webhook.py:85: in _assert_fields
+    mock_request.assert_called_once_with(delivery)
+/usr/local/lib/python3.9/unittest/mock.py:919: in assert_called_once_with
+    return self.assert_called_with(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;MagicMock name='send_webhook_request_sync' id='140484637827472'&gt;
+args = (&lt;EventDelivery: EventDelivery object (163)&gt;,), kwargs = {}
+expected = call(&lt;EventDelivery: EventDelivery object (163)&gt;)
+actual = call(&lt;App: Webhook app&gt;, &lt;EventDelivery: EventDelivery object (163)&gt;)
+_error_message = &lt;function NonCallableMock.assert_called_with.&lt;locals&gt;._error_message at 0x7fc51fcaddc0&gt;
+cause = None
+
+    def assert_called_with(self, /, *args, **kwargs):
+        """assert that the last call was made with the specified arguments.
+    
+        Raises an AssertionError if the args and keyword args passed in are
+        different to the last call to the mock."""
+        if self.call_args is None:
+            expected = self._format_mock_call_signature(args, kwargs)
+            actual = 'not called.'
+            error_message = ('expected call not found.\nExpected: %s\nActual: %s'
+                    % (expected, actual))
+            raise AssertionError(error_message)
+    
+        def _error_message():
+            msg = self._format_mock_failure_message(args, kwargs)
+            return msg
+        expected = self._call_matcher(_Call((args, kwargs), two=True))
+        actual = self._call_matcher(self.call_args)
+        if actual != expected:
+            cause = expected if isinstance(expected, Exception) else None
+&gt;           raise AssertionError(_error_message()) from cause
+E           AssertionError: expected call not found.
+E           Expected: send_webhook_request_sync(&lt;EventDelivery: EventDelivery object (163)&gt;)
+E           Actual: send_webhook_request_sync(&lt;App: Webhook app&gt;, &lt;EventDelivery: EventDelivery object (163)&gt;)
+
+/usr/local/lib/python3.9/unittest/mock.py:907: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_payment_gateway_initialize_session_webhook" name="test_gateway_initialize_checkout_with_request_data" time="0.080"><failure message="AssertionError: expected call not found.&#10;Expected: send_webhook_request_sync(&lt;EventDelivery: EventDelivery object (164)&gt;)&#10;Actual: send_webhook_request_sync(&lt;App: Webhook app&gt;, &lt;EventDelivery: EventDelivery object (164)&gt;)">mock_request = &lt;MagicMock name='send_webhook_request_sync' id='140484618349344'&gt;
+webhook_plugin = &lt;function webhook_plugin.&lt;locals&gt;.factory at 0x7fc51fc44e50&gt;
+webhook_app = &lt;App: Webhook app&gt;
+checkout = &lt;Checkout: Checkout object (84ed3462-2951-4b87-a75c-f25b34601b8b)&gt;
+permission_manage_payments = &lt;Permission: payment | payment | Handle payments&gt;
+
+    @freeze_time()
+    @mock.patch("saleor.plugins.webhook.tasks.send_webhook_request_sync")
+    def test_gateway_initialize_checkout_with_request_data(
+        mock_request, webhook_plugin, webhook_app, checkout, permission_manage_payments
+    ):
+        # given
+        data = {"some": "request-data"}
+        expected_data = {"some": "json data"}
+        mock_request.return_value = expected_data
+        plugin = webhook_plugin()
+    
+        webhook_app.identifier = "app.identifier"
+        webhook_app.save()
+        webhook_app.permissions.add(permission_manage_payments)
+        webhook = Webhook.objects.create(
+            name="Webhook",
+            app=webhook_app,
+            subscription_query=PAYMENT_GATEWAY_INITIALIZE_SESSION,
+        )
+        event_type = WebhookEventSyncType.PAYMENT_GATEWAY_INITIALIZE_SESSION
+        webhook.events.create(event_type=event_type)
+        amount = Decimal("10.00")
+    
+        # when
+        response = plugin.payment_gateway_initialize_session(
+            amount=amount,
+            payment_gateways=[
+                PaymentGatewayData(app_identifier=webhook_app.identifier, data=data)
+            ],
+            source_object=checkout,
+            previous_value=None,
+        )
+    
+        # then
+&gt;       _assert_with_subscription(
+            checkout, data, amount, webhook, expected_data, response, mock_request
+        )
+
+saleor/plugins/webhook/tests/test_payment_gateway_initialize_session_webhook.py:233: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/plugins/webhook/tests/test_payment_gateway_initialize_session_webhook.py:55: in _assert_with_subscription
+    _assert_fields(payload, webhook, expected_data, response, mock_request)
+saleor/plugins/webhook/tests/test_payment_gateway_initialize_session_webhook.py:85: in _assert_fields
+    mock_request.assert_called_once_with(delivery)
+/usr/local/lib/python3.9/unittest/mock.py:919: in assert_called_once_with
+    return self.assert_called_with(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;MagicMock name='send_webhook_request_sync' id='140484618349344'&gt;
+args = (&lt;EventDelivery: EventDelivery object (164)&gt;,), kwargs = {}
+expected = call(&lt;EventDelivery: EventDelivery object (164)&gt;)
+actual = call(&lt;App: Webhook app&gt;, &lt;EventDelivery: EventDelivery object (164)&gt;)
+_error_message = &lt;function NonCallableMock.assert_called_with.&lt;locals&gt;._error_message at 0x7fc51fc44670&gt;
+cause = None
+
+    def assert_called_with(self, /, *args, **kwargs):
+        """assert that the last call was made with the specified arguments.
+    
+        Raises an AssertionError if the args and keyword args passed in are
+        different to the last call to the mock."""
+        if self.call_args is None:
+            expected = self._format_mock_call_signature(args, kwargs)
+            actual = 'not called.'
+            error_message = ('expected call not found.\nExpected: %s\nActual: %s'
+                    % (expected, actual))
+            raise AssertionError(error_message)
+    
+        def _error_message():
+            msg = self._format_mock_failure_message(args, kwargs)
+            return msg
+        expected = self._call_matcher(_Call((args, kwargs), two=True))
+        actual = self._call_matcher(self.call_args)
+        if actual != expected:
+            cause = expected if isinstance(expected, Exception) else None
+&gt;           raise AssertionError(_error_message()) from cause
+E           AssertionError: expected call not found.
+E           Expected: send_webhook_request_sync(&lt;EventDelivery: EventDelivery object (164)&gt;)
+E           Actual: send_webhook_request_sync(&lt;App: Webhook app&gt;, &lt;EventDelivery: EventDelivery object (164)&gt;)
+
+/usr/local/lib/python3.9/unittest/mock.py:907: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_payment_gateway_initialize_session_webhook" name="test_gateway_initialize_session_skips_app_without_identifier" time="0.074" /><testcase classname="saleor.plugins.webhook.tests.test_payment_gateway_initialize_session_webhook" name="test_gateway_initialize_order_without_request_data_static_payload" time="0.091"><failure message="AssertionError: expected call not found.&#10;Expected: send_webhook_request_sync(&lt;EventDelivery: EventDelivery object (165)&gt;)&#10;Actual: send_webhook_request_sync(&lt;App: Webhook app&gt;, &lt;EventDelivery: EventDelivery object (165)&gt;)">mock_request = &lt;MagicMock name='send_webhook_request_sync' id='140484624066544'&gt;
+webhook_plugin = &lt;function webhook_plugin.&lt;locals&gt;.factory at 0x7fc521234dc0&gt;
+webhook_app = &lt;App: Webhook app&gt;
+order = &lt;Order #UUID('068a7dc4-8140-4a26-b4b9-f1e5b814234e')&gt;
+permission_manage_payments = &lt;Permission: payment | payment | Handle payments&gt;
+
+    @freeze_time()
+    @mock.patch("saleor.plugins.webhook.tasks.send_webhook_request_sync")
+    def test_gateway_initialize_order_without_request_data_static_payload(
+        mock_request, webhook_plugin, webhook_app, order, permission_manage_payments
+    ):
+        # given
+        expected_data = {"some": "json data"}
+        mock_request.return_value = expected_data
+        plugin = webhook_plugin()
+    
+        webhook_app.identifier = "app.identifier"
+        webhook_app.save()
+        webhook_app.permissions.add(permission_manage_payments)
+        webhook = Webhook.objects.create(
+            name="Webhook",
+            app=webhook_app,
+        )
+        event_type = WebhookEventSyncType.PAYMENT_GATEWAY_INITIALIZE_SESSION
+        webhook.events.create(event_type=event_type)
+        amount = Decimal("10.00")
+        # when
+        response = plugin.payment_gateway_initialize_session(
+            amount=amount,
+            payment_gateways=None,
+            source_object=order,
+            previous_value=None,
+        )
+    
+        # then
+&gt;       _assert_with_static_payload(
+            order, None, amount, webhook, expected_data, response, mock_request
+        )
+
+saleor/plugins/webhook/tests/test_payment_gateway_initialize_session_webhook.py:299: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/plugins/webhook/tests/test_payment_gateway_initialize_session_webhook.py:71: in _assert_with_static_payload
+    _assert_fields(payload, webhook, expected_data, response, mock_request)
+saleor/plugins/webhook/tests/test_payment_gateway_initialize_session_webhook.py:85: in _assert_fields
+    mock_request.assert_called_once_with(delivery)
+/usr/local/lib/python3.9/unittest/mock.py:919: in assert_called_once_with
+    return self.assert_called_with(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;MagicMock name='send_webhook_request_sync' id='140484624066544'&gt;
+args = (&lt;EventDelivery: EventDelivery object (165)&gt;,), kwargs = {}
+expected = call(&lt;EventDelivery: EventDelivery object (165)&gt;)
+actual = call(&lt;App: Webhook app&gt;, &lt;EventDelivery: EventDelivery object (165)&gt;)
+_error_message = &lt;function NonCallableMock.assert_called_with.&lt;locals&gt;._error_message at 0x7fc51ff4fe50&gt;
+cause = None
+
+    def assert_called_with(self, /, *args, **kwargs):
+        """assert that the last call was made with the specified arguments.
+    
+        Raises an AssertionError if the args and keyword args passed in are
+        different to the last call to the mock."""
+        if self.call_args is None:
+            expected = self._format_mock_call_signature(args, kwargs)
+            actual = 'not called.'
+            error_message = ('expected call not found.\nExpected: %s\nActual: %s'
+                    % (expected, actual))
+            raise AssertionError(error_message)
+    
+        def _error_message():
+            msg = self._format_mock_failure_message(args, kwargs)
+            return msg
+        expected = self._call_matcher(_Call((args, kwargs), two=True))
+        actual = self._call_matcher(self.call_args)
+        if actual != expected:
+            cause = expected if isinstance(expected, Exception) else None
+&gt;           raise AssertionError(_error_message()) from cause
+E           AssertionError: expected call not found.
+E           Expected: send_webhook_request_sync(&lt;EventDelivery: EventDelivery object (165)&gt;)
+E           Actual: send_webhook_request_sync(&lt;App: Webhook app&gt;, &lt;EventDelivery: EventDelivery object (165)&gt;)
+
+/usr/local/lib/python3.9/unittest/mock.py:907: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_payment_gateway_initialize_session_webhook" name="test_gateway_initialize_order_with_request_data_static_payload" time="0.081"><failure message="AssertionError: expected call not found.&#10;Expected: send_webhook_request_sync(&lt;EventDelivery: EventDelivery object (166)&gt;)&#10;Actual: send_webhook_request_sync(&lt;App: Webhook app&gt;, &lt;EventDelivery: EventDelivery object (166)&gt;)">mock_request = &lt;MagicMock name='send_webhook_request_sync' id='140484626353600'&gt;
+webhook_plugin = &lt;function webhook_plugin.&lt;locals&gt;.factory at 0x7fc51feae0d0&gt;
+webhook_app = &lt;App: Webhook app&gt;
+order = &lt;Order #UUID('f848ce32-0982-48cd-bdeb-47d8452d4d74')&gt;
+permission_manage_payments = &lt;Permission: payment | payment | Handle payments&gt;
+
+    @freeze_time()
+    @mock.patch("saleor.plugins.webhook.tasks.send_webhook_request_sync")
+    def test_gateway_initialize_order_with_request_data_static_payload(
+        mock_request, webhook_plugin, webhook_app, order, permission_manage_payments
+    ):
+        # given
+        data = {"some": "request-data"}
+        expected_data = {"some": "json data"}
+        mock_request.return_value = expected_data
+        plugin = webhook_plugin()
+    
+        webhook_app.identifier = "app.identifier"
+        webhook_app.save()
+        webhook_app.permissions.add(permission_manage_payments)
+        webhook = Webhook.objects.create(
+            name="Webhook",
+            app=webhook_app,
+        )
+        event_type = WebhookEventSyncType.PAYMENT_GATEWAY_INITIALIZE_SESSION
+        webhook.events.create(event_type=event_type)
+        amount = Decimal("10.00")
+    
+        # when
+        response = plugin.payment_gateway_initialize_session(
+            amount=amount,
+            payment_gateways=[
+                PaymentGatewayData(app_identifier=webhook_app.identifier, data=data)
+            ],
+            source_object=order,
+            previous_value=None,
+        )
+    
+        # then
+&gt;       _assert_with_static_payload(
+            order, data, amount, webhook, expected_data, response, mock_request
+        )
+
+saleor/plugins/webhook/tests/test_payment_gateway_initialize_session_webhook.py:337: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/plugins/webhook/tests/test_payment_gateway_initialize_session_webhook.py:71: in _assert_with_static_payload
+    _assert_fields(payload, webhook, expected_data, response, mock_request)
+saleor/plugins/webhook/tests/test_payment_gateway_initialize_session_webhook.py:85: in _assert_fields
+    mock_request.assert_called_once_with(delivery)
+/usr/local/lib/python3.9/unittest/mock.py:919: in assert_called_once_with
+    return self.assert_called_with(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;MagicMock name='send_webhook_request_sync' id='140484626353600'&gt;
+args = (&lt;EventDelivery: EventDelivery object (166)&gt;,), kwargs = {}
+expected = call(&lt;EventDelivery: EventDelivery object (166)&gt;)
+actual = call(&lt;App: Webhook app&gt;, &lt;EventDelivery: EventDelivery object (166)&gt;)
+_error_message = &lt;function NonCallableMock.assert_called_with.&lt;locals&gt;._error_message at 0x7fc521234c10&gt;
+cause = None
+
+    def assert_called_with(self, /, *args, **kwargs):
+        """assert that the last call was made with the specified arguments.
+    
+        Raises an AssertionError if the args and keyword args passed in are
+        different to the last call to the mock."""
+        if self.call_args is None:
+            expected = self._format_mock_call_signature(args, kwargs)
+            actual = 'not called.'
+            error_message = ('expected call not found.\nExpected: %s\nActual: %s'
+                    % (expected, actual))
+            raise AssertionError(error_message)
+    
+        def _error_message():
+            msg = self._format_mock_failure_message(args, kwargs)
+            return msg
+        expected = self._call_matcher(_Call((args, kwargs), two=True))
+        actual = self._call_matcher(self.call_args)
+        if actual != expected:
+            cause = expected if isinstance(expected, Exception) else None
+&gt;           raise AssertionError(_error_message()) from cause
+E           AssertionError: expected call not found.
+E           Expected: send_webhook_request_sync(&lt;EventDelivery: EventDelivery object (166)&gt;)
+E           Actual: send_webhook_request_sync(&lt;App: Webhook app&gt;, &lt;EventDelivery: EventDelivery object (166)&gt;)
+
+/usr/local/lib/python3.9/unittest/mock.py:907: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_payment_gateway_initialize_session_webhook" name="test_gateway_initialize_session_for_order_without_request_data" time="0.086"><failure message="AssertionError: expected call not found.&#10;Expected: send_webhook_request_sync(&lt;EventDelivery: EventDelivery object (167)&gt;)&#10;Actual: send_webhook_request_sync(&lt;App: Webhook app&gt;, &lt;EventDelivery: EventDelivery object (167)&gt;)">mock_request = &lt;MagicMock name='send_webhook_request_sync' id='140484637954784'&gt;
+webhook_plugin = &lt;function webhook_plugin.&lt;locals&gt;.factory at 0x7fc5200d4c10&gt;
+webhook_app = &lt;App: Webhook app&gt;
+order = &lt;Order #UUID('bc6fdc72-89b1-4046-b916-88afead04ba2')&gt;
+permission_manage_payments = &lt;Permission: payment | payment | Handle payments&gt;
+
+    @freeze_time()
+    @mock.patch("saleor.plugins.webhook.tasks.send_webhook_request_sync")
+    def test_gateway_initialize_session_for_order_without_request_data(
+        mock_request, webhook_plugin, webhook_app, order, permission_manage_payments
+    ):
+        # given
+        expected_data = {"some": "json data"}
+        mock_request.return_value = expected_data
+        plugin = webhook_plugin()
+    
+        webhook_app.identifier = "app.identifier"
+        webhook_app.save()
+        webhook_app.permissions.add(permission_manage_payments)
+        webhook = Webhook.objects.create(
+            name="Webhook",
+            app=webhook_app,
+            subscription_query=PAYMENT_GATEWAY_INITIALIZE_SESSION,
+        )
+        event_type = WebhookEventSyncType.PAYMENT_GATEWAY_INITIALIZE_SESSION
+        webhook.events.create(event_type=event_type)
+    
+        amount = Decimal("10.00")
+    
+        # when
+        response = plugin.payment_gateway_initialize_session(
+            amount=amount,
+            payment_gateways=None,
+            source_object=order,
+            previous_value=None,
+        )
+    
+        # then
+&gt;       _assert_with_subscription(
+            order, None, amount, webhook, expected_data, response, mock_request
+        )
+
+saleor/plugins/webhook/tests/test_payment_gateway_initialize_session_webhook.py:374: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/plugins/webhook/tests/test_payment_gateway_initialize_session_webhook.py:55: in _assert_with_subscription
+    _assert_fields(payload, webhook, expected_data, response, mock_request)
+saleor/plugins/webhook/tests/test_payment_gateway_initialize_session_webhook.py:85: in _assert_fields
+    mock_request.assert_called_once_with(delivery)
+/usr/local/lib/python3.9/unittest/mock.py:919: in assert_called_once_with
+    return self.assert_called_with(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;MagicMock name='send_webhook_request_sync' id='140484637954784'&gt;
+args = (&lt;EventDelivery: EventDelivery object (167)&gt;,), kwargs = {}
+expected = call(&lt;EventDelivery: EventDelivery object (167)&gt;)
+actual = call(&lt;App: Webhook app&gt;, &lt;EventDelivery: EventDelivery object (167)&gt;)
+_error_message = &lt;function NonCallableMock.assert_called_with.&lt;locals&gt;._error_message at 0x7fc51fe8eee0&gt;
+cause = None
+
+    def assert_called_with(self, /, *args, **kwargs):
+        """assert that the last call was made with the specified arguments.
+    
+        Raises an AssertionError if the args and keyword args passed in are
+        different to the last call to the mock."""
+        if self.call_args is None:
+            expected = self._format_mock_call_signature(args, kwargs)
+            actual = 'not called.'
+            error_message = ('expected call not found.\nExpected: %s\nActual: %s'
+                    % (expected, actual))
+            raise AssertionError(error_message)
+    
+        def _error_message():
+            msg = self._format_mock_failure_message(args, kwargs)
+            return msg
+        expected = self._call_matcher(_Call((args, kwargs), two=True))
+        actual = self._call_matcher(self.call_args)
+        if actual != expected:
+            cause = expected if isinstance(expected, Exception) else None
+&gt;           raise AssertionError(_error_message()) from cause
+E           AssertionError: expected call not found.
+E           Expected: send_webhook_request_sync(&lt;EventDelivery: EventDelivery object (167)&gt;)
+E           Actual: send_webhook_request_sync(&lt;App: Webhook app&gt;, &lt;EventDelivery: EventDelivery object (167)&gt;)
+
+/usr/local/lib/python3.9/unittest/mock.py:907: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_payment_gateway_initialize_session_webhook" name="test_gateway_initialize_session_for_order_with_request_data" time="0.088"><failure message="AssertionError: expected call not found.&#10;Expected: send_webhook_request_sync(&lt;EventDelivery: EventDelivery object (168)&gt;)&#10;Actual: send_webhook_request_sync(&lt;App: Webhook app&gt;, &lt;EventDelivery: EventDelivery object (168)&gt;)">mock_request = &lt;MagicMock name='send_webhook_request_sync' id='140484631977936'&gt;
+webhook_plugin = &lt;function webhook_plugin.&lt;locals&gt;.factory at 0x7fc51fc7f0d0&gt;
+webhook_app = &lt;App: Webhook app&gt;
+order = &lt;Order #UUID('55b6bf1a-91fa-436e-a9e3-3f0307bf30dc')&gt;
+permission_manage_payments = &lt;Permission: payment | payment | Handle payments&gt;
+
+    @freeze_time()
+    @mock.patch("saleor.plugins.webhook.tasks.send_webhook_request_sync")
+    def test_gateway_initialize_session_for_order_with_request_data(
+        mock_request, webhook_plugin, webhook_app, order, permission_manage_payments
+    ):
+        # given
+        data = {"some": "request-data"}
+        expected_data = {"some": "json data"}
+        mock_request.return_value = expected_data
+        plugin = webhook_plugin()
+    
+        webhook_app.identifier = "app.identifier"
+        webhook_app.save()
+        webhook_app.permissions.add(permission_manage_payments)
+        webhook = Webhook.objects.create(
+            name="Webhook",
+            app=webhook_app,
+            subscription_query=PAYMENT_GATEWAY_INITIALIZE_SESSION,
+        )
+        event_type = WebhookEventSyncType.PAYMENT_GATEWAY_INITIALIZE_SESSION
+        webhook.events.create(event_type=event_type)
+    
+        amount = Decimal("10.00")
+    
+        # when
+        response = plugin.payment_gateway_initialize_session(
+            amount=amount,
+            payment_gateways=[
+                PaymentGatewayData(app_identifier=webhook_app.identifier, data=data)
+            ],
+            source_object=order,
+            previous_value=None,
+        )
+    
+        # then
+&gt;       _assert_with_subscription(
+            order, data, amount, webhook, expected_data, response, mock_request
+        )
+
+saleor/plugins/webhook/tests/test_payment_gateway_initialize_session_webhook.py:414: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/plugins/webhook/tests/test_payment_gateway_initialize_session_webhook.py:55: in _assert_with_subscription
+    _assert_fields(payload, webhook, expected_data, response, mock_request)
+saleor/plugins/webhook/tests/test_payment_gateway_initialize_session_webhook.py:85: in _assert_fields
+    mock_request.assert_called_once_with(delivery)
+/usr/local/lib/python3.9/unittest/mock.py:919: in assert_called_once_with
+    return self.assert_called_with(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;MagicMock name='send_webhook_request_sync' id='140484631977936'&gt;
+args = (&lt;EventDelivery: EventDelivery object (168)&gt;,), kwargs = {}
+expected = call(&lt;EventDelivery: EventDelivery object (168)&gt;)
+actual = call(&lt;App: Webhook app&gt;, &lt;EventDelivery: EventDelivery object (168)&gt;)
+_error_message = &lt;function NonCallableMock.assert_called_with.&lt;locals&gt;._error_message at 0x7fc51fc7f8b0&gt;
+cause = None
+
+    def assert_called_with(self, /, *args, **kwargs):
+        """assert that the last call was made with the specified arguments.
+    
+        Raises an AssertionError if the args and keyword args passed in are
+        different to the last call to the mock."""
+        if self.call_args is None:
+            expected = self._format_mock_call_signature(args, kwargs)
+            actual = 'not called.'
+            error_message = ('expected call not found.\nExpected: %s\nActual: %s'
+                    % (expected, actual))
+            raise AssertionError(error_message)
+    
+        def _error_message():
+            msg = self._format_mock_failure_message(args, kwargs)
+            return msg
+        expected = self._call_matcher(_Call((args, kwargs), two=True))
+        actual = self._call_matcher(self.call_args)
+        if actual != expected:
+            cause = expected if isinstance(expected, Exception) else None
+&gt;           raise AssertionError(_error_message()) from cause
+E           AssertionError: expected call not found.
+E           Expected: send_webhook_request_sync(&lt;EventDelivery: EventDelivery object (168)&gt;)
+E           Actual: send_webhook_request_sync(&lt;App: Webhook app&gt;, &lt;EventDelivery: EventDelivery object (168)&gt;)
+
+/usr/local/lib/python3.9/unittest/mock.py:907: AssertionError</failure></testcase></testsuite></testsuites>

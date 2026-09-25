@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="8" time="2.752" timestamp="2026-09-25T01:43:00.276765-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.plugins.webhook.tests.test_tax_webhook" name="test_get_taxes_for_checkout_no_permission" time="1.472" /><testcase classname="saleor.plugins.webhook.tests.test_tax_webhook" name="test_get_taxes_for_order" time="0.148"><failure message="AssertionError: expected call not found.&#10;Expected: send_webhook_request_sync(&lt;EventDelivery: EventDelivery object (51)&gt;)&#10;Actual: send_webhook_request_sync(&lt;App: Sample app objects&gt;, &lt;EventDelivery: EventDelivery object (51)&gt;)">mock_request = &lt;MagicMock name='send_webhook_request_sync' id='129292686164896'&gt;
+mock_fetch = &lt;MagicMock name='fetch_order_prices_if_expired' id='129292680490720'&gt;
+permission_handle_taxes = &lt;Permission: checkout | checkout | Handle taxes&gt;
+webhook_plugin = &lt;function webhook_plugin.&lt;locals&gt;.factory at 0x75974c1808b0&gt;
+tax_order_webhook = &lt;Webhook: Tax order webhook&gt;
+tax_data_response = {'currency': 'PLN', 'lines': [{'currency': 'PLN', 'id': '1234', 'tax_rate': 23, 'total_gross_amount': 12.34, ...}, {'c... 23, 'total_gross_amount': 12.34, ...}], 'shipping_price_gross_amount': 12.34, 'shipping_price_net_amount': 12.34, ...}
+order = &lt;Order #UUID('975af0a1-208d-46e6-ae67-ad11692b3e5e')&gt;
+tax_app_with_webhooks = &lt;App: Sample app objects&gt;
+
+    @freeze_time()
+    @mock.patch("saleor.order.calculations.fetch_order_prices_if_expired")
+    @mock.patch("saleor.plugins.webhook.tasks.send_webhook_request_sync")
+    def test_get_taxes_for_order(
+        mock_request,
+        mock_fetch,
+        permission_handle_taxes,
+        webhook_plugin,
+        tax_order_webhook,
+        tax_data_response,
+        order,
+        tax_app_with_webhooks,
+    ):
+        # given
+        mock_request.return_value = tax_data_response
+        plugin = webhook_plugin()
+    
+        # when
+        tax_data = plugin.get_taxes_for_order(order, None)
+    
+        # then
+        payload = EventPayload.objects.get()
+        assert payload.payload == generate_order_payload_for_tax_calculation(order)
+        delivery = EventDelivery.objects.get()
+        assert delivery.status == EventDeliveryStatus.PENDING
+        assert delivery.event_type == WebhookEventSyncType.ORDER_CALCULATE_TAXES
+        assert delivery.payload == payload
+        assert delivery.webhook == tax_order_webhook
+&gt;       mock_request.assert_called_once_with(delivery)
+
+saleor/plugins/webhook/tests/test_tax_webhook.py:66: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.9/unittest/mock.py:919: in assert_called_once_with
+    return self.assert_called_with(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;MagicMock name='send_webhook_request_sync' id='129292686164896'&gt;
+args = (&lt;EventDelivery: EventDelivery object (51)&gt;,), kwargs = {}
+expected = call(&lt;EventDelivery: EventDelivery object (51)&gt;)
+actual = call(&lt;App: Sample app objects&gt;, &lt;EventDelivery: EventDelivery object (51)&gt;)
+_error_message = &lt;function NonCallableMock.assert_called_with.&lt;locals&gt;._error_message at 0x75974beffb80&gt;
+cause = None
+
+    def assert_called_with(self, /, *args, **kwargs):
+        """assert that the last call was made with the specified arguments.
+    
+        Raises an AssertionError if the args and keyword args passed in are
+        different to the last call to the mock."""
+        if self.call_args is None:
+            expected = self._format_mock_call_signature(args, kwargs)
+            actual = 'not called.'
+            error_message = ('expected call not found.\nExpected: %s\nActual: %s'
+                    % (expected, actual))
+            raise AssertionError(error_message)
+    
+        def _error_message():
+            msg = self._format_mock_failure_message(args, kwargs)
+            return msg
+        expected = self._call_matcher(_Call((args, kwargs), two=True))
+        actual = self._call_matcher(self.call_args)
+        if actual != expected:
+            cause = expected if isinstance(expected, Exception) else None
+&gt;           raise AssertionError(_error_message()) from cause
+E           AssertionError: expected call not found.
+E           Expected: send_webhook_request_sync(&lt;EventDelivery: EventDelivery object (51)&gt;)
+E           Actual: send_webhook_request_sync(&lt;App: Sample app objects&gt;, &lt;EventDelivery: EventDelivery object (51)&gt;)
+
+/usr/local/lib/python3.9/unittest/mock.py:907: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_tax_webhook" name="test_get_taxes_for_order_no_permission" time="0.033" /><testcase classname="saleor.plugins.webhook.tests.test_tax_webhook" name="test_get_tax_code_from_object_meta_no_app" time="0.110" /><testcase classname="saleor.plugins.webhook.tests.test_tax_webhook" name="test_get_tax_code_from_object_meta" time="0.098" /><testcase classname="saleor.plugins.webhook.tests.test_tax_webhook" name="test_get_tax_code_from_object_meta_default_code" time="0.099" /><testcase classname="saleor.plugins.webhook.tests.test_tax_webhook" name="test_get_taxes_for_order_with_sync_subscription" time="0.073"><failure message="AssertionError: expected call not found.&#10;Expected: send_webhook_request_sync(&lt;EventDelivery: EventDelivery object (52)&gt;)&#10;Actual: send_webhook_request_sync(&lt;App: Sample app objects&gt;, &lt;EventDelivery: EventDelivery object (52)&gt;)">mock_request = &lt;MagicMock name='send_webhook_request_sync' id='129292672244656'&gt;
+mock_fetch = &lt;MagicMock name='fetch_order_prices_if_expired' id='129292674350624'&gt;
+webhook_plugin = &lt;function webhook_plugin.&lt;locals&gt;.factory at 0x75974bddd9d0&gt;
+tax_data_response = {'currency': 'PLN', 'lines': [{'currency': 'PLN', 'id': '1234', 'tax_rate': 23, 'total_gross_amount': 12.34, ...}, {'c... 23, 'total_gross_amount': 12.34, ...}], 'shipping_price_gross_amount': 12.34, 'shipping_price_net_amount': 12.34, ...}
+order = &lt;Order #UUID('38bd0012-591f-4adb-ae04-842513c9221a')&gt;
+tax_app = &lt;App: Sample app objects&gt;
+
+    @freeze_time()
+    @mock.patch("saleor.order.calculations.fetch_order_prices_if_expired")
+    @mock.patch("saleor.plugins.webhook.tasks.send_webhook_request_sync")
+    def test_get_taxes_for_order_with_sync_subscription(
+        mock_request,
+        mock_fetch,
+        webhook_plugin,
+        tax_data_response,
+        order,
+        tax_app,
+    ):
+        # given
+        mock_request.return_value = tax_data_response
+        plugin = webhook_plugin()
+        webhook = Webhook.objects.create(
+            name="Tax checkout webhook",
+            app=tax_app,
+            target_url="https://localhost:8888/tax-order",
+            subscription_query=(
+                "subscription{event{... on CalculateTaxes{taxBase{currency}}}}"
+            ),
+        )
+        webhook.events.create(event_type=WebhookEventSyncType.ORDER_CALCULATE_TAXES)
+    
+        # when
+        tax_data = plugin.get_taxes_for_order(order, None)
+    
+        # then
+        payload = EventPayload.objects.get()
+        assert payload.payload == json.dumps({"taxBase": {"currency": "USD"}})
+        delivery = EventDelivery.objects.get()
+        assert delivery.status == EventDeliveryStatus.PENDING
+        assert delivery.event_type == WebhookEventSyncType.ORDER_CALCULATE_TAXES
+        assert delivery.payload == payload
+        assert delivery.webhook == webhook
+&gt;       mock_request.assert_called_once_with(delivery)
+
+saleor/plugins/webhook/tests/test_tax_webhook.py:184: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.9/unittest/mock.py:919: in assert_called_once_with
+    return self.assert_called_with(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;MagicMock name='send_webhook_request_sync' id='129292672244656'&gt;
+args = (&lt;EventDelivery: EventDelivery object (52)&gt;,), kwargs = {}
+expected = call(&lt;EventDelivery: EventDelivery object (52)&gt;)
+actual = call(&lt;App: Sample app objects&gt;, &lt;EventDelivery: EventDelivery object (52)&gt;)
+_error_message = &lt;function NonCallableMock.assert_called_with.&lt;locals&gt;._error_message at 0x75974bdd1dc0&gt;
+cause = None
+
+    def assert_called_with(self, /, *args, **kwargs):
+        """assert that the last call was made with the specified arguments.
+    
+        Raises an AssertionError if the args and keyword args passed in are
+        different to the last call to the mock."""
+        if self.call_args is None:
+            expected = self._format_mock_call_signature(args, kwargs)
+            actual = 'not called.'
+            error_message = ('expected call not found.\nExpected: %s\nActual: %s'
+                    % (expected, actual))
+            raise AssertionError(error_message)
+    
+        def _error_message():
+            msg = self._format_mock_failure_message(args, kwargs)
+            return msg
+        expected = self._call_matcher(_Call((args, kwargs), two=True))
+        actual = self._call_matcher(self.call_args)
+        if actual != expected:
+            cause = expected if isinstance(expected, Exception) else None
+&gt;           raise AssertionError(_error_message()) from cause
+E           AssertionError: expected call not found.
+E           Expected: send_webhook_request_sync(&lt;EventDelivery: EventDelivery object (52)&gt;)
+E           Actual: send_webhook_request_sync(&lt;App: Sample app objects&gt;, &lt;EventDelivery: EventDelivery object (52)&gt;)
+
+/usr/local/lib/python3.9/unittest/mock.py:907: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_tax_webhook" name="test_get_taxes_for_checkout_with_sync_subscription" time="0.070"><failure message="AssertionError: expected call not found.&#10;Expected: send_webhook_request_sync(&lt;EventDelivery: EventDelivery object (53)&gt;)&#10;Actual: send_webhook_request_sync(&lt;App: Sample app objects&gt;, &lt;EventDelivery: EventDelivery object (53)&gt;)">mock_request = &lt;MagicMock name='send_webhook_request_sync' id='129292677125264'&gt;
+mock_fetch = &lt;MagicMock name='fetch_checkout_data' id='129292672108864'&gt;
+webhook_plugin = &lt;function webhook_plugin.&lt;locals&gt;.factory at 0x75974bdbc4c0&gt;
+tax_data_response = {'currency': 'PLN', 'lines': [{'currency': 'PLN', 'id': '1234', 'tax_rate': 23, 'total_gross_amount': 12.34, ...}, {'c... 23, 'total_gross_amount': 12.34, ...}], 'shipping_price_gross_amount': 12.34, 'shipping_price_net_amount': 12.34, ...}
+checkout = &lt;Checkout: Checkout object (743ab09a-08bf-4f24-9330-d9bed90a7de6)&gt;
+tax_app = &lt;App: Sample app objects&gt;
+
+    @freeze_time()
+    @mock.patch("saleor.checkout.calculations.fetch_checkout_data")
+    @mock.patch("saleor.plugins.webhook.tasks.send_webhook_request_sync")
+    def test_get_taxes_for_checkout_with_sync_subscription(
+        mock_request,
+        mock_fetch,
+        webhook_plugin,
+        tax_data_response,
+        checkout,
+        tax_app,
+    ):
+        # given
+        checkout_info = fetch_checkout_info(checkout, [], get_plugins_manager())
+        mock_request.return_value = tax_data_response
+        plugin = webhook_plugin()
+        webhook = Webhook.objects.create(
+            name="Tax checkout webhook",
+            app=tax_app,
+            target_url="https://localhost:8888/tax-order",
+            subscription_query=(
+                "subscription{event{... on CalculateTaxes{taxBase{currency}}}}"
+            ),
+        )
+        webhook.events.create(event_type=WebhookEventSyncType.CHECKOUT_CALCULATE_TAXES)
+    
+        # when
+        tax_data = plugin.get_taxes_for_checkout(checkout_info, [], None)
+    
+        # then
+        payload = EventPayload.objects.get()
+        assert payload.payload == json.dumps({"taxBase": {"currency": "USD"}})
+        delivery = EventDelivery.objects.get()
+        assert delivery.status == EventDeliveryStatus.PENDING
+        assert delivery.event_type == WebhookEventSyncType.CHECKOUT_CALCULATE_TAXES
+        assert delivery.payload == payload
+        assert delivery.webhook == webhook
+&gt;       mock_request.assert_called_once_with(delivery)
+
+saleor/plugins/webhook/tests/test_tax_webhook.py:225: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.9/unittest/mock.py:919: in assert_called_once_with
+    return self.assert_called_with(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;MagicMock name='send_webhook_request_sync' id='129292677125264'&gt;
+args = (&lt;EventDelivery: EventDelivery object (53)&gt;,), kwargs = {}
+expected = call(&lt;EventDelivery: EventDelivery object (53)&gt;)
+actual = call(&lt;App: Sample app objects&gt;, &lt;EventDelivery: EventDelivery object (53)&gt;)
+_error_message = &lt;function NonCallableMock.assert_called_with.&lt;locals&gt;._error_message at 0x75974bccde50&gt;
+cause = None
+
+    def assert_called_with(self, /, *args, **kwargs):
+        """assert that the last call was made with the specified arguments.
+    
+        Raises an AssertionError if the args and keyword args passed in are
+        different to the last call to the mock."""
+        if self.call_args is None:
+            expected = self._format_mock_call_signature(args, kwargs)
+            actual = 'not called.'
+            error_message = ('expected call not found.\nExpected: %s\nActual: %s'
+                    % (expected, actual))
+            raise AssertionError(error_message)
+    
+        def _error_message():
+            msg = self._format_mock_failure_message(args, kwargs)
+            return msg
+        expected = self._call_matcher(_Call((args, kwargs), two=True))
+        actual = self._call_matcher(self.call_args)
+        if actual != expected:
+            cause = expected if isinstance(expected, Exception) else None
+&gt;           raise AssertionError(_error_message()) from cause
+E           AssertionError: expected call not found.
+E           Expected: send_webhook_request_sync(&lt;EventDelivery: EventDelivery object (53)&gt;)
+E           Actual: send_webhook_request_sync(&lt;App: Sample app objects&gt;, &lt;EventDelivery: EventDelivery object (53)&gt;)
+
+/usr/local/lib/python3.9/unittest/mock.py:907: AssertionError</failure></testcase></testsuite></testsuites>

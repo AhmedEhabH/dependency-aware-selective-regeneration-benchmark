@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="19" time="4.399" timestamp="2026-09-24T15:59:54.066531" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_bulk_update" name="test_attribute_bulk_update_with_base_data" time="1.816" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_bulk_update" name="test_attribute_bulk_update_trigger_webhook" time="0.153" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_bulk_update" name="test_attribute_bulk_update_without_permission" time="0.132" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_bulk_update" name="test_attribute_bulk_update_with_deprecated_fields" time="0.125" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_bulk_update" name="test_attribute_bulk_update_with_duplicated_external_ref" time="0.122" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_bulk_update" name="test_attribute_bulk_update_with_existing_external_ref" time="0.119" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_bulk_update" name="test_attribute_bulk_update_with_invalid_type_id" time="0.106"><failure message="AssertionError: assert 'Must receive a Attribute id.' == 'Invalid ID: ...ceived: Page.'&#10;  - Invalid ID: UGFnZTox. Expected: Attribute, received: Page.&#10;  + Must receive a Attribute id.">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x743ee6b20fa0&gt;
+permission_manage_product_types_and_attributes = &lt;Permission: product | product type | Manage product types and attributes.&gt;
+
+    def test_attribute_bulk_update_with_invalid_type_id(
+        staff_api_client, permission_manage_product_types_and_attributes
+    ):
+        # given
+        invalid_id = graphene.Node.to_global_id("Page", 1)
+        attributes = [{"id": invalid_id, "fields": {"name": "ExampleName"}}]
+    
+        # when
+        staff_api_client.user.user_permissions.add(
+            permission_manage_product_types_and_attributes
+        )
+        response = staff_api_client.post_graphql(
+            ATTRIBUTE_BULK_UPDATE_MUTATION,
+            {"attributes": attributes},
+        )
+        content = get_graphql_content(response)
+        data = content["data"]["attributeBulkUpdate"]
+    
+        # then
+        assert data["count"] == 0
+        errors = data["results"][0]["errors"]
+        assert errors
+        assert errors[0]["code"] == AttributeBulkUpdateErrorCode.INVALID.name
+&gt;       assert (
+            errors[0]["message"]
+            == f"Invalid ID: {invalid_id}. Expected: Attribute, received: Page."
+        )
+E       AssertionError: assert 'Must receive a Attribute id.' == 'Invalid ID: ...ceived: Page.'
+E         - Invalid ID: UGFnZTox. Expected: Attribute, received: Page.
+E         + Must receive a Attribute id.
+
+saleor/graphql/attribute/tests/mutations/test_attribute_bulk_update.py:298: AssertionError</failure></testcase><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_bulk_update" name="test_attribute_bulk_update_without_id_and_external_ref" time="0.109" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_bulk_update" name="test_attribute_bulk_update_with_id_and_external_ref" time="0.114" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_bulk_update" name="test_attribute_bulk_update_removes_value" time="0.129" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_bulk_update" name="test_attribute_bulk_update_removes_value_trigger_webhook" time="0.126" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_bulk_update" name="test_attribute_bulk_update_removes_invalid_value" time="0.127" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_bulk_update" name="test_attribute_bulk_update_add_new_value" time="0.135" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_bulk_update" name="test_attribute_bulk_update_add_value_with_existing_name" time="0.127" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_bulk_update" name="test_attribute_bulk_update_with_duplicated_external_reference_in_values" time="0.127" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_bulk_update" name="test_attribute_bulk_update_add_value_with_to_long_name_and_reject_failed_rows" time="0.123" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_bulk_update" name="test_attribute_bulk_update_add_value_with_to_long_name_and_ignore_failed" time="0.129" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_bulk_update" name="test_attribute_bulk_update_add_value_with_existing_external_ref" time="0.124" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_bulk_update" name="test_attribute_bulk_update_removes_value_with_invalid_id" time="0.121" /></testsuite></testsuites>

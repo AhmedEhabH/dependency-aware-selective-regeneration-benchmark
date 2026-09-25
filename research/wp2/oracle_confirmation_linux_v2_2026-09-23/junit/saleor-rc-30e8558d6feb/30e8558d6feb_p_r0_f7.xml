@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="12" time="2.922" timestamp="2026-09-24T15:55:10.043676" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.core.tests.test_graphql" name="test_middleware_dont_generate_sql_requests" time="1.544" /><testcase classname="saleor.graphql.core.tests.test_graphql" name="test_jwt_middleware" time="0.151" /><testcase classname="saleor.graphql.core.tests.test_graphql" name="test_real_query" time="0.280" /><testcase classname="saleor.graphql.core.tests.test_graphql" name="test_get_nodes" time="0.126" /><testcase classname="saleor.graphql.core.tests.test_graphql" name="test_get_nodes_for_order_with_int_id" time="0.032" /><testcase classname="saleor.graphql.core.tests.test_graphql" name="test_get_nodes_for_order_with_uuid_id" time="0.029" /><testcase classname="saleor.graphql.core.tests.test_graphql" name="test_get_nodes_for_order_with_int_id_and_use_old_id_set_to_false" time="0.029" /><testcase classname="saleor.graphql.core.tests.test_graphql" name="test_get_nodes_for_order_with_uuid_and_int_id" time="0.030" /><testcase classname="saleor.graphql.core.tests.test_graphql" name="test_from_global_id_or_error" time="0.084"><failure message="assert &quot;Couldn't res... id: invalid.&quot; == 'Invalid ID: invalid.'&#10;  - Invalid ID: invalid.&#10;  + Couldn't resolve id: invalid.">product = &lt;saleor.product.models.Product(pk=24, name='Test product')&gt;
+
+    def test_from_global_id_or_error(product):
+        invalid_id = "invalid"
+        message = f"Invalid ID: {invalid_id}."
+    
+        with pytest.raises(GraphQLError) as error:
+            from_global_id_or_error(invalid_id)
+    
+&gt;       assert str(error.value) == message
+E       assert "Couldn't res... id: invalid." == 'Invalid ID: invalid.'
+E         - Invalid ID: invalid.
+E         + Couldn't resolve id: invalid.
+
+saleor/graphql/core/tests/test_graphql.py:344: AssertionError</failure></testcase><testcase classname="saleor.graphql.core.tests.test_graphql" name="test_from_global_id_or_error_wth_invalid_type" time="0.081"><failure message="AssertionError: assert 'Must receive...ctVariant id.' == 'Invalid ID: ...ved: Product.'&#10;  - Invalid ID: UHJvZHVjdDoyNQ==. Expected: ProductVariant, received: Product.&#10;  + Must receive a ProductVariant id.">product = &lt;saleor.product.models.Product(pk=25, name='Test product')&gt;
+
+    def test_from_global_id_or_error_wth_invalid_type(product):
+        product_id = graphene.Node.to_global_id("Product", product.id)
+        message = f"Invalid ID: {product_id}. Expected: ProductVariant, received: Product."
+    
+        with pytest.raises(GraphQLError) as error:
+            from_global_id_or_error(product_id, "ProductVariant", raise_error=True)
+    
+&gt;       assert str(error.value) == message
+E       AssertionError: assert 'Must receive...ctVariant id.' == 'Invalid ID: ...ved: Product.'
+E         - Invalid ID: UHJvZHVjdDoyNQ==. Expected: ProductVariant, received: Product.
+E         + Must receive a ProductVariant id.
+
+saleor/graphql/core/tests/test_graphql.py:354: AssertionError</failure></testcase><testcase classname="saleor.graphql.core.tests.test_graphql" name="test_from_global_id_or_error_wth_type" time="0.079" /><testcase classname="saleor.graphql.core.tests.test_graphql" name="test_query_allow_replica" time="0.131" /></testsuite></testsuites>

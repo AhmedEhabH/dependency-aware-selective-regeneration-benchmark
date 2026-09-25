@@ -1,0 +1,647 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="9" skipped="1" tests="25" time="7.991" timestamp="2026-09-24T18:29:03.933741-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.payment.gateways.adyen.tests.test_plugin" name="test_process_additional_action" time="1.709" /><testcase classname="saleor.payment.gateways.adyen.tests.test_plugin" name="test_get_payment_gateway_for_checkout" time="0.402"><failure message="pytest_socket.SocketBlockedError: A test tried to use socket.socket.">adyen_plugin = &lt;saleor.payment.gateways.adyen.plugin.AdyenGatewayPlugin object at 0x730bc9b58a00&gt;
+checkout_with_single_item = &lt;Checkout: Checkout object (a649198e-909d-49e7-883f-fa2c21231728)&gt;
+checkout_info = CheckoutInfo(checkout=&lt;Checkout: Checkout object (a649198e-909d-49e7-883f-fa2c21231728)&gt;, user=None, channel=&lt;Channel:...zyObject: &lt;function update_delivery_method_lists_for_checkout_info.&lt;locals&gt;.&lt;lambda&gt; at 0x730bc9bcfb80&gt;&gt;, voucher=None)
+address = &lt;Address: Address object (937)&gt;
+checkout_lines_info = [CheckoutLineInfo(line=CheckoutLine(variant=&lt;ProductVariant: 123&gt;, quantity=2), variant=&lt;ProductVariant: 123&gt;, channel...='Default Type')&gt;, collections=[], discounts=[], channel=&lt;Channel: main&gt;, tax_class=&lt;TaxClass: Default&gt;, voucher=None)]
+
+    @pytest.mark.vcr
+    def test_get_payment_gateway_for_checkout(
+        adyen_plugin, checkout_with_single_item, checkout_info, address, checkout_lines_info
+    ):
+        checkout_with_single_item.billing_address = address
+        checkout_with_single_item.save()
+        adyen_plugin = adyen_plugin()
+&gt;       response = adyen_plugin.get_payment_gateways(
+            currency=None,
+            checkout_info=checkout_info,
+            checkout_lines=checkout_lines_info,
+            previous_value=None,
+        )[0]
+
+saleor/payment/gateways/adyen/tests/test_plugin.py:62: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/payment/gateways/adyen/plugin.py:342: in get_payment_gateways
+    response = api_call(request, self.adyen.checkout.payment_methods)
+saleor/payment/gateways/adyen/utils/common.py:84: in api_call
+    return method(request_data, **kwargs)
+/opt/venv/lib/python3.9/site-packages/Adyen/services.py:297: in payment_methods
+    return self.client.call_checkout_api(request, action, **kwargs)
+/opt/venv/lib/python3.9/site-packages/Adyen/client.py:517: in call_checkout_api
+    self.http_client.request(url, json=request_data,
+/opt/venv/lib/python3.9/site-packages/Adyen/httpclient.py:205: in _requests_post
+    request = requests.post(
+/opt/venv/lib/python3.9/site-packages/requests/api.py:115: in post
+    return request("post", url, data=data, json=json, **kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/api.py:59: in request
+    return session.request(method=method, url=url, **kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/sessions.py:589: in request
+    resp = self.send(prep, **send_kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/sessions.py:703: in send
+    r = adapter.send(request, **kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/adapters.py:486: in send
+    resp = conn.urlopen(
+/opt/venv/lib/python3.9/site-packages/urllib3/connectionpool.py:714: in urlopen
+    httplib_response = self._make_request(
+/opt/venv/lib/python3.9/site-packages/urllib3/connectionpool.py:403: in _make_request
+    self._validate_conn(conn)
+/opt/venv/lib/python3.9/site-packages/urllib3/connectionpool.py:1053: in _validate_conn
+    conn.connect()
+/opt/venv/lib/python3.9/site-packages/urllib3/connection.py:363: in connect
+    self.sock = conn = self._new_conn()
+/opt/venv/lib/python3.9/site-packages/urllib3/connection.py:174: in _new_conn
+    conn = connection.create_connection(
+/opt/venv/lib/python3.9/site-packages/urllib3/util/connection.py:76: in create_connection
+    sock = socket.socket(af, socktype, proto)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = &lt;class 'pytest_socket.disable_socket.&lt;locals&gt;.GuardedSocket'&gt;
+family = &lt;AddressFamily.AF_INET: 2&gt;, type = &lt;SocketKind.SOCK_STREAM: 1&gt;
+proto = 6, fileno = None
+
+    def __new__(cls, family=-1, type=-1, proto=-1, fileno=None):
+        if _is_unix_socket(family) and allow_unix_socket:
+            return super().__new__(cls, family, type, proto, fileno)
+    
+&gt;       raise SocketBlockedError()
+E       pytest_socket.SocketBlockedError: A test tried to use socket.socket.
+
+/opt/venv/lib/python3.9/site-packages/pytest_socket.py:89: SocketBlockedError</failure></testcase><testcase classname="saleor.payment.gateways.adyen.tests.test_plugin" name="test_process_payment" time="0.355"><failure message="pytest_socket.SocketBlockedError: A test tried to use socket.socket.">payment_adyen_for_checkout = Payment(gateway=mirumee.payments.adyen, is_active=True, created=2026-09-24 23:29:06.687483+00:00, charge_status=not-charged)
+checkout_with_items = &lt;Checkout: Checkout object (2aebc18b-2f55-4c44-8f83-c1dab08c9227)&gt;
+adyen_plugin = &lt;saleor.payment.gateways.adyen.plugin.AdyenGatewayPlugin object at 0x730bc98e6310&gt;
+adyen_payment_method = {'encryptedCardNumber': 'test_4646464646464644', 'encryptedExpiryMonth': 'test_03', 'encryptedExpiryYear': 'test_2030', 'encryptedSecurityCode': 'test_737', ...}
+
+    @pytest.mark.vcr
+    def test_process_payment(
+        payment_adyen_for_checkout, checkout_with_items, adyen_plugin, adyen_payment_method
+    ):
+        payment_info = create_payment_information(
+            payment_adyen_for_checkout,
+            additional_data={"paymentMethod": adyen_payment_method},
+        )
+        adyen_plugin = adyen_plugin()
+&gt;       response = adyen_plugin.process_payment(payment_info, None)
+
+saleor/payment/gateways/adyen/tests/test_plugin.py:90: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/payment/gateways/adyen/plugin.py:440: in process_payment
+    result = api_call(request_data, self.adyen.checkout.payments)
+saleor/payment/gateways/adyen/utils/common.py:84: in api_call
+    return method(request_data, **kwargs)
+/opt/venv/lib/python3.9/site-packages/Adyen/services.py:301: in payments
+    return self.client.call_checkout_api(request, action, **kwargs)
+/opt/venv/lib/python3.9/site-packages/Adyen/client.py:517: in call_checkout_api
+    self.http_client.request(url, json=request_data,
+/opt/venv/lib/python3.9/site-packages/Adyen/httpclient.py:205: in _requests_post
+    request = requests.post(
+/opt/venv/lib/python3.9/site-packages/requests/api.py:115: in post
+    return request("post", url, data=data, json=json, **kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/api.py:59: in request
+    return session.request(method=method, url=url, **kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/sessions.py:589: in request
+    resp = self.send(prep, **send_kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/sessions.py:703: in send
+    r = adapter.send(request, **kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/adapters.py:486: in send
+    resp = conn.urlopen(
+/opt/venv/lib/python3.9/site-packages/urllib3/connectionpool.py:714: in urlopen
+    httplib_response = self._make_request(
+/opt/venv/lib/python3.9/site-packages/urllib3/connectionpool.py:403: in _make_request
+    self._validate_conn(conn)
+/opt/venv/lib/python3.9/site-packages/urllib3/connectionpool.py:1053: in _validate_conn
+    conn.connect()
+/opt/venv/lib/python3.9/site-packages/urllib3/connection.py:363: in connect
+    self.sock = conn = self._new_conn()
+/opt/venv/lib/python3.9/site-packages/urllib3/connection.py:174: in _new_conn
+    conn = connection.create_connection(
+/opt/venv/lib/python3.9/site-packages/urllib3/util/connection.py:76: in create_connection
+    sock = socket.socket(af, socktype, proto)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = &lt;class 'pytest_socket.disable_socket.&lt;locals&gt;.GuardedSocket'&gt;
+family = &lt;AddressFamily.AF_INET: 2&gt;, type = &lt;SocketKind.SOCK_STREAM: 1&gt;
+proto = 6, fileno = None
+
+    def __new__(cls, family=-1, type=-1, proto=-1, fileno=None):
+        if _is_unix_socket(family) and allow_unix_socket:
+            return super().__new__(cls, family, type, proto, fileno)
+    
+&gt;       raise SocketBlockedError()
+E       pytest_socket.SocketBlockedError: A test tried to use socket.socket.
+
+/opt/venv/lib/python3.9/site-packages/pytest_socket.py:89: SocketBlockedError</failure></testcase><testcase classname="saleor.payment.gateways.adyen.tests.test_plugin" name="test_process_payment_with_adyen_auto_capture" time="0.335"><failure message="pytest_socket.SocketBlockedError: A test tried to use socket.socket.">capture_mock = &lt;MagicMock name='call_capture' id='126494470503680'&gt;
+payment_adyen_for_checkout = Payment(gateway=mirumee.payments.adyen, is_active=True, created=2026-09-24 23:29:07.317706+00:00, charge_status=not-charged)
+checkout_with_items = &lt;Checkout: Checkout object (ebc24e79-1d2b-40fb-99c6-513451c1972a)&gt;
+adyen_plugin = &lt;saleor.payment.gateways.adyen.plugin.AdyenGatewayPlugin object at 0x730bc99f59a0&gt;
+adyen_payment_method = {'encryptedCardNumber': 'test_4646464646464644', 'encryptedExpiryMonth': 'test_03', 'encryptedExpiryYear': 'test_2030', 'encryptedSecurityCode': 'test_737', ...}
+
+    @pytest.mark.vcr
+    @mock.patch("saleor.payment.gateways.adyen.plugin.call_capture")
+    def test_process_payment_with_adyen_auto_capture(
+        capture_mock,
+        payment_adyen_for_checkout,
+        checkout_with_items,
+        adyen_plugin,
+        adyen_payment_method,
+    ):
+        payment_info = create_payment_information(
+            payment_adyen_for_checkout,
+            additional_data={"paymentMethod": adyen_payment_method},
+        )
+        adyen_plugin = adyen_plugin(adyen_auto_capture=True)
+&gt;       response = adyen_plugin.process_payment(payment_info, None)
+
+saleor/payment/gateways/adyen/tests/test_plugin.py:116: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/payment/gateways/adyen/plugin.py:440: in process_payment
+    result = api_call(request_data, self.adyen.checkout.payments)
+saleor/payment/gateways/adyen/utils/common.py:84: in api_call
+    return method(request_data, **kwargs)
+/opt/venv/lib/python3.9/site-packages/Adyen/services.py:301: in payments
+    return self.client.call_checkout_api(request, action, **kwargs)
+/opt/venv/lib/python3.9/site-packages/Adyen/client.py:517: in call_checkout_api
+    self.http_client.request(url, json=request_data,
+/opt/venv/lib/python3.9/site-packages/Adyen/httpclient.py:205: in _requests_post
+    request = requests.post(
+/opt/venv/lib/python3.9/site-packages/requests/api.py:115: in post
+    return request("post", url, data=data, json=json, **kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/api.py:59: in request
+    return session.request(method=method, url=url, **kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/sessions.py:589: in request
+    resp = self.send(prep, **send_kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/sessions.py:703: in send
+    r = adapter.send(request, **kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/adapters.py:486: in send
+    resp = conn.urlopen(
+/opt/venv/lib/python3.9/site-packages/urllib3/connectionpool.py:714: in urlopen
+    httplib_response = self._make_request(
+/opt/venv/lib/python3.9/site-packages/urllib3/connectionpool.py:403: in _make_request
+    self._validate_conn(conn)
+/opt/venv/lib/python3.9/site-packages/urllib3/connectionpool.py:1053: in _validate_conn
+    conn.connect()
+/opt/venv/lib/python3.9/site-packages/urllib3/connection.py:363: in connect
+    self.sock = conn = self._new_conn()
+/opt/venv/lib/python3.9/site-packages/urllib3/connection.py:174: in _new_conn
+    conn = connection.create_connection(
+/opt/venv/lib/python3.9/site-packages/urllib3/util/connection.py:76: in create_connection
+    sock = socket.socket(af, socktype, proto)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = &lt;class 'pytest_socket.disable_socket.&lt;locals&gt;.GuardedSocket'&gt;
+family = &lt;AddressFamily.AF_INET: 2&gt;, type = &lt;SocketKind.SOCK_STREAM: 1&gt;
+proto = 6, fileno = None
+
+    def __new__(cls, family=-1, type=-1, proto=-1, fileno=None):
+        if _is_unix_socket(family) and allow_unix_socket:
+            return super().__new__(cls, family, type, proto, fileno)
+    
+&gt;       raise SocketBlockedError()
+E       pytest_socket.SocketBlockedError: A test tried to use socket.socket.
+
+/opt/venv/lib/python3.9/site-packages/pytest_socket.py:89: SocketBlockedError</failure></testcase><testcase classname="saleor.payment.gateways.adyen.tests.test_plugin" name="test_process_payment_with_auto_capture" time="0.394"><failure message="pytest_socket.SocketBlockedError: A test tried to use socket.socket.">payment_adyen_for_checkout = Payment(gateway=mirumee.payments.adyen, is_active=True, created=2026-09-24 23:29:07.753622+00:00, charge_status=not-charged)
+checkout_with_items = &lt;Checkout: Checkout object (e00b1135-cc01-4222-8a98-23ed701eb584)&gt;
+adyen_plugin = &lt;saleor.payment.gateways.adyen.plugin.AdyenGatewayPlugin object at 0x730bc9bbb460&gt;
+adyen_payment_method = {'encryptedCardNumber': 'test_4646464646464644', 'encryptedExpiryMonth': 'test_03', 'encryptedExpiryYear': 'test_2030', 'encryptedSecurityCode': 'test_737', ...}
+
+    @pytest.mark.vcr
+    def test_process_payment_with_auto_capture(
+        payment_adyen_for_checkout, checkout_with_items, adyen_plugin, adyen_payment_method
+    ):
+        payment_info = create_payment_information(
+            payment_adyen_for_checkout,
+            additional_data={"paymentMethod": adyen_payment_method},
+        )
+        adyen_plugin = adyen_plugin(auto_capture=True)
+&gt;       response = adyen_plugin.process_payment(payment_info, None)
+
+saleor/payment/gateways/adyen/tests/test_plugin.py:138: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/payment/gateways/adyen/plugin.py:440: in process_payment
+    result = api_call(request_data, self.adyen.checkout.payments)
+saleor/payment/gateways/adyen/utils/common.py:84: in api_call
+    return method(request_data, **kwargs)
+/opt/venv/lib/python3.9/site-packages/Adyen/services.py:301: in payments
+    return self.client.call_checkout_api(request, action, **kwargs)
+/opt/venv/lib/python3.9/site-packages/Adyen/client.py:517: in call_checkout_api
+    self.http_client.request(url, json=request_data,
+/opt/venv/lib/python3.9/site-packages/Adyen/httpclient.py:205: in _requests_post
+    request = requests.post(
+/opt/venv/lib/python3.9/site-packages/requests/api.py:115: in post
+    return request("post", url, data=data, json=json, **kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/api.py:59: in request
+    return session.request(method=method, url=url, **kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/sessions.py:589: in request
+    resp = self.send(prep, **send_kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/sessions.py:703: in send
+    r = adapter.send(request, **kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/adapters.py:486: in send
+    resp = conn.urlopen(
+/opt/venv/lib/python3.9/site-packages/urllib3/connectionpool.py:714: in urlopen
+    httplib_response = self._make_request(
+/opt/venv/lib/python3.9/site-packages/urllib3/connectionpool.py:403: in _make_request
+    self._validate_conn(conn)
+/opt/venv/lib/python3.9/site-packages/urllib3/connectionpool.py:1053: in _validate_conn
+    conn.connect()
+/opt/venv/lib/python3.9/site-packages/urllib3/connection.py:363: in connect
+    self.sock = conn = self._new_conn()
+/opt/venv/lib/python3.9/site-packages/urllib3/connection.py:174: in _new_conn
+    conn = connection.create_connection(
+/opt/venv/lib/python3.9/site-packages/urllib3/util/connection.py:76: in create_connection
+    sock = socket.socket(af, socktype, proto)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = &lt;class 'pytest_socket.disable_socket.&lt;locals&gt;.GuardedSocket'&gt;
+family = &lt;AddressFamily.AF_INET: 2&gt;, type = &lt;SocketKind.SOCK_STREAM: 1&gt;
+proto = 6, fileno = None
+
+    def __new__(cls, family=-1, type=-1, proto=-1, fileno=None):
+        if _is_unix_socket(family) and allow_unix_socket:
+            return super().__new__(cls, family, type, proto, fileno)
+    
+&gt;       raise SocketBlockedError()
+E       pytest_socket.SocketBlockedError: A test tried to use socket.socket.
+
+/opt/venv/lib/python3.9/site-packages/pytest_socket.py:89: SocketBlockedError</failure></testcase><testcase classname="saleor.payment.gateways.adyen.tests.test_plugin" name="test_process_payment_with_3ds_redirect" time="0.424"><failure message="pytest_socket.SocketBlockedError: A test tried to use socket.socket.">payment_adyen_for_checkout = Payment(gateway=mirumee.payments.adyen, is_active=True, created=2026-09-24 23:29:08.276216+00:00, charge_status=not-charged)
+adyen_additional_data_for_3ds = {'browserInfo': {'acceptHeader': '*/*', 'colorDepth': 24, 'javaEnabled': False, 'language': 'en-US', ...}, 'paymentMet...yptedCardNumber': 'test_4917610000000000', 'encryptedExpiryMonth': 'test_03', 'encryptedExpiryYear': 'test_2030', ...}}
+checkout_with_items = &lt;Checkout: Checkout object (213e357a-b184-491e-ba13-8dd5e2233e95)&gt;
+adyen_plugin = &lt;saleor.payment.gateways.adyen.plugin.AdyenGatewayPlugin object at 0x730bc9e95490&gt;
+
+    @pytest.mark.vcr
+    def test_process_payment_with_3ds_redirect(
+        payment_adyen_for_checkout,
+        adyen_additional_data_for_3ds,
+        checkout_with_items,
+        adyen_plugin,
+    ):
+        payment_adyen_for_checkout.extra_data = ""
+        payment_adyen_for_checkout.save(update_fields=["extra_data"])
+        payment_info = create_payment_information(
+            payment_adyen_for_checkout, additional_data=adyen_additional_data_for_3ds
+        )
+        adyen_plugin = adyen_plugin(auto_capture=True)
+&gt;       response = adyen_plugin.process_payment(payment_info, None)
+
+saleor/payment/gateways/adyen/tests/test_plugin.py:162: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/payment/gateways/adyen/plugin.py:440: in process_payment
+    result = api_call(request_data, self.adyen.checkout.payments)
+saleor/payment/gateways/adyen/utils/common.py:84: in api_call
+    return method(request_data, **kwargs)
+/opt/venv/lib/python3.9/site-packages/Adyen/services.py:301: in payments
+    return self.client.call_checkout_api(request, action, **kwargs)
+/opt/venv/lib/python3.9/site-packages/Adyen/client.py:517: in call_checkout_api
+    self.http_client.request(url, json=request_data,
+/opt/venv/lib/python3.9/site-packages/Adyen/httpclient.py:205: in _requests_post
+    request = requests.post(
+/opt/venv/lib/python3.9/site-packages/requests/api.py:115: in post
+    return request("post", url, data=data, json=json, **kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/api.py:59: in request
+    return session.request(method=method, url=url, **kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/sessions.py:589: in request
+    resp = self.send(prep, **send_kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/sessions.py:703: in send
+    r = adapter.send(request, **kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/adapters.py:486: in send
+    resp = conn.urlopen(
+/opt/venv/lib/python3.9/site-packages/urllib3/connectionpool.py:714: in urlopen
+    httplib_response = self._make_request(
+/opt/venv/lib/python3.9/site-packages/urllib3/connectionpool.py:403: in _make_request
+    self._validate_conn(conn)
+/opt/venv/lib/python3.9/site-packages/urllib3/connectionpool.py:1053: in _validate_conn
+    conn.connect()
+/opt/venv/lib/python3.9/site-packages/urllib3/connection.py:363: in connect
+    self.sock = conn = self._new_conn()
+/opt/venv/lib/python3.9/site-packages/urllib3/connection.py:174: in _new_conn
+    conn = connection.create_connection(
+/opt/venv/lib/python3.9/site-packages/urllib3/util/connection.py:76: in create_connection
+    sock = socket.socket(af, socktype, proto)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = &lt;class 'pytest_socket.disable_socket.&lt;locals&gt;.GuardedSocket'&gt;
+family = &lt;AddressFamily.AF_INET: 2&gt;, type = &lt;SocketKind.SOCK_STREAM: 1&gt;
+proto = 6, fileno = None
+
+    def __new__(cls, family=-1, type=-1, proto=-1, fileno=None):
+        if _is_unix_socket(family) and allow_unix_socket:
+            return super().__new__(cls, family, type, proto, fileno)
+    
+&gt;       raise SocketBlockedError()
+E       pytest_socket.SocketBlockedError: A test tried to use socket.socket.
+
+/opt/venv/lib/python3.9/site-packages/pytest_socket.py:89: SocketBlockedError</failure></testcase><testcase classname="saleor.payment.gateways.adyen.tests.test_plugin" name="test_process_payment_with_klarna" time="0.461"><failure message="pytest_socket.SocketBlockedError: A test tried to use socket.socket.">payment_adyen_for_checkout = Payment(gateway=mirumee.payments.adyen, is_active=True, created=2026-09-24 23:29:08.792466+00:00, charge_status=not-charged)
+adyen_additional_data_for_klarna = {'browserInfo': {'acceptHeader': '*/*', 'colorDepth': 24, 'javaEnabled': False, 'language': 'en-US', ...}, 'paymentMethod': {'type': 'klarna_account'}}
+checkout_with_items = &lt;Checkout: Checkout object (b0422ee0-a2a9-4671-87c3-ce136310c873)&gt;
+address_usa = &lt;Address: Address object (943)&gt;
+adyen_plugin = &lt;saleor.payment.gateways.adyen.plugin.AdyenGatewayPlugin object at 0x730bc9bd53d0&gt;
+
+    @pytest.mark.vcr
+    def test_process_payment_with_klarna(
+        payment_adyen_for_checkout,
+        adyen_additional_data_for_klarna,
+        checkout_with_items,
+        address_usa,
+        adyen_plugin,
+    ):
+        payment_adyen_for_checkout.extra_data = ""
+        payment_adyen_for_checkout.save(update_fields=["extra_data"])
+        checkout_with_items.billing_address = address_usa
+        checkout_with_items.shipping_address = address_usa
+        checkout_with_items.save(update_fields=["billing_address", "shipping_address"])
+    
+        line = checkout_with_items.lines.first()
+        line.quantity = 2
+        line.save(update_fields=["quantity"])
+    
+        payment_info = create_payment_information(
+            payment_adyen_for_checkout, additional_data=adyen_additional_data_for_klarna
+        )
+        adyen_plugin = adyen_plugin(auto_capture=True)
+&gt;       response = adyen_plugin.process_payment(payment_info, None)
+
+saleor/payment/gateways/adyen/tests/test_plugin.py:204: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/payment/gateways/adyen/plugin.py:440: in process_payment
+    result = api_call(request_data, self.adyen.checkout.payments)
+saleor/payment/gateways/adyen/utils/common.py:84: in api_call
+    return method(request_data, **kwargs)
+/opt/venv/lib/python3.9/site-packages/Adyen/services.py:301: in payments
+    return self.client.call_checkout_api(request, action, **kwargs)
+/opt/venv/lib/python3.9/site-packages/Adyen/client.py:517: in call_checkout_api
+    self.http_client.request(url, json=request_data,
+/opt/venv/lib/python3.9/site-packages/Adyen/httpclient.py:205: in _requests_post
+    request = requests.post(
+/opt/venv/lib/python3.9/site-packages/requests/api.py:115: in post
+    return request("post", url, data=data, json=json, **kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/api.py:59: in request
+    return session.request(method=method, url=url, **kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/sessions.py:589: in request
+    resp = self.send(prep, **send_kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/sessions.py:703: in send
+    r = adapter.send(request, **kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/adapters.py:486: in send
+    resp = conn.urlopen(
+/opt/venv/lib/python3.9/site-packages/urllib3/connectionpool.py:714: in urlopen
+    httplib_response = self._make_request(
+/opt/venv/lib/python3.9/site-packages/urllib3/connectionpool.py:403: in _make_request
+    self._validate_conn(conn)
+/opt/venv/lib/python3.9/site-packages/urllib3/connectionpool.py:1053: in _validate_conn
+    conn.connect()
+/opt/venv/lib/python3.9/site-packages/urllib3/connection.py:363: in connect
+    self.sock = conn = self._new_conn()
+/opt/venv/lib/python3.9/site-packages/urllib3/connection.py:174: in _new_conn
+    conn = connection.create_connection(
+/opt/venv/lib/python3.9/site-packages/urllib3/util/connection.py:76: in create_connection
+    sock = socket.socket(af, socktype, proto)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = &lt;class 'pytest_socket.disable_socket.&lt;locals&gt;.GuardedSocket'&gt;
+family = &lt;AddressFamily.AF_INET: 2&gt;, type = &lt;SocketKind.SOCK_STREAM: 1&gt;
+proto = 6, fileno = None
+
+    def __new__(cls, family=-1, type=-1, proto=-1, fileno=None):
+        if _is_unix_socket(family) and allow_unix_socket:
+            return super().__new__(cls, family, type, proto, fileno)
+    
+&gt;       raise SocketBlockedError()
+E       pytest_socket.SocketBlockedError: A test tried to use socket.socket.
+
+/opt/venv/lib/python3.9/site-packages/pytest_socket.py:89: SocketBlockedError</failure></testcase><testcase classname="saleor.payment.gateways.adyen.tests.test_plugin" name="test_process_payment_additional_action" time="0.296" /><testcase classname="saleor.payment.gateways.adyen.tests.test_plugin" name="test_process_payment_additional_action_payment_does_not_exists" time="0.268" /><testcase classname="saleor.payment.gateways.adyen.tests.test_plugin" name="test_process_payment_additional_action_checkout_does_not_exists" time="0.272" /><testcase classname="saleor.payment.gateways.adyen.tests.test_plugin" name="test_confirm_payment" time="0.102" /><testcase classname="saleor.payment.gateways.adyen.tests.test_plugin" name="test_confirm_payment_pending_order" time="0.278" /><testcase classname="saleor.payment.gateways.adyen.tests.test_plugin" name="test_confirm_already_processed_payment" time="0.106" /><testcase classname="saleor.payment.gateways.adyen.tests.test_plugin" name="test_confirm_payment_with_adyen_auto_capture" time="0.106" /><testcase classname="saleor.payment.gateways.adyen.tests.test_plugin" name="test_confirm_payment_with_additional_details" time="0.000"><skipped type="pytest.skip" message="To finish when additional auth data schema will be known">/workspace/82c56bde0e34_t/saleor/payment/gateways/adyen/tests/test_plugin.py:470: To finish when additional auth data schema will be known</skipped></testcase><testcase classname="saleor.payment.gateways.adyen.tests.test_plugin" name="test_confirm_payment_without_additional_data" time="0.104" /><testcase classname="saleor.payment.gateways.adyen.tests.test_plugin" name="test_refund_payment" time="0.185"><failure message="pytest_socket.SocketBlockedError: A test tried to use socket.socket.">payment_adyen_for_order = Payment(gateway=mirumee.payments.adyen, is_active=True, created=2026-09-24 23:29:10.843690+00:00, charge_status=not-charged)
+order_with_lines = &lt;Order #UUID('e75944be-bb48-4f6e-8f86-5763d4427cb1')&gt;
+adyen_plugin = &lt;function adyen_plugin.&lt;locals&gt;.fun at 0x730bcaea38b0&gt;
+
+    @pytest.mark.vcr
+    def test_refund_payment(payment_adyen_for_order, order_with_lines, adyen_plugin):
+        payment_info = create_payment_information(
+            payment_adyen_for_order,
+            # additional_data=...
+        )
+        gateway_response = GatewayResponse(
+            kind=TransactionKind.AUTH,
+            action_required=False,
+            transaction_id="882595494831959A",
+            is_success=True,
+            amount=payment_info.amount,
+            currency=payment_info.currency,
+            error="",
+            raw_response={},
+        )
+    
+        create_transaction(
+            payment=payment_adyen_for_order,
+            payment_information=payment_info,
+            kind=TransactionKind.AUTH,
+            gateway_response=gateway_response,
+        )
+&gt;       response = adyen_plugin().refund_payment(payment_info, None)
+
+saleor/payment/gateways/adyen/tests/test_plugin.py:528: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/payment/gateways/adyen/plugin.py:696: in refund_payment
+    result = call_refund(
+saleor/payment/gateways/adyen/utils/common.py:442: in call_refund
+    return api_call(request, adyen_client.payment.refund)
+saleor/payment/gateways/adyen/utils/common.py:84: in api_call
+    return method(request_data, **kwargs)
+/opt/venv/lib/python3.9/site-packages/Adyen/services.py:209: in refund
+    return self.client.call_api(request, self.service,
+/opt/venv/lib/python3.9/site-packages/Adyen/client.py:348: in call_api
+    self.http_client.request(url, json=request_data,
+/opt/venv/lib/python3.9/site-packages/Adyen/httpclient.py:205: in _requests_post
+    request = requests.post(
+/opt/venv/lib/python3.9/site-packages/requests/api.py:115: in post
+    return request("post", url, data=data, json=json, **kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/api.py:59: in request
+    return session.request(method=method, url=url, **kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/sessions.py:589: in request
+    resp = self.send(prep, **send_kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/sessions.py:703: in send
+    r = adapter.send(request, **kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/adapters.py:486: in send
+    resp = conn.urlopen(
+/opt/venv/lib/python3.9/site-packages/urllib3/connectionpool.py:714: in urlopen
+    httplib_response = self._make_request(
+/opt/venv/lib/python3.9/site-packages/urllib3/connectionpool.py:403: in _make_request
+    self._validate_conn(conn)
+/opt/venv/lib/python3.9/site-packages/urllib3/connectionpool.py:1053: in _validate_conn
+    conn.connect()
+/opt/venv/lib/python3.9/site-packages/urllib3/connection.py:363: in connect
+    self.sock = conn = self._new_conn()
+/opt/venv/lib/python3.9/site-packages/urllib3/connection.py:174: in _new_conn
+    conn = connection.create_connection(
+/opt/venv/lib/python3.9/site-packages/urllib3/util/connection.py:76: in create_connection
+    sock = socket.socket(af, socktype, proto)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = &lt;class 'pytest_socket.disable_socket.&lt;locals&gt;.GuardedSocket'&gt;
+family = &lt;AddressFamily.AF_INET: 2&gt;, type = &lt;SocketKind.SOCK_STREAM: 1&gt;
+proto = 6, fileno = None
+
+    def __new__(cls, family=-1, type=-1, proto=-1, fileno=None):
+        if _is_unix_socket(family) and allow_unix_socket:
+            return super().__new__(cls, family, type, proto, fileno)
+    
+&gt;       raise SocketBlockedError()
+E       pytest_socket.SocketBlockedError: A test tried to use socket.socket.
+
+/opt/venv/lib/python3.9/site-packages/pytest_socket.py:89: SocketBlockedError</failure></testcase><testcase classname="saleor.payment.gateways.adyen.tests.test_plugin" name="test_void_payment" time="0.187"><failure message="pytest_socket.SocketBlockedError: A test tried to use socket.socket.">payment_adyen_for_order = Payment(gateway=mirumee.payments.adyen, is_active=True, created=2026-09-24 23:29:11.103900+00:00, charge_status=not-charged)
+order_with_lines = &lt;Order #UUID('1e603fa2-1b9f-486b-9e68-8b12119bf7a1')&gt;
+adyen_plugin = &lt;function adyen_plugin.&lt;locals&gt;.fun at 0x730bc9942940&gt;
+adyen_payment_method = {'encryptedCardNumber': 'test_4646464646464644', 'encryptedExpiryMonth': 'test_03', 'encryptedExpiryYear': 'test_2030', 'encryptedSecurityCode': 'test_737', ...}
+
+    @pytest.mark.vcr
+    def test_void_payment(
+        payment_adyen_for_order, order_with_lines, adyen_plugin, adyen_payment_method
+    ):
+        payment_info = create_payment_information(
+            payment_adyen_for_order,
+            payment_token="852610010025849H",
+            additional_data={"paymentMethod": adyen_payment_method},
+        )
+        gateway_response = GatewayResponse(
+            kind=TransactionKind.AUTH,
+            action_required=False,
+            transaction_id="852610010025849H",
+            is_success=True,
+            amount=payment_info.amount,
+            currency=payment_info.currency,
+            error="",
+            raw_response={},
+        )
+    
+        create_transaction(
+            payment=payment_adyen_for_order,
+            payment_information=payment_info,
+            kind=TransactionKind.AUTH,
+            gateway_response=gateway_response,
+        )
+&gt;       response = adyen_plugin().void_payment(payment_info, None)
+
+saleor/payment/gateways/adyen/tests/test_plugin.py:563: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/payment/gateways/adyen/plugin.py:776: in void_payment
+    result = api_call(request, self.adyen.payment.cancel)
+saleor/payment/gateways/adyen/utils/common.py:84: in api_call
+    return method(request_data, **kwargs)
+/opt/venv/lib/python3.9/site-packages/Adyen/services.py:176: in cancel
+    return self.client.call_api(request, self.service,
+/opt/venv/lib/python3.9/site-packages/Adyen/client.py:348: in call_api
+    self.http_client.request(url, json=request_data,
+/opt/venv/lib/python3.9/site-packages/Adyen/httpclient.py:205: in _requests_post
+    request = requests.post(
+/opt/venv/lib/python3.9/site-packages/requests/api.py:115: in post
+    return request("post", url, data=data, json=json, **kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/api.py:59: in request
+    return session.request(method=method, url=url, **kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/sessions.py:589: in request
+    resp = self.send(prep, **send_kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/sessions.py:703: in send
+    r = adapter.send(request, **kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/adapters.py:486: in send
+    resp = conn.urlopen(
+/opt/venv/lib/python3.9/site-packages/urllib3/connectionpool.py:714: in urlopen
+    httplib_response = self._make_request(
+/opt/venv/lib/python3.9/site-packages/urllib3/connectionpool.py:403: in _make_request
+    self._validate_conn(conn)
+/opt/venv/lib/python3.9/site-packages/urllib3/connectionpool.py:1053: in _validate_conn
+    conn.connect()
+/opt/venv/lib/python3.9/site-packages/urllib3/connection.py:363: in connect
+    self.sock = conn = self._new_conn()
+/opt/venv/lib/python3.9/site-packages/urllib3/connection.py:174: in _new_conn
+    conn = connection.create_connection(
+/opt/venv/lib/python3.9/site-packages/urllib3/util/connection.py:76: in create_connection
+    sock = socket.socket(af, socktype, proto)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = &lt;class 'pytest_socket.disable_socket.&lt;locals&gt;.GuardedSocket'&gt;
+family = &lt;AddressFamily.AF_INET: 2&gt;, type = &lt;SocketKind.SOCK_STREAM: 1&gt;
+proto = 6, fileno = None
+
+    def __new__(cls, family=-1, type=-1, proto=-1, fileno=None):
+        if _is_unix_socket(family) and allow_unix_socket:
+            return super().__new__(cls, family, type, proto, fileno)
+    
+&gt;       raise SocketBlockedError()
+E       pytest_socket.SocketBlockedError: A test tried to use socket.socket.
+
+/opt/venv/lib/python3.9/site-packages/pytest_socket.py:89: SocketBlockedError</failure></testcase><testcase classname="saleor.payment.gateways.adyen.tests.test_plugin" name="test_capture_payment" time="0.179"><failure message="pytest_socket.SocketBlockedError: A test tried to use socket.socket.">payment_adyen_for_order = Payment(gateway=mirumee.payments.adyen, is_active=True, created=2026-09-24 23:29:11.361246+00:00, charge_status=not-charged)
+order_with_lines = &lt;Order #UUID('c1b4b94a-fd0b-4c55-8201-196d3bc73d54')&gt;
+adyen_plugin = &lt;function adyen_plugin.&lt;locals&gt;.fun at 0x730bcaec4c10&gt;
+adyen_payment_method = {'encryptedCardNumber': 'test_4646464646464644', 'encryptedExpiryMonth': 'test_03', 'encryptedExpiryYear': 'test_2030', 'encryptedSecurityCode': 'test_737', ...}
+
+    @pytest.mark.vcr
+    def test_capture_payment(
+        payment_adyen_for_order, order_with_lines, adyen_plugin, adyen_payment_method
+    ):
+        payment_info = create_payment_information(
+            payment_adyen_for_order,
+            payment_token="882595494831959A",
+            additional_data={"paymentMethod": adyen_payment_method},
+        )
+        gateway_response = GatewayResponse(
+            kind=TransactionKind.AUTH,
+            action_required=False,
+            transaction_id="882595494831959A",
+            is_success=True,
+            amount=payment_info.amount,
+            currency=payment_info.currency,
+            error="",
+            raw_response={},
+        )
+    
+        create_transaction(
+            payment=payment_adyen_for_order,
+            payment_information=payment_info,
+            kind=TransactionKind.AUTH,
+            gateway_response=gateway_response,
+        )
+&gt;       response = adyen_plugin().capture_payment(payment_info, None)
+
+saleor/payment/gateways/adyen/tests/test_plugin.py:598: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/payment/gateways/adyen/plugin.py:738: in capture_payment
+    result = call_capture(
+saleor/payment/gateways/adyen/utils/common.py:464: in call_capture
+    return api_call(request, adyen_client.payment.capture)
+saleor/payment/gateways/adyen/utils/common.py:84: in api_call
+    return method(request_data, **kwargs)
+/opt/venv/lib/python3.9/site-packages/Adyen/services.py:194: in capture
+    response = self.client.call_api(request, self.service,
+/opt/venv/lib/python3.9/site-packages/Adyen/client.py:348: in call_api
+    self.http_client.request(url, json=request_data,
+/opt/venv/lib/python3.9/site-packages/Adyen/httpclient.py:205: in _requests_post
+    request = requests.post(
+/opt/venv/lib/python3.9/site-packages/requests/api.py:115: in post
+    return request("post", url, data=data, json=json, **kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/api.py:59: in request
+    return session.request(method=method, url=url, **kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/sessions.py:589: in request
+    resp = self.send(prep, **send_kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/sessions.py:703: in send
+    r = adapter.send(request, **kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/adapters.py:486: in send
+    resp = conn.urlopen(
+/opt/venv/lib/python3.9/site-packages/urllib3/connectionpool.py:714: in urlopen
+    httplib_response = self._make_request(
+/opt/venv/lib/python3.9/site-packages/urllib3/connectionpool.py:403: in _make_request
+    self._validate_conn(conn)
+/opt/venv/lib/python3.9/site-packages/urllib3/connectionpool.py:1053: in _validate_conn
+    conn.connect()
+/opt/venv/lib/python3.9/site-packages/urllib3/connection.py:363: in connect
+    self.sock = conn = self._new_conn()
+/opt/venv/lib/python3.9/site-packages/urllib3/connection.py:174: in _new_conn
+    conn = connection.create_connection(
+/opt/venv/lib/python3.9/site-packages/urllib3/util/connection.py:76: in create_connection
+    sock = socket.socket(af, socktype, proto)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = &lt;class 'pytest_socket.disable_socket.&lt;locals&gt;.GuardedSocket'&gt;
+family = &lt;AddressFamily.AF_INET: 2&gt;, type = &lt;SocketKind.SOCK_STREAM: 1&gt;
+proto = 6, fileno = None
+
+    def __new__(cls, family=-1, type=-1, proto=-1, fileno=None):
+        if _is_unix_socket(family) and allow_unix_socket:
+            return super().__new__(cls, family, type, proto, fileno)
+    
+&gt;       raise SocketBlockedError()
+E       pytest_socket.SocketBlockedError: A test tried to use socket.socket.
+
+/opt/venv/lib/python3.9/site-packages/pytest_socket.py:89: SocketBlockedError</failure></testcase><testcase classname="saleor.payment.gateways.adyen.tests.test_plugin" name="test_validate_plugin_configuration_incorrect_certificate" time="0.031" /><testcase classname="saleor.payment.gateways.adyen.tests.test_plugin" name="test_validate_plugin_configuration_correct_cert" time="0.029" /><testcase classname="saleor.payment.gateways.adyen.tests.test_plugin" name="test_validate_plugin_configuration_without_apple_cert" time="0.030" /><testcase classname="saleor.payment.gateways.adyen.tests.test_plugin" name="test_adyen_check_payment_balance" time="0.028" /><testcase classname="saleor.payment.gateways.adyen.tests.test_plugin" name="test_adyen_check_payment_balance_adyen_raises_error" time="0.029" /><testcase classname="saleor.payment.gateways.adyen.tests.test_plugin" name="test_adyen_check_payment_timeout" time="0.030" /></testsuite></testsuites>

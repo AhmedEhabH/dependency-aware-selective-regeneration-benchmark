@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="15" time="3.705" timestamp="2026-09-24T17:13:28.847439-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.giftcard.tests.mutations.test_gift_card_create" name="test_create_never_expiry_gift_card" time="1.686" /><testcase classname="saleor.graphql.giftcard.tests.mutations.test_gift_card_create" name="test_create_gift_card_by_app" time="0.061" /><testcase classname="saleor.graphql.giftcard.tests.mutations.test_gift_card_create" name="test_create_gift_card_by_customer" time="0.033" /><testcase classname="saleor.graphql.giftcard.tests.mutations.test_gift_card_create" name="test_create_gift_card_no_premissions" time="0.113" /><testcase classname="saleor.graphql.giftcard.tests.mutations.test_gift_card_create" name="test_create_gift_card_with_too_many_decimal_places_in_balance_amount" time="0.138" /><testcase classname="saleor.graphql.giftcard.tests.mutations.test_gift_card_create" name="test_create_gift_card_with_malformed_email" time="0.130" /><testcase classname="saleor.graphql.giftcard.tests.mutations.test_gift_card_create" name="test_create_gift_card_lack_of_channel" time="0.137" /><testcase classname="saleor.graphql.giftcard.tests.mutations.test_gift_card_create" name="test_create_gift_card_with_zero_balance_amount" time="0.133" /><testcase classname="saleor.graphql.giftcard.tests.mutations.test_gift_card_create" name="test_create_gift_card_with_expiry_date" time="0.154" /><testcase classname="saleor.graphql.giftcard.tests.mutations.test_gift_card_create" name="test_create_gift_card_with_expiry_date_type_invalid[date_value0]" time="0.133" /><testcase classname="saleor.graphql.giftcard.tests.mutations.test_gift_card_create" name="test_create_gift_card_with_expiry_date_type_invalid[date_value1]" time="0.135" /><testcase classname="saleor.graphql.giftcard.tests.mutations.test_gift_card_create" name="test_create_gift_card_trigger_webhook" time="0.156" /><testcase classname="saleor.graphql.giftcard.tests.mutations.test_gift_card_create" name="test_create_gift_card_with_email_triggers_gift_card_sent_webhook" time="0.099"><failure message="AttributeError: type object 'WebhookEventAsyncType' has no attribute 'GIFT_CARD_SENT'">mocked_webhook_trigger = &lt;MagicMock name='trigger_webhooks_async' id='130438182986416'&gt;
+mocked_get_webhooks_for_event = &lt;MagicMock name='get_webhooks_for_event' id='130438169212912'&gt;
+any_webhook = &lt;Webhook: Any webhook&gt;
+app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x76a201635df0&gt;
+channel_USD = &lt;Channel: main&gt;
+customer_user = &lt;User: ba0de464-eb24-4556-ac4f-1fb533e839d7&gt;
+permission_manage_gift_card = &lt;Permission: giftcard | gift card | Manage gift cards.&gt;
+permission_manage_users = &lt;Permission: account | user | Manage customers.&gt;
+settings = &lt;pytest_django.fixtures.SettingsWrapper object at 0x76a201988be0&gt;
+
+    @freeze_time("2022-05-12 12:00:00")
+    @mock.patch("saleor.plugins.webhook.plugin.get_webhooks_for_event")
+    @mock.patch("saleor.plugins.webhook.plugin.trigger_webhooks_async")
+    def test_create_gift_card_with_email_triggers_gift_card_sent_webhook(
+        mocked_webhook_trigger,
+        mocked_get_webhooks_for_event,
+        any_webhook,
+        app_api_client,
+        channel_USD,
+        customer_user,
+        permission_manage_gift_card,
+        permission_manage_users,
+        settings,
+    ):
+        # given
+        mocked_get_webhooks_for_event.return_value = [any_webhook]
+        settings.PLUGINS = ["saleor.plugins.webhook.plugin.WebhookPlugin"]
+    
+        initial_balance = 100
+        currency = "USD"
+        tag = "gift-card-tag"
+        note = "This is gift card note that will be save in gift card event."
+        variables = {
+            "input": {
+                "balance": {
+                    "amount": initial_balance,
+                    "currency": currency,
+                },
+                "addTags": [tag],
+                "note": note,
+                "expiryDate": None,
+                "isActive": False,
+                "channel": channel_USD.slug,
+                "userEmail": customer_user.email,
+            }
+        }
+    
+        # when
+        response = app_api_client.post_graphql(
+            CREATE_GIFT_CARD_MUTATION,
+            variables,
+            permissions=[permission_manage_gift_card, permission_manage_users],
+        )
+        gift_card = GiftCard.objects.last()
+    
+        # then
+        content = get_graphql_content(response)
+        errors = content["data"]["giftCardCreate"]["errors"]
+        data = content["data"]["giftCardCreate"]["giftCard"]
+    
+        assert not errors
+        assert data["code"]
+    
+        mocked_webhook_trigger.assert_any_call(
+            json.dumps(
+                {
+                    "id": graphene.Node.to_global_id("GiftCard", gift_card.id),
+                    "is_active": gift_card.is_active,
+                    "channel_slug": channel_USD.slug,
+                    "sent_to_email": customer_user.email,
+                    "meta": generate_meta(
+                        requestor_data=generate_requestor(
+                            SimpleLazyObject(lambda: app_api_client.app)
+                        )
+                    ),
+                },
+                cls=CustomJsonEncoder,
+            ),
+&gt;           WebhookEventAsyncType.GIFT_CARD_SENT,
+            [any_webhook],
+            {
+                "gift_card": gift_card,
+                "channel_slug": channel_USD.slug,
+                "sent_to_email": customer_user.email,
+            },
+            SimpleLazyObject(lambda: app_api_client.app),
+        )
+E       AttributeError: type object 'WebhookEventAsyncType' has no attribute 'GIFT_CARD_SENT'
+
+saleor/graphql/giftcard/tests/mutations/test_gift_card_create.py:766: AttributeError</failure></testcase><testcase classname="saleor.graphql.giftcard.tests.mutations.test_gift_card_create" name="test_create_gift_card_with_code" time="0.138" /><testcase classname="saleor.graphql.giftcard.tests.mutations.test_gift_card_create" name="test_create_gift_card_with_to_short_code" time="0.132" /></testsuite></testsuites>

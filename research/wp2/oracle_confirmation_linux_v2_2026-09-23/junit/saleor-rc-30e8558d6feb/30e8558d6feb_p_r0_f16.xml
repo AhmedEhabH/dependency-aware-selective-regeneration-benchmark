@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="6" time="1.918" timestamp="2026-09-24T15:56:37.394459" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.order.tests.mutations.test_utils" name="test_get_instance" time="1.520" /><testcase classname="saleor.graphql.order.tests.mutations.test_utils" name="test_get_instance_fail_multiple_identifiers" time="0.019" /><testcase classname="saleor.graphql.order.tests.mutations.test_utils" name="test_get_instance_fail_no_identifier" time="0.018" /><testcase classname="saleor.graphql.order.tests.mutations.test_utils" name="test_get_instance_fail_invalid_global_id_syntax" time="0.019"><failure message="assert &quot;Couldn't res...ng_global_ID.&quot; == 'Invalid ID: ...pected: User.'&#10;  - Invalid ID: wrong_global_ID. Expected: User.&#10;  + Couldn't resolve id: wrong_global_ID.">customer_user = &lt;User: 22933462-62eb-4ad6-9f9d-1225cde2e885&gt;
+
+    def test_get_instance_fail_invalid_global_id_syntax(customer_user):
+        input = {"user_id": "wrong_global_ID"}
+        with pytest.raises(ValidationError) as error:
+            get_instance(input, User, USER_KEY_MAP, {}, OrderBulkCreateErrorCode)
+    
+&gt;       assert error.value.message == "Invalid ID: wrong_global_ID. Expected: User."
+E       assert "Couldn't res...ng_global_ID." == 'Invalid ID: ...pected: User.'
+E         - Invalid ID: wrong_global_ID. Expected: User.
+E         + Couldn't resolve id: wrong_global_ID.
+
+saleor/graphql/order/tests/mutations/test_utils.py:59: AssertionError</failure></testcase><testcase classname="saleor.graphql.order.tests.mutations.test_utils" name="test_get_instance_fail_invalid_global_id_model" time="0.019"><failure message="AssertionError: assert 'Must receive a User id.' == 'Invalid ID: ...eceived: App.'&#10;  - Invalid ID: QXBwOjEwOA==. Expected: User, received: App.&#10;  + Must receive a User id.">customer_user = &lt;User: 0c82e567-d0bf-4fad-92b8-f9ae8fb64195&gt;
+app = &lt;App: Sample app objects&gt;
+
+    def test_get_instance_fail_invalid_global_id_model(customer_user, app):
+        app_global_id = graphene.Node.to_global_id("App", app.id)
+        input = {"user_id": app_global_id}
+        with pytest.raises(ValidationError) as error:
+            get_instance(input, User, USER_KEY_MAP, {}, OrderBulkCreateErrorCode)
+    
+&gt;       assert (
+            error.value.message
+            == f"Invalid ID: {app_global_id}. Expected: User, received: App."
+        )
+E       AssertionError: assert 'Must receive a User id.' == 'Invalid ID: ...eceived: App.'
+E         - Invalid ID: QXBwOjEwOA==. Expected: User, received: App.
+E         + Must receive a User id.
+
+saleor/graphql/order/tests/mutations/test_utils.py:68: AssertionError</failure></testcase><testcase classname="saleor.graphql.order.tests.mutations.test_utils" name="test_get_instance_fail_non_existing_global_id" time="0.020" /></testsuite></testsuites>

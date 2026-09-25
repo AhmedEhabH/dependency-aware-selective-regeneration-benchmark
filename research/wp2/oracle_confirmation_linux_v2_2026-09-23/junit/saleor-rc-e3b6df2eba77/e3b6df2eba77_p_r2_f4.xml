@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="6" time="1.595" timestamp="2026-09-25T00:42:57.807485-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.payment.gateways.adyen.tests.webhooks.test_get_payment" name="test_get_payment_invalid_payment_id[123]" time="1.163" /><testcase classname="saleor.payment.gateways.adyen.tests.webhooks.test_get_payment" name="test_get_payment_invalid_payment_id[Test payment ID]" time="0.012" /><testcase classname="saleor.payment.gateways.adyen.tests.webhooks.test_get_payment" name="test_get_payment_invalid_payment_id[\xf3 \xc0 \xc8 \xcc \xd2 \xd9 \u1ef2]" time="0.011"><failure message="ValueError: string argument should contain only ASCII characters">s = 'ó À È Ì Ò Ù Ỳ'
+
+    def _bytes_from_decode_data(s):
+        if isinstance(s, str):
+            try:
+&gt;               return s.encode('ascii')
+E               UnicodeEncodeError: 'ascii' codec can't encode character '\xf3' in position 0: ordinal not in range(128)
+
+/usr/local/lib/python3.9/base64.py:37: UnicodeEncodeError
+
+During handling of the above exception, another exception occurred:
+
+payment_id = 'ó À È Ì Ò Ù Ỳ'
+caplog = &lt;_pytest.logging.LogCaptureFixture object at 0x727727100280&gt;
+
+    @pytest.mark.parametrize("payment_id", ["123", "Test payment ID", "ó À È Ì Ò Ù Ỳ"])
+    def test_get_payment_invalid_payment_id(payment_id, caplog):
+        # given
+        caplog.set_level(logging.WARNING)
+    
+        # when
+&gt;       result = get_payment(payment_id)
+
+saleor/payment/gateways/adyen/tests/webhooks/test_get_payment.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/payment/gateways/adyen/webhooks.py:77: in get_payment
+    _type, db_payment_id = from_global_id(payment_id)
+/opt/venv/lib/python3.9/site-packages/graphql_relay/node/node.py:66: in from_global_id
+    unbased_global_id = unbase64(global_id)
+/opt/venv/lib/python3.9/site-packages/graphql_relay/utils.py:11: in unbase64
+    return _unbase64(s).decode('utf-8')
+/usr/local/lib/python3.9/base64.py:80: in b64decode
+    s = _bytes_from_decode_data(s)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+s = 'ó À È Ì Ò Ù Ỳ'
+
+    def _bytes_from_decode_data(s):
+        if isinstance(s, str):
+            try:
+                return s.encode('ascii')
+            except UnicodeEncodeError:
+&gt;               raise ValueError('string argument should contain only ASCII characters')
+E               ValueError: string argument should contain only ASCII characters
+
+/usr/local/lib/python3.9/base64.py:39: ValueError</failure></testcase><testcase classname="saleor.payment.gateways.adyen.tests.webhooks.test_get_payment" name="test_get_payment_missing_payment_id[  ]" time="0.011" /><testcase classname="saleor.payment.gateways.adyen.tests.webhooks.test_get_payment" name="test_get_payment_missing_payment_id[None]" time="0.012" /><testcase classname="saleor.payment.gateways.adyen.tests.webhooks.test_get_payment" name="test_get_payment_not_active_payment" time="0.098" /></testsuite></testsuites>

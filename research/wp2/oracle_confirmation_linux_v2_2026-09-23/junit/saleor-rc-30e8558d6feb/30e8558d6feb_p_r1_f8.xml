@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="6" time="2.516" timestamp="2026-09-24T16:00:38.043025" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.csv.tests.queries.test_export_file" name="test_query_export_file" time="1.741" /><testcase classname="saleor.graphql.csv.tests.queries.test_export_file" name="test_query_export_file_by_app" time="0.045" /><testcase classname="saleor.graphql.csv.tests.queries.test_export_file" name="test_query_export_file_export_file_with_app" time="0.130" /><testcase classname="saleor.graphql.csv.tests.queries.test_export_file" name="test_query_export_file_as_app" time="0.043" /><testcase classname="saleor.graphql.csv.tests.queries.test_export_file" name="test_query_export_file_by_invalid_id" time="0.118"><failure message="assert &quot;Couldn't resolve id: bh/.&quot; == 'Invalid ID: ...: ExportFile.'&#10;  - Invalid ID: bh/. Expected: ExportFile.&#10;  + Couldn't resolve id: bh/.">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x76afeebec7f0&gt;
+user_export_file = &lt;ExportFile: ExportFile object (11)&gt;
+permission_manage_products = &lt;Permission: product | product | Manage products.&gt;
+
+    def test_query_export_file_by_invalid_id(
+        staff_api_client, user_export_file, permission_manage_products
+    ):
+        id = "bh/"
+        variables = {"id": id}
+        response = staff_api_client.post_graphql(
+            EXPORT_FILE_QUERY, variables, permissions=[permission_manage_products]
+        )
+        content = get_graphql_content_from_response(response)
+        assert len(content["errors"]) == 1
+&gt;       assert content["errors"][0]["message"] == f"Invalid ID: {id}. Expected: ExportFile."
+E       assert "Couldn't resolve id: bh/." == 'Invalid ID: ...: ExportFile.'
+E         - Invalid ID: bh/. Expected: ExportFile.
+E         + Couldn't resolve id: bh/.
+
+saleor/graphql/csv/tests/queries/test_export_file.py:224: AssertionError</failure></testcase><testcase classname="saleor.graphql.csv.tests.queries.test_export_file" name="test_query_export_file_with_invalid_object_type" time="0.121" /></testsuite></testsuites>

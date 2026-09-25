@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="12" time="1.901" timestamp="2026-09-24T20:13:58.832668+00:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.meta.tests.queries.test_checkout" name="test_query_public_meta_for_checkout_as_anonymous_user" time="1.111" /><testcase classname="saleor.graphql.meta.tests.queries.test_checkout" name="test_query_public_meta_for_other_customer_checkout_as_anonymous_user" time="0.047" /><testcase classname="saleor.graphql.meta.tests.queries.test_checkout" name="test_query_public_meta_for_checkout_as_customer" time="0.037" /><testcase classname="saleor.graphql.meta.tests.queries.test_checkout" name="test_query_public_meta_for_checkout_as_staff" time="0.039" /><testcase classname="saleor.graphql.meta.tests.queries.test_checkout" name="test_query_public_meta_for_checkout_as_app" time="0.044" /><testcase classname="saleor.graphql.meta.tests.queries.test_checkout" name="test_query_public_meta_for_checkout_as_app_with_handle_taxes" time="0.040" /><testcase classname="saleor.graphql.meta.tests.queries.test_checkout" name="test_query_private_meta_for_checkout_as_anonymous_user" time="0.037" /><testcase classname="saleor.graphql.meta.tests.queries.test_checkout" name="test_query_private_meta_for_other_customer_checkout_as_anonymous_user" time="0.035" /><testcase classname="saleor.graphql.meta.tests.queries.test_checkout" name="test_query_private_meta_for_checkout_as_customer" time="0.051" /><testcase classname="saleor.graphql.meta.tests.queries.test_checkout" name="test_query_private_meta_for_checkout_as_staff" time="0.049" /><testcase classname="saleor.graphql.meta.tests.queries.test_checkout" name="test_query_private_meta_for_checkout_as_app" time="0.042" /><testcase classname="saleor.graphql.meta.tests.queries.test_checkout" name="test_query_private_meta_for_checkout_as_app_with_handle_taxes" time="0.044"><failure message="AssertionError: [{'message': 'You do not have permission to perform this action', 'locations': [{'line': 4, 'column': 13}], 'path': ['checkout', 'privateMetadata'], 'extensions': {'exception': {'code': 'PermissionDenied'}}}]">app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7b6aceac5730&gt;
+checkout = &lt;Checkout: Checkout object (57599c76-5fbf-4f54-83db-aa04891b00b2)&gt;
+customer_user = &lt;User: be1e08a4-e406-43c6-b7b1-e7a17ff88c14&gt;
+permission_handle_taxes = &lt;Permission: Checkout | checkout | Handle taxes&gt;
+
+    def test_query_private_meta_for_checkout_as_app_with_handle_taxes(
+        app_api_client, checkout, customer_user, permission_handle_taxes
+    ):
+        # given
+        checkout.user = customer_user
+        checkout.metadata_storage.store_value_in_private_metadata(
+            {PRIVATE_KEY: PRIVATE_VALUE}
+        )
+        checkout.save(update_fields=["user"])
+        checkout.metadata_storage.save(update_fields=["private_metadata"])
+        variables = {"token": checkout.pk}
+    
+        # when
+        response = app_api_client.post_graphql(
+            QUERY_CHECKOUT_PRIVATE_META,
+            variables,
+            [permission_handle_taxes],
+            check_no_permissions=False,  # Remove after fix #5245
+        )
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/meta/tests/queries/test_checkout.py:267: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+ignore_errors = False
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': 'You do not have permission to perform this action', 'locations': [{'line': 4, 'column': 13}], 'path': ['checkout', 'privateMetadata'], 'extensions': {'exception': {'code': 'PermissionDenied'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase></testsuite></testsuites>

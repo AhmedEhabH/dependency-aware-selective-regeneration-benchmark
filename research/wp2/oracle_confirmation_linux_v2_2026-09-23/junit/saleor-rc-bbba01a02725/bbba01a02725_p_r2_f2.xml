@@ -1,0 +1,1011 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="5" failures="2" skipped="0" tests="246" time="21.285" timestamp="2026-09-24T22:59:57.958241-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_query_by_id_available_as_staff_user" time="1.234"><error message="failed on setup with &quot;OSError: [Errno 24] Too many open files&quot;">product_type = &lt;saleor.product.models.ProductType(pk=46, name='Default Type')&gt;
+category = &lt;Category: Default&gt;, warehouse = &lt;Warehouse: Example Warehouse&gt;
+channel_USD = &lt;Channel: main&gt;
+
+&gt;   ???
+
+saleor/tests/fixtures.py:1074: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.8/site-packages/django/db/models/manager.py:85: in manager_method
+    ???
+/opt/venv/lib/python3.8/site-packages/django/db/models/query.py:447: in create
+    ???
+/opt/venv/lib/python3.8/site-packages/django/db/models/base.py:753: in save
+    ???
+/opt/venv/lib/python3.8/site-packages/django/db/models/base.py:790: in save_base
+    ???
+/opt/venv/lib/python3.8/site-packages/django/db/models/base.py:895: in _save_table
+    ???
+/opt/venv/lib/python3.8/site-packages/django/db/models/base.py:933: in _do_insert
+    ???
+/opt/venv/lib/python3.8/site-packages/django/db/models/manager.py:85: in manager_method
+    ???
+/opt/venv/lib/python3.8/site-packages/django/db/models/query.py:1254: in _insert
+    ???
+/opt/venv/lib/python3.8/site-packages/django/db/models/sql/compiler.py:1395: in execute_sql
+    ???
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:19: in inner
+    ???
+/usr/local/lib/python3.8/asyncio/events.py:636: in get_event_loop
+    ???
+/usr/local/lib/python3.8/asyncio/events.py:656: in new_event_loop
+    ???
+/usr/local/lib/python3.8/asyncio/unix_events.py:54: in __init__
+    ???
+/usr/local/lib/python3.8/asyncio/selector_events.py:61: in __init__
+    ???
+/usr/local/lib/python3.8/asyncio/selector_events.py:108: in _make_self_pipe
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+family = &lt;AddressFamily.AF_UNIX: 1&gt;, type = &lt;SocketKind.SOCK_STREAM: 1&gt;
+proto = 0
+
+&gt;   ???
+E   OSError: [Errno 24] Too many open files
+
+/usr/local/lib/python3.8/socket.py:620: OSError</error></testcase><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_query_by_id_not_available_as_staff_user" time="0.116" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_query_by_id_not_existing_in_channel_as_staff_user" time="0.082" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_query_by_id_as_staff_user_without_channel_slug" time="0.081" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_query_by_id_available_as_app" time="0.113" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_query_by_id_not_available_as_app" time="0.115" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_query_by_id_not_existing_in_channel_as_app" time="0.087" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_query_by_id_as_app_without_channel_slug" time="0.084" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_get_collections_from_product_as_staff" time="0.094" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_get_collections_from_product_as_app" time="0.095" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_get_collections_from_product_as_customer" time="0.101" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_get_collections_from_product_as_anonymous" time="0.088" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_query_by_id_available_as_customer" time="0.095" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_query_by_id_not_available_as_customer" time="0.085" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_unpublished_query_by_id_as_app" time="0.051" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_query_by_id_weight_returned_in_default_unit" time="0.091" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_query_by_id_weight_is_rounded" time="0.095" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_query_by_slug" time="0.087" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_query_by_id_not_existing_in_channel_as_customer" time="0.087" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_query_by_slug_available_as_staff_user" time="0.083" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_query_by_slug_not_available_as_staff_user" time="0.083" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_query_by_slug_not_existing_in_channel_as_staff_user" time="0.080" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_query_by_slug_as_staff_user_without_channel" time="0.080" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_query_by_slug_available_as_app" time="0.086" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_query_by_slug_not_available_as_app" time="0.085" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_query_by_slug_not_existing_in_channel_as_app" time="0.082" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_query_by_slug_as_app_without_channel" time="0.083" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_query_by_slug_available_as_customer" time="0.091" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_query_by_slug_not_available_as_customer" time="0.087" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_query_is_available_for_purchase_true" time="0.088" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_query_is_available_for_purchase_false" time="0.093" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_query_is_available_for_purchase_false_no_available_for_purchase_date" time="0.093" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_query_unpublished_products_by_slug" time="0.088" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_query_unpublished_products_by_slug_and_anonymous_user" time="0.074" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_query_by_slug_not_existing_in_channel_as_customer" time="0.084" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_query_by_id_without_channel_not_available_as_staff_user" time="0.080" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_query_error_when_id_and_slug_provided" time="0.072" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_query_error_when_no_param" time="0.074" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_fetch_all_products_available_as_staff_user" time="0.084" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_fetch_all_products_not_available_as_staff_user" time="0.083" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_fetch_all_products_not_existing_in_channel_as_staff_user" time="0.091" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_fetch_all_products_as_staff_user_without_channel_slug" time="0.087" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_fetch_all_products_available_as_app" time="0.083" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_fetch_all_products_not_available_as_app" time="0.081" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_fetch_all_products_not_existing_in_channel_as_app" time="0.088" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_fetch_all_products_as_app_without_channel_slug" time="0.086" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_fetch_all_products_available_as_customer" time="0.089" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_fetch_all_products_not_available_as_customer" time="0.090" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_fetch_all_products_not_existing_in_channel_as_customer" time="0.091" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_fetch_all_products_available_as_anonymous" time="0.084" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_fetch_all_products_not_available_as_anonymous" time="0.079" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_fetch_all_products_not_existing_in_channel_as_anonymous" time="0.084" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_fetch_all_products_visible_in_listings" time="0.097" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_fetch_all_products_visible_in_listings_by_staff_with_perm" time="0.086" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_fetch_all_products_visible_in_listings_by_staff_without_perm" time="0.100" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_fetch_all_products_visible_in_listings_by_app_with_perm" time="0.088" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_fetch_all_products_visible_in_listings_by_app_without_perm" time="0.095" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_fetch_product_from_category_query" time="0.145" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_products_query_with_filter_attributes" time="0.101" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_products_query_with_filter_product_type" time="0.080" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_products_query_with_filter_category" time="0.086" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_products_query_with_filter_has_category_false" time="0.083" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_products_query_with_filter_has_category_true" time="0.092" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_products_query_with_filter_collection" time="0.088" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_products_query_with_filter_category_and_search" time="0.094" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_products_with_variants_query_as_app" time="0.113" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_products_query_with_filter[products_filter0]" time="0.090" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_products_query_with_filter[products_filter1]" time="0.088" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_products_query_with_filter[products_filter2]" time="0.092" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_products_query_with_filter[products_filter3]" time="0.088" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_products_query_with_filter_search_by_sku[True]" time="0.068" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_products_query_with_filter_search_by_sku[False]" time="0.069" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_products_query_with_filter_stock_availability" time="0.078"><error message="failed on setup with &quot;TypeError: OrderLine() got an unexpected keyword argument 'total_price'&quot;">order = &lt;Order #37&gt;, variant = &lt;ProductVariant: SKU_A&gt;
+
+    @pytest.fixture
+    def order_line(order, variant):
+        product = variant.product
+        channel = order.channel
+        channel_listing = variant.channel_listings.get(channel=channel)
+        net = variant.get_price(product, [], channel, channel_listing)
+        currency = net.currency
+        gross = Money(amount=net.amount * Decimal(1.23), currency=currency)
+        quantity = 3
+        unit_price = TaxedMoney(net=net, gross=gross)
+&gt;       return order.lines.create(
+            product_name=str(product),
+            variant_name=str(variant),
+            product_sku=variant.sku,
+            is_shipping_required=variant.is_shipping_required(),
+            quantity=quantity,
+            variant=variant,
+            unit_price=unit_price,
+            total_price=unit_price * quantity,
+            tax_rate=23,
+        )
+
+saleor/tests/fixtures.py:1943: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.8/site-packages/django/db/models/fields/related_descriptors.py:677: in create
+    return super(RelatedManager, self.db_manager(db)).create(**kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/models/manager.py:85: in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/models/query.py:445: in create
+    obj = self.model(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;OrderLine: Test product (SKU_A)&gt;, args = ()
+kwargs = {'total_price': TaxedMoney(net=Money('30.000', 'USD'), gross=Money('36.89999999999999946709294818', 'USD'))}
+cls = &lt;class 'saleor.order.models.OrderLine'&gt;, opts = &lt;Options for OrderLine&gt;
+_setattr = &lt;built-in function setattr&gt;, _DEFERRED = &lt;Deferred field&gt;
+fields_iter = &lt;tuple_iterator object at 0x7c447516b8b0&gt;
+val = TaxedMoney(net=Money('10.000', 'USD'), gross=Money('12.29999999999999982236431606', 'USD'))
+field = &lt;django_prices.models.TaxedMoneyField object at 0x7c44795342e0&gt;
+is_related_object = False, rel_obj = &lt;ProductVariant: SKU_A&gt;
+property_names = frozenset({'is_digital', 'pk', 'quantity_unfulfilled'})
+
+    def __init__(self, *args, **kwargs):
+        # Alias some things as locals to avoid repeat global lookups
+        cls = self.__class__
+        opts = self._meta
+        _setattr = setattr
+        _DEFERRED = DEFERRED
+    
+        pre_init.send(sender=cls, args=args, kwargs=kwargs)
+    
+        # Set up the storage for instance state
+        self._state = ModelState()
+    
+        # There is a rather weird disparity here; if kwargs, it's set, then args
+        # overrides it. It should be one or the other; don't duplicate the work
+        # The reason for the kwargs check is that standard iterator passes in by
+        # args, and instantiation for iteration is 33% faster.
+        if len(args) &gt; len(opts.concrete_fields):
+            # Daft, but matches old exception sans the err msg.
+            raise IndexError("Number of args exceeds number of fields")
+    
+        if not kwargs:
+            fields_iter = iter(opts.concrete_fields)
+            # The ordering of the zip calls matter - zip throws StopIteration
+            # when an iter throws it. So if the first iter throws it, the second
+            # is *not* consumed. We rely on this, so don't change the order
+            # without changing the logic.
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+        else:
+            # Slower, kwargs-ready version.
+            fields_iter = iter(opts.fields)
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+                kwargs.pop(field.name, None)
+    
+        # Now we're left with the unprocessed fields that *must* come from
+        # keywords, or default.
+    
+        for field in fields_iter:
+            is_related_object = False
+            # Virtual field
+            if field.attname not in kwargs and field.column is None:
+                continue
+            if kwargs:
+                if isinstance(field.remote_field, ForeignObjectRel):
+                    try:
+                        # Assume object instance was passed in.
+                        rel_obj = kwargs.pop(field.name)
+                        is_related_object = True
+                    except KeyError:
+                        try:
+                            # Object instance wasn't passed in -- must be an ID.
+                            val = kwargs.pop(field.attname)
+                        except KeyError:
+                            val = field.get_default()
+                else:
+                    try:
+                        val = kwargs.pop(field.attname)
+                    except KeyError:
+                        # This is done with an exception rather than the
+                        # default argument on pop because we don't want
+                        # get_default() to be evaluated, and then not used.
+                        # Refs #12057.
+                        val = field.get_default()
+            else:
+                val = field.get_default()
+    
+            if is_related_object:
+                # If we are passed a related instance, set it using the
+                # field.name instead of field.attname (e.g. "user" instead of
+                # "user_id") so that the object gets properly cached (and type
+                # checked) by the RelatedObjectDescriptor.
+                if rel_obj is not _DEFERRED:
+                    _setattr(self, field.name, rel_obj)
+            else:
+                if val is not _DEFERRED:
+                    _setattr(self, field.attname, val)
+    
+        if kwargs:
+            property_names = opts._property_names
+            for prop in tuple(kwargs):
+                try:
+                    # Any remaining kwargs must correspond to properties or
+                    # virtual fields.
+                    if prop in property_names or opts.get_field(prop):
+                        if kwargs[prop] is not _DEFERRED:
+                            _setattr(self, prop, kwargs[prop])
+                        del kwargs[prop]
+                except (AttributeError, FieldDoesNotExist):
+                    pass
+            for kwarg in kwargs:
+&gt;               raise TypeError("%s() got an unexpected keyword argument '%s'" % (cls.__name__, kwarg))
+E               TypeError: OrderLine() got an unexpected keyword argument 'total_price'
+
+/opt/venv/lib/python3.8/site-packages/django/db/models/base.py:501: TypeError</error></testcase><testcase classname="saleor.graphql.product.tests.test_product" name="test_products_query_with_filter_stocks[quantity_input0-warehouse_indexes0-1-indexes_of_products_in_result0]" time="0.092" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_products_query_with_filter_stocks[quantity_input1-warehouse_indexes1-1-indexes_of_products_in_result1]" time="0.092" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_products_query_with_filter_stocks[quantity_input2-warehouse_indexes2-1-indexes_of_products_in_result2]" time="0.096" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_products_query_with_filter_stocks[quantity_input3-warehouse_indexes3-0-indexes_of_products_in_result3]" time="0.088" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_products_query_with_filter_stocks[None-warehouse_indexes4-1-indexes_of_products_in_result4]" time="0.085" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_products_query_with_filter_stocks[None-warehouse_indexes5-2-indexes_of_products_in_result5]" time="0.082" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_products_query_with_filter_stocks[quantity_input6-warehouse_indexes6-1-indexes_of_products_in_result6]" time="0.089" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_products_query_with_filter_stocks[quantity_input7-warehouse_indexes7-1-indexes_of_products_in_result7]" time="0.089" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_products_query_with_filter_stocks[quantity_input8-warehouse_indexes8-0-indexes_of_products_in_result8]" time="0.091" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_query_products_with_filter_ids" time="0.084" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_query_product_image_by_id" time="0.109" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_with_collections" time="0.079" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_filter_products_by_wrong_attributes" time="0.097" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_sort_products" time="0.312" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_sort_products_product_type_name" time="0.159" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_type_query_by_id_weight_returned_in_default_unit" time="0.043" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_create_product" time="0.110" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_create_product_with_rating" time="0.160" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_create_product_with_file_attribute" time="0.105" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_create_product_with_file_attribute_new_attribute_value" time="0.092" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_create_product_with_file_attribute_not_required_no_file_url_given" time="0.093" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_create_product_with_file_attribute_required_no_file_url_given" time="0.075" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_create_product_no_values_given" time="0.071" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_variant_set_default" time="0.074" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_variant_set_default_invalid_id" time="0.065" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_variant_set_default_not_products_variant" time="0.070" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_reorder_variants" time="0.079" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_reorder_variants_invalid_variants" time="0.093" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_create_product_no_slug_in_input[]" time="0.065" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_create_product_no_slug_in_input[None]" time="0.072" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_create_product_no_category_id" time="0.061" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_create_product_with_negative_weight" time="0.056" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_create_product_with_unicode_in_slug_and_name" time="0.068" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_create_product_invalid_product_attributes" time="0.072" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_create_product_without_variants" time="0.045" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_create_without_product_type" time="0.038" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_create_with_collections_webhook" time="0.083" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_update_product" time="0.151" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_update_product_with_file_attribute_value" time="0.155" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_update_product_with_file_attribute_value_new_value_is_not_created" time="0.130" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_update_product_rating" time="0.122" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_update_product_slug[test-slug-test-slug-None]" time="0.085" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_update_product_slug[--Slug value cannot be blank.]" time="0.076" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_update_product_slug[None--Slug value cannot be blank.]" time="0.094" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_update_product_slug_exists" time="0.091" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_update_product_slug_and_name[test-slug-test-slug-New name-None-None]" time="0.088" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_update_product_slug_and_name[--New name-Slug value cannot be blank.-slug]" time="0.087" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_update_product_slug_and_name[None--New name-Slug value cannot be blank.-slug]" time="0.082" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_update_product_slug_and_name[test-slug--None-This field cannot be blank.-name]" time="0.090" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_update_product_slug_and_name[test-slug---This field cannot be blank.-name]" time="0.088" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_update_product_slug_and_name[None-None-None-Slug value cannot be blank.-slug]" time="0.087" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_update_product_can_only_assign_multiple_values_to_valid_input_types" time="0.120" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_update_product_with_existing_attribute_value" time="0.089" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_update_product_without_supplying_required_product_attribute" time="0.083" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_update_product_with_non_existing_attribute" time="0.073" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_update_product_with_no_attribute_slug_or_id" time="0.068" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_update_product_with_negative_weight" time="0.091" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_update_product_name" time="0.092" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_update_product_slug_with_existing_value" time="0.091" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_delete_product" time="0.117" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_delete_product_variant_in_draft_order" time="0.059"><failure message="TypeError: OrderLine() got an unexpected keyword argument 'total_price'">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7c4475043c10&gt;
+product_with_two_variants = &lt;saleor.product.models.Product(pk=191, name='Test product with two variants')&gt;
+permission_manage_products = &lt;Permission: product | product | Manage products.&gt;
+order_list = [&lt;Order #38&gt;, &lt;Order #39&gt;, &lt;Order #40&gt;]
+channel_USD = &lt;Channel: main&gt;
+
+    def test_delete_product_variant_in_draft_order(
+        staff_api_client,
+        product_with_two_variants,
+        permission_manage_products,
+        order_list,
+        channel_USD,
+    ):
+        query = DELETE_PRODUCT_MUTATION
+        product = product_with_two_variants
+    
+        not_draft_order = order_list[1]
+        draft_order = order_list[0]
+        draft_order.status = OrderStatus.DRAFT
+        draft_order.save(update_fields=["status"])
+    
+        draft_order_lines_pks = []
+        not_draft_order_lines_pks = []
+        for variant in product.variants.all():
+            variant_channel_listing = variant.channel_listings.get(channel=channel_USD)
+            net = variant.get_price(product, [], channel_USD, variant_channel_listing, None)
+            gross = Money(amount=net.amount, currency=net.currency)
+            unit_price = TaxedMoney(net=net, gross=gross)
+            quantity = 3
+            total_price = unit_price * quantity
+    
+&gt;           order_line = OrderLine.objects.create(
+                variant=variant,
+                order=draft_order,
+                product_name=str(variant.product),
+                variant_name=str(variant),
+                product_sku=variant.sku,
+                is_shipping_required=variant.is_shipping_required(),
+                unit_price=TaxedMoney(net=net, gross=gross),
+                total_price=total_price,
+                quantity=quantity,
+            )
+
+saleor/graphql/product/tests/test_product.py:3869: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.8/site-packages/django/db/models/manager.py:85: in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/models/query.py:445: in create
+    obj = self.model(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;OrderLine: Test product with two variants (Product variant #1)&gt;
+args = ()
+kwargs = {'total_price': TaxedMoney(net=Money('30.000', 'USD'), gross=Money('30.000', 'USD'))}
+cls = &lt;class 'saleor.order.models.OrderLine'&gt;, opts = &lt;Options for OrderLine&gt;
+_setattr = &lt;built-in function setattr&gt;, _DEFERRED = &lt;Deferred field&gt;
+fields_iter = &lt;tuple_iterator object at 0x7c4474e2ddc0&gt;
+val = TaxedMoney(net=Money('10.000', 'USD'), gross=Money('10.000', 'USD'))
+field = &lt;django_prices.models.TaxedMoneyField object at 0x7c44795342e0&gt;
+is_related_object = False, rel_obj = &lt;ProductVariant: Product variant #1&gt;
+property_names = frozenset({'is_digital', 'pk', 'quantity_unfulfilled'})
+
+    def __init__(self, *args, **kwargs):
+        # Alias some things as locals to avoid repeat global lookups
+        cls = self.__class__
+        opts = self._meta
+        _setattr = setattr
+        _DEFERRED = DEFERRED
+    
+        pre_init.send(sender=cls, args=args, kwargs=kwargs)
+    
+        # Set up the storage for instance state
+        self._state = ModelState()
+    
+        # There is a rather weird disparity here; if kwargs, it's set, then args
+        # overrides it. It should be one or the other; don't duplicate the work
+        # The reason for the kwargs check is that standard iterator passes in by
+        # args, and instantiation for iteration is 33% faster.
+        if len(args) &gt; len(opts.concrete_fields):
+            # Daft, but matches old exception sans the err msg.
+            raise IndexError("Number of args exceeds number of fields")
+    
+        if not kwargs:
+            fields_iter = iter(opts.concrete_fields)
+            # The ordering of the zip calls matter - zip throws StopIteration
+            # when an iter throws it. So if the first iter throws it, the second
+            # is *not* consumed. We rely on this, so don't change the order
+            # without changing the logic.
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+        else:
+            # Slower, kwargs-ready version.
+            fields_iter = iter(opts.fields)
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+                kwargs.pop(field.name, None)
+    
+        # Now we're left with the unprocessed fields that *must* come from
+        # keywords, or default.
+    
+        for field in fields_iter:
+            is_related_object = False
+            # Virtual field
+            if field.attname not in kwargs and field.column is None:
+                continue
+            if kwargs:
+                if isinstance(field.remote_field, ForeignObjectRel):
+                    try:
+                        # Assume object instance was passed in.
+                        rel_obj = kwargs.pop(field.name)
+                        is_related_object = True
+                    except KeyError:
+                        try:
+                            # Object instance wasn't passed in -- must be an ID.
+                            val = kwargs.pop(field.attname)
+                        except KeyError:
+                            val = field.get_default()
+                else:
+                    try:
+                        val = kwargs.pop(field.attname)
+                    except KeyError:
+                        # This is done with an exception rather than the
+                        # default argument on pop because we don't want
+                        # get_default() to be evaluated, and then not used.
+                        # Refs #12057.
+                        val = field.get_default()
+            else:
+                val = field.get_default()
+    
+            if is_related_object:
+                # If we are passed a related instance, set it using the
+                # field.name instead of field.attname (e.g. "user" instead of
+                # "user_id") so that the object gets properly cached (and type
+                # checked) by the RelatedObjectDescriptor.
+                if rel_obj is not _DEFERRED:
+                    _setattr(self, field.name, rel_obj)
+            else:
+                if val is not _DEFERRED:
+                    _setattr(self, field.attname, val)
+    
+        if kwargs:
+            property_names = opts._property_names
+            for prop in tuple(kwargs):
+                try:
+                    # Any remaining kwargs must correspond to properties or
+                    # virtual fields.
+                    if prop in property_names or opts.get_field(prop):
+                        if kwargs[prop] is not _DEFERRED:
+                            _setattr(self, prop, kwargs[prop])
+                        del kwargs[prop]
+                except (AttributeError, FieldDoesNotExist):
+                    pass
+            for kwarg in kwargs:
+&gt;               raise TypeError("%s() got an unexpected keyword argument '%s'" % (cls.__name__, kwarg))
+E               TypeError: OrderLine() got an unexpected keyword argument 'total_price'
+
+/opt/venv/lib/python3.8/site-packages/django/db/models/base.py:501: TypeError</failure></testcase><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_type" time="0.049" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_type_query" time="0.104" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_type_query_only_variant_selections_value_set[ALL]" time="0.120" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_type_query_only_variant_selections_value_set[VARIANT_SELECTION]" time="0.158" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_type_query_only_variant_selections_value_set[NOT_VARIANT_SELECTION]" time="0.129" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_type_create_mutation" time="0.089" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_create_product_type_with_given_slug[test-slug-test-slug]" time="0.046" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_create_product_type_with_given_slug[None-test-product-type]" time="0.055" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_create_product_type_with_given_slug[-test-product-type]" time="0.052" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_create_product_type_with_given_slug[\u308f\u305f\u3057-\u308f-\u306b\u3063\u307d\u3093-\u3067\u3059-\u308f\u305f\u3057-\u308f-\u306b\u3063\u307d\u3093-\u3067\u3059]" time="0.048" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_create_product_type_with_unicode_in_name" time="0.049" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_create_product_type_create_with_negative_weight" time="0.047" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_type_create_mutation_not_valid_attributes" time="0.076" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_type_update_mutation" time="0.071" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_type_update_mutation_not_valid_attributes" time="0.091" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_update_product_type_slug[test-slug-test-slug-None]" time="0.084" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_update_product_type_slug[--Slug value cannot be blank.]" time="0.061" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_update_product_type_slug[None--Slug value cannot be blank.]" time="0.054" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_update_product_type_slug_exists" time="0.072" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_update_product_type_slug_and_name[test-slug-test-slug-New name-None-None]" time="0.061" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_update_product_type_slug_and_name[--New name-Slug value cannot be blank.-slug]" time="0.057" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_update_product_type_slug_and_name[None--New name-Slug value cannot be blank.-slug]" time="0.059" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_update_product_type_slug_and_name[test-slug--None-This field cannot be blank.-name]" time="0.069" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_update_product_type_slug_and_name[test-slug---This field cannot be blank.-name]" time="0.061" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_update_product_type_slug_and_name[None-None-None-Slug value cannot be blank.-slug]" time="0.065" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_update_product_type_with_negative_weight" time="0.068" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_type_delete_mutation" time="0.068" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_type_delete_mutation_variants_in_draft_order" time="0.080"><failure message="TypeError: OrderLine() got an unexpected keyword argument 'total_price'">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7c447d384970&gt;
+permission_manage_product_types_and_attributes = &lt;Permission: product | product type | Manage product types and attributes.&gt;
+product = &lt;saleor.product.models.Product(pk=196, name='Test product')&gt;
+order_list = [&lt;Order #41&gt;, &lt;Order #42&gt;, &lt;Order #43&gt;]
+channel_USD = &lt;Channel: main&gt;
+
+    def test_product_type_delete_mutation_variants_in_draft_order(
+        staff_api_client,
+        permission_manage_product_types_and_attributes,
+        product,
+        order_list,
+        channel_USD,
+    ):
+        query = PRODUCT_TYPE_DELETE_MUTATION
+        product_type = product.product_type
+    
+        variant = product.variants.first()
+    
+        order_not_draft = order_list[-1]
+        draft_order = order_list[1]
+        draft_order.status = OrderStatus.DRAFT
+        draft_order.save(update_fields=["status"])
+    
+        variant_channel_listing = variant.channel_listings.get(channel=channel_USD)
+        net = variant.get_price(product, [], channel_USD, variant_channel_listing, None)
+        gross = Money(amount=net.amount, currency=net.currency)
+        quantity = 3
+        unit_price = TaxedMoney(net=net, gross=gross)
+        total_price = unit_price * quantity
+    
+&gt;       order_line_not_in_draft = OrderLine.objects.create(
+            variant=variant,
+            order=order_not_draft,
+            product_name=str(variant.product),
+            variant_name=str(variant),
+            product_sku=variant.sku,
+            is_shipping_required=variant.is_shipping_required(),
+            unit_price=TaxedMoney(net=net, gross=gross),
+            total_price=total_price,
+            quantity=3,
+        )
+
+saleor/graphql/product/tests/test_product.py:4704: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.8/site-packages/django/db/models/manager.py:85: in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/models/query.py:445: in create
+    obj = self.model(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;OrderLine: Test product (123)&gt;, args = ()
+kwargs = {'total_price': TaxedMoney(net=Money('30.000', 'USD'), gross=Money('30.000', 'USD'))}
+cls = &lt;class 'saleor.order.models.OrderLine'&gt;, opts = &lt;Options for OrderLine&gt;
+_setattr = &lt;built-in function setattr&gt;, _DEFERRED = &lt;Deferred field&gt;
+fields_iter = &lt;tuple_iterator object at 0x7c4474e38d00&gt;
+val = TaxedMoney(net=Money('10.000', 'USD'), gross=Money('10.000', 'USD'))
+field = &lt;django_prices.models.TaxedMoneyField object at 0x7c44795342e0&gt;
+is_related_object = False, rel_obj = &lt;ProductVariant: 123&gt;
+property_names = frozenset({'is_digital', 'pk', 'quantity_unfulfilled'})
+
+    def __init__(self, *args, **kwargs):
+        # Alias some things as locals to avoid repeat global lookups
+        cls = self.__class__
+        opts = self._meta
+        _setattr = setattr
+        _DEFERRED = DEFERRED
+    
+        pre_init.send(sender=cls, args=args, kwargs=kwargs)
+    
+        # Set up the storage for instance state
+        self._state = ModelState()
+    
+        # There is a rather weird disparity here; if kwargs, it's set, then args
+        # overrides it. It should be one or the other; don't duplicate the work
+        # The reason for the kwargs check is that standard iterator passes in by
+        # args, and instantiation for iteration is 33% faster.
+        if len(args) &gt; len(opts.concrete_fields):
+            # Daft, but matches old exception sans the err msg.
+            raise IndexError("Number of args exceeds number of fields")
+    
+        if not kwargs:
+            fields_iter = iter(opts.concrete_fields)
+            # The ordering of the zip calls matter - zip throws StopIteration
+            # when an iter throws it. So if the first iter throws it, the second
+            # is *not* consumed. We rely on this, so don't change the order
+            # without changing the logic.
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+        else:
+            # Slower, kwargs-ready version.
+            fields_iter = iter(opts.fields)
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+                kwargs.pop(field.name, None)
+    
+        # Now we're left with the unprocessed fields that *must* come from
+        # keywords, or default.
+    
+        for field in fields_iter:
+            is_related_object = False
+            # Virtual field
+            if field.attname not in kwargs and field.column is None:
+                continue
+            if kwargs:
+                if isinstance(field.remote_field, ForeignObjectRel):
+                    try:
+                        # Assume object instance was passed in.
+                        rel_obj = kwargs.pop(field.name)
+                        is_related_object = True
+                    except KeyError:
+                        try:
+                            # Object instance wasn't passed in -- must be an ID.
+                            val = kwargs.pop(field.attname)
+                        except KeyError:
+                            val = field.get_default()
+                else:
+                    try:
+                        val = kwargs.pop(field.attname)
+                    except KeyError:
+                        # This is done with an exception rather than the
+                        # default argument on pop because we don't want
+                        # get_default() to be evaluated, and then not used.
+                        # Refs #12057.
+                        val = field.get_default()
+            else:
+                val = field.get_default()
+    
+            if is_related_object:
+                # If we are passed a related instance, set it using the
+                # field.name instead of field.attname (e.g. "user" instead of
+                # "user_id") so that the object gets properly cached (and type
+                # checked) by the RelatedObjectDescriptor.
+                if rel_obj is not _DEFERRED:
+                    _setattr(self, field.name, rel_obj)
+            else:
+                if val is not _DEFERRED:
+                    _setattr(self, field.attname, val)
+    
+        if kwargs:
+            property_names = opts._property_names
+            for prop in tuple(kwargs):
+                try:
+                    # Any remaining kwargs must correspond to properties or
+                    # virtual fields.
+                    if prop in property_names or opts.get_field(prop):
+                        if kwargs[prop] is not _DEFERRED:
+                            _setattr(self, prop, kwargs[prop])
+                        del kwargs[prop]
+                except (AttributeError, FieldDoesNotExist):
+                    pass
+            for kwarg in kwargs:
+&gt;               raise TypeError("%s() got an unexpected keyword argument '%s'" % (cls.__name__, kwarg))
+E               TypeError: OrderLine() got an unexpected keyword argument 'total_price'
+
+/opt/venv/lib/python3.8/site-packages/django/db/models/base.py:501: TypeError</failure></testcase><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_image_create_mutation" time="0.119" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_image_create_mutation_without_file" time="0.108" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_invalid_product_image_create_mutation" time="0.110" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_image_update_mutation" time="0.110" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_image_delete" time="0.124" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_reorder_images" time="0.097" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_assign_variant_image" time="0.116" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_assign_variant_image_second_time" time="0.129" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_assign_variant_image_from_different_product" time="0.178" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_unassign_variant_image" time="0.132" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_unassign_not_assigned_variant_image" time="0.112" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_type_update_changes_variant_name" time="0.118" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_update_variants_names" time="0.033" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_variants_by_ids" time="0.121" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_variants_no_ids_list" time="0.107" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_variant_price[200-200]" time="0.123" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_variant_price[0-0]" time="0.130" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_report_product_sales" time="0.070"><error message="failed on setup with &quot;TypeError: OrderLine() got an unexpected keyword argument 'total_price'&quot;">order = &lt;Order #44&gt;
+product_type = &lt;saleor.product.models.ProductType(pk=231, name='Default Type')&gt;
+category = &lt;Category: Default&gt;, shipping_zone = &lt;ShippingZone: Europe&gt;
+warehouse = &lt;Warehouse: Example Warehouse&gt;, channel_USD = &lt;Channel: main&gt;
+
+    @pytest.fixture
+    def order_with_lines(
+        order, product_type, category, shipping_zone, warehouse, channel_USD
+    ):
+        product = Product.objects.create(
+            name="Test product",
+            slug="test-product-8",
+            product_type=product_type,
+            category=category,
+        )
+        ProductChannelListing.objects.create(
+            product=product,
+            channel=channel_USD,
+            is_published=True,
+            visible_in_listings=True,
+            available_for_purchase=datetime.date.today(),
+        )
+        variant = ProductVariant.objects.create(product=product, sku="SKU_AA")
+        channel_listing = ProductVariantChannelListing.objects.create(
+            variant=variant,
+            channel=channel_USD,
+            price_amount=Decimal(10),
+            cost_price_amount=Decimal(1),
+            currency=channel_USD.currency_code,
+        )
+        stock = Stock.objects.create(
+            warehouse=warehouse, product_variant=variant, quantity=5
+        )
+        net = variant.get_price(product, [], channel_USD, channel_listing)
+        currency = net.currency
+        gross = Money(amount=net.amount * Decimal(1.23), currency=currency)
+        quantity = 3
+        unit_price = TaxedMoney(net=net, gross=gross)
+&gt;       line = order.lines.create(
+            product_name=str(variant.product),
+            variant_name=str(variant),
+            product_sku=variant.sku,
+            is_shipping_required=variant.is_shipping_required(),
+            quantity=quantity,
+            variant=variant,
+            unit_price=unit_price,
+            total_price=unit_price * quantity,
+            tax_rate=23,
+        )
+
+saleor/tests/fixtures.py:2102: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.8/site-packages/django/db/models/fields/related_descriptors.py:677: in create
+    return super(RelatedManager, self.db_manager(db)).create(**kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/models/manager.py:85: in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/models/query.py:445: in create
+    obj = self.model(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;OrderLine: Test product (SKU_AA)&gt;, args = ()
+kwargs = {'total_price': TaxedMoney(net=Money('30', 'USD'), gross=Money('36.89999999999999946709294818', 'USD'))}
+cls = &lt;class 'saleor.order.models.OrderLine'&gt;, opts = &lt;Options for OrderLine&gt;
+_setattr = &lt;built-in function setattr&gt;, _DEFERRED = &lt;Deferred field&gt;
+fields_iter = &lt;tuple_iterator object at 0x7c4474e21a00&gt;
+val = TaxedMoney(net=Money('10', 'USD'), gross=Money('12.29999999999999982236431606', 'USD'))
+field = &lt;django_prices.models.TaxedMoneyField object at 0x7c44795342e0&gt;
+is_related_object = False, rel_obj = &lt;ProductVariant: SKU_AA&gt;
+property_names = frozenset({'is_digital', 'pk', 'quantity_unfulfilled'})
+
+    def __init__(self, *args, **kwargs):
+        # Alias some things as locals to avoid repeat global lookups
+        cls = self.__class__
+        opts = self._meta
+        _setattr = setattr
+        _DEFERRED = DEFERRED
+    
+        pre_init.send(sender=cls, args=args, kwargs=kwargs)
+    
+        # Set up the storage for instance state
+        self._state = ModelState()
+    
+        # There is a rather weird disparity here; if kwargs, it's set, then args
+        # overrides it. It should be one or the other; don't duplicate the work
+        # The reason for the kwargs check is that standard iterator passes in by
+        # args, and instantiation for iteration is 33% faster.
+        if len(args) &gt; len(opts.concrete_fields):
+            # Daft, but matches old exception sans the err msg.
+            raise IndexError("Number of args exceeds number of fields")
+    
+        if not kwargs:
+            fields_iter = iter(opts.concrete_fields)
+            # The ordering of the zip calls matter - zip throws StopIteration
+            # when an iter throws it. So if the first iter throws it, the second
+            # is *not* consumed. We rely on this, so don't change the order
+            # without changing the logic.
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+        else:
+            # Slower, kwargs-ready version.
+            fields_iter = iter(opts.fields)
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+                kwargs.pop(field.name, None)
+    
+        # Now we're left with the unprocessed fields that *must* come from
+        # keywords, or default.
+    
+        for field in fields_iter:
+            is_related_object = False
+            # Virtual field
+            if field.attname not in kwargs and field.column is None:
+                continue
+            if kwargs:
+                if isinstance(field.remote_field, ForeignObjectRel):
+                    try:
+                        # Assume object instance was passed in.
+                        rel_obj = kwargs.pop(field.name)
+                        is_related_object = True
+                    except KeyError:
+                        try:
+                            # Object instance wasn't passed in -- must be an ID.
+                            val = kwargs.pop(field.attname)
+                        except KeyError:
+                            val = field.get_default()
+                else:
+                    try:
+                        val = kwargs.pop(field.attname)
+                    except KeyError:
+                        # This is done with an exception rather than the
+                        # default argument on pop because we don't want
+                        # get_default() to be evaluated, and then not used.
+                        # Refs #12057.
+                        val = field.get_default()
+            else:
+                val = field.get_default()
+    
+            if is_related_object:
+                # If we are passed a related instance, set it using the
+                # field.name instead of field.attname (e.g. "user" instead of
+                # "user_id") so that the object gets properly cached (and type
+                # checked) by the RelatedObjectDescriptor.
+                if rel_obj is not _DEFERRED:
+                    _setattr(self, field.name, rel_obj)
+            else:
+                if val is not _DEFERRED:
+                    _setattr(self, field.attname, val)
+    
+        if kwargs:
+            property_names = opts._property_names
+            for prop in tuple(kwargs):
+                try:
+                    # Any remaining kwargs must correspond to properties or
+                    # virtual fields.
+                    if prop in property_names or opts.get_field(prop):
+                        if kwargs[prop] is not _DEFERRED:
+                            _setattr(self, prop, kwargs[prop])
+                        del kwargs[prop]
+                except (AttributeError, FieldDoesNotExist):
+                    pass
+            for kwarg in kwargs:
+&gt;               raise TypeError("%s() got an unexpected keyword argument '%s'" % (cls.__name__, kwarg))
+E               TypeError: OrderLine() got an unexpected keyword argument 'total_price'
+
+/opt/venv/lib/python3.8/site-packages/django/db/models/base.py:501: TypeError</error></testcase><testcase classname="saleor.graphql.product.tests.test_product" name="test_report_product_sales_channel_pln" time="0.086"><error message="failed on setup with &quot;TypeError: OrderLine() got an unexpected keyword argument 'total_price'&quot;">order = &lt;Order #45&gt;
+product_type = &lt;saleor.product.models.ProductType(pk=232, name='Default Type')&gt;
+category = &lt;Category: Default&gt;, shipping_zone = &lt;ShippingZone: Europe&gt;
+warehouse = &lt;Warehouse: Example Warehouse&gt;, channel_USD = &lt;Channel: main&gt;
+
+    @pytest.fixture
+    def order_with_lines(
+        order, product_type, category, shipping_zone, warehouse, channel_USD
+    ):
+        product = Product.objects.create(
+            name="Test product",
+            slug="test-product-8",
+            product_type=product_type,
+            category=category,
+        )
+        ProductChannelListing.objects.create(
+            product=product,
+            channel=channel_USD,
+            is_published=True,
+            visible_in_listings=True,
+            available_for_purchase=datetime.date.today(),
+        )
+        variant = ProductVariant.objects.create(product=product, sku="SKU_AA")
+        channel_listing = ProductVariantChannelListing.objects.create(
+            variant=variant,
+            channel=channel_USD,
+            price_amount=Decimal(10),
+            cost_price_amount=Decimal(1),
+            currency=channel_USD.currency_code,
+        )
+        stock = Stock.objects.create(
+            warehouse=warehouse, product_variant=variant, quantity=5
+        )
+        net = variant.get_price(product, [], channel_USD, channel_listing)
+        currency = net.currency
+        gross = Money(amount=net.amount * Decimal(1.23), currency=currency)
+        quantity = 3
+        unit_price = TaxedMoney(net=net, gross=gross)
+&gt;       line = order.lines.create(
+            product_name=str(variant.product),
+            variant_name=str(variant),
+            product_sku=variant.sku,
+            is_shipping_required=variant.is_shipping_required(),
+            quantity=quantity,
+            variant=variant,
+            unit_price=unit_price,
+            total_price=unit_price * quantity,
+            tax_rate=23,
+        )
+
+saleor/tests/fixtures.py:2102: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.8/site-packages/django/db/models/fields/related_descriptors.py:677: in create
+    return super(RelatedManager, self.db_manager(db)).create(**kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/models/manager.py:85: in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/models/query.py:445: in create
+    obj = self.model(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;OrderLine: Test product (SKU_AA)&gt;, args = ()
+kwargs = {'total_price': TaxedMoney(net=Money('30', 'USD'), gross=Money('36.89999999999999946709294818', 'USD'))}
+cls = &lt;class 'saleor.order.models.OrderLine'&gt;, opts = &lt;Options for OrderLine&gt;
+_setattr = &lt;built-in function setattr&gt;, _DEFERRED = &lt;Deferred field&gt;
+fields_iter = &lt;tuple_iterator object at 0x7c44748d6160&gt;
+val = TaxedMoney(net=Money('10', 'USD'), gross=Money('12.29999999999999982236431606', 'USD'))
+field = &lt;django_prices.models.TaxedMoneyField object at 0x7c44795342e0&gt;
+is_related_object = False, rel_obj = &lt;ProductVariant: SKU_AA&gt;
+property_names = frozenset({'is_digital', 'pk', 'quantity_unfulfilled'})
+
+    def __init__(self, *args, **kwargs):
+        # Alias some things as locals to avoid repeat global lookups
+        cls = self.__class__
+        opts = self._meta
+        _setattr = setattr
+        _DEFERRED = DEFERRED
+    
+        pre_init.send(sender=cls, args=args, kwargs=kwargs)
+    
+        # Set up the storage for instance state
+        self._state = ModelState()
+    
+        # There is a rather weird disparity here; if kwargs, it's set, then args
+        # overrides it. It should be one or the other; don't duplicate the work
+        # The reason for the kwargs check is that standard iterator passes in by
+        # args, and instantiation for iteration is 33% faster.
+        if len(args) &gt; len(opts.concrete_fields):
+            # Daft, but matches old exception sans the err msg.
+            raise IndexError("Number of args exceeds number of fields")
+    
+        if not kwargs:
+            fields_iter = iter(opts.concrete_fields)
+            # The ordering of the zip calls matter - zip throws StopIteration
+            # when an iter throws it. So if the first iter throws it, the second
+            # is *not* consumed. We rely on this, so don't change the order
+            # without changing the logic.
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+        else:
+            # Slower, kwargs-ready version.
+            fields_iter = iter(opts.fields)
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+                kwargs.pop(field.name, None)
+    
+        # Now we're left with the unprocessed fields that *must* come from
+        # keywords, or default.
+    
+        for field in fields_iter:
+            is_related_object = False
+            # Virtual field
+            if field.attname not in kwargs and field.column is None:
+                continue
+            if kwargs:
+                if isinstance(field.remote_field, ForeignObjectRel):
+                    try:
+                        # Assume object instance was passed in.
+                        rel_obj = kwargs.pop(field.name)
+                        is_related_object = True
+                    except KeyError:
+                        try:
+                            # Object instance wasn't passed in -- must be an ID.
+                            val = kwargs.pop(field.attname)
+                        except KeyError:
+                            val = field.get_default()
+                else:
+                    try:
+                        val = kwargs.pop(field.attname)
+                    except KeyError:
+                        # This is done with an exception rather than the
+                        # default argument on pop because we don't want
+                        # get_default() to be evaluated, and then not used.
+                        # Refs #12057.
+                        val = field.get_default()
+            else:
+                val = field.get_default()
+    
+            if is_related_object:
+                # If we are passed a related instance, set it using the
+                # field.name instead of field.attname (e.g. "user" instead of
+                # "user_id") so that the object gets properly cached (and type
+                # checked) by the RelatedObjectDescriptor.
+                if rel_obj is not _DEFERRED:
+                    _setattr(self, field.name, rel_obj)
+            else:
+                if val is not _DEFERRED:
+                    _setattr(self, field.attname, val)
+    
+        if kwargs:
+            property_names = opts._property_names
+            for prop in tuple(kwargs):
+                try:
+                    # Any remaining kwargs must correspond to properties or
+                    # virtual fields.
+                    if prop in property_names or opts.get_field(prop):
+                        if kwargs[prop] is not _DEFERRED:
+                            _setattr(self, prop, kwargs[prop])
+                        del kwargs[prop]
+                except (AttributeError, FieldDoesNotExist):
+                    pass
+            for kwarg in kwargs:
+&gt;               raise TypeError("%s() got an unexpected keyword argument '%s'" % (cls.__name__, kwarg))
+E               TypeError: OrderLine() got an unexpected keyword argument 'total_price'
+
+/opt/venv/lib/python3.8/site-packages/django/db/models/base.py:501: TypeError</error></testcase><testcase classname="saleor.graphql.product.tests.test_product" name="test_report_product_sales_not_existing_channel" time="0.070"><error message="failed on setup with &quot;TypeError: OrderLine() got an unexpected keyword argument 'total_price'&quot;">order = &lt;Order #46&gt;
+product_type = &lt;saleor.product.models.ProductType(pk=233, name='Default Type')&gt;
+category = &lt;Category: Default&gt;, shipping_zone = &lt;ShippingZone: Europe&gt;
+warehouse = &lt;Warehouse: Example Warehouse&gt;, channel_USD = &lt;Channel: main&gt;
+
+    @pytest.fixture
+    def order_with_lines(
+        order, product_type, category, shipping_zone, warehouse, channel_USD
+    ):
+        product = Product.objects.create(
+            name="Test product",
+            slug="test-product-8",
+            product_type=product_type,
+            category=category,
+        )
+        ProductChannelListing.objects.create(
+            product=product,
+            channel=channel_USD,
+            is_published=True,
+            visible_in_listings=True,
+            available_for_purchase=datetime.date.today(),
+        )
+        variant = ProductVariant.objects.create(product=product, sku="SKU_AA")
+        channel_listing = ProductVariantChannelListing.objects.create(
+            variant=variant,
+            channel=channel_USD,
+            price_amount=Decimal(10),
+            cost_price_amount=Decimal(1),
+            currency=channel_USD.currency_code,
+        )
+        stock = Stock.objects.create(
+            warehouse=warehouse, product_variant=variant, quantity=5
+        )
+        net = variant.get_price(product, [], channel_USD, channel_listing)
+        currency = net.currency
+        gross = Money(amount=net.amount * Decimal(1.23), currency=currency)
+        quantity = 3
+        unit_price = TaxedMoney(net=net, gross=gross)
+&gt;       line = order.lines.create(
+            product_name=str(variant.product),
+            variant_name=str(variant),
+            product_sku=variant.sku,
+            is_shipping_required=variant.is_shipping_required(),
+            quantity=quantity,
+            variant=variant,
+            unit_price=unit_price,
+            total_price=unit_price * quantity,
+            tax_rate=23,
+        )
+
+saleor/tests/fixtures.py:2102: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.8/site-packages/django/db/models/fields/related_descriptors.py:677: in create
+    return super(RelatedManager, self.db_manager(db)).create(**kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/models/manager.py:85: in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/models/query.py:445: in create
+    obj = self.model(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;OrderLine: Test product (SKU_AA)&gt;, args = ()
+kwargs = {'total_price': TaxedMoney(net=Money('30', 'USD'), gross=Money('36.89999999999999946709294818', 'USD'))}
+cls = &lt;class 'saleor.order.models.OrderLine'&gt;, opts = &lt;Options for OrderLine&gt;
+_setattr = &lt;built-in function setattr&gt;, _DEFERRED = &lt;Deferred field&gt;
+fields_iter = &lt;tuple_iterator object at 0x7c4474c40a60&gt;
+val = TaxedMoney(net=Money('10', 'USD'), gross=Money('12.29999999999999982236431606', 'USD'))
+field = &lt;django_prices.models.TaxedMoneyField object at 0x7c44795342e0&gt;
+is_related_object = False, rel_obj = &lt;ProductVariant: SKU_AA&gt;
+property_names = frozenset({'is_digital', 'pk', 'quantity_unfulfilled'})
+
+    def __init__(self, *args, **kwargs):
+        # Alias some things as locals to avoid repeat global lookups
+        cls = self.__class__
+        opts = self._meta
+        _setattr = setattr
+        _DEFERRED = DEFERRED
+    
+        pre_init.send(sender=cls, args=args, kwargs=kwargs)
+    
+        # Set up the storage for instance state
+        self._state = ModelState()
+    
+        # There is a rather weird disparity here; if kwargs, it's set, then args
+        # overrides it. It should be one or the other; don't duplicate the work
+        # The reason for the kwargs check is that standard iterator passes in by
+        # args, and instantiation for iteration is 33% faster.
+        if len(args) &gt; len(opts.concrete_fields):
+            # Daft, but matches old exception sans the err msg.
+            raise IndexError("Number of args exceeds number of fields")
+    
+        if not kwargs:
+            fields_iter = iter(opts.concrete_fields)
+            # The ordering of the zip calls matter - zip throws StopIteration
+            # when an iter throws it. So if the first iter throws it, the second
+            # is *not* consumed. We rely on this, so don't change the order
+            # without changing the logic.
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+        else:
+            # Slower, kwargs-ready version.
+            fields_iter = iter(opts.fields)
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+                kwargs.pop(field.name, None)
+    
+        # Now we're left with the unprocessed fields that *must* come from
+        # keywords, or default.
+    
+        for field in fields_iter:
+            is_related_object = False
+            # Virtual field
+            if field.attname not in kwargs and field.column is None:
+                continue
+            if kwargs:
+                if isinstance(field.remote_field, ForeignObjectRel):
+                    try:
+                        # Assume object instance was passed in.
+                        rel_obj = kwargs.pop(field.name)
+                        is_related_object = True
+                    except KeyError:
+                        try:
+                            # Object instance wasn't passed in -- must be an ID.
+                            val = kwargs.pop(field.attname)
+                        except KeyError:
+                            val = field.get_default()
+                else:
+                    try:
+                        val = kwargs.pop(field.attname)
+                    except KeyError:
+                        # This is done with an exception rather than the
+                        # default argument on pop because we don't want
+                        # get_default() to be evaluated, and then not used.
+                        # Refs #12057.
+                        val = field.get_default()
+            else:
+                val = field.get_default()
+    
+            if is_related_object:
+                # If we are passed a related instance, set it using the
+                # field.name instead of field.attname (e.g. "user" instead of
+                # "user_id") so that the object gets properly cached (and type
+                # checked) by the RelatedObjectDescriptor.
+                if rel_obj is not _DEFERRED:
+                    _setattr(self, field.name, rel_obj)
+            else:
+                if val is not _DEFERRED:
+                    _setattr(self, field.attname, val)
+    
+        if kwargs:
+            property_names = opts._property_names
+            for prop in tuple(kwargs):
+                try:
+                    # Any remaining kwargs must correspond to properties or
+                    # virtual fields.
+                    if prop in property_names or opts.get_field(prop):
+                        if kwargs[prop] is not _DEFERRED:
+                            _setattr(self, prop, kwargs[prop])
+                        del kwargs[prop]
+                except (AttributeError, FieldDoesNotExist):
+                    pass
+            for kwarg in kwargs:
+&gt;               raise TypeError("%s() got an unexpected keyword argument '%s'" % (cls.__name__, kwarg))
+E               TypeError: OrderLine() got an unexpected keyword argument 'total_price'
+
+/opt/venv/lib/python3.8/site-packages/django/db/models/base.py:501: TypeError</error></testcase><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_restricted_fields_permissions" time="0.108" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_variant_restricted_fields_permissions[digitalContent-True]" time="0.110" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_variant_restricted_fields_permissions[quantityOrdered-False]" time="0.114" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_variant_digital_content" time="0.097" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_collections_query_with_filter[collection_filter0-2]" time="0.036" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_collections_query_with_filter[collection_filter1-1]" time="0.038" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_collections_query_with_filter[collection_filter2-1]" time="0.038" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_collections_query_with_filter[collection_filter3-1]" time="0.035" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_collections_query_with_filter[collection_filter4-2]" time="0.038" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_collections_query_with_sort[collection_sort0-result_order0]" time="0.099" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_collections_query_with_sort[collection_sort1-result_order1]" time="0.094" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_collections_query_with_sort[collection_sort2-result_order2]" time="0.106" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_collections_query_with_sort[collection_sort3-result_order3]" time="0.099" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_collections_query_with_sort[collection_sort4-result_order4]" time="0.095" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_collections_query_with_sort[collection_sort5-result_order5]" time="0.093" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_categories_query_with_filter[category_filter0-3]" time="0.035" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_categories_query_with_filter[category_filter1-1]" time="0.045" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_categories_query_with_filter[category_filter2-2]" time="0.041" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_categories_query_with_filter[category_filter3-1]" time="0.045" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_categories_query_with_filter[category_filter4-2]" time="0.058" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_categories_query_with_sort[category_sort0-result_order0]" time="0.070" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_categories_query_with_sort[category_sort1-result_order1]" time="0.070" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_categories_query_with_sort[category_sort2-result_order2]" time="0.076" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_categories_query_with_sort[category_sort3-result_order3]" time="0.086" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_categories_query_with_sort[category_sort4-result_order4]" time="0.076" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_categories_query_with_sort[category_sort5-result_order5]" time="0.075" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_type_query_with_filter[product_type_filter0-2]" time="0.031" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_type_query_with_filter[product_type_filter1-1]" time="0.031" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_type_query_with_filter[product_type_filter2-1]" time="0.022" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_type_query_with_filter[product_type_filter3-2]" time="0.030" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_type_query_with_sort[product_type_sort0-result_order0]" time="0.026" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_type_query_with_sort[product_type_sort1-result_order1]" time="0.027" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_type_query_with_sort[product_type_sort2-result_order2]" time="0.028" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_type_query_with_sort[product_type_sort3-result_order3]" time="0.024" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_type_query_with_sort[product_type_sort4-result_order4]" time="0.026" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_type_query_with_sort[product_type_sort5-result_order5]" time="0.022" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_types_query_ids_not_exists" time="0.031" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_type_get_unassigned_product_type_attributes" time="0.061" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_type_filter_unassigned_attributes" time="0.052" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_filter_product_types_by_custom_search_value[-expected_names0]" time="0.024" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_filter_product_types_by_custom_search_value[best-expected_names1]" time="0.038" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_filter_product_types_by_custom_search_value[worst-expected_names2]" time="0.033" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_filter_product_types_by_custom_search_value[average-expected_names3]" time="0.026" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_product_filter_by_attribute_values" time="0.139" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_create_stocks_failed" time="0.067" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_create_stocks" time="0.084" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_update_or_create_variant_stocks" time="0.095" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_update_or_create_variant_stocks_empty_stocks_data" time="0.088" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_create_product_with_weight_variable[0-0_0]" time="0.069" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_create_product_with_weight_variable[0-0_1]" time="0.063" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_create_product_with_weight_variable[11.11-11.11_0]" time="0.069" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_create_product_with_weight_variable[11-11.0]" time="0.064" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_create_product_with_weight_variable[11.11-11.11_1]" time="0.065" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_create_product_with_weight_variable[weight5-11.11]" time="0.057" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_create_product_with_weight_variable[weight6-0.011]" time="0.070" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_create_product_with_weight_variable[weight7-0.028]" time="0.068" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_create_product_with_weight_input[0-0_0]" time="0.070" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_create_product_with_weight_input[0-0_1]" time="0.072" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_create_product_with_weight_input[11.11-11.11]" time="0.059" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_create_product_with_weight_input[11-11.0]" time="0.058" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_create_product_with_weight_input[&quot;11.11&quot;-11.11]" time="0.062" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_create_product_with_weight_input[{value: 11.11, unit: &quot;kg&quot;}-11.11]" time="0.066" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_create_product_with_weight_input[{value: 11, unit: &quot;g&quot;}-0.011]" time="0.068" /><testcase classname="saleor.graphql.product.tests.test_product" name="test_create_product_with_weight_input[{value: &quot;1&quot;, unit: &quot;ounce&quot;}-0.028]" time="0.071" /></testsuite></testsuites>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="6" time="2.992" timestamp="2026-09-24T15:55:24.660222" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.discount.tests.queries.test_sale" name="test_staff_query_sale" time="1.819" /><testcase classname="saleor.graphql.discount.tests.queries.test_sale" name="test_query_sale_by_app" time="0.135" /><testcase classname="saleor.graphql.discount.tests.queries.test_sale" name="test_query_sale_by_customer" time="0.104" /><testcase classname="saleor.graphql.discount.tests.queries.test_sale" name="test_staff_query_sale_by_invalid_id" time="0.201"><failure message="assert &quot;Couldn't resolve id: bh/.&quot; == 'Invalid ID: ...pected: Sale.'&#10;  - Invalid ID: bh/. Expected: Sale.&#10;  + Couldn't resolve id: bh/.">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7c0f254ac7f0&gt;
+promotion_converted_from_sale = &lt;Promotion: Promotion object (dac46b25-6be9-4c1e-81ba-b956365980cd)&gt;
+permission_manage_discounts = &lt;Permission: discount | promotion | Manage sales and vouchers.&gt;
+
+    def test_staff_query_sale_by_invalid_id(
+        staff_api_client, promotion_converted_from_sale, permission_manage_discounts
+    ):
+        # given
+        id = "bh/"
+        variables = {"id": id}
+    
+        # when
+        response = staff_api_client.post_graphql(
+            QUERY_SALE_BY_ID, variables, permissions=[permission_manage_discounts]
+        )
+    
+        # then
+        content = get_graphql_content_from_response(response)
+        assert len(content["errors"]) == 1
+&gt;       assert content["errors"][0]["message"] == f"Invalid ID: {id}. Expected: Sale."
+E       assert "Couldn't resolve id: bh/." == 'Invalid ID: ...pected: Sale.'
+E         - Invalid ID: bh/. Expected: Sale.
+E         + Couldn't resolve id: bh/.
+
+saleor/graphql/discount/tests/queries/test_sale.py:149: AssertionError</failure></testcase><testcase classname="saleor.graphql.discount.tests.queries.test_sale" name="test_staff_query_sale_with_invalid_object_type" time="0.200" /><testcase classname="saleor.graphql.discount.tests.queries.test_sale" name="test_staff_query_sale_no_channel_provided" time="0.211" /></testsuite></testsuites>

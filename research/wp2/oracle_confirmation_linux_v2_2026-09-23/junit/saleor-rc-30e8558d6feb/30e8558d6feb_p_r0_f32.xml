@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="4" time="2.208" timestamp="2026-09-24T15:59:29.843664" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.webhook.tests.mutations.test_delivery_retry" name="test_delivery_retry_mutation" time="1.596" /><testcase classname="saleor.graphql.webhook.tests.mutations.test_delivery_retry" name="test_webhook_delivery_retry_without_permission" time="0.148" /><testcase classname="saleor.graphql.webhook.tests.mutations.test_delivery_retry" name="test_webhook_delivery_retry_wrong_type" time="0.113"><failure message="AssertionError: assert 'Must receive...tDelivery id.' == 'Invalid ID: ...iveryAttempt.'&#10;  - Invalid ID: RXZlbnREZWxpdmVyeUF0dGVtcHQ6NQ==. Expected: EventDelivery, received: EventDeliveryAttempt.&#10;  + Must receive a EventDelivery id.">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x75cb7cc75100&gt;
+app = &lt;App: Sample app objects&gt;
+event_attempt = &lt;EventDeliveryAttempt: EventDeliveryAttempt object (5)&gt;
+permission_manage_apps = &lt;Permission: app | app | Manage apps&gt;
+
+    def test_webhook_delivery_retry_wrong_type(
+        staff_api_client, app, event_attempt, permission_manage_apps
+    ):
+        query = WEBHOOK_DELIVERY_RETRY_MUTATION
+        delivery_wrong_id = graphene.Node.to_global_id(
+            "EventDeliveryAttempt", event_attempt.id
+        )
+        variables = {"id": delivery_wrong_id}
+        expected_message = (
+            f"Invalid ID: {delivery_wrong_id}. Expected: EventDelivery,"
+            + " received: EventDeliveryAttempt."
+        )
+        response = staff_api_client.post_graphql(
+            query,
+            variables=variables,
+            permissions=[permission_manage_apps],
+            check_no_permissions=False,
+        )
+        content = get_graphql_content(response)
+        errors = content["data"]["eventDeliveryRetry"]["errors"]
+        assert len(errors) == 1
+        assert errors[0]["field"] == "id"
+&gt;       assert errors[0]["message"] == expected_message
+E       AssertionError: assert 'Must receive...tDelivery id.' == 'Invalid ID: ...iveryAttempt.'
+E         - Invalid ID: RXZlbnREZWxpdmVyeUF0dGVtcHQ6NQ==. Expected: EventDelivery, received: EventDeliveryAttempt.
+E         + Must receive a EventDelivery id.
+
+saleor/graphql/webhook/tests/mutations/test_delivery_retry.py:82: AssertionError</failure></testcase><testcase classname="saleor.graphql.webhook.tests.mutations.test_delivery_retry" name="test_delivery_retry_mutation_wrong_id" time="0.033"><failure message="assert &quot;Couldn't resolve id: /w.&quot; == 'Invalid ID: ...ventDelivery.'&#10;  - Invalid ID: /w. Expected: EventDelivery.&#10;  + Couldn't resolve id: /w.">app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x75cb7affdd00&gt;
+permission_manage_apps = &lt;Permission: app | app | Manage apps&gt;
+event_delivery = &lt;EventDelivery: EventDelivery object (8)&gt;
+
+    def test_delivery_retry_mutation_wrong_id(
+        app_api_client, permission_manage_apps, event_delivery
+    ):
+        # given
+        query = WEBHOOK_DELIVERY_RETRY_MUTATION
+        variables = {"id": "/w"}
+        expected_message = "Invalid ID: /w. Expected: EventDelivery."
+        # when
+        response = app_api_client.post_graphql(
+            query,
+            variables=variables,
+            permissions=[permission_manage_apps],
+            check_no_permissions=False,
+        )
+        content = get_graphql_content(response)
+        # then
+        errors = content["data"]["eventDeliveryRetry"]["errors"]
+        assert len(errors) == 1
+        assert errors[0]["field"] == "id"
+&gt;       assert errors[0]["message"] == expected_message
+E       assert "Couldn't resolve id: /w." == 'Invalid ID: ...ventDelivery.'
+E         - Invalid ID: /w. Expected: EventDelivery.
+E         + Couldn't resolve id: /w.
+
+saleor/graphql/webhook/tests/mutations/test_delivery_retry.py:104: AssertionError</failure></testcase></testsuite></testsuites>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="8" time="109.646" timestamp="2026-09-24T15:31:55.135152-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.core.tests.test_jwt" name="test_create_access_token_for_app" time="109.012" /><testcase classname="saleor.core.tests.test_jwt" name="test_create_access_token_for_app_extension_staff_user_with_more_permissions" time="0.070"><failure message="KeyError: 'app'">app_with_extensions = (&lt;App: Sample app objects&gt;, [&lt;AppExtension: AppExtension object (1)&gt;, &lt;AppExtension: AppExtension object (2)&gt;])
+staff_user = &lt;User: 1546eb99-804b-439d-bfcc-cb96526ca11c&gt;
+permission_manage_apps = &lt;Permission: app | app | Manage apps&gt;
+permission_manage_products = &lt;Permission: product | product | Manage products.&gt;
+permission_manage_channels = &lt;Permission: channel | channel | Manage channels.&gt;
+site_settings = &lt;SiteSettings: SiteSettings object (3)&gt;
+
+    def test_create_access_token_for_app_extension_staff_user_with_more_permissions(
+        app_with_extensions,
+        staff_user,
+        permission_manage_apps,
+        permission_manage_products,
+        permission_manage_channels,
+        site_settings,
+    ):
+        # given
+        staff_user.user_permissions.set(
+            [permission_manage_channels, permission_manage_apps, permission_manage_products]
+        )
+        audience = f"https://{site_settings.site.domain}.com/app-123"
+        app, extensions = app_with_extensions
+        app.audience = audience
+        app.save()
+    
+        extension = extensions[0]
+        extension.permissions.set([permission_manage_products])
+    
+        # when
+        access_token = create_access_token_for_app_extension(
+            app_extension=extension,
+            permissions=extension.permissions.all(),
+            user=staff_user,
+            app=app,
+        )
+    
+        # then
+        decoded_token = jwt_decode(access_token, verify_expiration=False, verify_aud=False)
+        assert decoded_token["permissions"] == ["MANAGE_PRODUCTS"]
+        _, decode_extension_id = graphene.Node.from_global_id(
+            decoded_token["app_extension"]
+        )
+&gt;       _, decode_app_id = graphene.Node.from_global_id(decoded_token["app"])
+E       KeyError: 'app'
+
+saleor/core/tests/test_jwt.py:78: KeyError</failure></testcase><testcase classname="saleor.core.tests.test_jwt" name="test_create_access_token_for_app_extension_with_more_permissions" time="0.069"><failure message="KeyError: 'app'">app_with_extensions = (&lt;App: Sample app objects&gt;, [&lt;AppExtension: AppExtension object (3)&gt;, &lt;AppExtension: AppExtension object (4)&gt;])
+staff_user = &lt;User: e479c856-6f1e-416b-80a4-3e24bbc0ca99&gt;
+permission_manage_apps = &lt;Permission: app | app | Manage apps&gt;
+permission_manage_products = &lt;Permission: product | product | Manage products.&gt;
+permission_manage_channels = &lt;Permission: channel | channel | Manage channels.&gt;
+site_settings = &lt;SiteSettings: SiteSettings object (4)&gt;
+
+    def test_create_access_token_for_app_extension_with_more_permissions(
+        app_with_extensions,
+        staff_user,
+        permission_manage_apps,
+        permission_manage_products,
+        permission_manage_channels,
+        site_settings,
+    ):
+        # given
+        staff_user.user_permissions.set([permission_manage_products])
+    
+        audience = f"https://{site_settings.site.domain}.com/app-123"
+        app, extensions = app_with_extensions
+        app.audience = audience
+        app.save()
+    
+        extension = extensions[0]
+        extension.permissions.set(
+            [permission_manage_channels, permission_manage_apps, permission_manage_products]
+        )
+    
+        # when
+        access_token = create_access_token_for_app_extension(
+            app_extension=extension,
+            permissions=extension.permissions.all(),
+            user=staff_user,
+            app=app,
+        )
+    
+        # then
+        decoded_token = jwt_decode(access_token, verify_expiration=False)
+        assert decoded_token["permissions"] == ["MANAGE_PRODUCTS"]
+        _, decode_extension_id = graphene.Node.from_global_id(
+            decoded_token["app_extension"]
+        )
+&gt;       _, decode_app_id = graphene.Node.from_global_id(decoded_token["app"])
+E       KeyError: 'app'
+
+saleor/core/tests/test_jwt.py:123: KeyError</failure></testcase><testcase classname="saleor.core.tests.test_jwt" name="test_jwt_decode_accepts_token_signed_with_hs256" time="0.014" /><testcase classname="saleor.core.tests.test_jwt" name="test_jwt_decode_accepts_token_signed_with_rs256" time="0.048" /><testcase classname="saleor.core.tests.test_jwt" name="test_jwt_decode_accepts_app_token_rs256_with_audience" time="0.049" /><testcase classname="saleor.core.tests.test_jwt" name="test_jwt_decode_accepts_app_token_hs256_with_audience" time="0.014" /><testcase classname="saleor.core.tests.test_jwt" name="test_jwt_encode_creates_token_signed_with_rs256" time="0.049" /></testsuite></testsuites>

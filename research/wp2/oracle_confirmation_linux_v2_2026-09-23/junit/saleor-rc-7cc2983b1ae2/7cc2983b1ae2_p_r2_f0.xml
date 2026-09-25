@@ -1,0 +1,1243 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="17" skipped="0" tests="79" time="8.407" timestamp="2026-09-24T18:20:51.064786-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_notify_dashboard" time="1.267" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_fulfillment_for_order" time="0.026" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_fulfillment_for_order_multiple_fulfillments_one_valid" time="0.024" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_fulfillment_for_order_no_fulfillment" time="0.019" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_fulfillment_for_order_no_fulfillment_with_tracking_number" time="0.023" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_fulfillment_for_order_no_refundable_fulfillment" time="0.021" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_fulfillment_for_order_multiple_fulfillments" time="0.112" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_no_metadata[50000]" time="0.101" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_no_metadata[59010]" time="0.097" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_no_metadata[59020]" time="0.095" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_no_metadata[59030]" time="0.093" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_no_metadata[59040]" time="0.093" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_no_metadata[59041]" time="0.091" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_no_metadata[59042]" time="0.099" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_no_metadata[59043]" time="0.094" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_no_metadata[59050]" time="0.097" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_no_metadata[59060]" time="0.093" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_no_metadata[59080]" time="0.090" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_no_metadata[59090]" time="0.092" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_no_metadata[59110]" time="0.094" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_no_metadata[59140]" time="0.093" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_no_metadata[59150]" time="0.092" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_no_metadata[59100]" time="0.092" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_no_metadata[59160]" time="0.093" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_no_metadata[55555]" time="0.096" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_valid_metadata[50000-50000]" time="0.099" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_valid_metadata[59010-59010]" time="0.097" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_valid_metadata[59020-59020]" time="0.093" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_valid_metadata[59030-59030]" time="0.093" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_valid_metadata[59040-59040]" time="0.094" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_valid_metadata[59041-59041]" time="0.092" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_valid_metadata[59042-59042]" time="0.096" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_valid_metadata[59043-59043]" time="0.099" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_valid_metadata[59050-59050]" time="0.095" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_valid_metadata[59060-59060]" time="0.092" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_valid_metadata[59080-59080]" time="0.094" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_valid_metadata[59090-59090]" time="0.100" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_valid_metadata[59110-59110]" time="0.097" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_valid_metadata[59140-59140]" time="0.095" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_valid_metadata[59150-59150]" time="0.092" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_valid_metadata[59100-59100]" time="0.089" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_valid_metadata[59160-59160]" time="0.093" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_valid_metadata[55555-55555]" time="0.095" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_valid_metadata[invalid_code-None]" time="0.095" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_invalid_metadata[50000]" time="0.094" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_invalid_metadata[59010]" time="0.093" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_invalid_metadata[59020]" time="0.092" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_invalid_metadata[59030]" time="0.092" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_invalid_metadata[59040]" time="0.095" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_invalid_metadata[59041]" time="0.096" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_invalid_metadata[59042]" time="0.092" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_invalid_metadata[59043]" time="0.092" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_invalid_metadata[59050]" time="0.092" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_invalid_metadata[59060]" time="0.092" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_invalid_metadata[59080]" time="0.092" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_invalid_metadata[59090]" time="0.092" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_invalid_metadata[59110]" time="0.094" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_invalid_metadata[59140]" time="0.092" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_invalid_metadata[59150]" time="0.097" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_invalid_metadata[59100]" time="0.093" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_invalid_metadata[59160]" time="0.093" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_invalid_metadata[55555]" time="0.095" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_create_refund_lines_order_lines" time="0.074"><failure message="AttributeError: 'RefundData' object has no attribute 'refund_data'">order_with_lines = &lt;Order #221&gt;
+
+    def test_create_refund_lines_order_lines(order_with_lines):
+        # given
+        order_lines = order_with_lines.lines.all()
+        order_refund_lines = [
+            OrderLineInfo(line=(line := order_lines[0]), quantity=2, variant=line.variant),
+            OrderLineInfo(line=(line := order_lines[1]), quantity=1, variant=line.variant),
+        ]
+        fulfillment_refund_lines = []
+        refund_data = RefundData(
+            order_lines_to_refund=order_refund_lines,
+            fulfillment_lines_to_refund=fulfillment_refund_lines,
+        )
+    
+        # when
+&gt;       lines = create_refunded_lines(
+            order_with_lines,
+            refund_data,
+        )
+
+saleor/payment/gateways/np_atobarai/tests/test_utils.py:198: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+order = &lt;Order #221&gt;
+payment_information = RefundData(order_lines_to_refund=[OrderLineInfo(line=&lt;OrderLine: Test product (SKU_AA)&gt;, quantity=2, variant=&lt;ProductV...ent=None, replace=False, warehouse_pk=None)], fulfillment_lines_to_refund=[], refund_shipping_costs=False, amount=None)
+
+    def create_refunded_lines(
+        order: Order,
+        payment_information: PaymentData,
+    ) -&gt; Dict[int, int]:
+        """Return all refunded product variants for specified order.
+    
+        Takes into account previous refunds and current refund mutation parameters.
+        :return: Dictionary of variant ids and refunded quantities.
+        """
+&gt;       assert payment_information.refund_data
+E       AttributeError: 'RefundData' object has no attribute 'refund_data'
+
+saleor/payment/gateways/np_atobarai/utils.py:80: AttributeError</failure></testcase><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_create_refund_lines_fulfillment_lines" time="0.088"><failure message="AttributeError: 'RefundData' object has no attribute 'refund_data'">fulfilled_order = &lt;Order #222&gt;
+
+    def test_create_refund_lines_fulfillment_lines(fulfilled_order):
+        # given
+        fulfillment_lines = fulfilled_order.fulfillments.first().lines.all()
+        order_refund_lines = []
+        fulfillment_refund_lines = [
+            FulfillmentLineData(
+                line=fulfillment_lines[0],
+                quantity=2,
+            ),
+            FulfillmentLineData(
+                line=fulfillment_lines[1],
+                quantity=1,
+            ),
+        ]
+        refund_data = RefundData(
+            order_lines_to_refund=order_refund_lines,
+            fulfillment_lines_to_refund=fulfillment_refund_lines,
+        )
+    
+        # when
+&gt;       lines = create_refunded_lines(
+            fulfilled_order,
+            refund_data,
+        )
+
+saleor/payment/gateways/np_atobarai/tests/test_utils.py:227: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+order = &lt;Order #222&gt;
+payment_information = RefundData(order_lines_to_refund=[], fulfillment_lines_to_refund=[FulfillmentLineData(line=&lt;FulfillmentLine: Fulfillme...&lt;FulfillmentLine: FulfillmentLine object (358)&gt;, quantity=1, replace=False)], refund_shipping_costs=False, amount=None)
+
+    def create_refunded_lines(
+        order: Order,
+        payment_information: PaymentData,
+    ) -&gt; Dict[int, int]:
+        """Return all refunded product variants for specified order.
+    
+        Takes into account previous refunds and current refund mutation parameters.
+        :return: Dictionary of variant ids and refunded quantities.
+        """
+&gt;       assert payment_information.refund_data
+E       AttributeError: 'RefundData' object has no attribute 'refund_data'
+
+saleor/payment/gateways/np_atobarai/utils.py:80: AttributeError</failure></testcase><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_create_refund_data_previously_refunded_order_lines[True]" time="0.098"><failure message="AttributeError: 'RefundData' object has no attribute 'refund_data'">_mocked_refund = &lt;MagicMock name='refund' id='126945383868064'&gt;
+order_with_lines = &lt;Order #223&gt;
+create_refund_fulfillment_helper = &lt;function create_refund_fulfillment_helper.&lt;locals&gt;.factory at 0x7374c68215e0&gt;
+previous_refund_shipping_costs = True
+
+    @patch("saleor.order.actions.gateway.refund")
+    @pytest.mark.parametrize("previous_refund_shipping_costs", [True, False])
+    def test_create_refund_data_previously_refunded_order_lines(
+        _mocked_refund,
+        order_with_lines,
+        create_refund_fulfillment_helper,
+        previous_refund_shipping_costs,
+    ):
+        # given
+        order_lines = order_with_lines.lines.all()
+        previous_order_refund_lines = [
+            OrderLineInfo(line=(line := order_lines[0]), quantity=1, variant=line.variant)
+        ]
+        create_refund_fulfillment_helper(
+            order_with_lines,
+            order_lines=previous_order_refund_lines,
+            refund_shipping_costs=previous_refund_shipping_costs,
+        )
+        current_order_refund_lines = [
+            OrderLineInfo(line=(line := order_lines[0]), quantity=1, variant=line.variant),
+            OrderLineInfo(line=(line := order_lines[1]), quantity=1, variant=line.variant),
+        ]
+        fulfillment_refund_lines = []
+        refund_data = RefundData(
+            order_lines_to_refund=current_order_refund_lines,
+            fulfillment_lines_to_refund=fulfillment_refund_lines,
+        )
+    
+        # when
+&gt;       lines = create_refunded_lines(
+            order_with_lines,
+            refund_data,
+        )
+
+saleor/payment/gateways/np_atobarai/tests/test_utils.py:268: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+order = &lt;Order #223&gt;
+payment_information = RefundData(order_lines_to_refund=[OrderLineInfo(line=&lt;OrderLine: Test product (SKU_AA)&gt;, quantity=1, variant=&lt;ProductV...ent=None, replace=False, warehouse_pk=None)], fulfillment_lines_to_refund=[], refund_shipping_costs=False, amount=None)
+
+    def create_refunded_lines(
+        order: Order,
+        payment_information: PaymentData,
+    ) -&gt; Dict[int, int]:
+        """Return all refunded product variants for specified order.
+    
+        Takes into account previous refunds and current refund mutation parameters.
+        :return: Dictionary of variant ids and refunded quantities.
+        """
+&gt;       assert payment_information.refund_data
+E       AttributeError: 'RefundData' object has no attribute 'refund_data'
+
+saleor/payment/gateways/np_atobarai/utils.py:80: AttributeError</failure></testcase><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_create_refund_data_previously_refunded_order_lines[False]" time="0.095"><failure message="AttributeError: 'RefundData' object has no attribute 'refund_data'">_mocked_refund = &lt;MagicMock name='refund' id='126945383936736'&gt;
+order_with_lines = &lt;Order #224&gt;
+create_refund_fulfillment_helper = &lt;function create_refund_fulfillment_helper.&lt;locals&gt;.factory at 0x7374c6821b80&gt;
+previous_refund_shipping_costs = False
+
+    @patch("saleor.order.actions.gateway.refund")
+    @pytest.mark.parametrize("previous_refund_shipping_costs", [True, False])
+    def test_create_refund_data_previously_refunded_order_lines(
+        _mocked_refund,
+        order_with_lines,
+        create_refund_fulfillment_helper,
+        previous_refund_shipping_costs,
+    ):
+        # given
+        order_lines = order_with_lines.lines.all()
+        previous_order_refund_lines = [
+            OrderLineInfo(line=(line := order_lines[0]), quantity=1, variant=line.variant)
+        ]
+        create_refund_fulfillment_helper(
+            order_with_lines,
+            order_lines=previous_order_refund_lines,
+            refund_shipping_costs=previous_refund_shipping_costs,
+        )
+        current_order_refund_lines = [
+            OrderLineInfo(line=(line := order_lines[0]), quantity=1, variant=line.variant),
+            OrderLineInfo(line=(line := order_lines[1]), quantity=1, variant=line.variant),
+        ]
+        fulfillment_refund_lines = []
+        refund_data = RefundData(
+            order_lines_to_refund=current_order_refund_lines,
+            fulfillment_lines_to_refund=fulfillment_refund_lines,
+        )
+    
+        # when
+&gt;       lines = create_refunded_lines(
+            order_with_lines,
+            refund_data,
+        )
+
+saleor/payment/gateways/np_atobarai/tests/test_utils.py:268: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+order = &lt;Order #224&gt;
+payment_information = RefundData(order_lines_to_refund=[OrderLineInfo(line=&lt;OrderLine: Test product (SKU_AA)&gt;, quantity=1, variant=&lt;ProductV...ent=None, replace=False, warehouse_pk=None)], fulfillment_lines_to_refund=[], refund_shipping_costs=False, amount=None)
+
+    def create_refunded_lines(
+        order: Order,
+        payment_information: PaymentData,
+    ) -&gt; Dict[int, int]:
+        """Return all refunded product variants for specified order.
+    
+        Takes into account previous refunds and current refund mutation parameters.
+        :return: Dictionary of variant ids and refunded quantities.
+        """
+&gt;       assert payment_information.refund_data
+E       AttributeError: 'RefundData' object has no attribute 'refund_data'
+
+saleor/payment/gateways/np_atobarai/utils.py:80: AttributeError</failure></testcase><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_create_refund_data_previously_refunded_fulfillment_lines[True]" time="0.101"><failure message="AttributeError: 'RefundData' object has no attribute 'refund_data'">_mocked_refund = &lt;MagicMock name='refund' id='126945384000672'&gt;
+fulfilled_order = &lt;Order #225&gt;
+create_refund_fulfillment_helper = &lt;function create_refund_fulfillment_helper.&lt;locals&gt;.factory at 0x7374c682a1f0&gt;
+previous_refund_shipping_costs = True
+
+    @patch("saleor.order.actions.gateway.refund")
+    @pytest.mark.parametrize("previous_refund_shipping_costs", [True, False])
+    def test_create_refund_data_previously_refunded_fulfillment_lines(
+        _mocked_refund,
+        fulfilled_order,
+        create_refund_fulfillment_helper,
+        previous_refund_shipping_costs,
+    ):
+        # given
+        fulfillment_lines = list(
+            chain.from_iterable(f.lines.all() for f in fulfilled_order.fulfillments.all())
+        )
+        previous_fulfillment_refund_lines = [
+            FulfillmentLineData(line=fulfillment_lines[0], quantity=1)
+        ]
+        create_refund_fulfillment_helper(
+            fulfilled_order,
+            fulfillment_lines=previous_fulfillment_refund_lines,
+            refund_shipping_costs=previous_refund_shipping_costs,
+        )
+        order_refund_lines = []
+        current_fulfillment_refund_lines = [
+            FulfillmentLineData(
+                line=fulfillment_lines[0],
+                quantity=1,
+            ),
+            FulfillmentLineData(
+                line=fulfillment_lines[1],
+                quantity=1,
+            ),
+        ]
+        refund_data = RefundData(
+            order_lines_to_refund=order_refund_lines,
+            fulfillment_lines_to_refund=current_fulfillment_refund_lines,
+        )
+    
+        # when
+&gt;       lines = create_refunded_lines(
+            fulfilled_order,
+            refund_data,
+        )
+
+saleor/payment/gateways/np_atobarai/tests/test_utils.py:322: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+order = &lt;Order #225&gt;
+payment_information = RefundData(order_lines_to_refund=[], fulfillment_lines_to_refund=[FulfillmentLineData(line=&lt;FulfillmentLine: Fulfillme...&lt;FulfillmentLine: FulfillmentLine object (362)&gt;, quantity=1, replace=False)], refund_shipping_costs=False, amount=None)
+
+    def create_refunded_lines(
+        order: Order,
+        payment_information: PaymentData,
+    ) -&gt; Dict[int, int]:
+        """Return all refunded product variants for specified order.
+    
+        Takes into account previous refunds and current refund mutation parameters.
+        :return: Dictionary of variant ids and refunded quantities.
+        """
+&gt;       assert payment_information.refund_data
+E       AttributeError: 'RefundData' object has no attribute 'refund_data'
+
+saleor/payment/gateways/np_atobarai/utils.py:80: AttributeError</failure></testcase><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_create_refund_data_previously_refunded_fulfillment_lines[False]" time="0.099"><failure message="AttributeError: 'RefundData' object has no attribute 'refund_data'">_mocked_refund = &lt;MagicMock name='refund' id='126945384943680'&gt;
+fulfilled_order = &lt;Order #226&gt;
+create_refund_fulfillment_helper = &lt;function create_refund_fulfillment_helper.&lt;locals&gt;.factory at 0x7374c682a9d0&gt;
+previous_refund_shipping_costs = False
+
+    @patch("saleor.order.actions.gateway.refund")
+    @pytest.mark.parametrize("previous_refund_shipping_costs", [True, False])
+    def test_create_refund_data_previously_refunded_fulfillment_lines(
+        _mocked_refund,
+        fulfilled_order,
+        create_refund_fulfillment_helper,
+        previous_refund_shipping_costs,
+    ):
+        # given
+        fulfillment_lines = list(
+            chain.from_iterable(f.lines.all() for f in fulfilled_order.fulfillments.all())
+        )
+        previous_fulfillment_refund_lines = [
+            FulfillmentLineData(line=fulfillment_lines[0], quantity=1)
+        ]
+        create_refund_fulfillment_helper(
+            fulfilled_order,
+            fulfillment_lines=previous_fulfillment_refund_lines,
+            refund_shipping_costs=previous_refund_shipping_costs,
+        )
+        order_refund_lines = []
+        current_fulfillment_refund_lines = [
+            FulfillmentLineData(
+                line=fulfillment_lines[0],
+                quantity=1,
+            ),
+            FulfillmentLineData(
+                line=fulfillment_lines[1],
+                quantity=1,
+            ),
+        ]
+        refund_data = RefundData(
+            order_lines_to_refund=order_refund_lines,
+            fulfillment_lines_to_refund=current_fulfillment_refund_lines,
+        )
+    
+        # when
+&gt;       lines = create_refunded_lines(
+            fulfilled_order,
+            refund_data,
+        )
+
+saleor/payment/gateways/np_atobarai/tests/test_utils.py:322: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+order = &lt;Order #226&gt;
+payment_information = RefundData(order_lines_to_refund=[], fulfillment_lines_to_refund=[FulfillmentLineData(line=&lt;FulfillmentLine: Fulfillme...&lt;FulfillmentLine: FulfillmentLine object (365)&gt;, quantity=1, replace=False)], refund_shipping_costs=False, amount=None)
+
+    def create_refunded_lines(
+        order: Order,
+        payment_information: PaymentData,
+    ) -&gt; Dict[int, int]:
+        """Return all refunded product variants for specified order.
+    
+        Takes into account previous refunds and current refund mutation parameters.
+        :return: Dictionary of variant ids and refunded quantities.
+        """
+&gt;       assert payment_information.refund_data
+E       AttributeError: 'RefundData' object has no attribute 'refund_data'
+
+saleor/payment/gateways/np_atobarai/utils.py:80: AttributeError</failure></testcase><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_calculate_refund_amount[None-expected_manual_amount0]" time="0.021"><failure message="TypeError: unsupported operand type(s) for +: 'decimal.Decimal' and 'Mock'">order = &lt;Order #227&gt;, current_manual_refund_amount = None
+expected_manual_amount = Decimal('0.00')
+
+    @pytest.mark.parametrize(
+        "current_manual_refund_amount, expected_manual_amount",
+        [
+            (None, Decimal("0.00")),
+            (Decimal("0.00"), Decimal("0.00")),
+            (Decimal("12.34"), Decimal("12.34")),
+        ],
+    )
+    def test_calculate_refund_amount(
+        order,
+        current_manual_refund_amount,
+        expected_manual_amount,
+    ):
+        assert (
+&gt;           calculate_manual_refund_amount(order, Mock(amount=current_manual_refund_amount))
+            == expected_manual_amount
+        )
+
+saleor/payment/gateways/np_atobarai/tests/test_utils.py:356: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+order = &lt;Order #227&gt;, payment_information = &lt;Mock id='126945383532240'&gt;
+
+    def calculate_manual_refund_amount(
+        order: Order,
+        payment_information: PaymentData,
+    ) -&gt; Decimal:
+        """Return sum of all manual refunds for specified order.
+    
+        Takes into account previous refunds and current refund mutation amount.
+        """
+        assert payment_information.refund_data
+        if (
+            not payment_information.refund_data.amount
+            and payment_information.refund_data.refund_shipping_costs
+        ):
+            manual_amount_to_refund = payment_information.lines_data.shipping_amount
+        else:
+            manual_amount_to_refund = payment_information.refund_data.amount or Decimal(
+                "0.00"
+            )
+    
+        print(f"{payment_information.refund_data.amount = }")
+        print(f"{payment_information.refund_data.refund_shipping_costs = }")
+        print(f"{payment_information.lines_data.shipping_amount = }")
+        print(f"{manual_amount_to_refund = }")
+    
+        previous_manual_amount_to_refund = (
+            order.fulfillments.filter(
+                status__in=[
+                    FulfillmentStatus.REFUNDED,
+                    FulfillmentStatus.REFUNDED_AND_RETURNED,
+                ],
+                lines__order_line__variant_id__isnull=True,
+            ).aggregate(manual_amount=Sum("total_refund_amount"))["manual_amount"]
+            or Decimal("0.00")
+        )
+    
+&gt;       return previous_manual_amount_to_refund + manual_amount_to_refund
+E       TypeError: unsupported operand type(s) for +: 'decimal.Decimal' and 'Mock'
+
+saleor/payment/gateways/np_atobarai/utils.py:165: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_calculate_refund_amount[current_manual_refund_amount1-expected_manual_amount1]" time="0.020"><failure message="TypeError: unsupported operand type(s) for +: 'decimal.Decimal' and 'Mock'">order = &lt;Order #228&gt;, current_manual_refund_amount = Decimal('0.00')
+expected_manual_amount = Decimal('0.00')
+
+    @pytest.mark.parametrize(
+        "current_manual_refund_amount, expected_manual_amount",
+        [
+            (None, Decimal("0.00")),
+            (Decimal("0.00"), Decimal("0.00")),
+            (Decimal("12.34"), Decimal("12.34")),
+        ],
+    )
+    def test_calculate_refund_amount(
+        order,
+        current_manual_refund_amount,
+        expected_manual_amount,
+    ):
+        assert (
+&gt;           calculate_manual_refund_amount(order, Mock(amount=current_manual_refund_amount))
+            == expected_manual_amount
+        )
+
+saleor/payment/gateways/np_atobarai/tests/test_utils.py:356: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+order = &lt;Order #228&gt;, payment_information = &lt;Mock id='126945383928736'&gt;
+
+    def calculate_manual_refund_amount(
+        order: Order,
+        payment_information: PaymentData,
+    ) -&gt; Decimal:
+        """Return sum of all manual refunds for specified order.
+    
+        Takes into account previous refunds and current refund mutation amount.
+        """
+        assert payment_information.refund_data
+        if (
+            not payment_information.refund_data.amount
+            and payment_information.refund_data.refund_shipping_costs
+        ):
+            manual_amount_to_refund = payment_information.lines_data.shipping_amount
+        else:
+            manual_amount_to_refund = payment_information.refund_data.amount or Decimal(
+                "0.00"
+            )
+    
+        print(f"{payment_information.refund_data.amount = }")
+        print(f"{payment_information.refund_data.refund_shipping_costs = }")
+        print(f"{payment_information.lines_data.shipping_amount = }")
+        print(f"{manual_amount_to_refund = }")
+    
+        previous_manual_amount_to_refund = (
+            order.fulfillments.filter(
+                status__in=[
+                    FulfillmentStatus.REFUNDED,
+                    FulfillmentStatus.REFUNDED_AND_RETURNED,
+                ],
+                lines__order_line__variant_id__isnull=True,
+            ).aggregate(manual_amount=Sum("total_refund_amount"))["manual_amount"]
+            or Decimal("0.00")
+        )
+    
+&gt;       return previous_manual_amount_to_refund + manual_amount_to_refund
+E       TypeError: unsupported operand type(s) for +: 'decimal.Decimal' and 'Mock'
+
+saleor/payment/gateways/np_atobarai/utils.py:165: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_calculate_refund_amount[current_manual_refund_amount2-expected_manual_amount2]" time="0.020"><failure message="TypeError: unsupported operand type(s) for +: 'decimal.Decimal' and 'Mock'">order = &lt;Order #229&gt;, current_manual_refund_amount = Decimal('12.34')
+expected_manual_amount = Decimal('12.34')
+
+    @pytest.mark.parametrize(
+        "current_manual_refund_amount, expected_manual_amount",
+        [
+            (None, Decimal("0.00")),
+            (Decimal("0.00"), Decimal("0.00")),
+            (Decimal("12.34"), Decimal("12.34")),
+        ],
+    )
+    def test_calculate_refund_amount(
+        order,
+        current_manual_refund_amount,
+        expected_manual_amount,
+    ):
+        assert (
+&gt;           calculate_manual_refund_amount(order, Mock(amount=current_manual_refund_amount))
+            == expected_manual_amount
+        )
+
+saleor/payment/gateways/np_atobarai/tests/test_utils.py:356: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+order = &lt;Order #229&gt;, payment_information = &lt;Mock id='126945383582448'&gt;
+
+    def calculate_manual_refund_amount(
+        order: Order,
+        payment_information: PaymentData,
+    ) -&gt; Decimal:
+        """Return sum of all manual refunds for specified order.
+    
+        Takes into account previous refunds and current refund mutation amount.
+        """
+        assert payment_information.refund_data
+        if (
+            not payment_information.refund_data.amount
+            and payment_information.refund_data.refund_shipping_costs
+        ):
+            manual_amount_to_refund = payment_information.lines_data.shipping_amount
+        else:
+            manual_amount_to_refund = payment_information.refund_data.amount or Decimal(
+                "0.00"
+            )
+    
+        print(f"{payment_information.refund_data.amount = }")
+        print(f"{payment_information.refund_data.refund_shipping_costs = }")
+        print(f"{payment_information.lines_data.shipping_amount = }")
+        print(f"{manual_amount_to_refund = }")
+    
+        previous_manual_amount_to_refund = (
+            order.fulfillments.filter(
+                status__in=[
+                    FulfillmentStatus.REFUNDED,
+                    FulfillmentStatus.REFUNDED_AND_RETURNED,
+                ],
+                lines__order_line__variant_id__isnull=True,
+            ).aggregate(manual_amount=Sum("total_refund_amount"))["manual_amount"]
+            or Decimal("0.00")
+        )
+    
+&gt;       return previous_manual_amount_to_refund + manual_amount_to_refund
+E       TypeError: unsupported operand type(s) for +: 'decimal.Decimal' and 'Mock'
+
+saleor/payment/gateways/np_atobarai/utils.py:165: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_calculate_manual_refund_amount_previously_refunded[None-None-False-expected_refund_amount0]" time="0.077"><failure message="TypeError: unsupported operand type(s) for +: 'decimal.Decimal' and 'Mock'">order = &lt;Order #230&gt;
+create_refund_fulfillment_helper = &lt;function create_refund_fulfillment_helper.&lt;locals&gt;.factory at 0x7374c67dd790&gt;
+previous_manual_refund_amount = None, current_refund_amount = None
+refund_shipping = False, expected_refund_amount = Decimal('0.00')
+
+    @pytest.mark.parametrize(
+        [
+            "previous_manual_refund_amount",
+            "current_refund_amount",
+            "refund_shipping",
+            "expected_refund_amount",
+        ],
+        [
+            (None, None, False, Decimal("0.00")),
+            (None, None, True, Decimal("12.30")),
+            (None, Decimal("8.00"), False, Decimal("8.00")),
+            (None, Decimal("8.00"), True, Decimal("20.30")),
+            (Decimal("5.00"), None, False, Decimal("5.00")),
+            (Decimal("5.00"), None, True, Decimal("17.30")),
+            (Decimal("5.00"), Decimal("8.00"), False, Decimal("13.00")),
+            (Decimal("5.00"), Decimal("8.00"), True, Decimal("25.30")),
+        ],
+    )
+    def test_calculate_manual_refund_amount_previously_refunded(
+        order,
+        create_refund_fulfillment_helper,
+        previous_manual_refund_amount,
+        current_refund_amount,
+        refund_shipping,
+        expected_refund_amount,
+    ):
+        # given
+        if previous_manual_refund_amount:
+            create_refund_fulfillment_helper(
+                order, manual_refund_amount=previous_manual_refund_amount
+            )
+        if refund_shipping:
+            create_refund_fulfillment_helper(
+                order,
+                refund_shipping_costs=refund_shipping,
+            )
+    
+        # when
+&gt;       refund_amount = calculate_manual_refund_amount(
+            order, Mock(amount=current_refund_amount)
+        )
+
+saleor/payment/gateways/np_atobarai/tests/test_utils.py:399: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+order = &lt;Order #230&gt;, payment_information = &lt;Mock id='126945383751296'&gt;
+
+    def calculate_manual_refund_amount(
+        order: Order,
+        payment_information: PaymentData,
+    ) -&gt; Decimal:
+        """Return sum of all manual refunds for specified order.
+    
+        Takes into account previous refunds and current refund mutation amount.
+        """
+        assert payment_information.refund_data
+        if (
+            not payment_information.refund_data.amount
+            and payment_information.refund_data.refund_shipping_costs
+        ):
+            manual_amount_to_refund = payment_information.lines_data.shipping_amount
+        else:
+            manual_amount_to_refund = payment_information.refund_data.amount or Decimal(
+                "0.00"
+            )
+    
+        print(f"{payment_information.refund_data.amount = }")
+        print(f"{payment_information.refund_data.refund_shipping_costs = }")
+        print(f"{payment_information.lines_data.shipping_amount = }")
+        print(f"{manual_amount_to_refund = }")
+    
+        previous_manual_amount_to_refund = (
+            order.fulfillments.filter(
+                status__in=[
+                    FulfillmentStatus.REFUNDED,
+                    FulfillmentStatus.REFUNDED_AND_RETURNED,
+                ],
+                lines__order_line__variant_id__isnull=True,
+            ).aggregate(manual_amount=Sum("total_refund_amount"))["manual_amount"]
+            or Decimal("0.00")
+        )
+    
+&gt;       return previous_manual_amount_to_refund + manual_amount_to_refund
+E       TypeError: unsupported operand type(s) for +: 'decimal.Decimal' and 'Mock'
+
+saleor/payment/gateways/np_atobarai/utils.py:165: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_calculate_manual_refund_amount_previously_refunded[None-None-True-expected_refund_amount1]" time="0.091"><failure message="TypeError: unsupported operand type(s) for +: 'decimal.Decimal' and 'Mock'">order = &lt;Order #231&gt;
+create_refund_fulfillment_helper = &lt;function create_refund_fulfillment_helper.&lt;locals&gt;.factory at 0x7374c67de160&gt;
+previous_manual_refund_amount = None, current_refund_amount = None
+refund_shipping = True, expected_refund_amount = Decimal('12.30')
+
+    @pytest.mark.parametrize(
+        [
+            "previous_manual_refund_amount",
+            "current_refund_amount",
+            "refund_shipping",
+            "expected_refund_amount",
+        ],
+        [
+            (None, None, False, Decimal("0.00")),
+            (None, None, True, Decimal("12.30")),
+            (None, Decimal("8.00"), False, Decimal("8.00")),
+            (None, Decimal("8.00"), True, Decimal("20.30")),
+            (Decimal("5.00"), None, False, Decimal("5.00")),
+            (Decimal("5.00"), None, True, Decimal("17.30")),
+            (Decimal("5.00"), Decimal("8.00"), False, Decimal("13.00")),
+            (Decimal("5.00"), Decimal("8.00"), True, Decimal("25.30")),
+        ],
+    )
+    def test_calculate_manual_refund_amount_previously_refunded(
+        order,
+        create_refund_fulfillment_helper,
+        previous_manual_refund_amount,
+        current_refund_amount,
+        refund_shipping,
+        expected_refund_amount,
+    ):
+        # given
+        if previous_manual_refund_amount:
+            create_refund_fulfillment_helper(
+                order, manual_refund_amount=previous_manual_refund_amount
+            )
+        if refund_shipping:
+            create_refund_fulfillment_helper(
+                order,
+                refund_shipping_costs=refund_shipping,
+            )
+    
+        # when
+&gt;       refund_amount = calculate_manual_refund_amount(
+            order, Mock(amount=current_refund_amount)
+        )
+
+saleor/payment/gateways/np_atobarai/tests/test_utils.py:399: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+order = &lt;Order #231&gt;, payment_information = &lt;Mock id='126945384906224'&gt;
+
+    def calculate_manual_refund_amount(
+        order: Order,
+        payment_information: PaymentData,
+    ) -&gt; Decimal:
+        """Return sum of all manual refunds for specified order.
+    
+        Takes into account previous refunds and current refund mutation amount.
+        """
+        assert payment_information.refund_data
+        if (
+            not payment_information.refund_data.amount
+            and payment_information.refund_data.refund_shipping_costs
+        ):
+            manual_amount_to_refund = payment_information.lines_data.shipping_amount
+        else:
+            manual_amount_to_refund = payment_information.refund_data.amount or Decimal(
+                "0.00"
+            )
+    
+        print(f"{payment_information.refund_data.amount = }")
+        print(f"{payment_information.refund_data.refund_shipping_costs = }")
+        print(f"{payment_information.lines_data.shipping_amount = }")
+        print(f"{manual_amount_to_refund = }")
+    
+        previous_manual_amount_to_refund = (
+            order.fulfillments.filter(
+                status__in=[
+                    FulfillmentStatus.REFUNDED,
+                    FulfillmentStatus.REFUNDED_AND_RETURNED,
+                ],
+                lines__order_line__variant_id__isnull=True,
+            ).aggregate(manual_amount=Sum("total_refund_amount"))["manual_amount"]
+            or Decimal("0.00")
+        )
+    
+&gt;       return previous_manual_amount_to_refund + manual_amount_to_refund
+E       TypeError: unsupported operand type(s) for +: 'decimal.Decimal' and 'Mock'
+
+saleor/payment/gateways/np_atobarai/utils.py:165: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_calculate_manual_refund_amount_previously_refunded[None-current_refund_amount2-False-expected_refund_amount2]" time="0.074"><failure message="TypeError: unsupported operand type(s) for +: 'decimal.Decimal' and 'Mock'">order = &lt;Order #232&gt;
+create_refund_fulfillment_helper = &lt;function create_refund_fulfillment_helper.&lt;locals&gt;.factory at 0x7374c67de9d0&gt;
+previous_manual_refund_amount = None, current_refund_amount = Decimal('8.00')
+refund_shipping = False, expected_refund_amount = Decimal('8.00')
+
+    @pytest.mark.parametrize(
+        [
+            "previous_manual_refund_amount",
+            "current_refund_amount",
+            "refund_shipping",
+            "expected_refund_amount",
+        ],
+        [
+            (None, None, False, Decimal("0.00")),
+            (None, None, True, Decimal("12.30")),
+            (None, Decimal("8.00"), False, Decimal("8.00")),
+            (None, Decimal("8.00"), True, Decimal("20.30")),
+            (Decimal("5.00"), None, False, Decimal("5.00")),
+            (Decimal("5.00"), None, True, Decimal("17.30")),
+            (Decimal("5.00"), Decimal("8.00"), False, Decimal("13.00")),
+            (Decimal("5.00"), Decimal("8.00"), True, Decimal("25.30")),
+        ],
+    )
+    def test_calculate_manual_refund_amount_previously_refunded(
+        order,
+        create_refund_fulfillment_helper,
+        previous_manual_refund_amount,
+        current_refund_amount,
+        refund_shipping,
+        expected_refund_amount,
+    ):
+        # given
+        if previous_manual_refund_amount:
+            create_refund_fulfillment_helper(
+                order, manual_refund_amount=previous_manual_refund_amount
+            )
+        if refund_shipping:
+            create_refund_fulfillment_helper(
+                order,
+                refund_shipping_costs=refund_shipping,
+            )
+    
+        # when
+&gt;       refund_amount = calculate_manual_refund_amount(
+            order, Mock(amount=current_refund_amount)
+        )
+
+saleor/payment/gateways/np_atobarai/tests/test_utils.py:399: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+order = &lt;Order #232&gt;, payment_information = &lt;Mock id='126945384902720'&gt;
+
+    def calculate_manual_refund_amount(
+        order: Order,
+        payment_information: PaymentData,
+    ) -&gt; Decimal:
+        """Return sum of all manual refunds for specified order.
+    
+        Takes into account previous refunds and current refund mutation amount.
+        """
+        assert payment_information.refund_data
+        if (
+            not payment_information.refund_data.amount
+            and payment_information.refund_data.refund_shipping_costs
+        ):
+            manual_amount_to_refund = payment_information.lines_data.shipping_amount
+        else:
+            manual_amount_to_refund = payment_information.refund_data.amount or Decimal(
+                "0.00"
+            )
+    
+        print(f"{payment_information.refund_data.amount = }")
+        print(f"{payment_information.refund_data.refund_shipping_costs = }")
+        print(f"{payment_information.lines_data.shipping_amount = }")
+        print(f"{manual_amount_to_refund = }")
+    
+        previous_manual_amount_to_refund = (
+            order.fulfillments.filter(
+                status__in=[
+                    FulfillmentStatus.REFUNDED,
+                    FulfillmentStatus.REFUNDED_AND_RETURNED,
+                ],
+                lines__order_line__variant_id__isnull=True,
+            ).aggregate(manual_amount=Sum("total_refund_amount"))["manual_amount"]
+            or Decimal("0.00")
+        )
+    
+&gt;       return previous_manual_amount_to_refund + manual_amount_to_refund
+E       TypeError: unsupported operand type(s) for +: 'decimal.Decimal' and 'Mock'
+
+saleor/payment/gateways/np_atobarai/utils.py:165: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_calculate_manual_refund_amount_previously_refunded[None-current_refund_amount3-True-expected_refund_amount3]" time="0.082"><failure message="TypeError: unsupported operand type(s) for +: 'decimal.Decimal' and 'Mock'">order = &lt;Order #233&gt;
+create_refund_fulfillment_helper = &lt;function create_refund_fulfillment_helper.&lt;locals&gt;.factory at 0x7374c68090d0&gt;
+previous_manual_refund_amount = None, current_refund_amount = Decimal('8.00')
+refund_shipping = True, expected_refund_amount = Decimal('20.30')
+
+    @pytest.mark.parametrize(
+        [
+            "previous_manual_refund_amount",
+            "current_refund_amount",
+            "refund_shipping",
+            "expected_refund_amount",
+        ],
+        [
+            (None, None, False, Decimal("0.00")),
+            (None, None, True, Decimal("12.30")),
+            (None, Decimal("8.00"), False, Decimal("8.00")),
+            (None, Decimal("8.00"), True, Decimal("20.30")),
+            (Decimal("5.00"), None, False, Decimal("5.00")),
+            (Decimal("5.00"), None, True, Decimal("17.30")),
+            (Decimal("5.00"), Decimal("8.00"), False, Decimal("13.00")),
+            (Decimal("5.00"), Decimal("8.00"), True, Decimal("25.30")),
+        ],
+    )
+    def test_calculate_manual_refund_amount_previously_refunded(
+        order,
+        create_refund_fulfillment_helper,
+        previous_manual_refund_amount,
+        current_refund_amount,
+        refund_shipping,
+        expected_refund_amount,
+    ):
+        # given
+        if previous_manual_refund_amount:
+            create_refund_fulfillment_helper(
+                order, manual_refund_amount=previous_manual_refund_amount
+            )
+        if refund_shipping:
+            create_refund_fulfillment_helper(
+                order,
+                refund_shipping_costs=refund_shipping,
+            )
+    
+        # when
+&gt;       refund_amount = calculate_manual_refund_amount(
+            order, Mock(amount=current_refund_amount)
+        )
+
+saleor/payment/gateways/np_atobarai/tests/test_utils.py:399: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+order = &lt;Order #233&gt;, payment_information = &lt;Mock id='126945383533872'&gt;
+
+    def calculate_manual_refund_amount(
+        order: Order,
+        payment_information: PaymentData,
+    ) -&gt; Decimal:
+        """Return sum of all manual refunds for specified order.
+    
+        Takes into account previous refunds and current refund mutation amount.
+        """
+        assert payment_information.refund_data
+        if (
+            not payment_information.refund_data.amount
+            and payment_information.refund_data.refund_shipping_costs
+        ):
+            manual_amount_to_refund = payment_information.lines_data.shipping_amount
+        else:
+            manual_amount_to_refund = payment_information.refund_data.amount or Decimal(
+                "0.00"
+            )
+    
+        print(f"{payment_information.refund_data.amount = }")
+        print(f"{payment_information.refund_data.refund_shipping_costs = }")
+        print(f"{payment_information.lines_data.shipping_amount = }")
+        print(f"{manual_amount_to_refund = }")
+    
+        previous_manual_amount_to_refund = (
+            order.fulfillments.filter(
+                status__in=[
+                    FulfillmentStatus.REFUNDED,
+                    FulfillmentStatus.REFUNDED_AND_RETURNED,
+                ],
+                lines__order_line__variant_id__isnull=True,
+            ).aggregate(manual_amount=Sum("total_refund_amount"))["manual_amount"]
+            or Decimal("0.00")
+        )
+    
+&gt;       return previous_manual_amount_to_refund + manual_amount_to_refund
+E       TypeError: unsupported operand type(s) for +: 'decimal.Decimal' and 'Mock'
+
+saleor/payment/gateways/np_atobarai/utils.py:165: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_calculate_manual_refund_amount_previously_refunded[previous_manual_refund_amount4-None-False-expected_refund_amount4]" time="0.084"><failure message="TypeError: unsupported operand type(s) for +: 'decimal.Decimal' and 'Mock'">order = &lt;Order #234&gt;
+create_refund_fulfillment_helper = &lt;function create_refund_fulfillment_helper.&lt;locals&gt;.factory at 0x7374c6809790&gt;
+previous_manual_refund_amount = Decimal('5.00'), current_refund_amount = None
+refund_shipping = False, expected_refund_amount = Decimal('5.00')
+
+    @pytest.mark.parametrize(
+        [
+            "previous_manual_refund_amount",
+            "current_refund_amount",
+            "refund_shipping",
+            "expected_refund_amount",
+        ],
+        [
+            (None, None, False, Decimal("0.00")),
+            (None, None, True, Decimal("12.30")),
+            (None, Decimal("8.00"), False, Decimal("8.00")),
+            (None, Decimal("8.00"), True, Decimal("20.30")),
+            (Decimal("5.00"), None, False, Decimal("5.00")),
+            (Decimal("5.00"), None, True, Decimal("17.30")),
+            (Decimal("5.00"), Decimal("8.00"), False, Decimal("13.00")),
+            (Decimal("5.00"), Decimal("8.00"), True, Decimal("25.30")),
+        ],
+    )
+    def test_calculate_manual_refund_amount_previously_refunded(
+        order,
+        create_refund_fulfillment_helper,
+        previous_manual_refund_amount,
+        current_refund_amount,
+        refund_shipping,
+        expected_refund_amount,
+    ):
+        # given
+        if previous_manual_refund_amount:
+            create_refund_fulfillment_helper(
+                order, manual_refund_amount=previous_manual_refund_amount
+            )
+        if refund_shipping:
+            create_refund_fulfillment_helper(
+                order,
+                refund_shipping_costs=refund_shipping,
+            )
+    
+        # when
+&gt;       refund_amount = calculate_manual_refund_amount(
+            order, Mock(amount=current_refund_amount)
+        )
+
+saleor/payment/gateways/np_atobarai/tests/test_utils.py:399: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+order = &lt;Order #234&gt;, payment_information = &lt;Mock id='126945383512960'&gt;
+
+    def calculate_manual_refund_amount(
+        order: Order,
+        payment_information: PaymentData,
+    ) -&gt; Decimal:
+        """Return sum of all manual refunds for specified order.
+    
+        Takes into account previous refunds and current refund mutation amount.
+        """
+        assert payment_information.refund_data
+        if (
+            not payment_information.refund_data.amount
+            and payment_information.refund_data.refund_shipping_costs
+        ):
+            manual_amount_to_refund = payment_information.lines_data.shipping_amount
+        else:
+            manual_amount_to_refund = payment_information.refund_data.amount or Decimal(
+                "0.00"
+            )
+    
+        print(f"{payment_information.refund_data.amount = }")
+        print(f"{payment_information.refund_data.refund_shipping_costs = }")
+        print(f"{payment_information.lines_data.shipping_amount = }")
+        print(f"{manual_amount_to_refund = }")
+    
+        previous_manual_amount_to_refund = (
+            order.fulfillments.filter(
+                status__in=[
+                    FulfillmentStatus.REFUNDED,
+                    FulfillmentStatus.REFUNDED_AND_RETURNED,
+                ],
+                lines__order_line__variant_id__isnull=True,
+            ).aggregate(manual_amount=Sum("total_refund_amount"))["manual_amount"]
+            or Decimal("0.00")
+        )
+    
+&gt;       return previous_manual_amount_to_refund + manual_amount_to_refund
+E       TypeError: unsupported operand type(s) for +: 'decimal.Decimal' and 'Mock'
+
+saleor/payment/gateways/np_atobarai/utils.py:165: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_calculate_manual_refund_amount_previously_refunded[previous_manual_refund_amount5-None-True-expected_refund_amount5]" time="0.091"><failure message="TypeError: unsupported operand type(s) for +: 'decimal.Decimal' and 'Mock'">order = &lt;Order #235&gt;
+create_refund_fulfillment_helper = &lt;function create_refund_fulfillment_helper.&lt;locals&gt;.factory at 0x7374c6809d30&gt;
+previous_manual_refund_amount = Decimal('5.00'), current_refund_amount = None
+refund_shipping = True, expected_refund_amount = Decimal('17.30')
+
+    @pytest.mark.parametrize(
+        [
+            "previous_manual_refund_amount",
+            "current_refund_amount",
+            "refund_shipping",
+            "expected_refund_amount",
+        ],
+        [
+            (None, None, False, Decimal("0.00")),
+            (None, None, True, Decimal("12.30")),
+            (None, Decimal("8.00"), False, Decimal("8.00")),
+            (None, Decimal("8.00"), True, Decimal("20.30")),
+            (Decimal("5.00"), None, False, Decimal("5.00")),
+            (Decimal("5.00"), None, True, Decimal("17.30")),
+            (Decimal("5.00"), Decimal("8.00"), False, Decimal("13.00")),
+            (Decimal("5.00"), Decimal("8.00"), True, Decimal("25.30")),
+        ],
+    )
+    def test_calculate_manual_refund_amount_previously_refunded(
+        order,
+        create_refund_fulfillment_helper,
+        previous_manual_refund_amount,
+        current_refund_amount,
+        refund_shipping,
+        expected_refund_amount,
+    ):
+        # given
+        if previous_manual_refund_amount:
+            create_refund_fulfillment_helper(
+                order, manual_refund_amount=previous_manual_refund_amount
+            )
+        if refund_shipping:
+            create_refund_fulfillment_helper(
+                order,
+                refund_shipping_costs=refund_shipping,
+            )
+    
+        # when
+&gt;       refund_amount = calculate_manual_refund_amount(
+            order, Mock(amount=current_refund_amount)
+        )
+
+saleor/payment/gateways/np_atobarai/tests/test_utils.py:399: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+order = &lt;Order #235&gt;, payment_information = &lt;Mock id='126945383629824'&gt;
+
+    def calculate_manual_refund_amount(
+        order: Order,
+        payment_information: PaymentData,
+    ) -&gt; Decimal:
+        """Return sum of all manual refunds for specified order.
+    
+        Takes into account previous refunds and current refund mutation amount.
+        """
+        assert payment_information.refund_data
+        if (
+            not payment_information.refund_data.amount
+            and payment_information.refund_data.refund_shipping_costs
+        ):
+            manual_amount_to_refund = payment_information.lines_data.shipping_amount
+        else:
+            manual_amount_to_refund = payment_information.refund_data.amount or Decimal(
+                "0.00"
+            )
+    
+        print(f"{payment_information.refund_data.amount = }")
+        print(f"{payment_information.refund_data.refund_shipping_costs = }")
+        print(f"{payment_information.lines_data.shipping_amount = }")
+        print(f"{manual_amount_to_refund = }")
+    
+        previous_manual_amount_to_refund = (
+            order.fulfillments.filter(
+                status__in=[
+                    FulfillmentStatus.REFUNDED,
+                    FulfillmentStatus.REFUNDED_AND_RETURNED,
+                ],
+                lines__order_line__variant_id__isnull=True,
+            ).aggregate(manual_amount=Sum("total_refund_amount"))["manual_amount"]
+            or Decimal("0.00")
+        )
+    
+&gt;       return previous_manual_amount_to_refund + manual_amount_to_refund
+E       TypeError: unsupported operand type(s) for +: 'decimal.Decimal' and 'Mock'
+
+saleor/payment/gateways/np_atobarai/utils.py:165: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_calculate_manual_refund_amount_previously_refunded[previous_manual_refund_amount6-current_refund_amount6-False-expected_refund_amount6]" time="0.085"><failure message="TypeError: unsupported operand type(s) for +: 'decimal.Decimal' and 'Mock'">order = &lt;Order #236&gt;
+create_refund_fulfillment_helper = &lt;function create_refund_fulfillment_helper.&lt;locals&gt;.factory at 0x7374c67cf700&gt;
+previous_manual_refund_amount = Decimal('5.00')
+current_refund_amount = Decimal('8.00'), refund_shipping = False
+expected_refund_amount = Decimal('13.00')
+
+    @pytest.mark.parametrize(
+        [
+            "previous_manual_refund_amount",
+            "current_refund_amount",
+            "refund_shipping",
+            "expected_refund_amount",
+        ],
+        [
+            (None, None, False, Decimal("0.00")),
+            (None, None, True, Decimal("12.30")),
+            (None, Decimal("8.00"), False, Decimal("8.00")),
+            (None, Decimal("8.00"), True, Decimal("20.30")),
+            (Decimal("5.00"), None, False, Decimal("5.00")),
+            (Decimal("5.00"), None, True, Decimal("17.30")),
+            (Decimal("5.00"), Decimal("8.00"), False, Decimal("13.00")),
+            (Decimal("5.00"), Decimal("8.00"), True, Decimal("25.30")),
+        ],
+    )
+    def test_calculate_manual_refund_amount_previously_refunded(
+        order,
+        create_refund_fulfillment_helper,
+        previous_manual_refund_amount,
+        current_refund_amount,
+        refund_shipping,
+        expected_refund_amount,
+    ):
+        # given
+        if previous_manual_refund_amount:
+            create_refund_fulfillment_helper(
+                order, manual_refund_amount=previous_manual_refund_amount
+            )
+        if refund_shipping:
+            create_refund_fulfillment_helper(
+                order,
+                refund_shipping_costs=refund_shipping,
+            )
+    
+        # when
+&gt;       refund_amount = calculate_manual_refund_amount(
+            order, Mock(amount=current_refund_amount)
+        )
+
+saleor/payment/gateways/np_atobarai/tests/test_utils.py:399: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+order = &lt;Order #236&gt;, payment_information = &lt;Mock id='126945383124944'&gt;
+
+    def calculate_manual_refund_amount(
+        order: Order,
+        payment_information: PaymentData,
+    ) -&gt; Decimal:
+        """Return sum of all manual refunds for specified order.
+    
+        Takes into account previous refunds and current refund mutation amount.
+        """
+        assert payment_information.refund_data
+        if (
+            not payment_information.refund_data.amount
+            and payment_information.refund_data.refund_shipping_costs
+        ):
+            manual_amount_to_refund = payment_information.lines_data.shipping_amount
+        else:
+            manual_amount_to_refund = payment_information.refund_data.amount or Decimal(
+                "0.00"
+            )
+    
+        print(f"{payment_information.refund_data.amount = }")
+        print(f"{payment_information.refund_data.refund_shipping_costs = }")
+        print(f"{payment_information.lines_data.shipping_amount = }")
+        print(f"{manual_amount_to_refund = }")
+    
+        previous_manual_amount_to_refund = (
+            order.fulfillments.filter(
+                status__in=[
+                    FulfillmentStatus.REFUNDED,
+                    FulfillmentStatus.REFUNDED_AND_RETURNED,
+                ],
+                lines__order_line__variant_id__isnull=True,
+            ).aggregate(manual_amount=Sum("total_refund_amount"))["manual_amount"]
+            or Decimal("0.00")
+        )
+    
+&gt;       return previous_manual_amount_to_refund + manual_amount_to_refund
+E       TypeError: unsupported operand type(s) for +: 'decimal.Decimal' and 'Mock'
+
+saleor/payment/gateways/np_atobarai/utils.py:165: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_calculate_manual_refund_amount_previously_refunded[previous_manual_refund_amount7-current_refund_amount7-True-expected_refund_amount7]" time="0.095"><failure message="TypeError: unsupported operand type(s) for +: 'decimal.Decimal' and 'Mock'">order = &lt;Order #237&gt;
+create_refund_fulfillment_helper = &lt;function create_refund_fulfillment_helper.&lt;locals&gt;.factory at 0x7374c67cf820&gt;
+previous_manual_refund_amount = Decimal('5.00')
+current_refund_amount = Decimal('8.00'), refund_shipping = True
+expected_refund_amount = Decimal('25.30')
+
+    @pytest.mark.parametrize(
+        [
+            "previous_manual_refund_amount",
+            "current_refund_amount",
+            "refund_shipping",
+            "expected_refund_amount",
+        ],
+        [
+            (None, None, False, Decimal("0.00")),
+            (None, None, True, Decimal("12.30")),
+            (None, Decimal("8.00"), False, Decimal("8.00")),
+            (None, Decimal("8.00"), True, Decimal("20.30")),
+            (Decimal("5.00"), None, False, Decimal("5.00")),
+            (Decimal("5.00"), None, True, Decimal("17.30")),
+            (Decimal("5.00"), Decimal("8.00"), False, Decimal("13.00")),
+            (Decimal("5.00"), Decimal("8.00"), True, Decimal("25.30")),
+        ],
+    )
+    def test_calculate_manual_refund_amount_previously_refunded(
+        order,
+        create_refund_fulfillment_helper,
+        previous_manual_refund_amount,
+        current_refund_amount,
+        refund_shipping,
+        expected_refund_amount,
+    ):
+        # given
+        if previous_manual_refund_amount:
+            create_refund_fulfillment_helper(
+                order, manual_refund_amount=previous_manual_refund_amount
+            )
+        if refund_shipping:
+            create_refund_fulfillment_helper(
+                order,
+                refund_shipping_costs=refund_shipping,
+            )
+    
+        # when
+&gt;       refund_amount = calculate_manual_refund_amount(
+            order, Mock(amount=current_refund_amount)
+        )
+
+saleor/payment/gateways/np_atobarai/tests/test_utils.py:399: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+order = &lt;Order #237&gt;, payment_information = &lt;Mock id='126945383579760'&gt;
+
+    def calculate_manual_refund_amount(
+        order: Order,
+        payment_information: PaymentData,
+    ) -&gt; Decimal:
+        """Return sum of all manual refunds for specified order.
+    
+        Takes into account previous refunds and current refund mutation amount.
+        """
+        assert payment_information.refund_data
+        if (
+            not payment_information.refund_data.amount
+            and payment_information.refund_data.refund_shipping_costs
+        ):
+            manual_amount_to_refund = payment_information.lines_data.shipping_amount
+        else:
+            manual_amount_to_refund = payment_information.refund_data.amount or Decimal(
+                "0.00"
+            )
+    
+        print(f"{payment_information.refund_data.amount = }")
+        print(f"{payment_information.refund_data.refund_shipping_costs = }")
+        print(f"{payment_information.lines_data.shipping_amount = }")
+        print(f"{manual_amount_to_refund = }")
+    
+        previous_manual_amount_to_refund = (
+            order.fulfillments.filter(
+                status__in=[
+                    FulfillmentStatus.REFUNDED,
+                    FulfillmentStatus.REFUNDED_AND_RETURNED,
+                ],
+                lines__order_line__variant_id__isnull=True,
+            ).aggregate(manual_amount=Sum("total_refund_amount"))["manual_amount"]
+            or Decimal("0.00")
+        )
+    
+&gt;       return previous_manual_amount_to_refund + manual_amount_to_refund
+E       TypeError: unsupported operand type(s) for +: 'decimal.Decimal' and 'Mock'
+
+saleor/payment/gateways/np_atobarai/utils.py:165: TypeError</failure></testcase></testsuite></testsuites>

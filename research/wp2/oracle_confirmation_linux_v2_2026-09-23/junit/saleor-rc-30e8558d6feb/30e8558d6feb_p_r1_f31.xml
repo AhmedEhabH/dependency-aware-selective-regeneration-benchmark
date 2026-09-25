@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="8" time="3.033" timestamp="2026-09-24T16:04:43.353302" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.warehouse.tests.queries.test_warehouse" name="test_warehouse_query" time="1.738" /><testcase classname="saleor.graphql.warehouse.tests.queries.test_warehouse" name="test_warehouse_query_as_staff_with_manage_orders" time="0.151" /><testcase classname="saleor.graphql.warehouse.tests.queries.test_warehouse" name="test_warehouse_query_as_staff_with_manage_shipping" time="0.150" /><testcase classname="saleor.graphql.warehouse.tests.queries.test_warehouse" name="test_warehouse_query_as_staff_with_manage_apps" time="0.140" /><testcase classname="saleor.graphql.warehouse.tests.queries.test_warehouse" name="test_warehouse_query_as_customer" time="0.127" /><testcase classname="saleor.graphql.warehouse.tests.queries.test_warehouse" name="test_staff_query_warehouse_by_invalid_id" time="0.139"><failure message="assert &quot;Couldn't resolve id: bh/.&quot; == 'Invalid ID: ...d: Warehouse.'&#10;  - Invalid ID: bh/. Expected: Warehouse.&#10;  + Couldn't resolve id: bh/.">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x749fb1492d00&gt;
+warehouse = &lt;Warehouse: Example Warehouse&gt;
+permission_manage_shipping = &lt;Permission: shipping | shipping zone | Manage shipping.&gt;
+
+    def test_staff_query_warehouse_by_invalid_id(
+        staff_api_client, warehouse, permission_manage_shipping
+    ):
+        # given
+        id = "bh/"
+        variables = {"id": id}
+    
+        # when
+        response = staff_api_client.post_graphql(
+            QUERY_WAREHOUSE, variables, permissions=[permission_manage_shipping]
+        )
+    
+        # then
+        content = get_graphql_content_from_response(response)
+        assert len(content["errors"]) == 1
+&gt;       assert content["errors"][0]["message"] == f"Invalid ID: {id}. Expected: Warehouse."
+E       assert "Couldn't resolve id: bh/." == 'Invalid ID: ...d: Warehouse.'
+E         - Invalid ID: bh/. Expected: Warehouse.
+E         + Couldn't resolve id: bh/.
+
+saleor/graphql/warehouse/tests/queries/test_warehouse.py:181: AssertionError</failure></testcase><testcase classname="saleor.graphql.warehouse.tests.queries.test_warehouse" name="test_staff_query_warehouse_with_invalid_object_type" time="0.142" /><testcase classname="saleor.graphql.warehouse.tests.queries.test_warehouse" name="test_warehouse_query_by_external_reference" time="0.135" /></testsuite></testsuites>

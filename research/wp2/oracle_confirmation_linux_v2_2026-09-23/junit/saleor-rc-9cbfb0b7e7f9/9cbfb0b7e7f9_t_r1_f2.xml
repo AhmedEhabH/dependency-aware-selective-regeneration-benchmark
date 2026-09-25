@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="40" time="4.735" timestamp="2026-09-24T20:16:41.481588-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.plugins.openid_connect.tests.test_utils" name="test_fetch_jwks_raises_error[error0]" time="2.284" /><testcase classname="saleor.plugins.openid_connect.tests.test_utils" name="test_fetch_jwks_raises_error[error1]" time="0.023" /><testcase classname="saleor.plugins.openid_connect.tests.test_utils" name="test_fetch_jwks" time="0.054"><failure message="pytest_socket.SocketBlockedError: A test tried to use socket.socket.">mocked_cache_set = &lt;MagicMock name='set' id='137045647416144'&gt;
+
+    @pytest.mark.vcr
+    @mock.patch("saleor.plugins.openid_connect.utils.cache.set")
+    def test_fetch_jwks(mocked_cache_set):
+        jwks_url = "https://saleor.io/.well-known/jwks.json"
+&gt;       keys = fetch_jwks(jwks_url)
+
+saleor/plugins/openid_connect/tests/test_utils.py:67: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/plugins/openid_connect/utils.py:70: in fetch_jwks
+    response = requests.get(
+/opt/venv/lib/python3.9/site-packages/requests/api.py:73: in get
+    return request("get", url, params=params, **kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/api.py:59: in request
+    return session.request(method=method, url=url, **kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/sessions.py:589: in request
+    resp = self.send(prep, **send_kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/sessions.py:703: in send
+    r = adapter.send(request, **kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/adapters.py:486: in send
+    resp = conn.urlopen(
+/opt/venv/lib/python3.9/site-packages/urllib3/connectionpool.py:714: in urlopen
+    httplib_response = self._make_request(
+/opt/venv/lib/python3.9/site-packages/urllib3/connectionpool.py:403: in _make_request
+    self._validate_conn(conn)
+/opt/venv/lib/python3.9/site-packages/urllib3/connectionpool.py:1053: in _validate_conn
+    conn.connect()
+/opt/venv/lib/python3.9/site-packages/urllib3/connection.py:363: in connect
+    self.sock = conn = self._new_conn()
+/opt/venv/lib/python3.9/site-packages/urllib3/connection.py:174: in _new_conn
+    conn = connection.create_connection(
+/opt/venv/lib/python3.9/site-packages/urllib3/util/connection.py:76: in create_connection
+    sock = socket.socket(af, socktype, proto)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = &lt;class 'pytest_socket.disable_socket.&lt;locals&gt;.GuardedSocket'&gt;
+family = &lt;AddressFamily.AF_INET: 2&gt;, type = &lt;SocketKind.SOCK_STREAM: 1&gt;
+proto = 6, fileno = None
+
+    def __new__(cls, family=-1, type=-1, proto=-1, fileno=None):
+        if _is_unix_socket(family) and allow_unix_socket:
+            return super().__new__(cls, family, type, proto, fileno)
+    
+&gt;       raise SocketBlockedError()
+E       pytest_socket.SocketBlockedError: A test tried to use socket.socket.
+
+/opt/venv/lib/python3.9/site-packages/pytest_socket.py:89: SocketBlockedError</failure></testcase><testcase classname="saleor.plugins.openid_connect.tests.test_utils" name="test_get_or_create_user_from_token_missing_email" time="0.029" /><testcase classname="saleor.plugins.openid_connect.tests.test_utils" name="test_get_or_create_user_from_token_user_not_active" time="0.061" /><testcase classname="saleor.plugins.openid_connect.tests.test_utils" name="test_get_user_from_token_missing_email" time="0.021" /><testcase classname="saleor.plugins.openid_connect.tests.test_utils" name="test_get_user_from_token_missing_user" time="0.023" /><testcase classname="saleor.plugins.openid_connect.tests.test_utils" name="test_get_user_from_token_user_not_active" time="0.024" /><testcase classname="saleor.plugins.openid_connect.tests.test_utils" name="test_create_tokens_from_oauth_payload" time="0.394" /><testcase classname="saleor.plugins.openid_connect.tests.test_utils" name="test_validate_refresh_token_missing_csrf_token" time="0.122" /><testcase classname="saleor.plugins.openid_connect.tests.test_utils" name="test_validate_refresh_token_missing_csrf_token_in_token_payload" time="0.081" /><testcase classname="saleor.plugins.openid_connect.tests.test_utils" name="test_validate_refresh_token_missing_token" time="0.025" /><testcase classname="saleor.plugins.openid_connect.tests.test_utils" name="test_get_saleor_permissions_from_scope" time="0.027" /><testcase classname="saleor.plugins.openid_connect.tests.test_utils" name="test_get_user_info_raises_decode_error" time="0.023" /><testcase classname="saleor.plugins.openid_connect.tests.test_utils" name="test_get_user_info_raises_http_error" time="0.018" /><testcase classname="saleor.plugins.openid_connect.tests.test_utils" name="test_get_or_create_user_from_payload_retrieve_user_by_sub" time="0.037" /><testcase classname="saleor.plugins.openid_connect.tests.test_utils" name="test_get_or_create_user_from_payload_updates_sub" time="0.031" /><testcase classname="saleor.plugins.openid_connect.tests.test_utils" name="test_get_or_create_user_from_payload_assigns_sub" time="0.029" /><testcase classname="saleor.plugins.openid_connect.tests.test_utils" name="test_get_or_create_user_from_payload_creates_user_with_sub" time="0.030" /><testcase classname="saleor.plugins.openid_connect.tests.test_utils" name="test_get_or_create_user_from_payload_match_orders_for_new_user" time="0.052" /><testcase classname="saleor.plugins.openid_connect.tests.test_utils" name="test_get_or_create_user_from_payload_match_orders_when_changing_email" time="0.052" /><testcase classname="saleor.plugins.openid_connect.tests.test_utils" name="test_get_or_create_user_from_payload_multiple_subs" time="0.034" /><testcase classname="saleor.plugins.openid_connect.tests.test_utils" name="test_get_or_create_user_from_payload_different_email" time="0.034" /><testcase classname="saleor.plugins.openid_connect.tests.test_utils" name="test_get_or_create_user_from_payload_with_last_login" time="0.069" /><testcase classname="saleor.plugins.openid_connect.tests.test_utils" name="test_get_or_create_user_from_payload_update_last_login" time="0.066" /><testcase classname="saleor.plugins.openid_connect.tests.test_utils" name="test_get_or_create_user_from_payload_last_login_stays_same" time="0.031" /><testcase classname="saleor.plugins.openid_connect.tests.test_utils" name="test_get_or_create_user_from_payload_last_login_modifies" time="0.032" /><testcase classname="saleor.plugins.openid_connect.tests.test_utils" name="test_jwt_token_without_expiration_claim" time="0.026" /><testcase classname="saleor.plugins.openid_connect.tests.test_utils" name="test_jwt_token_without_expiration_claim_mixed_permissions_from_group" time="0.049" /><testcase classname="saleor.plugins.openid_connect.tests.test_utils" name="test_jwt_token_without_expiration_claim_email_not_match_staff_user_domains" time="0.040" /><testcase classname="saleor.plugins.openid_connect.tests.test_utils" name="test_jwt_token_without_expiration_claim_default_channel_group" time="0.067" /><testcase classname="saleor.plugins.openid_connect.tests.test_utils" name="test_jwt_token_without_expiration_claim_with_existing_default_channel_group" time="0.050" /><testcase classname="saleor.plugins.openid_connect.tests.test_utils" name="test_jwt_token_without_expiration_claim_empty_default_channel_group[  ]" time="0.032" /><testcase classname="saleor.plugins.openid_connect.tests.test_utils" name="test_jwt_token_without_expiration_claim_empty_default_channel_group[]" time="0.034" /><testcase classname="saleor.plugins.openid_connect.tests.test_utils" name="test_get_domain_from_email[test@example.com-example.com]" time="0.019" /><testcase classname="saleor.plugins.openid_connect.tests.test_utils" name="test_get_domain_from_email[ABCd-None]" time="0.022" /><testcase classname="saleor.plugins.openid_connect.tests.test_utils" name="test_get_domain_from_email[-None]" time="0.017" /><testcase classname="saleor.plugins.openid_connect.tests.test_utils" name="test_get_domain_from_email[test.test-None]" time="0.022" /><testcase classname="saleor.plugins.openid_connect.tests.test_utils" name="test_assign_staff_to_default_group_and_update_permissions_new_group_created" time="0.033" /><testcase classname="saleor.plugins.openid_connect.tests.test_utils" name="test_assign_staff_to_default_group_and_update_permissions_update_user_permissions" time="0.039" /></testsuite></testsuites>

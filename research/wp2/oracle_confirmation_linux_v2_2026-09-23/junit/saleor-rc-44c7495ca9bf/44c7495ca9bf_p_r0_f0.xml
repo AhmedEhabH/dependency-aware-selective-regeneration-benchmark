@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="11" time="149.361" timestamp="2026-09-24T21:43:28.203597+00:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_delete" name="test_delete_attribute" time="147.735" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_delete" name="test_delete_attribute_trigger_webhook" time="0.338" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_delete" name="test_delete_file_attribute" time="0.129" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_delete" name="test_delete_attribute_update_search_index_dirty_in_product" time="0.199" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_delete" name="test_delete_attribute_update_search_index_dirty_in_page" time="0.126"><failure message="assert False is True&#10; +  where False = &lt;Page: Test page&gt;.search_index_dirty">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x74ba4ad55a60&gt;
+page = &lt;Page: Test page&gt;, page_type = &lt;PageType: PageType object (1)&gt;
+permission_manage_page_types_and_attributes = &lt;Permission: Page | page type | Manage page types and attributes.&gt;
+
+    def test_delete_attribute_update_search_index_dirty_in_page(
+        staff_api_client,
+        page,
+        page_type,
+        permission_manage_page_types_and_attributes,
+    ):
+        # given
+        attribute = page_type.page_attributes.first()
+        variables = {"id": graphene.Node.to_global_id("Attribute", attribute.id)}
+        assert page.search_index_dirty is False
+    
+        # when
+        staff_api_client.post_graphql(
+            ATTRIBUTE_DELETE_MUTATION,
+            variables,
+            permissions=[permission_manage_page_types_and_attributes],
+        )
+    
+        # then
+        page.refresh_from_db(fields=["search_index_dirty"])
+&gt;       assert page.search_index_dirty is True
+E       assert False is True
+E        +  where False = &lt;Page: Test page&gt;.search_index_dirty
+
+saleor/graphql/attribute/tests/mutations/test_attribute_delete.py:178: AssertionError</failure></testcase><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_delete" name="test_delete_attribute_by_external_reference" time="0.105" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_delete" name="test_delete_attribute_by_both_id_and_external_reference" time="0.060" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_delete" name="test_delete_attribute_by_external_reference_not_existing" time="0.062" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_delete" name="test_delete_page_attribute_with_page_type_permission" time="0.068"><failure message="AssertionError: [{'message': 'To access this path, you need one of the following permissions: MANAGE_PRODUCT_TYPES_AND_ATTRIBUTES', 'locations': [{'line': 3, 'column': 9}], 'path': ['attributeDelete'], 'extensions': {'exception': {'code': 'PermissionDenied'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x74ba4a787f80&gt;
+size_page_attribute = &lt;Attribute: Page size&gt;
+permission_manage_page_types_and_attributes = &lt;Permission: Page | page type | Manage page types and attributes.&gt;
+
+    def test_delete_page_attribute_with_page_type_permission(
+        staff_api_client,
+        size_page_attribute,
+        permission_manage_page_types_and_attributes,
+    ):
+        # given
+        attribute = size_page_attribute
+        node_id = graphene.Node.to_global_id("Attribute", attribute.id)
+        variables = {"id": node_id}
+    
+        # when
+        response = staff_api_client.post_graphql(
+            ATTRIBUTE_DELETE_MUTATION,
+            variables,
+            permissions=[permission_manage_page_types_and_attributes],
+        )
+    
+        # then
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/attribute/tests/mutations/test_attribute_delete.py:284: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+ignore_errors = False
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': 'To access this path, you need one of the following permissions: MANAGE_PRODUCT_TYPES_AND_ATTRIBUTES', 'locations': [{'line': 3, 'column': 9}], 'path': ['attributeDelete'], 'extensions': {'exception': {'code': 'PermissionDenied'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_delete" name="test_delete_page_attribute_without_page_type_permission" time="0.102"><failure message="AssertionError: {'data': {'attributeDelete': {'errors': [], 'attribute': {'id': 'QXR0cmlidXRlOjE0'}}}, 'extensions': {'cost': {'requestedQueryCost': 0, 'maximumAvailable': 50000}}}">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x74ba4a785c10&gt;
+size_page_attribute = &lt;Attribute: Page size&gt;
+permission_manage_product_types_and_attributes = &lt;Permission: Product | product type | Manage product types and attributes.&gt;
+
+    def test_delete_page_attribute_without_page_type_permission(
+        staff_api_client,
+        size_page_attribute,
+        permission_manage_product_types_and_attributes,
+    ):
+        # given
+        attribute = size_page_attribute
+        node_id = graphene.Node.to_global_id("Attribute", attribute.id)
+        variables = {"id": node_id}
+    
+        # when
+        response = staff_api_client.post_graphql(
+            ATTRIBUTE_DELETE_MUTATION,
+            variables,
+            permissions=[permission_manage_product_types_and_attributes],
+        )
+    
+        # then
+&gt;       assert_no_permission(response)
+
+saleor/graphql/attribute/tests/mutations/test_attribute_delete.py:309: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+&gt;       assert "errors" in content, content
+               ^^^^^^^^^^^^^^^^^^^
+E       AssertionError: {'data': {'attributeDelete': {'errors': [], 'attribute': {'id': 'QXR0cmlidXRlOjE0'}}}, 'extensions': {'cost': {'requestedQueryCost': 0, 'maximumAvailable': 50000}}}
+
+saleor/graphql/tests/utils.py:24: AssertionError</failure></testcase><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_delete" name="test_delete_product_attribute_without_product_type_permission" time="0.071" /></testsuite></testsuites>

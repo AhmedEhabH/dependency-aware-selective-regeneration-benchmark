@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="17" time="5.460" timestamp="2026-09-24T15:57:55.586879" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.product.tests.queries.test_product_type_query" name="test_product_type_query" time="2.060" /><testcase classname="saleor.graphql.product.tests.queries.test_product_type_query" name="test_product_type_query_invalid_id" time="0.177"><failure message="assert &quot;Couldn't resolve id: '.&quot; == &quot;Invalid ID: ... ProductType.&quot;&#10;  - Invalid ID: '. Expected: ProductType.&#10;  + Couldn't resolve id: '.">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7d0487244c70&gt;
+product = &lt;saleor.product.models.Product(pk=318, name='Test product')&gt;
+channel_USD = &lt;Channel: main&gt;
+permission_manage_products = &lt;Permission: product | product | Manage products.&gt;
+
+    def test_product_type_query_invalid_id(
+        staff_api_client, product, channel_USD, permission_manage_products
+    ):
+        product_type_id = "'"
+        variables = {
+            "id": product_type_id,
+            "channel": channel_USD.slug,
+        }
+        response = staff_api_client.post_graphql(PRODUCT_TYPE_QUERY, variables)
+        content = get_graphql_content_from_response(response)
+        assert len(content["errors"]) == 1
+&gt;       assert (
+            content["errors"][0]["message"]
+            == f"Invalid ID: {product_type_id}. Expected: ProductType."
+        )
+E       assert "Couldn't resolve id: '." == "Invalid ID: ... ProductType."
+E         - Invalid ID: '. Expected: ProductType.
+E         + Couldn't resolve id: '.
+
+saleor/graphql/product/tests/queries/test_product_type_query.py:101: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.queries.test_product_type_query" name="test_product_type_query_object_with_given_id_does_not_exist" time="0.168" /><testcase classname="saleor.graphql.product.tests.queries.test_product_type_query" name="test_product_type_query_with_invalid_object_type" time="0.166" /><testcase classname="saleor.graphql.product.tests.queries.test_product_type_query" name="test_product_type_query_only_variant_selections_value_set[ALL]" time="0.303" /><testcase classname="saleor.graphql.product.tests.queries.test_product_type_query" name="test_product_type_query_only_variant_selections_value_set[VARIANT_SELECTION]" time="0.295" /><testcase classname="saleor.graphql.product.tests.queries.test_product_type_query" name="test_product_type_query_only_variant_selections_value_set[NOT_VARIANT_SELECTION]" time="0.295" /><testcase classname="saleor.graphql.product.tests.queries.test_product_type_query" name="test_product_type_query_only_assigned_variant_selections_value_set[ALL]" time="0.296" /><testcase classname="saleor.graphql.product.tests.queries.test_product_type_query" name="test_product_type_query_only_assigned_variant_selections_value_set[VARIANT_SELECTION]" time="0.293" /><testcase classname="saleor.graphql.product.tests.queries.test_product_type_query" name="test_product_type_query_only_assigned_variant_selections_value_set[NOT_VARIANT_SELECTION]" time="0.294" /><testcase classname="saleor.graphql.product.tests.queries.test_product_type_query" name="test_product_type_get_unassigned_product_type_attributes" time="0.134" /><testcase classname="saleor.graphql.product.tests.queries.test_product_type_query" name="test_product_type_filter_unassigned_attributes" time="0.133" /><testcase classname="saleor.graphql.product.tests.queries.test_product_type_query" name="test_product_type_where_filter_unassigned_attributes" time="0.129" /><testcase classname="saleor.graphql.product.tests.queries.test_product_type_query" name="test_product_type_query_by_id_weight_returned_in_default_unit" time="0.119" /><testcase classname="saleor.graphql.product.tests.queries.test_product_type_query" name="test_query_product_type_for_federation" time="0.081" /><testcase classname="saleor.graphql.product.tests.queries.test_product_type_query" name="test_product_type_tax_class_query_by_app" time="0.043" /><testcase classname="saleor.graphql.product.tests.queries.test_product_type_query" name="test_product_type_tax_class_query_by_staff" time="0.118" /></testsuite></testsuites>

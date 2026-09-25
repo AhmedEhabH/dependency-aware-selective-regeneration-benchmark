@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="7" skipped="0" tests="44" time="3.980" timestamp="2026-09-25T04:43:13.627727+00:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest" time="1.121"><failure message="AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 7, 'column': 3}], 'path': ['appFetchManifest'], 'extensions': {'exception': {'code': 'SocketBlockedError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x75eadcada7e0&gt;
+staff_user = &lt;User: a85025bb-11a1-4e5c-ae7d-ebd1ce038c3a&gt;
+permission_manage_apps = &lt;Permission: App | app | Manage apps&gt;
+
+    @pytest.mark.vcr
+    def test_app_fetch_manifest(staff_api_client, staff_user, permission_manage_apps):
+        manifest_url = "http://localhost:3000/manifest"
+        query = APP_FETCH_MANIFEST_MUTATION
+        variables = {
+            "manifest_url": manifest_url,
+        }
+        staff_user.user_permissions.set([permission_manage_apps])
+        response = staff_api_client.post_graphql(
+            query,
+            variables=variables,
+        )
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py:83: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+ignore_errors = False
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 7, 'column': 3}], 'path': ['appFetchManifest'], 'extensions': {'exception': {'code': 'SocketBlockedError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest_custom_saleor_headers" time="0.056" /><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest_with_audience" time="0.039"><failure message="AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 7, 'column': 3}], 'path': ['appFetchManifest'], 'extensions': {'exception': {'code': 'SocketBlockedError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x75eadcabb9b0&gt;
+staff_user = &lt;User: f0990ade-92b5-419a-bf9e-32b5293ab129&gt;
+permission_manage_apps = &lt;Permission: App | app | Manage apps&gt;
+
+    @pytest.mark.vcr
+    def test_app_fetch_manifest_with_audience(
+        staff_api_client, staff_user, permission_manage_apps
+    ):
+        manifest_url = "http://localhost:3000/manifest"
+        query = APP_FETCH_MANIFEST_MUTATION
+        variables = {
+            "manifest_url": manifest_url,
+        }
+        staff_user.user_permissions.set([permission_manage_apps])
+        response = staff_api_client.post_graphql(
+            query,
+            variables=variables,
+        )
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py:147: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+ignore_errors = False
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 7, 'column': 3}], 'path': ['appFetchManifest'], 'extensions': {'exception': {'code': 'SocketBlockedError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest_missing_permission" time="0.033" /><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest_incorrect_permission_in_manifest" time="0.037"><failure message="AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 7, 'column': 3}], 'path': ['appFetchManifest'], 'extensions': {'exception': {'code': 'SocketBlockedError'}}}]">staff_user = &lt;User: 6fc0e12f-7689-493f-996b-d5aa1ded5fb7&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x75eadcf50bf0&gt;
+permission_manage_apps = &lt;Permission: App | app | Manage apps&gt;
+
+    @pytest.mark.vcr
+    def test_app_fetch_manifest_incorrect_permission_in_manifest(
+        staff_user, staff_api_client, permission_manage_apps
+    ):
+        manifest_url = "http://localhost:3000/manifest-with-wrong-perm"
+        query = APP_FETCH_MANIFEST_MUTATION
+        variables = {
+            "manifest_url": manifest_url,
+        }
+        staff_user.user_permissions.set([permission_manage_apps])
+        response = staff_api_client.post_graphql(
+            query,
+            variables=variables,
+        )
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py:181: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+ignore_errors = False
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 7, 'column': 3}], 'path': ['appFetchManifest'], 'extensions': {'exception': {'code': 'SocketBlockedError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest_unable_to_connect" time="0.036"><failure message="AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 7, 'column': 3}], 'path': ['appFetchManifest'], 'extensions': {'exception': {'code': 'SocketBlockedError'}}}]">staff_user = &lt;User: 569a4dbb-c3bd-4a29-9631-e820d4e895df&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x75eadcbae0f0&gt;
+permission_manage_apps = &lt;Permission: App | app | Manage apps&gt;
+
+    @pytest.mark.vcr
+    def test_app_fetch_manifest_unable_to_connect(
+        staff_user, staff_api_client, permission_manage_apps
+    ):
+        manifest_url = "http://localhost:3000/manifest-doesnt-exist"
+        query = APP_FETCH_MANIFEST_MUTATION
+        variables = {
+            "manifest_url": manifest_url,
+        }
+        staff_user.user_permissions.set([permission_manage_apps])
+        response = staff_api_client.post_graphql(
+            query,
+            variables=variables,
+        )
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py:207: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+ignore_errors = False
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 7, 'column': 3}], 'path': ['appFetchManifest'], 'extensions': {'exception': {'code': 'SocketBlockedError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest_timeout" time="0.042" /><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest_wrong_format_of_response" time="0.037"><failure message="AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 7, 'column': 3}], 'path': ['appFetchManifest'], 'extensions': {'exception': {'code': 'SocketBlockedError'}}}]">staff_user = &lt;User: 8704ca11-6f8f-4e51-91cc-6e7505dd8d56&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x75eadc946ed0&gt;
+permission_manage_apps = &lt;Permission: App | app | Manage apps&gt;
+
+    @pytest.mark.vcr
+    def test_app_fetch_manifest_wrong_format_of_response(
+        staff_user, staff_api_client, permission_manage_apps
+    ):
+        manifest_url = "http://localhost:3000/manifest-wrong-format"
+        query = APP_FETCH_MANIFEST_MUTATION
+        variables = {
+            "manifest_url": manifest_url,
+        }
+        staff_user.user_permissions.set([permission_manage_apps])
+        response = staff_api_client.post_graphql(
+            query,
+            variables=variables,
+        )
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py:259: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+ignore_errors = False
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 7, 'column': 3}], 'path': ['appFetchManifest'], 'extensions': {'exception': {'code': 'SocketBlockedError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest_handle_exception" time="0.032" /><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest_missing_fields[id]" time="0.053" /><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest_missing_fields[version]" time="0.051" /><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest_missing_fields[name]" time="0.051" /><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest_missing_extension_fields[label]" time="0.050" /><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest_missing_extension_fields[url]" time="0.051" /><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest_missing_extension_fields[mount]" time="0.053" /><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest_extensions_incorrect_enum_values[target]" time="0.056" /><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest_extensions_incorrect_enum_values[mount]" time="0.053" /><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest_extensions_correct_url[/app-APP_PAGE-]" time="0.053" /><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest_extensions_correct_url[/app-APP_PAGE-https://www.example.com/app]" time="0.054" /><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest_extensions_correct_url[/app-POPUP-https://www.example.com/app]" time="0.054" /><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest_extensions_correct_url[https://www.example.com/app/form-NEW_TAB-https://www.example.com/app]" time="0.053" /><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest_extensions_incorrect_url[http:/127.0.0.1:8080/app-POPUP]" time="0.055" /><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest_extensions_incorrect_url[127.0.0.1:8080/app-POPUP]" time="0.054" /><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest_extensions_incorrect_url[-POPUP]" time="0.054" /><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest_extensions_incorrect_url[/app-POPUP]" time="0.058" /><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest_extensions_incorrect_url[www.example.com/app-POPUP]" time="0.055" /><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest_extensions_incorrect_url[https://www.example.com/app-APP_PAGE]" time="0.056" /><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest_extensions_incorrect_url[http://www.example.com/app-APP_PAGE]" time="0.050" /><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest_extensions_permission_out_of_scope[app_permissions0-extension_permissions0]" time="0.052" /><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest_extensions_permission_out_of_scope[app_permissions1-extension_permissions1]" time="0.053" /><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest_extensions_invalid_permission" time="0.053" /><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest_with_extensions" time="0.059" /><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest_with_widget_extension_settings" time="0.055" /><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest_with_new_tab_extension_settings" time="0.056" /><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest_with_required_saleor_version" time="0.055" /><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest_with_invalid_required_saleor_version" time="0.052" /><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest_with_author" time="0.053" /><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest_with_empty_author" time="0.051" /><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest_with_brand_data[None-png-None]" time="0.064" /><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest_with_brand_data[webp-webp-120]" time="0.055" /><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest_with_brand_data[original-png-0]" time="0.053" /><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_app_fetch_manifest_with_invalid_brand_data" time="0.050" /><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_fetch_manifest_fail_when_app_with_same_identifier_already_installed" time="0.260"><failure message="AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 7, 'column': 3}], 'path': ['appFetchManifest'], 'extensions': {'exception': {'code': 'SocketBlockedError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x75eadc5f3aa0&gt;
+staff_user = &lt;User: e6cdcad3-ddb9-49cd-a722-561321756854&gt;
+permission_manage_apps = &lt;Permission: App | app | Manage apps&gt;
+app = &lt;App: Sample app objects&gt;
+
+    @pytest.mark.vcr
+    def test_fetch_manifest_fail_when_app_with_same_identifier_already_installed(
+        staff_api_client,
+        staff_user,
+        permission_manage_apps,
+        app,
+    ):
+        # given
+        app.identifier = "saleor.app.avatax"
+        app.save()
+        manifest_url = "http://localhost:3000/api/manifest"
+    
+        query = APP_FETCH_MANIFEST_MUTATION
+        variables = {"manifest_url": manifest_url}
+        staff_user.user_permissions.set([permission_manage_apps])
+    
+        # when
+        response = staff_api_client.post_graphql(
+            query,
+            variables=variables,
+        )
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py:984: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+ignore_errors = False
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 7, 'column': 3}], 'path': ['appFetchManifest'], 'extensions': {'exception': {'code': 'SocketBlockedError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.app.tests.mutations.test_app_fetch_manifest" name="test_fetch_manifest_app_with_same_identifier_installed_but_marked_to_be_removed" time="0.038"><failure message="AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 7, 'column': 3}], 'path': ['appFetchManifest'], 'extensions': {'exception': {'code': 'SocketBlockedError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x75eadcf2c470&gt;
+staff_user = &lt;User: ccba422e-02d7-427d-920e-42da68abe5f4&gt;
+permission_manage_apps = &lt;Permission: App | app | Manage apps&gt;
+app_marked_to_be_removed = &lt;App: Sample app objects&gt;
+
+    @pytest.mark.vcr
+    def test_fetch_manifest_app_with_same_identifier_installed_but_marked_to_be_removed(
+        staff_api_client,
+        staff_user,
+        permission_manage_apps,
+        app_marked_to_be_removed,
+    ):
+        # given
+        app_marked_to_be_removed.identifier = "saleor.app.avatax"
+        app_marked_to_be_removed.save()
+        manifest_url = "http://localhost:3000/api/manifest"
+    
+        query = APP_FETCH_MANIFEST_MUTATION
+        variables = {
+            "manifest_url": manifest_url,
+        }
+        staff_user.user_permissions.set([permission_manage_apps])
+    
+        # when
+        with patch(
+            "saleor.graphql.app.mutations.app_fetch_manifest.fetch_brand_data"
+        ) as mocked_fetch_brand:
+            mocked_fetch_brand.return_value = None
+            response = staff_api_client.post_graphql(
+                query,
+                variables=variables,
+            )
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py:1024: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+ignore_errors = False
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 7, 'column': 3}], 'path': ['appFetchManifest'], 'extensions': {'exception': {'code': 'SocketBlockedError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase></testsuite></testsuites>

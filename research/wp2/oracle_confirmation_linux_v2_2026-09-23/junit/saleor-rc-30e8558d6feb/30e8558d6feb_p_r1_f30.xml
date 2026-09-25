@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="6" time="3.034" timestamp="2026-09-24T16:04:35.707857" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.warehouse.tests.queries.test_stock" name="test_query_stock_requires_permission" time="1.755" /><testcase classname="saleor.graphql.warehouse.tests.queries.test_stock" name="test_query_stock" time="0.185" /><testcase classname="saleor.graphql.warehouse.tests.queries.test_stock" name="test_query_stock_with_reservations" time="0.206" /><testcase classname="saleor.graphql.warehouse.tests.queries.test_stock" name="test_query_stock_with_expired_reservations" time="0.201" /><testcase classname="saleor.graphql.warehouse.tests.queries.test_stock" name="test_staff_query_stock_by_invalid_id" time="0.188"><failure message="assert &quot;Couldn't resolve id: bh/.&quot; == 'Invalid ID: ...ected: Stock.'&#10;  - Invalid ID: bh/. Expected: Stock.&#10;  + Couldn't resolve id: bh/.">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x71e3fe10d9d0&gt;
+stock = &lt;Stock: Stock object (1060)&gt;
+permission_manage_products = &lt;Permission: product | product | Manage products.&gt;
+
+    def test_staff_query_stock_by_invalid_id(
+        staff_api_client, stock, permission_manage_products
+    ):
+        # given
+        id = "bh/"
+        variables = {"id": id}
+    
+        # when
+        response = staff_api_client.post_graphql(
+            QUERY_STOCK, variables, permissions=[permission_manage_products]
+        )
+    
+        # then
+        content = get_graphql_content_from_response(response)
+        assert len(content["errors"]) == 1
+&gt;       assert content["errors"][0]["message"] == f"Invalid ID: {id}. Expected: Stock."
+E       assert "Couldn't resolve id: bh/." == 'Invalid ID: ...ected: Stock.'
+E         - Invalid ID: bh/. Expected: Stock.
+E         + Couldn't resolve id: bh/.
+
+saleor/graphql/warehouse/tests/queries/test_stock.py:137: AssertionError</failure></testcase><testcase classname="saleor.graphql.warehouse.tests.queries.test_stock" name="test_staff_query_stock_with_invalid_object_type" time="0.189" /></testsuite></testsuites>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="26" time="3.758" timestamp="2026-09-25T05:07:01.092480+00:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.checkout.tests.test_search_indexing" name="test_update_checkouts_search_vector" time="1.346" /><testcase classname="saleor.checkout.tests.test_search_indexing" name="test_update_checkouts_search_vector_multiple_checkouts" time="0.131" /><testcase classname="saleor.checkout.tests.test_search_indexing" name="test_update_checkouts_search_vector_empty_list" time="0.018" /><testcase classname="saleor.checkout.tests.test_search_indexing" name="test_update_checkouts_search_vector_constant_queries" time="0.440"><failure message="Failed: Expected to perform 15 queries but 14 were done (add -v option to show queries)">checkout_list_with_relations = [&lt;Checkout: Checkout object (c1df36eb-abe7-4867-9276-6ea0d0d065c9)&gt;, &lt;Checkout: Checkout object (58e3ef5c-21c9-4405-9f27-d8e4df34d1e1)&gt;, &lt;Checkout: Checkout object (0eee0afe-f1f6-4550-b350-b8beb903d660)&gt;]
+django_assert_num_queries = functools.partial(&lt;function _assert_num_queries at 0x73fa5cc847c0&gt;, &lt;_pytest.config.Config object at 0x73fa5ecc6900&gt;)
+
+    def test_update_checkouts_search_vector_constant_queries(
+        checkout_list_with_relations, django_assert_num_queries
+    ):
+        """Ensure that data loaders are working correctly and number of db queries is constant."""
+        # given
+        checkout_list = checkout_list_with_relations
+    
+        # when &amp; then
+        # Expected query breakdown (15 total):
+        # First transaction block:
+        # 1. Transaction savepoint
+        # 2. Update search_index_dirty flag (locks via inlined FOR UPDATE subquery)
+        # 3. Release savepoint
+        # Load checkout data:
+        # 4. Load users (1 query)
+        # 5. Load addresses (1 query)
+        # 6. Load payments (1 query)
+        # 7. Load checkout lines (1 query)
+        # 8. Load transactions (1 query)
+        # 9. Load product variants (1 query)
+        # 10. Load products (1 query)
+        # 11. Load transaction events (1 query)
+        # Second transaction block:
+        # 12. Transaction savepoint
+        # 13. Select for update (lock checkouts)
+        # 14. Bulk update search vectors
+        # 15. Release savepoint
+    
+        expected_queries = 15
+&gt;       with django_assert_num_queries(expected_queries):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/checkout/tests/test_search_indexing.py:167: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.12/contextlib.py:144: in __exit__
+    next(self.gen)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = &lt;_pytest.config.Config object at 0x73fa5ecc6900&gt;, num = 15
+exact = True, connection = None, info = None, using = None
+
+    @contextmanager
+    def _assert_num_queries(
+        config: pytest.Config,
+        num: int,
+        exact: bool = True,
+        connection: Any | None = None,
+        info: str | None = None,
+        *,
+        using: str | None = None,
+    ) -&gt; Generator[django.test.utils.CaptureQueriesContext, None, None]:
+        from django.db import connection as default_conn, connections
+        from django.test.utils import CaptureQueriesContext
+    
+        if connection and using:
+            raise ValueError('The "connection" and "using" parameter cannot be used together')
+    
+        if connection is not None:
+            conn = connection
+        elif using is not None:
+            conn = connections[using]
+        else:
+            conn = default_conn
+    
+        verbose = config.getoption("verbose") &gt; 0
+        with CaptureQueriesContext(conn) as context:
+            yield context
+            num_performed = len(context)
+            if exact:
+                failed = num != num_performed
+            else:
+                failed = num_performed &gt; num
+            if failed:
+                msg = f"Expected to perform {num} queries "
+                if not exact:
+                    msg += "or less "
+                verb = "was" if num_performed == 1 else "were"
+                msg += f"but {num_performed} {verb} done"
+                if info:
+                    msg += f"\n{info}"
+                if verbose:
+                    sqls = (q["sql"] for q in context.captured_queries)
+                    msg += "\n\nQueries:\n========\n\n" + "\n\n".join(sqls)
+                else:
+                    msg += " (add -v option to show queries)"
+&gt;               pytest.fail(msg)
+E               Failed: Expected to perform 15 queries but 14 were done (add -v option to show queries)
+
+/opt/venv/lib/python3.12/site-packages/pytest_django/fixtures.py:716: Failed</failure></testcase><testcase classname="saleor.checkout.tests.test_search_indexing" name="test_prepare_checkout_search_vector_value_basic" time="0.023" /><testcase classname="saleor.checkout.tests.test_search_indexing" name="test_prepare_checkout_search_vector_value_with_user" time="0.028" /><testcase classname="saleor.checkout.tests.test_search_indexing" name="test_prepare_checkout_search_vector_value_with_addresses" time="0.026" /><testcase classname="saleor.checkout.tests.test_search_indexing" name="test_prepare_checkout_search_vector_value_with_no_email" time="0.022" /><testcase classname="saleor.checkout.tests.test_search_indexing" name="test_generate_checkout_payments_search_vector_value_empty" time="0.017" /><testcase classname="saleor.checkout.tests.test_search_indexing" name="test_generate_checkout_payments_search_vector_value" time="0.023" /><testcase classname="saleor.checkout.tests.test_search_indexing" name="test_generate_checkout_payments_search_vector_value_respects_max_limit" time="0.036" /><testcase classname="saleor.checkout.tests.test_search_indexing" name="test_generate_checkout_lines_search_vector_value_empty" time="0.016" /><testcase classname="saleor.checkout.tests.test_search_indexing" name="test_generate_checkout_lines_search_vector_value" time="0.115" /><testcase classname="saleor.checkout.tests.test_search_indexing" name="test_generate_checkout_lines_search_vector_value_without_variant" time="0.107" /><testcase classname="saleor.checkout.tests.test_search_indexing" name="test_generate_checkout_lines_search_vector_value_without_sku" time="0.112" /><testcase classname="saleor.checkout.tests.test_search_indexing" name="test_generate_checkout_lines_search_vector_value_respects_max_limit" time="0.142" /><testcase classname="saleor.checkout.tests.test_search_indexing" name="test_generate_checkout_transactions_search_vector_value_empty" time="0.016" /><testcase classname="saleor.checkout.tests.test_search_indexing" name="test_generate_checkout_transactions_search_vector_value" time="0.024" /><testcase classname="saleor.checkout.tests.test_search_indexing" name="test_generate_checkout_transactions_search_vector_value_without_psp_reference" time="0.025" /><testcase classname="saleor.checkout.tests.test_search_indexing" name="test_generate_checkout_transactions_search_vector_value_with_multiple_events" time="0.027" /><testcase classname="saleor.checkout.tests.test_search_indexing" name="test_generate_checkout_transactions_search_vector_value_respects_max_limit" time="0.024" /><testcase classname="saleor.checkout.tests.test_search_indexing" name="test_update_checkouts_search_vector_handles_deleted_checkout" time="0.142" /><testcase classname="saleor.checkout.tests.test_search_indexing" name="test_update_checkouts_search_vector_handles_deleted_checkout_before_lock" time="0.132" /><testcase classname="saleor.checkout.tests.test_search_indexing" name="test_update_checkouts_search_vector_resets_flag_on_prepare_exception" time="0.122" /><testcase classname="saleor.checkout.tests.test_search_indexing" name="test_update_checkouts_search_vector_resets_flag_on_load_data_exception" time="0.113" /><testcase classname="saleor.checkout.tests.test_search_indexing" name="test_update_checkouts_search_vector_locks_rows_before_write" time="0.126"><failure message="AssertionError: expected exactly one lock SELECT and one UPDATE query, got: ['UPDATE &quot;checkout_checkout&quot; SET &quot;search_vector&quot; = (CASE WHEN (&quot;checkout_checkout&quot;.&quot;token&quot; = \'2ae793698530428a8043b6c9cc388c03\'::uuid) THEN (setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'2ae79369-8530-428a-8043-b6c9cc388c03\', \'\')), \'A\')||setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'user@email.com\', \'\')), \'A\')||setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'email.com\', \'\')), \'B\')||setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'123\', \'\')), \'C\')||setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'Test product\', \'\')), \'C\')) ELSE NULL END)::tsvector WHERE &quot;checkout_checkout&quot;.&quot;token&quot; IN (\'2ae793698530428a8043b6c9cc388c03\'::uuid)']&#10;assert 1 == 2&#10; +  where 1 = len(['UPDATE &quot;checkout_checkout&quot; SET &quot;search_vector&quot; = (CASE WHEN (&quot;checkout_checkout&quot;.&quot;token&quot; = \'2ae793698530428a8043b6c...), \'C\')) ELSE NULL END)::tsvector WHERE &quot;checkout_checkout&quot;.&quot;token&quot; IN (\'2ae793698530428a8043b6c9cc388c03\'::uuid)'])">checkout_with_item = &lt;Checkout: Checkout object (2ae79369-8530-428a-8043-b6c9cc388c03)&gt;
+assert_locks_rows_before_write = &lt;function assert_locks_rows_before_write.&lt;locals&gt;._assert_locks_rows_before_write at 0x73fa4dbea840&gt;
+
+    def test_update_checkouts_search_vector_locks_rows_before_write(
+        checkout_with_item, assert_locks_rows_before_write
+    ):
+        # given
+        assert not checkout_with_item.search_vector
+    
+        # when
+        # patch out set_search_index_dirty - it emits its own locked UPDATE and is
+        # tested separately; here we only verify the search vector write phase.
+        with patch("saleor.checkout.search.indexing.set_search_index_dirty"):
+&gt;           with assert_locks_rows_before_write():
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/checkout/tests/test_search_indexing.py:724: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.12/contextlib.py:144: in __exit__
+    next(self.gen)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    @contextmanager
+    def _assert_locks_rows_before_write():
+        with capture_queries() as ctx:
+            yield
+    
+        lock_and_update_queries = [
+            query["sql"]
+            for query in ctx.captured_queries
+            if "FOR UPDATE" in query["sql"] or query["sql"].startswith("UPDATE")
+        ]
+&gt;       assert len(lock_and_update_queries) == 2, (
+            "expected exactly one lock SELECT and one UPDATE query, got: "
+            f"{lock_and_update_queries}"
+        )
+E       AssertionError: expected exactly one lock SELECT and one UPDATE query, got: ['UPDATE "checkout_checkout" SET "search_vector" = (CASE WHEN ("checkout_checkout"."token" = \'2ae793698530428a8043b6c9cc388c03\'::uuid) THEN (setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'2ae79369-8530-428a-8043-b6c9cc388c03\', \'\')), \'A\')||setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'user@email.com\', \'\')), \'A\')||setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'email.com\', \'\')), \'B\')||setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'123\', \'\')), \'C\')||setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'Test product\', \'\')), \'C\')) ELSE NULL END)::tsvector WHERE "checkout_checkout"."token" IN (\'2ae793698530428a8043b6c9cc388c03\'::uuid)']
+E       assert 1 == 2
+E        +  where 1 = len(['UPDATE "checkout_checkout" SET "search_vector" = (CASE WHEN ("checkout_checkout"."token" = \'2ae793698530428a8043b6c...), \'C\')) ELSE NULL END)::tsvector WHERE "checkout_checkout"."token" IN (\'2ae793698530428a8043b6c9cc388c03\'::uuid)'])
+
+saleor/tests/fixtures.py:188: AssertionError</failure></testcase></testsuite></testsuites>

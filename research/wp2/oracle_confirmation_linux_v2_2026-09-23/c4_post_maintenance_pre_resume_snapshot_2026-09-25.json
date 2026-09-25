@@ -1,0 +1,56 @@
+{
+  "artifact": "wp2_c4_post_maintenance_pre_resume_snapshot",
+  "date": "2026-09-25",
+  "label": "maintenance/storage boundary; not a scientific semantic change",
+  "timestamp_utc": "2026-09-25T06:35:00Z",
+  "c4_state": {
+    "completed": 72,
+    "unique": 72,
+    "remaining": 39,
+    "dupes": 0,
+    "per_test_records": 6699,
+    "progress": "STOPPED",
+    "semantic_freeze_identity": "01c3430f221e70fb75ff4dbf1c0e5093a3c1305f2c870e1b20e2b6c4b64dd337",
+    "persistence_revision": "c4-persistence-v2-2026-09-23",
+    "worker_count": 1,
+    "candidate_total": 111,
+    "candidate_order": "frozen DEV census changed-test order (unchanged)"
+  },
+  "compact_history": {
+    "vhdx_before_gib": 59.80,
+    "vhdx_after_gib": 52.54,
+    "reclaimed_gib": 7.26,
+    "windows_c_free_before_compact_gib": 42.06,
+    "windows_c_free_after_compact_gib": 49.36
+  },
+  "current_measurements": {
+    "windows_c_free_gib": 49.35,
+    "windows_c_used_gib": 426.67,
+    "worktree_cleanup": "144 completed-C4 worktrees removed; worktrees ~0",
+    "linux_root_used": "41G (was 50G pre-maintenance)"
+  },
+  "substrate": {
+    "wsl_distro": "Ubuntu-24.04.4 LTS (kernel 6.6.87.2-microsoft-standard-WSL2)",
+    "docker_engine": "WSL-local dockerd pid 312 (/usr/bin/dockerd; Root /var/lib/docker; socket /var/run/docker.sock owner dockerd) - NOT Docker Desktop",
+    "era_image_ids": {
+      "wp2-era-py38": "1cc60658b6a2",
+      "wp2-era-py39": "ddc08d7e6855",
+      "wp2-era-py312": "0c185699947d"
+    },
+    "wp2_uv_cache": "present",
+    "docker_volumes_count": 35,
+    "no_volume_prune": true,
+    "no_system_prune": true
+  },
+  "postgresql": {
+    "image_digest": "sha256:f7d23353e1b15400d22ebe31189f4d314b87a4c129cc400c8c2d8d4ca127bf81",
+    "container": "wp2-pg",
+    "port": "5433:5432",
+    "env": "POSTGRES_USER=saleor, POSTGRES_PASSWORD=saleor, POSTGRES_DB=saleor",
+    "server_options": "fsync=off, synchronous_commit=off, full_page_writes=off",
+    "pg_isready": "PASS"
+  },
+  "monitor_safety_units": "FIXED to canonical /1GB (GiB) semantics; thresholds 40 GiB / 32 GiB preserved",
+  "page_cache_note": "WSL shutdown + maintenance reset page cache; post-maintenance task wall-times may reflect cold caches. This is a transparent maintenance-boundary note, NOT a reason to exclude or reweight tasks.",
+  "statement": "Execution/classification/test-selection semantics were NOT intentionally changed. Changes since the last frozen state are operational only: monitor storage-unit fix and orchestrator log-path isolation (WP2_MASTER_LOG honored)."
+}

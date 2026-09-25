@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="13" time="3.539" timestamp="2026-09-24T15:57:01.539870" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.page.tests.queries.test_page" name="test_query_published_page" time="1.720" /><testcase classname="saleor.graphql.page.tests.queries.test_page" name="test_customer_query_unpublished_page" time="0.148" /><testcase classname="saleor.graphql.page.tests.queries.test_page" name="test_staff_query_unpublished_page_by_id" time="0.144" /><testcase classname="saleor.graphql.page.tests.queries.test_page" name="test_staff_query_unpublished_page_by_id_without_required_permission" time="0.132" /><testcase classname="saleor.graphql.page.tests.queries.test_page" name="test_app_query_unpublished_page_by_id" time="0.060" /><testcase classname="saleor.graphql.page.tests.queries.test_page" name="test_app_query_unpublished_page_by_id_without_required_permission" time="0.050" /><testcase classname="saleor.graphql.page.tests.queries.test_page" name="test_app_query_unpublished_page_by_slug" time="0.058" /><testcase classname="saleor.graphql.page.tests.queries.test_page" name="test_app_query_unpublished_page_by_slug_without_required_permission" time="0.055" /><testcase classname="saleor.graphql.page.tests.queries.test_page" name="test_staff_query_unpublished_page_by_slug" time="0.146" /><testcase classname="saleor.graphql.page.tests.queries.test_page" name="test_staff_query_unpublished_page_by_slug_without_required_permission" time="0.135" /><testcase classname="saleor.graphql.page.tests.queries.test_page" name="test_staff_query_page_by_invalid_id" time="0.122"><failure message="assert &quot;Couldn't resolve id: bh/.&quot; == 'Invalid ID: ...pected: Page.'&#10;  - Invalid ID: bh/. Expected: Page.&#10;  + Couldn't resolve id: bh/.">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x782cc186dd90&gt;
+page = &lt;Page: Test page&gt;
+
+    def test_staff_query_page_by_invalid_id(staff_api_client, page):
+        id = "bh/"
+        variables = {"id": id}
+        response = staff_api_client.post_graphql(PAGE_QUERY, variables)
+        content = get_graphql_content_from_response(response)
+        assert len(content["errors"]) == 1
+&gt;       assert content["errors"][0]["message"] == f"Invalid ID: {id}. Expected: Page."
+E       assert "Couldn't resolve id: bh/." == 'Invalid ID: ...pected: Page.'
+E         - Invalid ID: bh/. Expected: Page.
+E         + Couldn't resolve id: bh/.
+
+saleor/graphql/page/tests/queries/test_page.py:254: AssertionError</failure></testcase><testcase classname="saleor.graphql.page.tests.queries.test_page" name="test_staff_query_page_with_invalid_object_type" time="0.146" /><testcase classname="saleor.graphql.page.tests.queries.test_page" name="test_get_page_with_sorted_attribute_values" time="0.297" /></testsuite></testsuites>

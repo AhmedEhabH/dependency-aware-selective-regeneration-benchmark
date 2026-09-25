@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="5" time="2.437" timestamp="2026-09-25T01:43:29.877120-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_webhook" name="test_trigger_webhooks_async" time="1.521" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_webhook" name="test_trigger_webhooks_async_no_subscription_webhooks" time="0.030" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_webhook" name="test_trigger_webhook_sync_with_subscription" time="0.113"><failure message="AssertionError: expected call not found.&#10;Expected: send_webhook_request_sync(&lt;EventDelivery: EventDelivery object (81)&gt;)&#10;Actual: send_webhook_request_sync(&lt;App: Payment App&gt;, &lt;EventDelivery: EventDelivery object (81)&gt;)">mock_request = &lt;MagicMock name='send_webhook_request_sync' id='123959951235584'&gt;
+payment_app_with_subscription_webhooks = &lt;App: Payment App&gt;
+payment = Payment(gateway=app:saleor.payment.test.app:credit-card, is_active=True, created=2026-09-25 06:43:29.090347+00:00, charge_status=not-charged)
+
+    @mock.patch("saleor.plugins.webhook.tasks.send_webhook_request_sync")
+    def test_trigger_webhook_sync_with_subscription(
+        mock_request, payment_app_with_subscription_webhooks, payment
+    ):
+        # given
+        payment_app = payment_app_with_subscription_webhooks
+        data = '{"key": "value"}'
+        expected_payment_payload = generate_payment_payload(payment)
+        # when
+        trigger_webhook_sync(
+            WebhookEventSyncType.PAYMENT_AUTHORIZE,
+            data,
+            payment_app.webhooks.first(),
+            payment,
+        )
+        event_delivery = EventDelivery.objects.first()
+    
+        # then
+        assert json.loads(event_delivery.payload.payload) == expected_payment_payload
+&gt;       mock_request.assert_called_once_with(event_delivery)
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_webhook.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.9/unittest/mock.py:919: in assert_called_once_with
+    return self.assert_called_with(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;MagicMock name='send_webhook_request_sync' id='123959951235584'&gt;
+args = (&lt;EventDelivery: EventDelivery object (81)&gt;,), kwargs = {}
+expected = call(&lt;EventDelivery: EventDelivery object (81)&gt;)
+actual = call(&lt;App: Payment App&gt;, &lt;EventDelivery: EventDelivery object (81)&gt;)
+_error_message = &lt;function NonCallableMock.assert_called_with.&lt;locals&gt;._error_message at 0x70bdac271ca0&gt;
+cause = None
+
+    def assert_called_with(self, /, *args, **kwargs):
+        """assert that the last call was made with the specified arguments.
+    
+        Raises an AssertionError if the args and keyword args passed in are
+        different to the last call to the mock."""
+        if self.call_args is None:
+            expected = self._format_mock_call_signature(args, kwargs)
+            actual = 'not called.'
+            error_message = ('expected call not found.\nExpected: %s\nActual: %s'
+                    % (expected, actual))
+            raise AssertionError(error_message)
+    
+        def _error_message():
+            msg = self._format_mock_failure_message(args, kwargs)
+            return msg
+        expected = self._call_matcher(_Call((args, kwargs), two=True))
+        actual = self._call_matcher(self.call_args)
+        if actual != expected:
+            cause = expected if isinstance(expected, Exception) else None
+&gt;           raise AssertionError(_error_message()) from cause
+E           AssertionError: expected call not found.
+E           Expected: send_webhook_request_sync(&lt;EventDelivery: EventDelivery object (81)&gt;)
+E           Actual: send_webhook_request_sync(&lt;App: Payment App&gt;, &lt;EventDelivery: EventDelivery object (81)&gt;)
+
+/usr/local/lib/python3.9/unittest/mock.py:907: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_webhook" name="test_trigger_webhook_sync_with_subscription_within_mutation_use_default_db" time="0.149" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_webhook" name="test_trigger_webhook_async_with_subscription_use_replica_db" time="0.273" /></testsuite></testsuites>

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="19" time="6.334" timestamp="2026-09-24T16:08:07.428229" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.product.tests.mutations.test_product_bulk_create" name="test_product_bulk_create_with_base_data" time="1.762" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_bulk_create" name="test_product_bulk_create_send_product_created_webhook" time="0.214" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_bulk_create" name="test_product_bulk_create_with_same_name_and_no_slug" time="0.187" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_bulk_create" name="test_product_bulk_create_with_invalid_attributes" time="0.140"><failure message="assert &quot;Couldn't res...d: invalidID.&quot; == 'Invalid ID: ...d: Attribute.'&#10;  - Invalid ID: invalidID. Expected: Attribute.&#10;  + Couldn't resolve id: invalidID.">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x79c3e1ccccd0&gt;
+product_type = &lt;saleor.product.models.ProductType(pk=978, name='Default Type')&gt;
+category = &lt;Category: Default&gt;
+description_json = {'blocks': [{'data': {'text': 'E-commerce for the PWA era'}, 'depth': 0, 'entityRanges': [], 'inlineStyleRanges': [], ..., 'entityMap': {'0': {'data': {'href': 'https://github.com/mirumee/saleor'}, 'mutability': 'MUTABLE', 'type': 'LINK'}}}
+permission_manage_products = &lt;Permission: product | product | Manage products.&gt;
+
+    def test_product_bulk_create_with_invalid_attributes(
+        staff_api_client,
+        product_type,
+        category,
+        description_json,
+        permission_manage_products,
+    ):
+        # given
+        description_json_string = json.dumps(description_json)
+        product_type_id = graphene.Node.to_global_id("ProductType", product_type.pk)
+        category_id = graphene.Node.to_global_id("Category", category.pk)
+    
+        product_name_1 = "test name 1"
+        product_name_2 = "test name 2"
+        base_product_slug = "product-test-slug"
+        product_charge_taxes = True
+        product_tax_rate = "STANDARD"
+    
+        products = [
+            {
+                "productType": product_type_id,
+                "category": category_id,
+                "name": product_name_1,
+                "slug": f"{base_product_slug}-1",
+                "description": description_json_string,
+                "chargeTaxes": product_charge_taxes,
+                "taxCode": product_tax_rate,
+                "weight": 2,
+                "attributes": [
+                    {"id": "invalidID", "values": ["invalidValue"]},
+                ],
+            },
+            {
+                "productType": product_type_id,
+                "category": category_id,
+                "name": product_name_2,
+                "slug": f"{base_product_slug}-2",
+                "description": description_json_string,
+                "chargeTaxes": product_charge_taxes,
+                "taxCode": product_tax_rate,
+            },
+        ]
+    
+        # when
+        staff_api_client.user.user_permissions.add(permission_manage_products)
+        response = staff_api_client.post_graphql(
+            PRODUCT_BULK_CREATE_MUTATION,
+            {"products": products},
+        )
+        content = get_graphql_content(response)
+        data = content["data"]["productBulkCreate"]
+    
+        # then
+        assert data["count"] == 0
+        assert data["results"][0]["errors"]
+        error = data["results"][0]["errors"][0]
+        assert error["path"] == "attributes"
+&gt;       assert error["message"] == "Invalid ID: invalidID. Expected: Attribute."
+E       assert "Couldn't res...d: invalidID." == 'Invalid ID: ...d: Attribute.'
+E         - Invalid ID: invalidID. Expected: Attribute.
+E         + Couldn't resolve id: invalidID.
+
+saleor/graphql/product/tests/mutations/test_product_bulk_create.py:325: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.mutations.test_product_bulk_create" name="test_product_bulk_create_with_media" time="0.204" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_bulk_create" name="test_product_bulk_create_with_media_with_media_url" time="0.225"><failure message="AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 5, 'column': 9}], 'path': ['productBulkCreate'], 'extensions': {'exception': {'code': 'SocketBlockedError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x79c3e1ca03d0&gt;
+product_type = &lt;saleor.product.models.ProductType(pk=980, name='Default Type')&gt;
+category = &lt;Category: Default&gt;
+description_json = {'blocks': [{'data': {'text': 'E-commerce for the PWA era'}, 'depth': 0, 'entityRanges': [], 'inlineStyleRanges': [], ..., 'entityMap': {'0': {'data': {'href': 'https://github.com/mirumee/saleor'}, 'mutability': 'MUTABLE', 'type': 'LINK'}}}
+permission_manage_products = &lt;Permission: product | product | Manage products.&gt;
+media_root = None
+
+    @pytest.mark.vcr
+    def test_product_bulk_create_with_media_with_media_url(
+        staff_api_client,
+        product_type,
+        category,
+        description_json,
+        permission_manage_products,
+        media_root,
+    ):
+        # given
+        description_json_string = json.dumps(description_json)
+        product_type_id = graphene.Node.to_global_id("ProductType", product_type.pk)
+        category_id = graphene.Node.to_global_id("Category", category.pk)
+    
+        product_name_1 = "test name 1"
+        product_name_2 = "test name 2"
+        base_product_slug = "product-test-slug"
+        product_charge_taxes = True
+        product_tax_rate = "STANDARD"
+    
+        alt = "Rick Astley - Never Gonna Give You Up (Official Music Video)"
+        url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    
+        media_1 = {
+            "alt": "",
+            "mediaUrl": url,
+        }
+    
+        media_2 = {
+            "alt": "",
+            "mediaUrl": url,
+        }
+    
+        products = [
+            {
+                "productType": product_type_id,
+                "category": category_id,
+                "name": product_name_1,
+                "slug": f"{base_product_slug}-1",
+                "description": description_json_string,
+                "chargeTaxes": product_charge_taxes,
+                "taxCode": product_tax_rate,
+                "weight": 2,
+                "media": [media_1],
+            },
+            {
+                "productType": product_type_id,
+                "category": category_id,
+                "name": product_name_2,
+                "slug": f"{base_product_slug}-2",
+                "description": description_json_string,
+                "chargeTaxes": product_charge_taxes,
+                "taxCode": product_tax_rate,
+                "media": [media_2],
+            },
+        ]
+    
+        # when
+        body = get_multipart_request_body_with_multiple_files(
+            PRODUCT_BULK_CREATE_MUTATION, {"products": products}, [], {}
+        )
+    
+        staff_api_client.user.user_permissions.add(permission_manage_products)
+        response = staff_api_client.post_multipart(body)
+    
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/product/tests/mutations/test_product_bulk_create.py:504: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 5, 'column': 9}], 'path': ['productBulkCreate'], 'extensions': {'exception': {'code': 'SocketBlockedError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.mutations.test_product_bulk_create" name="test_product_bulk_create_with_attributes" time="0.271" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_bulk_create" name="test_product_bulk_create_with_attributes_using_external_refs" time="0.215" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_bulk_create" name="test_product_bulk_create_with_attributes_and_create_new_value_with_external_ref" time="0.203" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_bulk_create" name="test_product_bulk_create_return_error_when_attribute_id_and_external_ref_provided" time="0.148" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_bulk_create" name="test_product_bulk_create_with_meta_data" time="0.187" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_bulk_create" name="test_product_bulk_create_with_channel_listings" time="0.189" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_bulk_create" name="test_product_bulk_create_with_variants" time="0.267" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_bulk_create" name="test_product_bulk_create_with_variants_with_duplicated_sku" time="0.153" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_bulk_create" name="test_product_bulk_create_with_variants_send_product_variant_created_event" time="0.275" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_bulk_create" name="test_product_bulk_create_with_variants_and_stocks" time="0.267" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_bulk_create" name="test_product_bulk_create_with_variants_and_invalid_stock" time="0.164" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_bulk_create" name="test_product_bulk_create_with_variants_and_channel_listings" time="0.737" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_bulk_create" name="test_product_bulk_create_with_variants_and_channel_listings_with_wrong_price" time="0.155" /></testsuite></testsuites>

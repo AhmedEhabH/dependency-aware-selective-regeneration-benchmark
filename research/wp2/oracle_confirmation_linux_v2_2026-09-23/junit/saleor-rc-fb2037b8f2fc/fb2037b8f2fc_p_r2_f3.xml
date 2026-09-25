@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="17" time="4.863" timestamp="2026-09-25T01:45:00.636291-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.plugins.webhook.tests.test_shipping_webhook" name="test_excluded_shipping_methods_for_order" time="1.562" /><testcase classname="saleor.plugins.webhook.tests.test_shipping_webhook" name="test_multiple_app_with_excluded_shipping_methods_for_order" time="0.101" /><testcase classname="saleor.plugins.webhook.tests.test_shipping_webhook" name="test_multiple_webhooks_on_the_same_app_with_excluded_shipping_methods_for_order" time="0.099" /><testcase classname="saleor.plugins.webhook.tests.test_shipping_webhook" name="test_parse_excluded_shipping_methods_response" time="0.015" /><testcase classname="saleor.plugins.webhook.tests.test_shipping_webhook" name="test_order_shipping_methods" time="0.280" /><testcase classname="saleor.plugins.webhook.tests.test_shipping_webhook" name="test_order_available_shipping_methods[&lt;lambda&gt;-0]" time="0.234" /><testcase classname="saleor.plugins.webhook.tests.test_shipping_webhook" name="test_order_available_shipping_methods[&lt;lambda&gt;-1]" time="0.232" /><testcase classname="saleor.plugins.webhook.tests.test_shipping_webhook" name="test_checkout_shipping_methods" time="0.256" /><testcase classname="saleor.plugins.webhook.tests.test_shipping_webhook" name="test_checkout_available_shipping_methods" time="0.238" /><testcase classname="saleor.plugins.webhook.tests.test_shipping_webhook" name="test_checkout_shipping_methods_webhook_called_once" time="0.235" /><testcase classname="saleor.plugins.webhook.tests.test_shipping_webhook" name="test_trigger_webhook_sync" time="0.023"><failure message="AssertionError: expected call not found.&#10;Expected: send_webhook_request_sync(&lt;EventDelivery: EventDelivery object (191)&gt;)&#10;Actual: send_webhook_request_sync(&lt;App: Shipping App&gt;, &lt;EventDelivery: EventDelivery object (191)&gt;)">mock_request = &lt;MagicMock name='send_webhook_request_sync' id='139981084774208'&gt;
+shipping_app = &lt;App: Shipping App&gt;
+
+    @mock.patch("saleor.plugins.webhook.tasks.send_webhook_request_sync")
+    def test_trigger_webhook_sync(mock_request, shipping_app):
+        data = '{"key": "value"}'
+        webhook = shipping_app.webhooks.first()
+        trigger_webhook_sync(
+            WebhookEventSyncType.SHIPPING_LIST_METHODS_FOR_CHECKOUT, data, webhook
+        )
+        event_delivery = EventDelivery.objects.first()
+&gt;       mock_request.assert_called_once_with(event_delivery)
+
+saleor/plugins/webhook/tests/test_shipping_webhook.py:521: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.9/unittest/mock.py:919: in assert_called_once_with
+    return self.assert_called_with(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;MagicMock name='send_webhook_request_sync' id='139981084774208'&gt;
+args = (&lt;EventDelivery: EventDelivery object (191)&gt;,), kwargs = {}
+expected = call(&lt;EventDelivery: EventDelivery object (191)&gt;)
+actual = call(&lt;App: Shipping App&gt;, &lt;EventDelivery: EventDelivery object (191)&gt;)
+_error_message = &lt;function NonCallableMock.assert_called_with.&lt;locals&gt;._error_message at 0x7f4fe2d59700&gt;
+cause = None
+
+    def assert_called_with(self, /, *args, **kwargs):
+        """assert that the last call was made with the specified arguments.
+    
+        Raises an AssertionError if the args and keyword args passed in are
+        different to the last call to the mock."""
+        if self.call_args is None:
+            expected = self._format_mock_call_signature(args, kwargs)
+            actual = 'not called.'
+            error_message = ('expected call not found.\nExpected: %s\nActual: %s'
+                    % (expected, actual))
+            raise AssertionError(error_message)
+    
+        def _error_message():
+            msg = self._format_mock_failure_message(args, kwargs)
+            return msg
+        expected = self._call_matcher(_Call((args, kwargs), two=True))
+        actual = self._call_matcher(self.call_args)
+        if actual != expected:
+            cause = expected if isinstance(expected, Exception) else None
+&gt;           raise AssertionError(_error_message()) from cause
+E           AssertionError: expected call not found.
+E           Expected: send_webhook_request_sync(&lt;EventDelivery: EventDelivery object (191)&gt;)
+E           Actual: send_webhook_request_sync(&lt;App: Shipping App&gt;, &lt;EventDelivery: EventDelivery object (191)&gt;)
+
+/usr/local/lib/python3.9/unittest/mock.py:907: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_shipping_webhook" name="test_excluded_shipping_methods_for_checkout_webhook" time="0.221" /><testcase classname="saleor.plugins.webhook.tests.test_shipping_webhook" name="test_excluded_shipping_methods_for_checkout" time="0.243" /><testcase classname="saleor.plugins.webhook.tests.test_shipping_webhook" name="test_multiple_app_with_excluded_shipping_methods_for_checkout" time="0.224" /><testcase classname="saleor.plugins.webhook.tests.test_shipping_webhook" name="test_multiple_webhooks_on_the_same_app_with_excluded_shipping_methods_for_checkout" time="0.216" /><testcase classname="saleor.plugins.webhook.tests.test_shipping_webhook" name="test_generate_excluded_shipping_methods_for_order_payload" time="0.089" /><testcase classname="saleor.plugins.webhook.tests.test_shipping_webhook" name="test_generate_excluded_shipping_methods_for_checkout_payload" time="0.224" /></testsuite></testsuites>

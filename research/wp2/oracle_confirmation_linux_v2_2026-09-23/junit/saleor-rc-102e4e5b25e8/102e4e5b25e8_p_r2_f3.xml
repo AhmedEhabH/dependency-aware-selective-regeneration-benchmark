@@ -1,0 +1,1377 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="8" skipped="0" tests="24" time="6.161" timestamp="2026-09-24T19:59:36.141429+00:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_variants" name="test_products_query_with_attribute_value_reference_to_product_variants[product_type_variant_reference_attribute-containsAny-2-\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="1.273" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_variants" name="test_products_query_with_attribute_value_reference_to_product_variants[product_type_variant_reference_attribute-containsAny-2-\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.188" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_variants" name="test_products_query_with_attribute_value_reference_to_product_variants[product_type_variant_reference_attribute-containsAll-1-\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.206" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_variants" name="test_products_query_with_attribute_value_reference_to_product_variants[product_type_variant_reference_attribute-containsAll-1-\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.181" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_variants" name="test_products_query_with_attribute_value_reference_to_product_variants[product_type_variant_single_reference_attribute-containsAny-2-\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.184" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_variants" name="test_products_query_with_attribute_value_reference_to_product_variants[product_type_variant_single_reference_attribute-containsAny-2-\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.176" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_variants" name="test_products_query_with_attribute_value_reference_to_product_variants[product_type_variant_single_reference_attribute-containsAll-1-\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.189" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_variants" name="test_products_query_with_attribute_value_reference_to_product_variants[product_type_variant_single_reference_attribute-containsAll-1-\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.205" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_variants" name="test_products_query_with_attr_slug_and_attribute_value_reference_to_product_variants[scenario0-\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.213" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_variants" name="test_products_query_with_attr_slug_and_attribute_value_reference_to_product_variants[scenario0-\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.199" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_variants" name="test_products_query_with_attr_slug_and_attribute_value_reference_to_product_variants[scenario1-\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.206" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_variants" name="test_products_query_with_attr_slug_and_attribute_value_reference_to_product_variants[scenario1-\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.201" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_variants" name="test_products_query_with_attr_slug_and_attribute_value_reference_to_product_variants[scenario2-\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.187"><failure message="AssertionError: [{'message': &quot;Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.&quot;, 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">query = '\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $chann...dges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n'
+scenario = {'attr_fixture': 'product_type_variant_single_reference_attribute', 'filter': 'containsAny', 'expected': 2, 'product_assignments': {'product_with_first_variant': ['test-variant-1'], 'product_with_second_variant': ['test-variant-2']}, ...}
+request = &lt;FixtureRequest for &lt;Function test_products_query_with_attr_slug_and_attribute_value_reference_to_product_variants[sce...es {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]&gt;&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x75c1d4649700&gt;
+product_list = [&lt;saleor.product.models.Product(pk=844, name='Test product 1')&gt;, &lt;saleor.product.models.Product(pk=845, name='Test product 2')&gt;, &lt;saleor.product.models.Product(pk=846, name='Test product 3')&gt;]
+product_type = &lt;saleor.product.models.ProductType(pk=523, name='Default Type')&gt;
+product_variant_list = [&lt;ProductVariant: test-variant-1&gt;, &lt;ProductVariant: test-variant-2&gt;, &lt;ProductVariant: 3&gt;, &lt;ProductVariant: 4&gt;]
+channel_USD = &lt;Channel: main&gt;
+
+    @pytest.mark.parametrize("query", [PRODUCTS_WHERE_QUERY, PRODUCTS_FILTER_QUERY])
+    @pytest.mark.parametrize(
+        "scenario",
+        [
+            {
+                "attr_fixture": "product_type_variant_reference_attribute",
+                "filter": "containsAny",
+                "expected": 2,
+                "product_assignments": {
+                    "product_with_both_variants": ["test-variant-1", "test-variant-2"],
+                    "product_with_second_variant_only": ["test-variant-2"],
+                },
+                "search": ["test-variant-1", "test-variant-2"],
+            },
+            {
+                "attr_fixture": "product_type_variant_reference_attribute",
+                "filter": "containsAll",
+                "expected": 1,
+                "product_assignments": {
+                    "product_with_both_variants": ["test-variant-1", "test-variant-2"],
+                    "product_with_second_variant_only": ["test-variant-2"],
+                },
+                "search": ["test-variant-1", "test-variant-2"],
+            },
+            {
+                "attr_fixture": "product_type_variant_single_reference_attribute",
+                "filter": "containsAny",
+                "expected": 2,
+                "product_assignments": {
+                    "product_with_first_variant": ["test-variant-1"],
+                    "product_with_second_variant": ["test-variant-2"],
+                },
+                "search": ["test-variant-1", "test-variant-2"],
+            },
+            {
+                "attr_fixture": "product_type_variant_single_reference_attribute",
+                "filter": "containsAll",
+                "expected": 2,
+                "product_assignments": {
+                    "product_with_first_variant": ["test-variant-1"],
+                    "product_second_overridden": ["test-variant-1"],
+                },
+                "search": ["test-variant-1"],
+            },
+        ],
+    )
+    def test_products_query_with_attr_slug_and_attribute_value_reference_to_product_variants(
+        query,
+        scenario,
+        request,
+        staff_api_client,
+        product_list,
+        product_type,
+        product_variant_list,
+        channel_USD,
+    ):
+        # given
+        reference_attribute = request.getfixturevalue(scenario["attr_fixture"])
+        product_type.product_attributes.add(reference_attribute)
+    
+        first_variant_sku = "test-variant-1"
+        second_variant_sku = "test-variant-2"
+    
+        first_variant = product_variant_list[0]
+        first_variant.sku = first_variant_sku
+        first_variant.save()
+    
+        second_variant = product_variant_list[1]
+        second_variant.sku = second_variant_sku
+        second_variant.save()
+    
+        attribute_values = AttributeValue.objects.bulk_create(
+            [
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Variant {first_variant.pk}",
+                    slug=f"variant-{first_variant.pk}",
+                    reference_variant=first_variant,
+                ),
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Variant {second_variant.pk}",
+                    slug=f"variant-{second_variant.pk}",
+                    reference_variant=second_variant,
+                ),
+            ]
+        )
+    
+        sku_to_value = {
+            first_variant_sku: attribute_values[0],
+            second_variant_sku: attribute_values[1],
+        }
+    
+        for product, skus in zip(
+            product_list, scenario["product_assignments"].values(), strict=False
+        ):
+            associate_attribute_values_to_instance(
+                product,
+                {reference_attribute.pk: [sku_to_value[sku] for sku in skus]},
+            )
+    
+        variables = {
+            "where": {
+                "attributes": [
+                    {
+                        "slug": reference_attribute.slug,
+                        "value": {
+                            "reference": {
+                                "productVariantSkus": {
+                                    scenario["filter"]: scenario["search"]
+                                }
+                            }
+                        },
+                    }
+                ]
+            },
+            "channel": channel_USD.slug,
+        }
+    
+        # when
+        response = staff_api_client.post_graphql(
+            query,
+            variables,
+        )
+    
+        # then
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/product/tests/queries/products_filtrations/test_over_references_variants.py:253: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+ignore_errors = False
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': "Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.", 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_variants" name="test_products_query_with_attr_slug_and_attribute_value_reference_to_product_variants[scenario2-\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.182"><failure message="AssertionError: [{'message': &quot;Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.&quot;, 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">query = '\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $cha...dges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n'
+scenario = {'attr_fixture': 'product_type_variant_single_reference_attribute', 'filter': 'containsAny', 'expected': 2, 'product_assignments': {'product_with_first_variant': ['test-variant-1'], 'product_with_second_variant': ['test-variant-2']}, ...}
+request = &lt;FixtureRequest for &lt;Function test_products_query_with_attr_slug_and_attribute_value_reference_to_product_variants[sce...es {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]&gt;&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x75c1d46358e0&gt;
+product_list = [&lt;saleor.product.models.Product(pk=848, name='Test product 1')&gt;, &lt;saleor.product.models.Product(pk=849, name='Test product 2')&gt;, &lt;saleor.product.models.Product(pk=850, name='Test product 3')&gt;]
+product_type = &lt;saleor.product.models.ProductType(pk=524, name='Default Type')&gt;
+product_variant_list = [&lt;ProductVariant: test-variant-1&gt;, &lt;ProductVariant: test-variant-2&gt;, &lt;ProductVariant: 3&gt;, &lt;ProductVariant: 4&gt;]
+channel_USD = &lt;Channel: main&gt;
+
+    @pytest.mark.parametrize("query", [PRODUCTS_WHERE_QUERY, PRODUCTS_FILTER_QUERY])
+    @pytest.mark.parametrize(
+        "scenario",
+        [
+            {
+                "attr_fixture": "product_type_variant_reference_attribute",
+                "filter": "containsAny",
+                "expected": 2,
+                "product_assignments": {
+                    "product_with_both_variants": ["test-variant-1", "test-variant-2"],
+                    "product_with_second_variant_only": ["test-variant-2"],
+                },
+                "search": ["test-variant-1", "test-variant-2"],
+            },
+            {
+                "attr_fixture": "product_type_variant_reference_attribute",
+                "filter": "containsAll",
+                "expected": 1,
+                "product_assignments": {
+                    "product_with_both_variants": ["test-variant-1", "test-variant-2"],
+                    "product_with_second_variant_only": ["test-variant-2"],
+                },
+                "search": ["test-variant-1", "test-variant-2"],
+            },
+            {
+                "attr_fixture": "product_type_variant_single_reference_attribute",
+                "filter": "containsAny",
+                "expected": 2,
+                "product_assignments": {
+                    "product_with_first_variant": ["test-variant-1"],
+                    "product_with_second_variant": ["test-variant-2"],
+                },
+                "search": ["test-variant-1", "test-variant-2"],
+            },
+            {
+                "attr_fixture": "product_type_variant_single_reference_attribute",
+                "filter": "containsAll",
+                "expected": 2,
+                "product_assignments": {
+                    "product_with_first_variant": ["test-variant-1"],
+                    "product_second_overridden": ["test-variant-1"],
+                },
+                "search": ["test-variant-1"],
+            },
+        ],
+    )
+    def test_products_query_with_attr_slug_and_attribute_value_reference_to_product_variants(
+        query,
+        scenario,
+        request,
+        staff_api_client,
+        product_list,
+        product_type,
+        product_variant_list,
+        channel_USD,
+    ):
+        # given
+        reference_attribute = request.getfixturevalue(scenario["attr_fixture"])
+        product_type.product_attributes.add(reference_attribute)
+    
+        first_variant_sku = "test-variant-1"
+        second_variant_sku = "test-variant-2"
+    
+        first_variant = product_variant_list[0]
+        first_variant.sku = first_variant_sku
+        first_variant.save()
+    
+        second_variant = product_variant_list[1]
+        second_variant.sku = second_variant_sku
+        second_variant.save()
+    
+        attribute_values = AttributeValue.objects.bulk_create(
+            [
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Variant {first_variant.pk}",
+                    slug=f"variant-{first_variant.pk}",
+                    reference_variant=first_variant,
+                ),
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Variant {second_variant.pk}",
+                    slug=f"variant-{second_variant.pk}",
+                    reference_variant=second_variant,
+                ),
+            ]
+        )
+    
+        sku_to_value = {
+            first_variant_sku: attribute_values[0],
+            second_variant_sku: attribute_values[1],
+        }
+    
+        for product, skus in zip(
+            product_list, scenario["product_assignments"].values(), strict=False
+        ):
+            associate_attribute_values_to_instance(
+                product,
+                {reference_attribute.pk: [sku_to_value[sku] for sku in skus]},
+            )
+    
+        variables = {
+            "where": {
+                "attributes": [
+                    {
+                        "slug": reference_attribute.slug,
+                        "value": {
+                            "reference": {
+                                "productVariantSkus": {
+                                    scenario["filter"]: scenario["search"]
+                                }
+                            }
+                        },
+                    }
+                ]
+            },
+            "channel": channel_USD.slug,
+        }
+    
+        # when
+        response = staff_api_client.post_graphql(
+            query,
+            variables,
+        )
+    
+        # then
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/product/tests/queries/products_filtrations/test_over_references_variants.py:253: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+ignore_errors = False
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': "Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.", 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_variants" name="test_products_query_with_attr_slug_and_attribute_value_reference_to_product_variants[scenario3-\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.185"><failure message="AssertionError: [{'message': &quot;Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.&quot;, 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">query = '\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $chann...dges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n'
+scenario = {'attr_fixture': 'product_type_variant_single_reference_attribute', 'filter': 'containsAll', 'expected': 2, 'product_assignments': {'product_with_first_variant': ['test-variant-1'], 'product_second_overridden': ['test-variant-1']}, ...}
+request = &lt;FixtureRequest for &lt;Function test_products_query_with_attr_slug_and_attribute_value_reference_to_product_variants[sce...es {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]&gt;&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x75c1d44ee630&gt;
+product_list = [&lt;saleor.product.models.Product(pk=852, name='Test product 1')&gt;, &lt;saleor.product.models.Product(pk=853, name='Test product 2')&gt;, &lt;saleor.product.models.Product(pk=854, name='Test product 3')&gt;]
+product_type = &lt;saleor.product.models.ProductType(pk=525, name='Default Type')&gt;
+product_variant_list = [&lt;ProductVariant: test-variant-1&gt;, &lt;ProductVariant: test-variant-2&gt;, &lt;ProductVariant: 3&gt;, &lt;ProductVariant: 4&gt;]
+channel_USD = &lt;Channel: main&gt;
+
+    @pytest.mark.parametrize("query", [PRODUCTS_WHERE_QUERY, PRODUCTS_FILTER_QUERY])
+    @pytest.mark.parametrize(
+        "scenario",
+        [
+            {
+                "attr_fixture": "product_type_variant_reference_attribute",
+                "filter": "containsAny",
+                "expected": 2,
+                "product_assignments": {
+                    "product_with_both_variants": ["test-variant-1", "test-variant-2"],
+                    "product_with_second_variant_only": ["test-variant-2"],
+                },
+                "search": ["test-variant-1", "test-variant-2"],
+            },
+            {
+                "attr_fixture": "product_type_variant_reference_attribute",
+                "filter": "containsAll",
+                "expected": 1,
+                "product_assignments": {
+                    "product_with_both_variants": ["test-variant-1", "test-variant-2"],
+                    "product_with_second_variant_only": ["test-variant-2"],
+                },
+                "search": ["test-variant-1", "test-variant-2"],
+            },
+            {
+                "attr_fixture": "product_type_variant_single_reference_attribute",
+                "filter": "containsAny",
+                "expected": 2,
+                "product_assignments": {
+                    "product_with_first_variant": ["test-variant-1"],
+                    "product_with_second_variant": ["test-variant-2"],
+                },
+                "search": ["test-variant-1", "test-variant-2"],
+            },
+            {
+                "attr_fixture": "product_type_variant_single_reference_attribute",
+                "filter": "containsAll",
+                "expected": 2,
+                "product_assignments": {
+                    "product_with_first_variant": ["test-variant-1"],
+                    "product_second_overridden": ["test-variant-1"],
+                },
+                "search": ["test-variant-1"],
+            },
+        ],
+    )
+    def test_products_query_with_attr_slug_and_attribute_value_reference_to_product_variants(
+        query,
+        scenario,
+        request,
+        staff_api_client,
+        product_list,
+        product_type,
+        product_variant_list,
+        channel_USD,
+    ):
+        # given
+        reference_attribute = request.getfixturevalue(scenario["attr_fixture"])
+        product_type.product_attributes.add(reference_attribute)
+    
+        first_variant_sku = "test-variant-1"
+        second_variant_sku = "test-variant-2"
+    
+        first_variant = product_variant_list[0]
+        first_variant.sku = first_variant_sku
+        first_variant.save()
+    
+        second_variant = product_variant_list[1]
+        second_variant.sku = second_variant_sku
+        second_variant.save()
+    
+        attribute_values = AttributeValue.objects.bulk_create(
+            [
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Variant {first_variant.pk}",
+                    slug=f"variant-{first_variant.pk}",
+                    reference_variant=first_variant,
+                ),
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Variant {second_variant.pk}",
+                    slug=f"variant-{second_variant.pk}",
+                    reference_variant=second_variant,
+                ),
+            ]
+        )
+    
+        sku_to_value = {
+            first_variant_sku: attribute_values[0],
+            second_variant_sku: attribute_values[1],
+        }
+    
+        for product, skus in zip(
+            product_list, scenario["product_assignments"].values(), strict=False
+        ):
+            associate_attribute_values_to_instance(
+                product,
+                {reference_attribute.pk: [sku_to_value[sku] for sku in skus]},
+            )
+    
+        variables = {
+            "where": {
+                "attributes": [
+                    {
+                        "slug": reference_attribute.slug,
+                        "value": {
+                            "reference": {
+                                "productVariantSkus": {
+                                    scenario["filter"]: scenario["search"]
+                                }
+                            }
+                        },
+                    }
+                ]
+            },
+            "channel": channel_USD.slug,
+        }
+    
+        # when
+        response = staff_api_client.post_graphql(
+            query,
+            variables,
+        )
+    
+        # then
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/product/tests/queries/products_filtrations/test_over_references_variants.py:253: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+ignore_errors = False
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': "Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.", 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_variants" name="test_products_query_with_attr_slug_and_attribute_value_reference_to_product_variants[scenario3-\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.183"><failure message="AssertionError: [{'message': &quot;Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.&quot;, 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">query = '\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $cha...dges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n'
+scenario = {'attr_fixture': 'product_type_variant_single_reference_attribute', 'filter': 'containsAll', 'expected': 2, 'product_assignments': {'product_with_first_variant': ['test-variant-1'], 'product_second_overridden': ['test-variant-1']}, ...}
+request = &lt;FixtureRequest for &lt;Function test_products_query_with_attr_slug_and_attribute_value_reference_to_product_variants[sce...es {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]&gt;&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x75c1d46360f0&gt;
+product_list = [&lt;saleor.product.models.Product(pk=856, name='Test product 1')&gt;, &lt;saleor.product.models.Product(pk=857, name='Test product 2')&gt;, &lt;saleor.product.models.Product(pk=858, name='Test product 3')&gt;]
+product_type = &lt;saleor.product.models.ProductType(pk=526, name='Default Type')&gt;
+product_variant_list = [&lt;ProductVariant: test-variant-1&gt;, &lt;ProductVariant: test-variant-2&gt;, &lt;ProductVariant: 3&gt;, &lt;ProductVariant: 4&gt;]
+channel_USD = &lt;Channel: main&gt;
+
+    @pytest.mark.parametrize("query", [PRODUCTS_WHERE_QUERY, PRODUCTS_FILTER_QUERY])
+    @pytest.mark.parametrize(
+        "scenario",
+        [
+            {
+                "attr_fixture": "product_type_variant_reference_attribute",
+                "filter": "containsAny",
+                "expected": 2,
+                "product_assignments": {
+                    "product_with_both_variants": ["test-variant-1", "test-variant-2"],
+                    "product_with_second_variant_only": ["test-variant-2"],
+                },
+                "search": ["test-variant-1", "test-variant-2"],
+            },
+            {
+                "attr_fixture": "product_type_variant_reference_attribute",
+                "filter": "containsAll",
+                "expected": 1,
+                "product_assignments": {
+                    "product_with_both_variants": ["test-variant-1", "test-variant-2"],
+                    "product_with_second_variant_only": ["test-variant-2"],
+                },
+                "search": ["test-variant-1", "test-variant-2"],
+            },
+            {
+                "attr_fixture": "product_type_variant_single_reference_attribute",
+                "filter": "containsAny",
+                "expected": 2,
+                "product_assignments": {
+                    "product_with_first_variant": ["test-variant-1"],
+                    "product_with_second_variant": ["test-variant-2"],
+                },
+                "search": ["test-variant-1", "test-variant-2"],
+            },
+            {
+                "attr_fixture": "product_type_variant_single_reference_attribute",
+                "filter": "containsAll",
+                "expected": 2,
+                "product_assignments": {
+                    "product_with_first_variant": ["test-variant-1"],
+                    "product_second_overridden": ["test-variant-1"],
+                },
+                "search": ["test-variant-1"],
+            },
+        ],
+    )
+    def test_products_query_with_attr_slug_and_attribute_value_reference_to_product_variants(
+        query,
+        scenario,
+        request,
+        staff_api_client,
+        product_list,
+        product_type,
+        product_variant_list,
+        channel_USD,
+    ):
+        # given
+        reference_attribute = request.getfixturevalue(scenario["attr_fixture"])
+        product_type.product_attributes.add(reference_attribute)
+    
+        first_variant_sku = "test-variant-1"
+        second_variant_sku = "test-variant-2"
+    
+        first_variant = product_variant_list[0]
+        first_variant.sku = first_variant_sku
+        first_variant.save()
+    
+        second_variant = product_variant_list[1]
+        second_variant.sku = second_variant_sku
+        second_variant.save()
+    
+        attribute_values = AttributeValue.objects.bulk_create(
+            [
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Variant {first_variant.pk}",
+                    slug=f"variant-{first_variant.pk}",
+                    reference_variant=first_variant,
+                ),
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Variant {second_variant.pk}",
+                    slug=f"variant-{second_variant.pk}",
+                    reference_variant=second_variant,
+                ),
+            ]
+        )
+    
+        sku_to_value = {
+            first_variant_sku: attribute_values[0],
+            second_variant_sku: attribute_values[1],
+        }
+    
+        for product, skus in zip(
+            product_list, scenario["product_assignments"].values(), strict=False
+        ):
+            associate_attribute_values_to_instance(
+                product,
+                {reference_attribute.pk: [sku_to_value[sku] for sku in skus]},
+            )
+    
+        variables = {
+            "where": {
+                "attributes": [
+                    {
+                        "slug": reference_attribute.slug,
+                        "value": {
+                            "reference": {
+                                "productVariantSkus": {
+                                    scenario["filter"]: scenario["search"]
+                                }
+                            }
+                        },
+                    }
+                ]
+            },
+            "channel": channel_USD.slug,
+        }
+    
+        # when
+        response = staff_api_client.post_graphql(
+            query,
+            variables,
+        )
+    
+        # then
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/product/tests/queries/products_filtrations/test_over_references_variants.py:253: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+ignore_errors = False
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': "Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.", 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_variants" name="test_products_query_with_attr_slug_attribute_value_referenced_variant_ids[scenario0-\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.212" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_variants" name="test_products_query_with_attr_slug_attribute_value_referenced_variant_ids[scenario0-\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.210" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_variants" name="test_products_query_with_attr_slug_attribute_value_referenced_variant_ids[scenario1-\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.219" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_variants" name="test_products_query_with_attr_slug_attribute_value_referenced_variant_ids[scenario1-\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.214" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_variants" name="test_products_query_with_attr_slug_attribute_value_referenced_variant_ids[scenario2-\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.193"><failure message="AssertionError: [{'message': &quot;Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.&quot;, 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">query = '\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $chann...dges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n'
+scenario = {'attr_fixture': 'product_type_variant_single_reference_attribute', 'filter': 'containsAny', 'expected': 3, 'product_a...variant-1'], 'product_with_second_variant': ['test-variant-2'], 'product_with_third_variant': ['test-variant-3']}, ...}
+request = &lt;FixtureRequest for &lt;Function test_products_query_with_attr_slug_attribute_value_referenced_variant_ids[scenario2-\n  ...es {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]&gt;&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x75c1d4491160&gt;
+product_list = [&lt;saleor.product.models.Product(pk=876, name='Test product 1')&gt;, &lt;saleor.product.models.Product(pk=877, name='Test product 2')&gt;, &lt;saleor.product.models.Product(pk=878, name='Test product 3')&gt;]
+product_type = &lt;saleor.product.models.ProductType(pk=531, name='Default Type')&gt;
+product_variant_list = [&lt;ProductVariant: test-variant-1&gt;, &lt;ProductVariant: test-variant-2&gt;, &lt;ProductVariant: test-variant-3&gt;, &lt;ProductVariant: 4&gt;]
+channel_USD = &lt;Channel: main&gt;
+
+    @pytest.mark.parametrize("query", [PRODUCTS_WHERE_QUERY, PRODUCTS_FILTER_QUERY])
+    @pytest.mark.parametrize(
+        "scenario",
+        [
+            {
+                "attr_fixture": "product_type_variant_reference_attribute",
+                "filter": "containsAny",
+                "expected": 3,
+                "product_assignments": {
+                    "product_with_all_variants": [
+                        "test-variant-1",
+                        "test-variant-2",
+                        "test-variant-3",
+                    ],
+                    "product_with_same_all_variants": [
+                        "test-variant-1",
+                        "test-variant-2",
+                        "test-variant-3",
+                    ],
+                    "product_with_first_variant_only": ["test-variant-1"],
+                },
+                "search": ["test-variant-1", "test-variant-2", "test-variant-3"],
+            },
+            {
+                "attr_fixture": "product_type_variant_reference_attribute",
+                "filter": "containsAll",
+                "expected": 2,
+                "product_assignments": {
+                    "product_with_all_variants": [
+                        "test-variant-1",
+                        "test-variant-2",
+                        "test-variant-3",
+                    ],
+                    "product_with_same_all_variants": [
+                        "test-variant-1",
+                        "test-variant-2",
+                        "test-variant-3",
+                    ],
+                    "product_with_first_variant_only": ["test-variant-1"],
+                },
+                "search": ["test-variant-1", "test-variant-2", "test-variant-3"],
+            },
+            {
+                "attr_fixture": "product_type_variant_single_reference_attribute",
+                "filter": "containsAny",
+                "expected": 3,
+                "product_assignments": {
+                    "product_with_first_variant": ["test-variant-1"],
+                    "product_with_second_variant": ["test-variant-2"],
+                    "product_with_third_variant": ["test-variant-3"],
+                },
+                "search": ["test-variant-1", "test-variant-2", "test-variant-3"],
+            },
+            {
+                "attr_fixture": "product_type_variant_single_reference_attribute",
+                "filter": "containsAll",
+                "expected": 1,
+                "product_assignments": {
+                    "product_with_first_variant": ["test-variant-1"],
+                    "product_with_second_variant": ["test-variant-2"],
+                    "product_with_third_variant": ["test-variant-3"],
+                },
+                "search": ["test-variant-1"],
+            },
+        ],
+    )
+    def test_products_query_with_attr_slug_attribute_value_referenced_variant_ids(
+        query,
+        scenario,
+        request,
+        staff_api_client,
+        product_list,
+        product_type,
+        product_variant_list,
+        channel_USD,
+    ):
+        # given
+        reference_attribute = request.getfixturevalue(scenario["attr_fixture"])
+        product_type.product_attributes.add(reference_attribute)
+    
+        first_variant = product_variant_list[0]
+        second_variant = product_variant_list[1]
+        third_variant = product_variant_list[2]
+    
+        first_variant.sku = "test-variant-1"
+        first_variant.save()
+    
+        second_variant.sku = "test-variant-2"
+        second_variant.save()
+    
+        third_variant.sku = "test-variant-3"
+        third_variant.save()
+    
+        attr_values = AttributeValue.objects.bulk_create(
+            [
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Variant {first_variant.pk}",
+                    slug=f"variant-{first_variant.pk}",
+                    reference_variant=first_variant,
+                ),
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Variant {second_variant.pk}",
+                    slug=f"variant-{second_variant.pk}",
+                    reference_variant=second_variant,
+                ),
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Variant {third_variant.pk}",
+                    slug=f"variant-{third_variant.pk}",
+                    reference_variant=third_variant,
+                ),
+            ]
+        )
+    
+        # Assign values based on product_value_assignments configuration
+        sku_to_value = {
+            first_variant.sku: attr_values[0],
+            second_variant.sku: attr_values[1],
+            third_variant.sku: attr_values[2],
+        }
+    
+        for product, skus in zip(
+            product_list, scenario["product_assignments"].values(), strict=False
+        ):
+            associate_attribute_values_to_instance(
+                product,
+                {reference_attribute.pk: [sku_to_value[sku] for sku in skus]},
+            )
+    
+        ref_lookup = {
+            variant.sku: variant
+            for variant in [first_variant, second_variant, third_variant]
+        }
+        search_ids = [to_global_id_or_none(ref_lookup[sku]) for sku in scenario["search"]]
+    
+        variables = {
+            "where": {
+                "attributes": [
+                    {
+                        "slug": reference_attribute.slug,
+                        "value": {
+                            "reference": {"referencedIds": {scenario["filter"]: search_ids}}
+                        },
+                    }
+                ]
+            },
+            "channel": channel_USD.slug,
+        }
+    
+        # when
+        response = staff_api_client.post_graphql(
+            query,
+            variables,
+        )
+    
+        # then
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/product/tests/queries/products_filtrations/test_over_references_variants.py:421: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+ignore_errors = False
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': "Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.", 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_variants" name="test_products_query_with_attr_slug_attribute_value_referenced_variant_ids[scenario2-\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.195"><failure message="AssertionError: [{'message': &quot;Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.&quot;, 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">query = '\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $cha...dges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n'
+scenario = {'attr_fixture': 'product_type_variant_single_reference_attribute', 'filter': 'containsAny', 'expected': 3, 'product_a...variant-1'], 'product_with_second_variant': ['test-variant-2'], 'product_with_third_variant': ['test-variant-3']}, ...}
+request = &lt;FixtureRequest for &lt;Function test_products_query_with_attr_slug_attribute_value_referenced_variant_ids[scenario2-\n  ...es {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]&gt;&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x75c1d44c5eb0&gt;
+product_list = [&lt;saleor.product.models.Product(pk=880, name='Test product 1')&gt;, &lt;saleor.product.models.Product(pk=881, name='Test product 2')&gt;, &lt;saleor.product.models.Product(pk=882, name='Test product 3')&gt;]
+product_type = &lt;saleor.product.models.ProductType(pk=532, name='Default Type')&gt;
+product_variant_list = [&lt;ProductVariant: test-variant-1&gt;, &lt;ProductVariant: test-variant-2&gt;, &lt;ProductVariant: test-variant-3&gt;, &lt;ProductVariant: 4&gt;]
+channel_USD = &lt;Channel: main&gt;
+
+    @pytest.mark.parametrize("query", [PRODUCTS_WHERE_QUERY, PRODUCTS_FILTER_QUERY])
+    @pytest.mark.parametrize(
+        "scenario",
+        [
+            {
+                "attr_fixture": "product_type_variant_reference_attribute",
+                "filter": "containsAny",
+                "expected": 3,
+                "product_assignments": {
+                    "product_with_all_variants": [
+                        "test-variant-1",
+                        "test-variant-2",
+                        "test-variant-3",
+                    ],
+                    "product_with_same_all_variants": [
+                        "test-variant-1",
+                        "test-variant-2",
+                        "test-variant-3",
+                    ],
+                    "product_with_first_variant_only": ["test-variant-1"],
+                },
+                "search": ["test-variant-1", "test-variant-2", "test-variant-3"],
+            },
+            {
+                "attr_fixture": "product_type_variant_reference_attribute",
+                "filter": "containsAll",
+                "expected": 2,
+                "product_assignments": {
+                    "product_with_all_variants": [
+                        "test-variant-1",
+                        "test-variant-2",
+                        "test-variant-3",
+                    ],
+                    "product_with_same_all_variants": [
+                        "test-variant-1",
+                        "test-variant-2",
+                        "test-variant-3",
+                    ],
+                    "product_with_first_variant_only": ["test-variant-1"],
+                },
+                "search": ["test-variant-1", "test-variant-2", "test-variant-3"],
+            },
+            {
+                "attr_fixture": "product_type_variant_single_reference_attribute",
+                "filter": "containsAny",
+                "expected": 3,
+                "product_assignments": {
+                    "product_with_first_variant": ["test-variant-1"],
+                    "product_with_second_variant": ["test-variant-2"],
+                    "product_with_third_variant": ["test-variant-3"],
+                },
+                "search": ["test-variant-1", "test-variant-2", "test-variant-3"],
+            },
+            {
+                "attr_fixture": "product_type_variant_single_reference_attribute",
+                "filter": "containsAll",
+                "expected": 1,
+                "product_assignments": {
+                    "product_with_first_variant": ["test-variant-1"],
+                    "product_with_second_variant": ["test-variant-2"],
+                    "product_with_third_variant": ["test-variant-3"],
+                },
+                "search": ["test-variant-1"],
+            },
+        ],
+    )
+    def test_products_query_with_attr_slug_attribute_value_referenced_variant_ids(
+        query,
+        scenario,
+        request,
+        staff_api_client,
+        product_list,
+        product_type,
+        product_variant_list,
+        channel_USD,
+    ):
+        # given
+        reference_attribute = request.getfixturevalue(scenario["attr_fixture"])
+        product_type.product_attributes.add(reference_attribute)
+    
+        first_variant = product_variant_list[0]
+        second_variant = product_variant_list[1]
+        third_variant = product_variant_list[2]
+    
+        first_variant.sku = "test-variant-1"
+        first_variant.save()
+    
+        second_variant.sku = "test-variant-2"
+        second_variant.save()
+    
+        third_variant.sku = "test-variant-3"
+        third_variant.save()
+    
+        attr_values = AttributeValue.objects.bulk_create(
+            [
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Variant {first_variant.pk}",
+                    slug=f"variant-{first_variant.pk}",
+                    reference_variant=first_variant,
+                ),
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Variant {second_variant.pk}",
+                    slug=f"variant-{second_variant.pk}",
+                    reference_variant=second_variant,
+                ),
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Variant {third_variant.pk}",
+                    slug=f"variant-{third_variant.pk}",
+                    reference_variant=third_variant,
+                ),
+            ]
+        )
+    
+        # Assign values based on product_value_assignments configuration
+        sku_to_value = {
+            first_variant.sku: attr_values[0],
+            second_variant.sku: attr_values[1],
+            third_variant.sku: attr_values[2],
+        }
+    
+        for product, skus in zip(
+            product_list, scenario["product_assignments"].values(), strict=False
+        ):
+            associate_attribute_values_to_instance(
+                product,
+                {reference_attribute.pk: [sku_to_value[sku] for sku in skus]},
+            )
+    
+        ref_lookup = {
+            variant.sku: variant
+            for variant in [first_variant, second_variant, third_variant]
+        }
+        search_ids = [to_global_id_or_none(ref_lookup[sku]) for sku in scenario["search"]]
+    
+        variables = {
+            "where": {
+                "attributes": [
+                    {
+                        "slug": reference_attribute.slug,
+                        "value": {
+                            "reference": {"referencedIds": {scenario["filter"]: search_ids}}
+                        },
+                    }
+                ]
+            },
+            "channel": channel_USD.slug,
+        }
+    
+        # when
+        response = staff_api_client.post_graphql(
+            query,
+            variables,
+        )
+    
+        # then
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/product/tests/queries/products_filtrations/test_over_references_variants.py:421: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+ignore_errors = False
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': "Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.", 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_variants" name="test_products_query_with_attr_slug_attribute_value_referenced_variant_ids[scenario3-\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.199"><failure message="AssertionError: [{'message': &quot;Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.&quot;, 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">query = '\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $chann...dges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n'
+scenario = {'attr_fixture': 'product_type_variant_single_reference_attribute', 'filter': 'containsAll', 'expected': 1, 'product_a...variant-1'], 'product_with_second_variant': ['test-variant-2'], 'product_with_third_variant': ['test-variant-3']}, ...}
+request = &lt;FixtureRequest for &lt;Function test_products_query_with_attr_slug_attribute_value_referenced_variant_ids[scenario3-\n  ...es {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]&gt;&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x75c1d4493e00&gt;
+product_list = [&lt;saleor.product.models.Product(pk=884, name='Test product 1')&gt;, &lt;saleor.product.models.Product(pk=885, name='Test product 2')&gt;, &lt;saleor.product.models.Product(pk=886, name='Test product 3')&gt;]
+product_type = &lt;saleor.product.models.ProductType(pk=533, name='Default Type')&gt;
+product_variant_list = [&lt;ProductVariant: test-variant-1&gt;, &lt;ProductVariant: test-variant-2&gt;, &lt;ProductVariant: test-variant-3&gt;, &lt;ProductVariant: 4&gt;]
+channel_USD = &lt;Channel: main&gt;
+
+    @pytest.mark.parametrize("query", [PRODUCTS_WHERE_QUERY, PRODUCTS_FILTER_QUERY])
+    @pytest.mark.parametrize(
+        "scenario",
+        [
+            {
+                "attr_fixture": "product_type_variant_reference_attribute",
+                "filter": "containsAny",
+                "expected": 3,
+                "product_assignments": {
+                    "product_with_all_variants": [
+                        "test-variant-1",
+                        "test-variant-2",
+                        "test-variant-3",
+                    ],
+                    "product_with_same_all_variants": [
+                        "test-variant-1",
+                        "test-variant-2",
+                        "test-variant-3",
+                    ],
+                    "product_with_first_variant_only": ["test-variant-1"],
+                },
+                "search": ["test-variant-1", "test-variant-2", "test-variant-3"],
+            },
+            {
+                "attr_fixture": "product_type_variant_reference_attribute",
+                "filter": "containsAll",
+                "expected": 2,
+                "product_assignments": {
+                    "product_with_all_variants": [
+                        "test-variant-1",
+                        "test-variant-2",
+                        "test-variant-3",
+                    ],
+                    "product_with_same_all_variants": [
+                        "test-variant-1",
+                        "test-variant-2",
+                        "test-variant-3",
+                    ],
+                    "product_with_first_variant_only": ["test-variant-1"],
+                },
+                "search": ["test-variant-1", "test-variant-2", "test-variant-3"],
+            },
+            {
+                "attr_fixture": "product_type_variant_single_reference_attribute",
+                "filter": "containsAny",
+                "expected": 3,
+                "product_assignments": {
+                    "product_with_first_variant": ["test-variant-1"],
+                    "product_with_second_variant": ["test-variant-2"],
+                    "product_with_third_variant": ["test-variant-3"],
+                },
+                "search": ["test-variant-1", "test-variant-2", "test-variant-3"],
+            },
+            {
+                "attr_fixture": "product_type_variant_single_reference_attribute",
+                "filter": "containsAll",
+                "expected": 1,
+                "product_assignments": {
+                    "product_with_first_variant": ["test-variant-1"],
+                    "product_with_second_variant": ["test-variant-2"],
+                    "product_with_third_variant": ["test-variant-3"],
+                },
+                "search": ["test-variant-1"],
+            },
+        ],
+    )
+    def test_products_query_with_attr_slug_attribute_value_referenced_variant_ids(
+        query,
+        scenario,
+        request,
+        staff_api_client,
+        product_list,
+        product_type,
+        product_variant_list,
+        channel_USD,
+    ):
+        # given
+        reference_attribute = request.getfixturevalue(scenario["attr_fixture"])
+        product_type.product_attributes.add(reference_attribute)
+    
+        first_variant = product_variant_list[0]
+        second_variant = product_variant_list[1]
+        third_variant = product_variant_list[2]
+    
+        first_variant.sku = "test-variant-1"
+        first_variant.save()
+    
+        second_variant.sku = "test-variant-2"
+        second_variant.save()
+    
+        third_variant.sku = "test-variant-3"
+        third_variant.save()
+    
+        attr_values = AttributeValue.objects.bulk_create(
+            [
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Variant {first_variant.pk}",
+                    slug=f"variant-{first_variant.pk}",
+                    reference_variant=first_variant,
+                ),
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Variant {second_variant.pk}",
+                    slug=f"variant-{second_variant.pk}",
+                    reference_variant=second_variant,
+                ),
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Variant {third_variant.pk}",
+                    slug=f"variant-{third_variant.pk}",
+                    reference_variant=third_variant,
+                ),
+            ]
+        )
+    
+        # Assign values based on product_value_assignments configuration
+        sku_to_value = {
+            first_variant.sku: attr_values[0],
+            second_variant.sku: attr_values[1],
+            third_variant.sku: attr_values[2],
+        }
+    
+        for product, skus in zip(
+            product_list, scenario["product_assignments"].values(), strict=False
+        ):
+            associate_attribute_values_to_instance(
+                product,
+                {reference_attribute.pk: [sku_to_value[sku] for sku in skus]},
+            )
+    
+        ref_lookup = {
+            variant.sku: variant
+            for variant in [first_variant, second_variant, third_variant]
+        }
+        search_ids = [to_global_id_or_none(ref_lookup[sku]) for sku in scenario["search"]]
+    
+        variables = {
+            "where": {
+                "attributes": [
+                    {
+                        "slug": reference_attribute.slug,
+                        "value": {
+                            "reference": {"referencedIds": {scenario["filter"]: search_ids}}
+                        },
+                    }
+                ]
+            },
+            "channel": channel_USD.slug,
+        }
+    
+        # when
+        response = staff_api_client.post_graphql(
+            query,
+            variables,
+        )
+    
+        # then
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/product/tests/queries/products_filtrations/test_over_references_variants.py:421: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+ignore_errors = False
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': "Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.", 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_variants" name="test_products_query_with_attr_slug_attribute_value_referenced_variant_ids[scenario3-\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.193"><failure message="AssertionError: [{'message': &quot;Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.&quot;, 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">query = '\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $cha...dges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n'
+scenario = {'attr_fixture': 'product_type_variant_single_reference_attribute', 'filter': 'containsAll', 'expected': 1, 'product_a...variant-1'], 'product_with_second_variant': ['test-variant-2'], 'product_with_third_variant': ['test-variant-3']}, ...}
+request = &lt;FixtureRequest for &lt;Function test_products_query_with_attr_slug_attribute_value_referenced_variant_ids[scenario3-\n  ...es {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]&gt;&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x75c1d443fb00&gt;
+product_list = [&lt;saleor.product.models.Product(pk=888, name='Test product 1')&gt;, &lt;saleor.product.models.Product(pk=889, name='Test product 2')&gt;, &lt;saleor.product.models.Product(pk=890, name='Test product 3')&gt;]
+product_type = &lt;saleor.product.models.ProductType(pk=534, name='Default Type')&gt;
+product_variant_list = [&lt;ProductVariant: test-variant-1&gt;, &lt;ProductVariant: test-variant-2&gt;, &lt;ProductVariant: test-variant-3&gt;, &lt;ProductVariant: 4&gt;]
+channel_USD = &lt;Channel: main&gt;
+
+    @pytest.mark.parametrize("query", [PRODUCTS_WHERE_QUERY, PRODUCTS_FILTER_QUERY])
+    @pytest.mark.parametrize(
+        "scenario",
+        [
+            {
+                "attr_fixture": "product_type_variant_reference_attribute",
+                "filter": "containsAny",
+                "expected": 3,
+                "product_assignments": {
+                    "product_with_all_variants": [
+                        "test-variant-1",
+                        "test-variant-2",
+                        "test-variant-3",
+                    ],
+                    "product_with_same_all_variants": [
+                        "test-variant-1",
+                        "test-variant-2",
+                        "test-variant-3",
+                    ],
+                    "product_with_first_variant_only": ["test-variant-1"],
+                },
+                "search": ["test-variant-1", "test-variant-2", "test-variant-3"],
+            },
+            {
+                "attr_fixture": "product_type_variant_reference_attribute",
+                "filter": "containsAll",
+                "expected": 2,
+                "product_assignments": {
+                    "product_with_all_variants": [
+                        "test-variant-1",
+                        "test-variant-2",
+                        "test-variant-3",
+                    ],
+                    "product_with_same_all_variants": [
+                        "test-variant-1",
+                        "test-variant-2",
+                        "test-variant-3",
+                    ],
+                    "product_with_first_variant_only": ["test-variant-1"],
+                },
+                "search": ["test-variant-1", "test-variant-2", "test-variant-3"],
+            },
+            {
+                "attr_fixture": "product_type_variant_single_reference_attribute",
+                "filter": "containsAny",
+                "expected": 3,
+                "product_assignments": {
+                    "product_with_first_variant": ["test-variant-1"],
+                    "product_with_second_variant": ["test-variant-2"],
+                    "product_with_third_variant": ["test-variant-3"],
+                },
+                "search": ["test-variant-1", "test-variant-2", "test-variant-3"],
+            },
+            {
+                "attr_fixture": "product_type_variant_single_reference_attribute",
+                "filter": "containsAll",
+                "expected": 1,
+                "product_assignments": {
+                    "product_with_first_variant": ["test-variant-1"],
+                    "product_with_second_variant": ["test-variant-2"],
+                    "product_with_third_variant": ["test-variant-3"],
+                },
+                "search": ["test-variant-1"],
+            },
+        ],
+    )
+    def test_products_query_with_attr_slug_attribute_value_referenced_variant_ids(
+        query,
+        scenario,
+        request,
+        staff_api_client,
+        product_list,
+        product_type,
+        product_variant_list,
+        channel_USD,
+    ):
+        # given
+        reference_attribute = request.getfixturevalue(scenario["attr_fixture"])
+        product_type.product_attributes.add(reference_attribute)
+    
+        first_variant = product_variant_list[0]
+        second_variant = product_variant_list[1]
+        third_variant = product_variant_list[2]
+    
+        first_variant.sku = "test-variant-1"
+        first_variant.save()
+    
+        second_variant.sku = "test-variant-2"
+        second_variant.save()
+    
+        third_variant.sku = "test-variant-3"
+        third_variant.save()
+    
+        attr_values = AttributeValue.objects.bulk_create(
+            [
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Variant {first_variant.pk}",
+                    slug=f"variant-{first_variant.pk}",
+                    reference_variant=first_variant,
+                ),
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Variant {second_variant.pk}",
+                    slug=f"variant-{second_variant.pk}",
+                    reference_variant=second_variant,
+                ),
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Variant {third_variant.pk}",
+                    slug=f"variant-{third_variant.pk}",
+                    reference_variant=third_variant,
+                ),
+            ]
+        )
+    
+        # Assign values based on product_value_assignments configuration
+        sku_to_value = {
+            first_variant.sku: attr_values[0],
+            second_variant.sku: attr_values[1],
+            third_variant.sku: attr_values[2],
+        }
+    
+        for product, skus in zip(
+            product_list, scenario["product_assignments"].values(), strict=False
+        ):
+            associate_attribute_values_to_instance(
+                product,
+                {reference_attribute.pk: [sku_to_value[sku] for sku in skus]},
+            )
+    
+        ref_lookup = {
+            variant.sku: variant
+            for variant in [first_variant, second_variant, third_variant]
+        }
+        search_ids = [to_global_id_or_none(ref_lookup[sku]) for sku in scenario["search"]]
+    
+        variables = {
+            "where": {
+                "attributes": [
+                    {
+                        "slug": reference_attribute.slug,
+                        "value": {
+                            "reference": {"referencedIds": {scenario["filter"]: search_ids}}
+                        },
+                    }
+                ]
+            },
+            "channel": channel_USD.slug,
+        }
+    
+        # when
+        response = staff_api_client.post_graphql(
+            query,
+            variables,
+        )
+    
+        # then
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/product/tests/queries/products_filtrations/test_over_references_variants.py:421: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+ignore_errors = False
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': "Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.", 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase></testsuite></testsuites>

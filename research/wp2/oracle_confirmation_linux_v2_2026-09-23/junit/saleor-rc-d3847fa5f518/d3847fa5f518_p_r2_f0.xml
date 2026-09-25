@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="1" time="0.309" timestamp="2026-09-25T04:59:16.515337+00:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="" name="saleor.checkout.tests.test_migrations_tasks" time="0.000"><error message="collection failure">ImportError while importing test module '/workspace/d3847fa5f518_p/saleor/checkout/tests/test_migrations_tasks.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+saleor/checkout/tests/test_migrations_tasks.py:3: in &lt;module&gt;
+    from ..migrations.tasks.saleor3_21 import (
+E   ModuleNotFoundError: No module named 'saleor.checkout.migrations.tasks.saleor3_21'</error></testcase></testsuite></testsuites>

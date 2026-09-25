@@ -1,0 +1,689 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="39" skipped="0" tests="47" time="4.667" timestamp="2026-09-24T18:01:43.559697-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_category_created" time="1.220"><failure message="assert '[{&quot;category&quot;...meta&quot;: null}]' == '{&quot;category&quot;:...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;category&quot;: {&quot;id&quot;: &quot;Q2F0ZWdvcnk6MzM=&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;category&quot;: {&quot;id&quot;: &quot;Q2F0ZWdvcnk6MzM=&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                      +">category = &lt;Category: Default&gt;
+subscription_category_created_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_category_created(category, subscription_category_created_webhook):
+        # given
+        webhooks = [subscription_category_created_webhook]
+        event_type = WebhookEventAsyncType.CATEGORY_CREATED
+        category_id = graphene.Node.to_global_id("Category", category.id)
+    
+        # when
+        deliveries = create_deliveries_for_subscriptions(event_type, category, webhooks)
+    
+        # then
+        expected_payload = json.dumps({"category": {"id": category_id}, "meta": None})
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"category"...meta": null}]' == '{"category":..."meta": null}'
+E         
+E         - {"category": {"id": "Q2F0ZWdvcnk6MzM="}, "meta": null}
+E         + [{"category": {"id": "Q2F0ZWdvcnk6MzM="}, "meta": null}]
+E         ? +                                                      +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py:22: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_category_updated" time="0.025"><failure message="assert '[{&quot;category&quot;...meta&quot;: null}]' == '{&quot;category&quot;:...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;category&quot;: {&quot;id&quot;: &quot;Q2F0ZWdvcnk6MzQ=&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;category&quot;: {&quot;id&quot;: &quot;Q2F0ZWdvcnk6MzQ=&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                      +">category = &lt;Category: Default&gt;
+subscription_category_updated_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_category_updated(category, subscription_category_updated_webhook):
+        # given
+        webhooks = [subscription_category_updated_webhook]
+        event_type = WebhookEventAsyncType.CATEGORY_UPDATED
+        category_id = graphene.Node.to_global_id("Category", category.id)
+    
+        # when
+        deliveries = create_deliveries_for_subscriptions(event_type, category, webhooks)
+    
+        # then
+        expected_payload = json.dumps({"category": {"id": category_id}, "meta": None})
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"category"...meta": null}]' == '{"category":..."meta": null}'
+E         
+E         - {"category": {"id": "Q2F0ZWdvcnk6MzQ="}, "meta": null}
+E         + [{"category": {"id": "Q2F0ZWdvcnk6MzQ="}, "meta": null}]
+E         ? +                                                      +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py:38: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_category_deleted" time="0.025"><failure message="assert '[{&quot;category&quot;...meta&quot;: null}]' == '{&quot;category&quot;:...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;category&quot;: {&quot;id&quot;: &quot;Q2F0ZWdvcnk6MzU=&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;category&quot;: {&quot;id&quot;: &quot;Q2F0ZWdvcnk6MzU=&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                      +">category = &lt;Category: Default&gt;
+subscription_category_deleted_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_category_deleted(category, subscription_category_deleted_webhook):
+        # given
+        webhooks = [subscription_category_deleted_webhook]
+        event_type = WebhookEventAsyncType.CATEGORY_DELETED
+        category_id = graphene.Node.to_global_id("Category", category.id)
+    
+        # when
+        deliveries = create_deliveries_for_subscriptions(event_type, category, webhooks)
+    
+        # then
+        expected_payload = json.dumps({"category": {"id": category_id}, "meta": None})
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"category"...meta": null}]' == '{"category":..."meta": null}'
+E         
+E         - {"category": {"id": "Q2F0ZWdvcnk6MzU="}, "meta": null}
+E         + [{"category": {"id": "Q2F0ZWdvcnk6MzU="}, "meta": null}]
+E         ? +                                                      +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py:54: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_product_created" time="0.094"><failure message="assert '[{&quot;product&quot;:...meta&quot;: null}]' == '{&quot;product&quot;: ...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;product&quot;: {&quot;id&quot;: &quot;UHJvZHVjdDozMw==&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;product&quot;: {&quot;id&quot;: &quot;UHJvZHVjdDozMw==&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                     +">product = &lt;saleor.product.models.Product(pk=33, name='Test product')&gt;
+subscription_product_created_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_product_created(product, subscription_product_created_webhook):
+        webhooks = [subscription_product_created_webhook]
+        event_type = WebhookEventAsyncType.PRODUCT_CREATED
+        product_id = graphene.Node.to_global_id("Product", product.id)
+        deliveries = create_deliveries_for_subscriptions(event_type, product, webhooks)
+        expected_payload = json.dumps({"product": {"id": product_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"product":...meta": null}]' == '{"product": ..."meta": null}'
+E         
+E         - {"product": {"id": "UHJvZHVjdDozMw=="}, "meta": null}
+E         + [{"product": {"id": "UHJvZHVjdDozMw=="}, "meta": null}]
+E         ? +                                                     +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py:66: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_product_updated" time="0.077"><failure message="assert '[{&quot;product&quot;:...meta&quot;: null}]' == '{&quot;product&quot;: ...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;product&quot;: {&quot;id&quot;: &quot;UHJvZHVjdDozNA==&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;product&quot;: {&quot;id&quot;: &quot;UHJvZHVjdDozNA==&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                     +">product = &lt;saleor.product.models.Product(pk=34, name='Test product')&gt;
+subscription_product_updated_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_product_updated(product, subscription_product_updated_webhook):
+        webhooks = [subscription_product_updated_webhook]
+        event_type = WebhookEventAsyncType.PRODUCT_UPDATED
+        product_id = graphene.Node.to_global_id("Product", product.id)
+        deliveries = create_deliveries_for_subscriptions(event_type, product, webhooks)
+        expected_payload = json.dumps({"product": {"id": product_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"product":...meta": null}]' == '{"product": ..."meta": null}'
+E         
+E         - {"product": {"id": "UHJvZHVjdDozNA=="}, "meta": null}
+E         + [{"product": {"id": "UHJvZHVjdDozNA=="}, "meta": null}]
+E         ? +                                                     +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py:78: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_product_deleted" time="0.077"><failure message="assert '[{&quot;product&quot;:...meta&quot;: null}]' == '{&quot;product&quot;: ...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;product&quot;: {&quot;id&quot;: &quot;UHJvZHVjdDozNQ==&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;product&quot;: {&quot;id&quot;: &quot;UHJvZHVjdDozNQ==&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                     +">product = &lt;saleor.product.models.Product(pk=35, name='Test product')&gt;
+subscription_product_deleted_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_product_deleted(product, subscription_product_deleted_webhook):
+        webhooks = [subscription_product_deleted_webhook]
+        event_type = WebhookEventAsyncType.PRODUCT_DELETED
+        product_id = graphene.Node.to_global_id("Product", product.id)
+        deliveries = create_deliveries_for_subscriptions(event_type, product, webhooks)
+        expected_payload = json.dumps({"product": {"id": product_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"product":...meta": null}]' == '{"product": ..."meta": null}'
+E         
+E         - {"product": {"id": "UHJvZHVjdDozNQ=="}, "meta": null}
+E         + [{"product": {"id": "UHJvZHVjdDozNQ=="}, "meta": null}]
+E         ? +                                                     +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py:90: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_product_variant_created" time="0.081"><failure message="assert '[{&quot;productVa...meta&quot;: null}]' == '{&quot;productVar...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;productVariant&quot;: {&quot;id&quot;: &quot;UHJvZHVjdFZhcmlhbnQ6NDk=&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;productVariant&quot;: {&quot;id&quot;: &quot;UHJvZHVjdFZhcmlhbnQ6NDk=&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                                    +">variant = &lt;ProductVariant: SKU_A&gt;
+subscription_product_variant_created_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_product_variant_created(variant, subscription_product_variant_created_webhook):
+        webhooks = [subscription_product_variant_created_webhook]
+        event_type = WebhookEventAsyncType.PRODUCT_VARIANT_CREATED
+        variant_id = graphene.Node.to_global_id("ProductVariant", variant.id)
+        deliveries = create_deliveries_for_subscriptions(event_type, variant, webhooks)
+        expected_payload = json.dumps({"productVariant": {"id": variant_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"productVa...meta": null}]' == '{"productVar..."meta": null}'
+E         
+E         - {"productVariant": {"id": "UHJvZHVjdFZhcmlhbnQ6NDk="}, "meta": null}
+E         + [{"productVariant": {"id": "UHJvZHVjdFZhcmlhbnQ6NDk="}, "meta": null}]
+E         ? +                                                                    +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py:102: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_product_variant_updated" time="0.081"><failure message="assert '[{&quot;productVa...meta&quot;: null}]' == '{&quot;productVar...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;productVariant&quot;: {&quot;id&quot;: &quot;UHJvZHVjdFZhcmlhbnQ6NTE=&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;productVariant&quot;: {&quot;id&quot;: &quot;UHJvZHVjdFZhcmlhbnQ6NTE=&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                                    +">variant = &lt;ProductVariant: SKU_A&gt;
+subscription_product_variant_updated_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_product_variant_updated(variant, subscription_product_variant_updated_webhook):
+        webhooks = [subscription_product_variant_updated_webhook]
+        event_type = WebhookEventAsyncType.PRODUCT_VARIANT_UPDATED
+        variant_id = graphene.Node.to_global_id("ProductVariant", variant.id)
+        deliveries = create_deliveries_for_subscriptions(event_type, variant, webhooks)
+        expected_payload = json.dumps({"productVariant": {"id": variant_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"productVa...meta": null}]' == '{"productVar..."meta": null}'
+E         
+E         - {"productVariant": {"id": "UHJvZHVjdFZhcmlhbnQ6NTE="}, "meta": null}
+E         + [{"productVariant": {"id": "UHJvZHVjdFZhcmlhbnQ6NTE="}, "meta": null}]
+E         ? +                                                                    +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py:114: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_product_variant_deleted" time="0.085"><failure message="assert '[{&quot;productVa...meta&quot;: null}]' == '{&quot;productVar...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;productVariant&quot;: {&quot;id&quot;: &quot;UHJvZHVjdFZhcmlhbnQ6NTM=&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;productVariant&quot;: {&quot;id&quot;: &quot;UHJvZHVjdFZhcmlhbnQ6NTM=&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                                    +">variant = &lt;ProductVariant: SKU_A&gt;
+subscription_product_variant_deleted_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_product_variant_deleted(variant, subscription_product_variant_deleted_webhook):
+        webhooks = [subscription_product_variant_deleted_webhook]
+        event_type = WebhookEventAsyncType.PRODUCT_VARIANT_DELETED
+        variant_id = graphene.Node.to_global_id("ProductVariant", variant.id)
+        deliveries = create_deliveries_for_subscriptions(event_type, variant, webhooks)
+        expected_payload = json.dumps({"productVariant": {"id": variant_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"productVa...meta": null}]' == '{"productVar..."meta": null}'
+E         
+E         - {"productVariant": {"id": "UHJvZHVjdFZhcmlhbnQ6NTM="}, "meta": null}
+E         + [{"productVariant": {"id": "UHJvZHVjdFZhcmlhbnQ6NTM="}, "meta": null}]
+E         ? +                                                                    +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py:126: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_product_variant_out_of_stock" time="0.088"><failure message="assert '[{&quot;productVa...meta&quot;: null}]' == '{&quot;productVar...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;productVariant&quot;: {&quot;id&quot;: &quot;UHJvZHVjdFZhcmlhbnQ6NTU=&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;productVariant&quot;: {&quot;id&quot;: &quot;UHJvZHVjdFZhcmlhbnQ6NTU=&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                                    +">stock = &lt;Stock: Stock object (42)&gt;
+subscription_product_variant_out_of_stock_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_product_variant_out_of_stock(
+        stock, subscription_product_variant_out_of_stock_webhook
+    ):
+        webhooks = [subscription_product_variant_out_of_stock_webhook]
+        event_type = WebhookEventAsyncType.PRODUCT_VARIANT_OUT_OF_STOCK
+        variant_id = graphene.Node.to_global_id("ProductVariant", stock.product_variant.id)
+        deliveries = create_deliveries_for_subscriptions(event_type, stock, webhooks)
+        expected_payload = json.dumps({"productVariant": {"id": variant_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"productVa...meta": null}]' == '{"productVar..."meta": null}'
+E         
+E         - {"productVariant": {"id": "UHJvZHVjdFZhcmlhbnQ6NTU="}, "meta": null}
+E         + [{"productVariant": {"id": "UHJvZHVjdFZhcmlhbnQ6NTU="}, "meta": null}]
+E         ? +                                                                    +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py:140: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_product_variant_back_in_stock" time="0.082"><failure message="assert '[{&quot;productVa...meta&quot;: null}]' == '{&quot;productVar...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;productVariant&quot;: {&quot;id&quot;: &quot;UHJvZHVjdFZhcmlhbnQ6NTc=&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;productVariant&quot;: {&quot;id&quot;: &quot;UHJvZHVjdFZhcmlhbnQ6NTc=&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                                    +">stock = &lt;Stock: Stock object (44)&gt;
+subscription_product_variant_back_in_stock_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_product_variant_back_in_stock(
+        stock, subscription_product_variant_back_in_stock_webhook
+    ):
+        webhooks = [subscription_product_variant_back_in_stock_webhook]
+        event_type = WebhookEventAsyncType.PRODUCT_VARIANT_BACK_IN_STOCK
+        variant_id = graphene.Node.to_global_id("ProductVariant", stock.product_variant.id)
+        deliveries = create_deliveries_for_subscriptions(event_type, stock, webhooks)
+        expected_payload = json.dumps({"productVariant": {"id": variant_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"productVa...meta": null}]' == '{"productVar..."meta": null}'
+E         
+E         - {"productVariant": {"id": "UHJvZHVjdFZhcmlhbnQ6NTc="}, "meta": null}
+E         + [{"productVariant": {"id": "UHJvZHVjdFZhcmlhbnQ6NTc="}, "meta": null}]
+E         ? +                                                                    +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py:154: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_order_created" time="0.034"><failure message="assert '[{&quot;order&quot;: {...meta&quot;: null}]' == '{&quot;order&quot;: {&quot;...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;order&quot;: {&quot;id&quot;: &quot;T3JkZXI6OGExZmMwMDUtNzViNy00ZTM5LWJkOTItZmUwNjU1MTQ2Yjk1&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;order&quot;: {&quot;id&quot;: &quot;T3JkZXI6OGExZmMwMDUtNzViNy00ZTM5LWJkOTItZmUwNjU1MTQ2Yjk1&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                                                           +">order = &lt;Order #UUID('8a1fc005-75b7-4e39-bd92-fe0655146b95')&gt;
+subscription_order_created_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_order_created(order, subscription_order_created_webhook):
+        webhooks = [subscription_order_created_webhook]
+        event_type = WebhookEventAsyncType.ORDER_CREATED
+        order_id = graphene.Node.to_global_id("Order", order.id)
+        deliveries = create_deliveries_for_subscriptions(event_type, order, webhooks)
+        expected_payload = json.dumps({"order": {"id": order_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"order": {...meta": null}]' == '{"order": {"..."meta": null}'
+E         
+E         - {"order": {"id": "T3JkZXI6OGExZmMwMDUtNzViNy00ZTM5LWJkOTItZmUwNjU1MTQ2Yjk1"}, "meta": null}
+E         + [{"order": {"id": "T3JkZXI6OGExZmMwMDUtNzViNy00ZTM5LWJkOTItZmUwNjU1MTQ2Yjk1"}, "meta": null}]
+E         ? +                                                                                           +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py:166: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_order_confirmed" time="0.031"><failure message="assert '[{&quot;order&quot;: {...meta&quot;: null}]' == '{&quot;order&quot;: {&quot;...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;order&quot;: {&quot;id&quot;: &quot;T3JkZXI6NTI2MjM2ODgtNDQwZi00MGM5LTg0NjMtMzMzYjNjYTcyNWUx&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;order&quot;: {&quot;id&quot;: &quot;T3JkZXI6NTI2MjM2ODgtNDQwZi00MGM5LTg0NjMtMzMzYjNjYTcyNWUx&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                                                           +">order = &lt;Order #UUID('52623688-440f-40c9-8463-333b3ca725e1')&gt;
+subscription_order_confirmed_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_order_confirmed(order, subscription_order_confirmed_webhook):
+        webhooks = [subscription_order_confirmed_webhook]
+        event_type = WebhookEventAsyncType.ORDER_CONFIRMED
+        order_id = graphene.Node.to_global_id("Order", order.id)
+        deliveries = create_deliveries_for_subscriptions(event_type, order, webhooks)
+        expected_payload = json.dumps({"order": {"id": order_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"order": {...meta": null}]' == '{"order": {"..."meta": null}'
+E         
+E         - {"order": {"id": "T3JkZXI6NTI2MjM2ODgtNDQwZi00MGM5LTg0NjMtMzMzYjNjYTcyNWUx"}, "meta": null}
+E         + [{"order": {"id": "T3JkZXI6NTI2MjM2ODgtNDQwZi00MGM5LTg0NjMtMzMzYjNjYTcyNWUx"}, "meta": null}]
+E         ? +                                                                                           +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py:178: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_order_fully_paid" time="0.031"><failure message="assert '[{&quot;order&quot;: {...meta&quot;: null}]' == '{&quot;order&quot;: {&quot;...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;order&quot;: {&quot;id&quot;: &quot;T3JkZXI6NWQwYzAwNjYtNTkzZi00MWMwLTlkZDUtMWM5OGFkMDAxZjk1&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;order&quot;: {&quot;id&quot;: &quot;T3JkZXI6NWQwYzAwNjYtNTkzZi00MWMwLTlkZDUtMWM5OGFkMDAxZjk1&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                                                           +">order = &lt;Order #UUID('5d0c0066-593f-41c0-9dd5-1c98ad001f95')&gt;
+subscription_order_fully_paid_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_order_fully_paid(order, subscription_order_fully_paid_webhook):
+        webhooks = [subscription_order_fully_paid_webhook]
+        event_type = WebhookEventAsyncType.ORDER_FULLY_PAID
+        order_id = graphene.Node.to_global_id("Order", order.id)
+        deliveries = create_deliveries_for_subscriptions(event_type, order, webhooks)
+        expected_payload = json.dumps({"order": {"id": order_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"order": {...meta": null}]' == '{"order": {"..."meta": null}'
+E         
+E         - {"order": {"id": "T3JkZXI6NWQwYzAwNjYtNTkzZi00MWMwLTlkZDUtMWM5OGFkMDAxZjk1"}, "meta": null}
+E         + [{"order": {"id": "T3JkZXI6NWQwYzAwNjYtNTkzZi00MWMwLTlkZDUtMWM5OGFkMDAxZjk1"}, "meta": null}]
+E         ? +                                                                                           +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py:190: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_order_updated" time="0.032"><failure message="assert '[{&quot;order&quot;: {...meta&quot;: null}]' == '{&quot;order&quot;: {&quot;...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;order&quot;: {&quot;id&quot;: &quot;T3JkZXI6MmIyNjcyMzMtMjc5MS00NTg1LWE3YzctNWJlZjVhZTVhYjdl&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;order&quot;: {&quot;id&quot;: &quot;T3JkZXI6MmIyNjcyMzMtMjc5MS00NTg1LWE3YzctNWJlZjVhZTVhYjdl&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                                                           +">order = &lt;Order #UUID('2b267233-2791-4585-a7c7-5bef5ae5ab7e')&gt;
+subscription_order_updated_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_order_updated(order, subscription_order_updated_webhook):
+        webhooks = [subscription_order_updated_webhook]
+        event_type = WebhookEventAsyncType.ORDER_UPDATED
+        order_id = graphene.Node.to_global_id("Order", order.id)
+        deliveries = create_deliveries_for_subscriptions(event_type, order, webhooks)
+        expected_payload = json.dumps({"order": {"id": order_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"order": {...meta": null}]' == '{"order": {"..."meta": null}'
+E         
+E         - {"order": {"id": "T3JkZXI6MmIyNjcyMzMtMjc5MS00NTg1LWE3YzctNWJlZjVhZTVhYjdl"}, "meta": null}
+E         + [{"order": {"id": "T3JkZXI6MmIyNjcyMzMtMjc5MS00NTg1LWE3YzctNWJlZjVhZTVhYjdl"}, "meta": null}]
+E         ? +                                                                                           +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py:202: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_order_cancelled" time="0.032"><failure message="assert '[{&quot;order&quot;: {...meta&quot;: null}]' == '{&quot;order&quot;: {&quot;...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;order&quot;: {&quot;id&quot;: &quot;T3JkZXI6MWQ1ZmI0NmUtN2UxNy00NDgwLTkxOGUtZTJkY2Q1MWEwNTdh&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;order&quot;: {&quot;id&quot;: &quot;T3JkZXI6MWQ1ZmI0NmUtN2UxNy00NDgwLTkxOGUtZTJkY2Q1MWEwNTdh&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                                                           +">order = &lt;Order #UUID('1d5fb46e-7e17-4480-918e-e2dcd51a057a')&gt;
+subscription_order_cancelled_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_order_cancelled(order, subscription_order_cancelled_webhook):
+        webhooks = [subscription_order_cancelled_webhook]
+        event_type = WebhookEventAsyncType.ORDER_CANCELLED
+        order_id = graphene.Node.to_global_id("Order", order.id)
+        deliveries = create_deliveries_for_subscriptions(event_type, order, webhooks)
+        expected_payload = json.dumps({"order": {"id": order_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"order": {...meta": null}]' == '{"order": {"..."meta": null}'
+E         
+E         - {"order": {"id": "T3JkZXI6MWQ1ZmI0NmUtN2UxNy00NDgwLTkxOGUtZTJkY2Q1MWEwNTdh"}, "meta": null}
+E         + [{"order": {"id": "T3JkZXI6MWQ1ZmI0NmUtN2UxNy00NDgwLTkxOGUtZTJkY2Q1MWEwNTdh"}, "meta": null}]
+E         ? +                                                                                           +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py:214: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_order_fulfilled" time="0.031"><failure message="assert '[{&quot;order&quot;: {...meta&quot;: null}]' == '{&quot;order&quot;: {&quot;...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;order&quot;: {&quot;id&quot;: &quot;T3JkZXI6ZTQzZWZkYjUtMjUzNy00ZWM5LTk1YjktYTdmNDZhODAzYTA5&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;order&quot;: {&quot;id&quot;: &quot;T3JkZXI6ZTQzZWZkYjUtMjUzNy00ZWM5LTk1YjktYTdmNDZhODAzYTA5&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                                                           +">order = &lt;Order #UUID('e43efdb5-2537-4ec9-95b9-a7f46a803a09')&gt;
+subscription_order_fulfilled_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_order_fulfilled(order, subscription_order_fulfilled_webhook):
+        webhooks = [subscription_order_fulfilled_webhook]
+        event_type = WebhookEventAsyncType.ORDER_FULFILLED
+        order_id = graphene.Node.to_global_id("Order", order.id)
+        deliveries = create_deliveries_for_subscriptions(event_type, order, webhooks)
+        expected_payload = json.dumps({"order": {"id": order_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"order": {...meta": null}]' == '{"order": {"..."meta": null}'
+E         
+E         - {"order": {"id": "T3JkZXI6ZTQzZWZkYjUtMjUzNy00ZWM5LTk1YjktYTdmNDZhODAzYTA5"}, "meta": null}
+E         + [{"order": {"id": "T3JkZXI6ZTQzZWZkYjUtMjUzNy00ZWM5LTk1YjktYTdmNDZhODAzYTA5"}, "meta": null}]
+E         ? +                                                                                           +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py:226: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_draft_order_created" time="0.031"><failure message="assert '[{&quot;order&quot;: {...meta&quot;: null}]' == '{&quot;order&quot;: {&quot;...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;order&quot;: {&quot;id&quot;: &quot;T3JkZXI6NGM5MWUzMjAtYmU0OC00MjI4LTg4N2MtYzc4ZWYwMjNhMWMw&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;order&quot;: {&quot;id&quot;: &quot;T3JkZXI6NGM5MWUzMjAtYmU0OC00MjI4LTg4N2MtYzc4ZWYwMjNhMWMw&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                                                           +">order = &lt;Order #UUID('4c91e320-be48-4228-887c-c78ef023a1c0')&gt;
+subscription_draft_order_created_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_draft_order_created(order, subscription_draft_order_created_webhook):
+        webhooks = [subscription_draft_order_created_webhook]
+        event_type = WebhookEventAsyncType.DRAFT_ORDER_CREATED
+        order_id = graphene.Node.to_global_id("Order", order.id)
+        deliveries = create_deliveries_for_subscriptions(event_type, order, webhooks)
+        expected_payload = json.dumps({"order": {"id": order_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"order": {...meta": null}]' == '{"order": {"..."meta": null}'
+E         
+E         - {"order": {"id": "T3JkZXI6NGM5MWUzMjAtYmU0OC00MjI4LTg4N2MtYzc4ZWYwMjNhMWMw"}, "meta": null}
+E         + [{"order": {"id": "T3JkZXI6NGM5MWUzMjAtYmU0OC00MjI4LTg4N2MtYzc4ZWYwMjNhMWMw"}, "meta": null}]
+E         ? +                                                                                           +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py:238: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_draft_order_updated" time="0.030"><failure message="assert '[{&quot;order&quot;: {...meta&quot;: null}]' == '{&quot;order&quot;: {&quot;...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;order&quot;: {&quot;id&quot;: &quot;T3JkZXI6N2Q1NDIzYTgtMTFjMy00ZTljLTk0NWMtZWRjNTFmOTNmYmQ0&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;order&quot;: {&quot;id&quot;: &quot;T3JkZXI6N2Q1NDIzYTgtMTFjMy00ZTljLTk0NWMtZWRjNTFmOTNmYmQ0&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                                                           +">order = &lt;Order #UUID('7d5423a8-11c3-4e9c-945c-edc51f93fbd4')&gt;
+subscription_draft_order_updated_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_draft_order_updated(order, subscription_draft_order_updated_webhook):
+        webhooks = [subscription_draft_order_updated_webhook]
+        event_type = WebhookEventAsyncType.DRAFT_ORDER_UPDATED
+        order_id = graphene.Node.to_global_id("Order", order.id)
+        deliveries = create_deliveries_for_subscriptions(event_type, order, webhooks)
+        expected_payload = json.dumps({"order": {"id": order_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"order": {...meta": null}]' == '{"order": {"..."meta": null}'
+E         
+E         - {"order": {"id": "T3JkZXI6N2Q1NDIzYTgtMTFjMy00ZTljLTk0NWMtZWRjNTFmOTNmYmQ0"}, "meta": null}
+E         + [{"order": {"id": "T3JkZXI6N2Q1NDIzYTgtMTFjMy00ZTljLTk0NWMtZWRjNTFmOTNmYmQ0"}, "meta": null}]
+E         ? +                                                                                           +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py:250: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_draft_order_deleted" time="0.030"><failure message="assert '[{&quot;order&quot;: {...meta&quot;: null}]' == '{&quot;order&quot;: {&quot;...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;order&quot;: {&quot;id&quot;: &quot;T3JkZXI6NjFmMjVjMzgtMTEzNS00NjFiLTgyNjUtNzY3NjVjYTFlYTA4&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;order&quot;: {&quot;id&quot;: &quot;T3JkZXI6NjFmMjVjMzgtMTEzNS00NjFiLTgyNjUtNzY3NjVjYTFlYTA4&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                                                           +">order = &lt;Order #UUID('61f25c38-1135-461b-8265-76765ca1ea08')&gt;
+subscription_draft_order_deleted_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_draft_order_deleted(order, subscription_draft_order_deleted_webhook):
+        webhooks = [subscription_draft_order_deleted_webhook]
+        event_type = WebhookEventAsyncType.DRAFT_ORDER_DELETED
+        order_id = graphene.Node.to_global_id("Order", order.id)
+        deliveries = create_deliveries_for_subscriptions(event_type, order, webhooks)
+        expected_payload = json.dumps({"order": {"id": order_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"order": {...meta": null}]' == '{"order": {"..."meta": null}'
+E         
+E         - {"order": {"id": "T3JkZXI6NjFmMjVjMzgtMTEzNS00NjFiLTgyNjUtNzY3NjVjYTFlYTA4"}, "meta": null}
+E         + [{"order": {"id": "T3JkZXI6NjFmMjVjMzgtMTEzNS00NjFiLTgyNjUtNzY3NjVjYTFlYTA4"}, "meta": null}]
+E         ? +                                                                                           +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py:262: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_sale_created" time="0.090"><failure message="assert '[{&quot;sale&quot;: {&quot;...meta&quot;: null}]' == '{&quot;sale&quot;: {&quot;i...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;sale&quot;: {&quot;id&quot;: &quot;U2FsZTo2&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;sale&quot;: {&quot;id&quot;: &quot;U2FsZTo2&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                          +">sale = Sale(name='Sale', type=fixed)
+subscription_sale_created_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_sale_created(sale, subscription_sale_created_webhook):
+        webhooks = [subscription_sale_created_webhook]
+        event_type = WebhookEventAsyncType.SALE_CREATED
+        sale_id = graphene.Node.to_global_id("Sale", sale.id)
+        deliveries = create_deliveries_for_subscriptions(event_type, sale, webhooks)
+        expected_payload = json.dumps({"sale": {"id": sale_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"sale": {"...meta": null}]' == '{"sale": {"i..."meta": null}'
+E         
+E         - {"sale": {"id": "U2FsZTo2"}, "meta": null}
+E         + [{"sale": {"id": "U2FsZTo2"}, "meta": null}]
+E         ? +                                          +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py:274: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_sale_updated" time="0.087"><failure message="assert '[{&quot;sale&quot;: {&quot;...meta&quot;: null}]' == '{&quot;sale&quot;: {&quot;i...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;sale&quot;: {&quot;id&quot;: &quot;U2FsZTo3&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;sale&quot;: {&quot;id&quot;: &quot;U2FsZTo3&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                          +">sale = Sale(name='Sale', type=fixed)
+subscription_sale_updated_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_sale_updated(sale, subscription_sale_updated_webhook):
+        webhooks = [subscription_sale_updated_webhook]
+        event_type = WebhookEventAsyncType.SALE_UPDATED
+        sale_id = graphene.Node.to_global_id("Sale", sale.id)
+        deliveries = create_deliveries_for_subscriptions(event_type, sale, webhooks)
+        expected_payload = json.dumps({"sale": {"id": sale_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"sale": {"...meta": null}]' == '{"sale": {"i..."meta": null}'
+E         
+E         - {"sale": {"id": "U2FsZTo3"}, "meta": null}
+E         + [{"sale": {"id": "U2FsZTo3"}, "meta": null}]
+E         ? +                                          +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py:286: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_sale_deleted" time="0.086"><failure message="assert '[{&quot;sale&quot;: {&quot;...meta&quot;: null}]' == '{&quot;sale&quot;: {&quot;i...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;sale&quot;: {&quot;id&quot;: &quot;U2FsZTo4&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;sale&quot;: {&quot;id&quot;: &quot;U2FsZTo4&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                          +">sale = Sale(name='Sale', type=fixed)
+subscription_sale_deleted_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_sale_deleted(sale, subscription_sale_deleted_webhook):
+        webhooks = [subscription_sale_deleted_webhook]
+        event_type = WebhookEventAsyncType.SALE_DELETED
+        sale_id = graphene.Node.to_global_id("Sale", sale.id)
+        deliveries = create_deliveries_for_subscriptions(event_type, sale, webhooks)
+        expected_payload = json.dumps({"sale": {"id": sale_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"sale": {"...meta": null}]' == '{"sale": {"i..."meta": null}'
+E         
+E         - {"sale": {"id": "U2FsZTo4"}, "meta": null}
+E         + [{"sale": {"id": "U2FsZTo4"}, "meta": null}]
+E         ? +                                          +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py:298: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_invoice_requested" time="0.111"><failure message="assert '[{&quot;invoice&quot;:...meta&quot;: null}]' == '{&quot;invoice&quot;: ...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;invoice&quot;: {&quot;id&quot;: &quot;SW52b2ljZTo2&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;invoice&quot;: {&quot;id&quot;: &quot;SW52b2ljZTo2&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                 +">fulfilled_order = &lt;Order #UUID('982b498a-b5af-484b-8064-b187a46e209d')&gt;
+subscription_invoice_requested_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_invoice_requested(fulfilled_order, subscription_invoice_requested_webhook):
+        webhooks = [subscription_invoice_requested_webhook]
+        event_type = WebhookEventAsyncType.INVOICE_REQUESTED
+        invoice = fulfilled_order.invoices.first()
+        invoice_id = graphene.Node.to_global_id("Invoice", invoice.id)
+        deliveries = create_deliveries_for_subscriptions(event_type, invoice, webhooks)
+        expected_payload = json.dumps({"invoice": {"id": invoice_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"invoice":...meta": null}]' == '{"invoice": ..."meta": null}'
+E         
+E         - {"invoice": {"id": "SW52b2ljZTo2"}, "meta": null}
+E         + [{"invoice": {"id": "SW52b2ljZTo2"}, "meta": null}]
+E         ? +                                                 +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py:311: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_invoice_deleted" time="0.104"><failure message="assert '[{&quot;invoice&quot;:...meta&quot;: null}]' == '{&quot;invoice&quot;: ...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;invoice&quot;: {&quot;id&quot;: &quot;SW52b2ljZTo3&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;invoice&quot;: {&quot;id&quot;: &quot;SW52b2ljZTo3&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                 +">fulfilled_order = &lt;Order #UUID('6ea1ce37-703f-4553-8b1c-5fc0a0991382')&gt;
+subscription_invoice_deleted_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_invoice_deleted(fulfilled_order, subscription_invoice_deleted_webhook):
+        webhooks = [subscription_invoice_deleted_webhook]
+        event_type = WebhookEventAsyncType.INVOICE_DELETED
+        invoice = fulfilled_order.invoices.first()
+        invoice_id = graphene.Node.to_global_id("Invoice", invoice.id)
+        deliveries = create_deliveries_for_subscriptions(event_type, invoice, webhooks)
+        expected_payload = json.dumps({"invoice": {"id": invoice_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"invoice":...meta": null}]' == '{"invoice": ..."meta": null}'
+E         
+E         - {"invoice": {"id": "SW52b2ljZTo3"}, "meta": null}
+E         + [{"invoice": {"id": "SW52b2ljZTo3"}, "meta": null}]
+E         ? +                                                 +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py:324: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_invoice_sent" time="0.102"><failure message="assert '[{&quot;invoice&quot;:...meta&quot;: null}]' == '{&quot;invoice&quot;: ...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;invoice&quot;: {&quot;id&quot;: &quot;SW52b2ljZTo4&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;invoice&quot;: {&quot;id&quot;: &quot;SW52b2ljZTo4&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                 +">fulfilled_order = &lt;Order #UUID('f59f7f39-f268-4c15-9d6f-c8b411fe6bd3')&gt;
+subscription_invoice_sent_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_invoice_sent(fulfilled_order, subscription_invoice_sent_webhook):
+        webhooks = [subscription_invoice_sent_webhook]
+        event_type = WebhookEventAsyncType.INVOICE_SENT
+        invoice = fulfilled_order.invoices.first()
+        invoice_id = graphene.Node.to_global_id("Invoice", invoice.id)
+        deliveries = create_deliveries_for_subscriptions(event_type, invoice, webhooks)
+        expected_payload = json.dumps({"invoice": {"id": invoice_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"invoice":...meta": null}]' == '{"invoice": ..."meta": null}'
+E         
+E         - {"invoice": {"id": "SW52b2ljZTo4"}, "meta": null}
+E         + [{"invoice": {"id": "SW52b2ljZTo4"}, "meta": null}]
+E         ? +                                                 +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py:337: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_fulfillment_created" time="0.101"><failure message="assert '[{&quot;fulfillme...meta&quot;: null}]' == '{&quot;fulfillmen...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;fulfillment&quot;: {&quot;id&quot;: &quot;RnVsZmlsbG1lbnQ6OQ==&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;fulfillment&quot;: {&quot;id&quot;: &quot;RnVsZmlsbG1lbnQ6OQ==&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                             +">fulfillment = &lt;Fulfillment: Fulfillment #30-1&gt;
+subscription_fulfillment_created_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_fulfillment_created(fulfillment, subscription_fulfillment_created_webhook):
+        webhooks = [subscription_fulfillment_created_webhook]
+        event_type = WebhookEventAsyncType.FULFILLMENT_CREATED
+        fulfillment_id = graphene.Node.to_global_id("Fulfillment", fulfillment.id)
+        deliveries = create_deliveries_for_subscriptions(event_type, fulfillment, webhooks)
+        expected_payload = json.dumps({"fulfillment": {"id": fulfillment_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"fulfillme...meta": null}]' == '{"fulfillmen..."meta": null}'
+E         
+E         - {"fulfillment": {"id": "RnVsZmlsbG1lbnQ6OQ=="}, "meta": null}
+E         + [{"fulfillment": {"id": "RnVsZmlsbG1lbnQ6OQ=="}, "meta": null}]
+E         ? +                                                             +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py:349: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_fulfillment_canceled" time="0.102"><failure message="assert '[{&quot;fulfillme...meta&quot;: null}]' == '{&quot;fulfillmen...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;fulfillment&quot;: {&quot;id&quot;: &quot;RnVsZmlsbG1lbnQ6MTA=&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;fulfillment&quot;: {&quot;id&quot;: &quot;RnVsZmlsbG1lbnQ6MTA=&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                             +">fulfillment = &lt;Fulfillment: Fulfillment #31-1&gt;
+subscription_fulfillment_canceled_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_fulfillment_canceled(fulfillment, subscription_fulfillment_canceled_webhook):
+        webhooks = [subscription_fulfillment_canceled_webhook]
+        event_type = WebhookEventAsyncType.FULFILLMENT_CANCELED
+        fulfillment_id = graphene.Node.to_global_id("Fulfillment", fulfillment.id)
+        deliveries = create_deliveries_for_subscriptions(event_type, fulfillment, webhooks)
+        expected_payload = json.dumps({"fulfillment": {"id": fulfillment_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"fulfillme...meta": null}]' == '{"fulfillmen..."meta": null}'
+E         
+E         - {"fulfillment": {"id": "RnVsZmlsbG1lbnQ6MTA="}, "meta": null}
+E         + [{"fulfillment": {"id": "RnVsZmlsbG1lbnQ6MTA="}, "meta": null}]
+E         ? +                                                             +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py:361: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_customer_created" time="0.029"><failure message="assert '[{&quot;user&quot;: {&quot;...meta&quot;: null}]' == '{&quot;user&quot;: {&quot;i...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;user&quot;: {&quot;id&quot;: &quot;VXNlcjozNQ==&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;user&quot;: {&quot;id&quot;: &quot;VXNlcjozNQ==&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                              +">customer_user = &lt;User: test@example.com&gt;
+subscription_customer_created_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_customer_created(customer_user, subscription_customer_created_webhook):
+        webhooks = [subscription_customer_created_webhook]
+        event_type = WebhookEventAsyncType.CUSTOMER_CREATED
+        user_id = graphene.Node.to_global_id("User", customer_user.id)
+        deliveries = create_deliveries_for_subscriptions(
+            event_type, customer_user, webhooks
+        )
+        expected_payload = json.dumps({"user": {"id": user_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"user": {"...meta": null}]' == '{"user": {"i..."meta": null}'
+E         
+E         - {"user": {"id": "VXNlcjozNQ=="}, "meta": null}
+E         + [{"user": {"id": "VXNlcjozNQ=="}, "meta": null}]
+E         ? +                                              +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py:376: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_customer_updated" time="0.027"><failure message="assert '[{&quot;user&quot;: {&quot;...meta&quot;: null}]' == '{&quot;user&quot;: {&quot;i...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;user&quot;: {&quot;id&quot;: &quot;VXNlcjozNg==&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;user&quot;: {&quot;id&quot;: &quot;VXNlcjozNg==&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                              +">customer_user = &lt;User: test@example.com&gt;
+subscription_customer_updated_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_customer_updated(customer_user, subscription_customer_updated_webhook):
+        webhooks = [subscription_customer_updated_webhook]
+        event_type = WebhookEventAsyncType.CUSTOMER_UPDATED
+        user_id = graphene.Node.to_global_id("User", customer_user.id)
+        deliveries = create_deliveries_for_subscriptions(
+            event_type, customer_user, webhooks
+        )
+        expected_payload = json.dumps({"user": {"id": user_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"user": {"...meta": null}]' == '{"user": {"i..."meta": null}'
+E         
+E         - {"user": {"id": "VXNlcjozNg=="}, "meta": null}
+E         + [{"user": {"id": "VXNlcjozNg=="}, "meta": null}]
+E         ? +                                              +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py:390: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_collection_created" time="0.023"><failure message="assert '[{&quot;collectio...meta&quot;: null}]' == '{&quot;collection...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;collection&quot;: {&quot;id&quot;: &quot;Q29sbGVjdGlvbjoxNA==&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;collection&quot;: {&quot;id&quot;: &quot;Q29sbGVjdGlvbjoxNA==&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                            +">collection = &lt;Collection: Collection&gt;
+subscription_collection_created_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_collection_created(collection, subscription_collection_created_webhook):
+        webhooks = [subscription_collection_created_webhook]
+        event_type = WebhookEventAsyncType.COLLECTION_CREATED
+        collection_id = graphene.Node.to_global_id("Collection", collection.pk)
+        deliveries = create_deliveries_for_subscriptions(event_type, collection, webhooks)
+        expected_payload = json.dumps({"collection": {"id": collection_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"collectio...meta": null}]' == '{"collection..."meta": null}'
+E         
+E         - {"collection": {"id": "Q29sbGVjdGlvbjoxNA=="}, "meta": null}
+E         + [{"collection": {"id": "Q29sbGVjdGlvbjoxNA=="}, "meta": null}]
+E         ? +                                                            +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py:402: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_collection_updated" time="0.025"><failure message="assert '[{&quot;collectio...meta&quot;: null}]' == '{&quot;collection...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;collection&quot;: {&quot;id&quot;: &quot;Q29sbGVjdGlvbjoxNQ==&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;collection&quot;: {&quot;id&quot;: &quot;Q29sbGVjdGlvbjoxNQ==&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                            +">collection = &lt;Collection: Collection&gt;
+subscription_collection_updated_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_collection_updated(collection, subscription_collection_updated_webhook):
+        webhooks = [subscription_collection_updated_webhook]
+        event_type = WebhookEventAsyncType.COLLECTION_UPDATED
+        collection_id = graphene.Node.to_global_id("Collection", collection.id)
+        deliveries = create_deliveries_for_subscriptions(event_type, collection, webhooks)
+        expected_payload = json.dumps({"collection": {"id": collection_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"collectio...meta": null}]' == '{"collection..."meta": null}'
+E         
+E         - {"collection": {"id": "Q29sbGVjdGlvbjoxNQ=="}, "meta": null}
+E         + [{"collection": {"id": "Q29sbGVjdGlvbjoxNQ=="}, "meta": null}]
+E         ? +                                                            +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py:414: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_collection_deleted" time="0.024"><failure message="assert '[{&quot;collectio...meta&quot;: null}]' == '{&quot;collection...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;collection&quot;: {&quot;id&quot;: &quot;Q29sbGVjdGlvbjoxNg==&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;collection&quot;: {&quot;id&quot;: &quot;Q29sbGVjdGlvbjoxNg==&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                            +">collection = &lt;Collection: Collection&gt;
+subscription_collection_deleted_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_collection_deleted(collection, subscription_collection_deleted_webhook):
+        webhooks = [subscription_collection_deleted_webhook]
+        event_type = WebhookEventAsyncType.COLLECTION_DELETED
+        collection_id = graphene.Node.to_global_id("Collection", collection.id)
+        deliveries = create_deliveries_for_subscriptions(event_type, collection, webhooks)
+        expected_payload = json.dumps({"collection": {"id": collection_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"collectio...meta": null}]' == '{"collection..."meta": null}'
+E         
+E         - {"collection": {"id": "Q29sbGVjdGlvbjoxNg=="}, "meta": null}
+E         + [{"collection": {"id": "Q29sbGVjdGlvbjoxNg=="}, "meta": null}]
+E         ? +                                                            +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py:426: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_checkout_create" time="0.027"><failure message="assert '[{&quot;checkout&quot;...meta&quot;: null}]' == '{&quot;checkout&quot;:...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;checkout&quot;: {&quot;id&quot;: &quot;Q2hlY2tvdXQ6NDMyOTkxODEtYzdlNy00NDZjLTk5NjMtZWNjNzVkYzRjZWFh&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;checkout&quot;: {&quot;id&quot;: &quot;Q2hlY2tvdXQ6NDMyOTkxODEtYzdlNy00NDZjLTk5NjMtZWNjNzVkYzRjZWFh&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                                                                  +">checkout = &lt;Checkout: Checkout object (43299181-c7e7-446c-9963-ecc75dc4ceaa)&gt;
+subscription_checkout_created_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_checkout_create(checkout, subscription_checkout_created_webhook):
+        webhooks = [subscription_checkout_created_webhook]
+        event_type = WebhookEventAsyncType.CHECKOUT_CREATED
+        checkout_id = graphene.Node.to_global_id("Checkout", checkout.pk)
+        deliveries = create_deliveries_for_subscriptions(event_type, checkout, webhooks)
+        expected_payload = json.dumps({"checkout": {"id": checkout_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"checkout"...meta": null}]' == '{"checkout":..."meta": null}'
+E         
+E         - {"checkout": {"id": "Q2hlY2tvdXQ6NDMyOTkxODEtYzdlNy00NDZjLTk5NjMtZWNjNzVkYzRjZWFh"}, "meta": null}
+E         + [{"checkout": {"id": "Q2hlY2tvdXQ6NDMyOTkxODEtYzdlNy00NDZjLTk5NjMtZWNjNzVkYzRjZWFh"}, "meta": null}]
+E         ? +                                                                                                  +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py:438: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_checkout_update" time="0.026"><failure message="assert '[{&quot;checkout&quot;...meta&quot;: null}]' == '{&quot;checkout&quot;:...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;checkout&quot;: {&quot;id&quot;: &quot;Q2hlY2tvdXQ6YzAzNDMzMmQtY2Y5MS00NjMxLTgyNWUtZmZiYjNiMDQ1NmQy&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;checkout&quot;: {&quot;id&quot;: &quot;Q2hlY2tvdXQ6YzAzNDMzMmQtY2Y5MS00NjMxLTgyNWUtZmZiYjNiMDQ1NmQy&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                                                                  +">checkout = &lt;Checkout: Checkout object (c034332d-cf91-4631-825e-ffbb3b0456d2)&gt;
+subscription_checkout_updated_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_checkout_update(checkout, subscription_checkout_updated_webhook):
+        webhooks = [subscription_checkout_updated_webhook]
+        event_type = WebhookEventAsyncType.CHECKOUT_UPDATED
+        checkout_id = graphene.Node.to_global_id("Checkout", checkout.pk)
+        deliveries = create_deliveries_for_subscriptions(event_type, checkout, webhooks)
+        expected_payload = json.dumps({"checkout": {"id": checkout_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"checkout"...meta": null}]' == '{"checkout":..."meta": null}'
+E         
+E         - {"checkout": {"id": "Q2hlY2tvdXQ6YzAzNDMzMmQtY2Y5MS00NjMxLTgyNWUtZmZiYjNiMDQ1NmQy"}, "meta": null}
+E         + [{"checkout": {"id": "Q2hlY2tvdXQ6YzAzNDMzMmQtY2Y5MS00NjMxLTgyNWUtZmZiYjNiMDQ1NmQy"}, "meta": null}]
+E         ? +                                                                                                  +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py:450: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_page_created" time="0.052"><failure message="assert '[{&quot;page&quot;: {&quot;...meta&quot;: null}]' == '{&quot;page&quot;: {&quot;i...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;page&quot;: {&quot;id&quot;: &quot;UGFnZTo2&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;page&quot;: {&quot;id&quot;: &quot;UGFnZTo2&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                          +">page = &lt;Page: Test page&gt;
+subscription_page_created_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_page_created(page, subscription_page_created_webhook):
+        webhooks = [subscription_page_created_webhook]
+        event_type = WebhookEventAsyncType.PAGE_CREATED
+        page_id = graphene.Node.to_global_id("Page", page.pk)
+        deliveries = create_deliveries_for_subscriptions(event_type, page, webhooks)
+        expected_payload = json.dumps({"page": {"id": page_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"page": {"...meta": null}]' == '{"page": {"i..."meta": null}'
+E         
+E         - {"page": {"id": "UGFnZTo2"}, "meta": null}
+E         + [{"page": {"id": "UGFnZTo2"}, "meta": null}]
+E         ? +                                          +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py:462: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_page_updated" time="0.047"><failure message="assert '[{&quot;page&quot;: {&quot;...meta&quot;: null}]' == '{&quot;page&quot;: {&quot;i...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;page&quot;: {&quot;id&quot;: &quot;UGFnZTo3&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;page&quot;: {&quot;id&quot;: &quot;UGFnZTo3&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                          +">page = &lt;Page: Test page&gt;
+subscription_page_updated_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_page_updated(page, subscription_page_updated_webhook):
+        webhooks = [subscription_page_updated_webhook]
+        event_type = WebhookEventAsyncType.PAGE_UPDATED
+        page_id = graphene.Node.to_global_id("Page", page.pk)
+        deliveries = create_deliveries_for_subscriptions(event_type, page, webhooks)
+        expected_payload = json.dumps({"page": {"id": page_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"page": {"...meta": null}]' == '{"page": {"i..."meta": null}'
+E         
+E         - {"page": {"id": "UGFnZTo3"}, "meta": null}
+E         + [{"page": {"id": "UGFnZTo3"}, "meta": null}]
+E         ? +                                          +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py:474: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_page_deleted" time="0.048"><failure message="assert '[{&quot;page&quot;: {&quot;...meta&quot;: null}]' == '{&quot;page&quot;: {&quot;i...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;page&quot;: {&quot;id&quot;: &quot;UGFnZTo4&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;page&quot;: {&quot;id&quot;: &quot;UGFnZTo4&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                          +">page = &lt;Page: Test page&gt;
+subscription_page_deleted_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_page_deleted(page, subscription_page_deleted_webhook):
+        webhooks = [subscription_page_deleted_webhook]
+        event_type = WebhookEventAsyncType.PAGE_DELETED
+        page_id = graphene.Node.to_global_id("Page", page.pk)
+        deliveries = create_deliveries_for_subscriptions(event_type, page, webhooks)
+        expected_payload = json.dumps({"page": {"id": page_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"page": {"...meta": null}]' == '{"page": {"i..."meta": null}'
+E         
+E         - {"page": {"id": "UGFnZTo4"}, "meta": null}
+E         + [{"page": {"id": "UGFnZTo4"}, "meta": null}]
+E         ? +                                          +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py:486: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_product_created_multiple_events_in_subscription" time="0.078"><failure message="assert '[{&quot;product&quot;:...meta&quot;: null}]' == '{&quot;product&quot;: ...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;product&quot;: {&quot;id&quot;: &quot;UHJvZHVjdDo1NA==&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;product&quot;: {&quot;id&quot;: &quot;UHJvZHVjdDo1NA==&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                     +">product = &lt;saleor.product.models.Product(pk=54, name='Test product')&gt;
+subscription_product_created_multiple_events_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_product_created_multiple_events_in_subscription(
+        product, subscription_product_created_multiple_events_webhook
+    ):
+        webhooks = [subscription_product_created_multiple_events_webhook]
+        event_type = WebhookEventAsyncType.PRODUCT_CREATED
+        product_id = graphene.Node.to_global_id("Product", product.id)
+        deliveries = create_deliveries_for_subscriptions(event_type, product, webhooks)
+        expected_payload = json.dumps({"product": {"id": product_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"product":...meta": null}]' == '{"product": ..."meta": null}'
+E         
+E         - {"product": {"id": "UHJvZHVjdDo1NA=="}, "meta": null}
+E         + [{"product": {"id": "UHJvZHVjdDo1NA=="}, "meta": null}]
+E         ? +                                                     +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py:500: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_create_deliveries_for_subscriptions_unsubscribable_event" time="0.070" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_create_deliveries_for_subscriptions_document_executed_with_error" time="0.074" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_validate_subscription_query_valid" time="0.011" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_validate_subscription_query_invalid" time="0.011" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_validate_subscription_query_valid_with_fragment" time="0.011" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_validate_invalid_query_and_subscription" time="0.011" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_validate_invalid_subscription_and_query" time="0.011" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_validate_invalid_multiple_subscriptions" time="0.013" /></testsuite></testsuites>

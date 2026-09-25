@@ -1,0 +1,89 @@
+{
+ "artifact": "wp2_temporal_attrition",
+ "date": "2026-09-23",
+ "windows_v1": {
+  "attempted": 220,
+  "counts": {
+   "BEHAVIORAL_F2P": 8,
+   "ENV_BROKEN": 207,
+   "TARGET_ORACLE_INVALID": 2,
+   "FLAKY": 2,
+   "SYMBOL_ABSENCE_F2P": 1
+  },
+  "environment_valid": 13,
+  "env_broken": 207
+ },
+ "linux_dryrun_era_yield": {
+  "saleor-rc-05bdc7feb9ac": {
+   "era": "py38",
+   "category": "old-era-py38-2020",
+   "BEHAVIORAL_F2P": 25,
+   "SYMBOL_ABSENCE_F2P": 0,
+   "PARENT_COLLECTION_ERROR": 0,
+   "eligible": true,
+   "year": "05bdc7fe"
+  },
+  "saleor-rc-24f9b244d6bc": {
+   "era": "py39",
+   "category": "prior-windows-path-failure",
+   "BEHAVIORAL_F2P": 0,
+   "SYMBOL_ABSENCE_F2P": 0,
+   "PARENT_COLLECTION_ERROR": 0,
+   "eligible": false,
+   "year": "24f9b244"
+  },
+  "saleor-rc-3cac33590b90": {
+   "era": "py312",
+   "category": "newer-era-2026-py312",
+   "BEHAVIORAL_F2P": 4,
+   "SYMBOL_ABSENCE_F2P": 0,
+   "PARENT_COLLECTION_ERROR": 0,
+   "eligible": true,
+   "year": "3cac3359"
+  },
+  "saleor-rc-65643ec7c37f": {
+   "era": "py39",
+   "category": "prior-unix-resource-failure",
+   "BEHAVIORAL_F2P": 0,
+   "SYMBOL_ABSENCE_F2P": 2,
+   "PARENT_COLLECTION_ERROR": 0,
+   "eligible": false,
+   "year": "65643ec7"
+  },
+  "saleor-rc-ab6c29ba265d": {
+   "era": "py38",
+   "category": "prior-native-lib-failure",
+   "BEHAVIORAL_F2P": 0,
+   "SYMBOL_ABSENCE_F2P": 0,
+   "PARENT_COLLECTION_ERROR": 0,
+   "eligible": false,
+   "year": "ab6c29ba"
+  }
+ },
+ "dev_census_years": {
+  "2022": 30,
+  "2021": 32,
+  "2023": 25,
+  "2025": 23,
+  "2024": 15,
+  "2020": 14,
+  "2026": 11
+ },
+ "dev_census_env_families": {
+  "~3.9": 95,
+  ">=3.12,<3.13": 22,
+  "~3.12": 19,
+  "~3.8": 14
+ },
+ "windows_to_linux_recovery": {
+  "worktree_question_mark": "BLOCKED on Windows -> WORKS on Linux ext4 (dry-run task 24f9b244d6bc)",
+  "resource_module": "BLOCKED on Windows -> WORKS on Linux (dry-run task 65643ec7c37f: 2 SYMBOL_ABSENCE + 10 P2P)",
+  "native_lib": "collection recovered with era superset (3->276 nodes); execution infeasible for that task",
+  "old_era_and_2026_era": "both yield confirmed BEHAVIORAL_F2P on Linux (25 and 4)"
+ },
+ "amendment_m_hard_stop_check": {
+  "verdict": "HARD_STOP_NOT_TRIGGERED_ON_AVAILABLE_EVIDENCE",
+  "note": "On the bounded dry-run evidence, all eras yield F2P/P2P nodes on Linux (py38, py39, py312), so no sharp era-yield difference attributable to a harness artifact is observed. The full check requires the C2 MAIN sweep and must be re-evaluated at D1 finalization after C2."
+ },
+ "status": "EVIDENCE_BASED_UP_TO_B3_C3; full MAIN attrition pending C2"
+}

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="8" time="2.833" timestamp="2026-09-24T15:56:01.072959" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.menu.tests.queries.test_menu_item" name="test_menu_item_query" time="1.677" /><testcase classname="saleor.graphql.menu.tests.queries.test_menu_item" name="test_menu_item_query_with_invalid_channel" time="0.125" /><testcase classname="saleor.graphql.menu.tests.queries.test_menu_item" name="test_staff_query_menu_item_by_invalid_id" time="0.102"><failure message="assert &quot;Couldn't resolve id: bh/.&quot; == 'Invalid ID: ...ed: MenuItem.'&#10;  - Invalid ID: bh/. Expected: MenuItem.&#10;  + Couldn't resolve id: bh/.">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7f60ab3588b0&gt;
+menu_item = &lt;MenuItem: Link 1&gt;
+
+    def test_staff_query_menu_item_by_invalid_id(staff_api_client, menu_item):
+        id = "bh/"
+        variables = {"id": id}
+        response = staff_api_client.post_graphql(QUERY_MENU_ITEM_BY_ID, variables)
+        content = get_graphql_content_from_response(response)
+        assert len(content["errors"]) == 1
+&gt;       assert content["errors"][0]["message"] == f"Invalid ID: {id}. Expected: MenuItem."
+E       assert "Couldn't resolve id: bh/." == 'Invalid ID: ...ed: MenuItem.'
+E         - Invalid ID: bh/. Expected: MenuItem.
+E         + Couldn't resolve id: bh/.
+
+saleor/graphql/menu/tests/queries/test_menu_item.py:84: AssertionError</failure></testcase><testcase classname="saleor.graphql.menu.tests.queries.test_menu_item" name="test_staff_query_menu_item_with_invalid_object_type" time="0.101" /><testcase classname="saleor.graphql.menu.tests.queries.test_menu_item" name="test_menu_items_collection_in_other_channel" time="0.128" /><testcase classname="saleor.graphql.menu.tests.queries.test_menu_item" name="test_menu_item_query_static_url" time="0.102" /><testcase classname="saleor.graphql.menu.tests.queries.test_menu_item" name="test_menu_item_query_staff_with_permission_gets_all_pages" time="0.142" /><testcase classname="saleor.graphql.menu.tests.queries.test_menu_item" name="test_menu_item_query_staff_without_permission_gets_only_published_pages" time="0.141" /></testsuite></testsuites>

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="1" time="0.354" timestamp="2026-09-25T00:49:39.410048+00:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="" name="saleor.payment.tests.test_utils.test_create_transaction_event_for_transaction_session" time="0.000"><error message="collection failure">saleor/payment/tests/test_utils/test_create_transaction_event_for_transaction_session.py::test_create_transaction_event_for_transaction_session_success_sets_actions: in "parametrize" the number of names (1):
+  ['response_result']
+must be equal to the number of values (21):
+  authorization_request</error></testcase></testsuite></testsuites>

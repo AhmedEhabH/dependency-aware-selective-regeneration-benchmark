@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="12" time="4.177" timestamp="2026-09-24T16:02:36.847264" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.payment.tests.queries.test_payments_query" name="test_payments_query" time="1.805" /><testcase classname="saleor.graphql.payment.tests.queries.test_payments_query" name="test_query_payments" time="0.190" /><testcase classname="saleor.graphql.payment.tests.queries.test_payments_query" name="test_query_payments_failed_payment" time="0.187" /><testcase classname="saleor.graphql.payment.tests.queries.test_payments_query" name="test_query_payments_by_user_with_access_to_all_channels" time="0.206" /><testcase classname="saleor.graphql.payment.tests.queries.test_payments_query" name="test_query_payments_by_user_with_restricted_access_to_channels" time="0.211" /><testcase classname="saleor.graphql.payment.tests.queries.test_payments_query" name="test_query_payments_by_user_with_restricted_access_to_channels_no_acc_channels" time="0.208" /><testcase classname="saleor.graphql.payment.tests.queries.test_payments_query" name="test_query_payments_by_app" time="0.128" /><testcase classname="saleor.graphql.payment.tests.queries.test_payments_query" name="test_query_payments_by_customer" time="0.185" /><testcase classname="saleor.graphql.payment.tests.queries.test_payments_query" name="test_query_payment" time="0.181" /><testcase classname="saleor.graphql.payment.tests.queries.test_payments_query" name="test_query_payment_with_checkout" time="0.192" /><testcase classname="saleor.graphql.payment.tests.queries.test_payments_query" name="test_staff_query_payment_by_invalid_id" time="0.185"><failure message="assert &quot;Couldn't resolve id: bh/.&quot; == 'Invalid ID: ...ted: Payment.'&#10;  - Invalid ID: bh/. Expected: Payment.&#10;  + Couldn't resolve id: bh/.">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x78edcb9a62b0&gt;
+payment_dummy = Payment(gateway=mirumee.payments.dummy, is_active=True, created=2026-09-24 21:02:40.544642+00:00, charge_status=not-charged)
+permission_manage_orders = &lt;Permission: order | order | Manage orders.&gt;
+
+    def test_staff_query_payment_by_invalid_id(
+        staff_api_client, payment_dummy, permission_manage_orders
+    ):
+        # given
+        id = "bh/"
+        variables = {"id": id}
+    
+        # when
+        response = staff_api_client.post_graphql(
+            QUERY_PAYMENT_BY_ID, variables, permissions=[permission_manage_orders]
+        )
+    
+        # then
+        content = get_graphql_content_from_response(response)
+        assert len(content["errors"]) == 1
+&gt;       assert content["errors"][0]["message"] == f"Invalid ID: {id}. Expected: Payment."
+E       assert "Couldn't resolve id: bh/." == 'Invalid ID: ...ted: Payment.'
+E         - Invalid ID: bh/. Expected: Payment.
+E         + Couldn't resolve id: bh/.
+
+saleor/graphql/payment/tests/queries/test_payments_query.py:297: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.queries.test_payments_query" name="test_staff_query_payment_with_invalid_object_type" time="0.185" /></testsuite></testsuites>

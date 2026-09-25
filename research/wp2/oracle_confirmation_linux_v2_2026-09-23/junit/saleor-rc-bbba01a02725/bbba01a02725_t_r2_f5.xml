@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="22" time="4.697" timestamp="2026-09-24T22:52:28.167941-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.order.tests.test_order_actions" name="test_handle_fully_paid_order_digital_lines" time="1.292"><error message="failed on setup with &quot;OSError: [Errno 24] Too many open files&quot;">category = &lt;Category: Default&gt;, media_root = None
+warehouse = &lt;Warehouse: Example Warehouse&gt;, channel_USD = &lt;Channel: main&gt;
+
+    @pytest.fixture
+    def digital_content(category, media_root, warehouse, channel_USD) -&gt; DigitalContent:
+        product_type = ProductType.objects.create(
+            name="Digital Type",
+            slug="digital-type",
+            has_variants=True,
+            is_shipping_required=False,
+            is_digital=True,
+        )
+        product = Product.objects.create(
+            name="Test digital product",
+            slug="test-digital-product",
+            product_type=product_type,
+            category=category,
+        )
+        ProductChannelListing.objects.create(
+            product=product,
+            channel=channel_USD,
+            is_published=True,
+            visible_in_listings=True,
+            available_for_purchase=datetime.date(1999, 1, 1),
+        )
+        product_variant = ProductVariant.objects.create(product=product, sku="SKU_554")
+&gt;       ProductVariantChannelListing.objects.create(
+            variant=product_variant,
+            channel=channel_USD,
+            price_amount=Decimal(10),
+            cost_price_amount=Decimal(1),
+            currency=channel_USD.currency_code,
+        )
+
+saleor/tests/fixtures.py:3067: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.8/site-packages/django/db/models/manager.py:85: in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/models/query.py:447: in create
+    obj.save(force_insert=True, using=self.db)
+/opt/venv/lib/python3.8/site-packages/django/db/models/base.py:753: in save
+    self.save_base(using=using, force_insert=force_insert,
+/opt/venv/lib/python3.8/site-packages/django/db/models/base.py:790: in save_base
+    updated = self._save_table(
+/opt/venv/lib/python3.8/site-packages/django/db/models/base.py:895: in _save_table
+    results = self._do_insert(cls._base_manager, using, fields, returning_fields, raw)
+/opt/venv/lib/python3.8/site-packages/django/db/models/base.py:933: in _do_insert
+    return manager._insert(
+/opt/venv/lib/python3.8/site-packages/django/db/models/manager.py:85: in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/models/query.py:1254: in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+/opt/venv/lib/python3.8/site-packages/django/db/models/sql/compiler.py:1395: in execute_sql
+    with self.connection.cursor() as cursor:
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:19: in inner
+    event_loop = asyncio.get_event_loop()
+/usr/local/lib/python3.8/asyncio/events.py:636: in get_event_loop
+    self.set_event_loop(self.new_event_loop())
+/usr/local/lib/python3.8/asyncio/events.py:656: in new_event_loop
+    return self._loop_factory()
+/usr/local/lib/python3.8/asyncio/unix_events.py:54: in __init__
+    super().__init__(selector)
+/usr/local/lib/python3.8/asyncio/selector_events.py:61: in __init__
+    self._make_self_pipe()
+/usr/local/lib/python3.8/asyncio/selector_events.py:108: in _make_self_pipe
+    self._ssock, self._csock = socket.socketpair()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+family = &lt;AddressFamily.AF_UNIX: 1&gt;, type = &lt;SocketKind.SOCK_STREAM: 1&gt;
+proto = 0
+
+    def socketpair(family=None, type=SOCK_STREAM, proto=0):
+        if family is None:
+            try:
+                family = AF_UNIX
+            except NameError:
+                family = AF_INET
+&gt;       a, b = _socket.socketpair(family, type, proto)
+E       OSError: [Errno 24] Too many open files
+
+/usr/local/lib/python3.8/socket.py:620: OSError</error></testcase><testcase classname="saleor.order.tests.test_order_actions" name="test_handle_fully_paid_order" time="0.044" /><testcase classname="saleor.order.tests.test_order_actions" name="test_handle_fully_paid_order_no_email" time="0.030" /><testcase classname="saleor.order.tests.test_order_actions" name="test_mark_as_paid" time="0.116" /><testcase classname="saleor.order.tests.test_order_actions" name="test_mark_as_paid_with_external_reference" time="0.105" /><testcase classname="saleor.order.tests.test_order_actions" name="test_mark_as_paid_no_billing_address" time="0.097" /><testcase classname="saleor.order.tests.test_order_actions" name="test_clean_mark_order_as_paid" time="0.093" /><testcase classname="saleor.order.tests.test_order_actions" name="test_cancel_fulfillment" time="0.156" /><testcase classname="saleor.order.tests.test_order_actions" name="test_cancel_fulfillment_variant_witout_inventory_tracking" time="0.095" /><testcase classname="saleor.order.tests.test_order_actions" name="test_cancel_order" time="0.161" /><testcase classname="saleor.order.tests.test_order_actions" name="test_order_refunded" time="0.120" /><testcase classname="saleor.order.tests.test_order_actions" name="test_fulfill_order_line" time="0.097" /><testcase classname="saleor.order.tests.test_order_actions" name="test_fulfill_order_line_with_variant_deleted" time="0.105" /><testcase classname="saleor.order.tests.test_order_actions" name="test_fulfill_order_line_without_inventory_tracking" time="0.092" /><testcase classname="saleor.order.tests.test_order_actions" name="test_fulfill_digital_lines" time="0.151" /><testcase classname="saleor.order.tests.test_order_actions" name="test_create_refund_fulfillment_only_order_lines" time="0.159" /><testcase classname="saleor.order.tests.test_order_actions" name="test_create_refund_fulfillment_multiple_order_line_refunds" time="0.172" /><testcase classname="saleor.order.tests.test_order_actions" name="test_create_refund_fulfillment_included_shipping_costs" time="0.144" /><testcase classname="saleor.order.tests.test_order_actions" name="test_create_refund_fulfillment_only_fulfillment_lines" time="0.168" /><testcase classname="saleor.order.tests.test_order_actions" name="test_create_refund_fulfillment_multiple_fulfillment_lines_refunds" time="0.185" /><testcase classname="saleor.order.tests.test_order_actions" name="test_create_refund_fulfillment_custom_amount" time="0.155" /><testcase classname="saleor.order.tests.test_order_actions" name="test_create_refund_fulfillment_multiple_refunds" time="0.247" /></testsuite></testsuites>

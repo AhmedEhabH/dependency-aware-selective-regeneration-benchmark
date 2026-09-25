@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="32" time="7.607" timestamp="2026-09-24T22:51:24.896360-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.order.tests.test_fulfillment" name="test_order_fulfill" time="1.511"><error message="failed on setup with &quot;OSError: [Errno 24] Too many open files&quot;">color_attribute = &lt;Attribute: Color&gt;, size_attribute = &lt;Attribute: Size&gt;
+
+    @pytest.fixture
+    def product_type(color_attribute, size_attribute):
+        product_type = ProductType.objects.create(
+            name="Default Type",
+            slug="default-type",
+            has_variants=True,
+            is_shipping_required=True,
+        )
+        product_type.product_attributes.add(color_attribute)
+&gt;       product_type.variant_attributes.add(size_attribute)
+
+saleor/tests/fixtures.py:1051: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.8/site-packages/django/db/models/fields/related_descriptors.py:950: in add
+    self._add_items(
+/opt/venv/lib/python3.8/site-packages/django/db/models/fields/related_descriptors.py:1150: in _add_items
+    self.through._default_manager.using(db).bulk_create([
+/opt/venv/lib/python3.8/site-packages/django/db/models/query.py:506: in bulk_create
+    returned_columns = self._batched_insert(
+/opt/venv/lib/python3.8/site-packages/django/db/models/query.py:1271: in _batched_insert
+    inserted_rows.extend(self._insert(
+/opt/venv/lib/python3.8/site-packages/django/db/models/query.py:1254: in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+/opt/venv/lib/python3.8/site-packages/django/db/models/sql/compiler.py:1395: in execute_sql
+    with self.connection.cursor() as cursor:
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:19: in inner
+    event_loop = asyncio.get_event_loop()
+/usr/local/lib/python3.8/asyncio/events.py:636: in get_event_loop
+    self.set_event_loop(self.new_event_loop())
+/usr/local/lib/python3.8/asyncio/events.py:656: in new_event_loop
+    return self._loop_factory()
+/usr/local/lib/python3.8/asyncio/unix_events.py:54: in __init__
+    super().__init__(selector)
+/usr/local/lib/python3.8/asyncio/selector_events.py:61: in __init__
+    self._make_self_pipe()
+/usr/local/lib/python3.8/asyncio/selector_events.py:108: in _make_self_pipe
+    self._ssock, self._csock = socket.socketpair()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+family = &lt;AddressFamily.AF_UNIX: 1&gt;, type = &lt;SocketKind.SOCK_STREAM: 1&gt;
+proto = 0
+
+    def socketpair(family=None, type=SOCK_STREAM, proto=0):
+        if family is None:
+            try:
+                family = AF_UNIX
+            except NameError:
+                family = AF_INET
+&gt;       a, b = _socket.socketpair(family, type, proto)
+E       OSError: [Errno 24] Too many open files
+
+/usr/local/lib/python3.8/socket.py:620: OSError</error></testcase><testcase classname="saleor.graphql.order.tests.test_fulfillment" name="test_order_fulfill_as_app" time="0.227" /><testcase classname="saleor.graphql.order.tests.test_fulfillment" name="test_order_fulfill_many_warehouses" time="0.199" /><testcase classname="saleor.graphql.order.tests.test_fulfillment" name="test_order_fulfill_without_notification" time="0.130" /><testcase classname="saleor.graphql.order.tests.test_fulfillment" name="test_order_fulfill_lines_with_empty_quantity" time="0.187" /><testcase classname="saleor.graphql.order.tests.test_fulfillment" name="test_order_fulfill_zero_quantity" time="0.141" /><testcase classname="saleor.graphql.order.tests.test_fulfillment" name="test_order_fulfill_fulfilled_order" time="0.145" /><testcase classname="saleor.graphql.order.tests.test_fulfillment" name="test_order_fulfill_warehouse_with_insufficient_stock_exception" time="0.126" /><testcase classname="saleor.graphql.order.tests.test_fulfillment" name="test_order_fulfill_warehouse_duplicated_warehouse_id" time="0.135" /><testcase classname="saleor.graphql.order.tests.test_fulfillment" name="test_order_fulfill_warehouse_duplicated_order_line_id" time="0.114" /><testcase classname="saleor.graphql.order.tests.test_fulfillment" name="test_fulfillment_update_tracking" time="0.188" /><testcase classname="saleor.graphql.order.tests.test_fulfillment" name="test_fulfillment_update_tracking_send_notification_true" time="0.184" /><testcase classname="saleor.graphql.order.tests.test_fulfillment" name="test_fulfillment_update_tracking_send_notification_false" time="0.173" /><testcase classname="saleor.graphql.order.tests.test_fulfillment" name="test_cancel_fulfillment" time="0.230" /><testcase classname="saleor.graphql.order.tests.test_fulfillment" name="test_cancel_fulfillment_warehouse_without_stock" time="0.202" /><testcase classname="saleor.graphql.order.tests.test_fulfillment" name="test_create_digital_fulfillment" time="0.261" /><testcase classname="saleor.graphql.order.tests.test_fulfillment" name="test_fulfillment_query" time="0.171" /><testcase classname="saleor.graphql.order.tests.test_fulfillment" name="test_staff_can_query_order_fulfill_data" time="0.148" /><testcase classname="saleor.graphql.order.tests.test_fulfillment" name="test_staff_can_query_order_fulfill_data_without_permission" time="0.094" /><testcase classname="saleor.graphql.order.tests.test_fulfillment" name="test_fulfillment_refund_products_order_without_payment" time="0.139" /><testcase classname="saleor.graphql.order.tests.test_fulfillment" name="test_fulfillment_refund_products_amount_and_shipping_costs" time="0.262" /><testcase classname="saleor.graphql.order.tests.test_fulfillment" name="test_fulfillment_refund_products_order_lines" time="0.143" /><testcase classname="saleor.graphql.order.tests.test_fulfillment" name="test_fulfillment_refund_products_order_lines_quantity_bigger_than_total" time="0.118" /><testcase classname="saleor.graphql.order.tests.test_fulfillment" name="test_fulfillment_refund_products_order_lines_quantity_bigger_than_unfulfilled" time="0.117" /><testcase classname="saleor.graphql.order.tests.test_fulfillment" name="test_fulfillment_refund_products_fulfillment_lines" time="0.183" /><testcase classname="saleor.graphql.order.tests.test_fulfillment" name="test_fulfillment_refund_products_fulfillment_lines_quantity_bigger_than_total" time="0.147" /><testcase classname="saleor.graphql.order.tests.test_fulfillment" name="test_fulfillment_refund_products_amount_bigger_than_captured_amount" time="0.151" /><testcase classname="saleor.graphql.order.tests.test_fulfillment" name="test_fulfillment_refund_products_fulfillment_lines_include_shipping_costs" time="0.206" /><testcase classname="saleor.graphql.order.tests.test_fulfillment" name="test_fulfillment_refund_products_order_lines_include_shipping_costs" time="0.160" /><testcase classname="saleor.graphql.order.tests.test_fulfillment" name="test_fulfillment_refund_products_fulfillment_lines_custom_amount" time="0.172" /><testcase classname="saleor.graphql.order.tests.test_fulfillment" name="test_fulfillment_refund_products_order_lines_custom_amount" time="0.153" /><testcase classname="saleor.graphql.order.tests.test_fulfillment" name="test_fulfillment_refund_products_fulfillment_lines_and_order_lines" time="0.268" /></testsuite></testsuites>

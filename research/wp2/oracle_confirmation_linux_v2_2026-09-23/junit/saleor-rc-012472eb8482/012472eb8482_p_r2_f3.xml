@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="4" time="2.537" timestamp="2026-09-24T13:11:32.436118-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.product.tests.test_product_type_delete" name="test_product_type_delete_mutation" time="1.466" /><testcase classname="saleor.graphql.product.tests.test_product_type_delete" name="test_product_type_delete_mutation_deletes_also_images" time="0.289"><failure message="AssertionError: Expected 'delay' to be called once. Called 0 times.">delete_from_storage_task_mock = &lt;MagicMock name='delay' id='127817337172512'&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x743fcaee2eb0&gt;
+product_type = &lt;saleor.product.models.ProductType(pk=154, name='Default Type')&gt;
+product_with_image = &lt;saleor.product.models.Product(pk=235, name='Test product')&gt;
+permission_manage_product_types_and_attributes = &lt;Permission: product | product type | Manage product types and attributes.&gt;
+
+    @patch("saleor.product.signals.delete_from_storage_task.delay")
+    def test_product_type_delete_mutation_deletes_also_images(
+        delete_from_storage_task_mock,
+        staff_api_client,
+        product_type,
+        product_with_image,
+        permission_manage_product_types_and_attributes,
+    ):
+        query = PRODUCT_TYPE_DELETE_MUTATION
+        product_type.products.add(product_with_image)
+        media_obj = product_with_image.media.first()
+        media_path = media_obj.image.path
+        variables = {"id": graphene.Node.to_global_id("ProductType", product_type.id)}
+        response = staff_api_client.post_graphql(
+            query, variables, permissions=[permission_manage_product_types_and_attributes]
+        )
+        content = get_graphql_content(response)
+        data = content["data"]["productTypeDelete"]
+        assert data["productType"]["name"] == product_type.name
+        with pytest.raises(product_type._meta.model.DoesNotExist):
+            product_type.refresh_from_db()
+&gt;       delete_from_storage_task_mock.assert_called_once_with(media_path)
+
+saleor/graphql/product/tests/test_product_type_delete.py:59: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;MagicMock name='delay' id='127817337172512'&gt;
+args = ('/tmp/pytest-of-root/pytest-10/test_product_type_delete_mutat0/media/products/product.jpg',)
+kwargs = {}, msg = "Expected 'delay' to be called once. Called 0 times."
+
+    def assert_called_once_with(self, /, *args, **kwargs):
+        """assert that the mock was called exactly once and that that call was
+        with the specified arguments."""
+        if not self.call_count == 1:
+            msg = ("Expected '%s' to be called once. Called %s times.%s"
+                   % (self._mock_name or 'mock',
+                      self.call_count,
+                      self._calls_repr()))
+&gt;           raise AssertionError(msg)
+E           AssertionError: Expected 'delay' to be called once. Called 0 times.
+
+/usr/local/lib/python3.9/unittest/mock.py:918: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.test_product_type_delete" name="test_product_type_delete_with_file_attributes" time="0.215" /><testcase classname="saleor.graphql.product.tests.test_product_type_delete" name="test_product_type_delete_mutation_variants_in_draft_order" time="0.231" /></testsuite></testsuites>

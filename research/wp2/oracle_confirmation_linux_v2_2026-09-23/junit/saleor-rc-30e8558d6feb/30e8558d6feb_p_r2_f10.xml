@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="5" time="2.362" timestamp="2026-09-24T16:06:14.659631" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.discount.tests.queries.test_voucher" name="test_staff_query_voucher" time="1.730" /><testcase classname="saleor.graphql.discount.tests.queries.test_voucher" name="test_query_voucher_by_app" time="0.041" /><testcase classname="saleor.graphql.discount.tests.queries.test_voucher" name="test_query_voucher_by_customer" time="0.028" /><testcase classname="saleor.graphql.discount.tests.queries.test_voucher" name="test_staff_query_voucher_by_invalid_id" time="0.125"><failure message="assert &quot;Couldn't resolve id: bh/.&quot; == 'Invalid ID: ...ted: Voucher.'&#10;  - Invalid ID: bh/. Expected: Voucher.&#10;  + Couldn't resolve id: bh/.">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7ab3d1ea1ca0&gt;
+voucher = &lt;Voucher: Voucher object (174)&gt;
+permission_manage_discounts = &lt;Permission: discount | promotion | Manage sales and vouchers.&gt;
+
+    def test_staff_query_voucher_by_invalid_id(
+        staff_api_client, voucher, permission_manage_discounts
+    ):
+        id = "bh/"
+        variables = {"id": id}
+        response = staff_api_client.post_graphql(
+            QUERY_VOUCHER_BY_ID, variables, permissions=[permission_manage_discounts]
+        )
+        content = get_graphql_content_from_response(response)
+        assert len(content["errors"]) == 1
+&gt;       assert content["errors"][0]["message"] == f"Invalid ID: {id}. Expected: Voucher."
+E       assert "Couldn't resolve id: bh/." == 'Invalid ID: ...ted: Voucher.'
+E         - Invalid ID: bh/. Expected: Voucher.
+E         + Couldn't resolve id: bh/.
+
+saleor/graphql/discount/tests/queries/test_voucher.py:57: AssertionError</failure></testcase><testcase classname="saleor.graphql.discount.tests.queries.test_voucher" name="test_staff_query_voucher_with_invalid_object_type" time="0.127" /></testsuite></testsuites>

@@ -1,0 +1,842 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="10" skipped="0" tests="24" time="7.705" timestamp="2026-09-24T20:13:09.434040+00:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.webhook.tests.subscription_webhooks.test_create_deliveries_for_taxes" name="test_checkout_calculate_taxes[True]" time="1.784"><failure message="AssertionError: assert {'errors': [{...onDenied'}}}]} == {'__typename'...1Nw=='}, ...}}&#10;  &#10;  Left contains 1 more item:&#10;  {'errors': [{'extensions': {'exception': {'code': 'PermissionDenied'}},&#10;               'locations': [{'column': 13, 'line': 57}],&#10;               'message': 'You do not have permission to perform this action',&#10;               'path': ['event', 'taxBase', 'sourceObject', 'privateMetadata']}]}&#10;  Right contains 2 more items:...&#10;  &#10;  ...Full output truncated (24 lines hidden), use '-vv' to show">checkout_ready_to_complete = &lt;Checkout: Checkout object (b984273f-aa56-49f5-ba52-f43867fc54a3)&gt;
+tax_app = &lt;App: Tax App&gt;, charge_taxes = True
+customer_user = &lt;User: a8a2a7e5-c580-49fa-bf70-bb007393e2c7&gt;
+
+    @freeze_time("2020-03-18 12:00:00")
+    @pytest.mark.parametrize("charge_taxes", [True, False])
+    def test_checkout_calculate_taxes(
+        checkout_ready_to_complete,
+        tax_app,
+        charge_taxes,
+        customer_user,
+    ):
+        # given
+        webhook = Webhook.objects.create(
+            name="Webhook",
+            app=tax_app,
+            target_url="http://www.example.com/any",
+            subscription_query=TAXES_SUBSCRIPTION_QUERY,
+        )
+        event_type = WebhookEventSyncType.CHECKOUT_CALCULATE_TAXES
+        webhook.events.create(event_type=event_type)
+    
+        tax_configuration = checkout_ready_to_complete.channel.tax_configuration
+        tax_configuration.charge_taxes = charge_taxes
+        tax_configuration.save(update_fields=["charge_taxes"])
+        tax_configuration.country_exceptions.all().delete()
+    
+        checkout_ready_to_complete.user = customer_user
+        checkout_ready_to_complete.save(update_fields=["user_id"])
+    
+        # when
+        deliveries = create_delivery_for_subscription_sync_event(
+            event_type, checkout_ready_to_complete, webhook
+        )
+    
+        # then
+        metadata = checkout_ready_to_complete.metadata_storage.metadata
+        private_metadata = checkout_ready_to_complete.metadata_storage.private_metadata
+&gt;       assert json.loads(deliveries.payload.get_payload()) == {
+            "__typename": "CalculateTaxes",
+            "taxBase": {
+                "address": {
+                    "id": to_global_id_or_none(checkout_ready_to_complete.shipping_address)
+                },
+                "currency": "USD",
+                "discounts": [],
+                "channel": {"id": to_global_id_or_none(checkout_ready_to_complete.channel)},
+                "lines": [
+                    {
+                        "productName": "Test product",
+                        "productSku": "123",
+                        "quantity": 3,
+                        "sourceLine": {
+                            "id": to_global_id_or_none(
+                                checkout_ready_to_complete.lines.first()
+                            ),
+                            "__typename": "CheckoutLine",
+                        },
+                        "chargeTaxes": charge_taxes,
+                        "totalPrice": {"amount": 30.0},
+                        "unitPrice": {"amount": 10.0},
+                        "variantName": "",
+                    }
+                ],
+                "pricesEnteredWithTax": True,
+                "shippingPrice": {"amount": 10.0},
+                "sourceObject": {
+                    "id": to_global_id_or_none(checkout_ready_to_complete),
+                    "__typename": "Checkout",
+                    "metadata": [
+                        {"key": key, "value": value} for key, value in metadata.items()
+                    ],
+                    "privateMetadata": [
+                        {"key": key, "value": value}
+                        for key, value in private_metadata.items()
+                    ],
+                    "user": {
+                        "id": to_global_id_or_none(customer_user),
+                    },
+                },
+            },
+        }
+E       AssertionError: assert {'errors': [{...onDenied'}}}]} == {'__typename'...1Nw=='}, ...}}
+E         
+E         Left contains 1 more item:
+E         {'errors': [{'extensions': {'exception': {'code': 'PermissionDenied'}},
+E                      'locations': [{'column': 13, 'line': 57}],
+E                      'message': 'You do not have permission to perform this action',
+E                      'path': ['event', 'taxBase', 'sourceObject', 'privateMetadata']}]}
+E         Right contains 2 more items:...
+E         
+E         ...Full output truncated (24 lines hidden), use '-vv' to show
+
+saleor/webhook/tests/subscription_webhooks/test_create_deliveries_for_taxes.py:163: AssertionError</failure></testcase><testcase classname="saleor.webhook.tests.subscription_webhooks.test_create_deliveries_for_taxes" name="test_checkout_calculate_taxes[False]" time="0.242"><failure message="AssertionError: assert {'errors': [{...onDenied'}}}]} == {'__typename'...1OA=='}, ...}}&#10;  &#10;  Left contains 1 more item:&#10;  {'errors': [{'extensions': {'exception': {'code': 'PermissionDenied'}},&#10;               'locations': [{'column': 13, 'line': 57}],&#10;               'message': 'You do not have permission to perform this action',&#10;               'path': ['event', 'taxBase', 'sourceObject', 'privateMetadata']}]}&#10;  Right contains 2 more items:...&#10;  &#10;  ...Full output truncated (24 lines hidden), use '-vv' to show">checkout_ready_to_complete = &lt;Checkout: Checkout object (d4657d08-bc09-426c-8afd-ec17f01d8f8e)&gt;
+tax_app = &lt;App: Tax App&gt;, charge_taxes = False
+customer_user = &lt;User: 0602a348-62c4-4d76-ad0c-b6728f146ee5&gt;
+
+    @freeze_time("2020-03-18 12:00:00")
+    @pytest.mark.parametrize("charge_taxes", [True, False])
+    def test_checkout_calculate_taxes(
+        checkout_ready_to_complete,
+        tax_app,
+        charge_taxes,
+        customer_user,
+    ):
+        # given
+        webhook = Webhook.objects.create(
+            name="Webhook",
+            app=tax_app,
+            target_url="http://www.example.com/any",
+            subscription_query=TAXES_SUBSCRIPTION_QUERY,
+        )
+        event_type = WebhookEventSyncType.CHECKOUT_CALCULATE_TAXES
+        webhook.events.create(event_type=event_type)
+    
+        tax_configuration = checkout_ready_to_complete.channel.tax_configuration
+        tax_configuration.charge_taxes = charge_taxes
+        tax_configuration.save(update_fields=["charge_taxes"])
+        tax_configuration.country_exceptions.all().delete()
+    
+        checkout_ready_to_complete.user = customer_user
+        checkout_ready_to_complete.save(update_fields=["user_id"])
+    
+        # when
+        deliveries = create_delivery_for_subscription_sync_event(
+            event_type, checkout_ready_to_complete, webhook
+        )
+    
+        # then
+        metadata = checkout_ready_to_complete.metadata_storage.metadata
+        private_metadata = checkout_ready_to_complete.metadata_storage.private_metadata
+&gt;       assert json.loads(deliveries.payload.get_payload()) == {
+            "__typename": "CalculateTaxes",
+            "taxBase": {
+                "address": {
+                    "id": to_global_id_or_none(checkout_ready_to_complete.shipping_address)
+                },
+                "currency": "USD",
+                "discounts": [],
+                "channel": {"id": to_global_id_or_none(checkout_ready_to_complete.channel)},
+                "lines": [
+                    {
+                        "productName": "Test product",
+                        "productSku": "123",
+                        "quantity": 3,
+                        "sourceLine": {
+                            "id": to_global_id_or_none(
+                                checkout_ready_to_complete.lines.first()
+                            ),
+                            "__typename": "CheckoutLine",
+                        },
+                        "chargeTaxes": charge_taxes,
+                        "totalPrice": {"amount": 30.0},
+                        "unitPrice": {"amount": 10.0},
+                        "variantName": "",
+                    }
+                ],
+                "pricesEnteredWithTax": True,
+                "shippingPrice": {"amount": 10.0},
+                "sourceObject": {
+                    "id": to_global_id_or_none(checkout_ready_to_complete),
+                    "__typename": "Checkout",
+                    "metadata": [
+                        {"key": key, "value": value} for key, value in metadata.items()
+                    ],
+                    "privateMetadata": [
+                        {"key": key, "value": value}
+                        for key, value in private_metadata.items()
+                    ],
+                    "user": {
+                        "id": to_global_id_or_none(customer_user),
+                    },
+                },
+            },
+        }
+E       AssertionError: assert {'errors': [{...onDenied'}}}]} == {'__typename'...1OA=='}, ...}}
+E         
+E         Left contains 1 more item:
+E         {'errors': [{'extensions': {'exception': {'code': 'PermissionDenied'}},
+E                      'locations': [{'column': 13, 'line': 57}],
+E                      'message': 'You do not have permission to perform this action',
+E                      'path': ['event', 'taxBase', 'sourceObject', 'privateMetadata']}]}
+E         Right contains 2 more items:...
+E         
+E         ...Full output truncated (24 lines hidden), use '-vv' to show
+
+saleor/webhook/tests/subscription_webhooks/test_create_deliveries_for_taxes.py:163: AssertionError</failure></testcase><testcase classname="saleor.webhook.tests.subscription_webhooks.test_create_deliveries_for_taxes" name="test_checkout_calculate_taxes_with_free_shipping_voucher" time="0.566"><failure message="AssertionError: assert {'errors': [{...onDenied'}}}]} == {'__typename'...1OQ=='}, ...}}&#10;  &#10;  Left contains 1 more item:&#10;  {'errors': [{'extensions': {'exception': {'code': 'PermissionDenied'}},&#10;               'locations': [{'column': 13, 'line': 57}],&#10;               'message': 'You do not have permission to perform this action',&#10;               'path': ['event', 'taxBase', 'sourceObject', 'privateMetadata']}]}&#10;  Right contains 2 more items:...&#10;  &#10;  ...Full output truncated (14 lines hidden), use '-vv' to show">checkout_with_voucher_free_shipping = &lt;Checkout: Checkout object (4cc695b3-838d-40d9-bdea-805753e09c5d)&gt;
+tax_app = &lt;App: Tax App&gt;
+checkout_with_shipping_address = &lt;Checkout: Checkout object (4cc695b3-838d-40d9-bdea-805753e09c5d)&gt;
+
+    @freeze_time("2020-03-18 12:00:00")
+    def test_checkout_calculate_taxes_with_free_shipping_voucher(
+        checkout_with_voucher_free_shipping,
+        tax_app,
+        checkout_with_shipping_address,
+    ):
+        # given
+        checkout = checkout_with_voucher_free_shipping
+        webhook = Webhook.objects.create(
+            name="Webhook",
+            app=tax_app,
+            target_url="http://www.example.com/any",
+            subscription_query=TAXES_SUBSCRIPTION_QUERY,
+        )
+        event_type = WebhookEventSyncType.CHECKOUT_CALCULATE_TAXES
+        webhook.events.create(event_type=event_type)
+    
+        # when
+        deliveries = create_delivery_for_subscription_sync_event(
+            event_type, checkout, webhook
+        )
+    
+        # then
+        metadata = checkout.metadata_storage.metadata
+        private_metadata = checkout.metadata_storage.private_metadata
+&gt;       assert json.loads(deliveries.payload.get_payload()) == {
+            "__typename": "CalculateTaxes",
+            "taxBase": {
+                "address": {"id": to_global_id_or_none(checkout.shipping_address)},
+                "currency": "USD",
+                "discounts": [],
+                "channel": {"id": to_global_id_or_none(checkout.channel)},
+                "lines": ANY,
+                "pricesEnteredWithTax": True,
+                "shippingPrice": {"amount": 0.0},
+                "sourceObject": {
+                    "id": to_global_id_or_none(checkout),
+                    "__typename": "Checkout",
+                    "metadata": [
+                        {"key": key, "value": value} for key, value in metadata.items()
+                    ],
+                    "privateMetadata": [
+                        {"key": key, "value": value}
+                        for key, value in private_metadata.items()
+                    ],
+                    "user": None,
+                },
+            },
+        }
+E       AssertionError: assert {'errors': [{...onDenied'}}}]} == {'__typename'...1OQ=='}, ...}}
+E         
+E         Left contains 1 more item:
+E         {'errors': [{'extensions': {'exception': {'code': 'PermissionDenied'}},
+E                      'locations': [{'column': 13, 'line': 57}],
+E                      'message': 'You do not have permission to perform this action',
+E                      'path': ['event', 'taxBase', 'sourceObject', 'privateMetadata']}]}
+E         Right contains 2 more items:...
+E         
+E         ...Full output truncated (14 lines hidden), use '-vv' to show
+
+saleor/webhook/tests/subscription_webhooks/test_create_deliveries_for_taxes.py:234: AssertionError</failure></testcase><testcase classname="saleor.webhook.tests.subscription_webhooks.test_create_deliveries_for_taxes" name="test_checkout_calculate_taxes_with_pregenerated_payload" time="0.324" /><testcase classname="saleor.webhook.tests.subscription_webhooks.test_create_deliveries_for_taxes" name="test_checkout_calculate_taxes_with_entire_order_voucher" time="0.240"><failure message="AssertionError: assert {'errors': [{...onDenied'}}}]} == {'__typename'...2Mw=='}, ...}}&#10;  &#10;  Left contains 1 more item:&#10;  {'errors': [{'extensions': {'exception': {'code': 'PermissionDenied'}},&#10;               'locations': [{'column': 13, 'line': 57}],&#10;               'message': 'You do not have permission to perform this action',&#10;               'path': ['event', 'taxBase', 'sourceObject', 'privateMetadata']}]}&#10;  Right contains 2 more items:...&#10;  &#10;  ...Full output truncated (22 lines hidden), use '-vv' to show">checkout_with_voucher = &lt;Checkout: Checkout object (97f8c0ea-e3ed-41fc-b633-14670d4d514e)&gt;
+tax_app = &lt;App: Tax App&gt;, address = &lt;Address: Address object (178)&gt;
+shipping_method = ShippingMethod(type=price)
+
+    @freeze_time("2020-03-18 12:00:00")
+    def test_checkout_calculate_taxes_with_entire_order_voucher(
+        checkout_with_voucher,
+        tax_app,
+        address,
+        shipping_method,
+    ):
+        # given
+        checkout = checkout_with_voucher
+        checkout.shipping_address = address
+        checkout.shipping_method = shipping_method
+        checkout.billing_address = address
+        checkout.save()
+    
+        webhook = Webhook.objects.create(
+            name="Webhook",
+            app=tax_app,
+            target_url="http://www.example.com/any",
+            subscription_query=TAXES_SUBSCRIPTION_QUERY,
+        )
+        event_type = WebhookEventSyncType.CHECKOUT_CALCULATE_TAXES
+        webhook.events.create(event_type=event_type)
+    
+        # when
+        deliveries = create_delivery_for_subscription_sync_event(
+            event_type, checkout, webhook
+        )
+    
+        # then
+        metadata = checkout.metadata_storage.metadata
+        private_metadata = checkout.metadata_storage.private_metadata
+&gt;       assert json.loads(deliveries.payload.get_payload()) == {
+            "__typename": "CalculateTaxes",
+            "taxBase": {
+                "address": {"id": to_global_id_or_none(address)},
+                "currency": "USD",
+                "discounts": [
+                    {"amount": {"amount": 20.0}, "type": TaxableObjectDiscountType.SUBTOTAL}
+                ],
+                "channel": {"id": to_global_id_or_none(checkout_with_voucher.channel)},
+                "lines": [
+                    {
+                        "chargeTaxes": True,
+                        "productName": "Test product",
+                        "productSku": "123",
+                        "quantity": 3,
+                        "sourceLine": {
+                            "id": to_global_id_or_none(checkout.lines.first()),
+                            "__typename": "CheckoutLine",
+                        },
+                        "totalPrice": {"amount": 30.0},
+                        "unitPrice": {"amount": 10.0},
+                        "variantName": "",
+                    }
+                ],
+                "pricesEnteredWithTax": True,
+                "shippingPrice": {"amount": 10.0},
+                "sourceObject": {
+                    "id": to_global_id_or_none(checkout),
+                    "__typename": "Checkout",
+                    "metadata": [
+                        {"key": key, "value": value} for key, value in metadata.items()
+                    ],
+                    "privateMetadata": [
+                        {"key": key, "value": value}
+                        for key, value in private_metadata.items()
+                    ],
+                    "user": None,
+                },
+            },
+        }
+E       AssertionError: assert {'errors': [{...onDenied'}}}]} == {'__typename'...2Mw=='}, ...}}
+E         
+E         Left contains 1 more item:
+E         {'errors': [{'extensions': {'exception': {'code': 'PermissionDenied'}},
+E                      'locations': [{'column': 13, 'line': 57}],
+E                      'message': 'You do not have permission to perform this action',
+E                      'path': ['event', 'taxBase', 'sourceObject', 'privateMetadata']}]}
+E         Right contains 2 more items:...
+E         
+E         ...Full output truncated (22 lines hidden), use '-vv' to show
+
+saleor/webhook/tests/subscription_webhooks/test_create_deliveries_for_taxes.py:320: AssertionError</failure></testcase><testcase classname="saleor.webhook.tests.subscription_webhooks.test_create_deliveries_for_taxes" name="test_checkout_calculate_taxes_with_entire_order_voucher_once_per_order" time="0.238"><failure message="AssertionError: assert {'errors': [{...onDenied'}}}]} == {'__typename'...2NA=='}, ...}}&#10;  &#10;  Left contains 1 more item:&#10;  {'errors': [{'extensions': {'exception': {'code': 'PermissionDenied'}},&#10;               'locations': [{'column': 13, 'line': 57}],&#10;               'message': 'You do not have permission to perform this action',&#10;               'path': ['event', 'taxBase', 'sourceObject', 'privateMetadata']}]}&#10;  Right contains 2 more items:...&#10;  &#10;  ...Full output truncated (22 lines hidden), use '-vv' to show">voucher = &lt;Voucher: Voucher object (4)&gt;
+checkout_with_voucher = &lt;Checkout: Checkout object (aaebe460-2aa7-49e1-aae6-d5d6f41065a9)&gt;
+tax_app = &lt;App: Tax App&gt;
+permission_handle_taxes = &lt;Permission: Checkout | checkout | Handle taxes&gt;
+
+    @freeze_time("2020-03-18 12:00:00")
+    def test_checkout_calculate_taxes_with_entire_order_voucher_once_per_order(
+        voucher,
+        checkout_with_voucher,
+        tax_app,
+        permission_handle_taxes,
+    ):
+        # given
+        webhook = Webhook.objects.create(
+            name="Webhook",
+            app=tax_app,
+            target_url="http://www.example.com/any",
+            subscription_query=TAXES_SUBSCRIPTION_QUERY,
+        )
+        event_type = WebhookEventSyncType.CHECKOUT_CALCULATE_TAXES
+        webhook.events.create(event_type=event_type)
+        voucher.apply_once_per_order = True
+        voucher.save()
+    
+        # when
+        deliveries = create_delivery_for_subscription_sync_event(
+            event_type, checkout_with_voucher, webhook
+        )
+    
+        # then
+        metadata = checkout_with_voucher.metadata_storage.metadata
+        private_metadata = checkout_with_voucher.metadata_storage.private_metadata
+&gt;       assert json.loads(deliveries.payload.get_payload()) == {
+            "__typename": "CalculateTaxes",
+            "taxBase": {
+                "address": None,
+                "currency": "USD",
+                "discounts": [],
+                "channel": {"id": to_global_id_or_none(checkout_with_voucher.channel)},
+                "lines": [
+                    {
+                        "chargeTaxes": True,
+                        "productName": "Test product",
+                        "productSku": "123",
+                        "quantity": 3,
+                        "sourceLine": {
+                            "id": to_global_id_or_none(checkout_with_voucher.lines.first()),
+                            "__typename": "CheckoutLine",
+                        },
+                        "totalPrice": {"amount": 20.0},
+                        "unitPrice": {"amount": 6.67},
+                        "variantName": "",
+                    }
+                ],
+                "pricesEnteredWithTax": True,
+                "shippingPrice": {"amount": 0.0},
+                "sourceObject": {
+                    "id": to_global_id_or_none(checkout_with_voucher),
+                    "__typename": "Checkout",
+                    "metadata": [
+                        {"key": key, "value": value} for key, value in metadata.items()
+                    ],
+                    "privateMetadata": [
+                        {"key": key, "value": value}
+                        for key, value in private_metadata.items()
+                    ],
+                    "user": None,
+                },
+            },
+        }
+E       AssertionError: assert {'errors': [{...onDenied'}}}]} == {'__typename'...2NA=='}, ...}}
+E         
+E         Left contains 1 more item:
+E         {'errors': [{'extensions': {'exception': {'code': 'PermissionDenied'}},
+E                      'locations': [{'column': 13, 'line': 57}],
+E                      'message': 'You do not have permission to perform this action',
+E                      'path': ['event', 'taxBase', 'sourceObject', 'privateMetadata']}]}
+E         Right contains 2 more items:...
+E         
+E         ...Full output truncated (22 lines hidden), use '-vv' to show
+
+saleor/webhook/tests/subscription_webhooks/test_create_deliveries_for_taxes.py:389: AssertionError</failure></testcase><testcase classname="saleor.webhook.tests.subscription_webhooks.test_create_deliveries_for_taxes" name="test_checkout_calculate_taxes_with_shipping_voucher" time="0.218"><failure message="AssertionError: assert {'errors': [{...onDenied'}}}]} == {'__typename'...2NQ=='}, ...}}&#10;  &#10;  Left contains 1 more item:&#10;  {'errors': [{'extensions': {'exception': {'code': 'PermissionDenied'}},&#10;               'locations': [{'column': 13, 'line': 57}],&#10;               'message': 'You do not have permission to perform this action',&#10;               'path': ['event', 'taxBase', 'sourceObject', 'privateMetadata']}]}&#10;  Right contains 2 more items:...&#10;  &#10;  ...Full output truncated (22 lines hidden), use '-vv' to show">checkout_with_item = &lt;Checkout: Checkout object (8b1b665c-d736-4157-a593-7036437db00f)&gt;
+voucher_free_shipping = &lt;Voucher: Voucher object (5)&gt;, tax_app = &lt;App: Tax App&gt;
+address = &lt;Address: Address object (180)&gt;
+shipping_method = ShippingMethod(type=price)
+
+    @freeze_time("2020-03-18 12:00:00")
+    def test_checkout_calculate_taxes_with_shipping_voucher(
+        checkout_with_item,
+        voucher_free_shipping,
+        tax_app,
+        address,
+        shipping_method,
+    ):
+        # given
+        checkout = checkout_with_item
+        checkout.shipping_address = address
+        checkout.shipping_method = shipping_method
+        checkout.billing_address = address
+        checkout.voucher_code = voucher_free_shipping.codes.first()
+    
+        webhook = Webhook.objects.create(
+            name="Webhook",
+            app=tax_app,
+            target_url="http://www.example.com/any",
+            subscription_query=TAXES_SUBSCRIPTION_QUERY,
+        )
+        event_type = WebhookEventSyncType.CHECKOUT_CALCULATE_TAXES
+        webhook.events.create(event_type=event_type)
+    
+        # when
+        deliveries = create_delivery_for_subscription_sync_event(
+            event_type, checkout, webhook
+        )
+    
+        # then
+        metadata = checkout.metadata_storage.metadata
+        private_metadata = checkout.metadata_storage.private_metadata
+&gt;       assert json.loads(deliveries.payload.get_payload()) == {
+            "__typename": "CalculateTaxes",
+            "taxBase": {
+                "address": {"id": to_global_id_or_none(address)},
+                "currency": "USD",
+                "discounts": [],
+                "channel": {"id": to_global_id_or_none(checkout.channel)},
+                "lines": [
+                    {
+                        "chargeTaxes": True,
+                        "productName": "Test product",
+                        "productSku": "123",
+                        "quantity": 3,
+                        "sourceLine": {
+                            "id": to_global_id_or_none(checkout.lines.first()),
+                            "__typename": "CheckoutLine",
+                        },
+                        "totalPrice": {"amount": 30.0},
+                        "unitPrice": {"amount": 10.0},
+                        "variantName": "",
+                    }
+                ],
+                "pricesEnteredWithTax": True,
+                "shippingPrice": {"amount": 0.0},
+                "sourceObject": {
+                    "id": to_global_id_or_none(checkout),
+                    "__typename": "Checkout",
+                    "metadata": [
+                        {"key": key, "value": value} for key, value in metadata.items()
+                    ],
+                    "privateMetadata": [
+                        {"key": key, "value": value}
+                        for key, value in private_metadata.items()
+                    ],
+                    "user": None,
+                },
+            },
+        }
+E       AssertionError: assert {'errors': [{...onDenied'}}}]} == {'__typename'...2NQ=='}, ...}}
+E         
+E         Left contains 1 more item:
+E         {'errors': [{'extensions': {'exception': {'code': 'PermissionDenied'}},
+E                      'locations': [{'column': 13, 'line': 57}],
+E                      'message': 'You do not have permission to perform this action',
+E                      'path': ['event', 'taxBase', 'sourceObject', 'privateMetadata']}]}
+E         Right contains 2 more items:...
+E         
+E         ...Full output truncated (22 lines hidden), use '-vv' to show
+
+saleor/webhook/tests/subscription_webhooks/test_create_deliveries_for_taxes.py:461: AssertionError</failure></testcase><testcase classname="saleor.webhook.tests.subscription_webhooks.test_create_deliveries_for_taxes" name="test_checkout_calculate_taxes_with_order_promotion" time="0.224"><failure message="AssertionError: assert {'errors': [{...onDenied'}}}]} == {'__typename'...2Ng=='}, ...}}&#10;  &#10;  Left contains 1 more item:&#10;  {'errors': [{'extensions': {'exception': {'code': 'PermissionDenied'}},&#10;               'locations': [{'column': 13, 'line': 57}],&#10;               'message': 'You do not have permission to perform this action',&#10;               'path': ['event', 'taxBase', 'sourceObject', 'privateMetadata']}]}&#10;  Right contains 2 more items:...&#10;  &#10;  ...Full output truncated (22 lines hidden), use '-vv' to show">checkout_with_item_and_order_discount = &lt;Checkout: Checkout object (07f6d540-2660-4d45-89ba-11c0554b9ee1)&gt;
+tax_app = &lt;App: Tax App&gt;
+
+    @freeze_time("2020-03-18 12:00:00")
+    def test_checkout_calculate_taxes_with_order_promotion(
+        checkout_with_item_and_order_discount,
+        tax_app,
+    ):
+        # given
+        checkout = checkout_with_item_and_order_discount
+        line = checkout.lines.get()
+        line_price = line.variant.channel_listings.get(
+            channel=checkout.channel
+        ).price_amount
+        channel_id = to_global_id_or_none(checkout.channel)
+        webhook = Webhook.objects.create(
+            name="Webhook",
+            app=tax_app,
+            target_url="http://www.example.com/any",
+            subscription_query=TAXES_SUBSCRIPTION_QUERY,
+        )
+        event_type = WebhookEventSyncType.CHECKOUT_CALCULATE_TAXES
+        webhook.events.create(event_type=event_type)
+        discount_amount = PromotionRule.objects.get().reward_value
+    
+        # when
+        deliveries = create_delivery_for_subscription_sync_event(
+            event_type, checkout, webhook
+        )
+    
+        # then
+        metadata = checkout.metadata_storage.metadata
+        private_metadata = checkout.metadata_storage.private_metadata
+&gt;       assert json.loads(deliveries.payload.get_payload()) == {
+            "__typename": "CalculateTaxes",
+            "taxBase": {
+                "address": None,
+                "currency": "USD",
+                "discounts": [
+                    {
+                        "amount": {"amount": float(discount_amount)},
+                        "type": TaxableObjectDiscountType.SUBTOTAL,
+                    }
+                ],
+                "channel": {"id": channel_id},
+                "lines": [
+                    {
+                        "chargeTaxes": True,
+                        "productName": "Test product",
+                        "productSku": "123",
+                        "quantity": line.quantity,
+                        "sourceLine": {
+                            "id": to_global_id_or_none(line),
+                            "__typename": "CheckoutLine",
+                        },
+                        "totalPrice": {"amount": float(line_price * 3)},
+                        "unitPrice": {"amount": float(line_price)},
+                        "variantName": "",
+                    }
+                ],
+                "pricesEnteredWithTax": True,
+                "shippingPrice": {"amount": 0.0},
+                "sourceObject": {
+                    "id": to_global_id_or_none(checkout),
+                    "__typename": "Checkout",
+                    "metadata": [
+                        {"key": key, "value": value} for key, value in metadata.items()
+                    ],
+                    "privateMetadata": [
+                        {"key": key, "value": value}
+                        for key, value in private_metadata.items()
+                    ],
+                    "user": None,
+                },
+            },
+        }
+E       AssertionError: assert {'errors': [{...onDenied'}}}]} == {'__typename'...2Ng=='}, ...}}
+E         
+E         Left contains 1 more item:
+E         {'errors': [{'extensions': {'exception': {'code': 'PermissionDenied'}},
+E                      'locations': [{'column': 13, 'line': 57}],
+E                      'message': 'You do not have permission to perform this action',
+E                      'path': ['event', 'taxBase', 'sourceObject', 'privateMetadata']}]}
+E         Right contains 2 more items:...
+E         
+E         ...Full output truncated (22 lines hidden), use '-vv' to show
+
+saleor/webhook/tests/subscription_webhooks/test_create_deliveries_for_taxes.py:531: AssertionError</failure></testcase><testcase classname="saleor.webhook.tests.subscription_webhooks.test_create_deliveries_for_taxes" name="test_checkout_calculate_taxes_empty_checkout" time="0.099"><failure message="AssertionError: assert {'errors': [{...onDenied'}}}]} == {'__typename'...ts': [], ...}}&#10;  &#10;  Left contains 1 more item:&#10;  {'errors': [{'extensions': {'exception': {'code': 'PermissionDenied'}},&#10;               'locations': [{'column': 13, 'line': 57}],&#10;               'message': 'You do not have permission to perform this action',&#10;               'path': ['event', 'taxBase', 'sourceObject', 'privateMetadata']}]}&#10;  Right contains 2 more items:...&#10;  &#10;  ...Full output truncated (14 lines hidden), use '-vv' to show">checkout = &lt;Checkout: Checkout object (35509cd7-30c2-447e-ab75-981c4359c7aa)&gt;
+tax_app = &lt;App: Tax App&gt;
+
+    @freeze_time("2020-03-18 12:00:00")
+    def test_checkout_calculate_taxes_empty_checkout(
+        checkout,
+        tax_app,
+    ):
+        # given
+        webhook = Webhook.objects.create(
+            name="Webhook",
+            app=tax_app,
+            target_url="http://www.example.com/any",
+            subscription_query=TAXES_SUBSCRIPTION_QUERY,
+        )
+        event_type = WebhookEventSyncType.CHECKOUT_CALCULATE_TAXES
+        webhook.events.create(event_type=event_type)
+    
+        # when
+        deliveries = create_delivery_for_subscription_sync_event(
+            event_type, checkout, webhook
+        )
+    
+        # then
+        metadata = checkout.metadata_storage.metadata
+        private_metadata = checkout.metadata_storage.private_metadata
+&gt;       assert json.loads(deliveries.payload.get_payload()) == {
+            "__typename": "CalculateTaxes",
+            "taxBase": {
+                "address": None,
+                "channel": {"id": to_global_id_or_none(checkout.channel)},
+                "currency": "USD",
+                "discounts": [],
+                "lines": [],
+                "pricesEnteredWithTax": True,
+                "shippingPrice": {"amount": 0.0},
+                "sourceObject": {
+                    "id": to_global_id_or_none(checkout),
+                    "__typename": "Checkout",
+                    "metadata": [
+                        {"key": key, "value": value} for key, value in metadata.items()
+                    ],
+                    "privateMetadata": [
+                        {"key": key, "value": value}
+                        for key, value in private_metadata.items()
+                    ],
+                    "user": None,
+                },
+            },
+        }
+E       AssertionError: assert {'errors': [{...onDenied'}}}]} == {'__typename'...ts': [], ...}}
+E         
+E         Left contains 1 more item:
+E         {'errors': [{'extensions': {'exception': {'code': 'PermissionDenied'}},
+E                      'locations': [{'column': 13, 'line': 57}],
+E                      'message': 'You do not have permission to perform this action',
+E                      'path': ['event', 'taxBase', 'sourceObject', 'privateMetadata']}]}
+E         Right contains 2 more items:...
+E         
+E         ...Full output truncated (14 lines hidden), use '-vv' to show
+
+saleor/webhook/tests/subscription_webhooks/test_create_deliveries_for_taxes.py:599: AssertionError</failure></testcase><testcase classname="saleor.webhook.tests.subscription_webhooks.test_create_deliveries_for_taxes" name="test_order_calculate_taxes[True]" time="0.199"><failure message="AssertionError: assert {'errors': [{...onDenied'}}}]} == {'__typename'...2OA=='}, ...}}&#10;  &#10;  Left contains 1 more item:&#10;  {'errors': [{'extensions': {'exception': {'code': 'PermissionDenied'}},&#10;               'locations': [{'column': 13, 'line': 71}],&#10;               'message': 'You do not have permission to perform this action',&#10;               'path': ['event', 'taxBase', 'sourceObject', 'privateMetadata']}]}&#10;  Right contains 2 more items:...&#10;  &#10;  ...Full output truncated (23 lines hidden), use '-vv' to show">order_line = &lt;OrderLine: Test product (SKU_A)&gt;, tax_app = &lt;App: Tax App&gt;
+shipping_zone = &lt;ShippingZone: Europe&gt;, charge_taxes = True
+
+    @freeze_time("2020-03-18 12:00:00")
+    @pytest.mark.parametrize("charge_taxes", [True, False])
+    def test_order_calculate_taxes(order_line, tax_app, shipping_zone, charge_taxes):
+        # given
+        order = order_line.order
+        expected_shipping_price = Money("2.00", order.currency)
+        order.base_shipping_price = expected_shipping_price
+        order.shipping_price = TaxedMoney(
+            net=expected_shipping_price, gross=expected_shipping_price
+        )
+        order.save(
+            update_fields=[
+                "base_shipping_price_amount",
+                "shipping_price_net_amount",
+                "shipping_price_gross_amount",
+            ]
+        )
+        shipping_method = shipping_zone.shipping_methods.first()
+        order.shipping_method = shipping_method
+        webhook = Webhook.objects.create(
+            name="Webhook",
+            app=tax_app,
+            target_url="http://www.example.com/any",
+            subscription_query=TAXES_SUBSCRIPTION_QUERY,
+        )
+        event_type = WebhookEventSyncType.ORDER_CALCULATE_TAXES
+        webhook.events.create(event_type=event_type)
+    
+        tax_configuration = order.channel.tax_configuration
+        tax_configuration.charge_taxes = charge_taxes
+        tax_configuration.save(update_fields=["charge_taxes"])
+        tax_configuration.country_exceptions.all().delete()
+    
+        # when
+        deliveries = create_delivery_for_subscription_sync_event(event_type, order, webhook)
+    
+        # then
+        shipping_price_amount = shipping_method.channel_listings.get(
+            channel=order.channel
+        ).price.amount
+        shipping_price_amount = quantize_price(shipping_price_amount, order.currency)
+        assert expected_shipping_price != shipping_price_amount
+&gt;       assert json.loads(deliveries.payload.get_payload()) == {
+            "__typename": "CalculateTaxes",
+            "taxBase": {
+                "address": {"id": to_global_id_or_none(order.shipping_address)},
+                "currency": "USD",
+                "discounts": [],
+                "channel": {"id": to_global_id_or_none(order.channel)},
+                "lines": [
+                    {
+                        "chargeTaxes": charge_taxes,
+                        "productName": "Test product",
+                        "productSku": "SKU_A",
+                        "quantity": 3,
+                        "sourceLine": {
+                            "__typename": "OrderLine",
+                            "id": to_global_id_or_none(order_line),
+                        },
+                        "totalPrice": {"amount": 36.9},
+                        "unitPrice": {"amount": 12.3},
+                        "variantName": "SKU_A",
+                    }
+                ],
+                "pricesEnteredWithTax": True,
+                "shippingPrice": {"amount": expected_shipping_price.amount},
+                "sourceObject": {
+                    "__typename": "Order",
+                    "id": to_global_id_or_none(order),
+                    "metadata": [
+                        {"key": key, "value": value}
+                        for key, value in order.metadata.items()
+                    ],
+                    "privateMetadata": [
+                        {"key": key, "value": value}
+                        for key, value in order.private_metadata.items()
+                    ],
+                    "user": {"id": to_global_id_or_none(order.user)},
+                },
+            },
+        }
+E       AssertionError: assert {'errors': [{...onDenied'}}}]} == {'__typename'...2OA=='}, ...}}
+E         
+E         Left contains 1 more item:
+E         {'errors': [{'extensions': {'exception': {'code': 'PermissionDenied'}},
+E                      'locations': [{'column': 13, 'line': 71}],
+E                      'message': 'You do not have permission to perform this action',
+E                      'path': ['event', 'taxBase', 'sourceObject', 'privateMetadata']}]}
+E         Right contains 2 more items:...
+E         
+E         ...Full output truncated (23 lines hidden), use '-vv' to show
+
+saleor/webhook/tests/subscription_webhooks/test_create_deliveries_for_taxes.py:667: AssertionError</failure></testcase><testcase classname="saleor.webhook.tests.subscription_webhooks.test_create_deliveries_for_taxes" name="test_order_calculate_taxes[False]" time="0.187"><failure message="AssertionError: assert {'errors': [{...onDenied'}}}]} == {'__typename'...2OQ=='}, ...}}&#10;  &#10;  Left contains 1 more item:&#10;  {'errors': [{'extensions': {'exception': {'code': 'PermissionDenied'}},&#10;               'locations': [{'column': 13, 'line': 71}],&#10;               'message': 'You do not have permission to perform this action',&#10;               'path': ['event', 'taxBase', 'sourceObject', 'privateMetadata']}]}&#10;  Right contains 2 more items:...&#10;  &#10;  ...Full output truncated (23 lines hidden), use '-vv' to show">order_line = &lt;OrderLine: Test product (SKU_A)&gt;, tax_app = &lt;App: Tax App&gt;
+shipping_zone = &lt;ShippingZone: Europe&gt;, charge_taxes = False
+
+    @freeze_time("2020-03-18 12:00:00")
+    @pytest.mark.parametrize("charge_taxes", [True, False])
+    def test_order_calculate_taxes(order_line, tax_app, shipping_zone, charge_taxes):
+        # given
+        order = order_line.order
+        expected_shipping_price = Money("2.00", order.currency)
+        order.base_shipping_price = expected_shipping_price
+        order.shipping_price = TaxedMoney(
+            net=expected_shipping_price, gross=expected_shipping_price
+        )
+        order.save(
+            update_fields=[
+                "base_shipping_price_amount",
+                "shipping_price_net_amount",
+                "shipping_price_gross_amount",
+            ]
+        )
+        shipping_method = shipping_zone.shipping_methods.first()
+        order.shipping_method = shipping_method
+        webhook = Webhook.objects.create(
+            name="Webhook",
+            app=tax_app,
+            target_url="http://www.example.com/any",
+            subscription_query=TAXES_SUBSCRIPTION_QUERY,
+        )
+        event_type = WebhookEventSyncType.ORDER_CALCULATE_TAXES
+        webhook.events.create(event_type=event_type)
+    
+        tax_configuration = order.channel.tax_configuration
+        tax_configuration.charge_taxes = charge_taxes
+        tax_configuration.save(update_fields=["charge_taxes"])
+        tax_configuration.country_exceptions.all().delete()
+    
+        # when
+        deliveries = create_delivery_for_subscription_sync_event(event_type, order, webhook)
+    
+        # then
+        shipping_price_amount = shipping_method.channel_listings.get(
+            channel=order.channel
+        ).price.amount
+        shipping_price_amount = quantize_price(shipping_price_amount, order.currency)
+        assert expected_shipping_price != shipping_price_amount
+&gt;       assert json.loads(deliveries.payload.get_payload()) == {
+            "__typename": "CalculateTaxes",
+            "taxBase": {
+                "address": {"id": to_global_id_or_none(order.shipping_address)},
+                "currency": "USD",
+                "discounts": [],
+                "channel": {"id": to_global_id_or_none(order.channel)},
+                "lines": [
+                    {
+                        "chargeTaxes": charge_taxes,
+                        "productName": "Test product",
+                        "productSku": "SKU_A",
+                        "quantity": 3,
+                        "sourceLine": {
+                            "__typename": "OrderLine",
+                            "id": to_global_id_or_none(order_line),
+                        },
+                        "totalPrice": {"amount": 36.9},
+                        "unitPrice": {"amount": 12.3},
+                        "variantName": "SKU_A",
+                    }
+                ],
+                "pricesEnteredWithTax": True,
+                "shippingPrice": {"amount": expected_shipping_price.amount},
+                "sourceObject": {
+                    "__typename": "Order",
+                    "id": to_global_id_or_none(order),
+                    "metadata": [
+                        {"key": key, "value": value}
+                        for key, value in order.metadata.items()
+                    ],
+                    "privateMetadata": [
+                        {"key": key, "value": value}
+                        for key, value in order.private_metadata.items()
+                    ],
+                    "user": {"id": to_global_id_or_none(order.user)},
+                },
+            },
+        }
+E       AssertionError: assert {'errors': [{...onDenied'}}}]} == {'__typename'...2OQ=='}, ...}}
+E         
+E         Left contains 1 more item:
+E         {'errors': [{'extensions': {'exception': {'code': 'PermissionDenied'}},
+E                      'locations': [{'column': 13, 'line': 71}],
+E                      'message': 'You do not have permission to perform this action',
+E                      'path': ['event', 'taxBase', 'sourceObject', 'privateMetadata']}]}
+E         Right contains 2 more items:...
+E         
+E         ...Full output truncated (23 lines hidden), use '-vv' to show
+
+saleor/webhook/tests/subscription_webhooks/test_create_deliveries_for_taxes.py:667: AssertionError</failure></testcase><testcase classname="saleor.webhook.tests.subscription_webhooks.test_create_deliveries_for_taxes" name="test_draft_order_calculate_taxes_line_discount" time="0.237" /><testcase classname="saleor.webhook.tests.subscription_webhooks.test_create_deliveries_for_taxes" name="test_draft_order_calculate_taxes_entire_order_voucher" time="0.257" /><testcase classname="saleor.webhook.tests.subscription_webhooks.test_create_deliveries_for_taxes" name="test_draft_order_calculate_taxes_apply_once_per_order_voucher" time="0.255" /><testcase classname="saleor.webhook.tests.subscription_webhooks.test_create_deliveries_for_taxes" name="test_order_calculate_taxes_specific_product_voucher" time="0.255" /><testcase classname="saleor.webhook.tests.subscription_webhooks.test_create_deliveries_for_taxes" name="test_draft_order_calculate_taxes_free_shipping_voucher[True]" time="0.222" /><testcase classname="saleor.webhook.tests.subscription_webhooks.test_create_deliveries_for_taxes" name="test_draft_order_calculate_taxes_free_shipping_voucher[False]" time="0.220" /><testcase classname="saleor.webhook.tests.subscription_webhooks.test_create_deliveries_for_taxes" name="test_order_calculate_taxes_with_manual_discount" time="0.194" /><testcase classname="saleor.webhook.tests.subscription_webhooks.test_create_deliveries_for_taxes" name="test_order_calculate_taxes_empty_order" time="0.103" /><testcase classname="saleor.webhook.tests.subscription_webhooks.test_create_deliveries_for_taxes" name="test_order_calculate_taxes_order_promotion" time="0.211" /><testcase classname="saleor.webhook.tests.subscription_webhooks.test_create_deliveries_for_taxes" name="test_order_calculate_taxes_order_voucher_and_manual_discount" time="0.204" /><testcase classname="saleor.webhook.tests.subscription_webhooks.test_create_deliveries_for_taxes" name="test_order_calculate_taxes_order_promotion_and_manual_discount" time="0.201" /><testcase classname="saleor.webhook.tests.subscription_webhooks.test_create_deliveries_for_taxes" name="test_order_calculate_taxes_free_shipping_voucher_and_manual_discount_fixed" time="0.225" /><testcase classname="saleor.webhook.tests.subscription_webhooks.test_create_deliveries_for_taxes" name="test_order_calculate_taxes_free_shipping_voucher_and_manual_discount_percentage" time="0.224" /></testsuite></testsuites>

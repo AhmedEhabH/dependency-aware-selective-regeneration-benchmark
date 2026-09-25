@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="1" failures="1" skipped="0" tests="12" time="3.021" timestamp="2026-09-24T22:59:51.637189-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_categories" time="1.300" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_categories_with_subcategories_and_products" time="0.157" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_collections" time="0.049" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_products" time="0.090"><failure message="TypeError: OrderLine() got an unexpected keyword argument 'total_price'">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x74dbc9dc6040&gt;
+product_list = [&lt;saleor.product.models.Product(pk=1486, name='Test product 1')&gt;, &lt;saleor.product.models.Product(pk=1487, name='Test product 2')&gt;, &lt;saleor.product.models.Product(pk=1489, name='Test product 3')&gt;]
+permission_manage_products = &lt;Permission: product | product | Manage products.&gt;
+order_list = [&lt;Order #33&gt;, &lt;Order #34&gt;, &lt;Order #35&gt;]
+channel_USD = &lt;Channel: main&gt;
+
+    def test_delete_products(
+        staff_api_client, product_list, permission_manage_products, order_list, channel_USD
+    ):
+        # given
+        query = DELETE_PRODUCTS_MUTATION
+    
+        not_draft_order = order_list[0]
+        draft_order = order_list[1]
+        draft_order.status = OrderStatus.DRAFT
+        draft_order.save(update_fields=["status"])
+    
+        draft_order_lines_pks = []
+        not_draft_order_lines_pks = []
+        for variant in [product_list[0].variants.first(), product_list[1].variants.first()]:
+            product = variant.product
+            variant_channel_listing = variant.channel_listings.get(channel=channel_USD)
+            net = variant.get_price(product, [], channel_USD, variant_channel_listing, None)
+            gross = Money(amount=net.amount, currency=net.currency)
+            quantity = 3
+            total_price = TaxedMoney(net=net * quantity, gross=gross * quantity)
+&gt;           order_line = OrderLine.objects.create(
+                variant=variant,
+                order=draft_order,
+                product_name=str(product),
+                variant_name=str(variant),
+                product_sku=variant.sku,
+                is_shipping_required=variant.is_shipping_required(),
+                unit_price=TaxedMoney(net=net, gross=gross),
+                total_price=total_price,
+                quantity=3,
+            )
+
+saleor/graphql/product/tests/test_bulk_delete.py:201: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.8/site-packages/django/db/models/manager.py:85: in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/models/query.py:445: in create
+    obj = self.model(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;OrderLine: Test product 1 (2456d4136a32498988f8e3130d9e46d2)&gt;, args = ()
+kwargs = {'total_price': TaxedMoney(net=Money('30.000', 'USD'), gross=Money('30.000', 'USD'))}
+cls = &lt;class 'saleor.order.models.OrderLine'&gt;, opts = &lt;Options for OrderLine&gt;
+_setattr = &lt;built-in function setattr&gt;, _DEFERRED = &lt;Deferred field&gt;
+fields_iter = &lt;tuple_iterator object at 0x74dbca3effd0&gt;
+val = TaxedMoney(net=Money('10.000', 'USD'), gross=Money('10.000', 'USD'))
+field = &lt;django_prices.models.TaxedMoneyField object at 0x74dbcd7b4280&gt;
+is_related_object = False
+rel_obj = &lt;ProductVariant: 2456d4136a32498988f8e3130d9e46d2&gt;
+property_names = frozenset({'is_digital', 'pk', 'quantity_unfulfilled'})
+
+    def __init__(self, *args, **kwargs):
+        # Alias some things as locals to avoid repeat global lookups
+        cls = self.__class__
+        opts = self._meta
+        _setattr = setattr
+        _DEFERRED = DEFERRED
+    
+        pre_init.send(sender=cls, args=args, kwargs=kwargs)
+    
+        # Set up the storage for instance state
+        self._state = ModelState()
+    
+        # There is a rather weird disparity here; if kwargs, it's set, then args
+        # overrides it. It should be one or the other; don't duplicate the work
+        # The reason for the kwargs check is that standard iterator passes in by
+        # args, and instantiation for iteration is 33% faster.
+        if len(args) &gt; len(opts.concrete_fields):
+            # Daft, but matches old exception sans the err msg.
+            raise IndexError("Number of args exceeds number of fields")
+    
+        if not kwargs:
+            fields_iter = iter(opts.concrete_fields)
+            # The ordering of the zip calls matter - zip throws StopIteration
+            # when an iter throws it. So if the first iter throws it, the second
+            # is *not* consumed. We rely on this, so don't change the order
+            # without changing the logic.
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+        else:
+            # Slower, kwargs-ready version.
+            fields_iter = iter(opts.fields)
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+                kwargs.pop(field.name, None)
+    
+        # Now we're left with the unprocessed fields that *must* come from
+        # keywords, or default.
+    
+        for field in fields_iter:
+            is_related_object = False
+            # Virtual field
+            if field.attname not in kwargs and field.column is None:
+                continue
+            if kwargs:
+                if isinstance(field.remote_field, ForeignObjectRel):
+                    try:
+                        # Assume object instance was passed in.
+                        rel_obj = kwargs.pop(field.name)
+                        is_related_object = True
+                    except KeyError:
+                        try:
+                            # Object instance wasn't passed in -- must be an ID.
+                            val = kwargs.pop(field.attname)
+                        except KeyError:
+                            val = field.get_default()
+                else:
+                    try:
+                        val = kwargs.pop(field.attname)
+                    except KeyError:
+                        # This is done with an exception rather than the
+                        # default argument on pop because we don't want
+                        # get_default() to be evaluated, and then not used.
+                        # Refs #12057.
+                        val = field.get_default()
+            else:
+                val = field.get_default()
+    
+            if is_related_object:
+                # If we are passed a related instance, set it using the
+                # field.name instead of field.attname (e.g. "user" instead of
+                # "user_id") so that the object gets properly cached (and type
+                # checked) by the RelatedObjectDescriptor.
+                if rel_obj is not _DEFERRED:
+                    _setattr(self, field.name, rel_obj)
+            else:
+                if val is not _DEFERRED:
+                    _setattr(self, field.attname, val)
+    
+        if kwargs:
+            property_names = opts._property_names
+            for prop in tuple(kwargs):
+                try:
+                    # Any remaining kwargs must correspond to properties or
+                    # virtual fields.
+                    if prop in property_names or opts.get_field(prop):
+                        if kwargs[prop] is not _DEFERRED:
+                            _setattr(self, prop, kwargs[prop])
+                        del kwargs[prop]
+                except (AttributeError, FieldDoesNotExist):
+                    pass
+            for kwarg in kwargs:
+&gt;               raise TypeError("%s() got an unexpected keyword argument '%s'" % (cls.__name__, kwarg))
+E               TypeError: OrderLine() got an unexpected keyword argument 'total_price'
+
+/opt/venv/lib/python3.8/site-packages/django/db/models/base.py:501: TypeError</failure></testcase><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_products_variants_in_draft_order" time="0.137" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_product_images" time="0.075" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_product_types" time="0.046" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_product_variants" time="0.115" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_product_variants_in_draft_orders" time="0.080"><error message="failed on setup with &quot;TypeError: OrderLine() got an unexpected keyword argument 'total_price'&quot;">order = &lt;Order #36&gt;, variant = &lt;ProductVariant: SKU_A&gt;
+
+    @pytest.fixture
+    def order_line(order, variant):
+        product = variant.product
+        channel = order.channel
+        channel_listing = variant.channel_listings.get(channel=channel)
+        net = variant.get_price(product, [], channel, channel_listing)
+        currency = net.currency
+        gross = Money(amount=net.amount * Decimal(1.23), currency=currency)
+        quantity = 3
+        unit_price = TaxedMoney(net=net, gross=gross)
+&gt;       return order.lines.create(
+            product_name=str(product),
+            variant_name=str(variant),
+            product_sku=variant.sku,
+            is_shipping_required=variant.is_shipping_required(),
+            quantity=quantity,
+            variant=variant,
+            unit_price=unit_price,
+            total_price=unit_price * quantity,
+            tax_rate=23,
+        )
+
+saleor/tests/fixtures.py:1943: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.8/site-packages/django/db/models/fields/related_descriptors.py:677: in create
+    return super(RelatedManager, self.db_manager(db)).create(**kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/models/manager.py:85: in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/models/query.py:445: in create
+    obj = self.model(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;OrderLine: Test product (SKU_A)&gt;, args = ()
+kwargs = {'total_price': TaxedMoney(net=Money('30.000', 'USD'), gross=Money('36.89999999999999946709294818', 'USD'))}
+cls = &lt;class 'saleor.order.models.OrderLine'&gt;, opts = &lt;Options for OrderLine&gt;
+_setattr = &lt;built-in function setattr&gt;, _DEFERRED = &lt;Deferred field&gt;
+fields_iter = &lt;tuple_iterator object at 0x74dbc9c33070&gt;
+val = TaxedMoney(net=Money('10.000', 'USD'), gross=Money('12.29999999999999982236431606', 'USD'))
+field = &lt;django_prices.models.TaxedMoneyField object at 0x74dbcd7b4280&gt;
+is_related_object = False, rel_obj = &lt;ProductVariant: SKU_A&gt;
+property_names = frozenset({'is_digital', 'pk', 'quantity_unfulfilled'})
+
+    def __init__(self, *args, **kwargs):
+        # Alias some things as locals to avoid repeat global lookups
+        cls = self.__class__
+        opts = self._meta
+        _setattr = setattr
+        _DEFERRED = DEFERRED
+    
+        pre_init.send(sender=cls, args=args, kwargs=kwargs)
+    
+        # Set up the storage for instance state
+        self._state = ModelState()
+    
+        # There is a rather weird disparity here; if kwargs, it's set, then args
+        # overrides it. It should be one or the other; don't duplicate the work
+        # The reason for the kwargs check is that standard iterator passes in by
+        # args, and instantiation for iteration is 33% faster.
+        if len(args) &gt; len(opts.concrete_fields):
+            # Daft, but matches old exception sans the err msg.
+            raise IndexError("Number of args exceeds number of fields")
+    
+        if not kwargs:
+            fields_iter = iter(opts.concrete_fields)
+            # The ordering of the zip calls matter - zip throws StopIteration
+            # when an iter throws it. So if the first iter throws it, the second
+            # is *not* consumed. We rely on this, so don't change the order
+            # without changing the logic.
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+        else:
+            # Slower, kwargs-ready version.
+            fields_iter = iter(opts.fields)
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+                kwargs.pop(field.name, None)
+    
+        # Now we're left with the unprocessed fields that *must* come from
+        # keywords, or default.
+    
+        for field in fields_iter:
+            is_related_object = False
+            # Virtual field
+            if field.attname not in kwargs and field.column is None:
+                continue
+            if kwargs:
+                if isinstance(field.remote_field, ForeignObjectRel):
+                    try:
+                        # Assume object instance was passed in.
+                        rel_obj = kwargs.pop(field.name)
+                        is_related_object = True
+                    except KeyError:
+                        try:
+                            # Object instance wasn't passed in -- must be an ID.
+                            val = kwargs.pop(field.attname)
+                        except KeyError:
+                            val = field.get_default()
+                else:
+                    try:
+                        val = kwargs.pop(field.attname)
+                    except KeyError:
+                        # This is done with an exception rather than the
+                        # default argument on pop because we don't want
+                        # get_default() to be evaluated, and then not used.
+                        # Refs #12057.
+                        val = field.get_default()
+            else:
+                val = field.get_default()
+    
+            if is_related_object:
+                # If we are passed a related instance, set it using the
+                # field.name instead of field.attname (e.g. "user" instead of
+                # "user_id") so that the object gets properly cached (and type
+                # checked) by the RelatedObjectDescriptor.
+                if rel_obj is not _DEFERRED:
+                    _setattr(self, field.name, rel_obj)
+            else:
+                if val is not _DEFERRED:
+                    _setattr(self, field.attname, val)
+    
+        if kwargs:
+            property_names = opts._property_names
+            for prop in tuple(kwargs):
+                try:
+                    # Any remaining kwargs must correspond to properties or
+                    # virtual fields.
+                    if prop in property_names or opts.get_field(prop):
+                        if kwargs[prop] is not _DEFERRED:
+                            _setattr(self, prop, kwargs[prop])
+                        del kwargs[prop]
+                except (AttributeError, FieldDoesNotExist):
+                    pass
+            for kwarg in kwargs:
+&gt;               raise TypeError("%s() got an unexpected keyword argument '%s'" % (cls.__name__, kwarg))
+E               TypeError: OrderLine() got an unexpected keyword argument 'total_price'
+
+/opt/venv/lib/python3.8/site-packages/django/db/models/base.py:501: TypeError</error></testcase><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_product_variants_delete_default_variant" time="0.115" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_product_variants_delete_all_product_variants" time="0.119" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_product_variants_from_different_products" time="0.148" /></testsuite></testsuites>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="13" time="3.437" timestamp="2026-09-24T18:32:25.999198-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.payment.gateways.authorize_net.tests.test_plugin" name="test_get_payment_gateway_for_checkout" time="1.856"><failure message="TypeError: get_payment_gateways() got an unexpected keyword argument 'checkout_info'">authorize_net_plugin = &lt;saleor.payment.gateways.authorize_net.plugin.AuthorizeNetGatewayPlugin object at 0x7b3dedb45a00&gt;
+checkout_with_single_item = &lt;Checkout: Checkout object (cd57bbdb-78b4-44ff-8708-23fa99d3a8d0)&gt;
+address = &lt;Address: Address object (300)&gt;
+checkout_info = CheckoutInfo(checkout=&lt;Checkout: Checkout object (cd57bbdb-78b4-44ff-8708-23fa99d3a8d0)&gt;, user=None, channel=&lt;Channel:...zyObject: &lt;function update_delivery_method_lists_for_checkout_info.&lt;locals&gt;.&lt;lambda&gt; at 0x7b3ded90b430&gt;&gt;, voucher=None)
+checkout_lines_info = [CheckoutLineInfo(line=CheckoutLine(variant=&lt;ProductVariant: 123&gt;, quantity=2), variant=&lt;ProductVariant: 123&gt;, channel...='Default Type')&gt;, collections=[], discounts=[], channel=&lt;Channel: main&gt;, tax_class=&lt;TaxClass: Default&gt;, voucher=None)]
+
+    def test_get_payment_gateway_for_checkout(
+        authorize_net_plugin,
+        checkout_with_single_item,
+        address,
+        checkout_info,
+        checkout_lines_info,
+    ):
+        checkout_with_single_item.billing_address = address
+        checkout_with_single_item.save()
+&gt;       response = authorize_net_plugin.get_payment_gateways(
+            currency=None,
+            checkout_info=checkout_info,
+            checkout_lines=checkout_lines_info,
+            previous_value=None,
+        )[0]
+E       TypeError: get_payment_gateways() got an unexpected keyword argument 'checkout_info'
+
+saleor/payment/gateways/authorize_net/tests/test_plugin.py:19: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.authorize_net.tests.test_plugin" name="test_get_payment_gateway_for_checkout_inactive" time="0.283"><failure message="TypeError: get_payment_gateways() got an unexpected keyword argument 'checkout_info'">authorize_net_plugin = &lt;saleor.payment.gateways.authorize_net.plugin.AuthorizeNetGatewayPlugin object at 0x7b3deccfad90&gt;
+checkout_with_single_item = &lt;Checkout: Checkout object (17dc9163-d6e8-4dac-891c-13e9454b91b7)&gt;
+checkout_info = CheckoutInfo(checkout=&lt;Checkout: Checkout object (17dc9163-d6e8-4dac-891c-13e9454b91b7)&gt;, user=None, channel=&lt;Channel:...zyObject: &lt;function update_delivery_method_lists_for_checkout_info.&lt;locals&gt;.&lt;lambda&gt; at 0x7b3deccfd940&gt;&gt;, voucher=None)
+checkout_lines_info = [CheckoutLineInfo(line=CheckoutLine(variant=&lt;ProductVariant: 123&gt;, quantity=2), variant=&lt;ProductVariant: 123&gt;, channel...='Default Type')&gt;, collections=[], discounts=[], channel=&lt;Channel: main&gt;, tax_class=&lt;TaxClass: Default&gt;, voucher=None)]
+
+    def test_get_payment_gateway_for_checkout_inactive(
+        authorize_net_plugin, checkout_with_single_item, checkout_info, checkout_lines_info
+    ):
+        authorize_net_plugin.active = False
+        currency = checkout_with_single_item.currency
+&gt;       response = authorize_net_plugin.get_payment_gateways(
+            currency=currency,
+            checkout_info=checkout_info,
+            checkout_lines=checkout_lines_info,
+            previous_value=None,
+        )
+E       TypeError: get_payment_gateways() got an unexpected keyword argument 'checkout_info'
+
+saleor/payment/gateways/authorize_net/tests/test_plugin.py:52: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.authorize_net.tests.test_plugin" name="test_payment_gateway_validate" time="0.026" /><testcase classname="saleor.payment.gateways.authorize_net.tests.test_plugin" name="test_payment_gateway_validate_production" time="0.101"><failure message="pytest_socket.SocketBlockedError: A test tried to use socket.socket.">authorize_net_plugin = &lt;saleor.payment.gateways.authorize_net.plugin.AuthorizeNetGatewayPlugin object at 0x7b3decd2b250&gt;
+
+    @pytest.mark.integration
+    @pytest.mark.vcr()
+    def test_payment_gateway_validate_production(authorize_net_plugin):
+        for config in authorize_net_plugin.configuration:
+            if config["name"] == "use_sandbox":
+                config["value"] = False
+        with pytest.raises(ValidationError):
+&gt;           AuthorizeNetGatewayPlugin.validate_plugin_configuration(authorize_net_plugin)
+
+saleor/payment/gateways/authorize_net/tests/test_plugin.py:77: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/payment/gateways/authorize_net/plugin.py:123: in validate_plugin_configuration
+    success, message = authenticate_test(
+saleor/payment/gateways/authorize_net/__init__.py:41: in authenticate_test
+    response = requests.post(
+/opt/venv/lib/python3.9/site-packages/requests/api.py:115: in post
+    return request("post", url, data=data, json=json, **kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/api.py:59: in request
+    return session.request(method=method, url=url, **kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/sessions.py:589: in request
+    resp = self.send(prep, **send_kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/sessions.py:703: in send
+    r = adapter.send(request, **kwargs)
+/opt/venv/lib/python3.9/site-packages/requests/adapters.py:486: in send
+    resp = conn.urlopen(
+/opt/venv/lib/python3.9/site-packages/urllib3/connectionpool.py:714: in urlopen
+    httplib_response = self._make_request(
+/opt/venv/lib/python3.9/site-packages/urllib3/connectionpool.py:403: in _make_request
+    self._validate_conn(conn)
+/opt/venv/lib/python3.9/site-packages/urllib3/connectionpool.py:1053: in _validate_conn
+    conn.connect()
+/opt/venv/lib/python3.9/site-packages/urllib3/connection.py:363: in connect
+    self.sock = conn = self._new_conn()
+/opt/venv/lib/python3.9/site-packages/urllib3/connection.py:174: in _new_conn
+    conn = connection.create_connection(
+/opt/venv/lib/python3.9/site-packages/urllib3/util/connection.py:76: in create_connection
+    sock = socket.socket(af, socktype, proto)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = &lt;class 'pytest_socket.disable_socket.&lt;locals&gt;.GuardedSocket'&gt;
+family = &lt;AddressFamily.AF_INET: 2&gt;, type = &lt;SocketKind.SOCK_STREAM: 1&gt;
+proto = 6, fileno = None
+
+    def __new__(cls, family=-1, type=-1, proto=-1, fileno=None):
+        if _is_unix_socket(family) and allow_unix_socket:
+            return super().__new__(cls, family, type, proto, fileno)
+    
+&gt;       raise SocketBlockedError()
+E       pytest_socket.SocketBlockedError: A test tried to use socket.socket.
+
+/opt/venv/lib/python3.9/site-packages/pytest_socket.py:89: SocketBlockedError</failure></testcase><testcase classname="saleor.payment.gateways.authorize_net.tests.test_plugin" name="test_payment_gateway_process_payment_production_failure" time="0.186" /><testcase classname="saleor.payment.gateways.authorize_net.tests.test_plugin" name="test_payment_gateway_validate_failure" time="0.027" /><testcase classname="saleor.payment.gateways.authorize_net.tests.test_plugin" name="test_payment_gateway_refund_payment" time="0.089" /><testcase classname="saleor.payment.gateways.authorize_net.tests.test_plugin" name="test_payment_gateway_refund_payment_no_payment[-1]" time="0.096" /><testcase classname="saleor.payment.gateways.authorize_net.tests.test_plugin" name="test_payment_gateway_refund_payment_no_payment[None]" time="0.090" /><testcase classname="saleor.payment.gateways.authorize_net.tests.test_plugin" name="test_payment_gateway_authorize_payment" time="0.091" /><testcase classname="saleor.payment.gateways.authorize_net.tests.test_plugin" name="test_payment_gateway_capture_payment" time="0.089" /><testcase classname="saleor.payment.gateways.authorize_net.tests.test_plugin" name="test_payment_gateway_process_payment" time="0.090" /><testcase classname="saleor.payment.gateways.authorize_net.tests.test_plugin" name="test_payment_gateway_list_payment_sources" time="0.026" /></testsuite></testsuites>

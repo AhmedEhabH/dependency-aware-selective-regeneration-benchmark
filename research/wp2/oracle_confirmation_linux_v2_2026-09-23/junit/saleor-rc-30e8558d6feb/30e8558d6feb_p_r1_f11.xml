@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="19" time="1.890" timestamp="2026-09-24T16:00:59.958286" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.giftcard.tests.queries.test_gift_card" name="test_query_gift_card_with_permissions" time="1.728" /><testcase classname="saleor.graphql.giftcard.tests.queries.test_gift_card" name="test_query_gift_card_no_permissions" time="0.115" /><testcase classname="saleor.graphql.giftcard.tests.queries.test_gift_card" name="test_query_gift_card_by_app" time="0.095" /><testcase classname="saleor.graphql.giftcard.tests.queries.test_gift_card" name="test_query_gift_card_by_app_no_premissions" time="0.035" /><testcase classname="saleor.graphql.giftcard.tests.queries.test_gift_card" name="test_query_gift_card_with_expiry_date" time="0.136" /><testcase classname="saleor.graphql.giftcard.tests.queries.test_gift_card" name="test_query_gift_card_by_customer" time="0.036" /><testcase classname="saleor.graphql.giftcard.tests.queries.test_gift_card" name="test_query_used_gift_card_by_owner" time="0.144" /><testcase classname="saleor.graphql.giftcard.tests.queries.test_gift_card" name="test_query_gift_card_only_users_emails" time="0.137" /><testcase classname="saleor.graphql.giftcard.tests.queries.test_gift_card" name="test_staff_query_gift_card_by_invalid_id" time="0.130"><failure message="assert &quot;Couldn't resolve id: bh/.&quot; == 'Invalid ID: ...ed: GiftCard.'&#10;  - Invalid ID: bh/. Expected: GiftCard.&#10;  + Couldn't resolve id: bh/.">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7330c4c29a60&gt;
+gift_card = &lt;GiftCard: GiftCard object (115)&gt;
+permission_manage_users = &lt;Permission: account | user | Manage customers.&gt;
+permission_manage_gift_card = &lt;Permission: giftcard | gift card | Manage gift cards.&gt;
+
+    def test_staff_query_gift_card_by_invalid_id(
+        staff_api_client, gift_card, permission_manage_users, permission_manage_gift_card
+    ):
+        # given
+        id = "bh/"
+        variables = {"id": id}
+    
+        # when
+        response = staff_api_client.post_graphql(
+            QUERY_GIFT_CARD_BY_ID,
+            variables,
+            permissions=[permission_manage_gift_card, permission_manage_users],
+        )
+    
+        # then
+        content = get_graphql_content_from_response(response)
+        assert len(content["errors"]) == 1
+&gt;       assert content["errors"][0]["message"] == f"Invalid ID: {id}. Expected: GiftCard."
+E       assert "Couldn't resolve id: bh/." == 'Invalid ID: ...ed: GiftCard.'
+E         - Invalid ID: bh/. Expected: GiftCard.
+E         + Couldn't resolve id: bh/.
+
+saleor/graphql/giftcard/tests/queries/test_gift_card.py:320: AssertionError</failure></testcase><testcase classname="saleor.graphql.giftcard.tests.queries.test_gift_card" name="test_staff_query_gift_card_with_invalid_object_type" time="0.130" /><testcase classname="saleor.graphql.giftcard.tests.queries.test_gift_card" name="test_query_gift_card_events" time="0.156" /><testcase classname="saleor.graphql.giftcard.tests.queries.test_gift_card" name="test_query_gift_card_expiry_date_set_event" time="0.140" /><testcase classname="saleor.graphql.giftcard.tests.queries.test_gift_card" name="test_query_gift_card_used_in_order_event" time="0.155" /><testcase classname="saleor.graphql.giftcard.tests.queries.test_gift_card" name="test_query_gift_card_bought_event" time="0.145" /><testcase classname="saleor.graphql.giftcard.tests.queries.test_gift_card" name="test_query_gift_card_events_filter_by_type[BOUGHT-1]" time="0.154" /><testcase classname="saleor.graphql.giftcard.tests.queries.test_gift_card" name="test_query_gift_card_events_filter_by_type[USED_IN_ORDER-2]" time="0.157" /><testcase classname="saleor.graphql.giftcard.tests.queries.test_gift_card" name="test_query_gift_card_events_filter_by_type[ISSUED-0]" time="0.151" /><testcase classname="saleor.graphql.giftcard.tests.queries.test_gift_card" name="test_query_gift_card_events_filter_by_orders" time="0.173" /><testcase classname="saleor.graphql.giftcard.tests.queries.test_gift_card" name="test_query_gift_card_events_filter_by_orders_no_events" time="0.175" /></testsuite></testsuites>

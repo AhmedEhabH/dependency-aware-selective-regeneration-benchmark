@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="15" time="3.678" timestamp="2026-09-25T00:14:22.132461-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_stocks_update" name="test_product_variant_stocks_update" time="1.663" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_stocks_update" name="test_product_variant_stocks_update_with_empty_stock_list" time="0.187" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_stocks_update" name="test_variant_stocks_update_stock_duplicated_warehouse" time="0.185" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_stocks_update" name="test_product_variant_stocks_update_too_big_quantity_value" time="0.163" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_stocks_update" name="test_create_stocks" time="0.084" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_stocks_update" name="test_create_stocks_failed" time="0.054" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_stocks_update" name="test_update_or_create_variant_stocks" time="0.089" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_stocks_update" name="test_update_or_create_variant_stocks_when_stock_out_of_quantity" time="0.087" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_stocks_update" name="test_update_or_create_variant_stocks_empty_stocks_data" time="0.087" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_stocks_update" name="test_update_or_create_variant_with_back_in_stock_webhooks_only_success" time="0.091" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_stocks_update" name="test_update_or_create_variant_with_back_in_stock_webhooks_only_failed" time="0.094" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_stocks_update" name="test_update_or_create_variant_with_back_in_stock_webhooks_with_allocations" time="0.084"><failure message="AssertionError: Expected 'product_variant_back_in_stock' to be called once. Called 0 times.">product_variant_stock_out_of_stock_webhook = &lt;MagicMock name='product_variant_out_of_stock' id='132717560938016'&gt;
+product_variant_back_in_stock_webhook = &lt;MagicMock name='product_variant_back_in_stock' id='132717560907040'&gt;
+settings = &lt;pytest_django.fixtures.SettingsWrapper object at 0x78b4b5ff87f0&gt;
+variant = &lt;ProductVariant: SKU_A&gt;, warehouse = &lt;Warehouse: Example Warehouse&gt;
+
+    @patch("saleor.plugins.manager.PluginsManager.product_variant_back_in_stock")
+    @patch("saleor.plugins.manager.PluginsManager.product_variant_out_of_stock")
+    def test_update_or_create_variant_with_back_in_stock_webhooks_with_allocations(
+        product_variant_stock_out_of_stock_webhook,
+        product_variant_back_in_stock_webhook,
+        settings,
+        variant,
+        warehouse,
+    ):
+        stock_quantity = 4
+        stock = Stock.objects.create(
+            warehouse=warehouse, product_variant=variant, quantity=stock_quantity
+        )
+    
+        # given
+        settings.PLUGINS = ["saleor.plugins.webhook.plugin.WebhookPlugin"]
+        plugins = get_plugins_manager()
+        stock.quantity_allocated = stock_quantity
+        stock.save(update_fields=["quantity_allocated"])
+        stocks_data = [
+            {"quantity": stock.quantity_allocated + 1},
+        ]
+    
+        # when
+        ProductVariantStocksUpdate.update_or_create_variant_stocks(
+            variant, stocks_data, [warehouse], plugins
+        )
+        # then
+        flush_post_commit_hooks()
+&gt;       product_variant_back_in_stock_webhook.assert_called_once_with(stock)
+
+saleor/graphql/product/tests/mutations/test_product_variant_stocks_update.py:392: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;MagicMock name='product_variant_back_in_stock' id='132717560907040'&gt;
+args = (&lt;Stock: Stock object (64)&gt;,), kwargs = {}
+msg = "Expected 'product_variant_back_in_stock' to be called once. Called 0 times."
+
+    def assert_called_once_with(self, /, *args, **kwargs):
+        """assert that the mock was called exactly once and that that call was
+        with the specified arguments."""
+        if not self.call_count == 1:
+            msg = ("Expected '%s' to be called once. Called %s times.%s"
+                   % (self._mock_name or 'mock',
+                      self.call_count,
+                      self._calls_repr()))
+&gt;           raise AssertionError(msg)
+E           AssertionError: Expected 'product_variant_back_in_stock' to be called once. Called 0 times.
+
+/usr/local/lib/python3.9/unittest/mock.py:918: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_stocks_update" name="test_update_or_create_variant_with_out_of_stock_webhooks_with_allocations" time="0.083"><failure message="AssertionError: Expected 'product_variant_out_of_stock' to be called once. Called 0 times.">product_variant_stock_out_of_stock_webhook = &lt;MagicMock name='product_variant_out_of_stock' id='132717546883680'&gt;
+product_variant_back_in_stock_webhook = &lt;MagicMock name='product_variant_back_in_stock' id='132717561620608'&gt;
+settings = &lt;pytest_django.fixtures.SettingsWrapper object at 0x78b4b7133670&gt;
+variant = &lt;ProductVariant: SKU_A&gt;, warehouse = &lt;Warehouse: Example Warehouse&gt;
+
+    @patch("saleor.plugins.manager.PluginsManager.product_variant_back_in_stock")
+    @patch("saleor.plugins.manager.PluginsManager.product_variant_out_of_stock")
+    def test_update_or_create_variant_with_out_of_stock_webhooks_with_allocations(
+        product_variant_stock_out_of_stock_webhook,
+        product_variant_back_in_stock_webhook,
+        settings,
+        variant,
+        warehouse,
+    ):
+        stock_quantity = 4
+        stock = Stock.objects.create(
+            warehouse=warehouse, product_variant=variant, quantity=stock_quantity
+        )
+    
+        # given
+        settings.PLUGINS = ["saleor.plugins.webhook.plugin.WebhookPlugin"]
+        plugins = get_plugins_manager()
+        stock.quantity_allocated = stock_quantity - 1
+        stock.save(update_fields=["quantity_allocated"])
+        stocks_data = [
+            {"quantity": stock.quantity_allocated},
+        ]
+    
+        # when
+        ProductVariantStocksUpdate.update_or_create_variant_stocks(
+            variant, stocks_data, [warehouse], plugins
+        )
+        # then
+        flush_post_commit_hooks()
+&gt;       product_variant_stock_out_of_stock_webhook.assert_called_once_with(stock)
+
+saleor/graphql/product/tests/mutations/test_product_variant_stocks_update.py:425: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;MagicMock name='product_variant_out_of_stock' id='132717546883680'&gt;
+args = (&lt;Stock: Stock object (66)&gt;,), kwargs = {}
+msg = "Expected 'product_variant_out_of_stock' to be called once. Called 0 times."
+
+    def assert_called_once_with(self, /, *args, **kwargs):
+        """assert that the mock was called exactly once and that that call was
+        with the specified arguments."""
+        if not self.call_count == 1:
+            msg = ("Expected '%s' to be called once. Called %s times.%s"
+                   % (self._mock_name or 'mock',
+                      self.call_count,
+                      self._calls_repr()))
+&gt;           raise AssertionError(msg)
+E           AssertionError: Expected 'product_variant_out_of_stock' to be called once. Called 0 times.
+
+/usr/local/lib/python3.9/unittest/mock.py:918: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_stocks_update" name="test_update_or_create_variant_stocks_with_out_of_stock_webhook_only" time="0.086" /><testcase classname="saleor.graphql.product.tests.mutations.test_product_variant_stocks_update" name="test_invalidate_stocks_dataloader_on_update_stocks" time="0.265" /></testsuite></testsuites>

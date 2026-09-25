@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="7" time="163.921" timestamp="2026-09-25T01:10:38.421154+00:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.account.tests.mutations.account.test_request_email_change" name="test_account_request_email_change_with_upper_case_email" time="163.227" /><testcase classname="saleor.graphql.account.tests.mutations.account.test_request_email_change" name="test_request_email_change" time="0.057" /><testcase classname="saleor.graphql.account.tests.mutations.account.test_request_email_change" name="test_request_email_change_to_existing_email" time="0.076" /><testcase classname="saleor.graphql.account.tests.mutations.account.test_request_email_change" name="test_request_email_change_with_invalid_redirect_url" time="0.042" /><testcase classname="saleor.graphql.account.tests.mutations.account.test_request_email_change" name="test_request_email_change_with_invalid_password" time="0.038" /><testcase classname="saleor.graphql.account.tests.mutations.account.test_request_email_change" name="test_request_email_change_send_event" time="0.058" /><testcase classname="saleor.graphql.account.tests.mutations.account.test_request_email_change" name="test_request_email_change_but_no_channels_exist" time="0.052"><failure message="AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 5, 'column': 5}], 'path': ['requestEmailChange'], 'extensions': {'exception': {'code': 'NoDefaultChannel'}}}]">user_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7b5302790dd0&gt;
+customer_user = &lt;User: 6bc1592c-0687-4cd0-89a9-7bbaed2a4622&gt;
+
+    def test_request_email_change_but_no_channels_exist(user_api_client, customer_user):
+        """It should return an error when no channel exist in DB."""
+        variables = {
+            "password": "password",
+            "new_email": "new_email@example.com",
+            "redirect_url": "http://www.example.com",
+        }
+        response = user_api_client.post_graphql(REQUEST_EMAIL_CHANGE_QUERY, variables)
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/account/tests/mutations/account/test_request_email_change.py:255: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+ignore_errors = False
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 5, 'column': 5}], 'path': ['requestEmailChange'], 'extensions': {'exception': {'code': 'NoDefaultChannel'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase></testsuite></testsuites>

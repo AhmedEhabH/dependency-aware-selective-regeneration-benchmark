@@ -1,0 +1,1011 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="12" skipped="0" tests="12" time="3.333" timestamp="2026-09-25T01:42:51.732049-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.plugins.webhook.tests.test_tasks" name="test_trigger_transaction_request" time="1.578"><failure message="AssertionError: expected call not found.&#10;Expected: delay(39, 2)&#10;Actual: delay(39, &lt;App: Sample app objects&gt;, 2)">mocked_task = &lt;MagicMock name='delay' id='126140513548944'&gt;
+transaction_item_created_by_app = &lt;TransactionItem: TransactionItem object (1)&gt;
+staff_user = &lt;User: d945a61e-04c4-47fd-87bc-76bd330ac006&gt;
+permission_manage_payments = &lt;Permission: payment | payment | Handle payments&gt;
+app = &lt;App: Sample app objects&gt;
+
+    @freeze_time("2022-06-11 12:50")
+    @mock.patch("saleor.plugins.webhook.tasks.handle_transaction_request_task.delay")
+    def test_trigger_transaction_request(
+        mocked_task,
+        transaction_item_created_by_app,
+        staff_user,
+        permission_manage_payments,
+        app,
+    ):
+        # given
+        event = transaction_item_created_by_app.events.create(
+            type=TransactionEventType.REFUND_REQUEST
+        )
+        app.permissions.set([permission_manage_payments])
+    
+        webhook = app.webhooks.create(
+            name="webhook", is_active=True, target_url="http://localhost:3000/"
+        )
+        webhook.events.create(event_type=WebhookEventSyncType.TRANSACTION_REFUND_REQUESTED)
+    
+        transaction_data = TransactionActionData(
+            transaction=transaction_item_created_by_app,
+            action_type="refund",
+            action_value=Decimal("10.00"),
+            event=event,
+            transaction_app_owner=app,
+        )
+    
+        # when
+        trigger_transaction_request(
+            transaction_data, WebhookEventSyncType.TRANSACTION_REFUND_REQUESTED, staff_user
+        )
+    
+        # then
+        flush_post_commit_hooks()
+        generated_payload = EventPayload.objects.first()
+        generated_delivery = EventDelivery.objects.first()
+    
+        assert generated_payload.payload == generate_transaction_action_request_payload(
+            transaction_data, staff_user
+        )
+        assert generated_delivery.status == EventDeliveryStatus.PENDING
+        assert (
+            generated_delivery.event_type
+            == WebhookEventSyncType.TRANSACTION_REFUND_REQUESTED
+        )
+        assert generated_delivery.webhook == webhook
+        assert generated_delivery.payload == generated_payload
+    
+&gt;       mocked_task.assert_called_once_with(generated_delivery.id, event.id)
+
+saleor/plugins/webhook/tests/test_tasks.py:83: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.9/unittest/mock.py:919: in assert_called_once_with
+    return self.assert_called_with(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;MagicMock name='delay' id='126140513548944'&gt;, args = (39, 2)
+kwargs = {}, expected = call(39, 2)
+actual = call(39, &lt;App: Sample app objects&gt;, 2)
+_error_message = &lt;function NonCallableMock.assert_called_with.&lt;locals&gt;._error_message at 0x72b9600874c0&gt;
+cause = None
+
+    def assert_called_with(self, /, *args, **kwargs):
+        """assert that the last call was made with the specified arguments.
+    
+        Raises an AssertionError if the args and keyword args passed in are
+        different to the last call to the mock."""
+        if self.call_args is None:
+            expected = self._format_mock_call_signature(args, kwargs)
+            actual = 'not called.'
+            error_message = ('expected call not found.\nExpected: %s\nActual: %s'
+                    % (expected, actual))
+            raise AssertionError(error_message)
+    
+        def _error_message():
+            msg = self._format_mock_failure_message(args, kwargs)
+            return msg
+        expected = self._call_matcher(_Call((args, kwargs), two=True))
+        actual = self._call_matcher(self.call_args)
+        if actual != expected:
+            cause = expected if isinstance(expected, Exception) else None
+&gt;           raise AssertionError(_error_message()) from cause
+E           AssertionError: expected call not found.
+E           Expected: delay(39, 2)
+E           Actual: delay(39, &lt;App: Sample app objects&gt;, 2)
+
+/usr/local/lib/python3.9/unittest/mock.py:907: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_tasks" name="test_trigger_transaction_request_with_webhook_subscription" time="0.078"><failure message="AssertionError: expected call not found.&#10;Expected: delay(40, 4)&#10;Actual: delay(40, &lt;App: Sample app objects&gt;, 4)">mocked_task = &lt;MagicMock name='delay' id='126140507718944'&gt;
+transaction_item_created_by_app = &lt;TransactionItem: TransactionItem object (2)&gt;
+staff_user = &lt;User: f90e4399-9e0b-432b-9378-2c565ea653bd&gt;
+permission_manage_payments = &lt;Permission: payment | payment | Handle payments&gt;
+app = &lt;App: Sample app objects&gt;
+
+    @freeze_time("2022-06-11 12:50")
+    @mock.patch("saleor.plugins.webhook.tasks.handle_transaction_request_task.delay")
+    def test_trigger_transaction_request_with_webhook_subscription(
+        mocked_task,
+        transaction_item_created_by_app,
+        staff_user,
+        permission_manage_payments,
+        app,
+    ):
+        # given
+        subscription = """
+        subscription{
+            event{
+                ...on TransactionRefundRequested{
+                    transaction{
+                        id
+                    }
+                    action{
+                        amount
+                        actionType
+                    }
+                }
+            }
+        }
+        """
+        event = transaction_item_created_by_app.events.create(
+            type=TransactionEventType.REFUND_REQUEST
+        )
+        app.permissions.set([permission_manage_payments])
+    
+        webhook = app.webhooks.create(
+            name="webhook",
+            is_active=True,
+            target_url="http://localhost:3000/",
+            subscription_query=subscription,
+        )
+        webhook.events.create(event_type=WebhookEventSyncType.TRANSACTION_REFUND_REQUESTED)
+    
+        transaction_data = TransactionActionData(
+            transaction=transaction_item_created_by_app,
+            action_type="refund",
+            action_value=Decimal("10.00"),
+            event=event,
+            transaction_app_owner=app,
+        )
+    
+        # when
+        trigger_transaction_request(
+            transaction_data, WebhookEventSyncType.TRANSACTION_REFUND_REQUESTED, staff_user
+        )
+    
+        # then
+        flush_post_commit_hooks()
+        generated_payload = EventPayload.objects.first()
+        generated_delivery = EventDelivery.objects.first()
+    
+        assert generated_payload
+        assert generated_delivery
+        assert json.loads(generated_payload.payload) == {
+            "transaction": {
+                "id": Node.to_global_id(
+                    "TransactionItem", transaction_data.transaction.token
+                ),
+            },
+            "action": {"amount": 10.0, "actionType": "REFUND"},
+        }
+        assert generated_delivery.status == EventDeliveryStatus.PENDING
+        assert (
+            generated_delivery.event_type
+            == WebhookEventSyncType.TRANSACTION_REFUND_REQUESTED
+        )
+        assert generated_delivery.webhook == webhook
+    
+        assert generated_delivery.payload == generated_payload
+    
+&gt;       mocked_task.assert_called_once_with(generated_delivery.id, event.id)
+
+saleor/plugins/webhook/tests/test_tasks.py:161: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.9/unittest/mock.py:919: in assert_called_once_with
+    return self.assert_called_with(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;MagicMock name='delay' id='126140507718944'&gt;, args = (40, 4)
+kwargs = {}, expected = call(40, 4)
+actual = call(40, &lt;App: Sample app objects&gt;, 4)
+_error_message = &lt;function NonCallableMock.assert_called_with.&lt;locals&gt;._error_message at 0x72b95fff3700&gt;
+cause = None
+
+    def assert_called_with(self, /, *args, **kwargs):
+        """assert that the last call was made with the specified arguments.
+    
+        Raises an AssertionError if the args and keyword args passed in are
+        different to the last call to the mock."""
+        if self.call_args is None:
+            expected = self._format_mock_call_signature(args, kwargs)
+            actual = 'not called.'
+            error_message = ('expected call not found.\nExpected: %s\nActual: %s'
+                    % (expected, actual))
+            raise AssertionError(error_message)
+    
+        def _error_message():
+            msg = self._format_mock_failure_message(args, kwargs)
+            return msg
+        expected = self._call_matcher(_Call((args, kwargs), two=True))
+        actual = self._call_matcher(self.call_args)
+        if actual != expected:
+            cause = expected if isinstance(expected, Exception) else None
+&gt;           raise AssertionError(_error_message()) from cause
+E           AssertionError: expected call not found.
+E           Expected: delay(40, 4)
+E           Actual: delay(40, &lt;App: Sample app objects&gt;, 4)
+
+/usr/local/lib/python3.9/unittest/mock.py:907: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_tasks" name="test_handle_transaction_request_task_with_only_psp_reference" time="0.055"><failure message="TypeError: handle_transaction_request_task() missing 1 required positional argument: 'request_event_id'">mocked_post_request = &lt;MagicMock name='post' id='126140510683392'&gt;
+transaction_item_generator = &lt;function transaction_item_generator.&lt;locals&gt;.create_transaction at 0x72b960087550&gt;
+permission_manage_payments = &lt;Permission: payment | payment | Handle payments&gt;
+staff_user = &lt;User: a3fcb0e1-bf13-456b-9454-e2c146f894d7&gt;
+mocked_webhook_response = &lt;Mock name='post()' id='126140510456272'&gt;
+app = &lt;App: Sample app objects&gt;
+
+    @freeze_time("2022-06-11 12:50")
+    @mock.patch("saleor.plugins.webhook.tasks.requests.post")
+    def test_handle_transaction_request_task_with_only_psp_reference(
+        mocked_post_request,
+        transaction_item_generator,
+        permission_manage_payments,
+        staff_user,
+        mocked_webhook_response,
+        app,
+    ):
+        # given
+        transaction = transaction_item_generator()
+        expected_psp_reference = "psp:ref:123"
+        mocked_webhook_response.text = json.dumps({"pspReference": expected_psp_reference})
+        mocked_webhook_response.content = json.dumps(
+            {"pspReference": expected_psp_reference}
+        )
+        mocked_post_request.return_value = mocked_webhook_response
+    
+        target_url = "http://localhost:3000/"
+    
+        event = transaction.events.create(type=TransactionEventType.REFUND_REQUEST)
+        app.permissions.set([permission_manage_payments])
+    
+        webhook = app.webhooks.create(
+            name="webhook",
+            is_active=True,
+            target_url=target_url,
+        )
+        webhook.events.create(event_type=WebhookEventSyncType.TRANSACTION_REFUND_REQUESTED)
+    
+        transaction_data = TransactionActionData(
+            transaction=transaction,
+            action_type="refund",
+            action_value=Decimal("10.00"),
+            event=event,
+            transaction_app_owner=app,
+        )
+    
+        payload = generate_transaction_action_request_payload(transaction_data, staff_user)
+        event_payload = EventPayload.objects.create(payload=payload)
+        delivery = EventDelivery.objects.create(
+            status=EventDeliveryStatus.PENDING,
+            event_type=WebhookEventSyncType.TRANSACTION_REFUND_REQUESTED,
+            payload=event_payload,
+            webhook=webhook,
+        )
+    
+        # when
+&gt;       handle_transaction_request_task(delivery.id, transaction_data.event.id)
+
+saleor/plugins/webhook/tests/test_tasks.py:213: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.9/site-packages/celery/local.py:182: in __call__
+    return self._get_current_object()(*a, **kw)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;@task: saleor.plugins.webhook.tasks.handle_transaction_request_task of saleor at 0x72b96d9319a0&gt;
+args = (41, 5), kwargs = {}
+
+    def __call__(self, *args, **kwargs):
+        _task_stack.push(self)
+        self.push_request(args=args, kwargs=kwargs)
+        try:
+&gt;           return self.run(*args, **kwargs)
+E           TypeError: handle_transaction_request_task() missing 1 required positional argument: 'request_event_id'
+
+/opt/venv/lib/python3.9/site-packages/celery/app/task.py:411: TypeError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_tasks" name="test_handle_transaction_request_task_with_server_error[500]" time="0.068"><failure message="TypeError: handle_transaction_request_task() missing 1 required positional argument: 'request_event_id'">mocked_post_request = &lt;MagicMock name='post' id='126140503219600'&gt;
+mocked_webhook_retry = &lt;MagicMock name='handle_webhook_retry' id='126140504135952'&gt;
+status_code = 500
+transaction_item_created_by_app = &lt;TransactionItem: TransactionItem object (4)&gt;
+permission_manage_payments = &lt;Permission: payment | payment | Handle payments&gt;
+staff_user = &lt;User: fad005f9-fb14-4ac5-bd64-30ceac769801&gt;
+mocked_webhook_response = &lt;Mock name='post()' id='126140503218784'&gt;
+app = &lt;App: Sample app objects&gt;
+
+    @pytest.mark.parametrize("status_code", [500, 501, 510])
+    @freeze_time("2022-06-11 12:50")
+    @mock.patch("saleor.plugins.webhook.tasks.handle_webhook_retry")
+    @mock.patch("saleor.plugins.webhook.tasks.requests.post")
+    def test_handle_transaction_request_task_with_server_error(
+        mocked_post_request,
+        mocked_webhook_retry,
+        status_code,
+        transaction_item_created_by_app,
+        permission_manage_payments,
+        staff_user,
+        mocked_webhook_response,
+        app,
+    ):
+        # given
+        mocked_webhook_response.status_code = status_code
+        mocked_webhook_response.text = ""
+        mocked_webhook_response.content = ""
+        mocked_post_request.return_value = mocked_webhook_response
+    
+        target_url = "http://localhost:3000/"
+    
+        event = transaction_item_created_by_app.events.create(
+            type=TransactionEventType.CHARGE_REQUEST
+        )
+        app.permissions.set([permission_manage_payments])
+    
+        webhook = app.webhooks.create(
+            name="webhook",
+            is_active=True,
+            target_url=target_url,
+        )
+        webhook.events.create(event_type=WebhookEventSyncType.TRANSACTION_CHARGE_REQUESTED)
+    
+        transaction_data = TransactionActionData(
+            transaction=transaction_item_created_by_app,
+            action_type="refund",
+            action_value=Decimal("10.00"),
+            event=event,
+            transaction_app_owner=app,
+        )
+    
+        payload = generate_transaction_action_request_payload(transaction_data, staff_user)
+        event_payload = EventPayload.objects.create(payload=payload)
+        delivery = EventDelivery.objects.create(
+            status=EventDeliveryStatus.PENDING,
+            event_type=WebhookEventSyncType.TRANSACTION_CHARGE_REQUESTED,
+            payload=event_payload,
+            webhook=webhook,
+        )
+    
+        # when
+&gt;       handle_transaction_request_task(delivery.id, transaction_data.event.id)
+
+saleor/plugins/webhook/tests/test_tasks.py:280: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.9/site-packages/celery/local.py:182: in __call__
+    return self._get_current_object()(*a, **kw)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;@task: saleor.plugins.webhook.tasks.handle_transaction_request_task of saleor at 0x72b96d9319a0&gt;
+args = (42, 7), kwargs = {}
+
+    def __call__(self, *args, **kwargs):
+        _task_stack.push(self)
+        self.push_request(args=args, kwargs=kwargs)
+        try:
+&gt;           return self.run(*args, **kwargs)
+E           TypeError: handle_transaction_request_task() missing 1 required positional argument: 'request_event_id'
+
+/opt/venv/lib/python3.9/site-packages/celery/app/task.py:411: TypeError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_tasks" name="test_handle_transaction_request_task_with_server_error[501]" time="0.070"><failure message="TypeError: handle_transaction_request_task() missing 1 required positional argument: 'request_event_id'">mocked_post_request = &lt;MagicMock name='post' id='126140525276752'&gt;
+mocked_webhook_retry = &lt;MagicMock name='handle_webhook_retry' id='126140517923664'&gt;
+status_code = 501
+transaction_item_created_by_app = &lt;TransactionItem: TransactionItem object (5)&gt;
+permission_manage_payments = &lt;Permission: payment | payment | Handle payments&gt;
+staff_user = &lt;User: ae9c6520-2f2c-4a43-a9dc-c0b77dd853d0&gt;
+mocked_webhook_response = &lt;Mock name='post()' id='126140525276128'&gt;
+app = &lt;App: Sample app objects&gt;
+
+    @pytest.mark.parametrize("status_code", [500, 501, 510])
+    @freeze_time("2022-06-11 12:50")
+    @mock.patch("saleor.plugins.webhook.tasks.handle_webhook_retry")
+    @mock.patch("saleor.plugins.webhook.tasks.requests.post")
+    def test_handle_transaction_request_task_with_server_error(
+        mocked_post_request,
+        mocked_webhook_retry,
+        status_code,
+        transaction_item_created_by_app,
+        permission_manage_payments,
+        staff_user,
+        mocked_webhook_response,
+        app,
+    ):
+        # given
+        mocked_webhook_response.status_code = status_code
+        mocked_webhook_response.text = ""
+        mocked_webhook_response.content = ""
+        mocked_post_request.return_value = mocked_webhook_response
+    
+        target_url = "http://localhost:3000/"
+    
+        event = transaction_item_created_by_app.events.create(
+            type=TransactionEventType.CHARGE_REQUEST
+        )
+        app.permissions.set([permission_manage_payments])
+    
+        webhook = app.webhooks.create(
+            name="webhook",
+            is_active=True,
+            target_url=target_url,
+        )
+        webhook.events.create(event_type=WebhookEventSyncType.TRANSACTION_CHARGE_REQUESTED)
+    
+        transaction_data = TransactionActionData(
+            transaction=transaction_item_created_by_app,
+            action_type="refund",
+            action_value=Decimal("10.00"),
+            event=event,
+            transaction_app_owner=app,
+        )
+    
+        payload = generate_transaction_action_request_payload(transaction_data, staff_user)
+        event_payload = EventPayload.objects.create(payload=payload)
+        delivery = EventDelivery.objects.create(
+            status=EventDeliveryStatus.PENDING,
+            event_type=WebhookEventSyncType.TRANSACTION_CHARGE_REQUESTED,
+            payload=event_payload,
+            webhook=webhook,
+        )
+    
+        # when
+&gt;       handle_transaction_request_task(delivery.id, transaction_data.event.id)
+
+saleor/plugins/webhook/tests/test_tasks.py:280: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.9/site-packages/celery/local.py:182: in __call__
+    return self._get_current_object()(*a, **kw)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;@task: saleor.plugins.webhook.tasks.handle_transaction_request_task of saleor at 0x72b96d9319a0&gt;
+args = (43, 9), kwargs = {}
+
+    def __call__(self, *args, **kwargs):
+        _task_stack.push(self)
+        self.push_request(args=args, kwargs=kwargs)
+        try:
+&gt;           return self.run(*args, **kwargs)
+E           TypeError: handle_transaction_request_task() missing 1 required positional argument: 'request_event_id'
+
+/opt/venv/lib/python3.9/site-packages/celery/app/task.py:411: TypeError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_tasks" name="test_handle_transaction_request_task_with_server_error[510]" time="0.065"><failure message="TypeError: handle_transaction_request_task() missing 1 required positional argument: 'request_event_id'">mocked_post_request = &lt;MagicMock name='post' id='126140523434672'&gt;
+mocked_webhook_retry = &lt;MagicMock name='handle_webhook_retry' id='126140523338912'&gt;
+status_code = 510
+transaction_item_created_by_app = &lt;TransactionItem: TransactionItem object (6)&gt;
+permission_manage_payments = &lt;Permission: payment | payment | Handle payments&gt;
+staff_user = &lt;User: c6093abe-6c95-4c26-8c19-8a6e5846e2a3&gt;
+mocked_webhook_response = &lt;Mock name='post()' id='126140523436928'&gt;
+app = &lt;App: Sample app objects&gt;
+
+    @pytest.mark.parametrize("status_code", [500, 501, 510])
+    @freeze_time("2022-06-11 12:50")
+    @mock.patch("saleor.plugins.webhook.tasks.handle_webhook_retry")
+    @mock.patch("saleor.plugins.webhook.tasks.requests.post")
+    def test_handle_transaction_request_task_with_server_error(
+        mocked_post_request,
+        mocked_webhook_retry,
+        status_code,
+        transaction_item_created_by_app,
+        permission_manage_payments,
+        staff_user,
+        mocked_webhook_response,
+        app,
+    ):
+        # given
+        mocked_webhook_response.status_code = status_code
+        mocked_webhook_response.text = ""
+        mocked_webhook_response.content = ""
+        mocked_post_request.return_value = mocked_webhook_response
+    
+        target_url = "http://localhost:3000/"
+    
+        event = transaction_item_created_by_app.events.create(
+            type=TransactionEventType.CHARGE_REQUEST
+        )
+        app.permissions.set([permission_manage_payments])
+    
+        webhook = app.webhooks.create(
+            name="webhook",
+            is_active=True,
+            target_url=target_url,
+        )
+        webhook.events.create(event_type=WebhookEventSyncType.TRANSACTION_CHARGE_REQUESTED)
+    
+        transaction_data = TransactionActionData(
+            transaction=transaction_item_created_by_app,
+            action_type="refund",
+            action_value=Decimal("10.00"),
+            event=event,
+            transaction_app_owner=app,
+        )
+    
+        payload = generate_transaction_action_request_payload(transaction_data, staff_user)
+        event_payload = EventPayload.objects.create(payload=payload)
+        delivery = EventDelivery.objects.create(
+            status=EventDeliveryStatus.PENDING,
+            event_type=WebhookEventSyncType.TRANSACTION_CHARGE_REQUESTED,
+            payload=event_payload,
+            webhook=webhook,
+        )
+    
+        # when
+&gt;       handle_transaction_request_task(delivery.id, transaction_data.event.id)
+
+saleor/plugins/webhook/tests/test_tasks.py:280: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.9/site-packages/celery/local.py:182: in __call__
+    return self._get_current_object()(*a, **kw)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;@task: saleor.plugins.webhook.tasks.handle_transaction_request_task of saleor at 0x72b96d9319a0&gt;
+args = (44, 11), kwargs = {}
+
+    def __call__(self, *args, **kwargs):
+        _task_stack.push(self)
+        self.push_request(args=args, kwargs=kwargs)
+        try:
+&gt;           return self.run(*args, **kwargs)
+E           TypeError: handle_transaction_request_task() missing 1 required positional argument: 'request_event_id'
+
+/opt/venv/lib/python3.9/site-packages/celery/app/task.py:411: TypeError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_tasks" name="test_handle_transaction_request_task_with_missing_psp_reference" time="0.064"><failure message="TypeError: handle_transaction_request_task() missing 1 required positional argument: 'request_event_id'">mocked_post_request = &lt;MagicMock name='post' id='126140504473120'&gt;
+transaction_item_created_by_app = &lt;TransactionItem: TransactionItem object (7)&gt;
+permission_manage_payments = &lt;Permission: payment | payment | Handle payments&gt;
+staff_user = &lt;User: 3c6b8d9b-acc6-4318-ac38-49399f630778&gt;
+mocked_webhook_response = &lt;Mock name='post()' id='126140504472448'&gt;
+app = &lt;App: Sample app objects&gt;
+
+    @freeze_time("2022-06-11 12:50")
+    @mock.patch("saleor.plugins.webhook.tasks.requests.post")
+    def test_handle_transaction_request_task_with_missing_psp_reference(
+        mocked_post_request,
+        transaction_item_created_by_app,
+        permission_manage_payments,
+        staff_user,
+        mocked_webhook_response,
+        app,
+    ):
+        # given
+        mocked_webhook_response.text = "{}"
+        mocked_webhook_response.content = "{}"
+        mocked_post_request.return_value = mocked_webhook_response
+    
+        target_url = "http://localhost:3000/"
+    
+        event = transaction_item_created_by_app.events.create(
+            type=TransactionEventType.REFUND_REQUEST
+        )
+        app.permissions.set([permission_manage_payments])
+    
+        webhook = app.webhooks.create(
+            name="webhook",
+            is_active=True,
+            target_url=target_url,
+        )
+        webhook.events.create(event_type=WebhookEventSyncType.TRANSACTION_REFUND_REQUESTED)
+    
+        transaction_data = TransactionActionData(
+            transaction=transaction_item_created_by_app,
+            action_type="refund",
+            action_value=Decimal("10.00"),
+            event=event,
+            transaction_app_owner=app,
+        )
+    
+        payload = generate_transaction_action_request_payload(transaction_data, staff_user)
+        event_payload = EventPayload.objects.create(payload=payload)
+        delivery = EventDelivery.objects.create(
+            status=EventDeliveryStatus.PENDING,
+            event_type=WebhookEventSyncType.TRANSACTION_REFUND_REQUESTED,
+            payload=event_payload,
+            webhook=webhook,
+        )
+    
+        # when
+&gt;       handle_transaction_request_task(delivery.id, transaction_data.event.id)
+
+saleor/plugins/webhook/tests/test_tasks.py:333: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.9/site-packages/celery/local.py:182: in __call__
+    return self._get_current_object()(*a, **kw)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;@task: saleor.plugins.webhook.tasks.handle_transaction_request_task of saleor at 0x72b96d9319a0&gt;
+args = (45, 13), kwargs = {}
+
+    def __call__(self, *args, **kwargs):
+        _task_stack.push(self)
+        self.push_request(args=args, kwargs=kwargs)
+        try:
+&gt;           return self.run(*args, **kwargs)
+E           TypeError: handle_transaction_request_task() missing 1 required positional argument: 'request_event_id'
+
+/opt/venv/lib/python3.9/site-packages/celery/app/task.py:411: TypeError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_tasks" name="test_handle_transaction_request_task_with_missing_required_event_field" time="0.065"><failure message="TypeError: handle_transaction_request_task() missing 1 required positional argument: 'request_event_id'">mocked_post_request = &lt;MagicMock name='post' id='126140525228192'&gt;
+transaction_item_created_by_app = &lt;TransactionItem: TransactionItem object (8)&gt;
+permission_manage_payments = &lt;Permission: payment | payment | Handle payments&gt;
+staff_user = &lt;User: dc696eaa-23c5-44aa-9c19-4c752e04d136&gt;
+mocked_webhook_response = &lt;Mock name='post()' id='126140525229488'&gt;
+app = &lt;App: Sample app objects&gt;
+
+    @freeze_time("2022-06-11 12:50")
+    @mock.patch("saleor.plugins.webhook.tasks.requests.post")
+    def test_handle_transaction_request_task_with_missing_required_event_field(
+        mocked_post_request,
+        transaction_item_created_by_app,
+        permission_manage_payments,
+        staff_user,
+        mocked_webhook_response,
+        app,
+    ):
+        # given
+        expected_psp_reference = "psp:123:111"
+        mocked_webhook_response.text = json.dumps(
+            {"pspReference": expected_psp_reference, "amount": 12.00}
+        )
+        mocked_webhook_response.content = json.dumps(
+            {"pspReference": expected_psp_reference, "amount": 12.00}
+        )
+        mocked_post_request.return_value = mocked_webhook_response
+    
+        target_url = "http://localhost:3000/"
+    
+        event = transaction_item_created_by_app.events.create(
+            type=TransactionEventType.REFUND_REQUEST
+        )
+        app.permissions.set([permission_manage_payments])
+    
+        webhook = app.webhooks.create(
+            name="webhook",
+            is_active=True,
+            target_url=target_url,
+        )
+        webhook.events.create(event_type=WebhookEventSyncType.TRANSACTION_REFUND_REQUESTED)
+    
+        transaction_data = TransactionActionData(
+            transaction=transaction_item_created_by_app,
+            action_type="refund",
+            action_value=Decimal("10.00"),
+            event=event,
+            transaction_app_owner=app,
+        )
+    
+        payload = generate_transaction_action_request_payload(transaction_data, staff_user)
+        event_payload = EventPayload.objects.create(payload=payload)
+        delivery = EventDelivery.objects.create(
+            status=EventDeliveryStatus.PENDING,
+            event_type=WebhookEventSyncType.TRANSACTION_REFUND_REQUESTED,
+            payload=event_payload,
+            webhook=webhook,
+        )
+    
+        # when
+&gt;       handle_transaction_request_task(delivery.id, transaction_data.event.id)
+
+saleor/plugins/webhook/tests/test_tasks.py:416: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.9/site-packages/celery/local.py:182: in __call__
+    return self._get_current_object()(*a, **kw)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;@task: saleor.plugins.webhook.tasks.handle_transaction_request_task of saleor at 0x72b96d9319a0&gt;
+args = (46, 15), kwargs = {}
+
+    def __call__(self, *args, **kwargs):
+        _task_stack.push(self)
+        self.push_request(args=args, kwargs=kwargs)
+        try:
+&gt;           return self.run(*args, **kwargs)
+E           TypeError: handle_transaction_request_task() missing 1 required positional argument: 'request_event_id'
+
+/opt/venv/lib/python3.9/site-packages/celery/app/task.py:411: TypeError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_tasks" name="test_handle_transaction_request_task_with_result_event" time="0.057"><failure message="TypeError: handle_transaction_request_task() missing 1 required positional argument: 'request_event_id'">mocked_post_request = &lt;MagicMock name='post' id='126140505029216'&gt;
+transaction_item_generator = &lt;function transaction_item_generator.&lt;locals&gt;.create_transaction at 0x72b960316dc0&gt;
+permission_manage_payments = &lt;Permission: payment | payment | Handle payments&gt;
+staff_user = &lt;User: d2f2f50a-a793-4bf0-9c01-d022e777302b&gt;
+mocked_webhook_response = &lt;Mock name='post()' id='126140525132624'&gt;
+app = &lt;App: Sample app objects&gt;
+
+    @freeze_time("2022-06-11 12:50")
+    @mock.patch("saleor.plugins.webhook.tasks.requests.post")
+    def test_handle_transaction_request_task_with_result_event(
+        mocked_post_request,
+        transaction_item_generator,
+        permission_manage_payments,
+        staff_user,
+        mocked_webhook_response,
+        app,
+    ):
+        # given
+        transaction = transaction_item_generator()
+        request_psp_reference = "psp:123:111"
+        event_amount = 12.00
+        event_type = TransactionEventType.CHARGE_SUCCESS
+        event_time = "2022-11-18T13:25:58.169685+00:00"
+        event_url = "http://localhost:3000/event/ref123"
+        event_cause = "No cause"
+    
+        response_payload = {
+            "pspReference": request_psp_reference,
+            "amount": event_amount,
+            "result": event_type.upper(),
+            "time": event_time,
+            "externalUrl": event_url,
+            "message": event_cause,
+        }
+        mocked_webhook_response.text = json.dumps(response_payload)
+        mocked_webhook_response.content = json.dumps(response_payload)
+        mocked_post_request.return_value = mocked_webhook_response
+    
+        target_url = "http://localhost:3000/"
+    
+        request_event = transaction.events.create(type=TransactionEventType.CHARGE_REQUEST)
+        app.permissions.set([permission_manage_payments])
+    
+        webhook = app.webhooks.create(
+            name="webhook",
+            is_active=True,
+            target_url=target_url,
+        )
+        webhook.events.create(event_type=WebhookEventSyncType.TRANSACTION_CHARGE_REQUESTED)
+    
+        transaction_data = TransactionActionData(
+            transaction=transaction,
+            action_type="refund",
+            action_value=Decimal("10.00"),
+            event=request_event,
+            transaction_app_owner=app,
+        )
+    
+        payload = generate_transaction_action_request_payload(transaction_data, staff_user)
+        event_payload = EventPayload.objects.create(payload=payload)
+        delivery = EventDelivery.objects.create(
+            status=EventDeliveryStatus.PENDING,
+            event_type=WebhookEventSyncType.TRANSACTION_CHARGE_REQUESTED,
+            payload=event_payload,
+            webhook=webhook,
+        )
+    
+        # when
+&gt;       handle_transaction_request_task(delivery.id, transaction_data.event.id)
+
+saleor/plugins/webhook/tests/test_tasks.py:508: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.9/site-packages/celery/local.py:182: in __call__
+    return self._get_current_object()(*a, **kw)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;@task: saleor.plugins.webhook.tasks.handle_transaction_request_task of saleor at 0x72b96d9319a0&gt;
+args = (47, 16), kwargs = {}
+
+    def __call__(self, *args, **kwargs):
+        _task_stack.push(self)
+        self.push_request(args=args, kwargs=kwargs)
+        try:
+&gt;           return self.run(*args, **kwargs)
+E           TypeError: handle_transaction_request_task() missing 1 required positional argument: 'request_event_id'
+
+/opt/venv/lib/python3.9/site-packages/celery/app/task.py:411: TypeError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_tasks" name="test_handle_transaction_request_task_with_only_required_fields_for_result_event" time="0.057"><failure message="TypeError: handle_transaction_request_task() missing 1 required positional argument: 'request_event_id'">mocked_post_request = &lt;MagicMock name='post' id='126140504990624'&gt;
+transaction_item_generator = &lt;function transaction_item_generator.&lt;locals&gt;.create_transaction at 0x72b960316d30&gt;
+permission_manage_payments = &lt;Permission: payment | payment | Handle payments&gt;
+staff_user = &lt;User: e8013457-c5ed-417f-b977-4520015fcd8e&gt;
+mocked_webhook_response = &lt;Mock name='post()' id='126140504992304'&gt;
+app = &lt;App: Sample app objects&gt;
+
+    @freeze_time("2022-06-11T17:50:00+00:00")
+    @mock.patch("saleor.plugins.webhook.tasks.requests.post")
+    def test_handle_transaction_request_task_with_only_required_fields_for_result_event(
+        mocked_post_request,
+        transaction_item_generator,
+        permission_manage_payments,
+        staff_user,
+        mocked_webhook_response,
+        app,
+    ):
+        # given
+        transaction = transaction_item_generator()
+        request_psp_reference = "psp:123:111"
+    
+        request_event = transaction.events.create(type=TransactionEventType.REFUND_REQUEST)
+    
+        response_payload = {
+            "pspReference": request_psp_reference,
+            "result": TransactionEventType.REFUND_SUCCESS.upper(),
+            "amount": str(request_event.amount_value),
+        }
+        mocked_webhook_response.text = json.dumps(response_payload)
+        mocked_webhook_response.content = json.dumps(response_payload)
+        mocked_post_request.return_value = mocked_webhook_response
+    
+        target_url = "http://localhost:3000/"
+    
+        app.permissions.set([permission_manage_payments])
+    
+        webhook = app.webhooks.create(
+            name="webhook",
+            is_active=True,
+            target_url=target_url,
+        )
+        webhook.events.create(event_type=WebhookEventSyncType.TRANSACTION_REFUND_REQUESTED)
+    
+        transaction_data = TransactionActionData(
+            transaction=transaction,
+            action_type="refund",
+            action_value=Decimal("10.00"),
+            event=request_event,
+            transaction_app_owner=app,
+        )
+    
+        payload = generate_transaction_action_request_payload(transaction_data, staff_user)
+        event_payload = EventPayload.objects.create(payload=payload)
+        delivery = EventDelivery.objects.create(
+            status=EventDeliveryStatus.PENDING,
+            event_type=WebhookEventSyncType.TRANSACTION_REFUND_REQUESTED,
+            payload=event_payload,
+            webhook=webhook,
+        )
+    
+        # when
+&gt;       handle_transaction_request_task(delivery.id, transaction_data.event.id)
+
+saleor/plugins/webhook/tests/test_tasks.py:599: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.9/site-packages/celery/local.py:182: in __call__
+    return self._get_current_object()(*a, **kw)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;@task: saleor.plugins.webhook.tasks.handle_transaction_request_task of saleor at 0x72b96d9319a0&gt;
+args = (48, 17), kwargs = {}
+
+    def __call__(self, *args, **kwargs):
+        _task_stack.push(self)
+        self.push_request(args=args, kwargs=kwargs)
+        try:
+&gt;           return self.run(*args, **kwargs)
+E           TypeError: handle_transaction_request_task() missing 1 required positional argument: 'request_event_id'
+
+/opt/venv/lib/python3.9/site-packages/celery/app/task.py:411: TypeError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_tasks" name="test_handle_transaction_request_task_calls_recalculation_of_amounts" time="0.055"><failure message="TypeError: handle_transaction_request_task() missing 1 required positional argument: 'request_event_id'">mocked_post_request = &lt;MagicMock name='post' id='126140523385088'&gt;
+mocked_recalculation = &lt;MagicMock name='recalculate_transaction_amounts' id='126140504959536'&gt;
+transaction_item_generator = &lt;function transaction_item_generator.&lt;locals&gt;.create_transaction at 0x72b95ffdd4c0&gt;
+permission_manage_payments = &lt;Permission: payment | payment | Handle payments&gt;
+staff_user = &lt;User: 6fca4bc1-7b21-479f-9e57-40b8edb9ea8d&gt;
+mocked_webhook_response = &lt;Mock name='post()' id='126140523388784'&gt;
+app = &lt;App: Sample app objects&gt;
+
+    @freeze_time("2022-06-11 12:50")
+    @mock.patch(
+        "saleor.payment.utils.recalculate_transaction_amounts",
+        wraps=recalculate_transaction_amounts,
+    )
+    @mock.patch("saleor.plugins.webhook.tasks.requests.post")
+    def test_handle_transaction_request_task_calls_recalculation_of_amounts(
+        mocked_post_request,
+        mocked_recalculation,
+        transaction_item_generator,
+        permission_manage_payments,
+        staff_user,
+        mocked_webhook_response,
+        app,
+    ):
+        # given
+        transaction = transaction_item_generator()
+        request_psp_reference = "psp:123:111"
+        event_amount = 12.00
+        event_type = TransactionEventType.CHARGE_SUCCESS
+        event_time = "2022-11-18T13:25:58.169685+00:00"
+        event_url = "http://localhost:3000/event/ref123"
+        event_cause = "No cause"
+    
+        response_payload = {
+            "pspReference": request_psp_reference,
+            "amount": event_amount,
+            "result": event_type.upper(),
+            "time": event_time,
+            "externalUrl": event_url,
+            "message": event_cause,
+        }
+        mocked_webhook_response.text = json.dumps(response_payload)
+        mocked_webhook_response.content = json.dumps(response_payload)
+        mocked_post_request.return_value = mocked_webhook_response
+    
+        target_url = "http://localhost:3000/"
+    
+        request_event = transaction.events.create(type=TransactionEventType.CHARGE_REQUEST)
+        app.permissions.set([permission_manage_payments])
+    
+        webhook = app.webhooks.create(
+            name="webhook",
+            is_active=True,
+            target_url=target_url,
+        )
+        webhook.events.create(event_type=WebhookEventSyncType.TRANSACTION_CHARGE_REQUESTED)
+    
+        transaction_data = TransactionActionData(
+            transaction=transaction,
+            action_type="charge",
+            action_value=Decimal("12.00"),
+            event=request_event,
+            transaction_app_owner=app,
+        )
+    
+        payload = generate_transaction_action_request_payload(transaction_data, staff_user)
+        event_payload = EventPayload.objects.create(payload=payload)
+        delivery = EventDelivery.objects.create(
+            status=EventDeliveryStatus.PENDING,
+            event_type=WebhookEventSyncType.TRANSACTION_CHARGE_REQUESTED,
+            payload=event_payload,
+            webhook=webhook,
+        )
+    
+        # when
+&gt;       handle_transaction_request_task(delivery.id, transaction_data.event.id)
+
+saleor/plugins/webhook/tests/test_tasks.py:703: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.9/site-packages/celery/local.py:182: in __call__
+    return self._get_current_object()(*a, **kw)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;@task: saleor.plugins.webhook.tasks.handle_transaction_request_task of saleor at 0x72b96d9319a0&gt;
+args = (49, 18), kwargs = {}
+
+    def __call__(self, *args, **kwargs):
+        _task_stack.push(self)
+        self.push_request(args=args, kwargs=kwargs)
+        try:
+&gt;           return self.run(*args, **kwargs)
+E           TypeError: handle_transaction_request_task() missing 1 required positional argument: 'request_event_id'
+
+/opt/venv/lib/python3.9/site-packages/celery/app/task.py:411: TypeError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_tasks" name="test_handle_transaction_request_task_with_available_actions" time="0.059"><failure message="TypeError: handle_transaction_request_task() missing 1 required positional argument: 'request_event_id'">mocked_post_request = &lt;MagicMock name='post' id='126140525092976'&gt;
+transaction_item_generator = &lt;function transaction_item_generator.&lt;locals&gt;.create_transaction at 0x72b95ffdd040&gt;
+permission_manage_payments = &lt;Permission: payment | payment | Handle payments&gt;
+staff_user = &lt;User: afc27e24-8d75-4d63-a2d5-59f8fc43f016&gt;
+mocked_webhook_response = &lt;Mock name='post()' id='126140525094368'&gt;
+app = &lt;App: Sample app objects&gt;
+
+    @freeze_time("2022-06-11 12:50")
+    @mock.patch("saleor.plugins.webhook.tasks.requests.post")
+    def test_handle_transaction_request_task_with_available_actions(
+        mocked_post_request,
+        transaction_item_generator,
+        permission_manage_payments,
+        staff_user,
+        mocked_webhook_response,
+        app,
+    ):
+        # given
+        transaction = transaction_item_generator()
+        request_psp_reference = "psp:123:111"
+        event_amount = 12.00
+        event_type = TransactionEventType.CHARGE_SUCCESS
+    
+        response_payload = {
+            "pspReference": request_psp_reference,
+            "amount": event_amount,
+            "result": event_type.upper(),
+            "actions": ["CHARGE", "REFUND", "CANCEL", "VOID", "INCORRECT_EVENT"],
+        }
+        mocked_webhook_response.text = json.dumps(response_payload)
+        mocked_webhook_response.content = json.dumps(response_payload)
+        mocked_post_request.return_value = mocked_webhook_response
+    
+        target_url = "http://localhost:3000/"
+    
+        request_event = transaction.events.create(type=TransactionEventType.CHARGE_REQUEST)
+        app.permissions.set([permission_manage_payments])
+    
+        webhook = app.webhooks.create(
+            name="webhook",
+            is_active=True,
+            target_url=target_url,
+        )
+        webhook.events.create(event_type=WebhookEventSyncType.TRANSACTION_CHARGE_REQUESTED)
+    
+        transaction_data = TransactionActionData(
+            transaction=transaction,
+            action_type="refund",
+            action_value=Decimal("10.00"),
+            event=request_event,
+            transaction_app_owner=app,
+        )
+    
+        payload = generate_transaction_action_request_payload(transaction_data, staff_user)
+        event_payload = EventPayload.objects.create(payload=payload)
+        delivery = EventDelivery.objects.create(
+            status=EventDeliveryStatus.PENDING,
+            event_type=WebhookEventSyncType.TRANSACTION_CHARGE_REQUESTED,
+            payload=event_payload,
+            webhook=webhook,
+        )
+    
+        # when
+&gt;       handle_transaction_request_task(delivery.id, transaction_data.event.id)
+
+saleor/plugins/webhook/tests/test_tasks.py:767: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.9/site-packages/celery/local.py:182: in __call__
+    return self._get_current_object()(*a, **kw)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;@task: saleor.plugins.webhook.tasks.handle_transaction_request_task of saleor at 0x72b96d9319a0&gt;
+args = (50, 19), kwargs = {}
+
+    def __call__(self, *args, **kwargs):
+        _task_stack.push(self)
+        self.push_request(args=args, kwargs=kwargs)
+        try:
+&gt;           return self.run(*args, **kwargs)
+E           TypeError: handle_transaction_request_task() missing 1 required positional argument: 'request_event_id'
+
+/opt/venv/lib/python3.9/site-packages/celery/app/task.py:411: TypeError</failure></testcase></testsuite></testsuites>

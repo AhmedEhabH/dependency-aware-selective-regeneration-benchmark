@@ -1,0 +1,60 @@
+{
+ "artifact": "wp2_c4_dev_linux_v2_summary",
+ "date": "2026-09-25",
+ "task_level": {
+  "total_attempted": 111,
+  "terminal_completed": 111,
+  "environment_install_failed": 24,
+  "executable": 87,
+  "task_collection_failure_count": 24,
+  "tasks_with_beh_ge_1": 43,
+  "tasks_with_symbol_ge_1": 6,
+  "primary_eligible": 43
+ },
+ "node_level": {
+  "BEHAVIORAL_F2P": 538,
+  "SYMBOL_ABSENCE_F2P": 25,
+  "PARENT_COLLECTION_ERROR": 0,
+  "FLAKY": 510,
+  "TARGET_ORACLE_INVALID": 3727,
+  "P2P_ONLY": 5355,
+  "OTHER_REVIEW_REQUIRED": 0
+ },
+ "era_breakdown": {
+  "py312": {
+   "attempted": 34,
+   "env_failed": 15,
+   "executable": 19,
+   "primary_behavioral_tasks": 13,
+   "BEHAVIORAL_F2P_nodes": 150,
+   "SYMBOL_ABSENCE_F2P_nodes": 4,
+   "P2P_ONLY_nodes": 1494,
+   "TARGET_ORACLE_INVALID_nodes": 87,
+   "FLAKY_nodes": 205
+  },
+  "py38": {
+   "attempted": 10,
+   "env_failed": 0,
+   "executable": 10,
+   "primary_behavioral_tasks": 2,
+   "BEHAVIORAL_F2P_nodes": 108,
+   "SYMBOL_ABSENCE_F2P_nodes": 2,
+   "P2P_ONLY_nodes": 490,
+   "TARGET_ORACLE_INVALID_nodes": 863,
+   "FLAKY_nodes": 1
+  },
+  "py39": {
+   "attempted": 67,
+   "env_failed": 9,
+   "executable": 58,
+   "primary_behavioral_tasks": 28,
+   "BEHAVIORAL_F2P_nodes": 280,
+   "SYMBOL_ABSENCE_F2P_nodes": 19,
+   "P2P_ONLY_nodes": 3371,
+   "TARGET_ORACLE_INVALID_nodes": 2777,
+   "FLAKY_nodes": 304
+  }
+ },
+ "changed_test_candidates": 111,
+ "maintenance_boundary": "post-compaction resume at 72/111; cold page cache after maintenance"
+}

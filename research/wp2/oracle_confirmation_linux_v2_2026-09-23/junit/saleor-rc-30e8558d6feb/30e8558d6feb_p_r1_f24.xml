@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="17" time="2.255" timestamp="2026-09-24T16:03:28.400149" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.product.tests.queries.test_product_variants_query" name="test_fetch_all_variants_staff_user" time="1.732" /><testcase classname="saleor.graphql.product.tests.queries.test_product_variants_query" name="test_fetch_all_variants_staff_user_with_channel" time="0.142" /><testcase classname="saleor.graphql.product.tests.queries.test_product_variants_query" name="test_fetch_all_variants_staff_user_without_channel" time="0.135" /><testcase classname="saleor.graphql.product.tests.queries.test_product_variants_query" name="test_fetch_all_variants_customer" time="0.178" /><testcase classname="saleor.graphql.product.tests.queries.test_product_variants_query" name="test_fetch_all_variants_anonymous_user" time="0.095" /><testcase classname="saleor.graphql.product.tests.queries.test_product_variants_query" name="test_fetch_all_variants_without_sku_staff_user" time="0.176" /><testcase classname="saleor.graphql.product.tests.queries.test_product_variants_query" name="test_fetch_all_variants_without_sku_staff_user_with_channel" time="0.175" /><testcase classname="saleor.graphql.product.tests.queries.test_product_variants_query" name="test_fetch_all_variants_without_sku_as_customer_with_channel" time="0.194" /><testcase classname="saleor.graphql.product.tests.queries.test_product_variants_query" name="test_fetch_all_variants_without_sku_as_anonymous_user_with_channel" time="0.115" /><testcase classname="saleor.graphql.product.tests.queries.test_product_variants_query" name="test_product_variants_by_ids" time="0.186" /><testcase classname="saleor.graphql.product.tests.queries.test_product_variants_query" name="test_product_variants_by_invalid_ids" time="0.182"><failure message="assert &quot;Couldn't resolve id: cbs.&quot; == 'Invalid ID: ...oductVariant.'&#10;  - Invalid ID: cbs. Expected: ProductVariant.&#10;  + Couldn't resolve id: cbs.">user_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7d806f716250&gt;
+variant = &lt;ProductVariant: SKU_A&gt;, channel_USD = &lt;Channel: main&gt;
+
+    def test_product_variants_by_invalid_ids(user_api_client, variant, channel_USD):
+        query = QUERY_PRODUCT_VARIANTS_BY_IDS
+        variant_id = "cbs"
+    
+        variables = {"ids": [variant_id], "channel": channel_USD.slug}
+        response = user_api_client.post_graphql(query, variables)
+        content = get_graphql_content_from_response(response)
+        assert len(content["errors"]) == 1
+&gt;       assert (
+            content["errors"][0]["message"]
+            == f"Invalid ID: {variant_id}. Expected: ProductVariant."
+        )
+E       assert "Couldn't resolve id: cbs." == 'Invalid ID: ...oductVariant.'
+E         - Invalid ID: cbs. Expected: ProductVariant.
+E         + Couldn't resolve id: cbs.
+
+saleor/graphql/product/tests/queries/test_product_variants_query.py:172: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.queries.test_product_variants_query" name="test_product_variants_by_ids_that_do_not_exist" time="0.183" /><testcase classname="saleor.graphql.product.tests.queries.test_product_variants_query" name="test_product_variants_visible_in_listings_by_customer" time="0.230" /><testcase classname="saleor.graphql.product.tests.queries.test_product_variants_query" name="test_product_variants_visible_in_listings_by_staff_without_manage_products" time="0.225" /><testcase classname="saleor.graphql.product.tests.queries.test_product_variants_query" name="test_product_variants_visible_in_listings_by_staff_with_perm" time="0.209" /><testcase classname="saleor.graphql.product.tests.queries.test_product_variants_query" name="test_product_variants_visible_in_listings_by_app_without_manage_products" time="0.153" /><testcase classname="saleor.graphql.product.tests.queries.test_product_variants_query" name="test_product_variants_visible_in_listings_by_app_with_perm" time="0.134" /></testsuite></testsuites>

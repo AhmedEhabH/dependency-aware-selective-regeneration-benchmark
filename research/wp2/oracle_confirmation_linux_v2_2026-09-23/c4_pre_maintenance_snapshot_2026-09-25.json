@@ -1,0 +1,55 @@
+{
+  "artifact": "wp2_c4_pre_maintenance_snapshot",
+  "date": "2026-09-25",
+  "type": "MAINTENANCE_STORAGE_BOUNDARY - NOT a scientific execution change",
+  "timestamp_utc": "2026-09-25T02:20:16Z",
+  "c4": {
+    "completed": 72,
+    "unique_task_count": 72,
+    "duplicate_count": 0,
+    "per_test_record_count": 6699,
+    "progress_status": "STOPPED",
+    "semantic_freeze_identity": "01c3430f221e70fb75ff4dbf1c0e5093a3c1305f2c870e1b20e2b6c4b64dd337",
+    "persistence_revision": "c4-persistence-v2-2026-09-23",
+    "worker_count": 1,
+    "remaining": 39
+  },
+  "substrate": {
+    "wsl_distro": "Ubuntu-24.04.4 LTS",
+    "docker_engine": "local dockerd pid in WSL (Server 29.1.3, Root /var/lib/docker, socket /var/run/docker.sock)",
+    "era_images": {
+      "wp2-era-py38": "1cc60658b6a2",
+      "wp2-era-py39": "ddc08d7e6855",
+      "wp2-era-py312": "0c185699947d"
+    },
+    "wp2_uv_cache_present": true,
+    "docker_volumes_count": 33,
+    "postgresql": {
+      "image": "postgres:15-alpine (digest sha256:f7d23353e1b15400d22ebe31189f4d314b87a4c129cc400c8c2d8d4ca127bf81)",
+      "container": "wp2-pg",
+      "port": 5433,
+      "settings": "fsync=off, synchronous_commit=off, full_page_writes=off"
+    }
+  },
+  "disk": {
+    "df_root": "50G used / 907G available (/dev/sdd 1007G)",
+    "worktrees_bytes_gb": 8.3,
+    "docker_bytes_gb": 28,
+    "windows_c_free_gb": null
+  },
+  "preserved": [
+    "all WP2 evidence",
+    "per_task_dev_v2.jsonl (72)",
+    "per_test_dev_v2.jsonl (6699)",
+    "JUnit archives + manifest",
+    "C2 evidence and identities",
+    "wp2-uv-cache",
+    "era Docker images",
+    "Docker volumes",
+    "PostgreSQL configuration",
+    "candidate ordering",
+    "classifier/execution code",
+    "C4_STOP.flag"
+  ],
+  "forbidden_now": ["docker volume prune", "docker system prune -a", "WSL shutdown", "VHDX compact", "C4 resume", "worker-count changes"]
+}

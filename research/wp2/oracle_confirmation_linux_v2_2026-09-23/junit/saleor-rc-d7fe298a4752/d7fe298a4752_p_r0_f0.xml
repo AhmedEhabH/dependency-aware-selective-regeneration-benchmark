@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="7" time="141.222" timestamp="2026-09-25T05:04:43.158415+00:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.attribute.tests.models.test_base" name="test_attribute_value_setting_up_max_sort_order" time="140.662" /><testcase classname="saleor.attribute.tests.models.test_base" name="test_attribute_value_using_max_sort_order_from_parent" time="0.024" /><testcase classname="saleor.attribute.tests.models.test_base" name="test_attribute_value_sort_order_when_attribute_has_other_values" time="0.024" /><testcase classname="saleor.attribute.tests.models.test_base" name="test_max_sort_order_when_deleting_attribute_value" time="0.037" /><testcase classname="saleor.attribute.tests.models.test_base" name="test_max_sort_order_none_when_deleting_attribute_value_with_sort_order_0" time="0.036" /><testcase classname="saleor.attribute.tests.models.test_base" name="test_max_sort_order_0_when_deleting_attribute_value_with_sort_order_0" time="0.039" /><testcase classname="saleor.attribute.tests.models.test_base" name="test_bulk_update_or_create_locks_rows_before_update" time="0.033"><failure message="AssertionError: expected exactly one lock SELECT and one UPDATE query, got: ['UPDATE &quot;attribute_attributevalue&quot; SET &quot;name&quot; = (CASE WHEN (&quot;attribute_attributevalue&quot;.&quot;id&quot; = 11) THEN \'updated name\' ELSE NULL END)::varchar(250) WHERE &quot;attribute_attributevalue&quot;.&quot;id&quot; IN (11)']&#10;assert 1 == 2&#10; +  where 1 = len(['UPDATE &quot;attribute_attributevalue&quot; SET &quot;name&quot; = (CASE WHEN (&quot;attribute_attributevalue&quot;.&quot;id&quot; = 11) THEN \'updated name\' ELSE NULL END)::varchar(250) WHERE &quot;attribute_attributevalue&quot;.&quot;id&quot; IN (11)'])">assert_locks_rows_before_write = &lt;function assert_locks_rows_before_write.&lt;locals&gt;._assert_locks_rows_before_write at 0x711726b6f920&gt;
+
+    def test_bulk_update_or_create_locks_rows_before_update(assert_locks_rows_before_write):
+        # given
+        attribute = Attribute.objects.create(
+            slug="test-slug",
+            name="test name",
+            type=AttributeType.PRODUCT_TYPE,
+        )
+        value = AttributeValue.objects.create(
+            attribute=attribute, name="value", slug="value"
+        )
+        new_name = "updated name"
+    
+        # when
+&gt;       with assert_locks_rows_before_write():
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/attribute/tests/models/test_base.py:164: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.12/contextlib.py:144: in __exit__
+    next(self.gen)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    @contextmanager
+    def _assert_locks_rows_before_write():
+        with capture_queries() as ctx:
+            yield
+    
+        lock_and_update_queries = [
+            query["sql"]
+            for query in ctx.captured_queries
+            if "FOR UPDATE" in query["sql"] or query["sql"].startswith("UPDATE")
+        ]
+&gt;       assert len(lock_and_update_queries) == 2, (
+            "expected exactly one lock SELECT and one UPDATE query, got: "
+            f"{lock_and_update_queries}"
+        )
+E       AssertionError: expected exactly one lock SELECT and one UPDATE query, got: ['UPDATE "attribute_attributevalue" SET "name" = (CASE WHEN ("attribute_attributevalue"."id" = 11) THEN \'updated name\' ELSE NULL END)::varchar(250) WHERE "attribute_attributevalue"."id" IN (11)']
+E       assert 1 == 2
+E        +  where 1 = len(['UPDATE "attribute_attributevalue" SET "name" = (CASE WHEN ("attribute_attributevalue"."id" = 11) THEN \'updated name\' ELSE NULL END)::varchar(250) WHERE "attribute_attributevalue"."id" IN (11)'])
+
+saleor/tests/fixtures.py:188: AssertionError</failure></testcase></testsuite></testsuites>

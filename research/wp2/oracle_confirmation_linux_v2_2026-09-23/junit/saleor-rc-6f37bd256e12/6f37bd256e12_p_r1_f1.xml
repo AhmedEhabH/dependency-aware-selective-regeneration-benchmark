@@ -1,0 +1,529 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="22" skipped="0" tests="22" time="2.865" timestamp="2026-09-24T18:01:49.809571-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_created_product" time="1.296"><failure message="assert '[{&quot;translati...meta&quot;: null}]' == '{&quot;translatio...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;translation&quot;: {&quot;id&quot;: &quot;UHJvZHVjdFRyYW5zbGF0aW9uOjM=&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;translation&quot;: {&quot;id&quot;: &quot;UHJvZHVjdFRyYW5zbGF0aW9uOjM=&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                                     +">product_translation_fr = ProductTranslation(pk=3, name='French name', product_pk=57)
+subscription_translation_created_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_translation_created_product(
+        product_translation_fr, subscription_translation_created_webhook
+    ):
+        webhooks = [subscription_translation_created_webhook]
+        event_type = WebhookEventAsyncType.TRANSLATION_CREATED
+        translation_id = graphene.Node.to_global_id(
+            "ProductTranslation", product_translation_fr.id
+        )
+        deliveries = create_deliveries_for_subscriptions(
+            event_type, product_translation_fr, webhooks
+        )
+    
+        expected_payload = json.dumps({"translation": {"id": translation_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"translati...meta": null}]' == '{"translatio..."meta": null}'
+E         
+E         - {"translation": {"id": "UHJvZHVjdFRyYW5zbGF0aW9uOjM="}, "meta": null}
+E         + [{"translation": {"id": "UHJvZHVjdFRyYW5zbGF0aW9uOjM="}, "meta": null}]
+E         ? +                                                                     +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py:23: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_created_product_variant" time="0.084"><failure message="assert '[{&quot;translati...meta&quot;: null}]' == '{&quot;translatio...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;translation&quot;: {&quot;id&quot;: &quot;UHJvZHVjdFZhcmlhbnRUcmFuc2xhdGlvbjoz&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;translation&quot;: {&quot;id&quot;: &quot;UHJvZHVjdFZhcmlhbnRUcmFuc2xhdGlvbjoz&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                                             +">variant_translation_fr = ProductVariantTranslation(pk=3, name='French product variant name', variant_pk=79)
+subscription_translation_created_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_translation_created_product_variant(
+        variant_translation_fr, subscription_translation_created_webhook
+    ):
+        webhooks = [subscription_translation_created_webhook]
+        event_type = WebhookEventAsyncType.TRANSLATION_CREATED
+        translation_id = graphene.Node.to_global_id(
+            "ProductVariantTranslation", variant_translation_fr.id
+        )
+        deliveries = create_deliveries_for_subscriptions(
+            event_type, variant_translation_fr, webhooks
+        )
+    
+        expected_payload = json.dumps({"translation": {"id": translation_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"translati...meta": null}]' == '{"translatio..."meta": null}'
+E         
+E         - {"translation": {"id": "UHJvZHVjdFZhcmlhbnRUcmFuc2xhdGlvbjoz"}, "meta": null}
+E         + [{"translation": {"id": "UHJvZHVjdFZhcmlhbnRUcmFuc2xhdGlvbjoz"}, "meta": null}]
+E         ? +                                                                             +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py:42: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_created_collection" time="0.029"><failure message="assert '[{&quot;translati...meta&quot;: null}]' == '{&quot;translatio...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;translation&quot;: {&quot;id&quot;: &quot;Q29sbGVjdGlvblRyYW5zbGF0aW9uOjM=&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;translation&quot;: {&quot;id&quot;: &quot;Q29sbGVjdGlvblRyYW5zbGF0aW9uOjM=&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                                         +">collection_translation_fr = CollectionTranslation(pk=3, name='French collection name', collection_pk=17)
+subscription_translation_created_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_translation_created_collection(
+        collection_translation_fr, subscription_translation_created_webhook
+    ):
+        webhooks = [subscription_translation_created_webhook]
+        event_type = WebhookEventAsyncType.TRANSLATION_CREATED
+        translation_id = graphene.Node.to_global_id(
+            "CollectionTranslation", collection_translation_fr.id
+        )
+        deliveries = create_deliveries_for_subscriptions(
+            event_type, collection_translation_fr, webhooks
+        )
+    
+        expected_payload = json.dumps({"translation": {"id": translation_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"translati...meta": null}]' == '{"translatio..."meta": null}'
+E         
+E         - {"translation": {"id": "Q29sbGVjdGlvblRyYW5zbGF0aW9uOjM="}, "meta": null}
+E         + [{"translation": {"id": "Q29sbGVjdGlvblRyYW5zbGF0aW9uOjM="}, "meta": null}]
+E         ? +                                                                         +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py:61: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_created_category" time="0.027"><failure message="assert '[{&quot;translati...meta&quot;: null}]' == '{&quot;translatio...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;translation&quot;: {&quot;id&quot;: &quot;Q2F0ZWdvcnlUcmFuc2xhdGlvbjoz&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;translation&quot;: {&quot;id&quot;: &quot;Q2F0ZWdvcnlUcmFuc2xhdGlvbjoz&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                                     +">category_translation_fr = CategoryTranslation(pk=3, name='French category name', category_pk=57)
+subscription_translation_created_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_translation_created_category(
+        category_translation_fr, subscription_translation_created_webhook
+    ):
+        webhooks = [subscription_translation_created_webhook]
+        event_type = WebhookEventAsyncType.TRANSLATION_CREATED
+        translation_id = graphene.Node.to_global_id(
+            "CategoryTranslation", category_translation_fr.id
+        )
+        deliveries = create_deliveries_for_subscriptions(
+            event_type, category_translation_fr, webhooks
+        )
+    
+        expected_payload = json.dumps({"translation": {"id": translation_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"translati...meta": null}]' == '{"translatio..."meta": null}'
+E         
+E         - {"translation": {"id": "Q2F0ZWdvcnlUcmFuc2xhdGlvbjoz"}, "meta": null}
+E         + [{"translation": {"id": "Q2F0ZWdvcnlUcmFuc2xhdGlvbjoz"}, "meta": null}]
+E         ? +                                                                     +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py:80: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_created_attribute" time="0.089"><failure message="assert '[{&quot;translati...meta&quot;: null}]' == '{&quot;translatio...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;translation&quot;: {&quot;id&quot;: &quot;QXR0cmlidXRlVHJhbnNsYXRpb246Mw==&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;translation&quot;: {&quot;id&quot;: &quot;QXR0cmlidXRlVHJhbnNsYXRpb246Mw==&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                                         +">translated_attribute = AttributeTranslation(pk=3, name='French attribute name', attribute_pk=115)
+subscription_translation_created_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_translation_created_attribute(
+        translated_attribute, subscription_translation_created_webhook
+    ):
+        webhooks = [subscription_translation_created_webhook]
+        event_type = WebhookEventAsyncType.TRANSLATION_CREATED
+        translation_id = graphene.Node.to_global_id(
+            "AttributeTranslation", translated_attribute.id
+        )
+        deliveries = create_deliveries_for_subscriptions(
+            event_type, translated_attribute, webhooks
+        )
+    
+        expected_payload = json.dumps({"translation": {"id": translation_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"translati...meta": null}]' == '{"translatio..."meta": null}'
+E         
+E         - {"translation": {"id": "QXR0cmlidXRlVHJhbnNsYXRpb246Mw=="}, "meta": null}
+E         + [{"translation": {"id": "QXR0cmlidXRlVHJhbnNsYXRpb246Mw=="}, "meta": null}]
+E         ? +                                                                         +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py:99: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_created_attribute_value" time="0.034"><failure message="assert '[{&quot;translati...meta&quot;: null}]' == '{&quot;translatio...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;translation&quot;: {&quot;id&quot;: &quot;QXR0cmlidXRlVmFsdWVUcmFuc2xhdGlvbjoz&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;translation&quot;: {&quot;id&quot;: &quot;QXR0cmlidXRlVmFsdWVUcmFuc2xhdGlvbjoz&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                                             +">translated_attribute_value = AttributeValueTranslation(pk=3, name='French attribute value name', attribute_value_pk=237)
+subscription_translation_created_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_translation_created_attribute_value(
+        translated_attribute_value, subscription_translation_created_webhook
+    ):
+        webhooks = [subscription_translation_created_webhook]
+        event_type = WebhookEventAsyncType.TRANSLATION_CREATED
+        translation_id = graphene.Node.to_global_id(
+            "AttributeValueTranslation", translated_attribute_value.id
+        )
+        deliveries = create_deliveries_for_subscriptions(
+            event_type, translated_attribute_value, webhooks
+        )
+    
+        expected_payload = json.dumps({"translation": {"id": translation_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"translati...meta": null}]' == '{"translatio..."meta": null}'
+E         
+E         - {"translation": {"id": "QXR0cmlidXRlVmFsdWVUcmFuc2xhdGlvbjoz"}, "meta": null}
+E         + [{"translation": {"id": "QXR0cmlidXRlVmFsdWVUcmFuc2xhdGlvbjoz"}, "meta": null}]
+E         ? +                                                                             +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py:118: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_created_page" time="0.054"><failure message="assert '[{&quot;translati...meta&quot;: null}]' == '{&quot;translatio...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;translation&quot;: {&quot;id&quot;: &quot;UGFnZVRyYW5zbGF0aW9uOjM=&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;translation&quot;: {&quot;id&quot;: &quot;UGFnZVRyYW5zbGF0aW9uOjM=&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                                 +">page_translation_fr = PageTranslation(pk=3, title='French page title', page_pk=9)
+subscription_translation_created_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_translation_created_page(
+        page_translation_fr, subscription_translation_created_webhook
+    ):
+        webhooks = [subscription_translation_created_webhook]
+        event_type = WebhookEventAsyncType.TRANSLATION_CREATED
+        translation_id = graphene.Node.to_global_id(
+            "PageTranslation", page_translation_fr.id
+        )
+        deliveries = create_deliveries_for_subscriptions(
+            event_type, page_translation_fr, webhooks
+        )
+    
+        expected_payload = json.dumps({"translation": {"id": translation_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"translati...meta": null}]' == '{"translatio..."meta": null}'
+E         
+E         - {"translation": {"id": "UGFnZVRyYW5zbGF0aW9uOjM="}, "meta": null}
+E         + [{"translation": {"id": "UGFnZVRyYW5zbGF0aW9uOjM="}, "meta": null}]
+E         ? +                                                                 +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py:137: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_created_shipping_method" time="0.035"><failure message="assert '[{&quot;translati...meta&quot;: null}]' == '{&quot;translatio...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;translation&quot;: {&quot;id&quot;: &quot;U2hpcHBpbmdNZXRob2RUcmFuc2xhdGlvbjoz&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;translation&quot;: {&quot;id&quot;: &quot;U2hpcHBpbmdNZXRob2RUcmFuc2xhdGlvbjoz&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                                             +">shipping_method_translation_fr = &lt;ShippingMethodTranslation: ShippingMethodTranslation object (3)&gt;
+subscription_translation_created_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_translation_created_shipping_method(
+        shipping_method_translation_fr, subscription_translation_created_webhook
+    ):
+        webhooks = [subscription_translation_created_webhook]
+        event_type = WebhookEventAsyncType.TRANSLATION_CREATED
+        translation_id = graphene.Node.to_global_id(
+            "ShippingMethodTranslation", shipping_method_translation_fr.id
+        )
+        deliveries = create_deliveries_for_subscriptions(
+            event_type, shipping_method_translation_fr, webhooks
+        )
+    
+        expected_payload = json.dumps({"translation": {"id": translation_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"translati...meta": null}]' == '{"translatio..."meta": null}'
+E         
+E         - {"translation": {"id": "U2hpcHBpbmdNZXRob2RUcmFuc2xhdGlvbjoz"}, "meta": null}
+E         + [{"translation": {"id": "U2hpcHBpbmdNZXRob2RUcmFuc2xhdGlvbjoz"}, "meta": null}]
+E         ? +                                                                             +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py:156: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_created_sale" time="0.098"><failure message="assert '[{&quot;translati...meta&quot;: null}]' == '{&quot;translatio...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;translation&quot;: {&quot;id&quot;: &quot;U2FsZVRyYW5zbGF0aW9uOjM=&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;translation&quot;: {&quot;id&quot;: &quot;U2FsZVRyYW5zbGF0aW9uOjM=&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                                 +">sale_translation_fr = &lt;SaleTranslation: SaleTranslation object (3)&gt;
+subscription_translation_created_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_translation_created_sale(
+        sale_translation_fr, subscription_translation_created_webhook
+    ):
+        webhooks = [subscription_translation_created_webhook]
+        event_type = WebhookEventAsyncType.TRANSLATION_CREATED
+        translation_id = graphene.Node.to_global_id(
+            "SaleTranslation", sale_translation_fr.id
+        )
+        deliveries = create_deliveries_for_subscriptions(
+            event_type, sale_translation_fr, webhooks
+        )
+    
+        expected_payload = json.dumps({"translation": {"id": translation_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"translati...meta": null}]' == '{"translatio..."meta": null}'
+E         
+E         - {"translation": {"id": "U2FsZVRyYW5zbGF0aW9uOjM="}, "meta": null}
+E         + [{"translation": {"id": "U2FsZVRyYW5zbGF0aW9uOjM="}, "meta": null}]
+E         ? +                                                                 +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py:175: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_created_voucher" time="0.030"><failure message="assert '[{&quot;translati...meta&quot;: null}]' == '{&quot;translatio...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;translation&quot;: {&quot;id&quot;: &quot;Vm91Y2hlclRyYW5zbGF0aW9uOjM=&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;translation&quot;: {&quot;id&quot;: &quot;Vm91Y2hlclRyYW5zbGF0aW9uOjM=&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                                     +">voucher_translation_fr = &lt;VoucherTranslation: VoucherTranslation object (3)&gt;
+subscription_translation_created_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_translation_created_voucher(
+        voucher_translation_fr, subscription_translation_created_webhook
+    ):
+        webhooks = [subscription_translation_created_webhook]
+        event_type = WebhookEventAsyncType.TRANSLATION_CREATED
+        translation_id = graphene.Node.to_global_id(
+            "VoucherTranslation", voucher_translation_fr.id
+        )
+        deliveries = create_deliveries_for_subscriptions(
+            event_type, voucher_translation_fr, webhooks
+        )
+    
+        expected_payload = json.dumps({"translation": {"id": translation_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"translati...meta": null}]' == '{"translatio..."meta": null}'
+E         
+E         - {"translation": {"id": "Vm91Y2hlclRyYW5zbGF0aW9uOjM="}, "meta": null}
+E         + [{"translation": {"id": "Vm91Y2hlclRyYW5zbGF0aW9uOjM="}, "meta": null}]
+E         ? +                                                                     +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py:194: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_created_menu_item" time="0.031"><failure message="assert '[{&quot;translati...meta&quot;: null}]' == '{&quot;translatio...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;translation&quot;: {&quot;id&quot;: &quot;TWVudUl0ZW1UcmFuc2xhdGlvbjoz&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;translation&quot;: {&quot;id&quot;: &quot;TWVudUl0ZW1UcmFuc2xhdGlvbjoz&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                                     +">menu_item_translation_fr = MenuItemTranslation(pk=3, name='French manu item name', menu_item_pk=3)
+subscription_translation_created_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_translation_created_menu_item(
+        menu_item_translation_fr, subscription_translation_created_webhook
+    ):
+        webhooks = [subscription_translation_created_webhook]
+        event_type = WebhookEventAsyncType.TRANSLATION_CREATED
+        translation_id = graphene.Node.to_global_id(
+            "MenuItemTranslation", menu_item_translation_fr.id
+        )
+        deliveries = create_deliveries_for_subscriptions(
+            event_type, menu_item_translation_fr, webhooks
+        )
+    
+        expected_payload = json.dumps({"translation": {"id": translation_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"translati...meta": null}]' == '{"translatio..."meta": null}'
+E         
+E         - {"translation": {"id": "TWVudUl0ZW1UcmFuc2xhdGlvbjoz"}, "meta": null}
+E         + [{"translation": {"id": "TWVudUl0ZW1UcmFuc2xhdGlvbjoz"}, "meta": null}]
+E         ? +                                                                     +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py:213: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_updated_product" time="0.103"><failure message="assert '[{&quot;translati...meta&quot;: null}]' == '{&quot;translatio...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;translation&quot;: {&quot;id&quot;: &quot;UHJvZHVjdFRyYW5zbGF0aW9uOjQ=&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;translation&quot;: {&quot;id&quot;: &quot;UHJvZHVjdFRyYW5zbGF0aW9uOjQ=&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                                     +">product_translation_fr = ProductTranslation(pk=4, name='French name', product_pk=61)
+subscription_translation_updated_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_translation_updated_product(
+        product_translation_fr, subscription_translation_updated_webhook
+    ):
+        webhooks = [subscription_translation_updated_webhook]
+        event_type = WebhookEventAsyncType.TRANSLATION_UPDATED
+        translation_id = graphene.Node.to_global_id(
+            "ProductTranslation", product_translation_fr.id
+        )
+        deliveries = create_deliveries_for_subscriptions(
+            event_type, product_translation_fr, webhooks
+        )
+    
+        expected_payload = json.dumps({"translation": {"id": translation_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"translati...meta": null}]' == '{"translatio..."meta": null}'
+E         
+E         - {"translation": {"id": "UHJvZHVjdFRyYW5zbGF0aW9uOjQ="}, "meta": null}
+E         + [{"translation": {"id": "UHJvZHVjdFRyYW5zbGF0aW9uOjQ="}, "meta": null}]
+E         ? +                                                                     +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py:232: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_updated_product_variant" time="0.098"><failure message="assert '[{&quot;translati...meta&quot;: null}]' == '{&quot;translatio...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;translation&quot;: {&quot;id&quot;: &quot;UHJvZHVjdFZhcmlhbnRUcmFuc2xhdGlvbjo0&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;translation&quot;: {&quot;id&quot;: &quot;UHJvZHVjdFZhcmlhbnRUcmFuc2xhdGlvbjo0&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                                             +">variant_translation_fr = ProductVariantTranslation(pk=4, name='French product variant name', variant_pk=85)
+subscription_translation_updated_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_translation_updated_product_variant(
+        variant_translation_fr, subscription_translation_updated_webhook
+    ):
+        webhooks = [subscription_translation_updated_webhook]
+        event_type = WebhookEventAsyncType.TRANSLATION_UPDATED
+        translation_id = graphene.Node.to_global_id(
+            "ProductVariantTranslation", variant_translation_fr.id
+        )
+        deliveries = create_deliveries_for_subscriptions(
+            event_type, variant_translation_fr, webhooks
+        )
+    
+        expected_payload = json.dumps({"translation": {"id": translation_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"translati...meta": null}]' == '{"translatio..."meta": null}'
+E         
+E         - {"translation": {"id": "UHJvZHVjdFZhcmlhbnRUcmFuc2xhdGlvbjo0"}, "meta": null}
+E         + [{"translation": {"id": "UHJvZHVjdFZhcmlhbnRUcmFuc2xhdGlvbjo0"}, "meta": null}]
+E         ? +                                                                             +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py:251: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_updated_collection" time="0.032"><failure message="assert '[{&quot;translati...meta&quot;: null}]' == '{&quot;translatio...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;translation&quot;: {&quot;id&quot;: &quot;Q29sbGVjdGlvblRyYW5zbGF0aW9uOjQ=&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;translation&quot;: {&quot;id&quot;: &quot;Q29sbGVjdGlvblRyYW5zbGF0aW9uOjQ=&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                                         +">collection_translation_fr = CollectionTranslation(pk=4, name='French collection name', collection_pk=19)
+subscription_translation_updated_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_translation_updated_collection(
+        collection_translation_fr, subscription_translation_updated_webhook
+    ):
+        webhooks = [subscription_translation_updated_webhook]
+        event_type = WebhookEventAsyncType.TRANSLATION_UPDATED
+        translation_id = graphene.Node.to_global_id(
+            "CollectionTranslation", collection_translation_fr.id
+        )
+        deliveries = create_deliveries_for_subscriptions(
+            event_type, collection_translation_fr, webhooks
+        )
+    
+        expected_payload = json.dumps({"translation": {"id": translation_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"translati...meta": null}]' == '{"translatio..."meta": null}'
+E         
+E         - {"translation": {"id": "Q29sbGVjdGlvblRyYW5zbGF0aW9uOjQ="}, "meta": null}
+E         + [{"translation": {"id": "Q29sbGVjdGlvblRyYW5zbGF0aW9uOjQ="}, "meta": null}]
+E         ? +                                                                         +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py:270: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_updated_category" time="0.032"><failure message="assert '[{&quot;translati...meta&quot;: null}]' == '{&quot;translatio...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;translation&quot;: {&quot;id&quot;: &quot;Q2F0ZWdvcnlUcmFuc2xhdGlvbjo0&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;translation&quot;: {&quot;id&quot;: &quot;Q2F0ZWdvcnlUcmFuc2xhdGlvbjo0&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                                     +">category_translation_fr = CategoryTranslation(pk=4, name='French category name', category_pk=62)
+subscription_translation_updated_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_translation_updated_category(
+        category_translation_fr, subscription_translation_updated_webhook
+    ):
+        webhooks = [subscription_translation_updated_webhook]
+        event_type = WebhookEventAsyncType.TRANSLATION_UPDATED
+        translation_id = graphene.Node.to_global_id(
+            "CategoryTranslation", category_translation_fr.id
+        )
+        deliveries = create_deliveries_for_subscriptions(
+            event_type, category_translation_fr, webhooks
+        )
+    
+        expected_payload = json.dumps({"translation": {"id": translation_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"translati...meta": null}]' == '{"translatio..."meta": null}'
+E         
+E         - {"translation": {"id": "Q2F0ZWdvcnlUcmFuc2xhdGlvbjo0"}, "meta": null}
+E         + [{"translation": {"id": "Q2F0ZWdvcnlUcmFuc2xhdGlvbjo0"}, "meta": null}]
+E         ? +                                                                     +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py:289: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_updated_attribute" time="0.089"><failure message="assert '[{&quot;translati...meta&quot;: null}]' == '{&quot;translatio...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;translation&quot;: {&quot;id&quot;: &quot;QXR0cmlidXRlVHJhbnNsYXRpb246NA==&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;translation&quot;: {&quot;id&quot;: &quot;QXR0cmlidXRlVHJhbnNsYXRpb246NA==&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                                         +">translated_attribute = AttributeTranslation(pk=4, name='French attribute name', attribute_pk=126)
+subscription_translation_updated_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_translation_updated_attribute(
+        translated_attribute, subscription_translation_updated_webhook
+    ):
+        webhooks = [subscription_translation_updated_webhook]
+        event_type = WebhookEventAsyncType.TRANSLATION_UPDATED
+        translation_id = graphene.Node.to_global_id(
+            "AttributeTranslation", translated_attribute.id
+        )
+        deliveries = create_deliveries_for_subscriptions(
+            event_type, translated_attribute, webhooks
+        )
+    
+        expected_payload = json.dumps({"translation": {"id": translation_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"translati...meta": null}]' == '{"translatio..."meta": null}'
+E         
+E         - {"translation": {"id": "QXR0cmlidXRlVHJhbnNsYXRpb246NA=="}, "meta": null}
+E         + [{"translation": {"id": "QXR0cmlidXRlVHJhbnNsYXRpb246NA=="}, "meta": null}]
+E         ? +                                                                         +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py:308: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_updated_attribute_value" time="0.033"><failure message="assert '[{&quot;translati...meta&quot;: null}]' == '{&quot;translatio...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;translation&quot;: {&quot;id&quot;: &quot;QXR0cmlidXRlVmFsdWVUcmFuc2xhdGlvbjo0&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;translation&quot;: {&quot;id&quot;: &quot;QXR0cmlidXRlVmFsdWVUcmFuc2xhdGlvbjo0&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                                             +">translated_attribute_value = AttributeValueTranslation(pk=4, name='French attribute value name', attribute_value_pk=260)
+subscription_translation_updated_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_translation_updated_attribute_value(
+        translated_attribute_value, subscription_translation_updated_webhook
+    ):
+        webhooks = [subscription_translation_updated_webhook]
+        event_type = WebhookEventAsyncType.TRANSLATION_UPDATED
+        translation_id = graphene.Node.to_global_id(
+            "AttributeValueTranslation", translated_attribute_value.id
+        )
+        deliveries = create_deliveries_for_subscriptions(
+            event_type, translated_attribute_value, webhooks
+        )
+    
+        expected_payload = json.dumps({"translation": {"id": translation_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"translati...meta": null}]' == '{"translatio..."meta": null}'
+E         
+E         - {"translation": {"id": "QXR0cmlidXRlVmFsdWVUcmFuc2xhdGlvbjo0"}, "meta": null}
+E         + [{"translation": {"id": "QXR0cmlidXRlVmFsdWVUcmFuc2xhdGlvbjo0"}, "meta": null}]
+E         ? +                                                                             +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py:327: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_updated_page" time="0.056"><failure message="assert '[{&quot;translati...meta&quot;: null}]' == '{&quot;translatio...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;translation&quot;: {&quot;id&quot;: &quot;UGFnZVRyYW5zbGF0aW9uOjQ=&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;translation&quot;: {&quot;id&quot;: &quot;UGFnZVRyYW5zbGF0aW9uOjQ=&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                                 +">page_translation_fr = PageTranslation(pk=4, title='French page title', page_pk=10)
+subscription_translation_updated_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_translation_updated_page(
+        page_translation_fr, subscription_translation_updated_webhook
+    ):
+        webhooks = [subscription_translation_updated_webhook]
+        event_type = WebhookEventAsyncType.TRANSLATION_UPDATED
+        translation_id = graphene.Node.to_global_id(
+            "PageTranslation", page_translation_fr.id
+        )
+        deliveries = create_deliveries_for_subscriptions(
+            event_type, page_translation_fr, webhooks
+        )
+    
+        expected_payload = json.dumps({"translation": {"id": translation_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"translati...meta": null}]' == '{"translatio..."meta": null}'
+E         
+E         - {"translation": {"id": "UGFnZVRyYW5zbGF0aW9uOjQ="}, "meta": null}
+E         + [{"translation": {"id": "UGFnZVRyYW5zbGF0aW9uOjQ="}, "meta": null}]
+E         ? +                                                                 +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py:346: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_updated_shipping_method" time="0.038"><failure message="assert '[{&quot;translati...meta&quot;: null}]' == '{&quot;translatio...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;translation&quot;: {&quot;id&quot;: &quot;U2hpcHBpbmdNZXRob2RUcmFuc2xhdGlvbjo0&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;translation&quot;: {&quot;id&quot;: &quot;U2hpcHBpbmdNZXRob2RUcmFuc2xhdGlvbjo0&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                                             +">shipping_method_translation_fr = &lt;ShippingMethodTranslation: ShippingMethodTranslation object (4)&gt;
+subscription_translation_updated_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_translation_updated_shipping_method(
+        shipping_method_translation_fr, subscription_translation_updated_webhook
+    ):
+        webhooks = [subscription_translation_updated_webhook]
+        event_type = WebhookEventAsyncType.TRANSLATION_UPDATED
+        translation_id = graphene.Node.to_global_id(
+            "ShippingMethodTranslation", shipping_method_translation_fr.id
+        )
+        deliveries = create_deliveries_for_subscriptions(
+            event_type, shipping_method_translation_fr, webhooks
+        )
+    
+        expected_payload = json.dumps({"translation": {"id": translation_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"translati...meta": null}]' == '{"translatio..."meta": null}'
+E         
+E         - {"translation": {"id": "U2hpcHBpbmdNZXRob2RUcmFuc2xhdGlvbjo0"}, "meta": null}
+E         + [{"translation": {"id": "U2hpcHBpbmdNZXRob2RUcmFuc2xhdGlvbjo0"}, "meta": null}]
+E         ? +                                                                             +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py:365: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_updated_sale" time="0.097"><failure message="assert '[{&quot;translati...meta&quot;: null}]' == '{&quot;translatio...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;translation&quot;: {&quot;id&quot;: &quot;U2FsZVRyYW5zbGF0aW9uOjQ=&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;translation&quot;: {&quot;id&quot;: &quot;U2FsZVRyYW5zbGF0aW9uOjQ=&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                                 +">sale_translation_fr = &lt;SaleTranslation: SaleTranslation object (4)&gt;
+subscription_translation_updated_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_translation_updated_sale(
+        sale_translation_fr, subscription_translation_updated_webhook
+    ):
+        webhooks = [subscription_translation_updated_webhook]
+        event_type = WebhookEventAsyncType.TRANSLATION_UPDATED
+        translation_id = graphene.Node.to_global_id(
+            "SaleTranslation", sale_translation_fr.id
+        )
+        deliveries = create_deliveries_for_subscriptions(
+            event_type, sale_translation_fr, webhooks
+        )
+    
+        expected_payload = json.dumps({"translation": {"id": translation_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"translati...meta": null}]' == '{"translatio..."meta": null}'
+E         
+E         - {"translation": {"id": "U2FsZVRyYW5zbGF0aW9uOjQ="}, "meta": null}
+E         + [{"translation": {"id": "U2FsZVRyYW5zbGF0aW9uOjQ="}, "meta": null}]
+E         ? +                                                                 +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py:384: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_updated_voucher" time="0.030"><failure message="assert '[{&quot;translati...meta&quot;: null}]' == '{&quot;translatio...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;translation&quot;: {&quot;id&quot;: &quot;Vm91Y2hlclRyYW5zbGF0aW9uOjQ=&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;translation&quot;: {&quot;id&quot;: &quot;Vm91Y2hlclRyYW5zbGF0aW9uOjQ=&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                                     +">voucher_translation_fr = &lt;VoucherTranslation: VoucherTranslation object (4)&gt;
+subscription_translation_updated_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_translation_updated_voucher(
+        voucher_translation_fr, subscription_translation_updated_webhook
+    ):
+        webhooks = [subscription_translation_updated_webhook]
+        event_type = WebhookEventAsyncType.TRANSLATION_UPDATED
+        translation_id = graphene.Node.to_global_id(
+            "VoucherTranslation", voucher_translation_fr.id
+        )
+        deliveries = create_deliveries_for_subscriptions(
+            event_type, voucher_translation_fr, webhooks
+        )
+    
+        expected_payload = json.dumps({"translation": {"id": translation_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"translati...meta": null}]' == '{"translatio..."meta": null}'
+E         
+E         - {"translation": {"id": "Vm91Y2hlclRyYW5zbGF0aW9uOjQ="}, "meta": null}
+E         + [{"translation": {"id": "Vm91Y2hlclRyYW5zbGF0aW9uOjQ="}, "meta": null}]
+E         ? +                                                                     +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py:403: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_updated_menu_item" time="0.033"><failure message="assert '[{&quot;translati...meta&quot;: null}]' == '{&quot;translatio...&quot;meta&quot;: null}'&#10;  &#10;  - {&quot;translation&quot;: {&quot;id&quot;: &quot;TWVudUl0ZW1UcmFuc2xhdGlvbjo0&quot;}, &quot;meta&quot;: null}&#10;  + [{&quot;translation&quot;: {&quot;id&quot;: &quot;TWVudUl0ZW1UcmFuc2xhdGlvbjo0&quot;}, &quot;meta&quot;: null}]&#10;  ? +                                                                     +">menu_item_translation_fr = MenuItemTranslation(pk=4, name='French manu item name', menu_item_pk=4)
+subscription_translation_updated_webhook = &lt;Webhook: Subscription&gt;
+
+    def test_translation_updated_menu_item(
+        menu_item_translation_fr, subscription_translation_updated_webhook
+    ):
+        webhooks = [subscription_translation_updated_webhook]
+        event_type = WebhookEventAsyncType.TRANSLATION_UPDATED
+        translation_id = graphene.Node.to_global_id(
+            "MenuItemTranslation", menu_item_translation_fr.id
+        )
+        deliveries = create_deliveries_for_subscriptions(
+            event_type, menu_item_translation_fr, webhooks
+        )
+    
+        expected_payload = json.dumps({"translation": {"id": translation_id}, "meta": None})
+    
+&gt;       assert deliveries[0].payload.payload == expected_payload
+E       assert '[{"translati...meta": null}]' == '{"translatio..."meta": null}'
+E         
+E         - {"translation": {"id": "TWVudUl0ZW1UcmFuc2xhdGlvbjo0"}, "meta": null}
+E         + [{"translation": {"id": "TWVudUl0ZW1UcmFuc2xhdGlvbjo0"}, "meta": null}]
+E         ? +                                                                     +
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py:422: AssertionError</failure></testcase></testsuite></testsuites>

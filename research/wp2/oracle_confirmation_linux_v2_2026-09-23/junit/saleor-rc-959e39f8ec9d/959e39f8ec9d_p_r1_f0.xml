@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="4" skipped="0" tests="5" time="2.171" timestamp="2026-09-24T19:04:59.535681-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.payment.tests.queries.test_payments_filter" name="test_query_payments_filter_by_checkout" time="1.109" /><testcase classname="saleor.graphql.payment.tests.queries.test_payments_filter" name="test_query_payments_filter_by_one_id" time="0.153"><failure message="AssertionError: [{'message': 'Variable &quot;$filter&quot; got invalid value {&quot;ids&quot;: [&quot;UGF5bWVudDoxOQ==&quot;]}.\nIn field &quot;ids&quot;: Unknown field.', 'locations': [{'line': 1, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">payments_dummy = [Payment(gateway=mirumee.payments.dummy, is_active=True, created=2026-09-25 00:05:00.900279+00:00, charge_status=not-c...t(gateway=mirumee.payments.dummy, is_active=True, created=2026-09-25 00:05:00.900407+00:00, charge_status=not-charged)]
+permission_manage_orders = &lt;Permission: order | order | Manage orders.&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x76517352afa0&gt;
+
+    def test_query_payments_filter_by_one_id(
+        payments_dummy, permission_manage_orders, staff_api_client
+    ):
+        # given
+        search_payment = payments_dummy[0]
+    
+        variables = {
+            "filter": {
+                "ids": [graphene.Node.to_global_id("Payment", search_payment.pk)],
+            }
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            PAYMENT_QUERY, variables, permissions=[permission_manage_orders]
+        )
+
+saleor/graphql/payment/tests/queries/test_payments_filter.py:92: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:99: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Variable "$filter" got invalid value {"ids": ["UGF5bWVudDoxOQ=="]}.\nIn field "ids": Unknown field.', 'locations': [{'line': 1, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:24: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.queries.test_payments_filter" name="test_query_payments_filter_by_multiple_ids" time="0.150"><failure message="AssertionError: [{'message': 'Variable &quot;$filter&quot; got invalid value {&quot;ids&quot;: [&quot;UGF5bWVudDoyMg==&quot;, &quot;UGF5bWVudDoyMw==&quot;]}.\nIn field &quot;ids&quot;: Unknown field.', 'locations': [{'line': 1, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">payments_dummy = [Payment(gateway=mirumee.payments.dummy, is_active=True, created=2026-09-25 00:05:01.293475+00:00, charge_status=not-c...t(gateway=mirumee.payments.dummy, is_active=True, created=2026-09-25 00:05:01.293603+00:00, charge_status=not-charged)]
+permission_manage_orders = &lt;Permission: order | order | Manage orders.&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x765172e26400&gt;
+
+    def test_query_payments_filter_by_multiple_ids(
+        payments_dummy, permission_manage_orders, staff_api_client
+    ):
+        # given
+        search_payments = payments_dummy[:2]
+        search_payments_ids = [
+            graphene.Node.to_global_id("Payment", payment.pk) for payment in search_payments
+        ]
+    
+        variables = {"filter": {"ids": search_payments_ids}}
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            PAYMENT_QUERY, variables, permissions=[permission_manage_orders]
+        )
+
+saleor/graphql/payment/tests/queries/test_payments_filter.py:117: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:99: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Variable "$filter" got invalid value {"ids": ["UGF5bWVudDoyMg==", "UGF5bWVudDoyMw=="]}.\nIn field "ids": Unknown field.', 'locations': [{'line': 1, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:24: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.queries.test_payments_filter" name="test_query_payments_filter_by_empty_id_list" time="0.150"><failure message="AssertionError: [{'message': 'Variable &quot;$filter&quot; got invalid value {&quot;ids&quot;: []}.\nIn field &quot;ids&quot;: Unknown field.', 'locations': [{'line': 1, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">payments_dummy = [Payment(gateway=mirumee.payments.dummy, is_active=True, created=2026-09-25 00:05:01.453221+00:00, charge_status=not-c...t(gateway=mirumee.payments.dummy, is_active=True, created=2026-09-25 00:05:01.453373+00:00, charge_status=not-charged)]
+permission_manage_orders = &lt;Permission: order | order | Manage orders.&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x765173c0d760&gt;
+
+    def test_query_payments_filter_by_empty_id_list(
+        payments_dummy, permission_manage_orders, staff_api_client
+    ):
+        # given
+        variables = {"filter": {"ids": []}}
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            PAYMENT_QUERY, variables, permissions=[permission_manage_orders]
+        )
+
+saleor/graphql/payment/tests/queries/test_payments_filter.py:140: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:99: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Variable "$filter" got invalid value {"ids": []}.\nIn field "ids": Unknown field.', 'locations': [{'line': 1, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:24: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.queries.test_payments_filter" name="test_query_payments_filter_by_not_existing_id" time="0.151"><failure message="AssertionError: [{'message': 'Variable &quot;$filter&quot; got invalid value {&quot;ids&quot;: [&quot;UGF5bWVudDozMQ==&quot;]}.\nIn field &quot;ids&quot;: Unknown field.', 'locations': [{'line': 1, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">payments_dummy = [Payment(gateway=mirumee.payments.dummy, is_active=True, created=2026-09-25 00:05:01.610051+00:00, charge_status=not-c...t(gateway=mirumee.payments.dummy, is_active=True, created=2026-09-25 00:05:01.610172+00:00, charge_status=not-charged)]
+permission_manage_orders = &lt;Permission: order | order | Manage orders.&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x765172d6b730&gt;
+
+    def test_query_payments_filter_by_not_existing_id(
+        payments_dummy, permission_manage_orders, staff_api_client
+    ):
+        # given
+        search_pk = max([payment.pk for payment in payments_dummy]) + 1
+        search_id = graphene.Node.to_global_id("Payment", search_pk)
+        variables = {"filter": {"ids": [search_id]}}
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            PAYMENT_QUERY, variables, permissions=[permission_manage_orders]
+        )
+
+saleor/graphql/payment/tests/queries/test_payments_filter.py:165: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:99: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Variable "$filter" got invalid value {"ids": ["UGF5bWVudDozMQ=="]}.\nIn field "ids": Unknown field.', 'locations': [{'line': 1, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:24: AssertionError</failure></testcase></testsuite></testsuites>

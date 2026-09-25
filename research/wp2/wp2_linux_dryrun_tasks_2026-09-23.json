@@ -1,0 +1,41 @@
+{
+  "artifact": "wp2_linux_dryrun_tasks",
+  "date": "2026-09-23",
+  "status": "FROZEN_BEFORE_DRYRUN",
+  "selection_note": "Bounded real-task dry run per Mission 07 §17 + amendment E; categories from frozen V1 evidence (environment_fingerprints.json, per_task.jsonl, census).",
+  "coverage": {
+    "old_era": "saleor-rc-05bdc7feb9ac (~3.8, target 2020-12-17, confirmed V1 BEHAVIORAL_F2P)",
+    "newer_era": "saleor-rc-3cac33590b90 (>=3.12,<3.13, target 2026-08-05)",
+    "prior_windows_path_failure": "saleor-rc-24f9b244d6bc (worktree add failed on '?' cassette filename)",
+    "prior_unix_resource_failure": "saleor-rc-65643ec7c37f (resource module import fails on Windows only)",
+    "prior_native_lib_failure": "saleor-rc-ab6c29ba265d (gobject-2.0 / pycairo era; feasibility attempt)",
+    "py312_2025_2026": "saleor-rc-3cac33590b90 (2026-08-05, >=3.12,<3.13)"
+  },
+  "tasks": [
+    {
+      "task_id": "saleor-rc-05bdc7feb9ac",
+      "category": "old-era-py38-2020",
+      "era_key": "py38"
+    },
+    {
+      "task_id": "saleor-rc-24f9b244d6bc",
+      "category": "prior-windows-path-failure",
+      "era_key": "py39"
+    },
+    {
+      "task_id": "saleor-rc-65643ec7c37f",
+      "category": "prior-unix-resource-failure",
+      "era_key": "py39"
+    },
+    {
+      "task_id": "saleor-rc-ab6c29ba265d",
+      "category": "prior-native-lib-failure",
+      "era_key": "py38"
+    },
+    {
+      "task_id": "saleor-rc-3cac33590b90",
+      "category": "newer-era-2026-py312",
+      "era_key": "py312"
+    }
+  ]
+}

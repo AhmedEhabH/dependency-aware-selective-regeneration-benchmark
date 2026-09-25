@@ -1,0 +1,1234 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="26" skipped="0" tests="26" time="142.947" timestamp="2026-09-24T21:26:53.729451+00:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.payment.tests.queries.test_transaction" name="test_transaction_created_by_app_query_by_app" time="140.019"><failure message="AssertionError: [{'message': 'Cannot query field &quot;name&quot; on type &quot;PaymentMethodDetails&quot;. Did you mean to use an inline fragment on &quot;GenericPaymentMethodDetails&quot;, &quot;CardPaymentMethodDetails&quot; or &quot;OtherPaymentMethodDetails&quot;?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7481b92a4920&gt;
+transaction_item_created_by_app = &lt;TransactionItem: TransactionItem object (1)&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+app = &lt;App: Sample app objects&gt;
+
+    def test_transaction_created_by_app_query_by_app(
+        app_api_client, transaction_item_created_by_app, permission_manage_payments, app
+    ):
+        # given
+        event = transaction_item_created_by_app.events.filter(
+            type=TransactionEventType.CHARGE_SUCCESS
+        ).get()
+    
+        variables = {
+            "id": graphene.Node.to_global_id(
+                "TransactionItem", transaction_item_created_by_app.token
+            )
+        }
+    
+        # when
+&gt;       response = app_api_client.post_graphql(
+            TRANSACTION_QUERY, variables, permissions=[permission_manage_payments]
+        )
+
+saleor/graphql/payment/tests/queries/test_transaction.py:162: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "name" on type "PaymentMethodDetails". Did you mean to use an inline fragment on "GenericPaymentMethodDetails", "CardPaymentMethodDetails" or "OtherPaymentMethodDetails"?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.queries.test_transaction" name="test_transaction_created_by_app_query_by_app_with_old_id" time="0.047"><failure message="AssertionError: [{'message': 'Cannot query field &quot;name&quot; on type &quot;PaymentMethodDetails&quot;. Did you mean to use an inline fragment on &quot;GenericPaymentMethodDetails&quot;, &quot;CardPaymentMethodDetails&quot; or &quot;OtherPaymentMethodDetails&quot;?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7481b987af00&gt;
+transaction_item_created_by_app = &lt;TransactionItem: TransactionItem object (2)&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+app = &lt;App: Sample app objects&gt;
+
+    def test_transaction_created_by_app_query_by_app_with_old_id(
+        app_api_client, transaction_item_created_by_app, permission_manage_payments, app
+    ):
+        # given
+        transaction_item_created_by_app.use_old_id = True
+        transaction_item_created_by_app.save()
+        event = transaction_item_created_by_app.events.filter(
+            type=TransactionEventType.CHARGE_SUCCESS
+        ).get()
+    
+        variables = {
+            "id": graphene.Node.to_global_id(
+                "TransactionItem", transaction_item_created_by_app.id
+            )
+        }
+    
+        # when
+&gt;       response = app_api_client.post_graphql(
+            TRANSACTION_QUERY, variables, permissions=[permission_manage_payments]
+        )
+
+saleor/graphql/payment/tests/queries/test_transaction.py:193: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "name" on type "PaymentMethodDetails". Did you mean to use an inline fragment on "GenericPaymentMethodDetails", "CardPaymentMethodDetails" or "OtherPaymentMethodDetails"?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.queries.test_transaction" name="test_transaction_created_with_old_id_for_new_transaction" time="0.542"><failure message="AssertionError: [{'message': 'Cannot query field &quot;name&quot; on type &quot;PaymentMethodDetails&quot;. Did you mean to use an inline fragment on &quot;GenericPaymentMethodDetails&quot;, &quot;CardPaymentMethodDetails&quot; or &quot;OtherPaymentMethodDetails&quot;?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7481b97fe870&gt;
+transaction_item_created_by_app = &lt;TransactionItem: TransactionItem object (3)&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+app = &lt;App: Sample app objects&gt;
+
+    def test_transaction_created_with_old_id_for_new_transaction(
+        app_api_client, transaction_item_created_by_app, permission_manage_payments, app
+    ):
+        # given
+        variables = {
+            "id": graphene.Node.to_global_id(
+                "TransactionItem", transaction_item_created_by_app.id
+            )
+        }
+    
+        # when
+&gt;       response = app_api_client.post_graphql(
+            TRANSACTION_QUERY, variables, permissions=[permission_manage_payments]
+        )
+
+saleor/graphql/payment/tests/queries/test_transaction.py:218: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "name" on type "PaymentMethodDetails". Did you mean to use an inline fragment on "GenericPaymentMethodDetails", "CardPaymentMethodDetails" or "OtherPaymentMethodDetails"?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.queries.test_transaction" name="test_transaction_creted_by_app_query_no_order" time="0.045"><failure message="AssertionError: [{'message': 'Cannot query field &quot;name&quot; on type &quot;PaymentMethodDetails&quot;. Did you mean to use an inline fragment on &quot;GenericPaymentMethodDetails&quot;, &quot;CardPaymentMethodDetails&quot; or &quot;OtherPaymentMethodDetails&quot;?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7481b83c57f0&gt;
+transaction_item_created_by_app = &lt;TransactionItem: TransactionItem object (4)&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+app = &lt;App: Sample app objects&gt;
+
+    def test_transaction_creted_by_app_query_no_order(
+        app_api_client, transaction_item_created_by_app, permission_manage_payments, app
+    ):
+        # given
+        transaction_item_created_by_app.order = None
+        transaction_item_created_by_app.save(update_fields=["order"])
+    
+        event = transaction_item_created_by_app.events.filter(
+            type=TransactionEventType.CHARGE_SUCCESS
+        ).get()
+    
+        variables = {
+            "id": graphene.Node.to_global_id(
+                "TransactionItem", transaction_item_created_by_app.token
+            )
+        }
+    
+        # when
+&gt;       response = app_api_client.post_graphql(
+            TRANSACTION_QUERY, variables, permissions=[permission_manage_payments]
+        )
+
+saleor/graphql/payment/tests/queries/test_transaction.py:245: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "name" on type "PaymentMethodDetails". Did you mean to use an inline fragment on "GenericPaymentMethodDetails", "CardPaymentMethodDetails" or "OtherPaymentMethodDetails"?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.queries.test_transaction" name="test_transaction_created_by_app_query_by_staff" time="0.046"><failure message="AssertionError: [{'message': 'Cannot query field &quot;name&quot; on type &quot;PaymentMethodDetails&quot;. Did you mean to use an inline fragment on &quot;GenericPaymentMethodDetails&quot;, &quot;CardPaymentMethodDetails&quot; or &quot;OtherPaymentMethodDetails&quot;?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7481b91b75c0&gt;
+transaction_item_created_by_app = &lt;TransactionItem: TransactionItem object (5)&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+app = &lt;App: Sample app objects&gt;
+
+    def test_transaction_created_by_app_query_by_staff(
+        staff_api_client, transaction_item_created_by_app, permission_manage_payments, app
+    ):
+        # given
+        event = transaction_item_created_by_app.events.filter(
+            type=TransactionEventType.CHARGE_SUCCESS
+        ).get()
+    
+        variables = {
+            "id": graphene.Node.to_global_id(
+                "TransactionItem", transaction_item_created_by_app.token
+            )
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            TRANSACTION_QUERY, variables, permissions=[permission_manage_payments]
+        )
+
+saleor/graphql/payment/tests/queries/test_transaction.py:274: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "name" on type "PaymentMethodDetails". Did you mean to use an inline fragment on "GenericPaymentMethodDetails", "CardPaymentMethodDetails" or "OtherPaymentMethodDetails"?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.queries.test_transaction" name="test_transaction_created_by_app_marked_to_remove" time="0.242"><failure message="AssertionError: [{'message': 'Cannot query field &quot;name&quot; on type &quot;PaymentMethodDetails&quot;. Did you mean to use an inline fragment on &quot;GenericPaymentMethodDetails&quot;, &quot;CardPaymentMethodDetails&quot; or &quot;OtherPaymentMethodDetails&quot;?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7481ba425880&gt;
+transaction_item_created_by_app = &lt;TransactionItem: TransactionItem object (6)&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+app = &lt;App: Sample app objects&gt;, webhook_app = &lt;App: Webhook app&gt;
+
+    @freeze_time("2022-05-12 12:00:00")
+    def test_transaction_created_by_app_marked_to_remove(
+        staff_api_client,
+        transaction_item_created_by_app,
+        permission_manage_payments,
+        app,
+        webhook_app,
+    ):
+        # given
+        app.is_active = False
+        app.removed_at = timezone.now()
+        app.save()
+    
+        webhook_app.identifier = app.identifier
+        webhook_app.save()
+    
+        event = transaction_item_created_by_app.events.filter(
+            type=TransactionEventType.CHARGE_SUCCESS
+        ).get()
+    
+        variables = {
+            "id": graphene.Node.to_global_id(
+                "TransactionItem", transaction_item_created_by_app.token
+            )
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            TRANSACTION_QUERY, variables, permissions=[permission_manage_payments]
+        )
+
+saleor/graphql/payment/tests/queries/test_transaction.py:315: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "name" on type "PaymentMethodDetails". Did you mean to use an inline fragment on "GenericPaymentMethodDetails", "CardPaymentMethodDetails" or "OtherPaymentMethodDetails"?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.queries.test_transaction" name="test_transaction_create_by_app_query_no_permission" time="0.043"><failure message="AssertionError: [{'message': 'Cannot query field &quot;name&quot; on type &quot;PaymentMethodDetails&quot;. Did you mean to use an inline fragment on &quot;GenericPaymentMethodDetails&quot;, &quot;CardPaymentMethodDetails&quot; or &quot;OtherPaymentMethodDetails&quot;?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7481b97fe7e0&gt;
+transaction_item_created_by_app = &lt;TransactionItem: TransactionItem object (7)&gt;
+
+    def test_transaction_create_by_app_query_no_permission(
+        app_api_client, transaction_item_created_by_app
+    ):
+        # given
+        variables = {
+            "id": graphene.Node.to_global_id(
+                "TransactionItem", transaction_item_created_by_app.token
+            )
+        }
+    
+        # when
+        response = app_api_client.post_graphql(TRANSACTION_QUERY, variables)
+    
+        # then
+&gt;       assert_no_permission(response)
+
+saleor/graphql/payment/tests/queries/test_transaction.py:343: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "name" on type "PaymentMethodDetails". Did you mean to use an inline fragment on "GenericPaymentMethodDetails", "CardPaymentMethodDetails" or "OtherPaymentMethodDetails"?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.queries.test_transaction" name="test_transaction_created_by_user_query_by_app" time="0.047"><failure message="AssertionError: [{'message': 'Cannot query field &quot;name&quot; on type &quot;PaymentMethodDetails&quot;. Did you mean to use an inline fragment on &quot;GenericPaymentMethodDetails&quot;, &quot;CardPaymentMethodDetails&quot; or &quot;OtherPaymentMethodDetails&quot;?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7481ba426de0&gt;
+transaction_item_created_by_user = &lt;TransactionItem: TransactionItem object (8)&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+permission_manage_staff = &lt;Permission: Account | user | Manage staff.&gt;
+
+    def test_transaction_created_by_user_query_by_app(
+        app_api_client,
+        transaction_item_created_by_user,
+        permission_manage_payments,
+        permission_manage_staff,
+    ):
+        # given
+        event = transaction_item_created_by_user.events.filter(
+            type=TransactionEventType.CHARGE_SUCCESS
+        ).get()
+    
+        variables = {
+            "id": graphene.Node.to_global_id(
+                "TransactionItem", transaction_item_created_by_user.token
+            )
+        }
+    
+        # when
+&gt;       response = app_api_client.post_graphql(
+            TRANSACTION_QUERY,
+            variables,
+            permissions=[permission_manage_payments, permission_manage_staff],
+        )
+
+saleor/graphql/payment/tests/queries/test_transaction.py:364: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "name" on type "PaymentMethodDetails". Did you mean to use an inline fragment on "GenericPaymentMethodDetails", "CardPaymentMethodDetails" or "OtherPaymentMethodDetails"?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.queries.test_transaction" name="test_transaction_creted_by_user_query_no_order" time="0.050"><failure message="AssertionError: [{'message': 'Cannot query field &quot;name&quot; on type &quot;PaymentMethodDetails&quot;. Did you mean to use an inline fragment on &quot;GenericPaymentMethodDetails&quot;, &quot;CardPaymentMethodDetails&quot; or &quot;OtherPaymentMethodDetails&quot;?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7481b8e0a420&gt;
+transaction_item_created_by_user = &lt;TransactionItem: TransactionItem object (9)&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+permission_manage_staff = &lt;Permission: Account | user | Manage staff.&gt;
+
+    def test_transaction_creted_by_user_query_no_order(
+        app_api_client,
+        transaction_item_created_by_user,
+        permission_manage_payments,
+        permission_manage_staff,
+    ):
+        # given
+        transaction_item_created_by_user.order = None
+        transaction_item_created_by_user.save(update_fields=["order"])
+    
+        event = transaction_item_created_by_user.events.filter(
+            type=TransactionEventType.CHARGE_SUCCESS
+        ).get()
+    
+        variables = {
+            "id": graphene.Node.to_global_id(
+                "TransactionItem", transaction_item_created_by_user.token
+            )
+        }
+    
+        # when
+&gt;       response = app_api_client.post_graphql(
+            TRANSACTION_QUERY,
+            variables,
+            permissions=[permission_manage_payments, permission_manage_staff],
+        )
+
+saleor/graphql/payment/tests/queries/test_transaction.py:401: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "name" on type "PaymentMethodDetails". Did you mean to use an inline fragment on "GenericPaymentMethodDetails", "CardPaymentMethodDetails" or "OtherPaymentMethodDetails"?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.queries.test_transaction" name="test_transaction_created_by_user_query_by_staff" time="0.046"><failure message="AssertionError: [{'message': 'Cannot query field &quot;name&quot; on type &quot;PaymentMethodDetails&quot;. Did you mean to use an inline fragment on &quot;GenericPaymentMethodDetails&quot;, &quot;CardPaymentMethodDetails&quot; or &quot;OtherPaymentMethodDetails&quot;?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7481b9c7a600&gt;
+transaction_item_created_by_user = &lt;TransactionItem: TransactionItem object (10)&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+permission_manage_staff = &lt;Permission: Account | user | Manage staff.&gt;
+
+    def test_transaction_created_by_user_query_by_staff(
+        staff_api_client,
+        transaction_item_created_by_user,
+        permission_manage_payments,
+        permission_manage_staff,
+    ):
+        # given
+        event = transaction_item_created_by_user.events.filter(
+            type=TransactionEventType.CHARGE_SUCCESS
+        ).get()
+    
+        variables = {
+            "id": graphene.Node.to_global_id(
+                "TransactionItem", transaction_item_created_by_user.token
+            )
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            TRANSACTION_QUERY,
+            variables,
+            permissions=[permission_manage_payments, permission_manage_staff],
+        )
+
+saleor/graphql/payment/tests/queries/test_transaction.py:435: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "name" on type "PaymentMethodDetails". Did you mean to use an inline fragment on "GenericPaymentMethodDetails", "CardPaymentMethodDetails" or "OtherPaymentMethodDetails"?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.queries.test_transaction" name="test_transaction_created_by_user_with_old_id" time="0.052"><failure message="AssertionError: [{'message': 'Cannot query field &quot;name&quot; on type &quot;PaymentMethodDetails&quot;. Did you mean to use an inline fragment on &quot;GenericPaymentMethodDetails&quot;, &quot;CardPaymentMethodDetails&quot; or &quot;OtherPaymentMethodDetails&quot;?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7481b78301a0&gt;
+transaction_item_created_by_user = &lt;TransactionItem: TransactionItem object (11)&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+permission_manage_staff = &lt;Permission: Account | user | Manage staff.&gt;
+
+    def test_transaction_created_by_user_with_old_id(
+        staff_api_client,
+        transaction_item_created_by_user,
+        permission_manage_payments,
+        permission_manage_staff,
+    ):
+        # given
+        transaction_item_created_by_user.use_old_id = True
+        transaction_item_created_by_user.save()
+    
+        event = transaction_item_created_by_user.events.filter(
+            type=TransactionEventType.CHARGE_SUCCESS
+        ).get()
+    
+        variables = {
+            "id": graphene.Node.to_global_id(
+                "TransactionItem", transaction_item_created_by_user.id
+            )
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            TRANSACTION_QUERY,
+            variables,
+            permissions=[permission_manage_payments, permission_manage_staff],
+        )
+
+saleor/graphql/payment/tests/queries/test_transaction.py:472: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "name" on type "PaymentMethodDetails". Did you mean to use an inline fragment on "GenericPaymentMethodDetails", "CardPaymentMethodDetails" or "OtherPaymentMethodDetails"?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.queries.test_transaction" name="test_transaction_create_by_user_query_no_permission" time="0.047"><failure message="AssertionError: [{'message': 'Cannot query field &quot;name&quot; on type &quot;PaymentMethodDetails&quot;. Did you mean to use an inline fragment on &quot;GenericPaymentMethodDetails&quot;, &quot;CardPaymentMethodDetails&quot; or &quot;OtherPaymentMethodDetails&quot;?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7481b8e08f80&gt;
+transaction_item_created_by_user = &lt;TransactionItem: TransactionItem object (12)&gt;
+
+    def test_transaction_create_by_user_query_no_permission(
+        app_api_client, transaction_item_created_by_user
+    ):
+        # given
+        variables = {
+            "id": graphene.Node.to_global_id(
+                "TransactionItem", transaction_item_created_by_user.token
+            )
+        }
+    
+        # when
+        response = app_api_client.post_graphql(TRANSACTION_QUERY, variables)
+    
+        # then
+&gt;       assert_no_permission(response)
+
+saleor/graphql/payment/tests/queries/test_transaction.py:502: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "name" on type "PaymentMethodDetails". Did you mean to use an inline fragment on "GenericPaymentMethodDetails", "CardPaymentMethodDetails" or "OtherPaymentMethodDetails"?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.queries.test_transaction" name="test_query_transaction_by_invalid_id" time="0.025"><failure message="AssertionError: [{'message': 'Cannot query field &quot;name&quot; on type &quot;PaymentMethodDetails&quot;. Did you mean to use an inline fragment on &quot;GenericPaymentMethodDetails&quot;, &quot;CardPaymentMethodDetails&quot; or &quot;OtherPaymentMethodDetails&quot;?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7481b7832c90&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+
+    def test_query_transaction_by_invalid_id(staff_api_client, permission_manage_payments):
+        # given
+        id = graphene.Node.to_global_id("Order", "e6cad766-c9df-4970-b77b-b8eb0e303fb6")
+        variables = {"id": id}
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            TRANSACTION_QUERY,
+            variables,
+            permissions=[permission_manage_payments],
+        )
+
+saleor/graphql/payment/tests/queries/test_transaction.py:511: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "name" on type "PaymentMethodDetails". Did you mean to use an inline fragment on "GenericPaymentMethodDetails", "CardPaymentMethodDetails" or "OtherPaymentMethodDetails"?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.queries.test_transaction" name="test_transaction_with_pending_amount[authorize_pending_value-authorizePendingAmount]" time="0.051"><failure message="AssertionError: [{'message': 'Cannot query field &quot;name&quot; on type &quot;PaymentMethodDetails&quot;. Did you mean to use an inline fragment on &quot;GenericPaymentMethodDetails&quot;, &quot;CardPaymentMethodDetails&quot; or &quot;OtherPaymentMethodDetails&quot;?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">db_field = 'authorize_pending_value', api_field = 'authorizePendingAmount'
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7481b7b8f260&gt;
+transaction_item_created_by_user = &lt;TransactionItem: TransactionItem object (13)&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+permission_manage_staff = &lt;Permission: Account | user | Manage staff.&gt;
+
+    @pytest.mark.parametrize(
+        ("db_field", "api_field"),
+        [
+            ("authorize_pending_value", "authorizePendingAmount"),
+            ("charge_pending_value", "chargePendingAmount"),
+            ("refund_pending_value", "refundPendingAmount"),
+            ("cancel_pending_value", "cancelPendingAmount"),
+        ],
+    )
+    def test_transaction_with_pending_amount(
+        db_field,
+        api_field,
+        staff_api_client,
+        transaction_item_created_by_user,
+        permission_manage_payments,
+        permission_manage_staff,
+    ):
+        # given
+        expected_value = Decimal("10.00")
+    
+        setattr(transaction_item_created_by_user, db_field, expected_value)
+        transaction_item_created_by_user.save(update_fields=[db_field])
+    
+        variables = {
+            "id": graphene.Node.to_global_id(
+                "TransactionItem", transaction_item_created_by_user.token
+            )
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            TRANSACTION_QUERY,
+            variables,
+            permissions=[permission_manage_payments, permission_manage_staff],
+        )
+
+saleor/graphql/payment/tests/queries/test_transaction.py:557: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "name" on type "PaymentMethodDetails". Did you mean to use an inline fragment on "GenericPaymentMethodDetails", "CardPaymentMethodDetails" or "OtherPaymentMethodDetails"?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.queries.test_transaction" name="test_transaction_with_pending_amount[charge_pending_value-chargePendingAmount]" time="0.049"><failure message="AssertionError: [{'message': 'Cannot query field &quot;name&quot; on type &quot;PaymentMethodDetails&quot;. Did you mean to use an inline fragment on &quot;GenericPaymentMethodDetails&quot;, &quot;CardPaymentMethodDetails&quot; or &quot;OtherPaymentMethodDetails&quot;?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">db_field = 'charge_pending_value', api_field = 'chargePendingAmount'
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7481b7b8c0b0&gt;
+transaction_item_created_by_user = &lt;TransactionItem: TransactionItem object (14)&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+permission_manage_staff = &lt;Permission: Account | user | Manage staff.&gt;
+
+    @pytest.mark.parametrize(
+        ("db_field", "api_field"),
+        [
+            ("authorize_pending_value", "authorizePendingAmount"),
+            ("charge_pending_value", "chargePendingAmount"),
+            ("refund_pending_value", "refundPendingAmount"),
+            ("cancel_pending_value", "cancelPendingAmount"),
+        ],
+    )
+    def test_transaction_with_pending_amount(
+        db_field,
+        api_field,
+        staff_api_client,
+        transaction_item_created_by_user,
+        permission_manage_payments,
+        permission_manage_staff,
+    ):
+        # given
+        expected_value = Decimal("10.00")
+    
+        setattr(transaction_item_created_by_user, db_field, expected_value)
+        transaction_item_created_by_user.save(update_fields=[db_field])
+    
+        variables = {
+            "id": graphene.Node.to_global_id(
+                "TransactionItem", transaction_item_created_by_user.token
+            )
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            TRANSACTION_QUERY,
+            variables,
+            permissions=[permission_manage_payments, permission_manage_staff],
+        )
+
+saleor/graphql/payment/tests/queries/test_transaction.py:557: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "name" on type "PaymentMethodDetails". Did you mean to use an inline fragment on "GenericPaymentMethodDetails", "CardPaymentMethodDetails" or "OtherPaymentMethodDetails"?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.queries.test_transaction" name="test_transaction_with_pending_amount[refund_pending_value-refundPendingAmount]" time="0.052"><failure message="AssertionError: [{'message': 'Cannot query field &quot;name&quot; on type &quot;PaymentMethodDetails&quot;. Did you mean to use an inline fragment on &quot;GenericPaymentMethodDetails&quot;, &quot;CardPaymentMethodDetails&quot; or &quot;OtherPaymentMethodDetails&quot;?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">db_field = 'refund_pending_value', api_field = 'refundPendingAmount'
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7481b8c6b680&gt;
+transaction_item_created_by_user = &lt;TransactionItem: TransactionItem object (15)&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+permission_manage_staff = &lt;Permission: Account | user | Manage staff.&gt;
+
+    @pytest.mark.parametrize(
+        ("db_field", "api_field"),
+        [
+            ("authorize_pending_value", "authorizePendingAmount"),
+            ("charge_pending_value", "chargePendingAmount"),
+            ("refund_pending_value", "refundPendingAmount"),
+            ("cancel_pending_value", "cancelPendingAmount"),
+        ],
+    )
+    def test_transaction_with_pending_amount(
+        db_field,
+        api_field,
+        staff_api_client,
+        transaction_item_created_by_user,
+        permission_manage_payments,
+        permission_manage_staff,
+    ):
+        # given
+        expected_value = Decimal("10.00")
+    
+        setattr(transaction_item_created_by_user, db_field, expected_value)
+        transaction_item_created_by_user.save(update_fields=[db_field])
+    
+        variables = {
+            "id": graphene.Node.to_global_id(
+                "TransactionItem", transaction_item_created_by_user.token
+            )
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            TRANSACTION_QUERY,
+            variables,
+            permissions=[permission_manage_payments, permission_manage_staff],
+        )
+
+saleor/graphql/payment/tests/queries/test_transaction.py:557: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "name" on type "PaymentMethodDetails". Did you mean to use an inline fragment on "GenericPaymentMethodDetails", "CardPaymentMethodDetails" or "OtherPaymentMethodDetails"?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.queries.test_transaction" name="test_transaction_with_pending_amount[cancel_pending_value-cancelPendingAmount]" time="0.048"><failure message="AssertionError: [{'message': 'Cannot query field &quot;name&quot; on type &quot;PaymentMethodDetails&quot;. Did you mean to use an inline fragment on &quot;GenericPaymentMethodDetails&quot;, &quot;CardPaymentMethodDetails&quot; or &quot;OtherPaymentMethodDetails&quot;?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">db_field = 'cancel_pending_value', api_field = 'cancelPendingAmount'
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7481b84f7a70&gt;
+transaction_item_created_by_user = &lt;TransactionItem: TransactionItem object (16)&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+permission_manage_staff = &lt;Permission: Account | user | Manage staff.&gt;
+
+    @pytest.mark.parametrize(
+        ("db_field", "api_field"),
+        [
+            ("authorize_pending_value", "authorizePendingAmount"),
+            ("charge_pending_value", "chargePendingAmount"),
+            ("refund_pending_value", "refundPendingAmount"),
+            ("cancel_pending_value", "cancelPendingAmount"),
+        ],
+    )
+    def test_transaction_with_pending_amount(
+        db_field,
+        api_field,
+        staff_api_client,
+        transaction_item_created_by_user,
+        permission_manage_payments,
+        permission_manage_staff,
+    ):
+        # given
+        expected_value = Decimal("10.00")
+    
+        setattr(transaction_item_created_by_user, db_field, expected_value)
+        transaction_item_created_by_user.save(update_fields=[db_field])
+    
+        variables = {
+            "id": graphene.Node.to_global_id(
+                "TransactionItem", transaction_item_created_by_user.token
+            )
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            TRANSACTION_QUERY,
+            variables,
+            permissions=[permission_manage_payments, permission_manage_staff],
+        )
+
+saleor/graphql/payment/tests/queries/test_transaction.py:557: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "name" on type "PaymentMethodDetails". Did you mean to use an inline fragment on "GenericPaymentMethodDetails", "CardPaymentMethodDetails" or "OtherPaymentMethodDetails"?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.queries.test_transaction" name="test_transaction_with_checkout" time="0.313"><failure message="AssertionError: [{'message': 'Cannot query field &quot;name&quot; on type &quot;PaymentMethodDetails&quot;. Did you mean to use an inline fragment on &quot;GenericPaymentMethodDetails&quot;, &quot;CardPaymentMethodDetails&quot; or &quot;OtherPaymentMethodDetails&quot;?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7481b7eb4680&gt;
+checkout_with_items = &lt;Checkout: Checkout object (ae4e6ffd-8ff3-4fa8-a2a3-c5cb8cae005a)&gt;
+transaction_item_generator = &lt;function transaction_item_generator.&lt;locals&gt;.create_transaction at 0x7481b8721940&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+permission_manage_staff = &lt;Permission: Account | user | Manage staff.&gt;
+
+    def test_transaction_with_checkout(
+        staff_api_client,
+        checkout_with_items,
+        transaction_item_generator,
+        permission_manage_payments,
+        permission_manage_staff,
+    ):
+        # given
+        charged_amount = Decimal("10.00")
+        transaction_item = transaction_item_generator(
+            checkout_id=checkout_with_items.pk,
+            charged_value=charged_amount,
+        )
+    
+        event = transaction_item.events.filter(
+            type=TransactionEventType.CHARGE_SUCCESS
+        ).get()
+    
+        variables = {
+            "id": graphene.Node.to_global_id("TransactionItem", transaction_item.token)
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            TRANSACTION_QUERY,
+            variables,
+            permissions=[permission_manage_payments, permission_manage_staff],
+        )
+
+saleor/graphql/payment/tests/queries/test_transaction.py:593: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "name" on type "PaymentMethodDetails". Did you mean to use an inline fragment on "GenericPaymentMethodDetails", "CardPaymentMethodDetails" or "OtherPaymentMethodDetails"?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.queries.test_transaction" name="test_transaction_event_by_user" time="0.046"><failure message="AssertionError: [{'message': 'Cannot query field &quot;name&quot; on type &quot;PaymentMethodDetails&quot;. Did you mean to use an inline fragment on &quot;GenericPaymentMethodDetails&quot;, &quot;CardPaymentMethodDetails&quot; or &quot;OtherPaymentMethodDetails&quot;?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">transaction_item_created_by_user = &lt;TransactionItem: TransactionItem object (18)&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+permission_manage_staff = &lt;Permission: Account | user | Manage staff.&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7481b7eb7dd0&gt;
+
+    def test_transaction_event_by_user(
+        transaction_item_created_by_user,
+        permission_manage_payments,
+        permission_manage_staff,
+        staff_api_client,
+    ):
+        # given
+        psp_reference = "psp-ref-123"
+        event = TransactionEvent.objects.create(
+            transaction=transaction_item_created_by_user,
+            psp_reference=psp_reference,
+            message="Sucesfull charge",
+            currency="USD",
+            type=TransactionEventType.CHARGE_SUCCESS,
+            amount_value=Decimal("10.00"),
+            external_url=f"http://`{TEST_SERVER_DOMAIN}/test",
+            user=staff_api_client.user,
+        )
+    
+        variables = {
+            "id": graphene.Node.to_global_id(
+                "TransactionItem", transaction_item_created_by_user.token
+            )
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            TRANSACTION_QUERY,
+            variables,
+            permissions=[permission_manage_payments, permission_manage_staff],
+        )
+
+saleor/graphql/payment/tests/queries/test_transaction.py:632: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "name" on type "PaymentMethodDetails". Did you mean to use an inline fragment on "GenericPaymentMethodDetails", "CardPaymentMethodDetails" or "OtherPaymentMethodDetails"?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.queries.test_transaction" name="test_transaction_event_by_app" time="0.043"><failure message="AssertionError: [{'message': 'Cannot query field &quot;name&quot; on type &quot;PaymentMethodDetails&quot;. Did you mean to use an inline fragment on &quot;GenericPaymentMethodDetails&quot;, &quot;CardPaymentMethodDetails&quot; or &quot;OtherPaymentMethodDetails&quot;?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">transaction_item_created_by_app = &lt;TransactionItem: TransactionItem object (19)&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+permission_manage_staff = &lt;Permission: Account | user | Manage staff.&gt;
+app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7481b84ed1f0&gt;
+
+    def test_transaction_event_by_app(
+        transaction_item_created_by_app,
+        permission_manage_payments,
+        permission_manage_staff,
+        app_api_client,
+    ):
+        # given
+        psp_reference = "psp-ref-123"
+        event = TransactionEvent.objects.create(
+            transaction=transaction_item_created_by_app,
+            psp_reference=psp_reference,
+            message="Sucesfull charge",
+            currency="USD",
+            type=TransactionEventType.CHARGE_SUCCESS,
+            amount_value=Decimal("10.00"),
+            external_url=f"http://`{TEST_SERVER_DOMAIN}/test",
+            app_identifier=app_api_client.app.identifier,
+            app=app_api_client.app,
+            include_in_calculations=True,
+        )
+    
+        variables = {
+            "id": graphene.Node.to_global_id(
+                "TransactionItem", transaction_item_created_by_app.token
+            )
+        }
+    
+        # when
+&gt;       response = app_api_client.post_graphql(
+            TRANSACTION_QUERY,
+            variables,
+            permissions=[permission_manage_payments, permission_manage_staff],
+        )
+
+saleor/graphql/payment/tests/queries/test_transaction.py:684: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "name" on type "PaymentMethodDetails". Did you mean to use an inline fragment on "GenericPaymentMethodDetails", "CardPaymentMethodDetails" or "OtherPaymentMethodDetails"?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.queries.test_transaction" name="test_transaction_event_by_reinstalled_app" time="0.043"><failure message="AssertionError: [{'message': 'Cannot query field &quot;name&quot; on type &quot;PaymentMethodDetails&quot;. Did you mean to use an inline fragment on &quot;GenericPaymentMethodDetails&quot;, &quot;CardPaymentMethodDetails&quot; or &quot;OtherPaymentMethodDetails&quot;?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">transaction_item_created_by_app = &lt;TransactionItem: TransactionItem object (20)&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+permission_manage_staff = &lt;Permission: Account | user | Manage staff.&gt;
+app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7481b8fa2450&gt;
+
+    def test_transaction_event_by_reinstalled_app(
+        transaction_item_created_by_app,
+        permission_manage_payments,
+        permission_manage_staff,
+        app_api_client,
+    ):
+        # given
+        psp_reference = "psp-ref-123"
+        event = TransactionEvent.objects.create(
+            transaction=transaction_item_created_by_app,
+            psp_reference=psp_reference,
+            message="Sucesfull charge",
+            currency="USD",
+            type=TransactionEventType.CHARGE_SUCCESS,
+            amount_value=Decimal("10.00"),
+            external_url=f"http://`{TEST_SERVER_DOMAIN}/test",
+            app_identifier=app_api_client.app.identifier,
+            app=None,
+        )
+    
+        variables = {
+            "id": graphene.Node.to_global_id(
+                "TransactionItem", transaction_item_created_by_app.token
+            )
+        }
+    
+        # when
+&gt;       response = app_api_client.post_graphql(
+            TRANSACTION_QUERY,
+            variables,
+            permissions=[permission_manage_payments, permission_manage_staff],
+        )
+
+saleor/graphql/payment/tests/queries/test_transaction.py:735: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "name" on type "PaymentMethodDetails". Did you mean to use an inline fragment on "GenericPaymentMethodDetails", "CardPaymentMethodDetails" or "OtherPaymentMethodDetails"?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.queries.test_transaction" name="test_transaction_event_by_app_marked_to_remove" time="0.091"><failure message="AssertionError: [{'message': 'Cannot query field &quot;name&quot; on type &quot;PaymentMethodDetails&quot;. Did you mean to use an inline fragment on &quot;GenericPaymentMethodDetails&quot;, &quot;CardPaymentMethodDetails&quot; or &quot;OtherPaymentMethodDetails&quot;?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">transaction_item_created_by_app = &lt;TransactionItem: TransactionItem object (21)&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+permission_manage_staff = &lt;Permission: Account | user | Manage staff.&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7481b7edf5c0&gt;
+app = &lt;App: Sample app objects&gt;, webhook_app = &lt;App: Webhook app&gt;
+
+    @freeze_time("2022-05-12 12:00:00")
+    def test_transaction_event_by_app_marked_to_remove(
+        transaction_item_created_by_app,
+        permission_manage_payments,
+        permission_manage_staff,
+        staff_api_client,
+        app,
+        webhook_app,
+    ):
+        # given
+        identifier = "app.identifier"
+        app.identifier = identifier
+        app.is_active = False
+        app.removed_at = timezone.now()
+        app.save()
+        webhook_app.identifier = identifier
+        webhook_app.save()
+    
+        psp_reference = "psp-ref-123"
+        event = TransactionEvent.objects.create(
+            transaction=transaction_item_created_by_app,
+            psp_reference=psp_reference,
+            message="Sucesfull charge",
+            currency="USD",
+            type=TransactionEventType.CHARGE_SUCCESS,
+            amount_value=Decimal("10.00"),
+            external_url=f"http://`{TEST_SERVER_DOMAIN}/test",
+            app_identifier=app.identifier,
+            app=app,
+        )
+    
+        variables = {
+            "id": graphene.Node.to_global_id(
+                "TransactionItem", transaction_item_created_by_app.token
+            )
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            TRANSACTION_QUERY,
+            variables,
+            permissions=[permission_manage_payments, permission_manage_staff],
+        )
+
+saleor/graphql/payment/tests/queries/test_transaction.py:797: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "name" on type "PaymentMethodDetails". Did you mean to use an inline fragment on "GenericPaymentMethodDetails", "CardPaymentMethodDetails" or "OtherPaymentMethodDetails"?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.queries.test_transaction" name="test_transaction_query_by_app_with_payment_method_card" time="0.044"><failure message="AssertionError: [{'message': 'Cannot query field &quot;name&quot; on type &quot;PaymentMethodDetails&quot;. Did you mean to use an inline fragment on &quot;GenericPaymentMethodDetails&quot;, &quot;CardPaymentMethodDetails&quot; or &quot;OtherPaymentMethodDetails&quot;?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7481b7edf800&gt;
+transaction_item_created_by_app = &lt;TransactionItem: TransactionItem object (22)&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+app = &lt;App: Sample app objects&gt;
+
+    def test_transaction_query_by_app_with_payment_method_card(
+        app_api_client, transaction_item_created_by_app, permission_manage_payments, app
+    ):
+        # given
+        expected_brand = "Visa"
+        expected_first_digits = "1234"
+        expected_last_digits = "5678"
+        expected_exp_month = 12
+        expected_exp_year = 2025
+    
+        transaction_item_created_by_app.payment_method_type = PaymentMethodType.CARD
+        transaction_item_created_by_app.cc_brand = expected_brand
+        transaction_item_created_by_app.cc_first_digits = expected_first_digits
+        transaction_item_created_by_app.cc_last_digits = expected_last_digits
+        transaction_item_created_by_app.cc_exp_month = expected_exp_month
+        transaction_item_created_by_app.cc_exp_year = expected_exp_year
+        transaction_item_created_by_app.save()
+    
+        variables = {
+            "id": graphene.Node.to_global_id(
+                "TransactionItem", transaction_item_created_by_app.token
+            )
+        }
+    
+        # when
+&gt;       response = app_api_client.post_graphql(
+            TRANSACTION_QUERY, variables, permissions=[permission_manage_payments]
+        )
+
+saleor/graphql/payment/tests/queries/test_transaction.py:839: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "name" on type "PaymentMethodDetails". Did you mean to use an inline fragment on "GenericPaymentMethodDetails", "CardPaymentMethodDetails" or "OtherPaymentMethodDetails"?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.queries.test_transaction" name="test_transaction_query_by_staff_with_payment_method_card" time="0.041"><failure message="AssertionError: [{'message': 'Cannot query field &quot;name&quot; on type &quot;PaymentMethodDetails&quot;. Did you mean to use an inline fragment on &quot;GenericPaymentMethodDetails&quot;, &quot;CardPaymentMethodDetails&quot; or &quot;OtherPaymentMethodDetails&quot;?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7481b90c88f0&gt;
+transaction_item_created_by_app = &lt;TransactionItem: TransactionItem object (23)&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+
+    def test_transaction_query_by_staff_with_payment_method_card(
+        staff_api_client, transaction_item_created_by_app, permission_manage_payments
+    ):
+        # given
+        expected_brand = "Visa"
+        expected_first_digits = "1234"
+        expected_last_digits = "5678"
+        expected_exp_month = 12
+        expected_exp_year = 2025
+    
+        transaction_item_created_by_app.payment_method_type = PaymentMethodType.CARD
+        transaction_item_created_by_app.cc_brand = expected_brand
+        transaction_item_created_by_app.cc_first_digits = expected_first_digits
+        transaction_item_created_by_app.cc_last_digits = expected_last_digits
+        transaction_item_created_by_app.cc_exp_month = expected_exp_month
+        transaction_item_created_by_app.cc_exp_year = expected_exp_year
+        transaction_item_created_by_app.save()
+    
+        variables = {
+            "id": graphene.Node.to_global_id(
+                "TransactionItem", transaction_item_created_by_app.token
+            )
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            TRANSACTION_QUERY, variables, permissions=[permission_manage_payments]
+        )
+
+saleor/graphql/payment/tests/queries/test_transaction.py:879: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "name" on type "PaymentMethodDetails". Did you mean to use an inline fragment on "GenericPaymentMethodDetails", "CardPaymentMethodDetails" or "OtherPaymentMethodDetails"?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.queries.test_transaction" name="test_transaction_query_by_app_with_payment_method_other" time="0.043"><failure message="AssertionError: [{'message': 'Cannot query field &quot;name&quot; on type &quot;PaymentMethodDetails&quot;. Did you mean to use an inline fragment on &quot;GenericPaymentMethodDetails&quot;, &quot;CardPaymentMethodDetails&quot; or &quot;OtherPaymentMethodDetails&quot;?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7481b837a360&gt;
+transaction_item_created_by_app = &lt;TransactionItem: TransactionItem object (24)&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+app = &lt;App: Sample app objects&gt;
+
+    def test_transaction_query_by_app_with_payment_method_other(
+        app_api_client, transaction_item_created_by_app, permission_manage_payments, app
+    ):
+        # given
+        expected_payment_method_name = "PayPal Express"
+    
+        transaction_item_created_by_app.payment_method_type = PaymentMethodType.OTHER
+        transaction_item_created_by_app.payment_method_name = expected_payment_method_name
+        # Clear card-specific fields for OTHER payment method
+        transaction_item_created_by_app.cc_brand = None
+        transaction_item_created_by_app.cc_first_digits = None
+        transaction_item_created_by_app.cc_last_digits = None
+        transaction_item_created_by_app.cc_exp_month = None
+        transaction_item_created_by_app.cc_exp_year = None
+        transaction_item_created_by_app.save()
+    
+        variables = {
+            "id": graphene.Node.to_global_id(
+                "TransactionItem", transaction_item_created_by_app.token
+            )
+        }
+    
+        # when
+&gt;       response = app_api_client.post_graphql(
+            TRANSACTION_QUERY, variables, permissions=[permission_manage_payments]
+        )
+
+saleor/graphql/payment/tests/queries/test_transaction.py:917: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "name" on type "PaymentMethodDetails". Did you mean to use an inline fragment on "GenericPaymentMethodDetails", "CardPaymentMethodDetails" or "OtherPaymentMethodDetails"?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.queries.test_transaction" name="test_transaction_query_by_staff_with_payment_method_other" time="0.047"><failure message="AssertionError: [{'message': 'Cannot query field &quot;name&quot; on type &quot;PaymentMethodDetails&quot;. Did you mean to use an inline fragment on &quot;GenericPaymentMethodDetails&quot;, &quot;CardPaymentMethodDetails&quot; or &quot;OtherPaymentMethodDetails&quot;?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7481b92e1b20&gt;
+transaction_item_created_by_app = &lt;TransactionItem: TransactionItem object (25)&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+
+    def test_transaction_query_by_staff_with_payment_method_other(
+        staff_api_client, transaction_item_created_by_app, permission_manage_payments
+    ):
+        # given
+        expected_payment_method_name = "Apple Pay"
+    
+        transaction_item_created_by_app.payment_method_type = PaymentMethodType.OTHER
+        transaction_item_created_by_app.payment_method_name = expected_payment_method_name
+        transaction_item_created_by_app.save()
+    
+        variables = {
+            "id": graphene.Node.to_global_id(
+                "TransactionItem", transaction_item_created_by_app.token
+            )
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            TRANSACTION_QUERY, variables, permissions=[permission_manage_payments]
+        )
+
+saleor/graphql/payment/tests/queries/test_transaction.py:945: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "name" on type "PaymentMethodDetails". Did you mean to use an inline fragment on "GenericPaymentMethodDetails", "CardPaymentMethodDetails" or "OtherPaymentMethodDetails"?', 'locations': [{'line': 79, 'column': 17}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase></testsuite></testsuites>

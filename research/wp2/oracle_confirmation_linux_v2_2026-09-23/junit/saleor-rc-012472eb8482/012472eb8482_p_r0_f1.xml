@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="34" time="10.199" timestamp="2026-09-24T13:09:50.090809-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_categories" time="1.541" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_categories_trigger_webhook" time="0.148" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_categories_with_images" time="0.144" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_categories_trigger_product_updated_webhook" time="0.271" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_categories_with_subcategories_and_products" time="0.221" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_collections" time="0.132" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_collections_with_images" time="0.154" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_collections_trigger_collection_deleted_webhook" time="0.121" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_collections_trigger_product_updated_webhook" time="0.246" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_products" time="0.380" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_products_invalid_object_typed_of_given_ids" time="0.191" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_products_with_images" time="0.285"><failure message="AssertionError: assert 0 == 2&#10; +  where 0 = &lt;MagicMock name='delay' id='133855696022064'&gt;.call_count">mocked_recalculate_orders_task = &lt;MagicMock name='delay' id='133855702318240'&gt;
+delete_from_storage_task_mock = &lt;MagicMock name='delay' id='133855696022064'&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x79bdb5376b20&gt;
+product_list = [&lt;saleor.product.models.Product(pk=16, name='Test product 1')&gt;, &lt;saleor.product.models.Product(pk=17, name='Test product 2')&gt;, &lt;saleor.product.models.Product(pk=18, name='Test product 3')&gt;]
+image_list = [&lt;SimpleUploadedFile: image1.jpg (text/plain)&gt;, &lt;SimpleUploadedFile: image2.jpg (text/plain)&gt;]
+permission_manage_products = &lt;Permission: product | product | Manage products.&gt;
+channel_USD = &lt;Channel: main&gt;, media_root = None
+
+    @patch("saleor.product.signals.delete_from_storage_task.delay")
+    @patch("saleor.order.tasks.recalculate_orders_task.delay")
+    def test_delete_products_with_images(
+        mocked_recalculate_orders_task,
+        delete_from_storage_task_mock,
+        staff_api_client,
+        product_list,
+        image_list,
+        permission_manage_products,
+        channel_USD,
+        media_root,
+    ):
+        # given
+        media1 = ProductMedia.objects.create(product=product_list[0], image=image_list[0])
+        media2 = ProductMedia.objects.create(product=product_list[1], image=image_list[1])
+    
+        query = DELETE_PRODUCTS_MUTATION
+        variables = {
+            "ids": [
+                graphene.Node.to_global_id("Product", product.id)
+                for product in product_list
+            ]
+        }
+        response = staff_api_client.post_graphql(
+            query, variables, permissions=[permission_manage_products]
+        )
+        content = get_graphql_content(response)
+    
+        assert content["data"]["productBulkDelete"]["count"] == 3
+&gt;       assert delete_from_storage_task_mock.call_count == 2
+E       AssertionError: assert 0 == 2
+E        +  where 0 = &lt;MagicMock name='delay' id='133855696022064'&gt;.call_count
+
+saleor/graphql/product/tests/test_bulk_delete.py:553: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_products_trigger_webhook" time="0.248" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_products_without_variants" time="0.294" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_products_removes_checkout_lines" time="0.425" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_products_with_file_attributes" time="0.289" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_products_variants_in_draft_order" time="0.281" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_product_media" time="0.154" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_product_types" time="0.136" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_product_types_invalid_object_typed_of_given_ids" time="0.105" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_product_types_with_file_attributes" time="0.306" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_product_variants" time="0.253" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_product_variants_invalid_object_typed_of_given_ids" time="0.178" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_product_variants_removes_checkout_lines" time="0.332" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_product_variants_with_images" time="0.266" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_product_delete_removes_reference_to_product" time="0.302" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_product_delete_removes_reference_to_product_variant" time="0.317" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_product_delete_removes_reference_to_page" time="0.243" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_product_variants_with_file_attribute" time="0.257" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_product_variants_in_draft_orders" time="0.290" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_product_variants_delete_default_variant" time="0.321" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_product_variants_delete_all_product_variants" time="0.242" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_product_variants_from_different_products" time="0.275" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_variants_delete_product_channel_listing_without_available_channel" time="0.280" /></testsuite></testsuites>

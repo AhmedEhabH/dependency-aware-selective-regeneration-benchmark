@@ -1,0 +1,1353 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="8" skipped="0" tests="24" time="5.863" timestamp="2026-09-24T19:57:31.144099+00:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_pages" name="test_products_query_with_attr_slug_and_attribute_value_reference_to_pages[scenario0-\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="1.315" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_pages" name="test_products_query_with_attr_slug_and_attribute_value_reference_to_pages[scenario0-\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.185" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_pages" name="test_products_query_with_attr_slug_and_attribute_value_reference_to_pages[scenario1-\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.204" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_pages" name="test_products_query_with_attr_slug_and_attribute_value_reference_to_pages[scenario1-\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.182" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_pages" name="test_products_query_with_attr_slug_and_attribute_value_reference_to_pages[scenario2-\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.170"><failure message="AssertionError: [{'message': &quot;Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.&quot;, 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">query = '\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $chann...dges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n'
+scenario = {'attr_fixture': 'product_type_page_single_reference_attribute', 'filter': 'containsAny', 'expected': 2, 'product_assignments': {'product_with_first_page': ['ref-1'], 'product_with_second_page': ['ref-2']}, ...}
+request = &lt;FixtureRequest for &lt;Function test_products_query_with_attr_slug_and_attribute_value_reference_to_pages[scenario2-\n  ...es {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]&gt;&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x79d9448ad0d0&gt;
+product_list = [&lt;saleor.product.models.Product(pk=14, name='Test product 1')&gt;, &lt;saleor.product.models.Product(pk=15, name='Test product 2')&gt;, &lt;saleor.product.models.Product(pk=16, name='Test product 3')&gt;]
+product_type = &lt;saleor.product.models.ProductType(pk=111, name='Default Type')&gt;
+page_type = &lt;PageType: PageType object (15)&gt;, channel_USD = &lt;Channel: main&gt;
+
+    @pytest.mark.parametrize("query", [PRODUCTS_WHERE_QUERY, PRODUCTS_FILTER_QUERY])
+    @pytest.mark.parametrize(
+        "scenario",
+        [
+            {
+                "attr_fixture": "product_type_page_reference_attribute",
+                "filter": "containsAny",
+                "expected": 2,
+                "product_assignments": {
+                    "product_with_both_pages": ["ref-1", "ref-2"],
+                    "product_with_second_page_only": ["ref-2"],
+                },
+                "search": ["ref-1", "ref-2"],
+            },
+            {
+                "attr_fixture": "product_type_page_reference_attribute",
+                "filter": "containsAll",
+                "expected": 1,
+                "product_assignments": {
+                    "product_with_both_pages": ["ref-1", "ref-2"],
+                    "product_with_second_page_only": ["ref-2"],
+                },
+                "search": ["ref-1", "ref-2"],
+            },
+            {
+                "attr_fixture": "product_type_page_single_reference_attribute",
+                "filter": "containsAny",
+                "expected": 2,
+                "product_assignments": {
+                    "product_with_first_page": ["ref-1"],
+                    "product_with_second_page": ["ref-2"],
+                },
+                "search": ["ref-1", "ref-2"],
+            },
+            {
+                "attr_fixture": "product_type_page_single_reference_attribute",
+                "filter": "containsAll",
+                "expected": 2,
+                "product_assignments": {
+                    "product_with_first_page": ["ref-1"],
+                    "product_second_overridden": ["ref-1"],
+                },
+                "search": ["ref-1"],
+            },
+        ],
+    )
+    def test_products_query_with_attr_slug_and_attribute_value_reference_to_pages(
+        query,
+        scenario,
+        request,
+        staff_api_client,
+        product_list,
+        product_type,
+        page_type,
+        channel_USD,
+    ):
+        # given
+        reference_attribute = request.getfixturevalue(scenario["attr_fixture"])
+        product_type.product_attributes.add(reference_attribute)
+    
+        ref_page_1, ref_page_2 = Page.objects.bulk_create(
+            [
+                Page(
+                    title="Reference Page 1",
+                    slug="ref-1",
+                    page_type=page_type,
+                    is_published=True,
+                ),
+                Page(
+                    title="Reference Page 2",
+                    slug="ref-2",
+                    page_type=page_type,
+                    is_published=True,
+                ),
+            ]
+        )
+    
+        attribute_values = AttributeValue.objects.bulk_create(
+            [
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Page {ref_page_1.pk}",
+                    slug=f"page-{ref_page_1.pk}",
+                    reference_page=ref_page_1,
+                ),
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Page {ref_page_2.pk}",
+                    slug=f"page-{ref_page_2.pk}",
+                    reference_page=ref_page_2,
+                ),
+            ]
+        )
+    
+        slug_to_value = {
+            ref_page_1.slug: attribute_values[0],
+            ref_page_2.slug: attribute_values[1],
+        }
+    
+        for product, slugs in zip(
+            product_list, scenario["product_assignments"].values(), strict=False
+        ):
+            associate_attribute_values_to_instance(
+                product,
+                {reference_attribute.pk: [slug_to_value[slug] for slug in slugs]},
+            )
+    
+        variables = {
+            "where": {
+                "attributes": [
+                    {
+                        "slug": reference_attribute.slug,
+                        "value": {
+                            "reference": {
+                                "pageSlugs": {scenario["filter"]: scenario["search"]}
+                            }
+                        },
+                    }
+                ]
+            },
+            "channel": channel_USD.slug,
+        }
+    
+        # when
+        response = staff_api_client.post_graphql(
+            query,
+            variables,
+        )
+    
+        # then
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/product/tests/queries/products_filtrations/test_over_references_pages.py:143: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+ignore_errors = False
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': "Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.", 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_pages" name="test_products_query_with_attr_slug_and_attribute_value_reference_to_pages[scenario2-\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.170"><failure message="AssertionError: [{'message': &quot;Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.&quot;, 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">query = '\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $cha...dges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n'
+scenario = {'attr_fixture': 'product_type_page_single_reference_attribute', 'filter': 'containsAny', 'expected': 2, 'product_assignments': {'product_with_first_page': ['ref-1'], 'product_with_second_page': ['ref-2']}, ...}
+request = &lt;FixtureRequest for &lt;Function test_products_query_with_attr_slug_and_attribute_value_reference_to_pages[scenario2-\n  ...es {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]&gt;&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x79d944914080&gt;
+product_list = [&lt;saleor.product.models.Product(pk=17, name='Test product 1')&gt;, &lt;saleor.product.models.Product(pk=18, name='Test product 2')&gt;, &lt;saleor.product.models.Product(pk=19, name='Test product 3')&gt;]
+product_type = &lt;saleor.product.models.ProductType(pk=112, name='Default Type')&gt;
+page_type = &lt;PageType: PageType object (16)&gt;, channel_USD = &lt;Channel: main&gt;
+
+    @pytest.mark.parametrize("query", [PRODUCTS_WHERE_QUERY, PRODUCTS_FILTER_QUERY])
+    @pytest.mark.parametrize(
+        "scenario",
+        [
+            {
+                "attr_fixture": "product_type_page_reference_attribute",
+                "filter": "containsAny",
+                "expected": 2,
+                "product_assignments": {
+                    "product_with_both_pages": ["ref-1", "ref-2"],
+                    "product_with_second_page_only": ["ref-2"],
+                },
+                "search": ["ref-1", "ref-2"],
+            },
+            {
+                "attr_fixture": "product_type_page_reference_attribute",
+                "filter": "containsAll",
+                "expected": 1,
+                "product_assignments": {
+                    "product_with_both_pages": ["ref-1", "ref-2"],
+                    "product_with_second_page_only": ["ref-2"],
+                },
+                "search": ["ref-1", "ref-2"],
+            },
+            {
+                "attr_fixture": "product_type_page_single_reference_attribute",
+                "filter": "containsAny",
+                "expected": 2,
+                "product_assignments": {
+                    "product_with_first_page": ["ref-1"],
+                    "product_with_second_page": ["ref-2"],
+                },
+                "search": ["ref-1", "ref-2"],
+            },
+            {
+                "attr_fixture": "product_type_page_single_reference_attribute",
+                "filter": "containsAll",
+                "expected": 2,
+                "product_assignments": {
+                    "product_with_first_page": ["ref-1"],
+                    "product_second_overridden": ["ref-1"],
+                },
+                "search": ["ref-1"],
+            },
+        ],
+    )
+    def test_products_query_with_attr_slug_and_attribute_value_reference_to_pages(
+        query,
+        scenario,
+        request,
+        staff_api_client,
+        product_list,
+        product_type,
+        page_type,
+        channel_USD,
+    ):
+        # given
+        reference_attribute = request.getfixturevalue(scenario["attr_fixture"])
+        product_type.product_attributes.add(reference_attribute)
+    
+        ref_page_1, ref_page_2 = Page.objects.bulk_create(
+            [
+                Page(
+                    title="Reference Page 1",
+                    slug="ref-1",
+                    page_type=page_type,
+                    is_published=True,
+                ),
+                Page(
+                    title="Reference Page 2",
+                    slug="ref-2",
+                    page_type=page_type,
+                    is_published=True,
+                ),
+            ]
+        )
+    
+        attribute_values = AttributeValue.objects.bulk_create(
+            [
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Page {ref_page_1.pk}",
+                    slug=f"page-{ref_page_1.pk}",
+                    reference_page=ref_page_1,
+                ),
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Page {ref_page_2.pk}",
+                    slug=f"page-{ref_page_2.pk}",
+                    reference_page=ref_page_2,
+                ),
+            ]
+        )
+    
+        slug_to_value = {
+            ref_page_1.slug: attribute_values[0],
+            ref_page_2.slug: attribute_values[1],
+        }
+    
+        for product, slugs in zip(
+            product_list, scenario["product_assignments"].values(), strict=False
+        ):
+            associate_attribute_values_to_instance(
+                product,
+                {reference_attribute.pk: [slug_to_value[slug] for slug in slugs]},
+            )
+    
+        variables = {
+            "where": {
+                "attributes": [
+                    {
+                        "slug": reference_attribute.slug,
+                        "value": {
+                            "reference": {
+                                "pageSlugs": {scenario["filter"]: scenario["search"]}
+                            }
+                        },
+                    }
+                ]
+            },
+            "channel": channel_USD.slug,
+        }
+    
+        # when
+        response = staff_api_client.post_graphql(
+            query,
+            variables,
+        )
+    
+        # then
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/product/tests/queries/products_filtrations/test_over_references_pages.py:143: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+ignore_errors = False
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': "Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.", 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_pages" name="test_products_query_with_attr_slug_and_attribute_value_reference_to_pages[scenario3-\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.165"><failure message="AssertionError: [{'message': &quot;Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.&quot;, 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">query = '\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $chann...dges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n'
+scenario = {'attr_fixture': 'product_type_page_single_reference_attribute', 'filter': 'containsAll', 'expected': 2, 'product_assignments': {'product_with_first_page': ['ref-1'], 'product_second_overridden': ['ref-1']}, ...}
+request = &lt;FixtureRequest for &lt;Function test_products_query_with_attr_slug_and_attribute_value_reference_to_pages[scenario3-\n  ...es {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]&gt;&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x79d9448e58e0&gt;
+product_list = [&lt;saleor.product.models.Product(pk=20, name='Test product 1')&gt;, &lt;saleor.product.models.Product(pk=21, name='Test product 2')&gt;, &lt;saleor.product.models.Product(pk=22, name='Test product 3')&gt;]
+product_type = &lt;saleor.product.models.ProductType(pk=113, name='Default Type')&gt;
+page_type = &lt;PageType: PageType object (17)&gt;, channel_USD = &lt;Channel: main&gt;
+
+    @pytest.mark.parametrize("query", [PRODUCTS_WHERE_QUERY, PRODUCTS_FILTER_QUERY])
+    @pytest.mark.parametrize(
+        "scenario",
+        [
+            {
+                "attr_fixture": "product_type_page_reference_attribute",
+                "filter": "containsAny",
+                "expected": 2,
+                "product_assignments": {
+                    "product_with_both_pages": ["ref-1", "ref-2"],
+                    "product_with_second_page_only": ["ref-2"],
+                },
+                "search": ["ref-1", "ref-2"],
+            },
+            {
+                "attr_fixture": "product_type_page_reference_attribute",
+                "filter": "containsAll",
+                "expected": 1,
+                "product_assignments": {
+                    "product_with_both_pages": ["ref-1", "ref-2"],
+                    "product_with_second_page_only": ["ref-2"],
+                },
+                "search": ["ref-1", "ref-2"],
+            },
+            {
+                "attr_fixture": "product_type_page_single_reference_attribute",
+                "filter": "containsAny",
+                "expected": 2,
+                "product_assignments": {
+                    "product_with_first_page": ["ref-1"],
+                    "product_with_second_page": ["ref-2"],
+                },
+                "search": ["ref-1", "ref-2"],
+            },
+            {
+                "attr_fixture": "product_type_page_single_reference_attribute",
+                "filter": "containsAll",
+                "expected": 2,
+                "product_assignments": {
+                    "product_with_first_page": ["ref-1"],
+                    "product_second_overridden": ["ref-1"],
+                },
+                "search": ["ref-1"],
+            },
+        ],
+    )
+    def test_products_query_with_attr_slug_and_attribute_value_reference_to_pages(
+        query,
+        scenario,
+        request,
+        staff_api_client,
+        product_list,
+        product_type,
+        page_type,
+        channel_USD,
+    ):
+        # given
+        reference_attribute = request.getfixturevalue(scenario["attr_fixture"])
+        product_type.product_attributes.add(reference_attribute)
+    
+        ref_page_1, ref_page_2 = Page.objects.bulk_create(
+            [
+                Page(
+                    title="Reference Page 1",
+                    slug="ref-1",
+                    page_type=page_type,
+                    is_published=True,
+                ),
+                Page(
+                    title="Reference Page 2",
+                    slug="ref-2",
+                    page_type=page_type,
+                    is_published=True,
+                ),
+            ]
+        )
+    
+        attribute_values = AttributeValue.objects.bulk_create(
+            [
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Page {ref_page_1.pk}",
+                    slug=f"page-{ref_page_1.pk}",
+                    reference_page=ref_page_1,
+                ),
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Page {ref_page_2.pk}",
+                    slug=f"page-{ref_page_2.pk}",
+                    reference_page=ref_page_2,
+                ),
+            ]
+        )
+    
+        slug_to_value = {
+            ref_page_1.slug: attribute_values[0],
+            ref_page_2.slug: attribute_values[1],
+        }
+    
+        for product, slugs in zip(
+            product_list, scenario["product_assignments"].values(), strict=False
+        ):
+            associate_attribute_values_to_instance(
+                product,
+                {reference_attribute.pk: [slug_to_value[slug] for slug in slugs]},
+            )
+    
+        variables = {
+            "where": {
+                "attributes": [
+                    {
+                        "slug": reference_attribute.slug,
+                        "value": {
+                            "reference": {
+                                "pageSlugs": {scenario["filter"]: scenario["search"]}
+                            }
+                        },
+                    }
+                ]
+            },
+            "channel": channel_USD.slug,
+        }
+    
+        # when
+        response = staff_api_client.post_graphql(
+            query,
+            variables,
+        )
+    
+        # then
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/product/tests/queries/products_filtrations/test_over_references_pages.py:143: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+ignore_errors = False
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': "Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.", 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_pages" name="test_products_query_with_attr_slug_and_attribute_value_reference_to_pages[scenario3-\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.165"><failure message="AssertionError: [{'message': &quot;Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.&quot;, 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">query = '\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $cha...dges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n'
+scenario = {'attr_fixture': 'product_type_page_single_reference_attribute', 'filter': 'containsAll', 'expected': 2, 'product_assignments': {'product_with_first_page': ['ref-1'], 'product_second_overridden': ['ref-1']}, ...}
+request = &lt;FixtureRequest for &lt;Function test_products_query_with_attr_slug_and_attribute_value_reference_to_pages[scenario3-\n  ...es {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]&gt;&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x79d9448e4a10&gt;
+product_list = [&lt;saleor.product.models.Product(pk=23, name='Test product 1')&gt;, &lt;saleor.product.models.Product(pk=24, name='Test product 2')&gt;, &lt;saleor.product.models.Product(pk=25, name='Test product 3')&gt;]
+product_type = &lt;saleor.product.models.ProductType(pk=114, name='Default Type')&gt;
+page_type = &lt;PageType: PageType object (18)&gt;, channel_USD = &lt;Channel: main&gt;
+
+    @pytest.mark.parametrize("query", [PRODUCTS_WHERE_QUERY, PRODUCTS_FILTER_QUERY])
+    @pytest.mark.parametrize(
+        "scenario",
+        [
+            {
+                "attr_fixture": "product_type_page_reference_attribute",
+                "filter": "containsAny",
+                "expected": 2,
+                "product_assignments": {
+                    "product_with_both_pages": ["ref-1", "ref-2"],
+                    "product_with_second_page_only": ["ref-2"],
+                },
+                "search": ["ref-1", "ref-2"],
+            },
+            {
+                "attr_fixture": "product_type_page_reference_attribute",
+                "filter": "containsAll",
+                "expected": 1,
+                "product_assignments": {
+                    "product_with_both_pages": ["ref-1", "ref-2"],
+                    "product_with_second_page_only": ["ref-2"],
+                },
+                "search": ["ref-1", "ref-2"],
+            },
+            {
+                "attr_fixture": "product_type_page_single_reference_attribute",
+                "filter": "containsAny",
+                "expected": 2,
+                "product_assignments": {
+                    "product_with_first_page": ["ref-1"],
+                    "product_with_second_page": ["ref-2"],
+                },
+                "search": ["ref-1", "ref-2"],
+            },
+            {
+                "attr_fixture": "product_type_page_single_reference_attribute",
+                "filter": "containsAll",
+                "expected": 2,
+                "product_assignments": {
+                    "product_with_first_page": ["ref-1"],
+                    "product_second_overridden": ["ref-1"],
+                },
+                "search": ["ref-1"],
+            },
+        ],
+    )
+    def test_products_query_with_attr_slug_and_attribute_value_reference_to_pages(
+        query,
+        scenario,
+        request,
+        staff_api_client,
+        product_list,
+        product_type,
+        page_type,
+        channel_USD,
+    ):
+        # given
+        reference_attribute = request.getfixturevalue(scenario["attr_fixture"])
+        product_type.product_attributes.add(reference_attribute)
+    
+        ref_page_1, ref_page_2 = Page.objects.bulk_create(
+            [
+                Page(
+                    title="Reference Page 1",
+                    slug="ref-1",
+                    page_type=page_type,
+                    is_published=True,
+                ),
+                Page(
+                    title="Reference Page 2",
+                    slug="ref-2",
+                    page_type=page_type,
+                    is_published=True,
+                ),
+            ]
+        )
+    
+        attribute_values = AttributeValue.objects.bulk_create(
+            [
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Page {ref_page_1.pk}",
+                    slug=f"page-{ref_page_1.pk}",
+                    reference_page=ref_page_1,
+                ),
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Page {ref_page_2.pk}",
+                    slug=f"page-{ref_page_2.pk}",
+                    reference_page=ref_page_2,
+                ),
+            ]
+        )
+    
+        slug_to_value = {
+            ref_page_1.slug: attribute_values[0],
+            ref_page_2.slug: attribute_values[1],
+        }
+    
+        for product, slugs in zip(
+            product_list, scenario["product_assignments"].values(), strict=False
+        ):
+            associate_attribute_values_to_instance(
+                product,
+                {reference_attribute.pk: [slug_to_value[slug] for slug in slugs]},
+            )
+    
+        variables = {
+            "where": {
+                "attributes": [
+                    {
+                        "slug": reference_attribute.slug,
+                        "value": {
+                            "reference": {
+                                "pageSlugs": {scenario["filter"]: scenario["search"]}
+                            }
+                        },
+                    }
+                ]
+            },
+            "channel": channel_USD.slug,
+        }
+    
+        # when
+        response = staff_api_client.post_graphql(
+            query,
+            variables,
+        )
+    
+        # then
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/product/tests/queries/products_filtrations/test_over_references_pages.py:143: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+ignore_errors = False
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': "Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.", 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_pages" name="test_products_query_with_attribute_value_reference_to_pages[product_type_page_reference_attribute-containsAny-2-\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.186" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_pages" name="test_products_query_with_attribute_value_reference_to_pages[product_type_page_reference_attribute-containsAny-2-\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.174" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_pages" name="test_products_query_with_attribute_value_reference_to_pages[product_type_page_reference_attribute-containsAll-1-\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.196" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_pages" name="test_products_query_with_attribute_value_reference_to_pages[product_type_page_reference_attribute-containsAll-1-\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.180" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_pages" name="test_products_query_with_attribute_value_reference_to_pages[product_type_page_single_reference_attribute-containsAny-2-\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.188" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_pages" name="test_products_query_with_attribute_value_reference_to_pages[product_type_page_single_reference_attribute-containsAny-2-\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.177" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_pages" name="test_products_query_with_attribute_value_reference_to_pages[product_type_page_single_reference_attribute-containsAll-1-\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.188" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_pages" name="test_products_query_with_attribute_value_reference_to_pages[product_type_page_single_reference_attribute-containsAll-1-\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.177" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_pages" name="test_products_query_with_attr_slug_and_attribute_value_referenced_page_ids[scenario0-\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.197" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_pages" name="test_products_query_with_attr_slug_and_attribute_value_referenced_page_ids[scenario0-\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.173" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_pages" name="test_products_query_with_attr_slug_and_attribute_value_referenced_page_ids[scenario1-\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.201" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_pages" name="test_products_query_with_attr_slug_and_attribute_value_referenced_page_ids[scenario1-\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.190" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_pages" name="test_products_query_with_attr_slug_and_attribute_value_referenced_page_ids[scenario2-\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.176"><failure message="AssertionError: [{'message': &quot;Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.&quot;, 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">query = '\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $chann...dges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n'
+scenario = {'attr_fixture': 'product_type_page_single_reference_attribute', 'filter': 'containsAny', 'expected': 3, 'product_assi...product_with_first_page': ['ref-1'], 'product_with_second_page': ['ref-2'], 'product_with_third_page': ['ref-3']}, ...}
+request = &lt;FixtureRequest for &lt;Function test_products_query_with_attr_slug_and_attribute_value_referenced_page_ids[scenario2-\n ...es {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]&gt;&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x79d9448f31d0&gt;
+product_list = [&lt;saleor.product.models.Product(pk=62, name='Test product 1')&gt;, &lt;saleor.product.models.Product(pk=63, name='Test product 2')&gt;, &lt;saleor.product.models.Product(pk=64, name='Test product 3')&gt;]
+product_type = &lt;saleor.product.models.ProductType(pk=127, name='Default Type')&gt;
+page_type = &lt;PageType: PageType object (31)&gt;, channel_USD = &lt;Channel: main&gt;
+
+    @pytest.mark.parametrize("query", [PRODUCTS_WHERE_QUERY, PRODUCTS_FILTER_QUERY])
+    @pytest.mark.parametrize(
+        "scenario",
+        [
+            {
+                "attr_fixture": "product_type_page_reference_attribute",
+                "filter": "containsAny",
+                "expected": 3,
+                "product_assignments": {
+                    "product_with_all_pages": ["ref-1", "ref-2", "ref-3"],
+                    "product_with_same_all_pages": ["ref-1", "ref-2", "ref-3"],
+                    "product_with_first_page_only": ["ref-1"],
+                },
+                "search": ["ref-1", "ref-2", "ref-3"],
+            },
+            {
+                "attr_fixture": "product_type_page_reference_attribute",
+                "filter": "containsAll",
+                "expected": 2,
+                "product_assignments": {
+                    "product_with_all_pages": ["ref-1", "ref-2", "ref-3"],
+                    "product_with_same_all_pages": ["ref-1", "ref-2", "ref-3"],
+                    "product_with_first_page_only": ["ref-1"],
+                },
+                "search": ["ref-1", "ref-2", "ref-3"],
+            },
+            {
+                "attr_fixture": "product_type_page_single_reference_attribute",
+                "filter": "containsAny",
+                "expected": 3,
+                "product_assignments": {
+                    "product_with_first_page": ["ref-1"],
+                    "product_with_second_page": ["ref-2"],
+                    "product_with_third_page": ["ref-3"],
+                },
+                "search": ["ref-1", "ref-2", "ref-3"],
+            },
+            {
+                "attr_fixture": "product_type_page_single_reference_attribute",
+                "filter": "containsAll",
+                "expected": 1,
+                "product_assignments": {
+                    "product_with_first_page": ["ref-1"],
+                    "product_with_second_page": ["ref-2"],
+                    "product_with_third_page": ["ref-3"],
+                },
+                "search": ["ref-1"],
+            },
+        ],
+    )
+    def test_products_query_with_attr_slug_and_attribute_value_referenced_page_ids(
+        query,
+        scenario,
+        request,
+        staff_api_client,
+        product_list,
+        product_type,
+        page_type,
+        channel_USD,
+    ):
+        # given
+        reference_attribute = request.getfixturevalue(scenario["attr_fixture"])
+        product_type.product_attributes.add(
+            reference_attribute,
+        )
+    
+        ref_page_1, ref_page_2, ref_page_3 = Page.objects.bulk_create(
+            [
+                Page(
+                    title="Reference Page 1",
+                    slug="ref-1",
+                    page_type=page_type,
+                    is_published=True,
+                ),
+                Page(
+                    title="Reference Page 2",
+                    slug="ref-2",
+                    page_type=page_type,
+                    is_published=True,
+                ),
+                Page(
+                    title="Reference Page 3",
+                    slug="ref-3",
+                    page_type=page_type,
+                    is_published=True,
+                ),
+            ]
+        )
+    
+        attr_values = AttributeValue.objects.bulk_create(
+            [
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Page {ref_page_1.pk}",
+                    slug=f"page-{ref_page_1.pk}",
+                    reference_page=ref_page_1,
+                ),
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Page {ref_page_2.pk}",
+                    slug=f"page-{ref_page_2.pk}",
+                    reference_page=ref_page_2,
+                ),
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Page {ref_page_3.pk}",
+                    slug=f"page-{ref_page_3.pk}",
+                    reference_page=ref_page_3,
+                ),
+            ]
+        )
+    
+        slug_to_value = {
+            ref_page_1.slug: attr_values[0],
+            ref_page_2.slug: attr_values[1],
+            ref_page_3.slug: attr_values[2],
+        }
+    
+        for product, slugs in zip(
+            product_list, scenario["product_assignments"].values(), strict=False
+        ):
+            associate_attribute_values_to_instance(
+                product,
+                {reference_attribute.pk: [slug_to_value[slug] for slug in slugs]},
+            )
+    
+        ref_lookup = {page.slug: page for page in [ref_page_1, ref_page_2, ref_page_3]}
+        search_ids = [to_global_id_or_none(ref_lookup[slug]) for slug in scenario["search"]]
+    
+        variables = {
+            "where": {
+                "attributes": [
+                    {
+                        "slug": reference_attribute.slug,
+                        "value": {
+                            "reference": {"referencedIds": {scenario["filter"]: search_ids}}
+                        },
+                    },
+                ]
+            },
+            "channel": channel_USD.slug,
+        }
+    
+        # when
+        response = staff_api_client.post_graphql(
+            query,
+            variables,
+        )
+    
+        # then
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/product/tests/queries/products_filtrations/test_over_references_pages.py:424: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+ignore_errors = False
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': "Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.", 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_pages" name="test_products_query_with_attr_slug_and_attribute_value_referenced_page_ids[scenario2-\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.176"><failure message="AssertionError: [{'message': &quot;Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.&quot;, 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">query = '\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $cha...dges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n'
+scenario = {'attr_fixture': 'product_type_page_single_reference_attribute', 'filter': 'containsAny', 'expected': 3, 'product_assi...product_with_first_page': ['ref-1'], 'product_with_second_page': ['ref-2'], 'product_with_third_page': ['ref-3']}, ...}
+request = &lt;FixtureRequest for &lt;Function test_products_query_with_attr_slug_and_attribute_value_referenced_page_ids[scenario2-\n ...es {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]&gt;&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x79d944734530&gt;
+product_list = [&lt;saleor.product.models.Product(pk=65, name='Test product 1')&gt;, &lt;saleor.product.models.Product(pk=66, name='Test product 2')&gt;, &lt;saleor.product.models.Product(pk=67, name='Test product 3')&gt;]
+product_type = &lt;saleor.product.models.ProductType(pk=128, name='Default Type')&gt;
+page_type = &lt;PageType: PageType object (32)&gt;, channel_USD = &lt;Channel: main&gt;
+
+    @pytest.mark.parametrize("query", [PRODUCTS_WHERE_QUERY, PRODUCTS_FILTER_QUERY])
+    @pytest.mark.parametrize(
+        "scenario",
+        [
+            {
+                "attr_fixture": "product_type_page_reference_attribute",
+                "filter": "containsAny",
+                "expected": 3,
+                "product_assignments": {
+                    "product_with_all_pages": ["ref-1", "ref-2", "ref-3"],
+                    "product_with_same_all_pages": ["ref-1", "ref-2", "ref-3"],
+                    "product_with_first_page_only": ["ref-1"],
+                },
+                "search": ["ref-1", "ref-2", "ref-3"],
+            },
+            {
+                "attr_fixture": "product_type_page_reference_attribute",
+                "filter": "containsAll",
+                "expected": 2,
+                "product_assignments": {
+                    "product_with_all_pages": ["ref-1", "ref-2", "ref-3"],
+                    "product_with_same_all_pages": ["ref-1", "ref-2", "ref-3"],
+                    "product_with_first_page_only": ["ref-1"],
+                },
+                "search": ["ref-1", "ref-2", "ref-3"],
+            },
+            {
+                "attr_fixture": "product_type_page_single_reference_attribute",
+                "filter": "containsAny",
+                "expected": 3,
+                "product_assignments": {
+                    "product_with_first_page": ["ref-1"],
+                    "product_with_second_page": ["ref-2"],
+                    "product_with_third_page": ["ref-3"],
+                },
+                "search": ["ref-1", "ref-2", "ref-3"],
+            },
+            {
+                "attr_fixture": "product_type_page_single_reference_attribute",
+                "filter": "containsAll",
+                "expected": 1,
+                "product_assignments": {
+                    "product_with_first_page": ["ref-1"],
+                    "product_with_second_page": ["ref-2"],
+                    "product_with_third_page": ["ref-3"],
+                },
+                "search": ["ref-1"],
+            },
+        ],
+    )
+    def test_products_query_with_attr_slug_and_attribute_value_referenced_page_ids(
+        query,
+        scenario,
+        request,
+        staff_api_client,
+        product_list,
+        product_type,
+        page_type,
+        channel_USD,
+    ):
+        # given
+        reference_attribute = request.getfixturevalue(scenario["attr_fixture"])
+        product_type.product_attributes.add(
+            reference_attribute,
+        )
+    
+        ref_page_1, ref_page_2, ref_page_3 = Page.objects.bulk_create(
+            [
+                Page(
+                    title="Reference Page 1",
+                    slug="ref-1",
+                    page_type=page_type,
+                    is_published=True,
+                ),
+                Page(
+                    title="Reference Page 2",
+                    slug="ref-2",
+                    page_type=page_type,
+                    is_published=True,
+                ),
+                Page(
+                    title="Reference Page 3",
+                    slug="ref-3",
+                    page_type=page_type,
+                    is_published=True,
+                ),
+            ]
+        )
+    
+        attr_values = AttributeValue.objects.bulk_create(
+            [
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Page {ref_page_1.pk}",
+                    slug=f"page-{ref_page_1.pk}",
+                    reference_page=ref_page_1,
+                ),
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Page {ref_page_2.pk}",
+                    slug=f"page-{ref_page_2.pk}",
+                    reference_page=ref_page_2,
+                ),
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Page {ref_page_3.pk}",
+                    slug=f"page-{ref_page_3.pk}",
+                    reference_page=ref_page_3,
+                ),
+            ]
+        )
+    
+        slug_to_value = {
+            ref_page_1.slug: attr_values[0],
+            ref_page_2.slug: attr_values[1],
+            ref_page_3.slug: attr_values[2],
+        }
+    
+        for product, slugs in zip(
+            product_list, scenario["product_assignments"].values(), strict=False
+        ):
+            associate_attribute_values_to_instance(
+                product,
+                {reference_attribute.pk: [slug_to_value[slug] for slug in slugs]},
+            )
+    
+        ref_lookup = {page.slug: page for page in [ref_page_1, ref_page_2, ref_page_3]}
+        search_ids = [to_global_id_or_none(ref_lookup[slug]) for slug in scenario["search"]]
+    
+        variables = {
+            "where": {
+                "attributes": [
+                    {
+                        "slug": reference_attribute.slug,
+                        "value": {
+                            "reference": {"referencedIds": {scenario["filter"]: search_ids}}
+                        },
+                    },
+                ]
+            },
+            "channel": channel_USD.slug,
+        }
+    
+        # when
+        response = staff_api_client.post_graphql(
+            query,
+            variables,
+        )
+    
+        # then
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/product/tests/queries/products_filtrations/test_over_references_pages.py:424: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+ignore_errors = False
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': "Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.", 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_pages" name="test_products_query_with_attr_slug_and_attribute_value_referenced_page_ids[scenario3-\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.181"><failure message="AssertionError: [{'message': &quot;Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.&quot;, 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">query = '\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $chann...dges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n'
+scenario = {'attr_fixture': 'product_type_page_single_reference_attribute', 'filter': 'containsAll', 'expected': 1, 'product_assi...product_with_first_page': ['ref-1'], 'product_with_second_page': ['ref-2'], 'product_with_third_page': ['ref-3']}, ...}
+request = &lt;FixtureRequest for &lt;Function test_products_query_with_attr_slug_and_attribute_value_referenced_page_ids[scenario3-\n ...es {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]&gt;&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x79d944917680&gt;
+product_list = [&lt;saleor.product.models.Product(pk=68, name='Test product 1')&gt;, &lt;saleor.product.models.Product(pk=69, name='Test product 2')&gt;, &lt;saleor.product.models.Product(pk=70, name='Test product 3')&gt;]
+product_type = &lt;saleor.product.models.ProductType(pk=129, name='Default Type')&gt;
+page_type = &lt;PageType: PageType object (33)&gt;, channel_USD = &lt;Channel: main&gt;
+
+    @pytest.mark.parametrize("query", [PRODUCTS_WHERE_QUERY, PRODUCTS_FILTER_QUERY])
+    @pytest.mark.parametrize(
+        "scenario",
+        [
+            {
+                "attr_fixture": "product_type_page_reference_attribute",
+                "filter": "containsAny",
+                "expected": 3,
+                "product_assignments": {
+                    "product_with_all_pages": ["ref-1", "ref-2", "ref-3"],
+                    "product_with_same_all_pages": ["ref-1", "ref-2", "ref-3"],
+                    "product_with_first_page_only": ["ref-1"],
+                },
+                "search": ["ref-1", "ref-2", "ref-3"],
+            },
+            {
+                "attr_fixture": "product_type_page_reference_attribute",
+                "filter": "containsAll",
+                "expected": 2,
+                "product_assignments": {
+                    "product_with_all_pages": ["ref-1", "ref-2", "ref-3"],
+                    "product_with_same_all_pages": ["ref-1", "ref-2", "ref-3"],
+                    "product_with_first_page_only": ["ref-1"],
+                },
+                "search": ["ref-1", "ref-2", "ref-3"],
+            },
+            {
+                "attr_fixture": "product_type_page_single_reference_attribute",
+                "filter": "containsAny",
+                "expected": 3,
+                "product_assignments": {
+                    "product_with_first_page": ["ref-1"],
+                    "product_with_second_page": ["ref-2"],
+                    "product_with_third_page": ["ref-3"],
+                },
+                "search": ["ref-1", "ref-2", "ref-3"],
+            },
+            {
+                "attr_fixture": "product_type_page_single_reference_attribute",
+                "filter": "containsAll",
+                "expected": 1,
+                "product_assignments": {
+                    "product_with_first_page": ["ref-1"],
+                    "product_with_second_page": ["ref-2"],
+                    "product_with_third_page": ["ref-3"],
+                },
+                "search": ["ref-1"],
+            },
+        ],
+    )
+    def test_products_query_with_attr_slug_and_attribute_value_referenced_page_ids(
+        query,
+        scenario,
+        request,
+        staff_api_client,
+        product_list,
+        product_type,
+        page_type,
+        channel_USD,
+    ):
+        # given
+        reference_attribute = request.getfixturevalue(scenario["attr_fixture"])
+        product_type.product_attributes.add(
+            reference_attribute,
+        )
+    
+        ref_page_1, ref_page_2, ref_page_3 = Page.objects.bulk_create(
+            [
+                Page(
+                    title="Reference Page 1",
+                    slug="ref-1",
+                    page_type=page_type,
+                    is_published=True,
+                ),
+                Page(
+                    title="Reference Page 2",
+                    slug="ref-2",
+                    page_type=page_type,
+                    is_published=True,
+                ),
+                Page(
+                    title="Reference Page 3",
+                    slug="ref-3",
+                    page_type=page_type,
+                    is_published=True,
+                ),
+            ]
+        )
+    
+        attr_values = AttributeValue.objects.bulk_create(
+            [
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Page {ref_page_1.pk}",
+                    slug=f"page-{ref_page_1.pk}",
+                    reference_page=ref_page_1,
+                ),
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Page {ref_page_2.pk}",
+                    slug=f"page-{ref_page_2.pk}",
+                    reference_page=ref_page_2,
+                ),
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Page {ref_page_3.pk}",
+                    slug=f"page-{ref_page_3.pk}",
+                    reference_page=ref_page_3,
+                ),
+            ]
+        )
+    
+        slug_to_value = {
+            ref_page_1.slug: attr_values[0],
+            ref_page_2.slug: attr_values[1],
+            ref_page_3.slug: attr_values[2],
+        }
+    
+        for product, slugs in zip(
+            product_list, scenario["product_assignments"].values(), strict=False
+        ):
+            associate_attribute_values_to_instance(
+                product,
+                {reference_attribute.pk: [slug_to_value[slug] for slug in slugs]},
+            )
+    
+        ref_lookup = {page.slug: page for page in [ref_page_1, ref_page_2, ref_page_3]}
+        search_ids = [to_global_id_or_none(ref_lookup[slug]) for slug in scenario["search"]]
+    
+        variables = {
+            "where": {
+                "attributes": [
+                    {
+                        "slug": reference_attribute.slug,
+                        "value": {
+                            "reference": {"referencedIds": {scenario["filter"]: search_ids}}
+                        },
+                    },
+                ]
+            },
+            "channel": channel_USD.slug,
+        }
+    
+        # when
+        response = staff_api_client.post_graphql(
+            query,
+            variables,
+        )
+    
+        # then
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/product/tests/queries/products_filtrations/test_over_references_pages.py:424: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+ignore_errors = False
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': "Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.", 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_pages" name="test_products_query_with_attr_slug_and_attribute_value_referenced_page_ids[scenario3-\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.174"><failure message="AssertionError: [{'message': &quot;Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.&quot;, 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">query = '\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $cha...dges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n'
+scenario = {'attr_fixture': 'product_type_page_single_reference_attribute', 'filter': 'containsAll', 'expected': 1, 'product_assi...product_with_first_page': ['ref-1'], 'product_with_second_page': ['ref-2'], 'product_with_third_page': ['ref-3']}, ...}
+request = &lt;FixtureRequest for &lt;Function test_products_query_with_attr_slug_and_attribute_value_referenced_page_ids[scenario3-\n ...es {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]&gt;&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x79d9448e6120&gt;
+product_list = [&lt;saleor.product.models.Product(pk=71, name='Test product 1')&gt;, &lt;saleor.product.models.Product(pk=72, name='Test product 2')&gt;, &lt;saleor.product.models.Product(pk=73, name='Test product 3')&gt;]
+product_type = &lt;saleor.product.models.ProductType(pk=130, name='Default Type')&gt;
+page_type = &lt;PageType: PageType object (34)&gt;, channel_USD = &lt;Channel: main&gt;
+
+    @pytest.mark.parametrize("query", [PRODUCTS_WHERE_QUERY, PRODUCTS_FILTER_QUERY])
+    @pytest.mark.parametrize(
+        "scenario",
+        [
+            {
+                "attr_fixture": "product_type_page_reference_attribute",
+                "filter": "containsAny",
+                "expected": 3,
+                "product_assignments": {
+                    "product_with_all_pages": ["ref-1", "ref-2", "ref-3"],
+                    "product_with_same_all_pages": ["ref-1", "ref-2", "ref-3"],
+                    "product_with_first_page_only": ["ref-1"],
+                },
+                "search": ["ref-1", "ref-2", "ref-3"],
+            },
+            {
+                "attr_fixture": "product_type_page_reference_attribute",
+                "filter": "containsAll",
+                "expected": 2,
+                "product_assignments": {
+                    "product_with_all_pages": ["ref-1", "ref-2", "ref-3"],
+                    "product_with_same_all_pages": ["ref-1", "ref-2", "ref-3"],
+                    "product_with_first_page_only": ["ref-1"],
+                },
+                "search": ["ref-1", "ref-2", "ref-3"],
+            },
+            {
+                "attr_fixture": "product_type_page_single_reference_attribute",
+                "filter": "containsAny",
+                "expected": 3,
+                "product_assignments": {
+                    "product_with_first_page": ["ref-1"],
+                    "product_with_second_page": ["ref-2"],
+                    "product_with_third_page": ["ref-3"],
+                },
+                "search": ["ref-1", "ref-2", "ref-3"],
+            },
+            {
+                "attr_fixture": "product_type_page_single_reference_attribute",
+                "filter": "containsAll",
+                "expected": 1,
+                "product_assignments": {
+                    "product_with_first_page": ["ref-1"],
+                    "product_with_second_page": ["ref-2"],
+                    "product_with_third_page": ["ref-3"],
+                },
+                "search": ["ref-1"],
+            },
+        ],
+    )
+    def test_products_query_with_attr_slug_and_attribute_value_referenced_page_ids(
+        query,
+        scenario,
+        request,
+        staff_api_client,
+        product_list,
+        product_type,
+        page_type,
+        channel_USD,
+    ):
+        # given
+        reference_attribute = request.getfixturevalue(scenario["attr_fixture"])
+        product_type.product_attributes.add(
+            reference_attribute,
+        )
+    
+        ref_page_1, ref_page_2, ref_page_3 = Page.objects.bulk_create(
+            [
+                Page(
+                    title="Reference Page 1",
+                    slug="ref-1",
+                    page_type=page_type,
+                    is_published=True,
+                ),
+                Page(
+                    title="Reference Page 2",
+                    slug="ref-2",
+                    page_type=page_type,
+                    is_published=True,
+                ),
+                Page(
+                    title="Reference Page 3",
+                    slug="ref-3",
+                    page_type=page_type,
+                    is_published=True,
+                ),
+            ]
+        )
+    
+        attr_values = AttributeValue.objects.bulk_create(
+            [
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Page {ref_page_1.pk}",
+                    slug=f"page-{ref_page_1.pk}",
+                    reference_page=ref_page_1,
+                ),
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Page {ref_page_2.pk}",
+                    slug=f"page-{ref_page_2.pk}",
+                    reference_page=ref_page_2,
+                ),
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Page {ref_page_3.pk}",
+                    slug=f"page-{ref_page_3.pk}",
+                    reference_page=ref_page_3,
+                ),
+            ]
+        )
+    
+        slug_to_value = {
+            ref_page_1.slug: attr_values[0],
+            ref_page_2.slug: attr_values[1],
+            ref_page_3.slug: attr_values[2],
+        }
+    
+        for product, slugs in zip(
+            product_list, scenario["product_assignments"].values(), strict=False
+        ):
+            associate_attribute_values_to_instance(
+                product,
+                {reference_attribute.pk: [slug_to_value[slug] for slug in slugs]},
+            )
+    
+        ref_lookup = {page.slug: page for page in [ref_page_1, ref_page_2, ref_page_3]}
+        search_ids = [to_global_id_or_none(ref_lookup[slug]) for slug in scenario["search"]]
+    
+        variables = {
+            "where": {
+                "attributes": [
+                    {
+                        "slug": reference_attribute.slug,
+                        "value": {
+                            "reference": {"referencedIds": {scenario["filter"]: search_ids}}
+                        },
+                    },
+                ]
+            },
+            "channel": channel_USD.slug,
+        }
+    
+        # when
+        response = staff_api_client.post_graphql(
+            query,
+            variables,
+        )
+    
+        # then
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/product/tests/queries/products_filtrations/test_over_references_pages.py:424: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+ignore_errors = False
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': "Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.", 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase></testsuite></testsuites>

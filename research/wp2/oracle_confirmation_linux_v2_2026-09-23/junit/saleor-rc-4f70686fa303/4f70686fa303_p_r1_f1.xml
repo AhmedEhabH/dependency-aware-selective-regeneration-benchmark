@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="6" time="2.684" timestamp="2026-09-24T17:13:38.024856-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.giftcard.tests.mutations.test_gift_card_resend" name="test_resend_gift_card" time="1.684" /><testcase classname="saleor.graphql.giftcard.tests.mutations.test_gift_card_resend" name="test_resend_gift_card_as_app" time="0.059" /><testcase classname="saleor.graphql.giftcard.tests.mutations.test_gift_card_resend" name="test_update_gift_card_no_permission" time="0.120" /><testcase classname="saleor.graphql.giftcard.tests.mutations.test_gift_card_resend" name="test_resend_gift_card_malformed_email" time="0.140" /><testcase classname="saleor.graphql.giftcard.tests.mutations.test_gift_card_resend" name="test_resend_gift_card_triggers_gift_card_sent_event" time="0.242"><failure message="AttributeError: type object 'WebhookEventAsyncType' has no attribute 'GIFT_CARD_SENT'">mocked_webhook_trigger = &lt;MagicMock name='trigger_webhooks_async' id='140714505428800'&gt;
+mocked_get_webhooks_for_event = &lt;MagicMock name='get_webhooks_for_event' id='140714523652928'&gt;
+any_webhook = &lt;Webhook: Any webhook&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7ffaa61d93a0&gt;
+gift_card = &lt;GiftCard: GiftCard object (34)&gt;, channel_USD = &lt;Channel: main&gt;
+permission_manage_gift_card = &lt;Permission: giftcard | gift card | Manage gift cards.&gt;
+permission_manage_users = &lt;Permission: account | user | Manage customers.&gt;
+permission_manage_apps = &lt;Permission: app | app | Manage apps&gt;
+settings = &lt;pytest_django.fixtures.SettingsWrapper object at 0x7ffaa61d0610&gt;
+
+    @freeze_time("2022-05-12 12:00:00")
+    @mock.patch("saleor.plugins.webhook.plugin.get_webhooks_for_event")
+    @mock.patch("saleor.plugins.webhook.plugin.trigger_webhooks_async")
+    def test_resend_gift_card_triggers_gift_card_sent_event(
+        mocked_webhook_trigger,
+        mocked_get_webhooks_for_event,
+        any_webhook,
+        staff_api_client,
+        gift_card,
+        channel_USD,
+        permission_manage_gift_card,
+        permission_manage_users,
+        permission_manage_apps,
+        settings,
+    ):
+        # given
+        mocked_get_webhooks_for_event.return_value = [any_webhook]
+        settings.PLUGINS = ["saleor.plugins.webhook.plugin.WebhookPlugin"]
+    
+        email = "gift_card_receiver@example.com"
+        variables = {
+            "input": {
+                "id": graphene.Node.to_global_id("GiftCard", gift_card.pk),
+                "email": email,
+                "channel": channel_USD.slug,
+            }
+        }
+    
+        # when
+        response = staff_api_client.post_graphql(
+            GIFT_CARD_RESEND_MUTATION,
+            variables,
+            permissions=[
+                permission_manage_gift_card,
+                permission_manage_users,
+                permission_manage_apps,
+            ],
+        )
+    
+        # then
+        content = get_graphql_content(response)
+        data = content["data"]["giftCardResend"]["giftCard"]
+        errors = content["data"]["giftCardResend"]["errors"]
+    
+        assert not errors
+        assert data
+    
+        mocked_webhook_trigger.assert_any_call(
+            json.dumps(
+                {
+                    "id": graphene.Node.to_global_id("GiftCard", gift_card.id),
+                    "is_active": gift_card.is_active,
+                    "channel_slug": channel_USD.slug,
+                    "sent_to_email": email,
+                    "meta": generate_meta(
+                        requestor_data=generate_requestor(
+                            SimpleLazyObject(lambda: staff_api_client.user)
+                        )
+                    ),
+                },
+                cls=CustomJsonEncoder,
+            ),
+&gt;           WebhookEventAsyncType.GIFT_CARD_SENT,
+            [any_webhook],
+            {
+                "gift_card": gift_card,
+                "channel_slug": channel_USD.slug,
+                "sent_to_email": email,
+            },
+            SimpleLazyObject(lambda: staff_api_client.user),
+        )
+E       AttributeError: type object 'WebhookEventAsyncType' has no attribute 'GIFT_CARD_SENT'
+
+saleor/graphql/giftcard/tests/mutations/test_gift_card_resend.py:287: AttributeError</failure></testcase><testcase classname="saleor.graphql.giftcard.tests.mutations.test_gift_card_resend" name="test_resend_gift_card_expired_card" time="0.134" /></testsuite></testsuites>

@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="4" failures="0" skipped="0" tests="4" time="6.111" timestamp="2026-09-24T19:23:14.964395-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.core.tests.test_scalars" name="test_uuid_scalar_value_passed_as_variable" time="4.052"><error message="failed on setup with &quot;OSError: [Errno 24] Too many open files&quot;">request = &lt;SubRequest 'django_db_setup' for &lt;Function test_uuid_scalar_value_passed_as_variable&gt;&gt;
+django_test_environment = None
+django_db_blocker = &lt;pytest_django.plugin.DjangoDbBlocker object at 0x770f0be9fbb0&gt;
+django_db_use_migrations = True, django_db_keepdb = True
+django_db_createdb = False, django_db_modify_db_settings = None
+
+    @pytest.fixture(scope="session")
+    def django_db_setup(
+        request: pytest.FixtureRequest,
+        django_test_environment: None,
+        django_db_blocker: DjangoDbBlocker,
+        django_db_use_migrations: bool,
+        django_db_keepdb: bool,
+        django_db_createdb: bool,
+        django_db_modify_db_settings: None,
+    ) -&gt; Generator[None, None, None]:
+        """Top level fixture to ensure test databases are available"""
+        from django.test.utils import setup_databases, teardown_databases
+    
+        setup_databases_args = {}
+    
+        if not django_db_use_migrations:
+            _disable_migrations()
+    
+        if django_db_keepdb and not django_db_createdb:
+            setup_databases_args["keepdb"] = True
+    
+        aliases, serialized_aliases = _get_databases_for_setup(request.session.items)
+    
+        with django_db_blocker.unblock():
+&gt;           db_cfg = setup_databases(
+                verbosity=request.config.option.verbose,
+                interactive=False,
+                aliases=aliases,
+                serialized_aliases=serialized_aliases,
+                **setup_databases_args,
+            )
+
+/opt/venv/lib/python3.8/site-packages/pytest_django/fixtures.py:198: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.8/site-packages/django/test/utils.py:170: in setup_databases
+    connection.creation.create_test_db(
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/creation.py:72: in create_test_db
+    call_command(
+/opt/venv/lib/python3.8/site-packages/django/core/management/__init__.py:168: in call_command
+    return command.execute(*args, **defaults)
+/opt/venv/lib/python3.8/site-packages/django/core/management/base.py:371: in execute
+    output = self.handle(*args, **options)
+/opt/venv/lib/python3.8/site-packages/django/core/management/base.py:85: in wrapped
+    res = handle_func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/core/management/commands/migrate.py:267: in handle
+    emit_post_migrate_signal(
+/opt/venv/lib/python3.8/site-packages/django/core/management/sql.py:48: in emit_post_migrate_signal
+    models.signals.post_migrate.send(
+/opt/venv/lib/python3.8/site-packages/django/dispatch/dispatcher.py:177: in send
+    return [
+/opt/venv/lib/python3.8/site-packages/django/dispatch/dispatcher.py:178: in &lt;listcomp&gt;
+    (receiver, receiver(signal=self, sender=sender, **named))
+/opt/venv/lib/python3.8/site-packages/django/contrib/auth/management/__init__.py:63: in create_permissions
+    ctype = ContentType.objects.db_manager(using).get_for_model(klass, for_concrete_model=False)
+/opt/venv/lib/python3.8/site-packages/django/contrib/contenttypes/models.py:51: in get_for_model
+    ct = self.get(app_label=opts.app_label, model=opts.model_name)
+/opt/venv/lib/python3.8/site-packages/django/db/models/manager.py:85: in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/models/query.py:425: in get
+    num = len(clone)
+/opt/venv/lib/python3.8/site-packages/django/db/models/query.py:269: in __len__
+    self._fetch_all()
+/opt/venv/lib/python3.8/site-packages/django/db/models/query.py:1308: in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+/opt/venv/lib/python3.8/site-packages/django/db/models/query.py:53: in __iter__
+    results = compiler.execute_sql(chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size)
+/opt/venv/lib/python3.8/site-packages/django/db/models/sql/compiler.py:1154: in execute_sql
+    cursor = self.connection.cursor()
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:259: in cursor
+    return self._cursor()
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:235: in _cursor
+    self.ensure_connection()
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:19: in inner
+    event_loop = asyncio.get_event_loop()
+/usr/local/lib/python3.8/asyncio/events.py:636: in get_event_loop
+    self.set_event_loop(self.new_event_loop())
+/usr/local/lib/python3.8/asyncio/events.py:656: in new_event_loop
+    return self._loop_factory()
+/usr/local/lib/python3.8/asyncio/unix_events.py:54: in __init__
+    super().__init__(selector)
+/usr/local/lib/python3.8/asyncio/selector_events.py:61: in __init__
+    self._make_self_pipe()
+/usr/local/lib/python3.8/asyncio/selector_events.py:108: in _make_self_pipe
+    self._ssock, self._csock = socket.socketpair()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+family = &lt;AddressFamily.AF_UNIX: 1&gt;, type = &lt;SocketKind.SOCK_STREAM: 1&gt;
+proto = 0
+
+    def socketpair(family=None, type=SOCK_STREAM, proto=0):
+        if family is None:
+            try:
+                family = AF_UNIX
+            except NameError:
+                family = AF_INET
+&gt;       a, b = _socket.socketpair(family, type, proto)
+E       OSError: [Errno 24] Too many open files
+
+/usr/local/lib/python3.8/socket.py:620: OSError</error></testcase><testcase classname="saleor.graphql.core.tests.test_scalars" name="test_uuid_scalar_wrong_value_passed_as_variable" time="0.001"><error message="failed on setup with &quot;OSError: [Errno 24] Too many open files&quot;">request = &lt;SubRequest 'django_db_setup' for &lt;Function test_uuid_scalar_value_passed_as_variable&gt;&gt;
+django_test_environment = None
+django_db_blocker = &lt;pytest_django.plugin.DjangoDbBlocker object at 0x770f0be9fbb0&gt;
+django_db_use_migrations = True, django_db_keepdb = True
+django_db_createdb = False, django_db_modify_db_settings = None
+
+    @pytest.fixture(scope="session")
+    def django_db_setup(
+        request: pytest.FixtureRequest,
+        django_test_environment: None,
+        django_db_blocker: DjangoDbBlocker,
+        django_db_use_migrations: bool,
+        django_db_keepdb: bool,
+        django_db_createdb: bool,
+        django_db_modify_db_settings: None,
+    ) -&gt; Generator[None, None, None]:
+        """Top level fixture to ensure test databases are available"""
+        from django.test.utils import setup_databases, teardown_databases
+    
+        setup_databases_args = {}
+    
+        if not django_db_use_migrations:
+            _disable_migrations()
+    
+        if django_db_keepdb and not django_db_createdb:
+            setup_databases_args["keepdb"] = True
+    
+        aliases, serialized_aliases = _get_databases_for_setup(request.session.items)
+    
+        with django_db_blocker.unblock():
+&gt;           db_cfg = setup_databases(
+                verbosity=request.config.option.verbose,
+                interactive=False,
+                aliases=aliases,
+                serialized_aliases=serialized_aliases,
+                **setup_databases_args,
+            )
+
+/opt/venv/lib/python3.8/site-packages/pytest_django/fixtures.py:198: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.8/site-packages/django/test/utils.py:170: in setup_databases
+    connection.creation.create_test_db(
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/creation.py:72: in create_test_db
+    call_command(
+/opt/venv/lib/python3.8/site-packages/django/core/management/__init__.py:168: in call_command
+    return command.execute(*args, **defaults)
+/opt/venv/lib/python3.8/site-packages/django/core/management/base.py:371: in execute
+    output = self.handle(*args, **options)
+/opt/venv/lib/python3.8/site-packages/django/core/management/base.py:85: in wrapped
+    res = handle_func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/core/management/commands/migrate.py:267: in handle
+    emit_post_migrate_signal(
+/opt/venv/lib/python3.8/site-packages/django/core/management/sql.py:48: in emit_post_migrate_signal
+    models.signals.post_migrate.send(
+/opt/venv/lib/python3.8/site-packages/django/dispatch/dispatcher.py:177: in send
+    return [
+/opt/venv/lib/python3.8/site-packages/django/dispatch/dispatcher.py:178: in &lt;listcomp&gt;
+    (receiver, receiver(signal=self, sender=sender, **named))
+/opt/venv/lib/python3.8/site-packages/django/contrib/auth/management/__init__.py:63: in create_permissions
+    ctype = ContentType.objects.db_manager(using).get_for_model(klass, for_concrete_model=False)
+/opt/venv/lib/python3.8/site-packages/django/contrib/contenttypes/models.py:51: in get_for_model
+    ct = self.get(app_label=opts.app_label, model=opts.model_name)
+/opt/venv/lib/python3.8/site-packages/django/db/models/manager.py:85: in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/models/query.py:425: in get
+    num = len(clone)
+/opt/venv/lib/python3.8/site-packages/django/db/models/query.py:269: in __len__
+    self._fetch_all()
+/opt/venv/lib/python3.8/site-packages/django/db/models/query.py:1308: in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+/opt/venv/lib/python3.8/site-packages/django/db/models/query.py:53: in __iter__
+    results = compiler.execute_sql(chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size)
+/opt/venv/lib/python3.8/site-packages/django/db/models/sql/compiler.py:1154: in execute_sql
+    cursor = self.connection.cursor()
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:259: in cursor
+    return self._cursor()
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:235: in _cursor
+    self.ensure_connection()
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:19: in inner
+    event_loop = asyncio.get_event_loop()
+/usr/local/lib/python3.8/asyncio/events.py:636: in get_event_loop
+    self.set_event_loop(self.new_event_loop())
+/usr/local/lib/python3.8/asyncio/events.py:656: in new_event_loop
+    return self._loop_factory()
+/usr/local/lib/python3.8/asyncio/unix_events.py:54: in __init__
+    super().__init__(selector)
+/usr/local/lib/python3.8/asyncio/selector_events.py:61: in __init__
+    self._make_self_pipe()
+/usr/local/lib/python3.8/asyncio/selector_events.py:108: in _make_self_pipe
+    self._ssock, self._csock = socket.socketpair()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+family = &lt;AddressFamily.AF_UNIX: 1&gt;, type = &lt;SocketKind.SOCK_STREAM: 1&gt;
+proto = 0
+
+    def socketpair(family=None, type=SOCK_STREAM, proto=0):
+        if family is None:
+            try:
+                family = AF_UNIX
+            except NameError:
+                family = AF_INET
+&gt;       a, b = _socket.socketpair(family, type, proto)
+E       OSError: [Errno 24] Too many open files
+
+/usr/local/lib/python3.8/socket.py:620: OSError</error></testcase><testcase classname="saleor.graphql.core.tests.test_scalars" name="test_uuid_scalar_value_passed_in_input" time="0.001"><error message="failed on setup with &quot;OSError: [Errno 24] Too many open files&quot;">request = &lt;SubRequest 'django_db_setup' for &lt;Function test_uuid_scalar_value_passed_as_variable&gt;&gt;
+django_test_environment = None
+django_db_blocker = &lt;pytest_django.plugin.DjangoDbBlocker object at 0x770f0be9fbb0&gt;
+django_db_use_migrations = True, django_db_keepdb = True
+django_db_createdb = False, django_db_modify_db_settings = None
+
+    @pytest.fixture(scope="session")
+    def django_db_setup(
+        request: pytest.FixtureRequest,
+        django_test_environment: None,
+        django_db_blocker: DjangoDbBlocker,
+        django_db_use_migrations: bool,
+        django_db_keepdb: bool,
+        django_db_createdb: bool,
+        django_db_modify_db_settings: None,
+    ) -&gt; Generator[None, None, None]:
+        """Top level fixture to ensure test databases are available"""
+        from django.test.utils import setup_databases, teardown_databases
+    
+        setup_databases_args = {}
+    
+        if not django_db_use_migrations:
+            _disable_migrations()
+    
+        if django_db_keepdb and not django_db_createdb:
+            setup_databases_args["keepdb"] = True
+    
+        aliases, serialized_aliases = _get_databases_for_setup(request.session.items)
+    
+        with django_db_blocker.unblock():
+&gt;           db_cfg = setup_databases(
+                verbosity=request.config.option.verbose,
+                interactive=False,
+                aliases=aliases,
+                serialized_aliases=serialized_aliases,
+                **setup_databases_args,
+            )
+
+/opt/venv/lib/python3.8/site-packages/pytest_django/fixtures.py:198: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.8/site-packages/django/test/utils.py:170: in setup_databases
+    connection.creation.create_test_db(
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/creation.py:72: in create_test_db
+    call_command(
+/opt/venv/lib/python3.8/site-packages/django/core/management/__init__.py:168: in call_command
+    return command.execute(*args, **defaults)
+/opt/venv/lib/python3.8/site-packages/django/core/management/base.py:371: in execute
+    output = self.handle(*args, **options)
+/opt/venv/lib/python3.8/site-packages/django/core/management/base.py:85: in wrapped
+    res = handle_func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/core/management/commands/migrate.py:267: in handle
+    emit_post_migrate_signal(
+/opt/venv/lib/python3.8/site-packages/django/core/management/sql.py:48: in emit_post_migrate_signal
+    models.signals.post_migrate.send(
+/opt/venv/lib/python3.8/site-packages/django/dispatch/dispatcher.py:177: in send
+    return [
+/opt/venv/lib/python3.8/site-packages/django/dispatch/dispatcher.py:178: in &lt;listcomp&gt;
+    (receiver, receiver(signal=self, sender=sender, **named))
+/opt/venv/lib/python3.8/site-packages/django/contrib/auth/management/__init__.py:63: in create_permissions
+    ctype = ContentType.objects.db_manager(using).get_for_model(klass, for_concrete_model=False)
+/opt/venv/lib/python3.8/site-packages/django/contrib/contenttypes/models.py:51: in get_for_model
+    ct = self.get(app_label=opts.app_label, model=opts.model_name)
+/opt/venv/lib/python3.8/site-packages/django/db/models/manager.py:85: in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/models/query.py:425: in get
+    num = len(clone)
+/opt/venv/lib/python3.8/site-packages/django/db/models/query.py:269: in __len__
+    self._fetch_all()
+/opt/venv/lib/python3.8/site-packages/django/db/models/query.py:1308: in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+/opt/venv/lib/python3.8/site-packages/django/db/models/query.py:53: in __iter__
+    results = compiler.execute_sql(chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size)
+/opt/venv/lib/python3.8/site-packages/django/db/models/sql/compiler.py:1154: in execute_sql
+    cursor = self.connection.cursor()
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:259: in cursor
+    return self._cursor()
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:235: in _cursor
+    self.ensure_connection()
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:19: in inner
+    event_loop = asyncio.get_event_loop()
+/usr/local/lib/python3.8/asyncio/events.py:636: in get_event_loop
+    self.set_event_loop(self.new_event_loop())
+/usr/local/lib/python3.8/asyncio/events.py:656: in new_event_loop
+    return self._loop_factory()
+/usr/local/lib/python3.8/asyncio/unix_events.py:54: in __init__
+    super().__init__(selector)
+/usr/local/lib/python3.8/asyncio/selector_events.py:61: in __init__
+    self._make_self_pipe()
+/usr/local/lib/python3.8/asyncio/selector_events.py:108: in _make_self_pipe
+    self._ssock, self._csock = socket.socketpair()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+family = &lt;AddressFamily.AF_UNIX: 1&gt;, type = &lt;SocketKind.SOCK_STREAM: 1&gt;
+proto = 0
+
+    def socketpair(family=None, type=SOCK_STREAM, proto=0):
+        if family is None:
+            try:
+                family = AF_UNIX
+            except NameError:
+                family = AF_INET
+&gt;       a, b = _socket.socketpair(family, type, proto)
+E       OSError: [Errno 24] Too many open files
+
+/usr/local/lib/python3.8/socket.py:620: OSError</error></testcase><testcase classname="saleor.graphql.core.tests.test_scalars" name="test_uuid_scalar_wrong_value_passed_in_input" time="0.001"><error message="failed on setup with &quot;OSError: [Errno 24] Too many open files&quot;">request = &lt;SubRequest 'django_db_setup' for &lt;Function test_uuid_scalar_value_passed_as_variable&gt;&gt;
+django_test_environment = None
+django_db_blocker = &lt;pytest_django.plugin.DjangoDbBlocker object at 0x770f0be9fbb0&gt;
+django_db_use_migrations = True, django_db_keepdb = True
+django_db_createdb = False, django_db_modify_db_settings = None
+
+    @pytest.fixture(scope="session")
+    def django_db_setup(
+        request: pytest.FixtureRequest,
+        django_test_environment: None,
+        django_db_blocker: DjangoDbBlocker,
+        django_db_use_migrations: bool,
+        django_db_keepdb: bool,
+        django_db_createdb: bool,
+        django_db_modify_db_settings: None,
+    ) -&gt; Generator[None, None, None]:
+        """Top level fixture to ensure test databases are available"""
+        from django.test.utils import setup_databases, teardown_databases
+    
+        setup_databases_args = {}
+    
+        if not django_db_use_migrations:
+            _disable_migrations()
+    
+        if django_db_keepdb and not django_db_createdb:
+            setup_databases_args["keepdb"] = True
+    
+        aliases, serialized_aliases = _get_databases_for_setup(request.session.items)
+    
+        with django_db_blocker.unblock():
+&gt;           db_cfg = setup_databases(
+                verbosity=request.config.option.verbose,
+                interactive=False,
+                aliases=aliases,
+                serialized_aliases=serialized_aliases,
+                **setup_databases_args,
+            )
+
+/opt/venv/lib/python3.8/site-packages/pytest_django/fixtures.py:198: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.8/site-packages/django/test/utils.py:170: in setup_databases
+    connection.creation.create_test_db(
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/creation.py:72: in create_test_db
+    call_command(
+/opt/venv/lib/python3.8/site-packages/django/core/management/__init__.py:168: in call_command
+    return command.execute(*args, **defaults)
+/opt/venv/lib/python3.8/site-packages/django/core/management/base.py:371: in execute
+    output = self.handle(*args, **options)
+/opt/venv/lib/python3.8/site-packages/django/core/management/base.py:85: in wrapped
+    res = handle_func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/core/management/commands/migrate.py:267: in handle
+    emit_post_migrate_signal(
+/opt/venv/lib/python3.8/site-packages/django/core/management/sql.py:48: in emit_post_migrate_signal
+    models.signals.post_migrate.send(
+/opt/venv/lib/python3.8/site-packages/django/dispatch/dispatcher.py:177: in send
+    return [
+/opt/venv/lib/python3.8/site-packages/django/dispatch/dispatcher.py:178: in &lt;listcomp&gt;
+    (receiver, receiver(signal=self, sender=sender, **named))
+/opt/venv/lib/python3.8/site-packages/django/contrib/auth/management/__init__.py:63: in create_permissions
+    ctype = ContentType.objects.db_manager(using).get_for_model(klass, for_concrete_model=False)
+/opt/venv/lib/python3.8/site-packages/django/contrib/contenttypes/models.py:51: in get_for_model
+    ct = self.get(app_label=opts.app_label, model=opts.model_name)
+/opt/venv/lib/python3.8/site-packages/django/db/models/manager.py:85: in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/models/query.py:425: in get
+    num = len(clone)
+/opt/venv/lib/python3.8/site-packages/django/db/models/query.py:269: in __len__
+    self._fetch_all()
+/opt/venv/lib/python3.8/site-packages/django/db/models/query.py:1308: in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+/opt/venv/lib/python3.8/site-packages/django/db/models/query.py:53: in __iter__
+    results = compiler.execute_sql(chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size)
+/opt/venv/lib/python3.8/site-packages/django/db/models/sql/compiler.py:1154: in execute_sql
+    cursor = self.connection.cursor()
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:259: in cursor
+    return self._cursor()
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:235: in _cursor
+    self.ensure_connection()
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:19: in inner
+    event_loop = asyncio.get_event_loop()
+/usr/local/lib/python3.8/asyncio/events.py:636: in get_event_loop
+    self.set_event_loop(self.new_event_loop())
+/usr/local/lib/python3.8/asyncio/events.py:656: in new_event_loop
+    return self._loop_factory()
+/usr/local/lib/python3.8/asyncio/unix_events.py:54: in __init__
+    super().__init__(selector)
+/usr/local/lib/python3.8/asyncio/selector_events.py:61: in __init__
+    self._make_self_pipe()
+/usr/local/lib/python3.8/asyncio/selector_events.py:108: in _make_self_pipe
+    self._ssock, self._csock = socket.socketpair()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+family = &lt;AddressFamily.AF_UNIX: 1&gt;, type = &lt;SocketKind.SOCK_STREAM: 1&gt;
+proto = 0
+
+    def socketpair(family=None, type=SOCK_STREAM, proto=0):
+        if family is None:
+            try:
+                family = AF_UNIX
+            except NameError:
+                family = AF_INET
+&gt;       a, b = _socket.socketpair(family, type, proto)
+E       OSError: [Errno 24] Too many open files
+
+/usr/local/lib/python3.8/socket.py:620: OSError</error></testcase></testsuite></testsuites>

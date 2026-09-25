@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="4" time="1.825" timestamp="2026-09-25T05:07:49.801950+00:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.page.tests.test_search" name="test_update_pages_search_vector_multiple_pages" time="1.182" /><testcase classname="saleor.page.tests.test_search" name="test_update_pages_search_vector_locks_rows_before_write" time="0.053"><failure message="AssertionError: expected exactly one lock SELECT and one UPDATE query, got: ['UPDATE &quot;page_page&quot; SET &quot;search_vector&quot; = (CASE WHEN (&quot;page_page&quot;.&quot;id&quot; = 16) THEN (setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'Test page\', \'\')), \'A\')||setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'test-url-1\', \'\')), \'A\')||setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'Test content.\', \'\')), \'A\')||setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'Test page type\', \'\')), \'B\')||setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'test-page-type\', \'\')), \'B\')) WHEN (&quot;page_page&quot;.&quot;id&quot; = 17) THEN (setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'Test page\', \'\')), \'A\')||setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'test-url-2\', \'\')), \'A\')||setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'Test content.\', \'\')), \'A\')||setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'Test page type\', \'\')), \'B\')||setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'test-page-type\', \'\')), \'B\')) WHEN (&quot;page_page&quot;.&quot;id&quot; = 18) THEN (setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'Test page3\', \'\')), \'A\')||setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'test3\', \'\')), \'A\')||setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'Test content.\', \'\')), \'A\')||setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'Test page type\', \'\')), \'B\')||setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'test-page-type\', \'\')), \'B\')) WHEN (&quot;page_page&quot;.&quot;id&quot; = 19) THEN (setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'Test page4\', \'\')), \'A\')||setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'test4\', \'\')), \'A\')||setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'Test content.\', \'\')), \'A\')||setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'Test page type\', \'\')), \'B\')||setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'test-page-type\', \'\')), \'B\')) ELSE NULL END)::tsvector, &quot;search_index_dirty&quot; = (CASE WHEN (&quot;page_page&quot;.&quot;id&quot; = 16) THEN false WHEN (&quot;page_page&quot;.&quot;id&quot; = 17) THEN false WHEN (&quot;page_page&quot;.&quot;id&quot; = 18) THEN false WHEN (&quot;page_page&quot;.&quot;id&quot; = 19) THEN false ELSE NULL END)::boolean WHERE &quot;page_page&quot;.&quot;id&quot; IN (16, 17, 18, 19)']&#10;assert 1 == 2&#10; +  where 1 = len(['UPDATE &quot;page_page&quot; SET &quot;search_vector&quot; = (CASE WHEN (&quot;page_page&quot;.&quot;id&quot; = 16) THEN (setweight(to_tsvector(\'simple\'::...THEN false WHEN (&quot;page_page&quot;.&quot;id&quot; = 19) THEN false ELSE NULL END)::boolean WHERE &quot;page_page&quot;.&quot;id&quot; IN (16, 17, 18, 19)'])">page_list = [&lt;Page: Test page&gt;, &lt;Page: Test page&gt;, &lt;Page: Test page3&gt;, &lt;Page: Test page4&gt;]
+assert_locks_rows_before_write = &lt;function assert_locks_rows_before_write.&lt;locals&gt;._assert_locks_rows_before_write at 0x7a3f49e10360&gt;
+
+    def test_update_pages_search_vector_locks_rows_before_write(
+        page_list, assert_locks_rows_before_write
+    ):
+        # when/then
+&gt;       with assert_locks_rows_before_write():
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/page/tests/test_search.py:30: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.12/contextlib.py:144: in __exit__
+    next(self.gen)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    @contextmanager
+    def _assert_locks_rows_before_write():
+        with capture_queries() as ctx:
+            yield
+    
+        lock_and_update_queries = [
+            query["sql"]
+            for query in ctx.captured_queries
+            if "FOR UPDATE" in query["sql"] or query["sql"].startswith("UPDATE")
+        ]
+&gt;       assert len(lock_and_update_queries) == 2, (
+            "expected exactly one lock SELECT and one UPDATE query, got: "
+            f"{lock_and_update_queries}"
+        )
+E       AssertionError: expected exactly one lock SELECT and one UPDATE query, got: ['UPDATE "page_page" SET "search_vector" = (CASE WHEN ("page_page"."id" = 16) THEN (setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'Test page\', \'\')), \'A\')||setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'test-url-1\', \'\')), \'A\')||setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'Test content.\', \'\')), \'A\')||setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'Test page type\', \'\')), \'B\')||setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'test-page-type\', \'\')), \'B\')) WHEN ("page_page"."id" = 17) THEN (setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'Test page\', \'\')), \'A\')||setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'test-url-2\', \'\')), \'A\')||setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'Test content.\', \'\')), \'A\')||setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'Test page type\', \'\')), \'B\')||setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'test-page-type\', \'\')), \'B\')) WHEN ("page_page"."id" = 18) THEN (setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'Test page3\', \'\')), \'A\')||setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'test3\', \'\')), \'A\')||setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'Test content.\', \'\')), \'A\')||setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'Test page type\', \'\')), \'B\')||setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'test-page-type\', \'\')), \'B\')) WHEN ("page_page"."id" = 19) THEN (setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'Test page4\', \'\')), \'A\')||setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'test4\', \'\')), \'A\')||setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'Test content.\', \'\')), \'A\')||setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'Test page type\', \'\')), \'B\')||setweight(to_tsvector(\'simple\'::regconfig, COALESCE(\'test-page-type\', \'\')), \'B\')) ELSE NULL END)::tsvector, "search_index_dirty" = (CASE WHEN ("page_page"."id" = 16) THEN false WHEN ("page_page"."id" = 17) THEN false WHEN ("page_page"."id" = 18) THEN false WHEN ("page_page"."id" = 19) THEN false ELSE NULL END)::boolean WHERE "page_page"."id" IN (16, 17, 18, 19)']
+E       assert 1 == 2
+E        +  where 1 = len(['UPDATE "page_page" SET "search_vector" = (CASE WHEN ("page_page"."id" = 16) THEN (setweight(to_tsvector(\'simple\'::...THEN false WHEN ("page_page"."id" = 19) THEN false ELSE NULL END)::boolean WHERE "page_page"."id" IN (16, 17, 18, 19)'])
+
+saleor/tests/fixtures.py:188: AssertionError</failure></testcase><testcase classname="saleor.page.tests.test_search" name="test_update_pages_search_vector_empty_list" time="0.018" /><testcase classname="saleor.page.tests.test_search" name="test_update_pages_search_vector_constant_queries" time="0.236"><failure message="Failed: Expected to perform 11 queries but 10 were done (add -v option to show queries)">page_list_with_attributes = [&lt;Page: Test page 0&gt;, &lt;Page: Test page 1&gt;, &lt;Page: Test page 2&gt;]
+django_assert_num_queries = functools.partial(&lt;function _assert_num_queries at 0x7a3f5a8047c0&gt;, &lt;_pytest.config.Config object at 0x7a3f5c4f3050&gt;)
+
+    def test_update_pages_search_vector_constant_queries(
+        page_list_with_attributes, django_assert_num_queries
+    ):
+        """Ensure that data loaders are working correctly and number of db queries is constant."""
+        # given
+        page_list = page_list_with_attributes
+    
+        # when &amp; then
+        # Expected query breakdown (11 total):
+        # 1. Load page types (1 query)
+        # 2. Load page data (1 query)
+        # 3. Load page-attribute relationships (1 query)
+        # 4. Load attributes (1 query)
+        # 5. Load attribute value assignments - batched (1 query)
+        # 6. Load attribute values - batched (1 query)
+        # 7. Load reference page titles (1 query)
+        # 8. Transaction savepoint (1 query)
+        # 9. Lock pages with select_for_update (1 query)
+        # 10. Bulk update (1 query)
+        # 11. Release savepoint (1 query)
+    
+        expected_queries = 11
+&gt;       with django_assert_num_queries(expected_queries):  # Expected number of queries
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/page/tests/test_search.py:119: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.12/contextlib.py:144: in __exit__
+    next(self.gen)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = &lt;_pytest.config.Config object at 0x7a3f5c4f3050&gt;, num = 11
+exact = True, connection = None, info = None, using = None
+
+    @contextmanager
+    def _assert_num_queries(
+        config: pytest.Config,
+        num: int,
+        exact: bool = True,
+        connection: Any | None = None,
+        info: str | None = None,
+        *,
+        using: str | None = None,
+    ) -&gt; Generator[django.test.utils.CaptureQueriesContext, None, None]:
+        from django.db import connection as default_conn, connections
+        from django.test.utils import CaptureQueriesContext
+    
+        if connection and using:
+            raise ValueError('The "connection" and "using" parameter cannot be used together')
+    
+        if connection is not None:
+            conn = connection
+        elif using is not None:
+            conn = connections[using]
+        else:
+            conn = default_conn
+    
+        verbose = config.getoption("verbose") &gt; 0
+        with CaptureQueriesContext(conn) as context:
+            yield context
+            num_performed = len(context)
+            if exact:
+                failed = num != num_performed
+            else:
+                failed = num_performed &gt; num
+            if failed:
+                msg = f"Expected to perform {num} queries "
+                if not exact:
+                    msg += "or less "
+                verb = "was" if num_performed == 1 else "were"
+                msg += f"but {num_performed} {verb} done"
+                if info:
+                    msg += f"\n{info}"
+                if verbose:
+                    sqls = (q["sql"] for q in context.captured_queries)
+                    msg += "\n\nQueries:\n========\n\n" + "\n\n".join(sqls)
+                else:
+                    msg += " (add -v option to show queries)"
+&gt;               pytest.fail(msg)
+E               Failed: Expected to perform 11 queries but 10 were done (add -v option to show queries)
+
+/opt/venv/lib/python3.12/site-packages/pytest_django/fixtures.py:716: Failed</failure></testcase></testsuite></testsuites>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="11" time="2.759" timestamp="2026-09-24T18:09:25.979410-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.discount.tests.mutations.test_voucher_update" name="test_update_voucher" time="1.463" /><testcase classname="saleor.graphql.discount.tests.mutations.test_voucher_update" name="test_update_voucher_without_codes" time="0.082" /><testcase classname="saleor.graphql.discount.tests.mutations.test_voucher_update" name="test_update_voucher_trigger_webhook" time="0.208" /><testcase classname="saleor.graphql.discount.tests.mutations.test_voucher_update" name="test_update_voucher_doesnt_trigger_voucher_updated_when_only_codes_added" time="0.116" /><testcase classname="saleor.graphql.discount.tests.mutations.test_voucher_update" name="test_update_voucher_single_use_voucher_already_used_in_order" time="0.073" /><testcase classname="saleor.graphql.discount.tests.mutations.test_voucher_update" name="test_update_voucher_single_use_voucher_already_used_in_order_line" time="0.138" /><testcase classname="saleor.graphql.discount.tests.mutations.test_voucher_update" name="test_update_voucher_single_use_voucher_already_used_in_checkout" time="0.066" /><testcase classname="saleor.graphql.discount.tests.mutations.test_voucher_update" name="test_update_voucher_usage_limit_voucher_already_used" time="0.064" /><testcase classname="saleor.graphql.discount.tests.mutations.test_voucher_update" name="test_update_voucher_usage_limit_the_same_value" time="0.077" /><testcase classname="saleor.graphql.discount.tests.mutations.test_voucher_update" name="test_update_voucher_with_deprecated_code_field" time="0.081" /><testcase classname="saleor.graphql.discount.tests.mutations.test_voucher_update" name="test_update_voucher_usage_limit_order_with_given_voucher_code_exists" time="0.071"><failure message="AssertionError: assert not [{'field': 'usageLimit', 'code': 'VOUCHER_ALREADY_USED', 'message': 'Cannot change usage limit setting when any voucher code has already been used.', 'voucherCodes': None}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x71259abba210&gt;
+voucher = &lt;Voucher: Voucher object (52)&gt;
+permission_manage_discounts = &lt;Permission: discount | promotion | Manage promotions and vouchers.&gt;
+order = &lt;Order #UUID('e4411804-cd25-4286-88e3-8cde84737ffc')&gt;
+
+    def test_update_voucher_usage_limit_order_with_given_voucher_code_exists(
+        staff_api_client,
+        voucher,
+        permission_manage_discounts,
+        order,
+    ):
+        """Ensure the voucher limit can be updated when the order has the same voucher code.
+    
+        The voucher usage limit should be updated if an order contains a voucher code that
+        matches an existing order’s voucher code, but the voucher associated with
+        this code no longer exists.
+        """
+        # given
+        assert voucher.usage_limit is None
+        code_instance = voucher.codes.first()
+    
+        # set the voucher code for the order, but left the voucher field empty,
+        # it simulates the situation when the voucher was deleted, and this code was the
+        # part of the different voucher
+        order.voucher_code = code_instance.code
+        order.voucher = None
+        order.save(update_fields=["voucher_code", "voucher"])
+    
+        usage_limit = 10
+        variables = {
+            "id": graphene.Node.to_global_id("Voucher", voucher.id),
+            "input": {"usageLimit": usage_limit},
+        }
+    
+        # when
+        response = staff_api_client.post_graphql(
+            UPDATE_VOUCHER_MUTATION, variables, permissions=[permission_manage_discounts]
+        )
+        content = get_graphql_content(response)
+    
+        # then
+        errors = content["data"]["voucherUpdate"]["errors"]
+&gt;       assert not errors
+E       AssertionError: assert not [{'field': 'usageLimit', 'code': 'VOUCHER_ALREADY_USED', 'message': 'Cannot change usage limit setting when any voucher code has already been used.', 'voucherCodes': None}]
+
+saleor/graphql/discount/tests/mutations/test_voucher_update.py:554: AssertionError</failure></testcase></testsuite></testsuites>

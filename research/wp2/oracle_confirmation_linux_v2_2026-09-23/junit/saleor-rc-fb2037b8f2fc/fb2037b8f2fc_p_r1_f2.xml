@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="9" skipped="0" tests="28" time="3.659" timestamp="2026-09-25T01:43:43.431681-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_trigger_webhook_sync" time="1.511"><failure message="AssertionError: expected call not found.&#10;Expected: send_webhook_request_sync(&lt;EventDelivery: EventDelivery object (92)&gt;)&#10;Actual: send_webhook_request_sync(&lt;App: Payment App&gt;, &lt;EventDelivery: EventDelivery object (92)&gt;)">mock_request = &lt;MagicMock name='send_webhook_request_sync' id='128412011624480'&gt;
+payment_app = &lt;App: Payment App&gt;
+
+    @mock.patch("saleor.plugins.webhook.tasks.send_webhook_request_sync")
+    def test_trigger_webhook_sync(mock_request, payment_app):
+        data = '{"key": "value"}'
+        trigger_webhook_sync(
+            WebhookEventSyncType.PAYMENT_CAPTURE, data, payment_app.webhooks.first()
+        )
+        event_delivery = EventDelivery.objects.first()
+&gt;       mock_request.assert_called_once_with(event_delivery)
+
+saleor/plugins/webhook/tests/test_payment_webhook.py:58: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.9/unittest/mock.py:919: in assert_called_once_with
+    return self.assert_called_with(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;MagicMock name='send_webhook_request_sync' id='128412011624480'&gt;
+args = (&lt;EventDelivery: EventDelivery object (92)&gt;,), kwargs = {}
+expected = call(&lt;EventDelivery: EventDelivery object (92)&gt;)
+actual = call(&lt;App: Payment App&gt;, &lt;EventDelivery: EventDelivery object (92)&gt;)
+_error_message = &lt;function NonCallableMock.assert_called_with.&lt;locals&gt;._error_message at 0x74ca40a49dc0&gt;
+cause = None
+
+    def assert_called_with(self, /, *args, **kwargs):
+        """assert that the last call was made with the specified arguments.
+    
+        Raises an AssertionError if the args and keyword args passed in are
+        different to the last call to the mock."""
+        if self.call_args is None:
+            expected = self._format_mock_call_signature(args, kwargs)
+            actual = 'not called.'
+            error_message = ('expected call not found.\nExpected: %s\nActual: %s'
+                    % (expected, actual))
+            raise AssertionError(error_message)
+    
+        def _error_message():
+            msg = self._format_mock_failure_message(args, kwargs)
+            return msg
+        expected = self._call_matcher(_Call((args, kwargs), two=True))
+        actual = self._call_matcher(self.call_args)
+        if actual != expected:
+            cause = expected if isinstance(expected, Exception) else None
+&gt;           raise AssertionError(_error_message()) from cause
+E           AssertionError: expected call not found.
+E           Expected: send_webhook_request_sync(&lt;EventDelivery: EventDelivery object (92)&gt;)
+E           Actual: send_webhook_request_sync(&lt;App: Payment App&gt;, &lt;EventDelivery: EventDelivery object (92)&gt;)
+
+/usr/local/lib/python3.9/unittest/mock.py:907: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_trigger_webhook_sync_with_subscription" time="0.116"><failure message="AssertionError: expected call not found.&#10;Expected: send_webhook_request_sync('fake_delivery')&#10;Actual: send_webhook_request_sync(&lt;App: Payment App&gt;, 'fake_delivery')">mock_request = &lt;MagicMock name='send_webhook_request_sync' id='128412006162240'&gt;
+mock_delivery_create = &lt;MagicMock name='create_delivery_for_subscription_sync_event' id='128412006503664'&gt;
+payment = Payment(gateway=app:saleor.payment.test.app:credit-card, is_active=True, created=2026-09-25 06:43:45.418345+00:00, charge_status=not-charged)
+payment_app_with_subscription_webhooks = &lt;App: Payment App&gt;
+
+    @mock.patch("saleor.plugins.webhook.tasks.create_delivery_for_subscription_sync_event")
+    @mock.patch("saleor.plugins.webhook.tasks.send_webhook_request_sync")
+    def test_trigger_webhook_sync_with_subscription(
+        mock_request,
+        mock_delivery_create,
+        payment,
+        payment_app_with_subscription_webhooks,
+    ):
+        payment_app = payment_app_with_subscription_webhooks
+        data = '{"key": "value"}'
+        fake_delivery = "fake_delivery"
+        mock_delivery_create.return_value = fake_delivery
+        trigger_webhook_sync(
+            WebhookEventSyncType.PAYMENT_CAPTURE,
+            data,
+            payment_app.webhooks.first(),
+            payment,
+        )
+&gt;       mock_request.assert_called_once_with(fake_delivery)
+
+saleor/plugins/webhook/tests/test_payment_webhook.py:79: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.9/unittest/mock.py:919: in assert_called_once_with
+    return self.assert_called_with(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;MagicMock name='send_webhook_request_sync' id='128412006162240'&gt;
+args = ('fake_delivery',), kwargs = {}, expected = call('fake_delivery')
+actual = call(&lt;App: Payment App&gt;, 'fake_delivery')
+_error_message = &lt;function NonCallableMock.assert_called_with.&lt;locals&gt;._error_message at 0x74ca3fe50dc0&gt;
+cause = None
+
+    def assert_called_with(self, /, *args, **kwargs):
+        """assert that the last call was made with the specified arguments.
+    
+        Raises an AssertionError if the args and keyword args passed in are
+        different to the last call to the mock."""
+        if self.call_args is None:
+            expected = self._format_mock_call_signature(args, kwargs)
+            actual = 'not called.'
+            error_message = ('expected call not found.\nExpected: %s\nActual: %s'
+                    % (expected, actual))
+            raise AssertionError(error_message)
+    
+        def _error_message():
+            msg = self._format_mock_failure_message(args, kwargs)
+            return msg
+        expected = self._call_matcher(_Call((args, kwargs), two=True))
+        actual = self._call_matcher(self.call_args)
+        if actual != expected:
+            cause = expected if isinstance(expected, Exception) else None
+&gt;           raise AssertionError(_error_message()) from cause
+E           AssertionError: expected call not found.
+E           Expected: send_webhook_request_sync('fake_delivery')
+E           Actual: send_webhook_request_sync(&lt;App: Payment App&gt;, 'fake_delivery')
+
+/usr/local/lib/python3.9/unittest/mock.py:907: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_send_webhook_request_sync_failed_attempt" time="0.019"><failure message="TypeError: send_webhook_request_sync() missing 1 required positional argument: 'delivery'">mock_post = &lt;MagicMock name='post' id='128411999716016'&gt;
+mock_observability = &lt;MagicMock name='report_event_delivery_attempt' id='128412000513040'&gt;
+app = &lt;App: Sample app objects&gt;
+event_delivery = &lt;EventDelivery: EventDelivery object (93)&gt;
+
+    @mock.patch("saleor.plugins.webhook.tasks.observability.report_event_delivery_attempt")
+    @mock.patch("saleor.plugins.webhook.tasks.requests.post")
+    def test_send_webhook_request_sync_failed_attempt(
+        mock_post, mock_observability, app, event_delivery
+    ):
+        # given
+        expected_data = {
+            "content": '{"key": "response_text"}',
+            "headers": {"header_key": "header_val"},
+            "status_code": 500,
+            "duration": datetime.timedelta(seconds=2),
+        }
+        mock_post().ok = False
+        mock_post().text = expected_data["content"]
+        mock_post().headers = expected_data["headers"]
+        mock_post().status_code = expected_data["status_code"]
+        mock_post().elapsed = expected_data["duration"]
+        # when
+&gt;       response_data = send_webhook_request_sync(event_delivery)
+E       TypeError: send_webhook_request_sync() missing 1 required positional argument: 'delivery'
+
+saleor/plugins/webhook/tests/test_payment_webhook.py:100: TypeError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_send_webhook_request_sync_successful_attempt" time="0.018"><failure message="TypeError: send_webhook_request_sync() missing 1 required positional argument: 'delivery'">mock_clear_delivery = &lt;MagicMock name='clear_successful_delivery' id='128411999498144'&gt;
+mock_post = &lt;MagicMock name='post' id='128411999575680'&gt;
+mock_observability = &lt;MagicMock name='report_event_delivery_attempt' id='128411999714704'&gt;
+app = &lt;App: Sample app objects&gt;
+event_delivery = &lt;EventDelivery: EventDelivery object (94)&gt;
+
+    @mock.patch("saleor.plugins.webhook.tasks.observability.report_event_delivery_attempt")
+    @mock.patch("saleor.plugins.webhook.tasks.requests.post")
+    @mock.patch("saleor.plugins.webhook.tasks.clear_successful_delivery")
+    def test_send_webhook_request_sync_successful_attempt(
+        mock_clear_delivery, mock_post, mock_observability, app, event_delivery
+    ):
+        # given
+        expected_data = {
+            "content": '{"key": "response_text"}',
+            "headers": {"header_key": "header_val"},
+            "status_code": 200,
+            "duration": datetime.timedelta(seconds=2),
+        }
+        mock_post().ok = True
+        mock_post().text = expected_data["content"]
+        mock_post().headers = expected_data["headers"]
+        mock_post().status_code = expected_data["status_code"]
+        mock_post().elapsed = expected_data["duration"]
+        # when
+&gt;       response_data = send_webhook_request_sync(event_delivery)
+E       TypeError: send_webhook_request_sync() missing 1 required positional argument: 'delivery'
+
+saleor/plugins/webhook/tests/test_payment_webhook.py:133: TypeError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_send_webhook_request_sync_request_exception" time="0.093"><failure message="TypeError: send_webhook_request_sync() missing 1 required positional argument: 'delivery'">mock_post = &lt;MagicMock name='post' id='128411999632544'&gt;
+mock_observability = &lt;MagicMock name='report_event_delivery_attempt' id='128411999586144'&gt;
+app = &lt;App: Sample app objects&gt;
+event_delivery = &lt;EventDelivery: EventDelivery object (95)&gt;
+
+    @mock.patch("saleor.plugins.webhook.tasks.observability.report_event_delivery_attempt")
+    @mock.patch("saleor.plugins.webhook.tasks.requests.post", side_effect=RequestException)
+    def test_send_webhook_request_sync_request_exception(
+        mock_post, mock_observability, app, event_delivery
+    ):
+        # given
+        event_payload = event_delivery.payload
+        data = event_payload.payload
+        webhook = event_delivery.webhook
+        domain = Site.objects.get_current().domain
+        message = data.encode("utf-8")
+        signature = signature_for_payload(message, webhook.secret_key)
+        expected_request_headers = generate_request_headers(
+            event_delivery.event_type, domain, signature
+        )
+    
+        # when
+&gt;       response_data = send_webhook_request_sync(event_delivery)
+E       TypeError: send_webhook_request_sync() missing 1 required positional argument: 'delivery'
+
+saleor/plugins/webhook/tests/test_payment_webhook.py:166: TypeError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_send_webhook_request_sync_when_exception_with_response" time="0.018"><failure message="TypeError: send_webhook_request_sync() missing 1 required positional argument: 'delivery'">mock_post = &lt;MagicMock name='post' id='128411999621520'&gt;
+mock_observability = &lt;MagicMock name='report_event_delivery_attempt' id='128411999590432'&gt;
+app = &lt;App: Sample app objects&gt;
+event_delivery = &lt;EventDelivery: EventDelivery object (96)&gt;
+
+    @mock.patch("saleor.plugins.webhook.tasks.observability.report_event_delivery_attempt")
+    @mock.patch("saleor.plugins.webhook.tasks.requests.post")
+    def test_send_webhook_request_sync_when_exception_with_response(
+        mock_post, mock_observability, app, event_delivery
+    ):
+        mock_response = mock.Mock()
+        mock_response.text = "response_content"
+        mock_response.headers = {"response": "headers"}
+        mock_response.status_code = 302
+        mock_post.side_effect = TooManyRedirects(response=mock_response)
+        # when
+&gt;       send_webhook_request_sync(event_delivery)
+E       TypeError: send_webhook_request_sync() missing 1 required positional argument: 'delivery'
+
+saleor/plugins/webhook/tests/test_payment_webhook.py:192: TypeError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_send_webhook_request_sync_json_parsing_error" time="0.019"><failure message="TypeError: send_webhook_request_sync() missing 1 required positional argument: 'delivery'">mock_post = &lt;MagicMock name='post' id='128412000152880'&gt;
+mock_observability = &lt;MagicMock name='report_event_delivery_attempt' id='128411999586480'&gt;
+app = &lt;App: Sample app objects&gt;
+event_delivery = &lt;EventDelivery: EventDelivery object (97)&gt;
+
+    @mock.patch("saleor.plugins.webhook.tasks.observability.report_event_delivery_attempt")
+    @mock.patch("saleor.plugins.webhook.tasks.requests.post")
+    def test_send_webhook_request_sync_json_parsing_error(
+        mock_post, mock_observability, app, event_delivery
+    ):
+        # given
+        expected_data = {
+            "incorrect_content": "{key: response}",
+            "response_headers": {"header_key": "header_val"},
+            "duration": datetime.timedelta(seconds=2),
+            "status_code": 200,
+        }
+        mock_post().text = expected_data["incorrect_content"]
+        mock_post().headers = expected_data["response_headers"]
+        mock_post().elapsed = expected_data["duration"]
+        mock_post().status_code = expected_data["status_code"]
+    
+        # when
+&gt;       response_data = send_webhook_request_sync(event_delivery)
+E       TypeError: send_webhook_request_sync() missing 1 required positional argument: 'delivery'
+
+saleor/plugins/webhook/tests/test_payment_webhook.py:220: TypeError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_send_webhook_request_with_proper_timeout" time="0.016"><failure message="TypeError: send_webhook_request_sync() missing 1 required positional argument: 'delivery'">mock_post = &lt;MagicMock name='post' id='128411999666576'&gt;
+event_delivery = &lt;EventDelivery: EventDelivery object (98)&gt;
+app = &lt;App: Sample app objects&gt;
+
+    @mock.patch("saleor.plugins.webhook.tasks.requests.post")
+    def test_send_webhook_request_with_proper_timeout(mock_post, event_delivery, app):
+        mock_post().text = '{"key": "response_text"}'
+        mock_post().headers = {"header_key": "header_val"}
+        mock_post().elapsed = datetime.timedelta(seconds=1)
+        mock_post().status_code = 200
+&gt;       send_webhook_request_sync(event_delivery)
+E       TypeError: send_webhook_request_sync() missing 1 required positional argument: 'delivery'
+
+saleor/plugins/webhook/tests/test_payment_webhook.py:240: TypeError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_send_webhook_request_sync_invalid_scheme" time="0.017"><failure message="TypeError: send_webhook_request_sync() missing 1 required positional argument: 'delivery'">webhook = &lt;Webhook: Simple webhook&gt;, app = &lt;App: Sample app objects&gt;
+
+    def test_send_webhook_request_sync_invalid_scheme(webhook, app):
+        with pytest.raises(ValueError):
+            target_url = "gcpubsub://cloud.google.com/projects/saleor/topics/test"
+            event_payload = EventPayload.objects.create(payload="fake_content")
+            webhook.target_url = target_url
+            webhook.save()
+            delivery = EventDelivery.objects.create(
+                status="pending",
+                event_type=WebhookEventAsyncType.ANY,
+                payload=event_payload,
+                webhook=webhook,
+            )
+&gt;           send_webhook_request_sync(delivery)
+E           TypeError: send_webhook_request_sync() missing 1 required positional argument: 'delivery'
+
+saleor/plugins/webhook/tests/test_payment_webhook.py:256: TypeError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_get_payment_gateways" time="0.036" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_get_payment_gateways_with_transactions" time="0.029" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_get_payment_gateways_with_transactions_and_app_without_identifier" time="0.028" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_get_payment_gateways_multiple_webhooks_in_the_same_app" time="0.033" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_get_payment_gateways_filters_out_unsupported_currencies" time="0.031" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_get_payment_gateways_for_checkout" time="0.037" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_run_payment_webhook[auth-authorize_payment]" time="0.105" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_run_payment_webhook[capture-capture_payment]" time="0.114" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_run_payment_webhook[refund-refund_payment]" time="0.101" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_run_payment_webhook[void-void_payment]" time="0.105" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_run_payment_webhook[confirm-confirm_payment]" time="0.102" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_run_payment_webhook[capture-process_payment]" time="0.100" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_run_payment_webhook_invalid_app" time="0.091" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_run_payment_webhook_no_payment_app_data" time="0.091" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_run_payment_webhook_inactive_plugin" time="0.088" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_run_payment_webhook_no_response" time="0.100" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_run_payment_webhook_empty_response" time="0.102" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_check_plugin_id" time="0.020" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_webhook_plugin_token_is_not_required" time="0.016" /></testsuite></testsuites>

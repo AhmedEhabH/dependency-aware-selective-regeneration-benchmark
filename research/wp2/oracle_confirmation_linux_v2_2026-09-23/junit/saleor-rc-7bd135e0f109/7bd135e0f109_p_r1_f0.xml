@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="10" time="2.074" timestamp="2026-09-24T18:16:53.658152-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.core.tests.test_base_mutation" name="test_mutation_without_description_raises_error" time="1.249" /><testcase classname="saleor.graphql.core.tests.test_base_mutation" name="test_mutation_without_error_type_class_raises_error" time="0.011" /><testcase classname="saleor.graphql.core.tests.test_base_mutation" name="test_resolve_id" time="0.092" /><testcase classname="saleor.graphql.core.tests.test_base_mutation" name="test_user_error_nonexistent_id" time="0.014" /><testcase classname="saleor.graphql.core.tests.test_base_mutation" name="test_mutation_custom_errors_default_value" time="0.074" /><testcase classname="saleor.graphql.core.tests.test_base_mutation" name="test_user_error_id_of_different_type" time="0.074" /><testcase classname="saleor.graphql.core.tests.test_base_mutation" name="test_get_node_or_error_returns_null_for_empty_id" time="0.011" /><testcase classname="saleor.graphql.core.tests.test_base_mutation" name="test_mutation_plugin_perform_mutation_handles_graphql_error" time="0.074"><failure message="AssertionError: assert {'data': Orde...rors': []})])} == {'data': {'te...': ['test']}]}&#10;  &#10;  Differing items:&#10;  {'data': OrderedDict([('test', {'name': 'Test product', 'errors': []})])} != {'data': {'test': None}}&#10;  Right contains 1 more item:&#10;  {'errors': [{'locations': [{'column': 9, 'line': 3}],&#10;               'message': 'My Custom Error',&#10;               'path': ['test']}]}&#10;  Use -v to get more diff">request = &lt;FixtureRequest for &lt;Function test_mutation_plugin_perform_mutation_handles_graphql_error&gt;&gt;
+settings = &lt;pytest_django.fixtures.SettingsWrapper object at 0x71c94b426430&gt;
+plugin_configuration = &lt;PluginConfiguration: plugin.sample, active: True&gt;
+product = &lt;saleor.product.models.Product(pk=10, name='Test product')&gt;
+channel_USD = &lt;Channel: main&gt;
+
+    def test_mutation_plugin_perform_mutation_handles_graphql_error(
+        request,
+        settings,
+        plugin_configuration,
+        product,
+        channel_USD,
+    ):
+        """Ensure when the mutation calls the method 'perform_mutation' on plugins,
+        the returned error "GraphQLError" is properly returned and transformed into a dict
+        """
+        settings.PLUGINS = [
+            "saleor.plugins.tests.sample_plugins.PluginSample",
+        ]
+    
+        schema_context = request.getfixturevalue("schema_context")
+    
+        product_id = graphene.Node.to_global_id("Product", product.pk)
+        variables = {"productId": product_id, "channel": channel_USD.slug}
+    
+        with mock.patch.object(
+            PluginSample,
+            "perform_mutation",
+            return_value=GraphQLError("My Custom Error"),
+        ):
+            result = schema.execute(
+                TEST_MUTATION, variables=variables, context_value=schema_context
+            )
+&gt;       assert result.to_dict() == {
+            "data": {"test": None},
+            "errors": [
+                {
+                    "locations": [{"column": 9, "line": 3}],
+                    "message": "My Custom Error",
+                    "path": ["test"],
+                }
+            ],
+        }
+E       AssertionError: assert {'data': Orde...rors': []})])} == {'data': {'te...': ['test']}]}
+E         
+E         Differing items:
+E         {'data': OrderedDict([('test', {'name': 'Test product', 'errors': []})])} != {'data': {'test': None}}
+E         Right contains 1 more item:
+E         {'errors': [{'locations': [{'column': 9, 'line': 3}],
+E                      'message': 'My Custom Error',
+E                      'path': ['test']}]}
+E         Use -v to get more diff
+
+saleor/graphql/core/tests/test_base_mutation.py:200: AssertionError</failure></testcase><testcase classname="saleor.graphql.core.tests.test_base_mutation" name="test_mutation_plugin_perform_mutation_handles_custom_execution_result" time="0.074"><failure message="AssertionError: assert {'data': Orde...rors': []})])} == {'data': {'te...errors', 0]}]}&#10;  &#10;  Differing items:&#10;  {'data': OrderedDict([('test', {'name': 'Test product', 'errors': []})])} != {'data': {'test': None}}&#10;  Right contains 1 more item:&#10;  {'errors': [{'locations': [{'column': 13, 'line': 5}],&#10;               'message': 'My Custom Error',&#10;               'path': ['test', 'errors', 0]}]}&#10;  Use -v to get more diff">request = &lt;FixtureRequest for &lt;Function test_mutation_plugin_perform_mutation_handles_custom_execution_result&gt;&gt;
+settings = &lt;pytest_django.fixtures.SettingsWrapper object at 0x71c94bc3a520&gt;
+plugin_configuration = &lt;PluginConfiguration: plugin.sample, active: True&gt;
+product = &lt;saleor.product.models.Product(pk=11, name='Test product')&gt;
+channel_USD = &lt;Channel: main&gt;
+
+    def test_mutation_plugin_perform_mutation_handles_custom_execution_result(
+        request,
+        settings,
+        plugin_configuration,
+        product,
+        channel_USD,
+    ):
+        """Ensure when the mutation calls the method 'perform_mutation' on plugins,
+        if a "ExecutionResult" object is returned, then the GraphQL response contains it
+        """
+        settings.PLUGINS = [
+            "saleor.plugins.tests.sample_plugins.PluginSample",
+        ]
+    
+        schema_context = request.getfixturevalue("schema_context")
+    
+        product_id = graphene.Node.to_global_id("Product", product.pk)
+        variables = {"productId": product_id, "channel": channel_USD.slug}
+    
+        with mock.patch.object(
+            PluginSample,
+            "perform_mutation",
+            return_value=ExecutionResult(data={}, errors=[GraphQLError("My Custom Error")]),
+        ):
+            result = schema.execute(
+                TEST_MUTATION, variables=variables, context_value=schema_context
+            )
+&gt;       assert result.to_dict() == {
+            "data": {"test": None},
+            "errors": [
+                {
+                    "locations": [{"column": 13, "line": 5}],
+                    "message": "My Custom Error",
+                    "path": ["test", "errors", 0],
+                }
+            ],
+        }
+E       AssertionError: assert {'data': Orde...rors': []})])} == {'data': {'te...errors', 0]}]}
+E         
+E         Differing items:
+E         {'data': OrderedDict([('test', {'name': 'Test product', 'errors': []})])} != {'data': {'test': None}}
+E         Right contains 1 more item:
+E         {'errors': [{'locations': [{'column': 13, 'line': 5}],
+E                      'message': 'My Custom Error',
+E                      'path': ['test', 'errors', 0]}]}
+E         Use -v to get more diff
+
+saleor/graphql/core/tests/test_base_mutation.py:239: AssertionError</failure></testcase><testcase classname="saleor.graphql.core.tests.test_base_mutation" name="test_mutation_calls_plugin_perform_mutation_after_permission_checks" time="0.099"><failure message="TypeError: object of type 'NoneType' has no len()">mocked_plugin = &lt;MagicMock name='perform_mutation' id='125109366615728'&gt;
+request = &lt;FixtureRequest for &lt;Function test_mutation_calls_plugin_perform_mutation_after_permission_checks&gt;&gt;
+settings = &lt;pytest_django.fixtures.SettingsWrapper object at 0x71c94ab270a0&gt;
+staff_user = &lt;User: staff_test@example.com&gt;
+plugin_configuration = &lt;PluginConfiguration: plugin.sample, active: True&gt;
+product = &lt;saleor.product.models.Product(pk=12, name='Test product')&gt;
+channel_USD = &lt;Channel: main&gt;
+permission_manage_products = &lt;Permission: product | product | Manage products.&gt;
+
+    @mock.patch.object(
+        PluginSample,
+        "perform_mutation",
+        return_value=ExecutionResult(data={}, errors=[GraphQLError("My Custom Error")]),
+    )
+    def test_mutation_calls_plugin_perform_mutation_after_permission_checks(
+        mocked_plugin,
+        request,
+        settings,
+        staff_user,
+        plugin_configuration,
+        product,
+        channel_USD,
+        permission_manage_products,
+    ):
+        """
+        Ensure the mutation calls the method 'perform_mutation' on plugins only once the
+        user/app permissions are verified
+        """
+        mutation_query = """
+            mutation testRestrictedMutation($productId: ID!, $channel: String) {
+                restrictedMutation(productId: $productId, channel: $channel) {
+                    name
+                    errors {
+                        field
+                        message
+                    }
+                }
+            }
+        """
+    
+        settings.PLUGINS = [
+            "saleor.plugins.tests.sample_plugins.PluginSample",
+        ]
+    
+        schema_context = request.getfixturevalue("schema_context")
+        schema_context.user = staff_user
+    
+        product_id = graphene.Node.to_global_id("Product", product.pk)
+        variables = {"productId": product_id, "channel": channel_USD.slug}
+    
+        # When permission is missing, it should not return the custom error from plugin
+        result = schema.execute(
+            mutation_query, variables=variables, context_value=schema_context
+        )
+        assert len(result.errors) == 1, result.to_dict()
+        assert result.errors[0].message == (
+            "You do not have permission to perform this action"
+        )
+    
+        # When permission is not missing, the execution of the plugin should happen
+        staff_user.user_permissions.set([permission_manage_products])
+        del staff_user._perm_cache  # force django to re-fetch permissions
+        result = schema.execute(
+            mutation_query, variables=variables, context_value=schema_context
+        )
+&gt;       assert len(result.errors) == 1, result.to_dict()
+E       TypeError: object of type 'NoneType' has no len()
+
+saleor/graphql/core/tests/test_base_mutation.py:307: TypeError</failure></testcase></testsuite></testsuites>

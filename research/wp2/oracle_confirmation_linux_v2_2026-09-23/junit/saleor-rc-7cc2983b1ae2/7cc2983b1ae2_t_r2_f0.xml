@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="11" skipped="0" tests="79" time="8.388" timestamp="2026-09-24T18:18:59.291805-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_notify_dashboard" time="1.204" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_fulfillment_for_order" time="0.026" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_fulfillment_for_order_multiple_fulfillments_one_valid" time="0.024" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_fulfillment_for_order_no_fulfillment" time="0.019" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_fulfillment_for_order_no_fulfillment_with_tracking_number" time="0.022" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_fulfillment_for_order_no_refundable_fulfillment" time="0.021" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_fulfillment_for_order_multiple_fulfillments" time="0.111" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_no_metadata[50000]" time="0.094" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_no_metadata[59010]" time="0.093" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_no_metadata[59020]" time="0.094" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_no_metadata[59030]" time="0.092" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_no_metadata[59040]" time="0.098" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_no_metadata[59041]" time="0.091" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_no_metadata[59042]" time="0.091" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_no_metadata[59043]" time="0.091" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_no_metadata[59050]" time="0.090" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_no_metadata[59060]" time="0.091" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_no_metadata[59080]" time="0.089" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_no_metadata[59090]" time="0.093" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_no_metadata[59110]" time="0.090" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_no_metadata[59140]" time="0.090" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_no_metadata[59150]" time="0.094" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_no_metadata[59100]" time="0.098" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_no_metadata[59160]" time="0.123" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_no_metadata[55555]" time="0.112" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_valid_metadata[50000-50000]" time="0.110" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_valid_metadata[59010-59010]" time="0.093" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_valid_metadata[59020-59020]" time="0.091" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_valid_metadata[59030-59030]" time="0.092" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_valid_metadata[59040-59040]" time="0.094" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_valid_metadata[59041-59041]" time="0.092" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_valid_metadata[59042-59042]" time="0.091" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_valid_metadata[59043-59043]" time="0.094" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_valid_metadata[59050-59050]" time="0.093" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_valid_metadata[59060-59060]" time="0.098" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_valid_metadata[59080-59080]" time="0.090" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_valid_metadata[59090-59090]" time="0.099" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_valid_metadata[59110-59110]" time="0.091" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_valid_metadata[59140-59140]" time="0.092" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_valid_metadata[59150-59150]" time="0.091" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_valid_metadata[59100-59100]" time="0.090" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_valid_metadata[59160-59160]" time="0.093" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_valid_metadata[55555-55555]" time="0.092" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_valid_metadata[invalid_code-None]" time="0.090" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_invalid_metadata[50000]" time="0.091" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_invalid_metadata[59010]" time="0.094" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_invalid_metadata[59020]" time="0.095" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_invalid_metadata[59030]" time="0.092" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_invalid_metadata[59040]" time="0.090" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_invalid_metadata[59041]" time="0.092" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_invalid_metadata[59042]" time="0.089" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_invalid_metadata[59043]" time="0.091" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_invalid_metadata[59050]" time="0.093" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_invalid_metadata[59060]" time="0.092" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_invalid_metadata[59080]" time="0.090" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_invalid_metadata[59090]" time="0.091" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_invalid_metadata[59110]" time="0.091" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_invalid_metadata[59140]" time="0.098" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_invalid_metadata[59150]" time="0.094" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_invalid_metadata[59100]" time="0.092" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_invalid_metadata[59160]" time="0.091" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_get_shipping_company_code_invalid_metadata[55555]" time="0.092" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_create_refund_lines_order_lines" time="0.076" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_create_refund_lines_fulfillment_lines" time="0.092" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_create_refund_data_previously_refunded_order_lines[True]" time="0.105" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_create_refund_data_previously_refunded_order_lines[False]" time="0.101" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_create_refund_data_previously_refunded_fulfillment_lines[True]" time="0.110" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_create_refund_data_previously_refunded_fulfillment_lines[False]" time="0.110" /><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_calculate_refund_amount[None-expected_manual_amount0]" time="0.019"><failure message="TypeError: calculate_manual_refund_amount() missing 1 required positional argument: 'refund_data'">order = &lt;Order #227&gt;, current_manual_refund_amount = None
+expected_manual_amount = Decimal('0.00')
+
+    @pytest.mark.parametrize(
+        "current_manual_refund_amount, expected_manual_amount",
+        [
+            (None, Decimal("0.00")),
+            (Decimal("0.00"), Decimal("0.00")),
+            (Decimal("12.34"), Decimal("12.34")),
+        ],
+    )
+    def test_calculate_refund_amount(
+        order,
+        current_manual_refund_amount,
+        expected_manual_amount,
+    ):
+        assert (
+&gt;           calculate_manual_refund_amount(order, Mock(amount=current_manual_refund_amount))
+            == expected_manual_amount
+        )
+E       TypeError: calculate_manual_refund_amount() missing 1 required positional argument: 'refund_data'
+
+saleor/payment/gateways/np_atobarai/tests/test_utils.py:356: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_calculate_refund_amount[current_manual_refund_amount1-expected_manual_amount1]" time="0.022"><failure message="TypeError: calculate_manual_refund_amount() missing 1 required positional argument: 'refund_data'">order = &lt;Order #228&gt;, current_manual_refund_amount = Decimal('0.00')
+expected_manual_amount = Decimal('0.00')
+
+    @pytest.mark.parametrize(
+        "current_manual_refund_amount, expected_manual_amount",
+        [
+            (None, Decimal("0.00")),
+            (Decimal("0.00"), Decimal("0.00")),
+            (Decimal("12.34"), Decimal("12.34")),
+        ],
+    )
+    def test_calculate_refund_amount(
+        order,
+        current_manual_refund_amount,
+        expected_manual_amount,
+    ):
+        assert (
+&gt;           calculate_manual_refund_amount(order, Mock(amount=current_manual_refund_amount))
+            == expected_manual_amount
+        )
+E       TypeError: calculate_manual_refund_amount() missing 1 required positional argument: 'refund_data'
+
+saleor/payment/gateways/np_atobarai/tests/test_utils.py:356: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_calculate_refund_amount[current_manual_refund_amount2-expected_manual_amount2]" time="0.024"><failure message="TypeError: calculate_manual_refund_amount() missing 1 required positional argument: 'refund_data'">order = &lt;Order #229&gt;, current_manual_refund_amount = Decimal('12.34')
+expected_manual_amount = Decimal('12.34')
+
+    @pytest.mark.parametrize(
+        "current_manual_refund_amount, expected_manual_amount",
+        [
+            (None, Decimal("0.00")),
+            (Decimal("0.00"), Decimal("0.00")),
+            (Decimal("12.34"), Decimal("12.34")),
+        ],
+    )
+    def test_calculate_refund_amount(
+        order,
+        current_manual_refund_amount,
+        expected_manual_amount,
+    ):
+        assert (
+&gt;           calculate_manual_refund_amount(order, Mock(amount=current_manual_refund_amount))
+            == expected_manual_amount
+        )
+E       TypeError: calculate_manual_refund_amount() missing 1 required positional argument: 'refund_data'
+
+saleor/payment/gateways/np_atobarai/tests/test_utils.py:356: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_calculate_manual_refund_amount_previously_refunded[None-None-False-expected_refund_amount0]" time="0.083"><failure message="TypeError: calculate_manual_refund_amount() missing 1 required positional argument: 'refund_data'">order = &lt;Order #230&gt;
+create_refund_fulfillment_helper = &lt;function create_refund_fulfillment_helper.&lt;locals&gt;.factory at 0x7474fcf10af0&gt;
+previous_manual_refund_amount = None, current_refund_amount = None
+refund_shipping = False, expected_refund_amount = Decimal('0.00')
+
+    @pytest.mark.parametrize(
+        [
+            "previous_manual_refund_amount",
+            "current_refund_amount",
+            "refund_shipping",
+            "expected_refund_amount",
+        ],
+        [
+            (None, None, False, Decimal("0.00")),
+            (None, None, True, Decimal("12.30")),
+            (None, Decimal("8.00"), False, Decimal("8.00")),
+            (None, Decimal("8.00"), True, Decimal("20.30")),
+            (Decimal("5.00"), None, False, Decimal("5.00")),
+            (Decimal("5.00"), None, True, Decimal("17.30")),
+            (Decimal("5.00"), Decimal("8.00"), False, Decimal("13.00")),
+            (Decimal("5.00"), Decimal("8.00"), True, Decimal("25.30")),
+        ],
+    )
+    def test_calculate_manual_refund_amount_previously_refunded(
+        order,
+        create_refund_fulfillment_helper,
+        previous_manual_refund_amount,
+        current_refund_amount,
+        refund_shipping,
+        expected_refund_amount,
+    ):
+        # given
+        if previous_manual_refund_amount:
+            create_refund_fulfillment_helper(
+                order, manual_refund_amount=previous_manual_refund_amount
+            )
+        if refund_shipping:
+            create_refund_fulfillment_helper(
+                order,
+                refund_shipping_costs=refund_shipping,
+            )
+    
+        # when
+&gt;       refund_amount = calculate_manual_refund_amount(
+            order, Mock(amount=current_refund_amount)
+        )
+E       TypeError: calculate_manual_refund_amount() missing 1 required positional argument: 'refund_data'
+
+saleor/payment/gateways/np_atobarai/tests/test_utils.py:399: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_calculate_manual_refund_amount_previously_refunded[None-None-True-expected_refund_amount1]" time="0.098"><failure message="TypeError: calculate_manual_refund_amount() missing 1 required positional argument: 'refund_data'">order = &lt;Order #231&gt;
+create_refund_fulfillment_helper = &lt;function create_refund_fulfillment_helper.&lt;locals&gt;.factory at 0x7474fcf10700&gt;
+previous_manual_refund_amount = None, current_refund_amount = None
+refund_shipping = True, expected_refund_amount = Decimal('12.30')
+
+    @pytest.mark.parametrize(
+        [
+            "previous_manual_refund_amount",
+            "current_refund_amount",
+            "refund_shipping",
+            "expected_refund_amount",
+        ],
+        [
+            (None, None, False, Decimal("0.00")),
+            (None, None, True, Decimal("12.30")),
+            (None, Decimal("8.00"), False, Decimal("8.00")),
+            (None, Decimal("8.00"), True, Decimal("20.30")),
+            (Decimal("5.00"), None, False, Decimal("5.00")),
+            (Decimal("5.00"), None, True, Decimal("17.30")),
+            (Decimal("5.00"), Decimal("8.00"), False, Decimal("13.00")),
+            (Decimal("5.00"), Decimal("8.00"), True, Decimal("25.30")),
+        ],
+    )
+    def test_calculate_manual_refund_amount_previously_refunded(
+        order,
+        create_refund_fulfillment_helper,
+        previous_manual_refund_amount,
+        current_refund_amount,
+        refund_shipping,
+        expected_refund_amount,
+    ):
+        # given
+        if previous_manual_refund_amount:
+            create_refund_fulfillment_helper(
+                order, manual_refund_amount=previous_manual_refund_amount
+            )
+        if refund_shipping:
+            create_refund_fulfillment_helper(
+                order,
+                refund_shipping_costs=refund_shipping,
+            )
+    
+        # when
+&gt;       refund_amount = calculate_manual_refund_amount(
+            order, Mock(amount=current_refund_amount)
+        )
+E       TypeError: calculate_manual_refund_amount() missing 1 required positional argument: 'refund_data'
+
+saleor/payment/gateways/np_atobarai/tests/test_utils.py:399: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_calculate_manual_refund_amount_previously_refunded[None-current_refund_amount2-False-expected_refund_amount2]" time="0.085"><failure message="TypeError: calculate_manual_refund_amount() missing 1 required positional argument: 'refund_data'">order = &lt;Order #232&gt;
+create_refund_fulfillment_helper = &lt;function create_refund_fulfillment_helper.&lt;locals&gt;.factory at 0x7474fcfc25e0&gt;
+previous_manual_refund_amount = None, current_refund_amount = Decimal('8.00')
+refund_shipping = False, expected_refund_amount = Decimal('8.00')
+
+    @pytest.mark.parametrize(
+        [
+            "previous_manual_refund_amount",
+            "current_refund_amount",
+            "refund_shipping",
+            "expected_refund_amount",
+        ],
+        [
+            (None, None, False, Decimal("0.00")),
+            (None, None, True, Decimal("12.30")),
+            (None, Decimal("8.00"), False, Decimal("8.00")),
+            (None, Decimal("8.00"), True, Decimal("20.30")),
+            (Decimal("5.00"), None, False, Decimal("5.00")),
+            (Decimal("5.00"), None, True, Decimal("17.30")),
+            (Decimal("5.00"), Decimal("8.00"), False, Decimal("13.00")),
+            (Decimal("5.00"), Decimal("8.00"), True, Decimal("25.30")),
+        ],
+    )
+    def test_calculate_manual_refund_amount_previously_refunded(
+        order,
+        create_refund_fulfillment_helper,
+        previous_manual_refund_amount,
+        current_refund_amount,
+        refund_shipping,
+        expected_refund_amount,
+    ):
+        # given
+        if previous_manual_refund_amount:
+            create_refund_fulfillment_helper(
+                order, manual_refund_amount=previous_manual_refund_amount
+            )
+        if refund_shipping:
+            create_refund_fulfillment_helper(
+                order,
+                refund_shipping_costs=refund_shipping,
+            )
+    
+        # when
+&gt;       refund_amount = calculate_manual_refund_amount(
+            order, Mock(amount=current_refund_amount)
+        )
+E       TypeError: calculate_manual_refund_amount() missing 1 required positional argument: 'refund_data'
+
+saleor/payment/gateways/np_atobarai/tests/test_utils.py:399: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_calculate_manual_refund_amount_previously_refunded[None-current_refund_amount3-True-expected_refund_amount3]" time="0.094"><failure message="TypeError: calculate_manual_refund_amount() missing 1 required positional argument: 'refund_data'">order = &lt;Order #233&gt;
+create_refund_fulfillment_helper = &lt;function create_refund_fulfillment_helper.&lt;locals&gt;.factory at 0x7474fceaf430&gt;
+previous_manual_refund_amount = None, current_refund_amount = Decimal('8.00')
+refund_shipping = True, expected_refund_amount = Decimal('20.30')
+
+    @pytest.mark.parametrize(
+        [
+            "previous_manual_refund_amount",
+            "current_refund_amount",
+            "refund_shipping",
+            "expected_refund_amount",
+        ],
+        [
+            (None, None, False, Decimal("0.00")),
+            (None, None, True, Decimal("12.30")),
+            (None, Decimal("8.00"), False, Decimal("8.00")),
+            (None, Decimal("8.00"), True, Decimal("20.30")),
+            (Decimal("5.00"), None, False, Decimal("5.00")),
+            (Decimal("5.00"), None, True, Decimal("17.30")),
+            (Decimal("5.00"), Decimal("8.00"), False, Decimal("13.00")),
+            (Decimal("5.00"), Decimal("8.00"), True, Decimal("25.30")),
+        ],
+    )
+    def test_calculate_manual_refund_amount_previously_refunded(
+        order,
+        create_refund_fulfillment_helper,
+        previous_manual_refund_amount,
+        current_refund_amount,
+        refund_shipping,
+        expected_refund_amount,
+    ):
+        # given
+        if previous_manual_refund_amount:
+            create_refund_fulfillment_helper(
+                order, manual_refund_amount=previous_manual_refund_amount
+            )
+        if refund_shipping:
+            create_refund_fulfillment_helper(
+                order,
+                refund_shipping_costs=refund_shipping,
+            )
+    
+        # when
+&gt;       refund_amount = calculate_manual_refund_amount(
+            order, Mock(amount=current_refund_amount)
+        )
+E       TypeError: calculate_manual_refund_amount() missing 1 required positional argument: 'refund_data'
+
+saleor/payment/gateways/np_atobarai/tests/test_utils.py:399: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_calculate_manual_refund_amount_previously_refunded[previous_manual_refund_amount4-None-False-expected_refund_amount4]" time="0.094"><failure message="TypeError: calculate_manual_refund_amount() missing 1 required positional argument: 'refund_data'">order = &lt;Order #234&gt;
+create_refund_fulfillment_helper = &lt;function create_refund_fulfillment_helper.&lt;locals&gt;.factory at 0x7474fceaf8b0&gt;
+previous_manual_refund_amount = Decimal('5.00'), current_refund_amount = None
+refund_shipping = False, expected_refund_amount = Decimal('5.00')
+
+    @pytest.mark.parametrize(
+        [
+            "previous_manual_refund_amount",
+            "current_refund_amount",
+            "refund_shipping",
+            "expected_refund_amount",
+        ],
+        [
+            (None, None, False, Decimal("0.00")),
+            (None, None, True, Decimal("12.30")),
+            (None, Decimal("8.00"), False, Decimal("8.00")),
+            (None, Decimal("8.00"), True, Decimal("20.30")),
+            (Decimal("5.00"), None, False, Decimal("5.00")),
+            (Decimal("5.00"), None, True, Decimal("17.30")),
+            (Decimal("5.00"), Decimal("8.00"), False, Decimal("13.00")),
+            (Decimal("5.00"), Decimal("8.00"), True, Decimal("25.30")),
+        ],
+    )
+    def test_calculate_manual_refund_amount_previously_refunded(
+        order,
+        create_refund_fulfillment_helper,
+        previous_manual_refund_amount,
+        current_refund_amount,
+        refund_shipping,
+        expected_refund_amount,
+    ):
+        # given
+        if previous_manual_refund_amount:
+            create_refund_fulfillment_helper(
+                order, manual_refund_amount=previous_manual_refund_amount
+            )
+        if refund_shipping:
+            create_refund_fulfillment_helper(
+                order,
+                refund_shipping_costs=refund_shipping,
+            )
+    
+        # when
+&gt;       refund_amount = calculate_manual_refund_amount(
+            order, Mock(amount=current_refund_amount)
+        )
+E       TypeError: calculate_manual_refund_amount() missing 1 required positional argument: 'refund_data'
+
+saleor/payment/gateways/np_atobarai/tests/test_utils.py:399: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_calculate_manual_refund_amount_previously_refunded[previous_manual_refund_amount5-None-True-expected_refund_amount5]" time="0.097"><failure message="TypeError: calculate_manual_refund_amount() missing 1 required positional argument: 'refund_data'">order = &lt;Order #235&gt;
+create_refund_fulfillment_helper = &lt;function create_refund_fulfillment_helper.&lt;locals&gt;.factory at 0x7474fceafb80&gt;
+previous_manual_refund_amount = Decimal('5.00'), current_refund_amount = None
+refund_shipping = True, expected_refund_amount = Decimal('17.30')
+
+    @pytest.mark.parametrize(
+        [
+            "previous_manual_refund_amount",
+            "current_refund_amount",
+            "refund_shipping",
+            "expected_refund_amount",
+        ],
+        [
+            (None, None, False, Decimal("0.00")),
+            (None, None, True, Decimal("12.30")),
+            (None, Decimal("8.00"), False, Decimal("8.00")),
+            (None, Decimal("8.00"), True, Decimal("20.30")),
+            (Decimal("5.00"), None, False, Decimal("5.00")),
+            (Decimal("5.00"), None, True, Decimal("17.30")),
+            (Decimal("5.00"), Decimal("8.00"), False, Decimal("13.00")),
+            (Decimal("5.00"), Decimal("8.00"), True, Decimal("25.30")),
+        ],
+    )
+    def test_calculate_manual_refund_amount_previously_refunded(
+        order,
+        create_refund_fulfillment_helper,
+        previous_manual_refund_amount,
+        current_refund_amount,
+        refund_shipping,
+        expected_refund_amount,
+    ):
+        # given
+        if previous_manual_refund_amount:
+            create_refund_fulfillment_helper(
+                order, manual_refund_amount=previous_manual_refund_amount
+            )
+        if refund_shipping:
+            create_refund_fulfillment_helper(
+                order,
+                refund_shipping_costs=refund_shipping,
+            )
+    
+        # when
+&gt;       refund_amount = calculate_manual_refund_amount(
+            order, Mock(amount=current_refund_amount)
+        )
+E       TypeError: calculate_manual_refund_amount() missing 1 required positional argument: 'refund_data'
+
+saleor/payment/gateways/np_atobarai/tests/test_utils.py:399: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_calculate_manual_refund_amount_previously_refunded[previous_manual_refund_amount6-current_refund_amount6-False-expected_refund_amount6]" time="0.085"><failure message="TypeError: calculate_manual_refund_amount() missing 1 required positional argument: 'refund_data'">order = &lt;Order #236&gt;
+create_refund_fulfillment_helper = &lt;function create_refund_fulfillment_helper.&lt;locals&gt;.factory at 0x7474fcec4040&gt;
+previous_manual_refund_amount = Decimal('5.00')
+current_refund_amount = Decimal('8.00'), refund_shipping = False
+expected_refund_amount = Decimal('13.00')
+
+    @pytest.mark.parametrize(
+        [
+            "previous_manual_refund_amount",
+            "current_refund_amount",
+            "refund_shipping",
+            "expected_refund_amount",
+        ],
+        [
+            (None, None, False, Decimal("0.00")),
+            (None, None, True, Decimal("12.30")),
+            (None, Decimal("8.00"), False, Decimal("8.00")),
+            (None, Decimal("8.00"), True, Decimal("20.30")),
+            (Decimal("5.00"), None, False, Decimal("5.00")),
+            (Decimal("5.00"), None, True, Decimal("17.30")),
+            (Decimal("5.00"), Decimal("8.00"), False, Decimal("13.00")),
+            (Decimal("5.00"), Decimal("8.00"), True, Decimal("25.30")),
+        ],
+    )
+    def test_calculate_manual_refund_amount_previously_refunded(
+        order,
+        create_refund_fulfillment_helper,
+        previous_manual_refund_amount,
+        current_refund_amount,
+        refund_shipping,
+        expected_refund_amount,
+    ):
+        # given
+        if previous_manual_refund_amount:
+            create_refund_fulfillment_helper(
+                order, manual_refund_amount=previous_manual_refund_amount
+            )
+        if refund_shipping:
+            create_refund_fulfillment_helper(
+                order,
+                refund_shipping_costs=refund_shipping,
+            )
+    
+        # when
+&gt;       refund_amount = calculate_manual_refund_amount(
+            order, Mock(amount=current_refund_amount)
+        )
+E       TypeError: calculate_manual_refund_amount() missing 1 required positional argument: 'refund_data'
+
+saleor/payment/gateways/np_atobarai/tests/test_utils.py:399: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.np_atobarai.tests.test_utils" name="test_calculate_manual_refund_amount_previously_refunded[previous_manual_refund_amount7-current_refund_amount7-True-expected_refund_amount7]" time="0.101"><failure message="TypeError: calculate_manual_refund_amount() missing 1 required positional argument: 'refund_data'">order = &lt;Order #237&gt;
+create_refund_fulfillment_helper = &lt;function create_refund_fulfillment_helper.&lt;locals&gt;.factory at 0x7474fcec40d0&gt;
+previous_manual_refund_amount = Decimal('5.00')
+current_refund_amount = Decimal('8.00'), refund_shipping = True
+expected_refund_amount = Decimal('25.30')
+
+    @pytest.mark.parametrize(
+        [
+            "previous_manual_refund_amount",
+            "current_refund_amount",
+            "refund_shipping",
+            "expected_refund_amount",
+        ],
+        [
+            (None, None, False, Decimal("0.00")),
+            (None, None, True, Decimal("12.30")),
+            (None, Decimal("8.00"), False, Decimal("8.00")),
+            (None, Decimal("8.00"), True, Decimal("20.30")),
+            (Decimal("5.00"), None, False, Decimal("5.00")),
+            (Decimal("5.00"), None, True, Decimal("17.30")),
+            (Decimal("5.00"), Decimal("8.00"), False, Decimal("13.00")),
+            (Decimal("5.00"), Decimal("8.00"), True, Decimal("25.30")),
+        ],
+    )
+    def test_calculate_manual_refund_amount_previously_refunded(
+        order,
+        create_refund_fulfillment_helper,
+        previous_manual_refund_amount,
+        current_refund_amount,
+        refund_shipping,
+        expected_refund_amount,
+    ):
+        # given
+        if previous_manual_refund_amount:
+            create_refund_fulfillment_helper(
+                order, manual_refund_amount=previous_manual_refund_amount
+            )
+        if refund_shipping:
+            create_refund_fulfillment_helper(
+                order,
+                refund_shipping_costs=refund_shipping,
+            )
+    
+        # when
+&gt;       refund_amount = calculate_manual_refund_amount(
+            order, Mock(amount=current_refund_amount)
+        )
+E       TypeError: calculate_manual_refund_amount() missing 1 required positional argument: 'refund_data'
+
+saleor/payment/gateways/np_atobarai/tests/test_utils.py:399: TypeError</failure></testcase></testsuite></testsuites>

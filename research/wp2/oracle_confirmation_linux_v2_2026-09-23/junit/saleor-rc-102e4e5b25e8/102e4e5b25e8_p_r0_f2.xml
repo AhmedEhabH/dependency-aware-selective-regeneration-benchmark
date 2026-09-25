@@ -1,0 +1,1265 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="8" skipped="0" tests="24" time="5.421" timestamp="2026-09-24T19:57:43.933288+00:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_products" name="test_products_query_with_attr_slug_and_attribute_value_reference_to_products[product_type_product_reference_attribute-containsAny-2-product1_values0-product2_values0-search_values0-\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="1.229" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_products" name="test_products_query_with_attr_slug_and_attribute_value_reference_to_products[product_type_product_reference_attribute-containsAny-2-product1_values0-product2_values0-search_values0-\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.166" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_products" name="test_products_query_with_attr_slug_and_attribute_value_reference_to_products[product_type_product_reference_attribute-containsAll-1-product1_values1-product2_values1-search_values1-\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.178" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_products" name="test_products_query_with_attr_slug_and_attribute_value_reference_to_products[product_type_product_reference_attribute-containsAll-1-product1_values1-product2_values1-search_values1-\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.169" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_products" name="test_products_query_with_attr_slug_and_attribute_value_reference_to_products[product_type_product_single_reference_attribute-containsAny-2-product1_values2-product2_values2-search_values2-\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.152"><failure message="AssertionError: [{'message': &quot;Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.&quot;, 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">query = '\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $chann...dges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n'
+reference_attribute_fixture = 'product_type_product_single_reference_attribute'
+filter_type = 'containsAny', expected_count = 2, product1_values = [0]
+product2_values = [1], search_values = [0, 1]
+request = &lt;FixtureRequest for &lt;Function test_products_query_with_attr_slug_and_attribute_value_reference_to_products[product_typ...es {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]&gt;&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7ebaed5b5730&gt;
+product_list = [&lt;saleor.product.models.Product(pk=94, name='Test product 1')&gt;, &lt;saleor.product.models.Product(pk=95, name='Test product 2')&gt;, &lt;saleor.product.models.Product(pk=96, name='Test product 3')&gt;]
+product_type = &lt;saleor.product.models.ProductType(pk=135, name='Default Type')&gt;
+channel_USD = &lt;Channel: main&gt;
+
+    @pytest.mark.parametrize("query", [PRODUCTS_WHERE_QUERY, PRODUCTS_FILTER_QUERY])
+    @pytest.mark.parametrize(
+        (
+            "reference_attribute_fixture",
+            "filter_type",
+            "expected_count",
+            "product1_values",
+            "product2_values",
+            "search_values",
+        ),
+        [
+            # REFERENCE type - can assign multiple values to one product
+            (
+                "product_type_product_reference_attribute",
+                "containsAny",
+                2,
+                [0, 1],
+                [1],
+                [0, 1],
+            ),
+            (
+                "product_type_product_reference_attribute",
+                "containsAll",
+                1,
+                [0, 1],
+                [1],
+                [0, 1],
+            ),
+            # SINGLE_REFERENCE type - can only assign one value
+            (
+                "product_type_product_single_reference_attribute",
+                "containsAny",
+                2,
+                [0],
+                [1],
+                [0, 1],
+            ),
+            # For SINGLE_REFERENCE containsAll, search for just one value that both products have
+            (
+                "product_type_product_single_reference_attribute",
+                "containsAll",
+                2,
+                [0],
+                [0],
+                [0],
+            ),
+        ],
+    )
+    def test_products_query_with_attr_slug_and_attribute_value_reference_to_products(
+        query,
+        reference_attribute_fixture,
+        filter_type,
+        expected_count,
+        product1_values,
+        product2_values,
+        search_values,
+        request,
+        staff_api_client,
+        product_list,
+        product_type,
+        channel_USD,
+    ):
+        # given
+        reference_attribute = request.getfixturevalue(reference_attribute_fixture)
+        product_type.product_attributes.add(reference_attribute)
+    
+        ref_product_1, ref_product_2 = Product.objects.bulk_create(
+            [
+                Product(
+                    name="Reference Product 1",
+                    slug="ref-1",
+                    product_type=product_type,
+                ),
+                Product(
+                    name="Reference Product 2",
+                    slug="ref-2",
+                    product_type=product_type,
+                ),
+            ]
+        )
+    
+        attribute_values = AttributeValue.objects.bulk_create(
+            [
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Product {ref_product_1.pk}",
+                    slug=f"product-{ref_product_1.pk}",
+                    reference_product=ref_product_1,
+                ),
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Product {ref_product_2.pk}",
+                    slug=f"product-{ref_product_2.pk}",
+                    reference_product=ref_product_2,
+                ),
+            ]
+        )
+    
+        product_with_both_references = product_list[0]
+        # Assign values based on product1_values indices
+        associate_attribute_values_to_instance(
+            product_with_both_references,
+            {reference_attribute.pk: [attribute_values[i] for i in product1_values]},
+        )
+    
+        product_with_single_reference = product_list[1]
+        associate_attribute_values_to_instance(
+            product_with_single_reference,
+            {reference_attribute.pk: [attribute_values[i] for i in product2_values]},
+        )
+    
+        # Build search slugs based on search_values indices
+        ref_products = [ref_product_1, ref_product_2]
+        search_slugs = [ref_products[i].slug for i in search_values]
+    
+        variables = {
+            "where": {
+                "attributes": [
+                    {
+                        "slug": reference_attribute.slug,
+                        "value": {
+                            "reference": {"productSlugs": {filter_type: search_slugs}}
+                        },
+                    }
+                ]
+            },
+            "channel": channel_USD.slug,
+        }
+    
+        # when
+        response = staff_api_client.post_graphql(
+            query,
+            variables,
+        )
+    
+        # then
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/product/tests/queries/products_filtrations/test_over_references_products.py:149: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+ignore_errors = False
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': "Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.", 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_products" name="test_products_query_with_attr_slug_and_attribute_value_reference_to_products[product_type_product_single_reference_attribute-containsAny-2-product1_values2-product2_values2-search_values2-\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.150"><failure message="AssertionError: [{'message': &quot;Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.&quot;, 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">query = '\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $cha...dges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n'
+reference_attribute_fixture = 'product_type_product_single_reference_attribute'
+filter_type = 'containsAny', expected_count = 2, product1_values = [0]
+product2_values = [1], search_values = [0, 1]
+request = &lt;FixtureRequest for &lt;Function test_products_query_with_attr_slug_and_attribute_value_reference_to_products[product_typ...es {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]&gt;&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7ebaed5f7440&gt;
+product_list = [&lt;saleor.product.models.Product(pk=99, name='Test product 1')&gt;, &lt;saleor.product.models.Product(pk=100, name='Test product 2')&gt;, &lt;saleor.product.models.Product(pk=101, name='Test product 3')&gt;]
+product_type = &lt;saleor.product.models.ProductType(pk=136, name='Default Type')&gt;
+channel_USD = &lt;Channel: main&gt;
+
+    @pytest.mark.parametrize("query", [PRODUCTS_WHERE_QUERY, PRODUCTS_FILTER_QUERY])
+    @pytest.mark.parametrize(
+        (
+            "reference_attribute_fixture",
+            "filter_type",
+            "expected_count",
+            "product1_values",
+            "product2_values",
+            "search_values",
+        ),
+        [
+            # REFERENCE type - can assign multiple values to one product
+            (
+                "product_type_product_reference_attribute",
+                "containsAny",
+                2,
+                [0, 1],
+                [1],
+                [0, 1],
+            ),
+            (
+                "product_type_product_reference_attribute",
+                "containsAll",
+                1,
+                [0, 1],
+                [1],
+                [0, 1],
+            ),
+            # SINGLE_REFERENCE type - can only assign one value
+            (
+                "product_type_product_single_reference_attribute",
+                "containsAny",
+                2,
+                [0],
+                [1],
+                [0, 1],
+            ),
+            # For SINGLE_REFERENCE containsAll, search for just one value that both products have
+            (
+                "product_type_product_single_reference_attribute",
+                "containsAll",
+                2,
+                [0],
+                [0],
+                [0],
+            ),
+        ],
+    )
+    def test_products_query_with_attr_slug_and_attribute_value_reference_to_products(
+        query,
+        reference_attribute_fixture,
+        filter_type,
+        expected_count,
+        product1_values,
+        product2_values,
+        search_values,
+        request,
+        staff_api_client,
+        product_list,
+        product_type,
+        channel_USD,
+    ):
+        # given
+        reference_attribute = request.getfixturevalue(reference_attribute_fixture)
+        product_type.product_attributes.add(reference_attribute)
+    
+        ref_product_1, ref_product_2 = Product.objects.bulk_create(
+            [
+                Product(
+                    name="Reference Product 1",
+                    slug="ref-1",
+                    product_type=product_type,
+                ),
+                Product(
+                    name="Reference Product 2",
+                    slug="ref-2",
+                    product_type=product_type,
+                ),
+            ]
+        )
+    
+        attribute_values = AttributeValue.objects.bulk_create(
+            [
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Product {ref_product_1.pk}",
+                    slug=f"product-{ref_product_1.pk}",
+                    reference_product=ref_product_1,
+                ),
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Product {ref_product_2.pk}",
+                    slug=f"product-{ref_product_2.pk}",
+                    reference_product=ref_product_2,
+                ),
+            ]
+        )
+    
+        product_with_both_references = product_list[0]
+        # Assign values based on product1_values indices
+        associate_attribute_values_to_instance(
+            product_with_both_references,
+            {reference_attribute.pk: [attribute_values[i] for i in product1_values]},
+        )
+    
+        product_with_single_reference = product_list[1]
+        associate_attribute_values_to_instance(
+            product_with_single_reference,
+            {reference_attribute.pk: [attribute_values[i] for i in product2_values]},
+        )
+    
+        # Build search slugs based on search_values indices
+        ref_products = [ref_product_1, ref_product_2]
+        search_slugs = [ref_products[i].slug for i in search_values]
+    
+        variables = {
+            "where": {
+                "attributes": [
+                    {
+                        "slug": reference_attribute.slug,
+                        "value": {
+                            "reference": {"productSlugs": {filter_type: search_slugs}}
+                        },
+                    }
+                ]
+            },
+            "channel": channel_USD.slug,
+        }
+    
+        # when
+        response = staff_api_client.post_graphql(
+            query,
+            variables,
+        )
+    
+        # then
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/product/tests/queries/products_filtrations/test_over_references_products.py:149: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+ignore_errors = False
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': "Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.", 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_products" name="test_products_query_with_attr_slug_and_attribute_value_reference_to_products[product_type_product_single_reference_attribute-containsAll-2-product1_values3-product2_values3-search_values3-\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.147"><failure message="AssertionError: [{'message': &quot;Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.&quot;, 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">query = '\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $chann...dges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n'
+reference_attribute_fixture = 'product_type_product_single_reference_attribute'
+filter_type = 'containsAll', expected_count = 2, product1_values = [0]
+product2_values = [0], search_values = [0]
+request = &lt;FixtureRequest for &lt;Function test_products_query_with_attr_slug_and_attribute_value_reference_to_products[product_typ...es {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]&gt;&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7ebaed5635f0&gt;
+product_list = [&lt;saleor.product.models.Product(pk=104, name='Test product 1')&gt;, &lt;saleor.product.models.Product(pk=105, name='Test product 2')&gt;, &lt;saleor.product.models.Product(pk=106, name='Test product 3')&gt;]
+product_type = &lt;saleor.product.models.ProductType(pk=137, name='Default Type')&gt;
+channel_USD = &lt;Channel: main&gt;
+
+    @pytest.mark.parametrize("query", [PRODUCTS_WHERE_QUERY, PRODUCTS_FILTER_QUERY])
+    @pytest.mark.parametrize(
+        (
+            "reference_attribute_fixture",
+            "filter_type",
+            "expected_count",
+            "product1_values",
+            "product2_values",
+            "search_values",
+        ),
+        [
+            # REFERENCE type - can assign multiple values to one product
+            (
+                "product_type_product_reference_attribute",
+                "containsAny",
+                2,
+                [0, 1],
+                [1],
+                [0, 1],
+            ),
+            (
+                "product_type_product_reference_attribute",
+                "containsAll",
+                1,
+                [0, 1],
+                [1],
+                [0, 1],
+            ),
+            # SINGLE_REFERENCE type - can only assign one value
+            (
+                "product_type_product_single_reference_attribute",
+                "containsAny",
+                2,
+                [0],
+                [1],
+                [0, 1],
+            ),
+            # For SINGLE_REFERENCE containsAll, search for just one value that both products have
+            (
+                "product_type_product_single_reference_attribute",
+                "containsAll",
+                2,
+                [0],
+                [0],
+                [0],
+            ),
+        ],
+    )
+    def test_products_query_with_attr_slug_and_attribute_value_reference_to_products(
+        query,
+        reference_attribute_fixture,
+        filter_type,
+        expected_count,
+        product1_values,
+        product2_values,
+        search_values,
+        request,
+        staff_api_client,
+        product_list,
+        product_type,
+        channel_USD,
+    ):
+        # given
+        reference_attribute = request.getfixturevalue(reference_attribute_fixture)
+        product_type.product_attributes.add(reference_attribute)
+    
+        ref_product_1, ref_product_2 = Product.objects.bulk_create(
+            [
+                Product(
+                    name="Reference Product 1",
+                    slug="ref-1",
+                    product_type=product_type,
+                ),
+                Product(
+                    name="Reference Product 2",
+                    slug="ref-2",
+                    product_type=product_type,
+                ),
+            ]
+        )
+    
+        attribute_values = AttributeValue.objects.bulk_create(
+            [
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Product {ref_product_1.pk}",
+                    slug=f"product-{ref_product_1.pk}",
+                    reference_product=ref_product_1,
+                ),
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Product {ref_product_2.pk}",
+                    slug=f"product-{ref_product_2.pk}",
+                    reference_product=ref_product_2,
+                ),
+            ]
+        )
+    
+        product_with_both_references = product_list[0]
+        # Assign values based on product1_values indices
+        associate_attribute_values_to_instance(
+            product_with_both_references,
+            {reference_attribute.pk: [attribute_values[i] for i in product1_values]},
+        )
+    
+        product_with_single_reference = product_list[1]
+        associate_attribute_values_to_instance(
+            product_with_single_reference,
+            {reference_attribute.pk: [attribute_values[i] for i in product2_values]},
+        )
+    
+        # Build search slugs based on search_values indices
+        ref_products = [ref_product_1, ref_product_2]
+        search_slugs = [ref_products[i].slug for i in search_values]
+    
+        variables = {
+            "where": {
+                "attributes": [
+                    {
+                        "slug": reference_attribute.slug,
+                        "value": {
+                            "reference": {"productSlugs": {filter_type: search_slugs}}
+                        },
+                    }
+                ]
+            },
+            "channel": channel_USD.slug,
+        }
+    
+        # when
+        response = staff_api_client.post_graphql(
+            query,
+            variables,
+        )
+    
+        # then
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/product/tests/queries/products_filtrations/test_over_references_products.py:149: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+ignore_errors = False
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': "Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.", 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_products" name="test_products_query_with_attr_slug_and_attribute_value_reference_to_products[product_type_product_single_reference_attribute-containsAll-2-product1_values3-product2_values3-search_values3-\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.149"><failure message="AssertionError: [{'message': &quot;Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.&quot;, 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">query = '\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $cha...dges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n'
+reference_attribute_fixture = 'product_type_product_single_reference_attribute'
+filter_type = 'containsAll', expected_count = 2, product1_values = [0]
+product2_values = [0], search_values = [0]
+request = &lt;FixtureRequest for &lt;Function test_products_query_with_attr_slug_and_attribute_value_reference_to_products[product_typ...es {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]&gt;&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7ebaed560950&gt;
+product_list = [&lt;saleor.product.models.Product(pk=109, name='Test product 1')&gt;, &lt;saleor.product.models.Product(pk=110, name='Test product 2')&gt;, &lt;saleor.product.models.Product(pk=111, name='Test product 3')&gt;]
+product_type = &lt;saleor.product.models.ProductType(pk=138, name='Default Type')&gt;
+channel_USD = &lt;Channel: main&gt;
+
+    @pytest.mark.parametrize("query", [PRODUCTS_WHERE_QUERY, PRODUCTS_FILTER_QUERY])
+    @pytest.mark.parametrize(
+        (
+            "reference_attribute_fixture",
+            "filter_type",
+            "expected_count",
+            "product1_values",
+            "product2_values",
+            "search_values",
+        ),
+        [
+            # REFERENCE type - can assign multiple values to one product
+            (
+                "product_type_product_reference_attribute",
+                "containsAny",
+                2,
+                [0, 1],
+                [1],
+                [0, 1],
+            ),
+            (
+                "product_type_product_reference_attribute",
+                "containsAll",
+                1,
+                [0, 1],
+                [1],
+                [0, 1],
+            ),
+            # SINGLE_REFERENCE type - can only assign one value
+            (
+                "product_type_product_single_reference_attribute",
+                "containsAny",
+                2,
+                [0],
+                [1],
+                [0, 1],
+            ),
+            # For SINGLE_REFERENCE containsAll, search for just one value that both products have
+            (
+                "product_type_product_single_reference_attribute",
+                "containsAll",
+                2,
+                [0],
+                [0],
+                [0],
+            ),
+        ],
+    )
+    def test_products_query_with_attr_slug_and_attribute_value_reference_to_products(
+        query,
+        reference_attribute_fixture,
+        filter_type,
+        expected_count,
+        product1_values,
+        product2_values,
+        search_values,
+        request,
+        staff_api_client,
+        product_list,
+        product_type,
+        channel_USD,
+    ):
+        # given
+        reference_attribute = request.getfixturevalue(reference_attribute_fixture)
+        product_type.product_attributes.add(reference_attribute)
+    
+        ref_product_1, ref_product_2 = Product.objects.bulk_create(
+            [
+                Product(
+                    name="Reference Product 1",
+                    slug="ref-1",
+                    product_type=product_type,
+                ),
+                Product(
+                    name="Reference Product 2",
+                    slug="ref-2",
+                    product_type=product_type,
+                ),
+            ]
+        )
+    
+        attribute_values = AttributeValue.objects.bulk_create(
+            [
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Product {ref_product_1.pk}",
+                    slug=f"product-{ref_product_1.pk}",
+                    reference_product=ref_product_1,
+                ),
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Product {ref_product_2.pk}",
+                    slug=f"product-{ref_product_2.pk}",
+                    reference_product=ref_product_2,
+                ),
+            ]
+        )
+    
+        product_with_both_references = product_list[0]
+        # Assign values based on product1_values indices
+        associate_attribute_values_to_instance(
+            product_with_both_references,
+            {reference_attribute.pk: [attribute_values[i] for i in product1_values]},
+        )
+    
+        product_with_single_reference = product_list[1]
+        associate_attribute_values_to_instance(
+            product_with_single_reference,
+            {reference_attribute.pk: [attribute_values[i] for i in product2_values]},
+        )
+    
+        # Build search slugs based on search_values indices
+        ref_products = [ref_product_1, ref_product_2]
+        search_slugs = [ref_products[i].slug for i in search_values]
+    
+        variables = {
+            "where": {
+                "attributes": [
+                    {
+                        "slug": reference_attribute.slug,
+                        "value": {
+                            "reference": {"productSlugs": {filter_type: search_slugs}}
+                        },
+                    }
+                ]
+            },
+            "channel": channel_USD.slug,
+        }
+    
+        # when
+        response = staff_api_client.post_graphql(
+            query,
+            variables,
+        )
+    
+        # then
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/product/tests/queries/products_filtrations/test_over_references_products.py:149: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+ignore_errors = False
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': "Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.", 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_products" name="test_products_query_with_attribute_value_reference_to_products[product_type_product_reference_attribute-containsAny-2-\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.171" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_products" name="test_products_query_with_attribute_value_reference_to_products[product_type_product_reference_attribute-containsAny-2-\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.167" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_products" name="test_products_query_with_attribute_value_reference_to_products[product_type_product_reference_attribute-containsAll-1-\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.173" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_products" name="test_products_query_with_attribute_value_reference_to_products[product_type_product_reference_attribute-containsAll-1-\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.163" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_products" name="test_products_query_with_attribute_value_reference_to_products[product_type_product_single_reference_attribute-containsAny-2-\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.170" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_products" name="test_products_query_with_attribute_value_reference_to_products[product_type_product_single_reference_attribute-containsAny-2-\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.161" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_products" name="test_products_query_with_attribute_value_reference_to_products[product_type_product_single_reference_attribute-containsAll-1-\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.175" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_products" name="test_products_query_with_attribute_value_reference_to_products[product_type_product_single_reference_attribute-containsAll-1-\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.169" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_products" name="test_products_query_with_attr_slug_and_attribute_value_referenced_product_ids[product_type_product_reference_attribute-containsAny-3-product_value_assignments0-search_indices0-\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.176" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_products" name="test_products_query_with_attr_slug_and_attribute_value_referenced_product_ids[product_type_product_reference_attribute-containsAny-3-product_value_assignments0-search_indices0-\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.173" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_products" name="test_products_query_with_attr_slug_and_attribute_value_referenced_product_ids[product_type_product_reference_attribute-containsAll-2-product_value_assignments1-search_indices1-\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.193" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_products" name="test_products_query_with_attr_slug_and_attribute_value_referenced_product_ids[product_type_product_reference_attribute-containsAll-2-product_value_assignments1-search_indices1-\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.179" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_products" name="test_products_query_with_attr_slug_and_attribute_value_referenced_product_ids[product_type_product_single_reference_attribute-containsAny-3-product_value_assignments2-search_indices2-\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.156"><failure message="AssertionError: [{'message': &quot;Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.&quot;, 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">query = '\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $chann...dges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n'
+reference_attribute_fixture = 'product_type_product_single_reference_attribute'
+filter_type = 'containsAny', expected_count = 3
+product_value_assignments = [[0], [1], [2]], search_indices = [0, 1, 2]
+request = &lt;FixtureRequest for &lt;Function test_products_query_with_attr_slug_and_attribute_value_referenced_product_ids[product_ty...es {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]&gt;&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7ebaed408e60&gt;
+product_list = [&lt;saleor.product.models.Product(pk=178, name='Test product 1')&gt;, &lt;saleor.product.models.Product(pk=179, name='Test product 2')&gt;, &lt;saleor.product.models.Product(pk=180, name='Test product 3')&gt;]
+product_type = &lt;saleor.product.models.ProductType(pk=151, name='Default Type')&gt;
+channel_USD = &lt;Channel: main&gt;
+
+    @pytest.mark.parametrize("query", [PRODUCTS_WHERE_QUERY, PRODUCTS_FILTER_QUERY])
+    @pytest.mark.parametrize(
+        (
+            "reference_attribute_fixture",
+            "filter_type",
+            "expected_count",
+            "product_value_assignments",
+            "search_indices",
+        ),
+        [
+            # REFERENCE type - products can have multiple values
+            (
+                "product_type_product_reference_attribute",
+                "containsAny",
+                3,
+                [[0, 1, 2], [0, 1, 2], [0]],
+                [0, 1, 2],
+            ),  # Search for all 3 refs
+            (
+                "product_type_product_reference_attribute",
+                "containsAll",
+                2,
+                [[0, 1, 2], [0, 1, 2], [0]],
+                [0, 1, 2],
+            ),  # Search for all 3 refs
+            # SINGLE_REFERENCE - each product has one value
+            (
+                "product_type_product_single_reference_attribute",
+                "containsAny",
+                3,
+                [[0], [1], [2]],
+                [0, 1, 2],
+            ),  # Search for all 3 refs
+            # For containsAll with SINGLE_REFERENCE, search for single value
+            (
+                "product_type_product_single_reference_attribute",
+                "containsAll",
+                1,
+                [[0], [1], [2]],
+                [0],
+            ),  # Search for just ref[0], only product1 has it
+        ],
+    )
+    def test_products_query_with_attr_slug_and_attribute_value_referenced_product_ids(
+        query,
+        reference_attribute_fixture,
+        filter_type,
+        expected_count,
+        product_value_assignments,
+        search_indices,
+        request,
+        staff_api_client,
+        product_list,
+        product_type,
+        channel_USD,
+    ):
+        # given
+        reference_attribute = request.getfixturevalue(reference_attribute_fixture)
+        product_type.product_attributes.add(reference_attribute)
+    
+        # Create additional products to use as references
+        ref_products = Product.objects.bulk_create(
+            [
+                Product(
+                    name=f"Reference Product {i + 1}",
+                    slug=f"ref-{i + 1}",
+                    product_type=product_type,
+                )
+                for i in range(3)
+            ]
+        )
+    
+        attr_values = AttributeValue.objects.bulk_create(
+            [
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Product {ref_product.pk}",
+                    slug=f"product-{ref_product.pk}",
+                    reference_product=ref_product,
+                )
+                for ref_product in ref_products
+            ]
+        )
+    
+        # Assign values based on product_value_assignments configuration
+        for product, value_indices in zip(
+            product_list, product_value_assignments, strict=False
+        ):
+            associate_attribute_values_to_instance(
+                product,
+                {reference_attribute.pk: [attr_values[i] for i in value_indices]},
+            )
+    
+        ref_global_ids = [to_global_id_or_none(ref) for ref in ref_products]
+        # Build search IDs based on search_indices
+        search_ids = [ref_global_ids[i] for i in search_indices]
+    
+        variables = {
+            "where": {
+                "attributes": [
+                    {
+                        "slug": reference_attribute.slug,
+                        "value": {
+                            "reference": {"referencedIds": {filter_type: search_ids}}
+                        },
+                    },
+                ]
+            },
+            "channel": channel_USD.slug,
+        }
+    
+        # when
+        response = staff_api_client.post_graphql(
+            query,
+            variables,
+        )
+    
+        # then
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/product/tests/queries/products_filtrations/test_over_references_products.py:397: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+ignore_errors = False
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': "Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.", 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_products" name="test_products_query_with_attr_slug_and_attribute_value_referenced_product_ids[product_type_product_single_reference_attribute-containsAny-3-product_value_assignments2-search_indices2-\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.165"><failure message="AssertionError: [{'message': &quot;Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.&quot;, 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">query = '\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $cha...dges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n'
+reference_attribute_fixture = 'product_type_product_single_reference_attribute'
+filter_type = 'containsAny', expected_count = 3
+product_value_assignments = [[0], [1], [2]], search_indices = [0, 1, 2]
+request = &lt;FixtureRequest for &lt;Function test_products_query_with_attr_slug_and_attribute_value_referenced_product_ids[product_ty...es {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]&gt;&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7ebaed2ac590&gt;
+product_list = [&lt;saleor.product.models.Product(pk=184, name='Test product 1')&gt;, &lt;saleor.product.models.Product(pk=185, name='Test product 2')&gt;, &lt;saleor.product.models.Product(pk=186, name='Test product 3')&gt;]
+product_type = &lt;saleor.product.models.ProductType(pk=152, name='Default Type')&gt;
+channel_USD = &lt;Channel: main&gt;
+
+    @pytest.mark.parametrize("query", [PRODUCTS_WHERE_QUERY, PRODUCTS_FILTER_QUERY])
+    @pytest.mark.parametrize(
+        (
+            "reference_attribute_fixture",
+            "filter_type",
+            "expected_count",
+            "product_value_assignments",
+            "search_indices",
+        ),
+        [
+            # REFERENCE type - products can have multiple values
+            (
+                "product_type_product_reference_attribute",
+                "containsAny",
+                3,
+                [[0, 1, 2], [0, 1, 2], [0]],
+                [0, 1, 2],
+            ),  # Search for all 3 refs
+            (
+                "product_type_product_reference_attribute",
+                "containsAll",
+                2,
+                [[0, 1, 2], [0, 1, 2], [0]],
+                [0, 1, 2],
+            ),  # Search for all 3 refs
+            # SINGLE_REFERENCE - each product has one value
+            (
+                "product_type_product_single_reference_attribute",
+                "containsAny",
+                3,
+                [[0], [1], [2]],
+                [0, 1, 2],
+            ),  # Search for all 3 refs
+            # For containsAll with SINGLE_REFERENCE, search for single value
+            (
+                "product_type_product_single_reference_attribute",
+                "containsAll",
+                1,
+                [[0], [1], [2]],
+                [0],
+            ),  # Search for just ref[0], only product1 has it
+        ],
+    )
+    def test_products_query_with_attr_slug_and_attribute_value_referenced_product_ids(
+        query,
+        reference_attribute_fixture,
+        filter_type,
+        expected_count,
+        product_value_assignments,
+        search_indices,
+        request,
+        staff_api_client,
+        product_list,
+        product_type,
+        channel_USD,
+    ):
+        # given
+        reference_attribute = request.getfixturevalue(reference_attribute_fixture)
+        product_type.product_attributes.add(reference_attribute)
+    
+        # Create additional products to use as references
+        ref_products = Product.objects.bulk_create(
+            [
+                Product(
+                    name=f"Reference Product {i + 1}",
+                    slug=f"ref-{i + 1}",
+                    product_type=product_type,
+                )
+                for i in range(3)
+            ]
+        )
+    
+        attr_values = AttributeValue.objects.bulk_create(
+            [
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Product {ref_product.pk}",
+                    slug=f"product-{ref_product.pk}",
+                    reference_product=ref_product,
+                )
+                for ref_product in ref_products
+            ]
+        )
+    
+        # Assign values based on product_value_assignments configuration
+        for product, value_indices in zip(
+            product_list, product_value_assignments, strict=False
+        ):
+            associate_attribute_values_to_instance(
+                product,
+                {reference_attribute.pk: [attr_values[i] for i in value_indices]},
+            )
+    
+        ref_global_ids = [to_global_id_or_none(ref) for ref in ref_products]
+        # Build search IDs based on search_indices
+        search_ids = [ref_global_ids[i] for i in search_indices]
+    
+        variables = {
+            "where": {
+                "attributes": [
+                    {
+                        "slug": reference_attribute.slug,
+                        "value": {
+                            "reference": {"referencedIds": {filter_type: search_ids}}
+                        },
+                    },
+                ]
+            },
+            "channel": channel_USD.slug,
+        }
+    
+        # when
+        response = staff_api_client.post_graphql(
+            query,
+            variables,
+        )
+    
+        # then
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/product/tests/queries/products_filtrations/test_over_references_products.py:397: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+ignore_errors = False
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': "Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.", 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_products" name="test_products_query_with_attr_slug_and_attribute_value_referenced_product_ids[product_type_product_single_reference_attribute-containsAll-1-product_value_assignments3-search_indices3-\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.164"><failure message="AssertionError: [{'message': &quot;Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.&quot;, 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">query = '\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $chann...dges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n'
+reference_attribute_fixture = 'product_type_product_single_reference_attribute'
+filter_type = 'containsAll', expected_count = 1
+product_value_assignments = [[0], [1], [2]], search_indices = [0]
+request = &lt;FixtureRequest for &lt;Function test_products_query_with_attr_slug_and_attribute_value_referenced_product_ids[product_ty...es {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]&gt;&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7ebaed3d2990&gt;
+product_list = [&lt;saleor.product.models.Product(pk=190, name='Test product 1')&gt;, &lt;saleor.product.models.Product(pk=191, name='Test product 2')&gt;, &lt;saleor.product.models.Product(pk=192, name='Test product 3')&gt;]
+product_type = &lt;saleor.product.models.ProductType(pk=153, name='Default Type')&gt;
+channel_USD = &lt;Channel: main&gt;
+
+    @pytest.mark.parametrize("query", [PRODUCTS_WHERE_QUERY, PRODUCTS_FILTER_QUERY])
+    @pytest.mark.parametrize(
+        (
+            "reference_attribute_fixture",
+            "filter_type",
+            "expected_count",
+            "product_value_assignments",
+            "search_indices",
+        ),
+        [
+            # REFERENCE type - products can have multiple values
+            (
+                "product_type_product_reference_attribute",
+                "containsAny",
+                3,
+                [[0, 1, 2], [0, 1, 2], [0]],
+                [0, 1, 2],
+            ),  # Search for all 3 refs
+            (
+                "product_type_product_reference_attribute",
+                "containsAll",
+                2,
+                [[0, 1, 2], [0, 1, 2], [0]],
+                [0, 1, 2],
+            ),  # Search for all 3 refs
+            # SINGLE_REFERENCE - each product has one value
+            (
+                "product_type_product_single_reference_attribute",
+                "containsAny",
+                3,
+                [[0], [1], [2]],
+                [0, 1, 2],
+            ),  # Search for all 3 refs
+            # For containsAll with SINGLE_REFERENCE, search for single value
+            (
+                "product_type_product_single_reference_attribute",
+                "containsAll",
+                1,
+                [[0], [1], [2]],
+                [0],
+            ),  # Search for just ref[0], only product1 has it
+        ],
+    )
+    def test_products_query_with_attr_slug_and_attribute_value_referenced_product_ids(
+        query,
+        reference_attribute_fixture,
+        filter_type,
+        expected_count,
+        product_value_assignments,
+        search_indices,
+        request,
+        staff_api_client,
+        product_list,
+        product_type,
+        channel_USD,
+    ):
+        # given
+        reference_attribute = request.getfixturevalue(reference_attribute_fixture)
+        product_type.product_attributes.add(reference_attribute)
+    
+        # Create additional products to use as references
+        ref_products = Product.objects.bulk_create(
+            [
+                Product(
+                    name=f"Reference Product {i + 1}",
+                    slug=f"ref-{i + 1}",
+                    product_type=product_type,
+                )
+                for i in range(3)
+            ]
+        )
+    
+        attr_values = AttributeValue.objects.bulk_create(
+            [
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Product {ref_product.pk}",
+                    slug=f"product-{ref_product.pk}",
+                    reference_product=ref_product,
+                )
+                for ref_product in ref_products
+            ]
+        )
+    
+        # Assign values based on product_value_assignments configuration
+        for product, value_indices in zip(
+            product_list, product_value_assignments, strict=False
+        ):
+            associate_attribute_values_to_instance(
+                product,
+                {reference_attribute.pk: [attr_values[i] for i in value_indices]},
+            )
+    
+        ref_global_ids = [to_global_id_or_none(ref) for ref in ref_products]
+        # Build search IDs based on search_indices
+        search_ids = [ref_global_ids[i] for i in search_indices]
+    
+        variables = {
+            "where": {
+                "attributes": [
+                    {
+                        "slug": reference_attribute.slug,
+                        "value": {
+                            "reference": {"referencedIds": {filter_type: search_ids}}
+                        },
+                    },
+                ]
+            },
+            "channel": channel_USD.slug,
+        }
+    
+        # when
+        response = staff_api_client.post_graphql(
+            query,
+            variables,
+        )
+    
+        # then
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/product/tests/queries/products_filtrations/test_over_references_products.py:397: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+ignore_errors = False
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': "Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.", 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_references_products" name="test_products_query_with_attr_slug_and_attribute_value_referenced_product_ids[product_type_product_single_reference_attribute-containsAll-1-product_value_assignments3-search_indices3-\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.158"><failure message="AssertionError: [{'message': &quot;Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.&quot;, 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">query = '\n    query($where: ProductFilterInput!, $channel: String) {\n      products(first: 10, filter: $where, channel: $cha...dges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n'
+reference_attribute_fixture = 'product_type_product_single_reference_attribute'
+filter_type = 'containsAll', expected_count = 1
+product_value_assignments = [[0], [1], [2]], search_indices = [0]
+request = &lt;FixtureRequest for &lt;Function test_products_query_with_attr_slug_and_attribute_value_referenced_product_ids[product_ty...es {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]&gt;&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7ebaed473d40&gt;
+product_list = [&lt;saleor.product.models.Product(pk=196, name='Test product 1')&gt;, &lt;saleor.product.models.Product(pk=197, name='Test product 2')&gt;, &lt;saleor.product.models.Product(pk=198, name='Test product 3')&gt;]
+product_type = &lt;saleor.product.models.ProductType(pk=154, name='Default Type')&gt;
+channel_USD = &lt;Channel: main&gt;
+
+    @pytest.mark.parametrize("query", [PRODUCTS_WHERE_QUERY, PRODUCTS_FILTER_QUERY])
+    @pytest.mark.parametrize(
+        (
+            "reference_attribute_fixture",
+            "filter_type",
+            "expected_count",
+            "product_value_assignments",
+            "search_indices",
+        ),
+        [
+            # REFERENCE type - products can have multiple values
+            (
+                "product_type_product_reference_attribute",
+                "containsAny",
+                3,
+                [[0, 1, 2], [0, 1, 2], [0]],
+                [0, 1, 2],
+            ),  # Search for all 3 refs
+            (
+                "product_type_product_reference_attribute",
+                "containsAll",
+                2,
+                [[0, 1, 2], [0, 1, 2], [0]],
+                [0, 1, 2],
+            ),  # Search for all 3 refs
+            # SINGLE_REFERENCE - each product has one value
+            (
+                "product_type_product_single_reference_attribute",
+                "containsAny",
+                3,
+                [[0], [1], [2]],
+                [0, 1, 2],
+            ),  # Search for all 3 refs
+            # For containsAll with SINGLE_REFERENCE, search for single value
+            (
+                "product_type_product_single_reference_attribute",
+                "containsAll",
+                1,
+                [[0], [1], [2]],
+                [0],
+            ),  # Search for just ref[0], only product1 has it
+        ],
+    )
+    def test_products_query_with_attr_slug_and_attribute_value_referenced_product_ids(
+        query,
+        reference_attribute_fixture,
+        filter_type,
+        expected_count,
+        product_value_assignments,
+        search_indices,
+        request,
+        staff_api_client,
+        product_list,
+        product_type,
+        channel_USD,
+    ):
+        # given
+        reference_attribute = request.getfixturevalue(reference_attribute_fixture)
+        product_type.product_attributes.add(reference_attribute)
+    
+        # Create additional products to use as references
+        ref_products = Product.objects.bulk_create(
+            [
+                Product(
+                    name=f"Reference Product {i + 1}",
+                    slug=f"ref-{i + 1}",
+                    product_type=product_type,
+                )
+                for i in range(3)
+            ]
+        )
+    
+        attr_values = AttributeValue.objects.bulk_create(
+            [
+                AttributeValue(
+                    attribute=reference_attribute,
+                    name=f"Product {ref_product.pk}",
+                    slug=f"product-{ref_product.pk}",
+                    reference_product=ref_product,
+                )
+                for ref_product in ref_products
+            ]
+        )
+    
+        # Assign values based on product_value_assignments configuration
+        for product, value_indices in zip(
+            product_list, product_value_assignments, strict=False
+        ):
+            associate_attribute_values_to_instance(
+                product,
+                {reference_attribute.pk: [attr_values[i] for i in value_indices]},
+            )
+    
+        ref_global_ids = [to_global_id_or_none(ref) for ref in ref_products]
+        # Build search IDs based on search_indices
+        search_ids = [ref_global_ids[i] for i in search_indices]
+    
+        variables = {
+            "where": {
+                "attributes": [
+                    {
+                        "slug": reference_attribute.slug,
+                        "value": {
+                            "reference": {"referencedIds": {filter_type: search_ids}}
+                        },
+                    },
+                ]
+            },
+            "channel": channel_USD.slug,
+        }
+    
+        # when
+        response = staff_api_client.post_graphql(
+            query,
+            variables,
+        )
+    
+        # then
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/product/tests/queries/products_filtrations/test_over_references_products.py:397: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+ignore_errors = False
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': "Incorrect input for attributes on position: 0. Provided 'value' do not match the attribute input type.", 'locations': [{'line': 3, 'column': 7}], 'path': ['products'], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase></testsuite></testsuites>

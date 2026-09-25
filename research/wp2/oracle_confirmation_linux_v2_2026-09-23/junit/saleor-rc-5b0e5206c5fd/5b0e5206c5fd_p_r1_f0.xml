@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="8" skipped="0" tests="125" time="23.663" timestamp="2026-09-24T17:26:36.670834-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_product_translation" time="1.112" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_product_translation_without_description" time="0.171" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_product_translation_with_app" time="0.097" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_product_variant_translation" time="0.182" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_collection_translation" time="0.123" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_collection_translation_without_description" time="0.116" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_category_translation" time="0.110" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_category_translation_without_description" time="0.105" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_voucher_translation" time="0.147" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_sale_translation" time="0.378" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_page_translation" time="0.154" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_page_translation_without_content" time="0.141" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_attribute_translation" time="0.119" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_attribute_value_translation" time="0.121" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_shipping_method_translation" time="0.132" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_menu_item_translation" time="0.110" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_shop_translation" time="0.101" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_product_no_translation" time="0.215" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_product_variant_no_translation" time="0.186" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_collection_no_translation" time="0.112" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_category_no_translation" time="0.102" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_voucher_no_translation" time="0.122" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_page_no_translation" time="0.135" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_attribute_no_translation" time="0.114" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_attribute_value_no_translation" time="0.112" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_shipping_method_no_translation" time="0.173" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_menu_item_no_translation" time="0.130" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_shop_no_translation" time="0.106" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_product_create_translation" time="0.304" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_product_create_translation_for_description" time="0.202" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_product_create_translation_for_description_and_name_as_null" time="0.181" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_product_create_translation_with_app" time="0.102" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_product_create_translation_by_translatable_content_id" time="0.205" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_product_create_translation_validates_name_length" time="0.181" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_product_create_translation_by_invalid_translatable_content_id" time="0.180" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_product_update_translation" time="0.277" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_product_variant_create_translation" time="0.238" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_product_variant_create_translation_by_translatable_content_id" time="0.191" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_product_variant_update_translation" time="0.218" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_product_variant_translation_mutation_validates_inputs_length" time="0.208" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_collection_create_translation" time="0.167" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_collection_create_translation_by_translatable_content_id" time="0.139" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_collection_create_translation_for_description" time="0.127" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_collection_create_translation_for_description_name_as_null" time="0.128" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_collection_update_translation" time="0.153" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_collection_translation_mutation_validates_inputs_length" time="0.121" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_category_create_translation" time="0.159" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_category_create_translation_by_translatable_content_id" time="0.134" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_category_create_translation_for_description" time="0.126" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_category_create_translation_for_description_name_as_null" time="0.131" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_category_update_translation" time="0.156" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_voucher_create_translation" time="0.151" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_voucher_create_translation_by_translatable_content_id" time="0.121" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_voucher_update_translation" time="0.155" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_sale_create_translation" time="0.244" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_sale_create_translation_by_translatable_content_id" time="0.182" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_sale_update_translation" time="0.275" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_page_create_translation" time="0.206" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_page_create_translation_for_content" time="0.162" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_page_create_translation_for_content_title_as_null" time="0.158" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_page_create_translation_by_translatable_content_id" time="0.160" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_page_update_translation" time="0.185" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_attribute_create_translation" time="0.175" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_attribute_create_translation_by_translatable_content_id" time="0.125" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_attribute_update_translation" time="0.157" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_attribute_value_create_translation" time="0.170" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_rich_text_attribute_value_create_translation" time="0.181"><failure message="AssertionError: assert '' == 'Nowy Opis'&#10;  &#10;  - Nowy Opis">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x752415de45e0&gt;
+product_with_rich_text_attribute = [&lt;saleor.product.models.Product(pk=79, name='Test product')&gt;, &lt;ProductVariant: 123&gt;]
+permission_manage_translations = &lt;Permission: site | site settings | Manage translations.&gt;
+
+    def test_rich_text_attribute_value_create_translation(
+        staff_api_client,
+        product_with_rich_text_attribute,
+        permission_manage_translations,
+    ):
+        # given
+        assigned_attribute = product_with_rich_text_attribute[0].attributes.first()
+        attribute_value = assigned_attribute.attribute.values.first()
+        attribute_value_id = graphene.Node.to_global_id(
+            "AttributeValue", attribute_value.id
+        )
+        expected_base_text = "Nowy Opis"
+        expected_rich_text = json.dumps(dummy_editorjs(expected_base_text))
+    
+        # when
+        response = staff_api_client.post_graphql(
+            ATTRIBUTE_VALUE_TRANSLATE_MUTATION,
+            {
+                "attributeValueId": attribute_value_id,
+                "input": {"richText": expected_rich_text},
+            },
+            permissions=[permission_manage_translations],
+        )
+    
+        # then
+        data = get_graphql_content(response)["data"]["attributeValueTranslate"]
+        assert data["attributeValue"]["translation"]["language"]["code"] == "PL"
+&gt;       assert data["attributeValue"]["translation"]["name"] == expected_base_text
+E       AssertionError: assert '' == 'Nowy Opis'
+E         
+E         - Nowy Opis
+
+saleor/graphql/translations/tests/test_translations.py:2068: AssertionError</failure></testcase><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_plain_text_attribute_value_create_translation" time="0.209"><failure message="AssertionError: assert '' == 'Nowy Opis'&#10;  &#10;  - Nowy Opis">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x752415e1c3a0&gt;
+variant = &lt;ProductVariant: SKU_A&gt;
+plain_text_attribute = &lt;Attribute: Plain text&gt;
+permission_manage_translations = &lt;Permission: site | site settings | Manage translations.&gt;
+
+    def test_plain_text_attribute_value_create_translation(
+        staff_api_client,
+        variant,
+        plain_text_attribute,
+        permission_manage_translations,
+    ):
+        # given
+        product_type = variant.product.product_type
+        product_type.variant_attributes.set([plain_text_attribute])
+    
+        attribute_value = plain_text_attribute.values.first()
+        associate_attribute_values_to_instance(
+            variant, plain_text_attribute, attribute_value
+        )
+        attribute_value_id = graphene.Node.to_global_id(
+            "AttributeValue", attribute_value.id
+        )
+        expected_text = "Nowy Opis"
+    
+        # when
+        response = staff_api_client.post_graphql(
+            ATTRIBUTE_VALUE_TRANSLATE_MUTATION,
+            {
+                "attributeValueId": attribute_value_id,
+                "input": {"plainText": expected_text},
+            },
+            permissions=[permission_manage_translations],
+        )
+    
+        # then
+        data = get_graphql_content(response)["data"]["attributeValueTranslate"]
+        assert data["attributeValue"]["translation"]["language"]["code"] == "PL"
+&gt;       assert data["attributeValue"]["translation"]["name"] == expected_text
+E       AssertionError: assert '' == 'Nowy Opis'
+E         
+E         - Nowy Opis
+
+saleor/graphql/translations/tests/test_translations.py:2104: AssertionError</failure></testcase><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_attribute_value_create_translation_by_translatable_content_id" time="0.131" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_attribute_value_update_translation" time="0.167" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_rich_text_attribute_value_update_translation_only_rich_text" time="0.182"><failure message="AssertionError: assert 'Base Text' == 'Nowy Opis'&#10;  &#10;  - Nowy Opis&#10;  + Base Text">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x752415b341f0&gt;
+product_with_rich_text_attribute = [&lt;saleor.product.models.Product(pk=81, name='Test product')&gt;, &lt;ProductVariant: 123&gt;]
+permission_manage_translations = &lt;Permission: site | site settings | Manage translations.&gt;
+
+    def test_rich_text_attribute_value_update_translation_only_rich_text(
+        staff_api_client,
+        product_with_rich_text_attribute,
+        permission_manage_translations,
+    ):
+        # given
+        base_text = "Base Text"
+        rich_text = dummy_editorjs(base_text)
+        assigned_attribute = product_with_rich_text_attribute[0].attributes.first()
+        attribute_value = assigned_attribute.attribute.values.first()
+        attribute_value.translations.create(
+            language_code="pl", name=base_text, rich_text=rich_text
+        )
+        attribute_value_id = graphene.Node.to_global_id(
+            "AttributeValue", attribute_value.id
+        )
+        expected_base_text = "Nowy Opis"
+        expected_rich_text = json.dumps(dummy_editorjs(expected_base_text))
+    
+        # when
+        response = staff_api_client.post_graphql(
+            ATTRIBUTE_VALUE_TRANSLATE_MUTATION,
+            {
+                "attributeValueId": attribute_value_id,
+                "input": {"richText": expected_rich_text},
+            },
+            permissions=[permission_manage_translations],
+        )
+    
+        # then
+        data = get_graphql_content(response)["data"]["attributeValueTranslate"]
+        assert data["attributeValue"]["translation"]["language"]["code"] == "PL"
+&gt;       assert data["attributeValue"]["translation"]["name"] == expected_base_text
+E       AssertionError: assert 'Base Text' == 'Nowy Opis'
+E         
+E         - Nowy Opis
+E         + Base Text
+
+saleor/graphql/translations/tests/test_translations.py:2199: AssertionError</failure></testcase><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_rich_text_attribute_value_update_translation_only_rich_text_long_text" time="0.183"><failure message="AssertionError: assert 'Base Text' == 'Nowy Opis. N... Nowy Opis. …'&#10;  &#10;  - Nowy Opis. Nowy Opis. Nowy Opis. Nowy Opis. Nowy Opis. Nowy Opis. Nowy Opis. Nowy Opis. Nowy Opis. …&#10;  + Base Text">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x752415b30640&gt;
+product_with_rich_text_attribute = [&lt;saleor.product.models.Product(pk=82, name='Test product')&gt;, &lt;ProductVariant: 123&gt;]
+permission_manage_translations = &lt;Permission: site | site settings | Manage translations.&gt;
+
+    def test_rich_text_attribute_value_update_translation_only_rich_text_long_text(
+        staff_api_client,
+        product_with_rich_text_attribute,
+        permission_manage_translations,
+    ):
+        # given
+        base_text = "Base Text"
+        rich_text = dummy_editorjs(base_text)
+        assigned_attribute = product_with_rich_text_attribute[0].attributes.first()
+        attribute_value = assigned_attribute.attribute.values.first()
+        attribute_value.translations.create(
+            language_code="pl", name=base_text, rich_text=rich_text
+        )
+        attribute_value_id = graphene.Node.to_global_id(
+            "AttributeValue", attribute_value.id
+        )
+        expected_base_text = "Nowy Opis. " * 100
+        expected_rich_text = json.dumps(dummy_editorjs(expected_base_text))
+    
+        # when
+        response = staff_api_client.post_graphql(
+            ATTRIBUTE_VALUE_TRANSLATE_MUTATION,
+            {
+                "attributeValueId": attribute_value_id,
+                "input": {"richText": expected_rich_text},
+            },
+            permissions=[permission_manage_translations],
+        )
+    
+        # then
+        data = get_graphql_content(response)["data"]["attributeValueTranslate"]
+        assert data["attributeValue"]["translation"]["language"]["code"] == "PL"
+&gt;       assert (
+            data["attributeValue"]["translation"]["name"] == expected_base_text[:99] + "…"
+        )
+E       AssertionError: assert 'Base Text' == 'Nowy Opis. N... Nowy Opis. …'
+E         
+E         - Nowy Opis. Nowy Opis. Nowy Opis. Nowy Opis. Nowy Opis. Nowy Opis. Nowy Opis. Nowy Opis. Nowy Opis. …
+E         + Base Text
+
+saleor/graphql/translations/tests/test_translations.py:2235: AssertionError</failure></testcase><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_rich_text_attribute_value_update_translation_only_rich_text_name_set_manually" time="0.191" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_rich_text_attribute_value_update_translation_only_rich_text_empty_name" time="0.174" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_rich_text_attribute_value_update_translation_only_rich_text_name_null" time="0.181"><failure message="AssertionError: [{'message': 'null value in column &quot;name&quot; of relation &quot;attribute_attributevaluetranslation&quot; violates not-null constraint\nDETAIL:  Failing row contains (34, pl, null, 486, {&quot;blocks&quot;: [{&quot;data&quot;: {&quot;text&quot;: &quot;Nowy Opis&quot;}, &quot;type&quot;: &quot;paragraph&quot;}..., null).\n', 'locations': [{'line': 6, 'column': 9}], 'path': ['attributeValueTranslate'], 'extensions': {'exception': {'code': 'IntegrityError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x752415bb13d0&gt;
+product_with_rich_text_attribute = [&lt;saleor.product.models.Product(pk=85, name='Test product')&gt;, &lt;ProductVariant: 123&gt;]
+permission_manage_translations = &lt;Permission: site | site settings | Manage translations.&gt;
+
+    def test_rich_text_attribute_value_update_translation_only_rich_text_name_null(
+        staff_api_client,
+        product_with_rich_text_attribute,
+        permission_manage_translations,
+    ):
+        # given
+        base_text = "Base Text"
+        rich_text = dummy_editorjs(base_text)
+        assigned_attribute = product_with_rich_text_attribute[0].attributes.first()
+        attribute_value = assigned_attribute.attribute.values.first()
+        attribute_value.translations.create(
+            language_code="pl", name=base_text, rich_text=rich_text
+        )
+        attribute_value_id = graphene.Node.to_global_id(
+            "AttributeValue", attribute_value.id
+        )
+        expected_base_text = "Nowy Opis"
+        expected_rich_text = json.dumps(dummy_editorjs(expected_base_text))
+    
+        # when
+        response = staff_api_client.post_graphql(
+            ATTRIBUTE_VALUE_TRANSLATE_MUTATION,
+            {
+                "attributeValueId": attribute_value_id,
+                "input": {"name": None, "richText": expected_rich_text},
+            },
+            permissions=[permission_manage_translations],
+        )
+    
+        # then
+&gt;       data = get_graphql_content(response)["data"]["attributeValueTranslate"]
+
+saleor/graphql/translations/tests/test_translations.py:2344: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': 'null value in column "name" of relation "attribute_attributevaluetranslation" violates not-null constraint\nDETAIL:  Failing row contains (34, pl, null, 486, {"blocks": [{"data": {"text": "Nowy Opis"}, "type": "paragraph"}..., null).\n', 'locations': [{'line': 6, 'column': 9}], 'path': ['attributeValueTranslate'], 'extensions': {'exception': {'code': 'IntegrityError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_plain_text_attribute_value_update_translation_only_plain_text" time="0.208"><failure message="AssertionError: assert '' == 'Nowy Opis'&#10;  &#10;  - Nowy Opis">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x752415e2d0a0&gt;
+variant = &lt;ProductVariant: SKU_A&gt;
+plain_text_attribute = &lt;Attribute: Plain text&gt;
+permission_manage_translations = &lt;Permission: site | site settings | Manage translations.&gt;
+
+    def test_plain_text_attribute_value_update_translation_only_plain_text(
+        staff_api_client,
+        variant,
+        plain_text_attribute,
+        permission_manage_translations,
+    ):
+        # given
+        product_type = variant.product.product_type
+        product_type.variant_attributes.set([plain_text_attribute])
+    
+        attribute_value = plain_text_attribute.values.first()
+        associate_attribute_values_to_instance(
+            variant, plain_text_attribute, attribute_value
+        )
+    
+        text = "Jakiś bazowy opis"
+        attribute_value.translations.create(language_code="pl", plain_text=text)
+        attribute_value_id = graphene.Node.to_global_id(
+            "AttributeValue", attribute_value.id
+        )
+        expected_text = "Nowy Opis"
+    
+        # when
+        response = staff_api_client.post_graphql(
+            ATTRIBUTE_VALUE_TRANSLATE_MUTATION,
+            {
+                "attributeValueId": attribute_value_id,
+                "input": {"plainText": expected_text},
+            },
+            permissions=[permission_manage_translations],
+        )
+    
+        # then
+        data = get_graphql_content(response)["data"]["attributeValueTranslate"]
+        assert data["attributeValue"]["translation"]["language"]["code"] == "PL"
+&gt;       assert data["attributeValue"]["translation"]["name"] == expected_text
+E       AssertionError: assert '' == 'Nowy Opis'
+E         
+E         - Nowy Opis
+
+saleor/graphql/translations/tests/test_translations.py:2385: AssertionError</failure></testcase><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_plain_text_attribute_value_update_translation_only_plain_text_long_text" time="0.202"><failure message="AssertionError: assert '' == 'Nowy Opis. N... Nowy Opis. …'&#10;  &#10;  - Nowy Opis. Nowy Opis. Nowy Opis. Nowy Opis. Nowy Opis. Nowy Opis. Nowy Opis. Nowy Opis. Nowy Opis. …">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x752415d3cb50&gt;
+variant = &lt;ProductVariant: SKU_A&gt;
+plain_text_attribute = &lt;Attribute: Plain text&gt;
+permission_manage_translations = &lt;Permission: site | site settings | Manage translations.&gt;
+
+    def test_plain_text_attribute_value_update_translation_only_plain_text_long_text(
+        staff_api_client,
+        variant,
+        plain_text_attribute,
+        permission_manage_translations,
+    ):
+        # given
+        product_type = variant.product.product_type
+        product_type.variant_attributes.set([plain_text_attribute])
+    
+        attribute_value = plain_text_attribute.values.first()
+        associate_attribute_values_to_instance(
+            variant, plain_text_attribute, attribute_value
+        )
+    
+        text = "Jakiś bazowy opis"
+        attribute_value.translations.create(language_code="pl", plain_text=text)
+        attribute_value_id = graphene.Node.to_global_id(
+            "AttributeValue", attribute_value.id
+        )
+        expected_base_text = "Nowy Opis. " * 100
+    
+        # when
+        response = staff_api_client.post_graphql(
+            ATTRIBUTE_VALUE_TRANSLATE_MUTATION,
+            {
+                "attributeValueId": attribute_value_id,
+                "input": {"plainText": expected_base_text},
+            },
+            permissions=[permission_manage_translations],
+        )
+    
+        # then
+        data = get_graphql_content(response)["data"]["attributeValueTranslate"]
+        assert data["attributeValue"]["translation"]["language"]["code"] == "PL"
+&gt;       assert (
+            data["attributeValue"]["translation"]["name"] == expected_base_text[:99] + "…"
+        )
+E       AssertionError: assert '' == 'Nowy Opis. N... Nowy Opis. …'
+E         
+E         - Nowy Opis. Nowy Opis. Nowy Opis. Nowy Opis. Nowy Opis. Nowy Opis. Nowy Opis. Nowy Opis. Nowy Opis. …
+
+saleor/graphql/translations/tests/test_translations.py:2424: AssertionError</failure></testcase><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_plain_text_attribute_value_update_translation_name_set_manually" time="0.202" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_plain_text_attribute_value_update_translation_empty_name" time="0.192" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_plain_text_attribute_value_update_translation_name_null" time="0.196"><failure message="AssertionError: [{'message': 'null value in column &quot;name&quot; of relation &quot;attribute_attributevaluetranslation&quot; violates not-null constraint\nDETAIL:  Failing row contains (39, pl, null, 511, null, Nowy Opis).\n', 'locations': [{'line': 6, 'column': 9}], 'path': ['attributeValueTranslate'], 'extensions': {'exception': {'code': 'IntegrityError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7524160afc40&gt;
+variant = &lt;ProductVariant: SKU_A&gt;
+plain_text_attribute = &lt;Attribute: Plain text&gt;
+permission_manage_translations = &lt;Permission: site | site settings | Manage translations.&gt;
+
+    def test_plain_text_attribute_value_update_translation_name_null(
+        staff_api_client,
+        variant,
+        plain_text_attribute,
+        permission_manage_translations,
+    ):
+        # given
+        product_type = variant.product.product_type
+        product_type.variant_attributes.set([plain_text_attribute])
+    
+        attribute_value = plain_text_attribute.values.first()
+        associate_attribute_values_to_instance(
+            variant, plain_text_attribute, attribute_value
+        )
+    
+        text = "Jakiś bazowy opis"
+        attribute_value.translations.create(language_code="pl", plain_text=text)
+        attribute_value_id = graphene.Node.to_global_id(
+            "AttributeValue", attribute_value.id
+        )
+        expected_text = "Nowy Opis"
+    
+        # when
+        response = staff_api_client.post_graphql(
+            ATTRIBUTE_VALUE_TRANSLATE_MUTATION,
+            {
+                "attributeValueId": attribute_value_id,
+                "input": {"name": None, "plainText": expected_text},
+            },
+            permissions=[permission_manage_translations],
+        )
+    
+        # then
+&gt;       data = get_graphql_content(response)["data"]["attributeValueTranslate"]
+
+saleor/graphql/translations/tests/test_translations.py:2542: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': 'null value in column "name" of relation "attribute_attributevaluetranslation" violates not-null constraint\nDETAIL:  Failing row contains (39, pl, null, 511, null, Nowy Opis).\n', 'locations': [{'line': 6, 'column': 9}], 'path': ['attributeValueTranslate'], 'extensions': {'exception': {'code': 'IntegrityError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_shipping_method_create_translation" time="0.177" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_shipping_method_create_translation_by_translatable_content_id" time="0.137" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_shipping_method_update_translation" time="0.199" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_menu_item_update_translation" time="0.414" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_menu_item_create_translation_by_translatable_content_id" time="0.161" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_shop_create_translation" time="0.177" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_shop_update_translation" time="0.189" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_shop_translation_validates_values_lengths" time="0.152" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_translations_query[EnumMeta.PRODUCT-ProductTranslatableContent]" time="0.250" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_translations_query[EnumMeta.COLLECTION-CollectionTranslatableContent]" time="0.260" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_translations_query[EnumMeta.CATEGORY-CategoryTranslatableContent]" time="0.251" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_translations_query[EnumMeta.PAGE-PageTranslatableContent]" time="0.250" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_translations_query[EnumMeta.SHIPPING_METHOD-ShippingMethodTranslatableContent]" time="0.211" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_translations_query[EnumMeta.VOUCHER-VoucherTranslatableContent]" time="0.206" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_translations_query[EnumMeta.SALE-SaleTranslatableContent]" time="0.208" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_translations_query[EnumMeta.ATTRIBUTE-AttributeTranslatableContent]" time="0.236" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_translations_query[EnumMeta.ATTRIBUTE_VALUE-AttributeValueTranslatableContent]" time="0.225" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_translations_query[EnumMeta.VARIANT-ProductVariantTranslatableContent]" time="0.233" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_translations_query[EnumMeta.MENU_ITEM-MenuItemTranslatableContent]" time="0.221" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_translations_query_inline_fragment" time="0.183" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_translation_query_product" time="0.192" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_translation_query_collection" time="0.156" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_translation_query_category" time="0.125" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_translation_query_attribute" time="0.177" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_translation_query_attribute_value" time="0.135" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_translation_query_variant" time="0.194" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_translation_query_page[True-perm_codenames0]" time="0.149" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_translation_query_page[False-perm_codenames1]" time="0.150" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_translation_query_page[False-perm_codenames2]" time="0.163" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_translation_query_shipping_method[perm_codenames0-False]" time="0.133" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_translation_query_shipping_method[perm_codenames1-True]" time="0.130" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_translation_query_sale[perm_codenames0-False]" time="0.185" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_translation_query_sale[perm_codenames1-True]" time="0.201" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_translation_query_voucher[perm_codenames0-False]" time="0.122" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_translation_query_voucher[perm_codenames1-True]" time="0.117" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_translation_query_menu_item" time="0.122" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_translation_query_incorrect_kind" time="0.121" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_translation_query_no_permission" time="0.107" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_product_and_attribute_translation" time="0.180" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_product_attribute_value_rich_text_translation" time="0.176" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_product_attribute_value_plain_text_translation" time="0.196" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_product_variant_attribute_value_rich_text_translation" time="0.190" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_product_variant_attribute_value_plain_text_translation" time="0.224" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_page_attribute_value_rich_text_translation" time="0.146" /><testcase classname="saleor.graphql.translations.tests.test_translations" name="test_page_attribute_value_plain_text_translation" time="0.229" /></testsuite></testsuites>

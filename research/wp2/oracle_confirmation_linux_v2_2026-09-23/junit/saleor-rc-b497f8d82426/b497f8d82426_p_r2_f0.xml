@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="10" time="2.682" timestamp="2026-09-24T21:08:29.488516-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.product.tests.deprecated.test_product" name="test_product_query_by_id_with_default_channel" time="1.482" /><testcase classname="saleor.graphql.product.tests.deprecated.test_product" name="test_product_query_by_slug_with_default_channel" time="0.086" /><testcase classname="saleor.graphql.product.tests.deprecated.test_product" name="test_fetch_all_products" time="0.113" /><testcase classname="saleor.graphql.product.tests.deprecated.test_product" name="test_products_query_with_price_filter" time="0.130" /><testcase classname="saleor.graphql.product.tests.deprecated.test_product" name="test_sort_products_product_type_name" time="0.131" /><testcase classname="saleor.graphql.product.tests.deprecated.test_product" name="test_get_collections_from_product_as_customer" time="0.101" /><testcase classname="saleor.graphql.product.tests.deprecated.test_product" name="test_get_collections_from_product_as_anonymous" time="0.086" /><testcase classname="saleor.graphql.product.tests.deprecated.test_product" name="test_collections_query_with_filter" time="0.031" /><testcase classname="saleor.graphql.product.tests.deprecated.test_product" name="test_collections_query_with_sort" time="0.085"><failure message="AssertionError: assert 'Coll1' == 'Coll3'&#10;  &#10;  - Coll3&#10;  ?     ^&#10;  + Coll1&#10;  ?     ^">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x71aff61891c0&gt;
+permission_manage_products = &lt;Permission: product | product | Manage products.&gt;
+product = &lt;saleor.product.models.Product(pk=1065, name='Test product')&gt;
+channel_USD = &lt;Channel: main&gt;
+
+    def test_collections_query_with_sort(
+        staff_api_client,
+        permission_manage_products,
+        product,
+        channel_USD,
+    ):
+        collections = Collection.objects.bulk_create(
+            [
+                Collection(name="Coll1", slug="collection-published1"),
+                Collection(name="Coll2", slug="collection-unpublished2"),
+                Collection(name="Coll3", slug="collection-published"),
+            ]
+        )
+        published = (True, False, True)
+        CollectionChannelListing.objects.bulk_create(
+            [
+                CollectionChannelListing(
+                    channel=channel_USD, collection=collection, is_published=published[num]
+                )
+                for num, collection in enumerate(collections)
+            ]
+        )
+        product.collections.add(Collection.objects.get(name="Coll2"))
+        variables = {"sort_by": {"field": "AVAILABILITY", "direction": "ASC"}}
+        staff_api_client.user.user_permissions.add(permission_manage_products)
+        with warnings.catch_warnings(record=True) as warns:
+            response = staff_api_client.post_graphql(QUERY_COLLECTIONS_WITH_SORT, variables)
+    
+        content = get_graphql_content(response)
+        collections = content["data"]["collections"]["edges"]
+        for order, collection_name in enumerate(["Coll2", "Coll3", "Coll1"]):
+&gt;           assert collections[order]["node"]["name"] == collection_name
+E           AssertionError: assert 'Coll1' == 'Coll3'
+E             
+E             - Coll3
+E             ?     ^
+E             + Coll1
+E             ?     ^
+
+saleor/graphql/product/tests/deprecated/test_product.py:362: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.deprecated.test_product" name="test_fetch_all_variants" time="0.134" /></testsuite></testsuites>

@@ -1,0 +1,581 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="7" skipped="0" tests="47" time="67.947" timestamp="2026-09-25T00:45:35.858274-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.core.tests.test_core" name="test_clean_seo_fields" time="64.125" /><testcase classname="saleor.graphql.core.tests.test_core" name="test_user_error_field_name_for_related_object" time="0.049" /><testcase classname="saleor.graphql.core.tests.test_core" name="test_snake_to_camel_case" time="0.010" /><testcase classname="saleor.graphql.core.tests.test_core" name="test_reporting_period_to_date" time="0.011" /><testcase classname="saleor.graphql.core.tests.test_core" name="test_require_pagination" time="0.015" /><testcase classname="saleor.graphql.core.tests.test_core" name="test_total_count_query" time="0.108" /><testcase classname="saleor.graphql.core.tests.test_core" name="test_filter_input" time="0.011" /><testcase classname="saleor.graphql.core.tests.test_core" name="test_mutation_invalid_permission_in_meta[False-valid]" time="0.013" /><testcase classname="saleor.graphql.core.tests.test_core" name="test_mutation_invalid_permission_in_meta[False-permissions_value1]" time="0.012" /><testcase classname="saleor.graphql.core.tests.test_core" name="test_mutation_invalid_permission_in_meta[True-123]" time="0.010" /><testcase classname="saleor.graphql.core.tests.test_core" name="test_validate_slug_and_generate_if_needed_raises_errors[cleaned_input0]" time="0.013" /><testcase classname="saleor.graphql.core.tests.test_core" name="test_validate_slug_and_generate_if_needed_raises_errors[cleaned_input1]" time="0.014" /><testcase classname="saleor.graphql.core.tests.test_core" name="test_validate_slug_and_generate_if_needed_raises_errors[cleaned_input2]" time="0.015" /><testcase classname="saleor.graphql.core.tests.test_core" name="test_validate_slug_and_generate_if_needed_raises_errors[cleaned_input3]" time="0.012" /><testcase classname="saleor.graphql.core.tests.test_core" name="test_validate_slug_and_generate_if_needed_not_raises_errors[cleaned_input0]" time="0.012" /><testcase classname="saleor.graphql.core.tests.test_core" name="test_validate_slug_and_generate_if_needed_not_raises_errors[cleaned_input1]" time="0.012" /><testcase classname="saleor.graphql.core.tests.test_core" name="test_validate_slug_and_generate_if_needed_generate_slug[cleaned_input0]" time="0.012" /><testcase classname="saleor.graphql.core.tests.test_core" name="test_validate_slug_and_generate_if_needed_generate_slug[cleaned_input1]" time="0.012" /><testcase classname="saleor.graphql.core.tests.test_core" name="test_validate_slug_and_generate_if_needed_generate_slug[cleaned_input2]" time="0.011" /><testcase classname="saleor.graphql.core.tests.test_core" name="test_validate_slug_and_generate_if_needed_generate_slug[cleaned_input3]" time="0.010" /><testcase classname="saleor.graphql.core.tests.test_core" name="test_validate_slug_and_generate_if_needed_generate_slug[cleaned_input4]" time="0.011" /><testcase classname="saleor.graphql.core.tests.test_core" name="test_validate_slug_and_generate_if_needed_generate_slug[cleaned_input5]" time="0.011" /><testcase classname="saleor.graphql.core.tests.test_core" name="test_validate_image_file" time="0.011" /><testcase classname="saleor.graphql.core.tests.test_core" name="test_validate_image_file_invalid_content_type" time="0.011" /><testcase classname="saleor.graphql.core.tests.test_core" name="test_validate_image_file_no_file" time="0.010" /><testcase classname="saleor.graphql.core.tests.test_core" name="test_validate_image_file_no_file_extension" time="0.010" /><testcase classname="saleor.graphql.core.tests.test_core" name="test_validate_image_file_invalid_file_extension" time="0.011" /><testcase classname="saleor.graphql.core.tests.test_core" name="test_filter_range_field[value0-1-product_indexes0]" time="0.078" /><testcase classname="saleor.graphql.core.tests.test_core" name="test_filter_range_field[value1-2-product_indexes1]" time="0.078" /><testcase classname="saleor.graphql.core.tests.test_core" name="test_filter_range_field[value2-1-product_indexes2]" time="0.074" /><testcase classname="saleor.graphql.core.tests.test_core" name="test_filter_range_field[value3-0-product_indexes3]" time="0.076" /><testcase classname="saleor.graphql.core.tests.test_core" name="test_get_duplicated_values" time="0.010" /><testcase classname="saleor.graphql.core.tests.test_core" name="test_requestor_is_superuser_for_staff_user" time="0.014" /><testcase classname="saleor.graphql.core.tests.test_core" name="test_requestor_is_superuser_for_superuser" time="0.013" /><testcase classname="saleor.graphql.core.tests.test_core" name="test_requestor_is_superuser_for_app" time="0.013" /><testcase classname="saleor.graphql.core.tests.test_core" name="test_requestor_is_superuser_for_anonymous_user" time="0.010" /><testcase classname="saleor.graphql.core.tests.test_core" name="test_get_oembed_data[http://www.youtube.com/watch?v=dQw4w9WgXcQ-VIDEO]" time="0.082"><failure message="pytest_socket.SocketBlockedError: A test tried to use socket.socket.">url = 'http://www.youtube.com/watch?v=dQw4w9WgXcQ'
+expected_media_type = 'VIDEO'
+
+    @pytest.mark.vcr
+    @pytest.mark.parametrize(
+        "url, expected_media_type",
+        [
+            (
+                "http://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                ProductMediaTypes.VIDEO,
+            ),
+            (
+                "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                ProductMediaTypes.VIDEO,
+            ),
+            (
+                "https://www.youtube.com/watch?v=dQw4w9WgXcQ&amp;ab_channel=TestingChannel",
+                ProductMediaTypes.VIDEO,
+            ),
+            (
+                "https://vimeo.com/148751763",
+                ProductMediaTypes.VIDEO,
+            ),
+            (
+                "https://www.flickr.com/photos/megane_wakui/31740618232/",
+                ProductMediaTypes.IMAGE,
+            ),
+        ],
+    )
+    def test_get_oembed_data(url, expected_media_type):
+&gt;       oembed_data, media_type = get_oembed_data(url, "media_url")
+
+saleor/graphql/core/tests/test_core.py:389: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/core/utils/validators.py:24: in get_oembed_data
+    oembed_data = providers.request(
+/opt/venv/lib/python3.9/site-packages/micawber/providers.py:111: in inner
+    return fn(self, url, **params)
+/opt/venv/lib/python3.9/site-packages/micawber/providers.py:165: in request
+    return provider.request(url, **params)
+/opt/venv/lib/python3.9/site-packages/micawber/providers.py:74: in request
+    response = self.fetch(endpoint_url)
+/opt/venv/lib/python3.9/site-packages/micawber/providers.py:48: in fetch
+    resp = fetch(req, self.socket_timeout)
+/opt/venv/lib/python3.9/site-packages/micawber/providers.py:119: in fetch
+    resp = urlopen(request, **urlopen_params)
+/usr/local/lib/python3.9/urllib/request.py:214: in urlopen
+    return opener.open(url, data, timeout)
+/usr/local/lib/python3.9/urllib/request.py:517: in open
+    response = self._open(req, data)
+/usr/local/lib/python3.9/urllib/request.py:534: in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+/usr/local/lib/python3.9/urllib/request.py:494: in _call_chain
+    result = func(*args)
+/usr/local/lib/python3.9/urllib/request.py:1389: in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+/usr/local/lib/python3.9/urllib/request.py:1346: in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+/usr/local/lib/python3.9/http/client.py:1285: in request
+    self._send_request(method, url, body, headers, encode_chunked)
+/usr/local/lib/python3.9/http/client.py:1331: in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+/usr/local/lib/python3.9/http/client.py:1280: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+/usr/local/lib/python3.9/http/client.py:1040: in _send_output
+    self.send(msg)
+/usr/local/lib/python3.9/http/client.py:980: in send
+    self.connect()
+/usr/local/lib/python3.9/http/client.py:1447: in connect
+    super().connect()
+/usr/local/lib/python3.9/http/client.py:946: in connect
+    self.sock = self._create_connection(
+/usr/local/lib/python3.9/socket.py:839: in create_connection
+    sock = socket(af, socktype, proto)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = &lt;class 'pytest_socket.disable_socket.&lt;locals&gt;.GuardedSocket'&gt;
+family = &lt;AddressFamily.AF_INET: 2&gt;, type = &lt;SocketKind.SOCK_STREAM: 1&gt;
+proto = 6, fileno = None
+
+    def __new__(cls, family=-1, type=-1, proto=-1, fileno=None):
+        if _is_unix_socket(family) and allow_unix_socket:
+            return super().__new__(cls, family, type, proto, fileno)
+    
+&gt;       raise SocketBlockedError()
+E       pytest_socket.SocketBlockedError: A test tried to use socket.socket.
+
+/opt/venv/lib/python3.9/site-packages/pytest_socket.py:89: SocketBlockedError</failure></testcase><testcase classname="saleor.graphql.core.tests.test_core" name="test_get_oembed_data[https://www.youtube.com/watch?v=dQw4w9WgXcQ-VIDEO]" time="0.081"><failure message="pytest_socket.SocketBlockedError: A test tried to use socket.socket.">url = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+expected_media_type = 'VIDEO'
+
+    @pytest.mark.vcr
+    @pytest.mark.parametrize(
+        "url, expected_media_type",
+        [
+            (
+                "http://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                ProductMediaTypes.VIDEO,
+            ),
+            (
+                "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                ProductMediaTypes.VIDEO,
+            ),
+            (
+                "https://www.youtube.com/watch?v=dQw4w9WgXcQ&amp;ab_channel=TestingChannel",
+                ProductMediaTypes.VIDEO,
+            ),
+            (
+                "https://vimeo.com/148751763",
+                ProductMediaTypes.VIDEO,
+            ),
+            (
+                "https://www.flickr.com/photos/megane_wakui/31740618232/",
+                ProductMediaTypes.IMAGE,
+            ),
+        ],
+    )
+    def test_get_oembed_data(url, expected_media_type):
+&gt;       oembed_data, media_type = get_oembed_data(url, "media_url")
+
+saleor/graphql/core/tests/test_core.py:389: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/core/utils/validators.py:24: in get_oembed_data
+    oembed_data = providers.request(
+/opt/venv/lib/python3.9/site-packages/micawber/providers.py:111: in inner
+    return fn(self, url, **params)
+/opt/venv/lib/python3.9/site-packages/micawber/providers.py:165: in request
+    return provider.request(url, **params)
+/opt/venv/lib/python3.9/site-packages/micawber/providers.py:74: in request
+    response = self.fetch(endpoint_url)
+/opt/venv/lib/python3.9/site-packages/micawber/providers.py:48: in fetch
+    resp = fetch(req, self.socket_timeout)
+/opt/venv/lib/python3.9/site-packages/micawber/providers.py:119: in fetch
+    resp = urlopen(request, **urlopen_params)
+/usr/local/lib/python3.9/urllib/request.py:214: in urlopen
+    return opener.open(url, data, timeout)
+/usr/local/lib/python3.9/urllib/request.py:517: in open
+    response = self._open(req, data)
+/usr/local/lib/python3.9/urllib/request.py:534: in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+/usr/local/lib/python3.9/urllib/request.py:494: in _call_chain
+    result = func(*args)
+/usr/local/lib/python3.9/urllib/request.py:1389: in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+/usr/local/lib/python3.9/urllib/request.py:1346: in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+/usr/local/lib/python3.9/http/client.py:1285: in request
+    self._send_request(method, url, body, headers, encode_chunked)
+/usr/local/lib/python3.9/http/client.py:1331: in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+/usr/local/lib/python3.9/http/client.py:1280: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+/usr/local/lib/python3.9/http/client.py:1040: in _send_output
+    self.send(msg)
+/usr/local/lib/python3.9/http/client.py:980: in send
+    self.connect()
+/usr/local/lib/python3.9/http/client.py:1447: in connect
+    super().connect()
+/usr/local/lib/python3.9/http/client.py:946: in connect
+    self.sock = self._create_connection(
+/usr/local/lib/python3.9/socket.py:839: in create_connection
+    sock = socket(af, socktype, proto)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = &lt;class 'pytest_socket.disable_socket.&lt;locals&gt;.GuardedSocket'&gt;
+family = &lt;AddressFamily.AF_INET: 2&gt;, type = &lt;SocketKind.SOCK_STREAM: 1&gt;
+proto = 6, fileno = None
+
+    def __new__(cls, family=-1, type=-1, proto=-1, fileno=None):
+        if _is_unix_socket(family) and allow_unix_socket:
+            return super().__new__(cls, family, type, proto, fileno)
+    
+&gt;       raise SocketBlockedError()
+E       pytest_socket.SocketBlockedError: A test tried to use socket.socket.
+
+/opt/venv/lib/python3.9/site-packages/pytest_socket.py:89: SocketBlockedError</failure></testcase><testcase classname="saleor.graphql.core.tests.test_core" name="test_get_oembed_data[https://www.youtube.com/watch?v=dQw4w9WgXcQ&amp;ab_channel=TestingChannel-VIDEO]" time="0.078"><failure message="pytest_socket.SocketBlockedError: A test tried to use socket.socket.">url = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&amp;ab_channel=TestingChannel'
+expected_media_type = 'VIDEO'
+
+    @pytest.mark.vcr
+    @pytest.mark.parametrize(
+        "url, expected_media_type",
+        [
+            (
+                "http://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                ProductMediaTypes.VIDEO,
+            ),
+            (
+                "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                ProductMediaTypes.VIDEO,
+            ),
+            (
+                "https://www.youtube.com/watch?v=dQw4w9WgXcQ&amp;ab_channel=TestingChannel",
+                ProductMediaTypes.VIDEO,
+            ),
+            (
+                "https://vimeo.com/148751763",
+                ProductMediaTypes.VIDEO,
+            ),
+            (
+                "https://www.flickr.com/photos/megane_wakui/31740618232/",
+                ProductMediaTypes.IMAGE,
+            ),
+        ],
+    )
+    def test_get_oembed_data(url, expected_media_type):
+&gt;       oembed_data, media_type = get_oembed_data(url, "media_url")
+
+saleor/graphql/core/tests/test_core.py:389: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/core/utils/validators.py:24: in get_oembed_data
+    oembed_data = providers.request(
+/opt/venv/lib/python3.9/site-packages/micawber/providers.py:111: in inner
+    return fn(self, url, **params)
+/opt/venv/lib/python3.9/site-packages/micawber/providers.py:165: in request
+    return provider.request(url, **params)
+/opt/venv/lib/python3.9/site-packages/micawber/providers.py:74: in request
+    response = self.fetch(endpoint_url)
+/opt/venv/lib/python3.9/site-packages/micawber/providers.py:48: in fetch
+    resp = fetch(req, self.socket_timeout)
+/opt/venv/lib/python3.9/site-packages/micawber/providers.py:119: in fetch
+    resp = urlopen(request, **urlopen_params)
+/usr/local/lib/python3.9/urllib/request.py:214: in urlopen
+    return opener.open(url, data, timeout)
+/usr/local/lib/python3.9/urllib/request.py:517: in open
+    response = self._open(req, data)
+/usr/local/lib/python3.9/urllib/request.py:534: in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+/usr/local/lib/python3.9/urllib/request.py:494: in _call_chain
+    result = func(*args)
+/usr/local/lib/python3.9/urllib/request.py:1389: in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+/usr/local/lib/python3.9/urllib/request.py:1346: in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+/usr/local/lib/python3.9/http/client.py:1285: in request
+    self._send_request(method, url, body, headers, encode_chunked)
+/usr/local/lib/python3.9/http/client.py:1331: in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+/usr/local/lib/python3.9/http/client.py:1280: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+/usr/local/lib/python3.9/http/client.py:1040: in _send_output
+    self.send(msg)
+/usr/local/lib/python3.9/http/client.py:980: in send
+    self.connect()
+/usr/local/lib/python3.9/http/client.py:1447: in connect
+    super().connect()
+/usr/local/lib/python3.9/http/client.py:946: in connect
+    self.sock = self._create_connection(
+/usr/local/lib/python3.9/socket.py:839: in create_connection
+    sock = socket(af, socktype, proto)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = &lt;class 'pytest_socket.disable_socket.&lt;locals&gt;.GuardedSocket'&gt;
+family = &lt;AddressFamily.AF_INET: 2&gt;, type = &lt;SocketKind.SOCK_STREAM: 1&gt;
+proto = 6, fileno = None
+
+    def __new__(cls, family=-1, type=-1, proto=-1, fileno=None):
+        if _is_unix_socket(family) and allow_unix_socket:
+            return super().__new__(cls, family, type, proto, fileno)
+    
+&gt;       raise SocketBlockedError()
+E       pytest_socket.SocketBlockedError: A test tried to use socket.socket.
+
+/opt/venv/lib/python3.9/site-packages/pytest_socket.py:89: SocketBlockedError</failure></testcase><testcase classname="saleor.graphql.core.tests.test_core" name="test_get_oembed_data[https://vimeo.com/148751763-VIDEO]" time="0.083"><failure message="pytest_socket.SocketBlockedError: A test tried to use socket.socket.">url = 'https://vimeo.com/148751763', expected_media_type = 'VIDEO'
+
+    @pytest.mark.vcr
+    @pytest.mark.parametrize(
+        "url, expected_media_type",
+        [
+            (
+                "http://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                ProductMediaTypes.VIDEO,
+            ),
+            (
+                "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                ProductMediaTypes.VIDEO,
+            ),
+            (
+                "https://www.youtube.com/watch?v=dQw4w9WgXcQ&amp;ab_channel=TestingChannel",
+                ProductMediaTypes.VIDEO,
+            ),
+            (
+                "https://vimeo.com/148751763",
+                ProductMediaTypes.VIDEO,
+            ),
+            (
+                "https://www.flickr.com/photos/megane_wakui/31740618232/",
+                ProductMediaTypes.IMAGE,
+            ),
+        ],
+    )
+    def test_get_oembed_data(url, expected_media_type):
+&gt;       oembed_data, media_type = get_oembed_data(url, "media_url")
+
+saleor/graphql/core/tests/test_core.py:389: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/core/utils/validators.py:24: in get_oembed_data
+    oembed_data = providers.request(
+/opt/venv/lib/python3.9/site-packages/micawber/providers.py:111: in inner
+    return fn(self, url, **params)
+/opt/venv/lib/python3.9/site-packages/micawber/providers.py:165: in request
+    return provider.request(url, **params)
+/opt/venv/lib/python3.9/site-packages/micawber/providers.py:74: in request
+    response = self.fetch(endpoint_url)
+/opt/venv/lib/python3.9/site-packages/micawber/providers.py:48: in fetch
+    resp = fetch(req, self.socket_timeout)
+/opt/venv/lib/python3.9/site-packages/micawber/providers.py:119: in fetch
+    resp = urlopen(request, **urlopen_params)
+/usr/local/lib/python3.9/urllib/request.py:214: in urlopen
+    return opener.open(url, data, timeout)
+/usr/local/lib/python3.9/urllib/request.py:517: in open
+    response = self._open(req, data)
+/usr/local/lib/python3.9/urllib/request.py:534: in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+/usr/local/lib/python3.9/urllib/request.py:494: in _call_chain
+    result = func(*args)
+/usr/local/lib/python3.9/urllib/request.py:1389: in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+/usr/local/lib/python3.9/urllib/request.py:1346: in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+/usr/local/lib/python3.9/http/client.py:1285: in request
+    self._send_request(method, url, body, headers, encode_chunked)
+/usr/local/lib/python3.9/http/client.py:1331: in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+/usr/local/lib/python3.9/http/client.py:1280: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+/usr/local/lib/python3.9/http/client.py:1040: in _send_output
+    self.send(msg)
+/usr/local/lib/python3.9/http/client.py:980: in send
+    self.connect()
+/usr/local/lib/python3.9/http/client.py:1447: in connect
+    super().connect()
+/usr/local/lib/python3.9/http/client.py:946: in connect
+    self.sock = self._create_connection(
+/usr/local/lib/python3.9/socket.py:839: in create_connection
+    sock = socket(af, socktype, proto)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = &lt;class 'pytest_socket.disable_socket.&lt;locals&gt;.GuardedSocket'&gt;
+family = &lt;AddressFamily.AF_INET: 2&gt;, type = &lt;SocketKind.SOCK_STREAM: 1&gt;
+proto = 6, fileno = None
+
+    def __new__(cls, family=-1, type=-1, proto=-1, fileno=None):
+        if _is_unix_socket(family) and allow_unix_socket:
+            return super().__new__(cls, family, type, proto, fileno)
+    
+&gt;       raise SocketBlockedError()
+E       pytest_socket.SocketBlockedError: A test tried to use socket.socket.
+
+/opt/venv/lib/python3.9/site-packages/pytest_socket.py:89: SocketBlockedError</failure></testcase><testcase classname="saleor.graphql.core.tests.test_core" name="test_get_oembed_data[https://www.flickr.com/photos/megane_wakui/31740618232/-IMAGE]" time="0.081"><failure message="pytest_socket.SocketBlockedError: A test tried to use socket.socket.">url = 'https://www.flickr.com/photos/megane_wakui/31740618232/'
+expected_media_type = 'IMAGE'
+
+    @pytest.mark.vcr
+    @pytest.mark.parametrize(
+        "url, expected_media_type",
+        [
+            (
+                "http://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                ProductMediaTypes.VIDEO,
+            ),
+            (
+                "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                ProductMediaTypes.VIDEO,
+            ),
+            (
+                "https://www.youtube.com/watch?v=dQw4w9WgXcQ&amp;ab_channel=TestingChannel",
+                ProductMediaTypes.VIDEO,
+            ),
+            (
+                "https://vimeo.com/148751763",
+                ProductMediaTypes.VIDEO,
+            ),
+            (
+                "https://www.flickr.com/photos/megane_wakui/31740618232/",
+                ProductMediaTypes.IMAGE,
+            ),
+        ],
+    )
+    def test_get_oembed_data(url, expected_media_type):
+&gt;       oembed_data, media_type = get_oembed_data(url, "media_url")
+
+saleor/graphql/core/tests/test_core.py:389: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/core/utils/validators.py:24: in get_oembed_data
+    oembed_data = providers.request(
+/opt/venv/lib/python3.9/site-packages/micawber/providers.py:111: in inner
+    return fn(self, url, **params)
+/opt/venv/lib/python3.9/site-packages/micawber/providers.py:165: in request
+    return provider.request(url, **params)
+/opt/venv/lib/python3.9/site-packages/micawber/providers.py:74: in request
+    response = self.fetch(endpoint_url)
+/opt/venv/lib/python3.9/site-packages/micawber/providers.py:48: in fetch
+    resp = fetch(req, self.socket_timeout)
+/opt/venv/lib/python3.9/site-packages/micawber/providers.py:119: in fetch
+    resp = urlopen(request, **urlopen_params)
+/usr/local/lib/python3.9/urllib/request.py:214: in urlopen
+    return opener.open(url, data, timeout)
+/usr/local/lib/python3.9/urllib/request.py:517: in open
+    response = self._open(req, data)
+/usr/local/lib/python3.9/urllib/request.py:534: in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+/usr/local/lib/python3.9/urllib/request.py:494: in _call_chain
+    result = func(*args)
+/usr/local/lib/python3.9/urllib/request.py:1389: in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+/usr/local/lib/python3.9/urllib/request.py:1346: in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+/usr/local/lib/python3.9/http/client.py:1285: in request
+    self._send_request(method, url, body, headers, encode_chunked)
+/usr/local/lib/python3.9/http/client.py:1331: in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+/usr/local/lib/python3.9/http/client.py:1280: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+/usr/local/lib/python3.9/http/client.py:1040: in _send_output
+    self.send(msg)
+/usr/local/lib/python3.9/http/client.py:980: in send
+    self.connect()
+/usr/local/lib/python3.9/http/client.py:1447: in connect
+    super().connect()
+/usr/local/lib/python3.9/http/client.py:946: in connect
+    self.sock = self._create_connection(
+/usr/local/lib/python3.9/socket.py:839: in create_connection
+    sock = socket(af, socktype, proto)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = &lt;class 'pytest_socket.disable_socket.&lt;locals&gt;.GuardedSocket'&gt;
+family = &lt;AddressFamily.AF_INET: 2&gt;, type = &lt;SocketKind.SOCK_STREAM: 1&gt;
+proto = 6, fileno = None
+
+    def __new__(cls, family=-1, type=-1, proto=-1, fileno=None):
+        if _is_unix_socket(family) and allow_unix_socket:
+            return super().__new__(cls, family, type, proto, fileno)
+    
+&gt;       raise SocketBlockedError()
+E       pytest_socket.SocketBlockedError: A test tried to use socket.socket.
+
+/opt/venv/lib/python3.9/site-packages/pytest_socket.py:89: SocketBlockedError</failure></testcase><testcase classname="saleor.graphql.core.tests.test_core" name="test_get_oembed_data_unsupported_media_provider[https://www.streamable.com/8vnouo]" time="0.013" /><testcase classname="saleor.graphql.core.tests.test_core" name="test_get_oembed_data_unsupported_media_provider[https://www.flickr.com/photos/test/test/]" time="0.079"><failure message="pytest_socket.SocketBlockedError: A test tried to use socket.socket.">url = 'https://www.flickr.com/photos/test/test/'
+
+    @pytest.mark.parametrize(
+        "url",
+        [
+            "https://www.streamable.com/8vnouo",
+            "https://www.flickr.com/photos/test/test/",
+            "https://www.youtube.com/embed/v=dQw4w9WgXcQ",
+            "https://vimeo.com/test",
+            "http://onet.pl/",
+        ],
+    )
+    def test_get_oembed_data_unsupported_media_provider(url):
+        with pytest.raises(
+            ValidationError, match="Unsupported media provider or incorrect URL."
+        ):
+&gt;           get_oembed_data(url, "media_url")
+
+saleor/graphql/core/tests/test_core.py:409: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/core/utils/validators.py:24: in get_oembed_data
+    oembed_data = providers.request(
+/opt/venv/lib/python3.9/site-packages/micawber/providers.py:111: in inner
+    return fn(self, url, **params)
+/opt/venv/lib/python3.9/site-packages/micawber/providers.py:165: in request
+    return provider.request(url, **params)
+/opt/venv/lib/python3.9/site-packages/micawber/providers.py:74: in request
+    response = self.fetch(endpoint_url)
+/opt/venv/lib/python3.9/site-packages/micawber/providers.py:48: in fetch
+    resp = fetch(req, self.socket_timeout)
+/opt/venv/lib/python3.9/site-packages/micawber/providers.py:119: in fetch
+    resp = urlopen(request, **urlopen_params)
+/usr/local/lib/python3.9/urllib/request.py:214: in urlopen
+    return opener.open(url, data, timeout)
+/usr/local/lib/python3.9/urllib/request.py:517: in open
+    response = self._open(req, data)
+/usr/local/lib/python3.9/urllib/request.py:534: in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+/usr/local/lib/python3.9/urllib/request.py:494: in _call_chain
+    result = func(*args)
+/usr/local/lib/python3.9/urllib/request.py:1389: in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+/usr/local/lib/python3.9/urllib/request.py:1346: in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+/usr/local/lib/python3.9/http/client.py:1285: in request
+    self._send_request(method, url, body, headers, encode_chunked)
+/usr/local/lib/python3.9/http/client.py:1331: in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+/usr/local/lib/python3.9/http/client.py:1280: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+/usr/local/lib/python3.9/http/client.py:1040: in _send_output
+    self.send(msg)
+/usr/local/lib/python3.9/http/client.py:980: in send
+    self.connect()
+/usr/local/lib/python3.9/http/client.py:1447: in connect
+    super().connect()
+/usr/local/lib/python3.9/http/client.py:946: in connect
+    self.sock = self._create_connection(
+/usr/local/lib/python3.9/socket.py:839: in create_connection
+    sock = socket(af, socktype, proto)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = &lt;class 'pytest_socket.disable_socket.&lt;locals&gt;.GuardedSocket'&gt;
+family = &lt;AddressFamily.AF_INET: 2&gt;, type = &lt;SocketKind.SOCK_STREAM: 1&gt;
+proto = 6, fileno = None
+
+    def __new__(cls, family=-1, type=-1, proto=-1, fileno=None):
+        if _is_unix_socket(family) and allow_unix_socket:
+            return super().__new__(cls, family, type, proto, fileno)
+    
+&gt;       raise SocketBlockedError()
+E       pytest_socket.SocketBlockedError: A test tried to use socket.socket.
+
+/opt/venv/lib/python3.9/site-packages/pytest_socket.py:89: SocketBlockedError</failure></testcase><testcase classname="saleor.graphql.core.tests.test_core" name="test_get_oembed_data_unsupported_media_provider[https://www.youtube.com/embed/v=dQw4w9WgXcQ]" time="0.012" /><testcase classname="saleor.graphql.core.tests.test_core" name="test_get_oembed_data_unsupported_media_provider[https://vimeo.com/test]" time="0.078"><failure message="pytest_socket.SocketBlockedError: A test tried to use socket.socket.">url = 'https://vimeo.com/test'
+
+    @pytest.mark.parametrize(
+        "url",
+        [
+            "https://www.streamable.com/8vnouo",
+            "https://www.flickr.com/photos/test/test/",
+            "https://www.youtube.com/embed/v=dQw4w9WgXcQ",
+            "https://vimeo.com/test",
+            "http://onet.pl/",
+        ],
+    )
+    def test_get_oembed_data_unsupported_media_provider(url):
+        with pytest.raises(
+            ValidationError, match="Unsupported media provider or incorrect URL."
+        ):
+&gt;           get_oembed_data(url, "media_url")
+
+saleor/graphql/core/tests/test_core.py:409: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/core/utils/validators.py:24: in get_oembed_data
+    oembed_data = providers.request(
+/opt/venv/lib/python3.9/site-packages/micawber/providers.py:111: in inner
+    return fn(self, url, **params)
+/opt/venv/lib/python3.9/site-packages/micawber/providers.py:165: in request
+    return provider.request(url, **params)
+/opt/venv/lib/python3.9/site-packages/micawber/providers.py:74: in request
+    response = self.fetch(endpoint_url)
+/opt/venv/lib/python3.9/site-packages/micawber/providers.py:48: in fetch
+    resp = fetch(req, self.socket_timeout)
+/opt/venv/lib/python3.9/site-packages/micawber/providers.py:119: in fetch
+    resp = urlopen(request, **urlopen_params)
+/usr/local/lib/python3.9/urllib/request.py:214: in urlopen
+    return opener.open(url, data, timeout)
+/usr/local/lib/python3.9/urllib/request.py:517: in open
+    response = self._open(req, data)
+/usr/local/lib/python3.9/urllib/request.py:534: in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+/usr/local/lib/python3.9/urllib/request.py:494: in _call_chain
+    result = func(*args)
+/usr/local/lib/python3.9/urllib/request.py:1389: in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+/usr/local/lib/python3.9/urllib/request.py:1346: in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+/usr/local/lib/python3.9/http/client.py:1285: in request
+    self._send_request(method, url, body, headers, encode_chunked)
+/usr/local/lib/python3.9/http/client.py:1331: in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+/usr/local/lib/python3.9/http/client.py:1280: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+/usr/local/lib/python3.9/http/client.py:1040: in _send_output
+    self.send(msg)
+/usr/local/lib/python3.9/http/client.py:980: in send
+    self.connect()
+/usr/local/lib/python3.9/http/client.py:1447: in connect
+    super().connect()
+/usr/local/lib/python3.9/http/client.py:946: in connect
+    self.sock = self._create_connection(
+/usr/local/lib/python3.9/socket.py:839: in create_connection
+    sock = socket(af, socktype, proto)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = &lt;class 'pytest_socket.disable_socket.&lt;locals&gt;.GuardedSocket'&gt;
+family = &lt;AddressFamily.AF_INET: 2&gt;, type = &lt;SocketKind.SOCK_STREAM: 1&gt;
+proto = 6, fileno = None
+
+    def __new__(cls, family=-1, type=-1, proto=-1, fileno=None):
+        if _is_unix_socket(family) and allow_unix_socket:
+            return super().__new__(cls, family, type, proto, fileno)
+    
+&gt;       raise SocketBlockedError()
+E       pytest_socket.SocketBlockedError: A test tried to use socket.socket.
+
+/opt/venv/lib/python3.9/site-packages/pytest_socket.py:89: SocketBlockedError</failure></testcase><testcase classname="saleor.graphql.core.tests.test_core" name="test_get_oembed_data_unsupported_media_provider[http://onet.pl/]" time="0.012" /><testcase classname="saleor.graphql.core.tests.test_core" name="test_add_hash_to_file_name" time="0.015" /></testsuite></testsuites>

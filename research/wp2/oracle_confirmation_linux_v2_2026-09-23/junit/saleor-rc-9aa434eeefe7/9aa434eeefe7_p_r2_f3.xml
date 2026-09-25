@@ -1,0 +1,2037 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="41" skipped="0" tests="41" time="4.042" timestamp="2026-09-25T01:02:53.688138+00:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.channel.tests.mutations.test_channel_create" name="test_channel_create_mutation_as_staff_user" time="1.302"><failure message="AssertionError: [{'message': 'Cannot query field &quot;automaticCompletionDelay&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field &quot;automaticCompletionCutOffDate&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">permission_manage_channels = &lt;Permission: Channel | channel | Manage channels.&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7eaf69292420&gt;
+
+    def test_channel_create_mutation_as_staff_user(
+        permission_manage_channels,
+        staff_api_client,
+    ):
+        # given
+        name = "testName"
+        slug = "test_slug"
+        currency_code = "USD"
+        default_country = "US"
+        allocation_strategy = AllocationStrategyEnum.PRIORITIZE_HIGH_STOCK.name
+        variables = {
+            "input": {
+                "name": name,
+                "slug": slug,
+                "currencyCode": currency_code,
+                "defaultCountry": default_country,
+                "stockSettings": {"allocationStrategy": allocation_strategy},
+                "orderSettings": {
+                    "automaticallyConfirmAllNewOrders": False,
+                    "automaticallyFulfillNonShippableGiftCard": False,
+                    "expireOrdersAfter": 10,
+                    "includeDraftOrderInVoucherUsage": True,
+                    "draftOrderLinePriceFreezePeriod": 10,
+                },
+                "checkoutSettings": {"useLegacyErrorFlow": False},
+            }
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            CHANNEL_CREATE_MUTATION,
+            variables=variables,
+            permissions=(permission_manage_channels,),
+        )
+
+saleor/graphql/channel/tests/mutations/test_channel_create.py:107: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "automaticCompletionDelay" on type "CheckoutSettings".', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field "automaticCompletionCutOffDate" on type "CheckoutSettings".', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.channel.tests.mutations.test_channel_create" name="test_channel_create_mutation_as_app" time="0.157"><failure message="AssertionError: [{'message': 'Cannot query field &quot;automaticCompletionDelay&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field &quot;automaticCompletionCutOffDate&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">permission_manage_channels = &lt;Permission: Channel | channel | Manage channels.&gt;
+app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7eaf695e2db0&gt;
+
+    @freeze_time("2022-05-12 12:00:00")
+    def test_channel_create_mutation_as_app(
+        permission_manage_channels,
+        app_api_client,
+    ):
+        # given
+        name = "testName"
+        slug = "test_slug"
+        currency_code = "USD"
+        default_country = "US"
+        variables = {
+            "input": {
+                "name": name,
+                "slug": slug,
+                "currencyCode": currency_code,
+                "defaultCountry": default_country,
+                "checkoutSettings": {
+                    "useLegacyErrorFlow": False,
+                    "automaticallyCompleteFullyPaidCheckouts": True,
+                },
+            }
+        }
+    
+        # when
+&gt;       response = app_api_client.post_graphql(
+            CHANNEL_CREATE_MUTATION,
+            variables=variables,
+            permissions=(permission_manage_channels,),
+        )
+
+saleor/graphql/channel/tests/mutations/test_channel_create.py:167: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "automaticCompletionDelay" on type "CheckoutSettings".', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field "automaticCompletionCutOffDate" on type "CheckoutSettings".', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.channel.tests.mutations.test_channel_create" name="test_channel_create_mutation_as_customer" time="0.052"><failure message="AssertionError: [{'message': 'Cannot query field &quot;automaticCompletionDelay&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field &quot;automaticCompletionCutOffDate&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">user_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7eaf6914e810&gt;
+
+    def test_channel_create_mutation_as_customer(user_api_client):
+        # given
+        name = "testName"
+        slug = "test_slug"
+        currency_code = "USD"
+        default_country = "US"
+        allocation_strategy = AllocationStrategyEnum.PRIORITIZE_SORTING_ORDER.name
+        variables = {
+            "input": {
+                "name": name,
+                "slug": slug,
+                "currencyCode": currency_code,
+                "defaultCountry": default_country,
+                "stockSettings": {"allocationStrategy": allocation_strategy},
+                "orderSettings": {
+                    "automaticallyConfirmAllNewOrders": False,
+                    "automaticallyFulfillNonShippableGiftCard": False,
+                },
+            }
+        }
+    
+        # when
+        response = user_api_client.post_graphql(
+            CHANNEL_CREATE_MUTATION,
+            variables=variables,
+            permissions=(),
+        )
+    
+        # then
+&gt;       assert_no_permission(response)
+
+saleor/graphql/channel/tests/mutations/test_channel_create.py:243: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "automaticCompletionDelay" on type "CheckoutSettings".', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field "automaticCompletionCutOffDate" on type "CheckoutSettings".', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.channel.tests.mutations.test_channel_create" name="test_channel_create_mutation_negative_expire_orders" time="0.027"><failure message="AssertionError: [{'message': 'Cannot query field &quot;automaticCompletionDelay&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field &quot;automaticCompletionCutOffDate&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">permission_manage_channels = &lt;Permission: Channel | channel | Manage channels.&gt;
+app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7eaf6914ce30&gt;
+
+    def test_channel_create_mutation_negative_expire_orders(
+        permission_manage_channels,
+        app_api_client,
+    ):
+        # given
+        name = "testName"
+        slug = "test_slug"
+        currency_code = "USD"
+        default_country = "US"
+        allocation_strategy = AllocationStrategyEnum.PRIORITIZE_SORTING_ORDER.name
+        variables = {
+            "input": {
+                "name": name,
+                "slug": slug,
+                "currencyCode": currency_code,
+                "defaultCountry": default_country,
+                "stockSettings": {"allocationStrategy": allocation_strategy},
+                "orderSettings": {
+                    "expireOrdersAfter": -1,
+                },
+            }
+        }
+    
+        # when
+&gt;       response = app_api_client.post_graphql(
+            CHANNEL_CREATE_MUTATION,
+            variables=variables,
+            permissions=(permission_manage_channels,),
+        )
+
+saleor/graphql/channel/tests/mutations/test_channel_create.py:270: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "automaticCompletionDelay" on type "CheckoutSettings".', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field "automaticCompletionCutOffDate" on type "CheckoutSettings".', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.channel.tests.mutations.test_channel_create" name="test_channel_create_draft_order_line_price_freeze_period_negative_value" time="0.025"><failure message="AssertionError: [{'message': 'Cannot query field &quot;automaticCompletionDelay&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field &quot;automaticCompletionCutOffDate&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">permission_manage_channels = &lt;Permission: Channel | channel | Manage channels.&gt;
+app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7eaf68f9a570&gt;
+
+    def test_channel_create_draft_order_line_price_freeze_period_negative_value(
+        permission_manage_channels,
+        app_api_client,
+    ):
+        # given
+        name = "testName"
+        slug = "test_slug"
+        currency_code = "USD"
+        default_country = "US"
+        allocation_strategy = AllocationStrategyEnum.PRIORITIZE_SORTING_ORDER.name
+        variables = {
+            "input": {
+                "name": name,
+                "slug": slug,
+                "currencyCode": currency_code,
+                "defaultCountry": default_country,
+                "stockSettings": {"allocationStrategy": allocation_strategy},
+                "orderSettings": {
+                    "draftOrderLinePriceFreezePeriod": -1,
+                },
+            }
+        }
+    
+        # when
+&gt;       response = app_api_client.post_graphql(
+            CHANNEL_CREATE_MUTATION,
+            variables=variables,
+            permissions=(permission_manage_channels,),
+        )
+
+saleor/graphql/channel/tests/mutations/test_channel_create.py:307: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "automaticCompletionDelay" on type "CheckoutSettings".', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field "automaticCompletionCutOffDate" on type "CheckoutSettings".', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.channel.tests.mutations.test_channel_create" name="test_channel_create_mutation_disabled_expire_orders[0]" time="0.026"><failure message="AssertionError: [{'message': 'Cannot query field &quot;automaticCompletionDelay&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field &quot;automaticCompletionCutOffDate&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">expire_input = 0
+permission_manage_channels = &lt;Permission: Channel | channel | Manage channels.&gt;
+app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7eaf690edd30&gt;
+
+    @pytest.mark.parametrize("expire_input", [0, None])
+    def test_channel_create_mutation_disabled_expire_orders(
+        expire_input,
+        permission_manage_channels,
+        app_api_client,
+    ):
+        # given
+        name = "testName"
+        slug = "test_slug"
+        currency_code = "USD"
+        default_country = "US"
+        allocation_strategy = AllocationStrategyEnum.PRIORITIZE_SORTING_ORDER.name
+        variables = {
+            "input": {
+                "name": name,
+                "slug": slug,
+                "currencyCode": currency_code,
+                "defaultCountry": default_country,
+                "stockSettings": {"allocationStrategy": allocation_strategy},
+                "orderSettings": {
+                    "expireOrdersAfter": expire_input,
+                },
+            }
+        }
+    
+        # when
+&gt;       response = app_api_client.post_graphql(
+            CHANNEL_CREATE_MUTATION,
+            variables=variables,
+            permissions=(permission_manage_channels,),
+        )
+
+saleor/graphql/channel/tests/mutations/test_channel_create.py:346: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "automaticCompletionDelay" on type "CheckoutSettings".', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field "automaticCompletionCutOffDate" on type "CheckoutSettings".', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.channel.tests.mutations.test_channel_create" name="test_channel_create_mutation_disabled_expire_orders[None]" time="0.024"><failure message="AssertionError: [{'message': 'Cannot query field &quot;automaticCompletionDelay&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field &quot;automaticCompletionCutOffDate&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">expire_input = None
+permission_manage_channels = &lt;Permission: Channel | channel | Manage channels.&gt;
+app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7eaf68b544a0&gt;
+
+    @pytest.mark.parametrize("expire_input", [0, None])
+    def test_channel_create_mutation_disabled_expire_orders(
+        expire_input,
+        permission_manage_channels,
+        app_api_client,
+    ):
+        # given
+        name = "testName"
+        slug = "test_slug"
+        currency_code = "USD"
+        default_country = "US"
+        allocation_strategy = AllocationStrategyEnum.PRIORITIZE_SORTING_ORDER.name
+        variables = {
+            "input": {
+                "name": name,
+                "slug": slug,
+                "currencyCode": currency_code,
+                "defaultCountry": default_country,
+                "stockSettings": {"allocationStrategy": allocation_strategy},
+                "orderSettings": {
+                    "expireOrdersAfter": expire_input,
+                },
+            }
+        }
+    
+        # when
+&gt;       response = app_api_client.post_graphql(
+            CHANNEL_CREATE_MUTATION,
+            variables=variables,
+            permissions=(permission_manage_channels,),
+        )
+
+saleor/graphql/channel/tests/mutations/test_channel_create.py:346: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "automaticCompletionDelay" on type "CheckoutSettings".', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field "automaticCompletionCutOffDate" on type "CheckoutSettings".', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.channel.tests.mutations.test_channel_create" name="test_channel_create_mutation_as_anonymous" time="0.018"><failure message="AssertionError: [{'message': 'Cannot query field &quot;automaticCompletionDelay&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field &quot;automaticCompletionCutOffDate&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7eaf68b74140&gt;
+
+    def test_channel_create_mutation_as_anonymous(api_client):
+        # given
+        name = "testName"
+        slug = "test_slug"
+        currency_code = "USD"
+        default_country = "US"
+        variables = {
+            "input": {
+                "name": name,
+                "slug": slug,
+                "currencyCode": currency_code,
+                "defaultCountry": default_country,
+            }
+        }
+    
+        # when
+        response = api_client.post_graphql(
+            CHANNEL_CREATE_MUTATION,
+            variables=variables,
+            permissions=(),
+        )
+    
+        # then
+&gt;       assert_no_permission(response)
+
+saleor/graphql/channel/tests/mutations/test_channel_create.py:382: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "automaticCompletionDelay" on type "CheckoutSettings".', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field "automaticCompletionCutOffDate" on type "CheckoutSettings".', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.channel.tests.mutations.test_channel_create" name="test_channel_create_mutation_slugify_slug_field" time="0.022"><failure message="AssertionError: [{'message': 'Cannot query field &quot;automaticCompletionDelay&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field &quot;automaticCompletionCutOffDate&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">permission_manage_channels = &lt;Permission: Channel | channel | Manage channels.&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7eaf68b55e50&gt;
+
+    def test_channel_create_mutation_slugify_slug_field(
+        permission_manage_channels,
+        staff_api_client,
+    ):
+        # given
+        name = "testName"
+        slug = "Invalid slug"
+        currency_code = "USD"
+        default_country = "US"
+        variables = {
+            "input": {
+                "name": name,
+                "slug": slug,
+                "currencyCode": currency_code,
+                "defaultCountry": default_country,
+            }
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            CHANNEL_CREATE_MUTATION,
+            variables=variables,
+            permissions=(permission_manage_channels,),
+        )
+
+saleor/graphql/channel/tests/mutations/test_channel_create.py:404: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "automaticCompletionDelay" on type "CheckoutSettings".', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field "automaticCompletionCutOffDate" on type "CheckoutSettings".', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.channel.tests.mutations.test_channel_create" name="test_channel_create_mutation_with_duplicated_slug" time="0.030"><failure message="AssertionError: [{'message': 'Cannot query field &quot;automaticCompletionDelay&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field &quot;automaticCompletionCutOffDate&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">permission_manage_channels = &lt;Permission: Channel | channel | Manage channels.&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7eaf68d37b90&gt;
+channel_USD = &lt;Channel: main&gt;
+
+    def test_channel_create_mutation_with_duplicated_slug(
+        permission_manage_channels, staff_api_client, channel_USD
+    ):
+        # given
+        name = "New Channel"
+        slug = channel_USD.slug
+        currency_code = "USD"
+        default_country = "US"
+        allocation_strategy = AllocationStrategyEnum.PRIORITIZE_SORTING_ORDER.name
+        variables = {
+            "input": {
+                "name": name,
+                "slug": slug,
+                "currencyCode": currency_code,
+                "defaultCountry": default_country,
+                "stockSettings": {"allocationStrategy": allocation_strategy},
+            }
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            CHANNEL_CREATE_MUTATION,
+            variables=variables,
+            permissions=(permission_manage_channels,),
+        )
+
+saleor/graphql/channel/tests/mutations/test_channel_create.py:436: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "automaticCompletionDelay" on type "CheckoutSettings".', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field "automaticCompletionCutOffDate" on type "CheckoutSettings".', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.channel.tests.mutations.test_channel_create" name="test_channel_create_mutation_with_shipping_zones" time="0.041"><failure message="AssertionError: [{'message': 'Cannot query field &quot;automaticCompletionDelay&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field &quot;automaticCompletionCutOffDate&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">permission_manage_channels = &lt;Permission: Channel | channel | Manage channels.&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7eaf690effb0&gt;
+shipping_zones = [&lt;ShippingZone: Poland&gt;, &lt;ShippingZone: USA&gt;]
+
+    def test_channel_create_mutation_with_shipping_zones(
+        permission_manage_channels,
+        staff_api_client,
+        shipping_zones,
+    ):
+        # given
+        name = "testName"
+        slug = "test_slug"
+        currency_code = "USD"
+        default_country = "US"
+        shipping_zones_ids = [
+            graphene.Node.to_global_id("ShippingZone", zone.pk) for zone in shipping_zones
+        ]
+        allocation_strategy = AllocationStrategyEnum.PRIORITIZE_SORTING_ORDER.name
+        variables = {
+            "input": {
+                "name": name,
+                "slug": slug,
+                "currencyCode": currency_code,
+                "addShippingZones": shipping_zones_ids,
+                "defaultCountry": default_country,
+                "stockSettings": {"allocationStrategy": allocation_strategy},
+            }
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            CHANNEL_CREATE_MUTATION,
+            variables=variables,
+            permissions=(permission_manage_channels,),
+        )
+
+saleor/graphql/channel/tests/mutations/test_channel_create.py:475: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "automaticCompletionDelay" on type "CheckoutSettings".', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field "automaticCompletionCutOffDate" on type "CheckoutSettings".', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.channel.tests.mutations.test_channel_create" name="test_channel_create_mutation_with_warehouses" time="0.038"><failure message="AssertionError: [{'message': 'Cannot query field &quot;automaticCompletionDelay&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field &quot;automaticCompletionCutOffDate&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">permission_manage_channels = &lt;Permission: Channel | channel | Manage channels.&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7eaf690ece90&gt;
+warehouses = [&lt;Warehouse: Warehouse PL&gt;, &lt;Warehouse: Warehouse USA&gt;]
+
+    def test_channel_create_mutation_with_warehouses(
+        permission_manage_channels,
+        staff_api_client,
+        warehouses,
+    ):
+        # given
+        name = "testName"
+        slug = "test_slug"
+        currency_code = "USD"
+        default_country = "US"
+        warehouses_ids = [
+            graphene.Node.to_global_id("Warehouse", warehouse.pk)
+            for warehouse in warehouses
+        ]
+        allocation_strategy = AllocationStrategyEnum.PRIORITIZE_SORTING_ORDER.name
+        variables = {
+            "input": {
+                "name": name,
+                "slug": slug,
+                "currencyCode": currency_code,
+                "addWarehouses": warehouses_ids,
+                "defaultCountry": default_country,
+                "stockSettings": {"allocationStrategy": allocation_strategy},
+            }
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            CHANNEL_CREATE_MUTATION,
+            variables=variables,
+            permissions=(permission_manage_channels,),
+        )
+
+saleor/graphql/channel/tests/mutations/test_channel_create.py:524: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "automaticCompletionDelay" on type "CheckoutSettings".', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field "automaticCompletionCutOffDate" on type "CheckoutSettings".', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.channel.tests.mutations.test_channel_create" name="test_channel_create_mutation_trigger_webhook" time="0.303"><failure message="AssertionError: [{'message': 'Cannot query field &quot;automaticCompletionDelay&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field &quot;automaticCompletionCutOffDate&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">mocked_webhook_trigger = &lt;MagicMock name='trigger_webhooks_async' id='139291855108960'&gt;
+mocked_get_webhooks_for_event = &lt;MagicMock name='get_webhooks_for_event' id='139291844752256'&gt;
+any_webhook = &lt;Webhook: Any webhook&gt;
+permission_manage_channels = &lt;Permission: Channel | channel | Manage channels.&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7eaf68d37560&gt;
+settings = &lt;pytest_django.fixtures.SettingsWrapper object at 0x7eaf68cb57c0&gt;
+
+    @freeze_time("2022-05-12 12:00:00")
+    @mock.patch("saleor.plugins.webhook.plugin.get_webhooks_for_event")
+    @mock.patch("saleor.plugins.webhook.plugin.trigger_webhooks_async")
+    def test_channel_create_mutation_trigger_webhook(
+        mocked_webhook_trigger,
+        mocked_get_webhooks_for_event,
+        any_webhook,
+        permission_manage_channels,
+        staff_api_client,
+        settings,
+    ):
+        # given
+        mocked_get_webhooks_for_event.return_value = [any_webhook]
+        settings.PLUGINS = ["saleor.plugins.webhook.plugin.WebhookPlugin"]
+    
+        name = "testName"
+        slug = "test_slug"
+        currency_code = "USD"
+        default_country = "US"
+        allocation_strategy = AllocationStrategyEnum.PRIORITIZE_SORTING_ORDER.name
+        variables = {
+            "input": {
+                "name": name,
+                "slug": slug,
+                "currencyCode": currency_code,
+                "defaultCountry": default_country,
+                "stockSettings": {"allocationStrategy": allocation_strategy},
+            }
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            CHANNEL_CREATE_MUTATION,
+            variables=variables,
+            permissions=(permission_manage_channels,),
+        )
+
+saleor/graphql/channel/tests/mutations/test_channel_create.py:578: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "automaticCompletionDelay" on type "CheckoutSettings".', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field "automaticCompletionCutOffDate" on type "CheckoutSettings".', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.channel.tests.mutations.test_channel_create" name="test_channel_create_creates_tax_configuration" time="0.023"><failure message="AssertionError: [{'message': 'Cannot query field &quot;automaticCompletionDelay&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field &quot;automaticCompletionCutOffDate&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">permission_manage_channels = &lt;Permission: Channel | channel | Manage channels.&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7eaf6905a4b0&gt;
+
+    def test_channel_create_creates_tax_configuration(
+        permission_manage_channels, staff_api_client
+    ):
+        # given
+        slug = "channel-with-tax-config"
+        variables = {
+            "input": {
+                "name": "Channel with tax config",
+                "slug": slug,
+                "currencyCode": "USD",
+                "defaultCountry": "US",
+            }
+        }
+    
+        # when
+&gt;       staff_api_client.post_graphql(
+            CHANNEL_CREATE_MUTATION,
+            variables=variables,
+            permissions=(permission_manage_channels,),
+        )
+
+saleor/graphql/channel/tests/mutations/test_channel_create.py:627: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "automaticCompletionDelay" on type "CheckoutSettings".', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field "automaticCompletionCutOffDate" on type "CheckoutSettings".', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.channel.tests.mutations.test_channel_create" name="test_channel_create_set_order_mark_as_paid" time="0.022"><failure message="AssertionError: [{'message': 'Cannot query field &quot;automaticCompletionDelay&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field &quot;automaticCompletionCutOffDate&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">permission_manage_channels = &lt;Permission: Channel | channel | Manage channels.&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7eaf69f19df0&gt;
+
+    def test_channel_create_set_order_mark_as_paid(
+        permission_manage_channels,
+        staff_api_client,
+    ):
+        # given
+        name = "testName"
+        slug = "test_slug"
+        currency_code = "USD"
+        default_country = "US"
+        variables = {
+            "input": {
+                "name": name,
+                "slug": slug,
+                "currencyCode": currency_code,
+                "defaultCountry": default_country,
+                "orderSettings": {
+                    "markAsPaidStrategy": MarkAsPaidStrategyEnum.TRANSACTION_FLOW.name
+                },
+            }
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            CHANNEL_CREATE_MUTATION,
+            variables=variables,
+            permissions=(permission_manage_channels,),
+        )
+
+saleor/graphql/channel/tests/mutations/test_channel_create.py:660: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "automaticCompletionDelay" on type "CheckoutSettings".', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field "automaticCompletionCutOffDate" on type "CheckoutSettings".', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.channel.tests.mutations.test_channel_create" name="test_channel_create_set_default_transaction_flow_strategy" time="0.023"><failure message="AssertionError: [{'message': 'Cannot query field &quot;automaticCompletionDelay&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field &quot;automaticCompletionCutOffDate&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">permission_manage_channels = &lt;Permission: Channel | channel | Manage channels.&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7eaf69ef6450&gt;
+
+    def test_channel_create_set_default_transaction_flow_strategy(
+        permission_manage_channels,
+        staff_api_client,
+    ):
+        # given
+        name = "testName"
+        slug = "test_slug"
+        currency_code = "USD"
+        default_country = "US"
+        variables = {
+            "input": {
+                "name": name,
+                "slug": slug,
+                "currencyCode": currency_code,
+                "defaultCountry": default_country,
+                "paymentSettings": {
+                    "defaultTransactionFlowStrategy": (
+                        TransactionFlowStrategyEnum.AUTHORIZATION.name
+                    )
+                },
+            }
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            CHANNEL_CREATE_MUTATION,
+            variables=variables,
+            permissions=(permission_manage_channels,),
+        )
+
+saleor/graphql/channel/tests/mutations/test_channel_create.py:706: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "automaticCompletionDelay" on type "CheckoutSettings".', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field "automaticCompletionCutOffDate" on type "CheckoutSettings".', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.channel.tests.mutations.test_channel_create" name="test_channel_create_set_checkout_release_settings" time="0.024"><failure message="AssertionError: [{'message': 'Cannot query field &quot;automaticCompletionDelay&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field &quot;automaticCompletionCutOffDate&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">permission_manage_channels = &lt;Permission: Channel | channel | Manage channels.&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7eaf6a081970&gt;
+
+    def test_channel_create_set_checkout_release_settings(
+        permission_manage_channels,
+        staff_api_client,
+    ):
+        # given
+        name = "testName"
+        slug = "test_slug"
+        currency_code = "USD"
+        default_country = "US"
+    
+        date = datetime.datetime(2022, 5, 12, 0, 0, 0, tzinfo=datetime.UTC)
+        ttl_before_releasing_funds = 7
+        variables = {
+            "input": {
+                "name": name,
+                "slug": slug,
+                "currencyCode": currency_code,
+                "defaultCountry": default_country,
+                "paymentSettings": {
+                    "releaseFundsForExpiredCheckouts": False,
+                    "checkoutTtlBeforeReleasingFunds": ttl_before_releasing_funds,
+                    "checkoutReleaseFundsCutOffDate": date,
+                },
+            }
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            CHANNEL_CREATE_MUTATION,
+            variables=variables,
+            permissions=(permission_manage_channels,),
+        )
+
+saleor/graphql/channel/tests/mutations/test_channel_create.py:755: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "automaticCompletionDelay" on type "CheckoutSettings".', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field "automaticCompletionCutOffDate" on type "CheckoutSettings".', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.channel.tests.mutations.test_channel_create" name="test_channel_create_set_incorect_checkout_ttl_before_releasing_funds" time="0.024"><failure message="AssertionError: [{'message': 'Cannot query field &quot;automaticCompletionDelay&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field &quot;automaticCompletionCutOffDate&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">permission_manage_channels = &lt;Permission: Channel | channel | Manage channels.&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7eaf69f1b920&gt;
+
+    def test_channel_create_set_incorect_checkout_ttl_before_releasing_funds(
+        permission_manage_channels,
+        staff_api_client,
+    ):
+        # given
+        name = "testName"
+        slug = "test_slug"
+        currency_code = "USD"
+        default_country = "US"
+    
+        ttl_before_releasing_funds = 0
+        variables = {
+            "input": {
+                "name": name,
+                "slug": slug,
+                "currencyCode": currency_code,
+                "defaultCountry": default_country,
+                "paymentSettings": {
+                    "checkoutTtlBeforeReleasingFunds": ttl_before_releasing_funds,
+                },
+            }
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            CHANNEL_CREATE_MUTATION,
+            variables=variables,
+            permissions=(permission_manage_channels,),
+        )
+
+saleor/graphql/channel/tests/mutations/test_channel_create.py:808: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "automaticCompletionDelay" on type "CheckoutSettings".', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field "automaticCompletionCutOffDate" on type "CheckoutSettings".', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.channel.tests.mutations.test_channel_create" name="test_channel_create_set_delete_expired_orders_after" time="0.031"><failure message="AssertionError: [{'message': 'Cannot query field &quot;automaticCompletionDelay&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field &quot;automaticCompletionCutOffDate&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">permission_manage_channels = &lt;Permission: Channel | channel | Manage channels.&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7eaf69058fe0&gt;
+
+    def test_channel_create_set_delete_expired_orders_after(
+        permission_manage_channels,
+        staff_api_client,
+    ):
+        # given
+        name = "testName"
+        slug = "test_slug"
+        currency_code = "USD"
+        default_country = "US"
+        delete_expired_after = 10
+        variables = {
+            "input": {
+                "name": name,
+                "slug": slug,
+                "currencyCode": currency_code,
+                "defaultCountry": default_country,
+                "orderSettings": {"deleteExpiredOrdersAfter": delete_expired_after},
+            }
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            CHANNEL_CREATE_MUTATION,
+            variables=variables,
+            permissions=(permission_manage_channels,),
+        )
+
+saleor/graphql/channel/tests/mutations/test_channel_create.py:843: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "automaticCompletionDelay" on type "CheckoutSettings".', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field "automaticCompletionCutOffDate" on type "CheckoutSettings".', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.channel.tests.mutations.test_channel_create" name="test_channel_create_mutation_set_incorrect_delete_expired_orders_after[-1]" time="0.028"><failure message="AssertionError: [{'message': 'Cannot query field &quot;automaticCompletionDelay&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field &quot;automaticCompletionCutOffDate&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">delete_expired_after = -1
+permission_manage_channels = &lt;Permission: Channel | channel | Manage channels.&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7eaf68f9fa10&gt;
+channel_USD = &lt;Channel: main&gt;
+
+    @pytest.mark.parametrize("delete_expired_after", [-1, 0, 121, 300])
+    def test_channel_create_mutation_set_incorrect_delete_expired_orders_after(
+        delete_expired_after, permission_manage_channels, staff_api_client, channel_USD
+    ):
+        # given
+        name = "testName"
+        slug = "test_slug"
+        currency_code = "USD"
+        default_country = "US"
+        variables = {
+            "input": {
+                "name": name,
+                "slug": slug,
+                "currencyCode": currency_code,
+                "defaultCountry": default_country,
+                "orderSettings": {"deleteExpiredOrdersAfter": delete_expired_after},
+            }
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            CHANNEL_CREATE_MUTATION,
+            variables=variables,
+            permissions=(permission_manage_channels,),
+        )
+
+saleor/graphql/channel/tests/mutations/test_channel_create.py:884: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "automaticCompletionDelay" on type "CheckoutSettings".', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field "automaticCompletionCutOffDate" on type "CheckoutSettings".', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.channel.tests.mutations.test_channel_create" name="test_channel_create_mutation_set_incorrect_delete_expired_orders_after[0]" time="0.027"><failure message="AssertionError: [{'message': 'Cannot query field &quot;automaticCompletionDelay&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field &quot;automaticCompletionCutOffDate&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">delete_expired_after = 0
+permission_manage_channels = &lt;Permission: Channel | channel | Manage channels.&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7eaf68f9d700&gt;
+channel_USD = &lt;Channel: main&gt;
+
+    @pytest.mark.parametrize("delete_expired_after", [-1, 0, 121, 300])
+    def test_channel_create_mutation_set_incorrect_delete_expired_orders_after(
+        delete_expired_after, permission_manage_channels, staff_api_client, channel_USD
+    ):
+        # given
+        name = "testName"
+        slug = "test_slug"
+        currency_code = "USD"
+        default_country = "US"
+        variables = {
+            "input": {
+                "name": name,
+                "slug": slug,
+                "currencyCode": currency_code,
+                "defaultCountry": default_country,
+                "orderSettings": {"deleteExpiredOrdersAfter": delete_expired_after},
+            }
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            CHANNEL_CREATE_MUTATION,
+            variables=variables,
+            permissions=(permission_manage_channels,),
+        )
+
+saleor/graphql/channel/tests/mutations/test_channel_create.py:884: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "automaticCompletionDelay" on type "CheckoutSettings".', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field "automaticCompletionCutOffDate" on type "CheckoutSettings".', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.channel.tests.mutations.test_channel_create" name="test_channel_create_mutation_set_incorrect_delete_expired_orders_after[121]" time="0.028"><failure message="AssertionError: [{'message': 'Cannot query field &quot;automaticCompletionDelay&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field &quot;automaticCompletionCutOffDate&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">delete_expired_after = 121
+permission_manage_channels = &lt;Permission: Channel | channel | Manage channels.&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7eaf6905a390&gt;
+channel_USD = &lt;Channel: main&gt;
+
+    @pytest.mark.parametrize("delete_expired_after", [-1, 0, 121, 300])
+    def test_channel_create_mutation_set_incorrect_delete_expired_orders_after(
+        delete_expired_after, permission_manage_channels, staff_api_client, channel_USD
+    ):
+        # given
+        name = "testName"
+        slug = "test_slug"
+        currency_code = "USD"
+        default_country = "US"
+        variables = {
+            "input": {
+                "name": name,
+                "slug": slug,
+                "currencyCode": currency_code,
+                "defaultCountry": default_country,
+                "orderSettings": {"deleteExpiredOrdersAfter": delete_expired_after},
+            }
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            CHANNEL_CREATE_MUTATION,
+            variables=variables,
+            permissions=(permission_manage_channels,),
+        )
+
+saleor/graphql/channel/tests/mutations/test_channel_create.py:884: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "automaticCompletionDelay" on type "CheckoutSettings".', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field "automaticCompletionCutOffDate" on type "CheckoutSettings".', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.channel.tests.mutations.test_channel_create" name="test_channel_create_mutation_set_incorrect_delete_expired_orders_after[300]" time="0.027"><failure message="AssertionError: [{'message': 'Cannot query field &quot;automaticCompletionDelay&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field &quot;automaticCompletionCutOffDate&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">delete_expired_after = 300
+permission_manage_channels = &lt;Permission: Channel | channel | Manage channels.&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7eaf69f1b8f0&gt;
+channel_USD = &lt;Channel: main&gt;
+
+    @pytest.mark.parametrize("delete_expired_after", [-1, 0, 121, 300])
+    def test_channel_create_mutation_set_incorrect_delete_expired_orders_after(
+        delete_expired_after, permission_manage_channels, staff_api_client, channel_USD
+    ):
+        # given
+        name = "testName"
+        slug = "test_slug"
+        currency_code = "USD"
+        default_country = "US"
+        variables = {
+            "input": {
+                "name": name,
+                "slug": slug,
+                "currencyCode": currency_code,
+                "defaultCountry": default_country,
+                "orderSettings": {"deleteExpiredOrdersAfter": delete_expired_after},
+            }
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            CHANNEL_CREATE_MUTATION,
+            variables=variables,
+            permissions=(permission_manage_channels,),
+        )
+
+saleor/graphql/channel/tests/mutations/test_channel_create.py:884: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "automaticCompletionDelay" on type "CheckoutSettings".', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field "automaticCompletionCutOffDate" on type "CheckoutSettings".', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.channel.tests.mutations.test_channel_create" name="test_channel_create_set_checkout_use_legacy_error_flow" time="0.026"><failure message="AssertionError: [{'message': 'Cannot query field &quot;automaticCompletionDelay&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field &quot;automaticCompletionCutOffDate&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">permission_manage_channels = &lt;Permission: Channel | channel | Manage channels.&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7eaf6a01c1a0&gt;
+
+    def test_channel_create_set_checkout_use_legacy_error_flow(
+        permission_manage_channels,
+        staff_api_client,
+    ):
+        # given
+        name = "testName"
+        slug = "test_slug"
+        currency_code = "USD"
+        default_country = "US"
+        variables = {
+            "input": {
+                "name": name,
+                "slug": slug,
+                "currencyCode": currency_code,
+                "defaultCountry": default_country,
+                "checkoutSettings": {"useLegacyErrorFlow": False},
+            }
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            CHANNEL_CREATE_MUTATION,
+            variables=variables,
+            permissions=(permission_manage_channels,),
+        )
+
+saleor/graphql/channel/tests/mutations/test_channel_create.py:917: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "automaticCompletionDelay" on type "CheckoutSettings".', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field "automaticCompletionCutOffDate" on type "CheckoutSettings".', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.channel.tests.mutations.test_channel_create" name="test_channel_create_set_automatic_checkout_completion" time="0.057"><failure message="AssertionError: [{'message': 'Cannot query field &quot;automaticCompletionDelay&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field &quot;automaticCompletionCutOffDate&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">permission_manage_channels = &lt;Permission: Channel | channel | Manage channels.&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7eaf6a082b40&gt;
+
+    @freeze_time("2022-05-12 12:00:00")
+    def test_channel_create_set_automatic_checkout_completion(
+        permission_manage_channels,
+        staff_api_client,
+    ):
+        # given
+        name = "testName"
+        slug = "test_slug"
+        currency_code = "USD"
+        default_country = "US"
+        variables = {
+            "input": {
+                "name": name,
+                "slug": slug,
+                "currencyCode": currency_code,
+                "defaultCountry": default_country,
+                "checkoutSettings": {
+                    "automaticallyCompleteFullyPaidCheckouts": True,
+                },
+            }
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            CHANNEL_CREATE_MUTATION,
+            variables=variables,
+            permissions=(permission_manage_channels,),
+        )
+
+saleor/graphql/channel/tests/mutations/test_channel_create.py:956: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "automaticCompletionDelay" on type "CheckoutSettings".', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field "automaticCompletionCutOffDate" on type "CheckoutSettings".', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.channel.tests.mutations.test_channel_create" name="test_channel_create_set_automatic_checkout_completion_false" time="0.024"><failure message="AssertionError: [{'message': 'Cannot query field &quot;automaticCompletionDelay&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field &quot;automaticCompletionCutOffDate&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">permission_manage_channels = &lt;Permission: Channel | channel | Manage channels.&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7eaf6a01e270&gt;
+
+    def test_channel_create_set_automatic_checkout_completion_false(
+        permission_manage_channels,
+        staff_api_client,
+    ):
+        # given
+        name = "testName"
+        slug = "test_slug"
+        currency_code = "USD"
+        default_country = "US"
+        variables = {
+            "input": {
+                "name": name,
+                "slug": slug,
+                "currencyCode": currency_code,
+                "defaultCountry": default_country,
+                "checkoutSettings": {
+                    "automaticallyCompleteFullyPaidCheckouts": False,
+                },
+            }
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            CHANNEL_CREATE_MUTATION,
+            variables=variables,
+            permissions=(permission_manage_channels,),
+        )
+
+saleor/graphql/channel/tests/mutations/test_channel_create.py:1011: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "automaticCompletionDelay" on type "CheckoutSettings".', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field "automaticCompletionCutOffDate" on type "CheckoutSettings".', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.channel.tests.mutations.test_channel_create" name="test_channel_create_with_automatic_completion_delay_value_below_0" time="0.024"><failure message="AssertionError: [{'message': 'Cannot query field &quot;automaticCompletionDelay&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field &quot;automaticCompletionCutOffDate&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">permission_manage_channels = &lt;Permission: Channel | channel | Manage channels.&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7eaf69f1aae0&gt;
+
+    def test_channel_create_with_automatic_completion_delay_value_below_0(
+        permission_manage_channels,
+        staff_api_client,
+    ):
+        # given
+        name = "testName"
+        slug = "test_slug"
+        currency_code = "USD"
+        default_country = "US"
+        variables = {
+            "input": {
+                "name": name,
+                "slug": slug,
+                "currencyCode": currency_code,
+                "defaultCountry": default_country,
+                "checkoutSettings": {
+                    "automaticCompletion": {
+                        "enabled": True,
+                        "delay": -1,
+                    }
+                },
+            }
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            CHANNEL_CREATE_MUTATION,
+            variables=variables,
+            permissions=(permission_manage_channels,),
+        )
+
+saleor/graphql/channel/tests/mutations/test_channel_create.py:1052: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "automaticCompletionDelay" on type "CheckoutSettings".', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field "automaticCompletionCutOffDate" on type "CheckoutSettings".', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.channel.tests.mutations.test_channel_create" name="test_channel_create_with_delay_exceeding_threshold" time="0.021"><failure message="AttributeError: 'Settings' object has no attribute 'AUTOMATIC_CHECKOUT_COMPLETION_OLDEST_MODIFIED'">permission_manage_channels = &lt;Permission: Channel | channel | Manage channels.&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7eaf68f9ef30&gt;
+settings = &lt;pytest_django.fixtures.SettingsWrapper object at 0x7eaf69ef7e30&gt;
+
+    def test_channel_create_with_delay_exceeding_threshold(
+        permission_manage_channels,
+        staff_api_client,
+        settings,
+    ):
+        # given
+        name = "testName"
+        slug = "test_slug"
+        currency_code = "USD"
+        default_country = "US"
+        oldest_allowed_checkout = (
+&gt;           settings.AUTOMATIC_CHECKOUT_COMPLETION_OLDEST_MODIFIED.total_seconds() // 60
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        )
+
+saleor/graphql/channel/tests/mutations/test_channel_create.py:1076: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.12/site-packages/pytest_django/fixtures.py:577: in __getattr__
+    return getattr(settings, attr)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+/opt/venv/lib/python3.12/site-packages/django/conf/__init__.py:83: in __getattr__
+    val = getattr(_wrapped, name)
+          ^^^^^^^^^^^^^^^^^^^^^^^
+/opt/venv/lib/python3.12/site-packages/django/conf/__init__.py:235: in __getattr__
+    return getattr(self.default_settings, name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/venv/lib/python3.12/site-packages/django/conf/__init__.py:235: in __getattr__
+    return getattr(self.default_settings, name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/venv/lib/python3.12/site-packages/django/conf/__init__.py:235: in __getattr__
+    return getattr(self.default_settings, name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;UserSettingsHolder&gt;
+name = 'AUTOMATIC_CHECKOUT_COMPLETION_OLDEST_MODIFIED'
+
+    def __getattr__(self, name):
+        if not name.isupper() or name in self._deleted:
+            raise AttributeError
+&gt;       return getattr(self.default_settings, name)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'Settings' object has no attribute 'AUTOMATIC_CHECKOUT_COMPLETION_OLDEST_MODIFIED'
+
+/opt/venv/lib/python3.12/site-packages/django/conf/__init__.py:235: AttributeError</failure></testcase><testcase classname="saleor.graphql.channel.tests.mutations.test_channel_create" name="test_channel_create_with_new_automatic_completion_enabled_with_default_delay" time="0.061"><failure message="AssertionError: [{'message': 'Cannot query field &quot;automaticCompletionDelay&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field &quot;automaticCompletionCutOffDate&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">permission_manage_channels = &lt;Permission: Channel | channel | Manage channels.&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7eaf69f19cd0&gt;
+
+    @freeze_time("2022-05-12 12:00:00")
+    def test_channel_create_with_new_automatic_completion_enabled_with_default_delay(
+        permission_manage_channels,
+        staff_api_client,
+    ):
+        # given
+        name = "testName"
+        slug = "test_slug"
+        currency_code = "USD"
+        default_country = "US"
+        variables = {
+            "input": {
+                "name": name,
+                "slug": slug,
+                "currencyCode": currency_code,
+                "defaultCountry": default_country,
+                "checkoutSettings": {
+                    "automaticCompletion": {
+                        "enabled": True,
+                    }
+                },
+            }
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            CHANNEL_CREATE_MUTATION,
+            variables=variables,
+            permissions=(permission_manage_channels,),
+        )
+
+saleor/graphql/channel/tests/mutations/test_channel_create.py:1133: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "automaticCompletionDelay" on type "CheckoutSettings".', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field "automaticCompletionCutOffDate" on type "CheckoutSettings".', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.channel.tests.mutations.test_channel_create" name="test_channel_create_with_new_automatic_completion_enabled_with_custom_delay_and_cut_off" time="0.026"><failure message="AssertionError: [{'message': 'Cannot query field &quot;automaticCompletionDelay&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field &quot;automaticCompletionCutOffDate&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">permission_manage_channels = &lt;Permission: Channel | channel | Manage channels.&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7eaf6a01e2a0&gt;
+
+    def test_channel_create_with_new_automatic_completion_enabled_with_custom_delay_and_cut_off(
+        permission_manage_channels,
+        staff_api_client,
+    ):
+        # given
+        name = "testName"
+        slug = "test_slug"
+        currency_code = "USD"
+        default_country = "US"
+        delay = 15
+        cut_off = timezone.now() + datetime.timedelta(days=2)
+        variables = {
+            "input": {
+                "name": name,
+                "slug": slug,
+                "currencyCode": currency_code,
+                "defaultCountry": default_country,
+                "checkoutSettings": {
+                    "automaticCompletion": {
+                        "enabled": True,
+                        "delay": delay,
+                        "cutOffDate": cut_off.isoformat(),
+                    }
+                },
+            }
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            CHANNEL_CREATE_MUTATION,
+            variables=variables,
+            permissions=(permission_manage_channels,),
+        )
+
+saleor/graphql/channel/tests/mutations/test_channel_create.py:1184: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "automaticCompletionDelay" on type "CheckoutSettings".', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field "automaticCompletionCutOffDate" on type "CheckoutSettings".', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.channel.tests.mutations.test_channel_create" name="test_channel_create_with_automatic_completion_disabled" time="0.025"><failure message="AssertionError: [{'message': 'Cannot query field &quot;automaticCompletionDelay&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field &quot;automaticCompletionCutOffDate&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">permission_manage_channels = &lt;Permission: Channel | channel | Manage channels.&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7eaf68f9fb00&gt;
+
+    def test_channel_create_with_automatic_completion_disabled(
+        permission_manage_channels,
+        staff_api_client,
+    ):
+        # given
+        name = "testName"
+        slug = "test_slug"
+        currency_code = "USD"
+        default_country = "US"
+        variables = {
+            "input": {
+                "name": name,
+                "slug": slug,
+                "currencyCode": currency_code,
+                "defaultCountry": default_country,
+                "checkoutSettings": {
+                    "automaticCompletion": {
+                        "enabled": False,
+                    }
+                },
+            }
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            CHANNEL_CREATE_MUTATION,
+            variables=variables,
+            permissions=(permission_manage_channels,),
+        )
+
+saleor/graphql/channel/tests/mutations/test_channel_create.py:1234: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "automaticCompletionDelay" on type "CheckoutSettings".', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field "automaticCompletionCutOffDate" on type "CheckoutSettings".', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.channel.tests.mutations.test_channel_create" name="test_channel_create_with_automatic_completion_disabled_and_delay" time="0.026"><failure message="AssertionError: [{'message': 'Cannot query field &quot;automaticCompletionDelay&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field &quot;automaticCompletionCutOffDate&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">permission_manage_channels = &lt;Permission: Channel | channel | Manage channels.&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7eaf6a250fb0&gt;
+
+    def test_channel_create_with_automatic_completion_disabled_and_delay(
+        permission_manage_channels,
+        staff_api_client,
+    ):
+        # given
+        name = "testName"
+        slug = "test_slug"
+        currency_code = "USD"
+        default_country = "US"
+        variables = {
+            "input": {
+                "name": name,
+                "slug": slug,
+                "currencyCode": currency_code,
+                "defaultCountry": default_country,
+                "checkoutSettings": {
+                    "automaticCompletion": {
+                        "enabled": False,
+                        "delay": 10,
+                    }
+                },
+            }
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            CHANNEL_CREATE_MUTATION,
+            variables=variables,
+            permissions=(permission_manage_channels,),
+        )
+
+saleor/graphql/channel/tests/mutations/test_channel_create.py:1275: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "automaticCompletionDelay" on type "CheckoutSettings".', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field "automaticCompletionCutOffDate" on type "CheckoutSettings".', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.channel.tests.mutations.test_channel_create" name="test_channel_create_with_automatic_completion_disabled_and_cutoff" time="0.024"><failure message="AssertionError: [{'message': 'Cannot query field &quot;automaticCompletionDelay&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field &quot;automaticCompletionCutOffDate&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">permission_manage_channels = &lt;Permission: Channel | channel | Manage channels.&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7eaf6a250770&gt;
+
+    def test_channel_create_with_automatic_completion_disabled_and_cutoff(
+        permission_manage_channels,
+        staff_api_client,
+    ):
+        # given
+        name = "testName"
+        slug = "test_slug"
+        currency_code = "USD"
+        default_country = "US"
+        cut_off = datetime.datetime(2022, 5, 20, 0, 0, 0, tzinfo=datetime.UTC)
+        variables = {
+            "input": {
+                "name": name,
+                "slug": slug,
+                "currencyCode": currency_code,
+                "defaultCountry": default_country,
+                "checkoutSettings": {
+                    "automaticCompletion": {
+                        "enabled": False,
+                        "cutOffDate": cut_off.isoformat(),
+                    }
+                },
+            }
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            CHANNEL_CREATE_MUTATION,
+            variables=variables,
+            permissions=(permission_manage_channels,),
+        )
+
+saleor/graphql/channel/tests/mutations/test_channel_create.py:1314: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "automaticCompletionDelay" on type "CheckoutSettings".', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field "automaticCompletionCutOffDate" on type "CheckoutSettings".', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.channel.tests.mutations.test_channel_create" name="test_channel_create_with_both_old_and_new_automatic_completion_fields" time="0.023"><failure message="AssertionError: [{'message': 'Cannot query field &quot;automaticCompletionDelay&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field &quot;automaticCompletionCutOffDate&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">permission_manage_channels = &lt;Permission: Channel | channel | Manage channels.&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7eaf6a0835f0&gt;
+
+    def test_channel_create_with_both_old_and_new_automatic_completion_fields(
+        permission_manage_channels,
+        staff_api_client,
+    ):
+        # given
+        name = "testName"
+        slug = "test_slug"
+        currency_code = "USD"
+        default_country = "US"
+        variables = {
+            "input": {
+                "name": name,
+                "slug": slug,
+                "currencyCode": currency_code,
+                "defaultCountry": default_country,
+                "checkoutSettings": {
+                    "automaticallyCompleteFullyPaidCheckouts": True,
+                    "automaticCompletion": {
+                        "enabled": True,
+                        "delay": 10,
+                    },
+                },
+            }
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            CHANNEL_CREATE_MUTATION,
+            variables=variables,
+            permissions=(permission_manage_channels,),
+        )
+
+saleor/graphql/channel/tests/mutations/test_channel_create.py:1353: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "automaticCompletionDelay" on type "CheckoutSettings".', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field "automaticCompletionCutOffDate" on type "CheckoutSettings".', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.channel.tests.mutations.test_channel_create" name="test_channel_create_with_cutoff_later_than_threshold" time="0.057"><failure message="AttributeError: 'Settings' object has no attribute 'AUTOMATIC_CHECKOUT_COMPLETION_OLDEST_MODIFIED'">permission_manage_channels = &lt;Permission: Channel | channel | Manage channels.&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7eaf69f1b440&gt;
+settings = &lt;pytest_django.fixtures.SettingsWrapper object at 0x7eaf69058470&gt;
+
+    @freeze_time("2022-05-12 12:00:00")
+    def test_channel_create_with_cutoff_later_than_threshold(
+        permission_manage_channels,
+        staff_api_client,
+        settings,
+    ):
+        # given
+        name = "testName"
+        slug = "test_slug"
+        currency_code = "USD"
+        default_country = "US"
+        cutoff_date = (
+            timezone.now()
+&gt;           - settings.AUTOMATIC_CHECKOUT_COMPLETION_OLDEST_MODIFIED
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            - datetime.timedelta(days=10)
+        )
+
+saleor/graphql/channel/tests/mutations/test_channel_create.py:1379: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.12/site-packages/pytest_django/fixtures.py:577: in __getattr__
+    return getattr(settings, attr)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+/opt/venv/lib/python3.12/site-packages/django/conf/__init__.py:83: in __getattr__
+    val = getattr(_wrapped, name)
+          ^^^^^^^^^^^^^^^^^^^^^^^
+/opt/venv/lib/python3.12/site-packages/django/conf/__init__.py:235: in __getattr__
+    return getattr(self.default_settings, name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/venv/lib/python3.12/site-packages/django/conf/__init__.py:235: in __getattr__
+    return getattr(self.default_settings, name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/venv/lib/python3.12/site-packages/django/conf/__init__.py:235: in __getattr__
+    return getattr(self.default_settings, name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;UserSettingsHolder&gt;
+name = 'AUTOMATIC_CHECKOUT_COMPLETION_OLDEST_MODIFIED'
+
+    def __getattr__(self, name):
+        if not name.isupper() or name in self._deleted:
+            raise AttributeError
+&gt;       return getattr(self.default_settings, name)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'Settings' object has no attribute 'AUTOMATIC_CHECKOUT_COMPLETION_OLDEST_MODIFIED'
+
+/opt/venv/lib/python3.12/site-packages/django/conf/__init__.py:235: AttributeError</failure></testcase><testcase classname="saleor.graphql.channel.tests.mutations.test_channel_create" name="test_channel_create_set_allow_unpaid_orders[True]" time="0.026"><failure message="AssertionError: [{'message': 'Cannot query field &quot;automaticCompletionDelay&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field &quot;automaticCompletionCutOffDate&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">allow_unpaid = True
+permission_manage_channels = &lt;Permission: Channel | channel | Manage channels.&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7eaf69f490d0&gt;
+
+    @pytest.mark.parametrize("allow_unpaid", [True, False])
+    def test_channel_create_set_allow_unpaid_orders(
+        allow_unpaid,
+        permission_manage_channels,
+        staff_api_client,
+    ):
+        # given
+        name = "testName"
+        slug = "test_slug"
+        currency_code = "USD"
+        default_country = "US"
+        variables = {
+            "input": {
+                "name": name,
+                "slug": slug,
+                "currencyCode": currency_code,
+                "defaultCountry": default_country,
+                "orderSettings": {"allowUnpaidOrders": allow_unpaid},
+            }
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            CHANNEL_CREATE_MUTATION,
+            variables=variables,
+            permissions=(permission_manage_channels,),
+        )
+
+saleor/graphql/channel/tests/mutations/test_channel_create.py:1434: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "automaticCompletionDelay" on type "CheckoutSettings".', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field "automaticCompletionCutOffDate" on type "CheckoutSettings".', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.channel.tests.mutations.test_channel_create" name="test_channel_create_set_allow_unpaid_orders[False]" time="0.026"><failure message="AssertionError: [{'message': 'Cannot query field &quot;automaticCompletionDelay&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field &quot;automaticCompletionCutOffDate&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">allow_unpaid = False
+permission_manage_channels = &lt;Permission: Channel | channel | Manage channels.&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7eaf6a01cd70&gt;
+
+    @pytest.mark.parametrize("allow_unpaid", [True, False])
+    def test_channel_create_set_allow_unpaid_orders(
+        allow_unpaid,
+        permission_manage_channels,
+        staff_api_client,
+    ):
+        # given
+        name = "testName"
+        slug = "test_slug"
+        currency_code = "USD"
+        default_country = "US"
+        variables = {
+            "input": {
+                "name": name,
+                "slug": slug,
+                "currencyCode": currency_code,
+                "defaultCountry": default_country,
+                "orderSettings": {"allowUnpaidOrders": allow_unpaid},
+            }
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            CHANNEL_CREATE_MUTATION,
+            variables=variables,
+            permissions=(permission_manage_channels,),
+        )
+
+saleor/graphql/channel/tests/mutations/test_channel_create.py:1434: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "automaticCompletionDelay" on type "CheckoutSettings".', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field "automaticCompletionCutOffDate" on type "CheckoutSettings".', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.channel.tests.mutations.test_channel_create" name="test_channel_create_set_use_legacy_line_discount_propagation[use_legacy_input0-True]" time="0.025"><failure message="AssertionError: [{'message': 'Cannot query field &quot;automaticCompletionDelay&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field &quot;automaticCompletionCutOffDate&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">use_legacy_input = {'useLegacyLineDiscountPropagation': True}
+expected_result = True
+permission_manage_channels = &lt;Permission: Channel | channel | Manage channels.&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7eaf6a252a50&gt;
+
+    @pytest.mark.parametrize(
+        ("use_legacy_input", "expected_result"),
+        [
+            ({"useLegacyLineDiscountPropagation": True}, True),
+            ({"useLegacyLineDiscountPropagation": False}, False),
+            (None, False),
+            ({"allowUnpaidOrders": False}, False),
+        ],
+    )
+    def test_channel_create_set_use_legacy_line_discount_propagation(
+        use_legacy_input,
+        expected_result,
+        permission_manage_channels,
+        staff_api_client,
+    ):
+        # given
+        name = "testName"
+        slug = "test_slug"
+        currency_code = "USD"
+        default_country = "US"
+        variables = {
+            "input": {
+                "name": name,
+                "slug": slug,
+                "currencyCode": currency_code,
+                "defaultCountry": default_country,
+                "orderSettings": use_legacy_input,
+            }
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            CHANNEL_CREATE_MUTATION,
+            variables=variables,
+            permissions=(permission_manage_channels,),
+        )
+
+saleor/graphql/channel/tests/mutations/test_channel_create.py:1481: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "automaticCompletionDelay" on type "CheckoutSettings".', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field "automaticCompletionCutOffDate" on type "CheckoutSettings".', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.channel.tests.mutations.test_channel_create" name="test_channel_create_set_use_legacy_line_discount_propagation[use_legacy_input1-False]" time="0.027"><failure message="AssertionError: [{'message': 'Cannot query field &quot;automaticCompletionDelay&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field &quot;automaticCompletionCutOffDate&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">use_legacy_input = {'useLegacyLineDiscountPropagation': False}
+expected_result = False
+permission_manage_channels = &lt;Permission: Channel | channel | Manage channels.&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7eaf6a2d3c20&gt;
+
+    @pytest.mark.parametrize(
+        ("use_legacy_input", "expected_result"),
+        [
+            ({"useLegacyLineDiscountPropagation": True}, True),
+            ({"useLegacyLineDiscountPropagation": False}, False),
+            (None, False),
+            ({"allowUnpaidOrders": False}, False),
+        ],
+    )
+    def test_channel_create_set_use_legacy_line_discount_propagation(
+        use_legacy_input,
+        expected_result,
+        permission_manage_channels,
+        staff_api_client,
+    ):
+        # given
+        name = "testName"
+        slug = "test_slug"
+        currency_code = "USD"
+        default_country = "US"
+        variables = {
+            "input": {
+                "name": name,
+                "slug": slug,
+                "currencyCode": currency_code,
+                "defaultCountry": default_country,
+                "orderSettings": use_legacy_input,
+            }
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            CHANNEL_CREATE_MUTATION,
+            variables=variables,
+            permissions=(permission_manage_channels,),
+        )
+
+saleor/graphql/channel/tests/mutations/test_channel_create.py:1481: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "automaticCompletionDelay" on type "CheckoutSettings".', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field "automaticCompletionCutOffDate" on type "CheckoutSettings".', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.channel.tests.mutations.test_channel_create" name="test_channel_create_set_use_legacy_line_discount_propagation[None-False]" time="0.025"><failure message="AssertionError: [{'message': 'Cannot query field &quot;automaticCompletionDelay&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field &quot;automaticCompletionCutOffDate&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">use_legacy_input = None, expected_result = False
+permission_manage_channels = &lt;Permission: Channel | channel | Manage channels.&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7eaf68d36060&gt;
+
+    @pytest.mark.parametrize(
+        ("use_legacy_input", "expected_result"),
+        [
+            ({"useLegacyLineDiscountPropagation": True}, True),
+            ({"useLegacyLineDiscountPropagation": False}, False),
+            (None, False),
+            ({"allowUnpaidOrders": False}, False),
+        ],
+    )
+    def test_channel_create_set_use_legacy_line_discount_propagation(
+        use_legacy_input,
+        expected_result,
+        permission_manage_channels,
+        staff_api_client,
+    ):
+        # given
+        name = "testName"
+        slug = "test_slug"
+        currency_code = "USD"
+        default_country = "US"
+        variables = {
+            "input": {
+                "name": name,
+                "slug": slug,
+                "currencyCode": currency_code,
+                "defaultCountry": default_country,
+                "orderSettings": use_legacy_input,
+            }
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            CHANNEL_CREATE_MUTATION,
+            variables=variables,
+            permissions=(permission_manage_channels,),
+        )
+
+saleor/graphql/channel/tests/mutations/test_channel_create.py:1481: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "automaticCompletionDelay" on type "CheckoutSettings".', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field "automaticCompletionCutOffDate" on type "CheckoutSettings".', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.channel.tests.mutations.test_channel_create" name="test_channel_create_set_use_legacy_line_discount_propagation[use_legacy_input3-False]" time="0.024"><failure message="AssertionError: [{'message': 'Cannot query field &quot;automaticCompletionDelay&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field &quot;automaticCompletionCutOffDate&quot; on type &quot;CheckoutSettings&quot;.', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">use_legacy_input = {'allowUnpaidOrders': False}, expected_result = False
+permission_manage_channels = &lt;Permission: Channel | channel | Manage channels.&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7eaf68d36e70&gt;
+
+    @pytest.mark.parametrize(
+        ("use_legacy_input", "expected_result"),
+        [
+            ({"useLegacyLineDiscountPropagation": True}, True),
+            ({"useLegacyLineDiscountPropagation": False}, False),
+            (None, False),
+            ({"allowUnpaidOrders": False}, False),
+        ],
+    )
+    def test_channel_create_set_use_legacy_line_discount_propagation(
+        use_legacy_input,
+        expected_result,
+        permission_manage_channels,
+        staff_api_client,
+    ):
+        # given
+        name = "testName"
+        slug = "test_slug"
+        currency_code = "USD"
+        default_country = "US"
+        variables = {
+            "input": {
+                "name": name,
+                "slug": slug,
+                "currencyCode": currency_code,
+                "defaultCountry": default_country,
+                "orderSettings": use_legacy_input,
+            }
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            CHANNEL_CREATE_MUTATION,
+            variables=variables,
+            permissions=(permission_manage_channels,),
+        )
+
+saleor/graphql/channel/tests/mutations/test_channel_create.py:1481: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Cannot query field "automaticCompletionDelay" on type "CheckoutSettings".', 'locations': [{'line': 33, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Cannot query field "automaticCompletionCutOffDate" on type "CheckoutSettings".', 'locations': [{'line': 34, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase></testsuite></testsuites>
