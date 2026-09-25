@@ -284,10 +284,20 @@ See ENGINEERING section below.
 - Branch: `main`; HEAD at start == origin/main (`eb5e21d`). Tree was the
   uncommitted Mission-08 checkpoint; Mission-09 adds new artifacts/scripts/tests
   and documentation. No Mission-07/08 history rewritten.
-- Commit(s): see git log after this report.
-- Tag: `wp2-p2p-v2-eng-freeze-2026-09-25` (after commit + validation).
-- Push result: origin/main updated (if authorized).
-- Exports: FULL + TRUE LIGHT (see blocks below).
+- Commit: `f2416d8302a51316fc1bccf0e5286a4534f62029` — "feat(wp2): Mission-09
+  P2P V2 gold freeze + ENG cap200/cap400 execution".
+- Tag: `wp2-p2p-v2-eng-freeze-2026-09-25` (annotated) on the same commit,
+  pushed to origin.
+- Push: `origin/main` updated `eb5e21d..f2416d83` (warning only: the 60.35 MB
+  membership artifact exceeds GitHub's 50 MB size recommendation; it is a
+  deterministic freeze artifact by design and its SHA is pinned for audit).
+- Working tree after commit: only pre-existing untracked `logs/`
+  (Mission-07/08 operational logs) and `scripts/watch_c4_reliable.ps1`
+  (Mission-08 helper) remain untracked — intentionally not part of Mission-09.
+- Exports: FULL + TRUE LIGHT (see EXPORTS section above).
+- Release provenance invariant: artifact source commit `f2416d83` == tag peel
+  `f2416d83`. Post-tag docs evidence is committed in the same commit (tag target
+  is the single accepted source commit).
 
 ## NEXT (recommended next mission)
 
@@ -302,3 +312,52 @@ See ENGINEERING section below.
 4. **Exact next recommended mission:** Mission-10 — full 47-task P2P-U cap200
    execution (overnight, resumable) + DEV Smoke freeze, pending Ahmed's decisions
    on Smoke freeze, DEV-47 execution, and MAIN population authority.
+
+---
+
+# EXPORTS
+
+## FULL AUDIT EXPORT
+
+```
+PROJECT_EXPORT_READY
+PROJECT_EXPORT_NAME=project-2026-09-26-0205.zip
+PROJECT_EXPORT_PATH=C:\Users\Ahmed\Desktop\OpenCode\master-2026-07-21-2355\project-2026-09-26-0205.zip
+PROJECT_EXPORT_SIZE_BYTES=247791372
+PROJECT_EXPORT_SHA256=e340d412980e2541cbb4e43ff9443a36e2f43ff5140f26903cfeff2976eb285c
+UPLOAD_THIS_FILE=project-2026-09-26-0205.zip
+```
+
+Verified: `.git/HEAD` present; `dist/pilot-kaggle-upload.zip` + `.sha256` present
+(they exist locally, so the "archived member" exception does NOT apply);
+ZIP opens successfully; 12,665 entries.
+
+## TRUE LIGHT EXPORT
+
+```
+LIGHT_EXPORT_READY
+LIGHT_EXPORT_NAME=project-LIGHT-2026-09-26-0212.zip
+LIGHT_EXPORT_PATH=C:\Users\Ahmed\Desktop\OpenCode\master-2026-07-21-2355\project-LIGHT-2026-09-26-0212.zip
+LIGHT_EXPORT_SIZE_BYTES=54331759
+LIGHT_EXPORT_SHA256=3d18b1325f02cc7081b245e9ab3b39b4d118e0e05e6cecb6f79d7dcb76e6074b
+WITHIN_50MB=False
+```
+
+**Why TRUE LIGHT exceeds 50 MB (54.33 MB):** the standard TRUE LIGHT filter plus
+exclusion of the deterministically-reproducible P2P-U membership artifact
+(63.79 MB raw, regenerable via `scripts/wp2_p2p_u_v2_freeze.py`, SHA-anchored
+`8325747f…`) leaves 54.33 MB. The residual bulk is the **frozen Mission-08 DEV
+inventory** (34.20 MB) and the **raw unchanged-test node-discovery JSONL**
+(28.69 MB), which are the direct frozen inputs to the Mission-09 P2P-S / P2P-U
+freeze and are NOT cheaply reproducible (raw discovery requires the frozen
+WSL/Docker node-discovery environment). Per Mission-09 §26, required evidence is
+NOT deleted just to hit the number; the audit-essential evidence (P2P-S artifact,
+P2P-U rule, consolidated results, sensitivity report, per-task manifests,
+resource summary, estimates, STOP report, freeze script) is confirmed present in
+the LIGHT export (`AUDIT_EVIDENCE_PRESENT=True`).
+
+## Tag
+
+- Tag: `wp2-p2p-v2-eng-freeze-2026-09-25` (annotated), created on commit
+  `f2416d8302a51316fc1bccf0e5286a4534f62029` (== HEAD; == tag peel). Pushed to
+  origin.
