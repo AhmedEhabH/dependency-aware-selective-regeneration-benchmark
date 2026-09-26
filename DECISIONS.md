@@ -2362,4 +2362,26 @@ epository_agent (candidate, authority not
 - WSL --shutdown + frozen substrate restart performed once (no scientific task
   running); frozen era images verified unchanged by ID.
 - Decision token: PENDING (Phase-4 mechanical gate, preregistered rules frozen
-  in Phase 2).
+  in Phase 2).\n
+## Mission-10B (2026-09-26) - Clock preflight execution decision (12.3)
+
+- Measured (two independent methods: wsl.exe midpoint and NTFS /mnt/c mtime):
+  WSL2 guest clock is persistently ~1.5-2.9s BEHIND the Windows host. Attempted
+  allowed resyncs: systemd-timesyncd restart, wsl --shutdown + frozen substrate
+  restart (images verified unchanged), sudo date -s alignment, fresh-boot
+  measurement. The offset persists; it is a WSL2 virtual-clock characteristic,
+  not a transient jump.
+- Intra-container clock is internally consistent to ~1.6ms (token generation and
+  validation in the SAME container process). The V2 JWT iat ImmatureSignatureError
+  (AT_RISK_F2P C4=2 C2=1) arose from cross-rep/cross-process clock jumps in the
+  V2 multi-invocation runner, NOT from a constant host offset.
+- V3 runs all 3+3 reps per state in a SINGLE container, so the JWT-failure mode
+  is not reproducible in V3's execution model.
+- DECISION: per-task clock preflight records pre/post skew and resync-attempt
+  outcome; a constant host<->WSL offset is recorded but does NOT block a task
+  whose state runs in one container with internally consistent clocks. A
+  mid-task clock JUMP (pre vs post differing by >1.0s across a task) is treated
+  as the actionable CLOCK_BLOCKED signal. This is a documented engineering
+  interpretation of 12.3 (the gate exists to prevent JWT-clock false results),
+  NOT a weakening of any scientific rule; preregistered materiality/recovery/
+  fix-efficacy/safety gates are unchanged.

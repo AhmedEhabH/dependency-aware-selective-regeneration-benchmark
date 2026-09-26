@@ -69,16 +69,16 @@ resource sampler version.
 ## 3. Freeze hashes (Phase 2)
 
 Machine-readable spec: `research/wp2/harness_v3_2026-09-26/harness_v3_spec.json`
-(spec SHA256 `5917d86641733a056799c745ae986f59cac42ad4afa0c0cd9f07578f2a0f49c3`).
+(spec SHA256 `4b9edda4184dcf97a1dc94d16ba8c28ba8abeed683842139daf89a50139b63d7`).
 
 | artifact | SHA256 |
 |:---|:---|
-| V3 spec (`harness_v3_spec.json`) | `5917d86641733a056799c745ae986f59cac42ad4afa0c0cd9f07578f2a0f49c3` |
-| runner (`src/benchmark/wp2/harness_v3.py`) | `f341a25e368b3fa1f44f9d2d2519353be741cceaa509ecb58d17739efcefde34` |
-| orchestrator (`scripts/wp2_m10b_phase3_probe.py`) | `b0612161ce2facc0c32fc36b7e372a4902ef31f1c0ac5d218e1bea7bb6bdb9a0` |
+| V3 spec (`harness_v3_spec.json`) | `4b9edda4184dcf97a1dc94d16ba8c28ba8abeed683842139daf89a50139b63d7` |
+| runner (`src/benchmark/wp2/harness_v3.py`) | `54d76b5be11207ef06b11920e1d090587d4008cbc76f8ba48d61a4381be3ea08` |
+| orchestrator (`scripts/wp2_m10b_phase3_probe.py`) | `71d630f3641d4076ebb1480da436b102f53bcebfb88d01b199bc2763f0de4b7a` |
 | error taxonomy (`src/benchmark/wp2/m10b_fulltext.py`) | `209384052ea82d6662d04fc7ab2dbce0979971e73bfbeb3b9f1ab184a0dcb151` |
 | resource sampler (Mission-09, reused) | `wp2-resource-sampler-v1-2026-09-25` |
-| git HEAD at freeze | `9216c2991e08795b00d9811be16da2f049ede68a` |
+| git HEAD at freeze | `26cfbbae` (probe evidence commits follow as descendants) |
 
 ## 4. Explicitly unchanged
 

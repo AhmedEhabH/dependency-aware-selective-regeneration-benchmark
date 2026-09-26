@@ -33,6 +33,7 @@ from benchmark.wp2.harness_v3 import (  # noqa: E402
     ensure_worktrees_v3,
     git_linux,
     lock_install_script,
+    locked_dev_install,
     lockfile_sha256,
     now_utc,
     remove_worktrees_v3,
@@ -102,26 +103,35 @@ def run_probe_task(task_id: str, out_root: Path) -> dict:
     test_files = changed_test_files(parent, target)
     print(f"[P3] {task_id} era={era_key} test_files={test_files}", flush=True)
 
-    # clock preflight
+    # clock preflight (12.3): CLOCK_BLOCKED tasks must NOT execute
     clock = clock_preflight()
     print(f"  clock: {clock['verdict']} pre={clock['pre']['median_skew_s']:+.3f}s")
+    if clock["verdict"] == "CLOCK_BLOCKED":
+        raise RuntimeError(
+            f"[P3] {task_id}: CLOCK_BLOCKED pre={clock['pre']['median_skew_s']:+.3f}s "
+            "- task not executed per 12.3")
 
     manifests = target_manifests(target)
-    install_frag, install_mode, install_evidence = lock_install_script(
-        "/x", manifests)
     wts = ensure_worktrees_v3(task_id, parent, target)
+    install_mode, install_evidence = "", {}
     tid = task_id.split("-")[-1][:12]
     img_id = base_image_id(era_key)
 
     # target state
     t0 = time.monotonic()
+    install_t, install_mode, install_evidence = lock_install_script(
+        wts["t"], manifests)
+    install_p, _, _ = lock_install_script(wts["p"], manifests)
+    locked_dev = locked_dev_install(task_id)
     tgt = run_state_v3(era_key=era_key, worktree_linux=wts["t"], tid=tid,
                        state="t", test_files=test_files,
-                       install_fragment=install_frag, timeout_s=7200)
+                       install_fragment=install_t,
+                       locked_dev_fragment=locked_dev, timeout_s=7200)
     t_wall = round(time.monotonic() - t0, 1)
     par = run_state_v3(era_key=era_key, worktree_linux=wts["p"], tid=tid,
                        state="p", test_files=test_files,
-                       install_fragment=install_frag, timeout_s=7200)
+                       install_fragment=install_p,
+                       locked_dev_fragment=locked_dev, timeout_s=7200)
     p_wall = round(time.monotonic() - t0, 1)
 
     # classify nodes with the SAME frozen oracle semantics v2
@@ -172,7 +182,7 @@ def run_probe_task(task_id: str, out_root: Path) -> dict:
 
     # integrity
     v2_ids = set(v2_per_test)
-    v3_ids = set(node_records)
+    v3_ids = {rec["node_id"] for rec in node_records}
     integrity = {
         "n_v2_nodes": len(v2_ids),
         "n_v3_nodes": len(v3_ids),

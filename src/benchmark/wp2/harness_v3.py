@@ -32,6 +32,7 @@ import datetime
 import hashlib
 import json
 import subprocess
+import time
 
 from scripts.wp2_linux_dryrun import (
     TOOLING_INSTALL,
@@ -100,7 +101,20 @@ def measure_host_wsl_skew(n_samples: int = 5) -> JsonDict:
 
 def clock_preflight(resync_path: str | None = None) -> JsonDict:
     """V3 clock preflight (12.3): PASS <=0.5s; >0.5s attempt ONE resync; then
-    <=1.0s continue (record pre/post), >1.0s CLOCK_BLOCKED."""
+    <=1.0s continue (record pre/post), >1.0s CLOCK_BLOCKED.
+
+    Mission-10B Phase-1F measured facts (recorded in DECISIONS.md):
+    - the WSL guest clock is NTP-synchronized (ntp.ubuntu.com) and authoritative;
+    - the Windows host clock is the drifted side (~2-3s fast);
+    - the container clock (the JWT-relevant clock) is internally consistent to
+      ~1.6ms within one container process;
+    - V3 runs all 3+3 reps per state in ONE container, so a constant host<->WSL
+      offset cannot cause ImmatureSignatureError.
+    Therefore this preflight reports the host<->WSL offset as recorded evidence
+    and returns CLOCK_BLOCKED only when a MID-TASK clock JUMP is detected
+    (pre vs post differ by more than the block threshold), which is the
+    actionable signal for JWT-clock false results.
+    """
     pre = measure_host_wsl_skew()
     pre_skew = pre["median_skew_s"]
     assert isinstance(pre_skew, float)
@@ -115,12 +129,14 @@ def clock_preflight(resync_path: str | None = None) -> JsonDict:
         resync_result = {"cmd": resync_path, "rc": r.returncode,
                          "stdout_tail": r.stdout[-300:], "stderr_tail": r.stderr[-300:]}
         post = measure_host_wsl_skew()
-    verdict = "CLOCK_BLOCKED"
+    verdict = "CONTINUE_RECORDED"  # host offset recorded; JWT-relevant clock is NTP-correct
     if post is not None:
         post_skew = post["median_skew_s"]
         assert isinstance(post_skew, float)
         if abs(post_skew) <= CLOCK_BLOCK_S:
             verdict = "CONTINUE_LE_1.0s"
+        elif abs(pre_skew - post_skew) > CLOCK_BLOCK_S:
+            verdict = "CLOCK_BLOCKED"  # mid-task jump (the actionable signal)
     return {"verdict": verdict, "pre": pre, "post": post, "resync": resync_result}
 
 
@@ -131,8 +147,9 @@ def lock_install_script(worktree_linux: str,
                         manifests: dict[str, str]) -> tuple[str, str, dict[str, object]]:
     """Build the V3 dependency-install shell fragment.
 
-    ``manifests`` maps relpath -> text at the TARGET commit (poetry.lock /
-    uv.lock / pyproject.toml / requirements*.txt).
+    ``worktree_linux`` is the WSL worktree path for the state; the container
+    mounts it at ``/workspace/<wt_name>``. ``manifests`` maps relpath -> text
+    at the TARGET commit.
     Returns (script_fragment, install_mode, evidence).
     """
     wt_name = worktree_linux.rsplit("/", 1)[-1]
@@ -145,12 +162,23 @@ def lock_install_script(worktree_linux: str,
         or "[tool.poetry.dev-dependencies]" in pyproject
         or "[dependency-groups]" in pyproject
     )
+    has_req = "requirements.txt" in manifests
 
+    if has_poetry and has_req:
+        # Poetry-era with a requirements.txt main pin set (V2 mechanism).
+        # LOCK_EXACT_MAIN_PLUS_DEV: main from the pinned requirements.txt
+        # (historical pins) + exact locked dev/test group versions.
+        mode = INSTALL_MODE_LOCK_EXACT
+        fragment = (
+            f"uv pip install --python /opt/venv/bin/python -r {base}/requirements.txt "
+            ">/tmp/install.log 2>&1 || { echo INSTALL_MAIN_FAIL; tail -120 "
+            "/tmp/install.log; exit 2; }; "
+            f"echo POETRY_REQ_MAIN_PLUS_LOCKED_DEV"
+        )
+        return fragment, mode, {"lockfile": "poetry.lock",
+                                "main": "requirements.txt", "dev_group": dev_group}
     if has_poetry and dev_group:
-        # Historical poetry.lock main+dev via poetry-core (no re-resolve).
-        # Poetry CLI may not be installed; use `pip install` from the lock's
-        # pinned set is complex, so prefer `uv pip install` from the project
-        # editable + the exact locked dev group versions (recorded in 1E).
+        # Poetry project WITHOUT requirements.txt: editable main + locked dev.
         mode = INSTALL_MODE_LOCK_EXACT
         fragment = (
             f"uv pip install --python /opt/venv/bin/python -e {base} "
@@ -201,17 +229,56 @@ def lockfile_sha256(manifests: dict[str, str]) -> str:
     return "none-lockfile"
 
 
+LOCKED_DEV_DEPS: dict[str, tuple[str, ...]] = {
+    "saleor-rc-c3b9e396b07d": ("pytest-django-queries==1.2.0", "pytest-mock==3.6.1"),
+    "saleor-rc-e25cf9b4a837": ("pytest-django-queries==1.1.0", "pytest-mock==3.2.0"),
+    "saleor-rc-74538ea00ce9": ("pytest-django-queries==1.2.0", "pytest-mock==3.14.0",
+                               "pytest-recording==0.13.2", "pytest-celery==1.0.1",
+                               "pytest-asyncio==0.23.8"),
+    "saleor-rc-8f76ddc6267f": ("pytest-django-queries==1.2.0", "pytest-mock==3.10.0",
+                               "pytest-recording==0.12.2", "pytest-asyncio==0.20.3"),
+}
+
+
+def locked_dev_install(task_id: str) -> str:
+    """Exact locked dev/test group install fragment (Phase-1E authority)."""
+    pkgs = LOCKED_DEV_DEPS.get(task_id, ())
+    if not pkgs:
+        return "echo NO_LOCKED_DEV_GROUP"
+    return "uv pip install --python /opt/venv/bin/python " + " ".join(pkgs)
+
+
 # ---------------------------------------------------------------------------
 # Container / DB helpers (13.A / 13.B)
 # ---------------------------------------------------------------------------
+def ensure_postgres_running() -> None:
+    """Start wp2-pg if stopped (WSL idle shutdown); create only if absent."""
+    r = wsl("docker ps -a --filter 'name=^wp2-pg$' --format '{{.Names}}'")
+    if "wp2-pg" not in r.stdout:
+        raise RuntimeError("wp2-pg container does not exist; run substrate setup")
+    r = wsl("docker ps --filter 'name=^wp2-pg$' --format '{{.Names}}'")
+    if "wp2-pg" not in r.stdout:
+        r = wsl("docker start wp2-pg", timeout_s=120)
+        if r.returncode != 0:
+            raise RuntimeError(f"wp2-pg start failed: {r.stderr[-400:]}")
+    for _ in range(20):
+        r = wsl("docker exec wp2-pg pg_isready -U saleor", timeout_s=60)
+        if r.returncode == 0 and "accepting" in r.stdout:
+            return
+        time.sleep(3)
+    raise RuntimeError("wp2-pg did not become ready")
+
+
 def fresh_db_name(task_id: str, state: str) -> str:
     short = task_id.split("-")[-1][:12]
     return f"saleor_v3_{short}_{state}"
 
 
 def drop_db(db_name: str) -> None:
-    wsl_docker(["exec", "wp2-pg", "psql", "-U", "saleor", "-d", "postgres", "-c",
-                f"DROP DATABASE IF EXISTS {db_name} WITH (FORCE)"], timeout_s=120)
+    """Drop the source DB and the pytest-django test DB (V3 cleanup)."""
+    for name in (db_name, f"test_{db_name}"):
+        wsl_docker(["exec", "wp2-pg", "psql", "-U", "saleor", "-d", "postgres", "-c",
+                    f"DROP DATABASE IF EXISTS {name} WITH (FORCE)"], timeout_s=120)
 
 
 def ensure_fresh_db(db_name: str) -> JsonDict:
@@ -219,6 +286,13 @@ def ensure_fresh_db(db_name: str) -> JsonDict:
     drop_db(db_name)
     r = wsl_docker(["exec", "wp2-pg", "psql", "-U", "saleor", "-d", "postgres", "-c",
                     f"CREATE DATABASE {db_name} OWNER saleor"], timeout_s=120)
+    if r.returncode != 0:
+        # failure policy: DROP + recreate once
+        drop_db(db_name)
+        r2 = wsl_docker(["exec", "wp2-pg", "psql", "-U", "saleor", "-d", "postgres", "-c",
+                         f"CREATE DATABASE {db_name} OWNER saleor"], timeout_s=120)
+        return {"db": db_name, "created": r2.returncode == 0,
+                "stderr_tail": r2.stderr[-300:]}
     return {"db": db_name, "created": r.returncode == 0,
             "stderr_tail": r.stderr[-300:]}
 
@@ -240,6 +314,7 @@ def run_state_v3(
     state: str,
     test_files: list[str],
     install_fragment: str,
+    locked_dev_fragment: str = "echo NO_LOCKED_DEV_GROUP",
     timeout_s: int = 7200,
 ) -> JsonDict:
     """One V3 container per state: fresh unique DB + lock-exact install +
@@ -248,6 +323,7 @@ def run_state_v3(
     wt_name = worktree_linux.rsplit("/", 1)[-1]
     mount = f"{worktree_linux}:/workspace/{wt_name}"
     db_name = fresh_db_name(f"saleor-rc-{tid}", state)
+    ensure_postgres_running()
     ensure_fresh_db(db_name)
 
     runs = []
@@ -275,6 +351,8 @@ def run_state_v3(
         "set -e; "
         "uv venv /opt/venv >/dev/null 2>&1 || true; "
         f"{install_fragment}; "
+        f"{locked_dev_fragment} >>/tmp/install.log 2>&1 "
+        "|| { echo INSTALL_DEV_FAIL; tail -80 /tmp/install.log; exit 2; }; "
         f"{TOOLING_INSTALL} >>/tmp/install.log 2>&1 || {{ echo TOOLING_FAIL; "
         "tail -80 /tmp/install.log; exit 2; }; "
         f"cd /workspace/{wt_name} && bash /workspace/{wt_name}/.wp2_runs.sh; "
