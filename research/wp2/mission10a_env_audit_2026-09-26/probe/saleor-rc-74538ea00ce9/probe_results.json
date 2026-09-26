@@ -1,0 +1,1004 @@
+{
+ "artifact": "probe_results",
+ "schema_version": "mission10a-probe-v1",
+ "label": "NON_FROZEN_EXPLORATORY_ENV_PROBE",
+ "created_utc": "2026-09-26T02:25:57+00:00",
+ "task_id": "saleor-rc-74538ea00ce9",
+ "era_key": "py312",
+ "python_requirement": "~3.12",
+ "missing_declared_group_installed": [
+  "pytest-django-queries==1.2.0"
+ ],
+ "node_sets": {
+  "set_a_error_recovery": 18,
+  "set_b_v2_non_regression": 56
+ },
+ "set_a_error_recovery_class_counts": {
+  "P2P_ONLY": 18
+ },
+ "set_b_v2_non_regression_class_counts": {
+  "P2P_ONLY": 52,
+  "BEHAVIORAL_F2P": 4
+ },
+ "set_b_v2_class_transitions": {
+  "saleor/graphql/discount/tests/mutations/test_voucher_update.py::test_update_voucher": {
+   "v2": "BEHAVIORAL_F2P",
+   "probe": "P2P_ONLY"
+  }
+ },
+ "set_b_v2_non_regression_holds": false,
+ "results": {
+  "set_a": {
+   "saleor/graphql/discount/tests/benchmark/test_promotion_create.py::test_promotion_create_order_promotion": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/discount/tests/benchmark/test_promotion_delete.py::test_gift_promotion_delete": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/discount/tests/benchmark/test_promotion_rule_create.py::test_promotion_rule_create": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/discount/tests/benchmark/test_promotion_rule_delete.py::test_promotion_rule_delete": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/discount/tests/benchmark/test_promotion_rule_update.py::test_promotion_rule_update": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/discount/tests/benchmark/test_promotion_update.py::test_promotion_update": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/discount/tests/benchmark/test_promotions.py::test_promotions_querytest_promotions_query": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/discount/tests/benchmark/test_sales.py::test_sales_query_without_channel_slug": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/discount/tests/benchmark/test_voucher_code_bulk_delete.py::test_voucher_code_bulk_delete_queries": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/discount/tests/benchmark/test_vouchers.py::test_vouchers_query_with_channel_slug": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/giftcard/tests/benchmark/test_gift_card_mutations.py::test_update_gift_card": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/benchmark/test_fulfillment.py::test_fulfillment_query": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/benchmark/test_fulfillment_refund_and_return_products.py::test_fulfillment_return_products_order_lines": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/benchmark/test_order.py::test_staff_multiple_orders": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/benchmark/test_order_bulk_create.py::test_order_bulk_create": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/benchmark/test_order_fulfill.py::test_order_fulfill": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/benchmark/test_order_lines_create.py::test_order_lines_create_variants_on_promotion": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/product/tests/benchmark/test_homepage.py::test_retrieve_product_list": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   }
+  },
+  "set_b": {
+   "saleor/graphql/discount/tests/mutations/test_voucher_update.py::test_update_voucher": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/discount/tests/mutations/test_voucher_update.py::test_update_voucher_doesnt_trigger_voucher_updated_when_only_codes_added": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/discount/tests/mutations/test_voucher_update.py::test_update_voucher_single_use_voucher_already_used_in_checkout": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/discount/tests/mutations/test_voucher_update.py::test_update_voucher_single_use_voucher_already_used_in_order": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/discount/tests/mutations/test_voucher_update.py::test_update_voucher_single_use_voucher_already_used_in_order_line": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/discount/tests/mutations/test_voucher_update.py::test_update_voucher_trigger_webhook": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/discount/tests/mutations/test_voucher_update.py::test_update_voucher_usage_limit_order_with_given_voucher_code_exists": {
+    "parent": [
+     "failed",
+     "failed",
+     "failed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "BEHAVIORAL_F2P"
+   },
+   "saleor/graphql/discount/tests/mutations/test_voucher_update.py::test_update_voucher_usage_limit_the_same_value": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/discount/tests/mutations/test_voucher_update.py::test_update_voucher_usage_limit_voucher_already_used": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/discount/tests/mutations/test_voucher_update.py::test_update_voucher_with_deprecated_code_field": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/discount/tests/mutations/test_voucher_update.py::test_update_voucher_without_codes": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_add_voucher_code_remove_gift_promotion": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_add_voucher_code_remove_order_promotion": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_assign_user_when_existing_customer_email_provided": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_by_app": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_by_both_id_and_external_reference": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_by_external_reference": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_by_external_reference_not_existing": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_by_user_no_channel_access": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_clear_voucher": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_clear_voucher_and_reduce_voucher_usage": {
+    "parent": [
+     "failed",
+     "failed",
+     "failed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "BEHAVIORAL_F2P"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_clear_voucher_code": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_clear_voucher_code_and_reduce_voucher_usage": {
+    "parent": [
+     "failed",
+     "failed",
+     "failed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "BEHAVIORAL_F2P"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_doing_nothing_generates_no_events": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_ensure_entire_order_voucher_discount_is_overridden": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_existing_channel_id": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_free_shipping_voucher": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_gift_promotion": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_invalid_address": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_invalid_address_skip_validation": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_no_shipping_method_channel_listings": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_order_promotion": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_remove_entire_order_voucher": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_remove_voucher_code_add_gift_promotion": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_remove_voucher_code_add_order_promotion": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_replace_entire_order_voucher_with_shipping_voucher": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_shipping_method": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_shipping_method_clear_with_none": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_shipping_method_from_different_channel": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_shipping_method_prices_updates": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_triggers_webhooks": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_triggers_webhooks_when_tax_webhook_not_needed": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_undiscounted_base_shipping_price_set": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_voucher_including_drafts_in_voucher_usage_invalid_code": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_voucher_not_available": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_when_not_existing_customer_email_provided": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_with_cc_warehouse_as_shipping_method": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_with_non_draft_order": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_with_non_unique_external_reference": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_with_voucher_and_voucher_code": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_with_voucher_apply_once_per_order": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_with_voucher_code_including_drafts_in_voucher_usage": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_with_voucher_entire_order": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_with_voucher_including_drafts_in_voucher_usage": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_with_voucher_specific_product": {
+    "parent": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "P2P_ONLY"
+   },
+   "saleor/tests/e2e/orders/discounts/test_order_voucher_usage_is_released_when_voucher_is_removed.py::test_order_voucher_usage_is_released_when_voucher_is_removed_CORE_0939": {
+    "parent": [
+     "failed",
+     "failed",
+     "failed"
+    ],
+    "target": [
+     "passed",
+     "passed",
+     "passed"
+    ],
+    "class": "BEHAVIORAL_F2P"
+   }
+  }
+ },
+ "measurements": {
+  "target_wall_s": 93.1,
+  "parent_wall_s": 88.2,
+  "target_error": null,
+  "parent_error": null
+ }
+}

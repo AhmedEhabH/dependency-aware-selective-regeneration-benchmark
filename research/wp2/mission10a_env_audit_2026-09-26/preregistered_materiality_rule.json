@@ -1,0 +1,30 @@
+{
+ "artifact": "preregistered_materiality_rule",
+ "schema_version": "mission10a-materiality-prereg-v1",
+ "created_utc": "2026-09-26T02:03:55+00:00",
+ "preregistered_before_probe": true,
+ "rule_text": "ENV_V3_RECOMMENDED iff PRECONDITION: a dependency is project-declared for the historical TARGET commit AND required by the relevant project test/dev configuration AND not available correctly in frozen V2 (not installed OR plugin not loaded / fixture unavailable); AND at least one materiality condition M1/M2/M3; AND all safety conditions S1/S2.",
+ "conditions": {
+  "precondition": [
+   "dependency project-declared at target commit",
+   "required by test/dev config",
+   "not correctly available in V2"
+  ],
+  "materiality": {
+   "M1": ">=1 tested ENG task newly oracle-valid in probe",
+   "M2": "ENG task BEHAVIORAL_F2P node set changed by recovering valid behavioral F2P nodes V2 excluded",
+   "M3": "V2 omission systematically excludes a mechanically defined whole test category"
+  },
+  "safety": {
+   "S1": "zero new infrastructure failure categories introduced",
+   "S2": "non-regression: every V2 BEHAVIORAL_F2P and P2P_ONLY node in probe tasks keeps SAME classification"
+  },
+  "decision": {
+   "ENV_V3_RECOMMENDED": "precondition + (M1|M2|M3) + S1 + S2",
+   "ENV_V2_ADEQUATE": "no material omission under M1/M2/M3 and no other validity defect",
+   "ENV_AUDIT_INCONCLUSIVE": "mixed evidence / ambiguous dependency history / probe class changes / safety fails"
+  }
+ },
+ "rule_sha256": "fa00e351d9fe8e7482f68e003fc6057042a34ea2a1a5dee7477d8ff5fb3f415a",
+ "note": "Written BEFORE any scratch-probe outcome. Do NOT change the rule after probe outcomes are visible (Mission-10A section 14)."
+}

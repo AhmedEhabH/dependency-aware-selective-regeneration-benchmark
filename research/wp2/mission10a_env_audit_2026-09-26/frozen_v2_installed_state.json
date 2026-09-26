@@ -1,0 +1,54 @@
+{
+ "artifact": "frozen_v2_installed_state",
+ "schema_version": "mission10a-installed-state-v1",
+ "created_utc": "2026-09-26T01:08:37+00:00",
+ "task_id": "saleor-rc-74538ea00ce9",
+ "eras": {
+  "py312": {
+   "era_key": "py312",
+   "task_id": "saleor-rc-74538ea00ce9",
+   "target_commit": "74538ea00ce938489bcd36b180e3b9b31f265e40",
+   "base_image_id": "sha256:0c185699947d75d5866e57dfb10bba25cca05dc58ca3fd2f75446ee8b0e41394",
+   "container": "wp2-m10a-introspect-py312",
+   "v2_install_commands": {
+    "deps_install_cmd": "uv pip install --python /opt/venv/bin/python -e /workspace/74538ea00ce9_m10a_introspect freezegun fakeredis",
+    "tooling_install": "uv pip install --python /opt/venv/bin/python pytest pytest-django==4.11.1 pytest-socket pytest-xdist 'billiard<4.3' 'setuptools<81' wheel"
+   },
+   "installed": {
+    "pytest-django-queries": {
+     "installed": false,
+     "version": ""
+    },
+    "pytest-mock": {
+     "installed": false,
+     "version": ""
+    }
+   },
+   "n_installed_packages": 156,
+   "pip_freeze_head": "----------------------------------\nadyen\namqp\naniso8601\nanyio\nasgiref\nauthlib\nauthorizenet\nazure-common\nazure-core\nazure-storage-blob\nazure-storage-common\nbabel\nbcrypt\nbeautifulsoup4\nbilliard\nboto3\nbotocore\nbraintree\ncelery\ncertifi\ncffi\ncharset-normalizer\nclick\nclick-didyoumean\nclick-plugins\nclick-repl\ncron-descriptor\ncryptography\ndj-database-url\ndj-email-url\ndjango\ndjango-appconf\ndjango-cache-url\ndjango-celery-beat\ndjango-countries\ndjango-filter\ndjango-js-asset\ndjango-measurement\ndjango-mptt\ndjango-phonenumber-field\ndjango-prices\ndjango-storages\ndjango-stubs-ext\ndjango-timezone-field\ndraftjs-sanitizer\necdsa\nexecnet\nfaker\nfakeredis\nfreezegun\ngoogle-api-core\ngoogle-auth\ngoogle-cloud-core\ngoogle-cloud-pubsub\ngoogle-cloud-storage\ngoogle-crc32c\ngoogle-i18n-address\ngoogle-resumable-media\ngoogleapis-common-protos"
+  },
+  "py39": {
+   "era_key": "py39",
+   "task_id": "saleor-rc-e03ee76d2b89",
+   "target_commit": "e03ee76d2b895c707dbd9ee7fe8ff4b1c3cee026",
+   "base_image_id": "sha256:ddc08d7e685517764dfa2606a760d5b3f09d57840d8a0bbcef366db67cd99ef8",
+   "container": "wp2-m10a-introspect-py39",
+   "v2_install_commands": {
+    "deps_install_cmd": "uv pip install --python /opt/venv/bin/python -r /workspace/e03ee76d2b89_m10a_introspect/requirements.txt",
+    "tooling_install": "uv pip install --python /opt/venv/bin/python pytest pytest-django==4.11.1 pytest-socket pytest-xdist 'billiard<4.3' 'setuptools<81' wheel"
+   },
+   "installed": {
+    "pytest-django-queries": {
+     "installed": false,
+     "version": ""
+    },
+    "pytest-mock": {
+     "installed": false,
+     "version": ""
+    }
+   },
+   "n_installed_packages": 167,
+   "pip_freeze_head": "------------------------\nadyen\namqp\naniso8601\nanyio\nasgiref\nasync-timeout\nauthlib\nauthorizenet\nazure-common\nazure-core\nazure-storage-blob\nazure-storage-common\nbabel\nbcrypt\nbeautifulsoup4\nbilliard\nboto3\nbotocore\nbraintree\nbrotli\ncachetools\ncelery\ncertifi\ncffi\ncharset-normalizer\nclick\nclick-didyoumean\nclick-plugins\nclick-repl\ncron-descriptor\ncryptography\ncssselect2\ndj-database-url\ndj-email-url\ndjango\ndjango-appconf\ndjango-cache-url\ndjango-celery-beat\ndjango-countries\ndjango-filter\ndjango-js-asset\ndjango-measurement\ndjango-mptt\ndjango-phonenumber-field\ndjango-prices\ndjango-redis\ndjango-storages\ndjango-stubs-ext\ndjango-timezone-field\ndraftjs-sanitizer\nenmerkar\net-xmlfile\nexceptiongroup\nexecnet\nfaker\nfonttools\nfreezegun\ngoogle-api-core\ngoogle-auth"
+  }
+ }
+}

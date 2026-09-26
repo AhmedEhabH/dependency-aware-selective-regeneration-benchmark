@@ -1555,7 +1555,8 @@ esearch/bounded-semantic-expansion/pilot_registration_freeze.json — 60 DEVELOP
   comparison.
 - **Provenance:** DA-08 Δ=0.05 governs regression pass rate (H2), not F1;
   docs/EXPERIMENTAL_DESIGN_V2.md H1 defines F1 NI Δ=0.05 for
-  hybrid_selective vs epository_agent (candidate, authority not
+  hybrid_selective vs 
+epository_agent (candidate, authority not
   established for this experiment); WP-1a scorer schema explicitly says "no
   non-inferiority margin is silently chosen"; WP-1a cost-quality categories
   use a point-estimate rule.
@@ -2288,3 +2289,43 @@ esearch/bounded-semantic-expansion/pilot_registration_freeze.json — 60 DEVELOP
   wp2-pg only; per-test-container RAM not separately captured (bounded by WSL
   used peak). Sampler + runner fixed to auto-discover wp2-test-* containers for
   future DEV-47 / MAIN runs.
+
+## Decision - Mission-10A environment test-dependency audit (2026-09-26)
+
+- Scientific question: does the frozen V2 environment systematically exclude
+  valid Saleor tests because project-declared historical test/dev dependencies
+  were not installed or loaded into pytest? ZERO LLM/API; Tier T3; no
+  generation/Smoke/HOLDOUT/VALIDATION/MAIN.
+- PROVEN (package/entrypoint/load/fixture layers, scratch containers):
+  pytest-django-queries (count_queries) and pytest-mock (mocker) are
+  project-declared in the dev / [dependency-groups] group at affected target
+  commits but NOT installed in frozen V2. V2 installs production deps only
+  (py38/py39 -r requirements.txt; py312 -e . + freezegun fakeredis) +
+  TOOLING_INSTALL (pytest, pytest-django, pytest-socket, pytest-xdist, ...).
+- Declaration matrix: 35 affected tasks / 37 cause-rows, all B_DECLARED_BUT_
+  NOT_INSTALLED (0 A/C/D/E/F). Locked versions proven from poetry.lock /
+  uv.lock / requirements_dev.txt (e.g. pytest-django-queries==1.2.0).
+- Reconciliation closed: C4 error-TOI 3,682 = 3,682 parsed (mismatch 0);
+  P2P-U cap200 COLLECTION_ERROR 41 = 39 count_queries + 2 mocker (mismatch 0);
+  0% parametrized IDs among the 41 -> environment/setup cause, not node-ID
+  quoting. 41 nodes are SETUP (missing fixture), not true collection.
+- Category exclusion (mechanical, node-level static signature):
+  benchmark-count-queries excluded_share = 1.0 (38/38 ENG cap200 requesters
+  COLLECTION_ERROR); mocker-fixture = 1.0 (2/2). M3 SATISFIED.
+- C4 error-TOI: 2.3% of records (258/11,046) explained by declared-missing
+  causes; py312 98.7% (234/237). The C4 error majority is DB/migration /
+  environment-other, NOT missing test plugins.
+- Optional ENG-only scratch probe: task 1 (saleor-rc-74538ea00ce9) with
+  pytest-django-queries==1.2.0 added: SET A 18/18 count_queries error nodes ->
+  P2P_ONLY; SET B 55/56 unchanged, 1 transition (test_update_voucher
+  BEHAVIORAL_F2P -> P2P_ONLY; V2 parent JWT iat clock-skew flake).
+- DECISION TOKEN: ENV_AUDIT_INCONCLUSIVE (per preregistered materiality rule:
+  precondition+M3 hold, but S2 non-regression fails; ANY classification change
+  forces INCONCLUSIVE and STOP of probe continuation -> task 2 probe NOT run).
+- V2 remains immutable historical evidence; no V3 build/run. Docs errata:
+  COLLECTION_ERROR authoritative value is 41 (not 40); P2P-U errors are
+  SETUP_ERROR:MISSING_FIXTURE:<name>; evidence-size wording not recomputed
+  (not needed for decision).
+- Next (awaiting Ahmed): Mission-10B-bis targeted follow-up = V2 BEHAVIORAL_F2P
+  flakiness audit (JWT iat clock-skew class) + complete probe task 2 + SET B
+  under clock-skew-robust harness, then re-decide V3/V2/INCONCLUSIVE.

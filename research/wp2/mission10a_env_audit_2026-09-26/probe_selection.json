@@ -1,0 +1,99 @@
+{
+ "artifact": "probe_selection",
+ "schema_version": "mission10a-probe-selection-v1",
+ "created_utc": "2026-09-26T02:03:56+00:00",
+ "selection_rule": "1) highest attributable ENG error-node count; 2) second-highest; tie -> lexicographic task_id. Distinct-dependency preference only if it does not violate the primary rank rule.",
+ "attributable_per_task": {
+  "saleor-rc-39b4138e8550": {
+   "total": 5,
+   "count_queries": 3,
+   "mocker": 2,
+   "other_declared": 0
+  },
+  "saleor-rc-74538ea00ce9": {
+   "total": 18,
+   "count_queries": 18,
+   "mocker": 0,
+   "other_declared": 0
+  },
+  "saleor-rc-82c56bde0e34": {
+   "total": 4,
+   "count_queries": 4,
+   "mocker": 0,
+   "other_declared": 0
+  },
+  "saleor-rc-8f76ddc6267f": {
+   "total": 6,
+   "count_queries": 6,
+   "mocker": 0,
+   "other_declared": 0
+  },
+  "saleor-rc-d220843b5418": {
+   "total": 3,
+   "count_queries": 3,
+   "mocker": 0,
+   "other_declared": 0
+  },
+  "saleor-rc-dfe77ac1c5dc": {
+   "total": 3,
+   "count_queries": 3,
+   "mocker": 0,
+   "other_declared": 0
+  },
+  "saleor-rc-e03ee76d2b89": {
+   "total": 2,
+   "count_queries": 2,
+   "mocker": 0,
+   "other_declared": 0
+  }
+ },
+ "ranked_tasks": [
+  {
+   "task_id": "saleor-rc-74538ea00ce9",
+   "attributable": 18
+  },
+  {
+   "task_id": "saleor-rc-8f76ddc6267f",
+   "attributable": 6
+  },
+  {
+   "task_id": "saleor-rc-39b4138e8550",
+   "attributable": 5
+  },
+  {
+   "task_id": "saleor-rc-82c56bde0e34",
+   "attributable": 4
+  },
+  {
+   "task_id": "saleor-rc-d220843b5418",
+   "attributable": 3
+  },
+  {
+   "task_id": "saleor-rc-dfe77ac1c5dc",
+   "attributable": 3
+  },
+  {
+   "task_id": "saleor-rc-e03ee76d2b89",
+   "attributable": 2
+  }
+ ],
+ "selected_tasks": [
+  {
+   "task_id": "saleor-rc-74538ea00ce9",
+   "rank": 1,
+   "attributable_error_nodes": 18,
+   "count_queries_nodes": 18,
+   "mocker_nodes": 0,
+   "primary_dependency": "pytest-django-queries"
+  },
+  {
+   "task_id": "saleor-rc-8f76ddc6267f",
+   "rank": 2,
+   "attributable_error_nodes": 6,
+   "count_queries_nodes": 6,
+   "mocker_nodes": 0,
+   "primary_dependency": "pytest-django-queries"
+  }
+ ],
+ "distinct_dependency_cover": false
+}

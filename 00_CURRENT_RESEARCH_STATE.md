@@ -17,7 +17,7 @@ artifact paths are NOT renamed; old reports keep their original wording.
 
 ## LIVE STATUS — single current-state source of truth
 
-**Position:** Mission-09 P2P V2 GOLD FREEZE + ENG execution COMPLETE (zero-API). P2P-S frozen (46/47 defined; 1 undefined; 8 sparse). P2P-U V2 rule+membership frozen before any V2 outcome execution; ENG cap200 + cap400 executed independently workers=1 (8 executable tasks x 2 caps; saleor-rc-9258154b8a0b P2P-U UNDEFINED). Overlap class agreement 1.0; cap400/cap200 wall ~1.37x; WSL peak used ~1.6 GiB. DEV-47 cap200 estimated ~4.9-8.1 h serial (central 6.7 h); MAIN est ~11-13 h. No generation/Smoke/assay/E2E/HOLDOUT/MAIN execution. MAIN quarantined; INTERNAL_TEST untouched; 786 RESERVE sealed.
+**Position:** Mission-10A environment test-dependency audit COMPLETE (zero-API). PROVEN declared-but-not-installed: pytest-django-queries + pytest-mock omitted from frozen V2; explains 41/41 P2P-U cap200 COLLECTION_ERROR and 98.7% of py312 C4 error-TOI records. Scratch probe task 1 recovered 18/18 SET A nodes to P2P_ONLY, but SET B non-regression FAILED (1 V2 BEHAVIORAL_F2P node flipped to P2P_ONLY, V2 JWT iat clock-skew flake). DECISION TOKEN = ENV_AUDIT_INCONCLUSIVE; probe stopped per preregistered S2. No generation/Smoke/DEV-47/HOLDOUT/VALIDATION/MAIN execution. MAIN quarantined; INTERNAL_TEST untouched; 786 RESERVE sealed.
 
 **Research pipeline:**
 
@@ -40,6 +40,7 @@ artifact paths are NOT renamed; old reports keep their original wording.
 | WP-2 shared E2E instrument | NOT STARTED | same generator/validator/repair for every arm |
 | E2E Smoke → Pilot → Research Run | NOT STARTED | staged; each stage can stop the run |
 | WP-2 preservation oracle (P2P-S + P2P-U V2) | FROZEN (Mission-09) | P2P-S 46/47 defined; P2P-U V2 rule+membership frozen; ENG cap200+cap400 executed, repeatability 1.0 |
+| Mission-10A environment test-dependency audit | DONE (ENV_AUDIT_INCONCLUSIVE) | proven pytest-django-queries/pytest-mock declared-but-not-installed in V2; 41/41 P2P-U cap200 COLLECTION_ERROR explained; probe recovered 18/18 SET A but SET B non-regression failed (1 V2 node flip, JWT iat clock-skew); STOP probe; no V3 |
 | Full DEV-47 P2P-U cap200 execution | NOT STARTED (awaits approval) | est ~4.9-8.1 h serial central 6.7 h; overnight-feasible with resume; zero-node tasks UNDEFINED |
 
 **LLM-call accounting:**
@@ -71,13 +72,14 @@ artifact paths are NOT renamed; old reports keep their original wording.
 | Calibration-3 / 3b / 3c F1 claims | NOT PERMITTED | instrument checks only; no labels loaded or scored |
 | Mission-09 P2P-S + P2P-U V2 freeze | DONE | zero-API; P2P-S (46/47) + P2P-U V2 rule/membership frozen before any V2 outcome execution |
 | Mission-09 ENG P2P-U V2 execution (cap200 + cap400) | DONE | 8 executable ENG tasks x 2 caps, workers=1, 3+3 reps, integrity PASS; no Smoke/full-DEV/MAIN execution |
+| Mission-10A environment test-dependency audit (zero-API, Tier T3) | DONE (ENV_AUDIT_INCONCLUSIVE) | proven declared-but-not-installed dev/test group in frozen V2; ENG-only scratch probe (task 1) recovered 18/18 SET A; SET B non-regression FAILED (1 V2 BEHAVIORAL_F2P node flip) -> STOP per preregistered S2; no V3 build, no generation, no Smoke |
 | Full DEV-47 P2P-U cap200 + Smoke freeze | NOT AUTHORIZED | requires Ahmed decision; estimates ready (DEV ~6.7 h central) |
 
-**Next action:** Decision gate (Ahmed): (1) Smoke freeze authorization; (2) full 47-task P2P-U cap200 execution (est ~6.7 h central, overnight with resume); (3) MAIN population authority (71 behavioral vs 83 union); (4) workers=2 MAIN-only perf gate decision. No generation.
+**Next action:** Ahmed decision (ENV_AUDIT_INCONCLUSIVE): approve targeted follow-up = (1) V2 BEHAVIORAL_F2P node flakiness audit (JWT iat clock-skew class), (2) complete probe task 2 + SET B under clock-skew-robust harness, (3) re-decide V3/V2/INCONCLUSIVE. No generation, Smoke, DEV-47, HOLDOUT, VALIDATION, or MAIN execution.
 
 **End-to-end status:** WP-2 has **not started**; E2E-G6 F2P/P2P oracle has **not started**; **no** E2E Smoke, Pilot or Research Run exists yet.
 
-*Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-09-25 (Africa/Cairo).*
+*Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-09-26 (Africa/Cairo).*
 <!-- LIVE_STATUS:END -->
 
 **CURRENT TRUTH (2026-09-21, WP1B_TOOLFIX_LIVESTATUS — CALIBRATION-3b DONE;

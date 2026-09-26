@@ -1,0 +1,27 @@
+{
+ "artifact": "reconciliation",
+ "schema_version": "mission10a-reconciliation-v1",
+ "C4": {
+  "authoritative_TARGET_ORACLE_INVALID": 3727,
+  "authoritative_error_bearing_TOI": 3682,
+  "authoritative_failed_TOI": 45,
+  "parsed_error_pairs": 3682,
+  "mismatch": 0,
+  "notes": "parsed pairs = unique (task_id, node_id) error records; a negative mismatch means the per-node record is present in evidence but raw error text was unavailable (still a valid reconciliation of the error-bearing population)."
+ },
+ "P2P_U_ENG": {
+  "authoritative_COLLECTION_ERROR_cap200": 41,
+  "parsed_error_pairs_cap200": 41,
+  "mismatch": 0,
+  "by_taxonomy": {
+   "MISSING_FIXTURE:count_queries": 234,
+   "MISSING_FIXTURE:mocker": 12
+  },
+  "notes": "cap400 errors recorded separately (90 authoritative) and are not part of the 41 cap200 reconciliation."
+ },
+ "C2": {
+  "authoritative_TARGET_ORACLE_INVALID": 7946,
+  "rescue_archive_error_pairs": 8530,
+  "coverage_note": "C2 per-node error text available only via rescue archive (159/220 tasks); task-level counts from per_task_v2.jsonl."
+ }
+}

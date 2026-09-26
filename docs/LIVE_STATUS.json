@@ -1,106 +1,130 @@
 {
  "schema": "live_status_v1",
- "as_of_local": "2026-09-25 (Africa/Cairo)",
- "evidence_snapshot": "main + Mission-09: P2P-S primary preservation frozen (46/47 defined) + P2P-U V2 extended preservation rule frozen (salt wp2-p2p-u-v2-2026-09-25, caps 200/400) + ENG 8 tasks x 2 caps executed workers=1, integrity PASS, overlap repeatability 1.0. Real resource sampler (host/WSL/container/CPU/disk) replaces Mission-08 total-as-peak.",
- "phase": "Phase 5 — End-to-End Selective Regeneration (WP-2 preservation oracle: P2P-S + P2P-U V2 frozen)",
- "position": "Mission-09 P2P V2 GOLD FREEZE + ENG execution COMPLETE (zero-API). P2P-S frozen (46/47 defined; 1 undefined; 8 sparse). P2P-U V2 rule+membership frozen before any V2 outcome execution; ENG cap200 + cap400 executed independently workers=1 (8 executable tasks x 2 caps; saleor-rc-9258154b8a0b P2P-U UNDEFINED). Overlap class agreement 1.0; cap400/cap200 wall ~1.37x; WSL peak used ~1.6 GiB. DEV-47 cap200 estimated ~4.9-8.1 h serial (central 6.7 h); MAIN est ~11-13 h. No generation/Smoke/assay/E2E/HOLDOUT/MAIN execution. MAIN quarantined; INTERNAL_TEST untouched; 786 RESERVE sealed.",
- "position_short": "P2P-S + P2P-U V2 preserved oracle FROZEN; ENG cap200/cap400 executed (repeatability 1.0)",
- "now_short": "Mission-09 complete: P2P-S and P2P-U V2 preservation sets frozen; ENG executed 8x2 with integrity PASS. Next: Ahmed approval for Smoke freeze and full DEV-47 cap200 execution.",
- "next_action": "Decision gate (Ahmed): (1) Smoke freeze authorization; (2) full 47-task P2P-U cap200 execution (est ~6.7 h central, overnight with resume); (3) MAIN population authority (71 behavioral vs 83 union); (4) workers=2 MAIN-only perf gate decision. No generation.",
- "next_short": "Ahmed decision: Smoke freeze + full DEV-47 P2P-U cap200 execution authorization",
- "priority_chain": "MAIN_297 DONE -> WP-2 census DONE -> Oracle Confirmation DONE -> Linux V2 oracle+DEV pool DONE -> Mission-08 DEV P2P inventory + SMALL pilot DONE -> Mission-09 P2P-S + P2P-U V2 freeze + ENG execution DONE -> DEV Smoke freeze (awaiting approval) -> full DEV-47 P2P-U cap200 -> Pilot -> Research Run",
- "weakest_risk": "Mission-09 instrumentation limitation: per-test-container RAM not separately captured during the 16 ENG runs (sampler queried wp2-pg only); bounded by WSL used peak ~1.6 GiB. Sampler+runner fixed for future runs. Per-task flakiness/collection-error remains (some COLLECTION_ERROR/BOTH_FAIL/ FLAKY, deterministic across independent 200/400 runs). 786 sealed reserve stays sealed.",
+ "as_of_local": "2026-09-26 (Africa/Cairo)",
+ "evidence_snapshot": "main + Mission-10A: environment test-dependency audit COMPLETE. PROVEN: pytest-django-queries (count_queries) + pytest-mock (mocker) are project-declared dev/test deps at affected target commits but NOT installed/loaded in frozen V2 (package/entrypoint/load/fixture layers verified). 37/37 cause rows B_DECLARED_BUT_NOT_INSTALLED; P2P-U cap200 41 COLLECTION_ERROR = 39 count_queries + 2 mocker (setup, not collection; 0% parametrized). Scratch probe task 1: SET A 18/18 count_queries error nodes recovered to P2P_ONLY; SET B non-regression FAILED (1/56: V2 BEHAVIORAL_F2P -> P2P_ONLY, V2 parent JWT iat clock-skew flake). DECISION = ENV_AUDIT_INCONCLUSIVE; probe continuation stopped per preregistered S2. Mission-09 evidence unchanged and immutable.",
+ "phase": "Phase 5 — End-to-End Selective Regeneration (WP-2 preservation oracle: P2P-S + P2P-U V2 frozen; environment validity gate open)",
+ "position": "Mission-10A environment test-dependency audit COMPLETE (zero-API). PROVEN declared-but-not-installed: pytest-django-queries + pytest-mock omitted from frozen V2; explains 41/41 P2P-U cap200 COLLECTION_ERROR and 98.7% of py312 C4 error-TOI records. Scratch probe task 1 recovered 18/18 SET A nodes to P2P_ONLY, but SET B non-regression FAILED (1 V2 BEHAVIORAL_F2P node flipped to P2P_ONLY, V2 JWT iat clock-skew flake). DECISION TOKEN = ENV_AUDIT_INCONCLUSIVE; probe stopped per preregistered S2. No generation/Smoke/DEV-47/HOLDOUT/VALIDATION/MAIN execution. MAIN quarantined; INTERNAL_TEST untouched; 786 RESERVE sealed.",
+ "position_short": "Environment audit PROVEN missing dev deps (count_queries/mocker) but S2 non-regression failed -> ENV_AUDIT_INCONCLUSIVE",
+ "now_short": "Mission-10A complete: environment validity gate open with proven dependency omission + probe non-regression failure. Next: Ahmed decision on targeted follow-up (V2 BEHAVIORAL_F2P flakiness audit + probe task 2) before any Env V3.",
+ "next_action": "Ahmed decision (ENV_AUDIT_INCONCLUSIVE): approve targeted follow-up = (1) V2 BEHAVIORAL_F2P node flakiness audit (JWT iat clock-skew class), (2) complete probe task 2 + SET B under clock-skew-robust harness, (3) re-decide V3/V2/INCONCLUSIVE. No generation, Smoke, DEV-47, HOLDOUT, VALIDATION, or MAIN execution.",
+ "next_short": "Ahmed decision: targeted environment-validity follow-up (Mission-10B-bis)",
+ "priority_chain": "MAIN_297 DONE -> WP-2 census DONE -> Oracle Confirmation DONE -> Linux V2 oracle+DEV pool DONE -> Mission-08 DEV P2P inventory + SMALL pilot DONE -> Mission-09 P2P-S + P2P-U V2 freeze + ENG execution DONE -> Mission-10A environment test-dependency audit DONE (ENV_AUDIT_INCONCLUSIVE) -> targeted environment-validity follow-up (awaiting approval) -> DEV Smoke freeze -> full DEV-47 P2P-U cap200 -> Pilot -> Research Run",
+ "weakest_risk": "Mission-10A: frozen V2 omits project-declared dev/test group (pytest-django-queries, pytest-mock) proven at package/entrypoint/load/fixture layers; 41 P2P-U cap200 COLLECTION_ERROR + part of C4 error-TOI explained. Decision ENV_AUDIT_INCONCLUSIVE because probe SET B non-regression failed: 1 previously-valid V2 BEHAVIORAL_F2P node flipped to P2P_ONLY under re-execution (V2 parent JWT iat clock-skew flake) — V2 oracle classification instability must be resolved before any Env V3. 786 sealed reserve stays sealed.",
  "wp1b_short": "Paid same-protocol comparison of a repository agent vs SIP vs RM-CSS on MAIN_297 (G1: delta=0.05 NI rule; G2: cap 1024; decision rules v2). RESULT: RMCSS_NONINFERIOR_AT_LOWER_COST (NI_SUPPORTED); D −0.0062 [−0.0449,+0.0308] Q5 −0.0383; RM-CSS cheaper. Variance 15x3 pooled F1 0.389/0.438/0.479, pairwise exact match 0.444. X1-X11 exploratory labelled. Total agent spend $8.34 (main $7.15 + variance $1.19). Post-MAIN_297: claim sheet + docs closure complete; AG16 prereg verified, runner needs brain bundle; WP-2 zero-API census complete.",
  "pipeline": [
   {
    "step": "Localization method selection",
    "status": "CLOSED",
-   "note": "RM-CSS frozen; Saleor-300 PASS (+0.0921 F1)"
+   "note": "RM-CSS frozen; Saleor-300 PASS (+0.0921 F1)",
+   "idx": 0
   },
   {
    "step": "WP-0 leakage fix (G7)",
    "status": "DONE",
-   "note": "ArtifactUniverse built from the parent repository"
+   "note": "ArtifactUniverse built from the parent repository",
+   "idx": 1
   },
   {
    "step": "WP-1a preparation",
    "status": "DONE",
-   "note": "zero API; frozen predictions, manifests, agent protocol"
+   "note": "zero API; frozen predictions, manifests, agent protocol",
+   "idx": 2
   },
   {
    "step": "WP-1b preflight freeze",
    "status": "DONE",
-   "note": "G1 delta=0.05 · G2 cap 1024 · n=297 · budget v2 · rules v2"
+   "note": "G1 delta=0.05 · G2 cap 1024 · n=297 · budget v2 · rules v2",
+   "idx": 3
   },
   {
    "step": "WP-1b Calibration-3",
    "status": "DEFECT",
-   "note": "v1 gate PASS, $0.081, 24 calls — 0 successful reads; INSTRUMENT_INVALID"
+   "note": "v1 gate PASS, $0.081, 24 calls — 0 successful reads; INSTRUMENT_INVALID",
+   "idx": 4
   },
   {
    "step": "Tool-budget fix + gate v2",
    "status": "DONE",
-   "note": "D2: search_text does not consume the 30-file budget; CG-10/CG-11 written; RED on Calibration-3"
+   "note": "D2: search_text does not consume the 30-file budget; CG-10/CG-11 written; RED on Calibration-3",
+   "idx": 5
   },
   {
    "step": "WP-1b Calibration-3b",
    "status": "PASS",
-   "note": "gate v2 PASS · $0.070 · 3 reads · 0 instrument errors · 11/21 calls rejected repeats (loop)"
+   "note": "gate v2 PASS · $0.070 · 3 reads · 0 instrument errors · 11/21 calls rejected repeats (loop)",
+   "idx": 6
   },
   {
    "step": "G12 agent context hygiene",
    "status": "DONE",
-   "note": "D1 APPROVED, zero API: echo, call counter, named rejection, truncation note; gate v3 CG-12 FAILS 3b (runs 1/6/4); protocol v3"
+   "note": "D1 APPROVED, zero API: echo, call counter, named rejection, truncation note; gate v3 CG-12 FAILS 3b (runs 1/6/4); protocol v3",
+   "idx": 7
   },
   {
    "step": "WP-1b Calibration-3c",
    "status": "PASS",
-   "note": "gate v3 CG-1..CG-12 PASS · $0.063205 · 4 reads · 1/18 rejected (5.6%) · longest run 1 · 0 blocking review-card flags · NOT scored"
+   "note": "gate v3 CG-1..CG-12 PASS · $0.063205 · 4 reads · 1/18 rejected (5.6%) · longest run 1 · 0 blocking review-card flags · NOT scored",
+   "idx": 8
   },
   {
    "step": "WP-1b MAIN_297 + variance 15x3",
    "status": "DONE",
-   "note": "RMCSS_NONINFERIOR_AT_LOWER_COST (NI_SUPPORTED); main $7.15 + variance $1.19; scored with decision rules v2; X1-X11 exploratory"
+   "note": "RMCSS_NONINFERIOR_AT_LOWER_COST (NI_SUPPORTED); main $7.15 + variance $1.19; scored with decision rules v2; X1-X11 exploratory",
+   "idx": 9
   },
   {
    "step": "WP-1b post-MAIN_297 docs closure + claim sheet",
    "status": "DONE",
-   "note": "claim sheet, robustness/limitations, README/FAQ updated; zero API"
+   "note": "claim sheet, robustness/limitations, README/FAQ updated; zero API",
+   "idx": 10
   },
   {
    "step": "AG16 budget sensitivity (MAIN_50)",
    "status": "PREREGISTERED, NOT RUNNABLE",
-   "note": "brain-built/tested bundle required first (iterative_agent_budget.py + golden parity + dry-run); ceilings $0.80 cal / $12.20 MAIN_50"
+   "note": "brain-built/tested bundle required first (iterative_agent_budget.py + golden parity + dry-run); ceilings $0.80 cal / $12.20 MAIN_50",
+   "idx": 11
   },
   {
    "step": "WP-2 zero-API MAIN_297 census",
    "status": "DONE",
-   "note": "297/297 materializable; 20 STRONG / 200 MODIFIED / 77 no-test-evidence F2P candidates; proposal-only Smoke candidates 8; zero API"
+   "note": "297/297 materializable; 20 STRONG / 200 MODIFIED / 77 no-test-evidence F2P candidates; proposal-only Smoke candidates 8; zero API",
+   "idx": 12
   },
   {
    "step": "WP-2 Oracle Confirmation + Design v1",
    "status": "DONE (zero-API)",
-   "note": "harness validated; 220/220 changed-test candidates attempted; 8 primary behavioral F2P + 1 symbol-absence eligible; causal Design v1, power planning, Smoke v2 emitted; environment-dominant blocker on this host"
+   "note": "harness validated; 220/220 changed-test candidates attempted; 8 primary behavioral F2P + 1 symbol-absence eligible; causal Design v1, power planning, Smoke v2 emitted; environment-dominant blocker on this host",
+   "idx": 13
   },
   {
    "step": "WP-2 shared E2E instrument",
    "status": "NOT STARTED",
-   "note": "same generator/validator/repair for every arm"
+   "note": "same generator/validator/repair for every arm",
+   "idx": 14
   },
   {
    "step": "E2E Smoke → Pilot → Research Run",
    "status": "NOT STARTED",
-   "note": "staged; each stage can stop the run"
+   "note": "staged; each stage can stop the run",
+   "idx": 15
   },
   {
    "step": "WP-2 preservation oracle (P2P-S + P2P-U V2)",
    "status": "FROZEN (Mission-09)",
-   "note": "P2P-S 46/47 defined; P2P-U V2 rule+membership frozen; ENG cap200+cap400 executed, repeatability 1.0"
+   "note": "P2P-S 46/47 defined; P2P-U V2 rule+membership frozen; ENG cap200+cap400 executed, repeatability 1.0",
+   "idx": 16
+  },
+  {
+   "step": "Mission-10A environment test-dependency audit",
+   "status": "DONE (ENV_AUDIT_INCONCLUSIVE)",
+   "note": "proven pytest-django-queries/pytest-mock declared-but-not-installed in V2; 41/41 P2P-U cap200 COLLECTION_ERROR explained; probe recovered 18/18 SET A but SET B non-regression failed (1 V2 node flip, JWT iat clock-skew); STOP probe; no V3",
+   "idx": 17
   },
   {
    "step": "Full DEV-47 P2P-U cap200 execution",
    "status": "NOT STARTED (awaits approval)",
-   "note": "est ~4.9-8.1 h serial central 6.7 h; overnight-feasible with resume; zero-node tasks UNDEFINED"
+   "note": "est ~4.9-8.1 h serial central 6.7 h; overnight-feasible with resume; zero-node tasks UNDEFINED",
+   "idx": 18
   }
  ],
  "preflight": [
@@ -326,6 +350,11 @@
    "item": "Mission-09 ENG P2P-U V2 execution (cap200 + cap400)",
    "status": "DONE",
    "note": "8 executable ENG tasks x 2 caps, workers=1, 3+3 reps, integrity PASS; no Smoke/full-DEV/MAIN execution"
+  },
+  {
+   "item": "Mission-10A environment test-dependency audit (zero-API, Tier T3)",
+   "status": "DONE (ENV_AUDIT_INCONCLUSIVE)",
+   "note": "proven declared-but-not-installed dev/test group in frozen V2; ENG-only scratch probe (task 1) recovered 18/18 SET A; SET B non-regression FAILED (1 V2 BEHAVIORAL_F2P node flip) -> STOP per preregistered S2; no V3 build, no generation, no Smoke"
   },
   {
    "item": "Full DEV-47 P2P-U cap200 + Smoke freeze",

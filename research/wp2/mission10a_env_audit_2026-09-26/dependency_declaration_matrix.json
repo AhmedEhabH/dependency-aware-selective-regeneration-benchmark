@@ -1,0 +1,1390 @@
+{
+ "artifact": "dependency_declaration_matrix",
+ "schema_version": "mission10a-declaration-matrix-v1",
+ "created_utc": "2026-09-26T02:55:34+00:00",
+ "v2_installer": {
+  "mechanism": "container-start uv pip install (frozen Mission-07/08/09)",
+  "tooling_install": [
+   "pytest",
+   "pytest-django==4.11.1",
+   "pytest-socket",
+   "pytest-xdist",
+   "billiard<4.3",
+   "setuptools<81",
+   "wheel"
+  ],
+  "py38_py39_deps": "-r requirements.txt (PRODUCTION only)",
+  "py312_deps": "-e . freezegun fakeredis (editable; project runtime deps only, no dev group)",
+  "dev_test_group_installed": false,
+  "pytest_mock_installed": false,
+  "pytest_django_queries_installed": false
+ },
+ "install_state_aggregate": {
+  "B_DECLARED_BUT_NOT_INSTALLED": 37
+ },
+ "tasks_affected": 35,
+ "tasks": [
+  {
+   "task_id": "saleor-rc-012472eb8482",
+   "era_key": "py39",
+   "target_commit": "012472eb848269f873e8dbf94f05e1d6652261f6",
+   "parent_commit": "11c15f1afe366bb47fd9d6c25fac41935c343701",
+   "python_requirement": "~3.9",
+   "commit_year": 2022,
+   "dependency_management": [
+    "cfg",
+    "ini",
+    "lock",
+    "toml",
+    "txt"
+   ],
+   "lockfile_present": true,
+   "manifest_files": [
+    "poetry.lock",
+    "pyproject.toml",
+    "requirements.txt",
+    "requirements_dev.txt",
+    "setup.cfg",
+    "tox.ini"
+   ],
+   "causes": {
+    "MODULE_NOT_FOUND:before_after": 3
+   },
+   "fixture_map": {
+    "MODULE_NOT_FOUND:before_after": {
+     "candidate_package": "before_after",
+     "confidence": "PROVEN",
+     "declared": true,
+     "declaration_file": "pyproject.toml",
+     "mechanism": "pyproject-poetry",
+     "group": "dev",
+     "version_spec": "\"^1.0.1\"",
+     "locked_version": null,
+     "install_state": "B_DECLARED_BUT_NOT_INSTALLED",
+     "count": 3
+    }
+   }
+  },
+  {
+   "task_id": "saleor-rc-0ad61b3f0096",
+   "era_key": "py312",
+   "target_commit": "0ad61b3f0096a50a0ec8e80b2c1905b06e11aa7d",
+   "parent_commit": "4143432458dfe30420c025f71b492611c22b14da",
+   "python_requirement": "",
+   "commit_year": null,
+   "dependency_management": [
+    "cfg",
+    "lock",
+    "toml"
+   ],
+   "lockfile_present": true,
+   "manifest_files": [
+    "pyproject.toml",
+    "setup.cfg",
+    "uv.lock"
+   ],
+   "causes": {
+    "MISSING_FIXTURE:count_queries": 5
+   },
+   "fixture_map": {
+    "MISSING_FIXTURE:count_queries": {
+     "candidate_package": "pytest-django-queries",
+     "confidence": "PROVEN",
+     "declared": true,
+     "declaration_file": "pyproject.toml",
+     "mechanism": "pyproject-dependency-groups",
+     "group": "dev",
+     "version_spec": ">=1.2,<1.3",
+     "locked_version": null,
+     "install_state": "B_DECLARED_BUT_NOT_INSTALLED",
+     "count": 5
+    }
+   }
+  },
+  {
+   "task_id": "saleor-rc-0b46c89dfd9e",
+   "era_key": "py39",
+   "target_commit": "0b46c89dfd9e5e22defb45cbd9869403a7817320",
+   "parent_commit": "c27cc94d06ff246bbef2b51968853d4336cc15ad",
+   "python_requirement": "",
+   "commit_year": null,
+   "dependency_management": [
+    "cfg",
+    "ini",
+    "lock",
+    "toml",
+    "txt"
+   ],
+   "lockfile_present": true,
+   "manifest_files": [
+    "poetry.lock",
+    "pyproject.toml",
+    "requirements.txt",
+    "requirements_dev.txt",
+    "setup.cfg",
+    "tox.ini"
+   ],
+   "causes": {
+    "MISSING_FIXTURE:count_queries": 8
+   },
+   "fixture_map": {
+    "MISSING_FIXTURE:count_queries": {
+     "candidate_package": "pytest-django-queries",
+     "confidence": "PROVEN",
+     "declared": true,
+     "declaration_file": "pyproject.toml",
+     "mechanism": "pyproject-poetry",
+     "group": "dev",
+     "version_spec": "\"~1.2\"",
+     "locked_version": null,
+     "install_state": "B_DECLARED_BUT_NOT_INSTALLED",
+     "count": 8
+    }
+   }
+  },
+  {
+   "task_id": "saleor-rc-1abda1e0d36e",
+   "era_key": "py39",
+   "target_commit": "1abda1e0d36e73402bd7581646b0db5ac647e973",
+   "parent_commit": "54270055c39318884023254430698563d8f961dd",
+   "python_requirement": "",
+   "commit_year": null,
+   "dependency_management": [
+    "cfg",
+    "lock",
+    "toml",
+    "txt"
+   ],
+   "lockfile_present": true,
+   "manifest_files": [
+    "poetry.lock",
+    "pyproject.toml",
+    "requirements.txt",
+    "requirements_dev.txt",
+    "setup.cfg"
+   ],
+   "causes": {
+    "MISSING_FIXTURE:count_queries": 21
+   },
+   "fixture_map": {
+    "MISSING_FIXTURE:count_queries": {
+     "candidate_package": "pytest-django-queries",
+     "confidence": "PROVEN",
+     "declared": true,
+     "declaration_file": "pyproject.toml",
+     "mechanism": "pyproject-poetry",
+     "group": "dev",
+     "version_spec": "\"~1.2\"",
+     "locked_version": null,
+     "install_state": "B_DECLARED_BUT_NOT_INSTALLED",
+     "count": 21
+    }
+   }
+  },
+  {
+   "task_id": "saleor-rc-1af1c3a368ec",
+   "era_key": "py39",
+   "target_commit": "1af1c3a368ec7488f7460a059f20d8db4bf5bd99",
+   "parent_commit": "7a1a4bdec3629ad456b926c6b6e84083224c98e3",
+   "python_requirement": "",
+   "commit_year": null,
+   "dependency_management": [
+    "cfg",
+    "lock",
+    "toml",
+    "txt"
+   ],
+   "lockfile_present": true,
+   "manifest_files": [
+    "poetry.lock",
+    "pyproject.toml",
+    "requirements.txt",
+    "requirements_dev.txt",
+    "setup.cfg"
+   ],
+   "causes": {
+    "MISSING_FIXTURE:count_queries": 16
+   },
+   "fixture_map": {
+    "MISSING_FIXTURE:count_queries": {
+     "candidate_package": "pytest-django-queries",
+     "confidence": "PROVEN",
+     "declared": true,
+     "declaration_file": "pyproject.toml",
+     "mechanism": "pyproject-poetry",
+     "group": "dev",
+     "version_spec": "\"~1.2\"",
+     "locked_version": null,
+     "install_state": "B_DECLARED_BUT_NOT_INSTALLED",
+     "count": 16
+    }
+   }
+  },
+  {
+   "task_id": "saleor-rc-287509237561",
+   "era_key": "py312",
+   "target_commit": "28750923756109f93b25f817b94aa062e684a260",
+   "parent_commit": "3e61359310c303fde6766d8adc7249800b15a293",
+   "python_requirement": "~3.12",
+   "commit_year": 2024,
+   "dependency_management": [
+    "cfg",
+    "lock",
+    "toml"
+   ],
+   "lockfile_present": true,
+   "manifest_files": [
+    "poetry.lock",
+    "pyproject.toml",
+    "setup.cfg"
+   ],
+   "causes": {
+    "MISSING_FIXTURE:count_queries": 84
+   },
+   "fixture_map": {
+    "MISSING_FIXTURE:count_queries": {
+     "candidate_package": "pytest-django-queries",
+     "confidence": "PROVEN",
+     "declared": true,
+     "declaration_file": "pyproject.toml",
+     "mechanism": "pyproject-poetry",
+     "group": "dev",
+     "version_spec": "\"~1.2\"",
+     "locked_version": null,
+     "install_state": "B_DECLARED_BUT_NOT_INSTALLED",
+     "count": 84
+    }
+   }
+  },
+  {
+   "task_id": "saleor-rc-2a59d31fc839",
+   "era_key": "py39",
+   "target_commit": "2a59d31fc8398dd13f2a63c1bc23f44791ea3239",
+   "parent_commit": "9064bf0ddea89efc529b9ebc2e4ee3f0085b132c",
+   "python_requirement": "",
+   "commit_year": null,
+   "dependency_management": [
+    "cfg",
+    "ini",
+    "lock",
+    "toml",
+    "txt"
+   ],
+   "lockfile_present": true,
+   "manifest_files": [
+    "poetry.lock",
+    "pyproject.toml",
+    "requirements.txt",
+    "requirements_dev.txt",
+    "setup.cfg",
+    "tox.ini"
+   ],
+   "causes": {
+    "MODULE_NOT_FOUND:before_after": 1
+   },
+   "fixture_map": {
+    "MODULE_NOT_FOUND:before_after": {
+     "candidate_package": "before_after",
+     "confidence": "PROVEN",
+     "declared": true,
+     "declaration_file": "pyproject.toml",
+     "mechanism": "pyproject-poetry",
+     "group": "dev",
+     "version_spec": "\"^1.0.1\"",
+     "locked_version": null,
+     "install_state": "B_DECLARED_BUT_NOT_INSTALLED",
+     "count": 1
+    }
+   }
+  },
+  {
+   "task_id": "saleor-rc-30e8558d6feb",
+   "era_key": "py39",
+   "target_commit": "30e8558d6febfa4cdb393d9b0f099323834a07b5",
+   "parent_commit": "373efa067922e942e503b210ca4cbfaa7be72962",
+   "python_requirement": "~3.9",
+   "commit_year": 2023,
+   "dependency_management": [
+    "cfg",
+    "lock",
+    "toml",
+    "txt"
+   ],
+   "lockfile_present": true,
+   "manifest_files": [
+    "poetry.lock",
+    "pyproject.toml",
+    "requirements.txt",
+    "requirements_dev.txt",
+    "setup.cfg"
+   ],
+   "causes": {
+    "MODULE_NOT_FOUND:mock": 3,
+    "MODULE_NOT_FOUND:before_after": 3
+   },
+   "fixture_map": {
+    "MODULE_NOT_FOUND:mock": {
+     "candidate_package": "mock",
+     "confidence": "PROVEN",
+     "declared": true,
+     "declaration_file": "poetry.lock",
+     "mechanism": "poetry.lock",
+     "group": null,
+     "version_spec": null,
+     "locked_version": "1.0.1",
+     "install_state": "B_DECLARED_BUT_NOT_INSTALLED",
+     "count": 3
+    },
+    "MODULE_NOT_FOUND:before_after": {
+     "candidate_package": "before_after",
+     "confidence": "PROVEN",
+     "declared": true,
+     "declaration_file": "pyproject.toml",
+     "mechanism": "pyproject-poetry",
+     "group": "dev",
+     "version_spec": "\"^1.0.1\"",
+     "locked_version": null,
+     "install_state": "B_DECLARED_BUT_NOT_INSTALLED",
+     "count": 3
+    }
+   }
+  },
+  {
+   "task_id": "saleor-rc-39b4138e8550",
+   "era_key": "py312",
+   "target_commit": "39b4138e85500065175d94d5d5b50fc2f4eabd2d",
+   "parent_commit": "5ec737d15d11282b5ad44bf28426c698758d7537",
+   "python_requirement": ">=3.12,<3.13",
+   "commit_year": 2025,
+   "dependency_management": [
+    "cfg",
+    "lock",
+    "toml"
+   ],
+   "lockfile_present": true,
+   "manifest_files": [
+    "pyproject.toml",
+    "setup.cfg",
+    "uv.lock"
+   ],
+   "causes": {
+    "MISSING_FIXTURE:count_queries": 36,
+    "MISSING_FIXTURE:mocker": 24
+   },
+   "fixture_map": {
+    "MISSING_FIXTURE:count_queries": {
+     "candidate_package": "pytest-django-queries",
+     "confidence": "PROVEN",
+     "declared": true,
+     "declaration_file": "pyproject.toml",
+     "mechanism": "pyproject-dependency-groups",
+     "group": "dev",
+     "version_spec": ">=1.2,<1.3",
+     "locked_version": null,
+     "install_state": "B_DECLARED_BUT_NOT_INSTALLED",
+     "count": 36
+    },
+    "MISSING_FIXTURE:mocker": {
+     "candidate_package": "pytest-mock",
+     "confidence": "PROVEN",
+     "declared": true,
+     "declaration_file": "pyproject.toml",
+     "mechanism": "pyproject-dependency-groups",
+     "group": "dev",
+     "version_spec": ">=3.6.1,<4",
+     "locked_version": null,
+     "install_state": "B_DECLARED_BUT_NOT_INSTALLED",
+     "count": 24
+    }
+   }
+  },
+  {
+   "task_id": "saleor-rc-3bf31ab2fefc",
+   "era_key": "py312",
+   "target_commit": "3bf31ab2fefca154d841803c9fc71057938ce5f9",
+   "parent_commit": "d24336188b88c0ac93712245550cccea856fc00a",
+   "python_requirement": "",
+   "commit_year": null,
+   "dependency_management": [
+    "cfg",
+    "lock",
+    "toml"
+   ],
+   "lockfile_present": true,
+   "manifest_files": [
+    "pyproject.toml",
+    "setup.cfg",
+    "uv.lock"
+   ],
+   "causes": {
+    "MISSING_FIXTURE:count_queries": 28
+   },
+   "fixture_map": {
+    "MISSING_FIXTURE:count_queries": {
+     "candidate_package": "pytest-django-queries",
+     "confidence": "PROVEN",
+     "declared": true,
+     "declaration_file": "pyproject.toml",
+     "mechanism": "pyproject-dependency-groups",
+     "group": "dev",
+     "version_spec": ">=1.2,<1.3",
+     "locked_version": null,
+     "install_state": "B_DECLARED_BUT_NOT_INSTALLED",
+     "count": 28
+    }
+   }
+  },
+  {
+   "task_id": "saleor-rc-45cfb26218c8",
+   "era_key": "py39",
+   "target_commit": "45cfb26218c8b0e59be8409bdbfd14ec7189f4d0",
+   "parent_commit": "0df27b1eb5b484e775bc2e8091d2a39d0dd33098",
+   "python_requirement": "",
+   "commit_year": null,
+   "dependency_management": [
+    "cfg",
+    "lock",
+    "toml",
+    "txt"
+   ],
+   "lockfile_present": true,
+   "manifest_files": [
+    "poetry.lock",
+    "pyproject.toml",
+    "requirements.txt",
+    "requirements_dev.txt",
+    "setup.cfg"
+   ],
+   "causes": {
+    "MODULE_NOT_FOUND:before_after": 1
+   },
+   "fixture_map": {
+    "MODULE_NOT_FOUND:before_after": {
+     "candidate_package": "before_after",
+     "confidence": "PROVEN",
+     "declared": true,
+     "declaration_file": "pyproject.toml",
+     "mechanism": "pyproject-poetry",
+     "group": "dev",
+     "version_spec": "\"^1.0.1\"",
+     "locked_version": null,
+     "install_state": "B_DECLARED_BUT_NOT_INSTALLED",
+     "count": 1
+    }
+   }
+  },
+  {
+   "task_id": "saleor-rc-533a1a82f6e1",
+   "era_key": "py312",
+   "target_commit": "533a1a82f6e1cf16e5a60bdabd5050efd391f58a",
+   "parent_commit": "b093a2100da982d4f9621767f61a28b9afd5cb0b",
+   "python_requirement": ">=3.12,<3.13",
+   "commit_year": 2025,
+   "dependency_management": [
+    "cfg",
+    "lock",
+    "toml"
+   ],
+   "lockfile_present": true,
+   "manifest_files": [
+    "pyproject.toml",
+    "setup.cfg",
+    "uv.lock"
+   ],
+   "causes": {
+    "MISSING_FIXTURE:count_queries": 48
+   },
+   "fixture_map": {
+    "MISSING_FIXTURE:count_queries": {
+     "candidate_package": "pytest-django-queries",
+     "confidence": "PROVEN",
+     "declared": true,
+     "declaration_file": "pyproject.toml",
+     "mechanism": "pyproject-dependency-groups",
+     "group": "dev",
+     "version_spec": ">=1.2,<1.3",
+     "locked_version": null,
+     "install_state": "B_DECLARED_BUT_NOT_INSTALLED",
+     "count": 48
+    }
+   }
+  },
+  {
+   "task_id": "saleor-rc-571a3b145aea",
+   "era_key": "py39",
+   "target_commit": "571a3b145aeaefed14a8140208ae54450834c288",
+   "parent_commit": "3f8a1afe77ab7e2e2ec7a315c2facd1be1729f21",
+   "python_requirement": "",
+   "commit_year": null,
+   "dependency_management": [
+    "cfg",
+    "ini",
+    "lock",
+    "toml",
+    "txt"
+   ],
+   "lockfile_present": true,
+   "manifest_files": [
+    "poetry.lock",
+    "pyproject.toml",
+    "requirements.txt",
+    "requirements_dev.txt",
+    "setup.cfg",
+    "tox.ini"
+   ],
+   "causes": {
+    "MISSING_FIXTURE:mocker": 2
+   },
+   "fixture_map": {
+    "MISSING_FIXTURE:mocker": {
+     "candidate_package": "pytest-mock",
+     "confidence": "PROVEN",
+     "declared": true,
+     "declaration_file": "pyproject.toml",
+     "mechanism": "pyproject-poetry",
+     "group": "dev",
+     "version_spec": "\"^3.6.1\"",
+     "locked_version": null,
+     "install_state": "B_DECLARED_BUT_NOT_INSTALLED",
+     "count": 2
+    }
+   }
+  },
+  {
+   "task_id": "saleor-rc-74538ea00ce9",
+   "era_key": "py312",
+   "target_commit": "74538ea00ce938489bcd36b180e3b9b31f265e40",
+   "parent_commit": "edc4120f657f4620030d5bd8327883714b9e812b",
+   "python_requirement": "~3.12",
+   "commit_year": 2024,
+   "dependency_management": [
+    "cfg",
+    "lock",
+    "toml"
+   ],
+   "lockfile_present": true,
+   "manifest_files": [
+    "poetry.lock",
+    "pyproject.toml",
+    "setup.cfg"
+   ],
+   "causes": {
+    "MISSING_FIXTURE:count_queries": 288
+   },
+   "fixture_map": {
+    "MISSING_FIXTURE:count_queries": {
+     "candidate_package": "pytest-django-queries",
+     "confidence": "PROVEN",
+     "declared": true,
+     "declaration_file": "pyproject.toml",
+     "mechanism": "pyproject-poetry",
+     "group": "dev",
+     "version_spec": "\"~1.2\"",
+     "locked_version": null,
+     "install_state": "B_DECLARED_BUT_NOT_INSTALLED",
+     "count": 288
+    }
+   }
+  },
+  {
+   "task_id": "saleor-rc-7d4bcc752c20",
+   "era_key": "py39",
+   "target_commit": "7d4bcc752c20b5822225dd1d4f87ebe7507a9989",
+   "parent_commit": "bcd9f60d2aef8553e5ba522f2acd8437d7a0b7f2",
+   "python_requirement": "~3.9",
+   "commit_year": 2022,
+   "dependency_management": [
+    "cfg",
+    "lock",
+    "toml",
+    "txt"
+   ],
+   "lockfile_present": true,
+   "manifest_files": [
+    "poetry.lock",
+    "pyproject.toml",
+    "requirements.txt",
+    "requirements_dev.txt",
+    "setup.cfg"
+   ],
+   "causes": {
+    "MODULE_NOT_FOUND:before_after": 6
+   },
+   "fixture_map": {
+    "MODULE_NOT_FOUND:before_after": {
+     "candidate_package": "before_after",
+     "confidence": "PROVEN",
+     "declared": true,
+     "declaration_file": "pyproject.toml",
+     "mechanism": "pyproject-poetry",
+     "group": "dev",
+     "version_spec": "\"^1.0.1\"",
+     "locked_version": null,
+     "install_state": "B_DECLARED_BUT_NOT_INSTALLED",
+     "count": 6
+    }
+   }
+  },
+  {
+   "task_id": "saleor-rc-82c56bde0e34",
+   "era_key": "py39",
+   "target_commit": "82c56bde0e3422112e9d990f22c7843f59f726e7",
+   "parent_commit": "38eeda3f7913851202d8332f48fd913d88e54af0",
+   "python_requirement": "~3.9",
+   "commit_year": 2023,
+   "dependency_management": [
+    "cfg",
+    "lock",
+    "toml",
+    "txt"
+   ],
+   "lockfile_present": true,
+   "manifest_files": [
+    "poetry.lock",
+    "pyproject.toml",
+    "requirements.txt",
+    "requirements_dev.txt",
+    "setup.cfg"
+   ],
+   "causes": {
+    "MISSING_FIXTURE:count_queries": 78
+   },
+   "fixture_map": {
+    "MISSING_FIXTURE:count_queries": {
+     "candidate_package": "pytest-django-queries",
+     "confidence": "PROVEN",
+     "declared": true,
+     "declaration_file": "pyproject.toml",
+     "mechanism": "pyproject-poetry",
+     "group": "dev",
+     "version_spec": "\"~1.2\"",
+     "locked_version": null,
+     "install_state": "B_DECLARED_BUT_NOT_INSTALLED",
+     "count": 78
+    }
+   }
+  },
+  {
+   "task_id": "saleor-rc-8f76ddc6267f",
+   "era_key": "py39",
+   "target_commit": "8f76ddc6267f6ddcdc6078f2a4a098bbb971b23b",
+   "parent_commit": "54fc7e6ef25f3662a53409af62b5784dc7b5f34f",
+   "python_requirement": "~3.9",
+   "commit_year": 2023,
+   "dependency_management": [
+    "cfg",
+    "lock",
+    "toml",
+    "txt"
+   ],
+   "lockfile_present": true,
+   "manifest_files": [
+    "poetry.lock",
+    "pyproject.toml",
+    "requirements.txt",
+    "requirements_dev.txt",
+    "setup.cfg"
+   ],
+   "causes": {
+    "MISSING_FIXTURE:count_queries": 168
+   },
+   "fixture_map": {
+    "MISSING_FIXTURE:count_queries": {
+     "candidate_package": "pytest-django-queries",
+     "confidence": "PROVEN",
+     "declared": true,
+     "declaration_file": "pyproject.toml",
+     "mechanism": "pyproject-poetry",
+     "group": "dev",
+     "version_spec": "\"~1.2\"",
+     "locked_version": null,
+     "install_state": "B_DECLARED_BUT_NOT_INSTALLED",
+     "count": 168
+    }
+   }
+  },
+  {
+   "task_id": "saleor-rc-940b8d83ec5c",
+   "era_key": "py312",
+   "target_commit": "940b8d83ec5c09aa19416c8bcf38d5c28696a991",
+   "parent_commit": "f6d2a71ff9620a40017dc8a634a7822cbcc19285",
+   "python_requirement": "",
+   "commit_year": null,
+   "dependency_management": [
+    "cfg",
+    "lock",
+    "toml"
+   ],
+   "lockfile_present": true,
+   "manifest_files": [
+    "pyproject.toml",
+    "setup.cfg",
+    "uv.lock"
+   ],
+   "causes": {
+    "MISSING_FIXTURE:count_queries": 28
+   },
+   "fixture_map": {
+    "MISSING_FIXTURE:count_queries": {
+     "candidate_package": "pytest-django-queries",
+     "confidence": "PROVEN",
+     "declared": true,
+     "declaration_file": "pyproject.toml",
+     "mechanism": "pyproject-dependency-groups",
+     "group": "dev",
+     "version_spec": ">=1.2,<1.3",
+     "locked_version": null,
+     "install_state": "B_DECLARED_BUT_NOT_INSTALLED",
+     "count": 28
+    }
+   }
+  },
+  {
+   "task_id": "saleor-rc-9698135fe4fc",
+   "era_key": "py312",
+   "target_commit": "9698135fe4fcce8c94f1cc492f52954548074c65",
+   "parent_commit": "681575da9380838bb05299dd07a7db81fd4af9e4",
+   "python_requirement": ">=3.12,<3.13",
+   "commit_year": 2025,
+   "dependency_management": [
+    "cfg",
+    "lock",
+    "toml"
+   ],
+   "lockfile_present": true,
+   "manifest_files": [
+    "pyproject.toml",
+    "setup.cfg",
+    "uv.lock"
+   ],
+   "causes": {
+    "MISSING_FIXTURE:count_queries": 84
+   },
+   "fixture_map": {
+    "MISSING_FIXTURE:count_queries": {
+     "candidate_package": "pytest-django-queries",
+     "confidence": "PROVEN",
+     "declared": true,
+     "declaration_file": "pyproject.toml",
+     "mechanism": "pyproject-dependency-groups",
+     "group": "dev",
+     "version_spec": ">=1.2,<1.3",
+     "locked_version": null,
+     "install_state": "B_DECLARED_BUT_NOT_INSTALLED",
+     "count": 84
+    }
+   }
+  },
+  {
+   "task_id": "saleor-rc-9aa434eeefe7",
+   "era_key": "py312",
+   "target_commit": "9aa434eeefe75b8a03469cc7419fa856170f8407",
+   "parent_commit": "16ceede761ca30c3390225927cd73475c4bdd925",
+   "python_requirement": ">=3.12,<3.13",
+   "commit_year": 2025,
+   "dependency_management": [
+    "cfg",
+    "lock",
+    "toml"
+   ],
+   "lockfile_present": true,
+   "manifest_files": [
+    "pyproject.toml",
+    "setup.cfg",
+    "uv.lock"
+   ],
+   "causes": {
+    "MISSING_FIXTURE:count_queries": 3
+   },
+   "fixture_map": {
+    "MISSING_FIXTURE:count_queries": {
+     "candidate_package": "pytest-django-queries",
+     "confidence": "PROVEN",
+     "declared": true,
+     "declaration_file": "pyproject.toml",
+     "mechanism": "pyproject-dependency-groups",
+     "group": "dev",
+     "version_spec": ">=1.2,<1.3",
+     "locked_version": null,
+     "install_state": "B_DECLARED_BUT_NOT_INSTALLED",
+     "count": 3
+    }
+   }
+  },
+  {
+   "task_id": "saleor-rc-a650f8f05c02",
+   "era_key": "py39",
+   "target_commit": "a650f8f05c025de7c12ed5301b72a9d8ba9bf811",
+   "parent_commit": "dfca812042037dc33b7d856828ed86689ae86e82",
+   "python_requirement": "",
+   "commit_year": null,
+   "dependency_management": [
+    "cfg",
+    "lock",
+    "toml",
+    "txt"
+   ],
+   "lockfile_present": true,
+   "manifest_files": [
+    "poetry.lock",
+    "pyproject.toml",
+    "requirements.txt",
+    "requirements_dev.txt",
+    "setup.cfg"
+   ],
+   "causes": {
+    "MODULE_NOT_FOUND:mock": 5
+   },
+   "fixture_map": {
+    "MODULE_NOT_FOUND:mock": {
+     "candidate_package": "mock",
+     "confidence": "PROVEN",
+     "declared": true,
+     "declaration_file": "poetry.lock",
+     "mechanism": "poetry.lock",
+     "group": null,
+     "version_spec": null,
+     "locked_version": "1.0.1",
+     "install_state": "B_DECLARED_BUT_NOT_INSTALLED",
+     "count": 5
+    }
+   }
+  },
+  {
+   "task_id": "saleor-rc-a7a2bf4146ba",
+   "era_key": "py39",
+   "target_commit": "a7a2bf4146ba1afa6ac8e048e209d631e5443711",
+   "parent_commit": "bac19498f13b7b1c38e8b2a6e3f14bac48faabe7",
+   "python_requirement": "",
+   "commit_year": null,
+   "dependency_management": [
+    "cfg",
+    "ini",
+    "lock",
+    "toml",
+    "txt"
+   ],
+   "lockfile_present": true,
+   "manifest_files": [
+    "poetry.lock",
+    "pyproject.toml",
+    "requirements.txt",
+    "requirements_dev.txt",
+    "setup.cfg",
+    "tox.ini"
+   ],
+   "causes": {
+    "MODULE_NOT_FOUND:before_after": 1
+   },
+   "fixture_map": {
+    "MODULE_NOT_FOUND:before_after": {
+     "candidate_package": "before_after",
+     "confidence": "PROVEN",
+     "declared": true,
+     "declaration_file": "pyproject.toml",
+     "mechanism": "pyproject-poetry",
+     "group": "dev",
+     "version_spec": "\"^1.0.1\"",
+     "locked_version": null,
+     "install_state": "B_DECLARED_BUT_NOT_INSTALLED",
+     "count": 1
+    }
+   }
+  },
+  {
+   "task_id": "saleor-rc-b0672eea0422",
+   "era_key": "py39",
+   "target_commit": "b0672eea04229f2a2194c64162bade73eb246047",
+   "parent_commit": "87531ade76bd2d04f35354fa3ef5672df995fea9",
+   "python_requirement": "",
+   "commit_year": null,
+   "dependency_management": [
+    "cfg",
+    "ini",
+    "lock",
+    "toml",
+    "txt"
+   ],
+   "lockfile_present": true,
+   "manifest_files": [
+    "poetry.lock",
+    "pyproject.toml",
+    "requirements.txt",
+    "requirements_dev.txt",
+    "setup.cfg",
+    "tox.ini"
+   ],
+   "causes": {
+    "MODULE_NOT_FOUND:before_after": 1
+   },
+   "fixture_map": {
+    "MODULE_NOT_FOUND:before_after": {
+     "candidate_package": "before_after",
+     "confidence": "PROVEN",
+     "declared": true,
+     "declaration_file": "pyproject.toml",
+     "mechanism": "pyproject-poetry",
+     "group": "dev",
+     "version_spec": "\"^1.0.1\"",
+     "locked_version": null,
+     "install_state": "B_DECLARED_BUT_NOT_INSTALLED",
+     "count": 1
+    }
+   }
+  },
+  {
+   "task_id": "saleor-rc-b356a525ba2a",
+   "era_key": "py312",
+   "target_commit": "b356a525ba2ab918b85b6b617ac4df499e70e247",
+   "parent_commit": "68e80f40e6a4f670a2a4b5265cc94db4b0a35cfa",
+   "python_requirement": "",
+   "commit_year": null,
+   "dependency_management": [
+    "cfg",
+    "lock",
+    "toml"
+   ],
+   "lockfile_present": true,
+   "manifest_files": [
+    "pyproject.toml",
+    "setup.cfg",
+    "uv.lock"
+   ],
+   "causes": {
+    "MISSING_FIXTURE:count_queries": 5
+   },
+   "fixture_map": {
+    "MISSING_FIXTURE:count_queries": {
+     "candidate_package": "pytest-django-queries",
+     "confidence": "PROVEN",
+     "declared": true,
+     "declaration_file": "pyproject.toml",
+     "mechanism": "pyproject-dependency-groups",
+     "group": "dev",
+     "version_spec": ">=1.2,<1.3",
+     "locked_version": null,
+     "install_state": "B_DECLARED_BUT_NOT_INSTALLED",
+     "count": 5
+    }
+   }
+  },
+  {
+   "task_id": "saleor-rc-bd64d6fdbe4b",
+   "era_key": "py39",
+   "target_commit": "bd64d6fdbe4b16280eb061d88ab0ddd90533c64e",
+   "parent_commit": "becbbdd78660859bc1b8cd424799aff72f1935e6",
+   "python_requirement": "",
+   "commit_year": null,
+   "dependency_management": [
+    "cfg",
+    "lock",
+    "toml",
+    "txt"
+   ],
+   "lockfile_present": true,
+   "manifest_files": [
+    "poetry.lock",
+    "pyproject.toml",
+    "requirements.txt",
+    "requirements_dev.txt",
+    "setup.cfg"
+   ],
+   "causes": {
+    "MODULE_NOT_FOUND:mock": 1
+   },
+   "fixture_map": {
+    "MODULE_NOT_FOUND:mock": {
+     "candidate_package": "mock",
+     "confidence": "PROVEN",
+     "declared": true,
+     "declaration_file": "poetry.lock",
+     "mechanism": "poetry.lock",
+     "group": null,
+     "version_spec": null,
+     "locked_version": "1.0.1",
+     "install_state": "B_DECLARED_BUT_NOT_INSTALLED",
+     "count": 1
+    }
+   }
+  },
+  {
+   "task_id": "saleor-rc-c0d4785abd74",
+   "era_key": "py39",
+   "target_commit": "c0d4785abd7410108364b4e0830862143cc9940c",
+   "parent_commit": "ac3e7b4bd2feded5220f21f847f69ea52e8113c7",
+   "python_requirement": "",
+   "commit_year": null,
+   "dependency_management": [
+    "cfg",
+    "lock",
+    "toml",
+    "txt"
+   ],
+   "lockfile_present": true,
+   "manifest_files": [
+    "poetry.lock",
+    "pyproject.toml",
+    "requirements.txt",
+    "requirements_dev.txt",
+    "setup.cfg"
+   ],
+   "causes": {
+    "MODULE_NOT_FOUND:mock": 3
+   },
+   "fixture_map": {
+    "MODULE_NOT_FOUND:mock": {
+     "candidate_package": "mock",
+     "confidence": "PROVEN",
+     "declared": true,
+     "declaration_file": "poetry.lock",
+     "mechanism": "poetry.lock",
+     "group": null,
+     "version_spec": null,
+     "locked_version": "1.0.1",
+     "install_state": "B_DECLARED_BUT_NOT_INSTALLED",
+     "count": 3
+    }
+   }
+  },
+  {
+   "task_id": "saleor-rc-d220843b5418",
+   "era_key": "py312",
+   "target_commit": "d220843b54185de6aace563f6eadbc5b607e1bd4",
+   "parent_commit": "b9501be6916b0170b52c62c43a53b2c046eff685",
+   "python_requirement": ">=3.12,<3.13",
+   "commit_year": 2025,
+   "dependency_management": [
+    "cfg",
+    "lock",
+    "toml"
+   ],
+   "lockfile_present": true,
+   "manifest_files": [
+    "pyproject.toml",
+    "setup.cfg",
+    "uv.lock"
+   ],
+   "causes": {
+    "MISSING_FIXTURE:count_queries": 66
+   },
+   "fixture_map": {
+    "MISSING_FIXTURE:count_queries": {
+     "candidate_package": "pytest-django-queries",
+     "confidence": "PROVEN",
+     "declared": true,
+     "declaration_file": "pyproject.toml",
+     "mechanism": "pyproject-dependency-groups",
+     "group": "dev",
+     "version_spec": ">=1.2,<1.3",
+     "locked_version": null,
+     "install_state": "B_DECLARED_BUT_NOT_INSTALLED",
+     "count": 66
+    }
+   }
+  },
+  {
+   "task_id": "saleor-rc-d299e27e5f04",
+   "era_key": "py39",
+   "target_commit": "d299e27e5f044b98d8314fa19a10c0c7f7d5c9c8",
+   "parent_commit": "a937b5b9701a898a7b97b05c2faec0e678376c1d",
+   "python_requirement": "",
+   "commit_year": null,
+   "dependency_management": [
+    "cfg",
+    "lock",
+    "toml",
+    "txt"
+   ],
+   "lockfile_present": true,
+   "manifest_files": [
+    "poetry.lock",
+    "pyproject.toml",
+    "requirements.txt",
+    "requirements_dev.txt",
+    "setup.cfg"
+   ],
+   "causes": {
+    "MISSING_FIXTURE:count_queries": 21
+   },
+   "fixture_map": {
+    "MISSING_FIXTURE:count_queries": {
+     "candidate_package": "pytest-django-queries",
+     "confidence": "PROVEN",
+     "declared": true,
+     "declaration_file": "pyproject.toml",
+     "mechanism": "pyproject-poetry",
+     "group": "dev",
+     "version_spec": "\"~1.2\"",
+     "locked_version": null,
+     "install_state": "B_DECLARED_BUT_NOT_INSTALLED",
+     "count": 21
+    }
+   }
+  },
+  {
+   "task_id": "saleor-rc-d2b8ef040b3c",
+   "era_key": "py312",
+   "target_commit": "d2b8ef040b3c1c9191e4f5902311ddb7f0814715",
+   "parent_commit": "aaabbc47e9a9fdc0392acee9a879cfcf8f0fcc41",
+   "python_requirement": ">=3.12,<3.13",
+   "commit_year": 2025,
+   "dependency_management": [
+    "cfg",
+    "lock",
+    "toml"
+   ],
+   "lockfile_present": true,
+   "manifest_files": [
+    "pyproject.toml",
+    "setup.cfg",
+    "uv.lock"
+   ],
+   "causes": {
+    "MISSING_FIXTURE:count_queries": 15
+   },
+   "fixture_map": {
+    "MISSING_FIXTURE:count_queries": {
+     "candidate_package": "pytest-django-queries",
+     "confidence": "PROVEN",
+     "declared": true,
+     "declaration_file": "pyproject.toml",
+     "mechanism": "pyproject-dependency-groups",
+     "group": "dev",
+     "version_spec": ">=1.2,<1.3",
+     "locked_version": null,
+     "install_state": "B_DECLARED_BUT_NOT_INSTALLED",
+     "count": 15
+    }
+   }
+  },
+  {
+   "task_id": "saleor-rc-dacded922b1f",
+   "era_key": "py312",
+   "target_commit": "dacded922b1f6482c90e12baa27fbc9109c89a29",
+   "parent_commit": "8d08f65fbf18abf97d424e2b4a186eb3a38071ed",
+   "python_requirement": "",
+   "commit_year": null,
+   "dependency_management": [
+    "cfg",
+    "lock",
+    "toml"
+   ],
+   "lockfile_present": true,
+   "manifest_files": [
+    "poetry.lock",
+    "pyproject.toml",
+    "setup.cfg"
+   ],
+   "causes": {
+    "MISSING_FIXTURE:count_queries": 1
+   },
+   "fixture_map": {
+    "MISSING_FIXTURE:count_queries": {
+     "candidate_package": "pytest-django-queries",
+     "confidence": "PROVEN",
+     "declared": true,
+     "declaration_file": "pyproject.toml",
+     "mechanism": "pyproject-poetry",
+     "group": "dev",
+     "version_spec": "\"~1.2\"",
+     "locked_version": null,
+     "install_state": "B_DECLARED_BUT_NOT_INSTALLED",
+     "count": 1
+    }
+   }
+  },
+  {
+   "task_id": "saleor-rc-dfe77ac1c5dc",
+   "era_key": "py312",
+   "target_commit": "dfe77ac1c5dcd3ca8958ccec989c3bf9a012c848",
+   "parent_commit": "98cb1c7a1dce769b92f00289d3a05a7ef714d8d8",
+   "python_requirement": "~3.12",
+   "commit_year": 2024,
+   "dependency_management": [
+    "cfg",
+    "lock",
+    "toml"
+   ],
+   "lockfile_present": true,
+   "manifest_files": [
+    "poetry.lock",
+    "pyproject.toml",
+    "setup.cfg"
+   ],
+   "causes": {
+    "MISSING_FIXTURE:count_queries": 36
+   },
+   "fixture_map": {
+    "MISSING_FIXTURE:count_queries": {
+     "candidate_package": "pytest-django-queries",
+     "confidence": "PROVEN",
+     "declared": true,
+     "declaration_file": "pyproject.toml",
+     "mechanism": "pyproject-poetry",
+     "group": "dev",
+     "version_spec": "\"~1.2\"",
+     "locked_version": null,
+     "install_state": "B_DECLARED_BUT_NOT_INSTALLED",
+     "count": 36
+    }
+   }
+  },
+  {
+   "task_id": "saleor-rc-e03ee76d2b89",
+   "era_key": "py39",
+   "target_commit": "e03ee76d2b895c707dbd9ee7fe8ff4b1c3cee026",
+   "parent_commit": "349fe0c194a17875b84f276b44a3524d218edb20",
+   "python_requirement": "~3.9",
+   "commit_year": 2023,
+   "dependency_management": [
+    "cfg",
+    "lock",
+    "toml",
+    "txt"
+   ],
+   "lockfile_present": true,
+   "manifest_files": [
+    "poetry.lock",
+    "pyproject.toml",
+    "requirements.txt",
+    "requirements_dev.txt",
+    "setup.cfg"
+   ],
+   "causes": {
+    "MISSING_FIXTURE:count_queries": 90
+   },
+   "fixture_map": {
+    "MISSING_FIXTURE:count_queries": {
+     "candidate_package": "pytest-django-queries",
+     "confidence": "PROVEN",
+     "declared": true,
+     "declaration_file": "pyproject.toml",
+     "mechanism": "pyproject-poetry",
+     "group": "dev",
+     "version_spec": "\"~1.2\"",
+     "locked_version": null,
+     "install_state": "B_DECLARED_BUT_NOT_INSTALLED",
+     "count": 90
+    }
+   }
+  },
+  {
+   "task_id": "saleor-rc-e3b6df2eba77",
+   "era_key": "py39",
+   "target_commit": "e3b6df2eba7706da8549384511de37fe7fc1a391",
+   "parent_commit": "1d37b0aa39aa71efd2807fde31bf58e7d88b96fa",
+   "python_requirement": "~3.9",
+   "commit_year": 2022,
+   "dependency_management": [
+    "cfg",
+    "ini",
+    "lock",
+    "toml",
+    "txt"
+   ],
+   "lockfile_present": true,
+   "manifest_files": [
+    "poetry.lock",
+    "pyproject.toml",
+    "requirements.txt",
+    "requirements_dev.txt",
+    "setup.cfg",
+    "tox.ini"
+   ],
+   "causes": {
+    "MISSING_FIXTURE:count_queries": 3
+   },
+   "fixture_map": {
+    "MISSING_FIXTURE:count_queries": {
+     "candidate_package": "pytest-django-queries",
+     "confidence": "PROVEN",
+     "declared": true,
+     "declaration_file": "pyproject.toml",
+     "mechanism": "pyproject-poetry",
+     "group": "dev",
+     "version_spec": "\"~1.2\"",
+     "locked_version": null,
+     "install_state": "B_DECLARED_BUT_NOT_INSTALLED",
+     "count": 3
+    }
+   }
+  },
+  {
+   "task_id": "saleor-rc-e7175003a542",
+   "era_key": "py312",
+   "target_commit": "e7175003a542258f15e341a90a305f6c4cc61df2",
+   "parent_commit": "4d333d041821ec49a8a1d570e711a9779aef1c66",
+   "python_requirement": "",
+   "commit_year": null,
+   "dependency_management": [
+    "cfg",
+    "lock",
+    "toml"
+   ],
+   "lockfile_present": true,
+   "manifest_files": [
+    "pyproject.toml",
+    "setup.cfg",
+    "uv.lock"
+   ],
+   "causes": {
+    "MODULE_NOT_FOUND:openpyxl": 1
+   },
+   "fixture_map": {
+    "MODULE_NOT_FOUND:openpyxl": {
+     "candidate_package": "openpyxl",
+     "confidence": "PROVEN",
+     "declared": true,
+     "declaration_file": "pyproject.toml",
+     "mechanism": "pyproject-dependency-groups",
+     "group": "dev",
+     "version_spec": ">=3.1.5,<4",
+     "locked_version": null,
+     "install_state": "B_DECLARED_BUT_NOT_INSTALLED",
+     "count": 1
+    }
+   }
+  },
+  {
+   "task_id": "saleor-rc-eacffa70e721",
+   "era_key": "py39",
+   "target_commit": "eacffa70e721eb10273286c7c086c3247675a086",
+   "parent_commit": "3d4e4592a7d692a19034d46149a07025f3491290",
+   "python_requirement": "~3.9",
+   "commit_year": 2022,
+   "dependency_management": [
+    "cfg",
+    "ini",
+    "lock",
+    "toml",
+    "txt"
+   ],
+   "lockfile_present": true,
+   "manifest_files": [
+    "poetry.lock",
+    "pyproject.toml",
+    "requirements.txt",
+    "requirements_dev.txt",
+    "setup.cfg",
+    "tox.ini"
+   ],
+   "causes": {
+    "MISSING_FIXTURE:mocker": 6
+   },
+   "fixture_map": {
+    "MISSING_FIXTURE:mocker": {
+     "candidate_package": "pytest-mock",
+     "confidence": "PROVEN",
+     "declared": true,
+     "declaration_file": "pyproject.toml",
+     "mechanism": "pyproject-poetry",
+     "group": "dev",
+     "version_spec": "\"^3.6.1\"",
+     "locked_version": null,
+     "install_state": "B_DECLARED_BUT_NOT_INSTALLED",
+     "count": 6
+    }
+   }
+  }
+ ]
+}

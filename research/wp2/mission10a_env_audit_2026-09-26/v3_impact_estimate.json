@@ -1,0 +1,57 @@
+{
+ "artifact": "v3_impact_estimate",
+ "schema_version": "mission10a-v3-impact-v1",
+ "created_utc": "2026-09-26T03:07:25+00:00",
+ "note": "ESTIMATE ONLY. Mission-10A does NOT build/run Env V3. V3 concept: same frozen era strategy + same historical lock + project-declared test/dev dependency group(s) that V2 omitted.",
+ "recoverable_node_estimate": {
+  "MEASURED_in_probe": {
+   "task_saleor-rc-74538ea00ce9_set_a_recovered": 18,
+   "recovered_classes": {
+    "P2P_ONLY": 18
+   }
+  },
+  "PROJECTED_across_population": {
+   "C4_benchmark_count_queries_error_TOI": 72,
+   "C4_mocker_fixture_error_TOI": 4,
+   "C2_rescue_benchmark_count_queries_errors": 125,
+   "C2_rescue_mocker_fixture_errors": 12,
+   "P2P_U_ENG_cap200_category_error_nodes": 40,
+   "label": "PROJECTION; never report as observed recovery."
+  }
+ },
+ "affected_tasks_estimate": {
+  "matrix_tasks_with_declared_but_not_installed": 35,
+  "affected_eras": [
+   "py312",
+   "py39"
+  ]
+ },
+ "v3_artifacts_needing_new_versions": [
+  "era image(s) (new image with dev/test group; frozen base reused)",
+  "environment manifest (V3)",
+  "C4 DEV oracle evidence (re-run required where category excluded)",
+  "C2/MAIN oracle evidence if affected",
+  "F2P sets",
+  "P2P-S extraction (unchanged membership; re-verify)",
+  "P2P-U candidate membership (collection membership may change)",
+  "P2P-U ENG execution (re-run affected tasks)",
+  "P2P-U full DEV execution",
+  "Smoke draft population (if ENG oracle-valid membership changes)",
+  "runtime/resource estimates",
+  "reconciliation report V2->V3"
+ ],
+ "reusable_unchanged_metadata": [
+  "historical task commits (unchanged)",
+  "split membership (unchanged)",
+  "oracle semantics (unchanged)",
+  "test patch semantics (unchanged)",
+  "P2P-S/P2P-U V2 scientific rules (unchanged)",
+  "P2P-U membership artifact for unaffected tasks (re-verify hashes)"
+ ],
+ "runtime_estimate": {
+  "ENG_probe_measured_wall_s_per_union_node_set": null,
+  "DEV_47_cap200_re_run_central_h": 6.7,
+  "note": "Central re-run time unchanged from Mission-09 estimate; only category-excluded tasks need re-execution in the cleanest path, not a full 47-task rerun."
+ },
+ "decision_token_for_this_estimate": "ENV_AUDIT_INCONCLUSIVE"
+}

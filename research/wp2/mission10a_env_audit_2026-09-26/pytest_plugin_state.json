@@ -1,0 +1,80 @@
+{
+ "artifact": "pytest_plugin_state",
+ "schema_version": "mission10a-plugin-state-v1",
+ "created_utc": "2026-09-26T01:08:37+00:00",
+ "task_id": "saleor-rc-74538ea00ce9",
+ "eras": {
+  "py312": {
+   "era_key": "py312",
+   "task_id": "saleor-rc-74538ea00ce9",
+   "target_commit": "74538ea00ce938489bcd36b180e3b9b31f265e40",
+   "base_image_id": "sha256:0c185699947d75d5866e57dfb10bba25cca05dc58ca3fd2f75446ee8b0e41394",
+   "plugin_state": {
+    "pytest-django-queries": {
+     "PACKAGE_INSTALLED": false,
+     "version": "",
+     "ENTRY_POINT_REGISTERED": false,
+     "PLUGIN_LOADED": false,
+     "FIXTURE_VISIBLE": false,
+     "expected_fixture": "count_queries",
+     "fixtures_grep": "",
+     "trace_config_grep": "",
+     "layer": "1:PACKAGE 2:ENTRYPOINT 3:LOAD 4:FIXTURE"
+    },
+    "pytest-mock": {
+     "PACKAGE_INSTALLED": false,
+     "version": "",
+     "ENTRY_POINT_REGISTERED": false,
+     "PLUGIN_LOADED": false,
+     "FIXTURE_VISIBLE": false,
+     "expected_fixture": "mocker",
+     "fixtures_grep": "",
+     "trace_config_grep": "",
+     "layer": "1:PACKAGE 2:ENTRYPOINT 3:LOAD 4:FIXTURE"
+    }
+   },
+   "entrypoints_raw": "pytest11|anyio|anyio.pytest_plugin\npytest11|django|pytest_django.plugin\npytest11|faker|faker.contrib.pytest.plugin\npytest11|socket|pytest_socket\npytest11|xdist.looponfail|xdist.looponfail\npytest11|xdist|xdist.plugin",
+   "trace_config_raw": "",
+   "fixtures_raw": ""
+  },
+  "py39": {
+   "era_key": "py39",
+   "task_id": "saleor-rc-e03ee76d2b89",
+   "target_commit": "e03ee76d2b895c707dbd9ee7fe8ff4b1c3cee026",
+   "base_image_id": "sha256:ddc08d7e685517764dfa2606a760d5b3f09d57840d8a0bbcef366db67cd99ef8",
+   "plugin_state": {
+    "pytest-django-queries": {
+     "PACKAGE_INSTALLED": false,
+     "version": "",
+     "ENTRY_POINT_REGISTERED": false,
+     "PLUGIN_LOADED": false,
+     "FIXTURE_VISIBLE": false,
+     "expected_fixture": "count_queries",
+     "fixtures_grep": "",
+     "trace_config_grep": "",
+     "layer": "1:PACKAGE 2:ENTRYPOINT 3:LOAD 4:FIXTURE"
+    },
+    "pytest-mock": {
+     "PACKAGE_INSTALLED": false,
+     "version": "",
+     "ENTRY_POINT_REGISTERED": false,
+     "PLUGIN_LOADED": false,
+     "FIXTURE_VISIBLE": false,
+     "expected_fixture": "mocker",
+     "fixtures_grep": "",
+     "trace_config_grep": "",
+     "layer": "1:PACKAGE 2:ENTRYPOINT 3:LOAD 4:FIXTURE"
+    }
+   },
+   "entrypoints_raw": "pytest11|anyio|anyio.pytest_plugin\npytest11|django|pytest_django.plugin\npytest11|faker|faker.contrib.pytest.plugin\npytest11|socket|pytest_socket\npytest11|xdist.looponfail|xdist.looponfail\npytest11|xdist|xdist.plugin",
+   "trace_config_raw": "",
+   "fixtures_raw": ""
+  }
+ },
+ "layer_model": {
+  "Layer1": "PACKAGE distribution installed",
+  "Layer2": "PYTEST ENTRY POINT (pytest11) registered",
+  "Layer3": "PYTEST LOAD (--trace-config) proves plugin loaded",
+  "Layer4": "FIXTURE visible via --fixtures"
+ }
+}

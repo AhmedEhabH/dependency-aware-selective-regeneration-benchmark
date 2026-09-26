@@ -1,0 +1,139 @@
+{
+ "artifact": "category_exclusion_analysis",
+ "schema_version": "mission10a-category-exclusion-v1",
+ "created_utc": "2026-09-26T02:55:34+00:00",
+ "category_definitions": {
+  "benchmark-count-queries": "node test-file path contains ``tests/benchmark`` AND target-commit test file marks/requests ``count_queries`` (static source evidence)",
+  "mocker-fixture": "target-commit test file requests the ``mocker`` fixture (static source evidence)"
+ },
+ "datasets": {
+  "C4": {
+   "error_TOI_nodes_by_category": {
+    "benchmark-count-queries": {
+     "count": 72,
+     "by_outcome": {
+      "error": 72
+     },
+     "tasks_affected": [
+      "saleor-rc-287509237561",
+      "saleor-rc-533a1a82f6e1",
+      "saleor-rc-9698135fe4fc"
+     ],
+     "files_affected": 2,
+     "fixture_requests_verified": {
+      "count_queries": 72
+     }
+    },
+    "mocker-fixture": {
+     "count": 4,
+     "by_outcome": {
+      "error": 4
+     },
+     "tasks_affected": [
+      "saleor-rc-e25cf9b4a837",
+      "saleor-rc-eacffa70e721"
+     ],
+     "files_affected": 2,
+     "fixture_requests_verified": {
+      "mocker": 4
+     }
+    }
+   }
+  },
+  "C2": {
+   "error_nodes_by_category": {
+    "benchmark-count-queries": {
+     "count": 125,
+     "by_outcome": {
+      "error": 125
+     },
+     "tasks_affected": [
+      "saleor-rc-0b46c89dfd9e",
+      "saleor-rc-12007c00e480",
+      "saleor-rc-1abda1e0d36e",
+      "saleor-rc-1af1c3a368ec",
+      "saleor-rc-3bf31ab2fefc",
+      "saleor-rc-940b8d83ec5c",
+      "saleor-rc-d299e27e5f04",
+      "saleor-rc-dacded922b1f"
+     ],
+     "files_affected": 5,
+     "fixture_requests_verified": {
+      "count_queries": 125
+     }
+    },
+    "mocker-fixture": {
+     "count": 12,
+     "by_outcome": {
+      "error": 12
+     },
+     "tasks_affected": [
+      "saleor-rc-1b4da5a88d08",
+      "saleor-rc-208833e2fa53",
+      "saleor-rc-571a3b145aea",
+      "saleor-rc-7b3fbb77c331",
+      "saleor-rc-b2622810adf1",
+      "saleor-rc-eaf1577585a2"
+     ],
+     "files_affected": 1,
+     "fixture_requests_verified": {
+      "mocker": 12
+     }
+    }
+   }
+  },
+  "P2P_U_ENG_cap200": {
+   "category_nodes_total": {
+    "benchmark-count-queries": 38,
+    "mocker-fixture": 2
+   },
+   "category_error_nodes": {
+    "benchmark-count-queries": 38,
+    "mocker-fixture": 2
+   },
+   "by_category": {
+    "benchmark-count-queries": {
+     "count": 38,
+     "by_class": {
+      "COLLECTION_ERROR": 38
+     },
+     "tasks_affected": [
+      "saleor-rc-39b4138e8550",
+      "saleor-rc-74538ea00ce9",
+      "saleor-rc-82c56bde0e34",
+      "saleor-rc-8f76ddc6267f",
+      "saleor-rc-d220843b5418",
+      "saleor-rc-dfe77ac1c5dc",
+      "saleor-rc-e03ee76d2b89"
+     ],
+     "files_affected": 26,
+     "fixture_requests_verified": {
+      "count_queries": 38
+     },
+     "node_level_requesting_fixture": {
+      "error": 38
+     },
+     "excluded_share_of_category": 1.0
+    },
+    "mocker-fixture": {
+     "count": 2,
+     "by_class": {
+      "COLLECTION_ERROR": 2
+     },
+     "tasks_affected": [
+      "saleor-rc-39b4138e8550"
+     ],
+     "files_affected": 1,
+     "fixture_requests_verified": {
+      "mocker": 2
+     },
+     "node_level_requesting_fixture": {
+      "error": 2
+     },
+     "excluded_share_of_category": 1.0
+    }
+   },
+   "systematic_exclusion_note": "A mechanically defined category is systematically excluded if every V2-observed node that requests the missing fixture (node-level static signature evidence) reaches the relevant pytest setup point and errors for the SAME missing declared dependency with no valid execution observed."
+  }
+ }
+}

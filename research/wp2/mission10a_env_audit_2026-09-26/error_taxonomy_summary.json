@@ -1,0 +1,3147 @@
+{
+ "artifact": "error_taxonomy_summary",
+ "schema_version": "mission10a-taxonomy-v1",
+ "created_utc": "2026-09-26T00:25:45+00:00",
+ "taxonomy_totals_by_dataset": {
+  "C2": {
+   "total_records": 8530,
+   "by_taxonomy": [
+    {
+     "label": "DB_ERROR",
+     "count": 855
+    },
+    {
+     "label": "EXECUTION_OTHER",
+     "count": 3929
+    },
+    {
+     "label": "IMPORT_ERROR:cannot import name 'DeferredPayloadData' from 'saleor.webhook.transport.asynchronous.transport' (WSPATH)",
+     "count": 1
+    },
+    {
+     "label": "IMPORT_ERROR:cannot import name 'DeprecatedAppExtensionMount' from 'saleor.app.types' (WSPATH)",
+     "count": 4
+    },
+    {
+     "label": "IMPORT_ERROR:cannot import name 'DeprecatedAppExtensionTarget' from 'saleor.app.types' (WSPATH)",
+     "count": 1
+    },
+    {
+     "label": "IMPORT_ERROR:cannot import name 'FulfillmentLineData' from 'saleor.order' (WSPATH)",
+     "count": 2
+    },
+    {
+     "label": "IMPORT_ERROR:cannot import name 'OPTIONAL_AMOUNT_EVENTS' from 'saleor.payment' (WSPATH)",
+     "count": 1
+    },
+    {
+     "label": "IMPORT_ERROR:cannot import name 'PaymentCheckBalance' from 'saleor.graphql.payment.mutations' (WSPATH)",
+     "count": 1
+    },
+    {
+     "label": "IMPORT_ERROR:cannot import name 'StorePaymentMethod' from 'saleor.payment' (WSPATH)",
+     "count": 1
+    },
+    {
+     "label": "IMPORT_ERROR:cannot import name 'StorePaymentMethodEnum' from 'saleor.payment.interface' (WSPATH)",
+     "count": 1
+    },
+    {
+     "label": "IMPORT_ERROR:cannot import name 'TaxableObjectDiscountType' from 'saleor.tax' (WSPATH)",
+     "count": 1
+    },
+    {
+     "label": "IMPORT_ERROR:cannot import name 'WarehouseCountryCodeByChannelLoader' from 'saleor.graphql.warehouse.dataloaders' (WSPATH)",
+     "count": 1
+    },
+    {
+     "label": "IMPORT_ERROR:cannot import name 'WebhookPayloadData' from 'saleor.webhook.transport.asynchronous.transport' (WSPATH)",
+     "count": 2
+    },
+    {
+     "label": "IMPORT_ERROR:cannot import name 'add_gift_cards_to_order' from 'saleor.order.utils' (WSPATH)",
+     "count": 1
+    },
+    {
+     "label": "IMPORT_ERROR:cannot import name 'calculate_expiry_date' from 'saleor.giftcard.utils' (WSPATH)",
+     "count": 1
+    },
+    {
+     "label": "IMPORT_ERROR:cannot import name 'create_deliveries_for_multiple_subscription_objects' from 'saleor.webhook.transport.asynchronous.tra",
+     "count": 1
+    },
+    {
+     "label": "IMPORT_ERROR:cannot import name 'create_refund_fulfillment' from 'saleor.order.actions' (WSPATH)",
+     "count": 1
+    },
+    {
+     "label": "IMPORT_ERROR:cannot import name 'from_global_id_or_error' from 'saleor.graphql.utils' (WSPATH)",
+     "count": 1
+    },
+    {
+     "label": "IMPORT_ERROR:cannot import name 'generate_cache_key_for_shipping_list_methods_for_checkout' from 'saleor.plugins.webhook.shipping' (W",
+     "count": 1
+    },
+    {
+     "label": "IMPORT_ERROR:cannot import name 'generate_deferred_payloads' from 'saleor.webhook.transport.asynchronous.transport' (WSPATH)",
+     "count": 1
+    },
+    {
+     "label": "IMPORT_ERROR:cannot import name 'generate_page_payload' from 'saleor.webhook.payloads' (WSPATH)",
+     "count": 2
+    },
+    {
+     "label": "IMPORT_ERROR:cannot import name 'get_multiple_deliveries_for_webhooks' from 'saleor.webhook.transport.utils' (WSPATH)",
+     "count": 1
+    },
+    {
+     "label": "IMPORT_ERROR:cannot import name 'get_plain_text_message_for_email' from 'saleor.plugins.email_common' (WSPATH)",
+     "count": 1
+    },
+    {
+     "label": "IMPORT_ERROR:cannot import name 'get_request_data_for_check_payment' from 'saleor.payment.gateways.adyen.utils.common' (WSPATH)",
+     "count": 1
+    },
+    {
+     "label": "IMPORT_ERROR:cannot import name 'get_sqs_message_group_id' from 'saleor.webhook.transport.utils' (WSPATH)",
+     "count": 2
+    },
+    {
+     "label": "IMPORT_ERROR:cannot import name 'get_transaction_event_amount' from 'saleor.payment.utils' (WSPATH)",
+     "count": 1
+    },
+    {
+     "label": "IMPORT_ERROR:cannot import name 'increase_allocations' from 'saleor.warehouse.management' (WSPATH)",
+     "count": 1
+    },
+    {
+     "label": "IMPORT_ERROR:cannot import name 'order_replacement_created' from 'saleor.order.events' (WSPATH)",
+     "count": 1
+    },
+    {
+     "label": "IMPORT_ERROR:cannot import name 'split_manual_discount' from 'saleor.discount.utils.manual_discount' (WSPATH)",
+     "count": 1
+    },
+    {
+     "label": "IMPORT_ERROR:cannot import name 'update_order_authorize_data' from 'saleor.order.utils' (WSPATH)",
+     "count": 4
+    },
+    {
+     "label": "IMPORT_ERROR:cannot import name 'user_agent_version' from 'saleor' (WSPATH)",
+     "count": 1
+    },
+    {
+     "label": "IMPORT_ERROR:cannot import name 'validate_attributes_input_for_product' from 'saleor.graphql.product.utils' (WSPATH)",
+     "count": 1
+    },
+    {
+     "label": "IMPORT_ERROR:cannot import name 'validate_end_is_after_start' from 'saleor.graphql.core.validators' (WSPATH)",
+     "count": 1
+    },
+    {
+     "label": "MISSING_FIXTURE:count_queries",
+     "count": 133
+    },
+    {
+     "label": "MISSING_FIXTURE:mocker",
+     "count": 2
+    },
+    {
+     "label": "MODULE_NOT_FOUND:before_after",
+     "count": 4
+    },
+    {
+     "label": "MODULE_NOT_FOUND:mock",
+     "count": 9
+    },
+    {
+     "label": "MODULE_NOT_FOUND:openpyxl",
+     "count": 1
+    },
+    {
+     "label": "OTHER",
+     "count": 3556
+    }
+   ],
+   "unique_nodes": 3304,
+   "unique_tasks": 90,
+   "unique_files": 124
+  },
+  "C4": {
+   "total_records": 11046,
+   "by_taxonomy": [
+    {
+     "label": "EXECUTION_OTHER",
+     "count": 4911
+    },
+    {
+     "label": "MISSING_FIXTURE:count_queries",
+     "count": 237
+    },
+    {
+     "label": "MISSING_FIXTURE:mocker",
+     "count": 6
+    },
+    {
+     "label": "MODULE_NOT_FOUND:before_after",
+     "count": 12
+    },
+    {
+     "label": "MODULE_NOT_FOUND:mock",
+     "count": 3
+    },
+    {
+     "label": "OTHER",
+     "count": 5877
+    }
+   ],
+   "unique_nodes": 2064,
+   "unique_tasks": 40,
+   "unique_files": 61
+  },
+  "P2P_U_ENG": {
+   "total_records": 786,
+   "by_taxonomy": [
+    {
+     "label": "MISSING_FIXTURE:count_queries",
+     "count": 762
+    },
+    {
+     "label": "MISSING_FIXTURE:mocker",
+     "count": 24
+    }
+   ],
+   "unique_nodes": 54,
+   "unique_tasks": 7,
+   "unique_files": 40
+  }
+ },
+ "by_era": {
+  "C2|py312": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 4
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'DeferredPayloadData' from 'saleor.webhook.transport.asynchronous.transport' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'DeprecatedAppExtensionMount' from 'saleor.app.types' (WSPATH)",
+    "count": 4
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'DeprecatedAppExtensionTarget' from 'saleor.app.types' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'OPTIONAL_AMOUNT_EVENTS' from 'saleor.payment' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'TaxableObjectDiscountType' from 'saleor.tax' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'WebhookPayloadData' from 'saleor.webhook.transport.asynchronous.transport' (WSPATH)",
+    "count": 2
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'create_deliveries_for_multiple_subscription_objects' from 'saleor.webhook.transport.asynchronous.tra",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'generate_deferred_payloads' from 'saleor.webhook.transport.asynchronous.transport' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'get_multiple_deliveries_for_webhooks' from 'saleor.webhook.transport.utils' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'get_plain_text_message_for_email' from 'saleor.plugins.email_common' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'get_sqs_message_group_id' from 'saleor.webhook.transport.utils' (WSPATH)",
+    "count": 2
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'get_transaction_event_amount' from 'saleor.payment.utils' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'split_manual_discount' from 'saleor.discount.utils.manual_discount' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "MISSING_FIXTURE:count_queries",
+    "count": 67
+   },
+   {
+    "label": "MODULE_NOT_FOUND:openpyxl",
+    "count": 1
+   }
+  ],
+  "C2|py38": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 1388
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'FulfillmentLineData' from 'saleor.order' (WSPATH)",
+    "count": 2
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'create_refund_fulfillment' from 'saleor.order.actions' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'order_replacement_created' from 'saleor.order.events' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'validate_attributes_input_for_product' from 'saleor.graphql.product.utils' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "OTHER",
+    "count": 832
+   }
+  ],
+  "C2|py39": [
+   {
+    "label": "DB_ERROR",
+    "count": 855
+   },
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 2537
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'PaymentCheckBalance' from 'saleor.graphql.payment.mutations' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'StorePaymentMethod' from 'saleor.payment' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'StorePaymentMethodEnum' from 'saleor.payment.interface' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'WarehouseCountryCodeByChannelLoader' from 'saleor.graphql.warehouse.dataloaders' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'add_gift_cards_to_order' from 'saleor.order.utils' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'calculate_expiry_date' from 'saleor.giftcard.utils' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'from_global_id_or_error' from 'saleor.graphql.utils' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'generate_cache_key_for_shipping_list_methods_for_checkout' from 'saleor.plugins.webhook.shipping' (W",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'generate_page_payload' from 'saleor.webhook.payloads' (WSPATH)",
+    "count": 2
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'get_request_data_for_check_payment' from 'saleor.payment.gateways.adyen.utils.common' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'increase_allocations' from 'saleor.warehouse.management' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'update_order_authorize_data' from 'saleor.order.utils' (WSPATH)",
+    "count": 4
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'user_agent_version' from 'saleor' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'validate_end_is_after_start' from 'saleor.graphql.core.validators' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "MISSING_FIXTURE:count_queries",
+    "count": 66
+   },
+   {
+    "label": "MISSING_FIXTURE:mocker",
+    "count": 2
+   },
+   {
+    "label": "MODULE_NOT_FOUND:before_after",
+    "count": 4
+   },
+   {
+    "label": "MODULE_NOT_FOUND:mock",
+    "count": 9
+   },
+   {
+    "label": "OTHER",
+    "count": 2724
+   }
+  ],
+  "C4|py312": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 3
+   },
+   {
+    "label": "MISSING_FIXTURE:count_queries",
+    "count": 234
+   }
+  ],
+  "C4|py38": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 588
+   },
+   {
+    "label": "OTHER",
+    "count": 2001
+   }
+  ],
+  "C4|py39": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 4320
+   },
+   {
+    "label": "MISSING_FIXTURE:count_queries",
+    "count": 3
+   },
+   {
+    "label": "MISSING_FIXTURE:mocker",
+    "count": 6
+   },
+   {
+    "label": "MODULE_NOT_FOUND:before_after",
+    "count": 12
+   },
+   {
+    "label": "MODULE_NOT_FOUND:mock",
+    "count": 3
+   },
+   {
+    "label": "OTHER",
+    "count": 3876
+   }
+  ],
+  "P2P_U_ENG|py312": [
+   {
+    "label": "MISSING_FIXTURE:count_queries",
+    "count": 426
+   },
+   {
+    "label": "MISSING_FIXTURE:mocker",
+    "count": 24
+   }
+  ],
+  "P2P_U_ENG|py39": [
+   {
+    "label": "MISSING_FIXTURE:count_queries",
+    "count": 336
+   }
+  ]
+ },
+ "by_task": {
+  "C2|saleor-rc-032b98afff20": [
+   {
+    "label": "IMPORT_ERROR:cannot import name 'get_sqs_message_group_id' from 'saleor.webhook.transport.utils' (WSPATH)",
+    "count": 2
+   }
+  ],
+  "C2|saleor-rc-03c5a9916858": [
+   {
+    "label": "DB_ERROR",
+    "count": 1
+   },
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 6
+   }
+  ],
+  "C2|saleor-rc-05bdc7feb9ac": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 234
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'FulfillmentLineData' from 'saleor.order' (WSPATH)",
+    "count": 2
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'order_replacement_created' from 'saleor.order.events' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "OTHER",
+    "count": 31
+   }
+  ],
+  "C2|saleor-rc-094b1ec0f610": [
+   {
+    "label": "IMPORT_ERROR:cannot import name 'update_order_authorize_data' from 'saleor.order.utils' (WSPATH)",
+    "count": 4
+   }
+  ],
+  "C2|saleor-rc-0ad61b3f0096": [
+   {
+    "label": "MISSING_FIXTURE:count_queries",
+    "count": 5
+   }
+  ],
+  "C2|saleor-rc-0b46c89dfd9e": [
+   {
+    "label": "MISSING_FIXTURE:count_queries",
+    "count": 8
+   }
+  ],
+  "C2|saleor-rc-10889526d151": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 5
+   }
+  ],
+  "C2|saleor-rc-12007c00e480": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 36
+   },
+   {
+    "label": "OTHER",
+    "count": 25
+   }
+  ],
+  "C2|saleor-rc-19bb9b070965": [
+   {
+    "label": "IMPORT_ERROR:cannot import name 'TaxableObjectDiscountType' from 'saleor.tax' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'split_manual_discount' from 'saleor.discount.utils.manual_discount' (WSPATH)",
+    "count": 1
+   }
+  ],
+  "C2|saleor-rc-1abda1e0d36e": [
+   {
+    "label": "IMPORT_ERROR:cannot import name 'generate_cache_key_for_shipping_list_methods_for_checkout' from 'saleor.plugins.webhook.shipping' (W",
+    "count": 1
+   },
+   {
+    "label": "MISSING_FIXTURE:count_queries",
+    "count": 21
+   }
+  ],
+  "C2|saleor-rc-1af1c3a368ec": [
+   {
+    "label": "MISSING_FIXTURE:count_queries",
+    "count": 16
+   }
+  ],
+  "C2|saleor-rc-1b4da5a88d08": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 99
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'PaymentCheckBalance' from 'saleor.graphql.payment.mutations' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'get_request_data_for_check_payment' from 'saleor.payment.gateways.adyen.utils.common' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "OTHER",
+    "count": 91
+   }
+  ],
+  "C2|saleor-rc-1f6fbe2ebf9b": [
+   {
+    "label": "OTHER",
+    "count": 7
+   }
+  ],
+  "C2|saleor-rc-1fa6a637c7fc": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 214
+   }
+  ],
+  "C2|saleor-rc-208833e2fa53": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 120
+   }
+  ],
+  "C2|saleor-rc-24f9b244d6bc": [
+   {
+    "label": "DB_ERROR",
+    "count": 1
+   }
+  ],
+  "C2|saleor-rc-28799575c518": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 31
+   },
+   {
+    "label": "OTHER",
+    "count": 122
+   }
+  ],
+  "C2|saleor-rc-29c2d1abdce0": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 200
+   },
+   {
+    "label": "OTHER",
+    "count": 14
+   }
+  ],
+  "C2|saleor-rc-2a59d31fc839": [
+   {
+    "label": "MODULE_NOT_FOUND:before_after",
+    "count": 1
+   }
+  ],
+  "C2|saleor-rc-2c218aadc9b7": [
+   {
+    "label": "OTHER",
+    "count": 196
+   }
+  ],
+  "C2|saleor-rc-305415e0f8b7": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 22
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'create_refund_fulfillment' from 'saleor.order.actions' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "OTHER",
+    "count": 32
+   }
+  ],
+  "C2|saleor-rc-30fe250747ae": [
+   {
+    "label": "OTHER",
+    "count": 32
+   }
+  ],
+  "C2|saleor-rc-32f73ff32b2b": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 158
+   }
+  ],
+  "C2|saleor-rc-333febd35223": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 4
+   }
+  ],
+  "C2|saleor-rc-349fe0c194a1": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 2
+   }
+  ],
+  "C2|saleor-rc-367b8038f6b9": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 16
+   }
+  ],
+  "C2|saleor-rc-37a3a7bbec31": [
+   {
+    "label": "OTHER",
+    "count": 18
+   }
+  ],
+  "C2|saleor-rc-3bf31ab2fefc": [
+   {
+    "label": "MISSING_FIXTURE:count_queries",
+    "count": 28
+   }
+  ],
+  "C2|saleor-rc-45cfb26218c8": [
+   {
+    "label": "MODULE_NOT_FOUND:before_after",
+    "count": 1
+   }
+  ],
+  "C2|saleor-rc-50eff94aa37c": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 265
+   },
+   {
+    "label": "OTHER",
+    "count": 87
+   }
+  ],
+  "C2|saleor-rc-52a797b00af3": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 350
+   },
+   {
+    "label": "OTHER",
+    "count": 24
+   }
+  ],
+  "C2|saleor-rc-54bbb04b8954": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 37
+   }
+  ],
+  "C2|saleor-rc-571a3b145aea": [
+   {
+    "label": "MISSING_FIXTURE:mocker",
+    "count": 2
+   }
+  ],
+  "C2|saleor-rc-5821309aed09": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 135
+   },
+   {
+    "label": "OTHER",
+    "count": 142
+   }
+  ],
+  "C2|saleor-rc-585562cf1cec": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 16
+   }
+  ],
+  "C2|saleor-rc-5c458f26276d": [
+   {
+    "label": "DB_ERROR",
+    "count": 323
+   },
+   {
+    "label": "OTHER",
+    "count": 5
+   }
+  ],
+  "C2|saleor-rc-5c50110d46a2": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 47
+   },
+   {
+    "label": "OTHER",
+    "count": 38
+   }
+  ],
+  "C2|saleor-rc-5f78ba7b1647": [
+   {
+    "label": "OTHER",
+    "count": 47
+   }
+  ],
+  "C2|saleor-rc-6370f4a6b8a5": [
+   {
+    "label": "OTHER",
+    "count": 47
+   }
+  ],
+  "C2|saleor-rc-63a31dd3c8ca": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 19
+   }
+  ],
+  "C2|saleor-rc-693eb302968c": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 124
+   },
+   {
+    "label": "OTHER",
+    "count": 299
+   }
+  ],
+  "C2|saleor-rc-6a1f884168d2": [
+   {
+    "label": "OTHER",
+    "count": 72
+   }
+  ],
+  "C2|saleor-rc-6c928b72daa4": [
+   {
+    "label": "OTHER",
+    "count": 31
+   }
+  ],
+  "C2|saleor-rc-7b3fbb77c331": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 69
+   },
+   {
+    "label": "OTHER",
+    "count": 41
+   }
+  ],
+  "C2|saleor-rc-81d02e76b22e": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 12
+   }
+  ],
+  "C2|saleor-rc-85d416c024e1": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 60
+   },
+   {
+    "label": "OTHER",
+    "count": 220
+   }
+  ],
+  "C2|saleor-rc-884327b653cc": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 9
+   }
+  ],
+  "C2|saleor-rc-9057e82cea23": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 200
+   },
+   {
+    "label": "OTHER",
+    "count": 109
+   }
+  ],
+  "C2|saleor-rc-940b8d83ec5c": [
+   {
+    "label": "MISSING_FIXTURE:count_queries",
+    "count": 28
+   }
+  ],
+  "C2|saleor-rc-99041211cf9e": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 14
+   },
+   {
+    "label": "OTHER",
+    "count": 16
+   }
+  ],
+  "C2|saleor-rc-99f9e28f8b6f": [
+   {
+    "label": "IMPORT_ERROR:cannot import name 'get_plain_text_message_for_email' from 'saleor.plugins.email_common' (WSPATH)",
+    "count": 1
+   }
+  ],
+  "C2|saleor-rc-9b88221ba8c2": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 1
+   }
+  ],
+  "C2|saleor-rc-a17f11cf7e87": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 42
+   },
+   {
+    "label": "OTHER",
+    "count": 28
+   }
+  ],
+  "C2|saleor-rc-a5e831779345": [
+   {
+    "label": "OTHER",
+    "count": 322
+   }
+  ],
+  "C2|saleor-rc-a650f8f05c02": [
+   {
+    "label": "MODULE_NOT_FOUND:mock",
+    "count": 5
+   }
+  ],
+  "C2|saleor-rc-a7a2bf4146ba": [
+   {
+    "label": "MODULE_NOT_FOUND:before_after",
+    "count": 1
+   }
+  ],
+  "C2|saleor-rc-a93a877388ae": [
+   {
+    "label": "OTHER",
+    "count": 305
+   }
+  ],
+  "C2|saleor-rc-aa2bcdd0c218": [
+   {
+    "label": "DB_ERROR",
+    "count": 375
+   }
+  ],
+  "C2|saleor-rc-aa814bd5f355": [
+   {
+    "label": "IMPORT_ERROR:cannot import name 'DeferredPayloadData' from 'saleor.webhook.transport.asynchronous.transport' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'generate_deferred_payloads' from 'saleor.webhook.transport.asynchronous.transport' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'get_multiple_deliveries_for_webhooks' from 'saleor.webhook.transport.utils' (WSPATH)",
+    "count": 1
+   }
+  ],
+  "C2|saleor-rc-ab6c29ba265d": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 225
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'validate_attributes_input_for_product' from 'saleor.graphql.product.utils' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "OTHER",
+    "count": 61
+   }
+  ],
+  "C2|saleor-rc-add4064d238e": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 17
+   },
+   {
+    "label": "OTHER",
+    "count": 203
+   }
+  ],
+  "C2|saleor-rc-b0245506e69b": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 1
+   }
+  ],
+  "C2|saleor-rc-b0672eea0422": [
+   {
+    "label": "MODULE_NOT_FOUND:before_after",
+    "count": 1
+   }
+  ],
+  "C2|saleor-rc-b2622810adf1": [
+   {
+    "label": "DB_ERROR",
+    "count": 38
+   },
+   {
+    "label": "OTHER",
+    "count": 125
+   }
+  ],
+  "C2|saleor-rc-b356a525ba2a": [
+   {
+    "label": "IMPORT_ERROR:cannot import name 'DeprecatedAppExtensionMount' from 'saleor.app.types' (WSPATH)",
+    "count": 4
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'DeprecatedAppExtensionTarget' from 'saleor.app.types' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "MISSING_FIXTURE:count_queries",
+    "count": 5
+   }
+  ],
+  "C2|saleor-rc-b60266933f7a": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 580
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'WarehouseCountryCodeByChannelLoader' from 'saleor.graphql.warehouse.dataloaders' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "OTHER",
+    "count": 3
+   }
+  ],
+  "C2|saleor-rc-ba4ff17faab4": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 85
+   },
+   {
+    "label": "OTHER",
+    "count": 282
+   }
+  ],
+  "C2|saleor-rc-bd0c56fc787e": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 79
+   }
+  ],
+  "C2|saleor-rc-bd64d6fdbe4b": [
+   {
+    "label": "MODULE_NOT_FOUND:mock",
+    "count": 1
+   }
+  ],
+  "C2|saleor-rc-bf938e731bd8": [
+   {
+    "label": "IMPORT_ERROR:cannot import name 'from_global_id_or_error' from 'saleor.graphql.utils' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "OTHER",
+    "count": 6
+   }
+  ],
+  "C2|saleor-rc-c0d4785abd74": [
+   {
+    "label": "MODULE_NOT_FOUND:mock",
+    "count": 3
+   }
+  ],
+  "C2|saleor-rc-c38263743e9e": [
+   {
+    "label": "IMPORT_ERROR:cannot import name 'user_agent_version' from 'saleor' (WSPATH)",
+    "count": 1
+   }
+  ],
+  "C2|saleor-rc-c7207e71e0d3": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 1
+   }
+  ],
+  "C2|saleor-rc-c87441bb1464": [
+   {
+    "label": "OTHER",
+    "count": 11
+   }
+  ],
+  "C2|saleor-rc-c9c1cc0968d3": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 31
+   }
+  ],
+  "C2|saleor-rc-d299e27e5f04": [
+   {
+    "label": "MISSING_FIXTURE:count_queries",
+    "count": 21
+   }
+  ],
+  "C2|saleor-rc-d3ab58054844": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 13
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'add_gift_cards_to_order' from 'saleor.order.utils' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'calculate_expiry_date' from 'saleor.giftcard.utils' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "OTHER",
+    "count": 61
+   }
+  ],
+  "C2|saleor-rc-d8a4cd122bf0": [
+   {
+    "label": "DB_ERROR",
+    "count": 117
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'validate_end_is_after_start' from 'saleor.graphql.core.validators' (WSPATH)",
+    "count": 1
+   }
+  ],
+  "C2|saleor-rc-dacded922b1f": [
+   {
+    "label": "IMPORT_ERROR:cannot import name 'WebhookPayloadData' from 'saleor.webhook.transport.asynchronous.transport' (WSPATH)",
+    "count": 2
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'create_deliveries_for_multiple_subscription_objects' from 'saleor.webhook.transport.asynchronous.tra",
+    "count": 1
+   },
+   {
+    "label": "MISSING_FIXTURE:count_queries",
+    "count": 1
+   }
+  ],
+  "C2|saleor-rc-e089e93419bf": [
+   {
+    "label": "OTHER",
+    "count": 26
+   }
+  ],
+  "C2|saleor-rc-e6198146186d": [
+   {
+    "label": "IMPORT_ERROR:cannot import name 'OPTIONAL_AMOUNT_EVENTS' from 'saleor.payment' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'get_transaction_event_amount' from 'saleor.payment.utils' (WSPATH)",
+    "count": 1
+   }
+  ],
+  "C2|saleor-rc-e7175003a542": [
+   {
+    "label": "MODULE_NOT_FOUND:openpyxl",
+    "count": 1
+   }
+  ],
+  "C2|saleor-rc-eaf1577585a2": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 39
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'StorePaymentMethod' from 'saleor.payment' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'StorePaymentMethodEnum' from 'saleor.payment.interface' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "OTHER",
+    "count": 41
+   }
+  ],
+  "C2|saleor-rc-ef4d31a09e7c": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 58
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'increase_allocations' from 'saleor.warehouse.management' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "OTHER",
+    "count": 176
+   }
+  ],
+  "C2|saleor-rc-f1d4e82c1dea": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 176
+   }
+  ],
+  "C2|saleor-rc-f3a1ec65571f": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 23
+   }
+  ],
+  "C2|saleor-rc-f76d0093b450": [
+   {
+    "label": "OTHER",
+    "count": 12
+   }
+  ],
+  "C2|saleor-rc-f953990d221b": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 26
+   },
+   {
+    "label": "OTHER",
+    "count": 30
+   }
+  ],
+  "C2|saleor-rc-fbfc66e3a46b": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 26
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'generate_page_payload' from 'saleor.webhook.payloads' (WSPATH)",
+    "count": 2
+   },
+   {
+    "label": "OTHER",
+    "count": 107
+   }
+  ],
+  "C2|saleor-rc-fd5b7971c5d2": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 2
+   },
+   {
+    "label": "OTHER",
+    "count": 11
+   }
+  ],
+  "C4|saleor-rc-012472eb8482": [
+   {
+    "label": "MODULE_NOT_FOUND:before_after",
+    "count": 3
+   }
+  ],
+  "C4|saleor-rc-05efc538ceb7": [
+   {
+    "label": "OTHER",
+    "count": 795
+   }
+  ],
+  "C4|saleor-rc-22ec4dab0154": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 12
+   },
+   {
+    "label": "OTHER",
+    "count": 30
+   }
+  ],
+  "C4|saleor-rc-287509237561": [
+   {
+    "label": "MISSING_FIXTURE:count_queries",
+    "count": 84
+   }
+  ],
+  "C4|saleor-rc-2a7f13c25908": [
+   {
+    "label": "OTHER",
+    "count": 66
+   }
+  ],
+  "C4|saleor-rc-2b00c8f83063": [
+   {
+    "label": "OTHER",
+    "count": 252
+   }
+  ],
+  "C4|saleor-rc-30e8558d6feb": [
+   {
+    "label": "MODULE_NOT_FOUND:before_after",
+    "count": 3
+   },
+   {
+    "label": "MODULE_NOT_FOUND:mock",
+    "count": 3
+   }
+  ],
+  "C4|saleor-rc-36ca99071fff": [
+   {
+    "label": "OTHER",
+    "count": 633
+   }
+  ],
+  "C4|saleor-rc-3a6b7add7b0f": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 483
+   }
+  ],
+  "C4|saleor-rc-46a2a565f410": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 1218
+   },
+   {
+    "label": "OTHER",
+    "count": 495
+   }
+  ],
+  "C4|saleor-rc-533a1a82f6e1": [
+   {
+    "label": "MISSING_FIXTURE:count_queries",
+    "count": 48
+   }
+  ],
+  "C4|saleor-rc-644f33094857": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 99
+   },
+   {
+    "label": "OTHER",
+    "count": 192
+   }
+  ],
+  "C4|saleor-rc-6abb53f3407b": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 693
+   },
+   {
+    "label": "OTHER",
+    "count": 57
+   }
+  ],
+  "C4|saleor-rc-7ae893782a50": [
+   {
+    "label": "OTHER",
+    "count": 6
+   }
+  ],
+  "C4|saleor-rc-7d4bcc752c20": [
+   {
+    "label": "MODULE_NOT_FOUND:before_after",
+    "count": 6
+   }
+  ],
+  "C4|saleor-rc-823b899757ab": [
+   {
+    "label": "OTHER",
+    "count": 18
+   }
+  ],
+  "C4|saleor-rc-91e2826c47f7": [
+   {
+    "label": "OTHER",
+    "count": 90
+   }
+  ],
+  "C4|saleor-rc-93b20d78c011": [
+   {
+    "label": "OTHER",
+    "count": 558
+   }
+  ],
+  "C4|saleor-rc-9698135fe4fc": [
+   {
+    "label": "MISSING_FIXTURE:count_queries",
+    "count": 84
+   }
+  ],
+  "C4|saleor-rc-99d963aed3e5": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 414
+   },
+   {
+    "label": "OTHER",
+    "count": 24
+   }
+  ],
+  "C4|saleor-rc-9aa434eeefe7": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 3
+   },
+   {
+    "label": "MISSING_FIXTURE:count_queries",
+    "count": 3
+   }
+  ],
+  "C4|saleor-rc-b910bd0b362e": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 141
+   },
+   {
+    "label": "OTHER",
+    "count": 132
+   }
+  ],
+  "C4|saleor-rc-b992c609fcc9": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 12
+   }
+  ],
+  "C4|saleor-rc-ba60125e45a0": [
+   {
+    "label": "OTHER",
+    "count": 180
+   }
+  ],
+  "C4|saleor-rc-bbba01a02725": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 6
+   },
+   {
+    "label": "OTHER",
+    "count": 9
+   }
+  ],
+  "C4|saleor-rc-bd704304c61d": [
+   {
+    "label": "OTHER",
+    "count": 24
+   }
+  ],
+  "C4|saleor-rc-c3b9e396b07d": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 1248
+   }
+  ],
+  "C4|saleor-rc-c5f60bd46f72": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 9
+   }
+  ],
+  "C4|saleor-rc-cafb853cc8cb": [
+   {
+    "label": "OTHER",
+    "count": 42
+   }
+  ],
+  "C4|saleor-rc-cb49da196b70": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 57
+   }
+  ],
+  "C4|saleor-rc-d2b8ef040b3c": [
+   {
+    "label": "MISSING_FIXTURE:count_queries",
+    "count": 15
+   }
+  ],
+  "C4|saleor-rc-dc6ac9d252df": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 66
+   }
+  ],
+  "C4|saleor-rc-e25cf9b4a837": [
+   {
+    "label": "OTHER",
+    "count": 756
+   }
+  ],
+  "C4|saleor-rc-e3b6df2eba77": [
+   {
+    "label": "MISSING_FIXTURE:count_queries",
+    "count": 3
+   }
+  ],
+  "C4|saleor-rc-eacffa70e721": [
+   {
+    "label": "MISSING_FIXTURE:mocker",
+    "count": 6
+   }
+  ],
+  "C4|saleor-rc-ecc752ffbe0f": [
+   {
+    "label": "OTHER",
+    "count": 324
+   }
+  ],
+  "C4|saleor-rc-ed023a25834d": [
+   {
+    "label": "OTHER",
+    "count": 15
+   }
+  ],
+  "C4|saleor-rc-f0316fed098d": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 72
+   }
+  ],
+  "C4|saleor-rc-f20d99e0cb0e": [
+   {
+    "label": "OTHER",
+    "count": 69
+   }
+  ],
+  "C4|saleor-rc-f813a9fd37d3": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 378
+   },
+   {
+    "label": "OTHER",
+    "count": 1110
+   }
+  ],
+  "P2P_U_ENG|saleor-rc-39b4138e8550": [
+   {
+    "label": "MISSING_FIXTURE:count_queries",
+    "count": 36
+   },
+   {
+    "label": "MISSING_FIXTURE:mocker",
+    "count": 24
+   }
+  ],
+  "P2P_U_ENG|saleor-rc-74538ea00ce9": [
+   {
+    "label": "MISSING_FIXTURE:count_queries",
+    "count": 288
+   }
+  ],
+  "P2P_U_ENG|saleor-rc-82c56bde0e34": [
+   {
+    "label": "MISSING_FIXTURE:count_queries",
+    "count": 78
+   }
+  ],
+  "P2P_U_ENG|saleor-rc-8f76ddc6267f": [
+   {
+    "label": "MISSING_FIXTURE:count_queries",
+    "count": 168
+   }
+  ],
+  "P2P_U_ENG|saleor-rc-d220843b5418": [
+   {
+    "label": "MISSING_FIXTURE:count_queries",
+    "count": 66
+   }
+  ],
+  "P2P_U_ENG|saleor-rc-dfe77ac1c5dc": [
+   {
+    "label": "MISSING_FIXTURE:count_queries",
+    "count": 36
+   }
+  ],
+  "P2P_U_ENG|saleor-rc-e03ee76d2b89": [
+   {
+    "label": "MISSING_FIXTURE:count_queries",
+    "count": 90
+   }
+  ]
+ },
+ "by_oracle_class": {
+  "C2|BEHAVIORAL_F2P": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 246
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'DeferredPayloadData' from 'saleor.webhook.transport.asynchronous.transport' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'DeprecatedAppExtensionMount' from 'saleor.app.types' (WSPATH)",
+    "count": 4
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'DeprecatedAppExtensionTarget' from 'saleor.app.types' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'FulfillmentLineData' from 'saleor.order' (WSPATH)",
+    "count": 2
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'generate_deferred_payloads' from 'saleor.webhook.transport.asynchronous.transport' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'get_multiple_deliveries_for_webhooks' from 'saleor.webhook.transport.utils' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'get_sqs_message_group_id' from 'saleor.webhook.transport.utils' (WSPATH)",
+    "count": 2
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'order_replacement_created' from 'saleor.order.events' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "MISSING_FIXTURE:count_queries",
+    "count": 57
+   },
+   {
+    "label": "MISSING_FIXTURE:mocker",
+    "count": 2
+   },
+   {
+    "label": "MODULE_NOT_FOUND:before_after",
+    "count": 3
+   },
+   {
+    "label": "MODULE_NOT_FOUND:mock",
+    "count": 9
+   },
+   {
+    "label": "MODULE_NOT_FOUND:openpyxl",
+    "count": 1
+   },
+   {
+    "label": "OTHER",
+    "count": 31
+   }
+  ],
+  "C2|NOT_PRIMARY": [
+   {
+    "label": "DB_ERROR",
+    "count": 855
+   },
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 3683
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'OPTIONAL_AMOUNT_EVENTS' from 'saleor.payment' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'PaymentCheckBalance' from 'saleor.graphql.payment.mutations' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'StorePaymentMethod' from 'saleor.payment' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'StorePaymentMethodEnum' from 'saleor.payment.interface' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'TaxableObjectDiscountType' from 'saleor.tax' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'WarehouseCountryCodeByChannelLoader' from 'saleor.graphql.warehouse.dataloaders' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'WebhookPayloadData' from 'saleor.webhook.transport.asynchronous.transport' (WSPATH)",
+    "count": 2
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'add_gift_cards_to_order' from 'saleor.order.utils' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'calculate_expiry_date' from 'saleor.giftcard.utils' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'create_deliveries_for_multiple_subscription_objects' from 'saleor.webhook.transport.asynchronous.tra",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'create_refund_fulfillment' from 'saleor.order.actions' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'from_global_id_or_error' from 'saleor.graphql.utils' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'generate_cache_key_for_shipping_list_methods_for_checkout' from 'saleor.plugins.webhook.shipping' (W",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'generate_page_payload' from 'saleor.webhook.payloads' (WSPATH)",
+    "count": 2
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'get_plain_text_message_for_email' from 'saleor.plugins.email_common' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'get_request_data_for_check_payment' from 'saleor.payment.gateways.adyen.utils.common' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'get_transaction_event_amount' from 'saleor.payment.utils' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'increase_allocations' from 'saleor.warehouse.management' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'split_manual_discount' from 'saleor.discount.utils.manual_discount' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'update_order_authorize_data' from 'saleor.order.utils' (WSPATH)",
+    "count": 4
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'user_agent_version' from 'saleor' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'validate_attributes_input_for_product' from 'saleor.graphql.product.utils' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'validate_end_is_after_start' from 'saleor.graphql.core.validators' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "MISSING_FIXTURE:count_queries",
+    "count": 76
+   },
+   {
+    "label": "MODULE_NOT_FOUND:before_after",
+    "count": 1
+   },
+   {
+    "label": "OTHER",
+    "count": 3525
+   }
+  ],
+  "C4|TARGET_ORACLE_INVALID": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 4911
+   },
+   {
+    "label": "MISSING_FIXTURE:count_queries",
+    "count": 237
+   },
+   {
+    "label": "MISSING_FIXTURE:mocker",
+    "count": 6
+   },
+   {
+    "label": "MODULE_NOT_FOUND:before_after",
+    "count": 12
+   },
+   {
+    "label": "MODULE_NOT_FOUND:mock",
+    "count": 3
+   },
+   {
+    "label": "OTHER",
+    "count": 5877
+   }
+  ],
+  "P2P_U_ENG|COLLECTION_ERROR": [
+   {
+    "label": "MISSING_FIXTURE:count_queries",
+    "count": 762
+   },
+   {
+    "label": "MISSING_FIXTURE:mocker",
+    "count": 24
+   }
+  ]
+ },
+ "by_path_category": {
+  "C2|tests/benchmark": [
+   {
+    "label": "MISSING_FIXTURE:count_queries",
+    "count": 123
+   },
+   {
+    "label": "OTHER",
+    "count": 5
+   }
+  ],
+  "C2|tests/benchmarks": [
+   {
+    "label": "IMPORT_ERROR:cannot import name 'DeprecatedAppExtensionMount' from 'saleor.app.types' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "MISSING_FIXTURE:count_queries",
+    "count": 10
+   }
+  ],
+  "C2|tests/deprecated": [
+   {
+    "label": "DB_ERROR",
+    "count": 1
+   },
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 6
+   },
+   {
+    "label": "OTHER",
+    "count": 3
+   }
+  ],
+  "C2|tests/export": [
+   {
+    "label": "MODULE_NOT_FOUND:openpyxl",
+    "count": 1
+   }
+  ],
+  "C2|tests/mutations": [
+   {
+    "label": "DB_ERROR",
+    "count": 30
+   },
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 18
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'OPTIONAL_AMOUNT_EVENTS' from 'saleor.payment' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'generate_deferred_payloads' from 'saleor.webhook.transport.asynchronous.transport' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'update_order_authorize_data' from 'saleor.order.utils' (WSPATH)",
+    "count": 2
+   },
+   {
+    "label": "MODULE_NOT_FOUND:before_after",
+    "count": 1
+   },
+   {
+    "label": "MODULE_NOT_FOUND:mock",
+    "count": 7
+   },
+   {
+    "label": "OTHER",
+    "count": 11
+   }
+  ],
+  "C2|tests/queries": [
+   {
+    "label": "DB_ERROR",
+    "count": 22
+   },
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 17
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'DeprecatedAppExtensionMount' from 'saleor.app.types' (WSPATH)",
+    "count": 2
+   },
+   {
+    "label": "OTHER",
+    "count": 63
+   }
+  ],
+  "C2|tests/subscription_webhooks": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 4
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'TaxableObjectDiscountType' from 'saleor.tax' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'WebhookPayloadData' from 'saleor.webhook.transport.asynchronous.transport' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'get_sqs_message_group_id' from 'saleor.webhook.transport.utils' (WSPATH)",
+    "count": 1
+   }
+  ],
+  "C2|tests/test_account.py": [
+   {
+    "label": "OTHER",
+    "count": 187
+   }
+  ],
+  "C2|tests/test_account_permission_group.py": [
+   {
+    "label": "OTHER",
+    "count": 54
+   }
+  ],
+  "C2|tests/test_attributes.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 27
+   },
+   {
+    "label": "OTHER",
+    "count": 1
+   }
+  ],
+  "C2|tests/test_avatax.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 236
+   }
+  ],
+  "C2|tests/test_avatax_caching.py": [
+   {
+    "label": "OTHER",
+    "count": 14
+   }
+  ],
+  "C2|tests/test_cart.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 9
+   },
+   {
+    "label": "OTHER",
+    "count": 7
+   }
+  ],
+  "C2|tests/test_category.py": [
+   {
+    "label": "OTHER",
+    "count": 38
+   }
+  ],
+  "C2|tests/test_checkout.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 104
+   },
+   {
+    "label": "OTHER",
+    "count": 352
+   }
+  ],
+  "C2|tests/test_checkout_complete.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 60
+   },
+   {
+    "label": "OTHER",
+    "count": 86
+   }
+  ],
+  "C2|tests/test_checkout_digital.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 8
+   }
+  ],
+  "C2|tests/test_checkout_promo_codes.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 30
+   }
+  ],
+  "C2|tests/test_checkouts_query.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 4
+   }
+  ],
+  "C2|tests/test_collection.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 45
+   },
+   {
+    "label": "OTHER",
+    "count": 44
+   }
+  ],
+  "C2|tests/test_create_deliveries_for_subscriptions.py": [
+   {
+    "label": "IMPORT_ERROR:cannot import name 'create_deliveries_for_multiple_subscription_objects' from 'saleor.webhook.transport.asynchronous.tra",
+    "count": 1
+   }
+  ],
+  "C2|tests/test_dataloaders.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 2
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'WarehouseCountryCodeByChannelLoader' from 'saleor.graphql.warehouse.dataloaders' (WSPATH)",
+    "count": 1
+   }
+  ],
+  "C2|tests/test_deferred_payload.py": [
+   {
+    "label": "IMPORT_ERROR:cannot import name 'DeferredPayloadData' from 'saleor.webhook.transport.asynchronous.transport' (WSPATH)",
+    "count": 1
+   }
+  ],
+  "C2|tests/test_discount.py": [
+   {
+    "label": "DB_ERROR",
+    "count": 73
+   }
+  ],
+  "C2|tests/test_discounts.py": [
+   {
+    "label": "IMPORT_ERROR:cannot import name 'split_manual_discount' from 'saleor.discount.utils.manual_discount' (WSPATH)",
+    "count": 1
+   }
+  ],
+  "C2|tests/test_dummy.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 66
+   },
+   {
+    "label": "OTHER",
+    "count": 38
+   }
+  ],
+  "C2|tests/test_dummy_credit_card.py": [
+   {
+    "label": "OTHER",
+    "count": 66
+   }
+  ],
+  "C2|tests/test_email_common.py": [
+   {
+    "label": "IMPORT_ERROR:cannot import name 'get_plain_text_message_for_email' from 'saleor.plugins.email_common' (WSPATH)",
+    "count": 1
+   }
+  ],
+  "C2|tests/test_emails.py": [
+   {
+    "label": "OTHER",
+    "count": 34
+   }
+  ],
+  "C2|tests/test_fulfillment.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 73
+   },
+   {
+    "label": "OTHER",
+    "count": 51
+   }
+  ],
+  "C2|tests/test_fulfillment_refund_products.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 13
+   }
+  ],
+  "C2|tests/test_fulfillment_return_products.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 12
+   }
+  ],
+  "C2|tests/test_gateway.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 10
+   }
+  ],
+  "C2|tests/test_gift_card.py": [
+   {
+    "label": "DB_ERROR",
+    "count": 26
+   }
+  ],
+  "C2|tests/test_graphql.py": [
+   {
+    "label": "IMPORT_ERROR:cannot import name 'from_global_id_or_error' from 'saleor.graphql.utils' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "OTHER",
+    "count": 11
+   }
+  ],
+  "C2|tests/test_http_client.py": [
+   {
+    "label": "IMPORT_ERROR:cannot import name 'user_agent_version' from 'saleor' (WSPATH)",
+    "count": 1
+   }
+  ],
+  "C2|tests/test_installation_utils.py": [
+   {
+    "label": "IMPORT_ERROR:cannot import name 'DeprecatedAppExtensionMount' from 'saleor.app.types' (WSPATH)",
+    "count": 1
+   }
+  ],
+  "C2|tests/test_list_shipping_methods_for_checkout.py": [
+   {
+    "label": "IMPORT_ERROR:cannot import name 'generate_cache_key_for_shipping_list_methods_for_checkout' from 'saleor.plugins.webhook.shipping' (W",
+    "count": 1
+   }
+  ],
+  "C2|tests/test_manager.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 133
+   },
+   {
+    "label": "MODULE_NOT_FOUND:mock",
+    "count": 1
+   },
+   {
+    "label": "OTHER",
+    "count": 49
+   }
+  ],
+  "C2|tests/test_menu.py": [
+   {
+    "label": "OTHER",
+    "count": 44
+   }
+  ],
+  "C2|tests/test_meta_filters.py": [
+   {
+    "label": "DB_ERROR",
+    "count": 1
+   }
+  ],
+  "C2|tests/test_meta_mutations.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 141
+   }
+  ],
+  "C2|tests/test_notifications.py": [
+   {
+    "label": "OTHER",
+    "count": 17
+   }
+  ],
+  "C2|tests/test_notify_events.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 4
+   },
+   {
+    "label": "OTHER",
+    "count": 1
+   }
+  ],
+  "C2|tests/test_order.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 667
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'order_replacement_created' from 'saleor.order.events' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'update_order_authorize_data' from 'saleor.order.utils' (WSPATH)",
+    "count": 2
+   },
+   {
+    "label": "OTHER",
+    "count": 630
+   }
+  ],
+  "C2|tests/test_order_actions.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 51
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'create_refund_fulfillment' from 'saleor.order.actions' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "OTHER",
+    "count": 45
+   }
+  ],
+  "C2|tests/test_order_actions_create_fulfillments_for_returned_products.py": [
+   {
+    "label": "IMPORT_ERROR:cannot import name 'FulfillmentLineData' from 'saleor.order' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "OTHER",
+    "count": 22
+   }
+  ],
+  "C2|tests/test_order_actions_refund_products.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 6
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'FulfillmentLineData' from 'saleor.order' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "OTHER",
+    "count": 8
+   }
+  ],
+  "C2|tests/test_order_utils.py": [
+   {
+    "label": "IMPORT_ERROR:cannot import name 'add_gift_cards_to_order' from 'saleor.order.utils' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "OTHER",
+    "count": 20
+   }
+  ],
+  "C2|tests/test_page.py": [
+   {
+    "label": "IMPORT_ERROR:cannot import name 'generate_page_payload' from 'saleor.webhook.payloads' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "OTHER",
+    "count": 54
+   }
+  ],
+  "C2|tests/test_page_type_update.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 9
+   }
+  ],
+  "C2|tests/test_payment.py": [
+   {
+    "label": "DB_ERROR",
+    "count": 30
+   },
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 166
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'PaymentCheckBalance' from 'saleor.graphql.payment.mutations' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'StorePaymentMethod' from 'saleor.payment' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'StorePaymentMethodEnum' from 'saleor.payment.interface' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "MISSING_FIXTURE:mocker",
+    "count": 2
+   },
+   {
+    "label": "OTHER",
+    "count": 130
+   }
+  ],
+  "C2|tests/test_plugin.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 67
+   },
+   {
+    "label": "OTHER",
+    "count": 37
+   }
+  ],
+  "C2|tests/test_postgresql_search.py": [
+   {
+    "label": "OTHER",
+    "count": 10
+   }
+  ],
+  "C2|tests/test_product.py": [
+   {
+    "label": "DB_ERROR",
+    "count": 646
+   },
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 1311
+   },
+   {
+    "label": "MODULE_NOT_FOUND:before_after",
+    "count": 3
+   },
+   {
+    "label": "OTHER",
+    "count": 928
+   }
+  ],
+  "C2|tests/test_product_availability.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 21
+   }
+  ],
+  "C2|tests/test_product_channel_listings_queries.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 1
+   }
+  ],
+  "C2|tests/test_product_pagination.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 42
+   }
+  ],
+  "C2|tests/test_send_invoice_notification.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 5
+   }
+  ],
+  "C2|tests/test_shipping.py": [
+   {
+    "label": "OTHER",
+    "count": 20
+   }
+  ],
+  "C2|tests/test_shipping_method.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 36
+   }
+  ],
+  "C2|tests/test_shop.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 79
+   },
+   {
+    "label": "OTHER",
+    "count": 72
+   }
+  ],
+  "C2|tests/test_stock.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 15
+   },
+   {
+    "label": "OTHER",
+    "count": 11
+   }
+  ],
+  "C2|tests/test_stock_availability.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 7
+   },
+   {
+    "label": "OTHER",
+    "count": 1
+   }
+  ],
+  "C2|tests/test_stock_management.py": [
+   {
+    "label": "IMPORT_ERROR:cannot import name 'increase_allocations' from 'saleor.warehouse.management' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "OTHER",
+    "count": 27
+   }
+  ],
+  "C2|tests/test_stripe_api.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 26
+   }
+  ],
+  "C2|tests/test_tasks.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 3
+   },
+   {
+    "label": "OTHER",
+    "count": 10
+   }
+  ],
+  "C2|tests/test_translations.py": [
+   {
+    "label": "MODULE_NOT_FOUND:mock",
+    "count": 1
+   }
+  ],
+  "C2|tests/test_utils.py": [
+   {
+    "label": "DB_ERROR",
+    "count": 8
+   },
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 47
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'calculate_expiry_date' from 'saleor.giftcard.utils' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'get_multiple_deliveries_for_webhooks' from 'saleor.webhook.transport.utils' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'get_sqs_message_group_id' from 'saleor.webhook.transport.utils' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'get_transaction_event_amount' from 'saleor.payment.utils' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'validate_attributes_input_for_product' from 'saleor.graphql.product.utils' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "OTHER",
+    "count": 34
+   }
+  ],
+  "C2|tests/test_validators.py": [
+   {
+    "label": "DB_ERROR",
+    "count": 18
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'DeprecatedAppExtensionTarget' from 'saleor.app.types' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'validate_end_is_after_start' from 'saleor.graphql.core.validators' (WSPATH)",
+    "count": 1
+   }
+  ],
+  "C2|tests/test_variant.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 187
+   },
+   {
+    "label": "OTHER",
+    "count": 61
+   }
+  ],
+  "C2|tests/test_variant_pricing.py": [
+   {
+    "label": "OTHER",
+    "count": 3
+   }
+  ],
+  "C2|tests/test_vatlayer.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 96
+   },
+   {
+    "label": "OTHER",
+    "count": 135
+   }
+  ],
+  "C2|tests/test_warehouse.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 2
+   }
+  ],
+  "C2|tests/test_webhook.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 45
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'WebhookPayloadData' from 'saleor.webhook.transport.asynchronous.transport' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "IMPORT_ERROR:cannot import name 'generate_page_payload' from 'saleor.webhook.payloads' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "OTHER",
+    "count": 79
+   }
+  ],
+  "C2|tests/test_webhook_payloads.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 18
+   }
+  ],
+  "C2|tests/utils": [
+   {
+    "label": "IMPORT_ERROR:cannot import name 'get_request_data_for_check_payment' from 'saleor.payment.gateways.adyen.utils.common' (WSPATH)",
+    "count": 1
+   },
+   {
+    "label": "OTHER",
+    "count": 43
+   }
+  ],
+  "C4|tests/benchmark": [
+   {
+    "label": "MISSING_FIXTURE:count_queries",
+    "count": 216
+   }
+  ],
+  "C4|tests/benchmarks": [
+   {
+    "label": "MISSING_FIXTURE:count_queries",
+    "count": 15
+   }
+  ],
+  "C4|tests/export": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 162
+   },
+   {
+    "label": "OTHER",
+    "count": 69
+   }
+  ],
+  "C4|tests/mutations": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 21
+   },
+   {
+    "label": "MISSING_FIXTURE:count_queries",
+    "count": 3
+   },
+   {
+    "label": "MODULE_NOT_FOUND:before_after",
+    "count": 9
+   }
+  ],
+  "C4|tests/queries": [
+   {
+    "label": "MISSING_FIXTURE:mocker",
+    "count": 6
+   },
+   {
+    "label": "MODULE_NOT_FOUND:mock",
+    "count": 3
+   }
+  ],
+  "C4|tests/test_account.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 609
+   },
+   {
+    "label": "OTHER",
+    "count": 558
+   }
+  ],
+  "C4|tests/test_channel_create_mutations.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 21
+   }
+  ],
+  "C4|tests/test_channel_queries.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 36
+   }
+  ],
+  "C4|tests/test_channel_update_mutations.py": [
+   {
+    "label": "OTHER",
+    "count": 36
+   }
+  ],
+  "C4|tests/test_checkout.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 624
+   },
+   {
+    "label": "OTHER",
+    "count": 483
+   }
+  ],
+  "C4|tests/test_checkout_digital.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 24
+   },
+   {
+    "label": "OTHER",
+    "count": 24
+   }
+  ],
+  "C4|tests/test_checkout_lines.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 117
+   }
+  ],
+  "C4|tests/test_checkout_promo_codes.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 90
+   },
+   {
+    "label": "OTHER",
+    "count": 132
+   }
+  ],
+  "C4|tests/test_dummy_credit_card.py": [
+   {
+    "label": "OTHER",
+    "count": 198
+   }
+  ],
+  "C4|tests/test_emails.py": [
+   {
+    "label": "OTHER",
+    "count": 54
+   }
+  ],
+  "C4|tests/test_fulfillment.py": [
+   {
+    "label": "OTHER",
+    "count": 3
+   }
+  ],
+  "C4|tests/test_generate_and_set_variant_name.py": [
+   {
+    "label": "OTHER",
+    "count": 24
+   }
+  ],
+  "C4|tests/test_invoice_create.py": [
+   {
+    "label": "OTHER",
+    "count": 15
+   }
+  ],
+  "C4|tests/test_invoice_request.py": [
+   {
+    "label": "OTHER",
+    "count": 15
+   }
+  ],
+  "C4|tests/test_meta_mutations.py": [
+   {
+    "label": "OTHER",
+    "count": 324
+   }
+  ],
+  "C4|tests/test_meta_queries.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 483
+   }
+  ],
+  "C4|tests/test_notifications.py": [
+   {
+    "label": "OTHER",
+    "count": 42
+   }
+  ],
+  "C4|tests/test_obfuscation.py": [
+   {
+    "label": "OTHER",
+    "count": 3
+   }
+  ],
+  "C4|tests/test_order.py": [
+   {
+    "label": "OTHER",
+    "count": 390
+   }
+  ],
+  "C4|tests/test_order_actions.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 45
+   },
+   {
+    "label": "OTHER",
+    "count": 3
+   }
+  ],
+  "C4|tests/test_order_actions_create_fulfillments_for_returned_products.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 33
+   }
+  ],
+  "C4|tests/test_order_actions_refund_products.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 21
+   }
+  ],
+  "C4|tests/test_page.py": [
+   {
+    "label": "OTHER",
+    "count": 186
+   }
+  ],
+  "C4|tests/test_payloads.py": [
+   {
+    "label": "OTHER",
+    "count": 3
+   }
+  ],
+  "C4|tests/test_payment.py": [
+   {
+    "label": "OTHER",
+    "count": 78
+   }
+  ],
+  "C4|tests/test_plugin.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 84
+   },
+   {
+    "label": "OTHER",
+    "count": 105
+   }
+  ],
+  "C4|tests/test_product.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 2205
+   },
+   {
+    "label": "MODULE_NOT_FOUND:before_after",
+    "count": 3
+   },
+   {
+    "label": "OTHER",
+    "count": 2493
+   }
+  ],
+  "C4|tests/test_product_availability.py": [
+   {
+    "label": "OTHER",
+    "count": 63
+   }
+  ],
+  "C4|tests/test_product_channel_listings_queries.py": [
+   {
+    "label": "OTHER",
+    "count": 9
+   }
+  ],
+  "C4|tests/test_product_set_availability_for_purchase.py": [
+   {
+    "label": "OTHER",
+    "count": 18
+   }
+  ],
+  "C4|tests/test_product_sorting_attributes.py": [
+   {
+    "label": "MISSING_FIXTURE:count_queries",
+    "count": 3
+   }
+  ],
+  "C4|tests/test_scalars.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 12
+   }
+  ],
+  "C4|tests/test_send_invoice_email.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 12
+   }
+  ],
+  "C4|tests/test_shop.py": [
+   {
+    "label": "OTHER",
+    "count": 177
+   }
+  ],
+  "C4|tests/test_stock_management.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 99
+   }
+  ],
+  "C4|tests/test_tasks.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 66
+   }
+  ],
+  "C4|tests/test_utils": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 3
+   }
+  ],
+  "C4|tests/test_utils.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 129
+   }
+  ],
+  "C4|tests/test_variant.py": [
+   {
+    "label": "OTHER",
+    "count": 309
+   }
+  ],
+  "C4|tests/test_variant_pricing.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 9
+   },
+   {
+    "label": "OTHER",
+    "count": 3
+   }
+  ],
+  "C4|tests/test_webhook_payloads.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 3
+   }
+  ],
+  "C4|tests/test_webhook_serializers.py": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 3
+   },
+   {
+    "label": "OTHER",
+    "count": 3
+   }
+  ],
+  "C4|tests/test_webhooks.py": [
+   {
+    "label": "OTHER",
+    "count": 57
+   }
+  ],
+  "P2P_U_ENG|tests/benchmark": [
+   {
+    "label": "MISSING_FIXTURE:count_queries",
+    "count": 720
+   }
+  ],
+  "P2P_U_ENG|tests/benchmarks": [
+   {
+    "label": "MISSING_FIXTURE:count_queries",
+    "count": 30
+   }
+  ],
+  "P2P_U_ENG|tests/queries": [
+   {
+    "label": "MISSING_FIXTURE:mocker",
+    "count": 24
+   }
+  ],
+  "P2P_U_ENG|tests/test_fetch.py": [
+   {
+    "label": "MISSING_FIXTURE:count_queries",
+    "count": 12
+   }
+  ]
+ },
+ "by_cause": {
+  "C2|DB_ERROR": [
+   {
+    "label": "DB_ERROR",
+    "count": 855
+   }
+  ],
+  "C2|EXECUTION_OTHER": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 3929
+   }
+  ],
+  "C2|IMPORT_ERROR:cannot import name 'DeferredPayloadData' from 'saleor.webhook.transport.asynchronous.transport' (WSPATH)": [
+   {
+    "label": "IMPORT_ERROR",
+    "count": 1
+   }
+  ],
+  "C2|IMPORT_ERROR:cannot import name 'DeprecatedAppExtensionMount' from 'saleor.app.types' (WSPATH)": [
+   {
+    "label": "IMPORT_ERROR",
+    "count": 4
+   }
+  ],
+  "C2|IMPORT_ERROR:cannot import name 'DeprecatedAppExtensionTarget' from 'saleor.app.types' (WSPATH)": [
+   {
+    "label": "IMPORT_ERROR",
+    "count": 1
+   }
+  ],
+  "C2|IMPORT_ERROR:cannot import name 'FulfillmentLineData' from 'saleor.order' (WSPATH)": [
+   {
+    "label": "IMPORT_ERROR",
+    "count": 2
+   }
+  ],
+  "C2|IMPORT_ERROR:cannot import name 'OPTIONAL_AMOUNT_EVENTS' from 'saleor.payment' (WSPATH)": [
+   {
+    "label": "IMPORT_ERROR",
+    "count": 1
+   }
+  ],
+  "C2|IMPORT_ERROR:cannot import name 'PaymentCheckBalance' from 'saleor.graphql.payment.mutations' (WSPATH)": [
+   {
+    "label": "IMPORT_ERROR",
+    "count": 1
+   }
+  ],
+  "C2|IMPORT_ERROR:cannot import name 'StorePaymentMethod' from 'saleor.payment' (WSPATH)": [
+   {
+    "label": "IMPORT_ERROR",
+    "count": 1
+   }
+  ],
+  "C2|IMPORT_ERROR:cannot import name 'StorePaymentMethodEnum' from 'saleor.payment.interface' (WSPATH)": [
+   {
+    "label": "IMPORT_ERROR",
+    "count": 1
+   }
+  ],
+  "C2|IMPORT_ERROR:cannot import name 'TaxableObjectDiscountType' from 'saleor.tax' (WSPATH)": [
+   {
+    "label": "IMPORT_ERROR",
+    "count": 1
+   }
+  ],
+  "C2|IMPORT_ERROR:cannot import name 'WarehouseCountryCodeByChannelLoader' from 'saleor.graphql.warehouse.dataloaders' (WSPATH)": [
+   {
+    "label": "IMPORT_ERROR",
+    "count": 1
+   }
+  ],
+  "C2|IMPORT_ERROR:cannot import name 'WebhookPayloadData' from 'saleor.webhook.transport.asynchronous.transport' (WSPATH)": [
+   {
+    "label": "IMPORT_ERROR",
+    "count": 2
+   }
+  ],
+  "C2|IMPORT_ERROR:cannot import name 'add_gift_cards_to_order' from 'saleor.order.utils' (WSPATH)": [
+   {
+    "label": "IMPORT_ERROR",
+    "count": 1
+   }
+  ],
+  "C2|IMPORT_ERROR:cannot import name 'calculate_expiry_date' from 'saleor.giftcard.utils' (WSPATH)": [
+   {
+    "label": "IMPORT_ERROR",
+    "count": 1
+   }
+  ],
+  "C2|IMPORT_ERROR:cannot import name 'create_deliveries_for_multiple_subscription_objects' from 'saleor.webhook.transport.asynchronous.tra": [
+   {
+    "label": "IMPORT_ERROR",
+    "count": 1
+   }
+  ],
+  "C2|IMPORT_ERROR:cannot import name 'create_refund_fulfillment' from 'saleor.order.actions' (WSPATH)": [
+   {
+    "label": "IMPORT_ERROR",
+    "count": 1
+   }
+  ],
+  "C2|IMPORT_ERROR:cannot import name 'from_global_id_or_error' from 'saleor.graphql.utils' (WSPATH)": [
+   {
+    "label": "IMPORT_ERROR",
+    "count": 1
+   }
+  ],
+  "C2|IMPORT_ERROR:cannot import name 'generate_cache_key_for_shipping_list_methods_for_checkout' from 'saleor.plugins.webhook.shipping' (W": [
+   {
+    "label": "IMPORT_ERROR",
+    "count": 1
+   }
+  ],
+  "C2|IMPORT_ERROR:cannot import name 'generate_deferred_payloads' from 'saleor.webhook.transport.asynchronous.transport' (WSPATH)": [
+   {
+    "label": "IMPORT_ERROR",
+    "count": 1
+   }
+  ],
+  "C2|IMPORT_ERROR:cannot import name 'generate_page_payload' from 'saleor.webhook.payloads' (WSPATH)": [
+   {
+    "label": "IMPORT_ERROR",
+    "count": 2
+   }
+  ],
+  "C2|IMPORT_ERROR:cannot import name 'get_multiple_deliveries_for_webhooks' from 'saleor.webhook.transport.utils' (WSPATH)": [
+   {
+    "label": "IMPORT_ERROR",
+    "count": 1
+   }
+  ],
+  "C2|IMPORT_ERROR:cannot import name 'get_plain_text_message_for_email' from 'saleor.plugins.email_common' (WSPATH)": [
+   {
+    "label": "IMPORT_ERROR",
+    "count": 1
+   }
+  ],
+  "C2|IMPORT_ERROR:cannot import name 'get_request_data_for_check_payment' from 'saleor.payment.gateways.adyen.utils.common' (WSPATH)": [
+   {
+    "label": "IMPORT_ERROR",
+    "count": 1
+   }
+  ],
+  "C2|IMPORT_ERROR:cannot import name 'get_sqs_message_group_id' from 'saleor.webhook.transport.utils' (WSPATH)": [
+   {
+    "label": "IMPORT_ERROR",
+    "count": 2
+   }
+  ],
+  "C2|IMPORT_ERROR:cannot import name 'get_transaction_event_amount' from 'saleor.payment.utils' (WSPATH)": [
+   {
+    "label": "IMPORT_ERROR",
+    "count": 1
+   }
+  ],
+  "C2|IMPORT_ERROR:cannot import name 'increase_allocations' from 'saleor.warehouse.management' (WSPATH)": [
+   {
+    "label": "IMPORT_ERROR",
+    "count": 1
+   }
+  ],
+  "C2|IMPORT_ERROR:cannot import name 'order_replacement_created' from 'saleor.order.events' (WSPATH)": [
+   {
+    "label": "IMPORT_ERROR",
+    "count": 1
+   }
+  ],
+  "C2|IMPORT_ERROR:cannot import name 'split_manual_discount' from 'saleor.discount.utils.manual_discount' (WSPATH)": [
+   {
+    "label": "IMPORT_ERROR",
+    "count": 1
+   }
+  ],
+  "C2|IMPORT_ERROR:cannot import name 'update_order_authorize_data' from 'saleor.order.utils' (WSPATH)": [
+   {
+    "label": "IMPORT_ERROR",
+    "count": 4
+   }
+  ],
+  "C2|IMPORT_ERROR:cannot import name 'user_agent_version' from 'saleor' (WSPATH)": [
+   {
+    "label": "IMPORT_ERROR",
+    "count": 1
+   }
+  ],
+  "C2|IMPORT_ERROR:cannot import name 'validate_attributes_input_for_product' from 'saleor.graphql.product.utils' (WSPATH)": [
+   {
+    "label": "IMPORT_ERROR",
+    "count": 1
+   }
+  ],
+  "C2|IMPORT_ERROR:cannot import name 'validate_end_is_after_start' from 'saleor.graphql.core.validators' (WSPATH)": [
+   {
+    "label": "IMPORT_ERROR",
+    "count": 1
+   }
+  ],
+  "C2|MISSING_FIXTURE:count_queries": [
+   {
+    "label": "MISSING_FIXTURE",
+    "count": 133
+   }
+  ],
+  "C2|MISSING_FIXTURE:mocker": [
+   {
+    "label": "MISSING_FIXTURE",
+    "count": 2
+   }
+  ],
+  "C2|MODULE_NOT_FOUND:before_after": [
+   {
+    "label": "MODULE_NOT_FOUND",
+    "count": 4
+   }
+  ],
+  "C2|MODULE_NOT_FOUND:mock": [
+   {
+    "label": "MODULE_NOT_FOUND",
+    "count": 9
+   }
+  ],
+  "C2|MODULE_NOT_FOUND:openpyxl": [
+   {
+    "label": "MODULE_NOT_FOUND",
+    "count": 1
+   }
+  ],
+  "C2|OTHER": [
+   {
+    "label": "OTHER",
+    "count": 3556
+   }
+  ],
+  "C4|EXECUTION_OTHER": [
+   {
+    "label": "EXECUTION_OTHER",
+    "count": 4911
+   }
+  ],
+  "C4|MISSING_FIXTURE:count_queries": [
+   {
+    "label": "MISSING_FIXTURE",
+    "count": 237
+   }
+  ],
+  "C4|MISSING_FIXTURE:mocker": [
+   {
+    "label": "MISSING_FIXTURE",
+    "count": 6
+   }
+  ],
+  "C4|MODULE_NOT_FOUND:before_after": [
+   {
+    "label": "MODULE_NOT_FOUND",
+    "count": 12
+   }
+  ],
+  "C4|MODULE_NOT_FOUND:mock": [
+   {
+    "label": "MODULE_NOT_FOUND",
+    "count": 3
+   }
+  ],
+  "C4|OTHER": [
+   {
+    "label": "OTHER",
+    "count": 5877
+   }
+  ],
+  "P2P_U_ENG|MISSING_FIXTURE:count_queries": [
+   {
+    "label": "MISSING_FIXTURE",
+    "count": 762
+   }
+  ],
+  "P2P_U_ENG|MISSING_FIXTURE:mocker": [
+   {
+    "label": "MISSING_FIXTURE",
+    "count": 24
+   }
+  ]
+ }
+}

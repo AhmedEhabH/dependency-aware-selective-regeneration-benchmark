@@ -1,0 +1,75 @@
+{
+ "artifact": "mission10a_summary",
+ "schema_version": "mission10a-summary-v1",
+ "created_utc": "2026-09-26T03:07:25+00:00",
+ "mission": "MISSION-10A_ENV_TEST_DEPENDENCY_AUDIT",
+ "tier": "T3",
+ "decision_token": "ENV_AUDIT_INCONCLUSIVE",
+ "inputs": {
+  "declared_but_not_installed_causes": 37,
+  "declared_installed_but_plugin_not_loaded_causes": 0,
+  "m1_newly_oracle_valid_tasks": 0,
+  "m2_recovered_behavioral_f2p_nodes": 0,
+  "m3_systematic_category_exclusion": true,
+  "s1_new_infrastructure_failure_categories": 0,
+  "s2_non_regression_holds": false,
+  "probe_ran": true
+ },
+ "probe_summary": {
+  "ran": true,
+  "selected_tasks": [
+   {
+    "task_id": "saleor-rc-74538ea00ce9",
+    "rank": 1,
+    "attributable_error_nodes": 18,
+    "count_queries_nodes": 18,
+    "mocker_nodes": 0,
+    "primary_dependency": "pytest-django-queries"
+   },
+   {
+    "task_id": "saleor-rc-8f76ddc6267f",
+    "rank": 2,
+    "attributable_error_nodes": 6,
+    "count_queries_nodes": 6,
+    "mocker_nodes": 0,
+    "primary_dependency": "pytest-django-queries"
+   }
+  ],
+  "task1_set_a_recovery_class_counts": {
+   "P2P_ONLY": 18
+  },
+  "task1_set_b_v2_transitions": {
+   "saleor/graphql/discount/tests/mutations/test_voucher_update.py::test_update_voucher": {
+    "v2": "BEHAVIORAL_F2P",
+    "probe": "P2P_ONLY"
+   }
+  },
+  "task1_set_b_non_regression_holds": false,
+  "stopped_after_task1_reason": "SET B classification transition (BEHAVIORAL_F2P->P2P_ONLY) under preregistered S2; Mission-10A section 18 requires STOP probe continuation and ENV_AUDIT_INCONCLUSIVE."
+ },
+ "reconciliation": {
+  "C4_TOI": {
+   "authoritative_TARGET_ORACLE_INVALID": 3727,
+   "authoritative_error_bearing_TOI": 3682,
+   "authoritative_failed_TOI": 45,
+   "parsed_error_pairs": 3682,
+   "mismatch": 0,
+   "notes": "parsed pairs = unique (task_id, node_id) error records; a negative mismatch means the per-node record is present in evidence but raw error text was unavailable (still a valid reconciliation of the error-bearing population)."
+  },
+  "ENG_cap200": {
+   "authoritative_COLLECTION_ERROR_cap200": 41,
+   "parsed_error_pairs_cap200": 41,
+   "mismatch": 0,
+   "by_taxonomy": {
+    "MISSING_FIXTURE:count_queries": 234,
+    "MISSING_FIXTURE:mocker": 12
+   },
+   "notes": "cap400 errors recorded separately (90 authoritative) and are not part of the 41 cap200 reconciliation."
+  },
+  "C2": {
+   "authoritative_TARGET_ORACLE_INVALID": 7946,
+   "rescue_archive_error_pairs": 8530,
+   "coverage_note": "C2 per-node error text available only via rescue archive (159/220 tasks); task-level counts from per_task_v2.jsonl."
+  }
+ }
+}
