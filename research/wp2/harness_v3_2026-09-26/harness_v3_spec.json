@@ -1,0 +1,109 @@
+{
+ "artifact": "wp2_harness_v3_spec",
+ "version": "harness-v3-spec-v1-2026-09-26",
+ "created_utc": "2026-09-26T07:15:00+00:00",
+ "mission": "Mission-10B Phase 2 freeze (before Phase 3)",
+ "boundary": "Infrastructure/runtime ONLY. Oracle scientific semantics unchanged.",
+ "changes": {
+  "A_nofile": {
+   "container_flag": "--ulimit nofile=65536:65536",
+   "soft": 65536,
+   "hard": 65536
+  },
+  "B_db_lifecycle": {
+   "db_name_pattern": "saleor_v3_<task12>_<state>",
+   "create": "fresh at state start (DROP then CREATE)",
+   "partial_reuse": "never reuse a partially created DB",
+   "creation_failure": "DROP + recreate once only",
+   "completion": "DROP at task completion",
+   "reuse_db_within_initialized_state": true,
+   "reuse_db_crosses_state_boundaries": false,
+   "notes": "Retained only within ONE successfully-initialized state where it matches C4 semantics; never crosses parent/target boundaries."
+  },
+  "C_dependencies": {
+   "rule": "LOCKFILE-FIRST: exact historical lock/pin -> historical constraint -> range only when NO lock exists. Never unconstrained latest.",
+   "preferred_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+   "uv_era": "uv sync --frozen --group dev | uv export --frozen --group dev",
+   "poetry_era": "historical poetry.lock main+dev exact set (no re-resolve against today's index)",
+   "fallback_mode": "V2_MAIN_PLUS_EXACT_LOCKED_DEV",
+   "fallback_condition": "only if full project lock install is technically impossible",
+   "harness_tooling": "retained at frozen V2 versions",
+   "blocked_mode": "ENV_INSTALL_BLOCKED if no historically faithful mode producible"
+  },
+  "D_clock_preflight": {
+   "method": "median host<->WSL skew, midpoint, >=3 samples",
+   "pass_s": 0.5,
+   "resync_attempts": 1,
+   "continue_s": 1.0,
+   "blocked_above_s": 1.0,
+   "windows_time_change": "never silently"
+  },
+  "E_manifest_fields": [
+   "task_id",
+   "target_commit",
+   "era",
+   "frozen_base_image_id",
+   "harness_v3_spec_sha",
+   "runner_sha",
+   "orchestrator_sha",
+   "lockfile_path",
+   "lockfile_hash",
+   "install_mode",
+   "pip_freeze_hash",
+   "pytest_version",
+   "pytest_plugin_list",
+   "fixtures_checked",
+   "ulimit_soft",
+   "ulimit_hard",
+   "host_wsl_skew_pre",
+   "host_wsl_skew_post",
+   "db_names",
+   "worker_count",
+   "resource_sampler_version"
+  ]
+ },
+ "unchanged": [
+  "task_population_authority",
+  "split",
+  "test_patch_semantics",
+  "parent_equals_parent_plus_frozen_test_patch",
+  "target_equals_target_commit",
+  "TEST_PATCH_APPLIED_ON_PARENT",
+  "3_plus_3_stability_policy",
+  "F2P_P2P_classifications",
+  "test_selection_rules",
+  "P2P_U_rule_salt_caps",
+  "architecture_metrics",
+  "generation_leakage_firewall"
+ ],
+ "freeze_hashes": {
+  "v3_spec_sha256": "5917d86641733a056799c745ae986f59cac42ad4afa0c0cd9f07578f2a0f49c3",
+  "runner_sha256": "f341a25e368b3fa1f44f9d2d2519353be741cceaa509ecb58d17739efcefde34",
+  "orchestrator_sha256": "b0612161ce2facc0c32fc36b7e372a4902ef31f1c0ac5d218e1bea7bb6bdb9a0",
+  "error_taxonomy_sha256": "209384052ea82d6662d04fc7ab2dbce0979971e73bfbeb3b9f1ab184a0dcb151",
+  "resource_sampler_version": "wp2-resource-sampler-v1-2026-09-25",
+  "git_head": "9216c2991e08795b00d9811be16da2f049ede68a"
+ },
+ "preregistered_decision_rules": {
+  "s1_clean_v2_evidence": "CLEAN iff no parent/target rep contains INFRA:* or DB:* infra defect or TIME:* or MISSING_FIXTURE:* or MODULE_NOT_FOUND(missing declared dep) or known truncated evidence; parent-side import of target-only symbol is NOT automatically dirty",
+  "s2_prime": "REGRESSIONS=0; class changes on CLEAN evidence = REGRESSION_CANDIDATE (no legit semantic explanation -> REGRESSION); DEFECTIVE evidence -> V2_DEFECT_CORRECTION",
+  "materiality": ">=20% of authoritative C4 TARGET_ORACLE_INVALID nodes with sufficient full evidence have STABLE_CAUSE in INFRA+DB-infrastructure+MISSING_DECLARED_DEP; node-level only",
+  "recovery": "PASS iff probe converts >=1 V2-invalid node into a valid existing oracle class under unchanged semantics",
+  "fix_efficacy": "controlled probe/V3 must eliminate EMFILE and/or provide declared deps and/or DB policy effect; else FAIL",
+  "safety": "zero NEW infra error categories; zero CLOCK_BLOCKED probes; integrity PASS; REGRESSIONS=0; no rule drift; FIX_EFFICACY PASS"
+ },
+ "gate": {
+  "auto_continue_iff_all": [
+   "MATERIALITY=PASS",
+   "RECOVERY=PASS",
+   "FIX_EFFICACY=PASS",
+   "SAFETY=PASS",
+   "REGRESSIONS=0",
+   "all_4_probe_integrity=PASS"
+  ],
+  "subjective_override": false,
+  "token_recommended": "HARNESS_V3_RECOMMENDED",
+  "token_v2_adequate": "ENV_V2_ADEQUATE",
+  "token_inconclusive": "HARNESS_AUDIT_INCONCLUSIVE"
+ }
+}
