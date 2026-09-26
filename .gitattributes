@@ -93,3 +93,8 @@ research/omission-risk-feature-study-v1/v2_trainval/v2_trainval_runs/raw/*.sha25
 # MANIFEST.json and SHA256SUMS.txt computed from canonical LF content. Pin LF so
 # Windows core.autocrlf cannot invalidate the handoff hash contract.
 exports/WP1B_AG16_BRAIN_HANDOFF_2026-09-22/** text eol=lf
+
+# WP-2 P2P-U V3 raw JUnit evidence is byte-frozen with SHA-256 recorded in the
+# unit result JSON (junit_files). Pin LF so Windows core.autocrlf cannot
+# invalidate verify_unit() hash checks on a fresh checkout.
+research/wp2/harness_v3_2026-09-26/p2pu_v3_junit/** text eol=lf
