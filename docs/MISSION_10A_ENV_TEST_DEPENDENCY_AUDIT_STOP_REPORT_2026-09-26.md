@@ -260,3 +260,35 @@ Smoke, DEV-47, HOLDOUT, VALIDATION, or MAIN execution without explicit approval.
   PROGRESS.md (updated), LIVE_STATUS + 4 render targets (updated).
 - No frozen image mutation; no oracle rewrite; no generation; no Smoke; no
   HOLDOUT/VALIDATION/MAIN.
+
+---
+
+# EXPORTS
+
+## FULL AUDIT EXPORT
+
+\PROJECT_EXPORT_READY
+PROJECT_EXPORT_NAME=project-2026-09-26-0632.zip
+PROJECT_EXPORT_PATH=C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-2026-09-26-0632.zip
+PROJECT_EXPORT_SIZE_BYTES=249654286
+PROJECT_EXPORT_SHA256=6f928c776f033e5b6850bc65c0aafc5a7cf19d96ab7d6367f61ba16816d7e1b4
+UPLOAD_THIS_FILE=project-2026-09-26-0632.zip
+\
+Verified: \.git/HEAD\ present; \dist/pilot-kaggle-upload.zip\ + \.sha256\ present;
+ZIP opens; testzip PASS; 12,760 entries.
+
+## TRUE LIGHT EXPORT
+
+\LIGHT_EXPORT_READY
+LIGHT_EXPORT_NAME=project-LIGHT-2026-09-26-0629.zip
+LIGHT_EXPORT_PATH=C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-LIGHT-2026-09-26-0629.zip
+LIGHT_EXPORT_SIZE_BYTES=902355
+LIGHT_EXPORT_SHA256=acca1793e140599b868a65165f07a81865b126c0648c53da808d5cd1930df982
+WITHIN_50MB=True
+\
+## Tag
+
+- Tag: \wp2-env-audit-2026-09-26\ (annotated), created on commit
+  dfa7c6bc9fe63b59c12743b69d82e2b4d2f3c5\ (the Mission-10A audit commit;
+  == tag peel). Pushed to origin. Export scripts committed post-tag
+  (\9633ff17\) as workflow tooling only — never a tag target.
