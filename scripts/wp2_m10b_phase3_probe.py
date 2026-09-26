@@ -95,6 +95,37 @@ def changed_test_files(parent: str, target: str) -> list[str]:
                   if ln.strip().endswith(".py") and "/test" in ln)
 
 
+def v2_evidence_defective(v2_per_test: dict[str, dict], task_id: str, node_id: str) -> bool:
+    """S2' 14.1: V2 evidence is DEFECTIVE if any parent/target rep contains a
+    dirty class: INFRA:* / DB:* infra defect / TIME:* / MISSING_FIXTURE:* /
+    MODULE_NOT_FOUND (missing declared dep) / known truncated raw evidence."""
+    rec = v2_per_test.get(node_id)
+    if rec is None:
+        return False
+
+    from benchmark.wp2.m10b_fulltext import classify_error_v3, merge_rep_junit
+
+    t12 = task_id.split("-")[-1]
+    junit_dir = V2_ROOT / "junit" / task_id
+    if not junit_dir.exists():
+        return True  # truncated/missing raw evidence
+    dirty_classes = ("INFRA:", "DB:", "TIME:", "MISSING_FIXTURE:")
+    for side in ("p", "t"):
+        for rep in range(3):
+            files = sorted(junit_dir.glob(f"{t12}_{side}_r{rep}_f*.xml"))
+            if not files:
+                continue
+            merged = merge_rep_junit(task_id=task_id, side=side, repetition=rep,
+                                     xml_files=[(f.name, f.read_text(encoding="utf-8")) for f in files])
+            ev = merged.get(node_id)
+            if ev is None or not ev.full_text:
+                continue
+            tax, _ = classify_error_v3(ev.full_text, ev.message)
+            if tax.startswith(dirty_classes):
+                return True
+    return False
+
+
 def run_probe_task(task_id: str, out_root: Path) -> dict:
     parent, target = task_commits(task_id)
     v2_task = load_v2_task(task_id)
@@ -123,15 +154,18 @@ def run_probe_task(task_id: str, out_root: Path) -> dict:
         wts["t"], manifests)
     install_p, _, _ = lock_install_script(wts["p"], manifests)
     locked_dev = locked_dev_install(task_id)
+    raw_dir = str(out_root / f"phase3_junit_{task_id}")
     tgt = run_state_v3(era_key=era_key, worktree_linux=wts["t"], tid=tid,
                        state="t", test_files=test_files,
                        install_fragment=install_t,
-                       locked_dev_fragment=locked_dev, timeout_s=7200)
+                       locked_dev_fragment=locked_dev,
+                       raw_junit_dir=raw_dir, timeout_s=7200)
     t_wall = round(time.monotonic() - t0, 1)
     par = run_state_v3(era_key=era_key, worktree_linux=wts["p"], tid=tid,
                        state="p", test_files=test_files,
                        install_fragment=install_p,
-                       locked_dev_fragment=locked_dev, timeout_s=7200)
+                       locked_dev_fragment=locked_dev,
+                       raw_junit_dir=raw_dir, timeout_s=7200)
     p_wall = round(time.monotonic() - t0, 1)
 
     # classify nodes with the SAME frozen oracle semantics v2
@@ -171,13 +205,21 @@ def run_probe_task(task_id: str, out_root: Path) -> dict:
     # transition matrix V2 -> V3 (node-level, from v2_per_test)
     transitions: dict[str, dict] = {}
     regressions = 0
+    v2_defect_corrections = 0
     for rec in node_records:
         nid = rec["node_id"]
         v2 = rec["v2_class"]
         v3 = rec["v3_class"]
         if v2 in ("BEHAVIORAL_F2P", "SYMBOL_ABSENCE_F2P", "P2P_ONLY") and v2 != v3:
-            transitions[nid] = {"v2": v2, "v3": v3, "outcomes": rec}
-            if v2 in ("BEHAVIORAL_F2P", "SYMBOL_ABSENCE_F2P") and v3 in ("P2P_ONLY", "TARGET_ORACLE_INVALID"):
+            # S2' (14.1/14.2): DEFECTIVE if V2 evidence contains a dirty class.
+            defective = v2_evidence_defective(v2_per_test, v2_task["task_id"], nid)
+            disposition = "V2_DEFECT_CORRECTION" if defective else "REGRESSION_CANDIDATE"
+            transitions[nid] = {"v2": v2, "v3": v3, "outcomes": rec,
+                                "defective_v2_evidence": defective,
+                                "s2_disposition": disposition}
+            if disposition == "V2_DEFECT_CORRECTION":
+                v2_defect_corrections += 1
+            elif v2 in ("BEHAVIORAL_F2P", "SYMBOL_ABSENCE_F2P") and v3 in ("P2P_ONLY", "TARGET_ORACLE_INVALID"):
                 regressions += 1
 
     # integrity
@@ -240,6 +282,7 @@ def run_probe_task(task_id: str, out_root: Path) -> dict:
         "node_records": node_records,
         "transitions": transitions,
         "regression_candidates": regressions,
+        "v2_defect_corrections": v2_defect_corrections,
         "integrity": integrity,
     }
     remove_worktrees_v3(task_id)

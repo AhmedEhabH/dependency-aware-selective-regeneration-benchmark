@@ -1,0 +1,55 @@
+{
+ "artifact": "m10b_phase4_gate",
+ "created_utc": "2026-09-26T12:19:36+00:00",
+ "MATERIALITY": {
+  "pass": true,
+  "numerator": 2592,
+  "denominator": 3647,
+  "share": 0.7107,
+  "threshold": 0.2
+ },
+ "RECOVERY": {
+  "pass": true,
+  "recovered_invalid_to_valid": 667,
+  "recovered_by_task": {
+   "saleor-rc-c3b9e396b07d": 415,
+   "saleor-rc-e25cf9b4a837": 252,
+   "saleor-rc-74538ea00ce9": 0,
+   "saleor-rc-8f76ddc6267f": 0
+  }
+ },
+ "FIX_EFFICACY": {
+  "pass": true,
+  "evidence": [
+   "0 EMFILE hits across all V3 probe junit files (66 files, 4 tasks) - EMFILE fully eliminated",
+   "Phase-1C controlled repro: A reproduces EMFILE at nofile=1024, B eliminates at 65536 (EFFICACY TRUE)"
+  ]
+ },
+ "SAFETY": {
+  "pass": true,
+  "new_infra_error_categories": 0,
+  "clock_blocked_probes": 0,
+  "integrity_pass": true,
+  "regressions": 0,
+  "fix_efficacy_pass": true
+ },
+ "REGRESSIONS": 0,
+ "V2_DEFECT_CORRECTIONS": 1,
+ "INTEGRITY": {
+  "all_4_probe_integrity_pass": true,
+  "per_task": {
+   "saleor-rc-c3b9e396b07d": true,
+   "saleor-rc-e25cf9b4a837": true,
+   "saleor-rc-74538ea00ce9": true,
+   "saleor-rc-8f76ddc6267f": true
+  }
+ },
+ "AUTO_CONTINUE_PHASE5": true,
+ "TOKEN": "HARNESS_V3_RECOMMENDED",
+ "probe_tasks": [
+  "saleor-rc-74538ea00ce9",
+  "saleor-rc-8f76ddc6267f",
+  "saleor-rc-c3b9e396b07d",
+  "saleor-rc-e25cf9b4a837"
+ ]
+}

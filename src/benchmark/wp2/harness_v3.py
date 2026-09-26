@@ -33,6 +33,7 @@ import hashlib
 import json
 import subprocess
 import time
+from pathlib import Path
 
 from scripts.wp2_linux_dryrun import (
     TOOLING_INSTALL,
@@ -234,7 +235,8 @@ LOCKED_DEV_DEPS: dict[str, tuple[str, ...]] = {
     "saleor-rc-e25cf9b4a837": ("pytest-django-queries==1.1.0", "pytest-mock==3.2.0"),
     "saleor-rc-74538ea00ce9": ("pytest-django-queries==1.2.0", "pytest-mock==3.14.0",
                                "pytest-recording==0.13.2", "pytest-celery==1.0.1",
-                               "pytest-asyncio==0.23.8"),
+                               "pytest-asyncio==0.23.8",
+                               "freezegun==1.5.1", "fakeredis==2.24.1"),
     "saleor-rc-8f76ddc6267f": ("pytest-django-queries==1.2.0", "pytest-mock==3.10.0",
                                "pytest-recording==0.12.2", "pytest-asyncio==0.20.3"),
 }
@@ -315,6 +317,7 @@ def run_state_v3(
     test_files: list[str],
     install_fragment: str,
     locked_dev_fragment: str = "echo NO_LOCKED_DEV_GROUP",
+    raw_junit_dir: str | None = None,
     timeout_s: int = 7200,
 ) -> JsonDict:
     """One V3 container per state: fresh unique DB + lock-exact install +
@@ -381,6 +384,11 @@ def run_state_v3(
         for idx, tf in enumerate(test_files):
             jname = f"{tid}_{state}_r{rep}_f{idx}"
             rr = wsl(f"cat {worktree_linux}/{jname}.xml 2>/dev/null || echo __NO_FILE__")
+            if raw_junit_dir:
+                raw_dir_path = Path(raw_junit_dir)
+                raw_dir_path.mkdir(parents=True, exist_ok=True)
+                (raw_dir_path / f"{jname}.xml").write_text(
+                    rr.stdout, encoding="utf-8", errors="replace")
             if "__NO_FILE__" in rr.stdout[:20]:
                 merged[tf] = "error"
                 merged_fail[tf] = f"JUNIT_MISSING_R{rep}_F{idx}"

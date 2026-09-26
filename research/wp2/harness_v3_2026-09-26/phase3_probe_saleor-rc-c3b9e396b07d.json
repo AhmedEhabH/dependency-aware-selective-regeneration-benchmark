@@ -1,0 +1,6362 @@
+{
+ "task_id": "saleor-rc-c3b9e396b07d",
+ "era_key": "py39",
+ "parent_commit": "3d082b2138f1bff4ae53d536293974f921d83fd5",
+ "target_commit": "c3b9e396b07d648c2d76d3872eca6bd41b653220",
+ "test_files": [
+  "saleor/graphql/product/tests/test_product.py",
+  "saleor/warehouse/tests/test_stock_management.py"
+ ],
+ "v2": {
+  "classification": "NOT_PRIMARY",
+  "counts": {
+   "BEHAVIORAL_F2P": 0,
+   "SYMBOL_ABSENCE_F2P": 0,
+   "PARENT_COLLECTION_ERROR": 0,
+   "FLAKY": 0,
+   "TARGET_ORACLE_INVALID": 416,
+   "P2P_ONLY": 0,
+   "OTHER_REVIEW_REQUIRED": 0
+  },
+  "eligibility": {
+   "PRIMARY_BEHAVIORAL_F2P_ELIGIBLE": false,
+   "EXTENDED_F2P_ELIGIBLE": false,
+   "n_behavioral_f2p": 0,
+   "n_symbol_absence_f2p": 0,
+   "n_parent_collection_error": 0,
+   "environment_valid": true,
+   "task_collection_failure": false,
+   "semantics_version": "oracle-semantics-v2-2026-09-23"
+  },
+  "n_nodes": 416
+ },
+ "v3": {
+  "classification": "BEHAVIORAL_F2P",
+  "counts": {
+   "BEHAVIORAL_F2P": 1,
+   "SYMBOL_ABSENCE_F2P": 0,
+   "PARENT_COLLECTION_ERROR": 0,
+   "FLAKY": 0,
+   "TARGET_ORACLE_INVALID": 1,
+   "P2P_ONLY": 414,
+   "OTHER_REVIEW_REQUIRED": 0
+  },
+  "eligibility": {
+   "PRIMARY_BEHAVIORAL_F2P_ELIGIBLE": true,
+   "EXTENDED_F2P_ELIGIBLE": true,
+   "n_behavioral_f2p": 1,
+   "n_symbol_absence_f2p": 0,
+   "n_parent_collection_error": 0,
+   "environment_valid": true,
+   "task_collection_failure": false,
+   "semantics_version": "oracle-semantics-v2-2026-09-23"
+  },
+  "n_nodes": 416,
+  "primary_eligible": true
+ },
+ "clock_preflight": {
+  "verdict": "PASS",
+  "pre": {
+   "n_samples": 5,
+   "median_skew_s": 0.059733,
+   "max_abs_skew_s": 0.067578,
+   "samples": [
+    0.058971,
+    0.059733,
+    0.05829,
+    0.064826,
+    0.067578
+   ],
+   "verdict": "PASS"
+  },
+  "post": null,
+  "resync": null
+ },
+ "install": {
+  "mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+  "evidence": {
+   "lockfile": "poetry.lock",
+   "main": "requirements.txt",
+   "dev_group": true
+  }
+ },
+ "manifest": {
+  "task_id": "saleor-rc-c3b9e396b07d",
+  "target_commit": "c3b9e396b07d648c2d76d3872eca6bd41b653220",
+  "era": "py39",
+  "frozen_base_image_id": "sha256:ddc08d7e685517764dfa2606a760d5b3f09d57840d8a0bbcef366db67cd99ef8",
+  "harness_v3_version": "wp2-harness-v3-2026-09-26",
+  "runner_sha": "7251919c347e23fc2bd55768e23005f0497dd238",
+  "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+  "lockfile_sha256": "ce53e1d3ef9232adece789bc705b44d252a885303d7da58cbda9565996e56e83",
+  "nofile_soft": 65536,
+  "nofile_hard": 65536,
+  "clock_pre_post": {
+   "pre": 0.059733,
+   "post": null
+  },
+  "worker_count": 1,
+  "db_names": {
+   "t": "saleor_v3_c3b9e396b07d_t",
+   "p": "saleor_v3_c3b9e396b07d_p"
+  }
+ },
+ "operations": {
+  "target_wall_s": 228.4,
+  "parent_wall_s": 454.6,
+  "target_error": null,
+  "parent_error": null
+ },
+ "node_records": [
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_assign_variant_media",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_assign_variant_media_from_different_product",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_assign_variant_media_second_time",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_categories_query_with_filter[category_filter0-3]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_categories_query_with_filter[category_filter1-1]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_categories_query_with_filter[category_filter2-2]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_categories_query_with_filter[category_filter3-1]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_categories_query_with_filter[category_filter4-2]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_categories_query_with_sort[category_sort0-result_order0]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_categories_query_with_sort[category_sort1-result_order1]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_categories_query_with_sort[category_sort2-result_order2]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_categories_query_with_sort[category_sort3-result_order3]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_categories_query_with_sort[category_sort4-result_order4]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_categories_query_with_sort[category_sort5-result_order5]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_collections_query_with_filter[collection_filter0-2]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_collections_query_with_filter[collection_filter1-1]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_collections_query_with_filter[collection_filter2-1]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_collections_query_with_filter[collection_filter3-1]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_collections_query_with_filter[collection_filter4-2]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_collections_query_with_sort[collection_sort0-result_order0]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_collections_query_with_sort[collection_sort1-result_order1]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_collections_query_with_sort[collection_sort2-result_order2]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_collections_query_with_sort[collection_sort3-result_order3]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_collections_query_with_sort[collection_sort4-result_order4]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_collections_query_with_sort[collection_sort5-result_order5]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_gift_card_product_type",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_description_plaintext",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_invalid_product_attributes",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_no_category_id",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_no_slug_in_input[None]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_no_slug_in_input[]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_no_values_given",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_type_create_with_negative_weight",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_type_with_boolean_attribute",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_type_with_date_attribute",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_type_with_given_slug[-test-product-type]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_type_with_given_slug[None-test-product-type]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_type_with_given_slug[\\u308f\\u305f\\u3057-\\u308f-\\u306b\\u3063\\u307d\\u3093-\\u3067\\u3059-\\u308f\\u305f\\u3057-\\u308f-\\u306b\\u3063\\u307d\\u3093-\\u3067\\u3059]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_type_with_given_slug[test-slug-test-slug]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_type_with_rich_text_attribute",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_type_with_unicode_in_name",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_with_boolean_attribute",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_with_date_attribute",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_with_date_time_attribute",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_with_file_attribute",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_with_file_attribute_new_attribute_value",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_with_file_attribute_not_required_no_file_url_given",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_with_file_attribute_required_no_file_url_given",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_with_negative_weight",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_with_numeric_attribute_existing_value",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_with_numeric_attribute_new_attribute_value[1-1-1]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_with_numeric_attribute_new_attribute_value[20-20-20]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_with_numeric_attribute_new_attribute_value[20.1-20.1-20_1]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_with_numeric_attribute_not_numeric_value_given",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_with_page_reference_attribute",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_with_page_reference_attribute_required_no_references",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_with_product_reference_attribute",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_with_product_reference_attribute_required_no_references",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_with_product_reference_attribute_values_saved_in_order",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_with_rating",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_with_rich_text_attribute",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_with_swatch_attribute_existing_value",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_with_swatch_attribute_new_attribute_value",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_with_unicode_in_slug_and_name",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_with_weight_input[\"11.11\"-11.11]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_with_weight_input[0-0_0]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_with_weight_input[0-0_1]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_with_weight_input[11-11.0]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_with_weight_input[11.11-11.11]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_with_weight_input[{value: \"1\", unit: \"ounce\"}-0.028]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_with_weight_input[{value: 11, unit: \"g\"}-0.011]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_with_weight_input[{value: 11.11, unit: \"kg\"}-11.11]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_with_weight_variable[0-0_0]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_with_weight_variable[0-0_1]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_with_weight_variable[11-11.0]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_with_weight_variable[11.11-11.11_0]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_with_weight_variable[11.11-11.11_1]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_with_weight_variable[weight5-11.11]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_with_weight_variable[weight6-0.011]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_with_weight_variable[weight7-0.028]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_product_without_variants",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_stocks",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_create_stocks_failed",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_delete_product",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_delete_product_removes_checkout_lines",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_delete_product_trigger_webhook",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_delete_product_variant_in_draft_order",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_delete_product_with_file_attribute",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_delete_product_with_image",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_fetch_all_product_variants_available_as_staff_user_with_channel",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_fetch_all_product_variants_available_as_staff_user_without_channel",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_fetch_all_products_as_app_without_channel_slug",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_fetch_all_products_as_staff_user_without_channel_slug",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_fetch_all_products_available_as_anonymous",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_fetch_all_products_available_as_app",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_fetch_all_products_available_as_customer",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_fetch_all_products_available_as_staff_user",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_fetch_all_products_not_available_as_anonymous",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_fetch_all_products_not_available_as_app",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_fetch_all_products_not_available_as_customer",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_fetch_all_products_not_available_as_staff_user",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_fetch_all_products_not_existing_in_channel_as_anonymous",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_fetch_all_products_not_existing_in_channel_as_app",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_fetch_all_products_not_existing_in_channel_as_customer",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_fetch_all_products_not_existing_in_channel_as_staff_user",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_fetch_all_products_visible_in_listings",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_fetch_all_products_visible_in_listings_by_app_with_perm",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_fetch_all_products_visible_in_listings_by_app_without_manage_products",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_fetch_all_products_visible_in_listings_by_staff_with_perm",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_fetch_all_products_visible_in_listings_by_staff_without_manage_products",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_fetch_product_from_category_query",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_filter_product_types_by_custom_search_value[-expected_names0]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_filter_product_types_by_custom_search_value[average-expected_names3]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_filter_product_types_by_custom_search_value[best-expected_names1]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_filter_product_types_by_custom_search_value[worst-expected_names2]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_filter_products_by_wrong_attributes",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_filter_products_with_unavailable_variants_attributes_as_staff",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_filter_products_with_unavailable_variants_attributes_as_user",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_get_collections_from_product_as_anonymous",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_get_collections_from_product_as_app",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_get_collections_from_product_as_customer",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_get_collections_from_product_as_staff",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_get_product_with_sorted_attribute_values",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_hidden_product_access_with_permission_manage_channels",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_hidden_product_access_with_permission_manage_discounts",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_hidden_product_access_with_permission_manage_orders",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_hidden_product_access_with_proper_permissions",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_invalid_product_media_create_mutation",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_create_with_collections_webhook",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_create_without_product_type",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_filter_by_attribute_values",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_image_update_mutation",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_media_create_mutation",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_media_create_mutation_with_both_url_and_image",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_media_create_mutation_with_media_url",
+   "v3_class": "TARGET_ORACLE_INVALID",
+   "target_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_media_create_mutation_with_unknown_url",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_media_create_mutation_without_file",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_media_create_mutation_without_url_or_image",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_media_delete",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_query_by_id_as_app_without_channel_slug",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_query_by_id_as_staff_user_without_channel_slug",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_query_by_id_as_user",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_query_by_id_available_as_app",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_query_by_id_available_as_customer",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_query_by_id_available_as_staff_user",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_query_by_id_not_available_as_app",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_query_by_id_not_available_as_customer",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_query_by_id_not_available_as_staff_user",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_query_by_id_not_existing_in_channel_as_app",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_query_by_id_not_existing_in_channel_as_customer",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_query_by_id_not_existing_in_channel_as_staff_user",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_query_by_id_weight_is_rounded",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_query_by_id_weight_returned_in_default_unit",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_query_by_id_without_channel_not_available_as_staff_user",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_query_by_invalid_id[']",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_query_by_invalid_id[abc]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_query_by_slug",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_query_by_slug_as_app_without_channel",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_query_by_slug_as_staff_user_without_channel",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_query_by_slug_available_as_app",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_query_by_slug_available_as_customer",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_query_by_slug_available_as_staff_user",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_query_by_slug_not_available_as_app",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_query_by_slug_not_available_as_customer",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_query_by_slug_not_available_as_staff_user",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_query_by_slug_not_existing_in_channel_as_app",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_query_by_slug_not_existing_in_channel_as_customer",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_query_by_slug_not_existing_in_channel_as_staff_user",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_query_description",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_query_error_when_id_and_slug_provided",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_query_error_when_no_param",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_query_invalid_id",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_query_is_available_for_purchase_false",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_query_is_available_for_purchase_false_no_available_for_purchase_date",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_query_is_available_for_purchase_true",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_query_object_with_given_id_does_not_exist",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_query_unpublished_products_by_slug",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_query_unpublished_products_by_slug_and_anonymous_user",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_query_with_invalid_object_type",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_query_with_no_description",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_restricted_fields_permissions",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_type",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_type_create_mutation",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_type_create_mutation_not_valid_attributes",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_type_delete_mutation",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_type_delete_mutation_deletes_also_images",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_type_delete_mutation_variants_in_draft_order",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_type_delete_with_file_attributes",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_type_filter_unassigned_attributes",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_type_get_unassigned_product_type_attributes",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_type_query",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_type_query_by_id_weight_returned_in_default_unit",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_type_query_invalid_id",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_type_query_object_with_given_id_does_not_exist",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_type_query_only_variant_selections_value_set[ALL]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_type_query_only_variant_selections_value_set[NOT_VARIANT_SELECTION]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_type_query_only_variant_selections_value_set[VARIANT_SELECTION]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_type_query_with_filter[product_type_filter0-2]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_type_query_with_filter[product_type_filter1-1]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_type_query_with_filter[product_type_filter2-1]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_type_query_with_filter[product_type_filter3-2]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_type_query_with_filter[product_type_filter4-2]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_type_query_with_filter[product_type_filter5-1]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_type_query_with_invalid_object_type",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_type_query_with_sort[product_type_sort0-result_order0]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_type_query_with_sort[product_type_sort1-result_order1]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_type_query_with_sort[product_type_sort2-result_order2]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_type_query_with_sort[product_type_sort3-result_order3]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_type_query_with_sort[product_type_sort4-result_order4]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_type_query_with_sort[product_type_sort5-result_order5]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_type_update_changes_variant_name",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_type_update_mutation",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_type_update_mutation_not_valid_attributes",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_types_query_ids_not_exists",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_unpublished_query_by_id_as_app",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_update_variants_names",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_variant_price[0-0]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_variant_price[200-200]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_variant_price_no_address",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_variant_set_default",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_variant_set_default_invalid_id",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_variant_set_default_not_products_variant",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_variant_without_price_as_staff_with_permission",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_variant_without_price_as_staff_without_permission",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_variant_without_price_as_user",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_variant_without_price_by_id_as_app_with_permission",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_variant_without_price_by_id_as_app_without_permission",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_variant_without_price_by_id_as_staff_with_permission",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_variant_without_price_by_id_as_staff_without_permission",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_variant_without_price_by_id_as_user",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_variant_without_price_by_sku_as_app_with_permission",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_variant_without_price_by_sku_as_app_without_permission",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_variant_without_price_by_sku_as_staff_with_permission",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_variant_without_price_by_sku_as_staff_without_permission",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_variant_without_price_by_sku_as_user",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_variants_by_customer",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_variants_by_ids",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_variants_no_ids_list",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_variants_without_price_by_ids_as_app_with_permission",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_variants_without_price_by_ids_as_app_without_permission",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_variants_without_price_by_ids_as_staff_with_permission",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_variants_without_price_by_ids_as_staff_without_permission",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_variants_without_price_by_ids_as_user",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_product_with_collections",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_filter_by_non_existing_attribute",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter[products_filter0]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter[products_filter1]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter[products_filter2]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_attributes",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_boolean_attributes[False-expected_products_index0]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_boolean_attributes[True-expected_products_index1]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_by_attributes_values_and_range",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_category",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_category_and_search",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_collection",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_gift_card_false",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_gift_card_true",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_has_category_false",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_has_category_true",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_numeric_attributes[0-8-expected_products_index1]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_numeric_attributes[12-None-expected_products_index5]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_numeric_attributes[20-8-expected_products_index7]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_numeric_attributes[20-None-expected_products_index6]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_numeric_attributes[5-None-expected_products_index3]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_numeric_attributes[7-8-expected_products_index2]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_numeric_attributes[8-10-expected_products_index4]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_numeric_attributes[None-8-expected_products_index0]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_search_by_sku[False]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_search_by_sku[True]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_stock_availability_as_staff",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_stock_availability_as_user",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_stock_availability_channel_without_shipping_zones",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_stocks[None-warehouse_indexes4-1-indexes_of_products_in_result4]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_stocks[None-warehouse_indexes5-2-indexes_of_products_in_result5]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_stocks[quantity_input0-warehouse_indexes0-1-indexes_of_products_in_result0]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_stocks[quantity_input1-warehouse_indexes1-1-indexes_of_products_in_result1]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_stocks[quantity_input2-warehouse_indexes2-1-indexes_of_products_in_result2]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_stocks[quantity_input3-warehouse_indexes3-0-indexes_of_products_in_result3]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_stocks[quantity_input6-warehouse_indexes6-1-indexes_of_products_in_result6]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_stocks[quantity_input7-warehouse_indexes7-1-indexes_of_products_in_result7]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_stocks[quantity_input8-warehouse_indexes8-0-indexes_of_products_in_result8]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_swatch_attributes",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_with_is_published_filter_one_variant_without_price",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_with_is_published_filter_variants_without_prices",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_with_price_filter_as_staff",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_query_with_price_filter_as_user",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_products_with_variants_query_as_app",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_query_product_for_federation",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_query_product_image_by_id",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_query_product_image_by_id_missing_id",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_query_product_image_by_id_not_media_id",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_query_product_image_by_invalid_id",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_query_product_is_available",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_query_product_is_available_no_shipping_zones",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_query_product_is_available_with_one_variant",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_query_product_media_by_id",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_query_product_media_by_id_missing_id",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_query_product_media_by_id_not_media_id",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_query_product_media_by_invalid_id",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_query_product_media_for_federation",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_query_product_type_for_federation",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_query_products_no_channel_shipping_zones",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_query_products_with_filter_ids",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_reorder_media",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_reorder_variants",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_reorder_variants_invalid_variants",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_report_product_sales",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_report_product_sales_channel_pln",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_report_product_sales_not_existing_channel",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_search_product_by_description",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_search_product_by_description_and_name",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_search_product_by_description_and_name_and_use_cursor",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_search_product_by_description_and_name_without_sort_by",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_sort_product_by_rank_with_empty_search_value[  ]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_sort_product_by_rank_with_empty_search_value[None]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_sort_product_by_rank_with_empty_search_value[]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_sort_product_by_rank_without_search",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_sort_products",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_sort_products_by_price_as_staff",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_sort_products_product_type_name",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_unassign_not_assigned_variant_media_image",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_unassign_variant_media_image",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_and_search_product_by_description",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_or_create_variant_stocks",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_or_create_variant_stocks_empty_stocks_data",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_or_create_variant_stocks_when_stock_out_of_quantity",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_or_create_variant_stocks_with_out_of_stock_webhook_only",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_or_create_variant_with_back_in_stock_webhooks_only_failed",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_or_create_variant_with_back_in_stock_webhooks_only_success",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_can_only_assign_multiple_values_to_valid_input_types",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_change_values_ordering",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_clear_attribute_values",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_name",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_rating",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_slug[--Slug value cannot be blank.]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_slug[None--Slug value cannot be blank.]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_slug[test-slug-test-slug-None]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_slug_and_name[--New name-Slug value cannot be blank.-slug]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_slug_and_name[None--New name-Slug value cannot be blank.-slug]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_slug_and_name[None-None-None-Slug value cannot be blank.-slug]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_slug_and_name[test-slug---This field cannot be blank.-name]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_slug_and_name[test-slug--None-This field cannot be blank.-name]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_slug_and_name[test-slug-test-slug-New name-None-None]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_slug_exists",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_slug_with_existing_value",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_type_slug[--Slug value cannot be blank.]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_type_slug[None--Slug value cannot be blank.]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_type_slug[test-slug-test-slug-None]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_type_slug_and_name[--New name-Slug value cannot be blank.-slug]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_type_slug_and_name[None--New name-Slug value cannot be blank.-slug]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_type_slug_and_name[None-None-None-Slug value cannot be blank.-slug]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_type_slug_and_name[test-slug---This field cannot be blank.-name]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_type_slug_and_name[test-slug--None-This field cannot be blank.-name]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_type_slug_and_name[test-slug-test-slug-New name-None-None]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_type_slug_exists",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_type_type",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_type_with_negative_weight",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_with_boolean_attribute_value",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_with_empty_input_collections",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_with_existing_attribute_value",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_with_file_attribute_value",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_with_file_attribute_value_new_value_is_not_created",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_with_negative_weight",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_with_no_attribute_slug_or_id",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_with_non_existing_attribute",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_with_numeric_attribute_value",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_with_numeric_attribute_value_new_value_is_not_created",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_with_page_reference_attribute_existing_value",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_with_page_reference_attribute_value",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_with_page_reference_attribute_value_not_given",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_with_product_reference_attribute_existing_value",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_with_product_reference_attribute_value",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_with_product_reference_attribute_value_not_given",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_without_description_clear_description_plaintext",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_update_product_without_supplying_required_product_attribute",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_variant_digital_content",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_variant_query_invalid_id",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_variant_query_object_with_given_id_does_not_exist",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_variant_query_with_invalid_object_type",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_variant_restricted_fields_permissions[digitalContent-True]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product.py::test_variant_restricted_fields_permissions[quantityOrdered-False]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/warehouse/tests/test_stock_management.py::test_allocate_stock_insufficient_stocks",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/warehouse/tests/test_stock_management.py::test_allocate_stock_insufficient_stocks_for_multiple_lines",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/warehouse/tests/test_stock_management.py::test_allocate_stock_many_stocks",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/warehouse/tests/test_stock_management.py::test_allocate_stock_many_stocks_partially_allocated",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/warehouse/tests/test_stock_management.py::test_allocate_stock_partially_allocated_insufficient_stocks",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/warehouse/tests/test_stock_management.py::test_allocate_stocks",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/warehouse/tests/test_stock_management.py::test_allocate_stocks_multiple_lines",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/warehouse/tests/test_stock_management.py::test_allocate_stocks_no_channel_shipping_zones",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/warehouse/tests/test_stock_management.py::test_deallocate_stock",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/warehouse/tests/test_stock_management.py::test_deallocate_stock_for_order",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/warehouse/tests/test_stock_management.py::test_deallocate_stock_many_allocations",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/warehouse/tests/test_stock_management.py::test_deallocate_stock_many_allocations_partially",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/warehouse/tests/test_stock_management.py::test_deallocate_stock_partially",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/warehouse/tests/test_stock_management.py::test_deallocate_stock_when_quantity_less_than_zero",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/warehouse/tests/test_stock_management.py::test_decrease_stock",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/warehouse/tests/test_stock_management.py::test_decrease_stock_insufficient_stock",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/warehouse/tests/test_stock_management.py::test_decrease_stock_many_allocations",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/warehouse/tests/test_stock_management.py::test_decrease_stock_many_allocations_partially",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/warehouse/tests/test_stock_management.py::test_decrease_stock_more_then_allocated",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/warehouse/tests/test_stock_management.py::test_decrease_stock_multiple_lines",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/warehouse/tests/test_stock_management.py::test_decrease_stock_partially",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/warehouse/tests/test_stock_management.py::test_decrease_stock_with_out_of_stock_webhook_triggered",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/warehouse/tests/test_stock_management.py::test_decrease_stock_without_stock_update[200-0]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/warehouse/tests/test_stock_management.py::test_decrease_stock_without_stock_update[50-30]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/warehouse/tests/test_stock_management.py::test_increase_allocation_insufficient_stock",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/warehouse/tests/test_stock_management.py::test_increase_allocations[19]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/warehouse/tests/test_stock_management.py::test_increase_allocations[20]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/warehouse/tests/test_stock_management.py::test_increase_stock_with_allocate",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/warehouse/tests/test_stock_management.py::test_increase_stock_with_back_in_stock_webhook_not_triggered",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/warehouse/tests/test_stock_management.py::test_increase_stock_with_back_in_stock_webhook_not_triggered_with_allocation",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/warehouse/tests/test_stock_management.py::test_increase_stock_with_back_in_stock_webhook_triggered_without_allocation",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/warehouse/tests/test_stock_management.py::test_increase_stock_with_new_allocation",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "saleor/warehouse/tests/test_stock_management.py::test_increase_stock_without_allocate",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v2_class": "TARGET_ORACLE_INVALID"
+  }
+ ],
+ "transitions": {},
+ "regression_candidates": 0,
+ "v2_defect_corrections": 0,
+ "integrity": {
+  "n_v2_nodes": 416,
+  "n_v3_nodes": 416,
+  "missing_in_v3": [],
+  "orphan_in_v3": [],
+  "ok": true
+ }
+}

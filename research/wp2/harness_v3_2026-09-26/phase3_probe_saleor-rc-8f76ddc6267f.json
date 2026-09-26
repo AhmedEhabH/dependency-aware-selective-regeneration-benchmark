@@ -54,19 +54,19 @@
   "primary_eligible": true
  },
  "clock_preflight": {
-  "verdict": "CONTINUE_RECORDED",
+  "verdict": "PASS",
   "pre": {
    "n_samples": 5,
-   "median_skew_s": 0.694555,
-   "max_abs_skew_s": 0.704877,
+   "median_skew_s": 0.095209,
+   "max_abs_skew_s": 0.100161,
    "samples": [
-    0.679269,
-    0.693875,
-    0.694555,
-    0.694896,
-    0.704877
+    0.084646,
+    0.100161,
+    0.097342,
+    0.094985,
+    0.095209
    ],
-   "verdict": "WARN"
+   "verdict": "PASS"
   },
   "post": null,
   "resync": null
@@ -85,13 +85,13 @@
   "era": "py39",
   "frozen_base_image_id": "sha256:ddc08d7e685517764dfa2606a760d5b3f09d57840d8a0bbcef366db67cd99ef8",
   "harness_v3_version": "wp2-harness-v3-2026-09-26",
-  "runner_sha": "26cfbbaeb5b08b173d17dcb1785fd12f60730644",
+  "runner_sha": "7251919c347e23fc2bd55768e23005f0497dd238",
   "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
   "lockfile_sha256": "73bcec151da722dc17bdb020c7f8342db00bb1006245a1d41255b12bf62860f4",
   "nofile_soft": 65536,
   "nofile_hard": 65536,
   "clock_pre_post": {
-   "pre": 0.694555,
+   "pre": 0.095209,
    "post": null
   },
   "worker_count": 1,
@@ -101,8 +101,8 @@
   }
  },
  "operations": {
-  "target_wall_s": 150.8,
-  "parent_wall_s": 294.0,
+  "target_wall_s": 151.3,
+  "parent_wall_s": 300.2,
   "target_error": null,
   "parent_error": null
  },
@@ -245,6 +245,7 @@
  ],
  "transitions": {},
  "regression_candidates": 0,
+ "v2_defect_corrections": 0,
  "integrity": {
   "n_v2_nodes": 9,
   "n_v3_nodes": 9,

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="9" time="3.560" timestamp="2026-09-26T07:12:56.686232-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.webhook.tests.mutations.test_webhook_dry_run" name="test_webhook_dry_run" time="1.495" /><testcase classname="saleor.graphql.webhook.tests.mutations.test_webhook_dry_run" name="test_webhook_dry_run_missing_user_permission" time="0.112" /><testcase classname="saleor.graphql.webhook.tests.mutations.test_webhook_dry_run" name="test_webhook_dry_run_staff_user_not_authorized" time="0.180" /><testcase classname="saleor.graphql.webhook.tests.mutations.test_webhook_dry_run" name="test_webhook_dry_run_non_existing_id" time="0.115" /><testcase classname="saleor.graphql.webhook.tests.mutations.test_webhook_dry_run" name="test_webhook_dry_run_invalid_query" time="0.240" /><testcase classname="saleor.graphql.webhook.tests.mutations.test_webhook_dry_run" name="test_webhook_dry_run_object_id_does_not_match_event" time="0.171" /><testcase classname="saleor.graphql.webhook.tests.mutations.test_webhook_dry_run" name="test_webhook_dry_run_event_type_not_supported" time="0.159" /><testcase classname="saleor.graphql.webhook.tests.mutations.test_webhook_dry_run" name="test_webhook_dry_run_root_type" time="0.655"><failure message="assert not [{'extensions': {'exception': {'code': 'PermissionDenied'}}, 'locations': [{'column': 13, 'line': 7}], 'message': 'You... of the following permissions: AUTHENTICATED_APP, AUTHENTICATED_STAFF_USER', 'path': ['event', 'channel', 'isActive']}]&#10; +  where [{'extensions': {'exception': {'code': 'PermissionDenied'}}, 'locations': [{'column': 13, 'line': 7}], 'message': 'You... of the following permissions: AUTHENTICATED_APP, AUTHENTICATED_STAFF_USER', 'path': ['event', 'channel', 'isActive']}] = &lt;built-in method get of dict object at 0x7faa3fd3ecc0&gt;('errors')&#10; +    where &lt;built-in method get of dict object at 0x7faa3fd3ecc0&gt; = {'channel': None, 'errors': [{'extensions': {'exception': {'code': 'PermissionDenied'}}, 'locations': [{'column': 13, ...of the following permissions: AUTHENTICATED_APP, AUTHENTICATED_STAFF_USER', 'path': ['event', 'channel', 'isActive']}]}.get&#10; +      where {'channel': None, 'errors': [{'extensions': {'exception': {'code': 'PermissionDenied'}}, 'locations': [{'column': 13, ...of the following permissions: AUTHENTICATED_APP, AUTHENTICATED_STAFF_USER', 'path': ['event', 'channel', 'isActive']}]} = &lt;function loads at 0x7faa4ee27670&gt;('{&quot;channel&quot;: null, &quot;errors&quot;: [{&quot;message&quot;: &quot;You need one of the following permissions: AUTHENTICATED_APP, AUTHENTICATED...&quot;column&quot;: 13}], &quot;path&quot;: [&quot;event&quot;, &quot;channel&quot;, &quot;isActive&quot;], &quot;extensions&quot;: {&quot;exception&quot;: {&quot;code&quot;: &quot;PermissionDenied&quot;}}}]}')&#10; +        where &lt;function loads at 0x7faa4ee27670&gt; = json.loads">superuser_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7faa407537f0&gt;
+async_subscription_webhooks_with_root_objects = {'address_created': [&lt;Webhook: Subscription&gt;, &lt;Address: Address object (39)&gt;], 'address_deleted': [&lt;Webhook: Subscript...bscription&gt;, &lt;Address: Address object (39)&gt;], 'app_deleted': [&lt;Webhook: Subscription&gt;, &lt;App: Sample app objects&gt;], ...}
+
+    def test_webhook_dry_run_root_type(
+        superuser_api_client,
+        async_subscription_webhooks_with_root_objects,
+    ):
+        # given
+        query = WEBHOOK_DRY_RUN_MUTATION
+    
+        for event_name, event_type in WEBHOOK_TYPES_MAP.items():
+            if not event_type._meta.enable_dry_run:
+                continue
+    
+            webhook = async_subscription_webhooks_with_root_objects[event_name][0]
+            object = async_subscription_webhooks_with_root_objects[event_name][1]
+            object_id = graphene.Node.to_global_id(object.__class__.__name__, object.pk)
+    
+            variables = {"objectId": object_id, "query": webhook.subscription_query}
+    
+            # when
+            response = superuser_api_client.post_graphql(query, variables)
+            content = get_graphql_content(response)
+    
+            # then
+            assert not content["data"]["webhookDryRun"]["errors"]
+            payload = content["data"]["webhookDryRun"]["payload"]
+            assert payload
+&gt;           assert not json.loads(payload).get("errors")
+E           assert not [{'extensions': {'exception': {'code': 'PermissionDenied'}}, 'locations': [{'column': 13, 'line': 7}], 'message': 'You... of the following permissions: AUTHENTICATED_APP, AUTHENTICATED_STAFF_USER', 'path': ['event', 'channel', 'isActive']}]
+E            +  where [{'extensions': {'exception': {'code': 'PermissionDenied'}}, 'locations': [{'column': 13, 'line': 7}], 'message': 'You... of the following permissions: AUTHENTICATED_APP, AUTHENTICATED_STAFF_USER', 'path': ['event', 'channel', 'isActive']}] = &lt;built-in method get of dict object at 0x7faa3fd3ecc0&gt;('errors')
+E            +    where &lt;built-in method get of dict object at 0x7faa3fd3ecc0&gt; = {'channel': None, 'errors': [{'extensions': {'exception': {'code': 'PermissionDenied'}}, 'locations': [{'column': 13, ...of the following permissions: AUTHENTICATED_APP, AUTHENTICATED_STAFF_USER', 'path': ['event', 'channel', 'isActive']}]}.get
+E            +      where {'channel': None, 'errors': [{'extensions': {'exception': {'code': 'PermissionDenied'}}, 'locations': [{'column': 13, ...of the following permissions: AUTHENTICATED_APP, AUTHENTICATED_STAFF_USER', 'path': ['event', 'channel', 'isActive']}]} = &lt;function loads at 0x7faa4ee27670&gt;('{"channel": null, "errors": [{"message": "You need one of the following permissions: AUTHENTICATED_APP, AUTHENTICATED..."column": 13}], "path": ["event", "channel", "isActive"], "extensions": {"exception": {"code": "PermissionDenied"}}}]}')
+E            +        where &lt;function loads at 0x7faa4ee27670&gt; = json.loads
+
+saleor/graphql/webhook/tests/mutations/test_webhook_dry_run.py:621: AssertionError</failure></testcase><testcase classname="saleor.graphql.webhook.tests.mutations.test_webhook_dry_run" name="test_webhook_dry_run_root_type_for_transaction_item_metadata_updated" time="0.113" /></testsuite></testsuites>

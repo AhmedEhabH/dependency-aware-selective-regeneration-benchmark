@@ -158,7 +158,16 @@ probe, gate). Phase 5 auto-continues iff Phase-4 gate passes.
 - clock: host<->WSL skew -1.85s (WARN); container +0.9-1.1s ahead of WSL;
   AT_RISK_F2P C4=2 C2=1 (JWT iat ImmatureSignatureError)
 - probe tasks lockfile: all poetry.lock; exact dev versions extracted
-- decision token: **pending (Phase 4)**
+- Phase-3 4-task ENG probe (workers=1): ALL COMPLETE. c3b9e396b07d 416 TOI->1,
+  e25cf9b4a837 252 TOI->0, 74538ea00ce9 0 TOI (1 V2_DEFECT_CORRECTION:
+  test_update_voucher JWT clock-skew), 8f76ddc6267f V3==V2. 667 V2-invalid
+  nodes recovered to valid oracle classes. 0 EMFILE across all 66 V3 junit.
+  integrity PASS on all 4.
+- Phase-4 mechanical gate: **ALL PASS** -> TOKEN=HARNESS_V3_RECOMMENDED,
+  AUTO-CONTINUE Phase 5 (gate.json/gate.md). MATERIALITY 2592/3647=71.1%,
+  RECOVERY 667, FIX_EFFICACY PASS, SAFETY PASS, REGRESSIONS=0,
+  V2_DEFECT_CORRECTIONS=1.
+- decision token: **HARNESS_V3_RECOMMENDED (Phase-4 gate passed)**
 - commit/tag/export: see STOP report at mission end
 
 **REFLECTION (Phase 1):**
@@ -175,6 +184,10 @@ probe, gate). Phase 5 auto-continues iff Phase-4 gate passes.
    (no new image build).
 4. Single highest-payoff next step: freeze Harness V3 + run the 4-task ENG
    probe under workers=1, then evaluate the Phase-4 mechanical gate.
+5. Phase-3/4 result: the Phase-4 gate passed (HARNESS_V3_RECOMMENDED) with
+   667 V2-invalid nodes recovered under V3, 0 EMFILE residue, 0 regressions.
+   The single V2_DEFECT_CORRECTION (test_update_voucher) confirms the
+   clock-skew mechanism Mission-10A suspected.
 
 **NORTH STAR:** Tasks eventually evaluated E2E across all five dimensions
 under a frozen, valid, reproducible environment/evaluator.
