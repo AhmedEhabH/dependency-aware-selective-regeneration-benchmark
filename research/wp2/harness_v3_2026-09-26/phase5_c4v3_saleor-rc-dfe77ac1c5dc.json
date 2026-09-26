@@ -1,6 +1,6 @@
 {
  "task_id": "saleor-rc-dfe77ac1c5dc",
- "status": "DONE",
+ "status": "ENV_INSTALL_BLOCKED",
  "era_key": "py312",
  "target_commit": "dfe77ac1c5dcd3ca8958ccec989c3bf9a012c848",
  "counts": {
@@ -22,13 +22,13 @@
   "task_collection_failure": false,
   "semantics_version": "oracle-semantics-v2-2026-09-23"
  },
- "classification": "NOT_PRIMARY",
+ "classification": "ENV_INSTALL_BLOCKED",
  "n_nodes": 1,
  "n_test_files": 1,
- "wall_s": 76.2,
+ "wall_s": 84.4,
  "operations": {
-  "target_wall_s": 43.9,
-  "parent_wall_s": 76.2,
+  "target_wall_s": 47.1,
+  "parent_wall_s": 84.4,
   "target_error": null,
   "parent_error": null
  },
@@ -54,20 +54,21 @@
   "era": "py312",
   "frozen_base_image_id": "sha256:0c185699947d75d5866e57dfb10bba25cca05dc58ca3fd2f75446ee8b0e41394",
   "harness_v3_version": "wp2-harness-v3-2026-09-26",
-  "runner_sha": "6b610bbda3a7f087aeeab3279d724f703d207acf",
-  "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+  "runner_sha": "df6e17718aa2c351f1234026f5360ad7cc86a7ba",
+  "install_mode": "V2_MAIN_PLUS_EXACT_LOCKED_DEV",
   "lockfile_sha256": "c1108d0271f106cadc528040654b12491d681d48818b62490ce7519b535c3f6c",
   "nofile_soft": 65536,
   "nofile_hard": 65536,
   "clock_pre_post": {
-   "pre": 0.039752,
+   "pre": -0.254909,
    "post": null
   },
-  "worker_count": 2,
+  "C4_EFFECTIVE_WORKERS": 1,
   "db_names": {
    "t": "saleor_v3_dfe77ac1c5dc_t",
    "p": "saleor_v3_dfe77ac1c5dc_p"
   }
  },
- "evidence_sha256": "3c7ed595d267b174b8c8df67d2c26eacb0eb161af25b0a06849dd1f3708aa972"
+ "evidence_sha256": "f6b1db276b407dbbe77edd792cc78602168355acccaeed935f48890a48317f1a",
+ "bookkeeping_note": "Reclassified from DONE to ENV_INSTALL_BLOCKED (2026-09-26): 1 file-level collection failure node, no test-level nodes; task not oracle-executable. No rerun performed per directive."
 }

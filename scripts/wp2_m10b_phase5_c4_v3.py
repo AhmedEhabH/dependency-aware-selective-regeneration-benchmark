@@ -217,9 +217,24 @@ def run_task(task_id: str, out_root: Path) -> dict:
         environment_valid=True,
         task_collection_failure=False,
     )
+    # Classify terminal status under Harness V3 (11.1 / 17.2).
+    # INSTALL_FAIL from the lock-exact install = deterministic ENV_INSTALL_BLOCKED
+    # (no historically faithful install producible); counted terminal for the
+    # ENG barrier but NOT oracle-executable.
+    t_err = tgt.get("error")
+    p_err = par.get("error")
+    if t_err or p_err:
+        if t_err == "INSTALL_FAIL" or p_err == "INSTALL_FAIL":
+            status = "ENV_INSTALL_BLOCKED"
+        elif t_err == "CLOCK_BLOCKED" or p_err == "CLOCK_BLOCKED":
+            status = "CLOCK_BLOCKED"
+        else:
+            status = "ERROR"
+    else:
+        status = "DONE"
     result = {
         "task_id": task_id,
-        "status": "DONE" if tgt.get("error") is None and par.get("error") is None else "ERROR",
+        "status": status,
         "era_key": era_key,
         "target_commit": target,
         "counts": counts,
@@ -301,7 +316,7 @@ def _verify_done(task_id: str) -> dict:
         rec = json.loads(ev.read_text(encoding="utf-8"))
     except Exception as exc:
         return {"ok": False, "reason": f"evidence unparseable: {exc}"}
-    if rec.get("status") != "DONE":
+    if rec.get("status") not in ("DONE", "ENV_INSTALL_BLOCKED"):
         return {"ok": False, "reason": f"record status {rec.get('status')}"}
     # SHA256 of the persisted evidence (without the self-referential field)
     payload = dict(rec)
@@ -313,9 +328,10 @@ def _verify_done(task_id: str) -> dict:
     n_nodes = rec.get("n_nodes", 0)
     if n_nodes and len(rec.get("node_records", [])) == 0:
         return {"ok": False, "reason": "n_nodes>0 but no node_records"}
-    # operations must not carry an infra error
+    # operations must not carry an infra error (ENV_INSTALL_BLOCKED is a
+    # deterministic classification, not an unexpected error)
     ops = rec.get("operations", {})
-    if ops.get("target_error") or ops.get("parent_error"):
+    if rec.get("status") == "DONE" and (ops.get("target_error") or ops.get("parent_error")):
         return {"ok": False, "reason": "infra error in operations"}
     return {"ok": True}
 

@@ -4,47 +4,397 @@
  "era_key": "py312",
  "target_commit": "39b4138e85500065175d94d5d5b50fc2f4eabd2d",
  "counts": {
-  "BEHAVIORAL_F2P": 0,
+  "BEHAVIORAL_F2P": 26,
   "SYMBOL_ABSENCE_F2P": 0,
   "PARENT_COLLECTION_ERROR": 0,
   "FLAKY": 0,
-  "TARGET_ORACLE_INVALID": 1,
+  "TARGET_ORACLE_INVALID": 0,
   "P2P_ONLY": 0,
   "OTHER_REVIEW_REQUIRED": 0
  },
  "eligibility": {
-  "PRIMARY_BEHAVIORAL_F2P_ELIGIBLE": false,
-  "EXTENDED_F2P_ELIGIBLE": false,
-  "n_behavioral_f2p": 0,
+  "PRIMARY_BEHAVIORAL_F2P_ELIGIBLE": true,
+  "EXTENDED_F2P_ELIGIBLE": true,
+  "n_behavioral_f2p": 26,
   "n_symbol_absence_f2p": 0,
   "n_parent_collection_error": 0,
   "environment_valid": true,
   "task_collection_failure": false,
   "semantics_version": "oracle-semantics-v2-2026-09-23"
  },
- "classification": "NOT_PRIMARY",
- "n_nodes": 1,
+ "classification": "BEHAVIORAL_F2P",
+ "n_nodes": 26,
  "n_test_files": 1,
- "wall_s": 75.3,
+ "wall_s": 339.2,
  "operations": {
-  "target_wall_s": 38.4,
-  "parent_wall_s": 75.3,
+  "target_wall_s": 171.8,
+  "parent_wall_s": 339.2,
   "target_error": null,
   "parent_error": null
  },
  "node_records": [
   {
-   "node_id": "saleor/graphql/payment/tests/queries/test_transaction.py",
-   "v3_class": "TARGET_ORACLE_INVALID",
+   "node_id": "saleor/graphql/payment/tests/queries/test_transaction.py::test_query_transaction_by_invalid_id",
+   "v3_class": "BEHAVIORAL_F2P",
    "target_outcomes": [
-    "error",
-    "error",
-    "error"
+    "passed",
+    "passed",
+    "passed"
    ],
    "parent_outcomes": [
-    "error",
-    "error",
-    "error"
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_create_by_app_query_no_permission",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_create_by_user_query_no_permission",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_created_by_app_marked_to_remove",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_created_by_app_query_by_app",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_created_by_app_query_by_app_with_old_id",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_created_by_app_query_by_staff",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_created_by_user_query_by_app",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_created_by_user_query_by_staff",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_created_by_user_with_old_id",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_created_with_old_id_for_new_transaction",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_creted_by_app_query_no_order",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_creted_by_user_query_no_order",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_event_by_app",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_event_by_app_marked_to_remove",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_event_by_reinstalled_app",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_event_by_user",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_query_by_app_with_payment_method_card",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_query_by_app_with_payment_method_other",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_query_by_staff_with_payment_method_card",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_query_by_staff_with_payment_method_other",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_with_checkout",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_with_pending_amount[authorize_pending_value-authorizePendingAmount]",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_with_pending_amount[cancel_pending_value-cancelPendingAmount]",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_with_pending_amount[charge_pending_value-chargePendingAmount]",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_with_pending_amount[refund_pending_value-refundPendingAmount]",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
    ]
   }
  ],
@@ -54,20 +404,20 @@
   "era": "py312",
   "frozen_base_image_id": "sha256:0c185699947d75d5866e57dfb10bba25cca05dc58ca3fd2f75446ee8b0e41394",
   "harness_v3_version": "wp2-harness-v3-2026-09-26",
-  "runner_sha": "6b610bbda3a7f087aeeab3279d724f703d207acf",
+  "runner_sha": "df6e17718aa2c351f1234026f5360ad7cc86a7ba",
   "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
   "lockfile_sha256": "b6d52a90333dc738f0aaccf7f8649defa9a43250e8eebb3ba1ce95ee75b4370c",
   "nofile_soft": 65536,
   "nofile_hard": 65536,
   "clock_pre_post": {
-   "pre": 0.021676,
+   "pre": 0.186073,
    "post": null
   },
-  "worker_count": 2,
+  "C4_EFFECTIVE_WORKERS": 1,
   "db_names": {
    "t": "saleor_v3_39b4138e8550_t",
    "p": "saleor_v3_39b4138e8550_p"
   }
  },
- "evidence_sha256": "35158222d405fed642c14dc5bc0e873351a1ed5431f4ac01ae913741ad82aea4"
+ "evidence_sha256": "09a1b983d952ab9364a5bff00bd61e0d58457d731a73705dad5051c0ef82353f"
 }

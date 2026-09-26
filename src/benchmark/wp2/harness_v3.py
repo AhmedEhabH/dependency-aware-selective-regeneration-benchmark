@@ -31,6 +31,7 @@ from __future__ import annotations
 import datetime
 import hashlib
 import json
+import re
 import subprocess
 import time
 from pathlib import Path
@@ -179,24 +180,73 @@ def lock_install_script(worktree_linux: str,
         return fragment, mode, {"lockfile": "poetry.lock",
                                 "main": "requirements.txt", "dev_group": dev_group}
     if has_poetry and dev_group:
-        # Poetry project WITHOUT requirements.txt: editable main + locked dev.
+        pm = re.search(r"package-mode\s*=\s*(true|false)", pyproject)
+        package_mode_false = bool(pm and pm.group(1) == "false")
+        if not package_mode_false:
+            # Poetry project, package-mode default (true): the project IS a
+            # package, so `-e .` (V2 main mechanism) works and was what V2
+            # executed successfully. Exact-lock main may be unsatisfiable
+            # (e.g. python-magic-bin no Linux wheel), so the historically
+            # faithful install is V2_MAIN_PLUS_EXACT_LOCKED_DEV (11.1
+            # fallback): V2 `-e .` main + exact locked dev/test group.
+            mode = INSTALL_MODE_FALLBACK
+            frag_dev, n_dev = _locked_dev_from_lock(manifests.get("poetry.lock", ""))
+            if frag_dev:
+                dev_step = (
+                    f"uv pip install --python /opt/venv/bin/python "
+                    f"{frag_dev} >>/tmp/install.log 2>&1 "
+                    "|| { echo INSTALL_DEV_FAIL; tail -80 /tmp/install.log; exit 2; }; "
+                )
+            else:
+                dev_step = "echo NO_LOCKED_DEV_GROUP; "
+            fragment = (
+                f"uv pip install --python /opt/venv/bin/python -e {base} "
+                ">/tmp/install.log 2>&1 "
+                "|| { echo INSTALL_MAIN_FAIL; tail -120 /tmp/install.log; exit 2; }; "
+                f"{dev_step}"
+                f"echo V2_MAIN_PLUS_EXACT_LOCKED_DEV"
+            )
+            return fragment, mode, {"lockfile": "poetry.lock",
+                                    "main": "editable -e . (V2)",
+                                    "dev_from_lock_n": n_dev}
+        # package-mode=false: the project is NOT a package, so `-e .` fails.
+        # LOCK_EXACT_MAIN_PLUS_DEV: install the EXACT locked versions from the
+        # poetry.lock (main group + dev group) via uv pip install.
         mode = INSTALL_MODE_LOCK_EXACT
+        frag_main, frag_dev, n_main, n_dev = poetry_lock_install_fragment(
+            manifests.get("poetry.lock", ""))
+        if frag_dev:
+            dev_step = (
+                f"uv pip install --python /opt/venv/bin/python "
+                f"{frag_dev} >>/tmp/install.log 2>&1 "
+                "|| { echo INSTALL_DEV_FAIL; tail -80 /tmp/install.log; exit 2; }; "
+            )
+        else:
+            dev_step = "echo NO_LOCKED_DEV_GROUP; "
         fragment = (
-            f"uv pip install --python /opt/venv/bin/python -e {base} "
-            ">/tmp/install.log 2>&1 || { echo INSTALL_MAIN_FAIL; tail -120 "
-            "/tmp/install.log; exit 2; }; "
+            f"uv pip install --python /opt/venv/bin/python "
+            f"{frag_main} >/tmp/install.log 2>&1 "
+            "|| { echo INSTALL_MAIN_FAIL; tail -120 /tmp/install.log; exit 2; }; "
+            f"{dev_step}"
             f"echo POETRY_LOCK_MAIN_PLUS_DEV"
         )
-        return fragment, mode, {"lockfile": "poetry.lock", "dev_group": dev_group}
+        return fragment, mode, {"lockfile": "poetry.lock",
+                                "main_from_lock_n": n_main,
+                                "dev_from_lock_n": n_dev}
     if has_uv:
+        # uv-era: LOCK_EXACT_MAIN_PLUS_DEV via `uv export --frozen --group dev`
+        # piped into `uv pip install -r -` (11.1 preferred: frozen
+        # lock-respecting, includes dev/test group, installs into /opt/venv).
         mode = INSTALL_MODE_LOCK_EXACT
         fragment = (
-            f"uv pip install --python /opt/venv/bin/python -e {base} "
+            f"cd {base} && uv export --frozen --group dev | "
+            "uv pip install -r - --python /opt/venv/bin/python "
             ">/tmp/install.log 2>&1 || { echo INSTALL_MAIN_FAIL; tail -120 "
             "/tmp/install.log; exit 2; }; "
-            f"echo UV_LOCK_MAIN_PLUS_DEV"
+            f"echo UV_EXPORT_FROZEN_GROUP_DEV"
         )
-        return fragment, mode, {"lockfile": "uv.lock", "dev_group": dev_group}
+        return fragment, mode, {"lockfile": "uv.lock", "dev_group": True,
+                                "mode": "uv export --frozen --group dev"}
     # No lock: requirements.txt production-only (historical V2 behavior);
     # project-declared dev group installed only from explicit locked versions.
     mode = INSTALL_MODE_FALLBACK
@@ -218,6 +268,39 @@ def target_manifests(target_commit: str) -> dict[str, str]:
         if r.returncode == 0 and r.stdout.strip() and "__NO__" not in r.stdout[:6]:
             out[name] = r.stdout
     return out
+
+
+def poetry_lock_install_fragment(lock_text: str
+                                 ) -> tuple[str, str, int, int]:
+    """Parse a poetry.lock (poetry 2.x groups format) into exact main + dev
+    pinned install fragments.
+
+    Returns (main_fragment, dev_fragment, n_main, n_dev) where each fragment is
+    a space-joined list of ``name==version`` pins. Only packages whose
+    ``groups`` include dev are dev; the rest are main."""
+    import re as _re
+    main: list[str] = []
+    dev: list[str] = []
+    for block in _re.split(r"\[\[package\]\]", lock_text)[1:]:
+        name_m = _re.search(r'name\s*=\s*"([^"]+)"', block)
+        ver_m = _re.search(r'version\s*=\s*"([^"]+)"', block)
+        if not name_m or not ver_m:
+            continue
+        name, version = name_m.group(1), ver_m.group(1)
+        grp_m = _re.search(r'groups\s*=\s*\[([^\]]*)\]', block)
+        groups = grp_m.group(1) if grp_m else ""
+        pin = f"{name}=={version}"
+        if "dev" in groups:
+            dev.append(pin)
+        else:
+            main.append(pin)
+    return " ".join(main), " ".join(dev), len(main), len(dev)
+
+
+def _locked_dev_from_lock(lock_text: str) -> tuple[str, int]:
+    """Extract only the dev-group exact pins from a poetry.lock."""
+    _main, dev, _n_main, n_dev = poetry_lock_install_fragment(lock_text)
+    return dev, n_dev
 
 
 def lockfile_sha256(manifests: dict[str, str]) -> str:

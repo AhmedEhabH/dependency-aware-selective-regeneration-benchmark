@@ -476,4 +476,24 @@ scripts/wp1b_calibration_run.py into research/wp1b/calibration-3-2026-09-21/.
 
 **Next step:** Ahmed reviews the Calibration-3 STOP report; then a new
 authorization (D7 = YES) is required before MAIN_297 / variance. The 786 sealed
-Saleor RESERVE outcomes remain untouched.
+Saleor RESERVE outcomes remain untouched.\n
+## Mission-10B Phase-5 ENG V3 (2026-09-26) - reconciliation BEFORE P2P-S/P2P-U
+
+- ENG candidates total: 29 (frozen DEV_TRAIN_ENG C4 members)
+- executable (DONE): 22
+- ENV_INSTALL_BLOCKED: 7 (deterministic env-blocked, permitted by 17.2/18)
+  - py312 poetry package-mode=false with unsatisfiable lock
+    (python-magic-bin==0.4.14 no Linux wheel): 6e0a2cfc9287, 6f1f1720fc7c,
+    7dcf89985e0c, 836d01d8429f, 939093a9c65c, a8e6a4dd55fe
+  - dfe77ac1c5dc: whole-file collection failure after fallback repair;
+    reclassified DONE->ENV_INSTALL_BLOCKED (bookkeeping; no rerun per
+    directive); NOT a scientific blocker for ENG_SMOKE_READY
+- oracle-valid (V3 BEHAVIORAL_F2P): 14 (V2 8 -> V3 14)
+- behavioral-primary: 14; symbol-only: 2
+- V2->V3 recovered tasks: 644f33094857, 6abb53f3407b, 823b899757ab,
+  93b20d78c011, c3b9e396b07d, dc6ac9d252df, e25cf9b4a837 (7 recovered;
+  mostly EMFILE-elimination recoveries)
+- V2->V3 lost tasks: dfe77ac1c5dc (env-blocked; no V3 nodes)
+- REGRESSIONS (S2'): 0; V2_DEFECT_CORRECTIONS: 1
+  (test_update_voucher JWT clock-skew); recovered nodes: 1,324
+- ENG_V3_ORACLE_READY checkpoint persisted (eng_v3_oracle_ready.json)

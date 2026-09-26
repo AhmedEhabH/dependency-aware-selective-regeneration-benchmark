@@ -8,8 +8,8 @@
   "SYMBOL_ABSENCE_F2P": 0,
   "PARENT_COLLECTION_ERROR": 0,
   "FLAKY": 0,
-  "TARGET_ORACLE_INVALID": 1,
-  "P2P_ONLY": 0,
+  "TARGET_ORACLE_INVALID": 0,
+  "P2P_ONLY": 7,
   "OTHER_REVIEW_REQUIRED": 0
  },
  "eligibility": {
@@ -23,28 +23,112 @@
   "semantics_version": "oracle-semantics-v2-2026-09-23"
  },
  "classification": "NOT_PRIMARY",
- "n_nodes": 1,
+ "n_nodes": 7,
  "n_test_files": 1,
- "wall_s": 70.2,
+ "wall_s": 446.3,
  "operations": {
-  "target_wall_s": 38.2,
-  "parent_wall_s": 70.2,
+  "target_wall_s": 268.5,
+  "parent_wall_s": 446.3,
   "target_error": null,
   "parent_error": null
  },
  "node_records": [
   {
-   "node_id": "saleor/graphql/shop/tests/queries/test_shop_announcements.py",
-   "v3_class": "TARGET_ORACLE_INVALID",
+   "node_id": "saleor/graphql/shop/tests/queries/test_shop_announcements.py::test_can_get_announcements_when_staff",
+   "v3_class": "P2P_ONLY",
    "target_outcomes": [
-    "error",
-    "error",
-    "error"
+    "passed",
+    "passed",
+    "passed"
    ],
    "parent_outcomes": [
-    "error",
-    "error",
-    "error"
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/queries/test_shop_announcements.py::test_cannot_get_announcements_when_anonymous",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/queries/test_shop_announcements.py::test_cannot_get_announcements_when_not_staff",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/queries/test_shop_announcements.py::test_get_announcements_allows_empty_extra_dict",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/queries/test_shop_announcements.py::test_get_announcements_does_not_allow_null_extra",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/queries/test_shop_announcements.py::test_get_announcements_empty_when_unconfigured",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/queries/test_shop_announcements.py::test_get_announcements_uses_custom_resolver",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
    ]
   }
  ],
@@ -54,20 +138,20 @@
   "era": "py312",
   "frozen_base_image_id": "sha256:0c185699947d75d5866e57dfb10bba25cca05dc58ca3fd2f75446ee8b0e41394",
   "harness_v3_version": "wp2-harness-v3-2026-09-26",
-  "runner_sha": "6b610bbda3a7f087aeeab3279d724f703d207acf",
+  "runner_sha": "df6e17718aa2c351f1234026f5360ad7cc86a7ba",
   "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
   "lockfile_sha256": "00e4b340d5e4d5693941fe08ff7677b3fa50ae41f59a3a35e6761ba920f502f7",
   "nofile_soft": 65536,
   "nofile_hard": 65536,
   "clock_pre_post": {
-   "pre": -0.002527,
+   "pre": -0.009836,
    "post": null
   },
-  "worker_count": 2,
+  "C4_EFFECTIVE_WORKERS": 1,
   "db_names": {
    "t": "saleor_v3_c662d3a7e759_t",
    "p": "saleor_v3_c662d3a7e759_p"
   }
  },
- "evidence_sha256": "c10bcbcf6a5f94d0fe07ae14d423828061c580117168ee345da470d5b140b1e6"
+ "evidence_sha256": "65fe1c6f6ba3e7ce301b08627c908464a54abe88c8cf22c65b25335b1707a685"
 }

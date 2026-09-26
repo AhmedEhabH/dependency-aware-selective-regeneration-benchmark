@@ -1,0 +1,58 @@
+{
+ "task_id": "saleor-rc-836d01d8429f",
+ "status": "ENV_INSTALL_BLOCKED",
+ "era_key": "py312",
+ "target_commit": "836d01d8429ff250a78abbc5439743c28bc1f772",
+ "counts": {
+  "BEHAVIORAL_F2P": 0,
+  "SYMBOL_ABSENCE_F2P": 0,
+  "PARENT_COLLECTION_ERROR": 0,
+  "FLAKY": 0,
+  "TARGET_ORACLE_INVALID": 0,
+  "P2P_ONLY": 0,
+  "OTHER_REVIEW_REQUIRED": 0
+ },
+ "eligibility": {
+  "PRIMARY_BEHAVIORAL_F2P_ELIGIBLE": false,
+  "EXTENDED_F2P_ELIGIBLE": false,
+  "n_behavioral_f2p": 0,
+  "n_symbol_absence_f2p": 0,
+  "n_parent_collection_error": 0,
+  "environment_valid": true,
+  "task_collection_failure": false,
+  "semantics_version": "oracle-semantics-v2-2026-09-23"
+ },
+ "classification": "NOT_PRIMARY",
+ "n_nodes": 0,
+ "n_test_files": 3,
+ "wall_s": 15.1,
+ "operations": {
+  "target_wall_s": 10.2,
+  "parent_wall_s": 15.1,
+  "target_error": "INSTALL_FAIL",
+  "parent_error": "INSTALL_FAIL"
+ },
+ "node_records": [],
+ "manifest": {
+  "task_id": "saleor-rc-836d01d8429f",
+  "target_commit": "836d01d8429ff250a78abbc5439743c28bc1f772",
+  "era": "py312",
+  "frozen_base_image_id": "sha256:0c185699947d75d5866e57dfb10bba25cca05dc58ca3fd2f75446ee8b0e41394",
+  "harness_v3_version": "wp2-harness-v3-2026-09-26",
+  "runner_sha": "df6e17718aa2c351f1234026f5360ad7cc86a7ba",
+  "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+  "lockfile_sha256": "0ab0ec6122c9b0e4c77cc08f5fbcf86e4b94b82633eb896319af0356297aef54",
+  "nofile_soft": 65536,
+  "nofile_hard": 65536,
+  "clock_pre_post": {
+   "pre": 0.024046,
+   "post": null
+  },
+  "C4_EFFECTIVE_WORKERS": 1,
+  "db_names": {
+   "t": "saleor_v3_836d01d8429f_t",
+   "p": "saleor_v3_836d01d8429f_p"
+  }
+ },
+ "evidence_sha256": "c562c3110f61e21efacd843d4c614305bf3de86049a165c5d191956b88b317de"
+}
