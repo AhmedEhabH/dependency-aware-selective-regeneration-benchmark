@@ -496,4 +496,21 @@ Saleor RESERVE outcomes remain untouched.\n
 - V2->V3 lost tasks: dfe77ac1c5dc (env-blocked; no V3 nodes)
 - REGRESSIONS (S2'): 0; V2_DEFECT_CORRECTIONS: 1
   (test_update_voucher JWT clock-skew); recovered nodes: 1,324
-- ENG_V3_ORACLE_READY checkpoint persisted (eng_v3_oracle_ready.json)
+- ENG_V3_ORACLE_READY checkpoint persisted (eng_v3_oracle_ready.json)\n
+## Mission-10B reconciliation checkpoint (2026-09-26) - STOP for GO before P2P-U execution
+
+- ENG total 29 | ENV blocked 7 | Executable 22 | Behavioral 14 | Symbol 2 |
+  Beh AND Sym 0 | Symbol-only 2 | **Oracle-valid union 16** | P2P-S defined 14 |
+  P2P-S undefined 2.
+- ENG_V3_ORACLE_READY v2 (eng_v3_oracle_ready.json): oracle_valid_count = 16
+  (len(behavioral UNION symbol), mechanical). recovered = 8 tasks (V3 union -
+  V2 union), lost = 1 (dfe77ac1c5dc). V2 union 9 -> V3 union 16.
+- P2P-S V3 v2 (p2p_s_v3_eng.json): population = oracle_valid_union; defined iff
+  v3_count > 0; invariants PASS. Supersedes v1 (invalid population).
+- P2P-U V3 rediscovery: TRUE rediscovery under Harness V3 for all 16 union
+  tasks; 9258154b8a0b zero candidates -> P2P-U UNDEFINED. Touched-production
+  derivation = exact frozen changed_paths_linux/is_test_path_v2 (E-check PASS:
+  unknown/known/proximity equal V2 on all 7 frozen-membership tasks).
+- P2P-U V3 execution population: 15 tasks (16 union minus 9258154b8a0b
+  zero-candidate).
+- **STOPPED for GO before any cap200/cap400 execution per directive.**
