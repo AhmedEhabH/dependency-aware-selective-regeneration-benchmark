@@ -2328,4 +2328,38 @@ epository_agent (candidate, authority not
   (not needed for decision).
 - Next (awaiting Ahmed): Mission-10B-bis targeted follow-up = V2 BEHAVIORAL_F2P
   flakiness audit (JWT iat clock-skew class) + complete probe task 2 + SET B
-  under clock-skew-robust harness, then re-decide V3/V2/INCONCLUSIVE.
+  under clock-skew-robust harness, then re-decide V3/V2/INCONCLUSIVE.\n
+## Mission-10B (2026-09-26) - Harness V3 gold mission - Phase 1 RCA complete
+
+- Authority: MISSION_10B_HARNESS_V3_GOLD_2026-09-26.md (Tier T3, ZERO API).
+- Impact Declaration written BEFORE any modification
+  (docs/MISSION_10B_HARNESS_V3_IMPACT_DECLARATION_2026-09-26.md).
+- Phase-1 full-text root-cause audit fixes the Mission-10A truncated
+  raw_error_text limitation ([:1200]/[:4000]) and merged-repetition node map.
+- C4 reconciliation EXACT: 3,727 = 2,592 STABLE_CAUSE + 1,055 MIXED_CAUSE +
+  35 MISSING_EVIDENCE + 45 FAILED_ONLY (mismatch 0). P2P-U ENG 41/41.
+- Node-level materiality: 2,592 / 3,682 = 70.4% (INFRA 2,511 +
+  MISSING_FIXTURE 81), far above the 20% gate. No task-level shortcut.
+- EMFILE root cause: V2 test container default nofile soft limit = 1024 (no
+  --ulimit nofile in run_state_in_container). Controlled reproduction on
+  saleor-rc-c3b9e396b07d: condition A reproduces EMFILE at django_db_setup
+  (socketpair, Errno 24, max 714 FDs); condition B (nofile=65536) eliminates
+  it (max 2,287 FDs; 261 passed / 1 genuine SocketBlockedError behavioral
+  assertion). EMFILE_FIX_EFFICACY = TRUE.
+- DB reuse RCA: WRONG_CONSTRAINTS occurs almost exclusively in target rep
+  index 2 (1,065/1,066 node-reps), and 1,095/1,098 of those nodes were EMFILE
+  in rep0 in the same (task,state) DB (identical DATABASE_URL + --reuse-db
+  across all 3 reps). Partial-DB reuse is SUPPORTED as causal/amplifying.
+- Install failure audit: C4 24/24 and C2 60/60 env-failed tasks classified
+  LOCKFILE_INCOMPATIBILITY (V2 never consulted historical poetry.lock/uv.lock;
+  resolved against today's index; dev/test group omitted). V3
+  LOCK_EXACT_MAIN_PLUS_DEV is a plausible repair (projection only).
+- Lockfile audit: all 4 probe tasks are poetry projects; exact locked dev
+  versions extracted (pytest-django-queries==1.2.0 across tasks).
+- Clock audit: host<->WSL skew median -1.85s (WSL behind), container clock
+  +0.9-1.1s ahead of WSL; AT_RISK_F2P C4=2 C2=1 (JWT iat ImmatureSignatureError);
+  V2 classifications NOT modified.
+- WSL --shutdown + frozen substrate restart performed once (no scientific task
+  running); frozen era images verified unchanged by ID.
+- Decision token: PENDING (Phase-4 mechanical gate, preregistered rules frozen
+  in Phase 2).

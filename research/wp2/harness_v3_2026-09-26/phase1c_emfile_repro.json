@@ -1,0 +1,46 @@
+{
+ "artifact": "m10b_phase1c_emfile_repro",
+ "created_utc": "2026-09-26T05:52:48+00:00",
+ "task": "saleor-rc-c3b9e396b07d",
+ "results": {
+  "A": {
+   "condition": "A",
+   "task_id": "saleor-rc-c3b9e396b07d",
+   "target_commit": "c3b9e396b07d648c2d76d3872eca6bd41b653220",
+   "era_key": "py39",
+   "ulimit_soft": "1024 (docker default)",
+   "ulimit_hard": "1048576",
+   "nofile_flag": "none (V2)",
+   "pytest_rc": "UNKNOWN",
+   "emfile_observed": true,
+   "failure_point": "Too many open files",
+   "db_created": true,
+   "max_pytest_fds": 714,
+   "max_container_total_fds": 738,
+   "n_fd_samples": 10,
+   "wall_s": 28.6,
+   "log_tail": "    raise SystemExit(pytest.console_main())\n  File \"/opt/venv/lib/python3.9/site-packages/_pytest/config/__init__.py\", line 201, in console_main\n    code = main()\n  File \"/opt/venv/lib/python3.9/site-packages/_pytest/config/__init__.py\", line 175, in main\n    ret: ExitCode | int = config.hook.pytest_cmdline_main(config=config)\n  File \"/opt/venv/lib/python3.9/site-packages/pluggy/_hooks.py\", line 512, in __call__\n    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)\n  File \"/opt/venv/lib/python3.9/site-packages/pluggy/_manager.py\", line 120, in _hookexec\n    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)\n  File \"/opt/venv/lib/python3.9/site-packages/pluggy/_callers.py\", line 167, in _multicall\n    raise exception\n  File \"/opt/venv/lib/python3.9/site-packages/pluggy/_callers.py\", line 121, in _multicall\n    res = hook_impl.function(*args)\n  File \"/opt/venv/lib/python3.9/site-packages/_pytest/main.py\", line 336, in pytest_cmdline_main\n    return wrap_session(config, _main)\n  File \"/opt/venv/lib/python3.9/site-packages/_pytest/main.py\", line 324, in wrap_session\n    config.hook.pytest_sessionfinish(\n  File \"/opt/venv/lib/python3.9/site-packages/pluggy/_hooks.py\", line 512, in __call__\n    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)\n  File \"/opt/venv/lib/python3.9/site-packages/pluggy/_manager.py\", line 120, in _hookexec\n    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)\n  File \"/opt/venv/lib/python3.9/site-packages/pluggy/_callers.py\", line 167, in _multicall\n    raise exception\n  File \"/opt/venv/lib/python3.9/site-packages/pluggy/_callers.py\", line 139, in _multicall\n    teardown.throw(exception)\n  File \"/opt/venv/lib/python3.9/site-packages/_pytest/logging.py\", line 873, in pytest_sessionfinish\n    return (yield)\n  File \"/opt/venv/lib/python3.9/site-packages/pluggy/_callers.py\", line 139, in _multicall\n    teardown.throw(exception)\n  File \"/opt/venv/lib/python3.9/site-packages/_pytest/terminal.py\", line 936, in pytest_sessionfinish\n    result = yield\n  File \"/opt/venv/lib/python3.9/site-packages/pluggy/_callers.py\", line 139, in _multicall\n    teardown.throw(exception)\n  File \"/opt/venv/lib/python3.9/site-packages/_pytest/warnings.py\", line 119, in pytest_sessionfinish\n    return (yield)\n  File \"/opt/venv/lib/python3.9/site-packages/pluggy/_callers.py\", line 121, in _multicall\n    res = hook_impl.function(*args)\n  File \"/opt/venv/lib/python3.9/site-packages/_pytest/junitxml.py\", line 644, in pytest_sessionfinish\n    with open(self.logfile, \"w\", encoding=\"utf-8\") as logfile:\nOSError: [Errno 24] Too many open files: '/workspace/c3b9e396b07d_emfile_A/emfile_A.xml'"
+  },
+  "B": {
+   "condition": "B",
+   "task_id": "saleor-rc-c3b9e396b07d",
+   "target_commit": "c3b9e396b07d648c2d76d3872eca6bd41b653220",
+   "era_key": "py39",
+   "ulimit_soft": "65536",
+   "ulimit_hard": "65536",
+   "nofile_flag": "--ulimit nofile=65536:65536",
+   "pytest_rc": "UNKNOWN",
+   "emfile_observed": false,
+   "failure_point": "UNKNOWN",
+   "db_created": true,
+   "max_pytest_fds": 2287,
+   "max_container_total_fds": 2316,
+   "n_fd_samples": 38,
+   "wall_s": 42.7,
+   "log_tail": "  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.\n    warnings.warn(pytest.PytestUnraisableExceptionWarning(msg))\n\nsaleor/graphql/product/tests/test_product.py::test_product_query_by_id_available_as_staff_user\n  /opt/venv/lib/python3.9/site-packages/_pytest/unraisableexception.py:67: PytestUnraisableExceptionWarning: Exception ignored in: <function BaseEventLoop.__del__ at 0x74a427524ee0>\n  \n  Traceback (most recent call last):\n    File \"/opt/venv/lib/python3.9/site-packages/django/db/models/query.py\", line 581, in get_or_create\n      return self.get(**kwargs), False\n    File \"/opt/venv/lib/python3.9/site-packages/django/db/models/query.py\", line 435, in get\n      raise self.model.DoesNotExist(\n  django.contrib.sites.models.Site.DoesNotExist: Site matching query does not exist.\n  \n  During handling of the above exception, another exception occurred:\n  \n  Traceback (most recent call last):\n    File \"/usr/local/lib/python3.9/asyncio/base_events.py\", line 688, in __del__\n      self.close()\n    File \"/usr/local/lib/python3.9/asyncio/unix_events.py\", line 58, in close\n      super().close()\n    File \"/usr/local/lib/python3.9/asyncio/selector_events.py\", line 87, in close\n      self._close_self_pipe()\n    File \"/usr/local/lib/python3.9/asyncio/selector_events.py\", line 94, in _close_self_pipe\n      self._remove_reader(self._ssock.fileno())\n  AttributeError: '_UnixSelectorEventLoop' object has no attribute '_ssock'\n  \n  Enable tracemalloc to get traceback where the object was allocated.\n  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.\n    warnings.warn(pytest.PytestUnraisableExceptionWarning(msg))\n\nsaleor/graphql/product/tests/test_product.py::test_create_product_with_date_attribute\n  /opt/venv/lib/python3.9/site-packages/django/db/models/fields/__init__.py:1358: RuntimeWarning: DateTimeField AttributeValue.date_time received a naive datetime (2020-05-05 00:00:00) while time zone support is active.\n    warnings.warn(\"DateTimeField %s.%s received a naive datetime \"\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n------ generated xml file: /workspace/c3b9e396b07d_emfile_B/emfile_B.xml -------\n=========================== short test summary info ============================\nFAILED saleor/graphql/product/tests/test_product.py::test_product_media_create_mutation_with_media_url\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 261 passed, 10 warnings in 29.12s"
+  }
+ },
+ "emfile_fix_efficacy": true,
+ "efficacy_rule": "TRUE only if A reproduces EMFILE AND B removes it without a new infra failure at the same stage",
+ "notes": "Scratch DBs are uniquely named and dropped; frozen images unchanged; no V2 artifact mutation."
+}

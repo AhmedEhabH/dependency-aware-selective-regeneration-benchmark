@@ -1,0 +1,322 @@
+........................................................................ [ 17%]
+........................................................................ [ 34%]
+........................................................................ [ 51%]
+.............................................F
+=================================== FAILURES ===================================
+______________ test_product_media_create_mutation_with_media_url _______________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x74a41a3ea3a0>
+staff_api_client = <saleor.graphql.tests.fixtures.ApiClient object at 0x74a41a49e4f0>
+product = <saleor.product.models.Product(pk=1035, name='Test product')>
+permission_manage_products = <Permission: product | product | Manage products.>
+media_root = None
+
+    @pytest.mark.vcr
+    def test_product_media_create_mutation_with_media_url(
+        monkeypatch, staff_api_client, product, permission_manage_products, media_root
+    ):
+        variables = {
+            "product": graphene.Node.to_global_id("Product", product.id),
+            "mediaUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+            "alt": "",
+        }
+        body = get_multipart_request_body(
+            PRODUCT_MEDIA_CREATE_QUERY, variables, file="", file_name="name"
+        )
+        response = staff_api_client.post_multipart(
+            body, permissions=[permission_manage_products]
+        )
+>       content = get_graphql_content(response)
+
+saleor/graphql/product/tests/test_product.py:8575: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = <JsonResponse status_code=200, "application/json">
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+>           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': 'A test tried to use socket.socket.', 'locations': [{'line': 8, 'column': 9}], 'path': ['productMediaCreate'], 'extensions': {'exception': {'code': 'SocketBlockedError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError
+----------------------------- Captured stderr call -----------------------------
+INFO saleor.graphql.errors.handled A query had an error [PID:62:MainThread]
+Traceback (most recent call last):
+  File "/opt/venv/lib/python3.9/site-packages/promise/promise.py", line 489, in _resolve_from_executor
+    executor(resolve, reject)
+  File "/opt/venv/lib/python3.9/site-packages/promise/promise.py", line 756, in executor
+    return resolve(f(*args, **kwargs))
+  File "/opt/venv/lib/python3.9/site-packages/graphql/execution/middleware.py", line 75, in make_it_promise
+    return next(*args, **kwargs)
+  File "/workspace/c3b9e396b07d_emfile_B/saleor/graphql/core/mutations.py", line 336, in mutate
+    raise PermissionDenied()
+saleor.core.exceptions.PermissionDenied: You do not have permission to perform this action
+ERROR saleor.graphql.errors.unhandled A query failed unexpectedly [PID:62:MainThread]
+Traceback (most recent call last):
+  File "/opt/venv/lib/python3.9/site-packages/promise/promise.py", line 489, in _resolve_from_executor
+    executor(resolve, reject)
+  File "/opt/venv/lib/python3.9/site-packages/promise/promise.py", line 756, in executor
+    return resolve(f(*args, **kwargs))
+  File "/opt/venv/lib/python3.9/site-packages/graphql/execution/middleware.py", line 75, in make_it_promise
+    return next(*args, **kwargs)
+  File "/workspace/c3b9e396b07d_emfile_B/saleor/graphql/core/mutations.py", line 339, in mutate
+    response = cls.perform_mutation(root, info, **data)
+  File "/workspace/c3b9e396b07d_emfile_B/saleor/graphql/product/mutations/products.py", line 1340, in perform_mutation
+    oembed_data, media_type = get_oembed_data(media_url, "media_url")
+  File "/workspace/c3b9e396b07d_emfile_B/saleor/core/utils/validators.py", line 24, in get_oembed_data
+    oembed_data = providers.request(
+  File "/opt/venv/lib/python3.9/site-packages/micawber/providers.py", line 111, in inner
+    return fn(self, url, **params)
+  File "/opt/venv/lib/python3.9/site-packages/micawber/providers.py", line 165, in request
+    return provider.request(url, **params)
+  File "/opt/venv/lib/python3.9/site-packages/micawber/providers.py", line 74, in request
+    response = self.fetch(endpoint_url)
+  File "/opt/venv/lib/python3.9/site-packages/micawber/providers.py", line 48, in fetch
+    resp = fetch(req, self.socket_timeout)
+  File "/opt/venv/lib/python3.9/site-packages/micawber/providers.py", line 119, in fetch
+    resp = urlopen(request, **urlopen_params)
+  File "/usr/local/lib/python3.9/urllib/request.py", line 214, in urlopen
+    return opener.open(url, data, timeout)
+  File "/usr/local/lib/python3.9/urllib/request.py", line 517, in open
+    response = self._open(req, data)
+  File "/usr/local/lib/python3.9/urllib/request.py", line 534, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+  File "/usr/local/lib/python3.9/urllib/request.py", line 494, in _call_chain
+    result = func(*args)
+  File "/usr/local/lib/python3.9/urllib/request.py", line 1389, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+  File "/usr/local/lib/python3.9/urllib/request.py", line 1346, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+  File "/usr/local/lib/python3.9/http/client.py", line 1285, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/local/lib/python3.9/http/client.py", line 1331, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/local/lib/python3.9/http/client.py", line 1280, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/local/lib/python3.9/http/client.py", line 1040, in _send_output
+    self.send(msg)
+  File "/usr/local/lib/python3.9/http/client.py", line 980, in send
+    self.connect()
+  File "/usr/local/lib/python3.9/http/client.py", line 1447, in connect
+    super().connect()
+  File "/usr/local/lib/python3.9/http/client.py", line 946, in connect
+    self.sock = self._create_connection(
+  File "/usr/local/lib/python3.9/socket.py", line 839, in create_connection
+    sock = socket(af, socktype, proto)
+  File "/opt/venv/lib/python3.9/site-packages/pytest_socket.py", line 89, in __new__
+    raise SocketBlockedError()
+pytest_socket.SocketBlockedError: A test tried to use socket.socket.
+------------------------------ Captured log call -------------------------------
+ERROR    saleor.graphql.errors.unhandled:views.py:357 A query failed unexpectedly
+Traceback (most recent call last):
+  File "/opt/venv/lib/python3.9/site-packages/promise/promise.py", line 489, in _resolve_from_executor
+    executor(resolve, reject)
+  File "/opt/venv/lib/python3.9/site-packages/promise/promise.py", line 756, in executor
+    return resolve(f(*args, **kwargs))
+  File "/opt/venv/lib/python3.9/site-packages/graphql/execution/middleware.py", line 75, in make_it_promise
+    return next(*args, **kwargs)
+  File "/workspace/c3b9e396b07d_emfile_B/saleor/graphql/core/mutations.py", line 339, in mutate
+    response = cls.perform_mutation(root, info, **data)
+  File "/workspace/c3b9e396b07d_emfile_B/saleor/graphql/product/mutations/products.py", line 1340, in perform_mutation
+    oembed_data, media_type = get_oembed_data(media_url, "media_url")
+  File "/workspace/c3b9e396b07d_emfile_B/saleor/core/utils/validators.py", line 24, in get_oembed_data
+    oembed_data = providers.request(
+  File "/opt/venv/lib/python3.9/site-packages/micawber/providers.py", line 111, in inner
+    return fn(self, url, **params)
+  File "/opt/venv/lib/python3.9/site-packages/micawber/providers.py", line 165, in request
+    return provider.request(url, **params)
+  File "/opt/venv/lib/python3.9/site-packages/micawber/providers.py", line 74, in request
+    response = self.fetch(endpoint_url)
+  File "/opt/venv/lib/python3.9/site-packages/micawber/providers.py", line 48, in fetch
+    resp = fetch(req, self.socket_timeout)
+  File "/opt/venv/lib/python3.9/site-packages/micawber/providers.py", line 119, in fetch
+    resp = urlopen(request, **urlopen_params)
+  File "/usr/local/lib/python3.9/urllib/request.py", line 214, in urlopen
+    return opener.open(url, data, timeout)
+  File "/usr/local/lib/python3.9/urllib/request.py", line 517, in open
+    response = self._open(req, data)
+  File "/usr/local/lib/python3.9/urllib/request.py", line 534, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+  File "/usr/local/lib/python3.9/urllib/request.py", line 494, in _call_chain
+    result = func(*args)
+  File "/usr/local/lib/python3.9/urllib/request.py", line 1389, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+  File "/usr/local/lib/python3.9/urllib/request.py", line 1346, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+  File "/usr/local/lib/python3.9/http/client.py", line 1285, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/local/lib/python3.9/http/client.py", line 1331, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/local/lib/python3.9/http/client.py", line 1280, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/local/lib/python3.9/http/client.py", line 1040, in _send_output
+    self.send(msg)
+  File "/usr/local/lib/python3.9/http/client.py", line 980, in send
+    self.connect()
+  File "/usr/local/lib/python3.9/http/client.py", line 1447, in connect
+    super().connect()
+  File "/usr/local/lib/python3.9/http/client.py", line 946, in connect
+    self.sock = self._create_connection(
+  File "/usr/local/lib/python3.9/socket.py", line 839, in create_connection
+    sock = socket(af, socktype, proto)
+  File "/opt/venv/lib/python3.9/site-packages/pytest_socket.py", line 89, in __new__
+    raise SocketBlockedError()
+pytest_socket.SocketBlockedError: A test tried to use socket.socket.
+=============================== warnings summary ===============================
+saleor/settings.py:11
+  /workspace/c3b9e396b07d_emfile_B/saleor/settings.py:11: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+    import pkg_resources
+
+saleor/settings.py:164
+  /workspace/c3b9e396b07d_emfile_B/saleor/settings.py:164: UserWarning: SECRET_KEY not configured, using a random temporary key.
+    warnings.warn("SECRET_KEY not configured, using a random temporary key.")
+
+saleor/urls.py:49
+  /workspace/c3b9e396b07d_emfile_B/saleor/urls.py:49: UserWarning: The debug toolbar was not installed. Ignore the error.             settings.py should already have warned the user about it.
+    warnings.warn(
+
+saleor/graphql/product/tests/test_product.py:8560
+  /workspace/c3b9e396b07d_emfile_B/saleor/graphql/product/tests/test_product.py:8560: PytestUnknownMarkWarning: Unknown pytest.mark.vcr - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.vcr
+
+saleor/graphql/product/tests/test_product.py::test_product_query_by_id_available_as_staff_user
+  /opt/venv/lib/python3.9/site-packages/_pytest/unraisableexception.py:67: PytestUnraisableExceptionWarning: Exception ignored in: <function BaseEventLoop.__del__ at 0x74a427524ee0>
+  
+  Traceback (most recent call last):
+    File "/usr/local/lib/python3.9/asyncio/base_events.py", line 688, in __del__
+      self.close()
+    File "/usr/local/lib/python3.9/asyncio/unix_events.py", line 58, in close
+      super().close()
+    File "/usr/local/lib/python3.9/asyncio/selector_events.py", line 87, in close
+      self._close_self_pipe()
+    File "/usr/local/lib/python3.9/asyncio/selector_events.py", line 94, in _close_self_pipe
+      self._remove_reader(self._ssock.fileno())
+  AttributeError: '_UnixSelectorEventLoop' object has no attribute '_ssock'
+  
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+    warnings.warn(pytest.PytestUnraisableExceptionWarning(msg))
+
+saleor/graphql/product/tests/test_product.py::test_product_query_by_id_available_as_staff_user
+  /opt/venv/lib/python3.9/site-packages/_pytest/unraisableexception.py:67: PytestUnraisableExceptionWarning: Exception ignored in: <function BaseEventLoop.__del__ at 0x74a427524ee0>
+  
+  Traceback (most recent call last):
+    File "/opt/venv/lib/python3.9/site-packages/django/db/models/query.py", line 581, in get_or_create
+      return self.get(**kwargs), False
+    File "/opt/venv/lib/python3.9/site-packages/django/db/models/query.py", line 435, in get
+      raise self.model.DoesNotExist(
+  saleor.attribute.models.product_variant.AssignedVariantAttribute.DoesNotExist: AssignedVariantAttribute matching query does not exist.
+  
+  During handling of the above exception, another exception occurred:
+  
+  Traceback (most recent call last):
+    File "/usr/local/lib/python3.9/asyncio/base_events.py", line 688, in __del__
+      self.close()
+    File "/usr/local/lib/python3.9/asyncio/unix_events.py", line 58, in close
+      super().close()
+    File "/usr/local/lib/python3.9/asyncio/selector_events.py", line 87, in close
+      self._close_self_pipe()
+    File "/usr/local/lib/python3.9/asyncio/selector_events.py", line 94, in _close_self_pipe
+      self._remove_reader(self._ssock.fileno())
+  AttributeError: '_UnixSelectorEventLoop' object has no attribute '_ssock'
+  
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+    warnings.warn(pytest.PytestUnraisableExceptionWarning(msg))
+
+saleor/graphql/product/tests/test_product.py::test_product_query_by_id_available_as_staff_user
+  /opt/venv/lib/python3.9/site-packages/_pytest/unraisableexception.py:67: PytestUnraisableExceptionWarning: Exception ignored in: <function BaseEventLoop.__del__ at 0x74a427524ee0>
+  
+  Traceback (most recent call last):
+    File "/opt/venv/lib/python3.9/site-packages/django/db/models/query.py", line 581, in get_or_create
+      return self.get(**kwargs), False
+    File "/opt/venv/lib/python3.9/site-packages/django/db/models/query.py", line 435, in get
+      raise self.model.DoesNotExist(
+  saleor.attribute.models.product.AssignedProductAttribute.DoesNotExist: AssignedProductAttribute matching query does not exist.
+  
+  During handling of the above exception, another exception occurred:
+  
+  Traceback (most recent call last):
+    File "/usr/local/lib/python3.9/asyncio/base_events.py", line 688, in __del__
+      self.close()
+    File "/usr/local/lib/python3.9/asyncio/unix_events.py", line 58, in close
+      super().close()
+    File "/usr/local/lib/python3.9/asyncio/selector_events.py", line 87, in close
+      self._close_self_pipe()
+    File "/usr/local/lib/python3.9/asyncio/selector_events.py", line 94, in _close_self_pipe
+      self._remove_reader(self._ssock.fileno())
+  AttributeError: '_UnixSelectorEventLoop' object has no attribute '_ssock'
+  
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+    warnings.warn(pytest.PytestUnraisableExceptionWarning(msg))
+
+saleor/graphql/product/tests/test_product.py::test_product_query_by_id_available_as_staff_user
+  /opt/venv/lib/python3.9/site-packages/_pytest/unraisableexception.py:67: PytestUnraisableExceptionWarning: Exception ignored in: <function BaseEventLoop.__del__ at 0x74a427524ee0>
+  
+  Traceback (most recent call last):
+    File "/opt/venv/lib/python3.9/site-packages/django/db/models/query.py", line 581, in get_or_create
+      return self.get(**kwargs), False
+    File "/opt/venv/lib/python3.9/site-packages/django/db/models/query.py", line 435, in get
+      raise self.model.DoesNotExist(
+  saleor.site.models.SiteSettings.DoesNotExist: SiteSettings matching query does not exist.
+  
+  During handling of the above exception, another exception occurred:
+  
+  Traceback (most recent call last):
+    File "/usr/local/lib/python3.9/asyncio/base_events.py", line 688, in __del__
+      self.close()
+    File "/usr/local/lib/python3.9/asyncio/unix_events.py", line 58, in close
+      super().close()
+    File "/usr/local/lib/python3.9/asyncio/selector_events.py", line 87, in close
+      self._close_self_pipe()
+    File "/usr/local/lib/python3.9/asyncio/selector_events.py", line 94, in _close_self_pipe
+      self._remove_reader(self._ssock.fileno())
+  AttributeError: '_UnixSelectorEventLoop' object has no attribute '_ssock'
+  
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+    warnings.warn(pytest.PytestUnraisableExceptionWarning(msg))
+
+saleor/graphql/product/tests/test_product.py::test_product_query_by_id_available_as_staff_user
+  /opt/venv/lib/python3.9/site-packages/_pytest/unraisableexception.py:67: PytestUnraisableExceptionWarning: Exception ignored in: <function BaseEventLoop.__del__ at 0x74a427524ee0>
+  
+  Traceback (most recent call last):
+    File "/opt/venv/lib/python3.9/site-packages/django/db/models/query.py", line 581, in get_or_create
+      return self.get(**kwargs), False
+    File "/opt/venv/lib/python3.9/site-packages/django/db/models/query.py", line 435, in get
+      raise self.model.DoesNotExist(
+  django.contrib.sites.models.Site.DoesNotExist: Site matching query does not exist.
+  
+  During handling of the above exception, another exception occurred:
+  
+  Traceback (most recent call last):
+    File "/usr/local/lib/python3.9/asyncio/base_events.py", line 688, in __del__
+      self.close()
+    File "/usr/local/lib/python3.9/asyncio/unix_events.py", line 58, in close
+      super().close()
+    File "/usr/local/lib/python3.9/asyncio/selector_events.py", line 87, in close
+      self._close_self_pipe()
+    File "/usr/local/lib/python3.9/asyncio/selector_events.py", line 94, in _close_self_pipe
+      self._remove_reader(self._ssock.fileno())
+  AttributeError: '_UnixSelectorEventLoop' object has no attribute '_ssock'
+  
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+    warnings.warn(pytest.PytestUnraisableExceptionWarning(msg))
+
+saleor/graphql/product/tests/test_product.py::test_create_product_with_date_attribute
+  /opt/venv/lib/python3.9/site-packages/django/db/models/fields/__init__.py:1358: RuntimeWarning: DateTimeField AttributeValue.date_time received a naive datetime (2020-05-05 00:00:00) while time zone support is active.
+    warnings.warn("DateTimeField %s.%s received a naive datetime "
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+------ generated xml file: /workspace/c3b9e396b07d_emfile_B/emfile_B.xml -------
+=========================== short test summary info ============================
+FAILED saleor/graphql/product/tests/test_product.py::test_product_media_create_mutation_with_media_url
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 261 passed, 10 warnings in 29.12s

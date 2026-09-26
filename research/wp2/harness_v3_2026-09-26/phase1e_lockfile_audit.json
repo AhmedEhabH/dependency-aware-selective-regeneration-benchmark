@@ -1,0 +1,232 @@
+{
+ "artifact": "m10b_phase1e_lockfile_audit",
+ "created_utc": "2026-09-26T05:20:23+00:00",
+ "probe_tasks": [
+  {
+   "task_id": "saleor-rc-c3b9e396b07d",
+   "era_key": "py39",
+   "target_commit": "c3b9e396b07d648c2d76d3872eca6bd41b653220",
+   "v2_install_mechanism": "uv pip install -r requirements.txt",
+   "lockfile_kind": "poetry.lock",
+   "main_deps_n": 90,
+   "main_deps_sampled": [
+    "Adyen",
+    "authorizenet",
+    "babel",
+    "black",
+    "boto3",
+    "braintree",
+    "codecov",
+    "coverage",
+    "dj-database-url",
+    "dj-email-url",
+    "django",
+    "django-cache-url",
+    "django-celery-beat",
+    "django-countries",
+    "django-debug-toolbar"
+   ],
+   "dev_deps_declared": [
+    "black",
+    "codecov",
+    "coverage",
+    "django-debug-toolbar",
+    "django-debug-toolbar-request-history",
+    "django-extensions",
+    "django-graphiql-debug-toolbar",
+    "django-stubs",
+    "flake8",
+    "isort",
+    "mypy",
+    "pre-commit",
+    "pycodestyle",
+    "pydocstyle",
+    "pylint"
+   ],
+   "locked_dev_key": {
+    "pytest-django-queries": "1.2.0",
+    "pytest-mock": "3.6.1",
+    "pytest-celery": "0.0.0"
+   },
+   "locked_main_key": {
+    "django": "3.2.7",
+    "pytest-django": "4.2.0",
+    "weasyprint": "53.3"
+   },
+   "py312_vs_lock": null
+  },
+  {
+   "task_id": "saleor-rc-e25cf9b4a837",
+   "era_key": "py38",
+   "target_commit": "e25cf9b4a83782e1acd2fa35f198f76d476aaabb",
+   "v2_install_mechanism": "uv pip install -r requirements.txt",
+   "lockfile_kind": "poetry.lock",
+   "main_deps_n": 50,
+   "main_deps_sampled": [
+    "babel",
+    "boto3",
+    "braintree",
+    "dj-database-url",
+    "dj-email-url",
+    "django",
+    "django-cache-url",
+    "django-countries",
+    "django-filter",
+    "django-measurement",
+    "django-mptt",
+    "django-phonenumber-field",
+    "django-prices",
+    "django-prices-openexchangerates",
+    "django-prices-vatlayer"
+   ],
+   "dev_deps_declared": [
+    "black",
+    "codecov",
+    "coverage",
+    "django-debug-toolbar",
+    "django-debug-toolbar-request-history",
+    "django-extensions",
+    "django-graphiql-debug-toolbar",
+    "django-stubs",
+    "flake8",
+    "isort",
+    "mypy",
+    "pre-commit",
+    "pycodestyle",
+    "pydocstyle",
+    "pylint"
+   ],
+   "locked_dev_key": {
+    "pytest-django-queries": "1.1.0",
+    "pytest-mock": "3.2.0"
+   },
+   "locked_main_key": {
+    "django": "3.0.8",
+    "pytest-django": "3.9.0",
+    "weasyprint": "51"
+   },
+   "py312_vs_lock": null
+  },
+  {
+   "task_id": "saleor-rc-74538ea00ce9",
+   "era_key": "py312",
+   "target_commit": "74538ea00ce938489bcd36b180e3b9b31f265e40",
+   "v2_install_mechanism": "uv pip install -e . freezegun fakeredis",
+   "lockfile_kind": "poetry.lock",
+   "main_deps_n": 107,
+   "main_deps_sampled": [
+    "Adyen",
+    "Authlib",
+    "Rx",
+    "aniso8601",
+    "asgiref",
+    "azure-common",
+    "azure-storage-blob",
+    "azure-storage-common",
+    "babel",
+    "before_after",
+    "boto3",
+    "botocore",
+    "braintree",
+    "coverage",
+    "cryptography"
+   ],
+   "dev_deps_declared": [
+    "before_after",
+    "coverage",
+    "deptry",
+    "django-debug-toolbar",
+    "django-debug-toolbar-request-history",
+    "django-extensions",
+    "django-graphiql-debug-toolbar",
+    "fakeredis",
+    "freezegun",
+    "mypy-extensions",
+    "openpyxl",
+    "pre-commit",
+    "pytest",
+    "pytest-asyncio",
+    "pytest-celery"
+   ],
+   "locked_dev_key": {
+    "pytest-django-queries": "1.2.0",
+    "pytest-mock": "3.14.0",
+    "pytest-recording": "0.13.2",
+    "pytest-celery": "1.0.1",
+    "pytest-asyncio": "0.23.8"
+   },
+   "locked_main_key": {
+    "django": "4.2.16",
+    "cryptography": "43.0.1",
+    "pytest-django": "4.8.0"
+   },
+   "py312_vs_lock": {
+    "mechanism": "V2 -e . resolves pyproject ranges at runtime; historical lock is authoritative but was NOT used by V2",
+    "locked_key_dev_deps": {
+     "pytest-django-queries": "1.2.0",
+     "pytest-mock": "3.14.0",
+     "pytest-recording": "0.13.2",
+     "pytest-celery": "1.0.1",
+     "pytest-asyncio": "0.23.8"
+    }
+   }
+  },
+  {
+   "task_id": "saleor-rc-8f76ddc6267f",
+   "era_key": "py39",
+   "target_commit": "8f76ddc6267f6ddcdc6078f2a4a098bbb971b23b",
+   "v2_install_mechanism": "uv pip install -r requirements.txt",
+   "lockfile_kind": "poetry.lock",
+   "main_deps_n": 103,
+   "main_deps_sampled": [
+    "Adyen",
+    "Authlib",
+    "authorizenet",
+    "azure-common",
+    "azure-storage-blob",
+    "azure-storage-common",
+    "babel",
+    "before_after",
+    "black",
+    "boto3",
+    "braintree",
+    "coverage",
+    "cryptography",
+    "dj-database-url",
+    "dj-email-url"
+   ],
+   "dev_deps_declared": [
+    "before_after",
+    "black",
+    "coverage",
+    "django-debug-toolbar",
+    "django-debug-toolbar-request-history",
+    "django-extensions",
+    "django-graphiql-debug-toolbar",
+    "django-stubs",
+    "fakeredis",
+    "flake8",
+    "isort",
+    "mypy",
+    "mypy-extensions",
+    "pre-commit",
+    "pycodestyle"
+   ],
+   "locked_dev_key": {
+    "pytest-django-queries": "1.2.0",
+    "pytest-mock": "3.10.0",
+    "pytest-recording": "0.12.2",
+    "pytest-celery": "0.0.0",
+    "pytest-asyncio": "0.20.3"
+   },
+   "locked_main_key": {
+    "django": "3.2.19",
+    "cryptography": "41.0.0",
+    "pytest-django": "4.5.2",
+    "weasyprint": "59.0"
+   },
+   "py312_vs_lock": null
+  }
+ ],
+ "notes": "Lockfile-first rule: exact historical lock/pin, then historical constraint, range only when NO lock/pin exists. V2 never installed the project-declared dev/test group. V3 INSTALL_MODE candidates: LOCK_EXACT_MAIN_PLUS_DEV (uv sync --frozen --group dev / poetry exact lock main+dev) or fallback V2_MAIN_PLUS_EXACT_LOCKED_DEV."
+}

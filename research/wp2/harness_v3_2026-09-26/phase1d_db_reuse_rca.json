@@ -1,0 +1,46 @@
+{
+ "artifact": "m10b_phase1d_db_reuse_rca",
+ "created_utc": "2026-09-26T05:55:26+00:00",
+ "hypothesis": "V2 `--reuse-db` may reuse a partially created DB after EMFILE-aborted migration, leading to 'Found wrong number (N) of constraints'.",
+ "per_task": {
+  "saleor-rc-46a2a565f410": {
+   "wc_by_rep": {
+    "r0": 0,
+    "r1": 16,
+    "r2": 603
+   },
+   "emfile_by_rep": {
+    "r0": 602,
+    "r1": 587,
+    "r2": 0
+   },
+   "wc_r2_nodes_total": 603,
+   "wc_r2_overlap_with_emfile_r0": 602,
+   "wc_r2_overlap_with_emfile_r1": 587,
+   "same_db_reuse": "identical DATABASE_URL per (task,state) with --reuse-db across all 3 target reps (V2 runner)"
+  },
+  "saleor-rc-f813a9fd37d3": {
+   "wc_by_rep": {
+    "r0": 0,
+    "r1": 0,
+    "r2": 495
+   },
+   "emfile_by_rep": {
+    "r0": 493,
+    "r1": 488,
+    "r2": 0
+   },
+   "wc_r2_nodes_total": 495,
+   "wc_r2_overlap_with_emfile_r0": 493,
+   "wc_r2_overlap_with_emfile_r1": 488,
+   "same_db_reuse": "identical DATABASE_URL per (task,state) with --reuse-db across all 3 target reps (V2 runner)"
+  }
+ },
+ "aggregate": {
+  "wc_r2_nodes_total": 1098,
+  "wc_r2_after_emfile_r0": 1095,
+  "share": 0.9973,
+  "conclusion": "SUPPORTED: WRONG_CONSTRAINTS occurs almost exclusively in target rep index 2 (1,065/1,066 node-reps across both tasks), after rep0/rep1 EMFILE failures in the same task/DB lineage with an identical reused DB name. Partial-DB reuse is causal/amplifying.",
+  "v3_db_lifecycle": "Fresh unique DB per (task,state) at state start, never reuse a partially created DB, DROP at completion, DROP+recreate once on creation failure. Within one successfully-initialized state --reuse-db only if it matches C4 semantics and never crosses parent/target boundaries."
+ }
+}

@@ -1,0 +1,69 @@
+{
+ "artifact": "m10b_phase1f_at_risk_f2p",
+ "created_utc": "2026-09-26T06:10:50+00:00",
+ "method": "full parent-side error/failure text searched for the TIME taxonomy patterns (12.2). V2 classes are NOT modified.",
+ "c4_at_risk": [
+  {
+   "node_id": "saleor/graphql/discount/tests/mutations/test_voucher_update.py::test_update_voucher",
+   "task_id": "saleor-rc-74538ea00ce9",
+   "split": "DEV_TRAIN",
+   "era_key": "UNKNOWN",
+   "v2_class": "BEHAVIORAL_F2P",
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "time_evidence": [
+    "r2:token is not yet valid::AssertionError: [{'message': 'The token is not yet valid (iat)', 'locations': [{'line': 3, 'column': 9}], 'path': ['",
+    "r2:ImmatureSignatureError::': ['voucherUpdate'], 'extensions': {'exception': {'code': 'ImmatureSignatureError'}}}] staff_api_client = <saleor.graphql.tests.fixtures.Ap",
+    "r2:token is not yet valid::^^^^^^^^^^^^^ E           AssertionError: [{'message': 'The token is not yet valid (iat)', 'locations': [{'line': 3, 'column': 9}], 'path': ",
+    "r2:ImmatureSignatureError::': ['voucherUpdate'], 'extensions': {'exception': {'code': 'ImmatureSignatureError'}}}]  saleor/graphql/tests/utils.py:18: AssertionError"
+   ],
+   "n_affected_reps": 1
+  },
+  {
+   "node_id": "saleor/graphql/channel/tests/mutations/test_channel_update.py::test_channel_update_mutation_duplicated_shipping_zone",
+   "task_id": "saleor-rc-9aa434eeefe7",
+   "split": "DEV_TRAIN",
+   "era_key": "UNKNOWN",
+   "v2_class": "BEHAVIORAL_F2P",
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "time_evidence": [
+    "r2:token is not yet valid::AssertionError: [{'message': 'The token is not yet valid (iat)', 'locations': [{'line': 3, 'column': 9}], 'path': ['",
+    "r2:ImmatureSignatureError::': ['channelUpdate'], 'extensions': {'exception': {'code': 'ImmatureSignatureError'}}}] permission_manage_channels = <Permission: Channel | ",
+    "r2:token is not yet valid::^^^^^^^^^^^^^ E           AssertionError: [{'message': 'The token is not yet valid (iat)', 'locations': [{'line': 3, 'column': 9}], 'path': ",
+    "r2:ImmatureSignatureError::': ['channelUpdate'], 'extensions': {'exception': {'code': 'ImmatureSignatureError'}}}]  saleor/graphql/tests/utils.py:18: AssertionError"
+   ],
+   "n_affected_reps": 1
+  }
+ ],
+ "c4_at_risk_count": 2,
+ "c4_by_v2_class": {
+  "BEHAVIORAL_F2P": 2
+ },
+ "c2_at_risk": [
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py::test_app_fetch_manifest_wrong_format_of_response",
+   "task_id": "saleor-rc-c31fb4cfd08f",
+   "split": "MAIN",
+   "era_key": "py312",
+   "v2_class": "C2_PARENT_TIME_EVIDENCE",
+   "parent_outcomes": [
+    null,
+    null,
+    null
+   ],
+   "time_evidence": [
+    "r0:token is not yet valid::AssertionError: [{'message': 'The token is not yet valid (iat)', 'locations': [{'line': 7, 'column': 3}], 'path': ['"
+   ],
+   "n_affected_reps": 1
+  }
+ ],
+ "c2_at_risk_count": 1,
+ "note": "AT_RISK_F2P is informational (12.2): V2 historical classifications are not deleted/reclassified."
+}

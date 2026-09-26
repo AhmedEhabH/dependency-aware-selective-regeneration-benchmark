@@ -1,0 +1,1287 @@
+{
+ "artifact": "m10b_phase1_p2pu_eng",
+ "created_utc": "2026-09-26T05:05:02+00:00",
+ "node_attribution": [
+  {
+   "dataset": "P2P_U_ENG",
+   "task_id": "saleor-rc-39b4138e8550",
+   "split": "DEV_TRAIN_ENG",
+   "era_key": "py312",
+   "node_id": "saleor/graphql/payment/tests/benchmark/test_payment_transactions.py::test_payment_transactions",
+   "cap": "cap200",
+   "stability": "STABLE_CAUSE",
+   "stable_family": "MISSING_FIXTURE",
+   "materiality": true,
+   "per_rep": [
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    }
+   ]
+  },
+  {
+   "dataset": "P2P_U_ENG",
+   "task_id": "saleor-rc-39b4138e8550",
+   "split": "DEV_TRAIN_ENG",
+   "era_key": "py312",
+   "node_id": "saleor/graphql/payment/tests/queries/test_payment_sources.py::test_stored_payment_sources_restriction",
+   "cap": "cap200",
+   "stability": "STABLE_CAUSE",
+   "stable_family": "MISSING_FIXTURE",
+   "materiality": true,
+   "per_rep": [
+    {
+     "taxonomy": "MISSING_FIXTURE:mocker",
+     "detail": "mocker",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:mocker",
+     "detail": "mocker",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:mocker",
+     "detail": "mocker",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    }
+   ]
+  },
+  {
+   "dataset": "P2P_U_ENG",
+   "task_id": "saleor-rc-39b4138e8550",
+   "split": "DEV_TRAIN_ENG",
+   "era_key": "py312",
+   "node_id": "saleor/graphql/product/tests/benchmark/test_homepage.py::test_retrieve_product_list",
+   "cap": "cap200",
+   "stability": "STABLE_CAUSE",
+   "stable_family": "MISSING_FIXTURE",
+   "materiality": true,
+   "per_rep": [
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    }
+   ]
+  },
+  {
+   "dataset": "P2P_U_ENG",
+   "task_id": "saleor-rc-39b4138e8550",
+   "split": "DEV_TRAIN_ENG",
+   "era_key": "py312",
+   "node_id": "saleor/graphql/payment/tests/queries/test_payment_sources.py::test_list_payment_sources",
+   "cap": "cap200",
+   "stability": "STABLE_CAUSE",
+   "stable_family": "MISSING_FIXTURE",
+   "materiality": true,
+   "per_rep": [
+    {
+     "taxonomy": "MISSING_FIXTURE:mocker",
+     "detail": "mocker",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:mocker",
+     "detail": "mocker",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:mocker",
+     "detail": "mocker",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    }
+   ]
+  },
+  {
+   "dataset": "P2P_U_ENG",
+   "task_id": "saleor-rc-39b4138e8550",
+   "split": "DEV_TRAIN_ENG",
+   "era_key": "py312",
+   "node_id": "saleor/graphql/giftcard/tests/benchmark/test_gift_card_mutations.py::test_update_gift_card",
+   "cap": "cap200",
+   "stability": "STABLE_CAUSE",
+   "stable_family": "MISSING_FIXTURE",
+   "materiality": true,
+   "per_rep": [
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    }
+   ]
+  },
+  {
+   "dataset": "P2P_U_ENG",
+   "task_id": "saleor-rc-74538ea00ce9",
+   "split": "DEV_TRAIN_ENG",
+   "era_key": "py312",
+   "node_id": "saleor/graphql/discount/tests/benchmark/test_promotion_update.py::test_promotion_update",
+   "cap": "cap200",
+   "stability": "STABLE_CAUSE",
+   "stable_family": "MISSING_FIXTURE",
+   "materiality": true,
+   "per_rep": [
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    }
+   ]
+  },
+  {
+   "dataset": "P2P_U_ENG",
+   "task_id": "saleor-rc-74538ea00ce9",
+   "split": "DEV_TRAIN_ENG",
+   "era_key": "py312",
+   "node_id": "saleor/graphql/discount/tests/benchmark/test_promotion_rule_update.py::test_promotion_rule_update",
+   "cap": "cap200",
+   "stability": "STABLE_CAUSE",
+   "stable_family": "MISSING_FIXTURE",
+   "materiality": true,
+   "per_rep": [
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    }
+   ]
+  },
+  {
+   "dataset": "P2P_U_ENG",
+   "task_id": "saleor-rc-74538ea00ce9",
+   "split": "DEV_TRAIN_ENG",
+   "era_key": "py312",
+   "node_id": "saleor/graphql/product/tests/benchmark/test_homepage.py::test_retrieve_product_list",
+   "cap": "cap200",
+   "stability": "STABLE_CAUSE",
+   "stable_family": "MISSING_FIXTURE",
+   "materiality": true,
+   "per_rep": [
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    }
+   ]
+  },
+  {
+   "dataset": "P2P_U_ENG",
+   "task_id": "saleor-rc-74538ea00ce9",
+   "split": "DEV_TRAIN_ENG",
+   "era_key": "py312",
+   "node_id": "saleor/graphql/discount/tests/benchmark/test_voucher_code_bulk_delete.py::test_voucher_code_bulk_delete_queries",
+   "cap": "cap200",
+   "stability": "STABLE_CAUSE",
+   "stable_family": "MISSING_FIXTURE",
+   "materiality": true,
+   "per_rep": [
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    }
+   ]
+  },
+  {
+   "dataset": "P2P_U_ENG",
+   "task_id": "saleor-rc-74538ea00ce9",
+   "split": "DEV_TRAIN_ENG",
+   "era_key": "py312",
+   "node_id": "saleor/graphql/discount/tests/benchmark/test_promotion_create.py::test_promotion_create_order_promotion",
+   "cap": "cap200",
+   "stability": "STABLE_CAUSE",
+   "stable_family": "MISSING_FIXTURE",
+   "materiality": true,
+   "per_rep": [
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    }
+   ]
+  },
+  {
+   "dataset": "P2P_U_ENG",
+   "task_id": "saleor-rc-74538ea00ce9",
+   "split": "DEV_TRAIN_ENG",
+   "era_key": "py312",
+   "node_id": "saleor/graphql/order/tests/benchmark/test_order_bulk_create.py::test_order_bulk_create",
+   "cap": "cap200",
+   "stability": "STABLE_CAUSE",
+   "stable_family": "MISSING_FIXTURE",
+   "materiality": true,
+   "per_rep": [
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    }
+   ]
+  },
+  {
+   "dataset": "P2P_U_ENG",
+   "task_id": "saleor-rc-74538ea00ce9",
+   "split": "DEV_TRAIN_ENG",
+   "era_key": "py312",
+   "node_id": "saleor/graphql/order/tests/benchmark/test_fulfillment.py::test_fulfillment_query",
+   "cap": "cap200",
+   "stability": "STABLE_CAUSE",
+   "stable_family": "MISSING_FIXTURE",
+   "materiality": true,
+   "per_rep": [
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    }
+   ]
+  },
+  {
+   "dataset": "P2P_U_ENG",
+   "task_id": "saleor-rc-74538ea00ce9",
+   "split": "DEV_TRAIN_ENG",
+   "era_key": "py312",
+   "node_id": "saleor/graphql/order/tests/benchmark/test_order.py::test_staff_multiple_orders",
+   "cap": "cap200",
+   "stability": "STABLE_CAUSE",
+   "stable_family": "MISSING_FIXTURE",
+   "materiality": true,
+   "per_rep": [
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    }
+   ]
+  },
+  {
+   "dataset": "P2P_U_ENG",
+   "task_id": "saleor-rc-74538ea00ce9",
+   "split": "DEV_TRAIN_ENG",
+   "era_key": "py312",
+   "node_id": "saleor/graphql/discount/tests/benchmark/test_vouchers.py::test_vouchers_query_with_channel_slug",
+   "cap": "cap200",
+   "stability": "STABLE_CAUSE",
+   "stable_family": "MISSING_FIXTURE",
+   "materiality": true,
+   "per_rep": [
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    }
+   ]
+  },
+  {
+   "dataset": "P2P_U_ENG",
+   "task_id": "saleor-rc-74538ea00ce9",
+   "split": "DEV_TRAIN_ENG",
+   "era_key": "py312",
+   "node_id": "saleor/graphql/discount/tests/benchmark/test_promotion_rule_delete.py::test_promotion_rule_delete",
+   "cap": "cap200",
+   "stability": "STABLE_CAUSE",
+   "stable_family": "MISSING_FIXTURE",
+   "materiality": true,
+   "per_rep": [
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    }
+   ]
+  },
+  {
+   "dataset": "P2P_U_ENG",
+   "task_id": "saleor-rc-74538ea00ce9",
+   "split": "DEV_TRAIN_ENG",
+   "era_key": "py312",
+   "node_id": "saleor/graphql/giftcard/tests/benchmark/test_gift_card_mutations.py::test_update_gift_card",
+   "cap": "cap200",
+   "stability": "STABLE_CAUSE",
+   "stable_family": "MISSING_FIXTURE",
+   "materiality": true,
+   "per_rep": [
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    }
+   ]
+  },
+  {
+   "dataset": "P2P_U_ENG",
+   "task_id": "saleor-rc-74538ea00ce9",
+   "split": "DEV_TRAIN_ENG",
+   "era_key": "py312",
+   "node_id": "saleor/graphql/discount/tests/benchmark/test_promotions.py::test_promotions_querytest_promotions_query",
+   "cap": "cap200",
+   "stability": "STABLE_CAUSE",
+   "stable_family": "MISSING_FIXTURE",
+   "materiality": true,
+   "per_rep": [
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    }
+   ]
+  },
+  {
+   "dataset": "P2P_U_ENG",
+   "task_id": "saleor-rc-74538ea00ce9",
+   "split": "DEV_TRAIN_ENG",
+   "era_key": "py312",
+   "node_id": "saleor/graphql/discount/tests/benchmark/test_sales.py::test_sales_query_without_channel_slug",
+   "cap": "cap200",
+   "stability": "STABLE_CAUSE",
+   "stable_family": "MISSING_FIXTURE",
+   "materiality": true,
+   "per_rep": [
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    }
+   ]
+  },
+  {
+   "dataset": "P2P_U_ENG",
+   "task_id": "saleor-rc-74538ea00ce9",
+   "split": "DEV_TRAIN_ENG",
+   "era_key": "py312",
+   "node_id": "saleor/graphql/discount/tests/benchmark/test_promotion_rule_create.py::test_promotion_rule_create",
+   "cap": "cap200",
+   "stability": "STABLE_CAUSE",
+   "stable_family": "MISSING_FIXTURE",
+   "materiality": true,
+   "per_rep": [
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    }
+   ]
+  },
+  {
+   "dataset": "P2P_U_ENG",
+   "task_id": "saleor-rc-74538ea00ce9",
+   "split": "DEV_TRAIN_ENG",
+   "era_key": "py312",
+   "node_id": "saleor/graphql/order/tests/benchmark/test_order_lines_create.py::test_order_lines_create_variants_on_promotion",
+   "cap": "cap200",
+   "stability": "STABLE_CAUSE",
+   "stable_family": "MISSING_FIXTURE",
+   "materiality": true,
+   "per_rep": [
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    }
+   ]
+  },
+  {
+   "dataset": "P2P_U_ENG",
+   "task_id": "saleor-rc-74538ea00ce9",
+   "split": "DEV_TRAIN_ENG",
+   "era_key": "py312",
+   "node_id": "saleor/graphql/discount/tests/benchmark/test_promotion_delete.py::test_gift_promotion_delete",
+   "cap": "cap200",
+   "stability": "STABLE_CAUSE",
+   "stable_family": "MISSING_FIXTURE",
+   "materiality": true,
+   "per_rep": [
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    }
+   ]
+  },
+  {
+   "dataset": "P2P_U_ENG",
+   "task_id": "saleor-rc-74538ea00ce9",
+   "split": "DEV_TRAIN_ENG",
+   "era_key": "py312",
+   "node_id": "saleor/graphql/order/tests/benchmark/test_fulfillment_refund_and_return_products.py::test_fulfillment_return_products_order_lines",
+   "cap": "cap200",
+   "stability": "STABLE_CAUSE",
+   "stable_family": "MISSING_FIXTURE",
+   "materiality": true,
+   "per_rep": [
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    }
+   ]
+  },
+  {
+   "dataset": "P2P_U_ENG",
+   "task_id": "saleor-rc-74538ea00ce9",
+   "split": "DEV_TRAIN_ENG",
+   "era_key": "py312",
+   "node_id": "saleor/graphql/order/tests/benchmark/test_order_fulfill.py::test_order_fulfill",
+   "cap": "cap200",
+   "stability": "STABLE_CAUSE",
+   "stable_family": "MISSING_FIXTURE",
+   "materiality": true,
+   "per_rep": [
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    }
+   ]
+  },
+  {
+   "dataset": "P2P_U_ENG",
+   "task_id": "saleor-rc-82c56bde0e34",
+   "split": "DEV_TRAIN_ENG",
+   "era_key": "py39",
+   "node_id": "saleor/graphql/product/tests/benchmark/test_homepage.py::test_retrieve_product_list",
+   "cap": "cap200",
+   "stability": "STABLE_CAUSE",
+   "stable_family": "MISSING_FIXTURE",
+   "materiality": true,
+   "per_rep": [
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    }
+   ]
+  },
+  {
+   "dataset": "P2P_U_ENG",
+   "task_id": "saleor-rc-82c56bde0e34",
+   "split": "DEV_TRAIN_ENG",
+   "era_key": "py39",
+   "node_id": "saleor/graphql/giftcard/tests/benchmark/test_gift_card_mutations.py::test_update_gift_card",
+   "cap": "cap200",
+   "stability": "STABLE_CAUSE",
+   "stable_family": "MISSING_FIXTURE",
+   "materiality": true,
+   "per_rep": [
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    }
+   ]
+  },
+  {
+   "dataset": "P2P_U_ENG",
+   "task_id": "saleor-rc-82c56bde0e34",
+   "split": "DEV_TRAIN_ENG",
+   "era_key": "py39",
+   "node_id": "saleor/graphql/checkout/tests/benchmark/test_checkouts.py::test_staff_multiple_checkouts",
+   "cap": "cap200",
+   "stability": "STABLE_CAUSE",
+   "stable_family": "MISSING_FIXTURE",
+   "materiality": true,
+   "per_rep": [
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    }
+   ]
+  },
+  {
+   "dataset": "P2P_U_ENG",
+   "task_id": "saleor-rc-82c56bde0e34",
+   "split": "DEV_TRAIN_ENG",
+   "era_key": "py39",
+   "node_id": "saleor/graphql/checkout/tests/benchmark/test_checkout_mutations.py::test_create_checkout",
+   "cap": "cap200",
+   "stability": "STABLE_CAUSE",
+   "stable_family": "MISSING_FIXTURE",
+   "materiality": true,
+   "per_rep": [
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    }
+   ]
+  },
+  {
+   "dataset": "P2P_U_ENG",
+   "task_id": "saleor-rc-8f76ddc6267f",
+   "split": "DEV_TRAIN_ENG",
+   "era_key": "py39",
+   "node_id": "saleor/graphql/webhook/tests/benchmark/test_webhook_events.py::test_webhooks",
+   "cap": "cap200",
+   "stability": "STABLE_CAUSE",
+   "stable_family": "MISSING_FIXTURE",
+   "materiality": true,
+   "per_rep": [
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    }
+   ]
+  },
+  {
+   "dataset": "P2P_U_ENG",
+   "task_id": "saleor-rc-8f76ddc6267f",
+   "split": "DEV_TRAIN_ENG",
+   "era_key": "py39",
+   "node_id": "saleor/graphql/product/tests/benchmark/test_homepage.py::test_retrieve_product_list",
+   "cap": "cap200",
+   "stability": "STABLE_CAUSE",
+   "stable_family": "MISSING_FIXTURE",
+   "materiality": true,
+   "per_rep": [
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    }
+   ]
+  },
+  {
+   "dataset": "P2P_U_ENG",
+   "task_id": "saleor-rc-8f76ddc6267f",
+   "split": "DEV_TRAIN_ENG",
+   "era_key": "py39",
+   "node_id": "saleor/graphql/giftcard/tests/benchmark/test_gift_card_mutations.py::test_update_gift_card",
+   "cap": "cap200",
+   "stability": "STABLE_CAUSE",
+   "stable_family": "MISSING_FIXTURE",
+   "materiality": true,
+   "per_rep": [
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    }
+   ]
+  },
+  {
+   "dataset": "P2P_U_ENG",
+   "task_id": "saleor-rc-8f76ddc6267f",
+   "split": "DEV_TRAIN_ENG",
+   "era_key": "py39",
+   "node_id": "saleor/graphql/product/tests/benchmark/test_collection.py::test_collection_bulk_delete",
+   "cap": "cap200",
+   "stability": "STABLE_CAUSE",
+   "stable_family": "MISSING_FIXTURE",
+   "materiality": true,
+   "per_rep": [
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    }
+   ]
+  },
+  {
+   "dataset": "P2P_U_ENG",
+   "task_id": "saleor-rc-8f76ddc6267f",
+   "split": "DEV_TRAIN_ENG",
+   "era_key": "py39",
+   "node_id": "saleor/graphql/account/tests/benchmark/test_account.py::test_query_staff_user",
+   "cap": "cap200",
+   "stability": "STABLE_CAUSE",
+   "stable_family": "MISSING_FIXTURE",
+   "materiality": true,
+   "per_rep": [
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    }
+   ]
+  },
+  {
+   "dataset": "P2P_U_ENG",
+   "task_id": "saleor-rc-8f76ddc6267f",
+   "split": "DEV_TRAIN_ENG",
+   "era_key": "py39",
+   "node_id": "saleor/graphql/warehouse/tests/benchmark/test_stocks.py::test_stocks_query",
+   "cap": "cap200",
+   "stability": "STABLE_CAUSE",
+   "stable_family": "MISSING_FIXTURE",
+   "materiality": true,
+   "per_rep": [
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    }
+   ]
+  },
+  {
+   "dataset": "P2P_U_ENG",
+   "task_id": "saleor-rc-d220843b5418",
+   "split": "DEV_TRAIN_ENG",
+   "era_key": "py312",
+   "node_id": "saleor/graphql/webhook/tests/benchmark/test_webhook_events.py::test_webhooks",
+   "cap": "cap200",
+   "stability": "STABLE_CAUSE",
+   "stable_family": "MISSING_FIXTURE",
+   "materiality": true,
+   "per_rep": [
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    }
+   ]
+  },
+  {
+   "dataset": "P2P_U_ENG",
+   "task_id": "saleor-rc-d220843b5418",
+   "split": "DEV_TRAIN_ENG",
+   "era_key": "py312",
+   "node_id": "saleor/graphql/product/tests/benchmark/test_homepage.py::test_retrieve_product_list",
+   "cap": "cap200",
+   "stability": "STABLE_CAUSE",
+   "stable_family": "MISSING_FIXTURE",
+   "materiality": true,
+   "per_rep": [
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    }
+   ]
+  },
+  {
+   "dataset": "P2P_U_ENG",
+   "task_id": "saleor-rc-d220843b5418",
+   "split": "DEV_TRAIN_ENG",
+   "era_key": "py312",
+   "node_id": "saleor/graphql/giftcard/tests/benchmark/test_gift_card_mutations.py::test_update_gift_card",
+   "cap": "cap200",
+   "stability": "STABLE_CAUSE",
+   "stable_family": "MISSING_FIXTURE",
+   "materiality": true,
+   "per_rep": [
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    }
+   ]
+  },
+  {
+   "dataset": "P2P_U_ENG",
+   "task_id": "saleor-rc-dfe77ac1c5dc",
+   "split": "DEV_TRAIN_ENG",
+   "era_key": "py312",
+   "node_id": "saleor/order/tests/benchmark/test_fetch_order_prices.py::test_fetch_order_prices_catalogue_discount",
+   "cap": "cap200",
+   "stability": "STABLE_CAUSE",
+   "stable_family": "MISSING_FIXTURE",
+   "materiality": true,
+   "per_rep": [
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    }
+   ]
+  },
+  {
+   "dataset": "P2P_U_ENG",
+   "task_id": "saleor-rc-dfe77ac1c5dc",
+   "split": "DEV_TRAIN_ENG",
+   "era_key": "py312",
+   "node_id": "saleor/order/tests/benchmark/test_fetch_order_prices.py::test_fetch_order_prices_multiple_catalogue_discounts",
+   "cap": "cap200",
+   "stability": "STABLE_CAUSE",
+   "stable_family": "MISSING_FIXTURE",
+   "materiality": true,
+   "per_rep": [
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    }
+   ]
+  },
+  {
+   "dataset": "P2P_U_ENG",
+   "task_id": "saleor-rc-dfe77ac1c5dc",
+   "split": "DEV_TRAIN_ENG",
+   "era_key": "py312",
+   "node_id": "saleor/order/tests/test_fetch.py::test_fetch_draft_order_lines_info",
+   "cap": "cap200",
+   "stability": "STABLE_CAUSE",
+   "stable_family": "MISSING_FIXTURE",
+   "materiality": true,
+   "per_rep": [
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    }
+   ]
+  },
+  {
+   "dataset": "P2P_U_ENG",
+   "task_id": "saleor-rc-e03ee76d2b89",
+   "split": "DEV_TRAIN_ENG",
+   "era_key": "py39",
+   "node_id": "saleor/graphql/product/tests/benchmark/test_homepage.py::test_retrieve_product_list",
+   "cap": "cap200",
+   "stability": "STABLE_CAUSE",
+   "stable_family": "MISSING_FIXTURE",
+   "materiality": true,
+   "per_rep": [
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    }
+   ]
+  },
+  {
+   "dataset": "P2P_U_ENG",
+   "task_id": "saleor-rc-e03ee76d2b89",
+   "split": "DEV_TRAIN_ENG",
+   "era_key": "py39",
+   "node_id": "saleor/graphql/giftcard/tests/benchmark/test_gift_card_mutations.py::test_update_gift_card",
+   "cap": "cap200",
+   "stability": "STABLE_CAUSE",
+   "stable_family": "MISSING_FIXTURE",
+   "materiality": true,
+   "per_rep": [
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    },
+    {
+     "taxonomy": "MISSING_FIXTURE:count_queries",
+     "detail": "count_queries",
+     "family": "MISSING_FIXTURE",
+     "phase": "setup"
+    }
+   ]
+  }
+ ],
+ "reconciliation": {
+  "authoritative_cap200_COLLECTION_ERROR": 41,
+  "parsed_nodes": 41,
+  "unique_tasks": 7,
+  "mismatch": 0,
+  "ok": true
+ },
+ "stability_counts": {
+  "STABLE_CAUSE": 41
+ }
+}

@@ -1,0 +1,349 @@
+{
+ "artifact": "m10b_phase1_summary",
+ "created_utc": "2026-09-26T05:05:03+00:00",
+ "c4": {
+  "fulltext_records": 10985,
+  "stability_counts": {
+   "MISSING_EVIDENCE": 35,
+   "FAILED_ONLY": 45,
+   "STABLE_CAUSE": 2592,
+   "MIXED_CAUSE": 1055
+  },
+  "reconciliation": {
+   "authoritative_total": 3727,
+   "authoritative_error_bearing": 3682,
+   "authoritative_failed_only": 45,
+   "STABLE_CAUSE": 2592,
+   "MIXED_CAUSE": 1055,
+   "MISSING_EVIDENCE": 35,
+   "FAILED_ONLY": 45,
+   "reconciled_total": 3727,
+   "mismatch": 0,
+   "ok": true,
+   "FAILED_ONLY_nodes": 45
+  },
+  "materiality": {
+   "numerator_stable_family_nodes": 2592,
+   "by_family": {
+    "INFRA": 2511,
+    "MISSING_FIXTURE": 81
+   },
+   "denominator_error_bearing": 3682,
+   "denominator_sufficient_evidence": 3647,
+   "share_of_error_bearing": 0.704,
+   "share_of_sufficient_evidence": 0.7107,
+   "missing_evidence_count": 35,
+   "mixed_cause_count": 1055
+  }
+ },
+ "c2": {
+  "rescue_tasks": 159,
+  "stability": {
+   "MISSING_EVIDENCE": 272,
+   "MIXED_CAUSE": 1568,
+   "STABLE_CAUSE": 6780
+  }
+ },
+ "p2pu_eng": {
+  "stability": {
+   "STABLE_CAUSE": 41
+  },
+  "reconciliation": {
+   "authoritative_cap200_COLLECTION_ERROR": 41,
+   "parsed_nodes": 41,
+   "unique_tasks": 7,
+   "mismatch": 0,
+   "ok": true
+  }
+ },
+ "hypotheses": {
+  "artifact": "m10b_phase1_hypotheses",
+  "created_utc": "2026-09-26T05:05:03+00:00",
+  "C4_EMFILE": {
+   "task_cooccurrence_count": 29,
+   "task_ids": [
+    "saleor-rc-05efc538ceb7",
+    "saleor-rc-22ec4dab0154",
+    "saleor-rc-2a7f13c25908",
+    "saleor-rc-2b00c8f83063",
+    "saleor-rc-36ca99071fff",
+    "saleor-rc-3a6b7add7b0f",
+    "saleor-rc-46a2a565f410",
+    "saleor-rc-644f33094857",
+    "saleor-rc-6abb53f3407b",
+    "saleor-rc-823b899757ab",
+    "saleor-rc-91e2826c47f7",
+    "saleor-rc-93b20d78c011",
+    "saleor-rc-99d963aed3e5",
+    "saleor-rc-b910bd0b362e",
+    "saleor-rc-b992c609fcc9",
+    "saleor-rc-ba60125e45a0",
+    "saleor-rc-bbba01a02725",
+    "saleor-rc-bd704304c61d",
+    "saleor-rc-c3b9e396b07d",
+    "saleor-rc-c5f60bd46f72",
+    "saleor-rc-cafb853cc8cb",
+    "saleor-rc-cb49da196b70",
+    "saleor-rc-dc6ac9d252df",
+    "saleor-rc-e25cf9b4a837",
+    "saleor-rc-ecc752ffbe0f",
+    "saleor-rc-ed023a25834d",
+    "saleor-rc-f0316fed098d",
+    "saleor-rc-f20d99e0cb0e",
+    "saleor-rc-f813a9fd37d3"
+   ],
+   "parent_target_record_counts": {
+    "target": 9676
+   },
+   "node_level_stable_share": {
+    "numerator": 2511,
+    "denominator": 3682,
+    "share": 0.682
+   },
+   "by_era": {
+    "py39": 1648,
+    "py38": 863
+   }
+  },
+  "C4_WRONG_CONSTRAINTS": {
+   "record_count": 1066,
+   "unique_tasks": 2,
+   "unique_nodes": 714,
+   "tasks": [
+    "saleor-rc-46a2a565f410",
+    "saleor-rc-f813a9fd37d3"
+   ]
+  },
+  "C2_RESCUE_EMFILE": {
+   "task_count": 58,
+   "task_ids": [
+    "saleor-rc-03c5a9916858",
+    "saleor-rc-05bdc7feb9ac",
+    "saleor-rc-10889526d151",
+    "saleor-rc-12007c00e480",
+    "saleor-rc-1b4da5a88d08",
+    "saleor-rc-1f6fbe2ebf9b",
+    "saleor-rc-1fa6a637c7fc",
+    "saleor-rc-208833e2fa53",
+    "saleor-rc-28799575c518",
+    "saleor-rc-29c2d1abdce0",
+    "saleor-rc-2c218aadc9b7",
+    "saleor-rc-305415e0f8b7",
+    "saleor-rc-30fe250747ae",
+    "saleor-rc-32f73ff32b2b",
+    "saleor-rc-367b8038f6b9",
+    "saleor-rc-37a3a7bbec31",
+    "saleor-rc-50eff94aa37c",
+    "saleor-rc-52a797b00af3",
+    "saleor-rc-54bbb04b8954",
+    "saleor-rc-5821309aed09",
+    "saleor-rc-585562cf1cec",
+    "saleor-rc-5c458f26276d",
+    "saleor-rc-5c50110d46a2",
+    "saleor-rc-5f78ba7b1647",
+    "saleor-rc-6370f4a6b8a5",
+    "saleor-rc-63a31dd3c8ca",
+    "saleor-rc-693eb302968c",
+    "saleor-rc-6a1f884168d2",
+    "saleor-rc-6c928b72daa4",
+    "saleor-rc-7b3fbb77c331",
+    "saleor-rc-85d416c024e1",
+    "saleor-rc-884327b653cc",
+    "saleor-rc-9057e82cea23",
+    "saleor-rc-99041211cf9e",
+    "saleor-rc-a17f11cf7e87",
+    "saleor-rc-a5e831779345",
+    "saleor-rc-a93a877388ae",
+    "saleor-rc-aa2bcdd0c218",
+    "saleor-rc-ab6c29ba265d",
+    "saleor-rc-add4064d238e",
+    "saleor-rc-b2622810adf1",
+    "saleor-rc-b60266933f7a",
+    "saleor-rc-ba4ff17faab4",
+    "saleor-rc-bd0c56fc787e",
+    "saleor-rc-bf938e731bd8",
+    "saleor-rc-c87441bb1464",
+    "saleor-rc-c9c1cc0968d3",
+    "saleor-rc-d3ab58054844",
+    "saleor-rc-d8a4cd122bf0",
+    "saleor-rc-e089e93419bf",
+    "saleor-rc-eaf1577585a2",
+    "saleor-rc-ef4d31a09e7c",
+    "saleor-rc-f1d4e82c1dea",
+    "saleor-rc-f3a1ec65571f",
+    "saleor-rc-f76d0093b450",
+    "saleor-rc-f953990d221b",
+    "saleor-rc-fbfc66e3a46b",
+    "saleor-rc-fd5b7971c5d2"
+   ],
+   "hypothesis_58_of_159": "VERIFY"
+  },
+  "ENG_AFFECTED": {
+   "hypothesis_10_tasks": 11,
+   "task_ids": [
+    "saleor-rc-22ec4dab0154",
+    "saleor-rc-2a7f13c25908",
+    "saleor-rc-644f33094857",
+    "saleor-rc-6abb53f3407b",
+    "saleor-rc-823b899757ab",
+    "saleor-rc-93b20d78c011",
+    "saleor-rc-9698135fe4fc",
+    "saleor-rc-ba60125e45a0",
+    "saleor-rc-c3b9e396b07d",
+    "saleor-rc-dc6ac9d252df",
+    "saleor-rc-e25cf9b4a837"
+   ],
+   "by_era": {
+    "py39": 6,
+    "py38": 4,
+    "py312": 1
+   },
+   "primary_eligible_status": {
+    "saleor-rc-dc6ac9d252df": {
+     "classification": "NOT_PRIMARY",
+     "primary_eligible": false,
+     "counts": {
+      "BEHAVIORAL_F2P": 0,
+      "SYMBOL_ABSENCE_F2P": 0,
+      "PARENT_COLLECTION_ERROR": 0,
+      "FLAKY": 0,
+      "TARGET_ORACLE_INVALID": 22,
+      "P2P_ONLY": 0,
+      "OTHER_REVIEW_REQUIRED": 0
+     }
+    },
+    "saleor-rc-93b20d78c011": {
+     "classification": "NOT_PRIMARY",
+     "primary_eligible": false,
+     "counts": {
+      "BEHAVIORAL_F2P": 0,
+      "SYMBOL_ABSENCE_F2P": 0,
+      "PARENT_COLLECTION_ERROR": 0,
+      "FLAKY": 0,
+      "TARGET_ORACLE_INVALID": 186,
+      "P2P_ONLY": 0,
+      "OTHER_REVIEW_REQUIRED": 0
+     }
+    },
+    "saleor-rc-644f33094857": {
+     "classification": "NOT_PRIMARY",
+     "primary_eligible": false,
+     "counts": {
+      "BEHAVIORAL_F2P": 0,
+      "SYMBOL_ABSENCE_F2P": 0,
+      "PARENT_COLLECTION_ERROR": 0,
+      "FLAKY": 0,
+      "TARGET_ORACLE_INVALID": 97,
+      "P2P_ONLY": 0,
+      "OTHER_REVIEW_REQUIRED": 0
+     }
+    },
+    "saleor-rc-6abb53f3407b": {
+     "classification": "NOT_PRIMARY",
+     "primary_eligible": false,
+     "counts": {
+      "BEHAVIORAL_F2P": 0,
+      "SYMBOL_ABSENCE_F2P": 0,
+      "PARENT_COLLECTION_ERROR": 0,
+      "FLAKY": 0,
+      "TARGET_ORACLE_INVALID": 250,
+      "P2P_ONLY": 0,
+      "OTHER_REVIEW_REQUIRED": 0
+     }
+    },
+    "saleor-rc-823b899757ab": {
+     "classification": "NOT_PRIMARY",
+     "primary_eligible": false,
+     "counts": {
+      "BEHAVIORAL_F2P": 0,
+      "SYMBOL_ABSENCE_F2P": 0,
+      "PARENT_COLLECTION_ERROR": 0,
+      "FLAKY": 0,
+      "TARGET_ORACLE_INVALID": 6,
+      "P2P_ONLY": 0,
+      "OTHER_REVIEW_REQUIRED": 0
+     }
+    },
+    "saleor-rc-e25cf9b4a837": {
+     "classification": "NOT_PRIMARY",
+     "primary_eligible": false,
+     "counts": {
+      "BEHAVIORAL_F2P": 0,
+      "SYMBOL_ABSENCE_F2P": 0,
+      "PARENT_COLLECTION_ERROR": 0,
+      "FLAKY": 0,
+      "TARGET_ORACLE_INVALID": 252,
+      "P2P_ONLY": 0,
+      "OTHER_REVIEW_REQUIRED": 0
+     }
+    },
+    "saleor-rc-2a7f13c25908": {
+     "classification": "NOT_PRIMARY",
+     "primary_eligible": false,
+     "counts": {
+      "BEHAVIORAL_F2P": 0,
+      "SYMBOL_ABSENCE_F2P": 0,
+      "PARENT_COLLECTION_ERROR": 0,
+      "FLAKY": 0,
+      "TARGET_ORACLE_INVALID": 22,
+      "P2P_ONLY": 0,
+      "OTHER_REVIEW_REQUIRED": 0
+     }
+    },
+    "saleor-rc-9698135fe4fc": {
+     "classification": "NOT_PRIMARY",
+     "primary_eligible": false,
+     "counts": {
+      "BEHAVIORAL_F2P": 0,
+      "SYMBOL_ABSENCE_F2P": 0,
+      "PARENT_COLLECTION_ERROR": 0,
+      "FLAKY": 109,
+      "TARGET_ORACLE_INVALID": 28,
+      "P2P_ONLY": 2,
+      "OTHER_REVIEW_REQUIRED": 0
+     }
+    },
+    "saleor-rc-c3b9e396b07d": {
+     "classification": "NOT_PRIMARY",
+     "primary_eligible": false,
+     "counts": {
+      "BEHAVIORAL_F2P": 0,
+      "SYMBOL_ABSENCE_F2P": 0,
+      "PARENT_COLLECTION_ERROR": 0,
+      "FLAKY": 0,
+      "TARGET_ORACLE_INVALID": 416,
+      "P2P_ONLY": 0,
+      "OTHER_REVIEW_REQUIRED": 0
+     }
+    },
+    "saleor-rc-ba60125e45a0": {
+     "classification": "NOT_PRIMARY",
+     "primary_eligible": false,
+     "counts": {
+      "BEHAVIORAL_F2P": 0,
+      "SYMBOL_ABSENCE_F2P": 0,
+      "PARENT_COLLECTION_ERROR": 0,
+      "FLAKY": 0,
+      "TARGET_ORACLE_INVALID": 60,
+      "P2P_ONLY": 0,
+      "OTHER_REVIEW_REQUIRED": 0
+     }
+    },
+    "saleor-rc-22ec4dab0154": {
+     "classification": "NOT_PRIMARY",
+     "primary_eligible": false,
+     "counts": {
+      "BEHAVIORAL_F2P": 0,
+      "SYMBOL_ABSENCE_F2P": 0,
+      "PARENT_COLLECTION_ERROR": 0,
+      "FLAKY": 0,
+      "TARGET_ORACLE_INVALID": 14,
+      "P2P_ONLY": 0,
+      "OTHER_REVIEW_REQUIRED": 0
+     }
+    }
+   },
+   "record_count": 4056
+  }
+ }
+}

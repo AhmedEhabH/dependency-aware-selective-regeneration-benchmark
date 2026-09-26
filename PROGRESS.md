@@ -116,6 +116,69 @@ automatically.
 dimensions under a frozen, valid environment/evaluator (localization-only tasks
 do not count).
 
+## MISSION-10B — GOAL -> OUTCOMES -> DRIVERS -> ACTIONS -> SCHEDULE -> TRACKING -> REFLECTION
+
+**GOAL:** Produce a valid frozen evaluator/harness and reach ENG Smoke
+readiness without spending API/model budget prematurely. Harness V3 is an
+infrastructure-only correction (nofile / DB lifecycle / lock-exact
+dependencies / clock preflight); oracle scientific semantics stay unchanged.
+
+**OUTCOMES (so far):**
+- corrected root-cause attribution: node-level, not task-level
+- V3 decision (pending Phase-4 mechanical gate)
+- recovered valid oracle coverage if warranted
+- zero clean-node regressions (S2' target)
+- ENG Smoke-ready evaluator (gate-gated)
+- full C4 corrected if gate passes
+
+**DRIVERS:** node-level causal attribution · FD headroom · DB isolation ·
+historical lock fidelity · clock stability · deterministic concurrency ·
+evidence integrity.
+
+**ACTIONS:** RCA -> freeze -> 4-task w1 probe -> gate -> w2 equivalence ->
+ENG C4 -> P2P-S/P2P-U ENG -> ENG_SMOKE_READY -> remaining C4.
+
+**SCHEDULE:** Phase-1 RCA COMPLETE (2026-09-26). Phases 2-4 next (freeze,
+probe, gate). Phase 5 auto-continues iff Phase-4 gate passes.
+
+**TRACKING (Phase-1 durable results):**
+- C4 reconciliation exact: 3,727 = 2,592 STABLE + 1,055 MIXED + 35 MISSING +
+  45 FAILED_ONLY (mismatch 0)
+- materiality: 2,592 stable-family nodes (INFRA 2,511 + MISSING_FIXTURE 81) /
+  3,682 = 70.4% (node-level; >> 20% gate)
+- EMFILE: 29 C4 tasks (py38/py39), 9,676 target rep-records, 2,511 stable
+  nodes (68.2% of error-TOI); C2 rescue 58/159; ENG 10 EMFILE tasks all
+  NOT_PRIMARY
+- EMFILE FIX EFFICACY: TRUE (A reproduces at nofile=1024 max 714 FDs; B at
+  nofile=65536 max 2,287 FDs, 261 passed / 1 genuine behavioral fail)
+- DB reuse: WRONG_CONSTRAINTS 1,095/1,098 WC-r2 nodes follow EMFILE-r0 in the
+  same (task,state) DB -> partial-DB reuse SUPPORTED
+- install failures: C4 24/24 + C2 60/60 = LOCKFILE_INCOMPATIBILITY (V2 never
+  used historical lockfiles; dev/test group omitted)
+- clock: host<->WSL skew -1.85s (WARN); container +0.9-1.1s ahead of WSL;
+  AT_RISK_F2P C4=2 C2=1 (JWT iat ImmatureSignatureError)
+- probe tasks lockfile: all poetry.lock; exact dev versions extracted
+- decision token: **pending (Phase 4)**
+- commit/tag/export: see STOP report at mission end
+
+**REFLECTION (Phase 1):**
+1. Evidence that changed understanding: node-level STABLE_CAUSE shows EMFILE
+   is the dominant C4 TOI cause (68%), and WRONG_CONSTRAINTS is NOT an
+   independent cause — it is the reuse of an EMFILE-partial DB (1,095/1,098
+   nodes). Mission-10A's truncated parser missed this because it never
+   read full error text.
+2. Earlier assumption wrong: the C4 error majority is not "DB/other" but
+   specifically INFRA:EMFILE during test-DB creation/migrations, hidden by
+   V2's default nofile=1024 container limit.
+3. What saved time: reusing frozen V2 runner/exec patterns, the Mission-09
+   resource sampler concept, and the frozen era images as the V3 base runtime
+   (no new image build).
+4. Single highest-payoff next step: freeze Harness V3 + run the 4-task ENG
+   probe under workers=1, then evaluate the Phase-4 mechanical gate.
+
+**NORTH STAR:** Tasks eventually evaluated E2E across all five dimensions
+under a frozen, valid, reproducible environment/evaluator.
+
 **Role:** Execution source of truth (what is being executed now, last completed
 task, immediate next step, blockers). Scientific truth lives in
 `00_CURRENT_RESEARCH_STATE.md`; decisions are recorded append-only in

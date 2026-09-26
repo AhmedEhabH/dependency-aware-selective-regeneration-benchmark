@@ -1,0 +1,2504 @@
+{
+ "artifact": "m10b_phase1b_install_failure_audit",
+ "created_utc": "2026-09-26T05:18:31+00:00",
+ "C4": {
+  "authoritative_env_install_failed": 24,
+  "parsed": 24,
+  "by_era": {
+   "py312": 15,
+   "py39": 9
+  },
+  "by_category": {
+   "LOCKFILE_INCOMPATIBILITY": 24
+  },
+  "tasks": [
+   {
+    "task_id": "saleor-rc-1088948818ee",
+    "era_key": "py312",
+    "target_commit": "1088948818eea49b9b23bf58a8b9dfd711bab426",
+    "python_requirement": "~3.12",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-15ce02ce683e",
+    "era_key": "py39",
+    "target_commit": "15ce02ce683eaa0ab96fb9d71dc77a8d638e8a55",
+    "python_requirement": "~3.9",
+    "installer_mode": "uv pip install -r requirements.txt (production only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "2020-era native dependency chain (weasyprint/pango) - documented py38 attrition",
+     "poetry.lock present but V2 installed pip -r requirements.txt, not the exact poetry.lock set"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "aniso8601",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "before_after",
+     "boto3"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-241dfa650f39",
+    "era_key": "py312",
+    "target_commit": "241dfa650f391d125e1e77e4e496ada77c7e6715",
+    "python_requirement": "~3.12",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-2da6d8c2d18f",
+    "era_key": "py312",
+    "target_commit": "2da6d8c2d18f95e8f62499da75880700191fb50a",
+    "python_requirement": "~3.12",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-331e18a7fe99",
+    "era_key": "py312",
+    "target_commit": "331e18a7fe9913c4f1bf4d8e45c144c3a8ccc9fc",
+    "python_requirement": "~3.12",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-3496d8aa5998",
+    "era_key": "py39",
+    "target_commit": "3496d8aa5998a46ac9b0723e7eadd6ff58a00588",
+    "python_requirement": "~3.9",
+    "installer_mode": "uv pip install -r requirements.txt (production only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "2020-era native dependency chain (weasyprint/pango) - documented py38 attrition",
+     "poetry.lock present but V2 installed pip -r requirements.txt, not the exact poetry.lock set"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "aniso8601",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "before_after",
+     "boto3"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-5a6f954424f3",
+    "era_key": "py312",
+    "target_commit": "5a6f954424f373ac18074f53c511c0855caf5b5c",
+    "python_requirement": "~3.12",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-6cf5cf04fa6f",
+    "era_key": "py39",
+    "target_commit": "6cf5cf04fa6f5071576fbc8b61f87391ebb59693",
+    "python_requirement": "~3.9",
+    "installer_mode": "uv pip install -r requirements.txt (production only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "2020-era native dependency chain (weasyprint/pango) - documented py38 attrition",
+     "poetry.lock present but V2 installed pip -r requirements.txt, not the exact poetry.lock set"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "aniso8601",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "before_after",
+     "boto3"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-6e0a2cfc9287",
+    "era_key": "py312",
+    "target_commit": "6e0a2cfc9287e8a7ef934b879261767c4d4f7f40",
+    "python_requirement": "~3.12",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-6f1f1720fc7c",
+    "era_key": "py312",
+    "target_commit": "6f1f1720fc7c3c28794a0eebfbcad9c1d06c1416",
+    "python_requirement": "~3.12",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-7dcf89985e0c",
+    "era_key": "py312",
+    "target_commit": "7dcf89985e0c626ea5a06b92e6631965371d3431",
+    "python_requirement": "~3.12",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-836d01d8429f",
+    "era_key": "py312",
+    "target_commit": "836d01d8429ff250a78abbc5439743c28bc1f772",
+    "python_requirement": "~3.12",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-8e665a4bd2b7",
+    "era_key": "py312",
+    "target_commit": "8e665a4bd2b7bb97176f402bda8340a814c45662",
+    "python_requirement": "~3.12",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-939093a9c65c",
+    "era_key": "py39",
+    "target_commit": "939093a9c65c9e4becdad7e38ae91d3943385696",
+    "python_requirement": "~3.9",
+    "installer_mode": "uv pip install -r requirements.txt (production only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "2020-era native dependency chain (weasyprint/pango) - documented py38 attrition",
+     "poetry.lock present but V2 installed pip -r requirements.txt, not the exact poetry.lock set"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "aniso8601",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "before_after",
+     "boto3"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-a8e6a4dd55fe",
+    "era_key": "py39",
+    "target_commit": "a8e6a4dd55fe54ad2da46203f8d1aad121e832c5",
+    "python_requirement": "~3.9",
+    "installer_mode": "uv pip install -r requirements.txt (production only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "2020-era native dependency chain (weasyprint/pango) - documented py38 attrition",
+     "poetry.lock present but V2 installed pip -r requirements.txt, not the exact poetry.lock set"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "aniso8601",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "before_after",
+     "boto3"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-a9d2e2dcae26",
+    "era_key": "py39",
+    "target_commit": "a9d2e2dcae26c1233846d228be284b5b6c65d4cc",
+    "python_requirement": "~3.9",
+    "installer_mode": "uv pip install -r requirements.txt (production only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "2020-era native dependency chain (weasyprint/pango) - documented py38 attrition",
+     "poetry.lock present but V2 installed pip -r requirements.txt, not the exact poetry.lock set"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "aniso8601",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "before_after",
+     "boto3"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-ac8fa3811174",
+    "era_key": "py312",
+    "target_commit": "ac8fa3811174621d76cce80b51f060178bc81e85",
+    "python_requirement": "~3.12",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "before_after",
+     "boto3",
+     "botocore"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-be23aaf4548b",
+    "era_key": "py312",
+    "target_commit": "be23aaf4548ba1bed087bb183d18fdbd3baa1780",
+    "python_requirement": "~3.12",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-c5828cf62020",
+    "era_key": "py39",
+    "target_commit": "c5828cf6202042a07811e40802f5cc320ba4fa1d",
+    "python_requirement": "~3.9",
+    "installer_mode": "uv pip install -r requirements.txt (production only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "2020-era native dependency chain (weasyprint/pango) - documented py38 attrition",
+     "poetry.lock present but V2 installed pip -r requirements.txt, not the exact poetry.lock set"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "aniso8601",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "before_after",
+     "boto3"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-d1e6e0e2bbbc",
+    "era_key": "py312",
+    "target_commit": "d1e6e0e2bbbcef285ea217d2e3ea27fcf12dce2b",
+    "python_requirement": "~3.12",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-e5ff65b54ecd",
+    "era_key": "py312",
+    "target_commit": "e5ff65b54ecd6a7152675ab953ae5315a7304fa7",
+    "python_requirement": "~3.12",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-f73c4e95c828",
+    "era_key": "py39",
+    "target_commit": "f73c4e95c8284a906566538028eeb845f8ecadf3",
+    "python_requirement": "~3.9",
+    "installer_mode": "uv pip install -r requirements.txt (production only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "2020-era native dependency chain (weasyprint/pango) - documented py38 attrition",
+     "poetry.lock present but V2 installed pip -r requirements.txt, not the exact poetry.lock set"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "aniso8601",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "before_after",
+     "boto3"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-fa9ea3af1251",
+    "era_key": "py39",
+    "target_commit": "fa9ea3af1251eaa792bebc0aabcf03f49b31a7e9",
+    "python_requirement": "~3.9",
+    "installer_mode": "uv pip install -r requirements.txt (production only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "2020-era native dependency chain (weasyprint/pango) - documented py38 attrition",
+     "poetry.lock present but V2 installed pip -r requirements.txt, not the exact poetry.lock set"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "aniso8601",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "before_after",
+     "boto3"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-fd3f0905ee59",
+    "era_key": "py312",
+    "target_commit": "fd3f0905ee596f38ea414de153e397378e5e64d7",
+    "python_requirement": "~3.12",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   }
+  ]
+ },
+ "C2": {
+  "authoritative_env_install_failed": 60,
+  "parsed": 60,
+  "by_era": {
+   "py312": 33,
+   "py39": 25,
+   "py38": 2
+  },
+  "by_category": {
+   "LOCKFILE_INCOMPATIBILITY": 60
+  },
+  "tasks": [
+   {
+    "task_id": "saleor-rc-659af1b19239",
+    "era_key": "py312",
+    "target_commit": "659af1b19239efec168ffd752bb908f9e93ea65e",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-663543eaf563",
+    "era_key": "py312",
+    "target_commit": "663543eaf563e773983e2482b667c45bc540d54b",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-697cbdc85b4a",
+    "era_key": "py312",
+    "target_commit": "697cbdc85b4a184c1b07c91303e47506d30b0b1e",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-b79cf8f91f04",
+    "era_key": "py312",
+    "target_commit": "b79cf8f91f04a919b16912bdb6ec1aae0ec85cad",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-bd11af3ea0a4",
+    "era_key": "py312",
+    "target_commit": "bd11af3ea0a496febb937759cbe59bb9cb7b90f4",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-cae629dc4166",
+    "era_key": "py39",
+    "target_commit": "cae629dc41669454d71bff48238b7eeaaa651656",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -r requirements.txt (production only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "2020-era native dependency chain (weasyprint/pango) - documented py38 attrition",
+     "poetry.lock present but V2 installed pip -r requirements.txt, not the exact poetry.lock set"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "aniso8601",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "before_after",
+     "boto3"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-f3a0bc28797b",
+    "era_key": "py39",
+    "target_commit": "f3a0bc28797b59bf52e7746d5c0991c744b9eb20",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -r requirements.txt (production only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "2020-era native dependency chain (weasyprint/pango) - documented py38 attrition",
+     "poetry.lock present but V2 installed pip -r requirements.txt, not the exact poetry.lock set"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "aniso8601",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "before_after",
+     "boto3"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-02dfdad9985b",
+    "era_key": "py39",
+    "target_commit": "02dfdad9985b2ee573b6ab9f64b766fe73fe012c",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -r requirements.txt (production only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "2020-era native dependency chain (weasyprint/pango) - documented py38 attrition",
+     "poetry.lock present but V2 installed pip -r requirements.txt, not the exact poetry.lock set"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "aniso8601",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "before_after",
+     "boto3"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-14a682044ca4",
+    "era_key": "py39",
+    "target_commit": "14a682044ca49af5406781e8b921fce6fe4f3d85",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -r requirements.txt (production only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "2020-era native dependency chain (weasyprint/pango) - documented py38 attrition",
+     "poetry.lock present but V2 installed pip -r requirements.txt, not the exact poetry.lock set"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "aniso8601",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "before_after",
+     "boto3"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-f5d2c47e47c3",
+    "era_key": "py312",
+    "target_commit": "f5d2c47e47c3dd5a13a9084188467ec6f875f6fc",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-63a25a0c46d5",
+    "era_key": "py39",
+    "target_commit": "63a25a0c46d54b6f800ddb2f94ca20cba50f54f3",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -r requirements.txt (production only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "2020-era native dependency chain (weasyprint/pango) - documented py38 attrition",
+     "poetry.lock present but V2 installed pip -r requirements.txt, not the exact poetry.lock set"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "aniso8601",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "before_after",
+     "boto3"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-03be7057c1f1",
+    "era_key": "py38",
+    "target_commit": "03be7057c1f1d920d0f5498e3f7669f9f94cb327",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -r requirements.txt (production only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "2020-era native dependency chain (weasyprint/pango) - documented py38 attrition",
+     "poetry.lock present but V2 installed pip -r requirements.txt, not the exact poetry.lock set"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "babel",
+     "boto3",
+     "braintree",
+     "codecov",
+     "coverage",
+     "dj-database-url",
+     "dj-email-url",
+     "django",
+     "django-cache-url",
+     "django-countries",
+     "django-debug-toolbar"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-80a33b28b80d",
+    "era_key": "py312",
+    "target_commit": "80a33b28b80d7010adad6637bc1b954a243727aa",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-f605058a13e8",
+    "era_key": "py39",
+    "target_commit": "f605058a13e8860662300dfd7188039d95d01b70",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -r requirements.txt (production only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "2020-era native dependency chain (weasyprint/pango) - documented py38 attrition",
+     "poetry.lock present but V2 installed pip -r requirements.txt, not the exact poetry.lock set"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "aniso8601",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "before_after",
+     "boto3"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-78c9081e2731",
+    "era_key": "py312",
+    "target_commit": "78c9081e273173907d50b255310be2b4cbfe0658",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-d4fcbd22a853",
+    "era_key": "py312",
+    "target_commit": "d4fcbd22a8536be6a5ba4c0254eac89b67799b8e",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-1a8b592913a0",
+    "era_key": "py312",
+    "target_commit": "1a8b592913a0cadca6d0b171e9afb2f8e4b823f6",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-ccd3960acd1d",
+    "era_key": "py312",
+    "target_commit": "ccd3960acd1d058528d9796c2b9ff096f28d848e",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-07f02e2c40ae",
+    "era_key": "py312",
+    "target_commit": "07f02e2c40ae9357db33f6e24068ccd3095eace4",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-f623ab428821",
+    "era_key": "py312",
+    "target_commit": "f623ab428821155d90063021fc2b643d4601819a",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-a9e79dac40a2",
+    "era_key": "py312",
+    "target_commit": "a9e79dac40a2f203417a5e822c26d62359f6645c",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-e129a4d6f9b1",
+    "era_key": "py39",
+    "target_commit": "e129a4d6f9b1cd4e5988c05a173eea4e72564a73",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -r requirements.txt (production only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "2020-era native dependency chain (weasyprint/pango) - documented py38 attrition",
+     "poetry.lock present but V2 installed pip -r requirements.txt, not the exact poetry.lock set"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "aniso8601",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "before_after",
+     "boto3"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-4800fa0beb60",
+    "era_key": "py312",
+    "target_commit": "4800fa0beb6063e2d4b0fdbdef142259bed717fd",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-0df62b3144b0",
+    "era_key": "py39",
+    "target_commit": "0df62b3144b0ef536b8ecc96aaa2a51f3b8ee175",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -r requirements.txt (production only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "2020-era native dependency chain (weasyprint/pango) - documented py38 attrition",
+     "poetry.lock present but V2 installed pip -r requirements.txt, not the exact poetry.lock set"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "aniso8601",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "before_after",
+     "boto3"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-d7b03a3eeec0",
+    "era_key": "py312",
+    "target_commit": "d7b03a3eeec016efdcc6119ae4cd77726df9b282",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-0c1062eb0da6",
+    "era_key": "py39",
+    "target_commit": "0c1062eb0da691a67f6edb7babacea694d666830",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -r requirements.txt (production only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "2020-era native dependency chain (weasyprint/pango) - documented py38 attrition",
+     "poetry.lock present but V2 installed pip -r requirements.txt, not the exact poetry.lock set"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "aniso8601",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "before_after",
+     "boto3"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-4386f322f659",
+    "era_key": "py39",
+    "target_commit": "4386f322f6598cba95d499ac5b9c852aea2844e4",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -r requirements.txt (production only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "2020-era native dependency chain (weasyprint/pango) - documented py38 attrition",
+     "poetry.lock present but V2 installed pip -r requirements.txt, not the exact poetry.lock set"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "aniso8601",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "before_after",
+     "boto3"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-65dfc61ec9fc",
+    "era_key": "py39",
+    "target_commit": "65dfc61ec9fc5cd69439816bf1b68fe8c6df71c3",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -r requirements.txt (production only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "2020-era native dependency chain (weasyprint/pango) - documented py38 attrition",
+     "poetry.lock present but V2 installed pip -r requirements.txt, not the exact poetry.lock set"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "aniso8601",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "before_after",
+     "boto3"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-5477b7dd3867",
+    "era_key": "py312",
+    "target_commit": "5477b7dd3867bc4be1257bd38a63cd9545d4a52e",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-f74a5394c7f1",
+    "era_key": "py312",
+    "target_commit": "f74a5394c7f15392450bd9074d406c292abbb2fd",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-cbd7310268c6",
+    "era_key": "py39",
+    "target_commit": "cbd7310268c66f6b4ac8b1e60cc748669e947a70",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -r requirements.txt (production only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "2020-era native dependency chain (weasyprint/pango) - documented py38 attrition",
+     "poetry.lock present but V2 installed pip -r requirements.txt, not the exact poetry.lock set"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "aniso8601",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "before_after",
+     "boto3"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-c12e83aac8f6",
+    "era_key": "py39",
+    "target_commit": "c12e83aac8f643ef1c393e6762d4cbe6dd1af102",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -r requirements.txt (production only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "2020-era native dependency chain (weasyprint/pango) - documented py38 attrition",
+     "poetry.lock present but V2 installed pip -r requirements.txt, not the exact poetry.lock set"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "aniso8601",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "before_after",
+     "boto3"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-255d39da978a",
+    "era_key": "py39",
+    "target_commit": "255d39da978a7ec3f20b8cbc8b54b4c02a94566a",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -r requirements.txt (production only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "2020-era native dependency chain (weasyprint/pango) - documented py38 attrition",
+     "poetry.lock present but V2 installed pip -r requirements.txt, not the exact poetry.lock set"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "aniso8601",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "before_after",
+     "boto3"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-8eb11da07f09",
+    "era_key": "py312",
+    "target_commit": "8eb11da07f09437374cb82daa6f10a80a11a1c90",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-954887b39f13",
+    "era_key": "py312",
+    "target_commit": "954887b39f13ab0beabb11a604bd3bf9de1b4c0e",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-5f8b1cc4db2d",
+    "era_key": "py312",
+    "target_commit": "5f8b1cc4db2d54295193eb92d7b862164ce197ce",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-fa1ed1794a8a",
+    "era_key": "py312",
+    "target_commit": "fa1ed1794a8a84bcebee8c3b8dbe47128fa44833",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-438595033c60",
+    "era_key": "py312",
+    "target_commit": "438595033c608219a88583ae91d50f2e2415e558",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-a1e1e2554327",
+    "era_key": "py312",
+    "target_commit": "a1e1e2554327d91038149233c46ff05d5169ccad",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-5144ee6bd55f",
+    "era_key": "py312",
+    "target_commit": "5144ee6bd55fd1e31d205fa50659a5db07c27bbb",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-cd076fed6118",
+    "era_key": "py38",
+    "target_commit": "cd076fed6118cd055e279b32e689efbb76404b4f",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -r requirements.txt (production only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "2020-era native dependency chain (weasyprint/pango) - documented py38 attrition",
+     "poetry.lock present but V2 installed pip -r requirements.txt, not the exact poetry.lock set"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "babel",
+     "boto3",
+     "braintree",
+     "codecov",
+     "coverage",
+     "dj-database-url",
+     "dj-email-url",
+     "django",
+     "django-cache-url",
+     "django-countries",
+     "django-debug-toolbar"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-74fbba6d0734",
+    "era_key": "py39",
+    "target_commit": "74fbba6d07346addec1d6477533beb9e5dc295ba",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -r requirements.txt (production only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "2020-era native dependency chain (weasyprint/pango) - documented py38 attrition",
+     "poetry.lock present but V2 installed pip -r requirements.txt, not the exact poetry.lock set"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "aniso8601",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "before_after",
+     "boto3"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-0e895847d8ae",
+    "era_key": "py312",
+    "target_commit": "0e895847d8aee6399aedb00420cf602a31eb9094",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-f6a3751a8bc2",
+    "era_key": "py312",
+    "target_commit": "f6a3751a8bc2bba473ac7e716a13d330c7ad0cfc",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-67cd71a9e0b7",
+    "era_key": "py39",
+    "target_commit": "67cd71a9e0b76b954d5576f3565c11364dae8ef5",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -r requirements.txt (production only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "2020-era native dependency chain (weasyprint/pango) - documented py38 attrition",
+     "poetry.lock present but V2 installed pip -r requirements.txt, not the exact poetry.lock set"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "aniso8601",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "before_after",
+     "boto3"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-7b1e8cee95d5",
+    "era_key": "py312",
+    "target_commit": "7b1e8cee95d53c6662953ff86a63d8b1761055a7",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-b97d1d9c7064",
+    "era_key": "py312",
+    "target_commit": "b97d1d9c70647376e0950a945c20d1cfd2dc3617",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-36a9a14e8d12",
+    "era_key": "py312",
+    "target_commit": "36a9a14e8d12aad4479ff86e53ac73febd68d782",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-f4eeba7fab16",
+    "era_key": "py39",
+    "target_commit": "f4eeba7fab16c9ab74ea14e8ff9fe1b2d60f2438",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -r requirements.txt (production only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "2020-era native dependency chain (weasyprint/pango) - documented py38 attrition",
+     "poetry.lock present but V2 installed pip -r requirements.txt, not the exact poetry.lock set"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "aniso8601",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "before_after",
+     "boto3"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-ddb8921a6744",
+    "era_key": "py39",
+    "target_commit": "ddb8921a67441288b2489135a2490f6062d7a7c4",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -r requirements.txt (production only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "2020-era native dependency chain (weasyprint/pango) - documented py38 attrition",
+     "poetry.lock present but V2 installed pip -r requirements.txt, not the exact poetry.lock set"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "aniso8601",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "before_after",
+     "boto3"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-5d2721a36364",
+    "era_key": "py39",
+    "target_commit": "5d2721a363642d633618ef7e25d7e939b7cc8a98",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -r requirements.txt (production only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "2020-era native dependency chain (weasyprint/pango) - documented py38 attrition",
+     "poetry.lock present but V2 installed pip -r requirements.txt, not the exact poetry.lock set"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "aniso8601",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "before_after",
+     "boto3"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-e429b8be07fd",
+    "era_key": "py39",
+    "target_commit": "e429b8be07fd71bad54ebfe7539d82e02e6af568",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -r requirements.txt (production only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "2020-era native dependency chain (weasyprint/pango) - documented py38 attrition",
+     "poetry.lock present but V2 installed pip -r requirements.txt, not the exact poetry.lock set"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "aniso8601",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "before_after",
+     "boto3"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-c4dac9df4baf",
+    "era_key": "py39",
+    "target_commit": "c4dac9df4bafc289f28752fd57410817dfa42cee",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -r requirements.txt (production only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "2020-era native dependency chain (weasyprint/pango) - documented py38 attrition",
+     "poetry.lock present but V2 installed pip -r requirements.txt, not the exact poetry.lock set"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "aniso8601",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "before_after",
+     "boto3"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-a36d8a8d0c0c",
+    "era_key": "py39",
+    "target_commit": "a36d8a8d0c0c073a13ddbf5852707bd32e5c213f",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -r requirements.txt (production only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "2020-era native dependency chain (weasyprint/pango) - documented py38 attrition",
+     "poetry.lock present but V2 installed pip -r requirements.txt, not the exact poetry.lock set"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "aniso8601",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "before_after",
+     "boto3"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-e28ca6ad6442",
+    "era_key": "py39",
+    "target_commit": "e28ca6ad6442fa4f407e7e38d3d78239cba6a43b",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -r requirements.txt (production only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "2020-era native dependency chain (weasyprint/pango) - documented py38 attrition",
+     "poetry.lock present but V2 installed pip -r requirements.txt, not the exact poetry.lock set"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "aniso8601",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "before_after",
+     "boto3"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-3d304a30a5bc",
+    "era_key": "py312",
+    "target_commit": "3d304a30a5bcc96b8abb6ac35fc6c75f20cbad45",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-aea05da547c8",
+    "era_key": "py312",
+    "target_commit": "aea05da547c8df078082d2a59e12a9cd54192f3c",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-ba0f225cc7d3",
+    "era_key": "py39",
+    "target_commit": "ba0f225cc7d338deeb2ed19929b432208470a69f",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -r requirements.txt (production only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "2020-era native dependency chain (weasyprint/pango) - documented py38 attrition",
+     "poetry.lock present but V2 installed pip -r requirements.txt, not the exact poetry.lock set"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "aniso8601",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "before_after",
+     "boto3"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-8a03c74411d7",
+    "era_key": "py312",
+    "target_commit": "8a03c74411d770143828db11ea553842c8809b4b",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -e . freezegun fakeredis (editable, runtime deps only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "poetry.lock present at target commit but V2 `-e .` ignores it and resolves pyproject ranges against today's index"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "boto3",
+     "botocore",
+     "braintree"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   },
+   {
+    "task_id": "saleor-rc-b41168d9077d",
+    "era_key": "py39",
+    "target_commit": "b41168d9077d671e1a553767c7b1be262600a742",
+    "python_requirement": "UNKNOWN",
+    "installer_mode": "uv pip install -r requirements.txt (production only)",
+    "lockfile_kind": "poetry.lock",
+    "category": "LOCKFILE_INCOMPATIBILITY",
+    "evidence": [
+     "2020-era native dependency chain (weasyprint/pango) - documented py38 attrition",
+     "poetry.lock present but V2 installed pip -r requirements.txt, not the exact poetry.lock set"
+    ],
+    "main_deps_sampled": [
+     "Adyen",
+     "Authlib",
+     "Rx",
+     "aniso8601",
+     "asgiref",
+     "authorizenet",
+     "azure-common",
+     "azure-storage-blob",
+     "azure-storage-common",
+     "babel",
+     "before_after",
+     "boto3"
+    ],
+    "dev_groups_declared": [],
+    "v3_repair_plausible": true,
+    "v3_note": "projection only; lockfile-exact install (LOCK_EXACT_MAIN_PLUS_DEV) may repair resolver/lockfile classes; SYSTEM_LIBRARY requires era-native package presence, not a lockfile fix."
+   }
+  ]
+ },
+ "notes": "Classification is a projection from frozen metadata + target-commit manifests (read-only). NOT reclassified as fixed without execution. V3 lockfile-exact install may plausibly repair resolver/lockfile classes; SYSTEM_LIBRARY is not a lockfile fix."
+}
