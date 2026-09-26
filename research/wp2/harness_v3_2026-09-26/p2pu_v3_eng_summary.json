@@ -1,0 +1,1021 @@
+{
+ "artifact": "p2p-u-v3-eng-summary",
+ "mission": "Mission-10B Phase 5B / Mission-11 A4",
+ "created_utc": "2026-09-26T22:29:57+00:00",
+ "population": {
+  "union": 16,
+  "behavioral": 14,
+  "symbol_only": 2,
+  "env_blocked": [
+   "saleor-rc-6e0a2cfc9287",
+   "saleor-rc-6f1f1720fc7c",
+   "saleor-rc-7dcf89985e0c",
+   "saleor-rc-836d01d8429f",
+   "saleor-rc-939093a9c65c",
+   "saleor-rc-a8e6a4dd55fe",
+   "saleor-rc-dfe77ac1c5dc"
+  ]
+ },
+ "per_task": {
+  "saleor-rc-22ec4dab0154": {
+   "cap200": {
+    "status": "DONE",
+    "class_counts": {
+     "STABLE_P2P": 193,
+     "TARGET_BROKEN": 0,
+     "PARENT_BROKEN": 0,
+     "BOTH_FAIL": 0,
+     "FLAKY": 1,
+     "COLLECTION_ERROR": 6
+    },
+    "n_selected": 200,
+    "n_stable_p2p": 193,
+    "stable_rate": 0.965,
+    "wall_s": 206.0,
+    "collection_session_abort": {
+     "t": [],
+     "p": []
+    },
+    "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+    "has_locked_dev_entry": false
+   },
+   "cap400": {
+    "status": "DONE",
+    "class_counts": {
+     "STABLE_P2P": 377,
+     "TARGET_BROKEN": 0,
+     "PARENT_BROKEN": 0,
+     "BOTH_FAIL": 0,
+     "FLAKY": 2,
+     "COLLECTION_ERROR": 21
+    },
+    "n_selected": 400,
+    "n_stable_p2p": 377,
+    "stable_rate": 0.9425,
+    "wall_s": 275.1,
+    "collection_session_abort": {
+     "t": [],
+     "p": []
+    },
+    "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+    "has_locked_dev_entry": false
+   }
+  },
+  "saleor-rc-2d45b76a52f2": {
+   "cap200": {
+    "status": "DONE",
+    "class_counts": {
+     "STABLE_P2P": 176,
+     "TARGET_BROKEN": 0,
+     "PARENT_BROKEN": 0,
+     "BOTH_FAIL": 0,
+     "FLAKY": 0,
+     "COLLECTION_ERROR": 0
+    },
+    "n_selected": 176,
+    "n_stable_p2p": 176,
+    "stable_rate": 1.0,
+    "wall_s": 326.8,
+    "collection_session_abort": {
+     "t": [],
+     "p": []
+    },
+    "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+    "has_locked_dev_entry": false
+   },
+   "cap400": {
+    "status": "DONE",
+    "class_counts": {
+     "STABLE_P2P": 176,
+     "TARGET_BROKEN": 0,
+     "PARENT_BROKEN": 0,
+     "BOTH_FAIL": 0,
+     "FLAKY": 0,
+     "COLLECTION_ERROR": 0
+    },
+    "n_selected": 176,
+    "n_stable_p2p": 176,
+    "stable_rate": 1.0,
+    "wall_s": 326.5,
+    "collection_session_abort": {
+     "t": [],
+     "p": []
+    },
+    "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+    "has_locked_dev_entry": false
+   }
+  },
+  "saleor-rc-39b4138e8550": {
+   "cap200": {
+    "status": "DONE",
+    "class_counts": {
+     "STABLE_P2P": 198,
+     "TARGET_BROKEN": 0,
+     "PARENT_BROKEN": 0,
+     "BOTH_FAIL": 0,
+     "FLAKY": 2,
+     "COLLECTION_ERROR": 0
+    },
+    "n_selected": 200,
+    "n_stable_p2p": 198,
+    "stable_rate": 0.99,
+    "wall_s": 509.4,
+    "collection_session_abort": {
+     "t": [],
+     "p": []
+    },
+    "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+    "has_locked_dev_entry": false
+   },
+   "cap400": {
+    "status": "DONE",
+    "class_counts": {
+     "STABLE_P2P": 399,
+     "TARGET_BROKEN": 0,
+     "PARENT_BROKEN": 0,
+     "BOTH_FAIL": 0,
+     "FLAKY": 1,
+     "COLLECTION_ERROR": 0
+    },
+    "n_selected": 400,
+    "n_stable_p2p": 399,
+    "stable_rate": 0.9975,
+    "wall_s": 1003.3,
+    "collection_session_abort": {
+     "t": [],
+     "p": []
+    },
+    "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+    "has_locked_dev_entry": false
+   }
+  },
+  "saleor-rc-644f33094857": {
+   "cap200": {
+    "status": "DONE",
+    "class_counts": {
+     "STABLE_P2P": 194,
+     "TARGET_BROKEN": 0,
+     "PARENT_BROKEN": 0,
+     "BOTH_FAIL": 0,
+     "FLAKY": 1,
+     "COLLECTION_ERROR": 5
+    },
+    "n_selected": 200,
+    "n_stable_p2p": 194,
+    "stable_rate": 0.97,
+    "wall_s": 364.3,
+    "collection_session_abort": {
+     "t": [],
+     "p": []
+    },
+    "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+    "has_locked_dev_entry": false
+   },
+   "cap400": {
+    "status": "DONE",
+    "class_counts": {
+     "STABLE_P2P": 389,
+     "TARGET_BROKEN": 0,
+     "PARENT_BROKEN": 0,
+     "BOTH_FAIL": 0,
+     "FLAKY": 1,
+     "COLLECTION_ERROR": 10
+    },
+    "n_selected": 400,
+    "n_stable_p2p": 389,
+    "stable_rate": 0.9725,
+    "wall_s": 516.4,
+    "collection_session_abort": {
+     "t": [],
+     "p": []
+    },
+    "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+    "has_locked_dev_entry": false
+   }
+  },
+  "saleor-rc-6abb53f3407b": {
+   "cap200": {
+    "status": "DONE",
+    "class_counts": {
+     "STABLE_P2P": 163,
+     "TARGET_BROKEN": 0,
+     "PARENT_BROKEN": 0,
+     "BOTH_FAIL": 28,
+     "FLAKY": 0,
+     "COLLECTION_ERROR": 9
+    },
+    "n_selected": 200,
+    "n_stable_p2p": 163,
+    "stable_rate": 0.815,
+    "wall_s": 367.9,
+    "collection_session_abort": {
+     "t": [],
+     "p": []
+    },
+    "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+    "has_locked_dev_entry": false
+   },
+   "cap400": {
+    "status": "DONE",
+    "class_counts": {
+     "STABLE_P2P": 341,
+     "TARGET_BROKEN": 0,
+     "PARENT_BROKEN": 0,
+     "BOTH_FAIL": 49,
+     "FLAKY": 1,
+     "COLLECTION_ERROR": 9
+    },
+    "n_selected": 400,
+    "n_stable_p2p": 341,
+    "stable_rate": 0.8525,
+    "wall_s": 498.9,
+    "collection_session_abort": {
+     "t": [],
+     "p": []
+    },
+    "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+    "has_locked_dev_entry": false
+   }
+  },
+  "saleor-rc-74538ea00ce9": {
+   "cap200": {
+    "status": "DONE",
+    "class_counts": {
+     "STABLE_P2P": 199,
+     "TARGET_BROKEN": 0,
+     "PARENT_BROKEN": 0,
+     "BOTH_FAIL": 0,
+     "FLAKY": 1,
+     "COLLECTION_ERROR": 0
+    },
+    "n_selected": 200,
+    "n_stable_p2p": 199,
+    "stable_rate": 0.995,
+    "wall_s": 680.2,
+    "collection_session_abort": {
+     "t": [],
+     "p": []
+    },
+    "install_mode": "V2_MAIN_PLUS_EXACT_LOCKED_DEV",
+    "has_locked_dev_entry": true
+   },
+   "cap400": {
+    "status": "DONE",
+    "class_counts": {
+     "STABLE_P2P": 399,
+     "TARGET_BROKEN": 0,
+     "PARENT_BROKEN": 0,
+     "BOTH_FAIL": 0,
+     "FLAKY": 1,
+     "COLLECTION_ERROR": 0
+    },
+    "n_selected": 400,
+    "n_stable_p2p": 399,
+    "stable_rate": 0.9975,
+    "wall_s": 878.5,
+    "collection_session_abort": {
+     "t": [],
+     "p": []
+    },
+    "install_mode": "V2_MAIN_PLUS_EXACT_LOCKED_DEV",
+    "has_locked_dev_entry": true
+   }
+  },
+  "saleor-rc-823b899757ab": {
+   "cap200": {
+    "status": "DONE",
+    "class_counts": {
+     "STABLE_P2P": 184,
+     "TARGET_BROKEN": 0,
+     "PARENT_BROKEN": 0,
+     "BOTH_FAIL": 0,
+     "FLAKY": 1,
+     "COLLECTION_ERROR": 15
+    },
+    "n_selected": 200,
+    "n_stable_p2p": 184,
+    "stable_rate": 0.92,
+    "wall_s": 216.7,
+    "collection_session_abort": {
+     "t": [],
+     "p": []
+    },
+    "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+    "has_locked_dev_entry": false
+   },
+   "cap400": {
+    "status": "DONE",
+    "class_counts": {
+     "STABLE_P2P": 380,
+     "TARGET_BROKEN": 0,
+     "PARENT_BROKEN": 0,
+     "BOTH_FAIL": 0,
+     "FLAKY": 1,
+     "COLLECTION_ERROR": 19
+    },
+    "n_selected": 400,
+    "n_stable_p2p": 380,
+    "stable_rate": 0.95,
+    "wall_s": 291.1,
+    "collection_session_abort": {
+     "t": [],
+     "p": []
+    },
+    "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+    "has_locked_dev_entry": false
+   }
+  },
+  "saleor-rc-82c56bde0e34": {
+   "cap200": {
+    "status": "DONE",
+    "class_counts": {
+     "STABLE_P2P": 195,
+     "TARGET_BROKEN": 0,
+     "PARENT_BROKEN": 0,
+     "BOTH_FAIL": 1,
+     "FLAKY": 0,
+     "COLLECTION_ERROR": 4
+    },
+    "n_selected": 200,
+    "n_stable_p2p": 195,
+    "stable_rate": 0.975,
+    "wall_s": 539.9,
+    "collection_session_abort": {
+     "t": [],
+     "p": []
+    },
+    "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+    "has_locked_dev_entry": false
+   },
+   "cap400": {
+    "status": "DONE",
+    "class_counts": {
+     "STABLE_P2P": 384,
+     "TARGET_BROKEN": 0,
+     "PARENT_BROKEN": 0,
+     "BOTH_FAIL": 7,
+     "FLAKY": 0,
+     "COLLECTION_ERROR": 9
+    },
+    "n_selected": 400,
+    "n_stable_p2p": 384,
+    "stable_rate": 0.96,
+    "wall_s": 716.9,
+    "collection_session_abort": {
+     "t": [],
+     "p": []
+    },
+    "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+    "has_locked_dev_entry": false
+   }
+  },
+  "saleor-rc-8f76ddc6267f": {
+   "cap200": {
+    "status": "DONE",
+    "class_counts": {
+     "STABLE_P2P": 200,
+     "TARGET_BROKEN": 0,
+     "PARENT_BROKEN": 0,
+     "BOTH_FAIL": 0,
+     "FLAKY": 0,
+     "COLLECTION_ERROR": 0
+    },
+    "n_selected": 200,
+    "n_stable_p2p": 200,
+    "stable_rate": 1.0,
+    "wall_s": 440.0,
+    "collection_session_abort": {
+     "t": [],
+     "p": []
+    },
+    "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+    "has_locked_dev_entry": true
+   },
+   "cap400": {
+    "status": "DONE",
+    "class_counts": {
+     "STABLE_P2P": 400,
+     "TARGET_BROKEN": 0,
+     "PARENT_BROKEN": 0,
+     "BOTH_FAIL": 0,
+     "FLAKY": 0,
+     "COLLECTION_ERROR": 0
+    },
+    "n_selected": 400,
+    "n_stable_p2p": 400,
+    "stable_rate": 1.0,
+    "wall_s": 681.3,
+    "collection_session_abort": {
+     "t": [],
+     "p": []
+    },
+    "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+    "has_locked_dev_entry": true
+   }
+  },
+  "saleor-rc-9258154b8a0b": {
+   "cap200": {
+    "status": "UNDEFINED",
+    "class_counts": {},
+    "n_selected": 0,
+    "n_stable_p2p": 0,
+    "stable_rate": 0.0,
+    "wall_s": 0.0,
+    "collection_session_abort": {},
+    "install_mode": null,
+    "has_locked_dev_entry": false
+   },
+   "cap400": {
+    "status": "UNDEFINED",
+    "class_counts": {},
+    "n_selected": 0,
+    "n_stable_p2p": 0,
+    "stable_rate": 0.0,
+    "wall_s": 0.0,
+    "collection_session_abort": {},
+    "install_mode": null,
+    "has_locked_dev_entry": false
+   }
+  },
+  "saleor-rc-93b20d78c011": {
+   "cap200": {
+    "status": "DONE",
+    "class_counts": {
+     "STABLE_P2P": 187,
+     "TARGET_BROKEN": 0,
+     "PARENT_BROKEN": 0,
+     "BOTH_FAIL": 0,
+     "FLAKY": 1,
+     "COLLECTION_ERROR": 12
+    },
+    "n_selected": 200,
+    "n_stable_p2p": 187,
+    "stable_rate": 0.935,
+    "wall_s": 253.6,
+    "collection_session_abort": {
+     "t": [],
+     "p": []
+    },
+    "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+    "has_locked_dev_entry": false
+   },
+   "cap400": {
+    "status": "DONE",
+    "class_counts": {
+     "STABLE_P2P": 368,
+     "TARGET_BROKEN": 0,
+     "PARENT_BROKEN": 0,
+     "BOTH_FAIL": 0,
+     "FLAKY": 2,
+     "COLLECTION_ERROR": 30
+    },
+    "n_selected": 400,
+    "n_stable_p2p": 368,
+    "stable_rate": 0.92,
+    "wall_s": 341.7,
+    "collection_session_abort": {
+     "t": [],
+     "p": []
+    },
+    "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+    "has_locked_dev_entry": false
+   }
+  },
+  "saleor-rc-c3b9e396b07d": {
+   "cap200": {
+    "status": "DONE",
+    "class_counts": {
+     "STABLE_P2P": 199,
+     "TARGET_BROKEN": 0,
+     "PARENT_BROKEN": 0,
+     "BOTH_FAIL": 0,
+     "FLAKY": 1,
+     "COLLECTION_ERROR": 0
+    },
+    "n_selected": 200,
+    "n_stable_p2p": 199,
+    "stable_rate": 0.995,
+    "wall_s": 376.0,
+    "collection_session_abort": {
+     "t": [],
+     "p": []
+    },
+    "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+    "has_locked_dev_entry": true
+   },
+   "cap400": {
+    "status": "DONE",
+    "class_counts": {
+     "STABLE_P2P": 399,
+     "TARGET_BROKEN": 0,
+     "PARENT_BROKEN": 0,
+     "BOTH_FAIL": 0,
+     "FLAKY": 1,
+     "COLLECTION_ERROR": 0
+    },
+    "n_selected": 400,
+    "n_stable_p2p": 399,
+    "stable_rate": 0.9975,
+    "wall_s": 495.8,
+    "collection_session_abort": {
+     "t": [],
+     "p": []
+    },
+    "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+    "has_locked_dev_entry": true
+   }
+  },
+  "saleor-rc-d220843b5418": {
+   "cap200": {
+    "status": "DONE",
+    "class_counts": {
+     "STABLE_P2P": 196,
+     "TARGET_BROKEN": 0,
+     "PARENT_BROKEN": 0,
+     "BOTH_FAIL": 4,
+     "FLAKY": 0,
+     "COLLECTION_ERROR": 0
+    },
+    "n_selected": 200,
+    "n_stable_p2p": 196,
+    "stable_rate": 0.98,
+    "wall_s": 573.4,
+    "collection_session_abort": {
+     "t": [],
+     "p": []
+    },
+    "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+    "has_locked_dev_entry": false
+   },
+   "cap400": {
+    "status": "DONE",
+    "class_counts": {
+     "STABLE_P2P": 395,
+     "TARGET_BROKEN": 0,
+     "PARENT_BROKEN": 0,
+     "BOTH_FAIL": 4,
+     "FLAKY": 1,
+     "COLLECTION_ERROR": 0
+    },
+    "n_selected": 400,
+    "n_stable_p2p": 395,
+    "stable_rate": 0.9875,
+    "wall_s": 811.4,
+    "collection_session_abort": {
+     "t": [],
+     "p": []
+    },
+    "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+    "has_locked_dev_entry": false
+   }
+  },
+  "saleor-rc-dc6ac9d252df": {
+   "cap200": {
+    "status": "DONE",
+    "class_counts": {
+     "STABLE_P2P": 193,
+     "TARGET_BROKEN": 0,
+     "PARENT_BROKEN": 0,
+     "BOTH_FAIL": 7,
+     "FLAKY": 0,
+     "COLLECTION_ERROR": 0
+    },
+    "n_selected": 200,
+    "n_stable_p2p": 193,
+    "stable_rate": 0.965,
+    "wall_s": 354.4,
+    "collection_session_abort": {
+     "t": [],
+     "p": []
+    },
+    "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+    "has_locked_dev_entry": false
+   },
+   "cap400": {
+    "status": "DONE",
+    "class_counts": {
+     "STABLE_P2P": 372,
+     "TARGET_BROKEN": 0,
+     "PARENT_BROKEN": 0,
+     "BOTH_FAIL": 28,
+     "FLAKY": 0,
+     "COLLECTION_ERROR": 0
+    },
+    "n_selected": 400,
+    "n_stable_p2p": 372,
+    "stable_rate": 0.93,
+    "wall_s": 502.6,
+    "collection_session_abort": {
+     "t": [],
+     "p": []
+    },
+    "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+    "has_locked_dev_entry": false
+   }
+  },
+  "saleor-rc-e03ee76d2b89": {
+   "cap200": {
+    "status": "DONE",
+    "class_counts": {
+     "STABLE_P2P": 196,
+     "TARGET_BROKEN": 0,
+     "PARENT_BROKEN": 0,
+     "BOTH_FAIL": 2,
+     "FLAKY": 0,
+     "COLLECTION_ERROR": 2
+    },
+    "n_selected": 200,
+    "n_stable_p2p": 196,
+    "stable_rate": 0.98,
+    "wall_s": 455.0,
+    "collection_session_abort": {
+     "t": [],
+     "p": []
+    },
+    "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+    "has_locked_dev_entry": false
+   },
+   "cap400": {
+    "status": "DONE",
+    "class_counts": {
+     "STABLE_P2P": 382,
+     "TARGET_BROKEN": 0,
+     "PARENT_BROKEN": 0,
+     "BOTH_FAIL": 5,
+     "FLAKY": 0,
+     "COLLECTION_ERROR": 13
+    },
+    "n_selected": 400,
+    "n_stable_p2p": 382,
+    "stable_rate": 0.955,
+    "wall_s": 702.5,
+    "collection_session_abort": {
+     "t": [],
+     "p": []
+    },
+    "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+    "has_locked_dev_entry": false
+   }
+  },
+  "saleor-rc-e25cf9b4a837": {
+   "cap200": {
+    "status": "DONE",
+    "class_counts": {
+     "STABLE_P2P": 113,
+     "TARGET_BROKEN": 0,
+     "PARENT_BROKEN": 0,
+     "BOTH_FAIL": 26,
+     "FLAKY": 0,
+     "COLLECTION_ERROR": 0
+    },
+    "n_selected": 139,
+    "n_stable_p2p": 113,
+    "stable_rate": 0.8129,
+    "wall_s": 215.7,
+    "collection_session_abort": {
+     "t": [],
+     "p": []
+    },
+    "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+    "has_locked_dev_entry": true
+   },
+   "cap400": {
+    "status": "DONE",
+    "class_counts": {
+     "STABLE_P2P": 113,
+     "TARGET_BROKEN": 0,
+     "PARENT_BROKEN": 0,
+     "BOTH_FAIL": 26,
+     "FLAKY": 0,
+     "COLLECTION_ERROR": 0
+    },
+    "n_selected": 139,
+    "n_stable_p2p": 113,
+    "stable_rate": 0.8129,
+    "wall_s": 210.0,
+    "collection_session_abort": {
+     "t": [],
+     "p": []
+    },
+    "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+    "has_locked_dev_entry": true
+   }
+  }
+ },
+ "totals": {
+  "defined_cap200": [
+   "saleor-rc-22ec4dab0154",
+   "saleor-rc-2d45b76a52f2",
+   "saleor-rc-39b4138e8550",
+   "saleor-rc-644f33094857",
+   "saleor-rc-6abb53f3407b",
+   "saleor-rc-74538ea00ce9",
+   "saleor-rc-823b899757ab",
+   "saleor-rc-82c56bde0e34",
+   "saleor-rc-8f76ddc6267f",
+   "saleor-rc-93b20d78c011",
+   "saleor-rc-c3b9e396b07d",
+   "saleor-rc-d220843b5418",
+   "saleor-rc-dc6ac9d252df",
+   "saleor-rc-e03ee76d2b89",
+   "saleor-rc-e25cf9b4a837"
+  ],
+  "defined_cap400": [
+   "saleor-rc-22ec4dab0154",
+   "saleor-rc-2d45b76a52f2",
+   "saleor-rc-39b4138e8550",
+   "saleor-rc-644f33094857",
+   "saleor-rc-6abb53f3407b",
+   "saleor-rc-74538ea00ce9",
+   "saleor-rc-823b899757ab",
+   "saleor-rc-82c56bde0e34",
+   "saleor-rc-8f76ddc6267f",
+   "saleor-rc-93b20d78c011",
+   "saleor-rc-c3b9e396b07d",
+   "saleor-rc-d220843b5418",
+   "saleor-rc-dc6ac9d252df",
+   "saleor-rc-e03ee76d2b89",
+   "saleor-rc-e25cf9b4a837"
+  ],
+  "n_defined_cap200": 15,
+  "n_defined_cap400": 15,
+  "n_executed_done": 15,
+  "n_undefined_units": 2,
+  "class_counts_cap200": {
+   "STABLE_P2P": 2786,
+   "TARGET_BROKEN": 0,
+   "PARENT_BROKEN": 0,
+   "BOTH_FAIL": 68,
+   "FLAKY": 8,
+   "COLLECTION_ERROR": 53
+  },
+  "class_counts_cap400": {
+   "STABLE_P2P": 5274,
+   "TARGET_BROKEN": 0,
+   "PARENT_BROKEN": 0,
+   "BOTH_FAIL": 119,
+   "FLAKY": 11,
+   "COLLECTION_ERROR": 111
+  },
+  "n_selected_cap200": 2915,
+  "n_stable_cap200": 2786,
+  "overall_stable_rate_cap200": 0.9557,
+  "n_selected_cap400": 5515,
+  "n_stable_cap400": 5274,
+  "overall_stable_rate_cap400": 0.9563,
+  "wall_s_cap200": 5879.3,
+  "wall_s_cap400": 8252.0,
+  "cap400_cap200_wall_multiplier": 1.404
+ },
+ "agreement": {
+  "saleor-rc-22ec4dab0154": {
+   "status": "DONE",
+   "same_node_list": true,
+   "n_cap200": 200,
+   "n_first200_cap400": 200,
+   "class_agreement": 1.0,
+   "stable_agreement": 1.0,
+   "jaccard_stable_p2p": 0.5119,
+   "class_change_count": 0,
+   "class_change": []
+  },
+  "saleor-rc-2d45b76a52f2": {
+   "status": "DONE",
+   "same_node_list": true,
+   "n_cap200": 176,
+   "n_first200_cap400": 176,
+   "class_agreement": 1.0,
+   "stable_agreement": 1.0,
+   "jaccard_stable_p2p": 1.0,
+   "class_change_count": 0,
+   "class_change": []
+  },
+  "saleor-rc-39b4138e8550": {
+   "status": "DONE",
+   "same_node_list": true,
+   "n_cap200": 200,
+   "n_first200_cap400": 200,
+   "class_agreement": 0.99,
+   "stable_agreement": 0.99,
+   "jaccard_stable_p2p": 0.4962,
+   "class_change_count": 2,
+   "class_change": [
+    "saleor/graphql/payment/tests/mutations/test_checkout_payment_create.py::test_checkout_payment_create_checkout_locked",
+    "saleor/graphql/payment/tests/mutations/test_payment_refund.py::test_payment_refund_success_by_user_no_channel_access"
+   ]
+  },
+  "saleor-rc-644f33094857": {
+   "status": "DONE",
+   "same_node_list": true,
+   "n_cap200": 200,
+   "n_first200_cap400": 200,
+   "class_agreement": 1.0,
+   "stable_agreement": 1.0,
+   "jaccard_stable_p2p": 0.4987,
+   "class_change_count": 0,
+   "class_change": []
+  },
+  "saleor-rc-6abb53f3407b": {
+   "status": "DONE",
+   "same_node_list": true,
+   "n_cap200": 200,
+   "n_first200_cap400": 200,
+   "class_agreement": 1.0,
+   "stable_agreement": 1.0,
+   "jaccard_stable_p2p": 0.478,
+   "class_change_count": 0,
+   "class_change": []
+  },
+  "saleor-rc-74538ea00ce9": {
+   "status": "DONE",
+   "same_node_list": true,
+   "n_cap200": 200,
+   "n_first200_cap400": 200,
+   "class_agreement": 0.995,
+   "stable_agreement": 0.995,
+   "jaccard_stable_p2p": 0.4987,
+   "class_change_count": 1,
+   "class_change": [
+    "saleor/graphql/order/tests/mutations/test_order_capture.py::test_order_capture_triggers_webhooks"
+   ]
+  },
+  "saleor-rc-823b899757ab": {
+   "status": "DONE",
+   "same_node_list": true,
+   "n_cap200": 200,
+   "n_first200_cap400": 200,
+   "class_agreement": 1.0,
+   "stable_agreement": 1.0,
+   "jaccard_stable_p2p": 0.4842,
+   "class_change_count": 0,
+   "class_change": []
+  },
+  "saleor-rc-82c56bde0e34": {
+   "status": "DONE",
+   "same_node_list": true,
+   "n_cap200": 200,
+   "n_first200_cap400": 200,
+   "class_agreement": 1.0,
+   "stable_agreement": 1.0,
+   "jaccard_stable_p2p": 0.5078,
+   "class_change_count": 0,
+   "class_change": []
+  },
+  "saleor-rc-8f76ddc6267f": {
+   "status": "DONE",
+   "same_node_list": true,
+   "n_cap200": 200,
+   "n_first200_cap400": 200,
+   "class_agreement": 1.0,
+   "stable_agreement": 1.0,
+   "jaccard_stable_p2p": 0.5,
+   "class_change_count": 0,
+   "class_change": []
+  },
+  "saleor-rc-9258154b8a0b": {
+   "status": "UNDEFINED"
+  },
+  "saleor-rc-93b20d78c011": {
+   "status": "DONE",
+   "same_node_list": true,
+   "n_cap200": 200,
+   "n_first200_cap400": 200,
+   "class_agreement": 1.0,
+   "stable_agreement": 1.0,
+   "jaccard_stable_p2p": 0.5082,
+   "class_change_count": 0,
+   "class_change": []
+  },
+  "saleor-rc-c3b9e396b07d": {
+   "status": "DONE",
+   "same_node_list": true,
+   "n_cap200": 200,
+   "n_first200_cap400": 200,
+   "class_agreement": 1.0,
+   "stable_agreement": 1.0,
+   "jaccard_stable_p2p": 0.4987,
+   "class_change_count": 0,
+   "class_change": []
+  },
+  "saleor-rc-d220843b5418": {
+   "status": "DONE",
+   "same_node_list": true,
+   "n_cap200": 200,
+   "n_first200_cap400": 200,
+   "class_agreement": 1.0,
+   "stable_agreement": 1.0,
+   "jaccard_stable_p2p": 0.4962,
+   "class_change_count": 0,
+   "class_change": []
+  },
+  "saleor-rc-dc6ac9d252df": {
+   "status": "DONE",
+   "same_node_list": true,
+   "n_cap200": 200,
+   "n_first200_cap400": 200,
+   "class_agreement": 1.0,
+   "stable_agreement": 1.0,
+   "jaccard_stable_p2p": 0.5188,
+   "class_change_count": 0,
+   "class_change": []
+  },
+  "saleor-rc-e03ee76d2b89": {
+   "status": "DONE",
+   "same_node_list": true,
+   "n_cap200": 200,
+   "n_first200_cap400": 200,
+   "class_agreement": 1.0,
+   "stable_agreement": 1.0,
+   "jaccard_stable_p2p": 0.5131,
+   "class_change_count": 0,
+   "class_change": []
+  },
+  "saleor-rc-e25cf9b4a837": {
+   "status": "DONE",
+   "same_node_list": true,
+   "n_cap200": 139,
+   "n_first200_cap400": 139,
+   "class_agreement": 1.0,
+   "stable_agreement": 1.0,
+   "jaccard_stable_p2p": 1.0,
+   "class_change_count": 0,
+   "class_change": []
+  }
+ },
+ "v2_comparison": {
+  "saleor-rc-2d45b76a52f2": {
+   "n_v2_nodes": 176,
+   "n_shared": 176,
+   "v2_stable": 176,
+   "v3_stable": 176,
+   "jaccard_v2_v3_stable": 1.0,
+   "class_change_counts": {}
+  },
+  "saleor-rc-39b4138e8550": {
+   "n_v2_nodes": 200,
+   "n_shared": 200,
+   "v2_stable": 195,
+   "v3_stable": 198,
+   "jaccard_v2_v3_stable": 0.965,
+   "class_change_counts": {
+    "COLLECTION_ERROR->STABLE_P2P": 5,
+    "STABLE_P2P->FLAKY": 2
+   }
+  },
+  "saleor-rc-74538ea00ce9": {
+   "n_v2_nodes": 200,
+   "n_shared": 200,
+   "v2_stable": 181,
+   "v3_stable": 199,
+   "jaccard_v2_v3_stable": 0.9,
+   "class_change_counts": {
+    "COLLECTION_ERROR->STABLE_P2P": 18,
+    "FLAKY->STABLE_P2P": 1,
+    "STABLE_P2P->FLAKY": 1
+   }
+  },
+  "saleor-rc-82c56bde0e34": {
+   "n_v2_nodes": 200,
+   "n_shared": 200,
+   "v2_stable": 195,
+   "v3_stable": 195,
+   "jaccard_v2_v3_stable": 1.0,
+   "class_change_counts": {}
+  },
+  "saleor-rc-8f76ddc6267f": {
+   "n_v2_nodes": 200,
+   "n_shared": 200,
+   "v2_stable": 194,
+   "v3_stable": 200,
+   "jaccard_v2_v3_stable": 0.97,
+   "class_change_counts": {
+    "COLLECTION_ERROR->STABLE_P2P": 6
+   }
+  },
+  "saleor-rc-d220843b5418": {
+   "n_v2_nodes": 200,
+   "n_shared": 200,
+   "v2_stable": 193,
+   "v3_stable": 196,
+   "jaccard_v2_v3_stable": 0.9847,
+   "class_change_counts": {
+    "COLLECTION_ERROR->STABLE_P2P": 3
+   }
+  },
+  "saleor-rc-e03ee76d2b89": {
+   "n_v2_nodes": 200,
+   "n_shared": 200,
+   "v2_stable": 196,
+   "v3_stable": 196,
+   "jaccard_v2_v3_stable": 1.0,
+   "class_change_counts": {}
+  }
+ },
+ "invariants": {
+  "population_subset_union": true,
+  "env_blocked_intersection_empty": true,
+  "sum_class_counts_eq_n_selected": true,
+  "node_lists_equal_rediscovery_selection": true,
+  "all_pass": true
+ }
+}
