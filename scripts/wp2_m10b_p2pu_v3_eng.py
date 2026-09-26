@@ -18,13 +18,26 @@ For each V3 oracle-valid ENG task:
 
 The V2 membership is a comparison baseline only, never the V3 population.
 
+Mission-11 A2 hardening (engineering only; NO scientific change):
+- H1  persist raw JUnit per (task, cap, state, rep) + SHA-256.
+- H2  install/tooling failure -> ENV_FAIL_P2PU (never classified), retry once.
+- H3  parse errors -> INTEGRITY_FAIL (never swallowed), retry once, then stop.
+- H4  monotonic wall clock + clock pre/post post-check.
+- H5  evidence_sha256 + verified resume (verify_unit).
+- H6  collection-session abort flag (D18).
+- H7  --max-units chunking + P2PU_STOP.flag + progress file.
+- H8  complete unit manifest.
+
 Usage:
+    python scripts/wp2_m10b_p2pu_v3_eng.py --all-tasks --max-units 0
+    python scripts/wp2_m10b_p2pu_v3_eng.py --all-tasks --max-units 4
     python scripts/wp2_m10b_p2pu_v3_eng.py --task saleor-rc-... [--cap 200|400]
     python scripts/wp2_m10b_p2pu_v3_eng.py --all-tasks [--cap 200|400]
 """
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import subprocess
 import sys
@@ -36,6 +49,7 @@ sys.path.insert(0, str(PROJECT))
 sys.path.insert(0, str(PROJECT / "src"))
 
 from benchmark.wp2.harness_v3 import (  # noqa: E402
+    HARNESS_V3_VERSION,
     NOFILE_HARD,
     NOFILE_SOFT,
     TOOLING_INSTALL,
@@ -69,6 +83,12 @@ WSL_WT = "/opt/wp2_v2/worktrees"
 WSL_DISTRO = "Ubuntu-24.04"
 REPS = 3
 P2PU_V3_VERSION = "p2p-u-v3-eng-2026-09-26"
+PYTEST_FLAGS = "--ds=saleor.tests.settings --disable-socket --reuse-db"
+INSTALL_FAIL_MARKERS = ("INSTALL_DEV_FAIL", "INSTALL_MAIN_FAIL", "TOOLING_FAIL", "INSTALL_FAIL")
+
+
+class P2PUIntegrityError(RuntimeError):
+    """Second INTEGRITY_FAIL for a unit -> P2PU_INTEGRITY_STOP (D17)."""
 
 
 def _now_utc() -> str:
@@ -77,10 +97,28 @@ def _now_utc() -> str:
 
 
 def _sha256(payload: object) -> str:
-    import hashlib
     return hashlib.sha256(
         json.dumps(payload, sort_keys=True, ensure_ascii=False).encode("utf-8")
     ).hexdigest()
+
+
+def _sha256_bytes(blob: bytes) -> str:
+    return hashlib.sha256(blob).hexdigest()
+
+
+def _file_sha256(path: str | Path) -> str:
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+RUNNER_SHA256 = _file_sha256(__file__)
+
+
+def _harness_spec_sha256() -> str:
+    spec = json.loads((OUT_ROOT / "harness_v3_spec.json").read_text(encoding="utf-8"))
+    return spec["freeze_hashes"]["v3_spec_sha256"]
+
+
+HARNESS_SPEC_SHA256 = _harness_spec_sha256()
 
 
 def load_v3_oracle_valid_eng() -> list[str]:
@@ -248,15 +286,116 @@ def derive_v3_selection(discovery: dict) -> dict:
     return sel
 
 
+def ensure_discovery(task_id: str) -> dict:
+    """Return the frozen V3 rediscovery record, rediscovering only if absent."""
+    discovery_file = OUT_ROOT / f"p2pu_v3_rediscovery_{task_id}.json"
+    if discovery_file.exists():
+        return json.loads(discovery_file.read_text(encoding="utf-8"))
+    print(f"  {task_id}: rediscovering candidates under V3 ...", flush=True)
+    discovery = rediscover_v3(task_id)
+    sel = derive_v3_selection(discovery)
+    v2_200 = set(v2_membership_for(task_id, 200))
+    v2_400 = set(v2_membership_for(task_id, 400))
+    v3_200 = set(sel.get("cap200_node_ids", []))
+    v3_400 = set(sel.get("cap400_node_ids", []))
+    discovery["rediscovery_sha256"] = _sha256({
+        "task_id": task_id,
+        "candidate_node_ids": discovery["candidate_node_ids"],
+    })
+    discovery["v3_selection"] = {
+        "cap200_node_ids": sel.get("cap200_node_ids", []),
+        "cap400_node_ids": sel.get("cap400_node_ids", []),
+        "proximal_nodes": sel.get("proximal_nodes", []),
+        "distal_nodes": sel.get("distal_nodes", []),
+        "composition_cap200": sel.get("composition_cap200"),
+        "composition_cap400": sel.get("composition_cap400"),
+        "proximity_by_file": sel.get("proximity_by_file", {}),
+        "unknown_touched_paths": sel.get("unknown_touched_paths", []),
+        "n_known_touched_paths": sel.get("n_known_touched_paths"),
+    }
+    # Addendum E: assert V3 derivation == V2 frozen derivation on shared
+    # evidence (for tasks with a frozen V2 membership).
+    v2_mem = MEMBERSHIP.get("tasks", {}).get(task_id)
+    if v2_mem:
+        eq = _proximity_equivalence(task_id, sel, v2_mem)
+        discovery["proximity_equivalence_v2"] = eq
+        if not eq["ok"]:
+            raise RuntimeError(
+                f"[P2PU-V3] proximity equivalence FAILED for {task_id}: {eq}")
+    discovery["membership_diff"] = {
+        "v2_cap200": sorted(v2_200),
+        "v3_cap200": sorted(v3_200),
+        "v2_cap400": sorted(v2_400),
+        "v3_cap400": sorted(v3_400),
+        "cap200_intersection": sorted(v2_200 & v3_200),
+        "cap200_additions": sorted(v3_200 - v2_200),
+        "cap200_removals": sorted(v2_200 - v3_200),
+        "cap400_intersection": sorted(v2_400 & v3_400),
+        "cap400_additions": sorted(v3_400 - v2_400),
+        "cap400_removals": sorted(v2_400 - v3_400),
+    }
+    discovery_file.write_text(json.dumps(discovery, indent=1, ensure_ascii=False),
+                              encoding="utf-8")
+    print(f"  -> rediscovered {len(discovery['candidate_node_ids'])} nodes; "
+          f"cap200={len(v3_200)} cap400={len(v3_400)}")
+    return discovery
+
+
+def selection_nodes_from_discovery(discovery: dict, cap: int) -> list[str]:
+    sel = discovery.get("v3_selection", {})
+    key = "cap200_node_ids" if cap == 200 else "cap400_node_ids"
+    return list(sel.get(key, []))
+
+
+def selection_node_count(task_id: str, cap: int) -> int:
+    discovery_file = OUT_ROOT / f"p2pu_v3_rediscovery_{task_id}.json"
+    if not discovery_file.exists():
+        return -1
+    discovery = json.loads(discovery_file.read_text(encoding="utf-8"))
+    return len(selection_nodes_from_discovery(discovery, cap))
+
+
 # ---------------------------------------------------------------------------
-# V3 execution (20 step 5)
+# H6 - collection-session abort (D18)
 # ---------------------------------------------------------------------------
-def run_p2pu_state(*, era_key: str, worktree_linux: str, tid: str, state: str,
-                   cap: int, node_ids: list[str], install_fragment: str,
-                   locked_dev_fragment: str, timeout_s: int) -> tuple[dict, dict]:
+def _is_collection_abort(xml_text: str) -> bool:
+    """True when a rep JUnit signals a collection failure: 0 testcases OR a
+    testcase whose failure/error mentions 'collection'."""
+    import xml.etree.ElementTree as ET
+
+    try:
+        root = ET.fromstring(xml_text)
+    except Exception:
+        return False
+    cases = list(root.iter("testcase"))
+    if len(cases) == 0:
+        return True
+    for tc in cases:
+        for tag in ("failure", "error"):
+            el = tc.find(tag)
+            if el is None:
+                continue
+            msg = (el.get("message") or "") + (el.text or "")
+            if "collection" in msg.lower():
+                return True
+    return False
+
+
+# ---------------------------------------------------------------------------
+# V3 execution (20 step 5) - hardened
+# ---------------------------------------------------------------------------
+def run_p2pu_state(*, task_id: str, era_key: str, worktree_linux: str, tid: str,
+                   state: str, cap: int, node_ids: list[str], install_fragment: str,
+                   locked_dev_fragment: str, timeout_s: int) -> dict:
+    """One (task, state) V3 container; returns a structured result dict.
+
+    ok=True  -> outcomes / failures / junit_files / collection_session_abort
+    ok=False -> error: ENV_FAIL_P2PU (reason) or INTEGRITY_FAIL (parse_error)
+    """
     wt_name = worktree_linux.rsplit("/", 1)[-1]
     mount = f"{worktree_linux}:/workspace/{wt_name}"
     db_name = fresh_db_name(f"saleor-rc-{tid}", state)
+    t0 = time.monotonic()
     ensure_postgres_running()
     ensure_fresh_db(db_name)
     subprocess.run(["wsl", "-d", WSL_DISTRO, "--", "bash", "-lc",
@@ -269,7 +408,7 @@ def run_p2pu_state(*, era_key: str, worktree_linux: str, tid: str, state: str,
         runs_script_lines.append(
             f"( mapfile -t NODES < /workspace/{wt_name}/.p2pu_nodes.txt && "
             "/opt/venv/bin/python -m pytest -p no:cacheprovider -o addopts= "
-            "--ds=saleor.tests.settings --disable-socket --reuse-db "
+            f"{PYTEST_FLAGS} "
             f"--junitxml /workspace/{wt_name}/{tid}_{state}_c{cap}_r{rep}.xml -q "
             f'\"${{NODES[@]}}\" >{logf} 2>&1; echo RUN_{rep}_RC=$? >>{logf} )'
         )
@@ -288,37 +427,152 @@ def run_p2pu_state(*, era_key: str, worktree_linux: str, tid: str, state: str,
         f"cd /workspace/{wt_name} && bash /workspace/{wt_name}/.p2pu_runs.sh; "
         "echo ALL_RUNS_DONE"
     )
-    wsl_docker(
-        ["run", "--rm", "--network", "host",
-         "--ulimit", f"nofile={NOFILE_SOFT}:{NOFILE_HARD}",
-         "-e", f"DATABASE_URL=postgres://saleor:saleor@127.0.0.1:5433/{db_name}",
-         "-e", "CACHE_URL=locmem://",
-         "-v", mount, "-v", "wp2-uv-cache:/root/.cache/uv",
-         f"wp2-era-{era_key}", "bash", "-lc", script],
-        timeout_s=timeout_s,
-    )
+    try:
+        r = wsl_docker(
+            ["run", "--rm", "--network", "host",
+             "--ulimit", f"nofile={NOFILE_SOFT}:{NOFILE_HARD}",
+             "-e", f"DATABASE_URL=postgres://saleor:saleor@127.0.0.1:5433/{db_name}",
+             "-e", "CACHE_URL=locmem://",
+             "-v", mount, "-v", "wp2-uv-cache:/root/.cache/uv",
+             f"wp2-era-{era_key}", "bash", "-lc", script],
+            timeout_s=timeout_s,
+        )
+    except subprocess.TimeoutExpired:
+        drop_db(db_name)
+        return {"ok": False, "error": "ENV_FAIL_P2PU", "reason": "TIMEOUT",
+                "db_name": db_name, "stdout_tail": "",
+                "wall_s": round(time.monotonic() - t0, 1)}
+    stdout = r.stdout or ""
+
+    # H1: persist raw JUnit (read via wsl cat, write on Windows) + SHA-256
     from benchmark.wp2.oracle_confirmation import parse_junit_with_failures
+    junit_files: dict[str, str] = {}
+    xml_per_rep: dict[int, str | None] = {}
+    missing_all = True
+    for rep in range(REPS):
+        src_name = f"{tid}_{state}_c{cap}_r{rep}.xml"
+        rr = wsl(f"cat {worktree_linux}/{src_name} 2>/dev/null || echo __NO_FILE__")
+        if "__NO_FILE__" in rr.stdout[:20]:
+            junit_files[f"{state}_r{rep}.xml"] = "MISSING"
+            xml_per_rep[rep] = None
+            continue
+        missing_all = False
+        junit_dir = OUT_ROOT / "p2pu_v3_junit" / task_id / f"cap{cap}"
+        junit_dir.mkdir(parents=True, exist_ok=True)
+        out_name = f"{state}_r{rep}.xml"
+        # newline="" keeps the raw bytes byte-identical for hash verification.
+        (junit_dir / out_name).write_text(rr.stdout, encoding="utf-8",
+                                          errors="replace", newline="")
+        junit_files[out_name] = _sha256_bytes(rr.stdout.encode("utf-8"))
+        xml_per_rep[rep] = rr.stdout
+
+    # H2: install/tooling failure OR all-3-XMLs-missing -> ENV_FAIL_P2PU
+    if any(m in stdout for m in INSTALL_FAIL_MARKERS) or missing_all:
+        drop_db(db_name)
+        reason = "MISSING_XML" if missing_all else "INSTALL"
+        return {"ok": False, "error": "ENV_FAIL_P2PU", "reason": reason,
+                "db_name": db_name, "stdout_tail": stdout[-4000:],
+                "wall_s": round(time.monotonic() - t0, 1)}
+
+    # H3: never swallow parse errors -> INTEGRITY_FAIL
     outcomes: dict[str, list[str]] = {}
     failures: dict[str, str] = {}
+    per_rep_missing: dict[int, int] = {}
+    parse_error: str | None = None
     for rep in range(REPS):
-        rr = wsl(f"cat {worktree_linux}/{tid}_{state}_c{cap}_r{rep}.xml 2>/dev/null || echo __NO_FILE__")
-        if "__NO_FILE__" in rr.stdout[:20]:
+        xml = xml_per_rep.get(rep)
+        if xml is None:
             for n in node_ids:
                 outcomes.setdefault(n, []).append("missing")
+            per_rep_missing[rep] = len(node_ids)
             continue
         try:
-            outs, fails = parse_junit_with_failures(rr.stdout)
-        except Exception:
-            outs, fails = {}, {}
+            outs, fails = parse_junit_with_failures(xml)
+        except Exception as exc:
+            parse_error = f"{type(exc).__name__}: {exc}"
+            break
+        miss = 0
         for n in node_ids:
-            outcomes.setdefault(n, []).append(outs.get(n, "missing"))
+            v = outs.get(n, "missing")
+            outcomes.setdefault(n, []).append(v)
+            if v == "missing":
+                miss += 1
             if n in fails:
                 failures[n] = fails[n]
+        per_rep_missing[rep] = miss
+    if parse_error is not None:
+        drop_db(db_name)
+        return {"ok": False, "error": "INTEGRITY_FAIL", "parse_error": parse_error,
+                "db_name": db_name, "stdout_tail": stdout[-3000:],
+                "wall_s": round(time.monotonic() - t0, 1)}
+
+    # H6: collection-session abort (D18)
+    abort_reps: list[int] = []
+    for rep in range(REPS):
+        xml = xml_per_rep.get(rep)
+        if xml is None or len(node_ids) == 0:
+            continue
+        if _is_collection_abort(xml) and per_rep_missing.get(rep, 0) / len(node_ids) >= 0.5:
+            abort_reps.append(rep)
+
     drop_db(db_name)
-    return outcomes, failures
+    return {"ok": True, "outcomes": outcomes, "failures": failures,
+            "junit_files": junit_files, "collection_session_abort": abort_reps,
+            "db_name": db_name, "stdout_tail": stdout[-3000:],
+            "wall_s": round(time.monotonic() - t0, 1)}
+
+
+def _attempt_unit(*, task_id: str, cap: int, node_ids: list[str], era_key: str,
+                  parent: str, target: str) -> dict:
+    """Run both states once; ok=True with all evidence, or a failure dict."""
+    manifests = target_manifests(target)
+    wts = ensure_worktrees_v3(task_id, parent, target)
+    tid = task_id.split("-")[-1][:12]
+    install_t, install_mode, install_evidence = lock_install_script(wts["t"], manifests)
+    install_p, _, _ = lock_install_script(wts["p"], manifests)
+    locked_dev = locked_dev_install(task_id)
+    img_id = base_image_id(era_key)
+    lock_sha = lockfile_sha256(manifests)
+
+    t_res = run_p2pu_state(
+        task_id=task_id, era_key=era_key, worktree_linux=wts["t"], tid=tid, state="t",
+        cap=cap, node_ids=node_ids, install_fragment=install_t,
+        locked_dev_fragment=locked_dev, timeout_s=28800)
+    p_res = run_p2pu_state(
+        task_id=task_id, era_key=era_key, worktree_linux=wts["p"], tid=tid, state="p",
+        cap=cap, node_ids=node_ids, install_fragment=install_p,
+        locked_dev_fragment=locked_dev, timeout_s=28800)
+
+    for state, res in (("t", t_res), ("p", p_res)):
+        if not res.get("ok"):
+            remove_worktrees_v3(task_id)
+            return {"ok": False, "error": res["error"], "state": state,
+                    "detail": {k: v for k, v in res.items() if k != "ok"}}
+
+    return {
+        "ok": True,
+        "outcomes_t": t_res["outcomes"],
+        "outcomes_p": p_res["outcomes"],
+        "failures_t": t_res["failures"],
+        "failures_p": p_res["failures"],
+        "junit_t": t_res["junit_files"],
+        "junit_p": p_res["junit_files"],
+        "abort_t": t_res["collection_session_abort"],
+        "abort_p": t_res["collection_session_abort"],
+        "wall_t": t_res["wall_s"],
+        "wall_p": t_res["wall_s"],
+        "db_t": t_res["db_name"],
+        "db_p": p_res["db_name"],
+        "install_mode": install_mode,
+        "install_evidence": install_evidence,
+        "img_id": img_id,
+        "lockfile_sha256": lock_sha,
+    }
 
 
 def execute_cap(task_id: str, cap: int, node_ids: list[str], discovery: dict) -> dict:
+    """Execute one (task, cap) unit with H1-H8 (retried once on D16/D17)."""
+    t0 = time.monotonic()
     parent, target = task_commits(task_id)
     row = inventory_row(task_id)
     era_key = row["era_key"]
@@ -328,29 +582,73 @@ def execute_cap(task_id: str, cap: int, node_ids: list[str], discovery: dict) ->
     if clock["verdict"] == "CLOCK_BLOCKED":
         return {"task_id": task_id, "cap": cap, "status": "CLOCK_BLOCKED"}
 
-    manifests = target_manifests(target)
-    wts = ensure_worktrees_v3(task_id, parent, target)
-    tid = task_id.split("-")[-1][:12]
-    install_t, install_mode, _ = lock_install_script(wts["t"], manifests)
-    install_p, _, _ = lock_install_script(wts["p"], manifests)
-    locked_dev = locked_dev_install(task_id)
-    img_id = base_image_id(era_key)
+    attempt_result = None
+    for attempt in (1, 2):
+        try:
+            attempt_result = _attempt_unit(task_id=task_id, cap=cap, node_ids=node_ids,
+                                           era_key=era_key, parent=parent, target=target)
+        except Exception as exc:
+            remove_worktrees_v3(task_id)
+            attempt_result = {"ok": False, "error": "ENV_FAIL_P2PU", "state": "unit",
+                              "detail": {"exception": f"{type(exc).__name__}: {exc}"}}
+        if attempt_result["ok"]:
+            break
+        print(f"  {task_id} cap{cap} attempt {attempt} -> {attempt_result['error']} "
+              f"(state={attempt_result.get('state')})", flush=True)
+        if attempt == 1:
+            continue
 
-    outcomes_t, failures_t = run_p2pu_state(
-        era_key=era_key, worktree_linux=wts["t"], tid=tid, state="t", cap=cap,
-        node_ids=node_ids, install_fragment=install_t,
-        locked_dev_fragment=locked_dev, timeout_s=28800)
-    outcomes_p, failures_p = run_p2pu_state(
-        era_key=era_key, worktree_linux=wts["p"], tid=tid, state="p", cap=cap,
-        node_ids=node_ids, install_fragment=install_p,
-        locked_dev_fragment=locked_dev, timeout_s=28800)
+    clock_after = clock_preflight()
+    clock_pre_post = {
+        "pre": {"median_skew_s": clock["pre"]["median_skew_s"], "verdict": clock["pre"]["verdict"]},
+        "post": {"median_skew_s": clock_after["pre"]["median_skew_s"], "verdict": clock_after["pre"]["verdict"]},
+    }
+
+    if not attempt_result["ok"]:
+        status = attempt_result["error"]  # ENV_FAIL_P2PU or INTEGRITY_FAIL
+        result = {
+            "task_id": task_id,
+            "cap": cap,
+            "status": status,
+            "era_key": era_key,
+            "rediscovery_sha256": discovery.get("rediscovery_sha256", ""),
+            "n_selected": len(node_ids),
+            "class_counts": {},
+            "n_stable_p2p": 0,
+            "node_classes": {},
+            "wall_s": round(time.monotonic() - t0, 1),
+            "junit_files": {},
+            "manifest": {
+                "task_id": task_id, "era": era_key, "cap": cap,
+                "harness_v3_version": HARNESS_V3_VERSION,
+                "harness_v3_spec_sha256": HARNESS_SPEC_SHA256,
+                "runner_sha256": RUNNER_SHA256,
+                "rediscovery_sha256": discovery.get("rediscovery_sha256", ""),
+                "selection_sha256": _sha256(node_ids),
+                "pytest_flags": PYTEST_FLAGS,
+                "reps": REPS,
+                "junit_dir": f"p2pu_v3_junit/{task_id}/cap{cap}",
+                "clock_pre_post": clock_pre_post,
+                "collection_session_abort": {"t": [], "p": []},
+                "workers": 1,
+                "failure_detail": attempt_result["detail"],
+            },
+        }
+        result["evidence_sha256"] = _sha256(
+            {k: v for k, v in result.items() if k != "evidence_sha256"})
+        _write_unit_result(result)
+        if status == "INTEGRITY_FAIL":
+            raise P2PUIntegrityError(
+                f"{task_id} cap{cap} second INTEGRITY_FAIL -> P2PU_INTEGRITY_STOP; "
+                f"detail={json.dumps(attempt_result['detail'], ensure_ascii=False)[:800]}")
+        return result
 
     class_counts = {"STABLE_P2P": 0, "TARGET_BROKEN": 0, "PARENT_BROKEN": 0,
                     "BOTH_FAIL": 0, "FLAKY": 0, "COLLECTION_ERROR": 0}
     node_classes = {}
     for nid in node_ids:
-        t = outcomes_t.get(nid, ["missing"] * 3)
-        p = outcomes_p.get(nid, ["missing"] * 3)
+        t = attempt_result["outcomes_t"].get(nid, ["missing"] * 3)
+        p = attempt_result["outcomes_p"].get(nid, ["missing"] * 3)
         t_list = t if isinstance(t, list) else [t] * 3
         p_list = p if isinstance(p, list) else [p] * 3
         cls = classify_p2p_node(list(p_list), list(t_list))
@@ -367,23 +665,140 @@ def execute_cap(task_id: str, cap: int, node_ids: list[str], discovery: dict) ->
         "class_counts": class_counts,
         "n_stable_p2p": class_counts.get("STABLE_P2P", 0),
         "node_classes": node_classes,
-        "wall_s": round(time.monotonic(), 1),
+        "wall_s": round(time.monotonic() - t0, 1),
+        "wall_t_s": attempt_result["wall_t"],
+        "wall_p_s": attempt_result["wall_p"],
+        "junit_files": {**attempt_result["junit_t"], **attempt_result["junit_p"]},
         "manifest": {
             "task_id": task_id, "era": era_key, "cap": cap,
-            "harness_v3_version": "wp2-harness-v3-2026-09-26",
-            "frozen_base_image_id": img_id,
-            "install_mode": install_mode,
-            "lockfile_sha256": lockfile_sha256(manifests),
-            "nofile_soft": NOFILE_SOFT, "nofile_hard": NOFILE_HARD,
-            "clock_pre_post": {"pre": clock["pre"]["median_skew_s"],
-                               "post": (clock.get("post") or {}).get("median_skew_s")},
+            "harness_v3_version": HARNESS_V3_VERSION,
+            "harness_v3_spec_sha256": HARNESS_SPEC_SHA256,
+            "runner_sha256": RUNNER_SHA256,
+            "rediscovery_sha256": discovery.get("rediscovery_sha256", ""),
+            "selection_sha256": _sha256(node_ids),
+            "frozen_base_image_id": attempt_result["img_id"],
+            "install_mode": attempt_result["install_mode"],
+            "lockfile_sha256": attempt_result["lockfile_sha256"],
+            "nofile_soft": NOFILE_SOFT,
+            "nofile_hard": NOFILE_HARD,
+            "pytest_flags": PYTEST_FLAGS,
+            "reps": REPS,
+            "db_names": {"t": attempt_result["db_t"], "p": attempt_result["db_p"]},
+            "junit_dir": f"p2pu_v3_junit/{task_id}/cap{cap}",
+            "clock_pre_post": clock_pre_post,
+            "collection_session_abort": {"t": attempt_result["abort_t"],
+                                         "p": attempt_result["abort_p"]},
             "workers": 1,
         },
     }
+    result["evidence_sha256"] = _sha256(
+        {k: v for k, v in result.items() if k != "evidence_sha256"})
     remove_worktrees_v3(task_id)
-    (OUT_ROOT / f"p2pu_v3_eng_{task_id}_cap{cap}.json").write_text(
-        json.dumps(result, indent=1, ensure_ascii=False), encoding="utf-8")
+    _write_unit_result(result)
     print(f"  -> {class_counts}", flush=True)
+    return result
+
+
+# ---------------------------------------------------------------------------
+# Evidence + resume (H5), progress (H7), helpers
+# ---------------------------------------------------------------------------
+def _write_unit_result(result: dict) -> dict:
+    (OUT_ROOT / f"p2pu_v3_eng_{result['task_id']}_cap{result['cap']}.json").write_text(
+        json.dumps(result, indent=1, ensure_ascii=False), encoding="utf-8")
+    return result
+
+
+def _delete_unit_evidence(task_id: str, cap: int) -> None:
+    (OUT_ROOT / f"p2pu_v3_eng_{task_id}_cap{cap}.json").unlink(missing_ok=True)
+    junit_dir = OUT_ROOT / "p2pu_v3_junit" / task_id / f"cap{cap}"
+    if junit_dir.exists():
+        import shutil
+        shutil.rmtree(junit_dir, ignore_errors=True)
+
+
+def verify_unit(task_id: str, cap: int) -> tuple[bool, str]:
+    """Verified-resume gate (H5): ok only when the result + its JUnit hashes hold."""
+    path = OUT_ROOT / f"p2pu_v3_eng_{task_id}_cap{cap}.json"
+    if not path.exists():
+        return False, "MISSING_RESULT"
+    try:
+        result = json.loads(path.read_text(encoding="utf-8"))
+    except Exception as exc:
+        return False, f"JSON_LOAD_FAIL: {exc}"
+    if "evidence_sha256" not in result:
+        return False, "NO_EVIDENCE_SHA"
+    recomputed = _sha256({k: v for k, v in result.items() if k != "evidence_sha256"})
+    if recomputed != result["evidence_sha256"]:
+        return False, "EVIDENCE_HASH_MISMATCH"
+    if result.get("status") not in ("DONE", "UNDEFINED", "ENV_FAIL_P2PU"):
+        return False, f"BAD_STATUS:{result.get('status')}"
+    if result.get("status") == "DONE":
+        junit_files = result.get("junit_files", {})
+        for name, expected in junit_files.items():
+            jpath = OUT_ROOT / "p2pu_v3_junit" / task_id / f"cap{cap}" / name
+            if expected == "MISSING" or not jpath.exists():
+                return False, f"JUNIT_NOT_ON_DISK:{name}"
+            if _file_sha256(jpath) != expected:
+                return False, f"JUNIT_HASH_MISMATCH:{name}"
+        if len(result.get("node_classes", {})) != result.get("n_selected"):
+            return False, "NODE_COUNT_MISMATCH"
+    return True, "OK"
+
+
+def _stop_flag_present() -> bool:
+    return (PROJECT / "logs" / "P2PU_STOP.flag").exists()
+
+
+def load_progress(path: Path) -> dict:
+    if path.exists():
+        try:
+            return json.loads(path.read_text(encoding="utf-8"))
+        except Exception:
+            return {}
+    return {}
+
+
+def update_progress(path: Path, unit_id: str, status: str, evidence_sha256: str) -> None:
+    prog = load_progress(path)
+    prog["version"] = "p2p-u-v3-progress-2026-09-26"
+    prog.setdefault("units", {})
+    prog["units"][unit_id] = {
+        "status": status,
+        "evidence_sha256": evidence_sha256,
+        "finished_utc": _now_utc(),
+    }
+    path.write_text(json.dumps(prog, indent=1, ensure_ascii=False), encoding="utf-8")
+
+
+def build_undefined_result(task_id: str, cap: int, discovery: dict) -> dict:
+    row = inventory_row(task_id)
+    result = {
+        "task_id": task_id,
+        "cap": cap,
+        "status": "UNDEFINED",
+        "era_key": row["era_key"],
+        "rediscovery_sha256": discovery.get("rediscovery_sha256", ""),
+        "n_selected": 0,
+        "class_counts": {},
+        "n_stable_p2p": 0,
+        "node_classes": {},
+        "wall_s": 0.0,
+        "junit_files": {},
+        "manifest": {
+            "task_id": task_id, "era": row["era_key"], "cap": cap,
+            "harness_v3_version": HARNESS_V3_VERSION,
+            "harness_v3_spec_sha256": HARNESS_SPEC_SHA256,
+            "runner_sha256": RUNNER_SHA256,
+            "rediscovery_sha256": discovery.get("rediscovery_sha256", ""),
+            "selection_sha256": _sha256([]),
+            "pytest_flags": PYTEST_FLAGS,
+            "reps": REPS,
+            "junit_dir": f"p2pu_v3_junit/{task_id}/cap{cap}",
+            "workers": 1,
+        },
+    }
+    result["evidence_sha256"] = _sha256(
+        {k: v for k, v in result.items() if k != "evidence_sha256"})
     return result
 
 
@@ -393,85 +808,77 @@ def main() -> int:
     ap.add_argument("--cap", type=int, default=None, choices=(200, 400))
     ap.add_argument("--all-tasks", action="store_true")
     ap.add_argument("--discovery-only", action="store_true")
+    ap.add_argument("--max-units", type=int, default=None,
+                    help="process at most N EXECUTED units per invocation "
+                         "(0 = list the plan only and exit)")
+    ap.add_argument("--progress-file", default=None)
     args = ap.parse_args()
     tasks = [args.task] if args.task else (load_v3_oracle_valid_eng() if args.all_tasks else [])
     caps = [args.cap] if args.cap else [200, 400]
     if not tasks:
         print("no tasks selected; use --task or --all-tasks")
         return 2
-    print(f"[P2PU-V3] tasks={len(tasks)} caps={caps}", flush=True)
-    for tid in tasks:
-        discovery_file = OUT_ROOT / f"p2pu_v3_rediscovery_{tid}.json"
-        if discovery_file.exists():
-            discovery = json.loads(discovery_file.read_text(encoding="utf-8"))
-        else:
-            print(f"  {tid}: rediscovering candidates under V3 ...", flush=True)
-            discovery = rediscover_v3(tid)
-            sel = derive_v3_selection(discovery)
-            v2_200 = set(v2_membership_for(tid, 200))
-            v2_400 = set(v2_membership_for(tid, 400))
-            v3_200 = set(sel.get("cap200_node_ids", []))
-            v3_400 = set(sel.get("cap400_node_ids", []))
-            discovery["rediscovery_sha256"] = _sha256({
-                "task_id": tid,
-                "candidate_node_ids": discovery["candidate_node_ids"],
-            })
-            discovery["v3_selection"] = {
-                "cap200_node_ids": sel.get("cap200_node_ids", []),
-                "cap400_node_ids": sel.get("cap400_node_ids", []),
-                "proximal_nodes": sel.get("proximal_nodes", []),
-                "distal_nodes": sel.get("distal_nodes", []),
-                "composition_cap200": sel.get("composition_cap200"),
-                "composition_cap400": sel.get("composition_cap400"),
-                "proximity_by_file": sel.get("proximity_by_file", {}),
-                "unknown_touched_paths": sel.get("unknown_touched_paths", []),
-                "n_known_touched_paths": sel.get("n_known_touched_paths"),
-            }
-            # Addendum E: assert V3 derivation == V2 frozen derivation on shared
-            # evidence (for tasks with a frozen V2 membership).
-            v2_mem = MEMBERSHIP.get("tasks", {}).get(tid)
-            if v2_mem:
-                eq = _proximity_equivalence(tid, sel, v2_mem)
-                discovery["proximity_equivalence_v2"] = eq
-                if not eq["ok"]:
-                    raise RuntimeError(
-                        f"[P2PU-V3] proximity equivalence FAILED for {tid}: {eq}")
-            discovery["membership_diff"] = {
-                "v2_cap200": sorted(v2_200),
-                "v3_cap200": sorted(v3_200),
-                "v2_cap400": sorted(v2_400),
-                "v3_cap400": sorted(v3_400),
-                "cap200_intersection": sorted(v2_200 & v3_200),
-                "cap200_additions": sorted(v3_200 - v2_200),
-                "cap200_removals": sorted(v2_200 - v3_200),
-                "cap400_intersection": sorted(v2_400 & v3_400),
-                "cap400_additions": sorted(v3_400 - v2_400),
-                "cap400_removals": sorted(v2_400 - v3_400),
-            }
-            discovery_file.write_text(json.dumps(discovery, indent=1, ensure_ascii=False),
-                                      encoding="utf-8")
-            print(f"  -> rediscovered {len(discovery['candidate_node_ids'])} nodes; "
-                  f"cap200={len(v3_200)} cap400={len(v3_400)}")
+
+    # D12 plan: sorted task_id; within a task cap200 then cap400.
+    plan = [(tid, cap) for tid in sorted(tasks) for cap in caps]
+    print(f"[P2PU-V3] plan: {len(plan)} units "
+          f"(D12 order: sorted task_id, cap200 then cap400)", flush=True)
+
+    if args.max_units is not None and args.max_units == 0:
+        n_undef = 0
+        for i, (tid, cap) in enumerate(plan, 1):
+            n = selection_node_count(tid, cap)
+            undefined = n == 0
+            n_undef += int(undefined)
+            tag = "UNDEFINED" if undefined else (f"{n} nodes" if n > 0 else "rediscovery-pending")
+            print(f"  {i:2d}. {tid} cap{cap} -> {tag}", flush=True)
+        print(f"[P2PU-V3] plan: {len(plan)} units; {n_undef} UNDEFINED; "
+              f"{len(plan) - n_undef} planned for execution", flush=True)
+        return 0
+
+    progress_path = Path(args.progress_file) if args.progress_file else OUT_ROOT / "p2pu_v3_progress.json"
+    executed = 0
+    for i, (tid, cap) in enumerate(plan, 1):
+        if _stop_flag_present():
+            print("[P2PU-V3] P2PU_STOP.flag present; stopping cleanly (D08)", flush=True)
+            break
+        unit_id = f"{tid}_cap{cap}"
+        result_file = OUT_ROOT / f"p2pu_v3_eng_{tid}_cap{cap}.json"
+        if result_file.exists():
+            ok, reason = verify_unit(tid, cap)
+            if ok:
+                print(f"  {i:2d}. {unit_id} verified; skip (resume)", flush=True)
+                continue
+            print(f"  {i:2d}. {unit_id} verify FAILED ({reason}); "
+                  "C09 delete partial evidence and rerun", flush=True)
+            _delete_unit_evidence(tid, cap)
+        discovery = ensure_discovery(tid)
         if args.discovery_only:
             continue
-        for cap in caps:
-            f = OUT_ROOT / f"p2pu_v3_eng_{tid}_cap{cap}.json"
-            if f.exists():
-                print(f"  {tid} cap{cap} already done; skip", flush=True)
-                continue
-            sel = discovery.get("v3_selection", {})
-            key = "cap200_node_ids" if cap == 200 else "cap400_node_ids"
-            node_ids = list(sel.get(key, []))
-            if not node_ids:
-                print(f"  {tid} cap{cap} UNDEFINED (zero nodes)", flush=True)
-                (OUT_ROOT / f"p2pu_v3_eng_{tid}_cap{cap}.json").write_text(
-                    json.dumps({"task_id": tid, "cap": cap, "status": "UNDEFINED",
-                                "n_selected": 0}, indent=1), encoding="utf-8")
-                continue
-            execute_cap(tid, cap, node_ids, discovery)
-    print("[P2PU-V3] complete", flush=True)
+        node_ids = selection_nodes_from_discovery(discovery, cap)
+        if not node_ids:
+            print(f"  {i:2d}. {tid} cap{cap} UNDEFINED (zero nodes)", flush=True)
+            res = build_undefined_result(tid, cap, discovery)
+            _write_unit_result(res)
+            update_progress(progress_path, unit_id, res["status"],
+                            res.get("evidence_sha256", ""))
+            continue
+        if args.max_units is not None and executed >= args.max_units:
+            print(f"[P2PU-V3] reached --max-units {args.max_units}; stopping invocation", flush=True)
+            break
+        res = execute_cap(tid, cap, node_ids, discovery)
+        update_progress(progress_path, unit_id, res["status"],
+                        res.get("evidence_sha256", ""))
+        executed += 1
+    print(f"[P2PU-V3] complete (executed units this invocation: {executed})", flush=True)
     return 0
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    try:
+        rc = main()
+    except P2PUIntegrityError as exc:
+        print(f"[P2PU-V3] {exc}", flush=True)
+        print("P2PU_INTEGRITY_STOP", flush=True)
+        rc = 3
+    raise SystemExit(rc)

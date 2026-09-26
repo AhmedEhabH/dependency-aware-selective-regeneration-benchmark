@@ -534,12 +534,24 @@ AUTHORIZATION BLOCK (Ahmed Ehab, issued by sending the mission file):
 - NA5: no change to oracle semantics, Harness V3, P2P-U rule/salt/caps, splits, populations
 - NA6: no model/API call before step C1 passes, or outside AU6/AU7
 
+## Mission-11 A2 - P2P-U V3 executor hardening (2026-09-26)
+
+- H1-H8 implemented in scripts/wp2_m10b_p2pu_v3_eng.py (no scientific change):
+  raw JUnit persistence + hashes, ENV_FAIL_P2PU detection (never classified),
+  INTEGRITY_FAIL (never swallowed), monotonic wall clock + clock pre/post,
+  evidence_sha256 + verify_unit resume, collection_session_abort (D18),
+  --max-units chunking + P2PU_STOP.flag + progress file, complete manifest.
+- New runner_sha256 = b7658d75b093366165f0c5cb98b7e28e10bc763f89982e6845eb9a09c4070b42
+- tests/unit/wp2/test_m10b_p2pu_v3_hardening.py: 16/16 PASS; ruff clean.
+- `--all-tasks --max-units 0` plan: 32 units (D12 order), 2 UNDEFINED
+  (9258154b8a0b cap200/cap400), 30 planned for execution.
+
 ## Mission-11 TODO (live, per MISSION-11 §6)
 
 ```
 [✓] A1 Bootstrap + state verification
-[•] A2 Harden P2P-U V3 executor (H1-H9) + tests
-[ ] A3 P2P-U V3 ENG execution - 0/32 units
+[✓] A2 Harden P2P-U V3 executor (H1-H9) + tests
+[•] A3 P2P-U V3 ENG execution - 0/32 units
 [ ] A4 P2P-U summary + preservation sets freeze
 [ ] A5 Evaluator sets + ENG_SMOKE_READY
 [ ] A6 Mission-10B closure (report, tag, exports, C4_STOP.flag)
