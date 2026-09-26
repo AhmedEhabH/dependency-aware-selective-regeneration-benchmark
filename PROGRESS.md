@@ -537,8 +537,8 @@ AUTHORIZATION BLOCK (Ahmed Ehab, issued by sending the mission file):
 ## Mission-11 TODO (live, per MISSION-11 §6)
 
 ```
-[•] A1 Bootstrap + state verification
-[ ] A2 Harden P2P-U V3 executor (H1-H9) + tests
+[✓] A1 Bootstrap + state verification
+[•] A2 Harden P2P-U V3 executor (H1-H9) + tests
 [ ] A3 P2P-U V3 ENG execution - 0/32 units
 [ ] A4 P2P-U summary + preservation sets freeze
 [ ] A5 Evaluator sets + ENG_SMOKE_READY
