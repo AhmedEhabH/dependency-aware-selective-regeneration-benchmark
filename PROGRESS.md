@@ -551,9 +551,9 @@ AUTHORIZATION BLOCK (Ahmed Ehab, issued by sending the mission file):
 ```
 [✓] A1 Bootstrap + state verification
 [✓] A2 Harden P2P-U V3 executor (H1-H9) + tests
-[•] A3 P2P-U V3 ENG execution - 23/32 units (21 DONE + 2 UNDEFINED)
-[•] A4 P2P-U summary + preservation sets freeze
-[ ] A5 Evaluator sets + ENG_SMOKE_READY
+[✓] A3 P2P-U V3 ENG execution - 32/32 units (30 DONE + 2 UNDEFINED)
+[✓] A4 P2P-U summary + preservation sets freeze
+[!] A5 Evaluator sets + ENG_SMOKE_READY (BLOCKED: HARNESS_V3_DEV_DEPS_GAP)
 [ ] A6 Mission-10B closure (report, tag, exports, C4_STOP.flag)
 [ ] B1 Mission-11 impact declaration + E2E spec constants
 [ ] B2-B9 E2E instrument modules
@@ -568,3 +568,33 @@ AUTHORIZATION BLOCK (Ahmed Ehab, issued by sending the mission file):
 [ ] D3 Smoke summary + gates
 [ ] D4 Smoke closure (report, docs, tag, exports)
 ```
+
+## Mission-11 A4 addendum - DEV/TEST DEPENDENCY COVERAGE AUDIT (2026-09-26)
+
+- P2P-U V3 ENG complete: 32/32 units terminal (30 DONE + 2 UNDEFINED), all
+  verify_unit OK, summary + invariants PASS, D19 agreement >= 0.99, no C07.
+- Addendum audit (zero API) -> research/wp2/harness_v3_2026-09-26/dev_deps_gap_audit.json:
+  - Cause taxonomy over persisted JUnit (non-STABLE nodes, both caps):
+    MISSING_FIXTURE:count_queries 144, MISSING_FIXTURE:mocker 20,
+    SOCKET_BLOCKED 132, ASSERTION 25, COLLECTION/SETUP 3, OTHER 27, FLAKY 19.
+  - HARNESS_V3_DEP_POLICY_COMPLIANCE = FAIL for 7 oracle-valid ENG tasks
+    (22ec4dab0154, 644f33094857, 6abb53f3407b, 823b899757ab, 82c56bde0e34,
+    93b20d78c011, e03ee76d2b89): pytest-django-queries / pytest-mock ARE
+    historically declared in the target poetry.lock but NOT installed in V3
+    (poetry+requirements.txt install path omits the dev group; these tasks are
+    outside LOCKED_DEV_DEPS).
+  - P2P coverage loss confirmed: 164 MISSING_FIXTURE nodes are P2P-U candidates
+    that would classify STABLE_P2P under a faithful environment (M10A probe
+    recovered 18/18 on 74538ea00ce9, which V3 now installs via LOCKED_DEV_DEPS).
+  - VCR/socket: SocketBlockedError nodes use @pytest.mark.vcr but pytest-recording
+    is NOT historically declared for those tasks -> NOT a declared-but-missing gap.
+  - C4_DEP_GAP_IMPACT = INCONCLUSIVE (phase5_c4v3_* persists outcomes, not failure
+    text; M10A reconciliation attributed 234 count_queries + 12 mocker across ENG C4;
+    M10A token was ENV_AUDIT_INCONCLUSIVE).
+  - Chunk-2 record correction: interrupted invocation had timeout=10,800,000 ms
+    (3h) and was tool-call aborted after ~23.4 min (NOT a 2-minute default
+    timeout); verified resume preserved the completed unit and reran the
+    incomplete unit from scratch.
+- Per addendum item 6: HARNESS_V3_DEV_DEPS_GAP -> STOP before A5 / ENG_SMOKE_READY /
+  any paid Smoke call. No repair performed (addendum item 7).
+
