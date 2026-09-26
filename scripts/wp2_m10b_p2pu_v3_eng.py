@@ -84,18 +84,10 @@ def _sha256(payload: object) -> str:
 
 
 def load_v3_oracle_valid_eng() -> list[str]:
-    ds = json.loads((V2_ROOT / "dev_split_v2_2026-09-23.json").read_text(encoding="utf-8"))
-    eng = set(ds["membership"].get("DEV_TRAIN_ENG", []))
-    valid = []
-    for line in (V2_ROOT / "per_task_dev_v2.jsonl").read_text(encoding="utf-8").splitlines():
-        r = json.loads(line)
-        if r["task_id"] in eng:
-            f = OUT_ROOT / f"phase5_c4v3_{r['task_id']}.json"
-            if f.exists():
-                rec = json.loads(f.read_text(encoding="utf-8"))
-                if rec.get("classification") == "BEHAVIORAL_F2P":
-                    valid.append(r["task_id"])
-    return sorted(valid)
+    """P2P-U V3 population = oracle_valid_union from the corrected
+    ENG_V3_ORACLE_READY artifact (single source of truth; addendum B)."""
+    eng_ready = json.loads((OUT_ROOT / "eng_v3_oracle_ready.json").read_text(encoding="utf-8"))
+    return sorted(eng_ready["oracle_valid_union_task_ids"])
 
 
 def inventory_row(task_id: str) -> dict:
@@ -121,11 +113,39 @@ def v2_membership_for(task_id: str, cap: int) -> list[str]:
     return list(t.get(key, []))
 
 
+def _proximity_equivalence(task_id: str, v3_sel: dict, v2_mem: dict) -> dict:
+    """Addendum E: assert the V3 touched-production derivation equals the V2
+    frozen values on shared evidence."""
+    v2_unknown = set(v2_mem.get("unknown_touched_paths", []))
+    v3_unknown = set(v3_sel.get("unknown_touched_paths", []))
+    v2_prox = v2_mem.get("proximity_by_file", {})
+    v3_prox = v3_sel.get("proximity_by_file", {})
+    shared = sorted(set(v2_prox) & set(v3_prox))
+    prox_diffs = {f: (v2_prox[f], v3_prox.get(f)) for f in shared
+                  if v2_prox[f] != v3_prox.get(f)}
+    unknown_ok = v2_unknown == v3_unknown
+    known_ok = v2_mem.get("n_known_touched_paths") == v3_sel.get("n_known_touched_paths")
+    prox_ok = len(prox_diffs) == 0
+    return {
+        "task_id": task_id,
+        "ok": unknown_ok and known_ok and prox_ok,
+        "unknown_touched_equal": unknown_ok,
+        "n_known_touched_equal": known_ok,
+        "shared_files": len(shared),
+        "proximity_diffs": prox_diffs,
+        "v2_n_known": v2_mem.get("n_known_touched_paths"),
+        "v3_n_known": v3_sel.get("n_known_touched_paths"),
+        "v2_unknown": sorted(v2_unknown),
+        "v3_unknown": sorted(v3_unknown),
+    }
+
+
 # ---------------------------------------------------------------------------
 # V3 rediscovery (20 step 1)
 # ---------------------------------------------------------------------------
 def rediscover_v3(task_id: str) -> dict:
     """pytest --collect-only at TARGET under V3 environment (nofile, lock-exact)."""
+    t_start = time.monotonic()
     row = inventory_row(task_id)
     parent, target = task_commits(task_id)
     era_key = row["era_key"]
@@ -200,24 +220,30 @@ def rediscover_v3(task_id: str) -> dict:
         "n_associated_files": len(all_associated),
         "n_collect_files": len(collect_files),
         "candidate_node_ids": nodes,
-        "wall_s": round(time.monotonic(), 1),
+        "wall_s": round(time.monotonic() - t_start, 1),
     }
 
 
 def derive_v3_selection(discovery: dict) -> dict:
-    """Derive V3 cap200/cap400 from the V3-discovered pool (SAME rule/salt)."""
-    touched = []
+    """Derive V3 cap200/cap400 from the V3-discovered pool (SAME rule/salt).
+
+    Uses the EXACT frozen touched-production derivation (changed_paths_linux
+    with is_test_path_v2) that produced the V2 membership - never a heuristic."""
+    from scripts.wp2_linux_dryrun import changed_paths_linux
+
     census = json.loads((V2_ROOT / "dev_census_2026-09-23.json").read_text(encoding="utf-8"))
+    parent = target = None
     for c in census.get("tasks", []):
         if c["task_id"] == discovery["task_id"]:
-            r = git_linux(WSL_CACHE, "diff", "--name-only", c["parent_commit"], c["target_commit"])
-            touched = [ln.strip() for ln in r.stdout.splitlines()
-                       if ln.strip().endswith(".py") and "/test" not in ln]
+            parent, target = c["parent_commit"], c["target_commit"]
             break
+    if parent is None or target is None:
+        raise RuntimeError(f"{discovery['task_id']} not in census")
+    cp = changed_paths_linux(parent, target)
     sel = build_task_selection(
         task_id=discovery["task_id"],
         candidate_node_ids=discovery["candidate_node_ids"],
-        touched_production_files=touched,
+        touched_production_files=cp["prod_files"],
     )
     return sel
 
@@ -397,7 +423,19 @@ def main() -> int:
                 "distal_nodes": sel.get("distal_nodes", []),
                 "composition_cap200": sel.get("composition_cap200"),
                 "composition_cap400": sel.get("composition_cap400"),
+                "proximity_by_file": sel.get("proximity_by_file", {}),
+                "unknown_touched_paths": sel.get("unknown_touched_paths", []),
+                "n_known_touched_paths": sel.get("n_known_touched_paths"),
             }
+            # Addendum E: assert V3 derivation == V2 frozen derivation on shared
+            # evidence (for tasks with a frozen V2 membership).
+            v2_mem = MEMBERSHIP.get("tasks", {}).get(tid)
+            if v2_mem:
+                eq = _proximity_equivalence(tid, sel, v2_mem)
+                discovery["proximity_equivalence_v2"] = eq
+                if not eq["ok"]:
+                    raise RuntimeError(
+                        f"[P2PU-V3] proximity equivalence FAILED for {tid}: {eq}")
             discovery["membership_diff"] = {
                 "v2_cap200": sorted(v2_200),
                 "v3_cap200": sorted(v3_200),

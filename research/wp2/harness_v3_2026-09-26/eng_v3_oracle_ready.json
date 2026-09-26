@@ -1,7 +1,8 @@
 {
  "artifact": "eng_v3_oracle_ready",
- "version": "eng-v3-oracle-ready-2026-09-26",
- "created_utc": "2026-09-26T15:23:26+00:00",
+ "version": "eng-v3-oracle-ready-v2-2026-09-26",
+ "supersedes": "eng-v3-oracle-ready-2026-09-26 (v1; behavioral-only oracle-valid defn)",
+ "created_utc": "2026-09-26T15:51:13+00:00",
  "exact_eng_candidate_count": 29,
  "environment_failed_count": 7,
  "environment_failed_task_ids": [
@@ -14,8 +15,7 @@
   "saleor-rc-dfe77ac1c5dc"
  ],
  "executable_count": 22,
- "oracle_valid_count": 14,
- "behavioral_f2p_task_ids": [
+ "behavioral_task_ids": [
   "saleor-rc-2d45b76a52f2",
   "saleor-rc-39b4138e8550",
   "saleor-rc-644f33094857",
@@ -31,11 +31,21 @@
   "saleor-rc-e03ee76d2b89",
   "saleor-rc-e25cf9b4a837"
  ],
- "symbol_absence_f2p_task_ids": [
+ "behavioral_count": 14,
+ "symbol_task_ids": [
   "saleor-rc-22ec4dab0154",
   "saleor-rc-9258154b8a0b"
  ],
- "union_f2p_task_ids": [
+ "symbol_count": 2,
+ "behavioral_intersect_symbol": [],
+ "overlap_count": 0,
+ "symbol_only_task_ids": [
+  "saleor-rc-22ec4dab0154",
+  "saleor-rc-9258154b8a0b"
+ ],
+ "symbol_only_count": 2,
+ "oracle_valid_count": 16,
+ "oracle_valid_union_task_ids": [
   "saleor-rc-22ec4dab0154",
   "saleor-rc-2d45b76a52f2",
   "saleor-rc-39b4138e8550",
@@ -53,7 +63,8 @@
   "saleor-rc-e03ee76d2b89",
   "saleor-rc-e25cf9b4a837"
  ],
- "primary_eligible_task_ids": [
+ "primary_behavioral_count": 14,
+ "primary_behavioral_task_ids": [
   "saleor-rc-2d45b76a52f2",
   "saleor-rc-39b4138e8550",
   "saleor-rc-644f33094857",
@@ -109,6 +120,7 @@
   }
  },
  "recovered_tasks": [
+  "saleor-rc-22ec4dab0154",
   "saleor-rc-644f33094857",
   "saleor-rc-6abb53f3407b",
   "saleor-rc-823b899757ab",
@@ -117,21 +129,33 @@
   "saleor-rc-dc6ac9d252df",
   "saleor-rc-e25cf9b4a837"
  ],
- "lost_tasks": [],
+ "lost_tasks": [
+  "saleor-rc-dfe77ac1c5dc"
+ ],
  "v2_defect_corrections": 1,
  "REGRESSIONS": 0,
  "recovered_invalid_nodes": 1324,
- "compare_v2_expected": {
-  "V2_ENG_oracle_valid_expected": 9,
+ "compare": {
+  "V2_ENG_oracle_valid_union": 9,
+  "V2_ENG_oracle_valid_behavioral": 8,
   "V2_ENG_behavioral_smoke_expected": 8,
-  "V2_ENG_oracle_valid_actual": 8,
-  "V3_ENG_oracle_valid_actual": 14
+  "V3_ENG_oracle_valid_union": 16,
+  "V3_ENG_oracle_valid_behavioral": 14
  },
- "error_taxonomy": {},
+ "bookkeeping_corrections": [
+  {
+   "task_id": "saleor-rc-dfe77ac1c5dc",
+   "correction": "reclassified DONE -> ENV_INSTALL_BLOCKED (whole-file collection failure; no test-level nodes)",
+   "before_status": "DONE",
+   "before_classification": "NOT_PRIMARY",
+   "before_evidence_sha256": "recorded in the commit c9412b9d before reclassification (2026-09-26)",
+   "after_status": "ENV_INSTALL_BLOCKED",
+   "after_classification": "ENV_INSTALL_BLOCKED",
+   "note": "No rerun performed per directive; bookkeeping only."
+  }
+ ],
  "hashes": {
-  "checkpoint_sha256": "974f3a23e8c4af47de535c0f4530df4f488fb4814909a3b8297ef075a64a79f7",
-  "runner_sha": "see per-task manifests"
+  "checkpoint_sha256": "8d68e5aaae29e9447f362dba59679f5848f25eced557b2746d8371c68d020dba"
  },
- "note": "V3 counts reported as observed; V2 is immutable and NOT forced to match.",
- "eng_smoke_ready_blocked": false
+ "note": "oracle_valid_count = len(behavioral UNION symbol), computed mechanically. V2 baseline reported as union and behavioral separately. Recovered/lost are set differences."
 }
