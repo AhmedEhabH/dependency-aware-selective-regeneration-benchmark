@@ -1,0 +1,171 @@
+{
+ "task_id": "saleor-rc-2d45b76a52f2",
+ "status": "DONE",
+ "era_key": "py39",
+ "target_commit": "2d45b76a52f2a41dffbcd0bc77d558b1f9f94889",
+ "counts": {
+  "BEHAVIORAL_F2P": 2,
+  "SYMBOL_ABSENCE_F2P": 0,
+  "PARENT_COLLECTION_ERROR": 0,
+  "FLAKY": 0,
+  "TARGET_ORACLE_INVALID": 0,
+  "P2P_ONLY": 6,
+  "OTHER_REVIEW_REQUIRED": 0
+ },
+ "eligibility": {
+  "PRIMARY_BEHAVIORAL_F2P_ELIGIBLE": true,
+  "EXTENDED_F2P_ELIGIBLE": true,
+  "n_behavioral_f2p": 2,
+  "n_symbol_absence_f2p": 0,
+  "n_parent_collection_error": 0,
+  "environment_valid": true,
+  "task_collection_failure": false,
+  "semantics_version": "oracle-semantics-v2-2026-09-23"
+ },
+ "classification": "BEHAVIORAL_F2P",
+ "n_nodes": 8,
+ "n_test_files": 1,
+ "wall_s": 258.0,
+ "operations": {
+  "target_wall_s": 128.6,
+  "parent_wall_s": 258.0,
+  "target_error": null,
+  "parent_error": null
+ },
+ "node_records": [
+  {
+   "node_id": "saleor/core/tests/test_jwt.py::test_create_access_token_for_app",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/core/tests/test_jwt.py::test_create_access_token_for_app_extension_staff_user_with_more_permissions",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/core/tests/test_jwt.py::test_create_access_token_for_app_extension_with_more_permissions",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/core/tests/test_jwt.py::test_jwt_decode_accepts_app_token_hs256_with_audience",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/core/tests/test_jwt.py::test_jwt_decode_accepts_app_token_rs256_with_audience",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/core/tests/test_jwt.py::test_jwt_decode_accepts_token_signed_with_hs256",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/core/tests/test_jwt.py::test_jwt_decode_accepts_token_signed_with_rs256",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/core/tests/test_jwt.py::test_jwt_encode_creates_token_signed_with_rs256",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  }
+ ],
+ "manifest": {
+  "task_id": "saleor-rc-2d45b76a52f2",
+  "target_commit": "2d45b76a52f2a41dffbcd0bc77d558b1f9f94889",
+  "era": "py39",
+  "frozen_base_image_id": "sha256:ddc08d7e685517764dfa2606a760d5b3f09d57840d8a0bbcef366db67cd99ef8",
+  "harness_v3_version": "wp2-harness-v3-2026-09-26",
+  "runner_sha": "6b610bbda3a7f087aeeab3279d724f703d207acf",
+  "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+  "lockfile_sha256": "56a5f818ea7a540ea6d9c5e2c94093bd77bc30bd752bbf3d8fb9e8cde90b336d",
+  "nofile_soft": 65536,
+  "nofile_hard": 65536,
+  "clock_pre_post": {
+   "pre": 0.093087,
+   "post": null
+  },
+  "worker_count": 2,
+  "db_names": {
+   "t": "saleor_v3_2d45b76a52f2_t",
+   "p": "saleor_v3_2d45b76a52f2_p"
+  }
+ },
+ "evidence_sha256": "53d96a0c52587b1be9107b5fa64133d0d46651501cb6fa3f3c85bd5118fef0c8"
+}

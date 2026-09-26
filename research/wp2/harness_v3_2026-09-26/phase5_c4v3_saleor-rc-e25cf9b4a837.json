@@ -1,0 +1,3587 @@
+{
+ "task_id": "saleor-rc-e25cf9b4a837",
+ "status": "DONE",
+ "era_key": "py38",
+ "target_commit": "e25cf9b4a83782e1acd2fa35f198f76d476aaabb",
+ "counts": {
+  "BEHAVIORAL_F2P": 4,
+  "SYMBOL_ABSENCE_F2P": 0,
+  "PARENT_COLLECTION_ERROR": 0,
+  "FLAKY": 0,
+  "TARGET_ORACLE_INVALID": 0,
+  "P2P_ONLY": 248,
+  "OTHER_REVIEW_REQUIRED": 0
+ },
+ "eligibility": {
+  "PRIMARY_BEHAVIORAL_F2P_ELIGIBLE": true,
+  "EXTENDED_F2P_ELIGIBLE": true,
+  "n_behavioral_f2p": 4,
+  "n_symbol_absence_f2p": 0,
+  "n_parent_collection_error": 0,
+  "environment_valid": true,
+  "task_collection_failure": false,
+  "semantics_version": "oracle-semantics-v2-2026-09-23"
+ },
+ "classification": "BEHAVIORAL_F2P",
+ "n_nodes": 252,
+ "n_test_files": 4,
+ "wall_s": 279.8,
+ "operations": {
+  "target_wall_s": 141.9,
+  "parent_wall_s": 279.8,
+  "target_error": null,
+  "parent_error": null
+ },
+ "node_records": [
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_anonymous_client_cant_fetch_checkout_user",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_authorized_access_to_checkout_user_as_customer",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_authorized_access_to_checkout_user_as_staff",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_authorized_access_to_checkout_user_as_staff_no_permission",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_available_payment_gateways",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_available_payment_gateways_currency_specified_PLN",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_available_payment_gateways_currency_specified_USD",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_available_shipping_methods",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_available_shipping_methods_with_price_displayed[gross-13-True]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_available_shipping_methods_with_price_displayed[net-10-False]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_billing_address_update",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_complete",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_complete_confirmation_needed",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_complete_does_not_delete_checkout_after_unsuccessful_payment[_process_payment_raise_error]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_complete_does_not_delete_checkout_after_unsuccessful_payment[_process_payment_transaction_returns_error]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_complete_error_in_gateway_response_for_dummy_credit_card[4000000000000002-Card declined]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_complete_error_in_gateway_response_for_dummy_credit_card[4000000000000069-Card expired]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_complete_error_in_gateway_response_for_dummy_credit_card[4000000000000127-Incorrect CVV]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_complete_error_in_gateway_response_for_dummy_credit_card[4000000000009995-Insufficient funds]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_complete_error_in_gateway_response_for_dummy_credit_card[4111111111111111-Card declined]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_complete_insufficient_stock",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_complete_invalid_checkout_id",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_complete_no_payment",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_complete_without_inventory_tracking",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_complete_without_redirect_url",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_confirm",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_create",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_create_cannot_add_invalid_quantities[-1-The quantity should be higher than zero.-CheckoutErrorCode.ZERO_QUANTITY]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_create_cannot_add_invalid_quantities[51-Cannot add more than 50 times this item.-CheckoutErrorCode.QUANTITY_GREATER_THAN_LIMIT]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_create_check_lines_quantity",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_create_check_lines_quantity_for_zone_insufficient_stocks",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_create_check_lines_quantity_multiple_warehouse",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_create_default_email_for_logged_in_customer",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_create_logged_in_customer",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_create_logged_in_customer_custom_addresses",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_create_logged_in_customer_custom_email",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_create_multiple_warehouse",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_create_required_country_billing_address",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_create_required_country_shipping_address",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_create_required_email",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_create_reuse_checkout",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_create_sets_country_from_shipping_address_country",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_create_triggers_webhooks",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_create_with_null_as_addresses",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_create_with_variant_without_inventory_tracking",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_customer_attach",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_customer_detach",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_email_update",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_email_update_validation",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_line_delete",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_line_delete_by_zero_quantity",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_lines_add",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_lines_add_check_lines_quantity",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_lines_add_empty_checkout",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_lines_add_too_many",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_lines_add_variant_without_inventory_tracking",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_lines_add_with_unpublished_product",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_lines_invalid_variant_id",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_lines_update",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_lines_update_check_lines_quantity",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_lines_update_invalid_checkout_id",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_lines_update_with_chosen_shipping",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_lines_update_with_unpublished_product",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_no_available_shipping_methods_without_address",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_no_available_shipping_methods_without_lines",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_prices",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_shipping_address_update",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_shipping_address_update_changes_checkout_country",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_shipping_address_update_insufficient_stocks",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_shipping_address_update_with_phone_country_prefix[+44 (113) 892-1113]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_shipping_address_update_with_phone_country_prefix[+48321321888]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_shipping_address_update_with_phone_country_prefix[00 44 (0) 20 7839 1377]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_shipping_address_update_without_phone_country_prefix",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_shipping_address_with_invalid_phone_number_returns_error",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_shipping_method_update[False]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_shipping_method_update[True]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_with_voucher_complete",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_clean_checkout",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_clean_checkout_invalid_shipping_method",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_clean_checkout_no_billing_address",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_clean_checkout_no_payment",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_clean_checkout_no_shipping_address",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_clean_checkout_no_shipping_method",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_clean_shipping_method_after_shipping_address_changes_stay_the_same",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_clean_shipping_method_does_nothing_if_no_shipping_method",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_create_checkout_with_unpublished_product",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_fetch_checkout_by_token",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_fetch_checkout_invalid_token",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_query_anonymous_customer_checkout_as_anonymous_customer",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_query_anonymous_customer_checkout_as_app",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_query_anonymous_customer_checkout_as_customer",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_query_anonymous_customer_checkout_as_staff_user",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_query_checkout_line",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_query_checkout_lines",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_query_checkouts",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_query_customer_checkout_as_anonymous_customer",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_query_customer_checkout_as_app",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_query_customer_checkout_as_customer",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_query_customer_checkout_as_staff_user",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_query_other_customer_checkout_as_customer",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_update_checkout_shipping_method_if_invalid",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/test_payment.py::test_checkout_add_payment",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/test_payment.py::test_checkout_add_payment_bad_amount",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/test_payment.py::test_checkout_add_payment_default_amount",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/test_payment.py::test_checkout_add_payment_not_supported_gateways",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/test_payment.py::test_checkout_add_payment_with_shipping_method_and_shipping_required",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/test_payment.py::test_checkout_add_payment_without_shipping_method_and_not_shipping_required",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/test_payment.py::test_checkout_add_payment_without_shipping_method_with_shipping_required",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/test_payment.py::test_create_payment_for_checkout_with_active_payments",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/test_payment.py::test_list_payment_sources",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/test_payment.py::test_payment_capture_gateway_dummy_credit_card_error",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/test_payment.py::test_payment_capture_gateway_error",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/test_payment.py::test_payment_capture_success",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/test_payment.py::test_payment_capture_with_invalid_argument",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/test_payment.py::test_payment_capture_with_payment_non_authorized_yet",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/test_payment.py::test_payment_confirmation_success",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/test_payment.py::test_payment_refund_error",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/test_payment.py::test_payment_refund_success",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/test_payment.py::test_payment_refund_with_invalid_argument",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/test_payment.py::test_payment_void_gateway_error",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/test_payment.py::test_payment_void_success",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/test_payment.py::test_payments_query",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/test_payment.py::test_query_payment",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/test_payment.py::test_query_payments",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/test_payment.py::test_store_payment_gateway_meta",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/test_payment.py::test_stored_payment_sources_restriction",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/payment/tests/test_payment.py::test_use_checkout_billing_address_as_payment_billing",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_homepage_collection_update",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_homepage_collection_update_set_null",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_mutation_authorization_key_add",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_mutation_authorization_key_add_existing",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_mutation_authorization_key_delete",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_mutation_update_company_address",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_mutation_update_company_address_remove_address",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_mutation_update_company_address_remove_address_without_address",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_query_authorization_keys",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_query_available_payment_gateways",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_query_available_payment_gateways_specified_currency_PLN",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_query_available_payment_gateways_specified_currency_USD",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_query_charge_taxes_on_shipping",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_query_company_address",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_query_countries",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_query_countries_with_translation[(languageCode: DE)-Afghanistan]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_query_countries_with_translation[(languageCode: EN)-Afghanistan]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_query_countries_with_translation[(languageCode: PL)-Afganistan]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_query_countries_with_translation[-Afghanistan]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_query_currencies",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_query_default_country",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_query_default_mail_sender_settings",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_query_default_mail_sender_settings_not_set",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_query_digital_content_settings",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_query_domain",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_query_geolocalization",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_query_languages",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_query_name",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_query_navigation",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_query_permissions",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_shop_customer_set_password_url_update",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_shop_customer_set_password_url_update_invalid_url[http://[value-error-in-urlparse@test/pass]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_shop_customer_set_password_url_update_invalid_url[http://not-allowed-storefron.com/pass]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_shop_customer_set_password_url_update_invalid_url[without-protocole.com/pass]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_shop_digital_content_settings_mutation",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_shop_domain_update",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_shop_settings_mutation",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_staff_notification_create_mutation",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_staff_notification_create_mutation_with_customer_user",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_staff_notification_create_mutation_with_email",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_staff_notification_create_mutation_with_empty_email",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_staff_notification_create_mutation_with_staffs_email",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_staff_notification_query",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_staff_notification_update_mutation",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_staff_notification_update_mutation_with_empty_email",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_staff_notification_update_mutation_with_empty_user",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_update_default_sender_settings",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_update_default_sender_settings_invalid_email[\\ndummy@example.com]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_update_default_sender_settings_invalid_email[\\rdummy@example.com]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_update_default_sender_settings_invalid_email[dummy@example.com\\n]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_update_default_sender_settings_invalid_email[dummy@example.com\\r]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_update_default_sender_settings_invalid_email[dummy@example\\n.com]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_update_default_sender_settings_invalid_email[dummy@example\\r.com]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_update_default_sender_settings_invalid_name[Dummy Name\\n]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_update_default_sender_settings_invalid_name[Dummy Name\\r]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_update_default_sender_settings_invalid_name[Dummy\\nName]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_update_default_sender_settings_invalid_name[Dummy\\rName]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_update_default_sender_settings_invalid_name[\\nDummy Name]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shop/tests/test_shop.py::test_update_default_sender_settings_invalid_name[\\rDummy Name]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_authorize_failed[False-fully-charged-This payment is no longer active.]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_authorize_failed[False-fully-refunded-This payment is no longer active.]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_authorize_failed[False-not-charged-This payment is no longer active.]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_authorize_failed[False-partially-charged-This payment is no longer active.]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_authorize_failed[False-partially-refunded-This payment is no longer active.]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_authorize_failed[True-fully-charged-Charged transactions cannot be authorized again.]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_authorize_failed[True-fully-refunded-Charged transactions cannot be authorized again.]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_authorize_failed[True-partially-charged-Charged transactions cannot be authorized again.]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_authorize_failed[True-partially-refunded-Charged transactions cannot be authorized again.]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_authorize_gateway_error",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_authorize_method_error",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_authorize_success",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_capture_error_in_response[4000000000000002-Card declined]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_capture_error_in_response[4000000000000069-Card expired]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_capture_error_in_response[4000000000000127-Incorrect CVV]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_capture_error_in_response[4000000000009995-Insufficient funds]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_capture_error_in_response[4111111111111111-Card declined]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_capture_failed[120-0-not-charged-True-Unable to charge more than un-captured amount.]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_capture_failed[80-0-fully-refunded-True-This payment cannot be captured.]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_capture_failed[80-0-not-charged-False-This payment is no longer active.]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_capture_failed[80-20-partially-charged-True-This payment cannot be captured.]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_capture_failed[80-80-fully-charged-True-This payment cannot be captured.]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_capture_method_error[4000000000000002-Card declined]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_capture_method_error[4000000000000069-Card expired]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_capture_method_error[4000000000000127-Incorrect CVV]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_capture_method_error[4000000000009995-Insufficient funds]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_capture_method_error[4111111111111111-Card declined]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_capture_success[70-partially-charged-2222222222222222]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_capture_success[70-partially-charged-fake]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_capture_success[98.40-fully-charged-1111111111111111]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_process_payment_failed[4000000000000002-Card declined]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_process_payment_failed[4000000000000069-Card expired]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_process_payment_failed[4000000000000127-Incorrect CVV]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_process_payment_failed[4000000000009995-Insufficient funds]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_process_payment_failed[4111111111111111-Card declined]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_process_payment_method_error_in_response[4000000000000002-Card declined]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_process_payment_method_error_in_response[4000000000000069-Card expired]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_process_payment_method_error_in_response[4000000000000127-Incorrect CVV]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_process_payment_method_error_in_response[4000000000009995-Insufficient funds]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_process_payment_method_error_in_response[4111111111111111-Card declined]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_process_payment_pre_authorized",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_process_payment_pre_authorized_and_capture",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_process_payment_pre_authorized_and_capture_error",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_process_payment_success[111]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_process_payment_success[4111111111111112]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_refund_failed[0-10-not-charged-Cannot refund more than captured.]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_refund_failed[10-20-fully-charged-Cannot refund more than captured.]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_refund_failed[10-20-partially-charged-Cannot refund more than captured.]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_refund_failed[10-20-partially-refunded-Cannot refund more than captured.]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_refund_failed[80-0-fully-refunded-Amount should be a positive number.]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_refund_gateway_error",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_refund_method_error",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_refund_success[80-10-70-partially-refunded-True]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_refund_success[80-80-0-fully-refunded-False]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_void_failed[False-fully-charged-This payment is no longer active.]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_void_failed[False-fully-refunded-This payment is no longer active.]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_void_failed[False-not-charged-This payment is no longer active.]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_void_failed[False-partially-charged-This payment is no longer active.]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_void_failed[False-partially-refunded-This payment is no longer active.]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_void_failed[True-fully-charged-Cannot find successful auth transaction.]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_void_failed[True-fully-refunded-Cannot find successful auth transaction.]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_void_failed[True-partially-charged-Cannot find successful auth transaction.]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_void_failed[True-partially-refunded-Cannot find successful auth transaction.]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_void_gateway_error",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_void_method_error",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_void_success",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  }
+ ],
+ "manifest": {
+  "task_id": "saleor-rc-e25cf9b4a837",
+  "target_commit": "e25cf9b4a83782e1acd2fa35f198f76d476aaabb",
+  "era": "py38",
+  "frozen_base_image_id": "sha256:1cc60658b6a282c3bfe7c42312478a1983950927d348b47dce99e1a58e7a8c60",
+  "harness_v3_version": "wp2-harness-v3-2026-09-26",
+  "runner_sha": "6b610bbda3a7f087aeeab3279d724f703d207acf",
+  "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+  "lockfile_sha256": "34e14f947b1f5bc18cb26fb67179dee20bbd2ec5c71f1f250921a48845ec981d",
+  "nofile_soft": 65536,
+  "nofile_hard": 65536,
+  "clock_pre_post": {
+   "pre": 0.019039,
+   "post": null
+  },
+  "worker_count": 2,
+  "db_names": {
+   "t": "saleor_v3_e25cf9b4a837_t",
+   "p": "saleor_v3_e25cf9b4a837_p"
+  }
+ },
+ "evidence_sha256": "fdaf66e09f3e691e3202eca76580cb6d328bd7df150d5a576440166d913a61ba"
+}

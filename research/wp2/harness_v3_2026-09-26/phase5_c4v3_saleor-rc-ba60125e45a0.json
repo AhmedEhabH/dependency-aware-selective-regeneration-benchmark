@@ -1,0 +1,899 @@
+{
+ "task_id": "saleor-rc-ba60125e45a0",
+ "status": "DONE",
+ "era_key": "py39",
+ "target_commit": "ba60125e45a03771c0b93649ebf3b6578a7f628c",
+ "counts": {
+  "BEHAVIORAL_F2P": 0,
+  "SYMBOL_ABSENCE_F2P": 0,
+  "PARENT_COLLECTION_ERROR": 0,
+  "FLAKY": 0,
+  "TARGET_ORACLE_INVALID": 0,
+  "P2P_ONLY": 60,
+  "OTHER_REVIEW_REQUIRED": 0
+ },
+ "eligibility": {
+  "PRIMARY_BEHAVIORAL_F2P_ELIGIBLE": false,
+  "EXTENDED_F2P_ELIGIBLE": false,
+  "n_behavioral_f2p": 0,
+  "n_symbol_absence_f2p": 0,
+  "n_parent_collection_error": 0,
+  "environment_valid": true,
+  "task_collection_failure": false,
+  "semantics_version": "oracle-semantics-v2-2026-09-23"
+ },
+ "classification": "NOT_PRIMARY",
+ "n_nodes": 60,
+ "n_test_files": 1,
+ "wall_s": 259.9,
+ "operations": {
+  "target_wall_s": 122.1,
+  "parent_wall_s": 259.9,
+  "target_error": null,
+  "parent_error": null
+ },
+ "node_records": [
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_add_voucher_to_checkout",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_add_voucher_to_checkout_fail",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_cancel_active_payments",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_change_address_in_checkout",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_change_address_in_checkout_from_user_address_to_other",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_change_address_in_checkout_to_none",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_change_address_in_checkout_to_other",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_change_address_in_checkout_to_same",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_clear_shipping_method",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_entire_order_voucher_not_applicable[100-9-10-percentage-100-10]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_entire_order_voucher_not_applicable[99-10-10-percentage-100-10]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_entire_order_voucher_not_applicable[99-9-10-fixed-100-None]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_entire_order_voucher_not_applicable[99-9-10-fixed-None-10]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_entire_order_voucher_not_applicable[99-9-10-percentage-100-10]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher[5-PL-5-fixed-countries0-5]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher_all_countries",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher_limited_countries",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher_not_applicable[False-None-10-fixed-countries2-None-None-subtotal2-10-Your order does not require shipping.]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher_not_applicable[True-None-10-fixed-countries1-None-None-subtotal1-10-Please select a shipping method first.]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher_not_applicable[True-shipping_method0-10-fixed-countries0-None-None-subtotal0-10-This offer is not valid in your country.]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher_not_applicable[True-shipping_method3-10-fixed-countries3-5-None-subtotal3-10-This offer is only valid for orders over $5.00.]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher_not_applicable[True-shipping_method4-10-fixed-countries4-5-10-subtotal4-9-This offer is only valid for orders with a minimum of 10 quantity.]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher_not_applicable[True-shipping_method5-10-fixed-countries5-5-10-subtotal5-9-This offer is only valid for orders over $5.00.]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_specific_products_voucher[10-percentage-False-6]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_specific_products_voucher[10-percentage-True-1]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_specific_products_voucher[10000-fixed-True-10]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_specific_products_voucher[5-fixed-False-15]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_specific_products_voucher[5-fixed-True-5]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_specific_products_voucher_not_applicable[100-9-10-percentage-100-10]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_specific_products_voucher_not_applicable[99-10-10-percentage-100-10]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_specific_products_voucher_not_applicable[99-9-10-fixed-100-None]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_specific_products_voucher_not_applicable[99-9-10-fixed-None-10]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_specific_products_voucher_not_applicable[99-9-10-percentage-100-10]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_voucher[20-20-2-2-5-fixed-5]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_voucher[20-20-2-2-50-percentage-10]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_voucher[20-None-2-None-5-fixed-5]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_voucher[20-None-2-None-50-percentage-10]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_get_last_active_payment",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_get_voucher_discount_for_checkout_voucher_validation",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_get_voucher_for_checkout",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_get_voucher_for_checkout_expired_voucher",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_get_voucher_for_checkout_no_voucher_code",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_is_fully_paid",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_is_fully_paid_many_payments",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_is_fully_paid_no_payment",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_is_fully_paid_partially_paid",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_is_valid_shipping_method",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_last_change_update",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_last_change_update_foregin_key",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_recalculate_checkout_discount",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_recalculate_checkout_discount_expired_voucher",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_recalculate_checkout_discount_free_shipping_for_checkout_without_shipping",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_recalculate_checkout_discount_free_shipping_subtotal_bigger_than_shipping",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_recalculate_checkout_discount_free_shipping_subtotal_less_than_shipping",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_recalculate_checkout_discount_voucher_not_applicable",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_recalculate_checkout_discount_with_sale",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_remove_voucher_from_checkout",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_store_user_address_create_new_address_if_not_associated",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_store_user_address_uses_existing_one",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/checkout/tests/test_checkout.py::test_store_user_address_uses_existing_one_despite_duplicated",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  }
+ ],
+ "manifest": {
+  "task_id": "saleor-rc-ba60125e45a0",
+  "target_commit": "ba60125e45a03771c0b93649ebf3b6578a7f628c",
+  "era": "py39",
+  "frozen_base_image_id": "sha256:ddc08d7e685517764dfa2606a760d5b3f09d57840d8a0bbcef366db67cd99ef8",
+  "harness_v3_version": "wp2-harness-v3-2026-09-26",
+  "runner_sha": "6b610bbda3a7f087aeeab3279d724f703d207acf",
+  "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+  "lockfile_sha256": "7fcbf574e09de383f7f8e7f32420027b17bdefa5cde75f5f3476db49fbc969fc",
+  "nofile_soft": 65536,
+  "nofile_hard": 65536,
+  "clock_pre_post": {
+   "pre": 0.023538,
+   "post": null
+  },
+  "worker_count": 2,
+  "db_names": {
+   "t": "saleor_v3_ba60125e45a0_t",
+   "p": "saleor_v3_ba60125e45a0_p"
+  }
+ },
+ "evidence_sha256": "1ea609151e005930392c5e583ef1c16fc2a7f2546f51a5b7d4e64b1d13ea3521"
+}

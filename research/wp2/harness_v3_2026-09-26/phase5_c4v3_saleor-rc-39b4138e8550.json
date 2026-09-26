@@ -1,0 +1,73 @@
+{
+ "task_id": "saleor-rc-39b4138e8550",
+ "status": "DONE",
+ "era_key": "py312",
+ "target_commit": "39b4138e85500065175d94d5d5b50fc2f4eabd2d",
+ "counts": {
+  "BEHAVIORAL_F2P": 0,
+  "SYMBOL_ABSENCE_F2P": 0,
+  "PARENT_COLLECTION_ERROR": 0,
+  "FLAKY": 0,
+  "TARGET_ORACLE_INVALID": 1,
+  "P2P_ONLY": 0,
+  "OTHER_REVIEW_REQUIRED": 0
+ },
+ "eligibility": {
+  "PRIMARY_BEHAVIORAL_F2P_ELIGIBLE": false,
+  "EXTENDED_F2P_ELIGIBLE": false,
+  "n_behavioral_f2p": 0,
+  "n_symbol_absence_f2p": 0,
+  "n_parent_collection_error": 0,
+  "environment_valid": true,
+  "task_collection_failure": false,
+  "semantics_version": "oracle-semantics-v2-2026-09-23"
+ },
+ "classification": "NOT_PRIMARY",
+ "n_nodes": 1,
+ "n_test_files": 1,
+ "wall_s": 75.3,
+ "operations": {
+  "target_wall_s": 38.4,
+  "parent_wall_s": 75.3,
+  "target_error": null,
+  "parent_error": null
+ },
+ "node_records": [
+  {
+   "node_id": "saleor/graphql/payment/tests/queries/test_transaction.py",
+   "v3_class": "TARGET_ORACLE_INVALID",
+   "target_outcomes": [
+    "error",
+    "error",
+    "error"
+   ],
+   "parent_outcomes": [
+    "error",
+    "error",
+    "error"
+   ]
+  }
+ ],
+ "manifest": {
+  "task_id": "saleor-rc-39b4138e8550",
+  "target_commit": "39b4138e85500065175d94d5d5b50fc2f4eabd2d",
+  "era": "py312",
+  "frozen_base_image_id": "sha256:0c185699947d75d5866e57dfb10bba25cca05dc58ca3fd2f75446ee8b0e41394",
+  "harness_v3_version": "wp2-harness-v3-2026-09-26",
+  "runner_sha": "6b610bbda3a7f087aeeab3279d724f703d207acf",
+  "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+  "lockfile_sha256": "b6d52a90333dc738f0aaccf7f8649defa9a43250e8eebb3ba1ce95ee75b4370c",
+  "nofile_soft": 65536,
+  "nofile_hard": 65536,
+  "clock_pre_post": {
+   "pre": 0.021676,
+   "post": null
+  },
+  "worker_count": 2,
+  "db_names": {
+   "t": "saleor_v3_39b4138e8550_t",
+   "p": "saleor_v3_39b4138e8550_p"
+  }
+ },
+ "evidence_sha256": "35158222d405fed642c14dc5bc0e873351a1ed5431f4ac01ae913741ad82aea4"
+}

@@ -1,0 +1,101 @@
+{
+ "task_id": "saleor-rc-9698135fe4fc",
+ "status": "DONE",
+ "era_key": "py312",
+ "target_commit": "9698135fe4fcce8c94f1cc492f52954548074c65",
+ "counts": {
+  "BEHAVIORAL_F2P": 0,
+  "SYMBOL_ABSENCE_F2P": 0,
+  "PARENT_COLLECTION_ERROR": 0,
+  "FLAKY": 0,
+  "TARGET_ORACLE_INVALID": 3,
+  "P2P_ONLY": 0,
+  "OTHER_REVIEW_REQUIRED": 0
+ },
+ "eligibility": {
+  "PRIMARY_BEHAVIORAL_F2P_ELIGIBLE": false,
+  "EXTENDED_F2P_ELIGIBLE": false,
+  "n_behavioral_f2p": 0,
+  "n_symbol_absence_f2p": 0,
+  "n_parent_collection_error": 0,
+  "environment_valid": true,
+  "task_collection_failure": false,
+  "semantics_version": "oracle-semantics-v2-2026-09-23"
+ },
+ "classification": "NOT_PRIMARY",
+ "n_nodes": 3,
+ "n_test_files": 3,
+ "wall_s": 106.9,
+ "operations": {
+  "target_wall_s": 59.5,
+  "parent_wall_s": 106.9,
+  "target_error": null,
+  "parent_error": null
+ },
+ "node_records": [
+  {
+   "node_id": "saleor/graphql/checkout/tests/benchmark/test_checkout_mutations.py",
+   "v3_class": "TARGET_ORACLE_INVALID",
+   "target_outcomes": [
+    "error",
+    "error",
+    "error"
+   ],
+   "parent_outcomes": [
+    "error",
+    "error",
+    "error"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/mutations/test_checkout_lines_add.py",
+   "v3_class": "TARGET_ORACLE_INVALID",
+   "target_outcomes": [
+    "error",
+    "error",
+    "error"
+   ],
+   "parent_outcomes": [
+    "error",
+    "error",
+    "error"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/checkout/tests/mutations/test_checkout_lines_update.py",
+   "v3_class": "TARGET_ORACLE_INVALID",
+   "target_outcomes": [
+    "error",
+    "error",
+    "error"
+   ],
+   "parent_outcomes": [
+    "error",
+    "error",
+    "error"
+   ]
+  }
+ ],
+ "manifest": {
+  "task_id": "saleor-rc-9698135fe4fc",
+  "target_commit": "9698135fe4fcce8c94f1cc492f52954548074c65",
+  "era": "py312",
+  "frozen_base_image_id": "sha256:0c185699947d75d5866e57dfb10bba25cca05dc58ca3fd2f75446ee8b0e41394",
+  "harness_v3_version": "wp2-harness-v3-2026-09-26",
+  "runner_sha": "6b610bbda3a7f087aeeab3279d724f703d207acf",
+  "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+  "lockfile_sha256": "38cabb4d9adbf5d9f8296122994e698f4ee5467d8844caa71e8c94c5b51cf5df",
+  "nofile_soft": 65536,
+  "nofile_hard": 65536,
+  "clock_pre_post": {
+   "pre": 0.04367,
+   "post": null
+  },
+  "worker_count": 2,
+  "db_names": {
+   "t": "saleor_v3_9698135fe4fc_t",
+   "p": "saleor_v3_9698135fe4fc_p"
+  }
+ },
+ "evidence_sha256": "0cb7814fa0eb71d0743df66d17486bbf44bbc987506b70fcc80aa4b7bcbe01a1"
+}

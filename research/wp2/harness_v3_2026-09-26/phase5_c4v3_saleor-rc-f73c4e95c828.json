@@ -1,0 +1,129 @@
+{
+ "task_id": "saleor-rc-f73c4e95c828",
+ "status": "DONE",
+ "era_key": "py39",
+ "target_commit": "f73c4e95c8284a906566538028eeb845f8ecadf3",
+ "counts": {
+  "BEHAVIORAL_F2P": 0,
+  "SYMBOL_ABSENCE_F2P": 0,
+  "PARENT_COLLECTION_ERROR": 0,
+  "FLAKY": 0,
+  "TARGET_ORACLE_INVALID": 5,
+  "P2P_ONLY": 0,
+  "OTHER_REVIEW_REQUIRED": 0
+ },
+ "eligibility": {
+  "PRIMARY_BEHAVIORAL_F2P_ELIGIBLE": false,
+  "EXTENDED_F2P_ELIGIBLE": false,
+  "n_behavioral_f2p": 0,
+  "n_symbol_absence_f2p": 0,
+  "n_parent_collection_error": 0,
+  "environment_valid": true,
+  "task_collection_failure": false,
+  "semantics_version": "oracle-semantics-v2-2026-09-23"
+ },
+ "classification": "NOT_PRIMARY",
+ "n_nodes": 5,
+ "n_test_files": 5,
+ "wall_s": 257.7,
+ "operations": {
+  "target_wall_s": 195.1,
+  "parent_wall_s": 257.7,
+  "target_error": null,
+  "parent_error": null
+ },
+ "node_records": [
+  {
+   "node_id": "saleor/app/tests/test_app_tasks.py",
+   "v3_class": "TARGET_ORACLE_INVALID",
+   "target_outcomes": [
+    "error",
+    "error",
+    "error"
+   ],
+   "parent_outcomes": [
+    "error",
+    "error",
+    "error"
+   ]
+  },
+  {
+   "node_id": "saleor/core/tests/test_tasks.py",
+   "v3_class": "TARGET_ORACLE_INVALID",
+   "target_outcomes": [
+    "error",
+    "error",
+    "error"
+   ],
+   "parent_outcomes": [
+    "error",
+    "error",
+    "error"
+   ]
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/test_payment_webhook.py",
+   "v3_class": "TARGET_ORACLE_INVALID",
+   "target_outcomes": [
+    "error",
+    "error",
+    "error"
+   ],
+   "parent_outcomes": [
+    "error",
+    "error",
+    "error"
+   ]
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/test_tasks.py",
+   "v3_class": "TARGET_ORACLE_INVALID",
+   "target_outcomes": [
+    "error",
+    "error",
+    "error"
+   ],
+   "parent_outcomes": [
+    "error",
+    "error",
+    "error"
+   ]
+  },
+  {
+   "node_id": "saleor/tests/fixtures.py",
+   "v3_class": "TARGET_ORACLE_INVALID",
+   "target_outcomes": [
+    "error",
+    "error",
+    "error"
+   ],
+   "parent_outcomes": [
+    "error",
+    "error",
+    "error"
+   ]
+  }
+ ],
+ "manifest": {
+  "task_id": "saleor-rc-f73c4e95c828",
+  "target_commit": "f73c4e95c8284a906566538028eeb845f8ecadf3",
+  "era": "py39",
+  "frozen_base_image_id": "sha256:ddc08d7e685517764dfa2606a760d5b3f09d57840d8a0bbcef366db67cd99ef8",
+  "harness_v3_version": "wp2-harness-v3-2026-09-26",
+  "runner_sha": "6b610bbda3a7f087aeeab3279d724f703d207acf",
+  "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+  "lockfile_sha256": "c4e2ee535cf1531bb12b7e0b27985a8f4b46cdf9966fe1cae312aab090dcb6e7",
+  "nofile_soft": 65536,
+  "nofile_hard": 65536,
+  "clock_pre_post": {
+   "pre": 0.000213,
+   "post": null
+  },
+  "C4_EFFECTIVE_WORKERS": 1,
+  "db_names": {
+   "t": "saleor_v3_f73c4e95c828_t",
+   "p": "saleor_v3_f73c4e95c828_p"
+  }
+ },
+ "evidence_sha256": "5e3af24a4dc573ba400def7847473fef91b06fa1929eab5ec932587aab7c3c52"
+}

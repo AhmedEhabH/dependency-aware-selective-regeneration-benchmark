@@ -1,0 +1,73 @@
+{
+ "task_id": "saleor-rc-dfe77ac1c5dc",
+ "status": "DONE",
+ "era_key": "py312",
+ "target_commit": "dfe77ac1c5dcd3ca8958ccec989c3bf9a012c848",
+ "counts": {
+  "BEHAVIORAL_F2P": 0,
+  "SYMBOL_ABSENCE_F2P": 0,
+  "PARENT_COLLECTION_ERROR": 0,
+  "FLAKY": 0,
+  "TARGET_ORACLE_INVALID": 1,
+  "P2P_ONLY": 0,
+  "OTHER_REVIEW_REQUIRED": 0
+ },
+ "eligibility": {
+  "PRIMARY_BEHAVIORAL_F2P_ELIGIBLE": false,
+  "EXTENDED_F2P_ELIGIBLE": false,
+  "n_behavioral_f2p": 0,
+  "n_symbol_absence_f2p": 0,
+  "n_parent_collection_error": 0,
+  "environment_valid": true,
+  "task_collection_failure": false,
+  "semantics_version": "oracle-semantics-v2-2026-09-23"
+ },
+ "classification": "NOT_PRIMARY",
+ "n_nodes": 1,
+ "n_test_files": 1,
+ "wall_s": 76.2,
+ "operations": {
+  "target_wall_s": 43.9,
+  "parent_wall_s": 76.2,
+  "target_error": null,
+  "parent_error": null
+ },
+ "node_records": [
+  {
+   "node_id": "saleor/order/tests/test_fetch_order_prices_tax_app.py",
+   "v3_class": "TARGET_ORACLE_INVALID",
+   "target_outcomes": [
+    "error",
+    "error",
+    "error"
+   ],
+   "parent_outcomes": [
+    "error",
+    "error",
+    "error"
+   ]
+  }
+ ],
+ "manifest": {
+  "task_id": "saleor-rc-dfe77ac1c5dc",
+  "target_commit": "dfe77ac1c5dcd3ca8958ccec989c3bf9a012c848",
+  "era": "py312",
+  "frozen_base_image_id": "sha256:0c185699947d75d5866e57dfb10bba25cca05dc58ca3fd2f75446ee8b0e41394",
+  "harness_v3_version": "wp2-harness-v3-2026-09-26",
+  "runner_sha": "6b610bbda3a7f087aeeab3279d724f703d207acf",
+  "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+  "lockfile_sha256": "c1108d0271f106cadc528040654b12491d681d48818b62490ce7519b535c3f6c",
+  "nofile_soft": 65536,
+  "nofile_hard": 65536,
+  "clock_pre_post": {
+   "pre": 0.039752,
+   "post": null
+  },
+  "worker_count": 2,
+  "db_names": {
+   "t": "saleor_v3_dfe77ac1c5dc_t",
+   "p": "saleor_v3_dfe77ac1c5dc_p"
+  }
+ },
+ "evidence_sha256": "3c7ed595d267b174b8c8df67d2c26eacb0eb161af25b0a06849dd1f3708aa972"
+}

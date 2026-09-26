@@ -167,6 +167,12 @@ probe, gate). Phase 5 auto-continues iff Phase-4 gate passes.
   AUTO-CONTINUE Phase 5 (gate.json/gate.md). MATERIALITY 2592/3647=71.1%,
   RECOVERY 667, FIX_EFFICACY PASS, SAFETY PASS, REGRESSIONS=0,
   V2_DEFECT_CORRECTIONS=1.
+- Phase-5 correction (2026-09-26): STAGE A ran SEQUENTIALLY (effective
+  workers=1). C4_EFFECTIVE_WORKERS=1. **W1_RERUN_REPRODUCIBILITY = PASS**
+  (4/4 probes, 0 node-class mismatches vs Phase-3). **W2_EQUIVALENCE =
+  NOT_TESTED** (task-level concurrency never exercised; no claim of
+  concurrency determinism). Resume hardened: skip only if DONE + evidence +
+  SHA256 + integrity verify; partial state discarded.
 - decision token: **HARNESS_V3_RECOMMENDED (Phase-4 gate passed)**
 - commit/tag/export: see STOP report at mission end
 

@@ -1,0 +1,73 @@
+{
+ "task_id": "saleor-rc-d220843b5418",
+ "status": "DONE",
+ "era_key": "py312",
+ "target_commit": "d220843b54185de6aace563f6eadbc5b607e1bd4",
+ "counts": {
+  "BEHAVIORAL_F2P": 0,
+  "SYMBOL_ABSENCE_F2P": 0,
+  "PARENT_COLLECTION_ERROR": 0,
+  "FLAKY": 0,
+  "TARGET_ORACLE_INVALID": 1,
+  "P2P_ONLY": 0,
+  "OTHER_REVIEW_REQUIRED": 0
+ },
+ "eligibility": {
+  "PRIMARY_BEHAVIORAL_F2P_ELIGIBLE": false,
+  "EXTENDED_F2P_ELIGIBLE": false,
+  "n_behavioral_f2p": 0,
+  "n_symbol_absence_f2p": 0,
+  "n_parent_collection_error": 0,
+  "environment_valid": true,
+  "task_collection_failure": false,
+  "semantics_version": "oracle-semantics-v2-2026-09-23"
+ },
+ "classification": "NOT_PRIMARY",
+ "n_nodes": 1,
+ "n_test_files": 1,
+ "wall_s": 74.7,
+ "operations": {
+  "target_wall_s": 38.9,
+  "parent_wall_s": 74.7,
+  "target_error": null,
+  "parent_error": null
+ },
+ "node_records": [
+  {
+   "node_id": "saleor/graphql/checkout/tests/test_checkout.py",
+   "v3_class": "TARGET_ORACLE_INVALID",
+   "target_outcomes": [
+    "error",
+    "error",
+    "error"
+   ],
+   "parent_outcomes": [
+    "error",
+    "error",
+    "error"
+   ]
+  }
+ ],
+ "manifest": {
+  "task_id": "saleor-rc-d220843b5418",
+  "target_commit": "d220843b54185de6aace563f6eadbc5b607e1bd4",
+  "era": "py312",
+  "frozen_base_image_id": "sha256:0c185699947d75d5866e57dfb10bba25cca05dc58ca3fd2f75446ee8b0e41394",
+  "harness_v3_version": "wp2-harness-v3-2026-09-26",
+  "runner_sha": "6b610bbda3a7f087aeeab3279d724f703d207acf",
+  "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+  "lockfile_sha256": "d79d89340083d57f54e6f80b05713d8fed23d00b6df097a5499eae9f2163f590",
+  "nofile_soft": 65536,
+  "nofile_hard": 65536,
+  "clock_pre_post": {
+   "pre": 0.105156,
+   "post": null
+  },
+  "worker_count": 2,
+  "db_names": {
+   "t": "saleor_v3_d220843b5418_t",
+   "p": "saleor_v3_d220843b5418_p"
+  }
+ },
+ "evidence_sha256": "9f1d20e5ce63260272a2bbdb09a17d1d95a11e36414c9e586a4c2e75bd56c3e8"
+}
