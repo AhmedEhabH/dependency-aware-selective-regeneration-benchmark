@@ -514,3 +514,45 @@ Saleor RESERVE outcomes remain untouched.\n
 - P2P-U V3 execution population: 15 tasks (16 union minus 9258154b8a0b
   zero-candidate).
 - **STOPPED for GO before any cap200/cap400 execution per directive.**
+
+## Mission-11 one-shot (started 2026-09-26-1955)
+
+AUTHORIZATION BLOCK (Ahmed Ehab, issued by sending the mission file):
+- AU1 GO: Mission-10B Phase 5B P2P-U V3 ENG execution (15 tasks x cap200+cap400, workers=1)
+- AU2 Engineering hardening of the P2P-U V3 executor before AU1 (no scientific change)
+- AU3 ENG_SMOKE_READY + Mission-10B closure (STOP report, tag, FULL + LIGHT exports)
+- AU4 Build the WP-2 shared E2E instrument (generator + validator + repair + evaluator) - ZERO API
+- AU5 Zero-API instrument controls (format, positive, negative, leakage, budget)
+- AU6 PAID: frozen protocol-v3 Agent file selection on 16 DEV_TRAIN_ENG oracle-valid tasks (ceiling $1.00)
+- AU7 PAID: first E2E Smoke generation on 14 ENG behavioral tasks x 4 arms x 1 replicate (ceiling $4.50)
+- AU8 Evaluation of generated patches (F2P + P2P-S + P2P-U cap200), workers=1
+- Hard total paid ceiling for this whole file: $5.50
+- NA1: no Stage C / non-ENG C4 / C2/MAIN V3 / full DEV-47 P2P-U
+- NA2: no generation on DEV_TRAIN_ASSAY_HOLDOUT, DEV_VALIDATION, MAIN, INTERNAL_TEST, RESERVE
+- NA3: no Pilot, Research Run, RMCSS_SOFT, GOLD_MINUS_ONE, TITLE_ONLY, SPEC_AUGMENTED
+- NA4: no workers=2 anywhere
+- NA5: no change to oracle semantics, Harness V3, P2P-U rule/salt/caps, splits, populations
+- NA6: no model/API call before step C1 passes, or outside AU6/AU7
+
+## Mission-11 TODO (live, per MISSION-11 §6)
+
+```
+[•] A1 Bootstrap + state verification
+[ ] A2 Harden P2P-U V3 executor (H1-H9) + tests
+[ ] A3 P2P-U V3 ENG execution - 0/32 units
+[ ] A4 P2P-U summary + preservation sets freeze
+[ ] A5 Evaluator sets + ENG_SMOKE_READY
+[ ] A6 Mission-10B closure (report, tag, exports, C4_STOP.flag)
+[ ] B1 Mission-11 impact declaration + E2E spec constants
+[ ] B2-B9 E2E instrument modules
+[ ] B10 Unit tests RED/GREEN
+[ ] B11 Zero-API controls: G-FORMAT / G-POS / G-NEG / G-LEAK / G-BUDGET
+[ ] B12 INSTRUMENT_READY checkpoint
+[ ] C1 Paid preflight (key, credit, pricing, route)
+[ ] C2 DEV Agent scopes (16 tasks, <= $1.00)
+[ ] C3 Scope freeze + Smoke freeze + tag
+[ ] D1 Smoke generation - 0/56 episodes
+[ ] D2 Smoke evaluation - 0/<n> evaluations
+[ ] D3 Smoke summary + gates
+[ ] D4 Smoke closure (report, docs, tag, exports)
+```

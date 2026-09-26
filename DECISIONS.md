@@ -2385,3 +2385,22 @@ epository_agent (candidate, authority not
   interpretation of 12.3 (the gate exists to prevent JWT-clock false results),
   NOT a weakening of any scientific rule; preregistered materiality/recovery/
   fix-efficacy/safety gates are unchanged.
+
+## Decision MISSION_11_ONE_SHOT - APPROVED (2026-09-26)
+
+Mission-11 one-shot (sole authoritative directive, supersedes Mission-10B STOP-for-GO).
+- AU1 GO: Mission-10B Phase 5B P2P-U V3 ENG execution (15 tasks x cap200 + cap400, workers=1).
+- AU2 Engineering hardening of the P2P-U V3 executor before AU1 (no scientific change).
+- AU3 ENG_SMOKE_READY + Mission-10B closure (STOP report, tag, FULL + LIGHT exports).
+- AU4 Build the WP-2 shared E2E instrument (generator + validator + repair + evaluator) - ZERO API.
+- AU5 Zero-API instrument controls (format, positive, negative, leakage, budget).
+- AU6 PAID: frozen protocol-v3 Agent file selection on 16 DEV_TRAIN_ENG oracle-valid tasks (ceiling $1.00).
+- AU7 PAID: first E2E Smoke generation on 14 ENG behavioral tasks x 4 arms x 1 replicate (ceiling $4.50).
+- AU8 Evaluation of generated patches (F2P + P2P-S + P2P-U cap200), workers=1.
+- Hard total paid ceiling for this whole file: $5.50.
+- NA1: no Stage C / non-ENG C4 / C2/MAIN V3 / full DEV-47 P2P-U.
+- NA2: no generation on DEV_TRAIN_ASSAY_HOLDOUT, DEV_VALIDATION, MAIN, INTERNAL_TEST, RESERVE.
+- NA3: no Pilot, Research Run, RMCSS_SOFT, GOLD_MINUS_ONE, TITLE_ONLY, SPEC_AUGMENTED.
+- NA4: no workers=2 anywhere.
+- NA5: no change to oracle semantics, Harness V3, P2P-U rule/salt/caps, splits, populations.
+- NA6: no model/API call before step C1 passes, or outside AU6/AU7.
