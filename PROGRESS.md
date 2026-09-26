@@ -551,7 +551,7 @@ AUTHORIZATION BLOCK (Ahmed Ehab, issued by sending the mission file):
 ```
 [✓] A1 Bootstrap + state verification
 [✓] A2 Harden P2P-U V3 executor (H1-H9) + tests
-[•] A3 P2P-U V3 ENG execution - 17/32 units
+[•] A3 P2P-U V3 ENG execution - 23/32 units (21 DONE + 2 UNDEFINED)
 [ ] A4 P2P-U summary + preservation sets freeze
 [ ] A5 Evaluator sets + ENG_SMOKE_READY
 [ ] A6 Mission-10B closure (report, tag, exports, C4_STOP.flag)
