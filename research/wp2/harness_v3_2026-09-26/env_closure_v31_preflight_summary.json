@@ -1,0 +1,49 @@
+{
+ "artifact": "env_closure_v31_preflight_summary",
+ "TOTAL_ORACLE_VALID": 16,
+ "CLASSIFIED": "16/16",
+ "PREFLIGHT_PASS": 16,
+ "PREFLIGHT_BLOCKED": 0,
+ "PREFLIGHT_BLOCKED_TASKS": [],
+ "OLD_ENV_UNREPRODUCIBLE": 0,
+ "OLD_ENV_UNREPRODUCIBLE_TASKS": [],
+ "DECLARED_REQUIRED_NOT_INSTALLED": 0,
+ "PLUGIN_LOAD_FAILURES": 0,
+ "FIXTURE_RESOLUTION_FAILURES": 0,
+ "COLLECTION_FAILURES": 0,
+ "VCR_UNRESOLVED": 0,
+ "PIP_NEW_CONFLICTS": 0,
+ "PIP_CHECK_ALL_CLEAN": true,
+ "AFFECTED_TASKS": [
+  "saleor-rc-22ec4dab0154",
+  "saleor-rc-2d45b76a52f2",
+  "saleor-rc-644f33094857",
+  "saleor-rc-6abb53f3407b",
+  "saleor-rc-74538ea00ce9",
+  "saleor-rc-823b899757ab",
+  "saleor-rc-82c56bde0e34",
+  "saleor-rc-8f76ddc6267f",
+  "saleor-rc-9258154b8a0b",
+  "saleor-rc-93b20d78c011",
+  "saleor-rc-c3b9e396b07d",
+  "saleor-rc-dc6ac9d252df",
+  "saleor-rc-e03ee76d2b89",
+  "saleor-rc-e25cf9b4a837"
+ ],
+ "UNAFFECTED_TASKS": [
+  "saleor-rc-39b4138e8550",
+  "saleor-rc-d220843b5418"
+ ],
+ "ESTIMATED_C4_RERUN_TASKS": 14,
+ "ESTIMATED_P2PU_RERUN_UNITS": 26,
+ "ZERO_CANDIDATE_P2PU": [
+  "saleor-rc-9258154b8a0b"
+ ],
+ "C_FREE_GIB": 42.9,
+ "DISK_GUARD": "PASS",
+ "PAID_SPEND_USD": 0.0,
+ "protected_science_hashes": "PASS",
+ "harness_v3_change": "AUTHORIZED_INFRA_ONLY",
+ "GATE": "PASS",
+ "note": "DECLARED_REQUIRED_NOT_INSTALLED=0: unavailable exact pins (codecov, python-magic-bin, pywin32) are ENV_INSTALL_BLOCKED but are NOT required by collection/fixture/plugin preflight, which pass with 0 unresolved."
+}
