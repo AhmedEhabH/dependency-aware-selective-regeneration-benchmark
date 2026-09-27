@@ -112,7 +112,7 @@ def reproduce_old(task_id: str) -> dict:
         "/opt/venv/bin/python -m pytest -p no:cacheprovider -o addopts= "
         "--ds=saleor.tests.settings --version > /workspace/" + wt_name + "/pytestversion.txt 2>&1; "
         "/opt/venv/bin/python -m pytest -p no:cacheprovider -o addopts= "
-        "--ds=saleor.tests.settings --trace-config > /workspace/" + wt_name + "/traceconfig.txt 2>&1; "
+        "--ds=saleor.tests.settings --trace-config 2>&1 | head -2000 > /workspace/" + wt_name + "/traceconfig.txt; "
         "/opt/venv/bin/python -m pytest -p no:cacheprovider -o addopts= "
         "--ds=saleor.tests.settings --markers > /workspace/" + wt_name + "/markers.txt 2>&1; "
         "cp /tmp/install.log /workspace/" + wt_name + "/install.log; "

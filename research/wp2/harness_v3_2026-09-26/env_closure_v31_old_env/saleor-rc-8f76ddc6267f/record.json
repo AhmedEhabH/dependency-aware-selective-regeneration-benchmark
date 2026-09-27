@@ -1,0 +1,41 @@
+{
+ "task_id": "saleor-rc-8f76ddc6267f",
+ "era_key": "py39",
+ "target_commit": "8f76ddc6267f6ddcdc6078f2a4a098bbb971b23b",
+ "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+ "install_fragment": "uv pip install --python /opt/venv/bin/python -r /workspace/8f76ddc6267f_v31_old_t/requirements.txt >/tmp/install.log 2>&1 || { echo INSTALL_MAIN_FAIL; tail -120 /tmp/install.log; exit 2; }; echo POETRY_REQ_MAIN_PLUS_LOCKED_DEV",
+ "dev_fragment": "uv pip install --python /opt/venv/bin/python pytest-django-queries==1.2.0 pytest-mock==3.10.0 pytest-recording==0.12.2 pytest-asyncio==0.20.3",
+ "container_rc": 0,
+ "old_env_repro_status": "OK",
+ "files": {
+  "freeze.txt": {
+   "sha256": "5ed7258b0c263f7741534df52db1acafa01b813ea8f9260ae185fa54fde7396a",
+   "lines": 185
+  },
+  "pyversion.txt": {
+   "sha256": "46013688dc6816ee6935343b6974f8bd34c0ada4fe43554f5c0a772d7e8f0b1e",
+   "lines": 1
+  },
+  "pytestversion.txt": {
+   "sha256": "40e220122268e6e4d86ce8099297543ea22d3fbb2c0504e6ae6d2889083ff82a",
+   "lines": 83
+  },
+  "traceconfig.txt": {
+   "sha256": "b5dba4683be9de62bfe3970691e549f83753520606bd817939aecbf480cf5788",
+   "lines": 403
+  },
+  "markers.txt": {
+   "sha256": "a62d9aec80c06a98dccb9f9e3779079dbd587d91b5c4c8bab60ddf21d567fe3c",
+   "lines": 49
+  },
+  "install.log": {
+   "sha256": "0e8e7fe80ca05858bf8c3b5d520da1376b60e2bfb0bfbf435f7458e18449be3b",
+   "lines": 204
+  }
+ },
+ "freeze_sha256": "5ed7258b0c263f7741534df52db1acafa01b813ea8f9260ae185fa54fde7396a",
+ "freeze_packages": 185,
+ "wall_s": 72.4,
+ "stdout_tail": "POETRY_REQ_MAIN_PLUS_LOCKED_DEV\nOLD_ENV_DONE\n",
+ "stderr_tail": "Using Python 3.9.25 environment at: /opt/venv\n"
+}

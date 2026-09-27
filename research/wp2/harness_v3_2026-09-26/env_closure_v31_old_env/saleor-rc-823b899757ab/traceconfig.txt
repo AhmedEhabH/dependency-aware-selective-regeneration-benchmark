@@ -1,0 +1,2000 @@
+PLUGIN registered: <_pytest.config.PytestPluginManager object at 0x7a0dde634280>
+PLUGIN registered: <_pytest.config.Config object at 0x7a0ddd5508b0>
+PLUGIN registered: <module '_pytest.mark' from '/opt/venv/lib/python3.8/site-packages/_pytest/mark/__init__.py'>
+PLUGIN registered: <module '_pytest.main' from '/opt/venv/lib/python3.8/site-packages/_pytest/main.py'>
+PLUGIN registered: <module '_pytest.runner' from '/opt/venv/lib/python3.8/site-packages/_pytest/runner.py'>
+PLUGIN registered: <module '_pytest.fixtures' from '/opt/venv/lib/python3.8/site-packages/_pytest/fixtures.py'>
+PLUGIN registered: <module '_pytest.helpconfig' from '/opt/venv/lib/python3.8/site-packages/_pytest/helpconfig.py'>
+PLUGIN registered: <module '_pytest.python' from '/opt/venv/lib/python3.8/site-packages/_pytest/python.py'>
+PLUGIN registered: <module '_pytest.terminal' from '/opt/venv/lib/python3.8/site-packages/_pytest/terminal.py'>
+PLUGIN registered: <module '_pytest.debugging' from '/opt/venv/lib/python3.8/site-packages/_pytest/debugging.py'>
+PLUGIN registered: <module '_pytest.unittest' from '/opt/venv/lib/python3.8/site-packages/_pytest/unittest.py'>
+PLUGIN registered: <module '_pytest.capture' from '/opt/venv/lib/python3.8/site-packages/_pytest/capture.py'>
+PLUGIN registered: <module '_pytest.skipping' from '/opt/venv/lib/python3.8/site-packages/_pytest/skipping.py'>
+PLUGIN registered: <module '_pytest.legacypath' from '/opt/venv/lib/python3.8/site-packages/_pytest/legacypath.py'>
+PLUGIN registered: <module '_pytest.tmpdir' from '/opt/venv/lib/python3.8/site-packages/_pytest/tmpdir.py'>
+PLUGIN registered: <module '_pytest.monkeypatch' from '/opt/venv/lib/python3.8/site-packages/_pytest/monkeypatch.py'>
+PLUGIN registered: <module '_pytest.recwarn' from '/opt/venv/lib/python3.8/site-packages/_pytest/recwarn.py'>
+PLUGIN registered: <module '_pytest.pastebin' from '/opt/venv/lib/python3.8/site-packages/_pytest/pastebin.py'>
+PLUGIN registered: <module '_pytest.assertion' from '/opt/venv/lib/python3.8/site-packages/_pytest/assertion/__init__.py'>
+PLUGIN registered: <module '_pytest.junitxml' from '/opt/venv/lib/python3.8/site-packages/_pytest/junitxml.py'>
+PLUGIN registered: <module '_pytest.doctest' from '/opt/venv/lib/python3.8/site-packages/_pytest/doctest.py'>
+PLUGIN registered: <module '_pytest.freeze_support' from '/opt/venv/lib/python3.8/site-packages/_pytest/freeze_support.py'>
+PLUGIN registered: <module '_pytest.setuponly' from '/opt/venv/lib/python3.8/site-packages/_pytest/setuponly.py'>
+PLUGIN registered: <module '_pytest.setupplan' from '/opt/venv/lib/python3.8/site-packages/_pytest/setupplan.py'>
+PLUGIN registered: <module '_pytest.warnings' from '/opt/venv/lib/python3.8/site-packages/_pytest/warnings.py'>
+PLUGIN registered: <module '_pytest.logging' from '/opt/venv/lib/python3.8/site-packages/_pytest/logging.py'>
+PLUGIN registered: <module '_pytest.reports' from '/opt/venv/lib/python3.8/site-packages/_pytest/reports.py'>
+PLUGIN registered: <module '_pytest.python_path' from '/opt/venv/lib/python3.8/site-packages/_pytest/python_path.py'>
+PLUGIN registered: <module '_pytest.unraisableexception' from '/opt/venv/lib/python3.8/site-packages/_pytest/unraisableexception.py'>
+PLUGIN registered: <module '_pytest.threadexception' from '/opt/venv/lib/python3.8/site-packages/_pytest/threadexception.py'>
+PLUGIN registered: <module '_pytest.faulthandler' from '/opt/venv/lib/python3.8/site-packages/_pytest/faulthandler.py'>
+PLUGIN registered: <module 'pytest_socket' from '/opt/venv/lib/python3.8/site-packages/pytest_socket.py'>
+PLUGIN registered: <module 'faker.contrib.pytest.plugin' from '/opt/venv/lib/python3.8/site-packages/faker/contrib/pytest/plugin.py'>
+PLUGIN registered: <module 'xdist.plugin' from '/opt/venv/lib/python3.8/site-packages/xdist/plugin.py'>
+PLUGIN registered: <module 'xdist.looponfail' from '/opt/venv/lib/python3.8/site-packages/xdist/looponfail.py'>
+PLUGIN registered: <module 'celery.contrib.pytest' from '/opt/venv/lib/python3.8/site-packages/celery/contrib/pytest.py'>
+PLUGIN registered: <module 'pytest_django.plugin' from '/opt/venv/lib/python3.8/site-packages/pytest_django/plugin.py'>
+PLUGIN registered: <CaptureManager _method='fd' _global_capturing=<MultiCapture out=<FDCapture 1 oldfd=5 _state='suspended' tmpfile=<_io.TextIOWrapper name="<_io.FileIO name=6 mode='rb+' closefd=True>" mode='r+' encoding='utf-8'>> err=<FDCapture 2 oldfd=7 _state='suspended' tmpfile=<_io.TextIOWrapper name="<_io.FileIO name=8 mode='rb+' closefd=True>" mode='r+' encoding='utf-8'>> in_=<FDCapture 0 oldfd=3 _state='started' tmpfile=<_io.TextIOWrapper name='/dev/null' mode='r' encoding='utf-8'>> _state='suspended' _in_suspended=False> _capture_fixture=None>
+PLUGIN registered: <module 'conftest' from '/workspace/823b899757ab_v31_old_t/conftest.py'>
+PLUGIN registered: <module 'saleor.tests.fixtures' from '/workspace/823b899757ab_v31_old_t/saleor/tests/fixtures.py'>
+PLUGIN registered: <module 'saleor.plugins.tests.fixtures' from '/workspace/823b899757ab_v31_old_t/saleor/plugins/tests/fixtures.py'>
+PLUGIN registered: <module 'saleor.graphql.tests.fixtures' from '/workspace/823b899757ab_v31_old_t/saleor/graphql/tests/fixtures.py'>
+PLUGIN registered: <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+PLUGIN registered: <class '_pytest.legacypath.LegacyTmpdirPlugin'>
+PLUGIN registered: <_pytest.terminal.TerminalReporter object at 0x7a0dcede8a90>
+PLUGIN registered: <_pytest.logging.LoggingPlugin object at 0x7a0dcede8b50>
+PLUGIN registered: <_pytest.fixtures.FixtureManager object at 0x7a0ddbfc6730>
+============================= test session starts ==============================
+platform linux -- Python 3.8.20, pytest-8.3.5, pluggy-1.5.0
+using: pytest-8.3.5
+registered third-party plugins:
+  pytest-socket-0.7.0 at /opt/venv/lib/python3.8/site-packages/pytest_socket.py
+  Faker-4.1.1 at /opt/venv/lib/python3.8/site-packages/faker/contrib/pytest/plugin.py
+  pytest-xdist-3.6.1 at /opt/venv/lib/python3.8/site-packages/xdist/plugin.py
+  pytest-xdist-3.6.1 at /opt/venv/lib/python3.8/site-packages/xdist/looponfail.py
+  celery-4.4.7 at /opt/venv/lib/python3.8/site-packages/celery/contrib/pytest.py
+  pytest-django-4.11.1 at /opt/venv/lib/python3.8/site-packages/pytest_django/plugin.py
+active plugins:
+    134199984210560     : <_pytest.config.PytestPluginManager object at 0x7a0dde634280>
+    pytestconfig        : <_pytest.config.Config object at 0x7a0ddd5508b0>
+    stepwise            : None
+    pytest_stepwise     : None
+    cacheprovider       : None
+    pytest_cacheprovider: None
+    mark                : /opt/venv/lib/python3.8/site-packages/_pytest/mark/__init__.py
+    main                : /opt/venv/lib/python3.8/site-packages/_pytest/main.py
+    runner              : /opt/venv/lib/python3.8/site-packages/_pytest/runner.py
+    fixtures            : /opt/venv/lib/python3.8/site-packages/_pytest/fixtures.py
+    helpconfig          : /opt/venv/lib/python3.8/site-packages/_pytest/helpconfig.py
+    python              : /opt/venv/lib/python3.8/site-packages/_pytest/python.py
+    terminal            : /opt/venv/lib/python3.8/site-packages/_pytest/terminal.py
+    debugging           : /opt/venv/lib/python3.8/site-packages/_pytest/debugging.py
+    unittest            : /opt/venv/lib/python3.8/site-packages/_pytest/unittest.py
+    capture             : /opt/venv/lib/python3.8/site-packages/_pytest/capture.py
+    skipping            : /opt/venv/lib/python3.8/site-packages/_pytest/skipping.py
+    legacypath          : /opt/venv/lib/python3.8/site-packages/_pytest/legacypath.py
+    tmpdir              : /opt/venv/lib/python3.8/site-packages/_pytest/tmpdir.py
+    monkeypatch         : /opt/venv/lib/python3.8/site-packages/_pytest/monkeypatch.py
+    recwarn             : /opt/venv/lib/python3.8/site-packages/_pytest/recwarn.py
+    pastebin            : /opt/venv/lib/python3.8/site-packages/_pytest/pastebin.py
+    assertion           : /opt/venv/lib/python3.8/site-packages/_pytest/assertion/__init__.py
+    junitxml            : /opt/venv/lib/python3.8/site-packages/_pytest/junitxml.py
+    doctest             : /opt/venv/lib/python3.8/site-packages/_pytest/doctest.py
+    freeze_support      : /opt/venv/lib/python3.8/site-packages/_pytest/freeze_support.py
+    setuponly           : /opt/venv/lib/python3.8/site-packages/_pytest/setuponly.py
+    setupplan           : /opt/venv/lib/python3.8/site-packages/_pytest/setupplan.py
+    warnings            : /opt/venv/lib/python3.8/site-packages/_pytest/warnings.py
+    logging             : /opt/venv/lib/python3.8/site-packages/_pytest/logging.py
+    reports             : /opt/venv/lib/python3.8/site-packages/_pytest/reports.py
+    python_path         : /opt/venv/lib/python3.8/site-packages/_pytest/python_path.py
+    unraisableexception : /opt/venv/lib/python3.8/site-packages/_pytest/unraisableexception.py
+    threadexception     : /opt/venv/lib/python3.8/site-packages/_pytest/threadexception.py
+    faulthandler        : /opt/venv/lib/python3.8/site-packages/_pytest/faulthandler.py
+    socket              : /opt/venv/lib/python3.8/site-packages/pytest_socket.py
+    faker               : /opt/venv/lib/python3.8/site-packages/faker/contrib/pytest/plugin.py
+    xdist               : /opt/venv/lib/python3.8/site-packages/xdist/plugin.py
+    xdist.looponfail    : /opt/venv/lib/python3.8/site-packages/xdist/looponfail.py
+    celery              : /opt/venv/lib/python3.8/site-packages/celery/contrib/pytest.py
+    django              : /opt/venv/lib/python3.8/site-packages/pytest_django/plugin.py
+    capturemanager      : <CaptureManager _method='fd' _global_capturing=<MultiCapture out=<FDCapture 1 oldfd=5 _state='suspended' tmpfile=<_io.TextIOWrapper name="<_io.FileIO name=6 mode='rb+' closefd=True>" mode='r+' encoding='utf-8'>> err=<FDCapture 2 oldfd=7 _state='suspended' tmpfile=<_io.TextIOWrapper name="<_io.FileIO name=8 mode='rb+' closefd=True>" mode='r+' encoding='utf-8'>> in_=<FDCapture 0 oldfd=3 _state='started' tmpfile=<_io.TextIOWrapper name='/dev/null' mode='r' encoding='utf-8'>> _state='suspended' _in_suspended=False> _capture_fixture=None>
+    /workspace/823b899757ab_v31_old_t/conftest.py: /workspace/823b899757ab_v31_old_t/conftest.py
+    saleor.tests.fixtures: /workspace/823b899757ab_v31_old_t/saleor/tests/fixtures.py
+    saleor.plugins.tests.fixtures: /workspace/823b899757ab_v31_old_t/saleor/plugins/tests/fixtures.py
+    saleor.graphql.tests.fixtures: /workspace/823b899757ab_v31_old_t/saleor/graphql/tests/fixtures.py
+    session             : <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
+    legacypath-tmpdir   : <class '_pytest.legacypath.LegacyTmpdirPlugin'>
+    terminalreporter    : <_pytest.terminal.TerminalReporter object at 0x7a0dcede8a90>
+    logging-plugin      : <_pytest.logging.LoggingPlugin object at 0x7a0dcede8b50>
+    funcmanage          : <_pytest.fixtures.FixtureManager object at 0x7a0ddbfc6730>
+django: version: 3.1, settings: saleor.tests.settings (from option)
+rootdir: /workspace/823b899757ab_v31_old_t
+configfile: setup.cfg
+testpaths: saleor
+plugins: socket-0.7.0, Faker-4.1.1, xdist-3.6.1, celery-4.4.7, django-4.11.1
+PLUGIN registered: <module 'saleor.graphql.checkout.tests.benchmark.conftest' from '/workspace/823b899757ab_v31_old_t/saleor/graphql/checkout/tests/benchmark/conftest.py'>
+PLUGIN registered: <module 'saleor.graphql.menu.tests.benchmark.conftest' from '/workspace/823b899757ab_v31_old_t/saleor/graphql/menu/tests/benchmark/conftest.py'>
+PLUGIN registered: <module 'saleor.graphql.product.tests.benchmark.conftest' from '/workspace/823b899757ab_v31_old_t/saleor/graphql/product/tests/benchmark/conftest.py'>
+PLUGIN registered: <module 'saleor.payment.gateways.adyen.tests.conftest' from '/workspace/823b899757ab_v31_old_t/saleor/payment/gateways/adyen/tests/conftest.py'>
+collected 3438 items
+
+saleor/account/tests/test_account.py EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE [  1%]
+EEEEEEEEEEEEEEEE                                                         [  1%]
+saleor/account/tests/test_emails.py EEE                                  [  1%]
+saleor/app/tests/test_app_commands.py EEEEEEEE                           [  1%]
+saleor/app/tests/test_app_tasks.py EEEEE                                 [  1%]
+saleor/checkout/tests/test_cart.py EEEEEEEEEEEEEEEEE                     [  2%]
+saleor/checkout/tests/test_checkout.py EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE [  3%]
+EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE                               [  4%]
+saleor/core/tests/test_analytics.py EEE                                  [  4%]
+saleor/core/tests/test_anonymize.py EEEEEEEE                             [  4%]
+saleor/core/tests/test_auth_backend.py EEEEEEEEEEEEEEEEEE                [  5%]
+saleor/core/tests/test_core.py EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE [  6%]
+EEE                                                                      [  6%]
+saleor/core/tests/test_emails.py EEE                                     [  6%]
+saleor/core/tests/test_middleware.py E                                   [  6%]
+saleor/core/tests/test_postgresql_search.py EEEEEEE                      [  7%]
+saleor/core/tests/test_url.py E                                          [  7%]
+saleor/core/tests/test_weight.py EEEEEE                                  [  7%]
+saleor/csv/tests/export/products_data/test_get_products_data.py EEEE     [  7%]
+saleor/csv/tests/export/products_data/test_handle_relations_data.py EEEE [  7%]
+EEEEEEEEEEEEEEEEEEEEEEE                                                  [  8%]
+saleor/csv/tests/export/products_data/test_prepare_headers.py EEEEEEEEEE [  8%]
+                                                                         [  8%]
+saleor/csv/tests/export/test_export.py EEEEEEEEEEEEEEEE                  [  8%]
+saleor/csv/tests/test_emails.py EE                                       [  8%]
+saleor/csv/tests/test_tasks.py EEEE                                      [  9%]
+saleor/data_feeds/tests/test_data_feeds.py EEEEE                         [  9%]
+saleor/discount/tests/test_discounts.py EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE [ 10%]
+EEE                                                                      [ 10%]
+saleor/graphql/account/tests/benchmark/test_account.py EEEE              [ 10%]
+saleor/graphql/account/tests/benchmark/test_permission_group.py EEEEE    [ 10%]
+saleor/graphql/account/tests/mutations/test_token_create_.py EEEE        [ 10%]
+saleor/graphql/account/tests/mutations/test_token_refresh.py EEEEEEEEE   [ 10%]
+saleor/graphql/account/tests/mutations/test_token_verify.py EEEE         [ 11%]
+saleor/graphql/account/tests/mutations/test_tokens_deactivate_all.py EEE [ 11%]
+                                                                         [ 11%]
+saleor/graphql/account/tests/test_account.py EEEEEEEEEEEEEEEEEEEEEEEEEEE [ 11%]
+EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE [ 13%]
+EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE [ 16%]
+EEEEEEE                                                                  [ 16%]
+saleor/graphql/account/tests/test_account_depreceated_service_account.py E [ 16%]
+EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE                                     [ 17%]
+saleor/graphql/account/tests/test_account_events.py EEEEEEEEEEEE         [ 17%]
+saleor/graphql/account/tests/test_account_meta.py EEEEEEEEEEEEEEE        [ 18%]
+saleor/graphql/account/tests/test_account_permission_group.py EEEEEEEEEE [ 18%]
+EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE                             [ 19%]
+saleor/graphql/account/tests/test_account_utils.py EEEEEEEEEEEEEEEEEEEEE [ 20%]
+EEEEEEEEEEEEEEEEEEEEEE                                                   [ 20%]
+saleor/graphql/account/tests/test_bulk_delete.py EEEEEEEE                [ 21%]
+saleor/graphql/account/tests/test_pagination.py EEEEEEEEEEEEEEEEEEEEEEEE [ 21%]
+EEEEEEEEEE                                                               [ 22%]
+saleor/graphql/account/tests/test_pagination_deprecated_service_account.py E [ 22%]
+EEEEE                                                                    [ 22%]
+saleor/graphql/app/tests/mutations/test_app_activate.py EEEEEE           [ 22%]
+saleor/graphql/app/tests/mutations/test_app_create.py EEEEEE             [ 22%]
+saleor/graphql/app/tests/mutations/test_app_deactivate.py EEEEEE         [ 22%]
+saleor/graphql/app/tests/mutations/test_app_delete.py EEEEE              [ 23%]
+saleor/graphql/app/tests/mutations/test_app_delete_failed_installation.py E [ 23%]
+EEEE                                                                     [ 23%]
+saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py EEEEEE     [ 23%]
+saleor/graphql/app/tests/mutations/test_app_install.py EEEE              [ 23%]
+saleor/graphql/app/tests/mutations/test_app_retry_install.py EEEEE       [ 23%]
+saleor/graphql/app/tests/mutations/test_app_token_create.py EEEEEE       [ 23%]
+saleor/graphql/app/tests/mutations/test_app_token_delete.py EEEEEE       [ 23%]
+saleor/graphql/app/tests/mutations/test_app_token_verify.py EE           [ 24%]
+saleor/graphql/app/tests/mutations/test_app_update.py EEEEEEEEE          [ 24%]
+saleor/graphql/app/tests/queries/test_app.py EEEE                        [ 24%]
+saleor/graphql/app/tests/queries/test_apps.py EEEEEEEEEE                 [ 24%]
+saleor/graphql/app/tests/queries/test_apps_installations.py EEEE         [ 24%]
+saleor/graphql/app/tests/queries/test_apps_pagination.py EEEEEE          [ 24%]
+saleor/graphql/checkout/tests/benchmark/test_checkout_mutations.py EEEEE [ 25%]
+EEEE                                                                     [ 25%]
+saleor/graphql/checkout/tests/benchmark/test_homepage.py E               [ 25%]
+saleor/graphql/checkout/tests/test_checkout.py EEEEEEEEEEEEEEEEEEEEEEEEE [ 26%]
+EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE [ 28%]
+EEEEEEEE                                                                 [ 28%]
+saleor/graphql/checkout/tests/test_checkout_digital.py EEEEEEEEE         [ 28%]
+saleor/graphql/checkout/tests/test_checkout_promo_codes.py EEEEEEEEEEEEE [ 28%]
+EEEEEEEEEEEEEEE                                                          [ 29%]
+saleor/graphql/core/tests/test_base_mutation.py EEEEEE                   [ 29%]
+saleor/graphql/core/tests/test_core.py EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE [ 30%]
+EE                                                                       [ 30%]
+saleor/graphql/core/tests/test_core_reordering.py EEEEEEEEEE             [ 30%]
+saleor/graphql/core/tests/test_federation.py EE                          [ 30%]
+saleor/graphql/core/tests/test_graphql.py EEEEE                          [ 31%]
+saleor/graphql/core/tests/test_middleware.py E                           [ 31%]
+saleor/graphql/core/tests/test_pagination.py EEEEEEEEEEEEEEEE            [ 31%]
+saleor/graphql/core/tests/test_scalars.py EEEE                           [ 31%]
+saleor/graphql/core/tests/test_view.py EEEEEEEEEEEEEEEEEEEEEEEE          [ 32%]
+saleor/graphql/csv/tests/mutations/test_export_products.py EEEEEEE       [ 32%]
+saleor/graphql/csv/tests/queries/test_export_file.py EEEE                [ 32%]
+saleor/graphql/csv/tests/queries/test_export_files.py EEEEEEEEEEEE       [ 33%]
+saleor/graphql/discount/tests/test_bulk_delete.py EE                     [ 33%]
+saleor/graphql/discount/tests/test_discount.py EEEEEEEEEEEEEEEEEEEEEEEEE [ 33%]
+EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE                             [ 35%]
+saleor/graphql/discount/tests/test_pagination.py EEEEEEEEEEEEEEEEEEEEEEE [ 35%]
+EEEEE                                                                    [ 35%]
+saleor/graphql/giftcard/tests/test_gift_card.py EEEEEEEEEEEEEEEEEEEEEEEE [ 36%]
+                                                                         [ 36%]
+saleor/graphql/invoice/tests/test_invoice_create.py EEEEE                [ 36%]
+saleor/graphql/invoice/tests/test_invoice_delete.py EE                   [ 36%]
+saleor/graphql/invoice/tests/test_invoice_request.py EEEEE               [ 36%]
+saleor/graphql/invoice/tests/test_invoice_request_delete.py EEE          [ 37%]
+saleor/graphql/invoice/tests/test_invoice_update.py EEEE                 [ 37%]
+saleor/graphql/invoice/tests/test_invoice_utils.py EEE                   [ 37%]
+saleor/graphql/invoice/tests/test_send_invoice_email.py EEEE             [ 37%]
+saleor/graphql/menu/tests/benchmark/test_homepage.py EE                  [ 37%]
+saleor/graphql/menu/tests/test_bulk_delete.py EEE                        [ 37%]
+saleor/graphql/menu/tests/test_menu.py EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE [ 38%]
+                                                                         [ 38%]
+saleor/graphql/menu/tests/test_pagination.py EEEEEEEE                    [ 38%]
+saleor/graphql/meta/tests/test_meta_mutations.py EEEEEEEEEEEEEEEEEEEEEEE [ 39%]
+EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE    [ 41%]
+saleor/graphql/meta/tests/test_meta_queries.py EEEEEEEEEEEEEEEEEEEEEEEEE [ 42%]
+EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE [ 44%]
+EEEEEEEEEEEEEEEEEEEEEE                                                   [ 44%]
+saleor/graphql/order/tests/benchmark/test_order.py E                     [ 44%]
+saleor/graphql/order/tests/test_bulk_delete.py EEE                       [ 44%]
+saleor/graphql/order/tests/test_fulfillment.py EEEEEEEEEEEEEEEEEEEEEEEEE [ 45%]
+                                                                         [ 45%]
+saleor/graphql/order/tests/test_homepage.py E                            [ 45%]
+saleor/graphql/order/tests/test_order.py EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE [ 46%]
+EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE [ 48%]
+EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE                [ 50%]
+saleor/graphql/order/tests/test_order_invoices.py EEEEEE                 [ 50%]
+saleor/graphql/order/tests/test_pagination.py EEEEEEEEEEEEEEEEEEEEEEEEEE [ 51%]
+EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE                                          [ 52%]
+saleor/graphql/page/tests/test_bulk_delete.py E                          [ 52%]
+saleor/graphql/page/tests/test_page.py EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE    [ 53%]
+saleor/graphql/payment/tests/test_payment.py EEEEEEEEEEEEEEEEEEEEEEEEE   [ 53%]
+saleor/graphql/plugins/tests/test_plugins.py EEEEEEEEEEEEEEEEEEEEEEEEEEE [ 54%]
+                                                                         [ 54%]
+saleor/graphql/product/tests/benchmark/test_category.py E                [ 54%]
+saleor/graphql/product/tests/benchmark/test_collection.py E              [ 54%]
+saleor/graphql/product/tests/benchmark/test_homepage.py EE               [ 54%]
+saleor/graphql/product/tests/benchmark/test_product.py EE                [ 54%]
+saleor/graphql/product/tests/benchmark/test_variant.py EE                [ 54%]
+saleor/graphql/product/tests/benchmark/test_variant_stocks.py EEE        [ 54%]
+saleor/graphql/product/tests/test_attribute_pagination.py EEEEEEEEEEE    [ 55%]
+saleor/graphql/product/tests/test_attributes.py EEEEEEEEEEEEEEEEEEEEEEEE [ 55%]
+EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE     [ 57%]
+saleor/graphql/product/tests/test_bulk_delete.py EEEEEEEEE               [ 58%]
+saleor/graphql/product/tests/test_category.py EEEEEEEEEEEEEEEEEEEEEEEEEE [ 58%]
+EEEEEE                                                                   [ 59%]
+saleor/graphql/product/tests/test_collection.py EEEEEEEEEEEEEEEEEEEEEEEE [ 59%]
+EEEEEEEEEEEEEEE                                                          [ 60%]
+saleor/graphql/product/tests/test_digital_content.py EEEEEEEEE           [ 60%]
+saleor/graphql/product/tests/test_product.py EEEEEEEEEEEEEEEEEEEEEEEEEEE [ 61%]
+EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE [ 63%]
+EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE [ 65%]
+EEEEEEEEEEEEEEEEEEEEEEEEEE                                               [ 66%]
+saleor/graphql/product/tests/test_product_minimal_variant_price.py EEEEE [ 66%]
+EEEEEEEE                                                                 [ 66%]
+saleor/graphql/product/tests/test_product_pagination.py EEEEEEEEEEEEEEEE [ 67%]
+EEEEEEEEEEEEEEEEEEEEEEEE                                                 [ 67%]
+saleor/graphql/product/tests/test_product_set_availability_for_purchase.py E [ 67%]
+EEEEE                                                                    [ 68%]
+saleor/graphql/product/tests/test_product_sorting.py EEE                 [ 68%]
+saleor/graphql/product/tests/test_product_sorting_attributes.py EEEEEEEE [ 68%]
+EEE                                                                      [ 68%]
+saleor/graphql/product/tests/test_variant.py EEEEEEEEEEEEEEEEEEEEEEEEEEE [ 69%]
+EEEEEEEEEEEEEEEEEEEEE                                                    [ 69%]
+saleor/graphql/product/tests/test_variant_availability.py EEEEEEEEEEEE   [ 70%]
+saleor/graphql/product/tests/test_variant_pricing.py EEE                 [ 70%]
+saleor/graphql/shipping/tests/test_bulk_delete.py EE                     [ 70%]
+saleor/graphql/shipping/tests/test_shipping_method.py EEEEEEEEEEEEEEEEEE [ 70%]
+EEEEEEEEEE                                                               [ 71%]
+saleor/graphql/shop/tests/benchmark/test_homepage.py E                   [ 71%]
+saleor/graphql/shop/tests/test_shop.py EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE [ 72%]
+EEEEEEEEEEEEEEEEEEEEEEEEEE                                               [ 72%]
+saleor/graphql/shop/tests/test_shop_taxes.py EEEE                        [ 72%]
+saleor/graphql/tests/test_decorators.py EEEEEEEEEEE                      [ 73%]
+saleor/graphql/translations/tests/test_translations.py EEEEEEEEEEEEEEEEE [ 73%]
+EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE         [ 75%]
+saleor/graphql/warehouse/tests/test_pagination.py EEEEE                  [ 75%]
+saleor/graphql/warehouse/tests/test_stock.py EEEEEEEE                    [ 76%]
+saleor/graphql/warehouse/tests/test_warehouse.py EEEEEEEEEEEEEEEEEEEEEEE [ 76%]
+EEEEEEEEEE                                                               [ 76%]
+saleor/graphql/webhook/tests/test_pagination.py EEEEEEEE                 [ 77%]
+saleor/graphql/webhook/tests/test_webhook.py EEEEEEEEEEEEEEEEEEEEEEEEEEE [ 78%]
+EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE                                          [ 78%]
+saleor/graphql/webhook/tests/test_webhook_deprecated_service_account.py E [ 78%]
+EEEE                                                                     [ 79%]
+saleor/graphql/wishlist/tests/test_wishlist.py ssssssss                  [ 79%]
+saleor/menu/tests/test_menu.py E                                         [ 79%]
+saleor/order/tests/test_emails.py EEEEEEEEEEEEEEEEEE                     [ 79%]
+saleor/order/tests/test_fulfullments_actions.py EEEEEEEEE                [ 80%]
+saleor/order/tests/test_order.py EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE [ 81%]
+EEEEEEEEEEEEEEEEEEE                                                      [ 81%]
+saleor/order/tests/test_order_actions.py EEEEEEEEEEEEEE                  [ 82%]
+saleor/order/tests/test_order_utils.py EEEEEE                            [ 82%]
+saleor/payment/gateways/adyen/tests/test_plugin.py EEEEEEEEEEsEEE        [ 82%]
+saleor/payment/gateways/adyen/tests/test_utils.py EEEEEEEEEEEEEEEEEEEEEE [ 83%]
+                                                                         [ 83%]
+saleor/payment/gateways/adyen/tests/webhooks/test_handle_additional_actions.py E [ 83%]
+EEEEEEEEEEE                                                              [ 83%]
+saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py E [ 83%]
+EEEEEEEEEEEEEEEEEEEEEEE                                                  [ 84%]
+saleor/payment/gateways/adyen/tests/webhooks/test_prepare_api_request_data.py E [ 84%]
+EEE                                                                      [ 84%]
+saleor/payment/gateways/adyen/tests/webhooks/test_validate_notification.py E [ 84%]
+EEEEEE                                                                   [ 84%]
+saleor/payment/gateways/braintree/tests/test_braintree.py EEEEEEEEEEEEEE [ 85%]
+EEEEEEE                                                                  [ 85%]
+saleor/payment/gateways/dummy/tests/test_dummy.py EEEEEEEEEEEEEEEEEEEEEE [ 86%]
+EEEEEEEEEEEEEEEE                                                         [ 86%]
+saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py E [ 86%]
+EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE        [ 88%]
+saleor/payment/gateways/razorpay/tests/test_razorpay.py EEEEEEEEEEEE     [ 88%]
+saleor/payment/gateways/stripe/tests/test_stripe.py EEEEEEEEEEEEEEEEEE   [ 89%]
+saleor/payment/gateways/stripe/tests/test_utils.py EEEEEEE               [ 89%]
+saleor/payment/tests/test_gateway.py EEEEEEEEE                           [ 89%]
+saleor/payment/tests/test_gateways_utils.py EEEEE                        [ 89%]
+saleor/payment/tests/test_payment.py EEEEEEEEEEEEEEEEEEEEEEEEEEEEE       [ 90%]
+saleor/plugins/avatax/tests/test_avatax.py EEEEEEEEEEEEEEEEEEEEEEEEEEEEE [ 91%]
+EEEEEEEE                                                                 [ 91%]
+saleor/plugins/avatax/tests/test_tasks.py EEE                            [ 91%]
+saleor/plugins/invoicing/tests/test_invoicing.py EEEEE                   [ 92%]
+saleor/plugins/tests/test_checks.py EEEEEE                               [ 92%]
+saleor/plugins/tests/test_manager.py EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE [ 93%]
+                                                                         [ 93%]
+saleor/plugins/tests/test_plugins.py EEEEEEEEEEE                         [ 93%]
+saleor/plugins/tests/test_views.py EEE                                   [ 93%]
+saleor/plugins/vatlayer/tests/test_vatlayer.py EEEEEEEEEEEEEEEEEEEEEEEEE [ 94%]
+EEEEEEEEEEEE                                                             [ 94%]
+saleor/plugins/webhook/tests/test_webhook.py EEEEEEEEEEEEEEEEEEE         [ 95%]
+saleor/plugins/webhook/tests/test_webhook_protocols.py EEEEEE            [ 95%]
+saleor/product/tests/test_category.py EE                                 [ 95%]
+saleor/product/tests/test_product.py EEEEEEEEEEEEE                       [ 95%]
+saleor/product/tests/test_product_attributes.py EEEEEEE                  [ 96%]
+saleor/product/tests/test_product_availability.py EEEEEEE                [ 96%]
+saleor/product/tests/test_product_minimal_variant_price.py EEEEEEEEE     [ 96%]
+saleor/product/tests/test_product_tags.py EEEEEEE                        [ 96%]
+saleor/product/tests/test_translation.py EEEEEEEEEEE                     [ 97%]
+saleor/seo/tests/test_seo_schema.py EEEEE                                [ 97%]
+saleor/shipping/tests/test_shipping.py EEEEEEEEEEEEEEEEEEE               [ 97%]
+saleor/site/tests/test_site_settings.py EEEEEEE                          [ 97%]
+saleor/warehouse/tests/test_stock.py EE                                  [ 98%]
+saleor/warehouse/tests/test_stock_availability.py EEEEEEEEEEEEEEEEEEEEEE [ 98%]
+E                                                                        [ 98%]
+saleor/warehouse/tests/test_stock_management.py EEEEEEEEEEEEEEEEEE       [ 99%]
+saleor/webhook/tests/test_webhook_payloads.py E                          [ 99%]
+saleor/webhook/tests/test_webhook_sample_payloads.py EEEEEEEEEEEEEEEEEE  [ 99%]
+saleor/wishlist/tests/test_wishlist.py EEE                               [ 99%]
+saleor/core/tests/test_asynchronous_tasks.py E                           [ 99%]
+saleor/discount/tests/test_discounts.py EE                               [ 99%]
+saleor/order/tests/test_order.py E                                       [100%]
+
+==================================== ERRORS ====================================
+_____________ ERROR at setup of test_address_form_for_country[CN] ______________
+
+self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x7a0dcc5ffac0>
+
+    @async_unsafe
+    def ensure_connection(self):
+        """Guarantee that a connection to the database is established."""
+        if self.connection is None:
+            with self.wrap_database_errors:
+>               self.connect()
+
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:219: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:200: in connect
+    self.connection = self.get_new_connection(conn_params)
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/postgresql/base.py:187: in get_new_connection
+    connection = Database.connect(**conn_params)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dsn = 'user=saleor password=saleor host=localhost port=5432 dbname=postgres'
+connection_factory = None, cursor_factory = None
+kwargs = {'database': 'postgres', 'host': 'localhost', 'password': 'saleor', 'port': 5432, ...}
+kwasync = {}
+
+    def connect(dsn=None, connection_factory=None, cursor_factory=None, **kwargs):
+        """
+        Create a new database connection.
+    
+        The connection parameters can be specified as a string:
+    
+            conn = psycopg2.connect("dbname=test user=postgres password=secret")
+    
+        or using a set of keyword arguments:
+    
+            conn = psycopg2.connect(database="test", user="postgres", password="secret")
+    
+        Or as a mix of both. The basic connection parameters are:
+    
+        - *dbname*: the database name
+        - *database*: the database name (only as keyword argument)
+        - *user*: user name used to authenticate
+        - *password*: password used to authenticate
+        - *host*: database host address (defaults to UNIX socket if not provided)
+        - *port*: connection port number (defaults to 5432 if not provided)
+    
+        Using the *connection_factory* parameter a different class or connections
+        factory can be specified. It should be a callable object taking a dsn
+        argument.
+    
+        Using the *cursor_factory* parameter, a new default cursor factory will be
+        used by cursor().
+    
+        Using *async*=True an asynchronous connection will be created. *async_* is
+        a valid alias (for Python versions where ``async`` is a keyword).
+    
+        Any other keyword parameter will be passed to the underlying client
+        library: the list of supported parameters depends on the library version.
+    
+        """
+        kwasync = {}
+        if 'async' in kwargs:
+            kwasync['async'] = kwargs.pop('async')
+        if 'async_' in kwargs:
+            kwasync['async_'] = kwargs.pop('async_')
+    
+        if dsn is None and not kwargs:
+            raise TypeError('missing dsn and no parameters')
+    
+        dsn = _ext.make_dsn(dsn, **kwargs)
+>       conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+E       psycopg2.OperationalError: could not connect to server: Connection refused
+E       	Is the server running on host "localhost" (127.0.0.1) and accepting
+E       	TCP/IP connections on port 5432?
+
+/opt/venv/lib/python3.8/site-packages/psycopg2/__init__.py:127: OperationalError
+
+The above exception was the direct cause of the following exception:
+
+self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x7a0ddaddbac0>
+
+    @contextmanager
+    def _nodb_cursor(self):
+        try:
+>           with super()._nodb_cursor() as cursor:
+
+/opt/venv/lib/python3.8/site-packages/django/db/backends/postgresql/base.py:298: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.8/contextlib.py:113: in __enter__
+    return next(self.gen)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:620: in _nodb_cursor
+    with conn.cursor() as cursor:
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:259: in cursor
+    return self._cursor()
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:235: in _cursor
+    self.ensure_connection()
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:219: in ensure_connection
+    self.connect()
+/opt/venv/lib/python3.8/site-packages/django/db/utils.py:90: in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:219: in ensure_connection
+    self.connect()
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:200: in connect
+    self.connection = self.get_new_connection(conn_params)
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/postgresql/base.py:187: in get_new_connection
+    connection = Database.connect(**conn_params)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dsn = 'user=saleor password=saleor host=localhost port=5432 dbname=postgres'
+connection_factory = None, cursor_factory = None
+kwargs = {'database': 'postgres', 'host': 'localhost', 'password': 'saleor', 'port': 5432, ...}
+kwasync = {}
+
+    def connect(dsn=None, connection_factory=None, cursor_factory=None, **kwargs):
+        """
+        Create a new database connection.
+    
+        The connection parameters can be specified as a string:
+    
+            conn = psycopg2.connect("dbname=test user=postgres password=secret")
+    
+        or using a set of keyword arguments:
+    
+            conn = psycopg2.connect(database="test", user="postgres", password="secret")
+    
+        Or as a mix of both. The basic connection parameters are:
+    
+        - *dbname*: the database name
+        - *database*: the database name (only as keyword argument)
+        - *user*: user name used to authenticate
+        - *password*: password used to authenticate
+        - *host*: database host address (defaults to UNIX socket if not provided)
+        - *port*: connection port number (defaults to 5432 if not provided)
+    
+        Using the *connection_factory* parameter a different class or connections
+        factory can be specified. It should be a callable object taking a dsn
+        argument.
+    
+        Using the *cursor_factory* parameter, a new default cursor factory will be
+        used by cursor().
+    
+        Using *async*=True an asynchronous connection will be created. *async_* is
+        a valid alias (for Python versions where ``async`` is a keyword).
+    
+        Any other keyword parameter will be passed to the underlying client
+        library: the list of supported parameters depends on the library version.
+    
+        """
+        kwasync = {}
+        if 'async' in kwargs:
+            kwasync['async'] = kwargs.pop('async')
+        if 'async_' in kwargs:
+            kwasync['async_'] = kwargs.pop('async_')
+    
+        if dsn is None and not kwargs:
+            raise TypeError('missing dsn and no parameters')
+    
+        dsn = _ext.make_dsn(dsn, **kwargs)
+>       conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+E       django.db.utils.OperationalError: could not connect to server: Connection refused
+E       	Is the server running on host "localhost" (127.0.0.1) and accepting
+E       	TCP/IP connections on port 5432?
+
+/opt/venv/lib/python3.8/site-packages/psycopg2/__init__.py:127: OperationalError
+
+During handling of the above exception, another exception occurred:
+
+self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x7a0dccf86f70>
+
+    @async_unsafe
+    def ensure_connection(self):
+        """Guarantee that a connection to the database is established."""
+        if self.connection is None:
+            with self.wrap_database_errors:
+>               self.connect()
+
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:219: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:200: in connect
+    self.connection = self.get_new_connection(conn_params)
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/postgresql/base.py:187: in get_new_connection
+    connection = Database.connect(**conn_params)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dsn = 'user=saleor password=saleor host=localhost port=5432 dbname=saleor'
+connection_factory = None, cursor_factory = None
+kwargs = {'database': 'saleor', 'host': 'localhost', 'password': 'saleor', 'port': 5432, ...}
+kwasync = {}
+
+    def connect(dsn=None, connection_factory=None, cursor_factory=None, **kwargs):
+        """
+        Create a new database connection.
+    
+        The connection parameters can be specified as a string:
+    
+            conn = psycopg2.connect("dbname=test user=postgres password=secret")
+    
+        or using a set of keyword arguments:
+    
+            conn = psycopg2.connect(database="test", user="postgres", password="secret")
+    
+        Or as a mix of both. The basic connection parameters are:
+    
+        - *dbname*: the database name
+        - *database*: the database name (only as keyword argument)
+        - *user*: user name used to authenticate
+        - *password*: password used to authenticate
+        - *host*: database host address (defaults to UNIX socket if not provided)
+        - *port*: connection port number (defaults to 5432 if not provided)
+    
+        Using the *connection_factory* parameter a different class or connections
+        factory can be specified. It should be a callable object taking a dsn
+        argument.
+    
+        Using the *cursor_factory* parameter, a new default cursor factory will be
+        used by cursor().
+    
+        Using *async*=True an asynchronous connection will be created. *async_* is
+        a valid alias (for Python versions where ``async`` is a keyword).
+    
+        Any other keyword parameter will be passed to the underlying client
+        library: the list of supported parameters depends on the library version.
+    
+        """
+        kwasync = {}
+        if 'async' in kwargs:
+            kwasync['async'] = kwargs.pop('async')
+        if 'async_' in kwargs:
+            kwasync['async_'] = kwargs.pop('async_')
+    
+        if dsn is None and not kwargs:
+            raise TypeError('missing dsn and no parameters')
+    
+        dsn = _ext.make_dsn(dsn, **kwargs)
+>       conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+E       psycopg2.OperationalError: could not connect to server: Connection refused
+E       	Is the server running on host "localhost" (127.0.0.1) and accepting
+E       	TCP/IP connections on port 5432?
+
+/opt/venv/lib/python3.8/site-packages/psycopg2/__init__.py:127: OperationalError
+
+The above exception was the direct cause of the following exception:
+
+request = <SubRequest 'django_db_setup' for <Function test_address_form_for_country[CN]>>
+django_test_environment = None
+django_db_blocker = <pytest_django.plugin.DjangoDbBlocker object at 0x7a0ddd42da30>
+django_db_use_migrations = True, django_db_keepdb = False
+django_db_createdb = False, django_db_modify_db_settings = None
+
+    @pytest.fixture(scope="session")
+    def django_db_setup(
+        request: pytest.FixtureRequest,
+        django_test_environment: None,
+        django_db_blocker: DjangoDbBlocker,
+        django_db_use_migrations: bool,
+        django_db_keepdb: bool,
+        django_db_createdb: bool,
+        django_db_modify_db_settings: None,
+    ) -> Generator[None, None, None]:
+        """Top level fixture to ensure test databases are available"""
+        from django.test.utils import setup_databases, teardown_databases
+    
+        setup_databases_args = {}
+    
+        if not django_db_use_migrations:
+            _disable_migrations()
+    
+        if django_db_keepdb and not django_db_createdb:
+            setup_databases_args["keepdb"] = True
+    
+        aliases, serialized_aliases = _get_databases_for_setup(request.session.items)
+    
+        with django_db_blocker.unblock():
+>           db_cfg = setup_databases(
+                verbosity=request.config.option.verbose,
+                interactive=False,
+                aliases=aliases,
+                serialized_aliases=serialized_aliases,
+                **setup_databases_args,
+            )
+
+/opt/venv/lib/python3.8/site-packages/pytest_django/fixtures.py:198: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.8/site-packages/django/test/utils.py:170: in setup_databases
+    connection.creation.create_test_db(
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/creation.py:55: in create_test_db
+    self._create_test_db(verbosity, autoclobber, keepdb)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/creation.py:176: in _create_test_db
+    with self._nodb_cursor() as cursor:
+/usr/local/lib/python3.8/contextlib.py:113: in __enter__
+    return next(self.gen)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/postgresql/base.py:316: in _nodb_cursor
+    with conn.cursor() as cursor:
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:259: in cursor
+    return self._cursor()
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:235: in _cursor
+    self.ensure_connection()
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:219: in ensure_connection
+    self.connect()
+/opt/venv/lib/python3.8/site-packages/django/db/utils.py:90: in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:219: in ensure_connection
+    self.connect()
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:200: in connect
+    self.connection = self.get_new_connection(conn_params)
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/postgresql/base.py:187: in get_new_connection
+    connection = Database.connect(**conn_params)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dsn = 'user=saleor password=saleor host=localhost port=5432 dbname=saleor'
+connection_factory = None, cursor_factory = None
+kwargs = {'database': 'saleor', 'host': 'localhost', 'password': 'saleor', 'port': 5432, ...}
+kwasync = {}
+
+    def connect(dsn=None, connection_factory=None, cursor_factory=None, **kwargs):
+        """
+        Create a new database connection.
+    
+        The connection parameters can be specified as a string:
+    
+            conn = psycopg2.connect("dbname=test user=postgres password=secret")
+    
+        or using a set of keyword arguments:
+    
+            conn = psycopg2.connect(database="test", user="postgres", password="secret")
+    
+        Or as a mix of both. The basic connection parameters are:
+    
+        - *dbname*: the database name
+        - *database*: the database name (only as keyword argument)
+        - *user*: user name used to authenticate
+        - *password*: password used to authenticate
+        - *host*: database host address (defaults to UNIX socket if not provided)
+        - *port*: connection port number (defaults to 5432 if not provided)
+    
+        Using the *connection_factory* parameter a different class or connections
+        factory can be specified. It should be a callable object taking a dsn
+        argument.
+    
+        Using the *cursor_factory* parameter, a new default cursor factory will be
+        used by cursor().
+    
+        Using *async*=True an asynchronous connection will be created. *async_* is
+        a valid alias (for Python versions where ``async`` is a keyword).
+    
+        Any other keyword parameter will be passed to the underlying client
+        library: the list of supported parameters depends on the library version.
+    
+        """
+        kwasync = {}
+        if 'async' in kwargs:
+            kwasync['async'] = kwargs.pop('async')
+        if 'async_' in kwargs:
+            kwasync['async_'] = kwargs.pop('async_')
+    
+        if dsn is None and not kwargs:
+            raise TypeError('missing dsn and no parameters')
+    
+        dsn = _ext.make_dsn(dsn, **kwargs)
+>       conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+E       django.db.utils.OperationalError: could not connect to server: Connection refused
+E       	Is the server running on host "localhost" (127.0.0.1) and accepting
+E       	TCP/IP connections on port 5432?
+
+/opt/venv/lib/python3.8/site-packages/psycopg2/__init__.py:127: OperationalError
+_____________ ERROR at setup of test_address_form_for_country[PL] ______________
+
+self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x7a0dcc5ffac0>
+
+    @async_unsafe
+    def ensure_connection(self):
+        """Guarantee that a connection to the database is established."""
+        if self.connection is None:
+            with self.wrap_database_errors:
+>               self.connect()
+
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:219: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:200: in connect
+    self.connection = self.get_new_connection(conn_params)
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/postgresql/base.py:187: in get_new_connection
+    connection = Database.connect(**conn_params)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dsn = 'user=saleor password=saleor host=localhost port=5432 dbname=postgres'
+connection_factory = None, cursor_factory = None
+kwargs = {'database': 'postgres', 'host': 'localhost', 'password': 'saleor', 'port': 5432, ...}
+kwasync = {}
+
+    def connect(dsn=None, connection_factory=None, cursor_factory=None, **kwargs):
+        """
+        Create a new database connection.
+    
+        The connection parameters can be specified as a string:
+    
+            conn = psycopg2.connect("dbname=test user=postgres password=secret")
+    
+        or using a set of keyword arguments:
+    
+            conn = psycopg2.connect(database="test", user="postgres", password="secret")
+    
+        Or as a mix of both. The basic connection parameters are:
+    
+        - *dbname*: the database name
+        - *database*: the database name (only as keyword argument)
+        - *user*: user name used to authenticate
+        - *password*: password used to authenticate
+        - *host*: database host address (defaults to UNIX socket if not provided)
+        - *port*: connection port number (defaults to 5432 if not provided)
+    
+        Using the *connection_factory* parameter a different class or connections
+        factory can be specified. It should be a callable object taking a dsn
+        argument.
+    
+        Using the *cursor_factory* parameter, a new default cursor factory will be
+        used by cursor().
+    
+        Using *async*=True an asynchronous connection will be created. *async_* is
+        a valid alias (for Python versions where ``async`` is a keyword).
+    
+        Any other keyword parameter will be passed to the underlying client
+        library: the list of supported parameters depends on the library version.
+    
+        """
+        kwasync = {}
+        if 'async' in kwargs:
+            kwasync['async'] = kwargs.pop('async')
+        if 'async_' in kwargs:
+            kwasync['async_'] = kwargs.pop('async_')
+    
+        if dsn is None and not kwargs:
+            raise TypeError('missing dsn and no parameters')
+    
+        dsn = _ext.make_dsn(dsn, **kwargs)
+>       conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+E       psycopg2.OperationalError: could not connect to server: Connection refused
+E       	Is the server running on host "localhost" (127.0.0.1) and accepting
+E       	TCP/IP connections on port 5432?
+
+/opt/venv/lib/python3.8/site-packages/psycopg2/__init__.py:127: OperationalError
+
+The above exception was the direct cause of the following exception:
+
+self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x7a0ddaddbac0>
+
+    @contextmanager
+    def _nodb_cursor(self):
+        try:
+>           with super()._nodb_cursor() as cursor:
+
+/opt/venv/lib/python3.8/site-packages/django/db/backends/postgresql/base.py:298: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.8/contextlib.py:113: in __enter__
+    return next(self.gen)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:620: in _nodb_cursor
+    with conn.cursor() as cursor:
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:259: in cursor
+    return self._cursor()
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:235: in _cursor
+    self.ensure_connection()
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:219: in ensure_connection
+    self.connect()
+/opt/venv/lib/python3.8/site-packages/django/db/utils.py:90: in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:219: in ensure_connection
+    self.connect()
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:200: in connect
+    self.connection = self.get_new_connection(conn_params)
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/postgresql/base.py:187: in get_new_connection
+    connection = Database.connect(**conn_params)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dsn = 'user=saleor password=saleor host=localhost port=5432 dbname=postgres'
+connection_factory = None, cursor_factory = None
+kwargs = {'database': 'postgres', 'host': 'localhost', 'password': 'saleor', 'port': 5432, ...}
+kwasync = {}
+
+    def connect(dsn=None, connection_factory=None, cursor_factory=None, **kwargs):
+        """
+        Create a new database connection.
+    
+        The connection parameters can be specified as a string:
+    
+            conn = psycopg2.connect("dbname=test user=postgres password=secret")
+    
+        or using a set of keyword arguments:
+    
+            conn = psycopg2.connect(database="test", user="postgres", password="secret")
+    
+        Or as a mix of both. The basic connection parameters are:
+    
+        - *dbname*: the database name
+        - *database*: the database name (only as keyword argument)
+        - *user*: user name used to authenticate
+        - *password*: password used to authenticate
+        - *host*: database host address (defaults to UNIX socket if not provided)
+        - *port*: connection port number (defaults to 5432 if not provided)
+    
+        Using the *connection_factory* parameter a different class or connections
+        factory can be specified. It should be a callable object taking a dsn
+        argument.
+    
+        Using the *cursor_factory* parameter, a new default cursor factory will be
+        used by cursor().
+    
+        Using *async*=True an asynchronous connection will be created. *async_* is
+        a valid alias (for Python versions where ``async`` is a keyword).
+    
+        Any other keyword parameter will be passed to the underlying client
+        library: the list of supported parameters depends on the library version.
+    
+        """
+        kwasync = {}
+        if 'async' in kwargs:
+            kwasync['async'] = kwargs.pop('async')
+        if 'async_' in kwargs:
+            kwasync['async_'] = kwargs.pop('async_')
+    
+        if dsn is None and not kwargs:
+            raise TypeError('missing dsn and no parameters')
+    
+        dsn = _ext.make_dsn(dsn, **kwargs)
+>       conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+E       django.db.utils.OperationalError: could not connect to server: Connection refused
+E       	Is the server running on host "localhost" (127.0.0.1) and accepting
+E       	TCP/IP connections on port 5432?
+
+/opt/venv/lib/python3.8/site-packages/psycopg2/__init__.py:127: OperationalError
+
+During handling of the above exception, another exception occurred:
+
+self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x7a0dccf86f70>
+
+    @async_unsafe
+    def ensure_connection(self):
+        """Guarantee that a connection to the database is established."""
+        if self.connection is None:
+            with self.wrap_database_errors:
+>               self.connect()
+
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:219: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:200: in connect
+    self.connection = self.get_new_connection(conn_params)
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/postgresql/base.py:187: in get_new_connection
+    connection = Database.connect(**conn_params)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dsn = 'user=saleor password=saleor host=localhost port=5432 dbname=saleor'
+connection_factory = None, cursor_factory = None
+kwargs = {'database': 'saleor', 'host': 'localhost', 'password': 'saleor', 'port': 5432, ...}
+kwasync = {}
+
+    def connect(dsn=None, connection_factory=None, cursor_factory=None, **kwargs):
+        """
+        Create a new database connection.
+    
+        The connection parameters can be specified as a string:
+    
+            conn = psycopg2.connect("dbname=test user=postgres password=secret")
+    
+        or using a set of keyword arguments:
+    
+            conn = psycopg2.connect(database="test", user="postgres", password="secret")
+    
+        Or as a mix of both. The basic connection parameters are:
+    
+        - *dbname*: the database name
+        - *database*: the database name (only as keyword argument)
+        - *user*: user name used to authenticate
+        - *password*: password used to authenticate
+        - *host*: database host address (defaults to UNIX socket if not provided)
+        - *port*: connection port number (defaults to 5432 if not provided)
+    
+        Using the *connection_factory* parameter a different class or connections
+        factory can be specified. It should be a callable object taking a dsn
+        argument.
+    
+        Using the *cursor_factory* parameter, a new default cursor factory will be
+        used by cursor().
+    
+        Using *async*=True an asynchronous connection will be created. *async_* is
+        a valid alias (for Python versions where ``async`` is a keyword).
+    
+        Any other keyword parameter will be passed to the underlying client
+        library: the list of supported parameters depends on the library version.
+    
+        """
+        kwasync = {}
+        if 'async' in kwargs:
+            kwasync['async'] = kwargs.pop('async')
+        if 'async_' in kwargs:
+            kwasync['async_'] = kwargs.pop('async_')
+    
+        if dsn is None and not kwargs:
+            raise TypeError('missing dsn and no parameters')
+    
+        dsn = _ext.make_dsn(dsn, **kwargs)
+>       conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+E       psycopg2.OperationalError: could not connect to server: Connection refused
+E       	Is the server running on host "localhost" (127.0.0.1) and accepting
+E       	TCP/IP connections on port 5432?
+
+/opt/venv/lib/python3.8/site-packages/psycopg2/__init__.py:127: OperationalError
+
+The above exception was the direct cause of the following exception:
+
+request = <SubRequest 'django_db_setup' for <Function test_address_form_for_country[CN]>>
+django_test_environment = None
+django_db_blocker = <pytest_django.plugin.DjangoDbBlocker object at 0x7a0ddd42da30>
+django_db_use_migrations = True, django_db_keepdb = False
+django_db_createdb = False, django_db_modify_db_settings = None
+
+    @pytest.fixture(scope="session")
+    def django_db_setup(
+        request: pytest.FixtureRequest,
+        django_test_environment: None,
+        django_db_blocker: DjangoDbBlocker,
+        django_db_use_migrations: bool,
+        django_db_keepdb: bool,
+        django_db_createdb: bool,
+        django_db_modify_db_settings: None,
+    ) -> Generator[None, None, None]:
+        """Top level fixture to ensure test databases are available"""
+        from django.test.utils import setup_databases, teardown_databases
+    
+        setup_databases_args = {}
+    
+        if not django_db_use_migrations:
+            _disable_migrations()
+    
+        if django_db_keepdb and not django_db_createdb:
+            setup_databases_args["keepdb"] = True
+    
+        aliases, serialized_aliases = _get_databases_for_setup(request.session.items)
+    
+        with django_db_blocker.unblock():
+>           db_cfg = setup_databases(
+                verbosity=request.config.option.verbose,
+                interactive=False,
+                aliases=aliases,
+                serialized_aliases=serialized_aliases,
+                **setup_databases_args,
+            )
+
+/opt/venv/lib/python3.8/site-packages/pytest_django/fixtures.py:198: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.8/site-packages/django/test/utils.py:170: in setup_databases
+    connection.creation.create_test_db(
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/creation.py:55: in create_test_db
+    self._create_test_db(verbosity, autoclobber, keepdb)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/creation.py:176: in _create_test_db
+    with self._nodb_cursor() as cursor:
+/usr/local/lib/python3.8/contextlib.py:113: in __enter__
+    return next(self.gen)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/postgresql/base.py:316: in _nodb_cursor
+    with conn.cursor() as cursor:
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:259: in cursor
+    return self._cursor()
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:235: in _cursor
+    self.ensure_connection()
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:219: in ensure_connection
+    self.connect()
+/opt/venv/lib/python3.8/site-packages/django/db/utils.py:90: in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:219: in ensure_connection
+    self.connect()
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:200: in connect
+    self.connection = self.get_new_connection(conn_params)
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/postgresql/base.py:187: in get_new_connection
+    connection = Database.connect(**conn_params)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dsn = 'user=saleor password=saleor host=localhost port=5432 dbname=saleor'
+connection_factory = None, cursor_factory = None
+kwargs = {'database': 'saleor', 'host': 'localhost', 'password': 'saleor', 'port': 5432, ...}
+kwasync = {}
+
+    def connect(dsn=None, connection_factory=None, cursor_factory=None, **kwargs):
+        """
+        Create a new database connection.
+    
+        The connection parameters can be specified as a string:
+    
+            conn = psycopg2.connect("dbname=test user=postgres password=secret")
+    
+        or using a set of keyword arguments:
+    
+            conn = psycopg2.connect(database="test", user="postgres", password="secret")
+    
+        Or as a mix of both. The basic connection parameters are:
+    
+        - *dbname*: the database name
+        - *database*: the database name (only as keyword argument)
+        - *user*: user name used to authenticate
+        - *password*: password used to authenticate
+        - *host*: database host address (defaults to UNIX socket if not provided)
+        - *port*: connection port number (defaults to 5432 if not provided)
+    
+        Using the *connection_factory* parameter a different class or connections
+        factory can be specified. It should be a callable object taking a dsn
+        argument.
+    
+        Using the *cursor_factory* parameter, a new default cursor factory will be
+        used by cursor().
+    
+        Using *async*=True an asynchronous connection will be created. *async_* is
+        a valid alias (for Python versions where ``async`` is a keyword).
+    
+        Any other keyword parameter will be passed to the underlying client
+        library: the list of supported parameters depends on the library version.
+    
+        """
+        kwasync = {}
+        if 'async' in kwargs:
+            kwasync['async'] = kwargs.pop('async')
+        if 'async_' in kwargs:
+            kwasync['async_'] = kwargs.pop('async_')
+    
+        if dsn is None and not kwargs:
+            raise TypeError('missing dsn and no parameters')
+    
+        dsn = _ext.make_dsn(dsn, **kwargs)
+>       conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+E       django.db.utils.OperationalError: could not connect to server: Connection refused
+E       	Is the server running on host "localhost" (127.0.0.1) and accepting
+E       	TCP/IP connections on port 5432?
+
+/opt/venv/lib/python3.8/site-packages/psycopg2/__init__.py:127: OperationalError
+_____________ ERROR at setup of test_address_form_for_country[US] ______________
+
+self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x7a0dcc5ffac0>
+
+    @async_unsafe
+    def ensure_connection(self):
+        """Guarantee that a connection to the database is established."""
+        if self.connection is None:
+            with self.wrap_database_errors:
+>               self.connect()
+
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:219: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:200: in connect
+    self.connection = self.get_new_connection(conn_params)
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/postgresql/base.py:187: in get_new_connection
+    connection = Database.connect(**conn_params)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dsn = 'user=saleor password=saleor host=localhost port=5432 dbname=postgres'
+connection_factory = None, cursor_factory = None
+kwargs = {'database': 'postgres', 'host': 'localhost', 'password': 'saleor', 'port': 5432, ...}
+kwasync = {}
+
+    def connect(dsn=None, connection_factory=None, cursor_factory=None, **kwargs):
+        """
+        Create a new database connection.
+    
+        The connection parameters can be specified as a string:
+    
+            conn = psycopg2.connect("dbname=test user=postgres password=secret")
+    
+        or using a set of keyword arguments:
+    
+            conn = psycopg2.connect(database="test", user="postgres", password="secret")
+    
+        Or as a mix of both. The basic connection parameters are:
+    
+        - *dbname*: the database name
+        - *database*: the database name (only as keyword argument)
+        - *user*: user name used to authenticate
+        - *password*: password used to authenticate
+        - *host*: database host address (defaults to UNIX socket if not provided)
+        - *port*: connection port number (defaults to 5432 if not provided)
+    
+        Using the *connection_factory* parameter a different class or connections
+        factory can be specified. It should be a callable object taking a dsn
+        argument.
+    
+        Using the *cursor_factory* parameter, a new default cursor factory will be
+        used by cursor().
+    
+        Using *async*=True an asynchronous connection will be created. *async_* is
+        a valid alias (for Python versions where ``async`` is a keyword).
+    
+        Any other keyword parameter will be passed to the underlying client
+        library: the list of supported parameters depends on the library version.
+    
+        """
+        kwasync = {}
+        if 'async' in kwargs:
+            kwasync['async'] = kwargs.pop('async')
+        if 'async_' in kwargs:
+            kwasync['async_'] = kwargs.pop('async_')
+    
+        if dsn is None and not kwargs:
+            raise TypeError('missing dsn and no parameters')
+    
+        dsn = _ext.make_dsn(dsn, **kwargs)
+>       conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+E       psycopg2.OperationalError: could not connect to server: Connection refused
+E       	Is the server running on host "localhost" (127.0.0.1) and accepting
+E       	TCP/IP connections on port 5432?
+
+/opt/venv/lib/python3.8/site-packages/psycopg2/__init__.py:127: OperationalError
+
+The above exception was the direct cause of the following exception:
+
+self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x7a0ddaddbac0>
+
+    @contextmanager
+    def _nodb_cursor(self):
+        try:
+>           with super()._nodb_cursor() as cursor:
+
+/opt/venv/lib/python3.8/site-packages/django/db/backends/postgresql/base.py:298: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.8/contextlib.py:113: in __enter__
+    return next(self.gen)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:620: in _nodb_cursor
+    with conn.cursor() as cursor:
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:259: in cursor
+    return self._cursor()
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:235: in _cursor
+    self.ensure_connection()
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:219: in ensure_connection
+    self.connect()
+/opt/venv/lib/python3.8/site-packages/django/db/utils.py:90: in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:219: in ensure_connection
+    self.connect()
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:200: in connect
+    self.connection = self.get_new_connection(conn_params)
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/postgresql/base.py:187: in get_new_connection
+    connection = Database.connect(**conn_params)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dsn = 'user=saleor password=saleor host=localhost port=5432 dbname=postgres'
+connection_factory = None, cursor_factory = None
+kwargs = {'database': 'postgres', 'host': 'localhost', 'password': 'saleor', 'port': 5432, ...}
+kwasync = {}
+
+    def connect(dsn=None, connection_factory=None, cursor_factory=None, **kwargs):
+        """
+        Create a new database connection.
+    
+        The connection parameters can be specified as a string:
+    
+            conn = psycopg2.connect("dbname=test user=postgres password=secret")
+    
+        or using a set of keyword arguments:
+    
+            conn = psycopg2.connect(database="test", user="postgres", password="secret")
+    
+        Or as a mix of both. The basic connection parameters are:
+    
+        - *dbname*: the database name
+        - *database*: the database name (only as keyword argument)
+        - *user*: user name used to authenticate
+        - *password*: password used to authenticate
+        - *host*: database host address (defaults to UNIX socket if not provided)
+        - *port*: connection port number (defaults to 5432 if not provided)
+    
+        Using the *connection_factory* parameter a different class or connections
+        factory can be specified. It should be a callable object taking a dsn
+        argument.
+    
+        Using the *cursor_factory* parameter, a new default cursor factory will be
+        used by cursor().
+    
+        Using *async*=True an asynchronous connection will be created. *async_* is
+        a valid alias (for Python versions where ``async`` is a keyword).
+    
+        Any other keyword parameter will be passed to the underlying client
+        library: the list of supported parameters depends on the library version.
+    
+        """
+        kwasync = {}
+        if 'async' in kwargs:
+            kwasync['async'] = kwargs.pop('async')
+        if 'async_' in kwargs:
+            kwasync['async_'] = kwargs.pop('async_')
+    
+        if dsn is None and not kwargs:
+            raise TypeError('missing dsn and no parameters')
+    
+        dsn = _ext.make_dsn(dsn, **kwargs)
+>       conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+E       django.db.utils.OperationalError: could not connect to server: Connection refused
+E       	Is the server running on host "localhost" (127.0.0.1) and accepting
+E       	TCP/IP connections on port 5432?
+
+/opt/venv/lib/python3.8/site-packages/psycopg2/__init__.py:127: OperationalError
+
+During handling of the above exception, another exception occurred:
+
+self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x7a0dccf86f70>
+
+    @async_unsafe
+    def ensure_connection(self):
+        """Guarantee that a connection to the database is established."""
+        if self.connection is None:
+            with self.wrap_database_errors:
+>               self.connect()
+
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:219: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:200: in connect
+    self.connection = self.get_new_connection(conn_params)
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/postgresql/base.py:187: in get_new_connection
+    connection = Database.connect(**conn_params)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dsn = 'user=saleor password=saleor host=localhost port=5432 dbname=saleor'
+connection_factory = None, cursor_factory = None
+kwargs = {'database': 'saleor', 'host': 'localhost', 'password': 'saleor', 'port': 5432, ...}
+kwasync = {}
+
+    def connect(dsn=None, connection_factory=None, cursor_factory=None, **kwargs):
+        """
+        Create a new database connection.
+    
+        The connection parameters can be specified as a string:
+    
+            conn = psycopg2.connect("dbname=test user=postgres password=secret")
+    
+        or using a set of keyword arguments:
+    
+            conn = psycopg2.connect(database="test", user="postgres", password="secret")
+    
+        Or as a mix of both. The basic connection parameters are:
+    
+        - *dbname*: the database name
+        - *database*: the database name (only as keyword argument)
+        - *user*: user name used to authenticate
+        - *password*: password used to authenticate
+        - *host*: database host address (defaults to UNIX socket if not provided)
+        - *port*: connection port number (defaults to 5432 if not provided)
+    
+        Using the *connection_factory* parameter a different class or connections
+        factory can be specified. It should be a callable object taking a dsn
+        argument.
+    
+        Using the *cursor_factory* parameter, a new default cursor factory will be
+        used by cursor().
+    
+        Using *async*=True an asynchronous connection will be created. *async_* is
+        a valid alias (for Python versions where ``async`` is a keyword).
+    
+        Any other keyword parameter will be passed to the underlying client
+        library: the list of supported parameters depends on the library version.
+    
+        """
+        kwasync = {}
+        if 'async' in kwargs:
+            kwasync['async'] = kwargs.pop('async')
+        if 'async_' in kwargs:
+            kwasync['async_'] = kwargs.pop('async_')
+    
+        if dsn is None and not kwargs:
+            raise TypeError('missing dsn and no parameters')
+    
+        dsn = _ext.make_dsn(dsn, **kwargs)
+>       conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+E       psycopg2.OperationalError: could not connect to server: Connection refused
+E       	Is the server running on host "localhost" (127.0.0.1) and accepting
+E       	TCP/IP connections on port 5432?
+
+/opt/venv/lib/python3.8/site-packages/psycopg2/__init__.py:127: OperationalError
+
+The above exception was the direct cause of the following exception:
+
+request = <SubRequest 'django_db_setup' for <Function test_address_form_for_country[CN]>>
+django_test_environment = None
+django_db_blocker = <pytest_django.plugin.DjangoDbBlocker object at 0x7a0ddd42da30>
+django_db_use_migrations = True, django_db_keepdb = False
+django_db_createdb = False, django_db_modify_db_settings = None
+
+    @pytest.fixture(scope="session")
+    def django_db_setup(
+        request: pytest.FixtureRequest,
+        django_test_environment: None,
+        django_db_blocker: DjangoDbBlocker,
+        django_db_use_migrations: bool,
+        django_db_keepdb: bool,
+        django_db_createdb: bool,
+        django_db_modify_db_settings: None,
+    ) -> Generator[None, None, None]:
+        """Top level fixture to ensure test databases are available"""
+        from django.test.utils import setup_databases, teardown_databases
+    
+        setup_databases_args = {}
+    
+        if not django_db_use_migrations:
+            _disable_migrations()
+    
+        if django_db_keepdb and not django_db_createdb:
+            setup_databases_args["keepdb"] = True
+    
+        aliases, serialized_aliases = _get_databases_for_setup(request.session.items)
+    
+        with django_db_blocker.unblock():
+>           db_cfg = setup_databases(
+                verbosity=request.config.option.verbose,
+                interactive=False,
+                aliases=aliases,
+                serialized_aliases=serialized_aliases,
+                **setup_databases_args,
+            )
+
+/opt/venv/lib/python3.8/site-packages/pytest_django/fixtures.py:198: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.8/site-packages/django/test/utils.py:170: in setup_databases
+    connection.creation.create_test_db(
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/creation.py:55: in create_test_db
+    self._create_test_db(verbosity, autoclobber, keepdb)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/creation.py:176: in _create_test_db
+    with self._nodb_cursor() as cursor:
+/usr/local/lib/python3.8/contextlib.py:113: in __enter__
+    return next(self.gen)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/postgresql/base.py:316: in _nodb_cursor
+    with conn.cursor() as cursor:
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:259: in cursor
+    return self._cursor()
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:235: in _cursor
+    self.ensure_connection()
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:219: in ensure_connection
+    self.connect()
+/opt/venv/lib/python3.8/site-packages/django/db/utils.py:90: in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:219: in ensure_connection
+    self.connect()
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:200: in connect
+    self.connection = self.get_new_connection(conn_params)
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/postgresql/base.py:187: in get_new_connection
+    connection = Database.connect(**conn_params)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dsn = 'user=saleor password=saleor host=localhost port=5432 dbname=saleor'
+connection_factory = None, cursor_factory = None
+kwargs = {'database': 'saleor', 'host': 'localhost', 'password': 'saleor', 'port': 5432, ...}
+kwasync = {}
+
+    def connect(dsn=None, connection_factory=None, cursor_factory=None, **kwargs):
+        """
+        Create a new database connection.
+    
+        The connection parameters can be specified as a string:
+    
+            conn = psycopg2.connect("dbname=test user=postgres password=secret")
+    
+        or using a set of keyword arguments:
+    
+            conn = psycopg2.connect(database="test", user="postgres", password="secret")
+    
+        Or as a mix of both. The basic connection parameters are:
+    
+        - *dbname*: the database name
+        - *database*: the database name (only as keyword argument)
+        - *user*: user name used to authenticate
+        - *password*: password used to authenticate
+        - *host*: database host address (defaults to UNIX socket if not provided)
+        - *port*: connection port number (defaults to 5432 if not provided)
+    
+        Using the *connection_factory* parameter a different class or connections
+        factory can be specified. It should be a callable object taking a dsn
+        argument.
+    
+        Using the *cursor_factory* parameter, a new default cursor factory will be
+        used by cursor().
+    
+        Using *async*=True an asynchronous connection will be created. *async_* is
+        a valid alias (for Python versions where ``async`` is a keyword).
+    
+        Any other keyword parameter will be passed to the underlying client
+        library: the list of supported parameters depends on the library version.
+    
+        """
+        kwasync = {}
+        if 'async' in kwargs:
+            kwasync['async'] = kwargs.pop('async')
+        if 'async_' in kwargs:
+            kwasync['async_'] = kwargs.pop('async_')
+    
+        if dsn is None and not kwargs:
+            raise TypeError('missing dsn and no parameters')
+    
+        dsn = _ext.make_dsn(dsn, **kwargs)
+>       conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+E       django.db.utils.OperationalError: could not connect to server: Connection refused
+E       	Is the server running on host "localhost" (127.0.0.1) and accepting
+E       	TCP/IP connections on port 5432?
+
+/opt/venv/lib/python3.8/site-packages/psycopg2/__init__.py:127: OperationalError
+_____________ ERROR at setup of test_address_form_for_country[IE] ______________
+
+self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x7a0dcc5ffac0>
+
+    @async_unsafe
+    def ensure_connection(self):
+        """Guarantee that a connection to the database is established."""
+        if self.connection is None:
+            with self.wrap_database_errors:
+>               self.connect()
+
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:219: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:200: in connect
+    self.connection = self.get_new_connection(conn_params)
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/postgresql/base.py:187: in get_new_connection
+    connection = Database.connect(**conn_params)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dsn = 'user=saleor password=saleor host=localhost port=5432 dbname=postgres'
+connection_factory = None, cursor_factory = None
+kwargs = {'database': 'postgres', 'host': 'localhost', 'password': 'saleor', 'port': 5432, ...}
+kwasync = {}
+
+    def connect(dsn=None, connection_factory=None, cursor_factory=None, **kwargs):
+        """
+        Create a new database connection.
+    
+        The connection parameters can be specified as a string:
+    
+            conn = psycopg2.connect("dbname=test user=postgres password=secret")
+    
+        or using a set of keyword arguments:
+    
+            conn = psycopg2.connect(database="test", user="postgres", password="secret")
+    
+        Or as a mix of both. The basic connection parameters are:
+    
+        - *dbname*: the database name
+        - *database*: the database name (only as keyword argument)
+        - *user*: user name used to authenticate
+        - *password*: password used to authenticate
+        - *host*: database host address (defaults to UNIX socket if not provided)
+        - *port*: connection port number (defaults to 5432 if not provided)
+    
+        Using the *connection_factory* parameter a different class or connections
+        factory can be specified. It should be a callable object taking a dsn
+        argument.
+    
+        Using the *cursor_factory* parameter, a new default cursor factory will be
+        used by cursor().
+    
+        Using *async*=True an asynchronous connection will be created. *async_* is
+        a valid alias (for Python versions where ``async`` is a keyword).
+    
+        Any other keyword parameter will be passed to the underlying client
+        library: the list of supported parameters depends on the library version.
+    
+        """
+        kwasync = {}
+        if 'async' in kwargs:
+            kwasync['async'] = kwargs.pop('async')
+        if 'async_' in kwargs:
+            kwasync['async_'] = kwargs.pop('async_')
+    
+        if dsn is None and not kwargs:
+            raise TypeError('missing dsn and no parameters')
+    
+        dsn = _ext.make_dsn(dsn, **kwargs)
+>       conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+E       psycopg2.OperationalError: could not connect to server: Connection refused
+E       	Is the server running on host "localhost" (127.0.0.1) and accepting
+E       	TCP/IP connections on port 5432?
+
+/opt/venv/lib/python3.8/site-packages/psycopg2/__init__.py:127: OperationalError
+
+The above exception was the direct cause of the following exception:
+
+self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x7a0ddaddbac0>
+
+    @contextmanager
+    def _nodb_cursor(self):
+        try:
+>           with super()._nodb_cursor() as cursor:
+
+/opt/venv/lib/python3.8/site-packages/django/db/backends/postgresql/base.py:298: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.8/contextlib.py:113: in __enter__
+    return next(self.gen)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:620: in _nodb_cursor
+    with conn.cursor() as cursor:
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:259: in cursor
+    return self._cursor()
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:235: in _cursor
+    self.ensure_connection()
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:219: in ensure_connection
+    self.connect()
+/opt/venv/lib/python3.8/site-packages/django/db/utils.py:90: in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:219: in ensure_connection
+    self.connect()
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:200: in connect
+    self.connection = self.get_new_connection(conn_params)
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/postgresql/base.py:187: in get_new_connection
+    connection = Database.connect(**conn_params)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dsn = 'user=saleor password=saleor host=localhost port=5432 dbname=postgres'
+connection_factory = None, cursor_factory = None
+kwargs = {'database': 'postgres', 'host': 'localhost', 'password': 'saleor', 'port': 5432, ...}
+kwasync = {}
+
+    def connect(dsn=None, connection_factory=None, cursor_factory=None, **kwargs):
+        """
+        Create a new database connection.
+    
+        The connection parameters can be specified as a string:
+    
+            conn = psycopg2.connect("dbname=test user=postgres password=secret")
+    
+        or using a set of keyword arguments:
+    
+            conn = psycopg2.connect(database="test", user="postgres", password="secret")
+    
+        Or as a mix of both. The basic connection parameters are:
+    
+        - *dbname*: the database name
+        - *database*: the database name (only as keyword argument)
+        - *user*: user name used to authenticate
+        - *password*: password used to authenticate
+        - *host*: database host address (defaults to UNIX socket if not provided)
+        - *port*: connection port number (defaults to 5432 if not provided)
+    
+        Using the *connection_factory* parameter a different class or connections
+        factory can be specified. It should be a callable object taking a dsn
+        argument.
+    
+        Using the *cursor_factory* parameter, a new default cursor factory will be
+        used by cursor().
+    
+        Using *async*=True an asynchronous connection will be created. *async_* is
+        a valid alias (for Python versions where ``async`` is a keyword).
+    
+        Any other keyword parameter will be passed to the underlying client
+        library: the list of supported parameters depends on the library version.
+    
+        """
+        kwasync = {}
+        if 'async' in kwargs:
+            kwasync['async'] = kwargs.pop('async')
+        if 'async_' in kwargs:
+            kwasync['async_'] = kwargs.pop('async_')
+    
+        if dsn is None and not kwargs:
+            raise TypeError('missing dsn and no parameters')
+    
+        dsn = _ext.make_dsn(dsn, **kwargs)
+>       conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+E       django.db.utils.OperationalError: could not connect to server: Connection refused
+E       	Is the server running on host "localhost" (127.0.0.1) and accepting
+E       	TCP/IP connections on port 5432?
+
+/opt/venv/lib/python3.8/site-packages/psycopg2/__init__.py:127: OperationalError
+
+During handling of the above exception, another exception occurred:
+
+self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x7a0dccf86f70>
+
+    @async_unsafe
+    def ensure_connection(self):
+        """Guarantee that a connection to the database is established."""
+        if self.connection is None:
+            with self.wrap_database_errors:
+>               self.connect()
+
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:219: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:200: in connect
+    self.connection = self.get_new_connection(conn_params)
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/postgresql/base.py:187: in get_new_connection
+    connection = Database.connect(**conn_params)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dsn = 'user=saleor password=saleor host=localhost port=5432 dbname=saleor'
+connection_factory = None, cursor_factory = None
+kwargs = {'database': 'saleor', 'host': 'localhost', 'password': 'saleor', 'port': 5432, ...}
+kwasync = {}
+
+    def connect(dsn=None, connection_factory=None, cursor_factory=None, **kwargs):
+        """
+        Create a new database connection.
+    
+        The connection parameters can be specified as a string:
+    
+            conn = psycopg2.connect("dbname=test user=postgres password=secret")
+    
+        or using a set of keyword arguments:
+    
+            conn = psycopg2.connect(database="test", user="postgres", password="secret")
+    
+        Or as a mix of both. The basic connection parameters are:
+    
+        - *dbname*: the database name
+        - *database*: the database name (only as keyword argument)
+        - *user*: user name used to authenticate
+        - *password*: password used to authenticate
+        - *host*: database host address (defaults to UNIX socket if not provided)
+        - *port*: connection port number (defaults to 5432 if not provided)
+    
+        Using the *connection_factory* parameter a different class or connections
+        factory can be specified. It should be a callable object taking a dsn
+        argument.
+    
+        Using the *cursor_factory* parameter, a new default cursor factory will be
+        used by cursor().
+    
+        Using *async*=True an asynchronous connection will be created. *async_* is
+        a valid alias (for Python versions where ``async`` is a keyword).
+    
+        Any other keyword parameter will be passed to the underlying client
+        library: the list of supported parameters depends on the library version.
+    
+        """
+        kwasync = {}
+        if 'async' in kwargs:
+            kwasync['async'] = kwargs.pop('async')
+        if 'async_' in kwargs:
+            kwasync['async_'] = kwargs.pop('async_')
+    
+        if dsn is None and not kwargs:
+            raise TypeError('missing dsn and no parameters')
+    
+        dsn = _ext.make_dsn(dsn, **kwargs)
+>       conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+E       psycopg2.OperationalError: could not connect to server: Connection refused
+E       	Is the server running on host "localhost" (127.0.0.1) and accepting
+E       	TCP/IP connections on port 5432?
+
+/opt/venv/lib/python3.8/site-packages/psycopg2/__init__.py:127: OperationalError
+
+The above exception was the direct cause of the following exception:
+
+request = <SubRequest 'django_db_setup' for <Function test_address_form_for_country[CN]>>
+django_test_environment = None
+django_db_blocker = <pytest_django.plugin.DjangoDbBlocker object at 0x7a0ddd42da30>
+django_db_use_migrations = True, django_db_keepdb = False
+django_db_createdb = False, django_db_modify_db_settings = None
+
+    @pytest.fixture(scope="session")
+    def django_db_setup(
+        request: pytest.FixtureRequest,
+        django_test_environment: None,
+        django_db_blocker: DjangoDbBlocker,
+        django_db_use_migrations: bool,
+        django_db_keepdb: bool,
+        django_db_createdb: bool,
+        django_db_modify_db_settings: None,
+    ) -> Generator[None, None, None]:
+        """Top level fixture to ensure test databases are available"""
+        from django.test.utils import setup_databases, teardown_databases
+    
+        setup_databases_args = {}
+    
+        if not django_db_use_migrations:
+            _disable_migrations()
+    
+        if django_db_keepdb and not django_db_createdb:
+            setup_databases_args["keepdb"] = True
+    
+        aliases, serialized_aliases = _get_databases_for_setup(request.session.items)
+    
+        with django_db_blocker.unblock():
+>           db_cfg = setup_databases(
+                verbosity=request.config.option.verbose,
+                interactive=False,
+                aliases=aliases,
+                serialized_aliases=serialized_aliases,
+                **setup_databases_args,
+            )
+
+/opt/venv/lib/python3.8/site-packages/pytest_django/fixtures.py:198: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.8/site-packages/django/test/utils.py:170: in setup_databases
+    connection.creation.create_test_db(
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/creation.py:55: in create_test_db
+    self._create_test_db(verbosity, autoclobber, keepdb)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/creation.py:176: in _create_test_db
+    with self._nodb_cursor() as cursor:
+/usr/local/lib/python3.8/contextlib.py:113: in __enter__
+    return next(self.gen)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/postgresql/base.py:316: in _nodb_cursor
+    with conn.cursor() as cursor:
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:259: in cursor
+    return self._cursor()
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:235: in _cursor
+    self.ensure_connection()
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:219: in ensure_connection
+    self.connect()
+/opt/venv/lib/python3.8/site-packages/django/db/utils.py:90: in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:219: in ensure_connection
+    self.connect()
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:200: in connect
+    self.connection = self.get_new_connection(conn_params)
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/postgresql/base.py:187: in get_new_connection
+    connection = Database.connect(**conn_params)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dsn = 'user=saleor password=saleor host=localhost port=5432 dbname=saleor'
+connection_factory = None, cursor_factory = None
+kwargs = {'database': 'saleor', 'host': 'localhost', 'password': 'saleor', 'port': 5432, ...}
+kwasync = {}
+
+    def connect(dsn=None, connection_factory=None, cursor_factory=None, **kwargs):
+        """
+        Create a new database connection.
+    
+        The connection parameters can be specified as a string:
+    
+            conn = psycopg2.connect("dbname=test user=postgres password=secret")
+    
+        or using a set of keyword arguments:
+    
+            conn = psycopg2.connect(database="test", user="postgres", password="secret")
+    
+        Or as a mix of both. The basic connection parameters are:
+    
+        - *dbname*: the database name
+        - *database*: the database name (only as keyword argument)
+        - *user*: user name used to authenticate
+        - *password*: password used to authenticate
+        - *host*: database host address (defaults to UNIX socket if not provided)
+        - *port*: connection port number (defaults to 5432 if not provided)
+    
+        Using the *connection_factory* parameter a different class or connections
+        factory can be specified. It should be a callable object taking a dsn
+        argument.
+    
+        Using the *cursor_factory* parameter, a new default cursor factory will be
+        used by cursor().
+    
+        Using *async*=True an asynchronous connection will be created. *async_* is
+        a valid alias (for Python versions where ``async`` is a keyword).
+    
+        Any other keyword parameter will be passed to the underlying client
+        library: the list of supported parameters depends on the library version.
+    
+        """
+        kwasync = {}
+        if 'async' in kwargs:
+            kwasync['async'] = kwargs.pop('async')
+        if 'async_' in kwargs:
+            kwasync['async_'] = kwargs.pop('async_')
+    
+        if dsn is None and not kwargs:
+            raise TypeError('missing dsn and no parameters')
+    
+        dsn = _ext.make_dsn(dsn, **kwargs)
+>       conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+E       django.db.utils.OperationalError: could not connect to server: Connection refused
+E       	Is the server running on host "localhost" (127.0.0.1) and accepting
+E       	TCP/IP connections on port 5432?
+
+/opt/venv/lib/python3.8/site-packages/psycopg2/__init__.py:127: OperationalError
+__________ ERROR at setup of test_address_form_postal_code_validation __________
+
+self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x7a0dcc5ffac0>
+
+    @async_unsafe
+    def ensure_connection(self):
+        """Guarantee that a connection to the database is established."""
+        if self.connection is None:
+            with self.wrap_database_errors:
+>               self.connect()
+
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:219: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/base/base.py:200: in connect
+    self.connection = self.get_new_connection(conn_params)
+/opt/venv/lib/python3.8/site-packages/django/utils/asyncio.py:26: in inner
+    return func(*args, **kwargs)
+/opt/venv/lib/python3.8/site-packages/django/db/backends/postgresql/base.py:187: in get_new_connection
+    connection = Database.connect(**conn_params)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dsn = 'user=saleor password=saleor host=localhost port=5432 dbname=postgres'
+connection_factory = None, cursor_factory = None
+kwargs = {'database': 'postgres', 'host': 'localhost', 'password': 'saleor', 'port': 5432, ...}
+kwasync = {}
+
+    def connect(dsn=None, connection_factory=None, cursor_factory=None, **kwargs):
+        """
+        Create a new database connection.
+    
+        The connection parameters can be specified as a string:
+    
+            conn = psycopg2.connect("dbname=test user=postgres password=secret")
+    
+        or using a set of keyword arguments:
+    
+            conn = psycopg2.connect(database="test", user="postgres", password="secret")
+    
+        Or as a mix of both. The basic connection parameters are:
+    
+        - *dbname*: the database name
+        - *database*: the database name (only as keyword argument)
+        - *user*: user name used to authenticate
+        - *password*: password used to authenticate
+        - *host*: database host address (defaults to UNIX socket if not provided)
+        - *port*: connection port number (defaults to 5432 if not provided)
+    
+        Using the *connection_factory* parameter a different class or connections
+        factory can be specified. It should be a callable object taking a dsn
+        argument.
+    
+        Using the *cursor_factory* parameter, a new default cursor factory will be
+        used by cursor().
+    
+        Using *async*=True an asynchronous connection will be created. *async_* is
+        a valid alias (for Python versions where ``async`` is a keyword).
+    
+        Any other keyword parameter will be passed to the underlying client
+        library: the list of supported parameters depends on the library version.
+    
+        """
+        kwasync = {}
+        if 'async' in kwargs:
+            kwasync['async'] = kwargs.pop('async')
+        if 'async_' in kwargs:
+            kwasync['async_'] = kwargs.pop('async_')
+    
+        if dsn is None and not kwargs:
+            raise TypeError('missing dsn and no parameters')
+    
+        dsn = _ext.make_dsn(dsn, **kwargs)
+>       conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+E       psycopg2.OperationalError: could not connect to server: Connection refused
+E       	Is the server running on host "localhost" (127.0.0.1) and accepting
+E       	TCP/IP connections on port 5432?
+
+/opt/venv/lib/python3.8/site-packages/psycopg2/__init__.py:127: OperationalError
