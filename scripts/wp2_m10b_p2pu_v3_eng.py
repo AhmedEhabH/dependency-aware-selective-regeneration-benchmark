@@ -428,6 +428,9 @@ def run_p2pu_state(*, task_id: str, era_key: str, worktree_linux: str, tid: str,
         f"cd /workspace/{wt_name} && bash /workspace/{wt_name}/.p2pu_runs.sh; "
         "echo ALL_RUNS_DONE"
     )
+    subprocess.run(["wsl", "-d", WSL_DISTRO, "--", "bash", "-lc",
+                    f"cat > {worktree_linux}/.p2pu_install.sh"],
+                   input=script.encode("utf-8"), capture_output=True, timeout=180, check=True)
     try:
         r = wsl_docker(
             ["run", "--rm", "--network", "host",
@@ -435,7 +438,7 @@ def run_p2pu_state(*, task_id: str, era_key: str, worktree_linux: str, tid: str,
              "-e", f"DATABASE_URL=postgres://saleor:saleor@127.0.0.1:5433/{db_name}",
              "-e", "CACHE_URL=locmem://",
              "-v", mount, "-v", "wp2-uv-cache:/root/.cache/uv",
-             f"wp2-era-{era_key}", "bash", "-lc", script],
+             f"wp2-era-{era_key}", "bash", f"/workspace/{wt_name}/.p2pu_install.sh"],
             timeout_s=timeout_s,
         )
     except subprocess.TimeoutExpired:

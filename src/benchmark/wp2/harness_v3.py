@@ -554,6 +554,14 @@ def run_state_v3(
         f"cd /workspace/{wt_name} && bash /workspace/{wt_name}/.wp2_runs.sh; "
         "echo ALL_RUNS_DONE"
     )
+    r = subprocess.run(
+        ["wsl", "-d", WSL_DISTRO, "--", "bash", "-lc",
+         f"cat > {worktree_linux}/.install.sh"],
+        input=script.encode("utf-8"), capture_output=True, timeout=120,
+    )
+    if r.returncode != 0:
+        return {"error": "INSTALL_SCRIPT_WRITE_FAIL", "junit": {}, "junit_failures": {},
+                "db_name": db_name}
     r = wsl_docker(
         [
             "run", "--rm", "--network", "host",
@@ -563,7 +571,7 @@ def run_state_v3(
             "-v", mount,
             "-v", "wp2-uv-cache:/root/.cache/uv",
             f"wp2-era-{era_key}",
-            "bash", "-lc", script,
+            "bash", f"/workspace/{wt_name}/.install.sh",
         ],
         timeout_s=timeout_s,
     )
