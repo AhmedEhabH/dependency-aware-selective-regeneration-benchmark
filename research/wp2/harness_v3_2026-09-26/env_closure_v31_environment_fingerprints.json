@@ -1,0 +1,364 @@
+{
+ "artifact": "env_closure_v31_environment_fingerprints",
+ "note": "dependency_fingerprint for cache/build reuse; execution_environment_fingerprint for scientific evidence identity.",
+ "per_task": {
+  "saleor-rc-22ec4dab0154": {
+   "era_key": "py38",
+   "base_image": "wp2-era-py38",
+   "base_image_digest": "1cc60658b6a2",
+   "python_version": "Python 3.8.20",
+   "main_recipe_signature": "2a5a965c8b2478195c9aa1ff7b0888f9401d304e6565854700a15a21dd37c5c8",
+   "dev_test_closure_sha256": "5e448412c12155a351923f3777eb7d1c4b0eff1c900f7c098b0561e2ec6d16df",
+   "dev_test_closure_n_pins": 71,
+   "dev_pins_unavailable": [
+    "codecov==2.1.7",
+    "python-magic-bin==0.4.14"
+   ],
+   "vcr_family_present": [
+    "pytest-vcr",
+    "vcrpy"
+   ],
+   "dependency_fingerprint": "3bb52f619306bc6ea6decd6d5cece2bcf5425d21e39745dd0b660729f1a8213a",
+   "execution_environment_fingerprint": "cc52bc8b0fca8822f86c99f8f21ec4f5e0c7da57ff8cb4ec222f9d0b44c7e6bc",
+   "freeze_sha256": "0420c5e3e94455b827c973e7669784b5cd83b5c948027017b73c2872ad49ce4c",
+   "old_freeze_sha256": "682460ac9525593044b3c53a321fe6239265373ed87110f3115fcc927a2ca874",
+   "old_freeze_packages": 130,
+   "corrected_freeze_packages": 193
+  },
+  "saleor-rc-2d45b76a52f2": {
+   "era_key": "py39",
+   "base_image": "wp2-era-py39",
+   "base_image_digest": "ddc08d7e6855",
+   "python_version": "Python 3.9.25",
+   "main_recipe_signature": "fdfc74fd44b874ec184e9907eb58e68f02d026a2780bcf0e3a7eb12af43225d4",
+   "dev_test_closure_sha256": "9b7483569d5ba4c4a99d5e34fe5ac4828600d88bfdda7fafb003167a3226542f",
+   "dev_test_closure_n_pins": 77,
+   "dev_pins_unavailable": [
+    "codecov==2.1.12",
+    "python-magic-bin==0.4.14"
+   ],
+   "vcr_family_present": [
+    "pytest-recording",
+    "pytest-socket",
+    "vcrpy"
+   ],
+   "dependency_fingerprint": "9c9314bf33cb08e040d0000724ed6619877c3d9aa22ad95f8f251715b152bb2a",
+   "execution_environment_fingerprint": "548ae89c10219c8ddcc28f710760f041dfca6ad9d35bc86a57a50f885c224c29",
+   "freeze_sha256": "40a1522926c94e0d1912832646b8a183cb630805121f260230bc9f8e0e777109",
+   "old_freeze_sha256": "d6a0d53d6a1d3a3fc47cacafc99a2e16a15f62fe2257e413a39d77b73a32419f",
+   "old_freeze_packages": 171,
+   "corrected_freeze_packages": 238
+  },
+  "saleor-rc-39b4138e8550": {
+   "era_key": "py312",
+   "base_image": "wp2-era-py312",
+   "base_image_digest": "0c185699947d",
+   "python_version": "Python 3.12.14",
+   "main_recipe_signature": "7b7be1b8442b7412fb500709fe35eaf1823ac0bb852eebf5cfbbe56cf5438a53",
+   "dev_test_closure_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "dev_test_closure_n_pins": 0,
+   "dev_pins_unavailable": [],
+   "vcr_family_present": [],
+   "dependency_fingerprint": "db059ec9fcb688f8bd50fab975c35d8f1cad629eecfc577e89248c360cda9bf7",
+   "execution_environment_fingerprint": "53c6b6b14c7f7200c372f4472d2fd086b6943afcd9cf520dbce23d78cbcad924",
+   "freeze_sha256": "86c0a17ac16ad6683429fc5ede67bf284d9642043c9ef86df9abe2a9c6fa363c",
+   "old_freeze_sha256": "86c0a17ac16ad6683429fc5ede67bf284d9642043c9ef86df9abe2a9c6fa363c",
+   "old_freeze_packages": 236,
+   "corrected_freeze_packages": 236
+  },
+  "saleor-rc-644f33094857": {
+   "era_key": "py38",
+   "base_image": "wp2-era-py38",
+   "base_image_digest": "1cc60658b6a2",
+   "python_version": "Python 3.8.20",
+   "main_recipe_signature": "54d6fde5e6e0976eb2ddd4583cc1b1bb149c2c092d9e9f1a42beffc0342fb77f",
+   "dev_test_closure_sha256": "9ef7dc143611e74d4811a7b6b5c204f407c455305a7619c697cb902508e98d8c",
+   "dev_test_closure_n_pins": 66,
+   "dev_pins_unavailable": [
+    "codecov==2.1.10",
+    "python-magic-bin==0.4.14"
+   ],
+   "vcr_family_present": [
+    "pytest-vcr",
+    "vcrpy"
+   ],
+   "dependency_fingerprint": "e31c3ce2112ba30033567e755bf4b7a1b9ef82e6aae0c60861db4a724d62238e",
+   "execution_environment_fingerprint": "1101b77a084e846f524dbc0e23e01a1918b3f2f3699c3a13f278afb5b097cd43",
+   "freeze_sha256": "125a310872fe4459838436a2de005917ce11d3e208740ef95da675b767007cfd",
+   "old_freeze_sha256": "e9c01e8472630799063eea09769ec954d772ff4751daba9beb4cab33f7dada19",
+   "old_freeze_packages": 151,
+   "corrected_freeze_packages": 210
+  },
+  "saleor-rc-6abb53f3407b": {
+   "era_key": "py39",
+   "base_image": "wp2-era-py39",
+   "base_image_digest": "ddc08d7e6855",
+   "python_version": "Python 3.9.25",
+   "main_recipe_signature": "1e74b798899794860772eda57ce2dd3c65a033649c70d8672f5e054669e93e3f",
+   "dev_test_closure_sha256": "2a4b0adfcd51958fef6e8d4977e351c1058ec28a05339352fe0a8c384b8f27e9",
+   "dev_test_closure_n_pins": 69,
+   "dev_pins_unavailable": [
+    "codecov==2.1.12",
+    "python-magic-bin==0.4.14"
+   ],
+   "vcr_family_present": [
+    "pytest-vcr",
+    "vcrpy"
+   ],
+   "dependency_fingerprint": "182b27549373381552eafd86e578d3c1754f4d0b0ad5c671aa431ec42073d232",
+   "execution_environment_fingerprint": "b0f007083bc83f63272ec1f23ad7a096d8d966074206699b19a82f5bbdafde6d",
+   "freeze_sha256": "7aa24b978741fe67a8940595737f90abebe898e732244e78fcd3fb098a384441",
+   "old_freeze_sha256": "f3fb7475daabb091a77091be84ef68f0764e4800137d1b86fe6b715be5d25921",
+   "old_freeze_packages": 160,
+   "corrected_freeze_packages": 223
+  },
+  "saleor-rc-74538ea00ce9": {
+   "era_key": "py312",
+   "base_image": "wp2-era-py312",
+   "base_image_digest": "0c185699947d",
+   "python_version": "Python 3.12.14",
+   "main_recipe_signature": "cb947b3c72f7001d3e3c4fd6852ae720f7d732e34c1bc2e09bb2b91b2abe6e53",
+   "dev_test_closure_sha256": "ca92e25857f4109a73de9628a4bc33b9d7c25e0eae68b289d772329bf45b2834",
+   "dev_test_closure_n_pins": 37,
+   "dev_pins_unavailable": [
+    "python-magic-bin==0.4.14",
+    "pywin32==306"
+   ],
+   "vcr_family_present": [
+    "pytest-recording",
+    "pytest-socket",
+    "vcrpy"
+   ],
+   "dependency_fingerprint": "3a0d468954d3b5ada5ad263a5332e4cb2321bd0f840eca99ce5013b1251b4bec",
+   "execution_environment_fingerprint": "3b40ac55913e53e87b88f8651ab956605a232312df4fef456529a5050b66aa2a",
+   "freeze_sha256": "4f9951d5967e29d7c82bfa88615826365936cef10d651e69db9eeea8d8f3972f",
+   "old_freeze_sha256": "1c68d814ceb0b6360d3779f8fcc99b9cefb2384a5388f8274412352a067f24b5",
+   "old_freeze_packages": 170,
+   "corrected_freeze_packages": 242
+  },
+  "saleor-rc-823b899757ab": {
+   "era_key": "py38",
+   "base_image": "wp2-era-py38",
+   "base_image_digest": "1cc60658b6a2",
+   "python_version": "Python 3.8.20",
+   "main_recipe_signature": "afe7cc5d406cc29d771efb45159972c286aae19849782ed20725100e2f06ab15",
+   "dev_test_closure_sha256": "fd4796f26570ab37b404b1c7155474e38c417d11336c323eb47659a1836acdcc",
+   "dev_test_closure_n_pins": 70,
+   "dev_pins_unavailable": [
+    "codecov==2.1.9",
+    "python-magic-bin==0.4.14"
+   ],
+   "vcr_family_present": [
+    "pytest-vcr",
+    "vcrpy"
+   ],
+   "dependency_fingerprint": "b31a6205615ee2bd7e527aec96d61818fd7915fa87aed1c6bde137454f6db5d5",
+   "execution_environment_fingerprint": "6052b51b6245c12973e3a5124258d8cca5a0fee445f1db026c674eeac610f905",
+   "freeze_sha256": "841bc22bf8cf582f1bd67fc59ca5d2903a7bf8325559bf5ae8f2ec21641918dc",
+   "old_freeze_sha256": "28aae9905d39eecdf3ac9c0aa95fbbc62c60a77b7e9bb06ff0970886b20dd4c2",
+   "old_freeze_packages": 141,
+   "corrected_freeze_packages": 202
+  },
+  "saleor-rc-82c56bde0e34": {
+   "era_key": "py39",
+   "base_image": "wp2-era-py39",
+   "base_image_digest": "ddc08d7e6855",
+   "python_version": "Python 3.9.25",
+   "main_recipe_signature": "875cd3d0ea17f1a4e9b53727159de7597bc7b62a4dc538b5cda66a9ddaf85ef9",
+   "dev_test_closure_sha256": "ecc1759c33fe95089f319203b9127ae8f38cfb1653bfff8c9cf94c4d1ee536d5",
+   "dev_test_closure_n_pins": 74,
+   "dev_pins_unavailable": [
+    "python-magic-bin==0.4.14"
+   ],
+   "vcr_family_present": [
+    "pytest-recording",
+    "pytest-socket",
+    "vcrpy"
+   ],
+   "dependency_fingerprint": "4c0497614e323408be9cf549112fa23660c4a0a2525609699f1984547c0b725c",
+   "execution_environment_fingerprint": "7b4140071c1708994d60db00487d6a85cdbdf9af3caba9699000438e8c941715",
+   "freeze_sha256": "8fce3ab991a43073719f033aa557e264294051ae075afac4e01614cac28a2783",
+   "old_freeze_sha256": "5ce78b401ffd5542ad7c32f41cb9b797c7d88533367e71cb5b15c7313eb063da",
+   "old_freeze_packages": 166,
+   "corrected_freeze_packages": 233
+  },
+  "saleor-rc-8f76ddc6267f": {
+   "era_key": "py39",
+   "base_image": "wp2-era-py39",
+   "base_image_digest": "ddc08d7e6855",
+   "python_version": "Python 3.9.25",
+   "main_recipe_signature": "ebeabebb82e94c53b0b6499db8a3a9ddbdb076ce0bbfe98af6f2522411eb4994",
+   "dev_test_closure_sha256": "f086dc9477115306388f7300756b634ccd321d0ba9a560532f88cc546edbe7d7",
+   "dev_test_closure_n_pins": 75,
+   "dev_pins_unavailable": [
+    "python-magic-bin==0.4.14"
+   ],
+   "vcr_family_present": [
+    "pytest-recording",
+    "pytest-socket",
+    "vcrpy"
+   ],
+   "dependency_fingerprint": "9238ddb892f14722116cc7967923aca108d12b83fa3cc7840d8f14353b0cf4f6",
+   "execution_environment_fingerprint": "835afcdcba05f2e1c8cd0d809f6e7473cbc3eaca29339513321d80a16bc10f1f",
+   "freeze_sha256": "4a912915a704222d4cfcd4d5697fecbee2d14ce8427a045a9012642926f37364",
+   "old_freeze_sha256": "5ed7258b0c263f7741534df52db1acafa01b813ea8f9260ae185fa54fde7396a",
+   "old_freeze_packages": 185,
+   "corrected_freeze_packages": 238
+  },
+  "saleor-rc-9258154b8a0b": {
+   "era_key": "py39",
+   "base_image": "wp2-era-py39",
+   "base_image_digest": "ddc08d7e6855",
+   "python_version": "Python 3.9.25",
+   "main_recipe_signature": "8534a2d09a7a003e9e17dc733f30a17e96781f83c5ed2c15a0b3471262f449e2",
+   "dev_test_closure_sha256": "ecc1759c33fe95089f319203b9127ae8f38cfb1653bfff8c9cf94c4d1ee536d5",
+   "dev_test_closure_n_pins": 74,
+   "dev_pins_unavailable": [
+    "python-magic-bin==0.4.14"
+   ],
+   "vcr_family_present": [
+    "pytest-recording",
+    "pytest-socket",
+    "vcrpy"
+   ],
+   "dependency_fingerprint": "ba09a323871ecfba5c237343f949d3609c0a58ca92d2deb0f00788bdfbbfe342",
+   "execution_environment_fingerprint": "82c7b92c2618e9e24a69ccaa3e479adf6f154052afae031f9ca500fea3ff0839",
+   "freeze_sha256": "8fce3ab991a43073719f033aa557e264294051ae075afac4e01614cac28a2783",
+   "old_freeze_sha256": "5ce78b401ffd5542ad7c32f41cb9b797c7d88533367e71cb5b15c7313eb063da",
+   "old_freeze_packages": 166,
+   "corrected_freeze_packages": 233
+  },
+  "saleor-rc-93b20d78c011": {
+   "era_key": "py39",
+   "base_image": "wp2-era-py39",
+   "base_image_digest": "ddc08d7e6855",
+   "python_version": "Python 3.9.25",
+   "main_recipe_signature": "5e385ca52c080a9a408df2e454fc5073d525e187c0722e4e0933c0883ff67ae4",
+   "dev_test_closure_sha256": "8d379fb5b6b0b8547325480d1632e10c69dcbe5c5adae4f2de8eb7e43841f513",
+   "dev_test_closure_n_pins": 66,
+   "dev_pins_unavailable": [
+    "codecov==2.1.11",
+    "python-magic-bin==0.4.14"
+   ],
+   "vcr_family_present": [
+    "pytest-vcr",
+    "vcrpy"
+   ],
+   "dependency_fingerprint": "2f983dc2ddbcbe858257deb0ea667ab6696ca728d9c081b1bf270767a7a31cd9",
+   "execution_environment_fingerprint": "a0ad8834f8721e27aad9675c01cf1386891b79d3cac443139e7f5ac763a678b5",
+   "freeze_sha256": "6681a7d1077603c0954d30086fdcdb97156065f543f658297e8aaaddecc36a3b",
+   "old_freeze_sha256": "d3b6e33e8b0037da7893eb2f5d2b34d097ce03593c96c435e8b0fda96689793e",
+   "old_freeze_packages": 152,
+   "corrected_freeze_packages": 211
+  },
+  "saleor-rc-c3b9e396b07d": {
+   "era_key": "py39",
+   "base_image": "wp2-era-py39",
+   "base_image_digest": "ddc08d7e6855",
+   "python_version": "Python 3.9.25",
+   "main_recipe_signature": "9de849c1ff9b4817a6690835f7cd83152a0290ae03a59d075468ec6daebc4a5d",
+   "dev_test_closure_sha256": "d0974fa0369d254c3adfc816a0f5d9c91c74a101b0776ea1b84d9d65026ae0c4",
+   "dev_test_closure_n_pins": 69,
+   "dev_pins_unavailable": [
+    "codecov==2.1.12",
+    "python-magic-bin==0.4.14"
+   ],
+   "vcr_family_present": [
+    "pytest-vcr",
+    "vcrpy"
+   ],
+   "dependency_fingerprint": "584d3c14aba651d196db66d8cd51381c432d369654dff5bd87c304add6224113",
+   "execution_environment_fingerprint": "1f852c35b33e58a3242121de4ab9314017fab2483a84b21aff15aaefa9b5ec59",
+   "freeze_sha256": "8e60550a3ecc73ac870310445cefcb59fad9be6354056b84e9caade917f0fde9",
+   "old_freeze_sha256": "eef980f2f6b55e1737e4847f478ad7691edee38c773f3f23281a5bcd4446b688",
+   "old_freeze_packages": 166,
+   "corrected_freeze_packages": 223
+  },
+  "saleor-rc-d220843b5418": {
+   "era_key": "py312",
+   "base_image": "wp2-era-py312",
+   "base_image_digest": "0c185699947d",
+   "python_version": "Python 3.12.14",
+   "main_recipe_signature": "8775b5223b1a7b7883032e81ff55f254cb0d970774495063f9f5bf7ec88a97df",
+   "dev_test_closure_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "dev_test_closure_n_pins": 0,
+   "dev_pins_unavailable": [],
+   "vcr_family_present": [],
+   "dependency_fingerprint": "d63743fdf9629492337c85d59786da8351882b180ea6bd714e659347fe4cbc55",
+   "execution_environment_fingerprint": "2b6c7cee5c1b8b7b9918813dbf40451efddfe413253f8c69b527d39af82046d5",
+   "freeze_sha256": "64e01c5cadc3896700abb0f3ee33b72885105a8fe2dfae73206e7624a47ed386",
+   "old_freeze_sha256": "64e01c5cadc3896700abb0f3ee33b72885105a8fe2dfae73206e7624a47ed386",
+   "old_freeze_packages": 236,
+   "corrected_freeze_packages": 236
+  },
+  "saleor-rc-dc6ac9d252df": {
+   "era_key": "py39",
+   "base_image": "wp2-era-py39",
+   "base_image_digest": "ddc08d7e6855",
+   "python_version": "Python 3.9.25",
+   "main_recipe_signature": "2ee33342dc3dd32d351aecf10c6ba703a2c7dd4a8ab35ab35584f47690836eb2",
+   "dev_test_closure_sha256": "c92a09df7cb5af4a6ba5258ef4a14862107c900ab5412766c64f1efacfe4d21a",
+   "dev_test_closure_n_pins": 70,
+   "dev_pins_unavailable": [
+    "codecov==2.1.12",
+    "python-magic-bin==0.4.14"
+   ],
+   "vcr_family_present": [
+    "pytest-vcr",
+    "vcrpy"
+   ],
+   "dependency_fingerprint": "efee5d1a753b3c6d277ac34f2a3e3bb3f52e639f37fc33cae988950675e0b0d3",
+   "execution_environment_fingerprint": "3fd7a569f0fb82dd68e82c90c1f254907039b2b0d4bb9dd9ae964e83355faf43",
+   "freeze_sha256": "c91ca3bee4ee595e858e82cbbc627d4f3b646cf325c5640a82760e7398ee4143",
+   "old_freeze_sha256": "41a098434fc5e9b2b71c657bcb2aef720047dfbb02f24833a728c048ad2235d6",
+   "old_freeze_packages": 160,
+   "corrected_freeze_packages": 224
+  },
+  "saleor-rc-e03ee76d2b89": {
+   "era_key": "py39",
+   "base_image": "wp2-era-py39",
+   "base_image_digest": "ddc08d7e6855",
+   "python_version": "Python 3.9.25",
+   "main_recipe_signature": "a65eebd51c177e1a4f039147215c21df47e467974aca527bb8c803b9f2efb721",
+   "dev_test_closure_sha256": "9cd1fb44a6b594bf0b8b1fa0420cace6e9f00faee3fb36cd426d6e73f0af8888",
+   "dev_test_closure_n_pins": 75,
+   "dev_pins_unavailable": [
+    "python-magic-bin==0.4.14"
+   ],
+   "vcr_family_present": [
+    "pytest-recording",
+    "pytest-socket",
+    "vcrpy"
+   ],
+   "dependency_fingerprint": "0da73bc28e6c4a517c704cca6bd08f7e61606029cda6fc2456acf7458a86be81",
+   "execution_environment_fingerprint": "83e92cb2aeff4997af00401f845ceb34c973818f74d69768e902e532845b0a1d",
+   "freeze_sha256": "6beb6fdd885946126486cc3b7de0bcd3d950e149b1ba1bafc466c4c884ba8dbf",
+   "old_freeze_sha256": "9b1a1cea3559a330bedb12a58f8ac7b826717f40a317289e62b732005f0d8b86",
+   "old_freeze_packages": 166,
+   "corrected_freeze_packages": 233
+  },
+  "saleor-rc-e25cf9b4a837": {
+   "era_key": "py38",
+   "base_image": "wp2-era-py38",
+   "base_image_digest": "1cc60658b6a2",
+   "python_version": "Python 3.8.20",
+   "main_recipe_signature": "c127943dfbc73004e9a2d9364da7cc3d4d9fad4d12248174da386b367cfc75e9",
+   "dev_test_closure_sha256": "0f9fd2db3bdb7cf4346bef7319aa0a889783740a3883d72469c6022e23d9d25f",
+   "dev_test_closure_n_pins": 71,
+   "dev_pins_unavailable": [
+    "codecov==2.1.8",
+    "python-magic-bin==0.4.14"
+   ],
+   "vcr_family_present": [
+    "pytest-vcr",
+    "vcrpy"
+   ],
+   "dependency_fingerprint": "59049a954e01035b619962c187255713cc412230a5e729f1a7b590128d9bd5d5",
+   "execution_environment_fingerprint": "763b96dc808709857a910eec51b84b35f2143a5fae57b1720271dc9b65d4298e",
+   "freeze_sha256": "ba892eaec044c71e88934f0937bbf0ab5a427724394174a0fe4ce3c69241a44b",
+   "old_freeze_sha256": "5195d4ebcc6c183ecf62efb0ba9c520a8a13e18e2181d63bc22cb9776c82d87b",
+   "old_freeze_packages": 138,
+   "corrected_freeze_packages": 194
+  }
+ }
+}

@@ -1,0 +1,155 @@
+{
+ "artifact": "env_closure_v31_vcr_audit",
+ "old_conclusion_reversed": true,
+ "notes": [
+  "Old dev-deps audit concluded 'pytest-recording absent => no VCR dependency gap'. That conclusion was WRONG: the historical VCR providers (pytest-vcr/vcrpy for legacy poetry tasks, pytest-recording for modern poetry tasks) were declared in the historical lock but NOT installed in the old V3 env, so vcr-marked tests fell through to real network calls and were blocked by --disable-socket (132 SOCKET_BLOCKED nodes).",
+  "Corrected env installs the exact historical dev/test closure; the VCR provider plugin is present and loaded (plugin trace), and the @pytest.mark.vcr marker is registered (markers file).",
+  "VCR_UNRESOLVED = 0 for all 16 tasks. Whether the SOCKET_BLOCKED nodes flip to cassette replay is determined by corrected rerun evidence (E8/E9), not by this preflight."
+ ],
+ "per_task": {
+  "saleor-rc-22ec4dab0154": {
+   "old_socket_blocked_nodes": [],
+   "vcr_family_present": [
+    "pytest-vcr",
+    "vcrpy"
+   ],
+   "vcr_unresolved_corrected": [],
+   "marker_vcr_registered": true
+  },
+  "saleor-rc-2d45b76a52f2": {
+   "old_socket_blocked_nodes": [],
+   "vcr_family_present": [
+    "pytest-recording",
+    "pytest-socket",
+    "vcrpy"
+   ],
+   "vcr_unresolved_corrected": [],
+   "marker_vcr_registered": true
+  },
+  "saleor-rc-39b4138e8550": {
+   "old_socket_blocked_nodes": [],
+   "vcr_family_present": [],
+   "vcr_unresolved_corrected": [],
+   "marker_vcr_registered": true
+  },
+  "saleor-rc-644f33094857": {
+   "old_socket_blocked_nodes": [],
+   "vcr_family_present": [
+    "pytest-vcr",
+    "vcrpy"
+   ],
+   "vcr_unresolved_corrected": [],
+   "marker_vcr_registered": true
+  },
+  "saleor-rc-6abb53f3407b": {
+   "old_socket_blocked_nodes": [],
+   "vcr_family_present": [
+    "pytest-vcr",
+    "vcrpy"
+   ],
+   "vcr_unresolved_corrected": [],
+   "marker_vcr_registered": true
+  },
+  "saleor-rc-74538ea00ce9": {
+   "old_socket_blocked_nodes": [],
+   "vcr_family_present": [
+    "pytest-recording",
+    "pytest-socket",
+    "vcrpy"
+   ],
+   "vcr_unresolved_corrected": [],
+   "marker_vcr_registered": true
+  },
+  "saleor-rc-823b899757ab": {
+   "old_socket_blocked_nodes": [],
+   "vcr_family_present": [
+    "pytest-vcr",
+    "vcrpy"
+   ],
+   "vcr_unresolved_corrected": [],
+   "marker_vcr_registered": true
+  },
+  "saleor-rc-82c56bde0e34": {
+   "old_socket_blocked_nodes": [],
+   "vcr_family_present": [
+    "pytest-recording",
+    "pytest-socket",
+    "vcrpy"
+   ],
+   "vcr_unresolved_corrected": [],
+   "marker_vcr_registered": true
+  },
+  "saleor-rc-8f76ddc6267f": {
+   "old_socket_blocked_nodes": [],
+   "vcr_family_present": [
+    "pytest-recording",
+    "pytest-socket",
+    "vcrpy"
+   ],
+   "vcr_unresolved_corrected": [],
+   "marker_vcr_registered": true
+  },
+  "saleor-rc-9258154b8a0b": {
+   "old_socket_blocked_nodes": [],
+   "vcr_family_present": [
+    "pytest-recording",
+    "pytest-socket",
+    "vcrpy"
+   ],
+   "vcr_unresolved_corrected": [],
+   "marker_vcr_registered": true
+  },
+  "saleor-rc-93b20d78c011": {
+   "old_socket_blocked_nodes": [],
+   "vcr_family_present": [
+    "pytest-vcr",
+    "vcrpy"
+   ],
+   "vcr_unresolved_corrected": [],
+   "marker_vcr_registered": true
+  },
+  "saleor-rc-c3b9e396b07d": {
+   "old_socket_blocked_nodes": [],
+   "vcr_family_present": [
+    "pytest-vcr",
+    "vcrpy"
+   ],
+   "vcr_unresolved_corrected": [],
+   "marker_vcr_registered": true
+  },
+  "saleor-rc-d220843b5418": {
+   "old_socket_blocked_nodes": [],
+   "vcr_family_present": [],
+   "vcr_unresolved_corrected": [],
+   "marker_vcr_registered": true
+  },
+  "saleor-rc-dc6ac9d252df": {
+   "old_socket_blocked_nodes": [],
+   "vcr_family_present": [
+    "pytest-vcr",
+    "vcrpy"
+   ],
+   "vcr_unresolved_corrected": [],
+   "marker_vcr_registered": true
+  },
+  "saleor-rc-e03ee76d2b89": {
+   "old_socket_blocked_nodes": [],
+   "vcr_family_present": [
+    "pytest-recording",
+    "pytest-socket",
+    "vcrpy"
+   ],
+   "vcr_unresolved_corrected": [],
+   "marker_vcr_registered": true
+  },
+  "saleor-rc-e25cf9b4a837": {
+   "old_socket_blocked_nodes": [],
+   "vcr_family_present": [
+    "pytest-vcr",
+    "vcrpy"
+   ],
+   "vcr_unresolved_corrected": [],
+   "marker_vcr_registered": true
+  }
+ }
+}
