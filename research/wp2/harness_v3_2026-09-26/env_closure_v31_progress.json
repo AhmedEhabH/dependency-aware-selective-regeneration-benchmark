@@ -2,7 +2,7 @@
  "mission": "WP-2 Environment Closure V3.1 + safe resume of Mission-11",
  "started_utc": null,
  "status": "RUNNING",
- "active": "E0.6",
+ "active": "E1.1",
  "items": {
   "E0.1": {
    "id": "E0.1",
@@ -52,26 +52,26 @@
   "E0.6": {
    "id": "E0.6",
    "title": "Current Mission-11 TRUE LIGHT exporter",
-   "status": "IN_PROGRESS",
+   "status": "DONE",
    "start_utc": "2026-09-27T00:25:21+00:00",
-   "end_utc": null,
+   "end_utc": "2026-09-27T00:31:09+00:00",
    "evidence": "",
    "result": ""
   },
   "E0.7": {
    "id": "E0.7",
    "title": "Pre-repair TRUE LIGHT snapshot",
-   "status": "TODO",
+   "status": "DONE",
    "start_utc": null,
-   "end_utc": null,
+   "end_utc": "2026-09-27T00:31:09+00:00",
    "evidence": "",
    "result": ""
   },
   "E1.1": {
    "id": "E1.1",
    "title": "Load 16 ENG tasks mechanically",
-   "status": "TODO",
-   "start_utc": null,
+   "status": "IN_PROGRESS",
+   "start_utc": "2026-09-27T00:31:09+00:00",
    "end_utc": null,
    "evidence": "",
    "result": ""
@@ -230,6 +230,6 @@
    "result": ""
   }
  },
- "done_count": 5,
+ "done_count": 7,
  "total_count": 25
 }
