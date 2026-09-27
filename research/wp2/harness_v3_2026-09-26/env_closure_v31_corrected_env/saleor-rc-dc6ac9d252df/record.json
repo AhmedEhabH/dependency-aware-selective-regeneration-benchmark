@@ -1,0 +1,161 @@
+{
+ "task_id": "saleor-rc-dc6ac9d252df",
+ "era_key": "py39",
+ "target_commit": "dc6ac9d252df21d32c5abdb5437896489b708766",
+ "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+ "install_fragment": "uv pip install --python /opt/venv/bin/python -r /workspace/dc6ac9d252df_v31_new_t/requirements.txt >/tmp/install.log 2>&1 || { echo INSTALL_MAIN_FAIL; tail -120 /tmp/install.log; exit 2; }; echo POETRY_REQ_MAIN_PLUS_LOCKED_DEV",
+ "dev_pins": [
+  "appdirs==1.4.4",
+  "astroid==2.7.2",
+  "atomicwrites==1.4.0",
+  "attrs==21.2.0",
+  "backports.entry-points-selectable==1.1.0",
+  "beautifultable==0.7.0",
+  "black==21.7b0",
+  "cfgv==3.3.0",
+  "codecov==2.1.12",
+  "coverage==5.5",
+  "distlib==0.3.2",
+  "django-debug-toolbar==3.2.2",
+  "django-debug-toolbar-request-history==0.1.3",
+  "django-extensions==3.1.3",
+  "django-graphiql-debug-toolbar==0.1.4",
+  "django-stubs==1.8.0",
+  "django-stubs-ext==0.2.0",
+  "execnet==1.9.0",
+  "filelock==3.0.12",
+  "flake8==3.9.2",
+  "gitdb==4.0.7",
+  "gitpython==3.1.20",
+  "identify==2.2.13",
+  "iniconfig==1.1.1",
+  "isort==5.9.3",
+  "jinja2==3.0.1",
+  "lazy-object-proxy==1.6.0",
+  "markupsafe==2.0.1",
+  "mccabe==0.6.1",
+  "multidict==5.1.0",
+  "mypy==0.910",
+  "nodeenv==1.6.0",
+  "pathspec==0.9.0",
+  "platformdirs==2.2.0",
+  "pluggy==0.13.1",
+  "pre-commit==2.14.0",
+  "py==1.10.0",
+  "pycodestyle==2.7.0",
+  "pydocstyle==6.1.1",
+  "pyflakes==2.3.1",
+  "pylint==2.10.2",
+  "pylint-celery==0.3",
+  "pylint-django==2.4.4",
+  "pylint-plugin-utils==0.6",
+  "pytest==6.2.4",
+  "pytest-celery==0.0.0",
+  "pytest-cov==2.12.1",
+  "pytest-django==4.2.0",
+  "pytest-django-queries==1.2.0",
+  "pytest-forked==1.3.0",
+  "pytest-mock==3.6.1",
+  "pytest-vcr==1.0.2",
+  "pytest-xdist==2.3.0",
+  "python-slugify==4.0.1",
+  "pywatchman==1.4.1",
+  "regex==2021.8.21",
+  "smmap==4.0.0",
+  "snowballstemmer==2.1.0",
+  "toml==0.10.2",
+  "tomli==1.2.1",
+  "tox==3.24.3",
+  "transifex-client==0.14.3",
+  "types-pkg-resources==0.1.3",
+  "types-python-dateutil==0.1.6",
+  "types-pytz==2021.1.2",
+  "types-requests==2.25.6",
+  "vcrpy==4.1.1",
+  "virtualenv==20.7.2",
+  "wrapt==1.12.1",
+  "yarl==1.6.3"
+ ],
+ "dev_all_locked_n": 221,
+ "dev_pins_unavailable": [
+  "codecov==2.1.12",
+  "python-magic-bin==0.4.14"
+ ],
+ "dev_test_closure": {
+  "mechanism": "poetry",
+  "n_pins": 70,
+  "pins_sha256": "c92a09df7cb5af4a6ba5258ef4a14862107c900ab5412766c64f1efacfe4d21a",
+  "unsupported": [],
+  "vcr_family_present": [
+   "pytest-vcr",
+   "vcrpy"
+  ]
+ },
+ "container_rc": 0,
+ "pip_check": {
+  "rc": 0,
+  "ok": true,
+  "text_tail": "Using Python 3.9.25 environment at: /opt/venv\nChecked 224 packages in 5ms\nAll installed packages are compatible\nPIPCHECK_RC=0\n"
+ },
+ "collect": {
+  "rc": 0,
+  "ok": true,
+  "text_tail": "updated\nsaleor/plugins/webhook/tests/test_webhook.py::test_page_created\nsaleor/plugins/webhook/tests/test_webhook.py::test_page_updated\nsaleor/plugins/webhook/tests/test_webhook.py::test_page_deleted\nsaleor/plugins/webhook/tests/test_webhook.py::test_invoice_request\nsaleor/plugins/webhook/tests/test_webhook.py::test_invoice_delete\nsaleor/plugins/webhook/tests/test_webhook.py::test_invoice_sent\nsaleor/plugins/webhook/tests/test_webhook.py::test_notify_user\nsaleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_aws_sqs[queue_name-additional_call_args0]\nsaleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_aws_sqs[queue_name.fifo-additional_call_args1]\nsaleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_aws_sqs_and_secret_key\nsaleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_google_pub_sub\nsaleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_google_pub_sub_and_secret_key\nsaleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_http\nsaleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_http_and_secret_key\n\n=============================== warnings summary ===============================\nsaleor/settings.py:11\n  /workspace/dc6ac9d252df_v31_new_t/saleor/settings.py:11: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.\n    import pkg_resources\n\nsaleor/settings.py:164\n  /workspace/dc6ac9d252df_v31_new_t/saleor/settings.py:164: UserWarning: SECRET_KEY not configured, using a random temporary key.\n    warnings.warn(\"SECRET_KEY not configured, using a random temporary key.\")\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n434 tests collected in 1.08s\nCOLLECT_RC=0\n"
+ },
+ "fixture_preflight": {
+  "ok": true,
+  "n_checked": 434,
+  "n_unresolved": 0,
+  "unresolved": {}
+ },
+ "vcr_preflight": {
+  "unresolved": []
+ },
+ "files": {
+  "freeze.txt": {
+   "sha256": "c91ca3bee4ee595e858e82cbbc627d4f3b646cf325c5640a82760e7398ee4143",
+   "lines": 224
+  },
+  "pyversion.txt": {
+   "sha256": "46013688dc6816ee6935343b6974f8bd34c0ada4fe43554f5c0a772d7e8f0b1e",
+   "lines": 1
+  },
+  "pytestversion.txt": {
+   "sha256": "02a5d9fe9e85e3c9eac01a6ca6b7d60531fe42c18e6fd29a60faba909c69046d",
+   "lines": 85
+  },
+  "traceconfig.txt": {
+   "sha256": "65a08a685cdcbd606d7000fca0e06e487c7d338b6dd0018860dca036de1d6aac",
+   "lines": 2000
+  },
+  "markers.txt": {
+   "sha256": "2a0cdfe8938155c644a9ff36cbaa483641ed6b3a193571ff5be7806db6e85cda",
+   "lines": 40
+  },
+  "pipcheck.txt": {
+   "sha256": "585dc46b1d2359cd472cea54689d88085e89508c0b82f736ed15dc3ab57346f3",
+   "lines": 4
+  },
+  "collect.txt": {
+   "sha256": "d18392efa838e7eaab1f4dbab75259d06bacc120f54458dd00d295c6d3693776",
+   "lines": 447
+  },
+  "fixture_collect.txt": {
+   "sha256": "c0bec9d98cce6aa0184e3c34b19b328b6652590f8fa405c13db0115d6f1e403f",
+   "lines": 447
+  },
+  "fixture_preflight.json": {
+   "sha256": "974bdfc2e9b2b689907e0df78bf7234cab2f52dbb2756c353193cc8c17de06b7",
+   "lines": 1
+  },
+  "install.log": {
+   "sha256": "c331b7b2389407689c6dbad4f4076086f6b44858f6f93cefb06e50ee1ebc6c66",
+   "lines": 280
+  }
+ },
+ "freeze_sha256": "c91ca3bee4ee595e858e82cbbc627d4f3b646cf325c5640a82760e7398ee4143",
+ "freeze_packages": 224,
+ "wall_s": 755.4,
+ "stdout_tail": "POETRY_REQ_MAIN_PLUS_LOCKED_DEV\nCORRECTED_ENV_DONE\n",
+ "stderr_tail": "Using Python 3.9.25 environment at: /opt/venv\nUsing Python 3.9.25 environment at: /opt/venv\n"
+}
