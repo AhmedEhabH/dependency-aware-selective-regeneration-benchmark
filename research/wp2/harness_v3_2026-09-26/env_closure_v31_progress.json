@@ -1,0 +1,235 @@
+{
+ "mission": "WP-2 Environment Closure V3.1 + safe resume of Mission-11",
+ "started_utc": null,
+ "status": "RUNNING",
+ "active": "E0.6",
+ "items": {
+  "E0.1": {
+   "id": "E0.1",
+   "title": "Read governing docs",
+   "status": "DONE",
+   "start_utc": null,
+   "end_utc": null,
+   "evidence": "",
+   "result": ""
+  },
+  "E0.2": {
+   "id": "E0.2",
+   "title": "Verify git identity",
+   "status": "DONE",
+   "start_utc": null,
+   "end_utc": null,
+   "evidence": "",
+   "result": "HEAD=origin/main=f86007e4"
+  },
+  "E0.3": {
+   "id": "E0.3",
+   "title": "Protected scientific hashes before",
+   "status": "DONE",
+   "start_utc": null,
+   "end_utc": null,
+   "evidence": "research/wp2/harness_v3_2026-09-26/env_closure_v31_protected_hashes_before.json",
+   "result": ""
+  },
+  "E0.4": {
+   "id": "E0.4",
+   "title": "Resource baseline",
+   "status": "DONE",
+   "start_utc": null,
+   "end_utc": null,
+   "evidence": "research/wp2/harness_v3_2026-09-26/env_closure_v31_resource_baseline.json",
+   "result": ""
+  },
+  "E0.5": {
+   "id": "E0.5",
+   "title": "Create visible TODO",
+   "status": "DONE",
+   "start_utc": null,
+   "end_utc": "2026-09-27T00:25:21+00:00",
+   "evidence": "PROGRESS.md + env_closure_v31_progress.json",
+   "result": ""
+  },
+  "E0.6": {
+   "id": "E0.6",
+   "title": "Current Mission-11 TRUE LIGHT exporter",
+   "status": "IN_PROGRESS",
+   "start_utc": "2026-09-27T00:25:21+00:00",
+   "end_utc": null,
+   "evidence": "",
+   "result": ""
+  },
+  "E0.7": {
+   "id": "E0.7",
+   "title": "Pre-repair TRUE LIGHT snapshot",
+   "status": "TODO",
+   "start_utc": null,
+   "end_utc": null,
+   "evidence": "",
+   "result": ""
+  },
+  "E1.1": {
+   "id": "E1.1",
+   "title": "Load 16 ENG tasks mechanically",
+   "status": "TODO",
+   "start_utc": null,
+   "end_utc": null,
+   "evidence": "",
+   "result": ""
+  },
+  "E1.2": {
+   "id": "E1.2",
+   "title": "Resolve commits/eras/manifests per task",
+   "status": "TODO",
+   "start_utc": null,
+   "end_utc": null,
+   "evidence": "",
+   "result": ""
+  },
+  "E1.3": {
+   "id": "E1.3",
+   "title": "Classify current V3 MAIN recipe (actual behavior)",
+   "status": "TODO",
+   "start_utc": null,
+   "end_utc": null,
+   "evidence": "",
+   "result": ""
+  },
+  "E1.4": {
+   "id": "E1.4",
+   "title": "Detect has_poetry+has_req provenance mismatch",
+   "status": "TODO",
+   "start_utc": null,
+   "end_utc": null,
+   "evidence": "",
+   "result": ""
+  },
+  "E1.5": {
+   "id": "E1.5",
+   "title": "env_closure_v31_task_inventory.json",
+   "status": "TODO",
+   "start_utc": null,
+   "end_utc": null,
+   "evidence": "",
+   "result": ""
+  },
+  "E2.1-E2.9": {
+   "id": "E2.1-E2.9",
+   "title": "Dependency compiler unit tests (RED)",
+   "status": "TODO",
+   "start_utc": null,
+   "end_utc": null,
+   "evidence": "",
+   "result": ""
+  },
+  "E2.10": {
+   "id": "E2.10",
+   "title": "Real-lock regression tests (16 tasks)",
+   "status": "TODO",
+   "start_utc": null,
+   "end_utc": null,
+   "evidence": "",
+   "result": ""
+  },
+  "E2.11": {
+   "id": "E2.11",
+   "title": "VCR family provenance check",
+   "status": "TODO",
+   "start_utc": null,
+   "end_utc": null,
+   "evidence": "",
+   "result": ""
+  },
+  "E2.12": {
+   "id": "E2.12",
+   "title": "RED->GREEN + existing Harness V3 tests",
+   "status": "TODO",
+   "start_utc": null,
+   "end_utc": null,
+   "evidence": "",
+   "result": ""
+  },
+  "E3.1-E3.8": {
+   "id": "E3.1-E3.8",
+   "title": "Implement rule-based dev closure + erratum",
+   "status": "TODO",
+   "start_utc": null,
+   "end_utc": null,
+   "evidence": "",
+   "result": ""
+  },
+  "E3.9": {
+   "id": "E3.9",
+   "title": "Unit tests + ruff + py_compile + diff check",
+   "status": "TODO",
+   "start_utc": null,
+   "end_utc": null,
+   "evidence": "",
+   "result": ""
+  },
+  "E4.1-E4.7": {
+   "id": "E4.1-E4.7",
+   "title": "Reproduce OLD V3 environments + raw evidence",
+   "status": "TODO",
+   "start_utc": null,
+   "end_utc": null,
+   "evidence": "",
+   "result": ""
+  },
+  "E5.1-E5.12": {
+   "id": "E5.1-E5.12",
+   "title": "Build + prove corrected environments",
+   "status": "TODO",
+   "start_utc": null,
+   "end_utc": null,
+   "evidence": "",
+   "result": ""
+  },
+  "E6.1-E6.6": {
+   "id": "E6.1-E6.6",
+   "title": "Preflight checkpoint + gate",
+   "status": "TODO",
+   "start_utc": null,
+   "end_utc": null,
+   "evidence": "",
+   "result": ""
+  },
+  "E7.1-E7.5": {
+   "id": "E7.1-E7.5",
+   "title": "Mechanical rerun scope",
+   "status": "TODO",
+   "start_utc": null,
+   "end_utc": null,
+   "evidence": "",
+   "result": ""
+  },
+  "E8.1-E8.6": {
+   "id": "E8.1-E8.6",
+   "title": "Corrected scientific reruns (C4, rediscovery, cap)",
+   "status": "TODO",
+   "start_utc": null,
+   "end_utc": null,
+   "evidence": "",
+   "result": ""
+  },
+  "E9.1-E9.8": {
+   "id": "E9.1-E9.8",
+   "title": "Rederive downstream evidence + final audit",
+   "status": "TODO",
+   "start_utc": null,
+   "end_utc": null,
+   "evidence": "",
+   "result": ""
+  },
+  "E10": {
+   "id": "E10",
+   "title": "Acceptance gate + resume Mission-11 A5.1",
+   "status": "TODO",
+   "start_utc": null,
+   "end_utc": null,
+   "evidence": "",
+   "result": ""
+  }
+ },
+ "done_count": 5,
+ "total_count": 25
+}

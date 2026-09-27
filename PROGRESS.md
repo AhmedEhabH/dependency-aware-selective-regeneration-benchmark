@@ -598,3 +598,13 @@ AUTHORIZATION BLOCK (Ahmed Ehab, issued by sending the mission file):
 - Per addendum item 6: HARNESS_V3_DEV_DEPS_GAP -> STOP before A5 / ENG_SMOKE_READY /
   any paid Smoke call. No repair performed (addendum item 7).
 
+
+## WP-2 Environment Closure V3.1 (started 2026-09-27) - authorized Mission-11 continuation
+
+AUTHORIZATION: supersedes previous V3.1/environment-repair instructions where they conflict.
+- Primary goal: close historical test-environment problem SYSTEMATICALLY (rule-derived, not task patched).
+- No paid/API/model call during V3.1 closure. Paid Mission-11 authorization usable only after closure + A5/A6 + C1 pass.
+- No change to scientific semantics; existing MAIN recipe kept by default; V3.1 is ADDITIVE (exact historically-declared dev/test closure).
+
+VISIBLE TODO (durable): env_closure_v31_progress.json + native Todo.
+E0.1-E0.5 DONE (docs, git identity f86007e4, protected hashes before, resource baseline, TODO).
