@@ -1,0 +1,41 @@
+{
+ "task_id": "saleor-rc-dc6ac9d252df",
+ "era_key": "py39",
+ "target_commit": "dc6ac9d252df21d32c5abdb5437896489b708766",
+ "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+ "install_fragment": "uv pip install --python /opt/venv/bin/python -r /workspace/dc6ac9d252df_v31_old_t/requirements.txt >/tmp/install.log 2>&1 || { echo INSTALL_MAIN_FAIL; tail -120 /tmp/install.log; exit 2; }; echo POETRY_REQ_MAIN_PLUS_LOCKED_DEV",
+ "dev_fragment": "echo NO_LOCKED_DEV_GROUP",
+ "container_rc": 0,
+ "old_env_repro_status": "OK",
+ "files": {
+  "freeze.txt": {
+   "sha256": "41a098434fc5e9b2b71c657bcb2aef720047dfbb02f24833a728c048ad2235d6",
+   "lines": 160
+  },
+  "pyversion.txt": {
+   "sha256": "46013688dc6816ee6935343b6974f8bd34c0ada4fe43554f5c0a772d7e8f0b1e",
+   "lines": 1
+  },
+  "pytestversion.txt": {
+   "sha256": "eaa20338bea9669949a371c9f0fda93d611308b23a6adedda2177f310b7a7727",
+   "lines": 85
+  },
+  "traceconfig.txt": {
+   "sha256": "e304675cfa41c05427119236032b7d06fd3f332f2a0a80da1bcfc1dbcd1566b3",
+   "lines": 2000
+  },
+  "markers.txt": {
+   "sha256": "852113f9c64114d8c1625476fc99cb4a65cdff6f0349c824e11bf9926ea0ae65",
+   "lines": 32
+  },
+  "install.log": {
+   "sha256": "ac1bd2ded0248fcfe386566f86b03d906ccf7f19a6998533550b1c6f5e49d1f3",
+   "lines": 181
+  }
+ },
+ "freeze_sha256": "41a098434fc5e9b2b71c657bcb2aef720047dfbb02f24833a728c048ad2235d6",
+ "freeze_packages": 160,
+ "wall_s": 754.2,
+ "stdout_tail": "POETRY_REQ_MAIN_PLUS_LOCKED_DEV\nOLD_ENV_DONE\n",
+ "stderr_tail": "Using Python 3.9.25 environment at: /opt/venv\n"
+}

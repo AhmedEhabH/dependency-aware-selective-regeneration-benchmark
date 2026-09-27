@@ -1,0 +1,41 @@
+{
+ "task_id": "saleor-rc-d220843b5418",
+ "era_key": "py312",
+ "target_commit": "d220843b54185de6aace563f6eadbc5b607e1bd4",
+ "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+ "install_fragment": "cd /workspace/d220843b5418_v31_old_t && uv export --frozen --group dev | uv pip install -r - --python /opt/venv/bin/python >/tmp/install.log 2>&1 || { echo INSTALL_MAIN_FAIL; tail -120 /tmp/install.log; exit 2; }; echo UV_EXPORT_FROZEN_GROUP_DEV",
+ "dev_fragment": "echo NO_LOCKED_DEV_GROUP",
+ "container_rc": 0,
+ "old_env_repro_status": "OK",
+ "files": {
+  "freeze.txt": {
+   "sha256": "64e01c5cadc3896700abb0f3ee33b72885105a8fe2dfae73206e7624a47ed386",
+   "lines": 236
+  },
+  "pyversion.txt": {
+   "sha256": "4c3569f5da09975434dd9fd9a91fadbc4367a91d8f3c3fab59e9241ab9ee4bd8",
+   "lines": 1
+  },
+  "pytestversion.txt": {
+   "sha256": "685b9763c7c58cdbc18e815709783c8df7d25180b45147d87452e201d5532e49",
+   "lines": 1
+  },
+  "traceconfig.txt": {
+   "sha256": "2a50dca43762d8a1c49ebf50724f1a6f5757b4a3790556e028421ef474f44730",
+   "lines": 2000
+  },
+  "markers.txt": {
+   "sha256": "93745a3fb2940daddea76d61bda89f41cc317018870208c127d4db627058fc76",
+   "lines": 58
+  },
+  "install.log": {
+   "sha256": "7cc4168b03a108208d5ba7f5422ae94c5aa4704b60054f4a9c0bb436bbff6800",
+   "lines": 249
+  }
+ },
+ "freeze_sha256": "64e01c5cadc3896700abb0f3ee33b72885105a8fe2dfae73206e7624a47ed386",
+ "freeze_packages": 236,
+ "wall_s": 2309.3,
+ "stdout_tail": "UV_EXPORT_FROZEN_GROUP_DEV\nOLD_ENV_DONE\n",
+ "stderr_tail": "Using Python 3.12.14 environment at: /opt/venv\n"
+}
