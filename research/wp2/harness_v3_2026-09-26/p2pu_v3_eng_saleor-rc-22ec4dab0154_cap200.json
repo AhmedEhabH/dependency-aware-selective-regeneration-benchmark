@@ -6,27 +6,27 @@
  "rediscovery_sha256": "c91b7fce05552f5847e8ce81623ce1595ee321f53ca5416a18f6e69d5439a324",
  "n_selected": 200,
  "class_counts": {
-  "STABLE_P2P": 193,
+  "STABLE_P2P": 199,
   "TARGET_BROKEN": 0,
   "PARENT_BROKEN": 0,
   "BOTH_FAIL": 0,
   "FLAKY": 1,
-  "COLLECTION_ERROR": 6
+  "COLLECTION_ERROR": 0
  },
- "n_stable_p2p": 193,
+ "n_stable_p2p": 199,
  "node_classes": {
   "saleor/graphql/invoice/tests/test_invoice_request_delete.py::test_invoice_request_delete_invalid_id": "STABLE_P2P",
   "saleor/graphql/invoice/tests/test_invoice_delete.py::test_invoice_delete_invalid_id": "STABLE_P2P",
   "saleor/graphql/order/tests/test_pagination.py::test_draft_order_query_pagination_with_filter_created[orders_filter2-4-orders_order2]": "STABLE_P2P",
   "saleor/graphql/shop/tests/test_shop.py::test_update_default_sender_settings_invalid_name[Dummy\\rName]": "STABLE_P2P",
   "saleor/graphql/order/tests/test_order.py::test_draft_orders_query_with_filter_search[draft_orders_filter0-2]": "STABLE_P2P",
-  "saleor/graphql/order/tests/benchmark/test_order.py::test_user_order_details": "COLLECTION_ERROR",
+  "saleor/graphql/order/tests/benchmark/test_order.py::test_user_order_details": "STABLE_P2P",
   "saleor/graphql/invoice/tests/test_invoice_utils.py::test_generate_invoice_number_old_invoice": "STABLE_P2P",
   "saleor/graphql/checkout/tests/test_checkout_digital.py::test_checkout_lines_update_remove_shipping_if_removed_product_with_shipping": "STABLE_P2P",
   "saleor/graphql/order/tests/test_homepage.py::test_homepage_events": "STABLE_P2P",
   "saleor/graphql/invoice/tests/test_invoice_update.py::test_invoice_update_missing_number": "STABLE_P2P",
   "saleor/graphql/order/tests/test_order_invoices.py::test_order_query_invoices_app": "STABLE_P2P",
-  "saleor/graphql/product/tests/benchmark/test_homepage.py::test_retrieve_product_list": "COLLECTION_ERROR",
+  "saleor/graphql/product/tests/benchmark/test_homepage.py::test_retrieve_product_list": "STABLE_P2P",
   "saleor/graphql/order/tests/test_fulfillment.py::test_fulfillment_update_tracking_send_notification_true": "STABLE_P2P",
   "saleor/graphql/order/tests/test_bulk_delete.py::test_delete_draft_orders": "STABLE_P2P",
   "saleor/graphql/invoice/tests/test_invoice_request_delete.py::test_invoice_request_delete_no_permission": "STABLE_P2P",
@@ -58,7 +58,7 @@
   "saleor/graphql/invoice/tests/test_invoice_update.py::test_invoice_update_invalid_id": "STABLE_P2P",
   "saleor/graphql/order/tests/test_order_invoices.py::test_order_query_invoices_customer_user": "STABLE_P2P",
   "saleor/graphql/order/tests/test_fulfillment.py::test_fulfillment_update_private_metadata_user_has_permission": "STABLE_P2P",
-  "saleor/graphql/product/tests/benchmark/test_collection.py::test_collection_view": "COLLECTION_ERROR",
+  "saleor/graphql/product/tests/benchmark/test_collection.py::test_collection_view": "STABLE_P2P",
   "saleor/graphql/order/tests/test_pagination.py::test_order_query_pagination_with_filter_created[orders_filter2-orders_order2-4]": "STABLE_P2P",
   "saleor/graphql/order/tests/test_order.py::test_clean_payment_without_payment_associated_to_order[True-orderCapture]": "STABLE_P2P",
   "saleor/graphql/order/tests/test_order_invoices.py::test_order_query_invoices_anonymous_user": "STABLE_P2P",
@@ -70,7 +70,7 @@
   "saleor/graphql/order/tests/test_order_invoices.py::test_order_query_invoices_customer_user_by_token": "STABLE_P2P",
   "saleor/graphql/order/tests/test_fulfillment.py::test_fulfillment_clear_private_meta_user_has_permission": "STABLE_P2P",
   "saleor/graphql/order/tests/test_pagination.py::test_draft_orders_query_pagination_with_filter_search[draft_orders_filter7-1-orders_order7]": "STABLE_P2P",
-  "saleor/graphql/account/tests/benchmark/test_account.py::test_query_staff_user": "COLLECTION_ERROR",
+  "saleor/graphql/account/tests/benchmark/test_account.py::test_query_staff_user": "STABLE_P2P",
   "saleor/graphql/order/tests/test_order.py::test_user_with_permission_can_clear_private_meta": "STABLE_P2P",
   "saleor/graphql/order/tests/test_fulfillment.py::test_fulfillment_update_private_metadata_user_has_no_permission": "STABLE_P2P",
   "saleor/graphql/order/tests/test_pagination.py::test_orders_query_pagination_with_filter_search[orders_filter4-1-orders_order4]": "STABLE_P2P",
@@ -118,7 +118,7 @@
   "saleor/graphql/order/tests/test_order.py::test_order_query_with_filter_customer_fields[orders_filter0-email-admin@example.com]": "STABLE_P2P",
   "saleor/graphql/order/tests/test_fulfillment.py::test_order_fulfill_warehouse_duplicated_warehouse_id": "STABLE_P2P",
   "saleor/graphql/order/tests/test_pagination.py::test_order_query_pagination_with_filter_created[orders_filter3-orders_order3-1]": "STABLE_P2P",
-  "saleor/graphql/product/tests/benchmark/test_variant_stocks.py::test_product_variants_stocks_create": "COLLECTION_ERROR",
+  "saleor/graphql/product/tests/benchmark/test_variant_stocks.py::test_product_variants_stocks_create": "STABLE_P2P",
   "saleor/graphql/order/tests/test_order.py::test_order_query_with_filter_customer_fields[orders_filter2-last_name-snow]": "STABLE_P2P",
   "saleor/graphql/order/tests/test_fulfillment.py::test_order_fulfill_fulfilled_order": "STABLE_P2P",
   "saleor/graphql/order/tests/test_pagination.py::test_query_orders_pagination_with_sort[order_sort4-result_order4]": "STABLE_P2P",
@@ -198,7 +198,7 @@
   "saleor/graphql/order/tests/test_order.py::test_query_orders_with_sort[order_sort6-result_order6]": "STABLE_P2P",
   "saleor/graphql/order/tests/test_pagination.py::test_order_query_pagination_with_filter_customer_fields[orders_filter2-last_name-snow]": "STABLE_P2P",
   "saleor/graphql/order/tests/test_order.py::test_validate_draft_order_non_existing_variant": "STABLE_P2P",
-  "saleor/graphql/shop/tests/benchmark/test_homepage.py::test_retrieve_shop": "COLLECTION_ERROR",
+  "saleor/graphql/shop/tests/benchmark/test_homepage.py::test_retrieve_shop": "STABLE_P2P",
   "saleor/graphql/order/tests/test_pagination.py::test_order_query_pagination_with_filter_status[orders_filter1-1-partially fulfilled-orders_order1]": "STABLE_P2P",
   "saleor/graphql/order/tests/test_order.py::test_orders_query_with_filter_search[orders_filter0-2]": "STABLE_P2P",
   "saleor/graphql/order/tests/test_pagination.py::test_order_query_pagination_with_filter_status[orders_filter2-1-fulfilled-orders_order2]": "STABLE_P2P",
@@ -216,16 +216,16 @@
   "saleor/graphql/order/tests/test_order.py::test_query_draft_orders_with_sort[draft_order_sort0-result_order0]": "STABLE_P2P",
   "saleor/graphql/account/tests/mutations/test_token_verify.py::test_verify_token": "STABLE_P2P"
  },
- "wall_s": 206.0,
- "wall_t_s": 103.7,
- "wall_p_s": 103.7,
+ "wall_s": 227.1,
+ "wall_t_s": 108.9,
+ "wall_p_s": 108.9,
  "junit_files": {
-  "t_r0.xml": "ed9cf8e16fb7819072ba60d51f25a21ecc6f46accb642582fe259e38000ba7db",
-  "t_r1.xml": "edb94880efb795a6caedcaf056206c6ff778e90a39a6b63d53d066921397086c",
-  "t_r2.xml": "841176054c23fc63ff17570d93083a6317977508a32302c09baa87b49621df3f",
-  "p_r0.xml": "8edbb3e44ccd0849d600097cb02de024cfc8ae044adfc08a9100049b81dc5a19",
-  "p_r1.xml": "29df866e51f03ab609829fa6cfbc557acbb9db83144910acdc7af78bef15929b",
-  "p_r2.xml": "53a2b4d580ed44e7f08a50174577ea958bdd2eba0ca85ac2badfa6bb280e8011"
+  "t_r0.xml": "09521388dd795de604dc9bd37f171098305cc8a135580dd745ec4fb14fa8cc07",
+  "t_r1.xml": "c8234350dec4ae3e0b008adcf6901e980869dad661c11d898e01165789309dbc",
+  "t_r2.xml": "c02fd98d5087ce300fa582e085204a074f5d3c0b42dd28efe4f349abe38ce220",
+  "p_r0.xml": "b606e9e674eaf787299c204e3441033cb704338a6067453c8e74e58d14adcfd1",
+  "p_r1.xml": "eba1faafffde180306db679e5f15d296b8e14760d9843a61bf9872227467a2c3",
+  "p_r2.xml": "092e3e8f20830de81d46bc0a1d5a8679757f2abff53cf3d9b582ed6ac520ec18"
  },
  "manifest": {
   "task_id": "saleor-rc-22ec4dab0154",
@@ -233,7 +233,7 @@
   "cap": 200,
   "harness_v3_version": "wp2-harness-v3-2026-09-26",
   "harness_v3_spec_sha256": "e7897ba0850bd0af372273a32ffb33435b4dc75c9476d527ec86fa424a75f034",
-  "runner_sha256": "b7658d75b093366165f0c5cb98b7e28e10bc763f89982e6845eb9a09c4070b42",
+  "runner_sha256": "72e153d5687ffe4914ecd39fa70c0515d0a038c48949331a81250d598d5270c4",
   "rediscovery_sha256": "c91b7fce05552f5847e8ce81623ce1595ee321f53ca5416a18f6e69d5439a324",
   "selection_sha256": "4afcfde14762ecd47b9e2b1f84b5d20eada6c90d8e12ba62145dd2d96b307a01",
   "frozen_base_image_id": "sha256:1cc60658b6a282c3bfe7c42312478a1983950927d348b47dce99e1a58e7a8c60",
@@ -248,14 +248,25 @@
    "p": "saleor_v3_22ec4dab0154_p"
   },
   "junit_dir": "p2pu_v3_junit/saleor-rc-22ec4dab0154/cap200",
+  "main_recipe_signature": "69fc2cd0999032a6daebf3fe3f086eabd4f011eb4905a6eb94ccc310489c2cc1",
+  "dev_test_closure": {
+   "mechanism": "poetry",
+   "n_pins": 71,
+   "pins_sha256": "5e448412c12155a351923f3777eb7d1c4b0eff1c900f7c098b0561e2ec6d16df",
+   "n_unsupported": 0,
+   "vcr_family_present": [
+    "pytest-vcr",
+    "vcrpy"
+   ]
+  },
   "clock_pre_post": {
    "pre": {
-    "median_skew_s": -0.606849,
+    "median_skew_s": -0.66826,
     "verdict": "WARN"
    },
    "post": {
-    "median_skew_s": -0.343522,
-    "verdict": "PASS"
+    "median_skew_s": -0.527878,
+    "verdict": "WARN"
    }
   },
   "collection_session_abort": {
@@ -264,5 +275,5 @@
   },
   "workers": 1
  },
- "evidence_sha256": "594a6e89d787f9b93ad98e16d58a32a10458e0afb1dd1a9e6dde322f6c7fd884"
+ "evidence_sha256": "9b67776e9bf5d5d9516f2aaef01150fd353b315c956f013e96e3d84710eeec2f"
 }

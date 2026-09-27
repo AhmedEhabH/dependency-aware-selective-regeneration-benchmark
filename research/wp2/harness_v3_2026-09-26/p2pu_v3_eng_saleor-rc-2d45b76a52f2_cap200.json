@@ -192,16 +192,16 @@
   "saleor/core/tests/test_core.py::test_generate_unique_slug_with_slugable_field[\\u0141adny-ladny]": "STABLE_P2P",
   "saleor/core/tests/test_core.py::test_generate_unique_slug_with_slugable_field[paint-paint-3]": "STABLE_P2P"
  },
- "wall_s": 326.8,
- "wall_t_s": 162.4,
- "wall_p_s": 162.4,
+ "wall_s": 347.7,
+ "wall_t_s": 172.4,
+ "wall_p_s": 172.4,
  "junit_files": {
-  "t_r0.xml": "102233725f26463f380b48d9ee535188f4bd9f3167e020e4a4686bbe5317da79",
-  "t_r1.xml": "246008707828e05497dc5f8343fa79710f7c53c618ccb659aaa74cbd2d0ab993",
-  "t_r2.xml": "5685d24c0cc90fb3889dcbb73686f5df89e3acc1aeb42f5615a4d5c7f6f6e005",
-  "p_r0.xml": "5b622f742ea6985337608bab913122dded5866b4788168905bc1ce449f11c18a",
-  "p_r1.xml": "74cb85cd9b1b2da330e579c5c2cfe292baf38ab745c4927d9bab3f4a59c0b917",
-  "p_r2.xml": "a64385cc060365baba4f88aa0251e5712b0c3585fca6ea1462b08397f25cc03f"
+  "t_r0.xml": "af4a95cd11ef1d7d6f4974bc634f378455391836c2a3407418fbc8833cb36e50",
+  "t_r1.xml": "2ea3e420eb09ce9b6973118ad007c67d51daec5383678c389e9eeff7548c8eac",
+  "t_r2.xml": "f292db9deec1c54e14b39e31f84aec22aea4f4b32ac4b88ea7ac678f53727b74",
+  "p_r0.xml": "4445bfcbf9c4546c4f2cd6435b1217e94965557c09949061816c47e1fa184001",
+  "p_r1.xml": "30c53d53061405691061d7f741c3fdfc233603e74884c0cd1f0f28ecf5659caa",
+  "p_r2.xml": "bf3587c647b1f6526b4a99763839e78a2f4c78e323554d13c675c8154069dc5e"
  },
  "manifest": {
   "task_id": "saleor-rc-2d45b76a52f2",
@@ -209,7 +209,7 @@
   "cap": 200,
   "harness_v3_version": "wp2-harness-v3-2026-09-26",
   "harness_v3_spec_sha256": "e7897ba0850bd0af372273a32ffb33435b4dc75c9476d527ec86fa424a75f034",
-  "runner_sha256": "b7658d75b093366165f0c5cb98b7e28e10bc763f89982e6845eb9a09c4070b42",
+  "runner_sha256": "72e153d5687ffe4914ecd39fa70c0515d0a038c48949331a81250d598d5270c4",
   "rediscovery_sha256": "5a917c7fdc14e3ff7dfd7ffdbf98c739d9c1afbbd1a3545552ed00a624e00e98",
   "selection_sha256": "94c4927c57d868dc895d71a172aec4b342ee5a46645b2240cd9ff3892f084ab3",
   "frozen_base_image_id": "sha256:ddc08d7e685517764dfa2606a760d5b3f09d57840d8a0bbcef366db67cd99ef8",
@@ -224,14 +224,26 @@
    "p": "saleor_v3_2d45b76a52f2_p"
   },
   "junit_dir": "p2pu_v3_junit/saleor-rc-2d45b76a52f2/cap200",
+  "main_recipe_signature": "fd732b67829726a906d968305a0a7c8482650d6a3b681dd750ee9dff22f2da7e",
+  "dev_test_closure": {
+   "mechanism": "poetry",
+   "n_pins": 77,
+   "pins_sha256": "9b7483569d5ba4c4a99d5e34fe5ac4828600d88bfdda7fafb003167a3226542f",
+   "n_unsupported": 0,
+   "vcr_family_present": [
+    "pytest-recording",
+    "pytest-socket",
+    "vcrpy"
+   ]
+  },
   "clock_pre_post": {
    "pre": {
-    "median_skew_s": 0.15694,
-    "verdict": "PASS"
+    "median_skew_s": -0.647928,
+    "verdict": "WARN"
    },
    "post": {
-    "median_skew_s": -0.551539,
-    "verdict": "WARN"
+    "median_skew_s": -0.1927,
+    "verdict": "PASS"
    }
   },
   "collection_session_abort": {
@@ -240,5 +252,5 @@
   },
   "workers": 1
  },
- "evidence_sha256": "ccb1cc411582c46777c39a39e28cd9c6e73fa5b6a1fa60e2464de59f5bf4a20e"
+ "evidence_sha256": "6f6c1148d20e8d8666fc15de823dc6f7856fe00ab0f9b72970b3387e19fcd196"
 }
