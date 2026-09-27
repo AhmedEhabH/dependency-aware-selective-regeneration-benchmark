@@ -121,6 +121,32 @@ def main_dep_names(pyproject_text: str) -> set[str]:
     return names
 
 
+def pyproject_dev_group_names(pyproject_text: str) -> set[str]:
+    """DEV/TEST group names from pyproject.toml (all historical forms)."""
+    names: set[str] = set()
+    for pattern in (r"\[tool\.poetry\.group\.dev\.dependencies\]",
+                    r"\[tool\.poetry\.dev-dependencies\]",
+                    r"\[dependency-groups\]\s*\n\s*dev\s*=\s*\{"):
+        m = re.search(pattern + r"\s*(.*?)(?=\n\[)", pyproject_text, re.DOTALL)
+        if not m:
+            continue
+        for line in m.group(1).splitlines():
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+            if pattern.endswith("=") and line.startswith(("[", "]")):
+                continue
+            km = re.match(r"^([A-Za-z0-9_.-]+)\s*=", line)
+            if km:
+                names.add(normalize_pkg_name(km.group(1)))
+            else:
+                # [dependency-groups] dev table entries like  'name = ...' or toml lines
+                km2 = re.match(r"^['\"]?([A-Za-z0-9_.-]+)['\"]?\s*=", line)
+                if km2:
+                    names.add(normalize_pkg_name(km2.group(1)))
+    return names
+
+
 def lock_dependency_edges(lock_text: str) -> dict[str, list[str]]:
     """name -> dependency names, from each [[package]] [package.dependencies]."""
     edges: dict[str, list[str]] = {}
@@ -227,10 +253,39 @@ def _pyv_matches(python_versions: str | None, python_version: str) -> bool:
         return True
 
 
+def _applicable_records(records: list[PkgRecord], *, python_version: str,
+                        sys_platform: str) -> list[PkgRecord]:
+    return [
+        r for r in records
+        if marker_applicable(r.markers, sys_platform=sys_platform, python_version=python_version)
+        and _pyv_matches(r.python_versions, python_version)
+    ]
+
+
+def all_locked_pins(lock_text: str, *, python_version: str,
+                    sys_platform: str = "linux") -> dict:
+    """Every exact locked pin applicable to the target (main + dev/test).
+
+    Returns {"pins": [...], "unsupported": [...]}. Non-index sources are never
+    guessed and reported separately.
+    """
+    pins: list[str] = []
+    unsupported: list[dict] = []
+    for rec in _applicable_records(parse_poetry_lock(lock_text),
+                                   python_version=python_version, sys_platform=sys_platform):
+        if rec.source != SOURCE_INDEX:
+            unsupported.append({"name": rec.name, "version": rec.version, "source": rec.source})
+            continue
+        if rec.version:
+            pins.append(f"{rec.name}=={rec.version}")
+    return {"pins": pins, "unsupported": unsupported}
+
+
 def dev_supplement_from_poetry(lock_text: str, *, python_version: str,
                                sys_platform: str = "linux",
                                pyproject_text: str | None = None,
-                               main_roots: set[str] | None = None) -> dict:
+                               main_roots: set[str] | None = None,
+                               dev_group_names: set[str] | None = None) -> dict:
     """Exact historical DEV/TEST pins (name==version) from a poetry.lock.
 
     Dev membership is determined by:
@@ -238,17 +293,23 @@ def dev_supplement_from_poetry(lock_text: str, *, python_version: str,
        modern groups), else
     2. the dev closure = locked packages NOT reachable from the ACTUAL main
        recipe roots (``main_roots``; for poetry+requirements.txt this is the
-       requirements.txt name set; for the ``-e .`` path it is the pyproject
-       [tool.poetry.dependencies] main names).
+       requirements.txt name set), else
+    3. the pyproject DEV/TEST group declarations (``dev_group_names``) resolved
+       to exact lock versions (for the ``-e .`` main path where the build
+       backend may not install the declared dev plugins).
 
     Returns {"pins": [...], "unsupported": [...], "records": [...]}. Packages
     with a non-index source are reported as unsupported (never guessed).
     """
     records = parse_poetry_lock(lock_text)
     has_group_info = any(r.group_info for r in records)
-    if not has_group_info and (main_roots is not None or pyproject_text):
-        roots = main_roots if main_roots is not None else main_dep_names(pyproject_text or "")
-        main_reachable = _reachable_from(roots, lock_text)
+    if not has_group_info and main_roots is not None:
+        main_reachable = _reachable_from(main_roots, lock_text)
+        dev_recs = [r for r in records if r.name not in main_reachable]
+    elif not has_group_info and dev_group_names:
+        dev_recs = [r for r in records if r.name in dev_group_names]
+    elif not has_group_info and pyproject_text:
+        main_reachable = _reachable_from(main_dep_names(pyproject_text), lock_text)
         dev_recs = [r for r in records if r.name not in main_reachable]
     else:
         dev_recs = [r for r in records if r.dev]
@@ -256,12 +317,8 @@ def dev_supplement_from_poetry(lock_text: str, *, python_version: str,
     pins: list[str] = []
     unsupported: list[dict] = []
     recs: list[dict] = []
-    for rec in dev_recs:
-        if not marker_applicable(rec.markers, sys_platform=sys_platform,
-                                 python_version=python_version):
-            continue
-        if not _pyv_matches(rec.python_versions, python_version):
-            continue
+    for rec in _applicable_records(dev_recs, python_version=python_version,
+                                   sys_platform=sys_platform):
         recs.append(rec.__dict__)
         if rec.source != SOURCE_INDEX:
             unsupported.append({"name": rec.name, "version": rec.version,
@@ -302,25 +359,33 @@ def derive_dev_test_closure(manifests: dict[str, str], *,
     if "poetry.lock" in manifests:
         pv = python_version or "3.11"
         main_roots: set[str] | None = None
+        dev_group_names: set[str] | None = None
         if "requirements.txt" in manifests:
             # poetry + requirements.txt: the ACTUAL main recipe is
             # `-r requirements.txt`; dev supplement = lock packages not
             # reachable from those pins.
             main_roots = requirements_main_names(manifests["requirements.txt"])
         elif pyproject := manifests.get("pyproject.toml"):
-            # `-e .` path: main roots = pyproject [tool.poetry.dependencies]
-            main_roots = main_dep_names(pyproject) or None
+            # `-e .` path: main roots would be the pyproject main deps, but the
+            # editable install may not materialize the declared dev plugins, so
+            # the dev supplement = the pyproject DEV/TEST group declarations
+            # resolved to exact lock versions.
+            dev_group_names = pyproject_dev_group_names(pyproject) or None
+            main_roots = None
         sup = dev_supplement_from_poetry(
             manifests["poetry.lock"],
             python_version=pv,
             sys_platform=sys_platform,
             pyproject_text=manifests.get("pyproject.toml"),
             main_roots=main_roots,
+            dev_group_names=dev_group_names,
         )
         out["mechanism"] = "poetry"
         out["pins"] = sup["pins"]
         out["unsupported"] = sup["unsupported"]
         out["records"] = sup["records"]
+        out["all_locked_pins"] = all_locked_pins(
+            manifests["poetry.lock"], python_version=pv, sys_platform=sys_platform)
         return out
     # no lock: dev/test requirement files
     pins = _pins_from_req_files(manifests.get("requirements_dev.txt"),

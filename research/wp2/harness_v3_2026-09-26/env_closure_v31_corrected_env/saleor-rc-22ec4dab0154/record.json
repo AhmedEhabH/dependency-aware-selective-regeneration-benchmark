@@ -77,8 +77,10 @@
   "wrapt==1.12.1",
   "yarl==1.4.2"
  ],
+ "dev_all_locked_n": 189,
  "dev_pins_unavailable": [
-  "codecov==2.1.7"
+  "codecov==2.1.7",
+  "python-magic-bin==0.4.14"
  ],
  "dev_test_closure": {
   "mechanism": "poetry",
@@ -99,7 +101,7 @@
  "collect": {
   "rc": 0,
   "ok": true,
-  "text_tail": "/order/tests/test_order_actions.py::test_handle_fully_paid_order_digital_lines\nsaleor/order/tests/test_order_actions.py::test_handle_fully_paid_order\nsaleor/order/tests/test_order_actions.py::test_handle_fully_paid_order_no_email\nsaleor/order/tests/test_order_actions.py::test_mark_as_paid\nsaleor/order/tests/test_order_actions.py::test_mark_as_paid_no_billing_address\nsaleor/order/tests/test_order_actions.py::test_clean_mark_order_as_paid\nsaleor/order/tests/test_order_actions.py::test_cancel_fulfillment\nsaleor/order/tests/test_order_actions.py::test_cancel_fulfillment_variant_witout_inventory_tracking\nsaleor/order/tests/test_order_actions.py::test_cancel_order\nsaleor/order/tests/test_order_actions.py::test_fulfill_order_line\nsaleor/order/tests/test_order_actions.py::test_fulfill_order_line_with_variant_deleted\nsaleor/order/tests/test_order_actions.py::test_fulfill_order_line_without_inventory_tracking\nsaleor/order/tests/test_order_actions.py::test_fulfill_digital_lines\nsaleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[5-2-0-3]\nsaleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[2-5-3-0]\nsaleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[2-0-0-2]\nsaleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[5-5-0-0]\nsaleor/order/tests/test_order_utils.py::test_match_orders_with_new_user\nsaleor/order/tests/test_order_utils.py::test_match_draft_order_with_new_user\nsaleor/order/tests/test_order.py::test_ordered_item_change_quantity\n\n=============================== warnings summary ===============================\nsaleor/settings.py:204\n  /workspace/22ec4dab0154_v31_new_t/saleor/settings.py:204: UserWarning: SECRET_KEY not configured, using a random temporary key.\n    warnings.warn(\"SECRET_KEY not configured, using a random temporary key.\")\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n2354 tests collected in 1.24s\nCOLLECT_RC=0\n"
+  "text_tail": "/order/tests/test_order_actions.py::test_handle_fully_paid_order_digital_lines\nsaleor/order/tests/test_order_actions.py::test_handle_fully_paid_order\nsaleor/order/tests/test_order_actions.py::test_handle_fully_paid_order_no_email\nsaleor/order/tests/test_order_actions.py::test_mark_as_paid\nsaleor/order/tests/test_order_actions.py::test_mark_as_paid_no_billing_address\nsaleor/order/tests/test_order_actions.py::test_clean_mark_order_as_paid\nsaleor/order/tests/test_order_actions.py::test_cancel_fulfillment\nsaleor/order/tests/test_order_actions.py::test_cancel_fulfillment_variant_witout_inventory_tracking\nsaleor/order/tests/test_order_actions.py::test_cancel_order\nsaleor/order/tests/test_order_actions.py::test_fulfill_order_line\nsaleor/order/tests/test_order_actions.py::test_fulfill_order_line_with_variant_deleted\nsaleor/order/tests/test_order_actions.py::test_fulfill_order_line_without_inventory_tracking\nsaleor/order/tests/test_order_actions.py::test_fulfill_digital_lines\nsaleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[5-2-0-3]\nsaleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[2-5-3-0]\nsaleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[2-0-0-2]\nsaleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[5-5-0-0]\nsaleor/order/tests/test_order_utils.py::test_match_orders_with_new_user\nsaleor/order/tests/test_order_utils.py::test_match_draft_order_with_new_user\nsaleor/order/tests/test_order.py::test_ordered_item_change_quantity\n\n=============================== warnings summary ===============================\nsaleor/settings.py:204\n  /workspace/22ec4dab0154_v31_new_t/saleor/settings.py:204: UserWarning: SECRET_KEY not configured, using a random temporary key.\n    warnings.warn(\"SECRET_KEY not configured, using a random temporary key.\")\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n2354 tests collected in 1.28s\nCOLLECT_RC=0\n"
  },
  "fixture_preflight": {
   "ok": true,
@@ -124,7 +126,7 @@
    "lines": 85
   },
   "traceconfig.txt": {
-   "sha256": "3dac0e197346bfbb9085adb024539eee360def66a7bba6bf96b8144f08b10a2f",
+   "sha256": "8f02184fb45211929b622fc5cc8d9ecd6441f0426f7c2f0d34bb28ec1d39f0f4",
    "lines": 2000
   },
   "markers.txt": {
@@ -136,11 +138,11 @@
    "lines": 4
   },
   "collect.txt": {
-   "sha256": "6a3286390b9743c034a9367deb361e6ec7b7284bc815c7791100874411e768d5",
+   "sha256": "7805f83d7287399863a1ad609a1ecf1c92a65ecd8152006b7e6716247fd3cdc2",
    "lines": 2363
   },
   "fixture_collect.txt": {
-   "sha256": "9293c7d47c7ce4b211fe62363e89eef4e837b0976ba29dde708cd0b599ba100e",
+   "sha256": "5f144b2996c1b8c5809848ef938f4b45eaefed2b11ee5449e93aa3af99b6e33e",
    "lines": 2363
   },
   "fixture_preflight.json": {
@@ -148,13 +150,13 @@
    "lines": 1
   },
   "install.log": {
-   "sha256": "59463ed709aa7cdc7f92043fae4fbd4c32390d7b49bd0a7ad28f92ba82f5b6ad",
-   "lines": 228
+   "sha256": "558a6b9b7cb445a3a41b9f0bdde7523e65dabe38da079d81147b0887c5a61dce",
+   "lines": 237
   }
  },
  "freeze_sha256": "0420c5e3e94455b827c973e7669784b5cd83b5c948027017b73c2872ad49ce4c",
  "freeze_packages": 193,
- "wall_s": 283.4,
- "stdout_tail": "POETRY_REQ_MAIN_PLUS_LOCKED_DEV\nDEV_INSTALL_OK\nCORRECTED_ENV_DONE\n",
- "stderr_tail": "Using Python 3.8.20 environment at: /opt/venv\n"
+ "wall_s": 279.5,
+ "stdout_tail": "POETRY_REQ_MAIN_PLUS_LOCKED_DEV\nCORRECTED_ENV_DONE\n",
+ "stderr_tail": "Using Python 3.8.20 environment at: /opt/venv\nUsing Python 3.8.20 environment at: /opt/venv\n"
 }

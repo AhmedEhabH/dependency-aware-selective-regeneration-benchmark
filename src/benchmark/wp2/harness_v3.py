@@ -390,14 +390,43 @@ def v31_dev_closure(task_id: str) -> dict:
 def locked_dev_install(task_id: str) -> str:
     """Exact historical DEV/TEST closure install fragment (V3.1 rule-based).
 
-    MAIN is never touched here; this is the ADDITIVE dev/test supplement.
-    Unsupported-source packages are never guessed and simply not pinned.
+    MAIN is never touched here. The fragment freezes the ACTUAL main-recipe
+    result, then installs every exact LOCKED pin not already provided by it
+    (so no transitive can upgrade a main package). Exact pins that are
+    genuinely unavailable (removed from the index / no matching Linux wheel)
+    are dropped and reported as DEV_RETRY evidence -- never guessed.
+    uv-era tasks install the dev group through the frozen uv export and get a
+    no-op supplement.
     """
     closure = v31_dev_closure(task_id)
-    pins = closure.get("pins", [])
-    if not pins:
+    if closure.get("mechanism") in ("uv", "none", "requirements"):
         return "echo NO_LOCKED_DEV_GROUP"
-    return "uv pip install --python /opt/venv/bin/python " + " ".join(pins)
+    all_pins = (closure.get("all_locked_pins") or {}).get("pins", [])
+    if not all_pins:
+        return "echo NO_LOCKED_DEV_GROUP"
+    pins_str = " ".join(all_pins)
+    return (
+        "uv pip freeze --python /opt/venv/bin/python | sort > /tmp/v31_main_freeze.txt; "
+        f"printf '%s\\n' {pins_str} | sort -u > /tmp/v31_all_pins.txt; "
+        "comm -23 /tmp/v31_all_pins.txt /tmp/v31_main_freeze.txt > /tmp/v31_dev_pins.txt; "
+        "if [ -s /tmp/v31_dev_pins.txt ]; then "
+        "DEV_PINS=$(cat /tmp/v31_dev_pins.txt | tr '\\n' ' '); "
+        "for round in 1 2 3 4 5 6 7 8 9 10; do "
+        "if uv pip install --python /opt/venv/bin/python $DEV_PINS >>/tmp/install.log 2>&1; then "
+        "echo DEV_INSTALL_OK; break; "
+        "else "
+        "grep -oE 'no version of [A-Za-z0-9_.-]+==[^ ]+' /tmp/install.log "
+        "| awk '{print $NF}' > /tmp/v31_unavail.txt; "
+        "grep -oE '[A-Za-z0-9_.-]+==[^ ]+ has no wheels' /tmp/install.log "
+        "| awk '{print $1}' >> /tmp/v31_unavail.txt; "
+        "sort -u -o /tmp/v31_unavail.txt /tmp/v31_unavail.txt; "
+        "if [ ! -s /tmp/v31_unavail.txt ]; then echo DEV_INSTALL_UNRESOLVED_FAIL; "
+        "tail -60 /tmp/install.log; exit 2; "
+        "else DEV_PINS=$(grep -vxF -f /tmp/v31_unavail.txt /tmp/v31_dev_pins.txt | tr '\\n' ' '); "
+        "echo DEV_RETRY_R$round dropped=$(wc -l < /tmp/v31_unavail.txt) >>/tmp/install.log; "
+        "fi; fi; done; "
+        "else echo DEV_NO_PINS; fi"
+    )
 
 
 # ---------------------------------------------------------------------------

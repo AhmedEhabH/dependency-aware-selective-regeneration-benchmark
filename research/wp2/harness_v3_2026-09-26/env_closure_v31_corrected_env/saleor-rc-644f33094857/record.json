@@ -72,8 +72,10 @@
   "wrapt==1.12.1",
   "yarl==1.6.3"
  ],
+ "dev_all_locked_n": 207,
  "dev_pins_unavailable": [
-  "codecov==2.1.10"
+  "codecov==2.1.10",
+  "python-magic-bin==0.4.14"
  ],
  "dev_test_closure": {
   "mechanism": "poetry",
@@ -94,7 +96,7 @@
  "collect": {
   "rc": 0,
   "ok": true,
-  "text_tail": "d\nsaleor/order/tests/test_emails.py::test_send_order_refunded_confirmation\nsaleor/order/tests/test_emails.py::test_send_order_canceled_confirmation\nsaleor/order/tests/test_fulfullments_actions.py::test_create_fulfillments\nsaleor/order/tests/test_fulfullments_actions.py::test_create_fulfillments_without_notification\nsaleor/order/tests/test_fulfullments_actions.py::test_create_fulfillments_many_warehouses\nsaleor/order/tests/test_fulfullments_actions.py::test_create_fulfillments_with_one_line_empty_quantity\nsaleor/order/tests/test_fulfullments_actions.py::test_create_fulfillments_with_variant_without_inventory_tracking\nsaleor/order/tests/test_fulfullments_actions.py::test_create_fulfillments_without_allocations\nsaleor/order/tests/test_fulfullments_actions.py::test_create_fulfillments_warehouse_with_out_of_stock\nsaleor/order/tests/test_fulfullments_actions.py::test_create_fulfillments_warehouse_without_stock\nsaleor/order/tests/test_fulfullments_actions.py::test_create_fulfillments_with_variant_without_inventory_tracking_and_without_stock\nsaleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[5-2-0-3]\nsaleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[2-5-3-0]\nsaleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[2-0-0-2]\nsaleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[5-5-0-0]\nsaleor/order/tests/test_order_utils.py::test_match_orders_with_new_user\nsaleor/order/tests/test_order_utils.py::test_match_draft_order_with_new_user\n\n=============================== warnings summary ===============================\nsaleor/settings.py:207\n  /workspace/644f33094857_v31_new_t/saleor/settings.py:207: UserWarning: SECRET_KEY not configured, using a random temporary key.\n    warnings.warn(\"SECRET_KEY not configured, using a random temporary key.\")\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n3012 tests collected in 2.40s\nCOLLECT_RC=0\n"
+  "text_tail": "d\nsaleor/order/tests/test_emails.py::test_send_order_refunded_confirmation\nsaleor/order/tests/test_emails.py::test_send_order_canceled_confirmation\nsaleor/order/tests/test_fulfullments_actions.py::test_create_fulfillments\nsaleor/order/tests/test_fulfullments_actions.py::test_create_fulfillments_without_notification\nsaleor/order/tests/test_fulfullments_actions.py::test_create_fulfillments_many_warehouses\nsaleor/order/tests/test_fulfullments_actions.py::test_create_fulfillments_with_one_line_empty_quantity\nsaleor/order/tests/test_fulfullments_actions.py::test_create_fulfillments_with_variant_without_inventory_tracking\nsaleor/order/tests/test_fulfullments_actions.py::test_create_fulfillments_without_allocations\nsaleor/order/tests/test_fulfullments_actions.py::test_create_fulfillments_warehouse_with_out_of_stock\nsaleor/order/tests/test_fulfullments_actions.py::test_create_fulfillments_warehouse_without_stock\nsaleor/order/tests/test_fulfullments_actions.py::test_create_fulfillments_with_variant_without_inventory_tracking_and_without_stock\nsaleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[5-2-0-3]\nsaleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[2-5-3-0]\nsaleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[2-0-0-2]\nsaleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[5-5-0-0]\nsaleor/order/tests/test_order_utils.py::test_match_orders_with_new_user\nsaleor/order/tests/test_order_utils.py::test_match_draft_order_with_new_user\n\n=============================== warnings summary ===============================\nsaleor/settings.py:207\n  /workspace/644f33094857_v31_new_t/saleor/settings.py:207: UserWarning: SECRET_KEY not configured, using a random temporary key.\n    warnings.warn(\"SECRET_KEY not configured, using a random temporary key.\")\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n3012 tests collected in 2.64s\nCOLLECT_RC=0\n"
  },
  "fixture_preflight": {
   "ok": true,
@@ -107,7 +109,7 @@
  },
  "files": {
   "freeze.txt": {
-   "sha256": "3f8d6bbfa04f7c1299b9d538785c52411f3a23fa11dc913ea0667a394ce0c353",
+   "sha256": "125a310872fe4459838436a2de005917ce11d3e208740ef95da675b767007cfd",
    "lines": 210
   },
   "pyversion.txt": {
@@ -119,7 +121,7 @@
    "lines": 85
   },
   "traceconfig.txt": {
-   "sha256": "ad95eef9cfb55e78e40b086aaa09002139a1392e2b450c5627cb2a994e3aaa0d",
+   "sha256": "d49c014eb16800c8a54edc98a405d6aebbd6a3ef46bb04a1a66834f331b13f32",
    "lines": 2000
   },
   "markers.txt": {
@@ -131,11 +133,11 @@
    "lines": 4
   },
   "collect.txt": {
-   "sha256": "16547c0a33cf96960564017009e65af9cba0dd4c1da0bfe7cb9b8322bed9dcfc",
+   "sha256": "e57a1d44fb1abdf866598d7d7664168beaf7823869e8fce3a7f1ba1c4e5b3a5d",
    "lines": 3021
   },
   "fixture_collect.txt": {
-   "sha256": "903de1b7e1518eb936f7cc0bbe3e6ab356dbe20a9ea5cb3fef1beb7a4416683c",
+   "sha256": "d20d75a21da2decce2d40050fd216a27dfc9cd6b2d76e6c2c771be359b2bfb39",
    "lines": 3021
   },
   "fixture_preflight.json": {
@@ -143,13 +145,13 @@
    "lines": 1
   },
   "install.log": {
-   "sha256": "01980d762780e6ad01578b7705138e45cdd71de86cb8cae8a9ba6acf5c3e9dd9",
-   "lines": 250
+   "sha256": "f831ea4db3de843ae6fc34d77dd4c35da9a327b801841b347fadd8babddb9081",
+   "lines": 255
   }
  },
- "freeze_sha256": "3f8d6bbfa04f7c1299b9d538785c52411f3a23fa11dc913ea0667a394ce0c353",
+ "freeze_sha256": "125a310872fe4459838436a2de005917ce11d3e208740ef95da675b767007cfd",
  "freeze_packages": 210,
- "wall_s": 577.1,
- "stdout_tail": "POETRY_REQ_MAIN_PLUS_LOCKED_DEV\nDEV_INSTALL_OK\nCORRECTED_ENV_DONE\n",
- "stderr_tail": "Using Python 3.8.20 environment at: /opt/venv\n"
+ "wall_s": 684.5,
+ "stdout_tail": "POETRY_REQ_MAIN_PLUS_LOCKED_DEV\nCORRECTED_ENV_DONE\n",
+ "stderr_tail": "Using Python 3.8.20 environment at: /opt/venv\nUsing Python 3.8.20 environment at: /opt/venv\n"
 }

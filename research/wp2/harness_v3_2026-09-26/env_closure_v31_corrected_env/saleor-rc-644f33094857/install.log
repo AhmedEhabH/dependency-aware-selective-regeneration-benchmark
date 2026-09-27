@@ -1,9 +1,9 @@
 Using Python 3.8.20 environment at: /opt/venv
-Resolved 140 packages in 996ms
+Resolved 140 packages in 1.54s
 warning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.
          If the cache and target directories are on different filesystems, hardlinking may not be supported.
          If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.
-Installed 140 packages in 4.70s
+Installed 140 packages in 4.99s
  + adyen==3.1.0
  + amqp==5.0.2
  + aniso8601==7.0.0
@@ -152,16 +152,20 @@ Using Python 3.8.20 environment at: /opt/venv
       unsatisfiable.
 DEV_RETRY_R1 dropped=1
 Using Python 3.8.20 environment at: /opt/venv
-Resolved 100 packages in 21ms
-   Building transifex-client==0.14.2
-Downloading virtualenv (5.4MiB)
-      Built transifex-client==0.14.2
- Downloaded virtualenv
-Prepared 31 packages in 15.71s
+  × No solution found when resolving dependencies:
+  ╰─▶ Because python-magic-bin==0.4.14 has no wheels with a matching
+      platform tag (e.g., `manylinux_2_36_x86_64`) and you require
+      python-magic-bin==0.4.14, we can conclude that your requirements are
+      unsatisfiable.
+
+hint: Wheels are available for `python-magic-bin` (v0.4.14) on the following platforms: `macosx_10_6_intel`, `win32`, `win_amd64`DEV_RETRY_R2 dropped=2
+Using Python 3.8.20 environment at: /opt/venv
+Resolved 100 packages in 23ms
+Prepared 1 package in 307ms
 warning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.
          If the cache and target directories are on different filesystems, hardlinking may not be supported.
          If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.
-Installed 66 packages in 1.47s
+Installed 66 packages in 1.21s
  + apipkg==1.5
  + appdirs==1.4.4
  + astroid==2.4.2
@@ -170,7 +174,7 @@ Installed 66 packages in 1.47s
  + beautifultable==0.7.0
  + black==19.10b0
  + cfgv==3.2.0
- + colorama==0.4.6
+ + colorama==0.4.4
  + coverage==5.3
  + distlib==0.3.1
  + django-debug-toolbar==3.2
@@ -229,13 +233,14 @@ Installed 66 packages in 1.47s
  + wrapt==1.12.1
  + yarl==1.6.3
 warning: `pytest-celery==0.0.0a1` is yanked (reason: "Deprecated alpha release")
+DEV_INSTALL_OK
 Using Python 3.8.20 environment at: /opt/venv
-Resolved 19 packages in 283ms
+Resolved 19 packages in 382ms
 Uninstalled 4 packages in 5ms
 warning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.
          If the cache and target directories are on different filesystems, hardlinking may not be supported.
          If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.
-Installed 8 packages in 77ms
+Installed 8 packages in 57ms
  + exceptiongroup==1.3.1
  - pluggy==0.13.1
  + pluggy==1.5.0

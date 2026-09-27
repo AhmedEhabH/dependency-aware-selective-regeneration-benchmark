@@ -83,8 +83,10 @@
   "wrapt==1.15.0",
   "yarl==1.8.2"
  ],
+ "dev_all_locked_n": 239,
  "dev_pins_unavailable": [
-  "codecov==2.1.12"
+  "codecov==2.1.12",
+  "python-magic-bin==0.4.14"
  ],
  "dev_test_closure": {
   "mechanism": "poetry",
@@ -101,12 +103,12 @@
  "pip_check": {
   "rc": 0,
   "ok": true,
-  "text_tail": "Using Python 3.9.25 environment at: /opt/venv\nChecked 237 packages in 5ms\nAll installed packages are compatible\nPIPCHECK_RC=0\n"
+  "text_tail": "Using Python 3.9.25 environment at: /opt/venv\nChecked 238 packages in 5ms\nAll installed packages are compatible\nPIPCHECK_RC=0\n"
  },
  "collect": {
   "rc": 0,
   "ok": true,
-  "text_tail": "ts/test_search_tasks.py::test_set_order_search_document_values_no_vector\nsaleor/core/tests/test_serializer.py::test_custom_json_encoder_dumps_money_objects\nsaleor/core/tests/test_serializer.py::test_custom_json_encoder_dumps_weight_objects\nsaleor/core/tests/test_tasks.py::test_delete_from_storage_task\nsaleor/core/tests/test_tasks.py::test_delete_from_storage_task_file_that_not_exists\nsaleor/core/tests/test_tasks.py::test_delete_event_payloads_task\nsaleor/core/tests/test_tasks.py::test_delete_files_from_storage_task\nsaleor/core/tests/test_tasks.py::test_delete_files_from_storage_task_files_not_existing_files\nsaleor/core/tests/test_taxes.py::test_get_current_tax_app\nsaleor/core/tests/test_taxes.py::test_get_current_tax_app_multiple_apps\nsaleor/core/tests/test_taxes.py::test_get_current_tax_app_no_app\nsaleor/core/tests/test_url.py::test_prepare_url\nsaleor/core/tests/test_url.py::test_prepare_url_with_existing_query\nsaleor/core/tests/test_url.py::test_get_default_storage_root_url\nsaleor/core/tests/test_view.py::test_jwks_can_be_used_to_decode_saleor_token\nsaleor/core/tests/test_weight.py::test_convert_weight\nsaleor/core/tests/test_weight.py::test_get_default_weight_unit\nsaleor/core/tests/test_weight.py::test_convert_weight_to_default_weight_unit[kg-expected_value0]\nsaleor/core/tests/test_weight.py::test_convert_weight_to_default_weight_unit[g-expected_value1]\nsaleor/core/tests/test_weight.py::test_convert_weight_to_default_weight_unit[lb-expected_value2]\nsaleor/core/tests/test_weight.py::test_convert_weight_to_default_weight_unit[oz-expected_value3]\n\n=============================== warnings summary ===============================\nsaleor/settings.py:204\n  /workspace/2d45b76a52f2_v31_new_t/saleor/settings.py:204: UserWarning: SECRET_KEY not configured, using a random temporary key.\n    warnings.warn(\"SECRET_KEY not configured, using a random temporary key.\")\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n176 tests collected in 0.30s\nCOLLECT_RC=0\n"
+  "text_tail": "ts/test_search_tasks.py::test_set_order_search_document_values_no_vector\nsaleor/core/tests/test_serializer.py::test_custom_json_encoder_dumps_money_objects\nsaleor/core/tests/test_serializer.py::test_custom_json_encoder_dumps_weight_objects\nsaleor/core/tests/test_tasks.py::test_delete_from_storage_task\nsaleor/core/tests/test_tasks.py::test_delete_from_storage_task_file_that_not_exists\nsaleor/core/tests/test_tasks.py::test_delete_event_payloads_task\nsaleor/core/tests/test_tasks.py::test_delete_files_from_storage_task\nsaleor/core/tests/test_tasks.py::test_delete_files_from_storage_task_files_not_existing_files\nsaleor/core/tests/test_taxes.py::test_get_current_tax_app\nsaleor/core/tests/test_taxes.py::test_get_current_tax_app_multiple_apps\nsaleor/core/tests/test_taxes.py::test_get_current_tax_app_no_app\nsaleor/core/tests/test_url.py::test_prepare_url\nsaleor/core/tests/test_url.py::test_prepare_url_with_existing_query\nsaleor/core/tests/test_url.py::test_get_default_storage_root_url\nsaleor/core/tests/test_view.py::test_jwks_can_be_used_to_decode_saleor_token\nsaleor/core/tests/test_weight.py::test_convert_weight\nsaleor/core/tests/test_weight.py::test_get_default_weight_unit\nsaleor/core/tests/test_weight.py::test_convert_weight_to_default_weight_unit[kg-expected_value0]\nsaleor/core/tests/test_weight.py::test_convert_weight_to_default_weight_unit[g-expected_value1]\nsaleor/core/tests/test_weight.py::test_convert_weight_to_default_weight_unit[lb-expected_value2]\nsaleor/core/tests/test_weight.py::test_convert_weight_to_default_weight_unit[oz-expected_value3]\n\n=============================== warnings summary ===============================\nsaleor/settings.py:204\n  /workspace/2d45b76a52f2_v31_new_t/saleor/settings.py:204: UserWarning: SECRET_KEY not configured, using a random temporary key.\n    warnings.warn(\"SECRET_KEY not configured, using a random temporary key.\")\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n176 tests collected in 0.32s\nCOLLECT_RC=0\n"
  },
  "fixture_preflight": {
   "ok": true,
@@ -119,8 +121,8 @@
  },
  "files": {
   "freeze.txt": {
-   "sha256": "d276f3888ecfe713d8181f58a113fe88611fa31a25b1939a91d2098e73fe1c07",
-   "lines": 237
+   "sha256": "40a1522926c94e0d1912832646b8a183cb630805121f260230bc9f8e0e777109",
+   "lines": 238
   },
   "pyversion.txt": {
    "sha256": "46013688dc6816ee6935343b6974f8bd34c0ada4fe43554f5c0a772d7e8f0b1e",
@@ -131,7 +133,7 @@
    "lines": 77
   },
   "traceconfig.txt": {
-   "sha256": "014ae4d82005c4c1a7b867983c930fc74071f6b9a3c5b5bd834389ea01625919",
+   "sha256": "55412974aeb671cbc425b6c186eae15d29c68dc66baa5bd69f9c0ad975ef046d",
    "lines": 2000
   },
   "markers.txt": {
@@ -139,15 +141,15 @@
    "lines": 50
   },
   "pipcheck.txt": {
-   "sha256": "e31339768c73bb7c39681ded7eee0f55d038a58a948e6c1e1d3c86f22545c301",
+   "sha256": "ae858445ab758bf082c32f593cfaccd5e06b319834309dbec60b704c7da29185",
    "lines": 4
   },
   "collect.txt": {
-   "sha256": "2fe87f3dc96c6330f305643ffca86683727eacdaf5a35530896087d34e76ca84",
+   "sha256": "8a30bb809c012ad1d2128d0acbc6a8dd3042e68f5221226e17649522575d50f8",
    "lines": 185
   },
   "fixture_collect.txt": {
-   "sha256": "5bf0f52f01ee194bd62657b1af4e1a2adb5c15746a18148f0e0d25d39f7851fa",
+   "sha256": "4214fa05d4b5f275ec40e9127a23d3d3c125c81e11b72a98abf4bccbb383faa4",
    "lines": 185
   },
   "fixture_preflight.json": {
@@ -155,13 +157,13 @@
    "lines": 1
   },
   "install.log": {
-   "sha256": "d556e3b78a3369bd51d8c1c4aa7407a85da8eb5d85a1b8e490eb9054f8b42953",
+   "sha256": "f9271ec3ae617cd964f83ca98e331c6c70ab74e21048feef6041d23d5a384b7c",
    "lines": 280
   }
  },
- "freeze_sha256": "d276f3888ecfe713d8181f58a113fe88611fa31a25b1939a91d2098e73fe1c07",
- "freeze_packages": 237,
- "wall_s": 1229.1,
- "stdout_tail": "POETRY_REQ_MAIN_PLUS_LOCKED_DEV\nDEV_INSTALL_OK\nCORRECTED_ENV_DONE\n",
- "stderr_tail": "Using Python 3.9.25 environment at: /opt/venv\n"
+ "freeze_sha256": "40a1522926c94e0d1912832646b8a183cb630805121f260230bc9f8e0e777109",
+ "freeze_packages": 238,
+ "wall_s": 1192.3,
+ "stdout_tail": "POETRY_REQ_MAIN_PLUS_LOCKED_DEV\nCORRECTED_ENV_DONE\n",
+ "stderr_tail": "Using Python 3.9.25 environment at: /opt/venv\nUsing Python 3.9.25 environment at: /opt/venv\n"
 }

@@ -1,5 +1,5 @@
-PLUGIN registered: <_pytest.config.PytestPluginManager object at 0x7e1478a7f370>
-PLUGIN registered: <_pytest.config.Config object at 0x7e14779a0130>
+PLUGIN registered: <_pytest.config.PytestPluginManager object at 0x79e566dc5370>
+PLUGIN registered: <_pytest.config.Config object at 0x79e565ce6130>
 PLUGIN registered: <module '_pytest.mark' from '/opt/venv/lib/python3.8/site-packages/_pytest/mark/__init__.py'>
 PLUGIN registered: <module '_pytest.main' from '/opt/venv/lib/python3.8/site-packages/_pytest/main.py'>
 PLUGIN registered: <module '_pytest.runner' from '/opt/venv/lib/python3.8/site-packages/_pytest/runner.py'>
@@ -47,9 +47,9 @@ PLUGIN registered: <module 'saleor.plugins.tests.fixtures' from '/workspace/22ec
 PLUGIN registered: <module 'saleor.graphql.tests.fixtures' from '/workspace/22ec4dab0154_v31_new_t/saleor/graphql/tests/fixtures.py'>
 PLUGIN registered: <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
 PLUGIN registered: <class '_pytest.legacypath.LegacyTmpdirPlugin'>
-PLUGIN registered: <_pytest.terminal.TerminalReporter object at 0x7e1468ca1940>
-PLUGIN registered: <_pytest.logging.LoggingPlugin object at 0x7e1468ca1a30>
-PLUGIN registered: <_pytest.fixtures.FixtureManager object at 0x7e1468ca1280>
+PLUGIN registered: <_pytest.terminal.TerminalReporter object at 0x79e5568a5af0>
+PLUGIN registered: <_pytest.logging.LoggingPlugin object at 0x79e5568a5bb0>
+PLUGIN registered: <_pytest.fixtures.FixtureManager object at 0x79e5568a53a0>
 ============================= test session starts ==============================
 platform linux -- Python 3.8.20, pytest-8.3.5, pluggy-1.5.0
 using: pytest-8.3.5
@@ -66,8 +66,8 @@ registered third-party plugins:
   pytest-django-4.11.1 at /opt/venv/lib/python3.8/site-packages/pytest_django/plugin.py
   pytest-django-queries-1.1.0 at /opt/venv/lib/python3.8/site-packages/pytest_django_queries/plugin.py
 active plugins:
-    138626388718448     : <_pytest.config.PytestPluginManager object at 0x7e1478a7f370>
-    pytestconfig        : <_pytest.config.Config object at 0x7e14779a0130>
+    134026180186992     : <_pytest.config.PytestPluginManager object at 0x79e566dc5370>
+    pytestconfig        : <_pytest.config.Config object at 0x79e565ce6130>
     stepwise            : None
     pytest_stepwise     : None
     cacheprovider       : None
@@ -119,9 +119,9 @@ active plugins:
     saleor.graphql.tests.fixtures: /workspace/22ec4dab0154_v31_new_t/saleor/graphql/tests/fixtures.py
     session             : <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
     legacypath-tmpdir   : <class '_pytest.legacypath.LegacyTmpdirPlugin'>
-    terminalreporter    : <_pytest.terminal.TerminalReporter object at 0x7e1468ca1940>
-    logging-plugin      : <_pytest.logging.LoggingPlugin object at 0x7e1468ca1a30>
-    funcmanage          : <_pytest.fixtures.FixtureManager object at 0x7e1468ca1280>
+    terminalreporter    : <_pytest.terminal.TerminalReporter object at 0x79e5568a5af0>
+    logging-plugin      : <_pytest.logging.LoggingPlugin object at 0x79e5568a5bb0>
+    funcmanage          : <_pytest.fixtures.FixtureManager object at 0x79e5568a53a0>
 django: version: 3.0.6, settings: saleor.tests.settings (from option)
 rootdir: /workspace/22ec4dab0154_v31_new_t
 configfile: setup.cfg
@@ -343,7 +343,7 @@ saleor/order/tests/test_order.py E                                       [100%]
 ==================================== ERRORS ====================================
 _____________ ERROR at setup of test_address_form_for_country[CN] ______________
 
-self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x7e1466b8e310>
+self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x79e554ecb7c0>
 
     @async_unsafe
     def ensure_connection(self):
@@ -425,7 +425,7 @@ The above exception was the direct cause of the following exception:
 
 request = <SubRequest 'django_db_setup' for <Function test_address_form_for_country[CN]>>
 django_test_environment = None
-django_db_blocker = <pytest_django.plugin.DjangoDbBlocker object at 0x7e147782b940>
+django_db_blocker = <pytest_django.plugin.DjangoDbBlocker object at 0x79e565b71940>
 django_db_use_migrations = True, django_db_keepdb = False
 django_db_createdb = False, django_db_modify_db_settings = None
 
@@ -551,7 +551,7 @@ E       	TCP/IP connections on port 5432?
 /opt/venv/lib/python3.8/site-packages/psycopg2/__init__.py:127: OperationalError
 _____________ ERROR at setup of test_address_form_for_country[PL] ______________
 
-self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x7e1466b8e310>
+self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x79e554ecb7c0>
 
     @async_unsafe
     def ensure_connection(self):
@@ -633,7 +633,7 @@ The above exception was the direct cause of the following exception:
 
 request = <SubRequest 'django_db_setup' for <Function test_address_form_for_country[CN]>>
 django_test_environment = None
-django_db_blocker = <pytest_django.plugin.DjangoDbBlocker object at 0x7e147782b940>
+django_db_blocker = <pytest_django.plugin.DjangoDbBlocker object at 0x79e565b71940>
 django_db_use_migrations = True, django_db_keepdb = False
 django_db_createdb = False, django_db_modify_db_settings = None
 
@@ -759,7 +759,7 @@ E       	TCP/IP connections on port 5432?
 /opt/venv/lib/python3.8/site-packages/psycopg2/__init__.py:127: OperationalError
 _____________ ERROR at setup of test_address_form_for_country[US] ______________
 
-self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x7e1466b8e310>
+self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x79e554ecb7c0>
 
     @async_unsafe
     def ensure_connection(self):
@@ -841,7 +841,7 @@ The above exception was the direct cause of the following exception:
 
 request = <SubRequest 'django_db_setup' for <Function test_address_form_for_country[CN]>>
 django_test_environment = None
-django_db_blocker = <pytest_django.plugin.DjangoDbBlocker object at 0x7e147782b940>
+django_db_blocker = <pytest_django.plugin.DjangoDbBlocker object at 0x79e565b71940>
 django_db_use_migrations = True, django_db_keepdb = False
 django_db_createdb = False, django_db_modify_db_settings = None
 
@@ -967,7 +967,7 @@ E       	TCP/IP connections on port 5432?
 /opt/venv/lib/python3.8/site-packages/psycopg2/__init__.py:127: OperationalError
 _____________ ERROR at setup of test_address_form_for_country[IE] ______________
 
-self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x7e1466b8e310>
+self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x79e554ecb7c0>
 
     @async_unsafe
     def ensure_connection(self):
@@ -1049,7 +1049,7 @@ The above exception was the direct cause of the following exception:
 
 request = <SubRequest 'django_db_setup' for <Function test_address_form_for_country[CN]>>
 django_test_environment = None
-django_db_blocker = <pytest_django.plugin.DjangoDbBlocker object at 0x7e147782b940>
+django_db_blocker = <pytest_django.plugin.DjangoDbBlocker object at 0x79e565b71940>
 django_db_use_migrations = True, django_db_keepdb = False
 django_db_createdb = False, django_db_modify_db_settings = None
 
@@ -1175,7 +1175,7 @@ E       	TCP/IP connections on port 5432?
 /opt/venv/lib/python3.8/site-packages/psycopg2/__init__.py:127: OperationalError
 __________ ERROR at setup of test_address_form_postal_code_validation __________
 
-self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x7e1466b8e310>
+self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x79e554ecb7c0>
 
     @async_unsafe
     def ensure_connection(self):
@@ -1257,7 +1257,7 @@ The above exception was the direct cause of the following exception:
 
 request = <SubRequest 'django_db_setup' for <Function test_address_form_for_country[CN]>>
 django_test_environment = None
-django_db_blocker = <pytest_django.plugin.DjangoDbBlocker object at 0x7e147782b940>
+django_db_blocker = <pytest_django.plugin.DjangoDbBlocker object at 0x79e565b71940>
 django_db_use_migrations = True, django_db_keepdb = False
 django_db_createdb = False, django_db_modify_db_settings = None
 
@@ -1383,7 +1383,7 @@ E       	TCP/IP connections on port 5432?
 /opt/venv/lib/python3.8/site-packages/psycopg2/__init__.py:127: OperationalError
 _ ERROR at setup of test_address_form_phone_number_validation[US-123-456-7890-False] _
 
-self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x7e1466b8e310>
+self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x79e554ecb7c0>
 
     @async_unsafe
     def ensure_connection(self):
@@ -1465,7 +1465,7 @@ The above exception was the direct cause of the following exception:
 
 request = <SubRequest 'django_db_setup' for <Function test_address_form_for_country[CN]>>
 django_test_environment = None
-django_db_blocker = <pytest_django.plugin.DjangoDbBlocker object at 0x7e147782b940>
+django_db_blocker = <pytest_django.plugin.DjangoDbBlocker object at 0x79e565b71940>
 django_db_use_migrations = True, django_db_keepdb = False
 django_db_createdb = False, django_db_modify_db_settings = None
 
@@ -1591,7 +1591,7 @@ E       	TCP/IP connections on port 5432?
 /opt/venv/lib/python3.8/site-packages/psycopg2/__init__.py:127: OperationalError
 _ ERROR at setup of test_address_form_phone_number_validation[US-(541) 754-3010-True] _
 
-self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x7e1466b8e310>
+self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x79e554ecb7c0>
 
     @async_unsafe
     def ensure_connection(self):
@@ -1673,7 +1673,7 @@ The above exception was the direct cause of the following exception:
 
 request = <SubRequest 'django_db_setup' for <Function test_address_form_for_country[CN]>>
 django_test_environment = None
-django_db_blocker = <pytest_django.plugin.DjangoDbBlocker object at 0x7e147782b940>
+django_db_blocker = <pytest_django.plugin.DjangoDbBlocker object at 0x79e565b71940>
 django_db_use_migrations = True, django_db_keepdb = False
 django_db_createdb = False, django_db_modify_db_settings = None
 
@@ -1799,7 +1799,7 @@ E       	TCP/IP connections on port 5432?
 /opt/venv/lib/python3.8/site-packages/psycopg2/__init__.py:127: OperationalError
 _ ERROR at setup of test_address_form_phone_number_validation[FR-0600000000-True] _
 
-self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x7e1466b8e310>
+self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x79e554ecb7c0>
 
     @async_unsafe
     def ensure_connection(self):
@@ -1881,7 +1881,7 @@ The above exception was the direct cause of the following exception:
 
 request = <SubRequest 'django_db_setup' for <Function test_address_form_for_country[CN]>>
 django_test_environment = None
-django_db_blocker = <pytest_django.plugin.DjangoDbBlocker object at 0x7e147782b940>
+django_db_blocker = <pytest_django.plugin.DjangoDbBlocker object at 0x79e565b71940>
 django_db_use_migrations = True, django_db_keepdb = False
 django_db_createdb = False, django_db_modify_db_settings = None
 

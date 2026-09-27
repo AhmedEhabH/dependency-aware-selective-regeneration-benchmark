@@ -41,6 +41,7 @@ from benchmark.wp2.harness_v3 import (  # noqa: E402
     NOFILE_SOFT,
     TOOLING_INSTALL,
     lock_install_script,
+    locked_dev_install,
     target_manifests,
     v31_dev_closure,
 )
@@ -51,6 +52,14 @@ FIXTURE_PLUGIN = r'''
 """v31 fixture-resolution preflight plugin (zero test-body execution)."""
 import json
 from pathlib import Path
+
+BUILTIN = {
+    "request", "pytestconfig", "record_property", "record_xml_attribute",
+    "record_testsuite_property", "capsys", "capfd", "capsysbinary", "capfdbinary",
+    "caplog", "monkeypatch", "tmp_path", "tmp_path_factory", "tmpdir",
+    "tmpdir_factory", "cache", "doctest_namespace", "recwarn", "pytester",
+    "pytester_example_path",
+}
 
 
 def pytest_collection_modifyitems(session, config, items):
@@ -64,6 +73,8 @@ def pytest_collection_modifyitems(session, config, items):
         names = list(getattr(fi, "argnames", None) or [])
         miss = []
         for fname in names:
+            if fname in BUILTIN:
+                continue
             defs = n2f.get(fname)
             if not defs:
                 miss.append(fname)
@@ -120,7 +131,7 @@ def build_corrected(task_id: str) -> dict:
 
     manifests = target_manifests(target)
     install_frag, install_mode, _ = lock_install_script(wt, manifests)
-    dev_pins = v31_dev_closure(task_id).get("pins", [])
+    dev_frag = locked_dev_install(task_id)
     closure = v31_dev_closure(task_id)
     cfiles = collect_files(task_id)
 
@@ -129,45 +140,20 @@ def build_corrected(task_id: str) -> dict:
     if r.returncode != 0:
         return {"task_id": task_id, "status": "WORKTREE_FAIL", "error": r.stderr[-800:]}
 
-    # write fixture preflight plugin + collect files + dev pins
+    # write fixture preflight plugin + collect files
     subprocess.run(["wsl", "-d", DISTRO, "--", "bash", "-lc",
                     f"cat > {wt}/v31_fixture_preflight.py"],
                    input=FIXTURE_PLUGIN.encode("utf-8"), capture_output=True, timeout=120)
     subprocess.run(["wsl", "-d", DISTRO, "--", "bash", "-lc",
                     f"cat > {wt}/.v31_collect_files.txt"],
                    input=("\n".join(cfiles) + "\n").encode("utf-8"), capture_output=True, timeout=120)
-    subprocess.run(["wsl", "-d", DISTRO, "--", "bash", "-lc",
-                    f"cat > {wt}/.v31_dev_pins.txt"],
-                   input=("\n".join(dev_pins) + ("\n" if dev_pins else "")).encode("utf-8"),
-                   capture_output=True, timeout=120)
-
-    dev_install_block = (
-        "if [ -s /workspace/" + wt_name + "/.v31_dev_pins.txt ]; then "
-        "DEV_PINS=$(cat /workspace/" + wt_name + "/.v31_dev_pins.txt | tr '\\n' ' '); "
-        "for round in 1 2 3 4 5 6 7 8 9 10; do "
-        "if uv pip install --python /opt/venv/bin/python $DEV_PINS >>/tmp/install.log 2>&1; then "
-        "echo DEV_INSTALL_OK; break; "
-        "else "
-        "grep -oE 'no version of [A-Za-z0-9_.-]+==[^ ]+' /tmp/install.log "
-        "| awk '{print $NF}' | sort -u > /tmp/v31_unavail.txt; "
-        "if [ ! -s /tmp/v31_unavail.txt ]; then "
-        "echo DEV_INSTALL_UNRESOLVED_FAIL; exit 2; "
-        "else "
-        "cp /tmp/v31_unavail.txt /workspace/" + wt_name + "/.v31_unavailable_pins.txt; "
-        "DEV_PINS=$(grep -vxF -f /tmp/v31_unavail.txt /workspace/" + wt_name +
-        "/.v31_dev_pins.txt | tr '\\n' ' '); "
-        "echo DEV_RETRY_R$round dropped=$(wc -l < /tmp/v31_unavail.txt) >>/tmp/install.log; "
-        "fi; "
-        "fi; "
-        "done; "
-        "else echo DEV_NO_PINS; fi"
-    )
 
     script = (
         "set -e; "
         "uv venv /opt/venv >/dev/null 2>&1 || true; "
         f"{install_frag}; "
-        f"{dev_install_block}; "
+        f"{dev_frag} >>/tmp/install.log 2>&1 "
+        "|| { echo INSTALL_DEV_FAIL; tail -60 /tmp/install.log; exit 2; }; "
         f"{TOOLING_INSTALL} >>/tmp/install.log 2>&1 "
         "|| { echo TOOLING_FAIL; tail -80 /tmp/install.log; exit 2; }; "
         f"cd /workspace/{wt_name} && "
@@ -224,8 +210,8 @@ def build_corrected(task_id: str) -> dict:
     for name in names:
         text, sha = read_back(name)
         files[name] = {"sha256": sha, "lines": len(text.splitlines()) if text else 0}
-    unavail_text, _ = read_back(".v31_unavailable_pins.txt")
-    dev_pins_unavailable = [ln.strip() for ln in unavail_text.splitlines() if ln.strip()]
+    install_text, _ = read_back("install.log")
+    dev_pins_unavailable = _extract_unavailable(install_text)
 
     task_dir = NEW_ROOT / task_id
     task_dir.mkdir(parents=True, exist_ok=True)
@@ -268,7 +254,8 @@ def build_corrected(task_id: str) -> dict:
         "target_commit": target,
         "install_mode": install_mode,
         "install_fragment": install_frag,
-        "dev_pins": dev_pins,
+        "dev_pins": closure.get("pins", []),
+        "dev_all_locked_n": len((closure.get("all_locked_pins") or {}).get("pins", [])),
         "dev_pins_unavailable": dev_pins_unavailable,
         "dev_test_closure": {
             "mechanism": closure.get("mechanism"),
@@ -308,6 +295,18 @@ def _rc_from(text: str) -> int | None:
             except Exception:
                 return None
     return None
+
+
+def _extract_unavailable(install_log: str) -> list[str]:
+    import re
+    out: list[str] = []
+    for pat in (r"no version of ([A-Za-z0-9_.-]+==[^ ]+)",
+                r"([A-Za-z0-9_.-]+==[^ ]+) has no wheels"):
+        for m in re.finditer(pat, install_log):
+            pin = m.group(1)
+            if pin not in out:
+                out.append(pin)
+    return out
 
 
 def main() -> int:

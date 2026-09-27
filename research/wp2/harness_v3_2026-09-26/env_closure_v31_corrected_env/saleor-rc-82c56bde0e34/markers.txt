@@ -1,0 +1,52 @@
+@pytest.mark.integration:
+
+@pytest.mark.e2e:
+
+@pytest.mark.count_queries: Mark the test as to have their database query counted.
+
+@pytest.mark.django_db(transaction=False, reset_sequences=False, databases=None, serialized_rollback=False): Mark the test as using the Django test database.  The *transaction* argument allows you to use real transactions in the test like Django's TransactionTestCase.  The *reset_sequences* argument resets database sequences before the test.  The *databases* argument sets which database aliases the test uses (by default, only 'default'). Use '__all__' for all databases.  The *serialized_rollback* argument enables rollback emulation for the test.
+
+@pytest.mark.urls(modstr): Use a different URLconf for this test, similar to the `urls` attribute of Django's `TestCase` objects.  *modstr* is a string specifying the module of a URL config, e.g. "my_app.test_urls".
+
+@pytest.mark.ignore_template_errors(): ignore errors from invalid template variables (if --fail-on-template-vars is used).
+
+@pytest.mark.anyio: mark the (coroutine function) test to be run asynchronously via anyio.
+
+@pytest.mark.vcr: Mark the test as using VCR.py.
+
+@pytest.mark.block_network: Block network access except for VCR recording.
+
+@pytest.mark.default_cassette: Override the default cassette name.
+
+@pytest.mark.allowed_hosts: List of regexes to match hosts to where connection must be allowed.
+
+@pytest.mark.asyncio: mark the test as a coroutine, it will be run using an asyncio event loop
+
+@pytest.mark.no_cover: disable coverage for this test.
+
+@pytest.mark.disable_socket(): Disable socket connections for a specific test
+
+@pytest.mark.enable_socket(): Enable socket connections for a specific test
+
+@pytest.mark.allow_hosts([hosts]): Restrict socket connection to defined list of hosts
+
+@pytest.mark.celery(**overrides): override celery configuration for a test case
+
+@pytest.mark.filterwarnings(warning): add a warning filter to the given test. see https://docs.pytest.org/en/stable/how-to/capture-warnings.html#pytest-mark-filterwarnings 
+
+@pytest.mark.skip(reason=None): skip the given test function with an optional reason. Example: skip(reason="no way of currently testing this") skips the test.
+
+@pytest.mark.skipif(condition, ..., *, reason=...): skip the given test function if any of the conditions evaluate to True. Example: skipif(sys.platform == 'win32') skips the test if we are on the win32 platform. See https://docs.pytest.org/en/stable/reference/reference.html#pytest-mark-skipif
+
+@pytest.mark.xfail(condition, ..., *, reason=..., run=True, raises=None, strict=xfail_strict): mark the test function as an expected failure if any of the conditions evaluate to True. Optionally specify a reason for better reporting and run=False if you don't even want to execute the test function. If only specific exception(s) are expected, you can list them in raises, and if the test fails in other ways, it will be reported as a true failure. See https://docs.pytest.org/en/stable/reference/reference.html#pytest-mark-xfail
+
+@pytest.mark.parametrize(argnames, argvalues): call a test function multiple times passing in different arguments in turn. argvalues generally needs to be a list of values if argnames specifies only one name or a list of tuples of values if argnames specifies multiple names. Example: @parametrize('arg1', [1,2]) would lead to two calls of the decorated test function, one with arg1=1 and another with arg1=2.see https://docs.pytest.org/en/stable/how-to/parametrize.html for more info and examples.
+
+@pytest.mark.usefixtures(fixturename1, fixturename2, ...): mark tests as needing all of the specified fixtures. see https://docs.pytest.org/en/stable/explanation/fixtures.html#usefixtures 
+
+@pytest.mark.tryfirst: mark a hook implementation function such that the plugin machinery will try to call it first/as early as possible. DEPRECATED, use @pytest.hookimpl(tryfirst=True) instead.
+
+@pytest.mark.trylast: mark a hook implementation function such that the plugin machinery will try to call it last/as late as possible. DEPRECATED, use @pytest.hookimpl(trylast=True) instead.
+
+@pytest.mark.xdist_group: specify group for tests should run in same session.in relation to one another. Provided by pytest-xdist.
+

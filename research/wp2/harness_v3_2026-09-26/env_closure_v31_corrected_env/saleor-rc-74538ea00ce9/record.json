@@ -1,0 +1,129 @@
+{
+ "task_id": "saleor-rc-74538ea00ce9",
+ "era_key": "py312",
+ "target_commit": "74538ea00ce938489bcd36b180e3b9b31f265e40",
+ "install_mode": "V2_MAIN_PLUS_EXACT_LOCKED_DEV",
+ "install_fragment": "uv pip install --python /opt/venv/bin/python -e /workspace/74538ea00ce9_v31_new_t >/tmp/install.log 2>&1 || { echo INSTALL_MAIN_FAIL; tail -120 /tmp/install.log; exit 2; }; echo NO_LOCKED_DEV_GROUP; echo V2_MAIN_PLUS_EXACT_LOCKED_DEV",
+ "dev_pins": [
+  "before-after==1.0.1",
+  "coverage==7.6.1",
+  "deptry==0.17.0",
+  "django-debug-toolbar==4.4.6",
+  "django-debug-toolbar-request-history==0.1.4",
+  "django-extensions==3.2.3",
+  "django-graphiql-debug-toolbar==0.2.0",
+  "django-stubs==4.2.7",
+  "fakeredis==2.24.1",
+  "freezegun==1.5.1",
+  "mypy-extensions==1.0.0",
+  "openpyxl==3.1.5",
+  "pre-commit==3.8.0",
+  "pytest==8.3.2",
+  "pytest-asyncio==0.23.8",
+  "pytest-celery==1.0.1",
+  "pytest-cov==5.0.0",
+  "pytest-django==4.8.0",
+  "pytest-django-queries==1.2.0",
+  "pytest-memray==1.7.0",
+  "pytest-mock==3.14.0",
+  "pytest-recording==0.13.2",
+  "pytest-socket==0.7.0",
+  "pytest-xdist==3.6.1",
+  "pywatchman==2.0.0",
+  "ruff==0.5.7",
+  "semgrep==1.52.0",
+  "types-certifi==2021.10.8.3",
+  "types-freezegun==1.1.10",
+  "types-mock==5.1.0.20240425",
+  "types-python-dateutil==2.9.0.20240906",
+  "types-pytz==2024.1.0.20240417",
+  "types-redis==4.6.0.20240903",
+  "types-requests==2.31.0.6",
+  "types-setuptools==74.1.0.20240907",
+  "types-six==1.16.21.20240513",
+  "vcrpy==6.0.1"
+ ],
+ "dev_all_locked_n": 234,
+ "dev_pins_unavailable": [
+  "python-magic-bin==0.4.14",
+  "pywin32==306"
+ ],
+ "dev_test_closure": {
+  "mechanism": "poetry",
+  "n_pins": 37,
+  "pins_sha256": "ca92e25857f4109a73de9628a4bc33b9d7c25e0eae68b289d772329bf45b2834",
+  "unsupported": [],
+  "vcr_family_present": [
+   "pytest-recording",
+   "pytest-socket",
+   "vcrpy"
+  ]
+ },
+ "container_rc": 0,
+ "pip_check": {
+  "rc": 0,
+  "ok": true,
+  "text_tail": "Using Python 3.12.14 environment at: /opt/venv\nChecked 242 packages in 5ms\nAll installed packages are compatible\nPIPCHECK_RC=0\n"
+ },
+ "collect": {
+  "rc": 0,
+  "ok": true,
+  "text_tail": "\"different-channel\"]){\\n        order{\\n            lines{\\n                id\\n                variant{\\n                    id\\n                    product{\\n                        id\\n                    }\\n                }\\n            }\\n        }\\n    }\\n    orderCreated(channels:[\"default-channel\"]){\\n        order{\\n            lines{\\n                id\\n                variant{\\n                    id\\n                    product{\\n                        id\\n                    }\\n                }\\n            }\\n        }\\n    }\\n}\\n-Subscription must select only one top field.-ValidationError-WebhookErrorCode.INVALID]\nsaleor/graphql/webhook/tests/test_subscription_query.py::test_get_events_from_field\nsaleor/graphql/webhook/tests/test_subscription_query.py::test_get_filterable_channel_slugs_for_query_with_filters\nsaleor/graphql/webhook/tests/test_subscription_query.py::test_get_filterable_channel_slugs_with_empty_filters\nsaleor/graphql/webhook/tests/test_subscription_query.py::test_get_filterable_channel_slugs_for_non_filterable_query\nsaleor/graphql/checkout/tests/mutations/test_checkout_complete_with_payment.py::test_checkout_complete_payment_create_create_run_in_meantime\nsaleor/graphql/checkout/tests/mutations/test_checkout_complete_with_payment.py::test_checkout_complete_payment_payment_deactivated_in_meantime\nsaleor/graphql/meta/tests/mutations/test_update_metadata.py::test_update_public_metadata_for_item_on_deleted_instance\nsaleor/graphql/product/tests/mutations/test_product_media_reorder.py::test_reorder_not_existing_media\n\n=============================== warnings summary ===============================\nsaleor/settings.py:235\n  /workspace/74538ea00ce9_v31_new_t/saleor/settings.py:235: UserWarning: SECRET_KEY not configured, using a random temporary key.\n    warnings.warn(\"SECRET_KEY not configured, using a random temporary key.\")\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n8517 tests collected in 15.91s\nCOLLECT_RC=0\n"
+ },
+ "fixture_preflight": {
+  "ok": true,
+  "n_checked": 8517,
+  "n_unresolved": 0,
+  "unresolved": {}
+ },
+ "vcr_preflight": {
+  "unresolved": []
+ },
+ "files": {
+  "freeze.txt": {
+   "sha256": "4f9951d5967e29d7c82bfa88615826365936cef10d651e69db9eeea8d8f3972f",
+   "lines": 242
+  },
+  "pyversion.txt": {
+   "sha256": "4c3569f5da09975434dd9fd9a91fadbc4367a91d8f3c3fab59e9241ab9ee4bd8",
+   "lines": 1
+  },
+  "pytestversion.txt": {
+   "sha256": "7abc8fb7a3cf0e9ab48f1b7a8010ff87ddb425c2219b683a17b37bd6ce549441",
+   "lines": 1
+  },
+  "traceconfig.txt": {
+   "sha256": "29e879b59c1f708427ae685f6b1e809dfb145b2db4ef44bea46ec6db663c046d",
+   "lines": 2000
+  },
+  "markers.txt": {
+   "sha256": "7383edad3800fe78090c8bd08eddd78793f70d054a7ad31efafe3ff4adc76203",
+   "lines": 58
+  },
+  "pipcheck.txt": {
+   "sha256": "fbc3d4681e37ff02e6baddbfa62e095b7d84eb79aabe46a867356d1393d76eb6",
+   "lines": 4
+  },
+  "collect.txt": {
+   "sha256": "47c0069956e329c1aec7067bbb7d493ce0ac69c0b669b2e98c0e54d783a2d96a",
+   "lines": 8526
+  },
+  "fixture_collect.txt": {
+   "sha256": "97ffe5803fde570a5a80c623b32ed589addbe968c4bb8d25381b1f6c85100035",
+   "lines": 8526
+  },
+  "fixture_preflight.json": {
+   "sha256": "b40259eb7632c01b3ebd47e36b669b9b0aacb111b7102c401cab5a9496a998c2",
+   "lines": 1
+  },
+  "install.log": {
+   "sha256": "38df3a64998b1109c71eea613460a08536ab43522950ec9754b0a8f5fceb6ede",
+   "lines": 484
+  }
+ },
+ "freeze_sha256": "4f9951d5967e29d7c82bfa88615826365936cef10d651e69db9eeea8d8f3972f",
+ "freeze_packages": 242,
+ "wall_s": 2083.6,
+ "stdout_tail": "NO_LOCKED_DEV_GROUP\nV2_MAIN_PLUS_EXACT_LOCKED_DEV\nCORRECTED_ENV_DONE\n",
+ "stderr_tail": "Using Python 3.12.14 environment at: /opt/venv\nUsing Python 3.12.14 environment at: /opt/venv\n"
+}
