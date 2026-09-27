@@ -68,7 +68,7 @@
  "collect": {
   "rc": 0,
   "ok": true,
-  "text_tail": "\"different-channel\"]){\\n        order{\\n            lines{\\n                id\\n                variant{\\n                    id\\n                    product{\\n                        id\\n                    }\\n                }\\n            }\\n        }\\n    }\\n    orderCreated(channels:[\"default-channel\"]){\\n        order{\\n            lines{\\n                id\\n                variant{\\n                    id\\n                    product{\\n                        id\\n                    }\\n                }\\n            }\\n        }\\n    }\\n}\\n-Subscription must select only one top field.-ValidationError-WebhookErrorCode.INVALID]\nsaleor/graphql/webhook/tests/test_subscription_query.py::test_get_events_from_field\nsaleor/graphql/webhook/tests/test_subscription_query.py::test_get_filterable_channel_slugs_for_query_with_filters\nsaleor/graphql/webhook/tests/test_subscription_query.py::test_get_filterable_channel_slugs_with_empty_filters\nsaleor/graphql/webhook/tests/test_subscription_query.py::test_get_filterable_channel_slugs_for_non_filterable_query\nsaleor/graphql/checkout/tests/mutations/test_checkout_complete_with_payment.py::test_checkout_complete_payment_create_create_run_in_meantime\nsaleor/graphql/checkout/tests/mutations/test_checkout_complete_with_payment.py::test_checkout_complete_payment_payment_deactivated_in_meantime\nsaleor/graphql/meta/tests/mutations/test_update_metadata.py::test_update_public_metadata_for_item_on_deleted_instance\nsaleor/graphql/product/tests/mutations/test_product_media_reorder.py::test_reorder_not_existing_media\n\n=============================== warnings summary ===============================\nsaleor/settings.py:235\n  /workspace/74538ea00ce9_v31_new_t/saleor/settings.py:235: UserWarning: SECRET_KEY not configured, using a random temporary key.\n    warnings.warn(\"SECRET_KEY not configured, using a random temporary key.\")\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n8517 tests collected in 15.91s\nCOLLECT_RC=0\n"
+  "text_tail": "\"different-channel\"]){\\n        order{\\n            lines{\\n                id\\n                variant{\\n                    id\\n                    product{\\n                        id\\n                    }\\n                }\\n            }\\n        }\\n    }\\n    orderCreated(channels:[\"default-channel\"]){\\n        order{\\n            lines{\\n                id\\n                variant{\\n                    id\\n                    product{\\n                        id\\n                    }\\n                }\\n            }\\n        }\\n    }\\n}\\n-Subscription must select only one top field.-ValidationError-WebhookErrorCode.INVALID]\nsaleor/graphql/webhook/tests/test_subscription_query.py::test_get_events_from_field\nsaleor/graphql/webhook/tests/test_subscription_query.py::test_get_filterable_channel_slugs_for_query_with_filters\nsaleor/graphql/webhook/tests/test_subscription_query.py::test_get_filterable_channel_slugs_with_empty_filters\nsaleor/graphql/webhook/tests/test_subscription_query.py::test_get_filterable_channel_slugs_for_non_filterable_query\nsaleor/graphql/checkout/tests/mutations/test_checkout_complete_with_payment.py::test_checkout_complete_payment_create_create_run_in_meantime\nsaleor/graphql/checkout/tests/mutations/test_checkout_complete_with_payment.py::test_checkout_complete_payment_payment_deactivated_in_meantime\nsaleor/graphql/meta/tests/mutations/test_update_metadata.py::test_update_public_metadata_for_item_on_deleted_instance\nsaleor/graphql/product/tests/mutations/test_product_media_reorder.py::test_reorder_not_existing_media\n\n=============================== warnings summary ===============================\nsaleor/settings.py:235\n  /workspace/74538ea00ce9_v31_new_t/saleor/settings.py:235: UserWarning: SECRET_KEY not configured, using a random temporary key.\n    warnings.warn(\"SECRET_KEY not configured, using a random temporary key.\")\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n8517 tests collected in 18.19s\nCOLLECT_RC=0\n"
  },
  "fixture_preflight": {
   "ok": true,
@@ -81,7 +81,7 @@
  },
  "files": {
   "freeze.txt": {
-   "sha256": "4f9951d5967e29d7c82bfa88615826365936cef10d651e69db9eeea8d8f3972f",
+   "sha256": "fa8221a766dc5c282a97ac31147172f5ad30585c191df73c833977dc45d057e1",
    "lines": 242
   },
   "pyversion.txt": {
@@ -89,15 +89,15 @@
    "lines": 1
   },
   "pytestversion.txt": {
-   "sha256": "7abc8fb7a3cf0e9ab48f1b7a8010ff87ddb425c2219b683a17b37bd6ce549441",
+   "sha256": "685b9763c7c58cdbc18e815709783c8df7d25180b45147d87452e201d5532e49",
    "lines": 1
   },
   "traceconfig.txt": {
-   "sha256": "29e879b59c1f708427ae685f6b1e809dfb145b2db4ef44bea46ec6db663c046d",
+   "sha256": "156fd03d0decc200797e0388ec7a7eee65f28daccc9b83c0a5c2f2e0dfb5ff5f",
    "lines": 2000
   },
   "markers.txt": {
-   "sha256": "7383edad3800fe78090c8bd08eddd78793f70d054a7ad31efafe3ff4adc76203",
+   "sha256": "e5fbea696900b774a39a796f8695ce39b51b98f56bbf966c6281a210ee42cbd1",
    "lines": 58
   },
   "pipcheck.txt": {
@@ -105,11 +105,11 @@
    "lines": 4
   },
   "collect.txt": {
-   "sha256": "47c0069956e329c1aec7067bbb7d493ce0ac69c0b669b2e98c0e54d783a2d96a",
+   "sha256": "b8e0e07fc25ea87a7732afdd587af192a0ec053d0fc42758248bb6775cefe62c",
    "lines": 8526
   },
   "fixture_collect.txt": {
-   "sha256": "97ffe5803fde570a5a80c623b32ed589addbe968c4bb8d25381b1f6c85100035",
+   "sha256": "fe8dd977f3dc1a998db648f3e1ae867ca338aae5e98f32112e2020886d3044ee",
    "lines": 8526
   },
   "fixture_preflight.json": {
@@ -117,13 +117,13 @@
    "lines": 1
   },
   "install.log": {
-   "sha256": "38df3a64998b1109c71eea613460a08536ab43522950ec9754b0a8f5fceb6ede",
-   "lines": 484
+   "sha256": "43a2ac6dfc8c786d7a579fcb964eaf5d99d72a86786b56f3ada175c3e38e85b6",
+   "lines": 449
   }
  },
- "freeze_sha256": "4f9951d5967e29d7c82bfa88615826365936cef10d651e69db9eeea8d8f3972f",
+ "freeze_sha256": "fa8221a766dc5c282a97ac31147172f5ad30585c191df73c833977dc45d057e1",
  "freeze_packages": 242,
- "wall_s": 2083.6,
+ "wall_s": 1993.0,
  "stdout_tail": "NO_LOCKED_DEV_GROUP\nV2_MAIN_PLUS_EXACT_LOCKED_DEV\nCORRECTED_ENV_DONE\n",
  "stderr_tail": "Using Python 3.12.14 environment at: /opt/venv\nUsing Python 3.12.14 environment at: /opt/venv\n"
 }

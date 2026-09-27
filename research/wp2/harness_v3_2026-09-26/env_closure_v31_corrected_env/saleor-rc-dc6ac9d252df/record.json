@@ -95,12 +95,12 @@
  "pip_check": {
   "rc": 0,
   "ok": true,
-  "text_tail": "Using Python 3.9.25 environment at: /opt/venv\nChecked 224 packages in 5ms\nAll installed packages are compatible\nPIPCHECK_RC=0\n"
+  "text_tail": "Using Python 3.9.25 environment at: /opt/venv\nChecked 221 packages in 5ms\nAll installed packages are compatible\nPIPCHECK_RC=0\n"
  },
  "collect": {
   "rc": 0,
   "ok": true,
-  "text_tail": "updated\nsaleor/plugins/webhook/tests/test_webhook.py::test_page_created\nsaleor/plugins/webhook/tests/test_webhook.py::test_page_updated\nsaleor/plugins/webhook/tests/test_webhook.py::test_page_deleted\nsaleor/plugins/webhook/tests/test_webhook.py::test_invoice_request\nsaleor/plugins/webhook/tests/test_webhook.py::test_invoice_delete\nsaleor/plugins/webhook/tests/test_webhook.py::test_invoice_sent\nsaleor/plugins/webhook/tests/test_webhook.py::test_notify_user\nsaleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_aws_sqs[queue_name-additional_call_args0]\nsaleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_aws_sqs[queue_name.fifo-additional_call_args1]\nsaleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_aws_sqs_and_secret_key\nsaleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_google_pub_sub\nsaleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_google_pub_sub_and_secret_key\nsaleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_http\nsaleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_http_and_secret_key\n\n=============================== warnings summary ===============================\nsaleor/settings.py:11\n  /workspace/dc6ac9d252df_v31_new_t/saleor/settings.py:11: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.\n    import pkg_resources\n\nsaleor/settings.py:164\n  /workspace/dc6ac9d252df_v31_new_t/saleor/settings.py:164: UserWarning: SECRET_KEY not configured, using a random temporary key.\n    warnings.warn(\"SECRET_KEY not configured, using a random temporary key.\")\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n434 tests collected in 1.08s\nCOLLECT_RC=0\n"
+  "text_tail": "updated\nsaleor/plugins/webhook/tests/test_webhook.py::test_page_created\nsaleor/plugins/webhook/tests/test_webhook.py::test_page_updated\nsaleor/plugins/webhook/tests/test_webhook.py::test_page_deleted\nsaleor/plugins/webhook/tests/test_webhook.py::test_invoice_request\nsaleor/plugins/webhook/tests/test_webhook.py::test_invoice_delete\nsaleor/plugins/webhook/tests/test_webhook.py::test_invoice_sent\nsaleor/plugins/webhook/tests/test_webhook.py::test_notify_user\nsaleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_aws_sqs[queue_name-additional_call_args0]\nsaleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_aws_sqs[queue_name.fifo-additional_call_args1]\nsaleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_aws_sqs_and_secret_key\nsaleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_google_pub_sub\nsaleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_google_pub_sub_and_secret_key\nsaleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_http\nsaleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_http_and_secret_key\n\n=============================== warnings summary ===============================\nsaleor/settings.py:11\n  /workspace/dc6ac9d252df_v31_new_t/saleor/settings.py:11: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.\n    import pkg_resources\n\nsaleor/settings.py:164\n  /workspace/dc6ac9d252df_v31_new_t/saleor/settings.py:164: UserWarning: SECRET_KEY not configured, using a random temporary key.\n    warnings.warn(\"SECRET_KEY not configured, using a random temporary key.\")\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n434 tests collected in 1.16s\nCOLLECT_RC=0\n"
  },
  "fixture_preflight": {
   "ok": true,
@@ -113,8 +113,8 @@
  },
  "files": {
   "freeze.txt": {
-   "sha256": "c91ca3bee4ee595e858e82cbbc627d4f3b646cf325c5640a82760e7398ee4143",
-   "lines": 224
+   "sha256": "ea14cdfe3ae61d6ddf6507594a1df4be87cc7a9258f58f1e13b796b93af784d7",
+   "lines": 221
   },
   "pyversion.txt": {
    "sha256": "46013688dc6816ee6935343b6974f8bd34c0ada4fe43554f5c0a772d7e8f0b1e",
@@ -125,23 +125,23 @@
    "lines": 85
   },
   "traceconfig.txt": {
-   "sha256": "65a08a685cdcbd606d7000fca0e06e487c7d338b6dd0018860dca036de1d6aac",
+   "sha256": "adc8d676b0340dbbed4e6b38909a2d929a07751a9c6e556c6bd316c9a9e6210d",
    "lines": 2000
   },
   "markers.txt": {
-   "sha256": "2a0cdfe8938155c644a9ff36cbaa483641ed6b3a193571ff5be7806db6e85cda",
+   "sha256": "01a47fc4d6ba19e1c0b5887a8970dd7237eb853cd836d695e4097868da81454b",
    "lines": 40
   },
   "pipcheck.txt": {
-   "sha256": "585dc46b1d2359cd472cea54689d88085e89508c0b82f736ed15dc3ab57346f3",
+   "sha256": "505bd8e0a19921c522b6e1d7f5bdcc598e3e81b56ce3cddc19ac199b0d078fcd",
    "lines": 4
   },
   "collect.txt": {
-   "sha256": "d18392efa838e7eaab1f4dbab75259d06bacc120f54458dd00d295c6d3693776",
+   "sha256": "30a4c00ce3160b8cdaa6d6ef802126df72076ff2e60178d73f71f6b415a94815",
    "lines": 447
   },
   "fixture_collect.txt": {
-   "sha256": "c0bec9d98cce6aa0184e3c34b19b328b6652590f8fa405c13db0115d6f1e403f",
+   "sha256": "3f78cef0c114af342b3df66293d4504c4492c3ea95524e341172be58846e51b5",
    "lines": 447
   },
   "fixture_preflight.json": {
@@ -149,13 +149,13 @@
    "lines": 1
   },
   "install.log": {
-   "sha256": "c331b7b2389407689c6dbad4f4076086f6b44858f6f93cefb06e50ee1ebc6c66",
-   "lines": 280
+   "sha256": "01ae357379e8cdfeb01be29110b3c7a48901bbc7cab8653847cec9c88d5d21b7",
+   "lines": 268
   }
  },
- "freeze_sha256": "c91ca3bee4ee595e858e82cbbc627d4f3b646cf325c5640a82760e7398ee4143",
- "freeze_packages": 224,
- "wall_s": 755.4,
+ "freeze_sha256": "ea14cdfe3ae61d6ddf6507594a1df4be87cc7a9258f58f1e13b796b93af784d7",
+ "freeze_packages": 221,
+ "wall_s": 773.2,
  "stdout_tail": "POETRY_REQ_MAIN_PLUS_LOCKED_DEV\nCORRECTED_ENV_DONE\n",
  "stderr_tail": "Using Python 3.9.25 environment at: /opt/venv\nUsing Python 3.9.25 environment at: /opt/venv\n"
 }

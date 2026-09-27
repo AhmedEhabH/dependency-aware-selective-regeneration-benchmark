@@ -99,12 +99,12 @@
  "pip_check": {
   "rc": 0,
   "ok": true,
-  "text_tail": "Using Python 3.9.25 environment at: /opt/venv\nChecked 233 packages in 5ms\nAll installed packages are compatible\nPIPCHECK_RC=0\n"
+  "text_tail": "Using Python 3.9.25 environment at: /opt/venv\nChecked 234 packages in 5ms\nAll installed packages are compatible\nPIPCHECK_RC=0\n"
  },
  "collect": {
   "rc": 0,
   "ok": true,
-  "text_tail": "hook_validators.py::test_webhook_validator[headers3-Header must consist of strings.]\nsaleor/webhook/tests/test_webhook_validators.py::test_webhook_validator[headers4-Key \"ke:y\" contains invalid character.]\nsaleor/webhook/tests/test_webhook_validators.py::test_webhook_validator[headers5-Value \"Val:ue\" contains invalid character.]\nsaleor/webhook/tests/test_webhook_validators.py::test_webhook_validator[headers6-Header with key: \"Key\" exceeds the limit of characters: 998.]\nsaleor/webhook/tests/test_webhook_validators.py::test_webhook_validator[headers7-\"ABCX-Key\" does not match allowed key pattern: \"X-*\" or \"Authorization*\".]\nsaleor/webhook/tests/test_webhook_validators.py::test_webhook_validator[headers8-\"ABCAuthorization-Key\" does not match allowed key pattern: \"X-*\" or \"Authorization*\".]\nsaleor/webhook/tests/test_webhook_validators.py::test_webhook_header_name_case_insensitive[X-Key]\nsaleor/webhook/tests/test_webhook_validators.py::test_webhook_header_name_case_insensitive[x-keY]\nsaleor/webhook/tests/test_webhook_validators.py::test_webhook_header_name_case_insensitive[AuthoriZAtionKey]\nsaleor/webhook/tests/test_webhook_validators.py::test_webhook_header_name_case_insensitive[authorization]\nsaleor/graphql/checkout/tests/mutations/test_checkout_complete_with_payment.py::test_checkout_complete_payment_create_create_run_in_meantime\nsaleor/graphql/meta/tests/mutations/test_update_metadata.py::test_update_public_metadata_for_item_on_deleted_instance\nsaleor/graphql/product/tests/mutations/test_product_media_reorder.py::test_reorder_not_existing_media\n\n=============================== warnings summary ===============================\nsaleor/settings.py:200\n  /workspace/9258154b8a0b_v31_new_t/saleor/settings.py:200: UserWarning: SECRET_KEY not configured, using a random temporary key.\n    warnings.warn(\"SECRET_KEY not configured, using a random temporary key.\")\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n8253 tests collected in 15.51s\nCOLLECT_RC=0\n"
+  "text_tail": "hook_validators.py::test_webhook_validator[headers3-Header must consist of strings.]\nsaleor/webhook/tests/test_webhook_validators.py::test_webhook_validator[headers4-Key \"ke:y\" contains invalid character.]\nsaleor/webhook/tests/test_webhook_validators.py::test_webhook_validator[headers5-Value \"Val:ue\" contains invalid character.]\nsaleor/webhook/tests/test_webhook_validators.py::test_webhook_validator[headers6-Header with key: \"Key\" exceeds the limit of characters: 998.]\nsaleor/webhook/tests/test_webhook_validators.py::test_webhook_validator[headers7-\"ABCX-Key\" does not match allowed key pattern: \"X-*\" or \"Authorization*\".]\nsaleor/webhook/tests/test_webhook_validators.py::test_webhook_validator[headers8-\"ABCAuthorization-Key\" does not match allowed key pattern: \"X-*\" or \"Authorization*\".]\nsaleor/webhook/tests/test_webhook_validators.py::test_webhook_header_name_case_insensitive[X-Key]\nsaleor/webhook/tests/test_webhook_validators.py::test_webhook_header_name_case_insensitive[x-keY]\nsaleor/webhook/tests/test_webhook_validators.py::test_webhook_header_name_case_insensitive[AuthoriZAtionKey]\nsaleor/webhook/tests/test_webhook_validators.py::test_webhook_header_name_case_insensitive[authorization]\nsaleor/graphql/checkout/tests/mutations/test_checkout_complete_with_payment.py::test_checkout_complete_payment_create_create_run_in_meantime\nsaleor/graphql/meta/tests/mutations/test_update_metadata.py::test_update_public_metadata_for_item_on_deleted_instance\nsaleor/graphql/product/tests/mutations/test_product_media_reorder.py::test_reorder_not_existing_media\n\n=============================== warnings summary ===============================\nsaleor/settings.py:200\n  /workspace/9258154b8a0b_v31_new_t/saleor/settings.py:200: UserWarning: SECRET_KEY not configured, using a random temporary key.\n    warnings.warn(\"SECRET_KEY not configured, using a random temporary key.\")\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n8253 tests collected in 15.65s\nCOLLECT_RC=0\n"
  },
  "fixture_preflight": {
   "ok": true,
@@ -117,49 +117,49 @@
  },
  "files": {
   "freeze.txt": {
-   "sha256": "8fce3ab991a43073719f033aa557e264294051ae075afac4e01614cac28a2783",
-   "lines": 233
+   "sha256": "807c9e80e89c226677d17b4157194fe0889f67a9019a3757f436ed1765b57b42",
+   "lines": 234
   },
   "pyversion.txt": {
    "sha256": "46013688dc6816ee6935343b6974f8bd34c0ada4fe43554f5c0a772d7e8f0b1e",
    "lines": 1
   },
   "pytestversion.txt": {
-   "sha256": "dc90a7143f92c23d13c20cc7502a71ef13df4173be7b8c95b1e21545a1fc02fe",
-   "lines": 77
+   "sha256": "6b1f8c822da3f8c1e11c922e1cfe7847aeb204d34c6d356cc5b36a23c59edffb",
+   "lines": 83
   },
   "traceconfig.txt": {
-   "sha256": "ea65f5f696dc49200ce33b75074bb2a7c1ee79c0b719a8c84d2cd03be68894a4",
+   "sha256": "ae8d5660f8d9eadc1cc32d206c5aa78534f76bb6432fe4ded426cac1183d0504",
    "lines": 2000
   },
   "markers.txt": {
-   "sha256": "976f95429e57b0e5788f3eed49a20e1bc502ad8bfb990776e9ee026d8757ef76",
+   "sha256": "a6209a3ff7b4d37d6895e0a63be6dce54dcdd2252700de68f586019b3df2a583",
    "lines": 52
   },
   "pipcheck.txt": {
-   "sha256": "17135cef1836ff664e10908110f83d8f1ac37cfb694ced520315afeef8aa2d21",
+   "sha256": "c1e48f116fa7c99e8d4198d9d67d629abb97be43c79c92c45a761eaa60b46236",
    "lines": 4
   },
   "collect.txt": {
-   "sha256": "9fe0fe9ab05c4fe211c21a02b990224bc1a318a35038ca625e3c45eed5d8d1d6",
+   "sha256": "8a2f9e6abe1d479dc8f486c4fff62c5735ea12c40fba11fa36e185f9345c71b0",
    "lines": 8262
   },
   "fixture_collect.txt": {
-   "sha256": "2d7a3b16ce7d36f4f680fa7e3567d167daa4a2af9274f66a86464809e0e1c23b",
+   "sha256": "db0607a01f14c2f0745174b939c402eb881b10196a8b5c6dbf3f0069efb9b8e0",
    "lines": 8262
   },
   "fixture_preflight.json": {
-   "sha256": "1921f7a3dab620aeddda8d0cc7da56aa97421df06829063ae913884baa71c908",
+   "sha256": "42d244657eed41fa19bde2eb93a7e20e7521be8c212e6365522dc61e3242c331",
    "lines": 1
   },
   "install.log": {
-   "sha256": "2609b3390261dbcdbd58df576678a7783b11eabc0dd255974007d72ea12e659d",
-   "lines": 285
+   "sha256": "b892554a765b2d7e8bb2e50f2a556d6a478a166bf41ba90ff6ad57ed934b2485",
+   "lines": 277
   }
  },
- "freeze_sha256": "8fce3ab991a43073719f033aa557e264294051ae075afac4e01614cac28a2783",
- "freeze_packages": 233,
- "wall_s": 1709.9,
+ "freeze_sha256": "807c9e80e89c226677d17b4157194fe0889f67a9019a3757f436ed1765b57b42",
+ "freeze_packages": 234,
+ "wall_s": 1513.2,
  "stdout_tail": "POETRY_REQ_MAIN_PLUS_LOCKED_DEV\nCORRECTED_ENV_DONE\n",
  "stderr_tail": "Using Python 3.9.25 environment at: /opt/venv\nUsing Python 3.9.25 environment at: /opt/venv\n"
 }

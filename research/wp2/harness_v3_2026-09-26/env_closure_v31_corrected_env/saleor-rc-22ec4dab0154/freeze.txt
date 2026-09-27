@@ -1,11 +1,9 @@
 amqp==2.6.0
 aniso8601==7.0.0
-apipkg==1.5
 appdirs==1.4.4
 asgiref==3.2.10
 astroid==2.4.2
-atomicwrites==1.4.0
-attrs==19.3.0
+attrs==25.3.0
 babel==2.8.0
 beautifulsoup4==4.7.1
 beautifultable==0.7.0
@@ -23,7 +21,7 @@ cffi==1.14.0
 cfgv==3.1.0
 chardet==3.0.4
 click==7.1.2
-colorama==0.4.3
+colorama==0.4.6
 coverage==5.2
 cssselect2==0.3.0
 defusedxml==0.6.0
@@ -55,8 +53,8 @@ docutils==0.15.2
 draftjs-sanitizer==1.0.0
 enmerkar==0.7.1
 et-xmlfile==1.0.1
-exceptiongroup==1.3.1
-execnet==1.7.1
+exceptiongroup==1.2.2
+execnet==2.1.2
 faker==4.1.1
 filelock==3.0.12
 flake8==3.8.3
@@ -97,7 +95,6 @@ maxminddb==1.5.4
 maxminddb-geolite2==2018.703
 mccabe==0.6.1
 measurement==3.2.0
-more-itertools==8.4.0
 mpmath==1.1.0
 multidict==4.7.6
 mypy==0.740
@@ -106,7 +103,7 @@ nodeenv==1.4.0
 oauthlib==3.1.0
 openpyxl==3.0.3
 opentracing==2.3.0
-packaging==20.4
+packaging==26.2
 pathspec==0.8.0
 petl==1.3.0
 phonenumberslite==8.12.6
@@ -118,7 +115,7 @@ promise==2.3
 protobuf==3.12.2
 psycopg2-binary==2.8.5
 purl==1.5
-py==1.9.0
+py==1.11.0
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycodestyle==2.6.0
@@ -136,11 +133,10 @@ pytest==8.3.5
 pytest-cov==2.10.0
 pytest-django==4.11.1
 pytest-django-queries==1.1.0
-pytest-forked==1.2.0
 pytest-mock==3.1.1
 pytest-socket==0.7.0
 pytest-vcr==1.0.2
-pytest-xdist==1.32.0
+pytest-xdist==3.6.1
 python-dateutil==2.8.1
 python-json-logger==0.1.11
 python-magic==0.4.18
@@ -178,14 +174,13 @@ tqdm==4.47.0
 transifex-client==0.13.10
 typed-ast==1.4.1
 typing==3.7.4.1
-typing-extensions==4.13.2
+typing-extensions==3.7.4.2
 unidecode==1.1.1
 urllib3==1.25.9
 uwsgi==2.0.19.1
 vcrpy==4.0.2
 vine==1.3.0
 virtualenv==20.0.25
-wcwidth==0.2.5
 weasyprint==51
 webencodings==0.5.1
 wheel==0.45.1

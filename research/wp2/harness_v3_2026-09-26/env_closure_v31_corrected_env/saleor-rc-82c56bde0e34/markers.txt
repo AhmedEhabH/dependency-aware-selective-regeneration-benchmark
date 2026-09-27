@@ -24,13 +24,13 @@
 
 @pytest.mark.no_cover: disable coverage for this test.
 
+@pytest.mark.celery(**overrides): override celery configuration for a test case
+
 @pytest.mark.disable_socket(): Disable socket connections for a specific test
 
 @pytest.mark.enable_socket(): Enable socket connections for a specific test
 
 @pytest.mark.allow_hosts([hosts]): Restrict socket connection to defined list of hosts
-
-@pytest.mark.celery(**overrides): override celery configuration for a test case
 
 @pytest.mark.filterwarnings(warning): add a warning filter to the given test. see https://docs.pytest.org/en/stable/how-to/capture-warnings.html#pytest-mark-filterwarnings 
 

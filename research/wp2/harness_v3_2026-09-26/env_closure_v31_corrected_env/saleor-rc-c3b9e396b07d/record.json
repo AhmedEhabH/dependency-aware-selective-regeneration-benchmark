@@ -94,12 +94,12 @@
  "pip_check": {
   "rc": 0,
   "ok": true,
-  "text_tail": "Using Python 3.9.25 environment at: /opt/venv\nChecked 223 packages in 5ms\nAll installed packages are compatible\nPIPCHECK_RC=0\n"
+  "text_tail": "Using Python 3.9.25 environment at: /opt/venv\nChecked 220 packages in 5ms\nAll installed packages are compatible\nPIPCHECK_RC=0\n"
  },
  "collect": {
   "rc": 0,
   "ok": true,
-  "text_tail": "/tests/test_stock_availability.py::test_check_stock_quantity_without_one_stock\nsaleor/warehouse/tests/test_stock_availability.py::test_check_stock_quantity_bulk\nsaleor/warehouse/tests/test_stock_availability.py::test_check_stock_quantity_bulk_no_channel_shipping_zones\nsaleor/warehouse/tests/test_warehouse.py::test_applicable_for_click_and_collect_finds_warehouse_with_all_and_local\nsaleor/warehouse/tests/test_warehouse.py::test_applicable_for_click_and_collect_quantity_exceeded_for_local\nsaleor/warehouse/tests/test_warehouse.py::test_applicable_for_click_and_collect_for_one_line_two_local_warehouses\nsaleor/warehouse/tests/test_warehouse.py::test_applicable_for_click_and_collect_does_not_show_warehouses_with_empty_stocks\nsaleor/warehouse/tests/test_warehouse.py::test_applicable_for_click_and_collect_additional_stock_does_not_change_availbility\nsaleor/warehouse/tests/test_warehouse.py::test_applicable_for_click_and_collect_returns_empty_collection_if_no_shipping_zone\nsaleor/warehouse/tests/test_warehouse.py::test_applicable_for_click_and_collect_returns_empty_collection_if_different_zone\nsaleor/warehouse/tests/test_warehouse.py::test_applicable_for_click_and_collect_when_country_is_duplicated_within_zones\n\n=============================== warnings summary ===============================\nsaleor/settings.py:11\n  /workspace/c3b9e396b07d_v31_new_t/saleor/settings.py:11: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.\n    import pkg_resources\n\nsaleor/settings.py:164\n  /workspace/c3b9e396b07d_v31_new_t/saleor/settings.py:164: UserWarning: SECRET_KEY not configured, using a random temporary key.\n    warnings.warn(\"SECRET_KEY not configured, using a random temporary key.\")\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n3741 tests collected in 2.55s\nCOLLECT_RC=0\n"
+  "text_tail": "/tests/test_stock_availability.py::test_check_stock_quantity_without_one_stock\nsaleor/warehouse/tests/test_stock_availability.py::test_check_stock_quantity_bulk\nsaleor/warehouse/tests/test_stock_availability.py::test_check_stock_quantity_bulk_no_channel_shipping_zones\nsaleor/warehouse/tests/test_warehouse.py::test_applicable_for_click_and_collect_finds_warehouse_with_all_and_local\nsaleor/warehouse/tests/test_warehouse.py::test_applicable_for_click_and_collect_quantity_exceeded_for_local\nsaleor/warehouse/tests/test_warehouse.py::test_applicable_for_click_and_collect_for_one_line_two_local_warehouses\nsaleor/warehouse/tests/test_warehouse.py::test_applicable_for_click_and_collect_does_not_show_warehouses_with_empty_stocks\nsaleor/warehouse/tests/test_warehouse.py::test_applicable_for_click_and_collect_additional_stock_does_not_change_availbility\nsaleor/warehouse/tests/test_warehouse.py::test_applicable_for_click_and_collect_returns_empty_collection_if_no_shipping_zone\nsaleor/warehouse/tests/test_warehouse.py::test_applicable_for_click_and_collect_returns_empty_collection_if_different_zone\nsaleor/warehouse/tests/test_warehouse.py::test_applicable_for_click_and_collect_when_country_is_duplicated_within_zones\n\n=============================== warnings summary ===============================\nsaleor/settings.py:11\n  /workspace/c3b9e396b07d_v31_new_t/saleor/settings.py:11: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.\n    import pkg_resources\n\nsaleor/settings.py:164\n  /workspace/c3b9e396b07d_v31_new_t/saleor/settings.py:164: UserWarning: SECRET_KEY not configured, using a random temporary key.\n    warnings.warn(\"SECRET_KEY not configured, using a random temporary key.\")\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n3741 tests collected in 2.67s\nCOLLECT_RC=0\n"
  },
  "fixture_preflight": {
   "ok": true,
@@ -112,8 +112,8 @@
  },
  "files": {
   "freeze.txt": {
-   "sha256": "8e60550a3ecc73ac870310445cefcb59fad9be6354056b84e9caade917f0fde9",
-   "lines": 223
+   "sha256": "557f58af3308945313e9e015de5a8ceaed8a8b969fe467e9a0d94537b14666e9",
+   "lines": 220
   },
   "pyversion.txt": {
    "sha256": "46013688dc6816ee6935343b6974f8bd34c0ada4fe43554f5c0a772d7e8f0b1e",
@@ -124,23 +124,23 @@
    "lines": 85
   },
   "traceconfig.txt": {
-   "sha256": "10147c767d4413daecc81acd8864c5f2741995dccd07f858bf0670e5e7795131",
+   "sha256": "789b8085a127c0a5ac1888065e0c6a0cdfa5857dbee79f278a5c2b81872a64da",
    "lines": 2000
   },
   "markers.txt": {
-   "sha256": "2a0cdfe8938155c644a9ff36cbaa483641ed6b3a193571ff5be7806db6e85cda",
+   "sha256": "01a47fc4d6ba19e1c0b5887a8970dd7237eb853cd836d695e4097868da81454b",
    "lines": 40
   },
   "pipcheck.txt": {
-   "sha256": "545956bb71989b5e7787cd3b38921f0b8cff27f35125399a4154286a6e040fdd",
+   "sha256": "7f3535ff815ff49670056482eff05d40bad07a4078f137b779f926031d60eb93",
    "lines": 4
   },
   "collect.txt": {
-   "sha256": "05248f10b8e06ff95a67e0f7c11281cdeb7e078c8c2b5cb439566a63d5c6de05",
+   "sha256": "f42ae1933e0ee0368ea3898c4acedc33858ac78e0d20a39d705fbc86a4d845ac",
    "lines": 3754
   },
   "fixture_collect.txt": {
-   "sha256": "fc37987a0cbeff6303bc6a2b818d384e97959603dc8e52438881a9574ab3912b",
+   "sha256": "3fb2359ec371538017c6e12d4f0ae3adba77deb73281eef404a9bf756b62bc99",
    "lines": 3754
   },
   "fixture_preflight.json": {
@@ -148,13 +148,13 @@
    "lines": 1
   },
   "install.log": {
-   "sha256": "154c50dac18d7164687f9f8898265eacdce775b0a67fa170a6a1e43e292e1ebe",
-   "lines": 278
+   "sha256": "36962e66a4c8360b7739a4f6aa51306341ab2fb4ac63dd6f219900bacd50987b",
+   "lines": 264
   }
  },
- "freeze_sha256": "8e60550a3ecc73ac870310445cefcb59fad9be6354056b84e9caade917f0fde9",
- "freeze_packages": 223,
- "wall_s": 898.8,
+ "freeze_sha256": "557f58af3308945313e9e015de5a8ceaed8a8b969fe467e9a0d94537b14666e9",
+ "freeze_packages": 220,
+ "wall_s": 814.6,
  "stdout_tail": "POETRY_REQ_MAIN_PLUS_LOCKED_DEV\nCORRECTED_ENV_DONE\n",
  "stderr_tail": "Using Python 3.9.25 environment at: /opt/venv\nUsing Python 3.9.25 environment at: /opt/venv\n"
 }

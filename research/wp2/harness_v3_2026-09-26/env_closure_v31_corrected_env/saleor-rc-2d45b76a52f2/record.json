@@ -103,7 +103,7 @@
  "pip_check": {
   "rc": 0,
   "ok": true,
-  "text_tail": "Using Python 3.9.25 environment at: /opt/venv\nChecked 238 packages in 5ms\nAll installed packages are compatible\nPIPCHECK_RC=0\n"
+  "text_tail": "Using Python 3.9.25 environment at: /opt/venv\nChecked 239 packages in 5ms\nAll installed packages are compatible\nPIPCHECK_RC=0\n"
  },
  "collect": {
   "rc": 0,
@@ -121,27 +121,27 @@
  },
  "files": {
   "freeze.txt": {
-   "sha256": "40a1522926c94e0d1912832646b8a183cb630805121f260230bc9f8e0e777109",
-   "lines": 238
+   "sha256": "968c8dce41db8a02874cfe8267394257e28a82a21634d9059552dc9ff21dfd88",
+   "lines": 239
   },
   "pyversion.txt": {
    "sha256": "46013688dc6816ee6935343b6974f8bd34c0ada4fe43554f5c0a772d7e8f0b1e",
    "lines": 1
   },
   "pytestversion.txt": {
-   "sha256": "9c72ee29bb54bc016820bd69ee7e1d10e2db7a6fea9e059e2f9db146021e5579",
-   "lines": 77
+   "sha256": "a0d562ea25c12e48386adf8fefd36c7c981ea3cba27a1bdd332e138267d1963d",
+   "lines": 83
   },
   "traceconfig.txt": {
-   "sha256": "55412974aeb671cbc425b6c186eae15d29c68dc66baa5bd69f9c0ad975ef046d",
+   "sha256": "e813fb4d8b00dedb6c51655e58247b8f80f68df8c103094996944740e3d75ee2",
    "lines": 2000
   },
   "markers.txt": {
-   "sha256": "efbac8b0238d011e36f51c65177d8b75bdf4c27be1f69f1e7ba35f04759dae8d",
+   "sha256": "c2fb3e5d163471556012ba67cda79bc2487d1ead47b685e418f5357865fb6fc8",
    "lines": 50
   },
   "pipcheck.txt": {
-   "sha256": "ae858445ab758bf082c32f593cfaccd5e06b319834309dbec60b704c7da29185",
+   "sha256": "1e67e88ddbce36e61c6b9878681c8fcc44c64a2ed19f0f40a186694640911ccb",
    "lines": 4
   },
   "collect.txt": {
@@ -149,7 +149,7 @@
    "lines": 185
   },
   "fixture_collect.txt": {
-   "sha256": "4214fa05d4b5f275ec40e9127a23d3d3c125c81e11b72a98abf4bccbb383faa4",
+   "sha256": "f7e8ca4679db850a72d11e10303b01741a97897178044b99e70f1e6c3a425fa0",
    "lines": 185
   },
   "fixture_preflight.json": {
@@ -157,13 +157,13 @@
    "lines": 1
   },
   "install.log": {
-   "sha256": "f9271ec3ae617cd964f83ca98e331c6c70ab74e21048feef6041d23d5a384b7c",
-   "lines": 280
+   "sha256": "aceba90f712b94248207c1c457fdd1a3ef56cb54341fd29748735ed34228a1b6",
+   "lines": 273
   }
  },
- "freeze_sha256": "40a1522926c94e0d1912832646b8a183cb630805121f260230bc9f8e0e777109",
- "freeze_packages": 238,
- "wall_s": 1192.3,
+ "freeze_sha256": "968c8dce41db8a02874cfe8267394257e28a82a21634d9059552dc9ff21dfd88",
+ "freeze_packages": 239,
+ "wall_s": 1247.6,
  "stdout_tail": "POETRY_REQ_MAIN_PLUS_LOCKED_DEV\nCORRECTED_ENV_DONE\n",
  "stderr_tail": "Using Python 3.9.25 environment at: /opt/venv\nUsing Python 3.9.25 environment at: /opt/venv\n"
 }

@@ -99,12 +99,12 @@
  "pip_check": {
   "rc": 0,
   "ok": true,
-  "text_tail": "Using Python 3.9.25 environment at: /opt/venv\nChecked 233 packages in 5ms\nAll installed packages are compatible\nPIPCHECK_RC=0\n"
+  "text_tail": "Using Python 3.9.25 environment at: /opt/venv\nChecked 234 packages in 5ms\nAll installed packages are compatible\nPIPCHECK_RC=0\n"
  },
  "collect": {
   "rc": 0,
   "ok": true,
-  "text_tail": "cols.py::test_trigger_webhooks_with_aws_sqs[queue_name-additional_call_args0]\nsaleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_aws_sqs[queue_name.fifo-additional_call_args1]\nsaleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_aws_sqs_and_secret_key[secret_access-secret_access]\nsaleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_aws_sqs_and_secret_key[secret%2B%2Faccess-secret+/access]\nsaleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_google_pub_sub\nsaleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_google_pub_sub_and_secret_key\nsaleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_http\nsaleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_http_and_secret_key\nsaleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_http_and_secret_key_as_empty_string\nsaleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_http_and_custom_headers\nsaleor/plugins/webhook/tests/test_webhook_tasks.py::test_get_webhooks_for_event_webhook_ordering\nsaleor/graphql/checkout/tests/mutations/test_checkout_complete_with_payment.py::test_checkout_complete_payment_create_create_run_in_meantime\nsaleor/graphql/meta/tests/mutations/test_update_metadata.py::test_update_public_metadata_for_item_on_deleted_instance\nsaleor/graphql/product/tests/mutations/test_product_media_reorder.py::test_reorder_not_existing_media\n\n=============================== warnings summary ===============================\nsaleor/settings.py:200\n  /workspace/82c56bde0e34_v31_new_t/saleor/settings.py:200: UserWarning: SECRET_KEY not configured, using a random temporary key.\n    warnings.warn(\"SECRET_KEY not configured, using a random temporary key.\")\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n9061 tests collected in 16.49s\nCOLLECT_RC=0\n"
+  "text_tail": "cols.py::test_trigger_webhooks_with_aws_sqs[queue_name-additional_call_args0]\nsaleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_aws_sqs[queue_name.fifo-additional_call_args1]\nsaleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_aws_sqs_and_secret_key[secret_access-secret_access]\nsaleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_aws_sqs_and_secret_key[secret%2B%2Faccess-secret+/access]\nsaleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_google_pub_sub\nsaleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_google_pub_sub_and_secret_key\nsaleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_http\nsaleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_http_and_secret_key\nsaleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_http_and_secret_key_as_empty_string\nsaleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_http_and_custom_headers\nsaleor/plugins/webhook/tests/test_webhook_tasks.py::test_get_webhooks_for_event_webhook_ordering\nsaleor/graphql/checkout/tests/mutations/test_checkout_complete_with_payment.py::test_checkout_complete_payment_create_create_run_in_meantime\nsaleor/graphql/meta/tests/mutations/test_update_metadata.py::test_update_public_metadata_for_item_on_deleted_instance\nsaleor/graphql/product/tests/mutations/test_product_media_reorder.py::test_reorder_not_existing_media\n\n=============================== warnings summary ===============================\nsaleor/settings.py:200\n  /workspace/82c56bde0e34_v31_new_t/saleor/settings.py:200: UserWarning: SECRET_KEY not configured, using a random temporary key.\n    warnings.warn(\"SECRET_KEY not configured, using a random temporary key.\")\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n9061 tests collected in 16.46s\nCOLLECT_RC=0\n"
  },
  "fixture_preflight": {
   "ok": true,
@@ -117,49 +117,49 @@
  },
  "files": {
   "freeze.txt": {
-   "sha256": "8fce3ab991a43073719f033aa557e264294051ae075afac4e01614cac28a2783",
-   "lines": 233
+   "sha256": "807c9e80e89c226677d17b4157194fe0889f67a9019a3757f436ed1765b57b42",
+   "lines": 234
   },
   "pyversion.txt": {
    "sha256": "46013688dc6816ee6935343b6974f8bd34c0ada4fe43554f5c0a772d7e8f0b1e",
    "lines": 1
   },
   "pytestversion.txt": {
-   "sha256": "b92bb195087b03b1ab28a2a887c3539405866b4e462a95069189635b602c9fc3",
-   "lines": 77
+   "sha256": "31ee352ce07453113c5b03bb2179e57c6ef84b285008bfc369a6e9e50a80df51",
+   "lines": 83
   },
   "traceconfig.txt": {
-   "sha256": "f5402e2f16dfadef9fea4e9556391c80d94fd7aa29c6c1ef280f19000c852b0a",
+   "sha256": "bc9d1fdaba3e18e8dfcbc5cc444037959ece24cd8609d82492b8e051d764fc63",
    "lines": 2000
   },
   "markers.txt": {
-   "sha256": "976f95429e57b0e5788f3eed49a20e1bc502ad8bfb990776e9ee026d8757ef76",
+   "sha256": "a6209a3ff7b4d37d6895e0a63be6dce54dcdd2252700de68f586019b3df2a583",
    "lines": 52
   },
   "pipcheck.txt": {
-   "sha256": "17135cef1836ff664e10908110f83d8f1ac37cfb694ced520315afeef8aa2d21",
+   "sha256": "c1e48f116fa7c99e8d4198d9d67d629abb97be43c79c92c45a761eaa60b46236",
    "lines": 4
   },
   "collect.txt": {
-   "sha256": "7566f4a8ede14a34545df0db03b988d70fbe1bbf120e0e1dde62dcb6560d96a1",
+   "sha256": "0267bc84a8f483fa5afb64e88fb0be64f87ceab6f66e3919a3681ea04dd2de8b",
    "lines": 9070
   },
   "fixture_collect.txt": {
-   "sha256": "781b3e3fd609c843751932e01d6fa9f4f860e91819db3eb9ab02281a29c27e95",
+   "sha256": "e9556ee7b20c0fa62796398a15cdfdb1afe8dfd742bb808a9f3d13f6692cac8a",
    "lines": 9070
   },
   "fixture_preflight.json": {
-   "sha256": "03872bf8caa7621c14b2d8ad71731945a2e3783d7c67a68ac086c72533c3e275",
+   "sha256": "2771e3601579a9871ef7ccf62b327610ba11ab653ab6c90253dc31b1ae9c5f0f",
    "lines": 1
   },
   "install.log": {
-   "sha256": "6cce994b08ad17ed793353acc12985a110dbff189fadeaf98d0fa6876af392cd",
-   "lines": 285
+   "sha256": "427e4fdcaaa0f89bbd100e4d53bb8884be0c34fb96af4afcb879999a4dac169a",
+   "lines": 277
   }
  },
- "freeze_sha256": "8fce3ab991a43073719f033aa557e264294051ae075afac4e01614cac28a2783",
- "freeze_packages": 233,
- "wall_s": 1488.4,
+ "freeze_sha256": "807c9e80e89c226677d17b4157194fe0889f67a9019a3757f436ed1765b57b42",
+ "freeze_packages": 234,
+ "wall_s": 1517.1,
  "stdout_tail": "POETRY_REQ_MAIN_PLUS_LOCKED_DEV\nCORRECTED_ENV_DONE\n",
  "stderr_tail": "Using Python 3.9.25 environment at: /opt/venv\nUsing Python 3.9.25 environment at: /opt/venv\n"
 }

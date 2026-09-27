@@ -1,5 +1,5 @@
-PLUGIN registered: <_pytest.config.PytestPluginManager object at 0x7dc994038080>
-PLUGIN registered: <_pytest.config.Config object at 0x7dc994011460>
+PLUGIN registered: <_pytest.config.PytestPluginManager object at 0x7f5ac022fb90>
+PLUGIN registered: <_pytest.config.Config object at 0x7f5abfac15b0>
 PLUGIN registered: <module '_pytest.mark' from '/opt/venv/lib/python3.12/site-packages/_pytest/mark/__init__.py'>
 PLUGIN registered: <module '_pytest.main' from '/opt/venv/lib/python3.12/site-packages/_pytest/main.py'>
 PLUGIN registered: <module '_pytest.runner' from '/opt/venv/lib/python3.12/site-packages/_pytest/runner.py'>
@@ -22,18 +22,17 @@ PLUGIN registered: <module '_pytest.doctest' from '/opt/venv/lib/python3.12/site
 PLUGIN registered: <module '_pytest.freeze_support' from '/opt/venv/lib/python3.12/site-packages/_pytest/freeze_support.py'>
 PLUGIN registered: <module '_pytest.setuponly' from '/opt/venv/lib/python3.12/site-packages/_pytest/setuponly.py'>
 PLUGIN registered: <module '_pytest.setupplan' from '/opt/venv/lib/python3.12/site-packages/_pytest/setupplan.py'>
+PLUGIN registered: <module '_pytest.unraisableexception' from '/opt/venv/lib/python3.12/site-packages/_pytest/unraisableexception.py'>
+PLUGIN registered: <module '_pytest.threadexception' from '/opt/venv/lib/python3.12/site-packages/_pytest/threadexception.py'>
 PLUGIN registered: <module '_pytest.warnings' from '/opt/venv/lib/python3.12/site-packages/_pytest/warnings.py'>
 PLUGIN registered: <module '_pytest.logging' from '/opt/venv/lib/python3.12/site-packages/_pytest/logging.py'>
 PLUGIN registered: <module '_pytest.reports' from '/opt/venv/lib/python3.12/site-packages/_pytest/reports.py'>
-PLUGIN registered: <module '_pytest.python_path' from '/opt/venv/lib/python3.12/site-packages/_pytest/python_path.py'>
-PLUGIN registered: <module '_pytest.unraisableexception' from '/opt/venv/lib/python3.12/site-packages/_pytest/unraisableexception.py'>
-PLUGIN registered: <module '_pytest.threadexception' from '/opt/venv/lib/python3.12/site-packages/_pytest/threadexception.py'>
 PLUGIN registered: <module '_pytest.faulthandler' from '/opt/venv/lib/python3.12/site-packages/_pytest/faulthandler.py'>
-PLUGIN registered: <module 'pytest_socket' from '/opt/venv/lib/python3.12/site-packages/pytest_socket.py'>
-PLUGIN registered: <module 'pytest_mock' from '/opt/venv/lib/python3.12/site-packages/pytest_mock/__init__.py'>
-PLUGIN registered: <module 'anyio.pytest_plugin' from '/opt/venv/lib/python3.12/site-packages/anyio/pytest_plugin.py'>
 PLUGIN registered: <module 'xdist.plugin' from '/opt/venv/lib/python3.12/site-packages/xdist/plugin.py'>
 PLUGIN registered: <module 'xdist.looponfail' from '/opt/venv/lib/python3.12/site-packages/xdist/looponfail.py'>
+PLUGIN registered: <module 'pytest_mock' from '/opt/venv/lib/python3.12/site-packages/pytest_mock/__init__.py'>
+PLUGIN registered: <module 'anyio.pytest_plugin' from '/opt/venv/lib/python3.12/site-packages/anyio/pytest_plugin.py'>
+PLUGIN registered: <module 'pytest_socket' from '/opt/venv/lib/python3.12/site-packages/pytest_socket/__init__.py'>
 PLUGIN registered: <module 'faker.contrib.pytest.plugin' from '/opt/venv/lib/python3.12/site-packages/faker/contrib/pytest/plugin.py'>
 PLUGIN registered: <module 'pytest_recording.plugin' from '/opt/venv/lib/python3.12/site-packages/pytest_recording/plugin.py'>
 PLUGIN registered: <module 'pytest_memray.plugin' from '/opt/venv/lib/python3.12/site-packages/pytest_memray/plugin.py'>
@@ -59,20 +58,20 @@ PLUGIN registered: <module 'saleor.graphql.webhook.tests.benchmark.fixtures' fro
 PLUGIN registered: <module 'saleor.tax.tests.fixtures' from '/workspace/74538ea00ce9_v31_new_t/saleor/tax/tests/fixtures.py'>
 PLUGIN registered: <module 'saleor.webhook.tests.subscription_webhooks.fixtures' from '/workspace/74538ea00ce9_v31_new_t/saleor/webhook/tests/subscription_webhooks/fixtures.py'>
 PLUGIN registered: <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
-PLUGIN registered: <pytest_memray.plugin.Manager object at 0x7dc993c9d400>
+PLUGIN registered: <pytest_memray.plugin.Manager object at 0x7f5aafa20080>
 PLUGIN registered: <class '_pytest.legacypath.LegacyTmpdirPlugin'>
-PLUGIN registered: <_pytest.terminal.TerminalReporter object at 0x7dc98402dfa0>
-PLUGIN registered: <_pytest.logging.LoggingPlugin object at 0x7dc983116d80>
-PLUGIN registered: <_pytest.fixtures.FixtureManager object at 0x7dc984278e00>
+PLUGIN registered: <_pytest.terminal.TerminalReporter object at 0x7f5aaebc0ef0>
+PLUGIN registered: <_pytest.logging.LoggingPlugin object at 0x7f5aaebc29c0>
+PLUGIN registered: <_pytest.fixtures.FixtureManager object at 0x7f5aaebcdca0>
 ============================= test session starts ==============================
-platform linux -- Python 3.12.14, pytest-8.3.2, pluggy-1.5.0
-using: pytest-8.3.2
+platform linux -- Python 3.12.14, pytest-8.4.2, pluggy-1.6.0
+using: pytest-8.4.2
 registered third-party plugins:
-  pytest-socket-0.7.0 at /opt/venv/lib/python3.12/site-packages/pytest_socket.py
+  pytest-xdist-3.8.0 at /opt/venv/lib/python3.12/site-packages/xdist/plugin.py
+  pytest-xdist-3.8.0 at /opt/venv/lib/python3.12/site-packages/xdist/looponfail.py
   pytest-mock-3.14.0 at /opt/venv/lib/python3.12/site-packages/pytest_mock/__init__.py
   anyio-4.4.0 at /opt/venv/lib/python3.12/site-packages/anyio/pytest_plugin.py
-  pytest-xdist-3.6.1 at /opt/venv/lib/python3.12/site-packages/xdist/plugin.py
-  pytest-xdist-3.6.1 at /opt/venv/lib/python3.12/site-packages/xdist/looponfail.py
+  pytest-socket-0.8.1 at /opt/venv/lib/python3.12/site-packages/pytest_socket/__init__.py
   Faker-26.3.0 at /opt/venv/lib/python3.12/site-packages/faker/contrib/pytest/plugin.py
   pytest-recording-0.13.2 at /opt/venv/lib/python3.12/site-packages/pytest_recording/plugin.py
   pytest-memray-1.7.0 at /opt/venv/lib/python3.12/site-packages/pytest_memray/plugin.py
@@ -83,8 +82,8 @@ registered third-party plugins:
   pytest-django-queries-1.2.0 at /opt/venv/lib/python3.12/site-packages/pytest_django_queries/plugin.py
   pytest-cov-5.0.0 at /opt/venv/lib/python3.12/site-packages/pytest_cov/plugin.py
 active plugins:
-    138304725155968     : <_pytest.config.PytestPluginManager object at 0x7dc994038080>
-    pytestconfig        : <_pytest.config.Config object at 0x7dc994011460>
+    140027747302288     : <_pytest.config.PytestPluginManager object at 0x7f5ac022fb90>
+    pytestconfig        : <_pytest.config.Config object at 0x7f5abfac15b0>
     stepwise            : None
     pytest_stepwise     : None
     cacheprovider       : None
@@ -111,18 +110,17 @@ active plugins:
     freeze_support      : /opt/venv/lib/python3.12/site-packages/_pytest/freeze_support.py
     setuponly           : /opt/venv/lib/python3.12/site-packages/_pytest/setuponly.py
     setupplan           : /opt/venv/lib/python3.12/site-packages/_pytest/setupplan.py
+    unraisableexception : /opt/venv/lib/python3.12/site-packages/_pytest/unraisableexception.py
+    threadexception     : /opt/venv/lib/python3.12/site-packages/_pytest/threadexception.py
     warnings            : /opt/venv/lib/python3.12/site-packages/_pytest/warnings.py
     logging             : /opt/venv/lib/python3.12/site-packages/_pytest/logging.py
     reports             : /opt/venv/lib/python3.12/site-packages/_pytest/reports.py
-    python_path         : /opt/venv/lib/python3.12/site-packages/_pytest/python_path.py
-    unraisableexception : /opt/venv/lib/python3.12/site-packages/_pytest/unraisableexception.py
-    threadexception     : /opt/venv/lib/python3.12/site-packages/_pytest/threadexception.py
     faulthandler        : /opt/venv/lib/python3.12/site-packages/_pytest/faulthandler.py
-    socket              : /opt/venv/lib/python3.12/site-packages/pytest_socket.py
-    pytest_mock         : /opt/venv/lib/python3.12/site-packages/pytest_mock/__init__.py
-    anyio               : /opt/venv/lib/python3.12/site-packages/anyio/pytest_plugin.py
     xdist               : /opt/venv/lib/python3.12/site-packages/xdist/plugin.py
     xdist.looponfail    : /opt/venv/lib/python3.12/site-packages/xdist/looponfail.py
+    pytest_mock         : /opt/venv/lib/python3.12/site-packages/pytest_mock/__init__.py
+    anyio               : /opt/venv/lib/python3.12/site-packages/anyio/pytest_plugin.py
+    socket              : /opt/venv/lib/python3.12/site-packages/pytest_socket/__init__.py
     faker               : /opt/venv/lib/python3.12/site-packages/faker/contrib/pytest/plugin.py
     recording           : /opt/venv/lib/python3.12/site-packages/pytest_recording/plugin.py
     memray              : /opt/venv/lib/python3.12/site-packages/pytest_memray/plugin.py
@@ -148,16 +146,16 @@ active plugins:
     saleor.tax.tests.fixtures: /workspace/74538ea00ce9_v31_new_t/saleor/tax/tests/fixtures.py
     saleor.webhook.tests.subscription_webhooks.fixtures: /workspace/74538ea00ce9_v31_new_t/saleor/webhook/tests/subscription_webhooks/fixtures.py
     session             : <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
-    memray_manager      : <pytest_memray.plugin.Manager object at 0x7dc993c9d400>
+    memray_manager      : <pytest_memray.plugin.Manager object at 0x7f5aafa20080>
     legacypath-tmpdir   : <class '_pytest.legacypath.LegacyTmpdirPlugin'>
-    terminalreporter    : <_pytest.terminal.TerminalReporter object at 0x7dc98402dfa0>
-    logging-plugin      : <_pytest.logging.LoggingPlugin object at 0x7dc983116d80>
-    funcmanage          : <_pytest.fixtures.FixtureManager object at 0x7dc984278e00>
+    terminalreporter    : <_pytest.terminal.TerminalReporter object at 0x7f5aaebc0ef0>
+    logging-plugin      : <_pytest.logging.LoggingPlugin object at 0x7f5aaebc29c0>
+    funcmanage          : <_pytest.fixtures.FixtureManager object at 0x7f5aaebcdca0>
 django: version: 4.2.16, settings: saleor.tests.settings (from option)
 rootdir: /workspace/74538ea00ce9_v31_new_t
 configfile: setup.cfg
 testpaths: saleor
-plugins: socket-0.7.0, mock-3.14.0, anyio-4.4.0, xdist-3.6.1, Faker-26.3.0, recording-0.13.2, memray-1.7.0, django-4.11.1, celery-1.0.1, docker-tools-3.1.3, asyncio-0.23.8, django-queries-1.2.0, cov-5.0.0
+plugins: xdist-3.8.0, mock-3.14.0, anyio-4.4.0, socket-0.8.1, Faker-26.3.0, recording-0.13.2, memray-1.7.0, django-4.11.1, celery-1.0.1, docker-tools-3.1.3, asyncio-0.23.8, django-queries-1.2.0, cov-5.0.0
 asyncio: mode=Mode.AUTO
 PLUGIN registered: <module 'saleor.asgi.tests.conftest' from '/workspace/74538ea00ce9_v31_new_t/saleor/asgi/tests/conftest.py'>
 PLUGIN registered: <module 'saleor.checkout.tests.conftest' from '/workspace/74538ea00ce9_v31_new_t/saleor/checkout/tests/conftest.py'>
@@ -1750,18 +1748,22 @@ self = <DatabaseWrapper vendor='postgresql' alias='__no_db__'>
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 /opt/venv/lib/python3.12/site-packages/django/utils/asyncio.py:26: in inner
     return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
 /opt/venv/lib/python3.12/site-packages/django/db/backends/base/base.py:270: in connect
     self.connection = self.get_new_connection(conn_params)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 /opt/venv/lib/python3.12/site-packages/django/utils/asyncio.py:26: in inner
     return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
 /opt/venv/lib/python3.12/site-packages/django/db/backends/postgresql/base.py:275: in get_new_connection
     connection = self.Database.connect(**conn_params)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
 cls = <class 'psycopg.Connection'>
 conninfo = 'dbname=postgres client_encoding=UTF8 user=saleor password=saleor host=localhost port=5432 hostaddr=127.0.0.1'
 autocommit = False, prepare_threshold = None
-context = <psycopg.adapt.AdaptersMap object at 0x7dc977d94ad0>
+context = <psycopg.adapt.AdaptersMap object at 0x7f5aa94b4890>
 row_factory = None
 cursor_factory = <class 'django.db.backends.postgresql.base.Cursor'>
 kwargs = {'client_encoding': 'UTF8', 'dbname': 'postgres', 'host': 'localhost', 'password': 'saleor', ...}
@@ -1823,41 +1825,52 @@ self = <DatabaseWrapper vendor='postgresql' alias='default'>
         cursor = None
         try:
 >           with super()._nodb_cursor() as cursor:
+                 ^^^^^^^^^^^^^^^^^^^^^^
 
 /opt/venv/lib/python3.12/site-packages/django/db/backends/postgresql/base.py:400: 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 /usr/local/lib/python3.12/contextlib.py:137: in __enter__
     return next(self.gen)
+           ^^^^^^^^^^^^^^
 /opt/venv/lib/python3.12/site-packages/django/db/backends/base/base.py:722: in _nodb_cursor
     with conn.cursor() as cursor:
+         ^^^^^^^^^^^^^
 /opt/venv/lib/python3.12/site-packages/django/utils/asyncio.py:26: in inner
     return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
 /opt/venv/lib/python3.12/site-packages/django/db/backends/base/base.py:330: in cursor
     return self._cursor()
+           ^^^^^^^^^^^^^^
 /opt/venv/lib/python3.12/site-packages/django/db/backends/base/base.py:306: in _cursor
     self.ensure_connection()
 /opt/venv/lib/python3.12/site-packages/django/utils/asyncio.py:26: in inner
     return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
 /opt/venv/lib/python3.12/site-packages/django/db/backends/base/base.py:288: in ensure_connection
     with self.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
 /opt/venv/lib/python3.12/site-packages/django/db/utils.py:91: in __exit__
     raise dj_exc_value.with_traceback(traceback) from exc_value
 /opt/venv/lib/python3.12/site-packages/django/db/backends/base/base.py:289: in ensure_connection
     self.connect()
 /opt/venv/lib/python3.12/site-packages/django/utils/asyncio.py:26: in inner
     return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
 /opt/venv/lib/python3.12/site-packages/django/db/backends/base/base.py:270: in connect
     self.connection = self.get_new_connection(conn_params)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 /opt/venv/lib/python3.12/site-packages/django/utils/asyncio.py:26: in inner
     return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
 /opt/venv/lib/python3.12/site-packages/django/db/backends/postgresql/base.py:275: in get_new_connection
     connection = self.Database.connect(**conn_params)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
 cls = <class 'psycopg.Connection'>
 conninfo = 'dbname=postgres client_encoding=UTF8 user=saleor password=saleor host=localhost port=5432 hostaddr=127.0.0.1'
 autocommit = False, prepare_threshold = None
-context = <psycopg.adapt.AdaptersMap object at 0x7dc977d94ad0>
+context = <psycopg.adapt.AdaptersMap object at 0x7f5aa94b4890>
 row_factory = None
 cursor_factory = <class 'django.db.backends.postgresql.base.Cursor'>
 kwargs = {'client_encoding': 'UTF8', 'dbname': 'postgres', 'host': 'localhost', 'password': 'saleor', ...}
@@ -1925,18 +1938,22 @@ self = <DatabaseWrapper vendor='postgresql' alias='default'>
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 /opt/venv/lib/python3.12/site-packages/django/utils/asyncio.py:26: in inner
     return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
 /opt/venv/lib/python3.12/site-packages/django/db/backends/base/base.py:270: in connect
     self.connection = self.get_new_connection(conn_params)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 /opt/venv/lib/python3.12/site-packages/django/utils/asyncio.py:26: in inner
     return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
 /opt/venv/lib/python3.12/site-packages/django/db/backends/postgresql/base.py:275: in get_new_connection
     connection = self.Database.connect(**conn_params)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
 cls = <class 'psycopg.Connection'>
 conninfo = 'dbname=saleor client_encoding=UTF8 user=saleor password=saleor host=localhost port=5432 hostaddr=127.0.0.1'
 autocommit = False, prepare_threshold = None
-context = <psycopg.adapt.AdaptersMap object at 0x7dc977d94ad0>
+context = <psycopg.adapt.AdaptersMap object at 0x7f5aa94b4890>
 row_factory = None
 cursor_factory = <class 'django.db.backends.postgresql.base.Cursor'>
 kwargs = {'client_encoding': 'UTF8', 'dbname': 'saleor', 'host': 'localhost', 'password': 'saleor', ...}
@@ -1981,20 +1998,3 @@ timeout = 130
             else:
                 break
     
-        if not rv:
-            assert last_ex
->           raise last_ex.with_traceback(None)
-E           psycopg.OperationalError: connection failed: connection to server at "127.0.0.1", port 5432 failed: Connection refused
-E           	Is the server running on that host and accepting TCP/IP connections?
-
-/opt/venv/lib/python3.12/site-packages/psycopg/connection.py:119: OperationalError
-
-The above exception was the direct cause of the following exception:
-
-request = <SubRequest 'django_db_setup' for <Function test_address_form_for_country[CN]>>
-django_test_environment = None
-django_db_blocker = <pytest_django.plugin.DjangoDbBlocker object at 0x7dc98e148fe0>
-django_db_use_migrations = True, django_db_keepdb = False
-django_db_createdb = False, django_db_modify_db_settings = None
-
-    @pytest.fixture(scope="session")

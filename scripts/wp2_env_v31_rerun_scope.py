@@ -82,7 +82,10 @@ def main() -> int:
         if not affected:
             reasons.append("EQUIVALENT_POSITIVELY_DEMONSTRATED")
 
-        redis = json.loads((OUT_ROOT / f"p2pu_v3_rediscovery_{tid}.json").read_text(encoding="utf-8"))
+        redis_path = OUT_ROOT / f"p2pu_v3_rediscovery_{tid}.json"
+        if not redis_path.exists():
+            redis_path = OUT_ROOT / "superseded_env_v31" / "rediscovery" / f"p2pu_v3_rediscovery_{tid}.json"
+        redis = json.loads(redis_path.read_text(encoding="utf-8"))
         n_cap200 = len(redis.get("v3_selection", {}).get("cap200_node_ids", []))
         n_cap400 = len(redis.get("v3_selection", {}).get("cap400_node_ids", []))
 

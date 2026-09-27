@@ -91,12 +91,12 @@
  "pip_check": {
   "rc": 0,
   "ok": true,
-  "text_tail": "Using Python 3.9.25 environment at: /opt/venv\nChecked 211 packages in 5ms\nAll installed packages are compatible\nPIPCHECK_RC=0\n"
+  "text_tail": "Using Python 3.9.25 environment at: /opt/venv\nChecked 208 packages in 6ms\nAll installed packages are compatible\nPIPCHECK_RC=0\n"
  },
  "collect": {
   "rc": 0,
   "ok": true,
-  "text_tail": "sample_payload_query_by_staff[WebhookSampleEventTypeEnum.CHECKOUT_QUANTITY_CHANGED-True]\nsaleor/graphql/webhook/tests/test_webhook.py::test_sample_payload_query_by_staff[WebhookSampleEventTypeEnum.CHECKOUT_CREATED-True]\nsaleor/graphql/webhook/tests/test_webhook.py::test_sample_payload_query_by_staff[WebhookSampleEventTypeEnum.CHECKOUT_UPDATED-True]\nsaleor/graphql/webhook/tests/test_webhook.py::test_sample_payload_query_by_staff[WebhookSampleEventTypeEnum.FULFILLMENT_CREATED-False]\nsaleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_add_variant_to_anonymous_user\nsaleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_add_variant_to_logged_user\nsaleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_remove_variant_from_anonymous_user\nsaleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_remove_variant_from_logged_user\nsaleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_add_product_to_logged_user\nsaleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_remove_product_from_logged_user\nsaleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_get_items_from_anonymous_user\nsaleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_get_items_from_logged_user\n\n=============================== warnings summary ===============================\nsaleor/settings.py:11\n  /workspace/93b20d78c011_v31_new_t/saleor/settings.py:11: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.\n    import pkg_resources\n\nsaleor/settings.py:207\n  /workspace/93b20d78c011_v31_new_t/saleor/settings.py:207: UserWarning: SECRET_KEY not configured, using a random temporary key.\n    warnings.warn(\"SECRET_KEY not configured, using a random temporary key.\")\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n2799 tests collected in 2.20s\nCOLLECT_RC=0\n"
+  "text_tail": "sample_payload_query_by_staff[WebhookSampleEventTypeEnum.CHECKOUT_QUANTITY_CHANGED-True]\nsaleor/graphql/webhook/tests/test_webhook.py::test_sample_payload_query_by_staff[WebhookSampleEventTypeEnum.CHECKOUT_CREATED-True]\nsaleor/graphql/webhook/tests/test_webhook.py::test_sample_payload_query_by_staff[WebhookSampleEventTypeEnum.CHECKOUT_UPDATED-True]\nsaleor/graphql/webhook/tests/test_webhook.py::test_sample_payload_query_by_staff[WebhookSampleEventTypeEnum.FULFILLMENT_CREATED-False]\nsaleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_add_variant_to_anonymous_user\nsaleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_add_variant_to_logged_user\nsaleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_remove_variant_from_anonymous_user\nsaleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_remove_variant_from_logged_user\nsaleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_add_product_to_logged_user\nsaleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_remove_product_from_logged_user\nsaleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_get_items_from_anonymous_user\nsaleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_get_items_from_logged_user\n\n=============================== warnings summary ===============================\nsaleor/settings.py:11\n  /workspace/93b20d78c011_v31_new_t/saleor/settings.py:11: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.\n    import pkg_resources\n\nsaleor/settings.py:207\n  /workspace/93b20d78c011_v31_new_t/saleor/settings.py:207: UserWarning: SECRET_KEY not configured, using a random temporary key.\n    warnings.warn(\"SECRET_KEY not configured, using a random temporary key.\")\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n2799 tests collected in 2.12s\nCOLLECT_RC=0\n"
  },
  "fixture_preflight": {
   "ok": true,
@@ -109,8 +109,8 @@
  },
  "files": {
   "freeze.txt": {
-   "sha256": "6681a7d1077603c0954d30086fdcdb97156065f543f658297e8aaaddecc36a3b",
-   "lines": 211
+   "sha256": "5c010ce3b32fd5d02364bf7cdcb9e736aa7c36b2dfdbbf5c7e2bdb7beb86d2e6",
+   "lines": 208
   },
   "pyversion.txt": {
    "sha256": "46013688dc6816ee6935343b6974f8bd34c0ada4fe43554f5c0a772d7e8f0b1e",
@@ -121,23 +121,23 @@
    "lines": 85
   },
   "traceconfig.txt": {
-   "sha256": "12c55f91a3dff765ef5fb0b47110e37c91184f2480b174f118c3ede89e0708e8",
+   "sha256": "bdd586a76236650e739f4bfbeeb63e20d3ea5ce6def41ccdce9d058e2d71b2c8",
    "lines": 2000
   },
   "markers.txt": {
-   "sha256": "48fd49593142ef04f8c8c3064b5b172e9b30c00d9a0eae942512f5fb623c4e6b",
+   "sha256": "b1c27136228d891d6f90385379ad0db4776ac51f963eca92c8f488b3fa075de3",
    "lines": 40
   },
   "pipcheck.txt": {
-   "sha256": "3401c1e8bac817d1da7bc057f93796b75a3f15c0aea8ec12326180cad9a00fab",
+   "sha256": "de05ac97a95a13cc8ed1a23895441748a50846a030a04e28a8a8ad85580fe813",
    "lines": 4
   },
   "collect.txt": {
-   "sha256": "43c0ec025001b530e1c9ab8bb78b479e4f6db9cd4b767c1d4d439faa7c5bcfaa",
+   "sha256": "b3bf420044fd8b97d5b7c75f6eef954b3e0daf0136cee99b6b148d14ca6e8c84",
    "lines": 2812
   },
   "fixture_collect.txt": {
-   "sha256": "cabb226358c9cb75347eedf4ce2711ef785017fea527c153e91e4c71e135223d",
+   "sha256": "030e8a3205843671e6540af86c20c4d656f8171b68622c34e3fde6d9d7f990cc",
    "lines": 2812
   },
   "fixture_preflight.json": {
@@ -145,13 +145,13 @@
    "lines": 1
   },
   "install.log": {
-   "sha256": "ec11a77b5432eac12cc51ca7adb60cb0b4ba87f9fb26610cd60e17e5feb4395c",
-   "lines": 283
+   "sha256": "5adecce41134503f5e92a5a3b5f857184d779290e2a0216d6e11b7f01634d2f7",
+   "lines": 263
   }
  },
- "freeze_sha256": "6681a7d1077603c0954d30086fdcdb97156065f543f658297e8aaaddecc36a3b",
- "freeze_packages": 211,
- "wall_s": 640.7,
+ "freeze_sha256": "5c010ce3b32fd5d02364bf7cdcb9e736aa7c36b2dfdbbf5c7e2bdb7beb86d2e6",
+ "freeze_packages": 208,
+ "wall_s": 574.5,
  "stdout_tail": "POETRY_REQ_MAIN_PLUS_LOCKED_DEV\nCORRECTED_ENV_DONE\n",
  "stderr_tail": "Using Python 3.9.25 environment at: /opt/venv\nUsing Python 3.9.25 environment at: /opt/venv\n"
 }

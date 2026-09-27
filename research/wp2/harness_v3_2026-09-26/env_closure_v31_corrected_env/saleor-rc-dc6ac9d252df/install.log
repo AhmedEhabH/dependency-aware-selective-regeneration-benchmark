@@ -1,9 +1,9 @@
 Using Python 3.9.25 environment at: /opt/venv
-Resolved 149 packages in 800ms
+Resolved 149 packages in 812ms
 warning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.
          If the cache and target directories are on different filesystems, hardlinking may not be supported.
          If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.
-Installed 149 packages in 4.31s
+Installed 149 packages in 4.85s
  + adyen==4.0.0
  + amqp==5.0.6
  + aniso8601==7.0.0
@@ -169,17 +169,14 @@ Using Python 3.9.25 environment at: /opt/venv
 
 hint: Wheels are available for `python-magic-bin` (v0.4.14) on the following platforms: `macosx_10_6_intel`, `win32`, `win_amd64`DEV_RETRY_R2 dropped=2
 Using Python 3.9.25 environment at: /opt/venv
-Resolved 111 packages in 22ms
-Prepared 4 packages in 2.02s
+Resolved 107 packages in 264ms
 Uninstalled 2 packages in 7ms
 warning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.
          If the cache and target directories are on different filesystems, hardlinking may not be supported.
          If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.
-Installed 73 packages in 934ms
+Installed 69 packages in 908ms
  + appdirs==1.4.4
  + astroid==2.7.2
- + atomicwrites==1.4.0
- + attrs==21.2.0
  + backports-entry-points-selectable==1.1.0
  + beautifultable==0.7.0
  + black==21.7b0
@@ -189,7 +186,7 @@ Installed 73 packages in 934ms
  - cffi==2.0.0
  + cffi==1.14.6
  + cfgv==3.3.0
- + colorama==0.4.4
+ + colorama==0.4.6
  + coverage==5.5
  + distlib==0.3.2
  + django-debug-toolbar==3.2.2
@@ -198,13 +195,13 @@ Installed 73 packages in 934ms
  + django-graphiql-debug-toolbar==0.1.4
  + django-stubs==1.8.0
  + django-stubs-ext==0.2.0
- + execnet==1.9.0
+ + exceptiongroup==1.2.2
  + filelock==3.0.12
  + flake8==3.9.2
  + gitdb==4.0.7
  + gitpython==3.1.20
  + identify==2.2.13
- + iniconfig==1.1.1
+ + iniconfig==2.1.0
  + isort==5.9.3
  + jinja2==3.0.1
  + lazy-object-proxy==1.6.0
@@ -215,25 +212,23 @@ Installed 73 packages in 934ms
  + nodeenv==1.6.0
  + pathspec==0.9.0
  + platformdirs==2.2.0
- + pluggy==0.13.1
+ + pluggy==1.6.0
  + pre-commit==2.14.0
- + py==1.10.0
+ + py==1.11.0
  + pycodestyle==2.7.0
  + pydocstyle==6.1.1
  + pyflakes==2.3.1
+ + pygments==2.21.0
  + pylint==2.10.2
  + pylint-celery==0.3
  + pylint-django==2.4.4
  + pylint-plugin-utils==0.6
- + pytest==6.2.4
+ + pytest==8.4.2
  + pytest-celery==0.0.0
  + pytest-cov==2.12.1
- + pytest-django==4.2.0
  + pytest-django-queries==1.2.0
- + pytest-forked==1.3.0
  + pytest-mock==3.6.1
  + pytest-vcr==1.0.2
- + pytest-xdist==2.3.0
  + python-slugify==4.0.1
  + pywatchman==1.4.1
  + regex==2021.8.21
@@ -256,25 +251,18 @@ warning: `types-pkg-resources==0.1.3` is yanked (reason: "Use types-setuptools i
 warning: `braintree==4.12.0` is yanked (reason: "critical bugs")
 DEV_INSTALL_OK
 Using Python 3.9.25 environment at: /opt/venv
-Resolved 17 packages in 359ms
-Uninstalled 6 packages in 24ms
+Resolved 14 packages in 415ms
+Uninstalled 2 packages in 19ms
 warning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.
          If the cache and target directories are on different filesystems, hardlinking may not be supported.
          If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.
-Installed 10 packages in 297ms
- + exceptiongroup==1.3.1
+Installed 7 packages in 282ms
+ + execnet==2.1.2
  - packaging==21.0
  + packaging==26.3
- - pluggy==0.13.1
- + pluggy==1.6.0
- + pygments==2.21.0
- - pytest==6.2.4
- + pytest==8.4.2
- - pytest-django==4.2.0
  + pytest-django==4.11.1
  + pytest-socket==0.7.0
+ + pytest-xdist==3.8.0
  - setuptools==82.0.1
  + setuptools==80.10.2
- - typing-extensions==3.10.0.0
- + typing-extensions==4.16.0
  + wheel==0.48.0

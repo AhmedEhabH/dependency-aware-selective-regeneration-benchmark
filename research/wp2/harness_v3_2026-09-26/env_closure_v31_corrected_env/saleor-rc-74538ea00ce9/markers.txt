@@ -30,13 +30,13 @@
 
 @pytest.mark.allowed_hosts: List of regexes to match hosts to where connection must be allowed.
 
-@pytest.mark.anyio: mark the (coroutine function) test to be run asynchronously via anyio.
-
 @pytest.mark.disable_socket(): Disable socket connections for a specific test
 
 @pytest.mark.enable_socket(): Enable socket connections for a specific test
 
 @pytest.mark.allow_hosts([hosts]): Restrict socket connection to defined list of hosts
+
+@pytest.mark.anyio: mark the (coroutine function) test to be run asynchronously via anyio.
 
 @pytest.mark.filterwarnings(warning): add a warning filter to the given test. see https://docs.pytest.org/en/stable/how-to/capture-warnings.html#pytest-mark-filterwarnings 
 

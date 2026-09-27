@@ -96,12 +96,12 @@
  "pip_check": {
   "rc": 0,
   "ok": true,
-  "text_tail": "Using Python 3.8.20 environment at: /opt/venv\nChecked 193 packages in 4ms\nAll installed packages are compatible\nPIPCHECK_RC=0\n"
+  "text_tail": "Using Python 3.8.20 environment at: /opt/venv\nChecked 188 packages in 4ms\nAll installed packages are compatible\nPIPCHECK_RC=0\n"
  },
  "collect": {
   "rc": 0,
   "ok": true,
-  "text_tail": "/order/tests/test_order_actions.py::test_handle_fully_paid_order_digital_lines\nsaleor/order/tests/test_order_actions.py::test_handle_fully_paid_order\nsaleor/order/tests/test_order_actions.py::test_handle_fully_paid_order_no_email\nsaleor/order/tests/test_order_actions.py::test_mark_as_paid\nsaleor/order/tests/test_order_actions.py::test_mark_as_paid_no_billing_address\nsaleor/order/tests/test_order_actions.py::test_clean_mark_order_as_paid\nsaleor/order/tests/test_order_actions.py::test_cancel_fulfillment\nsaleor/order/tests/test_order_actions.py::test_cancel_fulfillment_variant_witout_inventory_tracking\nsaleor/order/tests/test_order_actions.py::test_cancel_order\nsaleor/order/tests/test_order_actions.py::test_fulfill_order_line\nsaleor/order/tests/test_order_actions.py::test_fulfill_order_line_with_variant_deleted\nsaleor/order/tests/test_order_actions.py::test_fulfill_order_line_without_inventory_tracking\nsaleor/order/tests/test_order_actions.py::test_fulfill_digital_lines\nsaleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[5-2-0-3]\nsaleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[2-5-3-0]\nsaleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[2-0-0-2]\nsaleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[5-5-0-0]\nsaleor/order/tests/test_order_utils.py::test_match_orders_with_new_user\nsaleor/order/tests/test_order_utils.py::test_match_draft_order_with_new_user\nsaleor/order/tests/test_order.py::test_ordered_item_change_quantity\n\n=============================== warnings summary ===============================\nsaleor/settings.py:204\n  /workspace/22ec4dab0154_v31_new_t/saleor/settings.py:204: UserWarning: SECRET_KEY not configured, using a random temporary key.\n    warnings.warn(\"SECRET_KEY not configured, using a random temporary key.\")\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n2354 tests collected in 1.28s\nCOLLECT_RC=0\n"
+  "text_tail": "/order/tests/test_order_actions.py::test_handle_fully_paid_order_digital_lines\nsaleor/order/tests/test_order_actions.py::test_handle_fully_paid_order\nsaleor/order/tests/test_order_actions.py::test_handle_fully_paid_order_no_email\nsaleor/order/tests/test_order_actions.py::test_mark_as_paid\nsaleor/order/tests/test_order_actions.py::test_mark_as_paid_no_billing_address\nsaleor/order/tests/test_order_actions.py::test_clean_mark_order_as_paid\nsaleor/order/tests/test_order_actions.py::test_cancel_fulfillment\nsaleor/order/tests/test_order_actions.py::test_cancel_fulfillment_variant_witout_inventory_tracking\nsaleor/order/tests/test_order_actions.py::test_cancel_order\nsaleor/order/tests/test_order_actions.py::test_fulfill_order_line\nsaleor/order/tests/test_order_actions.py::test_fulfill_order_line_with_variant_deleted\nsaleor/order/tests/test_order_actions.py::test_fulfill_order_line_without_inventory_tracking\nsaleor/order/tests/test_order_actions.py::test_fulfill_digital_lines\nsaleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[5-2-0-3]\nsaleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[2-5-3-0]\nsaleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[2-0-0-2]\nsaleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[5-5-0-0]\nsaleor/order/tests/test_order_utils.py::test_match_orders_with_new_user\nsaleor/order/tests/test_order_utils.py::test_match_draft_order_with_new_user\nsaleor/order/tests/test_order.py::test_ordered_item_change_quantity\n\n=============================== warnings summary ===============================\nsaleor/settings.py:204\n  /workspace/22ec4dab0154_v31_new_t/saleor/settings.py:204: UserWarning: SECRET_KEY not configured, using a random temporary key.\n    warnings.warn(\"SECRET_KEY not configured, using a random temporary key.\")\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n2354 tests collected in 1.23s\nCOLLECT_RC=0\n"
  },
  "fixture_preflight": {
   "ok": true,
@@ -114,8 +114,8 @@
  },
  "files": {
   "freeze.txt": {
-   "sha256": "0420c5e3e94455b827c973e7669784b5cd83b5c948027017b73c2872ad49ce4c",
-   "lines": 193
+   "sha256": "c39701c198cb3cacdaba661962c76e05519b89f1c10e4763c83547a354a8e952",
+   "lines": 188
   },
   "pyversion.txt": {
    "sha256": "c84930cd38ee1503d284f4b12b1290e04abf8e37ba8d2904d1a7481bd2fafec8",
@@ -126,23 +126,23 @@
    "lines": 85
   },
   "traceconfig.txt": {
-   "sha256": "8f02184fb45211929b622fc5cc8d9ecd6441f0426f7c2f0d34bb28ec1d39f0f4",
+   "sha256": "5ae2105432b1aacb414f96fb2071f7a7a4e2e712da9f0eff0d756f33ff12476a",
    "lines": 2000
   },
   "markers.txt": {
-   "sha256": "cd08a03bf94d7429a56943733ad1c7d3b4da1951a5b1cd0c78a29f6a5ce0d6c1",
+   "sha256": "01a47fc4d6ba19e1c0b5887a8970dd7237eb853cd836d695e4097868da81454b",
    "lines": 40
   },
   "pipcheck.txt": {
-   "sha256": "868b9c04e2b806224a622593354e03f99623364615c1dff53233e6ca5ec36801",
+   "sha256": "12fbd126d6c5cc451a4c3a8b9c27f5fc4d2c7183ae8e7a3746541dfe84ff5edd",
    "lines": 4
   },
   "collect.txt": {
-   "sha256": "7805f83d7287399863a1ad609a1ecf1c92a65ecd8152006b7e6716247fd3cdc2",
+   "sha256": "ee45079765afd1a43cdae42f6170e535c5b959582c51029b7e7c6c43cc05a19d",
    "lines": 2363
   },
   "fixture_collect.txt": {
-   "sha256": "5f144b2996c1b8c5809848ef938f4b45eaefed2b11ee5449e93aa3af99b6e33e",
+   "sha256": "720ee91eaad320d15015184e9dee57f4e5823fa58676537b5f2e4cb62962e936",
    "lines": 2363
   },
   "fixture_preflight.json": {
@@ -150,13 +150,13 @@
    "lines": 1
   },
   "install.log": {
-   "sha256": "558a6b9b7cb445a3a41b9f0bdde7523e65dabe38da079d81147b0887c5a61dce",
-   "lines": 237
+   "sha256": "6795ba0c03a3d79c8e6afdb52112b37ebe4309a72e3ad5b4587ae10e16b10ae0",
+   "lines": 224
   }
  },
- "freeze_sha256": "0420c5e3e94455b827c973e7669784b5cd83b5c948027017b73c2872ad49ce4c",
- "freeze_packages": 193,
- "wall_s": 279.5,
+ "freeze_sha256": "c39701c198cb3cacdaba661962c76e05519b89f1c10e4763c83547a354a8e952",
+ "freeze_packages": 188,
+ "wall_s": 295.5,
  "stdout_tail": "POETRY_REQ_MAIN_PLUS_LOCKED_DEV\nCORRECTED_ENV_DONE\n",
  "stderr_tail": "Using Python 3.8.20 environment at: /opt/venv\nUsing Python 3.8.20 environment at: /opt/venv\n"
 }

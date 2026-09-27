@@ -8,8 +8,6 @@
 
 @pytest.mark.ignore_template_errors(): ignore errors from invalid template variables (if --fail-on-template-vars is used).
 
-@pytest.mark.forked: Always fork for this test.
-
 @pytest.mark.vcr: Mark the test as using VCR.py.
 
 @pytest.mark.no_cover: disable coverage for this test.
@@ -37,4 +35,6 @@
 @pytest.mark.tryfirst: mark a hook implementation function such that the plugin machinery will try to call it first/as early as possible. DEPRECATED, use @pytest.hookimpl(tryfirst=True) instead.
 
 @pytest.mark.trylast: mark a hook implementation function such that the plugin machinery will try to call it last/as late as possible. DEPRECATED, use @pytest.hookimpl(trylast=True) instead.
+
+@pytest.mark.xdist_group: specify group for tests should run in same session.in relation to one another. Provided by pytest-xdist.
 

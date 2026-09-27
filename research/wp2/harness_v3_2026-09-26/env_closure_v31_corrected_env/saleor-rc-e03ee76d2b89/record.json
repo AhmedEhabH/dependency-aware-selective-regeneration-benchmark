@@ -100,12 +100,12 @@
  "pip_check": {
   "rc": 0,
   "ok": true,
-  "text_tail": "Using Python 3.9.25 environment at: /opt/venv\nChecked 233 packages in 4ms\nAll installed packages are compatible\nPIPCHECK_RC=0\n"
+  "text_tail": "Using Python 3.9.25 environment at: /opt/venv\nChecked 234 packages in 5ms\nAll installed packages are compatible\nPIPCHECK_RC=0\n"
  },
  "collect": {
   "rc": 0,
   "ok": true,
-  "text_tail": "{\\n              id\\n            }\\n            subscription {\\n              event {\\n                ... on OrderUpdated {\\n                  order {\\n                    id\\n                  }\\n                }\\n              }\\n            }\\n            -Fragment \"NotUsedEvents\" is never used.-GraphQLError-WebhookErrorCode.GRAPHQL_ERROR]\nsaleor/graphql/webhook/tests/test_subscription_query.py::test_query_validation[\\n            query {{\\n            }\\n            -Syntax Error GraphQL (2:20) Expected Name, found-GraphQLSyntaxError-WebhookErrorCode.SYNTAX]\nsaleor/graphql/webhook/tests/test_subscription_query.py::test_query_validation[\\n            query {\\n              channels {\\n                name\\n              }\\n            }\\n            -Subscription operation can't be found.-ValidationError-WebhookErrorCode.MISSING_SUBSCRIPTION]\nsaleor/graphql/webhook/tests/test_subscription_query.py::test_query_validation[\\n            subscription {\\n              event {\\n                issuedAt\\n              }\\n            }\\n            -Can't find a single event.-ValidationError-WebhookErrorCode.MISSING_EVENT]\nsaleor/graphql/webhook/tests/test_subscription_query.py::test_get_events_from_field\nsaleor/graphql/checkout/tests/mutations/test_checkout_complete.py::test_checkout_complete_payment_create_create_run_in_meantime\nsaleor/graphql/meta/tests/mutations/test_update_metadata.py::test_update_public_metadata_for_item_on_deleted_instance\nsaleor/graphql/product/tests/mutations/test_product_media_reorder.py::test_reorder_not_existing_media\n\n=============================== warnings summary ===============================\nsaleor/settings.py:200\n  /workspace/e03ee76d2b89_v31_new_t/saleor/settings.py:200: UserWarning: SECRET_KEY not configured, using a random temporary key.\n    warnings.warn(\"SECRET_KEY not configured, using a random temporary key.\")\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n6973 tests collected in 11.15s\nCOLLECT_RC=0\n"
+  "text_tail": "{\\n              id\\n            }\\n            subscription {\\n              event {\\n                ... on OrderUpdated {\\n                  order {\\n                    id\\n                  }\\n                }\\n              }\\n            }\\n            -Fragment \"NotUsedEvents\" is never used.-GraphQLError-WebhookErrorCode.GRAPHQL_ERROR]\nsaleor/graphql/webhook/tests/test_subscription_query.py::test_query_validation[\\n            query {{\\n            }\\n            -Syntax Error GraphQL (2:20) Expected Name, found-GraphQLSyntaxError-WebhookErrorCode.SYNTAX]\nsaleor/graphql/webhook/tests/test_subscription_query.py::test_query_validation[\\n            query {\\n              channels {\\n                name\\n              }\\n            }\\n            -Subscription operation can't be found.-ValidationError-WebhookErrorCode.MISSING_SUBSCRIPTION]\nsaleor/graphql/webhook/tests/test_subscription_query.py::test_query_validation[\\n            subscription {\\n              event {\\n                issuedAt\\n              }\\n            }\\n            -Can't find a single event.-ValidationError-WebhookErrorCode.MISSING_EVENT]\nsaleor/graphql/webhook/tests/test_subscription_query.py::test_get_events_from_field\nsaleor/graphql/checkout/tests/mutations/test_checkout_complete.py::test_checkout_complete_payment_create_create_run_in_meantime\nsaleor/graphql/meta/tests/mutations/test_update_metadata.py::test_update_public_metadata_for_item_on_deleted_instance\nsaleor/graphql/product/tests/mutations/test_product_media_reorder.py::test_reorder_not_existing_media\n\n=============================== warnings summary ===============================\nsaleor/settings.py:200\n  /workspace/e03ee76d2b89_v31_new_t/saleor/settings.py:200: UserWarning: SECRET_KEY not configured, using a random temporary key.\n    warnings.warn(\"SECRET_KEY not configured, using a random temporary key.\")\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n6973 tests collected in 11.86s\nCOLLECT_RC=0\n"
  },
  "fixture_preflight": {
   "ok": true,
@@ -118,49 +118,49 @@
  },
  "files": {
   "freeze.txt": {
-   "sha256": "6beb6fdd885946126486cc3b7de0bcd3d950e149b1ba1bafc466c4c884ba8dbf",
-   "lines": 233
+   "sha256": "c4167a898b815f4aebe40ac472bfdc721701022f18115dfb034632ee8e39ca0c",
+   "lines": 234
   },
   "pyversion.txt": {
    "sha256": "46013688dc6816ee6935343b6974f8bd34c0ada4fe43554f5c0a772d7e8f0b1e",
    "lines": 1
   },
   "pytestversion.txt": {
-   "sha256": "27bf50112eed4c61bd6ba4f9d5ea19f4500986bffc464756995aaf8447275c59",
-   "lines": 77
+   "sha256": "fe971bd8e8f103d6049505e707385a25f194890eeef287607092eb02e33bcb42",
+   "lines": 83
   },
   "traceconfig.txt": {
-   "sha256": "58df05fbcea0d73cce699b01867b49de0587e80cc7b5ea2b39f4dabe0cb2e6d9",
+   "sha256": "a01d3fa478156effb01028b2aaa0edb912eccec236b9fb2d799688e115a83e97",
    "lines": 2000
   },
   "markers.txt": {
-   "sha256": "976f95429e57b0e5788f3eed49a20e1bc502ad8bfb990776e9ee026d8757ef76",
+   "sha256": "a6209a3ff7b4d37d6895e0a63be6dce54dcdd2252700de68f586019b3df2a583",
    "lines": 52
   },
   "pipcheck.txt": {
-   "sha256": "88d38081ee1f247147159b1145fa07829333b535f2c8f2a0fe3dc259022837bb",
+   "sha256": "c1e48f116fa7c99e8d4198d9d67d629abb97be43c79c92c45a761eaa60b46236",
    "lines": 4
   },
   "collect.txt": {
-   "sha256": "cdfea521e20aa4b76f315aaf0303479ad5e31c843e90ef1fb43097a6607fb8f3",
+   "sha256": "9aa0b4e982a52c01cc22c8f7e80a8ef430e32f3febeb35e0c5b26c9afa443316",
    "lines": 6982
   },
   "fixture_collect.txt": {
-   "sha256": "3f3574171c626587e06d8f222e4aa3d981f149bcdd11cd98beea6a1c3a78064b",
+   "sha256": "cbc7a33459a2b59e2e8abbdba89065fa6b8a443e12f5eeb1f34917555d94a37d",
    "lines": 6982
   },
   "fixture_preflight.json": {
-   "sha256": "564b268b91c2be825554bdcd3ae66276eb101e94052b076705d555dd9a14de5d",
+   "sha256": "cd9166156b570497531d368317434192584e33197ff4392b7b113743fd9302db",
    "lines": 1
   },
   "install.log": {
-   "sha256": "51fbe5a7bd8508d14f8e57bc734e25e465c16607a5bdb734e2650908dcb0c049",
-   "lines": 274
+   "sha256": "4fe88c016d279c07ce0af5776dc2730f035dba8ed9e1d8c25a80f2fddf9a4133",
+   "lines": 267
   }
  },
- "freeze_sha256": "6beb6fdd885946126486cc3b7de0bcd3d950e149b1ba1bafc466c4c884ba8dbf",
- "freeze_packages": 233,
- "wall_s": 1406.3,
+ "freeze_sha256": "c4167a898b815f4aebe40ac472bfdc721701022f18115dfb034632ee8e39ca0c",
+ "freeze_packages": 234,
+ "wall_s": 1858.7,
  "stdout_tail": "POETRY_REQ_MAIN_PLUS_LOCKED_DEV\nCORRECTED_ENV_DONE\n",
  "stderr_tail": "Using Python 3.9.25 environment at: /opt/venv\nUsing Python 3.9.25 environment at: /opt/venv\n"
 }

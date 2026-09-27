@@ -1,5 +1,5 @@
-PLUGIN registered: <_pytest.config.PytestPluginManager object at 0x70251fce4370>
-PLUGIN registered: <_pytest.config.Config object at 0x70251ec04130>
+PLUGIN registered: <_pytest.config.PytestPluginManager object at 0x76c5a5050370>
+PLUGIN registered: <_pytest.config.Config object at 0x76c5a3ff1ca0>
 PLUGIN registered: <module '_pytest.mark' from '/opt/venv/lib/python3.8/site-packages/_pytest/mark/__init__.py'>
 PLUGIN registered: <module '_pytest.main' from '/opt/venv/lib/python3.8/site-packages/_pytest/main.py'>
 PLUGIN registered: <module '_pytest.runner' from '/opt/venv/lib/python3.8/site-packages/_pytest/runner.py'>
@@ -31,11 +31,10 @@ PLUGIN registered: <module '_pytest.threadexception' from '/opt/venv/lib/python3
 PLUGIN registered: <module '_pytest.faulthandler' from '/opt/venv/lib/python3.8/site-packages/_pytest/faulthandler.py'>
 PLUGIN registered: <module 'pytest_socket' from '/opt/venv/lib/python3.8/site-packages/pytest_socket.py'>
 PLUGIN registered: <module 'pytest_vcr' from '/opt/venv/lib/python3.8/site-packages/pytest_vcr.py'>
+PLUGIN registered: <module 'celery.contrib.pytest' from '/opt/venv/lib/python3.8/site-packages/celery/contrib/pytest.py'>
+PLUGIN registered: <module 'faker.contrib.pytest.plugin' from '/opt/venv/lib/python3.8/site-packages/faker/contrib/pytest/plugin.py'>
 PLUGIN registered: <module 'xdist.plugin' from '/opt/venv/lib/python3.8/site-packages/xdist/plugin.py'>
 PLUGIN registered: <module 'xdist.looponfail' from '/opt/venv/lib/python3.8/site-packages/xdist/looponfail.py'>
-PLUGIN registered: <module 'celery.contrib.pytest' from '/opt/venv/lib/python3.8/site-packages/celery/contrib/pytest.py'>
-PLUGIN registered: <module 'pytest_forked' from '/opt/venv/lib/python3.8/site-packages/pytest_forked/__init__.py'>
-PLUGIN registered: <module 'faker.contrib.pytest.plugin' from '/opt/venv/lib/python3.8/site-packages/faker/contrib/pytest/plugin.py'>
 PLUGIN registered: <module 'pytest_cov.plugin' from '/opt/venv/lib/python3.8/site-packages/pytest_cov/plugin.py'>
 PLUGIN registered: <module 'pytest_django.plugin' from '/opt/venv/lib/python3.8/site-packages/pytest_django/plugin.py'>
 PLUGIN registered: <module 'pytest_mock' from '/opt/venv/lib/python3.8/site-packages/pytest_mock/__init__.py'>
@@ -47,27 +46,26 @@ PLUGIN registered: <module 'saleor.plugins.tests.fixtures' from '/workspace/e25c
 PLUGIN registered: <module 'saleor.graphql.tests.fixtures' from '/workspace/e25cf9b4a837_v31_new_t/saleor/graphql/tests/fixtures.py'>
 PLUGIN registered: <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
 PLUGIN registered: <class '_pytest.legacypath.LegacyTmpdirPlugin'>
-PLUGIN registered: <_pytest.terminal.TerminalReporter object at 0x70250f7fed00>
-PLUGIN registered: <_pytest.logging.LoggingPlugin object at 0x70250f7fedc0>
-PLUGIN registered: <_pytest.fixtures.FixtureManager object at 0x70251ec04850>
+PLUGIN registered: <_pytest.terminal.TerminalReporter object at 0x76c594bdf280>
+PLUGIN registered: <_pytest.logging.LoggingPlugin object at 0x76c594bdf340>
+PLUGIN registered: <_pytest.fixtures.FixtureManager object at 0x76c5a3f9c4f0>
 ============================= test session starts ==============================
 platform linux -- Python 3.8.20, pytest-8.3.5, pluggy-1.5.0
 using: pytest-8.3.5
 registered third-party plugins:
   pytest-socket-0.7.0 at /opt/venv/lib/python3.8/site-packages/pytest_socket.py
   pytest-vcr-1.0.2 at /opt/venv/lib/python3.8/site-packages/pytest_vcr.py
-  pytest-xdist-1.33.0 at /opt/venv/lib/python3.8/site-packages/xdist/plugin.py
-  pytest-xdist-1.33.0 at /opt/venv/lib/python3.8/site-packages/xdist/looponfail.py
   celery-4.4.6 at /opt/venv/lib/python3.8/site-packages/celery/contrib/pytest.py
-  pytest-forked-1.2.0 at /opt/venv/lib/python3.8/site-packages/pytest_forked/__init__.py
   Faker-4.1.1 at /opt/venv/lib/python3.8/site-packages/faker/contrib/pytest/plugin.py
+  pytest-xdist-3.6.1 at /opt/venv/lib/python3.8/site-packages/xdist/plugin.py
+  pytest-xdist-3.6.1 at /opt/venv/lib/python3.8/site-packages/xdist/looponfail.py
   pytest-cov-2.10.0 at /opt/venv/lib/python3.8/site-packages/pytest_cov/plugin.py
   pytest-django-4.11.1 at /opt/venv/lib/python3.8/site-packages/pytest_django/plugin.py
   pytest-mock-3.2.0 at /opt/venv/lib/python3.8/site-packages/pytest_mock/__init__.py
   pytest-django-queries-1.1.0 at /opt/venv/lib/python3.8/site-packages/pytest_django_queries/plugin.py
 active plugins:
-    123304749712240     : <_pytest.config.PytestPluginManager object at 0x70251fce4370>
-    pytestconfig        : <_pytest.config.Config object at 0x70251ec04130>
+    130591249204080     : <_pytest.config.PytestPluginManager object at 0x76c5a5050370>
+    pytestconfig        : <_pytest.config.Config object at 0x76c5a3ff1ca0>
     stepwise            : None
     pytest_stepwise     : None
     cacheprovider       : None
@@ -103,11 +101,10 @@ active plugins:
     faulthandler        : /opt/venv/lib/python3.8/site-packages/_pytest/faulthandler.py
     socket              : /opt/venv/lib/python3.8/site-packages/pytest_socket.py
     vcr                 : /opt/venv/lib/python3.8/site-packages/pytest_vcr.py
+    celery              : /opt/venv/lib/python3.8/site-packages/celery/contrib/pytest.py
+    faker               : /opt/venv/lib/python3.8/site-packages/faker/contrib/pytest/plugin.py
     xdist               : /opt/venv/lib/python3.8/site-packages/xdist/plugin.py
     xdist.looponfail    : /opt/venv/lib/python3.8/site-packages/xdist/looponfail.py
-    celery              : /opt/venv/lib/python3.8/site-packages/celery/contrib/pytest.py
-    pytest_forked       : /opt/venv/lib/python3.8/site-packages/pytest_forked/__init__.py
-    faker               : /opt/venv/lib/python3.8/site-packages/faker/contrib/pytest/plugin.py
     pytest_cov          : /opt/venv/lib/python3.8/site-packages/pytest_cov/plugin.py
     django              : /opt/venv/lib/python3.8/site-packages/pytest_django/plugin.py
     pytest_mock         : /opt/venv/lib/python3.8/site-packages/pytest_mock/__init__.py
@@ -119,14 +116,14 @@ active plugins:
     saleor.graphql.tests.fixtures: /workspace/e25cf9b4a837_v31_new_t/saleor/graphql/tests/fixtures.py
     session             : <Session  exitstatus=<ExitCode.OK: 0> testsfailed=0 testscollected=0>
     legacypath-tmpdir   : <class '_pytest.legacypath.LegacyTmpdirPlugin'>
-    terminalreporter    : <_pytest.terminal.TerminalReporter object at 0x70250f7fed00>
-    logging-plugin      : <_pytest.logging.LoggingPlugin object at 0x70250f7fedc0>
-    funcmanage          : <_pytest.fixtures.FixtureManager object at 0x70251ec04850>
+    terminalreporter    : <_pytest.terminal.TerminalReporter object at 0x76c594bdf280>
+    logging-plugin      : <_pytest.logging.LoggingPlugin object at 0x76c594bdf340>
+    funcmanage          : <_pytest.fixtures.FixtureManager object at 0x76c5a3f9c4f0>
 django: version: 3.0.8, settings: saleor.tests.settings (from option)
 rootdir: /workspace/e25cf9b4a837_v31_new_t
 configfile: setup.cfg
 testpaths: saleor
-plugins: socket-0.7.0, vcr-1.0.2, xdist-1.33.0, celery-4.4.6, forked-1.2.0, Faker-4.1.1, cov-2.10.0, django-4.11.1, mock-3.2.0, django-queries-1.1.0
+plugins: socket-0.7.0, vcr-1.0.2, celery-4.4.6, Faker-4.1.1, xdist-3.6.1, cov-2.10.0, django-4.11.1, mock-3.2.0, django-queries-1.1.0
 PLUGIN registered: <module 'saleor.graphql.checkout.tests.benchmark.conftest' from '/workspace/e25cf9b4a837_v31_new_t/saleor/graphql/checkout/tests/benchmark/conftest.py'>
 PLUGIN registered: <module 'saleor.graphql.menu.tests.benchmark.conftest' from '/workspace/e25cf9b4a837_v31_new_t/saleor/graphql/menu/tests/benchmark/conftest.py'>
 PLUGIN registered: <module 'saleor.graphql.product.tests.benchmark.conftest' from '/workspace/e25cf9b4a837_v31_new_t/saleor/graphql/product/tests/benchmark/conftest.py'>
@@ -364,7 +361,7 @@ saleor/order/tests/test_order.py E                                       [100%]
 ==================================== ERRORS ====================================
 _____________ ERROR at setup of test_address_form_for_country[CN] ______________
 
-self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x70250de17610>
+self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x76c5935aedf0>
 
     @async_unsafe
     def ensure_connection(self):
@@ -446,7 +443,7 @@ The above exception was the direct cause of the following exception:
 
 request = <SubRequest 'django_db_setup' for <Function test_address_form_for_country[CN]>>
 django_test_environment = None
-django_db_blocker = <pytest_django.plugin.DjangoDbBlocker object at 0x70251eb7a9a0>
+django_db_blocker = <pytest_django.plugin.DjangoDbBlocker object at 0x76c5a3e5db80>
 django_db_use_migrations = True, django_db_keepdb = False
 django_db_createdb = False, django_db_modify_db_settings = None
 
@@ -572,7 +569,7 @@ E       	TCP/IP connections on port 5432?
 /opt/venv/lib/python3.8/site-packages/psycopg2/__init__.py:127: OperationalError
 _____________ ERROR at setup of test_address_form_for_country[PL] ______________
 
-self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x70250de17610>
+self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x76c5935aedf0>
 
     @async_unsafe
     def ensure_connection(self):
@@ -654,7 +651,7 @@ The above exception was the direct cause of the following exception:
 
 request = <SubRequest 'django_db_setup' for <Function test_address_form_for_country[CN]>>
 django_test_environment = None
-django_db_blocker = <pytest_django.plugin.DjangoDbBlocker object at 0x70251eb7a9a0>
+django_db_blocker = <pytest_django.plugin.DjangoDbBlocker object at 0x76c5a3e5db80>
 django_db_use_migrations = True, django_db_keepdb = False
 django_db_createdb = False, django_db_modify_db_settings = None
 
@@ -780,7 +777,7 @@ E       	TCP/IP connections on port 5432?
 /opt/venv/lib/python3.8/site-packages/psycopg2/__init__.py:127: OperationalError
 _____________ ERROR at setup of test_address_form_for_country[US] ______________
 
-self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x70250de17610>
+self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x76c5935aedf0>
 
     @async_unsafe
     def ensure_connection(self):
@@ -862,7 +859,7 @@ The above exception was the direct cause of the following exception:
 
 request = <SubRequest 'django_db_setup' for <Function test_address_form_for_country[CN]>>
 django_test_environment = None
-django_db_blocker = <pytest_django.plugin.DjangoDbBlocker object at 0x70251eb7a9a0>
+django_db_blocker = <pytest_django.plugin.DjangoDbBlocker object at 0x76c5a3e5db80>
 django_db_use_migrations = True, django_db_keepdb = False
 django_db_createdb = False, django_db_modify_db_settings = None
 
@@ -988,7 +985,7 @@ E       	TCP/IP connections on port 5432?
 /opt/venv/lib/python3.8/site-packages/psycopg2/__init__.py:127: OperationalError
 _____________ ERROR at setup of test_address_form_for_country[IE] ______________
 
-self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x70250de17610>
+self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x76c5935aedf0>
 
     @async_unsafe
     def ensure_connection(self):
@@ -1070,7 +1067,7 @@ The above exception was the direct cause of the following exception:
 
 request = <SubRequest 'django_db_setup' for <Function test_address_form_for_country[CN]>>
 django_test_environment = None
-django_db_blocker = <pytest_django.plugin.DjangoDbBlocker object at 0x70251eb7a9a0>
+django_db_blocker = <pytest_django.plugin.DjangoDbBlocker object at 0x76c5a3e5db80>
 django_db_use_migrations = True, django_db_keepdb = False
 django_db_createdb = False, django_db_modify_db_settings = None
 
@@ -1196,7 +1193,7 @@ E       	TCP/IP connections on port 5432?
 /opt/venv/lib/python3.8/site-packages/psycopg2/__init__.py:127: OperationalError
 __________ ERROR at setup of test_address_form_postal_code_validation __________
 
-self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x70250de17610>
+self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x76c5935aedf0>
 
     @async_unsafe
     def ensure_connection(self):
@@ -1278,7 +1275,7 @@ The above exception was the direct cause of the following exception:
 
 request = <SubRequest 'django_db_setup' for <Function test_address_form_for_country[CN]>>
 django_test_environment = None
-django_db_blocker = <pytest_django.plugin.DjangoDbBlocker object at 0x70251eb7a9a0>
+django_db_blocker = <pytest_django.plugin.DjangoDbBlocker object at 0x76c5a3e5db80>
 django_db_use_migrations = True, django_db_keepdb = False
 django_db_createdb = False, django_db_modify_db_settings = None
 
@@ -1404,7 +1401,7 @@ E       	TCP/IP connections on port 5432?
 /opt/venv/lib/python3.8/site-packages/psycopg2/__init__.py:127: OperationalError
 _ ERROR at setup of test_address_form_phone_number_validation[US-123-456-7890-False] _
 
-self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x70250de17610>
+self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x76c5935aedf0>
 
     @async_unsafe
     def ensure_connection(self):
@@ -1486,7 +1483,7 @@ The above exception was the direct cause of the following exception:
 
 request = <SubRequest 'django_db_setup' for <Function test_address_form_for_country[CN]>>
 django_test_environment = None
-django_db_blocker = <pytest_django.plugin.DjangoDbBlocker object at 0x70251eb7a9a0>
+django_db_blocker = <pytest_django.plugin.DjangoDbBlocker object at 0x76c5a3e5db80>
 django_db_use_migrations = True, django_db_keepdb = False
 django_db_createdb = False, django_db_modify_db_settings = None
 
@@ -1612,7 +1609,7 @@ E       	TCP/IP connections on port 5432?
 /opt/venv/lib/python3.8/site-packages/psycopg2/__init__.py:127: OperationalError
 _ ERROR at setup of test_address_form_phone_number_validation[US-(541) 754-3010-True] _
 
-self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x70250de17610>
+self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x76c5935aedf0>
 
     @async_unsafe
     def ensure_connection(self):
@@ -1694,7 +1691,7 @@ The above exception was the direct cause of the following exception:
 
 request = <SubRequest 'django_db_setup' for <Function test_address_form_for_country[CN]>>
 django_test_environment = None
-django_db_blocker = <pytest_django.plugin.DjangoDbBlocker object at 0x70251eb7a9a0>
+django_db_blocker = <pytest_django.plugin.DjangoDbBlocker object at 0x76c5a3e5db80>
 django_db_use_migrations = True, django_db_keepdb = False
 django_db_createdb = False, django_db_modify_db_settings = None
 
@@ -1820,7 +1817,7 @@ E       	TCP/IP connections on port 5432?
 /opt/venv/lib/python3.8/site-packages/psycopg2/__init__.py:127: OperationalError
 _ ERROR at setup of test_address_form_phone_number_validation[FR-0600000000-True] _
 
-self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x70250de17610>
+self = <django.db.backends.postgresql.base.DatabaseWrapper object at 0x76c5935aedf0>
 
     @async_unsafe
     def ensure_connection(self):
@@ -1902,7 +1899,7 @@ The above exception was the direct cause of the following exception:
 
 request = <SubRequest 'django_db_setup' for <Function test_address_form_for_country[CN]>>
 django_test_environment = None
-django_db_blocker = <pytest_django.plugin.DjangoDbBlocker object at 0x70251eb7a9a0>
+django_db_blocker = <pytest_django.plugin.DjangoDbBlocker object at 0x76c5a3e5db80>
 django_db_use_migrations = True, django_db_keepdb = False
 django_db_createdb = False, django_db_modify_db_settings = None
 
@@ -1998,3 +1995,6 @@ kwasync = {}
     
         Using the *connection_factory* parameter a different class or connections
         factory can be specified. It should be a callable object taking a dsn
+        argument.
+    
+        Using the *cursor_factory* parameter, a new default cursor factory will be

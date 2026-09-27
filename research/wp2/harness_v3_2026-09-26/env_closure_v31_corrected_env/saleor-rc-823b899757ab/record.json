@@ -95,12 +95,12 @@
  "pip_check": {
   "rc": 0,
   "ok": true,
-  "text_tail": "Using Python 3.8.20 environment at: /opt/venv\nChecked 202 packages in 5ms\nAll installed packages are compatible\nPIPCHECK_RC=0\n"
+  "text_tail": "Using Python 3.8.20 environment at: /opt/venv\nChecked 198 packages in 5ms\nAll installed packages are compatible\nPIPCHECK_RC=0\n"
  },
  "collect": {
   "rc": 0,
   "ok": true,
-  "text_tail": "f[WebhookSampleEventTypeEnum.CHECKOUT_UPDATED-True]\nsaleor/graphql/webhook/tests/test_webhook.py::test_sample_payload_query_by_staff[WebhookSampleEventTypeEnum.FULFILLMENT_CREATED-False]\nsaleor/graphql/webhook/tests/test_webhook_deprecated_service_account.py::test_webhook_create_by_staff_and_service_account\nsaleor/graphql/webhook/tests/test_webhook_deprecated_service_account.py::test_webhook_create_by_staff_with_inactive_service_account\nsaleor/graphql/webhook/tests/test_webhook_deprecated_service_account.py::test_webhook_create_by_staff_for_sa_without_permission\nsaleor/graphql/webhook/tests/test_webhook_deprecated_service_account.py::test_query_webhooks_with_sort[webhooks_sort0-result_order0]\nsaleor/graphql/webhook/tests/test_webhook_deprecated_service_account.py::test_query_webhooks_with_sort[webhooks_sort1-result_order1]\nsaleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_add_variant_to_anonymous_user\nsaleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_add_variant_to_logged_user\nsaleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_remove_variant_from_anonymous_user\nsaleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_remove_variant_from_logged_user\nsaleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_add_product_to_logged_user\nsaleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_remove_product_from_logged_user\nsaleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_get_items_from_anonymous_user\nsaleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_get_items_from_logged_user\n\n=============================== warnings summary ===============================\nsaleor/settings.py:206\n  /workspace/823b899757ab_v31_new_t/saleor/settings.py:206: UserWarning: SECRET_KEY not configured, using a random temporary key.\n    warnings.warn(\"SECRET_KEY not configured, using a random temporary key.\")\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n2367 tests collected in 1.43s\nCOLLECT_RC=0\n"
+  "text_tail": "f[WebhookSampleEventTypeEnum.CHECKOUT_UPDATED-True]\nsaleor/graphql/webhook/tests/test_webhook.py::test_sample_payload_query_by_staff[WebhookSampleEventTypeEnum.FULFILLMENT_CREATED-False]\nsaleor/graphql/webhook/tests/test_webhook_deprecated_service_account.py::test_webhook_create_by_staff_and_service_account\nsaleor/graphql/webhook/tests/test_webhook_deprecated_service_account.py::test_webhook_create_by_staff_with_inactive_service_account\nsaleor/graphql/webhook/tests/test_webhook_deprecated_service_account.py::test_webhook_create_by_staff_for_sa_without_permission\nsaleor/graphql/webhook/tests/test_webhook_deprecated_service_account.py::test_query_webhooks_with_sort[webhooks_sort0-result_order0]\nsaleor/graphql/webhook/tests/test_webhook_deprecated_service_account.py::test_query_webhooks_with_sort[webhooks_sort1-result_order1]\nsaleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_add_variant_to_anonymous_user\nsaleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_add_variant_to_logged_user\nsaleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_remove_variant_from_anonymous_user\nsaleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_remove_variant_from_logged_user\nsaleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_add_product_to_logged_user\nsaleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_remove_product_from_logged_user\nsaleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_get_items_from_anonymous_user\nsaleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_get_items_from_logged_user\n\n=============================== warnings summary ===============================\nsaleor/settings.py:206\n  /workspace/823b899757ab_v31_new_t/saleor/settings.py:206: UserWarning: SECRET_KEY not configured, using a random temporary key.\n    warnings.warn(\"SECRET_KEY not configured, using a random temporary key.\")\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n2367 tests collected in 1.23s\nCOLLECT_RC=0\n"
  },
  "fixture_preflight": {
   "ok": true,
@@ -113,8 +113,8 @@
  },
  "files": {
   "freeze.txt": {
-   "sha256": "841bc22bf8cf582f1bd67fc59ca5d2903a7bf8325559bf5ae8f2ec21641918dc",
-   "lines": 202
+   "sha256": "3f930aff76dabaa2c3ce34043f9eb4f2dbd31bb5a183cece0e8ffc448212d5ec",
+   "lines": 198
   },
   "pyversion.txt": {
    "sha256": "c84930cd38ee1503d284f4b12b1290e04abf8e37ba8d2904d1a7481bd2fafec8",
@@ -125,23 +125,23 @@
    "lines": 85
   },
   "traceconfig.txt": {
-   "sha256": "037c220a05a22d2d193b26058eea6baf1b103ad2fc7681dea43008b576bb3132",
+   "sha256": "46db96dae639a18a4d69c1fa34ec1561d7d1f64402fc5da509dd7221b58853d9",
    "lines": 2000
   },
   "markers.txt": {
-   "sha256": "48fd49593142ef04f8c8c3064b5b172e9b30c00d9a0eae942512f5fb623c4e6b",
+   "sha256": "b1c27136228d891d6f90385379ad0db4776ac51f963eca92c8f488b3fa075de3",
    "lines": 40
   },
   "pipcheck.txt": {
-   "sha256": "966a7565caa4e443817a713d812d760abe133dc71c080721eced57c847fcbf7a",
+   "sha256": "1686d7992d845959d38ea22c6f7bb801db3cf94a74b8136ddf314fe2975c6c6d",
    "lines": 4
   },
   "collect.txt": {
-   "sha256": "deca640bcfc15783e9e104eae5a28da0157b8de758f674e00fb69e8858d23a44",
+   "sha256": "ad7ec0118ca39b6abc4ff206e8d86034c9b950948b4c81ab08d6e4d797a3078d",
    "lines": 2376
   },
   "fixture_collect.txt": {
-   "sha256": "27f16f7f3481aff1e1f54a3798acf41401e8004c2f39ae3be802b5aa2c7774e7",
+   "sha256": "d347434c7156ebb4b6b5d1cf1819dc0775e8005089d235001f808fd1713b9c79",
    "lines": 2376
   },
   "fixture_preflight.json": {
@@ -149,13 +149,13 @@
    "lines": 1
   },
   "install.log": {
-   "sha256": "1021e08cf89fd68324d36088ccbbbecc21e048eb96cdbf886c3c080c7289340f",
-   "lines": 261
+   "sha256": "d802bac09b290183b4cf71559566161d8ebe08a8132be6ffdcf90180df7c9840",
+   "lines": 245
   }
  },
- "freeze_sha256": "841bc22bf8cf582f1bd67fc59ca5d2903a7bf8325559bf5ae8f2ec21641918dc",
- "freeze_packages": 202,
- "wall_s": 534.6,
+ "freeze_sha256": "3f930aff76dabaa2c3ce34043f9eb4f2dbd31bb5a183cece0e8ffc448212d5ec",
+ "freeze_packages": 198,
+ "wall_s": 488.7,
  "stdout_tail": "POETRY_REQ_MAIN_PLUS_LOCKED_DEV\nCORRECTED_ENV_DONE\n",
  "stderr_tail": "Using Python 3.8.20 environment at: /opt/venv\nUsing Python 3.8.20 environment at: /opt/venv\n"
 }

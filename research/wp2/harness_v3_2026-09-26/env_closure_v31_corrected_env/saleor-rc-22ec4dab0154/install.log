@@ -1,9 +1,9 @@
 Using Python 3.8.20 environment at: /opt/venv
-Resolved 118 packages in 866ms
+Resolved 118 packages in 764ms
 warning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.
          If the cache and target directories are on different filesystems, hardlinking may not be supported.
          If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.
-Installed 118 packages in 5.03s
+Installed 118 packages in 4.10s
  + amqp==2.6.0
  + aniso8601==7.0.0
  + asgiref==3.2.10
@@ -138,21 +138,20 @@ Using Python 3.8.20 environment at: /opt/venv
 
 hint: Wheels are available for `python-magic-bin` (v0.4.14) on the following platforms: `macosx_10_6_intel`, `win32`, `win_amd64`DEV_RETRY_R2 dropped=2
 Using Python 3.8.20 environment at: /opt/venv
-Resolved 90 packages in 21ms
+Resolved 85 packages in 364ms
+Prepared 3 packages in 315ms
 warning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.
          If the cache and target directories are on different filesystems, hardlinking may not be supported.
          If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.
-Installed 70 packages in 1.50s
- + apipkg==1.5
+Installed 65 packages in 1.36s
  + appdirs==1.4.4
  + astroid==2.4.2
- + atomicwrites==1.4.0
- + attrs==19.3.0
+ + attrs==25.3.0
  + beautifultable==0.7.0
  + black==19.10b0
  + cfgv==3.1.0
  + click==7.1.2
- + colorama==0.4.3
+ + colorama==0.4.6
  + coverage==5.2
  + distlib==0.3.1
  + django-debug-toolbar==2.2
@@ -160,27 +159,27 @@ Installed 70 packages in 1.50s
  + django-extensions==3.0.2
  + django-graphiql-debug-toolbar==0.1.4
  + django-stubs==1.2.0
- + execnet==1.7.1
+ + exceptiongroup==1.2.2
  + filelock==3.0.12
  + flake8==3.8.3
  + gitdb==4.0.5
  + gitpython==3.1.3
  + identify==1.4.21
+ + iniconfig==2.1.0
  + isort==4.3.21
  + jinja2==2.11.2
  + lazy-object-proxy==1.4.3
  + markupsafe==1.1.1
  + mccabe==0.6.1
- + more-itertools==8.4.0
  + multidict==4.7.6
  + mypy==0.740
  + mypy-extensions==0.4.3
  + nodeenv==1.4.0
- + packaging==20.4
+ + packaging==26.2
  + pathspec==0.8.0
- + pluggy==0.13.1
+ + pluggy==1.5.0
  + pre-commit==2.6.0
- + py==1.9.0
+ + py==1.11.0
  + pycodestyle==2.6.0
  + pydocstyle==5.0.2
  + pyflakes==2.2.0
@@ -189,14 +188,11 @@ Installed 70 packages in 1.50s
  + pylint-django==2.0.15
  + pylint-plugin-utils==0.6
  + pyparsing==2.4.7
- + pytest==5.4.3
+ + pytest==8.3.5
  + pytest-cov==2.10.0
- + pytest-django==3.9.0
  + pytest-django-queries==1.1.0
- + pytest-forked==1.2.0
  + pytest-mock==3.1.1
  + pytest-vcr==1.0.2
- + pytest-xdist==1.32.0
  + python-slugify==4.0.1
  + pywatchman==1.4.1
  + pyyaml==5.3.1
@@ -204,34 +200,25 @@ Installed 70 packages in 1.50s
  + smmap==3.0.4
  + snowballstemmer==2.0.0
  + toml==0.10.1
+ + tomli==2.4.1
  + tox==3.16.1
  + transifex-client==0.13.10
  + typed-ast==1.4.1
  + typing-extensions==3.7.4.2
  + vcrpy==4.0.2
  + virtualenv==20.0.25
- + wcwidth==0.2.5
  + wrapt==1.12.1
  + yarl==1.4.2
 warning: `tox==3.16.1` is yanked (reason: "wheel file is of the rewrite branch")
 DEV_INSTALL_OK
 Using Python 3.8.20 environment at: /opt/venv
-Resolved 18 packages in 394ms
-Uninstalled 4 packages in 6ms
+Resolved 13 packages in 311ms
 warning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.
          If the cache and target directories are on different filesystems, hardlinking may not be supported.
          If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.
-Installed 9 packages in 80ms
- + exceptiongroup==1.3.1
- + iniconfig==2.1.0
- - pluggy==0.13.1
- + pluggy==1.5.0
- - pytest==5.4.3
- + pytest==8.3.5
- - pytest-django==3.9.0
+Installed 5 packages in 36ms
+ + execnet==2.1.2
  + pytest-django==4.11.1
  + pytest-socket==0.7.0
- + tomli==2.4.1
- - typing-extensions==3.7.4.2
- + typing-extensions==4.13.2
+ + pytest-xdist==3.6.1
  + wheel==0.45.1

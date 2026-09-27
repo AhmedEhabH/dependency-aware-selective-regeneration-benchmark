@@ -91,12 +91,12 @@
  "pip_check": {
   "rc": 0,
   "ok": true,
-  "text_tail": "Using Python 3.8.20 environment at: /opt/venv\nChecked 210 packages in 5ms\nAll installed packages are compatible\nPIPCHECK_RC=0\n"
+  "text_tail": "Using Python 3.8.20 environment at: /opt/venv\nChecked 207 packages in 5ms\nAll installed packages are compatible\nPIPCHECK_RC=0\n"
  },
  "collect": {
   "rc": 0,
   "ok": true,
-  "text_tail": "d\nsaleor/order/tests/test_emails.py::test_send_order_refunded_confirmation\nsaleor/order/tests/test_emails.py::test_send_order_canceled_confirmation\nsaleor/order/tests/test_fulfullments_actions.py::test_create_fulfillments\nsaleor/order/tests/test_fulfullments_actions.py::test_create_fulfillments_without_notification\nsaleor/order/tests/test_fulfullments_actions.py::test_create_fulfillments_many_warehouses\nsaleor/order/tests/test_fulfullments_actions.py::test_create_fulfillments_with_one_line_empty_quantity\nsaleor/order/tests/test_fulfullments_actions.py::test_create_fulfillments_with_variant_without_inventory_tracking\nsaleor/order/tests/test_fulfullments_actions.py::test_create_fulfillments_without_allocations\nsaleor/order/tests/test_fulfullments_actions.py::test_create_fulfillments_warehouse_with_out_of_stock\nsaleor/order/tests/test_fulfullments_actions.py::test_create_fulfillments_warehouse_without_stock\nsaleor/order/tests/test_fulfullments_actions.py::test_create_fulfillments_with_variant_without_inventory_tracking_and_without_stock\nsaleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[5-2-0-3]\nsaleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[2-5-3-0]\nsaleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[2-0-0-2]\nsaleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[5-5-0-0]\nsaleor/order/tests/test_order_utils.py::test_match_orders_with_new_user\nsaleor/order/tests/test_order_utils.py::test_match_draft_order_with_new_user\n\n=============================== warnings summary ===============================\nsaleor/settings.py:207\n  /workspace/644f33094857_v31_new_t/saleor/settings.py:207: UserWarning: SECRET_KEY not configured, using a random temporary key.\n    warnings.warn(\"SECRET_KEY not configured, using a random temporary key.\")\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n3012 tests collected in 2.64s\nCOLLECT_RC=0\n"
+  "text_tail": "d\nsaleor/order/tests/test_emails.py::test_send_order_refunded_confirmation\nsaleor/order/tests/test_emails.py::test_send_order_canceled_confirmation\nsaleor/order/tests/test_fulfullments_actions.py::test_create_fulfillments\nsaleor/order/tests/test_fulfullments_actions.py::test_create_fulfillments_without_notification\nsaleor/order/tests/test_fulfullments_actions.py::test_create_fulfillments_many_warehouses\nsaleor/order/tests/test_fulfullments_actions.py::test_create_fulfillments_with_one_line_empty_quantity\nsaleor/order/tests/test_fulfullments_actions.py::test_create_fulfillments_with_variant_without_inventory_tracking\nsaleor/order/tests/test_fulfullments_actions.py::test_create_fulfillments_without_allocations\nsaleor/order/tests/test_fulfullments_actions.py::test_create_fulfillments_warehouse_with_out_of_stock\nsaleor/order/tests/test_fulfullments_actions.py::test_create_fulfillments_warehouse_without_stock\nsaleor/order/tests/test_fulfullments_actions.py::test_create_fulfillments_with_variant_without_inventory_tracking_and_without_stock\nsaleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[5-2-0-3]\nsaleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[2-5-3-0]\nsaleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[2-0-0-2]\nsaleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[5-5-0-0]\nsaleor/order/tests/test_order_utils.py::test_match_orders_with_new_user\nsaleor/order/tests/test_order_utils.py::test_match_draft_order_with_new_user\n\n=============================== warnings summary ===============================\nsaleor/settings.py:207\n  /workspace/644f33094857_v31_new_t/saleor/settings.py:207: UserWarning: SECRET_KEY not configured, using a random temporary key.\n    warnings.warn(\"SECRET_KEY not configured, using a random temporary key.\")\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n3012 tests collected in 2.32s\nCOLLECT_RC=0\n"
  },
  "fixture_preflight": {
   "ok": true,
@@ -109,8 +109,8 @@
  },
  "files": {
   "freeze.txt": {
-   "sha256": "125a310872fe4459838436a2de005917ce11d3e208740ef95da675b767007cfd",
-   "lines": 210
+   "sha256": "4228b04e916acc49f61df214781bbe321328a7baf169906af36a441e08cdcf0c",
+   "lines": 207
   },
   "pyversion.txt": {
    "sha256": "c84930cd38ee1503d284f4b12b1290e04abf8e37ba8d2904d1a7481bd2fafec8",
@@ -121,23 +121,23 @@
    "lines": 85
   },
   "traceconfig.txt": {
-   "sha256": "d49c014eb16800c8a54edc98a405d6aebbd6a3ef46bb04a1a66834f331b13f32",
+   "sha256": "5cba6cdff57698d71af8edd860d26b746cc7a860565ccc26c78fdb7081da8a32",
    "lines": 2000
   },
   "markers.txt": {
-   "sha256": "48fd49593142ef04f8c8c3064b5b172e9b30c00d9a0eae942512f5fb623c4e6b",
+   "sha256": "b1c27136228d891d6f90385379ad0db4776ac51f963eca92c8f488b3fa075de3",
    "lines": 40
   },
   "pipcheck.txt": {
-   "sha256": "6c6e442aca86538da6b8de0c4bccc1033d42d51a2db3c050022bc2455e411122",
+   "sha256": "c0bab0c3356fd3ab7a48a8d2c7d0b98bfb04cbbd8658e87d820f55b5f6f3d6f6",
    "lines": 4
   },
   "collect.txt": {
-   "sha256": "e57a1d44fb1abdf866598d7d7664168beaf7823869e8fce3a7f1ba1c4e5b3a5d",
+   "sha256": "625a85a033213c82430c5fd9641b6fafaa96190a52dec1f36fbb6d62b2954478",
    "lines": 3021
   },
   "fixture_collect.txt": {
-   "sha256": "d20d75a21da2decce2d40050fd216a27dfc9cd6b2d76e6c2c771be359b2bfb39",
+   "sha256": "9cf11054de3c0a571d05969e0618d5cc495f21409270b8d750130605dd89db98",
    "lines": 3021
   },
   "fixture_preflight.json": {
@@ -145,13 +145,13 @@
    "lines": 1
   },
   "install.log": {
-   "sha256": "f831ea4db3de843ae6fc34d77dd4c35da9a327b801841b347fadd8babddb9081",
-   "lines": 255
+   "sha256": "f97f277db684856e450c2480f147a256812cd73fdb38eed67af6f01ccc2d6b5b",
+   "lines": 242
   }
  },
- "freeze_sha256": "125a310872fe4459838436a2de005917ce11d3e208740ef95da675b767007cfd",
- "freeze_packages": 210,
- "wall_s": 684.5,
+ "freeze_sha256": "4228b04e916acc49f61df214781bbe321328a7baf169906af36a441e08cdcf0c",
+ "freeze_packages": 207,
+ "wall_s": 588.0,
  "stdout_tail": "POETRY_REQ_MAIN_PLUS_LOCKED_DEV\nCORRECTED_ENV_DONE\n",
  "stderr_tail": "Using Python 3.8.20 environment at: /opt/venv\nUsing Python 3.8.20 environment at: /opt/venv\n"
 }

@@ -94,12 +94,12 @@
  "pip_check": {
   "rc": 0,
   "ok": true,
-  "text_tail": "Using Python 3.9.25 environment at: /opt/venv\nChecked 223 packages in 5ms\nAll installed packages are compatible\nPIPCHECK_RC=0\n"
+  "text_tail": "Using Python 3.9.25 environment at: /opt/venv\nChecked 220 packages in 5ms\nAll installed packages are compatible\nPIPCHECK_RC=0\n"
  },
  "collect": {
   "rc": 0,
   "ok": true,
-  "text_tail": "ment/tests/test_payment.py::test_can_authorize\nsaleor/payment/tests/test_payment.py::test_can_capture\nsaleor/payment/tests/test_payment.py::test_can_void\nsaleor/payment/tests/test_payment.py::test_can_refund\nsaleor/payment/tests/test_payment.py::test_payment_get_authorized_amount\nsaleor/payment/tests/test_payment.py::test_validate_gateway_response\nsaleor/payment/tests/test_payment.py::test_validate_gateway_response_incorrect_transaction_kind\nsaleor/payment/tests/test_payment.py::test_validate_gateway_response_not_json_serializable\nsaleor/payment/tests/test_payment.py::test_is_currency_supported[EUR-True]\nsaleor/payment/tests/test_payment.py::test_is_currency_supported[USD-True]\nsaleor/payment/tests/test_payment.py::test_is_currency_supported[PLN-False]\nsaleor/payment/tests/test_payment.py::test_update_payment\nsaleor/payment/tests/test_payment.py::test_payment_owned_by_user_from_order\nsaleor/payment/tests/test_payment.py::test_payment_owned_by_user_from_checkout\nsaleor/payment/tests/test_payment.py::test_payment_is_not_owned_by_user_for_order\nsaleor/payment/tests/test_payment.py::test_payment_is_not_owned_by_user_for_checkout\nsaleor/payment/tests/test_payment.py::test_payment_owned_by_user_anonymous_user\n\n=============================== warnings summary ===============================\nsaleor/settings.py:11\n  /workspace/6abb53f3407b_v31_new_t/saleor/settings.py:11: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.\n    import pkg_resources\n\nsaleor/settings.py:164\n  /workspace/6abb53f3407b_v31_new_t/saleor/settings.py:164: UserWarning: SECRET_KEY not configured, using a random temporary key.\n    warnings.warn(\"SECRET_KEY not configured, using a random temporary key.\")\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n405 tests collected in 0.28s\nCOLLECT_RC=0\n"
+  "text_tail": "ment/tests/test_payment.py::test_can_authorize\nsaleor/payment/tests/test_payment.py::test_can_capture\nsaleor/payment/tests/test_payment.py::test_can_void\nsaleor/payment/tests/test_payment.py::test_can_refund\nsaleor/payment/tests/test_payment.py::test_payment_get_authorized_amount\nsaleor/payment/tests/test_payment.py::test_validate_gateway_response\nsaleor/payment/tests/test_payment.py::test_validate_gateway_response_incorrect_transaction_kind\nsaleor/payment/tests/test_payment.py::test_validate_gateway_response_not_json_serializable\nsaleor/payment/tests/test_payment.py::test_is_currency_supported[EUR-True]\nsaleor/payment/tests/test_payment.py::test_is_currency_supported[USD-True]\nsaleor/payment/tests/test_payment.py::test_is_currency_supported[PLN-False]\nsaleor/payment/tests/test_payment.py::test_update_payment\nsaleor/payment/tests/test_payment.py::test_payment_owned_by_user_from_order\nsaleor/payment/tests/test_payment.py::test_payment_owned_by_user_from_checkout\nsaleor/payment/tests/test_payment.py::test_payment_is_not_owned_by_user_for_order\nsaleor/payment/tests/test_payment.py::test_payment_is_not_owned_by_user_for_checkout\nsaleor/payment/tests/test_payment.py::test_payment_owned_by_user_anonymous_user\n\n=============================== warnings summary ===============================\nsaleor/settings.py:11\n  /workspace/6abb53f3407b_v31_new_t/saleor/settings.py:11: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.\n    import pkg_resources\n\nsaleor/settings.py:164\n  /workspace/6abb53f3407b_v31_new_t/saleor/settings.py:164: UserWarning: SECRET_KEY not configured, using a random temporary key.\n    warnings.warn(\"SECRET_KEY not configured, using a random temporary key.\")\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n405 tests collected in 0.25s\nCOLLECT_RC=0\n"
  },
  "fixture_preflight": {
   "ok": true,
@@ -112,8 +112,8 @@
  },
  "files": {
   "freeze.txt": {
-   "sha256": "7aa24b978741fe67a8940595737f90abebe898e732244e78fcd3fb098a384441",
-   "lines": 223
+   "sha256": "4192525c5a870b890fe9a683e860a8268a57a317e0e420a2a0a22ab10261c8f3",
+   "lines": 220
   },
   "pyversion.txt": {
    "sha256": "46013688dc6816ee6935343b6974f8bd34c0ada4fe43554f5c0a772d7e8f0b1e",
@@ -124,23 +124,23 @@
    "lines": 85
   },
   "traceconfig.txt": {
-   "sha256": "b6f7526d9daeda6bf4db25b37455bf7ea8c690fa43d8e5276ef8c6bb9512ce4a",
+   "sha256": "6c78ef8dd2fcaf941c1fc1119d074890110d0c132cf49ad02f3f769fe4d78544",
    "lines": 2000
   },
   "markers.txt": {
-   "sha256": "2a0cdfe8938155c644a9ff36cbaa483641ed6b3a193571ff5be7806db6e85cda",
+   "sha256": "01a47fc4d6ba19e1c0b5887a8970dd7237eb853cd836d695e4097868da81454b",
    "lines": 40
   },
   "pipcheck.txt": {
-   "sha256": "545956bb71989b5e7787cd3b38921f0b8cff27f35125399a4154286a6e040fdd",
+   "sha256": "7f3535ff815ff49670056482eff05d40bad07a4078f137b779f926031d60eb93",
    "lines": 4
   },
   "collect.txt": {
-   "sha256": "fb8c6cc37f6c8eaa4e333b8b3d49951186ca83785e7f82ee34483d2644914067",
+   "sha256": "d40729da5ff344a86d5b70582957985642355bc4a5cc4098fd5d2ff2add4b3e7",
    "lines": 418
   },
   "fixture_collect.txt": {
-   "sha256": "a18f8dfc3e5f051a25a0d58516b055f2f45c12e63218b68350e09961566d28b6",
+   "sha256": "9da0da225812f5fda9c5a796b4186edea574e73338e4f9b6c8f97d0333189fbe",
    "lines": 418
   },
   "fixture_preflight.json": {
@@ -148,13 +148,13 @@
    "lines": 1
   },
   "install.log": {
-   "sha256": "74e7d5e86191fe5eb7f298700ec8d3c74098674155ff2014647fba357abf4291",
-   "lines": 275
+   "sha256": "1437f5a923856003831170d7aab27bc23906f170f5f939839d1b960c8366e571",
+   "lines": 264
   }
  },
- "freeze_sha256": "7aa24b978741fe67a8940595737f90abebe898e732244e78fcd3fb098a384441",
- "freeze_packages": 223,
- "wall_s": 881.5,
+ "freeze_sha256": "4192525c5a870b890fe9a683e860a8268a57a317e0e420a2a0a22ab10261c8f3",
+ "freeze_packages": 220,
+ "wall_s": 772.5,
  "stdout_tail": "POETRY_REQ_MAIN_PLUS_LOCKED_DEV\nCORRECTED_ENV_DONE\n",
  "stderr_tail": "Using Python 3.9.25 environment at: /opt/venv\nUsing Python 3.9.25 environment at: /opt/venv\n"
 }

@@ -96,7 +96,7 @@
  "pip_check": {
   "rc": 0,
   "ok": true,
-  "text_tail": "Using Python 3.8.20 environment at: /opt/venv\nChecked 194 packages in 4ms\nAll installed packages are compatible\nPIPCHECK_RC=0\n"
+  "text_tail": "Using Python 3.8.20 environment at: /opt/venv\nChecked 189 packages in 6ms\nAll installed packages are compatible\nPIPCHECK_RC=0\n"
  },
  "collect": {
   "rc": 0,
@@ -114,8 +114,8 @@
  },
  "files": {
   "freeze.txt": {
-   "sha256": "ba892eaec044c71e88934f0937bbf0ab5a427724394174a0fe4ce3c69241a44b",
-   "lines": 194
+   "sha256": "dc245ccd3b561baeca0454f65d5f30e1d76783656bd0c2a14ecc6ca052b74927",
+   "lines": 189
   },
   "pyversion.txt": {
    "sha256": "c84930cd38ee1503d284f4b12b1290e04abf8e37ba8d2904d1a7481bd2fafec8",
@@ -126,15 +126,15 @@
    "lines": 85
   },
   "traceconfig.txt": {
-   "sha256": "770f71f58d2245449f72495f00297d46f804e3c86c9667abde374b28de424b3d",
+   "sha256": "5c70715a13fbda101b739011837c017e5fd7ed1735424d807484f0a96e93f078",
    "lines": 2000
   },
   "markers.txt": {
-   "sha256": "cd08a03bf94d7429a56943733ad1c7d3b4da1951a5b1cd0c78a29f6a5ce0d6c1",
+   "sha256": "01a47fc4d6ba19e1c0b5887a8970dd7237eb853cd836d695e4097868da81454b",
    "lines": 40
   },
   "pipcheck.txt": {
-   "sha256": "548df8d314c05dceb08bf41a3ecc4d3899cec1e2a531cef4b3d2fa3611023b83",
+   "sha256": "2378ac352392ef45dc7bee82957444a8ea09cacead5a02fc9ed67492da78d0bf",
    "lines": 4
   },
   "collect.txt": {
@@ -142,7 +142,7 @@
    "lines": 148
   },
   "fixture_collect.txt": {
-   "sha256": "a28e3447bbf47b55eedab6ba814e49e11b4c9472bd863544c67c808d4c0bab08",
+   "sha256": "fa697626049225009a4afd546e522200cff893c79fe5681da8fd309930ce5732",
    "lines": 148
   },
   "fixture_preflight.json": {
@@ -150,13 +150,13 @@
    "lines": 1
   },
   "install.log": {
-   "sha256": "db788ac3dd6ee57beafe893138842ca6ff6d219b2fba51b04c3d2d5b9f177fe5",
-   "lines": 240
+   "sha256": "a6766515280a813292c033891d9b6a6c23ba18d1ed4a5feaee52ea081f5c3a3d",
+   "lines": 223
   }
  },
- "freeze_sha256": "ba892eaec044c71e88934f0937bbf0ab5a427724394174a0fe4ce3c69241a44b",
- "freeze_packages": 194,
- "wall_s": 312.5,
+ "freeze_sha256": "dc245ccd3b561baeca0454f65d5f30e1d76783656bd0c2a14ecc6ca052b74927",
+ "freeze_packages": 189,
+ "wall_s": 295.6,
  "stdout_tail": "POETRY_REQ_MAIN_PLUS_LOCKED_DEV\nCORRECTED_ENV_DONE\n",
  "stderr_tail": "Using Python 3.8.20 environment at: /opt/venv\nUsing Python 3.8.20 environment at: /opt/venv\n"
 }

@@ -1131,16 +1131,16 @@ saleor/graphql/attribute/tests/test_utils.py::test_validate_selectable_attribute
 saleor/graphql/attribute/tests/test_utils.py::test_validate_selectable_attribute_value_required[False-None]
 saleor/graphql/attribute/tests/test_utils.py::test_validate_selectable_attribute_value_required[False-]
 saleor/graphql/attribute/tests/test_utils.py::test_validate_selectable_attribute_value_required[False- ]
-saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes[True-2.560]
-saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes[True-2.561]
-saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes[True-00]
-saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes[True-01]
+saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes[True-2.56_0]
+saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes[True-2.56_1]
+saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes[True-0_0]
+saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes[True-0_1]
 saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes[True--3.5]
 saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes[True--3.6]
-saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes[False-2.560]
-saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes[False-2.561]
-saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes[False-00]
-saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes[False-01]
+saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes[False-2.56_0]
+saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes[False-2.56_1]
+saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes[False-0_0]
+saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes[False-0_1]
 saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes[False--3.5]
 saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes[False--3.6]
 saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes_invalid_number[True-True]
@@ -4879,16 +4879,16 @@ saleor/graphql/product/tests/mutations/test_product_create.py::test_create_produ
 saleor/graphql/product/tests/mutations/test_product_create.py::test_create_product_with_swatch_attribute_existing_value
 saleor/graphql/product/tests/mutations/test_product_create.py::test_create_product_with_swatch_attribute_existing_value_using_values_field
 saleor/graphql/product/tests/mutations/test_product_create.py::test_create_product_with_numeric_attribute_not_numeric_value_given
-saleor/graphql/product/tests/mutations/test_product_create.py::test_create_product_with_weight_variable[0-00]
-saleor/graphql/product/tests/mutations/test_product_create.py::test_create_product_with_weight_variable[0-01]
-saleor/graphql/product/tests/mutations/test_product_create.py::test_create_product_with_weight_variable[11.11-11.110]
+saleor/graphql/product/tests/mutations/test_product_create.py::test_create_product_with_weight_variable[0-0_0]
+saleor/graphql/product/tests/mutations/test_product_create.py::test_create_product_with_weight_variable[0-0_1]
+saleor/graphql/product/tests/mutations/test_product_create.py::test_create_product_with_weight_variable[11.11-11.11_0]
 saleor/graphql/product/tests/mutations/test_product_create.py::test_create_product_with_weight_variable[11-11.0]
-saleor/graphql/product/tests/mutations/test_product_create.py::test_create_product_with_weight_variable[11.11-11.111]
+saleor/graphql/product/tests/mutations/test_product_create.py::test_create_product_with_weight_variable[11.11-11.11_1]
 saleor/graphql/product/tests/mutations/test_product_create.py::test_create_product_with_weight_variable[weight5-11.11]
 saleor/graphql/product/tests/mutations/test_product_create.py::test_create_product_with_weight_variable[weight6-0.011]
 saleor/graphql/product/tests/mutations/test_product_create.py::test_create_product_with_weight_variable[weight7-0.028]
-saleor/graphql/product/tests/mutations/test_product_create.py::test_create_product_with_weight_input[0-00]
-saleor/graphql/product/tests/mutations/test_product_create.py::test_create_product_with_weight_input[0-01]
+saleor/graphql/product/tests/mutations/test_product_create.py::test_create_product_with_weight_input[0-0_0]
+saleor/graphql/product/tests/mutations/test_product_create.py::test_create_product_with_weight_input[0-0_1]
 saleor/graphql/product/tests/mutations/test_product_create.py::test_create_product_with_weight_input[11.11-11.11]
 saleor/graphql/product/tests/mutations/test_product_create.py::test_create_product_with_weight_input[11-11.0]
 saleor/graphql/product/tests/mutations/test_product_create.py::test_create_product_with_weight_input["11.11"-11.11]
@@ -6788,5 +6788,5 @@ saleor/settings.py:199
     warnings.warn("SECRET_KEY not configured, using a random temporary key.")
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-6783 tests collected in 11.04s
+6783 tests collected in 10.98s
 COLLECT_RC=0

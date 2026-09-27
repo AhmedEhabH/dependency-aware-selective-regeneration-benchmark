@@ -1,9 +1,9 @@
 Using Python 3.9.25 environment at: /opt/venv
-Resolved 140 packages in 1.65s
+Resolved 140 packages in 848ms
 warning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.
          If the cache and target directories are on different filesystems, hardlinking may not be supported.
          If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.
-Installed 140 packages in 5.48s
+Installed 140 packages in 4.83s
  + adyen==3.1.0
  + amqp==5.0.2
  + aniso8601==7.0.0
@@ -160,28 +160,19 @@ Using Python 3.9.25 environment at: /opt/venv
 
 hint: Wheels are available for `python-magic-bin` (v0.4.14) on the following platforms: `macosx_10_6_intel`, `win32`, `win_amd64`DEV_RETRY_R2 dropped=2
 Using Python 3.9.25 environment at: /opt/venv
-Resolved 119 packages in 33ms
-   Building lazy-object-proxy==1.4.3
-Downloading faker (1.0MiB)
-Downloading mypy (1.6MiB)
- Downloaded faker
-      Built lazy-object-proxy==1.4.3
- Downloaded mypy
-Prepared 9 packages in 3.18s
-Uninstalled 8 packages in 87ms
+Resolved 116 packages in 269ms
+Uninstalled 8 packages in 83ms
 warning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.
          If the cache and target directories are on different filesystems, hardlinking may not be supported.
          If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.
-Installed 74 packages in 933ms
- + apipkg==1.5
+Installed 71 packages in 1.25s
  + appdirs==1.4.4
  + astroid==2.4.2
- + atomicwrites==1.4.0
- + attrs==20.3.0
+ + attrs==26.1.0
  + beautifultable==0.7.0
  + black==19.10b0
  + cfgv==3.2.0
- + colorama==0.4.4
+ + colorama==0.4.6
  + coverage==5.3
  + distlib==0.3.1
  + django-debug-toolbar==3.2
@@ -191,7 +182,7 @@ Installed 74 packages in 933ms
  - django-storages==1.11
  + django-storages==1.11.1
  + django-stubs==1.2.0
- + execnet==1.7.1
+ + exceptiongroup==1.2.2
  - faker==4.18.0
  + faker==5.3.0
  + filelock==3.0.12
@@ -203,7 +194,7 @@ Installed 74 packages in 933ms
  - google-resumable-media==1.1.0
  + google-resumable-media==1.2.0
  + identify==1.5.10
- + iniconfig==1.1.1
+ + iniconfig==2.1.0
  + isort==4.3.21
  + jinja2==2.11.2
  + lazy-object-proxy==1.4.3
@@ -212,32 +203,30 @@ Installed 74 packages in 933ms
  + multidict==5.1.0
  + mypy==0.740
  + nodeenv==1.5.0
- + packaging==20.7
+ + packaging==26.3
  + pathspec==0.8.1
  - petl==1.6.8
  + petl==1.7.1
  - phonenumberslite==8.12.14
  + phonenumberslite==8.12.15
- + pluggy==0.13.1
+ + pluggy==1.6.0
  + pre-commit==2.9.3
- + py==1.9.0
+ + py==1.11.0
  + pycodestyle==2.6.0
  + pydocstyle==5.1.1
  + pyflakes==2.2.0
+ + pygments==2.21.0
  + pylint==2.6.0
  + pylint-celery==0.3
  + pylint-django==2.3.0
  + pylint-plugin-utils==0.6
  + pyparsing==2.4.7
- + pytest==6.1.2
+ + pytest==8.4.2
  + pytest-celery==0.0.0a1
  + pytest-cov==2.10.1
- + pytest-django==4.1.0
  + pytest-django-queries==1.1.0
- + pytest-forked==1.3.0
  + pytest-mock==3.3.1
  + pytest-vcr==1.0.2
- + pytest-xdist==1.34.0
  + python-slugify==4.0.1
  + pywatchman==1.4.1
  + regex==2020.11.13
@@ -246,6 +235,7 @@ Installed 74 packages in 933ms
  + smmap==3.0.4
  + snowballstemmer==2.0.0
  + toml==0.10.2
+ + tomli==2.4.1
  + tox==3.20.1
  - tqdm==4.54.1
  + tqdm==4.55.1
@@ -258,26 +248,16 @@ Installed 74 packages in 933ms
 warning: `pytest-celery==0.0.0a1` is yanked (reason: "Deprecated alpha release")
 DEV_INSTALL_OK
 Using Python 3.9.25 environment at: /opt/venv
-Resolved 19 packages in 547ms
-Uninstalled 6 packages in 27ms
+Resolved 14 packages in 319ms
+Uninstalled 1 package in 18ms
 warning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.
          If the cache and target directories are on different filesystems, hardlinking may not be supported.
          If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.
-Installed 11 packages in 418ms
- + exceptiongroup==1.3.1
- - packaging==20.7
- + packaging==26.3
- - pluggy==0.13.1
- + pluggy==1.6.0
- + pygments==2.21.0
- - pytest==6.1.2
- + pytest==8.4.2
- - pytest-django==4.1.0
+Installed 6 packages in 403ms
+ + execnet==2.1.2
  + pytest-django==4.11.1
  + pytest-socket==0.7.0
+ + pytest-xdist==3.8.0
  - setuptools==82.0.1
  + setuptools==80.10.2
- + tomli==2.4.1
- - typing-extensions==3.7.4.3
- + typing-extensions==4.16.0
  + wheel==0.48.0
