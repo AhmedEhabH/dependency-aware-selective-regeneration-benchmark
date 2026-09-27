@@ -42,6 +42,7 @@ from benchmark.wp2.harness_v3 import (  # noqa: E402
     remove_worktrees_v3,
     run_state_v3,
     target_manifests,
+    v31_dev_closure,
 )
 from benchmark.wp2.oracle_semantics_v2 import classify_node_v2  # noqa: E402
 from benchmark.wp2.oracle_semantics_v2 import (  # noqa: E402
@@ -260,6 +261,14 @@ def run_task(task_id: str, out_root: Path) -> dict:
                                "post": (clock.get("post") or {}).get("median_skew_s")},
             "C4_EFFECTIVE_WORKERS": 1,
             "db_names": {"t": tgt.get("db_name"), "p": par.get("db_name")},
+            "main_recipe_signature": _sha256({"install_mode": install_mode,
+                                              "lockfile_sha256": lockfile_sha256(manifests)}),
+            "dev_test_closure": {
+                "mechanism": v31_dev_closure(task_id).get("mechanism"),
+                "n_pins": len(v31_dev_closure(task_id).get("pins", [])),
+                "pins_sha256": v31_dev_closure(task_id).get("pins_sha256"),
+                "n_unsupported": len(v31_dev_closure(task_id).get("unsupported", [])),
+            },
         },
     }
     result["evidence_sha256"] = _sha256(result)

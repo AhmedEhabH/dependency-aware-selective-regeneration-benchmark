@@ -66,6 +66,7 @@ from benchmark.wp2.harness_v3 import (  # noqa: E402
     lockfile_sha256,
     remove_worktrees_v3,
     target_manifests,
+    v31_dev_closure,
     wsl,
     wsl_docker,
 )
@@ -567,6 +568,10 @@ def _attempt_unit(*, task_id: str, cap: int, node_ids: list[str], era_key: str,
         "install_evidence": install_evidence,
         "img_id": img_id,
         "lockfile_sha256": lock_sha,
+        "main_recipe_signature": _sha256({
+            "fragment": install_t, "install_mode": install_mode,
+            "lockfile_sha256": lock_sha}),
+        "dev_test_closure": _dev_closure_brief(task_id),
     }
 
 
@@ -628,6 +633,8 @@ def execute_cap(task_id: str, cap: int, node_ids: list[str], discovery: dict) ->
                 "pytest_flags": PYTEST_FLAGS,
                 "reps": REPS,
                 "junit_dir": f"p2pu_v3_junit/{task_id}/cap{cap}",
+                "main_recipe_signature": _sha256({"install_mode": "not-run"}),
+                "dev_test_closure": _dev_closure_brief(task_id),
                 "clock_pre_post": clock_pre_post,
                 "collection_session_abort": {"t": [], "p": []},
                 "workers": 1,
@@ -685,6 +692,8 @@ def execute_cap(task_id: str, cap: int, node_ids: list[str], discovery: dict) ->
             "reps": REPS,
             "db_names": {"t": attempt_result["db_t"], "p": attempt_result["db_p"]},
             "junit_dir": f"p2pu_v3_junit/{task_id}/cap{cap}",
+            "main_recipe_signature": attempt_result["main_recipe_signature"],
+            "dev_test_closure": attempt_result["dev_test_closure"],
             "clock_pre_post": clock_pre_post,
             "collection_session_abort": {"t": attempt_result["abort_t"],
                                          "p": attempt_result["abort_p"]},
@@ -702,6 +711,13 @@ def execute_cap(task_id: str, cap: int, node_ids: list[str], discovery: dict) ->
 # ---------------------------------------------------------------------------
 # Evidence + resume (H5), progress (H7), helpers
 # ---------------------------------------------------------------------------
+def _dev_closure_brief(task_id: str) -> dict:
+    c = v31_dev_closure(task_id)
+    return {"mechanism": c.get("mechanism"), "n_pins": len(c.get("pins", [])),
+            "pins_sha256": c.get("pins_sha256"), "n_unsupported": len(c.get("unsupported", [])),
+            "vcr_family_present": c.get("vcr_family_present", [])}
+
+
 def _write_unit_result(result: dict) -> dict:
     (OUT_ROOT / f"p2pu_v3_eng_{result['task_id']}_cap{result['cap']}.json").write_text(
         json.dumps(result, indent=1, ensure_ascii=False), encoding="utf-8")
@@ -794,6 +810,8 @@ def build_undefined_result(task_id: str, cap: int, discovery: dict) -> dict:
             "pytest_flags": PYTEST_FLAGS,
             "reps": REPS,
             "junit_dir": f"p2pu_v3_junit/{task_id}/cap{cap}",
+            "main_recipe_signature": _sha256({"install_mode": "not-run"}),
+            "dev_test_closure": _dev_closure_brief(task_id),
             "workers": 1,
         },
     }

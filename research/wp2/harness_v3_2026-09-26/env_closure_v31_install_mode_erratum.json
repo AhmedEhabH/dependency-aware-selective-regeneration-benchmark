@@ -1,0 +1,23 @@
+{
+  "artifact": "env_closure_v31_install_mode_erratum",
+  "supersedes_note": "Corrective provenance erratum. Does NOT modify prior evidence files; it records that earlier V3 evidence carried a misleading install_mode label.",
+  "created_utc": "2026-09-27",
+  "issue": "Earlier V3 evidence (P2P-U cap200/cap400 and C4 records) recorded install_mode LOCK_EXACT_MAIN_PLUS_DEV (and V2_MAIN_PLUS_EXACT_LOCKED_DEV) while the actual task environment omitted historically-declared DEV/TEST packages. The poetry.lock 'category'/'groups' dev/test set was not installed because (a) the has_poetry+has_req install path installs requirements.txt main pins only, and (b) the modern poetry.lock (>=1.1) carries no per-package group metadata, so the legacy parser derived an empty dev set.",
+  "affected_evidence": {
+    "tasks_with_missing_fixture": [
+      "saleor-rc-22ec4dab0154", "saleor-rc-644f33094857", "saleor-rc-6abb53f3407b",
+      "saleor-rc-823b899757ab", "saleor-rc-82c56bde0e34", "saleor-rc-93b20d78c011",
+      "saleor-rc-e03ee76d2b89"
+    ],
+    "count_queries_lost_nodes": 144,
+    "mocker_lost_nodes": 20,
+    "evidence_refs": [
+      "research/wp2/harness_v3_2026-09-26/dev_deps_gap_audit.json",
+      "research/wp2/harness_v3_2026-09-26/p2pu_v3_eng_*.json"
+    ]
+  },
+  "corrected_behavior": {
+    "install_mode_labels_now_accurate": true,
+    "note": "Env Closure V3.1 makes the install_mode label truthful: main recipe unchanged + exact historical DEV/TEST closure derived by rule (benchmark.wp2.dep_compiler) and installed as the additive supplement. install_mode still reflects the frozen semantic (LOCK_EXACT_MAIN_PLUS_DEV / V2_MAIN_PLUS_EXACT_LOCKED_DEV / uv), and the per-unit manifest now records main_recipe_signature + dev_test_closure{pins_sha256, n_pins} as ACTUAL-EFFECTIVE evidence (E3.6/E3.8)."
+  }
+}

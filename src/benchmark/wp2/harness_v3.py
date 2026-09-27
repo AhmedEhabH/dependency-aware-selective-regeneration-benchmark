@@ -45,6 +45,8 @@ from scripts.wp2_linux_dryrun import (
     wsl_docker,
 )
 
+PROJECT = Path(__file__).resolve().parents[3]
+
 HARNESS_V3_VERSION = "wp2-harness-v3-2026-09-26"
 NOFILE_SOFT = 65536
 NOFILE_HARD = 65536
@@ -313,7 +315,10 @@ def lockfile_sha256(manifests: dict[str, str]) -> str:
     return "none-lockfile"
 
 
-LOCKED_DEV_DEPS: dict[str, tuple[str, ...]] = {
+LEGACY_EXPECTED_DEV_DEPS: dict[str, tuple[str, ...]] = {
+    # Env Closure V3.1 (E3.2): kept ONLY as legacy evidence / regression oracle.
+    # The PRIMARY runtime dev/test mechanism is now the rule-based compiler
+    # (v31_dev_closure / locked_dev_install). Do not extend this dict.
     "saleor-rc-c3b9e396b07d": ("pytest-django-queries==1.2.0", "pytest-mock==3.6.1"),
     "saleor-rc-e25cf9b4a837": ("pytest-django-queries==1.1.0", "pytest-mock==3.2.0"),
     "saleor-rc-74538ea00ce9": ("pytest-django-queries==1.2.0", "pytest-mock==3.14.0",
@@ -324,13 +329,75 @@ LOCKED_DEV_DEPS: dict[str, tuple[str, ...]] = {
                                "pytest-recording==0.12.2", "pytest-asyncio==0.20.3"),
 }
 
+_DEV_CLOSURE_CACHE: dict[str, dict] = {}
+
+
+def _era_for(task_id: str) -> str | None:
+    inv = json.loads((PROJECT / "research" / "wp2" /
+                      "wp2_dev_unchanged_p2p_candidate_inventory_v1_2026-09-25.json").read_text(encoding="utf-8"))
+    for r in inv.get("tasks", []):
+        if r["task_id"] == task_id:
+            return r.get("era_key")
+    return None
+
+
+def v31_dev_closure(task_id: str) -> dict:
+    """Rule-based exact historical DEV/TEST closure for a task (V3.1, E3.1).
+
+    Derived from TARGET-commit evidence by the dependency compiler; never
+    task-ID branches. Cached per task within a run.
+    """
+    if task_id in _DEV_CLOSURE_CACHE:
+        return _DEV_CLOSURE_CACHE[task_id]
+    from benchmark.wp2.dep_compiler import (
+        PYTHON_VERSION_BY_ERA,
+        derive_dev_test_closure,
+        vcr_family_present,
+    )
+
+    census = json.loads((PROJECT / "research" / "wp2" / "oracle_confirmation_linux_v2_2026-09-23" /
+                         "dev_census_2026-09-23.json").read_text(encoding="utf-8"))
+    target = next((t["target_commit"] for t in census.get("tasks", [])
+                   if t["task_id"] == task_id), None)
+    era = _era_for(task_id)
+    closure = {
+        "task_id": task_id,
+        "mechanism": "none",
+        "pins": [],
+        "unsupported": [],
+        "records": [],
+        "python_version": PYTHON_VERSION_BY_ERA.get(era or "", "3.11"),
+        "era_key": era,
+    }
+    if target is None:
+        closure["note"] = "task not in census"
+        _DEV_CLOSURE_CACHE[task_id] = closure
+        return closure
+    manifests = target_manifests(target)
+    if not manifests:
+        closure["note"] = "no target manifests found"
+        _DEV_CLOSURE_CACHE[task_id] = closure
+        return closure
+    derived = derive_dev_test_closure(manifests,
+                                      python_version=closure["python_version"])
+    closure.update(derived)
+    closure["pins_sha256"] = sha256_json(closure.get("pins", []))
+    closure["vcr_family_present"] = vcr_family_present(closure.get("pins", []))
+    _DEV_CLOSURE_CACHE[task_id] = closure
+    return closure
+
 
 def locked_dev_install(task_id: str) -> str:
-    """Exact locked dev/test group install fragment (Phase-1E authority)."""
-    pkgs = LOCKED_DEV_DEPS.get(task_id, ())
-    if not pkgs:
+    """Exact historical DEV/TEST closure install fragment (V3.1 rule-based).
+
+    MAIN is never touched here; this is the ADDITIVE dev/test supplement.
+    Unsupported-source packages are never guessed and simply not pinned.
+    """
+    closure = v31_dev_closure(task_id)
+    pins = closure.get("pins", [])
+    if not pins:
         return "echo NO_LOCKED_DEV_GROUP"
-    return "uv pip install --python /opt/venv/bin/python " + " ".join(pkgs)
+    return "uv pip install --python /opt/venv/bin/python " + " ".join(pins)
 
 
 # ---------------------------------------------------------------------------
