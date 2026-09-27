@@ -1,0 +1,44 @@
+{
+ "task_id": "saleor-rc-39b4138e8550",
+ "era_key": "py312",
+ "target_commit": "39b4138e85500065175d94d5d5b50fc2f4eabd2d",
+ "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+ "install_fragment": "cd /workspace/39b4138e8550_v31_old_t && uv export --frozen --group dev | uv pip install -r - --python /opt/venv/bin/python >/tmp/install.log 2>&1 || { echo INSTALL_MAIN_FAIL; tail -120 /tmp/install.log; exit 2; }; echo UV_EXPORT_FROZEN_GROUP_DEV",
+ "dev_fragment": "echo NO_LOCKED_DEV_GROUP",
+ "container_rc": 0,
+ "old_env_repro_status": "OK",
+ "files": {
+  "freeze.txt": {
+   "sha256": "86c0a17ac16ad6683429fc5ede67bf284d9642043c9ef86df9abe2a9c6fa363c",
+   "lines": 236
+  },
+  "pyversion.txt": {
+   "sha256": "4c3569f5da09975434dd9fd9a91fadbc4367a91d8f3c3fab59e9241ab9ee4bd8",
+   "lines": 1
+  },
+  "pytestversion.txt": {
+   "sha256": "b2e1053958c9395fa5cc8f621e613449d36f3cdddc21c7bbba2364493e225064",
+   "lines": 1
+  },
+  "traceconfig.txt": {
+   "sha256": "eff121d23ab070a856510e8e6bdd05baf0eedd9f3b9475c839b0aec71184d94a",
+   "lines": 6955332,
+   "full_sha256_before_truncation": "28d57351dd5da9c673135992c8c510ffda89f0ac7f1805a91ad2ce38b9252d14",
+   "truncated_to_lines": 2000
+  },
+  "markers.txt": {
+   "sha256": "f6121ad6404dc787dd24bcce5413368b1e3b773550c98e4c901f3ebc332f6157",
+   "lines": 58
+  },
+  "install.log": {
+   "sha256": "2e7a4cc892993597ac86549e9bf907e78797bea19c356722d90d78da2bada6e9",
+   "lines": 252
+  }
+ },
+ "freeze_sha256": "86c0a17ac16ad6683429fc5ede67bf284d9642043c9ef86df9abe2a9c6fa363c",
+ "freeze_packages": 236,
+ "wall_s": 2580.7,
+ "stdout_tail": "UV_EXPORT_FROZEN_GROUP_DEV\nOLD_ENV_DONE\n",
+ "stderr_tail": "Using Python 3.12.14 environment at: /opt/venv\n",
+ "traceconfig_truncated": true
+}
