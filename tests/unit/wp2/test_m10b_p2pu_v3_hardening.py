@@ -391,7 +391,25 @@ def test_h6_is_collection_abort_detector() -> None:
 # H7 - chunk control: --max-units 0 lists the 32-unit plan
 # ---------------------------------------------------------------------------
 def test_h7_max_units_zero_lists_plan(monkeypatch: pytest.MonkeyPatch,
-                                      capsys: pytest.CaptureFixture[str]) -> None:
+                                      capsys: pytest.CaptureFixture[str],
+                                      tmp_path: Path) -> None:
+    # deterministic fake state: 16 union tasks, 9258154b8a0b has 0 candidates
+    ids = [
+        "saleor-rc-22ec4dab0154", "saleor-rc-2d45b76a52f2", "saleor-rc-39b4138e8550",
+        "saleor-rc-644f33094857", "saleor-rc-6abb53f3407b", "saleor-rc-74538ea00ce9",
+        "saleor-rc-823b899757ab", "saleor-rc-82c56bde0e34", "saleor-rc-8f76ddc6267f",
+        "saleor-rc-9258154b8a0b", "saleor-rc-93b20d78c011", "saleor-rc-c3b9e396b07d",
+        "saleor-rc-d220843b5418", "saleor-rc-dc6ac9d252df", "saleor-rc-e03ee76d2b89",
+        "saleor-rc-e25cf9b4a837",
+    ]
+    (tmp_path / "eng_v3_oracle_ready.json").write_text(json.dumps(
+        {"oracle_valid_union_task_ids": ids}), encoding="utf-8")
+    for tid in ids:
+        n = 0 if tid == "saleor-rc-9258154b8a0b" else 3
+        (tmp_path / f"p2pu_v3_rediscovery_{tid}.json").write_text(json.dumps(
+            {"v3_selection": {"cap200_node_ids": list(range(n)),
+                              "cap400_node_ids": list(range(n))}}), encoding="utf-8")
+    monkeypatch.setattr(mod, "OUT_ROOT", tmp_path)
     monkeypatch.setattr("sys.argv", ["wp2_m10b_p2pu_v3_eng.py", "--all-tasks", "--max-units", "0"])
     rc = main()
     out = capsys.readouterr().out

@@ -381,10 +381,18 @@ def v31_dev_closure(task_id: str) -> dict:
     derived = derive_dev_test_closure(manifests,
                                       python_version=closure["python_version"])
     closure.update(derived)
+    if "poetry.lock" in manifests:
+        closure["lock_text"] = manifests["poetry.lock"]
     closure["pins_sha256"] = sha256_json(closure.get("pins", []))
     closure["vcr_family_present"] = vcr_family_present(closure.get("pins", []))
     _DEV_CLOSURE_CACHE[task_id] = closure
     return closure
+
+
+HARNESS_TOOLING_NAMES = {
+    "pytest", "pytest-django", "pytest-socket", "pytest-xdist",
+    "billiard", "setuptools", "wheel",
+}
 
 
 def locked_dev_install(task_id: str) -> str:
@@ -392,16 +400,20 @@ def locked_dev_install(task_id: str) -> str:
 
     MAIN is never touched here. The fragment freezes the ACTUAL main-recipe
     result, then installs every exact LOCKED pin not already provided by it
-    (so no transitive can upgrade a main package). Exact pins that are
-    genuinely unavailable (removed from the index / no matching Linux wheel)
-    are dropped and reported as DEV_RETRY evidence -- never guessed.
-    uv-era tasks install the dev group through the frozen uv export and get a
-    no-op supplement.
+    (so no transitive can upgrade a main package) and not belonging to the
+    frozen Harness tooling closure (so the tooling pytest stack is never
+    downgraded). Exact pins that are genuinely unavailable (removed from the
+    index / no matching Linux wheel) are dropped and reported as DEV_RETRY
+    evidence -- never guessed. uv-era tasks install the dev group through the
+    frozen uv export and get a no-op supplement.
     """
     closure = v31_dev_closure(task_id)
     if closure.get("mechanism") in ("uv", "none", "requirements"):
         return "echo NO_LOCKED_DEV_GROUP"
+    lock_text = closure.get("lock_text") or ""
     all_pins = (closure.get("all_locked_pins") or {}).get("pins", [])
+    from benchmark.wp2.dep_compiler import exclude_tooling_pins
+    all_pins = exclude_tooling_pins(all_pins, lock_text, HARNESS_TOOLING_NAMES)
     if not all_pins:
         return "echo NO_LOCKED_DEV_GROUP"
     pins_str = " ".join(all_pins)

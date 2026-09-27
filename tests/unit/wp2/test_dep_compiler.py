@@ -220,6 +220,29 @@ def test_vcr_family_detection() -> None:
     assert vcr_family_present(["pytest==7.0.1"]) == []
 
 
+# E3.3 regression: harness tooling + transitives must be excluded from the
+# historical dev/test closure so the frozen tooling pytest stack is not
+# downgraded.
+def test_exclude_tooling_pins() -> None:
+    from benchmark.wp2.dep_compiler import exclude_tooling_pins
+
+    lock = _lock(
+        # pytest depends on pluggy + iniconfig (transitive)
+        '[[package]]\nname = "pytest"\nversion = "7.4.0"\ncategory = "dev"\n'
+        '[package.dependencies]\npluggy = ">=0.12"\niniconfig = "*"\n',
+        '[[package]]\nname = "pluggy"\nversion = "1.2.0"\ncategory = "main"\n',
+        '[[package]]\nname = "iniconfig"\nversion = "2.0.0"\ncategory = "main"\n',
+        '[[package]]\nname = "pytest-django-queries"\nversion = "1.1.0"\ncategory = "dev"\n',
+    )
+    pins = ["pytest==7.4.0", "pluggy==1.2.0", "iniconfig==2.0.0",
+            "pytest-django-queries==1.1.0"]
+    kept = exclude_tooling_pins(pins, lock, {"pytest", "pytest-django", "pytest-socket"})
+    assert "pytest==7.4.0" not in kept
+    assert "pluggy==1.2.0" not in kept  # transitive dep of pytest
+    assert "iniconfig==2.0.0" not in kept
+    assert kept == ["pytest-django-queries==1.1.0"]
+
+
 # E2.10 real-lock regression (fixture lock sample from legacy Saleor)
 def test_real_legacy_lock_22ec() -> None:
     snippet = """

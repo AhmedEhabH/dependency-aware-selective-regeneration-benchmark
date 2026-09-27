@@ -407,3 +407,15 @@ def vcr_family_present(pins: list[str]) -> list[str]:
         if name in VCR_FAMILY:
             found.append(name)
     return found
+
+
+def exclude_tooling_pins(pins: list[str], lock_text: str,
+                         tooling_names: set[str]) -> list[str]:
+    """Drop harness-tooling packages and their transitive deps from a pin list.
+
+    The frozen Harness tooling (pytest, pytest-django, pytest-socket,
+    pytest-xdist, ...) is installed separately by TOOLING_INSTALL at pinned
+    versions; the historical dev/test closure must not downgrade it.
+    """
+    excluded = _reachable_from(tooling_names, lock_text)
+    return [p for p in pins if normalize_pkg_name(p.split("==")[0]) not in excluded]
