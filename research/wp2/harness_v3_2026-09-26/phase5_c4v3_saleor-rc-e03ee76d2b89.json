@@ -25,10 +25,10 @@
  "classification": "BEHAVIORAL_F2P",
  "n_nodes": 32,
  "n_test_files": 1,
- "wall_s": 339.6,
+ "wall_s": 376.5,
  "operations": {
-  "target_wall_s": 163.0,
-  "parent_wall_s": 339.6,
+  "target_wall_s": 203.5,
+  "parent_wall_s": 376.5,
   "target_error": null,
   "parent_error": null
  },
@@ -488,20 +488,27 @@
   "era": "py39",
   "frozen_base_image_id": "sha256:ddc08d7e685517764dfa2606a760d5b3f09d57840d8a0bbcef366db67cd99ef8",
   "harness_v3_version": "wp2-harness-v3-2026-09-26",
-  "runner_sha": "6b610bbda3a7f087aeeab3279d724f703d207acf",
+  "runner_sha": "2b1f714020ff5344f0889bc2be28d81b6450ca70",
   "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
   "lockfile_sha256": "9f7bbbb8b2824c1a11b778d64209dd50d10a9c58d1dc56552acd9fa40277df95",
   "nofile_soft": 65536,
   "nofile_hard": 65536,
   "clock_pre_post": {
-   "pre": -0.002103,
+   "pre": -0.688179,
    "post": null
   },
-  "worker_count": 2,
+  "C4_EFFECTIVE_WORKERS": 1,
   "db_names": {
    "t": "saleor_v3_e03ee76d2b89_t",
    "p": "saleor_v3_e03ee76d2b89_p"
+  },
+  "main_recipe_signature": "1a801de1e638ab14c8ecc1d3a6f68dc44109754d8e8bfaa93509d41adfd8abcb",
+  "dev_test_closure": {
+   "mechanism": "poetry",
+   "n_pins": 75,
+   "pins_sha256": "9cd1fb44a6b594bf0b8b1fa0420cace6e9f00faee3fb36cd426d6e73f0af8888",
+   "n_unsupported": 0
   }
  },
- "evidence_sha256": "2d554bfbff88b12eb6cafad36caa78b2fb03d52efad9daba7361dd9bc736e2ae"
+ "evidence_sha256": "ef9d31d4f9a44eebe26641fde5c89c1f62937ce959142c0e131fb52340c09ab8"
 }

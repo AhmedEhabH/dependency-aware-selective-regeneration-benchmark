@@ -1,0 +1,143 @@
+{
+ "task_id": "saleor-rc-823b899757ab",
+ "status": "DONE",
+ "era_key": "py38",
+ "target_commit": "823b899757ab225af966156cbfec481a2b23b56e",
+ "counts": {
+  "BEHAVIORAL_F2P": 6,
+  "SYMBOL_ABSENCE_F2P": 0,
+  "PARENT_COLLECTION_ERROR": 0,
+  "FLAKY": 0,
+  "TARGET_ORACLE_INVALID": 0,
+  "P2P_ONLY": 0,
+  "OTHER_REVIEW_REQUIRED": 0
+ },
+ "eligibility": {
+  "PRIMARY_BEHAVIORAL_F2P_ELIGIBLE": true,
+  "EXTENDED_F2P_ELIGIBLE": true,
+  "n_behavioral_f2p": 6,
+  "n_symbol_absence_f2p": 0,
+  "n_parent_collection_error": 0,
+  "environment_valid": true,
+  "task_collection_failure": false,
+  "semantics_version": "oracle-semantics-v2-2026-09-23"
+ },
+ "classification": "BEHAVIORAL_F2P",
+ "n_nodes": 6,
+ "n_test_files": 1,
+ "wall_s": 120.5,
+ "operations": {
+  "target_wall_s": 59.6,
+  "parent_wall_s": 120.5,
+  "target_error": null,
+  "parent_error": null
+ },
+ "node_records": [
+  {
+   "node_id": "saleor/graphql/product/tests/test_product_set_availability_for_purchase.py::test_product_set_availability_for_purchase_by_app",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product_set_availability_for_purchase.py::test_product_set_availability_for_purchase_by_app_no_permissions",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product_set_availability_for_purchase.py::test_product_set_availability_for_purchase_by_customer",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product_set_availability_for_purchase.py::test_product_set_availability_for_purchase_by_staff",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product_set_availability_for_purchase.py::test_product_set_availability_for_purchase_by_staff_no_permissions",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/test_product_set_availability_for_purchase.py::test_product_set_availability_for_purchase_is_available_false_and_start_date_given",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  }
+ ],
+ "manifest": {
+  "task_id": "saleor-rc-823b899757ab",
+  "target_commit": "823b899757ab225af966156cbfec481a2b23b56e",
+  "era": "py38",
+  "frozen_base_image_id": "sha256:1cc60658b6a282c3bfe7c42312478a1983950927d348b47dce99e1a58e7a8c60",
+  "harness_v3_version": "wp2-harness-v3-2026-09-26",
+  "runner_sha": "6b610bbda3a7f087aeeab3279d724f703d207acf",
+  "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+  "lockfile_sha256": "bd3ad667f803c0488ae806cf4f2ab2b4ba1ded0f4e35641f800fcf77f9205e56",
+  "nofile_soft": 65536,
+  "nofile_hard": 65536,
+  "clock_pre_post": {
+   "pre": 0.12897,
+   "post": null
+  },
+  "C4_EFFECTIVE_WORKERS": 1,
+  "db_names": {
+   "t": "saleor_v3_823b899757ab_t",
+   "p": "saleor_v3_823b899757ab_p"
+  }
+ },
+ "evidence_sha256": "cda50951c4a1f852d9a8bf5a73289d4d6aacd014fb75d323ba4378baacff63c5"
+}

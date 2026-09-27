@@ -4,18 +4,18 @@
  "era_key": "py39",
  "target_commit": "82c56bde0e3422112e9d990f22c7843f59f726e7",
  "counts": {
-  "BEHAVIORAL_F2P": 11,
+  "BEHAVIORAL_F2P": 12,
   "SYMBOL_ABSENCE_F2P": 0,
   "PARENT_COLLECTION_ERROR": 0,
   "FLAKY": 1,
   "TARGET_ORACLE_INVALID": 10,
-  "P2P_ONLY": 175,
+  "P2P_ONLY": 174,
   "OTHER_REVIEW_REQUIRED": 0
  },
  "eligibility": {
   "PRIMARY_BEHAVIORAL_F2P_ELIGIBLE": true,
   "EXTENDED_F2P_ELIGIBLE": true,
-  "n_behavioral_f2p": 11,
+  "n_behavioral_f2p": 12,
   "n_symbol_absence_f2p": 0,
   "n_parent_collection_error": 0,
   "environment_valid": true,
@@ -25,10 +25,10 @@
  "classification": "BEHAVIORAL_F2P",
  "n_nodes": 197,
  "n_test_files": 5,
- "wall_s": 582.7,
+ "wall_s": 746.7,
  "operations": {
-  "target_wall_s": 290.7,
-  "parent_wall_s": 582.7,
+  "target_wall_s": 378.5,
+  "parent_wall_s": 746.7,
   "target_error": null,
   "parent_error": null
  },
@@ -1617,16 +1617,16 @@
   },
   {
    "node_id": "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_append_checkout_details",
-   "v3_class": "P2P_ONLY",
+   "v3_class": "BEHAVIORAL_F2P",
    "target_outcomes": [
     "passed",
     "passed",
     "passed"
    ],
    "parent_outcomes": [
-    "passed",
-    "passed",
-    "passed"
+    "failed",
+    "failed",
+    "failed"
    ]
   },
   {
@@ -2798,20 +2798,27 @@
   "era": "py39",
   "frozen_base_image_id": "sha256:ddc08d7e685517764dfa2606a760d5b3f09d57840d8a0bbcef366db67cd99ef8",
   "harness_v3_version": "wp2-harness-v3-2026-09-26",
-  "runner_sha": "6b610bbda3a7f087aeeab3279d724f703d207acf",
+  "runner_sha": "2b1f714020ff5344f0889bc2be28d81b6450ca70",
   "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
   "lockfile_sha256": "6c6d111a919a667196075eeb84b030b95d1344996b1440cc17e34443a6fa9dba",
   "nofile_soft": 65536,
   "nofile_hard": 65536,
   "clock_pre_post": {
-   "pre": 0.014242,
+   "pre": -0.546148,
    "post": null
   },
-  "worker_count": 2,
+  "C4_EFFECTIVE_WORKERS": 1,
   "db_names": {
    "t": "saleor_v3_82c56bde0e34_t",
    "p": "saleor_v3_82c56bde0e34_p"
+  },
+  "main_recipe_signature": "605fcac713083b84124b692ac6d6af76eb4fe79b7ec52f5daa1d920a3dcd77b4",
+  "dev_test_closure": {
+   "mechanism": "poetry",
+   "n_pins": 74,
+   "pins_sha256": "ecc1759c33fe95089f319203b9127ae8f38cfb1653bfff8c9cf94c4d1ee536d5",
+   "n_unsupported": 0
   }
  },
- "evidence_sha256": "5ecf1c588e532fb6eda093677c071b4b6fd0b83ddb6fb5de5ba68147fc6c2645"
+ "evidence_sha256": "4ecef9dac09044ba7882e15f1c62f125ac699d2e2932d706554a49b748aff1f1"
 }

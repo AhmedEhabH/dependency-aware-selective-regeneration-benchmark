@@ -8,8 +8,8 @@
   "SYMBOL_ABSENCE_F2P": 0,
   "PARENT_COLLECTION_ERROR": 0,
   "FLAKY": 0,
-  "TARGET_ORACLE_INVALID": 0,
-  "P2P_ONLY": 248,
+  "TARGET_ORACLE_INVALID": 6,
+  "P2P_ONLY": 242,
   "OTHER_REVIEW_REQUIRED": 0
  },
  "eligibility": {
@@ -25,10 +25,10 @@
  "classification": "BEHAVIORAL_F2P",
  "n_nodes": 252,
  "n_test_files": 4,
- "wall_s": 279.8,
+ "wall_s": 293.6,
  "operations": {
-  "target_wall_s": 141.9,
-  "parent_wall_s": 279.8,
+  "target_wall_s": 145.8,
+  "parent_wall_s": 293.6,
   "target_error": null,
   "parent_error": null
  },
@@ -203,44 +203,44 @@
   },
   {
    "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_complete_confirmation_needed",
-   "v3_class": "P2P_ONLY",
+   "v3_class": "TARGET_ORACLE_INVALID",
    "target_outcomes": [
-    "passed",
-    "passed",
-    "passed"
+    "error",
+    "error",
+    "error"
    ],
    "parent_outcomes": [
-    "passed",
-    "passed",
-    "passed"
+    "error",
+    "error",
+    "error"
    ]
   },
   {
    "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_complete_does_not_delete_checkout_after_unsuccessful_payment[_process_payment_raise_error]",
-   "v3_class": "P2P_ONLY",
+   "v3_class": "TARGET_ORACLE_INVALID",
    "target_outcomes": [
-    "passed",
-    "passed",
-    "passed"
+    "error",
+    "error",
+    "error"
    ],
    "parent_outcomes": [
-    "passed",
-    "passed",
-    "passed"
+    "error",
+    "error",
+    "error"
    ]
   },
   {
    "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_complete_does_not_delete_checkout_after_unsuccessful_payment[_process_payment_transaction_returns_error]",
-   "v3_class": "P2P_ONLY",
+   "v3_class": "TARGET_ORACLE_INVALID",
    "target_outcomes": [
-    "passed",
-    "passed",
-    "passed"
+    "error",
+    "error",
+    "error"
    ],
    "parent_outcomes": [
-    "passed",
-    "passed",
-    "passed"
+    "error",
+    "error",
+    "error"
    ]
   },
   {
@@ -385,16 +385,16 @@
   },
   {
    "node_id": "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_confirm",
-   "v3_class": "P2P_ONLY",
+   "v3_class": "TARGET_ORACLE_INVALID",
    "target_outcomes": [
-    "passed",
-    "passed",
-    "passed"
+    "error",
+    "error",
+    "error"
    ],
    "parent_outcomes": [
-    "passed",
-    "passed",
-    "passed"
+    "error",
+    "error",
+    "error"
    ]
   },
   {
@@ -1561,16 +1561,16 @@
   },
   {
    "node_id": "saleor/graphql/payment/tests/test_payment.py::test_list_payment_sources",
-   "v3_class": "P2P_ONLY",
+   "v3_class": "TARGET_ORACLE_INVALID",
    "target_outcomes": [
-    "passed",
-    "passed",
-    "passed"
+    "error",
+    "error",
+    "error"
    ],
    "parent_outcomes": [
-    "passed",
-    "passed",
-    "passed"
+    "error",
+    "error",
+    "error"
    ]
   },
   {
@@ -1785,16 +1785,16 @@
   },
   {
    "node_id": "saleor/graphql/payment/tests/test_payment.py::test_stored_payment_sources_restriction",
-   "v3_class": "P2P_ONLY",
+   "v3_class": "TARGET_ORACLE_INVALID",
    "target_outcomes": [
-    "passed",
-    "passed",
-    "passed"
+    "error",
+    "error",
+    "error"
    ],
    "parent_outcomes": [
-    "passed",
-    "passed",
-    "passed"
+    "error",
+    "error",
+    "error"
    ]
   },
   {
@@ -3568,20 +3568,27 @@
   "era": "py38",
   "frozen_base_image_id": "sha256:1cc60658b6a282c3bfe7c42312478a1983950927d348b47dce99e1a58e7a8c60",
   "harness_v3_version": "wp2-harness-v3-2026-09-26",
-  "runner_sha": "6b610bbda3a7f087aeeab3279d724f703d207acf",
+  "runner_sha": "2b1f714020ff5344f0889bc2be28d81b6450ca70",
   "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
   "lockfile_sha256": "34e14f947b1f5bc18cb26fb67179dee20bbd2ec5c71f1f250921a48845ec981d",
   "nofile_soft": 65536,
   "nofile_hard": 65536,
   "clock_pre_post": {
-   "pre": 0.019039,
+   "pre": -0.148554,
    "post": null
   },
-  "worker_count": 2,
+  "C4_EFFECTIVE_WORKERS": 1,
   "db_names": {
    "t": "saleor_v3_e25cf9b4a837_t",
    "p": "saleor_v3_e25cf9b4a837_p"
+  },
+  "main_recipe_signature": "194f72a4de24ac2d983774c355a9834885ce020a9d84b4d66259d700c85250c8",
+  "dev_test_closure": {
+   "mechanism": "poetry",
+   "n_pins": 71,
+   "pins_sha256": "0f9fd2db3bdb7cf4346bef7319aa0a889783740a3883d72469c6022e23d9d25f",
+   "n_unsupported": 0
   }
  },
- "evidence_sha256": "fdaf66e09f3e691e3202eca76580cb6d328bd7df150d5a576440166d913a61ba"
+ "evidence_sha256": "78c972ca897d4d188152a90ff2f8084c84c5ed6a88d7c408478cad14aad3614e"
 }

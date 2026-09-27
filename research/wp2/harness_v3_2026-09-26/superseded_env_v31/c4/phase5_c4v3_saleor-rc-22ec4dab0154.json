@@ -1,0 +1,255 @@
+{
+ "task_id": "saleor-rc-22ec4dab0154",
+ "status": "DONE",
+ "era_key": "py38",
+ "target_commit": "22ec4dab015451edfe1e579cee1bdb47731ebc3e",
+ "counts": {
+  "BEHAVIORAL_F2P": 0,
+  "SYMBOL_ABSENCE_F2P": 12,
+  "PARENT_COLLECTION_ERROR": 0,
+  "FLAKY": 0,
+  "TARGET_ORACLE_INVALID": 0,
+  "P2P_ONLY": 2,
+  "OTHER_REVIEW_REQUIRED": 0
+ },
+ "eligibility": {
+  "PRIMARY_BEHAVIORAL_F2P_ELIGIBLE": false,
+  "EXTENDED_F2P_ELIGIBLE": true,
+  "n_behavioral_f2p": 0,
+  "n_symbol_absence_f2p": 12,
+  "n_parent_collection_error": 0,
+  "environment_valid": true,
+  "task_collection_failure": false,
+  "semantics_version": "oracle-semantics-v2-2026-09-23"
+ },
+ "classification": "NOT_PRIMARY",
+ "n_nodes": 14,
+ "n_test_files": 3,
+ "wall_s": 180.0,
+ "operations": {
+  "target_wall_s": 85.2,
+  "parent_wall_s": 180.0,
+  "target_error": null,
+  "parent_error": null
+ },
+ "node_records": [
+  {
+   "node_id": "saleor/graphql/invoice/tests/test_invoice_create.py::test_create_invoice",
+   "v3_class": "SYMBOL_ABSENCE_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/invoice/tests/test_invoice_create.py::test_create_invoice_empty_params",
+   "v3_class": "SYMBOL_ABSENCE_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/invoice/tests/test_invoice_create.py::test_create_invoice_for_draft_order",
+   "v3_class": "SYMBOL_ABSENCE_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/invoice/tests/test_invoice_create.py::test_create_invoice_invalid_id",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/invoice/tests/test_invoice_create.py::test_create_invoice_no_billing_address",
+   "v3_class": "SYMBOL_ABSENCE_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/invoice/tests/test_invoice_request.py::test_invoice_request",
+   "v3_class": "SYMBOL_ABSENCE_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/invoice/tests/test_invoice_request.py::test_invoice_request_draft_order",
+   "v3_class": "SYMBOL_ABSENCE_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/invoice/tests/test_invoice_request.py::test_invoice_request_invalid_order",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/invoice/tests/test_invoice_request.py::test_invoice_request_no_billing_address",
+   "v3_class": "SYMBOL_ABSENCE_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/invoice/tests/test_invoice_request.py::test_invoice_request_no_number",
+   "v3_class": "SYMBOL_ABSENCE_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/invoice/tests/test_send_invoice_email.py::test_invoice_send_email",
+   "v3_class": "SYMBOL_ABSENCE_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/invoice/tests/test_send_invoice_email.py::test_invoice_send_email_pending",
+   "v3_class": "SYMBOL_ABSENCE_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/invoice/tests/test_send_invoice_email.py::test_invoice_send_email_without_email",
+   "v3_class": "SYMBOL_ABSENCE_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/invoice/tests/test_send_invoice_email.py::test_invoice_send_email_without_url_and_number",
+   "v3_class": "SYMBOL_ABSENCE_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  }
+ ],
+ "manifest": {
+  "task_id": "saleor-rc-22ec4dab0154",
+  "target_commit": "22ec4dab015451edfe1e579cee1bdb47731ebc3e",
+  "era": "py38",
+  "frozen_base_image_id": "sha256:1cc60658b6a282c3bfe7c42312478a1983950927d348b47dce99e1a58e7a8c60",
+  "harness_v3_version": "wp2-harness-v3-2026-09-26",
+  "runner_sha": "6b610bbda3a7f087aeeab3279d724f703d207acf",
+  "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+  "lockfile_sha256": "e0394a9ed46e517cfa7bc0466f8b3ca72585039a9a639a689182477e9e951e49",
+  "nofile_soft": 65536,
+  "nofile_hard": 65536,
+  "clock_pre_post": {
+   "pre": 0.160608,
+   "post": null
+  },
+  "worker_count": 2,
+  "db_names": {
+   "t": "saleor_v3_22ec4dab0154_t",
+   "p": "saleor_v3_22ec4dab0154_p"
+  }
+ },
+ "evidence_sha256": "25eeb7940b1baef5c869baedf5f9d79ec54d2b29511a7782caefb46a37933cbe"
+}

@@ -1,0 +1,185 @@
+{
+ "task_id": "saleor-rc-8f76ddc6267f",
+ "status": "DONE",
+ "era_key": "py39",
+ "target_commit": "8f76ddc6267f6ddcdc6078f2a4a098bbb971b23b",
+ "counts": {
+  "BEHAVIORAL_F2P": 1,
+  "SYMBOL_ABSENCE_F2P": 0,
+  "PARENT_COLLECTION_ERROR": 0,
+  "FLAKY": 0,
+  "TARGET_ORACLE_INVALID": 0,
+  "P2P_ONLY": 8,
+  "OTHER_REVIEW_REQUIRED": 0
+ },
+ "eligibility": {
+  "PRIMARY_BEHAVIORAL_F2P_ELIGIBLE": true,
+  "EXTENDED_F2P_ELIGIBLE": true,
+  "n_behavioral_f2p": 1,
+  "n_symbol_absence_f2p": 0,
+  "n_parent_collection_error": 0,
+  "environment_valid": true,
+  "task_collection_failure": false,
+  "semantics_version": "oracle-semantics-v2-2026-09-23"
+ },
+ "classification": "BEHAVIORAL_F2P",
+ "n_nodes": 9,
+ "n_test_files": 1,
+ "wall_s": 294.1,
+ "operations": {
+  "target_wall_s": 151.6,
+  "parent_wall_s": 294.1,
+  "target_error": null,
+  "parent_error": null
+ },
+ "node_records": [
+  {
+   "node_id": "saleor/graphql/webhook/tests/mutations/test_webhook_dry_run.py::test_webhook_dry_run",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/webhook/tests/mutations/test_webhook_dry_run.py::test_webhook_dry_run_event_type_not_supported",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/webhook/tests/mutations/test_webhook_dry_run.py::test_webhook_dry_run_invalid_query",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/webhook/tests/mutations/test_webhook_dry_run.py::test_webhook_dry_run_missing_user_permission",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/webhook/tests/mutations/test_webhook_dry_run.py::test_webhook_dry_run_non_existing_id",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/webhook/tests/mutations/test_webhook_dry_run.py::test_webhook_dry_run_object_id_does_not_match_event",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/webhook/tests/mutations/test_webhook_dry_run.py::test_webhook_dry_run_root_type",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/webhook/tests/mutations/test_webhook_dry_run.py::test_webhook_dry_run_root_type_for_transaction_item_metadata_updated",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/webhook/tests/mutations/test_webhook_dry_run.py::test_webhook_dry_run_staff_user_not_authorized",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  }
+ ],
+ "manifest": {
+  "task_id": "saleor-rc-8f76ddc6267f",
+  "target_commit": "8f76ddc6267f6ddcdc6078f2a4a098bbb971b23b",
+  "era": "py39",
+  "frozen_base_image_id": "sha256:ddc08d7e685517764dfa2606a760d5b3f09d57840d8a0bbcef366db67cd99ef8",
+  "harness_v3_version": "wp2-harness-v3-2026-09-26",
+  "runner_sha": "6b610bbda3a7f087aeeab3279d724f703d207acf",
+  "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+  "lockfile_sha256": "73bcec151da722dc17bdb020c7f8342db00bb1006245a1d41255b12bf62860f4",
+  "nofile_soft": 65536,
+  "nofile_hard": 65536,
+  "clock_pre_post": {
+   "pre": 0.02466,
+   "post": null
+  },
+  "worker_count": 2,
+  "db_names": {
+   "t": "saleor_v3_8f76ddc6267f_t",
+   "p": "saleor_v3_8f76ddc6267f_p"
+  }
+ },
+ "evidence_sha256": "bdae80b2b25d77094a7b2becadf1ab166f652343dd43f697419f5ebb8f6433ba"
+}

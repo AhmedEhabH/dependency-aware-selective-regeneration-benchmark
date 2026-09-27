@@ -1,0 +1,62 @@
+{
+ "task_id": "saleor-rc-9258154b8a0b",
+ "era_key": "py39",
+ "target_commit": "9258154b8a0b117df3829eb99734eb78ce33f8c8",
+ "rediscovery_version": "p2p-u-v3-eng-rediscovery-2026-09-26",
+ "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+ "collect_rc": 0,
+ "n_associated_files": 860,
+ "n_collect_files": 629,
+ "candidate_node_ids": [],
+ "wall_s": 41.0,
+ "rediscovery_sha256": "c8d48de71f0c5abfb25a9189ab232bbd00a593958cca0ebb69cbbf6ad6c525cf",
+ "v3_selection": {
+  "cap200_node_ids": [],
+  "cap400_node_ids": [],
+  "proximal_nodes": [],
+  "distal_nodes": [],
+  "composition_cap200": {
+   "n_total": 0,
+   "n_proximal": 0,
+   "n_distal": 0
+  },
+  "composition_cap400": {
+   "n_total": 0,
+   "n_proximal": 0,
+   "n_distal": 0
+  },
+  "proximity_by_file": {},
+  "unknown_touched_paths": [
+   "CHANGELOG.md"
+  ],
+  "n_known_touched_paths": 6
+ },
+ "proximity_equivalence_v2": {
+  "task_id": "saleor-rc-9258154b8a0b",
+  "ok": true,
+  "unknown_touched_equal": true,
+  "n_known_touched_equal": true,
+  "shared_files": 0,
+  "proximity_diffs": {},
+  "v2_n_known": 6,
+  "v3_n_known": 6,
+  "v2_unknown": [
+   "CHANGELOG.md"
+  ],
+  "v3_unknown": [
+   "CHANGELOG.md"
+  ]
+ },
+ "membership_diff": {
+  "v2_cap200": [],
+  "v3_cap200": [],
+  "v2_cap400": [],
+  "v3_cap400": [],
+  "cap200_intersection": [],
+  "cap200_additions": [],
+  "cap200_removals": [],
+  "cap400_intersection": [],
+  "cap400_additions": [],
+  "cap400_removals": []
+ }
+}

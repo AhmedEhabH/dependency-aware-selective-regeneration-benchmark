@@ -8,8 +8,8 @@
   "SYMBOL_ABSENCE_F2P": 0,
   "PARENT_COLLECTION_ERROR": 0,
   "FLAKY": 0,
-  "TARGET_ORACLE_INVALID": 0,
-  "P2P_ONLY": 52,
+  "TARGET_ORACLE_INVALID": 1,
+  "P2P_ONLY": 51,
   "OTHER_REVIEW_REQUIRED": 0
  },
  "eligibility": {
@@ -25,10 +25,10 @@
  "classification": "BEHAVIORAL_F2P",
  "n_nodes": 56,
  "n_test_files": 4,
- "wall_s": 483.2,
+ "wall_s": 571.6,
  "operations": {
-  "target_wall_s": 244.0,
-  "parent_wall_s": 483.2,
+  "target_wall_s": 284.8,
+  "parent_wall_s": 571.6,
   "target_error": null,
   "parent_error": null
  },
@@ -413,11 +413,11 @@
   },
   {
    "node_id": "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_gift_promotion",
-   "v3_class": "P2P_ONLY",
+   "v3_class": "TARGET_ORACLE_INVALID",
    "target_outcomes": [
-    "passed",
-    "passed",
-    "passed"
+    "failed",
+    "failed",
+    "failed"
    ],
    "parent_outcomes": [
     "passed",
@@ -824,20 +824,27 @@
   "era": "py312",
   "frozen_base_image_id": "sha256:0c185699947d75d5866e57dfb10bba25cca05dc58ca3fd2f75446ee8b0e41394",
   "harness_v3_version": "wp2-harness-v3-2026-09-26",
-  "runner_sha": "6b610bbda3a7f087aeeab3279d724f703d207acf",
-  "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+  "runner_sha": "25b4fbd83f5578b38421d5cc2671b632d682c754",
+  "install_mode": "V2_MAIN_PLUS_EXACT_LOCKED_DEV",
   "lockfile_sha256": "95884b5108283b7929da9adf82afde2532d5de6eb7ef58287cac067154298137",
   "nofile_soft": 65536,
   "nofile_hard": 65536,
   "clock_pre_post": {
-   "pre": 0.117984,
+   "pre": -0.681594,
    "post": null
   },
-  "worker_count": 2,
+  "C4_EFFECTIVE_WORKERS": 1,
   "db_names": {
    "t": "saleor_v3_74538ea00ce9_t",
    "p": "saleor_v3_74538ea00ce9_p"
+  },
+  "main_recipe_signature": "6a59de0fd625d465a9e4ceb07b024a014fc6001990ebafead53bafaec8ac6ff3",
+  "dev_test_closure": {
+   "mechanism": "poetry",
+   "n_pins": 37,
+   "pins_sha256": "ca92e25857f4109a73de9628a4bc33b9d7c25e0eae68b289d772329bf45b2834",
+   "n_unsupported": 0
   }
  },
- "evidence_sha256": "ad1a05c89ea709feabe8505b08b62aa90e549f05888d763d4092ec74507b5691"
+ "evidence_sha256": "ae45dba9fd6f104dcfab969fe0989cfd21a9387dca6fdf1dc2d78f0a3a43ffa6"
 }
