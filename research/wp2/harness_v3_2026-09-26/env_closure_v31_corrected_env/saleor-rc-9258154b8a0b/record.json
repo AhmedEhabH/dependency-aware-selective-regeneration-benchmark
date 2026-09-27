@@ -1,0 +1,165 @@
+{
+ "task_id": "saleor-rc-9258154b8a0b",
+ "era_key": "py39",
+ "target_commit": "9258154b8a0b117df3829eb99734eb78ce33f8c8",
+ "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+ "install_fragment": "uv pip install --python /opt/venv/bin/python -r /workspace/9258154b8a0b_v31_new_t/requirements.txt >/tmp/install.log 2>&1 || { echo INSTALL_MAIN_FAIL; tail -120 /tmp/install.log; exit 2; }; echo POETRY_REQ_MAIN_PLUS_LOCKED_DEV",
+ "dev_pins": [
+  "astroid==2.15.6",
+  "attrs==23.1.0",
+  "beautifultable==0.7.0",
+  "before-after==1.0.1",
+  "black==23.7.0",
+  "cfgv==3.4.0",
+  "coverage==7.3.0",
+  "dill==0.3.7",
+  "distlib==0.3.7",
+  "django-debug-toolbar==4.2.0",
+  "django-debug-toolbar-request-history==0.1.4",
+  "django-extensions==3.2.3",
+  "django-graphiql-debug-toolbar==0.2.0",
+  "django-stubs==1.16.0",
+  "execnet==2.0.2",
+  "fakeredis==2.18.0",
+  "filelock==3.12.2",
+  "flake8==4.0.1",
+  "graphene-django==2.16.0",
+  "identify==2.5.26",
+  "iniconfig==2.0.0",
+  "isort==5.12.0",
+  "jinja2==3.1.2",
+  "lazy-object-proxy==1.9.0",
+  "markupsafe==2.1.3",
+  "mccabe==0.6.1",
+  "mock==1.0.1",
+  "multidict==6.0.4",
+  "mypy==1.4.1",
+  "mypy-extensions==1.0.0",
+  "nodeenv==1.8.0",
+  "pathspec==0.11.2",
+  "platformdirs==3.10.0",
+  "pluggy==1.2.0",
+  "pre-commit==3.3.3",
+  "pycodestyle==2.8.0",
+  "pydocstyle==6.3.0",
+  "pyflakes==2.4.0",
+  "pylint==2.17.5",
+  "pylint-celery==0.3",
+  "pylint-django==2.5.3",
+  "pylint-plugin-utils==0.8.2",
+  "pytest==7.4.0",
+  "pytest-asyncio==0.21.1",
+  "pytest-celery==0.0.0",
+  "pytest-cov==4.1.0",
+  "pytest-django==4.5.2",
+  "pytest-django-queries==1.2.0",
+  "pytest-mock==3.11.1",
+  "pytest-recording==0.12.2",
+  "pytest-socket==0.6.0",
+  "pytest-xdist==3.3.1",
+  "pywatchman==1.4.1",
+  "singledispatch==4.0.0",
+  "snowballstemmer==2.2.0",
+  "sortedcontainers==2.4.0",
+  "tomli==2.0.1",
+  "tomlkit==0.12.1",
+  "types-certifi==2021.10.8.3",
+  "types-freezegun==1.1.10",
+  "types-mock==5.1.0.1",
+  "types-pkg-resources==0.1.3",
+  "types-pyopenssl==23.2.0.2",
+  "types-python-dateutil==2.8.19.14",
+  "types-pytz==2023.3.0.1",
+  "types-pyyaml==6.0.12.11",
+  "types-redis==4.6.0.4",
+  "types-requests==2.31.0.2",
+  "types-six==1.16.21.9",
+  "types-urllib3==1.26.25.14",
+  "vcrpy==4.4.0",
+  "virtualenv==20.24.3",
+  "wrapt==1.15.0",
+  "yarl==1.9.2"
+ ],
+ "dev_all_locked_n": 233,
+ "dev_pins_unavailable": [
+  "python-magic-bin==0.4.14"
+ ],
+ "dev_test_closure": {
+  "mechanism": "poetry",
+  "n_pins": 74,
+  "pins_sha256": "ecc1759c33fe95089f319203b9127ae8f38cfb1653bfff8c9cf94c4d1ee536d5",
+  "unsupported": [],
+  "vcr_family_present": [
+   "pytest-recording",
+   "pytest-socket",
+   "vcrpy"
+  ]
+ },
+ "container_rc": 0,
+ "pip_check": {
+  "rc": 0,
+  "ok": true,
+  "text_tail": "Using Python 3.9.25 environment at: /opt/venv\nChecked 233 packages in 5ms\nAll installed packages are compatible\nPIPCHECK_RC=0\n"
+ },
+ "collect": {
+  "rc": 0,
+  "ok": true,
+  "text_tail": "hook_validators.py::test_webhook_validator[headers3-Header must consist of strings.]\nsaleor/webhook/tests/test_webhook_validators.py::test_webhook_validator[headers4-Key \"ke:y\" contains invalid character.]\nsaleor/webhook/tests/test_webhook_validators.py::test_webhook_validator[headers5-Value \"Val:ue\" contains invalid character.]\nsaleor/webhook/tests/test_webhook_validators.py::test_webhook_validator[headers6-Header with key: \"Key\" exceeds the limit of characters: 998.]\nsaleor/webhook/tests/test_webhook_validators.py::test_webhook_validator[headers7-\"ABCX-Key\" does not match allowed key pattern: \"X-*\" or \"Authorization*\".]\nsaleor/webhook/tests/test_webhook_validators.py::test_webhook_validator[headers8-\"ABCAuthorization-Key\" does not match allowed key pattern: \"X-*\" or \"Authorization*\".]\nsaleor/webhook/tests/test_webhook_validators.py::test_webhook_header_name_case_insensitive[X-Key]\nsaleor/webhook/tests/test_webhook_validators.py::test_webhook_header_name_case_insensitive[x-keY]\nsaleor/webhook/tests/test_webhook_validators.py::test_webhook_header_name_case_insensitive[AuthoriZAtionKey]\nsaleor/webhook/tests/test_webhook_validators.py::test_webhook_header_name_case_insensitive[authorization]\nsaleor/graphql/checkout/tests/mutations/test_checkout_complete_with_payment.py::test_checkout_complete_payment_create_create_run_in_meantime\nsaleor/graphql/meta/tests/mutations/test_update_metadata.py::test_update_public_metadata_for_item_on_deleted_instance\nsaleor/graphql/product/tests/mutations/test_product_media_reorder.py::test_reorder_not_existing_media\n\n=============================== warnings summary ===============================\nsaleor/settings.py:200\n  /workspace/9258154b8a0b_v31_new_t/saleor/settings.py:200: UserWarning: SECRET_KEY not configured, using a random temporary key.\n    warnings.warn(\"SECRET_KEY not configured, using a random temporary key.\")\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n8253 tests collected in 15.51s\nCOLLECT_RC=0\n"
+ },
+ "fixture_preflight": {
+  "ok": true,
+  "n_checked": 8253,
+  "n_unresolved": 0,
+  "unresolved": {}
+ },
+ "vcr_preflight": {
+  "unresolved": []
+ },
+ "files": {
+  "freeze.txt": {
+   "sha256": "8fce3ab991a43073719f033aa557e264294051ae075afac4e01614cac28a2783",
+   "lines": 233
+  },
+  "pyversion.txt": {
+   "sha256": "46013688dc6816ee6935343b6974f8bd34c0ada4fe43554f5c0a772d7e8f0b1e",
+   "lines": 1
+  },
+  "pytestversion.txt": {
+   "sha256": "dc90a7143f92c23d13c20cc7502a71ef13df4173be7b8c95b1e21545a1fc02fe",
+   "lines": 77
+  },
+  "traceconfig.txt": {
+   "sha256": "ea65f5f696dc49200ce33b75074bb2a7c1ee79c0b719a8c84d2cd03be68894a4",
+   "lines": 2000
+  },
+  "markers.txt": {
+   "sha256": "976f95429e57b0e5788f3eed49a20e1bc502ad8bfb990776e9ee026d8757ef76",
+   "lines": 52
+  },
+  "pipcheck.txt": {
+   "sha256": "17135cef1836ff664e10908110f83d8f1ac37cfb694ced520315afeef8aa2d21",
+   "lines": 4
+  },
+  "collect.txt": {
+   "sha256": "9fe0fe9ab05c4fe211c21a02b990224bc1a318a35038ca625e3c45eed5d8d1d6",
+   "lines": 8262
+  },
+  "fixture_collect.txt": {
+   "sha256": "2d7a3b16ce7d36f4f680fa7e3567d167daa4a2af9274f66a86464809e0e1c23b",
+   "lines": 8262
+  },
+  "fixture_preflight.json": {
+   "sha256": "1921f7a3dab620aeddda8d0cc7da56aa97421df06829063ae913884baa71c908",
+   "lines": 1
+  },
+  "install.log": {
+   "sha256": "2609b3390261dbcdbd58df576678a7783b11eabc0dd255974007d72ea12e659d",
+   "lines": 285
+  }
+ },
+ "freeze_sha256": "8fce3ab991a43073719f033aa557e264294051ae075afac4e01614cac28a2783",
+ "freeze_packages": 233,
+ "wall_s": 1709.9,
+ "stdout_tail": "POETRY_REQ_MAIN_PLUS_LOCKED_DEV\nCORRECTED_ENV_DONE\n",
+ "stderr_tail": "Using Python 3.9.25 environment at: /opt/venv\nUsing Python 3.9.25 environment at: /opt/venv\n"
+}

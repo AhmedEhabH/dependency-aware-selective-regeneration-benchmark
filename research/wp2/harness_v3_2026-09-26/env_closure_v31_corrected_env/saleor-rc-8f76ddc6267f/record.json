@@ -1,0 +1,166 @@
+{
+ "task_id": "saleor-rc-8f76ddc6267f",
+ "era_key": "py39",
+ "target_commit": "8f76ddc6267f6ddcdc6078f2a4a098bbb971b23b",
+ "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+ "install_fragment": "uv pip install --python /opt/venv/bin/python -r /workspace/8f76ddc6267f_v31_new_t/requirements.txt >/tmp/install.log 2>&1 || { echo INSTALL_MAIN_FAIL; tail -120 /tmp/install.log; exit 2; }; echo POETRY_REQ_MAIN_PLUS_LOCKED_DEV",
+ "dev_pins": [
+  "astroid==2.15.5",
+  "attrs==23.1.0",
+  "beautifultable==0.7.0",
+  "before-after==1.0.1",
+  "black==23.3.0",
+  "cfgv==3.3.1",
+  "coverage==7.2.6",
+  "dill==0.3.6",
+  "distlib==0.3.6",
+  "django-debug-toolbar==4.1.0",
+  "django-debug-toolbar-request-history==0.1.4",
+  "django-extensions==3.2.1",
+  "django-graphiql-debug-toolbar==0.2.0",
+  "django-stubs==1.16.0",
+  "execnet==1.9.0",
+  "fakeredis==2.13.0",
+  "filelock==3.12.0",
+  "flake8==4.0.1",
+  "graphene-django==2.16.0",
+  "identify==2.5.24",
+  "iniconfig==2.0.0",
+  "isort==5.12.0",
+  "jinja2==3.1.2",
+  "lazy-object-proxy==1.9.0",
+  "markupsafe==2.1.2",
+  "mccabe==0.6.1",
+  "mock==1.0.1",
+  "multidict==6.0.4",
+  "mypy==1.3.0",
+  "mypy-extensions==1.0.0",
+  "nodeenv==1.8.0",
+  "packaging==23.1",
+  "pathspec==0.11.1",
+  "platformdirs==3.5.1",
+  "pluggy==1.0.0",
+  "pre-commit==3.3.2",
+  "pycodestyle==2.8.0",
+  "pydocstyle==6.3.0",
+  "pyflakes==2.4.0",
+  "pylint==2.17.4",
+  "pylint-celery==0.3",
+  "pylint-django==2.5.3",
+  "pylint-plugin-utils==0.8.2",
+  "pytest==7.3.1",
+  "pytest-asyncio==0.20.3",
+  "pytest-celery==0.0.0",
+  "pytest-cov==4.1.0",
+  "pytest-django==4.5.2",
+  "pytest-django-queries==1.2.0",
+  "pytest-mock==3.10.0",
+  "pytest-recording==0.12.2",
+  "pytest-socket==0.6.0",
+  "pytest-xdist==3.3.1",
+  "pywatchman==1.4.1",
+  "singledispatch==4.0.0",
+  "snowballstemmer==2.2.0",
+  "sortedcontainers==2.4.0",
+  "tomli==2.0.1",
+  "tomlkit==0.11.8",
+  "types-certifi==2021.10.8.3",
+  "types-freezegun==1.1.10",
+  "types-mock==5.0.0.6",
+  "types-pkg-resources==0.1.3",
+  "types-pyopenssl==23.1.0.3",
+  "types-python-dateutil==2.8.19.13",
+  "types-pytz==2023.3.0.0",
+  "types-pyyaml==6.0.12.10",
+  "types-redis==4.5.5.2",
+  "types-requests==2.31.0.1",
+  "types-six==1.16.21.8",
+  "types-urllib3==1.26.25.13",
+  "vcrpy==4.3.1",
+  "virtualenv==20.23.0",
+  "wrapt==1.15.0",
+  "yarl==1.9.2"
+ ],
+ "dev_all_locked_n": 238,
+ "dev_pins_unavailable": [
+  "python-magic-bin==0.4.14"
+ ],
+ "dev_test_closure": {
+  "mechanism": "poetry",
+  "n_pins": 75,
+  "pins_sha256": "f086dc9477115306388f7300756b634ccd321d0ba9a560532f88cc546edbe7d7",
+  "unsupported": [],
+  "vcr_family_present": [
+   "pytest-recording",
+   "pytest-socket",
+   "vcrpy"
+  ]
+ },
+ "container_rc": 0,
+ "pip_check": {
+  "rc": 0,
+  "ok": true,
+  "text_tail": "Using Python 3.9.25 environment at: /opt/venv\nChecked 238 packages in 5ms\nAll installed packages are compatible\nPIPCHECK_RC=0\n"
+ },
+ "collect": {
+  "rc": 0,
+  "ok": true,
+  "text_tail": "s on Order {\\n              id\\n            }\\n            subscription {\\n              event {\\n                ... on OrderUpdated {\\n                  order {\\n                    id\\n                  }\\n                }\\n              }\\n            }\\n            -Fragment \"NotUsedEvents\" is never used.-GraphQLError-WebhookErrorCode.GRAPHQL_ERROR]\nsaleor/graphql/webhook/tests/test_subscription_query.py::test_query_validation[\\n            query {{\\n            }\\n            -Syntax Error GraphQL (2:20) Expected Name, found-GraphQLSyntaxError-WebhookErrorCode.SYNTAX]\nsaleor/graphql/webhook/tests/test_subscription_query.py::test_query_validation[\\n            query {\\n              channels {\\n                name\\n              }\\n            }\\n            -Subscription operation can't be found.-ValidationError-WebhookErrorCode.MISSING_SUBSCRIPTION]\nsaleor/graphql/webhook/tests/test_subscription_query.py::test_query_validation[\\n            subscription {\\n              event {\\n                issuedAt\\n              }\\n            }\\n            -Can't find a single event.-ValidationError-WebhookErrorCode.MISSING_EVENT]\nsaleor/graphql/webhook/tests/test_subscription_query.py::test_get_events_from_field\nsaleor/graphql/checkout/tests/mutations/test_checkout_complete.py::test_checkout_complete_payment_create_create_run_in_meantime\nsaleor/graphql/meta/tests/test_meta_mutations.py::test_update_public_metadata_for_item_on_deleted_instance\nsaleor/graphql/product/tests/mutations/test_product_media_reorder.py::test_reorder_not_existing_media\n\n=============================== warnings summary ===============================\nsaleor/settings.py:199\n  /workspace/8f76ddc6267f_v31_new_t/saleor/settings.py:199: UserWarning: SECRET_KEY not configured, using a random temporary key.\n    warnings.warn(\"SECRET_KEY not configured, using a random temporary key.\")\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n6783 tests collected in 11.04s\nCOLLECT_RC=0\n"
+ },
+ "fixture_preflight": {
+  "ok": true,
+  "n_checked": 6783,
+  "n_unresolved": 0,
+  "unresolved": {}
+ },
+ "vcr_preflight": {
+  "unresolved": []
+ },
+ "files": {
+  "freeze.txt": {
+   "sha256": "4a912915a704222d4cfcd4d5697fecbee2d14ce8427a045a9012642926f37364",
+   "lines": 238
+  },
+  "pyversion.txt": {
+   "sha256": "46013688dc6816ee6935343b6974f8bd34c0ada4fe43554f5c0a772d7e8f0b1e",
+   "lines": 1
+  },
+  "pytestversion.txt": {
+   "sha256": "f8d869313f76f8fc4242d5f8aefb1c24f62e245e9221d0cf43bcb67b39a03eed",
+   "lines": 77
+  },
+  "traceconfig.txt": {
+   "sha256": "686fee087ac04564159337ae3548bf8b5d758d62aed1701eb53556d3dfa1550f",
+   "lines": 2000
+  },
+  "markers.txt": {
+   "sha256": "d06e63249730075e697b9b4fb86b7fddab9ae284028d9f06be4aed22aa97b531",
+   "lines": 50
+  },
+  "pipcheck.txt": {
+   "sha256": "ae858445ab758bf082c32f593cfaccd5e06b319834309dbec60b704c7da29185",
+   "lines": 4
+  },
+  "collect.txt": {
+   "sha256": "151747a2718ad0c073ed55831996358dfb20ffb964e91192a5065f78ce62f715",
+   "lines": 6792
+  },
+  "fixture_collect.txt": {
+   "sha256": "f63e442d9e814f606d6b48b7493dcb932972b55f5f8d6b5fa7d42bd0733ef1b3",
+   "lines": 6792
+  },
+  "fixture_preflight.json": {
+   "sha256": "67dc259c02638598b78a6af337512dfd942ab7b425d8e2bc4ce1f1a574c3f0c3",
+   "lines": 1
+  },
+  "install.log": {
+   "sha256": "d34f2e628cb0855716b2c49b660ccbc39dae13a4752070bb415c06fc3fd26c28",
+   "lines": 278
+  }
+ },
+ "freeze_sha256": "4a912915a704222d4cfcd4d5697fecbee2d14ce8427a045a9012642926f37364",
+ "freeze_packages": 238,
+ "wall_s": 1384.3,
+ "stdout_tail": "POETRY_REQ_MAIN_PLUS_LOCKED_DEV\nCORRECTED_ENV_DONE\n",
+ "stderr_tail": "Using Python 3.9.25 environment at: /opt/venv\nUsing Python 3.9.25 environment at: /opt/venv\n"
+}
