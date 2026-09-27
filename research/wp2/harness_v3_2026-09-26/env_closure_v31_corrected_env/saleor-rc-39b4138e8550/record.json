@@ -1,0 +1,83 @@
+{
+ "task_id": "saleor-rc-39b4138e8550",
+ "era_key": "py312",
+ "target_commit": "39b4138e85500065175d94d5d5b50fc2f4eabd2d",
+ "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+ "install_fragment": "cd /workspace/39b4138e8550_v31_new_t && uv export --frozen --group dev | uv pip install -r - --python /opt/venv/bin/python >/tmp/install.log 2>&1 || { echo INSTALL_MAIN_FAIL; tail -120 /tmp/install.log; exit 2; }; echo UV_EXPORT_FROZEN_GROUP_DEV",
+ "dev_pins": [],
+ "dev_pins_unavailable": [],
+ "dev_test_closure": {
+  "mechanism": "uv",
+  "n_pins": 0,
+  "pins_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "unsupported": [],
+  "vcr_family_present": []
+ },
+ "container_rc": 0,
+ "pip_check": {
+  "rc": 0,
+  "ok": true,
+  "text_tail": "Using Python 3.12.14 environment at: /opt/venv\nChecked 236 packages in 5ms\nAll installed packages are compatible\nPIPCHECK_RC=0\n"
+ },
+ "collect": {
+  "rc": 0,
+  "ok": true,
+  "text_tail": "ql/meta/tests/mutations/test_update_metadata.py::test_update_public_metadata_for_item_on_deleted_instance\nsaleor/graphql/meta/tests/mutations/test_update_metadata.py::test_update_public_metadata_race_condition\nsaleor/graphql/meta/tests/mutations/test_update_private_metadata.py::test_update_private_metadata_for_item_on_deleted_instance\nsaleor/graphql/meta/tests/mutations/test_update_private_metadata.py::test_update_private_metadata_race_condition\nsaleor/graphql/order/tests/mutations/test_order_fulfill.py::test_order_fulfill_order_in_proper_state_when_error_occur_when_sending_webhook\nsaleor/graphql/payment/tests/mutations/test_transaction_create.py::test_lock_order_during_updating_order_amounts\nsaleor/graphql/payment/tests/mutations/test_transaction_create.py::test_lock_checkout_during_updating_checkout_amounts\nsaleor/graphql/payment/tests/mutations/test_transaction_initialize.py::test_lock_order_during_updating_order_amounts\nsaleor/graphql/payment/tests/mutations/test_transaction_initialize.py::test_lock_checkout_during_updating_checkout_amounts\nsaleor/graphql/payment/tests/mutations/test_transaction_process.py::test_lock_order_during_updating_order_amounts\nsaleor/graphql/payment/tests/mutations/test_transaction_process.py::test_lock_checkout_during_updating_checkout_amounts\nsaleor/graphql/payment/tests/mutations/test_transaction_update.py::test_lock_order_during_updating_order_amounts\nsaleor/graphql/payment/tests/mutations/test_transaction_update.py::test_lock_checkout_during_updating_checkout_amounts\nsaleor/graphql/product/tests/mutations/test_product_media_reorder.py::test_reorder_not_existing_media\n\n=============================== warnings summary ===============================\nsaleor/settings.py:257\n  /workspace/39b4138e8550_v31_new_t/saleor/settings.py:257: UserWarning: SECRET_KEY not configured, using a random temporary key.\n    warnings.warn(\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n10582 tests collected in 7.35s\nCOLLECT_RC=0\n"
+ },
+ "fixture_preflight": {
+  "ok": true,
+  "n_checked": 10582,
+  "n_unresolved": 0,
+  "unresolved": {}
+ },
+ "vcr_preflight": {
+  "unresolved": []
+ },
+ "files": {
+  "freeze.txt": {
+   "sha256": "86c0a17ac16ad6683429fc5ede67bf284d9642043c9ef86df9abe2a9c6fa363c",
+   "lines": 236
+  },
+  "pyversion.txt": {
+   "sha256": "4c3569f5da09975434dd9fd9a91fadbc4367a91d8f3c3fab59e9241ab9ee4bd8",
+   "lines": 1
+  },
+  "pytestversion.txt": {
+   "sha256": "b2e1053958c9395fa5cc8f621e613449d36f3cdddc21c7bbba2364493e225064",
+   "lines": 1
+  },
+  "traceconfig.txt": {
+   "sha256": "6e37de283bb67535532340b3847445775447f76586226e47a180456f1d777e9a",
+   "lines": 2000
+  },
+  "markers.txt": {
+   "sha256": "f6121ad6404dc787dd24bcce5413368b1e3b773550c98e4c901f3ebc332f6157",
+   "lines": 58
+  },
+  "pipcheck.txt": {
+   "sha256": "eae04400dbbde6bc328fa3672d523143d8e4544c03e72ee2510041890a04ea81",
+   "lines": 4
+  },
+  "collect.txt": {
+   "sha256": "2d2a1ea98ff384a5978c69957cde8648acb5edcd3f2ff5cbfd2167d9c976a717",
+   "lines": 10591
+  },
+  "fixture_collect.txt": {
+   "sha256": "c8aec99d66cb77e6b378121269bb89e7579bfd9297d0110c2b7843872c09d6dc",
+   "lines": 10591
+  },
+  "fixture_preflight.json": {
+   "sha256": "3f7258be5b5ac1584d089249fd300634560ba1e2bfd1e160f8950761a4755f3e",
+   "lines": 1
+  },
+  "install.log": {
+   "sha256": "1d799cfa6f46ad00c79b2224e70ef6cc9864e60ffdc56d66231c6b7191d2bcbd",
+   "lines": 251
+  }
+ },
+ "freeze_sha256": "86c0a17ac16ad6683429fc5ede67bf284d9642043c9ef86df9abe2a9c6fa363c",
+ "freeze_packages": 236,
+ "wall_s": 2437.5,
+ "stdout_tail": "UV_EXPORT_FROZEN_GROUP_DEV\nDEV_NO_PINS\nCORRECTED_ENV_DONE\n",
+ "stderr_tail": "Using Python 3.12.14 environment at: /opt/venv\n"
+}

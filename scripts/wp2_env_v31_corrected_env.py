@@ -138,7 +138,8 @@ def build_corrected(task_id: str) -> dict:
                    input=("\n".join(cfiles) + "\n").encode("utf-8"), capture_output=True, timeout=120)
     subprocess.run(["wsl", "-d", DISTRO, "--", "bash", "-lc",
                     f"cat > {wt}/.v31_dev_pins.txt"],
-                   input=("\n".join(dev_pins) + "\n").encode("utf-8"), capture_output=True, timeout=120)
+                   input=("\n".join(dev_pins) + ("\n" if dev_pins else "")).encode("utf-8"),
+                   capture_output=True, timeout=120)
 
     dev_install_block = (
         "if [ -s /workspace/" + wt_name + "/.v31_dev_pins.txt ]; then "
