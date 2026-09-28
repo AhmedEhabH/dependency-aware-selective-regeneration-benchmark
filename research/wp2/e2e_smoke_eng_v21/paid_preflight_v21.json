@@ -1,0 +1,126 @@
+{
+  "artifact": "paid_preflight_v21",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "OPENROUTER_API_KEY present"
+    },
+    {
+      "ok": true,
+      "msg": "credit 29.5026703 >= $5.0"
+    },
+    {
+      "ok": true,
+      "msg": "pricing drift ratio 1.0 <= 2x"
+    },
+    {
+      "ok": true,
+      "msg": "model qwen/qwen3-coder"
+    },
+    {
+      "ok": true,
+      "msg": "route/provider deepinfra/turbo"
+    },
+    {
+      "ok": true,
+      "msg": "sampling constants"
+    },
+    {
+      "ok": true,
+      "msg": "evaluator sets hash present"
+    },
+    {
+      "ok": true,
+      "msg": "v1 scope semantic hashes unchanged"
+    },
+    {
+      "ok": true,
+      "msg": "v21 code hashes present"
+    },
+    {
+      "ok": true,
+      "msg": "no v21 episode exists yet"
+    },
+    {
+      "ok": true,
+      "msg": "generation HOLD still present after probe"
+    }
+  ],
+  "blocking": [],
+  "K1_credential": {
+    "present": true,
+    "length": 73
+  },
+  "K2_credit_remaining_usd": 29.5026703,
+  "K2_credit_ok": true,
+  "K3_pricing_drift": {
+    "prompt_per_1m_usd": 0.3,
+    "completion_per_1m_usd": 1.0,
+    "max_ratio_vs_frozen": 1.0,
+    "rule": "live <= 2x frozen -> proceed; > 2x -> PRICING_DRIFT_STOP",
+    "ok": true
+  },
+  "K4_model": {
+    "expected": "qwen/qwen3-coder",
+    "actual": "qwen/qwen3-coder",
+    "ok": true
+  },
+  "K5_route": {
+    "expected": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+    "provider": "deepinfra/turbo",
+    "ok": true
+  },
+  "K6_sampling": {
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "max_tokens": 8192,
+    "ok": true
+  },
+  "K7_evaluator_sets_hash": "eeb6565e7c7c680b2c4d3240cd47df3171840186715a41d9c8907875ca0594f7",
+  "K8_harness_v3_identity": {
+    "version": "wp2-harness-v3-2026-09-26",
+    "spec_sha256": "e7897ba0850bd0af372273a32ffb33435b4dc75c9476d527ec86fa424a75f034",
+    "git_head": "9216c2991e08795b00d9811be16da2f049ede68a"
+  },
+  "K9_scope_hashes": {
+    "checked": 4,
+    "ok": true,
+    "per_arm": {
+      "GOLD_HARD": {
+        "semantic_sha256": "89fd623b8dd774dd3f0e0174c2deea9f0b7190fb3d6798195288697724d827f1",
+        "matches_v1_freeze": true
+      },
+      "RMCSS_HARD": {
+        "semantic_sha256": "657f0c8d8d2eed206cd19cd90ddc23994d648b1dcbf909ad29529c92031d3d3c",
+        "matches_v1_freeze": true
+      },
+      "AGENT_HARD": {
+        "semantic_sha256": "096a2312b048b5ad494d9b9e7f79cea78362b2223611b8d5fef54bcd159f8945",
+        "matches_v1_freeze": true
+      },
+      "PLACEBO_HARD": {
+        "semantic_sha256": "e78cb47ab9c192866f860eab080e68eecaad8de935c6eda3022f827fde53ee7b",
+        "matches_v1_freeze": true
+      }
+    }
+  },
+  "K10_code_hashes": {
+    "generate.py": "562769c97acf2b7bce3fcc122b90a17cd0d24c13d0b856e650b27f70bffbb057",
+    "ledger.py": "38f6e498e8063bce3d56a6833c6468d6553f803691398d6b9a739e5ba25dd606",
+    "transport.py": "caf0b8ceca792c3451285862d7a8fc50d30c9116f94908acdf158539c10a8907"
+  },
+  "K11_no_v21_episodes": {
+    "count": 0,
+    "ok": true
+  },
+  "K12_transport_probe": {
+    "ok": true,
+    "finish_reason": "stop",
+    "prompt_tokens": 50,
+    "completion_tokens": 3,
+    "cost_usd": 1.8e-05
+  },
+  "K12_probe_spend_usd": 1.8e-05,
+  "generation_hold_still_present": true,
+  "preflight_pass": true
+}
