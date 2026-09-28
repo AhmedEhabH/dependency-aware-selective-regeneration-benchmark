@@ -52,7 +52,11 @@ def run_pos() -> int:
             self.gold = gold
 
         def generate(self, _system: str, _user: str):
-            return ReplayClient({}).generate(_system, self.gold)
+            from benchmark.wp2.e2e.llm_client import CallResult
+            return CallResult(text=self.gold, finish_reason="stop", prompt_tokens=1,
+                              completion_tokens=len(self.gold) // 4, cost_usd=0.0,
+                              route="replay", provider="replay", latency_s=0.0,
+                              request_id="gold-ctrl")
 
     for tid in CONTROL_TASKS:
         parent, target = commits_of(tid)

@@ -9,9 +9,6 @@ file plus a unified diff (git --no-index style, a/ b/ prefixes).
 from __future__ import annotations
 
 import re
-import subprocess
-import tempfile
-from pathlib import Path
 from typing import Any
 
 from benchmark.wp2.e2e.spec import ARMS  # noqa: F401  (documented boundary)
@@ -90,25 +87,23 @@ def apply_patch(parent_texts: dict[str, str], sections: list[tuple[str, list[Any
 
 
 def unified_diff(old: dict[str, str], new: dict[str, str]) -> str:
-    """git --no-index style unified diff with a/ b/ prefixes."""
-    with tempfile.TemporaryDirectory() as td:
-        td = Path(td)
-        a = td / "a"
-        b = td / "b"
-        a.mkdir()
-        b.mkdir()
-        for path, text in old.items():
-            p = a / path
-            p.parent.mkdir(parents=True, exist_ok=True)
-            p.write_text(text, encoding="utf-8", newline="")
-        for path, text in new.items():
-            p = b / path
-            p.parent.mkdir(parents=True, exist_ok=True)
-            p.write_text(text, encoding="utf-8", newline="")
-        diff = subprocess.run(
-            ["git", "-C", str(td), "diff", "--no-index", "--", "a", "b"],
-            capture_output=True, text=True, encoding="utf-8", errors="replace")
-        return diff.stdout
+    """Unified diff (git apply-able) with a/ b/ prefixes, relative paths."""
+    import difflib
+    parts: list[str] = []
+    for path in sorted(set(old) | set(new)):
+        if old.get(path) == new.get(path):
+            continue
+        old_lines = (old.get(path) or "").splitlines(keepends=True)
+        new_lines = (new.get(path) or "").splitlines(keepends=True)
+        parts.append(f"diff --git a/{path} b/{path}")
+        parts.append("--- " + f"a/{path}")
+        parts.append("+++ " + f"b/{path}")
+        hunk = list(difflib.unified_diff(old_lines, new_lines, fromfile=f"a/{path}",
+                                         tofile=f"b/{path}", n=3))
+        # strip the first 2 header lines difflib adds (---/+++ with full paths)
+        for line in hunk[2:]:
+            parts.append(line.rstrip("\n"))
+    return "\n".join(parts) + "\n"
 
 
 def named_error(exc: ValueError) -> str:
