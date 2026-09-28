@@ -33,6 +33,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+from benchmark.wp2.e2e.llm_client import CallResult
 from benchmark.wp2.e2e.spec import MAX_TOKENS, MODEL, TEMPERATURE
 
 FROZEN_PROMPT_USD_PER_1M = 0.30
@@ -75,19 +76,6 @@ class TransportResult:
     call: CallResult | None
     attempts: list[AttemptRecord] = field(default_factory=list)
     terminal_reason: str = ""
-
-
-@dataclass
-class CallResult:
-    text: str
-    finish_reason: str
-    prompt_tokens: int
-    completion_tokens: int
-    cost_usd: float
-    route: str
-    provider: str
-    latency_s: float
-    request_id: str
 
 
 def _classify_status(status: int) -> str:
