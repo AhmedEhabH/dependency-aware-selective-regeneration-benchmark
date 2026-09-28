@@ -157,21 +157,20 @@ def _call_entry(call, kind: str) -> dict:
 
 
 def _persist_episode(rec: dict, diffs: list[str], final_texts: dict[str, str]) -> None:
-    """B8 step 6: persist episode.json, final_diff.patch, final_files/."""
-    if rec["status"] not in ("APPLIED",):
-        return
+    """B8 step 6: persist episode.json for every status; final artifacts for APPLIED."""
     base = E2E_ROOT / "episodes" / rec["task_id"] / rec["arm"]
     base.mkdir(parents=True, exist_ok=True)
     (base / "episode.json").write_text(json.dumps(rec, indent=1, ensure_ascii=False), encoding="utf-8")
-    if diffs:
-        (base / "final_diff.patch").write_text(diffs[0], encoding="utf-8", newline="")
-    if final_texts:
-        fdir = base / "final_files"
-        fdir.mkdir(parents=True, exist_ok=True)
-        for path, text in final_texts.items():
-            p = fdir / path
-            p.parent.mkdir(parents=True, exist_ok=True)
-            p.write_text(text, encoding="utf-8", newline="")
+    if rec["status"] == "APPLIED":
+        if diffs:
+            (base / "final_diff.patch").write_text(diffs[0], encoding="utf-8", newline="")
+        if final_texts:
+            fdir = base / "final_files"
+            fdir.mkdir(parents=True, exist_ok=True)
+            for path, text in final_texts.items():
+                p = fdir / path
+                p.parent.mkdir(parents=True, exist_ok=True)
+                p.write_text(text, encoding="utf-8", newline="")
 
 
 def _episode(task_id, arm, status, scope, prompt_shas, calls, validation,
