@@ -71,7 +71,8 @@ class OpenRouterClient:
         data = json.dumps(body).encode("utf-8")
         t0 = time.monotonic()
         last_exc: Exception | None = None
-        for attempt, backoff in enumerate((0, 5, 20), start=1):
+        backoffs = (0, 5, 20, 60, 120, 180)
+        for attempt, backoff in enumerate(backoffs, start=1):
             if attempt > 1:
                 time.sleep(backoff)
             req = urllib.request.Request(
@@ -102,7 +103,7 @@ class OpenRouterClient:
                     request_id=payload.get("id", hashlib.sha256(raw.encode()).hexdigest()[:16]))
             except Exception as exc:
                 last_exc = exc
-        raise GenerationError(f"3 consecutive transport failures: {last_exc}")
+        raise GenerationError(f"{len(backoffs)} consecutive transport failures: {last_exc}")
 
     def generate(self, system: str, user: str) -> CallResult:
         return self.generate_messages([
