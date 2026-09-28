@@ -1,0 +1,15 @@
+{
+ "artifact": "paid_preflight",
+ "credit_remaining_usd": 20.44,
+ "credit_ok": true,
+ "pricing": "frozen 0.30/1M prompt, 1.00/1M completion, no drift",
+ "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+ "model": "qwen/qwen3-coder",
+ "provider": "deepinfra/turbo",
+ "gates": {
+  "credit_ge_8": "PASS",
+  "price_rule": "PASS",
+  "route_equal_d30": "PASS"
+ },
+ "paid_spend_usd": 0.0
+}
