@@ -4,7 +4,7 @@
 
 ## LIVE STATUS — single current-state source of truth
 
-**Position:** Mission-10B CLOSED (HARNESS_V3_RECOMMENDED / PHASE_REACHED=5-ENG / ENG_SMOKE_READY=YES) + WP-2 Environment Closure V3.1 COMPLETE. Historical dev/test deps installed by rule; corrected ENG evidence re-run; oracle membership sets UNCHANGED (union 16 / behavioral 14 / symbol 2). MISSING_FIXTURE 164->0, SOCKET_BLOCKED 132->0, P2P-U stable 0.996. No generation/Smoke/paid call.
+**Position:** First E2E Smoke ENG v1 COMPLETE (E2E_SMOKE_FLOOR_EFFECT). Instrument validated (G-POS/G-NEG/G-FORMAT/G-LEAK/G-BUDGET PASS); the frozen qwen3-coder SEARCH/REPLACE generator produced mostly invalid-format outputs. Next: brain/Ahmed review -> Pilot design.
 
 **Research pipeline:**
 
@@ -62,11 +62,11 @@
 | Mission-10A environment test-dependency audit (zero-API, Tier T3) | DONE (ENV_AUDIT_INCONCLUSIVE) | proven declared-but-not-installed dev/test group in frozen V2; ENG-only scratch probe (task 1) recovered 18/18 SET A; SET B non-regression FAILED (1 V2 BEHAVIORAL_F2P node flip) -> STOP per preregistered S2; no V3 build, no generation, no Smoke |
 | Full DEV-47 P2P-U cap200 + Smoke freeze | NOT AUTHORIZED | requires Ahmed decision; estimates ready (DEV ~6.7 h central) |
 
-**Next action:** Continue Mission-11: Part B build the WP-2 shared E2E instrument (generator/validator/repair/evaluator, zero API), B10-B12 unit tests + zero-API controls, then C1 paid preflight, C2 Agent scopes (<=$1.00), C3 freeze, D1 Smoke generation (<=$4.50), D2 evaluation, D3-D4 closure. Total paid ceiling $5.50.
+**Next action:** Brain/Ahmed review of the E2E Smoke result -> Pilot design. No Stage C, Pilot, holdout, or MAIN execution.
 
 **End-to-end status:** WP-2 has **not started**; E2E-G6 F2P/P2P oracle has **not started**; **no** E2E Smoke, Pilot or Research Run exists yet.
 
-*Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-09-27 (Africa/Cairo).*
+*Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-09-28 (Africa/Cairo).*
 <!-- LIVE_STATUS:END -->
 
 ## MISSION-10A — GOAL -> OUTCOMES -> DRIVERS -> ACTIONS -> SCHEDULE -> TRACKING -> REFLECTION
@@ -621,3 +621,8 @@ E0.1-E0.5 DONE (docs, git identity f86007e4, protected hashes before, resource b
 - 9258154b8a0b recovered from P2P-U zero-candidate (now defined).
 - ENG_ENVIRONMENT_CLOSURE_READY.json persisted. Paid spend $0.00.
 - Resume Mission-11 at A5.1.
+
+## WP-2 E2E Smoke ENG v1 - RESULT (2026-09-28)
+
+E2E_SMOKE_FLOOR_EFFECT. GOLD 0/14 | RMCSS 0/14 | AGENT 1/14 | PLACEBO 0/14.
+Spend $0.605 total (<= $5.50). Report: docs/WP2_E2E_SMOKE_ENG_V1_REPORT_2026-09-28.md.

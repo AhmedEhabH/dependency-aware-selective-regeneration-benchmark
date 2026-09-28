@@ -2404,3 +2404,16 @@ Mission-11 one-shot (sole authoritative directive, supersedes Mission-10B STOP-f
 - NA4: no workers=2 anywhere.
 - NA5: no change to oracle semantics, Harness V3, P2P-U rule/salt/caps, splits, populations.
 - NA6: no model/API call before step C1 passes, or outside AU6/AU7.
+
+## Decision WP2_E2E_SMOKE_ENG_V1 - RESULT (2026-09-28)
+
+- Token: E2E_SMOKE_FLOOR_EFFECT (SG1-SG3 PASS; SG4 GOLD RESOLVED 0/14 not met).
+- First E2E Smoke on DEV_TRAIN_ENG (14 behavioral tasks x 4 arms x 1 replicate, workers=1).
+- 56 episodes: 8 APPLIED, 47 INVALID_AFTER_REPAIR, 1 NO_SCOPE. The frozen qwen3-coder SEARCH/REPLACE
+  generator produced preamble/non-matching blocks for most episodes; the fail-closed validator and
+  one repair did not recover them. This is measured model format-adherence behavior, NOT an instrument
+  defect (G-POS controls prove the evaluator reproduces target trees).
+- RESOLVED per arm: GOLD 0/14 | RMCSS 0/14 | AGENT 1/14 | PLACEBO 0/14.
+- Spend: agent $0.348 (<= $1.00), smoke $0.257 (<= $4.50), total $0.605 (<= $5.50).
+- Pipeline validation only. No comparative claim between RM-CSS and Agent.
+- Next: brain/Ahmed review -> Pilot design. No Stage C / Pilot / holdout / MAIN execution.

@@ -1,0 +1,471 @@
+{
+ "artifact": "smoke_summary",
+ "n": 14,
+ "mandatory_wording": [
+  "Smoke = pipeline validation on DEV_TRAIN_ENG (engineering split). n = 14. No comparative claim between RM-CSS and Agent is made or supported.",
+  "RM-CSS scopes are out-of-fold DEV predictions (realization A); Agent scopes are protocol-v3 selections run on DEV for this Smoke."
+ ],
+ "per_arm": {
+  "GOLD_HARD": {
+   "resolved": 0,
+   "f2p_pass": 0,
+   "p2p_s_pass": 12,
+   "p2pu_pass": 14,
+   "resolved_x_of_14": "0/14"
+  },
+  "RMCSS_HARD": {
+   "resolved": 0,
+   "f2p_pass": 0,
+   "p2p_s_pass": 12,
+   "p2pu_pass": 14,
+   "resolved_x_of_14": "0/14"
+  },
+  "AGENT_HARD": {
+   "resolved": 1,
+   "f2p_pass": 1,
+   "p2p_s_pass": 13,
+   "p2pu_pass": 13,
+   "resolved_x_of_14": "1/14"
+  },
+  "PLACEBO_HARD": {
+   "resolved": 0,
+   "f2p_pass": 0,
+   "p2p_s_pass": 13,
+   "p2pu_pass": 14,
+   "resolved_x_of_14": "0/14"
+  }
+ },
+ "episodes": {
+  "GOLD_HARD": {
+   "resolved": 0,
+   "f2p": 0,
+   "p2p_s": 12,
+   "p2pu": 14,
+   "episodes": {
+    "saleor-rc-2d45b76a52f2": {
+     "episode_status": "APPLIED",
+     "f2p": "FAIL",
+     "p2ps": "PASS",
+     "p2pu": "PASS",
+     "resolved": false
+    },
+    "saleor-rc-39b4138e8550": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "UNDEFINED",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-644f33094857": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-6abb53f3407b": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-74538ea00ce9": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-823b899757ab": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "UNDEFINED",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-82c56bde0e34": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-8f76ddc6267f": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-93b20d78c011": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-c3b9e396b07d": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-d220843b5418": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-dc6ac9d252df": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-e03ee76d2b89": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-e25cf9b4a837": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    }
+   }
+  },
+  "RMCSS_HARD": {
+   "resolved": 0,
+   "f2p": 0,
+   "p2p_s": 12,
+   "p2pu": 14,
+   "episodes": {
+    "saleor-rc-2d45b76a52f2": {
+     "episode_status": "APPLIED",
+     "f2p": "FAIL",
+     "p2ps": "PASS",
+     "p2pu": "PASS",
+     "resolved": false
+    },
+    "saleor-rc-39b4138e8550": {
+     "episode_status": "NO_SCOPE",
+     "f2p": "FAIL",
+     "p2ps": "UNDEFINED",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-644f33094857": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-6abb53f3407b": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-74538ea00ce9": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-823b899757ab": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "UNDEFINED",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-82c56bde0e34": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-8f76ddc6267f": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-93b20d78c011": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-c3b9e396b07d": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-d220843b5418": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-dc6ac9d252df": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-e03ee76d2b89": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-e25cf9b4a837": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    }
+   }
+  },
+  "AGENT_HARD": {
+   "resolved": 1,
+   "f2p": 1,
+   "p2p_s": 13,
+   "p2pu": 13,
+   "episodes": {
+    "saleor-rc-2d45b76a52f2": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-39b4138e8550": {
+     "episode_status": "APPLIED",
+     "f2p": "FAIL",
+     "p2ps": "PASS",
+     "p2pu": "FAIL",
+     "resolved": false
+    },
+    "saleor-rc-644f33094857": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-6abb53f3407b": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-74538ea00ce9": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-823b899757ab": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "UNDEFINED",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-82c56bde0e34": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-8f76ddc6267f": {
+     "episode_status": "APPLIED",
+     "f2p": "FAIL",
+     "p2ps": "PASS",
+     "p2pu": "PASS",
+     "resolved": false
+    },
+    "saleor-rc-93b20d78c011": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-c3b9e396b07d": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-d220843b5418": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-dc6ac9d252df": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-e03ee76d2b89": {
+     "episode_status": "APPLIED",
+     "f2p": "PASS",
+     "p2ps": "PASS",
+     "p2pu": "PASS",
+     "resolved": true
+    },
+    "saleor-rc-e25cf9b4a837": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    }
+   }
+  },
+  "PLACEBO_HARD": {
+   "resolved": 0,
+   "f2p": 0,
+   "p2p_s": 13,
+   "p2pu": 14,
+   "episodes": {
+    "saleor-rc-2d45b76a52f2": {
+     "episode_status": "APPLIED",
+     "f2p": "FAIL",
+     "p2ps": "PASS",
+     "p2pu": "PASS",
+     "resolved": false
+    },
+    "saleor-rc-39b4138e8550": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "UNDEFINED",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-644f33094857": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-6abb53f3407b": {
+     "episode_status": "APPLIED",
+     "f2p": "FAIL",
+     "p2ps": "PASS",
+     "p2pu": "PASS",
+     "resolved": false
+    },
+    "saleor-rc-74538ea00ce9": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-823b899757ab": {
+     "episode_status": "APPLIED",
+     "f2p": "FAIL",
+     "p2ps": "PASS",
+     "p2pu": "PASS",
+     "resolved": false
+    },
+    "saleor-rc-82c56bde0e34": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-8f76ddc6267f": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-93b20d78c011": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-c3b9e396b07d": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-d220843b5418": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-dc6ac9d252df": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-e03ee76d2b89": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    },
+    "saleor-rc-e25cf9b4a837": {
+     "episode_status": "INVALID_AFTER_REPAIR",
+     "f2p": "FAIL",
+     "p2ps": "PASS_BY_CONSTRUCTION",
+     "p2pu": "PASS_BY_CONSTRUCTION",
+     "resolved": false
+    }
+   }
+  }
+ },
+ "gates": {
+  "SG1": "PASS",
+  "SG2": "PASS",
+  "SG3": "PASS",
+  "SG4": "FAIL"
+ },
+ "final_token": "E2E_SMOKE_FLOOR_EFFECT"
+}

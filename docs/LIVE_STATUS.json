@@ -1,12 +1,12 @@
 {
  "schema": "live_status_v1",
- "as_of_local": "2026-09-27 (Africa/Cairo)",
- "evidence_snapshot": "main + Mission-10B CLOSED + WP-2 Environment Closure V3.1 COMPLETE (2026-09-27). Harness V3 RECOMMENDED; ENG oracle READY (behavioral 14 / symbol 2 / union 16, unchanged). P2P-U V3 re-run under corrected environment: MISSING_FIXTURE 164->0, SOCKET_BLOCKED 132->0, overall stable rate cap200 0.9961 / cap400 0.9973, compliance FAIL->PASS. P2P-U defined cap200/cap400 16/16 (9258154b8a0b recovered). ENG_SMOKE_READY=YES. ZERO model/API calls; paid spend $0.00.",
- "phase": "Phase 5 - End-to-End Selective Regeneration (WP-2 ENG oracle READY; E2E instrument build next, zero-API)",
- "position": "Mission-10B CLOSED (HARNESS_V3_RECOMMENDED / PHASE_REACHED=5-ENG / ENG_SMOKE_READY=YES) + WP-2 Environment Closure V3.1 COMPLETE. Historical dev/test deps installed by rule; corrected ENG evidence re-run; oracle membership sets UNCHANGED (union 16 / behavioral 14 / symbol 2). MISSING_FIXTURE 164->0, SOCKET_BLOCKED 132->0, P2P-U stable 0.996. No generation/Smoke/paid call.",
- "position_short": "Mission-10B closed: ENG_SMOKE_READY=YES; environment closure V3.1 fixed dev-dep losses",
+ "as_of_local": "2026-09-28 (Africa/Cairo)",
+ "evidence_snapshot": "First WP-2 E2E Smoke ENG v1 COMPLETE (2026-09-28). Token E2E_SMOKE_FLOOR_EFFECT (SG1-SG3 PASS; SG4 floor GOLD RESOLVED 0/14 not met). 56 episodes; 8 APPLIED, 47 INVALID_AFTER_REPAIR (model SEARCH/REPLACE format adherence), 1 NO_SCOPE. AGENT_HARD RESOLVED 1/14 (e03ee76d2b89); GOLD/RMCSS/PLACEBO 0/14. Spend agent \\.348 / smoke \\.257 / total \\.605 (ceiling \\.50). Pipeline validation only; no comparative claim.",
+ "phase": "Phase 5 - End-to-End Selective Regeneration (WP-2 E2E Smoke ENG v1 COMPLETE: FLOOR_EFFECT)",
+ "position": "First E2E Smoke ENG v1 COMPLETE (E2E_SMOKE_FLOOR_EFFECT). Instrument validated (G-POS/G-NEG/G-FORMAT/G-LEAK/G-BUDGET PASS); the frozen qwen3-coder SEARCH/REPLACE generator produced mostly invalid-format outputs. Next: brain/Ahmed review -> Pilot design.",
+ "position_short": "E2E Smoke ENG v1 COMPLETE: FLOOR_EFFECT (GOLD RESOLVED 0/14)",
  "now_short": "Mission-10B closed + env closure complete. Next: Mission-11 Part B (E2E instrument, zero API) then zero-API controls before any paid Smoke.",
- "next_action": "Continue Mission-11: Part B build the WP-2 shared E2E instrument (generator/validator/repair/evaluator, zero API), B10-B12 unit tests + zero-API controls, then C1 paid preflight, C2 Agent scopes (<=$1.00), C3 freeze, D1 Smoke generation (<=$4.50), D2 evaluation, D3-D4 closure. Total paid ceiling $5.50.",
+ "next_action": "Brain/Ahmed review of the E2E Smoke result -> Pilot design. No Stage C, Pilot, holdout, or MAIN execution.",
  "next_short": "Mission-11 Part B: E2E instrument (zero API) -> controls -> paid Smoke",
  "priority_chain": "MAIN_297 DONE -> WP-2 census DONE -> Oracle Confirmation DONE -> Linux V2 oracle+DEV pool DONE -> Mission-08 DEV P2P inventory + SMALL pilot DONE -> Mission-09 P2P-S + P2P-U V2 freeze + ENG execution DONE -> Mission-10A environment test-dependency audit DONE (ENV_AUDIT_INCONCLUSIVE) -> targeted environment-validity follow-up (awaiting approval) -> DEV Smoke freeze -> full DEV-47 P2P-U cap200 -> Pilot -> Research Run -> Mission-10B ENG oracle + P2P-S/P2P-U V3 DONE (ENG_SMOKE_READY) -> WP-2 Env Closure V3.1 DONE (dev-dep losses fixed) -> Mission-11 Part B E2E instrument -> zero-API controls -> paid first E2E Smoke",
  "weakest_risk": "Environment now proven for the ENG split (fixture/collection/pip/vcr green, stable 0.996). Remaining risks: W2 (workers=2) NOT_TESTED; a few ENV_INSTALL_BLOCKED dev pins (codecov removed from PyPI, python-magic-bin no Linux wheel, pywin32) - none required by preflight; single-repo ENG split (n=16). 786 RESERVE stays sealed.",
@@ -455,5 +455,20 @@
   "evaluator_sets_sha256": "see research/wp2/harness_v3_2026-09-26/evaluator_only/eng_evaluator_sets_v3.json",
   "report": "docs/MISSION_10B_STOP_REPORT_2026-09-27.md",
   "paid_spend_usd": 0.0
+ },
+ "mission11_e2e_smoke": {
+  "token": "E2E_SMOKE_FLOOR_EFFECT",
+  "resolved_per_arm": {
+   "GOLD_HARD": "0/14",
+   "RMCSS_HARD": "0/14",
+   "AGENT_HARD": "1/14",
+   "PLACEBO_HARD": "0/14"
+  },
+  "spend_usd": {
+   "agent": 0.348,
+   "smoke": 0.257,
+   "total": 0.605
+  },
+  "report": "docs/WP2_E2E_SMOKE_ENG_V1_REPORT_2026-09-28.md"
  }
 }
