@@ -1,0 +1,444 @@
+FILE: saleor/graphql/order/mutations/fulfillments.py
+<<<<<<< SEARCH
+            cleaned_input["payment"],
+            cleaned_input.get("order_lines", []),
+            cleaned_input.get("fulfillment_lines", []),
+            cleaned_input["amount_to_refund"],
+            cleaned_input["include_shipping_costs"],
+        )
+=======
+            cleaned_input["payment"],
+            cleaned_input.get("order_lines", []),
+            cleaned_input.get("fulfillment_lines", []),
+            info.context.plugins,
+            cleaned_input["amount_to_refund"],
+            cleaned_input["include_shipping_costs"],
+        )
+>>>>>>> REPLACE
+
+<<<<<<< SEARCH
+            cleaned_input.get("payment"),
+            cleaned_input.get("order_lines", []),
+            cleaned_input.get("fulfillment_lines", []),
+            cleaned_input["refund"],
+            cleaned_input.get("amount_to_refund"),
+            cleaned_input["include_shipping_costs"],
+=======
+            cleaned_input.get("payment"),
+            cleaned_input.get("order_lines", []),
+            cleaned_input.get("fulfillment_lines", []),
+            info.context.plugins,
+            cleaned_input["refund"],
+            cleaned_input.get("amount_to_refund"),
+            cleaned_input["include_shipping_costs"],
+>>>>>>> REPLACE
+
+FILE: saleor/graphql/order/mutations/orders.py
+<<<<<<< SEARCH
+        # Confirm that we changed the status to refund. Some payment can receive
+        # asynchronous webhook with update status
+        if transaction.kind == TransactionKind.REFUND:
+            order_refunded(order, info.context.user, amount, payment)
+        return OrderRefund(order=order)
+
+
+=======
+        # Confirm that we changed the status to refund. Some payment can receive
+        # asynchronous webhook with update status
+        if transaction.kind == TransactionKind.REFUND:
+            order_refunded(
+                order, info.context.user, amount, payment, info.context.plugins
+            )
+        return OrderRefund(order=order)
+
+
+>>>>>>> REPLACE
+
+FILE: saleor/order/actions.py
+<<<<<<< SEARCH
+)
+from ..payment.models import Payment, Transaction
+from ..payment.utils import create_payment
+from ..plugins.manager import get_plugins_manager
+from ..warehouse.management import (
+    deallocate_stock,
+    deallocate_stock_for_order,
+=======
+)
+from ..payment.models import Payment, Transaction
+from ..payment.utils import create_payment
+from ..plugins.manager import PluginsManager, get_plugins_manager
+from ..warehouse.management import (
+    deallocate_stock,
+    deallocate_stock_for_order,
+>>>>>>> REPLACE
+
+<<<<<<< SEARCH
+    draft_order_created_from_replace_event,
+    fulfillment_refunded_event,
+    fulfillment_replaced_event,
+    fulfillment_returned_event,
+    order_replacement_created,
+)
+from .models import Fulfillment, FulfillmentLine, Order, OrderLine
+from .utils import (
+=======
+    draft_order_created_from_replace_event,
+    fulfillment_refunded_event,
+    fulfillment_replaced_event,
+    order_replacement_created,
+    order_returned_event,
+)
+from .models import Fulfillment, FulfillmentLine, Order, OrderLine
+from .utils import (
+>>>>>>> REPLACE
+
+<<<<<<< SEARCH
+
+
+def order_refunded(
+    order: "Order", user: Optional["User"], amount: "Decimal", payment: "Payment"
+):
+    events.payment_refunded_event(
+        order=order, user=user, amount=amount, payment=payment
+    )
+    get_plugins_manager().order_updated(order)
+
+    send_order_refunded_confirmation(order, user, amount, payment.currency)
+
+=======
+
+
+def order_refunded(
+    order: "Order",
+    user: Optional["User"],
+    amount: "Decimal",
+    payment: "Payment",
+    manager: Optional["PluginsManager"] = None,
+):
+    events.payment_refunded_event(
+        order=order, user=user, amount=amount, payment=payment
+    )
+    if not manager:
+        manager = get_plugins_manager()
+    manager.order_updated(order)
+
+    send_order_refunded_confirmation(order, user, amount, payment.currency)
+
+>>>>>>> REPLACE
+
+<<<<<<< SEARCH
+    get_plugins_manager().order_updated(order)
+
+
+def order_fulfilled(
+    fulfillments: List["Fulfillment"],
+    user: "User",
+=======
+    get_plugins_manager().order_updated(order)
+
+
+def order_returned(
+    order: "Order",
+    user: Optional["User"],
+    returned_lines: List[Tuple[QuantityType, OrderLine]],
+    manager: "PluginsManager",
+):
+    order_returned_event(order=order, user=user, returned_lines=returned_lines)
+    update_order_status(order)
+    manager.order_updated(order)
+
+
+def order_fulfilled(
+    fulfillments: List["Fulfillment"],
+    user: "User",
+>>>>>>> REPLACE
+
+<<<<<<< SEARCH
+    payment,
+    order_lines_to_refund: List[OrderLineData],
+    fulfillment_lines_to_refund: List[FulfillmentLineData],
+    amount=None,
+    refund_shipping_costs=False,
+):
+=======
+    payment,
+    order_lines_to_refund: List[OrderLineData],
+    fulfillment_lines_to_refund: List[FulfillmentLineData],
+    plugin_manager: "PluginsManager",
+    amount=None,
+    refund_shipping_costs=False,
+):
+>>>>>>> REPLACE
+
+<<<<<<< SEARCH
+        fulfillment_lines_to_refund=fulfillment_lines_to_refund,
+        amount=amount,
+        refund_shipping_costs=refund_shipping_costs,
+    )
+
+    with transaction.atomic():
+=======
+        fulfillment_lines_to_refund=fulfillment_lines_to_refund,
+        amount=amount,
+        refund_shipping_costs=refund_shipping_costs,
+        manager=plugin_manager,
+    )
+
+    with transaction.atomic():
+>>>>>>> REPLACE
+
+<<<<<<< SEARCH
+    order: "Order",
+    order_lines: List[OrderLineData],
+    fulfillment_lines: List[FulfillmentLineData],
+    refund: bool = False,
+) -> Fulfillment:
+    status = FulfillmentStatus.RETURNED
+=======
+    order: "Order",
+    order_lines: List[OrderLineData],
+    fulfillment_lines: List[FulfillmentLineData],
+    manager: "PluginsManager",
+    refund: bool = False,
+) -> Fulfillment:
+    status = FulfillmentStatus.RETURNED
+>>>>>>> REPLACE
+
+<<<<<<< SEARCH
+                    line_data.quantity,
+                    order_line,
+                )
+
+        fulfillment_returned_event(
+            order=order, user=requester, returned_lines=list(returned_lines.values()),
+        )
+    return return_fulfillment
+
+=======
+                    line_data.quantity,
+                    order_line,
+                )
+        order_returned(
+            order,
+            user=requester,
+            returned_lines=list(returned_lines.values()),
+            manager=manager,
+        )
+    return return_fulfillment
+
+>>>>>>> REPLACE
+
+<<<<<<< SEARCH
+    order_replacement_created(
+        original_order=order, replace_order=new_order, user=requester,
+    )
+    # TODO call order_returned
+
+    return replace_fulfillment, new_order
+
+=======
+    order_replacement_created(
+        original_order=order, replace_order=new_order, user=requester,
+    )
+
+    return replace_fulfillment, new_order
+
+>>>>>>> REPLACE
+
+<<<<<<< SEARCH
+    payment: Optional[Payment],
+    order_lines: List[OrderLineData],
+    fulfillment_lines: List[FulfillmentLineData],
+    refund: bool = False,
+    amount: Optional[Decimal] = None,
+    refund_shipping_costs=False,
+=======
+    payment: Optional[Payment],
+    order_lines: List[OrderLineData],
+    fulfillment_lines: List[FulfillmentLineData],
+    plugin_manager: PluginsManager,
+    refund: bool = False,
+    amount: Optional[Decimal] = None,
+    refund_shipping_costs=False,
+>>>>>>> REPLACE
+
+<<<<<<< SEARCH
+            fulfillment_lines_to_refund=return_fulfillment_lines,
+            amount=amount,
+            refund_shipping_costs=refund_shipping_costs,
+        )
+
+    with transaction.atomic():
+=======
+            fulfillment_lines_to_refund=return_fulfillment_lines,
+            amount=amount,
+            refund_shipping_costs=refund_shipping_costs,
+            manager=plugin_manager,
+        )
+
+    with transaction.atomic():
+>>>>>>> REPLACE
+
+<<<<<<< SEARCH
+            order=order,
+            order_lines=return_order_lines,
+            fulfillment_lines=return_fulfillment_lines,
+            refund=refund,
+        )
+        Fulfillment.objects.filter(order=order, lines=None).delete()
+=======
+            order=order,
+            order_lines=return_order_lines,
+            fulfillment_lines=return_fulfillment_lines,
+            manager=plugin_manager,
+            refund=refund,
+        )
+        Fulfillment.objects.filter(order=order, lines=None).delete()
+>>>>>>> REPLACE
+
+<<<<<<< SEARCH
+    fulfillment_lines_to_refund: List[FulfillmentLineData],
+    amount: Optional[Decimal],
+    refund_shipping_costs: bool,
+):
+    lines_to_refund: Dict[OrderLineIDType, Tuple[QuantityType, OrderLine]] = dict()
+    refund_amount = _calculate_refund_amount(
+=======
+    fulfillment_lines_to_refund: List[FulfillmentLineData],
+    amount: Optional[Decimal],
+    refund_shipping_costs: bool,
+    manager: "PluginsManager",
+):
+    lines_to_refund: Dict[OrderLineIDType, Tuple[QuantityType, OrderLine]] = dict()
+    refund_amount = _calculate_refund_amount(
+>>>>>>> REPLACE
+
+<<<<<<< SEARCH
+    if amount:
+        amount = min(payment.captured_amount, amount)
+        gateway.refund(payment, amount)
+        order_refunded(order, requester, amount, payment)
+
+    fulfillment_refunded_event(
+        order=order,
+=======
+    if amount:
+        amount = min(payment.captured_amount, amount)
+        gateway.refund(payment, amount)
+        order_refunded(order, requester, amount, payment, manager=manager)
+
+    fulfillment_refunded_event(
+        order=order,
+>>>>>>> REPLACE
+
+FILE: saleor/order/events.py
+<<<<<<< SEARCH
+    )
+
+
+def fulfillment_returned_event(
+    *, order: Order, user: UserType, returned_lines: List[Tuple[int, OrderLine]],
+):
+    if not _user_is_valid(user):
+=======
+    )
+
+
+def order_returned_event(
+    *, order: Order, user: UserType, returned_lines: List[Tuple[int, OrderLine]],
+):
+    if not _user_is_valid(user):
+>>>>>>> REPLACE
+
+FILE: saleor/order/models.py
+<<<<<<< SEARCH
+            .exists()
+        )
+
+    @property
+    def quantity_fulfilled(self):
+        return sum([line.quantity_fulfilled for line in self])
+
+    def is_shipping_required(self):
+        return any(line.is_shipping_required for line in self)
+
+=======
+            .exists()
+        )
+
+    def is_shipping_required(self):
+        return any(line.is_shipping_required for line in self)
+
+>>>>>>> REPLACE
+
+FILE: saleor/order/utils.py
+<<<<<<< SEARCH
+    get_products_voucher_discount,
+    validate_voucher_in_order,
+)
+from ..order import OrderStatus
+from ..order.models import Order, OrderLine
+from ..plugins.manager import get_plugins_manager
+from ..product.utils.digital_products import get_default_digital_content_settings
+=======
+    get_products_voucher_discount,
+    validate_voucher_in_order,
+)
+from ..order import FulfillmentStatus, OrderStatus
+from ..order.models import Order, OrderLine
+from ..plugins.manager import get_plugins_manager
+from ..product.utils.digital_products import get_default_digital_content_settings
+>>>>>>> REPLACE
+
+<<<<<<< SEARCH
+
+def update_order_status(order):
+    """Update order status depending on fulfillments."""
+    quantity_fulfilled = order.quantity_fulfilled
+    total_quantity = order.get_total_quantity()
+
+    if quantity_fulfilled <= 0:
+        status = OrderStatus.UNFULFILLED
+    elif quantity_fulfilled < total_quantity:
+        status = OrderStatus.PARTIALLY_FULFILLED
+    else:
+=======
+
+def update_order_status(order):
+    """Update order status depending on fulfillments."""
+    lines = list(order.lines.all())
+    total_quantity = sum([line.quantity for line in lines])
+    quantity_fulfilled = sum([line.quantity_fulfilled for line in lines])
+    quantity_returned = 0
+    quantity_replaced = 0
+    for fulfillment in order.fulfillments.all():
+        # count returned quantity for order
+        if fulfillment.status in [
+            FulfillmentStatus.RETURNED,
+            FulfillmentStatus.REFUNDED_AND_RETURNED,
+        ]:
+            quantity_returned += fulfillment.get_total_quantity()
+        # count replaced quantity for order
+        elif fulfillment.status == FulfillmentStatus.REPLACED:
+            quantity_replaced += fulfillment.get_total_quantity()
+
+    # Subtract the replace quantity as it shouldn't be taken into consideration for
+    # calculating the order status
+    total_quantity -= quantity_replaced
+    quantity_fulfilled -= quantity_replaced
+
+    # total_quantity == 0 means that all products have been replaced, we don't change
+    # the order status in that case
+    if total_quantity == 0:
+        status = order.status
+    elif quantity_fulfilled <= 0:
+        status = OrderStatus.UNFULFILLED
+    elif 0 < quantity_returned < total_quantity:
+        status = OrderStatus.PARTIALLY_RETURNED
+    elif quantity_returned == total_quantity:
+        status = OrderStatus.RETURNED
+    elif quantity_fulfilled < total_quantity:
+        status = OrderStatus.PARTIALLY_FULFILLED
+    else:
+>>>>>>> REPLACE

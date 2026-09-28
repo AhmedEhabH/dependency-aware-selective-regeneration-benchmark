@@ -1,0 +1,51 @@
+{
+  "artifact": "instrument_v21_ready",
+  "created_utc": "2026-09-28T23:20:53Z",
+  "head": "9045b1d8a4e06d9582d492dc44305b80b17002d2",
+  "interface_version": "wp2-e2e-interface-v2",
+  "smoke_version": "wp2-e2e-smoke-eng-v21",
+  "control_input_freeze_sha256": "54989b094c65b7f086506fc081a87105ab576f0592f5f5b2e03f49b00bda016f",
+  "verdicts": {
+    "G_FORMAT_CLEAN": true,
+    "G_FORMAT_NOISY": true,
+    "FORCED_REPAIR": true,
+    "NEGATIVE": true,
+    "REPAIR_CONTEXT": true,
+    "CACHE": true,
+    "HOLD_GATE": true,
+    "RETRY_BACKOFF": true,
+    "REPLAY_GUARD": true,
+    "LEAK": true,
+    "BUDGET": true
+  },
+  "all_controls_pass": true,
+  "evidence": {
+    "G_FORMAT_CLEAN": "controls/g_format_clean.json",
+    "G_FORMAT_NOISY": "controls/g_format_noisy.json",
+    "FORCED_REPAIR": "controls/forced_repair.json",
+    "NEGATIVE": "controls/negative.json",
+    "REPAIR_CONTEXT": "controls/repair_context.json",
+    "CACHE": "controls/cache.json",
+    "HOLD_GATE": "controls/hold_gate.json",
+    "RETRY_BACKOFF": "controls/retry_backoff.json",
+    "REPLAY_GUARD": "controls/replay_guard.json",
+    "LEAK": "controls/leak.json",
+    "BUDGET": "controls/budget.json"
+  },
+  "module_sha256": {
+    "generate.py": "562769c97acf2b7bce3fcc122b90a17cd0d24c13d0b856e650b27f70bffbb057",
+    "ledger.py": "38f6e498e8063bce3d56a6833c6468d6553f803691398d6b9a739e5ba25dd606",
+    "transport.py": "caf0b8ceca792c3451285862d7a8fc50d30c9116f94908acdf158539c10a8907",
+    "wp2_e2e_smoke_v21_controls.py": "8b7d9eacc1095b5de4ebbc1813f78122a23f69c380a68418e339c03a9793839c",
+    "wp2_e2e_smoke_v21_evaluate.py": "e55f6a88cc0efc28fbff9c557d1f380842e806522508218580a3ba746ffd929d",
+    "wp2_e2e_smoke_v21_freeze.py": "e99c4184878e6e7ab6affda972b6be9959398e9ef27f0ac1516774fcb397b5cd",
+    "wp2_e2e_smoke_v21_generate.py": "f408159a0c7643d399510871ac6cb6a071899770b5153e82ae268b2dadd6a9b4",
+    "wp2_e2e_smoke_v21_summary.py": "d1a4c0232587994e78aad90e22681263c6a863a8d4e46b8fe8946bc1cb473932",
+    "wp2_e2e_smoke_v21_variance.py": "1403aadbd905a16a74d52260151f196db5d73a0c74500b4aaed032de9c6596d8"
+  },
+  "junit_evidence": {
+    "v21_junit_files": 36,
+    "v1_clean": true
+  },
+  "verdict": "INSTRUMENT_V21_READY"
+}
