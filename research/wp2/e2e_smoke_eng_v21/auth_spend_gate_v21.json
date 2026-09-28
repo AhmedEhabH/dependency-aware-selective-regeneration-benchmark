@@ -1,0 +1,23 @@
+{
+  "artifact": "auth_spend_gate_v21",
+  "created_utc": "2026-09-28T23:34:53Z",
+  "head": "e986d9d4b6e77d5f7a3f11741c15d639d4e6d3b3",
+  "origin_main": "e986d9d4b6e77d5f7a3f11741c15d639d4e6d3b3",
+  "freeze_tag": "e986d9d4b6e77d5f7a3f11741c15d639d4e6d3b3",
+  "conditions": {
+    "every_prior_phase_pass": true,
+    "head_equals_origin_main": true,
+    "freeze_tag_points_to_head": true,
+    "frozen_manifest_verification_pass": true,
+    "no_unexpected_tracked_changes": true,
+    "spend_so_far_lt_0.10_usd": true,
+    "no_historical_v2_path_configured_for_v21_output": true,
+    "no_control_outcome_followed_by_code_modification": true
+  },
+  "notes": [
+    "C2 fixes (F01 replay-guard parity, controls-script temp-HOLD + E2E_ROOT redirect) were harness-defect fixes made BEFORE the controls passed, with failing tests first and DECISIONS entries; no modification followed the successful all-PASS control outcome.",
+    "Remaining tracked modifications are pre-existing H1 dirty v2 evidence (mission12_progress.json, wp2_e2e_smoke_v2_generate.py) documented as historical/read-only."
+  ],
+  "AUTO_SPEND_AUTHORIZATION_CONDITIONS_MET": "YES",
+  "authorized_budget_usd": 2.0
+}
