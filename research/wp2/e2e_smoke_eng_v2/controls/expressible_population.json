@@ -1,0 +1,501 @@
+{
+ "artifact": "expressible_population",
+ "head": "7f3a568dcb650d601ed5177156f03e2dfa8162c8",
+ "per_task": {
+  "saleor-rc-2d45b76a52f2": {
+   "paths": {
+    "saleor/core/jwt.py": {
+     "expressible": true,
+     "p1_sha256": "568da299fcab717213e951be0134c68aff2662e36e7cb551c8da5f47f644217b",
+     "reason": "ok"
+    },
+    "saleor/core/tests/test_jwt.py": {
+     "reason": "test-path",
+     "expressible": false
+    }
+   },
+   "expressible_paths": [
+    "saleor/core/jwt.py"
+   ],
+   "expressible_count": 1,
+   "total_modified_non_test": 1
+  },
+  "saleor-rc-39b4138e8550": {
+   "paths": {
+    "saleor/graphql/api.py": {
+     "expressible": true,
+     "p1_sha256": "4fa665368f7c08c7ed8b4666409c818f165ee23e63bd2c4bb6eba01d73b31520",
+     "reason": "ok"
+    },
+    "saleor/graphql/payment/schema.py": {
+     "expressible": true,
+     "p1_sha256": "12b9b10f4504d1b0f0486465a25a9ae5886d3574539454c7d48ddb12444330aa",
+     "reason": "ok"
+    },
+    "saleor/graphql/payment/tests/queries/test_transaction.py": {
+     "reason": "test-path",
+     "expressible": false
+    },
+    "saleor/graphql/payment/types.py": {
+     "expressible": true,
+     "p1_sha256": "fb18b6a7cb4d91417a9e4c7cf2e826f27a56255c1aa1a3c8621d0e08e96b059c",
+     "reason": "ok"
+    },
+    "saleor/graphql/schema.graphql": {
+     "reason": "not-in-editable",
+     "expressible": false
+    }
+   },
+   "expressible_paths": [
+    "saleor/graphql/api.py",
+    "saleor/graphql/payment/schema.py",
+    "saleor/graphql/payment/types.py"
+   ],
+   "expressible_count": 3,
+   "total_modified_non_test": 4
+  },
+  "saleor-rc-644f33094857": {
+   "paths": {
+    "saleor/graphql/order/mutations/fulfillments.py": {
+     "expressible": true,
+     "p1_sha256": "ce102bf4d13261acfd161a28c598fb03de0e44efa9e15058f4542d887d0c7842",
+     "reason": "ok"
+    },
+    "saleor/graphql/order/mutations/orders.py": {
+     "expressible": true,
+     "p1_sha256": "fa359a572afc89b201b9f98c0f53aa480649c78d4ffd728646a3e57467aca975",
+     "reason": "ok"
+    },
+    "saleor/order/actions.py": {
+     "expressible": true,
+     "p1_sha256": "c26cbe98fa56adb67358b74dbba6200b92e5954f369f5ec3214cd17cc136de8f",
+     "reason": "ok"
+    },
+    "saleor/order/events.py": {
+     "expressible": true,
+     "p1_sha256": "1460ab9a34b1d4ca8086503e8aaf4024c5ab97d7b2a666125c5976cef0c1e2a7",
+     "reason": "ok"
+    },
+    "saleor/order/models.py": {
+     "expressible": true,
+     "p1_sha256": "2d7ae733ac14e44f518182b3f2ed0eafef1e143788289af26dcebb62902e7537",
+     "reason": "ok"
+    },
+    "saleor/order/tests/test_order.py": {
+     "reason": "test-path",
+     "expressible": false
+    },
+    "saleor/order/tests/test_order_actions.py": {
+     "reason": "test-path",
+     "expressible": false
+    },
+    "saleor/order/tests/test_order_actions_create_fulfillments_for_returned_products.py": {
+     "reason": "test-path",
+     "expressible": false
+    },
+    "saleor/order/tests/test_order_actions_refund_products.py": {
+     "reason": "test-path",
+     "expressible": false
+    },
+    "saleor/order/utils.py": {
+     "expressible": true,
+     "p1_sha256": "e9b87582423dee4fa555b3501f5cc092b43fac1dfc6978a194cf898441e17ce4",
+     "reason": "ok"
+    }
+   },
+   "expressible_paths": [
+    "saleor/graphql/order/mutations/fulfillments.py",
+    "saleor/graphql/order/mutations/orders.py",
+    "saleor/order/actions.py",
+    "saleor/order/events.py",
+    "saleor/order/models.py",
+    "saleor/order/utils.py"
+   ],
+   "expressible_count": 6,
+   "total_modified_non_test": 6
+  },
+  "saleor-rc-6abb53f3407b": {
+   "paths": {
+    "saleor/graphql/account/tests/test_account.py": {
+     "reason": "test-path",
+     "expressible": false
+    },
+    "saleor/payment/gateways/stripe/plugin.py": {
+     "expressible": true,
+     "p1_sha256": "a6cc13db06a041f420a824b41454a4b0e9669e9dc01829a3e2a94f48eb05d27d",
+     "reason": "ok"
+    },
+    "saleor/payment/gateways/stripe/tests/test_plugin.py": {
+     "reason": "test-path",
+     "expressible": false
+    },
+    "saleor/payment/gateways/stripe/tests/test_webhooks.py": {
+     "reason": "test-path",
+     "expressible": false
+    },
+    "saleor/payment/gateways/stripe/webhooks.py": {
+     "expressible": true,
+     "p1_sha256": "0384e7b32d7519d690da36fc1b849eef1ab20db831c9a02bfa02ecc9e1074a5c",
+     "reason": "ok"
+    },
+    "saleor/payment/interface.py": {
+     "expressible": true,
+     "p1_sha256": "99e01bf2854c60c8b96ebe5737d5d4f03c560a9048b3edba32878734255ba5d2",
+     "reason": "ok"
+    },
+    "saleor/payment/utils.py": {
+     "expressible": true,
+     "p1_sha256": "676f4fa8a871ee6fd9230a32e2d91c16c6071a519f08282b4d0782a11e1f8fe5",
+     "reason": "ok"
+    }
+   },
+   "expressible_paths": [
+    "saleor/payment/gateways/stripe/plugin.py",
+    "saleor/payment/gateways/stripe/webhooks.py",
+    "saleor/payment/interface.py",
+    "saleor/payment/utils.py"
+   ],
+   "expressible_count": 4,
+   "total_modified_non_test": 4
+  },
+  "saleor-rc-74538ea00ce9": {
+   "paths": {
+    "saleor/graphql/discount/mutations/voucher/voucher_update.py": {
+     "expressible": true,
+     "p1_sha256": "64708627e0e5d2ba43f6fed3c20f15b3ec5babb3f7602fe02c9e155ec4d809e8",
+     "reason": "ok"
+    },
+    "saleor/graphql/discount/tests/mutations/test_voucher_update.py": {
+     "reason": "test-path",
+     "expressible": false
+    },
+    "saleor/graphql/order/mutations/draft_order_create.py": {
+     "expressible": true,
+     "p1_sha256": "6c406ba6a5b3fff4d4b965e2040152104daf28025e70eaaf8793a5b04a5f0680",
+     "reason": "ok"
+    },
+    "saleor/graphql/order/mutations/draft_order_update.py": {
+     "expressible": true,
+     "p1_sha256": "f5867ef8a8c59d429655a67fa5b3b5bb1eeedbe066e8b138677b13dfd5e0b4c3",
+     "reason": "ok"
+    },
+    "saleor/graphql/order/tests/mutations/test_draft_order_update.py": {
+     "reason": "test-path",
+     "expressible": false
+    },
+    "saleor/tests/e2e/orders/discounts/test_order_voucher_usage_is_released_when_voucher_is_removed.py": {
+     "reason": "status=A",
+     "expressible": false
+    },
+    "saleor/tests/e2e/orders/utils/draft_order_create.py": {
+     "reason": "test-path",
+     "expressible": false
+    }
+   },
+   "expressible_paths": [
+    "saleor/graphql/discount/mutations/voucher/voucher_update.py",
+    "saleor/graphql/order/mutations/draft_order_create.py",
+    "saleor/graphql/order/mutations/draft_order_update.py"
+   ],
+   "expressible_count": 3,
+   "total_modified_non_test": 4
+  },
+  "saleor-rc-823b899757ab": {
+   "paths": {
+    "saleor/graphql/product/mutations/products.py": {
+     "expressible": true,
+     "p1_sha256": "16ff5fceca695727809689c49ba3bdcf0a921f2ec4a3eb112f00cccd7692d323",
+     "reason": "ok"
+    },
+    "saleor/graphql/product/schema.py": {
+     "expressible": true,
+     "p1_sha256": "b8ccf6876fd26365320dc6a4078c634752408dce6f5c1b4997c291334a69ce6d",
+     "reason": "ok"
+    },
+    "saleor/graphql/product/tests/test_product_set_availability_for_purchase.py": {
+     "reason": "status=A",
+     "expressible": false
+    },
+    "saleor/graphql/schema.graphql": {
+     "reason": "not-in-editable",
+     "expressible": false
+    }
+   },
+   "expressible_paths": [
+    "saleor/graphql/product/mutations/products.py",
+    "saleor/graphql/product/schema.py"
+   ],
+   "expressible_count": 2,
+   "total_modified_non_test": 4
+  },
+  "saleor-rc-82c56bde0e34": {
+   "paths": {
+    "CHANGELOG.md": {
+     "reason": "not-in-editable",
+     "expressible": false
+    },
+    "saleor/core/payments.py": {
+     "expressible": true,
+     "p1_sha256": "28f83e917c4b63326bb138792afdb7003c6801fa0cd80ff92e1c5f883fa3640f",
+     "reason": "ok"
+    },
+    "saleor/graphql/checkout/tests/test_checkout.py": {
+     "reason": "test-path",
+     "expressible": false
+    },
+    "saleor/graphql/checkout/types.py": {
+     "expressible": true,
+     "p1_sha256": "0f329d0dfc3a1329bbe3184c5cb53c6dcde4ad377c02f1cf29903d2dd382217f",
+     "reason": "ok"
+    },
+    "saleor/payment/gateways/adyen/plugin.py": {
+     "expressible": true,
+     "p1_sha256": "3a7d97d69321d11d1cc52028871cfd733256d3743a35f99bbc5da7c18c0566d9",
+     "reason": "ok"
+    },
+    "saleor/payment/gateways/adyen/tests/test_plugin.py": {
+     "reason": "test-path",
+     "expressible": false
+    },
+    "saleor/payment/gateways/adyen/tests/utils/test_common.py": {
+     "reason": "test-path",
+     "expressible": false
+    },
+    "saleor/payment/gateways/adyen/utils/common.py": {
+     "expressible": true,
+     "p1_sha256": "5d29de737751d1a11baeb8e9acdc6c3cdfd656f375741373b0826a722a3be88e",
+     "reason": "ok"
+    },
+    "saleor/payment/gateways/authorize_net/tests/test_plugin.py": {
+     "reason": "test-path",
+     "expressible": false
+    },
+    "saleor/plugins/base_plugin.py": {
+     "expressible": true,
+     "p1_sha256": "0f0d9aa789538cd263a1f04dbc7aacc8f5ccafff52e3ccfad7dfe1982c5f271a",
+     "reason": "ok"
+    },
+    "saleor/plugins/manager.py": {
+     "expressible": true,
+     "p1_sha256": "6ffbd566a7d3bc2d6de6c39abc632d79be77a1dfa675b77274550528dae5a6f5",
+     "reason": "ok"
+    },
+    "saleor/plugins/webhook/plugin.py": {
+     "reason": "not-in-editable",
+     "expressible": false
+    },
+    "saleor/plugins/webhook/tests/test_payment_webhook.py": {
+     "reason": "test-path",
+     "expressible": false
+    }
+   },
+   "expressible_paths": [
+    "saleor/core/payments.py",
+    "saleor/graphql/checkout/types.py",
+    "saleor/payment/gateways/adyen/plugin.py",
+    "saleor/payment/gateways/adyen/utils/common.py",
+    "saleor/plugins/base_plugin.py",
+    "saleor/plugins/manager.py"
+   ],
+   "expressible_count": 6,
+   "total_modified_non_test": 8
+  },
+  "saleor-rc-8f76ddc6267f": {
+   "paths": {
+    "saleor/graphql/webhook/mutations/webhook_dry_run.py": {
+     "expressible": true,
+     "p1_sha256": "7ead741afc9444b74bf7db58a10a3eda3d8c20c6bb24b1f84b7e9da5c46abb74",
+     "reason": "ok"
+    },
+    "saleor/graphql/webhook/subscription_types.py": {
+     "expressible": true,
+     "p1_sha256": "86bfb174ea4a7db7e60197d1a65516f44f8f093768547347d17fea56afeba79f",
+     "reason": "ok"
+    },
+    "saleor/graphql/webhook/tests/mutations/test_webhook_dry_run.py": {
+     "reason": "test-path",
+     "expressible": false
+    }
+   },
+   "expressible_paths": [
+    "saleor/graphql/webhook/mutations/webhook_dry_run.py",
+    "saleor/graphql/webhook/subscription_types.py"
+   ],
+   "expressible_count": 2,
+   "total_modified_non_test": 2
+  },
+  "saleor-rc-93b20d78c011": {
+   "paths": {
+    "CHANGELOG.md": {
+     "expressible": true,
+     "p1_sha256": "4b016bd3de0fa007e3098e7062ef220ca5a3284ce8167661fc122b9c27fc847b",
+     "reason": "ok"
+    },
+    "saleor/graphql/account/resolvers.py": {
+     "expressible": true,
+     "p1_sha256": "a75d734b9c63b9cd2be2258e7dc42188303601f03735d9ea2b6c04031b75e3fb",
+     "reason": "ok"
+    },
+    "saleor/graphql/account/schema.py": {
+     "expressible": true,
+     "p1_sha256": "dacf86dcc4020856c706d3798ade0bad87d0b93782103a6162ca07a944c688ba",
+     "reason": "ok"
+    },
+    "saleor/graphql/account/tests/test_account.py": {
+     "reason": "test-path",
+     "expressible": false
+    },
+    "saleor/graphql/schema.graphql": {
+     "reason": "not-in-editable",
+     "expressible": false
+    }
+   },
+   "expressible_paths": [
+    "CHANGELOG.md",
+    "saleor/graphql/account/resolvers.py",
+    "saleor/graphql/account/schema.py"
+   ],
+   "expressible_count": 3,
+   "total_modified_non_test": 4
+  },
+  "saleor-rc-c3b9e396b07d": {
+   "paths": {
+    "saleor/graphql/product/bulk_mutations/products.py": {
+     "expressible": true,
+     "p1_sha256": "7c4180048aaee0f6913c0099eaaa6f39af68581fa1b842c29f564b6648a0ed26",
+     "reason": "ok"
+    },
+    "saleor/graphql/product/tests/test_product.py": {
+     "reason": "test-path",
+     "expressible": false
+    },
+    "saleor/warehouse/management.py": {
+     "expressible": true,
+     "p1_sha256": "40d7f1ec1b19a7b495a6e92c25d4e07a7410e3554b079c869c8668c0486edc5e",
+     "reason": "ok"
+    },
+    "saleor/warehouse/tests/test_stock_management.py": {
+     "reason": "test-path",
+     "expressible": false
+    }
+   },
+   "expressible_paths": [
+    "saleor/graphql/product/bulk_mutations/products.py",
+    "saleor/warehouse/management.py"
+   ],
+   "expressible_count": 2,
+   "total_modified_non_test": 2
+  },
+  "saleor-rc-d220843b5418": {
+   "paths": {
+    "saleor/graphql/checkout/tests/test_checkout.py": {
+     "reason": "test-path",
+     "expressible": false
+    },
+    "saleor/graphql/webhook/resolvers.py": {
+     "expressible": true,
+     "p1_sha256": "6b1d278e5d411638b9135d7980d4406caead7c20d026ec2040ba90d32bf5db7d",
+     "reason": "ok"
+    },
+    "saleor/graphql/webhook/subscription_types.py": {
+     "expressible": true,
+     "p1_sha256": "b470598cf2c695be89759bd83e4e33c619da08fec8a9395b5d21c63dd31a8879",
+     "reason": "ok"
+    }
+   },
+   "expressible_paths": [
+    "saleor/graphql/webhook/resolvers.py",
+    "saleor/graphql/webhook/subscription_types.py"
+   ],
+   "expressible_count": 2,
+   "total_modified_non_test": 2
+  },
+  "saleor-rc-dc6ac9d252df": {
+   "paths": {
+    "saleor/giftcard/notifications.py": {
+     "expressible": true,
+     "p1_sha256": "5aa637b73571791fedfbd03ee3a9944a2a7271ed4f1765adced27f7e6aa1ebf0",
+     "reason": "ok"
+    },
+    "saleor/plugins/sendgrid/tasks.py": {
+     "expressible": true,
+     "p1_sha256": "f6d56f8a66f726deab4b80517f2cdef93d5f08f4e2a0c293dabb23134e2955c6",
+     "reason": "ok"
+    },
+    "saleor/plugins/sendgrid/tests/test_tasks.py": {
+     "reason": "test-path",
+     "expressible": false
+    },
+    "saleor/plugins/user_email/default_email_templates/gift_card.html": {
+     "expressible": true,
+     "p1_sha256": "e2d65a7f2e3fc48b382c94592bdeaecacb929ca5e2c8b802dbc99cc7b79dff74",
+     "reason": "ok"
+    }
+   },
+   "expressible_paths": [
+    "saleor/giftcard/notifications.py",
+    "saleor/plugins/sendgrid/tasks.py",
+    "saleor/plugins/user_email/default_email_templates/gift_card.html"
+   ],
+   "expressible_count": 3,
+   "total_modified_non_test": 3
+  },
+  "saleor-rc-e03ee76d2b89": {
+   "paths": {
+    "CHANGELOG.md": {
+     "reason": "not-in-editable",
+     "expressible": false
+    },
+    "saleor/graphql/core/tests/test_validators.py": {
+     "reason": "test-path",
+     "expressible": false
+    },
+    "saleor/graphql/core/validators/__init__.py": {
+     "expressible": true,
+     "p1_sha256": "a1e75814cfb86b9aae0024c9030d91a39d46d0661c490420cce035a501a3839e",
+     "reason": "ok"
+    }
+   },
+   "expressible_paths": [
+    "saleor/graphql/core/validators/__init__.py"
+   ],
+   "expressible_count": 1,
+   "total_modified_non_test": 2
+  },
+  "saleor-rc-e25cf9b4a837": {
+   "paths": {
+    "saleor/graphql/checkout/tests/test_checkout.py": {
+     "reason": "test-path",
+     "expressible": false
+    },
+    "saleor/graphql/payment/tests/test_payment.py": {
+     "reason": "test-path",
+     "expressible": false
+    },
+    "saleor/graphql/shop/tests/test_shop.py": {
+     "reason": "test-path",
+     "expressible": false
+    },
+    "saleor/payment/gateways/dummy_credit_card/plugin.py": {
+     "expressible": true,
+     "p1_sha256": "85cd86334f015766ef1ee576b229944e0e89ba2c63dfde1cf8fea4870a7028b5",
+     "reason": "ok"
+    },
+    "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py": {
+     "reason": "test-path",
+     "expressible": false
+    }
+   },
+   "expressible_paths": [
+    "saleor/payment/gateways/dummy_credit_card/plugin.py"
+   ],
+   "expressible_count": 1,
+   "total_modified_non_test": 1
+  }
+ },
+ "summary": {
+  "expressible_count": 39,
+  "modified_non_test_count": 47,
+  "denominator_frozen_before_controls": true
+ }
+}

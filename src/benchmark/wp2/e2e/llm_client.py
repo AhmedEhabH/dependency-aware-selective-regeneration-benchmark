@@ -57,12 +57,11 @@ class OpenRouterClient:
             raise GenerationError(f"API key not found in {self._api_key_env}")
         return key.strip().strip('"').strip("'").strip()
 
-    def generate(self, system: str, user: str) -> CallResult:
+    def generate_messages(self, messages: list[dict[str, Any]]) -> CallResult:
         api_key = self._api_key()
         body: dict[str, Any] = {
             "model": self._model,
-            "messages": [{"role": "system", "content": system},
-                         {"role": "user", "content": user}],
+            "messages": messages,
             "temperature": self._temperature,
             "max_tokens": self._max_tokens,
             "stream": False,
@@ -105,22 +104,41 @@ class OpenRouterClient:
                 last_exc = exc
         raise GenerationError(f"3 consecutive transport failures: {last_exc}")
 
+    def generate(self, system: str, user: str) -> CallResult:
+        return self.generate_messages([
+            {"role": "system", "content": system},
+            {"role": "user", "content": user},
+        ])
+
 
 class ReplayClient:
-    """Deterministic client for tests / zero-API controls (cost 0)."""
+    """Deterministic client for tests / zero-API controls (cost 0).
+
+    ``generate_messages`` keys on the sha256 of the whole messages list so
+    that identical multi-message requests (including the full-context repair)
+    produce identical responses.
+    """
 
     def __init__(self, responses: dict[str, str]) -> None:
         self._responses = responses
         self.calls: list[tuple[str, str]] = []
 
-    def generate(self, _system: str, user: str) -> CallResult:
-        sha = hashlib.sha256(user.encode("utf-8")).hexdigest()
-        self.calls.append((sha, user))
-        text = self._responses.get(sha, self._responses.get(user, ""))
+    def generate_messages(self, messages: list[dict[str, Any]]) -> CallResult:
+        canonical = json.dumps(messages, sort_keys=True, ensure_ascii=False)
+        sha = hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+        self.calls.append((sha, canonical))
+        text = self._responses.get(sha, self._responses.get(canonical, ""))
         return CallResult(text=text, finish_reason="stop",
-                          prompt_tokens=len(user) // 4, completion_tokens=len(text) // 4,
+                          prompt_tokens=len(canonical) // 4,
+                          completion_tokens=len(text) // 4,
                           cost_usd=0.0, route="replay", provider="replay",
                           latency_s=0.0, request_id=f"replay-{sha[:8]}")
+
+    def generate(self, system: str, user: str) -> CallResult:
+        return self.generate_messages([
+            {"role": "system", "content": system},
+            {"role": "user", "content": user},
+        ])
 
 
 class Ledger:

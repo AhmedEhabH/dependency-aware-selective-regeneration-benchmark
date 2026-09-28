@@ -30,10 +30,20 @@ Rules:
 5. Keep the code valid for the stated Python version.
 6. No explanations. No markdown code fences."""
 
+# I04 (Interface v2): rule 6 replaced with the formatting-only instruction.
+SYSTEM_PROMPT_V2 = SYSTEM_PROMPT.replace(
+    "6. No explanations. No markdown code fences.",
+    "6. Begin your output directly with the first FILE line. No explanations. No markdown code fences.",
+)
+
 REPAIR_TEMPLATE = """Your previous output could not be applied. Problems:
 {problems}
 
 Return the COMPLETE corrected set of edit blocks for the whole change (not only the fixes), in the same format. Output only edit blocks."""
+
+# I05 (Interface v2): one extra line appended when SEARCH_ELLIPSIS or SEARCH_ERROR occurred.
+REPAIR_HINT_ELLIPSIS = ('Copy SEARCH lines exactly from the file shown above; '
+                        'never abbreviate with "...".')
 
 
 def _sha(text: str) -> str:
@@ -73,6 +83,33 @@ def build_prompt(task_input, editable: list[str], parent_texts: dict[str, str],
 def build_repair_prompt(_previous_output: str, errors: list[str]) -> str:
     problems = "\n".join(f"- {e}" for e in errors)
     return REPAIR_TEMPLATE.format(problems=problems)
+
+
+def build_repair_user_message(errors: list[str], hint_ellipsis: bool = False) -> str:
+    """Repair instruction (user role). I05: append the ellipsis hint when the
+    previous output triggered SEARCH_ELLIPSIS or SEARCH_ERROR."""
+    msg = REPAIR_TEMPLATE.format(problems="\n".join(f"- {e}" for e in errors))
+    if hint_ellipsis:
+        msg += "\n" + REPAIR_HINT_ELLIPSIS
+    return msg
+
+
+def build_repair_messages(system_prompt: str, original_user: str,
+                          previous_output: str, errors: list[str],
+                          hint_ellipsis: bool = False) -> list[dict[str, str]]:
+    """Exact four-message repair request (Mission-11 Appendix P2 / Mission-12 D2):
+
+    1. system
+    2. original user
+    3. previous assistant output
+    4. repair instruction
+    """
+    return [
+        {"role": "system", "content": system_prompt},
+        {"role": "user", "content": original_user},
+        {"role": "assistant", "content": previous_output},
+        {"role": "user", "content": build_repair_user_message(errors, hint_ellipsis)},
+    ]
 
 
 def split_sections(user_prompt: str) -> tuple[str, str]:

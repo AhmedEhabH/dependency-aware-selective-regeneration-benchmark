@@ -9,6 +9,8 @@ import hashlib
 import json
 
 SMOKE_VERSION = "wp2-e2e-smoke-eng-v1"
+SMOKE_VERSION_V2 = "wp2-e2e-smoke-eng-v2"
+INTERFACE_VERSION = "wp2-e2e-interface-v2"
 ARMS = ("GOLD_HARD", "RMCSS_HARD", "AGENT_HARD", "PLACEBO_HARD")
 
 SMOKE_TASKS = [

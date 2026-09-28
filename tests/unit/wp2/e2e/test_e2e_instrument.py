@@ -157,11 +157,12 @@ def test_replay_client_deterministic() -> None:
     assert r1.cost_usd == 0.0
 
 
-# B8 generate episodes
+# B8 generate episodes (F01: test writes only under tmp_path, never the real root)
 def test_generate_valid_episode(monkeypatch, tmp_path: Path) -> None:
     from benchmark.wp2.e2e import generate as gen
     from benchmark.wp2.e2e.generate import run_episode
     from benchmark.wp2.e2e.llm_client import Ledger, ReplayClient
+    monkeypatch.setattr(gen, "E2E_ROOT", tmp_path)
     monkeypatch.setattr(gen, "py_compile_in_era", lambda era, files: {p: "ok" for p in files})
     monkeypatch.setattr(gen, "editable_filter",
                         lambda tid, arm: {"editable": ["saleor/x/models.py"],
@@ -180,6 +181,8 @@ def test_generate_valid_episode(monkeypatch, tmp_path: Path) -> None:
     assert ep["status"] in ("APPLIED", "INVALID_AFTER_REPAIR")
     assert ep["task_id"] == "saleor-rc-39b4138e8550"
     assert ep["arm"] == "GOLD_HARD"
+    assert not (gen.E2E_ROOT / "episodes" / "saleor-rc-39b4138e8550").exists() or \
+        Path(__file__).resolve().parents[4] / "research" / "wp2" / "e2e_smoke_eng_v1" != gen.E2E_ROOT
 
 
 import sys  # noqa: E402

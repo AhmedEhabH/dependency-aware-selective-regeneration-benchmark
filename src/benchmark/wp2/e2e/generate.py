@@ -169,9 +169,29 @@ def _record_ledger(ledger: Ledger, call, task_id: str, arm: str, kind: str) -> N
                    "completion_tokens": call.completion_tokens, "request_id": call.request_id})
 
 
+class ReplayInPaidEvidenceError(RuntimeError):
+    """F01: a replay (test/control) call must never enter a paid evidence root."""
+
+
+def _is_paid_episodes_root(base: Path) -> bool:
+    """True if base resolves under a paid Smoke evidence episodes dir (v1 or v2)."""
+    parts = [p.lower() for p in base.parts]
+    return "episodes" in parts and any(
+        f"e2e_smoke_eng_{ver}" in parts for ver in ("v1", "v2")
+    )
+
+
 def _persist_episode(rec: dict, diffs: list[str], final_texts: dict[str, str]) -> None:
-    """B8 step 6: persist episode.json for every status; final artifacts for APPLIED."""
+    """B8 step 6: persist episode.json for every status; final artifacts for APPLIED.
+
+    F01 guard: a replay call must never be persisted into a paid Smoke evidence
+    root (v1 or v2 episodes dir). Control labels persist under controls/.
+    """
     base = E2E_ROOT / "episodes" / rec["task_id"] / rec["arm"]
+    replay = [c for c in rec.get("calls", []) if c.get("route") == "replay"]
+    if replay and _is_paid_episodes_root(base):
+        raise ReplayInPaidEvidenceError(
+            f"replay route blocked from paid evidence root {base}: {replay}")
     base.mkdir(parents=True, exist_ok=True)
     (base / "episode.json").write_text(json.dumps(rec, indent=1, ensure_ascii=False), encoding="utf-8")
     if rec["status"] == "APPLIED":
