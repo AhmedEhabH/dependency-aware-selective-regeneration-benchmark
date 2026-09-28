@@ -1,0 +1,136 @@
+{
+ "artifact": "dev_eng_agent_budget",
+ "note": "Frozen budget-model v2 worst-case per DEV union task (D60/D62 pricing 0.30/1.00 per 1M; agent cap 1024; 8 calls).",
+ "ceiling_usd": 1.0,
+ "worst_case_total_usd": 0.611818,
+ "worst_case_per_task": {
+  "saleor-rc-22ec4dab0154": {
+   "base_prompt_chars": 17293.0,
+   "base_prompt_tokens": 5424.8141,
+   "worst_case_prompt_tokens": 61492.728800000004,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 69684.72880000001,
+   "worst_case_usd": 0.02663981864
+  },
+  "saleor-rc-2d45b76a52f2": {
+   "base_prompt_chars": 34986.0,
+   "base_prompt_tokens": 10975.108199999999,
+   "worst_case_prompt_tokens": 105895.0816,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 114087.0816,
+   "worst_case_usd": 0.03996052448
+  },
+  "saleor-rc-39b4138e8550": {
+   "base_prompt_chars": 51966.0,
+   "base_prompt_tokens": 16301.734199999999,
+   "worst_case_prompt_tokens": 148508.0896,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 156700.0896,
+   "worst_case_usd": 0.05274442688
+  },
+  "saleor-rc-644f33094857": {
+   "base_prompt_chars": 19101.0,
+   "base_prompt_tokens": 5991.9837,
+   "worst_case_prompt_tokens": 66030.08559999999,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 74222.08559999999,
+   "worst_case_usd": 0.02800102568
+  },
+  "saleor-rc-6abb53f3407b": {
+   "base_prompt_chars": 21524.0,
+   "base_prompt_tokens": 6752.078799999999,
+   "worst_case_prompt_tokens": 72110.84640000001,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 80302.84640000001,
+   "worst_case_usd": 0.029825253920000003
+  },
+  "saleor-rc-74538ea00ce9": {
+   "base_prompt_chars": 49210.0,
+   "base_prompt_tokens": 15437.177,
+   "worst_case_prompt_tokens": 141591.63199999998,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 149783.63199999998,
+   "worst_case_usd": 0.05066948959999999
+  },
+  "saleor-rc-823b899757ab": {
+   "base_prompt_chars": 18002.0,
+   "base_prompt_tokens": 5647.2274,
+   "worst_case_prompt_tokens": 63272.0352,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 71464.0352,
+   "worst_case_usd": 0.02717361056
+  },
+  "saleor-rc-82c56bde0e34": {
+   "base_prompt_chars": 47117.0,
+   "base_prompt_tokens": 14780.6029,
+   "worst_case_prompt_tokens": 136339.0392,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 144531.0392,
+   "worst_case_usd": 0.04909371176
+  },
+  "saleor-rc-8f76ddc6267f": {
+   "base_prompt_chars": 38093.0,
+   "base_prompt_tokens": 11949.774099999999,
+   "worst_case_prompt_tokens": 113692.40879999999,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 121884.40879999999,
+   "worst_case_usd": 0.042299722639999995
+  },
+  "saleor-rc-9258154b8a0b": {
+   "base_prompt_chars": 46862.0,
+   "base_prompt_tokens": 14700.6094,
+   "worst_case_prompt_tokens": 135699.0912,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 143891.0912,
+   "worst_case_usd": 0.048901727359999994
+  },
+  "saleor-rc-93b20d78c011": {
+   "base_prompt_chars": 19250.0,
+   "base_prompt_tokens": 6038.724999999999,
+   "worst_case_prompt_tokens": 66404.016,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 74596.016,
+   "worst_case_usd": 0.0281132048
+  },
+  "saleor-rc-c3b9e396b07d": {
+   "base_prompt_chars": 21825.0,
+   "base_prompt_tokens": 6846.5025,
+   "worst_case_prompt_tokens": 72866.236,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 81058.236,
+   "worst_case_usd": 0.030051870799999998
+  },
+  "saleor-rc-d220843b5418": {
+   "base_prompt_chars": 52697.0,
+   "base_prompt_tokens": 16531.048899999998,
+   "worst_case_prompt_tokens": 150342.6072,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 158534.6072,
+   "worst_case_usd": 0.05329478216
+  },
+  "saleor-rc-dc6ac9d252df": {
+   "base_prompt_chars": 21134.0,
+   "base_prompt_tokens": 6629.7357999999995,
+   "worst_case_prompt_tokens": 71132.1024,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 79324.1024,
+   "worst_case_usd": 0.02953163072
+  },
+  "saleor-rc-e03ee76d2b89": {
+   "base_prompt_chars": 46439.0,
+   "base_prompt_tokens": 14567.914299999999,
+   "worst_case_prompt_tokens": 134637.5304,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 142829.5304,
+   "worst_case_usd": 0.04858325911999999
+  },
+  "saleor-rc-e25cf9b4a837": {
+   "base_prompt_chars": 17683.0,
+   "base_prompt_tokens": 5547.157099999999,
+   "worst_case_prompt_tokens": 62471.472799999996,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_total_tokens": 70663.47279999999,
+   "worst_case_usd": 0.026933441839999996
+  }
+ }
+}
