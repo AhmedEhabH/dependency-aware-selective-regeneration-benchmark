@@ -13,6 +13,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import pytest
+
 from benchmark.wp2.e2e.response_cache import ResponseCache
 from benchmark.wp2.e2e_v21 import generate as gv21
 from benchmark.wp2.e2e_v21.ledger import LedgerV21
@@ -214,3 +216,23 @@ def test_generation_fail_record_never_replaces_calls_with_empty(tmp_path: Path, 
     assert rec["calls"] == [{"kind": "initial", "provider_call": True}]
     assert rec["status"] == "GENERATION_FAIL"
     assert "TransportError: boom" in rec["flags"][-1]
+
+
+def test_replay_guard_blocks_paid_root_allows_controls(tmp_path: Path) -> None:
+    """F01 parity: a replay call is blocked from the paid 'episodes' root but
+    allowed under a non-paid subdir (controls)."""
+    rec = {
+        "smoke_version": "wp2-e2e-smoke-eng-v21", "task_id": "t1", "arm": "GOLD_HARD",
+        "status": "APPLIED", "editable_set": [], "excluded": {},
+        "calls": [{"kind": "initial", "route": "replay", "provider": "replay",
+                   "prompt_tokens": 1, "completion_tokens": 0, "cost_usd_actual": 0.0,
+                   "cost_usd_nominal": 0.0, "finish_reason": "stop", "latency_s": 0.0,
+                   "response_sha256": ""}],
+        "validation": {}, "repair_used": False, "edited_files": [],
+        "diff_sha256": "", "flags": [], "spec_sha256": "", "created_utc": "",
+        "episode_sha256": "",
+    }
+    with pytest.raises(gv21.ReplayInPaidEvidenceError):
+        gv21._persist_episode_v21(tmp_path, rec, [], {}, subdir="episodes")
+    gv21._persist_episode_v21(tmp_path, rec, [], {}, subdir="controls")
+    assert (tmp_path / "controls" / "t1" / "GOLD_HARD" / "episode.json").exists()

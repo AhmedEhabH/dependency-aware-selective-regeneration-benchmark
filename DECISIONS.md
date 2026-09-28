@@ -2451,3 +2451,12 @@ Mission-11 one-shot (sole authoritative directive, supersedes Mission-10B STOP-f
   copy; the real v1 scope files were restored byte-for-byte from HEAD and their semantic
   hashes verified equal to the v1 smoke freeze (4/4 arms).
 - v1/v2 evidence immutability restored and verified.
+
+## Decision MISSION_12B_V21 - T2 F01 PARITY FIX (C2 control phase)
+- The v21 _persist_episode_v21 initially blocked replay routes in EVERY subdir,
+  which diverged from the frozen F01 semantics: replay (test/control) calls are
+  allowed under non-paid subdirs (controls/) and blocked only from the paid
+  'episodes' root.
+- Harness defect in the v2.1 port (not a scientific knob). Fixed with a failing
+  regression test first (test_replay_guard_blocks_paid_root_allows_controls).
+- The G-POS zero-API control (replay client + materialize + evaluate) now runs.

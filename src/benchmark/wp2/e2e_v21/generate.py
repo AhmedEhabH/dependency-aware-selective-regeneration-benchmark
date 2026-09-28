@@ -105,10 +105,14 @@ def _persist_episode_v21(root: Path, rec: dict, diffs: list[str],
     ``subdir`` is 'episodes' for the main run and 'variance' for variance
     replicates. ``label`` distinguishes replicates (e.g. var_r1) so r1 can
     never overwrite r2.
+
+    F01 guard: a replay (test/control) call may only be persisted under a
+    non-paid subdir (e.g. 'controls'); it is blocked from the paid 'episodes'
+    root.
     """
     calls = rec.get("calls", [])
     replay = [c for c in calls if c.get("route") == "replay"]
-    if replay:
+    if replay and subdir == "episodes":
         raise ReplayInPaidEvidenceError(
             f"replay route blocked from v21 paid evidence root: {replay}")
     arm_dir = label or rec["arm"]
