@@ -115,8 +115,9 @@ def run_episode(task_id: str, arm: str, client, ledger: Ledger,
             final = {}
     status = "APPLIED" if not errors else "INVALID_AFTER_REPAIR"
     if not final:
+        repair_errors = errors2 if repair_used else errors
         return _episode(task_id, arm, status, scope, [prompt_sha], calls,
-                        {"initial": [], "repair": []}, [], [], reused)
+                        {"initial": errors, "repair": repair_errors}, [], [], reused)
     diff = unified_diff(_parent_texts(task_id, scope["editable"]), final)
     return _episode(task_id, arm, status, scope, [prompt_sha], calls,
                     {"initial": errors, "repair": [] if not repair_used else []},

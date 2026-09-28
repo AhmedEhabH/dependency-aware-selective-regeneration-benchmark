@@ -46,16 +46,24 @@ def gold_as_model_output(task_id: str) -> str:
 def run_pos() -> int:
     from benchmark.wp2.e2e import generate as gen
     out = {"artifact": "g_pos", "per_task": {}}
+
+    class GoldClient:
+        def __init__(self, gold: str) -> None:
+            self.gold = gold
+
+        def generate(self, _system: str, _user: str):
+            return ReplayClient({}).generate(_system, self.gold)
+
     for tid in CONTROL_TASKS:
         parent, target = commits_of(tid)
+        gold = gold_as_model_output(tid)
         # monkeypatch generate's py_compile to ok (container syntax check done by evaluator)
         real_pycompile = gen.py_compile_in_era
         gen.py_compile_in_era = lambda _era, files: {p: "ok" for p in files}
         try:
-            client = ReplayClient({})
             ledger = Ledger(E2E_ROOT / "ledger" / "controls.jsonl",
                             {"AGENT": CEILING_AGENT_USD, "SMOKE": CEILING_SMOKE_USD})
-            ep = run_episode(tid, "GOLD_HARD", client, ledger)
+            ep = run_episode(tid, "GOLD_HARD", GoldClient(gold), ledger)
         finally:
             gen.py_compile_in_era = real_pycompile
         if ep["status"] != "APPLIED":
