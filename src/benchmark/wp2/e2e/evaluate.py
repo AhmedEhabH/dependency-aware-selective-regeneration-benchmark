@@ -89,7 +89,8 @@ def evaluate_state(task_id: str, label: str, worktree: str) -> dict:
     from benchmark.wp2.e2e.scopes import commits_of
     _, target = commits_of(task_id)
     from benchmark.wp2.e2e.evaluator_sets import load_evaluator_sets
-    inv = json.loads((PROJECT / "research/wp2/wp2_dev_unchanged_p2p_candidate_inventory_v1_2026-09-25.json").read_text(encoding="utf-8"))
+    inv = json.loads((PROJECT / "research/wp2/wp2_dev_unchanged_p2p_candidate_inventory_v1_2026-09-25.json")
+                     .read_text(encoding="utf-8"))
     era_key = next(r["era_key"] for r in inv["tasks"] if r["task_id"] == task_id)
     from benchmark.wp2.harness_v3 import (
         TOOLING_INSTALL,
