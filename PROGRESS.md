@@ -4,7 +4,7 @@
 
 ## LIVE STATUS — single current-state source of truth
 
-**Position:** Mission-10A environment test-dependency audit COMPLETE (zero-API). PROVEN declared-but-not-installed: pytest-django-queries + pytest-mock omitted from frozen V2; explains 41/41 P2P-U cap200 COLLECTION_ERROR and 98.7% of py312 C4 error-TOI records. Scratch probe task 1 recovered 18/18 SET A nodes to P2P_ONLY, but SET B non-regression FAILED (1 V2 BEHAVIORAL_F2P node flipped to P2P_ONLY, V2 JWT iat clock-skew flake). DECISION TOKEN = ENV_AUDIT_INCONCLUSIVE; probe stopped per preregistered S2. No generation/Smoke/DEV-47/HOLDOUT/VALIDATION/MAIN execution. MAIN quarantined; INTERNAL_TEST untouched; 786 RESERVE sealed.
+**Position:** Mission-10B CLOSED (HARNESS_V3_RECOMMENDED / PHASE_REACHED=5-ENG / ENG_SMOKE_READY=YES) + WP-2 Environment Closure V3.1 COMPLETE. Historical dev/test deps installed by rule; corrected ENG evidence re-run; oracle membership sets UNCHANGED (union 16 / behavioral 14 / symbol 2). MISSING_FIXTURE 164->0, SOCKET_BLOCKED 132->0, P2P-U stable 0.996. No generation/Smoke/paid call.
 
 **Research pipeline:**
 
@@ -62,11 +62,11 @@
 | Mission-10A environment test-dependency audit (zero-API, Tier T3) | DONE (ENV_AUDIT_INCONCLUSIVE) | proven declared-but-not-installed dev/test group in frozen V2; ENG-only scratch probe (task 1) recovered 18/18 SET A; SET B non-regression FAILED (1 V2 BEHAVIORAL_F2P node flip) -> STOP per preregistered S2; no V3 build, no generation, no Smoke |
 | Full DEV-47 P2P-U cap200 + Smoke freeze | NOT AUTHORIZED | requires Ahmed decision; estimates ready (DEV ~6.7 h central) |
 
-**Next action:** Ahmed decision (ENV_AUDIT_INCONCLUSIVE): approve targeted follow-up = (1) V2 BEHAVIORAL_F2P node flakiness audit (JWT iat clock-skew class), (2) complete probe task 2 + SET B under clock-skew-robust harness, (3) re-decide V3/V2/INCONCLUSIVE. No generation, Smoke, DEV-47, HOLDOUT, VALIDATION, or MAIN execution.
+**Next action:** Continue Mission-11: Part B build the WP-2 shared E2E instrument (generator/validator/repair/evaluator, zero API), B10-B12 unit tests + zero-API controls, then C1 paid preflight, C2 Agent scopes (<=$1.00), C3 freeze, D1 Smoke generation (<=$4.50), D2 evaluation, D3-D4 closure. Total paid ceiling $5.50.
 
 **End-to-end status:** WP-2 has **not started**; E2E-G6 F2P/P2P oracle has **not started**; **no** E2E Smoke, Pilot or Research Run exists yet.
 
-*Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-09-26 (Africa/Cairo).*
+*Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-09-27 (Africa/Cairo).*
 <!-- LIVE_STATUS:END -->
 
 ## MISSION-10A — GOAL -> OUTCOMES -> DRIVERS -> ACTIONS -> SCHEDULE -> TRACKING -> REFLECTION

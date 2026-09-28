@@ -1,0 +1,27 @@
+{
+  "artifact": "later_work_estimates_v3",
+  "created_utc": "2026-09-27",
+  "measured_basis": {
+    "c4_per_task_min": {"optimistic": 3, "central": 5, "conservative": 8},
+    "p2pu_per_unit_min": {"optimistic": 10, "central": 13, "conservative": 20},
+    "note": "Measured under the CORRECTED V3.1 environment (dev closure installed)."
+  },
+  "estimates": {
+    "c2_main_v3_rerun_220_tasks": {
+      "n_tasks": 220,
+      "hours": {"optimistic": 11.0, "central": 18.3, "conservative": 29.3},
+      "note": "220 tasks x C4 rate (5 min central). Requires C2 authorization (NOT authorized here)."
+    },
+    "non_eng_c4_remaining": {
+      "n_tasks": 82,
+      "hours": {"optimistic": 4.1, "central": 6.8, "conservative": 10.9},
+      "note": "C4 queue STAGE_C count 82; after the ENG 29. Not run here (Stage C not authorized)."
+    },
+    "full_dev47_p2pu_cap200": {
+      "n_tasks": 47,
+      "n_units": 47,
+      "hours": {"optimistic": 7.8, "central": 10.2, "conservative": 15.7},
+      "note": "47 tasks x cap200 only (1 unit each) x 13 min central."
+    }
+  }
+}

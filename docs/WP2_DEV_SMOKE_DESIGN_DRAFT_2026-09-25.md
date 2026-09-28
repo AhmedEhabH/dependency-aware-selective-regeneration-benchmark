@@ -252,3 +252,17 @@ generation):
    worth testing (not authorized here).
 6. **Arm set** — confirm Arm A (RM-CSS) + Arm B (Agent) + optional Arm P
    (Placebo) for Smoke.
+# MISSION-10B UPDATE - V3 ENG population (2026-09-27)
+
+Following the WP-2 Environment Closure V3.1 (missing dev/test deps installed by
+rule), the corrected ENG evidence is:
+- 14 behavioral / 2 symbol-only / oracle-valid union 16 (UNCHANGED).
+- P2P-S: 14 defined / 2 undefined (39b4138e8550, 823b899757ab) - 1791 nodes.
+- P2P-U cap200+cap400: 16/16 defined (9258154b8a0b recovered from zero-candidate),
+  overall stable rate cap200 0.9961 / cap400 0.9973 (MISSING_FIXTURE 164->0,
+  SOCKET_BLOCKED 132->0).
+- Added Catch metric (Mission-10B section 27): computed in the Smoke evaluation
+  (P2P-S PASS AND P2P-U200 FAIL episodes / defined P2P-U200).
+- Smoke design decisions per Mission-11 section 3 (D30-D64): 14 behavioral tasks,
+  arms GOLD_HARD / RMCSS_HARD / AGENT_HARD / PLACEBO_HARD, 1 replicate, ceiling
+  $5.50 total, zero-API controls before any paid call.
