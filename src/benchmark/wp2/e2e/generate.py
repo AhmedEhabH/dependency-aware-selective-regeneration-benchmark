@@ -87,11 +87,11 @@ def run_episode(task_id: str, arm: str, client, ledger: Ledger,
     reused = False
     response = cache.get(prompt_sha)
     if response is None:
-        ledger.check_budget_if_over() if hasattr(ledger, "check_budget_if_over") else None
         call = client.generate(system, user)
         response = call.text
         cache.put(prompt_sha, response)
         calls = [_call_entry(call, "initial")]
+        _record_ledger(ledger, call, task_id, arm, "initial")
     else:
         reused = True
         calls = []
@@ -105,6 +105,7 @@ def run_episode(task_id: str, arm: str, client, ledger: Ledger,
         response2 = call2.text
         cache.put(prompt_sha, response2)
         calls.append(_call_entry(call2, "repair"))
+        _record_ledger(ledger, call2, task_id, arm, "repair")
         errors2, final2 = validate_output(response2, scope["editable"],
                                           _parent_texts(task_id, scope["editable"]),
                                           "stop", ti.era_key)
@@ -154,6 +155,14 @@ def _call_entry(call, kind: str) -> dict:
             "cost_usd_actual": call.cost_usd, "cost_usd_nominal": call.cost_usd,
             "finish_reason": call.finish_reason, "latency_s": call.latency_s,
             "response_sha256": hashlib.sha256(call.text.encode("utf-8")).hexdigest()}
+
+
+def _record_ledger(ledger: Ledger, call, task_id: str, arm: str, kind: str) -> None:
+    if ledger is None:
+        return
+    ledger.record({"stage": "SMOKE", "task_id": task_id, "arm": arm, "kind": kind,
+                   "cost_usd": call.cost_usd, "prompt_tokens": call.prompt_tokens,
+                   "completion_tokens": call.completion_tokens, "request_id": call.request_id})
 
 
 def _persist_episode(rec: dict, diffs: list[str], final_texts: dict[str, str]) -> None:

@@ -1,0 +1,61 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v1",
+ "task_id": "saleor-rc-39b4138e8550",
+ "arm": "PLACEBO_HARD",
+ "status": "INVALID_AFTER_REPAIR",
+ "editable_set": [
+  "saleor/graphql/core/types/order_or_checkout.py",
+  "saleor/graphql/csv/mutations/export_products.py",
+  "saleor/graphql/notifications/mutations/external_notification_trigger.py",
+  "saleor/payment/gateways/np_atobarai/utils.py"
+ ],
+ "excluded": {
+  "LARGE_FILE_EXCLUDED": [],
+  "CONTEXT_BUDGET_EXCLUDED": []
+ },
+ "prompt_sha256": "5920884262aa3f4f5755f6cd8e896d2d3adba6dd90966fed20b1a9a4f2cd16c7",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "request_id": "gen-1790572735-2pC8BC4Hxy8wCYSVobGB",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 3295,
+   "completion_tokens": 380,
+   "cost_usd_actual": 0.0013269,
+   "cost_usd_nominal": 0.0013269,
+   "finish_reason": "stop",
+   "latency_s": 6.203,
+   "response_sha256": "3227c25bb45678c7c8fa08c6ba98704966f0e6aca7a25e289e40a41f0ded8eb8"
+  },
+  {
+   "kind": "repair",
+   "request_id": "gen-1790572742-m15CnF35Nr0yEgWnl3X8",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 334,
+   "completion_tokens": 166,
+   "cost_usd_actual": 0.0002246,
+   "cost_usd_nominal": 0.0002246,
+   "finish_reason": "stop",
+   "latency_s": 3.281,
+   "response_sha256": "7527eab2211a6eb2c7cdcb4cbb2965884e72160b990b635b6d49f03acd501ca7"
+  }
+ ],
+ "validation": {
+  "initial": [
+   "PARSE_ERROR:saleor/graphql/core/types/order_or_checkout.py: expected '<<<<<<< SEARCH' block start, found: 'Looking at the developer change description \"Drop uneeded union type (#18110)\", I need to identify and remove unnecessary union types from the provided files.'"
+  ],
+  "repair": [
+   "PARSE_ERROR:saleor/graphql/core/types/order_or_checkout.py: expected '<<<<<<< SEARCH' block start, found: 'Looking at the developer change description \"Drop uneeded union type (#18110)\", I need to identify and remove unnecessary union types from the provided files.'"
+  ]
+ },
+ "repair_used": false,
+ "edited_files": [],
+ "diff_sha256": "",
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-28T05:19:07Z",
+ "episode_sha256": "dc4614f308d6ab38c1367ccff61b4511ee53d51734eff754636749bc7069f085"
+}

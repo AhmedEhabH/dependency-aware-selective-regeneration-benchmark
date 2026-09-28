@@ -1,0 +1,43 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v1",
+ "task_id": "saleor-rc-2d45b76a52f2",
+ "arm": "RMCSS_HARD",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/graphql/app/resolvers.py"
+ ],
+ "excluded": {
+  "LARGE_FILE_EXCLUDED": [],
+  "CONTEXT_BUDGET_EXCLUDED": []
+ },
+ "prompt_sha256": "2d26e8a6e9f4e985da2a2560517d685be30ada419beb4d59cba44edea79694d4",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "request_id": "gen-1790572721-lbhP3626cjNc0AOkxhVR",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 770,
+   "completion_tokens": 139,
+   "cost_usd_actual": 0.00037,
+   "cost_usd_nominal": 0.00037,
+   "finish_reason": "stop",
+   "latency_s": 2.359,
+   "response_sha256": "e8594b5ad2fc479c2e39485c50740da0dec0d7cbde623b7b1e19d6cd80673211"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "edited_files": [
+  "saleor/graphql/app/resolvers.py"
+ ],
+ "diff_sha256": "16ec795185b645d8d57bd90786f83612f045ee5efe642dd1520f3496ef3b03d3",
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-28T05:18:52Z",
+ "episode_sha256": "68eb91a1c926889c501214b5480035ea17c2177f8243b97bb53f6a7332c48845"
+}
