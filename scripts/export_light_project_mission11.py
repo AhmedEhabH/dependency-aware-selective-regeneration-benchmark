@@ -130,13 +130,31 @@ INCLUDE.append(f"{V3}/phase1e_lockfile_audit.json")
 
 # Environment-closure scripts (created during this mission; missing = skipped).
 ENV_SCRIPTS = [
-    "scripts/wp2_env_v31_dep_compiler.py",
     "scripts/wp2_env_v31_old_env_repro.py",
     "scripts/wp2_env_v31_corrected_env.py",
-    "scripts/wp2_env_v31_preflight.py",
     "scripts/wp2_env_v31_rerun_scope.py",
+    "scripts/wp2_env_v31_fingerprints.py",
+    "src/benchmark/wp2/dep_compiler.py",
 ]
 INCLUDE.extend(ENV_SCRIPTS)
+
+# V3.1 closure evidence + Mission-10B closure
+V31_EVIDENCE = [
+    f"{V3}/ENG_ENVIRONMENT_CLOSURE_READY.json",
+    f"{V3}/env_closure_v31_final_audit.json",
+    f"{V3}/env_closure_v31_preflight_summary.json",
+    f"{V3}/env_closure_v31_environment_fingerprints.json",
+    f"{V3}/env_closure_v31_install_mode_erratum.json",
+    f"{V3}/env_closure_v31_task_inventory.json",
+    f"{V3}/env_closure_v31_dev_closures.json",
+    f"{V3}/env_closure_v31_rediscovery_diff.json",
+    f"{V3}/environment_rerun_scope.json",
+    f"{V3}/eng_smoke_ready.json",
+    f"{V3}/evaluator_only/eng_evaluator_sets_v3.json",
+    f"{V3}/later_work_estimates_v3.json",
+    "docs/MISSION_10B_STOP_REPORT_2026-09-27.md",
+]
+INCLUDE.extend(V31_EVIDENCE)
 
 
 def should_include(rel: str) -> bool:
