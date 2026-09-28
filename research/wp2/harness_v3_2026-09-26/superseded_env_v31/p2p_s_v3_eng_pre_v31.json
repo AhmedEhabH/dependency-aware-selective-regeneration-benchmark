@@ -2,7 +2,7 @@
  "artifact": "p2p_s_v3_eng",
  "version": "p2p-s-v3-eng-v2-2026-09-26",
  "supersedes": "p2p-s-v3-eng-2026-09-26 (v1; population was all ENG DONE, defined rule was v3 OR v2)",
- "created_utc": "2026-09-28T01:09:56+00:00",
+ "created_utc": "2026-09-26T15:52:14+00:00",
  "definition": "stable pass parent+test-patch 3/3 AND stable pass target 3/3 (SAME frozen definition as P2P-S V1; no new semantic rule). V3_DEFINED iff v3_p2p_s_node_count > 0.",
  "population": "oracle_valid_union (from eng_v3_oracle_ready.json v2)",
  "per_task": [
@@ -402,7 +402,7 @@
    "era": "py312",
    "defined": true,
    "sparse": false,
-   "v3_count": 51,
+   "v3_count": 52,
    "v2_count": 51,
    "intersection": [
     "saleor/graphql/discount/tests/mutations/test_voucher_update.py::test_update_voucher_doesnt_trigger_voucher_updated_when_only_codes_added",
@@ -428,6 +428,7 @@
     "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_ensure_entire_order_voucher_discount_is_overridden",
     "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_existing_channel_id",
     "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_free_shipping_voucher",
+    "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_gift_promotion",
     "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_invalid_address",
     "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_invalid_address_skip_validation",
     "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_no_shipping_method_channel_listings",
@@ -459,9 +460,7 @@
    "additions_v3": [
     "saleor/graphql/discount/tests/mutations/test_voucher_update.py::test_update_voucher"
    ],
-   "removals_v2": [
-    "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_gift_promotion"
-   ]
+   "removals_v2": []
   },
   {
    "task_id": "saleor-rc-823b899757ab",
@@ -479,7 +478,7 @@
    "era": "py39",
    "defined": true,
    "sparse": false,
-   "v3_count": 174,
+   "v3_count": 175,
    "v2_count": 175,
    "intersection": [
     "saleor/graphql/checkout/tests/test_checkout.py::test_anonymous_client_can_fetch_anonymoues_checkout_user",
@@ -584,6 +583,7 @@
     "saleor/payment/gateways/adyen/tests/test_plugin.py::test_validate_plugin_configuration_correct_cert",
     "saleor/payment/gateways/adyen/tests/test_plugin.py::test_validate_plugin_configuration_incorrect_certificate",
     "saleor/payment/gateways/adyen/tests/test_plugin.py::test_validate_plugin_configuration_without_apple_cert",
+    "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_append_checkout_details",
     "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_append_checkout_details_tax_included",
     "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_append_checkout_details_without_sku",
     "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_from_adyen_price[value0-EUR-expected_result0]",
@@ -658,9 +658,7 @@
     "saleor/plugins/webhook/tests/test_payment_webhook.py::test_webhook_plugin_token_is_not_required"
    ],
    "additions_v3": [],
-   "removals_v2": [
-    "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_append_checkout_details"
-   ]
+   "removals_v2": []
   },
   {
    "task_id": "saleor-rc-8f76ddc6267f",
@@ -1744,7 +1742,7 @@
    "era": "py38",
    "defined": true,
    "sparse": false,
-   "v3_count": 242,
+   "v3_count": 248,
    "v2_count": 0,
    "intersection": [],
    "additions_v3": [
@@ -1758,6 +1756,9 @@
     "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_available_shipping_methods_with_price_displayed[net-10-False]",
     "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_billing_address_update",
     "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_complete",
+    "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_complete_confirmation_needed",
+    "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_complete_does_not_delete_checkout_after_unsuccessful_payment[_process_payment_raise_error]",
+    "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_complete_does_not_delete_checkout_after_unsuccessful_payment[_process_payment_transaction_returns_error]",
     "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_complete_error_in_gateway_response_for_dummy_credit_card[4000000000000002-Card declined]",
     "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_complete_error_in_gateway_response_for_dummy_credit_card[4000000000000069-Card expired]",
     "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_complete_error_in_gateway_response_for_dummy_credit_card[4000000000000127-Incorrect CVV]",
@@ -1768,6 +1769,7 @@
     "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_complete_no_payment",
     "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_complete_without_inventory_tracking",
     "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_complete_without_redirect_url",
+    "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_confirm",
     "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_create",
     "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_create_cannot_add_invalid_quantities[-1-The quantity should be higher than zero.-CheckoutErrorCode.ZERO_QUANTITY]",
     "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_create_cannot_add_invalid_quantities[51-Cannot add more than 50 times this item.-CheckoutErrorCode.QUANTITY_GREATER_THAN_LIMIT]",
@@ -1851,6 +1853,7 @@
     "saleor/graphql/payment/tests/test_payment.py::test_checkout_add_payment_without_shipping_method_and_not_shipping_required",
     "saleor/graphql/payment/tests/test_payment.py::test_checkout_add_payment_without_shipping_method_with_shipping_required",
     "saleor/graphql/payment/tests/test_payment.py::test_create_payment_for_checkout_with_active_payments",
+    "saleor/graphql/payment/tests/test_payment.py::test_list_payment_sources",
     "saleor/graphql/payment/tests/test_payment.py::test_payment_capture_gateway_dummy_credit_card_error",
     "saleor/graphql/payment/tests/test_payment.py::test_payment_capture_gateway_error",
     "saleor/graphql/payment/tests/test_payment.py::test_payment_capture_success",
@@ -1866,6 +1869,7 @@
     "saleor/graphql/payment/tests/test_payment.py::test_query_payment",
     "saleor/graphql/payment/tests/test_payment.py::test_query_payments",
     "saleor/graphql/payment/tests/test_payment.py::test_store_payment_gateway_meta",
+    "saleor/graphql/payment/tests/test_payment.py::test_stored_payment_sources_restriction",
     "saleor/graphql/payment/tests/test_payment.py::test_use_checkout_billing_address_as_payment_billing",
     "saleor/graphql/shop/tests/test_shop.py::test_homepage_collection_update",
     "saleor/graphql/shop/tests/test_shop.py::test_homepage_collection_update_set_null",
@@ -1999,7 +2003,7 @@
   "defined": 14,
   "undefined": 2,
   "sparse_lt10": 3,
-  "total_v3_nodes": 1791
+  "total_v3_nodes": 1799
  },
  "invariants": {
   "subset_oracle_valid_union": true,
@@ -2007,7 +2011,7 @@
   "defined_iff_count_gt0": true
  },
  "freeze": {
-  "membership_sha256": "607e4dabf2ecc1a7273e2bff712e765825e801736f5e108d9a75840ec663873d",
+  "membership_sha256": "7985178d6ba5910c005a68d56743b4383343b651163669b4210f4b205c6d799c",
   "note": "ENG P2P-S V3 membership frozen here (19). Zero nodes = UNDEFINED, never automatic PASS."
  }
 }

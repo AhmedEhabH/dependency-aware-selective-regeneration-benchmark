@@ -608,3 +608,16 @@ AUTHORIZATION: supersedes previous V3.1/environment-repair instructions where th
 
 VISIBLE TODO (durable): env_closure_v31_progress.json + native Todo.
 E0.1-E0.5 DONE (docs, git identity f86007e4, protected hashes before, resource baseline, TODO).
+
+## WP-2 Environment Closure V3.1 - COMPLETE (2026-09-27)
+
+- Rule-based historical dev/test closure (dep_compiler.py) + additive runtime fragment.
+- OLD vs CORRECTED environments compared (16/16); rerun scope = 14 affected / 2 unaffected.
+- Preflight gate PASS (collection, fixture-resolution, pip check, VCR all green).
+- Corrected reruns: C4 14/14, P2P-U rediscovery 14/14, P2P-U cap evidence 32/32 DONE verified.
+- Impact: MISSING_FIXTURE 164->0, SOCKET_BLOCKED 132->0, stable rate 0.956->0.996,
+  HARNESS_V3_DEP_POLICY_COMPLIANCE FAIL->PASS. Oracle-valid union=16, behavioral=14,
+  symbol=2 UNCHANGED (authorization set intact).
+- 9258154b8a0b recovered from P2P-U zero-candidate (now defined).
+- ENG_ENVIRONMENT_CLOSURE_READY.json persisted. Paid spend $0.00.
+- Resume Mission-11 at A5.1.

@@ -1,7 +1,7 @@
 {
  "artifact": "p2p-u-v3-eng-summary",
  "mission": "Mission-10B Phase 5B / Mission-11 A4",
- "created_utc": "2026-09-28T01:10:10+00:00",
+ "created_utc": "2026-09-27T01:19:50+00:00",
  "population": {
   "union": 16,
   "behavioral": 14,
@@ -21,17 +21,17 @@
    "cap200": {
     "status": "DONE",
     "class_counts": {
-     "STABLE_P2P": 199,
+     "STABLE_P2P": 193,
      "TARGET_BROKEN": 0,
      "PARENT_BROKEN": 0,
      "BOTH_FAIL": 0,
      "FLAKY": 1,
-     "COLLECTION_ERROR": 0
+     "COLLECTION_ERROR": 6
     },
     "n_selected": 200,
-    "n_stable_p2p": 199,
-    "stable_rate": 0.995,
-    "wall_s": 227.1,
+    "n_stable_p2p": 193,
+    "stable_rate": 0.965,
+    "wall_s": 206.0,
     "collection_session_abort": {
      "t": [],
      "p": []
@@ -42,17 +42,17 @@
    "cap400": {
     "status": "DONE",
     "class_counts": {
-     "STABLE_P2P": 398,
+     "STABLE_P2P": 377,
      "TARGET_BROKEN": 0,
      "PARENT_BROKEN": 0,
      "BOTH_FAIL": 0,
      "FLAKY": 2,
-     "COLLECTION_ERROR": 0
+     "COLLECTION_ERROR": 21
     },
     "n_selected": 400,
-    "n_stable_p2p": 398,
-    "stable_rate": 0.995,
-    "wall_s": 304.8,
+    "n_stable_p2p": 377,
+    "stable_rate": 0.9425,
+    "wall_s": 275.1,
     "collection_session_abort": {
      "t": [],
      "p": []
@@ -75,7 +75,7 @@
     "n_selected": 176,
     "n_stable_p2p": 176,
     "stable_rate": 1.0,
-    "wall_s": 347.7,
+    "wall_s": 326.8,
     "collection_session_abort": {
      "t": [],
      "p": []
@@ -96,7 +96,7 @@
     "n_selected": 176,
     "n_stable_p2p": 176,
     "stable_rate": 1.0,
-    "wall_s": 348.1,
+    "wall_s": 326.5,
     "collection_session_abort": {
      "t": [],
      "p": []
@@ -153,17 +153,17 @@
    "cap200": {
     "status": "DONE",
     "class_counts": {
-     "STABLE_P2P": 199,
+     "STABLE_P2P": 194,
      "TARGET_BROKEN": 0,
      "PARENT_BROKEN": 0,
      "BOTH_FAIL": 0,
      "FLAKY": 1,
-     "COLLECTION_ERROR": 0
+     "COLLECTION_ERROR": 5
     },
     "n_selected": 200,
-    "n_stable_p2p": 199,
-    "stable_rate": 0.995,
-    "wall_s": 259.0,
+    "n_stable_p2p": 194,
+    "stable_rate": 0.97,
+    "wall_s": 364.3,
     "collection_session_abort": {
      "t": [],
      "p": []
@@ -174,17 +174,17 @@
    "cap400": {
     "status": "DONE",
     "class_counts": {
-     "STABLE_P2P": 399,
+     "STABLE_P2P": 389,
      "TARGET_BROKEN": 0,
      "PARENT_BROKEN": 0,
      "BOTH_FAIL": 0,
      "FLAKY": 1,
-     "COLLECTION_ERROR": 0
+     "COLLECTION_ERROR": 10
     },
     "n_selected": 400,
-    "n_stable_p2p": 399,
-    "stable_rate": 0.9975,
-    "wall_s": 357.8,
+    "n_stable_p2p": 389,
+    "stable_rate": 0.9725,
+    "wall_s": 516.4,
     "collection_session_abort": {
      "t": [],
      "p": []
@@ -197,17 +197,17 @@
    "cap200": {
     "status": "DONE",
     "class_counts": {
-     "STABLE_P2P": 200,
+     "STABLE_P2P": 163,
      "TARGET_BROKEN": 0,
      "PARENT_BROKEN": 0,
-     "BOTH_FAIL": 0,
+     "BOTH_FAIL": 28,
      "FLAKY": 0,
-     "COLLECTION_ERROR": 0
+     "COLLECTION_ERROR": 9
     },
     "n_selected": 200,
-    "n_stable_p2p": 200,
-    "stable_rate": 1.0,
-    "wall_s": 321.2,
+    "n_stable_p2p": 163,
+    "stable_rate": 0.815,
+    "wall_s": 367.9,
     "collection_session_abort": {
      "t": [],
      "p": []
@@ -218,17 +218,17 @@
    "cap400": {
     "status": "DONE",
     "class_counts": {
-     "STABLE_P2P": 399,
+     "STABLE_P2P": 341,
      "TARGET_BROKEN": 0,
      "PARENT_BROKEN": 0,
-     "BOTH_FAIL": 0,
+     "BOTH_FAIL": 49,
      "FLAKY": 1,
-     "COLLECTION_ERROR": 0
+     "COLLECTION_ERROR": 9
     },
     "n_selected": 400,
-    "n_stable_p2p": 399,
-    "stable_rate": 0.9975,
-    "wall_s": 418.0,
+    "n_stable_p2p": 341,
+    "stable_rate": 0.8525,
+    "wall_s": 498.9,
     "collection_session_abort": {
      "t": [],
      "p": []
@@ -251,57 +251,13 @@
     "n_selected": 200,
     "n_stable_p2p": 199,
     "stable_rate": 0.995,
-    "wall_s": 539.4,
+    "wall_s": 680.2,
     "collection_session_abort": {
      "t": [],
      "p": []
     },
     "install_mode": "V2_MAIN_PLUS_EXACT_LOCKED_DEV",
     "has_locked_dev_entry": true
-   },
-   "cap400": {
-    "status": "DONE",
-    "class_counts": {
-     "STABLE_P2P": 398,
-     "TARGET_BROKEN": 0,
-     "PARENT_BROKEN": 0,
-     "BOTH_FAIL": 0,
-     "FLAKY": 2,
-     "COLLECTION_ERROR": 0
-    },
-    "n_selected": 400,
-    "n_stable_p2p": 398,
-    "stable_rate": 0.995,
-    "wall_s": 737.4,
-    "collection_session_abort": {
-     "t": [],
-     "p": []
-    },
-    "install_mode": "V2_MAIN_PLUS_EXACT_LOCKED_DEV",
-    "has_locked_dev_entry": true
-   }
-  },
-  "saleor-rc-823b899757ab": {
-   "cap200": {
-    "status": "DONE",
-    "class_counts": {
-     "STABLE_P2P": 199,
-     "TARGET_BROKEN": 0,
-     "PARENT_BROKEN": 0,
-     "BOTH_FAIL": 0,
-     "FLAKY": 1,
-     "COLLECTION_ERROR": 0
-    },
-    "n_selected": 200,
-    "n_stable_p2p": 199,
-    "stable_rate": 0.995,
-    "wall_s": 252.7,
-    "collection_session_abort": {
-     "t": [],
-     "p": []
-    },
-    "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
-    "has_locked_dev_entry": false
    },
    "cap400": {
     "status": "DONE",
@@ -316,7 +272,51 @@
     "n_selected": 400,
     "n_stable_p2p": 399,
     "stable_rate": 0.9975,
-    "wall_s": 325.1,
+    "wall_s": 878.5,
+    "collection_session_abort": {
+     "t": [],
+     "p": []
+    },
+    "install_mode": "V2_MAIN_PLUS_EXACT_LOCKED_DEV",
+    "has_locked_dev_entry": true
+   }
+  },
+  "saleor-rc-823b899757ab": {
+   "cap200": {
+    "status": "DONE",
+    "class_counts": {
+     "STABLE_P2P": 184,
+     "TARGET_BROKEN": 0,
+     "PARENT_BROKEN": 0,
+     "BOTH_FAIL": 0,
+     "FLAKY": 1,
+     "COLLECTION_ERROR": 15
+    },
+    "n_selected": 200,
+    "n_stable_p2p": 184,
+    "stable_rate": 0.92,
+    "wall_s": 216.7,
+    "collection_session_abort": {
+     "t": [],
+     "p": []
+    },
+    "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+    "has_locked_dev_entry": false
+   },
+   "cap400": {
+    "status": "DONE",
+    "class_counts": {
+     "STABLE_P2P": 380,
+     "TARGET_BROKEN": 0,
+     "PARENT_BROKEN": 0,
+     "BOTH_FAIL": 0,
+     "FLAKY": 1,
+     "COLLECTION_ERROR": 19
+    },
+    "n_selected": 400,
+    "n_stable_p2p": 380,
+    "stable_rate": 0.95,
+    "wall_s": 291.1,
     "collection_session_abort": {
      "t": [],
      "p": []
@@ -329,17 +329,17 @@
    "cap200": {
     "status": "DONE",
     "class_counts": {
-     "STABLE_P2P": 200,
+     "STABLE_P2P": 195,
      "TARGET_BROKEN": 0,
      "PARENT_BROKEN": 0,
-     "BOTH_FAIL": 0,
+     "BOTH_FAIL": 1,
      "FLAKY": 0,
-     "COLLECTION_ERROR": 0
+     "COLLECTION_ERROR": 4
     },
     "n_selected": 200,
-    "n_stable_p2p": 200,
-    "stable_rate": 1.0,
-    "wall_s": 637.9,
+    "n_stable_p2p": 195,
+    "stable_rate": 0.975,
+    "wall_s": 539.9,
     "collection_session_abort": {
      "t": [],
      "p": []
@@ -350,17 +350,17 @@
    "cap400": {
     "status": "DONE",
     "class_counts": {
-     "STABLE_P2P": 400,
+     "STABLE_P2P": 384,
      "TARGET_BROKEN": 0,
      "PARENT_BROKEN": 0,
-     "BOTH_FAIL": 0,
+     "BOTH_FAIL": 7,
      "FLAKY": 0,
-     "COLLECTION_ERROR": 0
+     "COLLECTION_ERROR": 9
     },
     "n_selected": 400,
-    "n_stable_p2p": 400,
-    "stable_rate": 1.0,
-    "wall_s": 878.1,
+    "n_stable_p2p": 384,
+    "stable_rate": 0.96,
+    "wall_s": 716.9,
     "collection_session_abort": {
      "t": [],
      "p": []
@@ -383,7 +383,7 @@
     "n_selected": 200,
     "n_stable_p2p": 200,
     "stable_rate": 1.0,
-    "wall_s": 528.1,
+    "wall_s": 440.0,
     "collection_session_abort": {
      "t": [],
      "p": []
@@ -404,7 +404,7 @@
     "n_selected": 400,
     "n_stable_p2p": 400,
     "stable_rate": 1.0,
-    "wall_s": 787.1,
+    "wall_s": 681.3,
     "collection_session_abort": {
      "t": [],
      "p": []
@@ -415,45 +415,25 @@
   },
   "saleor-rc-9258154b8a0b": {
    "cap200": {
-    "status": "DONE",
-    "class_counts": {
-     "STABLE_P2P": 200,
-     "TARGET_BROKEN": 0,
-     "PARENT_BROKEN": 0,
-     "BOTH_FAIL": 0,
-     "FLAKY": 0,
-     "COLLECTION_ERROR": 0
-    },
-    "n_selected": 200,
-    "n_stable_p2p": 200,
-    "stable_rate": 1.0,
-    "wall_s": 590.7,
-    "collection_session_abort": {
-     "t": [],
-     "p": []
-    },
-    "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+    "status": "UNDEFINED",
+    "class_counts": {},
+    "n_selected": 0,
+    "n_stable_p2p": 0,
+    "stable_rate": 0.0,
+    "wall_s": 0.0,
+    "collection_session_abort": {},
+    "install_mode": null,
     "has_locked_dev_entry": false
    },
    "cap400": {
-    "status": "DONE",
-    "class_counts": {
-     "STABLE_P2P": 400,
-     "TARGET_BROKEN": 0,
-     "PARENT_BROKEN": 0,
-     "BOTH_FAIL": 0,
-     "FLAKY": 0,
-     "COLLECTION_ERROR": 0
-    },
-    "n_selected": 400,
-    "n_stable_p2p": 400,
-    "stable_rate": 1.0,
-    "wall_s": 718.0,
-    "collection_session_abort": {
-     "t": [],
-     "p": []
-    },
-    "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+    "status": "UNDEFINED",
+    "class_counts": {},
+    "n_selected": 0,
+    "n_stable_p2p": 0,
+    "stable_rate": 0.0,
+    "wall_s": 0.0,
+    "collection_session_abort": {},
+    "install_mode": null,
     "has_locked_dev_entry": false
    }
   },
@@ -461,17 +441,17 @@
    "cap200": {
     "status": "DONE",
     "class_counts": {
-     "STABLE_P2P": 199,
+     "STABLE_P2P": 187,
      "TARGET_BROKEN": 0,
      "PARENT_BROKEN": 0,
      "BOTH_FAIL": 0,
      "FLAKY": 1,
-     "COLLECTION_ERROR": 0
+     "COLLECTION_ERROR": 12
     },
     "n_selected": 200,
-    "n_stable_p2p": 199,
-    "stable_rate": 0.995,
-    "wall_s": 259.7,
+    "n_stable_p2p": 187,
+    "stable_rate": 0.935,
+    "wall_s": 253.6,
     "collection_session_abort": {
      "t": [],
      "p": []
@@ -482,17 +462,17 @@
    "cap400": {
     "status": "DONE",
     "class_counts": {
-     "STABLE_P2P": 398,
+     "STABLE_P2P": 368,
      "TARGET_BROKEN": 0,
      "PARENT_BROKEN": 0,
      "BOTH_FAIL": 0,
      "FLAKY": 2,
-     "COLLECTION_ERROR": 0
+     "COLLECTION_ERROR": 30
     },
     "n_selected": 400,
-    "n_stable_p2p": 398,
-    "stable_rate": 0.995,
-    "wall_s": 377.6,
+    "n_stable_p2p": 368,
+    "stable_rate": 0.92,
+    "wall_s": 341.7,
     "collection_session_abort": {
      "t": [],
      "p": []
@@ -515,7 +495,7 @@
     "n_selected": 200,
     "n_stable_p2p": 199,
     "stable_rate": 0.995,
-    "wall_s": 416.6,
+    "wall_s": 376.0,
     "collection_session_abort": {
      "t": [],
      "p": []
@@ -536,7 +516,7 @@
     "n_selected": 400,
     "n_stable_p2p": 399,
     "stable_rate": 0.9975,
-    "wall_s": 440.5,
+    "wall_s": 495.8,
     "collection_session_abort": {
      "t": [],
      "p": []
@@ -593,17 +573,17 @@
    "cap200": {
     "status": "DONE",
     "class_counts": {
-     "STABLE_P2P": 200,
+     "STABLE_P2P": 193,
      "TARGET_BROKEN": 0,
      "PARENT_BROKEN": 0,
-     "BOTH_FAIL": 0,
+     "BOTH_FAIL": 7,
      "FLAKY": 0,
      "COLLECTION_ERROR": 0
     },
     "n_selected": 200,
-    "n_stable_p2p": 200,
-    "stable_rate": 1.0,
-    "wall_s": 299.8,
+    "n_stable_p2p": 193,
+    "stable_rate": 0.965,
+    "wall_s": 354.4,
     "collection_session_abort": {
      "t": [],
      "p": []
@@ -614,17 +594,17 @@
    "cap400": {
     "status": "DONE",
     "class_counts": {
-     "STABLE_P2P": 400,
+     "STABLE_P2P": 372,
      "TARGET_BROKEN": 0,
      "PARENT_BROKEN": 0,
-     "BOTH_FAIL": 0,
+     "BOTH_FAIL": 28,
      "FLAKY": 0,
      "COLLECTION_ERROR": 0
     },
     "n_selected": 400,
-    "n_stable_p2p": 400,
-    "stable_rate": 1.0,
-    "wall_s": 380.1,
+    "n_stable_p2p": 372,
+    "stable_rate": 0.93,
+    "wall_s": 502.6,
     "collection_session_abort": {
      "t": [],
      "p": []
@@ -637,17 +617,17 @@
    "cap200": {
     "status": "DONE",
     "class_counts": {
-     "STABLE_P2P": 200,
+     "STABLE_P2P": 196,
      "TARGET_BROKEN": 0,
      "PARENT_BROKEN": 0,
-     "BOTH_FAIL": 0,
+     "BOTH_FAIL": 2,
      "FLAKY": 0,
-     "COLLECTION_ERROR": 0
+     "COLLECTION_ERROR": 2
     },
     "n_selected": 200,
-    "n_stable_p2p": 200,
-    "stable_rate": 1.0,
-    "wall_s": 456.1,
+    "n_stable_p2p": 196,
+    "stable_rate": 0.98,
+    "wall_s": 455.0,
     "collection_session_abort": {
      "t": [],
      "p": []
@@ -658,17 +638,17 @@
    "cap400": {
     "status": "DONE",
     "class_counts": {
-     "STABLE_P2P": 400,
+     "STABLE_P2P": 382,
      "TARGET_BROKEN": 0,
      "PARENT_BROKEN": 0,
-     "BOTH_FAIL": 0,
+     "BOTH_FAIL": 5,
      "FLAKY": 0,
-     "COLLECTION_ERROR": 0
+     "COLLECTION_ERROR": 13
     },
     "n_selected": 400,
-    "n_stable_p2p": 400,
-    "stable_rate": 1.0,
-    "wall_s": 696.4,
+    "n_stable_p2p": 382,
+    "stable_rate": 0.955,
+    "wall_s": 702.5,
     "collection_session_abort": {
      "t": [],
      "p": []
@@ -681,17 +661,17 @@
    "cap200": {
     "status": "DONE",
     "class_counts": {
-     "STABLE_P2P": 139,
+     "STABLE_P2P": 113,
      "TARGET_BROKEN": 0,
      "PARENT_BROKEN": 0,
-     "BOTH_FAIL": 0,
+     "BOTH_FAIL": 26,
      "FLAKY": 0,
      "COLLECTION_ERROR": 0
     },
     "n_selected": 139,
-    "n_stable_p2p": 139,
-    "stable_rate": 1.0,
-    "wall_s": 170.1,
+    "n_stable_p2p": 113,
+    "stable_rate": 0.8129,
+    "wall_s": 215.7,
     "collection_session_abort": {
      "t": [],
      "p": []
@@ -702,17 +682,17 @@
    "cap400": {
     "status": "DONE",
     "class_counts": {
-     "STABLE_P2P": 139,
+     "STABLE_P2P": 113,
      "TARGET_BROKEN": 0,
      "PARENT_BROKEN": 0,
-     "BOTH_FAIL": 0,
+     "BOTH_FAIL": 26,
      "FLAKY": 0,
      "COLLECTION_ERROR": 0
     },
     "n_selected": 139,
-    "n_stable_p2p": 139,
-    "stable_rate": 1.0,
-    "wall_s": 168.0,
+    "n_stable_p2p": 113,
+    "stable_rate": 0.8129,
+    "wall_s": 210.0,
     "collection_session_abort": {
      "t": [],
      "p": []
@@ -733,7 +713,6 @@
    "saleor-rc-823b899757ab",
    "saleor-rc-82c56bde0e34",
    "saleor-rc-8f76ddc6267f",
-   "saleor-rc-9258154b8a0b",
    "saleor-rc-93b20d78c011",
    "saleor-rc-c3b9e396b07d",
    "saleor-rc-d220843b5418",
@@ -751,7 +730,6 @@
    "saleor-rc-823b899757ab",
    "saleor-rc-82c56bde0e34",
    "saleor-rc-8f76ddc6267f",
-   "saleor-rc-9258154b8a0b",
    "saleor-rc-93b20d78c011",
    "saleor-rc-c3b9e396b07d",
    "saleor-rc-d220843b5418",
@@ -759,35 +737,35 @@
    "saleor-rc-e03ee76d2b89",
    "saleor-rc-e25cf9b4a837"
   ],
-  "n_defined_cap200": 16,
-  "n_defined_cap400": 16,
-  "n_executed_done": 16,
-  "n_undefined_units": 0,
+  "n_defined_cap200": 15,
+  "n_defined_cap400": 15,
+  "n_executed_done": 15,
+  "n_undefined_units": 2,
   "class_counts_cap200": {
-   "STABLE_P2P": 3103,
+   "STABLE_P2P": 2786,
    "TARGET_BROKEN": 0,
    "PARENT_BROKEN": 0,
-   "BOTH_FAIL": 4,
+   "BOTH_FAIL": 68,
    "FLAKY": 8,
-   "COLLECTION_ERROR": 0
+   "COLLECTION_ERROR": 53
   },
   "class_counts_cap400": {
-   "STABLE_P2P": 5899,
+   "STABLE_P2P": 5274,
    "TARGET_BROKEN": 0,
    "PARENT_BROKEN": 0,
-   "BOTH_FAIL": 4,
-   "FLAKY": 12,
-   "COLLECTION_ERROR": 0
+   "BOTH_FAIL": 119,
+   "FLAKY": 11,
+   "COLLECTION_ERROR": 111
   },
-  "n_selected_cap200": 3115,
-  "n_stable_cap200": 3103,
-  "overall_stable_rate_cap200": 0.9961,
-  "n_selected_cap400": 5915,
-  "n_stable_cap400": 5899,
-  "overall_stable_rate_cap400": 0.9973,
-  "wall_s_cap200": 6388.9,
-  "wall_s_cap400": 8751.7,
-  "cap400_cap200_wall_multiplier": 1.37
+  "n_selected_cap200": 2915,
+  "n_stable_cap200": 2786,
+  "overall_stable_rate_cap200": 0.9557,
+  "n_selected_cap400": 5515,
+  "n_stable_cap400": 5274,
+  "overall_stable_rate_cap400": 0.9563,
+  "wall_s_cap200": 5879.3,
+  "wall_s_cap400": 8252.0,
+  "cap400_cap200_wall_multiplier": 1.404
  },
  "agreement": {
   "saleor-rc-22ec4dab0154": {
@@ -797,7 +775,7 @@
    "n_first200_cap400": 200,
    "class_agreement": 1.0,
    "stable_agreement": 1.0,
-   "jaccard_stable_p2p": 0.5,
+   "jaccard_stable_p2p": 0.5119,
    "class_change_count": 0,
    "class_change": []
   },
@@ -844,7 +822,7 @@
    "n_first200_cap400": 200,
    "class_agreement": 1.0,
    "stable_agreement": 1.0,
-   "jaccard_stable_p2p": 0.5013,
+   "jaccard_stable_p2p": 0.478,
    "class_change_count": 0,
    "class_change": []
   },
@@ -853,13 +831,12 @@
    "same_node_list": true,
    "n_cap200": 200,
    "n_first200_cap400": 200,
-   "class_agreement": 0.99,
-   "stable_agreement": 0.99,
-   "jaccard_stable_p2p": 0.4962,
-   "class_change_count": 2,
+   "class_agreement": 0.995,
+   "stable_agreement": 0.995,
+   "jaccard_stable_p2p": 0.4987,
+   "class_change_count": 1,
    "class_change": [
-    "saleor/graphql/order/tests/benchmark/test_order_fulfill.py::test_order_fulfill",
-    "saleor/graphql/order/tests/mutations/test_order_lines_create.py::test_order_lines_create_for_just_published_product[draft]"
+    "saleor/graphql/order/tests/mutations/test_order_capture.py::test_order_capture_triggers_webhooks"
    ]
   },
   "saleor-rc-823b899757ab": {
@@ -869,7 +846,7 @@
    "n_first200_cap400": 200,
    "class_agreement": 1.0,
    "stable_agreement": 1.0,
-   "jaccard_stable_p2p": 0.4987,
+   "jaccard_stable_p2p": 0.4842,
    "class_change_count": 0,
    "class_change": []
   },
@@ -880,7 +857,7 @@
    "n_first200_cap400": 200,
    "class_agreement": 1.0,
    "stable_agreement": 1.0,
-   "jaccard_stable_p2p": 0.5,
+   "jaccard_stable_p2p": 0.5078,
    "class_change_count": 0,
    "class_change": []
   },
@@ -896,15 +873,7 @@
    "class_change": []
   },
   "saleor-rc-9258154b8a0b": {
-   "status": "DONE",
-   "same_node_list": true,
-   "n_cap200": 200,
-   "n_first200_cap400": 200,
-   "class_agreement": 1.0,
-   "stable_agreement": 1.0,
-   "jaccard_stable_p2p": 0.5,
-   "class_change_count": 0,
-   "class_change": []
+   "status": "UNDEFINED"
   },
   "saleor-rc-93b20d78c011": {
    "status": "DONE",
@@ -913,7 +882,7 @@
    "n_first200_cap400": 200,
    "class_agreement": 1.0,
    "stable_agreement": 1.0,
-   "jaccard_stable_p2p": 0.5,
+   "jaccard_stable_p2p": 0.5082,
    "class_change_count": 0,
    "class_change": []
   },
@@ -946,7 +915,7 @@
    "n_first200_cap400": 200,
    "class_agreement": 1.0,
    "stable_agreement": 1.0,
-   "jaccard_stable_p2p": 0.5,
+   "jaccard_stable_p2p": 0.5188,
    "class_change_count": 0,
    "class_change": []
   },
@@ -957,7 +926,7 @@
    "n_first200_cap400": 200,
    "class_agreement": 1.0,
    "stable_agreement": 1.0,
-   "jaccard_stable_p2p": 0.5,
+   "jaccard_stable_p2p": 0.5131,
    "class_change_count": 0,
    "class_change": []
   },
@@ -1007,21 +976,18 @@
   },
   "saleor-rc-82c56bde0e34": {
    "n_v2_nodes": 200,
-   "n_shared": 126,
+   "n_shared": 200,
    "v2_stable": 195,
-   "v3_stable": 200,
-   "jaccard_v2_v3_stable": 0.4522,
-   "class_change_counts": {
-    "COLLECTION_ERROR->STABLE_P2P": 2,
-    "BOTH_FAIL->STABLE_P2P": 1
-   }
+   "v3_stable": 195,
+   "jaccard_v2_v3_stable": 1.0,
+   "class_change_counts": {}
   },
   "saleor-rc-8f76ddc6267f": {
    "n_v2_nodes": 200,
-   "n_shared": 197,
+   "n_shared": 200,
    "v2_stable": 194,
    "v3_stable": 200,
-   "jaccard_v2_v3_stable": 0.9409,
+   "jaccard_v2_v3_stable": 0.97,
    "class_change_counts": {
     "COLLECTION_ERROR->STABLE_P2P": 6
    }
@@ -1038,14 +1004,11 @@
   },
   "saleor-rc-e03ee76d2b89": {
    "n_v2_nodes": 200,
-   "n_shared": 183,
+   "n_shared": 200,
    "v2_stable": 196,
-   "v3_stable": 200,
-   "jaccard_v2_v3_stable": 0.8249,
-   "class_change_counts": {
-    "BOTH_FAIL->STABLE_P2P": 2,
-    "COLLECTION_ERROR->STABLE_P2P": 2
-   }
+   "v3_stable": 196,
+   "jaccard_v2_v3_stable": 1.0,
+   "class_change_counts": {}
   }
  },
  "invariants": {

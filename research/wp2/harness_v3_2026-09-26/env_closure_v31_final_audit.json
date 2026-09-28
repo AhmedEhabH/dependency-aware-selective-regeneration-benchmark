@@ -1,0 +1,77 @@
+{
+ "artifact": "env_closure_v31_final_audit",
+ "created_utc": "2026-09-27",
+ "environment_closure": {
+  "dependency_compiler_tests": "PASS (18 unit tests)",
+  "harness_v3_dep_policy_compliance": "PASS",
+  "preflight_gate": "PASS (16/16)",
+  "rerun_scope": {
+   "affected": 14,
+   "unaffected": 2,
+   "c4_rerun_tasks": 14,
+   "p2pu_rerun_units": 26
+  },
+  "c4_rerun_complete": "14/14",
+  "rediscovery_rerun_complete": "14/14",
+  "rediscovery_candidate_changes": {
+   "74538ea00ce9": "+455",
+   "82c56bde0e34": "+914",
+   "8f76ddc6267f": "+653",
+   "9258154b8a0b": "+8253 (was 0)",
+   "e03ee76d2b89": "+635"
+  },
+  "p2pu_rerun_units": {
+   "executed": 28,
+   "done_verified": "32/32 (incl. 9258 now defined)"
+  }
+ },
+ "cause_reassessment_old_vs_corrected": {
+  "MISSING_FIXTURE": {
+   "old": 164,
+   "corrected": 0,
+   "verdict": "ENVIRONMENT_DEFECT_CORRECTED"
+  },
+  "SOCKET_BLOCKED": {
+   "old": 132,
+   "corrected": 0,
+   "verdict": "ENVIRONMENT_DEFECT_CORRECTED"
+  },
+  "ASSERTION_OR_TRUE_TEST_FAILURE": {
+   "old": 25,
+   "corrected": 8,
+   "verdict": "REAL_TEST_BEHAVIOR (some flaky)"
+  },
+  "FLAKY": {
+   "old": 19,
+   "corrected": 20,
+   "verdict": "REAL_TEST_BEHAVIOR"
+  },
+  "COLLECTION/SETUP_OTHER": {
+   "old": 3,
+   "corrected": 0
+  },
+  "OTHER": {
+   "old": 27,
+   "corrected": 0
+  }
+ },
+ "corrected_p2pu": {
+  "defined_cap200": 16,
+  "defined_cap400": 16,
+  "overall_stable_cap200": 0.9961,
+  "overall_stable_cap400": 0.9973,
+  "invariants": true,
+  "d19_no_c07": true
+ },
+ "corrected_oracle_sets": {
+  "union": 16,
+  "behavioral": 14,
+  "symbol_only": 2,
+  "unchanged_vs_mission11_authorization": true,
+  "REGRESSIONS": 0
+ },
+ "corrected_p2p_s": {
+  "defined": 14
+ },
+ "paid_spend_usd": 0.0
+}

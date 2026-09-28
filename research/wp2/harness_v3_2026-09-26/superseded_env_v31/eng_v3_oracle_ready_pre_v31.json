@@ -2,7 +2,7 @@
  "artifact": "eng_v3_oracle_ready",
  "version": "eng-v3-oracle-ready-v2-2026-09-26",
  "supersedes": "eng-v3-oracle-ready-2026-09-26 (v1; behavioral-only oracle-valid defn)",
- "created_utc": "2026-09-28T01:09:24+00:00",
+ "created_utc": "2026-09-26T15:51:13+00:00",
  "exact_eng_candidate_count": 29,
  "environment_failed_count": 7,
  "environment_failed_task_ids": [
@@ -117,18 +117,6 @@
    "v3": "P2P_ONLY",
    "defective_v2_evidence": true,
    "s2_disposition": "V2_DEFECT_CORRECTION"
-  },
-  "saleor-rc-74538ea00ce9::saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_gift_promotion": {
-   "v2": "P2P_ONLY",
-   "v3": "TARGET_ORACLE_INVALID",
-   "defective_v2_evidence": false,
-   "s2_disposition": "REGRESSION_CANDIDATE"
-  },
-  "saleor-rc-82c56bde0e34::saleor/payment/gateways/adyen/tests/utils/test_common.py::test_append_checkout_details": {
-   "v2": "P2P_ONLY",
-   "v3": "BEHAVIORAL_F2P",
-   "defective_v2_evidence": false,
-   "s2_disposition": "REGRESSION_CANDIDATE"
   }
  },
  "recovered_tasks": [
@@ -146,7 +134,7 @@
  ],
  "v2_defect_corrections": 1,
  "REGRESSIONS": 0,
- "recovered_invalid_nodes": 1318,
+ "recovered_invalid_nodes": 1324,
  "compare": {
   "V2_ENG_oracle_valid_union": 9,
   "V2_ENG_oracle_valid_behavioral": 8,
@@ -167,7 +155,7 @@
   }
  ],
  "hashes": {
-  "checkpoint_sha256": "582dc4e015f6b41a5d0dfcb6b4fe0177acbbca6226ea4d3187331cf284c53eeb"
+  "checkpoint_sha256": "8d68e5aaae29e9447f362dba59679f5848f25eced557b2746d8371c68d020dba"
  },
  "note": "oracle_valid_count = len(behavioral UNION symbol), computed mechanically. V2 baseline reported as union and behavioral separately. Recovered/lost are set differences."
 }

@@ -1,7 +1,7 @@
 {
  "artifact": "dev_deps_gap_audit",
  "mission": "Mission-11 addendum A4 (zero API)",
- "created_utc": "2026-09-26T22:39:19+00:00",
+ "created_utc": "2026-09-28T01:10:40+00:00",
  "locked_dev_tasks": [
   "saleor-rc-74538ea00ce9",
   "saleor-rc-8f76ddc6267f",
@@ -15,26 +15,16 @@
    "cap200": {
     "status": "DONE",
     "n_selected": 200,
-    "n_stable_p2p": 193,
+    "n_stable_p2p": 199,
     "cause_counts": {
-     "MISSING_FIXTURE:count_queries": 6,
      "FLAKY": 1
     },
     "cause_pct_of_selected": {
-     "MISSING_FIXTURE:count_queries": 0.03,
      "FLAKY": 0.005
     },
     "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
     "has_locked_dev_entry": false,
     "cause_nodes": {
-     "MISSING_FIXTURE:count_queries": [
-      "saleor/graphql/order/tests/benchmark/test_order.py::test_user_order_details",
-      "saleor/graphql/product/tests/benchmark/test_homepage.py::test_retrieve_product_list",
-      "saleor/graphql/product/tests/benchmark/test_collection.py::test_collection_view",
-      "saleor/graphql/account/tests/benchmark/test_account.py::test_query_staff_user",
-      "saleor/graphql/product/tests/benchmark/test_variant_stocks.py::test_product_variants_stocks_create",
-      "saleor/graphql/shop/tests/benchmark/test_homepage.py::test_retrieve_shop"
-     ],
      "FLAKY": [
       "saleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_get_items_from_anonymous_user"
      ]
@@ -43,48 +33,19 @@
    "cap400": {
     "status": "DONE",
     "n_selected": 400,
-    "n_stable_p2p": 377,
+    "n_stable_p2p": 398,
     "cause_counts": {
-     "MISSING_FIXTURE:count_queries": 20,
-     "FLAKY": 2,
-     "MISSING_FIXTURE:mocker": 1
+     "FLAKY": 2
     },
     "cause_pct_of_selected": {
-     "MISSING_FIXTURE:count_queries": 0.05,
-     "FLAKY": 0.005,
-     "MISSING_FIXTURE:mocker": 0.0025
+     "FLAKY": 0.005
     },
     "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
     "has_locked_dev_entry": false,
     "cause_nodes": {
-     "MISSING_FIXTURE:count_queries": [
-      "saleor/graphql/order/tests/benchmark/test_order.py::test_user_order_details",
-      "saleor/graphql/product/tests/benchmark/test_homepage.py::test_retrieve_product_list",
-      "saleor/graphql/product/tests/benchmark/test_collection.py::test_collection_view",
-      "saleor/graphql/account/tests/benchmark/test_account.py::test_query_staff_user",
-      "saleor/graphql/product/tests/benchmark/test_variant_stocks.py::test_product_variants_stocks_create",
-      "saleor/graphql/shop/tests/benchmark/test_homepage.py::test_retrieve_shop",
-      "saleor/graphql/product/tests/benchmark/test_variant.py::test_product_variant_bulk_create",
-      "saleor/graphql/account/tests/benchmark/test_permission_group.py::test_permission_group_query",
-      "saleor/graphql/checkout/tests/benchmark/test_checkout_mutations.py::test_create_checkout",
-      "saleor/graphql/product/tests/benchmark/test_category.py::test_category_view",
-      "saleor/graphql/menu/tests/benchmark/test_homepage.py::test_retrieve_secondary_menu",
-      "saleor/graphql/checkout/tests/benchmark/test_homepage.py::test_user_checkout_details",
-      "saleor/graphql/product/tests/benchmark/test_product.py::test_product_details",
-      "saleor/graphql/product/tests/benchmark/test_homepage.py::test_featured_products_list",
-      "saleor/graphql/account/tests/benchmark/test_account.py::test_staff_update_groups_and_permissions",
-      "saleor/graphql/product/tests/test_product_sorting_attributes.py::test_sort_product_not_having_attribute_data",
-      "saleor/graphql/product/tests/benchmark/test_variant_stocks.py::test_product_variants_stocks_delete",
-      "saleor/graphql/product/tests/benchmark/test_variant.py::test_retrieve_variant_list",
-      "saleor/graphql/account/tests/benchmark/test_permission_group.py::test_permission_group_update_remove_users_with_manage_staff",
-      "saleor/graphql/checkout/tests/benchmark/test_checkout_mutations.py::test_complete_checkout"
-     ],
      "FLAKY": [
       "saleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_get_items_from_anonymous_user",
       "saleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_remove_variant_from_anonymous_user"
-     ],
-     "MISSING_FIXTURE:mocker": [
-      "saleor/graphql/order/tests/test_order.py::test_order_void_payment_error"
      ]
     }
    },
@@ -214,25 +175,16 @@
    "cap200": {
     "status": "DONE",
     "n_selected": 200,
-    "n_stable_p2p": 194,
+    "n_stable_p2p": 199,
     "cause_counts": {
-     "MISSING_FIXTURE:count_queries": 5,
      "FLAKY": 1
     },
     "cause_pct_of_selected": {
-     "MISSING_FIXTURE:count_queries": 0.025,
      "FLAKY": 0.005
     },
     "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
     "has_locked_dev_entry": false,
     "cause_nodes": {
-     "MISSING_FIXTURE:count_queries": [
-      "saleor/graphql/order/tests/benchmark/test_order.py::test_user_order_details",
-      "saleor/graphql/product/tests/benchmark/test_homepage.py::test_retrieve_product_list",
-      "saleor/graphql/product/tests/benchmark/test_collection.py::test_collection_view",
-      "saleor/graphql/account/tests/benchmark/test_account.py::test_query_staff_user",
-      "saleor/graphql/product/tests/benchmark/test_variant_stocks.py::test_product_variants_stocks_create"
-     ],
      "FLAKY": [
       "saleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_get_items_from_anonymous_user"
      ]
@@ -241,36 +193,18 @@
    "cap400": {
     "status": "DONE",
     "n_selected": 400,
-    "n_stable_p2p": 389,
+    "n_stable_p2p": 399,
     "cause_counts": {
-     "MISSING_FIXTURE:count_queries": 9,
-     "FLAKY": 1,
-     "MISSING_FIXTURE:mocker": 1
+     "FLAKY": 1
     },
     "cause_pct_of_selected": {
-     "MISSING_FIXTURE:count_queries": 0.0225,
-     "FLAKY": 0.0025,
-     "MISSING_FIXTURE:mocker": 0.0025
+     "FLAKY": 0.0025
     },
     "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
     "has_locked_dev_entry": false,
     "cause_nodes": {
-     "MISSING_FIXTURE:count_queries": [
-      "saleor/graphql/order/tests/benchmark/test_order.py::test_user_order_details",
-      "saleor/graphql/product/tests/benchmark/test_homepage.py::test_retrieve_product_list",
-      "saleor/graphql/product/tests/benchmark/test_collection.py::test_collection_view",
-      "saleor/graphql/account/tests/benchmark/test_account.py::test_query_staff_user",
-      "saleor/graphql/product/tests/benchmark/test_variant_stocks.py::test_product_variants_stocks_create",
-      "saleor/graphql/shop/tests/benchmark/test_homepage.py::test_retrieve_shop",
-      "saleor/graphql/attribute/tests/benchmark/test_attribute.py::test_query_attribute",
-      "saleor/graphql/shipping/tests/benchmark/test_shipping_methods.py::test_vouchers_query_without_channel_slug",
-      "saleor/graphql/product/tests/benchmark/test_variant.py::test_product_variant_bulk_create"
-     ],
      "FLAKY": [
       "saleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_get_items_from_anonymous_user"
-     ],
-     "MISSING_FIXTURE:mocker": [
-      "saleor/graphql/order/tests/test_order.py::test_order_void_payment_error"
      ]
     }
    },
@@ -299,133 +233,28 @@
    "cap200": {
     "status": "DONE",
     "n_selected": 200,
-    "n_stable_p2p": 163,
-    "cause_counts": {
-     "SOCKET_BLOCKED": 23,
-     "MISSING_FIXTURE:mocker": 9,
-     "ASSERTION_OR_TRUE_TEST_FAILURE": 5
-    },
-    "cause_pct_of_selected": {
-     "SOCKET_BLOCKED": 0.115,
-     "MISSING_FIXTURE:mocker": 0.045,
-     "ASSERTION_OR_TRUE_TEST_FAILURE": 0.025
-    },
+    "n_stable_p2p": 200,
+    "cause_counts": {},
+    "cause_pct_of_selected": {},
     "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
     "has_locked_dev_entry": false,
-    "cause_nodes": {
-     "SOCKET_BLOCKED": [
-      "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_authorize_and_save_customer_id",
-      "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_void",
-      "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_confirm_error_response",
-      "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_authorize_without_capture",
-      "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_capture",
-      "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_authorize_with_customer_id",
-      "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_capture_3d_secure",
-      "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_capture_error_response",
-      "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_refund_error_response",
-      "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_refund",
-      "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_confirm__intent",
-      "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_void_error_response",
-      "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_authorize_error_response",
-      "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_authorize",
-      "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_list_customer_sources",
-      "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_authorize_3d_secure",
-      "saleor/payment/gateways/braintree/tests/test_braintree.py::test_capture_incorrect_token",
-      "saleor/payment/gateways/adyen/tests/test_plugin.py::test_capture_payment",
-      "saleor/payment/gateways/braintree/tests/test_braintree.py::test_authorize_with_customer_id",
-      "saleor/payment/gateways/adyen/tests/test_plugin.py::test_process_payment_with_3ds_redirect"
-     ],
-     "MISSING_FIXTURE:mocker": [
-      "saleor/payment/tests/test_gateway.py::test_void_payment",
-      "saleor/payment/tests/test_gateway.py::test_list_gateways",
-      "saleor/payment/tests/test_gateway.py::test_capture_payment",
-      "saleor/payment/tests/test_gateway.py::test_authorize_payment",
-      "saleor/payment/tests/test_gateway.py::test_process_payment",
-      "saleor/payment/tests/test_gateway.py::test_full_refund_payment",
-      "saleor/payment/tests/test_gateway.py::test_partial_refund_payment",
-      "saleor/payment/tests/test_gateway.py::test_confirm_payment",
-      "saleor/payment/tests/test_gateway.py::test_store_source_when_processing_payment"
-     ],
-     "ASSERTION_OR_TRUE_TEST_FAILURE": [
-      "saleor/payment/gateways/authorize_net/tests/test_authorize_net.py::test_process_payment",
-      "saleor/payment/gateways/authorize_net/tests/test_authorize_net.py::test_refund",
-      "saleor/payment/gateways/authorize_net/tests/test_authorize_net.py::test_process_payment_reuse_source",
-      "saleor/payment/gateways/authorize_net/tests/test_authorize_net.py::test_list_client_sources",
-      "saleor/payment/gateways/authorize_net/tests/test_authorize_net.py::test_void_duplicate"
-     ]
-    }
+    "cause_nodes": {}
    },
    "cap400": {
     "status": "DONE",
     "n_selected": 400,
-    "n_stable_p2p": 341,
+    "n_stable_p2p": 399,
     "cause_counts": {
-     "SOCKET_BLOCKED": 38,
-     "MISSING_FIXTURE:mocker": 9,
-     "ASSERTION_OR_TRUE_TEST_FAILURE": 10,
-     "FLAKY": 1,
-     "COLLECTION/SETUP_OTHER": 1
+     "FLAKY": 1
     },
     "cause_pct_of_selected": {
-     "SOCKET_BLOCKED": 0.095,
-     "MISSING_FIXTURE:mocker": 0.0225,
-     "ASSERTION_OR_TRUE_TEST_FAILURE": 0.025,
-     "FLAKY": 0.0025,
-     "COLLECTION/SETUP_OTHER": 0.0025
+     "FLAKY": 0.0025
     },
     "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
     "has_locked_dev_entry": false,
     "cause_nodes": {
-     "SOCKET_BLOCKED": [
-      "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_authorize_and_save_customer_id",
-      "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_void",
-      "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_confirm_error_response",
-      "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_authorize_without_capture",
-      "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_capture",
-      "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_authorize_with_customer_id",
-      "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_capture_3d_secure",
-      "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_capture_error_response",
-      "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_refund_error_response",
-      "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_refund",
-      "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_confirm__intent",
-      "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_void_error_response",
-      "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_authorize_error_response",
-      "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_authorize",
-      "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_list_customer_sources",
-      "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_authorize_3d_secure",
-      "saleor/payment/gateways/braintree/tests/test_braintree.py::test_capture_incorrect_token",
-      "saleor/payment/gateways/adyen/tests/test_plugin.py::test_capture_payment",
-      "saleor/payment/gateways/braintree/tests/test_braintree.py::test_authorize_with_customer_id",
-      "saleor/payment/gateways/adyen/tests/test_plugin.py::test_process_payment_with_3ds_redirect"
-     ],
-     "MISSING_FIXTURE:mocker": [
-      "saleor/payment/tests/test_gateway.py::test_void_payment",
-      "saleor/payment/tests/test_gateway.py::test_list_gateways",
-      "saleor/payment/tests/test_gateway.py::test_capture_payment",
-      "saleor/payment/tests/test_gateway.py::test_authorize_payment",
-      "saleor/payment/tests/test_gateway.py::test_process_payment",
-      "saleor/payment/tests/test_gateway.py::test_full_refund_payment",
-      "saleor/payment/tests/test_gateway.py::test_partial_refund_payment",
-      "saleor/payment/tests/test_gateway.py::test_confirm_payment",
-      "saleor/payment/tests/test_gateway.py::test_store_source_when_processing_payment"
-     ],
-     "ASSERTION_OR_TRUE_TEST_FAILURE": [
-      "saleor/payment/gateways/authorize_net/tests/test_authorize_net.py::test_process_payment",
-      "saleor/payment/gateways/authorize_net/tests/test_authorize_net.py::test_refund",
-      "saleor/payment/gateways/authorize_net/tests/test_authorize_net.py::test_process_payment_reuse_source",
-      "saleor/payment/gateways/authorize_net/tests/test_authorize_net.py::test_list_client_sources",
-      "saleor/payment/gateways/authorize_net/tests/test_authorize_net.py::test_void_duplicate",
-      "saleor/payment/gateways/authorize_net/tests/test_authorize_net.py::test_void",
-      "saleor/payment/gateways/authorize_net/tests/test_authorize_net.py::test_process_payment_with_user",
-      "saleor/payment/gateways/authorize_net/tests/test_authorize_net.py::test_authorize_and_capture",
-      "saleor/payment/gateways/authorize_net/tests/test_authorize_net.py::test_process_payment_error_response",
-      "saleor/payment/gateways/authorize_net/tests/test_authorize_net.py::test_list_client_sources_other_name"
-     ],
      "FLAKY": [
       "saleor/payment/gateways/adyen/tests/test_plugin.py::test_confirm_payment_with_additional_details"
-     ],
-     "COLLECTION/SETUP_OTHER": [
-      "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_authorization_with_auto_capture"
      ]
     }
    },
@@ -465,25 +294,26 @@
     "has_locked_dev_entry": true,
     "cause_nodes": {
      "FLAKY": [
-      "saleor/graphql/order/tests/mutations/test_order_capture.py::test_order_capture_triggers_webhooks"
+      "saleor/graphql/order/tests/mutations/test_order_lines_create.py::test_order_lines_create_for_just_published_product[draft]"
      ]
     }
    },
    "cap400": {
     "status": "DONE",
     "n_selected": 400,
-    "n_stable_p2p": 399,
+    "n_stable_p2p": 398,
     "cause_counts": {
-     "FLAKY": 1
+     "FLAKY": 2
     },
     "cause_pct_of_selected": {
-     "FLAKY": 0.0025
+     "FLAKY": 0.005
     },
     "install_mode": "V2_MAIN_PLUS_EXACT_LOCKED_DEV",
     "has_locked_dev_entry": true,
     "cause_nodes": {
      "FLAKY": [
-      "saleor/graphql/order/tests/mutations/test_order_bulk_cancel.py::test_order_bulk_cancel_by_user_no_channel_access"
+      "saleor/graphql/order/tests/benchmark/test_order_fulfill.py::test_order_fulfill",
+      "saleor/graphql/product/tests/benchmark/test_product_bulk_create.py::test_product_bulk_create_with_base_data"
      ]
     }
    },
@@ -512,35 +342,16 @@
    "cap200": {
     "status": "DONE",
     "n_selected": 200,
-    "n_stable_p2p": 184,
+    "n_stable_p2p": 199,
     "cause_counts": {
-     "MISSING_FIXTURE:count_queries": 15,
      "FLAKY": 1
     },
     "cause_pct_of_selected": {
-     "MISSING_FIXTURE:count_queries": 0.075,
      "FLAKY": 0.005
     },
     "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
     "has_locked_dev_entry": false,
     "cause_nodes": {
-     "MISSING_FIXTURE:count_queries": [
-      "saleor/graphql/product/tests/benchmark/test_homepage.py::test_retrieve_product_list",
-      "saleor/graphql/product/tests/benchmark/test_collection.py::test_collection_view",
-      "saleor/graphql/product/tests/benchmark/test_variant_stocks.py::test_product_variants_stocks_create",
-      "saleor/graphql/product/tests/benchmark/test_variant.py::test_product_variant_bulk_create",
-      "saleor/graphql/product/tests/benchmark/test_category.py::test_category_view",
-      "saleor/graphql/product/tests/benchmark/test_product.py::test_product_details",
-      "saleor/graphql/product/tests/benchmark/test_homepage.py::test_featured_products_list",
-      "saleor/graphql/product/tests/test_product_sorting_attributes.py::test_sort_product_not_having_attribute_data",
-      "saleor/graphql/product/tests/benchmark/test_variant_stocks.py::test_product_variants_stocks_delete",
-      "saleor/graphql/product/tests/benchmark/test_variant.py::test_retrieve_variant_list",
-      "saleor/graphql/product/tests/benchmark/test_product.py::test_retrieve_product_attributes",
-      "saleor/graphql/account/tests/benchmark/test_account.py::test_query_staff_user",
-      "saleor/graphql/product/tests/benchmark/test_variant_stocks.py::test_product_variants_stocks_update",
-      "saleor/graphql/shop/tests/benchmark/test_homepage.py::test_retrieve_shop",
-      "saleor/graphql/order/tests/benchmark/test_order.py::test_user_order_details"
-     ],
      "FLAKY": [
       "saleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_get_items_from_anonymous_user"
      ]
@@ -549,39 +360,16 @@
    "cap400": {
     "status": "DONE",
     "n_selected": 400,
-    "n_stable_p2p": 380,
+    "n_stable_p2p": 399,
     "cause_counts": {
-     "MISSING_FIXTURE:count_queries": 19,
      "FLAKY": 1
     },
     "cause_pct_of_selected": {
-     "MISSING_FIXTURE:count_queries": 0.0475,
      "FLAKY": 0.0025
     },
     "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
     "has_locked_dev_entry": false,
     "cause_nodes": {
-     "MISSING_FIXTURE:count_queries": [
-      "saleor/graphql/product/tests/benchmark/test_homepage.py::test_retrieve_product_list",
-      "saleor/graphql/product/tests/benchmark/test_collection.py::test_collection_view",
-      "saleor/graphql/product/tests/benchmark/test_variant_stocks.py::test_product_variants_stocks_create",
-      "saleor/graphql/product/tests/benchmark/test_variant.py::test_product_variant_bulk_create",
-      "saleor/graphql/product/tests/benchmark/test_category.py::test_category_view",
-      "saleor/graphql/product/tests/benchmark/test_product.py::test_product_details",
-      "saleor/graphql/product/tests/benchmark/test_homepage.py::test_featured_products_list",
-      "saleor/graphql/product/tests/test_product_sorting_attributes.py::test_sort_product_not_having_attribute_data",
-      "saleor/graphql/product/tests/benchmark/test_variant_stocks.py::test_product_variants_stocks_delete",
-      "saleor/graphql/product/tests/benchmark/test_variant.py::test_retrieve_variant_list",
-      "saleor/graphql/product/tests/benchmark/test_product.py::test_retrieve_product_attributes",
-      "saleor/graphql/account/tests/benchmark/test_account.py::test_query_staff_user",
-      "saleor/graphql/product/tests/benchmark/test_variant_stocks.py::test_product_variants_stocks_update",
-      "saleor/graphql/shop/tests/benchmark/test_homepage.py::test_retrieve_shop",
-      "saleor/graphql/order/tests/benchmark/test_order.py::test_user_order_details",
-      "saleor/graphql/account/tests/benchmark/test_permission_group.py::test_permission_group_query",
-      "saleor/graphql/checkout/tests/benchmark/test_checkout_mutations.py::test_create_checkout",
-      "saleor/graphql/menu/tests/benchmark/test_homepage.py::test_retrieve_secondary_menu",
-      "saleor/graphql/checkout/tests/benchmark/test_homepage.py::test_user_checkout_details"
-     ],
      "FLAKY": [
       "saleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_get_items_from_anonymous_user"
      ]
@@ -612,73 +400,22 @@
    "cap200": {
     "status": "DONE",
     "n_selected": 200,
-    "n_stable_p2p": 195,
-    "cause_counts": {
-     "COLLECTION/SETUP_OTHER": 1,
-     "MISSING_FIXTURE:count_queries": 4
-    },
-    "cause_pct_of_selected": {
-     "COLLECTION/SETUP_OTHER": 0.005,
-     "MISSING_FIXTURE:count_queries": 0.02
-    },
+    "n_stable_p2p": 200,
+    "cause_counts": {},
+    "cause_pct_of_selected": {},
     "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
     "has_locked_dev_entry": false,
-    "cause_nodes": {
-     "COLLECTION/SETUP_OTHER": [
-      "saleor/plugins/avatax/tests/test_avatax.py::test_calculate_checkout_line_without_sku_total_with_sale[15.00-18.45-False]"
-     ],
-     "MISSING_FIXTURE:count_queries": [
-      "saleor/graphql/product/tests/benchmark/test_homepage.py::test_retrieve_product_list",
-      "saleor/graphql/giftcard/tests/benchmark/test_gift_card_mutations.py::test_update_gift_card",
-      "saleor/graphql/checkout/tests/benchmark/test_checkouts.py::test_staff_multiple_checkouts",
-      "saleor/graphql/checkout/tests/benchmark/test_checkout_mutations.py::test_create_checkout"
-     ]
-    }
+    "cause_nodes": {}
    },
    "cap400": {
     "status": "DONE",
     "n_selected": 400,
-    "n_stable_p2p": 384,
-    "cause_counts": {
-     "COLLECTION/SETUP_OTHER": 1,
-     "MISSING_FIXTURE:count_queries": 9,
-     "SOCKET_BLOCKED": 4,
-     "ASSERTION_OR_TRUE_TEST_FAILURE": 2
-    },
-    "cause_pct_of_selected": {
-     "COLLECTION/SETUP_OTHER": 0.0025,
-     "MISSING_FIXTURE:count_queries": 0.0225,
-     "SOCKET_BLOCKED": 0.01,
-     "ASSERTION_OR_TRUE_TEST_FAILURE": 0.005
-    },
+    "n_stable_p2p": 400,
+    "cause_counts": {},
+    "cause_pct_of_selected": {},
     "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
     "has_locked_dev_entry": false,
-    "cause_nodes": {
-     "COLLECTION/SETUP_OTHER": [
-      "saleor/plugins/avatax/tests/test_avatax.py::test_calculate_checkout_line_without_sku_total_with_sale[15.00-18.45-False]"
-     ],
-     "MISSING_FIXTURE:count_queries": [
-      "saleor/graphql/product/tests/benchmark/test_homepage.py::test_retrieve_product_list",
-      "saleor/graphql/giftcard/tests/benchmark/test_gift_card_mutations.py::test_update_gift_card",
-      "saleor/graphql/checkout/tests/benchmark/test_checkouts.py::test_staff_multiple_checkouts",
-      "saleor/graphql/checkout/tests/benchmark/test_checkout_mutations.py::test_create_checkout",
-      "saleor/graphql/product/tests/benchmark/test_collection.py::test_collection_bulk_delete",
-      "saleor/graphql/checkout/tests/benchmark/test_homepage.py::test_user_checkout_details_with_tax_app",
-      "saleor/graphql/account/tests/benchmark/test_account.py::test_query_staff_user",
-      "saleor/graphql/checkout/tests/benchmark/test_checkout_mutations.py::test_complete_checkout_preorder",
-      "saleor/graphql/checkout/tests/benchmark/test_homepage.py::test_user_checkout_details"
-     ],
-     "SOCKET_BLOCKED": [
-      "saleor/payment/gateways/braintree/tests/test_braintree.py::test_capture_incorrect_token",
-      "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_authorize_and_save_customer_id",
-      "saleor/payment/gateways/braintree/tests/test_braintree.py::test_authorize_with_customer_id",
-      "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_void"
-     ],
-     "ASSERTION_OR_TRUE_TEST_FAILURE": [
-      "saleor/payment/gateways/authorize_net/tests/test_authorize_net.py::test_process_payment",
-      "saleor/payment/gateways/authorize_net/tests/test_authorize_net.py::test_refund"
-     ]
-    }
+    "cause_nodes": {}
    },
    "historical": {
     "target_commit": "82c56bde0e3422112e9d990f22c7843f59f726e7",
@@ -745,12 +482,24 @@
    "task_id": "saleor-rc-9258154b8a0b",
    "era_key": "py39",
    "cap200": {
-    "status": "UNDEFINED",
-    "n_selected": 0
+    "status": "DONE",
+    "n_selected": 200,
+    "n_stable_p2p": 200,
+    "cause_counts": {},
+    "cause_pct_of_selected": {},
+    "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+    "has_locked_dev_entry": false,
+    "cause_nodes": {}
    },
    "cap400": {
-    "status": "UNDEFINED",
-    "n_selected": 0
+    "status": "DONE",
+    "n_selected": 400,
+    "n_stable_p2p": 400,
+    "cause_counts": {},
+    "cause_pct_of_selected": {},
+    "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+    "has_locked_dev_entry": false,
+    "cause_nodes": {}
    },
    "historical": {
     "target_commit": "9258154b8a0b117df3829eb99734eb78ce33f8c8",
@@ -777,32 +526,16 @@
    "cap200": {
     "status": "DONE",
     "n_selected": 200,
-    "n_stable_p2p": 187,
+    "n_stable_p2p": 199,
     "cause_counts": {
-     "MISSING_FIXTURE:count_queries": 12,
      "FLAKY": 1
     },
     "cause_pct_of_selected": {
-     "MISSING_FIXTURE:count_queries": 0.06,
      "FLAKY": 0.005
     },
     "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
     "has_locked_dev_entry": false,
     "cause_nodes": {
-     "MISSING_FIXTURE:count_queries": [
-      "saleor/graphql/account/tests/benchmark/test_account.py::test_query_staff_user",
-      "saleor/graphql/account/tests/benchmark/test_permission_group.py::test_permission_group_query",
-      "saleor/graphql/product/tests/benchmark/test_homepage.py::test_retrieve_product_list",
-      "saleor/graphql/account/tests/benchmark/test_account.py::test_staff_update_groups_and_permissions",
-      "saleor/graphql/account/tests/benchmark/test_permission_group.py::test_permission_group_update_remove_users_with_manage_staff",
-      "saleor/graphql/account/tests/benchmark/test_account.py::test_staff_create",
-      "saleor/graphql/account/tests/benchmark/test_permission_group.py::test_permission_group_create",
-      "saleor/graphql/account/tests/benchmark/test_account.py::test_delete_staff_members",
-      "saleor/graphql/account/tests/benchmark/test_permission_group.py::test_permission_group_delete",
-      "saleor/graphql/product/tests/benchmark/test_collection.py::test_collection_view",
-      "saleor/graphql/account/tests/benchmark/test_permission_group.py::test_permission_group_update",
-      "saleor/graphql/product/tests/benchmark/test_variant_stocks.py::test_product_variants_stocks_create"
-     ],
      "FLAKY": [
       "saleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_get_items_from_anonymous_user"
      ]
@@ -811,40 +544,16 @@
    "cap400": {
     "status": "DONE",
     "n_selected": 400,
-    "n_stable_p2p": 368,
+    "n_stable_p2p": 398,
     "cause_counts": {
-     "MISSING_FIXTURE:count_queries": 30,
      "FLAKY": 2
     },
     "cause_pct_of_selected": {
-     "MISSING_FIXTURE:count_queries": 0.075,
      "FLAKY": 0.005
     },
     "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
     "has_locked_dev_entry": false,
     "cause_nodes": {
-     "MISSING_FIXTURE:count_queries": [
-      "saleor/graphql/account/tests/benchmark/test_account.py::test_query_staff_user",
-      "saleor/graphql/account/tests/benchmark/test_permission_group.py::test_permission_group_query",
-      "saleor/graphql/product/tests/benchmark/test_homepage.py::test_retrieve_product_list",
-      "saleor/graphql/account/tests/benchmark/test_account.py::test_staff_update_groups_and_permissions",
-      "saleor/graphql/account/tests/benchmark/test_permission_group.py::test_permission_group_update_remove_users_with_manage_staff",
-      "saleor/graphql/account/tests/benchmark/test_account.py::test_staff_create",
-      "saleor/graphql/account/tests/benchmark/test_permission_group.py::test_permission_group_create",
-      "saleor/graphql/account/tests/benchmark/test_account.py::test_delete_staff_members",
-      "saleor/graphql/account/tests/benchmark/test_permission_group.py::test_permission_group_delete",
-      "saleor/graphql/product/tests/benchmark/test_collection.py::test_collection_view",
-      "saleor/graphql/account/tests/benchmark/test_permission_group.py::test_permission_group_update",
-      "saleor/graphql/product/tests/benchmark/test_variant_stocks.py::test_product_variants_stocks_create",
-      "saleor/graphql/shop/tests/benchmark/test_homepage.py::test_retrieve_shop",
-      "saleor/graphql/attribute/tests/benchmark/test_attribute.py::test_query_attribute",
-      "saleor/graphql/order/tests/benchmark/test_order.py::test_user_order_details",
-      "saleor/graphql/shipping/tests/benchmark/test_shipping_methods.py::test_vouchers_query_without_channel_slug",
-      "saleor/graphql/product/tests/benchmark/test_variant.py::test_product_variant_bulk_create",
-      "saleor/graphql/checkout/tests/benchmark/test_checkout_mutations.py::test_create_checkout",
-      "saleor/graphql/product/tests/benchmark/test_category.py::test_category_view",
-      "saleor/graphql/discount/tests/benchmark/test_vouchers.py::test_vouchers_query_with_channel_slug"
-     ],
      "FLAKY": [
       "saleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_get_items_from_anonymous_user",
       "saleor/graphql/wishlist/tests/test_wishlist.py::test_wishlist_remove_variant_from_anonymous_user"
@@ -1003,77 +712,22 @@
    "cap200": {
     "status": "DONE",
     "n_selected": 200,
-    "n_stable_p2p": 193,
-    "cause_counts": {
-     "OTHER": 5,
-     "SOCKET_BLOCKED": 2
-    },
-    "cause_pct_of_selected": {
-     "OTHER": 0.025,
-     "SOCKET_BLOCKED": 0.01
-    },
+    "n_stable_p2p": 200,
+    "cause_counts": {},
+    "cause_pct_of_selected": {},
     "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
     "has_locked_dev_entry": false,
-    "cause_nodes": {
-     "OTHER": [
-      "saleor/plugins/avatax/tests/test_avatax.py::test_preprocess_order_creation_wrong_data",
-      "saleor/plugins/avatax/tests/test_avatax.py::test_calculate_checkout_total_not_charged_product_and_shipping_with_0_price",
-      "saleor/plugins/avatax/tests/test_avatax.py::test_calculate_checkout_total[False-33.13-40.98-3.0-True]",
-      "saleor/plugins/avatax/tests/test_avatax.py::test_calculate_checkout_total_uses_default_calculation[True-21.99-27.74-5.0-False]",
-      "saleor/plugins/avatax/tests/test_avatax.py::test_calculate_checkout_shipping"
-     ],
-     "SOCKET_BLOCKED": [
-      "saleor/plugins/avatax/tests/test_tasks.py::test_api_post_request_task_creates_order_event",
-      "saleor/plugins/avatax/tests/test_tasks.py::test_api_post_request_task_sends_request"
-     ]
-    }
+    "cause_nodes": {}
    },
    "cap400": {
     "status": "DONE",
     "n_selected": 400,
-    "n_stable_p2p": 372,
-    "cause_counts": {
-     "OTHER": 22,
-     "SOCKET_BLOCKED": 6
-    },
-    "cause_pct_of_selected": {
-     "OTHER": 0.055,
-     "SOCKET_BLOCKED": 0.015
-    },
+    "n_stable_p2p": 400,
+    "cause_counts": {},
+    "cause_pct_of_selected": {},
     "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
     "has_locked_dev_entry": false,
-    "cause_nodes": {
-     "OTHER": [
-      "saleor/plugins/avatax/tests/test_avatax.py::test_preprocess_order_creation_wrong_data",
-      "saleor/plugins/avatax/tests/test_avatax.py::test_calculate_checkout_total_not_charged_product_and_shipping_with_0_price",
-      "saleor/plugins/avatax/tests/test_avatax.py::test_calculate_checkout_total[False-33.13-40.98-3.0-True]",
-      "saleor/plugins/avatax/tests/test_avatax.py::test_calculate_checkout_total_uses_default_calculation[True-21.99-27.74-5.0-False]",
-      "saleor/plugins/avatax/tests/test_avatax.py::test_calculate_checkout_shipping",
-      "saleor/plugins/avatax/tests/test_avatax.py::test_calculate_checkout_total[True-23.94-28.98-0.0-True]",
-      "saleor/plugins/avatax/tests/test_avatax.py::test_calculate_checkout_subtotal[True-20.33-25.00-True]",
-      "saleor/plugins/avatax/tests/test_avatax.py::test_calculate_checkout_total[True-23.98-30.19-5.0-False]",
-      "saleor/plugins/avatax/tests/test_avatax.py::test_preprocess_order_creation",
-      "saleor/plugins/avatax/tests/test_avatax.py::test_calculate_checkout_total_uses_default_calculation[False-41.99-51.19-0.0-False]",
-      "saleor/plugins/avatax/tests/test_avatax.py::test_calculate_checkout_line_unit_price[True]",
-      "saleor/plugins/avatax/tests/test_avatax.py::test_calculate_checkout_subtotal[False-50.00-61.50-False]",
-      "saleor/plugins/avatax/tests/test_avatax.py::test_calculate_checkout_total_uses_default_calculation[True-22.32-26.99-0.0-True]",
-      "saleor/plugins/avatax/tests/test_avatax.py::test_calculate_checkout_line_total[True-12.20-15.00-True]",
-      "saleor/plugins/avatax/tests/test_avatax.py::test_calculate_checkout_subtotal[True-25.00-30.75-False]",
-      "saleor/plugins/avatax/tests/test_avatax.py::test_calculate_checkout_line_total[False-30.00-36.90-False]",
-      "saleor/plugins/avatax/tests/test_avatax.py::test_calculate_order_line_total",
-      "saleor/plugins/avatax/tests/test_avatax.py::test_calculate_checkout_total_uses_default_calculation[False-31.51-38.99-3.0-True]",
-      "saleor/plugins/avatax/tests/test_avatax.py::test_calculate_checkout_line_total[True-15.00-18.45-False]",
-      "saleor/plugins/avatax/tests/test_avatax.py::test_calculate_checkout_subtotal[False-40.65-50.00-True]"
-     ],
-     "SOCKET_BLOCKED": [
-      "saleor/plugins/avatax/tests/test_tasks.py::test_api_post_request_task_creates_order_event",
-      "saleor/plugins/avatax/tests/test_tasks.py::test_api_post_request_task_sends_request",
-      "saleor/plugins/avatax/tests/test_avatax.py::test_get_cached_tax_codes_or_fetch_wrong_response",
-      "saleor/plugins/avatax/tests/test_avatax.py::test_get_cached_tax_codes_or_fetch",
-      "saleor/plugins/avatax/tests/test_avatax.py::test_calculate_order_shipping",
-      "saleor/plugins/avatax/tests/test_avatax.py::test_calculate_order_line_unit"
-     ]
-    }
+    "cause_nodes": {}
    },
    "historical": {
     "target_commit": "dc6ac9d252df21d32c5abdb5437896489b708766",
@@ -1100,66 +754,22 @@
    "cap200": {
     "status": "DONE",
     "n_selected": 200,
-    "n_stable_p2p": 196,
-    "cause_counts": {
-     "SOCKET_BLOCKED": 2,
-     "MISSING_FIXTURE:count_queries": 2
-    },
-    "cause_pct_of_selected": {
-     "SOCKET_BLOCKED": 0.01,
-     "MISSING_FIXTURE:count_queries": 0.01
-    },
+    "n_stable_p2p": 200,
+    "cause_counts": {},
+    "cause_pct_of_selected": {},
     "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
     "has_locked_dev_entry": false,
-    "cause_nodes": {
-     "SOCKET_BLOCKED": [
-      "saleor/graphql/core/tests/test_core.py::test_get_oembed_data[https://www.flickr.com/photos/megane_wakui/31740618232/-IMAGE]",
-      "saleor/graphql/core/tests/test_core.py::test_get_oembed_data[https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=TestingChannel-VIDEO]"
-     ],
-     "MISSING_FIXTURE:count_queries": [
-      "saleor/graphql/product/tests/benchmark/test_homepage.py::test_retrieve_product_list",
-      "saleor/graphql/giftcard/tests/benchmark/test_gift_card_mutations.py::test_update_gift_card"
-     ]
-    }
+    "cause_nodes": {}
    },
    "cap400": {
     "status": "DONE",
     "n_selected": 400,
-    "n_stable_p2p": 382,
-    "cause_counts": {
-     "SOCKET_BLOCKED": 5,
-     "MISSING_FIXTURE:count_queries": 13
-    },
-    "cause_pct_of_selected": {
-     "SOCKET_BLOCKED": 0.0125,
-     "MISSING_FIXTURE:count_queries": 0.0325
-    },
+    "n_stable_p2p": 400,
+    "cause_counts": {},
+    "cause_pct_of_selected": {},
     "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
     "has_locked_dev_entry": false,
-    "cause_nodes": {
-     "SOCKET_BLOCKED": [
-      "saleor/graphql/core/tests/test_core.py::test_get_oembed_data[https://www.flickr.com/photos/megane_wakui/31740618232/-IMAGE]",
-      "saleor/graphql/core/tests/test_core.py::test_get_oembed_data[https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=TestingChannel-VIDEO]",
-      "saleor/graphql/core/tests/test_core.py::test_get_oembed_data[http://www.youtube.com/watch?v=dQw4w9WgXcQ-VIDEO]",
-      "saleor/graphql/core/tests/test_core.py::test_get_oembed_data[https://vimeo.com/148751763-VIDEO]",
-      "saleor/graphql/core/tests/test_core.py::test_get_oembed_data[https://www.youtube.com/watch?v=dQw4w9WgXcQ-VIDEO]"
-     ],
-     "MISSING_FIXTURE:count_queries": [
-      "saleor/graphql/product/tests/benchmark/test_homepage.py::test_retrieve_product_list",
-      "saleor/graphql/giftcard/tests/benchmark/test_gift_card_mutations.py::test_update_gift_card",
-      "saleor/graphql/product/tests/benchmark/test_collection.py::test_collection_bulk_delete",
-      "saleor/graphql/account/tests/benchmark/test_account.py::test_query_staff_user",
-      "saleor/graphql/warehouse/tests/benchmark/test_stocks.py::test_stocks_query",
-      "saleor/graphql/app/tests/benchmarks/test_apps.py::test_apps_for_federation_query_count",
-      "saleor/graphql/product/tests/benchmark/test_variant_stocks.py::test_query_product_variants_stocks",
-      "saleor/graphql/channel/tests/benchmark/test_channel.py::test_channels_query",
-      "saleor/graphql/payment/tests/benchmark/test_payment_transactions.py::test_payment_transactions",
-      "saleor/graphql/order/tests/benchmark/test_order_bulk_create.py::test_order_bulk_create",
-      "saleor/graphql/checkout/tests/benchmark/test_checkouts.py::test_staff_multiple_checkouts",
-      "saleor/graphql/app/tests/benchmarks/test_app_extensions.py::test_app_extensions_with_filter[filter2]",
-      "saleor/graphql/giftcard/tests/benchmark/test_gift_card_queries.py::test_filter_gift_cards_by_used_by_user"
-     ]
-    }
+    "cause_nodes": {}
    },
    "historical": {
     "target_commit": "e03ee76d2b895c707dbd9ee7fe8ff4b1c3cee026",
@@ -1186,76 +796,22 @@
    "cap200": {
     "status": "DONE",
     "n_selected": 139,
-    "n_stable_p2p": 113,
-    "cause_counts": {
-     "SOCKET_BLOCKED": 26
-    },
-    "cause_pct_of_selected": {
-     "SOCKET_BLOCKED": 0.1871
-    },
+    "n_stable_p2p": 139,
+    "cause_counts": {},
+    "cause_pct_of_selected": {},
     "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
     "has_locked_dev_entry": true,
-    "cause_nodes": {
-     "SOCKET_BLOCKED": [
-      "saleor/payment/gateways/stripe/tests/test_stripe.py::test_capture_error_response",
-      "saleor/payment/gateways/braintree/tests/test_braintree.py::test_capture_incorrect_token",
-      "saleor/payment/gateways/stripe/tests/test_stripe.py::test_capture_3d_secure",
-      "saleor/payment/gateways/braintree/tests/test_braintree.py::test_authorize_with_customer_id",
-      "saleor/payment/gateways/stripe/tests/test_stripe.py::test_authorize_without_capture",
-      "saleor/payment/gateways/stripe/tests/test_stripe.py::test_authorize_and_save_customer_id",
-      "saleor/payment/gateways/stripe/tests/test_stripe.py::test_authorize",
-      "saleor/payment/gateways/braintree/tests/test_braintree.py::test_capture",
-      "saleor/payment/gateways/stripe/tests/test_stripe.py::test_authorize_with_customer_id",
-      "saleor/payment/gateways/braintree/tests/test_braintree.py::test_authorize_one_time",
-      "saleor/payment/gateways/stripe/tests/test_stripe.py::test_void",
-      "saleor/payment/gateways/stripe/tests/test_stripe.py::test_refund_error_response",
-      "saleor/payment/gateways/braintree/tests/test_braintree.py::test_authorize_and_save_customer_id",
-      "saleor/payment/gateways/stripe/tests/test_stripe.py::test_authorize_3d_secure",
-      "saleor/payment/gateways/braintree/tests/test_braintree.py::test_void_incorrect_token",
-      "saleor/payment/gateways/stripe/tests/test_stripe.py::test_list_customer_sources",
-      "saleor/payment/gateways/stripe/tests/test_stripe.py::test_capture",
-      "saleor/payment/gateways/braintree/tests/test_braintree.py::test_refund_incorrect_token",
-      "saleor/payment/gateways/stripe/tests/test_stripe.py::test_confirm_error_response",
-      "saleor/payment/gateways/stripe/tests/test_stripe.py::test_confirm__intent"
-     ]
-    }
+    "cause_nodes": {}
    },
    "cap400": {
     "status": "DONE",
     "n_selected": 139,
-    "n_stable_p2p": 113,
-    "cause_counts": {
-     "SOCKET_BLOCKED": 26
-    },
-    "cause_pct_of_selected": {
-     "SOCKET_BLOCKED": 0.1871
-    },
+    "n_stable_p2p": 139,
+    "cause_counts": {},
+    "cause_pct_of_selected": {},
     "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
     "has_locked_dev_entry": true,
-    "cause_nodes": {
-     "SOCKET_BLOCKED": [
-      "saleor/payment/gateways/stripe/tests/test_stripe.py::test_capture_error_response",
-      "saleor/payment/gateways/braintree/tests/test_braintree.py::test_capture_incorrect_token",
-      "saleor/payment/gateways/stripe/tests/test_stripe.py::test_capture_3d_secure",
-      "saleor/payment/gateways/braintree/tests/test_braintree.py::test_authorize_with_customer_id",
-      "saleor/payment/gateways/stripe/tests/test_stripe.py::test_authorize_without_capture",
-      "saleor/payment/gateways/stripe/tests/test_stripe.py::test_authorize_and_save_customer_id",
-      "saleor/payment/gateways/stripe/tests/test_stripe.py::test_authorize",
-      "saleor/payment/gateways/braintree/tests/test_braintree.py::test_capture",
-      "saleor/payment/gateways/stripe/tests/test_stripe.py::test_authorize_with_customer_id",
-      "saleor/payment/gateways/braintree/tests/test_braintree.py::test_authorize_one_time",
-      "saleor/payment/gateways/stripe/tests/test_stripe.py::test_void",
-      "saleor/payment/gateways/stripe/tests/test_stripe.py::test_refund_error_response",
-      "saleor/payment/gateways/braintree/tests/test_braintree.py::test_authorize_and_save_customer_id",
-      "saleor/payment/gateways/stripe/tests/test_stripe.py::test_authorize_3d_secure",
-      "saleor/payment/gateways/braintree/tests/test_braintree.py::test_void_incorrect_token",
-      "saleor/payment/gateways/stripe/tests/test_stripe.py::test_list_customer_sources",
-      "saleor/payment/gateways/stripe/tests/test_stripe.py::test_capture",
-      "saleor/payment/gateways/braintree/tests/test_braintree.py::test_refund_incorrect_token",
-      "saleor/payment/gateways/stripe/tests/test_stripe.py::test_confirm_error_response",
-      "saleor/payment/gateways/stripe/tests/test_stripe.py::test_confirm__intent"
-     ]
-    }
+    "cause_nodes": {}
    },
    "historical": {
     "target_commit": "e25cf9b4a83782e1acd2fa35f198f76d476aaabb",
@@ -1279,68 +835,19 @@
  },
  "totals": {
   "cause_totals": {
-   "MISSING_FIXTURE:count_queries": 144,
-   "FLAKY": 19,
-   "MISSING_FIXTURE:mocker": 20,
-   "SOCKET_BLOCKED": 132,
-   "ASSERTION_OR_TRUE_TEST_FAILURE": 25,
-   "COLLECTION/SETUP_OTHER": 3,
-   "OTHER": 27
+   "FLAKY": 20,
+   "ASSERTION_OR_TRUE_TEST_FAILURE": 8
   },
-  "tasks_with_missing_fixture": [
-   "saleor-rc-22ec4dab0154",
-   "saleor-rc-644f33094857",
-   "saleor-rc-6abb53f3407b",
-   "saleor-rc-823b899757ab",
-   "saleor-rc-82c56bde0e34",
-   "saleor-rc-93b20d78c011",
-   "saleor-rc-e03ee76d2b89"
-  ],
-  "tasks_with_socket_blocked": [
-   "saleor-rc-6abb53f3407b",
-   "saleor-rc-82c56bde0e34",
-   "saleor-rc-dc6ac9d252df",
-   "saleor-rc-e03ee76d2b89",
-   "saleor-rc-e25cf9b4a837"
-  ]
+  "tasks_with_missing_fixture": [],
+  "tasks_with_socket_blocked": []
  },
  "harness_v3_dep_policy_compliance": {
-  "verdict": "FAIL",
-  "violations": {
-   "saleor-rc-22ec4dab0154": [
-    "MISSING_FIXTURE:count_queries package=pytest-django-queries historically-declared=1.1.0 but not installed",
-    "MISSING_FIXTURE:mocker package=pytest-mock historically-declared=3.1.1 but not installed"
-   ],
-   "saleor-rc-644f33094857": [
-    "MISSING_FIXTURE:count_queries package=pytest-django-queries historically-declared=1.1.0 but not installed",
-    "MISSING_FIXTURE:mocker package=pytest-mock historically-declared=3.3.1 but not installed"
-   ],
-   "saleor-rc-6abb53f3407b": [
-    "MISSING_FIXTURE:mocker package=pytest-mock historically-declared=3.6.1 but not installed"
-   ],
-   "saleor-rc-823b899757ab": [
-    "MISSING_FIXTURE:count_queries package=pytest-django-queries historically-declared=1.1.0 but not installed"
-   ],
-   "saleor-rc-82c56bde0e34": [
-    "MISSING_FIXTURE:count_queries package=pytest-django-queries historically-declared=1.2.0 but not installed"
-   ],
-   "saleor-rc-93b20d78c011": [
-    "MISSING_FIXTURE:count_queries package=pytest-django-queries historically-declared=1.1.0 but not installed"
-   ],
-   "saleor-rc-e03ee76d2b89": [
-    "MISSING_FIXTURE:count_queries package=pytest-django-queries historically-declared=1.2.0 but not installed"
-   ]
-  },
+  "verdict": "PASS",
+  "violations": {},
   "note": "FAIL = a historically-declared dev/test package required by an executed task's tests was not installed in the V3 container and is not covered by LOCKED_DEV_DEPS. This is judged against the frozen Harness V3 LOCKFILE-FIRST exact historical main+dev/test dependency policy."
  },
  "vcr_audit": {
-  "socket_blocked_nodes": {
-   "saleor-rc-6abb53f3407b": 61,
-   "saleor-rc-82c56bde0e34": 4,
-   "saleor-rc-dc6ac9d252df": 8,
-   "saleor-rc-e03ee76d2b89": 7,
-   "saleor-rc-e25cf9b4a837": 52
-  },
+  "socket_blocked_nodes": {},
   "declared_pytest_recording": {
    "saleor-rc-22ec4dab0154": null,
    "saleor-rc-2d45b76a52f2": "0.12.2",
@@ -1360,68 +867,7 @@
    "saleor-rc-e25cf9b4a837": null
   },
   "verdict": "SocketBlockedError nodes do NOT imply missing pytest-recording by themselves: the environment runs --disable-socket; a test that performs real network calls with no cassette raises SocketBlockedError even when pytest-recording is present. Confirmed missing-plugin classification only where the historical source declares the plugin and the failure is an unknown-mark/fixture error, which was not observed.",
-  "samples": {
-   "saleor-rc-6abb53f3407b": {
-    "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_authorize_and_save_customer_id": {
-     "uses_pytest_mark_vcr": true,
-     "uses_vcr_fixture": true,
-     "n_cassette_refs": 1
-    },
-    "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_void": {
-     "uses_pytest_mark_vcr": true,
-     "uses_vcr_fixture": true,
-     "n_cassette_refs": 1
-    }
-   },
-   "saleor-rc-dc6ac9d252df": {
-    "saleor/plugins/avatax/tests/test_tasks.py::test_api_post_request_task_creates_order_event": {
-     "uses_pytest_mark_vcr": true,
-     "uses_vcr_fixture": true,
-     "n_cassette_refs": 0
-    },
-    "saleor/plugins/avatax/tests/test_tasks.py::test_api_post_request_task_sends_request": {
-     "uses_pytest_mark_vcr": true,
-     "uses_vcr_fixture": true,
-     "n_cassette_refs": 0
-    }
-   },
-   "saleor-rc-e03ee76d2b89": {
-    "saleor/graphql/core/tests/test_core.py::test_get_oembed_data[https://www.flickr.com/photos/megane_wakui/31740618232/-IMAGE]": {
-     "uses_pytest_mark_vcr": true,
-     "uses_vcr_fixture": true,
-     "n_cassette_refs": 0
-    },
-    "saleor/graphql/core/tests/test_core.py::test_get_oembed_data[https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=TestingChannel-VIDEO]": {
-     "uses_pytest_mark_vcr": true,
-     "uses_vcr_fixture": true,
-     "n_cassette_refs": 0
-    }
-   },
-   "saleor-rc-82c56bde0e34": {
-    "saleor/payment/gateways/braintree/tests/test_braintree.py::test_capture_incorrect_token": {
-     "uses_pytest_mark_vcr": true,
-     "uses_vcr_fixture": true,
-     "n_cassette_refs": 0
-    },
-    "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_authorize_and_save_customer_id": {
-     "uses_pytest_mark_vcr": true,
-     "uses_vcr_fixture": true,
-     "n_cassette_refs": 1
-    }
-   },
-   "saleor-rc-e25cf9b4a837": {
-    "saleor/payment/gateways/stripe/tests/test_stripe.py::test_capture_error_response": {
-     "uses_pytest_mark_vcr": true,
-     "uses_vcr_fixture": true,
-     "n_cassette_refs": 1
-    },
-    "saleor/payment/gateways/braintree/tests/test_braintree.py::test_capture_incorrect_token": {
-     "uses_pytest_mark_vcr": true,
-     "uses_vcr_fixture": true,
-     "n_cassette_refs": 0
-    }
-   }
-  }
+  "samples": {}
  },
  "c4_dep_gap_impact": {
   "verdict": "INCONCLUSIVE",
