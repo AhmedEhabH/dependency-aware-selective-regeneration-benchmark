@@ -60,6 +60,21 @@ range. Append new decisions at the end of `DECISIONS.md`.
   from `progress.json`, e.g. `MAIN_297 — 120/297 complete · $2.31`.
 - Never block a single tool call on a multi-hour process.
 
+NATIVE TODO — MANDATORY FOR EVERY MULTI-STEP TASK
+
+For every task with 2+ execution steps:
+
+1. The FIRST tool call of the execution phase MUST be native `todowrite`.
+2. No shell/read/edit work beyond minimal task identification may begin before
+   the Todo exists.
+3. Keep exactly one item in_progress.
+4. Update native Todo before and after every atomic step.
+5. For long work, expose live counts: x/y, chunk a/b, task name.
+6. Persist detailed progress separately, but native Todo is mandatory UI state.
+7. If native Todo is unavailable, report TODO_UI_UNAVAILABLE explicitly.
+
+This requirement applies to every future Mission automatically.
+
 ## Long-running commands (standing)
 
 - Full pytest suite: ~50+ min on Ahmed's workstation. Tool timeout
