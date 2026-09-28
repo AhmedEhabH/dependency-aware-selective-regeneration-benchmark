@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="8" time="2.100" timestamp="2026-09-28T00:56:42.994413-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.core.tests.test_jwt" name="test_create_access_token_for_app" time="1.467" /><testcase classname="saleor.core.tests.test_jwt" name="test_create_access_token_for_app_extension_staff_user_with_more_permissions" time="0.069" /><testcase classname="saleor.core.tests.test_jwt" name="test_create_access_token_for_app_extension_with_more_permissions" time="0.071"><failure message="AssertionError: assert ['MANAGE_APPS...AGE_CHANNELS'] == ['MANAGE_PRODUCTS']&#10;  &#10;  At index 0 diff: 'MANAGE_APPS' != 'MANAGE_PRODUCTS'&#10;  Left contains 2 more items, first extra item: 'MANAGE_PRODUCTS'&#10;  Use -v to get more diff">app_with_extensions = (&lt;App: Sample app objects&gt;, [&lt;AppExtension: AppExtension object (11)&gt;, &lt;AppExtension: AppExtension object (12)&gt;])
+staff_user = &lt;User: e06d7dba-caa2-474a-b760-e5697034ce02&gt;
+permission_manage_apps = &lt;Permission: app | app | Manage apps&gt;
+permission_manage_products = &lt;Permission: product | product | Manage products.&gt;
+permission_manage_channels = &lt;Permission: channel | channel | Manage channels.&gt;
+site_settings = &lt;SiteSettings: SiteSettings object (20)&gt;
+
+    def test_create_access_token_for_app_extension_with_more_permissions(
+        app_with_extensions,
+        staff_user,
+        permission_manage_apps,
+        permission_manage_products,
+        permission_manage_channels,
+        site_settings,
+    ):
+        # given
+        staff_user.user_permissions.set([permission_manage_products])
+    
+        audience = f"https://{site_settings.site.domain}.com/app-123"
+        app, extensions = app_with_extensions
+        app.audience = audience
+        app.save()
+    
+        extension = extensions[0]
+        extension.permissions.set(
+            [permission_manage_channels, permission_manage_apps, permission_manage_products]
+        )
+    
+        # when
+        access_token = create_access_token_for_app_extension(
+            app_extension=extension,
+            permissions=extension.permissions.all(),
+            user=staff_user,
+            app=app,
+        )
+    
+        # then
+        decoded_token = jwt_decode(access_token, verify_expiration=False)
+&gt;       assert decoded_token["permissions"] == ["MANAGE_PRODUCTS"]
+E       AssertionError: assert ['MANAGE_APPS...AGE_CHANNELS'] == ['MANAGE_PRODUCTS']
+E         
+E         At index 0 diff: 'MANAGE_APPS' != 'MANAGE_PRODUCTS'
+E         Left contains 2 more items, first extra item: 'MANAGE_PRODUCTS'
+E         Use -v to get more diff
+
+saleor/core/tests/test_jwt.py:119: AssertionError</failure></testcase><testcase classname="saleor.core.tests.test_jwt" name="test_jwt_decode_accepts_app_token_hs256_with_audience" time="0.012" /><testcase classname="saleor.core.tests.test_jwt" name="test_jwt_decode_accepts_app_token_rs256_with_audience" time="0.049" /><testcase classname="saleor.core.tests.test_jwt" name="test_jwt_decode_accepts_token_signed_with_hs256" time="0.013" /><testcase classname="saleor.core.tests.test_jwt" name="test_jwt_decode_accepts_token_signed_with_rs256" time="0.050" /><testcase classname="saleor.core.tests.test_jwt" name="test_jwt_encode_creates_token_signed_with_rs256" time="0.051" /></testsuite></testsuites>

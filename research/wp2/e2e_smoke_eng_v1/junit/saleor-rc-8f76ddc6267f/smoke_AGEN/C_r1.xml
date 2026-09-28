@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="9" time="3.897" timestamp="2026-09-28T01:14:40.421639-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.webhook.tests.mutations.test_webhook_dry_run" name="test_webhook_dry_run" time="1.655" /><testcase classname="saleor.graphql.webhook.tests.mutations.test_webhook_dry_run" name="test_webhook_dry_run_event_type_not_supported" time="0.182" /><testcase classname="saleor.graphql.webhook.tests.mutations.test_webhook_dry_run" name="test_webhook_dry_run_invalid_query" time="0.275" /><testcase classname="saleor.graphql.webhook.tests.mutations.test_webhook_dry_run" name="test_webhook_dry_run_missing_user_permission" time="0.125" /><testcase classname="saleor.graphql.webhook.tests.mutations.test_webhook_dry_run" name="test_webhook_dry_run_non_existing_id" time="0.148" /><testcase classname="saleor.graphql.webhook.tests.mutations.test_webhook_dry_run" name="test_webhook_dry_run_object_id_does_not_match_event" time="0.173" /><testcase classname="saleor.graphql.webhook.tests.mutations.test_webhook_dry_run" name="test_webhook_dry_run_root_type" time="0.764"><failure message="assert not [{'extensions': {'exception': {'code': 'TypeError'}}, 'locations': [{'column': 11, 'line': 14}], 'message': 'Internal ...r'}}, 'locations': [{'column': 11, 'line': 18}], 'message': 'Internal Server Error', 'path': ['event', 'sentToEmail']}]&#10; +  where [{'extensions': {'exception': {'code': 'TypeError'}}, 'locations': [{'column': 11, 'line': 14}], 'message': 'Internal ...r'}}, 'locations': [{'column': 11, 'line': 18}], 'message': 'Internal Server Error', 'path': ['event', 'sentToEmail']}] = &lt;built-in method get of dict object at 0x75a49310bd00&gt;('errors')&#10; +    where &lt;built-in method get of dict object at 0x75a49310bd00&gt; = {'channel': None, 'errors': [{'extensions': {'exception': {'code': 'TypeError'}}, 'locations': [{'column': 11, 'line':...': 18}], 'message': 'Internal Server Error', 'path': ['event', 'sentToEmail']}], 'giftCard': None, 'sentToEmail': None}.get&#10; +      where {'channel': None, 'errors': [{'extensions': {'exception': {'code': 'TypeError'}}, 'locations': [{'column': 11, 'line':...': 18}], 'message': 'Internal Server Error', 'path': ['event', 'sentToEmail']}], 'giftCard': None, 'sentToEmail': None} = &lt;function loads at 0x75a4a248e790&gt;('{&quot;giftCard&quot;: null, &quot;channel&quot;: null, &quot;sentToEmail&quot;: null, &quot;errors&quot;: [{&quot;message&quot;: &quot;Internal Server Error&quot;, &quot;locations&quot;:... [{&quot;line&quot;: 18, &quot;column&quot;: 11}], &quot;path&quot;: [&quot;event&quot;, &quot;sentToEmail&quot;], &quot;extensions&quot;: {&quot;exception&quot;: {&quot;code&quot;: &quot;TypeError&quot;}}}]}')&#10; +        where &lt;function loads at 0x75a4a248e790&gt; = json.loads">superuser_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x75a492d57a60&gt;
+async_subscription_webhooks_with_root_objects = {'address_created': [&lt;Webhook: Subscription&gt;, &lt;Address: Address object (36)&gt;], 'address_deleted': [&lt;Webhook: Subscript...bscription&gt;, &lt;Address: Address object (36)&gt;], 'app_deleted': [&lt;Webhook: Subscription&gt;, &lt;App: Sample app objects&gt;], ...}
+
+    def test_webhook_dry_run_root_type(
+        superuser_api_client,
+        async_subscription_webhooks_with_root_objects,
+    ):
+        # given
+        query = WEBHOOK_DRY_RUN_MUTATION
+    
+        for event_name, event_type in WEBHOOK_TYPES_MAP.items():
+            if not event_type._meta.enable_dry_run:
+                continue
+    
+            webhook = async_subscription_webhooks_with_root_objects[event_name][0]
+            object = async_subscription_webhooks_with_root_objects[event_name][1]
+            object_id = graphene.Node.to_global_id(object.__class__.__name__, object.pk)
+    
+            variables = {"objectId": object_id, "query": webhook.subscription_query}
+    
+            # when
+            response = superuser_api_client.post_graphql(query, variables)
+            content = get_graphql_content(response)
+    
+            # then
+            assert not content["data"]["webhookDryRun"]["errors"]
+            payload = content["data"]["webhookDryRun"]["payload"]
+            assert payload
+&gt;           assert not json.loads(payload).get("errors")
+E           assert not [{'extensions': {'exception': {'code': 'TypeError'}}, 'locations': [{'column': 11, 'line': 14}], 'message': 'Internal ...r'}}, 'locations': [{'column': 11, 'line': 18}], 'message': 'Internal Server Error', 'path': ['event', 'sentToEmail']}]
+E            +  where [{'extensions': {'exception': {'code': 'TypeError'}}, 'locations': [{'column': 11, 'line': 14}], 'message': 'Internal ...r'}}, 'locations': [{'column': 11, 'line': 18}], 'message': 'Internal Server Error', 'path': ['event', 'sentToEmail']}] = &lt;built-in method get of dict object at 0x75a49310bd00&gt;('errors')
+E            +    where &lt;built-in method get of dict object at 0x75a49310bd00&gt; = {'channel': None, 'errors': [{'extensions': {'exception': {'code': 'TypeError'}}, 'locations': [{'column': 11, 'line':...': 18}], 'message': 'Internal Server Error', 'path': ['event', 'sentToEmail']}], 'giftCard': None, 'sentToEmail': None}.get
+E            +      where {'channel': None, 'errors': [{'extensions': {'exception': {'code': 'TypeError'}}, 'locations': [{'column': 11, 'line':...': 18}], 'message': 'Internal Server Error', 'path': ['event', 'sentToEmail']}], 'giftCard': None, 'sentToEmail': None} = &lt;function loads at 0x75a4a248e790&gt;('{"giftCard": null, "channel": null, "sentToEmail": null, "errors": [{"message": "Internal Server Error", "locations":... [{"line": 18, "column": 11}], "path": ["event", "sentToEmail"], "extensions": {"exception": {"code": "TypeError"}}}]}')
+E            +        where &lt;function loads at 0x75a4a248e790&gt; = json.loads
+
+saleor/graphql/webhook/tests/mutations/test_webhook_dry_run.py:621: AssertionError</failure></testcase><testcase classname="saleor.graphql.webhook.tests.mutations.test_webhook_dry_run" name="test_webhook_dry_run_root_type_for_transaction_item_metadata_updated" time="0.118" /><testcase classname="saleor.graphql.webhook.tests.mutations.test_webhook_dry_run" name="test_webhook_dry_run_staff_user_not_authorized" time="0.118" /></testsuite></testsuites>

@@ -61,7 +61,7 @@ def materialize(task_id: str, label: str, diff_text: str) -> tuple[str, str]:
         if ap.returncode != 0:
             wsl(f"git -C {WSL_CACHE} worktree remove --force {wt} 2>/dev/null || rm -rf {wt}")
             raise RuntimeError(f"test patch apply failed: {ap.stderr[-800:]}")
-    if diff_text:
+    if diff_text and diff_text.strip():
         subprocess.run(["wsl", "-d", DISTRO, "--", "bash", "-lc",
                         "cat > /opt/wp2_v2/v31_e2e_gen.patch"],
                        input=diff_text.encode("utf-8"), capture_output=True, timeout=120)
