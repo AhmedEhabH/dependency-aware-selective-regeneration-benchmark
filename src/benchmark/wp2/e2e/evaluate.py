@@ -89,6 +89,8 @@ def evaluate_state(task_id: str, label: str, worktree: str) -> dict:
     from benchmark.wp2.e2e.scopes import commits_of
     _, target = commits_of(task_id)
     from benchmark.wp2.e2e.evaluator_sets import load_evaluator_sets
+    inv = json.loads((PROJECT / "research/wp2/wp2_dev_unchanged_p2p_candidate_inventory_v1_2026-09-25.json").read_text(encoding="utf-8"))
+    era_key = next(r["era_key"] for r in inv["tasks"] if r["task_id"] == task_id)
     from benchmark.wp2.harness_v3 import (
         TOOLING_INSTALL,
         lock_install_script,
@@ -147,7 +149,7 @@ def evaluate_state(task_id: str, label: str, worktree: str) -> dict:
                         "-e", "CACHE_URL=locmem://",
                         "-v", f"{worktree}:/workspace/{wt_name}",
                         "-v", "wp2-uv-cache:/root/.cache/uv",
-                        "wp2-era-py39", "bash", f"/workspace/{wt_name}/.v31_e2e_install.sh"],
+                        f"wp2-era-{era_key}", "bash", f"/workspace/{wt_name}/.v31_e2e_install.sh"],
                        capture_output=True, text=True, encoding="utf-8", timeout=STATE_TIMEOUT_S)
 
     from benchmark.wp2.oracle_confirmation import parse_junit_with_failures

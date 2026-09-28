@@ -120,7 +120,7 @@ def run_episode(task_id: str, arm: str, client, ledger: Ledger,
     diff = unified_diff(_parent_texts(task_id, scope["editable"]), final)
     return _episode(task_id, arm, status, scope, [prompt_sha], calls,
                     {"initial": errors, "repair": [] if not repair_used else []},
-                    list(final), [diff], reused)
+                    list(final), [diff], reused, final_texts=final)
 
 
 def _raw_scope(task_id: str, arm: str) -> list[str]:
@@ -155,8 +155,26 @@ def _call_entry(call, kind: str) -> dict:
             "response_sha256": hashlib.sha256(call.text.encode("utf-8")).hexdigest()}
 
 
+def _persist_episode(rec: dict, diffs: list[str], final_texts: dict[str, str]) -> None:
+    """B8 step 6: persist episode.json, final_diff.patch, final_files/."""
+    if rec["status"] not in ("APPLIED",):
+        return
+    base = E2E_ROOT / "episodes" / rec["task_id"] / rec["arm"]
+    base.mkdir(parents=True, exist_ok=True)
+    (base / "episode.json").write_text(json.dumps(rec, indent=1, ensure_ascii=False), encoding="utf-8")
+    if diffs:
+        (base / "final_diff.patch").write_text(diffs[0], encoding="utf-8", newline="")
+    if final_texts:
+        fdir = base / "final_files"
+        fdir.mkdir(parents=True, exist_ok=True)
+        for path, text in final_texts.items():
+            p = fdir / path
+            p.parent.mkdir(parents=True, exist_ok=True)
+            p.write_text(text, encoding="utf-8", newline="")
+
+
 def _episode(task_id, arm, status, scope, prompt_shas, calls, validation,
-             edited_files, diffs, reused=False, repair_used=False) -> dict:
+             edited_files, diffs, reused=False, repair_used=False, final_texts=None) -> dict:
     rec = {
         "smoke_version": SMOKE_VERSION, "task_id": task_id, "arm": arm,
         "status": status, "editable_set": scope.get("editable", []),
@@ -171,4 +189,5 @@ def _episode(task_id, arm, status, scope, prompt_shas, calls, validation,
         "episode_sha256": "",
     }
     rec["episode_sha256"] = _sha({k: v for k, v in rec.items() if k != "episode_sha256"})
+    _persist_episode(rec, diffs, final_texts or {})
     return rec
