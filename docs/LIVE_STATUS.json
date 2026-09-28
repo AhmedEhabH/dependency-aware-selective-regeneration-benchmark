@@ -1,7 +1,7 @@
 {
  "schema": "live_status_v1",
  "as_of_local": "2026-09-28 (Africa/Cairo)",
- "evidence_snapshot": "First WP-2 E2E Smoke ENG v1 COMPLETE (2026-09-28). Token E2E_SMOKE_FLOOR_EFFECT (SG1-SG3 PASS; SG4 floor GOLD RESOLVED 0/14 not met). 56 episodes; 8 APPLIED, 47 INVALID_AFTER_REPAIR (model SEARCH/REPLACE format adherence), 1 NO_SCOPE. AGENT_HARD RESOLVED 1/14 (e03ee76d2b89); GOLD/RMCSS/PLACEBO 0/14. Spend agent \\.348 / smoke \\.257 / total \\.605 (ceiling \\.50). Pipeline validation only; no comparative claim.",
+ "evidence_snapshot": "First WP-2 E2E Smoke ENG v1 COMPLETE (2026-09-28). Token E2E_SMOKE_FLOOR_EFFECT (SG1-SG3 PASS; SG4 floor GOLD RESOLVED 0/14 not met). 56 episodes; 8 APPLIED, 47 INVALID_AFTER_REPAIR (model SEARCH/REPLACE format adherence), 1 NO_SCOPE. AGENT_HARD RESOLVED 1/14 (e03ee76d2b89); GOLD/RMCSS/PLACEBO 0/14. Spend agent \\.371 / smoke \\.257 / total \\.628 (ceiling \\.50). Pipeline validation only; no comparative claim.",
  "phase": "Phase 5 - End-to-End Selective Regeneration (WP-2 E2E Smoke ENG v1 COMPLETE: FLOOR_EFFECT)",
  "position": "First E2E Smoke ENG v1 COMPLETE (E2E_SMOKE_FLOOR_EFFECT). Instrument validated (G-POS/G-NEG/G-FORMAT/G-LEAK/G-BUDGET PASS); the frozen qwen3-coder SEARCH/REPLACE generator produced mostly invalid-format outputs. Next: brain/Ahmed review -> Pilot design.",
  "position_short": "E2E Smoke ENG v1 COMPLETE: FLOOR_EFFECT (GOLD RESOLVED 0/14)",
@@ -465,9 +465,9 @@
    "PLACEBO_HARD": "0/14"
   },
   "spend_usd": {
-   "agent": 0.348,
+   "agent": 0.371,
    "smoke": 0.257,
-   "total": 0.605
+   "total": 0.628
   },
   "report": "docs/WP2_E2E_SMOKE_ENG_V1_REPORT_2026-09-28.md"
  }

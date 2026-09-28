@@ -553,20 +553,20 @@ AUTHORIZATION BLOCK (Ahmed Ehab, issued by sending the mission file):
 [✓] A2 Harden P2P-U V3 executor (H1-H9) + tests
 [✓] A3 P2P-U V3 ENG execution - 32/32 units (30 DONE + 2 UNDEFINED)
 [✓] A4 P2P-U summary + preservation sets freeze
-[!] A5 Evaluator sets + ENG_SMOKE_READY (BLOCKED: HARNESS_V3_DEV_DEPS_GAP)
-[ ] A6 Mission-10B closure (report, tag, exports, C4_STOP.flag)
-[ ] B1 Mission-11 impact declaration + E2E spec constants
-[ ] B2-B9 E2E instrument modules
-[ ] B10 Unit tests RED/GREEN
-[ ] B11 Zero-API controls: G-FORMAT / G-POS / G-NEG / G-LEAK / G-BUDGET
-[ ] B12 INSTRUMENT_READY checkpoint
-[ ] C1 Paid preflight (key, credit, pricing, route)
-[ ] C2 DEV Agent scopes (16 tasks, <= $1.00)
-[ ] C3 Scope freeze + Smoke freeze + tag
-[ ] D1 Smoke generation - 0/56 episodes
-[ ] D2 Smoke evaluation - 0/<n> evaluations
-[ ] D3 Smoke summary + gates
-[ ] D4 Smoke closure (report, docs, tag, exports)
+[✓] A5 Evaluator sets + ENG_SMOKE_READY
+[✓] A6 Mission-10B closure (report, tag, exports, C4_STOP.flag)
+[✓] B1 Mission-11 impact declaration + E2E spec constants
+[✓] B2-B9 E2E instrument modules
+[✓] B10 Unit tests RED/GREEN
+[✓] B11 Zero-API controls: G-FORMAT / G-POS / G-NEG / G-LEAK / G-BUDGET
+[✓] B12 INSTRUMENT_READY checkpoint
+[✓] C1 Paid preflight (key, credit, pricing, route)
+[✓] C2 DEV Agent scopes (16 tasks, $0.371)
+[✓] C3 Scope freeze + Smoke freeze + tag
+[✓] D1 Smoke generation - 56/56 episodes
+[✓] D2 Smoke evaluation - complete
+[✓] D3 Smoke summary + gates
+[✓] D4 Smoke closure (report, docs, tag, exports)
 ```
 
 ## Mission-11 A4 addendum - DEV/TEST DEPENDENCY COVERAGE AUDIT (2026-09-26)
@@ -626,3 +626,17 @@ E0.1-E0.5 DONE (docs, git identity f86007e4, protected hashes before, resource b
 
 E2E_SMOKE_FLOOR_EFFECT. GOLD 0/14 | RMCSS 0/14 | AGENT 1/14 | PLACEBO 0/14.
 Spend $0.605 total (<= $5.50). Report: docs/WP2_E2E_SMOKE_ENG_V1_REPORT_2026-09-28.md.
+
+## Mission-11 spend reconciliation erratum (2026-09-28)
+
+- Authoritative spend recomputed mechanically from the raw paid-call ledgers:
+  Agent = sum of `usd` in agent_dev_eng/spend_ledger.jsonl (128 calls) = $0.370939;
+  Smoke = sum of `cost_usd` in ledger/spend_ledger.jsonl (102 calls) = $0.257437;
+  TOTAL = $0.628376 (ceiling $5.50).
+- Difference source: `agent_scopes_dev_eng.json` previously reported
+  total_cost_usd = $0.348237, computed from run-record token_usage at the frozen
+  list price. The authoritative billed ledger value is $0.370939 (+$0.022702,
+  provider actual billing). generation_freeze.json spend_usd = $0.257437 already
+  matched the smoke ledger.
+- Corrected everywhere: agent $0.371 / smoke $0.257 / total $0.628. Earlier
+  reports stating $0.348 / $0.605 are superseded by this erratum.

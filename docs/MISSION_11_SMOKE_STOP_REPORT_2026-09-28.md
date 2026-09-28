@@ -23,14 +23,20 @@ Evaluator-only sets never entered generator prompts (G-LEAK 0).
 ## 4. Validation-gate table
 B11 controls PASS (G-FORMAT 39/39 expressible byte-equal; G-POS 3/3 tree==target;
 G-NEG 3/3; G-LEAK 0 blocking; G-BUDGET $1.32 ≤ $4.50). INSTRUMENT_READY.
-C1 paid preflight PASS (credit $20.44, pricing frozen). Smoke SG1–SG3 PASS;
-SG4 FAIL.
+C1 paid preflight PASS (credit $20.44, pricing frozen).
+Smoke gates: **SG1 PASS · SG2 PASS · SG3 PASS · SG4 FAIL**.
+- SG1 instrument validity: PASS (B11 controls PASS; G-LEAK 0; 0 out-of-scope; evidence hashed).
+- SG2 completion: PASS (56/56 episodes terminal: APPLIED 8, INVALID_AFTER_REPAIR 47, NO_SCOPE 1; 0 instrument anomalies).
+- SG3 spend: PASS (agent $0.371 ≤ $1.00; smoke $0.257 ≤ $4.50; total $0.628 ≤ $5.50).
+- SG4 floor: FAIL (GOLD_HARD RESOLVED = 0/14 < 1/14).
+Final token: **E2E_SMOKE_FLOOR_EFFECT**.
+No comparative scientific claim between arms (or between RM-CSS and Agent) is supported by this Smoke.
 
 ## 5. Main result table
 RESOLVED per arm: GOLD 0/14 | RMCSS 0/14 | AGENT 1/14 | PLACEBO 0/14.
 F2P pass: GOLD 0, RMCSS 0, AGENT 1, PLACEBO 0. P2P-S pass: 12/13/13/13.
-P2P-U200 pass: 14/14/13/14. Added Catch: 0. Spend: agent $0.348 / smoke $0.257 /
-total $0.605 (ceiling $5.50).
+P2P-U200 pass: 14/14/13/14. Added Catch: 0. Spend (authoritative ledger):
+agent $0.371 / smoke $0.257 / total $0.628 (ceiling $5.50).
 
 ## 6. Development vs confirmatory label
 All evidence is DEVELOPMENT (DEV_TRAIN_ENG). No confirmatory claim.

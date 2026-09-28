@@ -3,7 +3,7 @@
  "note": "Frozen protocol-v3 Agent selected_paths on the 16 DEV_TRAIN_ENG union tasks (AU6). Smoke inputs only; never scored as selector-F1 evidence (amendment F).",
  "protocol_sha256": "3b5f518773b8ea8db60641c7d29ce5d1a5ca652b1b921dc67f84c39a6de95c0f",
  "n_tasks": 16,
- "total_cost_usd": 0.348237,
+ "total_cost_usd": 0.370939,
  "per_task": {
   "saleor-rc-22ec4dab0154": {
    "selected_paths": [
@@ -236,5 +236,8 @@
    "status": "DONE"
   }
  },
- "artifact_sha256": "2e2a0dc031757030be116138231bf14458dedb4a87a3147cf0fe64ec40518425"
+ "artifact_sha256": "6f56aa94a3093ad57a533da4bed00b7e8efa118a5393d12507648d51f29f1b8f",
+ "total_cost_usd_actual_billed": 0.370939,
+ "total_cost_usd_frozen_recompute": 0.348237,
+ "spend_note": "Authoritative spend = actual billed ledger sum (agent_dev_eng/spend_ledger.jsonl usd field) = \\.370939. The \\.348237 value previously reported was the frozen-price recomputation from run-record token_usage (diff +\\.022702, provider billing). Erratum: earlier artifacts reported \\.348 agent / \\.605 total; corrected to \\.371 / \\.628."
 }
