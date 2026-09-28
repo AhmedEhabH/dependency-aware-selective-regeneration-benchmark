@@ -1,0 +1,94 @@
+{
+  "artifact": "POST_RUN_STORAGE_AUDIT",
+  "created_utc": "2026-09-28",
+  "read_only": true,
+  "changes_executed": "NONE",
+  "drives": {
+    "C": {"total_gib": 476.02, "used_gib": 439.06, "free_gib": 36.96},
+    "D": {"total_gib": 1863.0, "used_gib": 1393.39, "free_gib": 469.61}
+  },
+  "docker_system_df": {
+    "images": {"total_gib": 3.196, "reclaimable_gib": 0.758},
+    "containers": {"total_gib": 0.063, "reclaimable_gib": 0.063},
+    "volumes": {"total_gib": 35.31, "reclaimable_gib": 34.06},
+    "build_cache_gib": 0.0
+  },
+  "docker_resources": [
+    {"name": "wp2-era-py38/py39/py312", "size_gib": [0.949, 0.877, 0.825], "class": "PROTECTED_EVIDENCE"},
+    {"name": "python 3.8/3.9/3.12-slim", "size_gib": [0.191, 0.185, 0.179], "class": "PROTECTED_EVIDENCE"},
+    {"name": "postgres:15-alpine", "size_gib": 0.417, "class": "PROTECTED_EVIDENCE"},
+    {"name": "redis:7-alpine", "size_gib": 0.058, "class": "PROTECTED_EVIDENCE"},
+    {"name": "a333fddb/3c7eb2df/6c64f632 anonymous", "size_gib": [0.183, 0.189, 0.177], "class": "REBUILDABLE_CACHE"},
+    {"name": "hello-world", "size_gib": 0.000026, "class": "SAFE_DELETE"},
+    {"name": "wp2-pg container", "size_gib": 0.000016, "class": "PROTECTED_EVIDENCE"},
+    {"name": "kind_ptolemy/mystifying_panini/silly_hugle scratch", "size_gib": 0.063, "class": "SAFE_DELETE"},
+    {"name": "wp2-uv-cache volume", "size_gib": 21.0, "class": "PROTECTED_EVIDENCE"},
+    {"name": "74 anonymous volumes", "size_gib": 34.0, "class": "REBUILDABLE_CACHE"}
+  ],
+  "parent_top_level_gib": {
+    "_workspace": 26.94,
+    "_workspace/wp2_oracle_confirmation/envs": 23.95,
+    "_workspace/cache": 2.06,
+    "_workspace/active": 0.28,
+    "project": 5.63,
+    "parent_zips": 1.16
+  },
+  "project_top_level_gib": {
+    "dist/locagent-venv": 1.25,
+    "dist/pilot-repo-cache": 0.29,
+    ".uv-task-cache": 1.69,
+    "research/wp2": 0.64,
+    "benchmark_data": 0.46,
+    ".venv": 0.39
+  },
+  "wsl": {
+    "distro_root": "/dev/sdf",
+    "logical_gib": 1007,
+    "used_gib": 50,
+    "free_gib": 907,
+    "ext4_vhdx_path": "C:/Users/Ahmed/AppData/Local/WSL/{0c13781c-f355-4fad-95f7-ad01df935d7c}/ext4.vhdx",
+    "ext4_vhdx_physical_gib": 63.12,
+    "var_lib_docker_gib": 36,
+    "reclaimable_without_compaction_gib": 34.0,
+    "estimated_post_compaction_vhdx_gib": 30
+  },
+  "docker_desktop_windows": {
+    "docker_data_vhdx_gib": 4.55,
+    "ext4_vhdx_gib": 0.10
+  },
+  "plans": {
+    "SAFE_ONLY": {
+      "actions": ["remove 3 exited scratch containers by name", "docker builder prune -f",
+                  "docker image prune -f (dangling)", "remove hello-world"],
+      "reclaim_c_gib": 0.8,
+      "resulting_c_free_gib": 37.8,
+      "downside": "none",
+      "rebuild_cost": "n/a"
+    },
+    "SAFE_PLUS_MOVE_TO_D": {
+      "actions": ["SAFE_ONLY", "move superseded parent zips + _workspace/cache + dist/locagent-venv + .venv + .uv-task-cache to D:"],
+      "reclaim_c_gib": 6.4,
+      "resulting_c_free_gib": 43.3,
+      "downside": "D: HDD latency if paths change",
+      "rebuild_cost": "0.5-2 h"
+    },
+    "AGGRESSIVE_BUT_REPRODUCIBLE": {
+      "actions": ["SAFE_PLUS_MOVE_TO_D", "remove 74 anonymous docker volumes (~34 GiB)",
+                  "move _workspace/wp2_oracle_confirmation/envs to D: after UNKNOWN-review",
+                  "move WSL /root/p5"],
+      "reclaim_c_gib": 60.0,
+      "resulting_c_free_gib": 97.0,
+      "downside": "docker volume prune + VHDX compaction are user-side/forbidden here; envs move needs reference verification",
+      "rebuild_cost": "volumes repopulate; envs recreated by uv"
+    }
+  },
+  "worthwhileness": {
+    "docker_builder_prune": "LOW (build cache 0)",
+    "docker_container_prune": "NOT RECOMMENDED as-is (would remove stopped wp2-pg); use name-filtered rm of scratch only",
+    "docker_image_prune": "MODEST (~0.76 GB)",
+    "docker_volume_reclaim": "HIGH (~34 GB; forbidden for this audit)",
+    "wsl_vhdx_compaction": "HIGHEST (~30 GiB reclaim; user-side)",
+    "wsl_sparse_vhd": "prevents regrowth; configure in .wslconfig"
+  },
+  "recommended_plan": "SAFE_ONLY immediately (name-filtered scratch removal + image prune); defer SAFE_PLUS_MOVE_TO_D / AGGRESSIVE to user decision (volume prune + VHDX compaction are user-side maintenance)"
+}
