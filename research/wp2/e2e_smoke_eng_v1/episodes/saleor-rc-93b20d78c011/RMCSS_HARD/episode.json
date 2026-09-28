@@ -1,0 +1,59 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v1",
+ "task_id": "saleor-rc-93b20d78c011",
+ "arm": "RMCSS_HARD",
+ "status": "INVALID_AFTER_REPAIR",
+ "editable_set": [
+  "saleor/account/models.py",
+  "saleor/graphql/account/schema.py"
+ ],
+ "excluded": {
+  "LARGE_FILE_EXCLUDED": [],
+  "CONTEXT_BUDGET_EXCLUDED": []
+ },
+ "prompt_sha256": "80623f5f38f7d0611504ba25120723c298d557f11e13da1ce8902df5afa08824",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "request_id": "gen-1790573772-iPxYbEhUjvbzUCsuSQze",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 3881,
+   "completion_tokens": 875,
+   "cost_usd_actual": 0.0019785,
+   "cost_usd_nominal": 0.0019785,
+   "finish_reason": "stop",
+   "latency_s": 26.937,
+   "response_sha256": "4399a7b026f79099130bb75530933dab8e864e3132c07d81290331616a8525a4"
+  },
+  {
+   "kind": "repair",
+   "request_id": "gen-1790573799-LNbQIhnRUE22h8HbRyXT",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 337,
+   "completion_tokens": 1425,
+   "cost_usd_actual": 0.0014813,
+   "cost_usd_nominal": 0.0014813,
+   "finish_reason": "stop",
+   "latency_s": 19.062,
+   "response_sha256": "0e531965cbd9e475b82d832173dda0de9a934ffae3734893bfd78b4b14cecca6"
+  }
+ ],
+ "validation": {
+  "initial": [
+   "PARSE_ERROR:saleor/graphql/account/schema.py: expected '<<<<<<< SEARCH' block start, found: 'Looking at the developer change description, I need to add support for querying user by email. This means I need to modify the GraphQL schema to allow looking up users by email in addition to ID.'"
+  ],
+  "repair": [
+   "PARSE_ERROR:saleor/graphql/account/schema.py: expected '<<<<<<< SEARCH' block start, found: 'Looking at the developer change description, I need to add support for querying user by email. This means I need to modify the GraphQL schema to allow looking up users by email in addition to ID.'"
+  ]
+ },
+ "repair_used": false,
+ "edited_files": [],
+ "diff_sha256": "",
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-28T05:37:00Z",
+ "episode_sha256": "49aac3b08f0a1e5d24fe63d65fa6e7a8ef548b4d07b22f28b3548753af8cd55d"
+}

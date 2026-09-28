@@ -1,0 +1,59 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v1",
+ "task_id": "saleor-rc-823b899757ab",
+ "arm": "AGENT_HARD",
+ "status": "INVALID_AFTER_REPAIR",
+ "editable_set": [
+  "saleor/graphql/product/mutations/products.py",
+  "saleor/graphql/product/schema.py"
+ ],
+ "excluded": {
+  "LARGE_FILE_EXCLUDED": [],
+  "CONTEXT_BUDGET_EXCLUDED": []
+ },
+ "prompt_sha256": "cddfcdcb3615cf1908a04158becd473079690c8a27aaf2e5d4d6bcb7486f91c8",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "request_id": "gen-1790574493-3RDX8PsxKZVmiJL6tz5V",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 16783,
+   "completion_tokens": 978,
+   "cost_usd_actual": 0.0059713,
+   "cost_usd_nominal": 0.0059713,
+   "finish_reason": "stop",
+   "latency_s": 11.063,
+   "response_sha256": "3689ef764973f716c357172cdade9dc949839d4392b7967b6c57f4d7e3a7e532"
+  },
+  {
+   "kind": "repair",
+   "request_id": "gen-1790574504-s06jHdjfsEl5gIlu1xiJ",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 351,
+   "completion_tokens": 1117,
+   "cost_usd_actual": 0.0011775,
+   "cost_usd_nominal": 0.0011775,
+   "finish_reason": "stop",
+   "latency_s": 13.484,
+   "response_sha256": "2b707d646091c40171d19ffb80f0bb087e60a3f7f0d42ab9f67ef34be20bcd18"
+  }
+ ],
+ "validation": {
+  "initial": [
+   "PARSE_ERROR:saleor/graphql/product/mutations/products.py: expected '<<<<<<< SEARCH' block start, found: 'Looking at the developer change description, I need to add a `ProductSetAvailabilityForPurchase` mutation. Based on the existing code patterns in the file, I can see this would be a new mutation class that follows the same structure as other product mutations.'"
+  ],
+  "repair": [
+   "SEARCH_ERROR:saleor/graphql/product/mutations/products.py: block 1: SEARCH content not found in current file (count=0); search='from typing import List, Optional\\n\\nimport graphene\\nfrom django.core.exceptions i'"
+  ]
+ },
+ "repair_used": false,
+ "edited_files": [],
+ "diff_sha256": "",
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-28T05:48:39Z",
+ "episode_sha256": "d3bb70f9eaad84382c097537ad2dedd41bb75d2545db28a92f3dff3eb174fbcb"
+}

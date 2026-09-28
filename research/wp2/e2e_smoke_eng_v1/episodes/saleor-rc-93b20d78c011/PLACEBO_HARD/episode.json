@@ -1,0 +1,61 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v1",
+ "task_id": "saleor-rc-93b20d78c011",
+ "arm": "PLACEBO_HARD",
+ "status": "INVALID_AFTER_REPAIR",
+ "editable_set": [
+  "saleor/graphql/core/types/filter_input.py",
+  "saleor/graphql/csv/enums.py",
+  "saleor/graphql/meta/schema.py",
+  "saleor/product/utils/variant_prices.py"
+ ],
+ "excluded": {
+  "LARGE_FILE_EXCLUDED": [],
+  "CONTEXT_BUDGET_EXCLUDED": []
+ },
+ "prompt_sha256": "cb440fca94cdff341227eb07a46bd0fb96462f80c780837f4b9f3443e39f08fc",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "request_id": "gen-1790573819-rUpWxltUc2JMXc5HJ6Wt",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 2011,
+   "completion_tokens": 1518,
+   "cost_usd_actual": 0.0020605,
+   "cost_usd_nominal": 0.0020605,
+   "finish_reason": "stop",
+   "latency_s": 23.391,
+   "response_sha256": "a12e3cd89f0b6a608427978618c5f69bfd1e19ef38942219f38c6301a040f53a"
+  },
+  {
+   "kind": "repair",
+   "request_id": "gen-1790573842-lxDBHlWq2xIpOq8HOv02",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 352,
+   "completion_tokens": 676,
+   "cost_usd_actual": 0.0007368,
+   "cost_usd_nominal": 0.0007368,
+   "finish_reason": "stop",
+   "latency_s": 9.235,
+   "response_sha256": "ad126f865011e78cd4c68394b84564d8e11e1d152472579309be970084466491"
+  }
+ ],
+ "validation": {
+  "initial": [
+   "PARSE_ERROR:saleor/graphql/core/types/filter_input.py: expected '<<<<<<< SEARCH' block start, found: 'Based on the developer change description about adding support for querying user by email, I need to examine the provided files to see where user-related GraphQL functionality might be implemented. However, none of the provided files seem directly related to user queries or email-based lookups.'"
+  ],
+  "repair": [
+   "PARSE_ERROR:saleor/graphql/account/schema.py: expected '<<<<<<< SEARCH' block start, found: \"I'll implement the change to add support for querying users by email in the Saleor GraphQL API. Based on the error message and the need to add email filtering capability, I'll modify the relevant files.\""
+  ]
+ },
+ "repair_used": false,
+ "edited_files": [],
+ "diff_sha256": "",
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-28T05:37:33Z",
+ "episode_sha256": "7adb617c6d1efd5c39f92d9bf1ac507d36be9f55f871164a25efb8d48c1f42c0"
+}

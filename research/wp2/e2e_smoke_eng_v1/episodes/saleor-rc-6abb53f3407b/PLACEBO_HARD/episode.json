@@ -1,0 +1,49 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v1",
+ "task_id": "saleor-rc-6abb53f3407b",
+ "arm": "PLACEBO_HARD",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/attribute/error_codes.py",
+  "saleor/graphql/checkout/schema.py",
+  "saleor/graphql/warehouse/dataloaders.py",
+  "saleor/plugins/admin_email/constants.py"
+ ],
+ "excluded": {
+  "LARGE_FILE_EXCLUDED": [],
+  "CONTEXT_BUDGET_EXCLUDED": []
+ },
+ "prompt_sha256": "2999c9b1cf233bea3a2bbfcbbd6343e8de1a9cbe1f9810a5a9c750a6be9391f7",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "request_id": "gen-1790573194-PC1uKSncHG5RheASuLlW",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 3169,
+   "completion_tokens": 125,
+   "cost_usd_actual": 0.0010245,
+   "cost_usd_nominal": 0.0010245,
+   "finish_reason": "stop",
+   "latency_s": 2.468,
+   "response_sha256": "1e344d4d435ab526791c6c26763dc99b7d6eb1037a035637e990b0b7d521efb2"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "edited_files": [
+  "saleor/attribute/error_codes.py",
+  "saleor/graphql/checkout/schema.py",
+  "saleor/graphql/warehouse/dataloaders.py",
+  "saleor/plugins/admin_email/constants.py"
+ ],
+ "diff_sha256": "c777f2ee45feaa1f92a030ed799cc798a40335803c3cf6638374b4d5ec1287f5",
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-28T05:26:45Z",
+ "episode_sha256": "b9f87dad4bdf7651df62ddf66738506ac07de5c91ea73a81331dea148bb24d93"
+}

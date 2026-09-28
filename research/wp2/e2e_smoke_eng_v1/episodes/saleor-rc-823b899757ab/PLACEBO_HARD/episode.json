@@ -1,0 +1,47 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v1",
+ "task_id": "saleor-rc-823b899757ab",
+ "arm": "PLACEBO_HARD",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/checkout/error_codes.py",
+  "saleor/graphql/account/bulk_mutations.py",
+  "saleor/graphql/wishlist/schema.py"
+ ],
+ "excluded": {
+  "LARGE_FILE_EXCLUDED": [],
+  "CONTEXT_BUDGET_EXCLUDED": []
+ },
+ "prompt_sha256": "a294220aca82a687ed9bf7576d3fc316257e3b6008a7e02c736b22fa01263a08",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "request_id": "gen-1790573573-N8GN6F2cFuRJnqOjAjmU",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 1448,
+   "completion_tokens": 59,
+   "cost_usd_actual": 0.0004454,
+   "cost_usd_nominal": 0.0004454,
+   "finish_reason": "stop",
+   "latency_s": 2.156,
+   "response_sha256": "f045ee4007100c45aab54d74975985c8861e00624cbb40384409ca3ebc640dbe"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "edited_files": [
+  "saleor/checkout/error_codes.py",
+  "saleor/graphql/account/bulk_mutations.py",
+  "saleor/graphql/wishlist/schema.py"
+ ],
+ "diff_sha256": "6ae77676757e90f97bd2f6ff705c3dc95d25057dbca65d5da3ab3727c6ffaf06",
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-28T05:33:03Z",
+ "episode_sha256": "366447bbdda44720df8840c384dc7c4c60650b2a0a83a1c895c0e607838e32d7"
+}

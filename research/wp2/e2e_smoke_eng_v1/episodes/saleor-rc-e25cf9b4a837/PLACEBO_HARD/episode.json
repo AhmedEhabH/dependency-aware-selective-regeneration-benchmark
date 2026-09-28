@@ -1,0 +1,58 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v1",
+ "task_id": "saleor-rc-e25cf9b4a837",
+ "arm": "PLACEBO_HARD",
+ "status": "INVALID_AFTER_REPAIR",
+ "editable_set": [
+  "saleor/product/utils/attributes.py"
+ ],
+ "excluded": {
+  "LARGE_FILE_EXCLUDED": [],
+  "CONTEXT_BUDGET_EXCLUDED": []
+ },
+ "prompt_sha256": "9317a65a83212fbbf6abfcc4662a488138b0a93a5e91545c1eece411caf56f49",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "request_id": "gen-1790574223-pgvvqJ1igdexIJYnDQbL",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 925,
+   "completion_tokens": 286,
+   "cost_usd_actual": 0.0005155,
+   "cost_usd_nominal": 0.0005155,
+   "finish_reason": "stop",
+   "latency_s": 4.578,
+   "response_sha256": "9fcd2ef895bef704cd92cf9ac5045eaaf3746028fed184710ab2c1c4bcd60017"
+  },
+  {
+   "kind": "repair",
+   "request_id": "gen-1790574228-kmoUKoMx73WydNBiFN0m",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 337,
+   "completion_tokens": 172,
+   "cost_usd_actual": 0.0002283,
+   "cost_usd_nominal": 0.0002283,
+   "finish_reason": "stop",
+   "latency_s": 3.687,
+   "response_sha256": "017f25a10ce6b39a78f44b8556a66cd88c0fceff205395a21f12b40f620a9882"
+  }
+ ],
+ "validation": {
+  "initial": [
+   "PARSE_ERROR:saleor/product/utils/attributes.py: expected '<<<<<<< SEARCH' block start, found: 'The developer change description \"Deactivate dummy credit card by default\" does not seem to relate to the provided file `saleor/product/utils/attributes.py`, which handles product attribute utilities. '"
+  ],
+  "repair": [
+   "PARSE_ERROR:saleor/product/utils/attributes.py: expected '<<<<<<< SEARCH' block start, found: \"I need to see the actual file contents to make proper edits. Since I don't have access to the specific files mentioned in the original request, I cannot provide meaningful edit blocks.\""
+  ]
+ },
+ "repair_used": false,
+ "edited_files": [],
+ "diff_sha256": "",
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-28T05:43:53Z",
+ "episode_sha256": "f84bc35e99d73240aca384140fbe0d99d26981d9220e57daea8bdde601f607cf"
+}

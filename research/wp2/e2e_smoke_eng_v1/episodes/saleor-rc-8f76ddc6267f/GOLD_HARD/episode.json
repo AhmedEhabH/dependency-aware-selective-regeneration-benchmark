@@ -1,0 +1,59 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v1",
+ "task_id": "saleor-rc-8f76ddc6267f",
+ "arm": "GOLD_HARD",
+ "status": "INVALID_AFTER_REPAIR",
+ "editable_set": [
+  "saleor/graphql/webhook/mutations/webhook_dry_run.py",
+  "saleor/graphql/webhook/subscription_types.py"
+ ],
+ "excluded": {
+  "LARGE_FILE_EXCLUDED": [],
+  "CONTEXT_BUDGET_EXCLUDED": []
+ },
+ "prompt_sha256": "3ce46f763455d5716c0bf3f5413aea455d09310b7893b5e90779e3910c3eb1f5",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "request_id": "gen-1790573694-EZKHmwYXsSLVpuQGpiCC",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 16659,
+   "completion_tokens": 752,
+   "cost_usd_actual": 0.0057081,
+   "cost_usd_nominal": 0.0057081,
+   "finish_reason": "stop",
+   "latency_s": 8.203,
+   "response_sha256": "00daf6f2dc43a19c42ab1bb02087a9d030e6d16690626197a96b1ce9177b81ca"
+  },
+  {
+   "kind": "repair",
+   "request_id": "gen-1790573702-RHSUs5TakwCjO5jPmkPf",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 317,
+   "completion_tokens": 1355,
+   "cost_usd_actual": 0.0014053,
+   "cost_usd_nominal": 0.0014053,
+   "finish_reason": "stop",
+   "latency_s": 13.969,
+   "response_sha256": "521c517f5c6b577f4dbe65e9f8bd4f6f5b692b0eecd7fda2dce7d76374801698"
+  }
+ ],
+ "validation": {
+  "initial": [
+   "PARSE_ERROR:saleor/graphql/webhook/mutations/webhook_dry_run.py: expected '<<<<<<< SEARCH' block start, found: 'Looking at the developer change description, I need to:'"
+  ],
+  "repair": [
+   "PARSE_ERROR:saleor/graphql/webhook/mutations/__init__.py: expected '<<<<<<< SEARCH' block start, found: 'Looking at the developer change description, I need to:'"
+  ]
+ },
+ "repair_used": false,
+ "edited_files": [],
+ "diff_sha256": "",
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-28T05:35:18Z",
+ "episode_sha256": "a72cc2d0d71d398af2856d02ea30750311b945b410e10d6452ecc64b9bfbb1be"
+}

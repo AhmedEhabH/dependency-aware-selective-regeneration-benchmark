@@ -1,0 +1,58 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v1",
+ "task_id": "saleor-rc-39b4138e8550",
+ "arm": "GOLD_HARD",
+ "status": "INVALID_AFTER_REPAIR",
+ "editable_set": [
+  "saleor/x/models.py"
+ ],
+ "excluded": {
+  "LARGE_FILE_EXCLUDED": [],
+  "CONTEXT_BUDGET_EXCLUDED": []
+ },
+ "prompt_sha256": "25cd72982864be6c99a88737bc1b244729aa8a901ec365ffaa54a39e20868ddd",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "request_id": "replay-b770abbb",
+   "route": "replay",
+   "provider": "replay",
+   "prompt_tokens": 25,
+   "completion_tokens": 0,
+   "cost_usd_actual": 0.0,
+   "cost_usd_nominal": 0.0,
+   "finish_reason": "stop",
+   "latency_s": 0.0,
+   "response_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+   "kind": "repair",
+   "request_id": "replay-b770abbb",
+   "route": "replay",
+   "provider": "replay",
+   "prompt_tokens": 25,
+   "completion_tokens": 0,
+   "cost_usd_actual": 0.0,
+   "cost_usd_nominal": 0.0,
+   "finish_reason": "stop",
+   "latency_s": 0.0,
+   "response_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+ ],
+ "validation": {
+  "initial": [
+   "NO_BLOCKS: no FILE sections found"
+  ],
+  "repair": [
+   "NO_BLOCKS: no FILE sections found"
+  ]
+ },
+ "repair_used": false,
+ "edited_files": [],
+ "diff_sha256": "",
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-28T05:46:41Z",
+ "episode_sha256": "7b71d2fe0bd2583a68d48090ec71259c694a9419059ec6b165c413122a9ecded"
+}

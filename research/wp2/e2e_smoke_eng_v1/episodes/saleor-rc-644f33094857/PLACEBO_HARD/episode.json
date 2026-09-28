@@ -1,0 +1,63 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v1",
+ "task_id": "saleor-rc-644f33094857",
+ "arm": "PLACEBO_HARD",
+ "status": "INVALID_AFTER_REPAIR",
+ "editable_set": [
+  "saleor/demo/urls.py",
+  "saleor/graphql/account/i18n.py",
+  "saleor/graphql/app/types.py",
+  "saleor/graphql/core/types/sort_input.py",
+  "saleor/graphql/payment/resolvers.py",
+  "saleor/shipping/zip_codes.py"
+ ],
+ "excluded": {
+  "LARGE_FILE_EXCLUDED": [],
+  "CONTEXT_BUDGET_EXCLUDED": []
+ },
+ "prompt_sha256": "792b3b9e226e5a1635c28912b0fbeb20611a0097739d769f19e8681a1ce4d021",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "request_id": "gen-1790573046-mEetPvx0G3hzayKhWA0C",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 2915,
+   "completion_tokens": 241,
+   "cost_usd_actual": 0.0010611,
+   "cost_usd_nominal": 0.0010611,
+   "finish_reason": "stop",
+   "latency_s": 4.328,
+   "response_sha256": "c9cdf82aff139dc10bc040e10d1f435ce37156cb361f574ebdffc4525bf4fc88"
+  },
+  {
+   "kind": "repair",
+   "request_id": "gen-1790573051-HRrF0hS0W60wZlszW05G",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 284,
+   "completion_tokens": 462,
+   "cost_usd_actual": 0.0005024,
+   "cost_usd_nominal": 0.0005024,
+   "finish_reason": "stop",
+   "latency_s": 5.359,
+   "response_sha256": "cfc3be11bdf759a173ca43e6e43d796609612cb64b16a579f175e8326d811b0c"
+  }
+ ],
+ "validation": {
+  "initial": [
+   "NO_BLOCKS: no FILE sections found"
+  ],
+  "repair": [
+   "OUT_OF_SCOPE_FILE:saleor/graphql/product/mutations/products.py"
+  ]
+ },
+ "repair_used": false,
+ "edited_files": [],
+ "diff_sha256": "",
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-28T05:24:18Z",
+ "episode_sha256": "120a19a46a2221308f526fe504d939b2cd2d594ab5fdee93fa58eb83c984cef7"
+}

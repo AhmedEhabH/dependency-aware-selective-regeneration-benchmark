@@ -1,0 +1,58 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v1",
+ "task_id": "saleor-rc-6abb53f3407b",
+ "arm": "RMCSS_HARD",
+ "status": "INVALID_AFTER_REPAIR",
+ "editable_set": [
+  "saleor/graphql/shop/mutations.py"
+ ],
+ "excluded": {
+  "LARGE_FILE_EXCLUDED": [],
+  "CONTEXT_BUDGET_EXCLUDED": []
+ },
+ "prompt_sha256": "58e8ad16d5cb5027b251ddc940712ac193accbdb3b5d7d6a3ad51bda475a0b2f",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "request_id": "gen-1790573143-NCzu0XzvfvTizYvfaMTf",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 2558,
+   "completion_tokens": 816,
+   "cost_usd_actual": 0.0015418,
+   "cost_usd_nominal": 0.0015418,
+   "finish_reason": "stop",
+   "latency_s": 9.016,
+   "response_sha256": "8e3da5a414012e6338ade784bc3d1a21a233b5973ca2a6c129923a48859a30b9"
+  },
+  {
+   "kind": "repair",
+   "request_id": "gen-1790573152-kqMoUWWYnEJ3jxgiw2KS",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 357,
+   "completion_tokens": 3223,
+   "cost_usd_actual": 0.0032853,
+   "cost_usd_nominal": 0.0032853,
+   "finish_reason": "stop",
+   "latency_s": 41.312,
+   "response_sha256": "43037f9361c064dd496e5521ad044d495cdee5e782cd25271e465c385bcbd01c"
+  }
+ ],
+ "validation": {
+  "initial": [
+   "PARSE_ERROR:saleor/graphql/shop/mutations.py: expected '<<<<<<< SEARCH' block start, found: 'Looking at the developer change description for SALEOR-4243 and SALEOR-4244, I need to implement changes to the order settings functionality. Based on the code structure and typical e-commerce requirements, these issues likely involve adding new fields to control order confirmation behavior.'"
+  ],
+  "repair": [
+   "SEARCH_ERROR:saleor/graphql/shop/mutations.py: block 1: SEARCH content not found in current file (count=0); search='from typing import TYPE_CHECKING, List, Optional\\n\\nimport graphene\\nfrom django.co'"
+  ]
+ },
+ "repair_used": false,
+ "edited_files": [],
+ "diff_sha256": "",
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-28T05:26:35Z",
+ "episode_sha256": "c8a00416723fde3351d92d550743952c4571c636296e8d0fcf1b8acecdde58dd"
+}

@@ -1,0 +1,43 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v1",
+ "task_id": "saleor-rc-8f76ddc6267f",
+ "arm": "AGENT_HARD",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/graphql/webhook/mutations/webhook_dry_run.py"
+ ],
+ "excluded": {
+  "LARGE_FILE_EXCLUDED": [],
+  "CONTEXT_BUDGET_EXCLUDED": []
+ },
+ "prompt_sha256": "b52cd5f86d8cf09dc5f0a51a5899e638d3214d9e9ff47ccac476eca0d3b5f7c3",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "request_id": "gen-1790574541-324fKs2fG04xxGqdPaA5",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 1247,
+   "completion_tokens": 192,
+   "cost_usd_actual": 0.0005245,
+   "cost_usd_nominal": 0.0005245,
+   "finish_reason": "stop",
+   "latency_s": 2.171,
+   "response_sha256": "93c1f70004d0001baa0f919e6b82bfdcaa179115ed1abc287153d6165b7e73eb"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "edited_files": [
+  "saleor/graphql/webhook/mutations/webhook_dry_run.py"
+ ],
+ "diff_sha256": "cf7a3b68116a584d3f9d3223461b6e28be3a8c9488c697f713daf46a3d31e926",
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-28T05:49:10Z",
+ "episode_sha256": "1941ea05a6488596d756b7ae595152e15abfeb14bb5126b6dc182f0ca4d96b6b"
+}

@@ -1,0 +1,60 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v1",
+ "task_id": "saleor-rc-8f76ddc6267f",
+ "arm": "RMCSS_HARD",
+ "status": "INVALID_AFTER_REPAIR",
+ "editable_set": [
+  "saleor/graphql/core/types/common.py",
+  "saleor/graphql/webhook/mutations/webhook_dry_run.py",
+  "saleor/graphql/webhook/mutations/webhook_trigger.py"
+ ],
+ "excluded": {
+  "LARGE_FILE_EXCLUDED": [],
+  "CONTEXT_BUDGET_EXCLUDED": []
+ },
+ "prompt_sha256": "7b21e89fec45cb83bf183ce9d2f00734aceca9ffcc5ba7a752eaad51678283d3",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "request_id": "gen-1790573717-paflo3CmHTx4bBoEQMTl",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 7398,
+   "completion_tokens": 409,
+   "cost_usd_actual": 0.0025868,
+   "cost_usd_nominal": 0.0025868,
+   "finish_reason": "stop",
+   "latency_s": 5.609,
+   "response_sha256": "667c37a0675b6b6f4c3859f4cd4fb741c91236dfe1f746f04633f74b73c41565"
+  },
+  {
+   "kind": "repair",
+   "request_id": "gen-1790573722-nMN8tfgWXq8zMvt8JVCx",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 317,
+   "completion_tokens": 943,
+   "cost_usd_actual": 0.0009933,
+   "cost_usd_nominal": 0.0009933,
+   "finish_reason": "stop",
+   "latency_s": 10.438,
+   "response_sha256": "c16673d69d27f43a9691c261e735956981e29b1218dc5c53e730b682681dee3e"
+  }
+ ],
+ "validation": {
+  "initial": [
+   "PARSE_ERROR:saleor/graphql/webhook/mutations/webhook_dry_run.py: expected '<<<<<<< SEARCH' block start, found: 'Looking at the developer change description, I need to:'"
+  ],
+  "repair": [
+   "PARSE_ERROR:saleor/graphql/webhook/mutations/webhook_dry_run.py: expected '<<<<<<< SEARCH' block start, found: \"Looking at the developer change description, I need to implement a dry-run mutation for webhooks that executes a fake event to test webhook functionality. Based on the file content provided, I'll modify the webhook dry run mutation to properly handle the event type and object ID parameters.\""
+  ]
+ },
+ "repair_used": false,
+ "edited_files": [],
+ "diff_sha256": "",
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-28T05:35:34Z",
+ "episode_sha256": "c34fa683c67e88a18372289f304233798523e64d97a837daa709b5299e273a54"
+}

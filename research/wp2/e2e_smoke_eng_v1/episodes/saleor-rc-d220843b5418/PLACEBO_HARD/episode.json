@@ -1,0 +1,59 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v1",
+ "task_id": "saleor-rc-d220843b5418",
+ "arm": "PLACEBO_HARD",
+ "status": "INVALID_AFTER_REPAIR",
+ "editable_set": [
+  "saleor/graphql/attribute/mutations/attribute_bulk_update.py",
+  "saleor/graphql/giftcard/mutations/utils.py"
+ ],
+ "excluded": {
+  "LARGE_FILE_EXCLUDED": [],
+  "CONTEXT_BUDGET_EXCLUDED": []
+ },
+ "prompt_sha256": "2a617ce5d599477af8e9dbbb4b6ff862b6c6e94a1f19c31beec0ef4845d26e1c",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "request_id": "gen-1790573966-CrxnRtDYyFN3pP6Jhnpr",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 6229,
+   "completion_tokens": 811,
+   "cost_usd_actual": 0.0026285,
+   "cost_usd_nominal": 0.0026285,
+   "finish_reason": "stop",
+   "latency_s": 7.953,
+   "response_sha256": "a55f1f37a9888e9c2ec1dfc430d61331eef6d3959e750fff224e10a6e50a6090"
+  },
+  {
+   "kind": "repair",
+   "request_id": "gen-1790573974-MijodzT11MymRXDnaRSz",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 342,
+   "completion_tokens": 131,
+   "cost_usd_actual": 0.0001888,
+   "cost_usd_nominal": 0.0001888,
+   "finish_reason": "stop",
+   "latency_s": 1.828,
+   "response_sha256": "98ec89eb8498f399c8ad9a76db6c503c3d94c5f291baeeb1165191f7b16c3fc2"
+  }
+ ],
+ "validation": {
+  "initial": [
+   "PARSE_ERROR:saleor/graphql/attribute/mutations/attribute_bulk_update.py: expected '<<<<<<< SEARCH' block start, found: 'Looking at the developer change description, I need to prevent circular payload generation when listing shipping methods for checkout. However, neither of the provided files seems directly related to shipping methods or checkout functionality.'"
+  ],
+  "repair": [
+   "PARSE_ERROR:saleor/graphql/attribute/mutations/attribute_bulk_update.py: expected '<<<<<<< SEARCH' block start, found: 'Looking at the developer change description, I need to prevent circular payload generation when listing shipping methods for checkout. However, neither of the provided files seems directly related to shipping methods or checkout functionality.'"
+  ]
+ },
+ "repair_used": false,
+ "edited_files": [],
+ "diff_sha256": "",
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-28T05:39:37Z",
+ "episode_sha256": "6b35d9a3ef673f4698422f404f3cd7bc1041e01c3f6fa7e87f7c81c96d039988"
+}

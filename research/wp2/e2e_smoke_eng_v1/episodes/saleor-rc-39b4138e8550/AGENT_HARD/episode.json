@@ -2,21 +2,44 @@
  "smoke_version": "wp2-e2e-smoke-eng-v1",
  "task_id": "saleor-rc-39b4138e8550",
  "arm": "AGENT_HARD",
- "status": "NO_SCOPE",
- "editable_set": [],
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/graphql/core/types/order_or_checkout.py",
+  "saleor/graphql/core/types/user_or_app.py"
+ ],
  "excluded": {
   "LARGE_FILE_EXCLUDED": [],
   "CONTEXT_BUDGET_EXCLUDED": []
  },
- "prompt_sha256": "",
- "reused_identical_prompt": null,
- "calls": {},
- "validation": [],
+ "prompt_sha256": "08e6291a0f4596452e82b3da9e288e973f26f2f0ba1179279dac17ed766ec97f",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "request_id": "gen-1790574425-DOBprIbhFxa5QsvoDjFp",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 728,
+   "completion_tokens": 273,
+   "cost_usd_actual": 0.0004498,
+   "cost_usd_nominal": 0.0004498,
+   "finish_reason": "stop",
+   "latency_s": 2.469,
+   "response_sha256": "da457e103bbc5e06f24821333a2aea918c7a97e0f8f2df77c8b495cce92afcb7"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
  "repair_used": false,
- "edited_files": [],
- "diff_sha256": "",
+ "edited_files": [
+  "saleor/graphql/core/types/order_or_checkout.py",
+  "saleor/graphql/core/types/user_or_app.py"
+ ],
+ "diff_sha256": "6eb9a2191f87633aa8008a5f185449247f94234de78a66b9d98f27718e859e59",
  "flags": [],
  "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
- "created_utc": "2026-09-28T05:18:56Z",
- "episode_sha256": "7d36a37a1d136be5b938ff385b105cf25a9bbd7be6b2f43df790ee61d0c52d4b"
+ "created_utc": "2026-09-28T05:47:16Z",
+ "episode_sha256": "f1011359c4d9ce56381a3ff7042931d3185cc51d3ab59e4d0f99c25c97936502"
 }

@@ -1,0 +1,13 @@
+diff --git a/saleor/checkout/error_codes.py b/saleor/checkout/error_codes.py
+--- a/saleor/checkout/error_codes.py
++++ b/saleor/checkout/error_codes.py
+@@ -21,3 +21,9 @@
+     UNIQUE = "unique"
+     VOUCHER_NOT_APPLICABLE = "voucher_not_applicable"
+     ZERO_QUANTITY = "zero_quantity"
++
++
++class ProductAvailabilityErrorCode(Enum):
++    PRODUCT_NOT_PUBLISHED = "product_not_published"
++    INVALID = "invalid"
++

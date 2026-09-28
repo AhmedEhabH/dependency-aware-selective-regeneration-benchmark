@@ -1,0 +1,59 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v1",
+ "task_id": "saleor-rc-6abb53f3407b",
+ "arm": "AGENT_HARD",
+ "status": "INVALID_AFTER_REPAIR",
+ "editable_set": [
+  "saleor/account/models.py",
+  "saleor/graphql/account/mutations/account.py"
+ ],
+ "excluded": {
+  "LARGE_FILE_EXCLUDED": [],
+  "CONTEXT_BUDGET_EXCLUDED": []
+ },
+ "prompt_sha256": "8c04cfb261ab46802865c9ee3a9cfcb2ec1db46204b950c6341090935e02075f",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "request_id": "gen-1790574464-pJD28DC6k4oiaY9iCJ82",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 6110,
+   "completion_tokens": 1050,
+   "cost_usd_actual": 0.0028414,
+   "cost_usd_nominal": 0.0028414,
+   "finish_reason": "stop",
+   "latency_s": 11.125,
+   "response_sha256": "b1f3712cf0b23e8b92ac8624a94b651aa85c8d28b68cf6dfd47e779e09cb8bc9"
+  },
+  {
+   "kind": "repair",
+   "request_id": "gen-1790574475-bSQxTBhE3uj92I7wsbzI",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 339,
+   "completion_tokens": 276,
+   "cost_usd_actual": 0.0003329,
+   "cost_usd_nominal": 0.0003329,
+   "finish_reason": "stop",
+   "latency_s": 3.875,
+   "response_sha256": "d7f42e4f252f09907225d4f3889e2875fa488e527627d92a738ecbab6f925de2"
+  }
+ ],
+ "validation": {
+  "initial": [
+   "PARSE_ERROR:saleor/account/models.py: expected '<<<<<<< SEARCH' block start, found: 'Looking at the developer change description \"Implement SALEOR-4243 SALEOR-4244 without tests\" and examining the provided files, I need to implement changes related to account management functionality.'"
+  ],
+  "repair": [
+   "SEARCH_ERROR:saleor/account/models.py: block 1: SEARCH content not found in current file (count=0); search='from django.db import models\\nfrom django.utils.translation import pgettext_lazy\\n'"
+  ]
+ },
+ "repair_used": false,
+ "edited_files": [],
+ "diff_sha256": "",
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-28T05:48:01Z",
+ "episode_sha256": "b90f1b9c55bae44c69e177f521027f38bb06ed5f1697ebcf86328f8fc80b42e9"
+}

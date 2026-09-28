@@ -1,0 +1,63 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v1",
+ "task_id": "saleor-rc-644f33094857",
+ "arm": "GOLD_HARD",
+ "status": "INVALID_AFTER_REPAIR",
+ "editable_set": [
+  "saleor/graphql/order/mutations/fulfillments.py",
+  "saleor/graphql/order/mutations/orders.py",
+  "saleor/order/actions.py",
+  "saleor/order/events.py",
+  "saleor/order/models.py",
+  "saleor/order/utils.py"
+ ],
+ "excluded": {
+  "LARGE_FILE_EXCLUDED": [],
+  "CONTEXT_BUDGET_EXCLUDED": []
+ },
+ "prompt_sha256": "a74515a6cc843f100578d4965f8b25ea040b4049ab4aa25cabb762eddcef08d6",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "request_id": "gen-1790572994-swHyGKDnGMFyk81hWye0",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 26148,
+   "completion_tokens": 1402,
+   "cost_usd_actual": 0.0092048,
+   "cost_usd_nominal": 0.0092048,
+   "finish_reason": "stop",
+   "latency_s": 21.672,
+   "response_sha256": "7c60249d9a2936d3cec4ea019f37c988a77f8c6706f88c91d39837dd738fe1d7"
+  },
+  {
+   "kind": "repair",
+   "request_id": "gen-1790573016-zFKMbFxYvT0HsomFVAQo",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 336,
+   "completion_tokens": 1502,
+   "cost_usd_actual": 0.0015612,
+   "cost_usd_nominal": 0.0015612,
+   "finish_reason": "stop",
+   "latency_s": 15.266,
+   "response_sha256": "895854c01927e9a3aba3981e7a5102ab9e07ebaf65905c5fb939bf62392fa348"
+  }
+ ],
+ "validation": {
+  "initial": [
+   "PARSE_ERROR:saleor/order/actions.py: expected '<<<<<<< SEARCH' block start, found: 'Looking at the developer change description, I need to extend the logic for updating order status and call update order status for refund action. Let me analyze the code to understand what needs to be changed.'"
+  ],
+  "repair": [
+   "SEARCH_ERROR:saleor/order/actions.py: block 1: SEARCH content not found in current file (count=0); search='def order_refunded(order: \"Order\", user: Optional[\"User\"], amount: Decimal, paym'"
+  ]
+ },
+ "repair_used": false,
+ "edited_files": [],
+ "diff_sha256": "",
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-28T05:23:52Z",
+ "episode_sha256": "e55cdb5d6b16adce80eb58727474bb0dc983fa0d954c9c803e9b6a93402af8d1"
+}

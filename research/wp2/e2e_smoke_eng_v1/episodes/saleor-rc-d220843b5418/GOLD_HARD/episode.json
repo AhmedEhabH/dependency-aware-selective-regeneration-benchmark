@@ -1,0 +1,59 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v1",
+ "task_id": "saleor-rc-d220843b5418",
+ "arm": "GOLD_HARD",
+ "status": "INVALID_AFTER_REPAIR",
+ "editable_set": [
+  "saleor/graphql/webhook/resolvers.py",
+  "saleor/graphql/webhook/subscription_types.py"
+ ],
+ "excluded": {
+  "LARGE_FILE_EXCLUDED": [],
+  "CONTEXT_BUDGET_EXCLUDED": []
+ },
+ "prompt_sha256": "f244000262919b0bf049e6a1e99ed1e8e2fe016991c65954a57b40ba9383c9bf",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "request_id": "gen-1790573919-nngTJVWYNaM9ojCur5Bv",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 21508,
+   "completion_tokens": 539,
+   "cost_usd_actual": 0.0069498,
+   "cost_usd_nominal": 0.0069498,
+   "finish_reason": "stop",
+   "latency_s": 7.11,
+   "response_sha256": "e8ab686df3c56d558747a62ed9e72e47827bb956f7d08d0fe3ba93e38acb7fda"
+  },
+  {
+   "kind": "repair",
+   "request_id": "gen-1790573926-wgoejBNut1jwG3spFFtH",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 342,
+   "completion_tokens": 1638,
+   "cost_usd_actual": 0.0016958,
+   "cost_usd_nominal": 0.0016958,
+   "finish_reason": "stop",
+   "latency_s": 21.453,
+   "response_sha256": "e9741a135811137d55b4fb68d653b648e903f9f6b26fcdb9b08ca65ceca45560"
+  }
+ ],
+ "validation": {
+  "initial": [
+   "PARSE_ERROR:saleor/graphql/webhook/resolvers.py: expected '<<<<<<< SEARCH' block start, found: 'Looking at the problem description and the code, I need to prevent circular payload generation when listing shipping methods for checkout. The issue is in the `resolve_shipping_methods_for_checkout` function which is being called recursively.'"
+  ],
+  "repair": [
+   "SEARCH_ERROR:saleor/graphql/webhook/resolvers.py: block 1: SEARCH content not found in current file (count=0); search='from typing import TYPE_CHECKING, Any, Dict, Iterable, List, Optional, Union\\n\\nim'"
+  ]
+ },
+ "repair_used": false,
+ "edited_files": [],
+ "diff_sha256": "",
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-28T05:39:09Z",
+ "episode_sha256": "0a5b9c066002e086520db8cc2371dd7487dd1c8fcf9cd70bd7c1a758aad84a93"
+}

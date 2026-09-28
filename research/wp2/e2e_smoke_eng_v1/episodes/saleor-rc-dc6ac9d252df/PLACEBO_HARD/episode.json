@@ -1,0 +1,60 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v1",
+ "task_id": "saleor-rc-dc6ac9d252df",
+ "arm": "PLACEBO_HARD",
+ "status": "INVALID_AFTER_REPAIR",
+ "editable_set": [
+  "saleor/account/validators.py",
+  "saleor/order/actions.py",
+  "saleor/payment/gateways/adyen/utils/apple_pay.py"
+ ],
+ "excluded": {
+  "LARGE_FILE_EXCLUDED": [],
+  "CONTEXT_BUDGET_EXCLUDED": []
+ },
+ "prompt_sha256": "ea8774fa0758d0b8bb7acd5108e023ed0a5e7a7cfbfb3632b50fb38f58efefdd",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "request_id": "gen-1790574135-KcI71OHVePSkfzMi9pEJ",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 11220,
+   "completion_tokens": 620,
+   "cost_usd_actual": 0.003938,
+   "cost_usd_nominal": 0.003938,
+   "finish_reason": "stop",
+   "latency_s": 6.547,
+   "response_sha256": "20e369bd5f42b281c354117cba96b1a17e7fd3db0b6014562752b9f8185c2686"
+  },
+  {
+   "kind": "repair",
+   "request_id": "gen-1790574142-lUbhvQC5zxYP4HIHCOE0",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 340,
+   "completion_tokens": 100,
+   "cost_usd_actual": 0.0001572,
+   "cost_usd_nominal": 0.0001572,
+   "finish_reason": "stop",
+   "latency_s": 1.453,
+   "response_sha256": "0821f1f284eefbbbd4fcee822e8dfd9cd24d8550dbd88fa4eb88e6dd9fecc85e"
+  }
+ ],
+ "validation": {
+  "initial": [
+   "PARSE_ERROR:saleor/payment/gateways/adyen/utils/apple_pay.py: expected '<<<<<<< SEARCH' block start, found: 'Looking at the developer change description \"New payload structure\" and examining the provided files, I need to identify what changes would be related to a new payload structure in these files.'"
+  ],
+  "repair": [
+   "PARSE_ERROR:saleor/payment/gateways/adyen/utils/apple_pay.py: expected '<<<<<<< SEARCH' block start, found: 'Looking at the developer change description \"New payload structure\" and examining the provided files, I need to identify what changes would be related to a new payload structure in these files.'"
+  ]
+ },
+ "repair_used": false,
+ "edited_files": [],
+ "diff_sha256": "",
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-28T05:42:25Z",
+ "episode_sha256": "35baeb711bc46d21278a1a8234e07a8fc6bdc2e35ce1e5d2926b2e2438ff715a"
+}

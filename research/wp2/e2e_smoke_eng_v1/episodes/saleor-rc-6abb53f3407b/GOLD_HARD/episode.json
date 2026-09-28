@@ -1,0 +1,61 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v1",
+ "task_id": "saleor-rc-6abb53f3407b",
+ "arm": "GOLD_HARD",
+ "status": "INVALID_AFTER_REPAIR",
+ "editable_set": [
+  "saleor/payment/gateways/stripe/plugin.py",
+  "saleor/payment/gateways/stripe/webhooks.py",
+  "saleor/payment/interface.py",
+  "saleor/payment/utils.py"
+ ],
+ "excluded": {
+  "LARGE_FILE_EXCLUDED": [],
+  "CONTEXT_BUDGET_EXCLUDED": []
+ },
+ "prompt_sha256": "fa30734e56fbcaa67c8093c098d6c4cb0a7a6e86e262679ef29746787b22f48b",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "request_id": "gen-1790573076-H80F3NpRR3mbwmDcW9pK",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 10657,
+   "completion_tokens": 2262,
+   "cost_usd_actual": 0.0054175,
+   "cost_usd_nominal": 0.0054175,
+   "finish_reason": "stop",
+   "latency_s": 31.0,
+   "response_sha256": "7fed3af882b94374d4b583e1d10de2e34b6dd4cfb1eb3ae7c20b9b3ab793cdcd"
+  },
+  {
+   "kind": "repair",
+   "request_id": "gen-1790573107-nim7zniX3IltwPTQ4Sr0",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 366,
+   "completion_tokens": 2502,
+   "cost_usd_actual": 0.002567,
+   "cost_usd_nominal": 0.002567,
+   "finish_reason": "stop",
+   "latency_s": 35.594,
+   "response_sha256": "d538f242ea48b9674a42ec494ce25e5d6c8c7bbd8d31a42d94e83033d02f8c71"
+  }
+ ],
+ "validation": {
+  "initial": [
+   "PARSE_ERROR:saleor/payment/gateways/stripe/plugin.py: expected '<<<<<<< SEARCH' block start, found: 'Looking at the developer change description \"Implement SALEOR-4243 SALEOR-4244 without tests\" and examining the files, I need to identify what changes are required. Based on the file contents and typical Stripe payment gateway improvements, these are likely related to enhancing payment method handling and webhook processing.'"
+  ],
+  "repair": [
+   "PARSE_ERROR:saleor/payment/gateways/stripe/plugin.py: expected '<<<<<<< SEARCH' block start, found: 'Looking at the developer change description \"Implement SALEOR-4243 SALEOR-4244 without tests\" and examining the files, I need to identify what changes are required. Based on the file contents and typical Stripe payment gateway improvements, these are likely related to enhancing payment method handling and webhook processing.'"
+  ]
+ },
+ "repair_used": false,
+ "edited_files": [],
+ "diff_sha256": "",
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-28T05:25:44Z",
+ "episode_sha256": "5354ca7d10f0ec2176be4479f84b1700069bb82a86f89b05134c53e6b9b5a99e"
+}

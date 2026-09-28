@@ -1,0 +1,59 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v1",
+ "task_id": "saleor-rc-c3b9e396b07d",
+ "arm": "RMCSS_HARD",
+ "status": "INVALID_AFTER_REPAIR",
+ "editable_set": [
+  "saleor/warehouse/availability.py",
+  "saleor/warehouse/management.py"
+ ],
+ "excluded": {
+  "LARGE_FILE_EXCLUDED": [],
+  "CONTEXT_BUDGET_EXCLUDED": []
+ },
+ "prompt_sha256": "964496a08e4e05b70de84336c669004d0fc36b115b937d19afcf0575aa67105c",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "request_id": "gen-1790573883-Pb3EODuHhUx9sjEmjo3l",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 4349,
+   "completion_tokens": 887,
+   "cost_usd_actual": 0.0021501,
+   "cost_usd_nominal": 0.0021501,
+   "finish_reason": "stop",
+   "latency_s": 10.046,
+   "response_sha256": "095ae70e398d2548e8ad8fba286cd392b45f97f3dadc0eef79055367dcd9d2b8"
+  },
+  {
+   "kind": "repair",
+   "request_id": "gen-1790573893-9WmzTP8qgFe1GK4vcqAg",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 351,
+   "completion_tokens": 621,
+   "cost_usd_actual": 0.0006847,
+   "cost_usd_nominal": 0.0006847,
+   "finish_reason": "stop",
+   "latency_s": 7.719,
+   "response_sha256": "f219490aee14efc76759fe9e71e849f95eda55b267bd48f64d67686feb1116bd"
+  }
+ ],
+ "validation": {
+  "initial": [
+   "PARSE_ERROR:saleor/warehouse/management.py: expected '<<<<<<< SEARCH' block start, found: 'Looking at the developer change description, I need to handle cases where `stock.quantity < 0` in both the `deallocate_stock` function and when updating/creating variant stocks. Let me analyze the code to understand where these changes need to be made.'"
+  ],
+  "repair": [
+   "SEARCH_ERROR:saleor/warehouse/management.py: block 1: SEARCH content not found in current file (count=0); search='from django.db import transaction\\nfrom django.db.models import F, Sum\\nfrom djang'"
+  ]
+ },
+ "repair_used": false,
+ "edited_files": [],
+ "diff_sha256": "",
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-28T05:38:23Z",
+ "episode_sha256": "c0e233bcc7ab996087d4efe148e64a9b0d60a982b4161c2b6ecee64a16cfe90a"
+}

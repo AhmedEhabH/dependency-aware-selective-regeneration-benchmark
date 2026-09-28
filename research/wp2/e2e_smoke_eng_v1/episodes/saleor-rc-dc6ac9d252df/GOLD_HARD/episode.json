@@ -1,0 +1,60 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v1",
+ "task_id": "saleor-rc-dc6ac9d252df",
+ "arm": "GOLD_HARD",
+ "status": "INVALID_AFTER_REPAIR",
+ "editable_set": [
+  "saleor/giftcard/notifications.py",
+  "saleor/plugins/sendgrid/tasks.py",
+  "saleor/plugins/user_email/default_email_templates/gift_card.html"
+ ],
+ "excluded": {
+  "LARGE_FILE_EXCLUDED": [],
+  "CONTEXT_BUDGET_EXCLUDED": []
+ },
+ "prompt_sha256": "b645732bdd66278af6ec0634333091bafee906b9b0d6aeb10c73a309fe3cdab1",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "request_id": "gen-1790573976-zgDasxZC3marzqbmMBLH",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 5424,
+   "completion_tokens": 679,
+   "cost_usd_actual": 0.0022646,
+   "cost_usd_nominal": 0.0022646,
+   "finish_reason": "stop",
+   "latency_s": 6.0,
+   "response_sha256": "40ecfb65a8aa9e54aebddf95f158d52cc1ce9f416ee9e7576b88d09edd4dc1b1"
+  },
+  {
+   "kind": "repair",
+   "request_id": "gen-1790573982-PUl5g7sJ8WbrM1ZiNzjF",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 369,
+   "completion_tokens": 450,
+   "cost_usd_actual": 0.0005159,
+   "cost_usd_nominal": 0.0005159,
+   "finish_reason": "stop",
+   "latency_s": 4.906,
+   "response_sha256": "bc7152b0918c313e3a221e4870a774811d946b67ea6cb11f6b448a7493f0ee42"
+  }
+ ],
+ "validation": {
+  "initial": [
+   "PARSE_ERROR:saleor/giftcard/notifications.py: expected '<<<<<<< SEARCH' block start, found: 'Looking at the developer change description \"New payload structure\" and examining the files, I can see that the gift card notification function is using an old payload structure. The payload currently includes individual fields like `user_id`, `app_id`, etc., but it should likely be restructured to use nested objects like `user`, `app`, etc.'"
+  ],
+  "repair": [
+   "SEARCH_ERROR:saleor/giftcard/notifications.py: block 1: SEARCH content not found in current file (count=0); search='def send_gift_card_notification(\\n    requester_user: Optional[User],\\n    app: Op'"
+  ]
+ },
+ "repair_used": false,
+ "edited_files": [],
+ "diff_sha256": "",
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-28T05:39:49Z",
+ "episode_sha256": "b1832e5e986e51c96633043620874e376a718be41d0384d7b24b39d8616422a8"
+}

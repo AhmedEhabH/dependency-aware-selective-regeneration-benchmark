@@ -1,0 +1,59 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v1",
+ "task_id": "saleor-rc-e03ee76d2b89",
+ "arm": "PLACEBO_HARD",
+ "status": "INVALID_AFTER_REPAIR",
+ "editable_set": [
+  "saleor/graphql/checkout/mutations/checkout_create.py",
+  "saleor/graphql/tax/mutations/tax_configuration_update.py"
+ ],
+ "excluded": {
+  "LARGE_FILE_EXCLUDED": [],
+  "CONTEXT_BUDGET_EXCLUDED": []
+ },
+ "prompt_sha256": "c4d1eba354ed072e2548729adc05e112400ed89a2ecc9a0469ac39c0ca883f89",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "request_id": "gen-1790574167-qQPbyxPQLWdwTqEmttem",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 4478,
+   "completion_tokens": 1282,
+   "cost_usd_actual": 0.0025678,
+   "cost_usd_nominal": 0.0025678,
+   "finish_reason": "stop",
+   "latency_s": 16.89,
+   "response_sha256": "41d71654970e956a8310b8360dd81e7907413badb1a39fefc3f1699ffebb6523"
+  },
+  {
+   "kind": "repair",
+   "request_id": "gen-1790574184-V82jeMw8tMNfCGduB2vv",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 346,
+   "completion_tokens": 187,
+   "cost_usd_actual": 0.0002908,
+   "cost_usd_nominal": 0.0002908,
+   "finish_reason": "stop",
+   "latency_s": 3.422,
+   "response_sha256": "45e0a02c19e4e10843ea0fe0d00d6a59645c8791f4d584673b9b310f95a726a1"
+  }
+ ],
+ "validation": {
+  "initial": [
+   "PARSE_ERROR:saleor/graphql/checkout/mutations/checkout_create.py: expected '<<<<<<< SEARCH' block start, found: \"Looking at the developer change description, I need to fix an issue where `clean_seo_fields` function doesn't properly handle `null` values. However, I don't see this function in the provided files.\""
+  ],
+  "repair": [
+   "PARSE_ERROR:saleor/core/utils/__init__.py: expected '<<<<<<< SEARCH' block start, found: \"Looking at the developer change description, I need to implement a fix for the `clean_seo_fields` function to properly handle `None` values. Since this function wasn't in the originally provided files, I'll need to add it to the appropriate utilities module.\""
+  ]
+ },
+ "repair_used": false,
+ "edited_files": [],
+ "diff_sha256": "",
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-28T05:43:09Z",
+ "episode_sha256": "5ca01be8e52a95b81df0290d0740c99cc7eb9d40ea90eba593876aceec5a2637"
+}

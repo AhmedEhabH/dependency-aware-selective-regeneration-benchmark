@@ -1,0 +1,43 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v1",
+ "task_id": "saleor-rc-e03ee76d2b89",
+ "arm": "AGENT_HARD",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/graphql/core/validators/__init__.py"
+ ],
+ "excluded": {
+  "LARGE_FILE_EXCLUDED": [],
+  "CONTEXT_BUDGET_EXCLUDED": []
+ },
+ "prompt_sha256": "0ba9584e82ef01256a9795db00f2a53b5973ca439815b33f4620ccb13798aa26",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "request_id": "gen-1790574650-ZtD8x9yQoA9vmcruit1T",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 1852,
+   "completion_tokens": 197,
+   "cost_usd_actual": 0.000711,
+   "cost_usd_nominal": 0.000711,
+   "finish_reason": "stop",
+   "latency_s": 2.203,
+   "response_sha256": "523b887e469e6af375d5dd3413c2867086094fadce93b3e630dee4062d9ebf6b"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "edited_files": [
+  "saleor/graphql/core/validators/__init__.py"
+ ],
+ "diff_sha256": "9030eaa3950483f4766bcebea8ecb53dc2622af834431addafd400996335e232",
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-28T05:51:00Z",
+ "episode_sha256": "e1a1f3b2c3d51542736f026cba826a0393e2c34b877d31030952657c24e16a83"
+}

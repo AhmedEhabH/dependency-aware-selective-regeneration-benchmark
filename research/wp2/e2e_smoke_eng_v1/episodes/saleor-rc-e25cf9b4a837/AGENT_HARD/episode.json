@@ -1,0 +1,58 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v1",
+ "task_id": "saleor-rc-e25cf9b4a837",
+ "arm": "AGENT_HARD",
+ "status": "INVALID_AFTER_REPAIR",
+ "editable_set": [
+  "saleor/payment/gateways/dummy_credit_card/plugin.py"
+ ],
+ "excluded": {
+  "LARGE_FILE_EXCLUDED": [],
+  "CONTEXT_BUDGET_EXCLUDED": []
+ },
+ "prompt_sha256": "a9150cf1ffbbe02ff676a5141d9729749f10a4d44918291ae07415bedf53546b",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "request_id": "gen-1790574659-2mdneJkXR9mANQUeinDv",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 1170,
+   "completion_tokens": 168,
+   "cost_usd_actual": 0.0004774,
+   "cost_usd_nominal": 0.0004774,
+   "finish_reason": "stop",
+   "latency_s": 1.485,
+   "response_sha256": "265708c240c57e3e97c8ffdeb5e89110bf73b96d0c897405c53f6f83949dd7ba"
+  },
+  {
+   "kind": "repair",
+   "request_id": "gen-1790574660-qZWmbKYrX6FK7KwxmlNp",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 306,
+   "completion_tokens": 208,
+   "cost_usd_actual": 0.000255,
+   "cost_usd_nominal": 0.000255,
+   "finish_reason": "stop",
+   "latency_s": 2.609,
+   "response_sha256": "15a04e997dd61819739f107136a23518ed2389299bb3e6885730fa86b923cdfe"
+  }
+ ],
+ "validation": {
+  "initial": [
+   "PARSE_ERROR:saleor/payment/gateways/dummy_credit_card/plugin.py: expected '<<<<<<< SEARCH' block start, found: '```'"
+  ],
+  "repair": [
+   "SEARCH_ERROR:saleor/payment/gateways/dummy_credit_card/plugin.py: block 1: SEARCH content not found in current file (count=0); search='from typing import List, Optional\\n\\nfrom django.core.exceptions import Validation'"
+  ]
+ },
+ "repair_used": false,
+ "edited_files": [],
+ "diff_sha256": "",
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-28T05:51:04Z",
+ "episode_sha256": "42cec186335e85edb0d0866b965263d1d2098483b06ef4e320e87e3ffea83070"
+}

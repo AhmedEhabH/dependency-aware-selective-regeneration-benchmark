@@ -1,0 +1,59 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v1",
+ "task_id": "saleor-rc-c3b9e396b07d",
+ "arm": "GOLD_HARD",
+ "status": "INVALID_AFTER_REPAIR",
+ "editable_set": [
+  "saleor/graphql/product/bulk_mutations/products.py",
+  "saleor/warehouse/management.py"
+ ],
+ "excluded": {
+  "LARGE_FILE_EXCLUDED": [],
+  "CONTEXT_BUDGET_EXCLUDED": []
+ },
+ "prompt_sha256": "44fa4982b8a5202387d6d042309ae2c95d1b580249ac77eb46a01e03abacdec6",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "request_id": "gen-1790573852-VrBAm5gSAmSHVTqYZcBH",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 9460,
+   "completion_tokens": 1606,
+   "cost_usd_actual": 0.004444,
+   "cost_usd_nominal": 0.004444,
+   "finish_reason": "stop",
+   "latency_s": 19.468,
+   "response_sha256": "17bc3026fcd70fb5b6f044c2428029c5b9c83b71db4aee8764ac6b1f945e9ee6"
+  },
+  {
+   "kind": "repair",
+   "request_id": "gen-1790573872-VOnEmRtygeBTNiRLfxXl",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 348,
+   "completion_tokens": 1145,
+   "cost_usd_actual": 0.0012046,
+   "cost_usd_nominal": 0.0012046,
+   "finish_reason": "stop",
+   "latency_s": 11.265,
+   "response_sha256": "c44368f9e55144e1523cccbabf02ccc4a02868a29222bea8b919ebeaf58264c1"
+  }
+ ],
+ "validation": {
+  "initial": [
+   "PARSE_ERROR:saleor/warehouse/management.py: expected '<<<<<<< SEARCH' block start, found: 'Looking at the developer change description, I need to handle cases where `stock.quantity < 0` in both the `deallocate_stock` function and the `update_or_create_variant_stocks` method. Let me analyze the relevant code sections.'"
+  ],
+  "repair": [
+   "SEARCH_ERROR:saleor/warehouse/management.py: block 1: SEARCH content not found in current file (count=0); search='   \\n@transaction.atomic()\\ndef deallocate_stock(\\n    order_lines: Iterable[OrderL'"
+  ]
+ },
+ "repair_used": false,
+ "edited_files": [],
+ "diff_sha256": "",
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-28T05:38:05Z",
+ "episode_sha256": "4f8f21f65a6eb318d0d5da70c78aa4c523a08de3df4e656ecd88202e0c26a0e5"
+}

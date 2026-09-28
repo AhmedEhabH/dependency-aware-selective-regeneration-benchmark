@@ -1,0 +1,61 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v1",
+ "task_id": "saleor-rc-644f33094857",
+ "arm": "RMCSS_HARD",
+ "status": "INVALID_AFTER_REPAIR",
+ "editable_set": [
+  "saleor/graphql/order/mutations/orders.py",
+  "saleor/order/actions.py",
+  "saleor/order/models.py",
+  "saleor/order/utils.py"
+ ],
+ "excluded": {
+  "LARGE_FILE_EXCLUDED": [],
+  "CONTEXT_BUDGET_EXCLUDED": []
+ },
+ "prompt_sha256": "cca61799a24a94844b2d7c77873f96a99cc6db6570c5848cbe144ffc5c832eca",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "request_id": "gen-1790573032-Kn1o6Cg76skBI5TKn3se",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 18082,
+   "completion_tokens": 452,
+   "cost_usd_actual": 0.0058766,
+   "cost_usd_nominal": 0.0058766,
+   "finish_reason": "stop",
+   "latency_s": 8.438,
+   "response_sha256": "56a1af6b7b7942eec5b66ee8d16914a2d71e193ea8f489b95110803a64f6eabd"
+  },
+  {
+   "kind": "repair",
+   "request_id": "gen-1790573040-dZGROTW2D1qz0K5f2RpO",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 336,
+   "completion_tokens": 314,
+   "cost_usd_actual": 0.0003732,
+   "cost_usd_nominal": 0.0003732,
+   "finish_reason": "stop",
+   "latency_s": 5.359,
+   "response_sha256": "c954f763345d2a725974d76e651f1b48a4ef9d183ea451b3f3db51fb06130e95"
+  }
+ ],
+ "validation": {
+  "initial": [
+   "PARSE_ERROR:saleor/order/actions.py: expected '<<<<<<< SEARCH' block start, found: 'Looking at the developer change description, I need to extend the logic for updating order status and call update order status for refund action. Let me analyze the code to understand what needs to be modified.'"
+  ],
+  "repair": [
+   "SEARCH_ERROR:saleor/order/actions.py: block 1: SEARCH content not found in current file (count=0); search='def order_refunded(order: Order, amount: Decimal, payment: Payment):\\n    \"\"\"Hand'"
+  ]
+ },
+ "repair_used": false,
+ "edited_files": [],
+ "diff_sha256": "",
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-28T05:24:07Z",
+ "episode_sha256": "6e493f6f1b02e3e69c4ebeed2c4f866808cb1816843f0a9b0bec078bd9e32b68"
+}

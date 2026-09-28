@@ -1,0 +1,65 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v1",
+ "task_id": "saleor-rc-82c56bde0e34",
+ "arm": "PLACEBO_HARD",
+ "status": "INVALID_AFTER_REPAIR",
+ "editable_set": [
+  "saleor/graphql/core/types/converter.py",
+  "saleor/graphql/discount/filters.py",
+  "saleor/graphql/order/mutations/order_discount_update.py",
+  "saleor/graphql/payment/mutations/transaction/payment_gateway_initialize.py",
+  "saleor/graphql/shipping/mutations/shipping_price_exclude_products.py",
+  "saleor/graphql/shop/mutations/shop_fetch_tax_rates.py",
+  "saleor/graphql/translations/mutations/attribute_value_bulk_translate.py",
+  "saleor/payment/transaction_item_calculations.py"
+ ],
+ "excluded": {
+  "LARGE_FILE_EXCLUDED": [],
+  "CONTEXT_BUDGET_EXCLUDED": []
+ },
+ "prompt_sha256": "42698a05e204911860b5a37a82255a9aeb43ab6b5cbc798d39870d803af35a5e",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "request_id": "gen-1790573660-t272BbIH3AlDoEHJfrtU",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 8358,
+   "completion_tokens": 338,
+   "cost_usd_actual": 0.0027782,
+   "cost_usd_nominal": 0.0027782,
+   "finish_reason": "stop",
+   "latency_s": 5.297,
+   "response_sha256": "d8fcbc7132a86be9760e7b34e7453947790b1de034de41ab7eead2e1430c0900"
+  },
+  {
+   "kind": "repair",
+   "request_id": "gen-1790573665-0KJugLdkJT5kZvA2nRqE",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 284,
+   "completion_tokens": 776,
+   "cost_usd_actual": 0.0008196,
+   "cost_usd_nominal": 0.0008196,
+   "finish_reason": "stop",
+   "latency_s": 11.375,
+   "response_sha256": "9e9db876679ccab1d8e10ff1e095d2157c4ee7770cd6568251a418b3b6cee682"
+  }
+ ],
+ "validation": {
+  "initial": [
+   "NO_BLOCKS: no FILE sections found"
+  ],
+  "repair": [
+   "PARSE_ERROR:saleor/checkout/utils.py: expected '<<<<<<< SEARCH' block start, found: '```'"
+  ]
+ },
+ "repair_used": false,
+ "edited_files": [],
+ "diff_sha256": "",
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-28T05:34:39Z",
+ "episode_sha256": "f3984b2566c350f4722254de34fde89394c78ba13216cbcf30de1e8945742d6e"
+}

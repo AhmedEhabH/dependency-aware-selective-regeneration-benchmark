@@ -1,0 +1,632 @@
+{
+ "artifact": "generation_freeze",
+ "smoke_version": "wp2-e2e-smoke-eng-v1",
+ "created_utc": "2026-09-28",
+ "per_episode": {
+  "saleor-rc-2d45b76a52f2|AGENT_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "8c8b184da4576ad8e50bad2f7d37c283b18c27bcadb7074cb6a3f3427c659aa4",
+   "tokens": {
+    "prompt": 4159,
+    "completion": 1055
+   },
+   "cost_usd": 0.002261,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-2d45b76a52f2|GOLD_HARD": {
+   "status": "APPLIED",
+   "diff_sha256": "a319f24d1c14e9c701d6ddeab09c1eff149b3a2d653f267b53908b0f5c651dcd",
+   "prompt_sha256": "78619e0fe00b8ad0b75869b27b451ce93ce5dcc2b3f33cf5da334516282987dc",
+   "tokens": {
+    "prompt": 1823,
+    "completion": 270
+   },
+   "cost_usd": 0.000817,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-2d45b76a52f2|PLACEBO_HARD": {
+   "status": "APPLIED",
+   "diff_sha256": "16ec795185b645d8d57bd90786f83612f045ee5efe642dd1520f3496ef3b03d3",
+   "prompt_sha256": "b7b4e79f8116bc508594a32521e87eb851dac07b0b00be024edd892c2ff136ae",
+   "tokens": {
+    "prompt": 610,
+    "completion": 172
+   },
+   "cost_usd": 0.000355,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-2d45b76a52f2|RMCSS_HARD": {
+   "status": "APPLIED",
+   "diff_sha256": "16ec795185b645d8d57bd90786f83612f045ee5efe642dd1520f3496ef3b03d3",
+   "prompt_sha256": "2d26e8a6e9f4e985da2a2560517d685be30ada419beb4d59cba44edea79694d4",
+   "tokens": {
+    "prompt": 770,
+    "completion": 139
+   },
+   "cost_usd": 0.00037,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-39b4138e8550|AGENT_HARD": {
+   "status": "APPLIED",
+   "diff_sha256": "6eb9a2191f87633aa8008a5f185449247f94234de78a66b9d98f27718e859e59",
+   "prompt_sha256": "08e6291a0f4596452e82b3da9e288e973f26f2f0ba1179279dac17ed766ec97f",
+   "tokens": {
+    "prompt": 728,
+    "completion": 273
+   },
+   "cost_usd": 0.00045,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-39b4138e8550|GOLD_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "25cd72982864be6c99a88737bc1b244729aa8a901ec365ffaa54a39e20868ddd",
+   "tokens": {
+    "prompt": 50,
+    "completion": 0
+   },
+   "cost_usd": 0.0,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-39b4138e8550|PLACEBO_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "5920884262aa3f4f5755f6cd8e896d2d3adba6dd90966fed20b1a9a4f2cd16c7",
+   "tokens": {
+    "prompt": 3629,
+    "completion": 546
+   },
+   "cost_usd": 0.001551,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-39b4138e8550|RMCSS_HARD": {
+   "status": "NO_SCOPE",
+   "diff_sha256": "",
+   "prompt_sha256": "",
+   "tokens": {
+    "prompt": 0,
+    "completion": 0
+   },
+   "cost_usd": 0,
+   "reused_identical_prompt": null
+  },
+  "saleor-rc-644f33094857|AGENT_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "2e170a38e28913086bdb55b43c1f6331c713f6f485c8dfc04c272eb721732352",
+   "tokens": {
+    "prompt": 16140,
+    "completion": 923
+   },
+   "cost_usd": 0.005679,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-644f33094857|GOLD_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "a74515a6cc843f100578d4965f8b25ea040b4049ab4aa25cabb762eddcef08d6",
+   "tokens": {
+    "prompt": 26484,
+    "completion": 2904
+   },
+   "cost_usd": 0.010766,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-644f33094857|PLACEBO_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "792b3b9e226e5a1635c28912b0fbeb20611a0097739d769f19e8681a1ce4d021",
+   "tokens": {
+    "prompt": 3199,
+    "completion": 703
+   },
+   "cost_usd": 0.001563,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-644f33094857|RMCSS_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "cca61799a24a94844b2d7c77873f96a99cc6db6570c5848cbe144ffc5c832eca",
+   "tokens": {
+    "prompt": 18418,
+    "completion": 766
+   },
+   "cost_usd": 0.00625,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-6abb53f3407b|AGENT_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "8c04cfb261ab46802865c9ee3a9cfcb2ec1db46204b950c6341090935e02075f",
+   "tokens": {
+    "prompt": 6449,
+    "completion": 1326
+   },
+   "cost_usd": 0.003174,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-6abb53f3407b|GOLD_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "fa30734e56fbcaa67c8093c098d6c4cb0a7a6e86e262679ef29746787b22f48b",
+   "tokens": {
+    "prompt": 11023,
+    "completion": 4764
+   },
+   "cost_usd": 0.007984,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-6abb53f3407b|PLACEBO_HARD": {
+   "status": "APPLIED",
+   "diff_sha256": "c777f2ee45feaa1f92a030ed799cc798a40335803c3cf6638374b4d5ec1287f5",
+   "prompt_sha256": "2999c9b1cf233bea3a2bbfcbbd6343e8de1a9cbe1f9810a5a9c750a6be9391f7",
+   "tokens": {
+    "prompt": 3169,
+    "completion": 125
+   },
+   "cost_usd": 0.001025,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-6abb53f3407b|RMCSS_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "58e8ad16d5cb5027b251ddc940712ac193accbdb3b5d7d6a3ad51bda475a0b2f",
+   "tokens": {
+    "prompt": 2915,
+    "completion": 4039
+   },
+   "cost_usd": 0.004827,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-74538ea00ce9|AGENT_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "6f185d31639b87389dc0271886a36ca92da9c80f417bdca4d6c23733ef340092",
+   "tokens": {
+    "prompt": 17463,
+    "completion": 821
+   },
+   "cost_usd": 0.005974,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-74538ea00ce9|GOLD_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "09ea6e12bde53218933519f3ff635bde63f07f953cf8b1cce03349a6f06d4320",
+   "tokens": {
+    "prompt": 6590,
+    "completion": 5055
+   },
+   "cost_usd": 0.006946,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-74538ea00ce9|PLACEBO_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "c4527ca85c3d8a2bb815501dda31140f239e4eb7f80e6180b1762fa18ed2722a",
+   "tokens": {
+    "prompt": 2869,
+    "completion": 1302
+   },
+   "cost_usd": 0.002076,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-74538ea00ce9|RMCSS_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "b5ab22d7e197c6ff632dbbe4a3c6e5f10c3e0b7fe6eb0961e4210d602f357d4d",
+   "tokens": {
+    "prompt": 38344,
+    "completion": 3322
+   },
+   "cost_usd": 0.014777,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-823b899757ab|AGENT_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "cddfcdcb3615cf1908a04158becd473079690c8a27aaf2e5d4d6bcb7486f91c8",
+   "tokens": {
+    "prompt": 17134,
+    "completion": 2095
+   },
+   "cost_usd": 0.007149,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-823b899757ab|GOLD_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "cddfcdcb3615cf1908a04158becd473079690c8a27aaf2e5d4d6bcb7486f91c8",
+   "tokens": {
+    "prompt": 17110,
+    "completion": 4256
+   },
+   "cost_usd": 0.009389,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-823b899757ab|PLACEBO_HARD": {
+   "status": "APPLIED",
+   "diff_sha256": "6ae77676757e90f97bd2f6ff705c3dc95d25057dbca65d5da3ab3727c6ffaf06",
+   "prompt_sha256": "a294220aca82a687ed9bf7576d3fc316257e3b6008a7e02c736b22fa01263a08",
+   "tokens": {
+    "prompt": 1448,
+    "completion": 59
+   },
+   "cost_usd": 0.000445,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-823b899757ab|RMCSS_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "911c73009df88991bf0037b149b7644aa43c9f0b98099579857da5bd03bda90d",
+   "tokens": {
+    "prompt": 19640,
+    "completion": 1917
+   },
+   "cost_usd": 0.007767,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-82c56bde0e34|AGENT_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "6fd3c0a5ec07c21eaf76fe882060b76d78a8566f96147ed0dd2979de0fe57ebe",
+   "tokens": {
+    "prompt": 5463,
+    "completion": 2103
+   },
+   "cost_usd": 0.0037,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-82c56bde0e34|GOLD_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "1c35f7219dc602bbef6324247bdf9aae165ef6b7cf52d664c57f7232acdb0386",
+   "tokens": {
+    "prompt": 43608,
+    "completion": 1163
+   },
+   "cost_usd": 0.014162,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-82c56bde0e34|PLACEBO_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "42698a05e204911860b5a37a82255a9aeb43ab6b5cbc798d39870d803af35a5e",
+   "tokens": {
+    "prompt": 8642,
+    "completion": 1114
+   },
+   "cost_usd": 0.003598,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-82c56bde0e34|RMCSS_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "007d2f578fcf991eaaa8a7740d43e0a4f080bce70f5d879c08cf450851154657",
+   "tokens": {
+    "prompt": 31067,
+    "completion": 4047
+   },
+   "cost_usd": 0.013281,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-8f76ddc6267f|AGENT_HARD": {
+   "status": "APPLIED",
+   "diff_sha256": "cf7a3b68116a584d3f9d3223461b6e28be3a8c9488c697f713daf46a3d31e926",
+   "prompt_sha256": "b52cd5f86d8cf09dc5f0a51a5899e638d3214d9e9ff47ccac476eca0d3b5f7c3",
+   "tokens": {
+    "prompt": 1247,
+    "completion": 192
+   },
+   "cost_usd": 0.000525,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-8f76ddc6267f|GOLD_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "3ce46f763455d5716c0bf3f5413aea455d09310b7893b5e90779e3910c3eb1f5",
+   "tokens": {
+    "prompt": 16976,
+    "completion": 2107
+   },
+   "cost_usd": 0.007113,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-8f76ddc6267f|PLACEBO_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "95db788d989d4e05a159fd7f599307f2554e86f3c127168bf5f443c211138ebd",
+   "tokens": {
+    "prompt": 12441,
+    "completion": 1427
+   },
+   "cost_usd": 0.005057,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-8f76ddc6267f|RMCSS_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "7b21e89fec45cb83bf183ce9d2f00734aceca9ffcc5ba7a752eaad51678283d3",
+   "tokens": {
+    "prompt": 7715,
+    "completion": 1352
+   },
+   "cost_usd": 0.00358,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-93b20d78c011|AGENT_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "5c63655bdd6de8ab1662acc94297c4332c9ae67281fb50614300263ecab25daf",
+   "tokens": {
+    "prompt": 5319,
+    "completion": 2390
+   },
+   "cost_usd": 0.003899,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-93b20d78c011|GOLD_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "c796a7f650bd0f217c5bfb65defa7efecab0fd298e6ffc0a6bbd0dbef3ec3650",
+   "tokens": {
+    "prompt": 19884,
+    "completion": 783
+   },
+   "cost_usd": 0.006662,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-93b20d78c011|PLACEBO_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "cb440fca94cdff341227eb07a46bd0fb96462f80c780837f4b9f3443e39f08fc",
+   "tokens": {
+    "prompt": 2363,
+    "completion": 2194
+   },
+   "cost_usd": 0.002797,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-93b20d78c011|RMCSS_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "80623f5f38f7d0611504ba25120723c298d557f11e13da1ce8902df5afa08824",
+   "tokens": {
+    "prompt": 4218,
+    "completion": 2300
+   },
+   "cost_usd": 0.00346,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-c3b9e396b07d|AGENT_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "9040bbd8a7c2c19db7b0b8e1c56330c365af563bb9865626846b53a386849889",
+   "tokens": {
+    "prompt": 3931,
+    "completion": 1853
+   },
+   "cost_usd": 0.002946,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-c3b9e396b07d|GOLD_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "44fa4982b8a5202387d6d042309ae2c95d1b580249ac77eb46a01e03abacdec6",
+   "tokens": {
+    "prompt": 9808,
+    "completion": 2751
+   },
+   "cost_usd": 0.005649,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-c3b9e396b07d|PLACEBO_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "fc9cc53348de8d090ea2ddf7e939368c6d696cd558691ca29b4fbf9ac92c7c54",
+   "tokens": {
+    "prompt": 3866,
+    "completion": 1623
+   },
+   "cost_usd": 0.00268,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-c3b9e396b07d|RMCSS_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "964496a08e4e05b70de84336c669004d0fc36b115b937d19afcf0575aa67105c",
+   "tokens": {
+    "prompt": 4700,
+    "completion": 1508
+   },
+   "cost_usd": 0.002835,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-d220843b5418|AGENT_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "8fef3ff236dce6ca6663b5ff0470636aac6a7890e541dbcde88f9ec66d2415b7",
+   "tokens": {
+    "prompt": 18252,
+    "completion": 895
+   },
+   "cost_usd": 0.006284,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-d220843b5418|GOLD_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "f244000262919b0bf049e6a1e99ed1e8e2fe016991c65954a57b40ba9383c9bf",
+   "tokens": {
+    "prompt": 21850,
+    "completion": 2177
+   },
+   "cost_usd": 0.008646,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-d220843b5418|PLACEBO_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "2a617ce5d599477af8e9dbbb4b6ff862b6c6e94a1f19c31beec0ef4845d26e1c",
+   "tokens": {
+    "prompt": 6571,
+    "completion": 942
+   },
+   "cost_usd": 0.002817,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-d220843b5418|RMCSS_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "3af8635c328e362b684b1352819244950302a35aa6b9578470d0cad9ae56d48c",
+   "tokens": {
+    "prompt": 42381,
+    "completion": 1106
+   },
+   "cost_usd": 0.013724,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-dc6ac9d252df|AGENT_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "cc28b94925179df2b85376cedd98a8cd078ae5d3022b51c7e2f66f64607e97d2",
+   "tokens": {
+    "prompt": 7670,
+    "completion": 6286
+   },
+   "cost_usd": 0.008501,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-dc6ac9d252df|GOLD_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "b645732bdd66278af6ec0634333091bafee906b9b0d6aeb10c73a309fe3cdab1",
+   "tokens": {
+    "prompt": 5793,
+    "completion": 1129
+   },
+   "cost_usd": 0.00278,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-dc6ac9d252df|PLACEBO_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "ea8774fa0758d0b8bb7acd5108e023ed0a5e7a7cfbfb3632b50fb38f58efefdd",
+   "tokens": {
+    "prompt": 11560,
+    "completion": 720
+   },
+   "cost_usd": 0.004095,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-dc6ac9d252df|RMCSS_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "37f47377970b6ee1905cf7cfef0a5089aca87255efff11f19f4123d8a5e964d5",
+   "tokens": {
+    "prompt": 1867,
+    "completion": 8402
+   },
+   "cost_usd": 0.008873,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-e03ee76d2b89|AGENT_HARD": {
+   "status": "APPLIED",
+   "diff_sha256": "9030eaa3950483f4766bcebea8ecb53dc2622af834431addafd400996335e232",
+   "prompt_sha256": "0ba9584e82ef01256a9795db00f2a53b5973ca439815b33f4620ccb13798aa26",
+   "tokens": {
+    "prompt": 1852,
+    "completion": 197
+   },
+   "cost_usd": 0.000711,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-e03ee76d2b89|GOLD_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "0ba9584e82ef01256a9795db00f2a53b5973ca439815b33f4620ccb13798aa26",
+   "tokens": {
+    "prompt": 2156,
+    "completion": 427
+   },
+   "cost_usd": 0.000987,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-e03ee76d2b89|PLACEBO_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "c4d1eba354ed072e2548729adc05e112400ed89a2ecc9a0469ac39c0ca883f89",
+   "tokens": {
+    "prompt": 4824,
+    "completion": 1469
+   },
+   "cost_usd": 0.002859,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-e03ee76d2b89|RMCSS_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "1ad5adf6513a36ac97c457411d6158ef77c3a60227d332e412c201e1f7e40e99",
+   "tokens": {
+    "prompt": 2398,
+    "completion": 1312
+   },
+   "cost_usd": 0.001923,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-e25cf9b4a837|AGENT_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "a9150cf1ffbbe02ff676a5141d9729749f10a4d44918291ae07415bedf53546b",
+   "tokens": {
+    "prompt": 1476,
+    "completion": 376
+   },
+   "cost_usd": 0.000732,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-e25cf9b4a837|GOLD_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "a9150cf1ffbbe02ff676a5141d9729749f10a4d44918291ae07415bedf53546b",
+   "tokens": {
+    "prompt": 1476,
+    "completion": 617
+   },
+   "cost_usd": 0.000973,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-e25cf9b4a837|PLACEBO_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "9317a65a83212fbbf6abfcc4662a488138b0a93a5e91545c1eece411caf56f49",
+   "tokens": {
+    "prompt": 1262,
+    "completion": 458
+   },
+   "cost_usd": 0.000744,
+   "reused_identical_prompt": false
+  },
+  "saleor-rc-e25cf9b4a837|RMCSS_HARD": {
+   "status": "INVALID_AFTER_REPAIR",
+   "diff_sha256": "",
+   "prompt_sha256": "cb944244f4e43eaa20869d9df92697e51e18c373959905434a9c3fff43b996c1",
+   "tokens": {
+    "prompt": 1778,
+    "completion": 1749
+   },
+   "cost_usd": 0.002196,
+   "reused_identical_prompt": false
+  }
+ },
+ "totals": {
+  "n": 56,
+  "applied": 8,
+  "invalid": 47,
+  "no_scope": 1,
+  "spend_usd": 0.257437,
+  "ceiling_smoke_usd": 4.5
+ },
+ "generation_freeze_sha256": "f7e2edf7e628589b904c6839292d19844a78082b9ea65389093c180783814430"
+}

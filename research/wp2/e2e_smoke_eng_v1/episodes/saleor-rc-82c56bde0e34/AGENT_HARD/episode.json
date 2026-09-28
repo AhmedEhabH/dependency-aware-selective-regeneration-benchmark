@@ -1,0 +1,59 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v1",
+ "task_id": "saleor-rc-82c56bde0e34",
+ "arm": "AGENT_HARD",
+ "status": "INVALID_AFTER_REPAIR",
+ "editable_set": [
+  "saleor/checkout/fetch.py",
+  "saleor/graphql/payment/resolvers.py"
+ ],
+ "excluded": {
+  "LARGE_FILE_EXCLUDED": [],
+  "CONTEXT_BUDGET_EXCLUDED": []
+ },
+ "prompt_sha256": "6fd3c0a5ec07c21eaf76fe882060b76d78a8566f96147ed0dd2979de0fe57ebe",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "request_id": "gen-1790574518-PZjzPmFAIGFR7FaFnIax",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 5127,
+   "completion_tokens": 1413,
+   "cost_usd_actual": 0.0029095,
+   "cost_usd_nominal": 0.0029095,
+   "finish_reason": "stop",
+   "latency_s": 14.828,
+   "response_sha256": "14d0a5dea83f36bb743bc9a9feb1a581169677c7da883409bfac16da216aafa9"
+  },
+  {
+   "kind": "repair",
+   "request_id": "gen-1790574532-xX3NaRIBE66smL2I81ji",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 336,
+   "completion_tokens": 690,
+   "cost_usd_actual": 0.0007908,
+   "cost_usd_nominal": 0.0007908,
+   "finish_reason": "stop",
+   "latency_s": 8.125,
+   "response_sha256": "ecb07f91c3750c9803509a442bfc90dbd8141e5d9d0eba9b2351715bad14917d"
+  }
+ ],
+ "validation": {
+  "initial": [
+   "PARSE_ERROR:saleor/checkout/fetch.py: expected '<<<<<<< SEARCH' block start, found: 'Looking at the developer change description, I need to fix the fetch checkout info resolver for checkout, specifically moving fetching checkout info and lines to resolver for payment gateway and removing unused checkout parameter.'"
+  ],
+  "repair": [
+   "PARSE_ERROR:saleor/checkout/fetch.py: expected '<<<<<<< SEARCH' block start, found: 'Looking at the developer change description, I need to fix the fetch checkout info resolver for checkout, specifically moving fetching checkout info and lines to resolver for payment gateway and removing unused checkout parameter.'"
+  ]
+ },
+ "repair_used": false,
+ "edited_files": [],
+ "diff_sha256": "",
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-28T05:49:02Z",
+ "episode_sha256": "69a6cfe09fbbdaf4037c3f3e526d1687e0c7e061676f7c852b7e487a0850f3c0"
+}

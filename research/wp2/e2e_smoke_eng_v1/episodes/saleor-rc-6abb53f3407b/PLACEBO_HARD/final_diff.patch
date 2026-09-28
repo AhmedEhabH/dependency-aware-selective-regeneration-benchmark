@@ -1,0 +1,9 @@
+diff --git a/saleor/attribute/error_codes.py b/saleor/attribute/error_codes.py
+--- a/saleor/attribute/error_codes.py
++++ b/saleor/attribute/error_codes.py
+@@ -8,3 +8,5 @@
+     NOT_FOUND = "not_found"
+     REQUIRED = "required"
+     UNIQUE = "unique"
++    NOT_USEFUL = "not_useful"
++

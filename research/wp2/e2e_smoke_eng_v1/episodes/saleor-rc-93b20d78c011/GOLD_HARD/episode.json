@@ -1,0 +1,62 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v1",
+ "task_id": "saleor-rc-93b20d78c011",
+ "arm": "GOLD_HARD",
+ "status": "INVALID_AFTER_REPAIR",
+ "editable_set": [
+  "CHANGELOG.md",
+  "saleor/graphql/account/resolvers.py",
+  "saleor/graphql/account/schema.py"
+ ],
+ "excluded": {
+  "LARGE_FILE_EXCLUDED": [
+   "saleor/graphql/schema.graphql"
+  ],
+  "CONTEXT_BUDGET_EXCLUDED": []
+ },
+ "prompt_sha256": "c796a7f650bd0f217c5bfb65defa7efecab0fd298e6ffc0a6bbd0dbef3ec3650",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "request_id": "gen-1790573758-ILhoRUufElFGMPE8dJrV",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 19583,
+   "completion_tokens": 247,
+   "cost_usd_actual": 0.0060803,
+   "cost_usd_nominal": 0.0060803,
+   "finish_reason": "stop",
+   "latency_s": 5.0,
+   "response_sha256": "ef8ee3b22f77fa087d04bf4ab719a85137ac1864df2cd703fe56ba60e188783b"
+  },
+  {
+   "kind": "repair",
+   "request_id": "gen-1790573763-UU32qjIEjwYBcMyMRjj7",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 301,
+   "completion_tokens": 536,
+   "cost_usd_actual": 0.0005815,
+   "cost_usd_nominal": 0.0005815,
+   "finish_reason": "stop",
+   "latency_s": 8.688,
+   "response_sha256": "5a73cd43dabea0e5e6e14c8e424abe17a9496aff0d7a096e6d6e79f8d6a860e2"
+  }
+ ],
+ "validation": {
+  "initial": [
+   "PARSE_ERROR:CHANGELOG.md: expected '<<<<<<< SEARCH' block start, found: '### The changes involve:'"
+  ],
+  "repair": [
+   "PARSE_ERROR:CHANGELOG.md: extra '=======' divider inside REPLACE block"
+  ]
+ },
+ "repair_used": false,
+ "edited_files": [],
+ "diff_sha256": "",
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-28T05:36:13Z",
+ "episode_sha256": "2c9fe4f807577e32d7208f561eb3b38dd508429268b0116a46922023b1e5b76d"
+}

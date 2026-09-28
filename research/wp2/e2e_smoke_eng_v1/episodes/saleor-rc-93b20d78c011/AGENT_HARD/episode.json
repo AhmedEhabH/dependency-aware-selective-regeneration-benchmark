@@ -1,0 +1,60 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v1",
+ "task_id": "saleor-rc-93b20d78c011",
+ "arm": "AGENT_HARD",
+ "status": "INVALID_AFTER_REPAIR",
+ "editable_set": [
+  "saleor/account/models.py",
+  "saleor/graphql/account/resolvers.py",
+  "saleor/graphql/account/schema.py"
+ ],
+ "excluded": {
+  "LARGE_FILE_EXCLUDED": [],
+  "CONTEXT_BUDGET_EXCLUDED": []
+ },
+ "prompt_sha256": "5c63655bdd6de8ab1662acc94297c4332c9ae67281fb50614300263ecab25daf",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "request_id": "gen-1790574549-TtceLLAkbJwdEPCFuhAS",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 4989,
+   "completion_tokens": 766,
+   "cost_usd_actual": 0.0022211,
+   "cost_usd_nominal": 0.0022211,
+   "finish_reason": "stop",
+   "latency_s": 11.344,
+   "response_sha256": "c2d0f14ac84edb18a2d4c985f0ac71b75db8436c62fa00b8626c64cdd7cf54e4"
+  },
+  {
+   "kind": "repair",
+   "request_id": "gen-1790574561-j0w47hINu4WJhT9YIYkX",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 330,
+   "completion_tokens": 1624,
+   "cost_usd_actual": 0.0016782,
+   "cost_usd_nominal": 0.0016782,
+   "finish_reason": "stop",
+   "latency_s": 15.344,
+   "response_sha256": "62c5db8c5f0af5fdb2c77489fc56f0655bc9a376980362b53269679690f3bd4b"
+  }
+ ],
+ "validation": {
+  "initial": [
+   "PARSE_ERROR:saleor/graphql/account/schema.py: expected '<<<<<<< SEARCH' block start, found: 'Looking at the developer change description, I need to add support for querying users by email. Let me analyze the current code to understand how to implement this feature.'"
+  ],
+  "repair": [
+   "SEARCH_ERROR:saleor/graphql/account/schema.py: block 1: SEARCH content not found in current file (count=0); search='import graphene\\n\\nfrom ...core.permissions import AccountPermissions\\nfrom ..core.'"
+  ]
+ },
+ "repair_used": false,
+ "edited_files": [],
+ "diff_sha256": "",
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-28T05:49:37Z",
+ "episode_sha256": "f05725440b754b7b742a1f01ac102e249917b9c08ce3c8dc78828c7dffaaca50"
+}

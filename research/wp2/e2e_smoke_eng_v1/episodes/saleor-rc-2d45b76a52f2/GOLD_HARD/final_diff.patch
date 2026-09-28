@@ -1,0 +1,32 @@
+diff --git a/saleor/core/jwt.py b/saleor/core/jwt.py
+--- a/saleor/core/jwt.py
++++ b/saleor/core/jwt.py
+@@ -211,11 +211,20 @@
+     user: "User",
+     app: "App",
+ ):
+-    return _create_access_token_for_third_party_actions(
+-        permissions=permissions,
+-        user=user,
+-        type="AppExtension",
+-        object_id=app_extension.id,
+-        object_payload_key="app_extension",
+-        audience=app.audience,
+-    )
++    additional_payload = {
++        "app_extension": graphene.Node.to_global_id("AppExtension", app_extension.id),
++        "app": graphene.Node.to_global_id("App", app.id),
++        PERMISSIONS_FIELD: list(get_permission_names(permissions)),
++        USER_PERMISSION_FIELD: list(get_permission_names(user.effective_permissions)),
++    }
++    if app.audience:
++        additional_payload["aud"] = app.audience
++
++    payload = jwt_user_payload(
++        user,
++        JWT_THIRDPARTY_ACCESS_TYPE,
++        exp_delta=settings.JWT_TTL_APP_ACCESS,
++        additional_payload=additional_payload,
++    )
++    return jwt_encode(payload)
++

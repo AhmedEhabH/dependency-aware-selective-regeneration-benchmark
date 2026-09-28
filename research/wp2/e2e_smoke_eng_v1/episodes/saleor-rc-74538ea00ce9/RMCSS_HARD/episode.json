@@ -1,0 +1,65 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v1",
+ "task_id": "saleor-rc-74538ea00ce9",
+ "arm": "RMCSS_HARD",
+ "status": "INVALID_AFTER_REPAIR",
+ "editable_set": [
+  "saleor/checkout/complete_checkout.py",
+  "saleor/checkout/utils.py",
+  "saleor/discount/__init__.py",
+  "saleor/discount/models.py",
+  "saleor/discount/tasks.py",
+  "saleor/discount/utils/voucher.py",
+  "saleor/graphql/channel/mutations/channel_update.py",
+  "saleor/graphql/order/mutations/draft_order_create.py"
+ ],
+ "excluded": {
+  "LARGE_FILE_EXCLUDED": [],
+  "CONTEXT_BUDGET_EXCLUDED": []
+ },
+ "prompt_sha256": "b5ab22d7e197c6ff632dbbe4a3c6e5f10c3e0b7fe6eb0961e4210d602f357d4d",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "request_id": "gen-1790573279-v0Cejk6qBR11rLagiWZk",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 38008,
+   "completion_tokens": 1957,
+   "cost_usd_actual": 0.0133594,
+   "cost_usd_nominal": 0.0133594,
+   "finish_reason": "stop",
+   "latency_s": 38.875,
+   "response_sha256": "a7ef5d3b03eec83f95b179ef0a85381f79142a100ece986bbd91f9c55b5e4c03"
+  },
+  {
+   "kind": "repair",
+   "request_id": "gen-1790573317-pWM1pPM67YIi6m20XeRo",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 336,
+   "completion_tokens": 1365,
+   "cost_usd_actual": 0.0014178,
+   "cost_usd_nominal": 0.0014178,
+   "finish_reason": "stop",
+   "latency_s": 17.234,
+   "response_sha256": "0851e8da8b7dea61a59017a34a84f8eb45941470c34a2bb9cb740a9fd37e0577"
+  }
+ ],
+ "validation": {
+  "initial": [
+   "PARSE_ERROR:saleor/graphql/order/mutations/draft_order_create.py: expected '<<<<<<< SEARCH' block start, found: 'Looking at the developer change description, I need to implement functionality to fix restoring voucher usage limit when the voucher is removed from draft order. The key points are:'"
+  ],
+  "repair": [
+   "SEARCH_ERROR:saleor/graphql/order/mutations/draft_order_create.py: block 1: SEARCH content not found in current file (count=0); search='from uuid import UUID\\n\\nimport graphene\\nfrom django.core.exceptions import Valida'"
+  ]
+ },
+ "repair_used": false,
+ "edited_files": [],
+ "diff_sha256": "",
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-28T05:28:56Z",
+ "episode_sha256": "e04f0de7c08bed30c0ab4aaf3abf15ec00d2eaa8fdb3750f4ed8ed85178cacb9"
+}

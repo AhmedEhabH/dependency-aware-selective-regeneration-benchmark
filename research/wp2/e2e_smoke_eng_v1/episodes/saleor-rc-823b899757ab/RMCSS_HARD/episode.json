@@ -1,0 +1,59 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v1",
+ "task_id": "saleor-rc-823b899757ab",
+ "arm": "RMCSS_HARD",
+ "status": "INVALID_AFTER_REPAIR",
+ "editable_set": [
+  "saleor/graphql/product/mutations/products.py",
+  "saleor/graphql/product/types/products.py"
+ ],
+ "excluded": {
+  "LARGE_FILE_EXCLUDED": [],
+  "CONTEXT_BUDGET_EXCLUDED": []
+ },
+ "prompt_sha256": "911c73009df88991bf0037b149b7644aa43c9f0b98099579857da5bd03bda90d",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "request_id": "gen-1790573528-rzqzwNHkfXvkZWeab54I",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 19298,
+   "completion_tokens": 909,
+   "cost_usd_actual": 0.0066568,
+   "cost_usd_nominal": 0.0066568,
+   "finish_reason": "stop",
+   "latency_s": 23.656,
+   "response_sha256": "d97e2a0c6c97156072a7c9ecb8d3235046de36aa74537a4dc1b04507d0d3e902"
+  },
+  {
+   "kind": "repair",
+   "request_id": "gen-1790573551-bva6JZakjj119ICVPRBv",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 342,
+   "completion_tokens": 1008,
+   "cost_usd_actual": 0.0011106,
+   "cost_usd_nominal": 0.0011106,
+   "finish_reason": "stop",
+   "latency_s": 20.546,
+   "response_sha256": "891b490d8f64b88bfec7e1823208d31d37224b7dbfaaab3e4179fbb6c9f541d0"
+  }
+ ],
+ "validation": {
+  "initial": [
+   "PARSE_ERROR:saleor/graphql/product/mutations/products.py: expected '<<<<<<< SEARCH' block start, found: \"Looking at the developer change description, I need to add a `ProductSetAvailabilityForPurchase` mutation. Based on the existing code patterns in the file, I'll add this mutation to the products.py file.\""
+  ],
+  "repair": [
+   "SEARCH_ERROR:saleor/graphql/product/mutations/products.py: block 1: SEARCH content not found in current file (count=0); search='from typing import List\\n\\nimport graphene\\nfrom django.core.exceptions import Vali'"
+  ]
+ },
+ "repair_used": false,
+ "edited_files": [],
+ "diff_sha256": "",
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-28T05:32:54Z",
+ "episode_sha256": "07a4f11768e32713dada77141c2840a2a86cd459dccb38727ae219e3fff35804"
+}

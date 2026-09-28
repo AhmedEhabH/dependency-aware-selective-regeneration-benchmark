@@ -1,0 +1,58 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v1",
+ "task_id": "saleor-rc-c3b9e396b07d",
+ "arm": "AGENT_HARD",
+ "status": "INVALID_AFTER_REPAIR",
+ "editable_set": [
+  "saleor/warehouse/management.py"
+ ],
+ "excluded": {
+  "LARGE_FILE_EXCLUDED": [],
+  "CONTEXT_BUDGET_EXCLUDED": []
+ },
+ "prompt_sha256": "9040bbd8a7c2c19db7b0b8e1c56330c365af563bb9865626846b53a386849889",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "request_id": "gen-1790574576-riufRiAoqvwzUz1CWrKG",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 3613,
+   "completion_tokens": 771,
+   "cost_usd_actual": 0.0018133,
+   "cost_usd_nominal": 0.0018133,
+   "finish_reason": "stop",
+   "latency_s": 11.11,
+   "response_sha256": "beaec1afb3a5743f60a143e448165db6866f2858403805099bb1467d3832c749"
+  },
+  {
+   "kind": "repair",
+   "request_id": "gen-1790574587-3IsoMZNFpJ6SZtWr54L8",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 318,
+   "completion_tokens": 1082,
+   "cost_usd_actual": 0.0011326,
+   "cost_usd_nominal": 0.0011326,
+   "finish_reason": "stop",
+   "latency_s": 11.25,
+   "response_sha256": "876cce45170d534381cdd8ededfffa5e2c6b8c2af4ce5a768a8d0f343d12abd8"
+  }
+ ],
+ "validation": {
+  "initial": [
+   "PARSE_ERROR:saleor/warehouse/management.py: expected '<<<<<<< SEARCH' block start, found: '### Handle stock.quantity < 0 in deallocate stock and update_or_create_variant_stocks'"
+  ],
+  "repair": [
+   "SEARCH_ERROR:saleor/warehouse/management.py: block 1: SEARCH content not found in current file (count=0); search='def deallocate_stock(\\n    order_lines: Iterable[OrderLine], country_code: str, w'"
+  ]
+ },
+ "repair_used": false,
+ "edited_files": [],
+ "diff_sha256": "",
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-28T05:50:00Z",
+ "episode_sha256": "35c0f7da33d73d10356824cabacb7d7db7170d72ffd94cf6c4f58e66ee04e4d7"
+}

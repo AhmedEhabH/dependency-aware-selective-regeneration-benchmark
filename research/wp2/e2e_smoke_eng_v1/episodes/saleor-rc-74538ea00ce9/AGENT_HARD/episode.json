@@ -1,0 +1,61 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v1",
+ "task_id": "saleor-rc-74538ea00ce9",
+ "arm": "AGENT_HARD",
+ "status": "INVALID_AFTER_REPAIR",
+ "editable_set": [
+  "saleor/checkout/utils.py",
+  "saleor/discount/models.py",
+  "saleor/discount/utils/voucher.py",
+  "saleor/graphql/discount/mutations/voucher/voucher_update.py"
+ ],
+ "excluded": {
+  "LARGE_FILE_EXCLUDED": [],
+  "CONTEXT_BUDGET_EXCLUDED": []
+ },
+ "prompt_sha256": "6f185d31639b87389dc0271886a36ca92da9c80f417bdca4d6c23733ef340092",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "request_id": "gen-1790574480-DCFfShDykhofz7rvLguL",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 17131,
+   "completion_tokens": 603,
+   "cost_usd_actual": 0.0057007,
+   "cost_usd_nominal": 0.0057007,
+   "finish_reason": "stop",
+   "latency_s": 9.11,
+   "response_sha256": "a34f2c363b6ed9d057b92ce66de342f1ad060991d707e9048d1469e184135c58"
+  },
+  {
+   "kind": "repair",
+   "request_id": "gen-1790574489-kJL77iLCQ6mNEZbhnaiA",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 332,
+   "completion_tokens": 218,
+   "cost_usd_actual": 0.0002728,
+   "cost_usd_nominal": 0.0002728,
+   "finish_reason": "stop",
+   "latency_s": 3.203,
+   "response_sha256": "6e38a4c613808b0718c77b62e0245852e7971432af54007a8db84a1acdbc4fa7"
+  }
+ ],
+ "validation": {
+  "initial": [
+   "PARSE_ERROR:saleor/checkout/utils.py: expected '<<<<<<< SEARCH' block start, found: 'Looking at the developer change description, I need to implement functionality to fix restoring voucher usage limit when the voucher is removed from draft order. The key changes mentioned are:'"
+  ],
+  "repair": [
+   "SEARCH_ERROR:saleor/checkout/utils.py: block 1: SEARCH content not found in current file (count=0); search='from ..order.models import OrderLine\\nfrom . import AddressType, logger\\nfrom .mod'"
+  ]
+ },
+ "repair_used": false,
+ "edited_files": [],
+ "diff_sha256": "",
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-28T05:48:14Z",
+ "episode_sha256": "0ec36d974d420a1a559e529cd2b43c98b113d59bf2f1360298b2262d1d19811f"
+}

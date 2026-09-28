@@ -128,7 +128,11 @@ def run_episode(task_id: str, arm: str, client, ledger: Ledger,
 def _raw_scope(task_id: str, arm: str) -> list[str]:
     from benchmark.wp2.e2e.scopes import build_arm_scopes
     if arm == "AGENT_HARD":
-        return []  # handled via placeholder below when scope file absent
+        agent_file = E2E_ROOT / "scopes" / "agent_scopes_dev_eng.json"
+        if agent_file.exists():
+            d = json.loads(agent_file.read_text(encoding="utf-8"))
+            return sorted(d.get("per_task", {}).get(task_id, {}).get("selected_paths", []))
+        return []
     res = build_arm_scopes(task_id, arm)
     return res.get("raw", [])
 
