@@ -51,6 +51,8 @@ select = ["E", "F", "I", "N", "W", "UP", "B", "SIM", "ARG", "RUF100"]
 "src/benchmark/strategies/*.py" = ["ARG002"]
 "src/benchmark/harness/*.py" = ["ARG002"]
 "notebooks/*.ipynb" = ["I001"]
+# Verbatim frozen generator prompt (Appendix P1) must not be reflowed.
+"src/benchmark/wp2/e2e/prompt.py" = ["E501"]
 
 [tool.ruff.format]
 quote-style = "double"
