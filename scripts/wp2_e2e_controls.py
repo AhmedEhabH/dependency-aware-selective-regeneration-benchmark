@@ -170,7 +170,7 @@ def control_leak() -> int:
     for tid in SMOKE_TASKS:
         ti = load_task_input(tid)
         sets = es["tasks"][tid]
-        for arm in ("GOLD_HARD", "RMCSS_HARD", "PLACEBO_HARD"):
+        for arm in ("GOLD_HARD", "RMCSS_HARD", "PLACEBO_HARD", "AGENT_HARD"):
             scope = build_arm_scopes(tid, arm)
             if not scope.get("editable"):
                 continue

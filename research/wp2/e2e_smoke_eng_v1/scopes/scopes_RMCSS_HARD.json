@@ -1,0 +1,220 @@
+{
+ "artifact": "scopes_RMCSS_HARD",
+ "per_task": {
+  "saleor-rc-2d45b76a52f2": {
+   "raw": [
+    "saleor/graphql/app/resolvers.py"
+   ],
+   "editable": [
+    "saleor/graphql/app/resolvers.py"
+   ],
+   "excluded_large": [],
+   "excluded_budget": [],
+   "status": "DONE",
+   "scope_sha256": "115a8338cbf7b81af64d07a57b6b331f4d45b9259f9c2ec2d07e931ac8d9121c"
+  },
+  "saleor-rc-39b4138e8550": {
+   "raw": [],
+   "editable": [],
+   "excluded_large": [],
+   "excluded_budget": [],
+   "status": "DONE",
+   "scope_sha256": "a16f1004ed1ccd4714680dbc52b844b7e20f216390e501b0ca2b73a093d07fdb"
+  },
+  "saleor-rc-644f33094857": {
+   "raw": [
+    "saleor/graphql/order/mutations/orders.py",
+    "saleor/order/actions.py",
+    "saleor/order/models.py",
+    "saleor/order/utils.py"
+   ],
+   "editable": [
+    "saleor/graphql/order/mutations/orders.py",
+    "saleor/order/actions.py",
+    "saleor/order/models.py",
+    "saleor/order/utils.py"
+   ],
+   "excluded_large": [],
+   "excluded_budget": [],
+   "status": "DONE",
+   "scope_sha256": "51f64fae1da967aeec8945c1c7a9bd754c46546fa6dbd09e89d020dfe4ed7358"
+  },
+  "saleor-rc-6abb53f3407b": {
+   "raw": [
+    "saleor/graphql/shop/mutations.py"
+   ],
+   "editable": [
+    "saleor/graphql/shop/mutations.py"
+   ],
+   "excluded_large": [],
+   "excluded_budget": [],
+   "status": "DONE",
+   "scope_sha256": "100943b8f3bce50926b095f7712c106cb97b2397f4b2835b09e98004ed9ec250"
+  },
+  "saleor-rc-74538ea00ce9": {
+   "raw": [
+    "saleor/checkout/complete_checkout.py",
+    "saleor/checkout/utils.py",
+    "saleor/discount/__init__.py",
+    "saleor/discount/models.py",
+    "saleor/discount/tasks.py",
+    "saleor/discount/utils/voucher.py",
+    "saleor/graphql/channel/mutations/channel_update.py",
+    "saleor/graphql/order/mutations/draft_order_create.py"
+   ],
+   "editable": [
+    "saleor/checkout/complete_checkout.py",
+    "saleor/checkout/utils.py",
+    "saleor/discount/__init__.py",
+    "saleor/discount/models.py",
+    "saleor/discount/tasks.py",
+    "saleor/discount/utils/voucher.py",
+    "saleor/graphql/channel/mutations/channel_update.py",
+    "saleor/graphql/order/mutations/draft_order_create.py"
+   ],
+   "excluded_large": [],
+   "excluded_budget": [],
+   "status": "DONE",
+   "scope_sha256": "d1474224abb8b8cc244612f547a965421dab08176709b7f12460274e6009da6f"
+  },
+  "saleor-rc-823b899757ab": {
+   "raw": [
+    "saleor/graphql/product/mutations/products.py",
+    "saleor/graphql/product/types/products.py"
+   ],
+   "editable": [
+    "saleor/graphql/product/mutations/products.py",
+    "saleor/graphql/product/types/products.py"
+   ],
+   "excluded_large": [],
+   "excluded_budget": [],
+   "status": "DONE",
+   "scope_sha256": "5fe0ada666a21bf783e740bfe1267d65c0c7eedd91e17e3f931def284da3f913"
+  },
+  "saleor-rc-82c56bde0e34": {
+   "raw": [
+    "saleor/checkout/fetch.py",
+    "saleor/graphql/checkout/types.py",
+    "saleor/graphql/webhook/subscription_types.py"
+   ],
+   "editable": [
+    "saleor/checkout/fetch.py",
+    "saleor/graphql/checkout/types.py",
+    "saleor/graphql/webhook/subscription_types.py"
+   ],
+   "excluded_large": [],
+   "excluded_budget": [],
+   "status": "DONE",
+   "scope_sha256": "808db934a9dfa7369310769a1565d4105049f812c58b25702c84a578370a9f08"
+  },
+  "saleor-rc-8f76ddc6267f": {
+   "raw": [
+    "saleor/graphql/core/types/common.py",
+    "saleor/graphql/webhook/mutations/webhook_dry_run.py",
+    "saleor/graphql/webhook/mutations/webhook_trigger.py"
+   ],
+   "editable": [
+    "saleor/graphql/core/types/common.py",
+    "saleor/graphql/webhook/mutations/webhook_dry_run.py",
+    "saleor/graphql/webhook/mutations/webhook_trigger.py"
+   ],
+   "excluded_large": [],
+   "excluded_budget": [],
+   "status": "DONE",
+   "scope_sha256": "4227d72a3ef30adec795b6cc3ce0e7f7404142564da0d13eda11ea34eb608d62"
+  },
+  "saleor-rc-93b20d78c011": {
+   "raw": [
+    "saleor/account/models.py",
+    "saleor/graphql/account/schema.py"
+   ],
+   "editable": [
+    "saleor/account/models.py",
+    "saleor/graphql/account/schema.py"
+   ],
+   "excluded_large": [],
+   "excluded_budget": [],
+   "status": "DONE",
+   "scope_sha256": "8629174c26d526c1caa3f642d4df8962c2f83f12480a682f05e69e8db8178df6"
+  },
+  "saleor-rc-c3b9e396b07d": {
+   "raw": [
+    "saleor/warehouse/availability.py",
+    "saleor/warehouse/management.py"
+   ],
+   "editable": [
+    "saleor/warehouse/availability.py",
+    "saleor/warehouse/management.py"
+   ],
+   "excluded_large": [],
+   "excluded_budget": [],
+   "status": "DONE",
+   "scope_sha256": "ed8fdc50fbfeeb14467eae56d894197375de91dbb6fb1f1fe6ec0bb5bf03aa3d"
+  },
+  "saleor-rc-d220843b5418": {
+   "raw": [
+    "saleor/checkout/models.py",
+    "saleor/checkout/utils.py",
+    "saleor/graphql/checkout/mutations/utils.py",
+    "saleor/order/utils.py",
+    "saleor/plugins/webhook/plugin.py",
+    "saleor/shipping/models.py",
+    "saleor/webhook/payloads.py"
+   ],
+   "editable": [
+    "saleor/checkout/models.py",
+    "saleor/checkout/utils.py",
+    "saleor/graphql/checkout/mutations/utils.py",
+    "saleor/order/utils.py",
+    "saleor/shipping/models.py",
+    "saleor/webhook/payloads.py"
+   ],
+   "excluded_large": [
+    "saleor/plugins/webhook/plugin.py"
+   ],
+   "excluded_budget": [],
+   "status": "DONE",
+   "scope_sha256": "ffcfc0cbbe3366a75ac66b7bda91f89241a22f59f38a7386a98ed009095973a5"
+  },
+  "saleor-rc-dc6ac9d252df": {
+   "raw": [
+    "saleor/payment/gateways/razorpay/__init__.py"
+   ],
+   "editable": [
+    "saleor/payment/gateways/razorpay/__init__.py"
+   ],
+   "excluded_large": [],
+   "excluded_budget": [],
+   "status": "DONE",
+   "scope_sha256": "c8444285b13644b611ad4d1d1c3654df1013a46302de2a643a5e342cf0c38e1a"
+  },
+  "saleor-rc-e03ee76d2b89": {
+   "raw": [
+    "saleor/graphql/core/validators/__init__.py",
+    "saleor/seo/models.py"
+   ],
+   "editable": [
+    "saleor/graphql/core/validators/__init__.py",
+    "saleor/seo/models.py"
+   ],
+   "excluded_large": [],
+   "excluded_budget": [],
+   "status": "DONE",
+   "scope_sha256": "e903f1501030c68640abe7d0c4347fbeca7e715b750e400ec8a6399facbe7fcd"
+  },
+  "saleor-rc-e25cf9b4a837": {
+   "raw": [
+    "saleor/giftcard/utils.py",
+    "saleor/payment/gateways/dummy_credit_card/plugin.py"
+   ],
+   "editable": [
+    "saleor/giftcard/utils.py",
+    "saleor/payment/gateways/dummy_credit_card/plugin.py"
+   ],
+   "excluded_large": [],
+   "excluded_budget": [],
+   "status": "DONE",
+   "scope_sha256": "7a32158c05ff230511254f22b033c2c0fe3d04d91b7535e03ba6c3cd2f919446"
+  }
+ }
+}

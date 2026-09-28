@@ -1,0 +1,235 @@
+{
+ "artifact": "scopes_PLACEBO_HARD",
+ "per_task": {
+  "saleor-rc-2d45b76a52f2": {
+   "raw": [
+    "saleor/graphql/tax/filters.py"
+   ],
+   "editable": [
+    "saleor/graphql/tax/filters.py"
+   ],
+   "excluded_large": [],
+   "excluded_budget": [],
+   "status": "DONE",
+   "scope_sha256": "3f7321c816ba7901677274905a275bf8173dadc53cb0417569f5fe965aa2cdfd"
+  },
+  "saleor-rc-39b4138e8550": {
+   "raw": [
+    "saleor/graphql/core/types/order_or_checkout.py",
+    "saleor/graphql/csv/mutations/export_products.py",
+    "saleor/graphql/notifications/mutations/external_notification_trigger.py",
+    "saleor/payment/gateways/np_atobarai/utils.py"
+   ],
+   "editable": [
+    "saleor/graphql/core/types/order_or_checkout.py",
+    "saleor/graphql/csv/mutations/export_products.py",
+    "saleor/graphql/notifications/mutations/external_notification_trigger.py",
+    "saleor/payment/gateways/np_atobarai/utils.py"
+   ],
+   "excluded_large": [],
+   "excluded_budget": [],
+   "status": "DONE",
+   "scope_sha256": "25b14e82b3e8629bf470a8d7e828f36912c40a05b3c25a9500651af7d6bd769e"
+  },
+  "saleor-rc-644f33094857": {
+   "raw": [
+    "saleor/demo/urls.py",
+    "saleor/graphql/account/i18n.py",
+    "saleor/graphql/app/types.py",
+    "saleor/graphql/core/types/sort_input.py",
+    "saleor/graphql/payment/resolvers.py",
+    "saleor/shipping/zip_codes.py"
+   ],
+   "editable": [
+    "saleor/demo/urls.py",
+    "saleor/graphql/account/i18n.py",
+    "saleor/graphql/app/types.py",
+    "saleor/graphql/core/types/sort_input.py",
+    "saleor/graphql/payment/resolvers.py",
+    "saleor/shipping/zip_codes.py"
+   ],
+   "excluded_large": [],
+   "excluded_budget": [],
+   "status": "DONE",
+   "scope_sha256": "b1ddeeffe1ac9efee056ed4b6bf875da12e079b38efb7ce5277c91e9fe22ae2f"
+  },
+  "saleor-rc-6abb53f3407b": {
+   "raw": [
+    "saleor/attribute/error_codes.py",
+    "saleor/graphql/checkout/schema.py",
+    "saleor/graphql/warehouse/dataloaders.py",
+    "saleor/plugins/admin_email/constants.py"
+   ],
+   "editable": [
+    "saleor/attribute/error_codes.py",
+    "saleor/graphql/checkout/schema.py",
+    "saleor/graphql/warehouse/dataloaders.py",
+    "saleor/plugins/admin_email/constants.py"
+   ],
+   "excluded_large": [],
+   "excluded_budget": [],
+   "status": "DONE",
+   "scope_sha256": "286f6dcceff4ee643bd537f10940e79c07788940d9d51266ab2727d8a787e65e"
+  },
+  "saleor-rc-74538ea00ce9": {
+   "raw": [
+    "saleor/discount/utils/checkout.py",
+    "saleor/graphql/page/resolvers.py",
+    "saleor/graphql/translations/mutations/attribute_value_translate.py"
+   ],
+   "editable": [
+    "saleor/discount/utils/checkout.py",
+    "saleor/graphql/page/resolvers.py",
+    "saleor/graphql/translations/mutations/attribute_value_translate.py"
+   ],
+   "excluded_large": [],
+   "excluded_budget": [],
+   "status": "DONE",
+   "scope_sha256": "e92a787ac52e213100bcf2cca40c8acdf720aa0a3488326ea9699effa39d5da8"
+  },
+  "saleor-rc-823b899757ab": {
+   "raw": [
+    "saleor/checkout/error_codes.py",
+    "saleor/graphql/account/bulk_mutations.py",
+    "saleor/graphql/wishlist/schema.py"
+   ],
+   "editable": [
+    "saleor/checkout/error_codes.py",
+    "saleor/graphql/account/bulk_mutations.py",
+    "saleor/graphql/wishlist/schema.py"
+   ],
+   "excluded_large": [],
+   "excluded_budget": [],
+   "status": "DONE",
+   "scope_sha256": "409a759707f7ecbe1b935e2e6adae6e96da0a638bff605a6c1d2efe53b86908d"
+  },
+  "saleor-rc-82c56bde0e34": {
+   "raw": [
+    "saleor/graphql/core/types/converter.py",
+    "saleor/graphql/discount/filters.py",
+    "saleor/graphql/order/mutations/order_discount_update.py",
+    "saleor/graphql/payment/mutations/transaction/payment_gateway_initialize.py",
+    "saleor/graphql/shipping/mutations/shipping_price_exclude_products.py",
+    "saleor/graphql/shop/mutations/shop_fetch_tax_rates.py",
+    "saleor/graphql/translations/mutations/attribute_value_bulk_translate.py",
+    "saleor/payment/transaction_item_calculations.py"
+   ],
+   "editable": [
+    "saleor/graphql/core/types/converter.py",
+    "saleor/graphql/discount/filters.py",
+    "saleor/graphql/order/mutations/order_discount_update.py",
+    "saleor/graphql/payment/mutations/transaction/payment_gateway_initialize.py",
+    "saleor/graphql/shipping/mutations/shipping_price_exclude_products.py",
+    "saleor/graphql/shop/mutations/shop_fetch_tax_rates.py",
+    "saleor/graphql/translations/mutations/attribute_value_bulk_translate.py",
+    "saleor/payment/transaction_item_calculations.py"
+   ],
+   "excluded_large": [],
+   "excluded_budget": [],
+   "status": "DONE",
+   "scope_sha256": "81950252e0776ccc7a1062ea057927d4b6aca604fed116ef75d85ece186566bd"
+  },
+  "saleor-rc-8f76ddc6267f": {
+   "raw": [
+    "saleor/core/utils/random_data.py",
+    "saleor/graphql/product/bulk_mutations/category_bulk_delete.py"
+   ],
+   "editable": [
+    "saleor/core/utils/random_data.py",
+    "saleor/graphql/product/bulk_mutations/category_bulk_delete.py"
+   ],
+   "excluded_large": [],
+   "excluded_budget": [],
+   "status": "DONE",
+   "scope_sha256": "9b458d3679f1125ea83760cbc98864c55491d6f0e86009cf1f95641bd99a1a1c"
+  },
+  "saleor-rc-93b20d78c011": {
+   "raw": [
+    "saleor/graphql/core/types/filter_input.py",
+    "saleor/graphql/csv/enums.py",
+    "saleor/graphql/meta/schema.py",
+    "saleor/product/utils/variant_prices.py"
+   ],
+   "editable": [
+    "saleor/graphql/core/types/filter_input.py",
+    "saleor/graphql/csv/enums.py",
+    "saleor/graphql/meta/schema.py",
+    "saleor/product/utils/variant_prices.py"
+   ],
+   "excluded_large": [],
+   "excluded_budget": [],
+   "status": "DONE",
+   "scope_sha256": "094fa682132c4aa1b993cd3ef33641ee6d2c8879b010493ceb60f02348606209"
+  },
+  "saleor-rc-c3b9e396b07d": {
+   "raw": [
+    "saleor/csv/utils/export.py",
+    "saleor/graphql/attribute/types.py"
+   ],
+   "editable": [
+    "saleor/csv/utils/export.py",
+    "saleor/graphql/attribute/types.py"
+   ],
+   "excluded_large": [],
+   "excluded_budget": [],
+   "status": "DONE",
+   "scope_sha256": "32c79dad23959749eaaca67f8b8681b67c22c63c37042c6bb1e00e3bd7362c41"
+  },
+  "saleor-rc-d220843b5418": {
+   "raw": [
+    "saleor/graphql/attribute/mutations/attribute_bulk_update.py",
+    "saleor/graphql/giftcard/mutations/utils.py"
+   ],
+   "editable": [
+    "saleor/graphql/attribute/mutations/attribute_bulk_update.py",
+    "saleor/graphql/giftcard/mutations/utils.py"
+   ],
+   "excluded_large": [],
+   "excluded_budget": [],
+   "status": "DONE",
+   "scope_sha256": "29a6a559868cbc2bed2bae5160e200c574d6c2e23d15d3550e0bede9639a63b0"
+  },
+  "saleor-rc-dc6ac9d252df": {
+   "raw": [
+    "saleor/account/validators.py",
+    "saleor/order/actions.py",
+    "saleor/payment/gateways/adyen/utils/apple_pay.py"
+   ],
+   "editable": [
+    "saleor/account/validators.py",
+    "saleor/order/actions.py",
+    "saleor/payment/gateways/adyen/utils/apple_pay.py"
+   ],
+   "excluded_large": [],
+   "excluded_budget": [],
+   "status": "DONE",
+   "scope_sha256": "c1398c9d4d3efce764448e5addcc652e07ee35bfac4d6eebcb03f67b2d4ca82c"
+  },
+  "saleor-rc-e03ee76d2b89": {
+   "raw": [
+    "saleor/graphql/checkout/mutations/checkout_create.py",
+    "saleor/graphql/tax/mutations/tax_configuration_update.py"
+   ],
+   "editable": [
+    "saleor/graphql/checkout/mutations/checkout_create.py",
+    "saleor/graphql/tax/mutations/tax_configuration_update.py"
+   ],
+   "excluded_large": [],
+   "excluded_budget": [],
+   "status": "DONE",
+   "scope_sha256": "024e4559e5b37b2084e60692e40b938c1e874420c145fd7b617de25ad97bc45b"
+  },
+  "saleor-rc-e25cf9b4a837": {
+   "raw": [
+    "saleor/product/utils/attributes.py"
+   ],
+   "editable": [
+    "saleor/product/utils/attributes.py"
+   ],
+   "excluded_large": [],
+   "excluded_budget": [],
+   "status": "DONE",
+   "scope_sha256": "a122a67121959b8b1739878088da390160132bce6d90171bd933dfc19bbfefa1"
+  }
+ }
+}
