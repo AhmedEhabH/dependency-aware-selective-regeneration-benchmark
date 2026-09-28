@@ -1,0 +1,47 @@
+{
+ "artifact": "paid_preflight_v2",
+ "created_utc": "2026-09-28T18:59:38Z",
+ "head": "53eefae6193534dca7772ebc11880d92aeb7e77a",
+ "K1_credential": {
+  "present": true,
+  "length": 73
+ },
+ "K2_credit_remaining_usd": 29.5337939,
+ "K2_credit_ok": true,
+ "K3_pricing_drift": {
+  "prompt_per_1m_usd": 0.3,
+  "completion_per_1m_usd": 1.0,
+  "max_ratio_vs_frozen": 1.0,
+  "rule": "live <= 2x frozen -> proceed; > 2x -> PRICING_DRIFT_STOP",
+  "ok": true
+ },
+ "K4_model": {
+  "expected": "qwen/qwen3-coder",
+  "actual": "qwen/qwen3-coder",
+  "ok": true
+ },
+ "K5_route": {
+  "expected": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+  "provider": "deepinfra/turbo",
+  "ok": true
+ },
+ "K6_sampling": {
+  "temperature": 0.0,
+  "top_p": 1.0,
+  "max_tokens": 8192,
+  "ok": true
+ },
+ "K7_evaluator_hash": "ef7abab3e330ca9c9f62b5cb9b4d960e0ee6544e98f2898c35e7948dda3149a1",
+ "K7_evaluator_sets_hash": "582e7c6eb6fff6ce8ceb57c75ca762127ded318c2d0e78a81009f66baad93ea7",
+ "K8_harness_v3_hash": "9df9813e0b0b303ef02d4b91b3c0e3f0f722bfa5a814addc124ad2b11ee07c72",
+ "K9_v1_scope_hashes": {
+  "checked": 7,
+  "changed": [],
+  "ok": true
+ },
+ "K10_agent_scope_hash": "8454700ed8cf93429a0b8678b21117dbecc25e0d02a3fa3ccddff0da5e4c5a4a",
+ "K10_no_new_agent_evidence": true,
+ "K11_transport_probe_eligible": true,
+ "blocking": [],
+ "preflight_pass": true
+}
