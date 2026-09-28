@@ -1,0 +1,52 @@
+{
+ "artifact": "v1_gate_replay",
+ "created_utc": "2026-09-28T15:09:19Z",
+ "frozen_rules": {
+  "SG1": "instrument validity: B11 controls PASS, 0 leakage, 0 out-of-scope, evidence 100%",
+  "SG2": "completion >= 95% terminal, anomalies <= 5%",
+  "SG3": "spend agent <= 1.00, smoke <= 4.50, total <= 5.50",
+  "SG4": "GOLD_HARD RESOLVED >= 1/14"
+ },
+ "original_result": {
+  "gates": {
+   "SG1": "PASS",
+   "SG2": "PASS",
+   "SG3": "PASS",
+   "SG4": "FAIL"
+  },
+  "final_token": "E2E_SMOKE_FLOOR_EFFECT"
+ },
+ "df_reproduced": {
+  "df1": true,
+  "df2": true,
+  "df3": true,
+  "df4": true,
+  "df5": true
+ },
+ "sg1_corrected_basis": {
+  "DF1_replay_fixture_in_evidence_root": true,
+  "DF2_blind_repair_instrument_deviation": true
+ },
+ "corrected": {
+  "SG1": "FAIL",
+  "SG2": "PASS",
+  "SG3": "PASS",
+  "SG4": "FAIL"
+ },
+ "resolved_per_arm": {
+  "GOLD_HARD": 0,
+  "RMCSS_HARD": 0,
+  "AGENT_HARD": 1,
+  "PLACEBO_HARD": 0
+ },
+ "spend_usd": {
+  "agent": 0.370939,
+  "smoke": 0.257437,
+  "total": 0.628376,
+  "ceiling_total_usd": 5.5
+ },
+ "original_token": "E2E_SMOKE_FLOOR_EFFECT",
+ "corrected_token": "E2E_SMOKE_INSTRUMENT_INVALID",
+ "token_rule": "SG1 or SG2 FAIL -> INSTRUMENT_INVALID; SG3 FAIL -> INSTRUMENT_INVALID; SG4 FAIL -> FLOOR_EFFECT; else PIPELINE_VALID",
+ "supersedes": "The previous token E2E_SMOKE_FLOOR_EFFECT is superseded by the erratum (not deleted)."
+}

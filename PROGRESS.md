@@ -627,6 +627,13 @@ E0.1-E0.5 DONE (docs, git identity f86007e4, protected hashes before, resource b
 E2E_SMOKE_FLOOR_EFFECT. GOLD 0/14 | RMCSS 0/14 | AGENT 1/14 | PLACEBO 0/14.
 Spend $0.605 total (<= $5.50). Report: docs/WP2_E2E_SMOKE_ENG_V1_REPORT_2026-09-28.md.
 
+## WP-2 E2E Smoke ENG v1 - ERRATUM (2026-09-28)
+
+Token corrected mechanically: `E2E_SMOKE_FLOOR_EFFECT` -> `E2E_SMOKE_INSTRUMENT_INVALID`
+(DF1-DF5 reproduced; SG1 FAIL from evidence integrity + blind repair). v1 results
+and tags unchanged. See docs/WP2_E2E_SMOKE_ENG_V1_ERRATUM_2026-09-28.md and
+research/wp2/e2e_smoke_eng_v1/erratum/.
+
 ## Mission-11 spend reconciliation erratum (2026-09-28)
 
 - Authoritative spend recomputed mechanically from the raw paid-call ledgers:

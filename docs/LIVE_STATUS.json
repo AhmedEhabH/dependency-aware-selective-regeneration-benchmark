@@ -1,474 +1,489 @@
 {
- "schema": "live_status_v1",
- "as_of_local": "2026-09-28 (Africa/Cairo)",
- "evidence_snapshot": "First WP-2 E2E Smoke ENG v1 COMPLETE (2026-09-28). Token E2E_SMOKE_FLOOR_EFFECT (SG1-SG3 PASS; SG4 floor GOLD RESOLVED 0/14 not met). 56 episodes; 8 APPLIED, 47 INVALID_AFTER_REPAIR (model SEARCH/REPLACE format adherence), 1 NO_SCOPE. AGENT_HARD RESOLVED 1/14 (e03ee76d2b89); GOLD/RMCSS/PLACEBO 0/14. Spend agent \\.371 / smoke \\.257 / total \\.628 (ceiling \\.50). Pipeline validation only; no comparative claim.",
- "phase": "Phase 5 - End-to-End Selective Regeneration (WP-2 E2E Smoke ENG v1 COMPLETE: FLOOR_EFFECT)",
- "position": "First E2E Smoke ENG v1 COMPLETE (E2E_SMOKE_FLOOR_EFFECT). Instrument validated (G-POS/G-NEG/G-FORMAT/G-LEAK/G-BUDGET PASS); the frozen qwen3-coder SEARCH/REPLACE generator produced mostly invalid-format outputs. Next: brain/Ahmed review -> Pilot design.",
- "position_short": "E2E Smoke ENG v1 COMPLETE: FLOOR_EFFECT (GOLD RESOLVED 0/14)",
- "now_short": "Mission-10B closed + env closure complete. Next: Mission-11 Part B (E2E instrument, zero API) then zero-API controls before any paid Smoke.",
- "next_action": "Brain/Ahmed review of the E2E Smoke result -> Pilot design. No Stage C, Pilot, holdout, or MAIN execution.",
- "next_short": "Mission-11 Part B: E2E instrument (zero API) -> controls -> paid Smoke",
- "priority_chain": "MAIN_297 DONE -> WP-2 census DONE -> Oracle Confirmation DONE -> Linux V2 oracle+DEV pool DONE -> Mission-08 DEV P2P inventory + SMALL pilot DONE -> Mission-09 P2P-S + P2P-U V2 freeze + ENG execution DONE -> Mission-10A environment test-dependency audit DONE (ENV_AUDIT_INCONCLUSIVE) -> targeted environment-validity follow-up (awaiting approval) -> DEV Smoke freeze -> full DEV-47 P2P-U cap200 -> Pilot -> Research Run -> Mission-10B ENG oracle + P2P-S/P2P-U V3 DONE (ENG_SMOKE_READY) -> WP-2 Env Closure V3.1 DONE (dev-dep losses fixed) -> Mission-11 Part B E2E instrument -> zero-API controls -> paid first E2E Smoke",
- "weakest_risk": "Environment now proven for the ENG split (fixture/collection/pip/vcr green, stable 0.996). Remaining risks: W2 (workers=2) NOT_TESTED; a few ENV_INSTALL_BLOCKED dev pins (codecov removed from PyPI, python-magic-bin no Linux wheel, pywin32) - none required by preflight; single-repo ENG split (n=16). 786 RESERVE stays sealed.",
- "wp1b_short": "Paid same-protocol comparison of a repository agent vs SIP vs RM-CSS on MAIN_297 (G1: delta=0.05 NI rule; G2: cap 1024; decision rules v2). RESULT: RMCSS_NONINFERIOR_AT_LOWER_COST (NI_SUPPORTED); D −0.0062 [−0.0449,+0.0308] Q5 −0.0383; RM-CSS cheaper. Variance 15x3 pooled F1 0.389/0.438/0.479, pairwise exact match 0.444. X1-X11 exploratory labelled. Total agent spend $8.34 (main $7.15 + variance $1.19). Post-MAIN_297: claim sheet + docs closure complete; AG16 prereg verified, runner needs brain bundle; WP-2 zero-API census complete.",
- "pipeline": [
-  {
-   "step": "Localization method selection",
-   "status": "CLOSED",
-   "note": "RM-CSS frozen; Saleor-300 PASS (+0.0921 F1)",
-   "idx": 0
-  },
-  {
-   "step": "WP-0 leakage fix (G7)",
-   "status": "DONE",
-   "note": "ArtifactUniverse built from the parent repository",
-   "idx": 1
-  },
-  {
-   "step": "WP-1a preparation",
-   "status": "DONE",
-   "note": "zero API; frozen predictions, manifests, agent protocol",
-   "idx": 2
-  },
-  {
-   "step": "WP-1b preflight freeze",
-   "status": "DONE",
-   "note": "G1 delta=0.05 · G2 cap 1024 · n=297 · budget v2 · rules v2",
-   "idx": 3
-  },
-  {
-   "step": "WP-1b Calibration-3",
-   "status": "DEFECT",
-   "note": "v1 gate PASS, $0.081, 24 calls — 0 successful reads; INSTRUMENT_INVALID",
-   "idx": 4
-  },
-  {
-   "step": "Tool-budget fix + gate v2",
-   "status": "DONE",
-   "note": "D2: search_text does not consume the 30-file budget; CG-10/CG-11 written; RED on Calibration-3",
-   "idx": 5
-  },
-  {
-   "step": "WP-1b Calibration-3b",
-   "status": "PASS",
-   "note": "gate v2 PASS · $0.070 · 3 reads · 0 instrument errors · 11/21 calls rejected repeats (loop)",
-   "idx": 6
-  },
-  {
-   "step": "G12 agent context hygiene",
-   "status": "DONE",
-   "note": "D1 APPROVED, zero API: echo, call counter, named rejection, truncation note; gate v3 CG-12 FAILS 3b (runs 1/6/4); protocol v3",
-   "idx": 7
-  },
-  {
-   "step": "WP-1b Calibration-3c",
-   "status": "PASS",
-   "note": "gate v3 CG-1..CG-12 PASS · $0.063205 · 4 reads · 1/18 rejected (5.6%) · longest run 1 · 0 blocking review-card flags · NOT scored",
-   "idx": 8
-  },
-  {
-   "step": "WP-1b MAIN_297 + variance 15x3",
-   "status": "DONE",
-   "note": "RMCSS_NONINFERIOR_AT_LOWER_COST (NI_SUPPORTED); main $7.15 + variance $1.19; scored with decision rules v2; X1-X11 exploratory",
-   "idx": 9
-  },
-  {
-   "step": "WP-1b post-MAIN_297 docs closure + claim sheet",
-   "status": "DONE",
-   "note": "claim sheet, robustness/limitations, README/FAQ updated; zero API",
-   "idx": 10
-  },
-  {
-   "step": "AG16 budget sensitivity (MAIN_50)",
-   "status": "PREREGISTERED, NOT RUNNABLE",
-   "note": "brain-built/tested bundle required first (iterative_agent_budget.py + golden parity + dry-run); ceilings $0.80 cal / $12.20 MAIN_50",
-   "idx": 11
-  },
-  {
-   "step": "WP-2 zero-API MAIN_297 census",
-   "status": "DONE",
-   "note": "297/297 materializable; 20 STRONG / 200 MODIFIED / 77 no-test-evidence F2P candidates; proposal-only Smoke candidates 8; zero API",
-   "idx": 12
-  },
-  {
-   "step": "WP-2 Oracle Confirmation + Design v1",
-   "status": "DONE (zero-API)",
-   "note": "harness validated; 220/220 changed-test candidates attempted; 8 primary behavioral F2P + 1 symbol-absence eligible; causal Design v1, power planning, Smoke v2 emitted; environment-dominant blocker on this host",
-   "idx": 13
-  },
-  {
-   "step": "WP-2 shared E2E instrument",
-   "status": "NOT STARTED",
-   "note": "same generator/validator/repair for every arm",
-   "idx": 14
-  },
-  {
-   "step": "E2E Smoke → Pilot → Research Run",
-   "status": "NOT STARTED",
-   "note": "staged; each stage can stop the run",
-   "idx": 15
-  },
-  {
-   "step": "WP-2 preservation oracle (P2P-S + P2P-U V2)",
-   "status": "FROZEN (Mission-09)",
-   "note": "P2P-S 46/47 defined; P2P-U V2 rule+membership frozen; ENG cap200+cap400 executed, repeatability 1.0",
-   "idx": 16
-  },
-  {
-   "step": "Mission-10A environment test-dependency audit",
-   "status": "DONE (ENV_AUDIT_INCONCLUSIVE)",
-   "note": "proven pytest-django-queries/pytest-mock declared-but-not-installed in V2; 41/41 P2P-U cap200 COLLECTION_ERROR explained; probe recovered 18/18 SET A but SET B non-regression failed (1 V2 node flip, JWT iat clock-skew); STOP probe; no V3",
-   "idx": 17
-  },
-  {
-   "step": "Full DEV-47 P2P-U cap200 execution",
-   "status": "NOT STARTED (awaits approval)",
-   "note": "est ~4.9-8.1 h serial central 6.7 h; overnight-feasible with resume; zero-node tasks UNDEFINED",
-   "idx": 18
-  }
- ],
- "preflight": [
-  {
-   "item": "G1 non-inferiority margin",
-   "value": "Δ = 0.05 pooled micro-F1",
-   "why": "Q5 of paired bootstrap > −0.05; below the 0.069 lower bound of RM-CSS's own gain"
-  },
-  {
-   "item": "G2 agent control cap",
-   "value": "1024 tokens",
-   "why": "any truncated call ends the task as EMPTY; 512 would bias toward RM-CSS"
-  },
-  {
-   "item": "Sample",
-   "value": "MAIN_297 (MAIN_50 nested first)",
-   "why": "NI power ≈0.74–1.00 vs ≈0.24–0.56 at n = 50"
-  },
-  {
-   "item": "Budget model v2",
-   "value": "3.4× more prompt tokens than v1",
-   "why": "the agent prompt lists ≈810 editable paths on every call"
-  },
-  {
-   "item": "Decision rules v2",
-   "value": "7 ordered verdicts, dual P/S analysis",
-   "why": "no point-estimate 'dominance'"
-  }
- ],
- "calibration_3": {
-  "title": "Calibration-3 → 3b → G12 → 3c: tools work, loop removed, gate v3 PASS",
-  "subtitle": "Same 3 tasks, never scored. G11 made the tools work; G12 removed the deterministic context loop; Calibration-3c passes gate v3 (CG-1..CG-12) with 1 rejected repeat in 18 calls.",
-  "tiles": [
-   {
-    "big": "3c CLEAN",
-    "small": "gate v3 CG-1..CG-12 PASS; NOT scored",
-    "tone": "good"
-   },
-   {
-    "big": "1/18",
-    "small": "rejected repeats (5.6%); was 11/21 (52.4%)",
-    "tone": "good"
-   },
-   {
-    "big": "4",
-    "small": "successful reads; 0 instrument errors; 0 blocking flags",
-    "tone": "good"
-   },
-   {
-    "big": "$0.063",
-    "small": "of the $0.25 ceiling",
-    "tone": "good"
-   }
-  ],
-  "chart_title": "G12 effect: rejected repeats 11 -> 1",
-  "tool_outcomes": [
-   {
-    "label": "Final answers",
-    "n": 3
-   },
-   {
-    "label": "Tool OK (read / list / search)",
-    "n": 14
-   },
-   {
-    "label": "Rejected repeats",
-    "n": 1
-   },
-   {
-    "label": "Instrument errors",
-    "n": 0
-   }
-  ],
-  "finding_title": "G12 removed the deterministic context loop",
-  "finding": "Calibration-3b: 11/21 calls (52%) were rejected repeats because the transcript hid the agent's own requests. G12 (echo, call counter, named rejection, truncation note) restores that information. Calibration-3c: 1/18 rejected (5.6%), longest run 1, 4 reads, 0 instrument errors, $0.063205. Gate v3 CG-12 PASS. Task 2 now makes 7 search calls (6 distinct; one non-adjacent repeat) instead of repeating one search 6 times, and it reached the forced final at call 8 (record correction: docs/WP1B_CALIBRATION_3C_RECORD_CORRECTION_2026-09-22.md).",
-  "source": "research/wp1b/calibration-3c-2026-09-22/ (wp1b_call_sidecar.jsonl, wp1b_calibration_gate_v3_result.json, REVIEW_CARD.md); docs/WP1B_CALIBRATION_3C_STOP_REPORT_2026-09-22.md; docs/WP1B_AGENT_CONTEXT_LOOP_2026-09-22.md.",
-  "raw": {
-   "tasks": 3,
-   "calls": 18,
-   "calls_per_task": [
-    4,
-    8,
-    6
-   ],
-   "usd": 0.063205,
-   "ceiling_usd": 0.25,
-   "prompt_tokens": 208099,
-   "completion_tokens": 775,
-   "cap_hits": 0,
-   "empty": 0,
-   "gate": "CG-1..CG-12 PASS (gate v3)",
-   "gate_v3": "CG-12 PASS: longest rejection run 1, rejected_share 0.056, rejected_calls 1",
-   "successful_reads": 4
-  },
-  "compare": {
-   "categories": [
-    "Rejected repeats",
-    "Tool OK",
-    "Successful reads",
-    "Instrument errors"
-   ],
-   "series": [
+  "schema": "live_status_v1",
+  "as_of_local": "2026-09-28 (Africa/Cairo)",
+  "evidence_snapshot": "First WP-2 E2E Smoke ENG v1 COMPLETE (2026-09-28). Token E2E_SMOKE_FLOOR_EFFECT (SG1-SG3 PASS; SG4 floor GOLD RESOLVED 0/14 not met). 56 episodes; 8 APPLIED, 47 INVALID_AFTER_REPAIR (model SEARCH/REPLACE format adherence), 1 NO_SCOPE. AGENT_HARD RESOLVED 1/14 (e03ee76d2b89); GOLD/RMCSS/PLACEBO 0/14. Spend agent \\.371 / smoke \\.257 / total \\.628 (ceiling \\.50). Pipeline validation only; no comparative claim.",
+  "phase": "Phase 5 - End-to-End Selective Regeneration (WP-2 E2E Smoke ENG v1 COMPLETE: FLOOR_EFFECT)",
+  "position": "First E2E Smoke ENG v1 COMPLETE (E2E_SMOKE_FLOOR_EFFECT). Instrument validated (G-POS/G-NEG/G-FORMAT/G-LEAK/G-BUDGET PASS); the frozen qwen3-coder SEARCH/REPLACE generator produced mostly invalid-format outputs. Next: brain/Ahmed review -> Pilot design.",
+  "position_short": "E2E Smoke ENG v1 COMPLETE: FLOOR_EFFECT (GOLD RESOLVED 0/14)",
+  "now_short": "Mission-10B closed + env closure complete. Next: Mission-11 Part B (E2E instrument, zero API) then zero-API controls before any paid Smoke.",
+  "next_action": "Brain/Ahmed review of the E2E Smoke result -> Pilot design. No Stage C, Pilot, holdout, or MAIN execution.",
+  "next_short": "Mission-11 Part B: E2E instrument (zero API) -> controls -> paid Smoke",
+  "priority_chain": "MAIN_297 DONE -> WP-2 census DONE -> Oracle Confirmation DONE -> Linux V2 oracle+DEV pool DONE -> Mission-08 DEV P2P inventory + SMALL pilot DONE -> Mission-09 P2P-S + P2P-U V2 freeze + ENG execution DONE -> Mission-10A environment test-dependency audit DONE (ENV_AUDIT_INCONCLUSIVE) -> targeted environment-validity follow-up (awaiting approval) -> DEV Smoke freeze -> full DEV-47 P2P-U cap200 -> Pilot -> Research Run -> Mission-10B ENG oracle + P2P-S/P2P-U V3 DONE (ENG_SMOKE_READY) -> WP-2 Env Closure V3.1 DONE (dev-dep losses fixed) -> Mission-11 Part B E2E instrument -> zero-API controls -> paid first E2E Smoke",
+  "weakest_risk": "Environment now proven for the ENG split (fixture/collection/pip/vcr green, stable 0.996). Remaining risks: W2 (workers=2) NOT_TESTED; a few ENV_INSTALL_BLOCKED dev pins (codecov removed from PyPI, python-magic-bin no Linux wheel, pywin32) - none required by preflight; single-repo ENG split (n=16). 786 RESERVE stays sealed.",
+  "wp1b_short": "Paid same-protocol comparison of a repository agent vs SIP vs RM-CSS on MAIN_297 (G1: delta=0.05 NI rule; G2: cap 1024; decision rules v2). RESULT: RMCSS_NONINFERIOR_AT_LOWER_COST (NI_SUPPORTED); D −0.0062 [−0.0449,+0.0308] Q5 −0.0383; RM-CSS cheaper. Variance 15x3 pooled F1 0.389/0.438/0.479, pairwise exact match 0.444. X1-X11 exploratory labelled. Total agent spend $8.34 (main $7.15 + variance $1.19). Post-MAIN_297: claim sheet + docs closure complete; AG16 prereg verified, runner needs brain bundle; WP-2 zero-API census complete.",
+  "pipeline": [
     {
-     "name": "Calibration-3b (21 calls)",
-     "values": [
-      11,
-      7,
-      3,
-      0
-     ]
+      "step": "Localization method selection",
+      "status": "CLOSED",
+      "note": "RM-CSS frozen; Saleor-300 PASS (+0.0921 F1)",
+      "idx": 0
     },
     {
-     "name": "Calibration-3c (18 calls)",
-     "values": [
-      1,
-      14,
-      4,
-      0
-     ]
+      "step": "WP-0 leakage fix (G7)",
+      "status": "DONE",
+      "note": "ArtifactUniverse built from the parent repository",
+      "idx": 1
+    },
+    {
+      "step": "WP-1a preparation",
+      "status": "DONE",
+      "note": "zero API; frozen predictions, manifests, agent protocol",
+      "idx": 2
+    },
+    {
+      "step": "WP-1b preflight freeze",
+      "status": "DONE",
+      "note": "G1 delta=0.05 · G2 cap 1024 · n=297 · budget v2 · rules v2",
+      "idx": 3
+    },
+    {
+      "step": "WP-1b Calibration-3",
+      "status": "DEFECT",
+      "note": "v1 gate PASS, $0.081, 24 calls — 0 successful reads; INSTRUMENT_INVALID",
+      "idx": 4
+    },
+    {
+      "step": "Tool-budget fix + gate v2",
+      "status": "DONE",
+      "note": "D2: search_text does not consume the 30-file budget; CG-10/CG-11 written; RED on Calibration-3",
+      "idx": 5
+    },
+    {
+      "step": "WP-1b Calibration-3b",
+      "status": "PASS",
+      "note": "gate v2 PASS · $0.070 · 3 reads · 0 instrument errors · 11/21 calls rejected repeats (loop)",
+      "idx": 6
+    },
+    {
+      "step": "G12 agent context hygiene",
+      "status": "DONE",
+      "note": "D1 APPROVED, zero API: echo, call counter, named rejection, truncation note; gate v3 CG-12 FAILS 3b (runs 1/6/4); protocol v3",
+      "idx": 7
+    },
+    {
+      "step": "WP-1b Calibration-3c",
+      "status": "PASS",
+      "note": "gate v3 CG-1..CG-12 PASS · $0.063205 · 4 reads · 1/18 rejected (5.6%) · longest run 1 · 0 blocking review-card flags · NOT scored",
+      "idx": 8
+    },
+    {
+      "step": "WP-1b MAIN_297 + variance 15x3",
+      "status": "DONE",
+      "note": "RMCSS_NONINFERIOR_AT_LOWER_COST (NI_SUPPORTED); main $7.15 + variance $1.19; scored with decision rules v2; X1-X11 exploratory",
+      "idx": 9
+    },
+    {
+      "step": "WP-1b post-MAIN_297 docs closure + claim sheet",
+      "status": "DONE",
+      "note": "claim sheet, robustness/limitations, README/FAQ updated; zero API",
+      "idx": 10
+    },
+    {
+      "step": "AG16 budget sensitivity (MAIN_50)",
+      "status": "PREREGISTERED, NOT RUNNABLE",
+      "note": "brain-built/tested bundle required first (iterative_agent_budget.py + golden parity + dry-run); ceilings $0.80 cal / $12.20 MAIN_50",
+      "idx": 11
+    },
+    {
+      "step": "WP-2 zero-API MAIN_297 census",
+      "status": "DONE",
+      "note": "297/297 materializable; 20 STRONG / 200 MODIFIED / 77 no-test-evidence F2P candidates; proposal-only Smoke candidates 8; zero API",
+      "idx": 12
+    },
+    {
+      "step": "WP-2 Oracle Confirmation + Design v1",
+      "status": "DONE (zero-API)",
+      "note": "harness validated; 220/220 changed-test candidates attempted; 8 primary behavioral F2P + 1 symbol-absence eligible; causal Design v1, power planning, Smoke v2 emitted; environment-dominant blocker on this host",
+      "idx": 13
+    },
+    {
+      "step": "WP-2 shared E2E instrument",
+      "status": "NOT STARTED",
+      "note": "same generator/validator/repair for every arm",
+      "idx": 14
+    },
+    {
+      "step": "E2E Smoke → Pilot → Research Run",
+      "status": "NOT STARTED",
+      "note": "staged; each stage can stop the run",
+      "idx": 15
+    },
+    {
+      "step": "WP-2 preservation oracle (P2P-S + P2P-U V2)",
+      "status": "FROZEN (Mission-09)",
+      "note": "P2P-S 46/47 defined; P2P-U V2 rule+membership frozen; ENG cap200+cap400 executed, repeatability 1.0",
+      "idx": 16
+    },
+    {
+      "step": "Mission-10A environment test-dependency audit",
+      "status": "DONE (ENV_AUDIT_INCONCLUSIVE)",
+      "note": "proven pytest-django-queries/pytest-mock declared-but-not-installed in V2; 41/41 P2P-U cap200 COLLECTION_ERROR explained; probe recovered 18/18 SET A but SET B non-regression failed (1 V2 node flip, JWT iat clock-skew); STOP probe; no V3",
+      "idx": 17
+    },
+    {
+      "step": "Full DEV-47 P2P-U cap200 execution",
+      "status": "NOT STARTED (awaits approval)",
+      "note": "est ~4.9-8.1 h serial central 6.7 h; overnight-feasible with resume; zero-node tasks UNDEFINED",
+      "idx": 18
     }
-   ]
-  }
- },
- "llm_calls": [
-  {
-   "workflow": "SIP on Saleor-300",
-   "calls": "300 coder calls (1/task)",
-   "note": "315 HTTP attempts incl. retries · 5.09 M tokens · $1.593"
-  },
-  {
-   "workflow": "RM-CSS on top of SIP",
-   "calls": "0 extra coder calls",
-   "note": "local logistic regression + repository memory"
-  },
-  {
-   "workflow": "Qwen embeddings (RM-CSS)",
-   "calls": "33 batched calls",
-   "note": "2,076 file units + 299 queries · $0.026"
-  },
-  {
-   "workflow": "WP-1b Calibration-3 agent",
-   "calls": "24 calls (8/task)",
-   "note": "$0.081 · 7 of 24 were rejected repeats · 0 successful reads (INSTRUMENT_INVALID)"
-  },
-  {
-   "workflow": "WP-1b Calibration-3b agent",
-   "calls": "21 calls (5/8/8)",
-   "note": "$0.070028 · 3 successful reads · 0 instrument errors · gate v2 PASS · loop: 11/21 rejected repeats"
-  },
-  {
-   "workflow": "WP-1b G12 (zero API)",
-   "calls": "0",
-   "note": "agent context hygiene amendment D1 APPROVED: echo, call counter, named rejection, truncation note; gate v3 CG-12 FAILS 3b"
-  },
-  {
-   "workflow": "WP-1b Calibration-3c agent",
-   "calls": "18 calls (4/8/6)",
-   "note": "$0.063205 · 4 successful reads · 1/18 rejected repeats (5.6%) · longest run 1 · gate v3 CG-1..CG-12 PASS · NOT scored"
-  },
-  {
-   "workflow": "MAIN_297 agent",
-   "calls": "2,164 logical / 2,178 HTTP attempts",
-   "note": "ledger $7.147 · 23.55M prompt / 81.7K completion tokens · 147 forced finals · 2 EMPTY (parser_failure) · 8 transport retries"
-  },
-  {
-   "workflow": "Variance substudy 15x3",
-   "calls": "331 logical / 341 HTTP attempts",
-   "note": "ledger $1.194 · pooled F1 0.389/0.438/0.479 · pairwise exact match 0.444 · 0 EMPTY"
-  },
-  {
-   "workflow": "WP-2 zero-API MAIN_297 census",
-   "calls": "0",
-   "note": "deterministic read-only git diff over already-opened case metadata; $0.00"
-  },
-  {
-   "workflow": "E2E generation + repair",
-   "calls": "not frozen yet",
-   "note": "defined by WP-2"
-  }
- ],
- "authorization": [
-  {
-   "item": "Calibration-3c",
-   "status": "DONE (CLEAN)",
-   "note": "gate v3 CG-1..CG-12 PASS; $0.063205; NOT scored"
-  },
-  {
-   "item": "MAIN_297 + variance 15×3 + scoring",
-   "status": "DONE (D3 = YES)",
-   "note": "RMCSS_NONINFERIOR_AT_LOWER_COST (NI_SUPPORTED); main $7.15 + variance $1.19; predictions frozen/tagged before any label load"
-  },
-  {
-   "item": "Agent budget-sensitivity arm (AG16, MAIN_50)",
-   "status": "PREREGISTERED, NOT AUTHORIZED; runner NOT built",
-   "note": "design frozen before MAIN_297 outputs; needs brain-built/tested bundle + decision D6"
-  },
-  {
-   "item": "WP-2 zero-API MAIN_297 census",
-   "status": "DONE",
-   "note": "deterministic planning evidence only; no E2E execution; no F2P/P2P oracle"
-  },
-  {
-   "item": "WP-2 Oracle Confirmation (zero-API) + Design v1",
-   "status": "DONE",
-   "note": "8 primary behavioral F2P + 1 symbol-absence eligible confirmed; causal Design v1 + power planning + Smoke v2 proposal; NO E2E execution"
-  },
-  {
-   "item": "786 Saleor RESERVE outcomes",
-   "status": "SEALED",
-   "note": "never opened/read/scored/sampled; guarded by the label-access audit hook"
-  },
-  {
-   "item": "Calibration-3 / 3b / 3c F1 claims",
-   "status": "NOT PERMITTED",
-   "note": "instrument checks only; no labels loaded or scored"
-  },
-  {
-   "item": "Mission-09 P2P-S + P2P-U V2 freeze",
-   "status": "DONE",
-   "note": "zero-API; P2P-S (46/47) + P2P-U V2 rule/membership frozen before any V2 outcome execution"
-  },
-  {
-   "item": "Mission-09 ENG P2P-U V2 execution (cap200 + cap400)",
-   "status": "DONE",
-   "note": "8 executable ENG tasks x 2 caps, workers=1, 3+3 reps, integrity PASS; no Smoke/full-DEV/MAIN execution"
-  },
-  {
-   "item": "Mission-10A environment test-dependency audit (zero-API, Tier T3)",
-   "status": "DONE (ENV_AUDIT_INCONCLUSIVE)",
-   "note": "proven declared-but-not-installed dev/test group in frozen V2; ENG-only scratch probe (task 1) recovered 18/18 SET A; SET B non-regression FAILED (1 V2 BEHAVIORAL_F2P node flip) -> STOP per preregistered S2; no V3 build, no generation, no Smoke"
-  },
-  {
-   "item": "Full DEV-47 P2P-U cap200 + Smoke freeze",
-   "status": "NOT AUTHORIZED",
-   "note": "requires Ahmed decision; estimates ready (DEV ~6.7 h central)"
-  }
- ],
- "key_numbers": {
-  "sip_f1": "0.2647",
-  "rmcss_f1": "0.3569",
-  "delta_f1": "+0.0921",
-  "ci": "[+0.0691, +0.1156]",
-  "rmcss_p": "0.4256",
-  "rmcss_r": "0.3073",
-  "rmcss_fnr": "0.6927",
-  "reserve_unread": "786"
- },
- "schema_note": "Keys are consumed by build_study_deck.py and by the README/START_HERE renderer. Keep every key; update values after each mission.",
- "live_recall": {
-  "chapter": "Where we are now",
-  "questions": [
-   "What did G12 change and did Calibration-3c confirm it?",
-   "Why is fixing the loop not tuning?",
-   "What did MAIN_297 show and what happens next?"
   ],
-  "items": [
-   {
-    "a": "G12 (zero API, D1 APPROVED) is a prospective, label-blind scaffold amendment: the agent now sees its own requests, a call counter, a named rejection, and a truncation flag. Calibration-3c (same 3 tasks, not scored) is CLEAN: gate v3 CG-1..CG-12 PASS, 1/18 rejected repeats (5.6% vs 52.4%), longest run 1, 4 reads, 0 instrument errors, $0.063205.",
-    "s": "LIVE",
-    "ar": "G12 أصلح الحلقة اللي الـharness كان بيعملها. Calibration-3c نظيفة تمامًا: التكرار نزل من 11/21 إلى 1/18، وكل بوابات v3 عدت."
-   },
-   {
-    "a": "The loop was created by the harness: the transcript showed results but not the agent's own requests, and a rejection added only 18 tokens, so at temperature 0 the model repeated itself. Fixing it restores withheld information, is label-blind, strengthens the competitor (conservative for our claim), and is one preregistered amendment (D5).",
-    "s": "LIVE",
-    "ar": "إصلاح الحلقة مش tuning: بيعيد معلومات الـharness كان شايلها، بدون labels، وبيرجّح المنافس قبل المقارنة — اتجاه محافظ ومسجل مرة واحدة."
-   },
-   {
-    "a": "MAIN_297 (297 tasks, protocol v3) scored with decision rules v2: RMCSS_NONINFERIOR_AT_LOWER_COST (NI_SUPPORTED). P: D −0.0062 [−0.0449,+0.0308], Q5 −0.0383; S: D −0.0115 [−0.0502,+0.0255], Q5 −0.0434. RM-CSS is non-inferior to the budget-bounded agent at lower cost (View A: 0.27× calls, 0.21× generative tokens/task). Variance 15x3 pooled F1 0.389/0.438/0.479. Next: Ahmed decides D6 (AG16 budget-sensitivity on MAIN_50) and WP-2.",
-    "s": "LIVE",
-    "ar": "MAIN_297 اتحسب بقواعد v2: RM-CSS غير أدنى من الـagent الأرخص (NI_SUPPORTED). D −0.0062 والقرار ميكانيكي من الـJSON. الجاي: قرار D6 (AG16) وبداية WP-2."
-   }
-  ]
- },
- "wp1b_main297": {
-  "final_category": "RMCSS_NONINFERIOR_AT_LOWER_COST",
-  "quality_verdict": "NI_SUPPORTED",
-  "P_primary_fail_closed": {
-   "n": 297,
-   "D": -0.0062,
-   "q025": -0.0449,
-   "q05": -0.0383,
-   "q975": 0.0308
-  },
-  "S_instrument_failure_excluded": {
-   "n": 295,
-   "n_dropped": 2,
-   "D": -0.0115,
-   "q025": -0.0502,
-   "q05": -0.0434,
-   "q975": 0.0255
-  },
-  "arms_f1": {
-   "Agent": 0.3631,
-   "RM-CSS": 0.3568,
-   "SIP": 0.2652
-  },
-  "cheaper_view_A": true,
-  "cost_ratios_view_A": {
-   "calls": 0.2746,
-   "generative_tokens": 0.2134
-  },
-  "empty_rate": 0.0067,
-  "empty_by_reason": {
-   "parser_failure": 2
-  },
-  "run_spend_usd": 7.147415,
-  "variance_spend_usd": 1.194112,
-  "main_logical_calls": 2164,
-  "main_http_attempts": 2178,
-  "variance_pooled_f1_by_replicate": [
-   0.3889,
-   0.4384,
-   0.4789
+  "preflight": [
+    {
+      "item": "G1 non-inferiority margin",
+      "value": "Δ = 0.05 pooled micro-F1",
+      "why": "Q5 of paired bootstrap > −0.05; below the 0.069 lower bound of RM-CSS's own gain"
+    },
+    {
+      "item": "G2 agent control cap",
+      "value": "1024 tokens",
+      "why": "any truncated call ends the task as EMPTY; 512 would bias toward RM-CSS"
+    },
+    {
+      "item": "Sample",
+      "value": "MAIN_297 (MAIN_50 nested first)",
+      "why": "NI power ≈0.74–1.00 vs ≈0.24–0.56 at n = 50"
+    },
+    {
+      "item": "Budget model v2",
+      "value": "3.4× more prompt tokens than v1",
+      "why": "the agent prompt lists ≈810 editable paths on every call"
+    },
+    {
+      "item": "Decision rules v2",
+      "value": "7 ordered verdicts, dual P/S analysis",
+      "why": "no point-estimate 'dominance'"
+    }
   ],
-  "variance_pairwise_exact_match": 0.4444,
-  "variance_mean_pairwise_jaccard": 0.6422,
-  "exploratory": {
-   "X3": "NO_TEACHER_HEADROOM",
-   "X6": "ESCALATION_NO_GAIN",
-   "X10_dense_anchor_size_matched_F1": 0.2781,
-   "X11_non_consecutive_duplicate_share": 0.127
+  "calibration_3": {
+    "title": "Calibration-3 → 3b → G12 → 3c: tools work, loop removed, gate v3 PASS",
+    "subtitle": "Same 3 tasks, never scored. G11 made the tools work; G12 removed the deterministic context loop; Calibration-3c passes gate v3 (CG-1..CG-12) with 1 rejected repeat in 18 calls.",
+    "tiles": [
+      {
+        "big": "3c CLEAN",
+        "small": "gate v3 CG-1..CG-12 PASS; NOT scored",
+        "tone": "good"
+      },
+      {
+        "big": "1/18",
+        "small": "rejected repeats (5.6%); was 11/21 (52.4%)",
+        "tone": "good"
+      },
+      {
+        "big": "4",
+        "small": "successful reads; 0 instrument errors; 0 blocking flags",
+        "tone": "good"
+      },
+      {
+        "big": "$0.063",
+        "small": "of the $0.25 ceiling",
+        "tone": "good"
+      }
+    ],
+    "chart_title": "G12 effect: rejected repeats 11 -> 1",
+    "tool_outcomes": [
+      {
+        "label": "Final answers",
+        "n": 3
+      },
+      {
+        "label": "Tool OK (read / list / search)",
+        "n": 14
+      },
+      {
+        "label": "Rejected repeats",
+        "n": 1
+      },
+      {
+        "label": "Instrument errors",
+        "n": 0
+      }
+    ],
+    "finding_title": "G12 removed the deterministic context loop",
+    "finding": "Calibration-3b: 11/21 calls (52%) were rejected repeats because the transcript hid the agent's own requests. G12 (echo, call counter, named rejection, truncation note) restores that information. Calibration-3c: 1/18 rejected (5.6%), longest run 1, 4 reads, 0 instrument errors, $0.063205. Gate v3 CG-12 PASS. Task 2 now makes 7 search calls (6 distinct; one non-adjacent repeat) instead of repeating one search 6 times, and it reached the forced final at call 8 (record correction: docs/WP1B_CALIBRATION_3C_RECORD_CORRECTION_2026-09-22.md).",
+    "source": "research/wp1b/calibration-3c-2026-09-22/ (wp1b_call_sidecar.jsonl, wp1b_calibration_gate_v3_result.json, REVIEW_CARD.md); docs/WP1B_CALIBRATION_3C_STOP_REPORT_2026-09-22.md; docs/WP1B_AGENT_CONTEXT_LOOP_2026-09-22.md.",
+    "raw": {
+      "tasks": 3,
+      "calls": 18,
+      "calls_per_task": [
+        4,
+        8,
+        6
+      ],
+      "usd": 0.063205,
+      "ceiling_usd": 0.25,
+      "prompt_tokens": 208099,
+      "completion_tokens": 775,
+      "cap_hits": 0,
+      "empty": 0,
+      "gate": "CG-1..CG-12 PASS (gate v3)",
+      "gate_v3": "CG-12 PASS: longest rejection run 1, rejected_share 0.056, rejected_calls 1",
+      "successful_reads": 4
+    },
+    "compare": {
+      "categories": [
+        "Rejected repeats",
+        "Tool OK",
+        "Successful reads",
+        "Instrument errors"
+      ],
+      "series": [
+        {
+          "name": "Calibration-3b (21 calls)",
+          "values": [
+            11,
+            7,
+            3,
+            0
+          ]
+        },
+        {
+          "name": "Calibration-3c (18 calls)",
+          "values": [
+            1,
+            14,
+            4,
+            0
+          ]
+        }
+      ]
+    }
+  },
+  "llm_calls": [
+    {
+      "workflow": "SIP on Saleor-300",
+      "calls": "300 coder calls (1/task)",
+      "note": "315 HTTP attempts incl. retries · 5.09 M tokens · $1.593"
+    },
+    {
+      "workflow": "RM-CSS on top of SIP",
+      "calls": "0 extra coder calls",
+      "note": "local logistic regression + repository memory"
+    },
+    {
+      "workflow": "Qwen embeddings (RM-CSS)",
+      "calls": "33 batched calls",
+      "note": "2,076 file units + 299 queries · $0.026"
+    },
+    {
+      "workflow": "WP-1b Calibration-3 agent",
+      "calls": "24 calls (8/task)",
+      "note": "$0.081 · 7 of 24 were rejected repeats · 0 successful reads (INSTRUMENT_INVALID)"
+    },
+    {
+      "workflow": "WP-1b Calibration-3b agent",
+      "calls": "21 calls (5/8/8)",
+      "note": "$0.070028 · 3 successful reads · 0 instrument errors · gate v2 PASS · loop: 11/21 rejected repeats"
+    },
+    {
+      "workflow": "WP-1b G12 (zero API)",
+      "calls": "0",
+      "note": "agent context hygiene amendment D1 APPROVED: echo, call counter, named rejection, truncation note; gate v3 CG-12 FAILS 3b"
+    },
+    {
+      "workflow": "WP-1b Calibration-3c agent",
+      "calls": "18 calls (4/8/6)",
+      "note": "$0.063205 · 4 successful reads · 1/18 rejected repeats (5.6%) · longest run 1 · gate v3 CG-1..CG-12 PASS · NOT scored"
+    },
+    {
+      "workflow": "MAIN_297 agent",
+      "calls": "2,164 logical / 2,178 HTTP attempts",
+      "note": "ledger $7.147 · 23.55M prompt / 81.7K completion tokens · 147 forced finals · 2 EMPTY (parser_failure) · 8 transport retries"
+    },
+    {
+      "workflow": "Variance substudy 15x3",
+      "calls": "331 logical / 341 HTTP attempts",
+      "note": "ledger $1.194 · pooled F1 0.389/0.438/0.479 · pairwise exact match 0.444 · 0 EMPTY"
+    },
+    {
+      "workflow": "WP-2 zero-API MAIN_297 census",
+      "calls": "0",
+      "note": "deterministic read-only git diff over already-opened case metadata; $0.00"
+    },
+    {
+      "workflow": "E2E generation + repair",
+      "calls": "not frozen yet",
+      "note": "defined by WP-2"
+    }
+  ],
+  "authorization": [
+    {
+      "item": "Calibration-3c",
+      "status": "DONE (CLEAN)",
+      "note": "gate v3 CG-1..CG-12 PASS; $0.063205; NOT scored"
+    },
+    {
+      "item": "MAIN_297 + variance 15×3 + scoring",
+      "status": "DONE (D3 = YES)",
+      "note": "RMCSS_NONINFERIOR_AT_LOWER_COST (NI_SUPPORTED); main $7.15 + variance $1.19; predictions frozen/tagged before any label load"
+    },
+    {
+      "item": "Agent budget-sensitivity arm (AG16, MAIN_50)",
+      "status": "PREREGISTERED, NOT AUTHORIZED; runner NOT built",
+      "note": "design frozen before MAIN_297 outputs; needs brain-built/tested bundle + decision D6"
+    },
+    {
+      "item": "WP-2 zero-API MAIN_297 census",
+      "status": "DONE",
+      "note": "deterministic planning evidence only; no E2E execution; no F2P/P2P oracle"
+    },
+    {
+      "item": "WP-2 Oracle Confirmation (zero-API) + Design v1",
+      "status": "DONE",
+      "note": "8 primary behavioral F2P + 1 symbol-absence eligible confirmed; causal Design v1 + power planning + Smoke v2 proposal; NO E2E execution"
+    },
+    {
+      "item": "786 Saleor RESERVE outcomes",
+      "status": "SEALED",
+      "note": "never opened/read/scored/sampled; guarded by the label-access audit hook"
+    },
+    {
+      "item": "Calibration-3 / 3b / 3c F1 claims",
+      "status": "NOT PERMITTED",
+      "note": "instrument checks only; no labels loaded or scored"
+    },
+    {
+      "item": "Mission-09 P2P-S + P2P-U V2 freeze",
+      "status": "DONE",
+      "note": "zero-API; P2P-S (46/47) + P2P-U V2 rule/membership frozen before any V2 outcome execution"
+    },
+    {
+      "item": "Mission-09 ENG P2P-U V2 execution (cap200 + cap400)",
+      "status": "DONE",
+      "note": "8 executable ENG tasks x 2 caps, workers=1, 3+3 reps, integrity PASS; no Smoke/full-DEV/MAIN execution"
+    },
+    {
+      "item": "Mission-10A environment test-dependency audit (zero-API, Tier T3)",
+      "status": "DONE (ENV_AUDIT_INCONCLUSIVE)",
+      "note": "proven declared-but-not-installed dev/test group in frozen V2; ENG-only scratch probe (task 1) recovered 18/18 SET A; SET B non-regression FAILED (1 V2 BEHAVIORAL_F2P node flip) -> STOP per preregistered S2; no V3 build, no generation, no Smoke"
+    },
+    {
+      "item": "Full DEV-47 P2P-U cap200 + Smoke freeze",
+      "status": "NOT AUTHORIZED",
+      "note": "requires Ahmed decision; estimates ready (DEV ~6.7 h central)"
+    }
+  ],
+  "key_numbers": {
+    "sip_f1": "0.2647",
+    "rmcss_f1": "0.3569",
+    "delta_f1": "+0.0921",
+    "ci": "[+0.0691, +0.1156]",
+    "rmcss_p": "0.4256",
+    "rmcss_r": "0.3073",
+    "rmcss_fnr": "0.6927",
+    "reserve_unread": "786"
+  },
+  "schema_note": "Keys are consumed by build_study_deck.py and by the README/START_HERE renderer. Keep every key; update values after each mission.",
+  "live_recall": {
+    "chapter": "Where we are now",
+    "questions": [
+      "What did G12 change and did Calibration-3c confirm it?",
+      "Why is fixing the loop not tuning?",
+      "What did MAIN_297 show and what happens next?"
+    ],
+    "items": [
+      {
+        "a": "G12 (zero API, D1 APPROVED) is a prospective, label-blind scaffold amendment: the agent now sees its own requests, a call counter, a named rejection, and a truncation flag. Calibration-3c (same 3 tasks, not scored) is CLEAN: gate v3 CG-1..CG-12 PASS, 1/18 rejected repeats (5.6% vs 52.4%), longest run 1, 4 reads, 0 instrument errors, $0.063205.",
+        "s": "LIVE",
+        "ar": "G12 أصلح الحلقة اللي الـharness كان بيعملها. Calibration-3c نظيفة تمامًا: التكرار نزل من 11/21 إلى 1/18، وكل بوابات v3 عدت."
+      },
+      {
+        "a": "The loop was created by the harness: the transcript showed results but not the agent's own requests, and a rejection added only 18 tokens, so at temperature 0 the model repeated itself. Fixing it restores withheld information, is label-blind, strengthens the competitor (conservative for our claim), and is one preregistered amendment (D5).",
+        "s": "LIVE",
+        "ar": "إصلاح الحلقة مش tuning: بيعيد معلومات الـharness كان شايلها، بدون labels، وبيرجّح المنافس قبل المقارنة — اتجاه محافظ ومسجل مرة واحدة."
+      },
+      {
+        "a": "MAIN_297 (297 tasks, protocol v3) scored with decision rules v2: RMCSS_NONINFERIOR_AT_LOWER_COST (NI_SUPPORTED). P: D −0.0062 [−0.0449,+0.0308], Q5 −0.0383; S: D −0.0115 [−0.0502,+0.0255], Q5 −0.0434. RM-CSS is non-inferior to the budget-bounded agent at lower cost (View A: 0.27× calls, 0.21× generative tokens/task). Variance 15x3 pooled F1 0.389/0.438/0.479. Next: Ahmed decides D6 (AG16 budget-sensitivity on MAIN_50) and WP-2.",
+        "s": "LIVE",
+        "ar": "MAIN_297 اتحسب بقواعد v2: RM-CSS غير أدنى من الـagent الأرخص (NI_SUPPORTED). D −0.0062 والقرار ميكانيكي من الـJSON. الجاي: قرار D6 (AG16) وبداية WP-2."
+      }
+    ]
+  },
+  "wp1b_main297": {
+    "final_category": "RMCSS_NONINFERIOR_AT_LOWER_COST",
+    "quality_verdict": "NI_SUPPORTED",
+    "P_primary_fail_closed": {
+      "n": 297,
+      "D": -0.0062,
+      "q025": -0.0449,
+      "q05": -0.0383,
+      "q975": 0.0308
+    },
+    "S_instrument_failure_excluded": {
+      "n": 295,
+      "n_dropped": 2,
+      "D": -0.0115,
+      "q025": -0.0502,
+      "q05": -0.0434,
+      "q975": 0.0255
+    },
+    "arms_f1": {
+      "Agent": 0.3631,
+      "RM-CSS": 0.3568,
+      "SIP": 0.2652
+    },
+    "cheaper_view_A": true,
+    "cost_ratios_view_A": {
+      "calls": 0.2746,
+      "generative_tokens": 0.2134
+    },
+    "empty_rate": 0.0067,
+    "empty_by_reason": {
+      "parser_failure": 2
+    },
+    "run_spend_usd": 7.147415,
+    "variance_spend_usd": 1.194112,
+    "main_logical_calls": 2164,
+    "main_http_attempts": 2178,
+    "variance_pooled_f1_by_replicate": [
+      0.3889,
+      0.4384,
+      0.4789
+    ],
+    "variance_pairwise_exact_match": 0.4444,
+    "variance_mean_pairwise_jaccard": 0.6422,
+    "exploratory": {
+      "X3": "NO_TEACHER_HEADROOM",
+      "X6": "ESCALATION_NO_GAIN",
+      "X10_dense_anchor_size_matched_F1": 0.2781,
+      "X11_non_consecutive_duplicate_share": 0.127
+    }
+  },
+  "mission10b_eng_smoke_ready": {
+    "token": "HARNESS_V3_RECOMMENDED",
+    "phase_reached": "5-ENG",
+    "eng_smoke_ready": "YES",
+    "evaluator_sets_sha256": "see research/wp2/harness_v3_2026-09-26/evaluator_only/eng_evaluator_sets_v3.json",
+    "report": "docs/MISSION_10B_STOP_REPORT_2026-09-27.md",
+    "paid_spend_usd": 0.0
+  },
+  "mission11_e2e_smoke": {
+    "token": "E2E_SMOKE_INSTRUMENT_INVALID",
+    "resolved_per_arm": {
+      "GOLD_HARD": "0/14",
+      "RMCSS_HARD": "0/14",
+      "AGENT_HARD": "1/14",
+      "PLACEBO_HARD": "0/14"
+    },
+    "spend_usd": {
+      "agent": 0.371,
+      "smoke": 0.257,
+      "total": 0.628
+    },
+    "report": "docs/WP2_E2E_SMOKE_ENG_V1_REPORT_2026-09-28.md",
+    "erratum": {
+      "reproduced_defects": [
+        "DF1",
+        "DF2",
+        "DF3",
+        "DF4",
+        "DF5"
+      ],
+      "corrected_token": "E2E_SMOKE_INSTRUMENT_INVALID",
+      "report": "docs/WP2_E2E_SMOKE_ENG_V1_ERRATUM_2026-09-28.md",
+      "date": "2026-09-28",
+      "original_token": "E2E_SMOKE_FLOOR_EFFECT",
+      "note": "v1 results and tags unchanged; SG1 corrected to FAIL (DF1 evidence integrity, DF2 instrument deviation)",
+      "evidence": "research/wp2/e2e_smoke_eng_v1/erratum/"
+    }
   }
- },
- "mission10b_eng_smoke_ready": {
-  "token": "HARNESS_V3_RECOMMENDED",
-  "phase_reached": "5-ENG",
-  "eng_smoke_ready": "YES",
-  "evaluator_sets_sha256": "see research/wp2/harness_v3_2026-09-26/evaluator_only/eng_evaluator_sets_v3.json",
-  "report": "docs/MISSION_10B_STOP_REPORT_2026-09-27.md",
-  "paid_spend_usd": 0.0
- },
- "mission11_e2e_smoke": {
-  "token": "E2E_SMOKE_FLOOR_EFFECT",
-  "resolved_per_arm": {
-   "GOLD_HARD": "0/14",
-   "RMCSS_HARD": "0/14",
-   "AGENT_HARD": "1/14",
-   "PLACEBO_HARD": "0/14"
-  },
-  "spend_usd": {
-   "agent": 0.371,
-   "smoke": 0.257,
-   "total": 0.628
-  },
-  "report": "docs/WP2_E2E_SMOKE_ENG_V1_REPORT_2026-09-28.md"
- }
 }

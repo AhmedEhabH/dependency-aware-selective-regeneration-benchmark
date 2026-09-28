@@ -1,5 +1,7 @@
 # WP-2 E2E Smoke ENG v1 — Report (2026-09-28)
 
+> **ERRATUM 2026-09-28: token corrected to `E2E_SMOKE_INSTRUMENT_INVALID` — see docs/WP2_E2E_SMOKE_ENG_V1_ERRATUM_2026-09-28.md**
+
 Final token: **`E2E_SMOKE_FLOOR_EFFECT`** (SG1–SG3 PASS, SG4 floor not met).
 
 ## Mandatory wording

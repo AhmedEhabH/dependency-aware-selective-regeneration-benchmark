@@ -1,0 +1,1166 @@
+{
+ "artifact": "instrument_defects_v1",
+ "created_utc": "2026-09-28T15:03:07Z",
+ "head": "b191ca8f4a9dd98dcb900f392100226218847f07",
+ "episode_count": 56,
+ "defects": {
+  "df1": {
+   "defect": "DF1",
+   "name": "replay_contamination",
+   "reproduced": true,
+   "replay_call_count": 2,
+   "replay_episodes": [
+    "episodes/saleor-rc-39b4138e8550/GOLD_HARD/episode.json"
+   ],
+   "alleged_39b_gold_cell": {
+    "route_calls": [
+     "replay",
+     "replay"
+    ],
+    "editable_set": [
+     "saleor/x/models.py"
+    ],
+    "prompt_tokens_per_call": [
+     25,
+     25
+    ],
+    "cost_usd_per_call": [
+     0.0,
+     0.0
+    ],
+    "created_utc": "2026-09-28T05:46:41Z",
+    "prompt_sha256": "25cd72982864be6c99a88737bc1b244729aa8a901ec365ffaa54a39e20868ddd"
+   },
+   "additional_replay_cells": [],
+   "code_reference": {
+    "ReplayClient": "src/benchmark/wp2/e2e/llm_client.py:109-123 (route='replay')",
+    "persist": "src/benchmark/wp2/e2e/generate.py:172-176 (_persist_episode writes under episodes/)"
+   },
+   "evidence": "episode.json calls with route=replay in committed v1 evidence",
+   "affected_episodes": [
+    "episodes/saleor-rc-39b4138e8550/GOLD_HARD/episode.json"
+   ]
+  },
+  "df2": {
+   "defect": "DF2",
+   "name": "blind_repair",
+   "reproduced": true,
+   "repair_call_count": 47,
+   "repaired_episode_count": 47,
+   "repair_success_count": 0,
+   "all_repair_lt_initial": false,
+   "real_repair_lt_initial_excluding_replay_cell": true,
+   "real_repair_rows": 46,
+   "rows": [
+    {
+     "episode": "episodes/saleor-rc-2d45b76a52f2/AGENT_HARD/episode.json",
+     "task_id": "saleor-rc-2d45b76a52f2",
+     "arm": "AGENT_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      3799
+     ],
+     "repair_prompt_tokens": [
+      360
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "SEARCH_ERROR:saleor/core/jwt.py: block 1: SEARCH content not found in current file (count=0); search='def create_access_token_for_app_extension(\\n    app_extension: \"AppExtension\", pe'"
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-39b4138e8550/GOLD_HARD/episode.json",
+     "task_id": "saleor-rc-39b4138e8550",
+     "arm": "GOLD_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      25
+     ],
+     "repair_prompt_tokens": [
+      25
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "NO_BLOCKS: no FILE sections found"
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-39b4138e8550/PLACEBO_HARD/episode.json",
+     "task_id": "saleor-rc-39b4138e8550",
+     "arm": "PLACEBO_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      3295
+     ],
+     "repair_prompt_tokens": [
+      334
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "PARSE_ERROR:saleor/graphql/core/types/order_or_checkout.py: expected '<<<<<<< SEARCH' block start, found: 'Looking at the developer change description \"Drop uneeded union type (#18110)\", I need to identify and remove unnecessary union types from the provided files.'"
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-644f33094857/AGENT_HARD/episode.json",
+     "task_id": "saleor-rc-644f33094857",
+     "arm": "AGENT_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      15804
+     ],
+     "repair_prompt_tokens": [
+      336
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "SEARCH_ERROR:saleor/order/actions.py: block 1: SEARCH content not found in current file (count=0); search='def order_refunded(order: \"Order\", amount: \"Decimal\", payment: \"Payment\"):\\n    \"'"
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-644f33094857/GOLD_HARD/episode.json",
+     "task_id": "saleor-rc-644f33094857",
+     "arm": "GOLD_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      26148
+     ],
+     "repair_prompt_tokens": [
+      336
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "SEARCH_ERROR:saleor/order/actions.py: block 1: SEARCH content not found in current file (count=0); search='def order_refunded(order: \"Order\", user: Optional[\"User\"], amount: Decimal, paym'"
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-644f33094857/PLACEBO_HARD/episode.json",
+     "task_id": "saleor-rc-644f33094857",
+     "arm": "PLACEBO_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      2915
+     ],
+     "repair_prompt_tokens": [
+      284
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "OUT_OF_SCOPE_FILE:saleor/graphql/product/mutations/products.py"
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-644f33094857/RMCSS_HARD/episode.json",
+     "task_id": "saleor-rc-644f33094857",
+     "arm": "RMCSS_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      18082
+     ],
+     "repair_prompt_tokens": [
+      336
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "SEARCH_ERROR:saleor/order/actions.py: block 1: SEARCH content not found in current file (count=0); search='def order_refunded(order: Order, amount: Decimal, payment: Payment):\\n    \"\"\"Hand'"
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-6abb53f3407b/AGENT_HARD/episode.json",
+     "task_id": "saleor-rc-6abb53f3407b",
+     "arm": "AGENT_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      6110
+     ],
+     "repair_prompt_tokens": [
+      339
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "SEARCH_ERROR:saleor/account/models.py: block 1: SEARCH content not found in current file (count=0); search='from django.db import models\\nfrom django.utils.translation import pgettext_lazy\\n'"
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-6abb53f3407b/GOLD_HARD/episode.json",
+     "task_id": "saleor-rc-6abb53f3407b",
+     "arm": "GOLD_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      10657
+     ],
+     "repair_prompt_tokens": [
+      366
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "PARSE_ERROR:saleor/payment/gateways/stripe/plugin.py: expected '<<<<<<< SEARCH' block start, found: 'Looking at the developer change description \"Implement SALEOR-4243 SALEOR-4244 without tests\" and examining the files, I need to identify what changes are required. Based on the file contents and typical Stripe payment gateway improvements, these are likely related to enhancing payment method handling and webhook processing.'"
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-6abb53f3407b/RMCSS_HARD/episode.json",
+     "task_id": "saleor-rc-6abb53f3407b",
+     "arm": "RMCSS_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      2558
+     ],
+     "repair_prompt_tokens": [
+      357
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "SEARCH_ERROR:saleor/graphql/shop/mutations.py: block 1: SEARCH content not found in current file (count=0); search='from typing import TYPE_CHECKING, List, Optional\\n\\nimport graphene\\nfrom django.co'"
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-74538ea00ce9/AGENT_HARD/episode.json",
+     "task_id": "saleor-rc-74538ea00ce9",
+     "arm": "AGENT_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      17131
+     ],
+     "repair_prompt_tokens": [
+      332
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "SEARCH_ERROR:saleor/checkout/utils.py: block 1: SEARCH content not found in current file (count=0); search='from ..order.models import OrderLine\\nfrom . import AddressType, logger\\nfrom .mod'"
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-74538ea00ce9/GOLD_HARD/episode.json",
+     "task_id": "saleor-rc-74538ea00ce9",
+     "arm": "GOLD_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      6230
+     ],
+     "repair_prompt_tokens": [
+      360
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "SEARCH_ERROR:saleor/graphql/order/mutations/draft_order_update.py: block 1: SEARCH content not found in current file (count=0); search='from collections import defaultdict\\nfrom typing import List, Optional, Tuple, ca'"
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-74538ea00ce9/PLACEBO_HARD/episode.json",
+     "task_id": "saleor-rc-74538ea00ce9",
+     "arm": "PLACEBO_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      2506
+     ],
+     "repair_prompt_tokens": [
+      363
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "SEARCH_ERROR:saleor/discount/utils/checkout.py: block 1: SEARCH content not found in current file (count=0); search='from django.db import transaction\\nfrom prices import Money\\n\\nfrom ..models import'"
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-74538ea00ce9/RMCSS_HARD/episode.json",
+     "task_id": "saleor-rc-74538ea00ce9",
+     "arm": "RMCSS_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      38008
+     ],
+     "repair_prompt_tokens": [
+      336
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "SEARCH_ERROR:saleor/graphql/order/mutations/draft_order_create.py: block 1: SEARCH content not found in current file (count=0); search='from uuid import UUID\\n\\nimport graphene\\nfrom django.core.exceptions import Valida'"
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-823b899757ab/AGENT_HARD/episode.json",
+     "task_id": "saleor-rc-823b899757ab",
+     "arm": "AGENT_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      16783
+     ],
+     "repair_prompt_tokens": [
+      351
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "SEARCH_ERROR:saleor/graphql/product/mutations/products.py: block 1: SEARCH content not found in current file (count=0); search='from typing import List, Optional\\n\\nimport graphene\\nfrom django.core.exceptions i'"
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-823b899757ab/GOLD_HARD/episode.json",
+     "task_id": "saleor-rc-823b899757ab",
+     "arm": "GOLD_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      16783
+     ],
+     "repair_prompt_tokens": [
+      327
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "SEARCH_ERROR:saleor/graphql/product/mutations/products.py: block 1: SEARCH content not found in current file (count=0); search='from collections import defaultdict\\nfrom datetime import date, datetime\\nfrom typ'"
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-823b899757ab/RMCSS_HARD/episode.json",
+     "task_id": "saleor-rc-823b899757ab",
+     "arm": "RMCSS_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      19298
+     ],
+     "repair_prompt_tokens": [
+      342
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "SEARCH_ERROR:saleor/graphql/product/mutations/products.py: block 1: SEARCH content not found in current file (count=0); search='from typing import List\\n\\nimport graphene\\nfrom django.core.exceptions import Vali'"
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-82c56bde0e34/AGENT_HARD/episode.json",
+     "task_id": "saleor-rc-82c56bde0e34",
+     "arm": "AGENT_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      5127
+     ],
+     "repair_prompt_tokens": [
+      336
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "PARSE_ERROR:saleor/checkout/fetch.py: expected '<<<<<<< SEARCH' block start, found: 'Looking at the developer change description, I need to fix the fetch checkout info resolver for checkout, specifically moving fetching checkout info and lines to resolver for payment gateway and removing unused checkout parameter.'"
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-82c56bde0e34/GOLD_HARD/episode.json",
+     "task_id": "saleor-rc-82c56bde0e34",
+     "arm": "GOLD_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      43267
+     ],
+     "repair_prompt_tokens": [
+      341
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "SEARCH_ERROR:saleor/plugins/base_plugin.py: block 1: SEARCH content not found in current file (count=0); search='    def list_payment_gateways(\\n        self, checkout: \"Checkout\" = None, previo'"
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-82c56bde0e34/PLACEBO_HARD/episode.json",
+     "task_id": "saleor-rc-82c56bde0e34",
+     "arm": "PLACEBO_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      8358
+     ],
+     "repair_prompt_tokens": [
+      284
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "PARSE_ERROR:saleor/checkout/utils.py: expected '<<<<<<< SEARCH' block start, found: '```'"
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-82c56bde0e34/RMCSS_HARD/episode.json",
+     "task_id": "saleor-rc-82c56bde0e34",
+     "arm": "RMCSS_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      30729
+     ],
+     "repair_prompt_tokens": [
+      338
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "PARSE_ERROR:saleor/graphql/checkout/types.py: expected '<<<<<<< SEARCH' block start, found: 'Looking at the developer change description, I need to fix the fetch checkout info resolver for checkout. The issue seems to be related to how checkout info is fetched and used in the GraphQL resolvers.'"
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-8f76ddc6267f/GOLD_HARD/episode.json",
+     "task_id": "saleor-rc-8f76ddc6267f",
+     "arm": "GOLD_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      16659
+     ],
+     "repair_prompt_tokens": [
+      317
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "PARSE_ERROR:saleor/graphql/webhook/mutations/__init__.py: expected '<<<<<<< SEARCH' block start, found: 'Looking at the developer change description, I need to:'"
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-8f76ddc6267f/PLACEBO_HARD/episode.json",
+     "task_id": "saleor-rc-8f76ddc6267f",
+     "arm": "PLACEBO_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      12157
+     ],
+     "repair_prompt_tokens": [
+      284
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "OUT_OF_SCOPE_FILE:saleor/graphql/product/mutations/products.py",
+      "OUT_OF_SCOPE_FILE:saleor/graphql/product/mutations/products.py",
+      "OUT_OF_SCOPE_FILE:saleor/graphql/product/mutations/products.py"
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-8f76ddc6267f/RMCSS_HARD/episode.json",
+     "task_id": "saleor-rc-8f76ddc6267f",
+     "arm": "RMCSS_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      7398
+     ],
+     "repair_prompt_tokens": [
+      317
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "PARSE_ERROR:saleor/graphql/webhook/mutations/webhook_dry_run.py: expected '<<<<<<< SEARCH' block start, found: \"Looking at the developer change description, I need to implement a dry-run mutation for webhooks that executes a fake event to test webhook functionality. Based on the file content provided, I'll modify the webhook dry run mutation to properly handle the event type and object ID parameters.\""
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-93b20d78c011/AGENT_HARD/episode.json",
+     "task_id": "saleor-rc-93b20d78c011",
+     "arm": "AGENT_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      4989
+     ],
+     "repair_prompt_tokens": [
+      330
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "SEARCH_ERROR:saleor/graphql/account/schema.py: block 1: SEARCH content not found in current file (count=0); search='import graphene\\n\\nfrom ...core.permissions import AccountPermissions\\nfrom ..core.'"
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-93b20d78c011/GOLD_HARD/episode.json",
+     "task_id": "saleor-rc-93b20d78c011",
+     "arm": "GOLD_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      19583
+     ],
+     "repair_prompt_tokens": [
+      301
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "PARSE_ERROR:CHANGELOG.md: extra '=======' divider inside REPLACE block"
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-93b20d78c011/PLACEBO_HARD/episode.json",
+     "task_id": "saleor-rc-93b20d78c011",
+     "arm": "PLACEBO_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      2011
+     ],
+     "repair_prompt_tokens": [
+      352
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "PARSE_ERROR:saleor/graphql/account/schema.py: expected '<<<<<<< SEARCH' block start, found: \"I'll implement the change to add support for querying users by email in the Saleor GraphQL API. Based on the error message and the need to add email filtering capability, I'll modify the relevant files.\""
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-93b20d78c011/RMCSS_HARD/episode.json",
+     "task_id": "saleor-rc-93b20d78c011",
+     "arm": "RMCSS_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      3881
+     ],
+     "repair_prompt_tokens": [
+      337
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "PARSE_ERROR:saleor/graphql/account/schema.py: expected '<<<<<<< SEARCH' block start, found: 'Looking at the developer change description, I need to add support for querying user by email. This means I need to modify the GraphQL schema to allow looking up users by email in addition to ID.'"
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-c3b9e396b07d/AGENT_HARD/episode.json",
+     "task_id": "saleor-rc-c3b9e396b07d",
+     "arm": "AGENT_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      3613
+     ],
+     "repair_prompt_tokens": [
+      318
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "SEARCH_ERROR:saleor/warehouse/management.py: block 1: SEARCH content not found in current file (count=0); search='def deallocate_stock(\\n    order_lines: Iterable[OrderLine], country_code: str, w'"
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-c3b9e396b07d/GOLD_HARD/episode.json",
+     "task_id": "saleor-rc-c3b9e396b07d",
+     "arm": "GOLD_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      9460
+     ],
+     "repair_prompt_tokens": [
+      348
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "SEARCH_ERROR:saleor/warehouse/management.py: block 1: SEARCH content not found in current file (count=0); search='   \\n@transaction.atomic()\\ndef deallocate_stock(\\n    order_lines: Iterable[OrderL'"
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-c3b9e396b07d/PLACEBO_HARD/episode.json",
+     "task_id": "saleor-rc-c3b9e396b07d",
+     "arm": "PLACEBO_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      3582
+     ],
+     "repair_prompt_tokens": [
+      284
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "OUT_OF_SCOPE_FILE:saleor/graphql/core/mutations.py",
+      "OUT_OF_SCOPE_FILE:saleor/graphql/core/mutations.py"
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-c3b9e396b07d/RMCSS_HARD/episode.json",
+     "task_id": "saleor-rc-c3b9e396b07d",
+     "arm": "RMCSS_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      4349
+     ],
+     "repair_prompt_tokens": [
+      351
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "SEARCH_ERROR:saleor/warehouse/management.py: block 1: SEARCH content not found in current file (count=0); search='from django.db import transaction\\nfrom django.db.models import F, Sum\\nfrom djang'"
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-d220843b5418/AGENT_HARD/episode.json",
+     "task_id": "saleor-rc-d220843b5418",
+     "arm": "AGENT_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      17886
+     ],
+     "repair_prompt_tokens": [
+      366
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "PARSE_ERROR:saleor/checkout/fetch.py: expected '<<<<<<< SEARCH' block start, found: \"Looking at the issue description and the code, I need to prevent circular payload generation when listing shipping methods for checkout. The problem appears to be in the `get_external_shipping_methods_for_checkout_info` function which calls the plugin manager's `list_shipping_methods_for_checkout` method, which likely triggers webhook calls that could cause circular payload generation.\""
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-d220843b5418/GOLD_HARD/episode.json",
+     "task_id": "saleor-rc-d220843b5418",
+     "arm": "GOLD_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      21508
+     ],
+     "repair_prompt_tokens": [
+      342
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "SEARCH_ERROR:saleor/graphql/webhook/resolvers.py: block 1: SEARCH content not found in current file (count=0); search='from typing import TYPE_CHECKING, Any, Dict, Iterable, List, Optional, Union\\n\\nim'"
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-d220843b5418/PLACEBO_HARD/episode.json",
+     "task_id": "saleor-rc-d220843b5418",
+     "arm": "PLACEBO_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      6229
+     ],
+     "repair_prompt_tokens": [
+      342
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "PARSE_ERROR:saleor/graphql/attribute/mutations/attribute_bulk_update.py: expected '<<<<<<< SEARCH' block start, found: 'Looking at the developer change description, I need to prevent circular payload generation when listing shipping methods for checkout. However, neither of the provided files seems directly related to shipping methods or checkout functionality.'"
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-d220843b5418/RMCSS_HARD/episode.json",
+     "task_id": "saleor-rc-d220843b5418",
+     "arm": "RMCSS_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      42042
+     ],
+     "repair_prompt_tokens": [
+      339
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "SEARCH_ERROR:saleor/webhook/payloads.py: block 1: SEARCH content not found in current file (count=0); search='from collections import defaultdict\\nfrom dataclasses import asdict\\nfrom typing i'"
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-dc6ac9d252df/AGENT_HARD/episode.json",
+     "task_id": "saleor-rc-dc6ac9d252df",
+     "arm": "AGENT_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      7308
+     ],
+     "repair_prompt_tokens": [
+      362
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "SEARCH_ERROR:saleor/account/notifications.py: block 1: SEARCH content not found in current file (count=0); search='from ..core.notify_events import NotifyEventType\\nfrom ..core.utils.url import pr'"
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-dc6ac9d252df/GOLD_HARD/episode.json",
+     "task_id": "saleor-rc-dc6ac9d252df",
+     "arm": "GOLD_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      5424
+     ],
+     "repair_prompt_tokens": [
+      369
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "SEARCH_ERROR:saleor/giftcard/notifications.py: block 1: SEARCH content not found in current file (count=0); search='def send_gift_card_notification(\\n    requester_user: Optional[User],\\n    app: Op'"
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-dc6ac9d252df/PLACEBO_HARD/episode.json",
+     "task_id": "saleor-rc-dc6ac9d252df",
+     "arm": "PLACEBO_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      11220
+     ],
+     "repair_prompt_tokens": [
+      340
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "PARSE_ERROR:saleor/payment/gateways/adyen/utils/apple_pay.py: expected '<<<<<<< SEARCH' block start, found: 'Looking at the developer change description \"New payload structure\" and examining the provided files, I need to identify what changes would be related to a new payload structure in these files.'"
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-dc6ac9d252df/RMCSS_HARD/episode.json",
+     "task_id": "saleor-rc-dc6ac9d252df",
+     "arm": "RMCSS_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      1556
+     ],
+     "repair_prompt_tokens": [
+      311
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "SEARCH_ERROR:saleor/payment/gateways/razorpay/__init__.py: block 1: SEARCH content not found in current file (count=0); search='from .utils import (\\n    capture_razorpay_payment,\\n    create_razorpay_payment,\\n'"
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-e03ee76d2b89/GOLD_HARD/episode.json",
+     "task_id": "saleor-rc-e03ee76d2b89",
+     "arm": "GOLD_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      1852
+     ],
+     "repair_prompt_tokens": [
+      304
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "PARSE_ERROR:saleor/graphql/core/validators/giftcard.py: SEARCH block is empty"
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-e03ee76d2b89/PLACEBO_HARD/episode.json",
+     "task_id": "saleor-rc-e03ee76d2b89",
+     "arm": "PLACEBO_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      4478
+     ],
+     "repair_prompt_tokens": [
+      346
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "PARSE_ERROR:saleor/core/utils/__init__.py: expected '<<<<<<< SEARCH' block start, found: \"Looking at the developer change description, I need to implement a fix for the `clean_seo_fields` function to properly handle `None` values. Since this function wasn't in the originally provided files, I'll need to add it to the appropriate utilities module.\""
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-e03ee76d2b89/RMCSS_HARD/episode.json",
+     "task_id": "saleor-rc-e03ee76d2b89",
+     "arm": "RMCSS_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      2094
+     ],
+     "repair_prompt_tokens": [
+      304
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "OUT_OF_SCOPE_FILE:saleor/graphql/core/validators/base.py"
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-e25cf9b4a837/AGENT_HARD/episode.json",
+     "task_id": "saleor-rc-e25cf9b4a837",
+     "arm": "AGENT_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      1170
+     ],
+     "repair_prompt_tokens": [
+      306
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "SEARCH_ERROR:saleor/payment/gateways/dummy_credit_card/plugin.py: block 1: SEARCH content not found in current file (count=0); search='from typing import List, Optional\\n\\nfrom django.core.exceptions import Validation'"
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-e25cf9b4a837/GOLD_HARD/episode.json",
+     "task_id": "saleor-rc-e25cf9b4a837",
+     "arm": "GOLD_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      1170
+     ],
+     "repair_prompt_tokens": [
+      306
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "SEARCH_ERROR:saleor/payment/gateways/dummy_credit_card/plugin.py: block 1: SEARCH content not found in current file (count=0); search='from ... import PaymentError, TransactionKind\\nfrom ...interface import GatewayCo'"
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-e25cf9b4a837/PLACEBO_HARD/episode.json",
+     "task_id": "saleor-rc-e25cf9b4a837",
+     "arm": "PLACEBO_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      925
+     ],
+     "repair_prompt_tokens": [
+      337
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "PARSE_ERROR:saleor/product/utils/attributes.py: expected '<<<<<<< SEARCH' block start, found: \"I need to see the actual file contents to make proper edits. Since I don't have access to the specific files mentioned in the original request, I cannot provide meaningful edit blocks.\""
+     ]
+    },
+    {
+     "episode": "episodes/saleor-rc-e25cf9b4a837/RMCSS_HARD/episode.json",
+     "task_id": "saleor-rc-e25cf9b4a837",
+     "arm": "RMCSS_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "initial_prompt_tokens": [
+      1472
+     ],
+     "repair_prompt_tokens": [
+      306
+     ],
+     "repair_succeeded": false,
+     "validation_repair": [
+      "SEARCH_ERROR:saleor/payment/gateways/dummy_credit_card/plugin.py: block 1: SEARCH content not found in current file (count=0); search='from ... import PaymentError\\nfrom ...interface import GatewayConfig, GatewayResp'"
+     ]
+    }
+   ],
+   "code_reference": {
+    "call_site": {
+     "file": "src/benchmark/wp2/e2e/generate.py",
+     "lines": [
+      "101:     repair_used = False",
+      "102:     if errors and MAX_REPAIRS >= 1:",
+      "103:         repair_user = build_repair_prompt(response, errors)",
+      "104:         call2 = client.generate(system, repair_user)",
+      "105:         response2 = call2.text",
+      "106:         cache.put(prompt_sha, response2)",
+      "107:         calls.append(_call_entry(call2, \"repair\"))",
+      "108:         _record_ledger(ledger, call2, task_id, arm, \"repair\")",
+      "109:         errors2, final2 = validate_output(response2, scope[\"editable\"],"
+     ]
+    },
+    "build_repair_prompt": {
+     "file": "src/benchmark/wp2/e2e/prompt.py",
+     "lines": [
+      "73: def build_repair_prompt(_previous_output: str, errors: list[str]) -> str:",
+      "74:     problems = \"\\n\".join(f\"- {e}\" for e in errors)",
+      "75:     return REPAIR_TEMPLATE.format(problems=problems)",
+      "76: "
+     ]
+    },
+    "template": {
+     "file": "src/benchmark/wp2/e2e/prompt.py",
+     "lines": [
+      "33: REPAIR_TEMPLATE = \"\"\"Your previous output could not be applied. Problems:",
+      "34: {problems}",
+      "35: ",
+      "36: Return the COMPLETE corrected set of edit blocks for the whole change (not only the fixes), in the same format. Output only edit blocks.\"\"\"",
+      "37: "
+     ]
+    }
+   },
+   "omitted_from_repair_request": {
+    "original_task_prompt": true,
+    "file_contents": true,
+    "previous_assistant_output": true
+   },
+   "withdrawn_interpretation": "0 repair successes does not demonstrate model inability because the repair request omitted the original task prompt, file contents, and previous assistant output (blind repair).",
+   "affected_episodes": [
+    "episodes/saleor-rc-2d45b76a52f2/AGENT_HARD/episode.json",
+    "episodes/saleor-rc-39b4138e8550/GOLD_HARD/episode.json",
+    "episodes/saleor-rc-39b4138e8550/PLACEBO_HARD/episode.json",
+    "episodes/saleor-rc-644f33094857/AGENT_HARD/episode.json",
+    "episodes/saleor-rc-644f33094857/GOLD_HARD/episode.json",
+    "episodes/saleor-rc-644f33094857/PLACEBO_HARD/episode.json",
+    "episodes/saleor-rc-644f33094857/RMCSS_HARD/episode.json",
+    "episodes/saleor-rc-6abb53f3407b/AGENT_HARD/episode.json",
+    "episodes/saleor-rc-6abb53f3407b/GOLD_HARD/episode.json",
+    "episodes/saleor-rc-6abb53f3407b/RMCSS_HARD/episode.json",
+    "episodes/saleor-rc-74538ea00ce9/AGENT_HARD/episode.json",
+    "episodes/saleor-rc-74538ea00ce9/GOLD_HARD/episode.json",
+    "episodes/saleor-rc-74538ea00ce9/PLACEBO_HARD/episode.json",
+    "episodes/saleor-rc-74538ea00ce9/RMCSS_HARD/episode.json",
+    "episodes/saleor-rc-823b899757ab/AGENT_HARD/episode.json",
+    "episodes/saleor-rc-823b899757ab/GOLD_HARD/episode.json",
+    "episodes/saleor-rc-823b899757ab/RMCSS_HARD/episode.json",
+    "episodes/saleor-rc-82c56bde0e34/AGENT_HARD/episode.json",
+    "episodes/saleor-rc-82c56bde0e34/GOLD_HARD/episode.json",
+    "episodes/saleor-rc-82c56bde0e34/PLACEBO_HARD/episode.json",
+    "episodes/saleor-rc-82c56bde0e34/RMCSS_HARD/episode.json",
+    "episodes/saleor-rc-8f76ddc6267f/GOLD_HARD/episode.json",
+    "episodes/saleor-rc-8f76ddc6267f/PLACEBO_HARD/episode.json",
+    "episodes/saleor-rc-8f76ddc6267f/RMCSS_HARD/episode.json",
+    "episodes/saleor-rc-93b20d78c011/AGENT_HARD/episode.json",
+    "episodes/saleor-rc-93b20d78c011/GOLD_HARD/episode.json",
+    "episodes/saleor-rc-93b20d78c011/PLACEBO_HARD/episode.json",
+    "episodes/saleor-rc-93b20d78c011/RMCSS_HARD/episode.json",
+    "episodes/saleor-rc-c3b9e396b07d/AGENT_HARD/episode.json",
+    "episodes/saleor-rc-c3b9e396b07d/GOLD_HARD/episode.json",
+    "episodes/saleor-rc-c3b9e396b07d/PLACEBO_HARD/episode.json",
+    "episodes/saleor-rc-c3b9e396b07d/RMCSS_HARD/episode.json",
+    "episodes/saleor-rc-d220843b5418/AGENT_HARD/episode.json",
+    "episodes/saleor-rc-d220843b5418/GOLD_HARD/episode.json",
+    "episodes/saleor-rc-d220843b5418/PLACEBO_HARD/episode.json",
+    "episodes/saleor-rc-d220843b5418/RMCSS_HARD/episode.json",
+    "episodes/saleor-rc-dc6ac9d252df/AGENT_HARD/episode.json",
+    "episodes/saleor-rc-dc6ac9d252df/GOLD_HARD/episode.json",
+    "episodes/saleor-rc-dc6ac9d252df/PLACEBO_HARD/episode.json",
+    "episodes/saleor-rc-dc6ac9d252df/RMCSS_HARD/episode.json",
+    "episodes/saleor-rc-e03ee76d2b89/GOLD_HARD/episode.json",
+    "episodes/saleor-rc-e03ee76d2b89/PLACEBO_HARD/episode.json",
+    "episodes/saleor-rc-e03ee76d2b89/RMCSS_HARD/episode.json",
+    "episodes/saleor-rc-e25cf9b4a837/AGENT_HARD/episode.json",
+    "episodes/saleor-rc-e25cf9b4a837/GOLD_HARD/episode.json",
+    "episodes/saleor-rc-e25cf9b4a837/PLACEBO_HARD/episode.json",
+    "episodes/saleor-rc-e25cf9b4a837/RMCSS_HARD/episode.json"
+   ]
+  },
+  "df3": {
+   "defect": "DF3",
+   "name": "identical_request_reuse_failure",
+   "reproduced": true,
+   "canonical_request_equivalence": {
+    "model": "qwen/qwen3-coder",
+    "provider_route": "deepinfra/turbo",
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "max_tokens": 8192,
+    "complete_messages": "system (constant SYSTEM_PROMPT) + user (prompt_sha256)",
+    "note": "identical prompt_sha256 implies identical user message; system prompt is a shared constant"
+   },
+   "identical_prompt_groups_with_multiple_arms": 3,
+   "rows": [
+    {
+     "task_id": "saleor-rc-823b899757ab",
+     "prompt_sha256": "cddfcdcb3615cf1908a04158becd473079690c8a27aaf2e5d4d6bcb7486f91c8",
+     "arm": "AGENT_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "response_shas": [
+      "3689ef764973f716c357172cdade9dc949839d4392b7967b6c57f4d7e3a7e532",
+      "2b707d646091c40171d19ffb80f0bb087e60a3f7f0d42ab9f67ef34be20bcd18"
+     ]
+    },
+    {
+     "task_id": "saleor-rc-823b899757ab",
+     "prompt_sha256": "cddfcdcb3615cf1908a04158becd473079690c8a27aaf2e5d4d6bcb7486f91c8",
+     "arm": "GOLD_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "response_shas": [
+      "80d476a67a365d2c3fd936ae70753ad9f036c7f0bc95dda00c51752bce38b91d",
+      "2b0186ea012214f86c2c37760c85e2795719d9c337fd90a45846fa05f3899745"
+     ]
+    },
+    {
+     "task_id": "saleor-rc-e03ee76d2b89",
+     "prompt_sha256": "0ba9584e82ef01256a9795db00f2a53b5973ca439815b33f4620ccb13798aa26",
+     "arm": "AGENT_HARD",
+     "status": "APPLIED",
+     "response_shas": [
+      "523b887e469e6af375d5dd3413c2867086094fadce93b3e630dee4062d9ebf6b"
+     ]
+    },
+    {
+     "task_id": "saleor-rc-e03ee76d2b89",
+     "prompt_sha256": "0ba9584e82ef01256a9795db00f2a53b5973ca439815b33f4620ccb13798aa26",
+     "arm": "GOLD_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "response_shas": [
+      "96f3389c41ef3de78c01d3e48f5e34bc2f14ab5a14b78c1153ae6bcd61a5e77f",
+      "4c6b1e0fd78ad99c4642944dec91244a67b9d3bfdd7640693e0b2d9526909c2d"
+     ]
+    },
+    {
+     "task_id": "saleor-rc-e25cf9b4a837",
+     "prompt_sha256": "a9150cf1ffbbe02ff676a5141d9729749f10a4d44918291ae07415bedf53546b",
+     "arm": "AGENT_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "response_shas": [
+      "265708c240c57e3e97c8ffdeb5e89110bf73b96d0c897405c53f6f83949dd7ba",
+      "15a04e997dd61819739f107136a23518ed2389299bb3e6885730fa86b923cdfe"
+     ]
+    },
+    {
+     "task_id": "saleor-rc-e25cf9b4a837",
+     "prompt_sha256": "a9150cf1ffbbe02ff676a5141d9729749f10a4d44918291ae07415bedf53546b",
+     "arm": "GOLD_HARD",
+     "status": "INVALID_AFTER_REPAIR",
+     "response_shas": [
+      "265708c240c57e3e97c8ffdeb5e89110bf73b96d0c897405c53f6f83949dd7ba",
+      "0f764f33a6a691a44cfeebeee9acf8314e63deb65bb9a30512ffeed5b86a7285"
+     ]
+    }
+   ],
+   "e03ee_verification": {
+    "groups": [
+     {
+      "task_id": "saleor-rc-e03ee76d2b89",
+      "prompt_sha256": "0ba9584e82ef01256a9795db00f2a53b5973ca439815b33f4620ccb13798aa26",
+      "arm": "AGENT_HARD",
+      "status": "APPLIED",
+      "response_shas": [
+       "523b887e469e6af375d5dd3413c2867086094fadce93b3e630dee4062d9ebf6b"
+      ]
+     },
+     {
+      "task_id": "saleor-rc-e03ee76d2b89",
+      "prompt_sha256": "0ba9584e82ef01256a9795db00f2a53b5973ca439815b33f4620ccb13798aa26",
+      "arm": "GOLD_HARD",
+      "status": "INVALID_AFTER_REPAIR",
+      "response_shas": [
+       "96f3389c41ef3de78c01d3e48f5e34bc2f14ab5a14b78c1153ae6bcd61a5e77f",
+       "4c6b1e0fd78ad99c4642944dec91244a67b9d3bfdd7640693e0b2d9526909c2d"
+      ]
+     }
+    ]
+   },
+   "wording": "The observed success cannot be attributed to scope and is consistent with provider-side nondeterminism.",
+   "forbidden_wording_note": "Not used: 'provider noise caused the result' (no causal evidence).",
+   "affected_episodes": [
+    "episodes/saleor-rc-823b899757ab/AGENT_HARD/episode.json",
+    "episodes/saleor-rc-823b899757ab/GOLD_HARD/episode.json",
+    "episodes/saleor-rc-e03ee76d2b89/AGENT_HARD/episode.json",
+    "episodes/saleor-rc-e03ee76d2b89/GOLD_HARD/episode.json",
+    "episodes/saleor-rc-e25cf9b4a837/AGENT_HARD/episode.json",
+    "episodes/saleor-rc-e25cf9b4a837/GOLD_HARD/episode.json"
+   ]
+  },
+  "df4": {
+   "defect": "DF4",
+   "name": "truncation_propagation",
+   "reproduced": true,
+   "finish_reason_length_calls": 1,
+   "completions_at_max": 1,
+   "length_call_rows": [
+    {
+     "episode": "episodes/saleor-rc-dc6ac9d252df/RMCSS_HARD/episode.json",
+     "task_id": "saleor-rc-dc6ac9d252df",
+     "arm": "RMCSS_HARD",
+     "call_index": 0,
+     "kind": "initial",
+     "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+     "provider": "deepinfra/turbo",
+     "prompt_tokens": 1556,
+     "completion_tokens": 8192,
+     "cost_usd": 0.0086108,
+     "finish_reason": "length",
+     "response_sha256": "28dff3fc2e2b6a6d7624d587fb079ee8c74d3e308e7cb88883282b3b5f0cca3f",
+     "request_id": "gen-1790573988-hBDJN7YlUOThm0KrPfZg"
+    }
+   ],
+   "max_completion_rows": [
+    {
+     "episode": "episodes/saleor-rc-dc6ac9d252df/RMCSS_HARD/episode.json",
+     "task_id": "saleor-rc-dc6ac9d252df",
+     "arm": "RMCSS_HARD",
+     "call_index": 0,
+     "kind": "initial",
+     "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+     "provider": "deepinfra/turbo",
+     "prompt_tokens": 1556,
+     "completion_tokens": 8192,
+     "cost_usd": 0.0086108,
+     "finish_reason": "length",
+     "response_sha256": "28dff3fc2e2b6a6d7624d587fb079ee8c74d3e308e7cb88883282b3b5f0cca3f",
+     "request_id": "gen-1790573988-hBDJN7YlUOThm0KrPfZg"
+    }
+   ],
+   "code_reference": {
+    "file": "src/benchmark/wp2/e2e/generate.py",
+    "validate_output_call_sites": [
+     "98:     errors, final = validate_output(response, scope[\"editable\"],",
+     "109:         errors2, final2 = validate_output(response2, scope[\"editable\"],"
+    ],
+    "context_lines": [
+     "98:     errors, final = validate_output(response, scope[\"editable\"],",
+     "99:                                     _parent_texts(task_id, scope[\"editable\"]),",
+     "100:                                     \"stop\", ti.era_key)",
+     "101:     repair_used = False",
+     "102:     if errors and MAX_REPAIRS >= 1:",
+     "103:         repair_user = build_repair_prompt(response, errors)",
+     "104:         call2 = client.generate(system, repair_user)",
+     "105:         response2 = call2.text",
+     "106:         cache.put(prompt_sha, response2)",
+     "107:         calls.append(_call_entry(call2, \"repair\"))",
+     "108:         _record_ledger(ledger, call2, task_id, arm, \"repair\")",
+     "109:         errors2, final2 = validate_output(response2, scope[\"editable\"],",
+     "110:                                           _parent_texts(task_id, scope[\"editable\"]),",
+     "111:                                           \"stop\", ti.era_key)"
+    ],
+    "note": "validate_output receives hard-coded 'stop' instead of call.finish_reason; length -> TRUNCATED branch in validate_output is unreachable from run_episode"
+   },
+   "affected_episodes": [
+    "episodes/saleor-rc-dc6ac9d252df/RMCSS_HARD/episode.json"
+   ]
+  },
+  "df5": {
+   "defect": "DF5",
+   "name": "raw_response_not_persisted",
+   "reproduced": true,
+   "tracked_raw_response_files_in_episodes": 0,
+   "tracked_non_episode_files": [],
+   "committed_evidence": "only response_sha256 is stored in episode.json calls; response texts absent",
+   "local_search": {
+    "known_response_hashes": 99,
+    "candidate_files_scanned": 8584,
+    "matches_found": [],
+    "empty_hash_false_positives": [
+     "C:/Users/Ahmed/Desktop/OpenCode/master-2026-07-21-2355/project/logs/c2_orchestrator_console.log",
+     "C:/Users/Ahmed/Desktop/OpenCode/master-2026-07-21-2355/project/logs/c2_orchestrator_console_err.log",
+     "C:/Users/Ahmed/Desktop/OpenCode/master-2026-07-21-2355/project/logs/c4_orchestrator_console.log",
+     "C:/Users/Ahmed/Desktop/OpenCode/master-2026-07-21-2355/project/logs/c4_orchestrator_console_err.log"
+    ]
+   },
+   "label_if_found": "RAW_RESPONSES_NOT_PERSISTED",
+   "note": "Recovered raw responses never alter v1 scores.",
+   "affected_episodes": [
+    "episodes/saleor-rc-2d45b76a52f2/AGENT_HARD/episode.json",
+    "episodes/saleor-rc-2d45b76a52f2/GOLD_HARD/episode.json",
+    "episodes/saleor-rc-2d45b76a52f2/PLACEBO_HARD/episode.json",
+    "episodes/saleor-rc-2d45b76a52f2/RMCSS_HARD/episode.json",
+    "episodes/saleor-rc-39b4138e8550/AGENT_HARD/episode.json",
+    "episodes/saleor-rc-39b4138e8550/GOLD_HARD/episode.json",
+    "episodes/saleor-rc-39b4138e8550/PLACEBO_HARD/episode.json",
+    "episodes/saleor-rc-39b4138e8550/RMCSS_HARD/episode.json",
+    "episodes/saleor-rc-644f33094857/AGENT_HARD/episode.json",
+    "episodes/saleor-rc-644f33094857/GOLD_HARD/episode.json",
+    "episodes/saleor-rc-644f33094857/PLACEBO_HARD/episode.json",
+    "episodes/saleor-rc-644f33094857/RMCSS_HARD/episode.json",
+    "episodes/saleor-rc-6abb53f3407b/AGENT_HARD/episode.json",
+    "episodes/saleor-rc-6abb53f3407b/GOLD_HARD/episode.json",
+    "episodes/saleor-rc-6abb53f3407b/PLACEBO_HARD/episode.json",
+    "episodes/saleor-rc-6abb53f3407b/RMCSS_HARD/episode.json",
+    "episodes/saleor-rc-74538ea00ce9/AGENT_HARD/episode.json",
+    "episodes/saleor-rc-74538ea00ce9/GOLD_HARD/episode.json",
+    "episodes/saleor-rc-74538ea00ce9/PLACEBO_HARD/episode.json",
+    "episodes/saleor-rc-74538ea00ce9/RMCSS_HARD/episode.json",
+    "episodes/saleor-rc-823b899757ab/AGENT_HARD/episode.json",
+    "episodes/saleor-rc-823b899757ab/GOLD_HARD/episode.json",
+    "episodes/saleor-rc-823b899757ab/PLACEBO_HARD/episode.json",
+    "episodes/saleor-rc-823b899757ab/RMCSS_HARD/episode.json",
+    "episodes/saleor-rc-82c56bde0e34/AGENT_HARD/episode.json",
+    "episodes/saleor-rc-82c56bde0e34/GOLD_HARD/episode.json",
+    "episodes/saleor-rc-82c56bde0e34/PLACEBO_HARD/episode.json",
+    "episodes/saleor-rc-82c56bde0e34/RMCSS_HARD/episode.json",
+    "episodes/saleor-rc-8f76ddc6267f/AGENT_HARD/episode.json",
+    "episodes/saleor-rc-8f76ddc6267f/GOLD_HARD/episode.json",
+    "episodes/saleor-rc-8f76ddc6267f/PLACEBO_HARD/episode.json",
+    "episodes/saleor-rc-8f76ddc6267f/RMCSS_HARD/episode.json",
+    "episodes/saleor-rc-93b20d78c011/AGENT_HARD/episode.json",
+    "episodes/saleor-rc-93b20d78c011/GOLD_HARD/episode.json",
+    "episodes/saleor-rc-93b20d78c011/PLACEBO_HARD/episode.json",
+    "episodes/saleor-rc-93b20d78c011/RMCSS_HARD/episode.json",
+    "episodes/saleor-rc-c3b9e396b07d/AGENT_HARD/episode.json",
+    "episodes/saleor-rc-c3b9e396b07d/GOLD_HARD/episode.json",
+    "episodes/saleor-rc-c3b9e396b07d/PLACEBO_HARD/episode.json",
+    "episodes/saleor-rc-c3b9e396b07d/RMCSS_HARD/episode.json",
+    "episodes/saleor-rc-d220843b5418/AGENT_HARD/episode.json",
+    "episodes/saleor-rc-d220843b5418/GOLD_HARD/episode.json",
+    "episodes/saleor-rc-d220843b5418/PLACEBO_HARD/episode.json",
+    "episodes/saleor-rc-d220843b5418/RMCSS_HARD/episode.json",
+    "episodes/saleor-rc-dc6ac9d252df/AGENT_HARD/episode.json",
+    "episodes/saleor-rc-dc6ac9d252df/GOLD_HARD/episode.json",
+    "episodes/saleor-rc-dc6ac9d252df/PLACEBO_HARD/episode.json",
+    "episodes/saleor-rc-dc6ac9d252df/RMCSS_HARD/episode.json",
+    "episodes/saleor-rc-e03ee76d2b89/AGENT_HARD/episode.json",
+    "episodes/saleor-rc-e03ee76d2b89/GOLD_HARD/episode.json",
+    "episodes/saleor-rc-e03ee76d2b89/PLACEBO_HARD/episode.json",
+    "episodes/saleor-rc-e03ee76d2b89/RMCSS_HARD/episode.json",
+    "episodes/saleor-rc-e25cf9b4a837/AGENT_HARD/episode.json",
+    "episodes/saleor-rc-e25cf9b4a837/GOLD_HARD/episode.json",
+    "episodes/saleor-rc-e25cf9b4a837/PLACEBO_HARD/episode.json",
+    "episodes/saleor-rc-e25cf9b4a837/RMCSS_HARD/episode.json"
+   ]
+  }
+ },
+ "integrity": {
+  "df1": true,
+  "df2": true,
+  "df3": true,
+  "df4": true,
+  "df5": true
+ }
+}

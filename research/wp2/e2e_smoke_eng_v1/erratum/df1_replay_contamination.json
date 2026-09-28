@@ -1,0 +1,37 @@
+{
+ "defect": "DF1",
+ "name": "replay_contamination",
+ "reproduced": true,
+ "replay_call_count": 2,
+ "replay_episodes": [
+  "episodes/saleor-rc-39b4138e8550/GOLD_HARD/episode.json"
+ ],
+ "alleged_39b_gold_cell": {
+  "route_calls": [
+   "replay",
+   "replay"
+  ],
+  "editable_set": [
+   "saleor/x/models.py"
+  ],
+  "prompt_tokens_per_call": [
+   25,
+   25
+  ],
+  "cost_usd_per_call": [
+   0.0,
+   0.0
+  ],
+  "created_utc": "2026-09-28T05:46:41Z",
+  "prompt_sha256": "25cd72982864be6c99a88737bc1b244729aa8a901ec365ffaa54a39e20868ddd"
+ },
+ "additional_replay_cells": [],
+ "code_reference": {
+  "ReplayClient": "src/benchmark/wp2/e2e/llm_client.py:109-123 (route='replay')",
+  "persist": "src/benchmark/wp2/e2e/generate.py:172-176 (_persist_episode writes under episodes/)"
+ },
+ "evidence": "episode.json calls with route=replay in committed v1 evidence",
+ "affected_episodes": [
+  "episodes/saleor-rc-39b4138e8550/GOLD_HARD/episode.json"
+ ]
+}

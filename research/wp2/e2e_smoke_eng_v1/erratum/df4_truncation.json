@@ -1,0 +1,68 @@
+{
+ "defect": "DF4",
+ "name": "truncation_propagation",
+ "reproduced": true,
+ "finish_reason_length_calls": 1,
+ "completions_at_max": 1,
+ "length_call_rows": [
+  {
+   "episode": "episodes/saleor-rc-dc6ac9d252df/RMCSS_HARD/episode.json",
+   "task_id": "saleor-rc-dc6ac9d252df",
+   "arm": "RMCSS_HARD",
+   "call_index": 0,
+   "kind": "initial",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 1556,
+   "completion_tokens": 8192,
+   "cost_usd": 0.0086108,
+   "finish_reason": "length",
+   "response_sha256": "28dff3fc2e2b6a6d7624d587fb079ee8c74d3e308e7cb88883282b3b5f0cca3f",
+   "request_id": "gen-1790573988-hBDJN7YlUOThm0KrPfZg"
+  }
+ ],
+ "max_completion_rows": [
+  {
+   "episode": "episodes/saleor-rc-dc6ac9d252df/RMCSS_HARD/episode.json",
+   "task_id": "saleor-rc-dc6ac9d252df",
+   "arm": "RMCSS_HARD",
+   "call_index": 0,
+   "kind": "initial",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 1556,
+   "completion_tokens": 8192,
+   "cost_usd": 0.0086108,
+   "finish_reason": "length",
+   "response_sha256": "28dff3fc2e2b6a6d7624d587fb079ee8c74d3e308e7cb88883282b3b5f0cca3f",
+   "request_id": "gen-1790573988-hBDJN7YlUOThm0KrPfZg"
+  }
+ ],
+ "code_reference": {
+  "file": "src/benchmark/wp2/e2e/generate.py",
+  "validate_output_call_sites": [
+   "98:     errors, final = validate_output(response, scope[\"editable\"],",
+   "109:         errors2, final2 = validate_output(response2, scope[\"editable\"],"
+  ],
+  "context_lines": [
+   "98:     errors, final = validate_output(response, scope[\"editable\"],",
+   "99:                                     _parent_texts(task_id, scope[\"editable\"]),",
+   "100:                                     \"stop\", ti.era_key)",
+   "101:     repair_used = False",
+   "102:     if errors and MAX_REPAIRS >= 1:",
+   "103:         repair_user = build_repair_prompt(response, errors)",
+   "104:         call2 = client.generate(system, repair_user)",
+   "105:         response2 = call2.text",
+   "106:         cache.put(prompt_sha, response2)",
+   "107:         calls.append(_call_entry(call2, \"repair\"))",
+   "108:         _record_ledger(ledger, call2, task_id, arm, \"repair\")",
+   "109:         errors2, final2 = validate_output(response2, scope[\"editable\"],",
+   "110:                                           _parent_texts(task_id, scope[\"editable\"]),",
+   "111:                                           \"stop\", ti.era_key)"
+  ],
+  "note": "validate_output receives hard-coded 'stop' instead of call.finish_reason; length -> TRUNCATED branch in validate_output is unreachable from run_episode"
+ },
+ "affected_episodes": [
+  "episodes/saleor-rc-dc6ac9d252df/RMCSS_HARD/episode.json"
+ ]
+}

@@ -2431,3 +2431,14 @@ Mission-11 one-shot (sole authoritative directive, supersedes Mission-10B STOP-f
 - NA3: Stage C / holdout / validation / MAIN / Pilot / workers=2 NOT authorized.
 - NA4: Editing any Smoke v1 result artifact or moving any v1 tag FORBIDDEN.
 - Engineering note (wrapper A1): Mission-11 closure residue (3 tracked generated files) classified, byte-exact patch saved to _workspace/active/MISSION12_PRESTART_RESIDUE_2026-09-28.patch, restored to HEAD; AGENTS.md native-todo rule committed as docs(agents) 25b70ef9.
+
+## Decision WP2_E2E_SMOKE_ENG_V1 - ERRATUM (2026-09-28)
+
+- Token corrected mechanically from E2E_SMOKE_FLOOR_EFFECT to E2E_SMOKE_INSTRUMENT_INVALID.
+- Read-only defect audit reproduced DF1-DF5; SG1 corrected to FAIL (DF1 replay fixture in
+  paid evidence root; DF2 blind repair deviating from the preregistered instrument contract).
+- Withdrawn interpretations: "repair could not fix the format" (blind repair); "AGENT 1/14
+  attributable to scope" (identical prompt to GOLD, DF3); 0 repair successes as model inability.
+- v1 result JSONs and v1 tags unchanged (immutability verified in erratum/v1_immutability_before.json).
+- No change to RM-CSS selection-stage evidence. Smoke v1 is engineering-split pipeline validation only.
+- Evidence: docs/WP2_E2E_SMOKE_ENG_V1_ERRATUM_2026-09-28.md + research/wp2/e2e_smoke_eng_v1/erratum/.

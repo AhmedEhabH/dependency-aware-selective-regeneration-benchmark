@@ -1,0 +1,109 @@
+{
+ "defect": "DF3",
+ "name": "identical_request_reuse_failure",
+ "reproduced": true,
+ "canonical_request_equivalence": {
+  "model": "qwen/qwen3-coder",
+  "provider_route": "deepinfra/turbo",
+  "temperature": 0.0,
+  "top_p": 1.0,
+  "max_tokens": 8192,
+  "complete_messages": "system (constant SYSTEM_PROMPT) + user (prompt_sha256)",
+  "note": "identical prompt_sha256 implies identical user message; system prompt is a shared constant"
+ },
+ "identical_prompt_groups_with_multiple_arms": 3,
+ "rows": [
+  {
+   "task_id": "saleor-rc-823b899757ab",
+   "prompt_sha256": "cddfcdcb3615cf1908a04158becd473079690c8a27aaf2e5d4d6bcb7486f91c8",
+   "arm": "AGENT_HARD",
+   "status": "INVALID_AFTER_REPAIR",
+   "response_shas": [
+    "3689ef764973f716c357172cdade9dc949839d4392b7967b6c57f4d7e3a7e532",
+    "2b707d646091c40171d19ffb80f0bb087e60a3f7f0d42ab9f67ef34be20bcd18"
+   ]
+  },
+  {
+   "task_id": "saleor-rc-823b899757ab",
+   "prompt_sha256": "cddfcdcb3615cf1908a04158becd473079690c8a27aaf2e5d4d6bcb7486f91c8",
+   "arm": "GOLD_HARD",
+   "status": "INVALID_AFTER_REPAIR",
+   "response_shas": [
+    "80d476a67a365d2c3fd936ae70753ad9f036c7f0bc95dda00c51752bce38b91d",
+    "2b0186ea012214f86c2c37760c85e2795719d9c337fd90a45846fa05f3899745"
+   ]
+  },
+  {
+   "task_id": "saleor-rc-e03ee76d2b89",
+   "prompt_sha256": "0ba9584e82ef01256a9795db00f2a53b5973ca439815b33f4620ccb13798aa26",
+   "arm": "AGENT_HARD",
+   "status": "APPLIED",
+   "response_shas": [
+    "523b887e469e6af375d5dd3413c2867086094fadce93b3e630dee4062d9ebf6b"
+   ]
+  },
+  {
+   "task_id": "saleor-rc-e03ee76d2b89",
+   "prompt_sha256": "0ba9584e82ef01256a9795db00f2a53b5973ca439815b33f4620ccb13798aa26",
+   "arm": "GOLD_HARD",
+   "status": "INVALID_AFTER_REPAIR",
+   "response_shas": [
+    "96f3389c41ef3de78c01d3e48f5e34bc2f14ab5a14b78c1153ae6bcd61a5e77f",
+    "4c6b1e0fd78ad99c4642944dec91244a67b9d3bfdd7640693e0b2d9526909c2d"
+   ]
+  },
+  {
+   "task_id": "saleor-rc-e25cf9b4a837",
+   "prompt_sha256": "a9150cf1ffbbe02ff676a5141d9729749f10a4d44918291ae07415bedf53546b",
+   "arm": "AGENT_HARD",
+   "status": "INVALID_AFTER_REPAIR",
+   "response_shas": [
+    "265708c240c57e3e97c8ffdeb5e89110bf73b96d0c897405c53f6f83949dd7ba",
+    "15a04e997dd61819739f107136a23518ed2389299bb3e6885730fa86b923cdfe"
+   ]
+  },
+  {
+   "task_id": "saleor-rc-e25cf9b4a837",
+   "prompt_sha256": "a9150cf1ffbbe02ff676a5141d9729749f10a4d44918291ae07415bedf53546b",
+   "arm": "GOLD_HARD",
+   "status": "INVALID_AFTER_REPAIR",
+   "response_shas": [
+    "265708c240c57e3e97c8ffdeb5e89110bf73b96d0c897405c53f6f83949dd7ba",
+    "0f764f33a6a691a44cfeebeee9acf8314e63deb65bb9a30512ffeed5b86a7285"
+   ]
+  }
+ ],
+ "e03ee_verification": {
+  "groups": [
+   {
+    "task_id": "saleor-rc-e03ee76d2b89",
+    "prompt_sha256": "0ba9584e82ef01256a9795db00f2a53b5973ca439815b33f4620ccb13798aa26",
+    "arm": "AGENT_HARD",
+    "status": "APPLIED",
+    "response_shas": [
+     "523b887e469e6af375d5dd3413c2867086094fadce93b3e630dee4062d9ebf6b"
+    ]
+   },
+   {
+    "task_id": "saleor-rc-e03ee76d2b89",
+    "prompt_sha256": "0ba9584e82ef01256a9795db00f2a53b5973ca439815b33f4620ccb13798aa26",
+    "arm": "GOLD_HARD",
+    "status": "INVALID_AFTER_REPAIR",
+    "response_shas": [
+     "96f3389c41ef3de78c01d3e48f5e34bc2f14ab5a14b78c1153ae6bcd61a5e77f",
+     "4c6b1e0fd78ad99c4642944dec91244a67b9d3bfdd7640693e0b2d9526909c2d"
+    ]
+   }
+  ]
+ },
+ "wording": "The observed success cannot be attributed to scope and is consistent with provider-side nondeterminism.",
+ "forbidden_wording_note": "Not used: 'provider noise caused the result' (no causal evidence).",
+ "affected_episodes": [
+  "episodes/saleor-rc-823b899757ab/AGENT_HARD/episode.json",
+  "episodes/saleor-rc-823b899757ab/GOLD_HARD/episode.json",
+  "episodes/saleor-rc-e03ee76d2b89/AGENT_HARD/episode.json",
+  "episodes/saleor-rc-e03ee76d2b89/GOLD_HARD/episode.json",
+  "episodes/saleor-rc-e25cf9b4a837/AGENT_HARD/episode.json",
+  "episodes/saleor-rc-e25cf9b4a837/GOLD_HARD/episode.json"
+ ]
+}

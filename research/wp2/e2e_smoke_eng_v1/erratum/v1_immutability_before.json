@@ -1,0 +1,1343 @@
+{
+ "artifact": "v1_immutability_before",
+ "created_utc": "2026-09-28T14:46:35Z",
+ "head": "b191ca8f4a9dd98dcb900f392100226218847f07",
+ "origin_main": "b191ca8f4a9dd98dcb900f392100226218847f07",
+ "artifact_count": 264,
+ "artifacts": {
+  "research/wp2/e2e_smoke_eng_v1/agent_dev_eng/agent_run_records.jsonl": {
+   "sha256": "b1a9c51f712255d0e3138ed0c1ef1a1958e22e97901316803e33ae3db3dab6dc",
+   "bytes": 35118,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/agent_dev_eng/halt_history/halt_001.json": {
+   "sha256": "56b61814d8b953ebd9baa41979cb3f4fce0f7f5876877f37d64b3cb6817f28ee",
+   "bytes": 516,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/agent_dev_eng/halt_history/halt_002.json": {
+   "sha256": "4e263e11b9e24c9342e72fc2528e8225384f2cb84ac572f45aac72599c95608d",
+   "bytes": 685,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/agent_dev_eng/infra_sessions.json": {
+   "sha256": "97f4f28d7800a4229e0d09c719932dc93945a99ccefb3f3eece443b8ad717e73",
+   "bytes": 77,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/agent_dev_eng/knob_check.json": {
+   "sha256": "7e307118b4e832cfe63d0ea9fc95d31cf48ff4e75836a5bbd0f4cbe5e0650c0a",
+   "bytes": 316,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/agent_dev_eng/knob_check_resume_2026-09-28T042853.json": {
+   "sha256": "7e307118b4e832cfe63d0ea9fc95d31cf48ff4e75836a5bbd0f4cbe5e0650c0a",
+   "bytes": 316,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/agent_dev_eng/knob_check_resume_2026-09-28T043105.json": {
+   "sha256": "7e307118b4e832cfe63d0ea9fc95d31cf48ff4e75836a5bbd0f4cbe5e0650c0a",
+   "bytes": 316,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/agent_dev_eng/knob_check_resume_2026-09-28T050243.json": {
+   "sha256": "7e307118b4e832cfe63d0ea9fc95d31cf48ff4e75836a5bbd0f4cbe5e0650c0a",
+   "bytes": 316,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/agent_dev_eng/knob_check_resume_2026-09-28T051009.json": {
+   "sha256": "7e307118b4e832cfe63d0ea9fc95d31cf48ff4e75836a5bbd0f4cbe5e0650c0a",
+   "bytes": 316,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/agent_dev_eng/pricing_preflight.json": {
+   "sha256": "af4d5e121d04be586c4d70274043c67579df78321e22c3c4d94894b173b728d2",
+   "bytes": 257,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/agent_dev_eng/pricing_preflight_resume_2026-09-28T042853.json": {
+   "sha256": "46ecd0e3f6fb5e6e2275d758a5fa0859720d2952fc3d5f5252bea5082d1aff5c",
+   "bytes": 258,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/agent_dev_eng/pricing_preflight_resume_2026-09-28T043105.json": {
+   "sha256": "fb09bfeb2ac075cb81e93d6f64c7f9f6ff682d5a5cc4f40ddf76c373a130c2fe",
+   "bytes": 258,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/agent_dev_eng/pricing_preflight_resume_2026-09-28T050243.json": {
+   "sha256": "f88277fbd4cf1db68c602088e63f3727838328fd3c3d700a71f4d36cbe67b24b",
+   "bytes": 258,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/agent_dev_eng/pricing_preflight_resume_2026-09-28T051009.json": {
+   "sha256": "8642d448f53bd60cdf610f69a8d14746820651cb0bf2b93356e9448d64b4f5b3",
+   "bytes": 258,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/agent_dev_eng/progress.json": {
+   "sha256": "325b80cec8311f4a302704f40bfa42a14f4a0a705af246d36c3075792f6af5c2",
+   "bytes": 550,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/agent_dev_eng/run_state.json": {
+   "sha256": "a23057c8479775f525f71494f5a2d7babf286be5a56cf47db68ef53634ab2018",
+   "bytes": 6809,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/agent_dev_eng/run_summary.json": {
+   "sha256": "457339901e51cacefd919beeaed8cf803879a6ccb9552a67fcdfb1016e76a2dc",
+   "bytes": 409,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/agent_dev_eng/spend_ledger.jsonl": {
+   "sha256": "8fa868411033516044f1ade2f3e252a93ac71c65b5762cb2243a14aa68bc79b7",
+   "bytes": 42784,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/agent_dev_eng/wp1b_call_sidecar.jsonl": {
+   "sha256": "00367e076b22d01b3a26ec6cd2141ee0b0cfcf0d3d3274ba0a3c9e1692a47f52",
+   "bytes": 103310,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/agent_dev_eng/wp1b_telemetry.jsonl": {
+   "sha256": "4c9d514d6610c52ae3c58ce95664d78bcd7ae166a32b8829480fd99d8d311d2a",
+   "bytes": 29479,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/agent_dev_eng_budget.json": {
+   "sha256": "feac46ce02e1d5a05a70881611d1f9437cf10cf526f6911d2831fc030741486a",
+   "bytes": 4746,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/controls/control_tasks.json": {
+   "sha256": "1bf70f730abc73252d7bcb79f43e89226ec520fcaa14dce3d2b9b4ee26976363",
+   "bytes": 148,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/controls/g_budget.json": {
+   "sha256": "4e656ed6621aaf91896678e4ecfad67853246304eaccd31e9ee23078a7fc2d16",
+   "bytes": 2751,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/controls/g_format.json": {
+   "sha256": "4d140e39609ecc99f4a8f712afba36b6337c0248149e493a5b53bad79bcecc3b",
+   "bytes": 1425,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/controls/g_leak.json": {
+   "sha256": "29b076aafdde0c6b229322f6008de471ac997a0e9c8904aa8899e9922c6baf35",
+   "bytes": 3320,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/controls/g_neg.json": {
+   "sha256": "ab0f874fd055715ba69a68df7bac38e100a8d13ad232acfb0d080ead36384821",
+   "bytes": 3812,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/controls/g_pos.json": {
+   "sha256": "0aa8cca91d8338120296f4e976fb29e7a6828a2f611d1b9d5e6688ecf8121706",
+   "bytes": 1149,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/controls/pos_episodes/saleor-rc-2d45b76a52f2/episode.json": {
+   "sha256": "ed366d717563534c398ac183965fa0ca6c927a04192edb7cc22c45d038e2bd37",
+   "bytes": 1171,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/controls/pos_episodes/saleor-rc-2d45b76a52f2/final_diff.patch": {
+   "sha256": "341bf4633c3bd7b08c6e3d9749a511a693c18ba95aab9fd0c18a88daa927fa02",
+   "bytes": 2241,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/controls/pos_episodes/saleor-rc-2d45b76a52f2/final_files/saleor/core/jwt.py": {
+   "sha256": "e4aec85038a60870878ed3b51c5af2a9a6cd6c0a8c7d1e7f6f761e687bd51d11",
+   "bytes": 6722,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/controls/pos_episodes/saleor-rc-39b4138e8550/episode.json": {
+   "sha256": "96f789fce7d1ea134dde8d1b96d9a096b4ccce21b947141b25377ddcac7cad4e",
+   "bytes": 1541,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/controls/pos_episodes/saleor-rc-644f33094857/episode.json": {
+   "sha256": "c96de7fab9d52e3afeb7c6b0c5956d845c522e7ebabf1143d75a69c8ae3e9b0d",
+   "bytes": 1544,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/controls/pos_episodes/saleor-rc-644f33094857/final_diff.patch": {
+   "sha256": "870ef0a419d1d3b46208de5de3657008ba901f9794d17498694ae7a134beaf00",
+   "bytes": 9226,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/controls/pos_episodes/saleor-rc-644f33094857/final_files/saleor/graphql/order/mutations/fulfillments.py": {
+   "sha256": "ae1729fc16870dfe55653fe99944320879cb7d4d3bf31d12f74f86b75c3710b6",
+   "bytes": 26688,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/controls/pos_episodes/saleor-rc-644f33094857/final_files/saleor/graphql/order/mutations/orders.py": {
+   "sha256": "8450113fcda5a265dbb5a8c623878075d5f95cf57e24e5646493de2566a9a2ec",
+   "bytes": 18677,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/controls/pos_episodes/saleor-rc-644f33094857/final_files/saleor/order/actions.py": {
+   "sha256": "47963f7e54ea1448eb6d59cf8753b2930ec6971971b68064ef6055ff8680f7fd",
+   "bytes": 37295,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/controls/pos_episodes/saleor-rc-644f33094857/final_files/saleor/order/events.py": {
+   "sha256": "5dda80bc645bc33782da126ffda69721d711904b923c46c878342a4507f997f5",
+   "bytes": 12633,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/controls/pos_episodes/saleor-rc-644f33094857/final_files/saleor/order/models.py": {
+   "sha256": "baabc0442b1bc3d7814ed6af9d0b14f5d585e6172b60d327071558b1a92c8c16",
+   "bytes": 18077,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/controls/pos_episodes/saleor-rc-644f33094857/final_files/saleor/order/utils.py": {
+   "sha256": "49034aacf388ba0aebc3ca1ecdb7cdf62a3fe393c1289eca605cc812f93709b8",
+   "bytes": 14212,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/controls/pos_episodes/saleor-rc-d220843b5418/episode.json": {
+   "sha256": "8440dd90355a11daeeb3dfea6557a422be607fae13180163ff1f9a2c53e80333",
+   "bytes": 1306,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/controls/pos_episodes/saleor-rc-d220843b5418/final_diff.patch": {
+   "sha256": "96b388e55eda9c2be5fb712d0188e5a8c2e784333ab4b1f447bab3389b544e11",
+   "bytes": 2561,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/controls/pos_episodes/saleor-rc-d220843b5418/final_files/saleor/graphql/webhook/resolvers.py": {
+   "sha256": "63ba54ae7d9852dde7aa68dd5dab346c7632632904206a3ee728b56d6ffd51f3",
+   "bytes": 3653,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/controls/pos_episodes/saleor-rc-d220843b5418/final_files/saleor/graphql/webhook/subscription_types.py": {
+   "sha256": "ad0edc3bb345da2766372c3265b95a1af680b5978a55420b891296bddba0de1c",
+   "bytes": 100548,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/progress.json": {
+   "sha256": "c2e628f2678763d98da9afe21e02343628bd69a72954b11171d46835deddaa25",
+   "bytes": 11118,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-2d45b76a52f2/AGENT_HARD/episode.json": {
+   "sha256": "f15bb8396c245ae03ff5a843073d9c243f26d305732e72c3ddaa6e954eccdc34",
+   "bytes": 2286,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-2d45b76a52f2/GOLD_HARD/episode.json": {
+   "sha256": "61768f39beb43d64a78916ef978a0b1f98ab16145cb9f739fa7a15630699f22a",
+   "bytes": 1260,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-2d45b76a52f2/GOLD_HARD/final_diff.patch": {
+   "sha256": "4f576c504b7be6a88dfd3a3ae996f8068fdb3b2964cc8cf87d2152305fd1fad4",
+   "bytes": 1063,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-2d45b76a52f2/GOLD_HARD/final_files/saleor/core/jwt.py": {
+   "sha256": "389e3ee772be7d41f0c1282c67a7659be603516533cd2bb1280b16fe737fe2ab",
+   "bytes": 7139,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-2d45b76a52f2/PLACEBO_HARD/episode.json": {
+   "sha256": "353297945c4df2be283e57089c01fe91ad3f0da84557ad3c37d1c6a9ae176b8d",
+   "bytes": 1282,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-2d45b76a52f2/PLACEBO_HARD/final_diff.patch": {
+   "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+   "bytes": 1,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-2d45b76a52f2/PLACEBO_HARD/final_files/saleor/graphql/tax/filters.py": {
+   "sha256": "76bbc1443dd2a077b1d004d0aa6925ff1bd0279a87ab1aa9ebad31d7c9674358",
+   "bytes": 1341,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-2d45b76a52f2/RMCSS_HARD/episode.json": {
+   "sha256": "5dea9d59a7df1a10387efc8d970dee1a757b813b2684965f0142c379440c5579",
+   "bytes": 1282,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-2d45b76a52f2/RMCSS_HARD/final_diff.patch": {
+   "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+   "bytes": 1,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-2d45b76a52f2/RMCSS_HARD/final_files/saleor/graphql/app/resolvers.py": {
+   "sha256": "8223fd5ea237b72b91def407e229d2ab91d7b8ff844f9664d94b0c712f6abbab",
+   "bytes": 2052,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-39b4138e8550/AGENT_HARD/episode.json": {
+   "sha256": "db3f7abad6797928f3c148c72028f78ae02904cc5e1aef7ec957de3ae805b819",
+   "bytes": 1408,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-39b4138e8550/AGENT_HARD/final_diff.patch": {
+   "sha256": "24c6e64150fa90e251694382c9477d737fdd1f981afae79dd73b9087c40e83a6",
+   "bytes": 890,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-39b4138e8550/AGENT_HARD/final_files/saleor/graphql/core/types/order_or_checkout.py": {
+   "sha256": "89d371f321ae0ac10400c5dc66bf37ff1e29f8fa95819376189ca83bb2f72783",
+   "bytes": 957,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-39b4138e8550/AGENT_HARD/final_files/saleor/graphql/core/types/user_or_app.py": {
+   "sha256": "545f6023f0cc31c6379c95a0cb8c93e71e18518c51a0ce53453a20541719f0fc",
+   "bytes": 795,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-39b4138e8550/GOLD_HARD/episode.json": {
+   "sha256": "15a1c99c2e49e156a02996ebb260ed18b7edda55881862180c5bb3b7c6105083",
+   "bytes": 1541,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-39b4138e8550/PLACEBO_HARD/episode.json": {
+   "sha256": "de8a2f2c8a0073845d479f06207cf69329fc4a265d2bf96433420b98078eeeb4",
+   "bytes": 2389,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-39b4138e8550/RMCSS_HARD/episode.json": {
+   "sha256": "9a215d6b8cdc17aadae577cbe8bb00be6e92b74f69447568784a9050270e2e06",
+   "bytes": 606,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-644f33094857/AGENT_HARD/episode.json": {
+   "sha256": "d3406f08d83bb899eecb0c98f1d311da136344993e5c436ae37f0812cc05319c",
+   "bytes": 2217,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-644f33094857/GOLD_HARD/episode.json": {
+   "sha256": "9ce1ee565c43a2a303e46d0e578b202289e6d758b788492e7bb5c9e8f90ff468",
+   "bytes": 2319,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-644f33094857/PLACEBO_HARD/episode.json": {
+   "sha256": "9fefcdd261413ffb5807c6e0efea572d4fe721fabfcb61bd4ffe43c7e902bd42",
+   "bytes": 1930,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-644f33094857/RMCSS_HARD/episode.json": {
+   "sha256": "3e825c5b8e6e099ae94c1428868f79aeb4455d38122e6c11634866d80f8ef757",
+   "bytes": 2238,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-6abb53f3407b/AGENT_HARD/episode.json": {
+   "sha256": "09d2e026b5a03885cda75a40b9faead589735f888c332e85b587b036ec73d4c4",
+   "bytes": 2181,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-6abb53f3407b/GOLD_HARD/episode.json": {
+   "sha256": "9b0ba67f53875991a47f4dafd4f574d391a7da32d563299e253075500f42515a",
+   "bytes": 2635,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-6abb53f3407b/PLACEBO_HARD/episode.json": {
+   "sha256": "6c89fa1e093de948d2d87032ba4aa86c17e2ff92998a5f8bc1df0c05e27de170",
+   "bytes": 1547,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-6abb53f3407b/PLACEBO_HARD/final_diff.patch": {
+   "sha256": "7c1404a0d27e34f1e94b335b3f2c651c24f8fe81fa5b809738ded4e8aa537714",
+   "bytes": 283,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-6abb53f3407b/PLACEBO_HARD/final_files/saleor/attribute/error_codes.py": {
+   "sha256": "898416f7f6cebad8bb522e61834f9604fe5bd8133a34c17f398e53a66b11997d",
+   "bytes": 261,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-6abb53f3407b/PLACEBO_HARD/final_files/saleor/graphql/checkout/schema.py": {
+   "sha256": "e109cfca9b5b981d91caae08f4fcf36cd18a99359a51cece854cdf8855b6233c",
+   "bytes": 3145,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-6abb53f3407b/PLACEBO_HARD/final_files/saleor/graphql/warehouse/dataloaders.py": {
+   "sha256": "8dad87b69032f4fdf60ee9a73e17bc34a56cf2c466fea2b452d0193f8f666628",
+   "bytes": 9411,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-6abb53f3407b/PLACEBO_HARD/final_files/saleor/plugins/admin_email/constants.py": {
+   "sha256": "69ef8637387933563eab090c1b5c449ae2be54e495d6e45971b08bd450f4dde8",
+   "bytes": 1825,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-6abb53f3407b/RMCSS_HARD/episode.json": {
+   "sha256": "716e7aa5afbe33f0e7171f01a4906e1da9b33fe66c42a967feea1ffa9e5e2c7d",
+   "bytes": 2248,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-74538ea00ce9/AGENT_HARD/episode.json": {
+   "sha256": "fa2f0a0cb718f2bb09a1ab19b0fe3331ae6be301472b74aad009a140e1337e93",
+   "bytes": 2254,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-74538ea00ce9/GOLD_HARD/episode.json": {
+   "sha256": "f289fda294629235371ce346709452a71545f5a84b28e57da79efea2f8fc45b7",
+   "bytes": 2440,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-74538ea00ce9/PLACEBO_HARD/episode.json": {
+   "sha256": "5e14a1ad50e671cc5f0feb65bf255ca2aec7ee6492233c2a02258b229b4fc669",
+   "bytes": 2389,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-74538ea00ce9/RMCSS_HARD/episode.json": {
+   "sha256": "a9e9c58e7dfc1cc00e9ae8ed77b1d49fdda3dfafb7e2ce73074ca7b9c850520a",
+   "bytes": 2460,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-823b899757ab/AGENT_HARD/episode.json": {
+   "sha256": "c0baaaca30163e8776c2bad9f0a00ce6352b56e075c3c1b8a3510003ea75bd3f",
+   "bytes": 2292,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-823b899757ab/GOLD_HARD/episode.json": {
+   "sha256": "7f41c447961db98fa6df0220c7dae4a2aa502985b7f382654b4871b0e7a7c02e",
+   "bytes": 2209,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-823b899757ab/PLACEBO_HARD/episode.json": {
+   "sha256": "e9cccb5df21e975b1bc3a826e44581c6a85a017d9e050a372642f70a3e3c2bb4",
+   "bytes": 1456,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-823b899757ab/PLACEBO_HARD/final_diff.patch": {
+   "sha256": "a5361056660123a45b23d966a7345a4643d44415e5ac3fba93523229206789e7",
+   "bytes": 411,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-823b899757ab/PLACEBO_HARD/final_files/saleor/checkout/error_codes.py": {
+   "sha256": "b615f51b82f573a3d0caa06e92f73318d35e1866ad713c3c7fcb2e5aef2efaae",
+   "bytes": 1032,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-823b899757ab/PLACEBO_HARD/final_files/saleor/graphql/account/bulk_mutations.py": {
+   "sha256": "f4dbdd9f32f925171e5587c1a56bee5a385297e79e4715cb63616f49d06e3bcf",
+   "bytes": 3861,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-823b899757ab/PLACEBO_HARD/final_files/saleor/graphql/wishlist/schema.py": {
+   "sha256": "17414a4a2d34376b14d995a2d847276512655decf80a8cabbc9e36e891714b5a",
+   "bytes": 633,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-823b899757ab/RMCSS_HARD/episode.json": {
+   "sha256": "9cf40bcee590c5d2cd6fe92d261fd4d976ff78fc4136ddab2150655365d41b53",
+   "bytes": 2245,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-82c56bde0e34/AGENT_HARD/episode.json": {
+   "sha256": "54867a670a65cbc89a85e5783a645f56f507616304f5db302ebfbc4d91520e63",
+   "bytes": 2324,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-82c56bde0e34/GOLD_HARD/episode.json": {
+   "sha256": "68fe20655621b296397ac78837fb8191e87d3eb0d64f54996306b5a7d4be1025",
+   "bytes": 2427,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-82c56bde0e34/PLACEBO_HARD/episode.json": {
+   "sha256": "bafb1a0b080a451273ce3c12b6dea95b87d7b58464856e2becf9acde20e989db",
+   "bytes": 2232,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-82c56bde0e34/RMCSS_HARD/episode.json": {
+   "sha256": "48d78ff5aa2125bc9d5e25b0a2d5a473feb70d7536dab1b7d5801fd506f1d370",
+   "bytes": 2333,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-8f76ddc6267f/AGENT_HARD/episode.json": {
+   "sha256": "654ad8f65ffd25652a71771962625afe21b4845cf3ee583d55ba14a9e39974e8",
+   "bytes": 1327,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-8f76ddc6267f/AGENT_HARD/final_diff.patch": {
+   "sha256": "e2199d31c5123ec88dd7f5c918707a9f3afeb7d4477a37f55197b9f815ad17ca",
+   "bytes": 669,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-8f76ddc6267f/AGENT_HARD/final_files/saleor/graphql/webhook/mutations/webhook_dry_run.py": {
+   "sha256": "4f3d236cd1152faa7c296f7a95e146663b367b3ec4f6a066024a1849ff1a1d48",
+   "bytes": 4452,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-8f76ddc6267f/GOLD_HARD/episode.json": {
+   "sha256": "85dd5824cfc8dbcaa6a91b0590c5e77f0b91487acf6eb0593d93dbdb8923d7d5",
+   "bytes": 2057,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-8f76ddc6267f/PLACEBO_HARD/episode.json": {
+   "sha256": "8d84b0266f6e200d6f3da7dbe94b22199d2a7177c5ea60a19aa4d0dc5dcade19",
+   "bytes": 1960,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-8f76ddc6267f/RMCSS_HARD/episode.json": {
+   "sha256": "5ecc68351a526b0b2c9537d93e0d587936c3095312b60bcac9e7f3acaa6f1ec2",
+   "bytes": 2349,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-93b20d78c011/AGENT_HARD/episode.json": {
+   "sha256": "2561b510df25a1b55251b77fa567b8cb68ee860204fea4b1ea8146ca82554456",
+   "bytes": 2200,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-93b20d78c011/GOLD_HARD/episode.json": {
+   "sha256": "6d4a5569cb3a8d2781933f22e54a4c18d762cfe3ec12a312413db73aa0633ff0",
+   "bytes": 1920,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-93b20d78c011/PLACEBO_HARD/episode.json": {
+   "sha256": "4faf0dc4db3301e9c464585fe55c245ea05be1c2bd7237551c3e2eb198ada3ff",
+   "bytes": 2478,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-93b20d78c011/RMCSS_HARD/episode.json": {
+   "sha256": "2cefc88e8b4ff66605b44fb2379663fc06a6a46b048161dbe8ff0d06a6bc428e",
+   "bytes": 2268,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-c3b9e396b07d/AGENT_HARD/episode.json": {
+   "sha256": "edaef2cd0a4653a14dff6be1454cba9c3da4454a5c1a955056cec7aa960dfd7e",
+   "bytes": 2030,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-c3b9e396b07d/GOLD_HARD/episode.json": {
+   "sha256": "6f0735262a2854e91254863418e3abd9920b11051fce1302986f13d364147fc6",
+   "bytes": 2231,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-c3b9e396b07d/PLACEBO_HARD/episode.json": {
+   "sha256": "9e014f338f1bd3d95c35cd3308480b790f2d4123a65fe093b97967494a7716ca",
+   "bytes": 1832,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-c3b9e396b07d/RMCSS_HARD/episode.json": {
+   "sha256": "d4d7b30e271482e40e0e56568d3e34187e9434e7d6eace3c3c4725f7be43b46c",
+   "bytes": 2237,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-d220843b5418/AGENT_HARD/episode.json": {
+   "sha256": "e49dd9cce238c1b576d762431322ee0a0f673891db50dbc36ee39c79cb38c055",
+   "bytes": 2706,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-d220843b5418/GOLD_HARD/episode.json": {
+   "sha256": "583fbcd87dcb443f984cb8fcfd7e640f7fc864b62402d6b0c51b28f9f4e3ecbe",
+   "bytes": 2254,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-d220843b5418/PLACEBO_HARD/episode.json": {
+   "sha256": "1d8e5c173dbf356b67309ee89202683407f905e25b9ec9048af80cc95332bb77",
+   "bytes": 2462,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-d220843b5418/RMCSS_HARD/episode.json": {
+   "sha256": "4662a58c2e8a81b9d1e1f61050894f36e90c1c2645e5dbd047b59082e11e1acb",
+   "bytes": 2380,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-dc6ac9d252df/AGENT_HARD/episode.json": {
+   "sha256": "47bfccae5424691260285515f4b2c96c2e1435b7fbdaeaaac88820ed16170c7e",
+   "bytes": 2380,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-dc6ac9d252df/GOLD_HARD/episode.json": {
+   "sha256": "9ae3b19469aaf405bef7f8d3376a3317d598e92fd79da8e2cbf6350fc59c59fc",
+   "bytes": 2402,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-dc6ac9d252df/PLACEBO_HARD/episode.json": {
+   "sha256": "a2270e89d361e3c3f39e586298c1a48f605db0d7a13098593a5ae477f988d228",
+   "bytes": 2347,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-dc6ac9d252df/RMCSS_HARD/episode.json": {
+   "sha256": "997f09560fcdcc9429300bef4ee48e07b935018f8752a3c6d1dc7f32e8eb220f",
+   "bytes": 2041,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-e03ee76d2b89/AGENT_HARD/episode.json": {
+   "sha256": "d86d9463d7a89be11d417463da0a9f543fa9dbd135948f440c7cad2f0a5525cb",
+   "bytes": 1307,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-e03ee76d2b89/AGENT_HARD/final_diff.patch": {
+   "sha256": "77b77cf30bed34ac2c41981badf46c5ade9a87b857e7699171c9d7ef3e1a86e3",
+   "bytes": 865,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-e03ee76d2b89/AGENT_HARD/final_files/saleor/graphql/core/validators/__init__.py": {
+   "sha256": "f6fc2965d70d7c7e5977d750b3adaf3d2dc4c6e0d39ba3794b07f1ab52823ad6",
+   "bytes": 6836,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-e03ee76d2b89/GOLD_HARD/episode.json": {
+   "sha256": "12d4441fcacbd1b02752efb38e3965de83e655725fd965ba43a9e0b7fccd1360",
+   "bytes": 1869,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-e03ee76d2b89/PLACEBO_HARD/episode.json": {
+   "sha256": "15ca8eba18164c110cf9454ee978ad2d74d01b06cd845abf8ba44b0a78108648",
+   "bytes": 2407,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-e03ee76d2b89/RMCSS_HARD/episode.json": {
+   "sha256": "cf151f46b63f0d682be1641ca8539fde9d65056490dfc81c9c95111d7aa8800b",
+   "bytes": 1858,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-e25cf9b4a837/AGENT_HARD/episode.json": {
+   "sha256": "27de99b8cd91e31cb3ec7802ecc365208cb16b31ee1d67f98c529956f2056d97",
+   "bytes": 2010,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-e25cf9b4a837/GOLD_HARD/episode.json": {
+   "sha256": "981172e0ce9dc14e8eedf7ef9f0394533d9d1be894d9756b480371a28b1ee6ae",
+   "bytes": 2007,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-e25cf9b4a837/PLACEBO_HARD/episode.json": {
+   "sha256": "0bcd85c65ef2abbe5e1a51a2596acca9c99144fa99c0f3e19ac540489ca345ff",
+   "bytes": 2241,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/episodes/saleor-rc-e25cf9b4a837/RMCSS_HARD/episode.json": {
+   "sha256": "97ad8ed5999f8012440bba09eb74b9354f923e318c30e92caf706c9afad7ab81",
+   "bytes": 2037,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-2d45b76a52f2/AGENT_HARD/evaluation.json": {
+   "sha256": "ec16a555092817dcf727377407e6bf61a8d93b34595b967f7497d9fc43cf5bd6",
+   "bytes": 367,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-2d45b76a52f2/GOLD_HARD/evaluation.json": {
+   "sha256": "40b2ce1510a8651af810cd99fdc5afcc46e2068842e3d3477261ac34bd3e0492",
+   "bytes": 27059,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-2d45b76a52f2/PLACEBO_HARD/evaluation.json": {
+   "sha256": "7f511986d672f79dd0ba9ed1d671e4e29bdd15d839019354bcf2ca72c1b09d8d",
+   "bytes": 27174,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-39b4138e8550/AGENT_HARD/evaluation.json": {
+   "sha256": "fb8503e552b687e2a8093e42b10fac75f18d1872ab52c99d06fb6effd443ff63",
+   "bytes": 44648,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-39b4138e8550/GOLD_HARD/evaluation.json": {
+   "sha256": "5762e960be95c5415a1de90b311d0a7f42a9f18deb903d97165fdf6c767b19b2",
+   "bytes": 355,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-39b4138e8550/PLACEBO_HARD/evaluation.json": {
+   "sha256": "085b4e243109f4bf2fc77f21730579170a82f04b3eeaaac4e28133e0c43ffa08",
+   "bytes": 358,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-39b4138e8550/RMCSS_HARD/evaluation.json": {
+   "sha256": "ed90794285d8b3e589a67f9288146ccc353250627dd0e0c19ad0ca17422083e7",
+   "bytes": 356,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-644f33094857/AGENT_HARD/evaluation.json": {
+   "sha256": "6d1714aed57e16e9c49fa267088a4fa5f1439e18432d13238cc9267c2fc9cfd3",
+   "bytes": 367,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-644f33094857/GOLD_HARD/evaluation.json": {
+   "sha256": "bd331a5efb61498c3e839127f892787c7015a95127f5fbce9e29e602f70d9b8a",
+   "bytes": 366,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-644f33094857/PLACEBO_HARD/evaluation.json": {
+   "sha256": "8e42f88465eb7f55d9a78063b79383313e00d116568dc64818b99576e05363c1",
+   "bytes": 369,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-644f33094857/RMCSS_HARD/evaluation.json": {
+   "sha256": "cc6a48b9034e79260ea87ec7a196725e734348f7259ad414d80147dc89190c77",
+   "bytes": 367,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-6abb53f3407b/AGENT_HARD/evaluation.json": {
+   "sha256": "66b2850779fbfc61ff256c317028e01ff1806f13677d2f8fa474f620cdeeba65",
+   "bytes": 367,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-6abb53f3407b/GOLD_HARD/evaluation.json": {
+   "sha256": "15d4d07d4b62da7a4704b59f211c651f15ab8af7bcc27dc4543ed8c4d2b0dbfa",
+   "bytes": 366,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-6abb53f3407b/PLACEBO_HARD/evaluation.json": {
+   "sha256": "295db70b95ca17c8770e626b835882822f7ea519a92a02d785aa74b06e3fb932",
+   "bytes": 69482,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-6abb53f3407b/RMCSS_HARD/evaluation.json": {
+   "sha256": "9fd2d786934c997d58140ab615619f6e727c93c072ad7d5253edb61eac05f0b3",
+   "bytes": 367,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-74538ea00ce9/AGENT_HARD/evaluation.json": {
+   "sha256": "8ff34f0d1b990ee673cffc2be4d10930e87ac9a08719cc7f555ed712bbbeeffc",
+   "bytes": 367,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-74538ea00ce9/GOLD_HARD/evaluation.json": {
+   "sha256": "b1cbd12735e4ff7225be327c4718cfe9542625a78558c045767072c0987692ff",
+   "bytes": 366,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-74538ea00ce9/PLACEBO_HARD/evaluation.json": {
+   "sha256": "c55f115cbb9697d69e197b203eb3a454515a5b0cf0b3a57579455bd355222246",
+   "bytes": 369,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-74538ea00ce9/RMCSS_HARD/evaluation.json": {
+   "sha256": "4f2390530f9dec6c0ed533007ee11a7101abd046f035a6c84e976f82f755120c",
+   "bytes": 367,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-823b899757ab/AGENT_HARD/evaluation.json": {
+   "sha256": "f79a1abc1aad9bb3ff5ca906bf643ba4f05fa241db6b4a919111dc41ac9e8aa0",
+   "bytes": 356,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-823b899757ab/GOLD_HARD/evaluation.json": {
+   "sha256": "1bc68d27099099a9b928a14a8a9743b181dfaa589856046d2d3c21b75ef8e71b",
+   "bytes": 355,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-823b899757ab/PLACEBO_HARD/evaluation.json": {
+   "sha256": "fd51ee02a17099ff1fb97487e8805f027973438431ae69ac96d5b85efab1017d",
+   "bytes": 34032,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-823b899757ab/RMCSS_HARD/evaluation.json": {
+   "sha256": "961f9b5ace79a78b0ce74c7ce2830c61faafa5b7bc23e34958b70bcaa21d124a",
+   "bytes": 356,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-82c56bde0e34/AGENT_HARD/evaluation.json": {
+   "sha256": "40139e159333e98000bd6af7a4c0c21b13f9a033500fbd77a3198166207da695",
+   "bytes": 367,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-82c56bde0e34/GOLD_HARD/evaluation.json": {
+   "sha256": "0da9d80b02ff497abcd6d4d6d72053b37c014edd738df67a8948618e437d4ca4",
+   "bytes": 366,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-82c56bde0e34/PLACEBO_HARD/evaluation.json": {
+   "sha256": "5acb6e5417401437cf57d5dd5b31008f536b71ed0699ab95f4b2b1f4f984b812",
+   "bytes": 369,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-82c56bde0e34/RMCSS_HARD/evaluation.json": {
+   "sha256": "28f43f24987cf0970c5d176266bd0d4c6b5abc66803c02a286eca3c9133b2709",
+   "bytes": 367,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-8f76ddc6267f/AGENT_HARD/evaluation.json": {
+   "sha256": "083cabc970d700c2392f5c946502fc874bbec8bf4d2cdf83c04b82f1f6df4e7b",
+   "bytes": 40468,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-8f76ddc6267f/GOLD_HARD/evaluation.json": {
+   "sha256": "33214a125dcc535d1d79009c9b0e0af5ef792f731dbb92dadd3ffb1ac32561a8",
+   "bytes": 366,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-8f76ddc6267f/PLACEBO_HARD/evaluation.json": {
+   "sha256": "219e36cbc1140bf0b77975f04ffaccfbe0eb67ab211305b5735a4d702d65cd7e",
+   "bytes": 369,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-8f76ddc6267f/RMCSS_HARD/evaluation.json": {
+   "sha256": "d2bb078e4cc1a50b11cb83019ffd88be88e9b54e32f5bf8182d6b43744a758ef",
+   "bytes": 367,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-93b20d78c011/AGENT_HARD/evaluation.json": {
+   "sha256": "70862fd0c684d50d9b6b682347663363ad98af3004ef8cf4e7348a8a652e8bda",
+   "bytes": 367,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-93b20d78c011/GOLD_HARD/evaluation.json": {
+   "sha256": "f3d8318c788fd3a662e4b899707725f726e258e32f83ead6843fd05ed7070e52",
+   "bytes": 366,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-93b20d78c011/PLACEBO_HARD/evaluation.json": {
+   "sha256": "ec7dad996e9dfb7af6a3394a7b5ef6b1986eaca1bcc6c3a71f91d8ee3bae65bf",
+   "bytes": 369,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-93b20d78c011/RMCSS_HARD/evaluation.json": {
+   "sha256": "0f01aecbbeed04a7f21945014e233f6322f4bfc5705f44aeb8df0f7f2721365f",
+   "bytes": 367,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-c3b9e396b07d/AGENT_HARD/evaluation.json": {
+   "sha256": "e6e15498045caa78e83546526debc014b778a08110c8f2785afc26ff5e0bb820",
+   "bytes": 367,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-c3b9e396b07d/GOLD_HARD/evaluation.json": {
+   "sha256": "0031ca732f1c5762a558cf01de2f0aba3749d0587a33197ac3ba76c85af437e9",
+   "bytes": 366,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-c3b9e396b07d/PLACEBO_HARD/evaluation.json": {
+   "sha256": "f5be328528afc8622818e2366cffd76485a7e3ed9ca7a1be58f0aa3475d5e3f9",
+   "bytes": 369,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-c3b9e396b07d/RMCSS_HARD/evaluation.json": {
+   "sha256": "35d840134a95d3805fe25a99cc8e0efcb2fc31f121434f1f6a0ee5ab918cb807",
+   "bytes": 367,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-d220843b5418/AGENT_HARD/evaluation.json": {
+   "sha256": "a9415ead6ae1c5eb44b487e111ea3afd4470bca8e8d232a97f5bc453e2701324",
+   "bytes": 367,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-d220843b5418/GOLD_HARD/evaluation.json": {
+   "sha256": "9fbdf96aa172b04a95ec7e5ce02089c4ff37b8772b97e31c30af87f2b81f4df6",
+   "bytes": 366,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-d220843b5418/PLACEBO_HARD/evaluation.json": {
+   "sha256": "6553f5471db2934583ed6542932a36e2af750bbd0eccc02455af7dd98dfcfad2",
+   "bytes": 369,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-d220843b5418/RMCSS_HARD/evaluation.json": {
+   "sha256": "5d88e6fe0d3af8189308ea297958b7405758bb9652287e3aff42ff0a68d194ae",
+   "bytes": 367,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-dc6ac9d252df/AGENT_HARD/evaluation.json": {
+   "sha256": "3988853c5e2e772f8cdd4001a2952e0254f852211e705e5680b8a863c99b6d05",
+   "bytes": 367,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-dc6ac9d252df/GOLD_HARD/evaluation.json": {
+   "sha256": "5042067ab0202b7a87146359b801adca6e67e33896981ee10bcad1ee9e905aa1",
+   "bytes": 366,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-dc6ac9d252df/PLACEBO_HARD/evaluation.json": {
+   "sha256": "26e76ff005565434d190ed5319f4da033f2ce744a964ce590fae88dd2b986dc8",
+   "bytes": 369,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-dc6ac9d252df/RMCSS_HARD/evaluation.json": {
+   "sha256": "477389e01ded5673e024db7f982f88bfc4f3f215b2e5287cde91c69f799bb26e",
+   "bytes": 367,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-e03ee76d2b89/AGENT_HARD/evaluation.json": {
+   "sha256": "abe0248d5260eeb605b2af71dafe3d98cc20bc37d9412e61080315b0b69511c6",
+   "bytes": 37033,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-e03ee76d2b89/GOLD_HARD/evaluation.json": {
+   "sha256": "50188a81603dcbc685f7c90e620f9416a71786c0fc42fd315ca6c0dc5251e532",
+   "bytes": 366,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-e03ee76d2b89/PLACEBO_HARD/evaluation.json": {
+   "sha256": "89e40589f86c3dd33e29ce38f54eb160ab7488c9bd0876e24991a4ec34a589e0",
+   "bytes": 369,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-e03ee76d2b89/RMCSS_HARD/evaluation.json": {
+   "sha256": "6f360d789241e0b82dc9335e4ea9741b59fc345c896953e66c206c9022931e39",
+   "bytes": 367,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-e25cf9b4a837/AGENT_HARD/evaluation.json": {
+   "sha256": "52f52ccdde861c2924866422ac0a82b9cee6c481a9ff769190c2f0ee190f3d86",
+   "bytes": 367,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-e25cf9b4a837/GOLD_HARD/evaluation.json": {
+   "sha256": "74332ce35558fdbdf4b48aa9ab5240274939fd312b2b3c109e5f4cf09c0e01ca",
+   "bytes": 366,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-e25cf9b4a837/PLACEBO_HARD/evaluation.json": {
+   "sha256": "0a4325dedf6fe80a15d2cd02d16a4ed376e9aa57ce643b7a5df8d5227e938858",
+   "bytes": 369,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/evaluations/saleor-rc-e25cf9b4a837/RMCSS_HARD/evaluation.json": {
+   "sha256": "ea4f123515a4acb4c46be1a3f0e942383afd77592b22df597844fd372b512a4b",
+   "bytes": 367,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/generation_freeze.json": {
+   "sha256": "8e505bfb9dc447d5f353262e552742f63d9e151e8f7064764bc8f64f9092b6ca",
+   "bytes": 18553,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/inputs/intent_source.json": {
+   "sha256": "c6b3110c661157c300058b985b8ae33242c7ae1ade6a9e32bee06f96b739c97f",
+   "bytes": 5802,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/instrument_ready.json": {
+   "sha256": "45a7bf0032add3d7edda9c6e34e190ec1125ef8320a648fa968d7efd6b0430ca",
+   "bytes": 2795,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-2d45b76a52f2/ctrl_neg/C_r0.xml": {
+   "sha256": "93fccb608c2697e498882d164f00a2fa8674611b972135c7d7db1f43b84b6df7",
+   "bytes": 5120,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-2d45b76a52f2/ctrl_neg/C_r1.xml": {
+   "sha256": "2a47e71883afb6f9fb45b59e75b79a8802d4d01302bf6ad8f73d3e38937918f0",
+   "bytes": 5118,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-2d45b76a52f2/ctrl_neg/C_r2.xml": {
+   "sha256": "65969e8218576eb15b5244bae4f0b59549bb7153e47757eb5cb3b904615cf74a",
+   "bytes": 5121,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-2d45b76a52f2/ctrl_neg/U_r0.xml": {
+   "sha256": "559952f5a778fa7b4c992f5c678349675b1184511369db0bcc30c205f7a8816a",
+   "bytes": 23027,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-2d45b76a52f2/ctrl_neg/U_r1.xml": {
+   "sha256": "9e423501bc1e253cdbbfdcb8f2295ecce10452423823874d159b32b42001c839",
+   "bytes": 23027,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-2d45b76a52f2/ctrl_neg/U_r2.xml": {
+   "sha256": "056434c4959b1e7c91cd801c8f18451cb9fa77773ac467807e7de9eb9206e321",
+   "bytes": 23027,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-2d45b76a52f2/ctrl_pos/C_r0.xml": {
+   "sha256": "051b522e8d3b4edbb9c1de8d4d7b77e41edc6f5ac15f592e0bb3b0bfff9a09f6",
+   "bytes": 1249,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-2d45b76a52f2/ctrl_pos/C_r1.xml": {
+   "sha256": "b76155210f75376c67102bf1b85b9dc4abc48e4f0142371afa6d76e66e0dade9",
+   "bytes": 1245,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-2d45b76a52f2/ctrl_pos/C_r2.xml": {
+   "sha256": "96069a5f613d541a79caccf771c6aee40a10480e6713866fd1dc155879baf87b",
+   "bytes": 1245,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-2d45b76a52f2/ctrl_pos/U_r0.xml": {
+   "sha256": "da954f28cb08ce8827f7155383ba7349a60d35c034253828ea5a98751a003d2e",
+   "bytes": 23027,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-2d45b76a52f2/ctrl_pos/U_r1.xml": {
+   "sha256": "5907436b351ada6a7f56d366bd867c1332e51d5a841ea75877c2ca2a53c9e8c4",
+   "bytes": 23027,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-2d45b76a52f2/ctrl_pos/U_r2.xml": {
+   "sha256": "e96c5d309b61c63621e10fe93a789a09c8f0898366dd8e11b06352429fdc7a76",
+   "bytes": 23027,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-2d45b76a52f2/smoke_GOLD/C_r0.xml": {
+   "sha256": "94bc388cdc381b3c8c1c9ada301faf9459b434e5bbe2761a2bbcad32bd1608e3",
+   "bytes": 3453,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-2d45b76a52f2/smoke_GOLD/C_r1.xml": {
+   "sha256": "f0cb06219f887b9e0850a942b35e618fa8a0cd4b75fce7754683435615c67ab1",
+   "bytes": 3450,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-2d45b76a52f2/smoke_GOLD/C_r2.xml": {
+   "sha256": "68cb95b19a38c42141e51fd502d79784f0b741858e8bfff38c0c2f96d159f5e2",
+   "bytes": 3452,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-2d45b76a52f2/smoke_GOLD/U_r0.xml": {
+   "sha256": "23a95502f4fa2a775201a6b8d30ad8a73bcd66baaca32603179ce94a31f7ea8c",
+   "bytes": 23027,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-2d45b76a52f2/smoke_GOLD/U_r1.xml": {
+   "sha256": "b8faa1853c2c43143fdda55ac978a670fd15d043f585065137cb6e59ff849fe0",
+   "bytes": 23027,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-2d45b76a52f2/smoke_GOLD/U_r2.xml": {
+   "sha256": "888c38fb8dbd3ec556afd9f63f826dd3a300f5b9cb0cadd83715ed99e3c7f8b5",
+   "bytes": 23027,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-2d45b76a52f2/smoke_PLAC/C_r0.xml": {
+   "sha256": "6a59905a5d5cbe0b060be1a9ad149ea830ec7cbe4ea1b62c025275496797a77f",
+   "bytes": 5120,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-2d45b76a52f2/smoke_PLAC/C_r1.xml": {
+   "sha256": "b6a761cfbc9e6cf18fa3c5f5ddb9afebfb94fb23f680689629eb48ea56c79cf8",
+   "bytes": 5118,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-2d45b76a52f2/smoke_PLAC/C_r2.xml": {
+   "sha256": "60d8dabd70260d6a98a6f084c36b912a6d8762859e90ddd6810a34c03c3f0737",
+   "bytes": 5121,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-2d45b76a52f2/smoke_PLAC/U_r0.xml": {
+   "sha256": "b412ff7574559e1369855d72f507c325a10e7196ee4a7fa2ffeb6b51a3bebec0",
+   "bytes": 23027,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-2d45b76a52f2/smoke_PLAC/U_r1.xml": {
+   "sha256": "5f653722167577366b81a0a62db93cf278b0f108df0954896314acd3ef762ae2",
+   "bytes": 23027,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-2d45b76a52f2/smoke_PLAC/U_r2.xml": {
+   "sha256": "ef8c18161be30e23eb73a19cc4091b91e2303c97934a72ab3b1b71202c271d11",
+   "bytes": 23027,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-644f33094857/ctrl_neg/C_r0.xml": {
+   "sha256": "110f1013e518a6e8ad4ca12315f115b38fe43907d0cec2735c2638de735a29fd",
+   "bytes": 54678,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-644f33094857/ctrl_neg/C_r1.xml": {
+   "sha256": "90655549e81c006ab91b2f178a93d41f781cc3e65fb5e26bfbfbe8b5517a5169",
+   "bytes": 54698,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-644f33094857/ctrl_neg/C_r2.xml": {
+   "sha256": "4ebf34fdb58ec34eefea3afb802036aa2ed7b93a911f61a1c7fef78766f117c8",
+   "bytes": 54697,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-644f33094857/ctrl_neg/U_r0.xml": {
+   "sha256": "6f8baa6b5331be32b05a4452369fae4e3bf6831e49c8a74016b2b1316638a0f8",
+   "bytes": 29352,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-644f33094857/ctrl_neg/U_r1.xml": {
+   "sha256": "52ac6aeb5ef5cec88c7a9046ddec3f2ca3e53af77b8600a7d874ae2e23de9d1a",
+   "bytes": 29352,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-644f33094857/ctrl_neg/U_r2.xml": {
+   "sha256": "5eec642e3725d7a4a2484051210ecd0151044ae31af7d04c6dcdac30e65736b1",
+   "bytes": 29352,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-644f33094857/ctrl_pos/C_r0.xml": {
+   "sha256": "3d10d9261819775344f3fb42e6148c980a93350d2c15d44f88328bf30b63cd0b",
+   "bytes": 13442,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-644f33094857/ctrl_pos/C_r1.xml": {
+   "sha256": "45e159452bae7654fd3625f85be8fce74cf8a3b9fd2828d5706e244c371e9f7b",
+   "bytes": 13441,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-644f33094857/ctrl_pos/C_r2.xml": {
+   "sha256": "2df202f515d3ff3699c57c488eaeb28a4de25254c820034e477e4a30314567da",
+   "bytes": 13440,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-644f33094857/ctrl_pos/U_r0.xml": {
+   "sha256": "69239f69c0ea46727e70bb330f93d616281d28e4fbc6f5d93db61a2cdf36d56c",
+   "bytes": 29352,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-644f33094857/ctrl_pos/U_r1.xml": {
+   "sha256": "7960edd9ac42444c78a8a967355f43beb7e83933cd1a75e0901e076d781795ea",
+   "bytes": 29352,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-644f33094857/ctrl_pos/U_r2.xml": {
+   "sha256": "fea9a383788aebde05eac21ffa2c1ac1d5defacc8b9fe6f919cfd57d2197ae55",
+   "bytes": 29352,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-6abb53f3407b/smoke_PLAC/C_r0.xml": {
+   "sha256": "30ecd0790546515c4eb7373a92da8e7317931bcece38cda26e9347eed4749aae",
+   "bytes": 55290,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-6abb53f3407b/smoke_PLAC/C_r1.xml": {
+   "sha256": "d44f3d999f8a93b4104da9e321932d208208ad5b8edacef6b78835e8968e8617",
+   "bytes": 55289,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-6abb53f3407b/smoke_PLAC/C_r2.xml": {
+   "sha256": "8b90ad74e9f3adcd9180be3bc9ca0d36126cb43a83098020dbfb6e79ac614f89",
+   "bytes": 55289,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-6abb53f3407b/smoke_PLAC/U_r0.xml": {
+   "sha256": "b3ad0d43aa06c5ada4cecd462b93971479e56bb016488b304ad46db56401f4d1",
+   "bytes": 27953,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-6abb53f3407b/smoke_PLAC/U_r1.xml": {
+   "sha256": "6d41586e3a9c06680a4fe007dd3194b387decde0d9d97a33e3d735f465a4fc7b",
+   "bytes": 27953,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-6abb53f3407b/smoke_PLAC/U_r2.xml": {
+   "sha256": "2374b8a5c84ef53869722584a61bcd551fc721ecb9f31515355de3cd41908ff2",
+   "bytes": 27953,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-823b899757ab/smoke_PLAC/C_r0.xml": {
+   "sha256": "dda8b0b348c01ac94c5cbd7602cdd6c8d80c660741a40c4c7b4cccc345141595",
+   "bytes": 12987,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-823b899757ab/smoke_PLAC/C_r1.xml": {
+   "sha256": "5fe4f167a025b9a584926f9318ba7141cf922e0d129adcb217a5f826d0e785e2",
+   "bytes": 12988,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-823b899757ab/smoke_PLAC/C_r2.xml": {
+   "sha256": "2f5a07a6fd3ea2f4089fa1410f158cb97e6846b13bf52426941f7e52bf7e9557",
+   "bytes": 12991,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-823b899757ab/smoke_PLAC/U_r0.xml": {
+   "sha256": "c21477265fb340313991ec4ee077f248c764995d11be7192c4cbe90d0d08a48b",
+   "bytes": 28797,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-823b899757ab/smoke_PLAC/U_r1.xml": {
+   "sha256": "a00e10f0dfa3686ca5a57d5f8a674d962fda13929e9badc3c32b6d23e0cce8d4",
+   "bytes": 28797,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-823b899757ab/smoke_PLAC/U_r2.xml": {
+   "sha256": "3b86f585c5d5f60be00db7b6de3b207ca2fbd684968a285bcad47264a550a2e3",
+   "bytes": 28797,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-8f76ddc6267f/smoke_AGEN/C_r0.xml": {
+   "sha256": "3891f1ec0d2bd0b8021dfcb04f02a7dc6ab87f4672f442f4bd20846ad7caab11",
+   "bytes": 6444,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-8f76ddc6267f/smoke_AGEN/C_r1.xml": {
+   "sha256": "f0d1c07d3d730a6d5419743b2d323948695555576ef4819f8c1e3008cc7c0b9f",
+   "bytes": 6440,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-8f76ddc6267f/smoke_AGEN/C_r2.xml": {
+   "sha256": "6ae2219935ad265ba775e5895f7587c81ed70cb1a44bf87aafc25a8e1a3fc643",
+   "bytes": 6440,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-8f76ddc6267f/smoke_AGEN/U_r0.xml": {
+   "sha256": "41766a756befe57e2184980345dad00a7db1a12a79170cefebef24105ff10bff",
+   "bytes": 35544,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-8f76ddc6267f/smoke_AGEN/U_r1.xml": {
+   "sha256": "c46bb3c3e7107a4bbeed7af9ac56b4e9bc849d65f8640257121822b24d8c1385",
+   "bytes": 35544,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-8f76ddc6267f/smoke_AGEN/U_r2.xml": {
+   "sha256": "185aa5cd8e8e8b47e494aac813434b1052a91bfd46ebaa137a317e59869c029f",
+   "bytes": 35544,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-d220843b5418/ctrl_neg/C_r0.xml": {
+   "sha256": "88a302ce0ccd6e21e230bd081cb49ded5aac53e0932873dd2ea799fb651ff758",
+   "bytes": 28034,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-d220843b5418/ctrl_neg/C_r1.xml": {
+   "sha256": "8ef2dc9333caa0d980396fa0d1c48f00856541683fc3669b15aa91e23f7a97cd",
+   "bytes": 28031,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-d220843b5418/ctrl_neg/C_r2.xml": {
+   "sha256": "cbf88cde768f44b1e1bd9996ad2fd51d96cfc09024f189ac5563a19663195e19",
+   "bytes": 28031,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-d220843b5418/ctrl_neg/U_r0.xml": {
+   "sha256": "8fa4d898b808155cce0a7666986055b4b4e133b890d11f51f9ab34884b3ab249",
+   "bytes": 32853,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-d220843b5418/ctrl_neg/U_r1.xml": {
+   "sha256": "bec270d03e01b2d9be36c2cc18756e53ff20edc87b21af6bb2dc5ff10400fa0e",
+   "bytes": 32853,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-d220843b5418/ctrl_neg/U_r2.xml": {
+   "sha256": "3b08740985c371f1b4b2f63ee11f756fe12f9d641949dae822d05db66c6e0d80",
+   "bytes": 32853,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-d220843b5418/ctrl_pos/C_r0.xml": {
+   "sha256": "a48693c653cd4ecffc476cc12b94d72bef756008cb6eb119a2c1ba91e548acdf",
+   "bytes": 23446,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-d220843b5418/ctrl_pos/C_r1.xml": {
+   "sha256": "e7d1523813e946ce5c18c379a408a66082b59d367f1a958a7731f085053eba02",
+   "bytes": 23443,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-d220843b5418/ctrl_pos/C_r2.xml": {
+   "sha256": "e0d653751abce19d8112321e708d8e3a99967784ed2cdd674bad8f1183d845fb",
+   "bytes": 23443,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-d220843b5418/ctrl_pos/U_r0.xml": {
+   "sha256": "8e934ae503746d3b8885e5c8258db21a58d66d3980ad8d5fa9c361eaead065bb",
+   "bytes": 32853,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-d220843b5418/ctrl_pos/U_r1.xml": {
+   "sha256": "baada86023db3ffa5f3f1d31a94a0defa13f379f6e372d4cc12ddc693ace62f5",
+   "bytes": 32853,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-d220843b5418/ctrl_pos/U_r2.xml": {
+   "sha256": "206a7d0c29ca59f7ef4976c140ff19bba82006a7e25a328e5147098014284401",
+   "bytes": 32853,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-e03ee76d2b89/smoke_AGEN/C_r0.xml": {
+   "sha256": "6a41056ba1164f0af96aa1acd55f4f9586ebe0442e7bc9139c82d13da28fa716",
+   "bytes": 4809,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-e03ee76d2b89/smoke_AGEN/C_r1.xml": {
+   "sha256": "07cd9f3674da2862b10cd1d9a10cc776bc12ab4c01f54f04ce369b312a9555d2",
+   "bytes": 4805,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-e03ee76d2b89/smoke_AGEN/C_r2.xml": {
+   "sha256": "cc420f86617345fd33e45a5761fe0f34e446e985dd6df10f4af5e04cfb3f3e38",
+   "bytes": 4805,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-e03ee76d2b89/smoke_AGEN/U_r0.xml": {
+   "sha256": "24bcf7ab6551d9becc86da85e8782fb0aff65d6d65a308fb247ec46b27485f21",
+   "bytes": 28748,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-e03ee76d2b89/smoke_AGEN/U_r1.xml": {
+   "sha256": "80285afbd118955c6d434b1d7967dc7680815bc26e66b496e9cd779731b68395",
+   "bytes": 28748,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/junit/saleor-rc-e03ee76d2b89/smoke_AGEN/U_r2.xml": {
+   "sha256": "152656cab52c4ee82484bd0502b5fbbcb4d9ec7801c1f2d39fc885738e692fc9",
+   "bytes": 28748,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/ledger/spend_ledger.jsonl": {
+   "sha256": "a6add368b522b0008bae4b879cf2815bbda9700881bd1cc449673605e9d09b6f",
+   "bytes": 22500,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/paid_preflight.json": {
+   "sha256": "0d3420c55248d8daa0946c01d880831c5d69fdc14962c43f3a789ad7c09457fa",
+   "bytes": 388,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/preflight/key_usage.json": {
+   "sha256": "49d2c73cd3c51af37fc3ad880cca47801f39558afc54d3e3d2ce1272d6f75463",
+   "bytes": 254,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/scopes/agent_scopes_dev_eng.json": {
+   "sha256": "8454700ed8cf93429a0b8678b21117dbecc25e0d02a3fa3ccddff0da5e4c5a4a",
+   "bytes": 5816,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/scopes/dev_eng_agent_bundles.json": {
+   "sha256": "8c02485d4a43bbdb4bc5ed1fff7e230e0359d2a0a669c485c8b391f1879569c7",
+   "bytes": 5661,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/scopes/dev_eng_agent_manifest.json": {
+   "sha256": "812e0b17ef8a63c368ea43b6550590ed82d6458c23f45acde99ed3433d7ccd29",
+   "bytes": 517,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/scopes/scopes_AGENT_HARD.json": {
+   "sha256": "79d8f90d79563238482e62bdc15190c9b9ef01cd3c97973c5c952108e6ddbb64",
+   "bytes": 5996,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/scopes/scopes_GOLD_HARD.json": {
+   "sha256": "df84c596b8dd13608b65c7724e2abe6ad327365d8baea64a8162ea11bd17dd38",
+   "bytes": 7111,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/scopes/scopes_PLACEBO_HARD.json": {
+   "sha256": "aeac3f1ac66ac76bfd1527facb760b742c36d900167839bbc836785c56e7ac36",
+   "bytes": 7744,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/scopes/scopes_RMCSS_HARD.json": {
+   "sha256": "65907e30fb6c67b462abb1c2dd60527bb301d065418313aa21537a777bf15b54",
+   "bytes": 6415,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/smoke_freeze.json": {
+   "sha256": "cd1aaa6e22f873a4791abef65f42793306511acd7eba594d85e5d28e27ed4052",
+   "bytes": 9413,
+   "tracked": true
+  },
+  "research/wp2/e2e_smoke_eng_v1/smoke_summary.json": {
+   "sha256": "3f9a06aa27441652a7e8dab7bc4d0e073a3a46dcd6a2fa31d5c350e232f421c6",
+   "bytes": 12496,
+   "tracked": true
+  }
+ },
+ "tags": {
+  "wp2-e2e-smoke-eng-v1-freeze-2026-09-28": {
+   "tag_object_sha": "b0f084d79733cb16442e93d534c8705cfbb23fda",
+   "peeled_commit_sha": "41147968832075be3cf87ba0aabe5f182fca4e18"
+  },
+  "wp2-e2e-smoke-eng-v1-result-2026-09-28": {
+   "tag_object_sha": "8aec072091df11e5ae321aeb525f5048b5b75481",
+   "peeled_commit_sha": "fa7bbdd3d9f5049fb934b81669038881e15f5814"
+  }
+ },
+ "flags": {
+  "V1_RESULT_JSON_MUTABLE": "NO",
+  "V1_TAG_MOVE_ALLOWED": "NO"
+ }
+}
