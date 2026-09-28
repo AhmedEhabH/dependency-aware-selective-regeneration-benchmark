@@ -1,0 +1,45 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v1",
+ "task_id": "saleor-rc-d220843b5418",
+ "arm": "GOLD_HARD",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/graphql/webhook/resolvers.py",
+  "saleor/graphql/webhook/subscription_types.py"
+ ],
+ "excluded": {
+  "LARGE_FILE_EXCLUDED": [],
+  "CONTEXT_BUDGET_EXCLUDED": []
+ },
+ "prompt_sha256": "f244000262919b0bf049e6a1e99ed1e8e2fe016991c65954a57b40ba9383c9bf",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "request_id": "gold-ctrl",
+   "route": "replay",
+   "provider": "replay",
+   "prompt_tokens": 1,
+   "completion_tokens": 1442,
+   "cost_usd_actual": 0.0,
+   "cost_usd_nominal": 0.0,
+   "finish_reason": "stop",
+   "latency_s": 0.0,
+   "response_sha256": "9c5d6b3cfda360ff05aa740d5b9b8a239717dcf6df29cdd935840b2f136e35dd"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "edited_files": [
+  "saleor/graphql/webhook/resolvers.py",
+  "saleor/graphql/webhook/subscription_types.py"
+ ],
+ "diff_sha256": "4c8dacb00bb7e81865bb9fc9e1a0e1db89bd923fa00bfcfdb07a1167b9aab379",
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-28T03:09:29Z",
+ "episode_sha256": "4b4120e875f2e846eaeee0706510ac8527f97d28b1757d1991a09e92f80aca33"
+}

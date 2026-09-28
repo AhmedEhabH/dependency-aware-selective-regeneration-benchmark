@@ -1,0 +1,53 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v1",
+ "task_id": "saleor-rc-644f33094857",
+ "arm": "GOLD_HARD",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/graphql/order/mutations/fulfillments.py",
+  "saleor/graphql/order/mutations/orders.py",
+  "saleor/order/actions.py",
+  "saleor/order/events.py",
+  "saleor/order/models.py",
+  "saleor/order/utils.py"
+ ],
+ "excluded": {
+  "LARGE_FILE_EXCLUDED": [],
+  "CONTEXT_BUDGET_EXCLUDED": []
+ },
+ "prompt_sha256": "a74515a6cc843f100578d4965f8b25ea040b4049ab4aa25cabb762eddcef08d6",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "request_id": "gold-ctrl",
+   "route": "replay",
+   "provider": "replay",
+   "prompt_tokens": 1,
+   "completion_tokens": 3204,
+   "cost_usd_actual": 0.0,
+   "cost_usd_nominal": 0.0,
+   "finish_reason": "stop",
+   "latency_s": 0.0,
+   "response_sha256": "9cfb72268b9de136e8da622305d512e244404583ae598490d9cf1663b9f3addd"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "edited_files": [
+  "saleor/graphql/order/mutations/fulfillments.py",
+  "saleor/graphql/order/mutations/orders.py",
+  "saleor/order/actions.py",
+  "saleor/order/events.py",
+  "saleor/order/models.py",
+  "saleor/order/utils.py"
+ ],
+ "diff_sha256": "893710f825fa168da120ac0241008cfbf23b4c114b03c98b7d32be0c2df81af8",
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-28T03:02:50Z",
+ "episode_sha256": "f431f701304a13401fee1753a42b2c2f40bedaa4d3be351151c10d9581ecf7d9"
+}

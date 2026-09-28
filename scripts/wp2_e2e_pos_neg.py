@@ -16,7 +16,7 @@ SALEOR_CACHE = PROJECT / "dist" / "pilot-repo-cache" / "saleor"
 
 from benchmark.wp2.e2e.evaluate import evaluate_state, materialize, score  # noqa: E402
 from benchmark.wp2.e2e.generate import run_episode  # noqa: E402
-from benchmark.wp2.e2e.llm_client import Ledger, ReplayClient  # noqa: E402
+from benchmark.wp2.e2e.llm_client import Ledger  # noqa: E402
 from benchmark.wp2.e2e.scopes import commits_of  # noqa: E402
 from benchmark.wp2.e2e.spec import CEILING_AGENT_USD, CEILING_SMOKE_USD  # noqa: E402
 
@@ -43,8 +43,9 @@ def gold_as_model_output(task_id: str) -> str:
     return "\n".join(blocks)
 
 
-def run_pos() -> int:
+def _run_pos(task_list: list[str]) -> int:
     from benchmark.wp2.e2e import generate as gen
+    from benchmark.wp2.e2e.llm_client import CallResult
     out = {"artifact": "g_pos", "per_task": {}}
 
     class GoldClient:
@@ -52,13 +53,12 @@ def run_pos() -> int:
             self.gold = gold
 
         def generate(self, _system: str, _user: str):
-            from benchmark.wp2.e2e.llm_client import CallResult
             return CallResult(text=self.gold, finish_reason="stop", prompt_tokens=1,
                               completion_tokens=len(self.gold) // 4, cost_usd=0.0,
                               route="replay", provider="replay", latency_s=0.0,
                               request_id="gold-ctrl")
 
-    for tid in CONTROL_TASKS:
+    for tid in task_list:
         parent, target = commits_of(tid)
         gold = gold_as_model_output(tid)
         # monkeypatch generate's py_compile to ok (container syntax check done by evaluator)
@@ -91,9 +91,9 @@ def _diff_text(task_id: str, _ep: dict) -> str:
     return p.read_text(encoding="utf-8") if p.exists() else ""
 
 
-def run_neg() -> int:
+def _run_neg(task_list: list[str]) -> int:
     out = {"artifact": "g_neg", "per_task": {}}
-    for tid in CONTROL_TASKS:
+    for tid in task_list:
         wt, _tree = materialize(tid, "ctrl_neg", "")
         rec = evaluate_state(tid, "ctrl_neg", wt)
         scd = score(tid, "ctrl_neg", rec["groups"])
@@ -108,5 +108,9 @@ if __name__ == "__main__":
     import argparse
     ap = argparse.ArgumentParser()
     ap.add_argument("--control", required=True, choices=["pos", "neg"])
+    ap.add_argument("--only", default=None)
     args = ap.parse_args()
-    raise SystemExit(run_pos() if args.control == "pos" else run_neg())
+    tasks = [args.only] if args.only else CONTROL_TASKS
+    if args.control == "pos":
+        raise SystemExit(_run_pos(tasks))
+    raise SystemExit(_run_neg(tasks))
