@@ -640,3 +640,38 @@ Spend $0.605 total (<= $5.50). Report: docs/WP2_E2E_SMOKE_ENG_V1_REPORT_2026-09-
   matched the smoke ledger.
 - Corrected everywhere: agent $0.371 / smoke $0.257 / total $0.628. Earlier
   reports stating $0.348 / $0.605 are superseded by this erratum.
+
+## Mission-12 (started 2026-09-28)
+
+AUTHORIZATION: Smoke v1 erratum (docs + evidence; v1 results NOT edited), fix 5
+verified E2E instrument defects + interface v2 (zero API), zero-API controls v2,
+PAID Smoke v2 (14 ENG tasks x 4 arms x 1 replicate + variance probe), ceiling
+$2.00, evaluation (F2P + P2P-S + P2P-U cap200, workers=1). FORBIDDEN: new Agent
+run, RM-CSS/scope/model/route/temperature/max_tokens change, Stage C/holdout/
+MAIN/Pilot, v1 result edits, v1 tag moves, workers=2. Authority:
+MISSION_12_SMOKE_ERRATUM_INTERFACE_V2_SMOKE_V2_2026-09-28.md.
+
+### Mission-12 TODO (live, one [•] at a time)
+
+[ ] A1 Bootstrap + state verification
+[ ] A2 Protect Smoke-v1 evidence
+[ ] B1-B6 Verify defects DF1-DF5 mechanically
+[ ] C1-C3 Smoke-v1 erratum
+[ ] D1-D2 Message API + full-context repair
+[ ] E1-E3 Run-level request cache
+[ ] F1-F2 Finish reason + raw evidence
+[ ] G1-G4 Interface-v2
+[ ] H1-H5 Expressibility freeze
+[ ] I1-I14 Unit-test gate
+[ ] J1-J10 Zero-API controls
+[ ] K1-K11 Paid preflight
+[ ] L1-L19 Smoke-v2 freeze
+[ ] M Main generation 0/56
+[ ] N Variance probe 0/6
+[ ] O Generation freeze
+[ ] P Evaluation
+[ ] Q Summary
+[ ] R Gates
+[ ] S Next-step rule
+[ ] U Closure
+[ ] WAIT_FOR_AHMED

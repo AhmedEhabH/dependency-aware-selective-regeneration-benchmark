@@ -2417,3 +2417,17 @@ Mission-11 one-shot (sole authoritative directive, supersedes Mission-10B STOP-f
 - Spend: agent $0.348 (<= $1.00), smoke $0.257 (<= $4.50), total $0.605 (<= $5.50).
 - Pipeline validation only. No comparative claim between RM-CSS and Agent.
 - Next: brain/Ahmed review -> Pilot design. No Stage C / Pilot / holdout / MAIN execution.
+
+## Decision MISSION_12 - APPROVED (2026-09-28)
+
+- Authority: MISSION_12_SMOKE_ERRATUM_INTERFACE_V2_SMOKE_V2_2026-09-28.md (author: Claude brain, sent by Ahmed).
+- AU1: Smoke v1 erratum (docs + erratum evidence; v1 result files NOT edited). AUTHORIZED.
+- AU2: Fix 5 verified E2E instrument defects (DF1-DF5) + interface v2 (zero API). AUTHORIZED.
+- AU3: Zero-API controls v2. AUTHORIZED.
+- AU4: PAID Smoke v2: 14 ENG behavioral tasks x 4 arms x 1 replicate + variance probe (3 GOLD x 2 extra). Ceiling $2.00. AUTHORIZED.
+- AU5: Evaluation of Smoke v2 patches (F2P + P2P-S + P2P-U cap200), workers=1. AUTHORIZED.
+- NA1: New Agent selection run NOT authorized (reuse v1 Agent scopes).
+- NA2: RM-CSS / scopes / model / route / temperature / max_tokens / population / arms / evaluator semantics / Harness V3.1 changes FORBIDDEN.
+- NA3: Stage C / holdout / validation / MAIN / Pilot / workers=2 NOT authorized.
+- NA4: Editing any Smoke v1 result artifact or moving any v1 tag FORBIDDEN.
+- Engineering note (wrapper A1): Mission-11 closure residue (3 tracked generated files) classified, byte-exact patch saved to _workspace/active/MISSION12_PRESTART_RESIDUE_2026-09-28.patch, restored to HEAD; AGENTS.md native-todo rule committed as docs(agents) 25b70ef9.

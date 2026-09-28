@@ -1,0 +1,28 @@
+{
+ "current_phase": "A1",
+ "current_atomic": "A1.5",
+ "completed_atomic": [
+  "A1.1",
+  "A1.2",
+  "A1.3",
+  "A1.4"
+ ],
+ "blocked_atomic": null,
+ "started_utc": "2026-09-28T14:45:00Z",
+ "updated_utc": "2026-09-28T14:45:00Z",
+ "HEAD": "25b70ef9d3b928844bccb9aa95704ae92b5981fe",
+ "origin_main": "25b70ef9d3b928844bccb9aa95704ae92b5981fe",
+ "spend_actual_usd": 0.0,
+ "provider_calls": 0,
+ "generation_complete": false,
+ "evaluation_complete": false,
+ "mission_authority": "MISSION_12_SMOKE_ERRATUM_INTERFACE_V2_SMOKE_V2_2026-09-28.md",
+ "start_state_verified": {
+  "branch": "main",
+  "storage_audit_commit": "9264bc748bd2307047154bcdc19986266fe1dc9d",
+  "allowed_descendant": "25b70ef9d3b928844bccb9aa95704ae92b5981fe",
+  "note": "HEAD==origin/main; docs-only descendant of 9264bc74 (AGENTS.md native-todo rule); Mission-11 residue restored, patch saved to _workspace/active/MISSION12_PRESTART_RESIDUE_2026-09-28.patch",
+  "mission11_result_tag": "8aec072091df11e5ae321aeb525f5048b5b75481",
+  "mission11_freeze_tag": "b0f084d79733cb16442e93d534c8705cfbb23fda"
+ }
+}
