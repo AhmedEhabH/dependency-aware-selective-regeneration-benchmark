@@ -2460,3 +2460,10 @@ Mission-11 one-shot (sole authoritative directive, supersedes Mission-10B STOP-f
 - Harness defect in the v2.1 port (not a scientific knob). Fixed with a failing
   regression test first (test_replay_guard_blocks_paid_root_allows_controls).
 - The G-POS zero-API control (replay client + materialize + evaluate) now runs.
+
+## Decision MISSION_12B_V21 - C2 CONTROLS SCRIPT HARNESS FIXES (C2 phase)
+- Two harness defects in the new v21 controls script (not scientific knobs):
+  1. control_retry_backoff deleted the real v21 HOLD; now uses a temp hold file.
+  2. _run_pos/_run_neg left the frozen evaluator's E2E_ROOT pointing at v1, so
+     control JUnit would write into the historical v1 root; now redirects to V21_ROOT.
+- No control outcome was changed by these fixes; all 11 controls PASS.
