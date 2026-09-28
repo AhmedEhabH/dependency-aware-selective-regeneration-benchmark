@@ -102,9 +102,9 @@ def _call_from_cache(entry: dict) -> CallResult:
 
 
 def _persist_raw(root: Path, task_id: str, arm: str, index: int, kind: str,
-                 text: str) -> tuple[Path, str]:
+                 text: str, episodes_subdir: str = "episodes") -> tuple[Path, str]:
     """F05: write calls/<n>_<kind>.txt immediately; return (path, sha256)."""
-    d = root / "episodes" / task_id / arm / "calls"
+    d = root / episodes_subdir / task_id / arm / "calls"
     d.mkdir(parents=True, exist_ok=True)
     p = d / f"{index}_{kind}.txt"
     p.write_text(text, encoding="utf-8", newline="")
@@ -123,12 +123,17 @@ def _is_paid_episodes_root(base: Path) -> bool:
 
 
 def _persist_episode_v2(root: Path, rec: dict, diffs: list[str],
-                        final_texts: dict[str, str]) -> None:
-    """F01 guard + persist episode.json under the given root."""
+                        final_texts: dict[str, str],
+                        episodes_subdir: str = "episodes") -> None:
+    """F01 guard + persist episode.json under the given root.
+
+    Paid runs persist under <root>/episodes/; control labels (ctrl_*) persist
+    under <root>/controls/ and never under episodes/ (F01).
+    """
     calls = rec.get("calls", [])
     replay = [c for c in calls if c.get("route") == "replay"]
-    base = root / "episodes" / rec["task_id"] / rec["arm"]
-    if replay and _is_paid_episodes_root(base):
+    base = root / episodes_subdir / rec["task_id"] / rec["arm"]
+    if replay and episodes_subdir == "episodes" and _is_paid_episodes_root(base):
         raise ReplayInPaidEvidenceError(
             f"replay route blocked from paid evidence root {base}: {replay}")
     base.mkdir(parents=True, exist_ok=True)
@@ -186,7 +191,8 @@ def _component_hashes(messages: list[dict[str, Any]]) -> dict[str, str]:
 
 
 def run_episode_v2(task_id: str, arm: str, client: Any, ledger: Any,
-                   cache: ResponseCache, root: Path = E2E_ROOT_V2) -> dict:
+                   cache: ResponseCache, root: Path = E2E_ROOT_V2,
+                   episodes_subdir: str = "episodes") -> dict:
     """Run one (task, arm) episode with the v2 pipeline. Root may be a paid
     episodes root or a controls root; the replay guard enforces F01."""
     scope = editable_filter(task_id, _raw_scope(task_id, arm))
@@ -202,7 +208,7 @@ def run_episode_v2(task_id: str, arm: str, client: Any, ledger: Any,
             "episode_sha256": "",
         }
         rec["episode_sha256"] = _sha({k: v for k, v in rec.items() if k != "episode_sha256"})
-        _persist_episode_v2(root, rec, [], {})
+        _persist_episode_v2(root, rec, [], {}, episodes_subdir)
         return rec
 
     ti = load_task_input(task_id)
@@ -226,7 +232,8 @@ def run_episode_v2(task_id: str, arm: str, client: Any, ledger: Any,
         provider_calls += 1
         actual_cost += call.cost_usd
         idx = 1
-        raw_path, raw_sha = _persist_raw(root, task_id, arm, idx, "initial", call.text)
+        raw_path, raw_sha = _persist_raw(root, task_id, arm, idx, "initial", call.text,
+                                         episodes_subdir)
         entry = _cache_entry_from_call(call, request, request_sha, True, str(raw_path))
         entry["raw_sha256"] = raw_sha
         cache.put(request_sha, entry)
@@ -255,7 +262,8 @@ def run_episode_v2(task_id: str, arm: str, client: Any, ledger: Any,
             provider_calls += 1
             actual_cost += call2.cost_usd
             idx = 2
-            raw2_path, raw2_sha = _persist_raw(root, task_id, arm, idx, "repair", call2.text)
+            raw2_path, raw2_sha = _persist_raw(root, task_id, arm, idx, "repair", call2.text,
+                                               episodes_subdir)
             entry2 = _cache_entry_from_call(call2, repair_request, repair_sha, True, str(raw2_path))
             entry2["raw_sha256"] = raw2_sha
             cache.put(repair_sha, entry2)
@@ -309,7 +317,7 @@ def run_episode_v2(task_id: str, arm: str, client: Any, ledger: Any,
         "episode_sha256": "",
     }
     rec["episode_sha256"] = _sha({k: v for k, v in rec.items() if k != "episode_sha256"})
-    _persist_episode_v2(root, rec, diffs, final_texts)
+    _persist_episode_v2(root, rec, diffs, final_texts, episodes_subdir)
     rec["_provider_calls"] = provider_calls
     rec["_actual_cost"] = actual_cost
     return rec

@@ -1,0 +1,96 @@
+{
+ "artifact": "instrument_v2_ready",
+ "created_utc": "2026-09-28T18:47:58Z",
+ "head": "de0074eeca1aa957add34577ab95b3442927ee30",
+ "interface_version": "wp2-e2e-interface-v2",
+ "smoke_version_v2": "wp2-e2e-smoke-eng-v2",
+ "expressible_population": {
+  "path": "research/wp2/e2e_smoke_eng_v2/controls/expressible_population.json",
+  "expressible": 39,
+  "modified_non_test": 47,
+  "hash": "9262b054b1aa3eb7cfd3384b3b5330e484c81a7ef14db6641e3755569cffb5d1"
+ },
+ "gates": {
+  "G_FORMAT_CLEAN": {
+   "pass": true,
+   "detail": {
+    "expressible_paths_total": 39,
+    "tasks_with_expressible_files": 14,
+    "tasks_parse_ok": 14,
+    "expected_100pct": true
+   }
+  },
+  "G_FORMAT_NOISY": {
+   "pass": true,
+   "detail": {
+    "ok_total": 14,
+    "of": 14,
+    "expected_100pct": true
+   }
+  },
+  "G_POS": {
+   "pass": true,
+   "detail": {
+    "tree_matches": "3/3",
+    "f2p_pass": 3
+   }
+  },
+  "G_NEG": {
+   "pass": true,
+   "detail": {
+    "f2p_fail": 3,
+    "resolved_false": 3
+   }
+  },
+  "G_REPAIR_CONTEXT": {
+   "pass": true,
+   "detail": {
+    "context_ok": "3/3",
+    "expected_3_3": true
+   }
+  },
+  "G_CACHE": {
+   "pass": true,
+   "detail": {
+    "logical_requests": 55,
+    "unique_request_shas": 52,
+    "client_invocations": 52
+   }
+  },
+  "G_LEAK": {
+   "pass": true,
+   "detail": {
+    "blocking_total": 0
+   }
+  },
+  "G_REPLAY": {
+   "pass": true,
+   "detail": {
+    "replay_routes": 0
+   }
+  },
+  "G_BUDGET": {
+   "pass": true,
+   "detail": {
+    "worst_case_usd": 1.4128,
+    "ceiling_usd": 2.0
+   }
+  }
+ },
+ "all_gates_pass": true,
+ "module_shas": {
+  "spec.py": "62f90ffe419fc73fa7474e303114b3f654a501db2f15e275965f2c1dbbb1a2f9",
+  "llm_client.py": "35cbc79cd1fc2b724e027b1e2a7e0979fdb7799aaaba1e4632568d66fd84472d",
+  "prompt.py": "0e47b6ea3717cdcd3db6bd6d26bb4ffa68dd731e6da73b0f040af9f7b0fa7a70",
+  "patch_format.py": "2e1aab8f7a021298305a2564482932d2dc95f5eb64adb507bbe2642c33c6748e",
+  "generate.py": "3026933dd35489125f4d8335ebb5ce6132ded27b7570949db9318c32462a2643",
+  "generate_v2.py": "adb4e57a897bb6191b547f99321d5a816563761fe19f098e2318e94ee899db57",
+  "response_cache.py": "5b4347b099b6026df1fdf99baeadbaacd976fe4247131d34306898c1f5b6f55c",
+  "evaluate.py": "ee756f69b292694b1e73bc7060135486872ac6b356dfb37538ccd79355dec1b2",
+  "evaluator_sets.py": "313bc1ee4da3a03573cc4672630ccbc0245a577361cf8b4727c2f5d8b10f8d9e"
+ },
+ "unit_test_counts": {
+  "instrument_v2": 27,
+  "instrument_v1": 12
+ }
+}
