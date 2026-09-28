@@ -63,7 +63,8 @@ TAGGED_PATHSPECS = (
 
 
 def _worst_case() -> dict[str, float]:
-    data = json.loads((_PROJECT_DIR / "research/wp2/e2e_smoke_eng_v1/agent_dev_eng_budget.json").read_text(encoding="utf-8"))
+    budget = _PROJECT_DIR / "research/wp2/e2e_smoke_eng_v1/agent_dev_eng_budget.json"
+    data = json.loads(budget.read_text(encoding="utf-8"))
     return {tid: float(v["worst_case_usd"]) for tid, v in data["worst_case_per_task"].items()}
 
 
