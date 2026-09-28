@@ -1,0 +1,240 @@
+{
+ "artifact": "agent_scopes_dev_eng",
+ "note": "Frozen protocol-v3 Agent selected_paths on the 16 DEV_TRAIN_ENG union tasks (AU6). Smoke inputs only; never scored as selector-F1 evidence (amendment F).",
+ "protocol_sha256": "3b5f518773b8ea8db60641c7d29ce5d1a5ca652b1b921dc67f84c39a6de95c0f",
+ "n_tasks": 16,
+ "total_cost_usd": 0.348237,
+ "per_task": {
+  "saleor-rc-22ec4dab0154": {
+   "selected_paths": [
+    "saleor/invoice/models.py",
+    "saleor/order/events.py",
+    "saleor/plugins/invoicing/plugin.py"
+   ],
+   "empty": false,
+   "calls": 7,
+   "tokens": {
+    "prompt": 41659,
+    "completion": 291
+   },
+   "cost_usd": 0.012789,
+   "status": "DONE"
+  },
+  "saleor-rc-2d45b76a52f2": {
+   "selected_paths": [
+    "saleor/app/models.py",
+    "saleor/core/jwt.py",
+    "saleor/graphql/app/mutations/app_token_create.py"
+   ],
+   "empty": false,
+   "calls": 8,
+   "tokens": {
+    "prompt": 79684,
+    "completion": 372
+   },
+   "cost_usd": 0.024277,
+   "status": "DONE"
+  },
+  "saleor-rc-39b4138e8550": {
+   "selected_paths": [
+    "saleor/graphql/core/types/order_or_checkout.py",
+    "saleor/graphql/core/types/user_or_app.py"
+   ],
+   "empty": false,
+   "calls": 5,
+   "tokens": {
+    "prompt": 69714,
+    "completion": 218
+   },
+   "cost_usd": 0.021132,
+   "status": "DONE"
+  },
+  "saleor-rc-644f33094857": {
+   "selected_paths": [
+    "saleor/graphql/order/mutations/fulfillments.py",
+    "saleor/order/actions.py",
+    "saleor/order/utils.py"
+   ],
+   "empty": false,
+   "calls": 7,
+   "tokens": {
+    "prompt": 44978,
+    "completion": 265
+   },
+   "cost_usd": 0.013758,
+   "status": "DONE"
+  },
+  "saleor-rc-6abb53f3407b": {
+   "selected_paths": [
+    "saleor/account/models.py",
+    "saleor/graphql/account/mutations/account.py"
+   ],
+   "empty": false,
+   "calls": 8,
+   "tokens": {
+    "prompt": 53304,
+    "completion": 414
+   },
+   "cost_usd": 0.016405,
+   "status": "DONE"
+  },
+  "saleor-rc-74538ea00ce9": {
+   "selected_paths": [
+    "saleor/checkout/utils.py",
+    "saleor/discount/models.py",
+    "saleor/discount/utils/voucher.py",
+    "saleor/graphql/discount/mutations/voucher/voucher_update.py"
+   ],
+   "empty": false,
+   "calls": 7,
+   "tokens": {
+    "prompt": 93917,
+    "completion": 296
+   },
+   "cost_usd": 0.028471,
+   "status": "DONE"
+  },
+  "saleor-rc-823b899757ab": {
+   "selected_paths": [
+    "saleor/graphql/product/mutations/products.py",
+    "saleor/graphql/product/schema.py"
+   ],
+   "empty": false,
+   "calls": 7,
+   "tokens": {
+    "prompt": 40467,
+    "completion": 219
+   },
+   "cost_usd": 0.012359,
+   "status": "DONE"
+  },
+  "saleor-rc-82c56bde0e34": {
+   "selected_paths": [
+    "saleor/checkout/fetch.py",
+    "saleor/graphql/payment/resolvers.py"
+   ],
+   "empty": false,
+   "calls": 8,
+   "tokens": {
+    "prompt": 101339,
+    "completion": 280
+   },
+   "cost_usd": 0.030682,
+   "status": "DONE"
+  },
+  "saleor-rc-8f76ddc6267f": {
+   "selected_paths": [
+    "saleor/graphql/webhook/mutations/webhook_dry_run.py"
+   ],
+   "empty": false,
+   "calls": 8,
+   "tokens": {
+    "prompt": 89840,
+    "completion": 297
+   },
+   "cost_usd": 0.027249,
+   "status": "DONE"
+  },
+  "saleor-rc-9258154b8a0b": {
+   "selected_paths": [
+    "saleor/graphql/order/mutations/fulfillment_update_tracking.py",
+    "saleor/graphql/order/mutations/order_fulfill.py",
+    "saleor/webhook/event_types.py"
+   ],
+   "empty": false,
+   "calls": 8,
+   "tokens": {
+    "prompt": 106762,
+    "completion": 433
+   },
+   "cost_usd": 0.032462,
+   "status": "DONE"
+  },
+  "saleor-rc-93b20d78c011": {
+   "selected_paths": [
+    "saleor/account/models.py",
+    "saleor/graphql/account/resolvers.py",
+    "saleor/graphql/account/schema.py"
+   ],
+   "empty": false,
+   "calls": 8,
+   "tokens": {
+    "prompt": 51871,
+    "completion": 291
+   },
+   "cost_usd": 0.015852,
+   "status": "DONE"
+  },
+  "saleor-rc-c3b9e396b07d": {
+   "selected_paths": [
+    "saleor/warehouse/management.py"
+   ],
+   "empty": false,
+   "calls": 7,
+   "tokens": {
+    "prompt": 48313,
+    "completion": 276
+   },
+   "cost_usd": 0.01477,
+   "status": "DONE"
+  },
+  "saleor-rc-d220843b5418": {
+   "selected_paths": [
+    "saleor/checkout/fetch.py",
+    "saleor/graphql/checkout/mutations/checkout_delivery_method_update.py",
+    "saleor/webhook/payloads.py"
+   ],
+   "empty": false,
+   "calls": 8,
+   "tokens": {
+    "prompt": 119522,
+    "completion": 335
+   },
+   "cost_usd": 0.036192,
+   "status": "DONE"
+  },
+  "saleor-rc-dc6ac9d252df": {
+   "selected_paths": [
+    "saleor/account/notifications.py",
+    "saleor/core/analytics.py",
+    "saleor/webhook/payload_serializers.py",
+    "saleor/webhook/payloads.py"
+   ],
+   "empty": false,
+   "calls": 8,
+   "tokens": {
+    "prompt": 53843,
+    "completion": 259
+   },
+   "cost_usd": 0.016412,
+   "status": "DONE"
+  },
+  "saleor-rc-e03ee76d2b89": {
+   "selected_paths": [
+    "saleor/graphql/core/validators/__init__.py"
+   ],
+   "empty": false,
+   "calls": 8,
+   "tokens": {
+    "prompt": 108751,
+    "completion": 310
+   },
+   "cost_usd": 0.032935,
+   "status": "DONE"
+  },
+  "saleor-rc-e25cf9b4a837": {
+   "selected_paths": [
+    "saleor/payment/gateways/dummy_credit_card/plugin.py"
+   ],
+   "empty": false,
+   "calls": 7,
+   "tokens": {
+    "prompt": 40875,
+    "completion": 229
+   },
+   "cost_usd": 0.012492,
+   "status": "DONE"
+  }
+ },
+ "artifact_sha256": "2e2a0dc031757030be116138231bf14458dedb4a87a3147cf0fe64ec40518425"
+}

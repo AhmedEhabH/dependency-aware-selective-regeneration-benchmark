@@ -1,0 +1,124 @@
+{
+ "agent_control_max_completion_tokens": 1024,
+ "ceiling_usd": 1.0,
+ "code_sha256": {
+  "protocol_v3": "3b5f518773b8ea8db60641c7d29ce5d1a5ca652b1b921dc67f84c39a6de95c0f",
+  "scripts/wp1b_main_run.py": "cdbd93db4ed5dec2de19ab8787335c0d4fab184f3d4eba6140b4464265779ccf",
+  "src/benchmark/strategies/iterative_agent.py": "94baf4d3c557838b434869a60850a4cf62bd652c283206cd33260d7f799cff62",
+  "src/benchmark/strategies/repository_tools.py": "251fd8d65835da56ef99dcd7a9df56044725c06151b90c7d8573bd0d4160cc35",
+  "src/benchmark/wp1b/label_guard.py": "6a07e31fe55eac37c3f198313ec5b34c4898bb62d5a937c23c6c2c7df7576452",
+  "src/benchmark/wp1b/main_runner.py": "fc82237b24988a102c232ce21c0e038c31eee7478da1d228724b2eea685e4b3a",
+  "src/benchmark/wp1b/resilient_backend.py": "8bbd6e1c3e61d612ba15af4da51946941cdb53bbd92950a7fad4dd085465d241",
+  "src/benchmark/wp1b/telemetry.py": "dbb48c6bf7dbfe69bec18530ee7af178f686bdeba1c25dc802ac15d3062a53f5"
+ },
+ "created_utc": "2026-09-28T04:25:22.279550+00:00",
+ "kind": "dev_agent_scope",
+ "manifest_sha256": "028c51df8b66195ca70036a22535161840d2154e1e79fec1abe5d254c117224a",
+ "max_agent_calls": 8,
+ "model": "qwen/qwen3-coder",
+ "n_items": 16,
+ "protocol": "wp1b_frozen_agent_protocol_v3",
+ "resumes": [
+  {
+   "archived_halt": "halt_001.json",
+   "completed_before": 0,
+   "utc": "2026-09-28T04:28:53.773858+00:00"
+  },
+  {
+   "archived_halt": null,
+   "completed_before": 4,
+   "utc": "2026-09-28T04:31:05.418314+00:00"
+  },
+  {
+   "archived_halt": "halt_002.json",
+   "completed_before": 7,
+   "utc": "2026-09-28T05:02:43.203000+00:00"
+  },
+  {
+   "archived_halt": null,
+   "completed_before": 11,
+   "utc": "2026-09-28T05:10:09.463157+00:00"
+  }
+ ],
+ "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+ "run_label": "DEV_AGENT_SCOPE",
+ "schema": "wp1b_main_run_state_v1",
+ "sessions": [
+  {
+   "code_sha256": {
+    "protocol_v3": "3b5f518773b8ea8db60641c7d29ce5d1a5ca652b1b921dc67f84c39a6de95c0f",
+    "scripts/wp1b_main_run.py": "cdbd93db4ed5dec2de19ab8787335c0d4fab184f3d4eba6140b4464265779ccf",
+    "src/benchmark/strategies/iterative_agent.py": "94baf4d3c557838b434869a60850a4cf62bd652c283206cd33260d7f799cff62",
+    "src/benchmark/strategies/repository_tools.py": "251fd8d65835da56ef99dcd7a9df56044725c06151b90c7d8573bd0d4160cc35",
+    "src/benchmark/wp1b/label_guard.py": "6a07e31fe55eac37c3f198313ec5b34c4898bb62d5a937c23c6c2c7df7576452",
+    "src/benchmark/wp1b/main_runner.py": "fc82237b24988a102c232ce21c0e038c31eee7478da1d228724b2eea685e4b3a",
+    "src/benchmark/wp1b/resilient_backend.py": "8bbd6e1c3e61d612ba15af4da51946941cdb53bbd92950a7fad4dd085465d241",
+    "src/benchmark/wp1b/telemetry.py": "dbb48c6bf7dbfe69bec18530ee7af178f686bdeba1c25dc802ac15d3062a53f5"
+   },
+   "completed_before": 0,
+   "session": "s1",
+   "utc": "2026-09-28T04:25:22.342108+00:00"
+  },
+  {
+   "code_sha256": {
+    "protocol_v3": "3b5f518773b8ea8db60641c7d29ce5d1a5ca652b1b921dc67f84c39a6de95c0f",
+    "scripts/wp1b_main_run.py": "cdbd93db4ed5dec2de19ab8787335c0d4fab184f3d4eba6140b4464265779ccf",
+    "src/benchmark/strategies/iterative_agent.py": "94baf4d3c557838b434869a60850a4cf62bd652c283206cd33260d7f799cff62",
+    "src/benchmark/strategies/repository_tools.py": "251fd8d65835da56ef99dcd7a9df56044725c06151b90c7d8573bd0d4160cc35",
+    "src/benchmark/wp1b/label_guard.py": "6a07e31fe55eac37c3f198313ec5b34c4898bb62d5a937c23c6c2c7df7576452",
+    "src/benchmark/wp1b/main_runner.py": "fc82237b24988a102c232ce21c0e038c31eee7478da1d228724b2eea685e4b3a",
+    "src/benchmark/wp1b/resilient_backend.py": "8bbd6e1c3e61d612ba15af4da51946941cdb53bbd92950a7fad4dd085465d241",
+    "src/benchmark/wp1b/telemetry.py": "dbb48c6bf7dbfe69bec18530ee7af178f686bdeba1c25dc802ac15d3062a53f5"
+   },
+   "completed_before": 0,
+   "session": "s2",
+   "utc": "2026-09-28T04:28:53.773858+00:00"
+  },
+  {
+   "code_sha256": {
+    "protocol_v3": "3b5f518773b8ea8db60641c7d29ce5d1a5ca652b1b921dc67f84c39a6de95c0f",
+    "scripts/wp1b_main_run.py": "cdbd93db4ed5dec2de19ab8787335c0d4fab184f3d4eba6140b4464265779ccf",
+    "src/benchmark/strategies/iterative_agent.py": "94baf4d3c557838b434869a60850a4cf62bd652c283206cd33260d7f799cff62",
+    "src/benchmark/strategies/repository_tools.py": "251fd8d65835da56ef99dcd7a9df56044725c06151b90c7d8573bd0d4160cc35",
+    "src/benchmark/wp1b/label_guard.py": "6a07e31fe55eac37c3f198313ec5b34c4898bb62d5a937c23c6c2c7df7576452",
+    "src/benchmark/wp1b/main_runner.py": "fc82237b24988a102c232ce21c0e038c31eee7478da1d228724b2eea685e4b3a",
+    "src/benchmark/wp1b/resilient_backend.py": "8bbd6e1c3e61d612ba15af4da51946941cdb53bbd92950a7fad4dd085465d241",
+    "src/benchmark/wp1b/telemetry.py": "dbb48c6bf7dbfe69bec18530ee7af178f686bdeba1c25dc802ac15d3062a53f5"
+   },
+   "completed_before": 4,
+   "session": "s3",
+   "utc": "2026-09-28T04:31:05.418314+00:00"
+  },
+  {
+   "code_sha256": {
+    "protocol_v3": "3b5f518773b8ea8db60641c7d29ce5d1a5ca652b1b921dc67f84c39a6de95c0f",
+    "scripts/wp1b_main_run.py": "cdbd93db4ed5dec2de19ab8787335c0d4fab184f3d4eba6140b4464265779ccf",
+    "src/benchmark/strategies/iterative_agent.py": "94baf4d3c557838b434869a60850a4cf62bd652c283206cd33260d7f799cff62",
+    "src/benchmark/strategies/repository_tools.py": "251fd8d65835da56ef99dcd7a9df56044725c06151b90c7d8573bd0d4160cc35",
+    "src/benchmark/wp1b/label_guard.py": "6a07e31fe55eac37c3f198313ec5b34c4898bb62d5a937c23c6c2c7df7576452",
+    "src/benchmark/wp1b/main_runner.py": "fc82237b24988a102c232ce21c0e038c31eee7478da1d228724b2eea685e4b3a",
+    "src/benchmark/wp1b/resilient_backend.py": "8bbd6e1c3e61d612ba15af4da51946941cdb53bbd92950a7fad4dd085465d241",
+    "src/benchmark/wp1b/telemetry.py": "dbb48c6bf7dbfe69bec18530ee7af178f686bdeba1c25dc802ac15d3062a53f5"
+   },
+   "completed_before": 7,
+   "session": "s4",
+   "utc": "2026-09-28T05:02:43.203000+00:00"
+  },
+  {
+   "code_sha256": {
+    "protocol_v3": "3b5f518773b8ea8db60641c7d29ce5d1a5ca652b1b921dc67f84c39a6de95c0f",
+    "scripts/wp1b_main_run.py": "cdbd93db4ed5dec2de19ab8787335c0d4fab184f3d4eba6140b4464265779ccf",
+    "src/benchmark/strategies/iterative_agent.py": "94baf4d3c557838b434869a60850a4cf62bd652c283206cd33260d7f799cff62",
+    "src/benchmark/strategies/repository_tools.py": "251fd8d65835da56ef99dcd7a9df56044725c06151b90c7d8573bd0d4160cc35",
+    "src/benchmark/wp1b/label_guard.py": "6a07e31fe55eac37c3f198313ec5b34c4898bb62d5a937c23c6c2c7df7576452",
+    "src/benchmark/wp1b/main_runner.py": "fc82237b24988a102c232ce21c0e038c31eee7478da1d228724b2eea685e4b3a",
+    "src/benchmark/wp1b/resilient_backend.py": "8bbd6e1c3e61d612ba15af4da51946941cdb53bbd92950a7fad4dd085465d241",
+    "src/benchmark/wp1b/telemetry.py": "dbb48c6bf7dbfe69bec18530ee7af178f686bdeba1c25dc802ac15d3062a53f5"
+   },
+   "completed_before": 11,
+   "session": "s5",
+   "utc": "2026-09-28T05:10:09.463157+00:00"
+  }
+ ],
+ "temperature": 0.0
+}
