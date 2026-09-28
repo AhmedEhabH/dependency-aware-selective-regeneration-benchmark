@@ -97,14 +97,22 @@ def _call_entry_v21(entry: dict, kind: str, index: int) -> dict:
 
 
 def _persist_episode_v21(root: Path, rec: dict, diffs: list[str],
-                         final_texts: dict[str, str]) -> None:
-    """Persist episode.json under the v21 paid episodes root (replay guard)."""
+                         final_texts: dict[str, str],
+                         subdir: str = "episodes",
+                         label: str | None = None) -> None:
+    """Persist episode.json under the v21 evidence root (replay guard).
+
+    ``subdir`` is 'episodes' for the main run and 'variance' for variance
+    replicates. ``label`` distinguishes replicates (e.g. var_r1) so r1 can
+    never overwrite r2.
+    """
     calls = rec.get("calls", [])
     replay = [c for c in calls if c.get("route") == "replay"]
     if replay:
         raise ReplayInPaidEvidenceError(
             f"replay route blocked from v21 paid evidence root: {replay}")
-    base = root / "episodes" / rec["task_id"] / rec["arm"]
+    arm_dir = label or rec["arm"]
+    base = root / subdir / rec["task_id"] / arm_dir
     base.mkdir(parents=True, exist_ok=True)
     (base / "episode.json").write_text(
         json.dumps(rec, indent=1, ensure_ascii=False), encoding="utf-8")
@@ -136,8 +144,13 @@ def _generation_fail_rec(task_id: str, arm: str, calls: list[dict],
 
 
 def run_episode_v21(task_id: str, arm: str, client: V21HttpClient, ledger: Any,
-                    cache: ResponseCache, root: Path = E2E_ROOT_V21) -> dict:
+                    cache: ResponseCache, root: Path = E2E_ROOT_V21,
+                    subdir: str = "episodes", label: str | None = None) -> dict:
     """Run one (task, arm) episode with the v2.1 pipeline (T2).
+
+    ``subdir`` selects the evidence subdirectory ('episodes' for main,
+    'variance' for variance replicates). ``label`` distinguishes replicate
+    paths (var_r1 / var_r2) so r1 can never overwrite r2.
 
     Transport failures become GENERATION_FAIL records that preserve any
     successful calls already made. NO_SCOPE episodes make 0 provider calls.
@@ -155,7 +168,7 @@ def run_episode_v21(task_id: str, arm: str, client: V21HttpClient, ledger: Any,
             "episode_sha256": "",
         }
         rec["episode_sha256"] = _sha({k: v for k, v in rec.items() if k != "episode_sha256"})
-        _persist_episode_v21(root, rec, [], {})
+        _persist_episode_v21(root, rec, [], {}, subdir, label)
         return rec
 
     ti = load_task_input(task_id)
@@ -174,6 +187,7 @@ def run_episode_v21(task_id: str, arm: str, client: V21HttpClient, ledger: Any,
     actual_cost = 0.0
 
     # ---- initial call ------------------------------------------------------
+    arm_dir = label or arm
     try:
         entry = cache.get(request_sha)
         if entry is None:
@@ -181,7 +195,8 @@ def run_episode_v21(task_id: str, arm: str, client: V21HttpClient, ledger: Any,
             provider_calls += 1
             actual_cost += call.cost_usd
             idx = 1
-            raw_path, raw_sha = _persist_raw(root, task_id, arm, idx, "initial", call.text)
+            raw_path, raw_sha = _persist_raw(root, task_id, arm_dir, idx, "initial",
+                                             call.text, episodes_subdir=subdir)
             entry = _cache_entry_from_call(call, request, request_sha, True, str(raw_path))
             entry["raw_sha256"] = raw_sha
             cache.put(request_sha, entry)
@@ -192,7 +207,7 @@ def run_episode_v21(task_id: str, arm: str, client: V21HttpClient, ledger: Any,
     except (HOLD_ACTIVE, GenerationFail, NonRetryableError) as exc:
         rec = _generation_fail_rec(task_id, arm, calls, f"{type(exc).__name__}: {exc}")
         rec["episode_sha256"] = _sha({k: v for k, v in rec.items() if k != "episode_sha256"})
-        _persist_episode_v21(root, rec, [], {})
+        _persist_episode_v21(root, rec, [], {}, subdir, label)
         rec["_provider_calls"] = provider_calls
         rec["_actual_cost"] = actual_cost
         return rec
@@ -219,7 +234,8 @@ def run_episode_v21(task_id: str, arm: str, client: V21HttpClient, ledger: Any,
                 provider_calls += 1
                 actual_cost += call2.cost_usd
                 idx = 2
-                raw2_path, raw2_sha = _persist_raw(root, task_id, arm, idx, "repair", call2.text)
+                raw2_path, raw2_sha = _persist_raw(root, task_id, arm_dir, idx, "repair",
+                                                   call2.text, episodes_subdir=subdir)
                 entry2 = _cache_entry_from_call(call2, repair_request, repair_sha, True, str(raw2_path))
                 entry2["raw_sha256"] = raw2_sha
                 cache.put(repair_sha, entry2)
@@ -243,7 +259,7 @@ def run_episode_v21(task_id: str, arm: str, client: V21HttpClient, ledger: Any,
             rec["excluded"] = scope
             rec["envelope"] = envelope
             rec["episode_sha256"] = _sha({k: v for k, v in rec.items() if k != "episode_sha256"})
-            _persist_episode_v21(root, rec, [], {})
+            _persist_episode_v21(root, rec, [], {}, subdir, label)
             rec["_provider_calls"] = provider_calls
             rec["_actual_cost"] = actual_cost
             return rec
@@ -293,7 +309,7 @@ def run_episode_v21(task_id: str, arm: str, client: V21HttpClient, ledger: Any,
         "episode_sha256": "",
     }
     rec["episode_sha256"] = _sha({k: v for k, v in rec.items() if k != "episode_sha256"})
-    _persist_episode_v21(root, rec, diffs, final_texts)
+    _persist_episode_v21(root, rec, diffs, final_texts, subdir, label)
     rec["_provider_calls"] = provider_calls
     rec["_actual_cost"] = actual_cost
     return rec
