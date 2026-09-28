@@ -1,0 +1,77 @@
+{
+  "artifact": "build_ready_v21",
+  "created_utc": "2026-09-28T21:27:33Z",
+  "head": "eef90c8ccb5dd0ed66faf9faac0b8883dfc40f51",
+  "scope_hash_match_v1": true,
+  "scope_hashes": {
+    "GOLD_HARD": {
+      "semantic_sha256": "89fd623b8dd774dd3f0e0174c2deea9f0b7190fb3d6798195288697724d827f1",
+      "matches_v1_freeze": true
+    },
+    "RMCSS_HARD": {
+      "semantic_sha256": "657f0c8d8d2eed206cd19cd90ddc23994d648b1dcbf909ad29529c92031d3d3c",
+      "matches_v1_freeze": true
+    },
+    "AGENT_HARD": {
+      "semantic_sha256": "096a2312b048b5ad494d9b9e7f79cea78362b2223611b8d5fef54bcd159f8945",
+      "matches_v1_freeze": true
+    },
+    "PLACEBO_HARD": {
+      "semantic_sha256": "e78cb47ab9c192866f860eab080e68eecaad8de935c6eda3022f827fde53ee7b",
+      "matches_v1_freeze": true
+    }
+  },
+  "module_sha256": {
+    "generate.py": "e26dd791e965f7794f15093da3d6895ad3736f5e7271978b52d02369c5096b2a",
+    "ledger.py": "38f6e498e8063bce3d56a6833c6468d6553f803691398d6b9a739e5ba25dd606",
+    "transport.py": "caf0b8ceca792c3451285862d7a8fc50d30c9116f94908acdf158539c10a8907",
+    "wp2_e2e_smoke_v21_evaluate.py": "e55f6a88cc0efc28fbff9c557d1f380842e806522508218580a3ba746ffd929d",
+    "wp2_e2e_smoke_v21_freeze.py": "e99c4184878e6e7ab6affda972b6be9959398e9ef27f0ac1516774fcb397b5cd",
+    "wp2_e2e_smoke_v21_generate.py": "f408159a0c7643d399510871ac6cb6a071899770b5153e82ae268b2dadd6a9b4",
+    "wp2_e2e_smoke_v21_summary.py": "d1a4c0232587994e78aad90e22681263c6a863a8d4e46b8fe8946bc1cb473932",
+    "wp2_e2e_smoke_v21_variance.py": "1403aadbd905a16a74d52260151f196db5d73a0c74500b4aaed032de9c6596d8"
+  },
+  "checks": {
+    "v21_unit_tests": {
+      "ran": true,
+      "pass": true,
+      "count": 34,
+      "note": "tests/unit/wp2/e2e_v21 (T1-T6)"
+    },
+    "existing_v1_v2_instrument_tests": {
+      "ran": true,
+      "pass": true,
+      "count": 45,
+      "note": "test_e2e_instrument.py + test_e2e_instrument_v2.py"
+    },
+    "ruff": {
+      "ran": true,
+      "pass": true
+    },
+    "py_compile": {
+      "ran": true,
+      "pass": true
+    },
+    "git_diff_check": {
+      "ran": true,
+      "pass": true
+    },
+    "secret_scan": {
+      "ran": true,
+      "pass": true
+    },
+    "dependency_import_audit": {
+      "ran": true,
+      "pass": true
+    },
+    "historical_v1_immutability": {
+      "pass": true,
+      "note": "no v1 tracked diffs"
+    },
+    "historical_v2_immutability": {
+      "pass": true,
+      "note": "only pre-existing H1 dirty (mission12_progress.json); v2 key hashes unchanged"
+    }
+  },
+  "verdict": "BUILD_V21_READY"
+}

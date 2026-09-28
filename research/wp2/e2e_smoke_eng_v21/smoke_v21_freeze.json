@@ -1,0 +1,581 @@
+{
+  "artifact": "smoke_v21_freeze",
+  "smoke_version": "wp2-e2e-smoke-eng-v21",
+  "interface_version": "wp2-e2e-interface-v2",
+  "created_utc": "2026-09-28T21:11:55Z",
+  "head": "b7d49158b39c38adda93efe05ad3a151b1b7d394",
+  "population": [
+    "saleor-rc-2d45b76a52f2",
+    "saleor-rc-39b4138e8550",
+    "saleor-rc-644f33094857",
+    "saleor-rc-6abb53f3407b",
+    "saleor-rc-74538ea00ce9",
+    "saleor-rc-823b899757ab",
+    "saleor-rc-82c56bde0e34",
+    "saleor-rc-8f76ddc6267f",
+    "saleor-rc-93b20d78c011",
+    "saleor-rc-c3b9e396b07d",
+    "saleor-rc-d220843b5418",
+    "saleor-rc-dc6ac9d252df",
+    "saleor-rc-e03ee76d2b89",
+    "saleor-rc-e25cf9b4a837"
+  ],
+  "n_tasks": 14,
+  "arms": [
+    "GOLD_HARD",
+    "RMCSS_HARD",
+    "AGENT_HARD",
+    "PLACEBO_HARD"
+  ],
+  "model": "qwen/qwen3-coder",
+  "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+  "provider": "deepinfra/turbo",
+  "temperature": 0.0,
+  "top_p": 1.0,
+  "max_tokens": 8192,
+  "max_repairs": 1,
+  "workers": 1,
+  "scopes_sha256_per_arm": {
+    "GOLD_HARD": "89fd623b8dd774dd3f0e0174c2deea9f0b7190fb3d6798195288697724d827f1",
+    "RMCSS_HARD": "657f0c8d8d2eed206cd19cd90ddc23994d648b1dcbf909ad29529c92031d3d3c",
+    "AGENT_HARD": "096a2312b048b5ad494d9b9e7f79cea78362b2223611b8d5fef54bcd159f8945",
+    "PLACEBO_HARD": "e78cb47ab9c192866f860eab080e68eecaad8de935c6eda3022f827fde53ee7b"
+  },
+  "scopes_git_blob_per_arm": {
+    "GOLD_HARD": "3bc013b803146a070e08a506e7a9e556c8d554c5",
+    "RMCSS_HARD": "b0c6a710f4b2d03eee4e7731d120c4716ae8c3d5",
+    "AGENT_HARD": "66777d32e9dd52ff6178bd0719d748dfbcc8136c",
+    "PLACEBO_HARD": "3ab34ccbbd50d5eedae122cb17602e01861e3a10"
+  },
+  "scopes_raw_sha256_per_arm": {
+    "GOLD_HARD": "d113fe8055030b56bff9f0bbc6e1568f255f2b8a46a5ce83d51a9443adb1231f",
+    "RMCSS_HARD": "dad9f1281eca9358db1b067ca190a78895acea2616dd4131935002592c710b2e",
+    "AGENT_HARD": "81590caa6ff5944d2a6a429bd6bcc8941574b7a6f3b01f18be3ed88bb0a876a5",
+    "PLACEBO_HARD": "9d832071ec9faf50e35c9931f581a5788ecdc84c061f8a504d57c50c629988a1"
+  },
+  "evaluator_sets": {
+    "semantic_sha256": "92913bd578ea0d67e410a2f86cd033bd942f24eb5706d773464594d4a54c3dde",
+    "git_blob_sha1": "8d278e56b3b12c325dee9f7fa13fdeb2460c0009",
+    "raw_sha256": "eeb6565e7c7c680b2c4d3240cd47df3171840186715a41d9c8907875ca0594f7",
+    "path": "research/wp2/harness_v3_2026-09-26/evaluator_only/eng_evaluator_sets_v3.json"
+  },
+  "harness_v3_identity": {
+    "version": "wp2-harness-v3-2026-09-26",
+    "spec_sha256": "e7897ba0850bd0af372273a32ffb33435b4dc75c9476d527ec86fa424a75f034",
+    "git_head": "9216c2991e08795b00d9811be16da2f049ede68a",
+    "null_forbidden": true
+  },
+  "code_sha256": {
+    "generate.py": "e26dd791e965f7794f15093da3d6895ad3736f5e7271978b52d02369c5096b2a",
+    "ledger.py": "38f6e498e8063bce3d56a6833c6468d6553f803691398d6b9a739e5ba25dd606",
+    "transport.py": "caf0b8ceca792c3451285862d7a8fc50d30c9116f94908acdf158539c10a8907",
+    "wp2_e2e_smoke_v21_generate.py": "f408159a0c7643d399510871ac6cb6a071899770b5153e82ae268b2dadd6a9b4",
+    "wp2_e2e_smoke_v21_variance.py": "1403aadbd905a16a74d52260151f196db5d73a0c74500b4aaed032de9c6596d8"
+  },
+  "planned_episodes": [
+    {
+      "task": "saleor-rc-2d45b76a52f2",
+      "arm": "GOLD_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-2d45b76a52f2",
+      "arm": "RMCSS_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-2d45b76a52f2",
+      "arm": "AGENT_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-2d45b76a52f2",
+      "arm": "PLACEBO_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-39b4138e8550",
+      "arm": "GOLD_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-39b4138e8550",
+      "arm": "RMCSS_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-39b4138e8550",
+      "arm": "AGENT_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-39b4138e8550",
+      "arm": "PLACEBO_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-644f33094857",
+      "arm": "GOLD_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-644f33094857",
+      "arm": "RMCSS_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-644f33094857",
+      "arm": "AGENT_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-644f33094857",
+      "arm": "PLACEBO_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-6abb53f3407b",
+      "arm": "GOLD_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-6abb53f3407b",
+      "arm": "RMCSS_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-6abb53f3407b",
+      "arm": "AGENT_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-6abb53f3407b",
+      "arm": "PLACEBO_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-74538ea00ce9",
+      "arm": "GOLD_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-74538ea00ce9",
+      "arm": "RMCSS_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-74538ea00ce9",
+      "arm": "AGENT_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-74538ea00ce9",
+      "arm": "PLACEBO_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-823b899757ab",
+      "arm": "GOLD_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-823b899757ab",
+      "arm": "RMCSS_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-823b899757ab",
+      "arm": "AGENT_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-823b899757ab",
+      "arm": "PLACEBO_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-82c56bde0e34",
+      "arm": "GOLD_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-82c56bde0e34",
+      "arm": "RMCSS_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-82c56bde0e34",
+      "arm": "AGENT_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-82c56bde0e34",
+      "arm": "PLACEBO_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-8f76ddc6267f",
+      "arm": "GOLD_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-8f76ddc6267f",
+      "arm": "RMCSS_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-8f76ddc6267f",
+      "arm": "AGENT_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-8f76ddc6267f",
+      "arm": "PLACEBO_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-93b20d78c011",
+      "arm": "GOLD_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-93b20d78c011",
+      "arm": "RMCSS_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-93b20d78c011",
+      "arm": "AGENT_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-93b20d78c011",
+      "arm": "PLACEBO_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-c3b9e396b07d",
+      "arm": "GOLD_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-c3b9e396b07d",
+      "arm": "RMCSS_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-c3b9e396b07d",
+      "arm": "AGENT_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-c3b9e396b07d",
+      "arm": "PLACEBO_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-d220843b5418",
+      "arm": "GOLD_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-d220843b5418",
+      "arm": "RMCSS_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-d220843b5418",
+      "arm": "AGENT_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-d220843b5418",
+      "arm": "PLACEBO_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-dc6ac9d252df",
+      "arm": "GOLD_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-dc6ac9d252df",
+      "arm": "RMCSS_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-dc6ac9d252df",
+      "arm": "AGENT_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-dc6ac9d252df",
+      "arm": "PLACEBO_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-e03ee76d2b89",
+      "arm": "GOLD_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-e03ee76d2b89",
+      "arm": "RMCSS_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-e03ee76d2b89",
+      "arm": "AGENT_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-e03ee76d2b89",
+      "arm": "PLACEBO_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-e25cf9b4a837",
+      "arm": "GOLD_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-e25cf9b4a837",
+      "arm": "RMCSS_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-e25cf9b4a837",
+      "arm": "AGENT_HARD",
+      "status": "PLANNED"
+    },
+    {
+      "task": "saleor-rc-e25cf9b4a837",
+      "arm": "PLACEBO_HARD",
+      "status": "PLANNED"
+    }
+  ],
+  "n_planned": 56,
+  "noscope_per_arm": {
+    "GOLD_HARD": {
+      "saleor-rc-2d45b76a52f2": false,
+      "saleor-rc-39b4138e8550": false,
+      "saleor-rc-644f33094857": false,
+      "saleor-rc-6abb53f3407b": false,
+      "saleor-rc-74538ea00ce9": false,
+      "saleor-rc-823b899757ab": false,
+      "saleor-rc-82c56bde0e34": false,
+      "saleor-rc-8f76ddc6267f": false,
+      "saleor-rc-93b20d78c011": false,
+      "saleor-rc-c3b9e396b07d": false,
+      "saleor-rc-d220843b5418": false,
+      "saleor-rc-dc6ac9d252df": false,
+      "saleor-rc-e03ee76d2b89": false,
+      "saleor-rc-e25cf9b4a837": false
+    },
+    "RMCSS_HARD": {
+      "saleor-rc-2d45b76a52f2": false,
+      "saleor-rc-39b4138e8550": true,
+      "saleor-rc-644f33094857": false,
+      "saleor-rc-6abb53f3407b": false,
+      "saleor-rc-74538ea00ce9": false,
+      "saleor-rc-823b899757ab": false,
+      "saleor-rc-82c56bde0e34": false,
+      "saleor-rc-8f76ddc6267f": false,
+      "saleor-rc-93b20d78c011": false,
+      "saleor-rc-c3b9e396b07d": false,
+      "saleor-rc-d220843b5418": false,
+      "saleor-rc-dc6ac9d252df": false,
+      "saleor-rc-e03ee76d2b89": false,
+      "saleor-rc-e25cf9b4a837": false
+    },
+    "AGENT_HARD": {
+      "saleor-rc-2d45b76a52f2": false,
+      "saleor-rc-39b4138e8550": false,
+      "saleor-rc-644f33094857": false,
+      "saleor-rc-6abb53f3407b": false,
+      "saleor-rc-74538ea00ce9": false,
+      "saleor-rc-823b899757ab": false,
+      "saleor-rc-82c56bde0e34": false,
+      "saleor-rc-8f76ddc6267f": false,
+      "saleor-rc-93b20d78c011": false,
+      "saleor-rc-c3b9e396b07d": false,
+      "saleor-rc-d220843b5418": false,
+      "saleor-rc-dc6ac9d252df": false,
+      "saleor-rc-e03ee76d2b89": false,
+      "saleor-rc-e25cf9b4a837": false
+    },
+    "PLACEBO_HARD": {
+      "saleor-rc-2d45b76a52f2": false,
+      "saleor-rc-39b4138e8550": false,
+      "saleor-rc-644f33094857": false,
+      "saleor-rc-6abb53f3407b": false,
+      "saleor-rc-74538ea00ce9": false,
+      "saleor-rc-823b899757ab": false,
+      "saleor-rc-82c56bde0e34": false,
+      "saleor-rc-8f76ddc6267f": false,
+      "saleor-rc-93b20d78c011": false,
+      "saleor-rc-c3b9e396b07d": false,
+      "saleor-rc-d220843b5418": false,
+      "saleor-rc-dc6ac9d252df": false,
+      "saleor-rc-e03ee76d2b89": false,
+      "saleor-rc-e25cf9b4a837": false
+    }
+  },
+  "n_noscope": 1,
+  "transport_policy": {
+    "name": "TRANSPORT_V21",
+    "total_http_attempts": 4,
+    "backoff_s": [
+      0,
+      5,
+      20,
+      60
+    ],
+    "min_logical_call_pacing_s": 5.0,
+    "retryable_status": [
+      408,
+      429,
+      500,
+      501,
+      502,
+      503,
+      504,
+      505,
+      506,
+      507,
+      508,
+      509,
+      510,
+      511,
+      512,
+      513,
+      514,
+      515,
+      516,
+      517,
+      518,
+      519,
+      520,
+      521,
+      522,
+      523,
+      524,
+      525,
+      526,
+      527,
+      528,
+      529,
+      530,
+      531,
+      532,
+      533,
+      534,
+      535,
+      536,
+      537,
+      538,
+      539,
+      540,
+      541,
+      542,
+      543,
+      544,
+      545,
+      546,
+      547,
+      548,
+      549,
+      550,
+      551,
+      552,
+      553,
+      554,
+      555,
+      556,
+      557,
+      558,
+      559,
+      560,
+      561,
+      562,
+      563,
+      564,
+      565,
+      566,
+      567,
+      568,
+      569,
+      570,
+      571,
+      572,
+      573,
+      574,
+      575,
+      576,
+      577,
+      578,
+      579,
+      580,
+      581,
+      582,
+      583,
+      584,
+      585,
+      586,
+      587,
+      588,
+      589,
+      590,
+      591,
+      592,
+      593,
+      594,
+      595,
+      596,
+      597,
+      598,
+      599
+    ],
+    "non_retryable_status": [
+      400,
+      401,
+      403,
+      404
+    ],
+    "byte_identical_retries": true,
+    "no_fifth_attempt": true
+  },
+  "budget": {
+    "scientific_ceiling_usd": 2.0,
+    "includes": [
+      "probe",
+      "generation",
+      "repair",
+      "variance"
+    ]
+  },
+  "variance_design": {
+    "tasks": [
+      "saleor-rc-644f33094857",
+      "saleor-rc-2d45b76a52f2",
+      "saleor-rc-d220843b5418"
+    ],
+    "arm": "GOLD_HARD",
+    "replicates": [
+      "var_r1",
+      "var_r2"
+    ],
+    "n_episodes": 6,
+    "cache_bypass_per_replicate": true
+  },
+  "d220_sensitivity": {
+    "rule": "d220 stays in the 14-task primary analysis. Produce a SECONDARY sensitivity table with d220 omitted. It MUST NOT change the primary Smoke token/NEXT rule.",
+    "task": "saleor-rc-d220843b5418"
+  },
+  "evaluation_dedup_rule": {
+    "rule": "collect main APPLIED diffs + variance APPLIED diffs; deduplicate per task by (task_id, diff_sha256); freeze deterministic order by (task_id, diff_sha256, label); evaluate every unique diff once; map results back to all arms/variance records."
+  },
+  "no_evaluation_before_generation_freeze": true,
+  "hold_present_at_build": true,
+  "freeze_sha256": "820dabfea178204653cf98f91e07315f4a64757941433ec15da086a238521eda"
+}

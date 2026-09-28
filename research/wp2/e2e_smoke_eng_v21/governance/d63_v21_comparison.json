@@ -1,0 +1,23 @@
+{
+  "artifact": "d63_vs_v21_transport_comparison",
+  "extracted_utc": "2026-09-28T20:13:45Z",
+  "historical_rule": {
+    "id": "D63",
+    "source": "MISSION_11_ONE_SHOT_ENG_TO_FIRST_E2E_2026-09-26.md line 203",
+    "text": "Transport retries: 3 attempts, backoff 5 s / 20 s / 60 s (reuse resilient_backend). Then GENERATION_FAIL. 3 consecutive GENERATION_FAIL → wait 10 min, retry that episode once; still failing → STOP E2E_PROVIDER_OUTAGE (resumable)."
+  },
+  "prospective_rule": {
+    "id": "TRANSPORT_V21",
+    "source": "MISSION_12B_AUTONOMOUS_UNATTENDED_V21_2026-09-28.md section 2.3",
+    "text": "A logical provider request may make TOTAL_HTTP_ATTEMPTS=4 (attempt 1 immediately; retry 1 after 5 s; retry 2 after 20 s; retry 3 after 60 s). Every retry byte-identical request content/body and identical model parameters. Retryable: HTTP 429, 408, 5xx, timeout, connection/reset/temporary transport errors. Not retryable: auth/account/credit/config errors, HTTP 400/401/403/404, other deterministic bad-request/config errors. Logical-call pacing: minimum 5 s between completed provider logical calls. After all 4 HTTP attempts fail: preserve evidence, return logical call failure, episode becomes GENERATION_FAIL, do NOT mutate prompt/scope/model or silently add more attempts. Run outage gate: 3 consecutive episode-level GENERATION_FAIL due transport/provider failure -> STOP E2E_PROVIDER_OUTAGE. No automatic episode-level rerun beyond the four HTTP attempts."
+  },
+  "differences": [
+    "ATTEMPT_COUNT: D63 = 3 total attempts; TRANSPORT_V21 = 4 total attempts.",
+    "RETRYABLE_CLASSIFICATION: D63 does not enumerate retryable vs non-retryable error classes; TRANSPORT_V21 adds explicit classification (retryable: 429/408/5xx/timeout/connection; non-retryable: auth/config/bad-request 400/401/403/404 -> immediate fail).",
+    "LOGICAL_CALL_PACING: TRANSPORT_V21 adds a minimum 5-second pacing between completed provider logical calls; D63 has no logical-call pacing rule.",
+    "EPISODE_LEVEL_RERUN: D63 allows a single episode rerun after 10 min wait following 3 consecutive GENERATION_FAIL; TRANSPORT_V21 explicitly forbids any automatic episode-level rerun beyond the four HTTP attempts (3 consecutive transport GENERATION_FAIL -> STOP E2E_PROVIDER_OUTAGE).",
+    "OUTAGE_GATE: D63 gate is 3 consecutive GENERATION_FAIL then wait 10 min then retry once; TRANSPORT_V21 gate is 3 consecutive transport-caused GENERATION_FAIL -> immediate STOP E2E_PROVIDER_OUTAGE."
+  ],
+  "intent": "Intentional prospective amendment per Mission-12B section 2.3. The TRANSPORT_V21 policy is frozen BEFORE any v2.1 paid generation and is outcome-blind. D63 remains historical; TRANSPORT_V21 supersedes it for the v2.1 prospective run only.",
+  "no_change_to_v21": true
+}

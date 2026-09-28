@@ -1,0 +1,17 @@
+{
+  "artifact": "mission11_rule_extracts",
+  "source": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\_workspace\\active\\MISSION_11_ONE_SHOT_ENG_TO_FIRST_E2E_2026-09-26.md",
+  "source_sha256": "0dcba2c5698bc82e79a8ab8781e72d6167a5805d5c4b59525464f79cda737dc2",
+  "extracted_utc": "2026-09-28T20:12:41Z",
+  "rules": {
+    "D63": {
+      "line": 203,
+      "text": "| D63 | Transport retries: 3 attempts, backoff 5 s / 20 s / 60 s (reuse resilient_backend). Then `GENERATION_FAIL`. 3 consecutive `GENERATION_FAIL` → wait 10 min, retry that episode once; still failing → STOP `E2E_PROVIDER_OUTAGE` (resumable). |"
+    },
+    "C22": {
+      "line": 227,
+      "text": "| C22 | G-POS: a node that passed 3/3 at target in the oracle fails in the replay | Rerun that state once. Still failing → compare pytest flags, DB, install mode and env vars with the oracle runner. Fix only a mismatch in the evaluator (never in the oracle). Max 3 attempts → STOP `E2E_INSTRUMENT_INVALID`. |"
+    }
+  },
+  "note": "Extracted verbatim from Mission-11 authority. Do not reinterpret."
+}

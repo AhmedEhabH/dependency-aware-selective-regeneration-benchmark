@@ -58,23 +58,29 @@ def test_missing_hold_hard_fail(monkeypatch, tmp_path: Path) -> None:
 
 def test_scope_hash_mismatch_hard_fail(monkeypatch, tmp_path: Path) -> None:
     state = _monkey(monkeypatch, tmp_path)
-    try:
-        import json
+    # isolate against a tmp copy of the frozen v1 scopes so the test can never
+    # mutate the historical v1 evidence (F01-style test isolation)
+    import json
+    import shutil
 
-        from benchmark.wp2.e2e.spec import ARMS
+    from benchmark.wp2.e2e.spec import ARMS
+    scopes_tmp = tmp_path / "v1_scopes_tmp"
+    shutil.copytree(fb.V1_SCOPES, scopes_tmp)
+    old_scopes = fb.V1_SCOPES
+    fb.V1_SCOPES = scopes_tmp
+    try:
         for arm in ARMS:
             fname = {"GOLD_HARD": "scopes_GOLD_HARD.json", "RMCSS_HARD": "scopes_RMCSS_HARD.json",
                      "AGENT_HARD": "scopes_AGENT_HARD.json",
                      "PLACEBO_HARD": "scopes_PLACEBO_HARD.json"}[arm]
-            p = fb.V1_SCOPES / fname
+            p = scopes_tmp / fname
             d = json.loads(p.read_text(encoding="utf-8"))
             d["tamper"] = True
             p.write_text(json.dumps(d), encoding="utf-8")
             with pytest.raises(fb.FreezeViolation):
                 fb.build_freeze(allow_write=False)
-            p.write_text(json.dumps({k: v for k, v in d.items() if k != "tamper"}),
-                         encoding="utf-8")
     finally:
+        fb.V1_SCOPES = old_scopes
         _restore(monkeypatch, state)
 
 

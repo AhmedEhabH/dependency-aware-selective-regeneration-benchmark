@@ -1,0 +1,63 @@
+{
+  "artifact": "mission12b_v21_history_and_deviations",
+  "created_utc": "2026-09-28T20:26:36Z",
+  "authority": "MISSION_12B_AUTONOMOUS_UNATTENDED_V21_2026-09-28.md",
+  "prospective_evidence_root": "research/wp2/e2e_smoke_eng_v21/",
+  "history": {
+    "smoke_v1_instrument_invalid": {
+      "summary": "Smoke v1 instrument was declared invalid by erratum. Mission-11 corrected token = E2E_SMOKE_INSTRUMENT_INVALID (supersedes E2E_SMOKE_FLOOR_EFFECT).",
+      "evidence": "docs/WP2_E2E_SMOKE_ENG_V1_ERRATUM_2026-09-28.md",
+      "defects": [
+        "DF1 replay route in real evidence",
+        "DF2 blind repair",
+        "DF3 D38 reuse ineffective",
+        "DF4 truncation check bypassed",
+        "DF5 raw responses not persisted"
+      ]
+    },
+    "mission12_c22_max_attempt_breach": {
+      "summary": "Mission-12 acknowledged the Mission-11 C22 max-attempt breach. A later warm diagnostic PASS does not erase the breach.",
+      "note": "C22 = G-POS node that passed 3/3 at target fails in replay: rerun once, max 3 attempts, then STOP E2E_INSTRUMENT_INVALID (Mission-11 line 227). Breach acknowledged in Mission-12B section 2.1.",
+      "status": "ACKNOWLEDGED - historical only"
+    },
+    "v2_jkl_diagnostic_only": {
+      "summary": "Historical v2 J/K/L phases and the paid partial generation are diagnostic/history only. They are NOT rehabilitated into confirmatory evidence."
+    },
+    "v2_paid_partial_run": {
+      "episode_json_count": 10,
+      "ledger_rows": 11,
+      "scientific_spend_usd": 0.0257184,
+      "prompt_tokens": 64608,
+      "completion_tokens": 6384,
+      "evidence_root": "research/wp2/e2e_smoke_eng_v2/"
+    },
+    "post_freeze_generation_driver_client_changes": {
+      "summary": "Generation driver / client were changed after the v2 freeze (see git working-tree diff of scripts/wp2_e2e_smoke_v2_generate.py and v2 module hashes). These post-freeze changes are recorded as part of the v2 diagnostic history only."
+    },
+    "v2_hold": {
+      "present": true,
+      "path": "research/wp2/e2e_smoke_eng_v2/HOLD"
+    },
+    "external_snapshot": {
+      "path": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\_workspace\\active\\M12B_PREHOLD_SNAPSHOT_2026-09-28",
+      "zip": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\_workspace\\active\\M12B_PREHOLD_SNAPSHOT_2026-09-28.zip",
+      "zip_sha256": "f89ccd54a3cd6bb3cf5fbe81fb98b6cda318fd74e96275c5e69b97ec2fa18731",
+      "zip_size_bytes": 185486
+    },
+    "v1_v2_immutability": {
+      "policy": "Never modify/delete/move research/wp2/e2e_smoke_eng_v1/ or research/wp2/e2e_smoke_eng_v2/ or their tags.",
+      "v1_evidence_hashes": {
+        "generation_freeze.json": "7d1e5f085539201620093222eb8c581972387bdc5e87d63caa075ffe6015eddf",
+        "smoke_freeze.json": "43b8978002e358af884e769b606a0027814ebf1f41d88c077a2862f5b307c932",
+        "smoke_summary.json": "bba488d5c95f95239e5bbd0e945bbe63eaef7bcbc776f4ede8aee3bd8e0e4981",
+        "instrument_ready.json": "3414e7ade4f89a45dd89d049def3bcede14b8060254fb94ee24b4efdda45ae9d"
+      }
+    }
+  },
+  "prospective_decision": {
+    "option": "OPTION A - prospective reset in a new v2.1 namespace",
+    "root": "research/wp2/e2e_smoke_eng_v21/",
+    "v2_paid_evidence_reuse": "NONE - no v2 paid evidence is reused as v21 evidence."
+  },
+  "transport_policy_amendment": "TRANSPORT_V21 (Mission-12B section 2.3) supersedes historical D63 for the v21 prospective run only; see d63_v21_comparison.json."
+}

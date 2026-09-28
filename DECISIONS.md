@@ -2442,3 +2442,12 @@ Mission-11 one-shot (sole authoritative directive, supersedes Mission-10B STOP-f
 - v1 result JSONs and v1 tags unchanged (immutability verified in erratum/v1_immutability_before.json).
 - No change to RM-CSS selection-stage evidence. Smoke v1 is engineering-split pipeline validation only.
 - Evidence: docs/WP2_E2E_SMOKE_ENG_V1_ERRATUM_2026-09-28.md + research/wp2/e2e_smoke_eng_v1/erratum/.
+
+## Decision MISSION_12B_V21 - T4 TEST ISOLATION FIX (<DATE>)
+- The v2.1 freeze-builder test (tests/unit/wp2/e2e_v21/test_freeze.py) initially wrote a
+  tampered scope JSON back into the REAL v1 scopes directory, mutating bytes of historical
+  v1 evidence. This is a harness/test isolation defect (F01 rule), NOT a scientific knob.
+- Fix: the test now copies the frozen v1 scopes to tmp_path and points the builder at the
+  copy; the real v1 scope files were restored byte-for-byte from HEAD and their semantic
+  hashes verified equal to the v1 smoke freeze (4/4 arms).
+- v1/v2 evidence immutability restored and verified.

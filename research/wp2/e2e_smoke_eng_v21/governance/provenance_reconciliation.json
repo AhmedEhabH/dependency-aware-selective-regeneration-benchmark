@@ -1,0 +1,86 @@
+{
+  "artifact": "provenance_reconciliation",
+  "created_utc": "2026-09-28T20:32:06Z",
+  "g31_scope_hashes": {
+    "method": "canonical JSON semantic SHA256 (sort_keys, ensure_ascii=False), raw byte SHA256, and git blob SHA1.",
+    "per_arm": {
+      "GOLD_HARD": {
+        "semantic_sha256": "89fd623b8dd774dd3f0e0174c2deea9f0b7190fb3d6798195288697724d827f1",
+        "raw_sha256": "5c1a431a5e3d214af6d4b408f07be3f905673fdb19e512572d9448879dabdddc",
+        "git_blob_sha1": "c6a8e5ec8f2253550bb133878a229ef53b98e442",
+        "v1_freeze_semantic_sha256": "89fd623b8dd774dd3f0e0174c2deea9f0b7190fb3d6798195288697724d827f1",
+        "matches_v1_freeze": true
+      },
+      "RMCSS_HARD": {
+        "semantic_sha256": "657f0c8d8d2eed206cd19cd90ddc23994d648b1dcbf909ad29529c92031d3d3c",
+        "raw_sha256": "02451f0549df2fe233ff61bb91250100eebf1b4a54f78283f77af622893fb49e",
+        "git_blob_sha1": "acb075972edbf9d5889ee1b36683a4b98f803d51",
+        "v1_freeze_semantic_sha256": "657f0c8d8d2eed206cd19cd90ddc23994d648b1dcbf909ad29529c92031d3d3c",
+        "matches_v1_freeze": true
+      },
+      "AGENT_HARD": {
+        "semantic_sha256": "096a2312b048b5ad494d9b9e7f79cea78362b2223611b8d5fef54bcd159f8945",
+        "raw_sha256": "a081b2694e36b5b62ba8d10a279485c7e7de6151a362d24d016f9548f3948227",
+        "git_blob_sha1": "c245b2dbcafe05ffd5a31d5cd08b52b7b967c6f5",
+        "v1_freeze_semantic_sha256": "096a2312b048b5ad494d9b9e7f79cea78362b2223611b8d5fef54bcd159f8945",
+        "matches_v1_freeze": true
+      },
+      "PLACEBO_HARD": {
+        "semantic_sha256": "e78cb47ab9c192866f860eab080e68eecaad8de935c6eda3022f827fde53ee7b",
+        "raw_sha256": "f6433e5f4dd9f396a4b9704ca7311c56ec4e084e7cfc88878c25dbdd684672a0",
+        "git_blob_sha1": "fca81ddb53910bc2456a395024cb603fe66cdb4d",
+        "v1_freeze_semantic_sha256": "e78cb47ab9c192866f860eab080e68eecaad8de935c6eda3022f827fde53ee7b",
+        "matches_v1_freeze": true
+      }
+    },
+    "files": {
+      "scopes_GOLD_HARD.json": {
+        "semantic_sha256": "89fd623b8dd774dd3f0e0174c2deea9f0b7190fb3d6798195288697724d827f1",
+        "raw_sha256": "5c1a431a5e3d214af6d4b408f07be3f905673fdb19e512572d9448879dabdddc",
+        "git_blob_sha1": "c6a8e5ec8f2253550bb133878a229ef53b98e442"
+      },
+      "scopes_RMCSS_HARD.json": {
+        "semantic_sha256": "657f0c8d8d2eed206cd19cd90ddc23994d648b1dcbf909ad29529c92031d3d3c",
+        "raw_sha256": "02451f0549df2fe233ff61bb91250100eebf1b4a54f78283f77af622893fb49e",
+        "git_blob_sha1": "acb075972edbf9d5889ee1b36683a4b98f803d51"
+      },
+      "scopes_AGENT_HARD.json": {
+        "semantic_sha256": "096a2312b048b5ad494d9b9e7f79cea78362b2223611b8d5fef54bcd159f8945",
+        "raw_sha256": "a081b2694e36b5b62ba8d10a279485c7e7de6151a362d24d016f9548f3948227",
+        "git_blob_sha1": "c245b2dbcafe05ffd5a31d5cd08b52b7b967c6f5"
+      },
+      "scopes_PLACEBO_HARD.json": {
+        "semantic_sha256": "e78cb47ab9c192866f860eab080e68eecaad8de935c6eda3022f827fde53ee7b",
+        "raw_sha256": "f6433e5f4dd9f396a4b9704ca7311c56ec4e084e7cfc88878c25dbdd684672a0",
+        "git_blob_sha1": "fca81ddb53910bc2456a395024cb603fe66cdb4d"
+      }
+    },
+    "conclusion": "v1 frozen scope semantic hashes equal the recomputed canonical JSON semantic SHA256 of the current v1 scope files -> scope content unchanged.",
+    "do_not_alter": true
+  },
+  "g32_harness_identity": {
+    "version": "wp2-harness-v3-2026-09-26",
+    "spec_version": "harness-v3-spec-v1-2026-09-26",
+    "spec_file_path": "research/wp2/harness_v3_2026-09-26/harness_v3_spec.json",
+    "spec_file_raw_sha256": "5d0ec5e70c11cd4ab4f2e30687b6327738f037a2b94ef8ee5c0ac34c674d73f2",
+    "spec_freeze_hashes": {
+      "v3_spec_sha256": "e7897ba0850bd0af372273a32ffb33435b4dc75c9476d527ec86fa424a75f034",
+      "runner_sha256": "54d76b5be11207ef06b11920e1d090587d4008cbc76f8ba48d61a4381be3ea08",
+      "orchestrator_sha256": "71d630f3641d4076ebb1480da436b102f53bcebfb88d01b199bc2763f0de4b7a",
+      "error_taxonomy_sha256": "209384052ea82d6662d04fc7ab2dbce0979971e73bfbeb3b9f1ab184a0dcb151",
+      "resource_sampler_version": "wp2-resource-sampler-v1-2026-09-25",
+      "git_head": "9216c2991e08795b00d9811be16da2f049ede68a"
+    },
+    "v1_freeze_harness_identity": {
+      "spec_sha256": "e7897ba0850bd0af372273a32ffb33435b4dc75c9476d527ec86fa424a75f034",
+      "git_head": "9216c2991e08795b00d9811be16da2f049ede68a"
+    },
+    "null_forbidden": true,
+    "conclusion": "Authoritative Harness V3 identity resolved: version 'wp2-harness-v3-2026-09-26', freeze spec_sha256 e7897ba0..., git_head 9216c299.... v2 freeze recorded spec_sha256=null; v21 forbids null identity."
+  },
+  "g33_agent_scope_helper": {
+    "bug": "scopes.build_arm_scopes AGENT_HARD branch reads agent_scopes_dev_eng.json via d.get(task_id, {}).get('selected_paths', []) but the artifact stores per-task data under the 'per_task' key, so d.get(task_id) is always {} -> empty raw scope (AGENT_SCOPE bug).",
+    "generator_equivalent_loader": "generate._raw_scope AGENT_HARD branch reads d.get('per_task', {}).get(task_id, {}).get('selected_paths', []) - the correct generator-equivalent loader that produced the frozen scopes_AGENT_HARD.json.",
+    "do_not_change_historical_scopes": true
+  }
+}
