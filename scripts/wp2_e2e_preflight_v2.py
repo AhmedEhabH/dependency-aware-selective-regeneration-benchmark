@@ -26,7 +26,7 @@ import os
 import subprocess
 import sys
 import urllib.request
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -68,7 +68,7 @@ def main() -> int:
     key = os.environ.get("OPENROUTER_API_KEY", "").strip().strip('"').strip("'")
     record: dict[str, Any] = {
         "artifact": "paid_preflight_v2",
-        "created_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "created_utc": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "head": subprocess.run(["git", "-C", str(PROJECT), "rev-parse", "HEAD"],
                                capture_output=True, text=True).stdout.strip(),
     }
@@ -85,7 +85,6 @@ def main() -> int:
 
     # K2 + K3 live fetch
     usage: dict[str, Any] = {}
-    pricing: dict[str, Any] = {}
     for url, target in ((KEY_URL, "usage"), (CREDITS_URL, "credits"),
                         (MODELS_URL, "models")):
         try:
@@ -126,7 +125,8 @@ def main() -> int:
     record["K3_pricing_drift"] = drift
 
     # K4-K6 frozen identity
-    from benchmark.wp2.e2e.spec import MAX_TOKENS, MODEL as M, TEMPERATURE, TOP_P
+    from benchmark.wp2.e2e.spec import MAX_TOKENS, TEMPERATURE, TOP_P
+    from benchmark.wp2.e2e.spec import MODEL as M
     record["K4_model"] = {"expected": MODEL, "actual": M, "ok": M == MODEL}
     record["K5_route"] = {"expected": ROUTE, "provider": PROVIDER, "ok": True}
     record["K6_sampling"] = {"temperature": TEMPERATURE, "top_p": TOP_P,
