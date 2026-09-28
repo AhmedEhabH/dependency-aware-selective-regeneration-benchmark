@@ -1,0 +1,126 @@
+{
+  "artifact": "frozen_executable_manifest_v21",
+  "created_utc": "2026-09-28T23:31:04Z",
+  "head": "b20bd132c5c7128573cf2b52a2c3b3977abd8137",
+  "freeze_tag": "wp2-e2e-smoke-eng-v21-freeze-2026-09-29",
+  "hold_present_at_manifest_build": true,
+  "files": {
+    "src/benchmark/wp2/e2e_v21/transport.py": {
+      "category": "v21_generation_transport",
+      "sha256": "caf0b8ceca792c3451285862d7a8fc50d30c9116f94908acdf158539c10a8907"
+    },
+    "src/benchmark/wp2/e2e_v21/generate.py": {
+      "category": "v21_generation_transport",
+      "sha256": "562769c97acf2b7bce3fcc122b90a17cd0d24c13d0b856e650b27f70bffbb057"
+    },
+    "src/benchmark/wp2/e2e_v21/ledger.py": {
+      "category": "v21_generation_transport",
+      "sha256": "38f6e498e8063bce3d56a6833c6468d6553f803691398d6b9a739e5ba25dd606"
+    },
+    "scripts/wp2_e2e_smoke_v21_generate.py": {
+      "category": "v21_generation_transport",
+      "sha256": "f408159a0c7643d399510871ac6cb6a071899770b5153e82ae268b2dadd6a9b4"
+    },
+    "scripts/wp2_e2e_smoke_v21_variance.py": {
+      "category": "v21_generation_transport",
+      "sha256": "1403aadbd905a16a74d52260151f196db5d73a0c74500b4aaed032de9c6596d8"
+    },
+    "scripts/wp2_e2e_smoke_v21_freeze.py": {
+      "category": "v21_freeze_eval_summary",
+      "sha256": "e99c4184878e6e7ab6affda972b6be9959398e9ef27f0ac1516774fcb397b5cd"
+    },
+    "scripts/wp2_e2e_smoke_v21_evaluate.py": {
+      "category": "v21_freeze_eval_summary",
+      "sha256": "e55f6a88cc0efc28fbff9c557d1f380842e806522508218580a3ba746ffd929d"
+    },
+    "scripts/wp2_e2e_smoke_v21_summary.py": {
+      "category": "v21_freeze_eval_summary",
+      "sha256": "d1a4c0232587994e78aad90e22681263c6a863a8d4e46b8fe8946bc1cb473932"
+    },
+    "scripts/wp2_e2e_smoke_v21_controls.py": {
+      "category": "v21_freeze_eval_summary",
+      "sha256": "8b7d9eacc1095b5de4ebbc1813f78122a23f69c380a68418e339c03a9793839c"
+    },
+    "scripts/wp2_e2e_smoke_v21_preflight.py": {
+      "category": "v21_freeze_eval_summary",
+      "sha256": "681e72fef2ea183211600bdbeccdf3d856e8f58a16d649ca274b613ce40396a0"
+    },
+    "src/benchmark/wp2/e2e/generate.py": {
+      "category": "frozen_v2_instrument",
+      "sha256": "3026933dd35489125f4d8335ebb5ce6132ded27b7570949db9318c32462a2643"
+    },
+    "src/benchmark/wp2/e2e/generate_v2.py": {
+      "category": "frozen_v2_instrument",
+      "sha256": "adb4e57a897bb6191b547f99321d5a816563761fe19f098e2318e94ee899db57"
+    },
+    "src/benchmark/wp2/e2e/response_cache.py": {
+      "category": "frozen_v2_instrument",
+      "sha256": "5b4347b099b6026df1fdf99baeadbaacd976fe4247131d34306898c1f5b6f55c"
+    },
+    "src/benchmark/wp2/e2e/patch_format.py": {
+      "category": "frozen_v2_instrument",
+      "sha256": "2e1aab8f7a021298305a2564482932d2dc95f5eb64adb507bbe2642c33c6748e"
+    },
+    "src/benchmark/wp2/e2e/prompt.py": {
+      "category": "frozen_v2_instrument",
+      "sha256": "0e47b6ea3717cdcd3db6bd6d26bb4ffa68dd731e6da73b0f040af9f7b0fa7a70"
+    },
+    "src/benchmark/wp2/e2e/llm_client.py": {
+      "category": "frozen_v2_instrument",
+      "sha256": "a02d486db8edb24d3e9f9b7c0688c46f5508f55ee3cbe86c73d1af409ef52dd3"
+    },
+    "src/benchmark/wp2/e2e/scopes.py": {
+      "category": "frozen_v2_instrument",
+      "sha256": "0c738aacc5137eb164f60db299c4eff8177403644c0efa1c0a9535fe85b209d5"
+    },
+    "src/benchmark/wp2/e2e/spec.py": {
+      "category": "frozen_v2_instrument",
+      "sha256": "62f90ffe419fc73fa7474e303114b3f654a501db2f15e275965f2c1dbbb1a2f9"
+    },
+    "src/benchmark/wp2/e2e/task_inputs.py": {
+      "category": "frozen_v2_instrument",
+      "sha256": "c0313c8b865a7ef439f4ab2c095ff4c9cac8a7fce4158157d95e1a0fa46ad6fc"
+    },
+    "src/benchmark/wp2/e2e/pycompile.py": {
+      "category": "frozen_v2_instrument",
+      "sha256": "e003ab873760ff038619ded4bacadd14ef383f92859a3c1290974d23c9da537c"
+    },
+    "src/benchmark/wp2/e2e/evaluate.py": {
+      "category": "evaluator",
+      "sha256": "ee756f69b292694b1e73bc7060135486872ac6b356dfb37538ccd79355dec1b2"
+    },
+    "src/benchmark/wp2/e2e/evaluator_sets.py": {
+      "category": "evaluator",
+      "sha256": "313bc1ee4da3a03573cc4672630ccbc0245a577361cf8b4727c2f5d8b10f8d9e"
+    },
+    "research/wp2/harness_v3_2026-09-26/evaluator_only/eng_evaluator_sets_v3.json": {
+      "category": "evaluator",
+      "sha256": "eeb6565e7c7c680b2c4d3240cd47df3171840186715a41d9c8907875ca0594f7"
+    },
+    "src/benchmark/wp2/harness_v3.py": {
+      "category": "harness",
+      "sha256": "02e082870151da6d93d7c1b38d59693c29e123a44b015da80f94648a9c9596e8"
+    },
+    "research/wp2/harness_v3_2026-09-26/harness_v3_spec.json": {
+      "category": "harness",
+      "sha256": "5d0ec5e70c11cd4ab4f2e30687b6327738f037a2b94ef8ee5c0ac34c674d73f2"
+    },
+    "research/wp2/e2e_smoke_eng_v1/scopes/scopes_GOLD_HARD.json": {
+      "category": "scope_data",
+      "sha256": "5c1a431a5e3d214af6d4b408f07be3f905673fdb19e512572d9448879dabdddc"
+    },
+    "research/wp2/e2e_smoke_eng_v1/scopes/scopes_RMCSS_HARD.json": {
+      "category": "scope_data",
+      "sha256": "02451f0549df2fe233ff61bb91250100eebf1b4a54f78283f77af622893fb49e"
+    },
+    "research/wp2/e2e_smoke_eng_v1/scopes/scopes_AGENT_HARD.json": {
+      "category": "scope_data",
+      "sha256": "a081b2694e36b5b62ba8d10a279485c7e7de6151a362d24d016f9548f3948227"
+    },
+    "research/wp2/e2e_smoke_eng_v1/scopes/scopes_PLACEBO_HARD.json": {
+      "category": "scope_data",
+      "sha256": "f6433e5f4dd9f396a4b9704ca7311c56ec4e084e7cfc88878c25dbdd684672a0"
+    }
+  },
+  "manifest_sha256": "e55389d1429979fea582dbac317312df8e3fa720425b0db070d73e4794a0f4de"
+}
