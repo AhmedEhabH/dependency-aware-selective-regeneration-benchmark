@@ -2467,3 +2467,11 @@ Mission-11 one-shot (sole authoritative directive, supersedes Mission-10B STOP-f
   2. _run_pos/_run_neg left the frozen evaluator's E2E_ROOT pointing at v1, so
      control JUnit would write into the historical v1 root; now redirects to V21_ROOT.
 - No control outcome was changed by these fixes; all 11 controls PASS.
+
+## Decision MISSION_12B_V21 - L-PHASE TAG TARGET CORRECTION
+- The v21 freeze tag (wp2-e2e-smoke-eng-v21-freeze-2026-09-29) was first created at
+  02872ce0, then a docs/evidence-only commit (mission12b_progress.json + PHASE_REPORT,
+  015eb6c5) advanced HEAD past it. AUTH_SPEND_GATE requires "freeze tag points to HEAD".
+- The 015eb6c5 delta is evidence/docs only (no production/scientific code change), so the
+  frozen scientific content is unchanged. The tag was moved FORWARD to 015eb6c5 to satisfy
+  the explicit gate condition; no scientific bytes changed.
