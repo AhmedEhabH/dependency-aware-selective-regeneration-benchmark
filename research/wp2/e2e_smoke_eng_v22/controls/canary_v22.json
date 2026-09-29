@@ -1,0 +1,32 @@
+{
+ "artifact": "canary_v22",
+ "task": "saleor-rc-2d45b76a52f2",
+ "utc": "2026-09-29T02:05:37Z",
+ "positive": {
+  "tree_sha": "78af87ca3558d935c5de20d1d801cd68b468816f",
+  "target_tree": "78af87ca3558d935c5de20d1d801cd68b468816f",
+  "tree_matches": true,
+  "task_id": "saleor-rc-2d45b76a52f2",
+  "label": "v22_canary_pos",
+  "f2p_task": "PASS",
+  "p2p_s_task": "PASS",
+  "p2p_u200_task": "PASS",
+  "resolved": true,
+  "flaky_under_patch": []
+ },
+ "negative": {
+  "task_id": "saleor-rc-2d45b76a52f2",
+  "label": "v22_canary_neg",
+  "f2p_task": "FAIL",
+  "p2p_s_task": "PASS",
+  "p2p_u200_task": "PASS",
+  "resolved": false,
+  "flaky_under_patch": [
+   "saleor/core/tests/test_jwt.py::test_create_access_token_for_app_extension_staff_user_with_more_permissions",
+   "saleor/core/tests/test_jwt.py::test_create_access_token_for_app_extension_with_more_permissions"
+  ]
+ },
+ "positive_ok": true,
+ "negative_ok": true,
+ "pass": true
+}
