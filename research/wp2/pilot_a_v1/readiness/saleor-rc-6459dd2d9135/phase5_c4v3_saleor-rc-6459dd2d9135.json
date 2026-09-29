@@ -1,0 +1,360 @@
+{
+ "task_id": "saleor-rc-6459dd2d9135",
+ "status": "DONE",
+ "era_key": "py39",
+ "target_commit": "6459dd2d91359aa1109b6fc977f3aab4c62072b5",
+ "counts": {
+  "BEHAVIORAL_F2P": 2,
+  "SYMBOL_ABSENCE_F2P": 0,
+  "PARENT_COLLECTION_ERROR": 0,
+  "FLAKY": 0,
+  "TARGET_ORACLE_INVALID": 0,
+  "P2P_ONLY": 19,
+  "OTHER_REVIEW_REQUIRED": 0
+ },
+ "eligibility": {
+  "PRIMARY_BEHAVIORAL_F2P_ELIGIBLE": true,
+  "EXTENDED_F2P_ELIGIBLE": true,
+  "n_behavioral_f2p": 2,
+  "n_symbol_absence_f2p": 0,
+  "n_parent_collection_error": 0,
+  "environment_valid": true,
+  "task_collection_failure": false,
+  "semantics_version": "oracle-semantics-v2-2026-09-23"
+ },
+ "classification": "BEHAVIORAL_F2P",
+ "n_nodes": 21,
+ "n_test_files": 1,
+ "wall_s": 329.2,
+ "operations": {
+  "target_wall_s": 175.0,
+  "parent_wall_s": 329.2,
+  "target_error": null,
+  "parent_error": null
+ },
+ "node_records": [
+  {
+   "node_id": "saleor/graphql/shipping/tests/mutations/test_shipping_zone_update.py::test_shipping_method_update_countries[input0-expected_countries0]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shipping/tests/mutations/test_shipping_zone_update.py::test_shipping_method_update_countries[input1-expected_countries1]",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shipping/tests/mutations/test_shipping_zone_update.py::test_shipping_method_update_countries[input2-expected_countries2]",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shipping/tests/mutations/test_shipping_zone_update.py::test_shipping_method_update_countries[input3-expected_countries3]",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shipping/tests/mutations/test_shipping_zone_update.py::test_update_shipping_zone",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shipping/tests/mutations/test_shipping_zone_update.py::test_update_shipping_zone_add_and_remove_channels",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shipping/tests/mutations/test_shipping_zone_update.py::test_update_shipping_zone_add_channels",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shipping/tests/mutations/test_shipping_zone_update.py::test_update_shipping_zone_add_invalid_warehouses",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shipping/tests/mutations/test_shipping_zone_update.py::test_update_shipping_zone_add_second_warehouses",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shipping/tests/mutations/test_shipping_zone_update.py::test_update_shipping_zone_add_warehouse_without_any_channel",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shipping/tests/mutations/test_shipping_zone_update.py::test_update_shipping_zone_add_warehouses",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shipping/tests/mutations/test_shipping_zone_update.py::test_update_shipping_zone_add_warehouses_and_remove_common_channel",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shipping/tests/mutations/test_shipping_zone_update.py::test_update_shipping_zone_default_exists",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shipping/tests/mutations/test_shipping_zone_update.py::test_update_shipping_zone_remove_channels",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shipping/tests/mutations/test_shipping_zone_update.py::test_update_shipping_zone_remove_channels_remove_common_warehouse_channel",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shipping/tests/mutations/test_shipping_zone_update.py::test_update_shipping_zone_remove_one_warehouses",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shipping/tests/mutations/test_shipping_zone_update.py::test_update_shipping_zone_remove_warehouses",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shipping/tests/mutations/test_shipping_zone_update.py::test_update_shipping_zone_replace_warehouse",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shipping/tests/mutations/test_shipping_zone_update.py::test_update_shipping_zone_same_channel_id_in_add_and_remove_list",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shipping/tests/mutations/test_shipping_zone_update.py::test_update_shipping_zone_same_warehouse_id_in_add_and_remove",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shipping/tests/mutations/test_shipping_zone_update.py::test_update_shipping_zone_trigger_webhook",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  }
+ ],
+ "manifest": {
+  "task_id": "saleor-rc-6459dd2d9135",
+  "target_commit": "6459dd2d91359aa1109b6fc977f3aab4c62072b5",
+  "era": "py39",
+  "frozen_base_image_id": "sha256:ddc08d7e685517764dfa2606a760d5b3f09d57840d8a0bbcef366db67cd99ef8",
+  "harness_v3_version": "wp2-harness-v3-2026-09-26",
+  "runner_sha": "07b36dc8e53f166cac9a26badbba596de8304f2e",
+  "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+  "lockfile_sha256": "e3d7d4f8c0a877d6778ccc5fc1d18f548bc4be5c3f300ab98895ad3c241ff437",
+  "nofile_soft": 65536,
+  "nofile_hard": 65536,
+  "clock_pre_post": {
+   "pre": -0.085914,
+   "post": null
+  },
+  "C4_EFFECTIVE_WORKERS": 1,
+  "db_names": {
+   "t": "saleor_v3_6459dd2d9135_t",
+   "p": "saleor_v3_6459dd2d9135_p"
+  },
+  "main_recipe_signature": "796d0d2a14f608a7e183f577a8a9eca583e4a4d68953c2133d31650598f921a6",
+  "dev_test_closure": {
+   "mechanism": "poetry",
+   "n_pins": 76,
+   "pins_sha256": "d9edf285cd7ceaa7d299a81745fb5c3464645e6795e9820041211953f8903873",
+   "n_unsupported": 0
+  }
+ },
+ "evidence_sha256": "a8517a22082a539639ec5f1b2b2e125c0590467e566ebbaa1d9ae0db46f7545a"
+}
