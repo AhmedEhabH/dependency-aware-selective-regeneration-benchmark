@@ -1,0 +1,71 @@
+diff --git a/saleor/core/payments.py b/saleor/core/payments.py
+--- a/saleor/core/payments.py
++++ b/saleor/core/payments.py
+@@ -17,7 +17,7 @@
+     def list_payment_gateways(
+         self,
+         currency: Optional[str] = None,
+-        checkout: Optional["Checkout"] = None,
++        checkout_info: Optional["Checkout"] = None,
+         channel_slug: Optional[str] = None,
+         active_only: bool = True,
+     ) -> List["PaymentGateway"]:
+diff --git a/saleor/graphql/checkout/types.py b/saleor/graphql/checkout/types.py
+--- a/saleor/graphql/checkout/types.py
++++ b/saleor/graphql/checkout/types.py
+@@ -939,8 +939,15 @@
+     def resolve_available_payment_gateways(
+         root: models.Checkout, _info: ResolveInfo, manager
+     ):
+-        return manager.list_payment_gateways(
+-            currency=root.currency, checkout=root, channel_slug=root.channel.slug
++        def with_checkout_info(checkout_info):
++            return manager.list_payment_gateways(
++                currency=root.currency, checkout_info=checkout_info, channel_slug=root.channel.slug
++            )
++        
++        return (
++            CheckoutInfoByCheckoutTokenLoader(_info.context)
++            .load(root.token)
++            .then(with_checkout_info)
+         )
+ 
+     @staticmethod
+diff --git a/saleor/plugins/base_plugin.py b/saleor/plugins/base_plugin.py
+--- a/saleor/plugins/base_plugin.py
++++ b/saleor/plugins/base_plugin.py
+@@ -1163,7 +1163,7 @@
+         return previous_value
+ 
+     def get_payment_gateways(
+-        self, currency: Optional[str], checkout: Optional["Checkout"], previous_value
++        self, currency: Optional[str], checkout_info: Optional["Checkout"], previous_value
+     ) -> List["PaymentGateway"]:
+         payment_config = (
+             self.get_payment_config(previous_value)
+diff --git a/saleor/plugins/manager.py b/saleor/plugins/manager.py
+--- a/saleor/plugins/manager.py
++++ b/saleor/plugins/manager.py
+@@ -1585,11 +1585,11 @@
+     def list_payment_gateways(
+         self,
+         currency: Optional[str] = None,
+-        checkout: Optional["Checkout"] = None,
++        checkout_info: Optional["Checkout"] = None,
+         channel_slug: Optional[str] = None,
+         active_only: bool = True,
+     ) -> List["PaymentGateway"]:
+-        channel_slug = checkout.channel.slug if checkout else channel_slug
++        channel_slug = checkout_info.channel.slug if checkout_info else channel_slug
+         plugins = self.get_plugins(channel_slug=channel_slug, active_only=active_only)
+         payment_plugins = [
+             plugin for plugin in plugins if "process_payment" in type(plugin).__dict__
+@@ -1600,7 +1600,7 @@
+         for plugin in payment_plugins:
+             gateways.extend(
+                 plugin.get_payment_gateways(
+-                    currency=currency, checkout=checkout, previous_value=None
++                    currency=currency, checkout_info=checkout_info, previous_value=None
+                 )
+             )
+         return gateways

@@ -1,0 +1,158 @@
+Looking at the developer change description, I need to fix the `fetch checkout info` resolver for checkout. The main issue appears to be in how payment gateways are fetched - specifically, the resolver should use `checkout_info` instead of the raw `checkout` object.
+
+Let me examine the relevant files to understand the current implementation and make the necessary changes.
+
+From the files provided, I can see that in `saleor/plugins/base_plugin.py`, the `get_payment_gateways` method currently accepts a `checkout` parameter, but according to the change description, we should use `checkout_info` instead.
+
+Looking at `saleor/graphql/checkout/types.py`, I can see the `resolve_available_payment_gateways` method which calls `manager.list_payment_gateways` with the raw checkout object.
+
+Let me make the necessary changes:
+
+FILE: saleor/core/payments.py
+<<<<<<< SEARCH
+    def list_payment_gateways(
+        self,
+        currency: Optional[str] = None,
+        checkout: Optional["Checkout"] = None,
+        channel_slug: Optional[str] = None,
+        active_only: bool = True,
+    ) -> List["PaymentGateway"]:
+        pass
+=======
+    def list_payment_gateways(
+        self,
+        currency: Optional[str] = None,
+        checkout_info: Optional["Checkout"] = None,
+        channel_slug: Optional[str] = None,
+        active_only: bool = True,
+    ) -> List["PaymentGateway"]:
+        pass
+>>>>>>> REPLACE
+
+FILE: saleor/plugins/base_plugin.py
+<<<<<<< SEARCH
+    def get_payment_gateways(
+        self, currency: Optional[str], checkout: Optional["Checkout"], previous_value
+    ) -> List["PaymentGateway"]:
+        payment_config = (
+            self.get_payment_config(previous_value)
+            if hasattr(self, "get_payment_config")
+            else []
+        )
+        currencies = (
+            self.get_supported_currencies([])
+            if hasattr(self, "get_supported_currencies")
+            else []
+        )
+        if currency and currency not in currencies:
+            return []
+        gateway = PaymentGateway(
+            id=self.PLUGIN_ID,
+            name=self.PLUGIN_NAME,
+            config=payment_config,
+            currencies=currencies,
+        )
+        return [gateway]
+=======
+    def get_payment_gateways(
+        self, currency: Optional[str], checkout_info: Optional["Checkout"], previous_value
+    ) -> List["PaymentGateway"]:
+        payment_config = (
+            self.get_payment_config(previous_value)
+            if hasattr(self, "get_payment_config")
+            else []
+        )
+        currencies = (
+            self.get_supported_currencies([])
+            if hasattr(self, "get_supported_currencies")
+            else []
+        )
+        if currency and currency not in currencies:
+            return []
+        gateway = PaymentGateway(
+            id=self.PLUGIN_ID,
+            name=self.PLUGIN_NAME,
+            config=payment_config,
+            currencies=currencies,
+        )
+        return [gateway]
+>>>>>>> REPLACE
+
+FILE: saleor/plugins/manager.py
+<<<<<<< SEARCH
+    def list_payment_gateways(
+        self,
+        currency: Optional[str] = None,
+        checkout: Optional["Checkout"] = None,
+        channel_slug: Optional[str] = None,
+        active_only: bool = True,
+    ) -> List["PaymentGateway"]:
+        channel_slug = checkout.channel.slug if checkout else channel_slug
+        plugins = self.get_plugins(channel_slug=channel_slug, active_only=active_only)
+        payment_plugins = [
+            plugin for plugin in plugins if "process_payment" in type(plugin).__dict__
+        ]
+
+        # if currency is given return only gateways which support given currency
+        gateways = []
+        for plugin in payment_plugins:
+            gateways.extend(
+                plugin.get_payment_gateways(
+                    currency=currency, checkout=checkout, previous_value=None
+                )
+            )
+        return gateways
+=======
+    def list_payment_gateways(
+        self,
+        currency: Optional[str] = None,
+        checkout_info: Optional["Checkout"] = None,
+        channel_slug: Optional[str] = None,
+        active_only: bool = True,
+    ) -> List["PaymentGateway"]:
+        channel_slug = checkout_info.channel.slug if checkout_info else channel_slug
+        plugins = self.get_plugins(channel_slug=channel_slug, active_only=active_only)
+        payment_plugins = [
+            plugin for plugin in plugins if "process_payment" in type(plugin).__dict__
+        ]
+
+        # if currency is given return only gateways which support given currency
+        gateways = []
+        for plugin in payment_plugins:
+            gateways.extend(
+                plugin.get_payment_gateways(
+                    currency=currency, checkout_info=checkout_info, previous_value=None
+                )
+            )
+        return gateways
+>>>>>>> REPLACE
+
+FILE: saleor/graphql/checkout/types.py
+<<<<<<< SEARCH
+    @staticmethod
+    @prevent_sync_event_circular_query
+    @plugin_manager_promise_callback
+    def resolve_available_payment_gateways(
+        root: models.Checkout, _info: ResolveInfo, manager
+    ):
+        return manager.list_payment_gateways(
+            currency=root.currency, checkout=root, channel_slug=root.channel.slug
+        )
+=======
+    @staticmethod
+    @prevent_sync_event_circular_query
+    @plugin_manager_promise_callback
+    def resolve_available_payment_gateways(
+        root: models.Checkout, _info: ResolveInfo, manager
+    ):
+        def with_checkout_info(checkout_info):
+            return manager.list_payment_gateways(
+                currency=root.currency, checkout_info=checkout_info, channel_slug=root.channel.slug
+            )
+        
+        return (
+            CheckoutInfoByCheckoutTokenLoader(_info.context)
+            .load(root.token)
+            .then(with_checkout_info)
+        )
+>>>>>>> REPLACE

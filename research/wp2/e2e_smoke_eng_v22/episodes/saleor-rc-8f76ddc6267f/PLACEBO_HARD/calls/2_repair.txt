@@ -1,0 +1,13 @@
+Looking at the change description more carefully, I need to find where webhook dry run mutations are using dummy contexts instead of the mutation's context. Since the provided files don't contain the webhook dry run mutation code directly, let me examine the random_data.py file to see if there are any context-related patterns that might be relevant.
+
+The change description mentions using the mutation's context instead of creating a dummy one, and disabling dry run for GiftCardSent webhook. Looking through the code, I can see various utility functions that might be related to webhook testing.
+
+Let me search for any webhook-related code or context creation patterns in the provided files:
+
+In the random_data.py file, I can see there's a section with `@patch("saleor.plugins.manager.PluginsManager.notify")` which suggests there might be webhook notification handling. However, I don't see explicit webhook dry run mutation code.
+
+Since the actual webhook dry run mutation code is not in the provided files, and the change specifically mentions using the mutation's context instead of creating a dummy one, I'll look for any patterns where contexts might be created or used inappropriately.
+
+Looking at the code more carefully, I notice the `create_fake_payment` function uses `@patch("saleor.plugins.manager.PluginsManager.notify")` which might be related to webhooks. However, this doesn't seem to be the webhook dry run mutation mentioned in the change.
+
+Given the constraints and the files provided, I cannot identify the specific webhook dry run mutation code that needs to be modified. The change cannot be implemented with the provided files.

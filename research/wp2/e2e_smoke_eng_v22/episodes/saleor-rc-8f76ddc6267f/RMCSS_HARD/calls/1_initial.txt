@@ -1,0 +1,39 @@
+Looking at the developer change description, I need to:
+
+1. Use the mutation's context instead of creating a dummy one in the `webhookDryRun` mutation
+2. Disable dry run option for GiftCardSent webhook
+3. Correct the test
+
+Let me analyze the code to understand what changes are needed.
+
+From the files provided, I can see that in `webhook_dry_run.py`, the `perform_mutation` method creates a dummy request using `initialize_request()` and then calls `generate_payload_from_subscription`. The change wants to use the mutation's context instead.
+
+Looking at `webhook_trigger.py`, I can see a similar pattern where `create_deliveries_for_subscriptions` is called.
+
+Let me examine the subscription payload generation to understand how to pass the context properly.
+
+```python
+FILE: saleor/graphql/webhook/mutations/webhook_dry_run.py
+<<<<<<< SEARCH
+    @classmethod
+    def perform_mutation(cls, _root, info, **data):
+        event_type, object, query = cls.validate_input(info, **data)
+        payload = None
+        if all([event_type, object, query]):
+            request = initialize_request()
+            payload = generate_payload_from_subscription(
+                event_type, object, query, request
+            )
+        return WebhookDryRun(payload=payload)
+=======
+    @classmethod
+    def perform_mutation(cls, _root, info, **data):
+        event_type, object, query = cls.validate_input(info, **data)
+        payload = None
+        if all([event_type, object, query]):
+            payload = generate_payload_from_subscription(
+                event_type, object, query, info.context.request
+            )
+        return WebhookDryRun(payload=payload)
+>>>>>>> REPLACE
+```

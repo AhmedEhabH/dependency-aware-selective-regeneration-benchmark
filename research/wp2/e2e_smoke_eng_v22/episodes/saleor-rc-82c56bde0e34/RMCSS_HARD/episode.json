@@ -1,0 +1,68 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v21",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-82c56bde0e34",
+ "arm": "RMCSS_HARD",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/checkout/fetch.py",
+  "saleor/graphql/checkout/types.py",
+  "saleor/graphql/webhook/subscription_types.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/checkout/fetch.py",
+   "saleor/graphql/checkout/types.py",
+   "saleor/graphql/webhook/subscription_types.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/checkout/fetch.py",
+   "saleor/graphql/checkout/types.py",
+   "saleor/graphql/webhook/subscription_types.py"
+  ]
+ },
+ "prompt_sha256": "007d2f578fcf991eaaa8a7740d43e0a4f080bce70f5d879c08cf450851154657",
+ "request_sha_initial": "8eeeed6c8140e34c7fbef2d10bdf7e5df1a268271c5ba20cd372f8f2764a8c5c",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "repair_request_sha256": "",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790650097-NYfwbpobkQYrU4pUaBzd",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 30729,
+   "completion_tokens": 608,
+   "cost_usd_actual": 0.0097595,
+   "cost_usd_nominal": 0.0097595,
+   "finish_reason": "stop",
+   "response_sha256": "a259fae45ed1a5ae770aed2e23cbb050d7ad4cc67da20d8985c9ca74be30bc58",
+   "request_sha": "8eeeed6c8140e34c7fbef2d10bdf7e5df1a268271c5ba20cd372f8f2764a8c5c",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\e2e_smoke_eng_v22\\episodes\\saleor-rc-82c56bde0e34\\RMCSS_HARD\\calls\\1_initial.txt",
+   "raw_sha256": "a259fae45ed1a5ae770aed2e23cbb050d7ad4cc67da20d8985c9ca74be30bc58"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "edited_files": [
+  "saleor/checkout/fetch.py",
+  "saleor/graphql/checkout/types.py",
+  "saleor/graphql/webhook/subscription_types.py"
+ ],
+ "diff_sha256": "a3431bfc58f4524964ea8e9de41af2ccb5c85a676ed7608290fb9b2172249f53",
+ "envelope": {},
+ "whitespace_tolerant_blocks": [],
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-29T02:48:25Z",
+ "episode_sha256": "ed92540a92c52607ad67650109f8a40c3bc89a00f358ac40a09ef812797c2f94"
+}

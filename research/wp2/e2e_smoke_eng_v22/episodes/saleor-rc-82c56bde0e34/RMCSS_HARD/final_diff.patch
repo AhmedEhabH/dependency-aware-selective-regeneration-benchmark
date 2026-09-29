@@ -1,0 +1,25 @@
+diff --git a/saleor/graphql/checkout/types.py b/saleor/graphql/checkout/types.py
+--- a/saleor/graphql/checkout/types.py
++++ b/saleor/graphql/checkout/types.py
+@@ -939,8 +939,19 @@
+     def resolve_available_payment_gateways(
+         root: models.Checkout, _info: ResolveInfo, manager
+     ):
+-        return manager.list_payment_gateways(
+-            currency=root.currency, checkout=root, channel_slug=root.channel.slug
++        def with_checkout_info(checkout_info):
++            return manager.list_payment_gateways(
++                currency=root.currency, checkout=checkout_info.checkout, channel_slug=root.channel.slug
++            )
++        
++        # If checkout_info is already available, use it; otherwise, fetch it
++        if hasattr(root, '_checkout_info') and root._checkout_info:
++            return with_checkout_info(root._checkout_info)
++            
++        return (
++            CheckoutInfoByCheckoutTokenLoader(_info.context)
++            .load(root.token)
++            .then(with_checkout_info)
+         )
+ 
+     @staticmethod

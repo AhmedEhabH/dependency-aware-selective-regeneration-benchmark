@@ -1,0 +1,21 @@
+Looking at the developer change description, I need to find where `webhookDryRun` mutation context is being used and replace dummy context creation with the actual mutation's context. The description also mentions disabling dry run option for GiftCardSent webhook and correcting tests.
+
+Let me search for relevant code patterns in the provided files. I can see this is related to webhook dry run functionality and GiftCardSent webhooks.
+
+Since the files provided don't contain the webhook dry run mutation code directly, I need to look for where dummy contexts might be created for webhook testing. Based on the change description, I should look for places where a dummy context is created instead of using the mutation's context.
+
+However, looking at the provided files, I don't see the specific webhook dry run mutation code. Let me check if there are any references to webhook dry run or GiftCardSent in the random_data.py file.
+
+From the file content, I can see various webhook-related functionality, but I don't see explicit webhook dry run mutation code. The change likely involves modifying how context is passed in webhook dry run mutations.
+
+Given the limited files provided and the nature of the change, I'll need to look for patterns that might indicate dummy context creation that should be replaced with the mutation's context.
+
+Since I cannot see the specific webhook dry run mutation code in the provided files, and the change description specifically mentions using the mutation's context instead of creating a dummy one for webhook dry run, I'll need to make educated changes based on common patterns.
+
+However, since the actual webhook dry run mutation code is not in the provided files, I cannot make the specific changes requested. The provided files seem to be utility functions for generating random data and bulk category deletion, not the webhook dry run mutation itself.
+
+Let me check if there are any obvious places in the provided code where context might be relevant:
+
+The files provided don't contain the webhook dry run mutation code that needs to be modified according to the change description. The change mentions using the mutation's context instead of creating a dummy one for webhook dry run, and disabling dry run for GiftCardSent webhook, but this code is not present in the provided files.
+
+Based on the provided files and the change description, I cannot implement the specific changes requested because the relevant code (webhook dry run mutation) is not included in the editable files.

@@ -1,0 +1,180 @@
+Based on the developer change description about fixing the fetch checkout info resolver for checkout and moving fetching checkout info and lines to resolver for payment gateway, I need to examine the provided files. However, none of the provided files seem directly related to the checkout info resolver or payment gateway resolver functionality mentioned in the description.
+
+The files provided are:
+1. `saleor/graphql/core/types/converter.py` - Form field converters
+2. `saleor/graphql/discount/filters.py` - Discount filters
+3. `saleor/graphql/order/mutations/order_discount_update.py` - Order discount update mutation
+4. `saleor/graphql/payment/mutations/transaction/payment_gateway_initialize.py` - Payment gateway initialization
+5. `saleor/graphql/shipping/mutations/shipping_price_exclude_products.py` - Shipping price exclude products
+6. `saleor/graphql/shop/mutations/shop_fetch_tax_rates.py` - Shop fetch tax rates
+7. `saleor/graphql/translations/mutations/attribute_value_bulk_translate.py` - Attribute value bulk translate
+8. `saleor/payment/transaction_item_calculations.py` - Transaction item calculations
+
+None of these files contain the checkout info resolver that needs to be fixed according to the description. The change appears to be about modifying a resolver that fetches checkout information for payment gateway purposes, but the relevant file is not in the provided list.
+
+Since I cannot identify the specific file that needs to be modified based on the provided content, and the description mentions working with checkout resolvers specifically, I'll return empty edit blocks as I cannot make the necessary changes with the provided files.
+
+```python
+FILE: saleor/graphql/core/types/converter.py
+<<<<<<< SEARCH
+"""Form fields converter subset from graphene_django for use in Saleor."""
+
+from functools import singledispatch
+
+import graphene
+from django import forms
+from django.core.exceptions import ImproperlyConfigured
+
+from ..filters import (
+    EnumFilter,
+    GlobalIDFormField,
+    GlobalIDMultipleChoiceField,
+    ListObjectTypeFilter,
+    ObjectTypeFilter,
+    OperationObjectTypeFilter,
+)
+from .common import NonNullList
+
+
+def get_form_field_description(field):
+    if hasattr(field, "help_text"):
+        return field.help_text or None
+    elif hasattr(field, "extra"):
+        return field.extra.get("help_text") or None
+
+
+@singledispatch
+def convert_form_field(field):
+    raise ImproperlyConfigured(
+        f"Don't know how to convert the Django form field {field} ({field.__class__}) "
+        "to Graphene type"
+    )
+
+
+@convert_form_field.register(forms.CharField)
+def convert_form_field_to_string(field):
+    return graphene.String(
+        description=get_form_field_description(field), required=field.required
+    )
+
+
+@convert_form_field.register(forms.NullBooleanField)
+def convert_form_field_to_nullboolean(field):
+    return graphene.Boolean(description=get_form_field_description(field))
+
+
+@convert_form_field.register(forms.DecimalField)
+@convert_form_field.register(forms.FloatField)
+def convert_form_field_to_float(field):
+    return graphene.Float(
+        description=get_form_field_description(field), required=field.required
+    )
+
+
+@convert_form_field.register(OperationObjectTypeFilter)
+@convert_form_field.register(ObjectTypeFilter)
+@convert_form_field.register(EnumFilter)
+def convert_convert_enum(field):
+    return field.input_class(description=get_form_field_description(field))
+
+
+@convert_form_field.register(GlobalIDFormField)
+def convert_form_field_to_id(field):
+    return graphene.ID(required=field.required)
+
+
+@convert_form_field.register(ListObjectTypeFilter)
+def convert_list_object_type(field):
+    return NonNullList(field.input_class, description=get_form_field_description(field))
+
+
+@convert_form_field.register(GlobalIDMultipleChoiceField)
+def convert_form_field_to_list(field):
+    return NonNullList(
+        graphene.ID,
+        required=field.required,
+        description=get_form_field_description(field),
+    )
+
+=======
+"""Form fields converter subset from graphene_django for use in Saleor."""
+
+from functools import singledispatch
+
+import graphene
+from django import forms
+from django.core.exceptions import ImproperlyConfigured
+
+from ..filters import (
+    EnumFilter,
+    GlobalIDFormField,
+    GlobalIDMultipleChoiceField,
+    ListObjectTypeFilter,
+    ObjectTypeFilter,
+    OperationObjectTypeFilter,
+)
+from .common import NonNullList
+
+
+def get_form_field_description(field):
+    if hasattr(field, "help_text"):
+        return field.help_text or None
+    elif hasattr(field, "extra"):
+        return field.extra.get("help_text") or None
+
+
+@singledispatch
+def convert_form_field(field):
+    raise ImproperlyConfigured(
+        f"Don't know how to convert the Django form field {field} ({field.__class__}) "
+        "to Graphene type"
+    )
+
+
+@convert_form_field.register(forms.CharField)
+def convert_form_field_to_string(field):
+    return graphene.String(
+        description=get_form_field_description(field), required=field.required
+    )
+
+
+@convert_form_field.register(forms.NullBooleanField)
+def convert_form_field_to_nullboolean(field):
+    return graphene.Boolean(description=get_form_field_description(field))
+
+
+@convert_form_field.register(forms.DecimalField)
+@convert_form_field.register(forms.FloatField)
+def convert_form_field_to_float(field):
+    return graphene.Float(
+        description=get_form_field_description(field), required=field.required
+    )
+
+
+@convert_form_field.register(OperationObjectTypeFilter)
+@convert_form_field.register(ObjectTypeFilter)
+@convert_form_field.register(EnumFilter)
+def convert_convert_enum(field):
+    return field.input_class(description=get_form_field_description(field))
+
+
+@convert_form_field.register(GlobalIDFormField)
+def convert_form_field_to_id(field):
+    return graphene.ID(required=field.required)
+
+
+@convert_form_field.register(ListObjectTypeFilter)
+def convert_list_object_type(field):
+    return NonNullList(field.input_class, description=get_form_field_description(field))
+
+
+@convert_form_field.register(GlobalIDMultipleChoiceField)
+def convert_form_field_to_list(field):
+    return NonNullList(
+        graphene.ID,
+        required=field.required,
+        description=get_form_field_description(field),
+    )
+
+>>>>>>> REPLACE
+```

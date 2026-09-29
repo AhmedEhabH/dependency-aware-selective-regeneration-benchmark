@@ -1,0 +1,57 @@
+Looking at the developer change description, this is about fixing the fetch checkout info resolver for checkout. The main issue appears to be in how checkout info is fetched and how payment gateways are resolved.
+
+Let me analyze the code to understand what needs to be fixed:
+
+1. The change mentions "move fetching checkout info and lines to resolver for payment gateway"
+2. It mentions "remove checkout, use only checkout from checkout_info" 
+3. There's a fix for "dataloader in payment_gateways resolver"
+
+Looking at the files, I can see in `saleor/graphql/checkout/types.py` there's a function `get_dataloaders_for_fetching_checkout_data` that seems to be used for fetching checkout data, and there are resolvers that use this pattern.
+
+The issue is likely in how the checkout info is being fetched and passed around. Let me look for where payment gateways are resolved and see if there are issues with dataloaders.
+
+From the subscription_types.py file, I can see there's a `PaymentListGateways` subscription type that has a resolver for `resolve_available_payment_gateways`.
+
+Looking more carefully at the checkout types, I can see the `resolve_available_payment_gateways` method in the Checkout type uses a plugin manager callback but doesn't seem to properly handle the dataloader pattern mentioned in the fix.
+
+Let me examine the fetch.py file to understand how checkout info should be fetched.
+
+The key insight from the change description is that we need to fix how checkout info is fetched and ensure proper dataloader usage, particularly for payment gateways.
+
+Based on the error description and looking at the patterns, the issue is likely in the dataloader usage in payment gateway resolvers. Let me check the checkout type's available_payment_gateways resolver.
+
+```python
+FILE: saleor/graphql/checkout/types.py
+<<<<<<< SEARCH
+    @staticmethod
+    @prevent_sync_event_circular_query
+    @plugin_manager_promise_callback
+    def resolve_available_payment_gateways(
+        root: models.Checkout, _info: ResolveInfo, manager
+    ):
+        return manager.list_payment_gateways(
+            currency=root.currency, checkout=root, channel_slug=root.channel.slug
+        )
+=======
+    @staticmethod
+    @prevent_sync_event_circular_query
+    @plugin_manager_promise_callback
+    def resolve_available_payment_gateways(
+        root: models.Checkout, _info: ResolveInfo, manager
+    ):
+        def with_checkout_info(checkout_info):
+            return manager.list_payment_gateways(
+                currency=root.currency, checkout=checkout_info.checkout, channel_slug=root.channel.slug
+            )
+        
+        # If checkout_info is already available, use it; otherwise, fetch it
+        if hasattr(root, '_checkout_info') and root._checkout_info:
+            return with_checkout_info(root._checkout_info)
+            
+        return (
+            CheckoutInfoByCheckoutTokenLoader(_info.context)
+            .load(root.token)
+            .then(with_checkout_info)
+        )
+>>>>>>> REPLACE
+```

@@ -1,0 +1,24 @@
+diff --git a/saleor/graphql/webhook/mutations/webhook_dry_run.py b/saleor/graphql/webhook/mutations/webhook_dry_run.py
+--- a/saleor/graphql/webhook/mutations/webhook_dry_run.py
++++ b/saleor/graphql/webhook/mutations/webhook_dry_run.py
+@@ -114,7 +114,7 @@
+         event_type, object, query = cls.validate_input(info, **data)
+         payload = None
+         if all([event_type, object, query]):
+-            request = initialize_request()
++            request = info.context
+             payload = generate_payload_from_subscription(
+                 event_type, object, query, request
+             )
+diff --git a/saleor/graphql/webhook/subscription_types.py b/saleor/graphql/webhook/subscription_types.py
+--- a/saleor/graphql/webhook/subscription_types.py
++++ b/saleor/graphql/webhook/subscription_types.py
+@@ -562,7 +562,7 @@
+ 
+     class Meta:
+         root_type = "GiftCard"
+-        enable_dry_run = True
++        enable_dry_run = False
+         interfaces = (Event,)
+         description = (
+             "Event sent when gift card is e-mailed." + ADDED_IN_313 + PREVIEW_FEATURE

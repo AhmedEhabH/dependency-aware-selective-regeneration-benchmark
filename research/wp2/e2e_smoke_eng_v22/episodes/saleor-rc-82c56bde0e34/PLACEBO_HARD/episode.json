@@ -1,0 +1,110 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v21",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-82c56bde0e34",
+ "arm": "PLACEBO_HARD",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/graphql/core/types/converter.py",
+  "saleor/graphql/discount/filters.py",
+  "saleor/graphql/order/mutations/order_discount_update.py",
+  "saleor/graphql/payment/mutations/transaction/payment_gateway_initialize.py",
+  "saleor/graphql/shipping/mutations/shipping_price_exclude_products.py",
+  "saleor/graphql/shop/mutations/shop_fetch_tax_rates.py",
+  "saleor/graphql/translations/mutations/attribute_value_bulk_translate.py",
+  "saleor/payment/transaction_item_calculations.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/graphql/core/types/converter.py",
+   "saleor/graphql/discount/filters.py",
+   "saleor/graphql/order/mutations/order_discount_update.py",
+   "saleor/graphql/payment/mutations/transaction/payment_gateway_initialize.py",
+   "saleor/graphql/shipping/mutations/shipping_price_exclude_products.py",
+   "saleor/graphql/shop/mutations/shop_fetch_tax_rates.py",
+   "saleor/graphql/translations/mutations/attribute_value_bulk_translate.py",
+   "saleor/payment/transaction_item_calculations.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/graphql/core/types/converter.py",
+   "saleor/graphql/discount/filters.py",
+   "saleor/graphql/order/mutations/order_discount_update.py",
+   "saleor/graphql/payment/mutations/transaction/payment_gateway_initialize.py",
+   "saleor/graphql/shipping/mutations/shipping_price_exclude_products.py",
+   "saleor/graphql/shop/mutations/shop_fetch_tax_rates.py",
+   "saleor/graphql/translations/mutations/attribute_value_bulk_translate.py",
+   "saleor/payment/transaction_item_calculations.py"
+  ]
+ },
+ "prompt_sha256": "42698a05e204911860b5a37a82255a9aeb43ab6b5cbc798d39870d803af35a5e",
+ "request_sha_initial": "05dde88e53d80ae4203bd445752e1c5a028742999e3c156dbe3d4e2c4a71d89d",
+ "request_sha_repair": "7ce0076d1bb6172eae2d22bcbf81df9ec1c064ff7a836b23b3482ee49549a66b",
+ "repair_component_hashes": {
+  "message_1_system": "020a8f57bba533f9a332e9d30a96892bc5893d1b20f376cbde591a1b5cc87922",
+  "message_2_user": "42698a05e204911860b5a37a82255a9aeb43ab6b5cbc798d39870d803af35a5e",
+  "message_3_assistant": "c8807127db3609f7d234563da485c25a4e1029e13f78a02a3912df026b36a0e7",
+  "message_4_user": "0caad05ddadbe36939965b633224eaba48baf93ae28af0eae64bae8887d92328"
+ },
+ "repair_request_sha256": "7ce0076d1bb6172eae2d22bcbf81df9ec1c064ff7a836b23b3482ee49549a66b",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790650116-kZBvaedetvE4T93LEGW3",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 8358,
+   "completion_tokens": 1219,
+   "cost_usd_actual": 0.0036592,
+   "cost_usd_nominal": 0.0036592,
+   "finish_reason": "stop",
+   "response_sha256": "c8807127db3609f7d234563da485c25a4e1029e13f78a02a3912df026b36a0e7",
+   "request_sha": "05dde88e53d80ae4203bd445752e1c5a028742999e3c156dbe3d4e2c4a71d89d",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\e2e_smoke_eng_v22\\episodes\\saleor-rc-82c56bde0e34\\PLACEBO_HARD\\calls\\1_initial.txt",
+   "raw_sha256": "c8807127db3609f7d234563da485c25a4e1029e13f78a02a3912df026b36a0e7"
+  },
+  {
+   "kind": "repair",
+   "index": 2,
+   "request_id": "gen-1790650127-ZmMNKDevKdMNgOa8fGL0",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 9691,
+   "completion_tokens": 1042,
+   "cost_usd_actual": 0.0020389,
+   "cost_usd_nominal": 0.0020389,
+   "finish_reason": "stop",
+   "response_sha256": "ad11e9c5de939d627e0dcead799739e5774f1ff3e681fbcf38cbdf0a9e5c19d5",
+   "request_sha": "7ce0076d1bb6172eae2d22bcbf81df9ec1c064ff7a836b23b3482ee49549a66b",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\e2e_smoke_eng_v22\\episodes\\saleor-rc-82c56bde0e34\\PLACEBO_HARD\\calls\\2_repair.txt",
+   "raw_sha256": "ad11e9c5de939d627e0dcead799739e5774f1ff3e681fbcf38cbdf0a9e5c19d5"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": true,
+ "edited_files": [
+  "saleor/graphql/core/types/converter.py",
+  "saleor/graphql/discount/filters.py",
+  "saleor/graphql/order/mutations/order_discount_update.py",
+  "saleor/graphql/payment/mutations/transaction/payment_gateway_initialize.py",
+  "saleor/graphql/shipping/mutations/shipping_price_exclude_products.py",
+  "saleor/graphql/shop/mutations/shop_fetch_tax_rates.py",
+  "saleor/graphql/translations/mutations/attribute_value_bulk_translate.py",
+  "saleor/payment/transaction_item_calculations.py"
+ ],
+ "diff_sha256": "16ec795185b645d8d57bd90786f83612f045ee5efe642dd1520f3496ef3b03d3",
+ "envelope": {},
+ "whitespace_tolerant_blocks": [],
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-29T02:48:59Z",
+ "episode_sha256": "e253b75dc4af0ba3ba0e520c3fce04f28ae18c6e15ee09935fd301c881ef2691"
+}

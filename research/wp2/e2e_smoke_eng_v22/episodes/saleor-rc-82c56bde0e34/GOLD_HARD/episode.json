@@ -1,0 +1,86 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v21",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-82c56bde0e34",
+ "arm": "GOLD_HARD",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/core/payments.py",
+  "saleor/graphql/checkout/types.py",
+  "saleor/payment/gateways/adyen/plugin.py",
+  "saleor/payment/gateways/adyen/utils/common.py",
+  "saleor/plugins/base_plugin.py",
+  "saleor/plugins/manager.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/core/payments.py",
+   "saleor/graphql/checkout/types.py",
+   "saleor/payment/gateways/adyen/plugin.py",
+   "saleor/payment/gateways/adyen/utils/common.py",
+   "saleor/plugins/base_plugin.py",
+   "saleor/plugins/manager.py"
+  ],
+  "excluded_large": [
+   "CHANGELOG.md"
+  ],
+  "excluded_budget": [
+   "saleor/plugins/webhook/plugin.py"
+  ],
+  "raw": [
+   "CHANGELOG.md",
+   "saleor/core/payments.py",
+   "saleor/graphql/checkout/types.py",
+   "saleor/payment/gateways/adyen/plugin.py",
+   "saleor/payment/gateways/adyen/utils/common.py",
+   "saleor/plugins/base_plugin.py",
+   "saleor/plugins/manager.py",
+   "saleor/plugins/webhook/plugin.py"
+  ]
+ },
+ "prompt_sha256": "1c35f7219dc602bbef6324247bdf9aae165ef6b7cf52d664c57f7232acdb0386",
+ "request_sha_initial": "a4f21401d66e01d6994501a66bbeb30b72e2b745c96991b3ad0247f4a09e9be5",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "repair_request_sha256": "",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790650081-Fpa89LsUw7Tuu1abf4iZ",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 43267,
+   "completion_tokens": 1152,
+   "cost_usd_actual": 0.0140905,
+   "cost_usd_nominal": 0.0140905,
+   "finish_reason": "stop",
+   "response_sha256": "cb3a0efdecc0139188f44c39ed216e2026ce8f429ee9fcb08c2160730471554c",
+   "request_sha": "a4f21401d66e01d6994501a66bbeb30b72e2b745c96991b3ad0247f4a09e9be5",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\e2e_smoke_eng_v22\\episodes\\saleor-rc-82c56bde0e34\\GOLD_HARD\\calls\\1_initial.txt",
+   "raw_sha256": "cb3a0efdecc0139188f44c39ed216e2026ce8f429ee9fcb08c2160730471554c"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "edited_files": [
+  "saleor/core/payments.py",
+  "saleor/graphql/checkout/types.py",
+  "saleor/payment/gateways/adyen/plugin.py",
+  "saleor/payment/gateways/adyen/utils/common.py",
+  "saleor/plugins/base_plugin.py",
+  "saleor/plugins/manager.py"
+ ],
+ "diff_sha256": "05f541c6e0df1afab3b4039bc028311096f6349e6abcaba2f978c4dae44dc1fc",
+ "envelope": {},
+ "whitespace_tolerant_blocks": [],
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-29T02:48:14Z",
+ "episode_sha256": "063e3a64ada6b66012554af4b654c32a01873a66de5ac2f00c55c01b2ba3cb69"
+}

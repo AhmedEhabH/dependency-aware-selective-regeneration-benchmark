@@ -1,0 +1,68 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v21",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-8f76ddc6267f",
+ "arm": "RMCSS_HARD",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/graphql/core/types/common.py",
+  "saleor/graphql/webhook/mutations/webhook_dry_run.py",
+  "saleor/graphql/webhook/mutations/webhook_trigger.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/graphql/core/types/common.py",
+   "saleor/graphql/webhook/mutations/webhook_dry_run.py",
+   "saleor/graphql/webhook/mutations/webhook_trigger.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/graphql/core/types/common.py",
+   "saleor/graphql/webhook/mutations/webhook_dry_run.py",
+   "saleor/graphql/webhook/mutations/webhook_trigger.py"
+  ]
+ },
+ "prompt_sha256": "7b21e89fec45cb83bf183ce9d2f00734aceca9ffcc5ba7a752eaad51678283d3",
+ "request_sha_initial": "a88ec8a0f83a0e034f4369641caaf95d2f9fd67108ee100121552e89f958606f",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "repair_request_sha256": "",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790650148-DxXziZRbkVqMwc3rzQj8",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 7398,
+   "completion_tokens": 359,
+   "cost_usd_actual": 0.0025208,
+   "cost_usd_nominal": 0.0025208,
+   "finish_reason": "stop",
+   "response_sha256": "0b1d0f5db36402460ac40f45e5f40de7a3f129f15cc9cd7570656b7ec0986955",
+   "request_sha": "a88ec8a0f83a0e034f4369641caaf95d2f9fd67108ee100121552e89f958606f",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\e2e_smoke_eng_v22\\episodes\\saleor-rc-8f76ddc6267f\\RMCSS_HARD\\calls\\1_initial.txt",
+   "raw_sha256": "0b1d0f5db36402460ac40f45e5f40de7a3f129f15cc9cd7570656b7ec0986955"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "edited_files": [
+  "saleor/graphql/core/types/common.py",
+  "saleor/graphql/webhook/mutations/webhook_dry_run.py",
+  "saleor/graphql/webhook/mutations/webhook_trigger.py"
+ ],
+ "diff_sha256": "9173524ecb2b1ced09e55984f2a4fef0581bb04020b19d21e92876bc6005d0f6",
+ "envelope": {},
+ "whitespace_tolerant_blocks": [],
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-29T02:49:14Z",
+ "episode_sha256": "2836d2e55610a2af05b8a0123530b8ae86138f10524142e1f3f0cd05e39d3968"
+}
