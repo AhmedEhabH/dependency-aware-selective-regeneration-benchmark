@@ -1,0 +1,87 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v21",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-823b899757ab",
+ "arm": "RMCSS_HARD",
+ "status": "INVALID_AFTER_REPAIR",
+ "editable_set": [
+  "saleor/graphql/product/mutations/products.py",
+  "saleor/graphql/product/types/products.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/graphql/product/mutations/products.py",
+   "saleor/graphql/product/types/products.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/graphql/product/mutations/products.py",
+   "saleor/graphql/product/types/products.py"
+  ]
+ },
+ "prompt_sha256": "911c73009df88991bf0037b149b7644aa43c9f0b98099579857da5bd03bda90d",
+ "request_sha_initial": "3a3234201437bf1eb1df7cb1992b1cccad13243ca2f92cb60a28c466dba5d07e",
+ "request_sha_repair": "cdc37ef5197dbc1cae87416ff476a9ec63e1f25466dc2c7592965efc809c328f",
+ "repair_component_hashes": {
+  "message_1_system": "020a8f57bba533f9a332e9d30a96892bc5893d1b20f376cbde591a1b5cc87922",
+  "message_2_user": "911c73009df88991bf0037b149b7644aa43c9f0b98099579857da5bd03bda90d",
+  "message_3_assistant": "03174fae160fa22c5f6633ceff7359c8e420f578c7ace6f8f9961fa9fc5e3e49",
+  "message_4_user": "2c83f0709e583efed1f91ae936e84abb5513b83c3bf35c96a5bb3a576fc37186"
+ },
+ "repair_request_sha256": "cdc37ef5197dbc1cae87416ff476a9ec63e1f25466dc2c7592965efc809c328f",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790649990-hNvF20YdWIr7NHSqJU57",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 19298,
+   "completion_tokens": 866,
+   "cost_usd_actual": 0.004089,
+   "cost_usd_nominal": 0.004089,
+   "finish_reason": "stop",
+   "response_sha256": "03174fae160fa22c5f6633ceff7359c8e420f578c7ace6f8f9961fa9fc5e3e49",
+   "request_sha": "3a3234201437bf1eb1df7cb1992b1cccad13243ca2f92cb60a28c466dba5d07e",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\e2e_smoke_eng_v22\\episodes\\saleor-rc-823b899757ab\\RMCSS_HARD\\calls\\1_initial.txt",
+   "raw_sha256": "03174fae160fa22c5f6633ceff7359c8e420f578c7ace6f8f9961fa9fc5e3e49"
+  },
+  {
+   "kind": "repair",
+   "index": 2,
+   "request_id": "gen-1790650007-laHvvjsbdeuNdxl22yJ5",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 20275,
+   "completion_tokens": 1729,
+   "cost_usd_actual": 0.0037827,
+   "cost_usd_nominal": 0.0037827,
+   "finish_reason": "stop",
+   "response_sha256": "2966551af363303d45743363e4e762b0d9d0c7519cc0c3661a054cad8273476c",
+   "request_sha": "cdc37ef5197dbc1cae87416ff476a9ec63e1f25466dc2c7592965efc809c328f",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\e2e_smoke_eng_v22\\episodes\\saleor-rc-823b899757ab\\RMCSS_HARD\\calls\\2_repair.txt",
+   "raw_sha256": "2966551af363303d45743363e4e762b0d9d0c7519cc0c3661a054cad8273476c"
+  }
+ ],
+ "validation": {
+  "initial": [
+   "SEARCH_ERROR:saleor/graphql/product/mutations/products.py: block 1: SEARCH content not found in current file (count=0); search='class VariantImageUnassign(BaseMutation):\\n    product_variant = graphene.Field(P'"
+  ],
+  "repair": [
+   "SEARCH_ERROR:saleor/graphql/product/mutations/products.py: block 1: SEARCH content not found in current file (count=0); search='class ProductImageDelete(BaseMutation):\\n    product = graphene.Field(Product)\\n  '"
+  ]
+ },
+ "repair_used": true,
+ "edited_files": [],
+ "diff_sha256": "",
+ "envelope": {},
+ "whitespace_tolerant_blocks": [],
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-29T02:47:10Z",
+ "episode_sha256": "041dec30c9c7ebbcc6037910c9022a1469a001735f74eb865204bf2ddef7ab85"
+}

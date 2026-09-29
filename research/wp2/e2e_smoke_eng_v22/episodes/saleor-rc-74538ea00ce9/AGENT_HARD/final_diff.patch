@@ -1,0 +1,24 @@
+diff --git a/saleor/checkout/utils.py b/saleor/checkout/utils.py
+--- a/saleor/checkout/utils.py
++++ b/saleor/checkout/utils.py
+@@ -806,10 +806,20 @@
+     checkout_info: "CheckoutInfo", voucher_code: str
+ ) -> None:
+     """Remove voucher data from checkout by code or raise an error."""
++    from ..discount.utils.voucher import release_voucher_code_usage
+ 
+     if checkout_info.voucher and voucher_code in checkout_info.voucher.promo_codes:
++        # Release the voucher usage before removing it from checkout
++        voucher = checkout_info.voucher
++        code_instance = checkout_info.voucher_code
++        user_email = checkout_info.get_customer_email()
++        
+         remove_voucher_from_checkout(checkout_info.checkout)
+         checkout_info.voucher = None
++        checkout_info.voucher_code = None
++        
++        # Release the voucher code usage
++        release_voucher_code_usage(code_instance, voucher, user_email)
+     else:
+         raise ValidationError(
+             "Cannot remove a voucher not attached to this checkout.",

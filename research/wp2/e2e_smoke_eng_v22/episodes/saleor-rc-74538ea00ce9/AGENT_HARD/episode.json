@@ -1,0 +1,72 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v21",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-74538ea00ce9",
+ "arm": "AGENT_HARD",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/checkout/utils.py",
+  "saleor/discount/models.py",
+  "saleor/discount/utils/voucher.py",
+  "saleor/graphql/discount/mutations/voucher/voucher_update.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/checkout/utils.py",
+   "saleor/discount/models.py",
+   "saleor/discount/utils/voucher.py",
+   "saleor/graphql/discount/mutations/voucher/voucher_update.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/checkout/utils.py",
+   "saleor/discount/models.py",
+   "saleor/discount/utils/voucher.py",
+   "saleor/graphql/discount/mutations/voucher/voucher_update.py"
+  ]
+ },
+ "prompt_sha256": "6f185d31639b87389dc0271886a36ca92da9c80f417bdca4d6c23733ef340092",
+ "request_sha_initial": "3696f981bd2a32e949f27221fca337558465f3490e3bbe53e30be484b81f6b3e",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "repair_request_sha256": "",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790649927-35LvVIy3Ddlc9wdCnjZa",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 17131,
+   "completion_tokens": 564,
+   "cost_usd_actual": 0.0056457,
+   "cost_usd_nominal": 0.0056457,
+   "finish_reason": "stop",
+   "response_sha256": "b53067ae085df75e21318f2efe14e35d242aad7688f45bd37e65b60fae17f4c3",
+   "request_sha": "3696f981bd2a32e949f27221fca337558465f3490e3bbe53e30be484b81f6b3e",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\e2e_smoke_eng_v22\\episodes\\saleor-rc-74538ea00ce9\\AGENT_HARD\\calls\\1_initial.txt",
+   "raw_sha256": "b53067ae085df75e21318f2efe14e35d242aad7688f45bd37e65b60fae17f4c3"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "edited_files": [
+  "saleor/checkout/utils.py",
+  "saleor/discount/models.py",
+  "saleor/discount/utils/voucher.py",
+  "saleor/graphql/discount/mutations/voucher/voucher_update.py"
+ ],
+ "diff_sha256": "9b3b7e7eacf2815568c3826fa5b58ec44cc841ddbcc3298c30028ecd82765460",
+ "envelope": {},
+ "whitespace_tolerant_blocks": [],
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-29T02:45:44Z",
+ "episode_sha256": "b51ccb1579b986f156759080b0772b7fa8e5ea938d352fb5a07a593a67151813"
+}

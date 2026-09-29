@@ -1,0 +1,68 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v21",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-74538ea00ce9",
+ "arm": "PLACEBO_HARD",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/discount/utils/checkout.py",
+  "saleor/graphql/page/resolvers.py",
+  "saleor/graphql/translations/mutations/attribute_value_translate.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/discount/utils/checkout.py",
+   "saleor/graphql/page/resolvers.py",
+   "saleor/graphql/translations/mutations/attribute_value_translate.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/discount/utils/checkout.py",
+   "saleor/graphql/page/resolvers.py",
+   "saleor/graphql/translations/mutations/attribute_value_translate.py"
+  ]
+ },
+ "prompt_sha256": "c4527ca85c3d8a2bb815501dda31140f239e4eb7f80e6180b1762fa18ed2722a",
+ "request_sha_initial": "856ff33e187dbcbc4f57f442be678147337146472e014ad633b37fa51a03ab2d",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "repair_request_sha256": "",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790649943-Zte56T24Vld7adHOYOLI",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 2506,
+   "completion_tokens": 1676,
+   "cost_usd_actual": 0.002367,
+   "cost_usd_nominal": 0.002367,
+   "finish_reason": "stop",
+   "response_sha256": "e0480991feb64bd517016cbedc987d57faef9b5703cc889b32f1966d8beb7b80",
+   "request_sha": "856ff33e187dbcbc4f57f442be678147337146472e014ad633b37fa51a03ab2d",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\e2e_smoke_eng_v22\\episodes\\saleor-rc-74538ea00ce9\\PLACEBO_HARD\\calls\\1_initial.txt",
+   "raw_sha256": "e0480991feb64bd517016cbedc987d57faef9b5703cc889b32f1966d8beb7b80"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "edited_files": [
+  "saleor/discount/utils/checkout.py",
+  "saleor/graphql/page/resolvers.py",
+  "saleor/graphql/translations/mutations/attribute_value_translate.py"
+ ],
+ "diff_sha256": "0e356198d223247796fdffe6a94d6c18928c22a3638b85286f58d0941254c282",
+ "envelope": {},
+ "whitespace_tolerant_blocks": [],
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-29T02:46:09Z",
+ "episode_sha256": "ac3ba2a513da14eab64d42b5c057f4878ccec6dfc79ff68eb346ec9377323602"
+}

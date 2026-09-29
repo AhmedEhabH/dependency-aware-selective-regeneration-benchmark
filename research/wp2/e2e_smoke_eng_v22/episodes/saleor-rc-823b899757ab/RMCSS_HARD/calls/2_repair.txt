@@ -1,0 +1,250 @@
+FILE: saleor/graphql/product/mutations/products.py
+<<<<<<< SEARCH
+class ProductImageDelete(BaseMutation):
+    product = graphene.Field(Product)
+    image = graphene.Field(ProductImage)
+
+    class Arguments:
+        id = graphene.ID(required=True, description="ID of a product image to delete.")
+
+    class Meta:
+        description = "Deletes a product image."
+        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
+        error_type_class = ProductError
+        error_type_field = "product_errors"
+
+    @classmethod
+    def perform_mutation(cls, _root, info, **data):
+        image = cls.get_node_or_error(info, data.get("id"), only_type=ProductImage)
+        image_id = image.id
+        image.delete()
+        image.id = image_id
+        return ProductImageDelete(product=image.product, image=image)
+
+
+class VariantImageAssign(BaseMutation):
+    product_variant = graphene.Field(ProductVariant)
+    image = graphene.Field(ProductImage)
+
+    class Arguments:
+        image_id = graphene.ID(
+            required=True, description="ID of a product image to assign to a variant."
+        )
+        variant_id = graphene.ID(required=True, description="ID of a product variant.")
+
+    class Meta:
+        description = "Assign an image to a product variant."
+        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
+        error_type_class = ProductError
+        error_type_field = "product_errors"
+
+    @classmethod
+    def perform_mutation(cls, _root, info, image_id, variant_id):
+        image = cls.get_node_or_error(
+            info, image_id, field="image_id", only_type=ProductImage
+        )
+        variant = cls.get_node_or_error(
+            info, variant_id, field="variant_id", only_type=ProductVariant
+        )
+        if image and variant:
+            # check if the given image and variant can be matched together
+            image_belongs_to_product = variant.product.images.filter(
+                pk=image.pk
+            ).first()
+            if image_belongs_to_product:
+                image.variant_images.create(variant=variant)
+            else:
+                raise ValidationError(
+                    {
+                        "image_id": ValidationError(
+                            "This image doesn't belong to that product.",
+                            code=ProductErrorCode.NOT_PRODUCTS_IMAGE,
+                        )
+                    }
+                )
+        return VariantImageAssign(product_variant=variant, image=image)
+
+
+class VariantImageUnassign(BaseMutation):
+    product_variant = graphene.Field(ProductVariant)
+    image = graphene.Field(ProductImage)
+
+    class Arguments:
+        image_id = graphene.ID(
+            required=True,
+            description="ID of a product image to unassign from a variant.",
+        )
+        variant_id = graphene.ID(required=True, description="ID of a product variant.")
+
+    class Meta:
+        description = "Unassign an image from a product variant."
+        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
+        error_type_class = ProductError
+        error_type_field = "product_errors"
+
+    @classmethod
+    def perform_mutation(cls, _root, info, image_id, variant_id):
+        image = cls.get_node_or_error(
+            info, image_id, field="image_id", only_type=ProductImage
+        )
+        variant = cls.get_node_or_error(
+            info, variant_id, field="variant_id", only_type=ProductVariant
+        )
+
+        try:
+            variant_image = models.VariantImage.objects.get(
+                image=image, variant=variant
+            )
+        except models.VariantImage.DoesNotExist:
+            raise ValidationError(
+                {
+                    "image_id": ValidationError(
+                        "Image is not assigned to this variant.",
+                        code=ProductErrorCode.NOT_PRODUCTS_IMAGE,
+                    )
+                )
+            )
+        else:
+            variant_image.delete()
+
+        return VariantImageUnassign(product_variant=variant, image=image)
+=======
+class ProductImageDelete(BaseMutation):
+    product = graphene.Field(Product)
+    image = graphene.Field(ProductImage)
+
+    class Arguments:
+        id = graphene.ID(required=True, description="ID of a product image to delete.")
+
+    class Meta:
+        description = "Deletes a product image."
+        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
+        error_type_class = ProductError
+        error_type_field = "product_errors"
+
+    @classmethod
+    def perform_mutation(cls, _root, info, **data):
+        image = cls.get_node_or_error(info, data.get("id"), only_type=ProductImage)
+        image_id = image.id
+        image.delete()
+        image.id = image_id
+        return ProductImageDelete(product=image.product, image=image)
+
+
+class VariantImageAssign(BaseMutation):
+    product_variant = graphene.Field(ProductVariant)
+    image = graphene.Field(ProductImage)
+
+    class Arguments:
+        image_id = graphene.ID(
+            required=True, description="ID of a product image to assign to a variant."
+        )
+        variant_id = graphene.ID(required=True, description="ID of a product variant.")
+
+    class Meta:
+        description = "Assign an image to a product variant."
+        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
+        error_type_class = ProductError
+        error_type_field = "product_errors"
+
+    @classmethod
+    def perform_mutation(cls, _root, info, image_id, variant_id):
+        image = cls.get_node_or_error(
+            info, image_id, field="image_id", only_type=ProductImage
+        )
+        variant = cls.get_node_or_error(
+            info, variant_id, field="variant_id", only_type=ProductVariant
+        )
+        if image and variant:
+            # check if the given image and variant can be matched together
+            image_belongs_to_product = variant.product.images.filter(
+                pk=image.pk
+            ).first()
+            if image_belongs_to_product:
+                image.variant_images.create(variant=variant)
+            else:
+                raise ValidationError(
+                    {
+                        "image_id": ValidationError(
+                            "This image doesn't belong to that product.",
+                            code=ProductErrorCode.NOT_PRODUCTS_IMAGE,
+                        )
+                    }
+                )
+        return VariantImageAssign(product_variant=variant, image=image)
+
+
+class VariantImageUnassign(BaseMutation):
+    product_variant = graphene.Field(ProductVariant)
+    image = graphene.Field(ProductImage)
+
+    class Arguments:
+        image_id = graphene.ID(
+            required=True,
+            description="ID of a product image to unassign from a variant.",
+        )
+        variant_id = graphene.ID(required=True, description="ID of a product variant.")
+
+    class Meta:
+        description = "Unassign an image from a product variant."
+        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
+        error_type_class = ProductError
+        error_type_field = "product_errors"
+
+    @classmethod
+    def perform_mutation(cls, _root, info, image_id, variant_id):
+        image = cls.get_node_or_error(
+            info, image_id, field="image_id", only_type=ProductImage
+        )
+        variant = cls.get_node_or_error(
+            info, variant_id, field="variant_id", only_type=ProductVariant
+        )
+
+        try:
+            variant_image = models.VariantImage.objects.get(
+                image=image, variant=variant
+            )
+        except models.VariantImage.DoesNotExist:
+            raise ValidationError(
+                {
+                    "image_id": ValidationError(
+                        "Image is not assigned to this variant.",
+                        code=ProductErrorCode.NOT_PRODUCTS_IMAGE,
+                    )
+                )
+            )
+        else:
+            variant_image.delete()
+
+        return VariantImageUnassign(product_variant=variant, image=image)
+
+
+class ProductSetAvailabilityForPurchase(BaseMutation):
+    product = graphene.Field(Product)
+
+    class Arguments:
+        product_id = graphene.ID(
+            required=True, description="ID of a product to set availability for purchase."
+        )
+        available_for_purchase = graphene.Date(
+            required=True, 
+            description="ISO 8601 formatted date when the product will be available for purchase."
+        )
+
+    class Meta:
+        description = "Set the availability for purchase date for a product."
+        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
+        error_type_class = ProductError
+        error_type_field = "product_errors"
+
+    @classmethod
+    def perform_mutation(cls, _root, info, product_id, available_for_purchase):
+        product = cls.get_node_or_error(
+            info, product_id, field="product_id", only_type=Product
+        )
+        
+        product.available_for_purchase = available_for_purchase
+        product.save(update_fields=["available_for_purchase"])
+        
+        return ProductSetAvailabilityForPurchase(product=product)
+>>>>>>> REPLACE

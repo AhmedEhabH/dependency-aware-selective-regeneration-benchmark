@@ -1,0 +1,55 @@
+diff --git a/saleor/discount/utils/checkout.py b/saleor/discount/utils/checkout.py
+--- a/saleor/discount/utils/checkout.py
++++ b/saleor/discount/utils/checkout.py
+@@ -14,6 +14,8 @@
+ from ..models import (
+     CheckoutDiscount,
+     CheckoutLineDiscount,
++    Voucher,
++    VoucherCustomer,
+ )
+ from .promotion import (
+     create_discount_objects_for_order_promotions,
+@@ -170,6 +172,11 @@
+             if discount.type != DiscountType.ORDER_PROMOTION
+         ]
+     checkout = checkout_info.checkout
++    
++    # Handle voucher removal - release the voucher usage
++    if checkout.voucher_code:
++        _release_voucher_usage(checkout)
++    
+     if not checkout_info.voucher_code:
+         is_update_needed = not (
+             checkout.discount_amount == 0
+@@ -191,6 +198,30 @@
+                 )
+ 
+ 
++def _release_voucher_usage(checkout: Checkout):
++    """Release the voucher usage when voucher is removed from checkout."""
++    if not checkout.voucher_code:
++        return
++        
++    try:
++        voucher = Voucher.objects.get(code=checkout.voucher_code)
++        
++        # Decrease the voucher usage count if it was applied
++        if voucher.used > 0:
++            voucher.used -= 1
++            voucher.save(update_fields=["used"])
++            
++        # Remove the customer voucher record if exists
++        if checkout.user_id:
++            VoucherCustomer.objects.filter(
++                voucher=voucher,
++                customer_id=checkout.user_id
++            ).delete()
++            
++    except Voucher.DoesNotExist:
++        pass
++
++
+ def has_checkout_order_promotion(checkout_info: "CheckoutInfo") -> bool:
+     return next(
+         (

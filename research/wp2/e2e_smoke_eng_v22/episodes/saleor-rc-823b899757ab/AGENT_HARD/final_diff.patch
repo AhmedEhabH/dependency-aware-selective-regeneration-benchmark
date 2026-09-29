@@ -1,0 +1,54 @@
+diff --git a/saleor/graphql/product/mutations/products.py b/saleor/graphql/product/mutations/products.py
+--- a/saleor/graphql/product/mutations/products.py
++++ b/saleor/graphql/product/mutations/products.py
+@@ -1817,3 +1817,41 @@
+             variant_image.delete()
+ 
+         return VariantImageUnassign(product_variant=variant, image=image)
++
++
++class ProductSetAvailabilityForPurchase(BaseMutation):
++    product = graphene.Field(Product)
++
++    class Arguments:
++        product_id = graphene.ID(
++            required=True, 
++            description="ID of the product to set availability for purchase."
++        )
++        is_available_for_purchase = graphene.Boolean(
++            required=True,
++            description="Determines if the product is available for purchase."
++        )
++        start_date = graphene.types.datetime.Date(
++            description="Start date when product is available for purchase."
++        )
++
++    class Meta:
++        description = "Set product availability for purchase."
++        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
++        error_type_class = ProductError
++        error_type_field = "product_errors"
++
++    @classmethod
++    def perform_mutation(cls, _root, info, product_id, is_available_for_purchase, start_date=None):
++        product = cls.get_node_or_error(
++            info, product_id, field="product_id", only_type=Product
++        )
++        
++        product.is_available_for_purchase = is_available_for_purchase
++        
++        if start_date:
++            product.available_for_purchase_at = start_date
++            
++        product.save(update_fields=["is_available_for_purchase", "available_for_purchase_at"])
++        
++        return ProductSetAvailabilityForPurchase(product=product)
+diff --git a/saleor/graphql/product/schema.py b/saleor/graphql/product/schema.py
+--- a/saleor/graphql/product/schema.py
++++ b/saleor/graphql/product/schema.py
+@@ -518,3 +518,5 @@
+ 
+     variant_image_assign = VariantImageAssign.Field()
+     variant_image_unassign = VariantImageUnassign.Field()
++    
++    product_set_availability_for_purchase = ProductSetAvailabilityForPurchase.Field()

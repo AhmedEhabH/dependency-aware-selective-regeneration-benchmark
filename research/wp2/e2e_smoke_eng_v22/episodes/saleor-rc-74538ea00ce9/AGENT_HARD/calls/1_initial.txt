@@ -1,0 +1,57 @@
+Looking at the developer change description, I need to implement functionality to fix restoring voucher usage limit when the voucher is removed from draft order. The key points are:
+
+1. Reduce the voucher limit when the voucher is removed from draft order
+2. Fix updating the voucher usage_limit 
+3. Ensure that voucher usage is released when the voucher code is removed from draft order
+
+Let me analyze the code to understand where changes are needed:
+
+1. In `saleor/checkout/utils.py`, I can see functions related to voucher handling in checkout
+2. In `saleor/discount/models.py`, I can see the Voucher and VoucherCode models
+3. In `saleor/discount/utils/voucher.py`, I can see voucher utility functions including usage management
+4. In `saleor/graphql/discount/mutations/voucher/voucher_update.py`, I can see voucher update logic
+
+The main issue seems to be that when a voucher is removed from a draft order (checkout), the usage count is not being properly decreased. Looking at the code, I can see there are functions to increase/decrease voucher usage, but they need to be called appropriately when removing vouchers from checkouts.
+
+Let me examine the relevant functions:
+
+FILE: saleor/checkout/utils.py
+<<<<<<< SEARCH
+def remove_voucher_code_from_checkout_or_error(
+    checkout_info: "CheckoutInfo", voucher_code: str
+) -> None:
+    """Remove voucher data from checkout by code or raise an error."""
+
+    if checkout_info.voucher and voucher_code in checkout_info.voucher.promo_codes:
+        remove_voucher_from_checkout(checkout_info.checkout)
+        checkout_info.voucher = None
+    else:
+        raise ValidationError(
+            "Cannot remove a voucher not attached to this checkout.",
+            code=CheckoutErrorCode.INVALID.value,
+        )
+=======
+def remove_voucher_code_from_checkout_or_error(
+    checkout_info: "CheckoutInfo", voucher_code: str
+) -> None:
+    """Remove voucher data from checkout by code or raise an error."""
+    from ..discount.utils.voucher import release_voucher_code_usage
+
+    if checkout_info.voucher and voucher_code in checkout_info.voucher.promo_codes:
+        # Release the voucher usage before removing it from checkout
+        voucher = checkout_info.voucher
+        code_instance = checkout_info.voucher_code
+        user_email = checkout_info.get_customer_email()
+        
+        remove_voucher_from_checkout(checkout_info.checkout)
+        checkout_info.voucher = None
+        checkout_info.voucher_code = None
+        
+        # Release the voucher code usage
+        release_voucher_code_usage(code_instance, voucher, user_email)
+    else:
+        raise ValidationError(
+            "Cannot remove a voucher not attached to this checkout.",
+            code=CheckoutErrorCode.INVALID.value,
+        )
+>>>>>>> REPLACE
