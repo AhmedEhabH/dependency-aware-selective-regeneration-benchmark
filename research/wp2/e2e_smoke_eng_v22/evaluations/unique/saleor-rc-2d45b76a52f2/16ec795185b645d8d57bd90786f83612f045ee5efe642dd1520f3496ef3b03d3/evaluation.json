@@ -1,0 +1,950 @@
+{
+ "task_id": "saleor-rc-2d45b76a52f2",
+ "diff_sha256": "16ec795185b645d8d57bd90786f83612f045ee5efe642dd1520f3496ef3b03d3",
+ "eval_identity": "saleor-rc-2d45b76a52f2/16ec795185b645d8d57bd90786f83612f045ee5efe642dd1520f3496ef3b03d3",
+ "label": "u_16ec795185b6",
+ "tree_sha": "bebfd90c710e9dc0aac5260ed3d2d3285943e08b",
+ "status": "DONE",
+ "diff_file_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+ "groups": {
+  "C": {
+   "saleor/core/tests/test_jwt.py::test_create_access_token_for_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_jwt.py::test_create_access_token_for_app_extension_staff_user_with_more_permissions": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/core/tests/test_jwt.py::test_create_access_token_for_app_extension_with_more_permissions": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/core/tests/test_jwt.py::test_jwt_decode_accepts_app_token_hs256_with_audience": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_jwt.py::test_jwt_decode_accepts_app_token_rs256_with_audience": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_jwt.py::test_jwt_decode_accepts_token_signed_with_hs256": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_jwt.py::test_jwt_decode_accepts_token_signed_with_rs256": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_jwt.py::test_jwt_encode_creates_token_signed_with_rs256": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  "U": {
+   "saleor/core/tests/test_url.py::test_get_default_storage_root_url": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_jwt_manager.py::test_jwt_manager_validate_incorect_format_of_rsa_private_key": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_serializer.py::test_custom_json_encoder_dumps_money_objects": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_middleware.py::test_jwt_refresh_token_middleware_token_without_expire": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_search_tasks.py::test_set_user_search_document_values": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_notification.py::test_validate_and_get_channel": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_postgresql_search.py::test_storefront_product_fuzzy_name_search[cool-1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_weight.py::test_convert_weight_to_default_weight_unit[g-expected_value1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_anonymize.py::test_obfuscate_email_example_email": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_analytics.py::test_get_order_payloads": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_tasks.py::test_delete_event_payloads_task": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_token_expired[Bearer]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_build_absolute_uri": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_editorjs.py::test_clean_editor_js[The Saleor Winter Sale is snowed <a href=\"https://docs.saleor.io/docs/\">. Test <a href=\"https://docs.saleor.io/docs/\">.]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_schedules.py::test_is_due_not_sale_to_notify_about_not_upcoming_sale": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_token_expired": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_view.py::test_jwks_can_be_used_to_decode_saleor_token": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_taxes.py::test_get_current_tax_app_no_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_dataloaders.py::test_plugins_manager_loader_loads_requestor_in_plugin": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_url.py::test_prepare_url": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_jwt_manager.py::test_jwt_manager_decode_token_signed_with_rs256": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_serializer.py::test_custom_json_encoder_dumps_weight_objects": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_middleware.py::test_jwt_refresh_token_middleware_samesite_debug_mode": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_search_tasks.py::test_set_order_search_document_values_already_present": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_notification.py::test_validate_and_get_channel_for_lack_of_input": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_postgresql_search.py::test_storefront_product_fuzzy_name_search[chicken-2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_weight.py::test_get_default_weight_unit": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_anonymize.py::test_obfuscate_address_no_address": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_analytics.py::test_get_order_without_sku_payloads": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_tasks.py::test_delete_files_from_storage_task": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_user_deactivated_token[Bearer]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_create_vouchers": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_editorjs.py::test_clean_editor_js[The Saleor Winter Sale is snowed <a href=\"https://docs.saleor.io/docs/\">]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_schedules.py::test_is_due_no_sale_to_notify_about_and_upcoming_sale_exists": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_user_with_limited_permissions[user_permissions3-app_permissions3-expected_limited_permissions3]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_taxes.py::test_get_current_tax_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_dataloaders.py::test_plugins_manager_loader_requestor_in_plugin_when_no_app_and_user_in_req_is_none": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_url.py::test_prepare_url_with_existing_query": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_jwt_manager.py::test_jwt_manager_validate_missing_rsa_private_key": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_middleware.py::test_jwt_refresh_token_middleware_samesite_none": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_search_tasks.py::test_set_order_search_document_values_no_vector": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_notification.py::test_validate_and_get_channel_for_inactive_channel": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_postgresql_search.py::test_flat_concat_drop_exceeding_count_silently_truncate": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_weight.py::test_convert_weight": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_anonymize.py::test_obfuscate_string_empty_string": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_analytics.py::test_report_order_has_no_errors": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_tasks.py::test_delete_files_from_storage_task_files_not_existing_files": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_user_authenticated[JWT]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_get_client_ip[invalid,8.8.8.8-8.8.8.8]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_editorjs.py::test_clean_editor_js_for_complex_description": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_schedules.py::test_sale_webhook_schedule_remaining_estimate": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_user_with_limited_permissions[user_permissions5-app_permissions5-expected_limited_permissions5]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_taxes.py::test_get_current_tax_app_multiple_apps": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_jwt_manager.py::test_get_jwt_manager": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_middleware.py::test_jwt_refresh_token_middleware": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_notification.py::test_validate_and_get_channel_for_non_existing_slug": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_postgresql_search.py::test_combined_flat_search_vector": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_weight.py::test_convert_weight_to_default_weight_unit[oz-expected_value3]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_anonymize.py::test_obfuscate_email_no_at_in_email": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_analytics.py::test_get_view_payloads": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_tasks.py::test_delete_from_storage_task": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_use_default_header_as_a_fallback": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_create_superuser": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_editorjs.py::test_clean_editor_js_invalid_url": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_schedules.py::test_is_due_sale_started_to_notify_and_not_upcoming_sale": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_user_with_limited_permissions[user_permissions0-app_permissions0-expected_limited_permissions0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_jwt_manager.py::test_jwt_manager_encode": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_postgresql_search.py::test_flat_concat_drop_exceeding_count_no_silently_fail": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_weight.py::test_convert_weight_to_default_weight_unit[lb-expected_value2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_anonymize.py::test_obfuscate_string_phone_string": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_tasks.py::test_delete_from_storage_task_file_that_not_exists": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_user_with_limited_permissions[user_permissions1-app_permissions1-expected_limited_permissions1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_get_client_ip[None-127.0.0.1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_editorjs.py::test_clean_editor_js[The Saleor Sale is snowed <a href=\"https://docs.saleor.io/docs/\">. Test.]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_schedules.py::test_is_due_sale_started_to_notify_and_upcoming_sale": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_user_authenticated": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_jwt_manager.py::test_jwt_manager_decode_token_signed_with_hs256": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_postgresql_search.py::test_storefront_product_fuzzy_name_search[Arabica-0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_weight.py::test_convert_weight_to_default_weight_unit[kg-expected_value0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_anonymize.py::test_obfuscate_email": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_user_doesnt_have_permissions_from_token[Bearer]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_generate_unique_slug_with_slugable_field[default type-default-type-2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_editorjs.py::test_clean_editor_js_for_list_invalid_url": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_schedules.py::test_sale_webhook_schedule_remaining_estimate_initial_state": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_incorrect_token": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_postgresql_search.py::test_storefront_product_fuzzy_name_search[blue-1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_anonymize.py::test_obfuscate_address": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_user_with_limited_permissions[user_permissions4-app_permissions4-expected_limited_permissions4]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_create_address": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_editorjs.py::test_clean_editor_js[]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_schedules.py::test_is_due_sale_ended_to_notify_and_not_upcoming_sale": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_user_with_limited_permissions[user_permissions2-app_permissions2-expected_limited_permissions2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_postgresql_search.py::test_storefront_product_fuzzy_name_search[roast-2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_anonymize.py::test_obfuscate_string": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_user_with_limited_permissions[user_permissions2-app_permissions2-expected_limited_permissions2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_create_fake_order": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_editorjs.py::test_clean_editor_js_no_data": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_schedules.py::test_is_due_no_sale_to_notify_about_and_upcoming_sale_exists_initial_time_returned": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_missing_token": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_user_with_limited_permissions[user_permissions3-app_permissions3-expected_limited_permissions3]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_generate_unique_slug_with_slugable_field[FM1+-fm1-2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_editorjs.py::test_clean_editor_js[The Saleor Winter Sale is snowed under with seasonal offers. Unreal products at unreal prices. Literally, they are not real products, but the Saleor demo store is a genuine e-commerce leader.]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_user_doesnt_exist": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_saleor_is_not_owner_of_token[JWT]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_create_channels": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_editorjs.py::test_clean_editor_js_no_blocks": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_use_saleor_header_as_a_first_try": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_user_authenticated[Bearer]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_generate_unique_slug_with_additional_lookup_slug_not_changed": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_editorjs.py::test_clean_editor_js[The Saleor Winter Sale is snowed <a >]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_saleor_is_not_owner_of_token": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_user_doesnt_have_permissions_from_token[JWT]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_create_channels_with_default_channel_slug": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_editorjs.py::test_clean_editor_js_for_list": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_incorect_type_of_token": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_incorect_type_of_token[Bearer]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_storages_set_s3_bucket_domain": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_user_deactivated_token": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_owner_field_is_missing[JWT]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_generate_unique_slug_with_slugable_field[\\u0421\\u0430\\u043b\\u0435\\u043e\\u0440-saleor-2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_use_authorization_bearer_header_when_authorization_is_provided[Bearer]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_saleor_is_not_owner_of_token[Bearer]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_generate_unique_slug_with_slugable_field[Shirt-shirt]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_user_with_limited_permissions[user_permissions1-app_permissions1-expected_limited_permissions1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_incorrect_token[JWT]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_get_client_ip[256.0.0.1-127.0.0.1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_user_with_limited_permissions[user_permissions4-app_permissions4-expected_limited_permissions4]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_missing_header": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_get_currency_for_country[country2-GBP]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_missing_header": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_missing_token[JWT]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_generate_unique_slug_with_slugable_field[\\u0632\\u064a\\u0648\\u062a-zywt]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_use_authorization_bearer_header_when_authorization_is_provided[Basic]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_user_doesnt_exist[JWT]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_cleardb_passes_with_force_flag_in_debug_off": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_user_doesnt_have_permissions_from_token": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_user_deactivated[JWT]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_get_client_ip[::1-::1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_user_deactivated": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_owner_field_is_missing[Bearer]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_get_currency_for_country[country0-PLN]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_user_payload_doesnt_have_user_token": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_user_with_limited_permissions[user_permissions0-app_permissions0-expected_limited_permissions0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_create_fake_users": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_user_payload_doesnt_have_user_token[JWT]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_generate_unique_slug_with_slugable_field[40.5-405-2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_incorrect_token[Bearer]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_generate_unique_slug_with_additional_lookup_slug_changed": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_incorect_type_of_token[JWT]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_build_absolute_uri_with_host": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_user_with_limited_permissions[user_permissions5-app_permissions5-expected_limited_permissions5]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_generate_unique_slug_with_slugable_field[Paint-paint]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_user_deactivated[Bearer]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_create_gift_card": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_user_payload_doesnt_have_user_token[Bearer]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_create_product_sales": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_user_doesnt_exist[Bearer]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_generate_unique_slug_for_slug_with_max_characters_number": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_user_deactivated_token[JWT]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_cleardb_exits_with_debug_off": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_token_expired[JWT]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_cleardb_delete_staff_parameter": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_missing_token[Bearer]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_delete_sort_order_with_null_value": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_create_fake_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_cleardb_preserves_data": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_generate_unique_slug_non_slugable_value_and_slugable_field": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_storages_not_setting_s3_bucket_domain": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_get_currency_for_country[country1-USD]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_get_client_ip[83.0.0.1-83.0.0.1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_generate_unique_slug_with_slugable_field[\\u308f\\u305f\\u3057-\\u308f \\u306b\\u3063\\u307d\\u3093 \\u3067\\u3059-watasi-wa-nitupon-desu-2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_create_shipping_zones": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_get_client_ip[1:1:1-127.0.0.1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_generate_unique_slug_with_slugable_field[Default Type-default-type]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_generate_unique_slug_with_slugable_field[\\u0141adny-ladny]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_generate_unique_slug_with_slugable_field[paint-paint-3]": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  }
+ },
+ "f2p_task": "FAIL",
+ "p2p_s_task": "PASS",
+ "p2p_u200_task": "PASS",
+ "resolved": false,
+ "flaky_under_patch": [
+  "saleor/core/tests/test_jwt.py::test_create_access_token_for_app_extension_staff_user_with_more_permissions",
+  "saleor/core/tests/test_jwt.py::test_create_access_token_for_app_extension_with_more_permissions"
+ ],
+ "sources": [
+  "episodes\\saleor-rc-2d45b76a52f2\\PLACEBO_HARD\\episode.json"
+ ],
+ "labels": [
+  "main|PLACEBO_HARD"
+ ],
+ "evaluation_sha256": "1d9b9ae13b9498648fdf3566e32d1fbd2096ca8969b5d4247d1fd5f391512223"
+}

@@ -157,6 +157,30 @@
    "event": "ACK",
    "phase": "P09_EVAL_PLAN",
    "utc": "2026-09-29T03:19:52Z"
+  },
+  {
+   "detail": "after EVAL_PLAN_FAIL",
+   "event": "RESUME",
+   "phase": "P09_EVAL_PLAN",
+   "utc": "2026-09-29T03:20:12Z"
+  },
+  {
+   "detail": "unique-diff evaluation plan",
+   "event": "START",
+   "phase": "P09_EVAL_PLAN",
+   "utc": "2026-09-29T03:20:12Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "P09_EVAL_PLAN",
+   "utc": "2026-09-29T03:20:18Z"
+  },
+  {
+   "detail": "evaluate unique diffs (zero API, workers=1)",
+   "event": "START",
+   "phase": "P10_EVALUATE",
+   "utc": "2026-09-29T03:20:18Z"
   }
  ],
  "phases": {
@@ -236,6 +260,14 @@
    "attempts": 1,
    "failures": 0,
    "iterations": 0,
+   "passed_utc": "2026-09-29T03:20:18Z",
+   "runs": 2,
+   "status": "PASS"
+  },
+  "P10_EVALUATE": {
+   "attempts": 0,
+   "failures": 0,
+   "iterations": 1,
    "runs": 1,
    "status": "RUNNING"
   }
@@ -267,14 +299,5 @@
   "origin_main_before": "463161b247d165c7c410f486683ac8c1c58fb72d",
   "utc": "20260929T023746Z"
  },
- "stop": {
-  "detail": "command failed",
-  "exports": {
-   "light": 0
-  },
-  "phase": "P09_EVAL_PLAN",
-  "resumable": true,
-  "token": "EVAL_PLAN_FAIL",
-  "utc": "2026-09-29T02:59:36Z"
- }
+ "stop": null
 }
