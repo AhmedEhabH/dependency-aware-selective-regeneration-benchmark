@@ -1,0 +1,512 @@
+{
+ "id": "WP2_M14A_PILOT_A_V1_CORRECTED",
+ "settings": {
+  "state_file": "research/wp2/pilot_a_v1/controller_state.json",
+  "report_dir": "research/wp2/pilot_a_v1/controller_reports",
+  "stop_flag": "logs/PILOT_A_STOP.flag",
+  "kit_manifest": "controller/KIT_MANIFEST_M14A.json",
+  "git_commit": true,
+  "git_push": true,
+  "remote": "origin",
+  "branch": "main",
+  "stop_commit_prefixes": [
+   "research/wp2/pilot_a_v1/"
+  ],
+  "resumable_tokens": [
+   "READINESS_ENV_FAIL",
+   "NOT_AUTHORIZED",
+   "PAID_PREFLIGHT_FAIL",
+   "E2E_PROVIDER_OUTAGE",
+   "HOLD_ACTIVE",
+   "USER_STOP_FLAG",
+   "EVAL_ERROR",
+   "CLOSE_FAIL",
+   "POST_ACTION_FAILED",
+   "FINAL_ACTION_FAILED"
+  ],
+  "exports": {
+   "light": [
+    "{python}",
+    "scripts/wp2_export_light.py",
+    "--profile",
+    "controller/light_profile_m14a.json",
+    "--label",
+    "{label}"
+   ]
+  },
+  "final_actions": [
+   {
+    "type": "commit",
+    "prefixes": [
+     "research/wp2/pilot_a_v1/",
+     "docs/WP2_PILOT_A_V1_RESULT.md"
+    ],
+    "message": "evidence(wp2): close Pilot-A V1"
+   },
+   {
+    "type": "push"
+   },
+   {
+    "type": "tag",
+    "name": "wp2-pilot-a-v1-result-{date}",
+    "message": "WP2 Pilot-A V1 result"
+   },
+   {
+    "type": "exports",
+    "label": "PILOT_A_RESULT",
+    "required": [
+     "light"
+    ]
+   }
+  ]
+ },
+ "phases": [
+  {
+   "id": "P00_KIT_SELFTEST",
+   "title": "M14A kit self-tests (zero network)",
+   "command": [
+    "{python}",
+    "-m",
+    "pytest",
+    "-q",
+    "-p",
+    "no:cacheprovider",
+    "tests/unit/wp2/m14a"
+   ],
+   "timeout_s": 900,
+   "fail_token": "KIT_SELFTEST_FAIL",
+   "allowed_write_prefixes": []
+  },
+  {
+   "id": "P01_GUARD",
+   "title": "M13B design/source guard",
+   "requires": [
+    "P00_KIT_SELFTEST"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m14a_readiness.py",
+    "guard"
+   ],
+   "timeout_s": 600,
+   "fail_token": "M14A_GUARD_FAIL",
+   "allowed_write_prefixes": [
+    "research/wp2/pilot_a_v1/m14a_guard.json"
+   ],
+   "commit_message": "evidence(wp2): M14A guard"
+  },
+  {
+   "id": "P02_READINESS",
+   "title": "frozen M14A.S0.A1 readiness of all 26 eligible tasks (C4 V3.1 + P2P-U V3 cap200 + gold/empty check)",
+   "requires": [
+    "P01_GUARD"
+   ],
+   "kind": "loop",
+   "done_checks": [
+    {
+     "type": "command_ok",
+     "command": [
+      "{python}",
+      "scripts/wp2_m14a_readiness.py",
+      "readiness-check"
+     ]
+    }
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m14a_readiness.py",
+    "readiness",
+    "--max-new",
+    "1"
+   ],
+   "timeout_s": 14400,
+   "max_retries": 0,
+   "max_iterations": 40,
+   "fail_token": "READINESS_ENV_FAIL",
+   "exit_codes": {
+    "33": "STOP:READINESS_ENV_FAIL",
+    "78": "STOP:M14A_INVARIANT"
+   },
+   "progress": {
+    "glob": "research/wp2/pilot_a_v1/readiness/*/record.json"
+   },
+   "allowed_write_prefixes": [
+    "research/wp2/pilot_a_v1/readiness/",
+    "research/wp2/pilot_a_v1/m14a_guard.json"
+   ],
+   "commit_each_iteration": true,
+   "commit_message": "evidence(wp2): Pilot-A readiness progress"
+  },
+  {
+   "id": "P03_MEMBERSHIP",
+   "title": "apply frozen readiness replacement rule",
+   "requires": [
+    "P02_READINESS"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m14a_readiness.py",
+    "membership"
+   ],
+   "timeout_s": 600,
+   "exit_codes": {
+    "31": "STOP:POOL_INSUFFICIENT",
+    "78": "STOP:M14A_INVARIANT"
+   },
+   "fail_token": "MEMBERSHIP_FAIL",
+   "allowed_write_prefixes": [
+    "research/wp2/pilot_a_v1/pilot_final_membership.json",
+    "research/wp2/pilot_a_v1/evaluator_only/"
+   ],
+   "commit_message": "evidence(wp2): freeze Pilot-A final membership"
+  },
+  {
+   "id": "P04_AUTH",
+   "title": "human authorization check",
+   "requires": [
+    "P03_MEMBERSHIP"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m14a_run.py",
+    "auth-check"
+   ],
+   "timeout_s": 300,
+   "exit_codes": {
+    "32": "STOP:NOT_AUTHORIZED",
+    "78": "STOP:M14A_INVARIANT"
+   },
+   "fail_token": "NOT_AUTHORIZED",
+   "allowed_write_prefixes": [
+    "research/wp2/pilot_a_v1/auth_check.json"
+   ],
+   "commit_message": "evidence(wp2): verify Pilot-A human authorization"
+  },
+  {
+   "id": "P05_DOCTOR_OFFLINE",
+   "title": "offline environment doctor",
+   "requires": [
+    "P04_AUTH"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m14a_run.py",
+    "doctor-offline"
+   ],
+   "timeout_s": 900,
+   "exit_codes": {
+    "33": "STOP:PAID_PREFLIGHT_FAIL",
+    "78": "STOP:M14A_INVARIANT"
+   },
+   "fail_token": "PAID_PREFLIGHT_FAIL",
+   "allowed_write_prefixes": [
+    "research/wp2/pilot_a_v1/doctor/"
+   ]
+  },
+  {
+   "id": "P06_DOCTOR_PAID",
+   "title": "read-only provider/credit doctor (zero model calls)",
+   "requires": [
+    "P05_DOCTOR_OFFLINE"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m14a_run.py",
+    "doctor-paid"
+   ],
+   "timeout_s": 900,
+   "exit_codes": {
+    "33": "STOP:PAID_PREFLIGHT_FAIL",
+    "78": "STOP:M14A_INVARIANT"
+   },
+   "fail_token": "PAID_PREFLIGHT_FAIL",
+   "allowed_write_prefixes": [
+    "research/wp2/pilot_a_v1/doctor/"
+   ]
+  },
+  {
+   "id": "P07_CANARY",
+   "title": "known ENG evaluator canary (zero model calls)",
+   "requires": [
+    "P06_DOCTOR_PAID"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m14a_run.py",
+    "canary"
+   ],
+   "timeout_s": 10800,
+   "exit_codes": {
+    "33": "STOP:CANARY_FAIL",
+    "79": "STOP:EVAL_ERROR",
+    "78": "STOP:M14A_INVARIANT"
+   },
+   "fail_token": "CANARY_FAIL",
+   "allowed_write_prefixes": [
+    "research/wp2/pilot_a_v1/canary.json",
+    "research/wp2/pilot_a_v1/junit/"
+   ]
+  },
+  {
+   "id": "P08_FREEZE",
+   "title": "Pilot-A paid-run freeze",
+   "requires": [
+    "P07_CANARY"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m14a_run.py",
+    "freeze"
+   ],
+   "timeout_s": 900,
+   "pass_checks": [
+    {
+     "type": "command_ok",
+     "command": [
+      "{python}",
+      "scripts/wp2_m14a_run.py",
+      "freeze-verify"
+     ],
+     "fail_token": "FREEZE_DRIFT"
+    }
+   ],
+   "fail_token": "FREEZE_FAIL",
+   "allowed_write_prefixes": [
+    "research/wp2/pilot_a_v1/pilot_a_freeze.json",
+    "research/wp2/pilot_a_v1/frozen_scopes.json",
+    "research/wp2/pilot_a_v1/generation_plan.json",
+    "research/wp2/pilot_a_v1/auth_check.json"
+   ],
+   "post_actions": [
+    {
+     "type": "commit",
+     "prefixes": [
+      "research/wp2/pilot_a_v1/"
+     ],
+     "message": "evidence(wp2): freeze Pilot-A V1"
+    },
+    {
+     "type": "tag",
+     "name": "wp2-pilot-a-v1-freeze-{date}",
+     "message": "WP2 Pilot-A V1 freeze"
+    },
+    {
+     "type": "push"
+    }
+   ]
+  },
+  {
+   "id": "P09_GENERATE",
+   "title": "Pilot-A generation GOLD/PLACEBO x r1/r2",
+   "requires": [
+    "P08_FREEZE"
+   ],
+   "kind": "loop",
+   "pre_checks": [
+    {
+     "type": "command_ok",
+     "command": [
+      "{python}",
+      "scripts/wp2_m14a_run.py",
+      "freeze-verify"
+     ],
+     "fail_token": "FREEZE_DRIFT"
+    }
+   ],
+   "done_checks": [
+    {
+     "type": "command_ok",
+     "command": [
+      "{python}",
+      "scripts/wp2_m14a_run.py",
+      "generation-complete"
+     ]
+    }
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m14a_run.py",
+    "generate",
+    "--max-new",
+    "8",
+    "--max-seconds",
+    "5400"
+   ],
+   "timeout_s": 7200,
+   "max_retries": 0,
+   "max_iterations": 20,
+   "fail_token": "GENERATION_FAIL",
+   "exit_codes": {
+    "3": "STOP:HOLD_ACTIVE",
+    "4": "STOP:USER_STOP_FLAG",
+    "75": "STOP:E2E_PROVIDER_OUTAGE",
+    "76": "STOP:E2E_REQUEST_REJECTED",
+    "77": "STOP:E2E_BUDGET_STOP",
+    "78": "STOP:M14A_INVARIANT"
+   },
+   "progress": {
+    "glob": "research/wp2/pilot_a_v1/episodes/*/*/episode.json"
+   },
+   "allowed_write_prefixes": [
+    "research/wp2/pilot_a_v1/episodes/",
+    "research/wp2/pilot_a_v1/cache_namespaces/",
+    "research/wp2/pilot_a_v1/ledger/",
+    "research/wp2/pilot_a_v1/transport/"
+   ],
+   "commit_each_iteration": true,
+   "commit_message": "evidence(wp2): Pilot-A generation progress"
+  },
+  {
+   "id": "P10_GENERATION_FREEZE",
+   "title": "generation freeze before evaluation",
+   "requires": [
+    "P09_GENERATE"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m14a_run.py",
+    "generation-freeze"
+   ],
+   "timeout_s": 900,
+   "pass_checks": [
+    {
+     "type": "command_ok",
+     "command": [
+      "{python}",
+      "scripts/wp2_m14a_run.py",
+      "generation-freeze-verify"
+     ],
+     "fail_token": "GENERATION_FREEZE_FAIL"
+    }
+   ],
+   "fail_token": "GENERATION_FREEZE_FAIL",
+   "allowed_write_prefixes": [
+    "research/wp2/pilot_a_v1/generation_freeze.json"
+   ],
+   "post_actions": [
+    {
+     "type": "commit",
+     "prefixes": [
+      "research/wp2/pilot_a_v1/"
+     ],
+     "message": "evidence(wp2): freeze Pilot-A generation"
+    },
+    {
+     "type": "tag",
+     "name": "wp2-pilot-a-v1-generation-freeze-{date}",
+     "message": "WP2 Pilot-A generation freeze"
+    },
+    {
+     "type": "push"
+    }
+   ]
+  },
+  {
+   "id": "P11_EVAL_PLAN",
+   "title": "task-scoped unique-diff evaluation plan",
+   "requires": [
+    "P10_GENERATION_FREEZE"
+   ],
+   "pre_checks": [
+    {
+     "type": "command_ok",
+     "command": [
+      "{python}",
+      "scripts/wp2_m14a_run.py",
+      "generation-freeze-verify"
+     ],
+     "fail_token": "GENERATION_FREEZE_DRIFT"
+    }
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m14a_run.py",
+    "eval-plan"
+   ],
+   "timeout_s": 900,
+   "fail_token": "EVAL_PLAN_FAIL",
+   "allowed_write_prefixes": [
+    "research/wp2/pilot_a_v1/evaluations/plan.json"
+   ],
+   "commit_message": "evidence(wp2): freeze Pilot-A evaluation plan",
+   "exit_codes": {
+    "78": "STOP:M14A_INVARIANT"
+   }
+  },
+  {
+   "id": "P12_EVALUATE",
+   "title": "evaluate unique diffs (zero API, workers=1)",
+   "requires": [
+    "P11_EVAL_PLAN"
+   ],
+   "kind": "loop",
+   "pre_checks": [
+    {
+     "type": "command_ok",
+     "command": [
+      "{python}",
+      "scripts/wp2_m14a_run.py",
+      "generation-freeze-verify"
+     ],
+     "fail_token": "GENERATION_FREEZE_DRIFT"
+    }
+   ],
+   "done_checks": [
+    {
+     "type": "command_ok",
+     "command": [
+      "{python}",
+      "scripts/wp2_m14a_run.py",
+      "eval-complete"
+     ]
+    }
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m14a_run.py",
+    "evaluate",
+    "--max-evals",
+    "4"
+   ],
+   "timeout_s": 10800,
+   "max_retries": 1,
+   "max_iterations": 50,
+   "fail_token": "EVAL_ERROR",
+   "progress": {
+    "glob": "research/wp2/pilot_a_v1/evaluations/**/evaluation.json"
+   },
+   "allowed_write_prefixes": [
+    "research/wp2/pilot_a_v1/evaluations/",
+    "research/wp2/pilot_a_v1/junit/"
+   ],
+   "commit_each_iteration": true,
+   "commit_message": "evidence(wp2): Pilot-A evaluation progress",
+   "exit_codes": {
+    "79": "STOP:EVAL_ERROR",
+    "78": "STOP:M14A_INVARIANT"
+   }
+  },
+  {
+   "id": "P13_SUMMARY",
+   "title": "mechanical Pilot-A summary and A0-A5 gates",
+   "requires": [
+    "P12_EVALUATE"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m14a_run.py",
+    "summary"
+   ],
+   "timeout_s": 900,
+   "fail_token": "SUMMARY_FAIL",
+   "allowed_write_prefixes": [
+    "research/wp2/pilot_a_v1/pilot_a_summary.json",
+    "docs/WP2_PILOT_A_V1_RESULT.md"
+   ],
+   "commit_message": "evidence(wp2): Pilot-A V1 summary",
+   "exit_codes": {
+    "78": "STOP:M14A_INVARIANT"
+   }
+  }
+ ]
+}

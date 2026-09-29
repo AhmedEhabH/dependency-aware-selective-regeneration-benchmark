@@ -1,0 +1,43 @@
+{
+ "name_prefix": "project-LIGHT",
+ "max_file_bytes": 5242880,
+ "max_total_bytes": 47185920,
+ "include": [
+  "docs/WP2_PILOT_A_V1_RESULT.md",
+  "research/wp2/pilot_a_v1/pilot_a_summary.json",
+  "research/wp2/pilot_a_v1/controller_state.json",
+  "research/wp2/pilot_a_v1/controller_reports/*",
+  "research/wp2/pilot_a_v1/*.json",
+  "research/wp2/pilot_a_v1/evaluator_only/*",
+  "research/wp2/pilot_a_v1/doctor/*",
+  "research/wp2/pilot_a_v1/transport/*",
+  "research/wp2/pilot_a_v1/ledger/*",
+  "research/wp2/pilot_a_v1/readiness/*/record.json",
+  "research/wp2/pilot_a_v1/readiness/*/detail.json",
+  "research/wp2/pilot_a_v1/readiness/unexpected_error.json",
+  "research/wp2/pilot_a_v1/episodes/**/*",
+  "research/wp2/pilot_a_v1/evaluations/**/*",
+  "research/wp2/pilot_v1_design/**/*",
+  "controller/KIT_MANIFEST_M14A.json",
+  "controller/plan_m14a_pilot_a_v1.json",
+  "controller/light_profile_m14a.json",
+  "controller/task_map_m13_m16_v1.json",
+  "docs/WP2_M14A*.md",
+  "docs/MISSION_14A*.md",
+  "scripts/wp2_m14a_*.py",
+  "scripts/wp2_ctl_v224.py",
+  "scripts/wp2_export_light.py",
+  "tests/unit/wp2/m14a/*.py",
+  "PROGRESS.md",
+  "DECISIONS.md",
+  "pyproject.toml"
+ ],
+ "exclude": [
+  "*/junit/*",
+  "*/p2pu_v3_junit/*",
+  "*/cache_namespaces/*",
+  "*/__pycache__/*",
+  "*.pyc",
+  "*.zip"
+ ]
+}

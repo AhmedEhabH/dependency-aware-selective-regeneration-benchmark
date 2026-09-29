@@ -1,0 +1,23 @@
+{
+ "artifact": "KIT_MANIFEST_M14A",
+ "kit": "WP2_M14A_PILOT_A_V1_CORRECTED",
+ "version": "v2-brain-review-replacement",
+ "supersedes": "WP2_M14A_KIT_2026-09-29.zip (85d40a74\u2026; review FAIL)",
+ "expected_base_head": "2eccbb93acee8d69c686859e1a1cbcfedd4f83bb",
+ "design_artifact_sha256": "c4c28d585bddc1d95051a73a79c13cd3dcf0cbd5c188c2e7d1b19fbc31feb205",
+ "hash": "sha256 over bytes with CRLF->LF for text",
+ "files": {
+  "controller/light_profile_m14a.json": "7bdccce7bfacba804b054aaaa6da5da7210fea13d8b43421d18b88e60b794142",
+  "controller/plan_m14a_pilot_a_v1.json": "8ea5be2bb3dfe8decb4b50b1c4c411ca95064579cf114e1b4e4eab01b40c5430",
+  "docs/MISSION_14A_HUMAN_RUN_V2_2026-09-29.md": "0dd9815ce9cf24caffad0b6c80db17a0b43cad952988e53209f23482744de2dc",
+  "docs/MISSION_14A_INSTALL_V2_2026-09-29.md": "98ccfa15b70d14443b618711f47607393db524d297c5f7a2678ffb16b83ee2d6",
+  "docs/WP2_M14A_BLUEPRINT_V2_2026-09-29.md": "22daa7b4d7475f6cbd3daac6a79b0ea6608d7e8b02e506d8b720407e6f3539f5",
+  "docs/WP2_M14A_REVIEW_REPORT_2026-09-29.md": "f44c458cde42c83d32725e904954315fa63b778a4cd213aa781e5f5bdfd80920",
+  "scripts/wp2_ctl_v224.py": "f5d3e6929eb0b1b79ee66e16b86624e2003cbd28a711004abb0e8b8337931f9a",
+  "scripts/wp2_m14a_authorize.py": "2387ce45bfccd0e3268652e2fd46eabe275dfa5e813937a8f76feeabd86b437e",
+  "scripts/wp2_m14a_evalcore.py": "f9ba65ff3d453b5d620ce6f5ac1a58d2d3659ef7f7aab734867d6ec21fd6ddff",
+  "scripts/wp2_m14a_readiness.py": "155cc1f3faecd0171e6f0438198d54af0a49d49489b9224f7df52a1d8c2dc389",
+  "scripts/wp2_m14a_run.py": "a903dfc93097f2028302e6d85f4a85d42032ebb571de3232fd8a3445992c6ffe",
+  "tests/unit/wp2/m14a/test_m14a_corrected.py": "af782975a05a35e53e60dc26adb897bb04382af2717b1d7d14501eba86c4d425"
+ }
+}
