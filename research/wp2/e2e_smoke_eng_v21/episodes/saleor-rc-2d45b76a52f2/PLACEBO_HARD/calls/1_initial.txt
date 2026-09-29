@@ -1,0 +1,35 @@
+FILE: saleor/graphql/tax/filters.py
+<<<<<<< SEARCH
+from django.db.models import Exists, OuterRef
+
+from ...tax import models
+from ..account.enums import CountryCodeEnum
+from ..core.filters import (
+    GlobalIDMultipleChoiceFilter,
+    ListObjectTypeFilter,
+    MetadataFilterBase,
+)
+from ..core.types import FilterInputObjectType
+from ..utils.filters import filter_by_id
+from .types import TaxClass, TaxConfiguration
+
+
+def filter_tax_classes_by_country(qs, _, values):
+=======
+from django.db.models import Exists, OuterRef
+
+from ...tax import models
+from ...tax.models import TaxClass, TaxConfiguration
+from ..account.enums import CountryCodeEnum
+from ..core.filters import (
+    GlobalIDMultipleChoiceFilter,
+    ListObjectTypeFilter,
+    MetadataFilterBase,
+)
+from ..core.types import FilterInputObjectType
+from ..utils.filters import filter_by_id
+from .types import TaxClass, TaxConfiguration
+
+
+def filter_tax_classes_by_country(qs, _, values):
+>>>>>>> REPLACE

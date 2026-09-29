@@ -1,0 +1,11 @@
+diff --git a/saleor/graphql/tax/filters.py b/saleor/graphql/tax/filters.py
+--- a/saleor/graphql/tax/filters.py
++++ b/saleor/graphql/tax/filters.py
+@@ -1,6 +1,7 @@
+ from django.db.models import Exists, OuterRef
+ 
+ from ...tax import models
++from ...tax.models import TaxClass, TaxConfiguration
+ from ..account.enums import CountryCodeEnum
+ from ..core.filters import (
+     GlobalIDMultipleChoiceFilter,

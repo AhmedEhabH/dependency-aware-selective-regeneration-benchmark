@@ -1,0 +1,73 @@
+Looking at the developer change description "Drop uneeded union type (#18110)", I need to identify and remove an unnecessary union type. 
+
+From the files provided, I can see that `saleor/graphql/core/types/order_or_checkout.py` defines a Union type called `OrderOrCheckoutBase` which appears to be an abstract base class that's only used to define the concrete `OrderOrCheckout` union type. 
+
+The abstract base class `OrderOrCheckoutBase` seems unnecessary since it's only defining a `get_types()` method that's then used in the concrete class. This can be simplified by removing the abstract base class and moving its functionality directly to the concrete class.
+
+FILE: saleor/graphql/core/types/order_or_checkout.py
+<<<<<<< SEARCH
+import graphene
+
+from ....checkout.models import Checkout
+from ....order.models import Order
+from ...checkout import types as checkout_types
+from ...order import types as order_types
+from ..context import SyncWebhookControlContext
+
+# The file hasn't been attached to the __init__ file as it generates the circular
+# graphql import. Graphene for Union types requires already initialized types so
+# we need to provide a fully initialized type.
+
+
+class OrderOrCheckoutBase(graphene.Union):
+    class Meta:
+        abstract = True
+
+    @classmethod
+    def get_types(cls):
+        return (checkout_types.Checkout, order_types.Order)
+
+    @classmethod
+    def resolve_type(cls, instance, info: graphene.ResolveInfo):
+        if isinstance(instance, SyncWebhookControlContext):
+            instance = instance.node
+
+        if isinstance(instance, Checkout):
+            return checkout_types.Checkout
+        if isinstance(instance, Order):
+            return order_types.Order
+        return super().resolve_type(instance, info)
+
+
+class OrderOrCheckout(OrderOrCheckoutBase):
+    class Meta:
+        types = OrderOrCheckoutBase.get_types()
+=======
+import graphene
+
+from ....checkout.models import Checkout
+from ....order.models import Order
+from ...checkout import types as checkout_types
+from ...order import types as order_types
+from ..context import SyncWebhookControlContext
+
+# The file hasn't been attached to the __init__ file as it generates the circular
+# graphql import. Graphene for Union types requires already initialized types so
+# we need to provide a fully initialized type.
+
+
+class OrderOrCheckout(graphene.Union):
+    class Meta:
+        types = (checkout_types.Checkout, order_types.Order)
+
+    @classmethod
+    def resolve_type(cls, instance, info: graphene.ResolveInfo):
+        if isinstance(instance, SyncWebhookControlContext):
+            instance = instance.node
+
+        if isinstance(instance, Checkout):
+            return checkout_types.Checkout
+        if isinstance(instance, Order):
+            return order_types.Order
+        return super().resolve_type(instance, info)
+>>>>>>> REPLACE
