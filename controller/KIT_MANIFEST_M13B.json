@@ -1,0 +1,20 @@
+{
+ "artifact": "kit_manifest",
+ "kit": "WP2_M13B_PILOT_PREP_KIT",
+ "version": "1.0",
+ "authored_by": "brain",
+ "created": "2026-09-29",
+ "hash": "sha256 over bytes with CRLF->LF for text",
+ "files": {
+  "controller/light_profile_m13b.json": "5c2b2d8971d2a874787af66758b4560378552dcd27e5cd3c1532baceb6b2fb1a",
+  "controller/plan_m13_pilot_prep_v1.json": "dd2873385e13697c00a303da682d124b104aa5b28f006724760f21baec780bef",
+  "controller/task_map_m13_m16_v1.json": "c88ed7a5c242de0fe0a86ceb9b80d143dff2de32a1085e4dfa7285966e76d9bb",
+  "docs/MISSION_13B_INSTALL_2026-09-29.md": "f927109ff04bef1ead991343948e50f4822c36d16208dce5db8ccbb0010cb96d",
+  "docs/WP2_M13B_BLUEPRINT_2026-09-29.md": "5b156ac6cc754617b6c93681486a24e15643b7d9b819588cb6a6d1655ece5b1f",
+  "scripts/wp2_ctl_v223.py": "35285774a135dccec2cfa601393d587dd98a3a4287a9b9840bb12d0593acd210",
+  "scripts/wp2_m13.py": "78071716589dac34883efbc40155e10cf1aeba605dfc033b77b7eaf509fb7f84",
+  "tests/unit/wp2/m13/test_ctl_v223.py": "7b8385ee81568b9c07fd03337b33b9f85f8845d570f2b97b50dee0d883f197b3",
+  "tests/unit/wp2/m13/test_m13.py": "9e9e648f7bdcfa93cbcdd055ace3fc3551729fd407c809b70ffaf4cef930f03e",
+  "scripts/wp2_export_light.py": "c799c92b721beb6ce9e3b8aa83fd6f0971db9fbd7b3198ef557ed1d13b7eb982"
+ }
+}

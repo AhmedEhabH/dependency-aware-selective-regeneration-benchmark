@@ -1,0 +1,251 @@
+{
+ "id": "WP2_M13B_PILOT_PREP_V1",
+ "settings": {
+  "state_file": "research/wp2/pilot_v1_design/controller_state.json",
+  "report_dir": "research/wp2/pilot_v1_design/controller_reports",
+  "stop_flag": "logs/M13_STOP.flag",
+  "kit_manifest": "controller/KIT_MANIFEST_M13B.json",
+  "git_commit": true,
+  "git_push": true,
+  "remote": "origin",
+  "branch": "main",
+  "stop_commit_prefixes": [
+   "research/wp2/pilot_v1_design/"
+  ],
+  "resumable_tokens": [
+   "USER_STOP_FLAG",
+   "CLOSE_FAIL",
+   "POST_ACTION_FAILED"
+  ],
+  "exports": {
+   "light": [
+    "{python}",
+    "scripts/wp2_export_light.py",
+    "--profile",
+    "controller/light_profile_m13b.json",
+    "--label",
+    "{label}"
+   ]
+  }
+ },
+ "phases": [
+  {
+   "id": "P00_KIT_SELFTEST",
+   "title": "kit self-tests (zero network)",
+   "command": [
+    "{python}",
+    "-m",
+    "pytest",
+    "-q",
+    "-p",
+    "no:cacheprovider",
+    "tests/unit/wp2/m13"
+   ],
+   "timeout_s": 900,
+   "fail_token": "KIT_SELFTEST_FAIL",
+   "allowed_write_prefixes": []
+  },
+  {
+   "id": "P01_GUARD",
+   "title": "Smoke v2.2 closure guard",
+   "requires": [
+    "P00_KIT_SELFTEST"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m13.py",
+    "guard"
+   ],
+   "timeout_s": 600,
+   "fail_token": "M13_GUARD_FAIL",
+   "allowed_write_prefixes": [
+    "research/wp2/pilot_v1_design/m13_guard.json"
+   ]
+  },
+  {
+   "id": "P02_USAGE",
+   "title": "authoritative token/cost accounting",
+   "requires": [
+    "P01_GUARD"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m13.py",
+    "usage"
+   ],
+   "timeout_s": 600,
+   "fail_token": "M13_USAGE_FAIL",
+   "allowed_write_prefixes": [
+    "research/wp2/pilot_v1_design/smoke_v22_usage_accounting.json"
+   ]
+  },
+  {
+   "id": "P03_FORENSICS",
+   "title": "failure and variance taxonomy",
+   "requires": [
+    "P02_USAGE"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m13.py",
+    "forensics"
+   ],
+   "timeout_s": 600,
+   "fail_token": "M13_FORENSICS_FAIL",
+   "allowed_write_prefixes": [
+    "research/wp2/pilot_v1_design/smoke_v22_failure_taxonomy.json"
+   ]
+  },
+  {
+   "id": "P04_POOL",
+   "title": "protected pool census",
+   "requires": [
+    "P03_FORENSICS"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m13.py",
+    "pool"
+   ],
+   "timeout_s": 600,
+   "fail_token": "M13_POOL_FAIL",
+   "allowed_write_prefixes": [
+    "research/wp2/pilot_v1_design/pool_census.json"
+   ]
+  },
+  {
+   "id": "P05_SELECT",
+   "title": "deterministic A/B/reserve selection",
+   "requires": [
+    "P04_POOL"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m13.py",
+    "select"
+   ],
+   "timeout_s": 600,
+   "fail_token": "M13_SELECT_FAIL",
+   "allowed_write_prefixes": [
+    "research/wp2/pilot_v1_design/pilot_selection.json"
+   ]
+  },
+  {
+   "id": "P06_DESIGN",
+   "title": "pilot design freeze",
+   "requires": [
+    "P05_SELECT"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m13.py",
+    "design"
+   ],
+   "timeout_s": 600,
+   "fail_token": "M13_DESIGN_FAIL",
+   "allowed_write_prefixes": [
+    "research/wp2/pilot_v1_design/pilot_design_freeze_v1.json",
+    "research/wp2/pilot_v1_design/PILOT_DESIGN_FREEZE_V1.md"
+   ]
+  },
+  {
+   "id": "P07_MAP",
+   "title": "task map validation",
+   "requires": [
+    "P06_DESIGN"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m13.py",
+    "map"
+   ],
+   "timeout_s": 600,
+   "fail_token": "M13_MAP_FAIL",
+   "allowed_write_prefixes": [
+    "research/wp2/pilot_v1_design/task_map_validation.json",
+    "research/wp2/pilot_v1_design/TASK_MAP_M13_M16.md"
+   ]
+  },
+  {
+   "id": "P08_FREEZE",
+   "title": "hash freeze + authorization template",
+   "requires": [
+    "P07_MAP"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m13.py",
+    "freeze"
+   ],
+   "timeout_s": 600,
+   "fail_token": "M13_FREEZE_FAIL",
+   "allowed_write_prefixes": [
+    "research/wp2/pilot_v1_design/m13_freeze.json",
+    "research/wp2/pilot_v1_design/PILOT_A_HUMAN_AUTH_TEMPLATE.json"
+   ]
+  },
+  {
+   "id": "P09_VERIFY",
+   "title": "independent re-derivation + commit + tag",
+   "requires": [
+    "P08_FREEZE"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m13.py",
+    "verify"
+   ],
+   "timeout_s": 600,
+   "fail_token": "M13_VERIFY_FAIL",
+   "allowed_write_prefixes": [
+    "research/wp2/pilot_v1_design/m13_verify.json"
+   ],
+   "post_actions": [
+    {
+     "type": "commit",
+     "prefixes": [
+      "research/wp2/pilot_v1_design/"
+     ],
+     "message": "evidence(wp2): M13B pilot design freeze (controller v2.2.3)"
+    },
+    {
+     "type": "tag",
+     "name": "wp2-pilot-v1-design-freeze-{date}",
+     "message": "WP2 Pilot V1 design freeze (M13B)"
+    },
+    {
+     "type": "push"
+    }
+   ]
+  },
+  {
+   "id": "P10_CLOSE",
+   "title": "LIGHT export + push",
+   "requires": [
+    "P09_VERIFY"
+   ],
+   "builtin": "noop",
+   "fail_token": "CLOSE_FAIL",
+   "allowed_write_prefixes": [],
+   "post_actions": [
+    {
+     "type": "exports",
+     "label": "M13B_DESIGN_FREEZE",
+     "required": [
+      "light"
+     ]
+    },
+    {
+     "type": "commit",
+     "prefixes": [
+      "research/wp2/pilot_v1_design/"
+     ],
+     "message": "evidence(wp2): M13B close (controller v2.2.3)"
+    },
+    {
+     "type": "push"
+    }
+   ]
+  }
+ ]
+}

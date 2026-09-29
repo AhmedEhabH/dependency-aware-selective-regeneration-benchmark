@@ -1,0 +1,33 @@
+{
+ "name_prefix": "project-LIGHT",
+ "max_file_bytes": 5242880,
+ "max_total_bytes": 47185920,
+ "include": [
+  "PROGRESS.md",
+  "DECISIONS.md",
+  "00_CURRENT_RESEARCH_STATE.md",
+  "README.md",
+  "AGENTS.md",
+  "pyproject.toml",
+  "controller/*",
+  "research/wp2/pilot_v1_design/**/*",
+  "docs/WP2_M13*.md",
+  "docs/MISSION_13B*.md",
+  "scripts/wp2_m13.py",
+  "scripts/wp2_ctl_v223.py",
+  "scripts/wp2_export_light.py",
+  "tests/unit/wp2/m13/*.py",
+  "research/wp2/e2e_smoke_eng_v22/*.json",
+  "research/wp2/e2e_smoke_eng_v22/controller_reports/*",
+  "research/wp2/e2e_smoke_eng_v22/ledger/*",
+  "research/wp2/e2e_smoke_eng_v22/evaluations/plan.json",
+  "docs/WP2_E2E_SMOKE_ENG_V22_*.md",
+  "research/wp2/oracle_confirmation_linux_v2_2026-09-23/dev_split_v2_2026-09-23.json",
+  "research/wp2/oracle_confirmation_linux_v2_2026-09-23/per_task_dev_v2.jsonl"
+ ],
+ "exclude": [
+  "*/__pycache__/*",
+  "*.pyc",
+  "*.zip"
+ ]
+}

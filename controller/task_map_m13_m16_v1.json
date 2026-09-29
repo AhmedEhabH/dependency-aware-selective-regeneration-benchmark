@@ -1,0 +1,700 @@
+{
+ "artifact": "task_map",
+ "version": "v1",
+ "title": "WP2 execution map M13 -> M16 (task -> subtask -> atomic)",
+ "transition_contract": "An atomic step advances ONLY when (1) its declared inputs exist and match their hashes/roles, (2) exactly its declared outputs were written, (3) its checks pass, (4) no forbidden pool/file was touched, (5) the controller state records PASS. Otherwise the controller STOPs with the atomic's on_fail token. No AI repair, no alternative path, no fallback. Subtask S advances when its last atomic passes; task T advances when its last subtask passes and its gate token is emitted. Resumable tokens resume the SAME atomic.",
+ "terminal_states": [
+  "RESEARCH_RUN"
+ ],
+ "tasks": [
+  {
+   "id": "M13",
+   "title": "Pilot design/readiness freeze (zero API)",
+   "status": "EXECUTABLE_NOW",
+   "goal": "close Smoke accounting, forensics, protected selection, calibrated Pilot design, map; STOP for human authorization",
+   "subtasks": [
+    {
+     "id": "S13.0",
+     "title": "Install (build only)",
+     "atomics": [
+      {
+       "id": "I00_INSTALL",
+       "title": "Install M13B kit",
+       "executor": "OPENCODE",
+       "does": "run the single installer; it verifies, writes, tests, commits, tags the kit",
+       "inputs": [],
+       "outputs": [
+        "kit files",
+        "kit tag wp2-m13b-kit-2026-09-29"
+       ],
+       "checks": [
+        "installer prints M13B_KIT_INSTALL_COMPLETE"
+       ],
+       "on_pass": "P00_KIT_SELFTEST",
+       "on_fail": {
+        "token": "M13B_INSTALL_STOP",
+        "reaction": "STOP; paste the block to the brain; installer already rolled back"
+       },
+       "command": "python WP2_M13B_INSTALL_2026-09-29.py"
+      }
+     ]
+    },
+    {
+     "id": "S13.1",
+     "title": "Evidence closure",
+     "atomics": [
+      {
+       "id": "P00_KIT_SELFTEST",
+       "title": "Kit self-tests",
+       "executor": "CONTROLLER",
+       "does": "pytest tests/unit/wp2/m13 (zero network)",
+       "inputs": [],
+       "outputs": [],
+       "checks": [
+        "exit 0"
+       ],
+       "on_pass": "P01_GUARD",
+       "on_fail": {
+        "token": "KIT_SELFTEST_FAIL",
+        "reaction": "STOP non-resumable -> brain"
+       }
+      },
+      {
+       "id": "P01_GUARD",
+       "title": "Smoke closure guard",
+       "executor": "CONTROLLER",
+       "does": "smoke token/next, 13/13 PASS, freeze + generation freeze sha, 7 source-guard hashes, result tag ancestor, inputs exist",
+       "inputs": [],
+       "outputs": [
+        "research/wp2/pilot_v1_design/m13_guard.json"
+       ],
+       "checks": [
+        "M13_STEP_PASS guard"
+       ],
+       "on_pass": "P02_USAGE",
+       "on_fail": {
+        "token": "M13_GUARD_FAIL",
+        "reaction": "STOP non-resumable -> brain"
+       },
+       "command": "{python} scripts/wp2_m13.py guard"
+      },
+      {
+       "id": "P02_USAGE",
+       "title": "Authoritative token/cost accounting",
+       "executor": "CONTROLLER",
+       "does": "ledger tokens/cost, fresh vs cache-reuse per arm, 77/77 HTTP 200, erratum for summary billed_tokens",
+       "inputs": [],
+       "outputs": [
+        "research/wp2/pilot_v1_design/smoke_v22_usage_accounting.json"
+       ],
+       "checks": [
+        "audited constants",
+        "main+variance fresh == ledger"
+       ],
+       "on_pass": "P03_FORENSICS",
+       "on_fail": {
+        "token": "M13_USAGE_FAIL",
+        "reaction": "STOP non-resumable -> brain"
+       },
+       "command": "{python} scripts/wp2_m13.py usage"
+      },
+      {
+       "id": "P03_FORENSICS",
+       "title": "Failure/variance taxonomy",
+       "executor": "CONTROLLER",
+       "does": "status/error types per arm, task-scoped eval join, variance agreement",
+       "inputs": [],
+       "outputs": [
+        "research/wp2/pilot_v1_design/smoke_v22_failure_taxonomy.json"
+       ],
+       "checks": [
+        "audited GOLD/RMCSS/variance counts",
+        "0 orphans"
+       ],
+       "on_pass": "P04_POOL",
+       "on_fail": {
+        "token": "M13_FORENSICS_FAIL",
+        "reaction": "STOP non-resumable -> brain"
+       },
+       "command": "{python} scripts/wp2_m13.py forensics"
+      }
+     ]
+    },
+    {
+     "id": "S13.2",
+     "title": "Protected pool and selection",
+     "atomics": [
+      {
+       "id": "P04_POOL",
+       "title": "Pool census",
+       "executor": "CONTROLLER",
+       "does": "ASSAY_HOLDOUT eligibility, era, RM-CSS OOF coverage, Agent selection coverage",
+       "inputs": [],
+       "outputs": [
+        "research/wp2/pilot_v1_design/pool_census.json"
+       ],
+       "checks": [
+        "80 members",
+        "26 eligible",
+        "roles disjoint"
+       ],
+       "on_pass": "P05_SELECT",
+       "on_fail": {
+        "token": "M13_POOL_FAIL",
+        "reaction": "STOP non-resumable -> brain"
+       },
+       "command": "{python} scripts/wp2_m13.py pool"
+      },
+      {
+       "id": "P05_SELECT",
+       "title": "Deterministic A/B/reserve selection",
+       "executor": "CONTROLLER",
+       "does": "era-stratified SHA-rank selection; frozen replacement rule",
+       "inputs": [],
+       "outputs": [
+        "research/wp2/pilot_v1_design/pilot_selection.json"
+       ],
+       "checks": [
+        "equals audited A and B lists",
+        "inside ASSAY_HOLDOUT only"
+       ],
+       "on_pass": "P06_DESIGN",
+       "on_fail": {
+        "token": "M13_SELECT_FAIL",
+        "reaction": "STOP non-resumable -> brain"
+       },
+       "command": "{python} scripts/wp2_m13.py select"
+      }
+     ]
+    },
+    {
+     "id": "S13.3",
+     "title": "Design and map freeze",
+     "atomics": [
+      {
+       "id": "P06_DESIGN",
+       "title": "Pilot design freeze",
+       "executor": "CONTROLLER",
+       "does": "Pilot-A/B design, calibrated gates, budgets, cost boundary, replicate rule",
+       "inputs": [],
+       "outputs": [
+        "research/wp2/pilot_v1_design/pilot_design_freeze_v1.json",
+        "research/wp2/pilot_v1_design/PILOT_DESIGN_FREEZE_V1.md"
+       ],
+       "checks": [
+        "deterministic"
+       ],
+       "on_pass": "P07_MAP",
+       "on_fail": {
+        "token": "M13_DESIGN_FAIL",
+        "reaction": "STOP non-resumable -> brain"
+       },
+       "command": "{python} scripts/wp2_m13.py design"
+      },
+      {
+       "id": "P07_MAP",
+       "title": "Task map validation",
+       "executor": "CONTROLLER",
+       "does": "every atomic has inputs/outputs/checks/on_pass/on_fail; M13 atomics == plan phases",
+       "inputs": [],
+       "outputs": [
+        "research/wp2/pilot_v1_design/task_map_validation.json",
+        "research/wp2/pilot_v1_design/TASK_MAP_M13_M16.md"
+       ],
+       "checks": [
+        "valid"
+       ],
+       "on_pass": "P08_FREEZE",
+       "on_fail": {
+        "token": "M13_MAP_FAIL",
+        "reaction": "STOP non-resumable -> brain"
+       },
+       "command": "{python} scripts/wp2_m13.py map"
+      },
+      {
+       "id": "P08_FREEZE",
+       "title": "Hash freeze + authorization template",
+       "executor": "CONTROLLER",
+       "does": "hash all M13 artifacts; unfilled human authorization bound to design hash",
+       "inputs": [],
+       "outputs": [
+        "research/wp2/pilot_v1_design/m13_freeze.json",
+        "research/wp2/pilot_v1_design/PILOT_A_HUMAN_AUTH_TEMPLATE.json"
+       ],
+       "checks": [
+        "all present"
+       ],
+       "on_pass": "P09_VERIFY",
+       "on_fail": {
+        "token": "M13_FREEZE_FAIL",
+        "reaction": "STOP non-resumable -> brain"
+       },
+       "command": "{python} scripts/wp2_m13.py freeze"
+      }
+     ]
+    },
+    {
+     "id": "S13.4",
+     "title": "Independent verification and provenance",
+     "atomics": [
+      {
+       "id": "P09_VERIFY",
+       "title": "Independent re-derivation",
+       "executor": "CONTROLLER",
+       "does": "recompute every artifact in memory; compare with disk; check freeze hashes; commit + tag + exact-tag push",
+       "inputs": [],
+       "outputs": [
+        "research/wp2/pilot_v1_design/m13_verify.json",
+        "tag wp2-pilot-v1-design-freeze-2026-09-29"
+       ],
+       "checks": [
+        "all checks true"
+       ],
+       "on_pass": "P10_CLOSE",
+       "on_fail": {
+        "token": "M13_VERIFY_FAIL",
+        "reaction": "STOP non-resumable -> brain"
+       },
+       "command": "{python} scripts/wp2_m13.py verify"
+      },
+      {
+       "id": "P10_CLOSE",
+       "title": "LIGHT export + push",
+       "executor": "CONTROLLER",
+       "does": "LIGHT zip (required) and push",
+       "inputs": [],
+       "outputs": [
+        "project-LIGHT-M13B_DESIGN_FREEZE-*.zip"
+       ],
+       "checks": [
+        "export exit 0"
+       ],
+       "on_pass": "H13_AUTH",
+       "on_fail": {
+        "token": "CLOSE_FAIL",
+        "reaction": "STOP resumable after fixing network"
+       }
+      }
+     ]
+    },
+    {
+     "id": "S13.5",
+     "title": "Human gate",
+     "atomics": [
+      {
+       "id": "H13_AUTH",
+       "title": "Human paid authorization",
+       "executor": "HUMAN",
+       "does": "send the LIGHT to the brain; fill PILOT_A_HUMAN_AUTH_TEMPLATE only when M14A kit arrives",
+       "inputs": [],
+       "outputs": [
+        "PILOT_A_HUMAN_AUTH filled + committed"
+       ],
+       "checks": [
+        "approval token exact; design hash matches"
+       ],
+       "on_pass": "M14A",
+       "on_fail": {
+        "token": "NOT_AUTHORIZED",
+        "reaction": "wait; nothing runs"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M14A",
+   "title": "Pilot-A Gold vs Placebo calibration (paid)",
+   "status": "SPEC_ONLY_KIT_TO_BE_BUILT",
+   "goal": "assay sensitivity + variance on 12 protected tasks x 2 replicates",
+   "subtasks": [
+    {
+     "id": "S14A.0",
+     "title": "Oracle readiness (zero API)",
+     "atomics": [
+      {
+       "id": "M14A.S0.A1",
+       "title": "V3.1 readiness of all 26 eligible tasks",
+       "executor": "CONTROLLER",
+       "does": "materialize parent+test patch; gold diff must PASS F2P; empty must FAIL F2P; P2P defined",
+       "inputs": [],
+       "outputs": [
+        "readiness_v31.json"
+       ],
+       "checks": [
+        "26 verdicts"
+       ],
+       "on_pass": "M14A.S0.A2",
+       "on_fail": {
+        "token": "READINESS_ENV_FAIL",
+        "reaction": "STOP resumable (env)"
+       }
+      },
+      {
+       "id": "M14A.S0.A2",
+       "title": "Apply frozen replacement rule",
+       "executor": "CONTROLLER",
+       "does": "finalize_after_readiness(A,B,reserve,ready)",
+       "inputs": [],
+       "outputs": [
+        "pilot_final_membership.json"
+       ],
+       "checks": [
+        "verdict FULL or REDUCED_n"
+       ],
+       "on_pass": "M14A.S1.A1",
+       "on_fail": {
+        "token": "POOL_INSUFFICIENT",
+        "reaction": "STOP -> human decision; no paid run"
+       }
+      }
+     ]
+    },
+    {
+     "id": "S14A.1",
+     "title": "Freeze + paid preflight",
+     "atomics": [
+      {
+       "id": "M14A.S1.A1",
+       "title": "Authorization check",
+       "executor": "CONTROLLER",
+       "does": "human auth file filled, token exact, design hash match",
+       "inputs": [],
+       "outputs": [
+        "auth_check.json"
+       ],
+       "checks": [
+        "PASS"
+       ],
+       "on_pass": "M14A.S1.A2",
+       "on_fail": {
+        "token": "NOT_AUTHORIZED",
+        "reaction": "STOP -> human"
+       }
+      },
+      {
+       "id": "M14A.S1.A2",
+       "title": "Doctor offline+paid, canary, freeze",
+       "executor": "CONTROLLER",
+       "does": "as Smoke v2.2 P02-P05 with Pilot-A population, replicate caches",
+       "inputs": [],
+       "outputs": [
+        "pilot_a_freeze.json"
+       ],
+       "checks": [
+        "FREEZE_VERIFY_PASS"
+       ],
+       "on_pass": "M14A.S2.A1",
+       "on_fail": {
+        "token": "FREEZE_FAIL",
+        "reaction": "STOP"
+       }
+      }
+     ]
+    },
+    {
+     "id": "S14A.2",
+     "title": "Generation (paid)",
+     "atomics": [
+      {
+       "id": "M14A.S2.A1",
+       "title": "Generate r1 then r2 (48 episodes)",
+       "executor": "CONTROLLER",
+       "does": "v2.2 driver with circuit breaker; outage = pending",
+       "inputs": [],
+       "outputs": [
+        "episodes r1/r2"
+       ],
+       "checks": [
+        "48 terminal"
+       ],
+       "on_pass": "M14A.S2.A2",
+       "on_fail": {
+        "token": "E2E_PROVIDER_OUTAGE",
+        "reaction": "STOP resumable; rerun"
+       }
+      },
+      {
+       "id": "M14A.S2.A2",
+       "title": "Generation freeze + push",
+       "executor": "CONTROLLER",
+       "does": "hash all episodes and raw responses",
+       "inputs": [],
+       "outputs": [
+        "generation_freeze.json"
+       ],
+       "checks": [
+        "n=48"
+       ],
+       "on_pass": "M14A.S3.A1",
+       "on_fail": {
+        "token": "GENERATION_FREEZE_FAIL",
+        "reaction": "STOP"
+       }
+      }
+     ]
+    },
+    {
+     "id": "S14A.3",
+     "title": "Evaluation (zero API)",
+     "atomics": [
+      {
+       "id": "M14A.S3.A1",
+       "title": "Plan (task_id, full diff sha)",
+       "executor": "CONTROLLER",
+       "does": "v2.2.1 identity",
+       "inputs": [],
+       "outputs": [
+        "evaluations/plan.json"
+       ],
+       "checks": [
+        "identities unique"
+       ],
+       "on_pass": "M14A.S3.A2",
+       "on_fail": {
+        "token": "EVAL_PLAN_FAIL",
+        "reaction": "STOP"
+       }
+      },
+      {
+       "id": "M14A.S3.A2",
+       "title": "Evaluate in chunks",
+       "executor": "CONTROLLER",
+       "does": "F2P + P2P-S + P2P-U200, workers=1",
+       "inputs": [],
+       "outputs": [
+        "evaluation records"
+       ],
+       "checks": [
+        "eval-complete"
+       ],
+       "on_pass": "M14A.S4.A1",
+       "on_fail": {
+        "token": "EVAL_ERROR",
+        "reaction": "STOP resumable"
+       }
+      }
+     ]
+    },
+    {
+     "id": "S14A.4",
+     "title": "Summary + gate",
+     "atomics": [
+      {
+       "id": "M14A.S4.A1",
+       "title": "Gates A0-A5 (gates_for(n))",
+       "executor": "CONTROLLER",
+       "does": "mechanical summary; fresh-call cost fields",
+       "inputs": [],
+       "outputs": [
+        "pilot_a_summary.json"
+       ],
+       "checks": [
+        "token emitted"
+       ],
+       "on_pass": "M15",
+       "on_fail": {
+        "token": "PILOT_A_GENERATOR_FLOOR_HOLD",
+        "reaction": "HUMAN_DECISION (M14R on ENG only)"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M14R",
+   "title": "Generator/interface review (ENG only)",
+   "status": "SPEC_ONLY_CONDITIONAL",
+   "goal": "only if Pilot-A generator floor hold",
+   "subtasks": [
+    {
+     "id": "S14R.1",
+     "title": "Interface probe on DEV_TRAIN_ENG only",
+     "atomics": [
+      {
+       "id": "M14R.S1.A1",
+       "title": "Human decision recorded",
+       "executor": "HUMAN",
+       "does": "choose interface/generator change; never touches protected tasks",
+       "inputs": [],
+       "outputs": [
+        "decision record"
+       ],
+       "checks": [
+        "signed"
+       ],
+       "on_pass": "M14A",
+       "on_fail": {
+        "token": "NO_DECISION",
+        "reaction": "wait"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M15",
+   "title": "Pilot-B selector behavior (paid)",
+   "status": "SPEC_ONLY_KIT_TO_BE_BUILT",
+   "goal": "RM-CSS vs Agent descriptive E2E + stability + end-to-end cost",
+   "subtasks": [
+    {
+     "id": "S15.0",
+     "title": "Selector inputs",
+     "atomics": [
+      {
+       "id": "M15.S0.A1",
+       "title": "RM-CSS scopes for final B tasks",
+       "executor": "CONTROLLER",
+       "does": "OOF-A prediction per task; empty = NO_SCOPE outcome (method behavior)",
+       "inputs": [],
+       "outputs": [
+        "rmcss_scopes_b.json"
+       ],
+       "checks": [
+        "one record per B task"
+       ],
+       "on_pass": "M15.S0.A2",
+       "on_fail": {
+        "token": "RMCSS_SCOPE_BUILD_FAIL",
+        "reaction": "STOP -> brain"
+       }
+      },
+      {
+       "id": "M15.S0.A2",
+       "title": "Agent localization r1+r2 (paid)",
+       "executor": "CONTROLLER",
+       "does": "frozen protocol-v3, one run per task per replicate; ledger",
+       "inputs": [],
+       "outputs": [
+        "agent_scopes_b_r1.json",
+        "agent_scopes_b_r2.json"
+       ],
+       "checks": [
+        "24 runs terminal"
+       ],
+       "on_pass": "M15.S0.A3",
+       "on_fail": {
+        "token": "AGENT_OUTAGE",
+        "reaction": "STOP resumable"
+       }
+      },
+      {
+       "id": "M15.S0.A3",
+       "title": "Freeze selector inputs + push",
+       "executor": "CONTROLLER",
+       "does": "hash scopes before any generation",
+       "inputs": [],
+       "outputs": [
+        "selector_freeze.json"
+       ],
+       "checks": [
+        "hashes"
+       ],
+       "on_pass": "M15.S1.A1",
+       "on_fail": {
+        "token": "SELECTOR_FREEZE_FAIL",
+        "reaction": "STOP"
+       }
+      }
+     ]
+    },
+    {
+     "id": "S15.1",
+     "title": "Generation + evaluation",
+     "atomics": [
+      {
+       "id": "M15.S1.A1",
+       "title": "Generate 72 episodes (RMCSS, AGENT, GOLD x r1,r2)",
+       "executor": "CONTROLLER",
+       "does": "as M14A.S2",
+       "inputs": [],
+       "outputs": [
+        "episodes"
+       ],
+       "checks": [
+        "72 terminal"
+       ],
+       "on_pass": "M15.S1.A2",
+       "on_fail": {
+        "token": "E2E_PROVIDER_OUTAGE",
+        "reaction": "STOP resumable"
+       }
+      },
+      {
+       "id": "M15.S1.A2",
+       "title": "Freeze, evaluate, summarize",
+       "executor": "CONTROLLER",
+       "does": "as M14A.S2.A2-S4; descriptive outputs + replicate agreement + end-to-end cost",
+       "inputs": [],
+       "outputs": [
+        "pilot_b_summary.json"
+       ],
+       "checks": [
+        "complete"
+       ],
+       "on_pass": "M16",
+       "on_fail": {
+        "token": "PILOT_B_INSTRUMENT_FIX",
+        "reaction": "STOP"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M16",
+   "title": "Research Run freeze",
+   "status": "SPEC_ONLY",
+   "goal": "population, replicates, estimands, cost boundary",
+   "subtasks": [
+    {
+     "id": "S16.1",
+     "title": "Research Run freeze",
+     "atomics": [
+      {
+       "id": "M16.S1.A1",
+       "title": "Apply replicate rule (2 or 3)",
+       "executor": "CONTROLLER",
+       "does": "endpoint agreement < 0.75 or resolved-rate gap > 0.10 -> 3",
+       "inputs": [],
+       "outputs": [
+        "research_design.json"
+       ],
+       "checks": [
+        "n_replicates in {2,3}"
+       ],
+       "on_pass": "M16.S1.A2",
+       "on_fail": {
+        "token": "DESIGN_FAIL",
+        "reaction": "STOP"
+       }
+      },
+      {
+       "id": "M16.S1.A2",
+       "title": "Human authorization of Research Run",
+       "executor": "HUMAN",
+       "does": "explicit approval + budget",
+       "inputs": [],
+       "outputs": [
+        "auth"
+       ],
+       "checks": [
+        "signed"
+       ],
+       "on_pass": "RESEARCH_RUN",
+       "on_fail": {
+        "token": "NOT_AUTHORIZED",
+        "reaction": "wait"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
