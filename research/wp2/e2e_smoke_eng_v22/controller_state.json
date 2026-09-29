@@ -181,6 +181,18 @@
    "event": "START",
    "phase": "P10_EVALUATE",
    "utc": "2026-09-29T03:20:18Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "P10_EVALUATE",
+   "utc": "2026-09-29T06:22:39Z"
+  },
+  {
+   "detail": "mechanical summary, gates, token, NEXT",
+   "event": "START",
+   "phase": "P11_SUMMARY",
+   "utc": "2026-09-29T06:22:39Z"
   }
  ],
  "phases": {
@@ -268,6 +280,14 @@
    "attempts": 0,
    "failures": 0,
    "iterations": 11,
+   "passed_utc": "2026-09-29T06:22:39Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "P11_SUMMARY": {
+   "attempts": 0,
+   "failures": 0,
+   "iterations": 0,
    "runs": 1,
    "status": "RUNNING"
   }
