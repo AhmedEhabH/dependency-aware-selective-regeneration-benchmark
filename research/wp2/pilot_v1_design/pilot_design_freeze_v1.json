@@ -1,0 +1,189 @@
+{
+ "artifact": "pilot_design_freeze_v1",
+ "artifact_sha256": "c4c28d585bddc1d95051a73a79c13cd3dcf0cbd5c188c2e7d1b19fbc31feb205",
+ "cost_accounting_contract": {
+  "logical_tokens": "may include cache reuse; never reported as billed",
+  "per_arm_summary": "must use fresh-call fields (fixes the Smoke v2.2 summary erratum)",
+  "provider_reported_tokens": "fresh successful calls only (ledger)"
+ },
+ "forbidden": [
+  "DEV_VALIDATION E2E outcomes",
+  "DEV_TRAIN_ENG reuse as pilot evidence",
+  "MAIN generation",
+  "task replacement after any E2E outcome",
+  "interface/model/provider change inside a pilot",
+  "target patch or target tests in the generator prompt"
+ ],
+ "pilot_a": {
+  "arms": [
+   "GOLD_HARD",
+   "PLACEBO_HARD"
+  ],
+  "budget": {
+   "ceiling_usd": 1.0,
+   "expected_evaluation_hours": 3.3,
+   "expected_generation_usd": 0.214
+  },
+  "diagnostics_recorded": [
+   "SEARCH_ERROR / PARSE_ERROR rates",
+   "repair success rate",
+   "replicate endpoint-tuple agreement",
+   "diff agreement"
+  ],
+  "gate_calibration": {
+   "P(A2 pass | gold_applied_rate=0.80)": 0.996,
+   "P(A3 pass | gold_rate=0.15)": 0.72,
+   "P(A3 pass | gold_rate=0.2)": 0.885,
+   "P(A3 pass | gold_rate=0.25)": 0.96,
+   "P(A4 pass | placebo_rate=0.03)": 0.839,
+   "note": "binomial, episodes treated as independent (optimistic: two replicates per task are correlated); used only to avoid gates that fail by chance",
+   "reference_old_gate_P(>=4/24 | 0.20)": 0.736
+  },
+  "gate_rule_for_reduced_n": "gates_for(n) in scripts/wp2_m13.py (scaled from 24)",
+  "gates_n12": {
+   "A2_gold_applied_min": 14,
+   "A3_gold_resolved_min": 3,
+   "A4_placebo_resolved_max": 1,
+   "A5_gold_minus_placebo_min": 2,
+   "episodes_per_arm": 24
+  },
+  "gates_text": {
+   "A0_instrument": "evidence integrity; zero protected-pool violations; zero applied_without_evaluation; zero architecture-scope violations",
+   "A1_completion": "100% planned episodes terminal (provider outages are pending, never terminal); evaluation complete",
+   "A2": "GOLD APPLIED >= 14/24",
+   "A3": "GOLD RESOLVED >= 3/24",
+   "A4": "PLACEBO RESOLVED <= 1/24",
+   "A5": "GOLD - PLACEBO RESOLVED >= 2 and #tasks(gold>placebo) >= #tasks(placebo>gold)"
+  },
+  "id": "M14A",
+  "interface": "UNCHANGED from Smoke v2.2 (SEARCH/REPLACE, 1 repair, qwen/qwen3-coder via deepinfra/turbo, allow_fallbacks=false, temperature 0, 8192 tokens)",
+  "order": [
+   "S0 zero-API V3.1 oracle readiness of ALL 26 eligible tasks (A, B and reserve) + frozen replacement rule",
+   "S1 freeze",
+   "S2 generation (all 48)",
+   "S3 generation freeze + push",
+   "S4 evaluation (task_id, full diff sha)",
+   "S5 summary + gates"
+  ],
+  "outcome_tokens": {
+   "PILOT_A_GENERATOR_FLOOR_HOLD": "A2/A3/A5 fail -> HUMAN_DECISION (options: M14R interface probe on DEV_TRAIN_ENG only; never consume Pilot-B tasks)",
+   "PILOT_A_INSTRUMENT_FIX": "A0 or A1 fail -> instrument repair on ENG/synthetic evidence; no new protected outcomes",
+   "PILOT_A_PASS": "A0..A5 pass -> M15",
+   "PILOT_A_PLACEBO_LEAK_REVIEW": "A4 fail -> HUMAN_DECISION"
+  },
+  "planned_episodes": 48,
+  "purpose": "Gold-vs-Placebo assay sensitivity + generation variance calibration on the protected holdout; NOT a selector comparison",
+  "replicate_cache_policy": "one response cache per replicate label; no reuse across replicates or arms",
+  "replicates": [
+   "r1",
+   "r2"
+  ],
+  "tasks": [
+   "saleor-rc-b497f8d82426",
+   "saleor-rc-b410358502a1",
+   "saleor-rc-a91ea48a60a7",
+   "saleor-rc-bbba01a02725",
+   "saleor-rc-6f37bd256e12",
+   "saleor-rc-5b0e5206c5fd",
+   "saleor-rc-d3847fa5f518",
+   "saleor-rc-6459dd2d9135",
+   "saleor-rc-012472eb8482",
+   "saleor-rc-44c7495ca9bf",
+   "saleor-rc-b14def73518c",
+   "saleor-rc-a3c478408852"
+  ]
+ },
+ "pilot_b": {
+  "agent_localization": {
+   "expected_usd": 0.556,
+   "order": "all Agent localizations frozen and pushed BEFORE any Pilot-B generation",
+   "protocol": "research/wp1b/wp1b_frozen_agent_protocol_v3.json (unchanged)",
+   "reason": "no frozen Agent selection exists for any holdout task (pool census)",
+   "required": true,
+   "runs": "one fresh Agent localization per task per replicate (r1, r2); replicate r uses Agent run r (selector stochasticity is part of the method)"
+  },
+  "arms": [
+   "RMCSS_HARD",
+   "AGENT_HARD",
+   "GOLD_HARD"
+  ],
+  "budget": {
+   "ceiling_usd": 2.5,
+   "expected_agent_usd": 0.556,
+   "expected_evaluation_hours": 5.0,
+   "expected_generation_usd": 0.322
+  },
+  "claim_rule": "descriptive only; no superiority/non-inferiority claim",
+  "cost_boundary": {
+   "agent_selector_cost": "actual ledger of the M15 Agent localization runs",
+   "decomposition": "generation-only and repair-only reported separately",
+   "headline": "selector + generation + repair, provider-reported (ledger)",
+   "rmcss_selector_cost": "per-task WP-1 records if present; otherwise the frozen MAIN_297 per-task mean, labeled IMPUTED_FROM_MAIN297"
+  },
+  "gold_role": "within-block reference ceiling on the same tasks",
+  "id": "M15",
+  "outputs": [
+   "per-arm APPLIED/F2P/P2P-S/P2P-U200/RESOLVED per replicate",
+   "replicate endpoint-tuple agreement per arm",
+   "end-to-end cost per arm (headline) + decomposition"
+  ],
+  "planned_episodes": 72,
+  "purpose": "selector E2E behavior and run-to-run stability; NOT a final ranking and NOT a significance test",
+  "replicates": [
+   "r1",
+   "r2"
+  ],
+  "rmcss_selection": {
+   "coverage_at_design": "12/12 non-empty (reserve 2/2)",
+   "empty_prediction_rule": "NO_SCOPE outcome of the method; never a stop",
+   "source": "final_oof_predictions_A.json (deterministic; same scope for r1 and r2)"
+  },
+  "tasks": [
+   "saleor-rc-436f52ee3d0c",
+   "saleor-rc-34511f977388",
+   "saleor-rc-0a39d039049d",
+   "saleor-rc-aca84e6c4252",
+   "saleor-rc-60c8722863c1",
+   "saleor-rc-9bf2755c9bd0",
+   "saleor-rc-05df3bec57e2",
+   "saleor-rc-9aa434eeefe7",
+   "saleor-rc-99d963aed3e5",
+   "saleor-rc-eacffa70e721",
+   "saleor-rc-ded69f9c7097",
+   "saleor-rc-d7fe298a4752"
+  ]
+ },
+ "research_replicate_rule_after_pilot_b": {
+  "endpoint_tuple": [
+   "terminal_status",
+   "f2p_task",
+   "p2p_s_task",
+   "p2p_u200_task",
+   "resolved"
+  ],
+  "escalate_to_3_if": "for RM-CSS or Agent: endpoint-tuple agreement across r1/r2 < 0.75 OR |resolved_rate_r1 - resolved_rate_r2| > 0.10",
+  "minimum": 2,
+  "never_reduce_to_1": true
+ },
+ "selection_sha256": "85e238af1897a309b3eaa7b80ff0b7f8d1fb0370779c309739199193473115f9",
+ "smoke_inputs": {
+  "gold": {
+   "f2p": 4,
+   "resolved": 3,
+   "status": {
+    "APPLIED": 11,
+    "INVALID_AFTER_REPAIR": 3
+   }
+  },
+  "provider_reported_cost_usd": 0.2769655,
+  "provider_reported_tokens": 949529,
+  "variance": {
+   "applied": 5,
+   "n": 6,
+   "resolved": 1,
+   "same_diff": 0,
+   "same_status": 1
+  }
+ },
+ "status": "DESIGN_FROZEN_ZERO_API_NOT_AUTHORIZED_FOR_PAID_EXECUTION"
+}

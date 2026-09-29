@@ -1,0 +1,80 @@
+{
+ "artifact": "smoke_v22_usage_accounting",
+ "artifact_sha256": "a280c7f11d305b549abe37cda19256c9edfcc66d69a7f8b434676d6c385413f4",
+ "authoritative": {
+  "ledger_rows": 77,
+  "main_cache_reuse_tokens": 21226,
+  "main_logical_tokens": 777379,
+  "provider_reported_completion_tokens": 83796,
+  "provider_reported_cost_usd": 0.2769655,
+  "provider_reported_prompt_tokens": 865733,
+  "provider_reported_tokens_main": 756153,
+  "provider_reported_tokens_total": 949529,
+  "provider_reported_tokens_variance": 193376,
+  "transport_attempts": 77
+ },
+ "definitions": {
+  "cache_reuse_tokens": "logical tokens served from the response cache; never billed",
+  "hidden_provider_compute": "NOT_MEASURED (qwen3-coder reports no reasoning tokens)",
+  "logical_tokens": "tokens represented in episode call records, INCLUDING identical-request cache reuse (not billed again)",
+  "provider_reported_tokens": "prompt+completion tokens returned by the provider on fresh successful calls (durable spend ledger)"
+ },
+ "erratum_smoke_v22_summary": {
+  "correct_source": "main_by_arm.fresh_tokens / fresh_cost_usd in this artifact",
+  "field": "per_arm.billed_tokens / per_arm.usd",
+  "historical_summary_modified": false,
+  "issue": "copied logical tokens and nominal cached-call cost (v2.1 summarizer behavior); AGENT_HARD includes 21,226 cache-reused tokens"
+ },
+ "main_by_arm": {
+  "AGENT_HARD": {
+   "cache_reuse_nominal_usd": 0.0072377,
+   "cache_reuse_tokens": 21226,
+   "fresh_calls": 11,
+   "fresh_cost_usd": 0.035783,
+   "fresh_tokens": 95004,
+   "logical_tokens": 116230,
+   "reused_calls": 3
+  },
+  "GOLD_HARD": {
+   "cache_reuse_nominal_usd": 0.0,
+   "cache_reuse_tokens": 0,
+   "fresh_calls": 17,
+   "fresh_cost_usd": 0.0750694,
+   "fresh_tokens": 253850,
+   "logical_tokens": 253850,
+   "reused_calls": 0
+  },
+  "PLACEBO_HARD": {
+   "cache_reuse_nominal_usd": 0.0,
+   "cache_reuse_tokens": 0,
+   "fresh_calls": 23,
+   "fresh_cost_usd": 0.0602214,
+   "fresh_tokens": 159696,
+   "logical_tokens": 159696,
+   "reused_calls": 0
+  },
+  "RMCSS_HARD": {
+   "cache_reuse_nominal_usd": 0.0,
+   "cache_reuse_tokens": 0,
+   "fresh_calls": 16,
+   "fresh_cost_usd": 0.0659872,
+   "fresh_tokens": 247603,
+   "logical_tokens": 247603,
+   "reused_calls": 0
+  }
+ },
+ "transport_classes": {
+  "200|SUCCESS": 77
+ },
+ "variance_by_arm": {
+  "GOLD_HARD": {
+   "cache_reuse_nominal_usd": 0.0,
+   "cache_reuse_tokens": 0,
+   "fresh_calls": 10,
+   "fresh_cost_usd": 0.0399045,
+   "fresh_tokens": 193376,
+   "logical_tokens": 193376,
+   "reused_calls": 0
+  }
+ }
+}

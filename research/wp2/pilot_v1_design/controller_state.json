@@ -1,0 +1,203 @@
+{
+ "acks": [],
+ "history": [
+  {
+   "detail": "kit self-tests (zero network)",
+   "event": "START",
+   "phase": "P00_KIT_SELFTEST",
+   "utc": "2026-09-29T07:33:03Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "P00_KIT_SELFTEST",
+   "utc": "2026-09-29T07:33:25Z"
+  },
+  {
+   "detail": "Smoke v2.2 closure guard",
+   "event": "START",
+   "phase": "P01_GUARD",
+   "utc": "2026-09-29T07:33:25Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "P01_GUARD",
+   "utc": "2026-09-29T07:33:26Z"
+  },
+  {
+   "detail": "authoritative token/cost accounting",
+   "event": "START",
+   "phase": "P02_USAGE",
+   "utc": "2026-09-29T07:33:26Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "P02_USAGE",
+   "utc": "2026-09-29T07:33:27Z"
+  },
+  {
+   "detail": "failure and variance taxonomy",
+   "event": "START",
+   "phase": "P03_FORENSICS",
+   "utc": "2026-09-29T07:33:27Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "P03_FORENSICS",
+   "utc": "2026-09-29T07:33:28Z"
+  },
+  {
+   "detail": "protected pool census",
+   "event": "START",
+   "phase": "P04_POOL",
+   "utc": "2026-09-29T07:33:28Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "P04_POOL",
+   "utc": "2026-09-29T07:33:29Z"
+  },
+  {
+   "detail": "deterministic A/B/reserve selection",
+   "event": "START",
+   "phase": "P05_SELECT",
+   "utc": "2026-09-29T07:33:29Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "P05_SELECT",
+   "utc": "2026-09-29T07:33:29Z"
+  },
+  {
+   "detail": "pilot design freeze",
+   "event": "START",
+   "phase": "P06_DESIGN",
+   "utc": "2026-09-29T07:33:29Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "P06_DESIGN",
+   "utc": "2026-09-29T07:33:30Z"
+  },
+  {
+   "detail": "task map validation",
+   "event": "START",
+   "phase": "P07_MAP",
+   "utc": "2026-09-29T07:33:30Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "P07_MAP",
+   "utc": "2026-09-29T07:33:31Z"
+  },
+  {
+   "detail": "hash freeze + authorization template",
+   "event": "START",
+   "phase": "P08_FREEZE",
+   "utc": "2026-09-29T07:33:31Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "P08_FREEZE",
+   "utc": "2026-09-29T07:33:31Z"
+  },
+  {
+   "detail": "independent re-derivation + commit + tag",
+   "event": "START",
+   "phase": "P09_VERIFY",
+   "utc": "2026-09-29T07:33:31Z"
+  }
+ ],
+ "phases": {
+  "P00_KIT_SELFTEST": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-09-29T07:33:25Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "P01_GUARD": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-09-29T07:33:26Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "P02_USAGE": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-09-29T07:33:27Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "P03_FORENSICS": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-09-29T07:33:28Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "P04_POOL": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-09-29T07:33:29Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "P05_SELECT": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-09-29T07:33:29Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "P06_DESIGN": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-09-29T07:33:30Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "P07_MAP": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-09-29T07:33:31Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "P08_FREEZE": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-09-29T07:33:31Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "P09_VERIFY": {
+   "attempts": 0,
+   "failures": 0,
+   "iterations": 0,
+   "runs": 1,
+   "status": "RUNNING"
+  }
+ },
+ "plan": "WP2_M13B_PILOT_PREP_V1",
+ "plan_sha256": "dd2873385e13697c00a303da682d124b104aa5b28f006724760f21baec780bef",
+ "stop": null
+}

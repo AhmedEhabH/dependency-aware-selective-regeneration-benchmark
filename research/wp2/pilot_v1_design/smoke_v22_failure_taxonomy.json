@@ -1,0 +1,166 @@
+{
+ "artifact": "smoke_v22_failure_taxonomy",
+ "artifact_sha256": "50685d6f47ca904963ef0974743d08f853f84363b82e55a2481b4010b08f84a2",
+ "per_arm": {
+  "AGENT_HARD": {
+   "applied_without_evaluation": 0,
+   "error_counts": {},
+   "f2p": 3,
+   "invalid_tasks": [],
+   "no_scope_tasks": [],
+   "p2p_s": 13,
+   "p2p_u200": 11,
+   "repair_used": 0,
+   "resolved": 3,
+   "status": {
+    "APPLIED": 14
+   }
+  },
+  "GOLD_HARD": {
+   "applied_without_evaluation": 0,
+   "error_counts": {
+    "SEARCH_ERROR": 6
+   },
+   "f2p": 4,
+   "invalid_tasks": [
+    "saleor-rc-2d45b76a52f2",
+    "saleor-rc-644f33094857",
+    "saleor-rc-d220843b5418"
+   ],
+   "no_scope_tasks": [],
+   "p2p_s": 12,
+   "p2p_u200": 12,
+   "repair_used": 3,
+   "resolved": 3,
+   "status": {
+    "APPLIED": 11,
+    "INVALID_AFTER_REPAIR": 3
+   }
+  },
+  "PLACEBO_HARD": {
+   "applied_without_evaluation": 0,
+   "error_counts": {
+    "NO_BLOCKS": 4,
+    "SEARCH_ERROR": 4,
+    "TRUNCATED": 2
+   },
+   "f2p": 0,
+   "invalid_tasks": [
+    "saleor-rc-39b4138e8550",
+    "saleor-rc-644f33094857",
+    "saleor-rc-6abb53f3407b",
+    "saleor-rc-8f76ddc6267f",
+    "saleor-rc-dc6ac9d252df"
+   ],
+   "no_scope_tasks": [],
+   "p2p_s": 12,
+   "p2p_u200": 12,
+   "repair_used": 9,
+   "resolved": 0,
+   "status": {
+    "APPLIED": 9,
+    "INVALID_AFTER_REPAIR": 5
+   }
+  },
+  "RMCSS_HARD": {
+   "applied_without_evaluation": 0,
+   "error_counts": {
+    "PARSE_ERROR": 1,
+    "SEARCH_ERROR": 3
+   },
+   "f2p": 2,
+   "invalid_tasks": [
+    "saleor-rc-74538ea00ce9",
+    "saleor-rc-823b899757ab"
+   ],
+   "no_scope_tasks": [
+    "saleor-rc-39b4138e8550"
+   ],
+   "p2p_s": 10,
+   "p2p_u200": 13,
+   "repair_used": 3,
+   "resolved": 2,
+   "status": {
+    "APPLIED": 11,
+    "INVALID_AFTER_REPAIR": 2,
+    "NO_SCOPE": 1
+   }
+  }
+ },
+ "readings": [
+  "INVALID_AFTER_REPAIR is a terminal outcome: the SEARCH block did not match the file text even after one repair (edit-interface failure, not environment).",
+  "GOLD failures show the generator/interface is a bottleneck even with oracle scope.",
+  "Variance probe: generation is highly stochastic (0/6 identical diffs).",
+  "Smoke is DEV_TRAIN_ENG pipeline validation; no RM-CSS-vs-Agent claim."
+ ],
+ "search_error_total": 13,
+ "variance": {
+  "applied": 5,
+  "n": 6,
+  "records": [
+   {
+    "f2p": "FAIL",
+    "main_status": "INVALID_AFTER_REPAIR",
+    "rep_status": "APPLIED",
+    "replicate": "var_r1",
+    "resolved": false,
+    "same_diff": false,
+    "same_status": false,
+    "task_id": "saleor-rc-2d45b76a52f2"
+   },
+   {
+    "f2p": "PASS",
+    "main_status": "INVALID_AFTER_REPAIR",
+    "rep_status": "APPLIED",
+    "replicate": "var_r2",
+    "resolved": true,
+    "same_diff": false,
+    "same_status": false,
+    "task_id": "saleor-rc-2d45b76a52f2"
+   },
+   {
+    "f2p": "FAIL",
+    "main_status": "INVALID_AFTER_REPAIR",
+    "rep_status": "APPLIED",
+    "replicate": "var_r1",
+    "resolved": false,
+    "same_diff": false,
+    "same_status": false,
+    "task_id": "saleor-rc-644f33094857"
+   },
+   {
+    "f2p": "FAIL",
+    "main_status": "INVALID_AFTER_REPAIR",
+    "rep_status": "APPLIED",
+    "replicate": "var_r2",
+    "resolved": false,
+    "same_diff": false,
+    "same_status": false,
+    "task_id": "saleor-rc-644f33094857"
+   },
+   {
+    "f2p": "FAIL",
+    "main_status": "INVALID_AFTER_REPAIR",
+    "rep_status": "APPLIED",
+    "replicate": "var_r1",
+    "resolved": false,
+    "same_diff": false,
+    "same_status": false,
+    "task_id": "saleor-rc-d220843b5418"
+   },
+   {
+    "f2p": "FAIL",
+    "main_status": "INVALID_AFTER_REPAIR",
+    "rep_status": "INVALID_AFTER_REPAIR",
+    "replicate": "var_r2",
+    "resolved": false,
+    "same_diff": false,
+    "same_status": true,
+    "task_id": "saleor-rc-d220843b5418"
+   }
+  ],
+  "resolved": 1,
+  "same_diff": 0,
+  "same_status": 1
+ }
+}

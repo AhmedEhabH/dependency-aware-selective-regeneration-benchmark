@@ -1,0 +1,17 @@
+{
+ "artifact": "m13_verify",
+ "artifact_sha256": "2dbc28519342f5a5bfcb9be1790e503a0e21af6dd3aca268a82b1355df2d6cf0",
+ "checks": {
+  "auth_unfilled_and_bound": true,
+  "freeze_hashes": true,
+  "guard": true,
+  "pilot_design_freeze_v1.json": true,
+  "pilot_selection.json": true,
+  "pool_census.json": true,
+  "smoke_v22_failure_taxonomy.json": true,
+  "smoke_v22_usage_accounting.json": true,
+  "task_map_validation.json": true
+ },
+ "next": "M14A_KIT_BUILD (brain) + human authorization",
+ "zero_api": true
+}

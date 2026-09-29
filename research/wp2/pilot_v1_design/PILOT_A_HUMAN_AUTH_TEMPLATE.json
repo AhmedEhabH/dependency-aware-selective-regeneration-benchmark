@@ -1,0 +1,14 @@
+{
+ "allow_fallbacks": false,
+ "approval_token_required": "I_AUTHORIZE_WP2_PILOT_A_V1=YES",
+ "artifact": "pilot_a_human_authorization_template",
+ "artifact_sha256": "057de48a2bcf0168ded921be88e56cb67bf052b25020edecdfa4eb64c880e640",
+ "authorized": false,
+ "authorized_by": "",
+ "authorized_utc": "",
+ "design_artifact_sha256": "c4c28d585bddc1d95051a73a79c13cd3dcf0cbd5c188c2e7d1b19fbc31feb205",
+ "max_generation_spend_usd": 1.0,
+ "model": "qwen/qwen3-coder",
+ "note": "M14A kit refuses to start unless this file is filled by the human, committed, and the design hash matches.",
+ "provider": "deepinfra/turbo"
+}

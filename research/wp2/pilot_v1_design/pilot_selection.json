@@ -1,0 +1,61 @@
+{
+ "artifact": "pilot_selection",
+ "artifact_sha256": "85e238af1897a309b3eaa7b80ff0b7f8d1fb0370779c309739199193473115f9",
+ "pilot_a_tasks": [
+  "saleor-rc-b497f8d82426",
+  "saleor-rc-b410358502a1",
+  "saleor-rc-a91ea48a60a7",
+  "saleor-rc-bbba01a02725",
+  "saleor-rc-6f37bd256e12",
+  "saleor-rc-5b0e5206c5fd",
+  "saleor-rc-d3847fa5f518",
+  "saleor-rc-6459dd2d9135",
+  "saleor-rc-012472eb8482",
+  "saleor-rc-44c7495ca9bf",
+  "saleor-rc-b14def73518c",
+  "saleor-rc-a3c478408852"
+ ],
+ "pilot_b_tasks": [
+  "saleor-rc-436f52ee3d0c",
+  "saleor-rc-34511f977388",
+  "saleor-rc-0a39d039049d",
+  "saleor-rc-aca84e6c4252",
+  "saleor-rc-60c8722863c1",
+  "saleor-rc-9bf2755c9bd0",
+  "saleor-rc-05df3bec57e2",
+  "saleor-rc-9aa434eeefe7",
+  "saleor-rc-99d963aed3e5",
+  "saleor-rc-eacffa70e721",
+  "saleor-rc-ded69f9c7097",
+  "saleor-rc-d7fe298a4752"
+ ],
+ "pool_census_sha256": "5e4cbd511e3401060413e5e003da9ae3e2895e52055ffb47e87d4286dec984d4",
+ "protected_assertions": {
+  "DEV_TRAIN_ENG_reused": false,
+  "DEV_VALIDATION_touched": false,
+  "MAIN_touched": false,
+  "pilot_a_b_disjoint": true
+ },
+ "replacement_rule": "Frozen replacement rule, applied in M14A.S0 BEFORE any paid generation.\n\n    1. Drop not-ready tasks from A and B (order preserved).\n    2. Fill from the ready reserve in reserve order; each reserve task goes to the\n       smaller of A/B (A on a tie) while that list is < 12.\n    3. If A and B are both 12 -> FULL. Otherwise n = min(|A|, |B|); both lists are\n       truncated to their first n tasks (dropped tasks are recorded, never used).\n       n >= 10 -> REDUCED_<n>; n < 10 -> POOL_INSUFFICIENT (human decision; no paid run).",
+ "replacement_rule_examples": {
+  "all_ready": "FULL",
+  "three_not_ready": "REDUCED_11"
+ },
+ "reserve_order": [
+  "saleor-rc-f383043e4be3",
+  "saleor-rc-102e4e5b25e8"
+ ],
+ "rmcss_oof_coverage": {
+  "pilot_a": 11,
+  "pilot_b": 12,
+  "reserve": 2,
+  "rule": "Pilot-A does not use RM-CSS. For Pilot-B an absent/empty RM-CSS prediction is the method's own outcome (NO_SCOPE), never a stop"
+ },
+ "salt": "wp2-pilot-v1-assay-holdout-2026-09-29",
+ "selected_quota_by_era": {
+  "py312": 7,
+  "py38": 2,
+  "py39": 15
+ },
+ "semantics": "pre-E2E, deterministic; ASSAY_HOLDOUT; primary behavioral F2P eligible and environment_valid; era-stratified largest remainder; SHA-256 rank"
+}

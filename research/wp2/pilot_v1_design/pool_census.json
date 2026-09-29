@@ -1,0 +1,824 @@
+{
+ "artifact": "pool_census",
+ "artifact_sha256": "5e4cbd511e3401060413e5e003da9ae3e2895e52055ffb47e87d4286dec984d4",
+ "assay_members": 80,
+ "eligible": 26,
+ "eligible_era_counts": {
+  "py312": 8,
+  "py38": 2,
+  "py39": 16
+ },
+ "eligible_with_agent_selection": 0,
+ "eligible_with_rmcss_oof": 25,
+ "finding_agent": "No frozen Agent selection exists for any eligible holdout task; M15 must run the frozen protocol-v3 Agent localization (paid) before Pilot-B generation.",
+ "in_per_task": 62,
+ "source_sha256": {
+  "agent_dev_eng": "8454700ed8cf93429a0b8678b21117dbecc25e0d02a3fa3ccddff0da5e4c5a4a",
+  "agent_main297": "c78968ef3fc83af4c067958a529df3b49752ab176d6b2c5f1919962958afd99c",
+  "oof_a": "f96888c22191dbf0a9dc636f275cedc0e33526aeaa69b42cd993456b80995c0a",
+  "per_task": "2517fcbd970af13bbb9b32fac6c6f59bac885921ea64ece099ed150f30cd47f9",
+  "split": "a124fc8a3700df5bcbfd702bc5c3b0072f72486f3e51b191c26754fcbd9b7573"
+ },
+ "tasks": [
+  {
+   "agent_selection_available": false,
+   "classification": "BEHAVIORAL_F2P",
+   "eligible": true,
+   "era_key": "py39",
+   "in_per_task": true,
+   "n_behavioral_f2p": 3,
+   "rmcss_oof_nonempty": false,
+   "task_id": "saleor-rc-012472eb8482"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "BEHAVIORAL_F2P",
+   "eligible": true,
+   "era_key": "py39",
+   "in_per_task": true,
+   "n_behavioral_f2p": 49,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-05df3bec57e2"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "NOT_PRIMARY",
+   "eligible": false,
+   "era_key": "py39",
+   "in_per_task": true,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-05efc538ceb7"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "BEHAVIORAL_F2P",
+   "eligible": true,
+   "era_key": "py39",
+   "in_per_task": true,
+   "n_behavioral_f2p": 8,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-0a39d039049d"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "BEHAVIORAL_F2P",
+   "eligible": true,
+   "era_key": "py312",
+   "in_per_task": true,
+   "n_behavioral_f2p": 25,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-102e4e5b25e8"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "NOT_PRIMARY",
+   "eligible": false,
+   "era_key": "py312",
+   "in_per_task": true,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-1088948818ee"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "NOT_PRIMARY",
+   "eligible": false,
+   "era_key": "py312",
+   "in_per_task": true,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-241dfa650f39"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "NOT_PRIMARY",
+   "eligible": false,
+   "era_key": "py312",
+   "in_per_task": true,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-287509237561"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": null,
+   "eligible": false,
+   "era_key": "UNKNOWN",
+   "in_per_task": false,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-2ac47e551888"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "NOT_PRIMARY",
+   "eligible": false,
+   "era_key": "py39",
+   "in_per_task": true,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-2b00c8f83063"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "NOT_PRIMARY",
+   "eligible": false,
+   "era_key": "py312",
+   "in_per_task": true,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": false,
+   "task_id": "saleor-rc-2da6d8c2d18f"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "NOT_PRIMARY",
+   "eligible": false,
+   "era_key": "py312",
+   "in_per_task": true,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-331e18a7fe99"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "BEHAVIORAL_F2P",
+   "eligible": true,
+   "era_key": "py39",
+   "in_per_task": true,
+   "n_behavioral_f2p": 1,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-34511f977388"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "NOT_PRIMARY",
+   "eligible": false,
+   "era_key": "py39",
+   "in_per_task": true,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-3496d8aa5998"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "NOT_PRIMARY",
+   "eligible": false,
+   "era_key": "py38",
+   "in_per_task": true,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-36ca99071fff"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "NOT_PRIMARY",
+   "eligible": false,
+   "era_key": "py39",
+   "in_per_task": true,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-3a6b7add7b0f"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "BEHAVIORAL_F2P",
+   "eligible": true,
+   "era_key": "py39",
+   "in_per_task": true,
+   "n_behavioral_f2p": 1,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-436f52ee3d0c"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "BEHAVIORAL_F2P",
+   "eligible": true,
+   "era_key": "py312",
+   "in_per_task": true,
+   "n_behavioral_f2p": 7,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-44c7495ca9bf"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "NOT_PRIMARY",
+   "eligible": false,
+   "era_key": "py39",
+   "in_per_task": true,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-46a2a565f410"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "NOT_PRIMARY",
+   "eligible": false,
+   "era_key": "py39",
+   "in_per_task": true,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-4f70686fa303"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": null,
+   "eligible": false,
+   "era_key": "UNKNOWN",
+   "in_per_task": false,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-537b2594c907"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "NOT_PRIMARY",
+   "eligible": false,
+   "era_key": "py312",
+   "in_per_task": true,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-5a6f954424f3"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": null,
+   "eligible": false,
+   "era_key": "UNKNOWN",
+   "in_per_task": false,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-5a8386c0af48"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "BEHAVIORAL_F2P",
+   "eligible": true,
+   "era_key": "py39",
+   "in_per_task": true,
+   "n_behavioral_f2p": 8,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-5b0e5206c5fd"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": null,
+   "eligible": false,
+   "era_key": "UNKNOWN",
+   "in_per_task": false,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": false,
+   "task_id": "saleor-rc-5b55148e9292"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "BEHAVIORAL_F2P",
+   "eligible": true,
+   "era_key": "py39",
+   "in_per_task": true,
+   "n_behavioral_f2p": 1,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-60c8722863c1"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "BEHAVIORAL_F2P",
+   "eligible": true,
+   "era_key": "py39",
+   "in_per_task": true,
+   "n_behavioral_f2p": 2,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-6459dd2d9135"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": null,
+   "eligible": false,
+   "era_key": "UNKNOWN",
+   "in_per_task": false,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-68bd7c8a2753"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "BEHAVIORAL_F2P",
+   "eligible": true,
+   "era_key": "py39",
+   "in_per_task": true,
+   "n_behavioral_f2p": 62,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-6f37bd256e12"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": null,
+   "eligible": false,
+   "era_key": "UNKNOWN",
+   "in_per_task": false,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-71054e115170"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "NOT_PRIMARY",
+   "eligible": false,
+   "era_key": "py39",
+   "in_per_task": true,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-7ae893782a50"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "NOT_PRIMARY",
+   "eligible": false,
+   "era_key": "py39",
+   "in_per_task": true,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-7cc2983b1ae2"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": null,
+   "eligible": false,
+   "era_key": "UNKNOWN",
+   "in_per_task": false,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-8641e44d4621"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": null,
+   "eligible": false,
+   "era_key": "UNKNOWN",
+   "in_per_task": false,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": false,
+   "task_id": "saleor-rc-8ba1c9759f37"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": null,
+   "eligible": false,
+   "era_key": "UNKNOWN",
+   "in_per_task": false,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-8da5727d4ac5"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "NOT_PRIMARY",
+   "eligible": false,
+   "era_key": "py312",
+   "in_per_task": true,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-8e665a4bd2b7"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "NOT_PRIMARY",
+   "eligible": false,
+   "era_key": "py39",
+   "in_per_task": true,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-91e2826c47f7"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": null,
+   "eligible": false,
+   "era_key": "UNKNOWN",
+   "in_per_task": false,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-932470c5a48a"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "BEHAVIORAL_F2P",
+   "eligible": true,
+   "era_key": "py38",
+   "in_per_task": true,
+   "n_behavioral_f2p": 10,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-99d963aed3e5"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "BEHAVIORAL_F2P",
+   "eligible": true,
+   "era_key": "py312",
+   "in_per_task": true,
+   "n_behavioral_f2p": 58,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-9aa434eeefe7"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "BEHAVIORAL_F2P",
+   "eligible": true,
+   "era_key": "py312",
+   "in_per_task": true,
+   "n_behavioral_f2p": 1,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-9bf2755c9bd0"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": null,
+   "eligible": false,
+   "era_key": "UNKNOWN",
+   "in_per_task": false,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-a10573bcea7c"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": null,
+   "eligible": false,
+   "era_key": "UNKNOWN",
+   "in_per_task": false,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-a1ff3b052e46"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "BEHAVIORAL_F2P",
+   "eligible": true,
+   "era_key": "py39",
+   "in_per_task": true,
+   "n_behavioral_f2p": 2,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-a3c478408852"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "BEHAVIORAL_F2P",
+   "eligible": true,
+   "era_key": "py39",
+   "in_per_task": true,
+   "n_behavioral_f2p": 2,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-a91ea48a60a7"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "NOT_PRIMARY",
+   "eligible": false,
+   "era_key": "py39",
+   "in_per_task": true,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-a9d2e2dcae26"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "BEHAVIORAL_F2P",
+   "eligible": true,
+   "era_key": "py312",
+   "in_per_task": true,
+   "n_behavioral_f2p": 7,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-aca84e6c4252"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "BEHAVIORAL_F2P",
+   "eligible": true,
+   "era_key": "py39",
+   "in_per_task": true,
+   "n_behavioral_f2p": 1,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-b14def73518c"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "BEHAVIORAL_F2P",
+   "eligible": true,
+   "era_key": "py312",
+   "in_per_task": true,
+   "n_behavioral_f2p": 1,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-b410358502a1"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "BEHAVIORAL_F2P",
+   "eligible": true,
+   "era_key": "py39",
+   "in_per_task": true,
+   "n_behavioral_f2p": 1,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-b497f8d82426"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "NOT_PRIMARY",
+   "eligible": false,
+   "era_key": "py39",
+   "in_per_task": true,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-b5e99bb1c822"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": null,
+   "eligible": false,
+   "era_key": "UNKNOWN",
+   "in_per_task": false,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-b6051eb07680"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "NOT_PRIMARY",
+   "eligible": false,
+   "era_key": "py39",
+   "in_per_task": true,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-b910bd0b362e"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "BEHAVIORAL_F2P",
+   "eligible": true,
+   "era_key": "py38",
+   "in_per_task": true,
+   "n_behavioral_f2p": 98,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-bbba01a02725"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "NOT_PRIMARY",
+   "eligible": false,
+   "era_key": "py312",
+   "in_per_task": true,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": false,
+   "task_id": "saleor-rc-be23aaf4548b"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "NOT_PRIMARY",
+   "eligible": false,
+   "era_key": "py39",
+   "in_per_task": true,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-c4f01d449c62"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "NOT_PRIMARY",
+   "eligible": false,
+   "era_key": "py39",
+   "in_per_task": true,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-c5828cf62020"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "NOT_PRIMARY",
+   "eligible": false,
+   "era_key": "py39",
+   "in_per_task": true,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-c5f60bd46f72"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "NOT_PRIMARY",
+   "eligible": false,
+   "era_key": "py39",
+   "in_per_task": true,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-cafb853cc8cb"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "NOT_PRIMARY",
+   "eligible": false,
+   "era_key": "py38",
+   "in_per_task": true,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-cb49da196b70"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": null,
+   "eligible": false,
+   "era_key": "UNKNOWN",
+   "in_per_task": false,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-ce7d1e8d4d2b"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": null,
+   "eligible": false,
+   "era_key": "UNKNOWN",
+   "in_per_task": false,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-ceee97e83e2f"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": null,
+   "eligible": false,
+   "era_key": "UNKNOWN",
+   "in_per_task": false,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-d1e372b5fa6e"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "NOT_PRIMARY",
+   "eligible": false,
+   "era_key": "py312",
+   "in_per_task": true,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-d1e6e0e2bbbc"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "NOT_PRIMARY",
+   "eligible": false,
+   "era_key": "py312",
+   "in_per_task": true,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-d2b8ef040b3c"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "BEHAVIORAL_F2P",
+   "eligible": true,
+   "era_key": "py312",
+   "in_per_task": true,
+   "n_behavioral_f2p": 1,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-d3847fa5f518"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "BEHAVIORAL_F2P",
+   "eligible": true,
+   "era_key": "py312",
+   "in_per_task": true,
+   "n_behavioral_f2p": 5,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-d7fe298a4752"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": null,
+   "eligible": false,
+   "era_key": "UNKNOWN",
+   "in_per_task": false,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-ddaa9d05ff5f"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "BEHAVIORAL_F2P",
+   "eligible": true,
+   "era_key": "py39",
+   "in_per_task": true,
+   "n_behavioral_f2p": 2,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-ded69f9c7097"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "NOT_PRIMARY",
+   "eligible": false,
+   "era_key": "py312",
+   "in_per_task": true,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-e83c3935bf85"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "BEHAVIORAL_F2P",
+   "eligible": true,
+   "era_key": "py39",
+   "in_per_task": true,
+   "n_behavioral_f2p": 3,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-eacffa70e721"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "NOT_PRIMARY",
+   "eligible": false,
+   "era_key": "py39",
+   "in_per_task": true,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-eb609c301b5f"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "NOT_PRIMARY",
+   "eligible": false,
+   "era_key": "py38",
+   "in_per_task": true,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-ecc752ffbe0f"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "NOT_PRIMARY",
+   "eligible": false,
+   "era_key": "py38",
+   "in_per_task": true,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": false,
+   "task_id": "saleor-rc-ed023a25834d"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "NOT_PRIMARY",
+   "eligible": false,
+   "era_key": "py39",
+   "in_per_task": true,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-f0316fed098d"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "NOT_PRIMARY",
+   "eligible": false,
+   "era_key": "py39",
+   "in_per_task": true,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-f365f77eb905"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "BEHAVIORAL_F2P",
+   "eligible": true,
+   "era_key": "py39",
+   "in_per_task": true,
+   "n_behavioral_f2p": 6,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-f383043e4be3"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "NOT_PRIMARY",
+   "eligible": false,
+   "era_key": "py39",
+   "in_per_task": true,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-f813a9fd37d3"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": "NOT_PRIMARY",
+   "eligible": false,
+   "era_key": "py312",
+   "in_per_task": true,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-fd3f0905ee59"
+  },
+  {
+   "agent_selection_available": false,
+   "classification": null,
+   "eligible": false,
+   "era_key": "UNKNOWN",
+   "in_per_task": false,
+   "n_behavioral_f2p": 0,
+   "rmcss_oof_nonempty": true,
+   "task_id": "saleor-rc-fe74e381ac14"
+  }
+ ]
+}
