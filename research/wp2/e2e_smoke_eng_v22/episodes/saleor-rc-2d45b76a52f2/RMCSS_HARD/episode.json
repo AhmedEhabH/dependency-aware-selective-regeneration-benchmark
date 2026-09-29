@@ -1,0 +1,60 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v21",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-2d45b76a52f2",
+ "arm": "RMCSS_HARD",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/graphql/app/resolvers.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/graphql/app/resolvers.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/graphql/app/resolvers.py"
+  ]
+ },
+ "prompt_sha256": "2d26e8a6e9f4e985da2a2560517d685be30ada419beb4d59cba44edea79694d4",
+ "request_sha_initial": "bd24f5441e96cc9512ef9e96522afd39cd1e4d1069f503214d7f567ba4ea72f0",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "repair_request_sha256": "",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790649596-vU441fRQCJC1QlxmsCqn",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 770,
+   "completion_tokens": 135,
+   "cost_usd_actual": 0.0003116,
+   "cost_usd_nominal": 0.0003116,
+   "finish_reason": "stop",
+   "response_sha256": "7b20eb98debdf7f151a629546d5e54370a26a714082862d137e86409a4671124",
+   "request_sha": "bd24f5441e96cc9512ef9e96522afd39cd1e4d1069f503214d7f567ba4ea72f0",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\e2e_smoke_eng_v22\\episodes\\saleor-rc-2d45b76a52f2\\RMCSS_HARD\\calls\\1_initial.txt",
+   "raw_sha256": "7b20eb98debdf7f151a629546d5e54370a26a714082862d137e86409a4671124"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "edited_files": [
+  "saleor/graphql/app/resolvers.py"
+ ],
+ "diff_sha256": "ffa2818360e37625d72986db2085ae905a2882f387352f91016cd440708216c7",
+ "envelope": {},
+ "whitespace_tolerant_blocks": [],
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-29T02:40:06Z",
+ "episode_sha256": "a5a30be123c65cd502efdd076744074d7799709b8fb9b7c734f8c456a35bba76"
+}

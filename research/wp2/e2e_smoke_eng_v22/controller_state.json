@@ -91,6 +91,18 @@
    "event": "RECOVERY_PASS",
    "phase": "P05_FREEZE",
    "utc": "2026-09-29T02:37:49Z"
+  },
+  {
+   "detail": "after POST_ACTION_FAILED",
+   "event": "RESUME",
+   "phase": "P05_FREEZE",
+   "utc": "2026-09-29T02:39:26Z"
+  },
+  {
+   "detail": "main generation 56 episodes (paid, <= $2.00 total)",
+   "event": "START",
+   "phase": "P06_GEN_MAIN",
+   "utc": "2026-09-29T02:39:26Z"
   }
  ],
  "phases": {
@@ -141,6 +153,13 @@
    "passed_utc": "2026-09-29T02:37:49Z",
    "runs": 1,
    "status": "PASS"
+  },
+  "P06_GEN_MAIN": {
+   "attempts": 0,
+   "failures": 0,
+   "iterations": 1,
+   "runs": 1,
+   "status": "RUNNING"
   }
  },
  "plan": "WP2_E2E_SMOKE_ENG_V22",
@@ -170,14 +189,5 @@
   "origin_main_before": "463161b247d165c7c410f486683ac8c1c58fb72d",
   "utc": "20260929T023746Z"
  },
- "stop": {
-  "detail": "{'type': 'tag', 'name': 'wp2-e2e-smoke-eng-v22-freeze-{date}', 'message': 'E2E Smoke ENG v2.2 freeze (controller)'}: push of tag failed",
-  "exports": {
-   "light": 0
-  },
-  "phase": "P05_FREEZE",
-  "resumable": true,
-  "token": "POST_ACTION_FAILED",
-  "utc": "2026-09-29T02:14:38Z"
- }
+ "stop": null
 }

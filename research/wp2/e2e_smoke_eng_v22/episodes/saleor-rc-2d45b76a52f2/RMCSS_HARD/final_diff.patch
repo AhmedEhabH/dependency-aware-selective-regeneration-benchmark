@@ -1,0 +1,16 @@
+diff --git a/saleor/graphql/app/resolvers.py b/saleor/graphql/app/resolvers.py
+--- a/saleor/graphql/app/resolvers.py
++++ b/saleor/graphql/app/resolvers.py
+@@ -36,7 +36,11 @@
+     user_permissions = user.effective_permissions
+     if set(extension_permissions).issubset(user_permissions):
+         return create_access_token_for_app_extension(
+-            app_extension=root, permissions=extension_permissions, user=user, app=app
++            app_extension=root,
++            permissions=extension_permissions,
++            user=user,
++            app=app,
++            app_id=app.id,
+         )
+     return None
+ 

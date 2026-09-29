@@ -1,0 +1,28 @@
+diff --git a/saleor/graphql/core/types/order_or_checkout.py b/saleor/graphql/core/types/order_or_checkout.py
+--- a/saleor/graphql/core/types/order_or_checkout.py
++++ b/saleor/graphql/core/types/order_or_checkout.py
+@@ -11,13 +11,9 @@
+ # we need to provide a fully initialized type.
+ 
+ 
+-class OrderOrCheckoutBase(graphene.Union):
++class OrderOrCheckout(graphene.Union):
+     class Meta:
+-        abstract = True
+-
+-    @classmethod
+-    def get_types(cls):
+-        return (checkout_types.Checkout, order_types.Order)
++        types = (checkout_types.Checkout, order_types.Order)
+ 
+     @classmethod
+     def resolve_type(cls, instance, info: graphene.ResolveInfo):
+@@ -29,8 +25,3 @@
+         if isinstance(instance, Order):
+             return order_types.Order
+         return super().resolve_type(instance, info)
+-
+-
+-class OrderOrCheckout(OrderOrCheckoutBase):
+-    class Meta:
+-        types = OrderOrCheckoutBase.get_types()

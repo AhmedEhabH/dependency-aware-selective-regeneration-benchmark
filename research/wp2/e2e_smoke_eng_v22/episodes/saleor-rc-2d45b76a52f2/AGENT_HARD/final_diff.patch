@@ -1,0 +1,27 @@
+diff --git a/saleor/core/jwt.py b/saleor/core/jwt.py
+--- a/saleor/core/jwt.py
++++ b/saleor/core/jwt.py
+@@ -164,6 +164,7 @@
+     object_id: int,
+     object_payload_key: str,
+     audience: Optional[str],
++    app_id: Optional[int] = None,
+ ):
+     app_permission_enums = get_permission_names(permissions)
+ 
+@@ -174,6 +175,8 @@
+         PERMISSIONS_FIELD: list(app_permission_enums & user_permission_enums),
+         USER_PERMISSION_FIELD: list(user_permission_enums),
+     }
++    if app_id is not None:
++        additional_payload["app"] = graphene.Node.to_global_id("App", app_id)
+     if audience:
+         additional_payload["aud"] = audience
+ 
+@@ -218,4 +221,5 @@
+         object_id=app_extension.id,
+         object_payload_key="app_extension",
+         audience=app.audience,
+-    )
++        app_id=app.id,
++    )
