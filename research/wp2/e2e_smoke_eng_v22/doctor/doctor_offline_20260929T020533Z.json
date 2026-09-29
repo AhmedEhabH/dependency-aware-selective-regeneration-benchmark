@@ -1,0 +1,53 @@
+{
+ "artifact": "doctor_v22",
+ "mode": "offline",
+ "utc": "20260929T020533Z",
+ "checks": {
+  "python_version": {
+   "value": "3.11.5",
+   "ok": true
+  },
+  "disk_free_gib": {
+   "value": 35.7,
+   "ok": true
+  },
+  "docker_in_wsl": {
+   "value": "29.1.3",
+   "ok": true
+  },
+  "postgres_ready": {
+   "ok": true
+  },
+  "images_present": {
+   "value": {
+    "era_images": {
+     "wp2-era-py38": "sha256:1cc60658b6a282c3bfe7c42312478a1983950927d348b47dce99e1a58e7a8c60",
+     "wp2-era-py39": "sha256:ddc08d7e685517764dfa2606a760d5b3f09d57840d8a0bbcef366db67cd99ef8",
+     "wp2-era-py312": "sha256:0c185699947d75d5866e57dfb10bba25cca05dc58ca3fd2f75446ee8b0e41394"
+    },
+    "postgres": {
+     "image_id": "sha256:f7d23353e1b15400d22ebe31189f4d314b87a4c129cc400c8c2d8d4ca127bf81",
+     "repo_digests": [
+      "postgres@sha256:f7d23353e1b15400d22ebe31189f4d314b87a4c129cc400c8c2d8d4ca127bf81"
+     ]
+    },
+    "errors": []
+   },
+   "ok": true
+  },
+  "clock": {
+   "value": "CONTINUE_RECORDED",
+   "ok": true
+  },
+  "saleor_cache": {
+   "ok": true
+  },
+  "evaluator_sets_present": {
+   "ok": true
+  },
+  "v1_scopes_present": {
+   "ok": true
+  }
+ },
+ "pass": true
+}
