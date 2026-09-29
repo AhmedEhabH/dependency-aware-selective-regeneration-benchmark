@@ -1,0 +1,33 @@
+{
+ "name_prefix": "project-LIGHT",
+ "max_file_bytes": 5242880,
+ "max_total_bytes": 47185920,
+ "include": [
+  "PROGRESS.md", "DECISIONS.md", "00_CURRENT_RESEARCH_STATE.md", "README.md", "AGENTS.md",
+  "pyproject.toml", ".gitattributes",
+  "controller/*",
+  "research/wp2/e2e_smoke_eng_v22/**/*",
+  "docs/WP2_E2E_SMOKE_ENG_V22_*.md",
+  "research/wp2/e2e_smoke_eng_v21/*",
+  "research/wp2/e2e_smoke_eng_v21/governance/*",
+  "research/wp2/e2e_smoke_eng_v21/controls/*.json",
+  "research/wp2/e2e_smoke_eng_v21/ledger/*",
+  "research/wp2/e2e_smoke_eng_v21/episodes/**/*",
+  "docs/EXECUTION_AND_VALIDATION_PROTOCOL_V2.md", "docs/LIVE_STATUS.json",
+  "docs/WP2_*.md", "docs/MISSION_1*.md", "docs/MISSION12*.md",
+  "src/benchmark/wp2/**/*.py",
+  "scripts/wp2_*.py",
+  "tests/unit/wp2/**/*.py",
+  "research/wp2/harness_v3_2026-09-26/*.json",
+  "research/wp2/harness_v3_2026-09-26/evaluator_only/*.json",
+  "research/wp2/e2e_smoke_eng_v1/*.json",
+  "research/wp2/e2e_smoke_eng_v1/scopes/*",
+  "research/wp2/e2e_smoke_eng_v1/controls/*.json",
+  "research/wp2/e2e_smoke_eng_v2/*.json",
+  "research/wp2/e2e_smoke_eng_v2/controls/*.json"
+ ],
+ "exclude": [
+  "*/cache/*", "*/cache_variance/*", "*/cache_dry/*", "*/cache_tmp_pos/*",
+  "*/junit/*", "*/__pycache__/*", "*.pyc", "*.zip"
+ ]
+}
