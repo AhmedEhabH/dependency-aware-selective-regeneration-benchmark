@@ -1,0 +1,65 @@
+{
+ "task_id": "saleor-rc-44c7495ca9bf",
+ "status": "ENV_INSTALL_BLOCKED",
+ "era_key": "py312",
+ "target_commit": "44c7495ca9bfcbe7baa80d2c6d1f737fd0db6840",
+ "counts": {
+  "BEHAVIORAL_F2P": 0,
+  "SYMBOL_ABSENCE_F2P": 0,
+  "PARENT_COLLECTION_ERROR": 0,
+  "FLAKY": 0,
+  "TARGET_ORACLE_INVALID": 0,
+  "P2P_ONLY": 0,
+  "OTHER_REVIEW_REQUIRED": 0
+ },
+ "eligibility": {
+  "PRIMARY_BEHAVIORAL_F2P_ELIGIBLE": false,
+  "EXTENDED_F2P_ELIGIBLE": false,
+  "n_behavioral_f2p": 0,
+  "n_symbol_absence_f2p": 0,
+  "n_parent_collection_error": 0,
+  "environment_valid": true,
+  "task_collection_failure": false,
+  "semantics_version": "oracle-semantics-v2-2026-09-23"
+ },
+ "classification": "NOT_PRIMARY",
+ "n_nodes": 0,
+ "n_test_files": 2,
+ "wall_s": 9.8,
+ "operations": {
+  "target_wall_s": 5.5,
+  "parent_wall_s": 9.8,
+  "target_error": "INSTALL_FAIL",
+  "parent_error": "INSTALL_FAIL"
+ },
+ "node_records": [],
+ "manifest": {
+  "task_id": "saleor-rc-44c7495ca9bf",
+  "target_commit": "44c7495ca9bfcbe7baa80d2c6d1f737fd0db6840",
+  "era": "py312",
+  "frozen_base_image_id": "sha256:0c185699947d75d5866e57dfb10bba25cca05dc58ca3fd2f75446ee8b0e41394",
+  "harness_v3_version": "wp2-harness-v3-2026-09-26",
+  "runner_sha": "ef09525617e498e5195bdbac5070b307897dc783",
+  "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+  "lockfile_sha256": "fd349f3dcbc927bf6772115a8b54946fc9eebaeb1bc7b8b0746a53ae6674ab76",
+  "nofile_soft": 65536,
+  "nofile_hard": 65536,
+  "clock_pre_post": {
+   "pre": 0.030915,
+   "post": null
+  },
+  "C4_EFFECTIVE_WORKERS": 1,
+  "db_names": {
+   "t": "saleor_v3_44c7495ca9bf_t",
+   "p": "saleor_v3_44c7495ca9bf_p"
+  },
+  "main_recipe_signature": "7ca35bc57ee22d57e25ca2f621e5ef235bf0528cd3a027aa0a32468eb4b47bcb",
+  "dev_test_closure": {
+   "mechanism": "uv",
+   "n_pins": 0,
+   "pins_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "n_unsupported": 0
+  }
+ },
+ "evidence_sha256": "1fc448313850ea0a58a71b5778ac2f1cb139823a037f102aaa5db456b1e98175"
+}
