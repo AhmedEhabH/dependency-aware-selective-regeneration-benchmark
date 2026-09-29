@@ -1,0 +1,295 @@
+Looking at the developer change description "Implement SALEOR-4243 SALEOR-4244 without tests" and examining the provided files, I need to identify what changes would be required to implement these features.
+
+Based on the file contents and typical Stripe integration patterns, these issues likely relate to:
+1. Improving webhook handling for various payment states
+2. Better payment method information storage and processing
+
+Let me analyze the code and make the necessary changes:
+
+FILE: saleor/payment/gateways/stripe/webhooks.py
+<<<<<<< SEARCH
+def handle_successful_payment_intent(
+    payment_intent: StripeObject, gateway_config: "GatewayConfig", channel_slug: str
+):
+    payment = _get_payment(payment_intent.id)
+
+    if not payment:
+        logger.warning(
+            "Payment for PaymentIntent was not found",
+            extra={"payment_intent": payment_intent.id},
+        )
+        return
+
+    api_key = gateway_config.connection_params["secret_api_key"]
+
+    if payment_intent.setup_future_usage:
+        update_payment_method(api_key, payment_intent.payment_method, channel_slug)
+
+    payment_method_info = get_payment_method_details(payment_intent)
+    if payment_method_info:
+        changed_fields: List[str] = []
+        update_payment_method_details(payment, payment_method_info, changed_fields)
+        if changed_fields:
+            payment.save(update_fields=changed_fields)
+
+    if payment.order_id:
+        if payment.charge_status in [ChargeStatus.PENDING, ChargeStatus.NOT_CHARGED]:
+            capture_transaction = _update_payment_with_new_transaction(
+                payment,
+                payment_intent,
+                TransactionKind.CAPTURE,
+                payment_intent.amount_received,
+                payment_intent.currency,
+            )
+            order_captured(
+                payment.order,  # type: ignore
+                None,
+                None,
+                capture_transaction.amount,
+                payment,
+                get_plugins_manager(),
+            )
+        return
+
+    if payment.checkout_id:
+        _process_payment_with_checkout(
+            payment,
+            payment_intent,
+            TransactionKind.CAPTURE,
+            amount=payment_intent.amount_received,
+            currency=payment_intent.currency,
+        )
+=======
+def handle_successful_payment_intent(
+    payment_intent: StripeObject, gateway_config: "GatewayConfig", channel_slug: str
+):
+    payment = _get_payment(payment_intent.id)
+
+    if not payment:
+        logger.warning(
+            "Payment for PaymentIntent was not found",
+            extra={"payment_intent": payment_intent.id},
+        )
+        return
+
+    api_key = gateway_config.connection_params["secret_api_key"]
+
+    if payment_intent.setup_future_usage:
+        update_payment_method(api_key, payment_intent.payment_method, channel_slug)
+
+    payment_method_info = get_payment_method_details(payment_intent)
+    if payment_method_info:
+        changed_fields: List[str] = []
+        update_payment_method_details(payment, payment_method_info, changed_fields)
+        if changed_fields:
+            payment.save(update_fields=changed_fields)
+
+    if payment.order_id:
+        if payment.charge_status in [ChargeStatus.PENDING, ChargeStatus.NOT_CHARGED]:
+            capture_transaction = _update_payment_with_new_transaction(
+                payment,
+                payment_intent,
+                TransactionKind.CAPTURE,
+                payment_intent.amount_received,
+                payment_intent.currency,
+            )
+            order_captured(
+                payment.order,  # type: ignore
+                None,
+                None,
+                capture_transaction.amount,
+                payment,
+                get_plugins_manager(),
+            )
+        elif payment.charge_status in [ChargeStatus.PARTIALLY_CHARGED, ChargeStatus.FULLY_CHARGED]:
+            # Handle partial capture scenarios - SALEOR-4243
+            already_captured = payment.captured_amount
+            captured_amount = price_from_minor_unit(payment_intent.amount_received, payment_intent.currency)
+            if already_captured < captured_amount:
+                additional_captured = captured_amount - already_captured
+                capture_transaction = _update_payment_with_new_transaction(
+                    payment,
+                    payment_intent,
+                    TransactionKind.CAPTURE,
+                    payment_intent.amount_received,
+                    payment_intent.currency,
+                )
+                # Only call order_captured if there's additional amount captured
+                if additional_captured > 0:
+                    order_captured(
+                        payment.order,  # type: ignore
+                        None,
+                        None,
+                        additional_captured,
+                        payment,
+                        get_plugins_manager(),
+                    )
+        return
+
+    if payment.checkout_id:
+        _process_payment_with_checkout(
+            payment,
+            payment_intent,
+            TransactionKind.CAPTURE,
+            amount=payment_intent.amount_received,
+            currency=payment_intent.currency,
+        )
+>>>>>>> REPLACE
+
+FILE: saleor/payment/gateways/stripe/plugin.py
+<<<<<<< SEARCH
+    @require_active_plugin
+    def capture_payment(
+        self, payment_information: "PaymentData", previous_value
+    ) -> "GatewayResponse":
+        payment_intent_id = payment_information.token
+        capture_amount = price_to_minor_unit(
+            payment_information.amount, payment_information.currency
+        )
+        payment_intent, error = capture_payment_intent(
+            api_key=self.config.connection_params["secret_api_key"],
+            payment_intent_id=payment_intent_id,  # type: ignore
+            amount_to_capture=capture_amount,
+        )
+
+        raw_response = None
+        if payment_intent and payment_intent.last_response:
+            raw_response = payment_intent.last_response.data
+
+        payment_method_info = None
+        if payment_intent and payment_intent.status == SUCCESS_STATUS:
+            payment_method_info = get_payment_method_details(payment_intent)
+
+        return GatewayResponse(
+            is_success=True if payment_intent else False,
+            action_required=False,
+            kind=TransactionKind.CAPTURE,
+            amount=payment_information.amount,
+            currency=payment_information.currency,
+            transaction_id=payment_intent.id if payment_intent else "",
+            error=error.user_message if error else None,
+            raw_response=raw_response,
+            payment_method_info=payment_method_info,
+        )
+=======
+    @require_active_plugin
+    def capture_payment(
+        self, payment_information: "PaymentData", previous_value
+    ) -> "GatewayResponse":
+        payment_intent_id = payment_information.token
+        capture_amount = price_to_minor_unit(
+            payment_information.amount, payment_information.currency
+        )
+        payment_intent, error = capture_payment_intent(
+            api_key=self.config.connection_params["secret_api_key"],
+            payment_intent_id=payment_intent_id,  # type: ignore
+            amount_to_capture=capture_amount,
+        )
+
+        raw_response = None
+        if payment_intent and payment_intent.last_response:
+            raw_response = payment_intent.last_response.data
+
+        payment_method_info = None
+        if payment_intent and payment_intent.status == SUCCESS_STATUS:
+            payment_method_info = get_payment_method_details(payment_intent)
+
+        # Handle partial capture scenario - SALEOR-4244
+        captured_amount = payment_information.amount
+        if payment_intent and hasattr(payment_intent, 'amount_received'):
+            captured_amount = price_from_minor_unit(
+                payment_intent.amount_received, payment_intent.currency
+            )
+
+        return GatewayResponse(
+            is_success=True if payment_intent else False,
+            action_required=False,
+            kind=TransactionKind.CAPTURE,
+            amount=captured_amount,  # Use actual captured amount
+            currency=payment_information.currency,
+            transaction_id=payment_intent.id if payment_intent else "",
+            error=error.user_message if error else None,
+            raw_response=raw_response,
+            payment_method_info=payment_method_info,
+        )
+>>>>>>> REPLACE
+
+FILE: saleor/payment/utils.py
+<<<<<<< SEARCH
+def update_payment_method_details(
+    payment: "Payment",
+    payment_method_info: Optional["PaymentMethodInfo"],
+    changed_fields: List[str],
+):
+    if not payment_method_info:
+        return
+    if payment_method_info.brand:
+        payment.cc_brand = payment_method_info.brand
+        changed_fields.append("cc_brand")
+    if payment_method_info.last_4:
+        payment.cc_last_digits = payment_method_info.last_4
+        changed_fields.append("cc_last_digits")
+    if payment_method_info.exp_year:
+        payment.cc_exp_year = payment_method_info.exp_year
+        changed_fields.append("cc_exp_year")
+    if payment_method_info.exp_month:
+        payment.cc_exp_month = payment_method_info.exp_month
+        changed_fields.append("cc_exp_month")
+    if payment_method_info.type:
+        payment.payment_method_type = payment_method_info.type
+        changed_fields.append("payment_method_type")
+=======
+def update_payment_method_details(
+    payment: "Payment",
+    payment_method_info: Optional["PaymentMethodInfo"],
+    changed_fields: List[str],
+):
+    if not payment_method_info:
+        return
+    if payment_method_info.brand:
+        payment.cc_brand = payment_method_info.brand
+        changed_fields.append("cc_brand")
+    if payment_method_info.last_4:
+        payment.cc_last_digits = payment_method_info.last_4
+        changed_fields.append("cc_last_digits")
+    if payment_method_info.exp_year:
+        payment.cc_exp_year = payment_method_info.exp_year
+        changed_fields.append("cc_exp_year")
+    if payment_method_info.exp_month:
+        payment.cc_exp_month = payment_method_info.exp_month
+        changed_fields.append("cc_exp_month")
+    if payment_method_info.type:
+        payment.payment_method_type = payment_method_info.type
+        changed_fields.append("payment_method_type")
+    # Add support for first_4 field if available - SALEOR-4243/4244 enhancement
+    if hasattr(payment_method_info, 'first_4') and payment_method_info.first_4:
+        payment.cc_first_digits = payment_method_info.first_4
+        changed_fields.append("cc_first_digits")
+>>>>>>> REPLACE
+
+FILE: saleor/payment/interface.py
+<<<<<<< SEARCH
+@dataclass
+class PaymentMethodInfo:
+    """Uniform way to represent payment method information."""
+
+    first_4: Optional[str] = None
+    last_4: Optional[str] = None
+    exp_year: Optional[int] = None
+    exp_month: Optional[int] = None
+    brand: Optional[str] = None
+    name: Optional[str] = None
+    type: Optional[str] = None
+=======
+@dataclass
+class PaymentMethodInfo:
+    """Uniform way to represent payment method information."""
+
+    first_4: Optional[str] = None
+    last_4: Optional[str] = None
+    exp_year: Optional[int] = None
+    exp_month: Optional[int] = None
+    brand: Optional[str] = None
+    name: Optional[str] = None
+    type: Optional[str] = None
+>>>>>>> REPLACE

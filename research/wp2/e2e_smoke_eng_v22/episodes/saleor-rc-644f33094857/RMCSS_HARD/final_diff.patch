@@ -1,0 +1,11 @@
+diff --git a/saleor/order/actions.py b/saleor/order/actions.py
+--- a/saleor/order/actions.py
++++ b/saleor/order/actions.py
+@@ -145,6 +145,7 @@
+     events.payment_refunded_event(
+         order=order, user=user, amount=amount, payment=payment
+     )
++    update_order_status(order)
+     get_plugins_manager().order_updated(order)
+ 
+     send_order_refunded_confirmation(order, user, amount, payment.currency)

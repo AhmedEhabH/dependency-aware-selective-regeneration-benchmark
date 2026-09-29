@@ -1,0 +1,72 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v21",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-6abb53f3407b",
+ "arm": "GOLD_HARD",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/payment/gateways/stripe/plugin.py",
+  "saleor/payment/gateways/stripe/webhooks.py",
+  "saleor/payment/interface.py",
+  "saleor/payment/utils.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/payment/gateways/stripe/plugin.py",
+   "saleor/payment/gateways/stripe/webhooks.py",
+   "saleor/payment/interface.py",
+   "saleor/payment/utils.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/payment/gateways/stripe/plugin.py",
+   "saleor/payment/gateways/stripe/webhooks.py",
+   "saleor/payment/interface.py",
+   "saleor/payment/utils.py"
+  ]
+ },
+ "prompt_sha256": "fa30734e56fbcaa67c8093c098d6c4cb0a7a6e86e262679ef29746787b22f48b",
+ "request_sha_initial": "f3bb317cd6a203b7ae0986fce7d57f094232eab009d3caf63497df37e6da1ddb",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "repair_request_sha256": "",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790649772-wDGnGAtuHmNStEpI8AJZ",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 10657,
+   "completion_tokens": 2133,
+   "cost_usd_actual": 0.0052885,
+   "cost_usd_nominal": 0.0052885,
+   "finish_reason": "stop",
+   "response_sha256": "9537133f8f26c096f5f78c8c872337c4e64e0615b5b3e20dabb618985223da74",
+   "request_sha": "f3bb317cd6a203b7ae0986fce7d57f094232eab009d3caf63497df37e6da1ddb",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\e2e_smoke_eng_v22\\episodes\\saleor-rc-6abb53f3407b\\GOLD_HARD\\calls\\1_initial.txt",
+   "raw_sha256": "9537133f8f26c096f5f78c8c872337c4e64e0615b5b3e20dabb618985223da74"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "edited_files": [
+  "saleor/payment/gateways/stripe/plugin.py",
+  "saleor/payment/gateways/stripe/webhooks.py",
+  "saleor/payment/interface.py",
+  "saleor/payment/utils.py"
+ ],
+ "diff_sha256": "e6bdc2e3fa836a900a40e9186c861d4dc9d96cfd26958376be87858c6992ef5f",
+ "envelope": {},
+ "whitespace_tolerant_blocks": [],
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-29T02:43:26Z",
+ "episode_sha256": "5d908a109aeab8e2d96d3453859e68ae74866065013aa39c79d38ac383f30318"
+}

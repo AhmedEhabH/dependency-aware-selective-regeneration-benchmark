@@ -1,0 +1,12 @@
+diff --git a/saleor/order/actions.py b/saleor/order/actions.py
+--- a/saleor/order/actions.py
++++ b/saleor/order/actions.py
+@@ -622,6 +622,8 @@
+         )
+ 
+         Fulfillment.objects.filter(order=order, lines=None).delete()
++    
++    update_order_status(order)
+ 
+     return refunded_fulfillment
+ 

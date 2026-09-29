@@ -1,0 +1,15 @@
+Looking at the change description, I need to extend logic for updating order status and call update order status for refund action. However, after examining all the provided files, none of them contain order status update logic or refund handling code that would be relevant to this change.
+
+The files provided are related to:
+- Demo URLs
+- Account/address validation 
+- GraphQL app types
+- GraphQL sorting input
+- Payment resolvers (basic payment queries)
+- Shipping zip code validation
+
+None of these files would contain the core order status update logic or refund processing that the change description refers to. The actual order status management and refund handling logic would typically be in files like `saleor/order/models.py`, `saleor/order/utils.py`, or `saleor/payment/gateway.py` which are not provided.
+
+Since I cannot find any relevant code to modify in the provided files, and the change description doesn't provide enough context to know what specific logic needs to be extended, I cannot produce meaningful edit blocks.
+
+To properly implement this change, I would need access to the files that actually contain the order status update and refund processing logic.

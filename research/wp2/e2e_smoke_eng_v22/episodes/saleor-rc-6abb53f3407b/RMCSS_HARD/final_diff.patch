@@ -1,0 +1,16 @@
+diff --git a/saleor/graphql/shop/mutations.py b/saleor/graphql/shop/mutations.py
+--- a/saleor/graphql/shop/mutations.py
++++ b/saleor/graphql/shop/mutations.py
+@@ -51,6 +51,12 @@
+     )
+     customer_set_password_url = graphene.String(
+         description="URL of a view where customers can set their password."
++    )
++    reserve_stock_duration_anonymous_user = graphene.Int(
++        description="Default number of minutes stock will be reserved for anonymous user."
++    )
++    reserve_stock_duration_authenticated_user = graphene.Int(
++        description="Default number of minutes stock will be reserved for authenticated user."
+     )
+ 
+ 

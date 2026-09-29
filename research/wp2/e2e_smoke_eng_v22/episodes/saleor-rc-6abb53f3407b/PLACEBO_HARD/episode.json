@@ -1,0 +1,93 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v21",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-6abb53f3407b",
+ "arm": "PLACEBO_HARD",
+ "status": "INVALID_AFTER_REPAIR",
+ "editable_set": [
+  "saleor/attribute/error_codes.py",
+  "saleor/graphql/checkout/schema.py",
+  "saleor/graphql/warehouse/dataloaders.py",
+  "saleor/plugins/admin_email/constants.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/attribute/error_codes.py",
+   "saleor/graphql/checkout/schema.py",
+   "saleor/graphql/warehouse/dataloaders.py",
+   "saleor/plugins/admin_email/constants.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/attribute/error_codes.py",
+   "saleor/graphql/checkout/schema.py",
+   "saleor/graphql/warehouse/dataloaders.py",
+   "saleor/plugins/admin_email/constants.py"
+  ]
+ },
+ "prompt_sha256": "2999c9b1cf233bea3a2bbfcbbd6343e8de1a9cbe1f9810a5a9c750a6be9391f7",
+ "request_sha_initial": "71383192be4967b701689c444a5b01599d8941466490ee22e8e5367c71f2d48c",
+ "request_sha_repair": "139d64b8d33deb7f040f6b0b433346491299069383e30203b25abd2f373a0a86",
+ "repair_component_hashes": {
+  "message_1_system": "020a8f57bba533f9a332e9d30a96892bc5893d1b20f376cbde591a1b5cc87922",
+  "message_2_user": "2999c9b1cf233bea3a2bbfcbbd6343e8de1a9cbe1f9810a5a9c750a6be9391f7",
+  "message_3_assistant": "7600af70d3ba08d9eaa7cdabe736a82ff84ce524ace25872a7523624bfd698cb",
+  "message_4_user": "e4fd057248f362b46a89031545a5c672dac2838abd3373c43770da6db6ac7640"
+ },
+ "repair_request_sha256": "139d64b8d33deb7f040f6b0b433346491299069383e30203b25abd2f373a0a86",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790649836-MASGg91ZuQOSS94dKNMe",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 3169,
+   "completion_tokens": 128,
+   "cost_usd_actual": 0.0010275,
+   "cost_usd_nominal": 0.0010275,
+   "finish_reason": "stop",
+   "response_sha256": "7600af70d3ba08d9eaa7cdabe736a82ff84ce524ace25872a7523624bfd698cb",
+   "request_sha": "71383192be4967b701689c444a5b01599d8941466490ee22e8e5367c71f2d48c",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\e2e_smoke_eng_v22\\episodes\\saleor-rc-6abb53f3407b\\PLACEBO_HARD\\calls\\1_initial.txt",
+   "raw_sha256": "7600af70d3ba08d9eaa7cdabe736a82ff84ce524ace25872a7523624bfd698cb"
+  },
+  {
+   "kind": "repair",
+   "index": 2,
+   "request_id": "gen-1790649844-AqfhdRhoQeXiAMRCmqmq",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 3410,
+   "completion_tokens": 138,
+   "cost_usd_actual": 0.000505,
+   "cost_usd_nominal": 0.000505,
+   "finish_reason": "stop",
+   "response_sha256": "34c6611b048a0e9be4171a93faebb08a05cc54e5264ef3f5fe40712fb8904396",
+   "request_sha": "139d64b8d33deb7f040f6b0b433346491299069383e30203b25abd2f373a0a86",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\e2e_smoke_eng_v22\\episodes\\saleor-rc-6abb53f3407b\\PLACEBO_HARD\\calls\\2_repair.txt",
+   "raw_sha256": "34c6611b048a0e9be4171a93faebb08a05cc54e5264ef3f5fe40712fb8904396"
+  }
+ ],
+ "validation": {
+  "initial": [
+   "SEARCH_ERROR:saleor/attribute/error_codes.py: block 1: SEARCH content not found in current file (count=0); search='class AttributeErrorCode(Enum):\\n    ALREADY_EXISTS = \"already_exists\"\\n    GRAPHQ'"
+  ],
+  "repair": [
+   "SEARCH_ERROR:saleor/attribute/error_codes.py: block 1: SEARCH content not found in current file (count=0); search='from enum import Enum\\n\\n\\nclass AttributeErrorCode(Enum):\\n    ALREADY_EXISTS = \"al'"
+  ]
+ },
+ "repair_used": true,
+ "edited_files": [],
+ "diff_sha256": "",
+ "envelope": {},
+ "whitespace_tolerant_blocks": [],
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-29T02:44:08Z",
+ "episode_sha256": "b7ebba601a987c826a7d8aa3dc0e384090a4ea423a702d1738fa5a17d99aa1fa"
+}

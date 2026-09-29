@@ -1,0 +1,35 @@
+Looking at the developer change description "Extend logic for updating order status (#6618) * Extend logic for updating order status * Call update order status for refund action * Apply changes after review * Fix failing tests", I need to analyze the code to understand what needs to be extended.
+
+From examining the code, I can see that:
+
+1. In `saleor/order/utils.py`, there's an `update_order_status` function that updates order status based on fulfillment quantities
+2. In `saleor/order/actions.py`, the `order_refunded` function doesn't call `update_order_status` 
+3. Other functions like `order_fulfilled` and `cancel_fulfillment` do call `update_order_status`
+
+The issue seems to be that when an order is refunded, the order status should also be updated to reflect the refund, but currently `order_refunded` doesn't call `update_order_status`.
+
+Let me check where `update_order_status` is called and ensure `order_refunded` also calls it.
+
+FILE: saleor/order/actions.py
+<<<<<<< SEARCH
+def order_refunded(
+    order: "Order", user: Optional["User"], amount: "Decimal", payment: "Payment"
+):
+    events.payment_refunded_event(
+        order=order, user=user, amount=amount, payment=payment
+    )
+    get_plugins_manager().order_updated(order)
+
+    send_order_refunded_confirmation(order, user, amount, payment.currency)
+=======
+def order_refunded(
+    order: "Order", user: Optional["User"], amount: "Decimal", payment: "Payment"
+):
+    events.payment_refunded_event(
+        order=order, user=user, amount=amount, payment=payment
+    )
+    update_order_status(order)
+    get_plugins_manager().order_updated(order)
+
+    send_order_refunded_confirmation(order, user, amount, payment.currency)
+>>>>>>> REPLACE

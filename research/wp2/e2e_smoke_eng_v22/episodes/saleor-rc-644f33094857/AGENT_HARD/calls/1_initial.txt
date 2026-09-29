@@ -1,0 +1,57 @@
+Looking at the developer change description, I need to extend the logic for updating order status and call update order status for refund action. Let me analyze the code to understand what needs to be changed.
+
+From the code, I can see that:
+1. In `saleor/order/actions.py`, there's a function `update_order_status` that updates order status based on fulfillments
+2. This function is called in several places like `order_fulfilled` and `cancel_fulfillment`
+3. The refund functionality in `create_refund_fulfillment` doesn't seem to call `update_order_status`
+
+Let me examine the refund fulfillment creation to see where I need to add the order status update.
+
+Looking at the `create_refund_fulfillment` function, I can see it creates a refund fulfillment but doesn't update the order status afterwards. I need to add a call to `update_order_status` after the fulfillment is processed.
+
+```python
+FILE: saleor/order/actions.py
+<<<<<<< SEARCH
+    with transaction.atomic():
+        refunded_fulfillment, _ = Fulfillment.objects.get_or_create(
+            status=FulfillmentStatus.REFUNDED, order=order
+        )
+        already_refunded_lines = list(refunded_fulfillment.lines.all())
+        _move_order_lines_to_target_fulfillment(
+            order_lines_to_move=order_lines_to_refund,
+            lines_in_target_fulfillment=already_refunded_lines,
+            target_fulfillment=refunded_fulfillment,
+        )
+        _move_fulfillment_lines_to_target_fulfillment(
+            fulfillment_lines_to_move=fulfillment_lines_to_refund,
+            lines_in_target_fulfillment=already_refunded_lines,
+            target_fulfillment=refunded_fulfillment,
+        )
+
+        Fulfillment.objects.filter(order=order, lines=None).delete()
+
+    return refunded_fulfillment
+=======
+    with transaction.atomic():
+        refunded_fulfillment, _ = Fulfillment.objects.get_or_create(
+            status=FulfillmentStatus.REFUNDED, order=order
+        )
+        already_refunded_lines = list(refunded_fulfillment.lines.all())
+        _move_order_lines_to_target_fulfillment(
+            order_lines_to_move=order_lines_to_refund,
+            lines_in_target_fulfillment=already_refunded_lines,
+            target_fulfillment=refunded_fulfillment,
+        )
+        _move_fulfillment_lines_to_target_fulfillment(
+            fulfillment_lines_to_move=fulfillment_lines_to_refund,
+            lines_in_target_fulfillment=already_refunded_lines,
+            target_fulfillment=refunded_fulfillment,
+        )
+
+        Fulfillment.objects.filter(order=order, lines=None).delete()
+    
+    update_order_status(order)
+
+    return refunded_fulfillment
+>>>>>>> REPLACE
+```

@@ -1,0 +1,64 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v21",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-6abb53f3407b",
+ "arm": "AGENT_HARD",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/account/models.py",
+  "saleor/graphql/account/mutations/account.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/account/models.py",
+   "saleor/graphql/account/mutations/account.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/account/models.py",
+   "saleor/graphql/account/mutations/account.py"
+  ]
+ },
+ "prompt_sha256": "8c04cfb261ab46802865c9ee3a9cfcb2ec1db46204b950c6341090935e02075f",
+ "request_sha_initial": "38d56711c928d4ec58558e0c462001680571fd22f81cc4107e2e6af0a3d72eca",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "repair_request_sha256": "",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790649821-I8w5fly9TDucyMlWGwBv",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 6110,
+   "completion_tokens": 519,
+   "cost_usd_actual": 0.0023008,
+   "cost_usd_nominal": 0.0023008,
+   "finish_reason": "stop",
+   "response_sha256": "be6176015aa42b0f1c8d348f7bee4ec67a57a87d8af0ae9cbaa75ea25f0adfa0",
+   "request_sha": "38d56711c928d4ec58558e0c462001680571fd22f81cc4107e2e6af0a3d72eca",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\e2e_smoke_eng_v22\\episodes\\saleor-rc-6abb53f3407b\\AGENT_HARD\\calls\\1_initial.txt",
+   "raw_sha256": "be6176015aa42b0f1c8d348f7bee4ec67a57a87d8af0ae9cbaa75ea25f0adfa0"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "edited_files": [
+  "saleor/account/models.py",
+  "saleor/graphql/account/mutations/account.py"
+ ],
+ "diff_sha256": "094acabfadd50ffbd4d2130723c7ea90060681d48c4e53490746c534bc50442f",
+ "envelope": {},
+ "whitespace_tolerant_blocks": [],
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-29T02:43:53Z",
+ "episode_sha256": "908f99493c81207ae7623b415744f71b1a80ac3950369d52a82aad356786a85f"
+}

@@ -1,0 +1,68 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v21",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-644f33094857",
+ "arm": "AGENT_HARD",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/graphql/order/mutations/fulfillments.py",
+  "saleor/order/actions.py",
+  "saleor/order/utils.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/graphql/order/mutations/fulfillments.py",
+   "saleor/order/actions.py",
+   "saleor/order/utils.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/graphql/order/mutations/fulfillments.py",
+   "saleor/order/actions.py",
+   "saleor/order/utils.py"
+  ]
+ },
+ "prompt_sha256": "2e170a38e28913086bdb55b43c1f6331c713f6f485c8dfc04c272eb721732352",
+ "request_sha_initial": "00861fde0294fed902af3a9a0897d2faf8760ced055bcf9714a359ed66f25950",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "repair_request_sha256": "",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790649735-iCnUox6noYpFLuwy842p",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 15804,
+   "completion_tokens": 574,
+   "cost_usd_actual": 0.0052608,
+   "cost_usd_nominal": 0.0052608,
+   "finish_reason": "stop",
+   "response_sha256": "d9f7832228321304a01dfd959be58662c4ab5a69eed14e92ce5773112d9ffd0e",
+   "request_sha": "00861fde0294fed902af3a9a0897d2faf8760ced055bcf9714a359ed66f25950",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\e2e_smoke_eng_v22\\episodes\\saleor-rc-644f33094857\\AGENT_HARD\\calls\\1_initial.txt",
+   "raw_sha256": "d9f7832228321304a01dfd959be58662c4ab5a69eed14e92ce5773112d9ffd0e"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "edited_files": [
+  "saleor/graphql/order/mutations/fulfillments.py",
+  "saleor/order/actions.py",
+  "saleor/order/utils.py"
+ ],
+ "diff_sha256": "8ff381ed40c47b344d3801fa2790a5f522ec569edcf10951f162ca51985ec13c",
+ "envelope": {},
+ "whitespace_tolerant_blocks": [],
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-29T02:42:30Z",
+ "episode_sha256": "8e4ede4cc8a9f0c92af4967fb15b2b55aa1b03fcd26873b2e2e4122a421fc634"
+}
