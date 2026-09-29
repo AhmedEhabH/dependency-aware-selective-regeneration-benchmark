@@ -1,0 +1,77 @@
+{
+ "artifact": "evaluation_instrument_amendment_v221",
+ "created_utc": "2026-09-29T03:19:44Z",
+ "reason": "Evaluation identity defect found after generation freeze and before any evaluation: 7 distinct tasks produced the identical no-op diff; the reused v2.1 evaluator keyed unique evaluations by diff_sha[:8] and the v2.1 summary joined by diff_sha256 alone. Identity is now (task_id, full diff_sha256) in storage, completeness gate and summary join.",
+ "base_freeze_sha256": "4c41fdfee05bb3cdff951b2b393a5a9c557b55776fea4572c9c5b156708eeb87",
+ "generation_freeze_sha256": "29a4e1f1c45238673e3c70ec6a8e47b150c7185e233ffe8b4d72a824d6311778",
+ "changed_files": {
+  "scripts/wp2_e2e_v22_evaluate.py": {
+   "old": "ab380afee999fac50b32c8f4063b3bd5789382fed240b92f2456458eb311c3e0",
+   "new": "23039e952d02e6c394e6734ecc9396dd77ab3b4324f58c4ccd84376a0f4c625e"
+  },
+  "scripts/wp2_e2e_v22_freeze.py": {
+   "old": "ba43067a9467dc1c36cc011ef769b1c895e2af66807ac9c5e1590cf9ebd0e95b",
+   "new": "c3313427395c574f4ea55529b562d291bb933b266feac1e27251d576ecd3fdb3"
+  },
+  "scripts/wp2_e2e_v22_summary.py": {
+   "old": "043cae2ef731c52c51acfc962a5481b53b5a6ca1a1379070ef195ba081b5d35f",
+   "new": "06577f606e6280d82c071831c9101891226ec933737aee662f34a1d7405d6805"
+  },
+  "controller/KIT_MANIFEST.json": {
+   "old": "4c369b24e67dbbabd32281130dc4839c614d031d78afe3bec45fbde797dde807",
+   "new": "32dc7e58fc5d7a66ca8ef809efcd8261f7c9040b496fa72f3524e5952e787fab"
+  }
+ },
+ "kit_test_files": {
+  "tests/unit/wp2/e2e_v22/test_freeze_eval_v22.py": {
+   "old": "3a8d3b7b35e35ba7835ac1681a3ca346992bce21e3b4b83ecb4e2dc9c19c35e0",
+   "new": "5be550de85e7934792809bcc8744935514ed7d02c9b3a691487d0c6f4cf42021"
+  },
+  "tests/unit/wp2/e2e_v22/test_eval_identity_v221.py": {
+   "old": null,
+   "new": "21d78df7845519233661caf12d833b1b73992e93c8b3c74adaf2e6cef7faacd6"
+  }
+ },
+ "census_before_amendment": {
+  "applied": 50,
+  "unique_identities": 44,
+  "cross_task_identical_diff_groups": {
+   "16ec795185b645d8d57bd90786f83612f045ee5efe642dd1520f3496ef3b03d3": [
+    "saleor-rc-2d45b76a52f2",
+    "saleor-rc-82c56bde0e34",
+    "saleor-rc-93b20d78c011",
+    "saleor-rc-c3b9e396b07d",
+    "saleor-rc-dc6ac9d252df",
+    "saleor-rc-e03ee76d2b89",
+    "saleor-rc-e25cf9b4a837"
+   ]
+  }
+ },
+ "confirmations": {
+  "generation_evidence_unchanged": true,
+  "generation_rerun": false,
+  "episodes_modified": false,
+  "scopes_model_provider_policy_evaluator_sets_unchanged": true,
+  "evaluation_records_before_amendment": 0,
+  "model_api_calls": 0,
+  "controller_and_plan_unchanged": true
+ },
+ "tests": "85 passed in 17.31s",
+ "plan_check": {
+  "cross_task_identical_diff_groups": {
+   "16ec795185b645d8": [
+    "saleor-rc-2d45b76a52f2",
+    "saleor-rc-82c56bde0e34",
+    "saleor-rc-93b20d78c011",
+    "saleor-rc-c3b9e396b07d",
+    "saleor-rc-dc6ac9d252df",
+    "saleor-rc-e03ee76d2b89",
+    "saleor-rc-e25cf9b4a837"
+   ]
+  },
+  "n_unique_identities": 44
+ },
+ "installer_sha256": "c839a3d292c0f2904bcbcbe39ec8e527d81e2d684f85fd14fb7ebff32bf42e1a",
+ "head_before": "bd9bc11c6c6578f3c2fb8ee16a61b91c9a946f43",
+ "amendment_sha256": "054bc5670d867f964819212a8b480406b20d7cec41e8507ad80a1cd1e50ec9b4"
+}

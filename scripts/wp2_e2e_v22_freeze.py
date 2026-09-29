@@ -6,8 +6,15 @@ Subcommands (each exits 0 = PASS, 1 = FAIL with reasons printed as FREEZE_FAIL l
   --build              write smoke_v22_freeze.json (code, scopes, evaluator, env identity, policy)
   --verify             recompute and compare with the freeze (code drift / env drift)
   --generation-freeze  check generation invariants and write generation_freeze_v22.json
-  --eval-complete      PASS only when every planned unique diff and every non-APPLIED
-                       episode has an evaluation record
+  --eval-complete      PASS only when every planned (task_id, diff) identity and every
+                       non-APPLIED episode has an evaluation record
+
+Amendment v2.2.1 (evaluation instrument, after generation freeze, before any evaluation):
+  If research/wp2/e2e_smoke_eng_v22/evaluation_instrument_amendment_v221.json exists,
+  --verify accepts ONLY the files in AMENDABLE_FILES whose hash moved from the original
+  freeze hash to the amendment's new hash. Every other frozen file must still match the
+  original freeze. The amendment is self-hashed and bound to the original freeze SHA and
+  to the generation freeze SHA, and the generation evidence must be unchanged.
 """
 from __future__ import annotations
 
@@ -48,6 +55,27 @@ from benchmark.wp2.e2e_v22.common import (  # noqa: E402
 
 FREEZE_FILE = V22_ROOT / "smoke_v22_freeze.json"
 GEN_FREEZE_FILE = V22_ROOT / "generation_freeze_v22.json"
+AMENDMENT_FILE = V22_ROOT / "evaluation_instrument_amendment_v221.json"
+# The only files an evaluation-instrument amendment may change (never generation code,
+# transport, scopes, policy, prompts, the controller or the plan).
+AMENDABLE_FILES = frozenset({
+    "scripts/wp2_e2e_v22_evaluate.py",
+    "scripts/wp2_e2e_v22_freeze.py",
+    "scripts/wp2_e2e_v22_summary.py",
+    "controller/KIT_MANIFEST.json",
+})
+
+
+def unique_eval_path(root: Path, task_id: str, diff_sha256: str) -> Path:
+    """Scientific evaluation identity = (task_id, FULL diff_sha256)."""
+    if len(diff_sha256) != 64:
+        raise ValueError(f"full 64-hex diff hash required, got {diff_sha256!r}")
+    return root / "evaluations" / "unique" / task_id / diff_sha256 / "evaluation.json"
+
+
+def eval_identity_label(diff_sha256: str) -> str:
+    """Bounded label for worktree/JUnit names only (both are also task-scoped)."""
+    return f"u_{diff_sha256[:12]}"
 
 CODE_GLOBS = (
     "src/benchmark/wp2/e2e/*.py",
@@ -184,14 +212,48 @@ def build(runner: Any = None) -> int:
     return 0
 
 
+def load_amendment(freeze: dict[str, Any]) -> tuple[dict[str, dict[str, str]], list[str]]:
+    """Return ({rel: {"old", "new"}}, reasons). No amendment file -> ({}, [])."""
+    if not AMENDMENT_FILE.exists():
+        return {}, []
+    reasons: list[str] = []
+    am = json.loads(AMENDMENT_FILE.read_text(encoding="utf-8"))
+    body = {k: v for k, v in am.items() if k != "amendment_sha256"}
+    if json_sha256(body) != am.get("amendment_sha256"):
+        reasons.append("AMENDMENT_SELF_HASH_MISMATCH")
+    if am.get("base_freeze_sha256") != freeze.get("freeze_sha256"):
+        reasons.append("AMENDMENT_BOUND_TO_OTHER_FREEZE")
+    if not GEN_FREEZE_FILE.exists():
+        reasons.append("AMENDMENT_WITHOUT_GENERATION_FREEZE")
+    else:
+        gen = json.loads(GEN_FREEZE_FILE.read_text(encoding="utf-8"))
+        gen_body = {k: v for k, v in gen.items() if k != "generation_freeze_sha256"}
+        if json_sha256(gen_body) != gen.get("generation_freeze_sha256"):
+            reasons.append("GENERATION_FREEZE_SELF_HASH_MISMATCH")
+        if gen.get("generation_freeze_sha256") != am.get("generation_freeze_sha256"):
+            reasons.append("AMENDMENT_BOUND_TO_OTHER_GENERATION_FREEZE")
+        for rel, e in gen.get("episodes", {}).items():
+            p = V22_ROOT / rel
+            if not p.exists() or norm_sha256(p) != e.get("episode_file_sha256"):
+                reasons.append(f"GENERATION_EVIDENCE_CHANGED {rel}")
+    changed = am.get("changed_files", {})
+    for rel, e in changed.items():
+        if rel not in AMENDABLE_FILES:
+            reasons.append(f"AMENDMENT_TOUCHES_NON_AMENDABLE {rel}")
+        elif freeze["code_sha256"].get(rel) != e.get("old"):
+            reasons.append(f"AMENDMENT_OLD_HASH_MISMATCH {rel}")
+    return changed, reasons
+
+
 def verify(runner: Any = None) -> int:
     if not FREEZE_FILE.exists():
         return _fail(["freeze missing"])
     freeze = json.loads(FREEZE_FILE.read_text(encoding="utf-8"))
-    reasons: list[str] = []
+    changed, reasons = load_amendment(freeze)
     now = code_hashes()
     for rel, h in freeze["code_sha256"].items():
-        if now.get(rel) != h:
+        expected = changed[rel]["new"] if rel in changed else h
+        if now.get(rel) != expected:
             reasons.append(f"CODE_DRIFT {rel}")
     for rel in sorted(set(now) - set(freeze["code_sha256"])):
         reasons.append(f"CODE_ADDED_AFTER_FREEZE {rel}")
@@ -211,7 +273,7 @@ def verify(runner: Any = None) -> int:
     elif env["postgres"].get("image_id") != freeze["env_identity"]["postgres"].get("image_id"):
         reasons.append("ENV_DRIFT postgres image")
     if not reasons:
-        print("FREEZE_VERIFY_PASS")
+        print("FREEZE_VERIFY_PASS" + (" (amendment v2.2.1)" if changed else ""))
     return _fail(reasons)
 
 
@@ -281,16 +343,21 @@ def eval_complete() -> int:
     plan = json.loads(plan_path.read_text(encoding="utf-8"))
     reasons: list[str] = []
     for item in plan["items"]:
-        label = f"unique_{item['diff_sha256'][:8]}"
-        if not (V22_ROOT / "evaluations" / "unique" / label / "evaluation.json").exists():
-            reasons.append(f"missing unique evaluation {label}")
+        task, sha = item["task_id"], item["diff_sha256"]
+        rec_path = unique_eval_path(V22_ROOT, task, sha)
+        if not rec_path.exists():
+            reasons.append(f"missing unique evaluation {task}/{sha[:12]}")
+            continue
+        rec = json.loads(rec_path.read_text(encoding="utf-8"))
+        if rec.get("task_id") != task or rec.get("diff_sha256") != sha:
+            reasons.append(f"evaluation identity mismatch {task}/{sha[:12]}")
     for subdir, plan_items in (("episodes", planned_main()), ("variance", planned_variance())):
         for task_id, _arm, label in plan_items:
             p = episode_path(V22_ROOT, subdir, task_id, label)
             if read_status(p) != "APPLIED":
                 rec_path = V22_ROOT / "evaluations" / subdir / task_id / label / "evaluation.json"
                 if not rec_path.exists():
-                    reasons.append(f"missing by-construction record {subdir}/{label}")
+                    reasons.append(f"missing by-construction record {subdir}/{task_id}/{label}")
     if not reasons:
         print(f"EVAL_COMPLETE n_unique={plan['n_unique_diffs']}")
     return _fail(sorted(set(reasons))[:40])

@@ -5,6 +5,12 @@
    "phase": "P05_FREEZE",
    "token": "POST_ACTION_FAILED",
    "utc": "2026-09-29T02:37:49Z"
+  },
+  {
+   "note": "v2.2.1 evaluation-instrument amendment installed after generation freeze and before any evaluation: evaluation identity (task_id, full diff_sha256); amendment_sha256=054bc5670d867f964819212a8b480406b20d7cec41e8507ad80a1cd1e50ec9b4; generation freeze 29a4e1f1c45238673e3c70ec6a8e47b150c7185e233ffe8b4d72a824d6311778 unchanged; zero API calls. Resume at P09.",
+   "phase": "P09_EVAL_PLAN",
+   "token": "EVAL_PLAN_FAIL",
+   "utc": "2026-09-29T03:19:52Z"
   }
  ],
  "history": [
@@ -145,6 +151,12 @@
    "event": "STOP",
    "phase": "P09_EVAL_PLAN",
    "utc": "2026-09-29T02:59:36Z"
+  },
+  {
+   "detail": "EVAL_PLAN_FAIL: v2.2.1 evaluation-instrument amendment installed after generation freeze and before any evaluation: evaluation identity (task_id, full diff_sha256); amendment_sha256=054bc5670d867f964819212a8b480406b20d7cec41e8507ad80a1cd1e50ec9b4; generation freeze 29a4e1f1c45238673e3c70ec6a8e47b150c7185e233ffe8b4d72a824d6311778 unchanged; zero API calls. Resume at P09.",
+   "event": "ACK",
+   "phase": "P09_EVAL_PLAN",
+   "utc": "2026-09-29T03:19:52Z"
   }
  ],
  "phases": {
@@ -261,7 +273,7 @@
    "light": 0
   },
   "phase": "P09_EVAL_PLAN",
-  "resumable": false,
+  "resumable": true,
   "token": "EVAL_PLAN_FAIL",
   "utc": "2026-09-29T02:59:36Z"
  }

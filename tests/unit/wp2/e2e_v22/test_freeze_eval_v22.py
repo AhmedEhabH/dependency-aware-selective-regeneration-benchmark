@@ -98,7 +98,7 @@ def test_generation_freeze_rejects_overspend(fz, capsys):
     assert "ceiling" in capsys.readouterr().out
 
 
-def test_eval_complete_uses_task_scoped_by_construction_paths(fz, capsys):
+def test_eval_complete_uses_task_scoped_paths(fz, capsys):
     root = fz._root
     for t, _a, lab in MAIN:
         put_episode(root, "episodes", t, lab, status="NO_SCOPE")
@@ -108,21 +108,20 @@ def test_eval_complete_uses_task_scoped_by_construction_paths(fz, capsys):
     plan = {"items": [{"task_id": "t1", "diff_sha256": "ab" * 32}], "n_unique_diffs": 1}
     (root / "evaluations" / "plan.json").write_text(json.dumps(plan))
     assert fz.eval_complete() == 1
-    (root / "evaluations/unique/unique_abababab").mkdir(parents=True)
-    (root / "evaluations/unique/unique_abababab/evaluation.json").write_text("{}")
-    # t1/GOLD_HARD and t2/GOLD_HARD share a label: both records must exist separately
-    p = root / "evaluations/episodes/t1/GOLD_HARD/evaluation.json"
-    p.parent.mkdir(parents=True)
-    p.write_text("{}")
-    p = root / "evaluations/episodes/t1/RMCSS_HARD/evaluation.json"
-    p.parent.mkdir(parents=True)
-    p.write_text("{}")
+    up = fz.unique_eval_path(root, "t1", "ab" * 32)
+    up.parent.mkdir(parents=True)
+    up.write_text(json.dumps({"task_id": "t2", "diff_sha256": "ab" * 32}))  # wrong owner
+    for t, lab in (("t1", "GOLD_HARD"), ("t1", "RMCSS_HARD"), ("t2", "GOLD_HARD")):
+        p = root / "evaluations/episodes" / t / lab / "evaluation.json"
+        p.parent.mkdir(parents=True)
+        p.write_text("{}")
     assert fz.eval_complete() == 1
-    assert "episodes/GOLD_HARD" in capsys.readouterr().out
-    p = root / "evaluations/episodes/t2/GOLD_HARD/evaluation.json"
-    p.parent.mkdir(parents=True)
-    p.write_text("{}")
+    assert "identity mismatch" in capsys.readouterr().out
+    up.write_text(json.dumps({"task_id": "t1", "diff_sha256": "ab" * 32}))
     assert fz.eval_complete() == 0
+    (root / "evaluations/episodes/t2/GOLD_HARD/evaluation.json").unlink()
+    assert fz.eval_complete() == 1
+    assert "episodes/t2/GOLD_HARD" in capsys.readouterr().out
 
 
 def test_code_hash_is_line_ending_invariant(tmp_path, monkeypatch):
@@ -171,16 +170,6 @@ def test_by_construction_records_are_task_scoped(tmp_path, monkeypatch):
     assert (r1["task_id"], r1["f2p_task"], r1["p2p_u200_task"]) == ("t1", "FAIL", "UNDEFINED")
     assert (r2["task_id"], r2["f2p_task"], r2["p2p_s_task"]) == ("t2", "UNDEFINED", "UNDEFINED")
     assert ev.by_construction_records(FakeV21(items), sets) == 0  # idempotent
-
-
-def test_unique_label_collision_is_refused():
-    ev = load("wp2_e2e_v22_evaluate")
-    ok = {"items": [{"task_id": "t1", "diff_sha256": "aaaaaaaa11"},
-                    {"task_id": "t2", "diff_sha256": "bbbbbbbb22"}]}
-    assert ev.label_collisions(ok) == []
-    bad = {"items": [{"task_id": "t1", "diff_sha256": "aaaaaaaa11"},
-                     {"task_id": "t2", "diff_sha256": "aaaaaaaa11"}]}
-    assert ev.label_collisions(bad)
 
 
 def test_evaluator_is_pointed_at_v22_root():

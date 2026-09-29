@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
-"""WP-2 E2E Smoke v2.2 mechanical summary + gates (brain-authored kit; hash-verified).
+"""WP-2 E2E Smoke v2.2 mechanical summary + gates (brain-authored kit v2.2.1; hash-verified).
 
-Reuses the frozen v2.1 per-arm summarizer and NEXT rule unchanged (pointed at the v2.2
-root) and adds the mechanical Smoke gates:
+Reuses the frozen v2.1 per-arm counting rules and NEXT rule (pointed at the v2.2 root).
+Amendment v2.2.1: APPLIED episodes are joined to their evaluation by
+(task_id, full diff_sha256). The v2.1 summarizer joined by diff_sha256 alone, which lets
+one task borrow another task's score whenever the diffs are identical (e.g. no-op diffs).
+It adds the mechanical Smoke gates:
 
 SG1 instrument: generation freeze present AND every planned evaluation record present.
 SG2 completion: 56/56 main + 6/6 variance terminal (checked by the generation freeze).
@@ -60,6 +63,80 @@ def variance_table() -> list[dict[str, Any]]:
     return rows
 
 
+def evals_by_identity(root: Path | None = None) -> dict[tuple[str, str], dict[str, Any]]:
+    root = root or V22_ROOT
+    out: dict[tuple[str, str], dict[str, Any]] = {}
+    d = root / "evaluations" / "unique"
+    if not d.exists():
+        return out
+    for p in d.glob("*/*/evaluation.json"):
+        rec = _load(p)
+        if not rec:
+            continue
+        task, sha = p.parent.parent.name, p.parent.name
+        if rec.get("task_id") != task or rec.get("diff_sha256") != sha:
+            raise RuntimeError(f"evaluation identity mismatch in {p}")
+        out[(task, sha)] = rec
+    return out
+
+
+def summarize_v22(mod: ModuleType, tasks: list[str],
+                  evals: dict[tuple[str, str], dict[str, Any]] | None = None) -> dict:
+    """v2.1 counting rules, with the APPLIED join keyed by (task_id, diff_sha256)."""
+    eps = mod._episodes()
+    evals = evals_by_identity() if evals is None else evals
+    by_cons = mod._by_construction()
+    per_arm: dict[str, dict] = {}
+    for arm in mod.ARMS:
+        first_valid = post_repair = applied = resolved = f2p = p2ps = p2pu = 0
+        arch_viol = 0
+        missing_eval = 0
+        tokens = usd = 0.0
+        wall_times: list[str] = []
+        for tid in tasks:
+            ep = eps.get((tid, arm))
+            if not ep:
+                continue
+            if ep.get("created_utc"):
+                wall_times.append(ep["created_utc"])
+            for c in ep.get("calls", []):
+                tokens += c.get("prompt_tokens", 0) + c.get("completion_tokens", 0)
+                usd += c.get("cost_usd_actual", 0.0)
+            for key in ("initial", "repair"):
+                for err in ep.get("validation", {}).get(key, []):
+                    if err.startswith(("OUT_OF_SCOPE_FILE", "TEST_PATH")):
+                        arch_viol += 1
+            if ep.get("status") == "APPLIED":
+                applied += 1
+                if ep.get("repair_used"):
+                    post_repair += 1
+                else:
+                    first_valid += 1
+                eval_rec = evals.get((tid, ep.get("diff_sha256", "")), {})
+                if not eval_rec:
+                    missing_eval += 1
+            else:
+                eval_rec = by_cons.get((tid, arm), {})
+            if eval_rec:
+                if eval_rec.get("f2p_task") == "PASS":
+                    f2p += 1
+                if eval_rec.get("p2p_s_task") in ("PASS", "PASS_BY_CONSTRUCTION"):
+                    p2ps += 1
+                if eval_rec.get("p2p_u200_task") in ("PASS", "PASS_BY_CONSTRUCTION"):
+                    p2pu += 1
+                if eval_rec.get("resolved"):
+                    resolved += 1
+        per_arm[arm] = {
+            "first_call_valid": first_valid, "post_repair_valid": post_repair,
+            "applied": applied, "resolved": resolved, "f2p": f2p, "p2p_s": p2ps,
+            "p2p_u200": p2pu, "architecture_scope_violations": arch_viol,
+            "applied_without_evaluation": missing_eval,
+            "logical_tokens": int(tokens), "billed_tokens": int(tokens),
+            "usd": round(usd, 6), "wall_time_s": round(mod._wall_span(wall_times), 1),
+        }
+    return per_arm
+
+
 def decide(sg: dict[str, bool]) -> str:
     if not (sg["SG1_instrument"] and sg["SG2_completion"]):
         return "E2E_SMOKE_V22_INSTRUMENT_INVALID"
@@ -81,13 +158,15 @@ def main() -> int:
     eval_ok = fz.eval_complete() == 0
     mod = load_v21_summary()
     pop = freeze["population"]
-    primary = mod.summarize(pop)
-    secondary = mod.summarize([t for t in pop if t != mod.D220])
+    evals = evals_by_identity()
+    primary = summarize_v22(mod, pop, evals)
+    secondary = summarize_v22(mod, [t for t in pop if t != mod.D220], evals)
     next_token, reason = mod._primary_gate(primary)
     from benchmark.wp2.e2e_v21.ledger import LedgerV21
     spend = LedgerV21(V22_ROOT / "ledger" / "spend_ledger_v22.jsonl",
                       {"SMOKE": SCIENTIFIC_CEILING_USD}).total()
-    sg = {"SG1_instrument": eval_ok,
+    no_orphans = all(r["applied_without_evaluation"] == 0 for r in primary.values())
+    sg = {"SG1_instrument": eval_ok and no_orphans,
           "SG2_completion": gen.get("n_episodes") == 62,
           "SG3_spend": spend <= SCIENTIFIC_CEILING_USD,
           "SG4_floor": primary["GOLD_HARD"]["resolved"] >= 1}
