@@ -1,0 +1,1969 @@
+{
+ "task_id": "saleor-rc-82c56bde0e34",
+ "diff_sha256": "16ec795185b645d8d57bd90786f83612f045ee5efe642dd1520f3496ef3b03d3",
+ "eval_identity": "saleor-rc-82c56bde0e34/16ec795185b645d8d57bd90786f83612f045ee5efe642dd1520f3496ef3b03d3",
+ "label": "u_16ec795185b6",
+ "tree_sha": "392a8169077cc34ff40b557c552f1c34a0f65a80",
+ "status": "DONE",
+ "diff_file_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+ "groups": {
+  "C": {
+   "saleor/graphql/checkout/tests/test_checkout.py::test_anonymous_client_can_fetch_anonymoues_checkout_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_anonymous_client_cant_fetch_checkout_with_attached_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_authorized_access_to_checkout_user_as_customer": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_authorized_access_to_checkout_user_as_staff": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_authorized_access_to_checkout_user_as_staff_no_permission": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_available_collection_points_for_preorders_and_regular_variants_in_checkout": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_available_collection_points_for_preorders_variants_in_checkout": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_avail_collect_fallbacks_to_channel_country_when_no_shipping_address": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_avail_collect_points_exceeded_quantity_shows_only_all_warehouse": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_avail_collect_points_returns_empty_list_when_no_channels": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_available_collection_points_two_lines_for_same_checkout": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_available_collection_points_with_line_avail_in_2_local_and_1_all": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_available_collection_points_with_lines_avail_in_1_local_and_1_all": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_available_payment_gateways": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_available_payment_gateways_currency_specified_EUR": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_available_payment_gateways_currency_specified_USD": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_available_payment_gateways_valid_info_sent": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_available_shipping_methods[availableShippingMethods]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_available_shipping_methods[shippingMethods]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_available_shipping_methods_excluded_postal_codes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_available_shipping_methods_shipping_zone_without_channels": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_available_shipping_methods_weight_method_with_higher_minimal_weigh": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_available_shipping_methods_with_price_displayed": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_available_shipping_methods_with_weight_based_shipping_method[0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_available_shipping_methods_with_weight_based_shipping_method[2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_available_shipping_methods_with_weight_based_shipping_method[None]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_balance": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_display_gross_prices_use_country_exception": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_display_gross_prices_use_default": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_metadata": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_no_available_shipping_methods_without_address": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_no_available_shipping_methods_without_lines": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_no_metadata": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_payment_statuses": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_prices": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_prices_checkout_with_custom_prices": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_prices_with_sales": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_prices_with_specific_voucher": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_prices_with_voucher": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_prices_with_voucher_once_per_order": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_reservation_date_for_disabled_reservations": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_reservation_date_for_expired_reservations": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_reservation_date_for_multiple_reservations": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_reservation_date_for_multiple_reservations_types": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_reservation_date_for_no_reservations": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_reservation_date_for_preorder_reservation": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_reservation_date_for_stock_reservation": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_selected_shipping_method": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_selected_shipping_method_as_staff": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_shipping_methods_with_price_based_method_and_product_voucher": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_shipping_methods_with_price_based_shipping_and_shipping_discount": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_shipping_methods_with_price_based_shipping_method_and_discount": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_transactions_missing_permission": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_transactions_with_handle_payments": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_transactions_with_manage_checkouts": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_with_stored_payment_methods": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_with_stored_payment_methods_empty_response": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_with_stored_payment_methods_requested_by_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_with_stored_payment_methods_requested_by_staff_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_clean_checkout": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_clean_checkout_invalid_shipping_method": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_clean_checkout_no_billing_address": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_clean_checkout_no_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_clean_checkout_no_shipping_address": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_clean_checkout_no_shipping_method": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_clean_delivery_method_after_shipping_address_changes_stay_the_same": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_clean_delivery_method_does_nothing_if_no_shipping_method": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_clean_delivery_method_with_preorder_is_valid_for_enabled_warehouse": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_fetch_checkout_invalid_token": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_get_variant_data_from_checkout_line_variant_hidden_in_listings": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_query_anonymous_customer_channel_checkout_as_anonymous_customer": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_query_anonymous_customer_channel_checkout_as_customer": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_query_anonymous_customer_checkout_as_anonymous_customer": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_query_anonymous_customer_checkout_as_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_query_anonymous_customer_checkout_as_customer": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_query_anonymous_customer_checkout_as_staff_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_query_checkout_lines": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_query_checkout_lines_with_meta": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_query_checkouts": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_query_customer_checkout_as_anonymous_customer": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_query_customer_checkout_as_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_query_customer_checkout_as_customer": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_query_customer_checkout_as_staff_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_query_other_customer_checkout_as_customer": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_query_with_channel": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_query_without_channel": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_update_checkout_shipping_method_if_invalid": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout.py::test_update_checkout_shipping_method_if_invalid_no_checkout_metadata": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/test_plugin.py::test_adyen_check_payment_balance": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/test_plugin.py::test_adyen_check_payment_balance_adyen_raises_error": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/test_plugin.py::test_adyen_check_payment_timeout": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/test_plugin.py::test_confirm_already_processed_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/test_plugin.py::test_confirm_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/test_plugin.py::test_confirm_payment_pending_order": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/test_plugin.py::test_confirm_payment_with_adyen_auto_capture": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/test_plugin.py::test_confirm_payment_without_additional_data": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/test_plugin.py::test_process_additional_action": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/test_plugin.py::test_process_payment_additional_action": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/test_plugin.py::test_process_payment_additional_action_checkout_does_not_exists": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/test_plugin.py::test_process_payment_additional_action_payment_does_not_exists": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/test_plugin.py::test_validate_plugin_configuration_correct_cert": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/test_plugin.py::test_validate_plugin_configuration_incorrect_certificate": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/test_plugin.py::test_validate_plugin_configuration_without_apple_cert": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_append_checkout_details": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_append_checkout_details_tax_included": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_append_checkout_details_without_sku": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_from_adyen_price[value0-EUR-expected_result0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_from_adyen_price[value1-PLN-expected_result1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_from_adyen_price[value2-US-expected_result2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_get_payment_method_info": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_get_payment_method_info_no_additional_data": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_get_payment_method_info_scheme_payment_method_type": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_get_request_data_for_check_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_get_request_data_for_check_payment_without_cvc": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_get_request_data_for_check_payment_without_cvc_and_money": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_get_request_data_for_check_payment_without_money": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_get_shopper_locale_value[JP-ja_JP]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_get_shopper_locale_value[US-en_US]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_get_shopper_locale_value[ZZ-en_US]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_prepare_address_request_data_address_fulfilled": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_prepare_address_request_data_address_is_none": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_prepare_address_request_data_with_city_area_without_country_area": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_prepare_address_request_data_with_company_name_and_street_addr_2": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_prepare_address_request_data_with_country_area_without_city_area": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_prepare_address_request_data_without_city_country_code_and_areas": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_prepare_address_request_data_without_company_name_and_street_addr_2": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_prepare_address_request_data_without_company_with_street_addr_2": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_request_data_for_gateway_config": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_request_data_for_gateway_config_no_country": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_request_data_for_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_request_data_for_payment_append_checkout_details[afterpaytouch]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_request_data_for_payment_append_checkout_details[clearpay]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_request_data_for_payment_append_checkout_details[klarna]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_request_data_for_payment_channel_different_than_web": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_request_data_for_payment_native_3d_secure": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_request_data_for_payment_payment_not_valid": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_request_data_for_payment_when_missing_city_address_field": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_request_data_for_payment_when_missing_city_and_count_area": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_request_data_for_payment_when_missing_postal_code": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_request_data_for_payment_without_shipping": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_to_adyen_price[value0-EUR-1000]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_to_adyen_price[value1-PLN-100]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_to_adyen_price[value2-US-10000]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_update_payment_with_action_required_data_empty_extra_data": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_update_payment_with_action_required_data_extra_data_as_dict": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_update_payment_with_action_required_data_extra_data_as_list": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/authorize_net/tests/test_plugin.py::test_get_payment_gateway_for_checkout": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/payment/gateways/authorize_net/tests/test_plugin.py::test_get_payment_gateway_for_checkout_inactive": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/payment/gateways/authorize_net/tests/test_plugin.py::test_payment_gateway_authorize_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/authorize_net/tests/test_plugin.py::test_payment_gateway_capture_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/authorize_net/tests/test_plugin.py::test_payment_gateway_list_payment_sources": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/authorize_net/tests/test_plugin.py::test_payment_gateway_process_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/authorize_net/tests/test_plugin.py::test_payment_gateway_process_payment_production_failure": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/authorize_net/tests/test_plugin.py::test_payment_gateway_refund_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/authorize_net/tests/test_plugin.py::test_payment_gateway_refund_payment_no_payment[-1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/authorize_net/tests/test_plugin.py::test_payment_gateway_refund_payment_no_payment[None]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/authorize_net/tests/test_plugin.py::test_payment_gateway_validate": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/authorize_net/tests/test_plugin.py::test_payment_gateway_validate_failure": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_check_plugin_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_get_payment_gateways": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_get_payment_gateways_filters_out_unsupported_currencies": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_get_payment_gateways_for_checkout": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_get_payment_gateways_multiple_webhooks_in_the_same_app": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_get_payment_gateways_with_transactions": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_get_payment_gateways_with_transactions_and_app_without_identifier": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_run_payment_webhook[auth-authorize_payment]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_run_payment_webhook[capture-capture_payment]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_run_payment_webhook[capture-process_payment]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_run_payment_webhook[confirm-confirm_payment]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_run_payment_webhook[refund-refund_payment]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_run_payment_webhook[void-void_payment]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_run_payment_webhook_empty_response": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_run_payment_webhook_inactive_plugin": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_run_payment_webhook_invalid_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_run_payment_webhook_no_payment_app_data": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_run_payment_webhook_no_response": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_send_webhook_request_sync_failed_attempt": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_send_webhook_request_sync_invalid_scheme": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_send_webhook_request_sync_json_parsing_error": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_send_webhook_request_sync_request_exception": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_send_webhook_request_sync_successful_attempt": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_send_webhook_request_sync_when_exception_with_response": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_send_webhook_request_with_proper_timeout": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_trigger_webhook_sync": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_trigger_webhook_sync_with_subscription": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_webhook_plugin_token_is_not_required": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  "U": {
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_capture_for_checkout": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_get_payment.py::test_get_payment_for_notification_related_to_transaction_item": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_apple_pay.py::test_initialize_payment_for_apple_pay": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/order/tests/mutations/test_order_update_shipping.py::test_order_shipping_update_mutation_properly_recalculate_total": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_get_or_create_adyen_partial_payments.py::test_get_or_create_adyen_partial_payments_with_additional_actions_response": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/test_adyen_version.py::test_adyen_api_version_not_changed": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_api_response.py::test_handle_api_response_auto_capture_cannot_create_order_refund_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/warehouse/tests/queries/test_warehouses_filtering.py::test_query_warehouse_with_filters_by_click_and_collect_option[disabled-DISABLED]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_prepare_api_request_data.py::test_prepare_api_request_data_get": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_additional_actions.py::test_handle_additional_actions_handles_return_urls[https://checkout.saleor.com/]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_validate_notification.py::test_validate_auth_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/queries/test_staff_users_sorting.py::test_query_staff_members_with_sort[customer_sort2-result_order2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_not_created_order_order_not_created_checkout_line_variant_deleted": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_get_payment.py::test_get_payment_invalid_payment_id[\\xf3 \\xc0 \\xc8 \\xcc \\xd2 \\xd9 \\u1ef2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_apple_pay.py::test_validate_payment_data_for_apple_pay": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/webhook/tests/queries/test_event_delivery_query.py::test_webhook_delivery_attempt_query": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_get_or_create_adyen_partial_payments.py::test_get_or_create_adyen_partial_payments_with_notification_payload": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_api_response.py::test_handle_api_response_auto_capture_order_created_can_refund": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_prepare_api_request_data.py::test_prepare_api_request_data_post": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/tax/tests/queries/test_tax_classes.py::test_tax_classes_query_staff_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_additional_actions.py::test_handle_additional_actions_unavailable_variants": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_validate_notification.py::test_validate_merchant_account": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_authorization_with_adyen_auto_capture": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/test_product_variants_query.py::test_fetch_all_variants_staff_user_without_channel": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_get_payment.py::test_get_payment_not_active_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_apple_pay.py::test_validate_payment_data_for_apple_pay_raises_payment_error[https://apple-pay-gateway.apple.com/paymentservices/startSession-merchant.com.identifier-saleor.com-None-certifiate data]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_api_response.py::test_handle_api_response_auto_capture_false_order_created_can_void": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_jwt.py::test_jwt_decode_accepts_token_signed_with_rs256": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_prepare_api_request_data.py::test_prepare_api_request_data_lack_of_info_in_data": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_additional_actions.py::test_handle_additional_actions_with_adyen_partial_data_without_amount": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_validate_notification.py::test_validate_auth_user_when_user_is_missing": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/shipping/tests/mutations/test_shipping_method_channel_listing_update.py::test_shipping_method_channel_listing_update_with_negative_min_value": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_authorization_with_adyen_auto_capture_and_inactive_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_get_payment.py::test_get_payment_invalid_payment_id[Test payment ID]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_apple_pay.py::test_validate_payment_data_for_apple_pay_raises_payment_error[https://apple-pay-gateway.apple.com/paymentservices/startSession-None-saleor.com-Saleor-certifiate data]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/app/tests/queries/test_app.py::test_app_without_id_as_staff": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_api_response.py::test_handle_api_response_auto_capture_false_cannot_create_order_void_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_prepare_api_request_data.py::test_prepare_api_request_data_lack_of_required_parameters_in_request": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_additional_actions.py::test_handle_additional_actions_for_ideal": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/menu/tests/queries/test_menu_item.py::test_staff_query_menu_item_by_invalid_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_validate_notification.py::test_validate_hmac_signature_without_keys": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_failed_refund_invalid_payment_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_get_payment.py::test_get_payment_missing_payment_id[None]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/avatax/tests/test_avatax.py::test_calculate_checkout_line_without_sku_total_with_sale[15.00-18.45-False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_apple_pay.py::test_validate_payment_data_for_apple_pay_raises_payment_error[https://not-whitelisted-domain.com/paymentservices/startSession-merchant.com.identifier-saleor.com-Saleor-certifiate data]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_api_response.py::test_handle_api_response_auto_capture_cannot_create_order_variant_deleted": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_additional_actions.py::test_handle_additional_actions_payment_does_not_have_checkout": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/shop/tests/mutations/test_shop_domain_update.py::test_shop_domain_update": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_validate_notification.py::test_validate_auth_user_when_auth_is_disabled": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_order_closed_with_adyen_partial_payments_unable_to_create_order": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_get_payment.py::test_get_payment_missing_payment_id[  ]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/benchmark/test_homepage.py::test_retrieve_product_list": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_apple_pay.py::test_validate_payment_data_for_apple_pay_raises_payment_error[None-merchant.com.identifier-saleor.com-Saleor-certifiate data]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_additional_actions.py::test_handle_additional_actions_post": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_validate_notification.py::test_validate_hmac_signature_missing_key_in_notification": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_gateways_utils.py::test_get_supported_currencies[PLN, USD, EUR-expected_currencies0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_cancel_or_refund_action_cancel": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_get_payment.py::test_get_payment_invalid_payment_id[123]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_apple_pay.py::test_initialize_payment_for_apple_pay_request_failed": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/app/tests/mutations/test_app_retry_install.py::test_retry_install_app_mutation_app_has_more_permission_than_app_requestor": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_additional_actions.py::test_handle_additional_actions_sets_psp_reference": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_validate_notification.py::test_validate_merchant_account_invalid_merchant_account": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_authorization_for_checkout_one_of_variants_deleted": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/queries/test_permission_group.py::test_app_no_permission_query_group_federation": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_apple_pay.py::test_validate_payment_data_for_apple_pay_raises_payment_error[https://apple-pay-gateway.apple.com/paymentservices/startSession-merchant.com.identifier-saleor.com-Saleor-None]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_additional_actions.py::test_handle_additional_actions_payment_does_not_exist": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_validate_notification.py::test_validate_hmac_signature": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/shipping/tests/mutations/test_shipping_price_remove_product_from_exclude.py::test_remove_products_from_excluded_products_for_shipping_method_trigger_webhook[app]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_pending_already_pending": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_apple_pay.py::test_validate_payment_data_for_apple_pay_raises_payment_error[https://apple-pay-gateway.apple.com/paymentservices/startSession-merchant.com.identifier-None-Saleor-certifiate data]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_additional_actions.py::test_handle_additional_actions_get": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/sendgrid/tests/test_tasks.py::test_send_account_confirmation_email_task": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_validate_notification.py::test_validate_hmac_signature_missing_key_in_saleor": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_authorization_for_checkout_that_cannot_be_finalized": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_additional_actions.py::test_handle_additional_actions_checkout_not_related_to_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/shop/tests/queries/test_gift_card_settings.py::test_gift_card_settings_query_as_staff": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_failed_refund_with_transaction_refund": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_additional_actions.py::test_handle_additional_actions_more_action_required": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_reversed_refund": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/order/tests/queries/test_pagination.py::test_order_query_pagination_with_filter_payment_status[orders_filter5-0-fully-refunded-orders_order5]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_additional_actions.py::test_handle_additional_actions_handles_return_urls[adyencheckout://your.package.name]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_pending": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_additional_actions.py::test_handle_additional_actions_with_adyen_partial_data": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/plugins/tests/test_mutation_plugin_update.py::test_plugin_configuration_update_channel_slug_required": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_not_created_order_success_transaction_create_order_raises_and_refund": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_additional_actions.py::test_handle_additional_actions_payment_lack_of_return_url": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_authorization_calls_refund_for_inactive_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/mutations/authentication/test_external_logout.py::test_external_logout": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_additional_actions.py::test_handle_additional_actions_payment_not_active": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_cancel_already_canceled": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_additional_actions.py::test_handle_additional_actions_handles_return_urls[myiOSapp://path]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_url.py::test_get_default_storage_root_url": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_refund": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_additional_actions.py::test_handle_additional_actions_lack_of_parameter_in_request": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_webhook_not_implemented_invalid_payment_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/page/tests/deprecated/test_page_sorting.py::test_query_pages_with_sort[page_sort9-result_order9]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_additional_actions.py::test_handle_additional_actions_payment_with_no_adyen_gateway": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_not_created_order_return_none[refused]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_additional_actions.py::test_handle_additional_actions_no_payment_id_in_get": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/order/tests/queries/test_order_line.py::test_order_query_product_image_size_and_format_given_proxy_url_returned": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_cancel_or_refund_action_cancel_invalid_payment_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_additional_actions.py::test_handle_additional_actions_order_already_created": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_capture_for_checkout_order_not_created_checkout_line_variant_deleted": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/mutations/authentication/test_token_verify.py::test_verify_access_token": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_additional_actions.py::test_handle_additional_actions_api_call_error": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_capture_invalid_payment_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_authorization_for_checkout": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/giftcard/tests/queries/test_gift_card_search.py::test_query_gift_cards_with_search[banana-indexes2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_authorization_for_order": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_capture_for_order": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_reversed_refund_already_processed": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/giftcard/tests/mutations/test_gift_card_create.py::test_create_gift_card_with_expiry_date_type_invalid[date_value1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_failed_capture_partial_charge": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_authorization_with_adyen_auto_capture_and_payment_charged": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_capture_with_payment_already_charged": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/tests/test_middleware.py::test_middleware_invalid_name": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_pending_with_adyen_auto_capture": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_reversed_refund_invalid_payment_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_authorization_for_order_invalid_payment_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_bulk_delete.py::test_delete_product_types_with_file_attributes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_refund_invalid_payment_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_authorization_sets_psp_reference": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_capture_inactive_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_create.py::test_transaction_create_incorrect_currency_by_staff[amountCharged-charged_value]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_not_created_order_return_none[cancelled]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_failed_capture[fully-charged]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_pending_invalid_payment_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/order/tests/deprecated/test_order.py::test_update_order_line_discount_old_id[draft]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_webhook_not_implemented": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_confirm_payment_and_set_back_to_confirm": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_order_opened": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/giftcard/tests/benchmark/test_gift_card_mutations.py::test_update_gift_card": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_order_closed_with_not_active_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_not_created_order_return_none[fully-refunded]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_authorization_for_checkout_partial_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_value_update.py::test_update_attribute_value_by_external_reference_not_existing": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_authorization_without_adyen_auto_capture_and_inactive_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_order_closed_with_adyen_partial_payments_success_true": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_not_created_order_success_transaction_create_order_raises_and_void": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/queries/test_me.py::test_me_checkout_tokens_without_channel_param_inactive_channel": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_cancel[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_cancel_invalid_payment_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_order_closed_payment_does_not_exist": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/warehouse/tests/bulk_mutations/test_stock_bulk_update.py::test_stocks_bulk_update_when_stock_not_exists": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_not_created_order_void_when_create_order_raises": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_multiple_authorization_notification": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_failed_capture[not-charged]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/menu/tests/mutations/test_menu_delete.py::test_delete_menu_trigger_webhook": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_cancel_or_refund_action_refund": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_authorization_adyen_auto_capture_inactive_payment_and_captured_txn": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_refund_already_refunded": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/menu/tests/queries/test_menu.py::test_menu_query_by_name": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_failed_capture_invalid_payment_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_cancel[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_order_closed_order_already_exists": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/mutations/permission_group/test_permission_group_delete.py::test_group_delete_mutation_out_of_scope_permission": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_order_closed_with_adyen_partial_payments_success_true_without_amount": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_authorization_for_checkout_out_of_stock_after_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_authorization_with_auto_capture": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/giftcard/tests/queries/test_gift_card_sorting.py::test_sorting_gift_cards_by_product[DESC]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_authorization_for_pending_order": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_not_created_order_return_none[partially-refunded]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_failed_refund_missing_transaction": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/tests/test_plugin_config_checks.py::test_invalid_plugin_path": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_not_created_order_order_created": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_order_closed_success_true": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_not_created_order_create_new_success_transaction": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/shipping/tests/mutations/test_shipping_price_delete.py::test_delete_shipping_method_trigger_webhook": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_capture_inactive_payment_capture_txn_exists": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_failed_refund_with_transaction_refund_ongoing": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_not_created_order_refund_when_create_order_raises": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/order/tests/queries/test_order_with_filter.py::test_order_query_with_filter_status[orders_filter0-2-unfulfilled]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_order_closed_success_false": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_tax_webhook_tasks.py::test_trigger_tax_webhook_sync_invalid_webhooks": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout_digital.py::test_remove_shipping_method_if_only_digital_in_checkout": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/mutations/staff/test_address_set_default.py::test_set_default_address": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/mutations/test_checkout_remove_promo_code.py::test_checkout_remove_promo_code_invalid_object_type": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/deprecated/test_checkout.py::test_checkout_by_token": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_gateway_initialize_session_webhook.py::test_gateway_initialize_session_skips_app_without_identifier": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/order/tests/queries/test_order_get_variants.py::test_get_variant_from_order_line_variant_not_published_as_admin": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/np_atobarai/tests/test_plugin_configuration.py::test_validate_plugin_configuration_inactive": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/braintree/tests/test_braintree.py::test_get_customer_data": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/mutations/test_checkout_shipping_method_update.py::test_checkout_shipping_method_update_with_not_valid_shipping_address_data": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_stored_payment_method_request_delete.py::test_stored_payment_method_request_delete_called_by_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/deprecated/test_checkout_billing_address_update.py::test_checkout_billing_address_update_by_token_without_required_fields": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_transaction_process_session_webhook.py::test_transaction_process_order_with_request_data_and_static_payload": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_stripe_api.py::test_get_or_create_customer_create": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_category.py::test_create_category_with_given_slug[-test-category]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_list_payment_methods.py::test_list_stored_payment_methods": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout_line_problems.py::test_line_variant_without_stock": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_process_payment_failed[0127-Incorrect CVV]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/giftcard/tests/mutations/test_gift_card_delete.py::test_delete_gift_card_trigger_webhook": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/deprecated/test_checkout_shipping_method_update.py::test_checkout_shipping_method_update_by_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/mutations/test_checkout_lines_add.py::test_checkout_lines_invalid_variant_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/mutations/test_checkout_customer_attach.py::test_with_active_problems_flow": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/page/tests/mutations/test_page_types_bulk_delete.py::test_page_type_bulk_delete_by_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_observability.py::test_send_observability_events": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout_problems.py::test_checkout_with_out_of_stock_with_allocations_and_not_enough_items": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/mutations/test_checkout_create.py::test_checkout_create_with_many_active_default_channel": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/order/tests/integration/test_draft_order.py::test_create_order_by_staff_in_accessible_channel": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  }
+ },
+ "f2p_task": "FAIL",
+ "p2p_s_task": "PASS",
+ "p2p_u200_task": "PASS",
+ "resolved": false,
+ "flaky_under_patch": [
+  "saleor/graphql/checkout/tests/test_checkout.py::test_checkout_available_payment_gateways_valid_info_sent",
+  "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_request_data_for_gateway_config",
+  "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_request_data_for_gateway_config_no_country",
+  "saleor/payment/gateways/authorize_net/tests/test_plugin.py::test_get_payment_gateway_for_checkout",
+  "saleor/payment/gateways/authorize_net/tests/test_plugin.py::test_get_payment_gateway_for_checkout_inactive",
+  "saleor/plugins/webhook/tests/test_payment_webhook.py::test_get_payment_gateways",
+  "saleor/plugins/webhook/tests/test_payment_webhook.py::test_get_payment_gateways_filters_out_unsupported_currencies",
+  "saleor/plugins/webhook/tests/test_payment_webhook.py::test_get_payment_gateways_for_checkout",
+  "saleor/plugins/webhook/tests/test_payment_webhook.py::test_get_payment_gateways_multiple_webhooks_in_the_same_app",
+  "saleor/plugins/webhook/tests/test_payment_webhook.py::test_get_payment_gateways_with_transactions",
+  "saleor/plugins/webhook/tests/test_payment_webhook.py::test_get_payment_gateways_with_transactions_and_app_without_identifier"
+ ],
+ "sources": [
+  "episodes\\saleor-rc-82c56bde0e34\\PLACEBO_HARD\\episode.json"
+ ],
+ "labels": [
+  "main|PLACEBO_HARD"
+ ],
+ "evaluation_sha256": "579fedd3f68d7b3cde8b40b3dc124a73da35dc1f61ad7241593e4137ff05253f"
+}

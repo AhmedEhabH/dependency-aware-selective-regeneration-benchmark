@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="11" skipped="0" tests="186" time="27.331" timestamp="2026-09-28T23:27:41.975622-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_anonymous_client_can_fetch_anonymoues_checkout_user" time="1.688" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_anonymous_client_cant_fetch_checkout_with_attached_user" time="0.067" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_authorized_access_to_checkout_user_as_customer" time="0.161" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_authorized_access_to_checkout_user_as_staff" time="0.126" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_authorized_access_to_checkout_user_as_staff_no_permission" time="0.121" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_available_collection_points_for_preorders_and_regular_variants_in_checkout" time="0.291" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_available_collection_points_for_preorders_variants_in_checkout" time="0.256" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_avail_collect_fallbacks_to_channel_country_when_no_shipping_address" time="0.141" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_avail_collect_points_exceeded_quantity_shows_only_all_warehouse" time="0.171" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_avail_collect_points_returns_empty_list_when_no_channels" time="0.139" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_available_collection_points_two_lines_for_same_checkout" time="0.215" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_available_collection_points_with_line_avail_in_2_local_and_1_all" time="0.231" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_available_collection_points_with_lines_avail_in_1_local_and_1_all" time="0.242" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_available_payment_gateways" time="0.201" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_available_payment_gateways_currency_specified_EUR" time="0.134" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_available_payment_gateways_currency_specified_USD" time="0.147" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_available_payment_gateways_valid_info_sent" time="0.345"><failure message="AssertionError: expected call not found.&#10;Expected: list_payment_gateways(currency='USD', checkout_info=CheckoutInfo(checkout=&lt;Checkout: Checkout object (aabcd824-ff6a-41db-8b38-b6a37a6206a2)&gt;, user=None, channel=&lt;Channel: main&gt;, billing_address=None, shipping_address=None, delivery_method_info=&lt;SimpleLazyObject: &lt;function update_checkout_info_delivery_method_info.&lt;locals&gt;.&lt;lambda&gt; at 0x7583ce8a9940&gt;&gt;, all_shipping_methods=&lt;SimpleLazyObject: &lt;function update_delivery_method_lists_for_checkout_info.&lt;locals&gt;._resolve_all_shipping_methods at 0x7583ce8a7e50&gt;&gt;, tax_configuration=&lt;TaxConfiguration: TaxConfiguration object (203)&gt;, valid_pick_up_points=&lt;SimpleLazyObject: &lt;function update_delivery_method_lists_for_checkout_info.&lt;locals&gt;.&lt;lambda&gt; at 0x7583ce8a9a60&gt;&gt;, voucher=None), checkout_lines=[CheckoutLineInfo(line=CheckoutLine(variant=&lt;ProductVariant: 123&gt;, quantity=4), variant=&lt;ProductVariant: 123&gt;, channel_listing=&lt;ProductVariantChannelListing: ProductVariantChannelListing object (339)&gt;, product=&lt;saleor.product.models.Product(pk=238, name='Test product')&gt;, product_type=&lt;saleor.product.models.ProductType(pk=127, name='Default Type')&gt;, collections=[&lt;Collection: Collection1&gt;, &lt;Collection: Collection2&gt;], discounts=[], channel=&lt;Channel: main&gt;, tax_class=&lt;TaxClass: Default&gt;, voucher=None), CheckoutLineInfo(line=CheckoutLine(variant=&lt;ProductVariant: 55365c4b57274bf4b01dc4e7e19dfb35&gt;, quantity=1), variant=&lt;ProductVariant: 55365c4b57274bf4b01dc4e7e19dfb35&gt;, channel_listing=&lt;ProductVariantChannelListing: ProductVariantChannelListing object (340)&gt;, product=&lt;saleor.product.models.Product(pk=239, name='Test product 1')&gt;, product_type=&lt;saleor.product.models.ProductType(pk=127, name='Default Type')&gt;, collections=[&lt;Collection: Collection1&gt;], discounts=[], channel=&lt;Channel: main&gt;, tax_class=&lt;TaxClass: Default&gt;, voucher=None), CheckoutLineInfo(line=CheckoutLine(variant=&lt;ProductVariant: 63b143c4b5b34653b3d7123b851bfb11&gt;, quantity=1), variant=&lt;ProductVariant: 63b143c4b5b34653b3d7123b851bfb11&gt;, channel_listing=&lt;ProductVariantChannelListing: ProductVariantChannelListing object (341)&gt;, product=&lt;saleor.product.models.Product(pk=240, name='Test product 2')&gt;, product_type=&lt;saleor.product.models.ProductType(pk=127, name='Default Type')&gt;, collections=[], discounts=[], channel=&lt;Channel: main&gt;, tax_class=&lt;TaxClass: Default&gt;, voucher=None), CheckoutLineInfo(line=CheckoutLine(variant=&lt;ProductVariant: 0b155b1dea174b59991d1e7830df5499&gt;, quantity=1), variant=&lt;ProductVariant: 0b155b1dea174b59991d1e7830df5499&gt;, channel_listing=&lt;ProductVariantChannelListing: ProductVariantChannelListing object (342)&gt;, product=&lt;saleor.product.models.Product(pk=241, name='Test product 3')&gt;, product_type=&lt;saleor.product.models.ProductType(pk=127, name='Default Type')&gt;, collections=[], discounts=[], channel=&lt;Channel: main&gt;, tax_class=&lt;TaxClass: Default&gt;, voucher=None)], channel_slug='main')&#10;Actual: list_payment_gateways(currency='USD', checkout_info=CheckoutInfo(checkout=&lt;Checkout: Checkout object (aabcd824-ff6a-41db-8b38-b6a37a6206a2)&gt;, user=None, channel=&lt;Channel: main&gt;, billing_address=None, shipping_address=None, delivery_method_info=&lt;SimpleLazyObject: &lt;function update_checkout_info_delivery_method_info.&lt;locals&gt;.&lt;lambda&gt; at 0x7583ce811e50&gt;&gt;, all_shipping_methods=&lt;SimpleLazyObject: &lt;function update_delivery_method_lists_for_checkout_info.&lt;locals&gt;._resolve_all_shipping_methods at 0x7583ce8119d0&gt;&gt;, tax_configuration=&lt;TaxConfiguration: TaxConfiguration object (203)&gt;, valid_pick_up_points=&lt;SimpleLazyObject: &lt;function update_delivery_method_lists_for_checkout_info.&lt;locals&gt;.&lt;lambda&gt; at 0x7583ce811820&gt;&gt;, voucher=None), channel_slug='main')&#10;&#10;pytest introspection follows:&#10;&#10;Kwargs:&#10;assert {'channel_slu...rency': 'USD'} == {'channel_slu...rency': 'USD'}&#10;  &#10;  Omitting 3 identical items, use -vv to show&#10;  Right contains 1 more item:&#10;  {'checkout_lines': [CheckoutLineInfo(line=CheckoutLine(variant=&lt;ProductVariant: 123&gt;, quantity=4), variant=&lt;ProductVariant: 123&gt;, channel_listing=&lt;ProductVariantChannelListing: ProductVariantChannelListing object (339)&gt;, product=&lt;saleor.product.models.Product(pk=238, name='Test product')&gt;, product_type=&lt;saleor.product.models.ProductType(pk=127, name='Default Type')&gt;, collections=[&lt;Collection: Collection1&gt;, &lt;Collection: Collection2&gt;], discounts=[], channel=&lt;Channel: main&gt;, tax_class=&lt;TaxClass: Default&gt;...&#10;  &#10;  ...Full output truncated (5 lines hidden), use '-vv' to show">self = &lt;MagicMock name='list_payment_gateways' id='129208966077312'&gt;, args = ()
+kwargs = {'channel_slug': 'main', 'checkout_info': CheckoutInfo(checkout=&lt;Checkout: Checkout object (aabcd824-ff6a-41db-8b38-b6...ollections=[], discounts=[], channel=&lt;Channel: main&gt;, tax_class=&lt;TaxClass: Default&gt;, voucher=None)], 'currency': 'USD'}
+expected = call(currency='USD', checkout_info=CheckoutInfo(checkout=&lt;Checkout: Checkout object (aabcd824-ff6a-41db-8b38-b6a37a620...lections=[], discounts=[], channel=&lt;Channel: main&gt;, tax_class=&lt;TaxClass: Default&gt;, voucher=None)], channel_slug='main')
+actual = call(currency='USD', checkout_info=CheckoutInfo(checkout=&lt;Checkout: Checkout object (aabcd824-ff6a-41db-8b38-b6a37a620...ation: TaxConfiguration object (203)&gt;, valid_pick_up_points=&lt;SimpleLazyObject: []&gt;, voucher=None), channel_slug='main')
+_error_message = &lt;function NonCallableMock.assert_called_with.&lt;locals&gt;._error_message at 0x7583ce86c940&gt;
+cause = None
+
+    def assert_called_with(self, /, *args, **kwargs):
+        """assert that the last call was made with the specified arguments.
+    
+        Raises an AssertionError if the args and keyword args passed in are
+        different to the last call to the mock."""
+        if self.call_args is None:
+            expected = self._format_mock_call_signature(args, kwargs)
+            actual = 'not called.'
+            error_message = ('expected call not found.\nExpected: %s\nActual: %s'
+                    % (expected, actual))
+            raise AssertionError(error_message)
+    
+        def _error_message():
+            msg = self._format_mock_failure_message(args, kwargs)
+            return msg
+        expected = self._call_matcher(_Call((args, kwargs), two=True))
+        actual = self._call_matcher(self.call_args)
+        if actual != expected:
+            cause = expected if isinstance(expected, Exception) else None
+&gt;           raise AssertionError(_error_message()) from cause
+E           AssertionError: expected call not found.
+E           Expected: list_payment_gateways(currency='USD', checkout_info=CheckoutInfo(checkout=&lt;Checkout: Checkout object (aabcd824-ff6a-41db-8b38-b6a37a6206a2)&gt;, user=None, channel=&lt;Channel: main&gt;, billing_address=None, shipping_address=None, delivery_method_info=&lt;SimpleLazyObject: &lt;function update_checkout_info_delivery_method_info.&lt;locals&gt;.&lt;lambda&gt; at 0x7583ce8a9940&gt;&gt;, all_shipping_methods=&lt;SimpleLazyObject: &lt;function update_delivery_method_lists_for_checkout_info.&lt;locals&gt;._resolve_all_shipping_methods at 0x7583ce8a7e50&gt;&gt;, tax_configuration=&lt;TaxConfiguration: TaxConfiguration object (203)&gt;, valid_pick_up_points=&lt;SimpleLazyObject: &lt;function update_delivery_method_lists_for_checkout_info.&lt;locals&gt;.&lt;lambda&gt; at 0x7583ce8a9a60&gt;&gt;, voucher=None), checkout_lines=[CheckoutLineInfo(line=CheckoutLine(variant=&lt;ProductVariant: 123&gt;, quantity=4), variant=&lt;ProductVariant: 123&gt;, channel_listing=&lt;ProductVariantChannelListing: ProductVariantChannelListing object (339)&gt;, product=&lt;saleor.product.models.Product(pk=238, name='Test product')&gt;, product_type=&lt;saleor.product.models.ProductType(pk=127, name='Default Type')&gt;, collections=[&lt;Collection: Collection1&gt;, &lt;Collection: Collection2&gt;], discounts=[], channel=&lt;Channel: main&gt;, tax_class=&lt;TaxClass: Default&gt;, voucher=None), CheckoutLineInfo(line=CheckoutLine(variant=&lt;ProductVariant: 55365c4b57274bf4b01dc4e7e19dfb35&gt;, quantity=1), variant=&lt;ProductVariant: 55365c4b57274bf4b01dc4e7e19dfb35&gt;, channel_listing=&lt;ProductVariantChannelListing: ProductVariantChannelListing object (340)&gt;, product=&lt;saleor.product.models.Product(pk=239, name='Test product 1')&gt;, product_type=&lt;saleor.product.models.ProductType(pk=127, name='Default Type')&gt;, collections=[&lt;Collection: Collection1&gt;], discounts=[], channel=&lt;Channel: main&gt;, tax_class=&lt;TaxClass: Default&gt;, voucher=None), CheckoutLineInfo(line=CheckoutLine(variant=&lt;ProductVariant: 63b143c4b5b34653b3d7123b851bfb11&gt;, quantity=1), variant=&lt;ProductVariant: 63b143c4b5b34653b3d7123b851bfb11&gt;, channel_listing=&lt;ProductVariantChannelListing: ProductVariantChannelListing object (341)&gt;, product=&lt;saleor.product.models.Product(pk=240, name='Test product 2')&gt;, product_type=&lt;saleor.product.models.ProductType(pk=127, name='Default Type')&gt;, collections=[], discounts=[], channel=&lt;Channel: main&gt;, tax_class=&lt;TaxClass: Default&gt;, voucher=None), CheckoutLineInfo(line=CheckoutLine(variant=&lt;ProductVariant: 0b155b1dea174b59991d1e7830df5499&gt;, quantity=1), variant=&lt;ProductVariant: 0b155b1dea174b59991d1e7830df5499&gt;, channel_listing=&lt;ProductVariantChannelListing: ProductVariantChannelListing object (342)&gt;, product=&lt;saleor.product.models.Product(pk=241, name='Test product 3')&gt;, product_type=&lt;saleor.product.models.ProductType(pk=127, name='Default Type')&gt;, collections=[], discounts=[], channel=&lt;Channel: main&gt;, tax_class=&lt;TaxClass: Default&gt;, voucher=None)], channel_slug='main')
+E           Actual: list_payment_gateways(currency='USD', checkout_info=CheckoutInfo(checkout=&lt;Checkout: Checkout object (aabcd824-ff6a-41db-8b38-b6a37a6206a2)&gt;, user=None, channel=&lt;Channel: main&gt;, billing_address=None, shipping_address=None, delivery_method_info=&lt;SimpleLazyObject: &lt;function update_checkout_info_delivery_method_info.&lt;locals&gt;.&lt;lambda&gt; at 0x7583ce811e50&gt;&gt;, all_shipping_methods=&lt;SimpleLazyObject: &lt;function update_delivery_method_lists_for_checkout_info.&lt;locals&gt;._resolve_all_shipping_methods at 0x7583ce8119d0&gt;&gt;, tax_configuration=&lt;TaxConfiguration: TaxConfiguration object (203)&gt;, valid_pick_up_points=&lt;SimpleLazyObject: &lt;function update_delivery_method_lists_for_checkout_info.&lt;locals&gt;.&lt;lambda&gt; at 0x7583ce811820&gt;&gt;, voucher=None), channel_slug='main')
+
+/usr/local/lib/python3.9/unittest/mock.py:907: AssertionError
+
+During handling of the above exception, another exception occurred:
+
+mocked_list_gateways = &lt;MagicMock name='list_payment_gateways' id='129208966077312'&gt;
+api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7583ce7fcf70&gt;
+checkout_with_item = &lt;Checkout: Checkout object (aabcd824-ff6a-41db-8b38-b6a37a6206a2)&gt;
+checkout_info = CheckoutInfo(checkout=&lt;Checkout: Checkout object (aabcd824-ff6a-41db-8b38-b6a37a6206a2)&gt;, user=None, channel=&lt;Channel:...iguration=&lt;TaxConfiguration: TaxConfiguration object (203)&gt;, valid_pick_up_points=&lt;SimpleLazyObject: []&gt;, voucher=None)
+checkout_lines_info = [CheckoutLineInfo(line=CheckoutLine(variant=&lt;ProductVariant: 123&gt;, quantity=4), variant=&lt;ProductVariant: 123&gt;, channel...='Default Type')&gt;, collections=[], discounts=[], channel=&lt;Channel: main&gt;, tax_class=&lt;TaxClass: Default&gt;, voucher=None)]
+
+    @mock.patch("saleor.plugins.manager.PluginsManager.list_payment_gateways")
+    def test_checkout_available_payment_gateways_valid_info_sent(
+        mocked_list_gateways,
+        api_client,
+        checkout_with_item,
+        checkout_info,
+        checkout_lines_info,
+    ):
+        # given
+        checkout = checkout_with_item
+        channel_slug = checkout.channel.slug
+        currency = checkout.currency
+        query = GET_CHECKOUT_PAYMENTS_QUERY
+        variables = {"id": to_global_id_or_none(checkout_with_item)}
+    
+        # when
+        api_client.post_graphql(query, variables)
+    
+        # then
+&gt;       mocked_list_gateways.assert_called_with(
+            currency=currency,
+            checkout_info=checkout_info,
+            checkout_lines=checkout_lines_info,
+            channel_slug=channel_slug,
+        )
+E       AssertionError: expected call not found.
+E       Expected: list_payment_gateways(currency='USD', checkout_info=CheckoutInfo(checkout=&lt;Checkout: Checkout object (aabcd824-ff6a-41db-8b38-b6a37a6206a2)&gt;, user=None, channel=&lt;Channel: main&gt;, billing_address=None, shipping_address=None, delivery_method_info=&lt;SimpleLazyObject: &lt;function update_checkout_info_delivery_method_info.&lt;locals&gt;.&lt;lambda&gt; at 0x7583ce8a9940&gt;&gt;, all_shipping_methods=&lt;SimpleLazyObject: &lt;function update_delivery_method_lists_for_checkout_info.&lt;locals&gt;._resolve_all_shipping_methods at 0x7583ce8a7e50&gt;&gt;, tax_configuration=&lt;TaxConfiguration: TaxConfiguration object (203)&gt;, valid_pick_up_points=&lt;SimpleLazyObject: &lt;function update_delivery_method_lists_for_checkout_info.&lt;locals&gt;.&lt;lambda&gt; at 0x7583ce8a9a60&gt;&gt;, voucher=None), checkout_lines=[CheckoutLineInfo(line=CheckoutLine(variant=&lt;ProductVariant: 123&gt;, quantity=4), variant=&lt;ProductVariant: 123&gt;, channel_listing=&lt;ProductVariantChannelListing: ProductVariantChannelListing object (339)&gt;, product=&lt;saleor.product.models.Product(pk=238, name='Test product')&gt;, product_type=&lt;saleor.product.models.ProductType(pk=127, name='Default Type')&gt;, collections=[&lt;Collection: Collection1&gt;, &lt;Collection: Collection2&gt;], discounts=[], channel=&lt;Channel: main&gt;, tax_class=&lt;TaxClass: Default&gt;, voucher=None), CheckoutLineInfo(line=CheckoutLine(variant=&lt;ProductVariant: 55365c4b57274bf4b01dc4e7e19dfb35&gt;, quantity=1), variant=&lt;ProductVariant: 55365c4b57274bf4b01dc4e7e19dfb35&gt;, channel_listing=&lt;ProductVariantChannelListing: ProductVariantChannelListing object (340)&gt;, product=&lt;saleor.product.models.Product(pk=239, name='Test product 1')&gt;, product_type=&lt;saleor.product.models.ProductType(pk=127, name='Default Type')&gt;, collections=[&lt;Collection: Collection1&gt;], discounts=[], channel=&lt;Channel: main&gt;, tax_class=&lt;TaxClass: Default&gt;, voucher=None), CheckoutLineInfo(line=CheckoutLine(variant=&lt;ProductVariant: 63b143c4b5b34653b3d7123b851bfb11&gt;, quantity=1), variant=&lt;ProductVariant: 63b143c4b5b34653b3d7123b851bfb11&gt;, channel_listing=&lt;ProductVariantChannelListing: ProductVariantChannelListing object (341)&gt;, product=&lt;saleor.product.models.Product(pk=240, name='Test product 2')&gt;, product_type=&lt;saleor.product.models.ProductType(pk=127, name='Default Type')&gt;, collections=[], discounts=[], channel=&lt;Channel: main&gt;, tax_class=&lt;TaxClass: Default&gt;, voucher=None), CheckoutLineInfo(line=CheckoutLine(variant=&lt;ProductVariant: 0b155b1dea174b59991d1e7830df5499&gt;, quantity=1), variant=&lt;ProductVariant: 0b155b1dea174b59991d1e7830df5499&gt;, channel_listing=&lt;ProductVariantChannelListing: ProductVariantChannelListing object (342)&gt;, product=&lt;saleor.product.models.Product(pk=241, name='Test product 3')&gt;, product_type=&lt;saleor.product.models.ProductType(pk=127, name='Default Type')&gt;, collections=[], discounts=[], channel=&lt;Channel: main&gt;, tax_class=&lt;TaxClass: Default&gt;, voucher=None)], channel_slug='main')
+E       Actual: list_payment_gateways(currency='USD', checkout_info=CheckoutInfo(checkout=&lt;Checkout: Checkout object (aabcd824-ff6a-41db-8b38-b6a37a6206a2)&gt;, user=None, channel=&lt;Channel: main&gt;, billing_address=None, shipping_address=None, delivery_method_info=&lt;SimpleLazyObject: &lt;function update_checkout_info_delivery_method_info.&lt;locals&gt;.&lt;lambda&gt; at 0x7583ce811e50&gt;&gt;, all_shipping_methods=&lt;SimpleLazyObject: &lt;function update_delivery_method_lists_for_checkout_info.&lt;locals&gt;._resolve_all_shipping_methods at 0x7583ce8119d0&gt;&gt;, tax_configuration=&lt;TaxConfiguration: TaxConfiguration object (203)&gt;, valid_pick_up_points=&lt;SimpleLazyObject: &lt;function update_delivery_method_lists_for_checkout_info.&lt;locals&gt;.&lt;lambda&gt; at 0x7583ce811820&gt;&gt;, voucher=None), channel_slug='main')
+E       
+E       pytest introspection follows:
+E       
+E       Kwargs:
+E       assert {'channel_slu...rency': 'USD'} == {'channel_slu...rency': 'USD'}
+E         
+E         Omitting 3 identical items, use -vv to show
+E         Right contains 1 more item:
+E         {'checkout_lines': [CheckoutLineInfo(line=CheckoutLine(variant=&lt;ProductVariant: 123&gt;, quantity=4), variant=&lt;ProductVariant: 123&gt;, channel_listing=&lt;ProductVariantChannelListing: ProductVariantChannelListing object (339)&gt;, product=&lt;saleor.product.models.Product(pk=238, name='Test product')&gt;, product_type=&lt;saleor.product.models.ProductType(pk=127, name='Default Type')&gt;, collections=[&lt;Collection: Collection1&gt;, &lt;Collection: Collection2&gt;], discounts=[], channel=&lt;Channel: main&gt;, tax_class=&lt;TaxClass: Default&gt;...
+E         
+E         ...Full output truncated (5 lines hidden), use '-vv' to show
+
+saleor/graphql/checkout/tests/test_checkout.py:225: AssertionError</failure></testcase><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_available_shipping_methods[availableShippingMethods]" time="0.165" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_available_shipping_methods[shippingMethods]" time="0.158" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_available_shipping_methods_excluded_postal_codes" time="0.165" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_available_shipping_methods_shipping_zone_without_channels" time="0.167" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_available_shipping_methods_weight_method_with_higher_minimal_weigh" time="0.176" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_available_shipping_methods_with_price_displayed" time="0.254" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_available_shipping_methods_with_weight_based_shipping_method[0]" time="0.245" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_available_shipping_methods_with_weight_based_shipping_method[2]" time="0.175" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_available_shipping_methods_with_weight_based_shipping_method[None]" time="0.180" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_balance" time="0.421" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_display_gross_prices_use_country_exception" time="0.249" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_display_gross_prices_use_default" time="0.259" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_metadata" time="0.125" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_no_available_shipping_methods_without_address" time="0.166" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_no_available_shipping_methods_without_lines" time="0.043" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_no_metadata" time="0.121" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_payment_statuses" time="0.499" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_prices" time="0.273" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_prices_checkout_with_custom_prices" time="0.269" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_prices_with_sales" time="0.291" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_prices_with_specific_voucher" time="0.313" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_prices_with_voucher" time="0.296" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_prices_with_voucher_once_per_order" time="0.343" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_reservation_date_for_disabled_reservations" time="0.153" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_reservation_date_for_expired_reservations" time="0.155" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_reservation_date_for_multiple_reservations" time="0.138" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_reservation_date_for_multiple_reservations_types" time="0.140" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_reservation_date_for_no_reservations" time="0.139" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_reservation_date_for_preorder_reservation" time="0.111" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_reservation_date_for_stock_reservation" time="0.135" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_selected_shipping_method" time="0.145" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_selected_shipping_method_as_staff" time="0.224" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_shipping_methods_with_price_based_method_and_product_voucher" time="0.219" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_shipping_methods_with_price_based_shipping_and_shipping_discount" time="0.198" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_shipping_methods_with_price_based_shipping_method_and_discount" time="0.191" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_transactions_missing_permission" time="0.030" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_transactions_with_handle_payments" time="0.130" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_transactions_with_manage_checkouts" time="0.132" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_with_stored_payment_methods" time="0.350" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_with_stored_payment_methods_empty_response" time="0.364" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_with_stored_payment_methods_requested_by_app" time="0.276" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_with_stored_payment_methods_requested_by_staff_user" time="0.355" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_clean_checkout" time="0.206" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_clean_checkout_invalid_shipping_method" time="0.147" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_clean_checkout_no_billing_address" time="0.132" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_clean_checkout_no_payment" time="0.139" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_clean_checkout_no_shipping_address" time="0.126" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_clean_checkout_no_shipping_method" time="0.121" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_clean_delivery_method_after_shipping_address_changes_stay_the_same" time="0.155" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_clean_delivery_method_does_nothing_if_no_shipping_method" time="0.124" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_clean_delivery_method_with_preorder_is_valid_for_enabled_warehouse" time="0.173" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_fetch_checkout_invalid_token" time="0.113" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_get_variant_data_from_checkout_line_variant_hidden_in_listings" time="0.153" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_query_anonymous_customer_channel_checkout_as_anonymous_customer" time="0.027" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_query_anonymous_customer_channel_checkout_as_customer" time="0.113" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_query_anonymous_customer_checkout_as_anonymous_customer" time="0.037" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_query_anonymous_customer_checkout_as_app" time="0.041" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_query_anonymous_customer_checkout_as_customer" time="0.117" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_query_anonymous_customer_checkout_as_staff_user" time="0.125" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_query_checkout_lines" time="0.209" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_query_checkout_lines_with_meta" time="0.221" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_query_checkouts" time="0.211" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_query_customer_checkout_as_anonymous_customer" time="0.035" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_query_customer_checkout_as_app" time="0.127" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_query_customer_checkout_as_customer" time="0.119" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_query_customer_checkout_as_staff_user" time="0.050" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_query_other_customer_checkout_as_customer" time="0.121" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_query_with_channel" time="0.127" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_query_without_channel" time="0.127" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_update_checkout_shipping_method_if_invalid" time="0.148" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_update_checkout_shipping_method_if_invalid_no_checkout_metadata" time="0.150" /><testcase classname="saleor.payment.gateways.adyen.tests.test_plugin" name="test_adyen_check_payment_balance" time="0.036" /><testcase classname="saleor.payment.gateways.adyen.tests.test_plugin" name="test_adyen_check_payment_balance_adyen_raises_error" time="0.032" /><testcase classname="saleor.payment.gateways.adyen.tests.test_plugin" name="test_adyen_check_payment_timeout" time="0.029" /><testcase classname="saleor.payment.gateways.adyen.tests.test_plugin" name="test_confirm_already_processed_payment" time="0.111" /><testcase classname="saleor.payment.gateways.adyen.tests.test_plugin" name="test_confirm_payment" time="0.110" /><testcase classname="saleor.payment.gateways.adyen.tests.test_plugin" name="test_confirm_payment_pending_order" time="0.277" /><testcase classname="saleor.payment.gateways.adyen.tests.test_plugin" name="test_confirm_payment_with_adyen_auto_capture" time="0.107" /><testcase classname="saleor.payment.gateways.adyen.tests.test_plugin" name="test_confirm_payment_without_additional_data" time="0.108" /><testcase classname="saleor.payment.gateways.adyen.tests.test_plugin" name="test_process_additional_action" time="0.162" /><testcase classname="saleor.payment.gateways.adyen.tests.test_plugin" name="test_process_payment_additional_action" time="0.293" /><testcase classname="saleor.payment.gateways.adyen.tests.test_plugin" name="test_process_payment_additional_action_checkout_does_not_exists" time="0.279" /><testcase classname="saleor.payment.gateways.adyen.tests.test_plugin" name="test_process_payment_additional_action_payment_does_not_exists" time="0.288" /><testcase classname="saleor.payment.gateways.adyen.tests.test_plugin" name="test_validate_plugin_configuration_correct_cert" time="0.032" /><testcase classname="saleor.payment.gateways.adyen.tests.test_plugin" name="test_validate_plugin_configuration_incorrect_certificate" time="0.034" /><testcase classname="saleor.payment.gateways.adyen.tests.test_plugin" name="test_validate_plugin_configuration_without_apple_cert" time="0.033" /><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_append_checkout_details" time="0.186" /><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_append_checkout_details_tax_included" time="0.193" /><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_append_checkout_details_without_sku" time="0.198" /><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_from_adyen_price[value0-EUR-expected_result0]" time="0.015" /><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_from_adyen_price[value1-PLN-expected_result1]" time="0.015" /><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_from_adyen_price[value2-US-expected_result2]" time="0.015" /><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_get_payment_method_info" time="0.085" /><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_get_payment_method_info_no_additional_data" time="0.085" /><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_get_payment_method_info_scheme_payment_method_type" time="0.085" /><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_get_request_data_for_check_payment" time="0.015" /><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_get_request_data_for_check_payment_without_cvc" time="0.014" /><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_get_request_data_for_check_payment_without_cvc_and_money" time="0.015" /><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_get_request_data_for_check_payment_without_money" time="0.014" /><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_get_shopper_locale_value[JP-ja_JP]" time="0.016" /><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_get_shopper_locale_value[US-en_US]" time="0.014" /><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_get_shopper_locale_value[ZZ-en_US]" time="0.015" /><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_prepare_address_request_data_address_fulfilled" time="0.016" /><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_prepare_address_request_data_address_is_none" time="0.015" /><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_prepare_address_request_data_with_city_area_without_country_area" time="0.018" /><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_prepare_address_request_data_with_company_name_and_street_addr_2" time="0.018" /><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_prepare_address_request_data_with_country_area_without_city_area" time="0.019" /><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_prepare_address_request_data_without_city_country_code_and_areas" time="0.019" /><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_prepare_address_request_data_without_company_name_and_street_addr_2" time="0.018" /><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_prepare_address_request_data_without_company_with_street_addr_2" time="0.017" /><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_request_data_for_gateway_config" time="0.119"><failure message="TypeError: request_data_for_gateway_config() takes 2 positional arguments but 3 were given">checkout_with_item = &lt;Checkout: Checkout object (5a4212de-83d6-450d-bdb4-8d03797b5411)&gt;
+address = &lt;Address: Address object (591)&gt;
+
+    def test_request_data_for_gateway_config(checkout_with_item, address):
+        # given
+        checkout_with_item.billing_address = address
+        merchant_account = "test_account"
+        manager = get_plugins_manager()
+        lines_info, _ = fetch_checkout_lines(checkout_with_item)
+        checkout_info = fetch_checkout_info(checkout_with_item, lines_info, manager)
+        # when
+&gt;       response_config = request_data_for_gateway_config(
+            checkout_info, lines_info, merchant_account
+        )
+E       TypeError: request_data_for_gateway_config() takes 2 positional arguments but 3 were given
+
+saleor/payment/gateways/adyen/tests/utils/test_common.py:718: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_request_data_for_gateway_config_no_country" time="0.027"><failure message="TypeError: request_data_for_gateway_config() takes 2 positional arguments but 3 were given">checkout = &lt;Checkout: Checkout object (b2bb9aa3-4ed8-436c-84f4-d8a407b4df6f)&gt;
+address = &lt;Address: Address object (592)&gt;
+settings = &lt;pytest_django.fixtures.SettingsWrapper object at 0x7583ce2a54f0&gt;
+
+    def test_request_data_for_gateway_config_no_country(checkout, address, settings):
+        # given
+        merchant_account = "test_account"
+        manager = get_plugins_manager()
+        lines_info, _ = fetch_checkout_lines(checkout)
+        checkout_info = fetch_checkout_info(checkout, lines_info, manager)
+    
+        # when
+&gt;       response_config = request_data_for_gateway_config(
+            checkout_info, lines_info, merchant_account
+        )
+E       TypeError: request_data_for_gateway_config() takes 2 positional arguments but 3 were given
+
+saleor/payment/gateways/adyen/tests/utils/test_common.py:739: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_request_data_for_payment" time="0.083" /><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_request_data_for_payment_append_checkout_details[afterpaytouch]" time="0.086" /><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_request_data_for_payment_append_checkout_details[clearpay]" time="0.086" /><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_request_data_for_payment_append_checkout_details[klarna]" time="0.085" /><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_request_data_for_payment_channel_different_than_web" time="0.085" /><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_request_data_for_payment_native_3d_secure" time="0.085" /><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_request_data_for_payment_payment_not_valid" time="0.085" /><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_request_data_for_payment_when_missing_city_address_field" time="0.089" /><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_request_data_for_payment_when_missing_city_and_count_area" time="0.085" /><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_request_data_for_payment_when_missing_postal_code" time="0.087" /><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_request_data_for_payment_without_shipping" time="0.091" /><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_to_adyen_price[value0-EUR-1000]" time="0.016" /><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_to_adyen_price[value1-PLN-100]" time="0.016" /><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_to_adyen_price[value2-US-10000]" time="0.015" /><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_update_payment_with_action_required_data_empty_extra_data" time="0.260" /><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_update_payment_with_action_required_data_extra_data_as_dict" time="0.265" /><testcase classname="saleor.payment.gateways.adyen.tests.utils.test_common" name="test_update_payment_with_action_required_data_extra_data_as_list" time="0.264" /><testcase classname="saleor.payment.gateways.authorize_net.tests.test_plugin" name="test_get_payment_gateway_for_checkout" time="0.296"><failure message="TypeError: get_payment_gateways() got an unexpected keyword argument 'checkout_lines'">authorize_net_plugin = &lt;saleor.payment.gateways.authorize_net.plugin.AuthorizeNetGatewayPlugin object at 0x7583ce5fb940&gt;
+checkout_with_single_item = &lt;Checkout: Checkout object (3a7e0c88-a10b-4320-8df4-224b2f2e1ffc)&gt;
+address = &lt;Address: Address object (640)&gt;
+checkout_info = CheckoutInfo(checkout=&lt;Checkout: Checkout object (3a7e0c88-a10b-4320-8df4-224b2f2e1ffc)&gt;, user=None, channel=&lt;Channel:...zyObject: &lt;function update_delivery_method_lists_for_checkout_info.&lt;locals&gt;.&lt;lambda&gt; at 0x7583ce371160&gt;&gt;, voucher=None)
+checkout_lines_info = [CheckoutLineInfo(line=CheckoutLine(variant=&lt;ProductVariant: 123&gt;, quantity=2), variant=&lt;ProductVariant: 123&gt;, channel...='Default Type')&gt;, collections=[], discounts=[], channel=&lt;Channel: main&gt;, tax_class=&lt;TaxClass: Default&gt;, voucher=None)]
+
+    def test_get_payment_gateway_for_checkout(
+        authorize_net_plugin,
+        checkout_with_single_item,
+        address,
+        checkout_info,
+        checkout_lines_info,
+    ):
+        checkout_with_single_item.billing_address = address
+        checkout_with_single_item.save()
+&gt;       response = authorize_net_plugin.get_payment_gateways(
+            currency=None,
+            checkout_info=checkout_info,
+            checkout_lines=checkout_lines_info,
+            previous_value=None,
+        )[0]
+E       TypeError: get_payment_gateways() got an unexpected keyword argument 'checkout_lines'
+
+saleor/payment/gateways/authorize_net/tests/test_plugin.py:19: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.authorize_net.tests.test_plugin" name="test_get_payment_gateway_for_checkout_inactive" time="0.289"><failure message="TypeError: get_payment_gateways() got an unexpected keyword argument 'checkout_lines'">authorize_net_plugin = &lt;saleor.payment.gateways.authorize_net.plugin.AuthorizeNetGatewayPlugin object at 0x7583ce5910a0&gt;
+checkout_with_single_item = &lt;Checkout: Checkout object (b8fe0165-b66b-476a-8ad2-f455fcaef8fb)&gt;
+checkout_info = CheckoutInfo(checkout=&lt;Checkout: Checkout object (b8fe0165-b66b-476a-8ad2-f455fcaef8fb)&gt;, user=None, channel=&lt;Channel:...zyObject: &lt;function update_delivery_method_lists_for_checkout_info.&lt;locals&gt;.&lt;lambda&gt; at 0x7583ce3404c0&gt;&gt;, voucher=None)
+checkout_lines_info = [CheckoutLineInfo(line=CheckoutLine(variant=&lt;ProductVariant: 123&gt;, quantity=2), variant=&lt;ProductVariant: 123&gt;, channel...='Default Type')&gt;, collections=[], discounts=[], channel=&lt;Channel: main&gt;, tax_class=&lt;TaxClass: Default&gt;, voucher=None)]
+
+    def test_get_payment_gateway_for_checkout_inactive(
+        authorize_net_plugin, checkout_with_single_item, checkout_info, checkout_lines_info
+    ):
+        authorize_net_plugin.active = False
+        currency = checkout_with_single_item.currency
+&gt;       response = authorize_net_plugin.get_payment_gateways(
+            currency=currency,
+            checkout_info=checkout_info,
+            checkout_lines=checkout_lines_info,
+            previous_value=None,
+        )
+E       TypeError: get_payment_gateways() got an unexpected keyword argument 'checkout_lines'
+
+saleor/payment/gateways/authorize_net/tests/test_plugin.py:52: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.authorize_net.tests.test_plugin" name="test_payment_gateway_authorize_payment" time="0.096" /><testcase classname="saleor.payment.gateways.authorize_net.tests.test_plugin" name="test_payment_gateway_capture_payment" time="0.096" /><testcase classname="saleor.payment.gateways.authorize_net.tests.test_plugin" name="test_payment_gateway_list_payment_sources" time="0.028" /><testcase classname="saleor.payment.gateways.authorize_net.tests.test_plugin" name="test_payment_gateway_process_payment" time="0.100" /><testcase classname="saleor.payment.gateways.authorize_net.tests.test_plugin" name="test_payment_gateway_process_payment_production_failure" time="0.110" /><testcase classname="saleor.payment.gateways.authorize_net.tests.test_plugin" name="test_payment_gateway_refund_payment" time="0.101" /><testcase classname="saleor.payment.gateways.authorize_net.tests.test_plugin" name="test_payment_gateway_refund_payment_no_payment[-1]" time="0.095" /><testcase classname="saleor.payment.gateways.authorize_net.tests.test_plugin" name="test_payment_gateway_refund_payment_no_payment[None]" time="0.098" /><testcase classname="saleor.payment.gateways.authorize_net.tests.test_plugin" name="test_payment_gateway_validate" time="0.030" /><testcase classname="saleor.payment.gateways.authorize_net.tests.test_plugin" name="test_payment_gateway_validate_failure" time="0.029" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_check_plugin_id" time="0.023" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_get_payment_gateways" time="0.026"><failure message="TypeError: get_payment_gateways() takes 4 positional arguments but 5 were given">mock_send_request = &lt;MagicMock name='send_webhook_request_sync' id='129208963006624'&gt;
+payment_app = &lt;App: Payment App&gt;
+permission_manage_payments = &lt;Permission: payment | payment | Handle payments&gt;
+webhook_plugin = &lt;function webhook_plugin.&lt;locals&gt;.factory at 0x7583ce5823a0&gt;
+
+    @mock.patch("saleor.plugins.webhook.tasks.send_webhook_request_sync")
+    def test_get_payment_gateways(
+        mock_send_request, payment_app, permission_manage_payments, webhook_plugin
+    ):
+        # Create second app to test results from multiple apps.
+        app_2 = App.objects.create(name="Payment App 2", is_active=True)
+        app_2.tokens.create(name="Default")
+        app_2.permissions.add(permission_manage_payments)
+        webhook = Webhook.objects.create(
+            name="payment-webhook-2",
+            app=app_2,
+            target_url="https://payment-gateway-2.com/api/",
+        )
+        webhook.events.bulk_create(
+            [
+                WebhookEvent(event_type=event_type, webhook=webhook)
+                for event_type in WebhookEventSyncType.PAYMENT_EVENTS
+            ]
+        )
+    
+        plugin = webhook_plugin()
+        mock_json_response = [
+            {
+                "id": "credit-card",
+                "name": "Credit Card",
+                "currencies": ["USD", "EUR"],
+                "config": [],
+            }
+        ]
+        mock_send_request.return_value = mock_json_response
+&gt;       response_data = plugin.get_payment_gateways("USD", None, None, None)
+E       TypeError: get_payment_gateways() takes 4 positional arguments but 5 were given
+
+saleor/plugins/webhook/tests/test_payment_webhook.py:289: TypeError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_get_payment_gateways_filters_out_unsupported_currencies" time="0.022"><failure message="TypeError: get_payment_gateways() takes 4 positional arguments but 5 were given">mock_send_request = &lt;MagicMock name='send_webhook_request_sync' id='129208973146192'&gt;
+payment_app = &lt;App: Payment App&gt;
+webhook_plugin = &lt;function webhook_plugin.&lt;locals&gt;.factory at 0x7583ce3e3ee0&gt;
+
+    @mock.patch("saleor.plugins.webhook.tasks.send_webhook_request_sync")
+    def test_get_payment_gateways_filters_out_unsupported_currencies(
+        mock_send_request, payment_app, webhook_plugin
+    ):
+        plugin = webhook_plugin()
+        mock_json_response = [
+            {
+                "id": "credit-card",
+                "name": "Credit Card",
+                "currencies": ["USD", "EUR"],
+                "config": [],
+            }
+        ]
+        mock_send_request.return_value = mock_json_response
+&gt;       response_data = plugin.get_payment_gateways("PLN", None, None, None)
+E       TypeError: get_payment_gateways() takes 4 positional arguments but 5 were given
+
+saleor/plugins/webhook/tests/test_payment_webhook.py:417: TypeError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_get_payment_gateways_for_checkout" time="0.265"><failure message="TypeError: get_payment_gateways() takes 4 positional arguments but 5 were given">mock_generate_payload = &lt;MagicMock name='generate_list_gateways_payload' id='129208959955200'&gt;
+mock_send_request = &lt;MagicMock name='send_webhook_request_sync' id='129208959977504'&gt;
+checkout_info = CheckoutInfo(checkout=&lt;Checkout: Checkout object (4de3cac1-444d-47ae-ba4d-71368e78f71b)&gt;, user=None, channel=&lt;Channel:...zyObject: &lt;function update_delivery_method_lists_for_checkout_info.&lt;locals&gt;.&lt;lambda&gt; at 0x7583ce4f5ca0&gt;&gt;, voucher=None)
+payment_app = &lt;App: Payment App&gt;
+webhook_plugin = &lt;function webhook_plugin.&lt;locals&gt;.factory at 0x7583ce507b80&gt;
+
+    @mock.patch("saleor.plugins.webhook.tasks.send_webhook_request_sync")
+    @mock.patch("saleor.plugins.webhook.plugin.generate_list_gateways_payload")
+    def test_get_payment_gateways_for_checkout(
+        mock_generate_payload, mock_send_request, checkout_info, payment_app, webhook_plugin
+    ):
+        plugin = webhook_plugin()
+        mock_json_response = [
+            {
+                "id": "credit-card",
+                "name": "Credit Card",
+                "currencies": ["USD", "EUR"],
+                "config": [],
+            }
+        ]
+        mock_send_request.return_value = mock_json_response
+        mock_generate_payload.return_value = ""
+&gt;       plugin.get_payment_gateways("USD", checkout_info, None, None)
+E       TypeError: get_payment_gateways() takes 4 positional arguments but 5 were given
+
+saleor/plugins/webhook/tests/test_payment_webhook.py:437: TypeError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_get_payment_gateways_multiple_webhooks_in_the_same_app" time="0.024"><failure message="TypeError: get_payment_gateways() takes 4 positional arguments but 5 were given">mock_send_request = &lt;MagicMock name='send_webhook_request_sync' id='129208961746304'&gt;
+payment_app = &lt;App: Payment App&gt;
+permission_manage_payments = &lt;Permission: payment | payment | Handle payments&gt;
+webhook_plugin = &lt;function webhook_plugin.&lt;locals&gt;.factory at 0x7583ce507d30&gt;
+
+    @mock.patch("saleor.plugins.webhook.tasks.send_webhook_request_sync")
+    def test_get_payment_gateways_multiple_webhooks_in_the_same_app(
+        mock_send_request, payment_app, permission_manage_payments, webhook_plugin
+    ):
+        # given
+        # create the second webhook with the same event
+        webhook = Webhook.objects.create(
+            name="payment-webhook-2",
+            app=payment_app,
+            target_url="https://payment-gateway-2.com/api/",
+        )
+        webhook.events.bulk_create(
+            [
+                WebhookEvent(event_type=event_type, webhook=webhook)
+                for event_type in WebhookEventSyncType.PAYMENT_EVENTS
+            ]
+        )
+    
+        plugin = webhook_plugin()
+        mock_json_response = [
+            {
+                "id": "credit-card",
+                "name": "Credit Card",
+                "currencies": ["USD", "EUR"],
+                "config": [],
+            }
+        ]
+        mock_send_request.return_value = mock_json_response
+    
+        # when
+&gt;       response_data = plugin.get_payment_gateways("USD", None, None, None)
+E       TypeError: get_payment_gateways() takes 4 positional arguments but 5 were given
+
+saleor/plugins/webhook/tests/test_payment_webhook.py:389: TypeError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_get_payment_gateways_with_transactions" time="0.021"><failure message="TypeError: get_payment_gateways() takes 4 positional arguments but 5 were given">mock_send_request = &lt;MagicMock name='send_webhook_request_sync' id='129208966134848'&gt;
+permission_manage_payments = &lt;Permission: payment | payment | Handle payments&gt;
+webhook_plugin = &lt;function webhook_plugin.&lt;locals&gt;.factory at 0x7583ce507820&gt;
+
+    @mock.patch("saleor.plugins.webhook.tasks.send_webhook_request_sync")
+    def test_get_payment_gateways_with_transactions(
+        mock_send_request, permission_manage_payments, webhook_plugin
+    ):
+        # given
+        app_name = "Payment App 2"
+        app_identifier = "app2"
+        app = App.objects.create(name=app_name, is_active=True, identifier=app_identifier)
+        app.permissions.add(permission_manage_payments)
+        webhook = Webhook.objects.create(
+            name="payment-webhook-2",
+            app=app,
+            target_url="https://payment-gateway-2.com/api/",
+        )
+        WebhookEvent.objects.create(
+            event_type=WebhookEventSyncType.TRANSACTION_INITIALIZE_SESSION, webhook=webhook
+        )
+    
+        plugin = webhook_plugin()
+    
+        # when
+&gt;       response_data = plugin.get_payment_gateways("USD", None, None, None)
+E       TypeError: get_payment_gateways() takes 4 positional arguments but 5 were given
+
+saleor/plugins/webhook/tests/test_payment_webhook.py:322: TypeError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_get_payment_gateways_with_transactions_and_app_without_identifier" time="0.020"><failure message="TypeError: get_payment_gateways() takes 4 positional arguments but 5 were given">mock_send_request = &lt;MagicMock name='send_webhook_request_sync' id='129208962839120'&gt;
+permission_manage_payments = &lt;Permission: payment | payment | Handle payments&gt;
+webhook_plugin = &lt;function webhook_plugin.&lt;locals&gt;.factory at 0x7583ce5071f0&gt;
+
+    @mock.patch("saleor.plugins.webhook.tasks.send_webhook_request_sync")
+    def test_get_payment_gateways_with_transactions_and_app_without_identifier(
+        mock_send_request, permission_manage_payments, webhook_plugin
+    ):
+        # given
+        app_name = "Payment App 2"
+        app_identifier = None
+        app = App.objects.create(name=app_name, is_active=True, identifier=app_identifier)
+        app.permissions.add(permission_manage_payments)
+        webhook = Webhook.objects.create(
+            name="payment-webhook-2",
+            app=app,
+            target_url="https://payment-gateway-2.com/api/",
+        )
+        WebhookEvent.objects.create(
+            event_type=WebhookEventSyncType.TRANSACTION_INITIALIZE_SESSION, webhook=webhook
+        )
+    
+        plugin = webhook_plugin()
+    
+        # when
+&gt;       response_data = plugin.get_payment_gateways("USD", None, None, None)
+E       TypeError: get_payment_gateways() takes 4 positional arguments but 5 were given
+
+saleor/plugins/webhook/tests/test_payment_webhook.py:353: TypeError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_run_payment_webhook[auth-authorize_payment]" time="0.116" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_run_payment_webhook[capture-capture_payment]" time="0.113" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_run_payment_webhook[capture-process_payment]" time="0.127" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_run_payment_webhook[confirm-confirm_payment]" time="0.116" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_run_payment_webhook[refund-refund_payment]" time="0.115" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_run_payment_webhook[void-void_payment]" time="0.140" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_run_payment_webhook_empty_response" time="0.116" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_run_payment_webhook_inactive_plugin" time="0.097" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_run_payment_webhook_invalid_app" time="0.102" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_run_payment_webhook_no_payment_app_data" time="0.106" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_run_payment_webhook_no_response" time="0.125" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_send_webhook_request_sync_failed_attempt" time="0.065" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_send_webhook_request_sync_invalid_scheme" time="0.060" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_send_webhook_request_sync_json_parsing_error" time="0.064" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_send_webhook_request_sync_request_exception" time="0.103" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_send_webhook_request_sync_successful_attempt" time="0.076" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_send_webhook_request_sync_when_exception_with_response" time="0.066" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_send_webhook_request_with_proper_timeout" time="0.068" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_trigger_webhook_sync" time="0.024" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_trigger_webhook_sync_with_subscription" time="0.115" /><testcase classname="saleor.plugins.webhook.tests.test_payment_webhook" name="test_webhook_plugin_token_is_not_required" time="0.035" /></testsuite></testsuites>
