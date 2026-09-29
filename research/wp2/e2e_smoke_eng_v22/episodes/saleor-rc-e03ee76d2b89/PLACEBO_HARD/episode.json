@@ -1,0 +1,64 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v21",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-e03ee76d2b89",
+ "arm": "PLACEBO_HARD",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/graphql/checkout/mutations/checkout_create.py",
+  "saleor/graphql/tax/mutations/tax_configuration_update.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/graphql/checkout/mutations/checkout_create.py",
+   "saleor/graphql/tax/mutations/tax_configuration_update.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/graphql/checkout/mutations/checkout_create.py",
+   "saleor/graphql/tax/mutations/tax_configuration_update.py"
+  ]
+ },
+ "prompt_sha256": "c4d1eba354ed072e2548729adc05e112400ed89a2ecc9a0469ac39c0ca883f89",
+ "request_sha_initial": "ece11eca9674f282c966149e9ae32aedc6c07561a9a92092fbd9639ca0816497",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "repair_request_sha256": "",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790650563-xWSVlZ3XKslu3AgEsGV2",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 4478,
+   "completion_tokens": 2414,
+   "cost_usd_actual": 0.0036998,
+   "cost_usd_nominal": 0.0036998,
+   "finish_reason": "stop",
+   "response_sha256": "4906bff62bf9f9f232bfb4f0ad0bd2d7cd4a2de2235e011af84efa1cc9f718eb",
+   "request_sha": "ece11eca9674f282c966149e9ae32aedc6c07561a9a92092fbd9639ca0816497",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\e2e_smoke_eng_v22\\episodes\\saleor-rc-e03ee76d2b89\\PLACEBO_HARD\\calls\\1_initial.txt",
+   "raw_sha256": "4906bff62bf9f9f232bfb4f0ad0bd2d7cd4a2de2235e011af84efa1cc9f718eb"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "edited_files": [
+  "saleor/graphql/checkout/mutations/checkout_create.py",
+  "saleor/graphql/tax/mutations/tax_configuration_update.py"
+ ],
+ "diff_sha256": "16ec795185b645d8d57bd90786f83612f045ee5efe642dd1520f3496ef3b03d3",
+ "envelope": {},
+ "whitespace_tolerant_blocks": [],
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-29T02:56:24Z",
+ "episode_sha256": "f655b24212a1de007aad27c1eee5592bc850dad7b26fa29f3a70b4e99789e8ac"
+}

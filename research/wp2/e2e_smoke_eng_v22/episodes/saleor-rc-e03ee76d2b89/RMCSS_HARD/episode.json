@@ -1,0 +1,64 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v21",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-e03ee76d2b89",
+ "arm": "RMCSS_HARD",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/graphql/core/validators/__init__.py",
+  "saleor/seo/models.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/graphql/core/validators/__init__.py",
+   "saleor/seo/models.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/graphql/core/validators/__init__.py",
+   "saleor/seo/models.py"
+  ]
+ },
+ "prompt_sha256": "1ad5adf6513a36ac97c457411d6158ef77c3a60227d332e412c201e1f7e40e99",
+ "request_sha_initial": "d83a50c85e400dc04a25c7dfeece1b76df82e1ca7292b818f05ea65cc1e6f83c",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "repair_request_sha256": "",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790650556-IJid0jGUycRsIn4IUBC2",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 2094,
+   "completion_tokens": 176,
+   "cost_usd_actual": 0.0007498,
+   "cost_usd_nominal": 0.0007498,
+   "finish_reason": "stop",
+   "response_sha256": "e9e2635e6af0eb96f9da000a2f5ef880fd457fc5ec15c6a1aab03d34fadf04a7",
+   "request_sha": "d83a50c85e400dc04a25c7dfeece1b76df82e1ca7292b818f05ea65cc1e6f83c",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\e2e_smoke_eng_v22\\episodes\\saleor-rc-e03ee76d2b89\\RMCSS_HARD\\calls\\1_initial.txt",
+   "raw_sha256": "e9e2635e6af0eb96f9da000a2f5ef880fd457fc5ec15c6a1aab03d34fadf04a7"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "edited_files": [
+  "saleor/graphql/core/validators/__init__.py",
+  "saleor/seo/models.py"
+ ],
+ "diff_sha256": "a869d8e694b6ae71807e489553e466ed8c8b53d05edaaa6a3c31c8e76615bd8d",
+ "envelope": {},
+ "whitespace_tolerant_blocks": [],
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-29T02:56:01Z",
+ "episode_sha256": "0d961512f507d93f79ba20074c75de48df07569339f26821523525ca07648822"
+}

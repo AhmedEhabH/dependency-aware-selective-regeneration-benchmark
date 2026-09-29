@@ -1,0 +1,12 @@
+diff --git a/saleor/payment/gateways/dummy_credit_card/plugin.py b/saleor/payment/gateways/dummy_credit_card/plugin.py
+--- a/saleor/payment/gateways/dummy_credit_card/plugin.py
++++ b/saleor/payment/gateways/dummy_credit_card/plugin.py
+@@ -35,7 +35,7 @@
+ class DummyCreditCardGatewayPlugin(BasePlugin):
+     PLUGIN_ID = "mirumee.payments.dummy_credit_card"
+     PLUGIN_NAME = GATEWAY_NAME
+-    DEFAULT_ACTIVE = True
++    DEFAULT_ACTIVE = False
+     DEFAULT_CONFIGURATION = [
+         {"name": "Store customers card", "value": False},
+         {"name": "Automatic payment capture", "value": True},

@@ -1,0 +1,60 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v21",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-e25cf9b4a837",
+ "arm": "GOLD_HARD",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/payment/gateways/dummy_credit_card/plugin.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/payment/gateways/dummy_credit_card/plugin.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/payment/gateways/dummy_credit_card/plugin.py"
+  ]
+ },
+ "prompt_sha256": "a9150cf1ffbbe02ff676a5141d9729749f10a4d44918291ae07415bedf53546b",
+ "request_sha_initial": "58d86fedb83bd670fe05081d13ab730d8ef88d5b8d1ac1b1ce0ebb9467947422",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "repair_request_sha256": "",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790650583-HUMQGbyak5XUzalLjp6V",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 1170,
+   "completion_tokens": 168,
+   "cost_usd_actual": 0.0004774,
+   "cost_usd_nominal": 0.0004774,
+   "finish_reason": "stop",
+   "response_sha256": "265708c240c57e3e97c8ffdeb5e89110bf73b96d0c897405c53f6f83949dd7ba",
+   "request_sha": "58d86fedb83bd670fe05081d13ab730d8ef88d5b8d1ac1b1ce0ebb9467947422",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\e2e_smoke_eng_v22\\episodes\\saleor-rc-e25cf9b4a837\\GOLD_HARD\\calls\\1_initial.txt",
+   "raw_sha256": "265708c240c57e3e97c8ffdeb5e89110bf73b96d0c897405c53f6f83949dd7ba"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "edited_files": [
+  "saleor/payment/gateways/dummy_credit_card/plugin.py"
+ ],
+ "diff_sha256": "404bef1c2bdf9e11bc4d19839f773f3626b61c4ced8c6153cda170e27d0f1a9f",
+ "envelope": {},
+ "whitespace_tolerant_blocks": [],
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-29T02:56:28Z",
+ "episode_sha256": "8940eaa664d4d3f443657729555d443cf7c4533b453b2a1916674cb9fe9ca62b"
+}

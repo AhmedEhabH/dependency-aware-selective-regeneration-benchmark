@@ -1,0 +1,15 @@
+diff --git a/saleor/graphql/core/validators/__init__.py b/saleor/graphql/core/validators/__init__.py
+--- a/saleor/graphql/core/validators/__init__.py
++++ b/saleor/graphql/core/validators/__init__.py
+@@ -176,7 +176,10 @@
+ 
+ def clean_seo_fields(data):
+     """Extract and assign seo fields to given dictionary."""
+-    seo_fields = data.pop("seo", {})
++    seo_fields = data.pop("seo", None)
++
++    if seo_fields is None:
++        return
+ 
+     if "title" in seo_fields:
+         data["seo_title"] = seo_fields["title"]

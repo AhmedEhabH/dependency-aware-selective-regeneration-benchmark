@@ -1,0 +1,60 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v21",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-e25cf9b4a837",
+ "arm": "PLACEBO_HARD",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/product/utils/attributes.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/product/utils/attributes.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/product/utils/attributes.py"
+  ]
+ },
+ "prompt_sha256": "9317a65a83212fbbf6abfcc4662a488138b0a93a5e91545c1eece411caf56f49",
+ "request_sha_initial": "f2e11275df9bc8f94593a6ce2adadbe6b30da488d0c6540d2e564bdbc3b0c8ee",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "repair_request_sha256": "",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790650598-oOz2r61YunQ7mnaBWbvn",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 925,
+   "completion_tokens": 221,
+   "cost_usd_actual": 0.0004505,
+   "cost_usd_nominal": 0.0004505,
+   "finish_reason": "stop",
+   "response_sha256": "880f1c03349e02445432ec4879f88c9f8ffed2eae522bf9d0075a2c20ab9570f",
+   "request_sha": "f2e11275df9bc8f94593a6ce2adadbe6b30da488d0c6540d2e564bdbc3b0c8ee",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\e2e_smoke_eng_v22\\episodes\\saleor-rc-e25cf9b4a837\\PLACEBO_HARD\\calls\\1_initial.txt",
+   "raw_sha256": "880f1c03349e02445432ec4879f88c9f8ffed2eae522bf9d0075a2c20ab9570f"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "edited_files": [
+  "saleor/product/utils/attributes.py"
+ ],
+ "diff_sha256": "16ec795185b645d8d57bd90786f83612f045ee5efe642dd1520f3496ef3b03d3",
+ "envelope": {},
+ "whitespace_tolerant_blocks": [],
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-29T02:56:42Z",
+ "episode_sha256": "af374f1273dcb99ec7fdf0183ac13c3549d6ee352bf32b42d64ba025902c8802"
+}
