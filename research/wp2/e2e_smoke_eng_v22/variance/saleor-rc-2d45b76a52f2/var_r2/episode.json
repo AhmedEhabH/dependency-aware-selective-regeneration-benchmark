@@ -1,0 +1,82 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v21",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-2d45b76a52f2",
+ "arm": "GOLD_HARD",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/core/jwt.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/core/jwt.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/core/jwt.py"
+  ]
+ },
+ "prompt_sha256": "78619e0fe00b8ad0b75869b27b451ce93ce5dcc2b3f33cf5da334516282987dc",
+ "request_sha_initial": "32d92b758f8a91d4e59eb4c788e375f15df77ca1e79ca7a1a0e6d9ec31767067",
+ "request_sha_repair": "15e512f0504da2b8b0fb18b7bac93186557301b0770b1cbe24e5b34684d259dd",
+ "repair_component_hashes": {
+  "message_1_system": "020a8f57bba533f9a332e9d30a96892bc5893d1b20f376cbde591a1b5cc87922",
+  "message_2_user": "78619e0fe00b8ad0b75869b27b451ce93ce5dcc2b3f33cf5da334516282987dc",
+  "message_3_assistant": "93bc50f486f7ba1532c39799a187d087e6e310d6dd8d15a6093473fb34e5db06",
+  "message_4_user": "3c05222749f86c39cbb94b35c1d2376be0a44bddf918d058f55ba74db06364bc"
+ },
+ "repair_request_sha256": "15e512f0504da2b8b0fb18b7bac93186557301b0770b1cbe24e5b34684d259dd",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790650624-avc4WGHszQw5a0aNBYpA",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 1823,
+   "completion_tokens": 1204,
+   "cost_usd_actual": 0.0013925,
+   "cost_usd_nominal": 0.0013925,
+   "finish_reason": "stop",
+   "response_sha256": "93bc50f486f7ba1532c39799a187d087e6e310d6dd8d15a6093473fb34e5db06",
+   "request_sha": "32d92b758f8a91d4e59eb4c788e375f15df77ca1e79ca7a1a0e6d9ec31767067",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\e2e_smoke_eng_v22\\variance\\saleor-rc-2d45b76a52f2\\var_r2\\calls\\1_initial.txt",
+   "raw_sha256": "93bc50f486f7ba1532c39799a187d087e6e310d6dd8d15a6093473fb34e5db06"
+  },
+  {
+   "kind": "repair",
+   "index": 2,
+   "request_id": "gen-1790650636-LREtLTuAXQx5drJqsnmU",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 3137,
+   "completion_tokens": 695,
+   "cost_usd_actual": 0.0010345,
+   "cost_usd_nominal": 0.0010345,
+   "finish_reason": "stop",
+   "response_sha256": "4af5ccfec41352bbf181004908c40ebcea98b440302a7184245b421e2ac7ae0e",
+   "request_sha": "15e512f0504da2b8b0fb18b7bac93186557301b0770b1cbe24e5b34684d259dd",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\e2e_smoke_eng_v22\\variance\\saleor-rc-2d45b76a52f2\\var_r2\\calls\\2_repair.txt",
+   "raw_sha256": "4af5ccfec41352bbf181004908c40ebcea98b440302a7184245b421e2ac7ae0e"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": true,
+ "edited_files": [
+  "saleor/core/jwt.py"
+ ],
+ "diff_sha256": "4cf74a85a957f94dc6903a04ba18242475214af4b2350f37a24a57025c6232a5",
+ "envelope": {},
+ "whitespace_tolerant_blocks": [],
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-29T02:57:27Z",
+ "episode_sha256": "d4ecdbce65739f32f970af13a6e7db830bf8ddf34037d66654a9fbab5dcca715"
+}

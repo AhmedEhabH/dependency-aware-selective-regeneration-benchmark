@@ -1,0 +1,60 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v21",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-2d45b76a52f2",
+ "arm": "GOLD_HARD",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/core/jwt.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/core/jwt.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/core/jwt.py"
+  ]
+ },
+ "prompt_sha256": "78619e0fe00b8ad0b75869b27b451ce93ce5dcc2b3f33cf5da334516282987dc",
+ "request_sha_initial": "32d92b758f8a91d4e59eb4c788e375f15df77ca1e79ca7a1a0e6d9ec31767067",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "repair_request_sha256": "",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790650613-n7Aanb2a1Xk2rjj8FegQ",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 1823,
+   "completion_tokens": 673,
+   "cost_usd_actual": 0.0011783,
+   "cost_usd_nominal": 0.0011783,
+   "finish_reason": "stop",
+   "response_sha256": "acbe4673a16729089bcb40114bb03aa67198ae0fed3ee3f4f0689f8d126dc6ab",
+   "request_sha": "32d92b758f8a91d4e59eb4c788e375f15df77ca1e79ca7a1a0e6d9ec31767067",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\e2e_smoke_eng_v22\\variance\\saleor-rc-2d45b76a52f2\\var_r1\\calls\\1_initial.txt",
+   "raw_sha256": "acbe4673a16729089bcb40114bb03aa67198ae0fed3ee3f4f0689f8d126dc6ab"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "edited_files": [
+  "saleor/core/jwt.py"
+ ],
+ "diff_sha256": "acd6e150efa90dd348f4341c9d5b8961ad1cda9308b76919a958e2935cf0a8f6",
+ "envelope": {},
+ "whitespace_tolerant_blocks": [],
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-29T02:57:01Z",
+ "episode_sha256": "9acfaaf67dd97ef1eb37a113e629f7607e67f2fa667b8f32e33165917a49bded"
+}

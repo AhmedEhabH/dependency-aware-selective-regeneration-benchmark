@@ -1,0 +1,37 @@
+diff --git a/saleor/core/jwt.py b/saleor/core/jwt.py
+--- a/saleor/core/jwt.py
++++ b/saleor/core/jwt.py
+@@ -164,6 +164,7 @@
+     object_id: int,
+     object_payload_key: str,
+     audience: Optional[str],
++    additional_payload_data: Optional[Dict[str, Any]] = None,
+ ):
+     app_permission_enums = get_permission_names(permissions)
+ 
+@@ -174,6 +175,8 @@
+         PERMISSIONS_FIELD: list(app_permission_enums & user_permission_enums),
+         USER_PERMISSION_FIELD: list(user_permission_enums),
+     }
++    if additional_payload_data:
++        additional_payload.update(additional_payload_data)
+     if audience:
+         additional_payload["aud"] = audience
+ 
+@@ -211,6 +214,9 @@
+     user: "User",
+     app: "App",
+ ):
++    additional_payload_data = {
++        "app": graphene.Node.to_global_id("App", app.id),
++    }
+     return _create_access_token_for_third_party_actions(
+         permissions=permissions,
+         user=user,
+@@ -218,4 +224,5 @@
+         object_id=app_extension.id,
+         object_payload_key="app_extension",
+         audience=app.audience,
+-    )
++        additional_payload_data=additional_payload_data,
++    )

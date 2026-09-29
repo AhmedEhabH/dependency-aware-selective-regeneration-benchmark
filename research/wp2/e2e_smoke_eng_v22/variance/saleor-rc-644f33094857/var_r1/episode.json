@@ -1,0 +1,102 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v21",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-644f33094857",
+ "arm": "GOLD_HARD",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/graphql/order/mutations/fulfillments.py",
+  "saleor/graphql/order/mutations/orders.py",
+  "saleor/order/actions.py",
+  "saleor/order/events.py",
+  "saleor/order/models.py",
+  "saleor/order/utils.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/graphql/order/mutations/fulfillments.py",
+   "saleor/graphql/order/mutations/orders.py",
+   "saleor/order/actions.py",
+   "saleor/order/events.py",
+   "saleor/order/models.py",
+   "saleor/order/utils.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/graphql/order/mutations/fulfillments.py",
+   "saleor/graphql/order/mutations/orders.py",
+   "saleor/order/actions.py",
+   "saleor/order/events.py",
+   "saleor/order/models.py",
+   "saleor/order/utils.py"
+  ]
+ },
+ "prompt_sha256": "a74515a6cc843f100578d4965f8b25ea040b4049ab4aa25cabb762eddcef08d6",
+ "request_sha_initial": "14c3858bc2b8fef041b1e6aaf37bb164f49d795a4652c92003398b01e22e86ae",
+ "request_sha_repair": "9763416acb1bfbad2e132fad702a503366f138c4b7a45746214dd5a3245b64d4",
+ "repair_component_hashes": {
+  "message_1_system": "020a8f57bba533f9a332e9d30a96892bc5893d1b20f376cbde591a1b5cc87922",
+  "message_2_user": "a74515a6cc843f100578d4965f8b25ea040b4049ab4aa25cabb762eddcef08d6",
+  "message_3_assistant": "dfde3edcff8f8c96dfc2d7eaf3565234e3b5257ee0a19058fdf060c5b637f57b",
+  "message_4_user": "e77cd4a54872ac4fb1e105af5c64116d3ba786154adb68bf93fa452525cbaf54"
+ },
+ "repair_request_sha256": "9763416acb1bfbad2e132fad702a503366f138c4b7a45746214dd5a3245b64d4",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790650647-PVORA3ONWqQhGZ8IfsQO",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 26148,
+   "completion_tokens": 3635,
+   "cost_usd_actual": 0.0114378,
+   "cost_usd_nominal": 0.0114378,
+   "finish_reason": "stop",
+   "response_sha256": "dfde3edcff8f8c96dfc2d7eaf3565234e3b5257ee0a19058fdf060c5b637f57b",
+   "request_sha": "14c3858bc2b8fef041b1e6aaf37bb164f49d795a4652c92003398b01e22e86ae",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\e2e_smoke_eng_v22\\variance\\saleor-rc-644f33094857\\var_r1\\calls\\1_initial.txt",
+   "raw_sha256": "dfde3edcff8f8c96dfc2d7eaf3565234e3b5257ee0a19058fdf060c5b637f57b"
+  },
+  {
+   "kind": "repair",
+   "index": 2,
+   "request_id": "gen-1790650671-9DgJZwq1xfoA3AR5S1to",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 29894,
+   "completion_tokens": 2948,
+   "cost_usd_actual": 0.0059642,
+   "cost_usd_nominal": 0.0059642,
+   "finish_reason": "stop",
+   "response_sha256": "c26a69e6bbaa4ea994daa0012cc724e13a77595541d508c968a73b3b1e7c1dd5",
+   "request_sha": "9763416acb1bfbad2e132fad702a503366f138c4b7a45746214dd5a3245b64d4",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\e2e_smoke_eng_v22\\variance\\saleor-rc-644f33094857\\var_r1\\calls\\2_repair.txt",
+   "raw_sha256": "c26a69e6bbaa4ea994daa0012cc724e13a77595541d508c968a73b3b1e7c1dd5"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": true,
+ "edited_files": [
+  "saleor/graphql/order/mutations/fulfillments.py",
+  "saleor/graphql/order/mutations/orders.py",
+  "saleor/order/actions.py",
+  "saleor/order/events.py",
+  "saleor/order/models.py",
+  "saleor/order/utils.py"
+ ],
+ "diff_sha256": "7dfeed0ee8365e82b289200972b8291031483f826b42f2eb3c68dd10ea839e7c",
+ "envelope": {},
+ "whitespace_tolerant_blocks": [],
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-29T02:58:22Z",
+ "episode_sha256": "98873409e357eefb5fc55cfaa757abb0917a434eae22003c15a6253747723d75"
+}

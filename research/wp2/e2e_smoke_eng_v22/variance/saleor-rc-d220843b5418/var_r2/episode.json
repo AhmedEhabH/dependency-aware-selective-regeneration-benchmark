@@ -1,0 +1,87 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v21",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-d220843b5418",
+ "arm": "GOLD_HARD",
+ "status": "INVALID_AFTER_REPAIR",
+ "editable_set": [
+  "saleor/graphql/webhook/resolvers.py",
+  "saleor/graphql/webhook/subscription_types.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/graphql/webhook/resolvers.py",
+   "saleor/graphql/webhook/subscription_types.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/graphql/webhook/resolvers.py",
+   "saleor/graphql/webhook/subscription_types.py"
+  ]
+ },
+ "prompt_sha256": "f244000262919b0bf049e6a1e99ed1e8e2fe016991c65954a57b40ba9383c9bf",
+ "request_sha_initial": "c35b7d2612bca6b1e88758d94ce2215a93139645641759d983768f791e21e8a3",
+ "request_sha_repair": "9f0c6499ab30147ec2d4eeb6b5970d437a43de310eaa3d1aa3f26b0720d4bad8",
+ "repair_component_hashes": {
+  "message_1_system": "020a8f57bba533f9a332e9d30a96892bc5893d1b20f376cbde591a1b5cc87922",
+  "message_2_user": "f244000262919b0bf049e6a1e99ed1e8e2fe016991c65954a57b40ba9383c9bf",
+  "message_3_assistant": "a2a58e07f274ff3a17b890f22f458dde847295c27fd715873f19c47408c6f556",
+  "message_4_user": "6032b014135773acbce60df9f1abc5aac509c7b6dea278e937fd3d1515ae834f"
+ },
+ "repair_request_sha256": "9f0c6499ab30147ec2d4eeb6b5970d437a43de310eaa3d1aa3f26b0720d4bad8",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790650739-w7JCY9nZbrMsHTPCWuHR",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 21508,
+   "completion_tokens": 510,
+   "cost_usd_actual": 0.0026648,
+   "cost_usd_nominal": 0.0026648,
+   "finish_reason": "stop",
+   "response_sha256": "a2a58e07f274ff3a17b890f22f458dde847295c27fd715873f19c47408c6f556",
+   "request_sha": "c35b7d2612bca6b1e88758d94ce2215a93139645641759d983768f791e21e8a3",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\e2e_smoke_eng_v22\\variance\\saleor-rc-d220843b5418\\var_r2\\calls\\1_initial.txt",
+   "raw_sha256": "a2a58e07f274ff3a17b890f22f458dde847295c27fd715873f19c47408c6f556"
+  },
+  {
+   "kind": "repair",
+   "index": 2,
+   "request_id": "gen-1790650749-Zp9bb35GHHtvuR145qXS",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 22132,
+   "completion_tokens": 350,
+   "cost_usd_actual": 0.0025896,
+   "cost_usd_nominal": 0.0025896,
+   "finish_reason": "stop",
+   "response_sha256": "42cf965ca91b74a286ec2f155c71908009f9ab3e617132da102af6dc6ef2d514",
+   "request_sha": "9f0c6499ab30147ec2d4eeb6b5970d437a43de310eaa3d1aa3f26b0720d4bad8",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\e2e_smoke_eng_v22\\variance\\saleor-rc-d220843b5418\\var_r2\\calls\\2_repair.txt",
+   "raw_sha256": "42cf965ca91b74a286ec2f155c71908009f9ab3e617132da102af6dc6ef2d514"
+  }
+ ],
+ "validation": {
+  "initial": [
+   "SEARCH_ERROR:saleor/graphql/webhook/resolvers.py: block 1: SEARCH content not found in current file (count=0); search='def resolve_shipping_methods_for_checkout(\\n    info: ResolveInfo,\\n    checkout,\\n'"
+  ],
+  "repair": [
+   "SEARCH_ERROR:saleor/graphql/webhook/resolvers.py: block 1: SEARCH content not found in current file (count=0); search='def resolve_shipping_methods_for_checkout(\\n    info: ResolveInfo,\\n    checkout,\\n'"
+  ]
+ },
+ "repair_used": true,
+ "edited_files": [],
+ "diff_sha256": "",
+ "envelope": {},
+ "whitespace_tolerant_blocks": [],
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-29T02:59:17Z",
+ "episode_sha256": "294dcff819952f8feb23aafba5900e4c05062a63da35a2d65622e0f9b268955f"
+}

@@ -1,0 +1,35 @@
+diff --git a/saleor/order/actions.py b/saleor/order/actions.py
+--- a/saleor/order/actions.py
++++ b/saleor/order/actions.py
+@@ -520,6 +520,10 @@
+     FulfillmentLine.objects.bulk_update(fulfillment_lines_to_update, ["quantity"])
+     FulfillmentLine.objects.bulk_create(fulfillment_lines_to_create)
+     OrderLine.objects.bulk_update(order_lines_to_update, ["quantity_fulfilled"])
++    
++    # Update order status after moving lines
++    if order_lines_to_update:
++        update_order_status(order_lines_to_update[0].order)
+ 
+ 
+ def _move_fulfillment_lines_to_target_fulfillment(
+@@ -573,6 +577,10 @@
+     FulfillmentLine.objects.filter(
+         id__in=[f.id for f in empty_fulfillment_lines_to_delete]
+     ).delete()
++    
++    # Update order status after moving fulfillment lines
++    if fulfillment_lines_to_move:
++        update_order_status(fulfillment_lines_to_move[0].line.order_line.order)
+ 
+ 
+ def create_refund_fulfillment(
+@@ -622,6 +630,9 @@
+         )
+ 
+         Fulfillment.objects.filter(order=order, lines=None).delete()
++        
++        # Update order status after refund fulfillment is processed
++        update_order_status(order)
+ 
+     return refunded_fulfillment
+ 

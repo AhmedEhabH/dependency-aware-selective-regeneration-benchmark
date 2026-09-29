@@ -1,0 +1,149 @@
+Looking at the developer change description, I need to extend the logic for updating order status and call update order status for refund action. Let me analyze the code to understand what needs to be modified.
+
+From the files provided, I can see that:
+1. `saleor/order/actions.py` contains fulfillment and refund actions
+2. `saleor/order/utils.py` contains the `update_order_status` function
+3. The mutations files handle GraphQL requests
+
+The key issue seems to be that after refund actions, the order status is not being updated properly. Looking at the code, I can see that `update_order_status` is called in some places but not consistently after refund operations.
+
+Let me examine the refund-related functions in `actions.py` and ensure they call `update_order_status` appropriately.
+
+FILE: saleor/order/actions.py
+<<<<<<< SEARCH
+def order_refunded(
+    order: "Order", user: Optional["User"], amount: "Decimal", payment: "Payment"
+):
+    events.payment_refunded_event(
+        order=order, user=user, amount=amount, payment=payment
+    )
+    get_plugins_manager().order_updated(order)
+
+    send_order_refunded_confirmation(order, user, amount, payment.currency)
+=======
+def order_refunded(
+    order: "Order", user: Optional["User"], amount: "Decimal", payment: "Payment"
+):
+    events.payment_refunded_event(
+        order=order, user=user, amount=amount, payment=payment
+    )
+    update_order_status(order)
+    get_plugins_manager().order_updated(order)
+
+    send_order_refunded_confirmation(order, user, amount, payment.currency)
+>>>>>>> REPLACE
+
+FILE: saleor/order/actions.py
+<<<<<<< SEARCH
+def fulfillment_refunded_event(
+    *,
+    order: Order,
+    user: UserType,
+    refunded_lines: List[Tuple[int, OrderLine]],
+    amount: Decimal,
+    shipping_costs_included: bool
+):
+    if not _user_is_valid(user):
+        user = None
+    return OrderEvent.objects.create(
+        order=order,
+        type=OrderEvents.FULFILLMENT_REFUNDED,
+        user=user,
+        parameters={
+            "lines": _lines_per_quantity_to_line_object_list(refunded_lines),
+            "amount": amount,
+            "shipping_costs_included": shipping_costs_included,
+        },
+    )
+=======
+def fulfillment_refunded_event(
+    *,
+    order: Order,
+    user: UserType,
+    refunded_lines: List[Tuple[int, OrderLine]],
+    amount: Decimal,
+    shipping_costs_included: bool
+):
+    if not _user_is_valid(user):
+        user = None
+    event = OrderEvent.objects.create(
+        order=order,
+        type=OrderEvents.FULFILLMENT_REFUNDED,
+        user=user,
+        parameters={
+            "lines": _lines_per_quantity_to_line_object_list(refunded_lines),
+            "amount": amount,
+            "shipping_costs_included": shipping_costs_included,
+        },
+    )
+    update_order_status(order)
+    return event
+>>>>>>> REPLACE
+
+FILE: saleor/order/actions.py
+<<<<<<< SEARCH
+def _process_refund(
+    requester: Optional["User"],
+    order: "Order",
+    payment: Payment,
+    order_lines_to_refund: List[OrderLineData],
+    fulfillment_lines_to_refund: List[FulfillmentLineData],
+    amount: Optional[Decimal],
+    refund_shipping_costs: bool,
+):
+    lines_to_refund: Dict[OrderLineIDType, Tuple[QuantityType, OrderLine]] = dict()
+    refund_amount = _calculate_refund_amount(
+        order_lines_to_refund, fulfillment_lines_to_refund, lines_to_refund
+    )
+    if amount is None:
+        amount = refund_amount
+        # we take into consideration the shipping costs only when amount is not
+        # provided.
+        if refund_shipping_costs:
+            amount += order.shipping_price_gross_amount
+    if amount:
+        amount = min(payment.captured_amount, amount)
+        gateway.refund(payment, amount)
+        order_refunded(order, requester, amount, payment)
+
+    fulfillment_refunded_event(
+        order=order,
+        user=requester,
+        refunded_lines=list(lines_to_refund.values()),
+        amount=amount,
+        shipping_costs_included=refund_shipping_costs,
+    )
+=======
+def _process_refund(
+    requester: Optional["User"],
+    order: "Order",
+    payment: Payment,
+    order_lines_to_refund: List[OrderLineData],
+    fulfillment_lines_to_refund: List[FulfillmentLineData],
+    amount: Optional[Decimal],
+    refund_shipping_costs: bool,
+):
+    lines_to_refund: Dict[OrderLineIDType, Tuple[QuantityType, OrderLine]] = dict()
+    refund_amount = _calculate_refund_amount(
+        order_lines_to_refund, fulfillment_lines_to_refund, lines_to_refund
+    )
+    if amount is None:
+        amount = refund_amount
+        # we take into consideration the shipping costs only when amount is not
+        # provided.
+        if refund_shipping_costs:
+            amount += order.shipping_price_gross_amount
+    if amount:
+        amount = min(payment.captured_amount, amount)
+        gateway.refund(payment, amount)
+        order_refunded(order, requester, amount, payment)
+
+    fulfillment_refunded_event(
+        order=order,
+        user=requester,
+        refunded_lines=list(lines_to_refund.values()),
+        amount=amount,
+        shipping_costs_included=refund_shipping_costs,
+    )
+    update_order_status(order)
+>>>>>>> REPLACE

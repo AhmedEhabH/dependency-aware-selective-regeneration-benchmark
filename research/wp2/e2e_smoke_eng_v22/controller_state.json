@@ -103,6 +103,18 @@
    "event": "START",
    "phase": "P06_GEN_MAIN",
    "utc": "2026-09-29T02:39:26Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "P06_GEN_MAIN",
+   "utc": "2026-09-29T02:56:51Z"
+  },
+  {
+   "detail": "variance probe 3 tasks x GOLD x 2 replicates",
+   "event": "START",
+   "phase": "P07_GEN_VARIANCE",
+   "utc": "2026-09-29T02:56:51Z"
   }
  ],
  "phases": {
@@ -158,6 +170,14 @@
    "attempts": 0,
    "failures": 0,
    "iterations": 7,
+   "passed_utc": "2026-09-29T02:56:51Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "P07_GEN_VARIANCE": {
+   "attempts": 0,
+   "failures": 0,
+   "iterations": 1,
    "runs": 1,
    "status": "RUNNING"
   }

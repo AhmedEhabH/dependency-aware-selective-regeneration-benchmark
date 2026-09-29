@@ -1,0 +1,53 @@
+Looking at the file content again, I need to find the exact function definition. Let me search for it properly.
+
+FILE: saleor/graphql/webhook/resolvers.py
+<<<<<<< SEARCH
+def resolve_shipping_methods_for_checkout(
+    info: ResolveInfo,
+    checkout,
+    manager,
+    database_connection_name: str = settings.DATABASE_CONNECTION_DEFAULT_NAME,
+):
+    lines, _ = fetch_checkout_lines(
+        checkout, database_connection_name=database_connection_name
+    )
+    shipping_channel_listings = checkout.channel.shipping_method_listings.all()
+    checkout_info = fetch_checkout_info(
+        checkout,
+        lines,
+        manager,
+        shipping_channel_listings,
+        database_connection_name=database_connection_name
+    )
+    all_shipping_methods = get_all_shipping_methods_list(
+        checkout_info,
+    )
+    return all_shipping_methods
+=======
+def resolve_shipping_methods_for_checkout(
+    info: ResolveInfo,
+    checkout,
+    manager,
+    database_connection_name: str = settings.DATABASE_CONNECTION_DEFAULT_NAME,
+):
+    # Check if we're generating a sample payload to prevent circular references
+    if hasattr(info.context, 'is_sample_payload_generation') and info.context.is_sample_payload_generation:
+        # Return empty list for sample payload generation to prevent circular references
+        return []
+        
+    lines, _ = fetch_checkout_lines(
+        checkout, database_connection_name=database_connection_name
+    )
+    shipping_channel_listings = checkout.channel.shipping_method_listings.all()
+    checkout_info = fetch_checkout_info(
+        checkout,
+        lines,
+        manager,
+        shipping_channel_listings,
+        database_connection_name=database_connection_name
+    )
+    all_shipping_methods = get_all_shipping_methods_list(
+        checkout_info,
+    )
+    return all_shipping_methods
+>>>>>>> REPLACE
