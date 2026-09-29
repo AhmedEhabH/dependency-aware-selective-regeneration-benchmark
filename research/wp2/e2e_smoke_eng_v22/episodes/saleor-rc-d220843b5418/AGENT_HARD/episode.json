@@ -1,0 +1,68 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v21",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-d220843b5418",
+ "arm": "AGENT_HARD",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/checkout/fetch.py",
+  "saleor/graphql/checkout/mutations/checkout_delivery_method_update.py",
+  "saleor/webhook/payloads.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/checkout/fetch.py",
+   "saleor/graphql/checkout/mutations/checkout_delivery_method_update.py",
+   "saleor/webhook/payloads.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/checkout/fetch.py",
+   "saleor/graphql/checkout/mutations/checkout_delivery_method_update.py",
+   "saleor/webhook/payloads.py"
+  ]
+ },
+ "prompt_sha256": "8fef3ff236dce6ca6663b5ff0470636aac6a7890e541dbcde88f9ec66d2415b7",
+ "request_sha_initial": "572d2e74659972022cdcd45818cf3fce690c040f982554974997f4dcc43561b6",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "repair_request_sha256": "",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790650375-XDFyCztCaadYsfPFlyOD",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 17886,
+   "completion_tokens": 1560,
+   "cost_usd_actual": 0.0068746,
+   "cost_usd_nominal": 0.0068746,
+   "finish_reason": "stop",
+   "response_sha256": "b34c027011727f903197896836bd78ee7a02fbfc7a40b542d04053abb4c5dbe9",
+   "request_sha": "572d2e74659972022cdcd45818cf3fce690c040f982554974997f4dcc43561b6",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\e2e_smoke_eng_v22\\episodes\\saleor-rc-d220843b5418\\AGENT_HARD\\calls\\1_initial.txt",
+   "raw_sha256": "b34c027011727f903197896836bd78ee7a02fbfc7a40b542d04053abb4c5dbe9"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "edited_files": [
+  "saleor/checkout/fetch.py",
+  "saleor/graphql/checkout/mutations/checkout_delivery_method_update.py",
+  "saleor/webhook/payloads.py"
+ ],
+ "diff_sha256": "992580281e552eaa58705fcadbc76b64cbca6900a7be1d1349855afdd2365141",
+ "envelope": {},
+ "whitespace_tolerant_blocks": [],
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-29T02:53:06Z",
+ "episode_sha256": "ad9ed198b3a3a88d7fc23446bfe9123d61584944c7a04e9d28d42a04822ae3e5"
+}

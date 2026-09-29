@@ -1,0 +1,69 @@
+Looking at the issue description about preventing circular payload generation when listing shipping methods for checkout, I need to examine the code to understand where circular references might occur.
+
+The issue likely relates to the shipping method serialization in webhook payloads, where shipping methods might reference checkouts or other objects that in turn reference shipping methods, creating circular dependencies.
+
+Let me analyze the relevant code sections:
+
+1. In `saleor/webhook/payloads.py`, there's shipping method payload generation
+2. In `saleor/shipping/models.py`, there are shipping method query methods
+3. The checkout models and utils might be involved in shipping method listings
+
+Looking at the code, I can see that in `webhook/payloads.py`, there's a `_generate_shipping_method_payload` function that serializes shipping methods, and this is called from `generate_checkout_payload`. The issue is likely that when serializing shipping methods, it might include references back to the checkout or other objects that create circular dependencies.
+
+Let me examine the `_generate_shipping_method_payload` function more closely and fix it to prevent circular references.
+
+FILE: saleor/webhook/payloads.py
+<<<<<<< SEARCH
+def _generate_shipping_method_payload(shipping_method, channel):
+    if not shipping_method:
+        return None
+
+    shipping_method_channel_listing = shipping_method.channel_listings.filter(
+        channel=channel,
+    ).first()
+
+    if not shipping_method_channel_listing:
+        return None
+
+    serializer = PayloadSerializer()
+    shipping_method_fields = ("name", "type")
+
+    payload = serializer.serialize(
+        [shipping_method],
+        fields=shipping_method_fields,
+        extra_dict_data={
+            "currency": shipping_method_channel_listing.currency,
+            "price_amount": quantize_price(
+                shipping_method_channel_listing.price_amount,
+                shipping_method_channel_listing.currency,
+            ),
+        },
+    )
+
+    return json.loads(payload)[0]
+=======
+def _generate_shipping_method_payload(shipping_method, channel):
+    if not shipping_method:
+        return None
+
+    shipping_method_channel_listing = shipping_method.channel_listings.filter(
+        channel=channel,
+    ).first()
+
+    if not shipping_method_channel_listing:
+        return None
+
+    # Prevent circular references by only including essential fields
+    payload = {
+        "id": graphene.Node.to_global_id("ShippingMethod", shipping_method.id),
+        "name": shipping_method.name,
+        "type": shipping_method.type,
+        "currency": shipping_method_channel_listing.currency,
+        "price_amount": quantize_price(
+            shipping_method_channel_listing.price_amount,
+            shipping_method_channel_listing.currency,
+        ),
+    }
+
+    return payload
+>>>>>>> REPLACE

@@ -1,0 +1,60 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v21",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-dc6ac9d252df",
+ "arm": "RMCSS_HARD",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/payment/gateways/razorpay/__init__.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/payment/gateways/razorpay/__init__.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/payment/gateways/razorpay/__init__.py"
+  ]
+ },
+ "prompt_sha256": "37f47377970b6ee1905cf7cfef0a5089aca87255efff11f19f4123d8a5e964d5",
+ "request_sha_initial": "41d99de53c12f434a71b43ee91e50e02b260396e69b0f9acc58eb0c765524083",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "repair_request_sha256": "",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790650413-oOy76Idp33mY4FwaYeAr",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 1556,
+   "completion_tokens": 265,
+   "cost_usd_actual": 0.0006838,
+   "cost_usd_nominal": 0.0006838,
+   "finish_reason": "stop",
+   "response_sha256": "8a27b6b4668ef7f141e9402a2acb8b7e07a95beae86d64922608d227525466de",
+   "request_sha": "41d99de53c12f434a71b43ee91e50e02b260396e69b0f9acc58eb0c765524083",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\e2e_smoke_eng_v22\\episodes\\saleor-rc-dc6ac9d252df\\RMCSS_HARD\\calls\\1_initial.txt",
+   "raw_sha256": "8a27b6b4668ef7f141e9402a2acb8b7e07a95beae86d64922608d227525466de"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "edited_files": [
+  "saleor/payment/gateways/razorpay/__init__.py"
+ ],
+ "diff_sha256": "a6f7f3f0e56e711d72d48420521699916fe0f460827ae5237af691d699923b2a",
+ "envelope": {},
+ "whitespace_tolerant_blocks": [],
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-29T02:53:38Z",
+ "episode_sha256": "c65c2730c8cc21d5830d3916f56de98943c6ef7e031d3820999742a62851243e"
+}

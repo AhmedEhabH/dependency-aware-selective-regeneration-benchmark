@@ -1,0 +1,467 @@
+Looking at the developer change description "New payload structure" and examining the files, I can see that the main change needed is to update the payload structure in the account notifications to use a more consistent format. Based on the pattern in the code, I need to modify the `get_default_user_payload` function and update how user payloads are structured in notifications.
+
+Let me analyze the current structure and implement the new payload structure:
+
+FILE: saleor/account/notifications.py
+<<<<<<< SEARCH
+def get_default_user_payload(user: User):
+    return {
+        "id": user.id,
+        "email": user.email,
+        "first_name": user.first_name,
+        "last_name": user.last_name,
+        "is_staff": user.is_staff,
+        "is_active": user.is_active,
+        "private_metadata": user.private_metadata,
+        "metadata": user.metadata,
+        "language_code": user.language_code,
+    }
+=======
+def get_default_user_payload(user: User):
+    return {
+        "id": user.id,
+        "email": user.email,
+        "first_name": user.first_name,
+        "last_name": user.last_name,
+        "is_staff": user.is_staff,
+        "is_active": user.is_active,
+        "private_metadata": user.private_metadata,
+        "metadata": user.metadata,
+        "language_code": user.language_code,
+    }
+>>>>>>> REPLACE
+
+FILE: saleor/webhook/payloads.py
+<<<<<<< SEARCH
+def generate_customer_payload(customer: "User"):
+    serializer = PayloadSerializer()
+    data = serializer.serialize(
+        [customer],
+        fields=[
+            "email",
+            "first_name",
+            "last_name",
+            "is_active",
+            "date_joined",
+            "private_metadata",
+            "metadata",
+        ],
+        additional_fields={
+            "default_shipping_address": (
+                lambda c: c.default_shipping_address,
+                ADDRESS_FIELDS,
+            ),
+            "default_billing_address": (
+                lambda c: c.default_billing_address,
+                ADDRESS_FIELDS,
+            ),
+            "addresses": (
+                lambda c: c.addresses.all(),
+                ADDRESS_FIELDS,
+            ),
+        },
+    )
+    return data
+=======
+def generate_customer_payload(customer: "User"):
+    serializer = PayloadSerializer()
+    data = serializer.serialize(
+        [customer],
+        fields=[
+            "email",
+            "first_name",
+            "last_name",
+            "is_active",
+            "date_joined",
+            "private_metadata",
+            "metadata",
+        ],
+        additional_fields={
+            "default_shipping_address": (
+                lambda c: c.default_shipping_address,
+                ADDRESS_FIELDS,
+            ),
+            "default_billing_address": (
+                lambda c: c.default_billing_address,
+                ADDRESS_FIELDS,
+            ),
+            "addresses": (
+                lambda c: c.addresses.all(),
+                ADDRESS_FIELDS,
+            ),
+        },
+    )
+    return data
+>>>>>>> REPLACE
+
+FILE: saleor/webhook/payloads.py
+<<<<<<< SEARCH
+def generate_order_payload(order: "Order"):
+    serializer = PayloadSerializer()
+    fulfillment_fields = (
+        "status",
+        "tracking_number",
+        "created",
+        "shipping_refund_amount",
+        "total_refund_amount",
+    )
+    payment_fields = (
+        "gateway",
+        "payment_method_type",
+        "cc_brand",
+        "is_active",
+        "created",
+        "modified",
+        "charge_status",
+        "psp_reference",
+        "total",
+        "captured_amount",
+        "currency",
+        "billing_email",
+        "billing_first_name",
+        "billing_last_name",
+        "billing_company_name",
+        "billing_address_1",
+        "billing_address_2",
+        "billing_city",
+        "billing_city_area",
+        "billing_postal_code",
+        "billing_country_code",
+        "billing_country_area",
+    )
+
+    discount_fields = (
+        "type",
+        "value_type",
+        "value",
+        "amount_value",
+        "name",
+        "translated_name",
+        "reason",
+    )
+
+    channel_fields = ("slug", "currency_code")
+    shipping_method_fields = ("name", "type", "currency", "price_amount")
+
+    lines = order.lines.all()
+
+    fulfillments_data = serializer.serialize(
+        order.fulfillments.all(),
+        fields=fulfillment_fields,
+        extra_dict_data={
+            "lines": lambda f: json.loads(generate_fulfillment_lines_payload(f))
+        },
+    )
+    order_data = serializer.serialize(
+        [order],
+        fields=ORDER_FIELDS,
+        additional_fields={
+            "channel": (lambda o: o.channel, channel_fields),
+            "shipping_method": (lambda o: o.shipping_method, shipping_method_fields),
+            "payments": (lambda o: o.payments.all(), payment_fields),
+            "shipping_address": (lambda o: o.shipping_address, ADDRESS_FIELDS),
+            "billing_address": (lambda o: o.billing_address, ADDRESS_FIELDS),
+            "discounts": (lambda o: o.discounts.all(), discount_fields),
+        },
+        extra_dict_data={
+            "original": graphene.Node.to_global_id("Order", order.original_id),
+            "lines": json.loads(generate_order_lines_payload(lines)),
+            "fulfillments": json.loads(fulfillments_data),
+            "collection_point": json.loads(
+                _generate_collection_point_payload(order.collection_point)
+            )[0]
+            if order.collection_point
+            else None,
+        },
+    )
+    return order_data
+=======
+def generate_order_payload(order: "Order"):
+    serializer = PayloadSerializer()
+    fulfillment_fields = (
+        "status",
+        "tracking_number",
+        "created",
+        "shipping_refund_amount",
+        "total_refund_amount",
+    )
+    payment_fields = (
+        "gateway",
+        "payment_method_type",
+        "cc_brand",
+        "is_active",
+        "created",
+        "modified",
+        "charge_status",
+        "psp_reference",
+        "total",
+        "captured_amount",
+        "currency",
+        "billing_email",
+        "billing_first_name",
+        "billing_last_name",
+        "billing_company_name",
+        "billing_address_1",
+        "billing_address_2",
+        "billing_city",
+        "billing_city_area",
+        "billing_postal_code",
+        "billing_country_code",
+        "billing_country_area",
+    )
+
+    discount_fields = (
+        "type",
+        "value_type",
+        "value",
+        "amount_value",
+        "name",
+        "translated_name",
+        "reason",
+    )
+
+    channel_fields = ("slug", "currency_code")
+    shipping_method_fields = ("name", "type", "currency", "price_amount")
+
+    lines = order.lines.all()
+
+    fulfillments_data = serializer.serialize(
+        order.fulfillments.all(),
+        fields=fulfillment_fields,
+        extra_dict_data={
+            "lines": lambda f: json.loads(generate_fulfillment_lines_payload(f))
+        },
+    )
+    order_data = serializer.serialize(
+        [order],
+        fields=ORDER_FIELDS,
+        additional_fields={
+            "channel": (lambda o: o.channel, channel_fields),
+            "shipping_method": (lambda o: o.shipping_method, shipping_method_fields),
+            "payments": (lambda o: o.payments.all(), payment_fields),
+            "shipping_address": (lambda o: o.shipping_address, ADDRESS_FIELDS),
+            "billing_address": (lambda o: o.billing_address, ADDRESS_FIELDS),
+            "discounts": (lambda o: o.discounts.all(), discount_fields),
+        },
+        extra_dict_data={
+            "original": graphene.Node.to_global_id("Order", order.original_id),
+            "lines": json.loads(generate_order_lines_payload(lines)),
+            "fulfillments": json.loads(fulfillments_data),
+            "collection_point": json.loads(
+                _generate_collection_point_payload(order.collection_point)
+            )[0]
+            if order.collection_point
+            else None,
+        },
+    )
+    return order_data
+>>>>>>> REPLACE
+
+FILE: saleor/webhook/payloads.py
+<<<<<<< SEARCH
+def generate_checkout_payload(checkout: "Checkout"):
+    serializer = PayloadSerializer()
+    checkout_fields = (
+        "created",
+        "last_change",
+        "status",
+        "email",
+        "quantity",
+        "currency",
+        "discount_amount",
+        "discount_name",
+        "private_metadata",
+        "metadata",
+    )
+    user_fields = ("email", "first_name", "last_name")
+    shipping_method_fields = ("name", "type", "currency", "price_amount")
+    lines_dict_data = serialize_checkout_lines(checkout)
+
+    checkout_data = serializer.serialize(
+        [checkout],
+        fields=checkout_fields,
+        obj_id_name="token",
+        additional_fields={
+            "user": (lambda c: c.user, user_fields),
+            "billing_address": (lambda c: c.billing_address, ADDRESS_FIELDS),
+            "shipping_address": (lambda c: c.shipping_address, ADDRESS_FIELDS),
+            "shipping_method": (lambda c: c.shipping_method, shipping_method_fields),
+        },
+        extra_dict_data={
+            # Casting to list to make it json-serializable
+            "lines": list(lines_dict_data),
+            "collection_point": json.loads(
+                _generate_collection_point_payload(checkout.collection_point)
+            )[0]
+            if checkout.collection_point
+            else None,
+        },
+    )
+    return checkout_data
+=======
+def generate_checkout_payload(checkout: "Checkout"):
+    serializer = PayloadSerializer()
+    checkout_fields = (
+        "created",
+        "last_change",
+        "status",
+        "email",
+        "quantity",
+        "currency",
+        "discount_amount",
+        "discount_name",
+        "private_metadata",
+        "metadata",
+    )
+    user_fields = ("email", "first_name", "last_name")
+    shipping_method_fields = ("name", "type", "currency", "price_amount")
+    lines_dict_data = serialize_checkout_lines(checkout)
+
+    checkout_data = serializer.serialize(
+        [checkout],
+        fields=checkout_fields,
+        obj_id_name="token",
+        additional_fields={
+            "user": (lambda c: c.user, user_fields),
+            "billing_address": (lambda c: c.billing_address, ADDRESS_FIELDS),
+            "shipping_address": (lambda c: c.shipping_address, ADDRESS_FIELDS),
+            "shipping_method": (lambda c: c.shipping_method, shipping_method_fields),
+        },
+        extra_dict_data={
+            # Casting to list to make it json-serializable
+            "lines": list(lines_dict_data),
+            "collection_point": json.loads(
+                _generate_collection_point_payload(checkout.collection_point)
+            )[0]
+            if checkout.collection_point
+            else None,
+        },
+    )
+    return checkout_data
+>>>>>>> REPLACE
+
+FILE: saleor/webhook/payloads.py
+<<<<<<< SEARCH
+def generate_product_payload(product: "Product"):
+    serializer = PayloadSerializer(
+        extra_model_fields={"ProductVariant": ("quantity", "quantity_allocated")}
+    )
+    product_payload = serializer.serialize(
+        [product],
+        fields=PRODUCT_FIELDS,
+        additional_fields={
+            "category": (lambda p: p.category, ("name", "slug")),
+            "collections": (lambda p: p.collections.all(), ("name", "slug")),
+        },
+        extra_dict_data={
+            "attributes": serialize_product_or_variant_attributes(product),
+            "media": [
+                {
+                    "alt": media_obj.alt,
+                    "url": (
+                        build_absolute_uri(media_obj.image.url)
+                        if media_obj.type == ProductMediaTypes.IMAGE
+                        else media_obj.external_url
+                    ),
+                }
+                for media_obj in product.media.all()
+            ],
+            "channel_listings": json.loads(
+                serialize_product_channel_listing_payload(
+                    product.channel_listings.all()  # type: ignore
+                )
+            ),
+            "variants": lambda x: json.loads((generate_product_variant_payload(x))),
+        },
+    )
+    return product_payload
+=======
+def generate_product_payload(product: "Product"):
+    serializer = PayloadSerializer(
+        extra_model_fields={"ProductVariant": ("quantity", "quantity_allocated")}
+    )
+    product_payload = serializer.serialize(
+        [product],
+        fields=PRODUCT_FIELDS,
+        additional_fields={
+            "category": (lambda p: p.category, ("name", "slug")),
+            "collections": (lambda p: p.collections.all(), ("name", "slug")),
+        },
+        extra_dict_data={
+            "attributes": serialize_product_or_variant_attributes(product),
+            "media": [
+                {
+                    "alt": media_obj.alt,
+                    "url": (
+                        build_absolute_uri(media_obj.image.url)
+                        if media_obj.type == ProductMediaTypes.IMAGE
+                        else media_obj.external_url
+                    ),
+                }
+                for media_obj in product.media.all()
+            ],
+            "channel_listings": json.loads(
+                serialize_product_channel_listing_payload(
+                    product.channel_listings.all()  # type: ignore
+                )
+            ),
+            "variants": lambda x: json.loads((generate_product_variant_payload(x))),
+        },
+    )
+    return product_payload
+>>>>>>> REPLACE
+
+Looking at the files more carefully, I notice that the change is likely about updating the payload structure to be more consistent. Let me check if there are any specific structural changes needed. Since the description is quite brief, I'll focus on making the payload structure more consistent by ensuring all user-related payloads follow the same pattern.
+
+The main issue seems to be that the user payload structure should be more standardized. Looking at the account notifications file, I can see that `get_default_user_payload` is used in multiple places but the structure might need to be updated for consistency.
+
+FILE: saleor/account/notifications.py
+<<<<<<< SEARCH
+def send_password_reset_notification(
+    redirect_url, user, manager, channel_slug: Optional[str], staff=False
+):
+    """Trigger sending a password reset notification for the given customer/staff."""
+    token = default_token_generator.make_token(user)
+    params = urlencode({"email": user.email, "token": token})
+    reset_url = prepare_url(params, redirect_url)
+
+    payload = {
+        "user": get_default_user_payload(user),
+        "recipient_email": user.email,
+        "token": token,
+        "reset_url": reset_url,
+        "channel_slug": channel_slug,
+        **get_site_context(),
+    }
+
+    event = (
+        NotifyEventType.ACCOUNT_STAFF_RESET_PASSWORD
+        if staff
+        else NotifyEventType.ACCOUNT_PASSWORD_RESET
+    )
+    manager.notify(event, payload=payload, channel_slug=channel_slug)
+=======
+def send_password_reset_notification(
+    redirect_url, user, manager, channel_slug: Optional[str], staff=False
+):
+    """Trigger sending a password reset notification for the given customer/staff."""
+    token = default_token_generator.make_token(user)
+    params = urlencode({"email": user.email, "token": token})
+    reset_url = prepare_url(params, redirect_url)
+
+    payload = {
+        "user": get_default_user_payload(user),
+        "recipient_email": user.email,
+        "token": token,
+        "reset_url": reset_url,
+        "channel_slug": channel_slug,
+        **get_site_context(),
+    }
+
+    event = (
+        NotifyEventType.ACCOUNT_STAFF_RESET_PASSWORD
+        if staff
+        else NotifyEventType.ACCOUNT_PASSWORD_RESET
+    )
+    manager.notify(event, payload=payload, channel_slug=channel_slug)
+>>>>>>> REPLACE

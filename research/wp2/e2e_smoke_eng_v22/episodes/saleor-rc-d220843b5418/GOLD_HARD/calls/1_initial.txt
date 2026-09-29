@@ -1,0 +1,58 @@
+Looking at the issue description and the code, I need to prevent circular payload generation when listing shipping methods for checkout. The problem appears to be in the `resolve_shipping_methods_for_checkout` function in `resolvers.py` which is called by the `ShippingListMethodsForCheckout` subscription type.
+
+Let me examine the code more carefully. The issue is likely that when generating sample payloads for webhooks, there could be a circular dependency where the shipping methods resolution tries to generate payloads that in turn try to resolve shipping methods again.
+
+Looking at the `resolve_shipping_methods_for_checkout` function, it calls `get_all_shipping_methods_list` which might trigger webhook payload generation that could lead to circular calls.
+
+The fix should prevent this circular payload generation by adding a guard to detect when we're already in the process of generating a sample payload.
+
+FILE: saleor/graphql/webhook/resolvers.py
+<<<<<<< SEARCH
+def resolve_shipping_methods_for_checkout(
+    info: ResolveInfo,
+    checkout,
+    manager,
+    database_connection_name: str = settings.DATABASE_CONNECTION_DEFAULT_NAME,
+):
+    lines, _ = fetch_checkout_lines(
+        checkout, database_connection_name=database_connection_name
+    )
+    shipping_channel_listings = checkout.channel.shipping_method_listings.all()
+    checkout_info = fetch_checkout_info(
+        checkout,
+        lines,
+        manager,
+        shipping_channel_listings,
+        database_connection_name=database_connection_name
+    )
+    all_shipping_methods = get_all_shipping_methods_list(
+        checkout_info,
+    )
+    return all_shipping_methods
+=======
+def resolve_shipping_methods_for_checkout(
+    info: ResolveInfo,
+    checkout,
+    manager,
+    database_connection_name: str = settings.DATABASE_CONNECTION_DEFAULT_NAME,
+):
+    # Check if we're currently generating a sample payload to prevent circular calls
+    if getattr(info.context, "is_generating_sample_payload", False):
+        return []
+        
+    lines, _ = fetch_checkout_lines(
+        checkout, database_connection_name=database_connection_name
+    )
+    shipping_channel_listings = checkout.channel.shipping_method_listings.all()
+    checkout_info = fetch_checkout_info(
+        checkout,
+        lines,
+        manager,
+        shipping_channel_listings,
+        database_connection_name=database_connection_name
+    )
+    all_shipping_methods = get_all_shipping_methods_list(
+        checkout_info,
+    )
+    return all_shipping_methods
+>>>>>>> REPLACE

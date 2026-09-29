@@ -1,0 +1,72 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v21",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-dc6ac9d252df",
+ "arm": "AGENT_HARD",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/account/notifications.py",
+  "saleor/core/analytics.py",
+  "saleor/webhook/payload_serializers.py",
+  "saleor/webhook/payloads.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/account/notifications.py",
+   "saleor/core/analytics.py",
+   "saleor/webhook/payload_serializers.py",
+   "saleor/webhook/payloads.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/account/notifications.py",
+   "saleor/core/analytics.py",
+   "saleor/webhook/payload_serializers.py",
+   "saleor/webhook/payloads.py"
+  ]
+ },
+ "prompt_sha256": "cc28b94925179df2b85376cedd98a8cd078ae5d3022b51c7e2f66f64607e97d2",
+ "request_sha_initial": "5241dbd722d551d30d5fbdbd21f7cc8970ed7c23c6a2e390a43a65fa8d88f96d",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "repair_request_sha256": "",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790650420-eQOMcMP2jUBskCwIxmZ5",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 7308,
+   "completion_tokens": 3129,
+   "cost_usd_actual": 0.0052734,
+   "cost_usd_nominal": 0.0052734,
+   "finish_reason": "stop",
+   "response_sha256": "518ee5743b4dc1fa6706c44f1c5fdbf098abb6b692b27549f87d759a733c4abb",
+   "request_sha": "5241dbd722d551d30d5fbdbd21f7cc8970ed7c23c6a2e390a43a65fa8d88f96d",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\e2e_smoke_eng_v22\\episodes\\saleor-rc-dc6ac9d252df\\AGENT_HARD\\calls\\1_initial.txt",
+   "raw_sha256": "518ee5743b4dc1fa6706c44f1c5fdbf098abb6b692b27549f87d759a733c4abb"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "edited_files": [
+  "saleor/account/notifications.py",
+  "saleor/core/analytics.py",
+  "saleor/webhook/payload_serializers.py",
+  "saleor/webhook/payloads.py"
+ ],
+ "diff_sha256": "16ec795185b645d8d57bd90786f83612f045ee5efe642dd1520f3496ef3b03d3",
+ "envelope": {},
+ "whitespace_tolerant_blocks": [],
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-29T02:54:01Z",
+ "episode_sha256": "1c6481e62880ed300a92cbe2ff0d32f6de31e6b90ab5f50cbf45ebc0337cec57"
+}

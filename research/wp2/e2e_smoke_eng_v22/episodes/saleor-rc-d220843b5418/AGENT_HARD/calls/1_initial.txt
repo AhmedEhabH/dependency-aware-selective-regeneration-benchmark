@@ -1,0 +1,184 @@
+Looking at the issue description about preventing circular payload generation when listing shipping methods for checkout, I need to examine the code flow that could cause circular references.
+
+The problem appears to be in the `get_all_shipping_methods` method in `CheckoutInfo` class where there's a potential circular reference when calling external shipping methods that might trigger webhook events which could generate payloads that reference the checkout again.
+
+Let me analyze the relevant code sections:
+
+1. In `saleor/checkout/fetch.py`, the `get_all_shipping_methods` method calls `get_external_shipping_methods_for_checkout_info` which triggers `manager.list_shipping_methods_for_checkout`
+2. This could potentially cause circular payload generation if the webhook payload generation tries to access shipping methods again
+
+The fix should prevent reentrancy in the shipping method calculation by tracking if we're already in the process of calculating shipping methods.
+
+FILE: saleor/checkout/fetch.py
+<<<<<<< SEARCH
+@dataclass
+class CheckoutInfo:
+    manager: "PluginsManager" = field(compare=False)
+    checkout: "Checkout"
+    user: Optional["User"]
+    channel: "Channel"
+    billing_address: Optional["Address"]
+    shipping_address: Optional["Address"]
+    tax_configuration: "TaxConfiguration"
+    discounts: list["CheckoutDiscount"]
+    lines: list[CheckoutLineInfo]
+    shipping_channel_listings: list["ShippingMethodChannelListing"]
+    shipping_method: Optional["ShippingMethod"] = None
+    collection_point: Optional["Warehouse"] = None
+    voucher: Optional["Voucher"] = None
+    voucher_code: Optional["VoucherCode"] = None
+    database_connection_name: str = settings.DATABASE_CONNECTION_DEFAULT_NAME
+    pregenerated_payloads_for_excluded_shipping_method: dict | None = None
+
+    allow_sync_webhooks: bool = True
+    _cached_built_in_shipping_methods: list[ShippingMethodData] | None = None
+    _cached_external_shipping_methods: list[ShippingMethodData] | None = None
+=======
+@dataclass
+class CheckoutInfo:
+    manager: "PluginsManager" = field(compare=False)
+    checkout: "Checkout"
+    user: Optional["User"]
+    channel: "Channel"
+    billing_address: Optional["Address"]
+    shipping_address: Optional["Address"]
+    tax_configuration: "TaxConfiguration"
+    discounts: list["CheckoutDiscount"]
+    lines: list[CheckoutLineInfo]
+    shipping_channel_listings: list["ShippingMethodChannelListing"]
+    shipping_method: Optional["ShippingMethod"] = None
+    collection_point: Optional["Warehouse"] = None
+    voucher: Optional["Voucher"] = None
+    voucher_code: Optional["VoucherCode"] = None
+    database_connection_name: str = settings.DATABASE_CONNECTION_DEFAULT_NAME
+    pregenerated_payloads_for_excluded_shipping_method: dict | None = None
+
+    allow_sync_webhooks: bool = True
+    _cached_built_in_shipping_methods: list[ShippingMethodData] | None = None
+    _cached_external_shipping_methods: list[ShippingMethodData] | None = None
+    _shipping_methods_calculation_in_progress: bool = False
+>>>>>>> REPLACE
+
+FILE: saleor/checkout/fetch.py
+<<<<<<< SEARCH
+    def get_all_shipping_methods(
+        self,
+    ) -> list["ShippingMethodData"]:
+        """Return list of all available shipping methods.
+
+        If self.allow_sync_webhooks is set to False, any external calls will be skipped.
+        If self.allow_sync_webhooks is set to True, the external calls like: external
+        shipping methods or exclude shipping methods will be called.
+
+        The fetched values are stored in self object to remove any additional
+        external/DB calls.
+        """
+        if (
+            self._cached_external_shipping_methods is not None
+            and self._cached_built_in_shipping_methods is not None
+        ):
+            return (
+                self._cached_built_in_shipping_methods
+                + self._cached_external_shipping_methods
+            )
+
+        if (
+            not self.allow_sync_webhooks
+            and self._cached_built_in_shipping_methods is not None
+        ):
+            return self._cached_built_in_shipping_methods
+
+        if self._cached_built_in_shipping_methods is None:
+            self._cached_built_in_shipping_methods = (
+                get_available_built_in_shipping_methods_for_checkout_info(self)
+            )
+
+        if not self.allow_sync_webhooks:
+            excluded_methods = []
+            all_methods = self._cached_built_in_shipping_methods
+        else:
+            self._cached_external_shipping_methods = (
+                get_external_shipping_methods_for_checkout_info(self)
+            )
+            all_methods = (
+                self._cached_built_in_shipping_methods
+                + self._cached_external_shipping_methods
+            )
+            # Filter shipping methods using sync webhooks
+            excluded_methods = self.manager.excluded_shipping_methods_for_checkout(
+                self.checkout,
+                self.channel,
+                all_methods,
+                self.pregenerated_payloads_for_excluded_shipping_method,
+            )
+        initialize_shipping_method_active_status(all_methods, excluded_methods)
+        return all_methods
+=======
+    def get_all_shipping_methods(
+        self,
+    ) -> list["ShippingMethodData"]:
+        """Return list of all available shipping methods.
+
+        If self.allow_sync_webhooks is set to False, any external calls will be skipped.
+        If self.allow_sync_webhooks is set to True, the external calls like: external
+        shipping methods or exclude shipping methods will be called.
+
+        The fetched values are stored in self object to remove any additional
+        external/DB calls.
+        """
+        # Prevent circular payload generation during shipping method calculation
+        if self._shipping_methods_calculation_in_progress:
+            # Return only built-in methods to avoid circular webhook calls
+            if self._cached_built_in_shipping_methods is not None:
+                return self._cached_built_in_shipping_methods
+            built_in_methods = get_available_built_in_shipping_methods_for_checkout_info(self)
+            self._cached_built_in_shipping_methods = built_in_methods
+            return built_in_methods
+
+        if (
+            self._cached_external_shipping_methods is not None
+            and self._cached_built_in_shipping_methods is not None
+        ):
+            return (
+                self._cached_built_in_shipping_methods
+                + self._cached_external_shipping_methods
+            )
+
+        if (
+            not self.allow_sync_webhooks
+            and self._cached_built_in_shipping_methods is not None
+        ):
+            return self._cached_built_in_shipping_methods
+
+        # Set flag to indicate shipping methods calculation is in progress
+        self._shipping_methods_calculation_in_progress = True
+        try:
+            if self._cached_built_in_shipping_methods is None:
+                self._cached_built_in_shipping_methods = (
+                    get_available_built_in_shipping_methods_for_checkout_info(self)
+                )
+
+            if not self.allow_sync_webhooks:
+                excluded_methods = []
+                all_methods = self._cached_built_in_shipping_methods
+            else:
+                self._cached_external_shipping_methods = (
+                    get_external_shipping_methods_for_checkout_info(self)
+                )
+                all_methods = (
+                    self._cached_built_in_shipping_methods
+                    + self._cached_external_shipping_methods
+                )
+                # Filter shipping methods using sync webhooks
+                excluded_methods = self.manager.excluded_shipping_methods_for_checkout(
+                    self.checkout,
+                    self.channel,
+                    all_methods,
+                    self.pregenerated_payloads_for_excluded_shipping_method,
+                )
+            initialize_shipping_method_active_status(all_methods, excluded_methods)
+            return all_methods
+        finally:
+            # Always reset the flag when calculation is complete
+            self._shipping_methods_calculation_in_progress = False
+>>>>>>> REPLACE

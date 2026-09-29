@@ -1,0 +1,83 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v21",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-d220843b5418",
+ "arm": "RMCSS_HARD",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/checkout/models.py",
+  "saleor/checkout/utils.py",
+  "saleor/graphql/checkout/mutations/utils.py",
+  "saleor/order/utils.py",
+  "saleor/shipping/models.py",
+  "saleor/webhook/payloads.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/checkout/models.py",
+   "saleor/checkout/utils.py",
+   "saleor/graphql/checkout/mutations/utils.py",
+   "saleor/order/utils.py",
+   "saleor/shipping/models.py",
+   "saleor/webhook/payloads.py"
+  ],
+  "excluded_large": [
+   "saleor/plugins/webhook/plugin.py"
+  ],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/checkout/models.py",
+   "saleor/checkout/utils.py",
+   "saleor/graphql/checkout/mutations/utils.py",
+   "saleor/order/utils.py",
+   "saleor/plugins/webhook/plugin.py",
+   "saleor/shipping/models.py",
+   "saleor/webhook/payloads.py"
+  ]
+ },
+ "prompt_sha256": "3af8635c328e362b684b1352819244950302a35aa6b9578470d0cad9ae56d48c",
+ "request_sha_initial": "1f761bc5814f063b25241a89035af68e9104f0bef8bd97cb448896535bdabb36",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "repair_request_sha256": "",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790650363-njNwMSkvUnONl13fSPmH",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 42042,
+   "completion_tokens": 526,
+   "cost_usd_actual": 0.0130874,
+   "cost_usd_nominal": 0.0130874,
+   "finish_reason": "stop",
+   "response_sha256": "be8dbac27a5e1f3d9b19d4a510bace7b6afdb38f85166f708a77359227772725",
+   "request_sha": "1f761bc5814f063b25241a89035af68e9104f0bef8bd97cb448896535bdabb36",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\e2e_smoke_eng_v22\\episodes\\saleor-rc-d220843b5418\\RMCSS_HARD\\calls\\1_initial.txt",
+   "raw_sha256": "be8dbac27a5e1f3d9b19d4a510bace7b6afdb38f85166f708a77359227772725"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "edited_files": [
+  "saleor/checkout/models.py",
+  "saleor/checkout/utils.py",
+  "saleor/graphql/checkout/mutations/utils.py",
+  "saleor/order/utils.py",
+  "saleor/shipping/models.py",
+  "saleor/webhook/payloads.py"
+ ],
+ "diff_sha256": "667abb842b37a0a223b1780358839a21a3d1eb7a45eacca71bf95cf3f68b31f8",
+ "envelope": {},
+ "whitespace_tolerant_blocks": [],
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-29T02:52:56Z",
+ "episode_sha256": "38f5204f41bbc854288c288371cf67d5d29d4240cc75edd175138ccd158ef43e"
+}

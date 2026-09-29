@@ -1,0 +1,64 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v21",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-d220843b5418",
+ "arm": "PLACEBO_HARD",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/graphql/attribute/mutations/attribute_bulk_update.py",
+  "saleor/graphql/giftcard/mutations/utils.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/graphql/attribute/mutations/attribute_bulk_update.py",
+   "saleor/graphql/giftcard/mutations/utils.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/graphql/attribute/mutations/attribute_bulk_update.py",
+   "saleor/graphql/giftcard/mutations/utils.py"
+  ]
+ },
+ "prompt_sha256": "2a617ce5d599477af8e9dbbb4b6ff862b6c6e94a1f19c31beec0ef4845d26e1c",
+ "request_sha_initial": "39d2d04bc4463ec647f65db9e3f7c0849875adbb93bb5a935056043508aeed4c",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "repair_request_sha256": "",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790650388-qojiHhlH2DXKgMPa9PrU",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 6229,
+   "completion_tokens": 532,
+   "cost_usd_actual": 0.0023495,
+   "cost_usd_nominal": 0.0023495,
+   "finish_reason": "stop",
+   "response_sha256": "4064460ba80bf650e7f1bc95247eddccb951a5067f2dbe8e0428ff08cff085f3",
+   "request_sha": "39d2d04bc4463ec647f65db9e3f7c0849875adbb93bb5a935056043508aeed4c",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\e2e_smoke_eng_v22\\episodes\\saleor-rc-d220843b5418\\PLACEBO_HARD\\calls\\1_initial.txt",
+   "raw_sha256": "4064460ba80bf650e7f1bc95247eddccb951a5067f2dbe8e0428ff08cff085f3"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "edited_files": [
+  "saleor/graphql/attribute/mutations/attribute_bulk_update.py",
+  "saleor/graphql/giftcard/mutations/utils.py"
+ ],
+ "diff_sha256": "2d0d5ba6f772818455d9d86fb6d38b232713f3d36b3c73612e754120d75bd94d",
+ "envelope": {},
+ "whitespace_tolerant_blocks": [],
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-29T02:53:14Z",
+ "episode_sha256": "a30f1b59a7ebeb1928398a9cbe234b17e66b20a664b6e92b52843f41bae4d584"
+}

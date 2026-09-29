@@ -1,0 +1,35 @@
+FILE: saleor/payment/gateways/razorpay/__init__.py
+<<<<<<< SEARCH
+def _generate_response(
+    payment_information: PaymentData, kind: str, data: Dict
+) -> GatewayResponse:
+    """Generate Saleor transaction information from the payload or from passed data."""
+    return GatewayResponse(
+        transaction_id=data.get("id", payment_information.token),
+        action_required=False,
+        kind=kind,
+        amount=data.get("amount", payment_information.amount),
+        currency=data.get("currency", payment_information.currency),
+        error=data.get("error"),
+        is_success=data.get("is_success", True),
+        raw_response=data,
+    )
+
+=======
+def _generate_response(
+    payment_information: PaymentData, kind: str, data: Dict
+) -> GatewayResponse:
+    """Generate Saleor transaction information from the payload or from passed data."""
+    return GatewayResponse(
+        transaction_id=data.get("id", payment_information.token),
+        action_required=False,
+        kind=kind,
+        amount=data.get("amount", payment_information.amount),
+        currency=data.get("currency", payment_information.currency),
+        error=data.get("error"),
+        is_success=data.get("is_success", True),
+        raw_response=data,
+        psp_reference=data.get("id", payment_information.token),
+    )
+
+>>>>>>> REPLACE

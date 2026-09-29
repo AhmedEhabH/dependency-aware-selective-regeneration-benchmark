@@ -1,0 +1,14 @@
+diff --git a/saleor/graphql/attribute/mutations/attribute_bulk_update.py b/saleor/graphql/attribute/mutations/attribute_bulk_update.py
+--- a/saleor/graphql/attribute/mutations/attribute_bulk_update.py
++++ b/saleor/graphql/attribute/mutations/attribute_bulk_update.py
+@@ -76,7 +76,9 @@
+         else:
+             attribute = data.get("instance")
+             if attribute:
+-                attribute = ChannelContext(attribute, None)
++                # Prevent circular payload by using ChannelContext with channel_slug=None
++                # instead of passing the full instance which might have circular references
++                attribute = ChannelContext(node=attribute, channel_slug=None)
+         results.append(
+             AttributeBulkUpdateResult(
+                 attribute=attribute,

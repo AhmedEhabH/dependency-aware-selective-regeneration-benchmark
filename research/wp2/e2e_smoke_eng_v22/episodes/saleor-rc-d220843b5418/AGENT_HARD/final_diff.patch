@@ -1,0 +1,90 @@
+diff --git a/saleor/checkout/fetch.py b/saleor/checkout/fetch.py
+--- a/saleor/checkout/fetch.py
++++ b/saleor/checkout/fetch.py
+@@ -135,6 +135,7 @@
+     allow_sync_webhooks: bool = True
+     _cached_built_in_shipping_methods: list[ShippingMethodData] | None = None
+     _cached_external_shipping_methods: list[ShippingMethodData] | None = None
++    _shipping_methods_calculation_in_progress: bool = False
+ 
+     def get_all_shipping_methods(
+         self,
+@@ -148,6 +149,15 @@
+         The fetched values are stored in self object to remove any additional
+         external/DB calls.
+         """
++        # Prevent circular payload generation during shipping method calculation
++        if self._shipping_methods_calculation_in_progress:
++            # Return only built-in methods to avoid circular webhook calls
++            if self._cached_built_in_shipping_methods is not None:
++                return self._cached_built_in_shipping_methods
++            built_in_methods = get_available_built_in_shipping_methods_for_checkout_info(self)
++            self._cached_built_in_shipping_methods = built_in_methods
++            return built_in_methods
++
+         if (
+             self._cached_external_shipping_methods is not None
+             and self._cached_built_in_shipping_methods is not None
+@@ -163,31 +173,37 @@
+         ):
+             return self._cached_built_in_shipping_methods
+ 
+-        if self._cached_built_in_shipping_methods is None:
+-            self._cached_built_in_shipping_methods = (
+-                get_available_built_in_shipping_methods_for_checkout_info(self)
+-            )
+-
+-        if not self.allow_sync_webhooks:
+-            excluded_methods = []
+-            all_methods = self._cached_built_in_shipping_methods
+-        else:
+-            self._cached_external_shipping_methods = (
+-                get_external_shipping_methods_for_checkout_info(self)
+-            )
+-            all_methods = (
+-                self._cached_built_in_shipping_methods
+-                + self._cached_external_shipping_methods
+-            )
+-            # Filter shipping methods using sync webhooks
+-            excluded_methods = self.manager.excluded_shipping_methods_for_checkout(
+-                self.checkout,
+-                self.channel,
+-                all_methods,
+-                self.pregenerated_payloads_for_excluded_shipping_method,
+-            )
+-        initialize_shipping_method_active_status(all_methods, excluded_methods)
+-        return all_methods
++        # Set flag to indicate shipping methods calculation is in progress
++        self._shipping_methods_calculation_in_progress = True
++        try:
++            if self._cached_built_in_shipping_methods is None:
++                self._cached_built_in_shipping_methods = (
++                    get_available_built_in_shipping_methods_for_checkout_info(self)
++                )
++
++            if not self.allow_sync_webhooks:
++                excluded_methods = []
++                all_methods = self._cached_built_in_shipping_methods
++            else:
++                self._cached_external_shipping_methods = (
++                    get_external_shipping_methods_for_checkout_info(self)
++                )
++                all_methods = (
++                    self._cached_built_in_shipping_methods
++                    + self._cached_external_shipping_methods
++                )
++                # Filter shipping methods using sync webhooks
++                excluded_methods = self.manager.excluded_shipping_methods_for_checkout(
++                    self.checkout,
++                    self.channel,
++                    all_methods,
++                    self.pregenerated_payloads_for_excluded_shipping_method,
++                )
++            initialize_shipping_method_active_status(all_methods, excluded_methods)
++            return all_methods
++        finally:
++            # Always reset the flag when calculation is complete
++            self._shipping_methods_calculation_in_progress = False
+ 
+     @cached_property
+     def valid_pick_up_points(self) -> Iterable["Warehouse"]:

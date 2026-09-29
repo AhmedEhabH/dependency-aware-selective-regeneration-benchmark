@@ -1,0 +1,11 @@
+diff --git a/saleor/payment/gateways/razorpay/__init__.py b/saleor/payment/gateways/razorpay/__init__.py
+--- a/saleor/payment/gateways/razorpay/__init__.py
++++ b/saleor/payment/gateways/razorpay/__init__.py
+@@ -42,6 +42,7 @@
+         error=data.get("error"),
+         is_success=data.get("is_success", True),
+         raw_response=data,
++        psp_reference=data.get("id", payment_information.token),
+     )
+ 
+ 
