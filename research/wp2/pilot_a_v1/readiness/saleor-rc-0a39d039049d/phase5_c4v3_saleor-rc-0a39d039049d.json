@@ -1,0 +1,598 @@
+{
+ "task_id": "saleor-rc-0a39d039049d",
+ "status": "DONE",
+ "era_key": "py39",
+ "target_commit": "0a39d039049dd35f44f16268be155c591f569264",
+ "counts": {
+  "BEHAVIORAL_F2P": 8,
+  "SYMBOL_ABSENCE_F2P": 0,
+  "PARENT_COLLECTION_ERROR": 0,
+  "FLAKY": 0,
+  "TARGET_ORACLE_INVALID": 0,
+  "P2P_ONLY": 30,
+  "OTHER_REVIEW_REQUIRED": 0
+ },
+ "eligibility": {
+  "PRIMARY_BEHAVIORAL_F2P_ELIGIBLE": true,
+  "EXTENDED_F2P_ELIGIBLE": true,
+  "n_behavioral_f2p": 8,
+  "n_symbol_absence_f2p": 0,
+  "n_parent_collection_error": 0,
+  "environment_valid": true,
+  "task_collection_failure": false,
+  "semantics_version": "oracle-semantics-v2-2026-09-23"
+ },
+ "classification": "BEHAVIORAL_F2P",
+ "n_nodes": 38,
+ "n_test_files": 1,
+ "wall_s": 388.0,
+ "operations": {
+  "target_wall_s": 206.4,
+  "parent_wall_s": 388.0,
+  "target_error": null,
+  "parent_error": null
+ },
+ "node_records": [
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py::test_product_variant_bulk_create_attribute_with_blank_value",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py::test_product_variant_bulk_create_by_attribute_id",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py::test_product_variant_bulk_create_by_name",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py::test_product_variant_bulk_create_channel_listings_input",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py::test_product_variant_bulk_create_duplicated_channels",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py::test_product_variant_bulk_create_duplicated_channels_when_ignore_failed",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py::test_product_variant_bulk_create_duplicated_sku",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py::test_product_variant_bulk_create_duplicated_sku_in_input",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py::test_product_variant_bulk_create_duplicated_sku_in_input_when_ignore_failed",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py::test_product_variant_bulk_create_duplicated_sku_when_ignore_failed",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py::test_product_variant_bulk_create_duplicated_warehouses",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py::test_product_variant_bulk_create_duplicated_warehouses_when_ignore_failed",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py::test_product_variant_bulk_create_empty_attribute",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py::test_product_variant_bulk_create_many_errors",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py::test_product_variant_bulk_create_many_errors_with_ignore_failed",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py::test_product_variant_bulk_create_many_errors_with_reject_failed_rows",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py::test_product_variant_bulk_create_only_not_variant_selection_attributes",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py::test_product_variant_bulk_create_preorder_channel_listings_input",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py::test_product_variant_bulk_create_product_not_assigned_to_channel",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py::test_product_variant_bulk_create_stocks_input",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py::test_product_variant_bulk_create_too_many_decimal_places_in_price",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py::test_product_variant_bulk_create_too_many_price_decimal_places_when_ignore_failed",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py::test_product_variant_bulk_create_two_variants_duplicated_attribute_value",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py::test_product_variant_bulk_create_two_variants_duplicated_attribute_value_in_input",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py::test_product_variant_bulk_create_two_variants_duplicated_one_attribute_value",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py::test_product_variant_bulk_create_variant_selection_and_other_attributes",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py::test_product_variant_bulk_create_with_date_attribute",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py::test_product_variant_bulk_create_with_datetime_attribute",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py::test_product_variant_bulk_create_with_dropdown_attribute",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py::test_product_variant_bulk_create_with_file_attribute",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py::test_product_variant_bulk_create_with_multiselect_attribute",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py::test_product_variant_bulk_create_with_new_attribute_value",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py::test_product_variant_bulk_create_with_numeric_attribute",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py::test_product_variant_bulk_create_with_page_reference_attribute",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py::test_product_variant_bulk_create_with_plain_text_attribute",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py::test_product_variant_bulk_create_with_rich_text_attribute",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py::test_product_variant_bulk_create_with_swatch_attribute",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_bulk_create.py::test_product_variant_bulk_create_without_sku",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  }
+ ],
+ "manifest": {
+  "task_id": "saleor-rc-0a39d039049d",
+  "target_commit": "0a39d039049dd35f44f16268be155c591f569264",
+  "era": "py39",
+  "frozen_base_image_id": "sha256:ddc08d7e685517764dfa2606a760d5b3f09d57840d8a0bbcef366db67cd99ef8",
+  "harness_v3_version": "wp2-harness-v3-2026-09-26",
+  "runner_sha": "ea3aca132e49584a5f81a4002b87f181d726a6fa",
+  "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+  "lockfile_sha256": "a35f5752eea97553dcc18c17fd60e4e91ad0ccefb895ff33704780f71128ad30",
+  "nofile_soft": 65536,
+  "nofile_hard": 65536,
+  "clock_pre_post": {
+   "pre": 0.061225,
+   "post": null
+  },
+  "C4_EFFECTIVE_WORKERS": 1,
+  "db_names": {
+   "t": "saleor_v3_0a39d039049d_t",
+   "p": "saleor_v3_0a39d039049d_p"
+  },
+  "main_recipe_signature": "c7321de970b6f3973d54fb404a587df14306707bef1341cd27b766691b651f7d",
+  "dev_test_closure": {
+   "mechanism": "poetry",
+   "n_pins": 77,
+   "pins_sha256": "276ed4ce066d87c239ac333997f15836b94ebffcb958d3576f7161b4193bb052",
+   "n_unsupported": 0
+  }
+ },
+ "evidence_sha256": "e048e0cf22cd262cc7c0810d0bd014a9ed00d13c12903033206c2ac50ac47bc2"
+}
