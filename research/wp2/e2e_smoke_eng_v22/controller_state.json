@@ -115,6 +115,18 @@
    "event": "START",
    "phase": "P07_GEN_VARIANCE",
    "utc": "2026-09-29T02:56:51Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "P07_GEN_VARIANCE",
+   "utc": "2026-09-29T02:59:29Z"
+  },
+  {
+   "detail": "generation invariants + freeze + push before any evaluation",
+   "event": "START",
+   "phase": "P08_GENERATION_FREEZE",
+   "utc": "2026-09-29T02:59:29Z"
   }
  ],
  "phases": {
@@ -178,6 +190,14 @@
    "attempts": 0,
    "failures": 0,
    "iterations": 1,
+   "passed_utc": "2026-09-29T02:59:29Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "P08_GENERATION_FREEZE": {
+   "attempts": 0,
+   "failures": 0,
+   "iterations": 0,
    "runs": 1,
    "status": "RUNNING"
   }
