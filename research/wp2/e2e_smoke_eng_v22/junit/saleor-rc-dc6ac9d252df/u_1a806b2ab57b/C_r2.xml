@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="22" time="2.698" timestamp="2026-09-29T01:00:48.666296-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.plugins.sendgrid.tests.test_tasks" name="test_send_account_confirmation_email_task" time="1.388" /><testcase classname="saleor.plugins.sendgrid.tests.test_tasks" name="test_send_account_delete_confirmation_email_task" time="0.032" /><testcase classname="saleor.plugins.sendgrid.tests.test_tasks" name="test_send_email" time="0.028" /><testcase classname="saleor.plugins.sendgrid.tests.test_tasks" name="test_send_fulfillment_confirmation_email_task_by_app" time="0.150" /><testcase classname="saleor.plugins.sendgrid.tests.test_tasks" name="test_send_fulfillment_confirmation_email_task_by_user" time="0.132" /><testcase classname="saleor.plugins.sendgrid.tests.test_tasks" name="test_send_fulfillment_update_email_task" time="0.129" /><testcase classname="saleor.plugins.sendgrid.tests.test_tasks" name="test_send_gift_card_email_task_by_app" time="0.030"><failure message="assert None == &lt;App: Sample app objects&gt;&#10; +  where None = &lt;GiftCardEvent: GiftCardEvent object (5)&gt;.app">mocked_send_email = &lt;MagicMock name='send_email' id='131299157253424'&gt;
+app = &lt;App: Sample app objects&gt;, gift_card = &lt;GiftCard: GiftCard object (5)&gt;
+sendgrid_email_plugin = &lt;function sendgrid_email_plugin.&lt;locals&gt;.fun at 0x776a78d35ee0&gt;
+
+    @patch("saleor.plugins.sendgrid.tasks.send_email")
+    def test_send_gift_card_email_task_by_app(
+        mocked_send_email, app, gift_card, sendgrid_email_plugin
+    ):
+        template_id = "ABC1"
+    
+        recipient_email = "user@example.com"
+        payload = {
+            "requester": {
+                "user_id": None,
+                "email": None,
+                "app_id": app.id,
+                "app_name": app.name,
+            },
+            "recipient_email": recipient_email,
+            "gift_card": {"id": gift_card.id, "code": gift_card.code},
+        }
+    
+        plugin = sendgrid_email_plugin(
+            api_key="A12",
+            send_gift_card_template_id=template_id,
+            sender_name="Sender Name",
+            sender_address="sender@example.com",
+        )
+    
+        send_gift_card_email_task(payload, asdict(plugin.config))
+    
+        mocked_send_email.assert_called_with(
+            configuration=plugin.config,
+            template_id=template_id,
+            payload=payload,
+        )
+    
+        gift_card_event = GiftCardEvent.objects.get()
+        assert gift_card_event.type == GiftCardEvents.SENT_TO_CUSTOMER
+        assert gift_card_event.parameters == {
+            "email": recipient_email,
+        }
+        assert not gift_card_event.user
+&gt;       assert gift_card_event.app == app
+E       assert None == &lt;App: Sample app objects&gt;
+E        +  where None = &lt;GiftCardEvent: GiftCardEvent object (5)&gt;.app
+
+saleor/plugins/sendgrid/tests/test_tasks.py:812: AssertionError</failure></testcase><testcase classname="saleor.plugins.sendgrid.tests.test_tasks" name="test_send_gift_card_email_task_by_user" time="0.029"><failure message="assert None == &lt;User: staff_test@example.com&gt;&#10; +  where None = &lt;GiftCardEvent: GiftCardEvent object (6)&gt;.user">mocked_send_email = &lt;MagicMock name='send_email' id='131299155015376'&gt;
+staff_user = &lt;User: staff_test@example.com&gt;
+gift_card = &lt;GiftCard: GiftCard object (6)&gt;
+sendgrid_email_plugin = &lt;function sendgrid_email_plugin.&lt;locals&gt;.fun at 0x776a780ec1f0&gt;
+
+    @patch("saleor.plugins.sendgrid.tasks.send_email")
+    def test_send_gift_card_email_task_by_user(
+        mocked_send_email, staff_user, gift_card, sendgrid_email_plugin
+    ):
+        template_id = "ABC1"
+    
+        recipient_email = "user@example.com"
+        payload = {
+            "requester": {
+                "user_id": staff_user.pk,
+                "email": staff_user.email,
+                "app_id": None,
+                "app_name": None,
+            },
+            "recipient_email": recipient_email,
+            "gift_card": {"id": gift_card.id, "code": gift_card.code},
+        }
+    
+        plugin = sendgrid_email_plugin(
+            api_key="A12",
+            send_gift_card_template_id=template_id,
+            sender_name="Sender Name",
+            sender_address="sender@example.com",
+        )
+    
+        send_gift_card_email_task(payload, asdict(plugin.config))
+    
+        mocked_send_email.assert_called_with(
+            configuration=plugin.config,
+            template_id=template_id,
+            payload=payload,
+        )
+    
+        gift_card_event = GiftCardEvent.objects.get()
+        assert gift_card_event.type == GiftCardEvents.SENT_TO_CUSTOMER
+        assert gift_card_event.parameters == {
+            "email": recipient_email,
+        }
+&gt;       assert gift_card_event.user == staff_user
+E       assert None == &lt;User: staff_test@example.com&gt;
+E        +  where None = &lt;GiftCardEvent: GiftCardEvent object (6)&gt;.user
+
+saleor/plugins/sendgrid/tests/test_tasks.py:769: AssertionError</failure></testcase><testcase classname="saleor.plugins.sendgrid.tests.test_tasks" name="test_send_invoice_email_task_by_app" time="0.033" /><testcase classname="saleor.plugins.sendgrid.tests.test_tasks" name="test_send_invoice_email_task_by_user" time="0.032" /><testcase classname="saleor.plugins.sendgrid.tests.test_tasks" name="test_send_order_canceled_email_task_by_app" time="0.033" /><testcase classname="saleor.plugins.sendgrid.tests.test_tasks" name="test_send_order_canceled_email_task_by_user" time="0.031" /><testcase classname="saleor.plugins.sendgrid.tests.test_tasks" name="test_send_order_confirmation_email_task" time="0.031" /><testcase classname="saleor.plugins.sendgrid.tests.test_tasks" name="test_send_order_confirmed_email_task_by_app" time="0.032" /><testcase classname="saleor.plugins.sendgrid.tests.test_tasks" name="test_send_order_confirmed_email_task_by_user" time="0.034" /><testcase classname="saleor.plugins.sendgrid.tests.test_tasks" name="test_send_order_refund_email_task_by_app" time="0.032" /><testcase classname="saleor.plugins.sendgrid.tests.test_tasks" name="test_send_order_refund_email_task_by_user" time="0.033" /><testcase classname="saleor.plugins.sendgrid.tests.test_tasks" name="test_send_password_reset_email_task" time="0.025" /><testcase classname="saleor.plugins.sendgrid.tests.test_tasks" name="test_send_payment_confirmation_email_task" time="0.094" /><testcase classname="saleor.plugins.sendgrid.tests.test_tasks" name="test_send_request_email_change_email_task" time="0.025" /><testcase classname="saleor.plugins.sendgrid.tests.test_tasks" name="test_send_set_user_password_email_task" time="0.022" /><testcase classname="saleor.plugins.sendgrid.tests.test_tasks" name="test_send_user_change_email_notification_task" time="0.025" /></testsuite></testsuites>
