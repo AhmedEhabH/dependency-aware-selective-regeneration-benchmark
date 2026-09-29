@@ -1,0 +1,462 @@
+{
+ "artifact": "smoke_v22_freeze",
+ "smoke_version": "wp2-e2e-smoke-eng-v22",
+ "created_utc": "2026-09-29T02:12:29Z",
+ "policy": {
+  "model": "qwen/qwen3-coder",
+  "provider": "deepinfra/turbo",
+  "allow_fallbacks": false,
+  "temperature": 0.0,
+  "top_p": 1.0,
+  "max_tokens": 8192,
+  "max_repairs": 1,
+  "workers": 1,
+  "population": [
+   "saleor-rc-2d45b76a52f2",
+   "saleor-rc-39b4138e8550",
+   "saleor-rc-644f33094857",
+   "saleor-rc-6abb53f3407b",
+   "saleor-rc-74538ea00ce9",
+   "saleor-rc-823b899757ab",
+   "saleor-rc-82c56bde0e34",
+   "saleor-rc-8f76ddc6267f",
+   "saleor-rc-93b20d78c011",
+   "saleor-rc-c3b9e396b07d",
+   "saleor-rc-d220843b5418",
+   "saleor-rc-dc6ac9d252df",
+   "saleor-rc-e03ee76d2b89",
+   "saleor-rc-e25cf9b4a837"
+  ],
+  "arms": [
+   "GOLD_HARD",
+   "RMCSS_HARD",
+   "AGENT_HARD",
+   "PLACEBO_HARD"
+  ],
+  "variance": {
+   "tasks": [
+    "saleor-rc-2d45b76a52f2",
+    "saleor-rc-644f33094857",
+    "saleor-rc-d220843b5418"
+   ],
+   "arm": "GOLD_HARD",
+   "labels": [
+    "var_r1",
+    "var_r2"
+   ]
+  },
+  "transport": {
+   "max_attempts": 4,
+   "baseline_backoffs_s": [
+    0.0,
+    5.0,
+    20.0,
+    60.0
+   ],
+   "retry_after_cap_s": 300.0,
+   "min_pacing_s": 5.0
+  },
+  "circuit": {
+   "cooldown_s": 900.0,
+   "max_cooldowns": 3,
+   "max_outage_s": 3600.0
+  },
+  "ceiling_usd": 2.0,
+  "terminal_statuses": [
+   "APPLIED",
+   "INVALID_AFTER_REPAIR",
+   "NO_SCOPE"
+  ],
+  "provider_failures_are_scientific_outcomes": false
+ },
+ "population": [
+  "saleor-rc-2d45b76a52f2",
+  "saleor-rc-39b4138e8550",
+  "saleor-rc-644f33094857",
+  "saleor-rc-6abb53f3407b",
+  "saleor-rc-74538ea00ce9",
+  "saleor-rc-823b899757ab",
+  "saleor-rc-82c56bde0e34",
+  "saleor-rc-8f76ddc6267f",
+  "saleor-rc-93b20d78c011",
+  "saleor-rc-c3b9e396b07d",
+  "saleor-rc-d220843b5418",
+  "saleor-rc-dc6ac9d252df",
+  "saleor-rc-e03ee76d2b89",
+  "saleor-rc-e25cf9b4a837"
+ ],
+ "scopes_semantic_sha256": {
+  "GOLD_HARD": "89fd623b8dd774dd3f0e0174c2deea9f0b7190fb3d6798195288697724d827f1",
+  "RMCSS_HARD": "657f0c8d8d2eed206cd19cd90ddc23994d648b1dcbf909ad29529c92031d3d3c",
+  "AGENT_HARD": "096a2312b048b5ad494d9b9e7f79cea78362b2223611b8d5fef54bcd159f8945",
+  "PLACEBO_HARD": "e78cb47ab9c192866f860eab080e68eecaad8de935c6eda3022f827fde53ee7b"
+ },
+ "evaluator_sets_sha256": "5b641cddf8f853dce5ce002f85f510677019444c077f71531bc0c67b6de67419",
+ "code_sha256": {
+  "src/benchmark/wp2/e2e/evaluate.py": "ef7abab3e330ca9c9f62b5cb9b4d960e0ee6544e98f2898c35e7948dda3149a1",
+  "src/benchmark/wp2/e2e/evaluator_sets.py": "582e7c6eb6fff6ce8ceb57c75ca762127ded318c2d0e78a81009f66baad93ea7",
+  "src/benchmark/wp2/e2e/generate.py": "74528f0af945324a24b64ad66bcc9c5221e395ab0694fa3d8ecb80c974eb4605",
+  "src/benchmark/wp2/e2e/generate_v2.py": "adb4e57a897bb6191b547f99321d5a816563761fe19f098e2318e94ee899db57",
+  "src/benchmark/wp2/e2e/llm_client.py": "0d2160ad00c7a67a62a2a2a0a6010520116ade75a23a0aeeeb19c7c0e47f347f",
+  "src/benchmark/wp2/e2e/patch_format.py": "16394a60c8061f624283758591be0be733574a39b6a3a7130413eb9291ae35f6",
+  "src/benchmark/wp2/e2e/prompt.py": "0e47b6ea3717cdcd3db6bd6d26bb4ffa68dd731e6da73b0f040af9f7b0fa7a70",
+  "src/benchmark/wp2/e2e/pycompile.py": "e003ab873760ff038619ded4bacadd14ef383f92859a3c1290974d23c9da537c",
+  "src/benchmark/wp2/e2e/response_cache.py": "5b4347b099b6026df1fdf99baeadbaacd976fe4247131d34306898c1f5b6f55c",
+  "src/benchmark/wp2/e2e/scopes.py": "fb7f4e8179627039fad00cddb685d10f18dac308f68273e43af4877f696469eb",
+  "src/benchmark/wp2/e2e/spec.py": "62f90ffe419fc73fa7474e303114b3f654a501db2f15e275965f2c1dbbb1a2f9",
+  "src/benchmark/wp2/e2e/task_inputs.py": "f22f95ee98995e545004d8fcb985871505ce5f655b702db434ac6dd919abdac8",
+  "src/benchmark/wp2/e2e_v21/generate.py": "562769c97acf2b7bce3fcc122b90a17cd0d24c13d0b856e650b27f70bffbb057",
+  "src/benchmark/wp2/e2e_v21/ledger.py": "38f6e498e8063bce3d56a6833c6468d6553f803691398d6b9a739e5ba25dd606",
+  "src/benchmark/wp2/e2e_v21/transport.py": "caf0b8ceca792c3451285862d7a8fc50d30c9116f94908acdf158539c10a8907",
+  "src/benchmark/wp2/e2e_v22/__init__.py": "6115bb56758a0846e7162cdeb5cf6f4d7b4e2e4c16c29f538618ef4a9d8aaa2a",
+  "src/benchmark/wp2/e2e_v22/circuit.py": "b9553e91297604a6926e0ddac25ac63152fae9836546b5aae455bbcb1426c12e",
+  "src/benchmark/wp2/e2e_v22/common.py": "3537c813703a50dc6b011fc75b6d6750ca3df228e9dd48db573a363fc210482d",
+  "src/benchmark/wp2/e2e_v22/transport.py": "05b0a7330973896fe15b008a87518591f09c64525447fd1a65b8c6236358a80a",
+  "scripts/wp2_e2e_v22_canary.py": "baa04547dd35ab8c48c58b0ff959e3386244ec12c8a033a39c852e4863d3d6b3",
+  "scripts/wp2_e2e_v22_doctor.py": "3df7e8cfc9354141e7e1cebea70c1e24508dd605a3ee74a54da134ed9175f3f3",
+  "scripts/wp2_e2e_v22_evaluate.py": "ab380afee999fac50b32c8f4063b3bd5789382fed240b92f2456458eb311c3e0",
+  "scripts/wp2_e2e_v22_freeze.py": "ba43067a9467dc1c36cc011ef769b1c895e2af66807ac9c5e1590cf9ebd0e95b",
+  "scripts/wp2_e2e_v22_generate.py": "953e1f43b9d3373aef7e025f38e2faa943c89f3d1f81e645130022c75227177c",
+  "scripts/wp2_e2e_v22_summary.py": "043cae2ef731c52c51acfc962a5481b53b5a6ca1a1379070ef195ba081b5d35f",
+  "scripts/wp2_ctl.py": "7e9d2c07092c1efa92a0f0a8d7db5ef71954710483d24bbc88cd9152b249f851",
+  "scripts/wp2_export_light.py": "c799c92b721beb6ce9e3b8aa83fd6f0971db9fbd7b3198ef557ed1d13b7eb982",
+  "scripts/wp2_e2e_smoke_v21_evaluate.py": "e55f6a88cc0efc28fbff9c557d1f380842e806522508218580a3ba746ffd929d",
+  "scripts/wp2_e2e_smoke_v21_summary.py": "d1a4c0232587994e78aad90e22681263c6a863a8d4e46b8fe8946bc1cb473932",
+  "scripts/wp2_linux_dryrun.py": "5a786978804673a20e5ce2335379a0fcd9fd8f2ba23a04b12308690184dc16b8",
+  "src/benchmark/wp2/harness_v3.py": "9df9813e0b0b303ef02d4b91b3c0e3f0f722bfa5a814addc124ad2b11ee07c72",
+  "src/benchmark/wp2/oracle_semantics_v2.py": "aa85f4953bea36974b77340c38fe8219e5a8d577d5e786ff74c06de2fc07423d",
+  "controller/KIT_MANIFEST.json": "4c369b24e67dbbabd32281130dc4839c614d031d78afe3bec45fbde797dde807",
+  "controller/light_profile_v22.json": "a4c80f76279ef03856c08386726afa1396fd740acc4535bcdc1803c33c7ce29a",
+  "controller/plan_smoke_v22.json": "ba788149dcc980a7523dd825acb802f5f46d609385c7c35e795113660aa3d352"
+ },
+ "env_identity": {
+  "era_images": {
+   "wp2-era-py38": "sha256:1cc60658b6a282c3bfe7c42312478a1983950927d348b47dce99e1a58e7a8c60",
+   "wp2-era-py39": "sha256:ddc08d7e685517764dfa2606a760d5b3f09d57840d8a0bbcef366db67cd99ef8",
+   "wp2-era-py312": "sha256:0c185699947d75d5866e57dfb10bba25cca05dc58ca3fd2f75446ee8b0e41394"
+  },
+  "postgres": {
+   "image_id": "sha256:f7d23353e1b15400d22ebe31189f4d314b87a4c129cc400c8c2d8d4ca127bf81",
+   "repo_digests": [
+    "postgres@sha256:f7d23353e1b15400d22ebe31189f4d314b87a4c129cc400c8c2d8d4ca127bf81"
+   ]
+  },
+  "errors": []
+ },
+ "planned_main": [
+  [
+   "saleor-rc-2d45b76a52f2",
+   "GOLD_HARD",
+   "GOLD_HARD"
+  ],
+  [
+   "saleor-rc-2d45b76a52f2",
+   "RMCSS_HARD",
+   "RMCSS_HARD"
+  ],
+  [
+   "saleor-rc-2d45b76a52f2",
+   "AGENT_HARD",
+   "AGENT_HARD"
+  ],
+  [
+   "saleor-rc-2d45b76a52f2",
+   "PLACEBO_HARD",
+   "PLACEBO_HARD"
+  ],
+  [
+   "saleor-rc-39b4138e8550",
+   "GOLD_HARD",
+   "GOLD_HARD"
+  ],
+  [
+   "saleor-rc-39b4138e8550",
+   "RMCSS_HARD",
+   "RMCSS_HARD"
+  ],
+  [
+   "saleor-rc-39b4138e8550",
+   "AGENT_HARD",
+   "AGENT_HARD"
+  ],
+  [
+   "saleor-rc-39b4138e8550",
+   "PLACEBO_HARD",
+   "PLACEBO_HARD"
+  ],
+  [
+   "saleor-rc-644f33094857",
+   "GOLD_HARD",
+   "GOLD_HARD"
+  ],
+  [
+   "saleor-rc-644f33094857",
+   "RMCSS_HARD",
+   "RMCSS_HARD"
+  ],
+  [
+   "saleor-rc-644f33094857",
+   "AGENT_HARD",
+   "AGENT_HARD"
+  ],
+  [
+   "saleor-rc-644f33094857",
+   "PLACEBO_HARD",
+   "PLACEBO_HARD"
+  ],
+  [
+   "saleor-rc-6abb53f3407b",
+   "GOLD_HARD",
+   "GOLD_HARD"
+  ],
+  [
+   "saleor-rc-6abb53f3407b",
+   "RMCSS_HARD",
+   "RMCSS_HARD"
+  ],
+  [
+   "saleor-rc-6abb53f3407b",
+   "AGENT_HARD",
+   "AGENT_HARD"
+  ],
+  [
+   "saleor-rc-6abb53f3407b",
+   "PLACEBO_HARD",
+   "PLACEBO_HARD"
+  ],
+  [
+   "saleor-rc-74538ea00ce9",
+   "GOLD_HARD",
+   "GOLD_HARD"
+  ],
+  [
+   "saleor-rc-74538ea00ce9",
+   "RMCSS_HARD",
+   "RMCSS_HARD"
+  ],
+  [
+   "saleor-rc-74538ea00ce9",
+   "AGENT_HARD",
+   "AGENT_HARD"
+  ],
+  [
+   "saleor-rc-74538ea00ce9",
+   "PLACEBO_HARD",
+   "PLACEBO_HARD"
+  ],
+  [
+   "saleor-rc-823b899757ab",
+   "GOLD_HARD",
+   "GOLD_HARD"
+  ],
+  [
+   "saleor-rc-823b899757ab",
+   "RMCSS_HARD",
+   "RMCSS_HARD"
+  ],
+  [
+   "saleor-rc-823b899757ab",
+   "AGENT_HARD",
+   "AGENT_HARD"
+  ],
+  [
+   "saleor-rc-823b899757ab",
+   "PLACEBO_HARD",
+   "PLACEBO_HARD"
+  ],
+  [
+   "saleor-rc-82c56bde0e34",
+   "GOLD_HARD",
+   "GOLD_HARD"
+  ],
+  [
+   "saleor-rc-82c56bde0e34",
+   "RMCSS_HARD",
+   "RMCSS_HARD"
+  ],
+  [
+   "saleor-rc-82c56bde0e34",
+   "AGENT_HARD",
+   "AGENT_HARD"
+  ],
+  [
+   "saleor-rc-82c56bde0e34",
+   "PLACEBO_HARD",
+   "PLACEBO_HARD"
+  ],
+  [
+   "saleor-rc-8f76ddc6267f",
+   "GOLD_HARD",
+   "GOLD_HARD"
+  ],
+  [
+   "saleor-rc-8f76ddc6267f",
+   "RMCSS_HARD",
+   "RMCSS_HARD"
+  ],
+  [
+   "saleor-rc-8f76ddc6267f",
+   "AGENT_HARD",
+   "AGENT_HARD"
+  ],
+  [
+   "saleor-rc-8f76ddc6267f",
+   "PLACEBO_HARD",
+   "PLACEBO_HARD"
+  ],
+  [
+   "saleor-rc-93b20d78c011",
+   "GOLD_HARD",
+   "GOLD_HARD"
+  ],
+  [
+   "saleor-rc-93b20d78c011",
+   "RMCSS_HARD",
+   "RMCSS_HARD"
+  ],
+  [
+   "saleor-rc-93b20d78c011",
+   "AGENT_HARD",
+   "AGENT_HARD"
+  ],
+  [
+   "saleor-rc-93b20d78c011",
+   "PLACEBO_HARD",
+   "PLACEBO_HARD"
+  ],
+  [
+   "saleor-rc-c3b9e396b07d",
+   "GOLD_HARD",
+   "GOLD_HARD"
+  ],
+  [
+   "saleor-rc-c3b9e396b07d",
+   "RMCSS_HARD",
+   "RMCSS_HARD"
+  ],
+  [
+   "saleor-rc-c3b9e396b07d",
+   "AGENT_HARD",
+   "AGENT_HARD"
+  ],
+  [
+   "saleor-rc-c3b9e396b07d",
+   "PLACEBO_HARD",
+   "PLACEBO_HARD"
+  ],
+  [
+   "saleor-rc-d220843b5418",
+   "GOLD_HARD",
+   "GOLD_HARD"
+  ],
+  [
+   "saleor-rc-d220843b5418",
+   "RMCSS_HARD",
+   "RMCSS_HARD"
+  ],
+  [
+   "saleor-rc-d220843b5418",
+   "AGENT_HARD",
+   "AGENT_HARD"
+  ],
+  [
+   "saleor-rc-d220843b5418",
+   "PLACEBO_HARD",
+   "PLACEBO_HARD"
+  ],
+  [
+   "saleor-rc-dc6ac9d252df",
+   "GOLD_HARD",
+   "GOLD_HARD"
+  ],
+  [
+   "saleor-rc-dc6ac9d252df",
+   "RMCSS_HARD",
+   "RMCSS_HARD"
+  ],
+  [
+   "saleor-rc-dc6ac9d252df",
+   "AGENT_HARD",
+   "AGENT_HARD"
+  ],
+  [
+   "saleor-rc-dc6ac9d252df",
+   "PLACEBO_HARD",
+   "PLACEBO_HARD"
+  ],
+  [
+   "saleor-rc-e03ee76d2b89",
+   "GOLD_HARD",
+   "GOLD_HARD"
+  ],
+  [
+   "saleor-rc-e03ee76d2b89",
+   "RMCSS_HARD",
+   "RMCSS_HARD"
+  ],
+  [
+   "saleor-rc-e03ee76d2b89",
+   "AGENT_HARD",
+   "AGENT_HARD"
+  ],
+  [
+   "saleor-rc-e03ee76d2b89",
+   "PLACEBO_HARD",
+   "PLACEBO_HARD"
+  ],
+  [
+   "saleor-rc-e25cf9b4a837",
+   "GOLD_HARD",
+   "GOLD_HARD"
+  ],
+  [
+   "saleor-rc-e25cf9b4a837",
+   "RMCSS_HARD",
+   "RMCSS_HARD"
+  ],
+  [
+   "saleor-rc-e25cf9b4a837",
+   "AGENT_HARD",
+   "AGENT_HARD"
+  ],
+  [
+   "saleor-rc-e25cf9b4a837",
+   "PLACEBO_HARD",
+   "PLACEBO_HARD"
+  ]
+ ],
+ "planned_variance": [
+  [
+   "saleor-rc-2d45b76a52f2",
+   "GOLD_HARD",
+   "var_r1"
+  ],
+  [
+   "saleor-rc-2d45b76a52f2",
+   "GOLD_HARD",
+   "var_r2"
+  ],
+  [
+   "saleor-rc-644f33094857",
+   "GOLD_HARD",
+   "var_r1"
+  ],
+  [
+   "saleor-rc-644f33094857",
+   "GOLD_HARD",
+   "var_r2"
+  ],
+  [
+   "saleor-rc-d220843b5418",
+   "GOLD_HARD",
+   "var_r1"
+  ],
+  [
+   "saleor-rc-d220843b5418",
+   "GOLD_HARD",
+   "var_r2"
+  ]
+ ],
+ "reproducibility_note": "Fresh API generation is a replication, not a bit-exact reproduction; exact reproducibility is defined as replaying the frozen raw responses/diffs through the frozen evaluator.",
+ "freeze_sha256": "4c41fdfee05bb3cdff951b2b393a5a9c557b55776fea4572c9c5b156708eeb87"
+}
