@@ -20,9 +20,6 @@
     "sha256": "0DCBA2C5698BC82E79A8AB8781E72D6167A5805D5C4B59525464F79CDA737DC2"
   },
   "origin_main": "2b5b33070f5173fd6b4343da175fdb2cb3f04e38",
-  "updated_utc": "2026-09-28T21:29:25Z",
-  "current_phase": "C1",
-  "current_atomic": "C1_control_input_freeze",
   "completed_phases": [
     "G1",
     "G2",
@@ -40,5 +37,11 @@
     "pushed": true,
     "verdict": "BUILD_V21_READY",
     "head": "5060f7febd3883501118a75e0f57d7e3e71f0b41"
-  }
+  },
+  "updated_utc": "2026-09-29T00:22:38Z",
+  "current_phase": "STOP",
+  "current_atomic": "E2E_PROVIDER_OUTAGE",
+  "stop_token": "E2E_PROVIDER_OUTAGE",
+  "main_terminal": "16/56",
+  "spend_usd": 0.0099785
 }
