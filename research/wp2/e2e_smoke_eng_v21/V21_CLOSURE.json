@@ -1,0 +1,14 @@
+{
+ "artifact": "v21_closure",
+ "classification": "TRANSPORT_ABORTED_DIAGNOSTIC_RUN",
+ "resume": false,
+ "scored": false,
+ "episode_status_counts": {
+  "GENERATION_FAIL": 10,
+  "INVALID_AFTER_REPAIR": 2,
+  "APPLIED": 3,
+  "NO_SCOPE": 1
+ },
+ "reason": "provider HTTP 429 exhaustion was recorded as terminal GENERATION_FAIL; v2.2 treats provider failures as pending infrastructure, so the v2.1 run is closed as diagnostic evidence and a fresh v2.2 run starts at 0/56",
+ "utc": "2026-09-29T02:05:14Z"
+}
