@@ -1,0 +1,3099 @@
+{
+ "task_id": "saleor-rc-c3b9e396b07d",
+ "diff_sha256": "16ec795185b645d8d57bd90786f83612f045ee5efe642dd1520f3496ef3b03d3",
+ "eval_identity": "saleor-rc-c3b9e396b07d/16ec795185b645d8d57bd90786f83612f045ee5efe642dd1520f3496ef3b03d3",
+ "label": "u_16ec795185b6",
+ "tree_sha": "da8c088a874d14d3a0f3c897ecb318ff5494f176",
+ "status": "DONE",
+ "diff_file_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+ "groups": {
+  "C": {
+   "saleor/graphql/product/tests/test_product.py::test_assign_variant_media": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_assign_variant_media_from_different_product": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_assign_variant_media_second_time": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_categories_query_with_filter[category_filter0-3]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_categories_query_with_filter[category_filter1-1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_categories_query_with_filter[category_filter2-2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_categories_query_with_filter[category_filter3-1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_categories_query_with_filter[category_filter4-2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_categories_query_with_sort[category_sort0-result_order0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_categories_query_with_sort[category_sort1-result_order1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_categories_query_with_sort[category_sort2-result_order2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_categories_query_with_sort[category_sort3-result_order3]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_categories_query_with_sort[category_sort4-result_order4]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_categories_query_with_sort[category_sort5-result_order5]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_collections_query_with_filter[collection_filter0-2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_collections_query_with_filter[collection_filter1-1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_collections_query_with_filter[collection_filter2-1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_collections_query_with_filter[collection_filter3-1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_collections_query_with_filter[collection_filter4-2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_collections_query_with_sort[collection_sort0-result_order0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_collections_query_with_sort[collection_sort1-result_order1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_collections_query_with_sort[collection_sort2-result_order2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_collections_query_with_sort[collection_sort3-result_order3]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_collections_query_with_sort[collection_sort4-result_order4]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_collections_query_with_sort[collection_sort5-result_order5]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_gift_card_product_type": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_description_plaintext": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_invalid_product_attributes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_no_category_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_no_slug_in_input[None]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_no_slug_in_input[]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_no_values_given": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_type_create_with_negative_weight": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_type_with_boolean_attribute": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_type_with_date_attribute": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_type_with_given_slug[-test-product-type]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_type_with_given_slug[None-test-product-type]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_type_with_given_slug[\\u308f\\u305f\\u3057-\\u308f-\\u306b\\u3063\\u307d\\u3093-\\u3067\\u3059-\\u308f\\u305f\\u3057-\\u308f-\\u306b\\u3063\\u307d\\u3093-\\u3067\\u3059]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_type_with_given_slug[test-slug-test-slug]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_type_with_rich_text_attribute": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_type_with_unicode_in_name": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_with_boolean_attribute": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_with_date_attribute": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_with_date_time_attribute": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_with_file_attribute": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_with_file_attribute_new_attribute_value": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_with_file_attribute_not_required_no_file_url_given": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_with_file_attribute_required_no_file_url_given": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_with_negative_weight": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_with_numeric_attribute_existing_value": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_with_numeric_attribute_new_attribute_value[1-1-1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_with_numeric_attribute_new_attribute_value[20-20-20]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_with_numeric_attribute_new_attribute_value[20.1-20.1-20_1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_with_numeric_attribute_not_numeric_value_given": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_with_page_reference_attribute": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_with_page_reference_attribute_required_no_references": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_with_product_reference_attribute": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_with_product_reference_attribute_required_no_references": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_with_product_reference_attribute_values_saved_in_order": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_with_rating": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_with_rich_text_attribute": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_with_swatch_attribute_existing_value": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_with_swatch_attribute_new_attribute_value": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_with_unicode_in_slug_and_name": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_with_weight_input[\"11.11\"-11.11]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_with_weight_input[0-0_0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_with_weight_input[0-0_1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_with_weight_input[11-11.0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_with_weight_input[11.11-11.11]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_with_weight_input[{value: \"1\", unit: \"ounce\"}-0.028]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_with_weight_input[{value: 11, unit: \"g\"}-0.011]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_with_weight_input[{value: 11.11, unit: \"kg\"}-11.11]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_with_weight_variable[0-0_0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_with_weight_variable[0-0_1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_with_weight_variable[11-11.0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_with_weight_variable[11.11-11.11_0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_with_weight_variable[11.11-11.11_1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_with_weight_variable[weight5-11.11]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_with_weight_variable[weight6-0.011]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_with_weight_variable[weight7-0.028]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_product_without_variants": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_stocks": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_create_stocks_failed": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_delete_product": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_delete_product_removes_checkout_lines": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_delete_product_trigger_webhook": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_delete_product_variant_in_draft_order": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_delete_product_with_file_attribute": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_delete_product_with_image": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_fetch_all_product_variants_available_as_staff_user_with_channel": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_fetch_all_product_variants_available_as_staff_user_without_channel": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_fetch_all_products_as_app_without_channel_slug": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_fetch_all_products_as_staff_user_without_channel_slug": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_fetch_all_products_available_as_anonymous": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_fetch_all_products_available_as_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_fetch_all_products_available_as_customer": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_fetch_all_products_available_as_staff_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_fetch_all_products_not_available_as_anonymous": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_fetch_all_products_not_available_as_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_fetch_all_products_not_available_as_customer": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_fetch_all_products_not_available_as_staff_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_fetch_all_products_not_existing_in_channel_as_anonymous": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_fetch_all_products_not_existing_in_channel_as_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_fetch_all_products_not_existing_in_channel_as_customer": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_fetch_all_products_not_existing_in_channel_as_staff_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_fetch_all_products_visible_in_listings": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_fetch_all_products_visible_in_listings_by_app_with_perm": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_fetch_all_products_visible_in_listings_by_app_without_manage_products": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_fetch_all_products_visible_in_listings_by_staff_with_perm": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_fetch_all_products_visible_in_listings_by_staff_without_manage_products": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_fetch_product_from_category_query": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_filter_product_types_by_custom_search_value[-expected_names0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_filter_product_types_by_custom_search_value[average-expected_names3]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_filter_product_types_by_custom_search_value[best-expected_names1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_filter_product_types_by_custom_search_value[worst-expected_names2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_filter_products_by_wrong_attributes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_filter_products_with_unavailable_variants_attributes_as_staff": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_filter_products_with_unavailable_variants_attributes_as_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_get_collections_from_product_as_anonymous": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_get_collections_from_product_as_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_get_collections_from_product_as_customer": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_get_collections_from_product_as_staff": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_get_product_with_sorted_attribute_values": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_hidden_product_access_with_permission_manage_channels": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_hidden_product_access_with_permission_manage_discounts": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_hidden_product_access_with_permission_manage_orders": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_hidden_product_access_with_proper_permissions": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_invalid_product_media_create_mutation": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_create_with_collections_webhook": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_create_without_product_type": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_filter_by_attribute_values": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_image_update_mutation": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_media_create_mutation": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_media_create_mutation_with_both_url_and_image": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_media_create_mutation_with_unknown_url": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_media_create_mutation_without_file": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_media_create_mutation_without_url_or_image": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_media_delete": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_query_by_id_as_app_without_channel_slug": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_query_by_id_as_staff_user_without_channel_slug": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_query_by_id_as_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_query_by_id_available_as_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_query_by_id_available_as_customer": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_query_by_id_available_as_staff_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_query_by_id_not_available_as_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_query_by_id_not_available_as_customer": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_query_by_id_not_available_as_staff_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_query_by_id_not_existing_in_channel_as_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_query_by_id_not_existing_in_channel_as_customer": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_query_by_id_not_existing_in_channel_as_staff_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_query_by_id_weight_is_rounded": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_query_by_id_weight_returned_in_default_unit": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_query_by_id_without_channel_not_available_as_staff_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_query_by_invalid_id[']": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_query_by_invalid_id[abc]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_query_by_slug": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_query_by_slug_as_app_without_channel": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_query_by_slug_as_staff_user_without_channel": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_query_by_slug_available_as_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_query_by_slug_available_as_customer": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_query_by_slug_available_as_staff_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_query_by_slug_not_available_as_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_query_by_slug_not_available_as_customer": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_query_by_slug_not_available_as_staff_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_query_by_slug_not_existing_in_channel_as_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_query_by_slug_not_existing_in_channel_as_customer": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_query_by_slug_not_existing_in_channel_as_staff_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_query_description": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_query_error_when_id_and_slug_provided": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_query_error_when_no_param": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_query_invalid_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_query_is_available_for_purchase_false": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_query_is_available_for_purchase_false_no_available_for_purchase_date": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_query_is_available_for_purchase_true": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_query_object_with_given_id_does_not_exist": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_query_unpublished_products_by_slug": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_query_unpublished_products_by_slug_and_anonymous_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_query_with_invalid_object_type": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_query_with_no_description": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_restricted_fields_permissions": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_type": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_type_create_mutation": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_type_create_mutation_not_valid_attributes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_type_delete_mutation": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_type_delete_mutation_deletes_also_images": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_type_delete_mutation_variants_in_draft_order": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_type_delete_with_file_attributes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_type_filter_unassigned_attributes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_type_get_unassigned_product_type_attributes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_type_query": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_type_query_by_id_weight_returned_in_default_unit": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_type_query_invalid_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_type_query_object_with_given_id_does_not_exist": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_type_query_only_variant_selections_value_set[ALL]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_type_query_only_variant_selections_value_set[NOT_VARIANT_SELECTION]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_type_query_only_variant_selections_value_set[VARIANT_SELECTION]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_type_query_with_filter[product_type_filter0-2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_type_query_with_filter[product_type_filter1-1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_type_query_with_filter[product_type_filter2-1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_type_query_with_filter[product_type_filter3-2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_type_query_with_filter[product_type_filter4-2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_type_query_with_filter[product_type_filter5-1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_type_query_with_invalid_object_type": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_type_query_with_sort[product_type_sort0-result_order0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_type_query_with_sort[product_type_sort1-result_order1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_type_query_with_sort[product_type_sort2-result_order2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_type_query_with_sort[product_type_sort3-result_order3]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_type_query_with_sort[product_type_sort4-result_order4]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_type_query_with_sort[product_type_sort5-result_order5]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_type_update_changes_variant_name": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_type_update_mutation": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_type_update_mutation_not_valid_attributes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_types_query_ids_not_exists": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_unpublished_query_by_id_as_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_update_variants_names": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_variant_price[0-0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_variant_price[200-200]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_variant_price_no_address": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_variant_set_default": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_variant_set_default_invalid_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_variant_set_default_not_products_variant": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_variant_without_price_as_staff_with_permission": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_variant_without_price_as_staff_without_permission": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_variant_without_price_as_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_variant_without_price_by_id_as_app_with_permission": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_variant_without_price_by_id_as_app_without_permission": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_variant_without_price_by_id_as_staff_with_permission": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_variant_without_price_by_id_as_staff_without_permission": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_variant_without_price_by_id_as_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_variant_without_price_by_sku_as_app_with_permission": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_variant_without_price_by_sku_as_app_without_permission": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_variant_without_price_by_sku_as_staff_with_permission": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_variant_without_price_by_sku_as_staff_without_permission": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_variant_without_price_by_sku_as_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_variants_by_customer": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_variants_by_ids": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_variants_no_ids_list": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_variants_without_price_by_ids_as_app_with_permission": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_variants_without_price_by_ids_as_app_without_permission": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_variants_without_price_by_ids_as_staff_with_permission": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_variants_without_price_by_ids_as_staff_without_permission": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_variants_without_price_by_ids_as_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_product_with_collections": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_filter_by_non_existing_attribute": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter[products_filter0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter[products_filter1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter[products_filter2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_attributes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_boolean_attributes[False-expected_products_index0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_boolean_attributes[True-expected_products_index1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_by_attributes_values_and_range": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_category": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_category_and_search": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_collection": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_gift_card_false": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_gift_card_true": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_has_category_false": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_has_category_true": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_numeric_attributes[0-8-expected_products_index1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_numeric_attributes[12-None-expected_products_index5]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_numeric_attributes[20-8-expected_products_index7]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_numeric_attributes[20-None-expected_products_index6]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_numeric_attributes[5-None-expected_products_index3]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_numeric_attributes[7-8-expected_products_index2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_numeric_attributes[8-10-expected_products_index4]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_numeric_attributes[None-8-expected_products_index0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_search_by_sku[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_search_by_sku[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_stock_availability_as_staff": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_stock_availability_as_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_stock_availability_channel_without_shipping_zones": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_stocks[None-warehouse_indexes4-1-indexes_of_products_in_result4]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_stocks[None-warehouse_indexes5-2-indexes_of_products_in_result5]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_stocks[quantity_input0-warehouse_indexes0-1-indexes_of_products_in_result0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_stocks[quantity_input1-warehouse_indexes1-1-indexes_of_products_in_result1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_stocks[quantity_input2-warehouse_indexes2-1-indexes_of_products_in_result2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_stocks[quantity_input3-warehouse_indexes3-0-indexes_of_products_in_result3]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_stocks[quantity_input6-warehouse_indexes6-1-indexes_of_products_in_result6]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_stocks[quantity_input7-warehouse_indexes7-1-indexes_of_products_in_result7]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_stocks[quantity_input8-warehouse_indexes8-0-indexes_of_products_in_result8]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_with_filter_swatch_attributes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_with_is_published_filter_one_variant_without_price": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_with_is_published_filter_variants_without_prices": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_with_price_filter_as_staff": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_query_with_price_filter_as_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_products_with_variants_query_as_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_query_product_for_federation": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_query_product_image_by_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_query_product_image_by_id_missing_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_query_product_image_by_id_not_media_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_query_product_image_by_invalid_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_query_product_is_available": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_query_product_is_available_no_shipping_zones": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_query_product_is_available_with_one_variant": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_query_product_media_by_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_query_product_media_by_id_missing_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_query_product_media_by_id_not_media_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_query_product_media_by_invalid_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_query_product_media_for_federation": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_query_product_type_for_federation": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_query_products_no_channel_shipping_zones": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_query_products_with_filter_ids": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_reorder_media": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_reorder_variants": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_reorder_variants_invalid_variants": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_report_product_sales": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_report_product_sales_channel_pln": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_report_product_sales_not_existing_channel": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_search_product_by_description": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_search_product_by_description_and_name": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_search_product_by_description_and_name_and_use_cursor": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_search_product_by_description_and_name_without_sort_by": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_sort_product_by_rank_with_empty_search_value[  ]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_sort_product_by_rank_with_empty_search_value[None]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_sort_product_by_rank_with_empty_search_value[]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_sort_product_by_rank_without_search": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_sort_products": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_sort_products_by_price_as_staff": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_sort_products_product_type_name": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_unassign_not_assigned_variant_media_image": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_unassign_variant_media_image": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_and_search_product_by_description": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_or_create_variant_stocks": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_or_create_variant_stocks_empty_stocks_data": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_or_create_variant_stocks_when_stock_out_of_quantity": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_or_create_variant_stocks_with_out_of_stock_webhook_only": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_or_create_variant_with_back_in_stock_webhooks_only_failed": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_or_create_variant_with_back_in_stock_webhooks_only_success": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_can_only_assign_multiple_values_to_valid_input_types": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_change_values_ordering": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_clear_attribute_values": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_name": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_rating": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_slug[--Slug value cannot be blank.]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_slug[None--Slug value cannot be blank.]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_slug[test-slug-test-slug-None]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_slug_and_name[--New name-Slug value cannot be blank.-slug]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_slug_and_name[None--New name-Slug value cannot be blank.-slug]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_slug_and_name[None-None-None-Slug value cannot be blank.-slug]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_slug_and_name[test-slug---This field cannot be blank.-name]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_slug_and_name[test-slug--None-This field cannot be blank.-name]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_slug_and_name[test-slug-test-slug-New name-None-None]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_slug_exists": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_slug_with_existing_value": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_type_slug[--Slug value cannot be blank.]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_type_slug[None--Slug value cannot be blank.]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_type_slug[test-slug-test-slug-None]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_type_slug_and_name[--New name-Slug value cannot be blank.-slug]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_type_slug_and_name[None--New name-Slug value cannot be blank.-slug]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_type_slug_and_name[None-None-None-Slug value cannot be blank.-slug]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_type_slug_and_name[test-slug---This field cannot be blank.-name]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_type_slug_and_name[test-slug--None-This field cannot be blank.-name]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_type_slug_and_name[test-slug-test-slug-New name-None-None]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_type_slug_exists": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_type_type": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_type_with_negative_weight": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_with_boolean_attribute_value": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_with_empty_input_collections": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_with_existing_attribute_value": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_with_file_attribute_value": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_with_file_attribute_value_new_value_is_not_created": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_with_negative_weight": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_with_no_attribute_slug_or_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_with_non_existing_attribute": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_with_numeric_attribute_value": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_with_numeric_attribute_value_new_value_is_not_created": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_with_page_reference_attribute_existing_value": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_with_page_reference_attribute_value": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_with_page_reference_attribute_value_not_given": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_with_product_reference_attribute_existing_value": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_with_product_reference_attribute_value": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_with_product_reference_attribute_value_not_given": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_without_description_clear_description_plaintext": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_update_product_without_supplying_required_product_attribute": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_variant_digital_content": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_variant_query_invalid_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_variant_query_object_with_given_id_does_not_exist": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_variant_query_with_invalid_object_type": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_variant_restricted_fields_permissions[digitalContent-True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product.py::test_variant_restricted_fields_permissions[quantityOrdered-False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/warehouse/tests/test_stock_management.py::test_allocate_stock_insufficient_stocks": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/warehouse/tests/test_stock_management.py::test_allocate_stock_insufficient_stocks_for_multiple_lines": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/warehouse/tests/test_stock_management.py::test_allocate_stock_many_stocks": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/warehouse/tests/test_stock_management.py::test_allocate_stock_many_stocks_partially_allocated": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/warehouse/tests/test_stock_management.py::test_allocate_stock_partially_allocated_insufficient_stocks": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/warehouse/tests/test_stock_management.py::test_allocate_stocks": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/warehouse/tests/test_stock_management.py::test_allocate_stocks_multiple_lines": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/warehouse/tests/test_stock_management.py::test_allocate_stocks_no_channel_shipping_zones": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/warehouse/tests/test_stock_management.py::test_deallocate_stock": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/warehouse/tests/test_stock_management.py::test_deallocate_stock_for_order": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/warehouse/tests/test_stock_management.py::test_deallocate_stock_many_allocations": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/warehouse/tests/test_stock_management.py::test_deallocate_stock_many_allocations_partially": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/warehouse/tests/test_stock_management.py::test_deallocate_stock_partially": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/warehouse/tests/test_stock_management.py::test_deallocate_stock_when_quantity_less_than_zero": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/warehouse/tests/test_stock_management.py::test_decrease_stock": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/warehouse/tests/test_stock_management.py::test_decrease_stock_insufficient_stock": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/warehouse/tests/test_stock_management.py::test_decrease_stock_many_allocations": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/warehouse/tests/test_stock_management.py::test_decrease_stock_many_allocations_partially": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/warehouse/tests/test_stock_management.py::test_decrease_stock_more_then_allocated": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/warehouse/tests/test_stock_management.py::test_decrease_stock_multiple_lines": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/warehouse/tests/test_stock_management.py::test_decrease_stock_partially": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/warehouse/tests/test_stock_management.py::test_decrease_stock_with_out_of_stock_webhook_triggered": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/warehouse/tests/test_stock_management.py::test_decrease_stock_without_stock_update[200-0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/warehouse/tests/test_stock_management.py::test_decrease_stock_without_stock_update[50-30]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/warehouse/tests/test_stock_management.py::test_increase_allocation_insufficient_stock": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/warehouse/tests/test_stock_management.py::test_increase_allocations[19]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/warehouse/tests/test_stock_management.py::test_increase_allocations[20]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/warehouse/tests/test_stock_management.py::test_increase_stock_with_allocate": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/warehouse/tests/test_stock_management.py::test_increase_stock_with_back_in_stock_webhook_not_triggered": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/warehouse/tests/test_stock_management.py::test_increase_stock_with_back_in_stock_webhook_not_triggered_with_allocation": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/warehouse/tests/test_stock_management.py::test_increase_stock_with_back_in_stock_webhook_triggered_without_allocation": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/warehouse/tests/test_stock_management.py::test_increase_stock_with_new_allocation": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/warehouse/tests/test_stock_management.py::test_increase_stock_without_allocate": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  "U": {
+   "saleor/graphql/product/tests/benchmark/test_homepage.py::test_retrieve_product_list": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_bulk_delete.py::test_delete_product_types_with_file_attributes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_category.py::test_create_category_with_given_slug[-test-category]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/shop/tests/test_shop.py::test_update_default_sender_settings_invalid_name[Dummy\\rName]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/benchmark/test_collection.py::test_collection_bulk_delete": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/deprecated/test_collection.py::test_collections_query_with_default_channel_slug": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_collection_filtering_and_sorting_with_channels.py::test_collections_with_sorting_and_without_channel[sort_by1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout_digital.py::test_checkout_lines_update_remove_shipping_if_removed_product_with_shipping": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_variant_with_filtering.py::test_products_pagination_with_filtering[filter_by7-variants7]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product_sorting.py::test_sort_products_by_publication_date[DESC--publication_date]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product_sorting_attributes.py::test_sort_product_by_attribute_using_invalid_attribute_id[QXR0cmlidXRlOi0x]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/warehouse/tests/test_stock.py::test_stock_for_country_does_not_exists": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/benchmark/test_variant_stocks.py::test_query_product_variants_stocks": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/deprecated/test_product.py::test_product_query_by_id_with_default_channel": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product_discounted_price.py::test_collection_add_products_updates_discounted_price": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/app/tests/queries/test_app.py::test_app_without_id_as_staff": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_variant_availability.py::test_variant_quantity_available_without_inventory_tracking": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product_filtering_and_sorting_with_channels.py::test_products_with_sorting_and_channel_PLN[sort_by4-products_order4]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product_channel_listing_update.py::test_product_channel_listing_update_update_is_available_for_purchase_false": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/mutations/test_external_verify.py::test_external_verify_plugin_not_active": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_collection.py::test_fetch_unpublished_collection_customer": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_variant_query.py::test_get_variant_by_id_with_variant_selection_filter[VARIANT_SELECTION]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_variant.py::test_product_variant_bulk_create_product_not_assigned_to_channel": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/app/tests/mutations/test_app_retry_install.py::test_retry_install_app_mutation_app_has_more_permission_than_app_requestor": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/benchmark/test_variant.py::test_update_product_variant": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_variant_channel_listing_update.py::test_variant_channel_listing_update_duplicated_channel": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product_channel_listings_queries.py::test_product_channel_listing_pricing_field_no_address": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/plugins/tests/test_mutation_plugin_update.py::test_plugin_configuration_update_channel_slug_required": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/benchmark/test_category.py::test_categories_children": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_digital_content.py::test_digital_content_query_object_with_given_id_does_not_exist": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_attributes.py::test_resolve_attributes_with_hidden[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/page/tests/test_page_type_delete.py::test_page_type_delete_by_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product_pagination.py::test_collections_pagination_with_filtering[filter_by1-collections_order1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/benchmark/test_product.py::test_filter_products_by_numeric_attributes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_variant_pricing.py::test_variant_pricing": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/giftcard/tests/mutations/test_gift_card_create.py::test_create_gift_card_with_expiry_date_type_invalid[date_value1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_collection_channel_listing_update.py::test_collection_channel_listing_update_with_empty_lists_in_input": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/benchmark/test_product_variant_channel_listing_update.py::test_variant_channel_listing_update": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/benchmark/test_homepage.py::test_report_product_sales": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/order/tests/deprecated/test_order.py::test_orders_total": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_bulk_delete.py::test_delete_collections_with_images": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_category.py::test_update_category_slug[None--Slug value cannot be blank.]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/benchmark/test_collection.py::test_remove_products_from_collection": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/giftcard/tests/benchmark/test_gift_card_mutations.py::test_update_gift_card": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_collection_filtering_and_sorting_with_channels.py::test_collections_with_filtering_with_channel_USD[filter_by1-3]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_variant_with_filtering.py::test_products_pagination_with_filtering[filter_by9-variants9]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product_sorting.py::test_sort_products_by_publication_date[ASC-publication_date]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_value_update.py::test_update_swatch_attribute_value": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product_sorting_attributes.py::test_sort_product_not_having_attribute_data": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/benchmark/test_variant_stocks.py::test_product_variants_stocks_create": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/deprecated/test_product.py::test_fetch_all_products": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/discount/tests/test_discount.py::test_staff_query_voucher_by_invalid_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product_discounted_price.py::test_sale_update_updates_products_discounted_prices": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_variant_availability.py::test_variant_quantity_available_with_max": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product_filtering_and_sorting_with_channels.py::test_products_with_filtering_without_channel[filter_by0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/discount/tests/test_bulk_delete.py::test_delete_sales": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product_channel_listing_update.py::test_product_channel_listing_remove_variant_as_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_collection.py::test_update_collection_slug_and_name[None--New name-Slug value cannot be blank.-slug]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_variant_query.py::test_get_variant_without_id_and_sku": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/giftcard/tests/queries/test_gift_card_sorting.py::test_sorting_gift_cards_by_tag[ASC]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_variant.py::test_product_variant_bulk_create_duplicated_channels": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/benchmark/test_variant.py::test_product_variant_bulk_create": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_variant_channel_listing_update.py::test_variant_channel_listing_update_trigger_webhook_product_variant_updated": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/giftcard/tests/mutations/test_gift_card_delete.py::test_delete_gift_card_by_staff": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product_channel_listings_queries.py::test_product_channel_listing_pricing_field": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/benchmark/test_category.py::test_category_view": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_digital_content.py::test_digital_content_update_mutation": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_reorder_values.py::test_sort_values_within_attribute": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_attributes.py::test_assign_attribute_to_product_type_having_already_that_attribute[EnumMeta.VARIANT-EnumMeta.VARIANT]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product_pagination.py::test_product_types_pagination_with_filtering[filter_by5-product_types_order5]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/benchmark/test_product.py::test_retrieve_product_images": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/mutations/test_tokens_deactivate_all.py::test_deactivate_all_user_tokens_access_token": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_variant_pricing.py::test_get_variant_pricing_not_on_sale": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_collection_channel_listing_update.py::test_collection_channel_listing_update_duplicated_ids_in_add_and_remove": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_bulk_delete.py::test_delete_product_variants": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/tests/test_utils.py::test_multiple_interface_separator_in_schema": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_category.py::test_update_category_slug_and_name[None--New name-Slug value cannot be blank.-slug]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/benchmark/test_collection.py::test_create_collection": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_collection_filtering_and_sorting_with_channels.py::test_collections_with_sorting_and_channel_PLN[sort_by3-collections_order3]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout_language_code_update.py::test_checkout_update_language_code": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_variant_with_filtering.py::test_products_pagination_with_filtering[filter_by10-variants10]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product_sorting.py::test_sort_products_within_collection_invalid_collection_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product_sorting_attributes.py::test_sort_product_by_attribute_using_attribute_having_no_products[ASC]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_create.py::test_create_attribute_with_reference_input_type_entity_type_not_given": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/benchmark/test_variant_stocks.py::test_product_variants_stocks_create_with_single_webhook_called": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/deprecated/test_product.py::test_collections_query_with_sort": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product_discounted_price.py::test_collection_remove_products_updates_discounted_price": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/invoice/tests/test_invoice_request_delete.py::test_invoice_request_delete_invalid_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_variant_availability.py::test_variant_quantity_available_without_country_code": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product_filtering_and_sorting_with_channels.py::test_products_with_filtering_with_channel_PLN[filter_by4-1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product_channel_listing_update.py::test_product_channel_listing_update_as_staff_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/giftcard/tests/queries/test_gift_cards_currencies.py::test_fetch_gift_card_currencies_no_permission": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_collection.py::test_delete_collection_with_background_image": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_variant_query.py::test_get_unpublished_variant_by_sku_as_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_variant.py::test_variant_stocks_create_stock_duplicated_warehouse": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/csv/tests/mutations/test_export_products.py::test_export_products_mutation_by_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/benchmark/test_variant.py::test_retrieve_variant_list": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_variant_channel_listing_update.py::test_variant_channel_listing_update_not_assigned_channel": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/benchmark/test_category.py::test_category_delete": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_value_delete.py::test_delete_attribute_value": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_digital_content.py::test_digital_content_create_mutation_removes_old_content": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_attributes.py::test_sort_product_variant_attribute_values_invalid_value_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product_pagination.py::test_products_pagination_with_filtering[filter_by1-products_order1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/invoice/tests/test_invoice_delete.py::test_invoice_delete_invalid_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/benchmark/test_product.py::test_retrieve_product_media": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_variant_pricing.py::test_get_variant_pricing_on_sale": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_collection_channel_listing_update.py::test_collection_channel_listing_update_as_staff_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/core/tests/test_view.py::test_permission_denied_query_graphql_errors_are_logged_in_another_logger": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_bulk_delete.py::test_delete_products": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_category.py::test_query_category_product_only_visible_in_listings_as_staff_with_perm": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/benchmark/test_collection.py::test_collection_view": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/deprecated/test_checkout_billing_address_update.py::test_checkout_billing_address_update_by_token": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_collection_filtering_and_sorting_with_channels.py::test_collections_with_sorting_and_channel_PLN[sort_by0-collections_order0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_variant_with_filtering.py::test_products_pagination_with_filtering[filter_by3-variants3]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product_sorting.py::test_sort_products_within_collection_invalid_product_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/benchmark/test_account.py::test_query_staff_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product_sorting_attributes.py::test_sort_product_by_attribute_single_value[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/benchmark/test_variant_stocks.py::test_product_variants_stocks_delete": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/deprecated/test_product.py::test_fetch_all_variants": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/app/tests/mutations/test_app_update.py::test_app_update_mutation_for_app_out_of_scope_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product_discounted_price.py::test_sale_create_updates_products_discounted_prices": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_variant_availability.py::test_variant_quantity_available_with_country_code": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product_filtering_and_sorting_with_channels.py::test_products_with_filtering_and_not_existing_channel[filter_by4]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_i18n.py::test_validate_address_no_city": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product_channel_listing_update.py::test_product_channel_listing_update_available_for_purchase_product_without_category": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_collection.py::test_collection_query_by_slug": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_variant_query.py::test_get_variant_by_id_as_anonymous_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_variant.py::test_variant_stocks_create_stock_duplicated_warehouse_and_warehouse_already_exists": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/benchmark/test_variant.py::test_product_variant_create": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_variant_channel_listing_update.py::test_product_channel_listing_update_invalid_cost_price": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/channel/tests/test_base_channel_listing.py::test_validate_duplicated_channel_values": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_digital_content.py::test_fetch_all_digital_contents": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_attributes.py::test_assign_variant_attribute_having_multiselect_input_type": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product_pagination.py::test_products_pagination_with_filtering_by_product_types": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account_utils.py::test_get_user_permissions_only_permissions": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/benchmark/test_product.py::test_retrive_products_with_product_types_and_attributes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_collection_channel_listing_update.py::test_collection_channel_listing_update_remove_not_assigned_channel": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_bulk_delete.py::test_delete_product_media": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/core/tests/test_graphql.py::test_from_global_id_or_error_wth_type": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_category.py::test_create_category_with_given_slug[test-slug-test-slug]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/benchmark/test_collection.py::test_delete_collection": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_collection_filtering_and_sorting_with_channels.py::test_collections_with_sorting_and_not_existing_channel_asc[sort_by1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/deprecated/test_checkout_shipping_method_update.py::test_checkout_shipping_method_update_by_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_variant_with_filtering.py::test_products_pagination_with_filtering[filter_by0-variants0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product_sorting.py::test_sort_products_within_collection": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product_sorting_attributes.py::test_sort_product_by_attribute_using_attribute_having_no_products[DESC]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/deprecated/test_checkout_payment_create.py::test_checkout_add_payment_both_token_and_id_given": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/benchmark/test_variant_stocks.py::test_product_variants_stocks_delete_with_out_of_stock_webhook_many_calls": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/deprecated/test_product.py::test_product_query_by_slug_with_default_channel": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product_discounted_price.py::test_product_variant_delete_updates_discounted_price": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/giftcard/tests/mutations/test_gift_card_add_note.py::test_gift_card_add_note_as_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_variant_availability.py::test_variant_quantity_available_without_inventory_tracking_and_stocks": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product_filtering_and_sorting_with_channels.py::test_products_with_sorting_and_channel_USD[sort_by7-products_order7]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product_channel_listing_update.py::test_product_channel_listing_update_add_channel": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/shop/tests/test_gift_card_settings_update.py::test_gift_card_settings_update_by_customer": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_collection.py::test_collections_query_as_staff": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_variant_query.py::test_get_variant_with_id_and_sku": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_variant.py::test_product_variant_bulk_create_two_variants_duplicated_one_attribute_value": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/page/tests/test_page_types_sorting_and_filtering.py::test_filter_page_types[page-result_items1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_variant_channel_listing_update.py::test_variant_channel_listing_update_with_empty_input": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_digital_content.py::test_digital_content_query_invalid_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_attributes.py::test_assign_variant_attribute_to_product_type_with_disabled_variants": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/shipping/tests/test_bulk_delete.py::test_delete_shipping_methods": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product_pagination.py::test_collections_pagination_with_filtering[filter_by2-collections_order2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/benchmark/test_product.py::test_update_product": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_collection_channel_listing_update.py::test_collection_channel_listing_update_duplicated_channel_in_remove": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/giftcard/tests/mutations/test_gift_card_resend.py::test_resend_gift_card": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_bulk_delete.py::test_delete_categories_with_images": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_category.py::test_update_category_slug_and_name[--New name-Slug value cannot be blank.-slug]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/benchmark/test_collection.py::test_retrieve_collection_channel_listings": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/app/tests/mutations/test_app_create.py::test_app_create_mutation_superuser_can_create_app_with_any_perms": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_collection_filtering_and_sorting_with_channels.py::test_collections_with_sorting_and_channel_USD[sort_by2-collections_order2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_variant_with_filtering.py::test_products_pagination_with_filtering[filter_by5-variants5]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product_sorting.py::test_sort_products_by_rating[ASC-rating]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/app/tests/mutations/test_app_deactivate.py::test_deactivate_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product_sorting_attributes.py::test_sort_product_by_attribute_multiple_values[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/benchmark/test_variant_stocks.py::test_product_variants_stocks_update": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/deprecated/test_product.py::test_get_collections_from_product_as_anonymous": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/order/tests/test_fulfillment_refund_products.py::test_fulfillment_refund_products_fulfillment_lines_quantity_bigger_than_total": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product_discounted_price.py::test_sale_delete_updates_products_discounted_prices": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_variant_availability.py::test_variant_quantity_available_when_one_stock_is_exceeded": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product_filtering_and_sorting_with_channels.py::test_products_with_filtering_and_not_existing_channel[filter_by5]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/warehouse/tests/test_warehouse.py::test_applicable_for_click_and_collect_finds_warehouse_with_all_and_local": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product_channel_listing_update.py::test_product_channel_listing_update_publish_product_without_category": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_collection.py::test_add_products_to_collection_with_product_without_variants": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_variant_query.py::test_get_variant_with_sorted_attribute_values": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/deprecated/test_checkout_lines_update.py::test_checkout_lines_update_both_token_and_id_given": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_variant.py::test_product_variant_stocks_update_too_big_quantity_value": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_variant_channel_listing_update.py::test_variant_channel_listing_update_as_staff_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_digital_content.py::test_digital_content_create_mutation_default_settings": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/giftcard/tests/deprecated/test_gift_card_mutations.py::test_create_never_expiry_gift_card": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_attributes.py::test_assign_attribute_to_product_type_multiple_errors_returned": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_product_pagination.py::test_categories_pagination_with_filtering[filter_by1-categories_order1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/benchmark/test_product.py::test_product_details": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/core/tests/test_middleware.py::test_app_middleware_accepts_saleors_header": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_collection_channel_listing_update.py::test_collection_channel_listing_update_update_publication_date": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_bulk_delete.py::test_delete_product_types_invalid_object_typed_of_given_ids": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_category.py::test_update_category_slug_exists": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/discount/tests/test_voucher_channel_listing.py::test_voucher_channel_listing_update_duplicates_in_remove": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  }
+ },
+ "f2p_task": "FAIL",
+ "p2p_s_task": "PASS",
+ "p2p_u200_task": "PASS",
+ "resolved": false,
+ "flaky_under_patch": [
+  "saleor/graphql/product/tests/test_product.py::test_update_or_create_variant_stocks_when_stock_out_of_quantity"
+ ],
+ "sources": [
+  "episodes\\saleor-rc-c3b9e396b07d\\PLACEBO_HARD\\episode.json"
+ ],
+ "labels": [
+  "main|PLACEBO_HARD"
+ ],
+ "evaluation_sha256": "ce1318ba901ea652adf73f6d59ad1c401aff070054209fa1bb5fca61ca10e7f3"
+}
