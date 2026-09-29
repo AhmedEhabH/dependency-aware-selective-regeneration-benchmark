@@ -1,0 +1,22 @@
+diff --git a/saleor/warehouse/management.py b/saleor/warehouse/management.py
+--- a/saleor/warehouse/management.py
++++ b/saleor/warehouse/management.py
+@@ -248,7 +248,8 @@
+         .first()
+     )
+     if stock:
+-        stock.increase_stock(quantity, commit=True)
++        stock.quantity = max(stock.quantity + quantity, 0) if stock.quantity >= 0 else stock.quantity + quantity
++        stock.save(update_fields=["quantity"])
+     else:
+         stock = Stock.objects.create(
+             warehouse=warehouse, product_variant=order_line.variant, quantity=quantity
+@@ -412,7 +413,7 @@
+                 )
+             )
+             continue
+-        stock.quantity = stock.quantity - line_info.quantity
++        stock.quantity = max(stock.quantity - line_info.quantity, 0) if stock.quantity >= 0 else stock.quantity - line_info.quantity
+         stocks_to_update.append(stock)
+ 
+     if insufficient_stocks:

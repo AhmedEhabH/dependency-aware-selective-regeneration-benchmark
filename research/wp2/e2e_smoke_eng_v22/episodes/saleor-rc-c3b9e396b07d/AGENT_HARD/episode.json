@@ -1,0 +1,60 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v21",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-c3b9e396b07d",
+ "arm": "AGENT_HARD",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/warehouse/management.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/warehouse/management.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/warehouse/management.py"
+  ]
+ },
+ "prompt_sha256": "9040bbd8a7c2c19db7b0b8e1c56330c365af563bb9865626846b53a386849889",
+ "request_sha_initial": "17bffed2aa75b4caa0cdb873e6e086c4bb32340a7b5c4af05870906df8fe4bf6",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "repair_request_sha256": "",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790650269-npT7O7eHpwczd5Ov67bW",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 3613,
+   "completion_tokens": 2709,
+   "cost_usd_actual": 0.0037385,
+   "cost_usd_nominal": 0.0037385,
+   "finish_reason": "stop",
+   "response_sha256": "3a4d302f9df06bb3f0523b4340b1497656a21697c37bfad7cbe55ab4978c105b",
+   "request_sha": "17bffed2aa75b4caa0cdb873e6e086c4bb32340a7b5c4af05870906df8fe4bf6",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\e2e_smoke_eng_v22\\episodes\\saleor-rc-c3b9e396b07d\\AGENT_HARD\\calls\\1_initial.txt",
+   "raw_sha256": "3a4d302f9df06bb3f0523b4340b1497656a21697c37bfad7cbe55ab4978c105b"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "edited_files": [
+  "saleor/warehouse/management.py"
+ ],
+ "diff_sha256": "b2ea385fccf57903476248c718f1718c9f91f1c16731bc0a9411133c6e9aaadd",
+ "envelope": {},
+ "whitespace_tolerant_blocks": [],
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-29T02:51:28Z",
+ "episode_sha256": "06c88944007d3ec910096d2dbcc986070be598571489789a0e7f6a15f898f444"
+}

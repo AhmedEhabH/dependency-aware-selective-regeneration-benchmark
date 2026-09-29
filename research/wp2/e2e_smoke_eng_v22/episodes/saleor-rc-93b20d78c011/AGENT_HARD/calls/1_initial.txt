@@ -1,0 +1,25 @@
+I'll implement the feature to support querying users by email. Based on the code structure, I need to modify the schema to add a new field for looking up users by email.
+
+FILE: saleor/graphql/account/schema.py
+<<<<<<< SEARCH
+    user = graphene.Field(
+        User,
+        id=graphene.Argument(graphene.ID, description="ID of the user.", required=True),
+        description="Look up a user by ID.",
+    )
+
+    def resolve_address_validation_rules(
+        self, info, country_code, country_area=None, city=None, city_area=None
+=======
+    user = graphene.Field(
+        User,
+        id=graphene.Argument(graphene.ID, description="ID of the user."),
+        email=graphene.Argument(graphene.String, description="Email of the user."),
+        description="Look up a user by ID or email.",
+    )
+
+    def resolve_address_validation_rules(
+        self, info, country_code, country_area=None, city=None, city_area=None
+>>>>>>> REPLACE
+
+###

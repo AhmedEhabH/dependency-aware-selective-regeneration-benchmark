@@ -1,0 +1,14 @@
+diff --git a/saleor/warehouse/management.py b/saleor/warehouse/management.py
+--- a/saleor/warehouse/management.py
++++ b/saleor/warehouse/management.py
+@@ -121,7 +121,9 @@
+             stock_data.pk, 0
+         )
+ 
+-        quantity_available_in_stock = stock_data.quantity - quantity_allocated_in_stock
++        quantity_available_in_stock = max(
++            stock_data.quantity - quantity_allocated_in_stock, 0
++        )
+ 
+         quantity_to_allocate = min(
+             (quantity - quantity_allocated), quantity_available_in_stock

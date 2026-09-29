@@ -1,0 +1,266 @@
+Looking at the developer change description, I need to handle cases where `stock.quantity < 0` in the `deallocate_stock` function and when updating variant stocks. Let me analyze the code to understand where these changes need to be made.
+
+From the code, I can see that in `deallocate_stock` function, there's a potential issue when dealing with negative stock quantities. The function calculates `quantity_to_deallocate` but doesn't handle cases where stock quantity might be negative.
+
+Let me examine the relevant parts and make the necessary changes:
+
+FILE: saleor/warehouse/management.py
+<<<<<<< SEARCH
+def _create_allocations(
+    line_info: "OrderLineData",
+    stocks: List[StockData],
+    quantity_allocation_for_stocks: dict,
+    insufficient_stock: List[InsufficientStockData],
+):
+    quantity = line_info.quantity
+    quantity_allocated = 0
+    allocations = []
+    for stock_data in stocks:
+        quantity_allocated_in_stock = quantity_allocation_for_stocks.get(
+            stock_data.pk, 0
+        )
+
+        quantity_available_in_stock = stock_data.quantity - quantity_allocated_in_stock
+
+        quantity_to_allocate = min(
+            (quantity - quantity_allocated), quantity_available_in_stock
+        )
+        if quantity_to_allocate > 0:
+            allocations.append(
+                Allocation(
+                    order_line=line_info.line,
+                    stock_id=stock_data.pk,
+                    quantity_allocated=quantity_to_allocate,
+                )
+            )
+
+            quantity_allocated += quantity_to_allocate
+            if quantity_allocated == quantity:
+                return insufficient_stock, allocations
+
+    if not quantity_allocated == quantity:
+        insufficient_stock.append(
+            InsufficientStockData(
+                variant=line_info.variant, order_line=line_info.line  # type: ignore
+            )
+        )
+        return insufficient_stock, []
+=======
+def _create_allocations(
+    line_info: "OrderLineData",
+    stocks: List[StockData],
+    quantity_allocation_for_stocks: dict,
+    insufficient_stock: List[InsufficientStockData],
+):
+    quantity = line_info.quantity
+    quantity_allocated = 0
+    allocations = []
+    for stock_data in stocks:
+        quantity_allocated_in_stock = quantity_allocation_for_stocks.get(
+            stock_data.pk, 0
+        )
+
+        quantity_available_in_stock = max(
+            stock_data.quantity - quantity_allocated_in_stock, 0
+        )
+
+        quantity_to_allocate = min(
+            (quantity - quantity_allocated), quantity_available_in_stock
+        )
+        if quantity_to_allocate > 0:
+            allocations.append(
+                Allocation(
+                    order_line=line_info.line,
+                    stock_id=stock_data.pk,
+                    quantity_allocated=quantity_to_allocate,
+                )
+            )
+
+            quantity_allocated += quantity_to_allocate
+            if quantity_allocated == quantity:
+                return insufficient_stock, allocations
+
+    if not quantity_allocated == quantity:
+        insufficient_stock.append(
+            InsufficientStockData(
+                variant=line_info.variant, order_line=line_info.line  # type: ignore
+            )
+        )
+        return insufficient_stock, []
+>>>>>>> REPLACE
+
+FILE: saleor/warehouse/management.py
+<<<<<<< SEARCH
+def deallocate_stock(
+    order_lines_data: Iterable["OrderLineData"], manager: PluginsManager
+):
+    """Deallocate stocks for given `order_lines`.
+
+    Function lock for update stocks and allocations related to given `order_lines`.
+    Iterate over allocations sorted by `stock.pk` and deallocate as many items
+    as needed of available in stock for order line, until deallocated all required
+    quantity for the order line. If there is less quantity in stocks then
+    raise an exception.
+    """
+    lines = [line_info.line for line_info in order_lines_data]
+    lines_allocations = (
+        Allocation.objects.filter(order_line__in=lines)
+        .select_related("stock")
+        .select_for_update(
+            of=(
+                "self",
+                "stock",
+            )
+        )
+        .order_by("stock__pk")
+    )
+
+    line_to_allocations: Dict[int, List[Allocation]] = defaultdict(list)
+    for allocation in lines_allocations:
+        line_to_allocations[allocation.order_line_id].append(allocation)
+
+    allocations_to_update = []
+    not_dellocated_lines = []
+    for line_info in order_lines_data:
+        order_line = line_info.line
+        quantity = line_info.quantity
+        allocations = line_to_allocations[order_line.pk]
+        quantity_dealocated = 0
+        for allocation in allocations:
+            quantity_to_deallocate = min(
+                (quantity - quantity_dealocated), allocation.quantity_allocated
+            )
+            if quantity_to_deallocate > 0:
+                allocation.quantity_allocated = (
+                    allocation.quantity_allocated - quantity_to_deallocate
+                )
+                quantity_dealocated += quantity_to_deallocate
+                allocations_to_update.append(allocation)
+                if quantity_dealocated == quantity:
+                    break
+        if not quantity_dealocated == quantity:
+            not_dellocated_lines.append(order_line)
+
+    if not_dellocated_lines:
+        raise AllocationError(not_dellocated_lines)
+
+    allocations_before_update = list(
+        Allocation.objects.filter(
+            id__in=[a.id for a in allocations_to_update]
+        ).annotate_stock_available_quantity()
+    )
+
+    Allocation.objects.bulk_update(allocations_to_update, ["quantity_allocated"])
+
+    for allocation_before_update in allocations_before_update:
+        available_stock_now = Allocation.objects.available_quantity_for_stock(
+            allocation_before_update.stock
+        )
+        if (
+            allocation_before_update.stock_available_quantity == 0
+            and available_stock_now > 0
+        ):
+            transaction.on_commit(
+                lambda: manager.product_variant_back_in_stock(
+                    allocation_before_update.stock
+                )
+            )
+=======
+def deallocate_stock(
+    order_lines_data: Iterable["OrderLineData"], manager: PluginsManager
+):
+    """Deallocate stocks for given `order_lines`.
+
+    Function lock for update stocks and allocations related to given `order_lines`.
+    Iterate over allocations sorted by `stock.pk` and deallocate as many items
+    as needed of available in stock for order line, until deallocated all required
+    quantity for the order line. If there is less quantity in stocks then
+    raise an exception.
+    """
+    lines = [line_info.line for line_info in order_lines_data]
+    lines_allocations = (
+        Allocation.objects.filter(order_line__in=lines)
+        .select_related("stock")
+        .select_for_update(
+            of=(
+                "self",
+                "stock",
+            )
+        )
+        .order_by("stock__pk")
+    )
+
+    line_to_allocations: Dict[int, List[Allocation]] = defaultdict(list)
+    for allocation in lines_allocations:
+        line_to_allocations[allocation.order_line_id].append(allocation)
+
+    allocations_to_update = []
+    not_dellocated_lines = []
+    for line_info in order_lines_data:
+        order_line = line_info.line
+        quantity = line_info.quantity
+        allocations = line_to_allocations[order_line.pk]
+        quantity_dealocated = 0
+        for allocation in allocations:
+            quantity_to_deallocate = min(
+                (quantity - quantity_dealocated), allocation.quantity_allocated
+            )
+            if quantity_to_deallocate > 0:
+                allocation.quantity_allocated = (
+                    allocation.quantity_allocated - quantity_to_deallocate
+                )
+                quantity_dealocated += quantity_to_deallocate
+                allocations_to_update.append(allocation)
+                if quantity_dealocated == quantity:
+                    break
+        if not quantity_dealocated == quantity:
+            not_dellocated_lines.append(order_line)
+
+    if not_dellocated_lines:
+        raise AllocationError(not_dellocated_lines)
+
+    allocations_before_update = list(
+        Allocation.objects.filter(
+            id__in=[a.id for a in allocations_to_update]
+        ).annotate_stock_available_quantity()
+    )
+
+    Allocation.objects.bulk_update(allocations_to_update, ["quantity_allocated"])
+
+    for allocation_before_update in allocations_before_update:
+        available_stock_now = Allocation.objects.available_quantity_for_stock(
+            allocation_before_update.stock
+        )
+        if (
+            allocation_before_update.stock_available_quantity == 0
+            and available_stock_now > 0
+        ):
+            transaction.on_commit(
+                lambda: manager.product_variant_back_in_stock(
+                    allocation_before_update.stock
+                )
+            )
+>>>>>>> REPLACE
+
+FILE: saleor/warehouse/availability.py
+<<<<<<< SEARCH
+def _get_available_quantity(stocks: StockQuerySet) -> int:
+    results = stocks.aggregate(
+        total_quantity=Coalesce(Sum("quantity", distinct=True), 0),
+        quantity_allocated=Coalesce(Sum("allocations__quantity_allocated"), 0),
+    )
+    total_quantity = results["total_quantity"]
+    quantity_allocated = results["quantity_allocated"]
+
+    return max(total_quantity - quantity_allocated, 0)
+=======
+def _get_available_quantity(stocks: StockQuerySet) -> int:
+    results = stocks.aggregate(
+        total_quantity=Coalesce(Sum("quantity", distinct=True), 0),
+        quantity_allocated=Coalesce(Sum("allocations__quantity_allocated"), 0),
+    )
+    total_quantity = results["total_quantity"]
+    quantity_allocated = results["quantity_allocated"]
+
+    return max(total_quantity - quantity_allocated, 0)
+>>>>>>> REPLACE

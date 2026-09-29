@@ -1,0 +1,38 @@
+FILE: saleor/account/models.py
+<<<<<<< SEARCH
+    def staff(self):
+        return self.get_queryset().filter(is_staff=True)
+
+
+class User(PermissionsMixin, ModelWithMetadata, AbstractBaseUser):
+=======
+    def staff(self):
+        return self.get_queryset().filter(is_staff=True)
+
+    def get_by_email(self, email):
+        return self.get_queryset().filter(email__iexact=email).first()
+
+
+class User(PermissionsMixin, ModelWithMetadata, AbstractBaseUser):
+>>>>>>> REPLACE
+
+FILE: saleor/graphql/account/schema.py
+<<<<<<< SEARCH
+    user = graphene.Field(
+        User,
+        id=graphene.Argument(graphene.ID, description="ID of the user.", required=True),
+        description="Look up a user by ID.",
+    )
+
+=======
+    user = graphene.Field(
+        User,
+        id=graphene.Argument(graphene.ID, description="ID of the user."),
+        email=graphene.Argument(
+            graphene.String, description="Email of the user."
+        ),
+        description="Look up a user by ID or email.",
+    )
+
+>>>>>>> REPLACE
+```

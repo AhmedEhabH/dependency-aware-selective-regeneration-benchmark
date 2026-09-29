@@ -1,0 +1,86 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v21",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-c3b9e396b07d",
+ "arm": "PLACEBO_HARD",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/csv/utils/export.py",
+  "saleor/graphql/attribute/types.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/csv/utils/export.py",
+   "saleor/graphql/attribute/types.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/csv/utils/export.py",
+   "saleor/graphql/attribute/types.py"
+  ]
+ },
+ "prompt_sha256": "fc9cc53348de8d090ea2ddf7e939368c6d696cd558691ca29b4fbf9ac92c7c54",
+ "request_sha_initial": "bcaa8ccb58b4dbd4b4b0515640be39768984642cc2f336d3f4996286ef3f1370",
+ "request_sha_repair": "154a780af727add63cbb000a7ddc55f974647b7f658ed78ccca4418cf2d25071",
+ "repair_component_hashes": {
+  "message_1_system": "020a8f57bba533f9a332e9d30a96892bc5893d1b20f376cbde591a1b5cc87922",
+  "message_2_user": "fc9cc53348de8d090ea2ddf7e939368c6d696cd558691ca29b4fbf9ac92c7c54",
+  "message_3_assistant": "8d2ed098c5ae214f3db4ebabd7141e6710a41232ae3055901a5ca2387cf54d9f",
+  "message_4_user": "b4829a868ca41a065d606155b61dc13c9b13f9173faa7cc5801508e0c3834081"
+ },
+ "repair_request_sha256": "154a780af727add63cbb000a7ddc55f974647b7f658ed78ccca4418cf2d25071",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790650287-DdmCwq7tUZ9tAi5nGD5X",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 3582,
+   "completion_tokens": 148,
+   "cost_usd_actual": 0.001165,
+   "cost_usd_nominal": 0.001165,
+   "finish_reason": "stop",
+   "response_sha256": "8d2ed098c5ae214f3db4ebabd7141e6710a41232ae3055901a5ca2387cf54d9f",
+   "request_sha": "bcaa8ccb58b4dbd4b4b0515640be39768984642cc2f336d3f4996286ef3f1370",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\e2e_smoke_eng_v22\\episodes\\saleor-rc-c3b9e396b07d\\PLACEBO_HARD\\calls\\1_initial.txt",
+   "raw_sha256": "8d2ed098c5ae214f3db4ebabd7141e6710a41232ae3055901a5ca2387cf54d9f"
+  },
+  {
+   "kind": "repair",
+   "index": 2,
+   "request_id": "gen-1790650294-qQERO4Wi5K646AcqkwS7",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 3786,
+   "completion_tokens": 6569,
+   "cost_usd_actual": 0.0069624,
+   "cost_usd_nominal": 0.0069624,
+   "finish_reason": "stop",
+   "response_sha256": "fd25230e647e50261550dc0f1a560e6b34aca3b0b39ae8cea2d96bad8b1fd36e",
+   "request_sha": "154a780af727add63cbb000a7ddc55f974647b7f658ed78ccca4418cf2d25071",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\e2e_smoke_eng_v22\\episodes\\saleor-rc-c3b9e396b07d\\PLACEBO_HARD\\calls\\2_repair.txt",
+   "raw_sha256": "fd25230e647e50261550dc0f1a560e6b34aca3b0b39ae8cea2d96bad8b1fd36e"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": true,
+ "edited_files": [
+  "saleor/csv/utils/export.py",
+  "saleor/graphql/attribute/types.py"
+ ],
+ "diff_sha256": "16ec795185b645d8d57bd90786f83612f045ee5efe642dd1520f3496ef3b03d3",
+ "envelope": {},
+ "whitespace_tolerant_blocks": [],
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-29T02:52:16Z",
+ "episode_sha256": "4fb9c1896b79b8713c875b98b088528c71959ca5a5f0d368c4bfa4ac09b3ba97"
+}

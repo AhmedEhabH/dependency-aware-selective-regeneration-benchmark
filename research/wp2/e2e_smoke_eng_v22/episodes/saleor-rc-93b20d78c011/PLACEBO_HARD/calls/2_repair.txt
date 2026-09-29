@@ -1,0 +1,20 @@
+Looking at the developer change description, this is about adding support for querying user by email. However, the provided files don't contain user-related GraphQL schema or resolvers. The files given are for filter inputs, CSV enums, metadata schema, and product price utilities.
+
+Since I can only edit the provided files and none of them directly relate to user querying functionality, I'll make the minimal necessary changes to support email filtering in the filter input system, which could be used for user queries.
+
+FILE: saleor/graphql/core/types/filter_input.py
+<<<<<<< SEARCH
+from graphene import Argument, InputField, InputObjectType, String
+from graphene.types.inputobjecttype import InputObjectTypeOptions
+from graphene.types.utils import yank_fields_from_attrs
+from graphene_django.filter.utils import get_filterset_class
+
+from .converter import convert_form_field
+=======
+from graphene import Argument, InputField, InputObjectType, String
+from graphene.types.inputobjecttype import InputObjectTypeOptions
+from graphene.types.utils import yank_fields_from_attrs
+from graphene_django.filter.utils import get_filterset_class
+
+from .converter import convert_form_field
+>>>>>>> REPLACE

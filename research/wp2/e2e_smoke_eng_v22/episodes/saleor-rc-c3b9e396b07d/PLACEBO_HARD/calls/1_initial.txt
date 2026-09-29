@@ -1,0 +1,7 @@
+The developer change description mentions handling `stock.quantity < 0` in deallocate stock and updating variant stocks, and removing redundant assertions. However, neither of the provided files (`saleor/csv/utils/export.py` and `saleor/graphql/attribute/types.py`) appear to contain any stock-related logic or assertions that would be relevant to this change.
+
+The files provided seem unrelated to stock management or variant stock updates. The actual changes would likely need to be made in files related to stock management, such as those in `saleor/warehouse/` or similar modules.
+
+Since the provided files don't contain the relevant code to implement the described changes, I'm returning them unchanged.
+
+No changes needed for the provided files based on the description.

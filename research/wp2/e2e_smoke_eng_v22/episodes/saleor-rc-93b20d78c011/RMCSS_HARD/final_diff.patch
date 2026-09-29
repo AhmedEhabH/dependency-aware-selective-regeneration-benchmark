@@ -1,0 +1,30 @@
+diff --git a/saleor/account/models.py b/saleor/account/models.py
+--- a/saleor/account/models.py
++++ b/saleor/account/models.py
+@@ -132,6 +132,9 @@
+     def staff(self):
+         return self.get_queryset().filter(is_staff=True)
+ 
++    def get_by_email(self, email):
++        return self.get_queryset().filter(email__iexact=email).first()
++
+ 
+ class User(PermissionsMixin, ModelWithMetadata, AbstractBaseUser):
+     email = models.EmailField(unique=True)
+diff --git a/saleor/graphql/account/schema.py b/saleor/graphql/account/schema.py
+--- a/saleor/graphql/account/schema.py
++++ b/saleor/graphql/account/schema.py
+@@ -131,8 +131,11 @@
+     )
+     user = graphene.Field(
+         User,
+-        id=graphene.Argument(graphene.ID, description="ID of the user.", required=True),
+-        description="Look up a user by ID.",
++        id=graphene.Argument(graphene.ID, description="ID of the user."),
++        email=graphene.Argument(
++            graphene.String, description="Email of the user."
++        ),
++        description="Look up a user by ID or email.",
+     )
+ 
+     def resolve_address_validation_rules(

@@ -1,0 +1,71 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v21",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-93b20d78c011",
+ "arm": "GOLD_HARD",
+ "status": "APPLIED",
+ "editable_set": [
+  "CHANGELOG.md",
+  "saleor/graphql/account/resolvers.py",
+  "saleor/graphql/account/schema.py"
+ ],
+ "excluded": {
+  "editable": [
+   "CHANGELOG.md",
+   "saleor/graphql/account/resolvers.py",
+   "saleor/graphql/account/schema.py"
+  ],
+  "excluded_large": [
+   "saleor/graphql/schema.graphql"
+  ],
+  "excluded_budget": [],
+  "raw": [
+   "CHANGELOG.md",
+   "saleor/graphql/account/resolvers.py",
+   "saleor/graphql/account/schema.py",
+   "saleor/graphql/schema.graphql"
+  ]
+ },
+ "prompt_sha256": "c796a7f650bd0f217c5bfb65defa7efecab0fd298e6ffc0a6bbd0dbef3ec3650",
+ "request_sha_initial": "57e0b8b4af189f2598dca8c1bd5bb07c8663ba1f301ed821a12e3ec71707abb9",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "repair_request_sha256": "",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790650188-6cxe2r57PkQV04hnoUTc",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 19583,
+   "completion_tokens": 758,
+   "cost_usd_actual": 0.0065913,
+   "cost_usd_nominal": 0.0065913,
+   "finish_reason": "stop",
+   "response_sha256": "ed18ba1a231444b11d977846af09ba1037e67c4c422d672eb1ed5326ade5cc77",
+   "request_sha": "57e0b8b4af189f2598dca8c1bd5bb07c8663ba1f301ed821a12e3ec71707abb9",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\e2e_smoke_eng_v22\\episodes\\saleor-rc-93b20d78c011\\GOLD_HARD\\calls\\1_initial.txt",
+   "raw_sha256": "ed18ba1a231444b11d977846af09ba1037e67c4c422d672eb1ed5326ade5cc77"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "edited_files": [
+  "CHANGELOG.md",
+  "saleor/graphql/account/resolvers.py",
+  "saleor/graphql/account/schema.py"
+ ],
+ "diff_sha256": "4af3520067af764020b8b1cc94f59da89baff7bb43bf59e007f17b91a70b78c3",
+ "envelope": {},
+ "whitespace_tolerant_blocks": [],
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-29T02:49:57Z",
+ "episode_sha256": "e8152bf2e76365ab2144409dc1a3b2eabd8618f3f640089aa3fdde03db241b19"
+}

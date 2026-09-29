@@ -1,0 +1,19 @@
+Based on the developer change description about adding support for querying user by email, I need to examine the provided files to understand where changes might be needed. However, none of the provided files seem directly related to user querying functionality.
+
+Looking at the files:
+1. `saleor/graphql/core/types/filter_input.py` - Contains filter input types
+2. `saleor/graphql/csv/enums.py` - Contains CSV-related enums
+3. `saleor/graphql/meta/schema.py` - Contains metadata mutations
+4. `saleor/product/utils/variant_prices.py` - Contains product price utilities
+
+None of these files appear to be directly involved in user querying by email functionality. The change description suggests this is about adding a way to query users by email, which would typically involve:
+
+1. User schema/resolver changes
+2. Filter additions for email field
+3. Possibly new query endpoints
+
+Since none of the provided files match what would need to be changed for querying users by email, and following the rules strictly about only editing the provided files, I cannot make meaningful changes to implement this feature with the given files.
+
+However, if I had to make some relevant changes within the constraint of these files, the most logical place would be to ensure filter input types can handle email filtering, but there's no explicit email-related content to modify in the provided files.
+
+No changes can be made to implement the described functionality with the provided files.
