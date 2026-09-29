@@ -1,0 +1,749 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="10" skipped="0" tests="55" time="139.840" timestamp="2026-09-28T23:11:44.080641-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.discount.tests.mutations.test_voucher_update" name="test_update_voucher" time="126.115" /><testcase classname="saleor.graphql.discount.tests.mutations.test_voucher_update" name="test_update_voucher_doesnt_trigger_voucher_updated_when_only_codes_added" time="0.265" /><testcase classname="saleor.graphql.discount.tests.mutations.test_voucher_update" name="test_update_voucher_single_use_voucher_already_used_in_checkout" time="0.101" /><testcase classname="saleor.graphql.discount.tests.mutations.test_voucher_update" name="test_update_voucher_single_use_voucher_already_used_in_order" time="0.088" /><testcase classname="saleor.graphql.discount.tests.mutations.test_voucher_update" name="test_update_voucher_single_use_voucher_already_used_in_order_line" time="0.271" /><testcase classname="saleor.graphql.discount.tests.mutations.test_voucher_update" name="test_update_voucher_trigger_webhook" time="0.180" /><testcase classname="saleor.graphql.discount.tests.mutations.test_voucher_update" name="test_update_voucher_usage_limit_order_with_given_voucher_code_exists" time="0.077"><failure message="AssertionError: assert not [{'code': 'VOUCHER_ALREADY_USED', 'field': 'usageLimit', 'message': 'Cannot change usage limit setting when any voucher code has already been used.', 'voucherCodes': None}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7d70da7aa8a0&gt;
+voucher = &lt;Voucher: Voucher object (7)&gt;
+permission_manage_discounts = &lt;Permission: discount | promotion | Manage promotions and vouchers.&gt;
+order = &lt;Order #UUID('42d1baee-3b98-493f-85e2-370fd8af6192')&gt;
+
+    def test_update_voucher_usage_limit_order_with_given_voucher_code_exists(
+        staff_api_client,
+        voucher,
+        permission_manage_discounts,
+        order,
+    ):
+        """Ensure the voucher limit can be updated when the order has the same voucher code.
+    
+        The voucher usage limit should be updated if an order contains a voucher code that
+        matches an existing order’s voucher code, but the voucher associated with
+        this code no longer exists.
+        """
+        # given
+        assert voucher.usage_limit is None
+        code_instance = voucher.codes.first()
+    
+        # set the voucher code for the order, but left the voucher field empty,
+        # it simulates the situation when the voucher was deleted, and this code was the
+        # part of the different voucher
+        order.voucher_code = code_instance.code
+        order.voucher = None
+        order.save(update_fields=["voucher_code", "voucher"])
+    
+        usage_limit = 10
+        variables = {
+            "id": graphene.Node.to_global_id("Voucher", voucher.id),
+            "input": {"usageLimit": usage_limit},
+        }
+    
+        # when
+        response = staff_api_client.post_graphql(
+            UPDATE_VOUCHER_MUTATION, variables, permissions=[permission_manage_discounts]
+        )
+        content = get_graphql_content(response)
+    
+        # then
+        errors = content["data"]["voucherUpdate"]["errors"]
+&gt;       assert not errors
+E       AssertionError: assert not [{'code': 'VOUCHER_ALREADY_USED', 'field': 'usageLimit', 'message': 'Cannot change usage limit setting when any voucher code has already been used.', 'voucherCodes': None}]
+
+saleor/graphql/discount/tests/mutations/test_voucher_update.py:554: AssertionError</failure></testcase><testcase classname="saleor.graphql.discount.tests.mutations.test_voucher_update" name="test_update_voucher_usage_limit_the_same_value" time="0.086" /><testcase classname="saleor.graphql.discount.tests.mutations.test_voucher_update" name="test_update_voucher_usage_limit_voucher_already_used" time="0.068" /><testcase classname="saleor.graphql.discount.tests.mutations.test_voucher_update" name="test_update_voucher_with_deprecated_code_field" time="0.083" /><testcase classname="saleor.graphql.discount.tests.mutations.test_voucher_update" name="test_update_voucher_without_codes" time="0.088" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_add_voucher_code_remove_gift_promotion" time="0.467" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_add_voucher_code_remove_order_promotion" time="0.325" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_assign_user_when_existing_customer_email_provided" time="0.224" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_by_app" time="0.232" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_by_both_id_and_external_reference" time="0.048" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_by_external_reference" time="0.220" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_by_external_reference_not_existing" time="0.046" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_by_user_no_channel_access" time="0.155" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_clear_voucher" time="0.161"><failure message="AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 6, 'column': 13}], 'path': ['draftOrderUpdate'], 'extensions': {'exception': {'code': 'ImportError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7d70d9c60440&gt;
+permission_group_manage_orders = &lt;Group: Manage orders group.&gt;
+draft_order = &lt;Order #UUID('2579e13b-a4b6-4ae1-bc2a-748b528a99bb')&gt;
+voucher = &lt;Voucher: Voucher object (17)&gt;
+
+    def test_draft_order_update_clear_voucher(
+        staff_api_client,
+        permission_group_manage_orders,
+        draft_order,
+        voucher,
+    ):
+        # given
+        order = draft_order
+        order.voucher = voucher
+        code_instance = voucher.codes.first()
+        order.voucher_code = code_instance.code
+        order.save(update_fields=["voucher", "voucher_code"])
+    
+        code_instance.used += 1
+        code_instance.save(update_fields=["used"])
+        code_used = code_instance.used
+    
+        voucher.usage_limit = 5
+        voucher.save(update_fields=["usage_limit"])
+    
+        voucher_listing = voucher.channel_listings.get(channel=order.channel)
+        discount_amount = voucher_listing.discount_value
+        order.discounts.create(
+            voucher=voucher,
+            value=discount_amount,
+            type=DiscountType.VOUCHER,
+        )
+    
+        order.total_gross_amount -= discount_amount
+        order.total_net_amount -= discount_amount
+        order.save(update_fields=["total_net_amount", "total_gross_amount"])
+    
+        permission_group_manage_orders.user_set.add(staff_api_client.user)
+        query = DRAFT_ORDER_UPDATE_MUTATION
+        order_id = graphene.Node.to_global_id("Order", order.id)
+        order_total = order.undiscounted_total_net_amount
+    
+        variables = {
+            "id": order_id,
+            "input": {
+                "voucher": None,
+            },
+        }
+    
+        # when
+        response = staff_api_client.post_graphql(query, variables)
+    
+        # then
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/order/tests/mutations/test_draft_order_update.py:511: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 6, 'column': 13}], 'path': ['draftOrderUpdate'], 'extensions': {'exception': {'code': 'ImportError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_clear_voucher_and_reduce_voucher_usage" time="0.157"><failure message="AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 6, 'column': 13}], 'path': ['draftOrderUpdate'], 'extensions': {'exception': {'code': 'ImportError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7d70d9c63b90&gt;
+permission_group_manage_orders = &lt;Group: Manage orders group.&gt;
+draft_order = &lt;Order #UUID('57d39d85-06a6-4e4e-bc4e-70f59f698e0d')&gt;
+voucher = &lt;Voucher: Voucher object (18)&gt;
+
+    def test_draft_order_update_clear_voucher_and_reduce_voucher_usage(
+        staff_api_client,
+        permission_group_manage_orders,
+        draft_order,
+        voucher,
+    ):
+        # given
+        order = draft_order
+        order.voucher = voucher
+        code_instance = voucher.codes.first()
+        order.voucher_code = code_instance.code
+        order.save(update_fields=["voucher", "voucher_code"])
+    
+        code_instance.used += 1
+        code_instance.save(update_fields=["used"])
+        code_used = code_instance.used
+    
+        voucher.usage_limit = 5
+        voucher.save(update_fields=["usage_limit"])
+    
+        channel = order.channel
+        channel.include_draft_order_in_voucher_usage = True
+        channel.save(update_fields=["include_draft_order_in_voucher_usage"])
+    
+        voucher_listing = voucher.channel_listings.get(channel=channel)
+        discount_amount = voucher_listing.discount_value
+        order.discounts.create(
+            voucher=voucher,
+            value=discount_amount,
+            type=DiscountType.VOUCHER,
+        )
+    
+        order.total_gross_amount -= discount_amount
+        order.total_net_amount -= discount_amount
+        order.save(update_fields=["total_net_amount", "total_gross_amount"])
+    
+        permission_group_manage_orders.user_set.add(staff_api_client.user)
+        query = DRAFT_ORDER_UPDATE_MUTATION
+        order_id = graphene.Node.to_global_id("Order", order.id)
+        order_total = order.undiscounted_total_net_amount
+    
+        variables = {
+            "id": order_id,
+            "input": {
+                "voucher": None,
+            },
+        }
+    
+        # when
+        response = staff_api_client.post_graphql(query, variables)
+    
+        # then
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/order/tests/mutations/test_draft_order_update.py:647: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 6, 'column': 13}], 'path': ['draftOrderUpdate'], 'extensions': {'exception': {'code': 'ImportError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_clear_voucher_code" time="0.163"><failure message="AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 6, 'column': 13}], 'path': ['draftOrderUpdate'], 'extensions': {'exception': {'code': 'ImportError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7d70da9d8140&gt;
+permission_group_manage_orders = &lt;Group: Manage orders group.&gt;
+draft_order = &lt;Order #UUID('b4c0943e-3517-415d-9896-0da711bfd3af')&gt;
+voucher = &lt;Voucher: Voucher object (19)&gt;
+
+    def test_draft_order_update_clear_voucher_code(
+        staff_api_client,
+        permission_group_manage_orders,
+        draft_order,
+        voucher,
+    ):
+        # given
+        order = draft_order
+        code_instance = voucher.codes.first()
+        order.voucher = voucher
+        order.voucher_code = code_instance.code
+        order.save(update_fields=["voucher", "voucher_code"])
+    
+        code_instance.used += 1
+        code_instance.save(update_fields=["used"])
+        code_used = code_instance.used
+    
+        voucher.usage_limit = 5
+        voucher.save(update_fields=["usage_limit"])
+    
+        voucher_listing = voucher.channel_listings.get(channel=order.channel)
+        discount_amount = voucher_listing.discount_value
+        order.discounts.create(
+            voucher=voucher,
+            value=discount_amount,
+            type=DiscountType.VOUCHER,
+        )
+    
+        order.total_gross_amount -= discount_amount
+        order.total_net_amount -= discount_amount
+        order.save(update_fields=["total_net_amount", "total_gross_amount"])
+    
+        permission_group_manage_orders.user_set.add(staff_api_client.user)
+        query = DRAFT_ORDER_UPDATE_MUTATION
+        order_id = graphene.Node.to_global_id("Order", order.id)
+        order_total = order.undiscounted_total_net_amount
+    
+        variables = {
+            "id": order_id,
+            "input": {
+                "voucherCode": None,
+            },
+        }
+    
+        # when
+        response = staff_api_client.post_graphql(query, variables)
+    
+        # then
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/order/tests/mutations/test_draft_order_update.py:577: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 6, 'column': 13}], 'path': ['draftOrderUpdate'], 'extensions': {'exception': {'code': 'ImportError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_clear_voucher_code_and_reduce_voucher_usage" time="0.153"><failure message="AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 6, 'column': 13}], 'path': ['draftOrderUpdate'], 'extensions': {'exception': {'code': 'ImportError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7d70da4cddf0&gt;
+permission_group_manage_orders = &lt;Group: Manage orders group.&gt;
+draft_order = &lt;Order #UUID('67d3d822-92f4-479c-92d8-b0e1efcf985d')&gt;
+voucher = &lt;Voucher: Voucher object (20)&gt;
+
+    def test_draft_order_update_clear_voucher_code_and_reduce_voucher_usage(
+        staff_api_client,
+        permission_group_manage_orders,
+        draft_order,
+        voucher,
+    ):
+        # given
+        order = draft_order
+        code_instance = voucher.codes.first()
+        order.voucher = voucher
+        order.voucher_code = code_instance.code
+        order.save(update_fields=["voucher", "voucher_code"])
+    
+        code_instance.used += 1
+        code_instance.save(update_fields=["used"])
+        code_used = code_instance.used
+    
+        voucher.usage_limit = 5
+        voucher.save(update_fields=["usage_limit"])
+    
+        channel = order.channel
+        channel.include_draft_order_in_voucher_usage = True
+        channel.save(update_fields=["include_draft_order_in_voucher_usage"])
+    
+        voucher_listing = voucher.channel_listings.get(channel=channel)
+        discount_amount = voucher_listing.discount_value
+        order.discounts.create(
+            voucher=voucher,
+            value=discount_amount,
+            type=DiscountType.VOUCHER,
+        )
+    
+        order.total_gross_amount -= discount_amount
+        order.total_net_amount -= discount_amount
+        order.save(update_fields=["total_net_amount", "total_gross_amount"])
+    
+        permission_group_manage_orders.user_set.add(staff_api_client.user)
+        query = DRAFT_ORDER_UPDATE_MUTATION
+        order_id = graphene.Node.to_global_id("Order", order.id)
+        order_total = order.undiscounted_total_net_amount
+    
+        variables = {
+            "id": order_id,
+            "input": {
+                "voucherCode": None,
+            },
+        }
+    
+        # when
+        response = staff_api_client.post_graphql(query, variables)
+    
+        # then
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/order/tests/mutations/test_draft_order_update.py:717: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 6, 'column': 13}], 'path': ['draftOrderUpdate'], 'extensions': {'exception': {'code': 'ImportError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_doing_nothing_generates_no_events" time="0.139" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_ensure_entire_order_voucher_discount_is_overridden" time="0.279" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_existing_channel_id" time="0.130" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_free_shipping_voucher" time="0.196" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_invalid_address" time="0.217" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_invalid_address_skip_validation" time="0.419" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_no_shipping_method_channel_listings" time="0.146" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_order_promotion" time="0.395" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_remove_entire_order_voucher" time="0.150"><failure message="AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 6, 'column': 13}], 'path': ['draftOrderUpdate'], 'extensions': {'exception': {'code': 'ImportError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7d70dab68920&gt;
+permission_group_manage_orders = &lt;Group: Manage orders group.&gt;
+draft_order = &lt;Order #UUID('51cf935d-70a5-4677-84f3-36245523416f')&gt;
+voucher = &lt;Voucher: Voucher object (25)&gt;
+graphql_address_data = {'city': 'Wrocław', 'companyName': 'Mirumee Software', 'country': 'PL', 'countryArea': '', ...}
+channel_USD = &lt;Channel: main&gt;
+
+    def test_draft_order_update_remove_entire_order_voucher(
+        staff_api_client,
+        permission_group_manage_orders,
+        draft_order,
+        voucher,
+        graphql_address_data,
+        channel_USD,
+    ):
+        # given
+        query = DRAFT_ORDER_UPDATE_MUTATION
+        permission_group_manage_orders.user_set.add(staff_api_client.user)
+    
+        order = draft_order
+        assert voucher.type == VoucherType.ENTIRE_ORDER
+        assert voucher.discount_value_type == DiscountValueType.FIXED
+    
+        order.voucher = voucher
+        order.voucher_code = voucher.codes.first().code
+        order.save(update_fields=["voucher_id", "voucher_code"])
+    
+        currency = order.currency
+        undiscounted_subtotal = zero_money(currency)
+        for line in order.lines.all():
+            undiscounted_subtotal += line.base_unit_price * line.quantity
+    
+        voucher_listing = voucher.channel_listings.get(channel=channel_USD)
+        discount_value = voucher_listing.discount_value
+    
+        order_discount = order.discounts.create(
+            voucher=voucher,
+            value=discount_value,
+            value_type=DiscountValueType.FIXED,
+            type=DiscountType.VOUCHER,
+        )
+    
+        order_id = graphene.Node.to_global_id("Order", order.id)
+        variables = {"id": order_id, "input": {"voucherCode": None}}
+    
+        # when
+        response = staff_api_client.post_graphql(query, variables)
+    
+        # then
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/order/tests/mutations/test_draft_order_update.py:2160: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 6, 'column': 13}], 'path': ['draftOrderUpdate'], 'extensions': {'exception': {'code': 'ImportError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_remove_voucher_code_add_gift_promotion" time="0.204"><failure message="AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 6, 'column': 13}], 'path': ['draftOrderUpdate'], 'extensions': {'exception': {'code': 'ImportError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7d70da701bb0&gt;
+permission_group_manage_orders = &lt;Group: Manage orders group.&gt;
+draft_order = &lt;Order #UUID('729c964b-0260-4d8f-97f2-fa86b88f26db')&gt;
+voucher = &lt;Voucher: Voucher object (26)&gt;
+gift_promotion_rule = &lt;PromotionRule: PromotionRule object (09bb89e2-0d7e-4381-8aed-1cfcf1886816)&gt;
+
+    def test_draft_order_update_remove_voucher_code_add_gift_promotion(
+        staff_api_client,
+        permission_group_manage_orders,
+        draft_order,
+        voucher,
+        gift_promotion_rule,
+    ):
+        # given
+        order = draft_order
+        order.voucher = voucher
+        order.save(update_fields=["voucher"])
+        assert order.lines.count() == 2
+    
+        voucher_listing = voucher.channel_listings.get(channel=order.channel)
+        discount_amount = voucher_listing.discount_value
+        voucher_discount = order.discounts.create(
+            voucher=voucher,
+            value=discount_amount,
+            type=DiscountType.VOUCHER,
+        )
+    
+        order.total_gross_amount -= discount_amount
+        order.total_net_amount -= discount_amount
+        order.save(update_fields=["total_net_amount", "total_gross_amount"])
+    
+        permission_group_manage_orders.user_set.add(staff_api_client.user)
+        query = DRAFT_ORDER_UPDATE_MUTATION
+        order_id = graphene.Node.to_global_id("Order", order.id)
+    
+        variables = {
+            "id": order_id,
+            "input": {
+                "voucherCode": None,
+            },
+        }
+    
+        # when
+        response = staff_api_client.post_graphql(query, variables)
+    
+        # then
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/order/tests/mutations/test_draft_order_update.py:1156: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 6, 'column': 13}], 'path': ['draftOrderUpdate'], 'extensions': {'exception': {'code': 'ImportError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_remove_voucher_code_add_order_promotion" time="0.141"><failure message="AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 6, 'column': 13}], 'path': ['draftOrderUpdate'], 'extensions': {'exception': {'code': 'ImportError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7d70da82c1a0&gt;
+permission_group_manage_orders = &lt;Group: Manage orders group.&gt;
+draft_order = &lt;Order #UUID('3a88b04d-ad76-4922-a9dc-0a0b45ff8dd4')&gt;
+voucher = &lt;Voucher: Voucher object (27)&gt;
+order_promotion_rule = &lt;PromotionRule: PromotionRule object (24e3387b-7a3d-469e-88ea-0af5e43bf0aa)&gt;
+
+    def test_draft_order_update_remove_voucher_code_add_order_promotion(
+        staff_api_client,
+        permission_group_manage_orders,
+        draft_order,
+        voucher,
+        order_promotion_rule,
+    ):
+        # given
+        order = draft_order
+        order.voucher = voucher
+        order.save(update_fields=["voucher"])
+    
+        voucher_listing = voucher.channel_listings.get(channel=order.channel)
+        discount_amount = voucher_listing.discount_value
+        voucher_discount = order.discounts.create(
+            voucher=voucher,
+            value=discount_amount,
+            type=DiscountType.VOUCHER,
+        )
+    
+        order.total_gross_amount -= discount_amount
+        order.total_net_amount -= discount_amount
+        order.save(update_fields=["total_net_amount", "total_gross_amount"])
+    
+        permission_group_manage_orders.user_set.add(staff_api_client.user)
+        query = DRAFT_ORDER_UPDATE_MUTATION
+        order_id = graphene.Node.to_global_id("Order", order.id)
+    
+        variables = {
+            "id": order_id,
+            "input": {
+                "voucherCode": None,
+            },
+        }
+    
+        # when
+        response = staff_api_client.post_graphql(query, variables)
+    
+        # then
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/order/tests/mutations/test_draft_order_update.py:1093: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 6, 'column': 13}], 'path': ['draftOrderUpdate'], 'extensions': {'exception': {'code': 'ImportError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_replace_entire_order_voucher_with_shipping_voucher" time="0.291" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_shipping_method" time="0.280" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_shipping_method_clear_with_none" time="0.261" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_shipping_method_from_different_channel" time="0.147" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_shipping_method_prices_updates" time="0.278" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_triggers_webhooks" time="0.137"><failure message="AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 6, 'column': 13}], 'path': ['draftOrderUpdate'], 'extensions': {'exception': {'code': 'ImportError'}}}]">mocked_send_webhook_request_async = &lt;MagicMock name='apply_async' id='137923657576096'&gt;
+mocked_send_webhook_request_sync = &lt;MagicMock name='send_webhook_request_sync' id='137923655817728'&gt;
+wrapped_call_order_event = &lt;MagicMock name='call_order_event' id='137923641675216'&gt;
+setup_order_webhooks = &lt;function setup_order_webhooks.&lt;locals&gt;._setup at 0x7d70d958dc60&gt;
+voucher = &lt;Voucher: Voucher object (30)&gt;
+app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7d70dad5b620&gt;
+permission_manage_orders = &lt;Permission: order | order | Manage orders.&gt;
+draft_order = &lt;Order #UUID('b0e8ab55-9fa5-427c-8768-b96004f3bc30')&gt;
+django_capture_on_commit_callbacks = &lt;bound method TestCase.captureOnCommitCallbacks of &lt;class 'django.test.testcases.TestCase'&gt;&gt;
+settings = &lt;pytest_django.fixtures.SettingsWrapper object at 0x7d70da354b00&gt;
+
+    @patch(
+        "saleor.graphql.order.mutations.draft_order_create.call_order_event",
+        wraps=call_order_event,
+    )
+    @patch("saleor.webhook.transport.synchronous.transport.send_webhook_request_sync")
+    @patch(
+        "saleor.webhook.transport.asynchronous.transport.send_webhook_request_async.apply_async"
+    )
+    @override_settings(PLUGINS=["saleor.plugins.webhook.plugin.WebhookPlugin"])
+    def test_draft_order_update_triggers_webhooks(
+        mocked_send_webhook_request_async,
+        mocked_send_webhook_request_sync,
+        wrapped_call_order_event,
+        setup_order_webhooks,
+        voucher,
+        app_api_client,
+        permission_manage_orders,
+        draft_order,
+        django_capture_on_commit_callbacks,
+        settings,
+    ):
+        # given
+        mocked_send_webhook_request_sync.return_value = []
+        (
+            tax_webhook,
+            shipping_filter_webhook,
+            draft_order_updated_webhook,
+        ) = setup_order_webhooks(WebhookEventAsyncType.DRAFT_ORDER_UPDATED)
+    
+        order = draft_order
+        order.voucher = voucher
+        order.save(update_fields=["voucher"])
+    
+        voucher_listing = voucher.channel_listings.get(channel=order.channel)
+        discount_amount = voucher_listing.discount_value
+        order.discounts.create(
+            voucher=voucher,
+            value=discount_amount,
+            type=DiscountType.VOUCHER,
+        )
+    
+        query = DRAFT_ORDER_UPDATE_MUTATION
+        order_id = graphene.Node.to_global_id("Order", order.id)
+        variables = {
+            "id": order_id,
+            "input": {
+                "voucher": None,
+            },
+        }
+    
+        # when
+        with django_capture_on_commit_callbacks(execute=True):
+            response = app_api_client.post_graphql(
+                query, variables, permissions=(permission_manage_orders,)
+            )
+    
+        # then
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/order/tests/mutations/test_draft_order_update.py:2314: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 6, 'column': 13}], 'path': ['draftOrderUpdate'], 'extensions': {'exception': {'code': 'ImportError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_triggers_webhooks_when_tax_webhook_not_needed" time="0.276" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_undiscounted_base_shipping_price_set" time="0.342" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_voucher_including_drafts_in_voucher_usage_invalid_code" time="0.141" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_voucher_not_available" time="0.157" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_when_not_existing_customer_email_provided" time="0.231" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_with_cc_warehouse_as_shipping_method" time="0.179" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_with_non_draft_order" time="0.162" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_with_non_unique_external_reference" time="0.192" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_with_voucher_and_voucher_code" time="0.223" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_with_voucher_apply_once_per_order" time="0.498" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_with_voucher_code_including_drafts_in_voucher_usage" time="0.312" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_with_voucher_entire_order" time="0.462" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_with_voucher_including_drafts_in_voucher_usage" time="0.296" /><testcase classname="saleor.graphql.order.tests.mutations.test_draft_order_update" name="test_draft_order_update_with_voucher_specific_product" time="0.475" /><testcase classname="saleor.tests.e2e.orders.discounts.test_order_voucher_usage_is_released_when_voucher_is_removed" name="test_order_voucher_usage_is_released_when_voucher_is_removed_CORE_0939" time="1.092"><failure message="AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 3, 'column': 3}], 'path': ['draftOrderUpdate'], 'extensions': {'exception': {'code': 'ImportError'}}}]">e2e_staff_api_client = &lt;saleor.tests.e2e.conftest.E2eApiClient object at 0x7d70d9751160&gt;
+shop_permissions = [&lt;Permission: product | product | Manage products.&gt;, &lt;Permission: channel | channel | Manage channels.&gt;, &lt;Permission: ...ge shipping.&gt;, &lt;Permission: checkout | checkout | Manage taxes&gt;, &lt;Permission: site | site settings | Manage settings.&gt;]
+permission_manage_product_types_and_attributes = &lt;Permission: product | product type | Manage product types and attributes.&gt;
+permission_manage_discounts = &lt;Permission: discount | promotion | Manage promotions and vouchers.&gt;
+permission_manage_orders = &lt;Permission: order | order | Manage orders.&gt;
+permission_manage_checkouts = &lt;Permission: checkout | checkout | Manage checkouts&gt;
+
+    @pytest.mark.e2e
+    def test_order_voucher_usage_is_released_when_voucher_is_removed_CORE_0939(
+        e2e_staff_api_client,
+        shop_permissions,
+        permission_manage_product_types_and_attributes,
+        permission_manage_discounts,
+        permission_manage_orders,
+        permission_manage_checkouts,
+    ):
+        # Before
+        permissions = [
+            *shop_permissions,
+            permission_manage_product_types_and_attributes,
+            permission_manage_discounts,
+            permission_manage_orders,
+            permission_manage_checkouts,
+        ]
+        assign_permissions(e2e_staff_api_client, permissions)
+    
+        shop_data, _tax_config = prepare_shop(
+            e2e_staff_api_client,
+            channels=[
+                {
+                    "shipping_zones": [
+                        {
+                            "shipping_methods": [{}],
+                        },
+                    ],
+                    "order_settings": {"includeDraftOrderInVoucherUsage": True},
+                }
+            ],
+        )
+        channel_id = shop_data[0]["id"]
+        warehouse_id = shop_data[0]["warehouse_id"]
+        shipping_method_id = shop_data[0]["shipping_zones"][0]["shipping_methods"][0]["id"]
+    
+        (
+            _product_id,
+            product_variant_id,
+            _product_variant_price,
+        ) = prepare_product(
+            e2e_staff_api_client, warehouse_id, channel_id, variant_price=20
+        )
+    
+        usage_limit = 10
+        voucher_code, voucher_id = prepare_voucher(
+            e2e_staff_api_client,
+            channel_id,
+            voucher_code="voucher",
+            voucher_discount_type="PERCENTAGE",
+            voucher_discount_value=15,
+            voucher_type="ENTIRE_ORDER",
+            usage_limit=usage_limit,
+        )
+    
+        # Step 1 - Create draft order with the voucher
+        input = {
+            "channelId": channel_id,
+            "userEmail": "test_user@test.com",
+            "billingAddress": DEFAULT_ADDRESS,
+            "shippingAddress": DEFAULT_ADDRESS,
+            "shippingMethod": shipping_method_id,
+            "lines": [{"variantId": product_variant_id, "quantity": 2}],
+            "voucherCode": voucher_code,
+        }
+        data = draft_order_create(e2e_staff_api_client, input)
+        order_id = data["order"]["id"]
+        assert order_id is not None
+        assert data["order"]["billingAddress"] is not None
+        assert data["order"]["shippingAddress"] is not None
+        assert data["order"]["lines"] is not None
+        assert data["order"]["voucher"]["id"] == voucher_id
+        assert data["order"]["voucherCode"] == voucher_code
+    
+        voucher_data = get_voucher(e2e_staff_api_client, voucher_id)
+        assert voucher_data["voucher"]["id"] == voucher_id
+        assert voucher_data["voucher"]["codes"]["edges"][0]["node"]["used"] == 1
+        assert voucher_data["voucher"]["codes"]["edges"][0]["node"]["isActive"] is True
+    
+        # Step 2 - Remove the voucher from draft order and verify the voucher usage
+        input = {"voucherCode": None}
+&gt;       data = draft_order_update(
+            e2e_staff_api_client,
+            order_id,
+            input,
+        )
+
+saleor/tests/e2e/orders/discounts/test_order_voucher_usage_is_released_when_voucher_is_removed.py:134: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/tests/e2e/orders/utils/draft_order_update.py:128: in draft_order_update
+    content = get_graphql_content(response)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 3, 'column': 3}], 'path': ['draftOrderUpdate'], 'extensions': {'exception': {'code': 'ImportError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase></testsuite></testsuites>

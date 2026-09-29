@@ -1,0 +1,2280 @@
+{
+ "task_id": "saleor-rc-6abb53f3407b",
+ "diff_sha256": "e6bdc2e3fa836a900a40e9186c861d4dc9d96cfd26958376be87858c6992ef5f",
+ "eval_identity": "saleor-rc-6abb53f3407b/e6bdc2e3fa836a900a40e9186c861d4dc9d96cfd26958376be87858c6992ef5f",
+ "label": "u_e6bdc2e3fa83",
+ "tree_sha": "9dbe663e696ea724e5eb7bc50cf2c2fa11ae7649",
+ "status": "DONE",
+ "diff_file_sha256": "1a458f8941229f8ff02727e66c8ee810440915e76e00e95666a2078f0a526093",
+ "groups": {
+  "C": {
+   "saleor/graphql/account/tests/test_account.py::test_account_address_create_return_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_account_confirmation": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_account_confirmation_invalid_token": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_account_confirmation_invalid_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_account_delete": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_account_delete_anonymous_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_account_delete_invalid_token": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_account_delete_other_customer_token": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_account_delete_staff_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_account_request_deletion": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_account_request_deletion_all_storefront_hosts_allowed": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_account_request_deletion_anonymous_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_account_request_deletion_storefront_hosts_not_allowed": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_account_request_deletion_subdomain": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_account_request_deletion_token_validation": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_account_reset_password": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_account_reset_password_all_storefront_hosts_allowed": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_account_reset_password_invalid_email": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_account_reset_password_storefront_hosts_not_allowed": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_account_reset_password_subdomain": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_account_reset_password_user_is_inactive": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_address_delete_mutation": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_address_delete_mutation_as_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_address_not_created_after_validation_fails": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_address_query_as_anonymous_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_address_query_as_app_with_permission": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_address_query_as_app_without_permission": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_address_query_as_not_owner": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_address_query_as_owner": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_address_query_invalid_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_address_query_with_invalid_object_type": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_address_update_mutation": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_address_validation_rules": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_address_validation_rules_fields_in_camel_case": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_address_validation_rules_with_country_area": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_anonymous_user_create_address": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_change_active_status_for_himself": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_change_active_status_for_superuser": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_create_address_mutation": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_customer_can_not_see_other_users_data": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_customer_change_default_address": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_customer_change_default_address_invalid_address": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_customer_create": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_customer_create_address": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_customer_create_default_address": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_customer_create_send_password_with_url": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_customer_create_with_invalid_url": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_customer_create_with_not_allowed_url": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_customer_create_without_send_password": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_customer_delete": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_customer_delete_address_for_other[\\n    mutation deleteUserAddress($id: ID!) {\\n        accountAddressDelete(id: $id) {\\n            address {\\n                city\\n            }\\n            user {\\n                id\\n            }\\n        }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_customer_delete_address_for_other[\\n    mutation deleteUserAddress($id: ID!) {\\n        addressDelete(id: $id) {\\n            address {\\n                city\\n            }\\n            user {\\n                id\\n            }\\n        }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_customer_delete_by_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_customer_delete_errors": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_customer_delete_own_address": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_customer_register": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_customer_register_disabled_email_confirmation": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_customer_register_no_redirect_url": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_customer_set_address_as_default": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_customer_update": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_customer_update_address_for_other[\\n    mutation updateAccountAddress($addressId: ID!, $address: AddressInput!) {\\n        accountAddressUpdate(id: $addressId, input: $address) {\\n            address {\\n                city\\n            }\\n            user {\\n                id\\n            }\\n        }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_customer_update_address_for_other[\\n    mutation updateUserAddress($addressId: ID!, $address: AddressInput!) {\\n        addressUpdate(id: $addressId, input: $address) {\\n            address {\\n                city\\n            }\\n            user {\\n                id\\n            }\\n        }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_customer_update_generates_event_when_changing_email": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_customer_update_generates_event_when_changing_email_by_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_customer_update_own_address": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_customer_update_own_address_not_updated_when_validation_fails": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_customer_update_without_any_changes_generates_no_event": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_email_update": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_email_update_to_existing_email": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_logged_customer_update_addresses": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_logged_customer_update_addresses_invalid_billing_address": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_logged_customer_update_addresses_invalid_shipping_address": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_logged_customer_update_anonymous_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_logged_customer_update_names": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_logged_customer_updates_language_code": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_me_checkout_tokens_with_channel": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_me_checkout_tokens_with_inactive_channel": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_me_checkout_tokens_with_not_existing_channel": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_me_checkout_tokens_without_channel_param": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_me_checkout_tokens_without_channel_param_inactive_channel": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_me_query": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_me_query_anonymous_client": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_me_query_checkout": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_me_query_checkout_with_inactive_channel": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_me_query_customer_can_not_see_note": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_me_user_permissions_query": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_me_with_cancelled_fulfillments": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_password_change": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_password_change_incorrect_old_password": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_password_change_invalid_new_password": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_customer_members_with_filter_search[customer_filter0-2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_customer_members_with_filter_search[customer_filter1-1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_customer_members_with_filter_search[customer_filter2-1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_customer_members_with_filter_search[customer_filter3-1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_customer_members_with_filter_search[customer_filter4-1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_customer_members_with_filter_search[customer_filter5-1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_customer_members_with_filter_search[customer_filter6-1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_customer_members_with_filter_search[customer_filter7-1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_customer_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_customer_user_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_customer_user_app_no_permission": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_customer_user_with_orders": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_customers": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_customers_search_without_duplications": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_customers_with_filter_date_joined[customer_filter0-1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_customers_with_filter_date_joined[customer_filter1-1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_customers_with_filter_date_joined[customer_filter2-1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_customers_with_filter_date_joined[customer_filter3-2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_customers_with_filter_metadata": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_customers_with_filter_placed_orders[customer_filter0-1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_customers_with_filter_placed_orders[customer_filter1-1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_customers_with_filter_placed_orders[customer_filter2-1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_customers_with_filter_placed_orders[customer_filter3-2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_customers_with_filter_placed_orders_[customer_filter0-1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_customers_with_filter_placed_orders_[customer_filter1-2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_customers_with_filter_placed_orders_[customer_filter2-2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_customers_with_filter_placed_orders_[customer_filter3-2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_customers_with_sort[customer_sort0-result_order0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_customers_with_sort[customer_sort1-result_order1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_customers_with_sort[customer_sort2-result_order2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_customers_with_sort[customer_sort3-result_order3]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_customers_with_sort[customer_sort4-result_order4]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_customers_with_sort[customer_sort5-result_order5]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_customers_with_sort[customer_sort6-result_order6]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_customers_with_sort[customer_sort7-result_order7]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_staff": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_staff_members_app_no_permission": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_staff_members_with_filter_search[staff_member_filter0-2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_staff_members_with_filter_search[staff_member_filter1-1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_staff_members_with_filter_search[staff_member_filter2-1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_staff_members_with_filter_search[staff_member_filter3-1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_staff_members_with_filter_search[staff_member_filter4-1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_staff_members_with_filter_search[staff_member_filter5-1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_staff_members_with_filter_search[staff_member_filter6-2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_staff_members_with_filter_status[staff_member_filter0-1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_staff_members_with_filter_status[staff_member_filter1-2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_staff_members_with_sort[customer_sort0-result_order0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_staff_members_with_sort[customer_sort1-result_order1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_staff_members_with_sort[customer_sort2-result_order2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_staff_members_with_sort[customer_sort3-result_order3]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_staff_members_with_sort[customer_sort4-result_order4]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_staff_members_with_sort[customer_sort5-result_order5]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_staff_members_with_sort[customer_sort6-result_order6]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_staff_members_with_sort[customer_sort7-result_order7]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_staff_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_staff_user_with_order_and_without_manage_orders_perm": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_staff_user_with_orders_and_manage_orders_perm": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_user_by_email_address": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_query_user_by_id_and_email": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_request_email_change": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_request_email_change_to_existing_email": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_request_email_change_with_invalid_password": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_request_email_change_with_invalid_redirect_url": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_request_password_reset_email_for_staff": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_set_default_address": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_set_password": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_set_password_invalid_email": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_set_password_invalid_password": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_set_password_invalid_token": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_staff_bulk_set_active": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_staff_bulk_set_not_active": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_staff_create": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_staff_create_app_no_permission": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_staff_create_out_of_scope_group": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_staff_create_send_password_with_url": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_staff_create_with_invalid_url": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_staff_create_with_not_allowed_url": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_staff_create_without_send_password": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_staff_delete": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_staff_delete_all_permissions_manageable": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_staff_delete_app_no_permission": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_staff_delete_errors": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_staff_delete_left_not_manageable_permissions": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_staff_delete_out_of_scope_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_staff_delete_with_avatar": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_staff_update": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_staff_update_app_no_permission": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_staff_update_deactivate_with_manage_staff_all_perms_manageable": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_staff_update_deactivate_with_manage_staff_left_not_manageable_perms": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_staff_update_doesnt_change_existing_avatar": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_staff_update_duplicated_input_items": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_staff_update_errors": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_staff_update_groups_and_permissions": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_staff_update_out_of_scope_groups": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_staff_update_out_of_scope_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_user_avatar_delete_mutation": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_user_avatar_delete_mutation_permission": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_user_avatar_update_mutation": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_user_avatar_update_mutation_image_exists": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_user_avatar_update_mutation_permission": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_user_delete_errors": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_user_query_anonymous_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_user_query_as_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_user_query_invalid_id[']": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_user_query_invalid_id[abc]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_user_query_object_with_given_id_does_not_exist": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_user_query_object_with_invalid_object_type": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_user_query_permission_manage_staff_get_customer": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_user_query_permission_manage_staff_get_staff": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_user_query_permission_manage_users_get_customer": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_user_query_permission_manage_users_get_staff": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_user_with_cancelled_fulfillments": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/test_account.py::test_who_can_see_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_plugin.py::test_capture_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_plugin.py::test_confirm_payment[auth-requires_capture]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_plugin.py::test_confirm_payment[capture-succeeded]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_plugin.py::test_confirm_payment_action_required_status[requires_action]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_plugin.py::test_confirm_payment_action_required_status[requires_confirmation]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_plugin.py::test_confirm_payment_action_required_status[requires_payment_method]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_plugin.py::test_confirm_payment_for_webhook[auth]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_plugin.py::test_confirm_payment_for_webhook[capture]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_plugin.py::test_confirm_payment_incorrect_payment_intent": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_plugin.py::test_confirm_payment_processing_status": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_plugin.py::test_pre_save_plugin_configuration": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_plugin.py::test_pre_save_plugin_configuration_removes_webhook_when_disabled": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_plugin.py::test_process_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_plugin.py::test_process_payment_offline": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_plugin.py::test_process_payment_with_customer": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_plugin.py::test_process_payment_with_customer_and_future_usage": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_plugin.py::test_process_payment_with_customer_and_payment_method": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_plugin.py::test_process_payment_with_customer_and_payment_method_raises_card_error": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_plugin.py::test_process_payment_with_disabled_order_auto_confirmation": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_plugin.py::test_process_payment_with_error": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_plugin.py::test_process_payment_with_manual_capture": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_plugin.py::test_process_payment_with_payment_method_types": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_plugin.py::test_refund_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_plugin.py::test_validate_plugin_configuration_correct_configuration": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_plugin.py::test_validate_plugin_configuration_incorrect_configuration": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_plugin.py::test_validate_plugin_configuration_missing_required_fields": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_plugin.py::test_validate_plugin_configuration_validate_only_when_active": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_plugin.py::test_void_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_webhooks.py::test_handle_authorized_payment_intent_for_checkout": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_webhooks.py::test_handle_authorized_payment_intent_for_order": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_webhooks.py::test_handle_authorized_payment_intent_for_processing_order_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_webhooks.py::test_handle_failed_payment_intent_for_checkout": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_webhooks.py::test_handle_failed_payment_intent_for_order": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_webhooks.py::test_handle_fully_refund": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_webhooks.py::test_handle_partial_refund": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_webhooks.py::test_handle_processing_payment_intent_for_checkout": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_webhooks.py::test_handle_processing_payment_intent_for_order": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_webhooks.py::test_handle_refund_already_processed": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_webhooks.py::test_handle_successful_payment_intent_for_checkout": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_webhooks.py::test_handle_successful_payment_intent_for_order": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_webhooks.py::test_handle_successful_payment_intent_for_order_with_auth_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_webhooks.py::test_handle_successful_payment_intent_for_order_with_pending_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_webhooks.py::test_handle_webhook_events[payment_intent.amount_capturable_updated-handle_authorized_payment_intent]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_webhooks.py::test_handle_webhook_events[payment_intent.canceled-handle_failed_payment_intent]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_webhooks.py::test_handle_webhook_events[payment_intent.payment_failed-handle_failed_payment_intent]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_webhooks.py::test_handle_webhook_events[payment_intent.processing-handle_processing_payment_intent]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_webhooks.py::test_handle_webhook_events[payment_intent.succeeded-handle_successful_payment_intent]": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  "U": {
+   "saleor/payment/gateways/stripe/tests/test_stripe_api.py::test_get_or_create_customer_create": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/deprecated/tests/test_utils.py::test_get_currency_for_stripe": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_get_client": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_gateways_utils.py::test_get_supported_currencies[PLN, USD, EUR-expected_currencies0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_stripe_api.py::test_cancel_payment_intent_stripe_returns_error": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/deprecated/tests/test_utils.py::test_get_amount_for_stripe": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_authorize_and_save_customer_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_gateway.py::test_refund_for_manual_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_stripe_api.py::test_get_or_create_customer_failed_create": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/deprecated/tests/test_utils.py::test_get_payment_billing_fullname_no_billing": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_void": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_payment.py::test_validate_gateway_response": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_stripe_api.py::test_create_payment_intent_returns_intent_object": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/deprecated/tests/test_utils.py::test_get_payment_customer_email": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_confirm_error_response": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_gateways_utils.py::test_get_supported_currencies[PLN,EUR-expected_currencies1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_stripe_api.py::test_capture_payment_intent": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/deprecated/tests/test_utils.py::test_get_payment_billing_fullname": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_authorize_without_capture": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_gateway.py::test_void_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_stripe_api.py::test_retrieve_payment_intent": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/deprecated/tests/test_utils.py::test_shipping_address_to_stripe_dict": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_capture": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_payment.py::test_gateway_charge_failed": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_stripe_api.py::test_create_payment_intent_with_customer": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/deprecated/tests/test_utils.py::test_get_amount_from_stripe": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_authorize_with_customer_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_gateways_utils.py::test_get_supported_currencies_not_configured": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_stripe_api.py::test_create_payment_intent_manual_auto_capture": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/deprecated/tests/test_utils.py::test_get_currency_from_stripe": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_capture_3d_secure": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_gateway.py::test_list_gateways": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_stripe_api.py::test_list_customer_payment_methods": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_get_client_token": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_stripe_api.py::test_is_secret_api_key_valid_incorrect_key": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_payment.py::test_create_payment_from_order_requires_billing_address": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_capture_error_response": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_stripe_api.py::test_subscribe_webhook_returns_webhook_object": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_refund_error_response": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_gateways_utils.py::test_get_supported_currencies[USD-expected_currencies3]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_stripe_api.py::test_get_payment_method_details": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_refund": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_stripe_api.py::test_refund_payment_intent": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_gateway.py::test_capture_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_confirm__intent": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_stripe_api.py::test_get_or_create_customer_retrieve": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_void_error_response": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_payment.py::test_create_payment_information_for_draft_order": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_stripe_api.py::test_get_payment_method_details_missing_charges": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_authorize_error_response": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_stripe_api.py::test_list_customer_payment_methods_failed_to_fetch": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_gateways_utils.py::test_get_supported_currencies[ PLN,EUR -expected_currencies2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_authorize": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_stripe_api.py::test_create_payment_intent_returns_error": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_list_customer_sources": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_gateway.py::test_authorize_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_stripe_api.py::test_capture_payment_intent_stripe_returns_error": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/deprecated/tests/test_stripe.py::test_authorize_3d_secure": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_stripe_api.py::test_is_secret_api_key_valid_correct_key": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_payment.py::test_can_capture": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_stripe_api.py::test_get_or_create_customer_failed_retrieve": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_stripe_api.py::test_get_payment_method_details_missing_charges_data": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_stripe_api.py::test_refund_payment_intent_returns_error": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_gateway.py::test_process_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_stripe_api.py::test_cancel_payment_intent": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_stripe_api.py::test_delete_webhook": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/stripe/tests/test_stripe_api.py::test_retrieve_payment_intent_stripe_returns_error": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_payment.py::test_is_currency_supported[USD-True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/authorize_net/tests/test_plugin.py::test_payment_gateway_list_payment_sources": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/braintree/tests/test_braintree.py::test_get_customer_data": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_capture_for_checkout": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_gateway.py::test_full_refund_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_refund_success[80-80-0-fully-refunded-False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_request_data_for_payment_when_missing_city_and_count_area": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/dummy/tests/test_dummy.py::test_authorize_failed[True-fully-charged]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_payment.py::test_create_transaction_no_gateway_response": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_get_payment.py::test_get_payment_not_active_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_apple_pay.py::test_initialize_payment_for_apple_pay": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/razorpay/tests/test_razorpay.py::test_get_amount_for_razorpay": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_gateway.py::test_partial_refund_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/test_adyen_version.py::test_adyen_api_version_not_changed": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/authorize_net/tests/test_authorize_net.py::test_refund_error": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_prepare_api_request_data.py::test_prepare_api_request_data_get": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_payment.py::test_create_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/test_plugin.py::test_process_payment_additional_action_payment_does_not_exists": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_additional_actions.py::test_handle_additional_actions_handles_return_urls[https://checkout.saleor.com/]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_validate_notification.py::test_validate_auth_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_gateway.py::test_confirm_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/authorize_net/tests/test_plugin.py::test_payment_gateway_process_payment_production_failure": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/braintree/tests/test_braintree.py::test_capture_incorrect_token": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_authorization_with_adyen_auto_capture": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_payment.py::test_gateway_charge_errors": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_authorize_failed[False-fully-refunded-This payment is no longer active.]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_get_payment_method_info_no_additional_data": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/dummy/tests/test_dummy.py::test_refund_failed[0-10-not-charged]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_gateway.py::test_store_source_when_processing_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_get_payment.py::test_get_payment_invalid_payment_id[Test payment ID]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_apple_pay.py::test_validate_payment_data_for_apple_pay": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/razorpay/tests/test_razorpay.py::test_charge_unsupported_currency": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_payment.py::test_payment_owned_by_user_anonymous_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/authorize_net/tests/test_authorize_net.py::test_process_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_prepare_api_request_data.py::test_prepare_api_request_data_post": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/test_plugin.py::test_capture_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_payment.py::test_payment_needs_to_be_active_for_any_action[wrapped1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_additional_actions.py::test_handle_additional_actions_payment_does_not_have_checkout": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_validate_notification.py::test_validate_merchant_account": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/authorize_net/tests/test_plugin.py::test_payment_gateway_capture_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_payment.py::test_clean_capture": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/braintree/tests/test_braintree.py::test_authorize_with_customer_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_failed_refund_invalid_payment_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_capture_method_error[4111111111111111-Card declined]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_payment.py::test_validate_gateway_response_incorrect_transaction_kind": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_request_data_for_payment_append_checkout_details[clearpay]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/dummy/tests/test_dummy.py::test_refund_success[80-10-70-partially-refunded-True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_get_payment.py::test_get_payment_missing_payment_id[None]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_payment.py::test_create_payment_information_metadata[metadata1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_apple_pay.py::test_validate_payment_data_for_apple_pay_raises_payment_error[https://apple-pay-gateway.apple.com/paymentservices/startSession-merchant.com.identifier-saleor.com-None-certifiate data]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/razorpay/tests/test_razorpay.py::test_check_payment_supported": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/authorize_net/tests/test_authorize_net.py::test_refund": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_payment.py::test_payment_owned_by_user_from_checkout": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_prepare_api_request_data.py::test_prepare_api_request_data_lack_of_info_in_data": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/test_plugin.py::test_process_payment_additional_action": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_additional_actions.py::test_handle_additional_actions_post": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_payment.py::test_create_payment_information_store[ON_SESSION]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_validate_notification.py::test_validate_auth_user_when_user_is_missing": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/authorize_net/tests/test_plugin.py::test_payment_gateway_validate": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/braintree/tests/test_braintree.py::test_get_client_token_with_customer_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_payment.py::test_payment_get_authorized_amount": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_cancel_or_refund_action_cancel": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_capture_failed[80-0-fully-refunded-True-This payment cannot be captured.]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_update_payment_with_action_required_data_extra_data_as_dict": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_payment.py::test_payment_owned_by_user_from_order": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/dummy/tests/test_dummy.py::test_void_failed[False-fully-refunded]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_get_payment.py::test_get_payment_missing_payment_id[  ]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_apple_pay.py::test_validate_payment_data_for_apple_pay_raises_payment_error[https://apple-pay-gateway.apple.com/paymentservices/startSession-None-saleor.com-Saleor-certifiate data]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_payment.py::test_can_authorize": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/razorpay/tests/test_razorpay.py::test_refund_invalid_data": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/authorize_net/tests/test_authorize_net.py::test_process_payment_reuse_source": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_prepare_api_request_data.py::test_prepare_api_request_data_lack_of_required_parameters_in_request": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_payment.py::test_is_currency_supported[PLN-False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/test_plugin.py::test_confirm_payment_pending_order": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_additional_actions.py::test_handle_additional_actions_payment_does_not_exist": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_validate_notification.py::test_validate_hmac_signature_without_keys": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_payment.py::test_payment_needs_to_be_active_for_any_action[wrapped0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/authorize_net/tests/test_plugin.py::test_payment_gateway_authorize_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/braintree/tests/test_braintree.py::test_authorize_error_response": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_pending_already_pending": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_payment.py::test_payment_needs_to_be_active_for_any_action[wrapped3]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_capture_failed[80-0-not-charged-False-This payment is no longer active.]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_update_payment_with_action_required_data_extra_data_as_list": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/dummy/tests/test_dummy.py::test_authorize_gateway_error": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_payment.py::test_create_transaction": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_get_payment.py::test_get_payment_invalid_payment_id[123]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_apple_pay.py::test_validate_payment_data_for_apple_pay_raises_payment_error[https://not-whitelisted-domain.com/paymentservices/startSession-merchant.com.identifier-saleor.com-Saleor-certifiate data]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/razorpay/tests/test_razorpay.py::test_get_client_token": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_payment.py::test_payment_is_not_owned_by_user_for_order": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/authorize_net/tests/test_authorize_net.py::test_list_client_sources": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/test_plugin.py::test_process_payment_with_3ds_redirect": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_additional_actions.py::test_handle_additional_actions_get": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_payment.py::test_create_payment_information_metadata[None]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_validate_notification.py::test_validate_auth_user_when_auth_is_disabled": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/authorize_net/tests/test_plugin.py::test_payment_gateway_process_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/braintree/tests/test_braintree.py::test_capture": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_payment.py::test_is_currency_supported[EUR-True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_failed_refund_with_transaction_refund": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_capture_error_in_response[4000000000009995-Insufficient funds]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_get_payment_method_info": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_payment.py::test_clean_authorize": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/dummy/tests/test_dummy.py::test_void_failed[False-partially-refunded]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_apple_pay.py::test_validate_payment_data_for_apple_pay_raises_payment_error[None-merchant.com.identifier-saleor.com-Saleor-certifiate data]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/razorpay/tests/test_razorpay.py::test_refund_unsupported_currency": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_payment.py::test_can_refund": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/authorize_net/tests/test_authorize_net.py::test_void_failure": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/test_plugin.py::test_confirm_payment_with_adyen_auto_capture": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_additional_actions.py::test_handle_additional_actions_checkout_not_related_to_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_payment.py::test_gateway_refund_errors": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_validate_notification.py::test_validate_hmac_signature_missing_key_in_notification": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/authorize_net/tests/test_plugin.py::test_get_payment_gateway_for_checkout_inactive": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/braintree/tests/test_braintree.py::test_authorize_one_time": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_payment.py::test_update_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_reversed_refund": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_refund_failed[10-20-partially-charged-Cannot refund more than captured.]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_request_data_for_payment_when_missing_postal_code": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_payment.py::test_create_payment_information_store[NONE]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/dummy/tests/test_dummy.py::test_void_gateway_error": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_apple_pay.py::test_initialize_payment_for_apple_pay_request_failed": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/razorpay/tests/test_razorpay.py::test_check_payment_supported_non_supported": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_payment.py::test_payment_needs_to_be_active_for_any_action[wrapped2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/authorize_net/tests/test_authorize_net.py::test_void_duplicate": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/test_plugin.py::test_process_payment_with_adyen_auto_capture": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_additional_actions.py::test_handle_additional_actions_more_action_required": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_payment.py::test_create_payment_from_checkout_requires_billing_address": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_validate_notification.py::test_validate_merchant_account_invalid_merchant_account": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/authorize_net/tests/test_plugin.py::test_payment_gateway_validate_failure": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/braintree/tests/test_braintree.py::test_get_braintree_gateway": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_payment.py::test_create_payment_information_for_checkout_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/webhooks/test_handle_notifications.py::test_handle_pending": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/dummy_credit_card/tests/test_dummy_credit_card.py::test_void_failed[False-partially-refunded-This payment is no longer active.]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/gateways/adyen/tests/utils/test_common.py::test_append_checkout_details": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/payment/tests/test_payment.py::test_create_payment_requires_order_or_checkout": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  }
+ },
+ "f2p_task": "FAIL",
+ "p2p_s_task": "PASS",
+ "p2p_u200_task": "PASS",
+ "resolved": false,
+ "flaky_under_patch": [
+  "saleor/payment/gateways/stripe/tests/test_plugin.py::test_process_payment_offline",
+  "saleor/payment/gateways/stripe/tests/test_plugin.py::test_process_payment_with_customer_and_payment_method_raises_card_error"
+ ],
+ "sources": [
+  "episodes\\saleor-rc-6abb53f3407b\\GOLD_HARD\\episode.json"
+ ],
+ "labels": [
+  "main|GOLD_HARD"
+ ],
+ "evaluation_sha256": "e142bf4fbb543b6e35c71d34609335eeccb2ff7d56e7d686a5a804e1c3853074"
+}
