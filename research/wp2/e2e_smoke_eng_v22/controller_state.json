@@ -127,6 +127,24 @@
    "event": "START",
    "phase": "P08_GENERATION_FREEZE",
    "utc": "2026-09-29T02:59:29Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "P08_GENERATION_FREEZE",
+   "utc": "2026-09-29T02:59:33Z"
+  },
+  {
+   "detail": "unique-diff evaluation plan",
+   "event": "START",
+   "phase": "P09_EVAL_PLAN",
+   "utc": "2026-09-29T02:59:33Z"
+  },
+  {
+   "detail": "EVAL_PLAN_FAIL: command failed",
+   "event": "STOP",
+   "phase": "P09_EVAL_PLAN",
+   "utc": "2026-09-29T02:59:36Z"
   }
  ],
  "phases": {
@@ -195,7 +213,15 @@
    "status": "PASS"
   },
   "P08_GENERATION_FREEZE": {
-   "attempts": 0,
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-09-29T02:59:33Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "P09_EVAL_PLAN": {
+   "attempts": 1,
    "failures": 0,
    "iterations": 0,
    "runs": 1,
@@ -229,5 +255,14 @@
   "origin_main_before": "463161b247d165c7c410f486683ac8c1c58fb72d",
   "utc": "20260929T023746Z"
  },
- "stop": null
+ "stop": {
+  "detail": "command failed",
+  "exports": {
+   "light": 0
+  },
+  "phase": "P09_EVAL_PLAN",
+  "resumable": false,
+  "token": "EVAL_PLAN_FAIL",
+  "utc": "2026-09-29T02:59:36Z"
+ }
 }
