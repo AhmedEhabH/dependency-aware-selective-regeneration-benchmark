@@ -1,5 +1,12 @@
 {
- "acks": [],
+ "acks": [
+  {
+   "note": "Externally verified false-negative P05 post-action: the intended v2.2 freeze tag already exists on origin and peels to 85d0bb75107bc49cec32ad7d453b37fb44c80be8; freeze verification PASS; no v2.2 scientific outcomes exist; only two unrelated historical local tag refs conflicted with canonical origin tags and were archived under refs/archive then aligned to origin. Safe to continue from P06 without rerunning or moving the freeze tag.",
+   "phase": "P05_FREEZE",
+   "token": "POST_ACTION_FAILED",
+   "utc": "2026-09-29T02:37:49Z"
+  }
+ ],
  "history": [
   {
    "detail": "kit hashes + kit unit tests",
@@ -72,6 +79,18 @@
    "event": "STOP",
    "phase": "P05_FREEZE",
    "utc": "2026-09-29T02:14:38Z"
+  },
+  {
+   "detail": "POST_ACTION_FAILED: Externally verified false-negative P05 post-action: the intended v2.2 freeze tag already exists on origin and peels to 85d0bb75107bc49cec32ad7d453b37fb44c80be8; freeze verification PASS; no v2.2 scientific outcomes exist; only two unrelated historical local tag refs conflicted with canonical origin tags and were archived under refs/archive then aligned to origin. Safe to continue from P06 without rerunning or moving the freeze tag.",
+   "event": "ACK",
+   "phase": "P05_FREEZE",
+   "utc": "2026-09-29T02:37:49Z"
+  },
+  {
+   "detail": "P05 false-negative tag push recovered after exact remote-tag and freeze verification",
+   "event": "RECOVERY_PASS",
+   "phase": "P05_FREEZE",
+   "utc": "2026-09-29T02:37:49Z"
   }
  ],
  "phases": {
@@ -119,19 +138,45 @@
    "attempts": 1,
    "failures": 0,
    "iterations": 0,
+   "passed_utc": "2026-09-29T02:37:49Z",
    "runs": 1,
-   "status": "RUNNING"
+   "status": "PASS"
   }
  },
  "plan": "WP2_E2E_SMOKE_ENG_V22",
  "plan_sha256": "ba788149dcc980a7523dd825acb802f5f46d609385c7c35e795113660aa3d352",
+ "recovery_p05_tag_push": {
+  "conflicts": {
+   "stagec-djangocms-study-wiring-verified-01": {
+    "archive_ref": "refs/archive/v22-prepush-tag-conflicts/stagec-djangocms-study-wiring-verified-01-20260929T023746Z",
+    "new_local_peeled_commit": "39f7b3bad558fb4752b935b64fcbcc7a353f0d83",
+    "old_local_peeled_commit": "35dd6681d98ff51549d9f75a57fe896bdf02f605",
+    "old_local_tag_object": "35dd6681d98ff51549d9f75a57fe896bdf02f605",
+    "remote_canonical_peeled_commit": "39f7b3bad558fb4752b935b64fcbcc7a353f0d83"
+   },
+   "v0.9.6-pilot-exec-ready": {
+    "archive_ref": "refs/archive/v22-prepush-tag-conflicts/v0.9.6-pilot-exec-ready-20260929T023746Z",
+    "new_local_peeled_commit": "af9b47444fafac260d887dabbe4e3ddc3b22a00f",
+    "old_local_peeled_commit": "db26f33617f2323954a721da28864a69edd40356",
+    "old_local_tag_object": "db26f33617f2323954a721da28864a69edd40356",
+    "remote_canonical_peeled_commit": "af9b47444fafac260d887dabbe4e3ddc3b22a00f"
+   }
+  },
+  "freeze_commit": "85d0bb75107bc49cec32ad7d453b37fb44c80be8",
+  "freeze_tag": "wp2-e2e-smoke-eng-v22-freeze-2026-09-29",
+  "freeze_verify": "PASS",
+  "head_before": "463161b247d165c7c410f486683ac8c1c58fb72d",
+  "incident": "P05_TAG_PUSH_FALSE_NEGATIVE",
+  "origin_main_before": "463161b247d165c7c410f486683ac8c1c58fb72d",
+  "utc": "20260929T023746Z"
+ },
  "stop": {
   "detail": "{'type': 'tag', 'name': 'wp2-e2e-smoke-eng-v22-freeze-{date}', 'message': 'E2E Smoke ENG v2.2 freeze (controller)'}: push of tag failed",
   "exports": {
    "light": 0
   },
   "phase": "P05_FREEZE",
-  "resumable": false,
+  "resumable": true,
   "token": "POST_ACTION_FAILED",
   "utc": "2026-09-29T02:14:38Z"
  }
