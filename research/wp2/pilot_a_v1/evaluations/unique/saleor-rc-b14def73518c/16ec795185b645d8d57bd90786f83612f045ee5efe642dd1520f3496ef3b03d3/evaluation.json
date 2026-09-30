@@ -1,0 +1,1496 @@
+{
+ "diff_sha256": "16ec795185b645d8d57bd90786f83612f045ee5efe642dd1520f3496ef3b03d3",
+ "eval_identity": "saleor-rc-b14def73518c/16ec795185b645d8d57bd90786f83612f045ee5efe642dd1520f3496ef3b03d3",
+ "evaluation_sha256": "b8612171460a47537d975e2ac723ee53da84898f29cac0eb7effa56f92a93123",
+ "f2p_task": "FAIL",
+ "flaky_under_patch": [
+  "saleor/checkout/tests/test_checkout.py::test_recalculate_checkout_discount_free_shipping_subtotal_less_than_shipping",
+  "saleor/checkout/tests/test_checkout.py::test_recalculate_checkout_discount_translate_discount_in_checkout_language"
+ ],
+ "groups": {
+  "C": {
+   "saleor/checkout/tests/test_checkout.py::test_add_staff_voucher_to_anonymous_checkout": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_add_staff_voucher_to_customer_checkout": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_add_staff_voucher_to_staff_checkout": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_add_voucher_to_checkout": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_add_voucher_to_checkout_fail": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_cancel_active_payments": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_change_address_in_checkout": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_change_address_in_checkout_from_user_address_to_other": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_change_address_in_checkout_to_none": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_change_address_in_checkout_to_other": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_change_address_in_checkout_to_same": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_checkout_discount_amount_should_be_decimal": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_checkout_has_currency": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_checkout_line_has_currency": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_checkout_line_total_price_setter": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_checkout_shipping_price_setter": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_checkout_subtotal_setter": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_checkout_total_setter": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_checkout_without_delivery_method_creates_empty_delivery_method": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_clear_delivery_method": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_checkout_metadata": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_checkout_metadata_no_metadata_storage": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_entire_order_voucher_not_applicable[100-9-10-percentage-100-10]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_entire_order_voucher_not_applicable[99-10-10-percentage-100-10]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_entire_order_voucher_not_applicable[99-9-10-fixed-100-None]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_entire_order_voucher_not_applicable[99-9-10-fixed-None-10]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_entire_order_voucher_not_applicable[99-9-10-percentage-100-10]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher[shipping_cost0-None-50-percentage-countries0-expected_value0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher[shipping_cost1-None-20-fixed-countries1-expected_value1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher[shipping_cost2-PL-20-fixed-countries2-expected_value2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher[shipping_cost3-PL-discount_value3-fixed-countries3-expected_value3]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher[shipping_cost4-PL-discount_value4-fixed-countries4-expected_value4]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher_all_countries": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher_limited_countries": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher_not_applicable[False-None-10-fixed-countries2-None-None-subtotal2-10-Your order does not require shipping.]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher_not_applicable[True-None-10-fixed-countries1-None-None-subtotal1-10-Please select a delivery method first.]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher_not_applicable[True-shipping_method_data0-10-fixed-countries0-None-None-subtotal0-10-This offer is not valid in your country.]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher_not_applicable[True-shipping_method_data3-10-fixed-countries3-5-None-subtotal3-10-This offer is only valid for orders over $5.00.]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher_not_applicable[True-shipping_method_data4-10-fixed-countries4-5-10-subtotal4-9-This offer is only valid for orders with a minimum of 10 quantity.]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher_not_applicable[True-shipping_method_data5-10-fixed-countries5-5-10-subtotal5-9-This offer is only valid for orders over $5.00.]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_specific_products_voucher[10-percentage-total_discount_amount1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_specific_products_voucher[5-fixed-total_discount_amount0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_specific_products_voucher_apply_only_once[10-percentage-1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_specific_products_voucher_apply_only_once[10000-fixed-10]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_specific_products_voucher_apply_only_once[5-fixed-5]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_specific_products_voucher_not_applicable[100-9-10-percentage-100-10]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_specific_products_voucher_not_applicable[99-10-10-percentage-100-10]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_specific_products_voucher_not_applicable[99-9-10-fixed-100-None]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_specific_products_voucher_not_applicable[99-9-10-fixed-None-10]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_specific_products_voucher_not_applicable[99-9-10-percentage-100-10]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_entire_order_voucher[20-20-2-False-5-fixed-expected_value2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_entire_order_voucher[20-20-2-False-50-percentage-expected_value0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_entire_order_voucher[20-20-2-True-5-fixed-expected_value6]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_entire_order_voucher[20-20-2-True-50-percentage-expected_value4]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_entire_order_voucher[20-None-None-False-5-fixed-expected_value3]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_entire_order_voucher[20-None-None-False-50-percentage-expected_value1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_entire_order_voucher[20-None-None-True-5-fixed-expected_value7]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_entire_order_voucher[20-None-None-True-50-percentage-expected_value5]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_specific_product_voucher[prices0-20-2-False-50-percentage-expected_value0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_specific_product_voucher[prices1-None-None-False-50-percentage-expected_value1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_specific_product_voucher[prices2-20-2-False-5-fixed-expected_value2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_specific_product_voucher[prices3-None-None-False-5-fixed-expected_value3]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_specific_product_voucher[prices4-20-2-True-50-percentage-expected_value4]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_specific_product_voucher[prices5-None-None-True-50-percentage-expected_value5]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_specific_product_voucher[prices6-20-2-True-5-fixed-expected_value6]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_specific_product_voucher[prices7-None-None-True-5-fixed-expected_value7]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_last_active_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_voucher_discount_for_checkout_voucher_validation": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_voucher_for_checkout_info": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_voucher_for_checkout_info_expired_voucher": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_voucher_for_checkout_info_no_voucher_code": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_is_fully_paid": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_is_fully_paid_mg_payments": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_is_fully_paid_no_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_is_fully_paid_partially_paid": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_is_valid_delivery_method": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_is_valid_delivery_method_external_method": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_is_valid_delivery_method_external_method_no_longer_available": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_is_valid_delivery_method_external_method_old_shipping_app_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_is_valid_delivery_method_external_method_shipping_app_id_with_identifier": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_last_change_update": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_last_change_update_foreign_key": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_manage_external_shipping_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_recalculate_checkout_discount": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_recalculate_checkout_discount_expired_voucher": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_recalculate_checkout_discount_free_shipping_for_checkout_without_shipping": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_recalculate_checkout_discount_free_shipping_subtotal_bigger_than_shipping": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_recalculate_checkout_discount_free_shipping_subtotal_less_than_shipping": [
+    "passed",
+    "failed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_recalculate_checkout_discount_percentage": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_recalculate_checkout_discount_translate_discount_in_checkout_language": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_recalculate_checkout_discount_voucher_not_applicable": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_recalculate_checkout_discount_with_sale": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_remove_voucher_from_checkout": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  "U": {
+   "saleor/attribute/tests/test_utils.py::test_associate_attribute_to_non_product_instance": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/attribute/tests/test_utils.py::test_associate_attribute_to_product_instance_from_different_attribute": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/attribute/tests/test_utils.py::test_associate_attribute_to_product_instance_without_values": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/attribute/tests/test_utils.py::test_associate_attribute_to_variant_instance_multiple_values": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_actions.py::test_transaction_amounts_for_checkout_updated_fully_paid": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_actions.py::test_transaction_amounts_for_checkout_updated_with_already_fully_paid": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_associate_checkout_with_account.py::test_associate_guest_checkout_with_account_if_exists[transaction_flow]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_associate_checkout_with_account.py::test_associate_guest_checkout_with_account_if_exists_with_guest_user[payment_flow]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_associate_checkout_with_account.py::test_associate_guest_checkout_with_account_if_exists_with_guest_user[transaction_flow]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_associate_checkout_with_account.py::test_associate_guest_checkout_with_account_if_exists_with_inactive_user[transaction_flow]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_base_calculations.py::test_calculate_base_line_total_price_with_variant_on_sale_and_voucher": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_base_calculations.py::test_calculate_base_line_unit_price_with_discounts_apply_once_per_order": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_base_calculations.py::test_calculate_base_line_unit_price_with_fixed_voucher_custom_prices": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_base_calculations.py::test_calculate_base_line_unit_price_with_variant_on_sale_custom_price": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_calculations.py::test_fetch_checkout_data_flat_rates[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_calculations.py::test_fetch_checkout_data_flat_rates[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_calculations.py::test_fetch_checkout_data_flat_rates_and_no_tax_calc_strategy": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_calculations.py::test_fetch_checkout_data_webhooks_success": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_cart.py::test_adding_same_variant": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_cart.py::test_adding_zero_quantity": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_cart.py::test_checkout_line_state": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_cart.py::test_replacing_same_variant": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout_complete.py::test_complete_checkout_checkout_was_deleted_before_completing": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout_complete.py::test_create_order_gift_card_bought_order_not_captured_gift_cards_not_sent[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout_complete.py::test_create_order_store_shipping_prices_with_free_shipping_voucher": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_checkout_complete.py::test_create_order_use_translations": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_order_from_checkout.py::test_create_order_from_store_shipping_prices_with_free_shipping_voucher": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_order_from_checkout.py::test_create_order_with_gift_card[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_order_from_checkout.py::test_note_in_created_order_checkout_deleted_in_the_meantime": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_order_from_checkout.py::test_note_in_created_order_checkout_line_deleted_in_the_meantime": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_tasks.py::test_delete_checkouts_until_done": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_tasks.py::test_delete_expired_anonymous_checkouts": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_tasks.py::test_delete_expired_checkouts_no_checkouts_to_delete": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/checkout/tests/test_tasks.py::test_delete_expired_user_checkouts": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_anonymize.py::test_obfuscate_address_no_address": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_anonymize.py::test_obfuscate_email_example_email": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_anonymize.py::test_obfuscate_email_no_at_in_email": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_anonymize.py::test_obfuscate_string_empty_string": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_token_expired[Bearer]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_use_default_header_as_a_fallback": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_user_authenticated[JWT]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_user_deactivated_token[Bearer]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_token_expired": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_user_with_limited_permissions[user_permissions0-app_permissions0-expected_limited_permissions0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_user_with_limited_permissions[user_permissions3-app_permissions3-expected_limited_permissions3]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_user_with_limited_permissions[user_permissions5-app_permissions5-expected_limited_permissions5]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_build_absolute_uri": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_create_superuser": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_create_vouchers": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_core.py::test_get_client_ip[invalid,8.8.8.8-8.8.8.8]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_dataloaders.py::test_plugins_manager_loader_loads_requestor_in_plugin": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_dataloaders.py::test_plugins_manager_loader_requestor_in_plugin_when_no_app_and_user_in_req_is_none": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_editorjs.py::test_clean_editor_js[The Saleor Winter Sale is snowed <a href=\"https://docs.saleor.io/docs/\">. Test <a href=\"https://docs.saleor.io/docs/\">.]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_editorjs.py::test_clean_editor_js[The Saleor Winter Sale is snowed <a href=\"https://docs.saleor.io/docs/\">]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_editorjs.py::test_clean_editor_js_for_complex_description": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_editorjs.py::test_clean_editor_js_invalid_url": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_jwt.py::test_create_access_token_for_app_extension_staff_user_with_more_permissions": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_jwt.py::test_jwt_decode_accepts_app_token_rs256_with_audience": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_jwt.py::test_jwt_decode_accepts_token_signed_with_hs256": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_jwt.py::test_jwt_decode_accepts_token_signed_with_rs256": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_jwt.py::test_jwt_encode_creates_token_signed_with_rs256": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_jwt_manager.py::test_get_jwt_manager": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_jwt_manager.py::test_jwt_manager_decode_token_signed_with_rs256": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_jwt_manager.py::test_jwt_manager_validate_incorect_format_of_rsa_private_key": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_jwt_manager.py::test_jwt_manager_validate_missing_rsa_private_key": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_middleware.py::test_jwt_refresh_token_middleware": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_middleware.py::test_jwt_refresh_token_middleware_samesite_debug_mode": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_middleware.py::test_jwt_refresh_token_middleware_samesite_none": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_middleware.py::test_jwt_refresh_token_middleware_token_without_expire": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_notification.py::test_validate_and_get_channel": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_notification.py::test_validate_and_get_channel_for_inactive_channel": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_notification.py::test_validate_and_get_channel_for_lack_of_input": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_notification.py::test_validate_and_get_channel_for_non_existing_slug": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_postgresql_search.py::test_combined_flat_search_vector": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_postgresql_search.py::test_flat_concat_drop_exceeding_count_silently_truncate": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_postgresql_search.py::test_storefront_product_fuzzy_name_search[chicken-2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_postgresql_search.py::test_storefront_product_fuzzy_name_search[cool-1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_schedules.py::test_is_due_no_sale_to_notify_about_and_upcoming_sale_exists": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_schedules.py::test_is_due_not_sale_to_notify_about_not_upcoming_sale": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_schedules.py::test_is_due_sale_started_to_notify_and_not_upcoming_sale": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_schedules.py::test_sale_webhook_schedule_remaining_estimate": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_search_tasks.py::test_set_order_search_document_values_already_present": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_search_tasks.py::test_set_order_search_document_values_no_vector": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_search_tasks.py::test_set_user_search_document_values": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_serializer.py::test_custom_json_encoder_dumps_money_objects": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_serializer.py::test_custom_json_encoder_dumps_weight_objects": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_tasks.py::test_delete_event_payloads_task": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_tasks.py::test_delete_files_from_storage_task": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_tasks.py::test_delete_files_from_storage_task_files_not_existing_files": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_tasks.py::test_delete_from_storage_task": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_taxes.py::test_get_current_tax_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_taxes.py::test_get_current_tax_app_multiple_apps": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_taxes.py::test_get_current_tax_app_no_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_url.py::test_get_default_storage_root_url": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_url.py::test_prepare_url": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_url.py::test_prepare_url_with_existing_query": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_view.py::test_jwks_can_be_used_to_decode_saleor_token": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_weight.py::test_convert_weight": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_weight.py::test_convert_weight_to_default_weight_unit[g-expected_value1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_weight.py::test_convert_weight_to_default_weight_unit[oz-expected_value3]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/core/tests/test_weight.py::test_get_default_weight_unit": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/discount/tests/test_discounts.py::test_discount_for_variants_when_sale_for_specific_variants_only": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/discount/tests/test_discounts.py::test_get_not_applicable_sale_discount": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/discount/tests/test_discounts.py::test_increase_voucher_usage": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/discount/tests/test_discounts.py::test_sale_active[current_date0-start_date0-end_date0-True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/discount/tests/test_rounding_isse.py::test_rounding_issue_with_percentage_sale[variant_prices0-expected_discounts0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/discount/tests/test_rounding_isse.py::test_rounding_issue_with_percentage_sale[variant_prices1-expected_discounts1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/discount/tests/test_tasks.py::test_fetch_catalogue_infos": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/discount/tests/test_tasks.py::test_handle_sale_toggle": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/discount/tests/test_utils/test_create_or_update_discount_objects_from_sale_for_checkout.py::test_create_fixed_sale": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/discount/tests/test_utils/test_create_or_update_discount_objects_from_sale_for_checkout.py::test_create_or_update_discount_objects_from_sale_for_checkout_without_sale": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/discount/tests/test_utils/test_create_or_update_discount_objects_from_sale_for_checkout.py::test_create_sale_fixed_sales_more_then_percentage": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/discount/tests/test_utils/test_create_or_update_discount_objects_from_sale_for_checkout.py::test_create_sale_with_translation": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/discount/tests/test_utils/test_fetch_active_sales_for_checkout.py::test_fetch_active_sale_for_collections": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/discount/tests/test_utils/test_fetch_active_sales_for_checkout.py::test_fetch_active_sale_for_empty_checkout": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/discount/tests/test_utils/test_fetch_active_sales_for_checkout.py::test_fetch_active_sale_for_many_sales": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/discount/tests/test_utils/test_fetch_active_sales_for_checkout.py::test_fetch_active_sale_for_subcategory_and_category": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/order/tests/test_base_calculations/test_base_order_line_total.py::test_base_order_line_total": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/order/tests/test_base_calculations/test_base_order_total.py::test_base_order_total_with_fixed_manual_discount_and_fixed_voucher": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/order/tests/test_base_calculations/test_base_order_total.py::test_base_order_total_with_percentage_manual_discount_and_fixed_voucher": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/order/tests/test_base_calculations/test_base_order_total.py::test_base_order_total_with_percentage_voucher": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/order/tests/test_base_calculations/test_base_order_total.py::test_base_order_total_with_percentage_voucher_and_fixed_manual_discount": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/order/tests/test_calculations.py::test_fetch_order_prices_if_expired_recalculate_all_prices": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/order/tests/test_calculations.py::test_order_subtotal": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/order/tests/test_calculations.py::test_recalculate_order_prices_order_discounts_and_total_undiscounted_price_changed": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/order/tests/test_calculations.py::test_recalculate_order_prices_tax_error[calculate_order_line_unit]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/order/tests/test_fulfillments_actions.py::test_create_fulfillments": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/order/tests/test_fulfillments_actions.py::test_create_fulfillments_without_notification": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/order/tests/test_fulfillments_actions.py::test_create_fullfilment_with_out_of_stock_webhook": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/order/tests/test_fulfillments_actions.py::test_create_fullfilment_with_out_of_stock_webhook_not_triggered": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/order/tests/test_notifications.py::test_get_address_payload": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/order/tests/test_notifications.py::test_get_default_order_payload": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/order/tests/test_notifications.py::test_send_confirmation_emails_without_addresses_for_order": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/order/tests/test_notifications.py::test_send_email_order_refunded_by_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/order/tests/test_order_actions.py::test_handle_fully_paid_order_no_email": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/order/tests/test_order_actions.py::test_mark_as_paid_with_external_reference_with_transaction": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/order/tests/test_order_actions.py::test_order_transaction_updated_order_fully_refunded": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/order/tests/test_order_actions.py::test_order_transaction_updated_order_fully_refunded_with_transaction_and_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/order/tests/test_order_actions_create_fulfillments_for_returned_products.py::test_create_return_fulfillment_only_fulfillment_lines": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/order/tests/test_order_actions_create_fulfillments_for_returned_products.py::test_create_return_fulfillment_only_order_lines": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/order/tests/test_order_actions_create_fulfillments_for_returned_products.py::test_create_return_fulfillment_only_order_lines_with_old_ids": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/order/tests/test_order_actions_create_fulfillments_for_returned_products.py::test_create_return_fulfillment_only_order_lines_with_refund": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/order/tests/test_order_actions_refund_products.py::test_create_refund_fulfillment_custom_amount": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/order/tests/test_order_actions_refund_products.py::test_create_refund_fulfillment_included_shipping_costs": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/order/tests/test_order_actions_refund_products.py::test_create_refund_fulfillment_only_fulfillment_lines": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/order/tests/test_order_actions_refund_products.py::test_create_refund_fulfillment_only_order_lines": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/order/tests/test_order_search.py::test_prepare_order_search_vector_value": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/order/tests/test_order_search.py::test_prepare_order_search_vector_value_empty_relation_fields": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/order/tests/test_order_search.py::test_prepare_order_search_vector_value_no_relations_data": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/order/tests/test_order_search.py::test_update_order_search_vector_auto_save": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[draft-5-5-0-0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/order/tests/test_order_utils.py::test_get_order_country_use_channel_country": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/order/tests/test_order_utils.py::test_get_total_order_discount_excluding_shipping_no_discounts": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/order/tests/test_order_utils.py::test_update_order_display_gross_prices_use_default_tax_settings": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/order/tests/test_tasks.py::test_delete_expired_orders_task_orders_with_payment_objects": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/order/tests/test_tasks.py::test_delete_expired_orders_task_schedule_itself": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/order/tests/test_tasks.py::test_expire_orders_task_creates_order_events": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/order/tests/test_tasks.py::test_expire_orders_task_with_transaction_item": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/product/tests/test_category.py::test_collect_categories_tree_products": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/product/tests/test_category.py::test_delete_categories": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/product/tests/test_category.py::test_delete_categories_trigger_product_updated_webhook": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/product/tests/test_generate_and_set_variant_name.py::test_generate_and_set_variant_name_only_not_variant_selection_attributes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/product/tests/test_generate_and_set_variant_name.py::test_generate_name_from_values_empty": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/product/tests/test_generate_and_set_variant_name.py::test_only_not_variant_selection_attr_left_variant_name_change_to_sku": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/product/tests/test_generate_and_set_variant_name.py::test_product_type_update_changes_variant_name": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/product/tests/test_get_variant_selection_attributes.py::test_get_variant_selection_attributes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/product/tests/test_product.py::test_digital_product_view": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/product/tests/test_product.py::test_digital_product_view_url_expired": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/product/tests/test_product.py::test_get_price[expected_price1-False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/product/tests/test_product.py::test_product_update_variants_names": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/product/tests/test_product_availability.py::test_availability_no_prices": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/product/tests/test_product_availability.py::test_availability_with_all_variant_channel_listings": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/product/tests/test_product_availability.py::test_available_products_only_published": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/product/tests/test_product_availability.py::test_filter_not_published_product_without_assigned_channel": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/product/tests/test_product_minimal_variant_price.py::test_management_commmand_update_all_products_discounted_price": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/product/tests/test_product_minimal_variant_price.py::test_update_product_discounted_price_discount_on_variant": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/product/tests/test_product_minimal_variant_price.py::test_update_products_discounted_prices_of_catalogues_for_category": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/product/tests/test_product_minimal_variant_price.py::test_update_products_discounted_prices_of_catalogues_for_collection": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/product/tests/test_product_search.py::test_update_product_search_vector": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/product/tests/test_product_search.py::test_update_products_search_vector": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/product/tests/test_product_tags.py::test_choose_placeholder": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/product/tests/test_product_tags.py::test_get_product_image_thumbnail_no_instance": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/product/tests/test_product_tags.py::test_get_product_image_thumbnail_proxy_url_returned": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/product/tests/test_product_tags.py::test_get_product_image_thumbnail_url_returned": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/product/tests/test_product_without_variants.py::test_get_products_ids_without_variants": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/product/tests/test_tasks.py::test_get_preorder_variants_to_clean": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/product/tests/test_tasks.py::test_update_product_discounted_price_task": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/product/tests/test_tasks.py::test_update_product_discounted_price_task_product_does_not_exist": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/product/tests/test_tasks.py::test_update_products_discounted_prices_of_sale_task_discount_does_not_exist": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/shipping/tests/test_postal_codes.py::test_check_postal_code_for_uk[BH15 7HF-BH10 7HA-BH20 7HG-True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/shipping/tests/test_postal_codes.py::test_check_postal_code_for_uk_fallbacks[GG16 7HZ-GG16 7HA-GG16 7HG-False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/shipping/tests/test_postal_codes.py::test_check_postal_code_for_uk_fallbacks[GY16 7HZ-GY16 7HA-GY16 7HG-False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/shipping/tests/test_postal_codes.py::test_is_shipping_method_applicable_for_postal_code[rules_result2-False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/shipping/tests/test_shipping.py::test_applicable_shipping_methods_price[10-1-9-False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/shipping/tests/test_shipping.py::test_applicable_shipping_methods_price[10-5-15-True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/shipping/tests/test_shipping.py::test_get_countries_without_shipping_zone": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/shipping/tests/test_shipping.py::test_use_default_shipping_zone": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/shipping/tests/test_tasks.py::test_drop_invalid_shipping_method_relations": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/site/tests/test_site_settings.py::test_new_get_current": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/site/tests/test_site_settings.py::test_site_settings_default_from_email": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  }
+ },
+ "label": "u_16ec795185b6",
+ "labels": [
+  "PLACEBO_HARD__r1",
+  "PLACEBO_HARD__r2"
+ ],
+ "p2p_s_task": "FAIL",
+ "p2p_u200_task": "PASS",
+ "resolved": false,
+ "sources": [
+  "episodes/saleor-rc-b14def73518c/PLACEBO_HARD__r1/episode.json",
+  "episodes/saleor-rc-b14def73518c/PLACEBO_HARD__r2/episode.json"
+ ],
+ "status": "DONE",
+ "task_id": "saleor-rc-b14def73518c",
+ "tree_sha": "31e930064dda34f7a723072440c92011b9057db9"
+}

@@ -1,0 +1,1585 @@
+{
+ "diff_sha256": "073711c628625c41dee5d00ff258b6dea658c42e056b769880ef61385f241406",
+ "eval_identity": "saleor-rc-b14def73518c/073711c628625c41dee5d00ff258b6dea658c42e056b769880ef61385f241406",
+ "evaluation_sha256": "1fb421f073176fc742d4bf5e9b44e5b91874f4b770c99966e664fc6d7b3413b7",
+ "f2p_task": "FAIL",
+ "flaky_under_patch": [
+  "saleor/checkout/tests/test_checkout.py::test_add_staff_voucher_to_anonymous_checkout",
+  "saleor/checkout/tests/test_checkout.py::test_add_staff_voucher_to_customer_checkout",
+  "saleor/checkout/tests/test_checkout.py::test_add_staff_voucher_to_staff_checkout",
+  "saleor/checkout/tests/test_checkout.py::test_add_voucher_to_checkout",
+  "saleor/checkout/tests/test_checkout.py::test_add_voucher_to_checkout_fail",
+  "saleor/checkout/tests/test_checkout.py::test_cancel_active_payments",
+  "saleor/checkout/tests/test_checkout.py::test_change_address_in_checkout",
+  "saleor/checkout/tests/test_checkout.py::test_change_address_in_checkout_from_user_address_to_other",
+  "saleor/checkout/tests/test_checkout.py::test_change_address_in_checkout_to_none",
+  "saleor/checkout/tests/test_checkout.py::test_change_address_in_checkout_to_other",
+  "saleor/checkout/tests/test_checkout.py::test_change_address_in_checkout_to_same",
+  "saleor/checkout/tests/test_checkout.py::test_checkout_discount_amount_should_be_decimal",
+  "saleor/checkout/tests/test_checkout.py::test_checkout_has_currency",
+  "saleor/checkout/tests/test_checkout.py::test_checkout_line_has_currency",
+  "saleor/checkout/tests/test_checkout.py::test_checkout_line_total_price_setter",
+  "saleor/checkout/tests/test_checkout.py::test_checkout_shipping_price_setter",
+  "saleor/checkout/tests/test_checkout.py::test_checkout_subtotal_setter",
+  "saleor/checkout/tests/test_checkout.py::test_checkout_total_setter",
+  "saleor/checkout/tests/test_checkout.py::test_checkout_without_delivery_method_creates_empty_delivery_method",
+  "saleor/checkout/tests/test_checkout.py::test_clear_delivery_method",
+  "saleor/checkout/tests/test_checkout.py::test_get_checkout_metadata",
+  "saleor/checkout/tests/test_checkout.py::test_get_checkout_metadata_no_metadata_storage",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_entire_order_voucher_not_applicable[100-9-10-percentage-100-10]",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_entire_order_voucher_not_applicable[99-10-10-percentage-100-10]",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_entire_order_voucher_not_applicable[99-9-10-fixed-100-None]",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_entire_order_voucher_not_applicable[99-9-10-fixed-None-10]",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_entire_order_voucher_not_applicable[99-9-10-percentage-100-10]",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher[shipping_cost0-None-50-percentage-countries0-expected_value0]",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher[shipping_cost1-None-20-fixed-countries1-expected_value1]",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher[shipping_cost2-PL-20-fixed-countries2-expected_value2]",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher[shipping_cost3-PL-discount_value3-fixed-countries3-expected_value3]",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher[shipping_cost4-PL-discount_value4-fixed-countries4-expected_value4]",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher_all_countries",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher_limited_countries",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher_not_applicable[False-None-10-fixed-countries2-None-None-subtotal2-10-Your order does not require shipping.]",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher_not_applicable[True-None-10-fixed-countries1-None-None-subtotal1-10-Please select a delivery method first.]",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher_not_applicable[True-shipping_method_data0-10-fixed-countries0-None-None-subtotal0-10-This offer is not valid in your country.]",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher_not_applicable[True-shipping_method_data3-10-fixed-countries3-5-None-subtotal3-10-This offer is only valid for orders over $5.00.]",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher_not_applicable[True-shipping_method_data4-10-fixed-countries4-5-10-subtotal4-9-This offer is only valid for orders with a minimum of 10 quantity.]",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher_not_applicable[True-shipping_method_data5-10-fixed-countries5-5-10-subtotal5-9-This offer is only valid for orders over $5.00.]",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_specific_products_voucher[10-percentage-total_discount_amount1]",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_specific_products_voucher[5-fixed-total_discount_amount0]",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_specific_products_voucher_apply_only_once[10-percentage-1]",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_specific_products_voucher_apply_only_once[10000-fixed-10]",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_specific_products_voucher_apply_only_once[5-fixed-5]",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_specific_products_voucher_not_applicable[100-9-10-percentage-100-10]",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_specific_products_voucher_not_applicable[99-10-10-percentage-100-10]",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_specific_products_voucher_not_applicable[99-9-10-fixed-100-None]",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_specific_products_voucher_not_applicable[99-9-10-fixed-None-10]",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_specific_products_voucher_not_applicable[99-9-10-percentage-100-10]",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_entire_order_voucher[20-20-2-False-5-fixed-expected_value2]",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_entire_order_voucher[20-20-2-False-50-percentage-expected_value0]",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_entire_order_voucher[20-20-2-True-5-fixed-expected_value6]",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_entire_order_voucher[20-20-2-True-50-percentage-expected_value4]",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_entire_order_voucher[20-None-None-False-5-fixed-expected_value3]",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_entire_order_voucher[20-None-None-False-50-percentage-expected_value1]",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_entire_order_voucher[20-None-None-True-5-fixed-expected_value7]",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_entire_order_voucher[20-None-None-True-50-percentage-expected_value5]",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_specific_product_voucher[prices0-20-2-False-50-percentage-expected_value0]",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_specific_product_voucher[prices1-None-None-False-50-percentage-expected_value1]",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_specific_product_voucher[prices2-20-2-False-5-fixed-expected_value2]",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_specific_product_voucher[prices3-None-None-False-5-fixed-expected_value3]",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_specific_product_voucher[prices4-20-2-True-50-percentage-expected_value4]",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_specific_product_voucher[prices5-None-None-True-50-percentage-expected_value5]",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_specific_product_voucher[prices6-20-2-True-5-fixed-expected_value6]",
+  "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_specific_product_voucher[prices7-None-None-True-5-fixed-expected_value7]",
+  "saleor/checkout/tests/test_checkout.py::test_get_last_active_payment",
+  "saleor/checkout/tests/test_checkout.py::test_get_voucher_discount_for_checkout_voucher_validation",
+  "saleor/checkout/tests/test_checkout.py::test_get_voucher_for_checkout_info",
+  "saleor/checkout/tests/test_checkout.py::test_get_voucher_for_checkout_info_expired_voucher",
+  "saleor/checkout/tests/test_checkout.py::test_get_voucher_for_checkout_info_no_voucher_code",
+  "saleor/checkout/tests/test_checkout.py::test_is_fully_paid",
+  "saleor/checkout/tests/test_checkout.py::test_is_fully_paid_mg_payments",
+  "saleor/checkout/tests/test_checkout.py::test_is_fully_paid_no_payment",
+  "saleor/checkout/tests/test_checkout.py::test_is_fully_paid_partially_paid",
+  "saleor/checkout/tests/test_checkout.py::test_is_valid_delivery_method",
+  "saleor/checkout/tests/test_checkout.py::test_is_valid_delivery_method_external_method",
+  "saleor/checkout/tests/test_checkout.py::test_is_valid_delivery_method_external_method_no_longer_available",
+  "saleor/checkout/tests/test_checkout.py::test_is_valid_delivery_method_external_method_old_shipping_app_id",
+  "saleor/checkout/tests/test_checkout.py::test_is_valid_delivery_method_external_method_shipping_app_id_with_identifier",
+  "saleor/checkout/tests/test_checkout.py::test_last_change_update",
+  "saleor/checkout/tests/test_checkout.py::test_last_change_update_foreign_key",
+  "saleor/checkout/tests/test_checkout.py::test_manage_external_shipping_id",
+  "saleor/checkout/tests/test_checkout.py::test_recalculate_checkout_discount",
+  "saleor/checkout/tests/test_checkout.py::test_recalculate_checkout_discount_expired_voucher",
+  "saleor/checkout/tests/test_checkout.py::test_recalculate_checkout_discount_free_shipping_for_checkout_without_shipping",
+  "saleor/checkout/tests/test_checkout.py::test_recalculate_checkout_discount_free_shipping_subtotal_bigger_than_shipping",
+  "saleor/checkout/tests/test_checkout.py::test_recalculate_checkout_discount_free_shipping_subtotal_less_than_shipping",
+  "saleor/checkout/tests/test_checkout.py::test_recalculate_checkout_discount_percentage",
+  "saleor/checkout/tests/test_checkout.py::test_recalculate_checkout_discount_translate_discount_in_checkout_language",
+  "saleor/checkout/tests/test_checkout.py::test_recalculate_checkout_discount_voucher_not_applicable",
+  "saleor/checkout/tests/test_checkout.py::test_recalculate_checkout_discount_with_sale",
+  "saleor/checkout/tests/test_checkout.py::test_remove_voucher_from_checkout"
+ ],
+ "groups": {
+  "C": {
+   "saleor/checkout/tests/test_checkout.py::test_add_staff_voucher_to_anonymous_checkout": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_add_staff_voucher_to_customer_checkout": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_add_staff_voucher_to_staff_checkout": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_add_voucher_to_checkout": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_add_voucher_to_checkout_fail": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_cancel_active_payments": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_change_address_in_checkout": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_change_address_in_checkout_from_user_address_to_other": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_change_address_in_checkout_to_none": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_change_address_in_checkout_to_other": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_change_address_in_checkout_to_same": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_checkout_discount_amount_should_be_decimal": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_checkout_has_currency": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_checkout_line_has_currency": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_checkout_line_total_price_setter": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_checkout_shipping_price_setter": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_checkout_subtotal_setter": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_checkout_total_setter": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_checkout_without_delivery_method_creates_empty_delivery_method": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_clear_delivery_method": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_checkout_metadata": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_checkout_metadata_no_metadata_storage": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_entire_order_voucher_not_applicable[100-9-10-percentage-100-10]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_entire_order_voucher_not_applicable[99-10-10-percentage-100-10]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_entire_order_voucher_not_applicable[99-9-10-fixed-100-None]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_entire_order_voucher_not_applicable[99-9-10-fixed-None-10]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_entire_order_voucher_not_applicable[99-9-10-percentage-100-10]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher[shipping_cost0-None-50-percentage-countries0-expected_value0]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher[shipping_cost1-None-20-fixed-countries1-expected_value1]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher[shipping_cost2-PL-20-fixed-countries2-expected_value2]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher[shipping_cost3-PL-discount_value3-fixed-countries3-expected_value3]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher[shipping_cost4-PL-discount_value4-fixed-countries4-expected_value4]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher_all_countries": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher_limited_countries": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher_not_applicable[False-None-10-fixed-countries2-None-None-subtotal2-10-Your order does not require shipping.]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher_not_applicable[True-None-10-fixed-countries1-None-None-subtotal1-10-Please select a delivery method first.]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher_not_applicable[True-shipping_method_data0-10-fixed-countries0-None-None-subtotal0-10-This offer is not valid in your country.]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher_not_applicable[True-shipping_method_data3-10-fixed-countries3-5-None-subtotal3-10-This offer is only valid for orders over $5.00.]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher_not_applicable[True-shipping_method_data4-10-fixed-countries4-5-10-subtotal4-9-This offer is only valid for orders with a minimum of 10 quantity.]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_shipping_voucher_not_applicable[True-shipping_method_data5-10-fixed-countries5-5-10-subtotal5-9-This offer is only valid for orders over $5.00.]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_specific_products_voucher[10-percentage-total_discount_amount1]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_specific_products_voucher[5-fixed-total_discount_amount0]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_specific_products_voucher_apply_only_once[10-percentage-1]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_specific_products_voucher_apply_only_once[10000-fixed-10]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_specific_products_voucher_apply_only_once[5-fixed-5]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_specific_products_voucher_not_applicable[100-9-10-percentage-100-10]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_specific_products_voucher_not_applicable[99-10-10-percentage-100-10]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_specific_products_voucher_not_applicable[99-9-10-fixed-100-None]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_specific_products_voucher_not_applicable[99-9-10-fixed-None-10]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_specific_products_voucher_not_applicable[99-9-10-percentage-100-10]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_entire_order_voucher[20-20-2-False-5-fixed-expected_value2]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_entire_order_voucher[20-20-2-False-50-percentage-expected_value0]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_entire_order_voucher[20-20-2-True-5-fixed-expected_value6]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_entire_order_voucher[20-20-2-True-50-percentage-expected_value4]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_entire_order_voucher[20-None-None-False-5-fixed-expected_value3]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_entire_order_voucher[20-None-None-False-50-percentage-expected_value1]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_entire_order_voucher[20-None-None-True-5-fixed-expected_value7]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_entire_order_voucher[20-None-None-True-50-percentage-expected_value5]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_specific_product_voucher[prices0-20-2-False-50-percentage-expected_value0]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_specific_product_voucher[prices1-None-None-False-50-percentage-expected_value1]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_specific_product_voucher[prices2-20-2-False-5-fixed-expected_value2]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_specific_product_voucher[prices3-None-None-False-5-fixed-expected_value3]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_specific_product_voucher[prices4-20-2-True-50-percentage-expected_value4]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_specific_product_voucher[prices5-None-None-True-50-percentage-expected_value5]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_specific_product_voucher[prices6-20-2-True-5-fixed-expected_value6]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_discount_for_checkout_value_specific_product_voucher[prices7-None-None-True-5-fixed-expected_value7]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_last_active_payment": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_voucher_discount_for_checkout_voucher_validation": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_voucher_for_checkout_info": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_voucher_for_checkout_info_expired_voucher": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_get_voucher_for_checkout_info_no_voucher_code": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_is_fully_paid": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_is_fully_paid_mg_payments": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_is_fully_paid_no_payment": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_is_fully_paid_partially_paid": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_is_valid_delivery_method": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_is_valid_delivery_method_external_method": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_is_valid_delivery_method_external_method_no_longer_available": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_is_valid_delivery_method_external_method_old_shipping_app_id": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_is_valid_delivery_method_external_method_shipping_app_id_with_identifier": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_last_change_update": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_last_change_update_foreign_key": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_manage_external_shipping_id": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_recalculate_checkout_discount": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_recalculate_checkout_discount_expired_voucher": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_recalculate_checkout_discount_free_shipping_for_checkout_without_shipping": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_recalculate_checkout_discount_free_shipping_subtotal_bigger_than_shipping": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_recalculate_checkout_discount_free_shipping_subtotal_less_than_shipping": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_recalculate_checkout_discount_percentage": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_recalculate_checkout_discount_translate_discount_in_checkout_language": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_recalculate_checkout_discount_voucher_not_applicable": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_recalculate_checkout_discount_with_sale": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout.py::test_remove_voucher_from_checkout": [
+    "missing",
+    "missing",
+    "missing"
+   ]
+  },
+  "U": {
+   "saleor/attribute/tests/test_utils.py::test_associate_attribute_to_non_product_instance": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/attribute/tests/test_utils.py::test_associate_attribute_to_product_instance_from_different_attribute": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/attribute/tests/test_utils.py::test_associate_attribute_to_product_instance_without_values": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/attribute/tests/test_utils.py::test_associate_attribute_to_variant_instance_multiple_values": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_actions.py::test_transaction_amounts_for_checkout_updated_fully_paid": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_actions.py::test_transaction_amounts_for_checkout_updated_with_already_fully_paid": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_associate_checkout_with_account.py::test_associate_guest_checkout_with_account_if_exists[transaction_flow]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_associate_checkout_with_account.py::test_associate_guest_checkout_with_account_if_exists_with_guest_user[payment_flow]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_associate_checkout_with_account.py::test_associate_guest_checkout_with_account_if_exists_with_guest_user[transaction_flow]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_associate_checkout_with_account.py::test_associate_guest_checkout_with_account_if_exists_with_inactive_user[transaction_flow]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_base_calculations.py::test_calculate_base_line_total_price_with_variant_on_sale_and_voucher": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_base_calculations.py::test_calculate_base_line_unit_price_with_discounts_apply_once_per_order": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_base_calculations.py::test_calculate_base_line_unit_price_with_fixed_voucher_custom_prices": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_base_calculations.py::test_calculate_base_line_unit_price_with_variant_on_sale_custom_price": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_calculations.py::test_fetch_checkout_data_flat_rates[False]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_calculations.py::test_fetch_checkout_data_flat_rates[True]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_calculations.py::test_fetch_checkout_data_flat_rates_and_no_tax_calc_strategy": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_calculations.py::test_fetch_checkout_data_webhooks_success": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_cart.py::test_adding_same_variant": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_cart.py::test_adding_zero_quantity": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_cart.py::test_checkout_line_state": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_cart.py::test_replacing_same_variant": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout_complete.py::test_complete_checkout_checkout_was_deleted_before_completing": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout_complete.py::test_create_order_gift_card_bought_order_not_captured_gift_cards_not_sent[True]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout_complete.py::test_create_order_store_shipping_prices_with_free_shipping_voucher": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_checkout_complete.py::test_create_order_use_translations": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_order_from_checkout.py::test_create_order_from_store_shipping_prices_with_free_shipping_voucher": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_order_from_checkout.py::test_create_order_with_gift_card[False]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_order_from_checkout.py::test_note_in_created_order_checkout_deleted_in_the_meantime": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_order_from_checkout.py::test_note_in_created_order_checkout_line_deleted_in_the_meantime": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_tasks.py::test_delete_checkouts_until_done": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_tasks.py::test_delete_expired_anonymous_checkouts": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_tasks.py::test_delete_expired_checkouts_no_checkouts_to_delete": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/checkout/tests/test_tasks.py::test_delete_expired_user_checkouts": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_anonymize.py::test_obfuscate_address_no_address": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_anonymize.py::test_obfuscate_email_example_email": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_anonymize.py::test_obfuscate_email_no_at_in_email": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_anonymize.py::test_obfuscate_string_empty_string": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_token_expired[Bearer]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_use_default_header_as_a_fallback": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_user_authenticated[JWT]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_user_deactivated_token[Bearer]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_token_expired": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_user_with_limited_permissions[user_permissions0-app_permissions0-expected_limited_permissions0]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_user_with_limited_permissions[user_permissions3-app_permissions3-expected_limited_permissions3]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_user_with_limited_permissions[user_permissions5-app_permissions5-expected_limited_permissions5]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_core.py::test_build_absolute_uri": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_core.py::test_create_superuser": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_core.py::test_create_vouchers": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_core.py::test_get_client_ip[invalid,8.8.8.8-8.8.8.8]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_dataloaders.py::test_plugins_manager_loader_loads_requestor_in_plugin": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_dataloaders.py::test_plugins_manager_loader_requestor_in_plugin_when_no_app_and_user_in_req_is_none": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_editorjs.py::test_clean_editor_js[The Saleor Winter Sale is snowed <a href=\"https://docs.saleor.io/docs/\">. Test <a href=\"https://docs.saleor.io/docs/\">.]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_editorjs.py::test_clean_editor_js[The Saleor Winter Sale is snowed <a href=\"https://docs.saleor.io/docs/\">]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_editorjs.py::test_clean_editor_js_for_complex_description": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_editorjs.py::test_clean_editor_js_invalid_url": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_jwt.py::test_create_access_token_for_app_extension_staff_user_with_more_permissions": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_jwt.py::test_jwt_decode_accepts_app_token_rs256_with_audience": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_jwt.py::test_jwt_decode_accepts_token_signed_with_hs256": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_jwt.py::test_jwt_decode_accepts_token_signed_with_rs256": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_jwt.py::test_jwt_encode_creates_token_signed_with_rs256": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_jwt_manager.py::test_get_jwt_manager": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_jwt_manager.py::test_jwt_manager_decode_token_signed_with_rs256": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_jwt_manager.py::test_jwt_manager_validate_incorect_format_of_rsa_private_key": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_jwt_manager.py::test_jwt_manager_validate_missing_rsa_private_key": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_middleware.py::test_jwt_refresh_token_middleware": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_middleware.py::test_jwt_refresh_token_middleware_samesite_debug_mode": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_middleware.py::test_jwt_refresh_token_middleware_samesite_none": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_middleware.py::test_jwt_refresh_token_middleware_token_without_expire": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_notification.py::test_validate_and_get_channel": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_notification.py::test_validate_and_get_channel_for_inactive_channel": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_notification.py::test_validate_and_get_channel_for_lack_of_input": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_notification.py::test_validate_and_get_channel_for_non_existing_slug": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_postgresql_search.py::test_combined_flat_search_vector": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_postgresql_search.py::test_flat_concat_drop_exceeding_count_silently_truncate": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_postgresql_search.py::test_storefront_product_fuzzy_name_search[chicken-2]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_postgresql_search.py::test_storefront_product_fuzzy_name_search[cool-1]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_schedules.py::test_is_due_no_sale_to_notify_about_and_upcoming_sale_exists": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_schedules.py::test_is_due_not_sale_to_notify_about_not_upcoming_sale": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_schedules.py::test_is_due_sale_started_to_notify_and_not_upcoming_sale": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_schedules.py::test_sale_webhook_schedule_remaining_estimate": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_search_tasks.py::test_set_order_search_document_values_already_present": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_search_tasks.py::test_set_order_search_document_values_no_vector": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_search_tasks.py::test_set_user_search_document_values": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_serializer.py::test_custom_json_encoder_dumps_money_objects": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_serializer.py::test_custom_json_encoder_dumps_weight_objects": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_tasks.py::test_delete_event_payloads_task": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_tasks.py::test_delete_files_from_storage_task": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_tasks.py::test_delete_files_from_storage_task_files_not_existing_files": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_tasks.py::test_delete_from_storage_task": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_taxes.py::test_get_current_tax_app": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_taxes.py::test_get_current_tax_app_multiple_apps": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_taxes.py::test_get_current_tax_app_no_app": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_url.py::test_get_default_storage_root_url": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_url.py::test_prepare_url": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_url.py::test_prepare_url_with_existing_query": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_view.py::test_jwks_can_be_used_to_decode_saleor_token": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_weight.py::test_convert_weight": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_weight.py::test_convert_weight_to_default_weight_unit[g-expected_value1]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_weight.py::test_convert_weight_to_default_weight_unit[oz-expected_value3]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_weight.py::test_get_default_weight_unit": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/discount/tests/test_discounts.py::test_discount_for_variants_when_sale_for_specific_variants_only": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/discount/tests/test_discounts.py::test_get_not_applicable_sale_discount": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/discount/tests/test_discounts.py::test_increase_voucher_usage": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/discount/tests/test_discounts.py::test_sale_active[current_date0-start_date0-end_date0-True]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/discount/tests/test_rounding_isse.py::test_rounding_issue_with_percentage_sale[variant_prices0-expected_discounts0]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/discount/tests/test_rounding_isse.py::test_rounding_issue_with_percentage_sale[variant_prices1-expected_discounts1]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/discount/tests/test_tasks.py::test_fetch_catalogue_infos": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/discount/tests/test_tasks.py::test_handle_sale_toggle": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/discount/tests/test_utils/test_create_or_update_discount_objects_from_sale_for_checkout.py::test_create_fixed_sale": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/discount/tests/test_utils/test_create_or_update_discount_objects_from_sale_for_checkout.py::test_create_or_update_discount_objects_from_sale_for_checkout_without_sale": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/discount/tests/test_utils/test_create_or_update_discount_objects_from_sale_for_checkout.py::test_create_sale_fixed_sales_more_then_percentage": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/discount/tests/test_utils/test_create_or_update_discount_objects_from_sale_for_checkout.py::test_create_sale_with_translation": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/discount/tests/test_utils/test_fetch_active_sales_for_checkout.py::test_fetch_active_sale_for_collections": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/discount/tests/test_utils/test_fetch_active_sales_for_checkout.py::test_fetch_active_sale_for_empty_checkout": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/discount/tests/test_utils/test_fetch_active_sales_for_checkout.py::test_fetch_active_sale_for_many_sales": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/discount/tests/test_utils/test_fetch_active_sales_for_checkout.py::test_fetch_active_sale_for_subcategory_and_category": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_base_calculations/test_base_order_line_total.py::test_base_order_line_total": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_base_calculations/test_base_order_total.py::test_base_order_total_with_fixed_manual_discount_and_fixed_voucher": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_base_calculations/test_base_order_total.py::test_base_order_total_with_percentage_manual_discount_and_fixed_voucher": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_base_calculations/test_base_order_total.py::test_base_order_total_with_percentage_voucher": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_base_calculations/test_base_order_total.py::test_base_order_total_with_percentage_voucher_and_fixed_manual_discount": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_calculations.py::test_fetch_order_prices_if_expired_recalculate_all_prices": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_calculations.py::test_order_subtotal": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_calculations.py::test_recalculate_order_prices_order_discounts_and_total_undiscounted_price_changed": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_calculations.py::test_recalculate_order_prices_tax_error[calculate_order_line_unit]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_fulfillments_actions.py::test_create_fulfillments": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_fulfillments_actions.py::test_create_fulfillments_without_notification": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_fulfillments_actions.py::test_create_fullfilment_with_out_of_stock_webhook": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_fulfillments_actions.py::test_create_fullfilment_with_out_of_stock_webhook_not_triggered": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_notifications.py::test_get_address_payload": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_notifications.py::test_get_default_order_payload": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_notifications.py::test_send_confirmation_emails_without_addresses_for_order": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_notifications.py::test_send_email_order_refunded_by_app": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_actions.py::test_handle_fully_paid_order_no_email": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_actions.py::test_mark_as_paid_with_external_reference_with_transaction": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_actions.py::test_order_transaction_updated_order_fully_refunded": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_actions.py::test_order_transaction_updated_order_fully_refunded_with_transaction_and_payment": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_actions_create_fulfillments_for_returned_products.py::test_create_return_fulfillment_only_fulfillment_lines": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_actions_create_fulfillments_for_returned_products.py::test_create_return_fulfillment_only_order_lines": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_actions_create_fulfillments_for_returned_products.py::test_create_return_fulfillment_only_order_lines_with_old_ids": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_actions_create_fulfillments_for_returned_products.py::test_create_return_fulfillment_only_order_lines_with_refund": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_actions_refund_products.py::test_create_refund_fulfillment_custom_amount": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_actions_refund_products.py::test_create_refund_fulfillment_included_shipping_costs": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_actions_refund_products.py::test_create_refund_fulfillment_only_fulfillment_lines": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_actions_refund_products.py::test_create_refund_fulfillment_only_order_lines": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_search.py::test_prepare_order_search_vector_value": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_search.py::test_prepare_order_search_vector_value_empty_relation_fields": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_search.py::test_prepare_order_search_vector_value_no_relations_data": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_search.py::test_update_order_search_vector_auto_save": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[draft-5-5-0-0]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_utils.py::test_get_order_country_use_channel_country": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_utils.py::test_get_total_order_discount_excluding_shipping_no_discounts": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_utils.py::test_update_order_display_gross_prices_use_default_tax_settings": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_tasks.py::test_delete_expired_orders_task_orders_with_payment_objects": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_tasks.py::test_delete_expired_orders_task_schedule_itself": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_tasks.py::test_expire_orders_task_creates_order_events": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_tasks.py::test_expire_orders_task_with_transaction_item": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/product/tests/test_category.py::test_collect_categories_tree_products": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/product/tests/test_category.py::test_delete_categories": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/product/tests/test_category.py::test_delete_categories_trigger_product_updated_webhook": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/product/tests/test_generate_and_set_variant_name.py::test_generate_and_set_variant_name_only_not_variant_selection_attributes": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/product/tests/test_generate_and_set_variant_name.py::test_generate_name_from_values_empty": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/product/tests/test_generate_and_set_variant_name.py::test_only_not_variant_selection_attr_left_variant_name_change_to_sku": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/product/tests/test_generate_and_set_variant_name.py::test_product_type_update_changes_variant_name": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/product/tests/test_get_variant_selection_attributes.py::test_get_variant_selection_attributes": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/product/tests/test_product.py::test_digital_product_view": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/product/tests/test_product.py::test_digital_product_view_url_expired": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/product/tests/test_product.py::test_get_price[expected_price1-False]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/product/tests/test_product.py::test_product_update_variants_names": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/product/tests/test_product_availability.py::test_availability_no_prices": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/product/tests/test_product_availability.py::test_availability_with_all_variant_channel_listings": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/product/tests/test_product_availability.py::test_available_products_only_published": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/product/tests/test_product_availability.py::test_filter_not_published_product_without_assigned_channel": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/product/tests/test_product_minimal_variant_price.py::test_management_commmand_update_all_products_discounted_price": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/product/tests/test_product_minimal_variant_price.py::test_update_product_discounted_price_discount_on_variant": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/product/tests/test_product_minimal_variant_price.py::test_update_products_discounted_prices_of_catalogues_for_category": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/product/tests/test_product_minimal_variant_price.py::test_update_products_discounted_prices_of_catalogues_for_collection": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/product/tests/test_product_search.py::test_update_product_search_vector": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/product/tests/test_product_search.py::test_update_products_search_vector": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/product/tests/test_product_tags.py::test_choose_placeholder": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/product/tests/test_product_tags.py::test_get_product_image_thumbnail_no_instance": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/product/tests/test_product_tags.py::test_get_product_image_thumbnail_proxy_url_returned": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/product/tests/test_product_tags.py::test_get_product_image_thumbnail_url_returned": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/product/tests/test_product_without_variants.py::test_get_products_ids_without_variants": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/product/tests/test_tasks.py::test_get_preorder_variants_to_clean": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/product/tests/test_tasks.py::test_update_product_discounted_price_task": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/product/tests/test_tasks.py::test_update_product_discounted_price_task_product_does_not_exist": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/product/tests/test_tasks.py::test_update_products_discounted_prices_of_sale_task_discount_does_not_exist": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/shipping/tests/test_postal_codes.py::test_check_postal_code_for_uk[BH15 7HF-BH10 7HA-BH20 7HG-True]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/shipping/tests/test_postal_codes.py::test_check_postal_code_for_uk_fallbacks[GG16 7HZ-GG16 7HA-GG16 7HG-False]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/shipping/tests/test_postal_codes.py::test_check_postal_code_for_uk_fallbacks[GY16 7HZ-GY16 7HA-GY16 7HG-False]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/shipping/tests/test_postal_codes.py::test_is_shipping_method_applicable_for_postal_code[rules_result2-False]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/shipping/tests/test_shipping.py::test_applicable_shipping_methods_price[10-1-9-False]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/shipping/tests/test_shipping.py::test_applicable_shipping_methods_price[10-5-15-True]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/shipping/tests/test_shipping.py::test_get_countries_without_shipping_zone": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/shipping/tests/test_shipping.py::test_use_default_shipping_zone": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/shipping/tests/test_tasks.py::test_drop_invalid_shipping_method_relations": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/site/tests/test_site_settings.py::test_new_get_current": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/site/tests/test_site_settings.py::test_site_settings_default_from_email": [
+    "missing",
+    "missing",
+    "missing"
+   ]
+  }
+ },
+ "label": "u_073711c62862",
+ "labels": [
+  "GOLD_HARD__r2"
+ ],
+ "p2p_s_task": "FAIL",
+ "p2p_u200_task": "FAIL",
+ "resolved": false,
+ "sources": [
+  "episodes/saleor-rc-b14def73518c/GOLD_HARD__r2/episode.json"
+ ],
+ "status": "DONE",
+ "task_id": "saleor-rc-b14def73518c",
+ "tree_sha": "35c28edac54cc23337ae699ff7772d1dc6bdb942"
+}
