@@ -1,0 +1,798 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="21" skipped="0" tests="97" time="11.732" timestamp="2026-09-30T18:34:07.976174-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.order.tests.test_order" name="test_add_variant_to_draft_order_adds_line_for_new_variant" time="1.399" /><testcase classname="saleor.order.tests.test_order" name="test_add_variant_to_draft_order_adds_line_for_variant_with_price_0" time="0.133" /><testcase classname="saleor.order.tests.test_order" name="test_add_variant_to_draft_order_edits_line_for_existing_variant" time="0.099" /><testcase classname="saleor.order.tests.test_order" name="test_add_variant_to_draft_order_not_allocates_stock_for_existing_variant" time="0.095" /><testcase classname="saleor.order.tests.test_order" name="test_add_variant_to_draft_order_not_allocates_stock_for_new_variant" time="0.127" /><testcase classname="saleor.order.tests.test_order" name="test_calculate_order_weight" time="0.097" /><testcase classname="saleor.order.tests.test_order" name="test_category_voucher_checkout_discount_raises_not_applicable" time="0.116" /><testcase classname="saleor.order.tests.test_order" name="test_display_translated_order_line_name[product----product]" time="0.016" /><testcase classname="saleor.order.tests.test_order" name="test_display_translated_order_line_name[product--productPL--productPL]" time="0.017" /><testcase classname="saleor.order.tests.test_order" name="test_display_translated_order_line_name[product-variant---product (variant)]" time="0.017" /><testcase classname="saleor.order.tests.test_order" name="test_display_translated_order_line_name[product-variant--variantPl-product (variantPl)]" time="0.017" /><testcase classname="saleor.order.tests.test_order" name="test_display_translated_order_line_name[product-variant-productPL--productPL (variant)]" time="0.016" /><testcase classname="saleor.order.tests.test_order" name="test_display_translated_order_line_name[product-variant-productPL-variantPl-productPL (variantPl)]" time="0.018" /><testcase classname="saleor.order.tests.test_order" name="test_email_sent_event_with_user" time="0.027" /><testcase classname="saleor.order.tests.test_order" name="test_email_sent_event_with_user_pk" time="0.025" /><testcase classname="saleor.order.tests.test_order" name="test_email_sent_event_without_user_and_user_pk" time="0.026" /><testcase classname="saleor.order.tests.test_order" name="test_get_discount_for_order_specific_products_voucher[10-percentage-False-8.61]" time="0.123" /><testcase classname="saleor.order.tests.test_order" name="test_get_discount_for_order_specific_products_voucher[10-percentage-True-1.23]" time="0.122" /><testcase classname="saleor.order.tests.test_order" name="test_get_discount_for_order_specific_products_voucher[10000-fixed-False-86.1]" time="0.122" /><testcase classname="saleor.order.tests.test_order" name="test_get_discount_for_order_specific_products_voucher[10000-fixed-True-12.3]" time="0.120" /><testcase classname="saleor.order.tests.test_order" name="test_get_discount_for_order_specific_products_voucher[5-fixed-False-25]" time="0.117" /><testcase classname="saleor.order.tests.test_order" name="test_get_discount_for_order_specific_products_voucher[5-fixed-True-5]" time="0.122" /><testcase classname="saleor.order.tests.test_order" name="test_get_order_weight_non_existing_product" time="0.157" /><testcase classname="saleor.order.tests.test_order" name="test_get_voucher_discount_for_order_voucher_validation" time="0.099" /><testcase classname="saleor.order.tests.test_order" name="test_order_get_subtotal" time="0.096" /><testcase classname="saleor.order.tests.test_order" name="test_order_queryset_confirmed" time="0.094" /><testcase classname="saleor.order.tests.test_order" name="test_order_queryset_drafts" time="0.096" /><testcase classname="saleor.order.tests.test_order" name="test_order_queryset_to_ship" time="0.031" /><testcase classname="saleor.order.tests.test_order" name="test_order_weight_add_more_variant" time="0.096" /><testcase classname="saleor.order.tests.test_order" name="test_order_weight_add_new_variant" time="0.137" /><testcase classname="saleor.order.tests.test_order" name="test_order_weight_change_line_quantity" time="0.098" /><testcase classname="saleor.order.tests.test_order" name="test_order_weight_delete_line" time="0.094" /><testcase classname="saleor.order.tests.test_order" name="test_product_voucher_checkout_discount_raises_not_applicable" time="0.127" /><testcase classname="saleor.order.tests.test_order" name="test_queryset_ready_to_capture" time="0.028" /><testcase classname="saleor.order.tests.test_order" name="test_restock_fulfilled_order_lines" time="0.155" /><testcase classname="saleor.order.tests.test_order" name="test_restock_fulfillment_lines" time="0.167" /><testcase classname="saleor.order.tests.test_order" name="test_restock_order_lines[False]" time="0.125" /><testcase classname="saleor.order.tests.test_order" name="test_restock_order_lines[True]" time="0.132" /><testcase classname="saleor.order.tests.test_order" name="test_send_fulfillment_order_lines_mails[False-True]" time="0.173" /><testcase classname="saleor.order.tests.test_order" name="test_send_fulfillment_order_lines_mails[True-False]" time="0.151" /><testcase classname="saleor.order.tests.test_order" name="test_send_fulfillment_order_lines_mails[True-True]" time="0.158" /><testcase classname="saleor.order.tests.test_order" name="test_shipping_voucher_checkout_discount_not_applicable_returns_zero[100-9-100-10-entire_order]" time="0.021" /><testcase classname="saleor.order.tests.test_order" name="test_shipping_voucher_checkout_discount_not_applicable_returns_zero[100-9-100-10-shipping]" time="0.020" /><testcase classname="saleor.order.tests.test_order" name="test_shipping_voucher_checkout_discount_not_applicable_returns_zero[100-9-100-10-specific_product]" time="0.021" /><testcase classname="saleor.order.tests.test_order" name="test_shipping_voucher_checkout_discount_not_applicable_returns_zero[99-10-100-10-entire_order]" time="0.028" /><testcase classname="saleor.order.tests.test_order" name="test_shipping_voucher_checkout_discount_not_applicable_returns_zero[99-10-100-10-shipping]" time="0.021" /><testcase classname="saleor.order.tests.test_order" name="test_shipping_voucher_checkout_discount_not_applicable_returns_zero[99-10-100-10-specific_product]" time="0.021" /><testcase classname="saleor.order.tests.test_order" name="test_shipping_voucher_checkout_discount_not_applicable_returns_zero[99-9-100-10-entire_order]" time="0.020" /><testcase classname="saleor.order.tests.test_order" name="test_shipping_voucher_checkout_discount_not_applicable_returns_zero[99-9-100-10-shipping]" time="0.019" /><testcase classname="saleor.order.tests.test_order" name="test_shipping_voucher_checkout_discount_not_applicable_returns_zero[99-9-100-10-specific_product]" time="0.019" /><testcase classname="saleor.order.tests.test_order" name="test_shipping_voucher_order_discount[10-20-fixed-10]" time="0.022" /><testcase classname="saleor.order.tests.test_order" name="test_shipping_voucher_order_discount[10-50-percentage-5]" time="0.021" /><testcase classname="saleor.order.tests.test_order" name="test_total_setter" time="0.015" /><testcase classname="saleor.order.tests.test_order" name="test_update_order_prices" time="0.129" /><testcase classname="saleor.order.tests.test_order" name="test_update_order_status_fulfilled" time="0.128" /><testcase classname="saleor.order.tests.test_order" name="test_update_order_status_partially_fulfilled" time="0.131" /><testcase classname="saleor.order.tests.test_order" name="test_update_order_status_partially_returned" time="0.137"><failure message="AssertionError: assert 'fulfilled' == 'partially_returned'&#10;  &#10;  - partially_returned&#10;  + fulfilled">fulfilled_order = &lt;Order #150&gt;
+
+    def test_update_order_status_partially_returned(fulfilled_order):
+        fulfillment = fulfilled_order.fulfillments.first()
+        fulfillment_line = fulfillment.lines.first()
+        fulfillment_line.quantity -= 3
+        fulfillment_line.save()
+        returned_fulfillment = fulfilled_order.fulfillments.create(
+            status=FulfillmentStatus.RETURNED
+        )
+        replaced_fulfillment = fulfilled_order.fulfillments.create(
+            status=FulfillmentStatus.REPLACED
+        )
+        refunded_and_returned_fulfillment = fulfilled_order.fulfillments.create(
+            status=FulfillmentStatus.REFUNDED_AND_RETURNED
+        )
+        returned_fulfillment.lines.create(
+            quantity=1, order_line=fulfillment_line.order_line
+        )
+        replaced_fulfillment.lines.create(
+            quantity=1, order_line=fulfillment_line.order_line
+        )
+        refunded_and_returned_fulfillment.lines.create(
+            quantity=1, order_line=fulfillment_line.order_line
+        )
+    
+        fulfilled_order.status = OrderStatus.UNFULFILLED
+        fulfilled_order.save()
+    
+        update_order_status(fulfilled_order)
+    
+        fulfilled_order.refresh_from_db()
+&gt;       assert fulfilled_order.status == OrderStatus.PARTIALLY_RETURNED
+E       AssertionError: assert 'fulfilled' == 'partially_returned'
+E         
+E         - partially_returned
+E         + fulfilled
+
+saleor/order/tests/test_order.py:342: AssertionError</failure></testcase><testcase classname="saleor.order.tests.test_order" name="test_update_order_status_returned" time="0.131"><failure message="AssertionError: assert 'fulfilled' == 'returned'&#10;  &#10;  - returned&#10;  + fulfilled">fulfilled_order = &lt;Order #151&gt;
+
+    def test_update_order_status_returned(fulfilled_order):
+        fulfilled_order.fulfillments.all().update(status=FulfillmentStatus.RETURNED)
+        fulfilled_order.status = OrderStatus.UNFULFILLED
+        fulfilled_order.save()
+    
+        update_order_status(fulfilled_order)
+    
+        fulfilled_order.refresh_from_db()
+&gt;       assert fulfilled_order.status == OrderStatus.RETURNED
+E       AssertionError: assert 'fulfilled' == 'returned'
+E         
+E         - returned
+E         + fulfilled
+
+saleor/order/tests/test_order.py:309: AssertionError</failure></testcase><testcase classname="saleor.order.tests.test_order" name="test_update_order_status_unfulfilled" time="0.089" /><testcase classname="saleor.order.tests.test_order" name="test_validate_fulfillment_tracking_number_as_url" time="0.123" /><testcase classname="saleor.order.tests.test_order" name="test_validate_voucher_in_order_without_voucher" time="0.093" /><testcase classname="saleor.order.tests.test_order" name="test_value_voucher_order_discount[100-10-fixed-None-10]" time="0.021" /><testcase classname="saleor.order.tests.test_order" name="test_value_voucher_order_discount[100.05-10-percentage-100-10]" time="0.021" /><testcase classname="saleor.order.tests.test_order_actions" name="test_cancel_fulfillment" time="0.153" /><testcase classname="saleor.order.tests.test_order_actions" name="test_cancel_fulfillment_variant_witout_inventory_tracking" time="0.095" /><testcase classname="saleor.order.tests.test_order_actions" name="test_cancel_order" time="0.162" /><testcase classname="saleor.order.tests.test_order_actions" name="test_clean_mark_order_as_paid" time="0.093" /><testcase classname="saleor.order.tests.test_order_actions" name="test_fulfill_digital_lines" time="0.135" /><testcase classname="saleor.order.tests.test_order_actions" name="test_fulfill_order_line" time="0.103" /><testcase classname="saleor.order.tests.test_order_actions" name="test_fulfill_order_line_with_variant_deleted" time="0.103" /><testcase classname="saleor.order.tests.test_order_actions" name="test_fulfill_order_line_without_inventory_tracking" time="0.094" /><testcase classname="saleor.order.tests.test_order_actions" name="test_handle_fully_paid_order" time="0.028" /><testcase classname="saleor.order.tests.test_order_actions" name="test_handle_fully_paid_order_digital_lines" time="0.141" /><testcase classname="saleor.order.tests.test_order_actions" name="test_handle_fully_paid_order_no_email" time="0.027" /><testcase classname="saleor.order.tests.test_order_actions" name="test_mark_as_paid" time="0.106" /><testcase classname="saleor.order.tests.test_order_actions" name="test_mark_as_paid_no_billing_address" time="0.092" /><testcase classname="saleor.order.tests.test_order_actions" name="test_mark_as_paid_with_external_reference" time="0.116" /><testcase classname="saleor.order.tests.test_order_actions" name="test_order_refunded" time="0.094"><failure message="TypeError: order_refunded() takes 4 positional arguments but 5 were given">send_order_refunded_confirmation_mock = &lt;MagicMock name='send_order_refunded_confirmation' id='136991025490960'&gt;
+order = &lt;Order #169&gt;, checkout_with_item = Checkout(quantity=3)
+
+    @patch("saleor.order.actions.send_order_refunded_confirmation")
+    def test_order_refunded(
+        send_order_refunded_confirmation_mock, order, checkout_with_item,
+    ):
+        # given
+        payment = Payment.objects.create(
+            gateway="mirumee.payments.dummy", is_active=True, checkout=checkout_with_item
+        )
+        amount = order.total.gross.amount
+    
+        # when
+&gt;       order_refunded(order, order.user, amount, payment, get_plugins_manager())
+E       TypeError: order_refunded() takes 4 positional arguments but 5 were given
+
+saleor/order/tests/test_order_actions.py:239: TypeError</failure></testcase><testcase classname="saleor.order.tests.test_order_actions_create_fulfillments_for_returned_products" name="test_create_return_fulfillment_multiple_fulfillment_lines_returns" time="0.131"><failure message="TypeError: create_fulfillments_for_returned_products() got an unexpected keyword argument 'plugin_manager'">mocked_refund = &lt;MagicMock name='refund' id='136991025475344'&gt;
+fulfilled_order = &lt;Order #170&gt;
+payment_dummy_fully_charged = Payment(gateway=mirumee.payments.dummy, is_active=True, created=2026-09-30 23:34:16.493254+00:00, charge_status=fully-charged)
+staff_user = &lt;User: staff_test@example.com&gt;
+
+    @patch("saleor.order.actions.gateway.refund")
+    def test_create_return_fulfillment_multiple_fulfillment_lines_returns(
+        mocked_refund, fulfilled_order, payment_dummy_fully_charged, staff_user
+    ):
+        fulfilled_order.payments.add(payment_dummy_fully_charged)
+        payment = fulfilled_order.get_last_payment()
+        order_line_ids = fulfilled_order.lines.all().values_list("id", flat=True)
+        fulfillment_lines = FulfillmentLine.objects.filter(order_line_id__in=order_line_ids)
+        original_quantity = {line.id: line.quantity for line in fulfillment_lines}
+        fulfillment_lines_to_return = fulfillment_lines
+    
+        for _ in range(2):
+&gt;           create_fulfillments_for_returned_products(
+                requester=staff_user,
+                order=fulfilled_order,
+                payment=payment,
+                order_lines=[],
+                fulfillment_lines=[
+                    FulfillmentLineData(line=line, quantity=1)
+                    for line in fulfillment_lines_to_return
+                ],
+                plugin_manager=get_plugins_manager(),
+                refund=True,
+            )
+E           TypeError: create_fulfillments_for_returned_products() got an unexpected keyword argument 'plugin_manager'
+
+saleor/order/tests/test_order_actions_create_fulfillments_for_returned_products.py:491: TypeError</failure></testcase><testcase classname="saleor.order.tests.test_order_actions_create_fulfillments_for_returned_products" name="test_create_return_fulfillment_multiple_lines_returns" time="0.162"><failure message="TypeError: create_fulfillments_for_returned_products() got an unexpected keyword argument 'plugin_manager'">mocked_refund = &lt;MagicMock name='refund' id='136991025442928'&gt;
+fulfilled_order = &lt;Order #171&gt;
+payment_dummy_fully_charged = Payment(gateway=mirumee.payments.dummy, is_active=True, created=2026-09-30 23:34:16.796092+00:00, charge_status=fully-charged)
+staff_user = &lt;User: staff_test@example.com&gt;, channel_USD = &lt;Channel: main&gt;
+variant = &lt;ProductVariant: SKU_A&gt;, warehouse = &lt;Warehouse: Example Warehouse&gt;
+
+    @patch("saleor.order.actions.gateway.refund")
+    def test_create_return_fulfillment_multiple_lines_returns(
+        mocked_refund,
+        fulfilled_order,
+        payment_dummy_fully_charged,
+        staff_user,
+        channel_USD,
+        variant,
+        warehouse,
+    ):
+        fulfilled_order.payments.add(payment_dummy_fully_charged)
+        payment = fulfilled_order.get_last_payment()
+        order_line_ids = fulfilled_order.lines.all().values_list("id", flat=True)
+        fulfillment_lines = FulfillmentLine.objects.filter(order_line_id__in=order_line_ids)
+        original_quantity = {line.id: line.quantity for line in fulfillment_lines}
+        fulfillment_lines_to_return = fulfillment_lines
+    
+        stock = Stock.objects.create(
+            warehouse=warehouse, product_variant=variant, quantity=5
+        )
+        net = variant.get_price(channel_USD.slug)
+        gross = Money(amount=net.amount * Decimal(1.23), currency=net.currency)
+        order_line = fulfilled_order.lines.create(
+            product_name=str(variant.product),
+            variant_name=str(variant),
+            product_sku=variant.sku,
+            is_shipping_required=variant.is_shipping_required(),
+            quantity=5,
+            quantity_fulfilled=2,
+            variant=variant,
+            unit_price=TaxedMoney(net=net, gross=gross),
+            tax_rate=23,
+        )
+        Allocation.objects.create(
+            order_line=order_line, stock=stock, quantity_allocated=order_line.quantity
+        )
+    
+        for _ in range(2):
+&gt;           create_fulfillments_for_returned_products(
+                requester=staff_user,
+                order=fulfilled_order,
+                payment=payment,
+                order_lines=[OrderLineData(line=order_line, quantity=1)],
+                fulfillment_lines=[
+                    FulfillmentLineData(line=line, quantity=1)
+                    for line in fulfillment_lines_to_return
+                ],
+                plugin_manager=get_plugins_manager(),
+                refund=True,
+            )
+E           TypeError: create_fulfillments_for_returned_products() got an unexpected keyword argument 'plugin_manager'
+
+saleor/order/tests/test_order_actions_create_fulfillments_for_returned_products.py:558: TypeError</failure></testcase><testcase classname="saleor.order.tests.test_order_actions_create_fulfillments_for_returned_products" name="test_create_return_fulfillment_multiple_lines_without_refund" time="0.178"><failure message="TypeError: create_fulfillments_for_returned_products() got an unexpected keyword argument 'plugin_manager'">mocked_refund = &lt;MagicMock name='refund' id='136991025470720'&gt;
+fulfilled_order = &lt;Order #172&gt;
+payment_dummy_fully_charged = Payment(gateway=mirumee.payments.dummy, is_active=True, created=2026-09-30 23:34:16.984804+00:00, charge_status=fully-charged)
+staff_user = &lt;User: staff_test@example.com&gt;, channel_USD = &lt;Channel: main&gt;
+variant = &lt;ProductVariant: SKU_A&gt;, warehouse = &lt;Warehouse: Example Warehouse&gt;
+
+    @patch("saleor.order.actions.gateway.refund")
+    def test_create_return_fulfillment_multiple_lines_without_refund(
+        mocked_refund,
+        fulfilled_order,
+        payment_dummy_fully_charged,
+        staff_user,
+        channel_USD,
+        variant,
+        warehouse,
+    ):
+        fulfilled_order.payments.add(payment_dummy_fully_charged)
+        payment = fulfilled_order.get_last_payment()
+        order_line_ids = fulfilled_order.lines.all().values_list("id", flat=True)
+        fulfillment_lines = FulfillmentLine.objects.filter(order_line_id__in=order_line_ids)
+        original_quantity = {line.id: line.quantity for line in fulfillment_lines}
+        fulfillment_lines_to_return = fulfillment_lines
+    
+        stock = Stock.objects.create(
+            warehouse=warehouse, product_variant=variant, quantity=5
+        )
+        net = variant.get_price(channel_USD.slug)
+        gross = Money(amount=net.amount * Decimal(1.23), currency=net.currency)
+        order_line = fulfilled_order.lines.create(
+            product_name=str(variant.product),
+            variant_name=str(variant),
+            product_sku=variant.sku,
+            is_shipping_required=variant.is_shipping_required(),
+            quantity=5,
+            quantity_fulfilled=2,
+            variant=variant,
+            unit_price=TaxedMoney(net=net, gross=gross),
+            tax_rate=23,
+        )
+        Allocation.objects.create(
+            order_line=order_line, stock=stock, quantity_allocated=order_line.quantity
+        )
+        refunded_fulfillment = Fulfillment.objects.create(
+            order=fulfilled_order, status=FulfillmentStatus.REFUNDED
+        )
+        refunded_fulfillment_line = refunded_fulfillment.lines.create(
+            order_line=order_line, quantity=2
+        )
+    
+        fulfillment_lines_to_process = [
+            FulfillmentLineData(line=line, quantity=1)
+            for line in fulfillment_lines_to_return
+        ]
+        fulfillment_lines_to_process.append(
+            FulfillmentLineData(line=refunded_fulfillment_line, quantity=1)
+        )
+        for _ in range(2):
+&gt;           create_fulfillments_for_returned_products(
+                requester=staff_user,
+                order=fulfilled_order,
+                payment=payment,
+                order_lines=[OrderLineData(line=order_line, quantity=1)],
+                fulfillment_lines=fulfillment_lines_to_process,
+                plugin_manager=get_plugins_manager(),
+                refund=False,
+            )
+E           TypeError: create_fulfillments_for_returned_products() got an unexpected keyword argument 'plugin_manager'
+
+saleor/order/tests/test_order_actions_create_fulfillments_for_returned_products.py:638: TypeError</failure></testcase><testcase classname="saleor.order.tests.test_order_actions_create_fulfillments_for_returned_products" name="test_create_return_fulfillment_multiple_order_line_returns" time="0.101"><failure message="TypeError: create_fulfillments_for_returned_products() got an unexpected keyword argument 'plugin_manager'">mocked_refund = &lt;MagicMock name='refund' id='136991032152368'&gt;
+order_with_lines = &lt;Order #173&gt;
+payment_dummy_fully_charged = Payment(gateway=mirumee.payments.dummy, is_active=True, created=2026-09-30 23:34:17.131577+00:00, charge_status=fully-charged)
+staff_user = &lt;User: staff_test@example.com&gt;
+
+    @patch("saleor.order.actions.gateway.refund")
+    def test_create_return_fulfillment_multiple_order_line_returns(
+        mocked_refund, order_with_lines, payment_dummy_fully_charged, staff_user
+    ):
+        order_with_lines.payments.add(payment_dummy_fully_charged)
+        payment = order_with_lines.get_last_payment()
+        order_lines_to_return = order_with_lines.lines.all()
+        original_quantity = {
+            line.id: line.quantity_unfulfilled for line in order_with_lines
+        }
+        order_line_ids = order_lines_to_return.values_list("id", flat=True)
+        lines_count = order_lines_to_return.count()
+    
+        for _ in range(2):
+            # call refund two times
+&gt;           create_fulfillments_for_returned_products(
+                requester=staff_user,
+                order=order_with_lines,
+                payment=payment,
+                order_lines=[
+                    OrderLineData(line=line, quantity=1) for line in order_lines_to_return
+                ],
+                fulfillment_lines=[],
+                plugin_manager=get_plugins_manager(),
+                refund=True,
+            )
+E           TypeError: create_fulfillments_for_returned_products() got an unexpected keyword argument 'plugin_manager'
+
+saleor/order/tests/test_order_actions_create_fulfillments_for_returned_products.py:317: TypeError</failure></testcase><testcase classname="saleor.order.tests.test_order_actions_create_fulfillments_for_returned_products" name="test_create_return_fulfillment_only_fulfillment_lines" time="0.130"><failure message="TypeError: create_fulfillments_for_returned_products() got an unexpected keyword argument 'plugin_manager'">mocked_refund = &lt;MagicMock name='refund' id='136991026069712'&gt;
+fulfilled_order = &lt;Order #174&gt;
+payment_dummy_fully_charged = Payment(gateway=mirumee.payments.dummy, is_active=True, created=2026-09-30 23:34:17.281329+00:00, charge_status=fully-charged)
+staff_user = &lt;User: staff_test@example.com&gt;
+
+    @patch("saleor.order.actions.gateway.refund")
+    def test_create_return_fulfillment_only_fulfillment_lines(
+        mocked_refund, fulfilled_order, payment_dummy_fully_charged, staff_user
+    ):
+        fulfilled_order.payments.add(payment_dummy_fully_charged)
+        payment = fulfilled_order.get_last_payment()
+        order_line_ids = fulfilled_order.lines.all().values_list("id", flat=True)
+        fulfillment_lines = FulfillmentLine.objects.filter(order_line_id__in=order_line_ids)
+        original_quantity = {line.id: line.quantity for line in fulfillment_lines}
+    
+&gt;       response = create_fulfillments_for_returned_products(
+            requester=staff_user,
+            order=fulfilled_order,
+            payment=payment,
+            order_lines=[],
+            fulfillment_lines=[
+                FulfillmentLineData(line=line, quantity=2, replace=False)
+                for line in fulfillment_lines
+            ],
+            plugin_manager=get_plugins_manager(),
+        )
+E       TypeError: create_fulfillments_for_returned_products() got an unexpected keyword argument 'plugin_manager'
+
+saleor/order/tests/test_order_actions_create_fulfillments_for_returned_products.py:353: TypeError</failure></testcase><testcase classname="saleor.order.tests.test_order_actions_create_fulfillments_for_returned_products" name="test_create_return_fulfillment_only_fulfillment_lines_replace_order" time="0.134"><failure message="TypeError: create_fulfillments_for_returned_products() got an unexpected keyword argument 'plugin_manager'">mocked_refund = &lt;MagicMock name='refund' id='136991029796432'&gt;
+fulfilled_order = &lt;Order #175&gt;
+payment_dummy_fully_charged = Payment(gateway=mirumee.payments.dummy, is_active=True, created=2026-09-30 23:34:17.427715+00:00, charge_status=fully-charged)
+staff_user = &lt;User: staff_test@example.com&gt;
+
+    @patch("saleor.order.actions.gateway.refund")
+    def test_create_return_fulfillment_only_fulfillment_lines_replace_order(
+        mocked_refund, fulfilled_order, payment_dummy_fully_charged, staff_user
+    ):
+        fulfilled_order.payments.add(payment_dummy_fully_charged)
+        payment = fulfilled_order.get_last_payment()
+        order_line_ids = fulfilled_order.lines.all().values_list("id", flat=True)
+        fulfillment_lines = FulfillmentLine.objects.filter(order_line_id__in=order_line_ids)
+        original_quantity = {line.id: line.quantity for line in fulfillment_lines}
+    
+        # Prepare the structure for return method
+        fulfillment_lines_to_return = [
+            FulfillmentLineData(line=line, quantity=2, replace=False)
+            for line in fulfillment_lines
+        ]
+        # The line which should be replaced
+        replace_quantity = 2
+        fulfillment_lines_to_return[0].replace = True
+        fulfillment_lines_to_return[0].quantity = replace_quantity
+    
+&gt;       response = create_fulfillments_for_returned_products(
+            requester=staff_user,
+            order=fulfilled_order,
+            payment=payment,
+            order_lines=[],
+            fulfillment_lines=fulfillment_lines_to_return,
+            plugin_manager=get_plugins_manager(),
+        )
+E       TypeError: create_fulfillments_for_returned_products() got an unexpected keyword argument 'plugin_manager'
+
+saleor/order/tests/test_order_actions_create_fulfillments_for_returned_products.py:402: TypeError</failure></testcase><testcase classname="saleor.order.tests.test_order_actions_create_fulfillments_for_returned_products" name="test_create_return_fulfillment_only_order_lines" time="0.101"><failure message="TypeError: create_fulfillments_for_returned_products() got an unexpected keyword argument 'plugin_manager'">mocked_refund = &lt;MagicMock name='refund' id='136991025499920'&gt;
+order_with_lines = &lt;Order #176&gt;
+payment_dummy_fully_charged = Payment(gateway=mirumee.payments.dummy, is_active=True, created=2026-09-30 23:34:17.536729+00:00, charge_status=fully-charged)
+staff_user = &lt;User: staff_test@example.com&gt;
+
+    @patch("saleor.order.actions.gateway.refund")
+    def test_create_return_fulfillment_only_order_lines(
+        mocked_refund, order_with_lines, payment_dummy_fully_charged, staff_user
+    ):
+        order_with_lines.payments.add(payment_dummy_fully_charged)
+        payment = order_with_lines.get_last_payment()
+    
+        order_lines_to_return = order_with_lines.lines.all()
+        original_quantity = {
+            line.id: line.quantity_unfulfilled for line in order_with_lines
+        }
+        order_line_ids = order_lines_to_return.values_list("id", flat=True)
+        original_allocations = list(
+            Allocation.objects.filter(order_line_id__in=order_line_ids)
+        )
+        lines_count = order_with_lines.lines.count()
+    
+&gt;       response = create_fulfillments_for_returned_products(
+            requester=staff_user,
+            order=order_with_lines,
+            payment=payment,
+            order_lines=[
+                OrderLineData(line=line, quantity=2, replace=False)
+                for line in order_lines_to_return
+            ],
+            fulfillment_lines=[],
+            plugin_manager=get_plugins_manager(),
+        )
+E       TypeError: create_fulfillments_for_returned_products() got an unexpected keyword argument 'plugin_manager'
+
+saleor/order/tests/test_order_actions_create_fulfillments_for_returned_products.py:30: TypeError</failure></testcase><testcase classname="saleor.order.tests.test_order_actions_create_fulfillments_for_returned_products" name="test_create_return_fulfillment_only_order_lines_included_shipping_costs" time="0.101"><failure message="TypeError: create_fulfillments_for_returned_products() got an unexpected keyword argument 'plugin_manager'">mocked_refund = &lt;MagicMock name='refund' id='136991030043696'&gt;
+order_with_lines = &lt;Order #177&gt;
+payment_dummy_fully_charged = Payment(gateway=mirumee.payments.dummy, is_active=True, created=2026-09-30 23:34:17.647737+00:00, charge_status=fully-charged)
+staff_user = &lt;User: staff_test@example.com&gt;
+
+    @patch("saleor.order.actions.gateway.refund")
+    def test_create_return_fulfillment_only_order_lines_included_shipping_costs(
+        mocked_refund, order_with_lines, payment_dummy_fully_charged, staff_user
+    ):
+        order_with_lines.payments.add(payment_dummy_fully_charged)
+        payment = order_with_lines.get_last_payment()
+    
+        order_lines_to_return = order_with_lines.lines.all()
+        original_quantity = {
+            line.id: line.quantity_unfulfilled for line in order_with_lines
+        }
+        order_line_ids = order_lines_to_return.values_list("id", flat=True)
+        original_allocations = list(
+            Allocation.objects.filter(order_line_id__in=order_line_ids)
+        )
+        lines_count = order_with_lines.lines.count()
+    
+&gt;       response = create_fulfillments_for_returned_products(
+            requester=staff_user,
+            order=order_with_lines,
+            payment=payment,
+            order_lines=[
+                OrderLineData(line=line, quantity=2, replace=False)
+                for line in order_lines_to_return
+            ],
+            fulfillment_lines=[],
+            plugin_manager=get_plugins_manager(),
+            refund=True,
+            refund_shipping_costs=True,
+        )
+E       TypeError: create_fulfillments_for_returned_products() got an unexpected keyword argument 'plugin_manager'
+
+saleor/order/tests/test_order_actions_create_fulfillments_for_returned_products.py:150: TypeError</failure></testcase><testcase classname="saleor.order.tests.test_order_actions_create_fulfillments_for_returned_products" name="test_create_return_fulfillment_only_order_lines_with_refund" time="0.106"><failure message="TypeError: create_fulfillments_for_returned_products() got an unexpected keyword argument 'plugin_manager'">mocked_refund = &lt;MagicMock name='refund' id='136991029340768'&gt;
+order_with_lines = &lt;Order #178&gt;
+payment_dummy_fully_charged = Payment(gateway=mirumee.payments.dummy, is_active=True, created=2026-09-30 23:34:17.769854+00:00, charge_status=fully-charged)
+staff_user = &lt;User: staff_test@example.com&gt;
+
+    @patch("saleor.order.actions.gateway.refund")
+    def test_create_return_fulfillment_only_order_lines_with_refund(
+        mocked_refund, order_with_lines, payment_dummy_fully_charged, staff_user
+    ):
+        order_with_lines.payments.add(payment_dummy_fully_charged)
+        payment = order_with_lines.get_last_payment()
+    
+        order_lines_to_return = order_with_lines.lines.all()
+        original_quantity = {
+            line.id: line.quantity_unfulfilled for line in order_with_lines
+        }
+        order_line_ids = order_lines_to_return.values_list("id", flat=True)
+        original_allocations = list(
+            Allocation.objects.filter(order_line_id__in=order_line_ids)
+        )
+        lines_count = order_with_lines.lines.count()
+    
+&gt;       response = create_fulfillments_for_returned_products(
+            requester=staff_user,
+            order=order_with_lines,
+            payment=payment,
+            order_lines=[
+                OrderLineData(line=line, quantity=2, replace=False)
+                for line in order_lines_to_return
+            ],
+            fulfillment_lines=[],
+            plugin_manager=get_plugins_manager(),
+            refund=True,
+        )
+E       TypeError: create_fulfillments_for_returned_products() got an unexpected keyword argument 'plugin_manager'
+
+saleor/order/tests/test_order_actions_create_fulfillments_for_returned_products.py:95: TypeError</failure></testcase><testcase classname="saleor.order.tests.test_order_actions_create_fulfillments_for_returned_products" name="test_create_return_fulfillment_only_order_lines_with_replace_request" time="0.099"><failure message="TypeError: create_fulfillments_for_returned_products() got an unexpected keyword argument 'plugin_manager'">mocked_refund = &lt;MagicMock name='refund' id='136991029993088'&gt;
+order_with_lines = &lt;Order #179&gt;
+payment_dummy_fully_charged = Payment(gateway=mirumee.payments.dummy, is_active=True, created=2026-09-30 23:34:17.879879+00:00, charge_status=fully-charged)
+staff_user = &lt;User: staff_test@example.com&gt;
+
+    @patch("saleor.order.actions.gateway.refund")
+    def test_create_return_fulfillment_only_order_lines_with_replace_request(
+        mocked_refund, order_with_lines, payment_dummy_fully_charged, staff_user
+    ):
+        order_with_lines.payments.add(payment_dummy_fully_charged)
+        payment = order_with_lines.get_last_payment()
+    
+        order_lines_to_return = order_with_lines.lines.all()
+        original_quantity = {
+            line.id: line.quantity_unfulfilled for line in order_with_lines
+        }
+        order_line_ids = order_lines_to_return.values_list("id", flat=True)
+        original_allocations = list(
+            Allocation.objects.filter(order_line_id__in=order_line_ids)
+        )
+        lines_count = order_with_lines.lines.count()
+        quantity_to_replace = 2
+        order_lines_data = [
+            OrderLineData(line=line, quantity=2, replace=False)
+            for line in order_lines_to_return
+        ]
+    
+        # set replace request for the first line
+        order_lines_data[0].replace = True
+        order_lines_data[0].quantity = quantity_to_replace
+    
+&gt;       response = create_fulfillments_for_returned_products(
+            requester=staff_user,
+            order=order_with_lines,
+            payment=payment,
+            order_lines=order_lines_data,
+            fulfillment_lines=[],
+            plugin_manager=get_plugins_manager(),
+        )
+E       TypeError: create_fulfillments_for_returned_products() got an unexpected keyword argument 'plugin_manager'
+
+saleor/order/tests/test_order_actions_create_fulfillments_for_returned_products.py:216: TypeError</failure></testcase><testcase classname="saleor.order.tests.test_order_actions_create_fulfillments_for_returned_products" name="test_create_return_fulfillment_with_lines_already_refunded" time="0.168"><failure message="TypeError: create_fulfillments_for_returned_products() got an unexpected keyword argument 'plugin_manager'">mocked_refund = &lt;MagicMock name='refund' id='136991036042592'&gt;
+fulfilled_order = &lt;Order #180&gt;
+payment_dummy_fully_charged = Payment(gateway=mirumee.payments.dummy, is_active=True, created=2026-09-30 23:34:18.026367+00:00, charge_status=fully-charged)
+staff_user = &lt;User: staff_test@example.com&gt;, channel_USD = &lt;Channel: main&gt;
+variant = &lt;ProductVariant: SKU_A&gt;, warehouse = &lt;Warehouse: Example Warehouse&gt;
+
+    @patch("saleor.order.actions.gateway.refund")
+    def test_create_return_fulfillment_with_lines_already_refunded(
+        mocked_refund,
+        fulfilled_order,
+        payment_dummy_fully_charged,
+        staff_user,
+        channel_USD,
+        variant,
+        warehouse,
+    ):
+        fulfilled_order.payments.add(payment_dummy_fully_charged)
+        payment = fulfilled_order.get_last_payment()
+        order_line_ids = fulfilled_order.lines.all().values_list("id", flat=True)
+        fulfillment_lines = FulfillmentLine.objects.filter(order_line_id__in=order_line_ids)
+        original_quantity = {line.id: line.quantity for line in fulfillment_lines}
+        fulfillment_lines_to_return = fulfillment_lines
+    
+        stock = Stock.objects.create(
+            warehouse=warehouse, product_variant=variant, quantity=5
+        )
+        net = variant.get_price(channel_USD.slug)
+        gross = Money(amount=net.amount * Decimal(1.23), currency=net.currency)
+        order_line = fulfilled_order.lines.create(
+            product_name=str(variant.product),
+            variant_name=str(variant),
+            product_sku=variant.sku,
+            is_shipping_required=variant.is_shipping_required(),
+            quantity=5,
+            quantity_fulfilled=2,
+            variant=variant,
+            unit_price=TaxedMoney(net=net, gross=gross),
+            tax_rate=23,
+        )
+        Allocation.objects.create(
+            order_line=order_line, stock=stock, quantity_allocated=order_line.quantity
+        )
+        refunded_fulfillment = Fulfillment.objects.create(
+            order=fulfilled_order, status=FulfillmentStatus.REFUNDED
+        )
+        refunded_fulfillment_line = refunded_fulfillment.lines.create(
+            order_line=order_line, quantity=2
+        )
+    
+        fulfillment_lines_to_process = [
+            FulfillmentLineData(line=line, quantity=2)
+            for line in fulfillment_lines_to_return
+        ]
+        fulfillment_lines_to_process.append(
+            FulfillmentLineData(line=refunded_fulfillment_line, quantity=2)
+        )
+&gt;       create_fulfillments_for_returned_products(
+            requester=staff_user,
+            order=fulfilled_order,
+            payment=payment,
+            order_lines=[],
+            fulfillment_lines=fulfillment_lines_to_process,
+            plugin_manager=get_plugins_manager(),
+            refund=True,
+        )
+E       TypeError: create_fulfillments_for_returned_products() got an unexpected keyword argument 'plugin_manager'
+
+saleor/order/tests/test_order_actions_create_fulfillments_for_returned_products.py:722: TypeError</failure></testcase><testcase classname="saleor.order.tests.test_order_actions_refund_products" name="test_create_refund_fulfillment_custom_amount" time="0.135"><failure message="TypeError: create_refund_fulfillment() got an unexpected keyword argument 'plugin_manager'">mocked_refund = &lt;MagicMock name='refund' id='136991033332448'&gt;
+fulfilled_order = &lt;Order #181&gt;
+payment_dummy = Payment(gateway=mirumee.payments.dummy, is_active=True, created=2026-09-30 23:34:18.208311+00:00, charge_status=fully-charged)
+
+    @patch("saleor.order.actions.gateway.refund")
+    def test_create_refund_fulfillment_custom_amount(
+        mocked_refund, fulfilled_order, payment_dummy
+    ):
+        payment_dummy.captured_amount = payment_dummy.total
+        payment_dummy.charge_status = ChargeStatus.FULLY_CHARGED
+        payment_dummy.save()
+        fulfilled_order.payments.add(payment_dummy)
+        payment = fulfilled_order.get_last_payment()
+        order_line_ids = fulfilled_order.lines.all().values_list("id", flat=True)
+        fulfillment_lines = FulfillmentLine.objects.filter(order_line_id__in=order_line_ids)
+        original_quantity = {line.id: line.quantity for line in fulfillment_lines}
+        fulfillment_lines_to_refund = fulfillment_lines
+        amount = Decimal("10.00")
+    
+&gt;       returned_fulfillemnt = create_refund_fulfillment(
+            requester=None,
+            order=fulfilled_order,
+            payment=payment,
+            order_lines_to_refund=[],
+            fulfillment_lines_to_refund=[
+                FulfillmentLineData(line=line, quantity=2)
+                for line in fulfillment_lines_to_refund
+            ],
+            plugin_manager=get_plugins_manager(),
+            amount=amount,
+        )
+E       TypeError: create_refund_fulfillment() got an unexpected keyword argument 'plugin_manager'
+
+saleor/order/tests/test_order_actions_refund_products.py:249: TypeError</failure></testcase><testcase classname="saleor.order.tests.test_order_actions_refund_products" name="test_create_refund_fulfillment_included_shipping_costs" time="0.099"><failure message="TypeError: create_refund_fulfillment() got an unexpected keyword argument 'plugin_manager'">mocked_refund = &lt;MagicMock name='refund' id='136991029989536'&gt;
+order_with_lines = &lt;Order #182&gt;
+payment_dummy = Payment(gateway=mirumee.payments.dummy, is_active=True, created=2026-09-30 23:34:18.313121+00:00, charge_status=fully-charged)
+
+    @patch("saleor.order.actions.gateway.refund")
+    def test_create_refund_fulfillment_included_shipping_costs(
+        mocked_refund, order_with_lines, payment_dummy
+    ):
+        payment_dummy.captured_amount = payment_dummy.total
+        payment_dummy.charge_status = ChargeStatus.FULLY_CHARGED
+        payment_dummy.save()
+        order_with_lines.payments.add(payment_dummy)
+        payment = order_with_lines.get_last_payment()
+        order_lines_to_refund = order_with_lines.lines.all()
+        original_quantity = {
+            line.id: line.quantity_unfulfilled for line in order_with_lines
+        }
+        order_line_ids = order_lines_to_refund.values_list("id", flat=True)
+        lines_count = order_with_lines.lines.count()
+    
+&gt;       returned_fulfillemnt = create_refund_fulfillment(
+            requester=None,
+            order=order_with_lines,
+            payment=payment,
+            order_lines_to_refund=[
+                OrderLineData(line=line, quantity=2) for line in order_lines_to_refund
+            ],
+            fulfillment_lines_to_refund=[],
+            plugin_manager=get_plugins_manager(),
+            refund_shipping_costs=True,
+        )
+E       TypeError: create_refund_fulfillment() got an unexpected keyword argument 'plugin_manager'
+
+saleor/order/tests/test_order_actions_refund_products.py:127: TypeError</failure></testcase><testcase classname="saleor.order.tests.test_order_actions_refund_products" name="test_create_refund_fulfillment_multiple_fulfillment_lines_refunds" time="0.129"><failure message="TypeError: create_refund_fulfillment() got an unexpected keyword argument 'plugin_manager'">mocked_refund = &lt;MagicMock name='refund' id='136991036008960'&gt;
+fulfilled_order = &lt;Order #183&gt;
+payment_dummy = Payment(gateway=mirumee.payments.dummy, is_active=True, created=2026-09-30 23:34:18.453310+00:00, charge_status=fully-charged)
+
+    @patch("saleor.order.actions.gateway.refund")
+    def test_create_refund_fulfillment_multiple_fulfillment_lines_refunds(
+        mocked_refund, fulfilled_order, payment_dummy
+    ):
+        payment_dummy.captured_amount = payment_dummy.total
+        payment_dummy.charge_status = ChargeStatus.FULLY_CHARGED
+        payment_dummy.save()
+        fulfilled_order.payments.add(payment_dummy)
+        payment = fulfilled_order.get_last_payment()
+        order_line_ids = fulfilled_order.lines.all().values_list("id", flat=True)
+        fulfillment_lines = FulfillmentLine.objects.filter(order_line_id__in=order_line_ids)
+        original_quantity = {line.id: line.quantity for line in fulfillment_lines}
+        fulfillment_lines_to_refund = fulfillment_lines
+    
+        for _ in range(2):
+&gt;           create_refund_fulfillment(
+                requester=None,
+                order=fulfilled_order,
+                payment=payment,
+                order_lines_to_refund=[],
+                fulfillment_lines_to_refund=[
+                    FulfillmentLineData(line=line, quantity=1)
+                    for line in fulfillment_lines_to_refund
+                ],
+                plugin_manager=get_plugins_manager(),
+            )
+E           TypeError: create_refund_fulfillment() got an unexpected keyword argument 'plugin_manager'
+
+saleor/order/tests/test_order_actions_refund_products.py:206: TypeError</failure></testcase><testcase classname="saleor.order.tests.test_order_actions_refund_products" name="test_create_refund_fulfillment_multiple_order_line_refunds" time="0.097"><failure message="TypeError: create_refund_fulfillment() got an unexpected keyword argument 'plugin_manager'">mocked_refund = &lt;MagicMock name='refund' id='136991029893008'&gt;
+order_with_lines = &lt;Order #184&gt;
+payment_dummy = Payment(gateway=mirumee.payments.dummy, is_active=True, created=2026-09-30 23:34:18.557619+00:00, charge_status=fully-charged)
+
+    @patch("saleor.order.actions.gateway.refund")
+    def test_create_refund_fulfillment_multiple_order_line_refunds(
+        mocked_refund, order_with_lines, payment_dummy
+    ):
+        payment_dummy.captured_amount = payment_dummy.total
+        payment_dummy.charge_status = ChargeStatus.FULLY_CHARGED
+        payment_dummy.save()
+        order_with_lines.payments.add(payment_dummy)
+        payment = order_with_lines.get_last_payment()
+        order_lines_to_refund = order_with_lines.lines.all()
+        original_quantity = {
+            line.id: line.quantity_unfulfilled for line in order_with_lines
+        }
+        order_line_ids = order_lines_to_refund.values_list("id", flat=True)
+        lines_count = order_lines_to_refund.count()
+    
+        for _ in range(2):
+            # call refund two times
+&gt;           create_refund_fulfillment(
+                requester=None,
+                order=order_with_lines,
+                payment=payment,
+                order_lines_to_refund=[
+                    OrderLineData(line=line, quantity=1) for line in order_lines_to_refund
+                ],
+                fulfillment_lines_to_refund=[],
+                plugin_manager=get_plugins_manager(),
+            )
+E           TypeError: create_refund_fulfillment() got an unexpected keyword argument 'plugin_manager'
+
+saleor/order/tests/test_order_actions_refund_products.py:85: TypeError</failure></testcase><testcase classname="saleor.order.tests.test_order_actions_refund_products" name="test_create_refund_fulfillment_multiple_refunds" time="0.170"><failure message="TypeError: create_refund_fulfillment() got an unexpected keyword argument 'plugin_manager'">mocked_refund = &lt;MagicMock name='refund' id='136991032580368'&gt;
+fulfilled_order = &lt;Order #185&gt;, variant = &lt;ProductVariant: SKU_A&gt;
+payment_dummy = Payment(gateway=mirumee.payments.dummy, is_active=True, created=2026-09-30 23:34:18.728600+00:00, charge_status=fully-charged)
+warehouse = &lt;Warehouse: Example Warehouse&gt;, channel_USD = &lt;Channel: main&gt;
+
+    @patch("saleor.order.actions.gateway.refund")
+    def test_create_refund_fulfillment_multiple_refunds(
+        mocked_refund, fulfilled_order, variant, payment_dummy, warehouse, channel_USD
+    ):
+        payment_dummy.captured_amount = payment_dummy.total
+        payment_dummy.charge_status = ChargeStatus.FULLY_CHARGED
+        payment_dummy.save()
+        fulfilled_order.payments.add(payment_dummy)
+        payment = fulfilled_order.get_last_payment()
+    
+        stock = Stock.objects.create(
+            warehouse=warehouse, product_variant=variant, quantity=5
+        )
+        net = variant.get_price(channel_USD.slug)
+        gross = Money(amount=net.amount * Decimal(1.23), currency=net.currency)
+        order_line = fulfilled_order.lines.create(
+            product_name=str(variant.product),
+            variant_name=str(variant),
+            product_sku=variant.sku,
+            is_shipping_required=variant.is_shipping_required(),
+            quantity=5,
+            quantity_fulfilled=2,
+            variant=variant,
+            unit_price=TaxedMoney(net=net, gross=gross),
+            tax_rate=23,
+        )
+        Allocation.objects.create(
+            order_line=order_line, stock=stock, quantity_allocated=order_line.quantity
+        )
+        fulfillment = fulfilled_order.fulfillments.get()
+        fulfillment.lines.create(order_line=order_line, quantity=2, stock=stock)
+    
+        order_line_ids = fulfilled_order.lines.all().values_list("id", flat=True)
+        fulfillment_lines = fulfillment.lines.all()
+        original_fulfillment_quantity = {
+            line.id: line.quantity for line in fulfillment_lines
+        }
+        fulfillment_lines_to_refund = fulfillment_lines
+    
+        for _ in range(2):
+&gt;           create_refund_fulfillment(
+                requester=None,
+                order=fulfilled_order,
+                payment=payment,
+                order_lines_to_refund=[OrderLineData(line=order_line, quantity=1)],
+                fulfillment_lines_to_refund=[
+                    FulfillmentLineData(line=line, quantity=1)
+                    for line in fulfillment_lines_to_refund
+                ],
+                plugin_manager=get_plugins_manager(),
+            )
+E           TypeError: create_refund_fulfillment() got an unexpected keyword argument 'plugin_manager'
+
+saleor/order/tests/test_order_actions_refund_products.py:314: TypeError</failure></testcase><testcase classname="saleor.order.tests.test_order_actions_refund_products" name="test_create_refund_fulfillment_only_fulfillment_lines" time="0.134"><failure message="TypeError: create_refund_fulfillment() got an unexpected keyword argument 'plugin_manager'">mocked_refund = &lt;MagicMock name='refund' id='136991033302464'&gt;
+fulfilled_order = &lt;Order #186&gt;
+payment_dummy = Payment(gateway=mirumee.payments.dummy, is_active=True, created=2026-09-30 23:34:18.880958+00:00, charge_status=fully-charged)
+
+    @patch("saleor.order.actions.gateway.refund")
+    def test_create_refund_fulfillment_only_fulfillment_lines(
+        mocked_refund, fulfilled_order, payment_dummy
+    ):
+        payment_dummy.captured_amount = payment_dummy.total
+        payment_dummy.charge_status = ChargeStatus.FULLY_CHARGED
+        payment_dummy.save()
+        fulfilled_order.payments.add(payment_dummy)
+        payment = fulfilled_order.get_last_payment()
+        order_line_ids = fulfilled_order.lines.all().values_list("id", flat=True)
+        fulfillment_lines = FulfillmentLine.objects.filter(order_line_id__in=order_line_ids)
+        original_quantity = {line.id: line.quantity for line in fulfillment_lines}
+        fulfillment_lines_to_refund = fulfillment_lines
+    
+&gt;       returned_fulfillemnt = create_refund_fulfillment(
+            requester=None,
+            order=fulfilled_order,
+            payment=payment,
+            order_lines_to_refund=[],
+            fulfillment_lines_to_refund=[
+                FulfillmentLineData(line=line, quantity=2)
+                for line in fulfillment_lines_to_refund
+            ],
+            plugin_manager=get_plugins_manager(),
+        )
+E       TypeError: create_refund_fulfillment() got an unexpected keyword argument 'plugin_manager'
+
+saleor/order/tests/test_order_actions_refund_products.py:165: TypeError</failure></testcase><testcase classname="saleor.order.tests.test_order_actions_refund_products" name="test_create_refund_fulfillment_only_order_lines" time="0.097"><failure message="TypeError: create_refund_fulfillment() got an unexpected keyword argument 'plugin_manager'">mocked_refund = &lt;MagicMock name='refund' id='136991024672144'&gt;
+order_with_lines = &lt;Order #187&gt;
+payment_dummy = Payment(gateway=mirumee.payments.dummy, is_active=True, created=2026-09-30 23:34:18.984306+00:00, charge_status=fully-charged)
+
+    @patch("saleor.order.actions.gateway.refund")
+    def test_create_refund_fulfillment_only_order_lines(
+        mocked_refund, order_with_lines, payment_dummy
+    ):
+        payment_dummy.captured_amount = payment_dummy.total
+        payment_dummy.charge_status = ChargeStatus.FULLY_CHARGED
+        payment_dummy.save()
+        order_with_lines.payments.add(payment_dummy)
+        payment = order_with_lines.get_last_payment()
+    
+        order_lines_to_refund = order_with_lines.lines.all()
+        original_quantity = {
+            line.id: line.quantity_unfulfilled for line in order_with_lines
+        }
+        order_line_ids = order_lines_to_refund.values_list("id", flat=True)
+        original_allocations = list(
+            Allocation.objects.filter(order_line_id__in=order_line_ids)
+        )
+        lines_count = order_with_lines.lines.count()
+    
+&gt;       returned_fulfillemnt = create_refund_fulfillment(
+            requester=None,
+            order=order_with_lines,
+            payment=payment,
+            order_lines_to_refund=[
+                OrderLineData(line=line, quantity=2) for line in order_lines_to_refund
+            ],
+            fulfillment_lines_to_refund=[],
+            plugin_manager=get_plugins_manager(),
+        )
+E       TypeError: create_refund_fulfillment() got an unexpected keyword argument 'plugin_manager'
+
+saleor/order/tests/test_order_actions_refund_products.py:34: TypeError</failure></testcase><testcase classname="saleor.order.tests.test_order" name="test_ordered_item_change_quantity" time="0.700" /></testsuite></testsuites>
