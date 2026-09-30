@@ -1,0 +1,989 @@
+READ-ONLY CONTEXT (NOT EDITABLE): outlines of repository modules imported by the editable files
+===== OUTLINE: saleor/permission/auth_filters.py (read-only) =====
+class AuthorizationFilters(BasePermissionEnum):
+    # Grants access to any authenticated app.
+    AUTHENTICATED_APP = "authorization_filters.authenticated_app"
+    AUTHENTICATED_STAFF_USER = "authorization_filters.authenticated_staff_user"
+    AUTHENTICATED_USER = "authorization_filters.authenticated_user"
+    OWNER = "authorization_filters.owner"
+===== END OUTLINE: saleor/permission/auth_filters.py =====
+===== OUTLINE: saleor/webhook/error_codes.py (read-only) =====
+class WebhookDryRunErrorCode(Enum):
+    GRAPHQL_ERROR = "graphql_error"
+    NOT_FOUND = "not_found"
+    INVALID_ID = "invalid_id"
+    MISSING_PERMISSION = "missing_permission"
+    TYPE_NOT_SUPPORTED = "type_not_supported"
+    SYNTAX = "syntax"
+    MISSING_SUBSCRIPTION = "missing_subscription"
+    UNABLE_TO_PARSE = "unable_to_parse"
+    MISSING_EVENT = "missing_event"
+===== END OUTLINE: saleor/webhook/error_codes.py =====
+===== OUTLINE: saleor/webhook/event_types.py (read-only) =====
+class WebhookEventAsyncType:
+    ANY = "any_events"
+    ADDRESS_CREATED = "address_created"
+    ADDRESS_UPDATED = "address_updated"
+    ADDRESS_DELETED = "address_deleted"
+    APP_INSTALLED = "app_installed"
+    APP_UPDATED = "app_updated"
+    APP_DELETED = "app_deleted"
+    APP_STATUS_CHANGED = "app_status_changed"
+    ATTRIBUTE_CREATED = "attribute_created"
+    ATTRIBUTE_UPDATED = "attribute_updated"
+    ATTRIBUTE_DELETED = "attribute_deleted"
+    ATTRIBUTE_VALUE_CREATED = "attribute_value_created"
+    ATTRIBUTE_VALUE_UPDATED = "attribute_value_updated"
+    ATTRIBUTE_VALUE_DELETED = "attribute_value_deleted"
+    CATEGORY_CREATED = "category_created"
+    CATEGORY_UPDATED = "category_updated"
+    CATEGORY_DELETED = "category_deleted"
+    CHANNEL_CREATED = "channel_created"
+    CHANNEL_UPDATED = "channel_updated"
+    CHANNEL_DELETED = "channel_deleted"
+    CHANNEL_STATUS_CHANGED = "channel_status_changed"
+    GIFT_CARD_CREATED = "gift_card_created"
+    GIFT_CARD_UPDATED = "gift_card_updated"
+    GIFT_CARD_DELETED = "gift_card_deleted"
+    GIFT_CARD_SENT = "gift_card_sent"
+    GIFT_CARD_STATUS_CHANGED = "gift_card_status_changed"
+    GIFT_CARD_METADATA_UPDATED = "gift_card_metadata_updated"
+    MENU_CREATED = "menu_created"
+    MENU_UPDATED = "menu_updated"
+    MENU_DELETED = "menu_deleted"
+    MENU_ITEM_CREATED = "menu_item_created"
+    MENU_ITEM_UPDATED = "menu_item_updated"
+    MENU_ITEM_DELETED = "menu_item_deleted"
+    ORDER_CREATED = "order_created"
+    ORDER_CONFIRMED = "order_confirmed"
+    ORDER_PAID = "order_paid"
+    ORDER_FULLY_PAID = "order_fully_paid"
+    ORDER_REFUNDED = "order_refunded"
+    ORDER_FULLY_REFUNDED = "order_fully_refunded"
+    ORDER_UPDATED = "order_updated"
+    ORDER_CANCELLED = "order_cancelled"
+    ORDER_EXPIRED = "order_expired"
+    ORDER_FULFILLED = "order_fulfilled"
+    ORDER_METADATA_UPDATED = "order_metadata_updated"
+    ORDER_BULK_CREATED = "order_bulk_created"
+    FULFILLMENT_CREATED = "fulfillment_created"
+    FULFILLMENT_CANCELED = "fulfillment_canceled"
+    FULFILLMENT_APPROVED = "fulfillment_approved"
+    FULFILLMENT_METADATA_UPDATED = "fulfillment_metadata_updated"
+    DRAFT_ORDER_CREATED = "draft_order_created"
+    DRAFT_ORDER_UPDATED = "draft_order_updated"
+    DRAFT_ORDER_DELETED = "draft_order_deleted"
+    SALE_CREATED = "sale_created"
+    SALE_UPDATED = "sale_updated"
+    SALE_DELETED = "sale_deleted"
+    SALE_TOGGLE = "sale_toggle"
+    INVOICE_REQUESTED = "invoice_requested"
+    INVOICE_DELETED = "invoice_deleted"
+    INVOICE_SENT = "invoice_sent"
+    CUSTOMER_CREATED = "customer_created"
+    CUSTOMER_UPDATED = "customer_updated"
+    CUSTOMER_DELETED = "customer_deleted"
+    CUSTOMER_METADATA_UPDATED = "customer_metadata_updated"
+    COLLECTION_CREATED = "collection_created"
+    COLLECTION_UPDATED = "collection_updated"
+    COLLECTION_DELETED = "collection_deleted"
+    COLLECTION_METADATA_UPDATED = "collection_metadata_updated"
+    PRODUCT_CREATED = "product_created"
+    PRODUCT_UPDATED = "product_updated"
+    PRODUCT_DELETED = "product_deleted"
+    PRODUCT_METADATA_UPDATED = "product_metadata_updated"
+    PRODUCT_MEDIA_CREATED = "product_media_created"
+    PRODUCT_MEDIA_UPDATED = "product_media_updated"
+    PRODUCT_MEDIA_DELETED = "product_media_deleted"
+    PRODUCT_VARIANT_CREATED = "product_variant_created"
+    PRODUCT_VARIANT_UPDATED = "product_variant_updated"
+    PRODUCT_VARIANT_DELETED = "product_variant_deleted"
+    PRODUCT_VARIANT_METADATA_UPDATED = "product_variant_metadata_updated"
+    PRODUCT_VARIANT_OUT_OF_STOCK = "product_variant_out_of_stock"
+    PRODUCT_VARIANT_BACK_IN_STOCK = "product_variant_back_in_stock"
+    PRODUCT_VARIANT_STOCK_UPDATED = "product_variant_stock_updated"
+    CHECKOUT_CREATED = "checkout_created"
+    CHECKOUT_UPDATED = "checkout_updated"
+    CHECKOUT_FULLY_PAID = "checkout_fully_paid"
+    CHECKOUT_METADATA_UPDATED = "checkout_metadata_updated"
+    NOTIFY_USER = "notify_user"
+    PAGE_CREATED = "page_created"
+    PAGE_UPDATED = "page_updated"
+    PAGE_DELETED = "page_deleted"
+    PAGE_TYPE_CREATED = "page_type_created"
+    PAGE_TYPE_UPDATED = "page_type_updated"
+    PAGE_TYPE_DELETED = "page_type_deleted"
+    PERMISSION_GROUP_CREATED = "permission_group_created"
+    PERMISSION_GROUP_UPDATED = "permission_group_updated"
+    PERMISSION_GROUP_DELETED = "permission_group_deleted"
+    SHIPPING_PRICE_CREATED = "shipping_price_created"
+    SHIPPING_PRICE_UPDATED = "shipping_price_updated"
+    SHIPPING_PRICE_DELETED = "shipping_price_deleted"
+    SHIPPING_ZONE_CREATED = "shipping_zone_created"
+    SHIPPING_ZONE_UPDATED = "shipping_zone_updated"
+    SHIPPING_ZONE_DELETED = "shipping_zone_deleted"
+    SHIPPING_ZONE_METADATA_UPDATED = "shipping_zone_metadata_updated"
+    STAFF_CREATED = "staff_created"
+    STAFF_UPDATED = "staff_updated"
+    STAFF_DELETED = "staff_deleted"
+    TRANSACTION_ACTION_REQUEST = "transaction_action_request"
+    TRANSACTION_ITEM_METADATA_UPDATED = "transaction_item_metadata_updated"
+    TRANSLATION_CREATED = "translation_created"
+    TRANSLATION_UPDATED = "translation_updated"
+    WAREHOUSE_CREATED = "warehouse_created"
+    WAREHOUSE_UPDATED = "warehouse_updated"
+    WAREHOUSE_DELETED = "warehouse_deleted"
+    WAREHOUSE_METADATA_UPDATED = "warehouse_metadata_updated"
+    VOUCHER_CREATED = "voucher_created"
+    VOUCHER_UPDATED = "voucher_updated"
+    VOUCHER_DELETED = "voucher_deleted"
+    VOUCHER_METADATA_UPDATED = "voucher_metadata_updated"
+    OBSERVABILITY = "observability"
+    THUMBNAIL_CREATED = "thumbnail_created"
+    DISPLAY_LABELS = {
+    CHOICES = [
+    ALL = [event[0] for event in CHOICES]
+    PERMISSIONS = {
+class WebhookEventSyncType:
+    PAYMENT_LIST_GATEWAYS = "payment_list_gateways"
+    PAYMENT_AUTHORIZE = "payment_authorize"
+    PAYMENT_CAPTURE = "payment_capture"
+    PAYMENT_REFUND = "payment_refund"
+    PAYMENT_VOID = "payment_void"
+    PAYMENT_CONFIRM = "payment_confirm"
+    PAYMENT_PROCESS = "payment_process"
+    CHECKOUT_CALCULATE_TAXES = "checkout_calculate_taxes"
+# [outline truncated]
+===== END OUTLINE: saleor/webhook/event_types.py =====
+===== OUTLINE: saleor/graphql/core/descriptions.py (read-only) =====
+ADDED_IN_32 = "\n\nAdded in Saleor 3.2."
+ADDED_IN_34 = "\n\nAdded in Saleor 3.4."
+ADDED_IN_35 = "\n\nAdded in Saleor 3.5."
+ADDED_IN_36 = "\n\nAdded in Saleor 3.6."
+ADDED_IN_37 = "\n\nAdded in Saleor 3.7."
+ADDED_IN_38 = "\n\nAdded in Saleor 3.8."
+ADDED_IN_310 = "\n\nAdded in Saleor 3.10."
+ADDED_IN_311 = "\n\nAdded in Saleor 3.11."
+ADDED_IN_312 = "\n\nAdded in Saleor 3.12."
+ADDED_IN_313 = "\n\nAdded in Saleor 3.13."
+ADDED_IN_314 = "\n\nAdded in Saleor 3.14."
+PREVIEW_FEATURE = (
+===== END OUTLINE: saleor/graphql/core/descriptions.py =====
+===== OUTLINE: saleor/graphql/core/doc_category.py (read-only) =====
+DOC_CATEGORY_CHECKOUT = "Checkout"
+DOC_CATEGORY_ORDERS = "Orders"
+DOC_CATEGORY_PAYMENTS = "Payments"
+DOC_CATEGORY_PRODUCTS = "Products"
+DOC_CATEGORY_SHIPPING = "Shipping"
+DOC_CATEGORY_TAXES = "Taxes"
+DOC_CATEGORY_WEBHOOKS = "Webhooks"
+===== END OUTLINE: saleor/graphql/core/doc_category.py =====
+===== OUTLINE: saleor/graphql/core/fields.py (read-only) =====
+class JSONString(graphene.JSONString):
+    @staticmethod
+    @staticmethod
+    def parse_literal(node):
+===== END OUTLINE: saleor/graphql/core/fields.py =====
+===== OUTLINE: saleor/graphql/core/mutations.py (read-only) =====
+class BaseMutation(graphene.Mutation):
+    class Meta:
+        abstract = True
+    @classmethod
+    def _validate_permissions(cls, permissions):
+    @classmethod
+    def __init_subclass_with_meta__(
+        cls,
+        auto_permission_message=True,
+        description=None,
+        doc_category=None,
+        permissions: Optional[Collection[BasePermissionEnum]] = None,
+        _meta=None,
+        error_type_class=None,
+        error_type_field=None,
+        errors_mapping=None,
+        support_meta_field=False,
+        support_private_meta_field=False,
+        **options,
+    ):
+    @classmethod
+    def _update_mutation_arguments_and_fields(cls, arguments, fields):
+    @classmethod
+    def _get_node_by_pk(
+        cls,
+        info: ResolveInfo,
+        graphene_type: Type[ModelObjectType[MT]],
+        pk: Union[int, str],
+        qs=None,
+    ) -> Optional[MT]:
+    @classmethod
+    def get_global_id_or_error(
+        cls,
+        id: str,
+        only_type: Union[ObjectType, str, None] = None,
+        field: str = "id",
+    ):
+    @overload
+    @classmethod
+    def get_node_or_error(
+        cls,
+        info: ResolveInfo,
+        node_id: str,
+        *,
+        field: str = "id",
+        only_type: Type[ModelObjectType[MT]],
+        qs: Any = None,
+        code: str = "not_found",
+    ) -> MT:
+    @overload
+    @classmethod
+    def get_node_or_error(
+        cls,
+        info: ResolveInfo,
+        node_id: Optional[str],
+        *,
+        field: str = "id",
+        only_type: Type[ModelObjectType[MT]],
+        qs: Any = None,
+        code: str = "not_found",
+    ) -> Optional[MT]:
+    @overload
+    @classmethod
+    def get_node_or_error(
+        cls,
+        info: ResolveInfo,
+        node_id: str,
+        *,
+        field: str = "id",
+        only_type: None,
+        qs: QuerySet[MT],
+        code: str = "not_found",
+    ) -> MT:
+    @overload
+    @classmethod
+    def get_node_or_error(
+        cls,
+        info: ResolveInfo,
+        node_id: str,
+        *,
+        field: str = "id",
+        only_type: None = None,
+        qs: Any = None,
+        code: str = "not_found",
+    ) -> Model:
+    @overload
+    @classmethod
+    def get_node_or_error(
+        cls,
+        info: ResolveInfo,
+        node_id: Optional[str],
+        *,
+        field: str = "id",
+        only_type: Any = None,
+        qs: Any = None,
+        code: str = "not_found",
+    ) -> Optional[Model]:
+    @classmethod
+    def get_node_or_error(
+        cls,
+        info: ResolveInfo,
+        node_id: Optional[str],
+        *,
+        field: str = "id",
+        only_type: Optional[Type[ObjectType]] = None,
+        qs: Optional[QuerySet] = None,
+        code: str = "not_found",
+    ) -> Optional[Model]:
+    @classmethod
+    def get_global_ids_or_error(
+        cls,
+        ids: Iterable[str],
+        only_type: Union[ObjectType, str, None] = None,
+        field: str = "ids",
+    ):
+    @overload
+    @classmethod
+    def get_nodes_or_error(
+        cls, ids, field, only_type: Type[ModelObjectType[MT]], qs=None, schema=None
+    ) -> List[MT]:
+    @overload
+    @classmethod
+    def get_nodes_or_error(
+        cls, ids, field, only_type: Optional[ObjectType] = None, qs=None, schema=None
+    ) -> List[Model]:
+    @classmethod
+    def get_nodes_or_error(cls, ids, field, only_type=None, qs=None, schema=None):
+    @staticmethod
+    def remap_error_fields(validation_error, field_map) -> None:
+    @classmethod
+    def clean_instance(cls, info: ResolveInfo, instance, /) -> None:
+    @classmethod
+    def construct_instance(cls, instance, cleaned_data):
+    @classmethod
+    def check_permissions(cls, context, permissions=None, **data):
+    @classmethod
+    def mutate(cls, root, info: ResolveInfo, **data):
+    @classmethod
+    def perform_mutation(cls, _root, _info: ResolveInfo, /):
+    @classmethod
+    def handle_errors(cls, error: ValidationError, **extra):
+    @classmethod
+    def handle_typed_errors(cls, errors: list, **extra):
+    @staticmethod
+    def call_event(func_obj, *func_args):
+    @classmethod
+    def update_metadata(cls, instance, meta_data_list: List, is_private: bool = False):
+    @classmethod
+    def validate_metadata_keys(cls, metadata_list: List[dict]):
+    @classmethod
+    def validate_and_update_metadata(
+        cls, instance, metadata_list, private_metadata_list
+    ):
+    @classmethod
+    def check_metadata_permissions(cls, info: ResolveInfo, object_id, private=False):
+    @classmethod
+    def check_channel_permissions(
+        cls, info: ResolveInfo, channel_ids: Iterable[Union[UUID, int]]
+    ):
+        # App has access to all channels
+===== END OUTLINE: saleor/graphql/core/mutations.py =====
+===== OUTLINE: saleor/graphql/core/utils/__init__.py (read-only) =====
+def raise_validation_error(field=None, message=None, code=None):
+===== END OUTLINE: saleor/graphql/core/utils/__init__.py =====
+===== OUTLINE: saleor/graphql/webhook/subscription_payload.py (read-only) =====
+def initialize_request(
+    requestor=None,
+    sync_event=False,
+    allow_replica=True,
+    event_type: Optional[str] = None,
+) -> SaleorContext:
+def generate_payload_from_subscription(
+    event_type: str,
+    subscribable_object,
+    subscription_query: Optional[str],
+    request: SaleorContext,
+    app: Optional[App] = None,
+) -> Optional[Dict[str, Any]]:
+===== END OUTLINE: saleor/graphql/webhook/subscription_payload.py =====
+===== OUTLINE: saleor/graphql/webhook/subscription_query.py (read-only) =====
+class SubscriptionQuery:
+    def __init__(self, query: str):
+    def validate_query(self) -> List[Union[GraphQLSyntaxError, ValidationError]]:
+    def get_events_from_subscription(self) -> List[str]:
+    @staticmethod
+    def _get_subscription(ast: Document) -> Optional[OperationDefinition]:
+    @staticmethod
+    def _get_event_types_from_subscription(
+        subscription: OperationDefinition,
+    ) -> List[Field]:
+    @staticmethod
+    def _get_events_from_field(
+        field: Union[Field, FragmentDefinition],
+        events: Dict[str, IsFragment],
+    ) -> Dict[str, IsFragment]:
+    @staticmethod
+    def _get_fragment_definitions(ast: Document) -> Dict[str, FragmentDefinition]:
+===== END OUTLINE: saleor/graphql/webhook/subscription_query.py =====
+===== OUTLINE: saleor/__init__.py (read-only) =====
+__version__ = "3.14.0-a"
+===== END OUTLINE: saleor/__init__.py =====
+===== OUTLINE: saleor/account/models.py (read-only) =====
+class User(
+    PermissionsMixin, ModelWithMetadata, AbstractBaseUser, ModelWithExternalReference
+):
+    email = models.EmailField(unique=True)
+    first_name = models.CharField(max_length=256, blank=True)
+    last_name = models.CharField(max_length=256, blank=True)
+    addresses = models.ManyToManyField(
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    note = models.TextField(null=True, blank=True)
+    date_joined = models.DateTimeField(default=timezone.now, editable=False)
+    updated_at = models.DateTimeField(auto_now=True, db_index=True)
+    last_password_reset_request = models.DateTimeField(null=True, blank=True)
+    default_shipping_address = models.ForeignKey(
+    default_billing_address = models.ForeignKey(
+    avatar = models.ImageField(upload_to="user-avatars", blank=True, null=True)
+    jwt_token_key = models.CharField(
+    language_code = models.CharField(
+    search_document = models.TextField(blank=True, default="")
+    uuid = models.UUIDField(default=uuid4, unique=True)
+    USERNAME_FIELD = "email"
+    objects = UserManager()
+    class Meta:
+        ordering = ("email",)
+        permissions = (
+        indexes = [
+    def __init__(self, *args, **kwargs):
+    def __str__(self):
+        # Override the default __str__ of AbstractUser that returns username, which may
+        # lead to leaking sensitive data in logs.
+    @property
+    def effective_permissions(self) -> models.QuerySet[Permission]:
+    @effective_permissions.setter
+    def effective_permissions(self, value: models.QuerySet[Permission]):
+    def get_full_name(self):
+    def get_short_name(self):
+    def has_perm(self, perm: Union[BasePermissionEnum, str], obj=None) -> bool:
+        # This method is overridden to accept perm as BasePermissionEnum
+    def has_perms(
+        self, perm_list: Iterable[Union[BasePermissionEnum, str]], obj=None
+    ) -> bool:
+        # This method is overridden to accept perm as BasePermissionEnum
+===== END OUTLINE: saleor/account/models.py =====
+===== OUTLINE: saleor/core/prices.py (read-only) =====
+def quantize_price(price: PriceType, currency: str) -> PriceType:
+===== END OUTLINE: saleor/core/prices.py =====
+===== OUTLINE: saleor/discount/models.py (read-only) =====
+class VoucherTranslation(Translation):
+    voucher = models.ForeignKey(
+    name = models.CharField(max_length=255, null=True, blank=True)
+    class Meta:
+        ordering = ("language_code", "voucher", "pk")
+        unique_together = (("language_code", "voucher"),)
+    def get_translated_object_id(self):
+    def get_translated_keys(self):
+class SaleTranslation(Translation):
+    name = models.CharField(max_length=255, null=True, blank=True)
+    sale = models.ForeignKey(
+    class Meta:
+        ordering = ("language_code", "name", "pk")
+        unique_together = (("language_code", "sale"),)
+    def get_translated_object_id(self):
+    def get_translated_keys(self):
+===== END OUTLINE: saleor/discount/models.py =====
+===== OUTLINE: saleor/menu/models.py (read-only) =====
+class MenuItemTranslation(Translation):
+    menu_item = models.ForeignKey(
+    name = models.CharField(max_length=128)
+    class Meta:
+        ordering = ("language_code", "menu_item", "pk")
+        unique_together = (("language_code", "menu_item"),)
+    def __repr__(self):
+    def __str__(self):
+    def get_translated_object_id(self):
+    def get_translated_keys(self):
+===== END OUTLINE: saleor/menu/models.py =====
+===== OUTLINE: saleor/order/utils.py (read-only) =====
+def get_all_shipping_methods_for_order(
+    order: Order,
+    shipping_channel_listings: Iterable["ShippingMethodChannelListing"],
+) -> List[ShippingMethodData]:
+===== END OUTLINE: saleor/order/utils.py =====
+===== OUTLINE: saleor/page/models.py (read-only) =====
+class PageTranslation(SeoModelTranslation):
+    page = models.ForeignKey(
+    title = models.CharField(max_length=255, blank=True, null=True)
+    content = SanitizedJSONField(blank=True, null=True, sanitizer=clean_editor_js)
+    class Meta:
+        ordering = ("language_code", "page", "pk")
+        unique_together = (("language_code", "page"),)
+    def __repr__(self):
+    def __str__(self):
+    def get_translated_object_id(self):
+    def get_translated_keys(self):
+===== END OUTLINE: saleor/page/models.py =====
+===== OUTLINE: saleor/payment/interface.py (read-only) =====
+@dataclass
+class TransactionActionData:
+    action_type: str
+    transaction: TransactionItem
+    event: "TransactionEvent"
+    transaction_app_owner: Optional["App"]
+    action_value: Optional[Decimal] = None
+@dataclass
+class TransactionSessionData:
+    transaction: "TransactionItem"
+    source_object: Union["Checkout", "Order"]
+    action: TransactionProcessActionData
+    payment_gateway: PaymentGatewayData
+===== END OUTLINE: saleor/payment/interface.py =====
+===== OUTLINE: saleor/product/models.py (read-only) =====
+class CategoryTranslation(SeoModelTranslation):
+    category = models.ForeignKey(
+    name = models.CharField(max_length=128, blank=True, null=True)
+    description = SanitizedJSONField(blank=True, null=True, sanitizer=clean_editor_js)
+    class Meta:
+        unique_together = (("language_code", "category"),)
+    def __str__(self) -> str:
+    def __repr__(self) -> str:
+    def get_translated_object_id(self):
+    def get_translated_keys(self):
+class ProductTranslation(SeoModelTranslation):
+    product = models.ForeignKey(
+    name = models.CharField(max_length=250, blank=True, null=True)
+    description = SanitizedJSONField(blank=True, null=True, sanitizer=clean_editor_js)
+    class Meta:
+        unique_together = (("language_code", "product"),)
+    def __str__(self) -> str:
+    def __repr__(self) -> str:
+    def get_translated_object_id(self):
+    def get_translated_keys(self):
+class ProductVariantTranslation(Translation):
+    product_variant = models.ForeignKey(
+    name = models.CharField(max_length=255, blank=True)
+    translated = TranslationProxy()
+    class Meta:
+        unique_together = (("language_code", "product_variant"),)
+    def __repr__(self):
+    def __str__(self):
+    def get_translated_object_id(self):
+    def get_translated_keys(self):
+class CollectionTranslation(SeoModelTranslation):
+    collection = models.ForeignKey(
+    name = models.CharField(max_length=128, blank=True, null=True)
+    description = SanitizedJSONField(blank=True, null=True, sanitizer=clean_editor_js)
+    class Meta:
+        unique_together = (("language_code", "collection"),)
+    def __repr__(self):
+    def __str__(self) -> str:
+    def get_translated_object_id(self):
+    def get_translated_keys(self):
+===== END OUTLINE: saleor/product/models.py =====
+===== OUTLINE: saleor/shipping/models.py (read-only) =====
+class ShippingMethodTranslation(Translation):
+    name = models.CharField(max_length=255, null=True, blank=True)
+    shipping_method = models.ForeignKey(
+    description = SanitizedJSONField(blank=True, null=True, sanitizer=clean_editor_js)
+    class Meta:
+        unique_together = (("language_code", "shipping_method"),)
+    def get_translated_object_id(self):
+    def get_translated_keys(self):
+===== END OUTLINE: saleor/shipping/models.py =====
+===== OUTLINE: saleor/thumbnail/views.py (read-only) =====
+TYPE_TO_MODEL_DATA_MAPPING = {
+===== END OUTLINE: saleor/thumbnail/views.py =====
+===== OUTLINE: saleor/graphql/account/types.py (read-only) =====
+@federated_entity("id")
+@federated_entity("email")
+class User(ModelObjectType[models.User]):
+    id = graphene.GlobalID(required=True)
+    email = graphene.String(required=True)
+    first_name = graphene.String(required=True)
+    last_name = graphene.String(required=True)
+    is_staff = graphene.Boolean(required=True)
+    is_active = graphene.Boolean(required=True)
+    addresses = NonNullList(
+    checkout = graphene.Field(
+    checkout_tokens = NonNullList(
+    checkout_ids = NonNullList(
+    checkouts = ConnectionField(
+    gift_cards = ConnectionField(
+    note = PermissionsField(
+    orders = ConnectionField(
+    user_permissions = NonNullList(
+    permission_groups = NonNullList(
+    editable_groups = NonNullList(
+    accessible_channels = NonNullList(
+    restricted_access_to_channels = graphene.Boolean(
+    avatar = ThumbnailField()
+    events = PermissionsField(
+    stored_payment_sources = NonNullList(
+    language_code = graphene.Field(
+    default_shipping_address = graphene.Field(Address)
+    default_billing_address = graphene.Field(Address)
+    external_reference = graphene.String(
+    last_login = graphene.DateTime()
+    date_joined = graphene.DateTime(required=True)
+    updated_at = graphene.DateTime(required=True)
+    class Meta:
+        description = "Represents user data."
+        interfaces = [relay.Node, ObjectWithMetadata]
+        model = get_user_model()
+        doc_category = DOC_CATEGORY_USERS
+    @staticmethod
+    def resolve_addresses(root: models.User, _info: ResolveInfo):
+    @staticmethod
+    def resolve_checkout(root: models.User, _info: ResolveInfo):
+    @staticmethod
+    @traced_resolver
+    def resolve_checkout_tokens(root: models.User, info: ResolveInfo, channel=None):
+    @staticmethod
+    @traced_resolver
+    def resolve_checkout_ids(root: models.User, info: ResolveInfo, channel=None):
+    @staticmethod
+    def resolve_checkouts(root: models.User, info: ResolveInfo, **kwargs):
+    @staticmethod
+    def resolve_gift_cards(root: models.User, info: ResolveInfo, **kwargs):
+    @staticmethod
+    def resolve_user_permissions(root: models.User, _info: ResolveInfo):
+    @staticmethod
+    def resolve_permission_groups(root: models.User, _info: ResolveInfo):
+    @staticmethod
+    def resolve_editable_groups(root: models.User, _info: ResolveInfo):
+    @staticmethod
+    def resolve_accessible_channels(root: models.Group, info: ResolveInfo):
+        # Sum of channels from all user groups. If at least one group has
+        # `restrictedAccessToChannels` set to False - all channels are returned
+    @staticmethod
+    def resolve_restricted_access_to_channels(root: models.Group, info: ResolveInfo):
+        # Returns False if at least one user group has `restrictedAccessToChannels`
+        # set to False
+    @staticmethod
+    def resolve_note(root: models.User, _info: ResolveInfo):
+    @staticmethod
+    def resolve_events(root: models.User, info: ResolveInfo):
+    @staticmethod
+    def resolve_orders(root: models.User, info: ResolveInfo, **kwargs):
+    @staticmethod
+    def resolve_avatar(
+        root: models.User,
+        info: ResolveInfo,
+        size: Optional[int] = None,
+        format: Optional[str] = None,
+    ):
+    @staticmethod
+    def resolve_stored_payment_sources(
+        root: models.User, info: ResolveInfo, channel=None
+    ):
+    @staticmethod
+    def resolve_language_code(root, _info: ResolveInfo):
+    @staticmethod
+    def __resolve_references(roots: List["User"], info: ResolveInfo):
+===== END OUTLINE: saleor/graphql/account/types.py =====
+===== OUTLINE: saleor/graphql/app/types.py (read-only) =====
+@federated_entity("id")
+class App(ModelObjectType[models.App]):
+    id = graphene.GlobalID(required=True)
+    permissions = NonNullList(Permission, description="List of the app's permissions.")
+    created = graphene.DateTime(
+    is_active = graphene.Boolean(
+    name = graphene.String(description="Name of the app.")
+    type = AppTypeEnum(description="Type of the app.")
+    tokens = NonNullList(
+    webhooks = NonNullList(
+    about_app = graphene.String(description="Description of this app.")
+    data_privacy = graphene.String(
+    data_privacy_url = graphene.String(
+    homepage_url = graphene.String(description="Homepage of the app.")
+    support_url = graphene.String(description="Support page for the app.")
+    configuration_url = graphene.String(
+    app_url = graphene.String(description="URL to iframe with the app.")
+    manifest_url = graphene.String(
+    version = graphene.String(description="Version number of the app.")
+    access_token = graphene.String(
+    author = graphene.String(
+    extensions = NonNullList(
+    brand = graphene.Field(
+    class Meta:
+        description = "Represents app data."
+        interfaces = [graphene.relay.Node, ObjectWithMetadata]
+        model = models.App
+    @staticmethod
+    def resolve_created(root: models.App, _info: ResolveInfo):
+    @staticmethod
+    def resolve_permissions(root: models.App, _info: ResolveInfo):
+    @staticmethod
+    def resolve_tokens(root: models.App, info: ResolveInfo):
+    @staticmethod
+    def resolve_webhooks(root: models.App, info: ResolveInfo):
+    @staticmethod
+    def resolve_access_token(root: models.App, info: ResolveInfo):
+    @staticmethod
+    def resolve_extensions(root: models.App, info: ResolveInfo):
+    @staticmethod
+    def __resolve_references(roots: List["App"], info: ResolveInfo):
+    @staticmethod
+    @app_promise_callback
+    def resolve_metadata(root: models.App, info: ResolveInfo, app):
+    @staticmethod
+    @app_promise_callback
+    def resolve_metafield(root: models.App, info: ResolveInfo, app, *, key: str):
+    @staticmethod
+    @app_promise_callback
+    def resolve_metafields(root: models.App, info: ResolveInfo, app, *, keys=None):
+    @staticmethod
+    def resolve_brand(root: models.App, _info: ResolveInfo):
+===== END OUTLINE: saleor/graphql/app/types.py =====
+===== OUTLINE: saleor/graphql/channel/__init__.py (read-only) =====
+@dataclass
+class ChannelContext(Generic[N]):
+    node: N
+    channel_slug: Optional[str]
+===== END OUTLINE: saleor/graphql/channel/__init__.py =====
+===== OUTLINE: saleor/graphql/channel/dataloaders.py (read-only) =====
+class ChannelByIdLoader(DataLoader):
+    context_key = "channel_by_id"
+    def batch_load(self, keys):
+===== END OUTLINE: saleor/graphql/channel/dataloaders.py =====
+===== OUTLINE: saleor/graphql/channel/enums.py (read-only) =====
+TransactionFlowStrategyEnum = to_enum(
+===== END OUTLINE: saleor/graphql/channel/enums.py =====
+===== OUTLINE: saleor/graphql/core/__init__.py (read-only) =====
+class ResolveInfo(graphene.ResolveInfo):
+    context: SaleorContext
+===== END OUTLINE: saleor/graphql/core/__init__.py =====
+===== OUTLINE: saleor/graphql/core/scalars.py (read-only) =====
+class PositiveDecimal(Decimal):
+    @staticmethod
+    def parse_value(value):
+class JSON(GenericScalar):
+    @staticmethod
+    @staticmethod
+    def parse_literal(node):
+    @staticmethod
+    def parse_value(value):
+===== END OUTLINE: saleor/graphql/core/scalars.py =====
+===== OUTLINE: saleor/graphql/core/types/order_or_checkout.py (read-only) =====
+class OrderOrCheckout(OrderOrCheckoutBase):
+    class Meta:
+        types = OrderOrCheckoutBase.get_types()
+===== END OUTLINE: saleor/graphql/core/types/order_or_checkout.py =====
+===== OUTLINE: saleor/graphql/order/dataloaders.py (read-only) =====
+class OrderByIdLoader(DataLoader):
+    context_key = "order_by_id"
+    def batch_load(self, keys):
+===== END OUTLINE: saleor/graphql/order/dataloaders.py =====
+===== OUTLINE: saleor/graphql/order/types.py (read-only) =====
+@federated_entity("id")
+class Order(ModelObjectType[models.Order]):
+    id = graphene.GlobalID(required=True)
+    created = graphene.DateTime(required=True)
+    updated_at = graphene.DateTime(required=True)
+    status = OrderStatusEnum(required=True)
+    user = graphene.Field(
+    tracking_client_id = graphene.String(required=True)
+    billing_address = graphene.Field(
+    shipping_address = graphene.Field(
+    shipping_method_name = graphene.String()
+    collection_point_name = graphene.String()
+    channel = graphene.Field(Channel, required=True)
+    fulfillments = NonNullList(
+    lines = NonNullList(
+    actions = NonNullList(
+    available_shipping_methods = NonNullList(
+    shipping_methods = NonNullList(
+    available_collection_points = NonNullList(
+    invoices = NonNullList(
+    number = graphene.String(
+    original = graphene.ID(
+    origin = OrderOriginEnum(description="The order origin.", required=True)
+    is_paid = graphene.Boolean(
+    payment_status = PaymentChargeStatusEnum(
+    payment_status_display = graphene.String(
+    authorize_status = OrderAuthorizeStatusEnum(
+    charge_status = OrderChargeStatusEnum(
+    tax_exemption = graphene.Boolean(
+    transactions = NonNullList(
+    payments = NonNullList(
+    total = graphene.Field(
+    undiscounted_total = graphene.Field(
+    shipping_method = graphene.Field(
+    shipping_price = graphene.Field(
+    shipping_tax_rate = graphene.Float(
+    shipping_tax_class = PermissionsField(
+    shipping_tax_class_name = graphene.Field(
+    shipping_tax_class_metadata = NonNullList(
+    shipping_tax_class_private_metadata = NonNullList(
+    token = graphene.String(
+    voucher = graphene.Field(Voucher)
+    gift_cards = NonNullList(
+    customerNote = graphene.Boolean(required=True)
+    customer_note = graphene.String(required=True)
+    weight = graphene.Field(Weight, required=True)
+    redirect_url = graphene.String()
+    subtotal = graphene.Field(
+    status_display = graphene.String(
+    can_finalize = graphene.Boolean(
+    total_authorized = graphene.Field(
+    total_captured = graphene.Field(
+    total_charged = graphene.Field(
+    total_canceled = graphene.Field(
+    events = PermissionsField(
+    total_balance = graphene.Field(
+    user_email = graphene.String(
+    is_shipping_required = graphene.Boolean(
+    delivery_method = graphene.Field(
+    language_code = graphene.String(
+    language_code_enum = graphene.Field(
+    discount = graphene.Field(
+    discount_name = graphene.String(
+    translated_discount_name = graphene.String(
+    discounts = NonNullList(
+    errors = NonNullList(
+    display_gross_prices = graphene.Boolean(
+    external_reference = graphene.String(
+    checkout_id = graphene.ID(
+    granted_refunds = PermissionsField(
+    total_granted_refund = PermissionsField(
+    total_refunded = graphene.Field(
+    total_refund_pending = PermissionsField(
+    total_authorize_pending = PermissionsField(
+    total_charge_pending = PermissionsField(
+    total_cancel_pending = PermissionsField(
+    total_remaining_grant = PermissionsField(
+    class Meta:
+        description = "Represents an order in the shop."
+        interfaces = [relay.Node, ObjectWithMetadata]
+        model = models.Order
+    @staticmethod
+    def resolve_created(root: models.Order, _info):
+    @staticmethod
+    def resolve_token(root: models.Order, info):
+    @staticmethod
+    def resolve_discounts(root: models.Order, info):
+    @staticmethod
+    @traced_resolver
+    def resolve_discount(root: models.Order, info):
+    @staticmethod
+    @traced_resolver
+    def resolve_discount_name(root: models.Order, info):
+    @staticmethod
+    @traced_resolver
+    def resolve_translated_discount_name(root: models.Order, info):
+    @staticmethod
+    @traced_resolver
+    def resolve_billing_address(root: models.Order, info):
+    @staticmethod
+    @traced_resolver
+    def resolve_shipping_address(root: models.Order, info):
+    @staticmethod
+    @traced_resolver
+    @prevent_sync_event_circular_query
+    def resolve_shipping_price(root: models.Order, info):
+    @staticmethod
+    @traced_resolver
+    @prevent_sync_event_circular_query
+    def resolve_shipping_tax_rate(root: models.Order, info):
+    @staticmethod
+    def resolve_actions(root: models.Order, info):
+    @staticmethod
+    @traced_resolver
+    def resolve_subtotal(root: models.Order, info):
+    @staticmethod
+    @traced_resolver
+    @prevent_sync_event_circular_query
+    @plugin_manager_promise_callback
+    def resolve_total(root: models.Order, info, manager):
+    @staticmethod
+    @traced_resolver
+    @prevent_sync_event_circular_query
+    def resolve_undiscounted_total(root: models.Order, info):
+    @staticmethod
+    def resolve_total_authorized(root: models.Order, info):
+    @staticmethod
+    def resolve_total_canceled(root: models.Order, info):
+    @staticmethod
+    def resolve_total_captured(root: models.Order, info):
+    @staticmethod
+    def resolve_total_charged(root: models.Order, info):
+    @staticmethod
+    def resolve_total_balance(root: models.Order, info):
+    @staticmethod
+    def resolve_fulfillments(root: models.Order, info):
+    @staticmethod
+    def resolve_lines(root: models.Order, info):
+    @staticmethod
+    def resolve_events(root: models.Order, _info):
+    @staticmethod
+    def resolve_is_paid(root: models.Order, info):
+    @staticmethod
+    def resolve_number(root: models.Order, _info):
+    @staticmethod
+    @traced_resolver
+    def resolve_payment_status(root: models.Order, info):
+    @staticmethod
+    def resolve_payment_status_display(root: models.Order, info):
+    @staticmethod
+    def resolve_payments(root: models.Order, info):
+    @staticmethod
+    @one_of_permissions_required(
+        [OrderPermissions.MANAGE_ORDERS, PaymentPermissions.HANDLE_PAYMENTS]
+    )
+    def resolve_transactions(root: models.Order, info):
+    @staticmethod
+    def resolve_status_display(root: models.Order, _info):
+    @staticmethod
+    @traced_resolver
+# [outline truncated]
+===== END OUTLINE: saleor/graphql/order/types.py =====
+===== OUTLINE: saleor/graphql/payment/enums.py (read-only) =====
+TransactionActionEnum = to_enum(
+===== END OUTLINE: saleor/graphql/payment/enums.py =====
+===== OUTLINE: saleor/graphql/payment/types.py (read-only) =====
+class TransactionItem(ModelObjectType[models.TransactionItem]):
+    created_at = graphene.DateTime(required=True)
+    modified_at = graphene.DateTime(required=True)
+    actions = NonNullList(
+    authorized_amount = graphene.Field(
+    authorize_pending_amount = graphene.Field(
+    refunded_amount = graphene.Field(
+    refund_pending_amount = graphene.Field(
+    voided_amount = graphene.Field(
+    canceled_amount = graphene.Field(
+    cancel_pending_amount = graphene.Field(
+    charged_amount = graphene.Field(
+    charge_pending_amount = graphene.Field(
+    status = graphene.String(
+    type = graphene.String(
+    name = graphene.String(
+    message = graphene.String(
+    reference = graphene.String(
+    psp_reference = graphene.String(
+    order = graphene.Field(
+    events = NonNullList(
+    created_by = graphene.Field(
+    external_url = graphene.String(
+    class Meta:
+        description = (
+        interfaces = [relay.Node, ObjectWithMetadata]
+        model = models.TransactionItem
+    @staticmethod
+    def resolve_id(root: models.TransactionItem, _info: ResolveInfo):
+    @staticmethod
+    def resolve_actions(root: models.TransactionItem, _info):
+    @staticmethod
+    def resolve_charged_amount(root: models.TransactionItem, _info):
+    @staticmethod
+    def resolve_charge_pending_amount(root: models.TransactionItem, _info):
+    @staticmethod
+    def resolve_authorized_amount(root: models.TransactionItem, _info):
+    @staticmethod
+    def resolve_authorize_pending_amount(root: models.TransactionItem, _info):
+    @staticmethod
+    def resolve_voided_amount(root: models.TransactionItem, _info):
+    @staticmethod
+    def resolve_canceled_amount(root: models.TransactionItem, _info):
+    @staticmethod
+    def resolve_cancel_pending_amount(root: models.TransactionItem, _info):
+    @staticmethod
+    def resolve_refunded_amount(root: models.TransactionItem, _info):
+    @staticmethod
+    def resolve_refund_pending_amount(root: models.TransactionItem, _info):
+    @staticmethod
+    def resolve_order(root: models.TransactionItem, info):
+    @staticmethod
+    def resolve_events(root: models.TransactionItem, info):
+    @staticmethod
+    def resolve_created_by(root: models.TransactionItem, info):
+    @staticmethod
+    def resolve_reference(root: models.TransactionItem, info):
+    @staticmethod
+    def resolve_psp_reference(root: models.TransactionItem, info):
+    @staticmethod
+    def resolve_external_url(root: models.TransactionItem, info):
+    @staticmethod
+    def resolve_type(root: models.TransactionItem, info) -> str:
+    @staticmethod
+    def resolve_name(root: models.TransactionItem, info) -> str:
+    @staticmethod
+    def resolve_message(root: models.TransactionItem, info) -> str:
+    @classmethod
+    def get_node(cls, _: Any, id: str) -> Optional[models.TransactionItem]:
+===== END OUTLINE: saleor/graphql/payment/types.py =====
+===== OUTLINE: saleor/graphql/plugins/dataloaders.py (read-only) =====
+def plugin_manager_promise_callback(func):
+    @wraps(func)
+===== END OUTLINE: saleor/graphql/plugins/dataloaders.py =====
+===== OUTLINE: saleor/graphql/shipping/dataloaders.py (read-only) =====
+class ShippingMethodChannelListingByChannelSlugLoader(DataLoader):
+    context_key = "shippingmethodchannellisting_by_channel"
+    def batch_load(self, keys):
+===== END OUTLINE: saleor/graphql/shipping/dataloaders.py =====
+===== OUTLINE: saleor/graphql/warehouse/dataloaders.py (read-only) =====
+class WarehouseByIdLoader(DataLoader):
+    context_key = "warehouse_by_id"
+    def batch_load(self, keys: Iterable[UUID]) -> List[Optional[Warehouse]]:
+===== END OUTLINE: saleor/graphql/warehouse/dataloaders.py =====
+===== OUTLINE: saleor/graphql/webhook/resolvers.py (read-only) =====
+def resolve_shipping_methods_for_checkout(info, checkout, manager):
+===== END OUTLINE: saleor/graphql/webhook/resolvers.py =====

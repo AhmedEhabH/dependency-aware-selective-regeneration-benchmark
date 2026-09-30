@@ -1,0 +1,1015 @@
+READ-ONLY CONTEXT (NOT EDITABLE): outlines of repository modules imported by the editable files
+===== OUTLINE: saleor/attribute/__init__.py (read-only) =====
+class AttributeInputType:
+    DROPDOWN = "dropdown"
+    MULTISELECT = "multiselect"
+    FILE = "file"
+    REFERENCE = "reference"
+    NUMERIC = "numeric"
+    RICH_TEXT = "rich-text"
+    SWATCH = "swatch"
+    BOOLEAN = "boolean"
+    DATE = "date"
+    DATE_TIME = "date-time"
+    CHOICES = [
+    ALLOWED_IN_VARIANT_SELECTION = [DROPDOWN, BOOLEAN, SWATCH]
+    TYPES_WITH_CHOICES = [
+    TYPES_WITH_UNIQUE_VALUES = [FILE, REFERENCE, RICH_TEXT, NUMERIC, DATE, DATE_TIME]
+    TRANSLATABLE_ATTRIBUTES = [
+===== END OUTLINE: saleor/attribute/__init__.py =====
+===== OUTLINE: saleor/core/permissions.py (read-only) =====
+class ProductPermissions(BasePermissionEnum):
+    MANAGE_PRODUCTS = "product.manage_products"
+class ProductTypePermissions(BasePermissionEnum):
+    MANAGE_PRODUCT_TYPES_AND_ATTRIBUTES = "product.manage_product_types_and_attributes"
+===== END OUTLINE: saleor/core/permissions.py =====
+===== OUTLINE: saleor/core/tracing.py (read-only) =====
+@contextmanager
+def traced_atomic_transaction():
+===== END OUTLINE: saleor/core/tracing.py =====
+===== OUTLINE: saleor/order/events.py (read-only) =====
+UserType = Optional[User]
+AppType = Optional[App]
+def event_order_refunded_notification(
+    order_id: int, user_id: Optional[int], app_id: Optional[int], customer_email: str
+):
+def event_order_confirmed_notification(
+    order_id: int, user_id: Optional[int], app_id: Optional[int], customer_email: str
+):
+def event_order_cancelled_notification(
+    order_id: int, user_id: Optional[int], app_id: Optional[int], customer_email: str
+):
+def event_order_confirmation_notification(
+    order_id: int, user_id: Optional[int], customer_email: str
+):
+def event_fulfillment_confirmed_notification(
+    order_id: int, user_id: Optional[int], app_id: Optional[int], customer_email: str
+):
+def event_fulfillment_digital_links_notification(
+    order_id: int, user_id: Optional[int], app_id: Optional[int], customer_email: str
+):
+def event_payment_confirmed_notification(
+    order_id: int, user_id: Optional[int], customer_email: str
+):
+def invoice_requested_event(
+    *,
+    order: Order,
+    user: UserType,
+    app: AppType,
+) -> OrderEvent:
+def invoice_generated_event(
+    *,
+    order: Order,
+    user: UserType,
+    app: AppType,
+    invoice_number: str,
+) -> OrderEvent:
+def invoice_updated_event(
+    *,
+    order: Order,
+    user: Optional[UserType],
+    app: AppType,
+    invoice_number: str,
+    url: str,
+    status: str
+) -> OrderEvent:
+def event_invoice_sent_notification(
+    *, order_id: int, user_id: Optional[int], app_id: Optional[int], email: str
+) -> OrderEvent:
+def email_resent_event(
+    *, order: Order, user: UserType, email_type: OrderEventsEmails
+) -> OrderEvent:
+def draft_order_created_event(
+    *, order: Order, user: UserType, app: AppType
+) -> OrderEvent:
+def order_added_products_event(
+    *,
+    order: Order,
+    user: UserType,
+    app: AppType,
+    order_lines: List[Tuple[int, OrderLine]]
+) -> OrderEvent:
+def order_removed_products_event(
+    *,
+    order: Order,
+    user: UserType,
+    app: AppType,
+    order_lines: List[Tuple[int, OrderLine]]
+) -> OrderEvent:
+def draft_order_created_from_replace_event(
+    *,
+    draft_order: Order,
+    original_order: Order,
+    user: UserType,
+    app: AppType,
+    lines: List[Tuple[int, OrderLine]]
+):
+def order_created_event(
+    *, order: Order, user: UserType, app: AppType, from_draft=False
+) -> OrderEvent:
+def order_confirmed_event(*, order: Order, user: UserType, app: AppType) -> OrderEvent:
+def order_canceled_event(*, order: Order, user: UserType, app: AppType) -> OrderEvent:
+def order_manually_marked_as_paid_event(
+    *,
+    order: Order,
+    user: UserType,
+    app: AppType,
+    transaction_reference: Optional[str] = None
+) -> OrderEvent:
+def order_fully_paid_event(*, order: Order, user: UserType, app: AppType) -> OrderEvent:
+def order_replacement_created(
+    *, original_order: Order, replace_order: Order, user: UserType, app: AppType
+) -> OrderEvent:
+def payment_authorized_event(
+    *, order: Order, user: UserType, app: AppType, amount: Decimal, payment: Payment
+) -> OrderEvent:
+def payment_captured_event(
+    *, order: Order, user: UserType, app: AppType, amount: Decimal, payment: Payment
+) -> OrderEvent:
+def payment_refunded_event(
+    *, order: Order, user: UserType, app: AppType, amount: Decimal, payment: Payment
+) -> OrderEvent:
+def payment_voided_event(
+    *, order: Order, user: UserType, app: AppType, payment: Payment
+) -> OrderEvent:
+def payment_failed_event(
+    *, order: Order, user: UserType, app: AppType, message: str, payment: Payment
+) -> OrderEvent:
+
+def external_notification_event(
+    *,
+    order: Order,
+    user: UserType,
+    app: AppType,
+    message: Optional[str],
+    parameters: Optional[dict]
+) -> OrderEvent:
+def fulfillment_canceled_event(
+    *, order: Order, user: UserType, app: AppType, fulfillment: Optional[Fulfillment]
+) -> OrderEvent:
+def fulfillment_restocked_items_event(
+    *,
+    order: Order,
+    user: UserType,
+    app: AppType,
+    fulfillment: Union[Order, Fulfillment],
+    warehouse_pk: Optional[int] = None,
+) -> OrderEvent:
+def fulfillment_fulfilled_items_event(
+    *,
+    order: Order,
+    user: UserType,
+    app: AppType,
+    fulfillment_lines: List[FulfillmentLine]
+) -> OrderEvent:
+def fulfillment_awaits_approval_event(
+    *,
+    order: Order,
+    user: UserType,
+    app: AppType,
+    fulfillment_lines: List[FulfillmentLine]
+) -> OrderEvent:
+def order_returned_event(
+    *,
+    order: Order,
+    user: UserType,
+    app: AppType,
+    returned_lines: List[Tuple[int, OrderLine]],
+):
+def fulfillment_replaced_event(
+    *,
+    order: Order,
+    user: UserType,
+    app: AppType,
+    replaced_lines: List[Tuple[int, OrderLine]],
+):
+def fulfillment_refunded_event(
+    *,
+    order: Order,
+    user: UserType,
+    app: AppType,
+    refunded_lines: List[Tuple[int, OrderLine]],
+    amount: Decimal,
+    shipping_costs_included: bool
+):
+def fulfillment_tracking_updated_event(
+    *,
+    order: Order,
+    user: UserType,
+    app: AppType,
+    tracking_number: str,
+    fulfillment: Fulfillment
+) -> OrderEvent:
+def order_note_added_event(
+    *, order: Order, user: UserType, app: AppType, message: str
+) -> OrderEvent:
+def order_discount_event(
+    *,
+    event_type: str,
+    order: Order,
+    user: UserType,
+    app: AppType,
+    order_discount: "OrderDiscount",
+    old_order_discount: Optional["OrderDiscount"] = None
+) -> OrderEvent:
+def order_discounts_automatically_updated_event(
+    order: Order, changed_order_discounts: List[Tuple["OrderDiscount", "OrderDiscount"]]
+):
+def order_discount_automatically_updated_event(
+    order: Order, order_discount: "OrderDiscount", old_order_discount: "OrderDiscount"
+):
+def order_discount_added_event(
+    order: Order, user: UserType, app: AppType, order_discount: "OrderDiscount"
+) -> OrderEvent:
+def order_discount_updated_event(
+    order: Order,
+    user: UserType,
+    app: AppType,
+    order_discount: "OrderDiscount",
+    old_order_discount: Optional["OrderDiscount"] = None,
+) -> OrderEvent:
+def order_discount_deleted_event(
+    order: Order,
+    user: UserType,
+# [outline truncated]
+===== END OUTLINE: saleor/order/events.py =====
+===== OUTLINE: saleor/order/models.py (read-only) =====
+class OrderQueryset(models.QuerySet):
+    def get_by_checkout_token(self, token):
+    def confirmed(self):
+    def non_draft(self):
+    def drafts(self):
+    def ready_to_fulfill(self):
+    def ready_to_capture(self):
+    def ready_to_confirm(self):
+class Order(ModelWithMetadata):
+    created = models.DateTimeField(default=now, editable=False)
+    status = models.CharField(
+    user = models.ForeignKey(
+    language_code = models.CharField(
+    tracking_client_id = models.CharField(max_length=36, blank=True, editable=False)
+    billing_address = models.ForeignKey(
+    shipping_address = models.ForeignKey(
+    user_email = models.EmailField(blank=True, default="")
+    original = models.ForeignKey(
+    origin = models.CharField(max_length=32, choices=OrderOrigin.CHOICES)
+    currency = models.CharField(
+    shipping_method = models.ForeignKey(
+    collection_point = models.ForeignKey(
+    shipping_method_name = models.CharField(
+    collection_point_name = models.CharField(
+    channel = models.ForeignKey(
+    shipping_price_net_amount = models.DecimalField(
+    shipping_price_net = MoneyField(
+    shipping_price_gross_amount = models.DecimalField(
+    shipping_price_gross = MoneyField(
+    shipping_price = TaxedMoneyField(
+    shipping_tax_rate = models.DecimalField(
+    token = models.CharField(max_length=36, unique=True, blank=True)
+    checkout_token = models.CharField(max_length=36, blank=True)
+    total_net_amount = models.DecimalField(
+    undiscounted_total_net_amount = models.DecimalField(
+    total_net = MoneyField(amount_field="total_net_amount", currency_field="currency")
+    undiscounted_total_net = MoneyField(
+    total_gross_amount = models.DecimalField(
+    undiscounted_total_gross_amount = models.DecimalField(
+    total_gross = MoneyField(
+    undiscounted_total_gross = MoneyField(
+    total = TaxedMoneyField(
+    undiscounted_total = TaxedMoneyField(
+    total_paid_amount = models.DecimalField(
+    total_paid = MoneyField(amount_field="total_paid_amount", currency_field="currency")
+    voucher = models.ForeignKey(
+    gift_cards = models.ManyToManyField(GiftCard, blank=True, related_name="orders")
+    display_gross_prices = models.BooleanField(default=True)
+    customer_note = models.TextField(blank=True, default="")
+    weight = MeasurementField(
+    redirect_url = models.URLField(blank=True, null=True)
+    objects = models.Manager.from_queryset(OrderQueryset)()
+    class Meta:
+        ordering = ("-pk",)
+        permissions = ((OrderPermissions.MANAGE_ORDERS.codename, "Manage orders."),)
+        indexes = [*ModelWithMetadata.Meta.indexes, GinIndex(fields=["user_email"])]
+    def save(self, *args, **kwargs):
+    def is_fully_paid(self):
+    def is_partly_paid(self):
+    def get_customer_email(self):
+    def update_total_paid(self):
+    def _index_billing_phone(self):
+    def _index_shipping_phone(self):
+    def __repr__(self):
+    def __str__(self):
+    def get_last_payment(self):
+    def is_pre_authorized(self):
+    def is_captured(self):
+    def is_shipping_required(self):
+    def get_subtotal(self):
+    def get_total_quantity(self):
+    def is_draft(self):
+    def is_unconfirmed(self):
+    def is_open(self):
+    def can_cancel(self):
+    def can_capture(self, payment=None):
+    def can_void(self, payment=None):
+    def can_refund(self, payment=None):
+    def can_mark_as_paid(self, payments=None):
+    @property
+    def total_authorized(self):
+    @property
+    def total_captured(self):
+    @property
+    def total_balance(self):
+    def get_total_weight(self, *_args):
+class OrderLineQueryset(models.QuerySet):
+    def digital(self):
+    def physical(self):
+class OrderLine(models.Model):
+    order = models.ForeignKey(
+    variant = models.ForeignKey(
+    product_name = models.CharField(max_length=386)
+    variant_name = models.CharField(max_length=255, default="", blank=True)
+    translated_product_name = models.CharField(max_length=386, default="", blank=True)
+    translated_variant_name = models.CharField(max_length=255, default="", blank=True)
+    product_sku = models.CharField(max_length=255)
+    is_shipping_required = models.BooleanField()
+    is_gift_card = models.BooleanField()
+    quantity = models.IntegerField(validators=[MinValueValidator(1)])
+    quantity_fulfilled = models.IntegerField(
+    currency = models.CharField(
+    unit_discount_amount = models.DecimalField(
+    unit_discount = MoneyField(
+    unit_discount_type = models.CharField(
+    unit_discount_reason = models.TextField(blank=True, null=True)
+    unit_price_net_amount = models.DecimalField(
+    unit_discount_value = models.DecimalField(
+    unit_price_net = MoneyField(
+    unit_price_gross_amount = models.DecimalField(
+    unit_price_gross = MoneyField(
+    unit_price = TaxedMoneyField(
+    total_price_net_amount = models.DecimalField(
+    total_price_net = MoneyField(
+    total_price_gross_amount = models.DecimalField(
+    total_price_gross = MoneyField(
+    total_price = TaxedMoneyField(
+    undiscounted_unit_price_gross_amount = models.DecimalField(
+    undiscounted_unit_price_net_amount = models.DecimalField(
+    undiscounted_unit_price = TaxedMoneyField(
+    undiscounted_total_price_gross_amount = models.DecimalField(
+    undiscounted_total_price_net_amount = models.DecimalField(
+    undiscounted_total_price = TaxedMoneyField(
+    tax_rate = models.DecimalField(
+    objects = models.Manager.from_queryset(OrderLineQueryset)()
+    class Meta:
+        ordering = ("pk",)
+    def __str__(self):
+    @property
+    def quantity_unfulfilled(self):
+    @property
+    def is_digital(self) -> Optional[bool]:
+class Fulfillment(ModelWithMetadata):
+    fulfillment_order = models.PositiveIntegerField(editable=False)
+    order = models.ForeignKey(
+    status = models.CharField(
+    tracking_number = models.CharField(max_length=255, default="", blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+    shipping_refund_amount = models.DecimalField(
+    total_refund_amount = models.DecimalField(
+# [outline truncated]
+===== END OUTLINE: saleor/order/models.py =====
+===== OUTLINE: saleor/order/tasks.py (read-only) =====
+@app.task
+def recalculate_orders_task(order_ids: List[int]):
+===== END OUTLINE: saleor/order/tasks.py =====
+===== OUTLINE: saleor/product/models.py (read-only) =====
+ALL_PRODUCTS_PERMISSIONS = [
+class Category(ModelWithMetadata, MPTTModel, SeoModel):
+    name = models.CharField(max_length=250)
+    slug = models.SlugField(max_length=255, unique=True, allow_unicode=True)
+    description = SanitizedJSONField(blank=True, null=True, sanitizer=clean_editor_js)
+    parent = models.ForeignKey(
+    background_image = VersatileImageField(
+    background_image_alt = models.CharField(max_length=128, blank=True)
+    objects = models.Manager()
+    tree = TreeManager()
+    translated = TranslationProxy()
+    def __str__(self) -> str:
+class CategoryTranslation(SeoModelTranslation):
+    category = models.ForeignKey(
+    name = models.CharField(max_length=128, blank=True, null=True)
+    description = SanitizedJSONField(blank=True, null=True, sanitizer=clean_editor_js)
+    class Meta:
+        unique_together = (("language_code", "category"),)
+    def __str__(self) -> str:
+    def __repr__(self) -> str:
+    def get_translated_object_id(self):
+    def get_translated_keys(self):
+class ProductType(ModelWithMetadata):
+    name = models.CharField(max_length=250)
+    slug = models.SlugField(max_length=255, unique=True, allow_unicode=True)
+    kind = models.CharField(max_length=32, choices=ProductTypeKind.CHOICES)
+    has_variants = models.BooleanField(default=True)
+    is_shipping_required = models.BooleanField(default=True)
+    is_digital = models.BooleanField(default=False)
+    weight = MeasurementField(
+    class Meta(ModelWithMetadata.Meta):
+        ordering = ("slug",)
+        app_label = "product"
+        permissions = (
+    def __str__(self) -> str:
+    def __repr__(self) -> str:
+class ProductsQueryset(models.QuerySet):
+    def published(self, channel_slug: str):
+    def not_published(self, channel_slug: str):
+    def published_with_variants(self, channel_slug: str):
+    def visible_to_user(self, requestor: Union["User", "App"], channel_slug: str):
+    def annotate_publication_info(self, channel_slug: str):
+    def annotate_is_published(self, channel_slug: str):
+    def annotate_publication_date(self, channel_slug: str):
+    def annotate_visible_in_listings(self, channel_slug):
+    def sort_by_attribute(
+        self, attribute_pk: Union[int, str], descending: bool = False
+    ):
+    def prefetched_for_webhook(self, single_object=True):
+class Product(SeoModel, ModelWithMetadata):
+    product_type = models.ForeignKey(
+    name = models.CharField(max_length=250)
+    slug = models.SlugField(max_length=255, unique=True, allow_unicode=True)
+    description = SanitizedJSONField(blank=True, null=True, sanitizer=clean_editor_js)
+    description_plaintext = TextField(blank=True)
+    search_vector = SearchVectorField(null=True, blank=True)
+    category = models.ForeignKey(
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+    charge_taxes = models.BooleanField(default=True)
+    weight = MeasurementField(
+    default_variant = models.OneToOneField(
+    rating = models.FloatField(null=True, blank=True)
+    objects = models.Manager.from_queryset(ProductsQueryset)()
+    translated = TranslationProxy()
+    class Meta:
+        app_label = "product"
+        ordering = ("slug",)
+        permissions = (
+        indexes = [GinIndex(fields=["search_vector"])]
+    def __iter__(self):
+    def __repr__(self) -> str:
+    def __str__(self) -> str:
+    @property
+    def plain_text_description(self) -> str:
+    def get_first_image(self):
+    @staticmethod
+    def sort_by_attribute_fields() -> list:
+class ProductTranslation(SeoModelTranslation):
+    product = models.ForeignKey(
+    name = models.CharField(max_length=250, blank=True, null=True)
+    description = SanitizedJSONField(blank=True, null=True, sanitizer=clean_editor_js)
+    class Meta:
+        unique_together = (("language_code", "product"),)
+    def __str__(self) -> str:
+    def __repr__(self) -> str:
+    def get_translated_object_id(self):
+    def get_translated_keys(self):
+class ProductVariantQueryset(models.QuerySet):
+    def annotate_quantities(self):
+    def available_in_channel(self, channel_slug):
+    def prefetched_for_webhook(self):
+class ProductChannelListing(PublishableModel):
+    product = models.ForeignKey(
+    channel = models.ForeignKey(
+    visible_in_listings = models.BooleanField(default=False)
+    available_for_purchase = models.DateField(blank=True, null=True)
+    currency = models.CharField(max_length=settings.DEFAULT_CURRENCY_CODE_LENGTH)
+    discounted_price_amount = models.DecimalField(
+    discounted_price = MoneyField(
+    class Meta:
+        unique_together = [["product", "channel"]]
+        ordering = ("pk",)
+        indexes = [
+    def is_available_for_purchase(self):
+class ProductVariant(SortableModel, ModelWithMetadata):
+    sku = models.CharField(max_length=255, unique=True)
+    name = models.CharField(max_length=255, blank=True)
+    product = models.ForeignKey(
+    media = models.ManyToManyField("ProductMedia", through="VariantMedia")
+    track_inventory = models.BooleanField(default=True)
+    weight = MeasurementField(
+    objects = models.Manager.from_queryset(ProductVariantQueryset)()
+    translated = TranslationProxy()
+    class Meta(ModelWithMetadata.Meta):
+        ordering = ("sort_order", "sku")
+        app_label = "product"
+    def __str__(self) -> str:
+    def get_price(
+        self,
+        product: Product,
+        collections: Iterable["Collection"],
+        channel: Channel,
+        channel_listing: "ProductVariantChannelListing",
+        discounts: Optional[Iterable[DiscountInfo]] = None,
+    ) -> "Money":
+    def get_weight(self):
+    def is_shipping_required(self) -> bool:
+    def is_gift_card(self) -> bool:
+    def is_digital(self) -> bool:
+    def display_product(self, translated: bool = False) -> str:
+    def get_ordering_queryset(self):
+class ProductVariantTranslation(Translation):
+    product_variant = models.ForeignKey(
+    name = models.CharField(max_length=255, blank=True)
+    translated = TranslationProxy()
+    class Meta:
+# [outline truncated]
+===== END OUTLINE: saleor/product/models.py =====
+===== OUTLINE: saleor/product/error_codes.py (read-only) =====
+class ProductErrorCode(Enum):
+    ALREADY_EXISTS = "already_exists"
+    ATTRIBUTE_ALREADY_ASSIGNED = "attribute_already_assigned"
+    ATTRIBUTE_CANNOT_BE_ASSIGNED = "attribute_cannot_be_assigned"
+    ATTRIBUTE_VARIANTS_DISABLED = "attribute_variants_disabled"
+    DUPLICATED_INPUT_ITEM = "duplicated_input_item"
+    GRAPHQL_ERROR = "graphql_error"
+    INVALID = "invalid"
+    PRODUCT_WITHOUT_CATEGORY = "product_without_category"
+    NOT_PRODUCTS_IMAGE = "not_products_image"
+    NOT_PRODUCTS_VARIANT = "not_products_variant"
+    NOT_FOUND = "not_found"
+    REQUIRED = "required"
+    UNIQUE = "unique"
+    VARIANT_NO_DIGITAL_CONTENT = "variant_no_digital_content"
+    CANNOT_MANAGE_PRODUCT_WITHOUT_VARIANT = "cannot_manage_product_without_variant"
+    PRODUCT_NOT_ASSIGNED_TO_CHANNEL = "product_not_assigned_to_channel"
+    UNSUPPORTED_MEDIA_PROVIDER = "unsupported_media_provider"
+===== END OUTLINE: saleor/product/error_codes.py =====
+===== OUTLINE: saleor/product/tasks.py (read-only) =====
+@app.task
+def update_product_discounted_price_task(product_pk: int):
+===== END OUTLINE: saleor/product/tasks.py =====
+===== OUTLINE: saleor/product/utils/__init__.py (read-only) =====
+@traced_atomic_transaction()
+def delete_categories(categories_ids: List[str], manager):
+===== END OUTLINE: saleor/product/utils/__init__.py =====
+===== OUTLINE: saleor/product/utils/variants.py (read-only) =====
+def generate_and_set_variant_name(variant: "ProductVariant", sku: str):
+===== END OUTLINE: saleor/product/utils/variants.py =====
+===== OUTLINE: saleor/warehouse/models.py (read-only) =====
+class WarehouseQueryset(models.QuerySet):
+    def prefetch_data(self):
+    def for_country(self, country: str):
+    def applicable_for_click_and_collect_no_quantity_check(
+        self, lines_qs: QuerySet[CheckoutLine], country: str
+    ):
+    def applicable_for_click_and_collect(
+        self, lines_qs: QuerySet[CheckoutLine], country: str
+    ) -> QuerySet["Warehouse"]:
+    def _for_country_lines_and_stocks(
+        self,
+        lines_qs: QuerySet[CheckoutLine],
+        stocks_qs: QuerySet["Stock"],
+        country: str,
+    ) -> QuerySet["Warehouse"]:
+class Warehouse(ModelWithMetadata):
+
+    id = models.UUIDField(default=uuid.uuid4, primary_key=True)
+    name = models.CharField(max_length=250)
+    slug = models.SlugField(max_length=255, unique=True, allow_unicode=True)
+    shipping_zones = models.ManyToManyField(
+    address = models.ForeignKey(Address, on_delete=models.PROTECT)
+    email = models.EmailField(blank=True, default="")
+    click_and_collect_option = models.CharField(
+    is_private = models.BooleanField(default=True)
+    objects = models.Manager.from_queryset(WarehouseQueryset)()
+    class Meta(ModelWithMetadata.Meta):
+        ordering = ("-slug",)
+    def __str__(self):
+    @property
+    def countries(self) -> Set[str]:
+    def delete(self, *args, **kwargs):
+class StockQuerySet(models.QuerySet):
+    def annotate_available_quantity(self):
+    def for_channel(self, channel_slug: str):
+    def for_country_and_channel(self, country_code: str, channel_slug):
+    def get_variant_stocks_for_country(
+        self, country_code: str, channel_slug: str, product_variant: ProductVariant
+    ):
+    def get_product_stocks_for_country_and_channel(
+        self, country_code: str, channel_slug: str, product: Product
+    ):
+class Stock(models.Model):
+    warehouse = models.ForeignKey(Warehouse, null=False, on_delete=models.CASCADE)
+    product_variant = models.ForeignKey(
+    quantity = models.IntegerField(default=0)
+    objects = models.Manager.from_queryset(StockQuerySet)()
+    class Meta:
+        unique_together = [["warehouse", "product_variant"]]
+        ordering = ("pk",)
+    def increase_stock(self, quantity: int, commit: bool = True):
+    def decrease_stock(self, quantity: int, commit: bool = True):
+class AllocationQueryset(models.QuerySet):
+    def annotate_stock_available_quantity(self):
+    def available_quantity_for_stock(self, stock: "Stock"):
+class Allocation(models.Model):
+    order_line = models.ForeignKey(
+    stock = models.ForeignKey(
+    quantity_allocated = models.PositiveIntegerField(default=0)
+    objects = models.Manager.from_queryset(AllocationQueryset)()
+    class Meta:
+        unique_together = [["order_line", "stock"]]
+        ordering = ("pk",)
+===== END OUTLINE: saleor/warehouse/models.py =====
+===== OUTLINE: saleor/warehouse/error_codes.py (read-only) =====
+class StockErrorCode(str, Enum):
+    ALREADY_EXISTS = "already_exists"
+    GRAPHQL_ERROR = "graphql_error"
+    INVALID = "invalid"
+    NOT_FOUND = "not_found"
+    REQUIRED = "required"
+    UNIQUE = "unique"
+===== END OUTLINE: saleor/warehouse/error_codes.py =====
+===== OUTLINE: saleor/graphql/channel/__init__.py (read-only) =====
+@dataclass
+class ChannelContext(Generic[N]):
+    node: N
+    channel_slug: Optional[str]
+===== END OUTLINE: saleor/graphql/channel/__init__.py =====
+===== OUTLINE: saleor/graphql/channel/types.py (read-only) =====
+class Channel(CountableDjangoObjectType):
+    has_orders = graphene.Boolean(
+    default_country = graphene.Field(
+    class Meta:
+        description = "Represents channel."
+        model = models.Channel
+        interfaces = [graphene.relay.Node]
+        only_fields = ["id", "name", "slug", "currency_code", "is_active"]
+    @staticmethod
+    @permission_required(ChannelPermissions.MANAGE_CHANNELS)
+    def resolve_has_orders(root: models.Channel, info):
+    @staticmethod
+    def resolve_default_country(root: models.Channel, _info):
+===== END OUTLINE: saleor/graphql/channel/types.py =====
+===== OUTLINE: saleor/graphql/core/mutations.py (read-only) =====
+class BaseMutation(graphene.Mutation):
+    class Meta:
+        abstract = True
+    @classmethod
+    def __init_subclass_with_meta__(
+        cls,
+        description=None,
+        permissions: Tuple = None,
+        _meta=None,
+        error_type_class=None,
+        error_type_field=None,
+        errors_mapping=None,
+        **options,
+    ):
+    @classmethod
+    def _update_mutation_arguments_and_fields(cls, arguments, fields):
+    @classmethod
+    def _get_node_by_pk(
+        cls, info, graphene_type: ObjectType, pk: Union[int, str], qs=None
+    ):
+    @classmethod
+    def get_global_id_or_error(
+        cls, id: str, only_type: Union[ObjectType, str] = None, field: str = "id"
+    ):
+    @classmethod
+    def get_node_or_error(cls, info, node_id, field="id", only_type=None, qs=None):
+    @classmethod
+    def get_global_ids_or_error(
+        cls,
+        ids: Iterable[str],
+        only_type: Union[ObjectType, str] = None,
+        field: str = "ids",
+    ):
+    @classmethod
+    def get_nodes_or_error(cls, ids, field, only_type=None, qs=None):
+    @staticmethod
+    def remap_error_fields(validation_error, field_map):
+    @classmethod
+    def clean_instance(cls, info, instance):
+    @classmethod
+    def construct_instance(cls, instance, cleaned_data):
+    @classmethod
+    def check_permissions(cls, context, permissions=None):
+    @classmethod
+    def mutate(cls, root, info, **data):
+    @classmethod
+    def perform_mutation(cls, root, info, **data):
+    @classmethod
+    def handle_errors(cls, error: ValidationError, **extra):
+    @classmethod
+    def handle_typed_errors(cls, errors: list, **extra):
+class ModelMutation(BaseMutation):
+    class Meta:
+        abstract = True
+    @classmethod
+    def __init_subclass_with_meta__(
+        cls,
+        arguments=None,
+        model=None,
+        exclude=None,
+        return_field_name=None,
+        _meta=None,
+        **options,
+    ):
+    @classmethod
+    def clean_input(cls, info, instance, data, input_cls=None):
+    @classmethod
+    def _save_m2m(cls, info, instance, cleaned_data):
+    @classmethod
+    def success_response(cls, instance):
+    @classmethod
+    def save(cls, info, instance, cleaned_input):
+    @classmethod
+    def get_type_for_model(cls):
+    @classmethod
+    def get_instance(cls, info, **data):
+    @classmethod
+    def post_save_action(cls, info, instance, cleaned_input):
+    @classmethod
+    def perform_mutation(cls, _root, info, **data):
+class ModelBulkDeleteMutation(BaseBulkMutation):
+    class Meta:
+        abstract = True
+    @classmethod
+    def bulk_action(cls, info, queryset):
+===== END OUTLINE: saleor/graphql/core/mutations.py =====
+===== OUTLINE: saleor/graphql/core/types/common.py (read-only) =====
+class ProductError(Error):
+    code = ProductErrorCode(description="The error code.", required=True)
+    attributes = graphene.List(
+    values = graphene.List(
+class CollectionError(ProductWithoutVariantError):
+    code = CollectionErrorCode(description="The error code.", required=True)
+class BulkProductError(ProductError):
+    index = graphene.Int(
+    warehouses = graphene.List(
+    channels = graphene.List(
+class StockError(Error):
+    code = StockErrorCode(description="The error code.", required=True)
+class BulkStockError(ProductError):
+    index = graphene.Int(
+===== END OUTLINE: saleor/graphql/core/types/common.py =====
+===== OUTLINE: saleor/graphql/core/utils/__init__.py (read-only) =====
+def get_duplicated_values(values):
+===== END OUTLINE: saleor/graphql/core/utils/__init__.py =====
+===== OUTLINE: saleor/graphql/core/validators.py (read-only) =====
+def validate_price_precision(value: Optional["Decimal"], currency: str):
+===== END OUTLINE: saleor/graphql/core/validators.py =====
+===== OUTLINE: saleor/graphql/warehouse/types.py (read-only) =====
+class Warehouse(CountableDjangoObjectType):
+    company_name = graphene.String(
+    click_and_collect_option = WarehouseClickAndCollectOptionEnum(
+    class Meta:
+        description = "Represents warehouse."
+        model = models.Warehouse
+        interfaces = [graphene.relay.Node, ObjectWithMetadata]
+        only_fields = [
+    @staticmethod
+    def resolve_shipping_zones(root, *_args, **_kwargs):
+    @staticmethod
+    def resolve_company_name(root, info, *_args, **_kwargs):
+===== END OUTLINE: saleor/graphql/warehouse/types.py =====
+===== OUTLINE: saleor/graphql/product/mutations/channels.py (read-only) =====
+class ProductVariantChannelListingAddInput(graphene.InputObjectType):
+    channel_id = graphene.ID(required=True, description="ID of a channel.")
+    price = PositiveDecimal(
+    cost_price = PositiveDecimal(description="Cost price of the variant in channel.")
+===== END OUTLINE: saleor/graphql/product/mutations/channels.py =====
+===== OUTLINE: saleor/graphql/product/mutations/products.py (read-only) =====
+class StockInput(graphene.InputObjectType):
+    warehouse = graphene.ID(
+    quantity = graphene.Int(
+class ProductVariantInput(graphene.InputObjectType):
+    attributes = graphene.List(
+    sku = graphene.String(description="Stock keeping unit.")
+    track_inventory = graphene.Boolean(
+    weight = WeightScalar(description="Weight of the Product Variant.", required=False)
+class ProductVariantCreate(ModelMutation):
+    class Arguments:
+        input = ProductVariantCreateInput(
+    class Meta:
+        description = "Creates a new variant for a product."
+        model = models.ProductVariant
+        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
+        error_type_class = ProductError
+        error_type_field = "product_errors"
+        errors_mapping = {"price_amount": "price"}
+    @classmethod
+    def clean_attributes(
+        cls, attributes: dict, product_type: models.ProductType
+    ) -> T_INPUT_MAP:
+    @classmethod
+    def validate_duplicated_attribute_values(
+        cls, attributes_data, used_attribute_values, instance=None
+    ):
+    @classmethod
+    def clean_input(
+        cls, info, instance: models.ProductVariant, data: dict, input_cls=None
+    ):
+    @classmethod
+    def check_for_duplicates_in_stocks(cls, stocks_data):
+    @classmethod
+    def get_instance(cls, info, **data):
+    @classmethod
+    @traced_atomic_transaction()
+    def save(cls, info, instance, cleaned_input):
+    @classmethod
+    def create_variant_stocks(cls, variant, stocks):
+    @classmethod
+    def success_response(cls, instance):
+===== END OUTLINE: saleor/graphql/product/mutations/products.py =====
+===== OUTLINE: saleor/graphql/product/utils.py (read-only) =====
+def get_used_variants_attribute_values(product):
+@traced_atomic_transaction()
+def create_stocks(
+    variant: "ProductVariant", stocks_data: List[Dict[str, str]], warehouses: "QuerySet"
+):
+def get_draft_order_lines_data_for_variants(
+    variant_ids: Iterable[int],
+):
+===== END OUTLINE: saleor/graphql/product/utils.py =====
+===== OUTLINE: saleor/core/exceptions.py (read-only) =====
+@dataclass
+class InsufficientStockData:
+    variant: "ProductVariant"
+    order_line: Optional["OrderLine"] = None
+    warehouse_pk: Union[str, int, None] = None
+    available_quantity: Optional[int] = None
+class InsufficientStock(Exception):
+    def __init__(self, items: List[InsufficientStockData]):
+class AllocationError(Exception):
+    def __init__(self, order_lines):
+===== END OUTLINE: saleor/core/exceptions.py =====
+===== OUTLINE: saleor/order/__init__.py (read-only) =====
+@dataclass
+class OrderLineData:
+    line: "OrderLine"
+    quantity: int
+    variant: Optional["ProductVariant"] = None
+    replace: bool = False
+    warehouse_pk: Optional[str] = None
+===== END OUTLINE: saleor/order/__init__.py =====
+===== OUTLINE: saleor/plugins/manager.py (read-only) =====
+class PluginsManager(PaymentInterface):
+    plugins_per_channel: Dict[str, List["BasePlugin"]] = {}
+    global_plugins: List["BasePlugin"] = []
+    all_plugins: List["BasePlugin"] = []
+    def _load_plugin(
+        self,
+        PluginClass: Type["BasePlugin"],
+        config,
+        channel: Optional["Channel"] = None,
+    ) -> "BasePlugin":
+
+    def __init__(self, plugins: List[str]):
+    def __run_method_on_plugins(
+        self,
+        method_name: str,
+        default_value: Any,
+        *args,
+        channel_slug: Optional[str] = None,
+        **kwargs
+    ):
+    def __run_method_on_single_plugin(
+        self,
+        plugin: Optional["BasePlugin"],
+        method_name: str,
+        previous_value: Any,
+        *args,
+        **kwargs,
+    ) -> Any:
+    def change_user_address(
+        self, address: "Address", address_type: Optional[str], user: Optional["User"]
+    ) -> "Address":
+    def calculate_checkout_total(
+        self,
+        checkout_info: "CheckoutInfo",
+        lines: Iterable["CheckoutLineInfo"],
+        address: Optional["Address"],
+        discounts: Iterable[DiscountInfo],
+    ) -> TaxedMoney:
+
+    def calculate_checkout_subtotal(
+        self,
+        checkout_info: "CheckoutInfo",
+        lines: Iterable["CheckoutLineInfo"],
+        address: Optional["Address"],
+        discounts: Iterable[DiscountInfo],
+    ) -> TaxedMoney:
+    def calculate_checkout_shipping(
+        self,
+        checkout_info: "CheckoutInfo",
+        lines: Iterable["CheckoutLineInfo"],
+        address: Optional["Address"],
+        discounts: Iterable[DiscountInfo],
+    ) -> TaxedMoney:
+    def calculate_order_shipping(self, order: "Order") -> TaxedMoney:
+    def get_checkout_shipping_tax_rate(
+        self,
+        checkout_info: "CheckoutInfo",
+        lines: Iterable["CheckoutLineInfo"],
+        address: Optional["Address"],
+        discounts: Iterable[DiscountInfo],
+        shipping_price: TaxedMoney,
+    ):
+    def get_order_shipping_tax_rate(self, order: "Order", shipping_price: TaxedMoney):
+    def calculate_checkout_line_total(
+        self,
+        checkout_info: "CheckoutInfo",
+        lines: Iterable["CheckoutLineInfo"],
+        checkout_line_info: "CheckoutLineInfo",
+        address: Optional["Address"],
+        discounts: Iterable["DiscountInfo"],
+    ):
+    def calculate_order_line_total(
+        self,
+        order: "Order",
+        order_line: "OrderLine",
+        variant: "ProductVariant",
+        product: "Product",
+    ):
+    def calculate_checkout_line_unit_price(
+        self,
+        total_line_price: TaxedMoney,
+        quantity: int,
+        checkout_info: "CheckoutInfo",
+        lines: Iterable["CheckoutLineInfo"],
+        checkout_line_info: "CheckoutLineInfo",
+        address: Optional["Address"],
+        discounts: Iterable["DiscountInfo"],
+    ):
+    def calculate_order_line_unit(
+        self,
+        order: "Order",
+        order_line: "OrderLine",
+        variant: "ProductVariant",
+        product: "Product",
+    ) -> TaxedMoney:
+    def get_checkout_line_tax_rate(
+        self,
+        checkout_info: "CheckoutInfo",
+        lines: Iterable["CheckoutLineInfo"],
+        checkout_line_info: "CheckoutLineInfo",
+        address: Optional["Address"],
+        discounts: Iterable[DiscountInfo],
+        unit_price: TaxedMoney,
+    ) -> Decimal:
+    def get_order_line_tax_rate(
+        self,
+        order: "Order",
+        product: "Product",
+        variant: "ProductVariant",
+        address: Optional["Address"],
+        unit_price: TaxedMoney,
+    ) -> Decimal:
+    def get_tax_rate_type_choices(self) -> List[TaxType]:
+    def show_taxes_on_storefront(self) -> bool:
+    def apply_taxes_to_product(
+        self, product: "Product", price: Money, country: Country, channel_slug: str
+    ):
+    def apply_taxes_to_shipping(
+        self, price: Money, shipping_address: "Address", channel_slug: str
+    ) -> TaxedMoney:
+    def preprocess_order_creation(
+        self,
+        checkout_info: "CheckoutInfo",
+        discounts: Iterable[DiscountInfo],
+        lines: Optional[Iterable["CheckoutLineInfo"]] = None,
+    ):
+    def customer_created(self, customer: "User"):
+    def customer_updated(self, customer: "User"):
+    def product_created(self, product: "Product"):
+    def product_updated(self, product: "Product"):
+    def product_deleted(self, product: "Product", variants: List[int]):
+    def product_variant_created(self, product_variant: "ProductVariant"):
+    def product_variant_updated(self, product_variant: "ProductVariant"):
+    def product_variant_deleted(self, product_variant: "ProductVariant"):
+    def product_variant_out_of_stock(self, stock: "Stock"):
+    def product_variant_back_in_stock(self, stock: "Stock"):
+    def order_created(self, order: "Order"):
+    def order_confirmed(self, order: "Order"):
+    def draft_order_created(self, order: "Order"):
+    def draft_order_updated(self, order: "Order"):
+    def draft_order_deleted(self, order: "Order"):
+    def invoice_request(
+        self, order: "Order", invoice: "Invoice", number: Optional[str]
+    ):
+    def invoice_delete(self, invoice: "Invoice"):
+    def invoice_sent(self, invoice: "Invoice", email: str):
+    def order_fully_paid(self, order: "Order"):
+    def order_updated(self, order: "Order"):
+    def order_cancelled(self, order: "Order"):
+    def order_fulfilled(self, order: "Order"):
+    def fulfillment_created(self, fulfillment: "Fulfillment"):
+    def fulfillment_canceled(self, fulfillment: "Fulfillment"):
+    def checkout_created(self, checkout: "Checkout"):
+    def checkout_updated(self, checkout: "Checkout"):
+    def page_created(self, page: "Page"):
+    def page_updated(self, page: "Page"):
+    def page_deleted(self, page: "Page"):
+    def initialize_payment(
+        self, gateway, payment_data: dict, channel_slug: str
+    ) -> Optional["InitializedPaymentResponse"]:
+    def authorize_payment(
+        self, gateway: str, payment_information: "PaymentData", channel_slug: str
+# [outline truncated]
+===== END OUTLINE: saleor/plugins/manager.py =====

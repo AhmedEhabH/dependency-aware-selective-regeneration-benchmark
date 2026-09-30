@@ -1,0 +1,903 @@
+READ-ONLY CONTEXT (NOT EDITABLE): outlines of repository modules imported by the editable files
+===== OUTLINE: saleor/core/exceptions.py (read-only) =====
+class PermissionDenied(Exception):
+    def __init__(self, message=None):
+===== END OUTLINE: saleor/core/exceptions.py =====
+===== OUTLINE: saleor/core/permissions.py (read-only) =====
+class ProductPermissions(BasePermissionEnum):
+    MANAGE_PRODUCTS = "product.manage_products"
+===== END OUTLINE: saleor/core/permissions.py =====
+===== OUTLINE: saleor/product/models.py (read-only) =====
+class Category(MPTTModel, ModelWithMetadata, SeoModel):
+    name = models.CharField(max_length=250)
+    slug = models.SlugField(max_length=255, unique=True, allow_unicode=True)
+    description = models.TextField(blank=True)
+    description_json = JSONField(blank=True, default=dict)
+    parent = models.ForeignKey(
+    background_image = VersatileImageField(
+    background_image_alt = models.CharField(max_length=128, blank=True)
+    objects = models.Manager()
+    tree = TreeManager()
+    translated = TranslationProxy()
+    def __str__(self) -> str:
+class CategoryTranslation(SeoModelTranslation):
+    language_code = models.CharField(max_length=10)
+    category = models.ForeignKey(
+    name = models.CharField(max_length=128)
+    description = models.TextField(blank=True)
+    description_json = JSONField(blank=True, default=dict)
+    class Meta:
+        unique_together = (("language_code", "category"),)
+    def __str__(self) -> str:
+    def __repr__(self) -> str:
+class ProductType(ModelWithMetadata):
+    name = models.CharField(max_length=250)
+    slug = models.SlugField(max_length=255, unique=True, allow_unicode=True)
+    has_variants = models.BooleanField(default=True)
+    is_shipping_required = models.BooleanField(default=True)
+    is_digital = models.BooleanField(default=False)
+    weight = MeasurementField(
+    class Meta:
+        ordering = ("slug",)
+        app_label = "product"
+    def __str__(self) -> str:
+    def __repr__(self) -> str:
+class ProductsQueryset(PublishedQuerySet):
+    def collection_sorted(self, user: "User"):
+    def published_with_variants(self):
+    def visible_to_user(self, user):
+    def sort_by_attribute(
+        self, attribute_pk: Union[int, str], descending: bool = False
+    ):
+class Product(SeoModel, ModelWithMetadata, PublishableModel):
+    product_type = models.ForeignKey(
+    name = models.CharField(max_length=250)
+    slug = models.SlugField(max_length=255, unique=True, allow_unicode=True)
+    description = models.TextField(blank=True)
+    description_json = SanitizedJSONField(
+    category = models.ForeignKey(
+    currency = models.CharField(
+    minimal_variant_price_amount = models.DecimalField(
+    minimal_variant_price = MoneyField(
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+    charge_taxes = models.BooleanField(default=True)
+    weight = MeasurementField(
+    available_for_purchase = models.DateField(blank=True, null=True)
+    objects = ProductsQueryset.as_manager()
+    translated = TranslationProxy()
+    class Meta:
+        app_label = "product"
+        ordering = ("slug",)
+        permissions = (
+    def __iter__(self):
+    def __repr__(self) -> str:
+    def __str__(self) -> str:
+    @property
+    def plain_text_description(self) -> str:
+    def get_first_image(self):
+    @staticmethod
+    def sort_by_attribute_fields() -> list:
+class ProductTranslation(SeoModelTranslation):
+    language_code = models.CharField(max_length=10)
+    product = models.ForeignKey(
+    name = models.CharField(max_length=250)
+    description = models.TextField(blank=True)
+    description_json = SanitizedJSONField(
+    class Meta:
+        unique_together = (("language_code", "product"),)
+    def __str__(self) -> str:
+    def __repr__(self) -> str:
+class ProductVariantQueryset(models.QuerySet):
+    def create(self, **kwargs):
+    def bulk_create(self, objs, batch_size=None, ignore_conflicts=False):
+class ProductVariant(ModelWithMetadata):
+    sku = models.CharField(max_length=255, unique=True)
+    name = models.CharField(max_length=255, blank=True)
+    currency = models.CharField(
+    price_amount = models.DecimalField(
+    price = MoneyField(amount_field="price_amount", currency_field="currency")
+    product = models.ForeignKey(
+    images = models.ManyToManyField("ProductImage", through="VariantImage")
+    track_inventory = models.BooleanField(default=True)
+    cost_price_amount = models.DecimalField(
+    cost_price = MoneyField(amount_field="cost_price_amount", currency_field="currency")
+    weight = MeasurementField(
+    objects = ProductVariantQueryset.as_manager()
+    translated = TranslationProxy()
+    class Meta:
+        ordering = ("sku",)
+        app_label = "product"
+    def __str__(self) -> str:
+    @property
+    def is_visible(self) -> bool:
+    def get_price(self, discounts: Optional[Iterable[DiscountInfo]] = None) -> "Money":
+    def get_weight(self):
+    def is_shipping_required(self) -> bool:
+    def is_digital(self) -> bool:
+    def display_product(self, translated: bool = False) -> str:
+    def get_first_image(self) -> "ProductImage":
+class ProductVariantTranslation(models.Model):
+    language_code = models.CharField(max_length=10)
+    product_variant = models.ForeignKey(
+    name = models.CharField(max_length=255, blank=True)
+    translated = TranslationProxy()
+    class Meta:
+        unique_together = (("language_code", "product_variant"),)
+    def __repr__(self):
+    def __str__(self):
+class DigitalContent(ModelWithMetadata):
+    FILE = "file"
+    TYPE_CHOICES = ((FILE, "digital_product"),)
+    use_default_settings = models.BooleanField(default=True)
+    automatic_fulfillment = models.BooleanField(default=False)
+    content_type = models.CharField(max_length=128, default=FILE, choices=TYPE_CHOICES)
+    product_variant = models.OneToOneField(
+    content_file = models.FileField(upload_to="digital_contents", blank=True)
+    max_downloads = models.IntegerField(blank=True, null=True)
+    url_valid_days = models.IntegerField(blank=True, null=True)
+    def create_new_url(self) -> "DigitalContentUrl":
+class DigitalContentUrl(models.Model):
+    token = models.UUIDField(editable=False, unique=True)
+    content = models.ForeignKey(
+    created = models.DateTimeField(auto_now_add=True)
+    download_num = models.IntegerField(default=0)
+    line = models.OneToOneField(
+    def save(
+        self, force_insert=False, force_update=False, using=None, update_fields=None
+    ):
+    def get_absolute_url(self) -> Optional[str]:
+# [outline truncated]
+===== END OUTLINE: saleor/product/models.py =====
+===== OUTLINE: saleor/product/error_codes.py (read-only) =====
+class ProductErrorCode(Enum):
+    ALREADY_EXISTS = "already_exists"
+    ATTRIBUTE_ALREADY_ASSIGNED = "attribute_already_assigned"
+    ATTRIBUTE_CANNOT_BE_ASSIGNED = "attribute_cannot_be_assigned"
+    ATTRIBUTE_VARIANTS_DISABLED = "attribute_variants_disabled"
+    DUPLICATED_INPUT_ITEM = "duplicated_input_item"
+    GRAPHQL_ERROR = "graphql_error"
+    INVALID = "invalid"
+    NOT_PRODUCTS_IMAGE = "not_products_image"
+    NOT_FOUND = "not_found"
+    REQUIRED = "required"
+    UNIQUE = "unique"
+    VARIANT_NO_DIGITAL_CONTENT = "variant_no_digital_content"
+===== END OUTLINE: saleor/product/error_codes.py =====
+===== OUTLINE: saleor/product/tasks.py (read-only) =====
+@app.task
+def update_variants_names(product_type_pk: int, saved_attributes_ids: List[int]):
+@app.task
+def update_product_minimal_variant_price_task(product_pk: int):
+@app.task
+def update_products_minimal_variant_prices_of_catalogues_task(
+    product_ids: Optional[List[int]] = None,
+    category_ids: Optional[List[int]] = None,
+    collection_ids: Optional[List[int]] = None,
+):
+===== END OUTLINE: saleor/product/tasks.py =====
+===== OUTLINE: saleor/product/thumbnails.py (read-only) =====
+@app.task
+def create_product_thumbnails(image_id: str):
+@app.task
+def create_category_background_image_thumbnails(category_id: str):
+@app.task
+def create_collection_background_image_thumbnails(collection_id: str):
+===== END OUTLINE: saleor/product/thumbnails.py =====
+===== OUTLINE: saleor/product/utils/__init__.py (read-only) =====
+@transaction.atomic
+def delete_categories(categories_ids: List[str]):
+===== END OUTLINE: saleor/product/utils/__init__.py =====
+===== OUTLINE: saleor/product/utils/attributes.py (read-only) =====
+def generate_name_for_variant(variant: ProductVariant) -> str:
+def associate_attribute_values_to_instance(
+    instance: Union[Product, ProductVariant],
+    attribute: Attribute,
+    *values: AttributeValue,
+) -> AttributeAssignmentType:
+===== END OUTLINE: saleor/product/utils/attributes.py =====
+===== OUTLINE: saleor/graphql/core/mutations.py (read-only) =====
+class BaseMutation(graphene.Mutation):
+    errors = graphene.List(
+    class Meta:
+        abstract = True
+    @classmethod
+    def __init_subclass_with_meta__(
+        cls,
+        description=None,
+        permissions: Tuple = None,
+        _meta=None,
+        error_type_class=None,
+        error_type_field=None,
+        **options,
+    ):
+    @classmethod
+    def _update_mutation_arguments_and_fields(cls, arguments, fields):
+    @classmethod
+    def get_node_by_pk(
+        cls, info, graphene_type: ObjectType, pk: Union[int, str], qs=None
+    ):
+    @classmethod
+    def get_node_or_error(cls, info, node_id, field="id", only_type=None, qs=None):
+    @classmethod
+    def get_nodes_or_error(cls, ids, field, only_type=None, qs=None):
+    @classmethod
+    def clean_instance(cls, info, instance):
+    @classmethod
+    def construct_instance(cls, instance, cleaned_data):
+    @classmethod
+    def check_permissions(cls, context, permissions=None):
+    @classmethod
+    def mutate(cls, root, info, **data):
+    @classmethod
+    def perform_mutation(cls, root, info, **data):
+    @classmethod
+    def handle_errors(cls, error: ValidationError, **extra):
+    @classmethod
+    def handle_typed_errors(cls, errors: list, **extra):
+class ModelMutation(BaseMutation):
+    class Meta:
+        abstract = True
+    @classmethod
+    def __init_subclass_with_meta__(
+        cls,
+        arguments=None,
+        model=None,
+        exclude=None,
+        return_field_name=None,
+        _meta=None,
+        **options,
+    ):
+    @classmethod
+    def clean_input(cls, info, instance, data, input_cls=None):
+    @classmethod
+    def _save_m2m(cls, info, instance, cleaned_data):
+    @classmethod
+    def success_response(cls, instance):
+    @classmethod
+    def save(cls, info, instance, cleaned_input):
+    @classmethod
+    def get_type_for_model(cls):
+    @classmethod
+    def get_instance(cls, info, **data):
+    @classmethod
+    def post_save_action(cls, info, instance, cleaned_input):
+    @classmethod
+    def perform_mutation(cls, _root, info, **data):
+class ModelDeleteMutation(ModelMutation):
+    class Meta:
+        abstract = True
+    @classmethod
+    def clean_instance(cls, info, instance):
+    @classmethod
+    def perform_mutation(cls, _root, info, **data):
+===== END OUTLINE: saleor/graphql/core/mutations.py =====
+===== OUTLINE: saleor/graphql/core/scalars.py (read-only) =====
+class Decimal(graphene.Float):
+    @staticmethod
+    def parse_literal(node):
+    @staticmethod
+    def parse_value(value):
+class WeightScalar(graphene.Scalar):
+    @staticmethod
+    @staticmethod
+    def parse_value(value):
+    @staticmethod
+    def serialize(weight):
+    @staticmethod
+    def parse_literal(node):
+    @staticmethod
+    def parse_decimal(value):
+    @staticmethod
+    def parse_literal_object(node):
+===== END OUTLINE: saleor/graphql/core/scalars.py =====
+===== OUTLINE: saleor/graphql/core/types/common.py (read-only) =====
+class ProductError(Error):
+    code = ProductErrorCode(description="The error code.", required=True)
+===== END OUTLINE: saleor/graphql/core/types/common.py =====
+===== OUTLINE: saleor/graphql/core/utils/__init__.py (read-only) =====
+def clean_seo_fields(data):
+def validate_image_file(file, field_name):
+def from_global_id_strict_type(
+    global_id: str, only_type: Union[ObjectType, str], field: str = "id"
+) -> str:
+def validate_slug_and_generate_if_needed(
+    instance: Type["Model"],
+    slugable_field: str,
+    cleaned_input: dict,
+    slug_field_name: str = "slug",
+) -> dict:
+def get_duplicated_values(values):
+===== END OUTLINE: saleor/graphql/core/utils/__init__.py =====
+===== OUTLINE: saleor/graphql/core/utils/reordering.py (read-only) =====
+def perform_reordering(qs: QuerySet, operations: Dict[int, int], field: str = "moves"):
+===== END OUTLINE: saleor/graphql/core/utils/reordering.py =====
+===== OUTLINE: saleor/graphql/meta/deprecated/mutations.py (read-only) =====
+class UpdateMetaBaseMutation(BaseMetadataMutation):
+    class Meta:
+        abstract = True
+    class Arguments:
+        id = graphene.ID(description="ID of an object to update.", required=True)
+        input = MetaInput(
+    @classmethod
+    def perform_mutation(cls, root, info, **data):
+class ClearMetaBaseMutation(BaseMetadataMutation):
+    class Meta:
+        abstract = True
+    class Arguments:
+        id = graphene.ID(description="ID of a customer to update.", required=True)
+        input = MetaPath(
+    @classmethod
+    def perform_mutation(cls, root, info, **data):
+===== END OUTLINE: saleor/graphql/meta/deprecated/mutations.py =====
+===== OUTLINE: saleor/graphql/warehouse/types.py (read-only) =====
+class Warehouse(CountableDjangoObjectType):
+    class Meta:
+        description = "Represents warehouse."
+        model = models.Warehouse
+        interfaces = [graphene.relay.Node]
+        only_fields = [
+===== END OUTLINE: saleor/graphql/warehouse/types.py =====
+===== OUTLINE: saleor/graphql/product/utils.py (read-only) =====
+def validate_attribute_input_for_product(instance: "Attribute", values: List[str]):
+def validate_attribute_input_for_variant(instance: "Attribute", values: List[str]):
+def get_used_attribute_values_for_variant(variant):
+def get_used_variants_attribute_values(product):
+@transaction.atomic
+def create_stocks(
+    variant: "ProductVariant", stocks_data: List[Dict[str, str]], warehouses: "QuerySet"
+):
+===== END OUTLINE: saleor/graphql/product/utils.py =====
+===== OUTLINE: saleor/graphql/core/enums.py (read-only) =====
+class ReportingPeriod(graphene.Enum):
+    TODAY = "TODAY"
+    THIS_MONTH = "THIS_MONTH"
+===== END OUTLINE: saleor/graphql/core/enums.py =====
+===== OUTLINE: saleor/graphql/core/fields.py (read-only) =====
+class PrefetchingConnectionField(BaseDjangoConnectionField):
+    @classmethod
+    @classmethod
+    def connection_resolver(
+        cls,
+        resolver,
+        connection,
+        default_manager,
+        queryset_resolver,
+        max_limit,
+        enforce_first_or_last,
+        root,
+        info,
+        **args,
+    ):
+
+        # Disable `enforce_first_or_last` if not querying for `edges`.
+class FilterInputConnectionField(PrefetchingConnectionField):
+    def __init__(self, *args, **kwargs):
+    @classmethod
+    def connection_resolver(
+        cls,
+        resolver,
+        connection,
+        default_manager,
+        queryset_resolver,
+        max_limit,
+        enforce_first_or_last,
+        filterset_class,
+        filters_name,
+        root,
+        info,
+        **args,
+    ):
+        # Disable `enforce_first_or_last` if not querying for `edges`.
+    def get_resolver(self, parent_resolver):
+===== END OUTLINE: saleor/graphql/core/fields.py =====
+===== OUTLINE: saleor/graphql/core/validators.py (read-only) =====
+def validate_one_of_args_is_in_query(arg1_name, arg1, arg2_name, arg2):
+===== END OUTLINE: saleor/graphql/core/validators.py =====
+===== OUTLINE: saleor/graphql/decorators.py (read-only) =====
+def permission_required(perm: Union[Enum, Iterable[Enum]]):
+===== END OUTLINE: saleor/graphql/decorators.py =====
+===== OUTLINE: saleor/graphql/translations/mutations.py (read-only) =====
+class CategoryTranslate(BaseTranslateMutation):
+    class Arguments:
+        id = graphene.ID(required=True, description="Category ID.")
+        language_code = graphene.Argument(
+        input = TranslationInput(required=True)
+    class Meta:
+        description = "Creates/Updates translations for Category."
+        model = product_models.Category
+        error_type_class = TranslationError
+        error_type_field = "translation_errors"
+class ProductTranslate(BaseTranslateMutation):
+    class Arguments:
+        id = graphene.ID(required=True, description="Product ID.")
+        language_code = graphene.Argument(
+        input = TranslationInput(required=True)
+    class Meta:
+        description = "Creates/Updates translations for Product."
+        model = product_models.Product
+        error_type_class = TranslationError
+        error_type_field = "translation_errors"
+class CollectionTranslate(BaseTranslateMutation):
+    class Arguments:
+        id = graphene.ID(required=True, description="Collection ID.")
+        language_code = graphene.Argument(
+        input = TranslationInput(required=True)
+    class Meta:
+        description = "Creates/Updates translations for collection."
+        model = product_models.Collection
+        error_type_class = TranslationError
+        error_type_field = "translation_errors"
+class ProductVariantTranslate(BaseTranslateMutation):
+    class Arguments:
+        id = graphene.ID(required=True, description="Product Variant ID.")
+        language_code = graphene.Argument(
+        input = NameTranslationInput(required=True)
+    class Meta:
+        description = "Creates/Updates translations for Product Variant."
+        model = product_models.ProductVariant
+        error_type_class = TranslationError
+        error_type_field = "translation_errors"
+class AttributeTranslate(BaseTranslateMutation):
+    class Arguments:
+        id = graphene.ID(required=True, description="Attribute ID.")
+        language_code = graphene.Argument(
+        input = NameTranslationInput(required=True)
+    class Meta:
+        description = "Creates/Updates translations for attribute."
+        model = product_models.Attribute
+        error_type_class = TranslationError
+        error_type_field = "translation_errors"
+class AttributeValueTranslate(BaseTranslateMutation):
+    class Arguments:
+        id = graphene.ID(required=True, description="Attribute Value ID.")
+        language_code = graphene.Argument(
+        input = NameTranslationInput(required=True)
+    class Meta:
+        description = "Creates/Updates translations for attribute value."
+        model = product_models.AttributeValue
+        error_type_class = TranslationError
+        error_type_field = "translation_errors"
+===== END OUTLINE: saleor/graphql/translations/mutations.py =====
+===== OUTLINE: saleor/graphql/product/bulk_mutations/attributes.py (read-only) =====
+class AttributeBulkDelete(ModelBulkDeleteMutation):
+    class Arguments:
+        ids = graphene.List(
+    class Meta:
+        description = "Deletes attributes."
+        model = models.Attribute
+        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
+        error_type_class = ProductError
+        error_type_field = "product_errors"
+class AttributeValueBulkDelete(ModelBulkDeleteMutation):
+    class Arguments:
+        ids = graphene.List(
+    class Meta:
+        description = "Deletes values of attributes."
+        model = models.AttributeValue
+        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
+        error_type_class = ProductError
+        error_type_field = "product_errors"
+===== END OUTLINE: saleor/graphql/product/bulk_mutations/attributes.py =====
+===== OUTLINE: saleor/graphql/product/bulk_mutations/products.py (read-only) =====
+class CategoryBulkDelete(ModelBulkDeleteMutation):
+    class Arguments:
+        ids = graphene.List(
+    class Meta:
+        description = "Deletes categories."
+        model = models.Category
+        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
+        error_type_class = ProductError
+        error_type_field = "product_errors"
+    @classmethod
+    def bulk_action(cls, queryset):
+class CollectionBulkDelete(ModelBulkDeleteMutation):
+    class Arguments:
+        ids = graphene.List(
+    class Meta:
+        description = "Deletes collections."
+        model = models.Collection
+        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
+        error_type_class = ProductError
+        error_type_field = "product_errors"
+class CollectionBulkPublish(BaseBulkMutation):
+    class Arguments:
+        ids = graphene.List(
+        is_published = graphene.Boolean(
+    class Meta:
+        description = "Publish collections."
+        model = models.Collection
+        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
+        error_type_class = ProductError
+        error_type_field = "product_errors"
+    @classmethod
+    def bulk_action(cls, queryset, is_published):
+class ProductBulkDelete(ModelBulkDeleteMutation):
+    class Arguments:
+        ids = graphene.List(
+    class Meta:
+        description = "Deletes products."
+        model = models.Product
+        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
+        error_type_class = ProductError
+        error_type_field = "product_errors"
+class ProductVariantBulkCreate(BaseMutation):
+    count = graphene.Int(
+    product_variants = graphene.List(
+    class Arguments:
+        variants = graphene.List(
+        product_id = graphene.ID(
+    class Meta:
+        description = "Creates product variants for a given product."
+        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
+        error_type_class = BulkProductError
+        error_type_field = "bulk_product_errors"
+    @classmethod
+    def clean_variant_input(
+        cls,
+        info,
+        instance: models.ProductVariant,
+        data: dict,
+        errors: dict,
+        variant_index: int,
+    ):
+    @classmethod
+    def clean_stocks(cls, stocks_data, errors, variant_index):
+    @classmethod
+    def add_indexes_to_errors(cls, index, error, error_dict):
+    @classmethod
+    def save(cls, info, instance, cleaned_input):
+    @classmethod
+    def create_variants(cls, info, cleaned_inputs, product, errors):
+    @classmethod
+    def validate_duplicated_sku(cls, sku, index, sku_list, errors):
+    @classmethod
+    def clean_variants(cls, info, variants, product, errors):
+    @classmethod
+    @transaction.atomic
+    def save_variants(cls, info, instances, cleaned_inputs):
+    @classmethod
+    def create_variant_stocks(cls, variant, cleaned_input):
+    @classmethod
+    def perform_mutation(cls, root, info, **data):
+class ProductVariantBulkDelete(ModelBulkDeleteMutation):
+    class Arguments:
+        ids = graphene.List(
+    class Meta:
+        description = "Deletes product variants."
+        model = models.ProductVariant
+        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
+        error_type_class = ProductError
+        error_type_field = "product_errors"
+class ProductVariantStocksCreate(BaseMutation):
+    product_variant = graphene.Field(
+    class Arguments:
+        variant_id = graphene.ID(
+        stocks = graphene.List(
+    class Meta:
+        description = "Creates stocks for product variant."
+        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
+        error_type_class = BulkStockError
+        error_type_field = "bulk_stock_errors"
+    @classmethod
+    def perform_mutation(cls, root, info, **data):
+    @classmethod
+    def clean_stocks_input(cls, variant, stocks_data, errors):
+    @classmethod
+    def check_for_duplicates(cls, warehouse_ids, errors):
+    @classmethod
+    def update_errors(cls, errors, msg, field, code, indexes):
+class ProductVariantStocksUpdate(ProductVariantStocksCreate):
+    class Meta:
+        description = "Update stocks for product variant."
+        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
+        error_type_class = BulkStockError
+        error_type_field = "bulk_stock_errors"
+    @classmethod
+    def perform_mutation(cls, root, info, **data):
+    @classmethod
+    @transaction.atomic
+    def update_or_create_variant_stocks(cls, variant, stocks_data, warehouses):
+class ProductVariantStocksDelete(BaseMutation):
+    product_variant = graphene.Field(
+    class Arguments:
+        variant_id = graphene.ID(
+        warehouse_ids = graphene.List(graphene.NonNull(graphene.ID),)
+    class Meta:
+        description = "Delete stocks from product variant."
+        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
+        error_type_class = StockError
+        error_type_field = "stock_errors"
+    @classmethod
+    def perform_mutation(cls, root, info, **data):
+class ProductTypeBulkDelete(ModelBulkDeleteMutation):
+    class Arguments:
+        ids = graphene.List(
+    class Meta:
+        description = "Deletes product types."
+        model = models.ProductType
+        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
+        error_type_class = ProductError
+        error_type_field = "product_errors"
+class ProductImageBulkDelete(ModelBulkDeleteMutation):
+    class Arguments:
+        ids = graphene.List(
+    class Meta:
+        description = "Deletes product images."
+        model = models.ProductImage
+        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
+        error_type_class = ProductError
+        error_type_field = "product_errors"
+class ProductBulkPublish(BaseBulkMutation):
+    class Arguments:
+        ids = graphene.List(
+        is_published = graphene.Boolean(
+    class Meta:
+        description = "Publish products."
+        model = models.Product
+        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
+        error_type_class = ProductError
+        error_type_field = "product_errors"
+    @classmethod
+# [outline truncated]
+===== END OUTLINE: saleor/graphql/product/bulk_mutations/products.py =====
+===== OUTLINE: saleor/graphql/product/enums.py (read-only) =====
+class StockAvailability(graphene.Enum):
+    IN_STOCK = "AVAILABLE"
+    OUT_OF_STOCK = "OUT_OF_STOCK"
+===== END OUTLINE: saleor/graphql/product/enums.py =====
+===== OUTLINE: saleor/graphql/product/filters.py (read-only) =====
+class ProductFilterInput(FilterInputObjectType):
+    class Meta:
+        filterset_class = ProductFilter
+class CollectionFilterInput(FilterInputObjectType):
+    class Meta:
+        filterset_class = CollectionFilter
+class CategoryFilterInput(FilterInputObjectType):
+    class Meta:
+        filterset_class = CategoryFilter
+class ProductTypeFilterInput(FilterInputObjectType):
+    class Meta:
+        filterset_class = ProductTypeFilter
+class AttributeFilterInput(FilterInputObjectType):
+    class Meta:
+        filterset_class = AttributeFilter
+===== END OUTLINE: saleor/graphql/product/filters.py =====
+===== OUTLINE: saleor/graphql/product/mutations/attributes.py (read-only) =====
+class AttributeCreate(AttributeMixin, ModelMutation):
+    # Needed by AttributeMixin,
+    # represents the input name for the passed list of values
+    ATTRIBUTE_VALUES_FIELD = "values"
+    attribute = graphene.Field(Attribute, description="The created attribute.")
+    class Arguments:
+        input = AttributeCreateInput(
+    class Meta:
+        model = models.Attribute
+        description = "Creates an attribute."
+        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
+        error_type_class = ProductError
+        error_type_field = "product_errors"
+    @classmethod
+    def perform_mutation(cls, _root, info, **data):
+class AttributeUpdate(AttributeMixin, ModelMutation):
+    # Needed by AttributeMixin,
+    # represents the input name for the passed list of values
+    ATTRIBUTE_VALUES_FIELD = "add_values"
+    attribute = graphene.Field(Attribute, description="The updated attribute.")
+    class Arguments:
+        id = graphene.ID(required=True, description="ID of an attribute to update.")
+        input = AttributeUpdateInput(
+    class Meta:
+        model = models.Attribute
+        description = "Updates attribute."
+        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
+        error_type_class = ProductError
+        error_type_field = "product_errors"
+    @classmethod
+    def clean_remove_values(cls, cleaned_input, instance):
+    @classmethod
+    def _save_m2m(cls, info, instance, cleaned_data):
+    @classmethod
+    def perform_mutation(cls, _root, info, id, input):
+class AttributeAssign(BaseMutation):
+    product_type = graphene.Field(ProductType, description="The updated product type.")
+    class Arguments:
+        product_type_id = graphene.ID(
+        operations = graphene.List(
+    class Meta:
+        description = "Assign attributes to a given product type."
+        error_type_class = ProductAttributeError
+        error_type_field = "product_errors"
+    @classmethod
+    def check_permissions(cls, context):
+    @classmethod
+    def get_operations(cls, info, operations: List[AttributeAssignInput]):
+    @classmethod
+    def check_operations_not_assigned_already(
+        cls, product_type, product_attrs_pks, variant_attrs_pks
+    ):
+    @classmethod
+    def check_product_operations_are_assignable(cls, product_attrs_pks):
+    @classmethod
+    def clean_operations(cls, product_type, product_attrs_pks, variant_attrs_pks):
+    @classmethod
+    def save_field_values(cls, product_type, model_name, pks):
+    @classmethod
+    @transaction.atomic()
+    def perform_mutation(cls, _root, info, **data):
+class AttributeUnassign(BaseMutation):
+    product_type = graphene.Field(ProductType, description="The updated product type.")
+    class Arguments:
+        product_type_id = graphene.ID(
+        attribute_ids = graphene.List(
+    class Meta:
+        description = "Un-assign attributes from a given product type."
+        error_type_class = ProductError
+        error_type_field = "product_errors"
+    @classmethod
+    def check_permissions(cls, context):
+    @classmethod
+    def save_field_values(cls, product_type, field, pks):
+    @classmethod
+    def perform_mutation(cls, _root, info, **data):
+class AttributeDelete(ModelDeleteMutation):
+    class Arguments:
+        id = graphene.ID(required=True, description="ID of an attribute to delete.")
+    class Meta:
+        model = models.Attribute
+        description = "Deletes an attribute."
+        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
+        error_type_class = ProductError
+        error_type_field = "product_errors"
+class AttributeUpdateMeta(UpdateMetaBaseMutation):
+    class Meta:
+        model = models.Attribute
+        description = "Update public metadata for attribute."
+        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
+        public = True
+        error_type_class = ProductError
+        error_type_field = "product_errors"
+class AttributeClearMeta(ClearMetaBaseMutation):
+    class Meta:
+        description = "Clears public metadata item for attribute."
+        model = models.Attribute
+        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
+        public = True
+        error_type_class = ProductError
+        error_type_field = "product_errors"
+class AttributeUpdatePrivateMeta(UpdateMetaBaseMutation):
+    class Meta:
+        description = "Update public metadata for attribute."
+        model = models.Attribute
+        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
+        public = False
+        error_type_class = ProductError
+        error_type_field = "product_errors"
+class AttributeClearPrivateMeta(ClearMetaBaseMutation):
+    class Meta:
+        description = "Clears public metadata item for attribute."
+        model = models.Attribute
+        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
+        public = False
+        error_type_class = ProductError
+        error_type_field = "product_errors"
+class AttributeValueCreate(ModelMutation):
+    attribute = graphene.Field(Attribute, description="The updated attribute.")
+    class Arguments:
+        attribute_id = graphene.ID(
+        input = AttributeValueCreateInput(
+    class Meta:
+        model = models.AttributeValue
+        description = "Creates a value for an attribute."
+        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
+        error_type_class = ProductError
+        error_type_field = "product_errors"
+    @classmethod
+    def clean_input(cls, info, instance, data):
+    @classmethod
+    def clean_instance(cls, info, instance):
+    @classmethod
+    def perform_mutation(cls, _root, info, attribute_id, input):
+class AttributeValueUpdate(ModelMutation):
+    attribute = graphene.Field(Attribute, description="The updated attribute.")
+    class Arguments:
+        id = graphene.ID(
+        input = AttributeValueCreateInput(
+    class Meta:
+        model = models.AttributeValue
+        description = "Updates value of an attribute."
+        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
+        error_type_class = ProductError
+# [outline truncated]
+===== END OUTLINE: saleor/graphql/product/mutations/attributes.py =====
+===== OUTLINE: saleor/graphql/product/mutations/digital_contents.py (read-only) =====
+class DigitalContentCreate(BaseMutation):
+    variant = graphene.Field(ProductVariant)
+    content = graphene.Field(DigitalContent)
+    class Arguments:
+        variant_id = graphene.ID(
+        input = DigitalContentUploadInput(
+    class Meta:
+        description = (
+        error_type_class = ProductError
+        error_type_field = "product_errors"
+    @classmethod
+    @permission_required(ProductPermissions.MANAGE_PRODUCTS)
+    def clean_input(cls, info, data, instance):
+    @classmethod
+    @permission_required(ProductPermissions.MANAGE_PRODUCTS)
+    def perform_mutation(cls, _root, info, variant_id, **data):
+class DigitalContentDelete(BaseMutation):
+    variant = graphene.Field(ProductVariant)
+    class Arguments:
+        variant_id = graphene.ID(
+    class Meta:
+        description = "Remove digital content assigned to given variant."
+        error_type_class = ProductError
+        error_type_field = "product_errors"
+    @classmethod
+    @permission_required(ProductPermissions.MANAGE_PRODUCTS)
+    def mutate(cls, _root, info, variant_id):
+class DigitalContentUpdate(BaseMutation):
+    variant = graphene.Field(ProductVariant)
+    content = graphene.Field(DigitalContent)
+    class Arguments:
+        variant_id = graphene.ID(
+        input = DigitalContentInput(
+    class Meta:
+        description = "Update digital content."
+        error_type_class = ProductError
+        error_type_field = "product_errors"
+    @classmethod
+    @permission_required(ProductPermissions.MANAGE_PRODUCTS)
+    def clean_input(cls, info, data):
+    @classmethod
+    @permission_required(ProductPermissions.MANAGE_PRODUCTS)
+    def perform_mutation(cls, _root, info, variant_id, **data):
+class DigitalContentUrlCreate(ModelMutation):
+    class Arguments:
+        input = DigitalContentUrlCreateInput(
+    class Meta:
+        description = "Generate new URL to digital content."
+        model = models.DigitalContentUrl
+        error_type_class = ProductError
+        error_type_field = "product_errors"
+    @classmethod
+    @permission_required(ProductPermissions.MANAGE_PRODUCTS)
+    def mutate(cls, root, info, **data):
+===== END OUTLINE: saleor/graphql/product/mutations/digital_contents.py =====
+===== OUTLINE: saleor/graphql/product/resolvers.py (read-only) =====
+def resolve_attributes(info, qs=None, in_category=None, in_collection=None, **_kwargs):
+def resolve_category_by_slug(slug):
+def resolve_categories(info, level=None, **_kwargs):
+def resolve_collection_by_slug(info, slug):
+def resolve_collections(info, **_kwargs):
+def resolve_digital_contents(info):
+def resolve_product_by_slug(info, slug):
+def resolve_products(info, stock_availability=None, **_kwargs):
+def resolve_product_types(info, **_kwargs):
+def resolve_product_variants(info, ids=None):
+def resolve_report_product_sales(period):
+===== END OUTLINE: saleor/graphql/product/resolvers.py =====
+===== OUTLINE: saleor/graphql/product/sorters.py (read-only) =====
+class AttributeSortingInput(SortInputObjectType):
+    class Meta:
+        sort_enum = AttributeSortField
+        type_name = "attributes"
+class CategorySortingInput(SortInputObjectType):
+    class Meta:
+        sort_enum = CategorySortField
+        type_name = "categories"
+class CollectionSortingInput(SortInputObjectType):
+    class Meta:
+        sort_enum = CollectionSortField
+        type_name = "collections"
+class ProductOrder(SortInputObjectType):
+    attribute_id = graphene.Argument(
+    field = graphene.Argument(
+    class Meta:
+        sort_enum = ProductOrderField
+class ProductTypeSortingInput(SortInputObjectType):
+    class Meta:
+        sort_enum = ProductTypeSortField
+        type_name = "product types"
+===== END OUTLINE: saleor/graphql/product/sorters.py =====

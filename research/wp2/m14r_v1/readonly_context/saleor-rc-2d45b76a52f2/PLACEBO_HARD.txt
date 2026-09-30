@@ -1,0 +1,78 @@
+READ-ONLY CONTEXT (NOT EDITABLE): outlines of repository modules imported by the editable files
+===== OUTLINE: saleor/tax/models.py (read-only) =====
+class TaxClass(ModelWithMetadata):
+    name = models.CharField(max_length=255)
+    class Meta:
+        ordering = ("name", "pk")
+    def __str__(self):
+class TaxClassCountryRate(models.Model):
+    tax_class = models.ForeignKey(
+    country = CountryField()
+    rate = models.DecimalField(
+    class Meta:
+        ordering = ("country", models.F("tax_class_id").asc(nulls_first=True), "pk")
+        constraints = [
+    def __str__(self):
+class TaxConfiguration(ModelWithMetadata):
+    channel = models.OneToOneField(
+    charge_taxes = models.BooleanField(default=True)
+    tax_calculation_strategy = models.CharField(
+    display_gross_prices = models.BooleanField(default=True)
+    prices_entered_with_tax = models.BooleanField(default=True)
+    class Meta:
+        ordering = ("pk",)
+class TaxConfigurationPerCountry(models.Model):
+    tax_configuration = models.ForeignKey(
+    country = CountryField()
+    charge_taxes = models.BooleanField(default=True)
+    tax_calculation_strategy = models.CharField(
+    display_gross_prices = models.BooleanField(default=True)
+    class Meta:
+        ordering = ("country", "pk")
+        unique_together = (("tax_configuration", "country"),)
+    def __str__(self):
+===== END OUTLINE: saleor/tax/models.py =====
+===== OUTLINE: saleor/graphql/account/enums.py (read-only) =====
+CountryCodeEnum = graphene.Enum(
+===== END OUTLINE: saleor/graphql/account/enums.py =====
+===== OUTLINE: saleor/graphql/core/filters.py (read-only) =====
+class ListObjectTypeFilter(django_filters.MultipleChoiceFilter):
+    field_class = DefaultMultipleChoiceField
+    def __init__(self, input_class, *args, **kwargs):
+class MetadataFilterBase(django_filters.FilterSet):
+    metadata = ListObjectTypeFilter(input_class=MetadataFilter, method=filter_metadata)
+    class Meta:
+        abstract = True
+class GlobalIDMultipleChoiceFilter(MultipleChoiceFilter):
+    field_class = GlobalIDMultipleChoiceField
+    def filter(self, qs, value):
+===== END OUTLINE: saleor/graphql/core/filters.py =====
+===== OUTLINE: saleor/graphql/utils/filters.py (read-only) =====
+def filter_by_id(object_type):
+===== END OUTLINE: saleor/graphql/utils/filters.py =====
+===== OUTLINE: saleor/graphql/tax/types.py (read-only) =====
+class TaxConfiguration(ModelObjectType[models.TaxConfiguration]):
+    channel = graphene.Field(
+    charge_taxes = graphene.Boolean(
+    tax_calculation_strategy = graphene.Field(
+    display_gross_prices = graphene.Boolean(
+    prices_entered_with_tax = graphene.Boolean(
+    countries = NonNullList(
+    class Meta:
+        description = (
+        interfaces = [graphene.relay.Node, ObjectWithMetadata]
+        model = models.TaxConfiguration
+    @staticmethod
+    def resolve_channel(root: models.TaxConfiguration, info: ResolveInfo):
+    @staticmethod
+    def resolve_countries(root: models.TaxConfiguration, info: ResolveInfo):
+class TaxClass(ModelObjectType[models.TaxClass]):
+    name = graphene.String(description="Name of the tax class.", required=True)
+    countries = NonNullList(
+    class Meta:
+        description = (
+        interfaces = [graphene.relay.Node, ObjectWithMetadata]
+        model = models.TaxClass
+    @staticmethod
+    def resolve_countries(root: models.TaxConfiguration, info):
+===== END OUTLINE: saleor/graphql/tax/types.py =====

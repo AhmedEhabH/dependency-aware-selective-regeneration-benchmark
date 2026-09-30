@@ -1,0 +1,183 @@
+{
+ "acks": [],
+ "history": [
+  {
+   "detail": "M14R kit self-tests (zero network)",
+   "event": "START",
+   "phase": "R00_KIT_SELFTEST",
+   "utc": "2026-09-30T19:44:14Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "R00_KIT_SELFTEST",
+   "utc": "2026-09-30T19:44:18Z"
+  },
+  {
+   "detail": "design/Pilot-A immutability/protected-pool guard (zero API)",
+   "event": "START",
+   "phase": "R01_GUARD",
+   "utc": "2026-09-30T19:44:18Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "R01_GUARD",
+   "utc": "2026-09-30T19:44:22Z"
+  },
+  {
+   "detail": "descriptive Pilot-A failure taxonomy (zero API; changes no gate)",
+   "event": "START",
+   "phase": "R02_PILOT_A_TAXONOMY",
+   "utc": "2026-09-30T19:44:22Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "R02_PILOT_A_TAXONOMY",
+   "utc": "2026-09-30T19:44:27Z"
+  },
+  {
+   "detail": "ENG readiness: negative control + scoped-gold positive control (zero API)",
+   "event": "START",
+   "phase": "R03_READINESS",
+   "utc": "2026-09-30T19:44:27Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "R03_READINESS",
+   "utc": "2026-09-30T21:49:11Z"
+  },
+  {
+   "detail": "apply the frozen readiness rule (>= 10 READY tasks)",
+   "event": "START",
+   "phase": "R04_MEMBERSHIP",
+   "utc": "2026-09-30T21:49:11Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "R04_MEMBERSHIP",
+   "utc": "2026-09-30T21:49:15Z"
+  },
+  {
+   "detail": "human authorization check",
+   "event": "START",
+   "phase": "R05_AUTH",
+   "utc": "2026-09-30T21:54:11Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "R05_AUTH",
+   "utc": "2026-09-30T21:54:15Z"
+  },
+  {
+   "detail": "offline environment doctor (+pyflakes)",
+   "event": "START",
+   "phase": "R06_DOCTOR_OFFLINE",
+   "utc": "2026-09-30T21:54:15Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "R06_DOCTOR_OFFLINE",
+   "utc": "2026-09-30T21:54:29Z"
+  },
+  {
+   "detail": "read-only provider/credit doctor (zero model calls)",
+   "event": "START",
+   "phase": "R07_DOCTOR_PAID",
+   "utc": "2026-09-30T21:54:29Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "R07_DOCTOR_PAID",
+   "utc": "2026-09-30T21:54:38Z"
+  },
+  {
+   "detail": "M14R paid-run freeze: scopes, read-only contexts + audits, plans, hashes",
+   "event": "START",
+   "phase": "R08_FREEZE",
+   "utc": "2026-09-30T21:54:38Z"
+  }
+ ],
+ "phases": {
+  "R00_KIT_SELFTEST": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-09-30T19:44:18Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "R01_GUARD": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-09-30T19:44:22Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "R02_PILOT_A_TAXONOMY": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-09-30T19:44:27Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "R03_READINESS": {
+   "attempts": 0,
+   "failures": 0,
+   "iterations": 14,
+   "passed_utc": "2026-09-30T21:49:11Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "R04_MEMBERSHIP": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-09-30T21:49:15Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "R05_AUTH": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-09-30T21:54:15Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "R06_DOCTOR_OFFLINE": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-09-30T21:54:29Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "R07_DOCTOR_PAID": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-09-30T21:54:38Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "R08_FREEZE": {
+   "attempts": 0,
+   "failures": 0,
+   "iterations": 0,
+   "runs": 1,
+   "status": "RUNNING"
+  }
+ },
+ "plan": "WP2_M14R_V1",
+ "plan_sha256": "c16cff5b4e61a4a0c6a460ce73abd7274b60568eac31f2b4194aae53af51f8a5",
+ "stop": null
+}

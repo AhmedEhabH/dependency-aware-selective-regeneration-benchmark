@@ -1,0 +1,116 @@
+READ-ONLY CONTEXT (NOT EDITABLE): outlines of repository modules imported by the editable files
+===== OUTLINE: saleor/product/models.py (read-only) =====
+class Product(SeoModel, ModelWithMetadata, PublishableModel):
+    product_type = models.ForeignKey(
+    name = models.CharField(max_length=250)
+    slug = models.SlugField(max_length=255, unique=True, allow_unicode=True)
+    description = models.TextField(blank=True)
+    description_json = SanitizedJSONField(
+    category = models.ForeignKey(
+    currency = models.CharField(
+    minimal_variant_price_amount = models.DecimalField(
+    minimal_variant_price = MoneyField(
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+    charge_taxes = models.BooleanField(default=True)
+    weight = MeasurementField(
+    objects = ProductsQueryset.as_manager()
+    translated = TranslationProxy()
+    class Meta:
+        app_label = "product"
+        ordering = ("slug",)
+        permissions = (
+    def __iter__(self):
+    def __repr__(self) -> str:
+    def __str__(self) -> str:
+    @property
+    def plain_text_description(self) -> str:
+    def get_first_image(self):
+    @staticmethod
+    def sort_by_attribute_fields() -> list:
+class ProductVariant(ModelWithMetadata):
+    sku = models.CharField(max_length=255, unique=True)
+    name = models.CharField(max_length=255, blank=True)
+    currency = models.CharField(
+    price_amount = models.DecimalField(
+    price = MoneyField(amount_field="price_amount", currency_field="currency")
+    product = models.ForeignKey(
+    images = models.ManyToManyField("ProductImage", through="VariantImage")
+    track_inventory = models.BooleanField(default=True)
+    cost_price_amount = models.DecimalField(
+    cost_price = MoneyField(amount_field="cost_price_amount", currency_field="currency")
+    weight = MeasurementField(
+    objects = ProductVariantQueryset.as_manager()
+    translated = TranslationProxy()
+    class Meta:
+        ordering = ("sku",)
+        app_label = "product"
+    def __str__(self) -> str:
+    @property
+    def is_visible(self) -> bool:
+    def get_price(self, discounts: Optional[Iterable[DiscountInfo]] = None) -> "Money":
+    def get_weight(self):
+    def is_shipping_required(self) -> bool:
+    def is_digital(self) -> bool:
+    def display_product(self, translated: bool = False) -> str:
+    def get_first_image(self) -> "ProductImage":
+class AssignedProductAttribute(BaseAssignedAttribute):
+    product = models.ForeignKey(
+    assignment = models.ForeignKey(
+    class Meta:
+        unique_together = (("product", "assignment"),)
+class AssignedVariantAttribute(BaseAssignedAttribute):
+    variant = models.ForeignKey(
+    assignment = models.ForeignKey(
+    class Meta:
+        unique_together = (("variant", "assignment"),)
+class AttributeProduct(SortableModel):
+    attribute = models.ForeignKey(
+    product_type = models.ForeignKey(
+    assigned_products = models.ManyToManyField(
+    objects = AssociatedAttributeQuerySet.as_manager()
+    class Meta:
+        unique_together = (("attribute", "product_type"),)
+        ordering = ("sort_order", "pk")
+    def get_ordering_queryset(self):
+class AttributeVariant(SortableModel):
+    attribute = models.ForeignKey(
+    product_type = models.ForeignKey(
+    assigned_variants = models.ManyToManyField(
+    objects = AssociatedAttributeQuerySet.as_manager()
+    class Meta:
+        unique_together = (("attribute", "product_type"),)
+        ordering = ("sort_order", "pk")
+    def get_ordering_queryset(self):
+class Attribute(ModelWithMetadata):
+    slug = models.SlugField(max_length=250, unique=True, allow_unicode=True)
+    name = models.CharField(max_length=255)
+    input_type = models.CharField(
+    product_types = models.ManyToManyField(
+    product_variant_types = models.ManyToManyField(
+    value_required = models.BooleanField(default=False, blank=True)
+    is_variant_only = models.BooleanField(default=False, blank=True)
+    visible_in_storefront = models.BooleanField(default=True, blank=True)
+    filterable_in_storefront = models.BooleanField(default=True, blank=True)
+    filterable_in_dashboard = models.BooleanField(default=True, blank=True)
+    storefront_search_position = models.IntegerField(default=0, blank=True)
+    available_in_grid = models.BooleanField(default=True, blank=True)
+    objects = AttributeQuerySet.as_manager()
+    translated = TranslationProxy()
+    class Meta:
+        ordering = ("storefront_search_position", "slug")
+    def __str__(self) -> str:
+    def has_values(self) -> bool:
+class AttributeValue(SortableModel):
+    name = models.CharField(max_length=250)
+    value = models.CharField(max_length=100, blank=True, default="")
+    slug = models.SlugField(max_length=255, allow_unicode=True)
+    attribute = models.ForeignKey(
+    translated = TranslationProxy()
+    class Meta:
+        ordering = ("sort_order", "pk")
+        unique_together = ("slug", "attribute")
+    def __str__(self) -> str:
+    @property
+    def input_type(self):
+    def get_ordering_queryset(self):
+===== END OUTLINE: saleor/product/models.py =====

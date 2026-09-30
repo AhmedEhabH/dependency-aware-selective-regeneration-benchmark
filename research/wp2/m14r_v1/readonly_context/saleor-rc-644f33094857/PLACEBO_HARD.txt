@@ -1,0 +1,263 @@
+READ-ONLY CONTEXT (NOT EDITABLE): outlines of repository modules imported by the editable files
+===== OUTLINE: saleor/graphql/api.py (read-only) =====
+schema = build_schema(Query, mutation=Mutation)
+===== END OUTLINE: saleor/graphql/api.py =====
+===== OUTLINE: saleor/urls.py (read-only) =====
+urlpatterns = [
+===== END OUTLINE: saleor/urls.py =====
+===== OUTLINE: saleor/demo/views.py (read-only) =====
+class DemoGraphQLView(GraphQLView):
+    def render_playground(self, request):
+===== END OUTLINE: saleor/demo/views.py =====
+===== OUTLINE: saleor/account/forms.py (read-only) =====
+def get_address_form(data, country_code, initial=None, instance=None, **kwargs):
+===== END OUTLINE: saleor/account/forms.py =====
+===== OUTLINE: saleor/account/models.py (read-only) =====
+class Address(models.Model):
+    first_name = models.CharField(max_length=256, blank=True)
+    last_name = models.CharField(max_length=256, blank=True)
+    company_name = models.CharField(max_length=256, blank=True)
+    street_address_1 = models.CharField(max_length=256, blank=True)
+    street_address_2 = models.CharField(max_length=256, blank=True)
+    city = models.CharField(max_length=256, blank=True)
+    city_area = models.CharField(max_length=128, blank=True)
+    postal_code = models.CharField(max_length=20, blank=True)
+    country = CountryField()
+    country_area = models.CharField(max_length=128, blank=True)
+    phone = PossiblePhoneNumberField(blank=True, default="")
+    objects = AddressQueryset.as_manager()
+    class Meta:
+        ordering = ("pk",)
+    @property
+    def full_name(self):
+    def __str__(self):
+    def __eq__(self, other):
+    __hash__ = models.Model.__hash__
+    def as_data(self):
+    def get_copy(self):
+===== END OUTLINE: saleor/account/models.py =====
+===== OUTLINE: saleor/account/validators.py (read-only) =====
+def validate_possible_number(phone, country=None):
+===== END OUTLINE: saleor/account/validators.py =====
+===== OUTLINE: saleor/app/models.py (read-only) =====
+class App(ModelWithMetadata):
+    name = models.CharField(max_length=60)
+    created = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True)
+    type = models.CharField(
+    identifier = models.CharField(blank=True, null=True, max_length=256)
+    permissions = models.ManyToManyField(
+    about_app = models.TextField(blank=True, null=True)
+    data_privacy = models.TextField(blank=True, null=True)
+    data_privacy_url = models.URLField(blank=True, null=True)
+    homepage_url = models.URLField(blank=True, null=True)
+    support_url = models.URLField(blank=True, null=True)
+    configuration_url = models.URLField(blank=True, null=True)
+    app_url = models.URLField(blank=True, null=True)
+    version = models.CharField(max_length=60, blank=True, null=True)
+    class Meta:
+        ordering = ("name", "pk")
+        permissions = ((AppPermission.MANAGE_APPS.codename, "Manage apps",),)
+    def get_permissions(self) -> Set[str]:
+    def has_perms(self, perm_list):
+    def has_perm(self, perm):
+class AppToken(models.Model):
+    app = models.ForeignKey(App, on_delete=models.CASCADE, related_name="tokens")
+    name = models.CharField(blank=True, default="", max_length=128)
+    auth_token = models.CharField(default=generate_token, unique=True, max_length=30)
+class AppInstallation(Job):
+    app_name = models.CharField(max_length=60)
+    manifest_url = models.URLField()
+    permissions = models.ManyToManyField(
+===== END OUTLINE: saleor/app/models.py =====
+===== OUTLINE: saleor/core/permissions.py (read-only) =====
+class AppPermission(BasePermissionEnum):
+    MANAGE_APPS = "app.manage_apps"
+===== END OUTLINE: saleor/core/permissions.py =====
+===== OUTLINE: saleor/graphql/core/connection.py (read-only) =====
+class CountableDjangoObjectType(DjangoObjectType):
+    class Meta:
+        abstract = True
+    @classmethod
+    def __init_subclass_with_meta__(cls, *args, **kwargs):
+        # Force it to use the countable connection
+===== END OUTLINE: saleor/graphql/core/connection.py =====
+===== OUTLINE: saleor/graphql/core/types/common.py (read-only) =====
+class Job(graphene.Interface):
+    status = JobStatusEnum(description="Job status.", required=True)
+    created_at = graphene.DateTime(
+    updated_at = graphene.DateTime(
+    message = graphene.String(description="Job message.")
+    @classmethod
+    def resolve_type(cls, instance, _info):
+===== END OUTLINE: saleor/graphql/core/types/common.py =====
+===== OUTLINE: saleor/graphql/meta/types.py (read-only) =====
+class ObjectWithMetadata(graphene.Interface):
+    private_metadata = graphene.List(
+    metadata = graphene.List(
+    @staticmethod
+    def resolve_metadata(root: ModelWithMetadata, _info):
+    @staticmethod
+    def resolve_private_metadata(root: ModelWithMetadata, info):
+    @classmethod
+    def resolve_type(cls, instance: ModelWithMetadata, _info):
+===== END OUTLINE: saleor/graphql/meta/types.py =====
+===== OUTLINE: saleor/graphql/utils/__init__.py (read-only) =====
+def format_permissions_for_display(permissions):
+===== END OUTLINE: saleor/graphql/utils/__init__.py =====
+===== OUTLINE: saleor/graphql/webhook/types.py (read-only) =====
+class Webhook(CountableDjangoObjectType):
+    name = graphene.String(required=True)
+    events = graphene.List(
+    app = graphene.Field("saleor.graphql.app.types.App", required=True)
+    class Meta:
+        description = "Webhook."
+        model = models.Webhook
+        interfaces = [graphene.relay.Node]
+        only_fields = [
+    @staticmethod
+    def resolve_events(root: models.Webhook, *_args, **_kwargs):
+===== END OUTLINE: saleor/graphql/webhook/types.py =====
+===== OUTLINE: saleor/graphql/app/enums.py (read-only) =====
+AppTypeEnum = to_enum(AppType)
+===== END OUTLINE: saleor/graphql/app/enums.py =====
+===== OUTLINE: saleor/graphql/app/resolvers.py (read-only) =====
+def resolve_access_token(info, root, **_kwargs):
+===== END OUTLINE: saleor/graphql/app/resolvers.py =====
+===== OUTLINE: saleor/graphql/core/enums.py (read-only) =====
+class OrderDirection(graphene.Enum):
+    ASC = ""
+    DESC = "-"
+    @property
+    def description(self):
+        # Disable all the no-member violations in this function
+        # pylint: disable=no-member
+===== END OUTLINE: saleor/graphql/core/enums.py =====
+===== OUTLINE: saleor/payment/gateway.py (read-only) =====
+logger = logging.getLogger(__name__)
+ERROR_MSG = "Oops! Something went wrong."
+GENERIC_TRANSACTION_ERROR = "Transaction was unsuccessful."
+def raise_payment_error(fn: Callable) -> Callable:
+def payment_postprocess(fn: Callable) -> Callable:
+def require_active_payment(fn: Callable) -> Callable:
+def with_locked_payment(fn: Callable) -> Callable:
+@raise_payment_error
+@require_active_payment
+@with_locked_payment
+@payment_postprocess
+def process_payment(
+    payment: Payment,
+    token: str,
+    store_source: bool = False,
+    additional_data: Optional[dict] = None,
+) -> Transaction:
+@raise_payment_error
+@require_active_payment
+@with_locked_payment
+@payment_postprocess
+def authorize(payment: Payment, token: str, store_source: bool = False) -> Transaction:
+@payment_postprocess
+@raise_payment_error
+@require_active_payment
+@with_locked_payment
+@payment_postprocess
+def capture(
+    payment: Payment, amount: Decimal = None, store_source: bool = False
+) -> Transaction:
+@raise_payment_error
+@require_active_payment
+@with_locked_payment
+@payment_postprocess
+def refund(payment: Payment, amount: Decimal = None) -> Transaction:
+@raise_payment_error
+@require_active_payment
+@with_locked_payment
+@payment_postprocess
+def void(payment: Payment) -> Transaction:
+@raise_payment_error
+@require_active_payment
+@with_locked_payment
+@payment_postprocess
+def confirm(payment: Payment, additional_data: Optional[dict] = None) -> Transaction:
+def list_payment_sources(gateway: str, customer_id: str) -> List["CustomerSource"]:
+def get_client_token(gateway: str, customer_id: str = None) -> str:
+def list_gateways() -> List["PaymentGateway"]:
+def payment_refund_or_void(payment: Optional[Payment]):
+===== END OUTLINE: saleor/payment/gateway.py =====
+===== OUTLINE: saleor/payment/models.py (read-only) =====
+class Payment(models.Model):
+    gateway = models.CharField(max_length=255)
+    is_active = models.BooleanField(default=True)
+    to_confirm = models.BooleanField(default=False)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+    charge_status = models.CharField(
+    token = models.CharField(max_length=512, blank=True, default="")
+    total = models.DecimalField(
+    captured_amount = models.DecimalField(
+    currency = models.CharField(
+    checkout = models.ForeignKey(
+    order = models.ForeignKey(
+    billing_email = models.EmailField(blank=True)
+    billing_first_name = models.CharField(max_length=256, blank=True)
+    billing_last_name = models.CharField(max_length=256, blank=True)
+    billing_company_name = models.CharField(max_length=256, blank=True)
+    billing_address_1 = models.CharField(max_length=256, blank=True)
+    billing_address_2 = models.CharField(max_length=256, blank=True)
+    billing_city = models.CharField(max_length=256, blank=True)
+    billing_city_area = models.CharField(max_length=128, blank=True)
+    billing_postal_code = models.CharField(max_length=256, blank=True)
+    billing_country_code = models.CharField(max_length=2, blank=True)
+    billing_country_area = models.CharField(max_length=256, blank=True)
+    cc_first_digits = models.CharField(max_length=6, blank=True, default="")
+    cc_last_digits = models.CharField(max_length=4, blank=True, default="")
+    cc_brand = models.CharField(max_length=40, blank=True, default="")
+    cc_exp_month = models.PositiveIntegerField(
+    cc_exp_year = models.PositiveIntegerField(
+    payment_method_type = models.CharField(max_length=256, blank=True)
+    customer_ip_address = models.GenericIPAddressField(blank=True, null=True)
+    extra_data = models.TextField(blank=True, default="")
+    return_url = models.URLField(blank=True, null=True)
+    class Meta:
+        ordering = ("pk",)
+    def __repr__(self):
+    def get_last_transaction(self):
+    def get_total(self):
+    def get_authorized_amount(self):
+    def get_captured_amount(self):
+    def get_charge_amount(self):
+    @property
+    def is_authorized(self):
+    @property
+    def not_charged(self):
+    def can_authorize(self):
+    def can_capture(self):
+    def can_void(self):
+    def can_refund(self):
+    def can_confirm(self):
+class Transaction(models.Model):
+    created = models.DateTimeField(auto_now_add=True, editable=False)
+    payment = models.ForeignKey(
+    token = models.CharField(max_length=512, blank=True, default="")
+    kind = models.CharField(max_length=25, choices=TransactionKind.CHOICES)
+    is_success = models.BooleanField(default=False)
+    action_required = models.BooleanField(default=False)
+    action_required_data = JSONField(
+    currency = models.CharField(max_length=settings.DEFAULT_CURRENCY_CODE_LENGTH)
+    amount = models.DecimalField(
+    error = models.CharField(
+    customer_id = models.CharField(max_length=256, null=True)
+    gateway_response = JSONField(encoder=DjangoJSONEncoder)
+    already_processed = models.BooleanField(default=False)
+    searchable_key = models.CharField(max_length=512, null=True, blank=True)
+    class Meta:
+        ordering = ("pk",)
+    def __repr__(self):
+    def get_amount(self):
+===== END OUTLINE: saleor/payment/models.py =====
+===== OUTLINE: saleor/payment/utils.py (read-only) =====
+def fetch_customer_id(user: User, gateway: str):
+===== END OUTLINE: saleor/payment/utils.py =====
+===== OUTLINE: saleor/graphql/utils/filters.py (read-only) =====
+def filter_by_query_param(queryset, query, search_fields):
+===== END OUTLINE: saleor/graphql/utils/filters.py =====

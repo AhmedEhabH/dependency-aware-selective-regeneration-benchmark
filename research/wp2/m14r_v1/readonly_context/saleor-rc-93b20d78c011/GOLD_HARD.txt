@@ -1,0 +1,927 @@
+READ-ONLY CONTEXT (NOT EDITABLE): outlines of repository modules imported by the editable files
+===== OUTLINE: saleor/account/models.py (read-only) =====
+class PossiblePhoneNumberField(PhoneNumberField):
+    default_validators = [validate_possible_number]
+class AddressQueryset(models.QuerySet):
+    def annotate_default(self, user):
+        # Set default shipping/billing address pk to None
+        # if default shipping/billing address doesn't exist
+class Address(models.Model):
+    first_name = models.CharField(max_length=256, blank=True)
+    last_name = models.CharField(max_length=256, blank=True)
+    company_name = models.CharField(max_length=256, blank=True)
+    street_address_1 = models.CharField(max_length=256, blank=True)
+    street_address_2 = models.CharField(max_length=256, blank=True)
+    city = models.CharField(max_length=256, blank=True)
+    city_area = models.CharField(max_length=128, blank=True)
+    postal_code = models.CharField(max_length=20, blank=True)
+    country = CountryField()
+    country_area = models.CharField(max_length=128, blank=True)
+    phone = PossiblePhoneNumberField(blank=True, default="")
+    objects = AddressQueryset.as_manager()
+    class Meta:
+        ordering = ("pk",)
+    @property
+    def full_name(self):
+    def __str__(self):
+    def __eq__(self, other):
+    __hash__ = models.Model.__hash__
+    def as_data(self):
+    def get_copy(self):
+class UserManager(BaseUserManager):
+    def create_user(
+        self, email, password=None, is_staff=False, is_active=True, **extra_fields
+    ):
+    def create_superuser(self, email, password=None, **extra_fields):
+    def customers(self):
+    def staff(self):
+class User(PermissionsMixin, ModelWithMetadata, AbstractBaseUser):
+    email = models.EmailField(unique=True)
+    first_name = models.CharField(max_length=256, blank=True)
+    last_name = models.CharField(max_length=256, blank=True)
+    addresses = models.ManyToManyField(
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    note = models.TextField(null=True, blank=True)
+    date_joined = models.DateTimeField(default=timezone.now, editable=False)
+    default_shipping_address = models.ForeignKey(
+    default_billing_address = models.ForeignKey(
+    avatar = VersatileImageField(upload_to="user-avatars", blank=True, null=True)
+    jwt_token_key = models.CharField(max_length=12, default=get_random_string)
+    USERNAME_FIELD = "email"
+    objects = UserManager()
+    class Meta:
+        ordering = ("email",)
+        permissions = (
+    def __init__(self, *args, **kwargs):
+    @property
+    def effective_permissions(self) -> "QuerySet[Permission]":
+    @effective_permissions.setter
+    def effective_permissions(self, value: "QuerySet[Permission]"):
+    def get_full_name(self):
+    def get_short_name(self):
+    def has_perm(self, perm: Union[BasePermissionEnum, str], obj=None):  # type: ignore
+        # This method is overridden to accept perm as BasePermissionEnum
+class CustomerNote(models.Model):
+    user = models.ForeignKey(
+    date = models.DateTimeField(db_index=True, auto_now_add=True)
+    content = models.TextField()
+    is_public = models.BooleanField(default=True)
+    customer = models.ForeignKey(
+    class Meta:
+        ordering = ("date",)
+class CustomerEvent(models.Model):
+    date = models.DateTimeField(default=timezone.now, editable=False)
+    type = models.CharField(
+    order = models.ForeignKey("order.Order", on_delete=models.SET_NULL, null=True)
+    parameters = JSONField(blank=True, default=dict, encoder=CustomJsonEncoder)
+    user = models.ForeignKey(User, related_name="events", on_delete=models.CASCADE)
+    class Meta:
+        ordering = ("date",)
+    def __repr__(self):
+class StaffNotificationRecipient(models.Model):
+    user = models.OneToOneField(
+    staff_email = models.EmailField(unique=True, blank=True, null=True)
+    active = models.BooleanField(default=True)
+    class Meta:
+        ordering = ("staff_email",)
+    def get_email(self):
+===== END OUTLINE: saleor/account/models.py =====
+===== OUTLINE: saleor/core/exceptions.py (read-only) =====
+class PermissionDenied(Exception):
+    def __init__(self, message=None):
+===== END OUTLINE: saleor/core/exceptions.py =====
+===== OUTLINE: saleor/core/permissions.py (read-only) =====
+class AccountPermissions(BasePermissionEnum):
+    MANAGE_USERS = "account.manage_users"
+    MANAGE_STAFF = "account.manage_staff"
+===== END OUTLINE: saleor/core/permissions.py =====
+===== OUTLINE: saleor/payment/gateway.py (read-only) =====
+logger = logging.getLogger(__name__)
+ERROR_MSG = "Oops! Something went wrong."
+GENERIC_TRANSACTION_ERROR = "Transaction was unsuccessful."
+def raise_payment_error(fn: Callable) -> Callable:
+def payment_postprocess(fn: Callable) -> Callable:
+def require_active_payment(fn: Callable) -> Callable:
+def with_locked_payment(fn: Callable) -> Callable:
+@raise_payment_error
+@require_active_payment
+@with_locked_payment
+@payment_postprocess
+def process_payment(
+    payment: Payment,
+    token: str,
+    store_source: bool = False,
+    additional_data: Optional[dict] = None,
+    plugin_manager: Optional["PluginsManager"] = None,
+) -> Transaction:
+@raise_payment_error
+@require_active_payment
+@with_locked_payment
+@payment_postprocess
+def authorize(payment: Payment, token: str, store_source: bool = False) -> Transaction:
+@payment_postprocess
+@raise_payment_error
+@require_active_payment
+@with_locked_payment
+@payment_postprocess
+def capture(
+    payment: Payment, amount: Decimal = None, store_source: bool = False
+) -> Transaction:
+@raise_payment_error
+@require_active_payment
+@with_locked_payment
+@payment_postprocess
+def refund(payment: Payment, amount: Decimal = None) -> Transaction:
+@raise_payment_error
+@require_active_payment
+@with_locked_payment
+@payment_postprocess
+def void(payment: Payment) -> Transaction:
+@raise_payment_error
+@require_active_payment
+@with_locked_payment
+@payment_postprocess
+def confirm(payment: Payment, additional_data: Optional[dict] = None) -> Transaction:
+def list_payment_sources(gateway: str, customer_id: str) -> List["CustomerSource"]:
+def get_client_token(gateway: str, customer_id: str = None) -> str:
+def list_gateways() -> List["PaymentGateway"]:
+def payment_refund_or_void(payment: Optional[Payment]):
+===== END OUTLINE: saleor/payment/gateway.py =====
+===== OUTLINE: saleor/payment/utils.py (read-only) =====
+def fetch_customer_id(user: User, gateway: str):
+===== END OUTLINE: saleor/payment/utils.py =====
+===== OUTLINE: saleor/graphql/utils/__init__.py (read-only) =====
+def format_permissions_for_display(permissions):
+def get_user_or_app_from_context(context):
+    # order is important
+    # app can be None but user if None then is passed as anonymous
+===== END OUTLINE: saleor/graphql/utils/__init__.py =====
+===== OUTLINE: saleor/graphql/utils/filters.py (read-only) =====
+def filter_by_query_param(queryset, query, search_fields):
+===== END OUTLINE: saleor/graphql/utils/filters.py =====
+===== OUTLINE: saleor/graphql/account/types.py (read-only) =====
+@key(fields="id")
+class Address(CountableDjangoObjectType):
+    country = graphene.Field(
+    is_default_shipping_address = graphene.Boolean(
+    is_default_billing_address = graphene.Boolean(
+    class Meta:
+        description = "Represents user address data."
+        interfaces = [relay.Node]
+        model = models.Address
+        only_fields = [
+    @staticmethod
+    def resolve_country(root: models.Address, _info):
+    @staticmethod
+    def resolve_is_default_shipping_address(root: models.Address, _info):
+    @staticmethod
+    def resolve_is_default_billing_address(root: models.Address, _info):
+    @staticmethod
+    def __resolve_reference(root, _info, **_kwargs):
+@key("id")
+@key("email")
+class User(CountableDjangoObjectType):
+    addresses = graphene.List(Address, description="List of all user's addresses.")
+    checkout = graphene.Field(
+    checkout_tokens = graphene.List(
+    gift_cards = PrefetchingConnectionField(
+    note = graphene.String(description="A note about the customer.")
+    orders = PrefetchingConnectionField(
+    permissions = graphene.List(
+    user_permissions = graphene.List(
+    permission_groups = graphene.List(
+    editable_groups = graphene.List(
+    avatar = graphene.Field(Image, size=graphene.Int(description="Size of the avatar."))
+    events = graphene.List(
+    stored_payment_sources = graphene.List(
+    class Meta:
+        description = "Represents user data."
+        interfaces = [relay.Node, ObjectWithMetadata]
+        model = get_user_model()
+        only_fields = [
+    @staticmethod
+    def resolve_addresses(root: models.User, _info, **_kwargs):
+    @staticmethod
+    def resolve_checkout(root: models.User, _info, **_kwargs):
+    @staticmethod
+    def resolve_checkout_tokens(root: models.User, info, channel=None, **_kwargs):
+    @staticmethod
+    def resolve_gift_cards(root: models.User, info, **_kwargs):
+    @staticmethod
+    def resolve_permissions(root: models.User, _info, **_kwargs):
+        # deprecated, to remove in #5389
+    @staticmethod
+    def resolve_user_permissions(root: models.User, _info, **_kwargs):
+    @staticmethod
+    def resolve_permission_groups(root: models.User, _info, **_kwargs):
+    @staticmethod
+    def resolve_editable_groups(root: models.User, _info, **_kwargs):
+    @staticmethod
+    @one_of_permissions_required(
+        [AccountPermissions.MANAGE_USERS, AccountPermissions.MANAGE_STAFF]
+    )
+    def resolve_note(root: models.User, info):
+    @staticmethod
+    @one_of_permissions_required(
+        [AccountPermissions.MANAGE_USERS, AccountPermissions.MANAGE_STAFF]
+    )
+    def resolve_events(root: models.User, info):
+    @staticmethod
+    def resolve_orders(root: models.User, info, **_kwargs):
+    @staticmethod
+    def resolve_avatar(root: models.User, info, size=None, **_kwargs):
+    @staticmethod
+    def resolve_stored_payment_sources(root: models.User, info):
+    @staticmethod
+    def resolve_wishlist(root: models.User, info, **_kwargs):
+    @staticmethod
+    def __resolve_reference(root, _info, **_kwargs):
+class ChoiceValue(graphene.ObjectType):
+    raw = graphene.String()
+    verbose = graphene.String()
+class AddressValidationData(graphene.ObjectType):
+    country_code = graphene.String()
+    country_name = graphene.String()
+    address_format = graphene.String()
+    address_latin_format = graphene.String()
+    allowed_fields = graphene.List(graphene.String)
+    required_fields = graphene.List(graphene.String)
+    upper_fields = graphene.List(graphene.String)
+    country_area_type = graphene.String()
+    country_area_choices = graphene.List(ChoiceValue)
+    city_type = graphene.String()
+    city_choices = graphene.List(ChoiceValue)
+    city_area_type = graphene.String()
+    city_area_choices = graphene.List(ChoiceValue)
+    postal_code_type = graphene.String()
+    postal_code_matchers = graphene.List(graphene.String)
+    postal_code_examples = graphene.List(graphene.String)
+    postal_code_prefix = graphene.String()
+@key(fields="id")
+class Group(CountableDjangoObjectType):
+    users = graphene.List(User, description="List of group users")
+    permissions = graphene.List(Permission, description="List of group permissions")
+    user_can_manage = graphene.Boolean(
+    class Meta:
+        description = "Represents permission group data."
+        interfaces = [relay.Node]
+        model = auth_models.Group
+        only_fields = ["name", "permissions", "id"]
+    @staticmethod
+    @permission_required(AccountPermissions.MANAGE_STAFF)
+    def resolve_users(root: auth_models.Group, _info):
+    @staticmethod
+    def resolve_permissions(root: auth_models.Group, _info):
+    @staticmethod
+    def resolve_user_can_manage(root: auth_models.Group, info):
+===== END OUTLINE: saleor/graphql/account/types.py =====
+===== OUTLINE: saleor/graphql/account/utils.py (read-only) =====
+def get_required_fields_camel_case(required_fields: set) -> set:
+def get_allowed_fields_camel_case(allowed_fields: set) -> set:
+def get_user_permissions(user: "User") -> "QuerySet":
+===== END OUTLINE: saleor/graphql/account/utils.py =====
+===== OUTLINE: saleor/graphql/core/fields.py (read-only) =====
+class FilterInputConnectionField(BaseDjangoConnectionField):
+    def __init__(self, *args, **kwargs):
+    @classmethod
+    def connection_resolver(
+        cls,
+        resolver,
+        connection,
+        default_manager,
+        queryset_resolver,
+        max_limit,
+        enforce_first_or_last,
+        filterset_class,
+        filters_name,
+        root,
+        info,
+        **args,
+    ):
+        # Disable `enforce_first_or_last` if not querying for `edges`.
+    @classmethod
+    def filter_iterable(cls, iterable, filterset_class, filters_name, info, **args):
+    def get_resolver(self, parent_resolver):
+===== END OUTLINE: saleor/graphql/core/fields.py =====
+===== OUTLINE: saleor/graphql/decorators.py (read-only) =====
+def permission_required(perm: Union[Enum, Iterable[Enum]]):
+def one_of_permissions_required(perms: Iterable[Enum]):
+===== END OUTLINE: saleor/graphql/decorators.py =====
+===== OUTLINE: saleor/graphql/account/bulk_mutations.py (read-only) =====
+class CustomerBulkDelete(CustomerDeleteMixin, UserBulkDelete):
+    class Meta:
+        description = "Deletes customers."
+        model = models.User
+        permissions = (AccountPermissions.MANAGE_USERS,)
+        error_type_class = AccountError
+        error_type_field = "account_errors"
+    @classmethod
+    def perform_mutation(cls, root, info, **data):
+class StaffBulkDelete(StaffDeleteMixin, UserBulkDelete):
+    class Meta:
+        description = "Deletes staff users."
+        model = models.User
+        permissions = (AccountPermissions.MANAGE_STAFF,)
+        error_type_class = StaffError
+        error_type_field = "staff_errors"
+    @classmethod
+    def perform_mutation(cls, _root, info, ids, **data):
+    @classmethod
+    def clean_instances(cls, info, users):
+class UserBulkSetActive(BaseBulkMutation):
+    class Arguments:
+        ids = graphene.List(
+        is_active = graphene.Boolean(
+    class Meta:
+        description = "Activate or deactivate users."
+        model = models.User
+        permissions = (AccountPermissions.MANAGE_USERS,)
+        error_type_class = AccountError
+        error_type_field = "account_errors"
+    @classmethod
+    def clean_instance(cls, info, instance):
+    @classmethod
+    def bulk_action(cls, queryset, is_active):
+===== END OUTLINE: saleor/graphql/account/bulk_mutations.py =====
+===== OUTLINE: saleor/graphql/account/enums.py (read-only) =====
+CountryCodeEnum = graphene.Enum(
+===== END OUTLINE: saleor/graphql/account/enums.py =====
+===== OUTLINE: saleor/graphql/account/filters.py (read-only) =====
+class CustomerFilter(django_filters.FilterSet):
+    date_joined = ObjectTypeFilter(
+    number_of_orders = ObjectTypeFilter(
+    placed_orders = ObjectTypeFilter(
+    search = django_filters.CharFilter(method=filter_staff_search)
+    class Meta:
+        model = User
+        fields = [
+class PermissionGroupFilter(django_filters.FilterSet):
+    search = django_filters.CharFilter(method=filter_search)
+class StaffUserFilter(django_filters.FilterSet):
+    status = EnumFilter(input_class=StaffMemberStatus, method=filter_status)
+    search = django_filters.CharFilter(method=filter_staff_search)
+    class Meta:
+        model = User
+        fields = ["status", "search"]
+===== END OUTLINE: saleor/graphql/account/filters.py =====
+===== OUTLINE: saleor/graphql/account/mutations/account.py (read-only) =====
+class AccountRegister(ModelMutation):
+    class Arguments:
+        input = AccountRegisterInput(
+    requires_confirmation = graphene.Boolean(
+    class Meta:
+        description = "Register a new user."
+        exclude = ["password"]
+        model = models.User
+        error_type_class = AccountError
+        error_type_field = "account_errors"
+    @classmethod
+    def mutate(cls, root, info, **data):
+    @classmethod
+    def clean_input(cls, info, instance, data, input_cls=None):
+    @classmethod
+    def save(cls, info, user, cleaned_input):
+class AccountUpdate(BaseCustomerCreate):
+    class Arguments:
+        input = AccountInput(
+    class Meta:
+        description = "Updates the account of the logged-in user."
+        exclude = ["password"]
+        model = models.User
+        error_type_class = AccountError
+        error_type_field = "account_errors"
+    @classmethod
+    def check_permissions(cls, context):
+    @classmethod
+    def perform_mutation(cls, root, info, **data):
+class AccountRequestDeletion(BaseMutation):
+    class Arguments:
+        redirect_url = graphene.String(
+    class Meta:
+        description = (
+        error_type_class = AccountError
+        error_type_field = "account_errors"
+    @classmethod
+    def check_permissions(cls, context):
+    @classmethod
+    def perform_mutation(cls, root, info, **data):
+class AccountDelete(ModelDeleteMutation):
+    class Arguments:
+        token = graphene.String(
+    class Meta:
+        description = "Remove user account."
+        model = models.User
+        error_type_class = AccountError
+        error_type_field = "account_errors"
+    @classmethod
+    def check_permissions(cls, context):
+    @classmethod
+    def clean_instance(cls, info, instance):
+    @classmethod
+    def perform_mutation(cls, _root, info, **data):
+class AccountAddressCreate(ModelMutation, I18nMixin):
+    user = graphene.Field(
+    class Arguments:
+        input = AddressInput(
+        type = AddressTypeEnum(
+    class Meta:
+        description = "Create a new address for the customer."
+        model = models.Address
+        error_type_class = AccountError
+        error_type_field = "account_errors"
+    @classmethod
+    def check_permissions(cls, context):
+    @classmethod
+    def perform_mutation(cls, root, info, **data):
+    @classmethod
+    def save(cls, info, instance, cleaned_input):
+class AccountAddressUpdate(BaseAddressUpdate):
+    class Meta:
+        description = "Updates an address of the logged-in user."
+        model = models.Address
+        error_type_class = AccountError
+        error_type_field = "account_errors"
+class AccountAddressDelete(BaseAddressDelete):
+    class Meta:
+        description = "Delete an address of the logged-in user."
+        model = models.Address
+        error_type_class = AccountError
+        error_type_field = "account_errors"
+class AccountSetDefaultAddress(BaseMutation):
+    user = graphene.Field(User, description="An updated user instance.")
+    class Arguments:
+        id = graphene.ID(
+        type = AddressTypeEnum(required=True, description="The type of address.")
+    class Meta:
+        description = "Sets a default address for the authenticated user."
+        error_type_class = AccountError
+        error_type_field = "account_errors"
+    @classmethod
+    def check_permissions(cls, context):
+    @classmethod
+    def perform_mutation(cls, _root, info, **data):
+class RequestEmailChange(BaseMutation):
+    user = graphene.Field(User, description="A user instance.")
+    class Arguments:
+        password = graphene.String(required=True, description="User password.")
+        new_email = graphene.String(required=True, description="New user email.")
+        redirect_url = graphene.String(
+    class Meta:
+        description = "Request email change of the logged in user."
+        error_type_class = AccountError
+        error_type_field = "account_errors"
+    @classmethod
+    def check_permissions(cls, context):
+    @classmethod
+    def perform_mutation(cls, _root, info, **data):
+class ConfirmEmailChange(BaseMutation):
+    user = graphene.Field(User, description="A user instance with a new email.")
+    class Arguments:
+        token = graphene.String(
+    class Meta:
+        description = "Confirm the email change of the logged-in user."
+        error_type_class = AccountError
+        error_type_field = "account_errors"
+    @classmethod
+    def check_permissions(cls, context):
+    @classmethod
+    def get_token_payload(cls, token):
+    @classmethod
+    def perform_mutation(cls, _root, info, **data):
+===== END OUTLINE: saleor/graphql/account/mutations/account.py =====
+===== OUTLINE: saleor/graphql/account/mutations/base.py (read-only) =====
+class SetPassword(CreateToken):
+    class Arguments:
+        token = graphene.String(
+        email = graphene.String(required=True, description="Email of a user.")
+        password = graphene.String(required=True, description="Password of a user.")
+    class Meta:
+        description = (
+        error_type_class = AccountError
+        error_type_field = "account_errors"
+    @classmethod
+    def mutate(cls, root, info, **data):
+    @classmethod
+    def _set_password_for_user(cls, email, password, token):
+class RequestPasswordReset(BaseMutation):
+    class Arguments:
+        email = graphene.String(
+        redirect_url = graphene.String(
+    class Meta:
+        description = "Sends an email with the account password modification link."
+        error_type_class = AccountError
+        error_type_field = "account_errors"
+    @classmethod
+    def perform_mutation(cls, _root, info, **data):
+class ConfirmAccount(BaseMutation):
+    user = graphene.Field(User, description="An activated user account.")
+    class Arguments:
+        token = graphene.String(
+        email = graphene.String(
+    class Meta:
+        description = (
+        error_type_class = AccountError
+        error_type_field = "account_errors"
+    @classmethod
+    def perform_mutation(cls, _root, info, **data):
+class PasswordChange(BaseMutation):
+    user = graphene.Field(User, description="A user instance with a new password.")
+    class Arguments:
+        old_password = graphene.String(
+        new_password = graphene.String(required=True, description="New user password.")
+    class Meta:
+        description = "Change the password of the logged in user."
+        error_type_class = AccountError
+        error_type_field = "account_errors"
+    @classmethod
+    def check_permissions(cls, context):
+    @classmethod
+    def perform_mutation(cls, _root, info, **data):
+===== END OUTLINE: saleor/graphql/account/mutations/base.py =====
+===== OUTLINE: saleor/graphql/account/mutations/jwt.py (read-only) =====
+class CreateToken(BaseMutation):
+    class Arguments:
+        email = graphene.String(required=True, description="Email of a user.")
+        password = graphene.String(required=True, description="Password of a user.")
+    class Meta:
+        description = "Create JWT token."
+        error_type_class = AccountError
+        error_type_field = "account_errors"
+    token = graphene.String(description="JWT token, required to authenticate.")
+    refresh_token = graphene.String(
+    csrf_token = graphene.String(
+    user = graphene.Field(User, description="A user instance.")
+    @classmethod
+    def _retrieve_user_from_credentials(cls, email, password) -> Optional[models.User]:
+    @classmethod
+    def get_user(cls, _info, data):
+    @classmethod
+    def perform_mutation(cls, root, info, **data):
+class RefreshToken(BaseMutation):
+    token = graphene.String(description="JWT token, required to authenticate.")
+    user = graphene.Field(User, description="A user instance.")
+    class Arguments:
+        refresh_token = graphene.String(required=False, description="Refresh token.")
+        csrf_token = graphene.String(
+    class Meta:
+        description = (
+        error_type_class = AccountError
+        error_type_field = "account_errors"
+    @classmethod
+    def get_refresh_token_payload(cls, refresh_token):
+    @classmethod
+    def get_refresh_token(cls, info, data):
+    @classmethod
+    def clean_refresh_token(cls, refresh_token):
+    @classmethod
+    def clean_csrf_token(cls, csrf_token, payload):
+    @classmethod
+    def get_user(cls, payload):
+    @classmethod
+    def perform_mutation(cls, root, info, **data):
+class VerifyToken(BaseMutation):
+    user = graphene.Field(User, description="User assigned to token.")
+    is_valid = graphene.Boolean(
+    payload = GenericScalar(description="JWT payload.")
+    class Arguments:
+        token = graphene.String(required=True, description="JWT token to validate.")
+    class Meta:
+        description = "Verify JWT token."
+        error_type_class = AccountError
+        error_type_field = "account_errors"
+    @classmethod
+    def get_payload(cls, token):
+    @classmethod
+    def get_user(cls, payload):
+    @classmethod
+    def perform_mutation(cls, root, info, **data):
+class DeactivateAllUserTokens(BaseMutation):
+    class Meta:
+        description = "Deactivate all JWT tokens of the currently authenticated user."
+        error_type_class = AccountError
+        error_type_field = "account_errors"
+    @classmethod
+    def check_permissions(cls, context):
+    @classmethod
+    def perform_mutation(cls, root, info, **data):
+===== END OUTLINE: saleor/graphql/account/mutations/jwt.py =====
+===== OUTLINE: saleor/graphql/account/mutations/permission_group.py (read-only) =====
+class PermissionGroupCreate(ModelMutation):
+    class Arguments:
+        input = PermissionGroupCreateInput(
+    class Meta:
+        description = "Create new permission group."
+        model = auth_models.Group
+        permissions = (AccountPermissions.MANAGE_STAFF,)
+        error_type_class = PermissionGroupError
+        error_type_field = "permission_group_errors"
+    @classmethod
+    @transaction.atomic
+    def _save_m2m(cls, info, instance, cleaned_data):
+    @classmethod
+    def clean_input(
+        cls, info, instance, data,
+    ):
+    @classmethod
+    def clean_permissions(
+        cls,
+        requestor: "User",
+        group: auth_models.Group,
+        errors: Dict[Optional[str], List[ValidationError]],
+        cleaned_input: dict,
+    ):
+    @classmethod
+    def ensure_can_manage_permissions(
+        cls,
+        requestor: "User",
+        errors: Dict[Optional[str], List[ValidationError]],
+        field: str,
+        permission_items: List[str],
+    ):
+    @classmethod
+    def clean_users(
+        cls,
+        requestor: "User",
+        errors: dict,
+        cleaned_input: dict,
+        group: auth_models.Group,
+    ):
+    @classmethod
+    def ensure_users_are_staff(
+        cls,
+        errors: Dict[Optional[str], List[ValidationError]],
+        field: str,
+        cleaned_input: dict,
+    ):
+    @classmethod
+    def update_errors(
+        cls,
+        errors: Dict[Optional[str], List[ValidationError]],
+        msg: str,
+        field: Optional[str],
+        code: str,
+        params: dict,
+    ):
+class PermissionGroupUpdate(PermissionGroupCreate):
+    class Arguments:
+        id = graphene.ID(description="ID of the group to update.", required=True)
+        input = PermissionGroupUpdateInput(
+    class Meta:
+        description = "Update permission group."
+        model = auth_models.Group
+        permissions = (AccountPermissions.MANAGE_STAFF,)
+        error_type_class = PermissionGroupError
+        error_type_field = "permission_group_errors"
+    @classmethod
+    @transaction.atomic
+    def _save_m2m(cls, info, instance, cleaned_data):
+    @classmethod
+    def clean_input(
+        cls, info, instance, data,
+    ):
+    @classmethod
+    def ensure_requestor_can_manage_group(
+        cls, requestor: "User", group: auth_models.Group
+    ):
+    @classmethod
+    def clean_permissions(
+        cls,
+        requestor: "User",
+        group: auth_models.Group,
+        errors: Dict[Optional[str], List[ValidationError]],
+        cleaned_input: dict,
+    ):
+    @classmethod
+    def ensure_permissions_can_be_removed(
+        cls, errors: dict, group: auth_models.Group, permissions: List["str"],
+    ):
+    @classmethod
+    def clean_users(
+        cls,
+        requestor: "User",
+        errors: dict,
+        cleaned_input: dict,
+        group: auth_models.Group,
+    ):
+    @classmethod
+    def ensure_can_manage_users(
+        cls,
+        requestor: "User",
+        errors: Dict[Optional[str], List[ValidationError]],
+        field: str,
+        cleaned_input: dict,
+    ):
+    @classmethod
+    def clean_remove_users(
+        cls,
+        requestor: "User",
+        errors: dict,
+        cleaned_input: dict,
+        group: auth_models.Group,
+    ):
+    @classmethod
+    def check_if_removing_user_last_group(
+        cls, requestor: "User", errors: dict, cleaned_input: dict
+    ):
+    @classmethod
+    def check_if_users_can_be_removed(
+        cls,
+        requestor: "User",
+        errors: dict,
+        cleaned_input: dict,
+        group: auth_models.Group,
+    ):
+    @classmethod
+    def check_for_duplicates(
+        cls, errors: dict, input_data: dict, fields: Tuple[str, str, str],
+    ):
+class PermissionGroupDelete(ModelDeleteMutation):
+    class Arguments:
+        id = graphene.ID(description="ID of the group to delete.", required=True)
+    class Meta:
+        description = "Delete permission group."
+        model = auth_models.Group
+        permissions = (AccountPermissions.MANAGE_STAFF,)
+        error_type_class = PermissionGroupError
+        error_type_field = "permission_group_errors"
+    @classmethod
+    def clean_instance(cls, info, instance):
+    @classmethod
+    def check_if_group_can_be_removed(cls, requestor, group):
+    @classmethod
+    def ensure_deleting_not_left_not_manageable_permissions(cls, group):
+    @classmethod
+    def ensure_not_removing_requestor_last_group(cls, group, requestor):
+===== END OUTLINE: saleor/graphql/account/mutations/permission_group.py =====
+===== OUTLINE: saleor/graphql/account/mutations/staff.py (read-only) =====
+class CustomerCreate(BaseCustomerCreate):
+    class Meta:
+        description = "Creates a new customer."
+        exclude = ["password"]
+        model = models.User
+        permissions = (AccountPermissions.MANAGE_USERS,)
+        error_type_class = AccountError
+        error_type_field = "account_errors"
+class CustomerUpdate(CustomerCreate):
+    class Arguments:
+        id = graphene.ID(description="ID of a customer to update.", required=True)
+        input = CustomerInput(
+    class Meta:
+        description = "Updates an existing customer."
+        exclude = ["password"]
+        model = models.User
+        permissions = (AccountPermissions.MANAGE_USERS,)
+        error_type_class = AccountError
+        error_type_field = "account_errors"
+    @classmethod
+    def generate_events(
+        cls, info, old_instance: models.User, new_instance: models.User
+    ):
+        # Retrieve the event base data
+    @classmethod
+    def perform_mutation(cls, _root, info, **data):
+class CustomerDelete(CustomerDeleteMixin, UserDelete):
+    class Meta:
+        description = "Deletes a customer."
+        model = models.User
+        permissions = (AccountPermissions.MANAGE_USERS,)
+        error_type_class = AccountError
+        error_type_field = "account_errors"
+    class Arguments:
+        id = graphene.ID(required=True, description="ID of a customer to delete.")
+    @classmethod
+    def perform_mutation(cls, root, info, **data):
+class StaffCreate(ModelMutation):
+    class Arguments:
+        input = StaffCreateInput(
+    class Meta:
+        description = "Creates a new staff user."
+        exclude = ["password"]
+        model = models.User
+        permissions = (AccountPermissions.MANAGE_STAFF,)
+        error_type_class = StaffError
+        error_type_field = "staff_errors"
+    @classmethod
+    def clean_input(cls, info, instance, data):
+    @classmethod
+    def clean_groups(cls, requestor: models.User, cleaned_input: dict, errors: dict):
+    @classmethod
+    def ensure_requestor_can_manage_groups(
+        cls, requestor: models.User, cleaned_input: dict, field: str, errors: dict
+    ):
+    @classmethod
+    def clean_is_active(cls, cleaned_input, instance, request, errors):
+    @classmethod
+    def save(cls, info, user, cleaned_input):
+    @classmethod
+    @transaction.atomic
+    def _save_m2m(cls, info, instance, cleaned_data):
+class StaffUpdate(StaffCreate):
+    class Arguments:
+        id = graphene.ID(description="ID of a staff user to update.", required=True)
+        input = StaffUpdateInput(
+    class Meta:
+        description = "Updates an existing staff user."
+        exclude = ["password"]
+        model = models.User
+        permissions = (AccountPermissions.MANAGE_STAFF,)
+        error_type_class = StaffError
+        error_type_field = "staff_errors"
+    @classmethod
+    def clean_input(cls, info, instance, data):
+    @classmethod
+    def check_for_duplicates(cls, input_data):
+    @classmethod
+    def clean_groups(cls, requestor: models.User, cleaned_input: dict, errors: dict):
+    @classmethod
+    def clean_is_active(
+        cls,
+        cleaned_input: dict,
+        instance: models.User,
+        requestor: models.User,
+        errors: dict,
+    ):
+    @classmethod
+    def check_if_deactivating_superuser_or_own_account(
+        cls, instance: models.User, requestor: models.User, errors: dict
+    ):
+    @classmethod
+    def check_if_deactivating_left_not_manageable_permissions(
+        cls, user: models.User, requestor: models.User, errors: dict
+    ):
+    @classmethod
+    @transaction.atomic
+    def _save_m2m(cls, info, instance, cleaned_data):
+class StaffDelete(StaffDeleteMixin, UserDelete):
+    class Meta:
+        description = "Deletes a staff user."
+        model = models.User
+        permissions = (AccountPermissions.MANAGE_STAFF,)
+        error_type_class = StaffError
+        error_type_field = "staff_errors"
+    class Arguments:
+        id = graphene.ID(required=True, description="ID of a staff user to delete.")
+    @classmethod
+    def perform_mutation(cls, _root, info, **data):
+class AddressCreate(ModelMutation):
+    user = graphene.Field(
+    class Arguments:
+        user_id = graphene.ID(
+        input = AddressInput(
+    class Meta:
+        description = "Creates user address."
+        model = models.Address
+        permissions = (AccountPermissions.MANAGE_USERS,)
+        error_type_class = AccountError
+        error_type_field = "account_errors"
+    @classmethod
+    def perform_mutation(cls, root, info, **data):
+class AddressUpdate(BaseAddressUpdate):
+    class Meta:
+        description = "Updates an address."
+        model = models.Address
+        permissions = (AccountPermissions.MANAGE_USERS,)
+        error_type_class = AccountError
+        error_type_field = "account_errors"
+class AddressDelete(BaseAddressDelete):
+    class Meta:
+        description = "Deletes an address."
+        model = models.Address
+        permissions = (AccountPermissions.MANAGE_USERS,)
+        error_type_class = AccountError
+        error_type_field = "account_errors"
+class AddressSetDefault(BaseMutation):
+    user = graphene.Field(User, description="An updated user instance.")
+    class Arguments:
+        address_id = graphene.ID(required=True, description="ID of the address.")
+        user_id = graphene.ID(
+        type = AddressTypeEnum(required=True, description="The type of address.")
+    class Meta:
+        description = "Sets a default address for the given user."
+        permissions = (AccountPermissions.MANAGE_USERS,)
+        error_type_class = AccountError
+        error_type_field = "account_errors"
+    @classmethod
+    def perform_mutation(cls, _root, info, address_id, user_id, **data):
+class UserAvatarUpdate(BaseMutation):
+    user = graphene.Field(User, description="An updated user instance.")
+    class Arguments:
+        image = Upload(
+    class Meta:
+        description = (
+        error_type_class = AccountError
+        error_type_field = "account_errors"
+    @classmethod
+# [outline truncated]
+===== END OUTLINE: saleor/graphql/account/mutations/staff.py =====
+===== OUTLINE: saleor/graphql/account/sorters.py (read-only) =====
+class UserSortingInput(SortInputObjectType):
+    class Meta:
+        sort_enum = UserSortField
+        type_name = "users"
+class PermissionGroupSortingInput(SortInputObjectType):
+    class Meta:
+        sort_enum = PermissionGroupSortField
+        type_name = "permission group"
+===== END OUTLINE: saleor/graphql/account/sorters.py =====

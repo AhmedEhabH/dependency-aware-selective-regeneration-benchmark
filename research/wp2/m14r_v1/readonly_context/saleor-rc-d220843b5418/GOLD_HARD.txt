@@ -1,0 +1,959 @@
+READ-ONLY CONTEXT (NOT EDITABLE): outlines of repository modules imported by the editable files
+===== OUTLINE: saleor/app/models.py (read-only) =====
+class App(ModelWithMetadata):
+    uuid = models.UUIDField(unique=True, default=uuid4)
+    name = models.CharField(max_length=60)
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True)
+    removed_at = models.DateTimeField(blank=True, null=True)
+    type = models.CharField(
+    identifier = models.CharField(max_length=256, blank=True)
+    permissions = models.ManyToManyField(
+    about_app = models.TextField(blank=True, null=True)
+    data_privacy = models.TextField(blank=True, null=True)
+    data_privacy_url = models.URLField(blank=True, null=True)
+    homepage_url = models.URLField(blank=True, null=True)
+    support_url = models.URLField(blank=True, null=True)
+    configuration_url = models.URLField(blank=True, null=True)
+    app_url = models.URLField(blank=True, null=True)
+    manifest_url = models.URLField(blank=True, null=True)
+    version = models.CharField(max_length=60, blank=True, null=True)
+    audience = models.CharField(blank=True, null=True, max_length=256)
+    is_installed = models.BooleanField(default=True)
+    author = models.CharField(blank=True, null=True, max_length=60)
+    brand_logo_default = models.ImageField(
+    objects = AppManager()
+    class Meta(ModelWithMetadata.Meta):
+        ordering = ("name", "pk")
+        permissions = (
+    def __str__(self):
+    def get_permissions(self) -> set[str]:
+    def has_perms(self, perm_list: Iterable[BasePermissionEnum | str]) -> bool:
+    def has_perm(self, perm: BasePermissionEnum | str) -> bool:
+===== END OUTLINE: saleor/app/models.py =====
+===== OUTLINE: saleor/checkout/fetch.py (read-only) =====
+def fetch_checkout_lines(
+    checkout: "Checkout",
+    prefetch_variant_attributes: bool = False,
+    skip_lines_with_unavailable_variants: bool = True,
+    skip_recalculation: bool = False,
+    voucher: Optional["Voucher"] = None,
+    database_connection_name: str = settings.DATABASE_CONNECTION_DEFAULT_NAME,
+) -> tuple[list[CheckoutLineInfo], list[int]]:
+def fetch_checkout_info(
+    checkout: "Checkout",
+    lines: list[CheckoutLineInfo],
+    manager: "PluginsManager",
+    shipping_channel_listings: Iterable["ShippingMethodChannelListing"] | None = None,
+    voucher: Optional["Voucher"] = None,
+    voucher_code: Optional["VoucherCode"] = None,
+    database_connection_name: str = settings.DATABASE_CONNECTION_DEFAULT_NAME,
+) -> CheckoutInfo:
+def get_all_shipping_methods_list(
+    checkout_info,
+):
+===== END OUTLINE: saleor/checkout/fetch.py =====
+===== OUTLINE: saleor/core/exceptions.py (read-only) =====
+class PermissionDenied(Exception):
+    def __init__(self, message=None, *, permissions: Iterable[Enum] | None = None):
+===== END OUTLINE: saleor/core/exceptions.py =====
+===== OUTLINE: saleor/permission/enums.py (read-only) =====
+class AppPermission(BasePermissionEnum):
+    MANAGE_APPS = "app.manage_apps"
+    MANAGE_OBSERVABILITY = "app.manage_observability"
+===== END OUTLINE: saleor/permission/enums.py =====
+===== OUTLINE: saleor/webhook/models.py (read-only) =====
+class WebhookURLField(models.URLField):
+    default_validators = [
+class Webhook(models.Model):
+    name = models.CharField(max_length=255, null=True, blank=True)
+    app = models.ForeignKey(App, related_name="webhooks", on_delete=models.CASCADE)
+    target_url = WebhookURLField(max_length=255)
+    is_active = models.BooleanField(default=True)
+    secret_key = models.CharField(max_length=255, null=True, blank=True)
+    subscription_query = models.TextField(null=True, blank=True)
+    custom_headers = models.JSONField(
+    filterable_channel_slugs = ArrayField(
+    class Meta:
+        ordering = ("pk",)
+        indexes = [
+    def __str__(self):
+class WebhookEvent(models.Model):
+    webhook = models.ForeignKey(
+    event_type = models.CharField("Event type", max_length=128, db_index=True)
+    def __repr__(self):
+===== END OUTLINE: saleor/webhook/models.py =====
+===== OUTLINE: saleor/webhook/payloads.py (read-only) =====
+ADDRESS_FIELDS = (
+CHANNEL_FIELDS = ("slug", "currency_code")
+ORDER_FIELDS = (
+ORDER_PRICE_FIELDS = (
+def generate_requestor(requestor: Optional["RequestorOrLazyObject"] = None):
+def generate_meta(*, requestor_data: dict[str, Any], camel_case=False, **kwargs):
+@allow_writer()
+@traced_payload_generator
+def generate_metadata_updated_payload(
+    instance: Any, requestor: Optional["RequestorOrLazyObject"] = None
+):
+def prepare_order_lines_allocations_payload(line):
+@allow_writer()
+@traced_payload_generator
+def generate_order_lines_payload(lines: Iterable[OrderLine]):
+@allow_writer()
+@traced_payload_generator
+def generate_order_payload(
+    order: "Order",
+    requestor: Optional["RequestorOrLazyObject"] = None,
+    with_meta: bool = True,
+):
+@allow_writer()
+@traced_payload_generator
+def generate_sale_payload(
+    promotion: "Promotion",
+    previous_catalogue: defaultdict[str, set[str]] | None = None,
+    current_catalogue: defaultdict[str, set[str]] | None = None,
+    requestor: Optional["RequestorOrLazyObject"] = None,
+):
+@allow_writer()
+@traced_payload_generator
+def generate_sale_toggle_payload(
+    promotion: "Promotion",
+    catalogue: defaultdict[str, set[str]],
+    requestor: Optional["RequestorOrLazyObject"] = None,
+):
+@allow_writer()
+@traced_payload_generator
+def generate_invoice_payload(
+    invoice: "Invoice", requestor: Optional["RequestorOrLazyObject"] = None
+):
+@allow_writer()
+@traced_payload_generator
+def generate_checkout_payload(
+    checkout: "Checkout", requestor: Optional["RequestorOrLazyObject"] = None
+):
+@allow_writer()
+@traced_payload_generator
+def generate_customer_payload(
+    customer: "User", requestor: Optional["RequestorOrLazyObject"] = None
+):
+@allow_writer()
+@traced_payload_generator
+def generate_collection_payload(
+    collection: "Collection", requestor: Optional["RequestorOrLazyObject"] = None
+):
+PRODUCT_FIELDS = (
+def serialize_product_channel_listing_payload(channel_listings):
+@allow_writer()
+@traced_payload_generator
+def generate_product_payload(
+    product: "Product", requestor: Optional["RequestorOrLazyObject"] = None
+):
+@allow_writer()
+@traced_payload_generator
+def generate_product_deleted_payload(
+    product: "Product", variants_id, requestor: Optional["RequestorOrLazyObject"] = None
+):
+PRODUCT_VARIANT_FIELDS = (
+@allow_writer()
+@traced_payload_generator
+def generate_product_variant_listings_payload(variant_channel_listings):
+@allow_writer()
+@traced_payload_generator
+def generate_product_variant_media_payload(product_variant):
+@allow_writer()
+@traced_payload_generator
+def generate_product_variant_with_stock_payload(
+    stocks: Iterable["Stock"], requestor: Optional["RequestorOrLazyObject"] = None
+):
+@allow_writer()
+@traced_payload_generator
+def generate_product_variant_payload(
+    product_variants: Iterable["ProductVariant"],
+    requestor: Optional["RequestorOrLazyObject"] = None,
+    with_meta: bool = True,
+):
+@allow_writer()
+@traced_payload_generator
+def generate_product_variant_stocks_payload(product_variant: "ProductVariant"):
+@allow_writer()
+@traced_payload_generator
+def generate_fulfillment_lines_payload(fulfillment: Fulfillment):
+@allow_writer()
+@traced_payload_generator
+def generate_fulfillment_payload(
+    fulfillment: Fulfillment, requestor: Optional["RequestorOrLazyObject"] = None
+):
+@allow_writer()
+@traced_payload_generator
+def generate_page_payload(
+    page: Page, requestor: Optional["RequestorOrLazyObject"] = None
+):
+@allow_writer()
+@traced_payload_generator
+def generate_payment_payload(
+    payment_data: "PaymentData", requestor: Optional["RequestorOrLazyObject"] = None
+):
+@allow_writer()
+@traced_payload_generator
+def generate_list_gateways_payload(
+    currency: str | None, checkout: Optional["Checkout"]
+):
+@allow_writer()
+@traced_payload_generator
+def generate_sample_payload(event_name: str) -> dict | None:
+def process_translation_context(context):
+@allow_writer()
+@traced_payload_generator
+def generate_translation_payload(
+    translation: "Translation", requestor: Optional["RequestorOrLazyObject"] = None
+):
+@allow_writer()
+@traced_payload_generator
+def generate_excluded_shipping_methods_for_order_payload(
+    order: "Order",
+    available_shipping_methods: list[ShippingMethodData],
+):
+@allow_writer()
+@traced_payload_generator
+def generate_excluded_shipping_methods_for_checkout_payload(
+    checkout: "Checkout",
+    available_shipping_methods: list[ShippingMethodData],
+):
+@allow_writer()
+@traced_payload_generator
+def generate_checkout_payload_for_tax_calculation(
+    checkout_info: "CheckoutInfo",
+    lines: list["CheckoutLineInfo"],
+):
+@allow_writer()
+@traced_payload_generator
+def generate_order_payload_for_tax_calculation(order: "Order"):
+@allow_writer()
+@traced_payload_generator
+def generate_transaction_action_request_payload(
+    transaction_data: "TransactionActionData",
+    requestor: Optional["RequestorOrLazyObject"] = None,
+) -> str:
+@allow_writer()
+def generate_transaction_session_payload(
+    transaction_process_action: "TransactionProcessActionData",
+    transaction: "TransactionItem",
+    transaction_object: Union["Order", "Checkout"],
+    payment_gateway: "PaymentGatewayData",
+):
+@allow_writer()
+@traced_payload_generator
+def generate_thumbnail_payload(thumbnail: Thumbnail):
+@allow_writer()
+@traced_payload_generator
+def generate_product_media_payload(media: ProductMedia):
+===== END OUTLINE: saleor/webhook/payloads.py =====
+===== OUTLINE: saleor/webhook/deprecated_event_types.py (read-only) =====
+class WebhookEventType:
+    ANY = "any_events"
+    ORDER_CREATED = "order_created"
+    ORDER_CONFIRMED = "order_confirmed"
+    ORDER_FULLY_PAID = "order_fully_paid"
+    ORDER_UPDATED = "order_updated"
+    ORDER_CANCELLED = "order_cancelled"
+    FULFILLMENT_CANCELED = "fulfillment_canceled"
+    ORDER_FULFILLED = "order_fulfilled"
+    DRAFT_ORDER_CREATED = "draft_order_created"
+    DRAFT_ORDER_UPDATED = "draft_order_updated"
+    DRAFT_ORDER_DELETED = "draft_order_deleted"
+    SALE_CREATED = "sale_created"
+    SALE_UPDATED = "sale_updated"
+    SALE_DELETED = "sale_deleted"
+    INVOICE_REQUESTED = "invoice_requested"
+    INVOICE_DELETED = "invoice_deleted"
+    INVOICE_SENT = "invoice_sent"
+    FULFILLMENT_CREATED = "fulfillment_created"
+    CUSTOMER_CREATED = "customer_created"
+    CUSTOMER_UPDATED = "customer_updated"
+    PRODUCT_CREATED = "product_created"
+    PRODUCT_UPDATED = "product_updated"
+    PRODUCT_DELETED = "product_deleted"
+    PRODUCT_VARIANT_CREATED = "product_variant_created"
+    PRODUCT_VARIANT_UPDATED = "product_variant_updated"
+    PRODUCT_VARIANT_DELETED = "product_variant_deleted"
+    PRODUCT_VARIANT_OUT_OF_STOCK = "product_variant_out_of_stock"
+    PRODUCT_VARIANT_BACK_IN_STOCK = "product_variant_back_in_stock"
+    CHECKOUT_CREATED = "checkout_created"
+    CHECKOUT_UPDATED = "checkout_updated"
+    NOTIFY_USER = "notify_user"
+    PAGE_CREATED = "page_created"
+    PAGE_UPDATED = "page_updated"
+    PAGE_DELETED = "page_deleted"
+    PAYMENT_LIST_GATEWAYS = "payment_list_gateways"
+    PAYMENT_AUTHORIZE = "payment_authorize"
+    PAYMENT_CAPTURE = "payment_capture"
+    PAYMENT_REFUND = "payment_refund"
+    PAYMENT_VOID = "payment_void"
+    PAYMENT_CONFIRM = "payment_confirm"
+    PAYMENT_PROCESS = "payment_process"
+    SHIPPING_LIST_METHODS_FOR_CHECKOUT = "shipping_list_methods_for_checkout"
+    CHECKOUT_FILTER_SHIPPING_METHODS = "checkout_filter_shipping_methods"
+    ORDER_FILTER_SHIPPING_METHODS = "order_filter_shipping_methods"
+    TRANSLATION_CREATED = "translation_created"
+    TRANSLATION_UPDATED = "translation_updated"
+    DISPLAY_LABELS = {
+    CHOICES = [
+===== END OUTLINE: saleor/webhook/deprecated_event_types.py =====
+===== OUTLINE: saleor/webhook/event_types.py (read-only) =====
+class WebhookEventAsyncType:
+    ANY = "any_events"
+    ACCOUNT_CONFIRMATION_REQUESTED = "account_confirmation_requested"
+    ACCOUNT_EMAIL_CHANGED = "account_email_changed"
+    ACCOUNT_CHANGE_EMAIL_REQUESTED = "account_change_email_requested"
+    ACCOUNT_SET_PASSWORD_REQUESTED = "account_set_password_requested"
+    ACCOUNT_CONFIRMED = "account_confirmed"
+    ACCOUNT_DELETE_REQUESTED = "account_delete_requested"
+    ACCOUNT_DELETED = "account_deleted"
+    ADDRESS_CREATED = "address_created"
+    ADDRESS_UPDATED = "address_updated"
+    ADDRESS_DELETED = "address_deleted"
+    APP_INSTALLED = "app_installed"
+    APP_UPDATED = "app_updated"
+    APP_DELETED = "app_deleted"
+    APP_STATUS_CHANGED = "app_status_changed"
+    ATTRIBUTE_CREATED = "attribute_created"
+    ATTRIBUTE_UPDATED = "attribute_updated"
+    ATTRIBUTE_DELETED = "attribute_deleted"
+    ATTRIBUTE_VALUE_CREATED = "attribute_value_created"
+    ATTRIBUTE_VALUE_UPDATED = "attribute_value_updated"
+    ATTRIBUTE_VALUE_DELETED = "attribute_value_deleted"
+    CATEGORY_CREATED = "category_created"
+    CATEGORY_UPDATED = "category_updated"
+    CATEGORY_DELETED = "category_deleted"
+    CHANNEL_CREATED = "channel_created"
+    CHANNEL_UPDATED = "channel_updated"
+    CHANNEL_DELETED = "channel_deleted"
+    CHANNEL_STATUS_CHANGED = "channel_status_changed"
+    CHANNEL_METADATA_UPDATED = "channel_metadata_updated"
+    GIFT_CARD_CREATED = "gift_card_created"
+    GIFT_CARD_UPDATED = "gift_card_updated"
+    GIFT_CARD_DELETED = "gift_card_deleted"
+    GIFT_CARD_SENT = "gift_card_sent"
+    GIFT_CARD_STATUS_CHANGED = "gift_card_status_changed"
+    GIFT_CARD_METADATA_UPDATED = "gift_card_metadata_updated"
+    GIFT_CARD_EXPORT_COMPLETED = "gift_card_export_completed"
+    MENU_CREATED = "menu_created"
+    MENU_UPDATED = "menu_updated"
+    MENU_DELETED = "menu_deleted"
+    MENU_ITEM_CREATED = "menu_item_created"
+    MENU_ITEM_UPDATED = "menu_item_updated"
+    MENU_ITEM_DELETED = "menu_item_deleted"
+    ORDER_CREATED = "order_created"
+    ORDER_CONFIRMED = "order_confirmed"
+    ORDER_PAID = "order_paid"
+    ORDER_FULLY_PAID = "order_fully_paid"
+    ORDER_REFUNDED = "order_refunded"
+    ORDER_FULLY_REFUNDED = "order_fully_refunded"
+    ORDER_UPDATED = "order_updated"
+    ORDER_CANCELLED = "order_cancelled"
+    ORDER_EXPIRED = "order_expired"
+    ORDER_FULFILLED = "order_fulfilled"
+    ORDER_METADATA_UPDATED = "order_metadata_updated"
+    ORDER_BULK_CREATED = "order_bulk_created"
+    FULFILLMENT_CREATED = "fulfillment_created"
+    FULFILLMENT_CANCELED = "fulfillment_canceled"
+    FULFILLMENT_APPROVED = "fulfillment_approved"
+    FULFILLMENT_METADATA_UPDATED = "fulfillment_metadata_updated"
+    FULFILLMENT_TRACKING_NUMBER_UPDATED = "fulfillment_tracking_number_updated"
+    DRAFT_ORDER_CREATED = "draft_order_created"
+    DRAFT_ORDER_UPDATED = "draft_order_updated"
+    DRAFT_ORDER_DELETED = "draft_order_deleted"
+    SALE_CREATED = "sale_created"
+    SALE_UPDATED = "sale_updated"
+    SALE_DELETED = "sale_deleted"
+    SALE_TOGGLE = "sale_toggle"
+    PROMOTION_CREATED = "promotion_created"
+    PROMOTION_UPDATED = "promotion_updated"
+    PROMOTION_DELETED = "promotion_deleted"
+    PROMOTION_STARTED = "promotion_started"
+    PROMOTION_ENDED = "promotion_ended"
+    PROMOTION_RULE_CREATED = "promotion_rule_created"
+    PROMOTION_RULE_UPDATED = "promotion_rule_updated"
+    PROMOTION_RULE_DELETED = "promotion_rule_deleted"
+    INVOICE_REQUESTED = "invoice_requested"
+    INVOICE_DELETED = "invoice_deleted"
+    INVOICE_SENT = "invoice_sent"
+    CUSTOMER_CREATED = "customer_created"
+    CUSTOMER_UPDATED = "customer_updated"
+    CUSTOMER_DELETED = "customer_deleted"
+    CUSTOMER_METADATA_UPDATED = "customer_metadata_updated"
+    COLLECTION_CREATED = "collection_created"
+    COLLECTION_UPDATED = "collection_updated"
+    COLLECTION_DELETED = "collection_deleted"
+    COLLECTION_METADATA_UPDATED = "collection_metadata_updated"
+    PRODUCT_CREATED = "product_created"
+    PRODUCT_UPDATED = "product_updated"
+    PRODUCT_DELETED = "product_deleted"
+    PRODUCT_METADATA_UPDATED = "product_metadata_updated"
+    PRODUCT_EXPORT_COMPLETED = "product_export_completed"
+    PRODUCT_MEDIA_CREATED = "product_media_created"
+    PRODUCT_MEDIA_UPDATED = "product_media_updated"
+    PRODUCT_MEDIA_DELETED = "product_media_deleted"
+    PRODUCT_VARIANT_CREATED = "product_variant_created"
+    PRODUCT_VARIANT_UPDATED = "product_variant_updated"
+    PRODUCT_VARIANT_DELETED = "product_variant_deleted"
+    PRODUCT_VARIANT_METADATA_UPDATED = "product_variant_metadata_updated"
+    PRODUCT_VARIANT_OUT_OF_STOCK = "product_variant_out_of_stock"
+    PRODUCT_VARIANT_BACK_IN_STOCK = "product_variant_back_in_stock"
+    PRODUCT_VARIANT_STOCK_UPDATED = "product_variant_stock_updated"
+    CHECKOUT_CREATED = "checkout_created"
+    CHECKOUT_UPDATED = "checkout_updated"
+    CHECKOUT_FULLY_AUTHORIZED = "checkout_fully_authorized"
+    CHECKOUT_FULLY_PAID = "checkout_fully_paid"
+    CHECKOUT_METADATA_UPDATED = "checkout_metadata_updated"
+    NOTIFY_USER = "notify_user"  # deprecated
+    PAGE_CREATED = "page_created"
+    PAGE_UPDATED = "page_updated"
+    PAGE_DELETED = "page_deleted"
+    PAGE_TYPE_CREATED = "page_type_created"
+    PAGE_TYPE_UPDATED = "page_type_updated"
+    PAGE_TYPE_DELETED = "page_type_deleted"
+    PERMISSION_GROUP_CREATED = "permission_group_created"
+    PERMISSION_GROUP_UPDATED = "permission_group_updated"
+    PERMISSION_GROUP_DELETED = "permission_group_deleted"
+    SHIPPING_PRICE_CREATED = "shipping_price_created"
+    SHIPPING_PRICE_UPDATED = "shipping_price_updated"
+    SHIPPING_PRICE_DELETED = "shipping_price_deleted"
+    SHIPPING_ZONE_CREATED = "shipping_zone_created"
+    SHIPPING_ZONE_UPDATED = "shipping_zone_updated"
+    SHIPPING_ZONE_DELETED = "shipping_zone_deleted"
+    SHIPPING_ZONE_METADATA_UPDATED = "shipping_zone_metadata_updated"
+    STAFF_CREATED = "staff_created"
+    STAFF_UPDATED = "staff_updated"
+    STAFF_DELETED = "staff_deleted"
+# [outline truncated]
+===== END OUTLINE: saleor/webhook/event_types.py =====
+===== OUTLINE: saleor/graphql/core/__init__.py (read-only) =====
+class ResolveInfo(graphene.ResolveInfo):
+    context: SaleorContext
+===== END OUTLINE: saleor/graphql/core/__init__.py =====
+===== OUTLINE: saleor/graphql/core/tracing.py (read-only) =====
+def traced_resolver(func):
+    @wraps(func)
+===== END OUTLINE: saleor/graphql/core/tracing.py =====
+===== OUTLINE: saleor/graphql/core/utils/__init__.py (read-only) =====
+@overload
+def from_global_id_or_error(
+    global_id: str,
+    only_type: ObjectType | str | None = None,
+    raise_error: Literal[True] = True,
+@overload
+def from_global_id_or_error(
+    global_id: str,
+    only_type: type[ObjectType] | str | None = None,
+    raise_error: bool = False,
+def from_global_id_or_error(
+    global_id: str,
+    only_type: type[ObjectType] | str | None = None,
+    raise_error: bool = False,
+):
+===== END OUTLINE: saleor/graphql/core/utils/__init__.py =====
+===== OUTLINE: saleor/graphql/webhook/types.py (read-only) =====
+class WebhookEvent(ModelObjectType[models.WebhookEvent]):
+    name = graphene.String(description="Display name of the event.", required=True)
+    event_type = enums.WebhookEventTypeEnum(
+    class Meta:
+        model = models.WebhookEvent
+        description = "Webhook event."
+    @staticmethod
+    def resolve_name(root: models.WebhookEvent, _info):
+class Webhook(ModelObjectType[models.Webhook]):
+    id = graphene.GlobalID(required=True, description="The ID of webhook.")
+    name = graphene.String(required=False, description="The name of webhook.")
+    events = NonNullList(
+    sync_events = NonNullList(
+    async_events = NonNullList(
+    app = graphene.Field(
+    event_deliveries = FilterConnectionField(
+    target_url = graphene.String(required=True, description="Target URL for webhook.")
+    is_active = graphene.Boolean(
+    secret_key = graphene.String(
+    subscription_query = graphene.String(
+    custom_headers = JSONString(
+    class Meta:
+        description = "Webhook."
+        model = models.Webhook
+        interfaces = [graphene.relay.Node]
+    @staticmethod
+    def resolve_async_events(root: models.Webhook, info: ResolveInfo):
+    @staticmethod
+    def resolve_sync_events(root: models.Webhook, info: ResolveInfo):
+    @staticmethod
+    def resolve_events(root: models.Webhook, info: ResolveInfo):
+    @staticmethod
+    def resolve_event_deliveries(root: models.Webhook, info: ResolveInfo, **kwargs):
+===== END OUTLINE: saleor/graphql/webhook/types.py =====
+===== OUTLINE: saleor/__init__.py (read-only) =====
+__version__ = "3.22.0-a.0"
+===== END OUTLINE: saleor/__init__.py =====
+===== OUTLINE: saleor/account/models.py (read-only) =====
+class User(
+    PermissionsMixin, ModelWithMetadata, AbstractBaseUser, ModelWithExternalReference
+):
+    email = models.EmailField(unique=True)
+    first_name = models.CharField(max_length=256, blank=True)
+    last_name = models.CharField(max_length=256, blank=True)
+    addresses = models.ManyToManyField(
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    is_confirmed = models.BooleanField(default=True)
+    last_confirm_email_request = models.DateTimeField(null=True, blank=True)
+    note = models.TextField(null=True, blank=True)
+    date_joined = models.DateTimeField(default=timezone.now, editable=False)
+    updated_at = models.DateTimeField(auto_now=True, db_index=True)
+    last_password_reset_request = models.DateTimeField(null=True, blank=True)
+    default_shipping_address = models.ForeignKey(
+    default_billing_address = models.ForeignKey(
+    avatar = models.ImageField(upload_to="user-avatars", blank=True, null=True)
+    jwt_token_key = models.CharField(
+    language_code = models.CharField(
+    search_document = models.TextField(blank=True, default="")
+    uuid = models.UUIDField(default=uuid4, unique=True)
+    number_of_orders = models.PositiveIntegerField(default=0, db_default=0)
+    USERNAME_FIELD = "email"
+    NEWLY_CREATED_USER = False
+    objects = UserManager()
+    class Meta:
+        ordering = ("email",)
+        permissions = (
+        indexes = [
+    def __init__(self, *args, **kwargs):
+    def __str__(self):
+        # Override the default __str__ of AbstractUser that returns username, which may
+        # lead to leaking sensitive data in logs.
+    @property
+    def effective_permissions(self) -> models.QuerySet[Permission]:
+    @effective_permissions.setter
+    def effective_permissions(self, value: models.QuerySet[Permission]):
+    def get_full_name(self):
+    def get_short_name(self):
+    def has_perm(self, perm: BasePermissionEnum | str, obj=None) -> bool:
+        # This method is overridden to accept perm as BasePermissionEnum
+    def has_perms(
+        self, perm_list: Iterable[BasePermissionEnum | str], obj=None
+    ) -> bool:
+        # This method is overridden to accept perm as BasePermissionEnum
+    def can_login(self, site_settings: SiteSettings):
+===== END OUTLINE: saleor/account/models.py =====
+===== OUTLINE: saleor/channel/models.py (read-only) =====
+class Channel(ModelWithMetadata):
+    name = models.CharField(max_length=250)
+    is_active = models.BooleanField(default=False)
+    slug = models.SlugField(max_length=255, unique=True)
+    currency_code = models.CharField(max_length=settings.DEFAULT_CURRENCY_CODE_LENGTH)
+    default_country = CountryField()
+    allocation_strategy = models.CharField(
+    order_mark_as_paid_strategy = models.CharField(
+    default_transaction_flow_strategy = models.CharField(
+    automatically_confirm_all_new_orders = models.BooleanField(default=True, null=True)
+    allow_unpaid_orders = models.BooleanField(default=False)
+    automatically_fulfill_non_shippable_gift_card = models.BooleanField(
+    expire_orders_after = models.IntegerField(default=None, null=True, blank=True)
+    delete_expired_orders_after = models.DurationField(
+    include_draft_order_in_voucher_usage = models.BooleanField(default=False)
+    use_legacy_error_flow_for_checkout = models.BooleanField(default=True)
+    automatically_complete_fully_paid_checkouts = models.BooleanField(default=False)
+    draft_order_line_price_freeze_period = models.PositiveIntegerField(
+    use_legacy_line_discount_propagation_for_order = models.BooleanField(default=True)
+    release_funds_for_expired_checkouts = models.BooleanField(default=False)
+    checkout_ttl_before_releasing_funds = models.DurationField(
+    checkout_release_funds_cut_off_date = models.DateTimeField(null=True, blank=True)
+    class Meta(ModelWithMetadata.Meta):
+        ordering = ("slug",)
+        app_label = "channel"
+        permissions = (
+    def __str__(self):
+===== END OUTLINE: saleor/channel/models.py =====
+===== OUTLINE: saleor/discount/models.py (read-only) =====
+class VoucherTranslation(Translation):
+    voucher = models.ForeignKey(
+    name = models.CharField(max_length=255, null=True, blank=True)
+    class Meta:
+        ordering = ("language_code", "voucher", "pk")
+        unique_together = (("language_code", "voucher"),)
+    def get_translated_object_id(self):
+    def get_translated_keys(self):
+class PromotionTranslation(Translation):
+    name = models.CharField(max_length=255, null=True, blank=True)
+    description = SanitizedJSONField(blank=True, null=True, sanitizer=clean_editor_js)
+    promotion = models.ForeignKey(
+    class Meta:
+        unique_together = (("language_code", "promotion"),)
+    def get_translated_object_id(self):
+    def get_translated_keys(self):
+class PromotionRuleTranslation(Translation):
+    name = models.CharField(max_length=255, null=True, blank=True)
+    description = SanitizedJSONField(blank=True, null=True, sanitizer=clean_editor_js)
+    promotion_rule = models.ForeignKey(
+    class Meta:
+        unique_together = (("language_code", "promotion_rule"),)
+    def get_translated_object_id(self):
+    def get_translated_keys(self):
+===== END OUTLINE: saleor/discount/models.py =====
+===== OUTLINE: saleor/graphql/shop/types.py (read-only) =====
+class Shop(graphene.ObjectType):
+    id = graphene.ID(description="ID of the shop.", required=True)
+    available_payment_gateways = NonNullList(
+    available_external_authentications = NonNullList(
+    available_shipping_methods = NonNullList(
+    channel_currencies = PermissionsField(
+    countries = NonNullList(
+    default_country = graphene.Field(
+    default_mail_sender_name = PermissionsField(
+    default_mail_sender_address = PermissionsField(
+    description = graphene.String(description="Shop's description.")
+    domain = graphene.Field(Domain, required=True, description="Shop's domain data.")
+    languages = NonNullList(
+    name = graphene.String(description="Shop's name.", required=True)
+    permissions = NonNullList(
+    phone_prefixes = NonNullList(
+    header_text = graphene.String(description="Header text.")
+    fulfillment_auto_approve = graphene.Boolean(
+    fulfillment_allow_unpaid = graphene.Boolean(
+    track_inventory_by_default = graphene.Boolean(
+    default_weight_unit = WeightUnitsEnum(description="Default weight unit.")
+    translation = TranslationField(ShopTranslation, type_name="shop", resolver=None)
+    automatic_fulfillment_digital_products = PermissionsField(
+    reserve_stock_duration_anonymous_user = PermissionsField(
+    reserve_stock_duration_authenticated_user = PermissionsField(
+    limit_quantity_per_checkout = PermissionsField(
+    default_digital_max_downloads = PermissionsField(
+    default_digital_url_valid_days = PermissionsField(
+    company_address = graphene.Field(
+    customer_set_password_url = graphene.String(
+    staff_notification_recipients = PermissionsField(
+    enable_account_confirmation_by_email = PermissionsField(
+    allow_login_without_confirmation = PermissionsField(
+    limits = PermissionsField(
+    version = PermissionsField(
+    schema_version = graphene.String(
+    available_tax_apps = PermissionsField(
+    include_taxes_in_prices = graphene.Boolean(
+    display_gross_prices = graphene.Boolean(
+    charge_taxes_on_shipping = graphene.Boolean(
+    class Meta:
+        description = (
+        interfaces = [ObjectWithMetadata]
+    @staticmethod
+    def get_model():
+    @staticmethod
+    def get_node(info: ResolveInfo, id):
+    @staticmethod
+    def resolve_id(_, _info):
+    @staticmethod
+    @traced_resolver
+    @plugin_manager_promise_callback
+    def resolve_available_payment_gateways(
+        _, _info, manager, currency: str | None = None, channel: str | None = None
+    ):
+    @staticmethod
+    @traced_resolver
+    @plugin_manager_promise_callback
+    def resolve_available_external_authentications(_, _info, manager):
+    @staticmethod
+    def resolve_available_shipping_methods(_, info, *, channel, address=None):
+    @staticmethod
+    def resolve_channel_currencies(_, info):
+    @staticmethod
+    def resolve_countries(_, info, **kwargs):
+    @staticmethod
+    @load_site_callback
+    def resolve_domain(_, _info, site):
+    @staticmethod
+    @load_site_callback
+    def resolve_description(_, _info, site):
+    @staticmethod
+    def resolve_languages(_, _info):
+    @staticmethod
+    @load_site_callback
+    def resolve_name(_, _info, site):
+    @staticmethod
+    @traced_resolver
+    def resolve_permissions(_, info):
+    @staticmethod
+    def resolve_phone_prefixes(_, _info):
+    @staticmethod
+    @load_site_callback
+    def resolve_header_text(_, _info, site):
+    @staticmethod
+    @load_site_callback
+    def resolve_fulfillment_auto_approve(_, _info, site):
+    @staticmethod
+    @load_site_callback
+    def resolve_fulfillment_allow_unpaid(_, info, site):
+    @staticmethod
+    @load_site_callback
+    def resolve_charge_taxes_on_shipping(_, _info, site):
+    @staticmethod
+    @load_site_callback
+    def resolve_track_inventory_by_default(_, _info, site):
+    @staticmethod
+    @load_site_callback
+    def resolve_default_weight_unit(_, _info, site):
+    @staticmethod
+    @traced_resolver
+    def resolve_default_country(_, info):
+    @staticmethod
+    @load_site_callback
+    def resolve_default_mail_sender_name(_, _info, site):
+    @staticmethod
+    @load_site_callback
+    def resolve_default_mail_sender_address(_, _info, site):
+    @staticmethod
+    @load_site_callback
+    def resolve_company_address(_, _info, site):
+    @staticmethod
+    @load_site_callback
+    def resolve_customer_set_password_url(_, _info, site):
+    @staticmethod
+    @load_site_callback
+    def resolve_translation(_, info, site, *, language_code):
+    @staticmethod
+    @load_site_callback
+    def resolve_automatic_fulfillment_digital_products(_, _info, site):
+    @staticmethod
+    @load_site_callback
+    def resolve_reserve_stock_duration_anonymous_user(_, _info, site):
+    @staticmethod
+    @load_site_callback
+    def resolve_reserve_stock_duration_authenticated_user(_, _info, site):
+    @staticmethod
+    @load_site_callback
+    def resolve_limit_quantity_per_checkout(_, _info, site):
+    @staticmethod
+    @load_site_callback
+    def resolve_default_digital_max_downloads(_, _info, site):
+    @staticmethod
+    @load_site_callback
+    def resolve_default_digital_url_valid_days(_, _info, site):
+    @staticmethod
+    def resolve_staff_notification_recipients(_, info):
+    @staticmethod
+    @load_site_callback
+    def resolve_enable_account_confirmation_by_email(_, _info, site):
+    @staticmethod
+    @load_site_callback
+    def resolve_allow_login_without_confirmation(_, _info, site):
+    @staticmethod
+    def resolve_limits(_, _info):
+    @staticmethod
+    def resolve_version(_, _info):
+    @staticmethod
+    def resolve_schema_version(_, _info):
+    @staticmethod
+    def resolve_available_tax_apps(_, _info):
+    @staticmethod
+    @load_site_callback
+    def resolve_include_taxes_in_prices(_, _info, site):
+    @staticmethod
+    @load_site_callback
+    def resolve_display_gross_prices(_, _info, site):
+    @staticmethod
+    @load_site_callback
+    def resolve_metadata(root: ModelWithMetadata, info: ResolveInfo, site):
+    @staticmethod
+    @load_site_callback
+# [outline truncated]
+===== END OUTLINE: saleor/graphql/shop/types.py =====
+===== OUTLINE: saleor/menu/models.py (read-only) =====
+class MenuItemTranslation(Translation):
+    menu_item = models.ForeignKey(
+    name = models.CharField(max_length=128)
+    class Meta:
+        ordering = ("language_code", "menu_item", "pk")
+        unique_together = (("language_code", "menu_item"),)
+    def __repr__(self):
+    def __str__(self):
+    def get_translated_object_id(self):
+    def get_translated_keys(self):
+===== END OUTLINE: saleor/menu/models.py =====
+===== OUTLINE: saleor/order/utils.py (read-only) =====
+def get_all_shipping_methods_for_order(
+    order: Order,
+    shipping_channel_listings: Iterable["ShippingMethodChannelListing"],
+    database_connection_name: str = settings.DATABASE_CONNECTION_DEFAULT_NAME,
+) -> list[ShippingMethodData]:
+===== END OUTLINE: saleor/order/utils.py =====
+===== OUTLINE: saleor/page/models.py (read-only) =====
+class PageTranslation(SeoModelTranslationWithSlug):
+    page = models.ForeignKey(
+    title = models.CharField(max_length=255, blank=True, null=True)
+    content = SanitizedJSONField(blank=True, null=True, sanitizer=clean_editor_js)
+    class Meta:
+        constraints = [
+        ordering = ("language_code", "page", "pk")
+        unique_together = (("language_code", "page"),)
+    def __repr__(self):
+    def __str__(self):
+    def get_translated_object_id(self):
+    def get_translated_keys(self):
+===== END OUTLINE: saleor/page/models.py =====
+===== OUTLINE: saleor/payment/interface.py (read-only) =====
+@dataclass
+class StoredPaymentMethodRequestDeleteData:
+    payment_method_id: str
+    user: "User"
+    channel: "Channel"
+@dataclass
+class ListStoredPaymentMethodsRequestData:
+    channel: "Channel"
+    user: "User"
+@dataclass
+class TransactionActionData:
+    action_type: str
+    transaction: TransactionItem
+    event: "TransactionEvent"
+    transaction_app_owner: Optional["App"]
+    action_value: Decimal
+    granted_refund: Optional["OrderGrantedRefund"] = None
+@dataclass
+class TransactionSessionData:
+    transaction: "TransactionItem"
+    source_object: Union["Checkout", "Order"]
+    action: TransactionProcessActionData
+    payment_gateway_data: PaymentGatewayData
+    customer_ip_address: str | None
+    idempotency_key: str | None = None
+@dataclass
+class PaymentMethodTokenizationBaseRequestData:
+    channel: "Channel"
+    user: "User"
+    data: dict | None
+@dataclass
+class PaymentMethodInitializeTokenizationRequestData(
+    PaymentMethodTokenizationBaseRequestData
+):
+    app_identifier: str
+    payment_flow_to_support: str
+@dataclass
+class PaymentMethodProcessTokenizationRequestData(
+    PaymentMethodTokenizationBaseRequestData
+):
+    id: str
+===== END OUTLINE: saleor/payment/interface.py =====
+===== OUTLINE: saleor/product/models.py (read-only) =====
+class CategoryTranslation(SeoModelTranslationWithSlug):
+    category = models.ForeignKey(
+    name = models.CharField(max_length=128, blank=True, null=True)
+    description = SanitizedJSONField(blank=True, null=True, sanitizer=clean_editor_js)
+    class Meta:
+        constraints = [
+        unique_together = (("language_code", "category"),)
+    def __str__(self) -> str:
+    def __repr__(self) -> str:
+    def get_translated_object_id(self):
+    def get_translated_keys(self):
+class ProductTranslation(SeoModelTranslationWithSlug):
+    product = models.ForeignKey(
+    name = models.CharField(max_length=250, blank=True, null=True)
+    description = SanitizedJSONField(blank=True, null=True, sanitizer=clean_editor_js)
+    class Meta:
+        constraints = [
+        unique_together = (("language_code", "product"),)
+    def __str__(self) -> str:
+    def __repr__(self) -> str:
+    def get_translated_object_id(self):
+    def get_translated_keys(self):
+class ProductVariantTranslation(Translation):
+    product_variant = models.ForeignKey(
+    name = models.CharField(max_length=255, blank=True)
+    class Meta:
+        unique_together = (("language_code", "product_variant"),)
+    def __repr__(self):
+    def __str__(self):
+    def get_translated_object_id(self):
+    def get_translated_keys(self):
+class CollectionTranslation(SeoModelTranslationWithSlug):
+    collection = models.ForeignKey(
+    name = models.CharField(max_length=128, blank=True, null=True)
+    description = SanitizedJSONField(blank=True, null=True, sanitizer=clean_editor_js)
+    class Meta:
+        constraints = [
+        unique_together = (("language_code", "collection"),)
+    def __repr__(self):
+    def __str__(self) -> str:
+    def get_translated_object_id(self):
+    def get_translated_keys(self):
+===== END OUTLINE: saleor/product/models.py =====
+===== OUTLINE: saleor/shipping/models.py (read-only) =====
+class ShippingMethodTranslation(Translation):
+    name = models.CharField(max_length=255, null=True, blank=True)
+    shipping_method = models.ForeignKey(
+    description = SanitizedJSONField(blank=True, null=True, sanitizer=clean_editor_js)
+    class Meta:
+        unique_together = (("language_code", "shipping_method"),)
+    def get_translated_object_id(self):
+    def get_translated_keys(self):
+===== END OUTLINE: saleor/shipping/models.py =====
+===== OUTLINE: saleor/thumbnail/views.py (read-only) =====
+TYPE_TO_MODEL_DATA_MAPPING = {
+===== END OUTLINE: saleor/thumbnail/views.py =====
+===== OUTLINE: saleor/webhook/const.py (read-only) =====
+MAX_FILTERABLE_CHANNEL_SLUGS_LIMIT = 500
+===== END OUTLINE: saleor/webhook/const.py =====
+===== OUTLINE: saleor/graphql/app/types.py (read-only) =====
+@federated_entity("id")
+class App(ModelObjectType[models.App]):
+    id = graphene.GlobalID(required=True, description="The ID of the app.")
+    identifier = graphene.String(
+    permissions = NonNullList(Permission, description="List of the app's permissions.")
+    created = DateTime(description="The date and time when the app was created.")
+    is_active = graphene.Boolean(
+    name = graphene.String(description="Name of the app.")
+    type = AppTypeEnum(description="Type of the app.")
+    tokens = NonNullList(
+    webhooks = NonNullList(
+    about_app = graphene.String(description="Description of this app.")
+    data_privacy = graphene.String(
+    data_privacy_url = graphene.String(
+    homepage_url = graphene.String(description="Homepage of the app.")
+    support_url = graphene.String(description="Support page for the app.")
+    configuration_url = graphene.String(
+    app_url = graphene.String(description="URL to iframe with the app.")
+    manifest_url = graphene.String(
+    version = graphene.String(description="Version number of the app.")
+    access_token = graphene.String(
+    author = graphene.String(description="The App's author name.")
+    extensions = NonNullList(
+    brand = graphene.Field(AppBrand, description="App's brand data.")
+    breaker_state = CircuitBreakerStateEnum(
+    breaker_last_state_change = DateTime(
+    class Meta:
+        description = "Represents app data."
+        interfaces = [graphene.relay.Node, ObjectWithMetadata]
+        model = models.App
+    @staticmethod
+    def resolve_created(root: models.App, _info: ResolveInfo):
+    @staticmethod
+    def resolve_permissions(root: models.App, info: ResolveInfo):
+    @staticmethod
+    def resolve_tokens(root: models.App, info: ResolveInfo):
+    @staticmethod
+    def resolve_webhooks(root: models.App, info: ResolveInfo):
+    @staticmethod
+    def resolve_access_token(root: models.App, info: ResolveInfo):
+    @staticmethod
+    def resolve_extensions(root: models.App, info: ResolveInfo):
+    @staticmethod
+    def __resolve_references(roots: list["App"], info: ResolveInfo):
+    @staticmethod
+    @app_promise_callback
+    def resolve_metadata(root: models.App, info: ResolveInfo, app):
+    @staticmethod
+    @app_promise_callback
+    def resolve_metafield(root: models.App, info: ResolveInfo, app, *, key: str):
+    @staticmethod
+    @app_promise_callback
+    def resolve_metafields(root: models.App, info: ResolveInfo, app, *, keys=None):
+    @staticmethod
+    def resolve_brand(root: models.App, _info: ResolveInfo):
+    @staticmethod
+    def resolve_breaker_state(root: models.App, _info: ResolveInfo):
+    @staticmethod
+    def resolve_breaker_last_state_change(root: models.App, _info: ResolveInfo):
+===== END OUTLINE: saleor/graphql/app/types.py =====

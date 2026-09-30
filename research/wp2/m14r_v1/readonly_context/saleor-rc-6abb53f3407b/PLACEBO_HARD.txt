@@ -1,0 +1,359 @@
+READ-ONLY CONTEXT (NOT EDITABLE): outlines of repository modules imported by the editable files
+===== OUTLINE: saleor/core/permissions.py (read-only) =====
+class CheckoutPermissions(BasePermissionEnum):
+    MANAGE_CHECKOUTS = "checkout.manage_checkouts"
+===== END OUTLINE: saleor/core/permissions.py =====
+===== OUTLINE: saleor/graphql/core/descriptions.py (read-only) =====
+DEPRECATED_IN_3X_FIELD = "This field will be removed in Saleor 4.0."
+===== END OUTLINE: saleor/graphql/core/descriptions.py =====
+===== OUTLINE: saleor/graphql/core/fields.py (read-only) =====
+class BaseDjangoConnectionField(DjangoConnectionField):
+    @classmethod
+    @classmethod
+    def resolve_connection(cls, connection, args, iterable, max_limit=None):
+    def __init__(self, *args, **kwargs):
+class PrefetchingConnectionField(BaseDjangoConnectionField):
+    @classmethod
+    @classmethod
+    def connection_resolver(
+        cls,
+        resolver,
+        connection,
+        default_manager,
+        queryset_resolver,
+        max_limit,
+        enforce_first_or_last,
+        root,
+        info,
+        **args,
+    ):
+
+        # Disable `enforce_first_or_last` if not querying for `edges`.
+===== END OUTLINE: saleor/graphql/core/fields.py =====
+===== OUTLINE: saleor/graphql/core/scalars.py (read-only) =====
+class UUID(graphene.UUID):
+    @staticmethod
+    @staticmethod
+    def serialize(uuid):
+    @staticmethod
+    def parse_literal(node):
+    @staticmethod
+    def parse_value(value):
+===== END OUTLINE: saleor/graphql/core/scalars.py =====
+===== OUTLINE: saleor/graphql/decorators.py (read-only) =====
+def permission_required(perm: Union[Enum, Iterable[Enum]]):
+===== END OUTLINE: saleor/graphql/decorators.py =====
+===== OUTLINE: saleor/graphql/payment/mutations.py (read-only) =====
+class CheckoutPaymentCreate(BaseMutation, I18nMixin):
+    checkout = graphene.Field(Checkout, description="Related checkout object.")
+    payment = graphene.Field(Payment, description="A newly created payment.")
+    class Arguments:
+        checkout_id = graphene.ID(
+        token = UUID(description="Checkout token.", required=False)
+        input = PaymentInput(
+    class Meta:
+        description = "Create a new payment for given checkout."
+        error_type_class = common_types.PaymentError
+        error_type_field = "payment_errors"
+    @classmethod
+    def clean_payment_amount(cls, info, checkout_total, amount):
+    @classmethod
+    def validate_gateway(cls, manager, gateway_id, currency):
+    @classmethod
+    def validate_token(cls, manager, gateway: str, input_data: dict, channel_slug: str):
+    @classmethod
+    def validate_return_url(cls, input_data):
+    @classmethod
+    def validate_metadata_keys(cls, metadata_list: List[dict]):
+    @classmethod
+    def perform_mutation(cls, _root, info, checkout_id=None, token=None, **data):
+        # DEPRECATED
+===== END OUTLINE: saleor/graphql/payment/mutations.py =====
+===== OUTLINE: saleor/graphql/checkout/mutations.py (read-only) =====
+class CheckoutCreate(ModelMutation, I18nMixin):
+    created = graphene.Field(
+    class Arguments:
+        input = CheckoutCreateInput(
+    class Meta:
+        description = "Create a new checkout."
+        model = models.Checkout
+        return_field_name = "checkout"
+        error_type_class = CheckoutError
+        error_type_field = "checkout_errors"
+    @classmethod
+    def clean_checkout_lines(
+        cls, lines, country, channel
+    ) -> Tuple[List[product_models.ProductVariant], List[int]]:
+    @classmethod
+    def retrieve_shipping_address(cls, user, data: dict) -> Optional["Address"]:
+    @classmethod
+    def retrieve_billing_address(cls, user, data: dict) -> Optional["Address"]:
+    @classmethod
+    def clean_input(cls, info, instance: models.Checkout, data, input_cls=None):
+    @classmethod
+    @traced_atomic_transaction()
+    def save(cls, info, instance: models.Checkout, cleaned_input):
+    @classmethod
+    def get_instance(cls, info, **data):
+    @classmethod
+    def perform_mutation(cls, _root, info, **data):
+class CheckoutLinesAdd(BaseMutation):
+    checkout = graphene.Field(Checkout, description="An updated checkout.")
+    class Arguments:
+        checkout_id = graphene.ID(
+        token = UUID(description="Checkout token.", required=False)
+        lines = graphene.List(
+    class Meta:
+        description = (
+        error_type_class = CheckoutError
+        error_type_field = "checkout_errors"
+    @classmethod
+    def validate_checkout_lines(cls, variants, quantities, country, channel_slug):
+    @classmethod
+    def clean_input(
+        cls, checkout, variants, quantities, checkout_info, manager, discounts, replace
+    ):
+    @classmethod
+    def perform_mutation(
+        cls, _root, info, lines, checkout_id=None, token=None, replace=False
+    ):
+        # DEPRECATED
+class CheckoutLinesUpdate(CheckoutLinesAdd):
+    checkout = graphene.Field(Checkout, description="An updated checkout.")
+    class Meta:
+        description = "Updates checkout line in the existing checkout."
+        error_type_class = CheckoutError
+        error_type_field = "checkout_errors"
+    @classmethod
+    def validate_checkout_lines(cls, variants, quantities, country, channel_slug):
+    @classmethod
+    def perform_mutation(cls, root, info, lines, checkout_id=None, token=None):
+class CheckoutLineDelete(BaseMutation):
+    checkout = graphene.Field(Checkout, description="An updated checkout.")
+    class Arguments:
+        checkout_id = graphene.ID(
+        token = UUID(description="Checkout token.", required=False)
+        line_id = graphene.ID(description="ID of the checkout line to delete.")
+    class Meta:
+        description = "Deletes a CheckoutLine."
+        error_type_class = CheckoutError
+        error_type_field = "checkout_errors"
+    @classmethod
+    def perform_mutation(cls, _root, info, line_id, checkout_id=None, token=None):
+        # DEPRECATED
+class CheckoutCustomerAttach(BaseMutation):
+    checkout = graphene.Field(Checkout, description="An updated checkout.")
+    class Arguments:
+        checkout_id = graphene.ID(
+        customer_id = graphene.ID(
+        token = UUID(description="Checkout token.", required=False)
+    class Meta:
+        description = "Sets the customer as the owner of the checkout."
+        error_type_class = CheckoutError
+        error_type_field = "checkout_errors"
+    @classmethod
+    def check_permissions(cls, context):
+    @classmethod
+    def perform_mutation(
+        cls, _root, info, checkout_id=None, token=None, customer_id=None
+    ):
+        # DEPRECATED
+class CheckoutCustomerDetach(BaseMutation):
+    checkout = graphene.Field(Checkout, description="An updated checkout.")
+    class Arguments:
+        checkout_id = graphene.ID(
+        token = UUID(description="Checkout token.", required=False)
+    class Meta:
+        description = "Removes the user assigned as the owner of the checkout."
+        error_type_class = CheckoutError
+        error_type_field = "checkout_errors"
+    @classmethod
+    def check_permissions(cls, context):
+    @classmethod
+    def perform_mutation(cls, _root, info, checkout_id=None, token=None):
+        # DEPRECATED
+class CheckoutShippingAddressUpdate(BaseMutation, I18nMixin):
+    checkout = graphene.Field(Checkout, description="An updated checkout.")
+    class Arguments:
+        checkout_id = graphene.ID(
+        token = UUID(description="Checkout token.", required=False)
+        shipping_address = AddressInput(
+    class Meta:
+        description = "Update shipping address in the existing checkout."
+        error_type_class = CheckoutError
+        error_type_field = "checkout_errors"
+    @classmethod
+    def process_checkout_lines(
+        cls, lines: Iterable["CheckoutLineInfo"], country: str, channel_slug: str
+    ) -> None:
+    @classmethod
+    def perform_mutation(
+        cls, _root, info, shipping_address, checkout_id=None, token=None
+    ):
+        # DEPRECATED
+class CheckoutBillingAddressUpdate(CheckoutShippingAddressUpdate):
+    checkout = graphene.Field(Checkout, description="An updated checkout.")
+    class Arguments:
+        checkout_id = graphene.ID(
+        token = UUID(description="Checkout token.", required=False)
+        billing_address = AddressInput(
+    class Meta:
+        description = "Update billing address in the existing checkout."
+        error_type_class = CheckoutError
+        error_type_field = "checkout_errors"
+    @classmethod
+    def perform_mutation(
+        cls, _root, info, billing_address, checkout_id=None, token=None
+    ):
+        # DEPRECATED
+class CheckoutLanguageCodeUpdate(BaseMutation):
+    checkout = graphene.Field(Checkout, description="An updated checkout.")
+    class Arguments:
+        checkout_id = graphene.ID(
+        token = UUID(description="Checkout token.", required=False)
+        language_code = graphene.Argument(
+    class Meta:
+        description = "Update language code in the existing checkout."
+        error_type_class = CheckoutError
+# [outline truncated]
+===== END OUTLINE: saleor/graphql/checkout/mutations.py =====
+===== OUTLINE: saleor/graphql/checkout/resolvers.py (read-only) =====
+def resolve_checkout_lines():
+def resolve_checkouts(channel_slug):
+@traced_resolver
+def resolve_checkout(info, token):
+===== END OUTLINE: saleor/graphql/checkout/resolvers.py =====
+===== OUTLINE: saleor/graphql/checkout/types.py (read-only) =====
+class CheckoutLine(CountableDjangoObjectType):
+    total_price = graphene.Field(
+    requires_shipping = graphene.Boolean(
+    class Meta:
+        only_fields = ["id", "quantity", "variant"]
+        description = "Represents an item in the checkout."
+        interfaces = [graphene.relay.Node]
+        model = models.CheckoutLine
+        filter_fields = ["id"]
+    @staticmethod
+    def resolve_variant(root: models.CheckoutLine, info):
+    @staticmethod
+    @traced_resolver
+    def resolve_total_price(root, info):
+    @staticmethod
+    def resolve_requires_shipping(root: models.CheckoutLine, info):
+class Checkout(CountableDjangoObjectType):
+    available_shipping_methods = graphene.List(
+    available_collection_points = graphene.List(
+    available_payment_gateways = graphene.List(
+    email = graphene.String(description="Email of a customer.", required=True)
+    gift_cards = graphene.List(
+    is_shipping_required = graphene.Boolean(
+    quantity = graphene.Int(required=True, description="The number of items purchased.")
+    lines = graphene.List(
+    shipping_price = graphene.Field(
+    shipping_method = graphene.Field(
+    delivery_method = graphene.Field(
+    subtotal_price = graphene.Field(
+    token = graphene.Field(UUID, description="The checkout's token.", required=True)
+    total_price = graphene.Field(
+    language_code = graphene.Field(
+    class Meta:
+        only_fields = [
+        description = "Checkout object."
+        model = models.Checkout
+        interfaces = [graphene.relay.Node, ObjectWithMetadata]
+        filter_fields = ["token"]
+    @staticmethod
+    def resolve_shipping_address(root: models.Checkout, info):
+    @staticmethod
+    def resolve_billing_address(root: models.Checkout, info):
+    @staticmethod
+    def resolve_user(root: models.Checkout, info):
+    @staticmethod
+    def resolve_email(root: models.Checkout, _info):
+    @staticmethod
+    def resolve_shipping_method(root: models.Checkout, info):
+    @staticmethod
+    def resolve_delivery_method(root: models.Checkout, info):
+    @staticmethod
+    def resolve_quantity(root: models.Checkout, info):
+    @staticmethod
+    @traced_resolver
+    # TODO: We should optimize it in/after PR#5819
+    def resolve_total_price(root: models.Checkout, info):
+    @staticmethod
+    @traced_resolver
+    # TODO: We should optimize it in/after PR#5819
+    def resolve_subtotal_price(root: models.Checkout, info):
+    @staticmethod
+    @traced_resolver
+    # TODO: We should optimize it in/after PR#5819
+    def resolve_shipping_price(root: models.Checkout, info):
+    @staticmethod
+    def resolve_lines(root: models.Checkout, info):
+    @staticmethod
+    @traced_resolver
+    # TODO: We should optimize it in/after PR#5819
+    def resolve_available_shipping_methods(root: models.Checkout, info):
+    @staticmethod
+    @traced_resolver
+    def resolve_available_collection_points(root: models.Checkout, info):
+    @staticmethod
+    def resolve_available_payment_gateways(root: models.Checkout, info):
+    @staticmethod
+    def resolve_gift_cards(root: models.Checkout, _info):
+    @staticmethod
+    def resolve_is_shipping_required(root: models.Checkout, info):
+    @staticmethod
+    def resolve_language_code(root, _info, **_kwargs):
+===== END OUTLINE: saleor/graphql/checkout/types.py =====
+===== OUTLINE: saleor/channel/models.py (read-only) =====
+class Channel(models.Model):
+    name = models.CharField(max_length=250)
+    is_active = models.BooleanField(default=False)
+    slug = models.SlugField(max_length=255, unique=True)
+    currency_code = models.CharField(max_length=settings.DEFAULT_CURRENCY_CODE_LENGTH)
+    default_country = CountryField()
+    class Meta:
+        ordering = ("slug",)
+        app_label = "channel"
+        permissions = (
+    def __str__(self):
+===== END OUTLINE: saleor/channel/models.py =====
+===== OUTLINE: saleor/warehouse/models.py (read-only) =====
+class Warehouse(ModelWithMetadata):
+
+    id = models.UUIDField(default=uuid.uuid4, primary_key=True)
+    name = models.CharField(max_length=250)
+    slug = models.SlugField(max_length=255, unique=True, allow_unicode=True)
+    shipping_zones = models.ManyToManyField(
+    address = models.ForeignKey(Address, on_delete=models.PROTECT)
+    email = models.EmailField(blank=True, default="")
+    click_and_collect_option = models.CharField(
+    is_private = models.BooleanField(default=True)
+    objects = models.Manager.from_queryset(WarehouseQueryset)()
+    class Meta(ModelWithMetadata.Meta):
+        ordering = ("-slug",)
+    def __str__(self):
+    @property
+    def countries(self) -> Set[str]:
+    def delete(self, *args, **kwargs):
+class Stock(models.Model):
+    warehouse = models.ForeignKey(Warehouse, null=False, on_delete=models.CASCADE)
+    product_variant = models.ForeignKey(
+    quantity = models.PositiveIntegerField(default=0)
+    objects = models.Manager.from_queryset(StockQuerySet)()
+    class Meta:
+        unique_together = [["warehouse", "product_variant"]]
+        ordering = ("pk",)
+    def increase_stock(self, quantity: int, commit: bool = True):
+    def decrease_stock(self, quantity: int, commit: bool = True):
+===== END OUTLINE: saleor/warehouse/models.py =====
+===== OUTLINE: saleor/graphql/core/dataloaders.py (read-only) =====
+class DataLoader(BaseLoader, Generic[K, R]):
+    context_key = None
+    context = None
+    def __new__(cls, context: HttpRequest):
+    def __init__(self, context):
+    def batch_load_fn(self, keys: Iterable[K]) -> Promise[List[R]]:
+    def batch_load(self, keys: Iterable[K]) -> Union[Promise[List[R]], List[R]]:
+===== END OUTLINE: saleor/graphql/core/dataloaders.py =====

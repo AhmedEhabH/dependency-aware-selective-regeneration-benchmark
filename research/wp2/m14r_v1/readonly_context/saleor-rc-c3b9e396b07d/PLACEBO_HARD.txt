@@ -1,0 +1,253 @@
+READ-ONLY CONTEXT (NOT EDITABLE): outlines of repository modules imported by the editable files
+===== OUTLINE: saleor/product/models.py (read-only) =====
+class Product(SeoModel, ModelWithMetadata):
+    product_type = models.ForeignKey(
+    name = models.CharField(max_length=250)
+    slug = models.SlugField(max_length=255, unique=True, allow_unicode=True)
+    description = SanitizedJSONField(blank=True, null=True, sanitizer=clean_editor_js)
+    description_plaintext = TextField(blank=True)
+    search_vector = SearchVectorField(null=True, blank=True)
+    category = models.ForeignKey(
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+    charge_taxes = models.BooleanField(default=True)
+    weight = MeasurementField(
+    default_variant = models.OneToOneField(
+    rating = models.FloatField(null=True, blank=True)
+    objects = models.Manager.from_queryset(ProductsQueryset)()
+    translated = TranslationProxy()
+    class Meta:
+        app_label = "product"
+        ordering = ("slug",)
+        permissions = (
+        indexes = [GinIndex(fields=["search_vector"])]
+    def __iter__(self):
+    def __repr__(self) -> str:
+    def __str__(self) -> str:
+    @property
+    def plain_text_description(self) -> str:
+    def get_first_image(self):
+    @staticmethod
+    def sort_by_attribute_fields() -> list:
+===== END OUTLINE: saleor/product/models.py =====
+===== OUTLINE: saleor/csv/__init__.py (read-only) =====
+class FileTypes:
+    CSV = "csv"
+    XLSX = "xlsx"
+    CHOICES = [
+===== END OUTLINE: saleor/csv/__init__.py =====
+===== OUTLINE: saleor/csv/notifications.py (read-only) =====
+def send_export_download_link_notification(export_file: "ExportFile"):
+===== END OUTLINE: saleor/csv/notifications.py =====
+===== OUTLINE: saleor/csv/utils/product_headers.py (read-only) =====
+def get_export_fields_and_headers_info(
+    export_info: Dict[str, list]
+) -> Tuple[List[str], List[str], List[str]]:
+===== END OUTLINE: saleor/csv/utils/product_headers.py =====
+===== OUTLINE: saleor/csv/utils/products_data.py (read-only) =====
+def get_products_data(
+    queryset: "QuerySet",
+    export_fields: Set[str],
+    attribute_ids: Optional[List[int]],
+    warehouse_ids: Optional[List[int]],
+    channel_ids: Optional[List[int]],
+) -> List[Dict[str, Union[str, bool]]]:
+===== END OUTLINE: saleor/csv/utils/products_data.py =====
+===== OUTLINE: saleor/csv/models.py (read-only) =====
+class ExportFile(Job):
+    user = models.ForeignKey(
+    app = models.ForeignKey(
+    content_file = models.FileField(upload_to="export_files", null=True)
+===== END OUTLINE: saleor/csv/models.py =====
+===== OUTLINE: saleor/graphql/product/filters.py (read-only) =====
+class ProductFilter(MetadataFilterBase):
+    is_published = django_filters.BooleanFilter(method="filter_is_published")
+    collections = GlobalIDMultipleChoiceFilter(method=filter_collections)
+    categories = GlobalIDMultipleChoiceFilter(method=filter_categories)
+    has_category = django_filters.BooleanFilter(method=filter_has_category)
+    price = ObjectTypeFilter(input_class=PriceRangeInput, method="filter_variant_price")
+    minimal_price = ObjectTypeFilter(
+    attributes = ListObjectTypeFilter(
+    stock_availability = EnumFilter(
+    product_types = GlobalIDMultipleChoiceFilter(method=filter_product_types)
+    stocks = ObjectTypeFilter(input_class=ProductStockFilterInput, method=filter_stocks)
+    search = django_filters.CharFilter(method=filter_search)
+    gift_card = django_filters.BooleanFilter(method=filter_gift_card)
+    ids = GlobalIDMultipleChoiceFilter(method=filter_product_ids)
+    class Meta:
+        model = Product
+        fields = [
+    def filter_attributes(self, queryset, name, value):
+    def filter_variant_price(self, queryset, name, value):
+    def filter_minimal_price(self, queryset, name, value):
+    def filter_is_published(self, queryset, name, value):
+    def filter_stock_availability(self, queryset, name, value):
+===== END OUTLINE: saleor/graphql/product/filters.py =====
+===== OUTLINE: saleor/attribute/__init__.py (read-only) =====
+class AttributeInputType:
+    DROPDOWN = "dropdown"
+    MULTISELECT = "multiselect"
+    FILE = "file"
+    REFERENCE = "reference"
+    NUMERIC = "numeric"
+    RICH_TEXT = "rich-text"
+    SWATCH = "swatch"
+    BOOLEAN = "boolean"
+    DATE = "date"
+    DATE_TIME = "date-time"
+    CHOICES = [
+    ALLOWED_IN_VARIANT_SELECTION = [DROPDOWN, BOOLEAN, SWATCH]
+    TYPES_WITH_CHOICES = [
+    TYPES_WITH_UNIQUE_VALUES = [FILE, REFERENCE, RICH_TEXT, NUMERIC, DATE, DATE_TIME]
+    TRANSLATABLE_ATTRIBUTES = [
+class AttributeType:
+    PRODUCT_TYPE = "product-type"
+    PAGE_TYPE = "page-type"
+    CHOICES = [(PRODUCT_TYPE, "Product type"), (PAGE_TYPE, "Page type")]
+===== END OUTLINE: saleor/attribute/__init__.py =====
+===== OUTLINE: saleor/core/exceptions.py (read-only) =====
+class PermissionDenied(Exception):
+    def __init__(self, message=None):
+===== END OUTLINE: saleor/core/exceptions.py =====
+===== OUTLINE: saleor/core/permissions.py (read-only) =====
+class PagePermissions(BasePermissionEnum):
+    MANAGE_PAGES = "page.manage_pages"
+class ProductPermissions(BasePermissionEnum):
+    MANAGE_PRODUCTS = "product.manage_products"
+===== END OUTLINE: saleor/core/permissions.py =====
+===== OUTLINE: saleor/core/tracing.py (read-only) =====
+def traced_resolver(func):
+===== END OUTLINE: saleor/core/tracing.py =====
+===== OUTLINE: saleor/graphql/utils/__init__.py (read-only) =====
+def get_user_or_app_from_context(context):
+    # order is important
+    # app can be None but user if None then is passed as anonymous
+===== END OUTLINE: saleor/graphql/utils/__init__.py =====
+===== OUTLINE: saleor/graphql/core/connection.py (read-only) =====
+class CountableDjangoObjectType(DjangoObjectType):
+    class Meta:
+        abstract = True
+    @classmethod
+    def __init_subclass_with_meta__(cls, *args, **kwargs):
+        # Force it to use the countable connection
+===== END OUTLINE: saleor/graphql/core/connection.py =====
+===== OUTLINE: saleor/graphql/core/enums.py (read-only) =====
+MeasurementUnitsEnum = to_enum(MeasurementUnits)
+===== END OUTLINE: saleor/graphql/core/enums.py =====
+===== OUTLINE: saleor/graphql/core/fields.py (read-only) =====
+class FilterInputConnectionField(BaseDjangoConnectionField):
+    def __init__(self, *args, **kwargs):
+    @classmethod
+    def connection_resolver(
+        cls,
+        resolver,
+        connection,
+        default_manager,
+        queryset_resolver,
+        max_limit,
+        enforce_first_or_last,
+        filterset_class,
+        filters_name,
+        root,
+        info,
+        **args,
+    ):
+        # Disable `enforce_first_or_last` if not querying for `edges`.
+    @classmethod
+    def filter_iterable(cls, iterable, filterset_class, filters_name, info, **args):
+    def get_resolver(self, parent_resolver):
+===== END OUTLINE: saleor/graphql/core/fields.py =====
+===== OUTLINE: saleor/graphql/core/types/common.py (read-only) =====
+class DateRangeInput(graphene.InputObjectType):
+    gte = graphene.Date(description="Start date.", required=False)
+    lte = graphene.Date(description="End date.", required=False)
+class DateTimeRangeInput(graphene.InputObjectType):
+    gte = graphene.DateTime(description="Start date.", required=False)
+    lte = graphene.DateTime(description="End date.", required=False)
+class IntRangeInput(graphene.InputObjectType):
+    gte = graphene.Int(description="Value greater than or equal to.", required=False)
+    lte = graphene.Int(description="Value less than or equal to.", required=False)
+===== END OUTLINE: saleor/graphql/core/types/common.py =====
+===== OUTLINE: saleor/graphql/decorators.py (read-only) =====
+def check_attribute_required_permissions():
+===== END OUTLINE: saleor/graphql/decorators.py =====
+===== OUTLINE: saleor/graphql/meta/types.py (read-only) =====
+class ObjectWithMetadata(graphene.Interface):
+    private_metadata = graphene.List(
+    metadata = graphene.List(
+    @staticmethod
+    def resolve_metadata(root: ModelWithMetadata, _info):
+    @staticmethod
+    def resolve_private_metadata(root: ModelWithMetadata, info):
+    @classmethod
+    def resolve_type(cls, instance: ModelWithMetadata, _info):
+===== END OUTLINE: saleor/graphql/meta/types.py =====
+===== OUTLINE: saleor/graphql/translations/fields.py (read-only) =====
+class TranslationField(graphene.Field):
+    def __init__(self, model, type_name, resolver=resolve_translation):
+===== END OUTLINE: saleor/graphql/translations/fields.py =====
+===== OUTLINE: saleor/graphql/translations/types.py (read-only) =====
+class AttributeValueTranslation(BaseTranslationType):
+    class Meta:
+        model = attribute_models.AttributeValueTranslation
+        interfaces = [graphene.relay.Node]
+        only_fields = BASIC_TRANSLATABLE_FIELDS + ["rich_text"]
+class AttributeTranslation(BaseTranslationType):
+    class Meta:
+        model = attribute_models.AttributeTranslation
+        interfaces = [graphene.relay.Node]
+        only_fields = BASIC_TRANSLATABLE_FIELDS
+===== END OUTLINE: saleor/graphql/translations/types.py =====
+===== OUTLINE: saleor/graphql/attribute/dataloaders.py (read-only) =====
+class AttributesByAttributeId(DataLoader):
+    context_key = "attributes_by_id"
+    def batch_load(self, keys):
+===== END OUTLINE: saleor/graphql/attribute/dataloaders.py =====
+===== OUTLINE: saleor/graphql/attribute/descriptions.py (read-only) =====
+class AttributeDescriptions:
+    INPUT_TYPE = "The input type to use for entering attribute values in the dashboard."
+    ENTITY_TYPE = "The entity type which can be used as a reference."
+    NAME = "Name of an attribute displayed in the interface."
+    SLUG = "Internal representation of an attribute name."
+    TYPE = "The attribute type."
+    UNIT = "The unit of attribute values."
+    BOOLEAN = "The boolean value of the attribute."
+    VALUES = "List of attribute's values."
+    VALUE_REQUIRED = "Whether the attribute requires values to be passed or not."
+    IS_VARIANT_ONLY = "Whether the attribute is for variants only."
+    VISIBLE_IN_STOREFRONT = (
+    FILTERABLE_IN_STOREFRONT = "Whether the attribute can be filtered in storefront."
+    FILTERABLE_IN_DASHBOARD = "Whether the attribute can be filtered in dashboard."
+    STOREFRONT_SEARCH_POSITION = (
+    AVAILABLE_IN_GRID = (
+    WITH_CHOICES = "Flag indicating that attribute has predefined choices."
+class AttributeValueDescriptions:
+    ID = "The ID of a value displayed in the interface."
+    NAME = "Name of a value displayed in the interface."
+    SLUG = "Internal representation of a value (unique per attribute)."
+    TYPE = "Type of value (used only when `value` field is set)."
+    FILE = "Represents file URL and content type (if attribute value is a file)."
+    VALUE = (
+    VALUES_RANGE = "The range that the returned values should be in."
+    DATE_TIME_RANGE = "The date time range that the returned values should be in."
+    DATE_RANGE = "The date range that the returned values should be in."
+    RICH_TEXT = "Represents the text (JSON) of the attribute value."
+    BOOLEAN = "Represents the boolean value of the attribute value."
+    DATE = "Represents the date value of the attribute value."
+    DATE_TIME = "Represents the date time value of the attribute value."
+===== END OUTLINE: saleor/graphql/attribute/descriptions.py =====
+===== OUTLINE: saleor/graphql/attribute/enums.py (read-only) =====
+AttributeInputTypeEnum = to_enum(AttributeInputType)
+AttributeTypeEnum = to_enum(AttributeType)
+AttributeEntityTypeEnum = to_enum(AttributeEntityType)
+===== END OUTLINE: saleor/graphql/attribute/enums.py =====
+===== OUTLINE: saleor/graphql/attribute/filters.py (read-only) =====
+class AttributeValueFilterInput(FilterInputObjectType):
+    class Meta:
+        filterset_class = AttributeValueFilter
+===== END OUTLINE: saleor/graphql/attribute/filters.py =====
+===== OUTLINE: saleor/graphql/attribute/sorters.py (read-only) =====
+class AttributeChoicesSortingInput(SortInputObjectType):
+    class Meta:
+        sort_enum = AttributeChoicesSortField
+        type_name = "attribute choices"
+===== END OUTLINE: saleor/graphql/attribute/sorters.py =====

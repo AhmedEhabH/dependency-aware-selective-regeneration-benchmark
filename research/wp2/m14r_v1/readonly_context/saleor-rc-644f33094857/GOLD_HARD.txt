@@ -1,0 +1,949 @@
+READ-ONLY CONTEXT (NOT EDITABLE): outlines of repository modules imported by the editable files
+===== OUTLINE: saleor/core/exceptions.py (read-only) =====
+class InsufficientStock(Exception):
+    def __init__(self, item, context=None):
+class AllocationError(Exception):
+    def __init__(self, order_line, quantity):
+===== END OUTLINE: saleor/core/exceptions.py =====
+===== OUTLINE: saleor/core/permissions.py (read-only) =====
+class OrderPermissions(BasePermissionEnum):
+    MANAGE_ORDERS = "order.manage_orders"
+===== END OUTLINE: saleor/core/permissions.py =====
+===== OUTLINE: saleor/order/__init__.py (read-only) =====
+class OrderStatus:
+    DRAFT = "draft"  # fully editable, not finalized order created by staff users
+    UNCONFIRMED = (
+    UNFULFILLED = "unfulfilled"  # order with no items marked as fulfilled
+    PARTIALLY_FULFILLED = (
+    FULFILLED = "fulfilled"  # order with all items marked as fulfilled
+    PARTIALLY_RETURNED = (
+    RETURNED = "returned"  # order with all items marked as returned
+    CANCELED = "canceled"  # permanently canceled order
+    CHOICES = [
+class FulfillmentStatus:
+    FULFILLED = "fulfilled"  # group of products in an order marked as fulfilled
+    REFUNDED = "refunded"  # group of refunded products
+    RETURNED = "returned"  # group of returned products
+    REFUNDED_AND_RETURNED = (
+    REPLACED = "replaced"  # group of replaced products
+    CANCELED = "canceled"  # fulfilled group of products in an order marked as canceled
+    CHOICES = [
+class OrderEvents:
+    CONFIRMED = "confirmed"
+    DRAFT_CREATED = "draft_created"
+    DRAFT_CREATED_FROM_REPLACE = "draft_created_from_replace"
+    DRAFT_ADDED_PRODUCTS = "draft_added_products"
+    DRAFT_REMOVED_PRODUCTS = "draft_removed_products"
+    PLACED = "placed"
+    PLACED_FROM_DRAFT = "placed_from_draft"
+    OVERSOLD_ITEMS = "oversold_items"
+    CANCELED = "canceled"
+    ORDER_MARKED_AS_PAID = "order_marked_as_paid"
+    ORDER_FULLY_PAID = "order_fully_paid"
+    ORDER_REPLACEMENT_CREATED = "order_replacement_created"
+    UPDATED_ADDRESS = "updated_address"
+    EMAIL_SENT = "email_sent"
+    PAYMENT_AUTHORIZED = "payment_authorized"
+    PAYMENT_CAPTURED = "payment_captured"
+    PAYMENT_REFUNDED = "payment_refunded"
+    PAYMENT_VOIDED = "payment_voided"
+    PAYMENT_FAILED = "payment_failed"
+    EXTERNAL_SERVICE_NOTIFICATION = "external_service_notification"
+    INVOICE_REQUESTED = "invoice_requested"
+    INVOICE_GENERATED = "invoice_generated"
+    INVOICE_UPDATED = "invoice_updated"
+    INVOICE_SENT = "invoice_sent"
+    FULFILLMENT_CANCELED = "fulfillment_canceled"
+    FULFILLMENT_RESTOCKED_ITEMS = "fulfillment_restocked_items"
+    FULFILLMENT_FULFILLED_ITEMS = "fulfillment_fulfilled_items"
+    FULFILLMENT_REFUNDED = "fulfillment_refunded"
+    FULFILLMENT_RETURNED = "fulfillment_returned"
+    FULFILLMENT_REPLACED = "fulfillment_replaced"
+    TRACKING_UPDATED = "tracking_updated"
+    NOTE_ADDED = "note_added"
+    OTHER = "other"
+    CHOICES = [
+class OrderEventsEmails:
+    CONFIRMED = "confirmed"
+    PAYMENT = "payment_confirmation"
+    SHIPPING = "shipping_confirmation"
+    TRACKING_UPDATED = "tracking_updated"
+    ORDER_CONFIRMATION = "order_confirmation"
+    ORDER_CANCEL = "order_cancel"
+    ORDER_REFUND = "order_refund"
+    FULFILLMENT = "fulfillment_confirmation"
+    DIGITAL_LINKS = "digital_links"
+    CHOICES = [
+@dataclass
+class OrderLineData:
+    line: "OrderLine"
+    quantity: int
+    replace: bool = False
+@dataclass
+class FulfillmentLineData:
+    line: "FulfillmentLine"
+    quantity: int
+    replace: bool = False
+===== END OUTLINE: saleor/order/__init__.py =====
+===== OUTLINE: saleor/order/emails.py (read-only) =====
+CONFIRM_ORDER_TEMPLATE = "order/confirm_order"
+CONFIRMED_ORDER_TEMPLATE = "order/confirmed_order"
+STAFF_CONFIRM_ORDER_TEMPLATE = "order/staff_confirm_order"
+CONFIRM_FULFILLMENT_TEMPLATE = "order/confirm_fulfillment"
+UPDATE_FULFILLMENT_TEMPLATE = "order/update_fulfillment"
+CONFIRM_PAYMENT_TEMPLATE = "order/payment/confirm_payment"
+ORDER_CANCEl_TEMPLATE = "order/order_cancel"
+ORDER_REFUND_TEMPLATE = "order/order_refund"
+def collect_staff_order_notification_data(
+    order_pk: int, template: str, redirect_url: str
+) -> dict:
+def collect_data_for_email(
+    order_pk: int, template: str, redirect_url: str = ""
+) -> dict:
+def prepare_order_details_url(order: Order, redirect_url: str) -> str:
+def collect_data_for_fulfillment_email(
+    order_pk, template, fulfillment_pk, redirect_url=""
+):
+@app.task
+def send_order_confirmation(order_pk, redirect_url, user_pk=None):
+@app.task
+def send_order_confirmed(order_pk, user_pk):
+@app.task
+def send_staff_order_confirmation(order_pk, redirect_url):
+@app.task
+def send_fulfillment_confirmation(order_pk, fulfillment_pk, redirect_url):
+def send_fulfillment_confirmation_to_customer(order, fulfillment, user):
+@app.task
+def send_fulfillment_update(order_pk, fulfillment_pk):
+@app.task
+def send_payment_confirmation(order_pk):
+def send_order_canceled_confirmation(order: "Order", user: Optional["User"]):
+@app.task
+def send_order_canceled(order_pk: int):
+def send_order_refunded_confirmation(
+    order: "Order", user: Optional["User"], amount: "Decimal", currency: str
+):
+@app.task
+def send_order_refunded(order_pk: int, amount: "Decimal", currency: str):
+===== END OUTLINE: saleor/order/emails.py =====
+===== OUTLINE: saleor/order/error_codes.py (read-only) =====
+class OrderErrorCode(Enum):
+    BILLING_ADDRESS_NOT_SET = "billing_address_not_set"
+    CANNOT_CANCEL_FULFILLMENT = "cannot_cancel_fulfillment"
+    CANNOT_CANCEL_ORDER = "cannot_cancel_order"
+    CANNOT_DELETE = "cannot_delete"
+    CANNOT_REFUND = "cannot_refund"
+    CAPTURE_INACTIVE_PAYMENT = "capture_inactive_payment"
+    NOT_EDITABLE = "not_editable"
+    FULFILL_ORDER_LINE = "fulfill_order_line"
+    GRAPHQL_ERROR = "graphql_error"
+    INVALID = "invalid"
+    PRODUCT_NOT_PUBLISHED = "product_not_published"
+    PRODUCT_UNAVAILABLE_FOR_PURCHASE = "product_unavailable_for_purchase"
+    NOT_FOUND = "not_found"
+    ORDER_NO_SHIPPING_ADDRESS = "order_no_shipping_address"
+    PAYMENT_ERROR = "payment_error"
+    PAYMENT_MISSING = "payment_missing"
+    REQUIRED = "required"
+    SHIPPING_METHOD_NOT_APPLICABLE = "shipping_method_not_applicable"
+    SHIPPING_METHOD_REQUIRED = "shipping_method_required"
+    TAX_ERROR = "tax_error"
+    UNIQUE = "unique"
+    VOID_INACTIVE_PAYMENT = "void_inactive_payment"
+    ZERO_QUANTITY = "zero_quantity"
+    INVALID_QUANTITY = "invalid_quantity"
+    INSUFFICIENT_STOCK = "insufficient_stock"
+    DUPLICATED_INPUT_ITEM = "duplicated_input_item"
+    NOT_AVAILABLE_IN_CHANNEL = "not_available_in_channel"
+    CHANNEL_INACTIVE = "channel_inactive"
+===== END OUTLINE: saleor/order/error_codes.py =====
+===== OUTLINE: saleor/graphql/core/mutations.py (read-only) =====
+class BaseMutation(graphene.Mutation):
+    errors = graphene.List(
+    class Meta:
+        abstract = True
+    @classmethod
+    def __init_subclass_with_meta__(
+        cls,
+        description=None,
+        permissions: Tuple = None,
+        _meta=None,
+        error_type_class=None,
+        error_type_field=None,
+        errors_mapping=None,
+        **options,
+    ):
+    @classmethod
+    def _update_mutation_arguments_and_fields(cls, arguments, fields):
+    @classmethod
+    def get_node_by_pk(
+        cls, info, graphene_type: ObjectType, pk: Union[int, str], qs=None
+    ):
+    @classmethod
+    def get_node_or_error(cls, info, node_id, field="id", only_type=None, qs=None):
+    @classmethod
+    def get_nodes_or_error(cls, ids, field, only_type=None, qs=None):
+    @staticmethod
+    def remap_error_fields(validation_error, field_map):
+    @classmethod
+    def clean_instance(cls, info, instance):
+    @classmethod
+    def construct_instance(cls, instance, cleaned_data):
+    @classmethod
+    def check_permissions(cls, context, permissions=None):
+    @classmethod
+    def mutate(cls, root, info, **data):
+    @classmethod
+    def perform_mutation(cls, root, info, **data):
+    @classmethod
+    def handle_errors(cls, error: ValidationError, **extra):
+    @classmethod
+    def handle_typed_errors(cls, errors: list, **extra):
+class ModelMutation(BaseMutation):
+    class Meta:
+        abstract = True
+    @classmethod
+    def __init_subclass_with_meta__(
+        cls,
+        arguments=None,
+        model=None,
+        exclude=None,
+        return_field_name=None,
+        _meta=None,
+        **options,
+    ):
+    @classmethod
+    def clean_input(cls, info, instance, data, input_cls=None):
+    @classmethod
+    def _save_m2m(cls, info, instance, cleaned_data):
+    @classmethod
+    def success_response(cls, instance):
+    @classmethod
+    def save(cls, info, instance, cleaned_input):
+    @classmethod
+    def get_type_for_model(cls):
+    @classmethod
+    def get_instance(cls, info, **data):
+    @classmethod
+    def post_save_action(cls, info, instance, cleaned_input):
+    @classmethod
+    def perform_mutation(cls, _root, info, **data):
+===== END OUTLINE: saleor/graphql/core/mutations.py =====
+===== OUTLINE: saleor/graphql/core/scalars.py (read-only) =====
+class PositiveDecimal(Decimal):
+    @staticmethod
+    def parse_value(value):
+===== END OUTLINE: saleor/graphql/core/scalars.py =====
+===== OUTLINE: saleor/graphql/core/types/common.py (read-only) =====
+class OrderError(Error):
+    code = OrderErrorCode(description="The error code.", required=True)
+    warehouse = graphene.ID(
+    order_line = graphene.ID(
+    variants = graphene.List(
+===== END OUTLINE: saleor/graphql/core/types/common.py =====
+===== OUTLINE: saleor/graphql/core/utils/__init__.py (read-only) =====
+def from_global_id_strict_type(
+    global_id: str, only_type: Union[ObjectType, str], field: str = "id"
+) -> str:
+def get_duplicated_values(values):
+def validate_required_string_field(cleaned_input, field_name: str):
+===== END OUTLINE: saleor/graphql/core/utils/__init__.py =====
+===== OUTLINE: saleor/graphql/order/types.py (read-only) =====
+class OrderEvent(CountableDjangoObjectType):
+    date = graphene.types.datetime.DateTime(
+    type = OrderEventsEnum(description="Order event type.")
+    user = graphene.Field(User, description="User who performed the action.")
+    message = graphene.String(description="Content of the event.")
+    email = graphene.String(description="Email of the customer.")
+    email_type = OrderEventsEmailsEnum(
+    amount = graphene.Float(description="Amount of money.")
+    payment_id = graphene.String(description="The payment ID from the payment gateway.")
+    payment_gateway = graphene.String(description="The payment gateway of the payment.")
+    quantity = graphene.Int(description="Number of items.")
+    composed_id = graphene.String(description="Composed ID of the Fulfillment.")
+    order_number = graphene.String(description="User-friendly number of an order.")
+    invoice_number = graphene.String(
+    oversold_items = graphene.List(
+    lines = graphene.List(OrderEventOrderLineObject, description="The concerned lines.")
+    fulfilled_items = graphene.List(
+    warehouse = graphene.Field(
+    transaction_reference = graphene.String(
+    shipping_costs_included = graphene.Boolean(
+    related_order = graphene.Field(
+    class Meta:
+        description = "History log of the order."
+        model = models.OrderEvent
+        interfaces = [relay.Node]
+        only_fields = ["id"]
+    @staticmethod
+    def resolve_user(root: models.OrderEvent, info):
+    @staticmethod
+    def resolve_email(root: models.OrderEvent, _info):
+    @staticmethod
+    def resolve_email_type(root: models.OrderEvent, _info):
+    @staticmethod
+    def resolve_amount(root: models.OrderEvent, _info):
+    @staticmethod
+    def resolve_payment_id(root: models.OrderEvent, _info):
+    @staticmethod
+    def resolve_payment_gateway(root: models.OrderEvent, _info):
+    @staticmethod
+    def resolve_quantity(root: models.OrderEvent, _info):
+    @staticmethod
+    def resolve_message(root: models.OrderEvent, _info):
+    @staticmethod
+    def resolve_composed_id(root: models.OrderEvent, _info):
+    @staticmethod
+    def resolve_oversold_items(root: models.OrderEvent, _info):
+    @staticmethod
+    def resolve_order_number(root: models.OrderEvent, _info):
+    @staticmethod
+    def resolve_invoice_number(root: models.OrderEvent, _info):
+    @staticmethod
+    def resolve_lines(root: models.OrderEvent, _info):
+    @staticmethod
+    def resolve_fulfilled_items(root: models.OrderEvent, _info):
+    @staticmethod
+    def resolve_warehouse(root: models.OrderEvent, _info):
+    @staticmethod
+    def resolve_transaction_reference(root: models.OrderEvent, _info):
+    @staticmethod
+    def resolve_shipping_costs_included(root: models.OrderEvent, _info):
+    @staticmethod
+    def resolve_related_order(root: models.OrderEvent, info):
+class FulfillmentLine(CountableDjangoObjectType):
+    order_line = graphene.Field(lambda: OrderLine)
+    class Meta:
+        description = "Represents line of the fulfillment."
+        interfaces = [relay.Node]
+        model = models.FulfillmentLine
+        only_fields = ["id", "quantity"]
+    @staticmethod
+    def resolve_order_line(root: models.FulfillmentLine, _info):
+class Fulfillment(CountableDjangoObjectType):
+    lines = graphene.List(
+    status_display = graphene.String(description="User-friendly fulfillment status.")
+    warehouse = graphene.Field(
+    class Meta:
+        description = "Represents order fulfillment."
+        interfaces = [relay.Node, ObjectWithMetadata]
+        model = models.Fulfillment
+        only_fields = [
+    @staticmethod
+    def resolve_lines(root: models.Fulfillment, _info):
+    @staticmethod
+    def resolve_status_display(root: models.Fulfillment, _info):
+    @staticmethod
+    def resolve_warehouse(root: models.Fulfillment, _info):
+class OrderLine(CountableDjangoObjectType):
+    thumbnail = graphene.Field(
+    unit_price = graphene.Field(
+    total_price = graphene.Field(TaxedMoney, description="Price of the order line.",)
+    variant = graphene.Field(
+    translated_product_name = graphene.String(
+    translated_variant_name = graphene.String(
+    allocations = graphene.List(
+    class Meta:
+        description = "Represents order line of particular order."
+        model = models.OrderLine
+        interfaces = [relay.Node]
+        only_fields = [
+    @staticmethod
+    def resolve_thumbnail(root: models.OrderLine, info, *, size=255):
+    @staticmethod
+    def resolve_unit_price(root: models.OrderLine, _info):
+    @staticmethod
+    def resolve_total_price(root: models.OrderLine, _info):
+    @staticmethod
+    def resolve_translated_product_name(root: models.OrderLine, _info):
+    @staticmethod
+    def resolve_translated_variant_name(root: models.OrderLine, _info):
+    @staticmethod
+    def resolve_variant(root: models.OrderLine, info):
+    @staticmethod
+    @one_of_permissions_required(
+        [ProductPermissions.MANAGE_PRODUCTS, OrderPermissions.MANAGE_ORDERS]
+    )
+    def resolve_allocations(root: models.OrderLine, info):
+class Order(CountableDjangoObjectType):
+    fulfillments = graphene.List(
+    lines = graphene.List(
+    actions = graphene.List(
+    available_shipping_methods = graphene.List(
+    invoices = graphene.List(
+    number = graphene.String(description="User-friendly number of an order.")
+    is_paid = graphene.Boolean(description="Informs if an order is fully paid.")
+    payment_status = PaymentChargeStatusEnum(description="Internal payment status.")
+    payment_status_display = graphene.String(
+    payments = graphene.List(Payment, description="List of payments for the order.")
+    total = graphene.Field(TaxedMoney, description="Total amount of the order.")
+    shipping_price = graphene.Field(TaxedMoney, description="Total price of shipping.")
+    subtotal = graphene.Field(
+    gift_cards = graphene.List(GiftCard, description="List of user gift cards.")
+    status_display = graphene.String(description="User-friendly order status.")
+    can_finalize = graphene.Boolean(
+# [outline truncated]
+===== END OUTLINE: saleor/graphql/order/types.py =====
+===== OUTLINE: saleor/graphql/utils/__init__.py (read-only) =====
+def get_user_or_app_from_context(context):
+    # order is important
+    # app can be None but user if None then is passed as anonymous
+===== END OUTLINE: saleor/graphql/utils/__init__.py =====
+===== OUTLINE: saleor/graphql/warehouse/types.py (read-only) =====
+class Warehouse(CountableDjangoObjectType):
+    class Meta:
+        description = "Represents warehouse."
+        model = models.Warehouse
+        interfaces = [graphene.relay.Node]
+        only_fields = [
+    @staticmethod
+    def resolve_shipping_zones(root, *_args, **_kwargs):
+===== END OUTLINE: saleor/graphql/warehouse/types.py =====
+===== OUTLINE: saleor/account/models.py (read-only) =====
+class Address(models.Model):
+    first_name = models.CharField(max_length=256, blank=True)
+    last_name = models.CharField(max_length=256, blank=True)
+    company_name = models.CharField(max_length=256, blank=True)
+    street_address_1 = models.CharField(max_length=256, blank=True)
+    street_address_2 = models.CharField(max_length=256, blank=True)
+    city = models.CharField(max_length=256, blank=True)
+    city_area = models.CharField(max_length=128, blank=True)
+    postal_code = models.CharField(max_length=20, blank=True)
+    country = CountryField()
+    country_area = models.CharField(max_length=128, blank=True)
+    phone = PossiblePhoneNumberField(blank=True, default="")
+    objects = AddressQueryset.as_manager()
+    class Meta:
+        ordering = ("pk",)
+    @property
+    def full_name(self):
+    def __str__(self):
+    def __eq__(self, other):
+    __hash__ = models.Model.__hash__
+    def as_data(self):
+    def get_copy(self):
+class User(PermissionsMixin, ModelWithMetadata, AbstractBaseUser):
+    email = models.EmailField(unique=True)
+    first_name = models.CharField(max_length=256, blank=True)
+    last_name = models.CharField(max_length=256, blank=True)
+    addresses = models.ManyToManyField(
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    note = models.TextField(null=True, blank=True)
+    date_joined = models.DateTimeField(default=timezone.now, editable=False)
+    default_shipping_address = models.ForeignKey(
+    default_billing_address = models.ForeignKey(
+    avatar = VersatileImageField(upload_to="user-avatars", blank=True, null=True)
+    jwt_token_key = models.CharField(max_length=12, default=get_random_string)
+    USERNAME_FIELD = "email"
+    objects = UserManager()
+    class Meta:
+        ordering = ("email",)
+        permissions = (
+    def __init__(self, *args, **kwargs):
+    @property
+    def effective_permissions(self) -> "QuerySet[Permission]":
+    @effective_permissions.setter
+    def effective_permissions(self, value: "QuerySet[Permission]"):
+    def get_full_name(self):
+    def get_short_name(self):
+    def has_perm(self, perm: Union[BasePermissionEnum, str], obj=None):  # type: ignore
+        # This method is overridden to accept perm as BasePermissionEnum
+===== END OUTLINE: saleor/account/models.py =====
+===== OUTLINE: saleor/core/taxes.py (read-only) =====
+def zero_money(currency: str) -> Money:
+def zero_taxed_money(currency: str) -> TaxedMoney:
+===== END OUTLINE: saleor/core/taxes.py =====
+===== OUTLINE: saleor/payment/__init__.py (read-only) =====
+class PaymentError(Exception):
+    def __init__(self, message, code=None):
+    def __str__(self):
+class CustomPaymentChoices:
+    MANUAL = "manual"
+    CHOICES = [(MANUAL, "Manual")]
+class TransactionKind:
+    EXTERNAL = "external"
+    AUTH = "auth"
+    CAPTURE = "capture"
+    CAPTURE_FAILED = "capture_failed"
+    ACTION_TO_CONFIRM = "action_to_confirm"
+    VOID = "void"
+    PENDING = "pending"
+    REFUND = "refund"
+    REFUND_ONGOING = "refund_ongoing"
+    REFUND_FAILED = "refund_failed"
+    REFUND_REVERSED = "refund_reversed"
+    CONFIRM = "confirm"
+    CANCEL = "cancel"
+    CHOICES = [
+class ChargeStatus:
+    NOT_CHARGED = "not-charged"
+    PENDING = "pending"
+    PARTIALLY_CHARGED = "partially-charged"
+    FULLY_CHARGED = "fully-charged"
+    PARTIALLY_REFUNDED = "partially-refunded"
+    FULLY_REFUNDED = "fully-refunded"
+    REFUSED = "refused"
+    CANCELLED = "cancelled"
+    CHOICES = [
+===== END OUTLINE: saleor/payment/__init__.py =====
+===== OUTLINE: saleor/payment/gateway.py (read-only) =====
+logger = logging.getLogger(__name__)
+ERROR_MSG = "Oops! Something went wrong."
+GENERIC_TRANSACTION_ERROR = "Transaction was unsuccessful."
+def raise_payment_error(fn: Callable) -> Callable:
+def payment_postprocess(fn: Callable) -> Callable:
+def require_active_payment(fn: Callable) -> Callable:
+def with_locked_payment(fn: Callable) -> Callable:
+@raise_payment_error
+@require_active_payment
+@with_locked_payment
+@payment_postprocess
+def process_payment(
+    payment: Payment,
+    token: str,
+    store_source: bool = False,
+    additional_data: Optional[dict] = None,
+) -> Transaction:
+@raise_payment_error
+@require_active_payment
+@with_locked_payment
+@payment_postprocess
+def authorize(payment: Payment, token: str, store_source: bool = False) -> Transaction:
+@payment_postprocess
+@raise_payment_error
+@require_active_payment
+@with_locked_payment
+@payment_postprocess
+def capture(
+    payment: Payment, amount: Decimal = None, store_source: bool = False
+) -> Transaction:
+@raise_payment_error
+@require_active_payment
+@with_locked_payment
+@payment_postprocess
+def refund(payment: Payment, amount: Decimal = None) -> Transaction:
+@raise_payment_error
+@require_active_payment
+@with_locked_payment
+@payment_postprocess
+def void(payment: Payment) -> Transaction:
+@raise_payment_error
+@require_active_payment
+@with_locked_payment
+@payment_postprocess
+def confirm(payment: Payment, additional_data: Optional[dict] = None) -> Transaction:
+def list_payment_sources(gateway: str, customer_id: str) -> List["CustomerSource"]:
+def get_client_token(gateway: str, customer_id: str = None) -> str:
+def list_gateways() -> List["PaymentGateway"]:
+def payment_refund_or_void(payment: Optional[Payment]):
+===== END OUTLINE: saleor/payment/gateway.py =====
+===== OUTLINE: saleor/shipping/models.py (read-only) =====
+class ShippingZone(ModelWithMetadata):
+    name = models.CharField(max_length=100)
+    countries = CountryField(multiple=True, default=[], blank=True)
+    default = models.BooleanField(default=False)
+    def __str__(self):
+    class Meta:
+        permissions = (
+class ShippingMethodQueryset(models.QuerySet):
+    def price_based(self):
+    def weight_based(self):
+    @staticmethod
+    def applicable_shipping_methods_by_channel(shipping_methods, channel_id):
+    def exclude_shipping_methods_for_excluded_products(
+        self, qs, product_ids: List[int]
+    ):
+    def applicable_shipping_methods(
+        self, price: Money, channel_id, weight, country_code, product_ids=None
+    ):
+    def applicable_shipping_methods_for_instance(
+        self,
+        instance: Union["Checkout", "Order"],
+        channel_id,
+        price: Money,
+        country_code=None,
+    ):
+class ShippingMethod(ModelWithMetadata):
+    name = models.CharField(max_length=100)
+    type = models.CharField(max_length=30, choices=ShippingMethodType.CHOICES)
+    shipping_zone = models.ForeignKey(
+    minimum_order_weight = MeasurementField(
+    maximum_order_weight = MeasurementField(
+    excluded_products = models.ManyToManyField(
+    maximum_delivery_days = models.PositiveIntegerField(null=True, blank=True)
+    minimum_delivery_days = models.PositiveIntegerField(null=True, blank=True)
+    objects = ShippingMethodQueryset.as_manager()
+    translated = TranslationProxy()
+    class Meta:
+        ordering = ("pk",)
+    def __str__(self):
+    def __repr__(self):
+class ShippingMethodZipCodeRule(models.Model):
+    shipping_method = models.ForeignKey(
+    start = models.CharField(max_length=32)
+    end = models.CharField(max_length=32, blank=True, null=True)
+    class Meta:
+        unique_together = ("shipping_method", "start", "end")
+class ShippingMethodChannelListing(models.Model):
+    shipping_method = models.ForeignKey(
+    channel = models.ForeignKey(
+    minimum_order_price_amount = models.DecimalField(
+    minimum_order_price = MoneyField(
+    currency = models.CharField(max_length=settings.DEFAULT_CURRENCY_CODE_LENGTH,)
+    maximum_order_price_amount = models.DecimalField(
+    maximum_order_price = MoneyField(
+    price = MoneyField(amount_field="price_amount", currency_field="currency")
+    price_amount = models.DecimalField(
+    def get_total(self):
+    class Meta:
+        unique_together = [["shipping_method", "channel"]]
+        ordering = ("pk",)
+class ShippingMethodTranslation(models.Model):
+    language_code = models.CharField(max_length=10)
+    name = models.CharField(max_length=255, null=True, blank=True)
+    shipping_method = models.ForeignKey(
+    class Meta:
+        unique_together = (("language_code", "shipping_method"),)
+===== END OUTLINE: saleor/shipping/models.py =====
+===== OUTLINE: saleor/graphql/account/types.py (read-only) =====
+class AddressInput(graphene.InputObjectType):
+    first_name = graphene.String(description="Given name.")
+    last_name = graphene.String(description="Family name.")
+    company_name = graphene.String(description="Company or organization.")
+    street_address_1 = graphene.String(description="Address.")
+    street_address_2 = graphene.String(description="Address.")
+    city = graphene.String(description="City.")
+    city_area = graphene.String(description="District.")
+    postal_code = graphene.String(description="Postal code.")
+    country = CountryCodeEnum(description="Country.")
+    country_area = graphene.String(description="State or province.")
+    phone = graphene.String(description="Phone number.")
+===== END OUTLINE: saleor/graphql/account/types.py =====
+===== OUTLINE: saleor/graphql/order/mutations/draft_orders.py (read-only) =====
+class DraftOrderCreate(ModelMutation, I18nMixin):
+    class Arguments:
+        input = DraftOrderCreateInput(
+    class Meta:
+        description = "Creates a new draft order."
+        model = models.Order
+        permissions = (OrderPermissions.MANAGE_ORDERS,)
+        error_type_class = OrderError
+        error_type_field = "order_errors"
+    @classmethod
+    def clean_channel_id(cls, instance, channel_id):
+    @classmethod
+    def clean_voucher(cls, voucher, channel):
+    @classmethod
+    def clean_redirect_url(cls, redirect_url):
+    @classmethod
+    def clean_input(cls, info, instance, data):
+    @staticmethod
+    def _save_addresses(info, instance: models.Order, cleaned_input):
+    @staticmethod
+    def _save_lines(info, instance, quantities, variants):
+    @classmethod
+    def _commit_changes(cls, info, instance, cleaned_input):
+    @classmethod
+    def _refresh_lines_unit_price(cls, info, instance, cleaned_input, new_instance):
+    @classmethod
+    @transaction.atomic
+    def save(cls, info, instance, cleaned_input):
+===== END OUTLINE: saleor/graphql/order/mutations/draft_orders.py =====
+===== OUTLINE: saleor/graphql/shipping/types.py (read-only) =====
+class ShippingMethod(ChannelContextTypeWithMetadata, CountableDjangoObjectType):
+    type = ShippingMethodTypeEnum(description="Type of the shipping method.")
+    translation = TranslationField(
+    channel_listings = graphene.List(
+    price = graphene.Field(
+    maximum_order_price = graphene.Field(
+    minimum_order_price = graphene.Field(
+    zip_code_rules = graphene.List(
+    excluded_products = ChannelContextFilterConnectionField(
+    class Meta:
+        default_resolver = ChannelContextType.resolver_with_context
+        description = (
+        model = models.ShippingMethod
+        interfaces = [relay.Node, ObjectWithMetadata]
+        only_fields = [
+    @staticmethod
+    def resolve_price(root: ChannelContext[models.ShippingMethod], info, **_kwargs):
+        # Price field are dynamically generated in available_shipping_methods resolver
+    @staticmethod
+    def resolve_maximum_order_price(
+        root: ChannelContext[models.ShippingMethod], info, **_kwargs
+    ):
+    @staticmethod
+    def resolve_minimum_order_price(
+        root: ChannelContext[models.ShippingMethod], info, **_kwargs
+    ):
+    @staticmethod
+    def resolve_maximum_order_weight(
+        root: ChannelContext[models.ShippingMethod], *_args
+    ):
+    @staticmethod
+    def resolve_zip_code_rules(
+        root: ChannelContext[models.ShippingMethod], info, **_kwargs
+    ):
+    @staticmethod
+    def resolve_minimum_order_weight(
+        root: ChannelContext[models.ShippingMethod], *_args
+    ):
+    @staticmethod
+    @permission_required(ShippingPermissions.MANAGE_SHIPPING)
+    def resolve_channel_listings(
+        root: ChannelContext[models.ShippingMethod], info, **_kwargs
+    ):
+    @staticmethod
+    @permission_required(ShippingPermissions.MANAGE_SHIPPING)
+    def resolve_excluded_products(
+        root: ChannelContext[models.ShippingMethod], _info, **_kwargs
+    ):
+===== END OUTLINE: saleor/graphql/shipping/types.py =====
+===== OUTLINE: saleor/core/analytics.py (read-only) =====
+FINGERPRINT_PARTS = [
+UUID_NAMESPACE = uuid.UUID("fb4abc05-e2fb-4e3e-8b78-28037ef7d07f")
+def get_client_id(request):
+@app.task
+def ga_report(
+    tracking_id, client_id, payloads: List[dict], extra_headers=None, **extra_data
+):
+def get_order_payloads(order):
+def report_order(client_id, order):
+def get_view_payloads(path, language, headers):
+def report_view(client_id, path, language, headers):
+===== END OUTLINE: saleor/core/analytics.py =====
+===== OUTLINE: saleor/payment/models.py (read-only) =====
+class Payment(models.Model):
+    gateway = models.CharField(max_length=255)
+    is_active = models.BooleanField(default=True)
+    to_confirm = models.BooleanField(default=False)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+    charge_status = models.CharField(
+    token = models.CharField(max_length=512, blank=True, default="")
+    total = models.DecimalField(
+    captured_amount = models.DecimalField(
+    currency = models.CharField(
+    checkout = models.ForeignKey(
+    order = models.ForeignKey(
+    billing_email = models.EmailField(blank=True)
+    billing_first_name = models.CharField(max_length=256, blank=True)
+    billing_last_name = models.CharField(max_length=256, blank=True)
+    billing_company_name = models.CharField(max_length=256, blank=True)
+    billing_address_1 = models.CharField(max_length=256, blank=True)
+    billing_address_2 = models.CharField(max_length=256, blank=True)
+    billing_city = models.CharField(max_length=256, blank=True)
+    billing_city_area = models.CharField(max_length=128, blank=True)
+    billing_postal_code = models.CharField(max_length=256, blank=True)
+    billing_country_code = models.CharField(max_length=2, blank=True)
+    billing_country_area = models.CharField(max_length=256, blank=True)
+    cc_first_digits = models.CharField(max_length=6, blank=True, default="")
+    cc_last_digits = models.CharField(max_length=4, blank=True, default="")
+    cc_brand = models.CharField(max_length=40, blank=True, default="")
+    cc_exp_month = models.PositiveIntegerField(
+    cc_exp_year = models.PositiveIntegerField(
+    payment_method_type = models.CharField(max_length=256, blank=True)
+    customer_ip_address = models.GenericIPAddressField(blank=True, null=True)
+    extra_data = models.TextField(blank=True, default="")
+    return_url = models.URLField(blank=True, null=True)
+    class Meta:
+        ordering = ("pk",)
+    def __repr__(self):
+    def get_last_transaction(self):
+    def get_total(self):
+    def get_authorized_amount(self):
+    def get_captured_amount(self):
+    def get_charge_amount(self):
+    @property
+    def is_authorized(self):
+    @property
+    def not_charged(self):
+    def can_authorize(self):
+    def can_capture(self):
+    def can_void(self):
+    def can_refund(self):
+    def can_confirm(self):
+class Transaction(models.Model):
+    created = models.DateTimeField(auto_now_add=True, editable=False)
+    payment = models.ForeignKey(
+    token = models.CharField(max_length=512, blank=True, default="")
+    kind = models.CharField(max_length=25, choices=TransactionKind.CHOICES)
+    is_success = models.BooleanField(default=False)
+    action_required = models.BooleanField(default=False)
+    action_required_data = JSONField(
+    currency = models.CharField(max_length=settings.DEFAULT_CURRENCY_CODE_LENGTH)
+    amount = models.DecimalField(
+    error = models.CharField(
+    customer_id = models.CharField(max_length=256, null=True)
+    gateway_response = JSONField(encoder=DjangoJSONEncoder)
+    already_processed = models.BooleanField(default=False)
+    searchable_key = models.CharField(max_length=512, null=True, blank=True)
+    class Meta:
+        ordering = ("pk",)
+    def __repr__(self):
+    def get_amount(self):
+===== END OUTLINE: saleor/payment/models.py =====
+===== OUTLINE: saleor/payment/utils.py (read-only) =====
+def create_payment(
+    gateway: str,
+    total: Decimal,
+    currency: str,
+    email: str,
+    customer_ip_address: str = "",
+    payment_token: Optional[str] = "",
+    extra_data: Dict = None,
+    checkout: Checkout = None,
+    order: Order = None,
+    return_url: str = None,
+) -> Payment:
+===== END OUTLINE: saleor/payment/utils.py =====
+===== OUTLINE: saleor/plugins/manager.py (read-only) =====
+def get_plugins_manager(
+    manager_path: str = None, plugins: List[str] = None
+) -> PluginsManager:
+===== END OUTLINE: saleor/plugins/manager.py =====
+===== OUTLINE: saleor/warehouse/management.py (read-only) =====
+@transaction.atomic
+def deallocate_stock(order_line: "OrderLine", quantity: int):
+@transaction.atomic
+def increase_stock(
+    order_line: "OrderLine",
+    warehouse: Warehouse,
+    quantity: int,
+    allocate: bool = False,
+):
+@transaction.atomic
+def decrease_stock(order_line: "OrderLine", quantity: int, warehouse_pk: str):
+@transaction.atomic
+def deallocate_stock_for_order(order: "Order"):
+===== END OUTLINE: saleor/warehouse/management.py =====
+===== OUTLINE: saleor/warehouse/models.py (read-only) =====
+class Warehouse(models.Model):
+    id = models.UUIDField(default=uuid.uuid4, primary_key=True)
+    name = models.CharField(max_length=250)
+    slug = models.SlugField(max_length=255, unique=True, allow_unicode=True)
+    company_name = models.CharField(blank=True, max_length=255)
+    shipping_zones = models.ManyToManyField(
+    address = models.ForeignKey(Address, on_delete=models.PROTECT)
+    email = models.EmailField(blank=True, default="")
+    objects = WarehouseQueryset.as_manager()
+    class Meta:
+        ordering = ("-slug",)
+    def __str__(self):
+    @property
+    def countries(self) -> Set[str]:
+    def delete(self, *args, **kwargs):
+===== END OUTLINE: saleor/warehouse/models.py =====
+===== OUTLINE: saleor/account/events.py (read-only) =====
+def customer_account_created_event(*, user: User) -> Optional[CustomerEvent]:
+def customer_password_reset_link_sent_event(*, user_id: int) -> Optional[CustomerEvent]:
+def customer_password_reset_event(*, user: User) -> Optional[CustomerEvent]:
+def customer_password_changed_event(*, user: User) -> Optional[CustomerEvent]:
+def customer_email_change_request_event(
+    *, user_id: int, parameters: dict
+) -> Optional[CustomerEvent]:
+def customer_email_changed_event(
+    *, user: User, parameters: dict
+) -> Optional[CustomerEvent]:
+def customer_placed_order_event(*, user: User, order: Order) -> Optional[CustomerEvent]:
+def customer_added_to_note_order_event(
+    *, user: User, order: Order, message: str
+) -> CustomerEvent:
+def customer_downloaded_a_digital_link_event(
+    *, user: User, order_line: OrderLine
+) -> CustomerEvent:
+def staff_user_deleted_a_customer_event(
+    *, staff_user: User, deleted_count: int = 1
+) -> CustomerEvent:
+def staff_user_assigned_email_to_a_customer_event(
+    *, staff_user: User, new_email: str
+) -> CustomerEvent:
+def staff_user_added_note_to_a_customer_event(
+    *, staff_user: User, note: str
+) -> CustomerEvent:
+def staff_user_assigned_name_to_a_customer_event(
+    *, staff_user: User, new_name: str
+) -> CustomerEvent:
+===== END OUTLINE: saleor/account/events.py =====
+===== OUTLINE: saleor/channel/models.py (read-only) =====
+class Channel(models.Model):
+    name = models.CharField(max_length=250)
+    is_active = models.BooleanField(default=False)
+    slug = models.SlugField(max_length=255, unique=True)
+    currency_code = models.CharField(max_length=settings.DEFAULT_CURRENCY_CODE_LENGTH)
+    class Meta:
+        ordering = ("slug",)
+        app_label = "channel"
+        permissions = (
+    def __str__(self):
+===== END OUTLINE: saleor/channel/models.py =====
+===== OUTLINE: saleor/core/models.py (read-only) =====
+class ModelWithMetadata(models.Model):
+    private_metadata = JSONField(
+    metadata = JSONField(blank=True, null=True, default=dict, encoder=CustomJsonEncoder)
+    class Meta:
+        abstract = True
+    def get_value_from_private_metadata(self, key: str, default: Any = None) -> Any:
+    def store_value_in_private_metadata(self, items: dict):
+    def clear_private_metadata(self):
+    def delete_value_from_private_metadata(self, key: str):
+    def get_value_from_metadata(self, key: str, default: Any = None) -> Any:
+    def store_value_in_metadata(self, items: dict):
+    def clear_metadata(self):
+    def delete_value_from_metadata(self, key: str):
+===== END OUTLINE: saleor/core/models.py =====
+===== OUTLINE: saleor/core/utils/json_serializer.py (read-only) =====
+class CustomJsonEncoder(DjangoJSONEncoder):
+    def default(self, obj):
+===== END OUTLINE: saleor/core/utils/json_serializer.py =====
+===== OUTLINE: saleor/core/weight.py (read-only) =====
+class WeightUnits:
+    KILOGRAM = "kg"
+    POUND = "lb"
+    OUNCE = "oz"
+    GRAM = "g"
+    CHOICES = [
+def zero_weight():
+===== END OUTLINE: saleor/core/weight.py =====
+===== OUTLINE: saleor/discount/models.py (read-only) =====
+class NotApplicable(ValueError):
+    def __init__(self, msg, min_spent=None, min_checkout_items_quantity=None):
+class Voucher(models.Model):
+    type = models.CharField(
+    name = models.CharField(max_length=255, null=True, blank=True)
+    code = models.CharField(max_length=12, unique=True, db_index=True)
+    usage_limit = models.PositiveIntegerField(null=True, blank=True)
+    used = models.PositiveIntegerField(default=0, editable=False)
+    start_date = models.DateTimeField(default=timezone.now)
+    end_date = models.DateTimeField(null=True, blank=True)
+    apply_once_per_order = models.BooleanField(default=False)
+    apply_once_per_customer = models.BooleanField(default=False)
+    discount_value_type = models.CharField(
+    countries = CountryField(multiple=True, blank=True)
+    min_checkout_items_quantity = models.PositiveIntegerField(null=True, blank=True)
+    products = models.ManyToManyField("product.Product", blank=True)
+    collections = models.ManyToManyField("product.Collection", blank=True)
+    categories = models.ManyToManyField("product.Category", blank=True)
+    objects = VoucherQueryset.as_manager()
+    translated = TranslationProxy()
+    class Meta:
+        ordering = ("code",)
+    @property
+    def is_free(self):
+    def get_discount(self, channel: Channel):
+    def get_discount_amount_for(self, price: Money, channel: Channel):
+    def validate_min_spent(self, value: Money, channel: Channel):
+    def validate_min_checkout_items_quantity(self, quantity):
+    def validate_once_per_customer(self, customer_email):
+===== END OUTLINE: saleor/discount/models.py =====
+===== OUTLINE: saleor/discount/utils.py (read-only) =====
+def get_discounted_lines(lines, voucher):
+def validate_voucher_in_order(order: "Order"):
+def get_products_voucher_discount(
+    voucher: "Voucher", prices: Iterable[Money], channel: Channel
+) -> Money:
+===== END OUTLINE: saleor/discount/utils.py =====
+===== OUTLINE: saleor/product/utils/digital_products.py (read-only) =====
+def get_default_digital_content_settings() -> dict:
+===== END OUTLINE: saleor/product/utils/digital_products.py =====

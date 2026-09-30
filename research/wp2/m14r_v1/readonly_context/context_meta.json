@@ -1,0 +1,5461 @@
+{
+ "artifact": "m14r_context_meta",
+ "contexts": {
+  "saleor-rc-2d45b76a52f2/GOLD_HARD": {
+   "chars": 5224,
+   "leakage_hits": 0,
+   "modules": [
+    {
+     "lines": 42,
+     "path": "saleor/account/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "User"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 34,
+     "path": "saleor/app/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "App",
+      "AppExtension"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 3,
+     "path": "saleor/permission/enums.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "get_permission_names",
+      "get_permissions_from_codenames",
+      "get_permissions_from_names"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 13,
+     "path": "saleor/permission/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Permission"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/core/jwt_manager.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "get_jwt_manager"
+     ],
+     "truncated": false
+    }
+   ],
+   "sha256": "6b706f8966d218aebba8d4e77cd03e5525f250a2e8f8c6159343d4fd32928149",
+   "verbatim_violations": 0
+  },
+  "saleor-rc-2d45b76a52f2/PLACEBO_HARD": {
+   "chars": 3434,
+   "leakage_hits": 0,
+   "modules": [
+    {
+     "lines": 31,
+     "path": "saleor/tax/models.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/account/enums.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "CountryCodeEnum"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 10,
+     "path": "saleor/graphql/core/filters.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "GlobalIDMultipleChoiceFilter",
+      "ListObjectTypeFilter",
+      "MetadataFilterBase"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/graphql/core/types/__init__.py",
+     "status": "EMPTY"
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/utils/filters.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "filter_by_id"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 24,
+     "path": "saleor/graphql/tax/types.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "TaxClass",
+      "TaxConfiguration"
+     ],
+     "truncated": false
+    }
+   ],
+   "sha256": "ba8604728569a2de7c5510fe45b95c73919a65c9218e43ac1e4a2a2bd15a5dbd",
+   "verbatim_violations": 0
+  },
+  "saleor-rc-39b4138e8550/GOLD_HARD": {
+   "chars": 40083,
+   "leakage_hits": 0,
+   "modules": [
+    {
+     "lines": 4,
+     "path": "saleor/core/utils/cache.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "CacheDict"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 2,
+     "path": "saleor/graphql/notifications/schema.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ExternalNotificationMutations"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 81,
+     "path": "saleor/graphql/account/schema.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AccountMutations",
+      "AccountQueries"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 31,
+     "path": "saleor/graphql/app/schema.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AppMutations",
+      "AppQueries"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 24,
+     "path": "saleor/graphql/attribute/schema.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AttributeMutations",
+      "AttributeQueries"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 14,
+     "path": "saleor/graphql/channel/schema.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ChannelMutations",
+      "ChannelQueries"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 31,
+     "path": "saleor/graphql/checkout/schema.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "CheckoutMutations",
+      "CheckoutQueries"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/core/enums.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "unit_enums"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 3,
+     "path": "saleor/graphql/core/federation/schema.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "build_federated_schema"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 5,
+     "path": "saleor/graphql/core/schema.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "CoreMutations",
+      "CoreQueries"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 9,
+     "path": "saleor/graphql/csv/schema.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "CsvMutations",
+      "CsvQueries"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 46,
+     "path": "saleor/graphql/discount/schema.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "DiscountMutations",
+      "DiscountQueries"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 27,
+     "path": "saleor/graphql/giftcard/schema.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "GiftCardMutations",
+      "GiftCardQueries"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 7,
+     "path": "saleor/graphql/invoice/schema.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "InvoiceMutations"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 25,
+     "path": "saleor/graphql/menu/schema.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "MenuMutations",
+      "MenuQueries"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 5,
+     "path": "saleor/graphql/meta/schema.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "MetaMutations"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 55,
+     "path": "saleor/graphql/order/schema.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "OrderMutations",
+      "OrderQueries"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 37,
+     "path": "saleor/graphql/page/schema.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "PageMutations",
+      "PageQueries"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 13,
+     "path": "saleor/graphql/plugins/schema.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "PluginsMutations",
+      "PluginsQueries"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 141,
+     "path": "saleor/graphql/product/schema.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ProductMutations",
+      "ProductQueries"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 20,
+     "path": "saleor/graphql/shipping/schema.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ShippingMutations",
+      "ShippingQueries"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 19,
+     "path": "saleor/graphql/shop/schema.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ShopMutations",
+      "ShopQueries"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 27,
+     "path": "saleor/graphql/tax/schema.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "TaxMutations",
+      "TaxQueries"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 7,
+     "path": "saleor/graphql/translations/schema.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "TranslationQueries"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 24,
+     "path": "saleor/graphql/warehouse/schema.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "StockMutations",
+      "StockQueries",
+      "WarehouseMutations",
+      "WarehouseQueries"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 19,
+     "path": "saleor/graphql/webhook/schema.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "WebhookMutations",
+      "WebhookQueries"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 28,
+     "path": "saleor/graphql/webhook/subscription_types.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Subscription",
+      "WEBHOOK_TYPES_MAP"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 5,
+     "path": "saleor/permission/enums.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "OrderPermissions",
+      "PaymentPermissions"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 2,
+     "path": "saleor/graphql/core/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ResolveInfo"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 18,
+     "path": "saleor/graphql/core/connection.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "CountableConnection",
+      "create_connection_slice",
+      "filter_connection_queryset"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/core/doc_category.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "DOC_CATEGORY_PAYMENTS"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 11,
+     "path": "saleor/graphql/core/fields.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "FilterConnectionField",
+      "JSONString",
+      "PermissionsField"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 18,
+     "path": "saleor/graphql/core/scalars.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "DateTime",
+      "JSON",
+      "UUID"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 15,
+     "path": "saleor/graphql/core/utils/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "from_global_id_or_error"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 4,
+     "path": "saleor/graphql/payment/filters.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "PaymentFilterInput"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/graphql/payment/mutations/__init__.py",
+     "status": "EMPTY"
+    },
+    {
+     "lines": 3,
+     "path": "saleor/graphql/payment/resolvers.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "resolve_payment_by_id",
+      "resolve_payments",
+      "resolve_transaction"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 2,
+     "path": "saleor/core/exceptions.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "PermissionDenied"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/core/descriptions.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ADDED_IN_322"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 4,
+     "path": "saleor/payment/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "PaymentMethodType"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/payment/models.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "lines": 10,
+     "path": "saleor/payment/interface.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "PaymentMethodData"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/graphql/account/dataloaders.py",
+     "status": "PARSE_SKIPPED"
+    },
+    {
+     "path": "saleor/graphql/app/dataloaders/__init__.py",
+     "status": "EMPTY"
+    },
+    {
+     "path": "saleor/graphql/checkout/dataloaders/__init__.py",
+     "status": "EMPTY"
+    },
+    {
+     "path": "saleor/graphql/core/context.py",
+     "status": "PARSE_SKIPPED"
+    },
+    {
+     "lines": 2,
+     "path": "saleor/graphql/core/tracing.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "traced_resolver"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/graphql/core/types/__init__.py",
+     "status": "EMPTY"
+    },
+    {
+     "lines": 3,
+     "path": "saleor/graphql/meta/permissions.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "public_payment_permissions"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/meta/resolvers.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "resolve_metadata"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/graphql/meta/types.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "lines": 3,
+     "path": "saleor/graphql/order/dataloaders.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "OrderByIdLoader"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/graphql/utils/__init__.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "path": "saleor/graphql/payment/dataloaders.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "path": "saleor/graphql/payment/enums.py",
+     "status": "TOTAL_CAP_REACHED"
+    }
+   ],
+   "sha256": "c3067f00b829940faa23424caa39d9a33e01e81ab76aa90d77702de440fb0a86",
+   "verbatim_violations": 0
+  },
+  "saleor-rc-39b4138e8550/PLACEBO_HARD": {
+   "chars": 40043,
+   "leakage_hits": 0,
+   "modules": [
+    {
+     "lines": 68,
+     "path": "saleor/checkout/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Checkout"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 128,
+     "path": "saleor/order/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Fulfillment",
+      "FulfillmentLine",
+      "Order"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 162,
+     "path": "saleor/graphql/checkout/types.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": true
+    },
+    {
+     "lines": 135,
+     "path": "saleor/graphql/order/types.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": true
+    },
+    {
+     "path": "saleor/graphql/core/context.py",
+     "status": "PARSE_SKIPPED"
+    },
+    {
+     "lines": 11,
+     "path": "saleor/csv/models.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": false
+    },
+    {
+     "lines": 7,
+     "path": "saleor/csv/events.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "export_started_event"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 8,
+     "path": "saleor/csv/tasks.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "export_products_task"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 2,
+     "path": "saleor/permission/enums.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ProductPermissions"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 126,
+     "path": "saleor/webhook/event_types.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "WebhookEventAsyncType"
+     ],
+     "truncated": true
+    },
+    {
+     "path": "saleor/graphql/app/dataloaders/__init__.py",
+     "status": "EMPTY"
+    },
+    {
+     "lines": 71,
+     "path": "saleor/graphql/attribute/types.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Attribute"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 42,
+     "path": "saleor/graphql/channel/types.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Channel"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 2,
+     "path": "saleor/graphql/core/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ResolveInfo"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/core/doc_category.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "DOC_CATEGORY_PRODUCTS"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/graphql/core/types/__init__.py",
+     "status": "EMPTY"
+    },
+    {
+     "lines": 4,
+     "path": "saleor/graphql/core/utils/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "WebhookEventInfo"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 4,
+     "path": "saleor/graphql/product/filters/product.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ProductFilterInput"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/graphql/product/types/__init__.py",
+     "status": "EMPTY"
+    },
+    {
+     "lines": 24,
+     "path": "saleor/graphql/warehouse/types.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Warehouse"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 25,
+     "path": "saleor/graphql/csv/enums.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ExportScope",
+      "FileTypeEnum",
+      "ProductFieldEnum"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 10,
+     "path": "saleor/graphql/csv/mutations/base_export.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "BaseExportMutation"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 2,
+     "path": "saleor/core/exceptions.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "PermissionDenied"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 4,
+     "path": "saleor/core/notification/mutation_handler.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "get_external_notification_payload",
+      "send_notification"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 4,
+     "path": "saleor/core/notification/validation.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "validate_and_get_channel",
+      "validate_and_get_external_event_type",
+      "validate_and_get_payload_params",
+      "validate_ids_and_get_model_type_and_pks"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 4,
+     "path": "saleor/graphql/core/fields.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "JSONString"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/graphql/core/mutations.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "lines": 5,
+     "path": "saleor/graphql/notifications/error_codes.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ExternalNotificationErrorCodes"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/plugins/dataloaders.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "get_plugin_manager_promise"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 2,
+     "path": "saleor/core/tracing.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "otel_trace"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 9,
+     "path": "saleor/order/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "FulfillmentStatus"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 8,
+     "path": "saleor/order/events.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "external_notification_event"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/payment/__init__.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "path": "saleor/payment/interface.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "path": "saleor/payment/gateways/np_atobarai/api_types.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "path": "saleor/payment/gateways/np_atobarai/const.py",
+     "status": "TOTAL_CAP_REACHED"
+    }
+   ],
+   "sha256": "58b0423bf09a3f5916fa2bb93b68bb119671a84725e585b5a788992bee474248",
+   "verbatim_violations": 0
+  },
+  "saleor-rc-644f33094857/GOLD_HARD": {
+   "chars": 39910,
+   "leakage_hits": 0,
+   "modules": [
+    {
+     "lines": 4,
+     "path": "saleor/core/exceptions.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AllocationError",
+      "InsufficientStock"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 2,
+     "path": "saleor/core/permissions.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "OrderPermissions"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 74,
+     "path": "saleor/order/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "FulfillmentLineData",
+      "FulfillmentStatus",
+      "OrderEvents",
+      "OrderEventsEmails",
+      "OrderLineData",
+      "OrderStatus"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 39,
+     "path": "saleor/order/emails.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": false
+    },
+    {
+     "lines": 29,
+     "path": "saleor/order/error_codes.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "OrderErrorCode"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 70,
+     "path": "saleor/graphql/core/mutations.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "BaseMutation",
+      "ModelMutation"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 3,
+     "path": "saleor/graphql/core/scalars.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "PositiveDecimal"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 5,
+     "path": "saleor/graphql/core/types/common.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "OrderError"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 5,
+     "path": "saleor/graphql/core/utils/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "from_global_id_strict_type",
+      "get_duplicated_values",
+      "validate_required_string_field"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 133,
+     "path": "saleor/graphql/order/types.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Fulfillment",
+      "FulfillmentLine",
+      "Order",
+      "OrderEvent",
+      "OrderLine"
+     ],
+     "truncated": true
+    },
+    {
+     "lines": 3,
+     "path": "saleor/graphql/utils/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "get_user_or_app_from_context"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 8,
+     "path": "saleor/graphql/warehouse/types.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Warehouse"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 49,
+     "path": "saleor/account/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Address",
+      "User"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 2,
+     "path": "saleor/core/taxes.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "zero_money",
+      "zero_taxed_money"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 31,
+     "path": "saleor/payment/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ChargeStatus",
+      "CustomPaymentChoices",
+      "PaymentError",
+      "TransactionKind"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 49,
+     "path": "saleor/payment/gateway.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": false
+    },
+    {
+     "lines": 66,
+     "path": "saleor/shipping/models.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": false
+    },
+    {
+     "lines": 12,
+     "path": "saleor/graphql/account/types.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AddressInput"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 28,
+     "path": "saleor/graphql/order/mutations/draft_orders.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "DraftOrderCreate"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 48,
+     "path": "saleor/graphql/shipping/types.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ShippingMethod"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 11,
+     "path": "saleor/core/analytics.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": false
+    },
+    {
+     "lines": 69,
+     "path": "saleor/payment/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Payment",
+      "Transaction"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 12,
+     "path": "saleor/payment/utils.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "create_payment"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 3,
+     "path": "saleor/plugins/manager.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "get_plugins_manager"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 13,
+     "path": "saleor/warehouse/management.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "deallocate_stock",
+      "deallocate_stock_for_order",
+      "decrease_stock",
+      "increase_stock"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 15,
+     "path": "saleor/warehouse/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Warehouse"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 29,
+     "path": "saleor/account/events.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": false
+    },
+    {
+     "lines": 10,
+     "path": "saleor/channel/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Channel"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 13,
+     "path": "saleor/core/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ModelWithMetadata"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 2,
+     "path": "saleor/core/utils/json_serializer.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "CustomJsonEncoder"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 7,
+     "path": "saleor/core/weight.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "WeightUnits",
+      "zero_weight"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 29,
+     "path": "saleor/discount/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "NotApplicable",
+      "Voucher",
+      "VoucherType"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/giftcard/models.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "lines": 5,
+     "path": "saleor/discount/utils.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "get_discounted_lines",
+      "get_products_voucher_discount",
+      "validate_voucher_in_order"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/product/utils/digital_products.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "get_default_digital_content_settings"
+     ],
+     "truncated": false
+    }
+   ],
+   "sha256": "0b1436f8255b1db6467fe530fbdea35dab912a777781f70ef6c48c3fbb12cc71",
+   "verbatim_violations": 0
+  },
+  "saleor-rc-644f33094857/PLACEBO_HARD": {
+   "chars": 11767,
+   "leakage_hits": 0,
+   "modules": [
+    {
+     "lines": 1,
+     "path": "saleor/graphql/api.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "schema"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/urls.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "urlpatterns"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 2,
+     "path": "saleor/demo/views.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "DemoGraphQLView"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/account/forms.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "get_address_form"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 22,
+     "path": "saleor/account/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Address"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/account/validators.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "validate_possible_number"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 29,
+     "path": "saleor/app/models.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": false
+    },
+    {
+     "lines": 2,
+     "path": "saleor/core/permissions.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AppPermission"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 6,
+     "path": "saleor/graphql/core/connection.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "CountableDjangoObjectType"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/graphql/core/types/__init__.py",
+     "status": "EMPTY"
+    },
+    {
+     "lines": 7,
+     "path": "saleor/graphql/core/types/common.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Job"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 9,
+     "path": "saleor/graphql/meta/types.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ObjectWithMetadata"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/utils/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "format_permissions_for_display"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 11,
+     "path": "saleor/graphql/webhook/types.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Webhook"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/app/enums.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AppTypeEnum"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/app/resolvers.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "resolve_access_token"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 7,
+     "path": "saleor/graphql/core/enums.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "OrderDirection"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 49,
+     "path": "saleor/payment/gateway.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": false
+    },
+    {
+     "lines": 69,
+     "path": "saleor/payment/models.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/payment/utils.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "fetch_customer_id"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/utils/filters.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "filter_by_query_param"
+     ],
+     "truncated": false
+    }
+   ],
+   "sha256": "4656a85b926d8f98af5923e5bd23f3d46d0e8b115588215cfc83bfb42c4d144d",
+   "verbatim_violations": 0
+  },
+  "saleor-rc-6abb53f3407b/GOLD_HARD": {
+   "chars": 30245,
+   "leakage_hits": 0,
+   "modules": [
+    {
+     "lines": 1,
+     "path": "saleor/graphql/core/enums.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "PluginErrorCode"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 175,
+     "path": "saleor/plugins/base_plugin.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "BasePlugin",
+      "ConfigurationTypeField"
+     ],
+     "truncated": true
+    },
+    {
+     "lines": 34,
+     "path": "saleor/payment/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ChargeStatus",
+      "GatewayError",
+      "PaymentError",
+      "StorePaymentMethod",
+      "TransactionKind"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 73,
+     "path": "saleor/payment/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Payment",
+      "Transaction"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 2,
+     "path": "saleor/payment/gateways/utils.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "get_supported_currencies",
+      "require_active_plugin"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 44,
+     "path": "saleor/payment/gateways/stripe/stripe_api.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "cancel_payment_intent",
+      "capture_payment_intent",
+      "construct_stripe_event",
+      "create_payment_intent",
+      "delete_webhook",
+      "get_or_create_customer",
+      "get_payment_method_details",
+      "is_secret_api_key_valid",
+      "list_customer_payment_methods",
+      "refund_payment_intent",
+      "retrieve_payment_intent",
+      "subscribe_webhook",
+      "update_payment_method"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 11,
+     "path": "saleor/plugins/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "PluginConfiguration"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 13,
+     "path": "saleor/payment/gateways/stripe/consts.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ACTION_REQUIRED_STATUSES",
+      "AUTHORIZED_STATUS",
+      "PLUGIN_ID",
+      "PLUGIN_NAME",
+      "PROCESSING_STATUS",
+      "SUCCESS_STATUS",
+      "WEBHOOK_AUTHORIZED_EVENT",
+      "WEBHOOK_CANCELED_EVENT",
+      "WEBHOOK_FAILED_EVENT",
+      "WEBHOOK_PATH",
+      "WEBHOOK_PROCESSING_EVENT",
+      "WEBHOOK_REFUND_EVENT",
+      "WEBHOOK_SUCCESS_EVENT"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 13,
+     "path": "saleor/checkout/complete_checkout.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "complete_checkout"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 7,
+     "path": "saleor/checkout/fetch.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "fetch_checkout_info",
+      "fetch_checkout_lines"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 37,
+     "path": "saleor/checkout/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Checkout"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 2,
+     "path": "saleor/core/transactions.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "transaction_with_commit_on_errors"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/discount/utils.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "fetch_active_discounts"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 23,
+     "path": "saleor/order/actions.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "order_captured",
+      "order_refunded",
+      "order_voided"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 163,
+     "path": "saleor/plugins/manager.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "PluginsManager",
+      "get_plugins_manager"
+     ],
+     "truncated": true
+    },
+    {
+     "lines": 29,
+     "path": "saleor/account/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "User"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 3,
+     "path": "saleor/core/prices.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "quantize_price"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 2,
+     "path": "saleor/core/tracing.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "traced_atomic_transaction"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 78,
+     "path": "saleor/order/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Order"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 14,
+     "path": "saleor/payment/error_codes.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "PaymentErrorCode"
+     ],
+     "truncated": false
+    }
+   ],
+   "sha256": "027263aefb5efdca9bc441029f3939b8f54cdf545d4062ad7b7f5aee3ece74b7",
+   "verbatim_violations": 0
+  },
+  "saleor-rc-6abb53f3407b/PLACEBO_HARD": {
+   "chars": 14962,
+   "leakage_hits": 0,
+   "modules": [
+    {
+     "lines": 2,
+     "path": "saleor/core/permissions.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "CheckoutPermissions"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/core/descriptions.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "DEPRECATED_IN_3X_FIELD"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 22,
+     "path": "saleor/graphql/core/fields.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "BaseDjangoConnectionField",
+      "PrefetchingConnectionField"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 8,
+     "path": "saleor/graphql/core/scalars.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "UUID"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/decorators.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "permission_required"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 24,
+     "path": "saleor/graphql/payment/mutations.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "CheckoutPaymentCreate"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 145,
+     "path": "saleor/graphql/checkout/mutations.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "CheckoutAddPromoCode",
+      "CheckoutBillingAddressUpdate",
+      "CheckoutComplete",
+      "CheckoutCreate",
+      "CheckoutCustomerAttach",
+      "CheckoutCustomerDetach",
+      "CheckoutDeliveryMethodUpdate",
+      "CheckoutEmailUpdate",
+      "CheckoutLanguageCodeUpdate",
+      "CheckoutLineDelete",
+      "CheckoutLinesAdd",
+      "CheckoutLinesUpdate",
+      "CheckoutRemovePromoCode",
+      "CheckoutShippingAddressUpdate",
+      "CheckoutShippingMethodUpdate"
+     ],
+     "truncated": true
+    },
+    {
+     "lines": 4,
+     "path": "saleor/graphql/checkout/resolvers.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "resolve_checkout",
+      "resolve_checkout_lines",
+      "resolve_checkouts"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 81,
+     "path": "saleor/graphql/checkout/types.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Checkout",
+      "CheckoutLine"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 11,
+     "path": "saleor/channel/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Channel"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 27,
+     "path": "saleor/warehouse/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ShippingZone",
+      "Stock",
+      "Warehouse"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 7,
+     "path": "saleor/graphql/core/dataloaders.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "DataLoader"
+     ],
+     "truncated": false
+    }
+   ],
+   "sha256": "2758a08facb8c7cc6e0a2e7740a6bf986a065a54b2e655f425aa8e14d982133b",
+   "verbatim_violations": 0
+  },
+  "saleor-rc-74538ea00ce9/GOLD_HARD": {
+   "chars": 40053,
+   "leakage_hits": 0,
+   "modules": [
+    {
+     "lines": 89,
+     "path": "saleor/checkout/models.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": false
+    },
+    {
+     "lines": 122,
+     "path": "saleor/discount/models.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": true
+    },
+    {
+     "lines": 10,
+     "path": "saleor/discount/error_codes.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "DiscountErrorCode"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 127,
+     "path": "saleor/order/models.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": true
+    },
+    {
+     "lines": 5,
+     "path": "saleor/permission/enums.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "DiscountPermissions",
+      "OrderPermissions"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 126,
+     "path": "saleor/webhook/event_types.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "WebhookEventAsyncType"
+     ],
+     "truncated": true
+    },
+    {
+     "lines": 2,
+     "path": "saleor/graphql/core/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ResolveInfo"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/graphql/core/types/__init__.py",
+     "status": "EMPTY"
+    },
+    {
+     "lines": 19,
+     "path": "saleor/graphql/core/utils/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "WebhookEventInfo",
+      "from_global_id_or_error"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/plugins/dataloaders.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "get_plugin_manager_promise"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/graphql/discount/types/__init__.py",
+     "status": "EMPTY"
+    },
+    {
+     "lines": 61,
+     "path": "saleor/graphql/discount/mutations/voucher/voucher_create.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "VoucherCreate",
+      "VoucherInput"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 45,
+     "path": "saleor/account/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "User"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 4,
+     "path": "saleor/checkout/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AddressType"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/core/taxes.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "TaxError"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 2,
+     "path": "saleor/core/tracing.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "traced_atomic_transaction"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/core/utils/url.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "validate_storefront_url"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 11,
+     "path": "saleor/discount/utils/voucher.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "get_active_voucher_code",
+      "get_voucher_code_instance",
+      "increase_voucher_usage"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 17,
+     "path": "saleor/order/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "OrderOrigin",
+      "OrderStatus"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 226,
+     "path": "saleor/order/events.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": true
+    },
+    {
+     "lines": 7,
+     "path": "saleor/order/actions.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "call_order_event"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 37,
+     "path": "saleor/order/error_codes.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "OrderErrorCode"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/order/search.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "update_order_search_vector"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/order/utils.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "path": "saleor/shipping/utils.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "path": "saleor/graphql/account/i18n.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "lines": 4,
+     "path": "saleor/graphql/account/mixins.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AddressMetadataMixin"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/graphql/account/types.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "path": "saleor/graphql/app/dataloaders.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "path": "saleor/graphql/channel/types.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "path": "saleor/graphql/core/descriptions.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "path": "saleor/graphql/core/doc_category.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "path": "saleor/graphql/core/mutations.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "path": "saleor/graphql/core/scalars.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "path": "saleor/graphql/product/types/__init__.py",
+     "status": "EMPTY"
+    },
+    {
+     "path": "saleor/graphql/shipping/utils.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "path": "saleor/graphql/order/types.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "path": "saleor/graphql/order/utils.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "path": "saleor/graphql/order/mutations/utils.py",
+     "status": "TOTAL_CAP_REACHED"
+    }
+   ],
+   "sha256": "6c4931d595be6180a62a71f2cd2fba9ff01655624051a59f0078c205bf497a6c",
+   "verbatim_violations": 0
+  },
+  "saleor-rc-74538ea00ce9/PLACEBO_HARD": {
+   "chars": 16548,
+   "leakage_hits": 0,
+   "modules": [
+    {
+     "lines": 11,
+     "path": "saleor/checkout/base_calculations.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "base_checkout_delivery_price",
+      "base_checkout_subtotal"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 62,
+     "path": "saleor/checkout/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Checkout"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 2,
+     "path": "saleor/core/db/connection.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "allow_writer"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 7,
+     "path": "saleor/discount/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "DiscountType"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 13,
+     "path": "saleor/discount/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "CheckoutDiscount",
+      "CheckoutLineDiscount"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 25,
+     "path": "saleor/discount/utils/promotion.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "create_discount_objects_for_order_promotions",
+      "delete_gift_line",
+      "prepare_line_discount_objects_for_catalogue_promotions"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 3,
+     "path": "saleor/discount/utils/shared.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "update_line_info_cached_discounts"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 39,
+     "path": "saleor/checkout/fetch.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "CheckoutInfo",
+      "CheckoutLineInfo"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 34,
+     "path": "saleor/page/models.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/core/context.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "get_database_connection_name"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 15,
+     "path": "saleor/graphql/core/utils/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "from_global_id_or_error"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 3,
+     "path": "saleor/graphql/core/validators/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "validate_one_of_args_is_in_query"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 3,
+     "path": "saleor/graphql/utils/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "get_user_or_app_from_context"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 29,
+     "path": "saleor/graphql/page/types.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Page"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 17,
+     "path": "saleor/attribute/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AttributeInputType"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/attribute/models/__init__.py",
+     "status": "EMPTY"
+    },
+    {
+     "lines": 8,
+     "path": "saleor/core/utils/editorjs.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "clean_editor_js"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 3,
+     "path": "saleor/permission/enums.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "SitePermissions"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 29,
+     "path": "saleor/graphql/attribute/types.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AttributeValue"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/core/descriptions.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "RICH_CONTENT"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/core/enums.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "LanguageCodeEnum"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 4,
+     "path": "saleor/graphql/core/fields.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "JSONString"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/graphql/core/types/__init__.py",
+     "status": "EMPTY"
+    },
+    {
+     "lines": 15,
+     "path": "saleor/graphql/translations/mutations/utils.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "BaseTranslateMutation",
+      "NameTranslationInput"
+     ],
+     "truncated": false
+    }
+   ],
+   "sha256": "fc8a4202d6d8491a80b07f84084437532ef308e2df369f594028a6c48e24d9ec",
+   "verbatim_violations": 0
+  },
+  "saleor-rc-823b899757ab/GOLD_HARD": {
+   "chars": 36473,
+   "leakage_hits": 0,
+   "modules": [
+    {
+     "lines": 2,
+     "path": "saleor/core/exceptions.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "PermissionDenied"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 2,
+     "path": "saleor/core/permissions.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ProductPermissions"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 138,
+     "path": "saleor/product/models.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": true
+    },
+    {
+     "lines": 13,
+     "path": "saleor/product/error_codes.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ProductErrorCode"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 10,
+     "path": "saleor/product/tasks.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "update_product_minimal_variant_price_task",
+      "update_products_minimal_variant_prices_of_catalogues_task",
+      "update_variants_names"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 6,
+     "path": "saleor/product/thumbnails.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "create_category_background_image_thumbnails",
+      "create_collection_background_image_thumbnails",
+      "create_product_thumbnails"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 2,
+     "path": "saleor/product/utils/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "delete_categories"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 6,
+     "path": "saleor/product/utils/attributes.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "associate_attribute_values_to_instance",
+      "generate_name_for_variant"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 74,
+     "path": "saleor/graphql/core/mutations.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "BaseMutation",
+      "ModelDeleteMutation",
+      "ModelMutation"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 17,
+     "path": "saleor/graphql/core/scalars.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Decimal",
+      "WeightScalar"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/graphql/core/types/__init__.py",
+     "status": "EMPTY"
+    },
+    {
+     "lines": 2,
+     "path": "saleor/graphql/core/types/common.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ProductError"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 12,
+     "path": "saleor/graphql/core/utils/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "clean_seo_fields",
+      "from_global_id_strict_type",
+      "get_duplicated_values",
+      "validate_image_file",
+      "validate_slug_and_generate_if_needed"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/core/utils/reordering.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "perform_reordering"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 16,
+     "path": "saleor/graphql/meta/deprecated/mutations.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ClearMetaBaseMutation",
+      "UpdateMetaBaseMutation"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 6,
+     "path": "saleor/graphql/warehouse/types.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Warehouse"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/graphql/product/types/__init__.py",
+     "status": "EMPTY"
+    },
+    {
+     "lines": 8,
+     "path": "saleor/graphql/product/utils.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "create_stocks",
+      "get_used_attribute_values_for_variant",
+      "get_used_variants_attribute_values",
+      "validate_attribute_input_for_product",
+      "validate_attribute_input_for_variant"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 3,
+     "path": "saleor/graphql/core/enums.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ReportingPeriod"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 36,
+     "path": "saleor/graphql/core/fields.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "FilterInputConnectionField",
+      "PrefetchingConnectionField"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/core/validators.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "validate_one_of_args_is_in_query"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/decorators.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "permission_required"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 60,
+     "path": "saleor/graphql/translations/mutations.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AttributeTranslate",
+      "AttributeValueTranslate",
+      "CategoryTranslate",
+      "CollectionTranslate",
+      "ProductTranslate",
+      "ProductVariantTranslate"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 18,
+     "path": "saleor/graphql/product/bulk_mutations/attributes.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AttributeBulkDelete",
+      "AttributeValueBulkDelete"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 159,
+     "path": "saleor/graphql/product/bulk_mutations/products.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "CategoryBulkDelete",
+      "CollectionBulkDelete",
+      "CollectionBulkPublish",
+      "ProductBulkDelete",
+      "ProductBulkPublish",
+      "ProductImageBulkDelete",
+      "ProductTypeBulkDelete",
+      "ProductVariantBulkCreate",
+      "ProductVariantBulkDelete",
+      "ProductVariantStocksCreate",
+      "ProductVariantStocksDelete",
+      "ProductVariantStocksUpdate"
+     ],
+     "truncated": true
+    },
+    {
+     "lines": 3,
+     "path": "saleor/graphql/product/enums.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "StockAvailability"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 15,
+     "path": "saleor/graphql/product/filters.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AttributeFilterInput",
+      "CategoryFilterInput",
+      "CollectionFilterInput",
+      "ProductFilterInput",
+      "ProductTypeFilterInput"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 144,
+     "path": "saleor/graphql/product/mutations/attributes.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AttributeAssign",
+      "AttributeClearMeta",
+      "AttributeClearPrivateMeta",
+      "AttributeCreate",
+      "AttributeDelete",
+      "AttributeReorderValues",
+      "AttributeUnassign",
+      "AttributeUpdate",
+      "AttributeUpdateMeta",
+      "AttributeUpdatePrivateMeta",
+      "AttributeValueCreate",
+      "AttributeValueDelete",
+      "AttributeValueUpdate",
+      "ProductTypeReorderAttributes"
+     ],
+     "truncated": true
+    },
+    {
+     "lines": 54,
+     "path": "saleor/graphql/product/mutations/digital_contents.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "DigitalContentCreate",
+      "DigitalContentDelete",
+      "DigitalContentUpdate",
+      "DigitalContentUrlCreate"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 11,
+     "path": "saleor/graphql/product/resolvers.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "resolve_attributes",
+      "resolve_categories",
+      "resolve_category_by_slug",
+      "resolve_collection_by_slug",
+      "resolve_collections",
+      "resolve_digital_contents",
+      "resolve_product_by_slug",
+      "resolve_product_types",
+      "resolve_product_variants",
+      "resolve_products",
+      "resolve_report_product_sales"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 21,
+     "path": "saleor/graphql/product/sorters.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AttributeSortingInput",
+      "CategorySortingInput",
+      "CollectionSortingInput",
+      "ProductOrder",
+      "ProductTypeSortingInput"
+     ],
+     "truncated": false
+    }
+   ],
+   "sha256": "c6c3efe2e566839a417ac03cf2645ae34d4fcae02c3d772d5d2f9a4c89dcfca5",
+   "verbatim_violations": 0
+  },
+  "saleor-rc-823b899757ab/PLACEBO_HARD": {
+   "chars": 11889,
+   "leakage_hits": 0,
+   "modules": [
+    {
+     "lines": 86,
+     "path": "saleor/account/models.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": false
+    },
+    {
+     "lines": 31,
+     "path": "saleor/account/error_codes.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AccountErrorCode"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 4,
+     "path": "saleor/core/permissions.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AccountPermissions"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 19,
+     "path": "saleor/graphql/core/mutations.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "BaseBulkMutation",
+      "ModelBulkDeleteMutation"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 6,
+     "path": "saleor/graphql/core/types/common.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AccountError",
+      "StaffError"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 62,
+     "path": "saleor/graphql/account/types.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "User"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 20,
+     "path": "saleor/graphql/account/utils.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "CustomerDeleteMixin",
+      "StaffDeleteMixin"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 28,
+     "path": "saleor/graphql/wishlist/mutations.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "WishlistAddProductMutation",
+      "WishlistAddProductVariantMutation",
+      "WishlistRemoveProductMutation",
+      "WishlistRemoveProductVariantMutation"
+     ],
+     "truncated": false
+    }
+   ],
+   "sha256": "8a81de07bfdb85d197f8e8a248dbf7de18b8dcc774c12e4034273f3a5c736d38",
+   "verbatim_violations": 0
+  },
+  "saleor-rc-8f76ddc6267f/GOLD_HARD": {
+   "chars": 39915,
+   "leakage_hits": 0,
+   "modules": [
+    {
+     "lines": 6,
+     "path": "saleor/permission/auth_filters.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AuthorizationFilters"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 10,
+     "path": "saleor/webhook/error_codes.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "WebhookDryRunErrorCode"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 133,
+     "path": "saleor/webhook/event_types.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "WebhookEventAsyncType",
+      "WebhookEventSyncType"
+     ],
+     "truncated": true
+    },
+    {
+     "lines": 12,
+     "path": "saleor/graphql/core/descriptions.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ADDED_IN_310",
+      "ADDED_IN_311",
+      "ADDED_IN_312",
+      "ADDED_IN_313",
+      "ADDED_IN_314",
+      "ADDED_IN_32",
+      "ADDED_IN_34",
+      "ADDED_IN_35",
+      "ADDED_IN_36",
+      "ADDED_IN_37",
+      "ADDED_IN_38",
+      "PREVIEW_FEATURE"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 7,
+     "path": "saleor/graphql/core/doc_category.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "DOC_CATEGORY_CHECKOUT",
+      "DOC_CATEGORY_ORDERS",
+      "DOC_CATEGORY_PAYMENTS",
+      "DOC_CATEGORY_PRODUCTS",
+      "DOC_CATEGORY_SHIPPING",
+      "DOC_CATEGORY_TAXES",
+      "DOC_CATEGORY_WEBHOOKS"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 4,
+     "path": "saleor/graphql/core/fields.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "JSONString"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 160,
+     "path": "saleor/graphql/core/mutations.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "BaseMutation"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/graphql/core/types/__init__.py",
+     "status": "EMPTY"
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/core/utils/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "raise_validation_error"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 13,
+     "path": "saleor/graphql/webhook/subscription_payload.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "generate_payload_from_subscription",
+      "initialize_request"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 17,
+     "path": "saleor/graphql/webhook/subscription_query.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "SubscriptionQuery"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "__version__"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 42,
+     "path": "saleor/account/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "User"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/attribute/models/__init__.py",
+     "status": "EMPTY"
+    },
+    {
+     "lines": 1,
+     "path": "saleor/core/prices.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "quantize_price"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 16,
+     "path": "saleor/discount/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "SaleTranslation",
+      "VoucherTranslation"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 10,
+     "path": "saleor/menu/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "MenuItemTranslation"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 4,
+     "path": "saleor/order/utils.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "get_all_shipping_methods_for_order"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 11,
+     "path": "saleor/page/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "PageTranslation"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 13,
+     "path": "saleor/payment/interface.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "TransactionActionData",
+      "TransactionSessionData"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 40,
+     "path": "saleor/product/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "CategoryTranslation",
+      "CollectionTranslation",
+      "ProductTranslation",
+      "ProductVariantTranslation"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 8,
+     "path": "saleor/shipping/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ShippingMethodTranslation"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/thumbnail/views.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "TYPE_TO_MODEL_DATA_MAPPING"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 86,
+     "path": "saleor/graphql/account/types.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "User"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 52,
+     "path": "saleor/graphql/app/types.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "App"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 4,
+     "path": "saleor/graphql/channel/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ChannelContext"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 3,
+     "path": "saleor/graphql/channel/dataloaders.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ChannelByIdLoader"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/channel/enums.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "TransactionFlowStrategyEnum"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 2,
+     "path": "saleor/graphql/core/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ResolveInfo"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 9,
+     "path": "saleor/graphql/core/scalars.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "JSON",
+      "PositiveDecimal"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 3,
+     "path": "saleor/graphql/core/types/order_or_checkout.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "OrderOrCheckout"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 3,
+     "path": "saleor/graphql/order/dataloaders.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "OrderByIdLoader"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 160,
+     "path": "saleor/graphql/order/types.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Order"
+     ],
+     "truncated": true
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/payment/enums.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "TransactionActionEnum"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 69,
+     "path": "saleor/graphql/payment/types.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "TransactionItem"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 2,
+     "path": "saleor/graphql/plugins/dataloaders.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "plugin_manager_promise_callback"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/graphql/product/dataloaders/__init__.py",
+     "status": "EMPTY"
+    },
+    {
+     "lines": 3,
+     "path": "saleor/graphql/shipping/dataloaders.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ShippingMethodChannelListingByChannelSlugLoader"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/graphql/shipping/types.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "path": "saleor/graphql/translations/types.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "lines": 3,
+     "path": "saleor/graphql/warehouse/dataloaders.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "WarehouseByIdLoader"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/webhook/resolvers.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "resolve_shipping_methods_for_checkout"
+     ],
+     "truncated": false
+    }
+   ],
+   "sha256": "9b4cc2affcdf2d0b6308175cbe3bb10591d2c6c35d58f3f0b4df3810bea3734f",
+   "verbatim_violations": 0
+  },
+  "saleor-rc-8f76ddc6267f/PLACEBO_HARD": {
+   "chars": 40044,
+   "leakage_hits": 0,
+   "modules": [
+    {
+     "lines": 73,
+     "path": "saleor/account/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Address",
+      "Group",
+      "User"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 2,
+     "path": "saleor/account/search.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "generate_address_search_document_value",
+      "generate_user_fields_search_document_value"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 6,
+     "path": "saleor/account/utils.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "store_user_address"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/attribute/models/__init__.py",
+     "status": "EMPTY"
+    },
+    {
+     "lines": 18,
+     "path": "saleor/channel/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Channel"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 4,
+     "path": "saleor/checkout/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AddressType"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 10,
+     "path": "saleor/checkout/fetch.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "fetch_checkout_info"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 56,
+     "path": "saleor/checkout/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Checkout"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 9,
+     "path": "saleor/checkout/utils.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "add_variant_to_checkout"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/core/weight.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "zero_weight"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 9,
+     "path": "saleor/discount/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "DiscountValueType",
+      "VoucherType"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 69,
+     "path": "saleor/discount/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Sale",
+      "SaleChannelListing",
+      "Voucher",
+      "VoucherChannelListing"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/discount/utils.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "fetch_discounts"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 70,
+     "path": "saleor/giftcard/events.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": false
+    },
+    {
+     "lines": 30,
+     "path": "saleor/giftcard/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "GiftCard",
+      "GiftCardTag"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 25,
+     "path": "saleor/menu/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Menu",
+      "MenuItem"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 11,
+     "path": "saleor/order/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "OrderStatus"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 126,
+     "path": "saleor/order/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Fulfillment",
+      "Order",
+      "OrderLine"
+     ],
+     "truncated": true
+    },
+    {
+     "lines": 3,
+     "path": "saleor/order/search.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "prepare_order_search_vector_value"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/order/utils.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "update_order_status"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 20,
+     "path": "saleor/page/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Page",
+      "PageType"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 116,
+     "path": "saleor/payment/gateway.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": false
+    },
+    {
+     "lines": 15,
+     "path": "saleor/payment/utils.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "create_payment"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 17,
+     "path": "saleor/permission/enums.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AccountPermissions",
+      "CheckoutPermissions",
+      "GiftcardPermissions",
+      "OrderPermissions",
+      "ProductPermissions",
+      "get_permissions"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 13,
+     "path": "saleor/permission/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Permission"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 4,
+     "path": "saleor/plugins/manager.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "get_plugins_manager"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 127,
+     "path": "saleor/product/models.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": true
+    },
+    {
+     "lines": 1,
+     "path": "saleor/product/search.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "update_products_search_vector"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 2,
+     "path": "saleor/product/tasks.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "update_products_discounted_prices_of_sale_task"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/product/utils/variant_prices.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "update_products_discounted_prices"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 40,
+     "path": "saleor/shipping/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ShippingMethod",
+      "ShippingMethodChannelListing",
+      "ShippingMethodType",
+      "ShippingZone"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/tax/models.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "path": "saleor/tax/utils.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "path": "saleor/warehouse/__init__.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "path": "saleor/warehouse/management.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "path": "saleor/warehouse/models.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "path": "saleor/core/postgres.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "path": "saleor/product/utils/__init__.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "path": "saleor/graphql/core/mutations.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "path": "saleor/graphql/core/types/__init__.py",
+     "status": "EMPTY"
+    },
+    {
+     "path": "saleor/graphql/plugins/dataloaders.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "path": "saleor/graphql/product/types/__init__.py",
+     "status": "EMPTY"
+    }
+   ],
+   "sha256": "5aae8a9f6cdb5bebaa9bf09bb0905e22160a693f7a5f5223b8f9777fe661bb38",
+   "verbatim_violations": 0
+  },
+  "saleor-rc-93b20d78c011/GOLD_HARD": {
+   "chars": 35953,
+   "leakage_hits": 0,
+   "modules": [
+    {
+     "lines": 86,
+     "path": "saleor/account/models.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": false
+    },
+    {
+     "lines": 2,
+     "path": "saleor/core/exceptions.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "PermissionDenied"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 3,
+     "path": "saleor/core/permissions.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AccountPermissions"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 50,
+     "path": "saleor/payment/gateway.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/payment/utils.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "fetch_customer_id"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 4,
+     "path": "saleor/graphql/utils/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "format_permissions_for_display",
+      "get_user_or_app_from_context"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/utils/filters.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "filter_by_query_param"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 114,
+     "path": "saleor/graphql/account/types.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Address",
+      "AddressValidationData",
+      "ChoiceValue",
+      "Group",
+      "User"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 3,
+     "path": "saleor/graphql/account/utils.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "get_allowed_fields_camel_case",
+      "get_required_fields_camel_case",
+      "get_user_permissions"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 21,
+     "path": "saleor/graphql/core/fields.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "FilterInputConnectionField"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/graphql/core/types/__init__.py",
+     "status": "EMPTY"
+    },
+    {
+     "lines": 2,
+     "path": "saleor/graphql/decorators.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "one_of_permissions_required",
+      "permission_required"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 34,
+     "path": "saleor/graphql/account/bulk_mutations.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "CustomerBulkDelete",
+      "StaffBulkDelete",
+      "UserBulkSetActive"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/account/enums.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "CountryCodeEnum"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 16,
+     "path": "saleor/graphql/account/filters.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "CustomerFilter",
+      "PermissionGroupFilter",
+      "StaffUserFilter"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 123,
+     "path": "saleor/graphql/account/mutations/account.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AccountAddressCreate",
+      "AccountAddressDelete",
+      "AccountAddressUpdate",
+      "AccountDelete",
+      "AccountRegister",
+      "AccountRequestDeletion",
+      "AccountSetDefaultAddress",
+      "AccountUpdate",
+      "ConfirmEmailChange",
+      "RequestEmailChange"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 47,
+     "path": "saleor/graphql/account/mutations/base.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ConfirmAccount",
+      "PasswordChange",
+      "RequestPasswordReset",
+      "SetPassword"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 65,
+     "path": "saleor/graphql/account/mutations/jwt.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "CreateToken",
+      "DeactivateAllUserTokens",
+      "RefreshToken",
+      "VerifyToken"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 146,
+     "path": "saleor/graphql/account/mutations/permission_group.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "PermissionGroupCreate",
+      "PermissionGroupDelete",
+      "PermissionGroupUpdate"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 158,
+     "path": "saleor/graphql/account/mutations/staff.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AddressCreate",
+      "AddressDelete",
+      "AddressSetDefault",
+      "AddressUpdate",
+      "CustomerCreate",
+      "CustomerDelete",
+      "CustomerUpdate",
+      "StaffCreate",
+      "StaffDelete",
+      "StaffUpdate",
+      "UserAvatarDelete",
+      "UserAvatarUpdate"
+     ],
+     "truncated": true
+    },
+    {
+     "lines": 8,
+     "path": "saleor/graphql/account/sorters.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "PermissionGroupSortingInput",
+      "UserSortingInput"
+     ],
+     "truncated": false
+    }
+   ],
+   "sha256": "9fcf30ae307210b7cec57060bba30105fa54cb1cfc7c8b2df24eb92f196b3aa5",
+   "verbatim_violations": 0
+  },
+  "saleor-rc-93b20d78c011/PLACEBO_HARD": {
+   "chars": 5262,
+   "leakage_hits": 0,
+   "modules": [
+    {
+     "path": "saleor/graphql/core/types/converter.py",
+     "status": "EMPTY"
+    },
+    {
+     "lines": 12,
+     "path": "saleor/csv/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ExportEvents",
+      "FileTypes"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/core/enums.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "to_enum"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 44,
+     "path": "saleor/graphql/meta/mutations.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "DeleteMetadata",
+      "DeletePrivateMetadata",
+      "UpdateMetadata",
+      "UpdatePrivateMetadata"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 9,
+     "path": "saleor/discount/utils.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "calculate_discounted_price",
+      "fetch_active_discounts"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 49,
+     "path": "saleor/product/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Product",
+      "ProductChannelListing",
+      "ProductVariantChannelListing"
+     ],
+     "truncated": false
+    }
+   ],
+   "sha256": "c541e6a2ad6eee0968e2caffe3692a5cfcdeec27c8ed0ed2a90b6196536479b2",
+   "verbatim_violations": 0
+  },
+  "saleor-rc-c3b9e396b07d/GOLD_HARD": {
+   "chars": 39098,
+   "leakage_hits": 0,
+   "modules": [
+    {
+     "lines": 16,
+     "path": "saleor/attribute/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AttributeInputType"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/attribute/models/__init__.py",
+     "status": "EMPTY"
+    },
+    {
+     "lines": 4,
+     "path": "saleor/core/permissions.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ProductPermissions",
+      "ProductTypePermissions"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 2,
+     "path": "saleor/core/tracing.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "traced_atomic_transaction"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 203,
+     "path": "saleor/order/events.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": true
+    },
+    {
+     "lines": 140,
+     "path": "saleor/order/models.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": true
+    },
+    {
+     "lines": 2,
+     "path": "saleor/order/tasks.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "recalculate_orders_task"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 136,
+     "path": "saleor/product/models.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": true
+    },
+    {
+     "lines": 18,
+     "path": "saleor/product/error_codes.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ProductErrorCode"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 2,
+     "path": "saleor/product/tasks.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "update_product_discounted_price_task"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 2,
+     "path": "saleor/product/utils/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "delete_categories"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/product/utils/variants.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "generate_and_set_variant_name"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 63,
+     "path": "saleor/warehouse/models.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": false
+    },
+    {
+     "lines": 7,
+     "path": "saleor/warehouse/error_codes.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "StockErrorCode"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 4,
+     "path": "saleor/graphql/channel/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ChannelContext"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 13,
+     "path": "saleor/graphql/channel/types.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Channel"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 85,
+     "path": "saleor/graphql/core/mutations.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "BaseMutation",
+      "ModelBulkDeleteMutation",
+      "ModelMutation"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 14,
+     "path": "saleor/graphql/core/types/common.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "BulkProductError",
+      "BulkStockError",
+      "CollectionError",
+      "ProductError",
+      "StockError"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/core/utils/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "get_duplicated_values"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/core/validators.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "validate_price_precision"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 12,
+     "path": "saleor/graphql/warehouse/types.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Warehouse"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 4,
+     "path": "saleor/graphql/product/mutations/channels.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ProductVariantChannelListingAddInput"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 41,
+     "path": "saleor/graphql/product/mutations/products.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AttributeAssignmentMixin",
+      "ProductVariantCreate",
+      "ProductVariantInput",
+      "StockInput"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/graphql/product/types/__init__.py",
+     "status": "EMPTY"
+    },
+    {
+     "lines": 8,
+     "path": "saleor/graphql/product/utils.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "create_stocks",
+      "get_draft_order_lines_data_for_variants",
+      "get_used_variants_attribute_values"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 10,
+     "path": "saleor/core/exceptions.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AllocationError",
+      "InsufficientStock",
+      "InsufficientStockData"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 7,
+     "path": "saleor/order/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "OrderLineData"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 162,
+     "path": "saleor/plugins/manager.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "PluginsManager"
+     ],
+     "truncated": true
+    }
+   ],
+   "sha256": "4b72b3632bd62de05dd3a635a64cfa48b29d265acf1b3266e586878fe3c798cb",
+   "verbatim_violations": 0
+  },
+  "saleor-rc-c3b9e396b07d/PLACEBO_HARD": {
+   "chars": 12084,
+   "leakage_hits": 0,
+   "modules": [
+    {
+     "lines": 28,
+     "path": "saleor/product/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Product"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 4,
+     "path": "saleor/csv/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "FileTypes"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/csv/notifications.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "send_export_download_link_notification"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 3,
+     "path": "saleor/csv/utils/product_headers.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "get_export_fields_and_headers_info"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 7,
+     "path": "saleor/csv/utils/products_data.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "get_products_data"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 4,
+     "path": "saleor/csv/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ExportFile"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 22,
+     "path": "saleor/graphql/product/filters.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ProductFilter"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 20,
+     "path": "saleor/attribute/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AttributeInputType",
+      "AttributeType"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/attribute/models/__init__.py",
+     "status": "EMPTY"
+    },
+    {
+     "lines": 2,
+     "path": "saleor/core/exceptions.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "PermissionDenied"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 4,
+     "path": "saleor/core/permissions.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "PagePermissions",
+      "ProductPermissions"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/core/tracing.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "traced_resolver"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 3,
+     "path": "saleor/graphql/utils/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "get_user_or_app_from_context"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 6,
+     "path": "saleor/graphql/core/connection.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "CountableDjangoObjectType"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/core/enums.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "MeasurementUnitsEnum"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 21,
+     "path": "saleor/graphql/core/fields.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "FilterInputConnectionField"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/graphql/core/types/__init__.py",
+     "status": "EMPTY"
+    },
+    {
+     "lines": 9,
+     "path": "saleor/graphql/core/types/common.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "DateRangeInput",
+      "DateTimeRangeInput",
+      "IntRangeInput"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/decorators.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "check_attribute_required_permissions"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 9,
+     "path": "saleor/graphql/meta/types.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ObjectWithMetadata"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 2,
+     "path": "saleor/graphql/translations/fields.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "TranslationField"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 10,
+     "path": "saleor/graphql/translations/types.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AttributeTranslation",
+      "AttributeValueTranslation"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 3,
+     "path": "saleor/graphql/attribute/dataloaders.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AttributesByAttributeId"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 31,
+     "path": "saleor/graphql/attribute/descriptions.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AttributeDescriptions",
+      "AttributeValueDescriptions"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 3,
+     "path": "saleor/graphql/attribute/enums.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AttributeEntityTypeEnum",
+      "AttributeInputTypeEnum",
+      "AttributeTypeEnum"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 3,
+     "path": "saleor/graphql/attribute/filters.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AttributeValueFilterInput"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 4,
+     "path": "saleor/graphql/attribute/sorters.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AttributeChoicesSortingInput"
+     ],
+     "truncated": false
+    }
+   ],
+   "sha256": "6b205cb211f047aa8c25347b3b902f5f44ce9ade2ea752d6e37e4d4f8325fa41",
+   "verbatim_violations": 0
+  },
+  "saleor-rc-d220843b5418/GOLD_HARD": {
+   "chars": 40083,
+   "leakage_hits": 0,
+   "modules": [
+    {
+     "lines": 30,
+     "path": "saleor/app/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "App"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 20,
+     "path": "saleor/checkout/fetch.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "fetch_checkout_info",
+      "fetch_checkout_lines",
+      "get_all_shipping_methods_list"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 2,
+     "path": "saleor/core/exceptions.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "PermissionDenied"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 3,
+     "path": "saleor/permission/enums.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AppPermission"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 19,
+     "path": "saleor/webhook/models.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": false
+    },
+    {
+     "lines": 163,
+     "path": "saleor/webhook/payloads.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": false
+    },
+    {
+     "lines": 49,
+     "path": "saleor/webhook/deprecated_event_types.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "WebhookEventType"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 126,
+     "path": "saleor/webhook/event_types.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "WebhookEventAsyncType",
+      "WebhookEventSyncType"
+     ],
+     "truncated": true
+    },
+    {
+     "lines": 2,
+     "path": "saleor/graphql/core/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ResolveInfo"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/graphql/core/context.py",
+     "status": "PARSE_SKIPPED"
+    },
+    {
+     "lines": 2,
+     "path": "saleor/graphql/core/tracing.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "traced_resolver"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 15,
+     "path": "saleor/graphql/core/utils/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "from_global_id_or_error"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 33,
+     "path": "saleor/graphql/webhook/types.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Webhook",
+      "WebhookEvent"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "__version__"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 47,
+     "path": "saleor/account/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "User"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/attribute/models/__init__.py",
+     "status": "EMPTY"
+    },
+    {
+     "lines": 27,
+     "path": "saleor/channel/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Channel"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/core/prices.py",
+     "status": "PARSE_SKIPPED"
+    },
+    {
+     "lines": 24,
+     "path": "saleor/discount/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "PromotionRuleTranslation",
+      "PromotionTranslation",
+      "VoucherTranslation"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 162,
+     "path": "saleor/graphql/shop/types.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Shop"
+     ],
+     "truncated": true
+    },
+    {
+     "lines": 10,
+     "path": "saleor/menu/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "MenuItemTranslation"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 5,
+     "path": "saleor/order/utils.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "get_all_shipping_methods_for_order"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 12,
+     "path": "saleor/page/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "PageTranslation"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 41,
+     "path": "saleor/payment/interface.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ListStoredPaymentMethodsRequestData",
+      "PaymentMethodInitializeTokenizationRequestData",
+      "PaymentMethodProcessTokenizationRequestData",
+      "PaymentMethodTokenizationBaseRequestData",
+      "StoredPaymentMethodRequestDeleteData",
+      "TransactionActionData",
+      "TransactionSessionData"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 42,
+     "path": "saleor/product/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "CategoryTranslation",
+      "CollectionTranslation",
+      "ProductTranslation",
+      "ProductVariantTranslation"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 8,
+     "path": "saleor/shipping/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ShippingMethodTranslation"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/thumbnail/views.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "TYPE_TO_MODEL_DATA_MAPPING"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/webhook/const.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "MAX_FILTERABLE_CHANNEL_SLUGS_LIMIT"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/graphql/account/types.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "lines": 59,
+     "path": "saleor/graphql/app/types.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "App"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/graphql/channel/dataloaders/by_self.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "path": "saleor/graphql/channel/enums.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "path": "saleor/graphql/core/descriptions.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "path": "saleor/graphql/core/doc_category.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "path": "saleor/graphql/core/fields.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "path": "saleor/graphql/core/scalars.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "path": "saleor/graphql/core/types/__init__.py",
+     "status": "EMPTY"
+    },
+    {
+     "path": "saleor/graphql/core/types/order_or_checkout.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "path": "saleor/graphql/order/dataloaders.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "path": "saleor/graphql/order/types.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "path": "saleor/graphql/payment/enums.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "path": "saleor/graphql/payment/types.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "path": "saleor/graphql/plugins/dataloaders.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "path": "saleor/graphql/product/dataloaders/__init__.py",
+     "status": "EMPTY"
+    },
+    {
+     "path": "saleor/graphql/shipping/dataloaders.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "path": "saleor/graphql/shipping/types.py",
+     "status": "TOTAL_CAP_REACHED"
+    },
+    {
+     "path": "saleor/graphql/translations/types.py",
+     "status": "PARSE_SKIPPED"
+    },
+    {
+     "path": "saleor/graphql/warehouse/dataloaders.py",
+     "status": "TOTAL_CAP_REACHED"
+    }
+   ],
+   "sha256": "4d49fbf10ae91526d9b75e61a816d3ed053fb9cfca22e37c761d057485d9112f",
+   "verbatim_violations": 0
+  },
+  "saleor-rc-d220843b5418/PLACEBO_HARD": {
+   "chars": 18886,
+   "leakage_hits": 0,
+   "modules": [
+    {
+     "lines": 7,
+     "path": "saleor/attribute/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AttributeEntityType"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/attribute/models/__init__.py",
+     "status": "EMPTY"
+    },
+    {
+     "lines": 10,
+     "path": "saleor/attribute/error_codes.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AttributeBulkUpdateErrorCode"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 3,
+     "path": "saleor/attribute/lock_objects.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "attribute_reference_page_types_qs_select_for_update",
+      "attribute_reference_product_types_qs_select_for_update",
+      "attribute_value_qs_select_for_update"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 2,
+     "path": "saleor/core/tracing.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "traced_atomic_transaction"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 4,
+     "path": "saleor/permission/enums.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "PageTypePermissions",
+      "ProductTypePermissions"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 6,
+     "path": "saleor/webhook/utils.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "get_webhooks_for_event"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 2,
+     "path": "saleor/graphql/core/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ResolveInfo"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/graphql/core/context.py",
+     "status": "PARSE_SKIPPED"
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/core/doc_category.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "DOC_CATEGORY_ATTRIBUTES"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/core/enums.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ErrorPolicyEnum"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 201,
+     "path": "saleor/graphql/core/mutations.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "BaseMutation",
+      "DeprecatedModelMutation"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/graphql/core/types/__init__.py",
+     "status": "EMPTY"
+    },
+    {
+     "lines": 20,
+     "path": "saleor/graphql/core/utils/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "WebhookEventAsyncType",
+      "WebhookEventInfo",
+      "from_global_id_or_error",
+      "get_duplicated_values"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/core/validators/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "validate_one_of_args_is_in_mutation"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/plugins/dataloaders.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "get_plugin_manager_promise"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/attribute/enums.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AttributeTypeEnum"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 76,
+     "path": "saleor/graphql/attribute/types.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Attribute"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 12,
+     "path": "saleor/graphql/attribute/mutations/attribute_bulk_create.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "DEPRECATED_ATTR_FIELDS",
+      "clean_values"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 18,
+     "path": "saleor/graphql/attribute/mutations/attribute_update.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AttributeUpdateInput"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 39,
+     "path": "saleor/graphql/attribute/mutations/mixins.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AttributeMixin"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 46,
+     "path": "saleor/giftcard/models.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": false
+    },
+    {
+     "lines": 9,
+     "path": "saleor/giftcard/error_codes.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "GiftCardErrorCode"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/giftcard/utils.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "is_gift_card_expired"
+     ],
+     "truncated": false
+    }
+   ],
+   "sha256": "fe89ae583583bf26f981c5dca02584a185e22abaad77c7dceed747e0ffd0c313",
+   "verbatim_violations": 0
+  },
+  "saleor-rc-dc6ac9d252df/GOLD_HARD": {
+   "chars": 10793,
+   "leakage_hits": 0,
+   "modules": [
+    {
+     "lines": 1,
+     "path": "saleor/core/notifications.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "get_site_context"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 2,
+     "path": "saleor/core/notify_events.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "NotifyEventType"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 28,
+     "path": "saleor/account/events.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/celeryconf.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "app"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 37,
+     "path": "saleor/giftcard/events.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": false
+    },
+    {
+     "lines": 21,
+     "path": "saleor/invoice/events.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": false
+    },
+    {
+     "lines": 203,
+     "path": "saleor/order/events.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": true
+    },
+    {
+     "lines": 20,
+     "path": "saleor/plugins/sendgrid/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "SendgridConfiguration"
+     ],
+     "truncated": false
+    }
+   ],
+   "sha256": "ac69a2e074270a5e488be5dd23eec03f11052ae55057e64ed8ca88a03a84f1c4",
+   "verbatim_violations": 0
+  },
+  "saleor-rc-dc6ac9d252df/PLACEBO_HARD": {
+   "chars": 39995,
+   "leakage_hits": 0,
+   "modules": [
+    {
+     "lines": 33,
+     "path": "saleor/account/error_codes.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AccountErrorCode"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 29,
+     "path": "saleor/account/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "User"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 11,
+     "path": "saleor/core/analytics.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": false
+    },
+    {
+     "lines": 10,
+     "path": "saleor/core/exceptions.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AllocationError",
+      "InsufficientStock",
+      "InsufficientStockData"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 2,
+     "path": "saleor/core/tracing.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "traced_atomic_transaction"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 2,
+     "path": "saleor/core/transactions.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "transaction_with_commit_on_errors"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 31,
+     "path": "saleor/payment/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ChargeStatus",
+      "CustomPaymentChoices",
+      "PaymentError",
+      "TransactionKind"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 86,
+     "path": "saleor/payment/gateway.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": false
+    },
+    {
+     "lines": 72,
+     "path": "saleor/payment/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Payment",
+      "Transaction"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 13,
+     "path": "saleor/payment/utils.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "create_payment"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 13,
+     "path": "saleor/warehouse/management.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "deallocate_stock",
+      "deallocate_stock_for_order",
+      "decrease_stock",
+      "get_order_lines_with_track_inventory"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 27,
+     "path": "saleor/warehouse/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Stock",
+      "Warehouse"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 36,
+     "path": "saleor/order/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "FulfillmentLineData",
+      "FulfillmentStatus",
+      "OrderLineData",
+      "OrderOrigin",
+      "OrderStatus"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 203,
+     "path": "saleor/order/events.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": true
+    },
+    {
+     "lines": 83,
+     "path": "saleor/order/utils.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": false
+    },
+    {
+     "lines": 31,
+     "path": "saleor/order/error_codes.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "OrderErrorCode"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 141,
+     "path": "saleor/order/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Fulfillment",
+      "FulfillmentLine",
+      "Order",
+      "OrderLine"
+     ],
+     "truncated": true
+    },
+    {
+     "lines": 14,
+     "path": "saleor/order/notifications.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "send_fulfillment_confirmation_to_customer",
+      "send_order_canceled_confirmation",
+      "send_order_confirmed",
+      "send_order_refunded_confirmation",
+      "send_payment_confirmation"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 23,
+     "path": "saleor/app/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "App"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 163,
+     "path": "saleor/plugins/manager.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "PluginsManager"
+     ],
+     "truncated": true
+    }
+   ],
+   "sha256": "13f93dec4edbcb7202ded13ec8aba071e69ece624847392212609ba1a2eda367",
+   "verbatim_violations": 0
+  },
+  "saleor-rc-e03ee76d2b89/GOLD_HARD": {
+   "chars": 1249,
+   "leakage_hits": 0,
+   "modules": [
+    {
+     "lines": 7,
+     "path": "saleor/core/utils/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "generate_unique_slug"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 15,
+     "path": "saleor/product/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ProductVariantChannelListing"
+     ],
+     "truncated": false
+    }
+   ],
+   "sha256": "0202d7238bb5a3ad03ed3361071316dcf998c811fcdeec2d87f906cd609c65de",
+   "verbatim_violations": 0
+  },
+  "saleor-rc-e03ee76d2b89/PLACEBO_HARD": {
+   "chars": 36567,
+   "leakage_hits": 0,
+   "modules": [
+    {
+     "lines": 4,
+     "path": "saleor/checkout/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AddressType"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 82,
+     "path": "saleor/checkout/models.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": false
+    },
+    {
+     "lines": 29,
+     "path": "saleor/checkout/error_codes.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "CheckoutErrorCode"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 9,
+     "path": "saleor/checkout/utils.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "add_variants_to_checkout"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 2,
+     "path": "saleor/core/tracing.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "traced_atomic_transaction"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 6,
+     "path": "saleor/core/utils/country.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "get_active_country"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 135,
+     "path": "saleor/product/models.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": true
+    },
+    {
+     "lines": 2,
+     "path": "saleor/warehouse/reservations.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "get_reservation_length",
+      "is_reservation_enabled"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 129,
+     "path": "saleor/webhook/event_types.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "WebhookEventAsyncType"
+     ],
+     "truncated": true
+    },
+    {
+     "lines": 35,
+     "path": "saleor/graphql/account/i18n.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "I18nMixin"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 13,
+     "path": "saleor/graphql/account/types.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AddressInput"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/app/dataloaders.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "get_app_promise"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 4,
+     "path": "saleor/graphql/channel/utils.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "clean_channel"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 2,
+     "path": "saleor/graphql/core/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ResolveInfo"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 6,
+     "path": "saleor/graphql/core/descriptions.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ADDED_IN_31",
+      "ADDED_IN_35",
+      "ADDED_IN_36",
+      "ADDED_IN_38",
+      "ADDED_IN_39",
+      "DEPRECATED_IN_3X_FIELD"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 2,
+     "path": "saleor/graphql/core/doc_category.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "DOC_CATEGORY_CHECKOUT",
+      "DOC_CATEGORY_TAXES"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/core/enums.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "LanguageCodeEnum"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 30,
+     "path": "saleor/graphql/core/mutations.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "ModelMutation"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 3,
+     "path": "saleor/graphql/core/scalars.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "PositiveDecimal"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/graphql/core/types/__init__.py",
+     "status": "EMPTY"
+    },
+    {
+     "lines": 5,
+     "path": "saleor/graphql/core/utils/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "WebhookEventInfo",
+      "get_duplicates_items"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 5,
+     "path": "saleor/graphql/core/validators/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "validate_variants_available_in_channel"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/plugins/dataloaders.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "get_plugin_manager_promise"
+     ],
+     "truncated": false
+    },
+    {
+     "path": "saleor/graphql/product/types/__init__.py",
+     "status": "EMPTY"
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/site/dataloaders.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "get_site_promise"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 133,
+     "path": "saleor/graphql/checkout/types.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Checkout"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 40,
+     "path": "saleor/graphql/checkout/mutations/utils.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "CheckoutLineData",
+      "check_lines_quantity",
+      "check_permissions_for_custom_prices",
+      "get_variants_and_total_quantities",
+      "group_lines_input_on_add",
+      "validate_variants_are_published",
+      "validate_variants_available_for_purchase"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 20,
+     "path": "saleor/account/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "Address"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 3,
+     "path": "saleor/graphql/meta/inputs.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "MetadataInput"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 5,
+     "path": "saleor/permission/enums.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "CheckoutPermissions"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 33,
+     "path": "saleor/tax/error_codes.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": false
+    },
+    {
+     "lines": 31,
+     "path": "saleor/tax/models.py",
+     "status": "INCLUDED",
+     "symbols": "ALL_PUBLIC",
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/account/enums.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "CountryCodeEnum"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 1,
+     "path": "saleor/graphql/tax/enums.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "TaxCalculationStrategy"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 15,
+     "path": "saleor/graphql/tax/types.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "TaxConfiguration"
+     ],
+     "truncated": false
+    }
+   ],
+   "sha256": "9e1090905845774771215e6124500665a719cf01c70c881d43fe4a4131898e3a",
+   "verbatim_violations": 0
+  },
+  "saleor-rc-e25cf9b4a837/GOLD_HARD": {
+   "chars": 8031,
+   "leakage_hits": 0,
+   "modules": [
+    {
+     "lines": 153,
+     "path": "saleor/plugins/base_plugin.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "BasePlugin",
+      "ConfigurationTypeField"
+     ],
+     "truncated": true
+    },
+    {
+     "lines": 1,
+     "path": "saleor/payment/gateways/utils.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "get_supported_currencies"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 11,
+     "path": "saleor/payment/gateways/dummy_credit_card/__init__.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "GatewayConfig",
+      "authorize",
+      "capture",
+      "confirm",
+      "get_client_token",
+      "process_payment",
+      "refund",
+      "void"
+     ],
+     "truncated": false
+    },
+    {
+     "lines": 27,
+     "path": "saleor/payment/interface.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "GatewayResponse",
+      "PaymentData",
+      "TokenConfig"
+     ],
+     "truncated": false
+    }
+   ],
+   "sha256": "2106d604823d1ca5b79ab4a3cdeb3ecacd1d339b1b37a98c6bc3e7adb8c3669b",
+   "verbatim_violations": 0
+  },
+  "saleor-rc-e25cf9b4a837/PLACEBO_HARD": {
+   "chars": 5056,
+   "leakage_hits": 0,
+   "modules": [
+    {
+     "lines": 113,
+     "path": "saleor/product/models.py",
+     "status": "INCLUDED",
+     "symbols": [
+      "AssignedProductAttribute",
+      "AssignedVariantAttribute",
+      "Attribute",
+      "AttributeProduct",
+      "AttributeValue",
+      "AttributeVariant",
+      "Product",
+      "ProductVariant"
+     ],
+     "truncated": false
+    }
+   ],
+   "sha256": "c545e2d9d2598d79d6ce7678d0c93a8101d204ab26bd5de89e38dd45f8066e4b",
+   "verbatim_violations": 0
+  }
+ }
+}

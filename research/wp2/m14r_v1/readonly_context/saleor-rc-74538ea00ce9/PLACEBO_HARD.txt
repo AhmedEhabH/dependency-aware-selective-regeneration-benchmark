@@ -1,0 +1,370 @@
+READ-ONLY CONTEXT (NOT EDITABLE): outlines of repository modules imported by the editable files
+===== OUTLINE: saleor/checkout/base_calculations.py (read-only) =====
+def base_checkout_delivery_price(
+    checkout_info: "CheckoutInfo",
+    lines: Optional[Iterable["CheckoutLineInfo"]] = None,
+    include_voucher: bool = True,
+) -> Money:
+def base_checkout_subtotal(
+    checkout_lines: Iterable["CheckoutLineInfo"],
+    channel: "Channel",
+    currency: str,
+    include_voucher: bool = True,
+) -> Money:
+===== END OUTLINE: saleor/checkout/base_calculations.py =====
+===== OUTLINE: saleor/checkout/models.py (read-only) =====
+class Checkout(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    last_change = models.DateTimeField(auto_now=True, db_index=True)
+    completing_started_at = models.DateTimeField(blank=True, null=True)
+    last_transaction_modified_at = models.DateTimeField(null=True, blank=True)
+    automatically_refundable = models.BooleanField(default=False)
+    user = models.ForeignKey(
+    email = models.EmailField(blank=True, null=True)
+    token = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    channel = models.ForeignKey(
+    billing_address = models.ForeignKey(
+    shipping_address = models.ForeignKey(
+    shipping_method = models.ForeignKey(
+    collection_point = models.ForeignKey(
+    note = models.TextField(blank=True, default="")
+    currency = models.CharField(
+    country = CountryField(default=get_default_country)
+    total_net_amount = models.DecimalField(
+    total_gross_amount = models.DecimalField(
+    total = TaxedMoneyField(
+    base_total_amount = models.DecimalField(
+    base_total = MoneyField(amount_field="base_total_amount", currency_field="currency")
+    subtotal_net_amount = models.DecimalField(
+    subtotal_gross_amount = models.DecimalField(
+    subtotal = TaxedMoneyField(
+    base_subtotal_amount = models.DecimalField(
+    base_subtotal = MoneyField(
+    shipping_price_net_amount = models.DecimalField(
+    shipping_price_gross_amount = models.DecimalField(
+    shipping_price = TaxedMoneyField(
+    shipping_tax_rate = models.DecimalField(
+    authorize_status = models.CharField(
+    charge_status = models.CharField(
+    price_expiration = models.DateTimeField(default=timezone.now)
+    discount_amount = models.DecimalField(
+    discount = MoneyField(amount_field="discount_amount", currency_field="currency")
+    discount_name = models.CharField(max_length=255, blank=True, null=True)
+    translated_discount_name = models.CharField(max_length=255, blank=True, null=True)
+    gift_cards = models.ManyToManyField(GiftCard, blank=True, related_name="checkouts")
+    voucher_code = models.CharField(max_length=255, blank=True, null=True)
+    is_voucher_usage_increased = models.BooleanField(default=False)
+    redirect_url = models.URLField(blank=True, null=True)
+    tracking_code = models.CharField(max_length=255, blank=True, null=True)
+    language_code = models.CharField(
+    tax_exemption = models.BooleanField(default=False)
+    tax_error = models.CharField(max_length=255, blank=True, null=True)
+    class Meta:
+        ordering = ("-last_change", "pk")
+        permissions = (
+    def __iter__(self):
+    def get_customer_email(self) -> Optional[str]:
+    def is_shipping_required(self) -> bool:
+    def is_checkout_locked(self) -> bool:
+    def get_total_gift_cards_balance(
+        self, database_connection_name: str = settings.DATABASE_CONNECTION_DEFAULT_NAME
+    ) -> Money:
+    def get_line(self, variant: "ProductVariant") -> Optional["CheckoutLine"]:
+    def get_last_active_payment(self) -> Optional["Payment"]:
+    def set_country(
+        self, country_code: str, commit: bool = False, replace: bool = True
+    ):
+    def get_country(self):
+===== END OUTLINE: saleor/checkout/models.py =====
+===== OUTLINE: saleor/core/db/connection.py (read-only) =====
+@contextmanager
+def allow_writer():
+===== END OUTLINE: saleor/core/db/connection.py =====
+===== OUTLINE: saleor/discount/__init__.py (read-only) =====
+class DiscountType:
+    SALE = "sale"
+    PROMOTION = "promotion"
+    ORDER_PROMOTION = "order_promotion"
+    VOUCHER = "voucher"
+    MANUAL = "manual"
+    CHOICES = [
+===== END OUTLINE: saleor/discount/__init__.py =====
+===== OUTLINE: saleor/discount/models.py (read-only) =====
+class CheckoutDiscount(BaseDiscount):
+    checkout = models.ForeignKey(
+    class Meta:
+        indexes = [
+        ordering = ("created_at", "id")
+        unique_together = ("checkout_id", "promotion_rule_id")
+class CheckoutLineDiscount(BaseDiscount):
+    line = models.ForeignKey(
+    unique_type = models.CharField(
+    class Meta:
+        indexes = [
+        ordering = ("created_at", "id")
+        constraints = [
+===== END OUTLINE: saleor/discount/models.py =====
+===== OUTLINE: saleor/discount/utils/promotion.py (read-only) =====
+@overload
+def prepare_line_discount_objects_for_catalogue_promotions(
+    lines_info: Iterable["CheckoutLineInfo"],
+) -> tuple[
+    list[dict], list["CheckoutLineDiscount"], list["CheckoutLineDiscount"], list[str]
+@overload
+def prepare_line_discount_objects_for_catalogue_promotions(
+    lines_info: Iterable["EditableOrderLineInfo"],
+) -> tuple[
+    list[dict], list["OrderLineDiscount"], list["OrderLineDiscount"], list[str]
+def prepare_line_discount_objects_for_catalogue_promotions(lines_info):
+@allow_writer()
+def delete_gift_line(
+    order_or_checkout: Union[Checkout, Order],
+    lines_info: Iterable[Union["CheckoutLineInfo", "EditableOrderLineInfo"]],
+):
+def create_discount_objects_for_order_promotions(
+    order_or_checkout: Union[Checkout, Order],
+    lines_info: Union[Iterable["EditableOrderLineInfo"], Iterable["CheckoutLineInfo"]],
+    subtotal: Money,
+    channel: "Channel",
+    country: str,
+    *,
+    database_connection_name: str = settings.DATABASE_CONNECTION_DEFAULT_NAME,
+):
+===== END OUTLINE: saleor/discount/utils/promotion.py =====
+===== OUTLINE: saleor/discount/utils/shared.py (read-only) =====
+def update_line_info_cached_discounts(
+    lines_info, new_line_discounts, updated_discounts, line_discount_ids_to_remove
+):
+===== END OUTLINE: saleor/discount/utils/shared.py =====
+===== OUTLINE: saleor/checkout/fetch.py (read-only) =====
+@dataclass
+class CheckoutLineInfo(LineInfo):
+    line: "CheckoutLine"
+    variant: "ProductVariant"
+    product: "Product"
+    product_type: "ProductType"
+    discounts: list["CheckoutLineDiscount"]
+    tax_class: Optional["TaxClass"] = None
+@dataclass
+class CheckoutInfo:
+    manager: "PluginsManager" = field(compare=False)
+    checkout: "Checkout"
+    user: Optional["User"]
+    channel: "Channel"
+    billing_address: Optional["Address"]
+    shipping_address: Optional["Address"]
+    tax_configuration: "TaxConfiguration"
+    discounts: list["CheckoutDiscount"]
+    lines: Iterable[CheckoutLineInfo]
+    shipping_channel_listings: list["ShippingMethodChannelListing"]
+    shipping_method: Optional["ShippingMethod"] = None
+    collection_point: Optional["Warehouse"] = None
+    voucher: Optional["Voucher"] = None
+    voucher_code: Optional["VoucherCode"] = None
+    database_connection_name: str = settings.DATABASE_CONNECTION_DEFAULT_NAME
+    @cached_property
+    def all_shipping_methods(self) -> list["ShippingMethodData"]:
+    @cached_property
+    def valid_pick_up_points(self) -> Iterable["Warehouse"]:
+    @property
+    def delivery_method_info(self) -> "DeliveryMethodBase":
+    @property
+    def valid_shipping_methods(self) -> list["ShippingMethodData"]:
+    @property
+    def valid_delivery_methods(
+        self,
+    ) -> list[Union["ShippingMethodData", "Warehouse"]]:
+    def get_country(self) -> str:
+    def get_customer_email(self) -> Optional[str]:
+===== END OUTLINE: saleor/checkout/fetch.py =====
+===== OUTLINE: saleor/page/models.py (read-only) =====
+class PageQueryset(PublishedQuerySet):
+    def visible_to_user(self, requestor: Union["App", "User", None]):
+PageManager = models.Manager.from_queryset(PageQueryset)
+class Page(ModelWithMetadata, SeoModel, PublishableModel):
+    slug = models.SlugField(unique=True, max_length=255)
+    title = models.CharField(max_length=250)
+    page_type = models.ForeignKey(
+    content = SanitizedJSONField(blank=True, null=True, sanitizer=clean_editor_js)
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
+    objects = PageManager()  # type: ignore[assignment,misc]
+    class Meta(ModelWithMetadata.Meta):
+        ordering = ("slug",)
+        permissions = ((PagePermissions.MANAGE_PAGES.codename, "Manage pages."),)
+        indexes = [*ModelWithMetadata.Meta.indexes, GinIndex(fields=["title", "slug"])]
+    def __str__(self):
+class PageTranslation(SeoModelTranslationWithSlug):
+    page = models.ForeignKey(
+    title = models.CharField(max_length=255, blank=True, null=True)
+    content = SanitizedJSONField(blank=True, null=True, sanitizer=clean_editor_js)
+    class Meta:
+        constraints = [
+        ordering = ("language_code", "page", "pk")
+        unique_together = (("language_code", "page"),)
+    def __repr__(self):
+    def __str__(self):
+    def get_translated_object_id(self):
+    def get_translated_keys(self):
+class PageType(ModelWithMetadata):
+    name = models.CharField(max_length=250)
+    slug = models.SlugField(max_length=255, unique=True, allow_unicode=True)
+    class Meta(ModelWithMetadata.Meta):
+        ordering = ("slug",)
+        permissions = (
+        indexes = [*ModelWithMetadata.Meta.indexes, GinIndex(fields=["name", "slug"])]
+===== END OUTLINE: saleor/page/models.py =====
+===== OUTLINE: saleor/graphql/core/context.py (read-only) =====
+def get_database_connection_name(context: SaleorContext) -> str:
+===== END OUTLINE: saleor/graphql/core/context.py =====
+===== OUTLINE: saleor/graphql/core/utils/__init__.py (read-only) =====
+@overload
+def from_global_id_or_error(
+    global_id: str,
+    only_type: Union[ObjectType, str, None] = None,
+    raise_error: Literal[True] = True,
+@overload
+def from_global_id_or_error(
+    global_id: str,
+    only_type: Union[type[ObjectType], str, None] = None,
+    raise_error: bool = False,
+def from_global_id_or_error(
+    global_id: str,
+    only_type: Union[type[ObjectType], str, None] = None,
+    raise_error: bool = False,
+):
+===== END OUTLINE: saleor/graphql/core/utils/__init__.py =====
+===== OUTLINE: saleor/graphql/core/validators/__init__.py (read-only) =====
+def validate_one_of_args_is_in_query(*args, **kwargs):
+    # split args into a list with 2-element tuples:
+    # [(arg1_name, arg1_value), (arg2_name, arg2_value), ...]
+===== END OUTLINE: saleor/graphql/core/validators/__init__.py =====
+===== OUTLINE: saleor/graphql/utils/__init__.py (read-only) =====
+def get_user_or_app_from_context(context: "SaleorContext") -> Union[App, User, None]:
+    # order is important
+    # app can be None but user if None then is passed as anonymous
+===== END OUTLINE: saleor/graphql/utils/__init__.py =====
+===== OUTLINE: saleor/graphql/page/types.py (read-only) =====
+class Page(ModelObjectType[models.Page]):
+    id = graphene.GlobalID(required=True, description="ID of the page.")
+    seo_title = graphene.String(description="Title of the page for SEO.")
+    seo_description = graphene.String(description="Description of the page for SEO.")
+    title = graphene.String(required=True, description="Title of the page.")
+    content = JSONString(description="Content of the page." + RICH_CONTENT)
+    publication_date = Date(
+    published_at = DateTime(description="The page publication date." + ADDED_IN_33)
+    is_published = graphene.Boolean(
+    slug = graphene.String(required=True, description="Slug of the page.")
+    page_type = graphene.Field(
+    created = DateTime(
+    content_json = JSONString(
+    translation = TranslationField(PageTranslation, type_name="page")
+    attributes = NonNullList(
+    class Meta:
+        description = (
+        interfaces = [graphene.relay.Node, ObjectWithMetadata]
+        model = models.Page
+    @staticmethod
+    def resolve_publication_date(root: models.Page, _info: ResolveInfo):
+    @staticmethod
+    def resolve_created(root: models.Page, _info: ResolveInfo):
+    @staticmethod
+    def resolve_page_type(root: models.Page, info: ResolveInfo):
+    @staticmethod
+    def resolve_content_json(root: models.Page, _info: ResolveInfo):
+    @staticmethod
+    def resolve_attributes(root: models.Page, info: ResolveInfo):
+===== END OUTLINE: saleor/graphql/page/types.py =====
+===== OUTLINE: saleor/attribute/__init__.py (read-only) =====
+class AttributeInputType:
+    DROPDOWN = "dropdown"
+    MULTISELECT = "multiselect"
+    FILE = "file"
+    REFERENCE = "reference"
+    NUMERIC = "numeric"
+    RICH_TEXT = "rich-text"
+    PLAIN_TEXT = "plain-text"
+    SWATCH = "swatch"
+    BOOLEAN = "boolean"
+    DATE = "date"
+    DATE_TIME = "date-time"
+    CHOICES = [
+    ALLOWED_IN_VARIANT_SELECTION = [DROPDOWN, BOOLEAN, SWATCH, NUMERIC]
+    TYPES_WITH_CHOICES = [
+    TYPES_WITH_UNIQUE_VALUES = [
+    TRANSLATABLE_ATTRIBUTES = [
+===== END OUTLINE: saleor/attribute/__init__.py =====
+===== OUTLINE: saleor/core/utils/editorjs.py (read-only) =====
+@overload
+def clean_editor_js(
+    definitions: Union[dict, str, None], *, to_string: Literal[True]
+@overload
+def clean_editor_js(definitions: dict) -> dict: ...
+@overload
+def clean_editor_js(definitions: None) -> None: ...
+def clean_editor_js(definitions, *, to_string=False) -> Union[dict, str, None]:
+===== END OUTLINE: saleor/core/utils/editorjs.py =====
+===== OUTLINE: saleor/permission/enums.py (read-only) =====
+class SitePermissions(BasePermissionEnum):
+    MANAGE_SETTINGS = "site.manage_settings"
+    MANAGE_TRANSLATIONS = "site.manage_translations"
+===== END OUTLINE: saleor/permission/enums.py =====
+===== OUTLINE: saleor/graphql/attribute/types.py (read-only) =====
+class AttributeValue(ModelObjectType[models.AttributeValue]):
+    id = graphene.GlobalID(required=True, description="The ID of the attribute value.")
+    name = graphene.String(description=AttributeValueDescriptions.NAME)
+    slug = graphene.String(description=AttributeValueDescriptions.SLUG)
+    value = graphene.String(description=AttributeValueDescriptions.VALUE)
+    translation = TranslationField(
+    input_type = AttributeInputTypeEnum(description=AttributeDescriptions.INPUT_TYPE)
+    reference = graphene.ID(description="The ID of the attribute reference.")
+    file = graphene.Field(
+    rich_text = JSONString(
+    plain_text = graphene.String(
+    boolean = graphene.Boolean(
+    date = Date(description=AttributeValueDescriptions.DATE, required=False)
+    date_time = DateTime(
+    external_reference = graphene.String(
+    class Meta:
+        description = "Represents a value of an attribute."
+        interfaces = [graphene.relay.Node]
+        model = models.AttributeValue
+    @staticmethod
+    def resolve_input_type(root: models.AttributeValue, info: ResolveInfo):
+    @staticmethod
+    def resolve_file(root: models.AttributeValue, _info: ResolveInfo):
+    @staticmethod
+    def resolve_reference(root: models.AttributeValue, info: ResolveInfo):
+    @staticmethod
+    def resolve_date_time(root: models.AttributeValue, info: ResolveInfo):
+    @staticmethod
+    def resolve_date(root: models.AttributeValue, info: ResolveInfo):
+===== END OUTLINE: saleor/graphql/attribute/types.py =====
+===== OUTLINE: saleor/graphql/core/descriptions.py (read-only) =====
+RICH_CONTENT = "\n\nRich text format. For reference see https://editorjs.io/"
+===== END OUTLINE: saleor/graphql/core/descriptions.py =====
+===== OUTLINE: saleor/graphql/core/enums.py (read-only) =====
+LanguageCodeEnum = graphene.Enum(
+===== END OUTLINE: saleor/graphql/core/enums.py =====
+===== OUTLINE: saleor/graphql/core/fields.py (read-only) =====
+class JSONString(graphene.JSONString):
+    @staticmethod
+    @staticmethod
+    def parse_literal(node):
+===== END OUTLINE: saleor/graphql/core/fields.py =====
+===== OUTLINE: saleor/graphql/translations/mutations/utils.py (read-only) =====
+class BaseTranslateMutation(ModelMutation):
+    class Meta:
+        abstract = True
+    @classmethod
+    def clean_node_id(cls, id: str) -> tuple[str, type[graphene.ObjectType]]:
+    @classmethod
+    def validate_input(cls, input_data):
+    @classmethod
+    def pre_update_or_create(cls, instance, input_data, language_code):
+    @classmethod
+    def perform_mutation(  # type: ignore[override]
+        cls, _root, info: ResolveInfo, /, *, id, input, language_code
+    ):
+class NameTranslationInput(graphene.InputObjectType):
+    name = graphene.String()
+===== END OUTLINE: saleor/graphql/translations/mutations/utils.py =====

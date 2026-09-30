@@ -1,0 +1,331 @@
+READ-ONLY CONTEXT (NOT EDITABLE): outlines of repository modules imported by the editable files
+===== OUTLINE: saleor/core/notifications.py (read-only) =====
+def get_site_context():
+===== END OUTLINE: saleor/core/notifications.py =====
+===== OUTLINE: saleor/core/notify_events.py (read-only) =====
+class NotifyEventType(UserNotifyEvent, AdminNotifyEvent):
+    CHOICES = UserNotifyEvent.CHOICES + AdminNotifyEvent.CHOICES
+===== END OUTLINE: saleor/core/notify_events.py =====
+===== OUTLINE: saleor/account/events.py (read-only) =====
+UserType = Optional[User]
+AppType = Optional[App]
+def customer_account_created_event(*, user: User) -> Optional[CustomerEvent]:
+def customer_password_reset_link_sent_event(*, user_id: int) -> Optional[CustomerEvent]:
+def customer_password_reset_event(*, user: User) -> Optional[CustomerEvent]:
+def customer_password_changed_event(*, user: User) -> Optional[CustomerEvent]:
+def customer_email_change_request_event(
+    *, user_id: int, parameters: dict
+) -> Optional[CustomerEvent]:
+def customer_email_changed_event(
+    *, user_id: int, parameters: dict
+) -> Optional[CustomerEvent]:
+def customer_placed_order_event(*, user: User, order: Order) -> Optional[CustomerEvent]:
+def customer_added_to_note_order_event(
+    *, user: UserType, order: Order, message: str
+) -> CustomerEvent:
+def customer_downloaded_a_digital_link_event(
+    *, user: User, order_line: OrderLine
+) -> CustomerEvent:
+def customer_deleted_event(
+    *, staff_user: UserType, app: AppType, deleted_count: int = 1
+) -> CustomerEvent:
+def assigned_email_to_a_customer_event(
+    *, staff_user: UserType, app: AppType, new_email: str
+) -> CustomerEvent:
+def assigned_name_to_a_customer_event(
+    *, staff_user: UserType, app: AppType, new_name: str
+) -> CustomerEvent:
+===== END OUTLINE: saleor/account/events.py =====
+===== OUTLINE: saleor/celeryconf.py (read-only) =====
+app = Celery("saleor")
+===== END OUTLINE: saleor/celeryconf.py =====
+===== OUTLINE: saleor/giftcard/events.py (read-only) =====
+UserType = Optional[User]
+AppType = Optional[App]
+def gift_card_issued_event(
+    gift_card: GiftCard,
+    user: UserType,
+    app: AppType,
+):
+def gift_card_sent(
+    gift_card_id: int, user_id: Optional[int], app_id: Optional[int], email: str
+):
+def gift_card_balance_reset(
+    gift_card: GiftCard,
+    old_gift_card: GiftCard,
+    user: UserType,
+    app: AppType,
+):
+def gift_card_expiry_settings_updated(
+    gift_card: GiftCard,
+    old_gift_card: GiftCard,
+    user: UserType,
+    app: AppType,
+):
+def gift_card_activated(
+    gift_card: GiftCard,
+    user: UserType,
+    app: AppType,
+):
+def gift_card_deactivated(
+    gift_card: GiftCard,
+    user: UserType,
+    app: AppType,
+):
+def gift_cards_activated(
+    gift_card_ids: Iterable[int],
+    user: UserType,
+    app: AppType,
+):
+===== END OUTLINE: saleor/giftcard/events.py =====
+===== OUTLINE: saleor/invoice/events.py (read-only) =====
+UserType = Optional[User]
+AppType = Optional[App]
+def invoice_requested_event(
+    *, user: UserType, app: AppType, order: Order, number: str
+) -> InvoiceEvent:
+def invoice_requested_deletion_event(
+    *, user: UserType, app: AppType, invoice: Invoice
+) -> InvoiceEvent:
+def invoice_created_event(
+    *, user: UserType, app: AppType, invoice: Invoice, number: str, url: str
+) -> InvoiceEvent:
+def invoice_deleted_event(
+    *, user: UserType, app: AppType, invoice_id: int
+) -> InvoiceEvent:
+def notification_invoice_sent_event(
+    *,
+    user_id: Optional[int],
+    app_id: Optional[int],
+    invoice_id: int,
+    customer_email: str
+) -> InvoiceEvent:
+===== END OUTLINE: saleor/invoice/events.py =====
+===== OUTLINE: saleor/order/events.py (read-only) =====
+UserType = Optional[User]
+AppType = Optional[App]
+def event_order_refunded_notification(
+    order_id: int, user_id: Optional[int], app_id: Optional[int], customer_email: str
+):
+def event_order_confirmed_notification(
+    order_id: int, user_id: Optional[int], app_id: Optional[int], customer_email: str
+):
+def event_order_cancelled_notification(
+    order_id: int, user_id: Optional[int], app_id: Optional[int], customer_email: str
+):
+def event_order_confirmation_notification(
+    order_id: int, user_id: Optional[int], customer_email: str
+):
+def event_fulfillment_confirmed_notification(
+    order_id: int, user_id: Optional[int], app_id: Optional[int], customer_email: str
+):
+def event_fulfillment_digital_links_notification(
+    order_id: int, user_id: Optional[int], app_id: Optional[int], customer_email: str
+):
+def event_payment_confirmed_notification(
+    order_id: int, user_id: Optional[int], customer_email: str
+):
+def invoice_requested_event(
+    *,
+    order: Order,
+    user: UserType,
+    app: AppType,
+) -> OrderEvent:
+def invoice_generated_event(
+    *,
+    order: Order,
+    user: UserType,
+    app: AppType,
+    invoice_number: str,
+) -> OrderEvent:
+def invoice_updated_event(
+    *,
+    order: Order,
+    user: Optional[UserType],
+    app: AppType,
+    invoice_number: str,
+    url: str,
+    status: str
+) -> OrderEvent:
+def event_invoice_sent_notification(
+    *, order_id: int, user_id: Optional[int], app_id: Optional[int], email: str
+) -> OrderEvent:
+def email_resent_event(
+    *, order: Order, user: UserType, email_type: OrderEventsEmails
+) -> OrderEvent:
+def draft_order_created_event(
+    *, order: Order, user: UserType, app: AppType
+) -> OrderEvent:
+def order_added_products_event(
+    *,
+    order: Order,
+    user: UserType,
+    app: AppType,
+    order_lines: List[Tuple[int, OrderLine]]
+) -> OrderEvent:
+def order_removed_products_event(
+    *,
+    order: Order,
+    user: UserType,
+    app: AppType,
+    order_lines: List[Tuple[int, OrderLine]]
+) -> OrderEvent:
+def draft_order_created_from_replace_event(
+    *,
+    draft_order: Order,
+    original_order: Order,
+    user: UserType,
+    app: AppType,
+    lines: List[Tuple[int, OrderLine]]
+):
+def order_created_event(
+    *, order: Order, user: UserType, app: AppType, from_draft=False
+) -> OrderEvent:
+def order_confirmed_event(*, order: Order, user: UserType, app: AppType) -> OrderEvent:
+def order_canceled_event(*, order: Order, user: UserType, app: AppType) -> OrderEvent:
+def order_manually_marked_as_paid_event(
+    *,
+    order: Order,
+    user: UserType,
+    app: AppType,
+    transaction_reference: Optional[str] = None
+) -> OrderEvent:
+def order_fully_paid_event(*, order: Order, user: UserType, app: AppType) -> OrderEvent:
+def order_replacement_created(
+    *, original_order: Order, replace_order: Order, user: UserType, app: AppType
+) -> OrderEvent:
+def payment_authorized_event(
+    *, order: Order, user: UserType, app: AppType, amount: Decimal, payment: Payment
+) -> OrderEvent:
+def payment_captured_event(
+    *, order: Order, user: UserType, app: AppType, amount: Decimal, payment: Payment
+) -> OrderEvent:
+def payment_refunded_event(
+    *, order: Order, user: UserType, app: AppType, amount: Decimal, payment: Payment
+) -> OrderEvent:
+def payment_voided_event(
+    *, order: Order, user: UserType, app: AppType, payment: Payment
+) -> OrderEvent:
+def payment_failed_event(
+    *, order: Order, user: UserType, app: AppType, message: str, payment: Payment
+) -> OrderEvent:
+
+def external_notification_event(
+    *,
+    order: Order,
+    user: UserType,
+    app: AppType,
+    message: Optional[str],
+    parameters: Optional[dict]
+) -> OrderEvent:
+def fulfillment_canceled_event(
+    *, order: Order, user: UserType, app: AppType, fulfillment: Optional[Fulfillment]
+) -> OrderEvent:
+def fulfillment_restocked_items_event(
+    *,
+    order: Order,
+    user: UserType,
+    app: AppType,
+    fulfillment: Union[Order, Fulfillment],
+    warehouse_pk: Optional[int] = None,
+) -> OrderEvent:
+def fulfillment_fulfilled_items_event(
+    *,
+    order: Order,
+    user: UserType,
+    app: AppType,
+    fulfillment_lines: List[FulfillmentLine]
+) -> OrderEvent:
+def fulfillment_awaits_approval_event(
+    *,
+    order: Order,
+    user: UserType,
+    app: AppType,
+    fulfillment_lines: List[FulfillmentLine]
+) -> OrderEvent:
+def order_returned_event(
+    *,
+    order: Order,
+    user: UserType,
+    app: AppType,
+    returned_lines: List[Tuple[int, OrderLine]],
+):
+def fulfillment_replaced_event(
+    *,
+    order: Order,
+    user: UserType,
+    app: AppType,
+    replaced_lines: List[Tuple[int, OrderLine]],
+):
+def fulfillment_refunded_event(
+    *,
+    order: Order,
+    user: UserType,
+    app: AppType,
+    refunded_lines: List[Tuple[int, OrderLine]],
+    amount: Decimal,
+    shipping_costs_included: bool
+):
+def fulfillment_tracking_updated_event(
+    *,
+    order: Order,
+    user: UserType,
+    app: AppType,
+    tracking_number: str,
+    fulfillment: Fulfillment
+) -> OrderEvent:
+def order_note_added_event(
+    *, order: Order, user: UserType, app: AppType, message: str
+) -> OrderEvent:
+def order_discount_event(
+    *,
+    event_type: str,
+    order: Order,
+    user: UserType,
+    app: AppType,
+    order_discount: "OrderDiscount",
+    old_order_discount: Optional["OrderDiscount"] = None
+) -> OrderEvent:
+def order_discounts_automatically_updated_event(
+    order: Order, changed_order_discounts: List[Tuple["OrderDiscount", "OrderDiscount"]]
+):
+def order_discount_automatically_updated_event(
+    order: Order, order_discount: "OrderDiscount", old_order_discount: "OrderDiscount"
+):
+def order_discount_added_event(
+    order: Order, user: UserType, app: AppType, order_discount: "OrderDiscount"
+) -> OrderEvent:
+def order_discount_updated_event(
+    order: Order,
+    user: UserType,
+    app: AppType,
+    order_discount: "OrderDiscount",
+    old_order_discount: Optional["OrderDiscount"] = None,
+) -> OrderEvent:
+def order_discount_deleted_event(
+    order: Order,
+    user: UserType,
+# [outline truncated]
+===== END OUTLINE: saleor/order/events.py =====
+===== OUTLINE: saleor/plugins/sendgrid/__init__.py (read-only) =====
+@dataclass
+class SendgridConfiguration:
+    api_key: Optional[str]
+    sender_name: Optional[str]
+    sender_address: Optional[str]
+    account_confirmation_template_id: Optional[str]
+    account_set_customer_password_template_id: Optional[str]
+    account_delete_template_id: Optional[str]
+    account_change_email_confirm_template_id: Optional[str]
+    account_change_email_request_template_id: Optional[str]
+    account_password_reset_template_id: Optional[str]
+    invoice_ready_template_id: Optional[str]
+    order_confirmation_template_id: Optional[str]
+    order_confirmed_template_id: Optional[str]
+    order_fulfillment_confirmation_template_id: Optional[str]
+    order_fulfillment_update_template_id: Optional[str]
+    order_payment_confirmation_template_id: Optional[str]
+    order_canceled_template_id: Optional[str]
+    order_refund_confirmation_template_id: Optional[str]
+    send_gift_card_template_id: Optional[str]
+===== END OUTLINE: saleor/plugins/sendgrid/__init__.py =====

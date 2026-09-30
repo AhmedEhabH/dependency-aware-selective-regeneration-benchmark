@@ -1,0 +1,126 @@
+READ-ONLY CONTEXT (NOT EDITABLE): outlines of repository modules imported by the editable files
+===== OUTLINE: saleor/csv/__init__.py (read-only) =====
+class ExportEvents:
+    EXPORT_PENDING = "export_pending"
+    EXPORT_SUCCESS = "export_success"
+    EXPORT_FAILED = "export_failed"
+    EXPORT_DELETED = "export_deleted"
+    EXPORTED_FILE_SENT = "exported_file_sent"
+    EXPORT_FAILED_INFO_SENT = "Export_failed_info_sent"
+    CHOICES = [
+class FileTypes:
+    CSV = "csv"
+    XLSX = "xlsx"
+    CHOICES = [
+===== END OUTLINE: saleor/csv/__init__.py =====
+===== OUTLINE: saleor/graphql/core/enums.py (read-only) =====
+def to_enum(enum_cls, *, type_name=None, **options) -> graphene.Enum:
+===== END OUTLINE: saleor/graphql/core/enums.py =====
+===== OUTLINE: saleor/graphql/meta/mutations.py (read-only) =====
+class UpdateMetadata(BaseMetadataMutation):
+    class Meta:
+        description = "Updates metadata of an object."
+        permission_map = PUBLIC_META_PERMISSION_MAP
+        error_type_class = MetadataError
+        error_type_field = "metadata_errors"
+    class Arguments:
+        id = graphene.ID(description="ID of an object to update.", required=True)
+        input = graphene.List(
+    @classmethod
+    def perform_mutation(cls, root, info, **data):
+class DeleteMetadata(BaseMetadataMutation):
+    class Meta:
+        description = "Delete metadata of an object."
+        permission_map = PUBLIC_META_PERMISSION_MAP
+        error_type_class = MetadataError
+        error_type_field = "metadata_errors"
+    class Arguments:
+        id = graphene.ID(description="ID of an object to update.", required=True)
+        keys = graphene.List(
+    @classmethod
+    def perform_mutation(cls, root, info, **data):
+class UpdatePrivateMetadata(BaseMetadataMutation):
+    class Meta:
+        description = "Updates private metadata of an object."
+        permission_map = PRIVATE_META_PERMISSION_MAP
+        error_type_class = MetadataError
+        error_type_field = "metadata_errors"
+    class Arguments:
+        id = graphene.ID(description="ID of an object to update.", required=True)
+        input = graphene.List(
+    @classmethod
+    def perform_mutation(cls, root, info, **data):
+class DeletePrivateMetadata(BaseMetadataMutation):
+    class Meta:
+        description = "Delete object's private metadata."
+        permission_map = PRIVATE_META_PERMISSION_MAP
+        error_type_class = MetadataError
+        error_type_field = "metadata_errors"
+    class Arguments:
+        id = graphene.ID(description="ID of an object to update.", required=True)
+        keys = graphene.List(
+    @classmethod
+    def perform_mutation(cls, root, info, **data):
+===== END OUTLINE: saleor/graphql/meta/mutations.py =====
+===== OUTLINE: saleor/discount/utils.py (read-only) =====
+def calculate_discounted_price(
+    *,
+    product: "Product",
+    price: Money,
+    collections: Iterable["Collection"],
+    discounts: Optional[Iterable[DiscountInfo]],
+    channel: "Channel"
+) -> Money:
+def fetch_active_discounts() -> List[DiscountInfo]:
+===== END OUTLINE: saleor/discount/utils.py =====
+===== OUTLINE: saleor/product/models.py (read-only) =====
+class Product(SeoModel, ModelWithMetadata):
+    product_type = models.ForeignKey(
+    name = models.CharField(max_length=250)
+    slug = models.SlugField(max_length=255, unique=True, allow_unicode=True)
+    description = models.TextField(blank=True)
+    description_json = SanitizedJSONField(
+    category = models.ForeignKey(
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+    charge_taxes = models.BooleanField(default=True)
+    weight = MeasurementField(
+    default_variant = models.OneToOneField(
+    rating = models.FloatField(null=True, blank=True)
+    objects = ProductsQueryset.as_manager()
+    translated = TranslationProxy()
+    class Meta:
+        app_label = "product"
+        ordering = ("slug",)
+        permissions = (
+    def __iter__(self):
+    def __repr__(self) -> str:
+    def __str__(self) -> str:
+    @property
+    def plain_text_description(self) -> str:
+    def get_first_image(self):
+    @staticmethod
+    def sort_by_attribute_fields() -> list:
+class ProductChannelListing(PublishableModel):
+    product = models.ForeignKey(
+    channel = models.ForeignKey(
+    visible_in_listings = models.BooleanField(default=False)
+    available_for_purchase = models.DateField(blank=True, null=True)
+    currency = models.CharField(max_length=settings.DEFAULT_CURRENCY_CODE_LENGTH)
+    discounted_price_amount = models.DecimalField(
+    discounted_price = MoneyField(
+    class Meta:
+        unique_together = [["product", "channel"]]
+        ordering = ("pk",)
+    def is_available_for_purchase(self):
+class ProductVariantChannelListing(models.Model):
+    variant = models.ForeignKey(
+    channel = models.ForeignKey(
+    currency = models.CharField(max_length=settings.DEFAULT_CURRENCY_CODE_LENGTH)
+    price_amount = models.DecimalField(
+    price = MoneyField(amount_field="price_amount", currency_field="currency")
+    cost_price_amount = models.DecimalField(
+    cost_price = MoneyField(amount_field="cost_price_amount", currency_field="currency")
+    class Meta:
+        unique_together = [["variant", "channel"]]
+        ordering = ("pk",)
+===== END OUTLINE: saleor/product/models.py =====

@@ -1,0 +1,104 @@
+READ-ONLY CONTEXT (NOT EDITABLE): outlines of repository modules imported by the editable files
+===== OUTLINE: saleor/account/models.py (read-only) =====
+class User(
+    PermissionsMixin, ModelWithMetadata, AbstractBaseUser, ModelWithExternalReference
+):
+    email = models.EmailField(unique=True)
+    first_name = models.CharField(max_length=256, blank=True)
+    last_name = models.CharField(max_length=256, blank=True)
+    addresses = models.ManyToManyField(
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    note = models.TextField(null=True, blank=True)
+    date_joined = models.DateTimeField(default=timezone.now, editable=False)
+    updated_at = models.DateTimeField(auto_now=True, db_index=True)
+    last_password_reset_request = models.DateTimeField(null=True, blank=True)
+    default_shipping_address = models.ForeignKey(
+    default_billing_address = models.ForeignKey(
+    avatar = models.ImageField(upload_to="user-avatars", blank=True, null=True)
+    jwt_token_key = models.CharField(
+    language_code = models.CharField(
+    search_document = models.TextField(blank=True, default="")
+    uuid = models.UUIDField(default=uuid4, unique=True)
+    USERNAME_FIELD = "email"
+    objects = UserManager()
+    class Meta:
+        ordering = ("email",)
+        permissions = (
+        indexes = [
+    def __init__(self, *args, **kwargs):
+    def __str__(self):
+        # Override the default __str__ of AbstractUser that returns username, which may
+        # lead to leaking sensitive data in logs.
+    @property
+    def effective_permissions(self) -> models.QuerySet[Permission]:
+    @effective_permissions.setter
+    def effective_permissions(self, value: models.QuerySet[Permission]):
+    def get_full_name(self):
+    def get_short_name(self):
+    def has_perm(self, perm: Union[BasePermissionEnum, str], obj=None) -> bool:
+        # This method is overridden to accept perm as BasePermissionEnum
+    def has_perms(
+        self, perm_list: Iterable[Union[BasePermissionEnum, str]], obj=None
+    ) -> bool:
+        # This method is overridden to accept perm as BasePermissionEnum
+===== END OUTLINE: saleor/account/models.py =====
+===== OUTLINE: saleor/app/models.py (read-only) =====
+class App(ModelWithMetadata):
+    name = models.CharField(max_length=60)
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True)
+    type = models.CharField(
+    identifier = models.CharField(blank=True, null=True, max_length=256)
+    permissions = models.ManyToManyField(
+    about_app = models.TextField(blank=True, null=True)
+    data_privacy = models.TextField(blank=True, null=True)
+    data_privacy_url = models.URLField(blank=True, null=True)
+    homepage_url = models.URLField(blank=True, null=True)
+    support_url = models.URLField(blank=True, null=True)
+    configuration_url = models.URLField(blank=True, null=True)
+    app_url = models.URLField(blank=True, null=True)
+    manifest_url = models.URLField(blank=True, null=True)
+    version = models.CharField(max_length=60, blank=True, null=True)
+    audience = models.CharField(blank=True, null=True, max_length=256)
+    is_installed = models.BooleanField(default=True)
+    author = models.CharField(blank=True, null=True, max_length=60)
+    objects = AppManager()
+    class Meta(ModelWithMetadata.Meta):
+        ordering = ("name", "pk")
+        permissions = (
+    def __str__(self):
+    def get_permissions(self) -> Set[str]:
+    def has_perms(self, perm_list: Iterable[Union[BasePermissionEnum, str]]) -> bool:
+    def has_perm(self, perm: Union[BasePermissionEnum, str]) -> bool:
+class AppExtension(models.Model):
+    app = models.ForeignKey(App, on_delete=models.CASCADE, related_name="extensions")
+    label = models.CharField(max_length=256)
+    url = models.URLField()
+    mount = models.CharField(choices=AppExtensionMount.CHOICES, max_length=256)
+    target = models.CharField(
+    permissions = models.ManyToManyField(
+===== END OUTLINE: saleor/app/models.py =====
+===== OUTLINE: saleor/permission/enums.py (read-only) =====
+def get_permissions_from_names(names: List[str]):
+def get_permission_names(permissions: Iterable["Permission"]):
+def get_permissions_from_codenames(permission_codenames: List[str]) -> QuerySet:
+===== END OUTLINE: saleor/permission/enums.py =====
+===== OUTLINE: saleor/permission/models.py (read-only) =====
+class Permission(models.Model):
+    name = models.CharField(_("name"), max_length=255)
+    content_type = models.ForeignKey(
+    codename = models.CharField(_("codename"), max_length=100)
+    objects = PermissionManager()
+    class Meta:
+        verbose_name = _("permission")
+        verbose_name_plural = _("permissions")
+        unique_together = [["content_type", "codename"]]
+        ordering = ["content_type__app_label", "content_type__model", "codename"]
+    def __str__(self):
+    def natural_key(self):
+    natural_key.dependencies = ["contenttypes.contenttype"]  # type: ignore[attr-defined] # noqa: E501
+===== END OUTLINE: saleor/permission/models.py =====
+===== OUTLINE: saleor/core/jwt_manager.py (read-only) =====
+def get_jwt_manager() -> JWTManagerBase:
+===== END OUTLINE: saleor/core/jwt_manager.py =====

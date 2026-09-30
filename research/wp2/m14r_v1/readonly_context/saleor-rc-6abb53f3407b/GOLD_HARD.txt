@@ -1,0 +1,768 @@
+READ-ONLY CONTEXT (NOT EDITABLE): outlines of repository modules imported by the editable files
+===== OUTLINE: saleor/graphql/core/enums.py (read-only) =====
+PluginErrorCode = graphene.Enum.from_enum(plugin_error_codes.PluginErrorCode)
+===== END OUTLINE: saleor/graphql/core/enums.py =====
+===== OUTLINE: saleor/plugins/base_plugin.py (read-only) =====
+class ConfigurationTypeField:
+    STRING = "String"
+    MULTILINE = "Multiline"
+    BOOLEAN = "Boolean"
+    SECRET = "Secret"
+    SECRET_MULTILINE = "SecretMultiline"
+    PASSWORD = "Password"
+    OUTPUT = "OUTPUT"
+    CHOICES = [
+class BasePlugin:
+    PLUGIN_NAME = ""
+    PLUGIN_ID = ""
+    PLUGIN_DESCRIPTION = ""
+    CONFIG_STRUCTURE = None
+    CONFIGURATION_PER_CHANNEL = True
+    DEFAULT_CONFIGURATION = []
+    DEFAULT_ACTIVE = False
+    @classmethod
+    def check_plugin_id(cls, plugin_id: str) -> bool:
+    def __init__(
+        self,
+        *,
+        configuration: PluginConfigurationType,
+        active: bool,
+        channel: Optional["Channel"] = None
+    ):
+    def __str__(self):
+    def external_authentication_url(
+        self, data: dict, request: WSGIRequest, previous_value
+    ) -> dict:
+    def external_obtain_access_tokens(
+        self, data: dict, request: WSGIRequest, previous_value
+    ) -> ExternalAccessTokens:
+    def external_refresh(
+        self, data: dict, request: WSGIRequest, previous_value
+    ) -> ExternalAccessTokens:
+    def external_logout(self, data: dict, request: WSGIRequest, previous_value):
+    def external_verify(
+        self, data: dict, request: WSGIRequest, previous_value
+    ) -> Tuple[Optional["User"], dict]:
+    def authenticate_user(
+        self, request: WSGIRequest, previous_value
+    ) -> Optional["User"]:
+    def webhook(self, request: WSGIRequest, path: str, previous_value) -> HttpResponse:
+    def notify(self, event: "NotifyEventType", payload: dict, previous_value):
+    def change_user_address(
+        self,
+        address: "Address",
+        address_type: Optional[str],
+        user: Optional["User"],
+        previous_value: "Address",
+    ) -> "Address":
+    def calculate_checkout_total(
+        self,
+        checkout_info: "CheckoutInfo",
+        lines: List["CheckoutLineInfo"],
+        address: Optional["Address"],
+        discounts: List["DiscountInfo"],
+        previous_value: TaxedMoney,
+    ) -> TaxedMoney:
+    def calculate_checkout_shipping(
+        self,
+        checkout_info: "CheckoutInfo",
+        lines: List["CheckoutLineInfo"],
+        address: Optional["Address"],
+        discounts: List["DiscountInfo"],
+        previous_value: TaxedMoney,
+    ) -> TaxedMoney:
+    def calculate_order_shipping(
+        self, order: "Order", previous_value: TaxedMoney
+    ) -> TaxedMoney:
+    def calculate_checkout_line_total(
+        self,
+        checkout_info: "CheckoutInfo",
+        lines: List["CheckoutLineInfo"],
+        checkout_line_info: "CheckoutLineInfo",
+        address: Optional["Address"],
+        discounts: Iterable["DiscountInfo"],
+        previous_value: TaxedMoney,
+    ) -> TaxedMoney:
+    def calculate_order_line_total(
+        self,
+        order: "Order",
+        order_line: "OrderLine",
+        variant: "ProductVariant",
+        product: "Product",
+        previous_value: TaxedMoney,
+    ) -> TaxedMoney:
+    def calculate_checkout_line_unit_price(
+        self,
+        checkout_info: "CheckoutInfo",
+        lines: List["CheckoutLineInfo"],
+        checkout_line_info: "CheckoutLineInfo",
+        address: Optional["Address"],
+        discounts: Iterable["DiscountInfo"],
+        previous_value: TaxedMoney,
+    ):
+    def calculate_order_line_unit(
+        self,
+        order: "Order",
+        order_line: "OrderLine",
+        variant: "ProductVariant",
+        product: "Product",
+        previous_value: TaxedMoney,
+    ) -> TaxedMoney:
+    def get_checkout_line_tax_rate(
+        self,
+        checkout_info: "CheckoutInfo",
+        lines: List["CheckoutLineInfo"],
+        checkout_line_info: "CheckoutLineInfo",
+        address: Optional["Address"],
+        discounts: Iterable["DiscountInfo"],
+        previous_value: Decimal,
+    ) -> Decimal:
+    def get_order_line_tax_rate(
+        self,
+        order: "Order",
+        product: "Product",
+        variant: "ProductVariant",
+        address: Optional["Address"],
+        previous_value: Decimal,
+    ) -> Decimal:
+    def get_checkout_shipping_tax_rate(
+        self,
+        checkout_info: "CheckoutInfo",
+        lines: Iterable["CheckoutLineInfo"],
+        address: Optional["Address"],
+        discounts: Iterable["DiscountInfo"],
+        previous_value: Decimal,
+    ):
+    def get_order_shipping_tax_rate(self, order: "Order", previous_value: Decimal):
+    def get_tax_rate_type_choices(
+        self, previous_value: List["TaxType"]
+    ) -> List["TaxType"]:
+    def show_taxes_on_storefront(self, previous_value: bool) -> bool:
+    def apply_taxes_to_shipping(
+        self, price: Money, shipping_address: "Address", previous_value: TaxedMoney
+    ) -> TaxedMoney:
+    def apply_taxes_to_product(
+        self,
+        product: "Product",
+        price: Money,
+        country: Country,
+        previous_value: TaxedMoney,
+    ) -> TaxedMoney:
+    def preprocess_order_creation(
+        self,
+        checkout_info: "CheckoutInfo",
+        discounts: List["DiscountInfo"],
+        lines: Optional[Iterable["CheckoutLineInfo"]],
+        previous_value: Any,
+    ):
+    def order_created(self, order: "Order", previous_value: Any):
+    def order_confirmed(self, order: "Order", previous_value: Any):
+    def invoice_request(
+        self,
+        order: "Order",
+        invoice: "Invoice",
+        number: Optional[str],
+        previous_value: Any,
+    ) -> Any:
+    def invoice_delete(self, invoice: "Invoice", previous_value: Any):
+    def invoice_sent(self, invoice: "Invoice", email: str, previous_value: Any):
+    def assign_tax_code_to_object_meta(
+        self,
+        obj: Union["Product", "ProductType"],
+        tax_code: Optional[str],
+        previous_value: Any,
+    ):
+    def get_tax_code_from_object_meta(
+        self, obj: Union["Product", "ProductType"], previous_value: "TaxType"
+    ) -> "TaxType":
+    def get_tax_rate_percentage_value(
+        self, obj: Union["Product", "ProductType"], country: Country, previous_value
+    ) -> Decimal:
+# [outline truncated]
+===== END OUTLINE: saleor/plugins/base_plugin.py =====
+===== OUTLINE: saleor/payment/__init__.py (read-only) =====
+class PaymentError(Exception):
+    def __init__(self, message, code=None):
+    def __str__(self):
+class GatewayError(IOError):
+class TransactionKind:
+    EXTERNAL = "external"
+    AUTH = "auth"
+    CAPTURE = "capture"
+    CAPTURE_FAILED = "capture_failed"
+    ACTION_TO_CONFIRM = "action_to_confirm"
+    VOID = "void"
+    PENDING = "pending"
+    REFUND = "refund"
+    REFUND_ONGOING = "refund_ongoing"
+    REFUND_FAILED = "refund_failed"
+    REFUND_REVERSED = "refund_reversed"
+    CONFIRM = "confirm"
+    CANCEL = "cancel"
+    CHOICES = [
+class ChargeStatus:
+    NOT_CHARGED = "not-charged"
+    PENDING = "pending"
+    PARTIALLY_CHARGED = "partially-charged"
+    FULLY_CHARGED = "fully-charged"
+    PARTIALLY_REFUNDED = "partially-refunded"
+    FULLY_REFUNDED = "fully-refunded"
+    REFUSED = "refused"
+    CANCELLED = "cancelled"
+    CHOICES = [
+class StorePaymentMethod:
+    ON_SESSION = "on_session"
+    OFF_SESSION = "off_session"
+    NONE = "none"
+    CHOICES = [
+===== END OUTLINE: saleor/payment/__init__.py =====
+===== OUTLINE: saleor/payment/models.py (read-only) =====
+class Payment(ModelWithMetadata):
+    gateway = models.CharField(max_length=255)
+    is_active = models.BooleanField(default=True)
+    to_confirm = models.BooleanField(default=False)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+    charge_status = models.CharField(
+    token = models.CharField(max_length=512, blank=True, default="")
+    total = models.DecimalField(
+    captured_amount = models.DecimalField(
+    currency = models.CharField(
+    checkout = models.ForeignKey(
+    order = models.ForeignKey(
+    store = models.CharField(
+    billing_email = models.EmailField(blank=True)
+    billing_first_name = models.CharField(max_length=256, blank=True)
+    billing_last_name = models.CharField(max_length=256, blank=True)
+    billing_company_name = models.CharField(max_length=256, blank=True)
+    billing_address_1 = models.CharField(max_length=256, blank=True)
+    billing_address_2 = models.CharField(max_length=256, blank=True)
+    billing_city = models.CharField(max_length=256, blank=True)
+    billing_city_area = models.CharField(max_length=128, blank=True)
+    billing_postal_code = models.CharField(max_length=256, blank=True)
+    billing_country_code = models.CharField(max_length=2, blank=True)
+    billing_country_area = models.CharField(max_length=256, blank=True)
+    cc_first_digits = models.CharField(max_length=6, blank=True, default="")
+    cc_last_digits = models.CharField(max_length=4, blank=True, default="")
+    cc_brand = models.CharField(max_length=40, blank=True, default="")
+    cc_exp_month = models.PositiveIntegerField(
+    cc_exp_year = models.PositiveIntegerField(
+    payment_method_type = models.CharField(max_length=256, blank=True)
+    customer_ip_address = models.GenericIPAddressField(blank=True, null=True)
+    extra_data = models.TextField(blank=True, default="")
+    return_url = models.URLField(blank=True, null=True)
+    psp_reference = models.CharField(
+    class Meta:
+        ordering = ("pk",)
+        permissions = (
+        indexes = [
+    def __repr__(self):
+    def get_last_transaction(self):
+    def get_total(self):
+    def get_authorized_amount(self):
+    def get_captured_amount(self):
+    def get_charge_amount(self):
+    @property
+    def is_authorized(self):
+    @property
+    def not_charged(self):
+    def can_authorize(self):
+    def can_capture(self):
+    def can_void(self):
+    def can_refund(self):
+    def can_confirm(self):
+    def is_manual(self):
+class Transaction(models.Model):
+    created = models.DateTimeField(auto_now_add=True, editable=False)
+    payment = models.ForeignKey(
+    token = models.CharField(max_length=512, blank=True, default="")
+    kind = models.CharField(max_length=25, choices=TransactionKind.CHOICES)
+    is_success = models.BooleanField(default=False)
+    action_required = models.BooleanField(default=False)
+    action_required_data = JSONField(
+    currency = models.CharField(max_length=settings.DEFAULT_CURRENCY_CODE_LENGTH)
+    amount = models.DecimalField(
+    error = models.CharField(
+    customer_id = models.CharField(max_length=256, null=True)
+    gateway_response = JSONField(encoder=DjangoJSONEncoder)
+    already_processed = models.BooleanField(default=False)
+    class Meta:
+        ordering = ("pk",)
+    def __repr__(self):
+    def get_amount(self):
+===== END OUTLINE: saleor/payment/models.py =====
+===== OUTLINE: saleor/payment/gateways/utils.py (read-only) =====
+def require_active_plugin(fn):
+def get_supported_currencies(config: "GatewayConfig", gateway_name: str) -> List[str]:
+===== END OUTLINE: saleor/payment/gateways/utils.py =====
+===== OUTLINE: saleor/payment/gateways/stripe/stripe_api.py (read-only) =====
+def is_secret_api_key_valid(api_key: str):
+def subscribe_webhook(api_key: str, channel_slug: str) -> Optional[StripeObject]:
+def delete_webhook(api_key: str, webhook_id: str):
+def get_or_create_customer(
+    api_key: str,
+    customer_id: Optional[str] = None,
+    customer_email: Optional[str] = None,
+) -> Optional[StripeObject]:
+def create_payment_intent(
+    api_key: str,
+    amount: Decimal,
+    currency: str,
+    auto_capture: bool = True,
+    customer: Optional[StripeObject] = None,
+    payment_method_id: Optional[str] = None,
+    metadata: Optional[dict] = None,
+    setup_future_usage: Optional[str] = None,
+    off_session: Optional[bool] = None,
+    payment_method_types: Optional[List[str]] = None,
+    customer_email: Optional[str] = None,
+) -> Tuple[Optional[StripeObject], Optional[StripeError]]:
+
+def update_payment_method(api_key: str, payment_method_id: str, channel_slug: str):
+def list_customer_payment_methods(
+    api_key: str, customer_id: str
+) -> Tuple[Optional[StripeObject], Optional[StripeError]]:
+def retrieve_payment_intent(
+    api_key: str, payment_intent_id: str
+) -> Tuple[Optional[StripeObject], Optional[StripeError]]:
+def capture_payment_intent(
+    api_key: str, payment_intent_id: str, amount_to_capture: int
+) -> Tuple[Optional[StripeObject], Optional[StripeError]]:
+def refund_payment_intent(
+    api_key: str, payment_intent_id: str, amount_to_refund: int
+) -> Tuple[Optional[StripeObject], Optional[StripeError]]:
+def cancel_payment_intent(
+    api_key: str, payment_intent_id: str
+) -> Tuple[Optional[StripeObject], Optional[StripeError]]:
+def construct_stripe_event(
+    api_key: str, payload: bytes, sig_header: str, endpoint_secret: str
+) -> StripeObject:
+def get_payment_method_details(
+    payment_intent: StripeObject,
+) -> Optional[PaymentMethodInfo]:
+===== END OUTLINE: saleor/payment/gateways/stripe/stripe_api.py =====
+===== OUTLINE: saleor/plugins/models.py (read-only) =====
+class PluginConfiguration(models.Model):
+    identifier = models.CharField(max_length=128)
+    name = models.CharField(max_length=128)
+    channel = models.ForeignKey(
+    description = models.TextField(blank=True)
+    active = models.BooleanField(default=False)
+    configuration = JSONField(
+    class Meta:
+        unique_together = ("identifier", "channel")
+        permissions = ((PluginsPermissions.MANAGE_PLUGINS.codename, "Manage plugins"),)
+    def __str__(self):
+===== END OUTLINE: saleor/plugins/models.py =====
+===== OUTLINE: saleor/payment/gateways/stripe/consts.py (read-only) =====
+PLUGIN_ID = "saleor.payments.stripe"
+PLUGIN_NAME = "Stripe"
+WEBHOOK_PATH = "webhooks/"
+WEBHOOK_SUCCESS_EVENT = "payment_intent.succeeded"
+WEBHOOK_PROCESSING_EVENT = "payment_intent.processing"
+WEBHOOK_FAILED_EVENT = "payment_intent.payment_failed"
+WEBHOOK_AUTHORIZED_EVENT = "payment_intent.amount_capturable_updated"
+WEBHOOK_CANCELED_EVENT = "payment_intent.canceled"
+WEBHOOK_REFUND_EVENT = "charge.refunded"
+ACTION_REQUIRED_STATUSES = [
+SUCCESS_STATUS = "succeeded"
+PROCESSING_STATUS = "processing"
+AUTHORIZED_STATUS = "requires_capture"
+===== END OUTLINE: saleor/payment/gateways/stripe/consts.py =====
+===== OUTLINE: saleor/checkout/complete_checkout.py (read-only) =====
+def complete_checkout(
+    manager: "PluginsManager",
+    checkout_info: "CheckoutInfo",
+    lines: Iterable["CheckoutLineInfo"],
+    payment_data,
+    store_source,
+    discounts,
+    user,
+    app,
+    site_settings=None,
+    tracking_code=None,
+    redirect_url=None,
+) -> Tuple[Optional[Order], bool, dict]:
+===== END OUTLINE: saleor/checkout/complete_checkout.py =====
+===== OUTLINE: saleor/checkout/fetch.py (read-only) =====
+def fetch_checkout_lines(checkout: "Checkout") -> Iterable[CheckoutLineInfo]:
+def fetch_checkout_info(
+    checkout: "Checkout",
+    lines: Iterable[CheckoutLineInfo],
+    discounts: Iterable["DiscountInfo"],
+    manager: "PluginsManager",
+) -> CheckoutInfo:
+===== END OUTLINE: saleor/checkout/fetch.py =====
+===== OUTLINE: saleor/checkout/models.py (read-only) =====
+class Checkout(ModelWithMetadata):
+    created = models.DateTimeField(auto_now_add=True)
+    last_change = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(
+    email = models.EmailField()
+    token = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    channel = models.ForeignKey(
+    billing_address = models.ForeignKey(
+    shipping_address = models.ForeignKey(
+    shipping_method = models.ForeignKey(
+    collection_point = models.ForeignKey(
+    note = models.TextField(blank=True, default="")
+    currency = models.CharField(
+    country = CountryField(default=get_default_country)
+    discount_amount = models.DecimalField(
+    discount = MoneyField(amount_field="discount_amount", currency_field="currency")
+    discount_name = models.CharField(max_length=255, blank=True, null=True)
+    translated_discount_name = models.CharField(max_length=255, blank=True, null=True)
+    voucher_code = models.CharField(max_length=12, blank=True, null=True)
+    gift_cards = models.ManyToManyField(GiftCard, blank=True, related_name="checkouts")
+    redirect_url = models.URLField(blank=True, null=True)
+    tracking_code = models.CharField(max_length=255, blank=True, null=True)
+    language_code = models.CharField(
+    class Meta(ModelWithMetadata.Meta):
+        ordering = ("-last_change", "pk")
+        permissions = (
+    def __iter__(self):
+    def get_customer_email(self) -> str:
+    def is_shipping_required(self) -> bool:
+    def get_total_gift_cards_balance(self) -> Money:
+    def get_total_weight(self, lines: Iterable["CheckoutLineInfo"]) -> "Weight":
+    def get_line(self, variant: "ProductVariant") -> Optional["CheckoutLine"]:
+    def get_last_active_payment(self) -> Optional["Payment"]:
+    def set_country(
+        self, country_code: str, commit: bool = False, replace: bool = True
+    ):
+    def get_country(self):
+===== END OUTLINE: saleor/checkout/models.py =====
+===== OUTLINE: saleor/core/transactions.py (read-only) =====
+@contextmanager
+def transaction_with_commit_on_errors():
+===== END OUTLINE: saleor/core/transactions.py =====
+===== OUTLINE: saleor/discount/utils.py (read-only) =====
+def fetch_active_discounts() -> List[DiscountInfo]:
+===== END OUTLINE: saleor/discount/utils.py =====
+===== OUTLINE: saleor/order/actions.py (read-only) =====
+def order_refunded(
+    order: "Order",
+    user: Optional["User"],
+    app: Optional["App"],
+    amount: "Decimal",
+    payment: "Payment",
+    manager: "PluginsManager",
+):
+def order_voided(
+    order: "Order",
+    user: Optional["User"],
+    app: Optional["App"],
+    payment: "Payment",
+    manager: "PluginsManager",
+):
+def order_captured(
+    order: "Order",
+    user: Optional["User"],
+    app: Optional["App"],
+    amount: "Decimal",
+    payment: "Payment",
+    manager: "PluginsManager",
+):
+===== END OUTLINE: saleor/order/actions.py =====
+===== OUTLINE: saleor/plugins/manager.py (read-only) =====
+class PluginsManager(PaymentInterface):
+    plugins_per_channel: Dict[str, List["BasePlugin"]] = {}
+    global_plugins: List["BasePlugin"] = []
+    all_plugins: List["BasePlugin"] = []
+    def _load_plugin(
+        self,
+        PluginClass: Type["BasePlugin"],
+        config,
+        channel: Optional["Channel"] = None,
+    ) -> "BasePlugin":
+
+    def __init__(self, plugins: List[str]):
+    def __run_method_on_plugins(
+        self,
+        method_name: str,
+        default_value: Any,
+        *args,
+        channel_slug: Optional[str] = None,
+        **kwargs
+    ):
+    def __run_method_on_single_plugin(
+        self,
+        plugin: Optional["BasePlugin"],
+        method_name: str,
+        previous_value: Any,
+        *args,
+        **kwargs,
+    ) -> Any:
+    def change_user_address(
+        self, address: "Address", address_type: Optional[str], user: Optional["User"]
+    ) -> "Address":
+    def calculate_checkout_total(
+        self,
+        checkout_info: "CheckoutInfo",
+        lines: Iterable["CheckoutLineInfo"],
+        address: Optional["Address"],
+        discounts: Iterable[DiscountInfo],
+    ) -> TaxedMoney:
+
+    def calculate_checkout_subtotal(
+        self,
+        checkout_info: "CheckoutInfo",
+        lines: Iterable["CheckoutLineInfo"],
+        address: Optional["Address"],
+        discounts: Iterable[DiscountInfo],
+    ) -> TaxedMoney:
+    def calculate_checkout_shipping(
+        self,
+        checkout_info: "CheckoutInfo",
+        lines: Iterable["CheckoutLineInfo"],
+        address: Optional["Address"],
+        discounts: Iterable[DiscountInfo],
+    ) -> TaxedMoney:
+    def calculate_order_shipping(self, order: "Order") -> TaxedMoney:
+    def get_checkout_shipping_tax_rate(
+        self,
+        checkout_info: "CheckoutInfo",
+        lines: Iterable["CheckoutLineInfo"],
+        address: Optional["Address"],
+        discounts: Iterable[DiscountInfo],
+        shipping_price: TaxedMoney,
+    ):
+    def get_order_shipping_tax_rate(self, order: "Order", shipping_price: TaxedMoney):
+    def calculate_checkout_line_total(
+        self,
+        checkout_info: "CheckoutInfo",
+        lines: Iterable["CheckoutLineInfo"],
+        checkout_line_info: "CheckoutLineInfo",
+        address: Optional["Address"],
+        discounts: Iterable["DiscountInfo"],
+    ):
+    def calculate_order_line_total(
+        self,
+        order: "Order",
+        order_line: "OrderLine",
+        variant: "ProductVariant",
+        product: "Product",
+    ):
+    def calculate_checkout_line_unit_price(
+        self,
+        total_line_price: TaxedMoney,
+        quantity: int,
+        checkout_info: "CheckoutInfo",
+        lines: Iterable["CheckoutLineInfo"],
+        checkout_line_info: "CheckoutLineInfo",
+        address: Optional["Address"],
+        discounts: Iterable["DiscountInfo"],
+    ):
+    def calculate_order_line_unit(
+        self,
+        order: "Order",
+        order_line: "OrderLine",
+        variant: "ProductVariant",
+        product: "Product",
+    ) -> TaxedMoney:
+    def get_checkout_line_tax_rate(
+        self,
+        checkout_info: "CheckoutInfo",
+        lines: Iterable["CheckoutLineInfo"],
+        checkout_line_info: "CheckoutLineInfo",
+        address: Optional["Address"],
+        discounts: Iterable[DiscountInfo],
+        unit_price: TaxedMoney,
+    ) -> Decimal:
+    def get_order_line_tax_rate(
+        self,
+        order: "Order",
+        product: "Product",
+        variant: "ProductVariant",
+        address: Optional["Address"],
+        unit_price: TaxedMoney,
+    ) -> Decimal:
+    def get_tax_rate_type_choices(self) -> List[TaxType]:
+    def show_taxes_on_storefront(self) -> bool:
+    def apply_taxes_to_product(
+        self, product: "Product", price: Money, country: Country, channel_slug: str
+    ):
+    def apply_taxes_to_shipping(
+        self, price: Money, shipping_address: "Address", channel_slug: str
+    ) -> TaxedMoney:
+    def preprocess_order_creation(
+        self,
+        checkout_info: "CheckoutInfo",
+        discounts: Iterable[DiscountInfo],
+        lines: Optional[Iterable["CheckoutLineInfo"]] = None,
+    ):
+    def customer_created(self, customer: "User"):
+    def customer_updated(self, customer: "User"):
+    def product_created(self, product: "Product"):
+    def product_updated(self, product: "Product"):
+    def product_deleted(self, product: "Product", variants: List[int]):
+    def product_variant_created(self, product_variant: "ProductVariant"):
+    def product_variant_updated(self, product_variant: "ProductVariant"):
+    def product_variant_deleted(self, product_variant: "ProductVariant"):
+    def product_variant_out_of_stock(self, stock: "Stock"):
+    def product_variant_back_in_stock(self, stock: "Stock"):
+    def order_created(self, order: "Order"):
+    def order_confirmed(self, order: "Order"):
+    def invoice_request(
+        self, order: "Order", invoice: "Invoice", number: Optional[str]
+    ):
+    def invoice_delete(self, invoice: "Invoice"):
+    def invoice_sent(self, invoice: "Invoice", email: str):
+    def order_fully_paid(self, order: "Order"):
+    def order_updated(self, order: "Order"):
+    def order_cancelled(self, order: "Order"):
+    def order_fulfilled(self, order: "Order"):
+    def fulfillment_created(self, fulfillment: "Fulfillment"):
+    def fulfillment_canceled(self, fulfillment: "Fulfillment"):
+    def checkout_created(self, checkout: "Checkout"):
+    def checkout_updated(self, checkout: "Checkout"):
+    def page_created(self, page: "Page"):
+    def page_updated(self, page: "Page"):
+    def page_deleted(self, page: "Page"):
+    def initialize_payment(
+        self, gateway, payment_data: dict, channel_slug: str
+    ) -> Optional["InitializedPaymentResponse"]:
+    def authorize_payment(
+        self, gateway: str, payment_information: "PaymentData", channel_slug: str
+    ) -> "GatewayResponse":
+    def capture_payment(
+        self, gateway: str, payment_information: "PaymentData", channel_slug: str
+    ) -> "GatewayResponse":
+# [outline truncated]
+===== END OUTLINE: saleor/plugins/manager.py =====
+===== OUTLINE: saleor/account/models.py (read-only) =====
+class User(PermissionsMixin, ModelWithMetadata, AbstractBaseUser):
+    email = models.EmailField(unique=True)
+    first_name = models.CharField(max_length=256, blank=True)
+    last_name = models.CharField(max_length=256, blank=True)
+    addresses = models.ManyToManyField(
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    note = models.TextField(null=True, blank=True)
+    date_joined = models.DateTimeField(default=timezone.now, editable=False)
+    default_shipping_address = models.ForeignKey(
+    default_billing_address = models.ForeignKey(
+    avatar = VersatileImageField(upload_to="user-avatars", blank=True, null=True)
+    jwt_token_key = models.CharField(max_length=12, default=get_random_string)
+    language_code = models.CharField(
+    USERNAME_FIELD = "email"
+    objects = UserManager()
+    class Meta:
+        ordering = ("email",)
+        permissions = (
+        indexes = [
+    def __init__(self, *args, **kwargs):
+    @property
+    def effective_permissions(self) -> "QuerySet[Permission]":
+    @effective_permissions.setter
+    def effective_permissions(self, value: "QuerySet[Permission]"):
+    def get_full_name(self):
+    def get_short_name(self):
+    def has_perm(self, perm: Union[BasePermissionEnum, str], obj=None):  # type: ignore
+        # This method is overridden to accept perm as BasePermissionEnum
+===== END OUTLINE: saleor/account/models.py =====
+===== OUTLINE: saleor/core/prices.py (read-only) =====
+def quantize_price(
+    price: Union["TaxedMoney", "Money", Decimal, "TaxedMoneyRange"], currency: str
+) -> Union["TaxedMoney", "Money", Decimal, "TaxedMoneyRange"]:
+===== END OUTLINE: saleor/core/prices.py =====
+===== OUTLINE: saleor/core/tracing.py (read-only) =====
+@contextmanager
+def traced_atomic_transaction():
+===== END OUTLINE: saleor/core/tracing.py =====
+===== OUTLINE: saleor/order/models.py (read-only) =====
+class Order(ModelWithMetadata):
+    created = models.DateTimeField(default=now, editable=False)
+    status = models.CharField(
+    user = models.ForeignKey(
+    language_code = models.CharField(
+    tracking_client_id = models.CharField(max_length=36, blank=True, editable=False)
+    billing_address = models.ForeignKey(
+    shipping_address = models.ForeignKey(
+    user_email = models.EmailField(blank=True, default="")
+    original = models.ForeignKey(
+    origin = models.CharField(max_length=32, choices=OrderOrigin.CHOICES)
+    currency = models.CharField(
+    shipping_method = models.ForeignKey(
+    collection_point = models.ForeignKey(
+    shipping_method_name = models.CharField(
+    collection_point_name = models.CharField(
+    channel = models.ForeignKey(
+    shipping_price_net_amount = models.DecimalField(
+    shipping_price_net = MoneyField(
+    shipping_price_gross_amount = models.DecimalField(
+    shipping_price_gross = MoneyField(
+    shipping_price = TaxedMoneyField(
+    shipping_tax_rate = models.DecimalField(
+    token = models.CharField(max_length=36, unique=True, blank=True)
+    checkout_token = models.CharField(max_length=36, blank=True)
+    total_net_amount = models.DecimalField(
+    undiscounted_total_net_amount = models.DecimalField(
+    total_net = MoneyField(amount_field="total_net_amount", currency_field="currency")
+    undiscounted_total_net = MoneyField(
+    total_gross_amount = models.DecimalField(
+    undiscounted_total_gross_amount = models.DecimalField(
+    total_gross = MoneyField(
+    undiscounted_total_gross = MoneyField(
+    total = TaxedMoneyField(
+    undiscounted_total = TaxedMoneyField(
+    total_paid_amount = models.DecimalField(
+    total_paid = MoneyField(amount_field="total_paid_amount", currency_field="currency")
+    voucher = models.ForeignKey(
+    gift_cards = models.ManyToManyField(GiftCard, blank=True, related_name="orders")
+    display_gross_prices = models.BooleanField(default=True)
+    customer_note = models.TextField(blank=True, default="")
+    weight = MeasurementField(
+    redirect_url = models.URLField(blank=True, null=True)
+    objects = models.Manager.from_queryset(OrderQueryset)()
+    class Meta:
+        ordering = ("-pk",)
+        permissions = ((OrderPermissions.MANAGE_ORDERS.codename, "Manage orders."),)
+        indexes = [*ModelWithMetadata.Meta.indexes, GinIndex(fields=["user_email"])]
+    def save(self, *args, **kwargs):
+    def is_fully_paid(self):
+    def is_partly_paid(self):
+    def get_customer_email(self):
+    def update_total_paid(self):
+    def _index_billing_phone(self):
+    def _index_shipping_phone(self):
+    def __repr__(self):
+    def __str__(self):
+    def get_last_payment(self):
+    def is_pre_authorized(self):
+    def is_captured(self):
+    def is_shipping_required(self):
+    def get_subtotal(self):
+    def get_total_quantity(self):
+    def is_draft(self):
+    def is_unconfirmed(self):
+    def is_open(self):
+    def can_cancel(self):
+    def can_capture(self, payment=None):
+    def can_void(self, payment=None):
+    def can_refund(self, payment=None):
+    def can_mark_as_paid(self, payments=None):
+    @property
+    def total_authorized(self):
+    @property
+    def total_captured(self):
+    @property
+    def total_balance(self):
+    def get_total_weight(self, *_args):
+===== END OUTLINE: saleor/order/models.py =====
+===== OUTLINE: saleor/payment/error_codes.py (read-only) =====
+class PaymentErrorCode(Enum):
+    BILLING_ADDRESS_NOT_SET = "billing_address_not_set"
+    GRAPHQL_ERROR = "graphql_error"
+    INVALID = "invalid"
+    NOT_FOUND = "not_found"
+    REQUIRED = "required"
+    UNIQUE = "unique"
+    PARTIAL_PAYMENT_NOT_ALLOWED = "partial_payment_not_allowed"
+    SHIPPING_ADDRESS_NOT_SET = "shipping_address_not_set"
+    INVALID_SHIPPING_METHOD = "invalid_shipping_method"
+    SHIPPING_METHOD_NOT_SET = "shipping_method_not_set"
+    PAYMENT_ERROR = "payment_error"
+    NOT_SUPPORTED_GATEWAY = "not_supported_gateway"
+    CHANNEL_INACTIVE = "channel_inactive"
+===== END OUTLINE: saleor/payment/error_codes.py =====

@@ -1,0 +1,504 @@
+READ-ONLY CONTEXT (NOT EDITABLE): outlines of repository modules imported by the editable files
+===== OUTLINE: saleor/attribute/__init__.py (read-only) =====
+class AttributeEntityType:
+    PAGE = "Page"
+    PRODUCT = "Product"
+    PRODUCT_VARIANT = "ProductVariant"
+    CATEGORY = "Category"
+    COLLECTION = "Collection"
+    CHOICES = [
+===== END OUTLINE: saleor/attribute/__init__.py =====
+===== OUTLINE: saleor/attribute/error_codes.py (read-only) =====
+class AttributeBulkUpdateErrorCode(Enum):
+    ALREADY_EXISTS = "already_exists"
+    BLANK = "blank"
+    GRAPHQL_ERROR = "graphql_error"
+    INVALID = "invalid"
+    NOT_FOUND = "not_found"
+    REQUIRED = "required"
+    UNIQUE = "unique"
+    DUPLICATED_INPUT_ITEM = "duplicated_input_item"
+    MAX_LENGTH = "max_length"
+===== END OUTLINE: saleor/attribute/error_codes.py =====
+===== OUTLINE: saleor/attribute/lock_objects.py (read-only) =====
+def attribute_value_qs_select_for_update() -> QuerySet[AttributeValue]:
+def attribute_reference_product_types_qs_select_for_update() -> QuerySet:
+def attribute_reference_page_types_qs_select_for_update() -> QuerySet:
+===== END OUTLINE: saleor/attribute/lock_objects.py =====
+===== OUTLINE: saleor/core/tracing.py (read-only) =====
+@contextmanager
+def traced_atomic_transaction():
+===== END OUTLINE: saleor/core/tracing.py =====
+===== OUTLINE: saleor/permission/enums.py (read-only) =====
+class PageTypePermissions(BasePermissionEnum):
+    MANAGE_PAGE_TYPES_AND_ATTRIBUTES = "page.manage_page_types_and_attributes"
+class ProductTypePermissions(BasePermissionEnum):
+    MANAGE_PRODUCT_TYPES_AND_ATTRIBUTES = "product.manage_product_types_and_attributes"
+===== END OUTLINE: saleor/permission/enums.py =====
+===== OUTLINE: saleor/webhook/utils.py (read-only) =====
+def get_webhooks_for_event(
+    event_type: str,
+    webhooks: Optional["QuerySet[Webhook]"] = None,
+    apps_ids: Optional["list[int]"] = None,
+    apps_identifier: list[str] | None = None,
+) -> "QuerySet[Webhook]":
+===== END OUTLINE: saleor/webhook/utils.py =====
+===== OUTLINE: saleor/graphql/core/__init__.py (read-only) =====
+class ResolveInfo(graphene.ResolveInfo):
+    context: SaleorContext
+===== END OUTLINE: saleor/graphql/core/__init__.py =====
+===== OUTLINE: saleor/graphql/core/doc_category.py (read-only) =====
+DOC_CATEGORY_ATTRIBUTES = "Attributes"
+===== END OUTLINE: saleor/graphql/core/doc_category.py =====
+===== OUTLINE: saleor/graphql/core/enums.py (read-only) =====
+ErrorPolicyEnum = to_enum(ErrorPolicy, description=error_policy_enum_description)
+===== END OUTLINE: saleor/graphql/core/enums.py =====
+===== OUTLINE: saleor/graphql/core/mutations.py (read-only) =====
+class BaseMutation(graphene.Mutation):
+    class Meta:
+        abstract = True
+    @classmethod
+    def _validate_permissions(cls, permissions):
+    @classmethod
+    def __init_subclass_with_meta__(
+        cls,
+        auto_permission_message=True,
+        description=None,
+        doc_category=None,
+        permissions: Collection[BasePermissionEnum] | None = None,
+        _meta=None,
+        error_type_class=None,
+        error_type_field=None,
+        errors_mapping=None,
+        support_meta_field=False,
+        support_private_meta_field=False,
+        auto_webhook_events_message: bool = True,
+        webhook_events_info: list[WebhookEventInfo] | None = None,
+        exclude=None,
+        **options,
+    ):
+    @classmethod
+    def _update_mutation_arguments_and_fields(cls, arguments, fields):
+    @classmethod
+    def _get_node_by_pk(
+        cls,
+        info: ResolveInfo,
+        graphene_type: type[ModelObjectType[MT]],
+        pk: int | str,
+        qs: QuerySet[MT] | None = None,
+    ) -> MT | None:
+    @classmethod
+    def get_global_id_or_error(
+        cls,
+        id: str,
+        only_type: ObjectType | str | None = None,
+        field: str = "id",
+    ):
+    @overload
+    @classmethod
+    def get_node_or_error(
+        cls,
+        info: ResolveInfo,
+        node_id: str,
+        *,
+        field: str = "id",
+        only_type: type[ModelObjectType[MT]],
+        qs: Any = None,
+        code: str = "not_found",
+    @overload
+    @classmethod
+    def get_node_or_error(
+        cls,
+        info: ResolveInfo,
+        node_id: str | None,
+        *,
+        field: str = "id",
+        only_type: type[ModelObjectType[MT]],
+        qs: Any = None,
+        code: str = "not_found",
+    @overload
+    @classmethod
+    def get_node_or_error(
+        cls,
+        info: ResolveInfo,
+        node_id: str,
+        *,
+        field: str = "id",
+        only_type: None,
+        qs: QuerySet[MT],
+        code: str = "not_found",
+    @overload
+    @classmethod
+    def get_node_or_error(
+        cls,
+        info: ResolveInfo,
+        node_id: str,
+        *,
+        field: str = "id",
+        only_type: None = None,
+        qs: Any = None,
+        code: str = "not_found",
+    @overload
+    @classmethod
+    def get_node_or_error(
+        cls,
+        info: ResolveInfo,
+        node_id: str | None,
+        *,
+        field: str = "id",
+        only_type: Any = None,
+        qs: Any = None,
+        code: str = "not_found",
+    @classmethod
+    def get_node_or_error(
+        cls,
+        info: ResolveInfo,
+        node_id: str | None,
+        *,
+        field: str = "id",
+        only_type: type[ObjectType] | None = None,
+        qs: QuerySet | None = None,
+        code: str = "not_found",
+    ) -> Model | None:
+    @classmethod
+    def get_global_ids_or_error(
+        cls,
+        ids: Iterable[str],
+        only_type: ObjectType | str | None = None,
+        field: str = "ids",
+    ):
+    @overload
+    @classmethod
+    def get_nodes_or_error(
+        cls, ids, field, only_type: type[ModelObjectType[MT]], qs=None, schema=None
+    @overload
+    @classmethod
+    def get_nodes_or_error(
+        cls, ids, field, only_type: ObjectType | None = None, qs=None, schema=None
+    @classmethod
+    def get_nodes_or_error(cls, ids, field, only_type=None, qs=None, schema=None):
+    @staticmethod
+    def remap_error_fields(validation_error, field_map) -> None:
+    @classmethod
+    def clean_instance(cls, info: ResolveInfo, instance, /) -> None:
+    @classmethod
+    def construct_instance(cls, instance, cleaned_data):
+    @classmethod
+    def check_permissions(
+        cls, context, permissions=None, require_all_permissions=False, **data
+    ):
+    @classmethod
+    @allow_writer()
+    def mutate(cls, root, info: ResolveInfo, **data):
+    @classmethod
+    def perform_mutation(cls, _root, _info: ResolveInfo, /):
+    @classmethod
+    def handle_errors(cls, error: ValidationError, **extra):
+    @classmethod
+    def handle_typed_errors(cls, errors: list, **extra):
+    @staticmethod
+    def call_event(func_obj, *func_args, **kwargs):
+    @classmethod
+    def validate_and_update_metadata(
+        cls,
+        instance,
+        metadata_list: metadata_manager.MetadataItemCollection,
+        private_metadata_list: metadata_manager.MetadataItemCollection,
+    ):
+    @classmethod
+    def check_metadata_permissions(cls, info: ResolveInfo, object_id, private=False):
+    @classmethod
+    def check_channel_permissions(
+        cls, info: ResolveInfo, channel_ids: Iterable[UUID | int]
+    ):
+        # App has access to all channels
+    @classmethod
+    def create_metadata_from_graphql_input(
+        cls, metadata_list: list[MetadataInput] | None, *, error_field_name: str
+    ) -> metadata_manager.MetadataItemCollection:
+class DeprecatedModelMutation(BaseMutation):
+    class Meta:
+        abstract = True
+    @classmethod
+    def __init_subclass_with_meta__(  # type: ignore[override]
+        cls,
+        arguments=None,
+        model=None,
+        return_field_name=None,
+        object_type=None,
+        instance_tracker_fields=None,
+        _meta=None,
+        **options,
+    ):
+    @classmethod
+    def clean_input(cls, info: ResolveInfo, instance, data, *, input_cls=None):
+    @classmethod
+    def _save_m2m(cls, _info: ResolveInfo, instance, cleaned_data):
+    @classmethod
+    def success_response(cls, instance):
+    @classmethod
+    def save(
+        cls,
+        _info: ResolveInfo,
+        instance,
+        _cleaned_input,
+        /,
+        instance_tracker: InstanceTracker | None = None,
+    ):
+    @classmethod
+    def diff_instance_data_fields(cls, fields, old_instance_data, new_instance_data):
+    @classmethod
+    def get_type_for_model(cls):
+    @classmethod
+    def get_instance(cls, info: ResolveInfo, **data):
+    @classmethod
+    def post_save_action(cls, info: ResolveInfo, instance, cleaned_input):
+    @classmethod
+    def perform_mutation(cls, _root, info: ResolveInfo, /, **data):
+===== END OUTLINE: saleor/graphql/core/mutations.py =====
+===== OUTLINE: saleor/graphql/core/utils/__init__.py (read-only) =====
+def get_duplicated_values(values):
+@overload
+def from_global_id_or_error(
+    global_id: str,
+    only_type: ObjectType | str | None = None,
+    raise_error: Literal[True] = True,
+@overload
+def from_global_id_or_error(
+    global_id: str,
+    only_type: type[ObjectType] | str | None = None,
+    raise_error: bool = False,
+def from_global_id_or_error(
+    global_id: str,
+    only_type: type[ObjectType] | str | None = None,
+    raise_error: bool = False,
+):
+@dataclass
+class WebhookEventInfo:
+    type: str
+    description: str | None = None
+===== END OUTLINE: saleor/graphql/core/utils/__init__.py =====
+===== OUTLINE: saleor/graphql/core/validators/__init__.py (read-only) =====
+def validate_one_of_args_is_in_mutation(*args, **kwargs):
+===== END OUTLINE: saleor/graphql/core/validators/__init__.py =====
+===== OUTLINE: saleor/graphql/plugins/dataloaders.py (read-only) =====
+def get_plugin_manager_promise(context: SaleorContext) -> Promise[PluginsManager]:
+===== END OUTLINE: saleor/graphql/plugins/dataloaders.py =====
+===== OUTLINE: saleor/graphql/attribute/enums.py (read-only) =====
+AttributeTypeEnum = to_enum(AttributeType)
+===== END OUTLINE: saleor/graphql/attribute/enums.py =====
+===== OUTLINE: saleor/graphql/attribute/types.py (read-only) =====
+class Attribute(ChannelContextType[models.Attribute]):
+    id = graphene.GlobalID(required=True, description="The ID of the attribute.")
+    input_type = AttributeInputTypeEnum(description=AttributeDescriptions.INPUT_TYPE)
+    entity_type = AttributeEntityTypeEnum(
+    reference_types = NonNullList(
+    name = graphene.String(description=AttributeDescriptions.NAME)
+    slug = graphene.String(description=AttributeDescriptions.SLUG)
+    type = AttributeTypeEnum(description=AttributeDescriptions.TYPE)
+    unit = MeasurementUnitsEnum(description=AttributeDescriptions.UNIT)
+    choices = FilterConnectionField(
+    value_required = graphene.Boolean(
+    visible_in_storefront = graphene.Boolean(
+    filterable_in_storefront = graphene.Boolean(
+    filterable_in_dashboard = graphene.Boolean(
+    available_in_grid = graphene.Boolean(
+    storefront_search_position = graphene.Int(
+    translation = TranslationField(
+    with_choices = graphene.Boolean(
+    product_types = ConnectionField(
+    product_variant_types = ConnectionField(
+    external_reference = graphene.String(
+    class Meta:
+        default_resolver = ChannelContextType.resolver_with_context
+        description = (
+        interfaces = [graphene.relay.Node, ObjectWithMetadata]
+        model = models.Attribute
+    @staticmethod
+    def resolve_reference_types(
+        root: ChannelContext[models.Attribute], info: ResolveInfo, limit: int, **kwargs
+    ):
+    @staticmethod
+    def resolve_choices(
+        root: ChannelContext[models.Attribute], info: ResolveInfo, **kwargs
+    ):
+    @staticmethod
+    @check_attribute_required_permissions()
+    def resolve_value_required(
+        root: ChannelContext[models.Attribute], _info: ResolveInfo
+    ):
+    @staticmethod
+    @check_attribute_required_permissions()
+    def resolve_visible_in_storefront(
+        root: ChannelContext[models.Attribute], _info: ResolveInfo
+    ):
+    @staticmethod
+    @check_attribute_required_permissions()
+    def resolve_filterable_in_storefront(
+        root: ChannelContext[models.Attribute], _info: ResolveInfo
+    ):
+    @staticmethod
+    @check_attribute_required_permissions()
+    def resolve_filterable_in_dashboard(
+        root: ChannelContext[models.Attribute], _info: ResolveInfo
+    ):
+    @staticmethod
+    @check_attribute_required_permissions()
+    def resolve_storefront_search_position(
+        root: ChannelContext[models.Attribute], _info: ResolveInfo
+    ):
+    @staticmethod
+    @check_attribute_required_permissions()
+    def resolve_available_in_grid(
+        root: ChannelContext[models.Attribute], _info: ResolveInfo
+    ):
+    @staticmethod
+    def resolve_with_choices(
+        root: ChannelContext[models.Attribute], _info: ResolveInfo
+    ):
+    @staticmethod
+    def resolve_product_types(
+        root: ChannelContext[models.Attribute], info: ResolveInfo, **kwargs
+    ):
+    @staticmethod
+    def resolve_product_variant_types(
+        root: ChannelContext[models.Attribute], info: ResolveInfo, **kwargs
+    ):
+===== END OUTLINE: saleor/graphql/attribute/types.py =====
+===== OUTLINE: saleor/graphql/attribute/mutations/attribute_bulk_create.py (read-only) =====
+DEPRECATED_ATTR_FIELDS = [
+def clean_values(
+    values: list,
+    input_type: AttributeInputType,
+    values_existing_external_refs: set,
+    duplicated_values_external_ref: set,
+    attribute_index: int,
+    index_error_map: dict[int, list],
+    attribute=None,
+    path_prefix="values",
+    error_class=AttributeBulkCreateError,
+):
+===== END OUTLINE: saleor/graphql/attribute/mutations/attribute_bulk_create.py =====
+===== OUTLINE: saleor/graphql/attribute/mutations/attribute_update.py (read-only) =====
+class AttributeUpdateInput(BaseInputObjectType):
+    name = graphene.String(description=AttributeDescriptions.NAME)
+    slug = graphene.String(description=AttributeDescriptions.SLUG)
+    unit = MeasurementUnitsEnum(description=AttributeDescriptions.UNIT, required=False)
+    remove_values = NonNullList(
+    add_values = NonNullList(
+    value_required = graphene.Boolean(description=AttributeDescriptions.VALUE_REQUIRED)
+    is_variant_only = graphene.Boolean(
+    visible_in_storefront = graphene.Boolean(
+    filterable_in_storefront = graphene.Boolean(
+    filterable_in_dashboard = graphene.Boolean(
+    storefront_search_position = graphene.Int(
+    available_in_grid = graphene.Boolean(
+    external_reference = graphene.String(
+    reference_types = NonNullList(
+    class Meta:
+        doc_category = DOC_CATEGORY_ATTRIBUTES
+        description = (
+===== END OUTLINE: saleor/graphql/attribute/mutations/attribute_update.py =====
+===== OUTLINE: saleor/graphql/attribute/mutations/mixins.py (read-only) =====
+class AttributeMixin:
+    # must be redefined by inheriting classes
+    ATTRIBUTE_VALUES_FIELD: str
+    ONLY_SWATCH_FIELDS = ["file_url", "content_type", "value"]
+    @classmethod
+    def clean_values(cls, cleaned_input, attribute):
+    @classmethod
+    def _validate_value(
+        cls,
+        attribute: models.Attribute,
+        value_data: dict,
+        is_swatch_attr: bool,
+        slug_list: list,
+    ):
+    @classmethod
+    def validate_non_swatch_attr_value(cls, value_data: dict):
+    @classmethod
+    def validate_swatch_attr_value(cls, value_data: dict):
+    @classmethod
+    def check_values_are_unique(cls, values_input: dict, attribute: models.Attribute):
+        # Check values uniqueness in case of creating new attribute.
+    @classmethod
+    def validate_reference_types_limit(cls, input: dict):
+    @classmethod
+    def clean_attribute(cls, instance, cleaned_input):
+    @classmethod
+    def _clean_attribute_settings(cls, instance, cleaned_input):
+    @classmethod
+    def clean_reference_types(
+        cls, cleaned_input: dict, entity_type: str, input_type: str
+    ):
+    @staticmethod
+    def _validate_reference_input_type(attribute_input_type: str):
+    @staticmethod
+    def _validate_reference_entity_type(entity_type: str):
+    @staticmethod
+    def _validate_reference_types(reference_types: T_REFERENCE_TYPES, entity_type: str):
+    @classmethod
+    def _save_m2m(cls, info: ResolveInfo, attribute, cleaned_data):
+===== END OUTLINE: saleor/graphql/attribute/mutations/mixins.py =====
+===== OUTLINE: saleor/giftcard/models.py (read-only) =====
+class GiftCardTag(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+    class Meta:
+        ordering = ("name",)
+        indexes = [
+class GiftCardQueryset(models.QuerySet):
+    def active(self, date):
+GiftCardManager = models.Manager.from_queryset(GiftCardQueryset)
+class GiftCard(ModelWithMetadata):
+    code = models.CharField(
+    is_active = models.BooleanField(default=True)
+    created_by = models.ForeignKey(
+    used_by = models.ForeignKey(
+    created_by_email = models.EmailField(null=True, blank=True)
+    used_by_email = models.EmailField(null=True, blank=True)
+    app = models.ForeignKey(
+    expiry_date = models.DateField(null=True, blank=True)
+    tags = models.ManyToManyField(GiftCardTag, "gift_cards")
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
+    last_used_on = models.DateTimeField(null=True, blank=True)
+    product = models.ForeignKey(
+    fulfillment_line = models.ForeignKey(
+    currency = models.CharField(
+    initial_balance_amount = models.DecimalField(
+    initial_balance = MoneyField(
+    current_balance_amount = models.DecimalField(
+    current_balance = MoneyField(
+    search_vector = SearchVectorField(blank=True, null=True)
+    search_index_dirty = models.BooleanField(default=True)
+    objects = GiftCardManager()
+    class Meta(ModelWithMetadata.Meta):
+        ordering = ("code",)
+        permissions = (
+        indexes = [GinIndex(name="giftcard_tsearch", fields=["search_vector"])]
+    @property
+    def display_code(self):
+class GiftCardEvent(models.Model):
+    date = models.DateTimeField(default=timezone.now, editable=False)
+    type = models.CharField(max_length=255, choices=GiftCardEvents.CHOICES)
+    parameters = JSONField(blank=True, default=dict, encoder=CustomJsonEncoder)
+    user = models.ForeignKey(
+    app = models.ForeignKey(
+    order = models.ForeignKey("order.Order", null=True, on_delete=models.SET_NULL)
+    gift_card = models.ForeignKey(
+    class Meta:
+        ordering = ("date",)
+===== END OUTLINE: saleor/giftcard/models.py =====
+===== OUTLINE: saleor/giftcard/error_codes.py (read-only) =====
+class GiftCardErrorCode(Enum):
+    ALREADY_EXISTS = "already_exists"
+    GRAPHQL_ERROR = "graphql_error"
+    INVALID = "invalid"
+    NOT_FOUND = "not_found"
+    REQUIRED = "required"
+    UNIQUE = "unique"
+    EXPIRED_GIFT_CARD = "expired_gift_card"
+    DUPLICATED_INPUT_ITEM = "duplicated_input_item"
+===== END OUTLINE: saleor/giftcard/error_codes.py =====
+===== OUTLINE: saleor/giftcard/utils.py (read-only) =====
+def is_gift_card_expired(gift_card: GiftCard):
+===== END OUTLINE: saleor/giftcard/utils.py =====

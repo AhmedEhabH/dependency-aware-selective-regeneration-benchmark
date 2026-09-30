@@ -1,0 +1,927 @@
+READ-ONLY CONTEXT (NOT EDITABLE): outlines of repository modules imported by the editable files
+===== OUTLINE: saleor/checkout/models.py (read-only) =====
+class Checkout(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    last_change = models.DateTimeField(auto_now=True, db_index=True)
+    completing_started_at = models.DateTimeField(blank=True, null=True)
+    last_transaction_modified_at = models.DateTimeField(null=True, blank=True)
+    automatically_refundable = models.BooleanField(default=False)
+    user = models.ForeignKey(
+    email = models.EmailField(blank=True, null=True)
+    token = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    channel = models.ForeignKey(
+    save_billing_address = models.BooleanField(default=True)
+    billing_address = models.ForeignKey(
+    save_shipping_address = models.BooleanField(default=True)
+    shipping_address = models.ForeignKey(
+    shipping_method = models.ForeignKey(
+    shipping_method_name = models.CharField(
+    external_shipping_method_id = models.CharField(
+    collection_point = models.ForeignKey(
+    note = models.TextField(blank=True, default="")
+    currency = models.CharField(
+    country = CountryField(default=get_default_country)
+    total_net_amount = models.DecimalField(
+    total_gross_amount = models.DecimalField(
+    total = TaxedMoneyField(
+    base_total_amount = models.DecimalField(
+    base_total = MoneyField(amount_field="base_total_amount", currency_field="currency")
+    subtotal_net_amount = models.DecimalField(
+    subtotal_gross_amount = models.DecimalField(
+    subtotal = TaxedMoneyField(
+    base_subtotal_amount = models.DecimalField(
+    base_subtotal = MoneyField(
+    shipping_price_net_amount = models.DecimalField(
+    shipping_price_gross_amount = models.DecimalField(
+    shipping_price = TaxedMoneyField(
+    shipping_tax_rate = models.DecimalField(
+    undiscounted_base_shipping_price_amount = models.DecimalField(
+    undiscounted_base_shipping_price = MoneyField(
+    authorize_status = models.CharField(
+    charge_status = models.CharField(
+    price_expiration = models.DateTimeField(default=timezone.now)
+    discount_amount = models.DecimalField(
+    discount = MoneyField(amount_field="discount_amount", currency_field="currency")
+    discount_name = models.CharField(max_length=255, blank=True, null=True)
+    translated_discount_name = models.CharField(max_length=255, blank=True, null=True)
+    gift_cards = models.ManyToManyField(GiftCard, blank=True, related_name="checkouts")
+    voucher_code = models.CharField(max_length=255, blank=True, null=True)
+    is_voucher_usage_increased = models.BooleanField(default=False)
+    redirect_url = models.URLField(blank=True, null=True)
+    tracking_code = models.CharField(max_length=255, blank=True, null=True)
+    language_code = models.CharField(
+    tax_exemption = models.BooleanField(default=False)
+    tax_error = models.CharField(
+    class Meta:
+        ordering = ("-last_change", "pk")
+        permissions = (
+    def __iter__(self):
+    def get_customer_email(self) -> str | None:
+    def is_shipping_required(self) -> bool:
+    def is_checkout_locked(self) -> bool:
+    def get_total_gift_cards_balance(
+        self, database_connection_name: str = settings.DATABASE_CONNECTION_DEFAULT_NAME
+    ) -> Money:
+    def get_line(self, variant: "ProductVariant") -> Optional["CheckoutLine"]:
+    def get_last_active_payment(self) -> Optional["Payment"]:
+    def set_country(
+        self, country_code: str, commit: bool = False, replace: bool = True
+    ):
+    def get_country(self):
+===== END OUTLINE: saleor/checkout/models.py =====
+===== OUTLINE: saleor/order/models.py (read-only) =====
+class Order(ModelWithMetadata, ModelWithExternalReference):
+    id = models.UUIDField(primary_key=True, editable=False, unique=True, default=uuid4)
+    number = models.IntegerField(unique=True, default=get_order_number, editable=False)
+    use_old_id = models.BooleanField(default=False)
+    created_at = models.DateTimeField(default=now, editable=False)
+    updated_at = models.DateTimeField(auto_now=True, editable=False, db_index=True)
+    expired_at = models.DateTimeField(blank=True, null=True)
+    status = models.CharField(
+    authorize_status = models.CharField(
+    charge_status = models.CharField(
+    user = models.ForeignKey(
+    language_code = models.CharField(
+    tracking_client_id = models.CharField(max_length=36, blank=True, editable=False)
+    billing_address = models.ForeignKey(
+    shipping_address = models.ForeignKey(
+    draft_save_billing_address = models.BooleanField(null=True, blank=True)
+    draft_save_shipping_address = models.BooleanField(null=True, blank=True)
+    user_email = models.EmailField(blank=True, default="")
+    original = models.ForeignKey(
+    origin = models.CharField(max_length=32, choices=OrderOrigin.CHOICES)
+    currency = models.CharField(
+    shipping_method = models.ForeignKey(
+    collection_point = models.ForeignKey(
+    shipping_method_name = models.CharField(
+    collection_point_name = models.CharField(
+    channel = models.ForeignKey(
+    shipping_price_net_amount = models.DecimalField(
+    shipping_price_net = MoneyField(
+    shipping_price_gross_amount = models.DecimalField(
+    shipping_price_gross = MoneyField(
+    shipping_price = TaxedMoneyField(
+    base_shipping_price_amount = models.DecimalField(
+    base_shipping_price = MoneyField(
+    undiscounted_base_shipping_price_amount = models.DecimalField(
+    undiscounted_base_shipping_price = MoneyField(
+    shipping_tax_rate = models.DecimalField(
+    shipping_tax_class = models.ForeignKey(
+    shipping_tax_class_name = models.CharField(max_length=255, blank=True, null=True)
+    shipping_tax_class_private_metadata = JSONField(
+    shipping_tax_class_metadata = JSONField(
+    checkout_token = models.CharField(max_length=36, blank=True)
+    lines_count = models.PositiveIntegerField()
+    total_net_amount = models.DecimalField(
+    undiscounted_total_net_amount = models.DecimalField(
+    total_net = MoneyField(amount_field="total_net_amount", currency_field="currency")
+    undiscounted_total_net = MoneyField(
+    total_gross_amount = models.DecimalField(
+    undiscounted_total_gross_amount = models.DecimalField(
+    total_gross = MoneyField(
+    undiscounted_total_gross = MoneyField(
+    total = TaxedMoneyField(
+    undiscounted_total = TaxedMoneyField(
+    total_charged_amount = models.DecimalField(
+    total_authorized_amount = models.DecimalField(
+    total_authorized = MoneyField(
+    total_charged = MoneyField(
+    subtotal_net_amount = models.DecimalField(
+    subtotal_gross_amount = models.DecimalField(
+    subtotal = TaxedMoneyField(
+    voucher = models.ForeignKey(
+    voucher_code = models.CharField(
+    gift_cards = models.ManyToManyField(GiftCard, blank=True, related_name="orders")
+    display_gross_prices = models.BooleanField(default=True)
+    customer_note = models.TextField(blank=True, default="")
+    weight = MeasurementField(
+    redirect_url = models.URLField(blank=True, null=True)
+    search_document = models.TextField(blank=True, default="")
+    search_vector = SearchVectorField(blank=True, null=True)
+    should_refresh_prices = models.BooleanField(default=True)
+    tax_exemption = models.BooleanField(default=False)
+    tax_error = models.CharField(
+    objects = OrderManager()
+    class Meta:
+        ordering = ("-number",)
+        permissions = (
+        indexes = [
+    def is_fully_paid(self):
+    def is_partly_paid(self):
+    def get_customer_email(self):
+    def __repr__(self):
+    def __str__(self):
+    def get_last_payment(self) -> Payment | None:
+        # Skipping a partial payment is a temporary workaround for storing a basic data
+        # about partial payment from Adyen plugin. This is something that will removed
+        # in 3.1 by introducing a partial payments feature.
+    def is_pre_authorized(self):
+    def is_captured(self):
+    def get_subtotal(self):
+    def is_shipping_required(
+        self, database_connection_name: str = settings.DATABASE_CONNECTION_DEFAULT_NAME
+    ):
+    def get_total_quantity(self):
+    def is_draft(self):
+    def is_unconfirmed(self):
+    def is_expired(self):
+    def is_open(self):
+    def can_cancel(self):
+    def can_capture(self, payment=None):
+    def can_void(self, payment=None):
+    def can_refund(self, payment=None):
+    def can_mark_as_paid(self, payments=None):
+    @property
+    def total_balance(self):
+class Fulfillment(ModelWithMetadata):
+    fulfillment_order = models.PositiveIntegerField(editable=False)
+    order = models.ForeignKey(
+    status = models.CharField(
+    tracking_number = models.CharField(max_length=255, default="", blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    shipping_refund_amount = models.DecimalField(
+    total_refund_amount = models.DecimalField(
+    class Meta(ModelWithMetadata.Meta):
+        ordering = ("pk",)
+        indexes = [
+    def __str__(self):
+    def __iter__(self):
+    def save(self, *args, **kwargs):
+    @property
+    def composed_id(self):
+    def can_edit(self):
+    def get_total_quantity(self):
+    @property
+    def is_tracking_number_url(self):
+class FulfillmentLine(models.Model):
+    order_line = models.ForeignKey(
+    fulfillment = models.ForeignKey(
+    quantity = models.PositiveIntegerField()
+    stock = models.ForeignKey(
+===== END OUTLINE: saleor/order/models.py =====
+===== OUTLINE: saleor/graphql/checkout/types.py (read-only) =====
+def get_dataloaders_for_fetching_checkout_data(
+    root: SyncWebhookControlContext[models.Checkout], info: ResolveInfo
+) -> tuple[
+    Promise["Address"] | None,
+    Promise[list["CheckoutLineInfo"]],
+    Promise["CheckoutInfo"],
+    Promise["PluginsManager"],
+    Promise[dict[str, Any]] | None,
+    Promise[dict[str, Any]] | None,
+]:
+class CheckoutLineProblemInsufficientStock(
+    SyncWebhookControlContextObjectType[problems.CheckoutLineProblemInsufficientStock],
+):
+    available_quantity = graphene.Int(description="Available quantity of a variant.")
+    line = graphene.Field(
+    variant = graphene.Field(
+    class Meta:
+        default_resolver = SyncWebhookControlContextObjectType.resolver_with_context
+        description = (
+        doc_category = DOC_CATEGORY_CHECKOUT
+    @staticmethod
+    def resolve_line(
+        root: SyncWebhookControlContext[problems.CheckoutLineProblemInsufficientStock],
+        _info: ResolveInfo,
+    ):
+class CheckoutLineProblemVariantNotAvailable(
+    SyncWebhookControlContextObjectType[problems.CheckoutLineProblemVariantNotAvailable]
+):
+    line = graphene.Field(
+    class Meta:
+        description = (
+        doc_category = DOC_CATEGORY_CHECKOUT
+    @staticmethod
+    def resolve_line(
+        root: SyncWebhookControlContext[
+            problems.CheckoutLineProblemVariantNotAvailable
+        ],
+        _info: ResolveInfo,
+    ):
+class CheckoutLineProblem(graphene.Union):
+    class Meta:
+        types = (
+        description = "Represents an problem in the checkout line."
+        doc_category = DOC_CATEGORY_CHECKOUT
+    @classmethod
+    def resolve_type(
+        cls,
+        instance: SyncWebhookControlContext[problems.CHECKOUT_PROBLEM_TYPE],
+        info: ResolveInfo,
+    ):
+class CheckoutProblem(graphene.Union):
+    class Meta:
+        types = [] + list(CheckoutLineProblem._meta.types)
+        description = "Represents an problem in the checkout."
+        doc_category = DOC_CATEGORY_CHECKOUT
+    @classmethod
+    def resolve_type(
+        cls,
+        instance: SyncWebhookControlContext[problems.CHECKOUT_PROBLEM_TYPE],
+        info: ResolveInfo,
+    ):
+class CheckoutLine(SyncWebhookControlContextModelObjectType[models.CheckoutLine]):
+    id = graphene.GlobalID(required=True, description="The ID of the checkout line.")
+    variant = graphene.Field(
+    quantity = graphene.Int(
+    unit_price = BaseField(
+    undiscounted_unit_price = graphene.Field(
+    prior_unit_price = graphene.Field(
+    total_price = BaseField(
+    undiscounted_total_price = graphene.Field(
+    prior_total_price = graphene.Field(
+    requires_shipping = graphene.Boolean(
+    problems = NonNullList(
+    is_gift = graphene.Boolean(
+    class Meta:
+        default_resolver = (
+        description = "Represents an item in the checkout."
+        interfaces = [graphene.relay.Node, ObjectWithMetadata]
+        model = models.CheckoutLine
+    @staticmethod
+    def resolve_variant(
+        root: SyncWebhookControlContext[models.CheckoutLine], info: ResolveInfo
+    ):
+    @staticmethod
+    @prevent_sync_event_circular_query
+    def resolve_unit_price(
+        root: SyncWebhookControlContext[models.CheckoutLine], info: ResolveInfo
+    ):
+    @staticmethod
+    def resolve_undiscounted_unit_price(
+        root: SyncWebhookControlContext[models.CheckoutLine], info: ResolveInfo
+    ):
+    @staticmethod
+    @traced_resolver
+    @prevent_sync_event_circular_query
+    def resolve_total_price(
+        root: SyncWebhookControlContext[models.CheckoutLine], info: ResolveInfo
+    ):
+    @staticmethod
+    def resolve_undiscounted_total_price(
+        root: SyncWebhookControlContext[models.CheckoutLine], info: ResolveInfo
+    ):
+    @staticmethod
+    def resolve_prior_total_price(
+        root: SyncWebhookControlContext[models.CheckoutLine], info: ResolveInfo
+    ) -> Money | None:
+    @staticmethod
+    def resolve_requires_shipping(
+        root: SyncWebhookControlContext[models.CheckoutLine], info: ResolveInfo
+    ):
+    @staticmethod
+    @traced_resolver
+    def resolve_problems(
+        root: SyncWebhookControlContext[models.CheckoutLine], info: ResolveInfo
+    ):
+class CheckoutLineCountableConnection(CountableConnection):
+    class Meta:
+        doc_category = DOC_CATEGORY_CHECKOUT
+        node = CheckoutLine
+class DeliveryMethod(graphene.Union):
+    class Meta:
+        description = (
+        types = (Warehouse, ShippingMethod)
+    @classmethod
+    def resolve_type(cls, instance, info: ResolveInfo):
+class Checkout(SyncWebhookControlContextModelObjectType[models.Checkout]):
+    id = graphene.ID(required=True, description="The ID of the checkout.")
+    created = DateTime(
+    updated_at = DateTime(
+    last_change = DateTime(
+    user = graphene.Field(
+    channel = graphene.Field(
+    billing_address = graphene.Field(
+    shipping_address = graphene.Field(
+    customer_note = graphene.String(
+    note = graphene.String(
+    discount = graphene.Field(
+    discount_name = graphene.String(
+    translated_discount_name = graphene.String(
+    voucher = PermissionsField(
+    voucher_code = graphene.String(
+    available_shipping_methods = BaseField(
+    shipping_methods = BaseField(
+    available_collection_points = NonNullList(
+    available_payment_gateways = BaseField(
+    email = graphene.String(description="Email of a customer.", required=False)
+    gift_cards = NonNullList(
+    is_shipping_required = graphene.Boolean(
+    quantity = graphene.Int(description="The number of items purchased.", required=True)
+    stock_reservation_expires = DateTime(
+    lines = NonNullList(
+    shipping_price = BaseField(
+    shipping_method = BaseField(
+    delivery_method = BaseField(
+    subtotal_price = BaseField(
+    tax_exemption = graphene.Boolean(
+    token = graphene.Field(UUID, description="The checkout's token.", required=True)
+    total_price = BaseField(
+    total_balance = BaseField(
+    language_code = graphene.Field(
+    transactions = NonNullList(
+    display_gross_prices = graphene.Boolean(
+# [outline truncated]
+===== END OUTLINE: saleor/graphql/checkout/types.py =====
+===== OUTLINE: saleor/graphql/order/types.py (read-only) =====
+logger = logging.getLogger(__name__)
+def get_order_discount_event(discount_obj: dict):
+def get_payment_status_for_order(
+    order, granted_refunds: list[models.OrderGrantedRefund]
+):
+class OrderGrantedRefundLine(
+    SyncWebhookControlContextModelObjectType[
+        ModelObjectType[models.OrderGrantedRefundLine]
+    ]
+):
+    id = graphene.GlobalID(required=True)
+    quantity = graphene.Int(description="Number of items to refund.", required=True)
+    order_line = graphene.Field(
+    reason = graphene.String(description="Reason for refunding the line.")
+    class Meta:
+        default_resolver = (
+        description = "Represents granted refund line."
+        model = models.OrderGrantedRefundLine
+    @staticmethod
+    def resolve_order_line(
+        root: SyncWebhookControlContext[models.OrderGrantedRefundLine], info
+    ):
+class OrderGrantedRefund(
+    SyncWebhookControlContextModelObjectType[ModelObjectType[models.OrderGrantedRefund]]
+):
+    id = graphene.GlobalID(required=True)
+    created_at = DateTime(required=True, description="Time of creation.")
+    updated_at = DateTime(required=True, description="Time of last update.")
+    amount = graphene.Field(Money, required=True, description="Refund amount.")
+    reason = graphene.String(description="Reason of the refund.")
+    user = graphene.Field(
+    app = graphene.Field(App, description="App that performed the action.")
+    shipping_costs_included = graphene.Boolean(
+    lines = NonNullList(
+    status = graphene.Field(
+    transaction_events = NonNullList(
+    transaction = graphene.Field(
+    class Meta:
+        default_resolver = (
+        description = "The details of granted refund."
+        model = models.OrderGrantedRefund
+    @staticmethod
+    def resolve_user(root: SyncWebhookControlContext[models.OrderGrantedRefund], info):
+    @staticmethod
+    def resolve_app(root: SyncWebhookControlContext[models.OrderGrantedRefund], info):
+    @staticmethod
+    def resolve_lines(root: SyncWebhookControlContext[models.OrderGrantedRefund], info):
+    @staticmethod
+    @one_of_permissions_required(
+        [OrderPermissions.MANAGE_ORDERS, PaymentPermissions.HANDLE_PAYMENTS]
+    )
+    def resolve_transaction_events(
+        root: SyncWebhookControlContext[models.OrderGrantedRefund], info
+    ):
+    @staticmethod
+    @one_of_permissions_required(
+        [OrderPermissions.MANAGE_ORDERS, PaymentPermissions.HANDLE_PAYMENTS]
+    )
+    def resolve_transaction(
+        root: SyncWebhookControlContext[models.OrderGrantedRefund], info
+    ):
+class OrderDiscount(BaseObjectType):
+    value_type = graphene.Field(
+    value = PositiveDecimal(
+    reason = graphene.String(
+    amount = graphene.Field(Money, description="Returns amount of discount.")
+    class Meta:
+        doc_category = DOC_CATEGORY_ORDERS
+class OrderEventDiscountObject(OrderDiscount):
+    old_value_type = graphene.Field(
+    old_value = PositiveDecimal(
+    old_amount = graphene.Field(
+    class Meta:
+        doc_category = DOC_CATEGORY_ORDERS
+class OrderEventOrderLineObject(BaseObjectType):
+    quantity = graphene.Int(description="The variant quantity.")
+    order_line = graphene.Field(lambda: OrderLine, description="The order line.")
+    item_name = graphene.String(description="The variant name.")
+    discount = graphene.Field(
+    class Meta:
+        doc_category = DOC_CATEGORY_ORDERS
+class OrderEvent(
+    SyncWebhookControlContextModelObjectType[ModelObjectType[models.OrderEvent]]
+):
+    id = graphene.GlobalID(
+    date = DateTime(description="Date when event happened at in ISO 8601 format.")
+    type = OrderEventsEnum(description="Order event type.")
+    user = graphene.Field(User, description="User who performed the action.")
+    app = graphene.Field(
+    message = graphene.String(description="Content of the event.")
+    email = graphene.String(description="Email of the customer.")
+    email_type = OrderEventsEmailsEnum(
+    amount = graphene.Float(description="Amount of money.")
+    payment_id = graphene.String(
+    payment_gateway = graphene.String(description="The payment gateway of the payment.")
+    quantity = graphene.Int(description="Number of items.")
+    composed_id = graphene.String(description="Composed ID of the Fulfillment.")
+    order_number = graphene.String(description="User-friendly number of an order.")
+    invoice_number = graphene.String(
+    oversold_items = NonNullList(
+    lines = NonNullList(OrderEventOrderLineObject, description="The concerned lines.")
+    fulfilled_items = NonNullList(
+    warehouse = graphene.Field(
+    transaction_reference = graphene.String(
+    shipping_costs_included = graphene.Boolean(
+    related_order = graphene.Field(
+    related = graphene.Field(
+    discount = graphene.Field(
+    reference = graphene.String(description="The reference of payment's transaction.")
+    class Meta:
+        default_resolver = (
+        description = "History log of the order."
+        model = models.OrderEvent
+        interfaces = [relay.Node]
+    @staticmethod
+    def resolve_user(root: SyncWebhookControlContext[models.OrderEvent], info):
+    @staticmethod
+    def resolve_app(root: SyncWebhookControlContext[models.OrderEvent], info):
+    @staticmethod
+    def resolve_email(root: SyncWebhookControlContext[models.OrderEvent], _info):
+    @staticmethod
+    def resolve_email_type(root: SyncWebhookControlContext[models.OrderEvent], _info):
+    @staticmethod
+    def resolve_amount(root: SyncWebhookControlContext[models.OrderEvent], _info):
+    @staticmethod
+    def resolve_payment_id(root: SyncWebhookControlContext[models.OrderEvent], _info):
+    @staticmethod
+    def resolve_payment_gateway(
+        root: SyncWebhookControlContext[models.OrderEvent], _info
+    ):
+    @staticmethod
+    def resolve_quantity(root: SyncWebhookControlContext[models.OrderEvent], _info):
+    @staticmethod
+    def resolve_message(root: SyncWebhookControlContext[models.OrderEvent], _info):
+    @staticmethod
+# [outline truncated]
+===== END OUTLINE: saleor/graphql/order/types.py =====
+===== OUTLINE: saleor/csv/models.py (read-only) =====
+class ExportFile(Job):
+    user = models.ForeignKey(
+    app = models.ForeignKey(
+    content_file = models.FileField(upload_to="export_files", null=True)
+class ExportEvent(models.Model):
+    date = models.DateTimeField(default=timezone.now, editable=False)
+    type = models.CharField(max_length=255, choices=ExportEvents.CHOICES)
+    parameters = JSONField(blank=True, default=dict, encoder=CustomJsonEncoder)
+    export_file = models.ForeignKey(
+    user = models.ForeignKey(
+    app = models.ForeignKey(
+===== END OUTLINE: saleor/csv/models.py =====
+===== OUTLINE: saleor/csv/events.py (read-only) =====
+@allow_writer()
+def export_started_event(
+    *,
+    export_file: "ExportFile",
+    user: Optional["User"] = None,
+    app: Optional["App"] = None,
+) -> None:
+===== END OUTLINE: saleor/csv/events.py =====
+===== OUTLINE: saleor/csv/tasks.py (read-only) =====
+@app.task(name="export-products", base=ExportTask)
+def export_products_task(
+    export_file_id: int,
+    scope: dict[str, str | dict],
+    export_info: dict[str, list],
+    file_type: str,
+    delimiter: str = ",",
+):
+===== END OUTLINE: saleor/csv/tasks.py =====
+===== OUTLINE: saleor/permission/enums.py (read-only) =====
+class ProductPermissions(BasePermissionEnum):
+    MANAGE_PRODUCTS = "product.manage_products"
+===== END OUTLINE: saleor/permission/enums.py =====
+===== OUTLINE: saleor/webhook/event_types.py (read-only) =====
+class WebhookEventAsyncType:
+    ANY = "any_events"
+    ACCOUNT_CONFIRMATION_REQUESTED = "account_confirmation_requested"
+    ACCOUNT_EMAIL_CHANGED = "account_email_changed"
+    ACCOUNT_CHANGE_EMAIL_REQUESTED = "account_change_email_requested"
+    ACCOUNT_SET_PASSWORD_REQUESTED = "account_set_password_requested"
+    ACCOUNT_CONFIRMED = "account_confirmed"
+    ACCOUNT_DELETE_REQUESTED = "account_delete_requested"
+    ACCOUNT_DELETED = "account_deleted"
+    ADDRESS_CREATED = "address_created"
+    ADDRESS_UPDATED = "address_updated"
+    ADDRESS_DELETED = "address_deleted"
+    APP_INSTALLED = "app_installed"
+    APP_UPDATED = "app_updated"
+    APP_DELETED = "app_deleted"
+    APP_STATUS_CHANGED = "app_status_changed"
+    ATTRIBUTE_CREATED = "attribute_created"
+    ATTRIBUTE_UPDATED = "attribute_updated"
+    ATTRIBUTE_DELETED = "attribute_deleted"
+    ATTRIBUTE_VALUE_CREATED = "attribute_value_created"
+    ATTRIBUTE_VALUE_UPDATED = "attribute_value_updated"
+    ATTRIBUTE_VALUE_DELETED = "attribute_value_deleted"
+    CATEGORY_CREATED = "category_created"
+    CATEGORY_UPDATED = "category_updated"
+    CATEGORY_DELETED = "category_deleted"
+    CHANNEL_CREATED = "channel_created"
+    CHANNEL_UPDATED = "channel_updated"
+    CHANNEL_DELETED = "channel_deleted"
+    CHANNEL_STATUS_CHANGED = "channel_status_changed"
+    CHANNEL_METADATA_UPDATED = "channel_metadata_updated"
+    GIFT_CARD_CREATED = "gift_card_created"
+    GIFT_CARD_UPDATED = "gift_card_updated"
+    GIFT_CARD_DELETED = "gift_card_deleted"
+    GIFT_CARD_SENT = "gift_card_sent"
+    GIFT_CARD_STATUS_CHANGED = "gift_card_status_changed"
+    GIFT_CARD_METADATA_UPDATED = "gift_card_metadata_updated"
+    GIFT_CARD_EXPORT_COMPLETED = "gift_card_export_completed"
+    MENU_CREATED = "menu_created"
+    MENU_UPDATED = "menu_updated"
+    MENU_DELETED = "menu_deleted"
+    MENU_ITEM_CREATED = "menu_item_created"
+    MENU_ITEM_UPDATED = "menu_item_updated"
+    MENU_ITEM_DELETED = "menu_item_deleted"
+    ORDER_CREATED = "order_created"
+    ORDER_CONFIRMED = "order_confirmed"
+    ORDER_PAID = "order_paid"
+    ORDER_FULLY_PAID = "order_fully_paid"
+    ORDER_REFUNDED = "order_refunded"
+    ORDER_FULLY_REFUNDED = "order_fully_refunded"
+    ORDER_UPDATED = "order_updated"
+    ORDER_CANCELLED = "order_cancelled"
+    ORDER_EXPIRED = "order_expired"
+    ORDER_FULFILLED = "order_fulfilled"
+    ORDER_METADATA_UPDATED = "order_metadata_updated"
+    ORDER_BULK_CREATED = "order_bulk_created"
+    FULFILLMENT_CREATED = "fulfillment_created"
+    FULFILLMENT_CANCELED = "fulfillment_canceled"
+    FULFILLMENT_APPROVED = "fulfillment_approved"
+    FULFILLMENT_METADATA_UPDATED = "fulfillment_metadata_updated"
+    FULFILLMENT_TRACKING_NUMBER_UPDATED = "fulfillment_tracking_number_updated"
+    DRAFT_ORDER_CREATED = "draft_order_created"
+    DRAFT_ORDER_UPDATED = "draft_order_updated"
+    DRAFT_ORDER_DELETED = "draft_order_deleted"
+    SALE_CREATED = "sale_created"
+    SALE_UPDATED = "sale_updated"
+    SALE_DELETED = "sale_deleted"
+    SALE_TOGGLE = "sale_toggle"
+    PROMOTION_CREATED = "promotion_created"
+    PROMOTION_UPDATED = "promotion_updated"
+    PROMOTION_DELETED = "promotion_deleted"
+    PROMOTION_STARTED = "promotion_started"
+    PROMOTION_ENDED = "promotion_ended"
+    PROMOTION_RULE_CREATED = "promotion_rule_created"
+    PROMOTION_RULE_UPDATED = "promotion_rule_updated"
+    PROMOTION_RULE_DELETED = "promotion_rule_deleted"
+    INVOICE_REQUESTED = "invoice_requested"
+    INVOICE_DELETED = "invoice_deleted"
+    INVOICE_SENT = "invoice_sent"
+    CUSTOMER_CREATED = "customer_created"
+    CUSTOMER_UPDATED = "customer_updated"
+    CUSTOMER_DELETED = "customer_deleted"
+    CUSTOMER_METADATA_UPDATED = "customer_metadata_updated"
+    COLLECTION_CREATED = "collection_created"
+    COLLECTION_UPDATED = "collection_updated"
+    COLLECTION_DELETED = "collection_deleted"
+    COLLECTION_METADATA_UPDATED = "collection_metadata_updated"
+    PRODUCT_CREATED = "product_created"
+    PRODUCT_UPDATED = "product_updated"
+    PRODUCT_DELETED = "product_deleted"
+    PRODUCT_METADATA_UPDATED = "product_metadata_updated"
+    PRODUCT_EXPORT_COMPLETED = "product_export_completed"
+    PRODUCT_MEDIA_CREATED = "product_media_created"
+    PRODUCT_MEDIA_UPDATED = "product_media_updated"
+    PRODUCT_MEDIA_DELETED = "product_media_deleted"
+    PRODUCT_VARIANT_CREATED = "product_variant_created"
+    PRODUCT_VARIANT_UPDATED = "product_variant_updated"
+    PRODUCT_VARIANT_DELETED = "product_variant_deleted"
+    PRODUCT_VARIANT_METADATA_UPDATED = "product_variant_metadata_updated"
+    PRODUCT_VARIANT_OUT_OF_STOCK = "product_variant_out_of_stock"
+    PRODUCT_VARIANT_BACK_IN_STOCK = "product_variant_back_in_stock"
+    PRODUCT_VARIANT_STOCK_UPDATED = "product_variant_stock_updated"
+    CHECKOUT_CREATED = "checkout_created"
+    CHECKOUT_UPDATED = "checkout_updated"
+    CHECKOUT_FULLY_PAID = "checkout_fully_paid"
+    CHECKOUT_METADATA_UPDATED = "checkout_metadata_updated"
+    NOTIFY_USER = "notify_user"  # deprecated
+    PAGE_CREATED = "page_created"
+    PAGE_UPDATED = "page_updated"
+    PAGE_DELETED = "page_deleted"
+    PAGE_TYPE_CREATED = "page_type_created"
+    PAGE_TYPE_UPDATED = "page_type_updated"
+    PAGE_TYPE_DELETED = "page_type_deleted"
+    PERMISSION_GROUP_CREATED = "permission_group_created"
+    PERMISSION_GROUP_UPDATED = "permission_group_updated"
+    PERMISSION_GROUP_DELETED = "permission_group_deleted"
+    SHIPPING_PRICE_CREATED = "shipping_price_created"
+    SHIPPING_PRICE_UPDATED = "shipping_price_updated"
+    SHIPPING_PRICE_DELETED = "shipping_price_deleted"
+    SHIPPING_ZONE_CREATED = "shipping_zone_created"
+    SHIPPING_ZONE_UPDATED = "shipping_zone_updated"
+    SHIPPING_ZONE_DELETED = "shipping_zone_deleted"
+    SHIPPING_ZONE_METADATA_UPDATED = "shipping_zone_metadata_updated"
+    STAFF_CREATED = "staff_created"
+    STAFF_UPDATED = "staff_updated"
+    STAFF_DELETED = "staff_deleted"
+    STAFF_SET_PASSWORD_REQUESTED = "staff_set_password_requested"
+# [outline truncated]
+===== END OUTLINE: saleor/webhook/event_types.py =====
+===== OUTLINE: saleor/graphql/attribute/types.py (read-only) =====
+class Attribute(ChannelContextType[models.Attribute]):
+    id = graphene.GlobalID(required=True, description="The ID of the attribute.")
+    input_type = AttributeInputTypeEnum(description=AttributeDescriptions.INPUT_TYPE)
+    entity_type = AttributeEntityTypeEnum(
+    name = graphene.String(description=AttributeDescriptions.NAME)
+    slug = graphene.String(description=AttributeDescriptions.SLUG)
+    type = AttributeTypeEnum(description=AttributeDescriptions.TYPE)
+    unit = MeasurementUnitsEnum(description=AttributeDescriptions.UNIT)
+    choices = FilterConnectionField(
+    value_required = graphene.Boolean(
+    visible_in_storefront = graphene.Boolean(
+    filterable_in_storefront = graphene.Boolean(
+    filterable_in_dashboard = graphene.Boolean(
+    available_in_grid = graphene.Boolean(
+    storefront_search_position = graphene.Int(
+    translation = TranslationField(
+    with_choices = graphene.Boolean(
+    product_types = ConnectionField(
+    product_variant_types = ConnectionField(
+    external_reference = graphene.String(
+    class Meta:
+        default_resolver = ChannelContextType.resolver_with_context
+        description = (
+        interfaces = [graphene.relay.Node, ObjectWithMetadata]
+        model = models.Attribute
+    @staticmethod
+    def resolve_choices(
+        root: ChannelContext[models.Attribute], info: ResolveInfo, **kwargs
+    ):
+    @staticmethod
+    @check_attribute_required_permissions()
+    def resolve_value_required(
+        root: ChannelContext[models.Attribute], _info: ResolveInfo
+    ):
+    @staticmethod
+    @check_attribute_required_permissions()
+    def resolve_visible_in_storefront(
+        root: ChannelContext[models.Attribute], _info: ResolveInfo
+    ):
+    @staticmethod
+    @check_attribute_required_permissions()
+    def resolve_filterable_in_storefront(
+        root: ChannelContext[models.Attribute], _info: ResolveInfo
+    ):
+    @staticmethod
+    @check_attribute_required_permissions()
+    def resolve_filterable_in_dashboard(
+        root: ChannelContext[models.Attribute], _info: ResolveInfo
+    ):
+    @staticmethod
+    @check_attribute_required_permissions()
+    def resolve_storefront_search_position(
+        root: ChannelContext[models.Attribute], _info: ResolveInfo
+    ):
+    @staticmethod
+    @check_attribute_required_permissions()
+    def resolve_available_in_grid(
+        root: ChannelContext[models.Attribute], _info: ResolveInfo
+    ):
+    @staticmethod
+    def resolve_with_choices(
+        root: ChannelContext[models.Attribute], _info: ResolveInfo
+    ):
+    @staticmethod
+    def resolve_product_types(
+        root: ChannelContext[models.Attribute], info: ResolveInfo, **kwargs
+    ):
+    @staticmethod
+    def resolve_product_variant_types(
+        root: ChannelContext[models.Attribute], info: ResolveInfo, **kwargs
+    ):
+===== END OUTLINE: saleor/graphql/attribute/types.py =====
+===== OUTLINE: saleor/graphql/channel/types.py (read-only) =====
+class Channel(ModelObjectType):
+    id = graphene.GlobalID(required=True, description="The ID of the channel.")
+    slug = graphene.String(
+    name = PermissionsField(
+    is_active = PermissionsField(
+    currency_code = PermissionsField(
+    has_orders = PermissionsField(
+    default_country = PermissionsField(
+    warehouses = PermissionsField(
+    countries = NonNullList(
+    available_shipping_methods_per_country = graphene.Field(
+    stock_settings = PermissionsField(
+    order_settings = PermissionsField(
+    checkout_settings = PermissionsField(
+    payment_settings = PermissionsField(
+    tax_configuration = PermissionsField(
+    class Meta:
+        description = "Represents channel."
+        model = models.Channel
+        interfaces = [graphene.relay.Node, ObjectWithMetadata]
+    @staticmethod
+    def resolve_tax_configuration(root: models.Channel, info: ResolveInfo):
+    @staticmethod
+    def resolve_has_orders(root: models.Channel, info: ResolveInfo):
+    @staticmethod
+    def resolve_default_country(root: models.Channel, _info: ResolveInfo):
+    @staticmethod
+    def resolve_warehouses(root: models.Channel, info: ResolveInfo):
+    @staticmethod
+    def resolve_countries(root: models.Channel, info: ResolveInfo):
+    @staticmethod
+    def resolve_available_shipping_methods_per_country(
+        root: models.Channel, info, **data
+    ):
+    @staticmethod
+    def resolve_stock_settings(root: models.Channel, _info: ResolveInfo):
+    @staticmethod
+    def resolve_order_settings(root: models.Channel, _info):
+    @staticmethod
+    def resolve_checkout_settings(root: models.Channel, _info):
+    @staticmethod
+    def resolve_payment_settings(root: models.Channel, _info):
+===== END OUTLINE: saleor/graphql/channel/types.py =====
+===== OUTLINE: saleor/graphql/core/__init__.py (read-only) =====
+class ResolveInfo(graphene.ResolveInfo):
+    context: SaleorContext
+===== END OUTLINE: saleor/graphql/core/__init__.py =====
+===== OUTLINE: saleor/graphql/core/doc_category.py (read-only) =====
+DOC_CATEGORY_PRODUCTS = "Products"
+===== END OUTLINE: saleor/graphql/core/doc_category.py =====
+===== OUTLINE: saleor/graphql/core/utils/__init__.py (read-only) =====
+@dataclass
+class WebhookEventInfo:
+    type: str
+    description: str | None = None
+===== END OUTLINE: saleor/graphql/core/utils/__init__.py =====
+===== OUTLINE: saleor/graphql/product/filters/product.py (read-only) =====
+class ProductFilterInput(ChannelFilterInputObjectType):
+    class Meta:
+        doc_category = DOC_CATEGORY_PRODUCTS
+        filterset_class = ProductFilter
+===== END OUTLINE: saleor/graphql/product/filters/product.py =====
+===== OUTLINE: saleor/graphql/warehouse/types.py (read-only) =====
+class Warehouse(ModelObjectType[models.Warehouse]):
+    id = graphene.GlobalID(required=True, description="The ID of the warehouse.")
+    name = graphene.String(required=True, description="Warehouse name.")
+    slug = graphene.String(required=True, description="Warehouse slug.")
+    email = graphene.String(required=True, description="Warehouse email.")
+    is_private = graphene.Boolean(
+    address = graphene.Field(
+    company_name = graphene.String(
+    click_and_collect_option = WarehouseClickAndCollectOptionEnum(
+    shipping_zones = ConnectionField(
+    stocks = ConnectionField(
+    external_reference = graphene.String(
+    class Meta:
+        description = "Represents warehouse."
+        model = models.Warehouse
+        interfaces = [graphene.relay.Node, ObjectWithMetadata]
+    @staticmethod
+    def resolve_shipping_zones(root, info: ResolveInfo, *_args, **kwargs):
+    @staticmethod
+    def resolve_stocks(root, info: ResolveInfo, **kwargs):
+    @staticmethod
+    def resolve_address(root, info: ResolveInfo):
+    @staticmethod
+    def resolve_company_name(root, info: ResolveInfo):
+===== END OUTLINE: saleor/graphql/warehouse/types.py =====
+===== OUTLINE: saleor/graphql/csv/enums.py (read-only) =====
+FileTypeEnum = to_enum(FileTypes)
+class ExportScope(BaseEnum):
+    ALL = "all"
+    IDS = "ids"
+    FILTER = "filter"
+    class Meta:
+        doc_category = DOC_CATEGORY_PRODUCTS
+    @property
+    def description(self):
+        # pylint: disable=no-member
+class ProductFieldEnum(BaseEnum):
+    NAME = "name"
+    DESCRIPTION = "description"
+    PRODUCT_TYPE = "product type"
+    CATEGORY = "category"
+    PRODUCT_WEIGHT = "product weight"
+    COLLECTIONS = "collections"
+    CHARGE_TAXES = "charge taxes"  # deprecated; remove in Saleor 4.0
+    PRODUCT_MEDIA = "product media"
+    VARIANT_ID = "variant id"
+    VARIANT_SKU = "variant sku"
+    VARIANT_WEIGHT = "variant weight"
+    VARIANT_MEDIA = "variant media"
+    class Meta:
+        doc_category = DOC_CATEGORY_PRODUCTS
+===== END OUTLINE: saleor/graphql/csv/enums.py =====
+===== OUTLINE: saleor/graphql/csv/mutations/base_export.py (read-only) =====
+class BaseExportMutation(BaseMutation):
+    export_file = graphene.Field(
+    class Meta:
+        abstract = True
+    @classmethod
+    def get_scope(cls, input, only_type) -> Mapping[str, list | dict | str]:
+    @classmethod
+    def clean_ids(cls, input, only_type) -> dict[str, list[str]]:
+    @staticmethod
+    def clean_filter(input) -> dict[str, dict]:
+===== END OUTLINE: saleor/graphql/csv/mutations/base_export.py =====
+===== OUTLINE: saleor/core/exceptions.py (read-only) =====
+class PermissionDenied(Exception):
+    def __init__(self, message=None, *, permissions: Iterable[Enum] | None = None):
+===== END OUTLINE: saleor/core/exceptions.py =====
+===== OUTLINE: saleor/core/notification/mutation_handler.py (read-only) =====
+def get_external_notification_payload(objects, extra_payload, payload_function):
+def send_notification(
+    manager, external_event_type, payloads, channel_slug=None, plugin_id=None
+):
+===== END OUTLINE: saleor/core/notification/mutation_handler.py =====
+===== OUTLINE: saleor/core/notification/validation.py (read-only) =====
+def validate_ids_and_get_model_type_and_pks(data_input):
+def validate_and_get_external_event_type(data_input):
+def validate_and_get_channel(data_input, error_class):
+def validate_and_get_payload_params(model_type):
+===== END OUTLINE: saleor/core/notification/validation.py =====
+===== OUTLINE: saleor/graphql/core/fields.py (read-only) =====
+class JSONString(graphene.JSONString):
+    @staticmethod
+    @staticmethod
+    def parse_literal(node):
+===== END OUTLINE: saleor/graphql/core/fields.py =====
+===== OUTLINE: saleor/graphql/notifications/error_codes.py (read-only) =====
+class ExternalNotificationErrorCodes(Enum):
+    REQUIRED = "required"
+    INVALID_MODEL_TYPE = "invalid_model_type"
+    NOT_FOUND = "not_found"
+    CHANNEL_INACTIVE = "channel_inactive"
+===== END OUTLINE: saleor/graphql/notifications/error_codes.py =====
+===== OUTLINE: saleor/graphql/plugins/dataloaders.py (read-only) =====
+def get_plugin_manager_promise(context: SaleorContext) -> Promise[PluginsManager]:
+===== END OUTLINE: saleor/graphql/plugins/dataloaders.py =====
+===== OUTLINE: saleor/core/tracing.py (read-only) =====
+@contextmanager
+def otel_trace(span_name, component_name):
+===== END OUTLINE: saleor/core/tracing.py =====
+===== OUTLINE: saleor/order/__init__.py (read-only) =====
+class FulfillmentStatus:
+    FULFILLED = "fulfilled"  # group of products in an order marked as fulfilled
+    REFUNDED = "refunded"  # group of refunded products
+    RETURNED = "returned"  # group of returned products
+    REFUNDED_AND_RETURNED = (
+    REPLACED = "replaced"  # group of replaced products
+    CANCELED = "canceled"  # fulfilled group of products in an order marked as canceled
+    WAITING_FOR_APPROVAL = (
+    CHOICES = [
+===== END OUTLINE: saleor/order/__init__.py =====
+===== OUTLINE: saleor/order/events.py (read-only) =====
+def external_notification_event(
+    *,
+    order: Order,
+    user: User | None,
+    app: App | None,
+    message: str | None,
+    parameters: dict | None,
+) -> OrderEvent:
+===== END OUTLINE: saleor/order/events.py =====

@@ -1,0 +1,202 @@
+READ-ONLY CONTEXT (NOT EDITABLE): outlines of repository modules imported by the editable files
+===== OUTLINE: saleor/plugins/base_plugin.py (read-only) =====
+class ConfigurationTypeField:
+    STRING = "String"
+    BOOLEAN = "Boolean"
+    SECRET = "Secret"
+    PASSWORD = "Password"
+    CHOICES = [
+class BasePlugin:
+    PLUGIN_NAME = ""
+    PLUGIN_ID = ""
+    PLUGIN_DESCRIPTION = ""
+    CONFIG_STRUCTURE = None
+    DEFAULT_CONFIGURATION = []
+    DEFAULT_ACTIVE = False
+    def __init__(self, *, configuration: PluginConfigurationType, active: bool):
+    def __str__(self):
+    def webhook(self, request: WSGIRequest, path: str, previous_value) -> HttpResponse:
+    def change_user_address(
+        self,
+        address: "Address",
+        address_type: Optional[str],
+        user: Optional["User"],
+        previous_value: "Address",
+    ) -> "Address":
+    def calculate_checkout_total(
+        self,
+        checkout: "Checkout",
+        lines: List["CheckoutLine"],
+        discounts: List["DiscountInfo"],
+        previous_value: TaxedMoney,
+    ) -> TaxedMoney:
+    def calculate_checkout_subtotal(
+        self,
+        checkout: "Checkout",
+        lines: List["CheckoutLine"],
+        discounts: List["DiscountInfo"],
+        previous_value: TaxedMoney,
+    ) -> TaxedMoney:
+    def calculate_checkout_shipping(
+        self,
+        checkout: "Checkout",
+        lines: List["CheckoutLine"],
+        discounts: List["DiscountInfo"],
+        previous_value: TaxedMoney,
+    ) -> TaxedMoney:
+    def calculate_order_shipping(
+        self, order: "Order", previous_value: TaxedMoney
+    ) -> TaxedMoney:
+    def calculate_checkout_line_total(
+        self,
+        checkout_line: "CheckoutLine",
+        discounts: List["DiscountInfo"],
+        previous_value: TaxedMoney,
+    ) -> TaxedMoney:
+    def calculate_order_line_unit(
+        self, order_line: "OrderLine", previous_value: TaxedMoney
+    ) -> TaxedMoney:
+    def get_tax_rate_type_choices(
+        self, previous_value: List["TaxType"]
+    ) -> List["TaxType"]:
+    def show_taxes_on_storefront(self, previous_value: bool) -> bool:
+    def apply_taxes_to_shipping_price_range(
+        self, prices: MoneyRange, country: Country, previous_value: TaxedMoneyRange
+    ) -> TaxedMoneyRange:
+    def apply_taxes_to_shipping(
+        self, price: Money, shipping_address: "Address", previous_value: TaxedMoney
+    ) -> TaxedMoney:
+    def apply_taxes_to_product(
+        self,
+        product: "Product",
+        price: Money,
+        country: Country,
+        previous_value: TaxedMoney,
+    ) -> TaxedMoney:
+    def preprocess_order_creation(
+        self, checkout: "Checkout", discounts: List["DiscountInfo"], previous_value: Any
+    ):
+    def order_created(self, order: "Order", previous_value: Any):
+    def invoice_request(
+        self,
+        order: "Order",
+        invoice: "Invoice",
+        number: Optional[str],
+        previous_value: Any,
+    ) -> Any:
+    def invoice_delete(self, invoice: "Invoice", previous_value: Any):
+    def invoice_sent(self, invoice: "Invoice", email: str, previous_value: Any):
+    def assign_tax_code_to_object_meta(
+        self, obj: Union["Product", "ProductType"], tax_code: str, previous_value: Any
+    ):
+    def get_tax_code_from_object_meta(
+        self, obj: Union["Product", "ProductType"], previous_value: "TaxType"
+    ) -> "TaxType":
+    def get_tax_rate_percentage_value(
+        self, obj: Union["Product", "ProductType"], country: Country, previous_value
+    ) -> Decimal:
+    def customer_created(self, customer: "User", previous_value: Any) -> Any:
+    def product_created(self, product: "Product", previous_value: Any) -> Any:
+    def order_fully_paid(self, order: "Order", previous_value: Any) -> Any:
+    def order_updated(self, order: "Order", previous_value: Any) -> Any:
+    def order_cancelled(self, order: "Order", previous_value: Any) -> Any:
+    def order_fulfilled(self, order: "Order", previous_value: Any) -> Any:
+    def fulfillment_created(
+        self, fulfillment: "Fulfillment", previous_value: Any
+    ) -> Any:
+    def checkout_quantity_changed(
+        self, checkout: "Checkout", previous_value: Any
+    ) -> Any:
+    def checkout_created(self, checkout: "Checkout", previous_value: Any) -> Any:
+    def checkout_updated(self, checkout: "Checkout", previous_value: Any) -> Any:
+    def fetch_taxes_data(self, previous_value: Any) -> Any:
+    def authorize_payment(
+        self, payment_information: "PaymentData", previous_value
+    ) -> "GatewayResponse":
+    def capture_payment(
+        self, payment_information: "PaymentData", previous_value
+    ) -> "GatewayResponse":
+    def refund_payment(
+        self, payment_information: "PaymentData", previous_value
+    ) -> "GatewayResponse":
+    def confirm_payment(
+        self, payment_information: "PaymentData", previous_value
+    ) -> "GatewayResponse":
+    def process_payment(
+        self, payment_information: "PaymentData", previous_value
+    ) -> "GatewayResponse":
+    def list_payment_sources(
+        self, customer_id: str, previous_value
+    ) -> List["CustomerSource"]:
+    def get_client_token(self, token_config, previous_value):
+    def get_payment_config(self, previous_value):
+    def get_supported_currencies(self, previous_value):
+    def get_payment_gateway(
+        self, currency: Optional[str], previous_value
+    ) -> Optional["PaymentGateway"]:
+    def get_payment_gateway_for_checkout(
+        self, checkout: "Checkout", previous_value
+    ) -> Optional["PaymentGateway"]:
+    @classmethod
+    def _update_config_items(
+        cls, configuration_to_update: List[dict], current_config: List[dict]
+    ):
+    @classmethod
+    def validate_plugin_configuration(cls, plugin_configuration: "PluginConfiguration"):
+    @classmethod
+    def save_plugin_configuration(
+        cls, plugin_configuration: "PluginConfiguration", cleaned_data
+    ):
+    @classmethod
+    def _append_config_structure(cls, configuration: PluginConfigurationType):
+    @classmethod
+    def _update_configuration_structure(cls, configuration: PluginConfigurationType):
+    @classmethod
+    def get_default_active(cls):
+# [outline truncated]
+===== END OUTLINE: saleor/plugins/base_plugin.py =====
+===== OUTLINE: saleor/payment/gateways/utils.py (read-only) =====
+def get_supported_currencies(config: "GatewayConfig", gateway_name: str) -> List[str]:
+===== END OUTLINE: saleor/payment/gateways/utils.py =====
+===== OUTLINE: saleor/payment/gateways/dummy_credit_card/__init__.py (read-only) =====
+def get_client_token(**_):
+def authorize(
+    payment_information: PaymentData, config: GatewayConfig
+) -> GatewayResponse:
+def void(payment_information: PaymentData, config: GatewayConfig) -> GatewayResponse:
+def capture(payment_information: PaymentData, config: GatewayConfig) -> GatewayResponse:
+def confirm(payment_information: PaymentData, config: GatewayConfig) -> GatewayResponse:
+def refund(payment_information: PaymentData, config: GatewayConfig) -> GatewayResponse:
+def process_payment(
+    payment_information: PaymentData, config: GatewayConfig
+) -> GatewayResponse:
+===== END OUTLINE: saleor/payment/gateways/dummy_credit_card/__init__.py =====
+===== OUTLINE: saleor/payment/interface.py (read-only) =====
+@dataclass
+class GatewayResponse:
+    is_success: bool
+    action_required: bool
+    kind: str  # use "TransactionKind" class
+    amount: Decimal
+    currency: str
+    transaction_id: Optional[str]
+    error: Optional[str]
+    customer_id: Optional[str] = None
+    card_info: Optional[CreditCardInfo] = None
+    raw_response: Optional[Dict[str, str]] = None
+@dataclass
+class PaymentData:
+    amount: Decimal
+    currency: str
+    billing: Optional[AddressData]
+    shipping: Optional[AddressData]
+    order_id: Optional[int]
+    customer_ip_address: Optional[str]
+    customer_email: str
+    token: Optional[str] = None
+    customer_id: Optional[str] = None
+    reuse_source: bool = False
+@dataclass
+class TokenConfig:
+    customer_id: Optional[str] = None
+===== END OUTLINE: saleor/payment/interface.py =====

@@ -1,0 +1,27 @@
+READ-ONLY CONTEXT (NOT EDITABLE): outlines of repository modules imported by the editable files
+===== OUTLINE: saleor/core/utils/__init__.py (read-only) =====
+def generate_unique_slug(
+    instance: Model,
+    slugable_value: str,
+    slug_field_name: str = "slug",
+    *,
+    additional_search_lookup=None,
+) -> str:
+===== END OUTLINE: saleor/core/utils/__init__.py =====
+===== OUTLINE: saleor/product/models.py (read-only) =====
+class ProductVariantChannelListing(models.Model):
+    variant = models.ForeignKey(
+    channel = models.ForeignKey(
+    currency = models.CharField(max_length=settings.DEFAULT_CURRENCY_CODE_LENGTH)
+    price_amount = models.DecimalField(
+    price = MoneyField(amount_field="price_amount", currency_field="currency")
+    cost_price_amount = models.DecimalField(
+    cost_price = MoneyField(amount_field="cost_price_amount", currency_field="currency")
+    discounted_price_amount = models.DecimalField(
+    discounted_price = MoneyField(
+    preorder_quantity_threshold = models.IntegerField(blank=True, null=True)
+    objects = managers.ProductVariantChannelListingManager()
+    class Meta:
+        unique_together = [["variant", "channel"]]
+        ordering = ("pk",)
+===== END OUTLINE: saleor/product/models.py =====

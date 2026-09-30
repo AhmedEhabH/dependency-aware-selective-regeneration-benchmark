@@ -1,0 +1,897 @@
+READ-ONLY CONTEXT (NOT EDITABLE): outlines of repository modules imported by the editable files
+===== OUTLINE: saleor/core/utils/cache.py (read-only) =====
+class CacheDict(collections.OrderedDict):
+    def __init__(self, capacity: int):
+    def __getitem__(self, key):
+    def __setitem__(self, key, value):
+===== END OUTLINE: saleor/core/utils/cache.py =====
+===== OUTLINE: saleor/graphql/notifications/schema.py (read-only) =====
+class ExternalNotificationMutations(graphene.ObjectType):
+    external_notification_trigger = ExternalNotificationTrigger.Field(
+===== END OUTLINE: saleor/graphql/notifications/schema.py =====
+===== OUTLINE: saleor/graphql/account/schema.py (read-only) =====
+class AccountQueries(graphene.ObjectType):
+    address_validation_rules = BaseField(
+    address = BaseField(
+    customers = FilterConnectionField(
+    permission_groups = FilterConnectionField(
+    permission_group = PermissionsField(
+    me = BaseField(
+    staff_users = FilterConnectionField(
+    user = PermissionsField(
+    @staticmethod
+    def resolve_address_validation_rules(
+        _root,
+        info: ResolveInfo,
+        *,
+        country_code,
+        country_area=None,
+        city=None,
+        city_area=None,
+    ):
+    @staticmethod
+    def resolve_customers(_root, info: ResolveInfo, **kwargs):
+    @staticmethod
+    def resolve_permission_groups(_root, info: ResolveInfo, **kwargs):
+    @staticmethod
+    def resolve_permission_group(_root, info: ResolveInfo, *, id):
+    @staticmethod
+    def resolve_me(_root, info):
+    @staticmethod
+    def resolve_staff_users(_root, info: ResolveInfo, **kwargs):
+    @staticmethod
+    def resolve_user(
+        _root, info: ResolveInfo, *, id=None, email=None, external_reference=None
+    ):
+    @staticmethod
+    @app_promise_callback
+    def resolve_address(_root, info: ResolveInfo, app, *, id):
+class AccountMutations(graphene.ObjectType):
+    # Base mutations
+    token_create = CreateToken.Field()
+    token_refresh = RefreshToken.Field()
+    token_verify = VerifyToken.Field()
+    tokens_deactivate_all = DeactivateAllUserTokens.Field()
+    external_authentication_url = ExternalAuthenticationUrl.Field()
+    external_obtain_access_tokens = ExternalObtainAccessTokens.Field()
+    external_refresh = ExternalRefresh.Field()
+    external_logout = ExternalLogout.Field()
+    external_verify = ExternalVerify.Field()
+    request_password_reset = RequestPasswordReset.Field()
+    send_confirmation_email = SendConfirmationEmail.Field()
+    confirm_account = ConfirmAccount.Field()
+    set_password = SetPassword.Field()
+    password_change = PasswordChange.Field()
+    request_email_change = RequestEmailChange.Field()
+    confirm_email_change = ConfirmEmailChange.Field()
+    account_address_create = AccountAddressCreate.Field()
+    account_address_update = AccountAddressUpdate.Field()
+    account_address_delete = AccountAddressDelete.Field()
+    account_set_default_address = AccountSetDefaultAddress.Field()
+    account_register = AccountRegister.Field()
+    account_update = AccountUpdate.Field()
+    account_request_deletion = AccountRequestDeletion.Field()
+    account_delete = AccountDelete.Field()
+    address_create = AddressCreate.Field()
+    address_update = AddressUpdate.Field()
+    address_delete = AddressDelete.Field()
+    address_set_default = AddressSetDefault.Field()
+    customer_create = CustomerCreate.Field()
+    customer_update = CustomerUpdate.Field()
+    customer_delete = CustomerDelete.Field()
+    customer_bulk_delete = CustomerBulkDelete.Field()
+    customer_bulk_update = CustomerBulkUpdate.Field()
+    staff_create = StaffCreate.Field()
+    staff_update = StaffUpdate.Field()
+    staff_delete = StaffDelete.Field()
+    staff_bulk_delete = StaffBulkDelete.Field()
+    user_avatar_update = UserAvatarUpdate.Field()
+    user_avatar_delete = UserAvatarDelete.Field()
+    user_bulk_set_active = UserBulkSetActive.Field()
+    permission_group_create = PermissionGroupCreate.Field()
+    permission_group_update = PermissionGroupUpdate.Field()
+    permission_group_delete = PermissionGroupDelete.Field()
+===== END OUTLINE: saleor/graphql/account/schema.py =====
+===== OUTLINE: saleor/graphql/app/schema.py (read-only) =====
+class AppQueries(graphene.ObjectType):
+    apps_installations = PermissionsField(
+    apps = FilterConnectionField(
+    app = PermissionsField(
+    app_extensions = FilterConnectionField(
+    app_extension = PermissionsField(
+    @staticmethod
+    def resolve_apps_installations(_root, info: ResolveInfo, **kwargs):
+    @staticmethod
+    def resolve_apps(_root, info: ResolveInfo, **kwargs):
+    @staticmethod
+    @app_promise_callback
+    def resolve_app(_root, info: ResolveInfo, app, *, id=None):
+    @staticmethod
+    def resolve_app_extensions(_root, info: ResolveInfo, **kwargs):
+    @staticmethod
+    def resolve_app_extension(_root, info: ResolveInfo, *, id):
+class AppMutations(graphene.ObjectType):
+    app_create = AppCreate.Field()
+    app_update = AppUpdate.Field()
+    app_delete = AppDelete.Field()
+    app_token_create = AppTokenCreate.Field()
+    app_token_delete = AppTokenDelete.Field()
+    app_token_verify = AppTokenVerify.Field()
+    app_install = AppInstall.Field()
+    app_retry_install = AppRetryInstall.Field()
+    app_delete_failed_installation = AppDeleteFailedInstallation.Field()
+    app_fetch_manifest = AppFetchManifest.Field()
+    app_activate = AppActivate.Field()
+    app_deactivate = AppDeactivate.Field()
+    app_reenable_sync_webhooks = AppReenableSyncWebhooks.Field()
+===== END OUTLINE: saleor/graphql/app/schema.py =====
+===== OUTLINE: saleor/graphql/attribute/schema.py (read-only) =====
+class AttributeQueries(graphene.ObjectType):
+    attributes = FilterConnectionField(
+    attribute = BaseField(
+    def resolve_attributes(self, info: ResolveInfo, *, search=None, **kwargs):
+    def resolve_attribute(
+        self, info: ResolveInfo, *, id=None, slug=None, external_reference=None
+    ):
+class AttributeMutations(graphene.ObjectType):
+    # attribute mutations
+    attribute_create = AttributeCreate.Field()
+    attribute_delete = AttributeDelete.Field()
+    attribute_update = AttributeUpdate.Field()
+    attribute_bulk_create = AttributeBulkCreate.Field()
+    attribute_bulk_update = AttributeBulkUpdate.Field()
+    attribute_translate = AttributeTranslate.Field()
+    attribute_bulk_translate = AttributeBulkTranslate.Field()
+    attribute_bulk_delete = AttributeBulkDelete.Field()
+    attribute_value_bulk_delete = AttributeValueBulkDelete.Field()
+    attribute_value_create = AttributeValueCreate.Field()
+    attribute_value_delete = AttributeValueDelete.Field()
+    attribute_value_update = AttributeValueUpdate.Field()
+    attribute_value_bulk_translate = AttributeValueBulkTranslate.Field()
+    attribute_value_translate = AttributeValueTranslate.Field()
+    attribute_reorder_values = AttributeReorderValues.Field()
+===== END OUTLINE: saleor/graphql/attribute/schema.py =====
+===== OUTLINE: saleor/graphql/channel/schema.py (read-only) =====
+class ChannelQueries(graphene.ObjectType):
+    channel = BaseField(
+    channels = PermissionsField(
+    @staticmethod
+    def resolve_channel(_root, info: ResolveInfo, *, id=None, slug=None, **kwargs):
+    @staticmethod
+    def resolve_channels(_root, info: ResolveInfo, **kwargs):
+class ChannelMutations(graphene.ObjectType):
+    channel_create = ChannelCreate.Field()
+    channel_update = ChannelUpdate.Field()
+    channel_delete = ChannelDelete.Field()
+    channel_activate = ChannelActivate.Field()
+    channel_deactivate = ChannelDeactivate.Field()
+    channel_reorder_warehouses = ChannelReorderWarehouses.Field()
+===== END OUTLINE: saleor/graphql/channel/schema.py =====
+===== OUTLINE: saleor/graphql/checkout/schema.py (read-only) =====
+class CheckoutQueries(graphene.ObjectType):
+    checkout = BaseField(
+    checkouts = FilterConnectionField(
+    checkout_lines = ConnectionField(
+    @staticmethod
+    def resolve_checkout(_root, info: ResolveInfo, *, token=None, id=None):
+    @staticmethod
+    def resolve_checkouts(_root, info: ResolveInfo, *, channel=None, **kwargs):
+    @staticmethod
+    def resolve_checkout_lines(_root, info: ResolveInfo, **kwargs):
+class CheckoutMutations(graphene.ObjectType):
+    checkout_add_promo_code = CheckoutAddPromoCode.Field()
+    checkout_billing_address_update = CheckoutBillingAddressUpdate.Field()
+    checkout_complete = CheckoutComplete.Field()
+    checkout_create = CheckoutCreate.Field()
+    checkout_create_from_order = CheckoutCreateFromOrder.Field()
+    checkout_customer_attach = CheckoutCustomerAttach.Field()
+    checkout_customer_detach = CheckoutCustomerDetach.Field()
+    checkout_customer_note_update = CheckoutCustomerNoteUpdate.Field()
+    checkout_email_update = CheckoutEmailUpdate.Field()
+    checkout_line_delete = CheckoutLineDelete.Field(
+    checkout_lines_delete = CheckoutLinesDelete.Field()
+    checkout_lines_add = CheckoutLinesAdd.Field()
+    checkout_lines_update = CheckoutLinesUpdate.Field()
+    checkout_remove_promo_code = CheckoutRemovePromoCode.Field()
+    checkout_payment_create = CheckoutPaymentCreate.Field()
+    checkout_shipping_address_update = CheckoutShippingAddressUpdate.Field()
+    checkout_shipping_method_update = CheckoutShippingMethodUpdate.Field(
+    checkout_delivery_method_update = CheckoutDeliveryMethodUpdate.Field()
+    checkout_language_code_update = CheckoutLanguageCodeUpdate.Field()
+    order_create_from_checkout = OrderCreateFromCheckout.Field()
+===== END OUTLINE: saleor/graphql/checkout/schema.py =====
+===== OUTLINE: saleor/graphql/core/enums.py (read-only) =====
+unit_enums = [DistanceUnitsEnum, AreaUnitsEnum, VolumeUnitsEnum, WeightUnitsEnum]
+===== END OUTLINE: saleor/graphql/core/enums.py =====
+===== OUTLINE: saleor/graphql/core/federation/schema.py (read-only) =====
+def build_federated_schema(
+    query, mutation, types, subscription, directives=None
+) -> graphene.Schema:
+===== END OUTLINE: saleor/graphql/core/federation/schema.py =====
+===== OUTLINE: saleor/graphql/core/schema.py (read-only) =====
+class CoreQueries(graphene.ObjectType):
+    tax_types = BaseField(
+    def resolve_tax_types(self, info: ResolveInfo):
+class CoreMutations(graphene.ObjectType):
+    file_upload = FileUpload.Field()
+===== END OUTLINE: saleor/graphql/core/schema.py =====
+===== OUTLINE: saleor/graphql/csv/schema.py (read-only) =====
+class CsvQueries(graphene.ObjectType):
+    export_file = PermissionsField(
+    export_files = FilterConnectionField(
+    def resolve_export_file(self, info: ResolveInfo, *, id):
+    def resolve_export_files(self, info: ResolveInfo, **kwargs):
+class CsvMutations(graphene.ObjectType):
+    export_products = ExportProducts.Field()
+    export_gift_cards = ExportGiftCards.Field()
+    export_voucher_codes = ExportVoucherCodes.Field()
+===== END OUTLINE: saleor/graphql/csv/schema.py =====
+===== OUTLINE: saleor/graphql/discount/schema.py (read-only) =====
+class DiscountQueries(graphene.ObjectType):
+    sale = PermissionsField(
+    sales = FilterConnectionField(
+    voucher = PermissionsField(
+    vouchers = FilterConnectionField(
+    promotion = PermissionsField(
+    promotions = FilterConnectionField(
+    @staticmethod
+    def resolve_sale(_root, info, *, id, channel=None):
+    @staticmethod
+    def resolve_sales(_root, info: ResolveInfo, *, channel=None, **kwargs):
+    @staticmethod
+    def resolve_voucher(_root, info: ResolveInfo, *, id, channel=None):
+    @staticmethod
+    def resolve_vouchers(_root, info: ResolveInfo, *, channel=None, **kwargs):
+    @staticmethod
+    def resolve_promotion(_root, info, *, id, channel=None):
+    @staticmethod
+    def resolve_promotions(_root, info: ResolveInfo, **kwargs):
+class DiscountMutations(graphene.ObjectType):
+    promotion_create = PromotionCreate.Field()
+    promotion_update = PromotionUpdate.Field()
+    promotion_delete = PromotionDelete.Field()
+    promotion_rule_create = PromotionRuleCreate.Field()
+    promotion_rule_update = PromotionRuleUpdate.Field()
+    promotion_rule_delete = PromotionRuleDelete.Field()
+    promotion_translate = PromotionTranslate.Field()
+    promotion_rule_translate = PromotionRuleTranslate.Field()
+    promotion_bulk_delete = PromotionBulkDelete.Field()
+    sale_create = SaleCreate.Field(
+    sale_delete = SaleDelete.Field(
+    sale_bulk_delete = SaleBulkDelete.Field()
+    sale_update = SaleUpdate.Field(
+    sale_catalogues_add = SaleAddCatalogues.Field(
+    sale_catalogues_remove = SaleRemoveCatalogues.Field(
+    sale_translate = SaleTranslate.Field(
+    sale_channel_listing_update = SaleChannelListingUpdate.Field(
+    voucher_create = VoucherCreate.Field()
+    voucher_delete = VoucherDelete.Field()
+    voucher_bulk_delete = VoucherBulkDelete.Field()
+    voucher_update = VoucherUpdate.Field()
+    voucher_catalogues_add = VoucherAddCatalogues.Field()
+    voucher_catalogues_remove = VoucherRemoveCatalogues.Field()
+    voucher_translate = VoucherTranslate.Field()
+    voucher_channel_listing_update = VoucherChannelListingUpdate.Field()
+    voucher_code_bulk_delete = VoucherCodeBulkDelete.Field()
+===== END OUTLINE: saleor/graphql/discount/schema.py =====
+===== OUTLINE: saleor/graphql/giftcard/schema.py (read-only) =====
+class GiftCardQueries(graphene.ObjectType):
+    gift_card = PermissionsField(
+    gift_cards = FilterConnectionField(
+    gift_card_currencies = PermissionsField(
+    gift_card_tags = FilterConnectionField(
+    @staticmethod
+    def resolve_gift_card(_root, info: ResolveInfo, /, *, id: str):
+    @staticmethod
+    def resolve_gift_cards(
+        _root, info: ResolveInfo, /, *, sort_by=None, filter=None, search=None, **kwargs
+    ):
+    @staticmethod
+    def resolve_gift_card_currencies(_root, info: ResolveInfo):
+    @staticmethod
+    def resolve_gift_card_tags(_root, info: ResolveInfo, **data):
+class GiftCardMutations(graphene.ObjectType):
+    gift_card_activate = GiftCardActivate.Field()
+    gift_card_create = GiftCardCreate.Field()
+    gift_card_delete = GiftCardDelete.Field()
+    gift_card_deactivate = GiftCardDeactivate.Field()
+    gift_card_update = GiftCardUpdate.Field()
+    gift_card_resend = GiftCardResend.Field()
+    gift_card_add_note = GiftCardAddNote.Field()
+    gift_card_bulk_create = GiftCardBulkCreate.Field()
+    gift_card_bulk_delete = GiftCardBulkDelete.Field()
+    gift_card_bulk_activate = GiftCardBulkActivate.Field()
+    gift_card_bulk_deactivate = GiftCardBulkDeactivate.Field()
+===== END OUTLINE: saleor/graphql/giftcard/schema.py =====
+===== OUTLINE: saleor/graphql/invoice/schema.py (read-only) =====
+class InvoiceMutations(graphene.ObjectType):
+    invoice_request = InvoiceRequest.Field()
+    invoice_request_delete = InvoiceRequestDelete.Field()
+    invoice_create = InvoiceCreate.Field()
+    invoice_delete = InvoiceDelete.Field()
+    invoice_update = InvoiceUpdate.Field()
+    invoice_send_notification = InvoiceSendNotification.Field()
+===== END OUTLINE: saleor/graphql/invoice/schema.py =====
+===== OUTLINE: saleor/graphql/menu/schema.py (read-only) =====
+class MenuQueries(graphene.ObjectType):
+    menu = graphene.Field(
+    menus = FilterConnectionField(
+    menu_item = graphene.Field(
+    menu_items = FilterConnectionField(
+    @staticmethod
+    def resolve_menu(_root, info: ResolveInfo, *, channel=None, **data):
+    @staticmethod
+    def resolve_menus(_root, info: ResolveInfo, *, channel=None, **kwargs):
+    @staticmethod
+    def resolve_menu_item(_root, info: ResolveInfo, *, channel=None, id: str):
+    @staticmethod
+    def resolve_menu_items(_root, info: ResolveInfo, *, channel=None, **kwargs):
+class MenuMutations(graphene.ObjectType):
+    assign_navigation = AssignNavigation.Field()
+    menu_create = MenuCreate.Field()
+    menu_delete = MenuDelete.Field()
+    menu_bulk_delete = MenuBulkDelete.Field()
+    menu_update = MenuUpdate.Field()
+    menu_item_create = MenuItemCreate.Field()
+    menu_item_delete = MenuItemDelete.Field()
+    menu_item_bulk_delete = MenuItemBulkDelete.Field()
+    menu_item_update = MenuItemUpdate.Field()
+    menu_item_translate = MenuItemTranslate.Field()
+    menu_item_move = MenuItemMove.Field()
+===== END OUTLINE: saleor/graphql/menu/schema.py =====
+===== OUTLINE: saleor/graphql/meta/schema.py (read-only) =====
+class MetaMutations(graphene.ObjectType):
+    delete_metadata = DeleteMetadata.Field()
+    delete_private_metadata = DeletePrivateMetadata.Field()
+    update_metadata = UpdateMetadata.Field()
+    update_private_metadata = UpdatePrivateMetadata.Field()
+===== END OUTLINE: saleor/graphql/meta/schema.py =====
+===== OUTLINE: saleor/graphql/order/schema.py (read-only) =====
+class OrderQueries(graphene.ObjectType):
+    homepage_events = ConnectionField(
+    order = BaseField(
+    orders = FilterConnectionField(
+    draft_orders = FilterConnectionField(
+    orders_total = PermissionsField(
+    order_by_token = BaseField(
+    @staticmethod
+    def resolve_homepage_events(_root, info: ResolveInfo, **kwargs):
+    @staticmethod
+    def resolve_order(_root, info: ResolveInfo, *, external_reference=None, id=None):
+    @staticmethod
+    def resolve_orders(_root, info: ResolveInfo, *, channel=None, **kwargs):
+    @staticmethod
+    def resolve_draft_orders(_root, info: ResolveInfo, **kwargs):
+    @staticmethod
+    def resolve_orders_total(_root, info: ResolveInfo, *, period, channel=None):
+    @staticmethod
+    def resolve_order_by_token(_root, info: ResolveInfo, *, token):
+class OrderMutations(graphene.ObjectType):
+    draft_order_complete = DraftOrderComplete.Field()
+    draft_order_create = DraftOrderCreate.Field()
+    draft_order_delete = DraftOrderDelete.Field()
+    draft_order_bulk_delete = DraftOrderBulkDelete.Field()
+    draft_order_lines_bulk_delete = DraftOrderLinesBulkDelete.Field(
+    draft_order_update = DraftOrderUpdate.Field()
+    order_add_note = OrderAddNote.Field(
+    order_cancel = OrderCancel.Field()
+    order_capture = OrderCapture.Field()
+    order_confirm = OrderConfirm.Field()
+    order_fulfill = OrderFulfill.Field()
+    order_fulfillment_cancel = FulfillmentCancel.Field()
+    order_fulfillment_approve = FulfillmentApprove.Field()
+    order_fulfillment_update_tracking = FulfillmentUpdateTracking.Field()
+    order_fulfillment_refund_products = FulfillmentRefundProducts.Field()
+    order_fulfillment_return_products = FulfillmentReturnProducts.Field()
+    order_grant_refund_create = OrderGrantRefundCreate.Field()
+    order_grant_refund_update = OrderGrantRefundUpdate.Field()
+    order_lines_create = OrderLinesCreate.Field()
+    order_line_delete = OrderLineDelete.Field()
+    order_line_update = OrderLineUpdate.Field()
+    order_discount_add = OrderDiscountAdd.Field()
+    order_discount_update = OrderDiscountUpdate.Field()
+    order_discount_delete = OrderDiscountDelete.Field()
+    order_line_discount_update = OrderLineDiscountUpdate.Field()
+    order_line_discount_remove = OrderLineDiscountRemove.Field()
+    order_note_add = OrderNoteAdd.Field()
+    order_note_update = OrderNoteUpdate.Field()
+    order_mark_as_paid = OrderMarkAsPaid.Field()
+    order_refund = OrderRefund.Field()
+    order_update = OrderUpdate.Field()
+    order_update_shipping = OrderUpdateShipping.Field()
+    order_void = OrderVoid.Field()
+    order_bulk_cancel = OrderBulkCancel.Field()
+    order_bulk_create = OrderBulkCreate.Field()
+===== END OUTLINE: saleor/graphql/order/schema.py =====
+===== OUTLINE: saleor/graphql/page/schema.py (read-only) =====
+class PageQueries(graphene.ObjectType):
+    page = BaseField(
+    pages = FilterConnectionField(
+    page_type = BaseField(
+    page_types = FilterConnectionField(
+    @staticmethod
+    def resolve_page(
+        _root,
+        info: ResolveInfo,
+        *,
+        id=None,
+        slug=None,
+        slug_language_code=None,
+        channel=None,
+    ):
+    @staticmethod
+    def resolve_pages(_root, info: ResolveInfo, *, channel=None, **kwargs):
+    @staticmethod
+    def resolve_page_type(_root, info: ResolveInfo, *, id):
+    @staticmethod
+    def resolve_page_types(_root, info: ResolveInfo, **kwargs):
+class PageMutations(graphene.ObjectType):
+    # page mutations
+    page_create = PageCreate.Field()
+    page_delete = PageDelete.Field()
+    page_bulk_delete = PageBulkDelete.Field()
+    page_bulk_publish = PageBulkPublish.Field()
+    page_update = PageUpdate.Field()
+    page_translate = PageTranslate.Field()
+    page_type_create = PageTypeCreate.Field()
+    page_type_update = PageTypeUpdate.Field()
+    page_type_delete = PageTypeDelete.Field()
+    page_type_bulk_delete = PageTypeBulkDelete.Field()
+    page_attribute_assign = PageAttributeAssign.Field()
+    page_attribute_unassign = PageAttributeUnassign.Field()
+    page_type_reorder_attributes = PageTypeReorderAttributes.Field()
+    page_reorder_attribute_values = PageReorderAttributeValues.Field()
+===== END OUTLINE: saleor/graphql/page/schema.py =====
+===== OUTLINE: saleor/graphql/plugins/schema.py (read-only) =====
+class PluginsQueries(graphene.ObjectType):
+    plugin = PermissionsField(
+    plugins = ConnectionField(
+    @staticmethod
+    @traced_resolver
+    @plugin_manager_promise_callback
+    def resolve_plugin(_root, _info: ResolveInfo, manager, **data):
+    @staticmethod
+    @traced_resolver
+    @plugin_manager_promise_callback
+    def resolve_plugins(_root, info: ResolveInfo, manager, **kwargs):
+class PluginsMutations(graphene.ObjectType):
+    plugin_update = PluginUpdate.Field()
+===== END OUTLINE: saleor/graphql/plugins/schema.py =====
+===== OUTLINE: saleor/graphql/product/schema.py (read-only) =====
+class ProductQueries(graphene.ObjectType):
+    digital_content = PermissionsField(
+    digital_contents = ConnectionField(
+    categories = FilterConnectionField(
+    category = BaseField(
+    collection = BaseField(
+    collections = FilterConnectionField(
+    product = BaseField(
+    products = FilterConnectionField(
+    product_type = BaseField(
+    product_types = FilterConnectionField(
+    product_variant = BaseField(
+    product_variants = FilterConnectionField(
+    report_product_sales = ConnectionField(
+    @staticmethod
+    def resolve_categories(_root, info: ResolveInfo, *, level=None, **kwargs):
+    @staticmethod
+    def resolve_category(
+        _root,
+        info: ResolveInfo,
+        *,
+        id=None,
+        slug=None,
+        slug_language_code=None,
+        **kwargs,
+    ) -> Promise[Category] | None | Category:
+    @staticmethod
+    @traced_resolver
+    def resolve_collection(
+        _root,
+        info: ResolveInfo,
+        *,
+        id=None,
+        slug=None,
+        channel=None,
+        slug_language_code=None,
+    ):
+    @staticmethod
+    def resolve_collections(_root, info: ResolveInfo, *, channel=None, **kwargs):
+    @staticmethod
+    def resolve_digital_content(_root, info: ResolveInfo, *, id):
+    @staticmethod
+    def resolve_digital_contents(_root, info: ResolveInfo, **kwargs):
+    @staticmethod
+    @traced_resolver
+    def resolve_product(
+        _root,
+        info: ResolveInfo,
+        *,
+        id=None,
+        slug=None,
+        slug_language_code=None,
+        external_reference=None,
+        channel=None,
+    ):
+    @staticmethod
+    @traced_resolver
+    def resolve_products(_root, info: ResolveInfo, *, channel=None, **kwargs):
+    @staticmethod
+    def resolve_product_type(_root, info: ResolveInfo, *, id):
+    @staticmethod
+    def resolve_product_types(_root, info: ResolveInfo, **kwargs):
+    @staticmethod
+    @traced_resolver
+    def resolve_product_variant(
+        _root,
+        info: ResolveInfo,
+        *,
+        id=None,
+        sku=None,
+        external_reference=None,
+        channel=None,
+    ):
+    @staticmethod
+    def resolve_product_variants(
+        _root, info: ResolveInfo, *, ids=None, channel=None, **kwargs
+    ):
+    @staticmethod
+    @traced_resolver
+    def resolve_report_product_sales(
+        _root, info: ResolveInfo, *, period, channel, **kwargs
+    ):
+class ProductMutations(graphene.ObjectType):
+    product_attribute_assign = ProductAttributeAssign.Field()
+    product_attribute_assignment_update = ProductAttributeAssignmentUpdate.Field()
+    product_attribute_unassign = ProductAttributeUnassign.Field()
+    category_create = CategoryCreate.Field()
+    category_delete = CategoryDelete.Field()
+    category_bulk_delete = CategoryBulkDelete.Field()
+    category_update = CategoryUpdate.Field()
+    category_translate = CategoryTranslate.Field()
+    collection_add_products = CollectionAddProducts.Field()
+    collection_create = CollectionCreate.Field()
+    collection_delete = CollectionDelete.Field()
+    collection_reorder_products = CollectionReorderProducts.Field()
+    collection_bulk_delete = CollectionBulkDelete.Field()
+    collection_remove_products = CollectionRemoveProducts.Field()
+    collection_update = CollectionUpdate.Field()
+    collection_translate = CollectionTranslate.Field()
+    collection_channel_listing_update = CollectionChannelListingUpdate.Field()
+    product_create = ProductCreate.Field()
+    product_delete = ProductDelete.Field()
+    product_bulk_create = ProductBulkCreate.Field()
+    product_bulk_delete = ProductBulkDelete.Field()
+    product_update = ProductUpdate.Field()
+    product_bulk_translate = ProductBulkTranslate.Field()
+    product_translate = ProductTranslate.Field()
+    product_channel_listing_update = ProductChannelListingUpdate.Field()
+    product_media_create = ProductMediaCreate.Field()
+    product_variant_reorder = ProductVariantReorder.Field()
+    product_media_delete = ProductMediaDelete.Field()
+    product_media_bulk_delete = ProductMediaBulkDelete.Field()
+    product_media_reorder = ProductMediaReorder.Field()
+    product_media_update = ProductMediaUpdate.Field()
+    product_type_create = ProductTypeCreate.Field()
+    product_type_delete = ProductTypeDelete.Field()
+    product_type_bulk_delete = ProductTypeBulkDelete.Field()
+    product_type_update = ProductTypeUpdate.Field()
+    product_type_reorder_attributes = ProductTypeReorderAttributes.Field()
+    product_reorder_attribute_values = ProductReorderAttributeValues.Field()
+    digital_content_create = DigitalContentCreate.Field()
+    digital_content_delete = DigitalContentDelete.Field()
+    digital_content_update = DigitalContentUpdate.Field()
+    digital_content_url_create = DigitalContentUrlCreate.Field()
+    product_variant_create = ProductVariantCreate.Field()
+    product_variant_delete = ProductVariantDelete.Field()
+    product_variant_bulk_create = ProductVariantBulkCreate.Field()
+    product_variant_bulk_update = ProductVariantBulkUpdate.Field()
+    product_variant_bulk_delete = ProductVariantBulkDelete.Field()
+    product_variant_stocks_create = ProductVariantStocksCreate.Field()
+    product_variant_stocks_delete = ProductVariantStocksDelete.Field()
+    product_variant_stocks_update = ProductVariantStocksUpdate.Field()
+    product_variant_update = ProductVariantUpdate.Field()
+    product_variant_set_default = ProductVariantSetDefault.Field()
+    product_variant_translate = ProductVariantTranslate.Field()
+    product_variant_bulk_translate = ProductVariantBulkTranslate.Field()
+    product_variant_channel_listing_update = ProductVariantChannelListingUpdate.Field()
+    product_variant_reorder_attribute_values = (
+    product_variant_preorder_deactivate = ProductVariantPreorderDeactivate.Field()
+    variant_media_assign = VariantMediaAssign.Field()
+    variant_media_unassign = VariantMediaUnassign.Field()
+===== END OUTLINE: saleor/graphql/product/schema.py =====
+===== OUTLINE: saleor/graphql/shipping/schema.py (read-only) =====
+class ShippingQueries(graphene.ObjectType):
+    shipping_zone = PermissionsField(
+    shipping_zones = FilterConnectionField(
+    @staticmethod
+    def resolve_shipping_zone(_root, info: ResolveInfo, *, id, channel=None):
+    @staticmethod
+    def resolve_shipping_zones(_root, info: ResolveInfo, *, channel=None, **kwargs):
+class ShippingMutations(graphene.ObjectType):
+    shipping_method_channel_listing_update = ShippingMethodChannelListingUpdate.Field()
+    shipping_price_create = ShippingPriceCreate.Field()
+    shipping_price_delete = ShippingPriceDelete.Field()
+    shipping_price_bulk_delete = ShippingPriceBulkDelete.Field()
+    shipping_price_update = ShippingPriceUpdate.Field()
+    shipping_price_translate = ShippingPriceTranslate.Field()
+    shipping_price_exclude_products = ShippingPriceExcludeProducts.Field()
+    shipping_price_remove_product_from_exclude = (
+    shipping_zone_create = ShippingZoneCreate.Field()
+    shipping_zone_delete = ShippingZoneDelete.Field()
+    shipping_zone_bulk_delete = ShippingZoneBulkDelete.Field()
+    shipping_zone_update = ShippingZoneUpdate.Field()
+===== END OUTLINE: saleor/graphql/shipping/schema.py =====
+===== OUTLINE: saleor/graphql/shop/schema.py (read-only) =====
+class ShopQueries(graphene.ObjectType):
+    shop = graphene.Field(
+    order_settings = PermissionsField(
+    gift_card_settings = PermissionsField(
+    def resolve_shop(self, _info):
+    def resolve_order_settings(self, info):
+    @load_site_callback
+    def resolve_gift_card_settings(self, _info, site):
+class ShopMutations(graphene.ObjectType):
+    staff_notification_recipient_create = StaffNotificationRecipientCreate.Field()
+    staff_notification_recipient_update = StaffNotificationRecipientUpdate.Field()
+    staff_notification_recipient_delete = StaffNotificationRecipientDelete.Field()
+    shop_domain_update = ShopDomainUpdate.Field(
+    shop_settings_update = ShopSettingsUpdate.Field()
+    shop_fetch_tax_rates = ShopFetchTaxRates.Field(
+    shop_settings_translate = ShopSettingsTranslate.Field()
+    shop_address_update = ShopAddressUpdate.Field()
+    order_settings_update = OrderSettingsUpdate.Field(
+    gift_card_settings_update = GiftCardSettingsUpdate.Field()
+===== END OUTLINE: saleor/graphql/shop/schema.py =====
+===== OUTLINE: saleor/graphql/tax/schema.py (read-only) =====
+class TaxQueries(graphene.ObjectType):
+    tax_configuration = PermissionsField(
+    tax_configurations = FilterConnectionField(
+    tax_class = PermissionsField(
+    tax_classes = FilterConnectionField(
+    tax_country_configuration = PermissionsField(
+    tax_country_configurations = PermissionsField(
+    @staticmethod
+    def resolve_tax_configuration(_root, info: ResolveInfo, id):
+    @staticmethod
+    def resolve_tax_configurations(_root, info: ResolveInfo, **kwargs):
+    @staticmethod
+    def resolve_tax_class(_root, info: ResolveInfo, id):
+    @staticmethod
+    def resolve_tax_classes(_root, info: ResolveInfo, **kwargs):
+    @staticmethod
+    def resolve_tax_country_configuration(_root, info: ResolveInfo, country_code):
+    @staticmethod
+    def resolve_tax_country_configurations(_root, info: ResolveInfo, **kwargs):
+class TaxMutations(graphene.ObjectType):
+    tax_class_create = TaxClassCreate.Field()
+    tax_class_delete = TaxClassDelete.Field()
+    tax_class_update = TaxClassUpdate.Field()
+    tax_configuration_update = TaxConfigurationUpdate.Field()
+    tax_country_configuration_update = TaxCountryConfigurationUpdate.Field()
+    tax_country_configuration_delete = TaxCountryConfigurationDelete.Field()
+    tax_exemption_manage = TaxExemptionManage.Field()
+===== END OUTLINE: saleor/graphql/tax/schema.py =====
+===== OUTLINE: saleor/graphql/translations/schema.py (read-only) =====
+class TranslationQueries(graphene.ObjectType):
+    translations = ConnectionField(
+    translation = PermissionsField(
+    @staticmethod
+    def resolve_translations(_root, info: ResolveInfo, *, kind, **kwargs):
+    @staticmethod
+    def resolve_translation(_root, info: ResolveInfo, *, id, kind):
+===== END OUTLINE: saleor/graphql/translations/schema.py =====
+===== OUTLINE: saleor/graphql/warehouse/schema.py (read-only) =====
+class WarehouseQueries(graphene.ObjectType):
+    warehouse = PermissionsField(
+    warehouses = FilterConnectionField(
+    @staticmethod
+    def resolve_warehouse(
+        _root, info: ResolveInfo, /, *, id=None, external_reference=None
+    ):
+    @staticmethod
+    def resolve_warehouses(_root, info: ResolveInfo, **kwargs):
+class WarehouseMutations(graphene.ObjectType):
+    create_warehouse = WarehouseCreate.Field()
+    update_warehouse = WarehouseUpdate.Field()
+    delete_warehouse = WarehouseDelete.Field()
+    assign_warehouse_shipping_zone = WarehouseShippingZoneAssign.Field()
+    unassign_warehouse_shipping_zone = WarehouseShippingZoneUnassign.Field()
+class StockQueries(graphene.ObjectType):
+    stock = PermissionsField(
+    stocks = FilterConnectionField(
+    @staticmethod
+    def resolve_stock(_root, info: ResolveInfo, /, *, id: str):
+    @staticmethod
+    def resolve_stocks(_root, info: ResolveInfo, **kwargs):
+class StockMutations(graphene.ObjectType):
+    stock_bulk_update = StockBulkUpdate.Field()
+===== END OUTLINE: saleor/graphql/warehouse/schema.py =====
+===== OUTLINE: saleor/graphql/webhook/schema.py (read-only) =====
+class WebhookQueries(graphene.ObjectType):
+    webhook = BaseField(
+    webhook_events = PermissionsField(
+    webhook_sample_payload = BaseField(
+    @staticmethod
+    @app_promise_callback
+    def resolve_webhook_sample_payload(_root, info: ResolveInfo, app, **data):
+    @staticmethod
+    @app_promise_callback
+    def resolve_webhook(_root, info: ResolveInfo, app, **data):
+    @staticmethod
+    def resolve_webhook_events(_root, _info: ResolveInfo):
+class WebhookMutations(graphene.ObjectType):
+    webhook_create = WebhookCreate.Field()
+    webhook_delete = WebhookDelete.Field()
+    webhook_update = WebhookUpdate.Field()
+    event_delivery_retry = EventDeliveryRetry.Field()
+    webhook_dry_run = WebhookDryRun.Field()
+    webhook_trigger = WebhookTrigger.Field()
+===== END OUTLINE: saleor/graphql/webhook/schema.py =====
+===== OUTLINE: saleor/graphql/webhook/subscription_types.py (read-only) =====
+class Subscription(SubscriptionObjectType):
+    event = graphene.Field(
+    draft_order_created = BaseField(
+    draft_order_updated = BaseField(
+    draft_order_deleted = BaseField(
+    order_created = BaseField(
+    order_updated = BaseField(
+    order_confirmed = BaseField(
+    order_paid = BaseField(
+    order_fully_paid = BaseField(
+    order_refunded = BaseField(
+    order_fully_refunded = BaseField(
+    order_fulfilled = BaseField(
+    order_cancelled = BaseField(
+    order_expired = BaseField(
+    order_metadata_updated = BaseField(
+    order_bulk_created = BaseField(
+    checkout_created = BaseField(
+    checkout_updated = BaseField(
+    checkout_fully_paid = BaseField(
+    checkout_metadata_updated = BaseField(
+    class Meta:
+        doc_category = DOC_CATEGORY_MISC
+    @staticmethod
+    def resolve_event(root, info: ResolveInfo):
+    @staticmethod
+    def resolve_order_bulk_created(root, info: ResolveInfo, channels=None):
+WEBHOOK_TYPES_MAP = ASYNC_WEBHOOK_TYPES_MAP | SYNC_WEBHOOK_TYPES_MAP
+===== END OUTLINE: saleor/graphql/webhook/subscription_types.py =====
+===== OUTLINE: saleor/permission/enums.py (read-only) =====
+class OrderPermissions(BasePermissionEnum):
+    MANAGE_ORDERS = "order.manage_orders"
+    MANAGE_ORDERS_IMPORT = "order.manage_orders_import"
+class PaymentPermissions(BasePermissionEnum):
+    HANDLE_PAYMENTS = "payment.handle_payments"
+===== END OUTLINE: saleor/permission/enums.py =====
+===== OUTLINE: saleor/graphql/core/__init__.py (read-only) =====
+class ResolveInfo(graphene.ResolveInfo):
+    context: SaleorContext
+===== END OUTLINE: saleor/graphql/core/__init__.py =====
+===== OUTLINE: saleor/graphql/core/connection.py (read-only) =====
+def create_connection_slice(
+    iterable,
+    info: "ResolveInfo",
+    args,
+    connection_type,
+    edge_type=None,
+    pageinfo_type=graphene.relay.PageInfo,
+    max_limit: int | None = None,
+):
+def filter_connection_queryset(
+    iterable, args, request=None, root=None, allow_replica=False
+):
+class CountableConnection(NonNullConnection):
+    class Meta:
+        abstract = True
+    total_count = graphene.Int(description="A total count of items in the collection.")
+    @staticmethod
+    def resolve_total_count(root, _info):
+===== END OUTLINE: saleor/graphql/core/connection.py =====
+===== OUTLINE: saleor/graphql/core/doc_category.py (read-only) =====
+DOC_CATEGORY_PAYMENTS = "Payments"
+===== END OUTLINE: saleor/graphql/core/doc_category.py =====
+===== OUTLINE: saleor/graphql/core/fields.py (read-only) =====
+class PermissionsField(BaseField):
+    description: str | None
+    def __init__(self, *args, **kwargs):
+    def get_resolver(self, parent_resolver):
+class FilterConnectionField(ConnectionField):
+    def __init__(self, type_, *args, **kwargs):
+    def get_resolver(self, parent_resolver):
+class JSONString(graphene.JSONString):
+    @staticmethod
+    @staticmethod
+    def parse_literal(node):
+===== END OUTLINE: saleor/graphql/core/fields.py =====
+===== OUTLINE: saleor/graphql/core/scalars.py (read-only) =====
+class JSON(GenericScalar):
+    @staticmethod
+    @staticmethod
+    def parse_literal(node):
+    @staticmethod
+    def parse_value(value):
+class UUID(graphene.UUID):
+    @staticmethod
+    @staticmethod
+    def serialize(uuid):
+    @staticmethod
+    def parse_literal(node):
+    @staticmethod
+    def parse_value(value):
+class DateTime(graphene.DateTime):
+    __doc__ = graphene.DateTime.__doc__
+    @staticmethod
+    def parse_value(value):
+===== END OUTLINE: saleor/graphql/core/scalars.py =====
+===== OUTLINE: saleor/graphql/core/utils/__init__.py (read-only) =====
+@overload
+def from_global_id_or_error(
+    global_id: str,
+    only_type: ObjectType | str | None = None,
+    raise_error: Literal[True] = True,
+@overload
+def from_global_id_or_error(
+    global_id: str,
+    only_type: type[ObjectType] | str | None = None,
+    raise_error: bool = False,
+def from_global_id_or_error(
+    global_id: str,
+    only_type: type[ObjectType] | str | None = None,
+    raise_error: bool = False,
+):
+===== END OUTLINE: saleor/graphql/core/utils/__init__.py =====
+===== OUTLINE: saleor/graphql/payment/filters.py (read-only) =====
+class PaymentFilterInput(FilterInputObjectType):
+    class Meta:
+        doc_category = DOC_CATEGORY_PAYMENTS
+        filterset_class = PaymentFilter
+===== END OUTLINE: saleor/graphql/payment/filters.py =====
+===== OUTLINE: saleor/graphql/payment/resolvers.py (read-only) =====
+def resolve_payment_by_id(info, id):
+def resolve_payments(info):
+def resolve_transaction(info, id):
+===== END OUTLINE: saleor/graphql/payment/resolvers.py =====
+===== OUTLINE: saleor/core/exceptions.py (read-only) =====
+class PermissionDenied(Exception):
+    def __init__(self, message=None, *, permissions: Iterable[Enum] | None = None):
+===== END OUTLINE: saleor/core/exceptions.py =====
+===== OUTLINE: saleor/graphql/core/descriptions.py (read-only) =====
+ADDED_IN_322 = "\n\nAdded in Saleor 3.22."
+===== END OUTLINE: saleor/graphql/core/descriptions.py =====
+===== OUTLINE: saleor/payment/__init__.py (read-only) =====
+class PaymentMethodType:
+    CARD = "card"
+    OTHER = "other"
+    CHOICES = [
+===== END OUTLINE: saleor/payment/__init__.py =====
+===== OUTLINE: saleor/payment/interface.py (read-only) =====
+@dataclass
+class PaymentMethodData:
+    id: str
+    type: str
+    external_id: str
+    gateway: PaymentGateway
+    supported_payment_flows: list[str] = field(default_factory=list)
+    credit_card_info: PaymentMethodCreditCardInfo | None = None
+    name: str | None = None
+    data: JSONValue | None = None
+===== END OUTLINE: saleor/payment/interface.py =====
+===== OUTLINE: saleor/graphql/core/tracing.py (read-only) =====
+def traced_resolver(func):
+    @wraps(func)
+===== END OUTLINE: saleor/graphql/core/tracing.py =====
+===== OUTLINE: saleor/graphql/meta/permissions.py (read-only) =====
+def public_payment_permissions(
+    info: ResolveInfo, payment_pk: int
+) -> list[BasePermissionEnum]:
+===== END OUTLINE: saleor/graphql/meta/permissions.py =====
+===== OUTLINE: saleor/graphql/meta/resolvers.py (read-only) =====
+def resolve_metadata(metadata: dict):
+===== END OUTLINE: saleor/graphql/meta/resolvers.py =====
+===== OUTLINE: saleor/graphql/order/dataloaders.py (read-only) =====
+class OrderByIdLoader(DataLoader[UUID, Order]):
+    context_key = "order_by_id"
+    def batch_load(self, keys):
+===== END OUTLINE: saleor/graphql/order/dataloaders.py =====

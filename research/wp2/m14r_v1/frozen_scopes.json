@@ -1,0 +1,470 @@
+{
+ "artifact": "m14r_frozen_scopes",
+ "sha256": "e6e3cc5ced76f646bccc41b77ac6dac39bcb680b17d6225ec3df81dcd03e7116",
+ "tasks": {
+  "saleor-rc-2d45b76a52f2": {
+   "GOLD_HARD": {
+    "arm": "GOLD_HARD",
+    "editable": [
+     "saleor/core/jwt.py"
+    ],
+    "excluded_budget": [],
+    "excluded_large": [],
+    "raw": [
+     "saleor/core/jwt.py"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-2d45b76a52f2"
+   },
+   "PLACEBO_HARD": {
+    "arm": "PLACEBO_HARD",
+    "editable": [
+     "saleor/graphql/tax/filters.py"
+    ],
+    "excluded_budget": [],
+    "excluded_large": [],
+    "raw": [
+     "saleor/graphql/tax/filters.py"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-2d45b76a52f2"
+   }
+  },
+  "saleor-rc-39b4138e8550": {
+   "GOLD_HARD": {
+    "arm": "GOLD_HARD",
+    "editable": [
+     "saleor/graphql/api.py",
+     "saleor/graphql/payment/schema.py",
+     "saleor/graphql/payment/types.py"
+    ],
+    "excluded_budget": [],
+    "excluded_large": [
+     "saleor/graphql/schema.graphql"
+    ],
+    "raw": [
+     "saleor/graphql/api.py",
+     "saleor/graphql/payment/schema.py",
+     "saleor/graphql/payment/types.py",
+     "saleor/graphql/schema.graphql"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-39b4138e8550"
+   },
+   "PLACEBO_HARD": {
+    "arm": "PLACEBO_HARD",
+    "editable": [
+     "saleor/graphql/core/types/order_or_checkout.py",
+     "saleor/graphql/csv/mutations/export_products.py",
+     "saleor/graphql/notifications/mutations/external_notification_trigger.py",
+     "saleor/payment/gateways/np_atobarai/utils.py"
+    ],
+    "excluded_budget": [],
+    "excluded_large": [],
+    "raw": [
+     "saleor/graphql/core/types/order_or_checkout.py",
+     "saleor/graphql/csv/mutations/export_products.py",
+     "saleor/graphql/notifications/mutations/external_notification_trigger.py",
+     "saleor/payment/gateways/np_atobarai/utils.py"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-39b4138e8550"
+   }
+  },
+  "saleor-rc-644f33094857": {
+   "GOLD_HARD": {
+    "arm": "GOLD_HARD",
+    "editable": [
+     "saleor/graphql/order/mutations/fulfillments.py",
+     "saleor/graphql/order/mutations/orders.py",
+     "saleor/order/actions.py",
+     "saleor/order/events.py",
+     "saleor/order/models.py",
+     "saleor/order/utils.py"
+    ],
+    "excluded_budget": [],
+    "excluded_large": [],
+    "raw": [
+     "saleor/graphql/order/mutations/fulfillments.py",
+     "saleor/graphql/order/mutations/orders.py",
+     "saleor/order/actions.py",
+     "saleor/order/events.py",
+     "saleor/order/models.py",
+     "saleor/order/utils.py"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-644f33094857"
+   },
+   "PLACEBO_HARD": {
+    "arm": "PLACEBO_HARD",
+    "editable": [
+     "saleor/demo/urls.py",
+     "saleor/graphql/account/i18n.py",
+     "saleor/graphql/app/types.py",
+     "saleor/graphql/core/types/sort_input.py",
+     "saleor/graphql/payment/resolvers.py",
+     "saleor/shipping/zip_codes.py"
+    ],
+    "excluded_budget": [],
+    "excluded_large": [],
+    "raw": [
+     "saleor/demo/urls.py",
+     "saleor/graphql/account/i18n.py",
+     "saleor/graphql/app/types.py",
+     "saleor/graphql/core/types/sort_input.py",
+     "saleor/graphql/payment/resolvers.py",
+     "saleor/shipping/zip_codes.py"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-644f33094857"
+   }
+  },
+  "saleor-rc-6abb53f3407b": {
+   "GOLD_HARD": {
+    "arm": "GOLD_HARD",
+    "editable": [
+     "saleor/payment/gateways/stripe/plugin.py",
+     "saleor/payment/gateways/stripe/webhooks.py",
+     "saleor/payment/interface.py",
+     "saleor/payment/utils.py"
+    ],
+    "excluded_budget": [],
+    "excluded_large": [],
+    "raw": [
+     "saleor/payment/gateways/stripe/plugin.py",
+     "saleor/payment/gateways/stripe/webhooks.py",
+     "saleor/payment/interface.py",
+     "saleor/payment/utils.py"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-6abb53f3407b"
+   },
+   "PLACEBO_HARD": {
+    "arm": "PLACEBO_HARD",
+    "editable": [
+     "saleor/attribute/error_codes.py",
+     "saleor/graphql/checkout/schema.py",
+     "saleor/graphql/warehouse/dataloaders.py",
+     "saleor/plugins/admin_email/constants.py"
+    ],
+    "excluded_budget": [],
+    "excluded_large": [],
+    "raw": [
+     "saleor/attribute/error_codes.py",
+     "saleor/graphql/checkout/schema.py",
+     "saleor/graphql/warehouse/dataloaders.py",
+     "saleor/plugins/admin_email/constants.py"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-6abb53f3407b"
+   }
+  },
+  "saleor-rc-74538ea00ce9": {
+   "GOLD_HARD": {
+    "arm": "GOLD_HARD",
+    "editable": [
+     "saleor/graphql/discount/mutations/voucher/voucher_update.py",
+     "saleor/graphql/order/mutations/draft_order_create.py",
+     "saleor/graphql/order/mutations/draft_order_update.py"
+    ],
+    "excluded_budget": [],
+    "excluded_large": [],
+    "raw": [
+     "saleor/graphql/discount/mutations/voucher/voucher_update.py",
+     "saleor/graphql/order/mutations/draft_order_create.py",
+     "saleor/graphql/order/mutations/draft_order_update.py"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-74538ea00ce9"
+   },
+   "PLACEBO_HARD": {
+    "arm": "PLACEBO_HARD",
+    "editable": [
+     "saleor/discount/utils/checkout.py",
+     "saleor/graphql/page/resolvers.py",
+     "saleor/graphql/translations/mutations/attribute_value_translate.py"
+    ],
+    "excluded_budget": [],
+    "excluded_large": [],
+    "raw": [
+     "saleor/discount/utils/checkout.py",
+     "saleor/graphql/page/resolvers.py",
+     "saleor/graphql/translations/mutations/attribute_value_translate.py"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-74538ea00ce9"
+   }
+  },
+  "saleor-rc-823b899757ab": {
+   "GOLD_HARD": {
+    "arm": "GOLD_HARD",
+    "editable": [
+     "saleor/graphql/product/mutations/products.py",
+     "saleor/graphql/product/schema.py"
+    ],
+    "excluded_budget": [],
+    "excluded_large": [
+     "saleor/graphql/schema.graphql"
+    ],
+    "raw": [
+     "saleor/graphql/product/mutations/products.py",
+     "saleor/graphql/product/schema.py",
+     "saleor/graphql/schema.graphql"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-823b899757ab"
+   },
+   "PLACEBO_HARD": {
+    "arm": "PLACEBO_HARD",
+    "editable": [
+     "saleor/checkout/error_codes.py",
+     "saleor/graphql/account/bulk_mutations.py",
+     "saleor/graphql/wishlist/schema.py"
+    ],
+    "excluded_budget": [],
+    "excluded_large": [],
+    "raw": [
+     "saleor/checkout/error_codes.py",
+     "saleor/graphql/account/bulk_mutations.py",
+     "saleor/graphql/wishlist/schema.py"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-823b899757ab"
+   }
+  },
+  "saleor-rc-8f76ddc6267f": {
+   "GOLD_HARD": {
+    "arm": "GOLD_HARD",
+    "editable": [
+     "saleor/graphql/webhook/mutations/webhook_dry_run.py",
+     "saleor/graphql/webhook/subscription_types.py"
+    ],
+    "excluded_budget": [],
+    "excluded_large": [],
+    "raw": [
+     "saleor/graphql/webhook/mutations/webhook_dry_run.py",
+     "saleor/graphql/webhook/subscription_types.py"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-8f76ddc6267f"
+   },
+   "PLACEBO_HARD": {
+    "arm": "PLACEBO_HARD",
+    "editable": [
+     "saleor/core/utils/random_data.py",
+     "saleor/graphql/product/bulk_mutations/category_bulk_delete.py"
+    ],
+    "excluded_budget": [],
+    "excluded_large": [],
+    "raw": [
+     "saleor/core/utils/random_data.py",
+     "saleor/graphql/product/bulk_mutations/category_bulk_delete.py"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-8f76ddc6267f"
+   }
+  },
+  "saleor-rc-93b20d78c011": {
+   "GOLD_HARD": {
+    "arm": "GOLD_HARD",
+    "editable": [
+     "CHANGELOG.md",
+     "saleor/graphql/account/resolvers.py",
+     "saleor/graphql/account/schema.py"
+    ],
+    "excluded_budget": [],
+    "excluded_large": [
+     "saleor/graphql/schema.graphql"
+    ],
+    "raw": [
+     "CHANGELOG.md",
+     "saleor/graphql/account/resolvers.py",
+     "saleor/graphql/account/schema.py",
+     "saleor/graphql/schema.graphql"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-93b20d78c011"
+   },
+   "PLACEBO_HARD": {
+    "arm": "PLACEBO_HARD",
+    "editable": [
+     "saleor/graphql/core/types/filter_input.py",
+     "saleor/graphql/csv/enums.py",
+     "saleor/graphql/meta/schema.py",
+     "saleor/product/utils/variant_prices.py"
+    ],
+    "excluded_budget": [],
+    "excluded_large": [],
+    "raw": [
+     "saleor/graphql/core/types/filter_input.py",
+     "saleor/graphql/csv/enums.py",
+     "saleor/graphql/meta/schema.py",
+     "saleor/product/utils/variant_prices.py"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-93b20d78c011"
+   }
+  },
+  "saleor-rc-c3b9e396b07d": {
+   "GOLD_HARD": {
+    "arm": "GOLD_HARD",
+    "editable": [
+     "saleor/graphql/product/bulk_mutations/products.py",
+     "saleor/warehouse/management.py"
+    ],
+    "excluded_budget": [],
+    "excluded_large": [],
+    "raw": [
+     "saleor/graphql/product/bulk_mutations/products.py",
+     "saleor/warehouse/management.py"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-c3b9e396b07d"
+   },
+   "PLACEBO_HARD": {
+    "arm": "PLACEBO_HARD",
+    "editable": [
+     "saleor/csv/utils/export.py",
+     "saleor/graphql/attribute/types.py"
+    ],
+    "excluded_budget": [],
+    "excluded_large": [],
+    "raw": [
+     "saleor/csv/utils/export.py",
+     "saleor/graphql/attribute/types.py"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-c3b9e396b07d"
+   }
+  },
+  "saleor-rc-d220843b5418": {
+   "GOLD_HARD": {
+    "arm": "GOLD_HARD",
+    "editable": [
+     "saleor/graphql/webhook/resolvers.py",
+     "saleor/graphql/webhook/subscription_types.py"
+    ],
+    "excluded_budget": [],
+    "excluded_large": [],
+    "raw": [
+     "saleor/graphql/webhook/resolvers.py",
+     "saleor/graphql/webhook/subscription_types.py"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-d220843b5418"
+   },
+   "PLACEBO_HARD": {
+    "arm": "PLACEBO_HARD",
+    "editable": [
+     "saleor/graphql/attribute/mutations/attribute_bulk_update.py",
+     "saleor/graphql/giftcard/mutations/utils.py"
+    ],
+    "excluded_budget": [],
+    "excluded_large": [],
+    "raw": [
+     "saleor/graphql/attribute/mutations/attribute_bulk_update.py",
+     "saleor/graphql/giftcard/mutations/utils.py"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-d220843b5418"
+   }
+  },
+  "saleor-rc-dc6ac9d252df": {
+   "GOLD_HARD": {
+    "arm": "GOLD_HARD",
+    "editable": [
+     "saleor/giftcard/notifications.py",
+     "saleor/plugins/sendgrid/tasks.py",
+     "saleor/plugins/user_email/default_email_templates/gift_card.html"
+    ],
+    "excluded_budget": [],
+    "excluded_large": [],
+    "raw": [
+     "saleor/giftcard/notifications.py",
+     "saleor/plugins/sendgrid/tasks.py",
+     "saleor/plugins/user_email/default_email_templates/gift_card.html"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-dc6ac9d252df"
+   },
+   "PLACEBO_HARD": {
+    "arm": "PLACEBO_HARD",
+    "editable": [
+     "saleor/account/validators.py",
+     "saleor/order/actions.py",
+     "saleor/payment/gateways/adyen/utils/apple_pay.py"
+    ],
+    "excluded_budget": [],
+    "excluded_large": [],
+    "raw": [
+     "saleor/account/validators.py",
+     "saleor/order/actions.py",
+     "saleor/payment/gateways/adyen/utils/apple_pay.py"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-dc6ac9d252df"
+   }
+  },
+  "saleor-rc-e03ee76d2b89": {
+   "GOLD_HARD": {
+    "arm": "GOLD_HARD",
+    "editable": [
+     "saleor/graphql/core/validators/__init__.py"
+    ],
+    "excluded_budget": [],
+    "excluded_large": [
+     "CHANGELOG.md"
+    ],
+    "raw": [
+     "CHANGELOG.md",
+     "saleor/graphql/core/validators/__init__.py"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-e03ee76d2b89"
+   },
+   "PLACEBO_HARD": {
+    "arm": "PLACEBO_HARD",
+    "editable": [
+     "saleor/graphql/checkout/mutations/checkout_create.py",
+     "saleor/graphql/tax/mutations/tax_configuration_update.py"
+    ],
+    "excluded_budget": [],
+    "excluded_large": [],
+    "raw": [
+     "saleor/graphql/checkout/mutations/checkout_create.py",
+     "saleor/graphql/tax/mutations/tax_configuration_update.py"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-e03ee76d2b89"
+   }
+  },
+  "saleor-rc-e25cf9b4a837": {
+   "GOLD_HARD": {
+    "arm": "GOLD_HARD",
+    "editable": [
+     "saleor/payment/gateways/dummy_credit_card/plugin.py"
+    ],
+    "excluded_budget": [],
+    "excluded_large": [],
+    "raw": [
+     "saleor/payment/gateways/dummy_credit_card/plugin.py"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-e25cf9b4a837"
+   },
+   "PLACEBO_HARD": {
+    "arm": "PLACEBO_HARD",
+    "editable": [
+     "saleor/product/utils/attributes.py"
+    ],
+    "excluded_budget": [],
+    "excluded_large": [],
+    "raw": [
+     "saleor/product/utils/attributes.py"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-e25cf9b4a837"
+   }
+  }
+ }
+}
