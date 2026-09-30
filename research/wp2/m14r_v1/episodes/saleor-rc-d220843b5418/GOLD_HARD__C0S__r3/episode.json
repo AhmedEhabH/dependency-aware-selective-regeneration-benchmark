@@ -1,0 +1,96 @@
+{
+ "smoke_version": "wp2-m14r-v1",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-d220843b5418",
+ "arm": "GOLD_HARD",
+ "label": "GOLD_HARD__C0S__r3",
+ "variant": "G1",
+ "context": "C0",
+ "replicate": "r3",
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-30T22:52:09Z",
+ "status": "INVALID_AFTER_REPAIR",
+ "editable_set": [
+  "saleor/graphql/webhook/resolvers.py",
+  "saleor/graphql/webhook/subscription_types.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/graphql/webhook/resolvers.py",
+   "saleor/graphql/webhook/subscription_types.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/graphql/webhook/resolvers.py",
+   "saleor/graphql/webhook/subscription_types.py"
+  ]
+ },
+ "prompt_sha256": "f244000262919b0bf049e6a1e99ed1e8e2fe016991c65954a57b40ba9383c9bf",
+ "request_sha_initial": "c35b7d2612bca6b1e88758d94ce2215a93139645641759d983768f791e21e8a3",
+ "request_sha_repair": "40a265e321fdae8932e099063564910cc1be4632514de5af6b6d902fde959b04",
+ "repair_component_hashes": {
+  "message_1_system": "020a8f57bba533f9a332e9d30a96892bc5893d1b20f376cbde591a1b5cc87922",
+  "message_2_user": "f244000262919b0bf049e6a1e99ed1e8e2fe016991c65954a57b40ba9383c9bf",
+  "message_3_assistant": "b91905e006ab646e8b67ac27a39b2bcb7fc5aac5c366580eabc301e1da1bd03f",
+  "message_4_user": "6032b014135773acbce60df9f1abc5aac509c7b6dea278e937fd3d1515ae834f"
+ },
+ "context_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790808481-hEeRNvUUVZi8bGjxw9MH",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 21508,
+   "completion_tokens": 547,
+   "cost_usd_actual": 0.0069578,
+   "cost_usd_nominal": 0.0069578,
+   "finish_reason": "stop",
+   "response_sha256": "b91905e006ab646e8b67ac27a39b2bcb7fc5aac5c366580eabc301e1da1bd03f",
+   "request_sha": "c35b7d2612bca6b1e88758d94ce2215a93139645641759d983768f791e21e8a3",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\m14r_v1\\episodes\\saleor-rc-d220843b5418\\GOLD_HARD__C0__r3\\calls\\1_initial.txt",
+   "raw_sha256": "b91905e006ab646e8b67ac27a39b2bcb7fc5aac5c366580eabc301e1da1bd03f",
+   "inherited_from_base": true
+  },
+  {
+   "kind": "repair",
+   "index": 2,
+   "request_id": "gen-1790808491-TAyD42lqSH4CZw6n1K9p",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 22169,
+   "completion_tokens": 351,
+   "cost_usd_actual": 0.0025953,
+   "cost_usd_nominal": 0.0025953,
+   "finish_reason": "stop",
+   "response_sha256": "b8783b195e687376293d71f4d50e240a421bc1b9788a13a5c79f550842a1f6f5",
+   "request_sha": "40a265e321fdae8932e099063564910cc1be4632514de5af6b6d902fde959b04",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\m14r_v1\\episodes\\saleor-rc-d220843b5418\\GOLD_HARD__C0__r3\\calls\\2_repair.txt",
+   "raw_sha256": "b8783b195e687376293d71f4d50e240a421bc1b9788a13a5c79f550842a1f6f5",
+   "inherited_from_base": true
+  }
+ ],
+ "validation": {
+  "initial": [
+   "SEARCH_ERROR:saleor/graphql/webhook/resolvers.py: block 1: SEARCH content not found in current file (count=0); search='def resolve_shipping_methods_for_checkout(\\n    info: ResolveInfo,\\n    checkout,\\n'"
+  ],
+  "repair": [
+   "SEARCH_ERROR:saleor/graphql/webhook/resolvers.py: block 1: SEARCH content not found in current file (count=0); search='def resolve_shipping_methods_for_checkout(\\n    info: ResolveInfo,\\n    checkout,\\n'"
+  ]
+ },
+ "repair_used": true,
+ "produced_by": "",
+ "edited_files": [],
+ "diff_sha256": "",
+ "base_label": "GOLD_HARD__C0__r3",
+ "base_episode_sha256": "8c6e7f3d90b6bf08f798c5aec2c13f15cf5b257d8bcab64f8a6d9f558ec52da3",
+ "static": {
+  "triggered": false,
+  "reason": "BASE_NOT_APPLIED"
+ },
+ "episode_sha256": "c3917ba770d9500e8dac6800b71c9310d1faf112dd5d0dfc7373a03562a2cc9b"
+}

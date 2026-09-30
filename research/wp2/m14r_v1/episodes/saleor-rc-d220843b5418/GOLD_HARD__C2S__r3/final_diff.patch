@@ -1,0 +1,27 @@
+diff --git a/saleor/graphql/webhook/resolvers.py b/saleor/graphql/webhook/resolvers.py
+--- a/saleor/graphql/webhook/resolvers.py
++++ b/saleor/graphql/webhook/resolvers.py
+@@ -67,10 +67,14 @@
+     manager,
+     database_connection_name: str = settings.DATABASE_CONNECTION_DEFAULT_NAME,
+ ):
++    # Fetch checkout lines without circular references
+     lines, _ = fetch_checkout_lines(
+-        checkout, database_connection_name=database_connection_name
++        checkout, 
++        database_connection_name=database_connection_name
+     )
++    # Get shipping channel listings
+     shipping_channel_listings = checkout.channel.shipping_method_listings.all()
++    # Create checkout info without circular references in payload generation
+     checkout_info = fetch_checkout_info(
+         checkout,
+         lines,
+@@ -78,6 +82,7 @@
+         shipping_channel_listings,
+         database_connection_name=database_connection_name,
+     )
++    # Get all shipping methods - avoid circular references in the return value
+     all_shipping_methods = get_all_shipping_methods_list(
+         checkout_info,
+     )
