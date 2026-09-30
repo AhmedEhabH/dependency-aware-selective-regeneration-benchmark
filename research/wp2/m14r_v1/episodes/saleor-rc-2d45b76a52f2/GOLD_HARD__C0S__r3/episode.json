@@ -1,0 +1,69 @@
+{
+ "smoke_version": "wp2-m14r-v1",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-2d45b76a52f2",
+ "arm": "GOLD_HARD",
+ "label": "GOLD_HARD__C0S__r3",
+ "variant": "G1",
+ "context": "C0",
+ "replicate": "r3",
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-30T22:51:17Z",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/core/jwt.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/core/jwt.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/core/jwt.py"
+  ]
+ },
+ "prompt_sha256": "78619e0fe00b8ad0b75869b27b451ce93ce5dcc2b3f33cf5da334516282987dc",
+ "request_sha_initial": "32d92b758f8a91d4e59eb4c788e375f15df77ca1e79ca7a1a0e6d9ec31767067",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "context_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790808218-QLsnSxwouRmSlyLMTpHg",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 1823,
+   "completion_tokens": 615,
+   "cost_usd_actual": 0.0011203,
+   "cost_usd_nominal": 0.0011203,
+   "finish_reason": "stop",
+   "response_sha256": "59149ffca5b0bee42a594cdbe7ad4b60cf61ca25b855eb9d5c388632eda0ca05",
+   "request_sha": "32d92b758f8a91d4e59eb4c788e375f15df77ca1e79ca7a1a0e6d9ec31767067",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\m14r_v1\\episodes\\saleor-rc-2d45b76a52f2\\GOLD_HARD__C0__r3\\calls\\1_initial.txt",
+   "raw_sha256": "59149ffca5b0bee42a594cdbe7ad4b60cf61ca25b855eb9d5c388632eda0ca05",
+   "inherited_from_base": true
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "produced_by": "initial",
+ "edited_files": [
+  "saleor/core/jwt.py"
+ ],
+ "diff_sha256": "0ce5cff34a9b7f1963effc3ededc5d1295f86cefc358aa409cbce130ae4f5568",
+ "base_label": "GOLD_HARD__C0__r3",
+ "base_episode_sha256": "8ddb029f5e2eb5d64b0a796a2d1aa3d88068d62cf0b0393ad8f233c78f1847a9",
+ "static": {
+  "triggered": false,
+  "reason": "CLEAN",
+  "parse_skipped": []
+ },
+ "episode_sha256": "488b3801e5f95ca04d0384028c16d2517956e9a69cb12003c38b8ae73bd68880"
+}

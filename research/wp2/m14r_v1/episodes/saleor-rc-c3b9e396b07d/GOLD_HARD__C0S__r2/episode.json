@@ -1,0 +1,73 @@
+{
+ "smoke_version": "wp2-m14r-v1",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-c3b9e396b07d",
+ "arm": "GOLD_HARD",
+ "label": "GOLD_HARD__C0S__r2",
+ "variant": "G1",
+ "context": "C0",
+ "replicate": "r2",
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-30T22:51:16Z",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/graphql/product/bulk_mutations/products.py",
+  "saleor/warehouse/management.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/graphql/product/bulk_mutations/products.py",
+   "saleor/warehouse/management.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/graphql/product/bulk_mutations/products.py",
+   "saleor/warehouse/management.py"
+  ]
+ },
+ "prompt_sha256": "44fa4982b8a5202387d6d042309ae2c95d1b580249ac77eb46a01e03abacdec6",
+ "request_sha_initial": "94d726edbc2b1d2054d6f9ff5e40fb952f9865ffa43a5541a4c4b87bf8e3b51c",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "context_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790806868-8FmmRU9EESHsTq2VqFTg",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 9460,
+   "completion_tokens": 1582,
+   "cost_usd_actual": 0.0043784,
+   "cost_usd_nominal": 0.0043784,
+   "finish_reason": "stop",
+   "response_sha256": "629b71f0b61a6c9603afaf1e80d4c282a042058dbd2c4b0e18646d2937e62eb7",
+   "request_sha": "94d726edbc2b1d2054d6f9ff5e40fb952f9865ffa43a5541a4c4b87bf8e3b51c",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\m14r_v1\\episodes\\saleor-rc-c3b9e396b07d\\GOLD_HARD__C0__r2\\calls\\1_initial.txt",
+   "raw_sha256": "629b71f0b61a6c9603afaf1e80d4c282a042058dbd2c4b0e18646d2937e62eb7",
+   "inherited_from_base": true
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "produced_by": "initial",
+ "edited_files": [
+  "saleor/graphql/product/bulk_mutations/products.py",
+  "saleor/warehouse/management.py"
+ ],
+ "diff_sha256": "77f7854b580191671a62609e9b1d2118c9bb707818b265fda178a95df93886c3",
+ "base_label": "GOLD_HARD__C0__r2",
+ "base_episode_sha256": "6ad62bd292cb5b0bcae1594aea44fdcd8b148934cd048036ffb2cbfb6848200e",
+ "static": {
+  "triggered": false,
+  "reason": "CLEAN",
+  "parse_skipped": []
+ },
+ "episode_sha256": "527e2591df581eff2be4d9cbf0e33dd538c51481fd99cba39f7f8dafb0a638f1"
+}

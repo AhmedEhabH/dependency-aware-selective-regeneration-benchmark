@@ -1,0 +1,74 @@
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+@@ -4,6 +4,7 @@
+ 
+ ## [Unreleased]
+ 
++- Add support for querying user by email - #6528 by @maarcingebala
+ - Add possibility to provide external payment ID during the conversion draft order to order - #6320 by @korycins
+ - Add basic rating for `Products` - #6284 by @korycins
+ - Add metadata to shipping zones and shipping methods - #6340 by @maarcingebala
+diff --git a/saleor/graphql/account/resolvers.py b/saleor/graphql/account/resolvers.py
+--- a/saleor/graphql/account/resolvers.py
++++ b/saleor/graphql/account/resolvers.py
+@@ -50,18 +50,26 @@
+     return qs.distinct()
+ 
+ 
+-def resolve_user(info, id):
++def resolve_user(info, id=None, email=None):
+     requester = get_user_or_app_from_context(info.context)
+     if requester:
+-        _model, user_pk = graphene.Node.from_global_id(id)
++        filter_kwargs = {}
++        if id is not None:
++            _model, user_pk = graphene.Node.from_global_id(id)
++            filter_kwargs["pk"] = user_pk
++        elif email is not None:
++            filter_kwargs["email"] = email
++        else:
++            return None
++        
+         if requester.has_perms(
+             [AccountPermissions.MANAGE_STAFF, AccountPermissions.MANAGE_USERS]
+         ):
+-            return models.User.objects.filter(pk=user_pk).first()
++            return models.User.objects.filter(**filter_kwargs).first()
+         if requester.has_perm(AccountPermissions.MANAGE_STAFF):
+-            return models.User.objects.staff().filter(pk=user_pk).first()
++            return models.User.objects.staff().filter(**filter_kwargs).first()
+         if requester.has_perm(AccountPermissions.MANAGE_USERS):
+-            return models.User.objects.customers().filter(pk=user_pk).first()
++            return models.User.objects.customers().filter(**filter_kwargs).first()
+     return PermissionDenied()
+ 
+ 
+diff --git a/saleor/graphql/account/schema.py b/saleor/graphql/account/schema.py
+--- a/saleor/graphql/account/schema.py
++++ b/saleor/graphql/account/schema.py
+@@ -131,8 +131,11 @@
+     )
+     user = graphene.Field(
+         User,
+-        id=graphene.Argument(graphene.ID, description="ID of the user.", required=True),
+-        description="Look up a user by ID.",
++        id=graphene.Argument(graphene.ID, description="ID of the user."),
++        email=graphene.Argument(
++            graphene.String, description="Email address of the user."
++        ),
++        description="Look up a user by ID or email.",
+     )
+ 
+     def resolve_address_validation_rules(
+@@ -169,8 +172,8 @@
+     @one_of_permissions_required(
+         [AccountPermissions.MANAGE_STAFF, AccountPermissions.MANAGE_USERS]
+     )
+-    def resolve_user(self, info, id):
+-        return resolve_user(info, id)
++    def resolve_user(self, info, id=None, email=None):
++        return resolve_user(info, id, email)
+ 
+     def resolve_address(self, info, id):
+         return resolve_address(info, id)

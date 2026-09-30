@@ -1,0 +1,72 @@
+{
+ "smoke_version": "wp2-m14r-v1",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-e03ee76d2b89",
+ "arm": "GOLD_HARD",
+ "label": "GOLD_HARD__C2S__r2",
+ "variant": "G3",
+ "context": "C2",
+ "replicate": "r2",
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-30T22:51:17Z",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/graphql/core/validators/__init__.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/graphql/core/validators/__init__.py"
+  ],
+  "excluded_large": [
+   "CHANGELOG.md"
+  ],
+  "excluded_budget": [],
+  "raw": [
+   "CHANGELOG.md",
+   "saleor/graphql/core/validators/__init__.py"
+  ]
+ },
+ "prompt_sha256": "4f22625aa8e218234cc0c6e17a2de44b685e2d3fb53deb8d0a6b90dea30d868c",
+ "request_sha_initial": "7eb3de2a3f31d79269214a06f6d4654bec4e3468356cf3180972ebc179a49b20",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "context_sha256": "0202d7238bb5a3ad03ed3361071316dcf998c811fcdeec2d87f906cd609c65de",
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790808187-rmYW2wAsp41slwonRPrK",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 2155,
+   "completion_tokens": 148,
+   "cost_usd_actual": 0.0007913,
+   "cost_usd_nominal": 0.0007913,
+   "finish_reason": "stop",
+   "response_sha256": "2357340181e7d28a409958af311a4fb8a7768a3c45686f7f8fcc0dc9be881165",
+   "request_sha": "7eb3de2a3f31d79269214a06f6d4654bec4e3468356cf3180972ebc179a49b20",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\m14r_v1\\episodes\\saleor-rc-e03ee76d2b89\\GOLD_HARD__C2__r2\\calls\\1_initial.txt",
+   "raw_sha256": "2357340181e7d28a409958af311a4fb8a7768a3c45686f7f8fcc0dc9be881165",
+   "inherited_from_base": true
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "produced_by": "initial",
+ "edited_files": [
+  "saleor/graphql/core/validators/__init__.py"
+ ],
+ "diff_sha256": "4ed22e3da977854565d4142ad328042e509965ae4896123ac962dbc65a32a338",
+ "base_label": "GOLD_HARD__C2__r2",
+ "base_episode_sha256": "b6e5f2fce205610bdf1a1bf82e470fe6cbf29452573b3483c7ea5a2697b6846c",
+ "static": {
+  "triggered": false,
+  "reason": "CLEAN",
+  "parse_skipped": []
+ },
+ "episode_sha256": "8901db6801da5f42896e211c517eb9f329e8161a28fa8d803d2a1061c89213c8"
+}
