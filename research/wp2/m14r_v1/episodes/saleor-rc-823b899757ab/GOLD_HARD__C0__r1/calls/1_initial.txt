@@ -1,0 +1,155 @@
+Looking at the developer change description, I need to add a `ProductSetAvailabilityForPurchase` mutation. Based on the existing code patterns in the file, I'll need to create this mutation class in the mutations file and expose it in the schema.
+
+Let me analyze the existing mutations to understand the pattern and find the right place to add this new mutation.
+
+From the code, I can see there are various product-related mutations like `ProductCreate`, `ProductUpdate`, etc. The new mutation should follow similar patterns and be added to the schema file.
+
+Let me add the mutation:
+
+FILE: saleor/graphql/product/mutations/products.py
+<<<<<<< SEARCH
+class VariantImageUnassign(BaseMutation):
+    product_variant = graphene.Field(ProductVariant)
+    image = graphene.Field(ProductImage)
+
+    class Arguments:
+        image_id = graphene.ID(
+            required=True,
+            description="ID of a product image to unassign from a variant.",
+        )
+        variant_id = graphene.ID(required=True, description="ID of a product variant.")
+
+    class Meta:
+        description = "Unassign an image from a product variant."
+        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
+        error_type_class = ProductError
+        error_type_field = "product_errors"
+
+    @classmethod
+    def perform_mutation(cls, _root, info, image_id, variant_id):
+        image = cls.get_node_or_error(
+            info, image_id, field="image_id", only_type=ProductImage
+        )
+        variant = cls.get_node_or_error(
+            info, variant_id, field="variant_id", only_type=ProductVariant
+        )
+
+        try:
+            variant_image = models.VariantImage.objects.get(
+                image=image, variant=variant
+            )
+        except models.VariantImage.DoesNotExist:
+            raise ValidationError(
+                {
+                    "image_id": ValidationError(
+                        "Image is not assigned to this variant.",
+                        code=ProductErrorCode.NOT_PRODUCTS_IMAGE,
+                    )
+                }
+            )
+        else:
+            variant_image.delete()
+
+        return VariantImageUnassign(product_variant=variant, image=image)
+=======
+class VariantImageUnassign(BaseMutation):
+    product_variant = graphene.Field(ProductVariant)
+    image = graphene.Field(ProductImage)
+
+    class Arguments:
+        image_id = graphene.ID(
+            required=True,
+            description="ID of a product image to unassign from a variant.",
+        )
+        variant_id = graphene.ID(required=True, description="ID of a product variant.")
+
+    class Meta:
+        description = "Unassign an image from a product variant."
+        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
+        error_type_class = ProductError
+        error_type_field = "product_errors"
+
+    @classmethod
+    def perform_mutation(cls, _root, info, image_id, variant_id):
+        image = cls.get_node_or_error(
+            info, image_id, field="image_id", only_type=ProductImage
+        )
+        variant = cls.get_node_or_error(
+            info, variant_id, field="variant_id", only_type=ProductVariant
+        )
+
+        try:
+            variant_image = models.VariantImage.objects.get(
+                image=image, variant=variant
+            )
+        except models.VariantImage.DoesNotExist:
+            raise ValidationError(
+                {
+                    "image_id": ValidationError(
+                        "Image is not assigned to this variant.",
+                        code=ProductErrorCode.NOT_PRODUCTS_IMAGE,
+                    )
+                }
+            )
+        else:
+            variant_image.delete()
+
+        return VariantImageUnassign(product_variant=variant, image=image)
+
+
+class ProductSetAvailabilityForPurchase(BaseMutation):
+    product = graphene.Field(Product)
+
+    class Arguments:
+        product_id = graphene.ID(
+            required=True,
+            description="ID of the product to set availability for purchase.",
+        )
+        is_available_for_purchase = graphene.Boolean(
+            required=True,
+            description="Determine if the product is available for purchase.",
+        )
+        start_date = graphene.Date(
+            description="Start date of the availability for purchase. ISO 8601 standard."
+        )
+
+    class Meta:
+        description = "Set product availability for purchase."
+        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
+        error_type_class = ProductError
+        error_type_field = "product_errors"
+
+    @classmethod
+    def perform_mutation(
+        cls, _root, info, product_id, is_available_for_purchase, start_date=None
+    ):
+        product = cls.get_node_or_error(
+            info, product_id, field="productId", only_type=Product
+        )
+        
+        product.is_available_for_purchase = is_available_for_purchase
+        
+        if start_date:
+            product.available_for_purchase = start_date
+            
+        product.save(
+            update_fields=[
+                "is_available_for_purchase", 
+                "available_for_purchase"
+            ]
+        )
+        
+        return ProductSetAvailabilityForPurchase(product=product)
+>>>>>>> REPLACE
+
+FILE: saleor/graphql/product/schema.py
+<<<<<<< SEARCH
+    variant_image_assign = VariantImageAssign.Field()
+    variant_image_unassign = VariantImageUnassign.Field()
+=======
+    variant_image_assign = VariantImageAssign.Field()
+    variant_image_unassign = VariantImageUnassign.Field()
+
+    product_set_availability_for_purchase = ProductSetAvailabilityForPurchase.Field()
+>>>>>>> REPLACE
+>>>>>>> REPLACE

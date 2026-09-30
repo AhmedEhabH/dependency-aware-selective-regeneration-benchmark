@@ -1,0 +1,260 @@
+Looking at the developer change description, I need to add support for querying users by email. Let me analyze the current code to understand how to implement this feature.
+
+From the changelog, I can see this is about adding support for querying user by email. Looking at the schema.py file, I can see there's already a `user` field that resolves users by ID. I need to add a new field to query users by email.
+
+Let me examine the resolvers.py file to see how the existing `resolve_user` function works, and then add a new resolver for querying by email.
+
+```python
+FILE: saleor/graphql/account/schema.py
+<<<<<<< SEARCH
+    user = graphene.Field(
+        User,
+        id=graphene.Argument(graphene.ID, description="ID of the user.", required=True),
+        description="Look up a user by ID.",
+    )
+
+    def resolve_address_validation_rules(
+        self, info, country_code, country_area=None, city=None, city_area=None
+    ):
+        return resolve_address_validation_rules(
+            info,
+            country_code,
+            country_area=country_area,
+            city=city,
+            city_area=city_area,
+        )
+
+    @permission_required(AccountPermissions.MANAGE_USERS)
+    def resolve_customers(self, info, query=None, **kwargs):
+        return resolve_customers(info, query=query, **kwargs)
+
+    @permission_required(AccountPermissions.MANAGE_STAFF)
+    def resolve_permission_groups(self, info, query=None, **kwargs):
+        return resolve_permission_groups(info, query=query, **kwargs)
+
+    @permission_required(AccountPermissions.MANAGE_STAFF)
+    def resolve_permission_group(self, info, id):
+        return graphene.Node.get_node_from_global_id(info, id, Group)
+
+    def resolve_me(self, info):
+        user = info.context.user
+        return user if user.is_authenticated else None
+
+    @permission_required(AccountPermissions.MANAGE_STAFF)
+    def resolve_staff_users(self, info, query=None, **kwargs):
+        return resolve_staff_users(info, query=query, **kwargs)
+
+    @one_of_permissions_required(
+        [AccountPermissions.MANAGE_STAFF, AccountPermissions.MANAGE_USERS]
+    )
+    def resolve_user(self, info, id):
+        return resolve_user(info, id)
+
+    def resolve_address(self, info, id):
+        return resolve_address(info, id)
+=======
+    user = graphene.Field(
+        User,
+        id=graphene.Argument(graphene.ID, description="ID of the user.", required=True),
+        description="Look up a user by ID.",
+    )
+    user_by_email = graphene.Field(
+        User,
+        email=graphene.Argument(
+            graphene.String, description="Email of the user.", required=True
+        ),
+        description="Look up a user by email.",
+    )
+
+    def resolve_address_validation_rules(
+        self, info, country_code, country_area=None, city=None, city_area=None
+    ):
+        return resolve_address_validation_rules(
+            info,
+            country_code,
+            country_area=country_area,
+            city=city,
+            city_area=city_area,
+        )
+
+    @permission_required(AccountPermissions.MANAGE_USERS)
+    def resolve_customers(self, info, query=None, **kwargs):
+        return resolve_customers(info, query=query, **kwargs)
+
+    @permission_required(AccountPermissions.MANAGE_STAFF)
+    def resolve_permission_groups(self, info, query=None, **kwargs):
+        return resolve_permission_groups(info, query=query, **kwargs)
+
+    @permission_required(AccountPermissions.MANAGE_STAFF)
+    def resolve_permission_group(self, info, id):
+        return graphene.Node.get_node_from_global_id(info, id, Group)
+
+    def resolve_me(self, info):
+        user = info.context.user
+        return user if user.is_authenticated else None
+
+    @permission_required(AccountPermissions.MANAGE_STAFF)
+    def resolve_staff_users(self, info, query=None, **kwargs):
+        return resolve_staff_users(info, query=query, **kwargs)
+
+    @one_of_permissions_required(
+        [AccountPermissions.MANAGE_STAFF, AccountPermissions.MANAGE_USERS]
+    )
+    def resolve_user(self, info, id):
+        return resolve_user(info, id)
+
+    @one_of_permissions_required(
+        [AccountPermissions.MANAGE_STAFF, AccountPermissions.MANAGE_USERS]
+    )
+    def resolve_user_by_email(self, info, email):
+        requester = get_user_or_app_from_context(info.context)
+        if requester:
+            if requester.has_perms(
+                [AccountPermissions.MANAGE_STAFF, AccountPermissions.MANAGE_USERS]
+            ):
+                return models.User.objects.filter(email=email).first()
+            if requester.has_perm(AccountPermissions.MANAGE_STAFF):
+                return models.User.objects.staff().filter(email=email).first()
+            if requester.has_perm(AccountPermissions.MANAGE_USERS):
+                return models.User.objects.customers().filter(email=email).first()
+        return PermissionDenied()
+
+    def resolve_address(self, info, id):
+        return resolve_address(info, id)
+>>>>>>> REPLACE
+```
+
+Now I need to add the import for PermissionDenied and get_user_or_app_from_context to the resolvers.py file since I'm using them in the schema:
+
+```python
+FILE: saleor/graphql/account/schema.py
+<<<<<<< SEARCH
+import graphene
+
+from ...core.permissions import AccountPermissions
+from ..core.fields import FilterInputConnectionField
+from ..core.types import FilterInputObjectType
+from ..decorators import one_of_permissions_required, permission_required
+from .bulk_mutations import CustomerBulkDelete, StaffBulkDelete, UserBulkSetActive
+from .enums import CountryCodeEnum
+from .filters import CustomerFilter, PermissionGroupFilter, StaffUserFilter
+from .mutations.account import (
+    AccountAddressCreate,
+    AccountAddressDelete,
+    AccountAddressUpdate,
+    AccountDelete,
+    AccountRegister,
+    AccountRequestDeletion,
+    AccountSetDefaultAddress,
+    AccountUpdate,
+    ConfirmEmailChange,
+    RequestEmailChange,
+)
+from .mutations.base import (
+    ConfirmAccount,
+    PasswordChange,
+    RequestPasswordReset,
+    SetPassword,
+)
+from .mutations.jwt import (
+    CreateToken,
+    DeactivateAllUserTokens,
+    RefreshToken,
+    VerifyToken,
+)
+from .mutations.permission_group import (
+    PermissionGroupCreate,
+    PermissionGroupDelete,
+    PermissionGroupUpdate,
+)
+from .mutations.staff import (
+    AddressCreate,
+    AddressDelete,
+    AddressSetDefault,
+    AddressUpdate,
+    CustomerCreate,
+    CustomerDelete,
+    CustomerUpdate,
+    StaffCreate,
+    StaffDelete,
+    StaffUpdate,
+    UserAvatarDelete,
+    UserAvatarUpdate,
+)
+from .resolvers import (
+    resolve_address,
+    resolve_address_validation_rules,
+    resolve_customers,
+    resolve_permission_groups,
+    resolve_staff_users,
+    resolve_user,
+)
+from .sorters import PermissionGroupSortingInput, UserSortingInput
+from .types import Address, AddressValidationData, Group, User
+=======
+import graphene
+
+from ...core.exceptions import PermissionDenied
+from ...core.permissions import AccountPermissions
+from ..core.fields import FilterInputConnectionField
+from ..core.types import FilterInputObjectType
+from ..decorators import one_of_permissions_required, permission_required
+from ..utils import get_user_or_app_from_context
+from .bulk_mutations import CustomerBulkDelete, StaffBulkDelete, UserBulkSetActive
+from .enums import CountryCodeEnum
+from .filters import CustomerFilter, PermissionGroupFilter, StaffUserFilter
+from .mutations.account import (
+    AccountAddressCreate,
+    AccountAddressDelete,
+    AccountAddressUpdate,
+    AccountDelete,
+    AccountRegister,
+    AccountRequestDeletion,
+    AccountSetDefaultAddress,
+    AccountUpdate,
+    ConfirmEmailChange,
+    RequestEmailChange,
+)
+from .mutations.base import (
+    ConfirmAccount,
+    PasswordChange,
+    RequestPasswordReset,
+    SetPassword,
+)
+from .mutations.jwt import (
+    CreateToken,
+    DeactivateAllUserTokens,
+    RefreshToken,
+    VerifyToken,
+)
+from .mutations.permission_group import (
+    PermissionGroupCreate,
+    PermissionGroupDelete,
+    PermissionGroupUpdate,
+)
+from .mutations.staff import (
+    AddressCreate,
+    AddressDelete,
+    AddressSetDefault,
+    AddressUpdate,
+    CustomerCreate,
+    CustomerDelete,
+    CustomerUpdate,
+    StaffCreate,
+    StaffDelete,
+    StaffUpdate,
+    UserAvatarDelete,
+    UserAvatarUpdate,
+)
+from .resolvers import (
+    resolve_address,
+    resolve_address_validation_rules,
+    resolve_customers,
+    resolve_permission_groups,
+    resolve_staff_users,
+    resolve_user,
+)
+from .sorters import PermissionGroupSortingInput, UserSortingInput
+from .types import Address, AddressValidationData, Group, User
+>>>>>>> REPLACE
+```

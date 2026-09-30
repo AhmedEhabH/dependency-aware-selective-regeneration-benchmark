@@ -1,0 +1,64 @@
+Looking at the developer change description, I need to implement functionality to reduce the voucher limit when a voucher is removed from a draft order and fix updating the voucher usage_limit. The key issue is that when a voucher is removed from a draft order, the voucher usage should be decreased/released.
+
+Let me analyze the code:
+
+1. In `draft_order_create.py`, there's handling for increasing voucher usage when a voucher is added
+2. In `draft_order_update.py`, there's similar logic but no handling for when vouchers are removed
+3. In `voucher_update.py`, there's voucher update logic but no specific handling for usage limits when vouchers are removed from orders
+
+The main issue is that when a draft order is updated and the voucher is removed (set to null), we need to decrease the voucher usage count.
+
+Let me implement the fix:
+
+FILE: saleor/graphql/order/mutations/draft_order_update.py
+<<<<<<< SEARCH
+    @classmethod
+    def save(cls, info: ResolveInfo, instance, cleaned_input):
+        manager = get_plugin_manager_promise(info.context).get()
+        app = get_app_promise(info.context).get()
+        return cls._save_draft_order(
+            info,
+            instance,
+            cleaned_input,
+            is_new_instance=False,
+            app=app,
+            manager=manager,
+        )
+=======
+    @classmethod
+    def save(cls, info: ResolveInfo, instance, cleaned_input):
+        manager = get_plugin_manager_promise(info.context).get()
+        app = get_app_promise(info.context).get()
+        
+        # Handle voucher removal - decrease voucher usage if voucher is being removed
+        if "voucher" in cleaned_input and cleaned_input["voucher"] is None:
+            cls._decrease_voucher_usage(instance)
+            
+        return cls._save_draft_order(
+            info,
+            instance,
+            cleaned_input,
+            is_new_instance=False,
+            app=app,
+            manager=manager,
+        )
+    
+    @classmethod
+    def _decrease_voucher_usage(cls, instance):
+        """Decrease voucher usage when voucher is removed from draft order."""
+        from ....discount.utils.voucher import decrease_voucher_usage
+        from ....discount.models import Voucher, VoucherCode
+        
+        if instance.voucher_code:
+            # Find the voucher code instance
+            code_instance = VoucherCode.objects.filter(code=instance.voucher_code).first()
+            if code_instance:
+                voucher = code_instance.voucher
+                # Decrease the usage count
+                decrease_voucher_usage(
+                    voucher,
+                    code_instance,
+                    instance.user_email or instance.user and instance.user.email,
+                    decrease_voucher_customer_usage=False,
+                )
+>>>>>>> REPLACE
