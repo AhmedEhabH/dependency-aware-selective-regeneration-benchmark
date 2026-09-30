@@ -1,0 +1,61 @@
+{
+ "smoke_version": "wp2-m14r-v1",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-e25cf9b4a837",
+ "arm": "GOLD_HARD",
+ "label": "GOLD_HARD__C2__r1",
+ "variant": "G2",
+ "context": "C2",
+ "replicate": "r1",
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-30T22:06:20Z",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/payment/gateways/dummy_credit_card/plugin.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/payment/gateways/dummy_credit_card/plugin.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/payment/gateways/dummy_credit_card/plugin.py"
+  ]
+ },
+ "prompt_sha256": "0280e25a2978905f7044c0a82bf3c4df71a1bdc58b6df1c2cb1d70c8aca77b59",
+ "request_sha_initial": "dfa9a241ef68799fb752a903e6c394b700db01fe5ecbc003ec3e80c0831558d1",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "context_sha256": "2106d604823d1ca5b79ab4a3cdeb3ecacd1d339b1b37a98c6bc3e7adb8c3669b",
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790805982-DMTOhPxfkNfgPv1OiDdy",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 3055,
+   "completion_tokens": 168,
+   "cost_usd_actual": 0.0010333,
+   "cost_usd_nominal": 0.0010333,
+   "finish_reason": "stop",
+   "response_sha256": "265708c240c57e3e97c8ffdeb5e89110bf73b96d0c897405c53f6f83949dd7ba",
+   "request_sha": "dfa9a241ef68799fb752a903e6c394b700db01fe5ecbc003ec3e80c0831558d1",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\m14r_v1\\episodes\\saleor-rc-e25cf9b4a837\\GOLD_HARD__C2__r1\\calls\\1_initial.txt",
+   "raw_sha256": "265708c240c57e3e97c8ffdeb5e89110bf73b96d0c897405c53f6f83949dd7ba"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "produced_by": "initial",
+ "edited_files": [
+  "saleor/payment/gateways/dummy_credit_card/plugin.py"
+ ],
+ "diff_sha256": "404bef1c2bdf9e11bc4d19839f773f3626b61c4ced8c6153cda170e27d0f1a9f",
+ "episode_sha256": "66712e5502438bd485921ca7d7cbf6287db30bf0e12f5daf9f839df9a3a729db"
+}

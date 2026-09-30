@@ -1,0 +1,234 @@
+Looking at the change description, I need to find files related to order status updates and refund actions. Since none of the provided files seem directly related to this functionality, I'll need to examine the repository structure to identify the relevant files.
+
+However, since I can only edit the provided files, and none of them appear to contain order status update logic or refund action handling, I cannot make the requested changes. The files provided are:
+
+1. saleor/demo/urls.py - URL routing
+2. saleor/graphql/account/i18n.py - Account internationalization 
+3. saleor/graphql/app/types.py - App GraphQL types
+4. saleor/graphql/core/types/sort_input.py - Sorting input types
+5. saleor/graphql/payment/resolvers.py - Payment resolvers
+6. saleor/shipping/zip_codes.py - Shipping zip code validation
+
+None of these files would typically contain the core order status update logic or refund action handling that the change description mentions.
+
+FILE: saleor/graphql/payment/resolvers.py
+<<<<<<< SEARCH
+from ...payment import gateway as payment_gateway, models
+from ...payment.utils import fetch_customer_id
+from ..utils.filters import filter_by_query_param
+
+PAYMENT_SEARCH_FIELDS = ["id"]
+
+
+def resolve_client_token(user, gateway: str):
+    customer_id = fetch_customer_id(user, gateway)
+    return payment_gateway.get_client_token(gateway, customer_id)
+
+
+def resolve_payments(info, query):
+    queryset = models.Payment.objects.all().distinct()
+    return filter_by_query_param(queryset, query, PAYMENT_SEARCH_FIELDS)
+=======
+from ...payment import gateway as payment_gateway, models
+from ...payment.utils import fetch_customer_id
+from ..utils.filters import filter_by_query_param
+
+PAYMENT_SEARCH_FIELDS = ["id"]
+
+
+def resolve_client_token(user, gateway: str):
+    customer_id = fetch_customer_id(user, gateway)
+    return payment_gateway.get_client_token(gateway, customer_id)
+
+
+def resolve_payments(info, query):
+    queryset = models.Payment.objects.all().distinct()
+    return filter_by_query_param(queryset, query, PAYMENT_SEARCH_FIELDS)
+>>>>>>> REPLACE
+
+FILE: saleor/shipping/zip_codes.py
+<<<<<<< SEARCH
+import re
+
+
+def group_values(pattern, *values):
+    result = []
+    for value in values:
+        try:
+            val = re.match(pattern, value)
+        except TypeError:
+            result.append(None)
+        else:
+            result.append(val.groups() if val else None)
+    return result
+
+
+def cast_tuple_index_to_type(index, target_type, *tuples):
+    """Cast tuple index to type.
+
+    Return list of tuples same as received but with index item casted to
+    tagret_type.
+    """
+    result = []
+    for _tuple in tuples:
+        to_result = []
+        try:
+            for i, entry in enumerate(_tuple):
+                to_result.append(entry if i != index else target_type(entry))
+        except TypeError:
+            pass
+        result.append(tuple(to_result))
+    return result
+
+
+def compare_values(code, start, end):
+    if not code or not start:
+        return False
+    if not end:
+        return start <= code
+    return start <= code <= end
+
+
+def check_uk_zip_code(code, start, end):
+    """Check zip code for uk, split the code by regex.
+
+    Example zip codes: BH20 2BC  (UK), IM16 7HF  (Isle of Man).
+    """
+    pattern = r"^([A-Z]{1,2})([0-9]+)([A-Z]?) ?([0-9][A-Z]{2})$"
+    code, start, end = group_values(pattern, code, start, end)
+    # replace second item of each tuple with it's value casted to int
+    code, start, end = cast_tuple_index_to_type(1, int, code, start, end)
+    return compare_values(code, start, end)
+
+
+def check_irish_zip_code(code, start, end):
+    """Check zip code for Ireland, split the code by regex.
+
+    Example zip codes: A65 2F0A, A61 2F0G.
+    """
+    pattern = r"([\dA-Z]{3}) ?([\dA-Z]{4})"
+    code, start, end = group_values(pattern, code, start, end)
+    return compare_values(code, start, end)
+
+
+def check_any_zip_code(code, start, end):
+    """Fallback for any country not present in country_func_map.
+
+    Perform simple lexicographical comparison without splitting to sections.
+    """
+    return compare_values(code, start, end)
+
+
+def check_zip_code_in_excluded_range(country, code, start, end):
+    country_func_map = {
+        "GB": check_uk_zip_code,  # United Kingdom
+        "IM": check_uk_zip_code,  # Isle of Man
+        "GG": check_uk_zip_code,  # Guernsey
+        "JE": check_uk_zip_code,  # Jersey
+        "IR": check_irish_zip_code,  # Ireland
+    }
+    return country_func_map.get(country, check_any_zip_code)(code, start, end)
+
+
+def check_shipping_method_for_zip_code(customer_shipping_address, method):
+    country = customer_shipping_address.country.code
+    postal_code = customer_shipping_address.postal_code
+    for zip_code in method.zip_code_rules.all():
+        if check_zip_code_in_excluded_range(
+            country, postal_code, zip_code.start, zip_code.end
+        ):
+            return True
+    return False
+=======
+import re
+
+
+def group_values(pattern, *values):
+    result = []
+    for value in values:
+        try:
+            val = re.match(pattern, value)
+        except TypeError:
+            result.append(None)
+        else:
+            result.append(val.groups() if val else None)
+    return result
+
+
+def cast_tuple_index_to_type(index, target_type, *tuples):
+    """Cast tuple index to type.
+
+    Return list of tuples same as received but with index item casted to
+    tagret_type.
+    """
+    result = []
+    for _tuple in tuples:
+        to_result = []
+        try:
+            for i, entry in enumerate(_tuple):
+                to_result.append(entry if i != index else target_type(entry))
+        except TypeError:
+            pass
+        result.append(tuple(to_result))
+    return result
+
+
+def compare_values(code, start, end):
+    if not code or not start:
+        return False
+    if not end:
+        return start <= code
+    return start <= code <= end
+
+
+def check_uk_zip_code(code, start, end):
+    """Check zip code for uk, split the code by regex.
+
+    Example zip codes: BH20 2BC  (UK), IM16 7HF  (Isle of Man).
+    """
+    pattern = r"^([A-Z]{1,2})([0-9]+)([A-Z]?) ?([0-9][A-Z]{2})$"
+    code, start, end = group_values(pattern, code, start, end)
+    # replace second item of each tuple with it's value casted to int
+    code, start, end = cast_tuple_index_to_type(1, int, code, start, end)
+    return compare_values(code, start, end)
+
+
+def check_irish_zip_code(code, start, end):
+    """Check zip code for Ireland, split the code by regex.
+
+    Example zip codes: A65 2F0A, A61 2F0G.
+    """
+    pattern = r"([\dA-Z]{3}) ?([\dA-Z]{4})"
+    code, start, end = group_values(pattern, code, start, end)
+    return compare_values(code, start, end)
+
+
+def check_any_zip_code(code, start, end):
+    """Fallback for any country not present in country_func_map.
+
+    Perform simple lexicographical comparison without splitting to sections.
+    """
+    return compare_values(code, start, end)
+
+
+def check_zip_code_in_excluded_range(country, code, start, end):
+    country_func_map = {
+        "GB": check_uk_zip_code,  # United Kingdom
+        "IM": check_uk_zip_code,  # Isle of Man
+        "GG": check_uk_zip_code,  # Guernsey
+        "JE": check_uk_zip_code,  # Jersey
+        "IR": check_irish_zip_code,  # Ireland
+    }
+    return country_func_map.get(country, check_any_zip_code)(code, start, end)
+
+
+def check_shipping_method_for_zip_code(customer_shipping_address, method):
+    country = customer_shipping_address.country.code
+    postal_code = customer_shipping_address.postal_code
+    for zip_code in method.zip_code_rules.all():
+        if check_zip_code_in_excluded_range(
+            country, postal_code, zip_code.start, zip_code.end
+        ):
+            return True
+    return False
+>>>>>>> REPLACE

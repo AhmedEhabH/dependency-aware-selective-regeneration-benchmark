@@ -1,0 +1,105 @@
+{
+ "smoke_version": "wp2-m14r-v1",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-644f33094857",
+ "arm": "PLACEBO_HARD",
+ "label": "PLACEBO_HARD__C0__r1",
+ "variant": "G0",
+ "context": "C0",
+ "replicate": "r1",
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-30T22:07:24Z",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/demo/urls.py",
+  "saleor/graphql/account/i18n.py",
+  "saleor/graphql/app/types.py",
+  "saleor/graphql/core/types/sort_input.py",
+  "saleor/graphql/payment/resolvers.py",
+  "saleor/shipping/zip_codes.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/demo/urls.py",
+   "saleor/graphql/account/i18n.py",
+   "saleor/graphql/app/types.py",
+   "saleor/graphql/core/types/sort_input.py",
+   "saleor/graphql/payment/resolvers.py",
+   "saleor/shipping/zip_codes.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/demo/urls.py",
+   "saleor/graphql/account/i18n.py",
+   "saleor/graphql/app/types.py",
+   "saleor/graphql/core/types/sort_input.py",
+   "saleor/graphql/payment/resolvers.py",
+   "saleor/shipping/zip_codes.py"
+  ]
+ },
+ "prompt_sha256": "792b3b9e226e5a1635c28912b0fbeb20611a0097739d769f19e8681a1ce4d021",
+ "request_sha_initial": "3310f95d256e7e9dc15d79af2d43f7d370722ef2481b545431ffca6e1c3a4b7d",
+ "request_sha_repair": "4ef60efeb6d279b9876c7feea480ece301c9926a1b124b64443f65e79abe19d8",
+ "repair_component_hashes": {
+  "message_1_system": "020a8f57bba533f9a332e9d30a96892bc5893d1b20f376cbde591a1b5cc87922",
+  "message_2_user": "792b3b9e226e5a1635c28912b0fbeb20611a0097739d769f19e8681a1ce4d021",
+  "message_3_assistant": "442937dc2491c067e3e43b28e98907a78744dc3447d84dc76676c6ad82c1d547",
+  "message_4_user": "b4829a868ca41a065d606155b61dc13c9b13f9173faa7cc5801508e0c3834081"
+ },
+ "context_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790806046-PRHFEKfkXjGucrHfkUAF",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 2915,
+   "completion_tokens": 113,
+   "cost_usd_actual": 0.0009459,
+   "cost_usd_nominal": 0.0009459,
+   "finish_reason": "stop",
+   "response_sha256": "442937dc2491c067e3e43b28e98907a78744dc3447d84dc76676c6ad82c1d547",
+   "request_sha": "3310f95d256e7e9dc15d79af2d43f7d370722ef2481b545431ffca6e1c3a4b7d",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\m14r_v1\\episodes\\saleor-rc-644f33094857\\PLACEBO_HARD__C0__r1\\calls\\1_initial.txt",
+   "raw_sha256": "442937dc2491c067e3e43b28e98907a78744dc3447d84dc76676c6ad82c1d547"
+  },
+  {
+   "kind": "repair",
+   "index": 2,
+   "request_id": "gen-1790806053-yOsLvJwdnLnXm8h9XsOL",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 3084,
+   "completion_tokens": 1861,
+   "cost_usd_actual": 0.0021846,
+   "cost_usd_nominal": 0.0021846,
+   "finish_reason": "stop",
+   "response_sha256": "a4b5a36e39402051796989f93a16cd74eac5589e6d882058d7729423443c5429",
+   "request_sha": "4ef60efeb6d279b9876c7feea480ece301c9926a1b124b64443f65e79abe19d8",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\m14r_v1\\episodes\\saleor-rc-644f33094857\\PLACEBO_HARD__C0__r1\\calls\\2_repair.txt",
+   "raw_sha256": "a4b5a36e39402051796989f93a16cd74eac5589e6d882058d7729423443c5429"
+  }
+ ],
+ "validation": {
+  "initial": [
+   "NO_BLOCKS: no FILE sections found"
+  ],
+  "repair": []
+ },
+ "repair_used": true,
+ "produced_by": "repair",
+ "edited_files": [
+  "saleor/demo/urls.py",
+  "saleor/graphql/account/i18n.py",
+  "saleor/graphql/app/types.py",
+  "saleor/graphql/core/types/sort_input.py",
+  "saleor/graphql/payment/resolvers.py",
+  "saleor/shipping/zip_codes.py"
+ ],
+ "diff_sha256": "16ec795185b645d8d57bd90786f83612f045ee5efe642dd1520f3496ef3b03d3",
+ "episode_sha256": "2e5c011c1a3035008d3a806ecd24fce1e520ca81955bf80aea9ca0221f929f09"
+}
