@@ -1,0 +1,1139 @@
+{
+ "artifact_sha256": "ec2487956b6da59532a648d56b1c675536134ed2429aca8e6f52a0257720e7d0",
+ "groups": {
+  "C": {
+   "saleor/graphql/payment/tests/queries/test_transaction.py::test_query_transaction_by_invalid_id": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_create_by_app_query_no_permission": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_create_by_user_query_no_permission": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_created_by_app_marked_to_remove": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_created_by_app_query_by_app": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_created_by_app_query_by_app_with_old_id": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_created_by_app_query_by_staff": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_created_by_user_query_by_app": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_created_by_user_query_by_staff": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_created_by_user_with_old_id": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_created_with_old_id_for_new_transaction": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_creted_by_app_query_no_order": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_creted_by_user_query_no_order": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_event_by_app": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_event_by_app_marked_to_remove": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_event_by_reinstalled_app": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_event_by_user": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_query_by_app_with_payment_method_card": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_query_by_app_with_payment_method_other": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_query_by_staff_with_payment_method_card": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_query_by_staff_with_payment_method_other": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_with_checkout": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_with_pending_amount[authorize_pending_value-authorizePendingAmount]": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_with_pending_amount[cancel_pending_value-cancelPendingAmount]": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_with_pending_amount[charge_pending_value-chargePendingAmount]": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_transaction.py::test_transaction_with_pending_amount[refund_pending_value-refundPendingAmount]": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  "U": {
+   "saleor/graphql/account/tests/mutations/authentication/test_external_logout.py::test_external_logout": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/mutations/authentication/test_token_verify.py::test_verify_access_token": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/mutations/permission_group/test_permission_group_delete.py::test_group_delete_mutation_out_of_scope_permission": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/mutations/staff/test_address_set_default.py::test_set_default_address": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/queries/test_customers_where_filtering.py::test_customers_filter_by_ids": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/queries/test_me.py::test_me_query_checkouts_calculate_flat_taxes[\\n    query Me {\\n        me {\\n            id\\n            email\\n            checkouts(first: 10) {\\n                edges {\\n                    node {\\n                        id\\n                        lines{\\n                            totalPrice {\\n                                currency\\n                                gross {\\n                                    amount\\n                                }\\n                            }\\n                        }\\n                    }\\n                }\\n                totalCount\\n            }\\n        }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/queries/test_permission_group.py::test_app_no_permission_query_group_federation": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/queries/test_staff_users_sorting.py::test_query_staff_members_with_sort[customer_sort2-result_order2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/app/tests/mutations/test_app_retry_install.py::test_retry_install_app_mutation_with_another_app_installed_but_marked_to_be_removed": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/app/tests/queries/test_app.py::test_app_query_breaker_last_change_board_disabled": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_value_update.py::test_update_attribute_value_by_external_reference_not_existing": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/deprecated/test_checkout.py::test_checkout_by_token": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/mutations/test_checkout_remove_promo_code.py::test_checkout_remove_promo_code_invalid_object_type": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout_digital.py::test_remove_shipping_method_if_only_digital_in_checkout": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/discount/tests/deprecated/test_voucher.py::test_staff_query_voucher_by_invalid_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/giftcard/tests/benchmark/test_gift_card_mutations.py::test_update_gift_card": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/giftcard/tests/mutations/test_gift_card_create.py::test_create_gift_card_with_expiry_date_type_invalid[date_value1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/giftcard/tests/mutations/test_gift_card_delete.py::test_delete_gift_card_trigger_webhook": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/giftcard/tests/queries/test_gift_card_search.py::test_query_gift_cards_with_search[banana-indexes2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/giftcard/tests/queries/test_gift_card_sorting.py::test_sorting_gift_cards_by_product[DESC]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/menu/tests/mutations/test_menu_delete.py::test_delete_menu_trigger_webhook": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/menu/tests/queries/test_menu.py::test_menu_query_by_name": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/menu/tests/queries/test_menu_item.py::test_staff_query_menu_item_by_invalid_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/order/tests/deprecated/test_order.py::test_update_order_line_discount_old_id[draft]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/order/tests/integration/test_draft_order.py::test_create_order_by_staff_in_accessible_channel": [
+    "passed",
+    "passed",
+    "failed"
+   ],
+   "saleor/graphql/order/tests/mutations/test_order_update_shipping.py::test_order_shipping_update_mutation_properly_recalculate_total": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/order/tests/queries/test_order_get_variants.py::test_get_variant_from_order_line_variant_not_published_as_admin": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/order/tests/queries/test_order_line.py::test_order_query_product_image_size_and_format_given_proxy_url_returned": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/order/tests/queries/test_order_with_filter.py::test_order_query_with_filter_status[orders_filter0-2-unfulfilled]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/order/tests/queries/test_pagination.py::test_order_query_pagination_with_filter_payment_status[orders_filter5-0-fully-refunded-orders_order5]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/page/tests/deprecated/test_page_sorting.py::test_query_pages_with_sort[page_sort9-result_order9]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/page/tests/mutations/test_page_types_bulk_delete.py::test_page_type_bulk_delete_by_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/benchmark/test_payment_transactions.py::test_payment_transactions": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/deprecated/test_checkout_payment_create.py::test_checkout_add_payment_both_token_and_id_given": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/deprecated/test_checkout_payment_create.py::test_checkout_add_payment_by_checkout_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/deprecated/test_checkout_payment_create.py::test_checkout_add_payment_neither_token_and_id_given": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_check_payment_balance.py::test_payment_check_balance_balance_raises_error": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_check_payment_balance.py::test_payment_check_balance_mutation_validate_gateway_does_not_exist": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_check_payment_balance.py::test_payment_check_balance_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_check_payment_balance.py::test_payment_check_balance_validate_channel_does_not_exist": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_check_payment_balance.py::test_payment_check_balance_validate_channel_inactive": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_check_payment_balance.py::test_payment_check_balance_validate_not_supported_currency": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_checkout_payment_create.py::test_checkout_add_payment_checkout_without_lines": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_checkout_payment_create.py::test_checkout_add_payment_gateway_inactive": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_checkout_payment_create.py::test_checkout_add_payment_not_existing_gateway": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_checkout_payment_create.py::test_create_payment_with_metadata[metadata1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_checkout_payment_create.py::test_create_payment_with_store[OFF_SESSION]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_checkout_payment_create.py::test_create_payment_with_store[ON_SESSION]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_checkout_payment_create.py::test_create_payment_with_store_as_none": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_capture.py::test_payment_capture_gateway_dummy_credit_card_error": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_capture.py::test_payment_capture_gateway_error": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_capture.py::test_payment_capture_success": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_capture.py::test_payment_capture_success_by_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_capture.py::test_payment_capture_success_by_user_no_channel_access": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_capture.py::test_payment_capture_with_invalid_argument": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_capture.py::test_payment_capture_with_unauthorized_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_gateway_initialize.py::test_for_checkout_transactions_limit_on_gateway_initialize": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_gateway_initialize.py::test_for_checkout_with_missing_payment_gateway": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_gateway_initialize.py::test_for_checkout_with_multiple_payment_gateways": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_gateway_initialize.py::test_for_checkout_with_payment_gateways": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_gateway_initialize.py::test_for_checkout_with_shipping_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_gateway_initialize.py::test_for_order_with_payment_gateways_returns_error": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_gateway_initialize.py::test_for_order_with_tax_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_gateway_initialize.py::test_for_order_without_payment_gateways": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_gateway_initialize_tokenization.py::test_payment_gateway_initialize_tokenization[None-None]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_gateway_initialize_tokenization.py::test_payment_gateway_initialize_tokenization[None-expected_output_data1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_gateway_initialize_tokenization.py::test_payment_gateway_initialize_tokenization[expected_input_data2-None]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_gateway_initialize_tokenization.py::test_payment_gateway_initialize_tokenization[expected_input_data3-expected_output_data3]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_gateway_initialize_tokenization.py::test_payment_gateway_initialize_tokenization_called_by_anonymous_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_gateway_initialize_tokenization.py::test_payment_gateway_initialize_tokenization_called_by_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_gateway_initialize_tokenization.py::test_payment_gateway_initialize_tokenization_failure_from_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_gateway_initialize_tokenization.py::test_payment_gateway_initialize_tokenization_not_app_or_plugin_subscribed_to_event": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_initialize.py::test_payment_initialize": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_initialize.py::test_payment_initialize_gateway_doesnt_exist": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_initialize.py::test_payment_initialize_plugin_raises_error": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_method_initialize_tokenization.py::test_payment_method_initialize_tokenization[None-None]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_method_initialize_tokenization.py::test_payment_method_initialize_tokenization[None-expected_output_data1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_method_initialize_tokenization.py::test_payment_method_initialize_tokenization[expected_input_data3-expected_output_data3]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_method_initialize_tokenization.py::test_payment_method_initialize_tokenization_called_by_anonymous_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_method_initialize_tokenization.py::test_payment_method_initialize_tokenization_called_by_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_method_initialize_tokenization.py::test_payment_method_initialize_tokenization_failure_from_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_method_initialize_tokenization.py::test_payment_method_initialize_tokenization_incorrect_channel": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_method_initialize_tokenization.py::test_payment_method_initialize_tokenization_not_app_or_plugin_subscribed_to_event": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_method_process_tokenization.py::test_payment_method_process_tokenization[None-None]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_method_process_tokenization.py::test_payment_method_process_tokenization[None-expected_output_data1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_method_process_tokenization.py::test_payment_method_process_tokenization[expected_input_data3-expected_output_data3]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_method_process_tokenization.py::test_payment_method_process_tokenization_called_by_anonymous_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_method_process_tokenization.py::test_payment_method_process_tokenization_called_by_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_method_process_tokenization.py::test_payment_method_process_tokenization_failure_from_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_method_process_tokenization.py::test_payment_method_process_tokenization_incorrect_channel": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_method_process_tokenization.py::test_payment_method_process_tokenization_not_app_or_plugin_subscribed_to_event": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_refund.py::test_payment_refund_error": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_refund.py::test_payment_refund_success": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_refund.py::test_payment_refund_success_by_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_refund.py::test_payment_refund_with_invalid_argument": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_void.py::test_payment_void_gateway_error": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_void.py::test_payment_void_success": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_void.py::test_payment_void_success_by_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_payment_void.py::test_payment_void_success_by_user_no_channel_access": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_stored_payment_method_request_delete.py::test_stored_payment_method_request_delete": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_stored_payment_method_request_delete.py::test_stored_payment_method_request_delete_app_returned_failure_event": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_stored_payment_method_request_delete.py::test_stored_payment_method_request_delete_called_by_anonymous_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_stored_payment_method_request_delete.py::test_stored_payment_method_request_delete_called_by_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_stored_payment_method_request_delete.py::test_stored_payment_method_request_delete_incorrect_channel": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_stored_payment_method_request_delete.py::test_stored_payment_method_request_delete_not_app_or_plugin_subscribed_to_event": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_create.py::test_creates_transaction_automatically_confirm": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_create.py::test_transaction_create_amount_with_lot_of_decimal_places[amountRefunded-refundedAmount-refunded_value]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_create.py::test_transaction_create_empty_private_metadata_key_by_staff": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_create.py::test_transaction_create_incorrect_currency_by_staff[amountCharged-charged_value]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_create.py::test_transaction_create_multiple_amounts_provided_by_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_create.py::test_transaction_create_with_both_payment_method_details_inputs": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_create.py::test_transaction_create_with_card_payment_method_details[None-None-None-None-None]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_create.py::test_transaction_create_with_invalid_card_payment_method_details[None-None-None-None-12025-None]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_event_report.py::test_transaction_event_report_amount_with_lot_of_decimal_places": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_event_report.py::test_transaction_event_report_assign_transaction_psp_reference_if_missing[-psp_reference_from_event]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_event_report.py::test_transaction_event_report_authorize_event_already_exists": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_event_report.py::test_transaction_event_report_for_order_triggers_webhooks_when_fully_authorized": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_event_report.py::test_transaction_event_report_missing_amount_error_raised[authorization_adjustment]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_event_report.py::test_transaction_event_report_with_card_payment_method_details[None-1111-0000-1-2001]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_event_report.py::test_transaction_event_updates_checkout_full_paid_with_charged_amount": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_initialize.py::test_checkout_fully_authorized[authorization_success]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_initialize.py::test_checkout_fully_paid[charge_request]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_initialize.py::test_checkout_fully_paid[charge_success]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_initialize.py::test_for_order_with_tax_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_initialize.py::test_order_doesnt_exists": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_initialize.py::test_transaction_initialize_for_empty_string_as_idempotency_key": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_initialize.py::test_updates_checkout_last_transaction_modified_at[None]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_initialize.py::test_uses_default_channel_action": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_process.py::test_checkout_fully_authorized[authorization_request]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_process.py::test_draft_order_status_with_order_confirmation[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_process.py::test_for_order_with_tax_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_process.py::test_request_event_is_missing": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_process.py::test_transaction_already_processed": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_process.py::test_transaction_process_for_disabled_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_process.py::test_updates_checkout_last_transaction_modified_at[None]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_process.py::test_with_customer_ip_address": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_request_action.py::test_transaction_request_action_missing_permission": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_request_action.py::test_transaction_request_charge_for_order[charge_amount0-expected_called_charge_amount0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_request_action.py::test_transaction_request_charge_sets_app_to_request_event": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_request_action.py::test_transaction_request_charge_sets_user_to_request_event": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_request_action.py::test_transaction_request_refund_for_checkout[refund_amount2-expected_called_refund_amount2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_request_action.py::test_transaction_request_refund_for_order[None-expected_called_refund_amount1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_request_action.py::test_transaction_request_refund_for_order[refund_amount0-expected_called_refund_amount0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_request_action.py::test_transaction_request_refund_for_order[refund_amount2-expected_called_refund_amount2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_request_refund_for_granted_refund.py::test_granted_refund_doesnt_exist": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_request_refund_for_granted_refund.py::test_missing_assigned_webhook_event": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_request_refund_for_granted_refund.py::test_trigger_refund_possible_based_on_status_of_granted_refund[failure]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_request_refund_for_granted_refund.py::test_trigger_refund_possible_based_on_status_of_granted_refund[none]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_request_refund_for_granted_refund.py::test_trigger_refund_request_with_assigned_transaction_item[expected_refund_amount1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_request_refund_for_granted_refund.py::test_triggers_refund_request_for_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_request_refund_for_granted_refund.py::test_triggers_refund_request_for_app_via_token": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_request_refund_for_granted_refund.py::test_triggers_refund_request_for_staff_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_update.py::test_transaction_update_for_checkout_fully_authorized": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_update.py::test_transaction_update_for_checkout_fully_paid": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_update.py::test_transaction_update_for_draft_order_triggers_webhooks_when_fully_paid[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_update.py::test_transaction_update_for_order_reduces_order_total_authorized_by_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_update.py::test_transaction_update_for_order_reduces_transaction_authorized_to_zero_by_staff": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_update.py::test_transaction_update_incorrect_currency_by_app[amountAuthorized-authorized_value]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_update.py::test_transaction_update_metadata_by_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_update.py::test_transaction_update_psp_reference_by_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_payment_capture.py::test_resolve_available_capture_amount": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_payment_capture.py::test_resolve_available_capture_amount_cannot_capture": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_payment_refund.py::test_resolve_available_refund_amount": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_payment_refund.py::test_resolve_available_refund_amount_cannot_refund": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_payment_sources.py::test_list_payment_sources": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_payment_sources.py::test_store_payment_gateway_meta": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_payment_sources.py::test_stored_payment_sources_restriction": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_payments_filter.py::test_query_payments_filter_by_checkout": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_payments_filter.py::test_query_payments_filter_by_empty_id_list": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_payments_filter.py::test_query_payments_filter_by_multiple_ids": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_payments_filter.py::test_query_payments_filter_by_not_existing_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_payments_filter.py::test_query_payments_filter_by_one_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_payments_query.py::test_payments_query": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_payments_query.py::test_query_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_payments_query.py::test_query_payments_by_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_payments_query.py::test_query_payments_by_customer": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_payments_query.py::test_query_payments_by_user_with_access_to_all_channels": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_payments_query.py::test_query_payments_by_user_with_restricted_access_to_channels_no_acc_channels": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_payments_query.py::test_query_payments_failed_payment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/queries/test_payments_query.py::test_staff_query_payment_with_invalid_object_type": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/plugins/tests/test_mutation_plugin_update.py::test_plugin_configuration_update_channel_slug_required": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/benchmark/test_homepage.py::test_retrieve_product_list": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/mutations/test_collection_add_products.py::test_add_products_to_collection_on_sale_trigger_discounted_price_recalculation": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_attributes_date.py::test_products_query_with_attribute_value_date[date_input2-1-\\n    query($where: ProductWhereInput!, $channel: String) {\\n      products(first: 10, where: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/test_categories_query.py::test_category_level": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/test_product_variants_query.py::test_fetch_all_variants_staff_user_without_channel": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_bulk_delete.py::test_delete_product_types_with_file_attributes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/shipping/tests/mutations/test_shipping_method_channel_listing_update.py::test_shipping_method_channel_listing_update_with_negative_min_value": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/shipping/tests/mutations/test_shipping_price_delete.py::test_delete_shipping_method_trigger_webhook": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/shipping/tests/mutations/test_shipping_price_remove_product_from_exclude.py::test_remove_products_from_excluded_products_for_shipping_method_trigger_webhook[app]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/shop/tests/mutations/test_shop_domain_update.py::test_shop_domain_update": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/shop/tests/queries/test_gift_card_settings.py::test_gift_card_settings_query_as_staff": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/tax/tests/queries/test_tax_classes.py::test_tax_classes_query_staff_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/tests/test_middleware.py::test_middleware_invalid_name": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/translations/tests/mutations/test_category_translate.py::test_category_translate_without_slug": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/warehouse/tests/bulk_mutations/test_stock_bulk_update.py::test_stocks_bulk_update_when_stock_not_exists": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/warehouse/tests/queries/test_warehouses_filtering.py::test_query_warehouse_with_filters_by_click_and_collect_option[disabled-DISABLED]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/webhook/tests/queries/test_event_delivery_query.py::test_webhook_delivery_attempt_query": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  }
+ },
+ "junit_files": {
+  "C_r0.xml": "ecc8ad1d64db9392d9553786b08c93cc95a432d2c4e159f07e236757d6e5a2b7",
+  "C_r1.xml": "03758b4e444af805cdf7c8dc3505ac9b7250374a2187b676a87aa888ba136c76",
+  "C_r2.xml": "c72d83be4f7becc0f66f2d6c7f9316047cc0dca8e9c87c9113235e4abedff707",
+  "U_r0.xml": "127001f1e718b33367c2573cf0778ebf01aab01469e300e13c5554405fec2e56",
+  "U_r1.xml": "66d31fe25c47dfb003229ab685dafcf029f5f268cb178db8bde2c4193fe0151b",
+  "U_r2.xml": "2427fe75e5512b97011cf223bd5b23f8d54a832926ad662c4545bafa828ee667"
+ },
+ "task_id": "saleor-rc-39b4138e8550",
+ "tree_sha": "0123dd3cb63873f9bc171487da94caa827fc0529"
+}
