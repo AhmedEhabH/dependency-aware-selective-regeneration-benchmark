@@ -1,0 +1,135 @@
+Looking at the developer change description, I need to add a `ProductSetAvailabilityForPurchase` mutation. Based on the existing code patterns in the file, I'll create this mutation following the same structure as other product mutations.
+
+Let me analyze the existing code to understand the pattern and find the right place to add this new mutation.
+
+FILE: saleor/graphql/product/mutations/products.py
+<<<<<<< SEARCH
+class VariantImageUnassign(BaseMutation):
+    product_variant = graphene.Field(ProductVariant)
+    image = graphene.Field(ProductImage)
+
+    class Arguments:
+        image_id = graphene.ID(
+            required=True,
+            description="ID of a product image to unassign from a variant.",
+        )
+        variant_id = graphene.ID(required=True, description="ID of a product variant.")
+
+    class Meta:
+        description = "Unassign an image from a product variant."
+        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
+        error_type_class = ProductError
+        error_type_field = "product_errors"
+
+    @classmethod
+    def perform_mutation(cls, _root, info, image_id, variant_id):
+        image = cls.get_node_or_error(
+            info, image_id, field="image_id", only_type=ProductImage
+        )
+        variant = cls.get_node_or_error(
+            info, variant_id, field="variant_id", only_type=ProductVariant
+        )
+
+        try:
+            variant_image = models.VariantImage.objects.get(
+                image=image, variant=variant
+            )
+        except models.VariantImage.DoesNotExist:
+            raise ValidationError(
+                {
+                    "image_id": ValidationError(
+                        "Image is not assigned to this variant.",
+                        code=ProductErrorCode.NOT_PRODUCTS_IMAGE,
+                    )
+                }
+            )
+        else:
+            variant_image.delete()
+
+        return VariantImageUnassign(product_variant=variant, image=image)
+=======
+class VariantImageUnassign(BaseMutation):
+    product_variant = graphene.Field(ProductVariant)
+    image = graphene.Field(ProductImage)
+
+    class Arguments:
+        image_id = graphene.ID(
+            required=True,
+            description="ID of a product image to unassign from a variant.",
+        )
+        variant_id = graphene.ID(required=True, description="ID of a product variant.")
+
+    class Meta:
+        description = "Unassign an image from a product variant."
+        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
+        error_type_class = ProductError
+        error_type_field = "product_errors"
+
+    @classmethod
+    def perform_mutation(cls, _root, info, image_id, variant_id):
+        image = cls.get_node_or_error(
+            info, image_id, field="image_id", only_type=ProductImage
+        )
+        variant = cls.get_node_or_error(
+            info, variant_id, field="variant_id", only_type=ProductVariant
+        )
+
+        try:
+            variant_image = models.VariantImage.objects.get(
+                image=image, variant=variant
+            )
+        except models.VariantImage.DoesNotExist:
+            raise ValidationError(
+                {
+                    "image_id": ValidationError(
+                        "Image is not assigned to this variant.",
+                        code=ProductErrorCode.NOT_PRODUCTS_IMAGE,
+                    )
+                }
+            )
+        else:
+            variant_image.delete()
+
+        return VariantImageUnassign(product_variant=variant, image=image)
+
+
+class ProductSetAvailabilityForPurchase(BaseMutation):
+    product = graphene.Field(Product)
+
+    class Arguments:
+        product_id = graphene.ID(
+            required=True, description="ID of a product to set availability for purchase."
+        )
+        is_available = graphene.Boolean(
+            required=True, description="Determine if product is available for purchase."
+        )
+
+    class Meta:
+        description = "Set product availability for purchase."
+        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
+        error_type_class = ProductError
+        error_type_field = "product_errors"
+
+    @classmethod
+    def perform_mutation(cls, _root, info, product_id, is_available):
+        product = cls.get_node_or_error(
+            info, product_id, field="productId", only_type=Product
+        )
+        
+        if is_available and not product.category:
+            raise ValidationError(
+                {
+                    "productId": ValidationError(
+                        "Product must have a category to be available for purchase.",
+                        code=ProductErrorCode.REQUIRED,
+                    )
+                }
+            )
+            
+        product.available_for_purchase = None if not is_available else product.available_for_purchase or timezone.now().date()
+        product.save(update_fields=["available_for_purchase"])
+        
+        return ProductSetAvailabilityForPurchase(product=product)
+>>>>>>> REPLACE
+
+```

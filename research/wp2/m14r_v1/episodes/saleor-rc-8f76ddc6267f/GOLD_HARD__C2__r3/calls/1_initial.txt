@@ -1,0 +1,102 @@
+Looking at the developer change description and the code, I need to:
+
+1. Use the mutation's context instead of creating a dummy one in `webhookDryRun` mutation
+2. Disable dry run option for `GiftCardSent` webhook 
+3. Correct the test (though tests aren't editable per rules)
+
+Let me analyze the files:
+
+In `saleor/graphql/webhook/mutations/webhook_dry_run.py`, the `perform_mutation` method creates a dummy request using `initialize_request()` and then calls `generate_payload_from_subscription`. Instead, it should use the mutation's context (`info.context`).
+
+In `saleor/graphql/webhook/subscription_types.py`, the `GiftCardSent` class has `enable_dry_run = True` but according to the change description, it should be disabled.
+
+Let me make these changes:
+
+FILE: saleor/graphql/webhook/mutations/webhook_dry_run.py
+<<<<<<< SEARCH
+    @classmethod
+    def perform_mutation(cls, _root, info, **data):
+        event_type, object, query = cls.validate_input(info, **data)
+        payload = None
+        if all([event_type, object, query]):
+            request = initialize_request()
+            payload = generate_payload_from_subscription(
+                event_type, object, query, request
+            )
+        return WebhookDryRun(payload=payload)
+=======
+    @classmethod
+    def perform_mutation(cls, _root, info, **data):
+        event_type, object, query = cls.validate_input(info, **data)
+        payload = None
+        if all([event_type, object, query]):
+            payload = generate_payload_from_subscription(
+                event_type, object, query, info.context
+            )
+        return WebhookDryRun(payload=payload)
+>>>>>>> REPLACE
+
+FILE: saleor/graphql/webhook/subscription_types.py
+<<<<<<< SEARCH
+class GiftCardSent(SubscriptionObjectType, GiftCardBase):
+    channel = graphene.String(
+        description="Slug of a channel for which this gift card email was sent."
+    )
+    sent_to_email = graphene.String(
+        description="E-mail address to which gift card was sent.",
+    )
+
+    class Meta:
+        root_type = "GiftCard"
+        enable_dry_run = True
+        interfaces = (Event,)
+        description = (
+            "Event sent when gift card is e-mailed." + ADDED_IN_313 + PREVIEW_FEATURE
+        )
+
+    @staticmethod
+    def resolve_gift_card(root, info: ResolveInfo):
+        _, data = root
+        return data["gift_card"]
+
+    @staticmethod
+    def resolve_channel(root, info: ResolveInfo):
+        _, data = root
+        return data["channel_slug"]
+
+    @staticmethod
+    def resolve_sent_to_email(root, info: ResolveInfo):
+        _, data = root
+        return data["sent_to_email"]
+=======
+class GiftCardSent(SubscriptionObjectType, GiftCardBase):
+    channel = graphene.String(
+        description="Slug of a channel for which this gift card email was sent."
+    )
+    sent_to_email = graphene.String(
+        description="E-mail address to which gift card was sent.",
+    )
+
+    class Meta:
+        root_type = "GiftCard"
+        enable_dry_run = False
+        interfaces = (Event,)
+        description = (
+            "Event sent when gift card is e-mailed." + ADDED_IN_313 + PREVIEW_FEATURE
+        )
+
+    @staticmethod
+    def resolve_gift_card(root, info: ResolveInfo):
+        _, data = root
+        return data["gift_card"]
+
+    @staticmethod
+    def resolve_channel(root, info: ResolveInfo):
+        _, data = root
+        return data["channel_slug"]
+
+    @staticmethod
+    def resolve_sent_to_email(root, info: ResolveInfo):
+        _, data = root
+        return data["sent_to_email"]
+>>>>>>> REPLACE

@@ -1,0 +1,95 @@
+FILE: CHANGELOG.md
+<<<<<<< SEARCH
+- Get tax rate from plugins - #6649 by @IKarbowiak
+- Add order shipping tax rate - #6678 by @IKarbowiak
+
+# 2.11.1
+
+=======
+- Get tax rate from plugins - #6649 by @IKarbowiak
+- Add order shipping tax rate - #6678 by @IKarbowiak
+- Add support for querying user by email - #6528 by @korycins
+
+# 2.11.1
+
+>>>>>>> REPLACE
+
+FILE: saleor/graphql/account/resolvers.py
+<<<<<<< SEARCH
+def resolve_user(info, id):
+    requester = get_user_or_app_from_context(info.context)
+    if requester:
+        _model, user_pk = graphene.Node.from_global_id(id)
+        if requester.has_perms(
+            [AccountPermissions.MANAGE_STAFF, AccountPermissions.MANAGE_USERS]
+        ):
+            return models.User.objects.filter(pk=user_pk).first()
+        if requester.has_perm(AccountPermissions.MANAGE_STAFF):
+            return models.User.objects.staff().filter(pk=user_pk).first()
+        if requester.has_perm(AccountPermissions.MANAGE_USERS):
+            return models.User.objects.customers().filter(pk=user_pk).first()
+    return PermissionDenied()
+
+
+=======
+def resolve_user(info, id=None, email=None):
+    requester = get_user_or_app_from_context(info.context)
+    if requester:
+        filter_kwargs = {}
+        if id is not None:
+            _model, user_pk = graphene.Node.from_global_id(id)
+            filter_kwargs["pk"] = user_pk
+        elif email is not None:
+            filter_kwargs["email"] = email
+        else:
+            return None
+
+        if requester.has_perms(
+            [AccountPermissions.MANAGE_STAFF, AccountPermissions.MANAGE_USERS]
+        ):
+            return models.User.objects.filter(**filter_kwargs).first()
+        if requester.has_perm(AccountPermissions.MANAGE_STAFF):
+            return models.User.objects.staff().filter(**filter_kwargs).first()
+        if requester.has_perm(AccountPermissions.MANAGE_USERS):
+            return models.User.objects.customers().filter(**filter_kwargs).first()
+    return PermissionDenied()
+
+
+>>>>>>> REPLACE
+
+FILE: saleor/graphql/account/schema.py
+<<<<<<< SEARCH
+    user = graphene.Field(
+        User,
+        id=graphene.Argument(graphene.ID, description="ID of the user.", required=True),
+        description="Look up a user by ID.",
+    )
+
+=======
+    user = graphene.Field(
+        User,
+        id=graphene.Argument(graphene.ID, description="ID of the user."),
+        email=graphene.Argument(
+            graphene.String, description="Email address of the user."
+        ),
+        description="Look up a user by ID or email address.",
+    )
+
+>>>>>>> REPLACE
+
+FILE: saleor/graphql/account/schema.py
+<<<<<<< SEARCH
+    @one_of_permissions_required(
+        [AccountPermissions.MANAGE_STAFF, AccountPermissions.MANAGE_USERS]
+    )
+    def resolve_user(self, info, id):
+        return resolve_user(info, id)
+
+=======
+    @one_of_permissions_required(
+        [AccountPermissions.MANAGE_STAFF, AccountPermissions.MANAGE_USERS]
+    )
+    def resolve_user(self, info, id=None, email=None):
+        return resolve_user(info, id, email)
+
+>>>>>>> REPLACE
