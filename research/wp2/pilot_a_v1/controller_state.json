@@ -102,6 +102,30 @@
    "event": "START",
    "phase": "P08_FREEZE",
    "utc": "2026-09-30T09:37:25Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "P08_FREEZE",
+   "utc": "2026-09-30T09:37:42Z"
+  },
+  {
+   "detail": "Pilot-A generation GOLD/PLACEBO x r1/r2",
+   "event": "START",
+   "phase": "P09_GENERATE",
+   "utc": "2026-09-30T09:37:42Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "P09_GENERATE",
+   "utc": "2026-09-30T10:00:54Z"
+  },
+  {
+   "detail": "generation freeze before evaluation",
+   "event": "START",
+   "phase": "P10_GENERATION_FREEZE",
+   "utc": "2026-09-30T10:00:54Z"
   }
  ],
  "phases": {
@@ -170,6 +194,22 @@
    "status": "PASS"
   },
   "P08_FREEZE": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-09-30T09:37:42Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "P09_GENERATE": {
+   "attempts": 0,
+   "failures": 0,
+   "iterations": 5,
+   "passed_utc": "2026-09-30T10:00:54Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "P10_GENERATION_FREEZE": {
    "attempts": 0,
    "failures": 0,
    "iterations": 0,
