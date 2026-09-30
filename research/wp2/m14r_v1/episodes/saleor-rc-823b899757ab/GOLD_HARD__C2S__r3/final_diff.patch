@@ -1,0 +1,11 @@
+diff --git a/saleor/graphql/product/mutations/products.py b/saleor/graphql/product/mutations/products.py
+--- a/saleor/graphql/product/mutations/products.py
++++ b/saleor/graphql/product/mutations/products.py
+@@ -5,6 +5,7 @@
+ from django.core.exceptions import ObjectDoesNotExist, ValidationError
+ from django.db import transaction
+ from django.db.models import Q, QuerySet
++from django.utils import timezone
+ from django.utils.text import slugify
+ from graphene.types import InputObjectType
+ from graphql_relay import from_global_id

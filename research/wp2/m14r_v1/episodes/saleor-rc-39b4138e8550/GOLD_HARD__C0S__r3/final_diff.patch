@@ -1,0 +1,43 @@
+diff --git a/saleor/graphql/payment/types.py b/saleor/graphql/payment/types.py
+--- a/saleor/graphql/payment/types.py
++++ b/saleor/graphql/payment/types.py
+@@ -497,17 +497,6 @@
+         interfaces = [GenericPaymentMethodDetails]
+ 
+ 
+-class PaymentMethodDetails(graphene.Union):
+-    class Meta:
+-        types = (CardPaymentMethodDetails, OtherPaymentMethodDetails)
+-
+-    @classmethod
+-    def resolve_type(cls, instance, info: graphene.ResolveInfo):
+-        if instance.payment_method_type == PaymentMethodType.CARD:
+-            return CardPaymentMethodDetails
+-        return OtherPaymentMethodDetails
+-
+-
+ class TransactionItem(ModelObjectType[models.TransactionItem]):
+     token = graphene.Field(
+         UUIDScalar, description="The transaction token.", required=True
+@@ -595,21 +584,10 @@
+         required=True,
+     )
+ 
+-    payment_method_details = graphene.Field(
+-        PaymentMethodDetails,
+-        description="The payment method used for this transaction." + ADDED_IN_322,
+-    )
+-
+     class Meta:
+         description = "Represents a payment transaction."
+         interfaces = [relay.Node, ObjectWithMetadata]
+         model = models.TransactionItem
+-
+-    @staticmethod
+-    def resolve_payment_method_details(root: models.TransactionItem, info):
+-        if not root.payment_method_type:
+-            return None
+-        return root
+ 
+     @staticmethod
+     def resolve_id(root: models.TransactionItem, _info: ResolveInfo):

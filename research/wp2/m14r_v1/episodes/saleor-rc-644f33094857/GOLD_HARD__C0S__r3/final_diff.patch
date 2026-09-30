@@ -1,0 +1,24 @@
+diff --git a/saleor/order/actions.py b/saleor/order/actions.py
+--- a/saleor/order/actions.py
++++ b/saleor/order/actions.py
+@@ -146,6 +146,7 @@
+         order=order, user=user, amount=amount, payment=payment
+     )
+     get_plugins_manager().order_updated(order)
++    update_order_status(order)
+ 
+     send_order_refunded_confirmation(order, user, amount, payment.currency)
+ 
+@@ -215,6 +216,7 @@
+         fulfillment=fulfillment,
+     )
+     get_plugins_manager().order_updated(fulfillment.order)
++    update_order_status(fulfillment.order)
+ 
+ 
+ @transaction.atomic
+@@ -992,3 +994,4 @@
+         amount=amount,
+         shipping_costs_included=refund_shipping_costs,
+     )
++    update_order_status(order)
