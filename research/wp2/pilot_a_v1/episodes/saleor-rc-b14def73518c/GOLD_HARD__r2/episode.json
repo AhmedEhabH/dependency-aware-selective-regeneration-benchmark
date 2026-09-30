@@ -1,0 +1,103 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v21",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-b14def73518c",
+ "arm": "GOLD_HARD",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/attribute/models/base.py",
+  "saleor/checkout/utils.py",
+  "saleor/core/utils/translations.py",
+  "saleor/discount/models.py",
+  "saleor/menu/models.py",
+  "saleor/order/utils.py",
+  "saleor/page/models.py",
+  "saleor/product/migrations/0059_generate_variant_name_from_attrs.py",
+  "saleor/product/models.py",
+  "saleor/shipping/models.py",
+  "saleor/site/models.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/attribute/models/base.py",
+   "saleor/checkout/utils.py",
+   "saleor/core/utils/translations.py",
+   "saleor/discount/models.py",
+   "saleor/menu/models.py",
+   "saleor/order/utils.py",
+   "saleor/page/models.py",
+   "saleor/product/migrations/0059_generate_variant_name_from_attrs.py",
+   "saleor/product/models.py",
+   "saleor/shipping/models.py",
+   "saleor/site/models.py"
+  ],
+  "excluded_large": [
+   "CHANGELOG.md"
+  ],
+  "excluded_budget": [],
+  "raw": [
+   "CHANGELOG.md",
+   "saleor/attribute/models/base.py",
+   "saleor/checkout/utils.py",
+   "saleor/core/utils/translations.py",
+   "saleor/discount/models.py",
+   "saleor/menu/models.py",
+   "saleor/order/utils.py",
+   "saleor/page/models.py",
+   "saleor/product/migrations/0059_generate_variant_name_from_attrs.py",
+   "saleor/product/models.py",
+   "saleor/shipping/models.py",
+   "saleor/site/models.py"
+  ]
+ },
+ "prompt_sha256": "1e7ad8e8a99affca49c10f12416772a3b4937d9eec43bc665d52628fcf9c9a3e",
+ "request_sha_initial": "44335b5e3413a0aaa452c52864aea612f9c55607b18b2388781509aab309c0d2",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "repair_request_sha256": "",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790762329-oNgQice8XjMuQWmgxoyD",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 32758,
+   "completion_tokens": 4787,
+   "cost_usd_actual": 0.0080672,
+   "cost_usd_nominal": 0.0080672,
+   "finish_reason": "stop",
+   "response_sha256": "0f86ff84e279acfe8585f1d3ad92e716c3cb4f5a247b6ab4405e126b45e7b79a",
+   "request_sha": "44335b5e3413a0aaa452c52864aea612f9c55607b18b2388781509aab309c0d2",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\pilot_a_v1\\episodes\\saleor-rc-b14def73518c\\GOLD_HARD__r2\\calls\\1_initial.txt",
+   "raw_sha256": "0f86ff84e279acfe8585f1d3ad92e716c3cb4f5a247b6ab4405e126b45e7b79a"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "edited_files": [
+  "saleor/attribute/models/base.py",
+  "saleor/checkout/utils.py",
+  "saleor/core/utils/translations.py",
+  "saleor/discount/models.py",
+  "saleor/menu/models.py",
+  "saleor/order/utils.py",
+  "saleor/page/models.py",
+  "saleor/product/migrations/0059_generate_variant_name_from_attrs.py",
+  "saleor/product/models.py",
+  "saleor/shipping/models.py",
+  "saleor/site/models.py"
+ ],
+ "diff_sha256": "073711c628625c41dee5d00ff258b6dea658c42e056b769880ef61385f241406",
+ "envelope": {},
+ "whitespace_tolerant_blocks": [],
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-30T09:59:20Z",
+ "episode_sha256": "e9fd5f7bd9f8ac587ed53ff404e86393290930973504b0ed7b0b0ca0915923ec"
+}

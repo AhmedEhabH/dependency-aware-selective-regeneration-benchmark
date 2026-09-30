@@ -1,0 +1,11 @@
+diff --git a/saleor/webhook/payloads.py b/saleor/webhook/payloads.py
+--- a/saleor/webhook/payloads.py
++++ b/saleor/webhook/payloads.py
+@@ -402,7 +402,6 @@
+         "last_change",
+         "status",
+         "email",
+-        "quantity",
+         "currency",
+         "discount_amount",
+         "discount_name",

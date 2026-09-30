@@ -1,0 +1,33 @@
+Looking at the developer change description again, I need to focus on dropping the TranslationProxy and replacing it with a get_translation function. However, examining the provided files, I don't see any files that contain the TranslationProxy implementation or the get_translation function that needs to be modified.
+
+The change description mentions:
+1. Adding get_translation function and applying it to Product model
+2. Keeping TranslationWrapper 
+3. Dropping TranslationProxy and replacing it with get_translation function
+4. Translating product and variant names based on order's language (not settings)
+5. Translating vouchers based on checkout language (not settings)
+
+However, the provided files are all GraphQL-related files and don't contain the core model translation logic that would need these changes. Without seeing the actual files containing the TranslationProxy or the model translation logic, I cannot make the appropriate edits.
+
+Since the provided files don't contain the relevant code that needs to be changed according to the description, and I'm instructed to only edit the listed files, I cannot produce meaningful edit blocks.
+
+FILE: saleor/graphql/product/schema.py
+<<<<<<< SEARCH
+from ..core.utils import from_global_id_or_error
+from ..core.validators import validate_one_of_args_is_in_query
+from ..translations.mutations import (
+    CategoryTranslate,
+    CollectionTranslate,
+    ProductTranslate,
+    ProductVariantTranslate,
+)
+=======
+from ..core.utils import from_global_id_or_error
+from ..core.validators import validate_one_of_args_is_in_query
+from ..translations.mutations import (
+    CategoryTranslate,
+    CollectionTranslate,
+    ProductTranslate,
+    ProductVariantTranslate,
+)
+>>>>>>> REPLACE

@@ -1,0 +1,351 @@
+diff --git a/saleor/attribute/models/base.py b/saleor/attribute/models/base.py
+--- a/saleor/attribute/models/base.py
++++ b/saleor/attribute/models/base.py
+@@ -8,7 +8,7 @@
+ from ...core.models import ModelWithExternalReference, ModelWithMetadata, SortableModel
+ from ...core.units import MeasurementUnits
+ from ...core.utils.editorjs import clean_editor_js
+-from ...core.utils.translations import Translation, TranslationProxy
++from ...core.utils.translations import Translation, get_translation
+ from ...page.models import Page, PageType
+ from ...permission.enums import PageTypePermissions, ProductTypePermissions
+ from ...permission.utils import has_one_of_permissions
+@@ -165,7 +165,6 @@
+     available_in_grid = models.BooleanField(default=False, blank=True)
+ 
+     objects = AttributeManager()
+-    translated = TranslationProxy()
+ 
+     class Meta(ModelWithMetadata.Meta):
+         ordering = ("storefront_search_position", "slug")
+@@ -182,6 +181,10 @@
+     def __str__(self) -> str:
+         return self.name
+ 
++    @property
++    def translated(self):
++        return get_translation(self)
++
+     def has_values(self) -> bool:
+         return self.values.exists()
+ 
+@@ -251,8 +254,6 @@
+     reference_page = models.ForeignKey(
+         Page, related_name="references", on_delete=models.CASCADE, null=True, blank=True
+     )
+-
+-    translated = TranslationProxy()
+ 
+     class Meta:
+         ordering = ("sort_order", "pk")
+@@ -268,6 +269,10 @@
+ 
+     def __str__(self) -> str:
+         return self.name
++
++    @property
++    def translated(self):
++        return get_translation(self)
+ 
+     @property
+     def input_type(self):
+diff --git a/saleor/checkout/utils.py b/saleor/checkout/utils.py
+--- a/saleor/checkout/utils.py
++++ b/saleor/checkout/utils.py
+@@ -22,6 +22,7 @@
+     get_products_voucher_discount,
+     validate_voucher_for_checkout,
+ )
++from ..core.utils.translations import get_translation
+ from ..giftcard.utils import (
+     add_gift_card_code_to_checkout,
+     remove_gift_card_code_from_checkout,
+@@ -621,8 +622,8 @@
+             )
+             checkout.discount_name = voucher.name
+             checkout.translated_discount_name = (
+-                voucher.translated.name
+-                if voucher.translated.name != voucher.name
++                get_translation(voucher).name
++                if get_translation(voucher).name != voucher.name
+                 else ""
+             )
+             checkout.save(
+@@ -723,7 +724,7 @@
+     checkout.voucher_code = voucher.code
+     checkout.discount_name = voucher.name
+     checkout.translated_discount_name = (
+-        voucher.translated.name if voucher.translated.name != voucher.name else ""
++        get_translation(voucher).name if get_translation(voucher).name != voucher.name else ""
+     )
+     checkout.discount = discount
+     checkout.save(
+diff --git a/saleor/core/utils/translations.py b/saleor/core/utils/translations.py
+--- a/saleor/core/utils/translations.py
++++ b/saleor/core/utils/translations.py
+@@ -1,4 +1,4 @@
+-from typing import Any, Dict, Tuple, Union
++from typing import Any, Dict, Optional, Tuple, Union
+ 
+ from django.db import models
+ from django.utils.translation import get_language
+@@ -27,10 +27,14 @@
+         return str(instance)
+ 
+ 
+-class TranslationProxy:
+-    def __get__(self, instance, owner):
++def get_translation(instance, locale: Optional[str] = None):
++    """Get translation wrapper for model instance.
++    
++    If locale is not provided, uses current language from get_language().
++    """
++    if locale is None:
+         locale = get_language()
+-        return TranslationWrapper(instance, locale)
++    return TranslationWrapper(instance, locale)
+ 
+ 
+ class Translation(models.Model):
+diff --git a/saleor/discount/models.py b/saleor/discount/models.py
+--- a/saleor/discount/models.py
++++ b/saleor/discount/models.py
+@@ -17,7 +17,7 @@
+ 
+ from ..channel.models import Channel
+ from ..core.models import ModelWithMetadata
+-from ..core.utils.translations import Translation, TranslationProxy
++from ..core.utils.translations import Translation, get_translation
+ from ..permission.enums import DiscountPermissions
+ from . import DiscountType, DiscountValueType, VoucherType
+ 
+@@ -95,10 +95,13 @@
+     categories = models.ManyToManyField("product.Category", blank=True)
+ 
+     objects = VoucherManager()
+-    translated = TranslationProxy()
+ 
+     class Meta:
+         ordering = ("code",)
++
++    @property
++    def translated(self):
++        return get_translation(self)
+ 
+     def get_discount(self, channel: Channel):
+         """Return proper discount amount for given channel.
+@@ -272,7 +275,6 @@
+     notification_sent_datetime = models.DateTimeField(null=True, blank=True)
+ 
+     objects = SaleManager()
+-    translated = TranslationProxy()
+ 
+     class Meta:
+         ordering = ("name", "pk")
+@@ -284,6 +286,10 @@
+             ),
+         )
+ 
++    @property
++    def translated(self):
++        return get_translation(self)
++
+     def __repr__(self):
+         return f"Sale(name={str(self.name)}, type={self.get_type_display()})"
+ 
+diff --git a/saleor/menu/models.py b/saleor/menu/models.py
+--- a/saleor/menu/models.py
++++ b/saleor/menu/models.py
+@@ -3,7 +3,7 @@
+ from mptt.models import MPTTModel
+ 
+ from ..core.models import ModelWithMetadata, SortableModel
+-from ..core.utils.translations import Translation, TranslationProxy
++from ..core.utils.translations import Translation, get_translation
+ from ..page.models import Page
+ from ..permission.enums import MenuPermissions
+ from ..product.models import Category, Collection
+@@ -40,11 +40,14 @@
+ 
+     objects = models.Manager()
+     tree = TreeManager()  # type: ignore[django-manager-missing]
+-    translated = TranslationProxy()
+ 
+     class Meta(ModelWithMetadata.Meta):
+         ordering = ("sort_order", "pk")
+         app_label = "menu"
++
++    @property
++    def translated(self):
++        return get_translation(self)
+ 
+     def __str__(self):
+         return self.name
+diff --git a/saleor/order/utils.py b/saleor/order/utils.py
+--- a/saleor/order/utils.py
++++ b/saleor/order/utils.py
+@@ -52,6 +52,7 @@
+ )
+ from .fetch import OrderLineInfo
+ from .models import Order, OrderGrantedRefund, OrderLine
++from ..core.utils.translations import get_translation
+ 
+ if TYPE_CHECKING:
+     from ..app.models import App
+@@ -256,8 +257,8 @@
+ 
+     product_name = str(product)
+     variant_name = str(variant)
+-    translated_product_name = str(product.translated)
+-    translated_variant_name = str(variant.translated)
++    translated_product_name = str(get_translation(product, order.language_code))
++    translated_variant_name = str(get_translation(variant, order.language_code))
+     if translated_product_name == product_name:
+         translated_product_name = ""
+     if translated_variant_name == variant_name:
+diff --git a/saleor/page/models.py b/saleor/page/models.py
+--- a/saleor/page/models.py
++++ b/saleor/page/models.py
+@@ -6,7 +6,7 @@
+ from ..core.db.fields import SanitizedJSONField
+ from ..core.models import ModelWithMetadata, PublishableModel, PublishedQuerySet
+ from ..core.utils.editorjs import clean_editor_js
+-from ..core.utils.translations import TranslationProxy
++from ..core.utils.translations import Translation, get_translation
+ from ..permission.enums import PagePermissions, PageTypePermissions
+ from ..seo.models import SeoModel, SeoModelTranslation
+ 
+@@ -34,14 +34,16 @@
+     content = SanitizedJSONField(blank=True, null=True, sanitizer=clean_editor_js)
+     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
+ 
+-    translated = TranslationProxy()
+-
+     objects = PageManager()  # type: ignore[assignment]
+ 
+     class Meta(ModelWithMetadata.Meta):
+         ordering = ("slug",)
+         permissions = ((PagePermissions.MANAGE_PAGES.codename, "Manage pages."),)
+         indexes = [*ModelWithMetadata.Meta.indexes, GinIndex(fields=["title", "slug"])]
++
++    @property
++    def translated(self):
++        return get_translation(self)
+ 
+     def __str__(self):
+         return self.title
+diff --git a/saleor/product/models.py b/saleor/product/models.py
+--- a/saleor/product/models.py
++++ b/saleor/product/models.py
+@@ -49,7 +49,7 @@
+ from ..core.units import WeightUnits
+ from ..core.utils import build_absolute_uri
+ from ..core.utils.editorjs import clean_editor_js
+-from ..core.utils.translations import Translation, TranslationProxy
++from ..core.utils.translations import Translation, get_translation
+ from ..core.weight import zero_weight
+ from ..discount import DiscountInfo
+ from ..discount.utils import calculate_discounted_price
+@@ -94,7 +94,6 @@
+ 
+     objects = models.Manager()
+     tree = TreeManager()  # type: ignore[django-manager-missing]
+-    translated = TranslationProxy()
+ 
+     class Meta:
+         indexes = [
+@@ -442,7 +441,6 @@
+     )
+ 
+     objects = ProductManager()
+-    translated = TranslationProxy()
+ 
+     class Meta:
+         app_label = "product"
+@@ -485,6 +483,10 @@
+     def __str__(self) -> str:
+         return self.name
+ 
++    @property
++    def translated(self):
++        return get_translation(self)
++
+     def get_first_image(self):
+         all_media = self.media.all()
+         images = [media for media in all_media if media.type == ProductMediaTypes.IMAGE]
+@@ -625,7 +627,6 @@
+     )
+ 
+     objects = ProductVariantManager()
+-    translated = TranslationProxy()
+ 
+     class Meta(ModelWithMetadata.Meta):
+         ordering = ("sort_order", "sku")
+@@ -633,6 +634,10 @@
+ 
+     def __str__(self) -> str:
+         return self.name or self.sku or f"ID:{self.pk}"
++
++    @property
++    def translated(self):
++        return get_translation(self)
+ 
+     def get_global_id(self):
+         return graphene.Node.to_global_id("ProductVariant", self.id)
+diff --git a/saleor/shipping/models.py b/saleor/shipping/models.py
+--- a/saleor/shipping/models.py
++++ b/saleor/shipping/models.py
+@@ -15,7 +15,7 @@
+ from ..core.models import ModelWithMetadata
+ from ..core.units import WeightUnits
+ from ..core.utils.editorjs import clean_editor_js
+-from ..core.utils.translations import Translation, TranslationProxy
++from ..core.utils.translations import Translation, get_translation
+ from ..core.weight import convert_weight, get_default_weight_unit, zero_weight
+ from ..permission.enums import ShippingPermissions
+ from ..tax.models import TaxClass
+@@ -219,10 +219,13 @@
+     )
+ 
+     objects = ShippingMethodManager()
+-    translated = TranslationProxy()
+ 
+     class Meta(ModelWithMetadata.Meta):
+         ordering = ("pk",)
++
++    @property
++    def translated(self):
++        return get_translation(self)
+ 
+     def __str__(self):
+         return self.name
+diff --git a/saleor/site/models.py b/saleor/site/models.py
+--- a/saleor/site/models.py
++++ b/saleor/site/models.py
+@@ -10,7 +10,7 @@
+ 
+ from ..core import TimePeriodType
+ from ..core.units import WeightUnits
+-from ..core.utils.translations import Translation, TranslationProxy
++from ..core.utils.translations import Translation, get_translation
+ from ..permission.enums import SitePermissions
+ from . import GiftCardSettingsExpiryType
+ from .error_codes import SiteErrorCode
+@@ -98,13 +98,15 @@
+     include_taxes_in_prices = models.BooleanField(default=True)
+     display_gross_prices = models.BooleanField(default=True)
+ 
+-    translated = TranslationProxy()
+-
+     class Meta:
+         permissions = (
+             (SitePermissions.MANAGE_SETTINGS.codename, "Manage settings."),
+             (SitePermissions.MANAGE_TRANSLATIONS.codename, "Manage translations."),
+         )
++
++    @property
++    def translated(self):
++        return get_translation(self)
+ 
+     @property
+     def default_from_email(self) -> str:

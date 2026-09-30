@@ -1,0 +1,262 @@
+diff --git a/saleor/attribute/models/base.py b/saleor/attribute/models/base.py
+--- a/saleor/attribute/models/base.py
++++ b/saleor/attribute/models/base.py
+@@ -8,7 +8,7 @@
+ from ...core.models import ModelWithExternalReference, ModelWithMetadata, SortableModel
+ from ...core.units import MeasurementUnits
+ from ...core.utils.editorjs import clean_editor_js
+-from ...core.utils.translations import Translation, TranslationProxy
++from ...core.utils.translations import Translation
+ from ...page.models import Page, PageType
+ from ...permission.enums import PageTypePermissions, ProductTypePermissions
+ from ...permission.utils import has_one_of_permissions
+@@ -165,7 +165,6 @@
+     available_in_grid = models.BooleanField(default=False, blank=True)
+ 
+     objects = AttributeManager()
+-    translated = TranslationProxy()
+ 
+     class Meta(ModelWithMetadata.Meta):
+         ordering = ("storefront_search_position", "slug")
+@@ -251,8 +250,6 @@
+     reference_page = models.ForeignKey(
+         Page, related_name="references", on_delete=models.CASCADE, null=True, blank=True
+     )
+-
+-    translated = TranslationProxy()
+ 
+     class Meta:
+         ordering = ("sort_order", "pk")
+diff --git a/saleor/checkout/utils.py b/saleor/checkout/utils.py
+--- a/saleor/checkout/utils.py
++++ b/saleor/checkout/utils.py
+@@ -22,6 +22,7 @@
+     get_products_voucher_discount,
+     validate_voucher_for_checkout,
+ )
++from ..core.utils.translations import get_translation
+ from ..giftcard.utils import (
+     add_gift_card_code_to_checkout,
+     remove_gift_card_code_from_checkout,
+@@ -621,8 +622,8 @@
+             )
+             checkout.discount_name = voucher.name
+             checkout.translated_discount_name = (
+-                voucher.translated.name
+-                if voucher.translated.name != voucher.name
++                get_translation(voucher).name
++                if get_translation(voucher).name != voucher.name
+                 else ""
+             )
+             checkout.save(
+@@ -723,7 +724,7 @@
+     checkout.voucher_code = voucher.code
+     checkout.discount_name = voucher.name
+     checkout.translated_discount_name = (
+-        voucher.translated.name if voucher.translated.name != voucher.name else ""
++        get_translation(voucher).name if get_translation(voucher).name != voucher.name else ""
+     )
+     checkout.discount = discount
+     checkout.save(
+diff --git a/saleor/core/utils/translations.py b/saleor/core/utils/translations.py
+--- a/saleor/core/utils/translations.py
++++ b/saleor/core/utils/translations.py
+@@ -27,10 +27,14 @@
+         return str(instance)
+ 
+ 
+-class TranslationProxy:
+-    def __get__(self, instance, owner):
+-        locale = get_language()
+-        return TranslationWrapper(instance, locale)
++def get_translation(instance, language_code=None):
++    """Get translation wrapper for model instance.
++    
++    If language_code is not provided, use the current language from settings.
++    """
++    if language_code is None:
++        language_code = get_language()
++    return TranslationWrapper(instance, language_code)
+ 
+ 
+ class Translation(models.Model):
+diff --git a/saleor/discount/models.py b/saleor/discount/models.py
+--- a/saleor/discount/models.py
++++ b/saleor/discount/models.py
+@@ -17,7 +17,7 @@
+ 
+ from ..channel.models import Channel
+ from ..core.models import ModelWithMetadata
+-from ..core.utils.translations import Translation, TranslationProxy
++from ..core.utils.translations import Translation
+ from ..permission.enums import DiscountPermissions
+ from . import DiscountType, DiscountValueType, VoucherType
+ 
+@@ -95,7 +95,6 @@
+     categories = models.ManyToManyField("product.Category", blank=True)
+ 
+     objects = VoucherManager()
+-    translated = TranslationProxy()
+ 
+     class Meta:
+         ordering = ("code",)
+@@ -272,7 +271,6 @@
+     notification_sent_datetime = models.DateTimeField(null=True, blank=True)
+ 
+     objects = SaleManager()
+-    translated = TranslationProxy()
+ 
+     class Meta:
+         ordering = ("name", "pk")
+diff --git a/saleor/menu/models.py b/saleor/menu/models.py
+--- a/saleor/menu/models.py
++++ b/saleor/menu/models.py
+@@ -3,7 +3,7 @@
+ from mptt.models import MPTTModel
+ 
+ from ..core.models import ModelWithMetadata, SortableModel
+-from ..core.utils.translations import Translation, TranslationProxy
++from ..core.utils.translations import Translation
+ from ..page.models import Page
+ from ..permission.enums import MenuPermissions
+ from ..product.models import Category, Collection
+@@ -40,7 +40,6 @@
+ 
+     objects = models.Manager()
+     tree = TreeManager()  # type: ignore[django-manager-missing]
+-    translated = TranslationProxy()
+ 
+     class Meta(ModelWithMetadata.Meta):
+         ordering = ("sort_order", "pk")
+diff --git a/saleor/order/utils.py b/saleor/order/utils.py
+--- a/saleor/order/utils.py
++++ b/saleor/order/utils.py
+@@ -20,6 +20,7 @@
+     get_sale_id_applied_as_a_discount,
+     validate_voucher_in_order,
+ )
++from ..core.utils.translations import get_translation
+ from ..giftcard import events as gift_card_events
+ from ..giftcard.models import GiftCard
+ from ..payment.model_helpers import get_total_authorized
+@@ -254,10 +255,14 @@
+     else:
+         tax_class = product.product_type.tax_class
+ 
++    # Get translations based on order's language
++    order_language = order.language_code
+     product_name = str(product)
+     variant_name = str(variant)
+-    translated_product_name = str(product.translated)
+-    translated_variant_name = str(variant.translated)
++    translated_product = get_translation(product, order_language)
++    translated_variant = get_translation(variant, order_language)
++    translated_product_name = str(translated_product)
++    translated_variant_name = str(translated_variant)
+     if translated_product_name == product_name:
+         translated_product_name = ""
+     if translated_variant_name == variant_name:
+diff --git a/saleor/page/models.py b/saleor/page/models.py
+--- a/saleor/page/models.py
++++ b/saleor/page/models.py
+@@ -6,7 +6,7 @@
+ from ..core.db.fields import SanitizedJSONField
+ from ..core.models import ModelWithMetadata, PublishableModel, PublishedQuerySet
+ from ..core.utils.editorjs import clean_editor_js
+-from ..core.utils.translations import TranslationProxy
++from ..core.utils.translations import Translation
+ from ..permission.enums import PagePermissions, PageTypePermissions
+ from ..seo.models import SeoModel, SeoModelTranslation
+ 
+@@ -33,8 +33,6 @@
+     )
+     content = SanitizedJSONField(blank=True, null=True, sanitizer=clean_editor_js)
+     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
+-
+-    translated = TranslationProxy()
+ 
+     objects = PageManager()  # type: ignore[assignment]
+ 
+diff --git a/saleor/product/models.py b/saleor/product/models.py
+--- a/saleor/product/models.py
++++ b/saleor/product/models.py
+@@ -49,7 +49,7 @@
+ from ..core.units import WeightUnits
+ from ..core.utils import build_absolute_uri
+ from ..core.utils.editorjs import clean_editor_js
+-from ..core.utils.translations import Translation, TranslationProxy
++from ..core.utils.translations import Translation, get_translation
+ from ..core.weight import zero_weight
+ from ..discount import DiscountInfo
+ from ..discount.utils import calculate_discounted_price
+@@ -442,7 +442,6 @@
+     )
+ 
+     objects = ProductManager()
+-    translated = TranslationProxy()
+ 
+     class Meta:
+         app_label = "product"
+@@ -625,7 +624,6 @@
+     )
+ 
+     objects = ProductVariantManager()
+-    translated = TranslationProxy()
+ 
+     class Meta(ModelWithMetadata.Meta):
+         ordering = ("sort_order", "sku")
+@@ -681,10 +679,10 @@
+         is_digital = self.product.product_type.is_digital
+         return not self.is_shipping_required() and is_digital
+ 
+-    def display_product(self, translated: bool = False) -> str:
++    def display_product(self, translated: bool = False, language_code: str = None) -> str:
+         if translated:
+-            product = self.product.translated
+-            variant_display = str(self.translated)
++            product = get_translation(self.product, language_code)
++            variant_display = str(get_translation(self, language_code))
+         else:
+             variant_display = str(self)
+             product = self.product
+diff --git a/saleor/shipping/models.py b/saleor/shipping/models.py
+--- a/saleor/shipping/models.py
++++ b/saleor/shipping/models.py
+@@ -15,7 +15,7 @@
+ from ..core.models import ModelWithMetadata
+ from ..core.units import WeightUnits
+ from ..core.utils.editorjs import clean_editor_js
+-from ..core.utils.translations import Translation, TranslationProxy
++from ..core.utils.translations import Translation
+ from ..core.weight import convert_weight, get_default_weight_unit, zero_weight
+ from ..permission.enums import ShippingPermissions
+ from ..tax.models import TaxClass
+@@ -219,7 +219,6 @@
+     )
+ 
+     objects = ShippingMethodManager()
+-    translated = TranslationProxy()
+ 
+     class Meta(ModelWithMetadata.Meta):
+         ordering = ("pk",)
+diff --git a/saleor/site/models.py b/saleor/site/models.py
+--- a/saleor/site/models.py
++++ b/saleor/site/models.py
+@@ -10,7 +10,7 @@
+ 
+ from ..core import TimePeriodType
+ from ..core.units import WeightUnits
+-from ..core.utils.translations import Translation, TranslationProxy
++from ..core.utils.translations import Translation
+ from ..permission.enums import SitePermissions
+ from . import GiftCardSettingsExpiryType
+ from .error_codes import SiteErrorCode
+@@ -98,8 +98,6 @@
+     include_taxes_in_prices = models.BooleanField(default=True)
+     display_gross_prices = models.BooleanField(default=True)
+ 
+-    translated = TranslationProxy()
+-
+     class Meta:
+         permissions = (
+             (SitePermissions.MANAGE_SETTINGS.codename, "Manage settings."),

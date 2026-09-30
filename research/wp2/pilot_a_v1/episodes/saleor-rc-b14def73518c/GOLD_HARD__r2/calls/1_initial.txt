@@ -1,0 +1,764 @@
+Looking at the developer change description, I need to:
+
+1. Drop `TranslationProxy` and replace it with a `get_translation` function
+2. Keep `TranslationWrapper`
+3. Apply the translation function to Product model
+4. Translate product and variant names based on order's language (not settings)
+5. Translate vouchers based on checkout language (not settings)
+
+Let me analyze the files and implement the changes:
+
+FILE: saleor/core/utils/translations.py
+<<<<<<< SEARCH
+from typing import Any, Dict, Tuple, Union
+
+from django.db import models
+from django.utils.translation import get_language
+
+
+class TranslationWrapper:
+    def __init__(self, instance, locale):
+        self.instance = instance
+        self.translation = next(
+            (t for t in instance.translations.all() if t.language_code == locale), None
+        )
+
+    def __getattr__(self, item):
+        if all(
+            [
+                item not in ["id", "pk"],
+                self.translation is not None,
+                hasattr(self.translation, item),
+            ]
+        ):
+            return getattr(self.translation, item)
+        return getattr(self.instance, item)
+
+    def __str__(self):
+        instance = self.translation or self.instance
+        return str(instance)
+
+
+class TranslationProxy:
+    def __get__(self, instance, owner):
+        locale = get_language()
+        return TranslationWrapper(instance, locale)
+
+
+class Translation(models.Model):
+    language_code = models.CharField(max_length=35)
+
+    class Meta:
+        abstract = True
+
+    def get_translated_object_id(self) -> Tuple[str, Union[int, str]]:
+        raise NotImplementedError(
+            "Models extending Translation should implement get_translated_object_id"
+        )
+
+    def get_translated_keys(self) -> Dict[str, Any]:
+        raise NotImplementedError(
+            "Models extending Translation should implement get_translated_keys"
+        )
+
+    def get_translation_context(self) -> Dict[str, Any]:
+        return {}
+=======
+from typing import Any, Dict, Optional, Tuple, Union
+
+from django.db import models
+from django.utils.translation import get_language
+
+
+class TranslationWrapper:
+    def __init__(self, instance, locale):
+        self.instance = instance
+        self.translation = next(
+            (t for t in instance.translations.all() if t.language_code == locale), None
+        )
+
+    def __getattr__(self, item):
+        if all(
+            [
+                item not in ["id", "pk"],
+                self.translation is not None,
+                hasattr(self.translation, item),
+            ]
+        ):
+            return getattr(self.translation, item)
+        return getattr(self.instance, item)
+
+    def __str__(self):
+        instance = self.translation or self.instance
+        return str(instance)
+
+
+def get_translation(instance, locale: Optional[str] = None):
+    """Get translation wrapper for model instance.
+    
+    If locale is not provided, uses current language from get_language().
+    """
+    if locale is None:
+        locale = get_language()
+    return TranslationWrapper(instance, locale)
+
+
+class Translation(models.Model):
+    language_code = models.CharField(max_length=35)
+
+    class Meta:
+        abstract = True
+
+    def get_translated_object_id(self) -> Tuple[str, Union[int, str]]:
+        raise NotImplementedError(
+            "Models extending Translation should implement get_translated_object_id"
+        )
+
+    def get_translated_keys(self) -> Dict[str, Any]:
+        raise NotImplementedError(
+            "Models extending Translation should implement get_translated_keys"
+        )
+
+    def get_translation_context(self) -> Dict[str, Any]:
+        return {}
+>>>>>>> REPLACE
+
+FILE: saleor/product/models.py
+<<<<<<< SEARCH
+from ..core.utils.editorjs import clean_editor_js
+from ..core.utils.translations import Translation, TranslationProxy
+from ..core.weight import zero_weight
+from ..discount import DiscountInfo
+from ..discount.utils import calculate_discounted_price
+from ..permission.enums import (
+=======
+from ..core.utils.editorjs import clean_editor_js
+from ..core.utils.translations import Translation, get_translation
+from ..core.weight import zero_weight
+from ..discount import DiscountInfo
+from ..discount.utils import calculate_discounted_price
+from ..permission.enums import (
+>>>>>>> REPLACE
+
+FILE: saleor/product/models.py
+<<<<<<< SEARCH
+    objects = models.Manager()
+    tree = TreeManager()  # type: ignore[django-manager-missing]
+    translated = TranslationProxy()
+
+    class Meta:
+        indexes = [
+=======
+    objects = models.Manager()
+    tree = TreeManager()  # type: ignore[django-manager-missing]
+
+    class Meta:
+        indexes = [
+>>>>>>> REPLACE
+
+FILE: saleor/product/models.py
+<<<<<<< SEARCH
+    objects = ProductManager()
+    translated = TranslationProxy()
+
+    class Meta:
+        app_label = "product"
+        ordering = ("slug",)
+=======
+    objects = ProductManager()
+
+    class Meta:
+        app_label = "product"
+        ordering = ("slug",)
+>>>>>>> REPLACE
+
+FILE: saleor/product/models.py
+<<<<<<< SEARCH
+    def __iter__(self):
+        if not hasattr(self, "__variants"):
+            setattr(self, "__variants", self.variants.all())
+        return iter(getattr(self, "__variants"))
+
+    def __repr__(self) -> str:
+        class_ = type(self)
+        return "<%s.%s(pk=%r, name=%r)>" % (
+            class_.__module__,
+            class_.__name__,
+            self.pk,
+            self.name,
+        )
+
+    def __str__(self) -> str:
+        return self.name
+
+    def get_first_image(self):
+        all_media = self.media.all()
+        images = [media for media in all_media if media.type == ProductMediaTypes.IMAGE]
+        return images[0] if images else None
+
+    @staticmethod
+    def sort_by_attribute_fields() -> list:
+        return ["concatenated_values_order", "concatenated_values", "name"]
+=======
+    def __iter__(self):
+        if not hasattr(self, "__variants"):
+            setattr(self, "__variants", self.variants.all())
+        return iter(getattr(self, "__variants"))
+
+    def __repr__(self) -> str:
+        class_ = type(self)
+        return "<%s.%s(pk=%r, name=%r)>" % (
+            class_.__module__,
+            class_.__name__,
+            self.pk,
+            self.name,
+        )
+
+    def __str__(self) -> str:
+        return self.name
+
+    @property
+    def translated(self):
+        return get_translation(self)
+
+    def get_first_image(self):
+        all_media = self.media.all()
+        images = [media for media in all_media if media.type == ProductMediaTypes.IMAGE]
+        return images[0] if images else None
+
+    @staticmethod
+    def sort_by_attribute_fields() -> list:
+        return ["concatenated_values_order", "concatenated_values", "name"]
+>>>>>>> REPLACE
+
+FILE: saleor/product/models.py
+<<<<<<< SEARCH
+    objects = ProductVariantManager()
+    translated = TranslationProxy()
+
+    class Meta(ModelWithMetadata.Meta):
+        ordering = ("sort_order", "sku")
+        app_label = "product"
+
+    def __str__(self) -> str:
+        return self.name or self.sku or f"ID:{self.pk}"
+
+    def get_global_id(self):
+        return graphene.Node.to_global_id("ProductVariant", self.id)
+=======
+    objects = ProductVariantManager()
+
+    class Meta(ModelWithMetadata.Meta):
+        ordering = ("sort_order", "sku")
+        app_label = "product"
+
+    def __str__(self) -> str:
+        return self.name or self.sku or f"ID:{self.pk}"
+
+    @property
+    def translated(self):
+        return get_translation(self)
+
+    def get_global_id(self):
+        return graphene.Node.to_global_id("ProductVariant", self.id)
+>>>>>>> REPLACE
+
+FILE: saleor/attribute/models/base.py
+<<<<<<< SEARCH
+from ...core.utils.editorjs import clean_editor_js
+from ...core.utils.translations import Translation, TranslationProxy
+from ...page.models import Page, PageType
+=======
+from ...core.utils.editorjs import clean_editor_js
+from ...core.utils.translations import Translation, get_translation
+from ...page.models import Page, PageType
+>>>>>>> REPLACE
+
+FILE: saleor/attribute/models/base.py
+<<<<<<< SEARCH
+    objects = AttributeManager()
+    translated = TranslationProxy()
+
+    class Meta(ModelWithMetadata.Meta):
+        ordering = ("storefront_search_position", "slug")
+        indexes = [
+=======
+    objects = AttributeManager()
+
+    class Meta(ModelWithMetadata.Meta):
+        ordering = ("storefront_search_position", "slug")
+        indexes = [
+>>>>>>> REPLACE
+
+FILE: saleor/attribute/models/base.py
+<<<<<<< SEARCH
+    def __str__(self) -> str:
+        return self.name
+
+    def has_values(self) -> bool:
+        return self.values.exists()
+=======
+    def __str__(self) -> str:
+        return self.name
+
+    @property
+    def translated(self):
+        return get_translation(self)
+
+    def has_values(self) -> bool:
+        return self.values.exists()
+>>>>>>> REPLACE
+
+FILE: saleor/attribute/models/base.py
+<<<<<<< SEARCH
+    reference_page = models.ForeignKey(
+        Page, related_name="references", on_delete=models.CASCADE, null=True, blank=True
+    )
+
+    translated = TranslationProxy()
+
+    class Meta:
+        ordering = ("sort_order", "pk")
+        unique_together = ("slug", "attribute")
+        indexes = [
+=======
+    reference_page = models.ForeignKey(
+        Page, related_name="references", on_delete=models.CASCADE, null=True, blank=True
+    )
+
+    class Meta:
+        ordering = ("sort_order", "pk")
+        unique_together = ("slug", "attribute")
+        indexes = [
+>>>>>>> REPLACE
+
+FILE: saleor/attribute/models/base.py
+<<<<<<< SEARCH
+    def __str__(self) -> str:
+        return self.name
+
+    @property
+    def input_type(self):
+        return self.attribute.input_type
+
+    def get_ordering_queryset(self):
+        return self.attribute.values.all()
+=======
+    def __str__(self) -> str:
+        return self.name
+
+    @property
+    def translated(self):
+        return get_translation(self)
+
+    @property
+    def input_type(self):
+        return self.attribute.input_type
+
+    def get_ordering_queryset(self):
+        return self.attribute.values.all()
+>>>>>>> REPLACE
+
+FILE: saleor/checkout/utils.py
+<<<<<<< SEARCH
+from ..discount.models import NotApplicable, Voucher
+from ..discount.utils import (
+    get_products_voucher_discount,
+    validate_voucher_for_checkout,
+)
+=======
+from ..discount.models import NotApplicable, Voucher
+from ..discount.utils import (
+    get_products_voucher_discount,
+    validate_voucher_for_checkout,
+)
+from ..core.utils.translations import get_translation
+>>>>>>> REPLACE
+
+FILE: saleor/checkout/utils.py
+<<<<<<< SEARCH
+            checkout.discount_name = voucher.name
+            checkout.translated_discount_name = (
+                voucher.translated.name
+                if voucher.translated.name != voucher.name
+                else ""
+            )
+            checkout.save(
+                update_fields=[
+                    "translated_discount_name",
+=======
+            checkout.discount_name = voucher.name
+            checkout.translated_discount_name = (
+                get_translation(voucher).name
+                if get_translation(voucher).name != voucher.name
+                else ""
+            )
+            checkout.save(
+                update_fields=[
+                    "translated_discount_name",
+>>>>>>> REPLACE
+
+FILE: saleor/checkout/utils.py
+<<<<<<< SEARCH
+    checkout.discount_name = voucher.name
+    checkout.translated_discount_name = (
+        voucher.translated.name if voucher.translated.name != voucher.name else ""
+    )
+    checkout.discount = discount
+    checkout.save(
+        update_fields=[
+=======
+    checkout.discount_name = voucher.name
+    checkout.translated_discount_name = (
+        get_translation(voucher).name if get_translation(voucher).name != voucher.name else ""
+    )
+    checkout.discount = discount
+    checkout.save(
+        update_fields=[
+>>>>>>> REPLACE
+
+FILE: saleor/discount/models.py
+<<<<<<< SEARCH
+from ..core.models import ModelWithMetadata
+from ..core.utils.translations import Translation, TranslationProxy
+from ..permission.enums import DiscountPermissions
+from . import DiscountType, DiscountValueType, VoucherType
+=======
+from ..core.models import ModelWithMetadata
+from ..core.utils.translations import Translation, get_translation
+from ..permission.enums import DiscountPermissions
+from . import DiscountType, DiscountValueType, VoucherType
+>>>>>>> REPLACE
+
+FILE: saleor/discount/models.py
+<<<<<<< SEARCH
+    objects = VoucherManager()
+    translated = TranslationProxy()
+
+    class Meta:
+        ordering = ("code",)
+=======
+    objects = VoucherManager()
+
+    class Meta:
+        ordering = ("code",)
+
+    @property
+    def translated(self):
+        return get_translation(self)
+>>>>>>> REPLACE
+
+FILE: saleor/discount/models.py
+<<<<<<< SEARCH
+    objects = SaleManager()
+    translated = TranslationProxy()
+
+    class Meta:
+        ordering = ("name", "pk")
+        app_label = "discount"
+        permissions = (
+            (
+                DiscountPermissions.MANAGE_DISCOUNTS.codename,
+                "Manage sales and vouchers.",
+            ),
+        )
+=======
+    objects = SaleManager()
+
+    class Meta:
+        ordering = ("name", "pk")
+        app_label = "discount"
+        permissions = (
+            (
+                DiscountPermissions.MANAGE_DISCOUNTS.codename,
+                "Manage sales and vouchers.",
+            ),
+        )
+
+    @property
+    def translated(self):
+        return get_translation(self)
+>>>>>>> REPLACE
+
+FILE: saleor/menu/models.py
+<<<<<<< SEARCH
+from ..core.models import ModelWithMetadata, SortableModel
+from ..core.utils.translations import Translation, TranslationProxy
+from ..page.models import Page
+from ..permission.enums import MenuPermissions
+from ..product.models import Category, Collection
+=======
+from ..core.models import ModelWithMetadata, SortableModel
+from ..core.utils.translations import Translation, get_translation
+from ..page.models import Page
+from ..permission.enums import MenuPermissions
+from ..product.models import Category, Collection
+>>>>>>> REPLACE
+
+FILE: saleor/menu/models.py
+<<<<<<< SEARCH
+    objects = models.Manager()
+    tree = TreeManager()  # type: ignore[django-manager-missing]
+    translated = TranslationProxy()
+
+    class Meta(ModelWithMetadata.Meta):
+        ordering = ("sort_order", "pk")
+        app_label = "menu"
+=======
+    objects = models.Manager()
+    tree = TreeManager()  # type: ignore[django-manager-missing]
+
+    class Meta(ModelWithMetadata.Meta):
+        ordering = ("sort_order", "pk")
+        app_label = "menu"
+
+    @property
+    def translated(self):
+        return get_translation(self)
+>>>>>>> REPLACE
+
+FILE: saleor/order/utils.py
+<<<<<<< SEARCH
+from ..core.tracing import traced_atomic_transaction
+from ..core.weight import zero_weight
+from ..discount import DiscountType
+from ..discount.models import NotApplicable, OrderDiscount, Voucher, VoucherType
+from ..discount.utils import (
+    apply_discount_to_value,
+    get_products_voucher_discount,
+    get_sale_id_applied_as_a_discount,
+    validate_voucher_in_order,
+)
+from ..giftcard import events as gift_card_events
+from ..giftcard.models import GiftCard
+from ..payment.model_helpers import get_total_authorized
+from ..product.utils.digital_products import get_default_digital_content_settings
+from ..shipping.interface import ShippingMethodData
+from ..shipping.models import ShippingMethod, ShippingMethodChannelListing
+from ..shipping.utils import (
+    convert_to_shipping_method_data,
+    initialize_shipping_method_active_status,
+)
+from ..tax.utils import (
+    get_display_gross_prices,
+    get_tax_class_kwargs_for_order_line,
+    get_tax_country,
+)
+from ..warehouse.management import (
+    decrease_allocations,
+    get_order_lines_with_track_inventory,
+    increase_allocations,
+    increase_stock,
+)
+from ..warehouse.models import Warehouse
+from . import (
+    ORDER_EDITABLE_STATUS,
+    FulfillmentStatus,
+    OrderAuthorizeStatus,
+    OrderChargeStatus,
+    OrderStatus,
+    events,
+)
+from .fetch import OrderLineInfo
+from .models import Order, OrderGrantedRefund, OrderLine
+=======
+from ..core.tracing import traced_atomic_transaction
+from ..core.weight import zero_weight
+from ..discount import DiscountType
+from ..discount.models import NotApplicable, OrderDiscount, Voucher, VoucherType
+from ..discount.utils import (
+    apply_discount_to_value,
+    get_products_voucher_discount,
+    get_sale_id_applied_as_a_discount,
+    validate_voucher_in_order,
+)
+from ..giftcard import events as gift_card_events
+from ..giftcard.models import GiftCard
+from ..payment.model_helpers import get_total_authorized
+from ..product.utils.digital_products import get_default_digital_content_settings
+from ..shipping.interface import ShippingMethodData
+from ..shipping.models import ShippingMethod, ShippingMethodChannelListing
+from ..shipping.utils import (
+    convert_to_shipping_method_data,
+    initialize_shipping_method_active_status,
+)
+from ..tax.utils import (
+    get_display_gross_prices,
+    get_tax_class_kwargs_for_order_line,
+    get_tax_country,
+)
+from ..warehouse.management import (
+    decrease_allocations,
+    get_order_lines_with_track_inventory,
+    increase_allocations,
+    increase_stock,
+)
+from ..warehouse.models import Warehouse
+from . import (
+    ORDER_EDITABLE_STATUS,
+    FulfillmentStatus,
+    OrderAuthorizeStatus,
+    OrderChargeStatus,
+    OrderStatus,
+    events,
+)
+from .fetch import OrderLineInfo
+from .models import Order, OrderGrantedRefund, OrderLine
+from ..core.utils.translations import get_translation
+>>>>>>> REPLACE
+
+FILE: saleor/order/utils.py
+<<<<<<< SEARCH
+    product_name = str(product)
+    variant_name = str(variant)
+    translated_product_name = str(product.translated)
+    translated_variant_name = str(variant.translated)
+    if translated_product_name == product_name:
+        translated_product_name = ""
+    if translated_variant_name == variant_name:
+        translated_variant_name = ""
+=======
+    product_name = str(product)
+    variant_name = str(variant)
+    translated_product_name = str(get_translation(product, order.language_code))
+    translated_variant_name = str(get_translation(variant, order.language_code))
+    if translated_product_name == product_name:
+        translated_product_name = ""
+    if translated_variant_name == variant_name:
+        translated_variant_name = ""
+>>>>>>> REPLACE
+
+FILE: saleor/page/models.py
+<<<<<<< SEARCH
+from ..core.db.fields import SanitizedJSONField
+from ..core.models import ModelWithMetadata, PublishableModel, PublishedQuerySet
+from ..core.utils.editorjs import clean_editor_js
+from ..core.utils.translations import TranslationProxy
+from ..permission.enums import PagePermissions, PageTypePermissions
+from ..seo.models import SeoModel, SeoModelTranslation
+=======
+from ..core.db.fields import SanitizedJSONField
+from ..core.models import ModelWithMetadata, PublishableModel, PublishedQuerySet
+from ..core.utils.editorjs import clean_editor_js
+from ..core.utils.translations import Translation, get_translation
+from ..permission.enums import PagePermissions, PageTypePermissions
+from ..seo.models import SeoModel, SeoModelTranslation
+>>>>>>> REPLACE
+
+FILE: saleor/page/models.py
+<<<<<<< SEARCH
+    content = SanitizedJSONField(blank=True, null=True, sanitizer=clean_editor_js)
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
+
+    translated = TranslationProxy()
+
+    objects = PageManager()  # type: ignore[assignment]
+
+    class Meta(ModelWithMetadata.Meta):
+        ordering = ("slug",)
+        permissions = ((PagePermissions.MANAGE_PAGES.codename, "Manage pages."),)
+        indexes = [*ModelWithMetadata.Meta.indexes, GinIndex(fields=["title", "slug"])]
+=======
+    content = SanitizedJSONField(blank=True, null=True, sanitizer=clean_editor_js)
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
+
+    objects = PageManager()  # type: ignore[assignment]
+
+    class Meta(ModelWithMetadata.Meta):
+        ordering = ("slug",)
+        permissions = ((PagePermissions.MANAGE_PAGES.codename, "Manage pages."),)
+        indexes = [*ModelWithMetadata.Meta.indexes, GinIndex(fields=["title", "slug"])]
+
+    @property
+    def translated(self):
+        return get_translation(self)
+>>>>>>> REPLACE
+
+FILE: saleor/shipping/models.py
+<<<<<<< SEARCH
+from ..core.units import WeightUnits
+from ..core.utils.editorjs import clean_editor_js
+from ..core.utils.translations import Translation, TranslationProxy
+from ..core.weight import convert_weight, get_default_weight_unit, zero_weight
+from ..permission.enums import ShippingPermissions
+from ..tax.models import TaxClass
+from . import PostalCodeRuleInclusionType, ShippingMethodType
+from .postal_codes import filter_shipping_methods_by_postal_code_rules
+=======
+from ..core.units import WeightUnits
+from ..core.utils.editorjs import clean_editor_js
+from ..core.utils.translations import Translation, get_translation
+from ..core.weight import convert_weight, get_default_weight_unit, zero_weight
+from ..permission.enums import ShippingPermissions
+from ..tax.models import TaxClass
+from . import PostalCodeRuleInclusionType, ShippingMethodType
+from .postal_codes import filter_shipping_methods_by_postal_code_rules
+>>>>>>> REPLACE
+
+FILE: saleor/shipping/models.py
+<<<<<<< SEARCH
+    objects = ShippingMethodManager()
+    translated = TranslationProxy()
+
+    class Meta(ModelWithMetadata.Meta):
+        ordering = ("pk",)
+=======
+    objects = ShippingMethodManager()
+
+    class Meta(ModelWithMetadata.Meta):
+        ordering = ("pk",)
+
+    @property
+    def translated(self):
+        return get_translation(self)
+>>>>>>> REPLACE
+
+FILE: saleor/site/models.py
+<<<<<<< SEARCH
+from ..core import TimePeriodType
+from ..core.units import WeightUnits
+from ..core.utils.translations import Translation, TranslationProxy
+from ..permission.enums import SitePermissions
+from . import GiftCardSettingsExpiryType
+from .error_codes import SiteErrorCode
+from .patch_sites import patch_contrib_sites
+=======
+from ..core import TimePeriodType
+from ..core.units import WeightUnits
+from ..core.utils.translations import Translation, get_translation
+from ..permission.enums import SitePermissions
+from . import GiftCardSettingsExpiryType
+from .error_codes import SiteErrorCode
+from .patch_sites import patch_contrib_sites
+>>>>>>> REPLACE
+
+FILE: saleor/site/models.py
+<<<<<<< SEARCH
+    # deprecated
+    charge_taxes_on_shipping = models.BooleanField(default=True)
+    include_taxes_in_prices = models.BooleanField(default=True)
+    display_gross_prices = models.BooleanField(default=True)
+
+    translated = TranslationProxy()
+
+    class Meta:
+        permissions = (
+            (SitePermissions.MANAGE_SETTINGS.codename, "Manage settings."),
+            (SitePermissions.MANAGE_TRANSLATIONS.codename, "Manage translations."),
+        )
+=======
+    # deprecated
+    charge_taxes_on_shipping = models.BooleanField(default=True)
+    include_taxes_in_prices = models.BooleanField(default=True)
+    display_gross_prices = models.BooleanField(default=True)
+
+    class Meta:
+        permissions = (
+            (SitePermissions.MANAGE_SETTINGS.codename, "Manage settings."),
+            (SitePermissions.MANAGE_TRANSLATIONS.codename, "Manage translations."),
+        )
+
+    @property
+    def translated(self):
+        return get_translation(self)
+>>>>>>> REPLACE

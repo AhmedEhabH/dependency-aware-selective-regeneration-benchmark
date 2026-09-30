@@ -1,0 +1,55 @@
+Looking at the issue description "Fix checkout payload (#9333)", I need to examine the checkout payload generation code to identify and fix the problem.
+
+Let me analyze the `generate_checkout_payload` function in `saleor/webhook/payloads.py`. The issue appears to be related to how the checkout lines are being serialized and included in the payload.
+
+In the `generate_checkout_payload` function, I can see that it calls `serialize_checkout_lines(checkout)` which returns a list of dictionaries, but then it's being converted to a list with `list(lines_dict_data)`. However, looking at the serialization logic, `lines_dict_data` is already a list returned by `serialize_checkout_lines`, so this conversion should be fine.
+
+But there's an issue with the field names being used. Looking at the checkout fields tuple, I see `"quantity"` is included, but this doesn't make sense as a top-level checkout field since quantity is per-line item. The quantity should be part of each line, not the checkout itself.
+
+Let me check the `serialize_checkout_lines` function in `serializers.py` to understand what data structure it returns and how it should be used.
+
+The issue is that the checkout payload is including a `"quantity"` field at the checkout level, which is incorrect. The quantity belongs to individual checkout lines, not to the checkout object itself.
+
+FILE: saleor/webhook/payloads.py
+<<<<<<< SEARCH
+def generate_checkout_payload(
+    checkout: "Checkout", requestor: Optional["RequestorOrLazyObject"] = None
+):
+    serializer = PayloadSerializer()
+    checkout_fields = (
+        "created",
+        "last_change",
+        "status",
+        "email",
+        "quantity",
+        "currency",
+        "discount_amount",
+        "discount_name",
+        "private_metadata",
+        "metadata",
+        "channel",
+    )
+
+    checkout_price_fields = ("discount_amount",)
+    quantize_price_fields(checkout, checkout_price_fields, checkout.currency)
+=======
+def generate_checkout_payload(
+    checkout: "Checkout", requestor: Optional["RequestorOrLazyObject"] = None
+):
+    serializer = PayloadSerializer()
+    checkout_fields = (
+        "created",
+        "last_change",
+        "status",
+        "email",
+        "currency",
+        "discount_amount",
+        "discount_name",
+        "private_metadata",
+        "metadata",
+        "channel",
+    )
+
+    checkout_price_fields = ("discount_amount",)
+    quantize_price_fields(checkout, checkout_price_fields, checkout.currency)
+>>>>>>> REPLACE

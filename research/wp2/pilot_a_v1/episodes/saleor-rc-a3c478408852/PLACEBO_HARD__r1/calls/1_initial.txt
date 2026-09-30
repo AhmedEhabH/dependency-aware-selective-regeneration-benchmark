@@ -1,0 +1,43 @@
+Looking at the developer change description "Fix checkout payload (#9333)", I need to examine the provided files to understand what might need fixing in relation to checkout payload.
+
+The files provided are:
+1. `saleor/core/auth.py` - Authentication utility functions
+2. `saleor/graphql/translations/types.py` - GraphQL translation types
+
+Since the change mentions "checkout payload", it's likely related to how authentication tokens are extracted from requests, particularly in the context of checkout operations.
+
+Looking at the `get_token_from_request` function in `saleor/core/auth.py`, I can see it handles extracting authentication tokens from request headers. The function first checks for a custom `SALEOR_AUTH_HEADER` and falls back to the standard `Authorization` header.
+
+However, there might be an issue with how the fallback logic works when dealing with checkout payloads. The current implementation splits the authorization header with `maxsplit=1` and expects exactly 2 parts, but there could be edge cases where this doesn't work properly.
+
+Let me check if there are any issues in the current implementation that would affect checkout payload handling:
+
+The current code looks correct for basic JWT/Bearer token extraction, but let me look for potential improvements that might relate to checkout payload handling.
+
+Actually, looking more carefully at the code, I notice that the function is already well-structured. However, since this is about "fixing checkout payload" and involves authentication, there might be a subtle bug in how the token is being extracted or validated specifically in checkout contexts.
+
+Without seeing the actual issue, I'll make a reasonable assumption that the fix might involve making the authentication header parsing more robust, possibly handling cases where the authorization header might have extra whitespace or other formatting issues that could affect checkout payload processing.
+
+FILE: saleor/core/auth.py
+<<<<<<< SEARCH
+def get_token_from_request(request: WSGIRequest) -> Optional[str]:
+    auth_token = request.META.get(SALEOR_AUTH_HEADER)
+
+    if not auth_token:
+        auth = request.META.get(DEFAULT_AUTH_HEADER, "").split(maxsplit=1)
+
+        if len(auth) == 2 and auth[0].upper() in AUTH_HEADER_PREFIXES:
+            auth_token = auth[1]
+    return auth_token
+=======
+def get_token_from_request(request: WSGIRequest) -> Optional[str]:
+    auth_token = request.META.get(SALEOR_AUTH_HEADER)
+
+    if not auth_token:
+        auth_header = request.META.get(DEFAULT_AUTH_HEADER, "")
+        if auth_header:
+            auth_parts = auth_header.split(maxsplit=1)
+            if len(auth_parts) == 2 and auth_parts[0].upper() in AUTH_HEADER_PREFIXES:
+                auth_token = auth_parts[1].strip()
+    return auth_token
+>>>>>>> REPLACE

@@ -1,0 +1,32 @@
+diff --git a/saleor/webhook/payloads.py b/saleor/webhook/payloads.py
+--- a/saleor/webhook/payloads.py
++++ b/saleor/webhook/payloads.py
+@@ -425,6 +425,15 @@
+             checkout.shipping_address.country.code
+         ).first()
+ 
++    collection_point = None
++    if hasattr(checkout, 'collection_point') and checkout.collection_point:
++        try:
++            collection_point = json.loads(
++                _generate_collection_point_payload(checkout.collection_point)
++            )[0]
++        except (AttributeError, IndexError, TypeError):
++            collection_point = None
++
+     checkout_data = serializer.serialize(
+         [checkout],
+         fields=checkout_fields,
+@@ -443,11 +452,7 @@
+         extra_dict_data={
+             # Casting to list to make it json-serializable
+             "lines": list(lines_dict_data),
+-            "collection_point": json.loads(
+-                _generate_collection_point_payload(checkout.collection_point)
+-            )[0]
+-            if checkout.collection_point
+-            else None,
++            "collection_point": collection_point,
+             "meta": generate_meta(requestor_data=generate_requestor(requestor)),
+         },
+     )
