@@ -1,0 +1,106 @@
+{
+ "task_id": "saleor-rc-a3c478408852",
+ "cap": 200,
+ "status": "DONE",
+ "era_key": "py39",
+ "rediscovery_sha256": "da4fe468babc78b1c72cae8db3b380f198c1cc6e9bad3917b3415ab16e570c2a",
+ "n_selected": 26,
+ "class_counts": {
+  "STABLE_P2P": 26,
+  "TARGET_BROKEN": 0,
+  "PARENT_BROKEN": 0,
+  "BOTH_FAIL": 0,
+  "FLAKY": 0,
+  "COLLECTION_ERROR": 0
+ },
+ "n_stable_p2p": 26,
+ "node_classes": {
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[draft_order_created]": "STABLE_P2P",
+  "saleor/webhook/tests/test_webhook_serializers.py::test_serialize_product_attributes": "STABLE_P2P",
+  "saleor/webhook/tests/test_webhook_payload_serializers.py::test_python_serializer_extra_model_fields": "STABLE_P2P",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[order_created]": "STABLE_P2P",
+  "saleor/webhook/tests/test_webhook_payload_serializers.py::test_python_serializer_extra_model_fields_incorrect_fields": "STABLE_P2P",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_product_payload": "STABLE_P2P",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[]": "STABLE_P2P",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_order[order_updated-canceled]": "STABLE_P2P",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_checkout_payload[click_and_collect]": "STABLE_P2P",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_order[order_fulfilled-fulfilled]": "STABLE_P2P",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[order_updated]": "STABLE_P2P",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[order_cancelled]": "STABLE_P2P",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_customer_payload": "STABLE_P2P",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[product_updated]": "STABLE_P2P",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[order_fulfilled]": "STABLE_P2P",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_checkout_payload[regular]": "STABLE_P2P",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[None]": "STABLE_P2P",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[draft_order_deleted]": "STABLE_P2P",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_order[order_created-unfulfilled]": "STABLE_P2P",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[draft_order_updated]": "STABLE_P2P",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_order[order_cancelled-canceled]": "STABLE_P2P",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_order[order_fully_paid-fulfilled]": "STABLE_P2P",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[order_fully_paid]": "STABLE_P2P",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_fulfillment_created": "STABLE_P2P",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[product_created]": "STABLE_P2P",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[Non_existing_event]": "STABLE_P2P"
+ },
+ "wall_s": 279.6,
+ "wall_t_s": 135.2,
+ "wall_p_s": 135.2,
+ "junit_files": {
+  "t_r0.xml": "d204acda5d0610eac853f57020c693871839346123662e60660f1a843befaee1",
+  "t_r1.xml": "079b3c8e025dc544185e2af49dd5f3455fc377a43127d366c2b2d4b275121558",
+  "t_r2.xml": "ce74477b82e207a3aa6a444091a10bbda5f6f131d39b6034b59cc12abadedac5",
+  "p_r0.xml": "04b5669d9ec48cfc73d06aa93651109799804b9b65a9add42d6c144bd768fd5a",
+  "p_r1.xml": "f89dc5d4078d09d92a0ba2a3d20823ac1f90f68464c4756e33b9c01d368e2269",
+  "p_r2.xml": "1d59f73b05710e8b2fde66b781ada1f6e2f3483d0d1834560ecca57a3ea3bb7b"
+ },
+ "manifest": {
+  "task_id": "saleor-rc-a3c478408852",
+  "era": "py39",
+  "cap": 200,
+  "harness_v3_version": "wp2-harness-v3-2026-09-26",
+  "harness_v3_spec_sha256": "e7897ba0850bd0af372273a32ffb33435b4dc75c9476d527ec86fa424a75f034",
+  "runner_sha256": "72e153d5687ffe4914ecd39fa70c0515d0a038c48949331a81250d598d5270c4",
+  "rediscovery_sha256": "da4fe468babc78b1c72cae8db3b380f198c1cc6e9bad3917b3415ab16e570c2a",
+  "selection_sha256": "ead271864deb8eae6756d40019498f0a78dac9116bd355ce3817cd9d818d21b6",
+  "frozen_base_image_id": "sha256:ddc08d7e685517764dfa2606a760d5b3f09d57840d8a0bbcef366db67cd99ef8",
+  "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+  "lockfile_sha256": "f746246d1c1438b3ebb49e609b86faa9042b0c354fdcafe1d1bd68dce5989900",
+  "nofile_soft": 65536,
+  "nofile_hard": 65536,
+  "pytest_flags": "--ds=saleor.tests.settings --disable-socket --reuse-db",
+  "reps": 3,
+  "db_names": {
+   "t": "saleor_v3_a3c478408852_t",
+   "p": "saleor_v3_a3c478408852_p"
+  },
+  "junit_dir": "p2pu_v3_junit/saleor-rc-a3c478408852/cap200",
+  "main_recipe_signature": "e15c4ae80179ebad638fd8ce3427acd362afa49592536a4b1686167935e4345f",
+  "dev_test_closure": {
+   "mechanism": "poetry",
+   "n_pins": 66,
+   "pins_sha256": "11a9656cca32419d00628e92db47591fbcb50111f84a6bcc9cf5f39343c935d0",
+   "n_unsupported": 0,
+   "vcr_family_present": [
+    "pytest-recording",
+    "pytest-socket",
+    "vcrpy"
+   ]
+  },
+  "clock_pre_post": {
+   "pre": {
+    "median_skew_s": 0.234506,
+    "verdict": "PASS"
+   },
+   "post": {
+    "median_skew_s": 0.249709,
+    "verdict": "PASS"
+   }
+  },
+  "collection_session_abort": {
+   "t": [],
+   "p": []
+  },
+  "workers": 1
+ },
+ "evidence_sha256": "4073f21ea709ce60421a6f717b791fb336292c839497283fc8941482e3fa453d"
+}

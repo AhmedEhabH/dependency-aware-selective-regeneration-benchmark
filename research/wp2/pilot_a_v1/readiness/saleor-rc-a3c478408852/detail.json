@@ -1,0 +1,79 @@
+{
+ "c4_evidence_sha256": "8fcfb03ccfd699526bee9c4bb0a163233e31d06a6d4e683b019348fd28192ff1",
+ "c4_status": "DONE",
+ "gold_empty_check": {
+  "gold_applies": true,
+  "negative": {
+   "f2p_task": "FAIL",
+   "flaky_under_patch": [
+    "saleor/plugins/webhook/tests/test_webhook.py::test_checkout_payload_includes_sales",
+    "saleor/webhook/tests/test_webhook_payloads.py::test_generate_list_gateways_payload"
+   ],
+   "label": "rdneg",
+   "p2p_s_task": "PASS",
+   "p2p_u200_task": "PASS",
+   "resolved": false,
+   "task_id": "saleor-rc-a3c478408852"
+  },
+  "ok": true,
+  "positive": {
+   "f2p_task": "PASS",
+   "flaky_under_patch": [],
+   "label": "rdpos",
+   "p2p_s_task": "PASS",
+   "p2p_u200_task": "PASS",
+   "resolved": true,
+   "target_tree": "b607a936fbc93d6360050365e95cd5b8334ab762",
+   "task_id": "saleor-rc-a3c478408852",
+   "tree_matches": true,
+   "tree_sha": "b607a936fbc93d6360050365e95cd5b8334ab762"
+  }
+ },
+ "p2pu_class_counts": {
+  "BOTH_FAIL": 0,
+  "COLLECTION_ERROR": 0,
+  "FLAKY": 0,
+  "PARENT_BROKEN": 0,
+  "STABLE_P2P": 26,
+  "TARGET_BROKEN": 0
+ },
+ "p2pu_evidence_sha256": "4073f21ea709ce60421a6f717b791fb336292c839497283fc8941482e3fa453d",
+ "p2pu_n_candidates": 26,
+ "p2pu_rediscovery": {
+  "collect_rc": 0,
+  "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+  "n_associated_files": 4,
+  "n_collect_files": 3,
+  "rediscovery_sha256": "da4fe468babc78b1c72cae8db3b380f198c1cc6e9bad3917b3415ab16e570c2a",
+  "wall_s": 50.4
+ },
+ "p2pu_selected_cap200": [
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[draft_order_created]",
+  "saleor/webhook/tests/test_webhook_serializers.py::test_serialize_product_attributes",
+  "saleor/webhook/tests/test_webhook_payload_serializers.py::test_python_serializer_extra_model_fields",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[order_created]",
+  "saleor/webhook/tests/test_webhook_payload_serializers.py::test_python_serializer_extra_model_fields_incorrect_fields",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_product_payload",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[]",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_order[order_updated-canceled]",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_checkout_payload[click_and_collect]",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_order[order_fulfilled-fulfilled]",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[order_updated]",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[order_cancelled]",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_customer_payload",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[product_updated]",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[order_fulfilled]",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_checkout_payload[regular]",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[None]",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[draft_order_deleted]",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_order[order_created-unfulfilled]",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[draft_order_updated]",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_order[order_cancelled-canceled]",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_order[order_fully_paid-fulfilled]",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[order_fully_paid]",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_fulfillment_created",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[product_created]",
+  "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[Non_existing_event]"
+ ],
+ "p2pu_status": "DONE"
+}
