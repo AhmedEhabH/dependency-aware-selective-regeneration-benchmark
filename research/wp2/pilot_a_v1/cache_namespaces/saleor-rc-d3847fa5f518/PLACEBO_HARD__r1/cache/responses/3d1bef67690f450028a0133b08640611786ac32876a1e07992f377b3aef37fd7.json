@@ -1,0 +1,34 @@
+{
+ "request": {
+  "model": "qwen/qwen3-coder",
+  "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+  "provider": "deepinfra/turbo",
+  "temperature": 0.0,
+  "top_p": 1.0,
+  "max_tokens": 8192,
+  "messages": [
+   {
+    "role": "system",
+    "content": "You are a senior Python/Django engineer working on the Saleor e-commerce repository at a historical commit.\nYou receive a developer change description and the complete current contents of the files you are allowed to edit.\nImplement the described change by editing ONLY those files.\n\nOutput ONLY edit blocks in this exact format and nothing else:\n\nFILE: <path exactly as given>\n<<<<<<< SEARCH\n<exact lines copied from the current file>\n=======\n<replacement lines>\n>>>>>>> REPLACE\n\nRules:\n1. Put a FILE line before every block. Several blocks may target the same file; they are applied in order.\n2. The SEARCH text must match exactly one contiguous region of the current file, character for character, including indentation and blank lines. Include enough lines to make it unique.\n3. To add code, SEARCH for an existing anchor line and REPLACE it with the anchor line plus the new lines.\n4. Do not edit any file that is not listed. Do not create files. Do not delete files. Do not edit tests.\n5. Keep the code valid for the stated Python version.\n6. No explanations. No markdown code fences."
+   },
+   {
+    "role": "user",
+    "content": "DEVELOPER CHANGE DESCRIPTION\nFix shared adress instances (#18651) * Do not share address instance between Order and Checkout objects * Add migration to removed shared address instances between Checkout and Order * Adjust migration and add tests * Add checkout merge migration\n\nPYTHON VERSION REQUIREMENT\nPython >= 3.12\n\nEDITABLE FILES (1)\n===== FILE: saleor/warehouse/tasks.py (69 lines) =====\nfrom celery.utils.log import get_task_logger\nfrom django.db.models import F, Sum\nfrom django.db.models.functions import Coalesce\nfrom django.utils import timezone\n\nfrom ..celeryconf import app\nfrom ..core.db.connection import allow_writer\nfrom .management import delete_allocations, stock_bulk_update\nfrom .models import Allocation, PreorderReservation, Reservation, Stock\n\ntask_logger = get_task_logger(__name__)\n\n\n@app.task\n@allow_writer()\ndef delete_empty_allocations_task():\n    ids_to_delete = list(\n        Allocation.objects.filter(quantity_allocated=0).values_list(\"id\", flat=True)\n    )\n    count, _ = delete_allocations(ids_to_delete)\n    if count:\n        task_logger.debug(\"Removed %s allocations\", count)\n\n\n@app.task\n@allow_writer()\ndef delete_expired_reservations_task():\n    stock_reservations, _ = Reservation.objects.filter(\n        reserved_until__lt=timezone.now()\n    ).delete()\n    preorder_reservations, _ = PreorderReservation.objects.filter(\n        reserved_until__lt=timezone.now()\n    ).delete()\n\n    if stock_reservations or preorder_reservations:\n        task_logger.debug(\n            \"Removed %s stock reservations and %s preorder reservations\",\n            stock_reservations,\n            preorder_reservations,\n        )\n\n\n@app.task\n@allow_writer()\ndef update_stocks_quantity_allocated_task():\n    stocks_to_update = []\n    for mismatched_stock in Stock.objects.annotate(\n        allocations_allocated=Coalesce(Sum(\"allocations__quantity_allocated\"), 0)\n    ).exclude(quantity_allocated=F(\"allocations_allocated\")):\n        allocations_allocated = getattr(\n            mismatched_stock, \"allocations_allocated\"\n        )  # annotation\n        task_logger.info(\n            \"Mismatch updating quantity_allocated: stock %d had \"\n            \"%d allocated, but should have %d.\",\n            mismatched_stock.pk,\n            mismatched_stock.quantity_allocated,\n            allocations_allocated,\n        )\n        mismatched_stock.quantity_allocated = allocations_allocated\n        stocks_to_update.append(mismatched_stock)\n\n    stock_bulk_update(stocks_to_update, [\"quantity_allocated\"])\n\n    task_logger.info(\n        \"Finished updating quantity_allocated on stocks, %d were corrected.\",\n        len(stocks_to_update),\n    )\n\n===== END FILE: saleor/warehouse/tasks.py ====="
+   }
+  ]
+ },
+ "request_sha": "3d1bef67690f450028a0133b08640611786ac32876a1e07992f377b3aef37fd7",
+ "provider_call": true,
+ "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\pilot_a_v1\\episodes\\saleor-rc-d3847fa5f518\\PLACEBO_HARD__r1\\calls\\1_initial.txt",
+ "text": "FILE: saleor/warehouse/tasks.py\n<<<<<<< SEARCH\nfrom celery.utils.log import get_task_logger\nfrom django.db.models import F, Sum\nfrom django.db.models.functions import Coalesce\nfrom django.utils import timezone\n\nfrom ..celeryconf import app\nfrom ..core.db.connection import allow_writer\nfrom .management import delete_allocations, stock_bulk_update\nfrom .models import Allocation, PreorderReservation, Reservation, Stock\n\ntask_logger = get_task_logger(__name__)\n\n=======\nfrom celery.utils.log import get_task_logger\nfrom django.db.models import F, Sum\nfrom django.db.models.functions import Coalesce\nfrom django.utils import timezone\n\nfrom ..celeryconf import app\nfrom ..core.db.connection import allow_writer\nfrom .management import delete_allocations, stock_bulk_update\nfrom .models import Allocation, PreorderReservation, Reservation, Stock\n\ntask_logger = get_task_logger(__name__)\n\n>>>>>>> REPLACE",
+ "response_sha256": "615cb0ef025b1f3f5613a29d7eb13fbe2e590d6f707d728bd90d55e087db1023",
+ "finish_reason": "stop",
+ "prompt_tokens": 783,
+ "completion_tokens": 186,
+ "cost_usd": 0.0003633,
+ "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+ "provider": "deepinfra/turbo",
+ "request_id": "gen-1790762018-8NnEDoEhOXX98QmGWaXL",
+ "raw_sha256": "615cb0ef025b1f3f5613a29d7eb13fbe2e590d6f707d728bd90d55e087db1023",
+ "created_time": "2026-09-30T09:53:41Z"
+}

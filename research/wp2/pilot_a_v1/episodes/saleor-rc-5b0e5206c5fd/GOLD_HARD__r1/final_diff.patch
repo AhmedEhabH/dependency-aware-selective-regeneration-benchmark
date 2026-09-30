@@ -1,0 +1,22 @@
+diff --git a/saleor/graphql/translations/mutations.py b/saleor/graphql/translations/mutations.py
+--- a/saleor/graphql/translations/mutations.py
++++ b/saleor/graphql/translations/mutations.py
+@@ -321,6 +321,18 @@
+         error_type_field = "translation_errors"
+         permissions = (SitePermissions.MANAGE_TRANSLATIONS,)
+ 
++    @classmethod
++    def validate_input(cls, input_data):
++        super().validate_input(input_data)
++        
++        # If name is not provided but rich_text or plain_text is provided,
++        # propagate the rich_text/plain_text value to name field
++        if not input_data.get("name"):
++            if input_data.get("rich_text"):
++                input_data["name"] = input_data["rich_text"]
++            elif input_data.get("plain_text"):
++                input_data["name"] = input_data["plain_text"]
++
+ 
+ class SaleTranslate(BaseTranslateMutation):
+     class Arguments:

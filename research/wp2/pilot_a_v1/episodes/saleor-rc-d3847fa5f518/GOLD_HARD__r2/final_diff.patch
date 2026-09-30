@@ -1,0 +1,26 @@
+diff --git a/saleor/checkout/complete_checkout.py b/saleor/checkout/complete_checkout.py
+--- a/saleor/checkout/complete_checkout.py
++++ b/saleor/checkout/complete_checkout.py
+@@ -208,7 +208,9 @@
+         if user.addresses.filter(pk=shipping_address.pk).exists():
+             shipping_address = shipping_address.get_copy()
+ 
+-    if shipping_address and delivery_method_info.warehouse_pk:
++    # Always create a copy of shipping address to avoid sharing instances between
++    # Checkout and Order
++    if shipping_address:
+         shipping_address = shipping_address.get_copy()
+ 
+     shipping_method = delivery_method_info.delivery_method
+@@ -280,6 +282,11 @@
+         )
+         if checkout_info.user.addresses.filter(pk=billing_address.pk).exists():
+             billing_address = billing_address.get_copy()
++
++    # Always create a copy of billing address to avoid sharing instances between
++    # Checkout and Order
++    if billing_address:
++        billing_address = billing_address.get_copy()
+ 
+     return {
+         "user": checkout_info.user,

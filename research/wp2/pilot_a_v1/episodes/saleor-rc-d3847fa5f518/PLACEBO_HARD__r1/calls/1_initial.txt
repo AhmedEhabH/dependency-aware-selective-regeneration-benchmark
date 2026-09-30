@@ -1,0 +1,28 @@
+FILE: saleor/warehouse/tasks.py
+<<<<<<< SEARCH
+from celery.utils.log import get_task_logger
+from django.db.models import F, Sum
+from django.db.models.functions import Coalesce
+from django.utils import timezone
+
+from ..celeryconf import app
+from ..core.db.connection import allow_writer
+from .management import delete_allocations, stock_bulk_update
+from .models import Allocation, PreorderReservation, Reservation, Stock
+
+task_logger = get_task_logger(__name__)
+
+=======
+from celery.utils.log import get_task_logger
+from django.db.models import F, Sum
+from django.db.models.functions import Coalesce
+from django.utils import timezone
+
+from ..celeryconf import app
+from ..core.db.connection import allow_writer
+from .management import delete_allocations, stock_bulk_update
+from .models import Allocation, PreorderReservation, Reservation, Stock
+
+task_logger = get_task_logger(__name__)
+
+>>>>>>> REPLACE

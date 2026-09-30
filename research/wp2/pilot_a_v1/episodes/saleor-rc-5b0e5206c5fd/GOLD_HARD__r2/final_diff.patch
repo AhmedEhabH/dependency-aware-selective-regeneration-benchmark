@@ -1,0 +1,43 @@
+diff --git a/saleor/graphql/translations/mutations.py b/saleor/graphql/translations/mutations.py
+--- a/saleor/graphql/translations/mutations.py
++++ b/saleor/graphql/translations/mutations.py
+@@ -321,6 +321,39 @@
+         error_type_field = "translation_errors"
+         permissions = (SitePermissions.MANAGE_TRANSLATIONS,)
+ 
++    @classmethod
++    def perform_mutation(cls, _root, info, **data):
++        node_id, model_type = cls.clean_node_id(**data)
++        instance = cls.get_node_or_error(info, node_id, only_type=model_type)
++        
++        # For rich text and plain text attributes, ensure name is populated
++        # if not explicitly provided in the input
++        input_data = data["input"]
++        if not input_data.get("name"):
++            # Check if this is a rich text or plain text attribute value
++            if hasattr(instance, 'attribute') and instance.attribute.type in [
++                'rich-text', 'plain-text'
++            ]:
++                # Use the rich_text or plain_text value as the name if name is not provided
++                if input_data.get("rich_text"):
++                    input_data["name"] = input_data["rich_text"]
++                elif input_data.get("plain_text"):
++                    input_data["name"] = input_data["plain_text"]
++        
++        cls.validate_input(input_data)
++
++        translation, created = instance.translations.update_or_create(
++            language_code=data["language_code"], defaults=input_data
++        )
++        manager = load_plugin_manager(info.context)
++
++        if created:
++            cls.call_event(manager.translation_created, translation)
++        else:
++            cls.call_event(manager.translation_updated, translation)
++
++        return cls(**{cls._meta.return_field_name: instance})
++
+ 
+ class SaleTranslate(BaseTranslateMutation):
+     class Arguments:

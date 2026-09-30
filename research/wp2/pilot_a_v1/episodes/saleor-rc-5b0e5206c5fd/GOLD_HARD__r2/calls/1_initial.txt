@@ -1,0 +1,53 @@
+Looking at the issue description and the code, I need to fix missing `AttributeValueTranslation.name` for RichText and PlainText attributes. The problem appears to be in the `AttributeValueTranslate` mutation where the `name` field is not being properly handled when dealing with rich text and plain text attribute values.
+
+Let me examine the `AttributeValueTranslationInput` and the `AttributeValueTranslate` class to understand how translations are handled.
+
+The issue seems to be that when creating/updating translations for attribute values with rich text or plain text types, the `name` field is not being properly propagated or set. Looking at the input types, I can see that `AttributeValueTranslationInput` extends `NameTranslationInput` but there's likely missing logic to handle the case where rich text or plain text values should have their name field populated.
+
+Let me check the `AttributeValueTranslate` class and add the necessary logic to propagate names for rich text and plain text attributes:
+
+FILE: saleor/graphql/translations/mutations.py
+<<<<<<< SEARCH
+        permissions = (SitePermissions.MANAGE_TRANSLATIONS,)
+
+
+class SaleTranslate(BaseTranslateMutation):
+=======
+        permissions = (SitePermissions.MANAGE_TRANSLATIONS,)
+
+    @classmethod
+    def perform_mutation(cls, _root, info, **data):
+        node_id, model_type = cls.clean_node_id(**data)
+        instance = cls.get_node_or_error(info, node_id, only_type=model_type)
+        
+        # For rich text and plain text attributes, ensure name is populated
+        # if not explicitly provided in the input
+        input_data = data["input"]
+        if not input_data.get("name"):
+            # Check if this is a rich text or plain text attribute value
+            if hasattr(instance, 'attribute') and instance.attribute.type in [
+                'rich-text', 'plain-text'
+            ]:
+                # Use the rich_text or plain_text value as the name if name is not provided
+                if input_data.get("rich_text"):
+                    input_data["name"] = input_data["rich_text"]
+                elif input_data.get("plain_text"):
+                    input_data["name"] = input_data["plain_text"]
+        
+        cls.validate_input(input_data)
+
+        translation, created = instance.translations.update_or_create(
+            language_code=data["language_code"], defaults=input_data
+        )
+        manager = load_plugin_manager(info.context)
+
+        if created:
+            cls.call_event(manager.translation_created, translation)
+        else:
+            cls.call_event(manager.translation_updated, translation)
+
+        return cls(**{cls._meta.return_field_name: instance})
+
+
+class SaleTranslate(BaseTranslateMutation):
+>>>>>>> REPLACE

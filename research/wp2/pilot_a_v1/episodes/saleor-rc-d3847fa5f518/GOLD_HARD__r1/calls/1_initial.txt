@@ -1,0 +1,73 @@
+Looking at the developer change description, I need to fix shared address instances between Order and Checkout objects. The issue is that addresses are being shared between Checkout and Order objects, which can cause problems when the same address is modified in both places.
+
+Let me examine the code to identify where addresses are being shared and fix them by creating copies of addresses instead of sharing references.
+
+The key areas I need to focus on are:
+1. `_process_shipping_data_for_order` - where shipping address is handled
+2. `_process_user_data_for_order` - where billing address is handled
+
+Looking at the code, I can see that in both functions, there are checks to see if the address already exists in the user's address book, and if so, a copy is made. However, there are cases where addresses might still be shared.
+
+Let me implement the fixes:
+
+FILE: saleor/checkout/complete_checkout.py
+<<<<<<< SEARCH
+    if _should_store_shipping_address_in_user_addresses(
+        checkout_info, shipping_address
+    ):
+        user = cast(User, checkout_info.user)
+        shipping_address = cast(Address, shipping_address)
+        store_user_address(
+            user,
+            shipping_address,
+            AddressType.SHIPPING,
+            manager=manager,
+        )
+        if user.addresses.filter(pk=shipping_address.pk).exists():
+            shipping_address = shipping_address.get_copy()
+
+    if shipping_address and delivery_method_info.warehouse_pk:
+        shipping_address = shipping_address.get_copy()
+=======
+    if _should_store_shipping_address_in_user_addresses(
+        checkout_info, shipping_address
+    ):
+        user = cast(User, checkout_info.user)
+        shipping_address = cast(Address, shipping_address)
+        store_user_address(
+            user,
+            shipping_address,
+            AddressType.SHIPPING,
+            manager=manager,
+        )
+        if user.addresses.filter(pk=shipping_address.pk).exists():
+            shipping_address = shipping_address.get_copy()
+
+    if shipping_address and delivery_method_info.warehouse_pk:
+        shipping_address = shipping_address.get_copy()
+        
+    # Ensure shipping address is not shared with checkout
+    if shipping_address:
+        shipping_address = shipping_address.get_copy()
+>>>>>>> REPLACE
+
+FILE: saleor/checkout/complete_checkout.py
+<<<<<<< SEARCH
+    if checkout_info.user and billing_address and save_billing_address:
+        store_user_address(
+            checkout_info.user, billing_address, AddressType.BILLING, manager=manager
+        )
+        if checkout_info.user.addresses.filter(pk=billing_address.pk).exists():
+            billing_address = billing_address.get_copy()
+=======
+    if checkout_info.user and billing_address and save_billing_address:
+        store_user_address(
+            checkout_info.user, billing_address, AddressType.BILLING, manager=manager
+        )
+        if checkout_info.user.addresses.filter(pk=billing_address.pk).exists():
+            billing_address = billing_address.get_copy()
+            
+    # Ensure billing address is not shared with checkout
+    if billing_address:
+        billing_address = billing_address.get_copy()
+>>>>>>> REPLACE

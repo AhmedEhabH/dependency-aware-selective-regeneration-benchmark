@@ -1,0 +1,60 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v21",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-5b0e5206c5fd",
+ "arm": "GOLD_HARD",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/graphql/translations/mutations.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/graphql/translations/mutations.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/graphql/translations/mutations.py"
+  ]
+ },
+ "prompt_sha256": "5f3c6f5ff84b24114c25595a10863b4324d9b5f2a76981ffee734b8a0f527470",
+ "request_sha_initial": "bf83c9bb937c90f820c2445e5c4b3bb3e2ebff25716be9f67843052c95753b11",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "repair_request_sha256": "",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790761955-GE4Z4UfmLE4pxibHPLAI",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 3946,
+   "completion_tokens": 517,
+   "cost_usd_actual": 0.0016592,
+   "cost_usd_nominal": 0.0016592,
+   "finish_reason": "stop",
+   "response_sha256": "4d6adb0801bd8498ac85fbe20e199c925df8edee0a0e86b67f1e1c58d32601b0",
+   "request_sha": "bf83c9bb937c90f820c2445e5c4b3bb3e2ebff25716be9f67843052c95753b11",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\pilot_a_v1\\episodes\\saleor-rc-5b0e5206c5fd\\GOLD_HARD__r1\\calls\\1_initial.txt",
+   "raw_sha256": "4d6adb0801bd8498ac85fbe20e199c925df8edee0a0e86b67f1e1c58d32601b0"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "edited_files": [
+  "saleor/graphql/translations/mutations.py"
+ ],
+ "diff_sha256": "689b4389e97653dae714baee7cf04e7ba404761878fdc75cc640ad345377e595",
+ "envelope": {},
+ "whitespace_tolerant_blocks": [],
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-30T09:52:47Z",
+ "episode_sha256": "713ffe673b3c15355c59ff64d84424cf22e0c646a0d6d78ba95999a0dd10c342"
+}

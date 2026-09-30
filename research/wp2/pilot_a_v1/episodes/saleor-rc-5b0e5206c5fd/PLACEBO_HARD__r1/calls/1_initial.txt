@@ -1,0 +1,26 @@
+Looking at the developer change description, this is about fixing missing `AttributeValueTranslation.name` for RichText and PlainText attributes. However, the provided file is `saleor/order/models.py` which doesn't contain any `AttributeValueTranslation` model or attribute-related code.
+
+The issue seems to be that I'm being asked to fix something related to attribute value translations, but the provided file is about order models, not product attributes. This suggests there might be a mismatch between the change description and the file provided.
+
+However, since I'm instructed to only edit the provided file and the change description mentions propagating names on rich text and plain text AttributeValueTranslations, I need to look for any relevant code in the order models that might be related to this.
+
+Looking through the order models, I don't see any direct references to `AttributeValueTranslation`, `RichText`, or `PlainText` attributes. The order models primarily deal with orders, order lines, fulfillments, and order events.
+
+Given the constraints and the fact that the file doesn't contain the relevant code mentioned in the change description, I cannot make the specific changes requested. The fix for `AttributeValueTranslation.name` for RichText and PlainText attributes would typically be in product/attribute-related models, not order models.
+
+Since I must output edit blocks and the file doesn't contain relevant code, I'll indicate that no changes are needed by providing a minimal edit that doesn't actually change anything:
+
+FILE: saleor/order/models.py
+<<<<<<< SEARCH
+from decimal import Decimal
+from operator import attrgetter
+from re import match
+from typing import Optional
+from uuid import uuid4
+=======
+from decimal import Decimal
+from operator import attrgetter
+from re import match
+from typing import Optional
+from uuid import uuid4
+>>>>>>> REPLACE

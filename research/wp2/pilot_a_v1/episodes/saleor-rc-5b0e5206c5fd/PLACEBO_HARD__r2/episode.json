@@ -1,0 +1,60 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v21",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-5b0e5206c5fd",
+ "arm": "PLACEBO_HARD",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/order/models.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/order/models.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/order/models.py"
+  ]
+ },
+ "prompt_sha256": "fe9ec1c7f2a4017d48273f015bdec084bb4bea168d0f179ee463f11fbc24fb4c",
+ "request_sha_initial": "2fb0f5d89bc5089af3bb42369439924984a7503d8609f7fe223998ea5a38acbf",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "repair_request_sha256": "",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790762000-vihOwm5Le9Cr2H4WANDw",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 5793,
+   "completion_tokens": 651,
+   "cost_usd_actual": 0.0023345,
+   "cost_usd_nominal": 0.0023345,
+   "finish_reason": "stop",
+   "response_sha256": "5ad6ba325fd6e882e10726ea1f4783262e89289aad520ba4576e1ec51b63edb7",
+   "request_sha": "2fb0f5d89bc5089af3bb42369439924984a7503d8609f7fe223998ea5a38acbf",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\pilot_a_v1\\episodes\\saleor-rc-5b0e5206c5fd\\PLACEBO_HARD__r2\\calls\\1_initial.txt",
+   "raw_sha256": "5ad6ba325fd6e882e10726ea1f4783262e89289aad520ba4576e1ec51b63edb7"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "edited_files": [
+  "saleor/order/models.py"
+ ],
+ "diff_sha256": "16ec795185b645d8d57bd90786f83612f045ee5efe642dd1520f3496ef3b03d3",
+ "envelope": {},
+ "whitespace_tolerant_blocks": [],
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-30T09:53:27Z",
+ "episode_sha256": "de689ed56b817ca8e58a43f24fdc785cb3b67c77014afd412e8fea5f0a174d8a"
+}

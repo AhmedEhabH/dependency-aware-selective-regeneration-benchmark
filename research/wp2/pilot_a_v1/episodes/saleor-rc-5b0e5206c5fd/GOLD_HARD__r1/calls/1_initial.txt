@@ -1,0 +1,60 @@
+Looking at the problem description and the code, I need to fix missing `AttributeValueTranslation.name` for RichText and PlainText attributes. The issue is that when creating/updating translations for attribute values with rich text or plain text types, the `name` field should be automatically populated based on the translated content.
+
+Let me examine the `AttributeValueTranslate` mutation and see how to propagate names for rich text and plain text attributes.
+
+The fix needs to be implemented in the `AttributeValueTranslate` class to automatically set the `name` field when `rich_text` or `plain_text` is provided but `name` is not explicitly set.
+
+```python
+FILE: saleor/graphql/translations/mutations.py
+<<<<<<< SEARCH
+class AttributeValueTranslate(BaseTranslateMutation):
+    class Arguments:
+        id = graphene.ID(
+            required=True,
+            description="AttributeValue ID or AttributeValueTranslatableContent ID.",
+        )
+        language_code = graphene.Argument(
+            LanguageCodeEnum, required=True, description="Translation language code."
+        )
+        input = AttributeValueTranslationInput(required=True)
+
+    class Meta:
+        description = "Creates/updates translations for an attribute value."
+        model = attribute_models.AttributeValue
+        object_type = AttributeValue
+        error_type_class = TranslationError
+        error_type_field = "translation_errors"
+        permissions = (SitePermissions.MANAGE_TRANSLATIONS,)
+=======
+class AttributeValueTranslate(BaseTranslateMutation):
+    class Arguments:
+        id = graphene.ID(
+            required=True,
+            description="AttributeValue ID or AttributeValueTranslatableContent ID.",
+        )
+        language_code = graphene.Argument(
+            LanguageCodeEnum, required=True, description="Translation language code."
+        )
+        input = AttributeValueTranslationInput(required=True)
+
+    class Meta:
+        description = "Creates/updates translations for an attribute value."
+        model = attribute_models.AttributeValue
+        object_type = AttributeValue
+        error_type_class = TranslationError
+        error_type_field = "translation_errors"
+        permissions = (SitePermissions.MANAGE_TRANSLATIONS,)
+
+    @classmethod
+    def validate_input(cls, input_data):
+        super().validate_input(input_data)
+        
+        # If name is not provided but rich_text or plain_text is provided,
+        # propagate the rich_text/plain_text value to name field
+        if not input_data.get("name"):
+            if input_data.get("rich_text"):
+                input_data["name"] = input_data["rich_text"]
+            elif input_data.get("plain_text"):
+                input_data["name"] = input_data["plain_text"]
+>>>>>>> REPLACE
+```

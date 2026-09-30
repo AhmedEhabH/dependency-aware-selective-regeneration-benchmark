@@ -1,0 +1,92 @@
+Looking at the developer change description, I need to fix shared address instances between Order and Checkout objects. The issue is that addresses are being shared between Checkout and Order objects, which can cause problems when the same address instance is modified in both places.
+
+Let me examine the code to identify where addresses are being shared and fix them by creating copies instead.
+
+In the `_process_shipping_data_for_order` function, I can see that shipping addresses are being used directly without always creating copies. Similarly, in `_process_user_data_for_order`, billing addresses might be shared.
+
+Here are the fixes needed:
+
+FILE: saleor/checkout/complete_checkout.py
+<<<<<<< SEARCH
+    if _should_store_shipping_address_in_user_addresses(
+        checkout_info, shipping_address
+    ):
+        user = cast(User, checkout_info.user)
+        shipping_address = cast(Address, shipping_address)
+        store_user_address(
+            user,
+            shipping_address,
+            AddressType.SHIPPING,
+            manager=manager,
+        )
+        if user.addresses.filter(pk=shipping_address.pk).exists():
+            shipping_address = shipping_address.get_copy()
+
+    if shipping_address and delivery_method_info.warehouse_pk:
+        shipping_address = shipping_address.get_copy()
+=======
+    if _should_store_shipping_address_in_user_addresses(
+        checkout_info, shipping_address
+    ):
+        user = cast(User, checkout_info.user)
+        shipping_address = cast(Address, shipping_address)
+        store_user_address(
+            user,
+            shipping_address,
+            AddressType.SHIPPING,
+            manager=manager,
+        )
+        if user.addresses.filter(pk=shipping_address.pk).exists():
+            shipping_address = shipping_address.get_copy()
+
+    # Always create a copy of shipping address to avoid sharing instances between
+    # Checkout and Order
+    if shipping_address:
+        shipping_address = shipping_address.get_copy()
+>>>>>>> REPLACE
+
+FILE: saleor/checkout/complete_checkout.py
+<<<<<<< SEARCH
+def _process_user_data_for_order(checkout_info: "CheckoutInfo", manager):
+    """Fetch, process and return shipping data from checkout."""
+    billing_address = checkout_info.billing_address
+    save_billing_address = checkout_info.checkout.save_billing_address
+
+    if checkout_info.user and billing_address and save_billing_address:
+        store_user_address(
+            checkout_info.user, billing_address, AddressType.BILLING, manager=manager
+        )
+        if checkout_info.user.addresses.filter(pk=billing_address.pk).exists():
+            billing_address = billing_address.get_copy()
+
+    return {
+        "user": checkout_info.user,
+        "user_email": checkout_info.get_customer_email(),
+        "billing_address": billing_address,
+        "customer_note": checkout_info.checkout.note,
+    }
+=======
+def _process_user_data_for_order(checkout_info: "CheckoutInfo", manager):
+    """Fetch, process and return shipping data from checkout."""
+    billing_address = checkout_info.billing_address
+    save_billing_address = checkout_info.checkout.save_billing_address
+
+    if checkout_info.user and billing_address and save_billing_address:
+        store_user_address(
+            checkout_info.user, billing_address, AddressType.BILLING, manager=manager
+        )
+        if checkout_info.user.addresses.filter(pk=billing_address.pk).exists():
+            billing_address = billing_address.get_copy()
+
+    # Always create a copy of billing address to avoid sharing instances between
+    # Checkout and Order
+    if billing_address:
+        billing_address = billing_address.get_copy()
+
+    return {
+        "user": checkout_info.user,
+        "user_email": checkout_info.get_customer_email(),
+        "billing_address": billing_address,
+        "customer_note": checkout_info.checkout.note,
+    }
+>>>>>>> REPLACE

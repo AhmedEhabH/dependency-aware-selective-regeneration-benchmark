@@ -1,0 +1,76 @@
+Looking at the developer change description, this is about fixing missing `AttributeValueTranslation.name` for RichText and PlainText attributes. However, the provided file is `saleor/order/models.py` which doesn't contain any attribute value translation models or logic related to attributes.
+
+The issue described seems to be related to product attribute translations, not order models. The order models file provided doesn't contain any code that would need to be modified to fix attribute value translation issues for RichText and PlainText attributes.
+
+Since the requested file (`saleor/order/models.py`) doesn't contain the relevant code for attribute value translations, and there's no indication of what specific changes are needed, I cannot make meaningful edits to fix the described issue.
+
+However, since I'm required to output edit blocks, I'll indicate that no changes are needed by providing a minimal edit that doesn't change functionality:
+
+FILE: saleor/order/models.py
+<<<<<<< SEARCH
+class OrderEvent(models.Model):
+    """Model used to store events that happened during the order lifecycle.
+
+    Args:
+        parameters: Values needed to display the event on the storefront
+        type: Type of an order
+
+    """
+
+    date = models.DateTimeField(default=now, editable=False)
+    type = models.CharField(
+        max_length=255,
+        choices=[
+            (type_name.upper(), type_name) for type_name, _ in OrderEvents.CHOICES
+        ],
+    )
+    order = models.ForeignKey(Order, related_name="events", on_delete=models.CASCADE)
+    parameters = JSONField(blank=True, default=dict, encoder=CustomJsonEncoder)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+    app = models.ForeignKey(App, related_name="+", on_delete=models.SET_NULL, null=True)
+
+    class Meta:
+        ordering = ("date",)
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}(type={self.type!r}, user={self.user!r})"
+=======
+class OrderEvent(models.Model):
+    """Model used to store events that happened during the order lifecycle.
+
+    Args:
+        parameters: Values needed to display the event on the storefront
+        type: Type of an order
+
+    """
+
+    date = models.DateTimeField(default=now, editable=False)
+    type = models.CharField(
+        max_length=255,
+        choices=[
+            (type_name.upper(), type_name) for type_name, _ in OrderEvents.CHOICES
+        ],
+    )
+    order = models.ForeignKey(Order, related_name="events", on_delete=models.CASCADE)
+    parameters = JSONField(blank=True, default=dict, encoder=CustomJsonEncoder)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+    app = models.ForeignKey(App, related_name="+", on_delete=models.SET_NULL, null=True)
+
+    class Meta:
+        ordering = ("date",)
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}(type={self.type!r}, user={self.user!r})"
+>>>>>>> REPLACE
