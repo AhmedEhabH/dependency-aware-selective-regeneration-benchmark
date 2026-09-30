@@ -1,0 +1,54 @@
+{
+ "artifact": "pilot_a_doctor",
+ "artifact_sha256": "ac6817fd1c1e580fdcaa80b7ed55a082e3e6fe5d43b243fc281b8951bd6d871f",
+ "checks": {
+  "api_key": {
+   "ok": true
+  },
+  "credit_ge_5": {
+   "ok": true,
+   "value": 30.0
+  },
+  "disk_free_gib": {
+   "ok": true,
+   "value": 29.9
+  },
+  "evaluator_sets": {
+   "ok": true
+  },
+  "images": {
+   "ok": true,
+   "value": {
+    "era_images": {
+     "wp2-era-py312": "sha256:0c185699947d75d5866e57dfb10bba25cca05dc58ca3fd2f75446ee8b0e41394",
+     "wp2-era-py38": "sha256:1cc60658b6a282c3bfe7c42312478a1983950927d348b47dce99e1a58e7a8c60",
+     "wp2-era-py39": "sha256:ddc08d7e685517764dfa2606a760d5b3f09d57840d8a0bbcef366db67cd99ef8"
+    },
+    "errors": [],
+    "postgres": {
+     "image_id": "sha256:f7d23353e1b15400d22ebe31189f4d314b87a4c129cc400c8c2d8d4ca127bf81",
+     "repo_digests": [
+      "postgres@sha256:f7d23353e1b15400d22ebe31189f4d314b87a4c129cc400c8c2d8d4ca127bf81"
+     ]
+    }
+   }
+  },
+  "postgres_clock": {
+   "ok": true,
+   "value": "CONTINUE_RECORDED"
+  },
+  "pricing": {
+   "completion_per_1m": 1.0,
+   "ok": true,
+   "prompt_per_1m": 0.3,
+   "quantization": "fp4",
+   "ratio": 1.0,
+   "status": 0,
+   "uptime_last_30m": 97.64150943396226
+  }
+ },
+ "mode": "paid",
+ "model_api_calls": 0,
+ "pass": true,
+ "utc": "2026-09-30T09:30:53Z"
+}

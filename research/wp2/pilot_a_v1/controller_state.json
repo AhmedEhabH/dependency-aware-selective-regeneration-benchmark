@@ -1,0 +1,183 @@
+{
+ "acks": [],
+ "history": [
+  {
+   "detail": "M14A kit self-tests (zero network)",
+   "event": "START",
+   "phase": "P00_KIT_SELFTEST",
+   "utc": "2026-09-29T19:41:05Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "P00_KIT_SELFTEST",
+   "utc": "2026-09-29T19:41:30Z"
+  },
+  {
+   "detail": "M13B design/source guard",
+   "event": "START",
+   "phase": "P01_GUARD",
+   "utc": "2026-09-29T19:41:30Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "P01_GUARD",
+   "utc": "2026-09-29T19:41:34Z"
+  },
+  {
+   "detail": "frozen M14A.S0.A1 readiness of all 26 eligible tasks (C4 V3.1 + P2P-U V3 cap200 + gold/empty check)",
+   "event": "START",
+   "phase": "P02_READINESS",
+   "utc": "2026-09-29T19:41:34Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "P02_READINESS",
+   "utc": "2026-09-30T05:48:17Z"
+  },
+  {
+   "detail": "apply frozen readiness replacement rule",
+   "event": "START",
+   "phase": "P03_MEMBERSHIP",
+   "utc": "2026-09-30T05:48:17Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "P03_MEMBERSHIP",
+   "utc": "2026-09-30T05:48:27Z"
+  },
+  {
+   "detail": "human authorization check",
+   "event": "START",
+   "phase": "P04_AUTH",
+   "utc": "2026-09-30T09:30:23Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "P04_AUTH",
+   "utc": "2026-09-30T09:30:32Z"
+  },
+  {
+   "detail": "offline environment doctor",
+   "event": "START",
+   "phase": "P05_DOCTOR_OFFLINE",
+   "utc": "2026-09-30T09:30:32Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "P05_DOCTOR_OFFLINE",
+   "utc": "2026-09-30T09:30:46Z"
+  },
+  {
+   "detail": "read-only provider/credit doctor (zero model calls)",
+   "event": "START",
+   "phase": "P06_DOCTOR_PAID",
+   "utc": "2026-09-30T09:30:46Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "P06_DOCTOR_PAID",
+   "utc": "2026-09-30T09:30:53Z"
+  },
+  {
+   "detail": "known ENG evaluator canary (zero model calls)",
+   "event": "START",
+   "phase": "P07_CANARY",
+   "utc": "2026-09-30T09:30:53Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "P07_CANARY",
+   "utc": "2026-09-30T09:37:25Z"
+  },
+  {
+   "detail": "Pilot-A paid-run freeze",
+   "event": "START",
+   "phase": "P08_FREEZE",
+   "utc": "2026-09-30T09:37:25Z"
+  }
+ ],
+ "phases": {
+  "P00_KIT_SELFTEST": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-09-29T19:41:30Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "P01_GUARD": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-09-29T19:41:34Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "P02_READINESS": {
+   "attempts": 0,
+   "failures": 0,
+   "iterations": 26,
+   "passed_utc": "2026-09-30T05:48:17Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "P03_MEMBERSHIP": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-09-30T05:48:27Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "P04_AUTH": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-09-30T09:30:32Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "P05_DOCTOR_OFFLINE": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-09-30T09:30:46Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "P06_DOCTOR_PAID": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-09-30T09:30:53Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "P07_CANARY": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-09-30T09:37:25Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "P08_FREEZE": {
+   "attempts": 0,
+   "failures": 0,
+   "iterations": 0,
+   "runs": 1,
+   "status": "RUNNING"
+  }
+ },
+ "plan": "WP2_M14A_PILOT_A_V1_CORRECTED",
+ "plan_sha256": "8ea5be2bb3dfe8decb4b50b1c4c411ca95064579cf114e1b4e4eab01b40c5430",
+ "stop": null
+}
