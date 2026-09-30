@@ -1,0 +1,69 @@
+{
+ "artifact": "m14r_readiness_task",
+ "artifact_sha256": "af9710df98c015498b2e9d57c192ca1213cc78b44fe0e83df9c93d0b50986a3d",
+ "decision": "READY",
+ "model_api_calls": 0,
+ "negative": {
+  "nodes": {
+   "f2p_intermittent": 0,
+   "f2p_pass3": 0,
+   "f2p_total": 2,
+   "s_deterministic": 0,
+   "s_intermittent": 0,
+   "s_missing": 0,
+   "u_deterministic": 0,
+   "u_intermittent": 0,
+   "u_missing": 0
+  },
+  "robust": {
+   "f2p_task": "FAIL",
+   "p2p_s_task": "PASS",
+   "p2p_u200_task": "PASS",
+   "resolved": false
+  },
+  "strict": {
+   "f2p_task": "FAIL",
+   "p2p_s_task": "PASS",
+   "p2p_u200_task": "PASS",
+   "resolved": false
+  },
+  "tree_sha": "9aa497250eba0fdde88f3cae41a77369b9857519"
+ },
+ "positive": {
+  "e1_decision": "ALL_JUNIT_PRESENT",
+  "editable": [
+   "saleor/giftcard/notifications.py",
+   "saleor/plugins/sendgrid/tasks.py",
+   "saleor/plugins/user_email/default_email_templates/gift_card.html"
+  ],
+  "excluded_budget": [],
+  "excluded_large": [],
+  "nodes": {
+   "f2p_intermittent": 0,
+   "f2p_pass3": 2,
+   "f2p_total": 2,
+   "s_deterministic": 0,
+   "s_intermittent": 0,
+   "s_missing": 0,
+   "u_deterministic": 0,
+   "u_intermittent": 0,
+   "u_missing": 0
+  },
+  "robust": {
+   "f2p_task": "PASS",
+   "p2p_s_task": "PASS",
+   "p2p_u200_task": "PASS",
+   "resolved": true
+  },
+  "scoped_diff_sha256": "51ecf2b8156f4e093e310bbfef52ca57e61e372458f23bdea979c518be289c07",
+  "strict": {
+   "f2p_task": "PASS",
+   "p2p_s_task": "PASS",
+   "p2p_u200_task": "PASS",
+   "resolved": true
+  },
+  "tree_sha": "eda75d6dab201f47f473023152186734bdb7708d"
+ },
+ "task_id": "saleor-rc-dc6ac9d252df",
+ "utc": "2026-09-30T21:34:37Z"
+}
