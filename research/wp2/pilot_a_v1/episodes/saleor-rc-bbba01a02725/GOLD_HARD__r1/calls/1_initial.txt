@@ -1,0 +1,19 @@
+FILE: saleor/checkout/base_calculations.py
+<<<<<<< SEARCH
+    return max(total, zero_taxed_money(currency))
+
+
+def base_checkout_line_total(
+    line: "CheckoutLine",
+    variant: "ProductVariant",
+    product: "Product",
+=======
+    return max(total, zero_taxed_money(currency))
+
+
+def base_checkout_line_unit_price(
+    line: "CheckoutLine",
+    variant: "ProductVariant",
+    product: "Product",
+>>>>>>> REPLACE
+```

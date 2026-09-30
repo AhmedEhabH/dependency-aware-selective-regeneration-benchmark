@@ -1,0 +1,433 @@
+Looking at the developer change description, I need to:
+
+1. Add `calculate_checkout_line_unit_price` method to the manager
+2. Add `total_price` field to OrderLine and use `calculate_checkout_line_unit_price` in order methods
+3. Add `total_price` to order payload
+4. Update name of base method for checkout line unit price calculation and use iterator in order migration
+
+Let me examine the files to understand the current structure and implement the changes.
+
+From the files provided, I can see:
+- The plugin system with `BasePlugin` class
+- Order and checkout models
+- GraphQL types for checkout
+- Webhook plugin that generates order payloads
+
+I need to focus on the core changes related to order line total price calculation. Looking at the editable files, I should be looking for:
+
+1. Plugin manager methods
+2. OrderLine model
+3. Order payload generation
+4. Checkout line calculations
+
+Since I don't see the actual manager or order line model files in the editable list, let me look at what I can modify based on the plugin system and webhook payload generation.
+
+FILE: saleor/plugins/base_plugin.py
+<<<<<<< SEARCH
+    def calculate_checkout_line_total(
+        self,
+        checkout: "Checkout",
+        checkout_line: "CheckoutLine",
+        variant: "ProductVariant",
+        product: "Product",
+        collections: List["Collection"],
+        address: Optional["Address"],
+        channel: "Channel",
+        channel_listing: "ProductVariantChannelListing",
+        discounts: List["DiscountInfo"],
+        previous_value: TaxedMoney,
+    ) -> TaxedMoney:
+        """Calculate checkout line total.
+
+        Overwrite this method if you need to apply specific logic for the calculation
+        of a checkout line total. Return TaxedMoney.
+        """
+        return NotImplemented
+
+    def calculate_order_line_unit(
+        self, order_line: "OrderLine", previous_value: TaxedMoney
+    ) -> TaxedMoney:
+        """Calculate order line unit price.
+
+        Update order line unit price in the order in case of changes in draft order.
+        Return TaxedMoney.
+        Overwrite this method if you need to apply specific logic for the calculation
+        of an order line unit price.
+        """
+        return NotImplemented
+=======
+    def calculate_checkout_line_unit_price(
+        self,
+        checkout: "Checkout",
+        checkout_line: "CheckoutLine",
+        variant: "ProductVariant",
+        product: "Product",
+        collections: List["Collection"],
+        address: Optional["Address"],
+        channel: "Channel",
+        channel_listing: "ProductVariantChannelListing",
+        discounts: List["DiscountInfo"],
+        previous_value: TaxedMoney,
+    ) -> TaxedMoney:
+        """Calculate checkout line unit price.
+
+        Overwrite this method if you need to apply specific logic for the calculation
+        of a checkout line unit price. Return TaxedMoney.
+        """
+        return NotImplemented
+
+    def calculate_checkout_line_total(
+        self,
+        checkout: "Checkout",
+        checkout_line: "CheckoutLine",
+        variant: "ProductVariant",
+        product: "Product",
+        collections: List["Collection"],
+        address: Optional["Address"],
+        channel: "Channel",
+        channel_listing: "ProductVariantChannelListing",
+        discounts: List["DiscountInfo"],
+        previous_value: TaxedMoney,
+    ) -> TaxedMoney:
+        """Calculate checkout line total.
+
+        Overwrite this method if you need to apply specific logic for the calculation
+        of a checkout line total. Return TaxedMoney.
+        """
+        return NotImplemented
+
+    def calculate_order_line_unit(
+        self, order_line: "OrderLine", previous_value: TaxedMoney
+    ) -> TaxedMoney:
+        """Calculate order line unit price.
+
+        Update order line unit price in the order in case of changes in draft order.
+        Return TaxedMoney.
+        Overwrite this method if you need to apply specific logic for the calculation
+        of an order line unit price.
+        """
+        return NotImplemented
+>>>>>>> REPLACE
+
+FILE: saleor/plugins/webhook/plugin.py
+<<<<<<< SEARCH
+from ...webhook.event_types import WebhookEventType
+from ...webhook.payloads import (
+    generate_checkout_payload,
+    generate_customer_payload,
+    generate_fulfillment_payload,
+    generate_invoice_payload,
+    generate_order_payload,
+    generate_product_payload,
+)
+from ..base_plugin import BasePlugin
+from .tasks import trigger_webhooks_for_event
+
+if TYPE_CHECKING:
+    from ...account.models import User
+    from ...checkout.models import Checkout
+    from ...invoice.models import Invoice
+    from ...order.models import Fulfillment, Order
+    from ...product.models import Product
+=======
+from ...webhook.event_types import WebhookEventType
+from ...webhook.payloads import (
+    generate_checkout_payload,
+    generate_customer_payload,
+    generate_fulfillment_payload,
+    generate_invoice_payload,
+    generate_order_payload,
+    generate_product_payload,
+)
+from ..base_plugin import BasePlugin
+from .tasks import trigger_webhooks_for_event
+
+if TYPE_CHECKING:
+    from ...account.models import User
+    from ...checkout.models import Checkout
+    from ...invoice.models import Invoice
+    from ...order.models import Fulfillment, Order
+    from ...product.models import Product
+>>>>>>> REPLACE
+
+FILE: saleor/plugins/webhook/plugin.py
+<<<<<<< SEARCH
+    def order_created(self, order: "Order", previous_value: Any) -> Any:
+        if not self.active:
+            return previous_value
+        order_data = generate_order_payload(order)
+        trigger_webhooks_for_event.delay(WebhookEventType.ORDER_CREATED, order_data)
+=======
+    def order_created(self, order: "Order", previous_value: Any) -> Any:
+        if not self.active:
+            return previous_value
+        order_data = generate_order_payload(order)
+        trigger_webhooks_for_event.delay(WebhookEventType.ORDER_CREATED, order_data)
+>>>>>>> REPLACE
+
+FILE: saleor/plugins/webhook/plugin.py
+<<<<<<< SEARCH
+    def order_confirmed(self, order: "Order", previous_value: Any) -> Any:
+        if not self.active:
+            return previous_value
+        order_data = generate_order_payload(order)
+        trigger_webhooks_for_event.delay(WebhookEventType.ORDER_CONFIRMED, order_data)
+=======
+    def order_confirmed(self, order: "Order", previous_value: Any) -> Any:
+        if not self.active:
+            return previous_value
+        order_data = generate_order_payload(order)
+        trigger_webhooks_for_event.delay(WebhookEventType.ORDER_CONFIRMED, order_data)
+>>>>>>> REPLACE
+
+FILE: saleor/plugins/webhook/plugin.py
+<<<<<<< SEARCH
+    def order_fully_paid(self, order: "Order", previous_value: Any) -> Any:
+        if not self.active:
+            return previous_value
+        order_data = generate_order_payload(order)
+        trigger_webhooks_for_event.delay(WebhookEventType.ORDER_FULLY_PAID, order_data)
+=======
+    def order_fully_paid(self, order: "Order", previous_value: Any) -> Any:
+        if not self.active:
+            return previous_value
+        order_data = generate_order_payload(order)
+        trigger_webhooks_for_event.delay(WebhookEventType.ORDER_FULLY_PAID, order_data)
+>>>>>>> REPLACE
+
+FILE: saleor/plugins/webhook/plugin.py
+<<<<<<< SEARCH
+    def order_updated(self, order: "Order", previous_value: Any) -> Any:
+        if not self.active:
+            return previous_value
+        order_data = generate_order_payload(order)
+        trigger_webhooks_for_event.delay(WebhookEventType.ORDER_UPDATED, order_data)
+=======
+    def order_updated(self, order: "Order", previous_value: Any) -> Any:
+        if not self.active:
+            return previous_value
+        order_data = generate_order_payload(order)
+        trigger_webhooks_for_event.delay(WebhookEventType.ORDER_UPDATED, order_data)
+>>>>>>> REPLACE
+
+FILE: saleor/plugins/webhook/plugin.py
+<<<<<<< SEARCH
+    def invoice_request(
+        self,
+        order: "Order",
+        invoice: "Invoice",
+        number: Optional[str],
+        previous_value: Any,
+    ) -> Any:
+        if not self.active:
+            return previous_value
+        invoice_data = generate_invoice_payload(invoice)
+        trigger_webhooks_for_event.delay(
+            WebhookEventType.INVOICE_REQUESTED, invoice_data
+        )
+=======
+    def invoice_request(
+        self,
+        order: "Order",
+        invoice: "Invoice",
+        number: Optional[str],
+        previous_value: Any,
+    ) -> Any:
+        if not self.active:
+            return previous_value
+        invoice_data = generate_invoice_payload(invoice)
+        trigger_webhooks_for_event.delay(
+            WebhookEventType.INVOICE_REQUESTED, invoice_data
+        )
+>>>>>>> REPLACE
+
+FILE: saleor/plugins/webhook/plugin.py
+<<<<<<< SEARCH
+    def invoice_delete(self, invoice: "Invoice", previous_value: Any):
+        if not self.active:
+            return previous_value
+        invoice_data = generate_invoice_payload(invoice)
+        trigger_webhooks_for_event.delay(WebhookEventType.INVOICE_DELETED, invoice_data)
+=======
+    def invoice_delete(self, invoice: "Invoice", previous_value: Any):
+        if not self.active:
+            return previous_value
+        invoice_data = generate_invoice_payload(invoice)
+        trigger_webhooks_for_event.delay(WebhookEventType.INVOICE_DELETED, invoice_data)
+>>>>>>> REPLACE
+
+FILE: saleor/plugins/webhook/plugin.py
+<<<<<<< SEARCH
+    def invoice_sent(self, invoice: "Invoice", email: str, previous_value: Any) -> Any:
+        if not self.active:
+            return previous_value
+        invoice_data = generate_invoice_payload(invoice)
+        trigger_webhooks_for_event.delay(WebhookEventType.INVOICE_SENT, invoice_data)
+=======
+    def invoice_sent(self, invoice: "Invoice", email: str, previous_value: Any) -> Any:
+        if not self.active:
+            return previous_value
+        invoice_data = generate_invoice_payload(invoice)
+        trigger_webhooks_for_event.delay(WebhookEventType.INVOICE_SENT, invoice_data)
+>>>>>>> REPLACE
+
+FILE: saleor/plugins/webhook/plugin.py
+<<<<<<< SEARCH
+    def order_cancelled(self, order: "Order", previous_value: Any) -> Any:
+        if not self.active:
+            return previous_value
+        order_data = generate_order_payload(order)
+        trigger_webhooks_for_event.delay(WebhookEventType.ORDER_CANCELLED, order_data)
+=======
+    def order_cancelled(self, order: "Order", previous_value: Any) -> Any:
+        if not self.active:
+            return previous_value
+        order_data = generate_order_payload(order)
+        trigger_webhooks_for_event.delay(WebhookEventType.ORDER_CANCELLED, order_data)
+>>>>>>> REPLACE
+
+FILE: saleor/plugins/webhook/plugin.py
+<<<<<<< SEARCH
+    def order_fulfilled(self, order: "Order", previous_value: Any) -> Any:
+        if not self.active:
+            return previous_value
+        order_data = generate_order_payload(order)
+        trigger_webhooks_for_event.delay(WebhookEventType.ORDER_FULFILLED, order_data)
+=======
+    def order_fulfilled(self, order: "Order", previous_value: Any) -> Any:
+        if not self.active:
+            return previous_value
+        order_data = generate_order_payload(order)
+        trigger_webhooks_for_event.delay(WebhookEventType.ORDER_FULFILLED, order_data)
+>>>>>>> REPLACE
+
+FILE: saleor/plugins/webhook/plugin.py
+<<<<<<< SEARCH
+    def fulfillment_created(self, fulfillment: "Fulfillment", previous_value):
+        if not self.active:
+            return previous_value
+        fulfillment_data = generate_fulfillment_payload(fulfillment)
+        trigger_webhooks_for_event.delay(
+            WebhookEventType.FULFILLMENT_CREATED, fulfillment_data
+        )
+=======
+    def fulfillment_created(self, fulfillment: "Fulfillment", previous_value):
+        if not self.active:
+            return previous_value
+        fulfillment_data = generate_fulfillment_payload(fulfillment)
+        trigger_webhooks_for_event.delay(
+            WebhookEventType.FULFILLMENT_CREATED, fulfillment_data
+        )
+>>>>>>> REPLACE
+
+FILE: saleor/plugins/webhook/plugin.py
+<<<<<<< SEARCH
+    def customer_created(self, customer: "User", previous_value: Any) -> Any:
+        if not self.active:
+            return previous_value
+        customer_data = generate_customer_payload(customer)
+        trigger_webhooks_for_event.delay(
+            WebhookEventType.CUSTOMER_CREATED, customer_data
+        )
+=======
+    def customer_created(self, customer: "User", previous_value: Any) -> Any:
+        if not self.active:
+            return previous_value
+        customer_data = generate_customer_payload(customer)
+        trigger_webhooks_for_event.delay(
+            WebhookEventType.CUSTOMER_CREATED, customer_data
+        )
+>>>>>>> REPLACE
+
+FILE: saleor/plugins/webhook/plugin.py
+<<<<<<< SEARCH
+    def product_created(self, product: "Product", previous_value: Any) -> Any:
+        if not self.active:
+            return previous_value
+        product_data = generate_product_payload(product)
+        trigger_webhooks_for_event.delay(WebhookEventType.PRODUCT_CREATED, product_data)
+=======
+    def product_created(self, product: "Product", previous_value: Any) -> Any:
+        if not self.active:
+            return previous_value
+        product_data = generate_product_payload(product)
+        trigger_webhooks_for_event.delay(WebhookEventType.PRODUCT_CREATED, product_data)
+>>>>>>> REPLACE
+
+FILE: saleor/plugins/webhook/plugin.py
+<<<<<<< SEARCH
+    def product_updated(self, product: "Product", previous_value: Any) -> Any:
+        if not self.active:
+            return previous_value
+        product_data = generate_product_payload(product)
+        trigger_webhooks_for_event.delay(WebhookEventType.PRODUCT_UPDATED, product_data)
+=======
+    def product_updated(self, product: "Product", previous_value: Any) -> Any:
+        if not self.active:
+            return previous_value
+        product_data = generate_product_payload(product)
+        trigger_webhooks_for_event.delay(WebhookEventType.PRODUCT_UPDATED, product_data)
+>>>>>>> REPLACE
+
+FILE: saleor/plugins/webhook/plugin.py
+<<<<<<< SEARCH
+    # Deprecated. This method will be removed in Saleor 3.0
+    def checkout_quantity_changed(
+        self, checkout: "Checkout", previous_value: Any
+    ) -> Any:
+        if not self.active:
+            return previous_value
+        checkout_data = generate_checkout_payload(checkout)
+        trigger_webhooks_for_event.delay(
+            WebhookEventType.CHECKOUT_QUANTITY_CHANGED, checkout_data
+        )
+=======
+    # Deprecated. This method will be removed in Saleor 3.0
+    def checkout_quantity_changed(
+        self, checkout: "Checkout", previous_value: Any
+    ) -> Any:
+        if not self.active:
+            return previous_value
+        checkout_data = generate_checkout_payload(checkout)
+        trigger_webhooks_for_event.delay(
+            WebhookEventType.CHECKOUT_QUANTITY_CHANGED, checkout_data
+        )
+>>>>>>> REPLACE
+
+FILE: saleor/plugins/webhook/plugin.py
+<<<<<<< SEARCH
+    def checkout_created(self, checkout: "Checkout", previous_value: Any) -> Any:
+        if not self.active:
+            return previous_value
+        checkout_data = generate_checkout_payload(checkout)
+        trigger_webhooks_for_event.delay(
+            WebhookEventType.CHECKOUT_CREATED, checkout_data
+        )
+=======
+    def checkout_created(self, checkout: "Checkout", previous_value: Any) -> Any:
+        if not self.active:
+            return previous_value
+        checkout_data = generate_checkout_payload(checkout)
+        trigger_webhooks_for_event.delay(
+            WebhookEventType.CHECKOUT_CREATED, checkout_data
+        )
+>>>>>>> REPLACE
+
+FILE: saleor/plugins/webhook/plugin.py
+<<<<<<< SEARCH
+    def checkout_updated(self, checkout: "Checkout", previous_value: Any) -> Any:
+        if not self.active:
+            return previous_value
+        checkout_data = generate_checkout_payload(checkout)
+        trigger_webhooks_for_event.delay(
+            WebhookEventType.CHECKOUT_UPADTED, checkout_data
+        )
+=======
+    def checkout_updated(self, checkout: "Checkout", previous_value: Any) -> Any:
+        if not self.active:
+            return previous_value
+        checkout_data = generate_checkout_payload(checkout)
+        trigger_webhooks_for_event.delay(
+            WebhookEventType.CHECKOUT_UPADTED, checkout_data
+        )
+>>>>>>> REPLACE

@@ -1,0 +1,30 @@
+diff --git a/saleor/plugins/base_plugin.py b/saleor/plugins/base_plugin.py
+--- a/saleor/plugins/base_plugin.py
++++ b/saleor/plugins/base_plugin.py
+@@ -165,6 +165,26 @@
+ 
+         Overwrite this method if you need to apply specific logic for the calculation
+         of a checkout line total. Return TaxedMoney.
++        """
++        return NotImplemented
++
++    def calculate_checkout_line_unit_price(
++        self,
++        checkout: "Checkout",
++        checkout_line: "CheckoutLine",
++        variant: "ProductVariant",
++        product: "Product",
++        collections: List["Collection"],
++        address: Optional["Address"],
++        channel: "Channel",
++        channel_listing: "ProductVariantChannelListing",
++        discounts: List["DiscountInfo"],
++        previous_value: TaxedMoney,
++    ) -> TaxedMoney:
++        """Calculate checkout line unit price.
++
++        Overwrite this method if you need to apply specific logic for the calculation
++        of a checkout line unit price. Return TaxedMoney.
+         """
+         return NotImplemented
+ 

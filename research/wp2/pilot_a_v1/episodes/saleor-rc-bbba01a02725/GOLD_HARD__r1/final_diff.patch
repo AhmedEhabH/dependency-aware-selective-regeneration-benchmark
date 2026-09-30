@@ -1,0 +1,12 @@
+diff --git a/saleor/checkout/base_calculations.py b/saleor/checkout/base_calculations.py
+--- a/saleor/checkout/base_calculations.py
++++ b/saleor/checkout/base_calculations.py
+@@ -64,7 +64,7 @@
+     return max(total, zero_taxed_money(currency))
+ 
+ 
+-def base_checkout_line_total(
++def base_checkout_line_unit_price(
+     line: "CheckoutLine",
+     variant: "ProductVariant",
+     product: "Product",

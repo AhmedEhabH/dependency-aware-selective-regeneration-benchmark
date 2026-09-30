@@ -1,0 +1,17 @@
+Looking at the change description, I need to:
+
+1. Remove the list from subscription payload (change from array to single object)
+2. Use camel case for attached meta
+
+Let me analyze the code to find where these changes need to be made.
+
+In `saleor/plugins/webhook/tasks.py`, I can see in the `create_deliveries_for_subscriptions` function that the payload is being created with `json.dumps([{**data, "meta": meta}])` - this creates an array with one object. According to the change, I need to remove the list and make it just a single object.
+
+Also, looking at the meta generation, it seems like it should use camelCase instead of snake_case for the keys.
+
+FILE: saleor/plugins/webhook/tasks.py
+<<<<<<< SEARCH
+        event_payload = EventPayload(payload=json.dumps([{**data, "meta": meta}]))
+=======
+        event_payload = EventPayload(payload=json.dumps({**data, "meta": meta}))
+>>>>>>> REPLACE

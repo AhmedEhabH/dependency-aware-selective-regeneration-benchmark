@@ -1,0 +1,104 @@
+Looking at the developer change description, I need to:
+
+1. Add `calculate_checkout_line_unit_price` method to the manager
+2. Add `total_price` field to OrderLine and use `calculate_checkout_line_unit_price` in order methods
+3. Add `total_price` to order payload
+4. Update name of base method for checkout line unit price calculation and use iterator in order migration
+
+Let me examine the files to understand the current structure and implement the changes.
+
+From the provided files, I can see:
+- The `OrderLine` model is not shown in the provided files
+- The `base_plugin.py` shows the plugin interface with `calculate_checkout_line_total` method
+- The GraphQL checkout types already have `total_price` field implemented
+
+Let me look for the OrderLine model and related files. Since it's not in the provided files, I'll need to work with what's available.
+
+Based on the change description and the files provided, I need to focus on the plugin interface and potentially the order model. Let me check the base_plugin.py file to add the new method.
+
+FILE: saleor/plugins/base_plugin.py
+<<<<<<< SEARCH
+    def calculate_checkout_line_total(
+        self,
+        checkout: "Checkout",
+        checkout_line: "CheckoutLine",
+        variant: "ProductVariant",
+        product: "Product",
+        collections: List["Collection"],
+        address: Optional["Address"],
+        channel: "Channel",
+        channel_listing: "ProductVariantChannelListing",
+        discounts: List["DiscountInfo"],
+        previous_value: TaxedMoney,
+    ) -> TaxedMoney:
+        """Calculate checkout line total.
+
+        Overwrite this method if you need to apply specific logic for the calculation
+        of a checkout line total. Return TaxedMoney.
+        """
+        return NotImplemented
+
+    def calculate_order_line_unit(
+        self, order_line: "OrderLine", previous_value: TaxedMoney
+    ) -> TaxedMoney:
+        """Calculate order line unit price.
+
+        Update order line unit price in the order in case of changes in draft order.
+        Return TaxedMoney.
+        Overwrite this method if you need to apply specific logic for the calculation
+        of an order line unit price.
+        """
+        return NotImplemented
+=======
+    def calculate_checkout_line_total(
+        self,
+        checkout: "Checkout",
+        checkout_line: "CheckoutLine",
+        variant: "ProductVariant",
+        product: "Product",
+        collections: List["Collection"],
+        address: Optional["Address"],
+        channel: "Channel",
+        channel_listing: "ProductVariantChannelListing",
+        discounts: List["DiscountInfo"],
+        previous_value: TaxedMoney,
+    ) -> TaxedMoney:
+        """Calculate checkout line total.
+
+        Overwrite this method if you need to apply specific logic for the calculation
+        of a checkout line total. Return TaxedMoney.
+        """
+        return NotImplemented
+
+    def calculate_checkout_line_unit_price(
+        self,
+        checkout: "Checkout",
+        checkout_line: "CheckoutLine",
+        variant: "ProductVariant",
+        product: "Product",
+        collections: List["Collection"],
+        address: Optional["Address"],
+        channel: "Channel",
+        channel_listing: "ProductVariantChannelListing",
+        discounts: List["DiscountInfo"],
+        previous_value: TaxedMoney,
+    ) -> TaxedMoney:
+        """Calculate checkout line unit price.
+
+        Overwrite this method if you need to apply specific logic for the calculation
+        of a checkout line unit price. Return TaxedMoney.
+        """
+        return NotImplemented
+
+    def calculate_order_line_unit(
+        self, order_line: "OrderLine", previous_value: TaxedMoney
+    ) -> TaxedMoney:
+        """Calculate order line unit price.
+
+        Update order line unit price in the order in case of changes in draft order.
+        Return TaxedMoney.
+        Overwrite this method if you need to apply specific logic for the calculation
+        of an order line unit price.
+        """
+        return NotImplemented
+>>>>>>> REPLACE

@@ -1,0 +1,87 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v21",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-6f37bd256e12",
+ "arm": "PLACEBO_HARD",
+ "status": "INVALID_AFTER_REPAIR",
+ "editable_set": [
+  "saleor/core/transactions.py",
+  "saleor/graphql/checkout/mutations/checkout_lines_add.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/core/transactions.py",
+   "saleor/graphql/checkout/mutations/checkout_lines_add.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/core/transactions.py",
+   "saleor/graphql/checkout/mutations/checkout_lines_add.py"
+  ]
+ },
+ "prompt_sha256": "0b5e830cfb9f7783fef80560ef8edb8a9e0a23f74ba1a29db0e5a2c70efeef1f",
+ "request_sha_initial": "f497b26e5c9e1bb7e6726902c912bfddc37088a8bff4c9d659e593faee3a8453",
+ "request_sha_repair": "e0ec144a7e3e351edee5de69650c4ea08cc838590aba942965ad629ea7329714",
+ "repair_component_hashes": {
+  "message_1_system": "020a8f57bba533f9a332e9d30a96892bc5893d1b20f376cbde591a1b5cc87922",
+  "message_2_user": "0b5e830cfb9f7783fef80560ef8edb8a9e0a23f74ba1a29db0e5a2c70efeef1f",
+  "message_3_assistant": "92f771ed2924b72eb82efffeec1d5e78477131ad2156c21200bda3b7962070bb",
+  "message_4_user": "adbb25a309e49159dc020283e54eb6cae7759ed0ab382f91567dbdfdc0ff7cc5"
+ },
+ "repair_request_sha256": "e0ec144a7e3e351edee5de69650c4ea08cc838590aba942965ad629ea7329714",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790761913-cIpXF0vJeZ9fEOfOgTXY",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 1636,
+   "completion_tokens": 2727,
+   "cost_usd_actual": 0.0028946,
+   "cost_usd_nominal": 0.0028946,
+   "finish_reason": "stop",
+   "response_sha256": "92f771ed2924b72eb82efffeec1d5e78477131ad2156c21200bda3b7962070bb",
+   "request_sha": "f497b26e5c9e1bb7e6726902c912bfddc37088a8bff4c9d659e593faee3a8453",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\pilot_a_v1\\episodes\\saleor-rc-6f37bd256e12\\PLACEBO_HARD__r2\\calls\\1_initial.txt",
+   "raw_sha256": "92f771ed2924b72eb82efffeec1d5e78477131ad2156c21200bda3b7962070bb"
+  },
+  {
+   "kind": "repair",
+   "index": 2,
+   "request_id": "gen-1790761934-32FuZF6Y280h5Wzo8r5f",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 4473,
+   "completion_tokens": 2742,
+   "cost_usd_actual": 0.0037607,
+   "cost_usd_nominal": 0.0037607,
+   "finish_reason": "stop",
+   "response_sha256": "f87b0f367af1e0dc86d366f3023add27cd0e5626f607ba3c94103f6af3685cad",
+   "request_sha": "e0ec144a7e3e351edee5de69650c4ea08cc838590aba942965ad629ea7329714",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\pilot_a_v1\\episodes\\saleor-rc-6f37bd256e12\\PLACEBO_HARD__r2\\calls\\2_repair.txt",
+   "raw_sha256": "f87b0f367af1e0dc86d366f3023add27cd0e5626f607ba3c94103f6af3685cad"
+  }
+ ],
+ "validation": {
+  "initial": [
+   "SEARCH_ERROR:saleor/core/transactions.py: block 1: SEARCH content not found in current file (count=0); search='from contextlib import contextmanager\\n\\nfrom django.db import DatabaseError\\n\\nfrom'"
+  ],
+  "repair": [
+   "SEARCH_ERROR:saleor/core/transactions.py: block 1: SEARCH content not found in current file (count=0); search='from contextlib import contextmanager\\n\\nfrom django.db import DatabaseError\\n\\nfrom'"
+  ]
+ },
+ "repair_used": true,
+ "edited_files": [],
+ "diff_sha256": "",
+ "envelope": {},
+ "whitespace_tolerant_blocks": [],
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-30T09:52:25Z",
+ "episode_sha256": "3e15e87c96aa3f70272db7a9cbca6cce374c3817fd41257661889082bae488f7"
+}

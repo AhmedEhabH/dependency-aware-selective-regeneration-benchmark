@@ -1,0 +1,64 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v21",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-6f37bd256e12",
+ "arm": "GOLD_HARD",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/plugins/webhook/tasks.py",
+  "saleor/webhook/payloads.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/plugins/webhook/tasks.py",
+   "saleor/webhook/payloads.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/plugins/webhook/tasks.py",
+   "saleor/webhook/payloads.py"
+  ]
+ },
+ "prompt_sha256": "2c33122a656237d0d068f18df1724178cda6aae77be9a5fdfbc19674009d2340",
+ "request_sha_initial": "a533642cdf7a244c9724d7c6070050b2b5c068f101abb8d4f41c77d8cfe1d631",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "repair_request_sha256": "",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790761903-O0lPBvqnqPLp7hELUKNH",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 11593,
+   "completion_tokens": 202,
+   "cost_usd_actual": 0.0013663,
+   "cost_usd_nominal": 0.0013663,
+   "finish_reason": "stop",
+   "response_sha256": "ba207dd678ec5be1a9e205a26144478a509b4728c0d9199b32b2c8b794ffe8eb",
+   "request_sha": "a533642cdf7a244c9724d7c6070050b2b5c068f101abb8d4f41c77d8cfe1d631",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\pilot_a_v1\\episodes\\saleor-rc-6f37bd256e12\\GOLD_HARD__r2\\calls\\1_initial.txt",
+   "raw_sha256": "ba207dd678ec5be1a9e205a26144478a509b4728c0d9199b32b2c8b794ffe8eb"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "edited_files": [
+  "saleor/plugins/webhook/tasks.py",
+  "saleor/webhook/payloads.py"
+ ],
+ "diff_sha256": "62085d7a3fa7ea0a1941206d1b685b5d97e00fcaa957855210eea130cb062312",
+ "envelope": {},
+ "whitespace_tolerant_blocks": [],
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-30T09:51:51Z",
+ "episode_sha256": "e5d4a54cd421bd46d1d2b7ad69a59d331182503dab440f30c2c06315164d89c3"
+}

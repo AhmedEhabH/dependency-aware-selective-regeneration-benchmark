@@ -1,0 +1,12 @@
+diff --git a/saleor/plugins/webhook/tasks.py b/saleor/plugins/webhook/tasks.py
+--- a/saleor/plugins/webhook/tasks.py
++++ b/saleor/plugins/webhook/tasks.py
+@@ -127,7 +127,7 @@
+             )
+             continue
+ 
+-        event_payload = EventPayload(payload=json.dumps([{**data, "meta": meta}]))
++        event_payload = EventPayload(payload=json.dumps({**data, "meta": meta}))
+         event_payloads.append(event_payload)
+         event_deliveries.append(
+             EventDelivery(
