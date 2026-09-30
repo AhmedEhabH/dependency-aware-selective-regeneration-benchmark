@@ -1,0 +1,69 @@
+{
+ "artifact": "m14r_readiness_task",
+ "artifact_sha256": "39209cc83fec0f2c26e70e78d0daf73ee2601dc292ebbc00487b5f105f3628d8",
+ "decision": "READY",
+ "model_api_calls": 0,
+ "negative": {
+  "nodes": {
+   "f2p_intermittent": 0,
+   "f2p_pass3": 0,
+   "f2p_total": 4,
+   "s_deterministic": 0,
+   "s_intermittent": 0,
+   "s_missing": 0,
+   "u_deterministic": 0,
+   "u_intermittent": 0,
+   "u_missing": 0
+  },
+  "robust": {
+   "f2p_task": "FAIL",
+   "p2p_s_task": "PASS",
+   "p2p_u200_task": "PASS",
+   "resolved": false
+  },
+  "strict": {
+   "f2p_task": "FAIL",
+   "p2p_s_task": "PASS",
+   "p2p_u200_task": "PASS",
+   "resolved": false
+  },
+  "tree_sha": "4adebbeb9e668b3dd58efdb34237478a310f2f30"
+ },
+ "positive": {
+  "e1_decision": "ALL_JUNIT_PRESENT",
+  "editable": [
+   "saleor/graphql/discount/mutations/voucher/voucher_update.py",
+   "saleor/graphql/order/mutations/draft_order_create.py",
+   "saleor/graphql/order/mutations/draft_order_update.py"
+  ],
+  "excluded_budget": [],
+  "excluded_large": [],
+  "nodes": {
+   "f2p_intermittent": 0,
+   "f2p_pass3": 4,
+   "f2p_total": 4,
+   "s_deterministic": 0,
+   "s_intermittent": 0,
+   "s_missing": 0,
+   "u_deterministic": 0,
+   "u_intermittent": 0,
+   "u_missing": 0
+  },
+  "robust": {
+   "f2p_task": "PASS",
+   "p2p_s_task": "PASS",
+   "p2p_u200_task": "PASS",
+   "resolved": true
+  },
+  "scoped_diff_sha256": "31cdb30fab7ed03e7a7b0848ea83985c3cbdf7325925f8c96340cf0bfdebaa71",
+  "strict": {
+   "f2p_task": "PASS",
+   "p2p_s_task": "PASS",
+   "p2p_u200_task": "PASS",
+   "resolved": true
+  },
+  "tree_sha": "b90ed5bb4af78f1450afe5bbc14f188830333b7d"
+ },
+ "task_id": "saleor-rc-74538ea00ce9",
+ "utc": "2026-09-30T20:33:57Z"
+}
