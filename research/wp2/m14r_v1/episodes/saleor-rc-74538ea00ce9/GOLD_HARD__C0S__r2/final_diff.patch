@@ -1,0 +1,54 @@
+diff --git a/saleor/graphql/order/mutations/draft_order_create.py b/saleor/graphql/order/mutations/draft_order_create.py
+--- a/saleor/graphql/order/mutations/draft_order_create.py
++++ b/saleor/graphql/order/mutations/draft_order_create.py
+@@ -573,6 +573,9 @@
+ 
+             if voucher := cleaned_input.get("voucher"):
+                 cls.handle_order_voucher(cleaned_input, instance, voucher)
++            elif "voucher" in cleaned_input and cleaned_input["voucher"] is None:
++                # Handle case where voucher is explicitly set to None
++                pass
+ 
+             update_order_display_gross_prices(instance)
+ 
+diff --git a/saleor/graphql/order/mutations/draft_order_update.py b/saleor/graphql/order/mutations/draft_order_update.py
+--- a/saleor/graphql/order/mutations/draft_order_update.py
++++ b/saleor/graphql/order/mutations/draft_order_update.py
+@@ -66,6 +66,11 @@
+     def save(cls, info: ResolveInfo, instance, cleaned_input):
+         manager = get_plugin_manager_promise(info.context).get()
+         app = get_app_promise(info.context).get()
++        
++        # Handle voucher removal
++        if "voucher" in cleaned_input and cleaned_input["voucher"] is None and instance.voucher:
++            cls.handle_voucher_removal(instance)
++        
+         return cls._save_draft_order(
+             info,
+             instance,
+@@ -74,3 +79,25 @@
+             app=app,
+             manager=manager,
+         )
++
++    @classmethod
++    def handle_voucher_removal(cls, instance):
++        """Handle voucher removal from draft order by reducing voucher usage."""
++        from ....discount.utils.voucher import decrease_voucher_usage
++        from ....discount.models import VoucherCode
++        
++        if instance.voucher_code:
++            try:
++                code_instance = VoucherCode.objects.get(code=instance.voucher_code)
++                voucher = code_instance.voucher
++                
++                # Only decrease usage if the channel includes draft orders in voucher usage
++                if instance.channel.include_draft_order_in_voucher_usage:
++                    decrease_voucher_usage(
++                        voucher,
++                        code_instance,
++                        instance.user_email or instance.user and instance.user.email,
++                        decrease_voucher_customer_usage=False,
++                    )
++            except VoucherCode.DoesNotExist:
++                pass

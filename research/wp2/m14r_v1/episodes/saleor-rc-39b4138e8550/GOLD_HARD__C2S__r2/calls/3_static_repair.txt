@@ -1,0 +1,37 @@
+FILE: saleor/graphql/payment/types.py
+<<<<<<< SEARCH
+class OtherPaymentMethodDetails(BaseObjectType):
+    name = graphene.String(required=True, description="Name of the payment method.")
+
+    class Meta:
+        description = (
+            "Represents a payment method used for a transaction." + ADDED_IN_322
+        )
+        interfaces = [GenericPaymentMethodDetails]
+
+
+class PaymentMethodDetails(graphene.Union):
+    class Meta:
+        types = (CardPaymentMethodDetails, OtherPaymentMethodDetails)
+
+    @classmethod
+    def resolve_type(cls, instance, info: graphene.ResolveInfo):
+        if instance.payment_method_type == PaymentMethodType.CARD:
+            return CardPaymentMethodDetails
+        return OtherPaymentMethodDetails
+
+
+class TransactionItem(ModelObjectType[models.TransactionItem]):
+=======
+class OtherPaymentMethodDetails(BaseObjectType):
+    name = graphene.String(required=True, description="Name of the payment method.")
+
+    class Meta:
+        description = (
+            "Represents a payment method used for a transaction." + ADDED_IN_322
+        )
+        interfaces = [GenericPaymentMethodDetails]
+
+
+class TransactionItem(ModelObjectType[models.TransactionItem]):
+>>>>>>> REPLACE

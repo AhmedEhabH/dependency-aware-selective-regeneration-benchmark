@@ -1,0 +1,99 @@
+diff --git a/saleor/graphql/order/mutations/draft_order_create.py b/saleor/graphql/order/mutations/draft_order_create.py
+--- a/saleor/graphql/order/mutations/draft_order_create.py
++++ b/saleor/graphql/order/mutations/draft_order_create.py
+@@ -14,6 +14,7 @@
+     get_active_voucher_code,
+     get_voucher_code_instance,
+     increase_voucher_usage,
++    decrease_voucher_usage,
+ )
+ from ....order import OrderOrigin, OrderStatus, events, models
+ from ....order.actions import call_order_event
+@@ -573,6 +574,10 @@
+ 
+             if voucher := cleaned_input.get("voucher"):
+                 cls.handle_order_voucher(cleaned_input, instance, voucher)
++            
++            # Handle voucher removal - decrease usage if voucher was removed
++            if "voucher" in cleaned_input and cleaned_input["voucher"] is None:
++                cls.handle_voucher_removal(instance)
+ 
+             update_order_display_gross_prices(instance)
+ 
+@@ -616,3 +621,26 @@
+                 instance.user_email or instance.user and instance.user.email,
+                 increase_voucher_customer_usage=False,
+             )
++
++    @classmethod
++    def handle_voucher_removal(cls, instance):
++        """Handle voucher removal from draft order - decrease voucher usage."""
++        if not instance.voucher_code:
++            return
++            
++        # Find the voucher code instance
++        from ....discount import models
++        try:
++            code_instance = models.VoucherCode.objects.get(code=instance.voucher_code)
++            voucher = code_instance.voucher
++            channel = instance.channel
++            
++            if channel.include_draft_order_in_voucher_usage:
++                decrease_voucher_usage(
++                    voucher,
++                    code_instance,
++                    instance.user_email or instance.user and instance.user.email,
++                    decrease_voucher_customer_usage=False,
++                )
++        except models.VoucherCode.DoesNotExist:
++            pass
+diff --git a/saleor/graphql/order/mutations/draft_order_update.py b/saleor/graphql/order/mutations/draft_order_update.py
+--- a/saleor/graphql/order/mutations/draft_order_update.py
++++ b/saleor/graphql/order/mutations/draft_order_update.py
+@@ -12,6 +12,7 @@
+ from ...plugins.dataloaders import get_plugin_manager_promise
+ from ..types import Order
+ from .draft_order_create import DraftOrderCreate, DraftOrderInput
++from ....discount.utils.voucher import decrease_voucher_usage
+ 
+ 
+ class DraftOrderUpdate(DraftOrderCreate, ModelWithExtRefMutation):
+@@ -66,6 +67,11 @@
+     def save(cls, info: ResolveInfo, instance, cleaned_input):
+         manager = get_plugin_manager_promise(info.context).get()
+         app = get_app_promise(info.context).get()
++        
++        # Handle voucher removal before saving
++        if "voucher" in cleaned_input and cleaned_input["voucher"] is None:
++            cls._handle_voucher_removal_before_update(instance)
++            
+         return cls._save_draft_order(
+             info,
+             instance,
+@@ -74,3 +80,26 @@
+             app=app,
+             manager=manager,
+         )
++    
++    @classmethod
++    def _handle_voucher_removal_before_update(cls, instance):
++        """Handle voucher removal from existing draft order before update."""
++        if not instance.voucher_code:
++            return
++            
++        # Find the voucher code instance
++        from ....discount import models
++        try:
++            code_instance = models.VoucherCode.objects.get(code=instance.voucher_code)
++            voucher = code_instance.voucher
++            channel = instance.channel
++            
++            if channel.include_draft_order_in_voucher_usage:
++                decrease_voucher_usage(
++                    voucher,
++                    code_instance,
++                    instance.user_email or instance.user and instance.user.email,
++                    decrease_voucher_customer_usage=False,
++                )
++        except models.VoucherCode.DoesNotExist:
++            pass

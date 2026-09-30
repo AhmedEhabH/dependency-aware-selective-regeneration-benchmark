@@ -1,0 +1,18 @@
+diff --git a/saleor/graphql/checkout/mutations/checkout_create.py b/saleor/graphql/checkout/mutations/checkout_create.py
+--- a/saleor/graphql/checkout/mutations/checkout_create.py
++++ b/saleor/graphql/checkout/mutations/checkout_create.py
+@@ -285,12 +285,12 @@
+         cleaned_input["currency"] = channel.currency_code
+         shipping_address_metadata = (
+             data.get("shipping_address", {}).pop("metadata", list())
+-            if data.get("shipping_address")
++            if data.get("shipping_address") and data.get("shipping_address", {}).get("metadata") is not None
+             else None
+         )
+         billing_address_metadata = (
+             data.get("billing_address", {}).pop("metadata", list())
+-            if data.get("billing_address")
++            if data.get("billing_address") and data.get("billing_address", {}).get("metadata") is not None
+             else None
+         )
+         shipping_address = cls.retrieve_shipping_address(user, data)
