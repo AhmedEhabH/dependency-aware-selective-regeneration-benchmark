@@ -1,0 +1,11 @@
+diff --git a/saleor/core/jwt.py b/saleor/core/jwt.py
+--- a/saleor/core/jwt.py
++++ b/saleor/core/jwt.py
+@@ -164,6 +164,7 @@
+     object_id: int,
+     object_payload_key: str,
+     audience: Optional[str],
++    additional_payload: Optional[Dict[str, Any]] = None,
+ ):
+     app_permission_enums = get_permission_names(permissions)
+ 

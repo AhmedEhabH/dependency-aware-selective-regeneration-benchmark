@@ -1,0 +1,37 @@
+FILE: saleor/core/jwt.py
+<<<<<<< SEARCH
+def create_access_token_for_app_extension(
+    app_extension: "AppExtension",
+    permissions: Iterable["Permission"],
+    user: "User",
+    app: "App",
+):
+    return _create_access_token_for_third_party_actions(
+        permissions=permissions,
+        user=user,
+        type="AppExtension",
+        object_id=app_extension.id,
+        object_payload_key="app_extension",
+        audience=app.audience,
+    )
+
+=======
+def create_access_token_for_app_extension(
+    app_extension: "AppExtension",
+    permissions: Iterable["Permission"],
+    user: "User",
+    app: "App",
+):
+    additional_payload = {"app": graphene.Node.to_global_id("App", app.id)}
+    return _create_access_token_for_third_party_actions(
+        permissions=permissions,
+        user=user,
+        type="AppExtension",
+        object_id=app_extension.id,
+        object_payload_key="app_extension",
+        audience=app.audience,
+        additional_payload=additional_payload,
+    )
+
+>>>>>>> REPLACE
+```

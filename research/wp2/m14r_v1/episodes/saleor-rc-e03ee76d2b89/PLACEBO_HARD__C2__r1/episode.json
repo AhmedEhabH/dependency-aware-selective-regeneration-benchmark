@@ -1,0 +1,65 @@
+{
+ "smoke_version": "wp2-m14r-v1",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-e03ee76d2b89",
+ "arm": "PLACEBO_HARD",
+ "label": "PLACEBO_HARD__C2__r1",
+ "variant": "G2",
+ "context": "C2",
+ "replicate": "r1",
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-30T22:14:04Z",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/graphql/checkout/mutations/checkout_create.py",
+  "saleor/graphql/tax/mutations/tax_configuration_update.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/graphql/checkout/mutations/checkout_create.py",
+   "saleor/graphql/tax/mutations/tax_configuration_update.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/graphql/checkout/mutations/checkout_create.py",
+   "saleor/graphql/tax/mutations/tax_configuration_update.py"
+  ]
+ },
+ "prompt_sha256": "d90dff9c0734eaa9ddcbc2f4bbcad3a12286e6564905ee961ac820114c029fbf",
+ "request_sha_initial": "bed5f3fb4bf41d43a284d7676a5de9cdf9bdfba7f7cb69dbd498ee23ab96a34d",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "context_sha256": "9e1090905845774771215e6124500665a719cf01c70c881d43fe4a4131898e3a",
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790806449-aCtunAadsYCnC7BV1ahe",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 12775,
+   "completion_tokens": 1073,
+   "cost_usd_actual": 0.0048543,
+   "cost_usd_nominal": 0.0048543,
+   "finish_reason": "stop",
+   "response_sha256": "e6407a113fd56a2fafcaaa50e343c95db4d7544fd4ca7c21dac064cf874bfba7",
+   "request_sha": "bed5f3fb4bf41d43a284d7676a5de9cdf9bdfba7f7cb69dbd498ee23ab96a34d",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\m14r_v1\\episodes\\saleor-rc-e03ee76d2b89\\PLACEBO_HARD__C2__r1\\calls\\1_initial.txt",
+   "raw_sha256": "e6407a113fd56a2fafcaaa50e343c95db4d7544fd4ca7c21dac064cf874bfba7"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "produced_by": "initial",
+ "edited_files": [
+  "saleor/graphql/checkout/mutations/checkout_create.py",
+  "saleor/graphql/tax/mutations/tax_configuration_update.py"
+ ],
+ "diff_sha256": "6d77eadd33ef7bfbeb0e4d67ecd347ec9c0fe7f0c179403c3be46c4984fcc49d",
+ "episode_sha256": "40475b1c9f9ea4da8cef889354fa668c7dbf7c776676f600380b6cc4d6b264a6"
+}

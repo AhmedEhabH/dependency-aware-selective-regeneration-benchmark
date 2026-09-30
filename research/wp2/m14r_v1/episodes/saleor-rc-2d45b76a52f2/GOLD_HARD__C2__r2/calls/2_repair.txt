@@ -1,0 +1,28 @@
+FILE: saleor/core/jwt.py
+<<<<<<< SEARCH
+def _create_access_token_for_third_party_actions(
+    permissions: Iterable["Permission"],
+    user: "User",
+    type: str,
+    object_id: int,
+    object_payload_key: str,
+    audience: Optional[str],
+):
+    app_permission_enums = get_permission_names(permissions)
+
+    permissions = user.effective_permissions
+=======
+def _create_access_token_for_third_party_actions(
+    permissions: Iterable["Permission"],
+    user: "User",
+    type: str,
+    object_id: int,
+    object_payload_key: str,
+    audience: Optional[str],
+    additional_payload: Optional[Dict[str, Any]] = None,
+):
+    app_permission_enums = get_permission_names(permissions)
+
+    permissions = user.effective_permissions
+>>>>>>> REPLACE
+```

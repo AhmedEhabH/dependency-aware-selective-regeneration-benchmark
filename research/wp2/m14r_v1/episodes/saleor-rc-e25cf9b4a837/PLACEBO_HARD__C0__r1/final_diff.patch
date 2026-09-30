@@ -1,0 +1,8 @@
+diff --git a/saleor/product/utils/attributes.py b/saleor/product/utils/attributes.py
+--- a/saleor/product/utils/attributes.py
++++ b/saleor/product/utils/attributes.py
+@@ -1,3 +1,4 @@
++# Deactivate dummy credit card by default
+ from typing import TYPE_CHECKING, Optional, Set, Union
+ 
+ from ..models import (

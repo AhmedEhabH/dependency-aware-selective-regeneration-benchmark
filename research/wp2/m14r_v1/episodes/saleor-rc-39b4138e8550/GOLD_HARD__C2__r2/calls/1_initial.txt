@@ -1,0 +1,21 @@
+Looking at the change description "Drop uneeded union type (#18110)" and examining the files, I can see that there's an unnecessary Union type definition in the payment types file that can be removed.
+
+The `PaymentMethodDetails` union type in `saleor/graphql/payment/types.py` appears to be unused and can be dropped. Let me examine the file to confirm this and remove it.
+
+FILE: saleor/graphql/payment/types.py
+<<<<<<< SEARCH
+class PaymentMethodDetails(graphene.Union):
+    class Meta:
+        types = (CardPaymentMethodDetails, OtherPaymentMethodDetails)
+
+    @classmethod
+    def resolve_type(cls, instance, info: graphene.ResolveInfo):
+        if instance.payment_method_type == PaymentMethodType.CARD:
+            return CardPaymentMethodDetails
+        return OtherPaymentMethodDetails
+
+
+class TransactionItem(ModelObjectType[models.TransactionItem]):
+=======
+class TransactionItem(ModelObjectType[models.TransactionItem]):
+>>>>>>> REPLACE

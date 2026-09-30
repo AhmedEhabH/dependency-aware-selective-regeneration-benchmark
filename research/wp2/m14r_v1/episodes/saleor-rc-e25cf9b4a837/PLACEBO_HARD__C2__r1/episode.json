@@ -1,0 +1,61 @@
+{
+ "smoke_version": "wp2-m14r-v1",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-e25cf9b4a837",
+ "arm": "PLACEBO_HARD",
+ "label": "PLACEBO_HARD__C2__r1",
+ "variant": "G2",
+ "context": "C2",
+ "replicate": "r1",
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-30T22:14:45Z",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/product/utils/attributes.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/product/utils/attributes.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/product/utils/attributes.py"
+  ]
+ },
+ "prompt_sha256": "5bcaab3d9814b6e9b3582c6f38af384af5b21798fc651dbe93017b8fd8029822",
+ "request_sha_initial": "0165fe661212284adfb39eebc36f0015c8f2802db263e26837ce3de4a59bd39b",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "context_sha256": "c545e2d9d2598d79d6ce7678d0c93a8101d204ab26bd5de89e38dd45f8066e4b",
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790806487-z8aCKpIpwvja8W8pkrU2",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 2046,
+   "completion_tokens": 221,
+   "cost_usd_actual": 0.0007836,
+   "cost_usd_nominal": 0.0007836,
+   "finish_reason": "stop",
+   "response_sha256": "880f1c03349e02445432ec4879f88c9f8ffed2eae522bf9d0075a2c20ab9570f",
+   "request_sha": "0165fe661212284adfb39eebc36f0015c8f2802db263e26837ce3de4a59bd39b",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\m14r_v1\\episodes\\saleor-rc-e25cf9b4a837\\PLACEBO_HARD__C2__r1\\calls\\1_initial.txt",
+   "raw_sha256": "880f1c03349e02445432ec4879f88c9f8ffed2eae522bf9d0075a2c20ab9570f"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "produced_by": "initial",
+ "edited_files": [
+  "saleor/product/utils/attributes.py"
+ ],
+ "diff_sha256": "16ec795185b645d8d57bd90786f83612f045ee5efe642dd1520f3496ef3b03d3",
+ "episode_sha256": "4d73dab4a1fb2a4a633fb1230d51859b2e344e8316b43af7c50970ab88bced23"
+}
