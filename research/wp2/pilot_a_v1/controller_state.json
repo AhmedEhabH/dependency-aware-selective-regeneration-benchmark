@@ -126,6 +126,36 @@
    "event": "START",
    "phase": "P10_GENERATION_FREEZE",
    "utc": "2026-09-30T10:00:54Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "P10_GENERATION_FREEZE",
+   "utc": "2026-09-30T10:01:00Z"
+  },
+  {
+   "detail": "task-scoped unique-diff evaluation plan",
+   "event": "START",
+   "phase": "P11_EVAL_PLAN",
+   "utc": "2026-09-30T10:01:00Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "P11_EVAL_PLAN",
+   "utc": "2026-09-30T10:01:04Z"
+  },
+  {
+   "detail": "evaluate unique diffs (zero API, workers=1)",
+   "event": "START",
+   "phase": "P12_EVALUATE",
+   "utc": "2026-09-30T10:01:04Z"
+  },
+  {
+   "detail": "EVAL_ERROR: exit mapped to STOP:EVAL_ERROR\n--- last log: logs/controller/20260930T141250_P12_EVALUATE.log ---\n$ C:\\Users\\Ahmed\\AppData\\Local\\anaconda3\\python.exe scripts/wp2_m14a_run.py evaluate --max-evals 4\n[pilot-a-eval] saleor-rc-a91ea48a60a7 16ec795185b6 -> f2p=FAIL p2ps=PASS p2pu=PASS resolved=False\nM14A_STOP evaluate code=79: evaluation infrastructure error: JUnit missing: saleor-rc-b1_u_07_C_r0.xml",
+   "event": "STOP",
+   "phase": "P12_EVALUATE",
+   "utc": "2026-09-30T11:15:51Z"
   }
  ],
  "phases": {
@@ -210,14 +240,39 @@
    "status": "PASS"
   },
   "P10_GENERATION_FREEZE": {
-   "attempts": 0,
+   "attempts": 1,
    "failures": 0,
    "iterations": 0,
+   "passed_utc": "2026-09-30T10:01:00Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "P11_EVAL_PLAN": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-09-30T10:01:04Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "P12_EVALUATE": {
+   "attempts": 0,
+   "failures": 0,
+   "iterations": 4,
    "runs": 1,
    "status": "RUNNING"
   }
  },
  "plan": "WP2_M14A_PILOT_A_V1_CORRECTED",
  "plan_sha256": "8ea5be2bb3dfe8decb4b50b1c4c411ca95064579cf114e1b4e4eab01b40c5430",
- "stop": null
+ "stop": {
+  "detail": "exit mapped to STOP:EVAL_ERROR\n--- last log: logs/controller/20260930T141250_P12_EVALUATE.log ---\n$ C:\\Users\\Ahmed\\AppData\\Local\\anaconda3\\python.exe scripts/wp2_m14a_run.py evaluate --max-evals 4\n[pilot-a-eval] saleor-rc-a91ea48a60a7 16ec795185b6 -> f2p=FAIL p2ps=PASS p2pu=PASS resolved=False\nM14A_STOP evaluate code=79: evaluation infrastructure error: JUnit missing: saleor-rc-b1_u_07_C_r0.xml",
+  "exports": {
+   "light": 0
+  },
+  "phase": "P12_EVALUATE",
+  "resumable": true,
+  "token": "EVAL_ERROR",
+  "utc": "2026-09-30T11:15:51Z"
+ }
 }
