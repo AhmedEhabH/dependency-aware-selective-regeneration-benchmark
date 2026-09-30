@@ -1,0 +1,262 @@
+{
+ "task_id": "saleor-rc-a91ea48a60a7",
+ "status": "DONE",
+ "era_key": "py39",
+ "target_commit": "a91ea48a60a7aa2a4fa0b0ed4017a5c9b4a1ba65",
+ "counts": {
+  "BEHAVIORAL_F2P": 2,
+  "SYMBOL_ABSENCE_F2P": 0,
+  "PARENT_COLLECTION_ERROR": 0,
+  "FLAKY": 0,
+  "TARGET_ORACLE_INVALID": 0,
+  "P2P_ONLY": 12,
+  "OTHER_REVIEW_REQUIRED": 0
+ },
+ "eligibility": {
+  "PRIMARY_BEHAVIORAL_F2P_ELIGIBLE": true,
+  "EXTENDED_F2P_ELIGIBLE": true,
+  "n_behavioral_f2p": 2,
+  "n_symbol_absence_f2p": 0,
+  "n_parent_collection_error": 0,
+  "environment_valid": true,
+  "task_collection_failure": false,
+  "semantics_version": "oracle-semantics-v2-2026-09-23"
+ },
+ "classification": "BEHAVIORAL_F2P",
+ "n_nodes": 14,
+ "n_test_files": 1,
+ "wall_s": 239.0,
+ "operations": {
+  "target_wall_s": 127.2,
+  "parent_wall_s": 239.0,
+  "target_error": null,
+  "parent_error": null
+ },
+ "node_records": [
+  {
+   "node_id": "saleor/graphql/shipping/tests/test_shipping_method_channel_listing_update.py::test_shipping_method_channel_listing_create_as_staff_user",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shipping/tests/test_shipping_method_channel_listing_update.py::test_shipping_method_channel_listing_create_channel_max_value_validation[1-2-100000000000-maximumOrderPrice]",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shipping/tests/test_shipping_method_channel_listing_update.py::test_shipping_method_channel_listing_create_channel_max_value_validation[1000000000-2-3-price]",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shipping/tests/test_shipping_method_channel_listing_update.py::test_shipping_method_channel_listing_create_channel_not_valid",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shipping/tests/test_shipping_method_channel_listing_update.py::test_shipping_method_channel_listing_create_without_price",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shipping/tests/test_shipping_method_channel_listing_update.py::test_shipping_method_channel_listing_update_as_staff_user",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shipping/tests/test_shipping_method_channel_listing_update.py::test_shipping_method_channel_listing_update_remove_channels",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shipping/tests/test_shipping_method_channel_listing_update.py::test_shipping_method_channel_listing_update_with_max_less_than_min",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shipping/tests/test_shipping_method_channel_listing_update.py::test_shipping_method_channel_listing_update_with_negative_max_value",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shipping/tests/test_shipping_method_channel_listing_update.py::test_shipping_method_channel_listing_update_with_negative_min_value",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shipping/tests/test_shipping_method_channel_listing_update.py::test_shipping_method_channel_listing_update_with_negative_price",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shipping/tests/test_shipping_method_channel_listing_update.py::test_shipping_method_channel_listing_update_with_to_many_decimal_places_in_max_val",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shipping/tests/test_shipping_method_channel_listing_update.py::test_shipping_method_channel_listing_update_with_to_many_decimal_places_in_min_val",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/shipping/tests/test_shipping_method_channel_listing_update.py::test_shipping_method_channel_listing_update_with_to_many_decimal_places_in_price",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  }
+ ],
+ "manifest": {
+  "task_id": "saleor-rc-a91ea48a60a7",
+  "target_commit": "a91ea48a60a7aa2a4fa0b0ed4017a5c9b4a1ba65",
+  "era": "py39",
+  "frozen_base_image_id": "sha256:ddc08d7e685517764dfa2606a760d5b3f09d57840d8a0bbcef366db67cd99ef8",
+  "harness_v3_version": "wp2-harness-v3-2026-09-26",
+  "runner_sha": "713e254d12925024553d2c4f33430779bddd45bb",
+  "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+  "lockfile_sha256": "63577f65fadd726feca626e564a0156f31900b2618c80a3400a5ad5b39564573",
+  "nofile_soft": 65536,
+  "nofile_hard": 65536,
+  "clock_pre_post": {
+   "pre": -0.007612,
+   "post": null
+  },
+  "C4_EFFECTIVE_WORKERS": 1,
+  "db_names": {
+   "t": "saleor_v3_a91ea48a60a7_t",
+   "p": "saleor_v3_a91ea48a60a7_p"
+  },
+  "main_recipe_signature": "a7ad06382cc586c8aa6766679a64b444e7b897d1b3933d31eaaf794fae81e8fd",
+  "dev_test_closure": {
+   "mechanism": "poetry",
+   "n_pins": 70,
+   "pins_sha256": "69df3e2ae7466da9d52d0564893cbc1fee89ad0ba2d2708b91417c4239eec322",
+   "n_unsupported": 0
+  }
+ },
+ "evidence_sha256": "4d7209ca5a8b571d34d922985a74c73166c41570dc5a3124b73dcb6c6aa29faa"
+}
