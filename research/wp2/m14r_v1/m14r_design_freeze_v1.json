@@ -1,0 +1,184 @@
+{
+ "arms": {
+  "GOLD_HARD": {
+   "replicates": [
+    "r1",
+    "r2",
+    "r3"
+   ]
+  },
+  "PLACEBO_HARD": {
+   "replicates": [
+    "r1"
+   ],
+   "role": "separation/ceiling check only"
+  }
+ },
+ "artifact": "m14r_design_freeze_v1",
+ "artifact_sha256": "4d3e73fac6f4095622f448ff85cc4e53aa7cf493ded14c698447b477943bc68f",
+ "budget": {
+  "authorization_cap_usd_max": 3.0,
+  "expected_hours": "readiness ~2.5-3 h (28 evaluations); generation ~1.5 h; evaluation ~8-10 h (about 90 unique diffs, workers=1)",
+  "expected_usd": "about 1.1 (112 base episodes + expected <= 20 static repairs)",
+  "worst_episode_reserve_usd": 0.12
+ },
+ "core_constants_sha256": "cf6a53d96a680a1626ac9910945eb6008e34f5978d5d3a172fe9c1732a9789c3",
+ "date": "2026-09-30",
+ "decision_rule": {
+  "computed_by": "scripts/wp2_m14r_core.decide (unit-tested)",
+  "floor_episode_rate": 0.2,
+  "floor_task_fraction": 0.3333333333333333,
+  "max_extra_invalid_vs_g0": 3,
+  "min_gain_vs_g0": 3,
+  "placebo_robust_max": 1,
+  "primary": "GOLD RESOLVED_ROBUST episodes per variant (3 replicates x member tasks)",
+  "task_direction": "#tasks(variant > G0) >= #tasks(G0 > variant) on per-task robust counts",
+  "tie_breakers": [
+   "higher primary count",
+   "lower mean provider tokens per GOLD episode",
+   "simpler variant in order G0 < G1 < G2 < G3"
+  ],
+  "tokens": {
+   "M14R_FLOOR_MET": "winner reaches the floor -> human decision, then a separately frozen M15 design amendment",
+   "M14R_FLOOR_NOT_MET": "no variant reaches the floor -> human decision on WP2 reshape",
+   "M14R_INSTRUMENT_FIX": "instrument/evidence failure -> brain review",
+   "M14R_PLACEBO_LEAK_REVIEW": "any variant PLACEBO robust resolved > 1 -> human decision"
+  }
+ },
+ "endpoints": {
+  "co_reported": "RESOLVED_STRICT = frozen Smoke v2.2 D50-D52 (any non-pass in any rep fails preservation)",
+  "primary_development": "RESOLVED_ROBUST: F2P = every behavioral F2P node passed in all 3 reps; a P2P-S/P2P-U200 node counts as broken only if non-passing in >= 2 of 3 reps; preservation PASS/UNDEFINED",
+  "rationale": "Pilot-A shows unchanged parent trees (empty diffs) failing strict preservation through single-repetition failures (b14def73518c P2P-S, d3847fa5f518 P2P-U), i.e. measured false regressions; the 2-of-3 rule was chosen a priori, not tuned",
+  "reporting_fix": "flaky_under_patch is replaced in reporting by f2p_pass3 / intermittent / deterministic / missing counts; gates unaffected"
+ },
+ "evaluator": {
+  "empty_diff_identity": "scored from the task's readiness negative control (one parent evaluation per task)",
+  "engine": "frozen materialize + evaluate (3 reps, fresh DB, workers=1) with M14A-E1 PATCH_STARTUP_FAILURE semantics",
+  "sets": "ENG v3 (hash-pinned)"
+ },
+ "factors": {
+  "context": {
+   "C0": "frozen Smoke v2.2 / Pilot-A prompt (G0 generator)",
+   "C2": "C0 + IMPORT_OUTLINE_V1 read-only context appended to the user prompt and one system-prompt sentence; editable set unchanged"
+  },
+  "pairing": "G1 is derived from the SAME G0 base generation (and G3 from G2): the static factor is a paired post-processing step, so G0-G1 and G2-G3 differ only where a static repair was triggered; C0 and C2 are independent generations",
+  "static": {
+   "off": "frozen validator (format/scope/apply/py_compile) + 1 format repair",
+   "on": "STATIC_UNDEFINED_V1: after an APPLIED candidate, pyflakes UndefinedName/UndefinedLocal/UndefinedExport findings NEW relative to the parent version of the same file trigger exactly one extra repair whose message contains only those findings; an invalid repair output keeps the APPLIED base candidate (never lowers APPLIED)"
+  },
+  "variants": {
+   "G0": "C0/off",
+   "G1": "C0/on",
+   "G2": "C2/off",
+   "G3": "C2/on"
+  }
+ },
+ "generator_invariants": {
+  "allow_fallbacks": false,
+  "edit_format": "SEARCH/REPLACE (Interface v2)",
+  "format_repairs_max": 1,
+  "max_tokens": 8192,
+  "model": "qwen/qwen3-coder",
+  "provider": "deepinfra/turbo",
+  "public_intent": "unchanged stored intent (commit title rendering)",
+  "static_repairs_max": 1,
+  "temperature": 0.0
+ },
+ "import_outline_v1": {
+  "audits_at_freeze": [
+   "every outline line is a verbatim line of its parent module",
+   "no changed-test path and no F2P/P2P node id in the context (evaluator-side scan; blocking)"
+  ],
+  "caps": {
+   "per_module_chars": 6000,
+   "total_chars": 40000
+  },
+  "content": "verbatim source lines only: class headers + class-level assignment lines + method signature lines (with decorators), function signature lines, module-level assignment first lines; whole public module when a module is imported, else only the imported names",
+  "source": "parent snapshot only (host git show of the task parent)",
+  "targets": "one hop: modules imported by the editable .py files (absolute and relative imports), repository files only; excluded: editable files, test paths, migrations, non-.py"
+ },
+ "inputs": {
+  "eng_evaluator_sets_artifact_sha256": "1828e9fc642ee41176ce9dfa69678417b41e58b2e6e51ffc5b97cf4bca18a93e",
+  "m13b_design_artifact_sha256": "c4c28d585bddc1d95051a73a79c13cd3dcf0cbd5c188c2e7d1b19fbc31feb205",
+  "m14a_e1_amendment_artifact_sha256": "5997f0aa073f4dc9d3c1394379c6b4003efb416fbc7cbe0f0eabc05c1973bb32",
+  "pilot_a_generation_freeze_artifact_sha256": "10f6d577dcbc172a9325a2a5838f3b2ced69440bebba73578e7277ac39610029",
+  "pilot_a_light_sha256": "49d31ba405f2df56722d882d6b216e0b83ca1954e370336245c6203a96c47da5",
+  "pilot_a_summary_artifact_sha256": "3f809a8d2ceee534ac40f37191e0d44807200e88997c8ac10aa9d5caf85a37b9",
+  "required_files": [
+   "scripts/wp2_m14a_run.py",
+   "scripts/wp2_m14a_evalcore.py",
+   "scripts/wp2_m14a_evalcore_e1.py",
+   "scripts/wp2_linux_dryrun.py",
+   "scripts/wp2_export_light.py",
+   "scripts/wp1b_openrouter_key_usage.py",
+   "scripts/wp2_e2e_v22_doctor.py",
+   "research/wp2/pilot_v1_design/pilot_selection.json",
+   "research/wp2/wp2_dev_unchanged_p2p_candidate_inventory_v1_2026-09-25.json",
+   "research/wp2/harness_v3_2026-09-26/evaluator_only/eng_evaluator_sets_v3.json"
+  ]
+ },
+ "leakage_barriers": [
+  "no hidden-test feedback",
+  "no F2P/P2P ids, changed-test paths, target diff or target-only lines in any prompt",
+  "read-only context parent-derived and verbatim-audited",
+  "editable scope unchanged and hard (out-of-scope FILE blocks rejected)",
+  "no Pilot-A or Pilot-B task generated or evaluated",
+  "evaluator sets are read only by evaluator-side code"
+ ],
+ "m15_relation": "M14R never starts M15. If M14R_FLOOR_MET, M15 needs a separately frozen amendment: generator = frozen winner code+hashes; Pilot-B keeps its GOLD_HARD reference arm with a pre-declared floor gate (GOLD RESOLVED_ROBUST >= 4/24 with 12 tasks x 2 reps, scaled by gates_for); if that gate fails the selector comparison is declared uninformative. Pilot-A is not reused as confirmatory calibration.",
+ "pilot_a_expected": {
+  "robust_resolved": {
+   "GOLD_HARD": 2,
+   "PLACEBO_HARD": 0
+  },
+  "taxonomy": {
+   "GOLD_HARD": {
+    "F2P_PASS_PRESERVATION_FAIL": 2,
+    "FORMAT_INVALID": 5,
+    "PARTIAL_F2P_PROGRESS": 5,
+    "PATCH_STARTUP_FAILURE": 2,
+    "ZERO_F2P_PROGRESS": 6
+   },
+   "PLACEBO_HARD": {
+    "FORMAT_INVALID": 3,
+    "NO_OP": 10,
+    "ZERO_F2P_PROGRESS": 7
+   }
+  }
+ },
+ "pilot_a_use": "Pilot-A is used only for (i) the existence of the floor, (ii) the instrument observation that motivates the robust preservation rule, (iii) the generic undefined-name failure class (also seen on ENG 823b). No threshold or parameter was tuned on Pilot-A outcomes. Pilot-A is never re-run or re-scored confirmatorily.",
+ "population": {
+  "candidate_tasks": [
+   "saleor-rc-2d45b76a52f2",
+   "saleor-rc-39b4138e8550",
+   "saleor-rc-644f33094857",
+   "saleor-rc-6abb53f3407b",
+   "saleor-rc-74538ea00ce9",
+   "saleor-rc-823b899757ab",
+   "saleor-rc-82c56bde0e34",
+   "saleor-rc-8f76ddc6267f",
+   "saleor-rc-93b20d78c011",
+   "saleor-rc-c3b9e396b07d",
+   "saleor-rc-d220843b5418",
+   "saleor-rc-dc6ac9d252df",
+   "saleor-rc-e03ee76d2b89",
+   "saleor-rc-e25cf9b4a837"
+  ],
+  "min_members": 10,
+  "protected_pools": "no Pilot-A/Pilot-B/reserve task may appear (guard-checked)",
+  "readiness": "zero-API per task: (1) negative control = empty diff: F2P strict FAIL and robust preservation PASS/UNDEFINED; (2) positive control = gold diff restricted to the frozen GOLD_HARD editable set (what a perfect generator could produce): robust RESOLVED. Only READY tasks are members.",
+  "rule": "all 14 ENG tasks with a frozen ENG v3 evaluator set containing >= 1 behavioral F2P node (the Smoke tasks); 22ec4dab0154 and 9258154b8a0b have no F2P node and are excluded by rule",
+  "split": "DEV_TRAIN_ENG"
+ },
+ "question": "On DEV_TRAIN_ENG only, does a small deployment-realistic generator/interface change (static undefined-name repair and/or read-only import outlines) raise the GOLD_HARD floor without weakening hard editable scopes or using hidden-test/target information?",
+ "separation": "M14R (WP2 repair generator) and AG16/Agent-v2 (WP1 selector agent) share no code path or evidence root; M15 keeps the frozen protocol-v3 Agent (D5).",
+ "status": "DESIGN_FROZEN_BEFORE_ANY_M14R_OUTPUT (zero M14R API calls made at freeze)",
+ "stop_semantics": {
+  "budget": "STOP, never an outcome",
+  "evaluation infrastructure": "resumable EVAL_ERROR with E1 diagnostics saved",
+  "instrument invariant": "non-resumable STOP -> brain",
+  "provider outage/HOLD/rejected": "resumable STOP, never an outcome",
+  "scientific model failure": "recorded as an outcome (FORMAT_INVALID/NO_OP/PATCH_STARTUP_FAILURE/...)"
+ },
+ "version": "M14R-V1"
+}
