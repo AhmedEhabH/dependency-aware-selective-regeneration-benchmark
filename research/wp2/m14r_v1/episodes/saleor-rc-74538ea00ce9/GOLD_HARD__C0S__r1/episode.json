@@ -1,0 +1,77 @@
+{
+ "smoke_version": "wp2-m14r-v1",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-74538ea00ce9",
+ "arm": "GOLD_HARD",
+ "label": "GOLD_HARD__C0S__r1",
+ "variant": "G1",
+ "context": "C0",
+ "replicate": "r1",
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-30T22:49:24Z",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/graphql/discount/mutations/voucher/voucher_update.py",
+  "saleor/graphql/order/mutations/draft_order_create.py",
+  "saleor/graphql/order/mutations/draft_order_update.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/graphql/discount/mutations/voucher/voucher_update.py",
+   "saleor/graphql/order/mutations/draft_order_create.py",
+   "saleor/graphql/order/mutations/draft_order_update.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/graphql/discount/mutations/voucher/voucher_update.py",
+   "saleor/graphql/order/mutations/draft_order_create.py",
+   "saleor/graphql/order/mutations/draft_order_update.py"
+  ]
+ },
+ "prompt_sha256": "09ea6e12bde53218933519f3ff635bde63f07f953cf8b1cce03349a6f06d4320",
+ "request_sha_initial": "cfc30cb51b55a6e924cd89bfbe53d35db177ad0ee16be2bb5265b937c3245f3d",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "context_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790805628-GiDU4VRiDUlfP5Fj5nUm",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 6230,
+   "completion_tokens": 542,
+   "cost_usd_actual": 0.0023694,
+   "cost_usd_nominal": 0.0023694,
+   "finish_reason": "stop",
+   "response_sha256": "2d9cbc6cce6b20acd856bdfa27aece17b798e23864760e9e8b8134042deca11f",
+   "request_sha": "cfc30cb51b55a6e924cd89bfbe53d35db177ad0ee16be2bb5265b937c3245f3d",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\m14r_v1\\episodes\\saleor-rc-74538ea00ce9\\GOLD_HARD__C0__r1\\calls\\1_initial.txt",
+   "raw_sha256": "2d9cbc6cce6b20acd856bdfa27aece17b798e23864760e9e8b8134042deca11f",
+   "inherited_from_base": true
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "produced_by": "initial",
+ "edited_files": [
+  "saleor/graphql/discount/mutations/voucher/voucher_update.py",
+  "saleor/graphql/order/mutations/draft_order_create.py",
+  "saleor/graphql/order/mutations/draft_order_update.py"
+ ],
+ "diff_sha256": "57f2ee585b83aff60a275b5fd0ecb44c53db2911df3dc5113339e59d22b4ebfa",
+ "base_label": "GOLD_HARD__C0__r1",
+ "base_episode_sha256": "5a5ec1b74d8c597da5ec347bd15cb71de43582a2e32ea1a9e329066414f9eedf",
+ "static": {
+  "triggered": false,
+  "reason": "CLEAN",
+  "parse_skipped": []
+ },
+ "episode_sha256": "ab97e53efea78465a3964826b3cc417e5784848c8b651e9fde8f4195a2ec8a1e"
+}

@@ -1,0 +1,70 @@
+diff --git a/saleor/graphql/order/mutations/draft_order_create.py b/saleor/graphql/order/mutations/draft_order_create.py
+--- a/saleor/graphql/order/mutations/draft_order_create.py
++++ b/saleor/graphql/order/mutations/draft_order_create.py
+@@ -571,6 +571,11 @@
+             # Save any changes create/update the draft
+             cls._commit_changes(info, instance, cleaned_input, is_new_instance, app)
+ 
++            # Handle voucher removal
++            if is_new_instance and instance.voucher is None and instance.id:
++                # This is an update where voucher was removed
++                cls._decrease_voucher_usage(instance)
++            
+             if voucher := cleaned_input.get("voucher"):
+                 cls.handle_order_voucher(cleaned_input, instance, voucher)
+ 
+@@ -616,3 +621,26 @@
+                 instance.user_email or instance.user and instance.user.email,
+                 increase_voucher_customer_usage=False,
+             )
++
++    @classmethod
++    def _decrease_voucher_usage(cls, instance):
++        """Decrease voucher usage when voucher is removed from draft order."""
++        from ....discount.utils.voucher import decrease_voucher_usage
++        
++        if instance.voucher and instance.channel.include_draft_order_in_voucher_usage:
++            # Find the voucher code instance
++            if instance.voucher_code:
++                from ....discount.models import VoucherCode
++                try:
++                    code_instance = VoucherCode.objects.get(
++                        code=instance.voucher_code,
++                        voucher=instance.voucher
++                    )
++                    decrease_voucher_usage(
++                        instance.voucher,
++                        code_instance,
++                        instance.user_email or instance.user and instance.user.email,
++                        decrease_voucher_customer_usage=False,
++                    )
++                except VoucherCode.DoesNotExist:
++                    pass
+diff --git a/saleor/graphql/order/mutations/draft_order_update.py b/saleor/graphql/order/mutations/draft_order_update.py
+--- a/saleor/graphql/order/mutations/draft_order_update.py
++++ b/saleor/graphql/order/mutations/draft_order_update.py
+@@ -66,7 +66,12 @@
+     def save(cls, info: ResolveInfo, instance, cleaned_input):
+         manager = get_plugin_manager_promise(info.context).get()
+         app = get_app_promise(info.context).get()
+-        return cls._save_draft_order(
++        
++        # Store original voucher state for comparison
++        original_voucher = instance.voucher
++        original_voucher_code = instance.voucher_code
++        
++        result = cls._save_draft_order(
+             info,
+             instance,
+             cleaned_input,
+@@ -74,3 +79,10 @@
+             app=app,
+             manager=manager,
+         )
++        
++        # Check if voucher was removed
++        if (original_voucher and not instance.voucher) or \
++           (original_voucher_code and not instance.voucher_code):
++            cls._decrease_voucher_usage(instance)
++            
++        return result

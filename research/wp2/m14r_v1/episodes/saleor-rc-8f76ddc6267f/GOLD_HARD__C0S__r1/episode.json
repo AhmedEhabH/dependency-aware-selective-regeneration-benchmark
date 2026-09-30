@@ -1,0 +1,102 @@
+{
+ "smoke_version": "wp2-m14r-v1",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-8f76ddc6267f",
+ "arm": "GOLD_HARD",
+ "label": "GOLD_HARD__C0S__r1",
+ "variant": "G1",
+ "context": "C0",
+ "replicate": "r1",
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-30T22:49:47Z",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/graphql/webhook/mutations/webhook_dry_run.py",
+  "saleor/graphql/webhook/subscription_types.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/graphql/webhook/mutations/webhook_dry_run.py",
+   "saleor/graphql/webhook/subscription_types.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/graphql/webhook/mutations/webhook_dry_run.py",
+   "saleor/graphql/webhook/subscription_types.py"
+  ]
+ },
+ "prompt_sha256": "3ce46f763455d5716c0bf3f5413aea455d09310b7893b5e90779e3910c3eb1f5",
+ "request_sha_initial": "eb17feeb95ac976404adc32e5d2fd2aa67168fe9f00fe3c36e5b2430ea41fdab",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "context_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790805741-3d8e2n13HNiMnUHxVhJo",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 16659,
+   "completion_tokens": 593,
+   "cost_usd_actual": 0.0055491,
+   "cost_usd_nominal": 0.0055491,
+   "finish_reason": "stop",
+   "response_sha256": "9273302893508c68aa842e0c12ff6070c475fea1c20bdd003c40b408fbdf74fe",
+   "request_sha": "eb17feeb95ac976404adc32e5d2fd2aa67168fe9f00fe3c36e5b2430ea41fdab",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\m14r_v1\\episodes\\saleor-rc-8f76ddc6267f\\GOLD_HARD__C0__r1\\calls\\1_initial.txt",
+   "raw_sha256": "9273302893508c68aa842e0c12ff6070c475fea1c20bdd003c40b408fbdf74fe",
+   "inherited_from_base": true
+  },
+  {
+   "kind": "static_repair",
+   "index": 3,
+   "request_id": "gen-1790808590-7sis7Srltmuo9yigp35V",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 17357,
+   "completion_tokens": 114,
+   "cost_usd_actual": 0.0052795,
+   "cost_usd_nominal": 0.0052795,
+   "finish_reason": "stop",
+   "response_sha256": "76d2991a77e610b4724de99ec3856e739db8be5b80b8f987ae3fcab922595247",
+   "request_sha": "82c7cb4989c6b6f0d7e34526e1b8ad0b75c2b091b26e98854b27ecd9b9b791a8",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\m14r_v1\\episodes\\saleor-rc-8f76ddc6267f\\GOLD_HARD__C0S__r1\\calls\\3_static_repair.txt",
+   "raw_sha256": "76d2991a77e610b4724de99ec3856e739db8be5b80b8f987ae3fcab922595247"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "produced_by": "initial",
+ "edited_files": [
+  "saleor/graphql/webhook/mutations/webhook_dry_run.py",
+  "saleor/graphql/webhook/subscription_types.py"
+ ],
+ "diff_sha256": "2fbc9d3f471003623787392f7ca358ccc5d73c66ab00f29514d2a30eb34cec9a",
+ "base_label": "GOLD_HARD__C0__r1",
+ "base_episode_sha256": "ecf7d6d2a190a28f6c695dbe6ca84051f38b739d7530b3ddbce682bbcd9da9f2",
+ "static": {
+  "triggered": true,
+  "findings": [
+   {
+    "cls": "UndefinedName",
+    "args": [
+     "DOC_CATEGORY_WEBHOOKS"
+    ],
+    "lineno": 570,
+    "line": "doc_category = DOC_CATEGORY_WEBHOOKS",
+    "path": "saleor/graphql/webhook/subscription_types.py"
+   }
+  ],
+  "repair_status": "ADOPTED",
+  "remaining_new_findings": 0,
+  "request_sha": "82c7cb4989c6b6f0d7e34526e1b8ad0b75c2b091b26e98854b27ecd9b9b791a8"
+ },
+ "episode_sha256": "ad0e92d29bae87bf34931fffac33d723f0920e2cb293ee4e2d5f8591b8fa8143"
+}

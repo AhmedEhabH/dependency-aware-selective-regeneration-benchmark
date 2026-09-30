@@ -1,0 +1,11 @@
+diff --git a/saleor/graphql/webhook/subscription_types.py b/saleor/graphql/webhook/subscription_types.py
+--- a/saleor/graphql/webhook/subscription_types.py
++++ b/saleor/graphql/webhook/subscription_types.py
+@@ -48,6 +48,7 @@
+     DOC_CATEGORY_PRODUCTS,
+     DOC_CATEGORY_SHIPPING,
+     DOC_CATEGORY_TAXES,
++    DOC_CATEGORY_WEBHOOKS,
+ )
+ from ..core.scalars import JSON, PositiveDecimal
+ from ..core.types import NonNullList, SubscriptionObjectType

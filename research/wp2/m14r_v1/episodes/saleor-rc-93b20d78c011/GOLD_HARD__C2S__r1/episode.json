@@ -1,0 +1,80 @@
+{
+ "smoke_version": "wp2-m14r-v1",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-93b20d78c011",
+ "arm": "GOLD_HARD",
+ "label": "GOLD_HARD__C2S__r1",
+ "variant": "G3",
+ "context": "C2",
+ "replicate": "r1",
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-30T22:50:06Z",
+ "status": "APPLIED",
+ "editable_set": [
+  "CHANGELOG.md",
+  "saleor/graphql/account/resolvers.py",
+  "saleor/graphql/account/schema.py"
+ ],
+ "excluded": {
+  "editable": [
+   "CHANGELOG.md",
+   "saleor/graphql/account/resolvers.py",
+   "saleor/graphql/account/schema.py"
+  ],
+  "excluded_large": [
+   "saleor/graphql/schema.graphql"
+  ],
+  "excluded_budget": [],
+  "raw": [
+   "CHANGELOG.md",
+   "saleor/graphql/account/resolvers.py",
+   "saleor/graphql/account/schema.py",
+   "saleor/graphql/schema.graphql"
+  ]
+ },
+ "prompt_sha256": "64bc984ffdfb594ade3de6b751320ed93514aca7e420db853e6d5c168639ea5f",
+ "request_sha_initial": "fe696ea813c8a712c7c322f8a412dea74342a952c25c524c3f668e99cc372f92",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "context_sha256": "9fcf30ae307210b7cec57060bba30105fa54cb1cfc7c8b2df24eb92f196b3aa5",
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790805794-ojhcQnvPFFujEihrU50N",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 27440,
+   "completion_tokens": 1308,
+   "cost_usd_actual": 0.0094888,
+   "cost_usd_nominal": 0.0094888,
+   "finish_reason": "stop",
+   "response_sha256": "a6c0317d03797b73b21166953addbee2ec9d833cb01e2ab4a5ea088f1e8c69c1",
+   "request_sha": "fe696ea813c8a712c7c322f8a412dea74342a952c25c524c3f668e99cc372f92",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\m14r_v1\\episodes\\saleor-rc-93b20d78c011\\GOLD_HARD__C2__r1\\calls\\1_initial.txt",
+   "raw_sha256": "a6c0317d03797b73b21166953addbee2ec9d833cb01e2ab4a5ea088f1e8c69c1",
+   "inherited_from_base": true
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "produced_by": "initial",
+ "edited_files": [
+  "CHANGELOG.md",
+  "saleor/graphql/account/resolvers.py",
+  "saleor/graphql/account/schema.py"
+ ],
+ "diff_sha256": "88076c2f528350add2aa91c69e53d043d720a611f95f531eb08ff11681c5ede5",
+ "base_label": "GOLD_HARD__C2__r1",
+ "base_episode_sha256": "792249b1ae087620c6390f167b57f623d0d8e66f9fc76b21974f07d3e5201323",
+ "static": {
+  "triggered": false,
+  "reason": "CLEAN",
+  "parse_skipped": []
+ },
+ "episode_sha256": "faa5e8f8d8ec9e96bbc5d74827010981ab73efc9bf3569e5339e14fe7c0fd358"
+}

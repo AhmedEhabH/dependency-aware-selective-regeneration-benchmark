@@ -1,0 +1,127 @@
+{
+ "smoke_version": "wp2-m14r-v1",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-93b20d78c011",
+ "arm": "GOLD_HARD",
+ "label": "GOLD_HARD__C0S__r1",
+ "variant": "G1",
+ "context": "C0",
+ "replicate": "r1",
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-30T22:49:54Z",
+ "status": "APPLIED",
+ "editable_set": [
+  "CHANGELOG.md",
+  "saleor/graphql/account/resolvers.py",
+  "saleor/graphql/account/schema.py"
+ ],
+ "excluded": {
+  "editable": [
+   "CHANGELOG.md",
+   "saleor/graphql/account/resolvers.py",
+   "saleor/graphql/account/schema.py"
+  ],
+  "excluded_large": [
+   "saleor/graphql/schema.graphql"
+  ],
+  "excluded_budget": [],
+  "raw": [
+   "CHANGELOG.md",
+   "saleor/graphql/account/resolvers.py",
+   "saleor/graphql/account/schema.py",
+   "saleor/graphql/schema.graphql"
+  ]
+ },
+ "prompt_sha256": "c796a7f650bd0f217c5bfb65defa7efecab0fd298e6ffc0a6bbd0dbef3ec3650",
+ "request_sha_initial": "57e0b8b4af189f2598dca8c1bd5bb07c8663ba1f301ed821a12e3ec71707abb9",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "context_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790805769-etN2OWzTJUHtvu0AQ8Q5",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 19583,
+   "completion_tokens": 1769,
+   "cost_usd_actual": 0.0076023,
+   "cost_usd_nominal": 0.0076023,
+   "finish_reason": "stop",
+   "response_sha256": "4a11aaa98f7fe75934ac3d5488199a5402216f855431e4120ab0ed8d4bb02e17",
+   "request_sha": "57e0b8b4af189f2598dca8c1bd5bb07c8663ba1f301ed821a12e3ec71707abb9",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\m14r_v1\\episodes\\saleor-rc-93b20d78c011\\GOLD_HARD__C0__r1\\calls\\1_initial.txt",
+   "raw_sha256": "4a11aaa98f7fe75934ac3d5488199a5402216f855431e4120ab0ed8d4bb02e17",
+   "inherited_from_base": true
+  },
+  {
+   "kind": "static_repair",
+   "index": 3,
+   "request_id": "gen-1790808597-Qpfxs1NyiNz6MaVOb4Kv",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 21514,
+   "completion_tokens": 1728,
+   "cost_usd_actual": 0.0081406,
+   "cost_usd_nominal": 0.0081406,
+   "finish_reason": "stop",
+   "response_sha256": "4c99ae806644653c1e531487f20a97ed53e3af3f7df74010bd4d44855f3a85cc",
+   "request_sha": "225c43eb57ca9e007592617eaf58474de0375c4ed019f8e59841fe2fbe6d5445",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\m14r_v1\\episodes\\saleor-rc-93b20d78c011\\GOLD_HARD__C0S__r1\\calls\\3_static_repair.txt",
+   "raw_sha256": "4c99ae806644653c1e531487f20a97ed53e3af3f7df74010bd4d44855f3a85cc"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "produced_by": "initial",
+ "edited_files": [
+  "CHANGELOG.md",
+  "saleor/graphql/account/resolvers.py",
+  "saleor/graphql/account/schema.py"
+ ],
+ "diff_sha256": "3dd616e11064198422fb6077cec8d4be2d1db35a17e91864858d8f4efff19ff9",
+ "base_label": "GOLD_HARD__C0__r1",
+ "base_episode_sha256": "79c18b2cd5438d5244cd0b5270bb6568f91eeb965e4b969b5e7a3e798b995ab8",
+ "static": {
+  "triggered": true,
+  "findings": [
+   {
+    "cls": "UndefinedName",
+    "args": [
+     "models"
+    ],
+    "lineno": 193,
+    "line": "return models.User.objects.filter(email=email).first()",
+    "path": "saleor/graphql/account/schema.py"
+   },
+   {
+    "cls": "UndefinedName",
+    "args": [
+     "models"
+    ],
+    "lineno": 195,
+    "line": "return models.User.objects.staff().filter(email=email).first()",
+    "path": "saleor/graphql/account/schema.py"
+   },
+   {
+    "cls": "UndefinedName",
+    "args": [
+     "models"
+    ],
+    "lineno": 197,
+    "line": "return models.User.objects.customers().filter(email=email).first()",
+    "path": "saleor/graphql/account/schema.py"
+   }
+  ],
+  "repair_status": "ADOPTED",
+  "remaining_new_findings": 0,
+  "request_sha": "225c43eb57ca9e007592617eaf58474de0375c4ed019f8e59841fe2fbe6d5445"
+ },
+ "episode_sha256": "cbe6efea2736e8ca98049df7cf85f472a9a71a766b3ac664ae2da29b1056617f"
+}

@@ -1,0 +1,64 @@
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+@@ -4,6 +4,7 @@
+ 
+ ## [Unreleased]
+ 
++- Add support for querying user by email - #6528 by @korycins
+ - Add possibility to provide external payment ID during the conversion draft order to order - #6320 by @korycins
+ - Add basic rating for `Products` - #6284 by @korycins
+ - Add metadata to shipping zones and shipping methods - #6340 by @maarcingebala
+diff --git a/saleor/graphql/account/schema.py b/saleor/graphql/account/schema.py
+--- a/saleor/graphql/account/schema.py
++++ b/saleor/graphql/account/schema.py
+@@ -1,9 +1,12 @@
+ import graphene
+ 
++from ...core.exceptions import PermissionDenied
+ from ...core.permissions import AccountPermissions
+ from ..core.fields import FilterInputConnectionField
+ from ..core.types import FilterInputObjectType
+ from ..decorators import one_of_permissions_required, permission_required
++from ..utils import get_user_or_app_from_context
++from . import models
+ from .bulk_mutations import CustomerBulkDelete, StaffBulkDelete, UserBulkSetActive
+ from .enums import CountryCodeEnum
+ from .filters import CustomerFilter, PermissionGroupFilter, StaffUserFilter
+@@ -134,6 +137,13 @@
+         id=graphene.Argument(graphene.ID, description="ID of the user.", required=True),
+         description="Look up a user by ID.",
+     )
++    user_by_email = graphene.Field(
++        User,
++        email=graphene.Argument(
++            graphene.String, description="Email of the user.", required=True
++        ),
++        description="Look up a user by email.",
++    )
+ 
+     def resolve_address_validation_rules(
+         self, info, country_code, country_area=None, city=None, city_area=None
+@@ -172,6 +182,22 @@
+     def resolve_user(self, info, id):
+         return resolve_user(info, id)
+ 
++    @one_of_permissions_required(
++        [AccountPermissions.MANAGE_STAFF, AccountPermissions.MANAGE_USERS]
++    )
++    def resolve_user_by_email(self, info, email):
++        requester = get_user_or_app_from_context(info.context)
++        if requester:
++            if requester.has_perms(
++                [AccountPermissions.MANAGE_STAFF, AccountPermissions.MANAGE_USERS]
++            ):
++                return models.User.objects.filter(email=email).first()
++            if requester.has_perm(AccountPermissions.MANAGE_STAFF):
++                return models.User.objects.staff().filter(email=email).first()
++            if requester.has_perm(AccountPermissions.MANAGE_USERS):
++                return models.User.objects.customers().filter(email=email).first()
++        return PermissionDenied()
++
+     def resolve_address(self, info, id):
+         return resolve_address(info, id)
+ 

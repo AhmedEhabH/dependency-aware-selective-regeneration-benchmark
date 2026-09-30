@@ -1,0 +1,114 @@
+{
+ "smoke_version": "wp2-m14r-v1",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-644f33094857",
+ "arm": "GOLD_HARD",
+ "label": "GOLD_HARD__C2S__r1",
+ "variant": "G3",
+ "context": "C2",
+ "replicate": "r1",
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-30T22:49:23Z",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/graphql/order/mutations/fulfillments.py",
+  "saleor/graphql/order/mutations/orders.py",
+  "saleor/order/actions.py",
+  "saleor/order/events.py",
+  "saleor/order/models.py",
+  "saleor/order/utils.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/graphql/order/mutations/fulfillments.py",
+   "saleor/graphql/order/mutations/orders.py",
+   "saleor/order/actions.py",
+   "saleor/order/events.py",
+   "saleor/order/models.py",
+   "saleor/order/utils.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/graphql/order/mutations/fulfillments.py",
+   "saleor/graphql/order/mutations/orders.py",
+   "saleor/order/actions.py",
+   "saleor/order/events.py",
+   "saleor/order/models.py",
+   "saleor/order/utils.py"
+  ]
+ },
+ "prompt_sha256": "32fdcfb83d69ab99364479ad2f9bb5ff202befc42e41eb822bda144e11089f55",
+ "request_sha_initial": "7ece573c3da28ddd5db0e766c071bbfa9957ace6a30e8391f5fcb91e11917459",
+ "request_sha_repair": "46021858ff3489b0f2659d6a6fb5dd756311c4b0a8d1f3f26e36a1e038a73084",
+ "repair_component_hashes": {
+  "message_1_system": "daa956a2c1a0d71f439563d369d50081b518183cc29bfb300cdd43c648b5cf1e",
+  "message_2_user": "32fdcfb83d69ab99364479ad2f9bb5ff202befc42e41eb822bda144e11089f55",
+  "message_3_assistant": "ddde27e0d76eadde318a9762a86a538fb0379ddb77630ad875eda15f46f57ccc",
+  "message_4_user": "fd8c78419449847b2871849812e1bad8dccf0e2d4929876fd65ddd8694b07e42"
+ },
+ "context_sha256": "0b1436f8255b1db6467fe530fbdea35dab912a777781f70ef6c48c3fbb12cc71",
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790805458-kLjUyjEDHRzbHLoZ6Yjs",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 35364,
+   "completion_tokens": 3554,
+   "cost_usd_actual": 0.014112,
+   "cost_usd_nominal": 0.014112,
+   "finish_reason": "stop",
+   "response_sha256": "ddde27e0d76eadde318a9762a86a538fb0379ddb77630ad875eda15f46f57ccc",
+   "request_sha": "7ece573c3da28ddd5db0e766c071bbfa9957ace6a30e8391f5fcb91e11917459",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\m14r_v1\\episodes\\saleor-rc-644f33094857\\GOLD_HARD__C2__r1\\calls\\1_initial.txt",
+   "raw_sha256": "ddde27e0d76eadde318a9762a86a538fb0379ddb77630ad875eda15f46f57ccc",
+   "inherited_from_base": true
+  },
+  {
+   "kind": "repair",
+   "index": 2,
+   "request_id": "gen-1790805514-QOWKsDMxmGXOEvkDwq86",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 39028,
+   "completion_tokens": 1698,
+   "cost_usd_actual": 0.0056272,
+   "cost_usd_nominal": 0.0056272,
+   "finish_reason": "stop",
+   "response_sha256": "9eef3763503ed565ce4cc68b8673abde02a82518221eac42dafa407ea2bc6a59",
+   "request_sha": "46021858ff3489b0f2659d6a6fb5dd756311c4b0a8d1f3f26e36a1e038a73084",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\m14r_v1\\episodes\\saleor-rc-644f33094857\\GOLD_HARD__C2__r1\\calls\\2_repair.txt",
+   "raw_sha256": "9eef3763503ed565ce4cc68b8673abde02a82518221eac42dafa407ea2bc6a59",
+   "inherited_from_base": true
+  }
+ ],
+ "validation": {
+  "initial": [
+   "SEARCH_ERROR:saleor/order/actions.py: block 1: SEARCH content not found in current file (count=0); search='def fulfillment_canceled_event(\\n    *, order: Order, user: UserType, fulfillment'"
+  ],
+  "repair": []
+ },
+ "repair_used": true,
+ "produced_by": "repair",
+ "edited_files": [
+  "saleor/graphql/order/mutations/fulfillments.py",
+  "saleor/graphql/order/mutations/orders.py",
+  "saleor/order/actions.py",
+  "saleor/order/events.py",
+  "saleor/order/models.py",
+  "saleor/order/utils.py"
+ ],
+ "diff_sha256": "9cc3fa2f21206a5aeacfbcf23db9c0835cb1728c1c5f5ccfb93ea031fbe97662",
+ "base_label": "GOLD_HARD__C2__r1",
+ "base_episode_sha256": "664aa351065cc378083327c9e46f51fa0fa2530af1df6ff991770d56e1785df0",
+ "static": {
+  "triggered": false,
+  "reason": "CLEAN",
+  "parse_skipped": []
+ },
+ "episode_sha256": "b378a440b1da6ffeae2f710e879d8546b1b577dab363126c18c757b38b161094"
+}
