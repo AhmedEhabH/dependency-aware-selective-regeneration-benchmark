@@ -1,0 +1,153 @@
+FILE: CHANGELOG.md
+<<<<<<< SEARCH
+## [Unreleased]
+
+- Add possibility to provide external payment ID during the conversion draft order to order - #6320 by @korycins
+- Add basic rating for `Products` - #6284 by @korycins
+- Add metadata to shipping zones and shipping methods - #6340 by @maarcingebala
+=======
+## [Unreleased]
+
+- Add support for querying user by email - #6528 by @your-github-username
+- Add possibility to provide external payment ID during the conversion draft order to order - #6320 by @korycins
+- Add basic rating for `Products` - #6284 by @korycins
+- Add metadata to shipping zones and shipping methods - #6340 by @maarcingebala
+>>>>>>> REPLACE
+
+FILE: saleor/graphql/account/resolvers.py
+<<<<<<< SEARCH
+def resolve_user(info, id):
+    requester = get_user_or_app_from_context(info.context)
+    if requester:
+        _model, user_pk = graphene.Node.from_global_id(id)
+        if requester.has_perms(
+            [AccountPermissions.MANAGE_STAFF, AccountPermissions.MANAGE_USERS]
+        ):
+            return models.User.objects.filter(pk=user_pk).first()
+        if requester.has_perm(AccountPermissions.MANAGE_STAFF):
+            return models.User.objects.staff().filter(pk=user_pk).first()
+        if requester.has_perm(AccountPermissions.MANAGE_USERS):
+            return models.User.objects.customers().filter(pk=user_pk).first()
+    return PermissionDenied()
+=======
+def resolve_user(info, id=None, email=None):
+    requester = get_user_or_app_from_context(info.context)
+    if requester:
+        if email:
+            if requester.has_perms(
+                [AccountPermissions.MANAGE_STAFF, AccountPermissions.MANAGE_USERS]
+            ):
+                return models.User.objects.filter(email=email).first()
+            if requester.has_perm(AccountPermissions.MANAGE_STAFF):
+                return models.User.objects.staff().filter(email=email).first()
+            if requester.has_perm(AccountPermissions.MANAGE_USERS):
+                return models.User.objects.customers().filter(email=email).first()
+        elif id:
+            _model, user_pk = graphene.Node.from_global_id(id)
+            if requester.has_perms(
+                [AccountPermissions.MANAGE_STAFF, AccountPermissions.MANAGE_USERS]
+            ):
+                return models.User.objects.filter(pk=user_pk).first()
+            if requester.has_perm(AccountPermissions.MANAGE_STAFF):
+                return models.User.objects.staff().filter(pk=user_pk).first()
+            if requester.has_perm(AccountPermissions.MANAGE_USERS):
+                return models.User.objects.customers().filter(pk=user_pk).first()
+    return PermissionDenied()
+>>>>>>> REPLACE
+
+FILE: saleor/graphql/account/schema.py
+<<<<<<< SEARCH
+    user = graphene.Field(
+        User,
+        id=graphene.Argument(graphene.ID, description="ID of the user.", required=True),
+        description="Look up a user by ID.",
+    )
+
+    def resolve_address_validation_rules(
+        self, info, country_code, country_area=None, city=None, city_area=None
+    ):
+        return resolve_address_validation_rules(
+            info,
+            country_code,
+            country_area=country_area,
+            city=city,
+            city_area=city_area,
+        )
+
+    @permission_required(AccountPermissions.MANAGE_USERS)
+    def resolve_customers(self, info, query=None, **kwargs):
+        return resolve_customers(info, query=query, **kwargs)
+
+    @permission_required(AccountPermissions.MANAGE_STAFF)
+    def resolve_permission_groups(self, info, query=None, **kwargs):
+        return resolve_permission_groups(info, query=query, **kwargs)
+
+    @permission_required(AccountPermissions.MANAGE_STAFF)
+    def resolve_permission_group(self, info, id):
+        return graphene.Node.get_node_from_global_id(info, id, Group)
+
+    def resolve_me(self, info):
+        user = info.context.user
+        return user if user.is_authenticated else None
+
+    @permission_required(AccountPermissions.MANAGE_STAFF)
+    def resolve_staff_users(self, info, query=None, **kwargs):
+        return resolve_staff_users(info, query=query, **kwargs)
+
+    @one_of_permissions_required(
+        [AccountPermissions.MANAGE_STAFF, AccountPermissions.MANAGE_USERS]
+    )
+    def resolve_user(self, info, id):
+        return resolve_user(info, id)
+
+    def resolve_address(self, info, id):
+        return resolve_address(info, id)
+=======
+    user = graphene.Field(
+        User,
+        id=graphene.Argument(graphene.ID, description="ID of the user."),
+        email=graphene.Argument(graphene.String, description="Email of the user."),
+        description="Look up a user by ID or email.",
+    )
+
+    def resolve_address_validation_rules(
+        self, info, country_code, country_area=None, city=None, city_area=None
+    ):
+        return resolve_address_validation_rules(
+            info,
+            country_code,
+            country_area=country_area,
+            city=city,
+            city_area=city_area,
+        )
+
+    @permission_required(AccountPermissions.MANAGE_USERS)
+    def resolve_customers(self, info, query=None, **kwargs):
+        return resolve_customers(info, query=query, **kwargs)
+
+    @permission_required(AccountPermissions.MANAGE_STAFF)
+    def resolve_permission_groups(self, info, query=None, **kwargs):
+        return resolve_permission_groups(info, query=query, **kwargs)
+
+    @permission_required(AccountPermissions.MANAGE_STAFF)
+    def resolve_permission_group(self, info, id):
+        return graphene.Node.get_node_from_global_id(info, id, Group)
+
+    def resolve_me(self, info):
+        user = info.context.user
+        return user if user.is_authenticated else None
+
+    @permission_required(AccountPermissions.MANAGE_STAFF)
+    def resolve_staff_users(self, info, query=None, **kwargs):
+        return resolve_staff_users(info, query=query, **kwargs)
+
+    @one_of_permissions_required(
+        [AccountPermissions.MANAGE_STAFF, AccountPermissions.MANAGE_USERS]
+    )
+    def resolve_user(self, info, id=None, email=None):
+        return resolve_user(info, id=id, email=email)
+
+    def resolve_address(self, info, id):
+        return resolve_address(info, id)
+>>>>>>> REPLACE
+>>>>>>> REPLACE

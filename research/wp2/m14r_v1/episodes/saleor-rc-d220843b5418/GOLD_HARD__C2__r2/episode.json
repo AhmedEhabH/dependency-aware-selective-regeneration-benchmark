@@ -1,0 +1,65 @@
+{
+ "smoke_version": "wp2-m14r-v1",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-d220843b5418",
+ "arm": "GOLD_HARD",
+ "label": "GOLD_HARD__C2__r2",
+ "variant": "G2",
+ "context": "C2",
+ "replicate": "r2",
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-30T22:22:42Z",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/graphql/webhook/resolvers.py",
+  "saleor/graphql/webhook/subscription_types.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/graphql/webhook/resolvers.py",
+   "saleor/graphql/webhook/subscription_types.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/graphql/webhook/resolvers.py",
+   "saleor/graphql/webhook/subscription_types.py"
+  ]
+ },
+ "prompt_sha256": "9f39d67825efa686fb273d292e72cdaee78dfc07a09ddd11d2ee251cbd82fc61",
+ "request_sha_initial": "f7afa7020101ea421502b541d1bfa275431e7ed1e5abe6a4a8f6dab18e9e4ca4",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "context_sha256": "4d49fbf10ae91526d9b75e61a816d3ed053fb9cfca22e37c761d057485d9112f",
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790806962-kS65S5QNr4iGi6tcJYOr",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 30520,
+   "completion_tokens": 503,
+   "cost_usd_actual": 0.0096558,
+   "cost_usd_nominal": 0.0096558,
+   "finish_reason": "stop",
+   "response_sha256": "191fe63638e53cc675732b0b4c7ec23dadb401369ef70199a1bafab241d905a8",
+   "request_sha": "f7afa7020101ea421502b541d1bfa275431e7ed1e5abe6a4a8f6dab18e9e4ca4",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\m14r_v1\\episodes\\saleor-rc-d220843b5418\\GOLD_HARD__C2__r2\\calls\\1_initial.txt",
+   "raw_sha256": "191fe63638e53cc675732b0b4c7ec23dadb401369ef70199a1bafab241d905a8"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "produced_by": "initial",
+ "edited_files": [
+  "saleor/graphql/webhook/resolvers.py",
+  "saleor/graphql/webhook/subscription_types.py"
+ ],
+ "diff_sha256": "f99ec3aff36053a927843252ac4c54751ce358b2a0e7252a2f90738736929651",
+ "episode_sha256": "9bb499b3bfac101d4d1b8160c33a6b34d18ff317489f0bf0b88c402b16c10533"
+}

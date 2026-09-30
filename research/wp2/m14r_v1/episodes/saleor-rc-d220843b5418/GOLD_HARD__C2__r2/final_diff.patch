@@ -1,0 +1,15 @@
+diff --git a/saleor/graphql/webhook/resolvers.py b/saleor/graphql/webhook/resolvers.py
+--- a/saleor/graphql/webhook/resolvers.py
++++ b/saleor/graphql/webhook/resolvers.py
+@@ -67,6 +67,11 @@
+     manager,
+     database_connection_name: str = settings.DATABASE_CONNECTION_DEFAULT_NAME,
+ ):
++    # Prevent circular payload generation by checking if we're in a webhook context
++    if hasattr(info.context, 'webhook_execution_mode') and info.context.webhook_execution_mode:
++        # Return early with minimal data to prevent circular dependencies
++        return []
++    
+     lines, _ = fetch_checkout_lines(
+         checkout, database_connection_name=database_connection_name
+     )

@@ -1,0 +1,73 @@
+Looking at the developer change description and the files provided, I need to make two main changes:
+
+1. In `webhook_dry_run.py`, use the mutation's context instead of creating a dummy one
+2. Disable dry run option for GiftCardSent webhook 
+3. Add docs category
+
+Let me analyze the code:
+
+In `webhook_dry_run.py`, the `perform_mutation` method creates a dummy request using `initialize_request()` and then calls `generate_payload_from_subscription`. Instead, it should use the mutation's context (`info.context`).
+
+In `subscription_types.py`, I can see the `GiftCardSent` class has `enable_dry_run = True` which needs to be changed to `False`.
+
+Here are the edits:
+
+FILE: saleor/graphql/webhook/mutations/webhook_dry_run.py
+<<<<<<< SEARCH
+    @classmethod
+    def perform_mutation(cls, _root, info, **data):
+        event_type, object, query = cls.validate_input(info, **data)
+        payload = None
+        if all([event_type, object, query]):
+            request = initialize_request()
+            payload = generate_payload_from_subscription(
+                event_type, object, query, request
+            )
+        return WebhookDryRun(payload=payload)
+=======
+    @classmethod
+    def perform_mutation(cls, _root, info, **data):
+        event_type, object, query = cls.validate_input(info, **data)
+        payload = None
+        if all([event_type, object, query]):
+            payload = generate_payload_from_subscription(
+                event_type, object, query, info.context
+            )
+        return WebhookDryRun(payload=payload)
+>>>>>>> REPLACE
+
+FILE: saleor/graphql/webhook/subscription_types.py
+<<<<<<< SEARCH
+class GiftCardSent(SubscriptionObjectType, GiftCardBase):
+    channel = graphene.String(
+        description="Slug of a channel for which this gift card email was sent."
+    )
+    sent_to_email = graphene.String(
+        description="E-mail address to which gift card was sent.",
+    )
+
+    class Meta:
+        root_type = "GiftCard"
+        enable_dry_run = True
+        interfaces = (Event,)
+        description = (
+            "Event sent when gift card is e-mailed." + ADDED_IN_313 + PREVIEW_FEATURE
+        )
+=======
+class GiftCardSent(SubscriptionObjectType, GiftCardBase):
+    channel = graphene.String(
+        description="Slug of a channel for which this gift card email was sent."
+    )
+    sent_to_email = graphene.String(
+        description="E-mail address to which gift card was sent.",
+    )
+
+    class Meta:
+        root_type = "GiftCard"
+        enable_dry_run = False
+        interfaces = (Event,)
+        description = (
+            "Event sent when gift card is e-mailed." + ADDED_IN_313 + PREVIEW_FEATURE
+        )
+        doc_category = DOC_CATEGORY_WEBHOOKS
+>>>>>>> REPLACE
