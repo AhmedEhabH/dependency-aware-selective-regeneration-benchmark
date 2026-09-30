@@ -1,0 +1,217 @@
+{
+ "id": "WP2_M14A_PILOT_A_V1_E1",
+ "settings": {
+  "state_file": "research/wp2/pilot_a_v1/controller_state_e1.json",
+  "report_dir": "research/wp2/pilot_a_v1/controller_reports",
+  "stop_flag": "logs/PILOT_A_STOP.flag",
+  "kit_manifest": "controller/KIT_MANIFEST_M14A_E1.json",
+  "git_commit": true,
+  "git_push": true,
+  "remote": "origin",
+  "branch": "main",
+  "stop_commit_prefixes": [
+   "research/wp2/pilot_a_v1/"
+  ],
+  "resumable_tokens": [
+   "READINESS_ENV_FAIL",
+   "NOT_AUTHORIZED",
+   "PAID_PREFLIGHT_FAIL",
+   "E2E_PROVIDER_OUTAGE",
+   "HOLD_ACTIVE",
+   "USER_STOP_FLAG",
+   "EVAL_ERROR",
+   "CLOSE_FAIL",
+   "POST_ACTION_FAILED",
+   "FINAL_ACTION_FAILED"
+  ],
+  "exports": {
+   "light": [
+    "{python}",
+    "scripts/wp2_export_light.py",
+    "--profile",
+    "controller/light_profile_m14a_e1.json",
+    "--label",
+    "{label}"
+   ]
+  },
+  "final_actions": [
+   {
+    "type": "commit",
+    "prefixes": [
+     "research/wp2/pilot_a_v1/",
+     "docs/WP2_PILOT_A_V1_RESULT.md",
+     "docs/WP2_M14A_E1_RESULT_ADDENDUM.md"
+    ],
+    "message": "evidence(wp2): close Pilot-A V1 (M14A-E1)"
+   },
+   {
+    "type": "push"
+   },
+   {
+    "type": "tag",
+    "name": "wp2-pilot-a-v1-e1-result-{date}",
+    "message": "WP2 Pilot-A V1 result (M14A-E1 evaluator amendment)"
+   },
+   {
+    "type": "exports",
+    "label": "PILOT_A_RESULT",
+    "required": [
+     "light"
+    ]
+   }
+  ]
+ },
+ "phases": [
+  {
+   "id": "E00_KIT_SELFTEST",
+   "title": "M14A-E1 kit self-tests (zero network)",
+   "command": [
+    "{python}",
+    "-m",
+    "pytest",
+    "-q",
+    "-p",
+    "no:cacheprovider",
+    "tests/unit/wp2/m14a"
+   ],
+   "timeout_s": 900,
+   "fail_token": "KIT_SELFTEST_FAIL",
+   "allowed_write_prefixes": []
+  },
+  {
+   "id": "E01_VERIFY",
+   "title": "original freezes + E1 amendment + original STOP state (read-only)",
+   "requires": [
+    "E00_KIT_SELFTEST"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m14a_e1.py",
+    "verify"
+   ],
+   "timeout_s": 900,
+   "exit_codes": {
+    "78": "STOP:M14A_E1_VERIFY_FAIL"
+   },
+   "fail_token": "M14A_E1_VERIFY_FAIL",
+   "allowed_write_prefixes": []
+  },
+  {
+   "id": "E02_EVALUATE",
+   "title": "evaluate remaining unique diffs with E1 (zero API, workers=1)",
+   "requires": [
+    "E01_VERIFY"
+   ],
+   "kind": "loop",
+   "pre_checks": [
+    {
+     "type": "command_ok",
+     "command": [
+      "{python}",
+      "scripts/wp2_m14a_run.py",
+      "generation-freeze-verify"
+     ],
+     "fail_token": "GENERATION_FREEZE_DRIFT"
+    },
+    {
+     "type": "command_ok",
+     "command": [
+      "{python}",
+      "scripts/wp2_m14a_e1.py",
+      "verify"
+     ],
+     "fail_token": "M14A_E1_VERIFY_FAIL"
+    }
+   ],
+   "done_checks": [
+    {
+     "type": "command_ok",
+     "command": [
+      "{python}",
+      "scripts/wp2_m14a_run.py",
+      "eval-complete"
+     ]
+    }
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m14a_e1.py",
+    "evaluate",
+    "--max-evals",
+    "4"
+   ],
+   "timeout_s": 10800,
+   "max_retries": 1,
+   "max_iterations": 50,
+   "fail_token": "EVAL_ERROR",
+   "progress": {
+    "glob": "research/wp2/pilot_a_v1/evaluations/**/evaluation.json"
+   },
+   "allowed_write_prefixes": [
+    "research/wp2/pilot_a_v1/evaluations/",
+    "research/wp2/pilot_a_v1/junit/"
+   ],
+   "commit_each_iteration": true,
+   "commit_message": "evidence(wp2): Pilot-A evaluation progress (M14A-E1)",
+   "exit_codes": {
+    "79": "STOP:EVAL_ERROR",
+    "78": "STOP:M14A_INVARIANT"
+   }
+  },
+  {
+   "id": "E03_SUMMARY",
+   "title": "mechanical Pilot-A summary and A0-A5 gates (frozen engine)",
+   "requires": [
+    "E02_EVALUATE"
+   ],
+   "pre_checks": [
+    {
+     "type": "command_ok",
+     "command": [
+      "{python}",
+      "scripts/wp2_m14a_run.py",
+      "generation-freeze-verify"
+     ],
+     "fail_token": "GENERATION_FREEZE_DRIFT"
+    }
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m14a_run.py",
+    "summary"
+   ],
+   "timeout_s": 900,
+   "fail_token": "SUMMARY_FAIL",
+   "allowed_write_prefixes": [
+    "research/wp2/pilot_a_v1/pilot_a_summary.json",
+    "docs/WP2_PILOT_A_V1_RESULT.md"
+   ],
+   "commit_message": "evidence(wp2): Pilot-A V1 summary (M14A-E1)",
+   "exit_codes": {
+    "78": "STOP:M14A_INVARIANT"
+   }
+  },
+  {
+   "id": "E04_ADDENDUM",
+   "title": "mechanical E1 addendum (descriptive)",
+   "requires": [
+    "E03_SUMMARY"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m14a_e1.py",
+    "addendum"
+   ],
+   "timeout_s": 900,
+   "fail_token": "ADDENDUM_FAIL",
+   "allowed_write_prefixes": [
+    "research/wp2/pilot_a_v1/m14a_e1_addendum.json",
+    "docs/WP2_M14A_E1_RESULT_ADDENDUM.md"
+   ],
+   "commit_message": "evidence(wp2): Pilot-A M14A-E1 addendum",
+   "exit_codes": {
+    "78": "STOP:M14A_INVARIANT"
+   }
+  }
+ ]
+}
