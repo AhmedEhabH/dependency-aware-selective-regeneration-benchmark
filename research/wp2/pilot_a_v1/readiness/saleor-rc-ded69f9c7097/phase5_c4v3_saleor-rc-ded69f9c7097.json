@@ -1,0 +1,276 @@
+{
+ "task_id": "saleor-rc-ded69f9c7097",
+ "status": "DONE",
+ "era_key": "py39",
+ "target_commit": "ded69f9c7097324acf3100f3aec34cb0172babd9",
+ "counts": {
+  "BEHAVIORAL_F2P": 2,
+  "SYMBOL_ABSENCE_F2P": 0,
+  "PARENT_COLLECTION_ERROR": 0,
+  "FLAKY": 0,
+  "TARGET_ORACLE_INVALID": 0,
+  "P2P_ONLY": 13,
+  "OTHER_REVIEW_REQUIRED": 0
+ },
+ "eligibility": {
+  "PRIMARY_BEHAVIORAL_F2P_ELIGIBLE": true,
+  "EXTENDED_F2P_ELIGIBLE": true,
+  "n_behavioral_f2p": 2,
+  "n_symbol_absence_f2p": 0,
+  "n_parent_collection_error": 0,
+  "environment_valid": true,
+  "task_collection_failure": false,
+  "semantics_version": "oracle-semantics-v2-2026-09-23"
+ },
+ "classification": "BEHAVIORAL_F2P",
+ "n_nodes": 15,
+ "n_test_files": 1,
+ "wall_s": 328.1,
+ "operations": {
+  "target_wall_s": 197.4,
+  "parent_wall_s": 328.1,
+  "target_error": null,
+  "parent_error": null
+ },
+ "node_records": [
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_stocks_update.py::test_create_stocks",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_stocks_update.py::test_create_stocks_failed",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_stocks_update.py::test_invalidate_stocks_dataloader_on_update_stocks",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_stocks_update.py::test_product_variant_stocks_update",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_stocks_update.py::test_product_variant_stocks_update_too_big_quantity_value",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_stocks_update.py::test_product_variant_stocks_update_with_empty_stock_list",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_stocks_update.py::test_update_or_create_variant_stocks",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_stocks_update.py::test_update_or_create_variant_stocks_empty_stocks_data",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_stocks_update.py::test_update_or_create_variant_stocks_when_stock_out_of_quantity",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_stocks_update.py::test_update_or_create_variant_stocks_with_out_of_stock_webhook_only",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_stocks_update.py::test_update_or_create_variant_with_back_in_stock_webhooks_only_failed",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_stocks_update.py::test_update_or_create_variant_with_back_in_stock_webhooks_only_success",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_stocks_update.py::test_update_or_create_variant_with_back_in_stock_webhooks_with_allocations",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_stocks_update.py::test_update_or_create_variant_with_out_of_stock_webhooks_with_allocations",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_product_variant_stocks_update.py::test_variant_stocks_update_stock_duplicated_warehouse",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  }
+ ],
+ "manifest": {
+  "task_id": "saleor-rc-ded69f9c7097",
+  "target_commit": "ded69f9c7097324acf3100f3aec34cb0172babd9",
+  "era": "py39",
+  "frozen_base_image_id": "sha256:ddc08d7e685517764dfa2606a760d5b3f09d57840d8a0bbcef366db67cd99ef8",
+  "harness_v3_version": "wp2-harness-v3-2026-09-26",
+  "runner_sha": "06aa53994c1261248ee7975b702221c77f552e82",
+  "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+  "lockfile_sha256": "2b54d873972800e1389eb21b4f705ac9fead3c37a6d9a66eb90a920cead7011a",
+  "nofile_soft": 65536,
+  "nofile_hard": 65536,
+  "clock_pre_post": {
+   "pre": 0.589182,
+   "post": null
+  },
+  "C4_EFFECTIVE_WORKERS": 1,
+  "db_names": {
+   "t": "saleor_v3_ded69f9c7097_t",
+   "p": "saleor_v3_ded69f9c7097_p"
+  },
+  "main_recipe_signature": "d13e2c2ac8407ae9cfaeab2da213daa661de5265b512496db8c8e87ea5ffccfa",
+  "dev_test_closure": {
+   "mechanism": "poetry",
+   "n_pins": 75,
+   "pins_sha256": "d1f59a400ebe68b29be17826c3f048dc4d9179f401f92ab434fb06aa0cb72d60",
+   "n_unsupported": 0
+  }
+ },
+ "evidence_sha256": "b4ac487a56c04b62f459a63139d6378fc8ff471c6f6e63587816cf980081226d"
+}
