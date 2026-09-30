@@ -1,0 +1,90 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v21",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-b497f8d82426",
+ "arm": "PLACEBO_HARD",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/account/notifications.py",
+  "saleor/giftcard/utils.py",
+  "saleor/order/fetch.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/account/notifications.py",
+   "saleor/giftcard/utils.py",
+   "saleor/order/fetch.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/account/notifications.py",
+   "saleor/giftcard/utils.py",
+   "saleor/order/fetch.py"
+  ]
+ },
+ "prompt_sha256": "83d32612d7eac49e44c98cbcdd07582ab23c57835629bbbd2b2707791543ea6d",
+ "request_sha_initial": "8a0689ac2a2252366d58cfd7081e91ec597e96baee90b2c0e9e4758f9f912e92",
+ "request_sha_repair": "0ffb66ac8bfb4921a546c121cafb92822a2e43590c838de965c888521607a105",
+ "repair_component_hashes": {
+  "message_1_system": "020a8f57bba533f9a332e9d30a96892bc5893d1b20f376cbde591a1b5cc87922",
+  "message_2_user": "83d32612d7eac49e44c98cbcdd07582ab23c57835629bbbd2b2707791543ea6d",
+  "message_3_assistant": "7afd3efd4140738945dd4a7f30242a5f0bdbabffb745693893f450fc3b8b35c8",
+  "message_4_user": "b4829a868ca41a065d606155b61dc13c9b13f9173faa7cc5801508e0c3834081"
+ },
+ "repair_request_sha256": "0ffb66ac8bfb4921a546c121cafb92822a2e43590c838de965c888521607a105",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790761106-mbkFrc8KX73rGe5fNnwu",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 3773,
+   "completion_tokens": 164,
+   "cost_usd_actual": 0.0012383,
+   "cost_usd_nominal": 0.0012383,
+   "finish_reason": "stop",
+   "response_sha256": "7afd3efd4140738945dd4a7f30242a5f0bdbabffb745693893f450fc3b8b35c8",
+   "request_sha": "8a0689ac2a2252366d58cfd7081e91ec597e96baee90b2c0e9e4758f9f912e92",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\pilot_a_v1\\episodes\\saleor-rc-b497f8d82426\\PLACEBO_HARD__r1\\calls\\1_initial.txt",
+   "raw_sha256": "7afd3efd4140738945dd4a7f30242a5f0bdbabffb745693893f450fc3b8b35c8"
+  },
+  {
+   "kind": "repair",
+   "index": 2,
+   "request_id": "gen-1790761121-NmLW9c5KRVUplySaB8OS",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 3993,
+   "completion_tokens": 855,
+   "cost_usd_actual": 0.0012689,
+   "cost_usd_nominal": 0.0012689,
+   "finish_reason": "stop",
+   "response_sha256": "d10bd91a96b9e798530098105aa58a9ae65d43967a70a538783d1ce4298378fb",
+   "request_sha": "0ffb66ac8bfb4921a546c121cafb92822a2e43590c838de965c888521607a105",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\pilot_a_v1\\episodes\\saleor-rc-b497f8d82426\\PLACEBO_HARD__r1\\calls\\2_repair.txt",
+   "raw_sha256": "d10bd91a96b9e798530098105aa58a9ae65d43967a70a538783d1ce4298378fb"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": true,
+ "edited_files": [
+  "saleor/account/notifications.py",
+  "saleor/giftcard/utils.py",
+  "saleor/order/fetch.py"
+ ],
+ "diff_sha256": "16ec795185b645d8d57bd90786f83612f045ee5efe642dd1520f3496ef3b03d3",
+ "envelope": {},
+ "whitespace_tolerant_blocks": [],
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-30T09:39:07Z",
+ "episode_sha256": "802619ec561a434c0ff747f091cfe6009503189da1dee5a191ecb493bcc3550c"
+}

@@ -1,0 +1,11 @@
+Looking at the developer change description, I need to make collection name non-unique and sort by slug instead of name. However, none of the provided files contain collection-related code. The files shown are:
+
+1. `saleor/account/notifications.py` - Account notification utilities
+2. `saleor/giftcard/utils.py` - Gift card utilities
+3. `saleor/order/fetch.py` - Order fetching utilities
+
+These files don't contain any collection model definitions or sorting logic that would need to be modified for this change. The change description suggests modifying collection name uniqueness and sorting behavior, which would typically be in a collection model file or admin interface configuration.
+
+Since none of the provided files are relevant to the described change about collections, I cannot make any modifications to implement this change.
+
+No changes needed to the provided files.

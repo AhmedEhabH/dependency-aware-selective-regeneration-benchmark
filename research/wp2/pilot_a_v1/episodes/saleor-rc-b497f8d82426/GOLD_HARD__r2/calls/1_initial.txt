@@ -1,0 +1,187 @@
+Looking at the developer change description, I need to make collection name non-unique and update sorting to use slug instead of name. Let me analyze the files:
+
+1. **CHANGELOG.md** - Need to add the change entry
+2. **saleor/graphql/product/sorters.py** - Need to update CollectionSortField to sort by slug instead of name
+3. **saleor/product/models.py** - Need to remove `unique=True` from the name field in Collection model
+
+Let me implement these changes:
+
+FILE: CHANGELOG.md
+<<<<<<< SEARCH
+- Fix crash when too long translation strings were passed to `translate` mutations - #8942 by rafalp
+
+# 3.0.0 [Unreleased]
+=======
+- Fix crash when too long translation strings were passed to `translate` mutations - #8942 by rafalp
+- Make collection name non-unique - #8986 by @rafalp
+
+# 3.0.0 [Unreleased]
+>>>>>>> REPLACE
+
+FILE: saleor/graphql/product/sorters.py
+<<<<<<< SEARCH
+
+class CollectionSortField(graphene.Enum):
+    NAME = ["name"]
+    AVAILABILITY = ["is_published", "name"]
+    PRODUCT_COUNT = ["product_count", "name"]
+    PUBLICATION_DATE = ["publication_date", "name"]
+
+    @property
+    def description(self):
+        # pylint: disable=no-member
+        if self in [
+            CollectionSortField.NAME,
+            CollectionSortField.AVAILABILITY,
+            CollectionSortField.PRODUCT_COUNT,
+            CollectionSortField.PUBLICATION_DATE,
+        ]:
+            sort_name = self.name.lower().replace("_", " ")
+            return f"Sort collections by {sort_name}."
+        raise ValueError("Unsupported enum value: %s" % self.value)
+
+    @staticmethod
+    def qs_with_product_count(queryset: QuerySet, **_kwargs) -> QuerySet:
+        return queryset.annotate(product_count=Count("collectionproduct__id"))
+
+    @staticmethod
+    def qs_with_availability(queryset: QuerySet, channel_slug: str) -> QuerySet:
+        subquery = Subquery(
+            CollectionChannelListing.objects.filter(
+                collection_id=OuterRef("pk"), channel__slug=str(channel_slug)
+            ).values_list("is_published")[:1]
+        )
+        return queryset.annotate(
+            is_published=ExpressionWrapper(subquery, output_field=BooleanField())
+        )
+
+    @staticmethod
+    def qs_with_publication_date(queryset: QuerySet, channel_slug: str) -> QuerySet:
+        subquery = Subquery(
+            CollectionChannelListing.objects.filter(
+                collection_id=OuterRef("pk"), channel__slug=str(channel_slug)
+            ).values_list("publication_date")[:1]
+        )
+        return queryset.annotate(
+            publication_date=ExpressionWrapper(subquery, output_field=DateField())
+        )
+=======
+
+class CollectionSortField(graphene.Enum):
+    NAME = ["name"]
+    AVAILABILITY = ["is_published", "name"]
+    PRODUCT_COUNT = ["product_count", "name"]
+    PUBLICATION_DATE = ["publication_date", "name"]
+
+    @property
+    def description(self):
+        # pylint: disable=no-member
+        if self in [
+            CollectionSortField.NAME,
+            CollectionSortField.AVAILABILITY,
+            CollectionSortField.PRODUCT_COUNT,
+            CollectionSortField.PUBLICATION_DATE,
+        ]:
+            sort_name = self.name.lower().replace("_", " ")
+            return f"Sort collections by {sort_name}."
+        raise ValueError("Unsupported enum value: %s" % self.value)
+
+    @staticmethod
+    def qs_with_product_count(queryset: QuerySet, **_kwargs) -> QuerySet:
+        return queryset.annotate(product_count=Count("collectionproduct__id"))
+
+    @staticmethod
+    def qs_with_availability(queryset: QuerySet, channel_slug: str) -> QuerySet:
+        subquery = Subquery(
+            CollectionChannelListing.objects.filter(
+                collection_id=OuterRef("pk"), channel__slug=str(channel_slug)
+            ).values_list("is_published")[:1]
+        )
+        return queryset.annotate(
+            is_published=ExpressionWrapper(subquery, output_field=BooleanField())
+        )
+
+    @staticmethod
+    def qs_with_publication_date(queryset: QuerySet, channel_slug: str) -> QuerySet:
+        subquery = Subquery(
+            CollectionChannelListing.objects.filter(
+                collection_id=OuterRef("pk"), channel__slug=str(channel_slug)
+            ).values_list("publication_date")[:1]
+        )
+        return queryset.annotate(
+            publication_date=ExpressionWrapper(subquery, output_field=DateField())
+        )
+>>>>>>> REPLACE
+
+FILE: saleor/product/models.py
+<<<<<<< SEARCH
+class Collection(SeoModel, ModelWithMetadata):
+    name = models.CharField(max_length=250, unique=True)
+    slug = models.SlugField(max_length=255, unique=True, allow_unicode=True)
+    products = models.ManyToManyField(
+        Product,
+        blank=True,
+        related_name="collections",
+        through=CollectionProduct,
+        through_fields=("collection", "product"),
+    )
+    background_image = VersatileImageField(
+        upload_to="collection-backgrounds", blank=True, null=True
+    )
+    background_image_alt = models.CharField(max_length=128, blank=True)
+    description = SanitizedJSONField(blank=True, null=True, sanitizer=clean_editor_js)
+
+    objects = models.Manager.from_queryset(CollectionsQueryset)()
+
+    translated = TranslationProxy()
+
+    class Meta(ModelWithMetadata.Meta):
+        ordering = ("slug",)
+        indexes = [
+            *ModelWithMetadata.Meta.indexes,
+            GinIndex(
+                name="collection_search_gin",
+                # `opclasses` and `fields` should be the same length
+                fields=["name", "slug"],
+                opclasses=["gin_trgm_ops"] * 2,
+            ),
+        ]
+
+    def __str__(self) -> str:
+        return self.name
+=======
+class Collection(SeoModel, ModelWithMetadata):
+    name = models.CharField(max_length=250)
+    slug = models.SlugField(max_length=255, unique=True, allow_unicode=True)
+    products = models.ManyToManyField(
+        Product,
+        blank=True,
+        related_name="collections",
+        through=CollectionProduct,
+        through_fields=("collection", "product"),
+    )
+    background_image = VersatileImageField(
+        upload_to="collection-backgrounds", blank=True, null=True
+    )
+    background_image_alt = models.CharField(max_length=128, blank=True)
+    description = SanitizedJSONField(blank=True, null=True, sanitizer=clean_editor_js)
+
+    objects = models.Manager.from_queryset(CollectionsQueryset)()
+
+    translated = TranslationProxy()
+
+    class Meta(ModelWithMetadata.Meta):
+        ordering = ("slug",)
+        indexes = [
+            *ModelWithMetadata.Meta.indexes,
+            GinIndex(
+                name="collection_search_gin",
+                # `opclasses` and `fields` should be the same length
+                fields=["name", "slug"],
+                opclasses=["gin_trgm_ops"] * 2,
+            ),
+        ]
+
+    def __str__(self) -> str:
+        return self.name
+>>>>>>> REPLACE

@@ -1,0 +1,161 @@
+FILE: saleor/graphql/core/validators/__init__.py
+<<<<<<< SEARCH
+def validate_end_is_after_start(start_date, end_date):
+    """Validate if the end date provided is after start date."""
+
+    # check is not needed if no end date
+    if end_date is None:
+        return
+
+    if start_date > end_date:
+        raise ValidationError("End date cannot be before the start date.")
+
+=======
+def validate_end_is_after_start(start_date, end_date):
+    """Validate if the end date provided is after start date."""
+
+    # check is not needed if no end date
+    if end_date is None:
+        return
+
+    if start_date > end_date:
+        raise ValidationError("End date cannot be before the start date.")
+
+
+def validate_max_price(amount: Optional["Decimal"], currency: str):
+    """Validate if price amount is not exceeding maximum allowed value."""
+
+    # check no needed when there is no value
+    if not amount:
+        return
+
+    currency_fraction = get_currency_fraction(currency)
+    # Maximum price is typically limited by Django DecimalField max precision
+    # Using a reasonable maximum value to prevent overflow issues
+    max_allowed = 10**10 - 1  # 9999999999
+    
+    if amount > max_allowed:
+        raise ValidationError(
+            f"Amount must be less than or equal to {max_allowed}."
+        )
+
+>>>>>>> REPLACE
+
+FILE: saleor/graphql/shipping/mutations/channels.py
+<<<<<<< SEARCH
+from ...core.scalars import PositiveDecimal
+from ...core.types.common import ShippingError
+from ...core.validators import validate_price_precision
+from ...shipping.utils import get_shipping_model_by_object_id
+from ..types import ShippingMethod
+=======
+from ...core.scalars import PositiveDecimal
+from ...core.types.common import ShippingError
+from ...core.validators import validate_price_precision, validate_max_price
+from ...shipping.utils import get_shipping_model_by_object_id
+from ..types import ShippingMethod
+>>>>>>> REPLACE
+
+FILE: saleor/graphql/shipping/mutations/channels.py
+<<<<<<< SEARCH
+            price_amount = channel_input.pop("price", None)
+            if price_amount is not None:
+                try:
+                    validate_price_precision(
+                        price_amount, channel_input["channel"].currency_code
+                    )
+                    channel_input["price_amount"] = price_amount
+                except ValidationError as error:
+                    error.code = ShippingErrorCode.INVALID.value
+                    error.params = {
+                        "channels": [channel_id],
+                    }
+                    errors["price"].append(error)
+=======
+            price_amount = channel_input.pop("price", None)
+            if price_amount is not None:
+                try:
+                    validate_price_precision(
+                        price_amount, channel_input["channel"].currency_code
+                    )
+                    validate_max_price(
+                        price_amount, channel_input["channel"].currency_code
+                    )
+                    channel_input["price_amount"] = price_amount
+                except ValidationError as error:
+                    error.code = ShippingErrorCode.INVALID.value
+                    error.params = {
+                        "channels": [channel_id],
+                    }
+                    errors["price"].append(error)
+>>>>>>> REPLACE
+
+FILE: saleor/graphql/shipping/mutations/channels.py
+<<<<<<< SEARCH
+            min_price = channel_input.pop("minimum_order_price", None)
+            max_price = channel_input.pop("maximum_order_price", None)
+
+            if min_price is not None:
+                channel_input["minimum_order_price_amount"] = min_price
+                try:
+                    validate_price_precision(
+                        min_price, channel_input["channel"].currency_code
+                    )
+                except ValidationError as error:
+                    error.code = ShippingErrorCode.INVALID.value
+                    error.params = {
+                        "channels": [channel_id],
+                    }
+                    errors["minimum_order_price"].append(error)
+=======
+            min_price = channel_input.pop("minimum_order_price", None)
+            max_price = channel_input.pop("maximum_order_price", None)
+
+            if min_price is not None:
+                channel_input["minimum_order_price_amount"] = min_price
+                try:
+                    validate_price_precision(
+                        min_price, channel_input["channel"].currency_code
+                    )
+                    validate_max_price(
+                        min_price, channel_input["channel"].currency_code
+                    )
+                except ValidationError as error:
+                    error.code = ShippingErrorCode.INVALID.value
+                    error.params = {
+                        "channels": [channel_id],
+                    }
+                    errors["minimum_order_price"].append(error)
+>>>>>>> REPLACE
+
+FILE: saleor/graphql/shipping/mutations/channels.py
+<<<<<<< SEARCH
+            if max_price is not None:
+                channel_input["maximum_order_price_amount"] = max_price
+                try:
+                    validate_price_precision(
+                        max_price, channel_input["channel"].currency_code
+                    )
+                except ValidationError as error:
+                    error.code = ShippingErrorCode.INVALID.value
+                    error.params = {
+                        "channels": [channel_id],
+                    }
+                    errors["maximum_order_price"].append(error)
+=======
+            if max_price is not None:
+                channel_input["maximum_order_price_amount"] = max_price
+                try:
+                    validate_price_precision(
+                        max_price, channel_input["channel"].currency_code
+                    )
+                    validate_max_price(
+                        max_price, channel_input["channel"].currency_code
+                    )
+                except ValidationError as error:
+                    error.code = ShippingErrorCode.INVALID.value
+                    error.params = {
+                        "channels": [channel_id],
+                    }
+                    errors["maximum_order_price"].append(error)
+>>>>>>> REPLACE

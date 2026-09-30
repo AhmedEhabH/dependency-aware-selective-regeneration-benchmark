@@ -1,0 +1,106 @@
+Looking at the developer change description again, I need to make collection name non-unique and sort by slug instead of name. However, after carefully examining the three provided files, I can see that none of them contain collection-related code or sorting logic that would be affected by this change.
+
+The files provided are:
+1. `saleor/account/notifications.py` - Contains account notification utilities
+2. `saleor/giftcard/utils.py` - Contains gift card utilities  
+3. `saleor/order/fetch.py` - Contains order fetching utilities
+
+None of these files contain:
+- Collection model definitions
+- Collection name uniqueness constraints
+- Sorting logic that would need to be changed from name to slug
+
+Since the provided files do not contain any code that needs to be modified to implement the described change about making collection name non-unique and sorting by slug instead of name, I cannot produce any valid edit blocks for these specific files.
+
+FILE: saleor/account/notifications.py
+<<<<<<< SEARCH
+from typing import Optional
+from urllib.parse import urlencode
+
+from django.contrib.auth.tokens import default_token_generator
+
+from ..core.notification.utils import get_site_context
+from ..core.notify_events import NotifyEventType
+from ..core.tokens import account_delete_token_generator
+from ..core.utils.url import prepare_url
+from .models import User
+=======
+from typing import Optional
+from urllib.parse import urlencode
+
+from django.contrib.auth.tokens import default_token_generator
+
+from ..core.notification.utils import get_site_context
+from ..core.notify_events import NotifyEventType
+from ..core.tokens import account_delete_token_generator
+from ..core.utils.url import prepare_url
+from .models import User
+>>>>>>> REPLACE
+
+FILE: saleor/giftcard/utils.py
+<<<<<<< SEARCH
+from collections import defaultdict
+from datetime import date
+from typing import TYPE_CHECKING, Iterable, Optional
+
+from dateutil.relativedelta import relativedelta
+from django.core.exceptions import ValidationError
+from django.db import transaction
+from django.db.models.expressions import Exists, OuterRef
+from django.utils import timezone
+
+from ..checkout.error_codes import CheckoutErrorCode
+from ..checkout.models import Checkout
+from ..core.tracing import traced_atomic_transaction
+from ..core.utils.promo_code import InvalidPromoCode, generate_promo_code
+from ..core.utils.validators import user_is_valid
+from ..order.actions import create_fulfillments
+from ..order.models import OrderLine
+from ..site import GiftCardSettingsExpiryType
+from . import GiftCardEvents, GiftCardLineData, events
+from .models import GiftCard, GiftCardEvent
+from .notifications import send_gift_card_notification
+=======
+from collections import defaultdict
+from datetime import date
+from typing import TYPE_CHECKING, Iterable, Optional
+
+from dateutil.relativedelta import relativedelta
+from django.core.exceptions import ValidationError
+from django.db import transaction
+from django.db.models.expressions import Exists, OuterRef
+from django.utils import timezone
+
+from ..checkout.error_codes import CheckoutErrorCode
+from ..checkout.models import Checkout
+from ..core.tracing import traced_atomic_transaction
+from ..core.utils.promo_code import InvalidPromoCode, generate_promo_code
+from ..core.utils.validators import user_is_valid
+from ..order.actions import create_fulfillments
+from ..order.models import OrderLine
+from ..site import GiftCardSettingsExpiryType
+from . import GiftCardEvents, GiftCardLineData, events
+from .models import GiftCard, GiftCardEvent
+from .notifications import send_gift_card_notification
+>>>>>>> REPLACE
+
+FILE: saleor/order/fetch.py
+<<<<<<< SEARCH
+from dataclasses import dataclass
+from typing import TYPE_CHECKING, Iterable, List, Optional
+
+if TYPE_CHECKING:
+    from ..channel.models import Channel
+    from ..payment.models import Payment
+    from ..product.models import DigitalContent, ProductVariant
+    from .models import Order, OrderLine
+=======
+from dataclasses import dataclass
+from typing import TYPE_CHECKING, Iterable, List, Optional
+
+if TYPE_CHECKING:
+    from ..channel.models import Channel
+    from ..payment.models import Payment
+    from ..product.models import DigitalContent, ProductVariant
+    from .models import Order, OrderLine
+>>>>>>> REPLACE

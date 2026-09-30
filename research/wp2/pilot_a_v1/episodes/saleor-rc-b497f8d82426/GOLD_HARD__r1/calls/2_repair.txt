@@ -1,0 +1,39 @@
+FILE: CHANGELOG.md
+<<<<<<< SEARCH
+- Do no allow using id for updating checkout and order metadata - #8906 by @IKarbowiak
+- Fix crash when too long translation strings were passed to `translate` mutations - #8942 by rafalp
+
+# 3.0.0 [Unreleased]
+=======
+- Do no allow using id for updating checkout and order metadata - #8906 by @IKarbowiak
+- Fix crash when too long translation strings were passed to `translate` mutations - #8942 by rafalp
+- Make collection name non-unique - #8986 by @rafalp
+
+# 3.0.0 [Unreleased]
+>>>>>>> REPLACE
+
+FILE: saleor/graphql/product/sorters.py
+<<<<<<< SEARCH
+class CollectionSortField(graphene.Enum):
+    NAME = ["name"]
+    AVAILABILITY = ["is_published", "name"]
+    PRODUCT_COUNT = ["product_count", "name"]
+    PUBLICATION_DATE = ["publication_date", "name"]
+=======
+class CollectionSortField(graphene.Enum):
+    NAME = ["slug"]
+    AVAILABILITY = ["is_published", "name"]
+    PRODUCT_COUNT = ["product_count", "name"]
+    PUBLICATION_DATE = ["publication_date", "name"]
+>>>>>>> REPLACE
+
+FILE: saleor/product/models.py
+<<<<<<< SEARCH
+class Collection(SeoModel, ModelWithMetadata):
+    name = models.CharField(max_length=250, unique=True)
+    slug = models.SlugField(max_length=255, unique=True, allow_unicode=True)
+=======
+class Collection(SeoModel, ModelWithMetadata):
+    name = models.CharField(max_length=250)
+    slug = models.SlugField(max_length=255, unique=True, allow_unicode=True)
+>>>>>>> REPLACE

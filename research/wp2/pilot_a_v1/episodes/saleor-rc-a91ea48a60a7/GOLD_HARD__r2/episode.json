@@ -1,0 +1,87 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v21",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-a91ea48a60a7",
+ "arm": "GOLD_HARD",
+ "status": "INVALID_AFTER_REPAIR",
+ "editable_set": [
+  "saleor/graphql/core/validators/__init__.py",
+  "saleor/graphql/shipping/mutations/channels.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/graphql/core/validators/__init__.py",
+   "saleor/graphql/shipping/mutations/channels.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/graphql/core/validators/__init__.py",
+   "saleor/graphql/shipping/mutations/channels.py"
+  ]
+ },
+ "prompt_sha256": "c1c3b186f8334368c5e825c917b4bb869946e0782f5cf93abe66043850c8e0b7",
+ "request_sha_initial": "891244ba9f51e0286ece1d1325d269e3c2f8af34666201609f486ed8b093fdcb",
+ "request_sha_repair": "8d997d30fd396d0df1054e45fce0ec1b00d65dc06df44e23f051138c26de3ff1",
+ "repair_component_hashes": {
+  "message_1_system": "020a8f57bba533f9a332e9d30a96892bc5893d1b20f376cbde591a1b5cc87922",
+  "message_2_user": "c1c3b186f8334368c5e825c917b4bb869946e0782f5cf93abe66043850c8e0b7",
+  "message_3_assistant": "d1587a0bb3e07dbb450499e95a5bfa81aeeff6571a51acccfb40da95ca2ee256",
+  "message_4_user": "788b07bb198b13f5bc66cfda0ffe52c0dd459882c233b65029a749930ddc3b1c"
+ },
+ "repair_request_sha256": "8d997d30fd396d0df1054e45fce0ec1b00d65dc06df44e23f051138c26de3ff1",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790761438-jtzZ9nTG5t9x10xQGIzX",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 2790,
+   "completion_tokens": 8192,
+   "cost_usd_actual": 0.0084754,
+   "cost_usd_nominal": 0.0084754,
+   "finish_reason": "length",
+   "response_sha256": "d1587a0bb3e07dbb450499e95a5bfa81aeeff6571a51acccfb40da95ca2ee256",
+   "request_sha": "891244ba9f51e0286ece1d1325d269e3c2f8af34666201609f486ed8b093fdcb",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\pilot_a_v1\\episodes\\saleor-rc-a91ea48a60a7\\GOLD_HARD__r2\\calls\\1_initial.txt",
+   "raw_sha256": "d1587a0bb3e07dbb450499e95a5bfa81aeeff6571a51acccfb40da95ca2ee256"
+  },
+  {
+   "kind": "repair",
+   "index": 2,
+   "request_id": "gen-1790761636-BNdgiJYtx6PvncxemhCK",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 11035,
+   "completion_tokens": 8192,
+   "cost_usd_actual": 0.0093105,
+   "cost_usd_nominal": 0.0093105,
+   "finish_reason": "length",
+   "response_sha256": "231a72afa2f295a95f5219d268a309003e18ee855b37abb6befa8da87ba83c0f",
+   "request_sha": "8d997d30fd396d0df1054e45fce0ec1b00d65dc06df44e23f051138c26de3ff1",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\pilot_a_v1\\episodes\\saleor-rc-a91ea48a60a7\\GOLD_HARD__r2\\calls\\2_repair.txt",
+   "raw_sha256": "231a72afa2f295a95f5219d268a309003e18ee855b37abb6befa8da87ba83c0f"
+  }
+ ],
+ "validation": {
+  "initial": [
+   "TRUNCATED"
+  ],
+  "repair": [
+   "TRUNCATED"
+  ]
+ },
+ "repair_used": true,
+ "edited_files": [],
+ "diff_sha256": "",
+ "envelope": {},
+ "whitespace_tolerant_blocks": [],
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-30T09:48:28Z",
+ "episode_sha256": "1f4776dccf06ffa1a33b4565303464a0552017594e1dfb1492106df861ad0aed"
+}

@@ -1,0 +1,23 @@
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+@@ -30,6 +30,7 @@
+ - Fix crash when querying external shipping method's `translation` field - #8971 by @rafalp
+ - Add `COLLECTION_CREATED`, `COLLECTION_UPDATED`, `COLLECTION_DELETED` events and webhooks - #8974 by @rafalp
+ - Fix crash when too long translation strings were passed to `translate` mutations - #8942 by rafalp
++- Make collection name non-unique - #8986 by @rafalp
+ 
+ # 3.0.0 [Unreleased]
+ 
+diff --git a/saleor/product/models.py b/saleor/product/models.py
+--- a/saleor/product/models.py
++++ b/saleor/product/models.py
+@@ -846,7 +846,7 @@
+ 
+ 
+ class Collection(SeoModel, ModelWithMetadata):
+-    name = models.CharField(max_length=250, unique=True)
++    name = models.CharField(max_length=250)
+     slug = models.SlugField(max_length=255, unique=True, allow_unicode=True)
+     products = models.ManyToManyField(
+         Product,
