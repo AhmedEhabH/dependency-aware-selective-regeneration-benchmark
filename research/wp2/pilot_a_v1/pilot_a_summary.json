@@ -1,0 +1,96 @@
+{
+ "applied_without_evaluation": 0,
+ "architecture_scope_violations": 0,
+ "artifact": "pilot_a_summary",
+ "artifact_sha256": "3f809a8d2ceee534ac40f37191e0d44807200e88997c8ac10aa9d5caf85a37b9",
+ "auto_execution_of_M14R_or_M15": false,
+ "gates": {
+  "A0_instrument": true,
+  "A1_completion": true,
+  "A2_gold_applied": true,
+  "A3_gold_resolved": false,
+  "A4_placebo_ceiling": true,
+  "A5_separation": false
+ },
+ "mandatory_wording": "Pilot-A is protected development-holdout assay/generator calibration (GOLD vs PLACEBO). It is not an RM-CSS-vs-Agent comparison and supports no selector ranking or claim.",
+ "n_tasks": 10,
+ "next": "HUMAN_DECISION",
+ "per_arm": {
+  "GOLD_HARD": {
+   "applied": 15,
+   "cache_reuse_tokens": 0,
+   "f2p": 2,
+   "logical_tokens": 578947,
+   "p2p_s": 14,
+   "p2p_u200": 15,
+   "planned": 20,
+   "provider_reported_completion_tokens": 44438,
+   "provider_reported_cost_usd": 0.1594019,
+   "provider_reported_prompt_tokens": 534509,
+   "provider_reported_tokens": 578947,
+   "repair_used": 5,
+   "resolved": 0,
+   "status": {
+    "APPLIED": 15,
+    "INVALID_AFTER_REPAIR": 5
+   },
+   "validation_error_counts": {
+    "PARSE_ERROR": 2,
+    "SEARCH_ERROR": 6,
+    "TRUNCATED": 2
+   }
+  },
+  "PLACEBO_HARD": {
+   "applied": 17,
+   "cache_reuse_tokens": 0,
+   "f2p": 0,
+   "logical_tokens": 227687,
+   "p2p_s": 18,
+   "p2p_u200": 19,
+   "planned": 20,
+   "provider_reported_completion_tokens": 37359,
+   "provider_reported_cost_usd": 0.0768446,
+   "provider_reported_prompt_tokens": 190328,
+   "provider_reported_tokens": 227687,
+   "repair_used": 8,
+   "resolved": 0,
+   "status": {
+    "APPLIED": 17,
+    "INVALID_AFTER_REPAIR": 3
+   },
+   "validation_error_counts": {
+    "NO_BLOCKS": 3,
+    "SEARCH_ERROR": 3
+   }
+  }
+ },
+ "provider_reported_total_cost_usd": 0.2362465,
+ "provider_reported_total_tokens": 806634,
+ "replicate": {
+  "GOLD_HARD": {
+   "endpoint_tuple_agreement": 0.4,
+   "n_tasks": 10,
+   "resolved_rate_r1": 0.0,
+   "resolved_rate_r2": 0.0
+  },
+  "PLACEBO_HARD": {
+   "endpoint_tuple_agreement": 0.8,
+   "n_tasks": 10,
+   "resolved_rate_r1": 0.0,
+   "resolved_rate_r2": 0.0
+  }
+ },
+ "task_direction": {
+  "gold_gt_placebo": 0,
+  "placebo_gt_gold": 0,
+  "ties": 10
+ },
+ "thresholds": {
+  "A2_gold_applied_min": 12,
+  "A3_gold_resolved_min": 3,
+  "A4_placebo_resolved_max": 1,
+  "A5_gold_minus_placebo_min": 2,
+  "episodes_per_arm": 20
+ },
+ "token": "PILOT_A_GENERATOR_FLOOR_HOLD"
+}
