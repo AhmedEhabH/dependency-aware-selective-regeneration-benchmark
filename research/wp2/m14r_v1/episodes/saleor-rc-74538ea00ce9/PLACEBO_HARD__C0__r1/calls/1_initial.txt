@@ -1,0 +1,100 @@
+Looking at the developer change description, I need to implement functionality to fix restoring voucher usage limit when the voucher is removed from draft order. This involves reducing the voucher limit when the voucher is removed and fixing the voucher usage_limit update.
+
+Based on the file content provided, the main logic would be in the `saleor/discount/utils/checkout.py` file where checkout discount handling occurs. However, I notice that the voucher usage tracking and management logic isn't visible in the provided files.
+
+Let me analyze what needs to be added based on the change description:
+
+1. When a voucher is removed from a draft order, the usage limit should be restored (decreased)
+2. The voucher usage_limit needs to be properly updated
+3. This should happen when clearing checkout discounts
+
+Looking at the `_clear_checkout_discount` function, this seems like the right place to add the voucher usage restoration logic.
+
+FILE: saleor/discount/utils/checkout.py
+<<<<<<< SEARCH
+def _clear_checkout_discount(
+    checkout_info: "CheckoutInfo", lines_info: Iterable["CheckoutLineInfo"], save: bool
+):
+    delete_gift_line(checkout_info.checkout, lines_info)
+    if checkout_info.discounts:
+        CheckoutDiscount.objects.filter(
+            checkout=checkout_info.checkout,
+            type=DiscountType.ORDER_PROMOTION,
+        ).delete()
+        checkout_info.discounts = [
+            discount
+            for discount in checkout_info.discounts
+            if discount.type != DiscountType.ORDER_PROMOTION
+        ]
+    checkout = checkout_info.checkout
+    if not checkout_info.voucher_code:
+        is_update_needed = not (
+            checkout.discount_amount == 0
+            and checkout.discount_name is None
+            and checkout.translated_discount_name is None
+        )
+        if is_update_needed:
+            checkout.discount_amount = 0
+            checkout.discount_name = None
+            checkout.translated_discount_name = None
+
+            if save and is_update_needed:
+                checkout.save(
+                    update_fields=[
+                        "discount_amount",
+                        "discount_name",
+                        "translated_discount_name",
+                    ]
+                )
+=======
+def _clear_checkout_discount(
+    checkout_info: "CheckoutInfo", lines_info: Iterable["CheckoutLineInfo"], save: bool
+):
+    from ..models import Voucher
+    
+    delete_gift_line(checkout_info.checkout, lines_info)
+    if checkout_info.discounts:
+        CheckoutDiscount.objects.filter(
+            checkout=checkout_info.checkout,
+            type=DiscountType.ORDER_PROMOTION,
+        ).delete()
+        checkout_info.discounts = [
+            discount
+            for discount in checkout_info.discounts
+            if discount.type != DiscountType.ORDER_PROMOTION
+        ]
+    
+    checkout = checkout_info.checkout
+    # Handle voucher usage limit restoration when voucher is removed
+    if checkout.voucher_code and not checkout_info.voucher_code:
+        # Voucher was removed, restore the usage limit
+        try:
+            voucher = Voucher.objects.get(code=checkout.voucher_code)
+            if voucher.usage_limit:
+                voucher.used -= 1
+                if voucher.used < 0:
+                    voucher.used = 0
+                voucher.save(update_fields=["used"])
+        except Voucher.DoesNotExist:
+            pass
+    
+    if not checkout_info.voucher_code:
+        is_update_needed = not (
+            checkout.discount_amount == 0
+            and checkout.discount_name is None
+            and checkout.translated_discount_name is None
+        )
+        if is_update_needed:
+            checkout.discount_amount = 0
+            checkout.discount_name = None
+            checkout.translated_discount_name = None
+
+            if save and is_update_needed:
+                checkout.save(
+                    update_fields=[
+                        "discount_amount",
+                        "discount_name",
+                        "translated_discount_name",
+                    ]
+                )
+>>>>>>> REPLACE

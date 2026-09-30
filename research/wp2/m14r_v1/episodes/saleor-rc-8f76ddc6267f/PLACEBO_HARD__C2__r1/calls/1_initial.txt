@@ -1,0 +1,40 @@
+FILE: saleor/core/utils/random_data.py
+<<<<<<< SEARCH
+def create_checkout_with_preorders():
+    checkout_info = prepare_checkout_info()
+    for product_variant in ProductVariant.objects.all()[:2]:
+        product_variant.is_preorder = True
+        product_variant.preorder_global_threshold = 10
+        product_variant.preorder_end_date = timezone.now() + datetime.timedelta(days=10)
+        product_variant.save(
+            update_fields=[
+                "is_preorder",
+                "preorder_global_threshold",
+                "preorder_end_date",
+                "updated_at",
+            ]
+        )
+        add_variant_to_checkout(checkout_info, product_variant, 2)
+    yield (
+        "Created checkout with two preorders. Checkout token: "
+        f"{checkout_info.checkout.token}"
+=======
+def create_checkout_with_preorders():
+    checkout_info = prepare_checkout_info()
+    for product_variant in ProductVariant.objects.all()[:2]:
+        product_variant.is_preorder = True
+        product_variant.preorder_global_threshold = 10
+        product_variant.preorder_end_date = timezone.now() + datetime.timedelta(days=10)
+        product_variant.save(
+            update_fields=[
+                "is_preorder",
+                "preorder_global_threshold",
+                "preorder_end_date",
+                "updated_at",
+            ]
+        )
+        add_variant_to_checkout(checkout_info, product_variant, 2)
+    yield (
+        "Created checkout with two preorders. Checkout token: "
+        f"{checkout_info.checkout.token}"
+>>>>>>> REPLACE

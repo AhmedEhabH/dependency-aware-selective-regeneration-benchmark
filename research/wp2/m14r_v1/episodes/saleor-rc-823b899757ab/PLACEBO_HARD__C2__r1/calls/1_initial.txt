@@ -1,0 +1,144 @@
+Based on the provided files and the requirement to add a `ProductSetAvailabilityForPurchase` mutation, I'll implement this by creating a new bulk mutation similar to existing ones in the codebase.
+
+FILE: saleor/graphql/account/bulk_mutations.py
+<<<<<<< SEARCH
+from collections import defaultdict
+
+import graphene
+from django.core.exceptions import ValidationError
+
+from ...account import models
+from ...account.error_codes import AccountErrorCode
+from ...core.permissions import AccountPermissions
+from ..core.mutations import BaseBulkMutation, ModelBulkDeleteMutation
+from ..core.types.common import AccountError, StaffError
+from .types import User
+from .utils import CustomerDeleteMixin, StaffDeleteMixin
+=======
+from collections import defaultdict
+
+import graphene
+from django.core.exceptions import ValidationError
+
+from ...account import models
+from ...account.error_codes import AccountErrorCode
+from ...core.permissions import AccountPermissions
+from ..core.mutations import BaseBulkMutation, ModelBulkDeleteMutation
+from ..core.types.common import AccountError, StaffError
+from .types import User
+from .utils import CustomerDeleteMixin, StaffDeleteMixin
+>>>>>>> REPLACE
+
+FILE: saleor/graphql/account/bulk_mutations.py
+<<<<<<< SEARCH
+class UserBulkSetActive(BaseBulkMutation):
+    class Arguments:
+        ids = graphene.List(
+            graphene.ID, required=True, description="List of user IDs to (de)activate)."
+        )
+        is_active = graphene.Boolean(
+            required=True, description="Determine if users will be set active or not."
+        )
+
+    class Meta:
+        description = "Activate or deactivate users."
+        model = models.User
+        permissions = (AccountPermissions.MANAGE_USERS,)
+        error_type_class = AccountError
+        error_type_field = "account_errors"
+
+    @classmethod
+    def clean_instance(cls, info, instance):
+        if info.context.user == instance:
+            raise ValidationError(
+                {
+                    "is_active": ValidationError(
+                        "Cannot activate or deactivate your own account.",
+                        code=AccountErrorCode.ACTIVATE_OWN_ACCOUNT,
+                    )
+                }
+            )
+        elif instance.is_superuser:
+            raise ValidationError(
+                {
+                    "is_active": ValidationError(
+                        "Cannot activate or deactivate superuser's account.",
+                        code=AccountErrorCode.ACTIVATE_SUPERUSER_ACCOUNT,
+                    )
+                }
+            )
+
+    @classmethod
+    def bulk_action(cls, queryset, is_active):
+        queryset.update(is_active=is_active)
+=======
+class UserBulkSetActive(BaseBulkMutation):
+    class Arguments:
+        ids = graphene.List(
+            graphene.ID, required=True, description="List of user IDs to (de)activate)."
+        )
+        is_active = graphene.Boolean(
+            required=True, description="Determine if users will be set active or not."
+        )
+
+    class Meta:
+        description = "Activate or deactivate users."
+        model = models.User
+        permissions = (AccountPermissions.MANAGE_USERS,)
+        error_type_class = AccountError
+        error_type_field = "account_errors"
+
+    @classmethod
+    def clean_instance(cls, info, instance):
+        if info.context.user == instance:
+            raise ValidationError(
+                {
+                    "is_active": ValidationError(
+                        "Cannot activate or deactivate your own account.",
+                        code=AccountErrorCode.ACTIVATE_OWN_ACCOUNT,
+                    )
+                }
+            )
+        elif instance.is_superuser:
+            raise ValidationError(
+                {
+                    "is_active": ValidationError(
+                        "Cannot activate or deactivate superuser's account.",
+                        code=AccountErrorCode.ACTIVATE_SUPERUSER_ACCOUNT,
+                    )
+                }
+            )
+
+    @classmethod
+    def bulk_action(cls, queryset, is_active):
+        queryset.update(is_active=is_active)
+
+
+class ProductSetAvailabilityForPurchase(BaseBulkMutation):
+    class Arguments:
+        ids = graphene.List(
+            graphene.ID,
+            required=True,
+            description="List of product IDs to set availability for purchase.",
+        )
+        is_available_for_purchase = graphene.Boolean(
+            required=True,
+            description="Determine if products will be available for purchase or not.",
+        )
+
+    class Meta:
+        description = "Set availability for purchase for products."
+        model = models.Product  # Assuming there's a Product model in the models module
+        permissions = (AccountPermissions.MANAGE_USERS,)  # Using existing permission
+        error_type_class = AccountError
+        error_type_field = "account_errors"
+
+    @classmethod
+    def clean_instance(cls, info, instance):
+        # Add any specific validation for products here if needed
+        pass
+
+    @classmethod
+    def bulk_action(cls, queryset, is_available_for_purchase):
+        queryset.update(is_available_for_purchase=is_available_for_purchase)
+>>>>>>> REPLACE

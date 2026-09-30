@@ -1,0 +1,69 @@
+{
+ "smoke_version": "wp2-m14r-v1",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-74538ea00ce9",
+ "arm": "PLACEBO_HARD",
+ "label": "PLACEBO_HARD__C2__r1",
+ "variant": "G2",
+ "context": "C2",
+ "replicate": "r1",
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-30T22:09:19Z",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/discount/utils/checkout.py",
+  "saleor/graphql/page/resolvers.py",
+  "saleor/graphql/translations/mutations/attribute_value_translate.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/discount/utils/checkout.py",
+   "saleor/graphql/page/resolvers.py",
+   "saleor/graphql/translations/mutations/attribute_value_translate.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/discount/utils/checkout.py",
+   "saleor/graphql/page/resolvers.py",
+   "saleor/graphql/translations/mutations/attribute_value_translate.py"
+  ]
+ },
+ "prompt_sha256": "ce67af19b42d4758097c76432667eb98a9225cb267a95d7ae101ef09f1e9adc8",
+ "request_sha_initial": "4f8e2d2269e0759883e2b33c83efa1b7321e148f4f9f4cbe12bedad40de2b74e",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "context_sha256": "fc8a4202d6d8491a80b07f84084437532ef308e2df369f594028a6c48e24d9ec",
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790806159-2qJNpjE9wQHOS3nbTKMN",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 6350,
+   "completion_tokens": 722,
+   "cost_usd_actual": 0.0025758,
+   "cost_usd_nominal": 0.0025758,
+   "finish_reason": "stop",
+   "response_sha256": "6de70b877b9b773d896345bf7ff21c49ceae26dde122890c1d23cfd8e3003735",
+   "request_sha": "4f8e2d2269e0759883e2b33c83efa1b7321e148f4f9f4cbe12bedad40de2b74e",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\m14r_v1\\episodes\\saleor-rc-74538ea00ce9\\PLACEBO_HARD__C2__r1\\calls\\1_initial.txt",
+   "raw_sha256": "6de70b877b9b773d896345bf7ff21c49ceae26dde122890c1d23cfd8e3003735"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "produced_by": "initial",
+ "edited_files": [
+  "saleor/discount/utils/checkout.py",
+  "saleor/graphql/page/resolvers.py",
+  "saleor/graphql/translations/mutations/attribute_value_translate.py"
+ ],
+ "diff_sha256": "45772f0ed0ea057ce6b7e024f3f722ac926a76af4d60bb3883d1267114092e9d",
+ "episode_sha256": "f6d5893992f8ee62ffd244dc80c29d5937d2bd218195678f886f2bb1dbbc38b8"
+}

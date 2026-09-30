@@ -1,0 +1,36 @@
+diff --git a/saleor/graphql/account/bulk_mutations.py b/saleor/graphql/account/bulk_mutations.py
+--- a/saleor/graphql/account/bulk_mutations.py
++++ b/saleor/graphql/account/bulk_mutations.py
+@@ -110,3 +110,32 @@
+     @classmethod
+     def bulk_action(cls, queryset, is_active):
+         queryset.update(is_active=is_active)
++
++
++class ProductSetAvailabilityForPurchase(BaseBulkMutation):
++    class Arguments:
++        ids = graphene.List(
++            graphene.ID,
++            required=True,
++            description="List of product IDs to set availability for purchase.",
++        )
++        is_available_for_purchase = graphene.Boolean(
++            required=True,
++            description="Determine if products will be available for purchase or not.",
++        )
++
++    class Meta:
++        description = "Set availability for purchase for products."
++        model = models.Product  # Assuming there's a Product model in the models module
++        permissions = (AccountPermissions.MANAGE_USERS,)  # Using existing permission
++        error_type_class = AccountError
++        error_type_field = "account_errors"
++
++    @classmethod
++    def clean_instance(cls, info, instance):
++        # Add any specific validation for products here if needed
++        pass
++
++    @classmethod
++    def bulk_action(cls, queryset, is_available_for_purchase):
++        queryset.update(is_available_for_purchase=is_available_for_purchase)

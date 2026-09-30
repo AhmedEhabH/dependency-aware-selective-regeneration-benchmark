@@ -1,0 +1,94 @@
+{
+ "smoke_version": "wp2-m14r-v1",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-6abb53f3407b",
+ "arm": "PLACEBO_HARD",
+ "label": "PLACEBO_HARD__C2__r1",
+ "variant": "G2",
+ "context": "C2",
+ "replicate": "r1",
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-30T22:08:41Z",
+ "status": "INVALID_AFTER_REPAIR",
+ "editable_set": [
+  "saleor/attribute/error_codes.py",
+  "saleor/graphql/checkout/schema.py",
+  "saleor/graphql/warehouse/dataloaders.py",
+  "saleor/plugins/admin_email/constants.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/attribute/error_codes.py",
+   "saleor/graphql/checkout/schema.py",
+   "saleor/graphql/warehouse/dataloaders.py",
+   "saleor/plugins/admin_email/constants.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/attribute/error_codes.py",
+   "saleor/graphql/checkout/schema.py",
+   "saleor/graphql/warehouse/dataloaders.py",
+   "saleor/plugins/admin_email/constants.py"
+  ]
+ },
+ "prompt_sha256": "afa7e71a3cb5aae9234c47897786c8d0db09ac8a12fdf784d22902d57f9faa4c",
+ "request_sha_initial": "564f4031a7cf1f0ea399ae9643170120f8482cf46fece06dd50e69ee33727610",
+ "request_sha_repair": "d9bdc54ea78c647000d0babf20965eaf85c131e89285c84849f03c099b9a952b",
+ "repair_component_hashes": {
+  "message_1_system": "daa956a2c1a0d71f439563d369d50081b518183cc29bfb300cdd43c648b5cf1e",
+  "message_2_user": "afa7e71a3cb5aae9234c47897786c8d0db09ac8a12fdf784d22902d57f9faa4c",
+  "message_3_assistant": "0161636b2541e89d75986c60c2cfc0dfc9d8e800077c5ce9760d1c24f7382563",
+  "message_4_user": "e4fd057248f362b46a89031545a5c672dac2838abd3373c43770da6db6ac7640"
+ },
+ "context_sha256": "2758a08facb8c7cc6e0a2e7740a6bf986a065a54b2e655f425aa8e14d982133b",
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790806125-HXDGR6qOdIUEP7jjtty8",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 6491,
+   "completion_tokens": 126,
+   "cost_usd_actual": 0.0020221,
+   "cost_usd_nominal": 0.0020221,
+   "finish_reason": "stop",
+   "response_sha256": "0161636b2541e89d75986c60c2cfc0dfc9d8e800077c5ce9760d1c24f7382563",
+   "request_sha": "564f4031a7cf1f0ea399ae9643170120f8482cf46fece06dd50e69ee33727610",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\m14r_v1\\episodes\\saleor-rc-6abb53f3407b\\PLACEBO_HARD__C2__r1\\calls\\1_initial.txt",
+   "raw_sha256": "0161636b2541e89d75986c60c2cfc0dfc9d8e800077c5ce9760d1c24f7382563"
+  },
+  {
+   "kind": "repair",
+   "index": 2,
+   "request_id": "gen-1790806133-OtyoCHnnLlGQ4qkpdoBj",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 6730,
+   "completion_tokens": 136,
+   "cost_usd_actual": 0.0008366,
+   "cost_usd_nominal": 0.0008366,
+   "finish_reason": "stop",
+   "response_sha256": "0d4f14cabac894353a747a8b918e16ef33811ea86cd37ac043c34ad2f1e77980",
+   "request_sha": "d9bdc54ea78c647000d0babf20965eaf85c131e89285c84849f03c099b9a952b",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\m14r_v1\\episodes\\saleor-rc-6abb53f3407b\\PLACEBO_HARD__C2__r1\\calls\\2_repair.txt",
+   "raw_sha256": "0d4f14cabac894353a747a8b918e16ef33811ea86cd37ac043c34ad2f1e77980"
+  }
+ ],
+ "validation": {
+  "initial": [
+   "SEARCH_ERROR:saleor/attribute/error_codes.py: block 1: SEARCH content not found in current file (count=0); search='class AttributeErrorCode(Enum):\\n    ALREADY_EXISTS = \"already_exists\"\\n    GRAPHQ'"
+  ],
+  "repair": [
+   "SEARCH_ERROR:saleor/attribute/error_codes.py: block 1: SEARCH content not found in current file (count=0); search='from enum import Enum\\n\\n\\nclass AttributeErrorCode(Enum):\\n    ALREADY_EXISTS = \"al'"
+  ]
+ },
+ "repair_used": true,
+ "produced_by": "",
+ "edited_files": [],
+ "diff_sha256": "",
+ "episode_sha256": "989193549a85c6ce8f5eb80a51bf2180b8aa950f8cba167b7355544d49cb0601"
+}

@@ -1,0 +1,34 @@
+diff --git a/saleor/discount/utils/checkout.py b/saleor/discount/utils/checkout.py
+--- a/saleor/discount/utils/checkout.py
++++ b/saleor/discount/utils/checkout.py
+@@ -158,6 +158,8 @@
+ def _clear_checkout_discount(
+     checkout_info: "CheckoutInfo", lines_info: Iterable["CheckoutLineInfo"], save: bool
+ ):
++    from ..models import Voucher
++    
+     delete_gift_line(checkout_info.checkout, lines_info)
+     if checkout_info.discounts:
+         CheckoutDiscount.objects.filter(
+@@ -169,7 +171,21 @@
+             for discount in checkout_info.discounts
+             if discount.type != DiscountType.ORDER_PROMOTION
+         ]
++    
+     checkout = checkout_info.checkout
++    # Handle voucher usage limit restoration when voucher is removed
++    if checkout.voucher_code and not checkout_info.voucher_code:
++        # Voucher was removed, restore the usage limit
++        try:
++            voucher = Voucher.objects.get(code=checkout.voucher_code)
++            if voucher.usage_limit:
++                voucher.used -= 1
++                if voucher.used < 0:
++                    voucher.used = 0
++                voucher.save(update_fields=["used"])
++        except Voucher.DoesNotExist:
++            pass
++    
+     if not checkout_info.voucher_code:
+         is_update_needed = not (
+             checkout.discount_amount == 0

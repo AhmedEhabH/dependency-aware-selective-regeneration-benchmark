@@ -1,0 +1,21 @@
+diff --git a/saleor/discount/utils/checkout.py b/saleor/discount/utils/checkout.py
+--- a/saleor/discount/utils/checkout.py
++++ b/saleor/discount/utils/checkout.py
+@@ -170,6 +170,17 @@
+             if discount.type != DiscountType.ORDER_PROMOTION
+         ]
+     checkout = checkout_info.checkout
++    
++    # Handle voucher usage limit reduction when voucher is removed
++    if checkout.voucher_code and checkout.is_voucher_usage_increased:
++        from ...discount.utils.voucher import release_voucher_usage
++        try:
++            release_voucher_usage(checkout.voucher_code)
++            checkout.is_voucher_usage_increased = False
++        except Exception:
++            # Silently fail to not break the checkout flow
++            pass
++    
+     if not checkout_info.voucher_code:
+         is_update_needed = not (
+             checkout.discount_amount == 0
