@@ -1,0 +1,942 @@
+Looking at the developer change description, this appears to be about handling negative stock quantities in stock management operations. However, the provided files don't contain any stock-related code - they're for CSV export and GraphQL attribute types.
+
+Since the actual stock management code isn't in the provided editable files, and the description doesn't match the content of the files given, I'll return empty FILE blocks to indicate no changes can be made to the provided files.
+
+FILE: saleor/csv/utils/export.py
+<<<<<<< SEARCH
+import secrets
+from datetime import date, datetime
+from tempfile import NamedTemporaryFile
+from typing import IO, TYPE_CHECKING, Any, Dict, List, Set, Union
+
+import petl as etl
+from django.utils import timezone
+
+from ...product.models import Product
+from .. import FileTypes
+from ..notifications import send_export_download_link_notification
+from .product_headers import get_export_fields_and_headers_info
+from .products_data import get_products_data
+
+if TYPE_CHECKING:
+    # flake8: noqa
+    from django.db.models import QuerySet
+
+    from ..models import ExportFile
+
+
+BATCH_SIZE = 10000
+
+
+def export_products(
+    export_file: "ExportFile",
+    scope: Dict[str, Union[str, dict]],
+    export_info: Dict[str, list],
+    file_type: str,
+    delimiter: str = ";",
+):
+    file_name = get_filename("product", file_type)
+    queryset = get_product_queryset(scope)
+
+    export_fields, file_headers, data_headers = get_export_fields_and_headers_info(
+        export_info
+    )
+
+    temporary_file = create_file_with_headers(file_headers, delimiter, file_type)
+
+    export_products_in_batches(
+        queryset,
+        export_info,
+        set(export_fields),
+        data_headers,
+        delimiter,
+        temporary_file,
+        file_type,
+    )
+
+    save_csv_file_in_export_file(export_file, temporary_file, file_name)
+    temporary_file.close()
+
+    send_export_download_link_notification(export_file)
+
+
+def get_filename(model_name: str, file_type: str) -> str:
+    hash = secrets.token_hex(nbytes=3)
+    return "{}_data_{}_{}.{}".format(
+        model_name, timezone.now().strftime("%d_%m_%Y_%H_%M_%S"), hash, file_type
+    )
+
+
+def parse_input(data: Any) -> Dict[str, Union[str, dict]]:
+    """Parse input to correct data types, since scope coming from celery will be parsed to strings."""
+    if "attributes" in data:
+        serialized_attributes = []
+
+        for attr in data.get("attributes") or []:
+            if "date_time" in attr:
+                if gte := attr["date_time"].get("gte"):
+                    attr["date_time"]["gte"] = datetime.fromisoformat(gte)
+                if lte := attr["date_time"].get("lte"):
+                    attr["date_time"]["lte"] = datetime.fromisoformat(lte)
+
+            if "date" in attr:
+                if gte := attr["date"].get("gte"):
+                    attr["date"]["gte"] = date.fromisoformat(gte)
+                if lte := attr["date"].get("lte"):
+                    attr["date"]["lte"] = date.fromisoformat(lte)
+
+            serialized_attributes.append(attr)
+
+        if serialized_attributes:
+            data["attributes"] = serialized_attributes
+
+    return data
+
+
+def get_product_queryset(scope: Dict[str, Union[str, dict]]) -> "QuerySet":
+    """Get product queryset based on a scope."""
+
+    from ...graphql.product.filters import ProductFilter
+
+    queryset = Product.objects.all()
+    if "ids" in scope:
+        queryset = Product.objects.filter(pk__in=scope["ids"])
+    elif "filter" in scope:
+        queryset = ProductFilter(
+            data=parse_input(scope["filter"]), queryset=queryset
+        ).qs
+
+    queryset = queryset.order_by("pk")
+
+    return queryset
+
+
+def queryset_in_batches(queryset):
+    """Slice a queryset into batches.
+
+    Input queryset should be sorted be pk.
+    """
+    start_pk = 0
+
+    while True:
+        qs = queryset.filter(pk__gt=start_pk)[:BATCH_SIZE]
+        pks = list(qs.values_list("pk", flat=True))
+
+        if not pks:
+            break
+
+        yield pks
+
+        start_pk = pks[-1]
+
+
+def export_products_in_batches(
+    queryset: "QuerySet",
+    export_info: Dict[str, list],
+    export_fields: Set[str],
+    headers: List[str],
+    delimiter: str,
+    temporary_file: Any,
+    file_type: str,
+):
+    warehouses = export_info.get("warehouses")
+    attributes = export_info.get("attributes")
+    channels = export_info.get("channels")
+
+    for batch_pks in queryset_in_batches(queryset):
+        product_batch = Product.objects.filter(pk__in=batch_pks).prefetch_related(
+            "attributes",
+            "variants",
+            "collections",
+            "media",
+            "product_type",
+            "category",
+        )
+
+        export_data = get_products_data(
+            product_batch, export_fields, attributes, warehouses, channels
+        )
+
+        append_to_file(export_data, headers, temporary_file, file_type, delimiter)
+
+
+def create_file_with_headers(file_headers: List[str], delimiter: str, file_type: str):
+    table = etl.wrap([file_headers])
+
+    if file_type == FileTypes.CSV:
+        temp_file = NamedTemporaryFile("ab+", suffix=".csv")
+        etl.tocsv(table, temp_file.name, delimiter=delimiter)
+    else:
+        temp_file = NamedTemporaryFile("ab+", suffix=".xlsx")
+        etl.io.xlsx.toxlsx(table, temp_file.name)
+
+    return temp_file
+
+
+def append_to_file(
+    export_data: List[Dict[str, Union[str, bool]]],
+    headers: List[str],
+    temporary_file: Any,
+    file_type: str,
+    delimiter: str,
+):
+    table = etl.fromdicts(export_data, header=headers, missing=" ")
+
+    if file_type == FileTypes.CSV:
+        etl.io.csv.appendcsv(table, temporary_file.name, delimiter=delimiter)
+    else:
+        etl.io.xlsx.appendxlsx(table, temporary_file.name)
+
+
+def save_csv_file_in_export_file(
+    export_file: "ExportFile", temporary_file: IO[bytes], file_name: str
+):
+    export_file.content_file.save(file_name, temporary_file)
+=======
+import secrets
+from datetime import date, datetime
+from tempfile import NamedTemporaryFile
+from typing import IO, TYPE_CHECKING, Any, Dict, List, Set, Union
+
+import petl as etl
+from django.utils import timezone
+
+from ...product.models import Product
+from .. import FileTypes
+from ..notifications import send_export_download_link_notification
+from .product_headers import get_export_fields_and_headers_info
+from .products_data import get_products_data
+
+if TYPE_CHECKING:
+    # flake8: noqa
+    from django.db.models import QuerySet
+
+    from ..models import ExportFile
+
+
+BATCH_SIZE = 10000
+
+
+def export_products(
+    export_file: "ExportFile",
+    scope: Dict[str, Union[str, dict]],
+    export_info: Dict[str, list],
+    file_type: str,
+    delimiter: str = ";",
+):
+    file_name = get_filename("product", file_type)
+    queryset = get_product_queryset(scope)
+
+    export_fields, file_headers, data_headers = get_export_fields_and_headers_info(
+        export_info
+    )
+
+    temporary_file = create_file_with_headers(file_headers, delimiter, file_type)
+
+    export_products_in_batches(
+        queryset,
+        export_info,
+        set(export_fields),
+        data_headers,
+        delimiter,
+        temporary_file,
+        file_type,
+    )
+
+    save_csv_file_in_export_file(export_file, temporary_file, file_name)
+    temporary_file.close()
+
+    send_export_download_link_notification(export_file)
+
+
+def get_filename(model_name: str, file_type: str) -> str:
+    hash = secrets.token_hex(nbytes=3)
+    return "{}_data_{}_{}.{}".format(
+        model_name, timezone.now().strftime("%d_%m_%Y_%H_%M_%S"), hash, file_type
+    )
+
+
+def parse_input(data: Any) -> Dict[str, Union[str, dict]]:
+    """Parse input to correct data types, since scope coming from celery will be parsed to strings."""
+    if "attributes" in data:
+        serialized_attributes = []
+
+        for attr in data.get("attributes") or []:
+            if "date_time" in attr:
+                if gte := attr["date_time"].get("gte"):
+                    attr["date_time"]["gte"] = datetime.fromisoformat(gte)
+                if lte := attr["date_time"].get("lte"):
+                    attr["date_time"]["lte"] = datetime.fromisoformat(lte)
+
+            if "date" in attr:
+                if gte := attr["date"].get("gte"):
+                    attr["date"]["gte"] = date.fromisoformat(gte)
+                if lte := attr["date"].get("lte"):
+                    attr["date"]["lte"] = date.fromisoformat(lte)
+
+            serialized_attributes.append(attr)
+
+        if serialized_attributes:
+            data["attributes"] = serialized_attributes
+
+    return data
+
+
+def get_product_queryset(scope: Dict[str, Union[str, dict]]) -> "QuerySet":
+    """Get product queryset based on a scope."""
+
+    from ...graphql.product.filters import ProductFilter
+
+    queryset = Product.objects.all()
+    if "ids" in scope:
+        queryset = Product.objects.filter(pk__in=scope["ids"])
+    elif "filter" in scope:
+        queryset = ProductFilter(
+            data=parse_input(scope["filter"]), queryset=queryset
+        ).qs
+
+    queryset = queryset.order_by("pk")
+
+    return queryset
+
+
+def queryset_in_batches(queryset):
+    """Slice a queryset into batches.
+
+    Input queryset should be sorted be pk.
+    """
+    start_pk = 0
+
+    while True:
+        qs = queryset.filter(pk__gt=start_pk)[:BATCH_SIZE]
+        pks = list(qs.values_list("pk", flat=True))
+
+        if not pks:
+            break
+
+        yield pks
+
+        start_pk = pks[-1]
+
+
+def export_products_in_batches(
+    queryset: "QuerySet",
+    export_info: Dict[str, list],
+    export_fields: Set[str],
+    headers: List[str],
+    delimiter: str,
+    temporary_file: Any,
+    file_type: str,
+):
+    warehouses = export_info.get("warehouses")
+    attributes = export_info.get("attributes")
+    channels = export_info.get("channels")
+
+    for batch_pks in queryset_in_batches(queryset):
+        product_batch = Product.objects.filter(pk__in=batch_pks).prefetch_related(
+            "attributes",
+            "variants",
+            "collections",
+            "media",
+            "product_type",
+            "category",
+        )
+
+        export_data = get_products_data(
+            product_batch, export_fields, attributes, warehouses, channels
+        )
+
+        append_to_file(export_data, headers, temporary_file, file_type, delimiter)
+
+
+def create_file_with_headers(file_headers: List[str], delimiter: str, file_type: str):
+    table = etl.wrap([file_headers])
+
+    if file_type == FileTypes.CSV:
+        temp_file = NamedTemporaryFile("ab+", suffix=".csv")
+        etl.tocsv(table, temp_file.name, delimiter=delimiter)
+    else:
+        temp_file = NamedTemporaryFile("ab+", suffix=".xlsx")
+        etl.io.xlsx.toxlsx(table, temp_file.name)
+
+    return temp_file
+
+
+def append_to_file(
+    export_data: List[Dict[str, Union[str, bool]]],
+    headers: List[str],
+    temporary_file: Any,
+    file_type: str,
+    delimiter: str,
+):
+    table = etl.fromdicts(export_data, header=headers, missing=" ")
+
+    if file_type == FileTypes.CSV:
+        etl.io.csv.appendcsv(table, temporary_file.name, delimiter=delimiter)
+    else:
+        etl.io.xlsx.appendxlsx(table, temporary_file.name)
+
+
+def save_csv_file_in_export_file(
+    export_file: "ExportFile", temporary_file: IO[bytes], file_name: str
+):
+    export_file.content_file.save(file_name, temporary_file)
+>>>>>>> REPLACE
+
+FILE: saleor/graphql/attribute/types.py
+<<<<<<< SEARCH
+import re
+
+import graphene
+
+from ...attribute import AttributeInputType, AttributeType, models
+from ...core.exceptions import PermissionDenied
+from ...core.permissions import PagePermissions, ProductPermissions
+from ...core.tracing import traced_resolver
+from ...graphql.utils import get_user_or_app_from_context
+from ..core.connection import CountableDjangoObjectType
+from ..core.enums import MeasurementUnitsEnum
+from ..core.fields import FilterInputConnectionField
+from ..core.types import File
+from ..core.types.common import DateRangeInput, DateTimeRangeInput, IntRangeInput
+from ..decorators import check_attribute_required_permissions
+from ..meta.types import ObjectWithMetadata
+from ..translations.fields import TranslationField
+from ..translations.types import AttributeTranslation, AttributeValueTranslation
+from .dataloaders import AttributesByAttributeId
+from .descriptions import AttributeDescriptions, AttributeValueDescriptions
+from .enums import AttributeEntityTypeEnum, AttributeInputTypeEnum, AttributeTypeEnum
+from .filters import AttributeValueFilterInput
+from .sorters import AttributeChoicesSortingInput
+
+COLOR_PATTERN = r"^(#[0-9a-fA-F]{3}|#(?:[0-9a-fA-F]{2}){2,4}|(rgb|hsl)a?\((-?\d+%?[,\s]+){2,3}\s*[\d\.]+%?\))$"  # noqa
+color_pattern = re.compile(COLOR_PATTERN)
+
+
+class AttributeValue(CountableDjangoObjectType):
+    name = graphene.String(description=AttributeValueDescriptions.NAME)
+    slug = graphene.String(description=AttributeValueDescriptions.SLUG)
+    value = graphene.String(description=AttributeValueDescriptions.VALUE)
+    translation = TranslationField(
+        AttributeValueTranslation, type_name="attribute value"
+    )
+    input_type = AttributeInputTypeEnum(description=AttributeDescriptions.INPUT_TYPE)
+    reference = graphene.ID(description="The ID of the attribute reference.")
+    file = graphene.Field(
+        File, description=AttributeValueDescriptions.FILE, required=False
+    )
+    rich_text = graphene.JSONString(
+        description=AttributeValueDescriptions.RICH_TEXT, required=False
+    )
+    boolean = graphene.Boolean(
+        description=AttributeValueDescriptions.BOOLEAN, required=False
+    )
+    date = graphene.Date(description=AttributeValueDescriptions.DATE, required=False)
+    date_time = graphene.DateTime(
+        description=AttributeValueDescriptions.DATE_TIME, required=False
+    )
+
+    class Meta:
+        description = "Represents a value of an attribute."
+        only_fields = ["id"]
+        interfaces = [graphene.relay.Node]
+        model = models.AttributeValue
+
+    @staticmethod
+    @traced_resolver
+    def resolve_input_type(root: models.AttributeValue, info, *_args):
+        def _resolve_input_type(attribute):
+            requester = get_user_or_app_from_context(info.context)
+            if attribute.type == AttributeType.PAGE_TYPE:
+                if requester.has_perm(PagePermissions.MANAGE_PAGES):
+                    return attribute.input_type
+                raise PermissionDenied()
+            elif requester.has_perm(ProductPermissions.MANAGE_PRODUCTS):
+                return attribute.input_type
+            raise PermissionDenied()
+
+        return (
+            AttributesByAttributeId(info.context)
+            .load(root.attribute_id)
+            .then(_resolve_input_type)
+        )
+
+    @staticmethod
+    def resolve_file(root: models.AttributeValue, *_args):
+        if not root.file_url:
+            return
+        return File(url=root.file_url, content_type=root.content_type)
+
+    @staticmethod
+    def resolve_reference(root: models.AttributeValue, info, **_kwargs):
+        def prepare_reference(attribute):
+            if attribute.input_type != AttributeInputType.REFERENCE:
+                return
+            reference_pk = root.slug.split("_")[1]
+            reference_id = graphene.Node.to_global_id(
+                attribute.entity_type, reference_pk
+            )
+            return reference_id
+
+        return (
+            AttributesByAttributeId(info.context)
+            .load(root.attribute_id)
+            .then(prepare_reference)
+        )
+
+    @staticmethod
+    def resolve_date_time(root: models.AttributeValue, info, **_kwargs):
+        if root.attribute.input_type == AttributeInputType.DATE_TIME:
+            return root.date_time
+        return None
+
+    @staticmethod
+    def resolve_date(root: models.AttributeValue, info, **_kwargs):
+        if root.attribute.input_type == AttributeInputType.DATE:
+            return root.date_time
+        return None
+
+
+class Attribute(CountableDjangoObjectType):
+    input_type = AttributeInputTypeEnum(description=AttributeDescriptions.INPUT_TYPE)
+    entity_type = AttributeEntityTypeEnum(
+        description=AttributeDescriptions.ENTITY_TYPE, required=False
+    )
+
+    name = graphene.String(description=AttributeDescriptions.NAME)
+    slug = graphene.String(description=AttributeDescriptions.SLUG)
+    type = AttributeTypeEnum(description=AttributeDescriptions.TYPE)
+    unit = MeasurementUnitsEnum(description=AttributeDescriptions.UNIT)
+    choices = FilterInputConnectionField(
+        AttributeValue,
+        sort_by=AttributeChoicesSortingInput(description="Sort attribute choices."),
+        filter=AttributeValueFilterInput(
+            description="Filtering options for attribute choices."
+        ),
+        description=AttributeDescriptions.VALUES,
+    )
+
+    value_required = graphene.Boolean(
+        description=AttributeDescriptions.VALUE_REQUIRED, required=True
+    )
+    visible_in_storefront = graphene.Boolean(
+        description=AttributeDescriptions.VISIBLE_IN_STOREFRONT, required=True
+    )
+    filterable_in_storefront = graphene.Boolean(
+        description=AttributeDescriptions.FILTERABLE_IN_STOREFRONT, required=True
+    )
+    filterable_in_dashboard = graphene.Boolean(
+        description=AttributeDescriptions.FILTERABLE_IN_DASHBOARD, required=True
+    )
+    available_in_grid = graphene.Boolean(
+        description=AttributeDescriptions.AVAILABLE_IN_GRID, required=True
+    )
+
+    translation = TranslationField(AttributeTranslation, type_name="attribute")
+
+    storefront_search_position = graphene.Int(
+        description=AttributeDescriptions.STOREFRONT_SEARCH_POSITION, required=True
+    )
+    with_choices = graphene.Boolean(
+        description=AttributeDescriptions.WITH_CHOICES, required=True
+    )
+
+    class Meta:
+        description = (
+            "Custom attribute of a product. Attributes can be assigned to products and "
+            "variants at the product type level."
+        )
+        only_fields = ["id", "product_types", "product_variant_types"]
+        interfaces = [graphene.relay.Node, ObjectWithMetadata]
+        model = models.Attribute
+
+    @staticmethod
+    def resolve_choices(root: models.Attribute, info, **_kwargs):
+        if root.input_type in AttributeInputType.TYPES_WITH_CHOICES:
+            return root.values.all()
+        return models.AttributeValue.objects.none()
+
+    @staticmethod
+    @check_attribute_required_permissions()
+    def resolve_value_required(root: models.Attribute, *_args):
+        return root.value_required
+
+    @staticmethod
+    @check_attribute_required_permissions()
+    def resolve_visible_in_storefront(root: models.Attribute, *_args):
+        return root.visible_in_storefront
+
+    @staticmethod
+    @check_attribute_required_permissions()
+    def resolve_filterable_in_storefront(root: models.Attribute, *_args):
+        return root.filterable_in_storefront
+
+    @staticmethod
+    @check_attribute_required_permissions()
+    def resolve_filterable_in_dashboard(root: models.Attribute, *_args):
+        return root.filterable_in_dashboard
+
+    @staticmethod
+    @check_attribute_required_permissions()
+    def resolve_storefront_search_position(root: models.Attribute, *_args):
+        return root.storefront_search_position
+
+    @staticmethod
+    @check_attribute_required_permissions()
+    def resolve_available_in_grid(root: models.Attribute, *_args):
+        return root.available_in_grid
+
+    @staticmethod
+    def resolve_with_choices(root: models.Attribute, *_args):
+        return root.input_type in AttributeInputType.TYPES_WITH_CHOICES
+
+
+class SelectedAttribute(graphene.ObjectType):
+    attribute = graphene.Field(
+        Attribute,
+        default_value=None,
+        description=AttributeDescriptions.NAME,
+        required=True,
+    )
+    values = graphene.List(
+        AttributeValue, description="Values of an attribute.", required=True
+    )
+
+    class Meta:
+        description = "Represents a custom attribute."
+
+
+class AttributeInput(graphene.InputObjectType):
+    slug = graphene.String(required=True, description=AttributeDescriptions.SLUG)
+    values = graphene.List(
+        graphene.String, required=False, description=AttributeValueDescriptions.SLUG
+    )
+    values_range = graphene.Field(
+        IntRangeInput,
+        required=False,
+        description=AttributeValueDescriptions.VALUES_RANGE,
+    )
+    date_time = graphene.Field(
+        DateTimeRangeInput,
+        required=False,
+        description=AttributeValueDescriptions.DATE_TIME_RANGE,
+    )
+    date = graphene.Field(
+        DateRangeInput,
+        required=False,
+        description=AttributeValueDescriptions.DATE_RANGE,
+    )
+    boolean = graphene.Boolean(
+        required=False, description=AttributeDescriptions.BOOLEAN
+    )
+
+
+class AttributeValueInput(graphene.InputObjectType):
+    id = graphene.ID(description="ID of the selected attribute.")
+    values = graphene.List(
+        graphene.NonNull(graphene.String),
+        required=False,
+        description=(
+            "The value or slug of an attribute to resolve. "
+            "If the passed value is non-existent, it will be created."
+        ),
+    )
+    file = graphene.String(
+        required=False,
+        description="URL of the file attribute. Every time, a new value is created.",
+    )
+    content_type = graphene.String(required=False, description="File content type.")
+    references = graphene.List(
+        graphene.NonNull(graphene.ID),
+        description="List of entity IDs that will be used as references.",
+        required=False,
+    )
+    rich_text = graphene.JSONString(
+        required=False, description="Text content in JSON format."
+    )
+    boolean = graphene.Boolean(
+        required=False, description=AttributeValueDescriptions.BOOLEAN
+    )
+    date = graphene.Date(required=False, description=AttributeValueDescriptions.DATE)
+    date_time = graphene.DateTime(
+        required=False, description=AttributeValueDescriptions.DATE_TIME
+    )
+=======
+import re
+
+import graphene
+
+from ...attribute import AttributeInputType, AttributeType, models
+from ...core.exceptions import PermissionDenied
+from ...core.permissions import PagePermissions, ProductPermissions
+from ...core.tracing import traced_resolver
+from ...graphql.utils import get_user_or_app_from_context
+from ..core.connection import CountableDjangoObjectType
+from ..core.enums import MeasurementUnitsEnum
+from ..core.fields import FilterInputConnectionField
+from ..core.types import File
+from ..core.types.common import DateRangeInput, DateTimeRangeInput, IntRangeInput
+from ..decorators import check_attribute_required_permissions
+from ..meta.types import ObjectWithMetadata
+from ..translations.fields import TranslationField
+from ..translations.types import AttributeTranslation, AttributeValueTranslation
+from .dataloaders import AttributesByAttributeId
+from .descriptions import AttributeDescriptions, AttributeValueDescriptions
+from .enums import AttributeEntityTypeEnum, AttributeInputTypeEnum, AttributeTypeEnum
+from .filters import AttributeValueFilterInput
+from .sorters import AttributeChoicesSortingInput
+
+COLOR_PATTERN = r"^(#[0-9a-fA-F]{3}|#(?:[0-9a-fA-F]{2}){2,4}|(rgb|hsl)a?\((-?\d+%?[,\s]+){2,3}\s*[\d\.]+%?\))$"  # noqa
+color_pattern = re.compile(COLOR_PATTERN)
+
+
+class AttributeValue(CountableDjangoObjectType):
+    name = graphene.String(description=AttributeValueDescriptions.NAME)
+    slug = graphene.String(description=AttributeValueDescriptions.SLUG)
+    value = graphene.String(description=AttributeValueDescriptions.VALUE)
+    translation = TranslationField(
+        AttributeValueTranslation, type_name="attribute value"
+    )
+    input_type = AttributeInputTypeEnum(description=AttributeDescriptions.INPUT_TYPE)
+    reference = graphene.ID(description="The ID of the attribute reference.")
+    file = graphene.Field(
+        File, description=AttributeValueDescriptions.FILE, required=False
+    )
+    rich_text = graphene.JSONString(
+        description=AttributeValueDescriptions.RICH_TEXT, required=False
+    )
+    boolean = graphene.Boolean(
+        description=AttributeValueDescriptions.BOOLEAN, required=False
+    )
+    date = graphene.Date(description=AttributeValueDescriptions.DATE, required=False)
+    date_time = graphene.DateTime(
+        description=AttributeValueDescriptions.DATE_TIME, required=False
+    )
+
+    class Meta:
+        description = "Represents a value of an attribute."
+        only_fields = ["id"]
+        interfaces = [graphene.relay.Node]
+        model = models.AttributeValue
+
+    @staticmethod
+    @traced_resolver
+    def resolve_input_type(root: models.AttributeValue, info, *_args):
+        def _resolve_input_type(attribute):
+            requester = get_user_or_app_from_context(info.context)
+            if attribute.type == AttributeType.PAGE_TYPE:
+                if requester.has_perm(PagePermissions.MANAGE_PAGES):
+                    return attribute.input_type
+                raise PermissionDenied()
+            elif requester.has_perm(ProductPermissions.MANAGE_PRODUCTS):
+                return attribute.input_type
+            raise PermissionDenied()
+
+        return (
+            AttributesByAttributeId(info.context)
+            .load(root.attribute_id)
+            .then(_resolve_input_type)
+        )
+
+    @staticmethod
+    def resolve_file(root: models.AttributeValue, *_args):
+        if not root.file_url:
+            return
+        return File(url=root.file_url, content_type=root.content_type)
+
+    @staticmethod
+    def resolve_reference(root: models.AttributeValue, info, **_kwargs):
+        def prepare_reference(attribute):
+            if attribute.input_type != AttributeInputType.REFERENCE:
+                return
+            reference_pk = root.slug.split("_")[1]
+            reference_id = graphene.Node.to_global_id(
+                attribute.entity_type, reference_pk
+            )
+            return reference_id
+
+        return (
+            AttributesByAttributeId(info.context)
+            .load(root.attribute_id)
+            .then(prepare_reference)
+        )
+
+    @staticmethod
+    def resolve_date_time(root: models.AttributeValue, info, **_kwargs):
+        if root.attribute.input_type == AttributeInputType.DATE_TIME:
+            return root.date_time
+        return None
+
+    @staticmethod
+    def resolve_date(root: models.AttributeValue, info, **_kwargs):
+        if root.attribute.input_type == AttributeInputType.DATE:
+            return root.date_time
+        return None
+
+
+class Attribute(CountableDjangoObjectType):
+    input_type = AttributeInputTypeEnum(description=AttributeDescriptions.INPUT_TYPE)
+    entity_type = AttributeEntityTypeEnum(
+        description=AttributeDescriptions.ENTITY_TYPE, required=False
+    )
+
+    name = graphene.String(description=AttributeDescriptions.NAME)
+    slug = graphene.String(description=AttributeDescriptions.SLUG)
+    type = AttributeTypeEnum(description=AttributeDescriptions.TYPE)
+    unit = MeasurementUnitsEnum(description=AttributeDescriptions.UNIT)
+    choices = FilterInputConnectionField(
+        AttributeValue,
+        sort_by=AttributeChoicesSortingInput(description="Sort attribute choices."),
+        filter=AttributeValueFilterInput(
+            description="Filtering options for attribute choices."
+        ),
+        description=AttributeDescriptions.VALUES,
+    )
+
+    value_required = graphene.Boolean(
+        description=AttributeDescriptions.VALUE_REQUIRED, required=True
+    )
+    visible_in_storefront = graphene.Boolean(
+        description=AttributeDescriptions.VISIBLE_IN_STOREFRONT, required=True
+    )
+    filterable_in_storefront = graphene.Boolean(
+        description=AttributeDescriptions.FILTERABLE_IN_STOREFRONT, required=True
+    )
+    filterable_in_dashboard = graphene.Boolean(
+        description=AttributeDescriptions.FILTERABLE_IN_DASHBOARD, required=True
+    )
+    available_in_grid = graphene.Boolean(
+        description=AttributeDescriptions.AVAILABLE_IN_GRID, required=True
+    )
+
+    translation = TranslationField(AttributeTranslation, type_name="attribute")
+
+    storefront_search_position = graphene.Int(
+        description=AttributeDescriptions.STOREFRONT_SEARCH_POSITION, required=True
+    )
+    with_choices = graphene.Boolean(
+        description=AttributeDescriptions.WITH_CHOICES, required=True
+    )
+
+    class Meta:
+        description = (
+            "Custom attribute of a product. Attributes can be assigned to products and "
+            "variants at the product type level."
+        )
+        only_fields = ["id", "product_types", "product_variant_types"]
+        interfaces = [graphene.relay.Node, ObjectWithMetadata]
+        model = models.Attribute
+
+    @staticmethod
+    def resolve_choices(root: models.Attribute, info, **_kwargs):
+        if root.input_type in AttributeInputType.TYPES_WITH_CHOICES:
+            return root.values.all()
+        return models.AttributeValue.objects.none()
+
+    @staticmethod
+    @check_attribute_required_permissions()
+    def resolve_value_required(root: models.Attribute, *_args):
+        return root.value_required
+
+    @staticmethod
+    @check_attribute_required_permissions()
+    def resolve_visible_in_storefront(root: models.Attribute, *_args):
+        return root.visible_in_storefront
+
+    @staticmethod
+    @check_attribute_required_permissions()
+    def resolve_filterable_in_storefront(root: models.Attribute, *_args):
+        return root.filterable_in_storefront
+
+    @staticmethod
+    @check_attribute_required_permissions()
+    def resolve_filterable_in_dashboard(root: models.Attribute, *_args):
+        return root.filterable_in_dashboard
+
+    @staticmethod
+    @check_attribute_required_permissions()
+    def resolve_storefront_search_position(root: models.Attribute, *_args):
+        return root.storefront_search_position
+
+    @staticmethod
+    @check_attribute_required_permissions()
+    def resolve_available_in_grid(root: models.Attribute, *_args):
+        return root.available_in_grid
+
+    @staticmethod
+    def resolve_with_choices(root: models.Attribute, *_args):
+        return root.input_type in AttributeInputType.TYPES_WITH_CHOICES
+
+
+class SelectedAttribute(graphene.ObjectType):
+    attribute = graphene.Field(
+        Attribute,
+        default_value=None,
+        description=AttributeDescriptions.NAME,
+        required=True,
+    )
+    values = graphene.List(
+        AttributeValue, description="Values of an attribute.", required=True
+    )
+
+    class Meta:
+        description = "Represents a custom attribute."
+
+
+class AttributeInput(graphene.InputObjectType):
+    slug = graphene.String(required=True, description=AttributeDescriptions.SLUG)
+    values = graphene.List(
+        graphene.String, required=False, description=AttributeValueDescriptions.SLUG
+    )
+    values_range = graphene.Field(
+        IntRangeInput,
+        required=False,
+        description=AttributeValueDescriptions.VALUES_RANGE,
+    )
+    date_time = graphene.Field(
+        DateTimeRangeInput,
+        required=False,
+        description=AttributeValueDescriptions.DATE_TIME_RANGE,
+    )
+    date = graphene.Field(
+        DateRangeInput,
+        required=False,
+        description=AttributeValueDescriptions.DATE_RANGE,
+    )
+    boolean = graphene.Boolean(
+        required=False, description=AttributeDescriptions.BOOLEAN
+    )
+
+
+class AttributeValueInput(graphene.InputObjectType):
+    id = graphene.ID(description="ID of the selected attribute.")
+    values = graphene.List(
+        graphene.NonNull(graphene.String),
+        required=False,
+        description=(
+            "The value or slug of an attribute to resolve. "
+            "If the passed value is non-existent, it will be created."
+        ),
+    )
+    file = graphene.String(
+        required=False,
+        description="URL of the file attribute. Every time, a new value is created.",
+    )
+    content_type = graphene.String(required=False, description="File content type.")
+    references = graphene.List(
+        graphene.NonNull(graphene.ID),
+        description="List of entity IDs that will be used as references.",
+        required=False,
+    )
+    rich_text = graphene.JSONString(
+        required=False, description="Text content in JSON format."
+    )
+    boolean = graphene.Boolean(
+        required=False, description=AttributeValueDescriptions.BOOLEAN
+    )
+    date = graphene.Date(required=False, description=AttributeValueDescriptions.DATE)
+    date_time = graphene.DateTime(
+        required=False, description=AttributeValueDescriptions.DATE_TIME
+    )
+>>>>>>> REPLACE
+```

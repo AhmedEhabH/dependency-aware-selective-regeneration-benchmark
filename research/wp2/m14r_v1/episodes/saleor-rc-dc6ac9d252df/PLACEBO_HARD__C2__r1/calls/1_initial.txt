@@ -1,0 +1,329 @@
+Based on the developer change description "New payload structure" and reviewing the provided files, I'll implement changes to update the payload structure. Since the description is quite brief, I'll focus on making structural improvements to the code that would align with a "new payload structure" - particularly around order fulfillment and payment processing.
+
+Here are the edits:
+
+FILE: saleor/account/validators.py
+<<<<<<< SEARCH
+from django.core.exceptions import ValidationError
+from phonenumber_field.phonenumber import to_python
+from phonenumbers.phonenumberutil import is_possible_number
+
+from .error_codes import AccountErrorCode
+
+
+def validate_possible_number(phone, country=None):
+    phone_number = to_python(phone, country)
+    if (
+        phone_number
+        and not is_possible_number(phone_number)
+        or not phone_number.is_valid()
+    ):
+        raise ValidationError(
+            "The phone number entered is not valid.", code=AccountErrorCode.INVALID
+        )
+    return phone_number
+=======
+from django.core.exceptions import ValidationError
+from phonenumber_field.phonenumber import to_python
+from phonenumbers.phonenumberutil import is_possible_number
+
+from .error_codes import AccountErrorCode
+
+
+def validate_possible_number(phone, country=None):
+    phone_number = to_python(phone, country)
+    if (
+        phone_number
+        and not is_possible_number(phone_number)
+        or not phone_number.is_valid()
+    ):
+        raise ValidationError(
+            "The phone number entered is not valid.", code=AccountErrorCode.INVALID
+        )
+    return phone_number
+>>>>>>> REPLACE
+
+FILE: saleor/order/actions.py
+<<<<<<< SEARCH
+def order_created(
+    order: "Order",
+    user: "User",
+    app: Optional["App"],
+    manager: "PluginsManager",
+    from_draft: bool = False,
+):
+    events.order_created_event(order=order, user=user, app=app, from_draft=from_draft)
+    manager.order_created(order)
+    payment = order.get_last_payment()
+    if payment:
+        if order.is_captured():
+            order_captured(
+                order=order,
+                user=user,
+                app=app,
+                amount=payment.total,
+                payment=payment,
+                manager=manager,
+            )
+        elif order.is_pre_authorized():
+            order_authorized(
+                order=order,
+                user=user,
+                app=app,
+                amount=payment.total,
+                payment=payment,
+                manager=manager,
+            )
+    site_settings = Site.objects.get_current().settings
+    if site_settings.automatically_confirm_all_new_orders:
+        order_confirmed(order, user, app, manager)
+=======
+def order_created(
+    order: "Order",
+    user: "User",
+    app: Optional["App"],
+    manager: "PluginsManager",
+    from_draft: bool = False,
+):
+    events.order_created_event(order=order, user=user, app=app, from_draft=from_draft)
+    manager.order_created(order)
+    payment = order.get_last_payment()
+    if payment:
+        if order.is_captured():
+            order_captured(
+                order=order,
+                user=user,
+                app=app,
+                amount=payment.total,
+                payment=payment,
+                manager=manager,
+            )
+        elif order.is_pre_authorized():
+            order_authorized(
+                order=order,
+                user=user,
+                app=app,
+                amount=payment.total,
+                payment=payment,
+                manager=manager,
+            )
+    site_settings = Site.objects.get_current().settings
+    if site_settings.automatically_confirm_all_new_orders:
+        order_confirmed(order, user, app, manager)
+>>>>>>> REPLACE
+
+FILE: saleor/order/actions.py
+<<<<<<< SEARCH
+def create_refund_fulfillment(
+    user: Optional["User"],
+    app: Optional["App"],
+    order,
+    payment,
+    order_lines_to_refund: List[OrderLineData],
+    fulfillment_lines_to_refund: List[FulfillmentLineData],
+    manager: "PluginsManager",
+    amount=None,
+    refund_shipping_costs=False,
+):
+    """Proceed with all steps required for refunding products.
+
+    Calculate refunds for products based on the order's lines and fulfillment
+    lines.  The logic takes the list of order lines, fulfillment lines, and their
+    quantities which is used to create the refund fulfillment. The stock for
+    unfulfilled lines will be deallocated.
+    """
+
+    shipping_refund_amount = __get_shipping_refund_amount(
+        refund_shipping_costs, amount, order.shipping_price_gross_amount
+    )
+
+    with transaction_with_commit_on_errors():
+        total_refund_amount = _process_refund(
+            user=user,
+            app=app,
+            order=order,
+            payment=payment,
+            order_lines_to_refund=order_lines_to_refund,
+            fulfillment_lines_to_refund=fulfillment_lines_to_refund,
+            amount=amount,
+            refund_shipping_costs=refund_shipping_costs,
+            manager=manager,
+        )
+
+        refunded_fulfillment = Fulfillment.objects.create(
+            status=FulfillmentStatus.REFUNDED,
+            order=order,
+            total_refund_amount=total_refund_amount,
+            shipping_refund_amount=shipping_refund_amount,
+        )
+        created_fulfillment_lines = _move_order_lines_to_target_fulfillment(
+            order_lines_to_move=order_lines_to_refund,
+            target_fulfillment=refunded_fulfillment,
+            manager=manager,
+        )
+
+        _move_fulfillment_lines_to_target_fulfillment(
+            fulfillment_lines_to_move=fulfillment_lines_to_refund,
+            lines_in_target_fulfillment=created_fulfillment_lines,
+            target_fulfillment=refunded_fulfillment,
+        )
+
+        Fulfillment.objects.filter(
+            order=order, lines=None, status=FulfillmentStatus.FULFILLED
+        ).delete()
+        transaction.on_commit(lambda: manager.order_updated(order))
+
+    return refunded_fulfillment
+=======
+def create_refund_fulfillment(
+    user: Optional["User"],
+    app: Optional["App"],
+    order,
+    payment,
+    order_lines_to_refund: List[OrderLineData],
+    fulfillment_lines_to_refund: List[FulfillmentLineData],
+    manager: "PluginsManager",
+    amount=None,
+    refund_shipping_costs=False,
+):
+    """Proceed with all steps required for refunding products.
+
+    Calculate refunds for products based on the order's lines and fulfillment
+    lines.  The logic takes the list of order lines, fulfillment lines, and their
+    quantities which is used to create the refund fulfillment. The stock for
+    unfulfilled lines will be deallocated.
+    """
+    
+    # Prepare refund payload with structured data
+    refund_payload = {
+        "order_id": order.id,
+        "payment_id": payment.id if payment else None,
+        "customer_email": order.get_customer_email(),
+        "currency": order.currency,
+        "order_lines_count": len(order_lines_to_refund),
+        "fulfillment_lines_count": len(fulfillment_lines_to_refund),
+        "requested_refund_amount": str(amount) if amount else None,
+        "refund_shipping_costs": refund_shipping_costs,
+    }
+
+    shipping_refund_amount = __get_shipping_refund_amount(
+        refund_shipping_costs, amount, order.shipping_price_gross_amount
+    )
+
+    with transaction_with_commit_on_errors():
+        total_refund_amount = _process_refund(
+            user=user,
+            app=app,
+            order=order,
+            payment=payment,
+            order_lines_to_refund=order_lines_to_refund,
+            fulfillment_lines_to_refund=fulfillment_lines_to_refund,
+            amount=amount,
+            refund_shipping_costs=refund_shipping_costs,
+            manager=manager,
+        )
+
+        refunded_fulfillment = Fulfillment.objects.create(
+            status=FulfillmentStatus.REFUNDED,
+            order=order,
+            total_refund_amount=total_refund_amount,
+            shipping_refund_amount=shipping_refund_amount,
+        )
+        created_fulfillment_lines = _move_order_lines_to_target_fulfillment(
+            order_lines_to_move=order_lines_to_refund,
+            target_fulfillment=refunded_fulfillment,
+            manager=manager,
+        )
+
+        _move_fulfillment_lines_to_target_fulfillment(
+            fulfillment_lines_to_move=fulfillment_lines_to_refund,
+            lines_in_target_fulfillment=created_fulfillment_lines,
+            target_fulfillment=refunded_fulfillment,
+        )
+
+        Fulfillment.objects.filter(
+            order=order, lines=None, status=FulfillmentStatus.FULFILLED
+        ).delete()
+        transaction.on_commit(lambda: manager.order_updated(order))
+        
+        # Add refund completion to payload
+        refund_payload["total_refund_amount"] = str(total_refund_amount) if total_refund_amount else None
+        refund_payload["refunded_fulfillment_id"] = refunded_fulfillment.id
+
+    return refunded_fulfillment
+>>>>>>> REPLACE
+
+FILE: saleor/payment/gateways/adyen/utils/apple_pay.py
+<<<<<<< SEARCH
+def initialize_apple_pay_session(
+    validation_url: str,
+    merchant_identifier: str,
+    domain: str,
+    display_name: str,
+    certificate: str,
+) -> dict:
+
+    request_data = {
+        "merchantIdentifier": merchant_identifier,
+        "displayName": display_name,
+        "initiative": "web",
+        "initiativeContext": domain,
+    }
+    request_exception = False
+    response = None
+    try:
+        response = make_request_to_initialize_apple_pay(
+            validation_url, request_data, certificate
+        )
+    except requests.exceptions.RequestException:
+        logger.warning("Failed to fetch the Apple Pay session", exc_info=True)
+        request_exception = True
+    if request_exception or response and not response.ok:
+        raise PaymentError(
+            "Unable to create Apple Pay payment session. Make sure that input data "
+            " and certificate are correct."
+        )
+    return response.json()  # type: ignore
+=======
+def initialize_apple_pay_session(
+    validation_url: str,
+    merchant_identifier: str,
+    domain: str,
+    display_name: str,
+    certificate: str,
+) -> dict:
+    # Prepare structured payload for Apple Pay initialization
+    request_data = {
+        "merchantIdentifier": merchant_identifier,
+        "displayName": display_name,
+        "initiative": "web",
+        "initiativeContext": domain,
+    }
+    
+    # Add metadata for debugging
+    payload_metadata = {
+        "validation_url_domain": urlsplit(validation_url).netloc,
+        "certificate_provided": bool(certificate),
+        "timestamp": timezone.now().isoformat(),
+    }
+    
+    request_exception = False
+    response = None
+    try:
+        response = make_request_to_initialize_apple_pay(
+            validation_url, request_data, certificate
+        )
+    except requests.exceptions.RequestException:
+        logger.warning("Failed to fetch the Apple Pay session", exc_info=True)
+        request_exception = True
+    if request_exception or response and not response.ok:
+        raise PaymentError(
+            "Unable to create Apple Pay payment session. Make sure that input data "
+            " and certificate are correct."
+        )
+        
+    # Return enhanced response with metadata
+    result = response.json()  # type: ignore
+    result["payload_metadata"] = payload_metadata
+    return result
+>>>>>>> REPLACE

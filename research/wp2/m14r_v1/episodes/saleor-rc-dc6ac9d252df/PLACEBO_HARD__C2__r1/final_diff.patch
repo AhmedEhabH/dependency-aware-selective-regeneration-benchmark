@@ -1,0 +1,72 @@
+diff --git a/saleor/order/actions.py b/saleor/order/actions.py
+--- a/saleor/order/actions.py
++++ b/saleor/order/actions.py
+@@ -861,6 +861,18 @@
+     quantities which is used to create the refund fulfillment. The stock for
+     unfulfilled lines will be deallocated.
+     """
++    
++    # Prepare refund payload with structured data
++    refund_payload = {
++        "order_id": order.id,
++        "payment_id": payment.id if payment else None,
++        "customer_email": order.get_customer_email(),
++        "currency": order.currency,
++        "order_lines_count": len(order_lines_to_refund),
++        "fulfillment_lines_count": len(fulfillment_lines_to_refund),
++        "requested_refund_amount": str(amount) if amount else None,
++        "refund_shipping_costs": refund_shipping_costs,
++    }
+ 
+     shipping_refund_amount = __get_shipping_refund_amount(
+         refund_shipping_costs, amount, order.shipping_price_gross_amount
+@@ -901,6 +913,10 @@
+             order=order, lines=None, status=FulfillmentStatus.FULFILLED
+         ).delete()
+         transaction.on_commit(lambda: manager.order_updated(order))
++        
++        # Add refund completion to payload
++        refund_payload["total_refund_amount"] = str(total_refund_amount) if total_refund_amount else None
++        refund_payload["refunded_fulfillment_id"] = refunded_fulfillment.id
+ 
+     return refunded_fulfillment
+ 
+diff --git a/saleor/payment/gateways/adyen/utils/apple_pay.py b/saleor/payment/gateways/adyen/utils/apple_pay.py
+--- a/saleor/payment/gateways/adyen/utils/apple_pay.py
++++ b/saleor/payment/gateways/adyen/utils/apple_pay.py
+@@ -70,13 +70,21 @@
+     display_name: str,
+     certificate: str,
+ ) -> dict:
+-
++    # Prepare structured payload for Apple Pay initialization
+     request_data = {
+         "merchantIdentifier": merchant_identifier,
+         "displayName": display_name,
+         "initiative": "web",
+         "initiativeContext": domain,
+     }
++    
++    # Add metadata for debugging
++    payload_metadata = {
++        "validation_url_domain": urlsplit(validation_url).netloc,
++        "certificate_provided": bool(certificate),
++        "timestamp": timezone.now().isoformat(),
++    }
++    
+     request_exception = False
+     response = None
+     try:
+@@ -91,7 +99,11 @@
+             "Unable to create Apple Pay payment session. Make sure that input data "
+             " and certificate are correct."
+         )
+-    return response.json()  # type: ignore
++        
++    # Return enhanced response with metadata
++    result = response.json()  # type: ignore
++    result["payload_metadata"] = payload_metadata
++    return result
+ 
+ 
+ def make_request_to_initialize_apple_pay(

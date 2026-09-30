@@ -1,0 +1,89 @@
+{
+ "smoke_version": "wp2-m14r-v1",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-c3b9e396b07d",
+ "arm": "PLACEBO_HARD",
+ "label": "PLACEBO_HARD__C2__r1",
+ "variant": "G2",
+ "context": "C2",
+ "replicate": "r1",
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-30T22:11:37Z",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/csv/utils/export.py",
+  "saleor/graphql/attribute/types.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/csv/utils/export.py",
+   "saleor/graphql/attribute/types.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/csv/utils/export.py",
+   "saleor/graphql/attribute/types.py"
+  ]
+ },
+ "prompt_sha256": "ade107d632ef658f63aef7fe8c892ea260c64d502e70d40567c40b33e18d9a37",
+ "request_sha_initial": "437df09b9d7f07e17b1430b0559a0ed75b776cf2e4e135d9e98c12d31ce83bf5",
+ "request_sha_repair": "3504e0cddba0b422a8ffc5fae8e447fd802aa45174b73880e7db446a8c14bf15",
+ "repair_component_hashes": {
+  "message_1_system": "daa956a2c1a0d71f439563d369d50081b518183cc29bfb300cdd43c648b5cf1e",
+  "message_2_user": "ade107d632ef658f63aef7fe8c892ea260c64d502e70d40567c40b33e18d9a37",
+  "message_3_assistant": "e014b781f2b3a498c109123182c2e6501ac6ee41fa2b7869f8f9f81449faf1fa",
+  "message_4_user": "b4829a868ca41a065d606155b61dc13c9b13f9173faa7cc5801508e0c3834081"
+ },
+ "context_sha256": "6b205cb211f047aa8c25347b3b902f5f44ce9ade2ea752d6e37e4d4f8325fa41",
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790806298-rW0GfWpw5DctLUkeLXIs",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 6368,
+   "completion_tokens": 152,
+   "cost_usd_actual": 0.0020112,
+   "cost_usd_nominal": 0.0020112,
+   "finish_reason": "stop",
+   "response_sha256": "e014b781f2b3a498c109123182c2e6501ac6ee41fa2b7869f8f9f81449faf1fa",
+   "request_sha": "437df09b9d7f07e17b1430b0559a0ed75b776cf2e4e135d9e98c12d31ce83bf5",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\m14r_v1\\episodes\\saleor-rc-c3b9e396b07d\\PLACEBO_HARD__C2__r1\\calls\\1_initial.txt",
+   "raw_sha256": "e014b781f2b3a498c109123182c2e6501ac6ee41fa2b7869f8f9f81449faf1fa"
+  },
+  {
+   "kind": "repair",
+   "index": 2,
+   "request_id": "gen-1790806309-4gdl4aI2hmaatUYIy8xo",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 6576,
+   "completion_tokens": 6560,
+   "cost_usd_actual": 0.0072336,
+   "cost_usd_nominal": 0.0072336,
+   "finish_reason": "stop",
+   "response_sha256": "d166c0a88aa69bc14ee79583dee86cc4b93a50e96c37a7ce879edb0b587f8180",
+   "request_sha": "3504e0cddba0b422a8ffc5fae8e447fd802aa45174b73880e7db446a8c14bf15",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\m14r_v1\\episodes\\saleor-rc-c3b9e396b07d\\PLACEBO_HARD__C2__r1\\calls\\2_repair.txt",
+   "raw_sha256": "d166c0a88aa69bc14ee79583dee86cc4b93a50e96c37a7ce879edb0b587f8180"
+  }
+ ],
+ "validation": {
+  "initial": [
+   "NO_BLOCKS: no FILE sections found"
+  ],
+  "repair": []
+ },
+ "repair_used": true,
+ "produced_by": "repair",
+ "edited_files": [
+  "saleor/csv/utils/export.py",
+  "saleor/graphql/attribute/types.py"
+ ],
+ "diff_sha256": "16ec795185b645d8d57bd90786f83612f045ee5efe642dd1520f3496ef3b03d3",
+ "episode_sha256": "2b030f0debef435d8502f356c81cca22f431fab99f69a93c470f5819a25c0e77"
+}

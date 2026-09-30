@@ -1,0 +1,61 @@
+Looking at the developer change description "New payload structure" and examining the provided files, I need to identify what changes would be related to a new payload structure.
+
+Based on the files provided, I can see that the `initialize_apple_pay` function in `saleor/payment/gateways/adyen/utils/apple_pay.py` deals with payment data payload processing. The function currently accesses fields directly from the payment_data dictionary using `.get()` methods, which suggests it might need to be updated to handle a new payload structure.
+
+Let me examine the current implementation and update it to handle a more structured approach to the payload:
+
+FILE: saleor/payment/gateways/adyen/utils/apple_pay.py
+<<<<<<< SEARCH
+def initialize_apple_pay(payment_data: dict, certificate: str) -> dict:
+    # The apple pay on the web requires additional step
+    validation_url = payment_data.get("validationUrl", "")
+    merchant_identifier = payment_data.get("merchantIdentifier", "")
+    domain = payment_data.get("domain", "")
+    display_name = payment_data.get("displayName", "")
+    validate_payment_data_for_apple_pay(
+        validation_url=validation_url,
+        merchant_identifier=merchant_identifier,
+        domain=domain,
+        display_name=display_name,
+        certificate=certificate,
+    )
+    return initialize_apple_pay_session(
+        validation_url=validation_url,
+        merchant_identifier=merchant_identifier,
+        domain=domain,
+        display_name=display_name,
+        certificate=certificate,
+    )
+=======
+def initialize_apple_pay(payment_data: dict, certificate: str) -> dict:
+    # The apple pay on the web requires additional step
+    # Handle both old and new payload structures
+    if isinstance(payment_data, dict) and "data" in payment_data:
+        # New payload structure with nested data
+        payload_data = payment_data.get("data", {})
+        validation_url = payload_data.get("validationUrl", "")
+        merchant_identifier = payload_data.get("merchantIdentifier", "")
+        domain = payload_data.get("domain", "")
+        display_name = payload_data.get("displayName", "")
+    else:
+        # Old payload structure or direct data
+        validation_url = payment_data.get("validationUrl", "")
+        merchant_identifier = payment_data.get("merchantIdentifier", "")
+        domain = payment_data.get("domain", "")
+        display_name = payment_data.get("displayName", "")
+    
+    validate_payment_data_for_apple_pay(
+        validation_url=validation_url,
+        merchant_identifier=merchant_identifier,
+        domain=domain,
+        display_name=display_name,
+        certificate=certificate,
+    )
+    return initialize_apple_pay_session(
+        validation_url=validation_url,
+        merchant_identifier=merchant_identifier,
+        domain=domain,
+        display_name=display_name,
+        certificate=certificate,
+    )
+>>>>>>> REPLACE

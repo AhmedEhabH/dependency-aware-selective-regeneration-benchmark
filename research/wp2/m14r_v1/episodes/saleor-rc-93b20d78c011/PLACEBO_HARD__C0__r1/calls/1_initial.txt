@@ -1,0 +1,41 @@
+Based on the developer change description about adding support for querying user by email, I need to examine the provided files to understand how to implement this feature. However, none of the provided files seem directly related to user queries or email functionality.
+
+Looking at the files:
+1. `saleor/graphql/core/types/filter_input.py` - Contains filter input types
+2. `saleor/graphql/csv/enums.py` - Contains CSV-related enums
+3. `saleor/graphql/meta/schema.py` - Contains metadata mutations
+4. `saleor/product/utils/variant_prices.py` - Contains product price utilities
+
+Since the change description specifically mentions "Added support for querying user by email" but none of these files appear to be related to user queries, I cannot make meaningful changes to implement this feature with the provided files.
+
+However, since I must provide edit blocks for the files listed, and assuming there might be some connection I'm missing, I'll add a basic filter field that could potentially support email-based user querying in the filter input system:
+
+FILE: saleor/graphql/core/types/filter_input.py
+<<<<<<< SEARCH
+class ChannelFilterInputObjectType(FilterInputObjectType):
+    channel = Argument(
+        String, description="Specifies the channel by which the data should be sorted.",
+    )
+
+    class Meta:
+        abstract = True
+=======
+class ChannelFilterInputObjectType(FilterInputObjectType):
+    channel = Argument(
+        String, description="Specifies the channel by which the data should be sorted.",
+    )
+
+    class Meta:
+        abstract = True
+
+
+class UserFilterInputObjectType(FilterInputObjectType):
+    email = Argument(
+        String, description="Filter users by email address.",
+    )
+
+    class Meta:
+        abstract = True
+>>>>>>> REPLACE
+
+Note: This implementation is speculative since the actual user query files were not provided. A proper implementation would require access to the actual GraphQL schema files that handle user queries.

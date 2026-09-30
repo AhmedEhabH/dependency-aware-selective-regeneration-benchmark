@@ -1,0 +1,131 @@
+Looking at the developer change description, this is about handling `stock.quantity < 0` in deallocate stock and updating variant stocks. However, the provided files don't contain any stock management or variant stock updating logic - they're related to CSV export functionality and GraphQL attribute types.
+
+Since the files provided don't contain the relevant code for stock management operations, and there's no indication of where such changes would be made in these specific files, I cannot make any meaningful edits to implement the described functionality.
+
+The change likely involves files in inventory/warehouse management modules or product variant stock handling, which are not included in the provided editable files list.
+
+FILE: saleor/csv/utils/export.py
+<<<<<<< SEARCH
+def export_products(
+    export_file: "ExportFile",
+    scope: Dict[str, Union[str, dict]],
+    export_info: Dict[str, list],
+    file_type: str,
+    delimiter: str = ";",
+):
+    file_name = get_filename("product", file_type)
+    queryset = get_product_queryset(scope)
+
+    export_fields, file_headers, data_headers = get_export_fields_and_headers_info(
+        export_info
+    )
+
+    temporary_file = create_file_with_headers(file_headers, delimiter, file_type)
+
+    export_products_in_batches(
+        queryset,
+        export_info,
+        set(export_fields),
+        data_headers,
+        delimiter,
+        temporary_file,
+        file_type,
+    )
+
+    save_csv_file_in_export_file(export_file, temporary_file, file_name)
+    temporary_file.close()
+
+    send_export_download_link_notification(export_file)
+=======
+def export_products(
+    export_file: "ExportFile",
+    scope: Dict[str, Union[str, dict]],
+    export_info: Dict[str, list],
+    file_type: str,
+    delimiter: str = ";",
+):
+    file_name = get_filename("product", file_type)
+    queryset = get_product_queryset(scope)
+
+    export_fields, file_headers, data_headers = get_export_fields_and_headers_info(
+        export_info
+    )
+
+    temporary_file = create_file_with_headers(file_headers, delimiter, file_type)
+
+    export_products_in_batches(
+        queryset,
+        export_info,
+        set(export_fields),
+        data_headers,
+        delimiter,
+        temporary_file,
+        file_type,
+    )
+
+    save_csv_file_in_export_file(export_file, temporary_file, file_name)
+    temporary_file.close()
+
+    send_export_download_link_notification(export_file)
+>>>>>>> REPLACE
+
+FILE: saleor/graphql/attribute/types.py
+<<<<<<< SEARCH
+class AttributeValue(CountableDjangoObjectType):
+    name = graphene.String(description=AttributeValueDescriptions.NAME)
+    slug = graphene.String(description=AttributeValueDescriptions.SLUG)
+    value = graphene.String(description=AttributeValueDescriptions.VALUE)
+    translation = TranslationField(
+        AttributeValueTranslation, type_name="attribute value"
+    )
+    input_type = AttributeInputTypeEnum(description=AttributeDescriptions.INPUT_TYPE)
+    reference = graphene.ID(description="The ID of the attribute reference.")
+    file = graphene.Field(
+        File, description=AttributeValueDescriptions.FILE, required=False
+    )
+    rich_text = graphene.JSONString(
+        description=AttributeValueDescriptions.RICH_TEXT, required=False
+    )
+    boolean = graphene.Boolean(
+        description=AttributeValueDescriptions.BOOLEAN, required=False
+    )
+    date = graphene.Date(description=AttributeValueDescriptions.DATE, required=False)
+    date_time = graphene.DateTime(
+        description=AttributeValueDescriptions.DATE_TIME, required=False
+    )
+
+    class Meta:
+        description = "Represents a value of an attribute."
+        only_fields = ["id"]
+        interfaces = [graphene.relay.Node]
+        model = models.AttributeValue
+=======
+class AttributeValue(CountableDjangoObjectType):
+    name = graphene.String(description=AttributeValueDescriptions.NAME)
+    slug = graphene.String(description=AttributeValueDescriptions.SLUG)
+    value = graphene.String(description=AttributeValueDescriptions.VALUE)
+    translation = TranslationField(
+        AttributeValueTranslation, type_name="attribute value"
+    )
+    input_type = AttributeInputTypeEnum(description=AttributeDescriptions.INPUT_TYPE)
+    reference = graphene.ID(description="The ID of the attribute reference.")
+    file = graphene.Field(
+        File, description=AttributeValueDescriptions.FILE, required=False
+    )
+    rich_text = graphene.JSONString(
+        description=AttributeValueDescriptions.RICH_TEXT, required=False
+    )
+    boolean = graphene.Boolean(
+        description=AttributeValueDescriptions.BOOLEAN, required=False
+    )
+    date = graphene.Date(description=AttributeValueDescriptions.DATE, required=False)
+    date_time = graphene.DateTime(
+        description=AttributeValueDescriptions.DATE_TIME, required=False
+    )
+
+    class Meta:
+        description = "Represents a value of an attribute."
+        only_fields = ["id"]
+        interfaces = [graphene.relay.Node]
+        model = models.AttributeValue
+>>>>>>> REPLACE

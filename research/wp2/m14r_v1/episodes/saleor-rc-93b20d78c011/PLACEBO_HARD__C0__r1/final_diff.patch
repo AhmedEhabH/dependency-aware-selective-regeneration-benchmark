@@ -1,0 +1,16 @@
+diff --git a/saleor/graphql/core/types/filter_input.py b/saleor/graphql/core/types/filter_input.py
+--- a/saleor/graphql/core/types/filter_input.py
++++ b/saleor/graphql/core/types/filter_input.py
+@@ -71,3 +71,12 @@
+ 
+     class Meta:
+         abstract = True
++
++
++class UserFilterInputObjectType(FilterInputObjectType):
++    email = Argument(
++        String, description="Filter users by email address.",
++    )
++
++    class Meta:
++        abstract = True

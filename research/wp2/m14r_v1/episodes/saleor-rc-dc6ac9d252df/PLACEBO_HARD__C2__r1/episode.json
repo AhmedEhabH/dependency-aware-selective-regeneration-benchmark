@@ -1,0 +1,69 @@
+{
+ "smoke_version": "wp2-m14r-v1",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-dc6ac9d252df",
+ "arm": "PLACEBO_HARD",
+ "label": "PLACEBO_HARD__C2__r1",
+ "variant": "G2",
+ "context": "C2",
+ "replicate": "r1",
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-30T22:13:12Z",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/account/validators.py",
+  "saleor/order/actions.py",
+  "saleor/payment/gateways/adyen/utils/apple_pay.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/account/validators.py",
+   "saleor/order/actions.py",
+   "saleor/payment/gateways/adyen/utils/apple_pay.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/account/validators.py",
+   "saleor/order/actions.py",
+   "saleor/payment/gateways/adyen/utils/apple_pay.py"
+  ]
+ },
+ "prompt_sha256": "08e89df6c2298d7b4adb1051176551d6c35c3c27fc32492f702db9e9ba5e50e4",
+ "request_sha_initial": "a456ec68ffbdd666274b3c33d843c440033cdbe45b2a2a8d7c1d84e694e90586",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "context_sha256": "13f93dec4edbcb7202ded13ec8aba071e69ece624847392212609ba1a2eda367",
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790806395-18xA94cNJg68WSQ1Gsjx",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 20612,
+   "completion_tokens": 2321,
+   "cost_usd_actual": 0.0084534,
+   "cost_usd_nominal": 0.0084534,
+   "finish_reason": "stop",
+   "response_sha256": "c94a291117c5b9593c2dc6e390d798e5c122c50d805a2d2adca7f25d76ee7342",
+   "request_sha": "a456ec68ffbdd666274b3c33d843c440033cdbe45b2a2a8d7c1d84e694e90586",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\m14r_v1\\episodes\\saleor-rc-dc6ac9d252df\\PLACEBO_HARD__C2__r1\\calls\\1_initial.txt",
+   "raw_sha256": "c94a291117c5b9593c2dc6e390d798e5c122c50d805a2d2adca7f25d76ee7342"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "produced_by": "initial",
+ "edited_files": [
+  "saleor/account/validators.py",
+  "saleor/order/actions.py",
+  "saleor/payment/gateways/adyen/utils/apple_pay.py"
+ ],
+ "diff_sha256": "3d25e4b374487a151ed2140f979ad2bc54704a8f3baf203ac4d3e7602bc802d9",
+ "episode_sha256": "1b4e7fe6750af88f62fd845bbe7d6ce6d90b61682d34b9ab0e1963442f30c888"
+}
