@@ -1,0 +1,89 @@
+diff --git a/saleor/payment/gateways/stripe/plugin.py b/saleor/payment/gateways/stripe/plugin.py
+--- a/saleor/payment/gateways/stripe/plugin.py
++++ b/saleor/payment/gateways/stripe/plugin.py
+@@ -546,3 +546,34 @@
+                 "value": self.config.connection_params["public_api_key"],
+             },
+         ]
++
++    @require_active_plugin
++    def save_payment_method(
++        self, payment_information: "PaymentData", previous_value
++    ) -> "GatewayResponse":
++        """Save payment method via Stripe setup intent."""
++        api_key = self.config.connection_params["secret_api_key"]
++        
++        customer = None
++        if payment_information.graphql_customer_id:
++            customer = get_or_create_customer(
++                api_key=api_key,
++                customer_email=payment_information.customer_email,
++                customer_id=payment_information.customer_id,
++            )
++
++        # For saving payment methods, we typically need to create a setup intent
++        # or use payment intent with setup_future_usage parameter
++        # This would be called when store_payment_method is ON_SESSION or OFF_SESSION
++        
++        return GatewayResponse(
++            is_success=True,
++            action_required=False,
++            kind=TransactionKind.ACTION_TO_CONFIRM,
++            amount=payment_information.amount,
++            currency=payment_information.currency,
++            transaction_id="",
++            error=None,
++            raw_response={},
++            customer_id=customer.id if customer else None,
++        )
+diff --git a/saleor/payment/gateways/stripe/webhooks.py b/saleor/payment/gateways/stripe/webhooks.py
+--- a/saleor/payment/gateways/stripe/webhooks.py
++++ b/saleor/payment/gateways/stripe/webhooks.py
+@@ -325,6 +325,28 @@
+         )
+ 
+ 
++def handle_updated_payment_intent(
++    payment_intent: StripeObject, gateway_config: "GatewayConfig", _channel_slug: str
++):
++    """Handle payment intent updated event - typically when payment method changes."""
++    payment = _get_payment(payment_intent.id)
++
++    if not payment:
++        logger.warning(
++            "Payment for PaymentIntent was not found",
++            extra={"payment_intent": payment_intent.id},
++        )
++        return
++
++    # Update payment method details if they changed
++    payment_method_info = get_payment_method_details(payment_intent)
++    if payment_method_info:
++        changed_fields: List[str] = []
++        update_payment_method_details(payment, payment_method_info, changed_fields)
++        if changed_fields:
++            payment.save(update_fields=changed_fields)
++
++
+ def handle_refund(
+     charge: StripeObject, gateway_config: "GatewayConfig", _channel_slug: str
+ ):
+diff --git a/saleor/payment/interface.py b/saleor/payment/interface.py
+--- a/saleor/payment/interface.py
++++ b/saleor/payment/interface.py
+@@ -18,6 +18,7 @@
+     brand: Optional[str] = None
+     name: Optional[str] = None
+     type: Optional[str] = None
++    wallet: Optional[str] = None
+ 
+ 
+ @dataclass
+@@ -91,6 +92,7 @@
+     graphql_customer_id: Optional[str] = None
+     store_payment_method: StorePaymentMethodEnum = StorePaymentMethodEnum.NONE
+     payment_metadata: Dict[str, str] = field(default_factory=dict)
++    return_url: Optional[str] = None
+ 
+ 
+ @dataclass

@@ -1,0 +1,151 @@
+Based on the developer change description about extending logic for updating order status and calling update order status for refund action, here are the necessary edits:
+
+FILE: saleor/order/actions.py
+<<<<<<< SEARCH
+def fulfillment_refunded_event(
+    *,
+    order: Order,
+    user: UserType,
+    refunded_lines: List[Tuple[int, OrderLine]],
+    amount: Decimal,
+    shipping_costs_included: bool
+):
+    if not _user_is_valid(user):
+        user = None
+    return OrderEvent.objects.create(
+        order=order,
+        type=OrderEvents.FULFILLMENT_REFUNDED,
+        user=user,
+        parameters={
+            "lines": _lines_per_quantity_to_line_object_list(refunded_lines),
+            "amount": amount,
+            "shipping_costs_included": shipping_costs_included,
+        },
+    )
+=======
+def fulfillment_refunded_event(
+    *,
+    order: Order,
+    user: UserType,
+    refunded_lines: List[Tuple[int, OrderLine]],
+    amount: Decimal,
+    shipping_costs_included: bool
+):
+    if not _user_is_valid(user):
+        user = None
+    update_order_status(order)
+    return OrderEvent.objects.create(
+        order=order,
+        type=OrderEvents.FULFILLMENT_REFUNDED,
+        user=user,
+        parameters={
+            "lines": _lines_per_quantity_to_line_object_list(refunded_lines),
+            "amount": amount,
+            "shipping_costs_included": shipping_costs_included,
+        },
+    )
+>>>>>>> REPLACE
+
+FILE: saleor/order/actions.py
+<<<<<<< SEARCH
+def create_refund_fulfillment(
+    requester: Optional["User"],
+    order,
+    payment,
+    order_lines_to_refund: List[OrderLineData],
+    fulfillment_lines_to_refund: List[FulfillmentLineData],
+    amount=None,
+    refund_shipping_costs=False,
+):
+    """Proceed with all steps required for refunding products.
+
+    Calculate refunds for products based on the order's order lines and fulfillment
+    lines.  The logic takes the list of order lines, fulfillment lines, and their
+    quantities which is used to create the refund fulfillment. The stock for
+    unfulfilled lines will be deallocated. It creates only single refund fulfillment
+    for each order. Calling the method N-time will increase the quantity of the already
+    refunded line. The refund fulfillment can have assigned lines with the same
+    products but with the different stocks.
+    """
+
+    _process_refund(
+        requester=requester,
+        order=order,
+        payment=payment,
+        order_lines_to_refund=order_lines_to_refund,
+        fulfillment_lines_to_refund=fulfillment_lines_to_refund,
+        amount=amount,
+        refund_shipping_costs=refund_shipping_costs,
+    )
+
+    with transaction.atomic():
+        refunded_fulfillment, _ = Fulfillment.objects.get_or_create(
+            status=FulfillmentStatus.REFUNDED, order=order
+        )
+        already_refunded_lines = list(refunded_fulfillment.lines.all())
+        _move_order_lines_to_target_fulfillment(
+            order_lines_to_move=order_lines_to_refund,
+            lines_in_target_fulfillment=already_refunded_lines,
+            target_fulfillment=refunded_fulfillment,
+        )
+        _move_fulfillment_lines_to_target_fulfillment(
+            fulfillment_lines_to_move=fulfillment_lines_to_refund,
+            lines_in_target_fulfillment=already_refunded_lines,
+            target_fulfillment=refunded_fulfillment,
+        )
+
+        Fulfillment.objects.filter(order=order, lines=None).delete()
+
+    return refunded_fulfillment
+=======
+def create_refund_fulfillment(
+    requester: Optional["User"],
+    order,
+    payment,
+    order_lines_to_refund: List[OrderLineData],
+    fulfillment_lines_to_refund: List[FulfillmentLineData],
+    amount=None,
+    refund_shipping_costs=False,
+):
+    """Proceed with all steps required for refunding products.
+
+    Calculate refunds for products based on the order's order lines and fulfillment
+    lines.  The logic takes the list of order lines, fulfillment lines, and their
+    quantities which is used to create the refund fulfillment. The stock for
+    unfulfilled lines will be deallocated. It creates only single refund fulfillment
+    for each order. Calling the method N-time will increase the quantity of the already
+    refunded line. The refund fulfillment can have assigned lines with the same
+    products but with the different stocks.
+    """
+
+    _process_refund(
+        requester=requester,
+        order=order,
+        payment=payment,
+        order_lines_to_refund=order_lines_to_refund,
+        fulfillment_lines_to_refund=fulfillment_lines_to_refund,
+        amount=amount,
+        refund_shipping_costs=refund_shipping_costs,
+    )
+
+    with transaction.atomic():
+        refunded_fulfillment, _ = Fulfillment.objects.get_or_create(
+            status=FulfillmentStatus.REFUNDED, order=order
+        )
+        already_refunded_lines = list(refunded_fulfillment.lines.all())
+        _move_order_lines_to_target_fulfillment(
+            order_lines_to_move=order_lines_to_refund,
+            lines_in_target_fulfillment=already_refunded_lines,
+            target_fulfillment=refunded_fulfillment,
+        )
+        _move_fulfillment_lines_to_target_fulfillment(
+            fulfillment_lines_to_move=fulfillment_lines_to_refund,
+            lines_in_target_fulfillment=already_refunded_lines,
+            target_fulfillment=refunded_fulfillment,
+        )
+
+        Fulfillment.objects.filter(order=order, lines=None).delete()
+        update_order_status(order)
+
+    return refunded_fulfillment
+>>>>>>> REPLACE

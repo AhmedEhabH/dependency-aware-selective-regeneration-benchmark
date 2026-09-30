@@ -1,0 +1,100 @@
+{
+ "smoke_version": "wp2-m14r-v1",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-644f33094857",
+ "arm": "GOLD_HARD",
+ "label": "GOLD_HARD__C2__r2",
+ "variant": "G2",
+ "context": "C2",
+ "replicate": "r2",
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-30T22:16:39Z",
+ "status": "INVALID_AFTER_REPAIR",
+ "editable_set": [
+  "saleor/graphql/order/mutations/fulfillments.py",
+  "saleor/graphql/order/mutations/orders.py",
+  "saleor/order/actions.py",
+  "saleor/order/events.py",
+  "saleor/order/models.py",
+  "saleor/order/utils.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/graphql/order/mutations/fulfillments.py",
+   "saleor/graphql/order/mutations/orders.py",
+   "saleor/order/actions.py",
+   "saleor/order/events.py",
+   "saleor/order/models.py",
+   "saleor/order/utils.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/graphql/order/mutations/fulfillments.py",
+   "saleor/graphql/order/mutations/orders.py",
+   "saleor/order/actions.py",
+   "saleor/order/events.py",
+   "saleor/order/models.py",
+   "saleor/order/utils.py"
+  ]
+ },
+ "prompt_sha256": "32fdcfb83d69ab99364479ad2f9bb5ff202befc42e41eb822bda144e11089f55",
+ "request_sha_initial": "7ece573c3da28ddd5db0e766c071bbfa9957ace6a30e8391f5fcb91e11917459",
+ "request_sha_repair": "9b391e0626956aeccaceff3b57b4a607e044f7cdf1917ceedee007edaf973551",
+ "repair_component_hashes": {
+  "message_1_system": "daa956a2c1a0d71f439563d369d50081b518183cc29bfb300cdd43c648b5cf1e",
+  "message_2_user": "32fdcfb83d69ab99364479ad2f9bb5ff202befc42e41eb822bda144e11089f55",
+  "message_3_assistant": "5d68715bf623167c4588f70a4e319a14cfc712846cc1a5a2566b3b0e61c83396",
+  "message_4_user": "2e8fa2e27ce5dca2cb2f8fe9f11386045a9b80769a6e2e81fcfa77e939d87755"
+ },
+ "context_sha256": "0b1436f8255b1db6467fe530fbdea35dab912a777781f70ef6c48c3fbb12cc71",
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790806603-IkvMraKAH8QZZMJvhtlb",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 35364,
+   "completion_tokens": 1176,
+   "cost_usd_actual": 0.011734,
+   "cost_usd_nominal": 0.011734,
+   "finish_reason": "stop",
+   "response_sha256": "5d68715bf623167c4588f70a4e319a14cfc712846cc1a5a2566b3b0e61c83396",
+   "request_sha": "7ece573c3da28ddd5db0e766c071bbfa9957ace6a30e8391f5fcb91e11917459",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\m14r_v1\\episodes\\saleor-rc-644f33094857\\GOLD_HARD__C2__r2\\calls\\1_initial.txt",
+   "raw_sha256": "5d68715bf623167c4588f70a4e319a14cfc712846cc1a5a2566b3b0e61c83396"
+  },
+  {
+   "kind": "repair",
+   "index": 2,
+   "request_id": "gen-1790806619-4N7Nv16451ZBWFeXifQx",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 36656,
+   "completion_tokens": 1148,
+   "cost_usd_actual": 0.0048424,
+   "cost_usd_nominal": 0.0048424,
+   "finish_reason": "stop",
+   "response_sha256": "07c1e05767594baa59398b6760bf217b4d43eeae9b4d3ca8078919c1dbf488ed",
+   "request_sha": "9b391e0626956aeccaceff3b57b4a607e044f7cdf1917ceedee007edaf973551",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\m14r_v1\\episodes\\saleor-rc-644f33094857\\GOLD_HARD__C2__r2\\calls\\2_repair.txt",
+   "raw_sha256": "07c1e05767594baa59398b6760bf217b4d43eeae9b4d3ca8078919c1dbf488ed"
+  }
+ ],
+ "validation": {
+  "initial": [
+   "SEARCH_ERROR:saleor/order/actions.py: block 1: SEARCH content not found in current file (count=0); search='def fulfillment_refunded_event(\\n    *,\\n    order: Order,\\n    user: UserType,\\n   '"
+  ],
+  "repair": [
+   "SEARCH_ERROR:saleor/order/actions.py: block 1: SEARCH content not found in current file (count=0); search='def fulfillment_refunded_event(\\n    *,\\n    order: Order,\\n    user: UserType,\\n   '"
+  ]
+ },
+ "repair_used": true,
+ "produced_by": "",
+ "edited_files": [],
+ "diff_sha256": "",
+ "episode_sha256": "5086f14656b2fe77a8618c5f25d5b19ed059b78211c7fed8b5239078b437746b"
+}

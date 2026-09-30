@@ -1,0 +1,36 @@
+diff --git a/saleor/graphql/product/mutations/products.py b/saleor/graphql/product/mutations/products.py
+--- a/saleor/graphql/product/mutations/products.py
++++ b/saleor/graphql/product/mutations/products.py
+@@ -1817,3 +1817,32 @@
+             variant_image.delete()
+ 
+         return VariantImageUnassign(product_variant=variant, image=image)
++
++
++class ProductSetAvailabilityForPurchase(BaseMutation):
++    product = graphene.Field(Product)
++
++    class Arguments:
++        product_id = graphene.ID(
++            required=True,
++            description="ID of a product to set availability for purchase.",
++        )
++        is_available = graphene.Boolean(
++            required=True,
++            description="Determine if product is available for purchase.",
++        )
++
++    class Meta:
++        description = "Set product availability for purchase."
++        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
++        error_type_class = ProductError
++        error_type_field = "product_errors"
++
++    @classmethod
++    def perform_mutation(cls, _root, info, product_id, is_available):
++        product = cls.get_node_or_error(
++            info, product_id, field="product_id", only_type=Product
++        )
++        product.is_available_for_purchase = is_available
++        product.save(update_fields=["is_available_for_purchase"])
++        return ProductSetAvailabilityForPurchase(product=product)

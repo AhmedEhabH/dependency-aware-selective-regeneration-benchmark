@@ -1,0 +1,179 @@
+Looking at the developer change description, I need to implement functionality to reduce voucher usage limits when vouchers are removed from draft orders and fix updating voucher usage limits. Let me analyze the code to understand where changes are needed.
+
+The key areas that need modification are:
+1. When a voucher is removed from a draft order, the usage should be decreased
+2. When a voucher code is changed/removed from a draft order, the usage should be adjusted
+3. The voucher update mutation needs to properly handle usage limit changes
+
+Let me examine the current code and implement the necessary changes:
+
+FILE: saleor/graphql/order/mutations/draft_order_create.py
+<<<<<<< SEARCH
+from ....discount.utils.voucher import (
+    get_active_voucher_code,
+    get_voucher_code_instance,
+    increase_voucher_usage,
+)
+=======
+from ....discount.utils.voucher import (
+    get_active_voucher_code,
+    get_voucher_code_instance,
+    increase_voucher_usage,
+    decrease_voucher_usage,
+)
+>>>>>>> REPLACE
+
+FILE: saleor/graphql/order/mutations/draft_order_create.py
+<<<<<<< SEARCH
+            if voucher := cleaned_input.get("voucher"):
+                cls.handle_order_voucher(cleaned_input, instance, voucher)
+=======
+            if voucher := cleaned_input.get("voucher"):
+                cls.handle_order_voucher(cleaned_input, instance, voucher)
+            
+            # Handle voucher removal - decrease usage if voucher was removed
+            if "voucher" in cleaned_input and cleaned_input["voucher"] is None:
+                cls.handle_voucher_removal(instance)
+>>>>>>> REPLACE
+
+FILE: saleor/graphql/order/mutations/draft_order_create.py
+<<<<<<< SEARCH
+    @classmethod
+    def handle_order_voucher(cls, cleaned_input, instance, voucher):
+        code_instance = cleaned_input.pop("voucher_code_instance", None)
+        channel = instance.channel
+        if channel.include_draft_order_in_voucher_usage:
+            increase_voucher_usage(
+                voucher,
+                code_instance,
+                instance.user_email or instance.user and instance.user.email,
+                increase_voucher_customer_usage=False,
+            )
+=======
+    @classmethod
+    def handle_order_voucher(cls, cleaned_input, instance, voucher):
+        code_instance = cleaned_input.pop("voucher_code_instance", None)
+        channel = instance.channel
+        if channel.include_draft_order_in_voucher_usage:
+            increase_voucher_usage(
+                voucher,
+                code_instance,
+                instance.user_email or instance.user and instance.user.email,
+                increase_voucher_customer_usage=False,
+            )
+
+    @classmethod
+    def handle_voucher_removal(cls, instance):
+        """Handle voucher removal from draft order - decrease voucher usage."""
+        if not instance.voucher_code:
+            return
+            
+        # Find the voucher code instance
+        from ....discount import models
+        try:
+            code_instance = models.VoucherCode.objects.get(code=instance.voucher_code)
+            voucher = code_instance.voucher
+            channel = instance.channel
+            
+            if channel.include_draft_order_in_voucher_usage:
+                decrease_voucher_usage(
+                    voucher,
+                    code_instance,
+                    instance.user_email or instance.user and instance.user.email,
+                    decrease_voucher_customer_usage=False,
+                )
+        except models.VoucherCode.DoesNotExist:
+            pass
+>>>>>>> REPLACE
+
+FILE: saleor/graphql/order/mutations/draft_order_update.py
+<<<<<<< SEARCH
+from .draft_order_create import DraftOrderCreate, DraftOrderInput
+=======
+from .draft_order_create import DraftOrderCreate, DraftOrderInput
+from ....discount.utils.voucher import decrease_voucher_usage
+>>>>>>> REPLACE
+
+FILE: saleor/graphql/order/mutations/draft_order_update.py
+<<<<<<< SEARCH
+    @classmethod
+    def save(cls, info: ResolveInfo, instance, cleaned_input):
+        manager = get_plugin_manager_promise(info.context).get()
+        app = get_app_promise(info.context).get()
+        return cls._save_draft_order(
+            info,
+            instance,
+            cleaned_input,
+            is_new_instance=False,
+            app=app,
+            manager=manager,
+        )
+=======
+    @classmethod
+    def save(cls, info: ResolveInfo, instance, cleaned_input):
+        manager = get_plugin_manager_promise(info.context).get()
+        app = get_app_promise(info.context).get()
+        
+        # Handle voucher removal before saving
+        if "voucher" in cleaned_input and cleaned_input["voucher"] is None:
+            cls._handle_voucher_removal_before_update(instance)
+            
+        return cls._save_draft_order(
+            info,
+            instance,
+            cleaned_input,
+            is_new_instance=False,
+            app=app,
+            manager=manager,
+        )
+    
+    @classmethod
+    def _handle_voucher_removal_before_update(cls, instance):
+        """Handle voucher removal from existing draft order before update."""
+        if not instance.voucher_code:
+            return
+            
+        # Find the voucher code instance
+        from ....discount import models
+        try:
+            code_instance = models.VoucherCode.objects.get(code=instance.voucher_code)
+            voucher = code_instance.voucher
+            channel = instance.channel
+            
+            if channel.include_draft_order_in_voucher_usage:
+                decrease_voucher_usage(
+                    voucher,
+                    code_instance,
+                    instance.user_email or instance.user and instance.user.email,
+                    decrease_voucher_customer_usage=False,
+                )
+        except models.VoucherCode.DoesNotExist:
+            pass
+>>>>>>> REPLACE
+
+FILE: saleor/graphql/discount/mutations/voucher/voucher_update.py
+<<<<<<< SEARCH
+from .....discount import models
+from .....discount.error_codes import DiscountErrorCode
+from .....order import models as order_models
+from .....permission.enums import DiscountPermissions
+from .....webhook.event_types import WebhookEventAsyncType
+from ....core import ResolveInfo
+from ....core.types import DiscountError
+from ....core.utils import WebhookEventInfo
+from ....plugins.dataloaders import get_plugin_manager_promise
+from ...types import Voucher
+from .voucher_create import VoucherCreate, VoucherInput
+=======
+from .....discount import models
+from .....discount.error_codes import DiscountErrorCode
+from .....order import models as order_models
+from .....permission.enums import DiscountPermissions
+from .....webhook.event_types import WebhookEventAsyncType
+from ....core import ResolveInfo
+from ....core.types import DiscountError
+from ....core.utils import WebhookEventInfo
+from ....plugins.dataloaders import get_plugin_manager_promise
+from ...types import Voucher
+from .voucher_create import VoucherCreate, VoucherInput
+>>>>>>> REPLACE
