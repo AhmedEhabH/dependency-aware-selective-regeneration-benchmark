@@ -1,0 +1,1563 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="23" skipped="0" tests="198" time="36.546" timestamp="2026-09-30T23:16:08.764118+00:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_create" name="test_transaction_create_with_both_payment_method_details_inputs" time="2.126"><failure message="AssertionError: [{'message': 'Unknown type &quot;CardPaymentMethodDetails&quot;. Perhaps you meant &quot;CardPaymentMethodDetailsInput&quot;, &quot;GenericPaymentMethodDetails&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;OtherPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 44, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type &quot;OtherPaymentMethodDetails&quot;. Perhaps you meant &quot;GenericPaymentMethodDetails&quot;, &quot;OtherPaymentMethodDetailsInput&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;CardPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 53, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">order_with_lines = &lt;Order #UUID('d3c4bb49-63bc-44bc-a7ee-bd645b26f7ed')&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x77f0d5835040&gt;
+
+    def test_transaction_create_with_both_payment_method_details_inputs(
+        order_with_lines,
+        permission_manage_payments,
+        app_api_client,
+    ):
+        # given
+        name = "Credit Card"
+        psp_reference = "PSP reference - 123"
+    
+        authorized_value = Decimal(10)
+    
+        variables = {
+            "id": graphene.Node.to_global_id("Order", order_with_lines.pk),
+            "transaction": {
+                "name": name,
+                "pspReference": psp_reference,
+                "amountAuthorized": {
+                    "amount": authorized_value,
+                    "currency": "USD",
+                },
+                "paymentMethodDetails": {
+                    "other": {
+                        "name": "Other",
+                    },
+                    "card": {
+                        "name": "Name",
+                    },
+                },
+            },
+        }
+    
+        # when
+&gt;       response = app_api_client.post_graphql(
+            MUTATION_TRANSACTION_CREATE, variables, permissions=[permission_manage_payments]
+        )
+
+saleor/graphql/payment/tests/mutations/test_transaction_create.py:2666: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Unknown type "CardPaymentMethodDetails". Perhaps you meant "CardPaymentMethodDetailsInput", "GenericPaymentMethodDetails", "PaymentMethodDetailsInput", "OtherPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 44, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type "OtherPaymentMethodDetails". Perhaps you meant "GenericPaymentMethodDetails", "OtherPaymentMethodDetailsInput", "PaymentMethodDetailsInput", "CardPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 53, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.mutations.test_stored_payment_method_request_delete" name="test_stored_payment_method_request_delete_app_returned_failure_event" time="0.051" /><testcase classname="saleor.graphql.payment.tests.queries.test_payments_filter" name="test_query_payments_filter_by_not_existing_id" time="0.179" /><testcase classname="saleor.graphql.order.tests.mutations.test_order_update_shipping" name="test_order_shipping_update_mutation_properly_recalculate_total" time="0.166" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_method_process_tokenization" name="test_payment_method_process_tokenization_called_by_app" time="0.033" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_capture" name="test_payment_capture_with_invalid_argument" time="0.165" /><testcase classname="saleor.graphql.payment.tests.deprecated.test_checkout_payment_create" name="test_checkout_add_payment_both_token_and_id_given" time="0.158" /><testcase classname="saleor.graphql.translations.tests.mutations.test_category_translate" name="test_category_translate_without_slug" time="0.076" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_gateway_initialize_tokenization" name="test_payment_gateway_initialize_tokenization_called_by_anonymous_user" time="0.032" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_request_action" name="test_transaction_request_charge_for_order[charge_amount0-expected_called_charge_amount0]" time="0.180" /><testcase classname="saleor.graphql.payment.tests.mutations.test_check_payment_balance" name="test_payment_check_balance_validate_not_supported_currency" time="0.033" /><testcase classname="saleor.graphql.warehouse.tests.queries.test_warehouses_filtering" name="test_query_warehouse_with_filters_by_click_and_collect_option[disabled-DISABLED]" time="0.085" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_checkout_fully_authorized[authorization_success]" time="0.559" /><testcase classname="saleor.graphql.payment.tests.benchmark.test_payment_transactions" name="test_payment_transactions" time="0.458" /><testcase classname="saleor.graphql.payment.tests.mutations.test_checkout_payment_create" name="test_create_payment_with_store[ON_SESSION]" time="0.218" /><testcase classname="saleor.graphql.account.tests.queries.test_staff_users_sorting" name="test_query_staff_members_with_sort[customer_sort2-result_order2]" time="0.053" /><testcase classname="saleor.graphql.payment.tests.queries.test_payment_refund" name="test_resolve_available_refund_amount_cannot_refund" time="0.128" /><testcase classname="saleor.graphql.payment.tests.queries.test_payment_capture" name="test_resolve_available_capture_amount" time="0.128" /><testcase classname="saleor.graphql.payment.tests.queries.test_payments_query" name="test_query_payments_by_user_with_access_to_all_channels" time="0.180" /><testcase classname="saleor.graphql.product.tests.queries.test_categories_query" name="test_category_level" time="0.051" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_request_refund_for_granted_refund" name="test_trigger_refund_possible_based_on_status_of_granted_refund[failure]" time="0.196" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_gateway_initialize" name="test_for_checkout_with_multiple_payment_gateways" time="0.412" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_method_initialize_tokenization" name="test_payment_method_initialize_tokenization[expected_input_data3-expected_output_data3]" time="0.042" /><testcase classname="saleor.graphql.checkout.tests.test_checkout_digital" name="test_remove_shipping_method_if_only_digital_in_checkout" time="0.103" /><testcase classname="saleor.graphql.payment.tests.queries.test_payment_sources" name="test_stored_payment_sources_restriction" time="0.063" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_void" name="test_payment_void_success_by_app" time="0.171" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_initialize" name="test_payment_initialize" time="0.029" /><testcase classname="saleor.graphql.webhook.tests.queries.test_event_delivery_query" name="test_webhook_delivery_attempt_query" time="0.065" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_process" name="test_transaction_process_for_disabled_app" time="0.355" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_update" name="test_transaction_update_incorrect_currency_by_app[amountAuthorized-authorized_value]" time="0.479"><failure message="AssertionError: [{'message': 'Unknown type &quot;CardPaymentMethodDetails&quot;. Perhaps you meant &quot;CardPaymentMethodDetailsInput&quot;, &quot;GenericPaymentMethodDetails&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;OtherPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 54, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type &quot;OtherPaymentMethodDetails&quot;. Perhaps you meant &quot;GenericPaymentMethodDetails&quot;, &quot;OtherPaymentMethodDetailsInput&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;CardPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 63, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">amount_field_name = 'amountAuthorized', amount_db_field = 'authorized_value'
+transaction_item_created_by_app = &lt;TransactionItem: TransactionItem object (184)&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x77f0d58bf200&gt;
+
+    @pytest.mark.parametrize(
+        ("amount_field_name", "amount_db_field"),
+        [
+            ("amountAuthorized", "authorized_value"),
+            ("amountCharged", "charged_value"),
+            ("amountCanceled", "canceled_value"),
+            ("amountRefunded", "refunded_value"),
+        ],
+    )
+    def test_transaction_update_incorrect_currency_by_app(
+        amount_field_name,
+        amount_db_field,
+        transaction_item_created_by_app,
+        permission_manage_payments,
+        app_api_client,
+    ):
+        # given
+        transaction = transaction_item_created_by_app
+        expected_value = Decimal(10)
+    
+        variables = {
+            "id": graphene.Node.to_global_id("TransactionItem", transaction.token),
+            "transaction": {
+                amount_field_name: {
+                    "amount": expected_value,
+                    "currency": "PLN",
+                },
+            },
+        }
+    
+        # when
+&gt;       response = app_api_client.post_graphql(
+            MUTATION_TRANSACTION_UPDATE, variables, permissions=[permission_manage_payments]
+        )
+
+saleor/graphql/payment/tests/mutations/test_transaction_update.py:1121: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Unknown type "CardPaymentMethodDetails". Perhaps you meant "CardPaymentMethodDetailsInput", "GenericPaymentMethodDetails", "PaymentMethodDetailsInput", "OtherPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 54, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type "OtherPaymentMethodDetails". Perhaps you meant "GenericPaymentMethodDetails", "OtherPaymentMethodDetailsInput", "PaymentMethodDetailsInput", "CardPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 63, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_event_report" name="test_transaction_event_report_assign_transaction_psp_reference_if_missing[-psp_reference_from_event]" time="0.480"><failure message="AssertionError: [{'message': 'Unknown type &quot;CardPaymentMethodDetails&quot;. Perhaps you meant &quot;CardPaymentMethodDetailsInput&quot;, &quot;GenericPaymentMethodDetails&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;OtherPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 28, 'column': 19}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type &quot;OtherPaymentMethodDetails&quot;. Perhaps you meant &quot;GenericPaymentMethodDetails&quot;, &quot;OtherPaymentMethodDetailsInput&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;CardPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 37, 'column': 19}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">transaction_psp_reference = ''
+expected_transaction_psp_reference = 'psp_reference_from_event'
+transaction_item_generator = &lt;function transaction_item_generator.&lt;locals&gt;.create_transaction at 0x77f0d4a2f7e0&gt;
+app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x77f0d5b949e0&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+
+    @pytest.mark.parametrize(
+        ("transaction_psp_reference", "expected_transaction_psp_reference"),
+        [
+            (None, "psp_reference_from_event"),
+            ("", "psp_reference_from_event"),
+            ("psp_reference_from_transaction", "psp_reference_from_transaction"),
+        ],
+    )
+    def test_transaction_event_report_assign_transaction_psp_reference_if_missing(
+        transaction_psp_reference,
+        expected_transaction_psp_reference,
+        transaction_item_generator,
+        app_api_client,
+        permission_manage_payments,
+    ):
+        # given
+        transaction = transaction_item_generator(
+            authorized_value=Decimal(10), psp_reference=transaction_psp_reference
+        )
+        amount = Decimal("11.00")
+        transaction_id = graphene.Node.to_global_id("TransactionItem", transaction.token)
+        variables = {
+            "id": transaction_id,
+            "type": TransactionEventTypeEnum.CHARGE_SUCCESS.name,
+            "amount": amount,
+            "pspReference": expected_transaction_psp_reference,
+        }
+        query = (
+            MUTATION_DATA_FRAGMENT
+            + """
+        mutation TransactionEventReport(
+            $id: ID
+            $type: TransactionEventTypeEnum!
+            $amount: PositiveDecimal!
+            $pspReference: String!
+        ) {
+            transactionEventReport(
+                id: $id
+                type: $type
+                amount: $amount
+                pspReference: $pspReference
+            ) {
+                ...TransactionEventData
+            }
+        }
+        """
+        )
+        # when
+&gt;       response = app_api_client.post_graphql(
+            query, variables, permissions=[permission_manage_payments]
+        )
+
+saleor/graphql/payment/tests/mutations/test_transaction_event_report.py:2652: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Unknown type "CardPaymentMethodDetails". Perhaps you meant "CardPaymentMethodDetailsInput", "GenericPaymentMethodDetails", "PaymentMethodDetailsInput", "OtherPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 28, 'column': 19}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type "OtherPaymentMethodDetails". Perhaps you meant "GenericPaymentMethodDetails", "OtherPaymentMethodDetailsInput", "PaymentMethodDetailsInput", "CardPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 37, 'column': 19}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.tax.tests.queries.test_tax_classes" name="test_tax_classes_query_staff_user" time="0.034" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_create" name="test_transaction_create_with_invalid_card_payment_method_details[None-None-None-None-12025-None]" time="0.114"><failure message="AssertionError: [{'message': 'Unknown type &quot;CardPaymentMethodDetails&quot;. Perhaps you meant &quot;CardPaymentMethodDetailsInput&quot;, &quot;GenericPaymentMethodDetails&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;OtherPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 44, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type &quot;OtherPaymentMethodDetails&quot;. Perhaps you meant &quot;GenericPaymentMethodDetails&quot;, &quot;OtherPaymentMethodDetailsInput&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;CardPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 53, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">card_brand_length = None, card_first_digits = None, card_last_digits = None
+card_exp_month = None, card_exp_year = 12025, card_name_length = None
+order_with_lines = &lt;Order #UUID('709be886-a456-4b10-b26d-69ba84aea01c')&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x77f0d5ba1880&gt;
+
+    @pytest.mark.parametrize(
+        (
+            "card_brand_length",
+            "card_first_digits",
+            "card_last_digits",
+            "card_exp_month",
+            "card_exp_year",
+            "card_name_length",
+        ),
+        [
+            (41, "12345", "56780", 33, 12025, 257),
+            (41, None, None, None, None, None),
+            (None, "12345", None, None, None, None),
+            (None, None, "56780", None, None, None),
+            (None, None, None, 33, None, None),
+            (None, None, None, None, 12025, None),
+            (None, None, None, None, None, 257),
+        ],
+    )
+    def test_transaction_create_with_invalid_card_payment_method_details(
+        card_brand_length,
+        card_first_digits,
+        card_last_digits,
+        card_exp_month,
+        card_exp_year,
+        card_name_length,
+        order_with_lines,
+        permission_manage_payments,
+        app_api_client,
+    ):
+        # given
+        name = "Credit Card"
+        psp_reference = "PSP reference - 123"
+    
+        authorized_value = Decimal(10)
+    
+        variables = {
+            "id": graphene.Node.to_global_id("Order", order_with_lines.pk),
+            "transaction": {
+                "name": name,
+                "pspReference": psp_reference,
+                "amountAuthorized": {
+                    "amount": authorized_value,
+                    "currency": "USD",
+                },
+                "paymentMethodDetails": {
+                    "card": {
+                        "name": "N" * (card_name_length or 0),
+                        "brand": "B" * (card_brand_length or 0),
+                        "firstDigits": card_first_digits,
+                        "lastDigits": card_last_digits,
+                        "expMonth": card_exp_month,
+                        "expYear": card_exp_year,
+                    }
+                },
+            },
+        }
+    
+        # when
+&gt;       response = app_api_client.post_graphql(
+            MUTATION_TRANSACTION_CREATE, variables, permissions=[permission_manage_payments]
+        )
+
+saleor/graphql/payment/tests/mutations/test_transaction_create.py:2737: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Unknown type "CardPaymentMethodDetails". Perhaps you meant "CardPaymentMethodDetailsInput", "GenericPaymentMethodDetails", "PaymentMethodDetailsInput", "OtherPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 44, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type "OtherPaymentMethodDetails". Perhaps you meant "GenericPaymentMethodDetails", "OtherPaymentMethodDetailsInput", "PaymentMethodDetailsInput", "CardPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 53, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.mutations.test_stored_payment_method_request_delete" name="test_stored_payment_method_request_delete_called_by_app" time="0.028" /><testcase classname="saleor.graphql.product.tests.queries.test_product_variants_query" name="test_fetch_all_variants_staff_user_without_channel" time="0.083" /><testcase classname="saleor.graphql.payment.tests.queries.test_payments_filter" name="test_query_payments_filter_by_empty_id_list" time="0.156" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_method_process_tokenization" name="test_payment_method_process_tokenization[None-None]" time="0.037" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_capture" name="test_payment_capture_success_by_user_no_channel_access" time="0.164" /><testcase classname="saleor.graphql.shipping.tests.mutations.test_shipping_method_channel_listing_update" name="test_shipping_method_channel_listing_update_with_negative_min_value" time="0.044" /><testcase classname="saleor.graphql.payment.tests.deprecated.test_checkout_payment_create" name="test_checkout_add_payment_neither_token_and_id_given" time="0.137" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_gateway_initialize_tokenization" name="test_payment_gateway_initialize_tokenization_failure_from_app" time="0.041" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_request_action" name="test_transaction_request_refund_for_checkout[refund_amount2-expected_called_refund_amount2]" time="0.082" /><testcase classname="saleor.graphql.app.tests.queries.test_app" name="test_app_query_breaker_last_change_board_disabled" time="0.078" /><testcase classname="saleor.graphql.payment.tests.mutations.test_check_payment_balance" name="test_payment_check_balance_balance_raises_error" time="0.030" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_checkout_fully_paid[charge_success]" time="0.562" /><testcase classname="saleor.graphql.payment.tests.mutations.test_checkout_payment_create" name="test_checkout_add_payment_checkout_without_lines" time="0.160" /><testcase classname="saleor.graphql.menu.tests.queries.test_menu_item" name="test_staff_query_menu_item_by_invalid_id" time="0.045" /><testcase classname="saleor.graphql.payment.tests.queries.test_payment_refund" name="test_resolve_available_refund_amount" time="0.138" /><testcase classname="saleor.graphql.payment.tests.queries.test_payment_capture" name="test_resolve_available_capture_amount_cannot_capture" time="0.124" /><testcase classname="saleor.graphql.payment.tests.queries.test_payments_query" name="test_query_payment" time="0.139" /><testcase classname="saleor.graphql.product.tests.mutations.test_collection_add_products" name="test_add_products_to_collection_on_sale_trigger_discounted_price_recalculation" time="0.197" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_request_refund_for_granted_refund" name="test_granted_refund_doesnt_exist" time="0.143" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_gateway_initialize" name="test_for_order_with_tax_app" time="0.353" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_method_initialize_tokenization" name="test_payment_method_initialize_tokenization_called_by_anonymous_user" time="0.028" /><testcase classname="saleor.graphql.shop.tests.mutations.test_shop_domain_update" name="test_shop_domain_update" time="0.066" /><testcase classname="saleor.graphql.payment.tests.queries.test_payment_sources" name="test_store_payment_gateway_meta" time="0.025" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_void" name="test_payment_void_success" time="0.190" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_initialize" name="test_payment_initialize_plugin_raises_error" time="0.282" /><testcase classname="saleor.graphql.product.tests.benchmark.test_homepage" name="test_retrieve_product_list" time="0.079" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_process" name="test_with_customer_ip_address" time="0.453" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_update" name="test_transaction_update_for_order_reduces_order_total_authorized_by_app" time="0.135"><failure message="AssertionError: [{'message': 'Unknown type &quot;CardPaymentMethodDetails&quot;. Perhaps you meant &quot;CardPaymentMethodDetailsInput&quot;, &quot;GenericPaymentMethodDetails&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;OtherPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 54, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type &quot;OtherPaymentMethodDetails&quot;. Perhaps you meant &quot;GenericPaymentMethodDetails&quot;, &quot;OtherPaymentMethodDetailsInput&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;CardPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 63, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">order_with_lines = &lt;Order #UUID('7f909599-b8d5-44a4-94cb-d54a8f44ddd6')&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x77f0d52736e0&gt;
+transaction_item_generator = &lt;function transaction_item_generator.&lt;locals&gt;.create_transaction at 0x77f0d4ab47c0&gt;
+app = &lt;App: Sample app objects&gt;
+
+    def test_transaction_update_for_order_reduces_order_total_authorized_by_app(
+        order_with_lines,
+        permission_manage_payments,
+        app_api_client,
+        transaction_item_generator,
+        app,
+    ):
+        # given
+        transaction = transaction_item_generator(
+            order_id=order_with_lines.pk,
+            app=app,
+            authorized_value=Decimal(10),
+        )
+        previously_authorized_value = Decimal(90)
+        transaction_item_generator(
+            order_id=order_with_lines.pk,
+            app=app,
+            authorized_value=previously_authorized_value,
+        )
+    
+        authorized_value = transaction.authorized_value - Decimal(5)
+    
+        variables = {
+            "id": graphene.Node.to_global_id("TransactionItem", transaction.token),
+            "transaction": {
+                "amountAuthorized": {
+                    "amount": authorized_value,
+                    "currency": "USD",
+                },
+            },
+        }
+    
+        # when
+&gt;       response = app_api_client.post_graphql(
+            MUTATION_TRANSACTION_UPDATE, variables, permissions=[permission_manage_payments]
+        )
+
+saleor/graphql/payment/tests/mutations/test_transaction_update.py:793: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Unknown type "CardPaymentMethodDetails". Perhaps you meant "CardPaymentMethodDetailsInput", "GenericPaymentMethodDetails", "PaymentMethodDetailsInput", "OtherPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 54, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type "OtherPaymentMethodDetails". Perhaps you meant "GenericPaymentMethodDetails", "OtherPaymentMethodDetailsInput", "PaymentMethodDetailsInput", "CardPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 63, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_event_report" name="test_transaction_event_report_with_card_payment_method_details[None-1111-0000-1-2001]" time="0.470"><failure message="AssertionError: [{'message': 'Unknown type &quot;CardPaymentMethodDetails&quot;. Perhaps you meant &quot;CardPaymentMethodDetailsInput&quot;, &quot;GenericPaymentMethodDetails&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;OtherPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 28, 'column': 19}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type &quot;OtherPaymentMethodDetails&quot;. Perhaps you meant &quot;GenericPaymentMethodDetails&quot;, &quot;OtherPaymentMethodDetailsInput&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;CardPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 37, 'column': 19}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">card_brand = None, card_first_digits = '1111', card_last_digits = '0000'
+card_exp_month = 1, card_exp_year = 2001
+transaction_item_generator = &lt;function transaction_item_generator.&lt;locals&gt;.create_transaction at 0x77f0d4a36a20&gt;
+app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x77f0d571caa0&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+
+    @pytest.mark.parametrize(
+        (
+            "card_brand",
+            "card_first_digits",
+            "card_last_digits",
+            "card_exp_month",
+            "card_exp_year",
+        ),
+        [
+            ("Brand", "1234", "5678", 12, 2025),
+            (None, "1111", "0000", 1, 2001),
+            (None, None, None, None, None),
+            ("", "", "", None, None),
+            (None, None, "1234", None, None),
+        ],
+    )
+    def test_transaction_event_report_with_card_payment_method_details(
+        card_brand,
+        card_first_digits,
+        card_last_digits,
+        card_exp_month,
+        card_exp_year,
+        transaction_item_generator,
+        app_api_client,
+        permission_manage_payments,
+    ):
+        # given
+        transaction = transaction_item_generator(
+            app=app_api_client.app, authorized_value=Decimal(10)
+        )
+        transaction.payment_method_type = PaymentMethodType.CARD
+        transaction.payment_method_name = "Payment Method Name"
+        transaction.cc_brand = None
+        transaction.cc_first_digits = "1111"
+        transaction.cc_last_digits = "0000"
+        transaction.cc_exp_month = 6
+        transaction.cc_exp_year = 2010
+        transaction.save()
+    
+        psp_reference = "111-abc"
+        amount = Decimal("11.00")
+        transaction_id = graphene.Node.to_global_id("TransactionItem", transaction.token)
+    
+        card_name = "Payment Method Name"
+    
+        variables = {
+            "id": transaction_id,
+            "type": TransactionEventTypeEnum.CHARGE_SUCCESS.name,
+            "amount": amount,
+            "pspReference": psp_reference,
+            "paymentMethodDetails": {
+                "card": {
+                    "name": card_name,
+                    "brand": card_brand,
+                    "firstDigits": card_first_digits,
+                    "lastDigits": card_last_digits,
+                    "expMonth": card_exp_month,
+                    "expYear": card_exp_year,
+                }
+            },
+        }
+        # when
+&gt;       response = app_api_client.post_graphql(
+            TRANSACTION_EVENT_REPORT_WITH_CARD_PAYMENT_METHOD_DETAILS_QUERY,
+            variables,
+            permissions=[permission_manage_payments],
+        )
+
+saleor/graphql/payment/tests/mutations/test_transaction_event_report.py:3629: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Unknown type "CardPaymentMethodDetails". Perhaps you meant "CardPaymentMethodDetailsInput", "GenericPaymentMethodDetails", "PaymentMethodDetailsInput", "OtherPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 28, 'column': 19}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type "OtherPaymentMethodDetails". Perhaps you meant "GenericPaymentMethodDetails", "OtherPaymentMethodDetailsInput", "PaymentMethodDetailsInput", "CardPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 37, 'column': 19}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.app.tests.mutations.test_app_retry_install" name="test_retry_install_app_mutation_with_another_app_installed_but_marked_to_be_removed" time="0.053" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_refund" name="test_payment_refund_error" time="0.199" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_create" name="test_transaction_create_incorrect_currency_by_staff[amountCharged-charged_value]" time="0.132"><failure message="AssertionError: [{'message': 'Unknown type &quot;CardPaymentMethodDetails&quot;. Perhaps you meant &quot;CardPaymentMethodDetailsInput&quot;, &quot;GenericPaymentMethodDetails&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;OtherPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 44, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type &quot;OtherPaymentMethodDetails&quot;. Perhaps you meant &quot;GenericPaymentMethodDetails&quot;, &quot;OtherPaymentMethodDetailsInput&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;CardPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 53, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">amount_field_name = 'amountCharged', amount_db_field = 'charged_value'
+order_with_lines = &lt;Order #UUID('8052bc0f-4459-4648-8279-a92140e1bdfe')&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x77f0d5811d90&gt;
+
+    @pytest.mark.parametrize(
+        ("amount_field_name", "amount_db_field"),
+        [
+            ("amountAuthorized", "authorized_value"),
+            ("amountCharged", "charged_value"),
+            ("amountCanceled", "canceled_value"),
+            ("amountRefunded", "refunded_value"),
+        ],
+    )
+    def test_transaction_create_incorrect_currency_by_staff(
+        amount_field_name,
+        amount_db_field,
+        order_with_lines,
+        permission_manage_payments,
+        staff_api_client,
+    ):
+        # given
+        name = "Credit Card"
+        psp_reference = "PSP reference - 123"
+        expected_value = Decimal(10)
+    
+        variables = {
+            "id": graphene.Node.to_global_id("Order", order_with_lines.pk),
+            "transaction": {
+                "name": name,
+                "pspReference": psp_reference,
+                "availableActions": [],
+                amount_field_name: {
+                    "amount": expected_value,
+                    "currency": "PLN",
+                },
+            },
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            MUTATION_TRANSACTION_CREATE, variables, permissions=[permission_manage_payments]
+        )
+
+saleor/graphql/payment/tests/mutations/test_transaction_create.py:1656: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Unknown type "CardPaymentMethodDetails". Perhaps you meant "CardPaymentMethodDetailsInput", "GenericPaymentMethodDetails", "PaymentMethodDetailsInput", "OtherPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 44, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type "OtherPaymentMethodDetails". Perhaps you meant "GenericPaymentMethodDetails", "OtherPaymentMethodDetailsInput", "PaymentMethodDetailsInput", "CardPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 53, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.mutations.test_stored_payment_method_request_delete" name="test_stored_payment_method_request_delete" time="0.043" /><testcase classname="saleor.graphql.account.tests.queries.test_permission_group" name="test_app_no_permission_query_group_federation" time="0.031" /><testcase classname="saleor.graphql.payment.tests.queries.test_payments_filter" name="test_query_payments_filter_by_checkout" time="0.196" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_method_process_tokenization" name="test_payment_method_process_tokenization_called_by_anonymous_user" time="0.033" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_capture" name="test_payment_capture_gateway_error" time="0.210" /><testcase classname="saleor.graphql.shipping.tests.mutations.test_shipping_price_remove_product_from_exclude" name="test_remove_products_from_excluded_products_for_shipping_method_trigger_webhook[app]" time="0.352" /><testcase classname="saleor.graphql.payment.tests.deprecated.test_checkout_payment_create" name="test_checkout_add_payment_by_checkout_id" time="0.210" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_gateway_initialize_tokenization" name="test_payment_gateway_initialize_tokenization[expected_input_data2-None]" time="0.037" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_request_action" name="test_transaction_request_refund_for_order[refund_amount0-expected_called_refund_amount0]" time="0.163" /><testcase classname="saleor.graphql.account.tests.queries.test_customers_where_filtering" name="test_customers_filter_by_ids" time="0.067" /><testcase classname="saleor.graphql.payment.tests.mutations.test_check_payment_balance" name="test_payment_check_balance_payment" time="0.031" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_for_order_with_tax_app" time="0.345" /><testcase classname="saleor.graphql.checkout.tests.mutations.test_checkout_remove_promo_code" name="test_checkout_remove_promo_code_invalid_object_type" time="0.200" /><testcase classname="saleor.graphql.payment.tests.queries.test_payments_query" name="test_staff_query_payment_with_invalid_object_type" time="0.157" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_request_refund_for_granted_refund" name="test_triggers_refund_request_for_app_via_token" time="0.183" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_gateway_initialize" name="test_for_checkout_with_missing_payment_gateway" time="0.408" /><testcase classname="saleor.graphql.shop.tests.queries.test_gift_card_settings" name="test_gift_card_settings_query_as_staff" time="0.040" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_method_initialize_tokenization" name="test_payment_method_initialize_tokenization_failure_from_app" time="0.038" /><testcase classname="saleor.graphql.payment.tests.queries.test_payment_sources" name="test_list_payment_sources" time="0.043" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_void" name="test_payment_void_gateway_error" time="0.176" /><testcase classname="saleor.graphql.order.tests.queries.test_pagination" name="test_order_query_pagination_with_filter_payment_status[orders_filter5-0-fully-refunded-orders_order5]" time="0.207" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_initialize" name="test_payment_initialize_gateway_doesnt_exist" time="0.034" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_process" name="test_request_event_is_missing" time="0.139" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_update" name="test_transaction_update_metadata_by_app" time="0.045"><failure message="AssertionError: [{'message': 'Unknown type &quot;CardPaymentMethodDetails&quot;. Perhaps you meant &quot;CardPaymentMethodDetailsInput&quot;, &quot;GenericPaymentMethodDetails&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;OtherPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 54, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type &quot;OtherPaymentMethodDetails&quot;. Perhaps you meant &quot;GenericPaymentMethodDetails&quot;, &quot;OtherPaymentMethodDetailsInput&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;CardPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 63, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">transaction_item_created_by_app = &lt;TransactionItem: TransactionItem object (197)&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x77f0d61e79b0&gt;
+
+    def test_transaction_update_metadata_by_app(
+        transaction_item_created_by_app, permission_manage_payments, app_api_client
+    ):
+        # given
+        transaction = transaction_item_created_by_app
+    
+        meta_key = "key-name"
+        meta_value = "key_value"
+        variables = {
+            "id": graphene.Node.to_global_id("TransactionItem", transaction.token),
+            "transaction": {
+                "metadata": [{"key": meta_key, "value": meta_value}],
+            },
+        }
+    
+        # when
+&gt;       response = app_api_client.post_graphql(
+            MUTATION_TRANSACTION_UPDATE, variables, permissions=[permission_manage_payments]
+        )
+
+saleor/graphql/payment/tests/mutations/test_transaction_update.py:253: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Unknown type "CardPaymentMethodDetails". Perhaps you meant "CardPaymentMethodDetailsInput", "GenericPaymentMethodDetails", "PaymentMethodDetailsInput", "OtherPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 54, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type "OtherPaymentMethodDetails". Perhaps you meant "GenericPaymentMethodDetails", "OtherPaymentMethodDetailsInput", "PaymentMethodDetailsInput", "CardPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 63, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.plugins.tests.test_mutation_plugin_update" name="test_plugin_configuration_update_channel_slug_required" time="0.047" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_event_report" name="test_transaction_event_report_for_order_triggers_webhooks_when_fully_authorized" time="0.131"><failure message="AssertionError: [{'message': 'Unknown type &quot;CardPaymentMethodDetails&quot;. Perhaps you meant &quot;CardPaymentMethodDetailsInput&quot;, &quot;GenericPaymentMethodDetails&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;OtherPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 28, 'column': 19}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type &quot;OtherPaymentMethodDetails&quot;. Perhaps you meant &quot;GenericPaymentMethodDetails&quot;, &quot;OtherPaymentMethodDetailsInput&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;CardPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 37, 'column': 19}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">mock_order_fully_paid = &lt;MagicMock name='order_fully_paid' id='131876258450944'&gt;
+mock_order_updated = &lt;MagicMock name='order_updated' id='131876257020000'&gt;
+transaction_item_generator = &lt;function transaction_item_generator.&lt;locals&gt;.create_transaction at 0x77f0d4a6eca0&gt;
+app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x77f0d6455400&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+order_with_lines = &lt;Order #UUID('34c68fe1-ec84-4f07-8a70-803e8d24004e')&gt;
+
+    @patch("saleor.plugins.manager.PluginsManager.order_updated")
+    @patch("saleor.plugins.manager.PluginsManager.order_fully_paid")
+    def test_transaction_event_report_for_order_triggers_webhooks_when_fully_authorized(
+        mock_order_fully_paid,
+        mock_order_updated,
+        transaction_item_generator,
+        app_api_client,
+        permission_manage_payments,
+        order_with_lines,
+    ):
+        # given
+        order = order_with_lines
+        psp_reference = "111-abc"
+        transaction = transaction_item_generator(app=app_api_client.app, order_id=order.pk)
+        transaction_id = graphene.Node.to_global_id("TransactionItem", transaction.token)
+        variables = {
+            "id": transaction_id,
+            "type": TransactionEventTypeEnum.AUTHORIZATION_SUCCESS.name,
+            "amount": order.total.gross.amount,
+            "pspReference": psp_reference,
+        }
+        query = (
+            MUTATION_DATA_FRAGMENT
+            + """
+        mutation TransactionEventReport(
+            $id: ID
+            $type: TransactionEventTypeEnum!
+            $amount: PositiveDecimal!
+            $pspReference: String!
+        ) {
+            transactionEventReport(
+                id: $id
+                type: $type
+                amount: $amount
+                pspReference: $pspReference
+            ) {
+                ...TransactionEventData
+            }
+        }
+        """
+        )
+        # when
+&gt;       response = app_api_client.post_graphql(
+            query, variables, permissions=[permission_manage_payments]
+        )
+
+saleor/graphql/payment/tests/mutations/test_transaction_event_report.py:2408: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Unknown type "CardPaymentMethodDetails". Perhaps you meant "CardPaymentMethodDetailsInput", "GenericPaymentMethodDetails", "PaymentMethodDetailsInput", "OtherPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 28, 'column': 19}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type "OtherPaymentMethodDetails". Perhaps you meant "GenericPaymentMethodDetails", "OtherPaymentMethodDetailsInput", "PaymentMethodDetailsInput", "CardPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 37, 'column': 19}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_refund" name="test_payment_refund_success_by_app" time="0.215" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_create" name="test_transaction_create_amount_with_lot_of_decimal_places[amountRefunded-refundedAmount-refunded_value]" time="0.118"><failure message="AssertionError: [{'message': 'Unknown type &quot;CardPaymentMethodDetails&quot;. Perhaps you meant &quot;CardPaymentMethodDetailsInput&quot;, &quot;GenericPaymentMethodDetails&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;OtherPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 44, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type &quot;OtherPaymentMethodDetails&quot;. Perhaps you meant &quot;GenericPaymentMethodDetails&quot;, &quot;OtherPaymentMethodDetailsInput&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;CardPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 53, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">amount_field_name = 'amountRefunded', transaction_field_name = 'refundedAmount'
+amount_db_field = 'refunded_value'
+order_with_lines = &lt;Order #UUID('5c5bc4d5-a1bc-4ae2-9943-169c22088682')&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x77f0d5a2a420&gt;
+
+    @pytest.mark.parametrize(
+        ("amount_field_name", "transaction_field_name", "amount_db_field"),
+        [
+            ("amountAuthorized", "authorizedAmount", "authorized_value"),
+            ("amountCharged", "chargedAmount", "charged_value"),
+            ("amountCanceled", "canceledAmount", "canceled_value"),
+            ("amountRefunded", "refundedAmount", "refunded_value"),
+        ],
+    )
+    def test_transaction_create_amount_with_lot_of_decimal_places(
+        amount_field_name,
+        transaction_field_name,
+        amount_db_field,
+        order_with_lines,
+        permission_manage_payments,
+        app_api_client,
+    ):
+        # given
+        psp_reference = "PSP reference - 123"
+        available_actions = [
+            TransactionActionEnum.CHARGE.name,
+            TransactionActionEnum.CANCEL.name,
+            TransactionActionEnum.CHARGE.name,
+        ]
+        value = Decimal("9.88789999")
+        external_url = f"http://{TEST_SERVER_DOMAIN}/external-url"
+    
+        variables = {
+            "id": graphene.Node.to_global_id("Order", order_with_lines.pk),
+            "transaction": {
+                "name": "Credit Card",
+                "pspReference": psp_reference,
+                "availableActions": available_actions,
+                amount_field_name: {
+                    "amount": value,
+                    "currency": "USD",
+                },
+                "externalUrl": external_url,
+            },
+        }
+    
+        # when
+&gt;       response = app_api_client.post_graphql(
+            MUTATION_TRANSACTION_CREATE, variables, permissions=[permission_manage_payments]
+        )
+
+saleor/graphql/payment/tests/mutations/test_transaction_create.py:2365: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Unknown type "CardPaymentMethodDetails". Perhaps you meant "CardPaymentMethodDetailsInput", "GenericPaymentMethodDetails", "PaymentMethodDetailsInput", "OtherPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 44, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type "OtherPaymentMethodDetails". Perhaps you meant "GenericPaymentMethodDetails", "OtherPaymentMethodDetailsInput", "PaymentMethodDetailsInput", "CardPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 53, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.account.tests.mutations.authentication.test_external_logout" name="test_external_logout" time="0.030" /><testcase classname="saleor.graphql.payment.tests.mutations.test_stored_payment_method_request_delete" name="test_stored_payment_method_request_delete_incorrect_channel" time="0.034" /><testcase classname="saleor.graphql.payment.tests.queries.test_payments_filter" name="test_query_payments_filter_by_multiple_ids" time="0.157" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_method_process_tokenization" name="test_payment_method_process_tokenization_failure_from_app" time="0.039" /><testcase classname="saleor.graphql.discount.tests.deprecated.test_voucher" name="test_staff_query_voucher_by_invalid_id" time="0.061" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_capture" name="test_payment_capture_success" time="0.192" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_gateway_initialize_tokenization" name="test_payment_gateway_initialize_tokenization_called_by_app" time="0.030" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_request_action" name="test_transaction_request_action_missing_permission" time="0.124" /><testcase classname="saleor.graphql.page.tests.deprecated.test_page_sorting" name="test_query_pages_with_sort[page_sort9-result_order9]" time="0.186" /><testcase classname="saleor.graphql.payment.tests.mutations.test_check_payment_balance" name="test_payment_check_balance_validate_channel_does_not_exist" time="0.026" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_checkout_fully_paid[charge_request]" time="0.552" /><testcase classname="saleor.graphql.payment.tests.mutations.test_checkout_payment_create" name="test_create_payment_with_metadata[metadata1]" time="0.201" /><testcase classname="saleor.graphql.order.tests.queries.test_order_line" name="test_order_query_product_image_size_and_format_given_proxy_url_returned" time="0.173" /><testcase classname="saleor.graphql.payment.tests.queries.test_payments_query" name="test_query_payments_failed_payment" time="0.160" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_request_refund_for_granted_refund" name="test_missing_assigned_webhook_event" time="0.168" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_gateway_initialize" name="test_for_checkout_with_shipping_app" time="0.574" /><testcase classname="saleor.graphql.account.tests.mutations.authentication.test_token_verify" name="test_verify_access_token" time="0.043" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_method_initialize_tokenization" name="test_payment_method_initialize_tokenization_not_app_or_plugin_subscribed_to_event" time="0.036" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_void" name="test_payment_void_success_by_user_no_channel_access" time="0.164" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_process" name="test_draft_order_status_with_order_confirmation[True]" time="0.246" /><testcase classname="saleor.graphql.giftcard.tests.queries.test_gift_card_search" name="test_query_gift_cards_with_search[banana-indexes2]" time="0.081" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_update" name="test_transaction_update_for_draft_order_triggers_webhooks_when_fully_paid[False]" time="0.126"><failure message="AssertionError: [{'message': 'Unknown type &quot;CardPaymentMethodDetails&quot;. Perhaps you meant &quot;CardPaymentMethodDetailsInput&quot;, &quot;GenericPaymentMethodDetails&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;OtherPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 54, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type &quot;OtherPaymentMethodDetails&quot;. Perhaps you meant &quot;GenericPaymentMethodDetails&quot;, &quot;OtherPaymentMethodDetailsInput&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;CardPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 63, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">mock_order_fully_paid = &lt;MagicMock name='order_fully_paid' id='131876236957440'&gt;
+mock_order_updated = &lt;MagicMock name='order_updated' id='131876236962048'&gt;
+mock_order_paid = &lt;MagicMock name='order_paid' id='131876237708656'&gt;
+auto_order_confirmation = False
+draft_order = &lt;Order #UUID('3bf4f1b8-340c-4e05-8368-32dfe9f1139e')&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x77f0d4420500&gt;
+app = &lt;App: Sample app objects&gt;
+transaction_item_generator = &lt;function transaction_item_generator.&lt;locals&gt;.create_transaction at 0x77f0d4c99da0&gt;
+
+    @pytest.mark.parametrize(
+        "auto_order_confirmation",
+        [True, False],
+    )
+    @patch("saleor.plugins.manager.PluginsManager.order_paid")
+    @patch("saleor.plugins.manager.PluginsManager.order_updated")
+    @patch("saleor.plugins.manager.PluginsManager.order_fully_paid")
+    def test_transaction_update_for_draft_order_triggers_webhooks_when_fully_paid(
+        mock_order_fully_paid,
+        mock_order_updated,
+        mock_order_paid,
+        auto_order_confirmation,
+        draft_order,
+        permission_manage_payments,
+        app_api_client,
+        app,
+        transaction_item_generator,
+    ):
+        # given
+        order = draft_order
+        order.channel.automatically_confirm_all_new_orders = auto_order_confirmation
+        order.channel.save(update_fields=["automatically_confirm_all_new_orders"])
+        current_authorized_value = Decimal(1)
+        current_charged_value = Decimal(2)
+        transaction = transaction_item_generator(
+            order_id=order.pk,
+            app=app,
+            authorized_value=current_authorized_value,
+            charged_value=current_charged_value,
+        )
+    
+        variables = {
+            "id": graphene.Node.to_global_id("TransactionItem", transaction.token),
+            "transaction": {
+                "amountCharged": {
+                    "amount": order.total.gross.amount,
+                    "currency": "USD",
+                },
+            },
+        }
+    
+        # when
+&gt;       response = app_api_client.post_graphql(
+            MUTATION_TRANSACTION_UPDATE, variables, permissions=[permission_manage_payments]
+        )
+
+saleor/graphql/payment/tests/mutations/test_transaction_update.py:3075: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Unknown type "CardPaymentMethodDetails". Perhaps you meant "CardPaymentMethodDetailsInput", "GenericPaymentMethodDetails", "PaymentMethodDetailsInput", "OtherPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 54, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type "OtherPaymentMethodDetails". Perhaps you meant "GenericPaymentMethodDetails", "OtherPaymentMethodDetailsInput", "PaymentMethodDetailsInput", "CardPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 63, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_event_report" name="test_transaction_event_updates_checkout_full_paid_with_charged_amount" time="0.324"><failure message="AssertionError: [{'message': 'Unknown type &quot;CardPaymentMethodDetails&quot;. Perhaps you meant &quot;CardPaymentMethodDetailsInput&quot;, &quot;GenericPaymentMethodDetails&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;OtherPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 28, 'column': 19}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type &quot;OtherPaymentMethodDetails&quot;. Perhaps you meant &quot;GenericPaymentMethodDetails&quot;, &quot;OtherPaymentMethodDetailsInput&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;CardPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 37, 'column': 19}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">mocked_fully_paid = &lt;MagicMock name='checkout_fully_paid' id='131876260110768'&gt;
+mocked_automatic_checkout_completion_task = &lt;MagicMock name='delay' id='131876238443344'&gt;
+transaction_item_generator = &lt;function transaction_item_generator.&lt;locals&gt;.create_transaction at 0x77f0d454e2a0&gt;
+app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x77f0d44a77a0&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+checkout_with_items = &lt;Checkout: Checkout object (3259f26e-9e02-43fb-a6df-e54b97ff0497)&gt;
+plugins_manager = &lt;saleor.plugins.manager.PluginsManager object at 0x77f0d639e0f0&gt;
+
+    @patch("saleor.checkout.tasks.automatic_checkout_completion_task.delay")
+    @patch("saleor.plugins.manager.PluginsManager.checkout_fully_paid")
+    def test_transaction_event_updates_checkout_full_paid_with_charged_amount(
+        mocked_fully_paid,
+        mocked_automatic_checkout_completion_task,
+        transaction_item_generator,
+        app_api_client,
+        permission_manage_payments,
+        checkout_with_items,
+        plugins_manager,
+    ):
+        # given
+        checkout = checkout_with_items
+    
+        lines, _ = fetch_checkout_lines(checkout)
+        checkout_info = fetch_checkout_info(checkout, lines, plugins_manager)
+        checkout_info, _ = fetch_checkout_data(checkout_info, plugins_manager, lines)
+    
+        assert checkout.channel.automatically_complete_fully_paid_checkouts is False
+    
+        psp_reference = "111-abc"
+        transaction = transaction_item_generator(
+            app=app_api_client.app, checkout_id=checkout.pk
+        )
+        transaction_item_generator(
+            app=app_api_client.app,
+            checkout_id=checkout.pk,
+        )
+        transaction_id = graphene.Node.to_global_id("TransactionItem", transaction.token)
+        variables = {
+            "id": transaction_id,
+            "type": TransactionEventTypeEnum.CHARGE_SUCCESS.name,
+            "amount": checkout_info.checkout.total.gross.amount,
+            "pspReference": psp_reference,
+        }
+        query = (
+            MUTATION_DATA_FRAGMENT
+            + """
+        mutation TransactionEventReport(
+            $id: ID
+            $type: TransactionEventTypeEnum!
+            $amount: PositiveDecimal!
+            $pspReference: String!
+        ) {
+            transactionEventReport(
+                id: $id
+                type: $type
+                amount: $amount
+                pspReference: $pspReference
+            ) {
+                ...TransactionEventData
+            }
+        }
+        """
+        )
+        # when
+&gt;       response = app_api_client.post_graphql(
+            query, variables, permissions=[permission_manage_payments]
+        )
+
+saleor/graphql/payment/tests/mutations/test_transaction_event_report.py:1447: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Unknown type "CardPaymentMethodDetails". Perhaps you meant "CardPaymentMethodDetailsInput", "GenericPaymentMethodDetails", "PaymentMethodDetailsInput", "OtherPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 28, 'column': 19}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type "OtherPaymentMethodDetails". Perhaps you meant "GenericPaymentMethodDetails", "OtherPaymentMethodDetailsInput", "PaymentMethodDetailsInput", "CardPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 37, 'column': 19}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_refund" name="test_payment_refund_success" time="0.231" /><testcase classname="saleor.graphql.giftcard.tests.mutations.test_gift_card_create" name="test_create_gift_card_with_expiry_date_type_invalid[date_value1]" time="0.065" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_create" name="test_transaction_create_empty_private_metadata_key_by_staff" time="0.117"><failure message="AssertionError: [{'message': 'Unknown type &quot;CardPaymentMethodDetails&quot;. Perhaps you meant &quot;CardPaymentMethodDetailsInput&quot;, &quot;GenericPaymentMethodDetails&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;OtherPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 44, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type &quot;OtherPaymentMethodDetails&quot;. Perhaps you meant &quot;GenericPaymentMethodDetails&quot;, &quot;OtherPaymentMethodDetailsInput&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;CardPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 53, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">order_with_lines = &lt;Order #UUID('1f40e719-fa4f-492c-b346-769cf762a3fd')&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x77f0d43c8590&gt;
+
+    def test_transaction_create_empty_private_metadata_key_by_staff(
+        order_with_lines, permission_manage_payments, staff_api_client
+    ):
+        # given
+        name = "Credit Card"
+        psp_reference = "PSP reference - 123"
+        available_actions = [
+            TransactionActionEnum.CHARGE.name,
+        ]
+        authorized_value = Decimal(10)
+        metadata = {"key": "test-1", "value": "123"}
+        private_metadata = {"key": "", "value": "321"}
+        variables = {
+            "id": graphene.Node.to_global_id("Order", order_with_lines.pk),
+            "transaction": {
+                "name": name,
+                "pspReference": psp_reference,
+                "availableActions": available_actions,
+                "amountAuthorized": {
+                    "amount": authorized_value,
+                    "currency": "USD",
+                },
+                "metadata": [metadata],
+                "privateMetadata": [private_metadata],
+            },
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            MUTATION_TRANSACTION_CREATE, variables, permissions=[permission_manage_payments]
+        )
+
+saleor/graphql/payment/tests/mutations/test_transaction_create.py:1738: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Unknown type "CardPaymentMethodDetails". Perhaps you meant "CardPaymentMethodDetailsInput", "GenericPaymentMethodDetails", "PaymentMethodDetailsInput", "OtherPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 44, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type "OtherPaymentMethodDetails". Perhaps you meant "GenericPaymentMethodDetails", "OtherPaymentMethodDetailsInput", "PaymentMethodDetailsInput", "CardPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 53, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.mutations.test_stored_payment_method_request_delete" name="test_stored_payment_method_request_delete_not_app_or_plugin_subscribed_to_event" time="0.041" /><testcase classname="saleor.graphql.payment.tests.queries.test_payments_filter" name="test_query_payments_filter_by_one_id" time="0.154" /><testcase classname="saleor.graphql.tests.test_middleware" name="test_middleware_invalid_name" time="0.031" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_method_process_tokenization" name="test_payment_method_process_tokenization_incorrect_channel" time="0.034" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_capture" name="test_payment_capture_gateway_dummy_credit_card_error" time="0.191" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_gateway_initialize_tokenization" name="test_payment_gateway_initialize_tokenization[expected_input_data3-expected_output_data3]" time="0.035" /><testcase classname="saleor.graphql.product.tests.test_bulk_delete" name="test_delete_product_types_with_file_attributes" time="0.268" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_request_action" name="test_transaction_request_charge_sets_user_to_request_event" time="0.095" /><testcase classname="saleor.graphql.payment.tests.mutations.test_check_payment_balance" name="test_payment_check_balance_mutation_validate_gateway_does_not_exist" time="0.031" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_transaction_initialize_for_empty_string_as_idempotency_key" time="0.418" /><testcase classname="saleor.graphql.order.tests.deprecated.test_order" name="test_update_order_line_discount_old_id[draft]" time="0.243" /><testcase classname="saleor.graphql.payment.tests.mutations.test_checkout_payment_create" name="test_create_payment_with_store_as_none" time="0.229" /><testcase classname="saleor.graphql.payment.tests.queries.test_payments_query" name="test_query_payments_by_customer" time="0.149" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_request_refund_for_granted_refund" name="test_trigger_refund_possible_based_on_status_of_granted_refund[none]" time="0.173" /><testcase classname="saleor.graphql.giftcard.tests.benchmark.test_gift_card_mutations" name="test_update_gift_card" time="0.146" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_gateway_initialize" name="test_for_order_without_payment_gateways" time="0.116" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_method_initialize_tokenization" name="test_payment_method_initialize_tokenization[None-None]" time="0.034" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_process" name="test_transaction_already_processed" time="0.153" /><testcase classname="saleor.graphql.product.tests.queries.products_filtrations.test_over_attributes_date" name="test_products_query_with_attribute_value_date[date_input2-1-\n    query($where: ProductWhereInput!, $channel: String) {\n      products(first: 10, where: $where, channel: $channel) {\n        edges {\n          node {\n            id\n            name\n            slug\n          }\n        }\n      }\n    }\n]" time="0.213" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_update" name="test_transaction_update_for_checkout_fully_paid" time="0.353"><failure message="AssertionError: [{'message': 'Unknown type &quot;CardPaymentMethodDetails&quot;. Perhaps you meant &quot;CardPaymentMethodDetailsInput&quot;, &quot;GenericPaymentMethodDetails&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;OtherPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 54, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type &quot;OtherPaymentMethodDetails&quot;. Perhaps you meant &quot;GenericPaymentMethodDetails&quot;, &quot;OtherPaymentMethodDetailsInput&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;CardPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 63, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">mocked_checkout_fully_paid = &lt;MagicMock name='checkout_fully_paid' id='131876236605440'&gt;
+mocked_automatic_checkout_completion_task = &lt;MagicMock name='delay' id='131876237263168'&gt;
+checkout_with_prices = &lt;Checkout: Checkout object (5a2252ea-d04c-4b82-9a37-a5636da676ae)&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x77f0d4850b60&gt;
+transaction_item_generator = &lt;function transaction_item_generator.&lt;locals&gt;.create_transaction at 0x77f0d486b920&gt;
+app = &lt;App: Sample app objects&gt;
+plugins_manager = &lt;saleor.plugins.manager.PluginsManager object at 0x77f0d43ca180&gt;
+
+    @patch("saleor.checkout.tasks.automatic_checkout_completion_task.delay")
+    @patch("saleor.plugins.manager.PluginsManager.checkout_fully_paid")
+    def test_transaction_update_for_checkout_fully_paid(
+        mocked_checkout_fully_paid,
+        mocked_automatic_checkout_completion_task,
+        checkout_with_prices,
+        permission_manage_payments,
+        app_api_client,
+        transaction_item_generator,
+        app,
+        plugins_manager,
+    ):
+        # given
+        current_authorized_value = Decimal(1)
+        current_charged_value = Decimal(2)
+        transaction = transaction_item_generator(
+            checkout_id=checkout_with_prices.pk,
+            app=app,
+            authorized_value=current_authorized_value,
+            charged_value=current_charged_value,
+        )
+    
+        checkout = checkout_with_prices
+        lines, _ = fetch_checkout_lines(checkout)
+        checkout_info = fetch_checkout_info(checkout, lines, plugins_manager)
+        checkout_info, _ = fetch_checkout_data(checkout_info, plugins_manager, lines)
+    
+        assert checkout.channel.automatically_complete_fully_paid_checkouts is False
+    
+        variables = {
+            "id": graphene.Node.to_global_id("TransactionItem", transaction.token),
+            "transaction": {
+                "amountCharged": {
+                    "amount": checkout_info.checkout.total.gross.amount,
+                    "currency": "USD",
+                },
+            },
+        }
+    
+        # when
+&gt;       app_api_client.post_graphql(
+            MUTATION_TRANSACTION_UPDATE, variables, permissions=[permission_manage_payments]
+        )
+
+saleor/graphql/payment/tests/mutations/test_transaction_update.py:2734: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Unknown type "CardPaymentMethodDetails". Perhaps you meant "CardPaymentMethodDetailsInput", "GenericPaymentMethodDetails", "PaymentMethodDetailsInput", "OtherPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 54, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type "OtherPaymentMethodDetails". Perhaps you meant "GenericPaymentMethodDetails", "OtherPaymentMethodDetailsInput", "PaymentMethodDetailsInput", "CardPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 63, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_event_report" name="test_transaction_event_report_authorize_event_already_exists" time="0.510"><failure message="AssertionError: [{'message': 'Unknown type &quot;CardPaymentMethodDetails&quot;. Perhaps you meant &quot;CardPaymentMethodDetailsInput&quot;, &quot;GenericPaymentMethodDetails&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;OtherPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 28, 'column': 19}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type &quot;OtherPaymentMethodDetails&quot;. Perhaps you meant &quot;GenericPaymentMethodDetails&quot;, &quot;OtherPaymentMethodDetailsInput&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;CardPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 37, 'column': 19}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x77f0d48390d0&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+transaction_item_generator = &lt;function transaction_item_generator.&lt;locals&gt;.create_transaction at 0x77f0d449d940&gt;
+
+    def test_transaction_event_report_authorize_event_already_exists(
+        app_api_client, permission_manage_payments, transaction_item_generator
+    ):
+        # given
+        event_time = timezone.now()
+        external_url = f"http://{TEST_SERVER_DOMAIN}/external-url"
+        message = "Sucesfull charge"
+        psp_reference = "111-abc"
+        amount = Decimal("11.00")
+        event_type = TransactionEventTypeEnum.AUTHORIZATION_SUCCESS
+        transaction = transaction_item_generator(
+            app=app_api_client.app,
+            authorized_value=amount + Decimal(1),
+        )
+        transaction.events.update(
+            psp_reference="Different psp reference",
+        )
+        transaction_id = graphene.Node.to_global_id("TransactionItem", transaction.token)
+        variables = {
+            "id": transaction_id,
+            "type": event_type.name,
+            "amount": amount,
+            "pspReference": psp_reference,
+            "time": event_time.isoformat(),
+            "externalUrl": external_url,
+            "message": message,
+            "availableActions": [TransactionActionEnum.REFUND.name],
+        }
+    
+        query = (
+            MUTATION_DATA_FRAGMENT
+            + """
+        mutation TransactionEventReport(
+            $id: ID
+            $type: TransactionEventTypeEnum!
+            $amount: PositiveDecimal!
+            $pspReference: String!
+            $time: DateTime
+            $externalUrl: String
+            $message: String
+            $availableActions: [TransactionActionEnum!]!
+        ) {
+            transactionEventReport(
+                id: $id
+                type: $type
+                amount: $amount
+                pspReference: $pspReference
+                time: $time
+                externalUrl: $externalUrl
+                message: $message
+                availableActions: $availableActions
+            ) {
+                ...TransactionEventData
+            }
+        }
+        """
+        )
+        # when
+&gt;       response = app_api_client.post_graphql(
+            query, variables, permissions=[permission_manage_payments]
+        )
+
+saleor/graphql/payment/tests/mutations/test_transaction_event_report.py:1240: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Unknown type "CardPaymentMethodDetails". Perhaps you meant "CardPaymentMethodDetailsInput", "GenericPaymentMethodDetails", "PaymentMethodDetailsInput", "OtherPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 28, 'column': 19}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type "OtherPaymentMethodDetails". Perhaps you meant "GenericPaymentMethodDetails", "OtherPaymentMethodDetailsInput", "PaymentMethodDetailsInput", "CardPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 37, 'column': 19}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_refund" name="test_payment_refund_with_invalid_argument" time="0.194" /><testcase classname="saleor.graphql.attribute.tests.mutations.test_attribute_value_update" name="test_update_attribute_value_by_external_reference_not_existing" time="0.088" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_create" name="test_transaction_create_with_card_payment_method_details[None-None-None-None-None]" time="0.135"><failure message="AssertionError: [{'message': 'Unknown type &quot;CardPaymentMethodDetails&quot;. Perhaps you meant &quot;CardPaymentMethodDetailsInput&quot;, &quot;GenericPaymentMethodDetails&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;OtherPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 44, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type &quot;OtherPaymentMethodDetails&quot;. Perhaps you meant &quot;GenericPaymentMethodDetails&quot;, &quot;OtherPaymentMethodDetailsInput&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;CardPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 53, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">card_brand = None, card_first_digits = None, card_last_digits = None
+card_exp_month = None, card_exp_year = None
+order_with_lines = &lt;Order #UUID('a0eb58d2-f35b-4441-a17d-d1a074926f46')&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x77f0d4487980&gt;
+
+    @pytest.mark.parametrize(
+        (
+            "card_brand",
+            "card_first_digits",
+            "card_last_digits",
+            "card_exp_month",
+            "card_exp_year",
+        ),
+        [
+            ("Brand", "1234", "5678", 12, 2025),
+            (None, "1111", "0000", 1, 2001),
+            (None, None, None, None, None),
+            ("", "", "", None, None),
+            (None, None, "1234", None, None),
+        ],
+    )
+    def test_transaction_create_with_card_payment_method_details(
+        card_brand,
+        card_first_digits,
+        card_last_digits,
+        card_exp_month,
+        card_exp_year,
+        order_with_lines,
+        permission_manage_payments,
+        app_api_client,
+    ):
+        # given
+        name = "Credit Card"
+        psp_reference = "PSP reference - 123"
+    
+        authorized_value = Decimal(10)
+    
+        card_name = "Payment Method Name"
+    
+        variables = {
+            "id": graphene.Node.to_global_id("Order", order_with_lines.pk),
+            "transaction": {
+                "name": name,
+                "pspReference": psp_reference,
+                "amountAuthorized": {
+                    "amount": authorized_value,
+                    "currency": "USD",
+                },
+                "paymentMethodDetails": {
+                    "card": {
+                        "name": card_name,
+                        "brand": card_brand,
+                        "firstDigits": card_first_digits,
+                        "lastDigits": card_last_digits,
+                        "expMonth": card_exp_month,
+                        "expYear": card_exp_year,
+                    }
+                },
+            },
+        }
+    
+        # when
+&gt;       response = app_api_client.post_graphql(
+            MUTATION_TRANSACTION_CREATE, variables, permissions=[permission_manage_payments]
+        )
+
+saleor/graphql/payment/tests/mutations/test_transaction_create.py:2549: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Unknown type "CardPaymentMethodDetails". Perhaps you meant "CardPaymentMethodDetailsInput", "GenericPaymentMethodDetails", "PaymentMethodDetailsInput", "OtherPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 44, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type "OtherPaymentMethodDetails". Perhaps you meant "GenericPaymentMethodDetails", "OtherPaymentMethodDetailsInput", "PaymentMethodDetailsInput", "CardPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 53, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.mutations.test_stored_payment_method_request_delete" name="test_stored_payment_method_request_delete_called_by_anonymous_user" time="0.031" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_method_process_tokenization" name="test_payment_method_process_tokenization[expected_input_data3-expected_output_data3]" time="0.045" /><testcase classname="saleor.graphql.account.tests.queries.test_me" name="test_me_query_checkouts_calculate_flat_taxes[\n    query Me {\n        me {\n            id\n            email\n            checkouts(first: 10) {\n                edges {\n                    node {\n                        id\n                        lines{\n                            totalPrice {\n                                currency\n                                gross {\n                                    amount\n                                }\n                            }\n                        }\n                    }\n                }\n                totalCount\n            }\n        }\n    }\n]" time="0.234" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_capture" name="test_payment_capture_success_by_app" time="0.165" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_gateway_initialize_tokenization" name="test_payment_gateway_initialize_tokenization[None-expected_output_data1]" time="0.032" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_request_action" name="test_transaction_request_refund_for_order[None-expected_called_refund_amount1]" time="0.148" /><testcase classname="saleor.graphql.warehouse.tests.bulk_mutations.test_stock_bulk_update" name="test_stocks_bulk_update_when_stock_not_exists" time="0.122" /><testcase classname="saleor.graphql.payment.tests.mutations.test_check_payment_balance" name="test_payment_check_balance_validate_channel_inactive" time="0.030" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_updates_checkout_last_transaction_modified_at[None]" time="0.500" /><testcase classname="saleor.graphql.payment.tests.mutations.test_checkout_payment_create" name="test_checkout_add_payment_not_existing_gateway" time="0.115" /><testcase classname="saleor.graphql.menu.tests.mutations.test_menu_delete" name="test_delete_menu_trigger_webhook" time="0.109" /><testcase classname="saleor.graphql.payment.tests.queries.test_payments_query" name="test_query_payments_by_user_with_restricted_access_to_channels_no_acc_channels" time="0.170" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_request_refund_for_granted_refund" name="test_trigger_refund_request_with_assigned_transaction_item[expected_refund_amount1]" time="0.249" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_gateway_initialize" name="test_for_checkout_transactions_limit_on_gateway_initialize" time="0.464" /><testcase classname="saleor.graphql.menu.tests.queries.test_menu" name="test_menu_query_by_name" time="0.039" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_method_initialize_tokenization" name="test_payment_method_initialize_tokenization_called_by_app" time="0.030" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_process" name="test_updates_checkout_last_transaction_modified_at[None]" time="0.485" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_update" name="test_transaction_update_for_order_reduces_transaction_authorized_to_zero_by_staff" time="0.122"><failure message="AssertionError: [{'message': 'Unknown type &quot;CardPaymentMethodDetails&quot;. Perhaps you meant &quot;CardPaymentMethodDetailsInput&quot;, &quot;GenericPaymentMethodDetails&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;OtherPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 54, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type &quot;OtherPaymentMethodDetails&quot;. Perhaps you meant &quot;GenericPaymentMethodDetails&quot;, &quot;OtherPaymentMethodDetailsInput&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;CardPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 63, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">order_with_lines = &lt;Order #UUID('5330bf6c-3fe0-40dc-a5e5-63f5aa07c7b5')&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x77f0d48a7cb0&gt;
+transaction_item_created_by_user = &lt;TransactionItem: TransactionItem object (218)&gt;
+transaction_item_generator = &lt;function transaction_item_generator.&lt;locals&gt;.create_transaction at 0x77f0d459c180&gt;
+staff_user = &lt;User: a3d77caf-5757-4c53-95ba-ef8b5d4f12be&gt;
+
+    def test_transaction_update_for_order_reduces_transaction_authorized_to_zero_by_staff(
+        order_with_lines,
+        permission_manage_payments,
+        staff_api_client,
+        transaction_item_created_by_user,
+        transaction_item_generator,
+        staff_user,
+    ):
+        # given
+        transaction = transaction_item_generator(
+            order_id=order_with_lines.pk,
+            user=staff_user,
+            authorized_value=Decimal(10),
+        )
+        previously_authorized_value = Decimal(90)
+        transaction_item_generator(
+            order_id=order_with_lines.pk,
+            user=staff_user,
+            authorized_value=previously_authorized_value,
+        )
+    
+        authorized_value = Decimal(0)
+    
+        variables = {
+            "id": graphene.Node.to_global_id("TransactionItem", transaction.token),
+            "transaction": {
+                "amountAuthorized": {
+                    "amount": authorized_value,
+                    "currency": "USD",
+                },
+            },
+        }
+    
+        # when
+&gt;       response = staff_api_client.post_graphql(
+            MUTATION_TRANSACTION_UPDATE, variables, permissions=[permission_manage_payments]
+        )
+
+saleor/graphql/payment/tests/mutations/test_transaction_update.py:1716: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Unknown type "CardPaymentMethodDetails". Perhaps you meant "CardPaymentMethodDetailsInput", "GenericPaymentMethodDetails", "PaymentMethodDetailsInput", "OtherPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 54, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type "OtherPaymentMethodDetails". Perhaps you meant "GenericPaymentMethodDetails", "OtherPaymentMethodDetailsInput", "PaymentMethodDetailsInput", "CardPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 63, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.account.tests.mutations.permission_group.test_permission_group_delete" name="test_group_delete_mutation_out_of_scope_permission" time="0.078" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_event_report" name="test_transaction_event_report_amount_with_lot_of_decimal_places" time="0.032"><failure message="AssertionError: [{'message': 'Unknown type &quot;CardPaymentMethodDetails&quot;. Perhaps you meant &quot;CardPaymentMethodDetailsInput&quot;, &quot;GenericPaymentMethodDetails&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;OtherPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 28, 'column': 19}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type &quot;OtherPaymentMethodDetails&quot;. Perhaps you meant &quot;GenericPaymentMethodDetails&quot;, &quot;OtherPaymentMethodDetailsInput&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;CardPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 37, 'column': 19}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">transaction_item_generator = &lt;function transaction_item_generator.&lt;locals&gt;.create_transaction at 0x77f0d41b3420&gt;
+app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x77f0d4801070&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+
+    def test_transaction_event_report_amount_with_lot_of_decimal_places(
+        transaction_item_generator,
+        app_api_client,
+        permission_manage_payments,
+    ):
+        # given
+        transaction = transaction_item_generator(
+            app=app_api_client.app, authorized_value=Decimal(10)
+        )
+        event_time = timezone.now()
+        external_url = f"http://{TEST_SERVER_DOMAIN}/external-url"
+        message = "Sucesfull charge"
+        psp_reference = "111-abc"
+        amount = Decimal("10.454657657")
+        transaction_id = graphene.Node.to_global_id("TransactionItem", transaction.token)
+        variables = {
+            "id": transaction_id,
+            "type": TransactionEventTypeEnum.CHARGE_SUCCESS.name,
+            "amount": amount,
+            "pspReference": psp_reference,
+            "time": event_time.isoformat(),
+            "externalUrl": external_url,
+            "message": message,
+            "availableActions": [TransactionActionEnum.REFUND.name],
+        }
+        query = (
+            MUTATION_DATA_FRAGMENT
+            + """
+        mutation TransactionEventReport(
+            $id: ID
+            $type: TransactionEventTypeEnum!
+            $amount: PositiveDecimal!
+            $pspReference: String!
+            $time: DateTime
+            $externalUrl: String
+            $message: String
+            $availableActions: [TransactionActionEnum!]!
+        ) {
+            transactionEventReport(
+                id: $id
+                type: $type
+                amount: $amount
+                pspReference: $pspReference
+                time: $time
+                externalUrl: $externalUrl
+                message: $message
+                availableActions: $availableActions
+            ) {
+                ...TransactionEventData
+            }
+        }
+        """
+        )
+        # when
+&gt;       response = app_api_client.post_graphql(
+            query, variables, permissions=[permission_manage_payments]
+        )
+
+saleor/graphql/payment/tests/mutations/test_transaction_event_report.py:470: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Unknown type "CardPaymentMethodDetails". Perhaps you meant "CardPaymentMethodDetailsInput", "GenericPaymentMethodDetails", "PaymentMethodDetailsInput", "OtherPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 28, 'column': 19}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type "OtherPaymentMethodDetails". Perhaps you meant "GenericPaymentMethodDetails", "OtherPaymentMethodDetailsInput", "PaymentMethodDetailsInput", "CardPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 37, 'column': 19}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_create" name="test_creates_transaction_automatically_confirm" time="0.111"><failure message="AssertionError: [{'message': 'Unknown type &quot;CardPaymentMethodDetails&quot;. Perhaps you meant &quot;CardPaymentMethodDetailsInput&quot;, &quot;GenericPaymentMethodDetails&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;OtherPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 44, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type &quot;OtherPaymentMethodDetails&quot;. Perhaps you meant &quot;GenericPaymentMethodDetails&quot;, &quot;OtherPaymentMethodDetailsInput&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;CardPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 53, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">order_with_lines = &lt;Order #UUID('eefd0beb-2649-4b98-b76d-c6103eed70bd')&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x77f0d4894320&gt;
+
+    def test_creates_transaction_automatically_confirm(
+        order_with_lines, permission_manage_payments, app_api_client
+    ):
+        # given
+        order_with_lines.status = OrderStatus.UNCONFIRMED
+        order_with_lines.save()
+        order_with_lines.channel.automatically_confirm_all_new_orders = True
+        order_with_lines.channel.save()
+    
+        name = "Credit Card"
+        reference = "PSP reference - 123"
+        available_actions = []
+        authorized_value = Decimal(0)
+        metadata = {"key": "test-1", "value": "123"}
+        private_metadata = {"key": "test-2", "value": "321"}
+    
+        event_reference = "PSP-ref"
+        event_message = "Test"
+        variables = {
+            "id": graphene.Node.to_global_id("Order", order_with_lines.pk),
+            "transaction": {
+                "name": name,
+                "pspReference": reference,
+                "availableActions": available_actions,
+                "amountAuthorized": {
+                    "amount": authorized_value,
+                    "currency": "USD",
+                },
+                "metadata": [metadata],
+                "privateMetadata": [private_metadata],
+            },
+            "transaction_event": {
+                "pspReference": event_reference,
+                "message": event_message,
+            },
+        }
+    
+        # when
+&gt;       response = app_api_client.post_graphql(
+            MUTATION_TRANSACTION_CREATE, variables, permissions=[permission_manage_payments]
+        )
+
+saleor/graphql/payment/tests/mutations/test_transaction_create.py:1916: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Unknown type "CardPaymentMethodDetails". Perhaps you meant "CardPaymentMethodDetailsInput", "GenericPaymentMethodDetails", "PaymentMethodDetailsInput", "OtherPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 44, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type "OtherPaymentMethodDetails". Perhaps you meant "GenericPaymentMethodDetails", "OtherPaymentMethodDetailsInput", "PaymentMethodDetailsInput", "CardPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 53, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_method_process_tokenization" name="test_payment_method_process_tokenization[None-expected_output_data1]" time="0.034" /><testcase classname="saleor.graphql.giftcard.tests.queries.test_gift_card_sorting" name="test_sorting_gift_cards_by_product[DESC]" time="0.104" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_capture" name="test_payment_capture_with_unauthorized_payment" time="0.144" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_gateway_initialize_tokenization" name="test_payment_gateway_initialize_tokenization[None-None]" time="0.033" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_request_action" name="test_transaction_request_refund_for_order[refund_amount2-expected_called_refund_amount2]" time="0.156" /><testcase classname="saleor.graphql.checkout.tests.deprecated.test_checkout" name="test_checkout_by_token" time="0.037" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_order_doesnt_exists" time="0.151" /><testcase classname="saleor.graphql.payment.tests.mutations.test_checkout_payment_create" name="test_checkout_add_payment_gateway_inactive" time="0.101" /><testcase classname="saleor.graphql.payment.tests.queries.test_payments_query" name="test_query_payments_by_app" time="0.151" /><testcase classname="saleor.graphql.shipping.tests.mutations.test_shipping_price_delete" name="test_delete_shipping_method_trigger_webhook" time="0.121" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_request_refund_for_granted_refund" name="test_triggers_refund_request_for_app" time="0.154" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_gateway_initialize" name="test_for_order_with_payment_gateways_returns_error" time="0.111" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_method_initialize_tokenization" name="test_payment_method_initialize_tokenization[None-expected_output_data1]" time="0.037" /><testcase classname="saleor.graphql.order.tests.queries.test_order_with_filter" name="test_order_query_with_filter_status[orders_filter0-2-unfulfilled]" time="0.142" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_process" name="test_checkout_fully_authorized[authorization_request]" time="0.433" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_update" name="test_transaction_update_psp_reference_by_app" time="0.043"><failure message="AssertionError: [{'message': 'Unknown type &quot;CardPaymentMethodDetails&quot;. Perhaps you meant &quot;CardPaymentMethodDetailsInput&quot;, &quot;GenericPaymentMethodDetails&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;OtherPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 54, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type &quot;OtherPaymentMethodDetails&quot;. Perhaps you meant &quot;GenericPaymentMethodDetails&quot;, &quot;OtherPaymentMethodDetailsInput&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;CardPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 63, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">transaction_item_created_by_app = &lt;TransactionItem: TransactionItem object (225)&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x77f0d41dc050&gt;
+
+    def test_transaction_update_psp_reference_by_app(
+        transaction_item_created_by_app, permission_manage_payments, app_api_client
+    ):
+        # given
+        psp_peference = "PSP:123AAA"
+        transaction = transaction_item_created_by_app
+    
+        variables = {
+            "id": graphene.Node.to_global_id("TransactionItem", transaction.token),
+            "transaction": {
+                "pspReference": psp_peference,
+            },
+        }
+    
+        # when
+&gt;       response = app_api_client.post_graphql(
+            MUTATION_TRANSACTION_UPDATE, variables, permissions=[permission_manage_payments]
+        )
+
+saleor/graphql/payment/tests/mutations/test_transaction_update.py:589: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Unknown type "CardPaymentMethodDetails". Perhaps you meant "CardPaymentMethodDetailsInput", "GenericPaymentMethodDetails", "PaymentMethodDetailsInput", "OtherPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 54, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type "OtherPaymentMethodDetails". Perhaps you meant "GenericPaymentMethodDetails", "OtherPaymentMethodDetailsInput", "PaymentMethodDetailsInput", "CardPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 63, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_event_report" name="test_transaction_event_report_missing_amount_error_raised[authorization_adjustment]" time="0.461"><failure message="AssertionError: [{'message': 'Unknown type &quot;CardPaymentMethodDetails&quot;. Perhaps you meant &quot;CardPaymentMethodDetailsInput&quot;, &quot;GenericPaymentMethodDetails&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;OtherPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 28, 'column': 19}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type &quot;OtherPaymentMethodDetails&quot;. Perhaps you meant &quot;GenericPaymentMethodDetails&quot;, &quot;OtherPaymentMethodDetailsInput&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;CardPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 37, 'column': 19}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">event_type = 'authorization_adjustment'
+transaction_item_generator = &lt;function transaction_item_generator.&lt;locals&gt;.create_transaction at 0x77f0d41fa020&gt;
+transaction_events_generator = &lt;function transaction_events_generator.&lt;locals&gt;.factory at 0x77f0d41fa5c0&gt;
+app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x77f0d4145520&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+
+    @pytest.mark.parametrize(
+        "event_type",
+        [
+            event_type[0]
+            for event_type in TransactionEventType.CHOICES
+            if event_type[0] not in OPTIONAL_AMOUNT_EVENTS
+        ],
+    )
+    def test_transaction_event_report_missing_amount_error_raised(
+        event_type,
+        transaction_item_generator,
+        transaction_events_generator,
+        app_api_client,
+        permission_manage_payments,
+    ):
+        # given
+        transaction = transaction_item_generator(
+            app=app_api_client.app, authorized_value=Decimal(10)
+        )
+        psp_reference = "111-abc"
+        amount = 10
+        event_types = [
+            TransactionEventType.AUTHORIZATION_SUCCESS,
+            TransactionEventType.CHARGE_SUCCESS,
+            TransactionEventType.REFUND_SUCCESS,
+        ]
+        transaction_events_generator(
+            transaction=transaction,
+            psp_references=[
+                psp_reference,
+            ]
+            * len(event_types),
+            types=event_types,
+            amounts=[
+                amount,
+            ]
+            * len(event_types),
+        )
+    
+        transaction_id = graphene.Node.to_global_id("TransactionItem", transaction.token)
+        variables = {
+            "id": transaction_id,
+            "type": event_type.upper(),
+            "pspReference": psp_reference,
+        }
+        query = (
+            MUTATION_DATA_FRAGMENT
+            + """
+        mutation TransactionEventReport(
+            $id: ID
+            $type: TransactionEventTypeEnum!
+            $pspReference: String!
+        ) {
+            transactionEventReport(
+                id: $id
+                type: $type
+                pspReference: $pspReference
+            ) {
+                ...TransactionEventData
+            }
+        }
+        """
+        )
+        # when
+&gt;       response = app_api_client.post_graphql(
+            query, variables, permissions=[permission_manage_payments]
+        )
+
+saleor/graphql/payment/tests/mutations/test_transaction_event_report.py:2949: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Unknown type "CardPaymentMethodDetails". Perhaps you meant "CardPaymentMethodDetailsInput", "GenericPaymentMethodDetails", "PaymentMethodDetailsInput", "OtherPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 28, 'column': 19}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type "OtherPaymentMethodDetails". Perhaps you meant "GenericPaymentMethodDetails", "OtherPaymentMethodDetailsInput", "PaymentMethodDetailsInput", "CardPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 37, 'column': 19}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.account.tests.mutations.staff.test_address_set_default" name="test_set_default_address" time="0.085" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_create" name="test_transaction_create_multiple_amounts_provided_by_app" time="0.109"><failure message="AssertionError: [{'message': 'Unknown type &quot;CardPaymentMethodDetails&quot;. Perhaps you meant &quot;CardPaymentMethodDetailsInput&quot;, &quot;GenericPaymentMethodDetails&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;OtherPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 44, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type &quot;OtherPaymentMethodDetails&quot;. Perhaps you meant &quot;GenericPaymentMethodDetails&quot;, &quot;OtherPaymentMethodDetailsInput&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;CardPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 53, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">order_with_lines = &lt;Order #UUID('eac82d46-0d6f-40bf-b1f3-d27d7ee60aed')&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x77f0d41dc410&gt;
+
+    def test_transaction_create_multiple_amounts_provided_by_app(
+        order_with_lines, permission_manage_payments, app_api_client
+    ):
+        # given
+        name = "Credit Card"
+        psp_reference = "PSP reference - 123"
+        available_actions = [
+            TransactionActionEnum.CHARGE.name,
+        ]
+        authorized_value = Decimal(10)
+        charged_value = Decimal(11)
+        refunded_value = Decimal(12)
+        canceled_value = Decimal(13)
+    
+        variables = {
+            "id": graphene.Node.to_global_id("Order", order_with_lines.pk),
+            "transaction": {
+                "name": name,
+                "pspReference": psp_reference,
+                "availableActions": available_actions,
+                "amountAuthorized": {
+                    "amount": authorized_value,
+                    "currency": "USD",
+                },
+                "amountCharged": {
+                    "amount": charged_value,
+                    "currency": "USD",
+                },
+                "amountRefunded": {
+                    "amount": refunded_value,
+                    "currency": "USD",
+                },
+                "amountCanceled": {
+                    "amount": canceled_value,
+                    "currency": "USD",
+                },
+            },
+        }
+    
+        # when
+&gt;       response = app_api_client.post_graphql(
+            MUTATION_TRANSACTION_CREATE, variables, permissions=[permission_manage_payments]
+        )
+
+saleor/graphql/payment/tests/mutations/test_transaction_create.py:638: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Unknown type "CardPaymentMethodDetails". Perhaps you meant "CardPaymentMethodDetailsInput", "GenericPaymentMethodDetails", "PaymentMethodDetailsInput", "OtherPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 44, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type "OtherPaymentMethodDetails". Perhaps you meant "GenericPaymentMethodDetails", "OtherPaymentMethodDetailsInput", "PaymentMethodDetailsInput", "CardPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 53, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_method_process_tokenization" name="test_payment_method_process_tokenization_not_app_or_plugin_subscribed_to_event" time="0.034" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_gateway_initialize_tokenization" name="test_payment_gateway_initialize_tokenization_not_app_or_plugin_subscribed_to_event" time="0.035" /><testcase classname="saleor.graphql.order.tests.queries.test_order_get_variants" name="test_get_variant_from_order_line_variant_not_published_as_admin" time="0.133" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_request_action" name="test_transaction_request_charge_sets_app_to_request_event" time="0.087" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_initialize" name="test_uses_default_channel_action" time="0.539" /><testcase classname="saleor.graphql.payment.tests.mutations.test_checkout_payment_create" name="test_create_payment_with_store[OFF_SESSION]" time="0.210" /><testcase classname="saleor.graphql.giftcard.tests.mutations.test_gift_card_delete" name="test_delete_gift_card_trigger_webhook" time="0.115" /><testcase classname="saleor.graphql.payment.tests.queries.test_payments_query" name="test_payments_query" time="0.141" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_request_refund_for_granted_refund" name="test_triggers_refund_request_for_staff_user" time="0.179" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_gateway_initialize" name="test_for_checkout_with_payment_gateways" time="0.381" /><testcase classname="saleor.graphql.page.tests.mutations.test_page_types_bulk_delete" name="test_page_type_bulk_delete_by_app" time="0.084" /><testcase classname="saleor.graphql.payment.tests.mutations.test_payment_method_initialize_tokenization" name="test_payment_method_initialize_tokenization_incorrect_channel" time="0.031" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_process" name="test_for_order_with_tax_app" time="0.347" /><testcase classname="saleor.graphql.payment.tests.mutations.test_transaction_update" name="test_transaction_update_for_checkout_fully_authorized" time="0.354"><failure message="AssertionError: [{'message': 'Unknown type &quot;CardPaymentMethodDetails&quot;. Perhaps you meant &quot;CardPaymentMethodDetailsInput&quot;, &quot;GenericPaymentMethodDetails&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;OtherPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 54, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type &quot;OtherPaymentMethodDetails&quot;. Perhaps you meant &quot;GenericPaymentMethodDetails&quot;, &quot;OtherPaymentMethodDetailsInput&quot;, &quot;PaymentMethodDetailsInput&quot;, &quot;CardPaymentMethodDetailsInput&quot; or &quot;StoredPaymentMethod&quot;?', 'locations': [{'line': 63, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">mocked_checkout_fully_paid = &lt;MagicMock name='checkout_fully_paid' id='131876232700672'&gt;
+mocked_automatic_checkout_completion_task = &lt;MagicMock name='delay' id='131876235267776'&gt;
+checkout_with_prices = &lt;Checkout: Checkout object (66229e26-e80c-4046-bac1-130c64f766e0)&gt;
+permission_manage_payments = &lt;Permission: Payment | payment | Handle payments&gt;
+app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x77f0d41c1eb0&gt;
+transaction_item_generator = &lt;function transaction_item_generator.&lt;locals&gt;.create_transaction at 0x77f0d4258400&gt;
+app = &lt;App: Sample app objects&gt;
+plugins_manager = &lt;saleor.plugins.manager.PluginsManager object at 0x77f0d4012fc0&gt;
+
+    @patch("saleor.checkout.tasks.automatic_checkout_completion_task.delay")
+    @patch("saleor.plugins.manager.PluginsManager.checkout_fully_paid")
+    def test_transaction_update_for_checkout_fully_authorized(
+        mocked_checkout_fully_paid,
+        mocked_automatic_checkout_completion_task,
+        checkout_with_prices,
+        permission_manage_payments,
+        app_api_client,
+        transaction_item_generator,
+        app,
+        plugins_manager,
+    ):
+        # given
+        current_authorized_value = Decimal(1)
+        current_charged_value = Decimal(2)
+        transaction = transaction_item_generator(
+            checkout_id=checkout_with_prices.pk,
+            app=app,
+            authorized_value=current_authorized_value,
+            charged_value=current_charged_value,
+        )
+    
+        checkout = checkout_with_prices
+        lines, _ = fetch_checkout_lines(checkout)
+        checkout_info = fetch_checkout_info(checkout, lines, plugins_manager)
+        checkout_info, _ = fetch_checkout_data(checkout_info, plugins_manager, lines)
+    
+        assert checkout.channel.automatically_complete_fully_paid_checkouts is False
+    
+        variables = {
+            "id": graphene.Node.to_global_id("TransactionItem", transaction.token),
+            "transaction": {
+                "amountAuthorized": {
+                    "amount": checkout_info.checkout.total.gross.amount,
+                    "currency": "USD",
+                },
+            },
+        }
+    
+        # when
+&gt;       app_api_client.post_graphql(
+            MUTATION_TRANSACTION_UPDATE, variables, permissions=[permission_manage_payments]
+        )
+
+saleor/graphql/payment/tests/mutations/test_transaction_update.py:2846: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:111: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["extensions"]["exception"]["code"] == (
+            "PermissionDenied"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Unknown type "CardPaymentMethodDetails". Perhaps you meant "CardPaymentMethodDetailsInput", "GenericPaymentMethodDetails", "PaymentMethodDetailsInput", "OtherPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 54, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Unknown type "OtherPaymentMethodDetails". Perhaps you meant "GenericPaymentMethodDetails", "OtherPaymentMethodDetailsInput", "PaymentMethodDetailsInput", "CardPaymentMethodDetailsInput" or "StoredPaymentMethod"?', 'locations': [{'line': 63, 'column': 27}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:25: AssertionError</failure></testcase><testcase classname="saleor.graphql.order.tests.integration.test_draft_order" name="test_create_order_by_staff_in_accessible_channel" time="0.980" /></testsuite></testsuites>
