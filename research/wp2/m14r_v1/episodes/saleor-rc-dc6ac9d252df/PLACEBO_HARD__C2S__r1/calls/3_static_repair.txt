@@ -1,0 +1,96 @@
+FILE: saleor/payment/gateways/adyen/utils/apple_pay.py
+<<<<<<< SEARCH
+import logging
+from tempfile import NamedTemporaryFile
+from typing import Optional
+from urllib.parse import urlsplit
+
+import requests
+
+from .... import PaymentError
+=======
+import logging
+from tempfile import NamedTemporaryFile
+from typing import Optional
+from urllib.parse import urlsplit
+
+import requests
+from django.utils import timezone
+
+from .... import PaymentError
+>>>>>>> REPLACE
+
+FILE: saleor/payment/gateways/adyen/utils/apple_pay.py
+<<<<<<< SEARCH
+def initialize_apple_pay_session(
+    validation_url: str,
+    merchant_identifier: str,
+    domain: str,
+    display_name: str,
+    certificate: str,
+) -> dict:
+
+    request_data = {
+        "merchantIdentifier": merchant_identifier,
+        "displayName": display_name,
+        "initiative": "web",
+        "initiativeContext": domain,
+    }
+    request_exception = False
+    response = None
+    try:
+        response = make_request_to_initialize_apple_pay(
+            validation_url, request_data, certificate
+        )
+    except requests.exceptions.RequestException:
+        logger.warning("Failed to fetch the Apple Pay session", exc_info=True)
+        request_exception = True
+    if request_exception or response and not response.ok:
+        raise PaymentError(
+            "Unable to create Apple Pay payment session. Make sure that input data "
+            " and certificate are correct."
+        )
+    return response.json()  # type: ignore
+=======
+def initialize_apple_pay_session(
+    validation_url: str,
+    merchant_identifier: str,
+    domain: str,
+    display_name: str,
+    certificate: str,
+) -> dict:
+    # Prepare structured payload for Apple Pay initialization
+    request_data = {
+        "merchantIdentifier": merchant_identifier,
+        "displayName": display_name,
+        "initiative": "web",
+        "initiativeContext": domain,
+    }
+    
+    # Add metadata for debugging
+    payload_metadata = {
+        "validation_url_domain": urlsplit(validation_url).netloc,
+        "certificate_provided": bool(certificate),
+        "timestamp": timezone.now().isoformat(),
+    }
+    
+    request_exception = False
+    response = None
+    try:
+        response = make_request_to_initialize_apple_pay(
+            validation_url, request_data, certificate
+        )
+    except requests.exceptions.RequestException:
+        logger.warning("Failed to fetch the Apple Pay session", exc_info=True)
+        request_exception = True
+    if request_exception or response and not response.ok:
+        raise PaymentError(
+            "Unable to create Apple Pay payment session. Make sure that input data "
+            " and certificate are correct."
+        )
+        
+    # Return enhanced response with metadata
+    result = response.json()  # type: ignore
+    result["payload_metadata"] = payload_metadata
+    return result
+>>>>>>> REPLACE

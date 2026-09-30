@@ -1,0 +1,12 @@
+diff --git a/saleor/graphql/attribute/mutations/attribute_bulk_update.py b/saleor/graphql/attribute/mutations/attribute_bulk_update.py
+--- a/saleor/graphql/attribute/mutations/attribute_bulk_update.py
++++ b/saleor/graphql/attribute/mutations/attribute_bulk_update.py
+@@ -76,7 +76,7 @@
+         else:
+             attribute = data.get("instance")
+             if attribute:
+-                attribute = ChannelContext(attribute, None)
++                attribute = ChannelContext(node=attribute, channel_slug=None)
+         results.append(
+             AttributeBulkUpdateResult(
+                 attribute=attribute,

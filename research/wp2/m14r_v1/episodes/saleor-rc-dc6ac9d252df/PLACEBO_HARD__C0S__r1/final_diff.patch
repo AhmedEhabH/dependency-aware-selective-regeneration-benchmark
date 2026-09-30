@@ -1,0 +1,29 @@
+diff --git a/saleor/payment/gateways/adyen/utils/apple_pay.py b/saleor/payment/gateways/adyen/utils/apple_pay.py
+--- a/saleor/payment/gateways/adyen/utils/apple_pay.py
++++ b/saleor/payment/gateways/adyen/utils/apple_pay.py
+@@ -105,10 +105,21 @@
+ 
+ def initialize_apple_pay(payment_data: dict, certificate: str) -> dict:
+     # The apple pay on the web requires additional step
+-    validation_url = payment_data.get("validationUrl", "")
+-    merchant_identifier = payment_data.get("merchantIdentifier", "")
+-    domain = payment_data.get("domain", "")
+-    display_name = payment_data.get("displayName", "")
++    # Handle both old and new payload structures
++    if isinstance(payment_data, dict) and "data" in payment_data:
++        # New payload structure with nested data
++        payload_data = payment_data.get("data", {})
++        validation_url = payload_data.get("validationUrl", "")
++        merchant_identifier = payload_data.get("merchantIdentifier", "")
++        domain = payload_data.get("domain", "")
++        display_name = payload_data.get("displayName", "")
++    else:
++        # Old payload structure or direct data
++        validation_url = payment_data.get("validationUrl", "")
++        merchant_identifier = payment_data.get("merchantIdentifier", "")
++        domain = payment_data.get("domain", "")
++        display_name = payment_data.get("displayName", "")
++    
+     validate_payment_data_for_apple_pay(
+         validation_url=validation_url,
+         merchant_identifier=merchant_identifier,

@@ -1,0 +1,73 @@
+{
+ "smoke_version": "wp2-m14r-v1",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-8f76ddc6267f",
+ "arm": "PLACEBO_HARD",
+ "label": "PLACEBO_HARD__C0S__r1",
+ "variant": "G1",
+ "context": "C0",
+ "replicate": "r1",
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-30T22:50:23Z",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/core/utils/random_data.py",
+  "saleor/graphql/product/bulk_mutations/category_bulk_delete.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/core/utils/random_data.py",
+   "saleor/graphql/product/bulk_mutations/category_bulk_delete.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/core/utils/random_data.py",
+   "saleor/graphql/product/bulk_mutations/category_bulk_delete.py"
+  ]
+ },
+ "prompt_sha256": "95db788d989d4e05a159fd7f599307f2554e86f3c127168bf5f443c211138ebd",
+ "request_sha_initial": "feee67bbcebbcfdda93611b57c16efa60323c5fe709c23a42f94a8e9694fa9b3",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "context_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790806191-uD5N8ypHVPGGQ6Wqf0Dz",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 12157,
+   "completion_tokens": 1203,
+   "cost_usd_actual": 0.0048085,
+   "cost_usd_nominal": 0.0048085,
+   "finish_reason": "stop",
+   "response_sha256": "8c7969e259d18a4cf0cd929464ce913961ce5e82973e501b486c0e36994e0e3f",
+   "request_sha": "feee67bbcebbcfdda93611b57c16efa60323c5fe709c23a42f94a8e9694fa9b3",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\m14r_v1\\episodes\\saleor-rc-8f76ddc6267f\\PLACEBO_HARD__C0__r1\\calls\\1_initial.txt",
+   "raw_sha256": "8c7969e259d18a4cf0cd929464ce913961ce5e82973e501b486c0e36994e0e3f",
+   "inherited_from_base": true
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "produced_by": "initial",
+ "edited_files": [
+  "saleor/core/utils/random_data.py",
+  "saleor/graphql/product/bulk_mutations/category_bulk_delete.py"
+ ],
+ "diff_sha256": "16ec795185b645d8d57bd90786f83612f045ee5efe642dd1520f3496ef3b03d3",
+ "base_label": "PLACEBO_HARD__C0__r1",
+ "base_episode_sha256": "8000168b2b77762a0dcb5c3bb087de289b97ac58cfbadc8cc964e133a3cf8be7",
+ "static": {
+  "triggered": false,
+  "reason": "CLEAN",
+  "parse_skipped": []
+ },
+ "episode_sha256": "8903a09da492f559869a6f67677178e551999c9e0834f39dc42e72ae2d85d9fa"
+}

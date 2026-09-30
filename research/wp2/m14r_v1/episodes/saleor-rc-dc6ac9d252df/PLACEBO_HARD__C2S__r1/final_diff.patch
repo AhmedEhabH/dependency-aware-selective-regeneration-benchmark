@@ -1,0 +1,47 @@
+diff --git a/saleor/payment/gateways/adyen/utils/apple_pay.py b/saleor/payment/gateways/adyen/utils/apple_pay.py
+--- a/saleor/payment/gateways/adyen/utils/apple_pay.py
++++ b/saleor/payment/gateways/adyen/utils/apple_pay.py
+@@ -4,6 +4,7 @@
+ from urllib.parse import urlsplit
+ 
+ import requests
++from django.utils import timezone
+ 
+ from .... import PaymentError
+ 
+@@ -70,13 +71,21 @@
+     display_name: str,
+     certificate: str,
+ ) -> dict:
+-
++    # Prepare structured payload for Apple Pay initialization
+     request_data = {
+         "merchantIdentifier": merchant_identifier,
+         "displayName": display_name,
+         "initiative": "web",
+         "initiativeContext": domain,
+     }
++    
++    # Add metadata for debugging
++    payload_metadata = {
++        "validation_url_domain": urlsplit(validation_url).netloc,
++        "certificate_provided": bool(certificate),
++        "timestamp": timezone.now().isoformat(),
++    }
++    
+     request_exception = False
+     response = None
+     try:
+@@ -91,7 +100,11 @@
+             "Unable to create Apple Pay payment session. Make sure that input data "
+             " and certificate are correct."
+         )
+-    return response.json()  # type: ignore
++        
++    # Return enhanced response with metadata
++    result = response.json()  # type: ignore
++    result["payload_metadata"] = payload_metadata
++    return result
+ 
+ 
+ def make_request_to_initialize_apple_pay(
