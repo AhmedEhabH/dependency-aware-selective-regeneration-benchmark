@@ -1,0 +1,23 @@
+diff --git a/saleor/graphql/webhook/resolvers.py b/saleor/graphql/webhook/resolvers.py
+--- a/saleor/graphql/webhook/resolvers.py
++++ b/saleor/graphql/webhook/resolvers.py
+@@ -81,4 +81,18 @@
+     all_shipping_methods = get_all_shipping_methods_list(
+         checkout_info,
+     )
+-    return all_shipping_methods
++    # Prevent circular payload generation by returning only essential shipping method data
++    return [
++        {
++            "id": method.id,
++            "name": method.name,
++            "code": method.code,
++            "price": method.price,
++            "minimum_order_price": method.minimum_order_price,
++            "maximum_order_price": method.maximum_order_price,
++            "minimum_order_weight": method.minimum_order_weight,
++            "maximum_order_weight": method.maximum_order_weight,
++            "type": method.type,
++        }
++        for method in all_shipping_methods
++    ]

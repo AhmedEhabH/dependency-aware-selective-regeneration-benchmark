@@ -1,0 +1,15 @@
+diff --git a/saleor/graphql/webhook/resolvers.py b/saleor/graphql/webhook/resolvers.py
+--- a/saleor/graphql/webhook/resolvers.py
++++ b/saleor/graphql/webhook/resolvers.py
+@@ -67,6 +67,11 @@
+     manager,
+     database_connection_name: str = settings.DATABASE_CONNECTION_DEFAULT_NAME,
+ ):
++    # Check if we're generating a sample payload to prevent circular generation
++    if hasattr(info.context, 'is_sample_payload_generation') and info.context.is_sample_payload_generation:
++        # Return empty list for sample payload generation to prevent circular calls
++        return []
++    
+     lines, _ = fetch_checkout_lines(
+         checkout, database_connection_name=database_connection_name
+     )
