@@ -1,0 +1,112 @@
+{
+ "acks": [],
+ "complete": true,
+ "completed_utc": "2026-09-30T16:40:42Z",
+ "history": [
+  {
+   "detail": "M14A-E1 kit self-tests (zero network)",
+   "event": "START",
+   "phase": "E00_KIT_SELFTEST",
+   "utc": "2026-09-30T15:47:17Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "E00_KIT_SELFTEST",
+   "utc": "2026-09-30T15:47:41Z"
+  },
+  {
+   "detail": "original freezes + E1 amendment + original STOP state (read-only)",
+   "event": "START",
+   "phase": "E01_VERIFY",
+   "utc": "2026-09-30T15:47:41Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "E01_VERIFY",
+   "utc": "2026-09-30T15:47:42Z"
+  },
+  {
+   "detail": "evaluate remaining unique diffs with E1 (zero API, workers=1)",
+   "event": "START",
+   "phase": "E02_EVALUATE",
+   "utc": "2026-09-30T15:47:42Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "E02_EVALUATE",
+   "utc": "2026-09-30T16:40:34Z"
+  },
+  {
+   "detail": "mechanical Pilot-A summary and A0-A5 gates (frozen engine)",
+   "event": "START",
+   "phase": "E03_SUMMARY",
+   "utc": "2026-09-30T16:40:34Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "E03_SUMMARY",
+   "utc": "2026-09-30T16:40:39Z"
+  },
+  {
+   "detail": "mechanical E1 addendum (descriptive)",
+   "event": "START",
+   "phase": "E04_ADDENDUM",
+   "utc": "2026-09-30T16:40:39Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "E04_ADDENDUM",
+   "utc": "2026-09-30T16:40:42Z"
+  }
+ ],
+ "phases": {
+  "E00_KIT_SELFTEST": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-09-30T15:47:41Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "E01_VERIFY": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-09-30T15:47:42Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "E02_EVALUATE": {
+   "attempts": 0,
+   "failures": 0,
+   "iterations": 3,
+   "passed_utc": "2026-09-30T16:40:34Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "E03_SUMMARY": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-09-30T16:40:39Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "E04_ADDENDUM": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-09-30T16:40:42Z",
+   "runs": 1,
+   "status": "PASS"
+  }
+ },
+ "plan": "WP2_M14A_PILOT_A_V1_E1",
+ "plan_sha256": "3b478f5019c5e3aa58e58f3cee0b94f0e187f498e3cc115b952f623d4b4cce9f",
+ "stop": null
+}
