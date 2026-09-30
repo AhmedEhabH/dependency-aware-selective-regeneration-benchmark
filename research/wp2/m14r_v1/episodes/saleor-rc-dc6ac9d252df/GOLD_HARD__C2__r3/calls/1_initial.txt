@@ -1,0 +1,32 @@
+Looking at the developer change description "New payload structure" and examining the code, I can see that the gift card notification payload structure needs to be updated to match a new format. Based on the sendgrid task that processes the gift card email, I can see it expects certain fields in the payload.
+
+Let me analyze the current gift card notification function and update it to use a proper nested structure that matches what the sendgrid tasks expect.
+
+FILE: saleor/giftcard/notifications.py
+<<<<<<< SEARCH
+def send_gift_card_notification(user, app, email, gift_card, manager):
+    """Trigger sending a gift card notification for the given recipient."""
+    payload = {
+        "user_id": user.id if user else None,
+        "app_id": app.id if app else None,
+        "recipient_email": email,
+        "gift_card_id": gift_card.id,
+        "code": gift_card.code,
+        **get_site_context(),
+    }
+    manager.notify(NotifyEventType.SEND_GIFT_CARD, payload=payload)
+=======
+def send_gift_card_notification(user, app, email, gift_card, manager):
+    """Trigger sending a gift card notification for the given recipient."""
+    payload = {
+        "user": {"id": user.id} if user else None,
+        "app": {"id": app.id} if app else None,
+        "recipient_email": email,
+        "gift_card": {
+            "id": gift_card.id,
+            "code": gift_card.code,
+        },
+        **get_site_context(),
+    }
+    manager.notify(NotifyEventType.SEND_GIFT_CARD, payload=payload)
+>>>>>>> REPLACE

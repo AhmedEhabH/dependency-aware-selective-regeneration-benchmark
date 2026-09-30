@@ -1,0 +1,33 @@
+diff --git a/saleor/giftcard/notifications.py b/saleor/giftcard/notifications.py
+--- a/saleor/giftcard/notifications.py
++++ b/saleor/giftcard/notifications.py
+@@ -5,10 +5,10 @@
+ def send_gift_card_notification(user, app, email, gift_card, manager):
+     """Trigger sending a gift card notification for the given recipient."""
+     payload = {
+-        "user_id": user.id if user else None,
+-        "app_id": app.id if app else None,
++        "user": {"id": user.id} if user else None,
++        "app": {"id": app.id} if app else None,
+         "recipient_email": email,
+-        "gift_card_id": gift_card.id,
++        "gift_card": {"id": gift_card.id},
+         "code": gift_card.code,
+         **get_site_context(),
+     }
+diff --git a/saleor/plugins/sendgrid/tasks.py b/saleor/plugins/sendgrid/tasks.py
+--- a/saleor/plugins/sendgrid/tasks.py
++++ b/saleor/plugins/sendgrid/tasks.py
+@@ -304,9 +304,9 @@
+         payload=payload,
+     )
+     giftcard_events.gift_card_sent(
+-        payload["gift_card_id"],
+-        payload["user_id"],
+-        payload["app_id"],
++        payload.get("gift_card", {}).get("id"),
++        payload.get("user", {}).get("id"),
++        payload.get("app", {}).get("id"),
+         payload["recipient_email"],
+     )
+ 
