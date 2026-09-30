@@ -102,6 +102,42 @@
    "event": "START",
    "phase": "R08_FREEZE",
    "utc": "2026-09-30T21:54:38Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "R08_FREEZE",
+   "utc": "2026-09-30T21:55:29Z"
+  },
+  {
+   "detail": "base generation GOLD(3 reps) + PLACEBO(1 rep) x contexts C0/C2 (paid)",
+   "event": "START",
+   "phase": "R09_GENERATE",
+   "utc": "2026-09-30T21:55:29Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "R09_GENERATE",
+   "utc": "2026-09-30T22:49:21Z"
+  },
+  {
+   "detail": "paired static-undefined-name stage G1/G3 (paid only when triggered)",
+   "event": "START",
+   "phase": "R10_STATIC",
+   "utc": "2026-09-30T22:49:21Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "R10_STATIC",
+   "utc": "2026-09-30T22:52:17Z"
+  },
+  {
+   "detail": "generation freeze before evaluation",
+   "event": "START",
+   "phase": "R11_GENERATION_FREEZE",
+   "utc": "2026-09-30T22:52:17Z"
   }
  ],
  "phases": {
@@ -170,6 +206,30 @@
    "status": "PASS"
   },
   "R08_FREEZE": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-09-30T21:55:29Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "R09_GENERATE": {
+   "attempts": 0,
+   "failures": 0,
+   "iterations": 13,
+   "passed_utc": "2026-09-30T22:49:21Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "R10_STATIC": {
+   "attempts": 0,
+   "failures": 0,
+   "iterations": 7,
+   "passed_utc": "2026-09-30T22:52:17Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "R11_GENERATION_FREEZE": {
    "attempts": 0,
    "failures": 0,
    "iterations": 0,
