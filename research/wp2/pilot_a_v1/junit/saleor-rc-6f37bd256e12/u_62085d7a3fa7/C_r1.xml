@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="72" time="4.975" timestamp="2026-09-30T05:59:15.519961-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_category_created" time="1.176" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_category_deleted" time="0.021" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_category_updated" time="0.021" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_checkout_create" time="0.021" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_checkout_update" time="0.020" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_collection_created" time="0.022" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_collection_deleted" time="0.020" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_collection_updated" time="0.020" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_create_deliveries_for_subscriptions_document_executed_with_error" time="0.080" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_create_deliveries_for_subscriptions_unsubscribable_event" time="0.061" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_customer_created" time="0.025" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_customer_updated" time="0.022" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_draft_order_created" time="0.025" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_draft_order_deleted" time="0.024" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_draft_order_updated" time="0.025" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_fulfillment_canceled" time="0.094" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_fulfillment_created" time="0.086" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_invoice_deleted" time="0.086" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_invoice_requested" time="0.088" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_invoice_sent" time="0.086" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_order_cancelled" time="0.025" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_order_confirmed" time="0.024" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_order_created" time="0.025" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_order_fulfilled" time="0.025" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_order_fully_paid" time="0.028" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_order_updated" time="0.027" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_page_created" time="0.047" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_page_deleted" time="0.043" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_page_updated" time="0.047" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_product_created" time="0.070" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_product_created_multiple_events_in_subscription" time="0.072" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_product_deleted" time="0.083" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_product_updated" time="0.074" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_product_variant_back_in_stock" time="0.075" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_product_variant_created" time="0.081" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_product_variant_deleted" time="0.069" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_product_variant_out_of_stock" time="0.068" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_product_variant_updated" time="0.069" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_sale_created" time="0.077" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_sale_deleted" time="0.073" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_sale_updated" time="0.075" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_validate_invalid_multiple_subscriptions" time="0.011" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_validate_invalid_query_and_subscription" time="0.011" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_validate_invalid_subscription_and_query" time="0.011" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_validate_subscription_query_invalid" time="0.010" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_validate_subscription_query_valid" time="0.011" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_subscription" name="test_validate_subscription_query_valid_with_fragment" time="0.010" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_created_attribute" time="0.073" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_created_attribute_value" time="0.027" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_created_category" time="0.023" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_created_collection" time="0.029" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_created_menu_item" time="0.030" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_created_page" time="0.044" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_created_product" time="0.070" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_created_product_variant" time="0.071" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_created_sale" time="0.074" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_created_shipping_method" time="0.030" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_created_voucher" time="0.024" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_updated_attribute" time="0.069" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_updated_attribute_value" time="0.028" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_updated_category" time="0.029" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_updated_collection" time="0.027" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_updated_menu_item" time="0.029" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_updated_page" time="0.048" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_updated_product" time="0.075" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_updated_product_variant" time="0.073" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_updated_sale" time="0.077" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_updated_shipping_method" time="0.034" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_create_deliveries_for_translation_subscription" name="test_translation_updated_voucher" time="0.024" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_webhook" name="test_trigger_webhooks_async_no_subscription_webhooks" time="0.022" /><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_webhook" name="test_trigger_webhooks_async_with_meta" time="0.265"><failure message="AssertionError: expected call not found.&#10;Expected: create_deliveries_for_subscriptions(event_type='order_updated', subscribable_object=&lt;Order #UUID('82cb8b7b-a198-4878-aad0-d592555f7315')&gt;, webhooks=[&lt;Webhook: Subscription&gt;], meta={'issued_at': '2018-05-31T12:00:01+00:00', 'version': 'dev', 'issuing_principal': {'id': 'VXNlcjozOQ==', 'type': 'user'}, 'camel_case': True})&#10;Actual: create_deliveries_for_subscriptions(event_type='order_updated', subscribable_object=&lt;Order #UUID('82cb8b7b-a198-4878-aad0-d592555f7315')&gt;, webhooks=[&lt;Webhook: Subscription&gt;], meta={'issued_at': '2018-05-31T12:00:01+00:00', 'version': 'dev', 'issuing_principal': {'id': 'VXNlcjozOQ==', 'type': 'user'}})&#10;&#10;pytest introspection follows:&#10;&#10;Kwargs:&#10;assert {'event_type'...ubscription&gt;]} == {'event_type'...ubscription&gt;]}&#10;  &#10;  Omitting 3 identical items, use -vv to show&#10;  Differing items:&#10;  {'meta': {'issued_at': '2018-05-31T12:00:01+00:00', 'issuing_principal': {'id': 'VXNlcjozOQ==', 'type': 'user'}, 'version': 'dev'}} != {'meta': {'camel_case': True, 'issued_at': '2018-05-31T12:00:01+00:00', 'issuing_principal': {'id': 'VXNlcjozOQ==', 'type': 'user'}, 'version': 'dev'}}&#10;  Use -v to get more diff">self = &lt;MagicMock name='create_deliveries_for_subscriptions' id='132939523556544'&gt;
+args = ()
+kwargs = {'event_type': 'order_updated', 'meta': {'camel_case': True, 'issued_at': '2018-05-31T12:00:01+00:00', 'issuing_princi...}, 'subscribable_object': &lt;Order #UUID('82cb8b7b-a198-4878-aad0-d592555f7315')&gt;, 'webhooks': [&lt;Webhook: Subscription&gt;]}
+expected = call(event_type='order_updated', subscribable_object=&lt;Order #UUID('82cb8b7b-a198-4878-aad0-d592555f7315')&gt;, webhooks=[...31T12:00:01+00:00', 'version': 'dev', 'issuing_principal': {'id': 'VXNlcjozOQ==', 'type': 'user'}, 'camel_case': True})
+actual = call(event_type='order_updated', subscribable_object=&lt;Order #UUID('82cb8b7b-a198-4878-aad0-d592555f7315')&gt;, webhooks=[...ssued_at': '2018-05-31T12:00:01+00:00', 'version': 'dev', 'issuing_principal': {'id': 'VXNlcjozOQ==', 'type': 'user'}})
+_error_message = &lt;function NonCallableMock.assert_called_with.&lt;locals&gt;._error_message at 0x78e86500cca0&gt;
+cause = None
+
+    def assert_called_with(self, /, *args, **kwargs):
+        """assert that the last call was made with the specified arguments.
+    
+        Raises an AssertionError if the args and keyword args passed in are
+        different to the last call to the mock."""
+        if self.call_args is None:
+            expected = self._format_mock_call_signature(args, kwargs)
+            actual = 'not called.'
+            error_message = ('expected call not found.\nExpected: %s\nActual: %s'
+                    % (expected, actual))
+            raise AssertionError(error_message)
+    
+        def _error_message():
+            msg = self._format_mock_failure_message(args, kwargs)
+            return msg
+        expected = self._call_matcher(_Call((args, kwargs), two=True))
+        actual = self._call_matcher(self.call_args)
+        if actual != expected:
+            cause = expected if isinstance(expected, Exception) else None
+&gt;           raise AssertionError(_error_message()) from cause
+E           AssertionError: expected call not found.
+E           Expected: create_deliveries_for_subscriptions(event_type='order_updated', subscribable_object=&lt;Order #UUID('82cb8b7b-a198-4878-aad0-d592555f7315')&gt;, webhooks=[&lt;Webhook: Subscription&gt;], meta={'issued_at': '2018-05-31T12:00:01+00:00', 'version': 'dev', 'issuing_principal': {'id': 'VXNlcjozOQ==', 'type': 'user'}, 'camel_case': True})
+E           Actual: create_deliveries_for_subscriptions(event_type='order_updated', subscribable_object=&lt;Order #UUID('82cb8b7b-a198-4878-aad0-d592555f7315')&gt;, webhooks=[&lt;Webhook: Subscription&gt;], meta={'issued_at': '2018-05-31T12:00:01+00:00', 'version': 'dev', 'issuing_principal': {'id': 'VXNlcjozOQ==', 'type': 'user'}})
+
+/usr/local/lib/python3.9/unittest/mock.py:907: AssertionError
+
+During handling of the above exception, another exception occurred:
+
+self = &lt;MagicMock name='create_deliveries_for_subscriptions' id='132939523556544'&gt;
+args = ()
+kwargs = {'event_type': 'order_updated', 'meta': {'camel_case': True, 'issued_at': '2018-05-31T12:00:01+00:00', 'issuing_princi...}, 'subscribable_object': &lt;Order #UUID('82cb8b7b-a198-4878-aad0-d592555f7315')&gt;, 'webhooks': [&lt;Webhook: Subscription&gt;]}
+
+    def assert_called_once_with(self, /, *args, **kwargs):
+        """assert that the mock was called exactly once and that that call was
+        with the specified arguments."""
+        if not self.call_count == 1:
+            msg = ("Expected '%s' to be called once. Called %s times.%s"
+                   % (self._mock_name or 'mock',
+                      self.call_count,
+                      self._calls_repr()))
+            raise AssertionError(msg)
+&gt;       return self.assert_called_with(*args, **kwargs)
+E       AssertionError: expected call not found.
+E       Expected: create_deliveries_for_subscriptions(event_type='order_updated', subscribable_object=&lt;Order #UUID('82cb8b7b-a198-4878-aad0-d592555f7315')&gt;, webhooks=[&lt;Webhook: Subscription&gt;], meta={'issued_at': '2018-05-31T12:00:01+00:00', 'version': 'dev', 'issuing_principal': {'id': 'VXNlcjozOQ==', 'type': 'user'}, 'camel_case': True})
+E       Actual: create_deliveries_for_subscriptions(event_type='order_updated', subscribable_object=&lt;Order #UUID('82cb8b7b-a198-4878-aad0-d592555f7315')&gt;, webhooks=[&lt;Webhook: Subscription&gt;], meta={'issued_at': '2018-05-31T12:00:01+00:00', 'version': 'dev', 'issuing_principal': {'id': 'VXNlcjozOQ==', 'type': 'user'}})
+E       
+E       pytest introspection follows:
+E       
+E       Kwargs:
+E       assert {'event_type'...ubscription&gt;]} == {'event_type'...ubscription&gt;]}
+E         
+E         Omitting 3 identical items, use -vv to show
+E         Differing items:
+E         {'meta': {'issued_at': '2018-05-31T12:00:01+00:00', 'issuing_principal': {'id': 'VXNlcjozOQ==', 'type': 'user'}, 'version': 'dev'}} != {'meta': {'camel_case': True, 'issued_at': '2018-05-31T12:00:01+00:00', 'issuing_principal': {'id': 'VXNlcjozOQ==', 'type': 'user'}, 'version': 'dev'}}
+E         Use -v to get more diff
+
+/usr/local/lib/python3.9/unittest/mock.py:919: AssertionError
+
+During handling of the above exception, another exception occurred:
+
+mocked_create_deliveries_for_subscription = &lt;MagicMock name='create_deliveries_for_subscriptions' id='132939523556544'&gt;
+mocked_send_webhook_request = &lt;MagicMock name='delay' id='132939521303024'&gt;
+subscription_order_updated_webhook = &lt;Webhook: Subscription&gt;
+order = &lt;Order #UUID('82cb8b7b-a198-4878-aad0-d592555f7315')&gt;
+staff_user = &lt;User: staff_test@example.com&gt;
+
+    @freeze_time("2018-05-31 12:00:01")
+    @mock.patch("saleor.plugins.webhook.tasks.send_webhook_request_async.delay")
+    @mock.patch("saleor.plugins.webhook.tasks.create_deliveries_for_subscriptions")
+    def test_trigger_webhooks_async_with_meta(
+        mocked_create_deliveries_for_subscription,
+        mocked_send_webhook_request,
+        subscription_order_updated_webhook,
+        order,
+        staff_user,
+    ):
+        webhook = subscription_order_updated_webhook
+        webhook_type = WebhookEventAsyncType.ORDER_UPDATED
+        mocked_create_deliveries_for_subscription.return_value = [FakeDelivery()]
+        data = {"regular_webhook": "data"}
+        trigger_webhooks_async(data, webhook_type, [webhook], order, staff_user)
+&gt;       mocked_create_deliveries_for_subscription.assert_called_once_with(
+            event_type=webhook_type,
+            subscribable_object=order,
+            webhooks=[webhook],
+            meta=generate_meta(
+                requestor_data=generate_requestor(staff_user), camel_case=True
+            ),
+        )
+E       AssertionError: expected call not found.
+E       Expected: create_deliveries_for_subscriptions(event_type='order_updated', subscribable_object=&lt;Order #UUID('82cb8b7b-a198-4878-aad0-d592555f7315')&gt;, webhooks=[&lt;Webhook: Subscription&gt;], meta={'issued_at': '2018-05-31T12:00:01+00:00', 'version': 'dev', 'issuing_principal': {'id': 'VXNlcjozOQ==', 'type': 'user'}, 'camel_case': True})
+E       Actual: create_deliveries_for_subscriptions(event_type='order_updated', subscribable_object=&lt;Order #UUID('82cb8b7b-a198-4878-aad0-d592555f7315')&gt;, webhooks=[&lt;Webhook: Subscription&gt;], meta={'issued_at': '2018-05-31T12:00:01+00:00', 'version': 'dev', 'issuing_principal': {'id': 'VXNlcjozOQ==', 'type': 'user'}})
+E       
+E       pytest introspection follows:
+E       
+E       Kwargs:
+E       assert {'event_type'...ubscription&gt;]} == {'event_type'...ubscription&gt;]}
+E         
+E         Omitting 3 identical items, use -vv to show
+E         Differing items:
+E         {'meta': {'issued_at': '2018-05-31T12:00:01+00:00', 'issuing_principal': {'id': 'VXNlcjozOQ==', 'type': 'user'}, 'version': 'dev'}} != {'meta': {'camel_case': True, 'issued_at': '2018-05-31T12:00:01+00:00', 'issuing_principal': {'id': 'VXNlcjozOQ==', 'type': 'user'}, 'version': 'dev'}}
+E         Use -v to get more diff
+
+saleor/plugins/webhook/tests/subscription_webhooks/test_webhook.py:57: AssertionError</failure></testcase><testcase classname="saleor.plugins.webhook.tests.subscription_webhooks.test_webhook" name="test_trigger_webhooks_async_without_meta" time="0.023" /></testsuite></testsuites>

@@ -1,0 +1,1388 @@
+{
+ "diff_sha256": "8c3d8e00432df76d4efa13d88f65db8447457b8519f67e21c3441f7772981efd",
+ "eval_identity": "saleor-rc-6f37bd256e12/8c3d8e00432df76d4efa13d88f65db8447457b8519f67e21c3441f7772981efd",
+ "evaluation_sha256": "f590f64d8b5616c40bd356cabd4d924e2c6297b9f7fa059bea89f66bd94d9c2f",
+ "f2p_task": "FAIL",
+ "flaky_under_patch": [
+  "saleor/plugins/webhook/tests/subscription_webhooks/test_webhook.py::test_trigger_webhooks_async_with_meta"
+ ],
+ "groups": {
+  "C": {
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_category_created": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_category_deleted": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_category_updated": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_checkout_create": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_checkout_update": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_collection_created": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_collection_deleted": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_collection_updated": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_create_deliveries_for_subscriptions_document_executed_with_error": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_create_deliveries_for_subscriptions_unsubscribable_event": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_customer_created": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_customer_updated": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_draft_order_created": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_draft_order_deleted": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_draft_order_updated": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_fulfillment_canceled": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_fulfillment_created": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_invoice_deleted": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_invoice_requested": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_invoice_sent": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_order_cancelled": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_order_confirmed": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_order_created": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_order_fulfilled": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_order_fully_paid": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_order_updated": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_page_created": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_page_deleted": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_page_updated": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_product_created": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_product_created_multiple_events_in_subscription": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_product_deleted": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_product_updated": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_product_variant_back_in_stock": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_product_variant_created": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_product_variant_deleted": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_product_variant_out_of_stock": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_product_variant_updated": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_sale_created": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_sale_deleted": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_sale_updated": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_validate_invalid_multiple_subscriptions": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_validate_invalid_query_and_subscription": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_validate_invalid_subscription_and_query": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_validate_subscription_query_invalid": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_validate_subscription_query_valid": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_validate_subscription_query_valid_with_fragment": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py::test_translation_created_attribute": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py::test_translation_created_attribute_value": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py::test_translation_created_category": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py::test_translation_created_collection": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py::test_translation_created_menu_item": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py::test_translation_created_page": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py::test_translation_created_product": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py::test_translation_created_product_variant": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py::test_translation_created_sale": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py::test_translation_created_shipping_method": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py::test_translation_created_voucher": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py::test_translation_updated_attribute": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py::test_translation_updated_attribute_value": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py::test_translation_updated_category": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py::test_translation_updated_collection": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py::test_translation_updated_menu_item": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py::test_translation_updated_page": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py::test_translation_updated_product": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py::test_translation_updated_product_variant": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py::test_translation_updated_sale": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py::test_translation_updated_shipping_method": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_translation_subscription.py::test_translation_updated_voucher": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_webhook.py::test_trigger_webhooks_async_no_subscription_webhooks": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_webhook.py::test_trigger_webhooks_async_with_meta": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_webhook.py::test_trigger_webhooks_async_without_meta": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  "U": {
+   "saleor/plugins/admin_email/tests/test_notify_events.py::test_send_account_password_reset_event_empty_template": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/admin_email/tests/test_notify_events.py::test_send_csv_export_failed_empty_template": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/admin_email/tests/test_notify_events.py::test_send_csv_product_export_success_empty_template": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/admin_email/tests/test_notify_events.py::test_send_set_staff_password_email_empty_template": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/admin_email/tests/test_plugin.py::test_notify_event_not_related": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/admin_email/tests/test_plugin.py::test_plugin_manager_doesnt_load_email_templates_from_db": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/admin_email/tests/test_plugin.py::test_save_plugin_configuration": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/admin_email/tests/test_plugin.py::test_save_plugin_configuration_creates_email_template_instance": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/admin_email/tests/test_tasks.py::test_send_export_failed_email_task_custom_template": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/admin_email/tests/test_tasks.py::test_send_set_staff_password_email_task_custom_template": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/admin_email/tests/test_tasks.py::test_send_staff_order_confirmation_email_task_custom_template": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/avatax/tests/test_avatax.py::test__get_unit_tax_rate_handles_multiple_tax_districts": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/avatax/tests/test_avatax.py::test_api_post_request_handles_request_errors": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/avatax/tests/test_avatax.py::test_calculate_checkout_line_without_sku_total[False-24.39-30.00-True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/avatax/tests/test_avatax.py::test_preprocess_order_creation_wrong_data": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/avatax/tests/test_avatax_caching.py::test_calculate_checkout_shipping_use_cache": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/avatax/tests/test_avatax_caching.py::test_calculate_checkout_total_save_avatax_response_in_cache": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/avatax/tests/test_avatax_caching.py::test_calculate_checkout_total_use_cache": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/avatax/tests/test_tasks.py::test_api_post_request_task_creates_order_event": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/avatax/tests/test_tasks.py::test_api_post_request_task_missing_response": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/avatax/tests/test_tasks.py::test_api_post_request_task_order_doesnt_have_any_lines_with_taxes_to_calculate": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/invoicing/tests/test_invoicing.py::test_chunk_products": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/invoicing/tests/test_invoicing.py::test_generate_invoice_pdf_for_order": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/invoicing/tests/test_invoicing.py::test_get_product_limit_first_page": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/openid_connect/tests/test_plugin.py::test_external_logout": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/openid_connect/tests/test_plugin.py::test_external_obtain_access_tokens_missing_redirect_uri_in_state": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/openid_connect/tests/test_plugin.py::test_validate_plugin_configuration_raises_error[cc-123----http://saleor.io//userinfo]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/openid_connect/tests/test_plugin.py::test_validate_plugin_configuration_raises_error[cc-123-saleor.io/auth-http://saleor.io/token-http://saleor.io/token-]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/openid_connect/tests/test_utils.py::test_fetch_jwks": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/openid_connect/tests/test_utils.py::test_fetch_jwks_raises_error[error0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/openid_connect/tests/test_utils.py::test_get_or_create_user_from_payload_with_last_login": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/openid_connect/tests/test_utils.py::test_validate_refresh_token_missing_token": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/sendgrid/tests/test_plugin.py::test_notify_missing_template_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/sendgrid/tests/test_plugin.py::test_notify_not_valid_event_type": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/sendgrid/tests/test_plugin.py::test_save_plugin_configuration_missing_api_key": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/sendgrid/tests/test_tasks.py::test_send_account_confirmation_email_task": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/sendgrid/tests/test_tasks.py::test_send_email": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/sendgrid/tests/test_tasks.py::test_send_order_confirmation_email_task": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/sendgrid/tests/test_tasks.py::test_send_order_confirmed_email_task_by_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/tests/test_email_common.py::test_validate_default_email_configuration_backend_raises": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/tests/test_email_common.py::test_validate_default_email_configuration_bad_email[@]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/tests/test_email_common.py::test_validate_default_email_configuration_bad_email[this_is_not_an_email]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/tests/test_email_common.py::test_validate_default_email_configuration_correct_email": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/tests/test_manager.py::test_manager_get_checkout_line_tax_rate_sample_plugin": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/tests/test_manager.py::test_manager_get_checkout_shipping_tax_rate_sample_plugin": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/tests/test_manager.py::test_manager_get_order_line_tax_rate_no_plugins[unit_price1-expected_tax_rate1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/tests/test_manager.py::test_run_method_on_plugins_only_on_active_ones": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/tests/test_plugin_config_checks.py::test_empty_plugin_path": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/tests/test_plugin_config_checks.py::test_invalid_plugin_path": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/tests/test_plugins.py::test_base_plugin__update_configuration_structure_configuration_has_change": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/tests/test_plugins.py::test_save_plugin_configuration": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/tests/test_plugins.py::test_update_config_items_adds_new_keys": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/tests/test_plugins.py::test_update_configuration_structure_removes_old_keys": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/tests/test_views.py::test_plugin_global_webhook_view[mirumee.taxes.plugin.inactive-/webhook/paid-404]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/tests/test_views.py::test_plugin_per_channel_webhook_view[plugin.sample-/webhook/paid-200]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/tests/test_views.py::test_plugin_webhook_view[mirumee.taxes.plugin.inactive-/webhook/paid-404]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/user_email/tests/test_notify_events.py::test_send_account_change_email_confirm": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/user_email/tests/test_notify_events.py::test_send_account_password_reset_event_with_empty_template": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/user_email/tests/test_notify_events.py::test_send_invoice": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/user_email/tests/test_notify_events.py::test_send_order_refund": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/user_email/tests/test_plugin.py::test_notify[order_confirmation]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/user_email/tests/test_plugin.py::test_notify[order_refund_confirmation]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/user_email/tests/test_plugin.py::test_notify[send_gift_card]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/user_email/tests/test_tasks.py::test_send_fulfillment_confirmation_email_task_default_template": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/user_email/tests/test_tasks.py::test_send_order_canceled_email_task_custom_template": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/user_email/tests/test_tasks.py::test_send_order_confirmation_email_task_custom_template": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/user_email/tests/test_tasks.py::test_send_order_refund_email_task_custom_template": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/vatlayer/tests/test_vatlayer.py::test_calculate_checkout_total[True-20.00-25.75-5.0-False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/vatlayer/tests/test_vatlayer.py::test_calculate_checkout_total_from_origin_country": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/vatlayer/tests/test_vatlayer.py::test_calculate_order_line_unit_from_origin_country": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/vatlayer/tests/test_vatlayer.py::test_get_checkout_line_tax_rate_from_origin_country": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_check_plugin_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_get_payment_gateways": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_get_payment_gateways_filters_out_unsupported_currencies": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_get_payment_gateways_for_checkout": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_run_payment_webhook[auth-authorize_payment]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_run_payment_webhook[capture-capture_payment]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_run_payment_webhook[capture-process_payment]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_run_payment_webhook[confirm-confirm_payment]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_run_payment_webhook[refund-refund_payment]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_run_payment_webhook[void-void_payment]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_run_payment_webhook_empty_response": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_run_payment_webhook_inactive_plugin": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_run_payment_webhook_invalid_app": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_run_payment_webhook_no_payment_app_data": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_run_payment_webhook_no_response": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_send_webhook_request_sync_failed_attempt": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_send_webhook_request_sync_invalid_scheme": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_send_webhook_request_sync_json_parsing_error": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_send_webhook_request_sync_request_exception": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_send_webhook_request_sync_successful_attempt": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_send_webhook_request_sync_when_exception_with_response": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_send_webhook_request_with_proper_timeout": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_trigger_webhook_sync": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_trigger_webhook_sync_no_webhook_available": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_trigger_webhook_sync_use_first_webhook": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook.py::test_webhook_plugin_token_is_not_required": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook_utils.py::test_clear_successful_delivery": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook_utils.py::test_clear_successful_delivery_on_failed_delivery": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook_utils.py::test_from_payment_app_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook_utils.py::test_from_payment_app_id_invalid[1:1:name]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook_utils.py::test_from_payment_app_id_invalid[1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook_utils.py::test_from_payment_app_id_invalid[::]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook_utils.py::test_from_payment_app_id_invalid[]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook_utils.py::test_from_payment_app_id_invalid[app:1:]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook_utils.py::test_from_payment_app_id_invalid[app:1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook_utils.py::test_from_payment_app_id_invalid[app:1a:name]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook_utils.py::test_from_payment_app_id_invalid[name]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook_utils.py::test_parse_list_payment_gateways_response": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook_utils.py::test_parse_list_payment_gateways_response_dict_response": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook_utils.py::test_parse_list_payment_gateways_response_no_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook_utils.py::test_parse_payment_action_response": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook_utils.py::test_parse_payment_action_response_parse_amount": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_payment_webhook_utils.py::test_to_payment_app_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_shipping_webhook.py::test_checkout_available_shipping_methods": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_shipping_webhook.py::test_checkout_shipping_methods": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_shipping_webhook.py::test_checkout_shipping_methods_webhook_called_once": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_shipping_webhook.py::test_excluded_shipping_methods_for_checkout": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_shipping_webhook.py::test_excluded_shipping_methods_for_order": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_shipping_webhook.py::test_generate_excluded_shipping_methods_for_checkout_payload": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_shipping_webhook.py::test_generate_excluded_shipping_methods_for_order_payload": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_shipping_webhook.py::test_multiple_app_with_excluded_shipping_methods_for_checkout": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_shipping_webhook.py::test_multiple_app_with_excluded_shipping_methods_for_order": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_shipping_webhook.py::test_order_available_shipping_methods[<lambda>-0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_shipping_webhook.py::test_order_available_shipping_methods[<lambda>-1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_shipping_webhook.py::test_order_shipping_methods": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_shipping_webhook.py::test_parse_excluded_shipping_methods_response": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_shipping_webhook.py::test_trigger_webhook_sync": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_shippping_exclude_cache.py::test_excluded_shipping_methods_for_checkout_stores_in_cache_when_empty": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_shippping_exclude_cache.py::test_excluded_shipping_methods_for_checkout_stores_in_cache_when_payload_different": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_shippping_exclude_cache.py::test_excluded_shipping_methods_for_checkout_use_cache": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_shippping_exclude_cache.py::test_excluded_shipping_methods_for_order_stores_in_cache_when_empty": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_shippping_exclude_cache.py::test_excluded_shipping_methods_for_order_stores_in_cache_when_payload_is_different": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_shippping_exclude_cache.py::test_excluded_shipping_methods_for_order_use_cache": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_checkout_created": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_checkout_payload_includes_sales": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_checkout_updated": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_collection_created": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_collection_deleted": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_collection_updated": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_create_event_payload_reference_with_error": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_customer_created": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_customer_updated": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_draft_order_created": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_draft_order_deleted": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_draft_order_updated": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_event_delivery_retry": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_invoice_delete": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_invoice_request": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_invoice_sent": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_notify_user": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_order_cancelled": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_order_confirmed": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_order_created": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_order_fully_paid": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_order_updated": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_page_created": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_page_deleted": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_page_updated": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_product_created": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_product_deleted": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_product_updated": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_product_variant_back_in_stock": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_product_variant_created": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_product_variant_deleted": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_product_variant_out_of_stock": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_product_variant_updated": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_sale_created": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_sale_deleted": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_sale_updated": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_send_webhook_request_async": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_send_webhook_request_async_when_delivery_attempt_failed": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_send_webhook_request_async_when_max_retries_exceeded": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_trigger_webhooks_for_event_calls_expected_events[customer_created-0-expected_target_urls7]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_trigger_webhooks_for_event_calls_expected_events[order_cancelled-1-expected_target_urls3]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_trigger_webhooks_for_event_calls_expected_events[order_confirmed-1-expected_target_urls4]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_trigger_webhooks_for_event_calls_expected_events[order_created-1-expected_target_urls6]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_trigger_webhooks_for_event_calls_expected_events[order_fulfilled-1-expected_target_urls2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_trigger_webhooks_for_event_calls_expected_events[order_fully_paid-2-expected_target_urls1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_trigger_webhooks_for_event_calls_expected_events[order_updated-1-expected_target_urls5]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook.py::test_trigger_webhooks_for_event_calls_expected_events[product_created-1-expected_target_urls0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_aws_sqs[queue_name-additional_call_args0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_aws_sqs[queue_name.fifo-additional_call_args1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_aws_sqs_and_secret_key": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_google_pub_sub": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_google_pub_sub_and_secret_key": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_http": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/plugins/webhook/tests/test_webhook_protocols.py::test_trigger_webhooks_with_http_and_secret_key": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/webhook/tests/test_webhook_payload_serializers.py::test_python_serializer_extra_model_fields": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/webhook/tests/test_webhook_payload_serializers.py::test_python_serializer_extra_model_fields_incorrect_fields": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/webhook/tests/test_webhook_payloads.py::test_generate_product_variant_deleted_payload": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/webhook/tests/test_webhook_payloads.py::test_generate_product_variant_without_sku_payload": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/webhook/tests/test_webhook_payloads.py::test_generate_sale_payload_no_previous_and_current_has_empty_catalogue_lists": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[draft_order_created]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[order_created]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_product_payload": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/webhook/tests/test_webhook_serializers.py::test_serialize_checkout_lines[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/webhook/tests/test_webhook_serializers.py::test_serialize_checkout_lines[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/webhook/tests/test_webhook_serializers.py::test_serialize_product_attributes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  }
+ },
+ "label": "u_8c3d8e00432d",
+ "labels": [
+  "GOLD_HARD__r1"
+ ],
+ "p2p_s_task": "PASS",
+ "p2p_u200_task": "FAIL",
+ "resolved": false,
+ "sources": [
+  "episodes/saleor-rc-6f37bd256e12/GOLD_HARD__r1/episode.json"
+ ],
+ "status": "DONE",
+ "task_id": "saleor-rc-6f37bd256e12",
+ "tree_sha": "e9f63a7bc92b934a30e0ac67ad2c9c4042c15db2"
+}
