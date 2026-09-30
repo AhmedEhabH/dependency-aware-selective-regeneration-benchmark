@@ -1,0 +1,70 @@
+{
+ "artifact": "m14r_readiness_task",
+ "artifact_sha256": "9f5425ab8a9c1c4c1bdbc87d42e6300ac5f69b950912b8c5b8e8ad0303f94db2",
+ "decision": "READY",
+ "model_api_calls": 0,
+ "negative": {
+  "nodes": {
+   "f2p_intermittent": 0,
+   "f2p_pass3": 0,
+   "f2p_total": 2,
+   "s_deterministic": 0,
+   "s_intermittent": 0,
+   "s_missing": 0,
+   "u_deterministic": 0,
+   "u_intermittent": 0,
+   "u_missing": 0
+  },
+  "robust": {
+   "f2p_task": "FAIL",
+   "p2p_s_task": "PASS",
+   "p2p_u200_task": "PASS",
+   "resolved": false
+  },
+  "strict": {
+   "f2p_task": "FAIL",
+   "p2p_s_task": "PASS",
+   "p2p_u200_task": "PASS",
+   "resolved": false
+  },
+  "tree_sha": "d9141c18bde61f71cf65f414b4d66ff195fe3357"
+ },
+ "positive": {
+  "e1_decision": "ALL_JUNIT_PRESENT",
+  "editable": [
+   "saleor/payment/gateways/stripe/plugin.py",
+   "saleor/payment/gateways/stripe/webhooks.py",
+   "saleor/payment/interface.py",
+   "saleor/payment/utils.py"
+  ],
+  "excluded_budget": [],
+  "excluded_large": [],
+  "nodes": {
+   "f2p_intermittent": 0,
+   "f2p_pass3": 2,
+   "f2p_total": 2,
+   "s_deterministic": 0,
+   "s_intermittent": 0,
+   "s_missing": 0,
+   "u_deterministic": 0,
+   "u_intermittent": 0,
+   "u_missing": 0
+  },
+  "robust": {
+   "f2p_task": "PASS",
+   "p2p_s_task": "PASS",
+   "p2p_u200_task": "PASS",
+   "resolved": true
+  },
+  "scoped_diff_sha256": "897ef79727a1f6c1c301514d68185086769bbdff0a747ae055c995218452128a",
+  "strict": {
+   "f2p_task": "PASS",
+   "p2p_s_task": "PASS",
+   "p2p_u200_task": "PASS",
+   "resolved": true
+  },
+  "tree_sha": "c19f3afe695444a9c5565d9287f0dba2f981cb02"
+ },
+ "task_id": "saleor-rc-6abb53f3407b",
+ "utc": "2026-09-30T20:20:31Z"
+}
