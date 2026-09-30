@@ -1,0 +1,69 @@
+{
+ "smoke_version": "wp2-m14r-v1",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-dc6ac9d252df",
+ "arm": "GOLD_HARD",
+ "label": "GOLD_HARD__C0__r2",
+ "variant": "G0",
+ "context": "C0",
+ "replicate": "r2",
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-30T22:23:21Z",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/giftcard/notifications.py",
+  "saleor/plugins/sendgrid/tasks.py",
+  "saleor/plugins/user_email/default_email_templates/gift_card.html"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/giftcard/notifications.py",
+   "saleor/plugins/sendgrid/tasks.py",
+   "saleor/plugins/user_email/default_email_templates/gift_card.html"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/giftcard/notifications.py",
+   "saleor/plugins/sendgrid/tasks.py",
+   "saleor/plugins/user_email/default_email_templates/gift_card.html"
+  ]
+ },
+ "prompt_sha256": "b645732bdd66278af6ec0634333091bafee906b9b0d6aeb10c73a309fe3cdab1",
+ "request_sha_initial": "84639ec1ba73d825b4a017a8ade991bf535d0218ba0bfb588a6597c6f36d3879",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "context_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790807001-qR8q9s9ido0Gl2PC4siY",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 5424,
+   "completion_tokens": 619,
+   "cost_usd_actual": 0.0022462,
+   "cost_usd_nominal": 0.0022462,
+   "finish_reason": "stop",
+   "response_sha256": "5cdc91fd10bfc187d89b104dfc42e06a61f56a0baa0d315ae45273599d7b7aab",
+   "request_sha": "84639ec1ba73d825b4a017a8ade991bf535d0218ba0bfb588a6597c6f36d3879",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\m14r_v1\\episodes\\saleor-rc-dc6ac9d252df\\GOLD_HARD__C0__r2\\calls\\1_initial.txt",
+   "raw_sha256": "5cdc91fd10bfc187d89b104dfc42e06a61f56a0baa0d315ae45273599d7b7aab"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "produced_by": "initial",
+ "edited_files": [
+  "saleor/giftcard/notifications.py",
+  "saleor/plugins/sendgrid/tasks.py",
+  "saleor/plugins/user_email/default_email_templates/gift_card.html"
+ ],
+ "diff_sha256": "16ec795185b645d8d57bd90786f83612f045ee5efe642dd1520f3496ef3b03d3",
+ "episode_sha256": "e0921cb31a71cd34b0923345297b9c8ec20277a709c10a7c0df6de44d2c13179"
+}

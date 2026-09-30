@@ -1,0 +1,92 @@
+FILE: saleor/core/jwt.py
+<<<<<<< SEARCH
+def _create_access_token_for_third_party_actions(
+    permissions: Iterable["Permission"],
+    user: "User",
+    type: str,
+    object_id: int,
+    object_payload_key: str,
+    audience: Optional[str],
+):
+    app_permission_enums = get_permission_names(permissions)
+
+    permissions = user.effective_permissions
+    user_permission_enums = get_permission_names(permissions)
+    additional_payload = {
+        object_payload_key: graphene.Node.to_global_id(type, object_id),
+        PERMISSIONS_FIELD: list(app_permission_enums & user_permission_enums),
+        USER_PERMISSION_FIELD: list(user_permission_enums),
+    }
+    if audience:
+        additional_payload["aud"] = audience
+
+    payload = jwt_user_payload(
+        user,
+        JWT_THIRDPARTY_ACCESS_TYPE,
+=======
+def _create_access_token_for_third_party_actions(
+    permissions: Iterable["Permission"],
+    user: "User",
+    type: str,
+    object_id: int,
+    object_payload_key: str,
+    audience: Optional[str],
+    additional_payload_update: Optional[Dict[str, Any]] = None,
+):
+    app_permission_enums = get_permission_names(permissions)
+
+    permissions = user.effective_permissions
+    user_permission_enums = get_permission_names(permissions)
+    additional_payload = {
+        object_payload_key: graphene.Node.to_global_id(type, object_id),
+        PERMISSIONS_FIELD: list(app_permission_enums & user_permission_enums),
+        USER_PERMISSION_FIELD: list(user_permission_enums),
+    }
+    if audience:
+        additional_payload["aud"] = audience
+    if additional_payload_update:
+        additional_payload.update(additional_payload_update)
+
+    payload = jwt_user_payload(
+        user,
+        JWT_THIRDPARTY_ACCESS_TYPE,
+>>>>>>> REPLACE
+
+### Additional changes needed to pass app_id in the payload
+
+Let me update the function calls to include the app id in the payload:
+
+FILE: saleor/core/jwt.py
+<<<<<<< SEARCH
+def create_access_token_for_app_extension(
+    app_extension: "AppExtension",
+    permissions: Iterable["Permission"],
+    user: "User",
+    app: "App",
+):
+    return _create_access_token_for_third_party_actions(
+        permissions=permissions,
+        user=user,
+        type="AppExtension",
+        object_id=app_extension.id,
+        object_payload_key="app_extension",
+        audience=app.audience,
+    )
+=======
+def create_access_token_for_app_extension(
+    app_extension: "AppExtension",
+    permissions: Iterable["Permission"],
+    user: "User",
+    app: "App",
+):
+    additional_payload = {"app": graphene.Node.to_global_id("App", app.id)}
+    return _create_access_token_for_third_party_actions(
+        permissions=permissions,
+        user=user,
+        type="AppExtension",
+        object_id=app_extension.id,
+        object_payload_key="app_extension",
+        audience=app.audience,
+        additional_payload_update=additional_payload,
+    )
+>>>>>>> REPLACE

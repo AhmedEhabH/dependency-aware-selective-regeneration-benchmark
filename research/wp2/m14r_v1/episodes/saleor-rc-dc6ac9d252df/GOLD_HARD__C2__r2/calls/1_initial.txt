@@ -1,0 +1,77 @@
+Looking at the developer change description "New payload structure" and examining the code, I can see that the gift card notification payload structure needs to be updated. The current implementation in `saleor/giftcard/notifications.py` creates a flat payload, but based on the context of other email tasks in the sendgrid plugin, it appears the payload should be restructured to use nested objects.
+
+Let me analyze the sendgrid tasks to understand the expected payload structure pattern. Looking at functions like `send_password_reset_email_task`, I can see they access user data with `payload.get("user", {}).get("id")`, indicating a nested structure.
+
+Here are the changes needed:
+
+FILE: saleor/giftcard/notifications.py
+<<<<<<< SEARCH
+def send_gift_card_notification(user, app, email, gift_card, manager):
+    """Trigger sending a gift card notification for the given recipient."""
+    payload = {
+        "user_id": user.id if user else None,
+        "app_id": app.id if app else None,
+        "recipient_email": email,
+        "gift_card_id": gift_card.id,
+        "code": gift_card.code,
+        **get_site_context(),
+    }
+    manager.notify(NotifyEventType.SEND_GIFT_CARD, payload=payload)
+=======
+def send_gift_card_notification(user, app, email, gift_card, manager):
+    """Trigger sending a gift card notification for the given recipient."""
+    payload = {
+        "user": {"id": user.id} if user else None,
+        "app": {"id": app.id} if app else None,
+        "recipient_email": email,
+        "gift_card": {
+            "id": gift_card.id,
+            "code": gift_card.code,
+        },
+        **get_site_context(),
+    }
+    manager.notify(NotifyEventType.SEND_GIFT_CARD, payload=payload)
+>>>>>>> REPLACE
+
+FILE: saleor/plugins/sendgrid/tasks.py
+<<<<<<< SEARCH
+@app.task(
+    autoretry_for=(SendGridException,),
+    retry_backoff=CELERY_RETRY_BACKOFF,
+    retry_kwargs={"max_retries": CELERY_RETRY_MAX},
+    compression="zlib",
+)
+def send_gift_card_email_task(payload: dict, configuration: dict):
+    configuration = SendgridConfiguration(**configuration)
+    send_email(
+        configuration=configuration,
+        template_id=configuration.send_gift_card_template_id,
+        payload=payload,
+    )
+    giftcard_events.gift_card_sent(
+        payload["gift_card_id"],
+        payload["user_id"],
+        payload["app_id"],
+        payload["recipient_email"],
+    )
+=======
+@app.task(
+    autoretry_for=(SendGridException,),
+    retry_backoff=CELERY_RETRY_BACKOFF,
+    retry_kwargs={"max_retries": CELERY_RETRY_MAX},
+    compression="zlib",
+)
+def send_gift_card_email_task(payload: dict, configuration: dict):
+    configuration = SendgridConfiguration(**configuration)
+    send_email(
+        configuration=configuration,
+        template_id=configuration.send_gift_card_template_id,
+        payload=payload,
+    )
+    giftcard_events.gift_card_sent(
+        payload["gift_card"]["id"],
+        payload["user"]["id"] if payload["user"] else None,
+        payload["app"]["id"] if payload["app"] else None,
+        payload["recipient_email"],
+    )
+>>>>>>> REPLACE
