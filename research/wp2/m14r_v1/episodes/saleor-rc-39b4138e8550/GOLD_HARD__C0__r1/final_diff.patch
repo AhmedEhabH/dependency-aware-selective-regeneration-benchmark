@@ -1,0 +1,29 @@
+diff --git a/saleor/graphql/payment/types.py b/saleor/graphql/payment/types.py
+--- a/saleor/graphql/payment/types.py
++++ b/saleor/graphql/payment/types.py
+@@ -497,15 +497,16 @@
+         interfaces = [GenericPaymentMethodDetails]
+ 
+ 
+-class PaymentMethodDetails(graphene.Union):
+-    class Meta:
+-        types = (CardPaymentMethodDetails, OtherPaymentMethodDetails)
+-
+-    @classmethod
+-    def resolve_type(cls, instance, info: graphene.ResolveInfo):
+-        if instance.payment_method_type == PaymentMethodType.CARD:
+-            return CardPaymentMethodDetails
+-        return OtherPaymentMethodDetails
++class PaymentMethodDetails(graphene.Interface):
++    name = graphene.String(required=True, description="Name of the payment method.")
++
++    class Meta:
++        description = (
++            "Represents a payment method used for a transaction." + ADDED_IN_322
++        )
++
++    def resolve_name(root: models.TransactionItem, _info):
++        return root.payment_method_name or ""
+ 
+ 
+ class TransactionItem(ModelObjectType[models.TransactionItem]):

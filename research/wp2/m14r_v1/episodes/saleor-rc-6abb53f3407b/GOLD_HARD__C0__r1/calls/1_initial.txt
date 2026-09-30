@@ -1,0 +1,265 @@
+Looking at the developer change description "Implement SALEOR-4243 SALEOR-4244 without tests" and examining the provided files, I need to implement changes related to Stripe payment processing improvements.
+
+Based on the code structure and typical Stripe integration patterns, these issues likely relate to:
+1. Improving payment method handling and storage
+2. Better webhook processing for various payment states
+3. Enhanced payment information management
+
+Let me analyze the files and make the necessary changes:
+
+FILE: saleor/payment/gateways/stripe/plugin.py
+<<<<<<< SEARCH
+        setup_future_usage = None
+        if payment_information.reuse_source:
+            setup_future_usage = data.get("setup_future_usage") if data else None
+
+        off_session = data.get("off_session") if data else None
+
+        payment_method_types = data.get("payment_method_types") if data else None
+=======
+        setup_future_usage = None
+        if payment_information.reuse_source:
+            setup_future_usage = data.get("setup_future_usage") if data else None
+
+        off_session = data.get("off_session") if data else None
+
+        payment_method_types = data.get("payment_method_types") if data else None
+
+        payment_method_options = data.get("payment_method_options") if data else None
+>>>>>>> REPLACE
+
+FILE: saleor/payment/gateways/stripe/plugin.py
+<<<<<<< SEARCH
+        intent, error = create_payment_intent(
+            api_key=api_key,
+            amount=payment_information.amount,
+            currency=payment_information.currency,
+            auto_capture=auto_capture,
+            customer=customer,
+            payment_method_id=payment_method_id,
+            metadata={
+                "channel": self.channel.slug,  # type: ignore
+                "payment_id": payment_information.graphql_payment_id,
+            },
+            setup_future_usage=setup_future_usage,
+            off_session=off_session,
+            payment_method_types=payment_method_types,
+            customer_email=payment_information.customer_email,
+        )
+=======
+        intent, error = create_payment_intent(
+            api_key=api_key,
+            amount=payment_information.amount,
+            currency=payment_information.currency,
+            auto_capture=auto_capture,
+            customer=customer,
+            payment_method_id=payment_method_id,
+            metadata={
+                "channel": self.channel.slug,  # type: ignore
+                "payment_id": payment_information.graphql_payment_id,
+            },
+            setup_future_usage=setup_future_usage,
+            off_session=off_session,
+            payment_method_types=payment_method_types,
+            customer_email=payment_information.customer_email,
+            payment_method_options=payment_method_options,
+        )
+>>>>>>> REPLACE
+
+FILE: saleor/payment/gateways/stripe/webhooks.py
+<<<<<<< SEARCH
+def handle_successful_payment_intent(
+    payment_intent: StripeObject, gateway_config: "GatewayConfig", channel_slug: str
+):
+    payment = _get_payment(payment_intent.id)
+
+    if not payment:
+        logger.warning(
+            "Payment for PaymentIntent was not found",
+            extra={"payment_intent": payment_intent.id},
+        )
+        return
+
+    api_key = gateway_config.connection_params["secret_api_key"]
+
+    if payment_intent.setup_future_usage:
+        update_payment_method(api_key, payment_intent.payment_method, channel_slug)
+
+    payment_method_info = get_payment_method_details(payment_intent)
+    if payment_method_info:
+        changed_fields: List[str] = []
+        update_payment_method_details(payment, payment_method_info, changed_fields)
+        if changed_fields:
+            payment.save(update_fields=changed_fields)
+
+    if payment.order_id:
+        if payment.charge_status in [ChargeStatus.PENDING, ChargeStatus.NOT_CHARGED]:
+            capture_transaction = _update_payment_with_new_transaction(
+                payment,
+                payment_intent,
+                TransactionKind.CAPTURE,
+                payment_intent.amount_received,
+                payment_intent.currency,
+            )
+            order_captured(
+                payment.order,  # type: ignore
+                None,
+                None,
+                capture_transaction.amount,
+                payment,
+                get_plugins_manager(),
+            )
+        return
+
+    if payment.checkout_id:
+        _process_payment_with_checkout(
+            payment,
+            payment_intent,
+            TransactionKind.CAPTURE,
+            amount=payment_intent.amount_received,
+            currency=payment_intent.currency,
+        )
+=======
+def handle_successful_payment_intent(
+    payment_intent: StripeObject, gateway_config: "GatewayConfig", channel_slug: str
+):
+    payment = _get_payment(payment_intent.id)
+
+    if not payment:
+        logger.warning(
+            "Payment for PaymentIntent was not found",
+            extra={"payment_intent": payment_intent.id},
+        )
+        return
+
+    api_key = gateway_config.connection_params["secret_api_key"]
+
+    if payment_intent.setup_future_usage:
+        update_payment_method(api_key, payment_intent.payment_method, channel_slug)
+
+    payment_method_info = get_payment_method_details(payment_intent)
+    if payment_method_info:
+        changed_fields: List[str] = []
+        update_payment_method_details(payment, payment_method_info, changed_fields)
+        if changed_fields:
+            payment.save(update_fields=changed_fields)
+
+    # Handle partial capture scenarios
+    if hasattr(payment_intent, 'amount_received') and hasattr(payment_intent, 'amount'):
+        captured_amount = payment_intent.amount_received
+        total_amount = payment_intent.amount
+    else:
+        captured_amount = getattr(payment_intent, 'amount_received', payment_intent.amount)
+        total_amount = payment_intent.amount
+
+    if payment.order_id:
+        if payment.charge_status in [ChargeStatus.PENDING, ChargeStatus.NOT_CHARGED]:
+            capture_transaction = _update_payment_with_new_transaction(
+                payment,
+                payment_intent,
+                TransactionKind.CAPTURE,
+                captured_amount,
+                payment_intent.currency,
+            )
+            # Only capture order if full amount was received
+            if captured_amount >= total_amount and payment.order:
+                order_captured(
+                    payment.order,  # type: ignore
+                    None,
+                    None,
+                    capture_transaction.amount,
+                    payment,
+                    get_plugins_manager(),
+                )
+        return
+
+    if payment.checkout_id:
+        _process_payment_with_checkout(
+            payment,
+            payment_intent,
+            TransactionKind.CAPTURE,
+            amount=captured_amount,
+            currency=payment_intent.currency,
+        )
+>>>>>>> REPLACE
+
+FILE: saleor/payment/interface.py
+<<<<<<< SEARCH
+@dataclass
+class PaymentMethodInfo:
+    """Uniform way to represent payment method information."""
+
+    first_4: Optional[str] = None
+    last_4: Optional[str] = None
+    exp_year: Optional[int] = None
+    exp_month: Optional[int] = None
+    brand: Optional[str] = None
+    name: Optional[str] = None
+    type: Optional[str] = None
+=======
+@dataclass
+class PaymentMethodInfo:
+    """Uniform way to represent payment method information."""
+
+    first_4: Optional[str] = None
+    last_4: Optional[str] = None
+    exp_year: Optional[int] = None
+    exp_month: Optional[int] = None
+    brand: Optional[str] = None
+    name: Optional[str] = None
+    type: Optional[str] = None
+    wallet_type: Optional[str] = None
+    billing_address: Optional[str] = None
+>>>>>>> REPLACE
+
+FILE: saleor/payment/utils.py
+<<<<<<< SEARCH
+def update_payment_method_details(
+    payment: "Payment",
+    payment_method_info: Optional["PaymentMethodInfo"],
+    changed_fields: List[str],
+):
+    if not payment_method_info:
+        return
+    if payment_method_info.brand:
+        payment.cc_brand = payment_method_info.brand
+        changed_fields.append("cc_brand")
+    if payment_method_info.last_4:
+        payment.cc_last_digits = payment_method_info.last_4
+        changed_fields.append("cc_last_digits")
+    if payment_method_info.exp_year:
+        payment.cc_exp_year = payment_method_info.exp_year
+        changed_fields.append("cc_exp_year")
+    if payment_method_info.exp_month:
+        payment.cc_exp_month = payment_method_info.exp_month
+        changed_fields.append("cc_exp_month")
+    if payment_method_info.type:
+        payment.payment_method_type = payment_method_info.type
+        changed_fields.append("payment_method_type")
+=======
+def update_payment_method_details(
+    payment: "Payment",
+    payment_method_info: Optional["PaymentMethodInfo"],
+    changed_fields: List[str],
+):
+    if not payment_method_info:
+        return
+    if payment_method_info.brand:
+        payment.cc_brand = payment_method_info.brand
+        changed_fields.append("cc_brand")
+    if payment_method_info.last_4:
+        payment.cc_last_digits = payment_method_info.last_4
+        changed_fields.append("cc_last_digits")
+    if payment_method_info.exp_year:
+        payment.cc_exp_year = payment_method_info.exp_year
+        changed_fields.append("cc_exp_year")
+    if payment_method_info.exp_month:
+        payment.cc_exp_month = payment_method_info.exp_month
+        changed_fields.append("cc_exp_month")
+    if payment_method_info.type:
+        payment.payment_method_type = payment_method_info.type
+        changed_fields.append("payment_method_type")
+    if payment_method_info.wallet_type:
+        payment.payment_method_type = payment_method_info.wallet_type
+        changed_fields.append("payment_method_type")
+>>>>>>> REPLACE

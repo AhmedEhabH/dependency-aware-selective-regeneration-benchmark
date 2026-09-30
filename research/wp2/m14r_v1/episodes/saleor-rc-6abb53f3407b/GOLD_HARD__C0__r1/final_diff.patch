@@ -1,0 +1,100 @@
+diff --git a/saleor/payment/gateways/stripe/plugin.py b/saleor/payment/gateways/stripe/plugin.py
+--- a/saleor/payment/gateways/stripe/plugin.py
++++ b/saleor/payment/gateways/stripe/plugin.py
+@@ -184,6 +184,8 @@
+ 
+         payment_method_types = data.get("payment_method_types") if data else None
+ 
++        payment_method_options = data.get("payment_method_options") if data else None
++
+         customer = None
+         # confirm that we creates customer on stripe side only for log-in customers
+         # Stripe doesn't allow to search users by email, so each create customer
+@@ -209,6 +211,7 @@
+             off_session=off_session,
+             payment_method_types=payment_method_types,
+             customer_email=payment_information.customer_email,
++            payment_method_options=payment_method_options,
+         )
+ 
+         if error and payment_method_id and not intent:
+diff --git a/saleor/payment/gateways/stripe/webhooks.py b/saleor/payment/gateways/stripe/webhooks.py
+--- a/saleor/payment/gateways/stripe/webhooks.py
++++ b/saleor/payment/gateways/stripe/webhooks.py
+@@ -296,23 +296,33 @@
+         if changed_fields:
+             payment.save(update_fields=changed_fields)
+ 
++    # Handle partial capture scenarios
++    if hasattr(payment_intent, 'amount_received') and hasattr(payment_intent, 'amount'):
++        captured_amount = payment_intent.amount_received
++        total_amount = payment_intent.amount
++    else:
++        captured_amount = getattr(payment_intent, 'amount_received', payment_intent.amount)
++        total_amount = payment_intent.amount
++
+     if payment.order_id:
+         if payment.charge_status in [ChargeStatus.PENDING, ChargeStatus.NOT_CHARGED]:
+             capture_transaction = _update_payment_with_new_transaction(
+                 payment,
+                 payment_intent,
+                 TransactionKind.CAPTURE,
+-                payment_intent.amount_received,
++                captured_amount,
+                 payment_intent.currency,
+             )
+-            order_captured(
+-                payment.order,  # type: ignore
+-                None,
+-                None,
+-                capture_transaction.amount,
+-                payment,
+-                get_plugins_manager(),
+-            )
++            # Only capture order if full amount was received
++            if captured_amount >= total_amount and payment.order:
++                order_captured(
++                    payment.order,  # type: ignore
++                    None,
++                    None,
++                    capture_transaction.amount,
++                    payment,
++                    get_plugins_manager(),
++                )
+         return
+ 
+     if payment.checkout_id:
+@@ -320,7 +330,7 @@
+             payment,
+             payment_intent,
+             TransactionKind.CAPTURE,
+-            amount=payment_intent.amount_received,
++            amount=captured_amount,
+             currency=payment_intent.currency,
+         )
+ 
+diff --git a/saleor/payment/interface.py b/saleor/payment/interface.py
+--- a/saleor/payment/interface.py
++++ b/saleor/payment/interface.py
+@@ -18,6 +18,8 @@
+     brand: Optional[str] = None
+     name: Optional[str] = None
+     type: Optional[str] = None
++    wallet_type: Optional[str] = None
++    billing_address: Optional[str] = None
+ 
+ 
+ @dataclass
+diff --git a/saleor/payment/utils.py b/saleor/payment/utils.py
+--- a/saleor/payment/utils.py
++++ b/saleor/payment/utils.py
+@@ -405,6 +405,9 @@
+     if payment_method_info.type:
+         payment.payment_method_type = payment_method_info.type
+         changed_fields.append("payment_method_type")
++    if payment_method_info.wallet_type:
++        payment.payment_method_type = payment_method_info.wallet_type
++        changed_fields.append("payment_method_type")
+ 
+ 
+ def get_payment_token(payment: Payment):

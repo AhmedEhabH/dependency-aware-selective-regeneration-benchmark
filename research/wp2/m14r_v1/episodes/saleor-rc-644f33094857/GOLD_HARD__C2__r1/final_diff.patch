@@ -1,0 +1,51 @@
+diff --git a/saleor/order/actions.py b/saleor/order/actions.py
+--- a/saleor/order/actions.py
++++ b/saleor/order/actions.py
+@@ -146,6 +146,7 @@
+         order=order, user=user, amount=amount, payment=payment
+     )
+     get_plugins_manager().order_updated(order)
++    update_order_status(order)
+ 
+     send_order_refunded_confirmation(order, user, amount, payment.currency)
+ 
+@@ -153,6 +154,7 @@
+ def order_voided(order: "Order", user: "User", payment: "Payment"):
+     events.payment_voided_event(order=order, user=user, payment=payment)
+     get_plugins_manager().order_updated(order)
++    update_order_status(order)
+ 
+ 
+ def order_fulfilled(
+@@ -162,7 +164,6 @@
+     notify_customer=True,
+ ):
+     order = fulfillments[0].order
+-    update_order_status(order)
+     events.fulfillment_fulfilled_items_event(
+         order=order, user=user, fulfillment_lines=fulfillment_lines
+     )
+@@ -178,6 +179,7 @@
+     if notify_customer:
+         for fulfillment in fulfillments:
+             send_fulfillment_confirmation_to_customer(order, fulfillment, user)
++    update_order_status(order)
+ 
+ 
+ def order_shipping_updated(order: "Order"):
+@@ -215,6 +217,7 @@
+         fulfillment=fulfillment,
+     )
+     get_plugins_manager().order_updated(fulfillment.order)
++    update_order_status(fulfillment.order)
+ 
+ 
+ @transaction.atomic
+@@ -622,6 +625,7 @@
+         )
+ 
+         Fulfillment.objects.filter(order=order, lines=None).delete()
++        update_order_status(order)
+ 
+     return refunded_fulfillment
+ 

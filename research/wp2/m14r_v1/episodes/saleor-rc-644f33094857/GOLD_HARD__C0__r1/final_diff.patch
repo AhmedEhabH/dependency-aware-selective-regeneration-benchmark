@@ -1,0 +1,25 @@
+diff --git a/saleor/order/actions.py b/saleor/order/actions.py
+--- a/saleor/order/actions.py
++++ b/saleor/order/actions.py
+@@ -622,6 +622,7 @@
+         )
+ 
+         Fulfillment.objects.filter(order=order, lines=None).delete()
++        update_order_status(order)
+ 
+     return refunded_fulfillment
+ 
+@@ -970,6 +971,8 @@
+     amount: Optional[Decimal],
+     refund_shipping_costs: bool,
+ ):
++    from .utils import update_order_status
++    
+     lines_to_refund: Dict[OrderLineIDType, Tuple[QuantityType, OrderLine]] = dict()
+     refund_amount = _calculate_refund_amount(
+         order_lines_to_refund, fulfillment_lines_to_refund, lines_to_refund
+@@ -992,3 +995,4 @@
+         amount=amount,
+         shipping_costs_included=refund_shipping_costs,
+     )
++    update_order_status(order)

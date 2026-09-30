@@ -1,0 +1,132 @@
+Looking at the developer change description, I need to extend the logic for updating order status and call update order status for refund action. Let me analyze the files to understand where and how to implement this.
+
+From examining the code, I can see that:
+1. The `update_order_status` function in `saleor/order/utils.py` handles order status updates based on fulfillment
+2. Refund actions are handled in `saleor/order/actions.py` 
+3. The refund fulfillment creation should trigger order status updates
+
+Let me look at the specific places where I need to add the order status update calls:
+
+FILE: saleor/order/actions.py
+<<<<<<< SEARCH
+def create_refund_fulfillment(
+    requester: Optional["User"],
+    order,
+    payment,
+    order_lines_to_refund: List[OrderLineData],
+    fulfillment_lines_to_refund: List[FulfillmentLineData],
+    amount=None,
+    refund_shipping_costs=False,
+):
+    """Proceed with all steps required for refunding products.
+
+    Calculate refunds for products based on the order's order lines and fulfillment
+    lines.  The logic takes the list of order lines, fulfillment lines, and their
+    quantities which is used to create the refund fulfillment. The stock for
+    unfulfilled lines will be deallocated. It creates only single refund fulfillment
+    for each order. Calling the method N-time will increase the quantity of the already
+    refunded line. The refund fulfillment can have assigned lines with the same
+    products but with the different stocks.
+    """
+
+    _process_refund(
+        requester=requester,
+        order=order,
+        payment=payment,
+        order_lines_to_refund=order_lines_to_refund,
+        fulfillment_lines_to_refund=fulfillment_lines_to_refund,
+        amount=amount,
+        refund_shipping_costs=refund_shipping_costs,
+    )
+
+    with transaction.atomic():
+        refunded_fulfillment, _ = Fulfillment.objects.get_or_create(
+            status=FulfillmentStatus.REFUNDED, order=order
+        )
+        already_refunded_lines = list(refunded_fulfillment.lines.all())
+        _move_order_lines_to_target_fulfillment(
+            order_lines_to_move=order_lines_to_refund,
+            lines_in_target_fulfillment=already_refunded_lines,
+            target_fulfillment=refunded_fulfillment,
+        )
+        _move_fulfillment_lines_to_target_fulfillment(
+            fulfillment_lines_to_move=fulfillment_lines_to_refund,
+            lines_in_target_fulfillment=already_refunded_lines,
+            target_fulfillment=refunded_fulfillment,
+        )
+
+        Fulfillment.objects.filter(order=order, lines=None).delete()
+
+    return refunded_fulfillment
+=======
+def create_refund_fulfillment(
+    requester: Optional["User"],
+    order,
+    payment,
+    order_lines_to_refund: List[OrderLineData],
+    fulfillment_lines_to_refund: List[FulfillmentLineData],
+    amount=None,
+    refund_shipping_costs=False,
+):
+    """Proceed with all steps required for refunding products.
+
+    Calculate refunds for products based on the order's order lines and fulfillment
+    lines.  The logic takes the list of order lines, fulfillment lines, and their
+    quantities which is used to create the refund fulfillment. The stock for
+    unfulfilled lines will be deallocated. It creates only single refund fulfillment
+    for each order. Calling the method N-time will increase the quantity of the already
+    refunded line. The refund fulfillment can have assigned lines with the same
+    products but with the different stocks.
+    """
+
+    _process_refund(
+        requester=requester,
+        order=order,
+        payment=payment,
+        order_lines_to_refund=order_lines_to_refund,
+        fulfillment_lines_to_refund=fulfillment_lines_to_refund,
+        amount=amount,
+        refund_shipping_costs=refund_shipping_costs,
+    )
+
+    with transaction.atomic():
+        refunded_fulfillment, _ = Fulfillment.objects.get_or_create(
+            status=FulfillmentStatus.REFUNDED, order=order
+        )
+        already_refunded_lines = list(refunded_fulfillment.lines.all())
+        _move_order_lines_to_target_fulfillment(
+            order_lines_to_move=order_lines_to_refund,
+            lines_in_target_fulfillment=already_refunded_lines,
+            target_fulfillment=refunded_fulfillment,
+        )
+        _move_fulfillment_lines_to_target_fulfillment(
+            fulfillment_lines_to_move=fulfillment_lines_to_refund,
+            lines_in_target_fulfillment=already_refunded_lines,
+            target_fulfillment=refunded_fulfillment,
+        )
+
+        Fulfillment.objects.filter(order=order, lines=None).delete()
+        update_order_status(order)
+
+    return refunded_fulfillment
+>>>>>>> REPLACE
+
+FILE: saleor/order/actions.py
+<<<<<<< SEARCH
+        fulfillment_refunded_event(
+            order=order,
+            user=requester,
+            refunded_lines=list(lines_to_refund.values()),
+            amount=amount,
+            shipping_costs_included=refund_shipping_costs,
+        )
+=======
+        fulfillment_refunded_event(
+            order=order,
+            user=requester,
+            refunded_lines=list(lines_to_refund.values()),
+            amount=amount,
+            shipping_costs_included=refund_shipping_costs,
+        )
+        update_order_status(order)
+>>>>>>> REPLACE

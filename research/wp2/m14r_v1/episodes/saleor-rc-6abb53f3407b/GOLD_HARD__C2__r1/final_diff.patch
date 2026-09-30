@@ -1,0 +1,48 @@
+diff --git a/saleor/payment/gateways/stripe/webhooks.py b/saleor/payment/gateways/stripe/webhooks.py
+--- a/saleor/payment/gateways/stripe/webhooks.py
++++ b/saleor/payment/gateways/stripe/webhooks.py
+@@ -71,7 +71,7 @@
+         WEBHOOK_AUTHORIZED_EVENT: handle_authorized_payment_intent,
+         WEBHOOK_PROCESSING_EVENT: handle_processing_payment_intent,
+         WEBHOOK_FAILED_EVENT: handle_failed_payment_intent,
+-        WEBHOOK_CANCELED_EVENT: handle_failed_payment_intent,
++        WEBHOOK_CANCELED_EVENT: handle_canceled_payment_intent,
+         WEBHOOK_REFUND_EVENT: handle_refund,
+     }
+     if event.type in webhook_handlers:
+@@ -225,7 +225,7 @@
+         )
+ 
+ 
+-def handle_failed_payment_intent(
++def handle_canceled_payment_intent(
+     payment_intent: StripeObject, gateway_config: "GatewayConfig", _channel_slug: str
+ ):
+     payment = _get_payment(payment_intent.id)
+@@ -245,6 +245,26 @@
+     )
+     if payment.order:
+         order_voided(payment.order, None, None, payment, get_plugins_manager())
++
++
++def handle_failed_payment_intent(
++    payment_intent: StripeObject, gateway_config: "GatewayConfig", _channel_slug: str
++):
++    payment = _get_payment(payment_intent.id)
++
++    if not payment:
++        logger.warning(
++            "Payment for PaymentIntent was not found",
++            extra={"payment_intent": payment_intent.id},
++        )
++        return
++    _update_payment_with_new_transaction(
++        payment,
++        payment_intent,
++        TransactionKind.CANCEL,
++        payment_intent.amount,
++        payment_intent.currency,
++    )
+ 
+ 
+ def handle_processing_payment_intent(

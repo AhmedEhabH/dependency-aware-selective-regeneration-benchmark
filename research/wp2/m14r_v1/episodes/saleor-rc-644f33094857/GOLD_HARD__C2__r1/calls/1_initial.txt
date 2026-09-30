@@ -1,0 +1,489 @@
+Looking at the developer change description, I need to extend the logic for updating order status and call update order status for refund action. Let me analyze the code to understand what needs to be changed.
+
+From the code, I can see that:
+1. `update_order_status` function in `saleor/order/utils.py` updates the order status based on fulfillment quantities
+2. The refund actions in `saleor/order/actions.py` need to call this function to update order status after refunds
+3. There's already a pattern of calling `update_order_status` in some fulfillment actions
+
+Let me examine the specific places where refund actions occur and ensure they call `update_order_status`.
+
+FILE: saleor/order/actions.py
+<<<<<<< SEARCH
+def create_refund_fulfillment(
+    requester: Optional["User"],
+    order,
+    payment,
+    order_lines_to_refund: List[OrderLineData],
+    fulfillment_lines_to_refund: List[FulfillmentLineData],
+    amount=None,
+    refund_shipping_costs=False,
+):
+    """Proceed with all steps required for refunding products.
+
+    Calculate refunds for products based on the order's order lines and fulfillment
+    lines.  The logic takes the list of order lines, fulfillment lines, and their
+    quantities which is used to create the refund fulfillment. The stock for
+    unfulfilled lines will be deallocated. It creates only single refund fulfillment
+    for each order. Calling the method N-time will increase the quantity of the already
+    refunded line. The refund fulfillment can have assigned lines with the same
+    products but with the different stocks.
+    """
+
+    _process_refund(
+        requester=requester,
+        order=order,
+        payment=payment,
+        order_lines_to_refund=order_lines_to_refund,
+        fulfillment_lines_to_refund=fulfillment_lines_to_refund,
+        amount=amount,
+        refund_shipping_costs=refund_shipping_costs,
+    )
+
+    with transaction.atomic():
+        refunded_fulfillment, _ = Fulfillment.objects.get_or_create(
+            status=FulfillmentStatus.REFUNDED, order=order
+        )
+        already_refunded_lines = list(refunded_fulfillment.lines.all())
+        _move_order_lines_to_target_fulfillment(
+            order_lines_to_move=order_lines_to_refund,
+            lines_in_target_fulfillment=already_refunded_lines,
+            target_fulfillment=refunded_fulfillment,
+        )
+        _move_fulfillment_lines_to_target_fulfillment(
+            fulfillment_lines_to_move=fulfillment_lines_to_refund,
+            lines_in_target_fulfillment=already_refunded_lines,
+            target_fulfillment=refunded_fulfillment,
+        )
+
+        Fulfillment.objects.filter(order=order, lines=None).delete()
+
+    return refunded_fulfillment
+=======
+def create_refund_fulfillment(
+    requester: Optional["User"],
+    order,
+    payment,
+    order_lines_to_refund: List[OrderLineData],
+    fulfillment_lines_to_refund: List[FulfillmentLineData],
+    amount=None,
+    refund_shipping_costs=False,
+):
+    """Proceed with all steps required for refunding products.
+
+    Calculate refunds for products based on the order's order lines and fulfillment
+    lines.  The logic takes the list of order lines, fulfillment lines, and their
+    quantities which is used to create the refund fulfillment. The stock for
+    unfulfilled lines will be deallocated. It creates only single refund fulfillment
+    for each order. Calling the method N-time will increase the quantity of the already
+    refunded line. The refund fulfillment can have assigned lines with the same
+    products but with the different stocks.
+    """
+
+    _process_refund(
+        requester=requester,
+        order=order,
+        payment=payment,
+        order_lines_to_refund=order_lines_to_refund,
+        fulfillment_lines_to_refund=fulfillment_lines_to_refund,
+        amount=amount,
+        refund_shipping_costs=refund_shipping_costs,
+    )
+
+    with transaction.atomic():
+        refunded_fulfillment, _ = Fulfillment.objects.get_or_create(
+            status=FulfillmentStatus.REFUNDED, order=order
+        )
+        already_refunded_lines = list(refunded_fulfillment.lines.all())
+        _move_order_lines_to_target_fulfillment(
+            order_lines_to_move=order_lines_to_refund,
+            lines_in_target_fulfillment=already_refunded_lines,
+            target_fulfillment=refunded_fulfillment,
+        )
+        _move_fulfillment_lines_to_target_fulfillment(
+            fulfillment_lines_to_move=fulfillment_lines_to_refund,
+            lines_in_target_fulfillment=already_refunded_lines,
+            target_fulfillment=refunded_fulfillment,
+        )
+
+        Fulfillment.objects.filter(order=order, lines=None).delete()
+        update_order_status(order)
+
+    return refunded_fulfillment
+>>>>>>> REPLACE
+
+FILE: saleor/order/actions.py
+<<<<<<< SEARCH
+def order_refunded(
+    order: "Order", user: Optional["User"], amount: "Decimal", payment: "Payment"
+):
+    events.payment_refunded_event(
+        order=order, user=user, amount=amount, payment=payment
+    )
+    get_plugins_manager().order_updated(order)
+
+    send_order_refunded_confirmation(order, user, amount, payment.currency)
+=======
+def order_refunded(
+    order: "Order", user: Optional["User"], amount: "Decimal", payment: "Payment"
+):
+    events.payment_refunded_event(
+        order=order, user=user, amount=amount, payment=payment
+    )
+    get_plugins_manager().order_updated(order)
+    update_order_status(order)
+
+    send_order_refunded_confirmation(order, user, amount, payment.currency)
+>>>>>>> REPLACE
+
+FILE: saleor/order/actions.py
+<<<<<<< SEARCH
+def order_voided(order: "Order", user: "User", payment: "Payment"):
+    events.payment_voided_event(order=order, user=user, payment=payment)
+    get_plugins_manager().order_updated(order)
+=======
+def order_voided(order: "Order", user: "User", payment: "Payment"):
+    events.payment_voided_event(order=order, user=user, payment=payment)
+    get_plugins_manager().order_updated(order)
+    update_order_status(order)
+>>>>>>> REPLACE
+
+FILE: saleor/order/actions.py
+<<<<<<< SEARCH
+def order_fulfilled(
+    fulfillments: List["Fulfillment"],
+    user: "User",
+    fulfillment_lines: List["FulfillmentLine"],
+    notify_customer=True,
+):
+    order = fulfillments[0].order
+    update_order_status(order)
+    events.fulfillment_fulfilled_items_event(
+        order=order, user=user, fulfillment_lines=fulfillment_lines
+    )
+    manager = get_plugins_manager()
+    manager.order_updated(order)
+
+    for fulfillment in fulfillments:
+        manager.fulfillment_created(fulfillment)
+
+    if order.status == OrderStatus.FULFILLED:
+        manager.order_fulfilled(order)
+
+    if notify_customer:
+        for fulfillment in fulfillments:
+            send_fulfillment_confirmation_to_customer(order, fulfillment, user)
+=======
+def order_fulfilled(
+    fulfillments: List["Fulfillment"],
+    user: "User",
+    fulfillment_lines: List["FulfillmentLine"],
+    notify_customer=True,
+):
+    order = fulfillments[0].order
+    events.fulfillment_fulfilled_items_event(
+        order=order, user=user, fulfillment_lines=fulfillment_lines
+    )
+    manager = get_plugins_manager()
+    manager.order_updated(order)
+
+    for fulfillment in fulfillments:
+        manager.fulfillment_created(fulfillment)
+
+    if order.status == OrderStatus.FULFILLED:
+        manager.order_fulfilled(order)
+
+    if notify_customer:
+        for fulfillment in fulfillments:
+            send_fulfillment_confirmation_to_customer(order, fulfillment, user)
+    update_order_status(order)
+>>>>>>> REPLACE
+
+FILE: saleor/order/actions.py
+<<<<<<< SEARCH
+def fulfillment_tracking_updated(
+    fulfillment: "Fulfillment", user: "User", tracking_number: str
+):
+    events.fulfillment_tracking_updated_event(
+        order=fulfillment.order,
+        user=user,
+        tracking_number=tracking_number,
+        fulfillment=fulfillment,
+    )
+    get_plugins_manager().order_updated(fulfillment.order)
+=======
+def fulfillment_tracking_updated(
+    fulfillment: "Fulfillment", user: "User", tracking_number: str
+):
+    events.fulfillment_tracking_updated_event(
+        order=fulfillment.order,
+        user=user,
+        tracking_number=tracking_number,
+        fulfillment=fulfillment,
+    )
+    get_plugins_manager().order_updated(fulfillment.order)
+    update_order_status(fulfillment.order)
+>>>>>>> REPLACE
+
+FILE: saleor/order/actions.py
+<<<<<<< SEARCH
+def fulfillment_canceled_event(
+    *, order: Order, user: UserType, fulfillment: Fulfillment
+) -> OrderEvent:
+    if not _user_is_valid(user):
+        user = None
+    return OrderEvent.objects.create(
+        order=order,
+        type=OrderEvents.FULFILLMENT_CANCELED,
+        user=user,
+        parameters={"composed_id": fulfillment.composed_id},
+    )
+=======
+def fulfillment_canceled_event(
+    *, order: Order, user: UserType, fulfillment: Fulfillment
+) -> OrderEvent:
+    if not _user_is_valid(user):
+        user = None
+    return OrderEvent.objects.create(
+        order=order,
+        type=OrderEvents.FULFILLMENT_CANCELED,
+        user=user,
+        parameters={"composed_id": fulfillment.composed_id},
+    )
+>>>>>>> REPLACE
+
+FILE: saleor/order/actions.py
+<<<<<<< SEARCH
+def fulfillment_restocked_items_event(
+    *,
+    order: Order,
+    user: UserType,
+    fulfillment: Union[Order, Fulfillment],
+    warehouse_pk: Optional[int] = None,
+) -> OrderEvent:
+    if not _user_is_valid(user):
+        user = None
+    return OrderEvent.objects.create(
+        order=order,
+        type=OrderEvents.FULFILLMENT_RESTOCKED_ITEMS,
+        user=user,
+        parameters={
+            "quantity": fulfillment.get_total_quantity(),
+            "warehouse": warehouse_pk,
+        },
+    )
+=======
+def fulfillment_restocked_items_event(
+    *,
+    order: Order,
+    user: UserType,
+    fulfillment: Union[Order, Fulfillment],
+    warehouse_pk: Optional[int] = None,
+) -> OrderEvent:
+    if not _user_is_valid(user):
+        user = None
+    return OrderEvent.objects.create(
+        order=order,
+        type=OrderEvents.FULFILLMENT_RESTOCKED_ITEMS,
+        user=user,
+        parameters={
+            "quantity": fulfillment.get_total_quantity(),
+            "warehouse": warehouse_pk,
+        },
+    )
+>>>>>>> REPLACE
+
+FILE: saleor/order/actions.py
+<<<<<<< SEARCH
+def fulfillment_fulfilled_items_event(
+    *, order: Order, user: UserType, fulfillment_lines: List[FulfillmentLine]
+) -> OrderEvent:
+    if not _user_is_valid(user):
+        user = None
+    return OrderEvent.objects.create(
+        order=order,
+        type=OrderEvents.FULFILLMENT_FULFILLED_ITEMS,
+        user=user,
+        parameters={"fulfilled_items": [line.pk for line in fulfillment_lines]},
+    )
+=======
+def fulfillment_fulfilled_items_event(
+    *, order: Order, user: UserType, fulfillment_lines: List[FulfillmentLine]
+) -> OrderEvent:
+    if not _user_is_valid(user):
+        user = None
+    return OrderEvent.objects.create(
+        order=order,
+        type=OrderEvents.FULFILLMENT_FULFILLED_ITEMS,
+        user=user,
+        parameters={"fulfilled_items": [line.pk for line in fulfillment_lines]},
+    )
+>>>>>>> REPLACE
+
+FILE: saleor/order/actions.py
+<<<<<<< SEARCH
+def fulfillment_returned_event(
+    *, order: Order, user: UserType, returned_lines: List[Tuple[int, OrderLine]],
+):
+    if not _user_is_valid(user):
+        user = None
+
+    return OrderEvent.objects.create(
+        order=order,
+        type=OrderEvents.FULFILLMENT_RETURNED,
+        user=user,
+        parameters={"lines": _lines_per_quantity_to_line_object_list(returned_lines)},
+    )
+=======
+def fulfillment_returned_event(
+    *, order: Order, user: UserType, returned_lines: List[Tuple[int, OrderLine]],
+):
+    if not _user_is_valid(user):
+        user = None
+
+    return OrderEvent.objects.create(
+        order=order,
+        type=OrderEvents.FULFILLMENT_RETURNED,
+        user=user,
+        parameters={"lines": _lines_per_quantity_to_line_object_list(returned_lines)},
+    )
+>>>>>>> REPLACE
+
+FILE: saleor/order/actions.py
+<<<<<<< SEARCH
+def fulfillment_replaced_event(
+    *, order: Order, user: UserType, replaced_lines: List[Tuple[int, OrderLine]],
+):
+    if not _user_is_valid(user):
+        user = None
+    return OrderEvent.objects.create(
+        order=order,
+        type=OrderEvents.FULFILLMENT_REPLACED,
+        user=user,
+        parameters={"lines": _lines_per_quantity_to_line_object_list(replaced_lines)},
+    )
+=======
+def fulfillment_replaced_event(
+    *, order: Order, user: UserType, replaced_lines: List[Tuple[int, OrderLine]],
+):
+    if not _user_is_valid(user):
+        user = None
+    return OrderEvent.objects.create(
+        order=order,
+        type=OrderEvents.FULFILLMENT_REPLACED,
+        user=user,
+        parameters={"lines": _lines_per_quantity_to_line_object_list(replaced_lines)},
+    )
+>>>>>>> REPLACE
+
+FILE: saleor/order/actions.py
+<<<<<<< SEARCH
+def fulfillment_refunded_event(
+    *,
+    order: Order,
+    user: UserType,
+    refunded_lines: List[Tuple[int, OrderLine]],
+    amount: Decimal,
+    shipping_costs_included: bool
+):
+    if not _user_is_valid(user):
+        user = None
+    return OrderEvent.objects.create(
+        order=order,
+        type=OrderEvents.FULFILLMENT_REFUNDED,
+        user=user,
+        parameters={
+            "lines": _lines_per_quantity_to_line_object_list(refunded_lines),
+            "amount": amount,
+            "shipping_costs_included": shipping_costs_included,
+        },
+    )
+=======
+def fulfillment_refunded_event(
+    *,
+    order: Order,
+    user: UserType,
+    refunded_lines: List[Tuple[int, OrderLine]],
+    amount: Decimal,
+    shipping_costs_included: bool
+):
+    if not _user_is_valid(user):
+        user = None
+    return OrderEvent.objects.create(
+        order=order,
+        type=OrderEvents.FULFILLMENT_REFUNDED,
+        user=user,
+        parameters={
+            "lines": _lines_per_quantity_to_line_object_list(refunded_lines),
+            "amount": amount,
+            "shipping_costs_included": shipping_costs_included,
+        },
+    )
+>>>>>>> REPLACE
+
+FILE: saleor/order/actions.py
+<<<<<<< SEARCH
+def fulfillment_tracking_updated_event(
+    *, order: Order, user: UserType, tracking_number: str, fulfillment: Fulfillment
+) -> OrderEvent:
+    if not _user_is_valid(user):
+        user = None
+    return OrderEvent.objects.create(
+        order=order,
+        type=OrderEvents.TRACKING_UPDATED,
+        user=user,
+        parameters={
+            "tracking_number": tracking_number,
+            "fulfillment": fulfillment.composed_id,
+        },
+    )
+=======
+def fulfillment_tracking_updated_event(
+    *, order: Order, user: UserType, tracking_number: str, fulfillment: Fulfillment
+) -> OrderEvent:
+    if not _user_is_valid(user):
+        user = None
+    return OrderEvent.objects.create(
+        order=order,
+        type=OrderEvents.TRACKING_UPDATED,
+        user=user,
+        parameters={
+            "tracking_number": tracking_number,
+            "fulfillment": fulfillment.composed_id,
+        },
+    )
+>>>>>>> REPLACE
+
+FILE: saleor/order/actions.py
+<<<<<<< SEARCH
+def order_note_added_event(*, order: Order, user: UserType, message: str) -> OrderEvent:
+    kwargs = {}
+    if user is not None and not user.is_anonymous:
+        if order.user is not None and order.user.pk == user.pk:
+            account_events.customer_added_to_note_order_event(
+                user=user, order=order, message=message
+            )
+        kwargs["user"] = user
+
+    return OrderEvent.objects.create(
+        order=order,
+        type=OrderEvents.NOTE_ADDED,
+        parameters={"message": message},
+        **kwargs,
+    )
+=======
+def order_note_added_event(*, order: Order, user: UserType, message: str) -> OrderEvent:
+    kwargs = {}
+    if user is not None and not user.is_anonymous:
+        if order.user is not None and order.user.pk == user.pk:
+            account_events.customer_added_to_note_order_event(
+                user=user, order=order, message=message
+            )
+        kwargs["user"] = user
+
+    return OrderEvent.objects.create(
+        order=order,
+        type=OrderEvents.NOTE_ADDED,
+        parameters={"message": message},
+        **kwargs,
+    )
+>>>>>>> REPLACE

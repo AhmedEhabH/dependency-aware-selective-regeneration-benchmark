@@ -1,0 +1,357 @@
+Based on the developer change description mentioning SALEOR-4243 and SALEOR-4244, and examining the code, I'll implement changes to improve the Stripe webhook handling and payment processing. Here are the necessary edits:
+
+FILE: saleor/payment/gateways/stripe/webhooks.py
+<<<<<<< SEARCH
+def handle_webhook(
+    request: WSGIRequest, gateway_config: "GatewayConfig", channel_slug: str
+):
+    payload = request.body
+    sig_header = request.META["HTTP_STRIPE_SIGNATURE"]
+    endpoint_secret = gateway_config.connection_params["webhook_secret"]
+    api_key = gateway_config.connection_params["secret_api_key"]
+    try:
+        event = construct_stripe_event(
+            api_key=api_key,
+            payload=payload,
+            sig_header=sig_header,
+            endpoint_secret=endpoint_secret,
+        )
+    except ValueError as e:
+        # Invalid payload
+        logger.warning(
+            "Received invalid payload for Stripe webhook", extra={"error": e}
+        )
+        return HttpResponse(status=400)
+    except SignatureVerificationError as e:
+        # Invalid signature
+        logger.warning("Invalid signature for Stripe webhook", extra={"error": e})
+        return HttpResponse(status=400)
+
+    webhook_handlers = {
+        WEBHOOK_SUCCESS_EVENT: handle_successful_payment_intent,
+        WEBHOOK_AUTHORIZED_EVENT: handle_authorized_payment_intent,
+        WEBHOOK_PROCESSING_EVENT: handle_processing_payment_intent,
+        WEBHOOK_FAILED_EVENT: handle_failed_payment_intent,
+        WEBHOOK_CANCELED_EVENT: handle_failed_payment_intent,
+        WEBHOOK_REFUND_EVENT: handle_refund,
+    }
+    if event.type in webhook_handlers:
+        logger.debug(
+            "Processing new Stripe webhook",
+            extra={"event_type": event.type, "event_id": event.id},
+        )
+        webhook_handlers[event.type](event.data.object, gateway_config, channel_slug)
+    else:
+        logger.warning(
+            "Received unhandled webhook events", extra={"event_type": event.type}
+        )
+    return HttpResponse(status=200)
+=======
+def handle_webhook(
+    request: WSGIRequest, gateway_config: "GatewayConfig", channel_slug: str
+):
+    payload = request.body
+    sig_header = request.META["HTTP_STRIPE_SIGNATURE"]
+    endpoint_secret = gateway_config.connection_params["webhook_secret"]
+    api_key = gateway_config.connection_params["secret_api_key"]
+    try:
+        event = construct_stripe_event(
+            api_key=api_key,
+            payload=payload,
+            sig_header=sig_header,
+            endpoint_secret=endpoint_secret,
+        )
+    except ValueError as e:
+        # Invalid payload
+        logger.warning(
+            "Received invalid payload for Stripe webhook", extra={"error": e}
+        )
+        return HttpResponse(status=400)
+    except SignatureVerificationError as e:
+        # Invalid signature
+        logger.warning("Invalid signature for Stripe webhook", extra={"error": e})
+        return HttpResponse(status=400)
+
+    webhook_handlers = {
+        WEBHOOK_SUCCESS_EVENT: handle_successful_payment_intent,
+        WEBHOOK_AUTHORIZED_EVENT: handle_authorized_payment_intent,
+        WEBHOOK_PROCESSING_EVENT: handle_processing_payment_intent,
+        WEBHOOK_FAILED_EVENT: handle_failed_payment_intent,
+        WEBHOOK_CANCELED_EVENT: handle_canceled_payment_intent,
+        WEBHOOK_REFUND_EVENT: handle_refund,
+    }
+    if event.type in webhook_handlers:
+        logger.debug(
+            "Processing new Stripe webhook",
+            extra={"event_type": event.type, "event_id": event.id},
+        )
+        webhook_handlers[event.type](event.data.object, gateway_config, channel_slug)
+    else:
+        logger.warning(
+            "Received unhandled webhook events", extra={"event_type": event.type}
+        )
+    return HttpResponse(status=200)
+>>>>>>> REPLACE
+
+FILE: saleor/payment/gateways/stripe/webhooks.py
+<<<<<<< SEARCH
+def handle_failed_payment_intent(
+    payment_intent: StripeObject, gateway_config: "GatewayConfig", _channel_slug: str
+):
+    payment = _get_payment(payment_intent.id)
+
+    if not payment:
+        logger.warning(
+            "Payment for PaymentIntent was not found",
+            extra={"payment_intent": payment_intent.id},
+        )
+        return
+    _update_payment_with_new_transaction(
+        payment,
+        payment_intent,
+        TransactionKind.CANCEL,
+        payment_intent.amount,
+        payment_intent.currency,
+    )
+    if payment.order:
+        order_voided(payment.order, None, None, payment, get_plugins_manager())
+=======
+def handle_canceled_payment_intent(
+    payment_intent: StripeObject, gateway_config: "GatewayConfig", _channel_slug: str
+):
+    payment = _get_payment(payment_intent.id)
+
+    if not payment:
+        logger.warning(
+            "Payment for PaymentIntent was not found",
+            extra={"payment_intent": payment_intent.id},
+        )
+        return
+    _update_payment_with_new_transaction(
+        payment,
+        payment_intent,
+        TransactionKind.CANCEL,
+        payment_intent.amount,
+        payment_intent.currency,
+    )
+    if payment.order:
+        order_voided(payment.order, None, None, payment, get_plugins_manager())
+
+
+def handle_failed_payment_intent(
+    payment_intent: StripeObject, gateway_config: "GatewayConfig", _channel_slug: str
+):
+    payment = _get_payment(payment_intent.id)
+
+    if not payment:
+        logger.warning(
+            "Payment for PaymentIntent was not found",
+            extra={"payment_intent": payment_intent.id},
+        )
+        return
+    _update_payment_with_new_transaction(
+        payment,
+        payment_intent,
+        TransactionKind.CANCEL,
+        payment_intent.amount,
+        payment_intent.currency,
+    )
+>>>>>>> REPLACE
+
+FILE: saleor/payment/gateways/stripe/plugin.py
+<<<<<<< SEARCH
+    @require_active_plugin
+    def process_payment(
+        self, payment_information: "PaymentData", previous_value
+    ) -> "GatewayResponse":
+
+        api_key = self.config.connection_params["secret_api_key"]
+
+        auto_capture = self.config.auto_capture
+        if self.order_auto_confirmation is False:
+            auto_capture = False
+
+        data = payment_information.data
+
+        payment_method_id = data.get("payment_method_id") if data else None
+
+        setup_future_usage = None
+        if payment_information.reuse_source:
+            setup_future_usage = data.get("setup_future_usage") if data else None
+
+        off_session = data.get("off_session") if data else None
+
+        payment_method_types = data.get("payment_method_types") if data else None
+
+        customer = None
+        # confirm that we creates customer on stripe side only for log-in customers
+        # Stripe doesn't allow to search users by email, so each create customer
+        # call creates new customer on Stripe side.
+        if payment_information.graphql_customer_id:
+            customer = get_or_create_customer(
+                api_key=api_key,
+                customer_email=payment_information.customer_email,
+                customer_id=payment_information.customer_id,
+            )
+        intent, error = create_payment_intent(
+            api_key=api_key,
+            amount=payment_information.amount,
+            currency=payment_information.currency,
+            auto_capture=auto_capture,
+            customer=customer,
+            payment_method_id=payment_method_id,
+            metadata={
+                "channel": self.channel.slug,  # type: ignore
+                "payment_id": payment_information.graphql_payment_id,
+            },
+            setup_future_usage=setup_future_usage,
+            off_session=off_session,
+            payment_method_types=payment_method_types,
+            customer_email=payment_information.customer_email,
+        )
+
+        if error and payment_method_id and not intent:
+            # we can receive an error which is caused by a required authentication
+            # but stripe already created payment_intent.
+            stripe_error = error.error
+            intent = getattr(stripe_error, "payment_intent", None)
+            error = None if intent else error
+
+        raw_response = None
+        client_secret = None
+        intent_id = None
+        kind = TransactionKind.ACTION_TO_CONFIRM
+        action_required = True
+        if intent:
+            kind, action_required = self._get_transaction_details_for_stripe_status(
+                intent.status
+            )
+            client_secret = intent.client_secret
+            raw_response = intent.last_response.data
+            intent_id = intent.id
+
+        return GatewayResponse(
+            is_success=True if not error else False,
+            action_required=action_required,
+            kind=kind,
+            amount=payment_information.amount,
+            currency=payment_information.currency,
+            transaction_id=intent.id if intent else "",
+            error=error.user_message if error else None,
+            raw_response=raw_response,
+            action_required_data={"client_secret": client_secret, "id": intent_id},
+            customer_id=customer.id if customer else None,
+            psp_reference=intent.id if intent else None,
+        )
+=======
+    @require_active_plugin
+    def process_payment(
+        self, payment_information: "PaymentData", previous_value
+    ) -> "GatewayResponse":
+
+        api_key = self.config.connection_params["secret_api_key"]
+
+        auto_capture = self.config.auto_capture
+        if self.order_auto_confirmation is False:
+            auto_capture = False
+
+        data = payment_information.data
+
+        payment_method_id = data.get("payment_method_id") if data else None
+
+        setup_future_usage = None
+        if payment_information.reuse_source:
+            setup_future_usage = data.get("setup_future_usage") if data else None
+
+        off_session = data.get("off_session") if data else None
+
+        payment_method_types = data.get("payment_method_types") if data else None
+
+        customer = None
+        # confirm that we creates customer on stripe side only for log-in customers
+        # Stripe doesn't allow to search users by email, so each create customer
+        # call creates new customer on Stripe side.
+        if payment_information.graphql_customer_id:
+            customer = get_or_create_customer(
+                api_key=api_key,
+                customer_email=payment_information.customer_email,
+                customer_id=payment_information.customer_id,
+            )
+        intent, error = create_payment_intent(
+            api_key=api_key,
+            amount=payment_information.amount,
+            currency=payment_information.currency,
+            auto_capture=auto_capture,
+            customer=customer,
+            payment_method_id=payment_method_id,
+            metadata={
+                "channel": self.channel.slug,  # type: ignore
+                "payment_id": payment_information.graphql_payment_id,
+            },
+            setup_future_usage=setup_future_usage,
+            off_session=off_session,
+            payment_method_types=payment_method_types,
+            customer_email=payment_information.customer_email,
+        )
+
+        if error and payment_method_id and not intent:
+            # we can receive an error which is caused by a required authentication
+            # but stripe already created payment_intent.
+            stripe_error = error.error
+            intent = getattr(stripe_error, "payment_intent", None)
+            error = None if intent else error
+
+        raw_response = None
+        client_secret = None
+        intent_id = None
+        kind = TransactionKind.ACTION_TO_CONFIRM
+        action_required = True
+        if intent:
+            kind, action_required = self._get_transaction_details_for_stripe_status(
+                intent.status
+            )
+            client_secret = intent.client_secret
+            raw_response = intent.last_response.data
+            intent_id = intent.id
+
+        return GatewayResponse(
+            is_success=True if not error else False,
+            action_required=action_required,
+            kind=kind,
+            amount=payment_information.amount,
+            currency=payment_information.currency,
+            transaction_id=intent.id if intent else "",
+            error=error.user_message if error else None,
+            raw_response=raw_response,
+            action_required_data={"client_secret": client_secret, "id": intent_id},
+            customer_id=customer.id if customer else None,
+            psp_reference=intent.id if intent else None,
+        )
+>>>>>>> REPLACE
+
+FILE: saleor/payment/interface.py
+<<<<<<< SEARCH
+@dataclass
+class PaymentMethodInfo:
+    """Uniform way to represent payment method information."""
+
+    first_4: Optional[str] = None
+    last_4: Optional[str] = None
+    exp_year: Optional[int] = None
+    exp_month: Optional[int] = None
+    brand: Optional[str] = None
+    name: Optional[str] = None
+    type: Optional[str] = None
+=======
+@dataclass
+class PaymentMethodInfo:
+    """Uniform way to represent payment method information."""
+
+    first_4: Optional[str] = None
+    last_4: Optional[str] = None
+    exp_year: Optional[int] = None
+    exp_month: Optional[int] = None
+    brand: Optional[str] = None
+    name: Optional[str] = None
+    type: Optional[str] = None
+>>>>>>> REPLACE

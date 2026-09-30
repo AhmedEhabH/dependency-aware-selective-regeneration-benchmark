@@ -1,0 +1,105 @@
+{
+ "smoke_version": "wp2-m14r-v1",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-644f33094857",
+ "arm": "GOLD_HARD",
+ "label": "GOLD_HARD__C0__r1",
+ "variant": "G0",
+ "context": "C0",
+ "replicate": "r1",
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-30T21:56:43Z",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/graphql/order/mutations/fulfillments.py",
+  "saleor/graphql/order/mutations/orders.py",
+  "saleor/order/actions.py",
+  "saleor/order/events.py",
+  "saleor/order/models.py",
+  "saleor/order/utils.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/graphql/order/mutations/fulfillments.py",
+   "saleor/graphql/order/mutations/orders.py",
+   "saleor/order/actions.py",
+   "saleor/order/events.py",
+   "saleor/order/models.py",
+   "saleor/order/utils.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/graphql/order/mutations/fulfillments.py",
+   "saleor/graphql/order/mutations/orders.py",
+   "saleor/order/actions.py",
+   "saleor/order/events.py",
+   "saleor/order/models.py",
+   "saleor/order/utils.py"
+  ]
+ },
+ "prompt_sha256": "a74515a6cc843f100578d4965f8b25ea040b4049ab4aa25cabb762eddcef08d6",
+ "request_sha_initial": "14c3858bc2b8fef041b1e6aaf37bb164f49d795a4652c92003398b01e22e86ae",
+ "request_sha_repair": "d1562ac1e7bdfa1bc9aa7264b3c087ee84aefc4d62a1e736892b35a76b766143",
+ "repair_component_hashes": {
+  "message_1_system": "020a8f57bba533f9a332e9d30a96892bc5893d1b20f376cbde591a1b5cc87922",
+  "message_2_user": "a74515a6cc843f100578d4965f8b25ea040b4049ab4aa25cabb762eddcef08d6",
+  "message_3_assistant": "9e3b56f42301d487698724e820e46195fb643688cd0700ae25d69d6d8b9b650f",
+  "message_4_user": "ab718403d110cf9e52fbf634e21732d13ab7a1e155f2e55471a2ea841b8a1fba"
+ },
+ "context_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790805403-diQXOClZsWgLo2lmx7P5",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 26148,
+   "completion_tokens": 1097,
+   "cost_usd_actual": 0.0088998,
+   "cost_usd_nominal": 0.0088998,
+   "finish_reason": "stop",
+   "response_sha256": "9e3b56f42301d487698724e820e46195fb643688cd0700ae25d69d6d8b9b650f",
+   "request_sha": "14c3858bc2b8fef041b1e6aaf37bb164f49d795a4652c92003398b01e22e86ae",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\m14r_v1\\episodes\\saleor-rc-644f33094857\\GOLD_HARD__C0__r1\\calls\\1_initial.txt",
+   "raw_sha256": "9e3b56f42301d487698724e820e46195fb643688cd0700ae25d69d6d8b9b650f"
+  },
+  {
+   "kind": "repair",
+   "index": 2,
+   "request_id": "gen-1790805420-IcdHwxOCsaT7fp2HpnjV",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 27353,
+   "completion_tokens": 1391,
+   "cost_usd_actual": 0.0041537,
+   "cost_usd_nominal": 0.0041537,
+   "finish_reason": "stop",
+   "response_sha256": "725b93a0565ea89fcb385b5f88b13980f7210cbed0dfd3ff6495dfbbedef21ee",
+   "request_sha": "d1562ac1e7bdfa1bc9aa7264b3c087ee84aefc4d62a1e736892b35a76b766143",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\m14r_v1\\episodes\\saleor-rc-644f33094857\\GOLD_HARD__C0__r1\\calls\\2_repair.txt",
+   "raw_sha256": "725b93a0565ea89fcb385b5f88b13980f7210cbed0dfd3ff6495dfbbedef21ee"
+  }
+ ],
+ "validation": {
+  "initial": [
+   "SEARCH_ERROR:saleor/order/actions.py: block 1: SEARCH content not found in current file (count=0); search='        fulfillment_refunded_event(\\n            order=order,\\n            user=re'"
+  ],
+  "repair": []
+ },
+ "repair_used": true,
+ "produced_by": "repair",
+ "edited_files": [
+  "saleor/graphql/order/mutations/fulfillments.py",
+  "saleor/graphql/order/mutations/orders.py",
+  "saleor/order/actions.py",
+  "saleor/order/events.py",
+  "saleor/order/models.py",
+  "saleor/order/utils.py"
+ ],
+ "diff_sha256": "ff15e52bcdf465f925985f1880b50f4a91b0d555491bb571207a965dcb51829c",
+ "episode_sha256": "57774e00a502edb9c156e64270bd2eed16a756917667cd966eb6b5ad6918e1fa"
+}

@@ -1,0 +1,35 @@
+Looking at the developer change description "Drop uneeded union type (#18110)", I need to identify and remove an unnecessary union type. 
+
+From examining the files, I can see in `saleor/graphql/payment/types.py` there's a `PaymentMethodDetails` union type that combines `CardPaymentMethodDetails` and `OtherPaymentMethodDetails`. However, looking at how it's used in the `TransactionItem` type, it seems to always return the root object itself, which suggests the union type might be unnecessary.
+
+Let me examine the usage more carefully:
+
+1. In `TransactionItem`, the `payment_method_details` field returns `root` (the TransactionItem instance) 
+2. The union type's `resolve_type` method checks `instance.payment_method_type` to decide which type to return
+3. But since we're returning the same object regardless, and both types have the same interface, the union seems redundant
+
+The change is to replace the union type with a direct interface implementation.
+
+FILE: saleor/graphql/payment/types.py
+<<<<<<< SEARCH
+class PaymentMethodDetails(graphene.Union):
+    class Meta:
+        types = (CardPaymentMethodDetails, OtherPaymentMethodDetails)
+
+    @classmethod
+    def resolve_type(cls, instance, info: graphene.ResolveInfo):
+        if instance.payment_method_type == PaymentMethodType.CARD:
+            return CardPaymentMethodDetails
+        return OtherPaymentMethodDetails
+=======
+class PaymentMethodDetails(graphene.Interface):
+    name = graphene.String(required=True, description="Name of the payment method.")
+
+    class Meta:
+        description = (
+            "Represents a payment method used for a transaction." + ADDED_IN_322
+        )
+
+    def resolve_name(root: models.TransactionItem, _info):
+        return root.payment_method_name or ""
+>>>>>>> REPLACE
