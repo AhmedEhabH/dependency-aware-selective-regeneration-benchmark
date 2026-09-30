@@ -1,0 +1,19 @@
+FILE: saleor/graphql/order/mutations/fulfillments.py
+<<<<<<< SEARCH
+        order = fulfillment.order
+        cancel_fulfillment(fulfillment, info.context.user, warehouse)
+        fulfillment.refresh_from_db(fields=["status"])
+        order.refresh_from_db(fields=["status"])
+        return FulfillmentCancel(fulfillment=fulfillment, order=order)
+
+
+=======
+        order = fulfillment.order
+        cancel_fulfillment(fulfillment, info.context.user, warehouse)
+        fulfillment.refresh_from_db(fields=["status"])
+        order.refresh_from_db(fields=["status", "total_balance"])
+        return FulfillmentCancel(fulfillment=fulfillment, order=order)
+
+
+>>>>>>> REPLACE
+```

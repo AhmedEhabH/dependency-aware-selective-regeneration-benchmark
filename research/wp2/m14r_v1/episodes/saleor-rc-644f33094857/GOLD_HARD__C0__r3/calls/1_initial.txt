@@ -1,0 +1,238 @@
+Looking at the developer change description, I need to extend the logic for updating order status and call update order status for refund action. Let me analyze the code to understand where and how to implement these changes.
+
+From examining the files, I can see that:
+1. Order status updates are handled in `update_order_status` function in `saleor/order/utils.py`
+2. Refund actions are handled in various places in `saleor/order/actions.py`
+3. The refund fulfillment creation should trigger order status updates
+
+Let me trace through the refund flow and identify where to add the order status update calls.
+
+```python
+FILE: saleor/order/actions.py
+<<<<<<< SEARCH
+def order_refunded(
+    order: "Order", user: Optional["User"], amount: "Decimal", payment: "Payment"
+):
+    events.payment_refunded_event(
+        order=order, user=user, amount=amount, payment=payment
+    )
+    get_plugins_manager().order_updated(order)
+
+    send_order_refunded_confirmation(order, user, amount, payment.currency)
+=======
+def order_refunded(
+    order: "Order", user: Optional["User"], amount: "Decimal", payment: "Payment"
+):
+    events.payment_refunded_event(
+        order=order, user=user, amount=amount, payment=payment
+    )
+    get_plugins_manager().order_updated(order)
+    update_order_status(order)
+
+    send_order_refunded_confirmation(order, user, amount, payment.currency)
+>>>>>>> REPLACE
+```
+
+```python
+FILE: saleor/order/actions.py
+<<<<<<< SEARCH
+def fulfillment_tracking_updated(
+    fulfillment: "Fulfillment", user: "User", tracking_number: str
+):
+    events.fulfillment_tracking_updated_event(
+        order=fulfillment.order,
+        user=user,
+        tracking_number=tracking_number,
+        fulfillment=fulfillment,
+    )
+    get_plugins_manager().order_updated(fulfillment.order)
+=======
+def fulfillment_tracking_updated(
+    fulfillment: "Fulfillment", user: "User", tracking_number: str
+):
+    events.fulfillment_tracking_updated_event(
+        order=fulfillment.order,
+        user=user,
+        tracking_number=tracking_number,
+        fulfillment=fulfillment,
+    )
+    get_plugins_manager().order_updated(fulfillment.order)
+    update_order_status(fulfillment.order)
+>>>>>>> REPLACE
+```
+
+```python
+FILE: saleor/order/actions.py
+<<<<<<< SEARCH
+def order_fulfilled(
+    fulfillments: List["Fulfillment"],
+    user: "User",
+    fulfillment_lines: List["FulfillmentLine"],
+    notify_customer=True,
+):
+    order = fulfillments[0].order
+    update_order_status(order)
+    events.fulfillment_fulfilled_items_event(
+        order=order, user=user, fulfillment_lines=fulfillment_lines
+    )
+    manager = get_plugins_manager()
+    manager.order_updated(order)
+
+    for fulfillment in fulfillments:
+        manager.fulfillment_created(fulfillment)
+
+    if order.status == OrderStatus.FULFILLED:
+        manager.order_fulfilled(order)
+
+    if notify_customer:
+        for fulfillment in fulfillments:
+            send_fulfillment_confirmation_to_customer(order, fulfillment, user)
+=======
+def order_fulfilled(
+    fulfillments: List["Fulfillment"],
+    user: "User",
+    fulfillment_lines: List["FulfillmentLine"],
+    notify_customer=True,
+):
+    order = fulfillments[0].order
+    update_order_status(order)
+    events.fulfillment_fulfilled_items_event(
+        order=order, user=user, fulfillment_lines=fulfillment_lines
+    )
+    manager = get_plugins_manager()
+    manager.order_updated(order)
+
+    for fulfillment in fulfillments:
+        manager.fulfillment_created(fulfillment)
+
+    if order.status == OrderStatus.FULFILLED:
+        manager.order_fulfilled(order)
+
+    if notify_customer:
+        for fulfillment in fulfillments:
+            send_fulfillment_confirmation_to_customer(order, fulfillment, user)
+>>>>>>> REPLACE
+```
+
+```python
+FILE: saleor/order/actions.py
+<<<<<<< SEARCH
+@transaction.atomic
+def cancel_fulfillment(
+    fulfillment: "Fulfillment", user: "User", warehouse: "Warehouse"
+):
+    """Cancel fulfillment.
+
+    Return products to corresponding stocks.
+    """
+    fulfillment = Fulfillment.objects.select_for_update().get(pk=fulfillment.pk)
+    restock_fulfillment_lines(fulfillment, warehouse)
+    events.fulfillment_canceled_event(
+        order=fulfillment.order, user=user, fulfillment=fulfillment
+    )
+    events.fulfillment_restocked_items_event(
+        order=fulfillment.order,
+        user=user,
+        fulfillment=fulfillment,
+        warehouse_pk=warehouse.pk,
+    )
+    fulfillment.status = FulfillmentStatus.CANCELED
+    fulfillment.save(update_fields=["status"])
+    update_order_status(fulfillment.order)
+    get_plugins_manager().order_updated(fulfillment.order)
+=======
+@transaction.atomic
+def cancel_fulfillment(
+    fulfillment: "Fulfillment", user: "User", warehouse: "Warehouse"
+):
+    """Cancel fulfillment.
+
+    Return products to corresponding stocks.
+    """
+    fulfillment = Fulfillment.objects.select_for_update().get(pk=fulfillment.pk)
+    restock_fulfillment_lines(fulfillment, warehouse)
+    events.fulfillment_canceled_event(
+        order=fulfillment.order, user=user, fulfillment=fulfillment
+    )
+    events.fulfillment_restocked_items_event(
+        order=fulfillment.order,
+        user=user,
+        fulfillment=fulfillment,
+        warehouse_pk=warehouse.pk,
+    )
+    fulfillment.status = FulfillmentStatus.CANCELED
+    fulfillment.save(update_fields=["status"])
+    update_order_status(fulfillment.order)
+    get_plugins_manager().order_updated(fulfillment.order)
+>>>>>>> REPLACE
+```
+
+```python
+FILE: saleor/order/actions.py
+<<<<<<< SEARCH
+def _process_refund(
+    requester: Optional["User"],
+    order: "Order",
+    payment: Payment,
+    order_lines_to_refund: List[OrderLineData],
+    fulfillment_lines_to_refund: List[FulfillmentLineData],
+    amount: Optional[Decimal],
+    refund_shipping_costs: bool,
+):
+    lines_to_refund: Dict[OrderLineIDType, Tuple[QuantityType, OrderLine]] = dict()
+    refund_amount = _calculate_refund_amount(
+        order_lines_to_refund, fulfillment_lines_to_refund, lines_to_refund
+    )
+    if amount is None:
+        amount = refund_amount
+        # we take into consideration the shipping costs only when amount is not
+        # provided.
+        if refund_shipping_costs:
+            amount += order.shipping_price_gross_amount
+    if amount:
+        amount = min(payment.captured_amount, amount)
+        gateway.refund(payment, amount)
+        order_refunded(order, requester, amount, payment)
+
+    fulfillment_refunded_event(
+        order=order,
+        user=requester,
+        refunded_lines=list(lines_to_refund.values()),
+        amount=amount,
+        shipping_costs_included=refund_shipping_costs,
+    )
+=======
+def _process_refund(
+    requester: Optional["User"],
+    order: "Order",
+    payment: Payment,
+    order_lines_to_refund: List[OrderLineData],
+    fulfillment_lines_to_refund: List[FulfillmentLineData],
+    amount: Optional[Decimal],
+    refund_shipping_costs: bool,
+):
+    lines_to_refund: Dict[OrderLineIDType, Tuple[QuantityType, OrderLine]] = dict()
+    refund_amount = _calculate_refund_amount(
+        order_lines_to_refund, fulfillment_lines_to_refund, lines_to_refund
+    )
+    if amount is None:
+        amount = refund_amount
+        # we take into consideration the shipping costs only when amount is not
+        # provided.
+        if refund_shipping_costs:
+            amount += order.shipping_price_gross_amount
+    if amount:
+        amount = min(payment.captured_amount, amount)
+        gateway.refund(payment, amount)
+        order_refunded(order, requester, amount, payment)
+
+    fulfillment_refunded_event(
+        order=order,
+        user=requester,
+        refunded_lines=list(lines_to_refund.values()),
+        amount=amount,
+        shipping_costs_included=refund_shipping_costs,
+    )
+    update_order_status(order)
+>>>>>>> REPLACE
+```

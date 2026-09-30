@@ -1,0 +1,12 @@
+diff --git a/saleor/graphql/order/mutations/fulfillments.py b/saleor/graphql/order/mutations/fulfillments.py
+--- a/saleor/graphql/order/mutations/fulfillments.py
++++ b/saleor/graphql/order/mutations/fulfillments.py
+@@ -316,7 +316,7 @@
+         order = fulfillment.order
+         cancel_fulfillment(fulfillment, info.context.user, warehouse)
+         fulfillment.refresh_from_db(fields=["status"])
+-        order.refresh_from_db(fields=["status"])
++        order.refresh_from_db(fields=["status", "total_balance"])
+         return FulfillmentCancel(fulfillment=fulfillment, order=order)
+ 
+ 

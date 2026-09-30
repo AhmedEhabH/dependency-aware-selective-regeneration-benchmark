@@ -1,0 +1,48 @@
+Looking at the developer change description "Drop uneeded union type (#18110)" and examining the files, I can see that there's an unused union type `PaymentMethodDetails` in the `saleor/graphql/payment/types.py` file that should be removed.
+
+The `PaymentMethodDetails` union type is defined but not actually used anywhere in the codebase according to the change description. Let me remove it along with its related components.
+
+FILE: saleor/graphql/payment/types.py
+<<<<<<< SEARCH
+class PaymentMethodDetails(graphene.Union):
+    class Meta:
+        types = (CardPaymentMethodDetails, OtherPaymentMethodDetails)
+
+    @classmethod
+    def resolve_type(cls, instance, info: graphene.ResolveInfo):
+        if instance.payment_method_type == PaymentMethodType.CARD:
+            return CardPaymentMethodDetails
+        return OtherPaymentMethodDetails
+
+
+class TransactionItem(ModelObjectType[models.TransactionItem]):
+=======
+class TransactionItem(ModelObjectType[models.TransactionItem]):
+>>>>>>> REPLACE
+
+FILE: saleor/graphql/payment/types.py
+<<<<<<< SEARCH
+    payment_method_details = graphene.Field(
+        PaymentMethodDetails,
+        description="The payment method used for this transaction." + ADDED_IN_322,
+    )
+
+    class Meta:
+=======
+    class Meta:
+>>>>>>> REPLACE
+
+FILE: saleor/graphql/payment/types.py
+<<<<<<< SEARCH
+    @staticmethod
+    def resolve_payment_method_details(root: models.TransactionItem, info):
+        if not root.payment_method_type:
+            return None
+        return root
+
+    @staticmethod
+    def resolve_id(root: models.TransactionItem, _info: ResolveInfo):
+=======
+    @staticmethod
+    def resolve_id(root: models.TransactionItem, _info: ResolveInfo):
+>>>>>>> REPLACE

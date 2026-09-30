@@ -1,0 +1,97 @@
+{
+ "smoke_version": "wp2-m14r-v1",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-6abb53f3407b",
+ "arm": "GOLD_HARD",
+ "label": "GOLD_HARD__C2__r3",
+ "variant": "G2",
+ "context": "C2",
+ "replicate": "r3",
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-30T22:44:57Z",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/payment/gateways/stripe/plugin.py",
+  "saleor/payment/gateways/stripe/webhooks.py",
+  "saleor/payment/interface.py",
+  "saleor/payment/utils.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/payment/gateways/stripe/plugin.py",
+   "saleor/payment/gateways/stripe/webhooks.py",
+   "saleor/payment/interface.py",
+   "saleor/payment/utils.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/payment/gateways/stripe/plugin.py",
+   "saleor/payment/gateways/stripe/webhooks.py",
+   "saleor/payment/interface.py",
+   "saleor/payment/utils.py"
+  ]
+ },
+ "prompt_sha256": "544192229135613de1abb49ffcd5860ca364f9b94cd13b172789abba2386c7ee",
+ "request_sha_initial": "8e05caaf8df573ee8768e5f6dd691a2f44785dead23bfbcdc50a4158b3ce51b4",
+ "request_sha_repair": "7fbc2b734468449780a64de53c2d4ece040a44f521b1e40c1279ff74fc8f9b08",
+ "repair_component_hashes": {
+  "message_1_system": "daa956a2c1a0d71f439563d369d50081b518183cc29bfb300cdd43c648b5cf1e",
+  "message_2_user": "544192229135613de1abb49ffcd5860ca364f9b94cd13b172789abba2386c7ee",
+  "message_3_assistant": "8e780cdc8a4b860a60a6ee267301095c7396407a4aa160537966389460922d27",
+  "message_4_user": "40015f6101f937c52c33b55f6940af3f4c391c51350768523ab82bc4bdb6216a"
+ },
+ "context_sha256": "027263aefb5efdca9bc441029f3939b8f54cdf545d4062ad7b7f5aee3ece74b7",
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790808300-QoQ8zWsNorsEnCozT14f",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 17593,
+   "completion_tokens": 404,
+   "cost_usd_actual": 0.0056307,
+   "cost_usd_nominal": 0.0056307,
+   "finish_reason": "stop",
+   "response_sha256": "8e780cdc8a4b860a60a6ee267301095c7396407a4aa160537966389460922d27",
+   "request_sha": "8e05caaf8df573ee8768e5f6dd691a2f44785dead23bfbcdc50a4158b3ce51b4",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\m14r_v1\\episodes\\saleor-rc-6abb53f3407b\\GOLD_HARD__C2__r3\\calls\\1_initial.txt",
+   "raw_sha256": "8e780cdc8a4b860a60a6ee267301095c7396407a4aa160537966389460922d27"
+  },
+  {
+   "kind": "repair",
+   "index": 2,
+   "request_id": "gen-1790808309-NyJNGbulYi1dicRamSN4",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 18080,
+   "completion_tokens": 1774,
+   "cost_usd_actual": 0.0036044,
+   "cost_usd_nominal": 0.0036044,
+   "finish_reason": "stop",
+   "response_sha256": "67a5bdf6c7a29b101fbeaf28d58e0766cd1a9a00d6b70abcf52c2045a876e748",
+   "request_sha": "7fbc2b734468449780a64de53c2d4ece040a44f521b1e40c1279ff74fc8f9b08",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\m14r_v1\\episodes\\saleor-rc-6abb53f3407b\\GOLD_HARD__C2__r3\\calls\\2_repair.txt",
+   "raw_sha256": "67a5bdf6c7a29b101fbeaf28d58e0766cd1a9a00d6b70abcf52c2045a876e748"
+  }
+ ],
+ "validation": {
+  "initial": [
+   "PARSE_ERROR:saleor/payment/gateways/stripe/plugin.py: expected '<<<<<<< SEARCH' block start, found: 'FILE: <path exactly as given>'"
+  ],
+  "repair": []
+ },
+ "repair_used": true,
+ "produced_by": "repair",
+ "edited_files": [
+  "saleor/payment/gateways/stripe/plugin.py",
+  "saleor/payment/gateways/stripe/webhooks.py",
+  "saleor/payment/interface.py",
+  "saleor/payment/utils.py"
+ ],
+ "diff_sha256": "2a2632e5394b316f3dd633867d3990da705325ec1f9931fe4f21d898c297a389",
+ "episode_sha256": "a3ddf76341bb58306e2882dc8b38664d0d0aa0adf20d846234f4908d1073f52f"
+}

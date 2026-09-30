@@ -1,0 +1,191 @@
+Looking at the developer change description, I need to implement functionality to fix restoring voucher usage limit when a voucher is removed from a draft order. The key points are:
+
+1. Reduce the voucher limit when the voucher is removed from draft order
+2. Fix updating the voucher usage_limit 
+3. Ensure that voucher usage is released when the voucher code is removed from draft order
+
+Let me analyze the current code to understand how vouchers are handled in draft orders and identify where the fix needs to be implemented.
+
+From examining the code, I can see that:
+1. In `draft_order_create.py`, there's handling for voucher usage increase when a voucher is added to a draft order
+2. In `draft_order_update.py`, there's similar handling but no logic to decrease usage when a voucher is removed
+3. The voucher update mutation has validation around usage limits but doesn't handle release logic
+
+The main issue appears to be that when a voucher is removed from a draft order, the usage count is not decreased. I need to add logic to handle this case.
+
+FILE: saleor/graphql/order/mutations/draft_order_update.py
+<<<<<<< SEARCH
+    @classmethod
+    def should_invalidate_prices(cls, cleaned_input, *args) -> bool:
+        return any(
+            field in cleaned_input
+            for field in [
+                "shipping_address",
+                "billing_address",
+                "shipping_method",
+                "voucher",
+            ]
+        )
+
+    @classmethod
+    def save(cls, info: ResolveInfo, instance, cleaned_input):
+        manager = get_plugin_manager_promise(info.context).get()
+        app = get_app_promise(info.context).get()
+        return cls._save_draft_order(
+            info,
+            instance,
+            cleaned_input,
+            is_new_instance=False,
+            app=app,
+            manager=manager,
+        )
+=======
+    @classmethod
+    def should_invalidate_prices(cls, cleaned_input, *args) -> bool:
+        return any(
+            field in cleaned_input
+            for field in [
+                "shipping_address",
+                "billing_address",
+                "shipping_method",
+                "voucher",
+            ]
+        )
+
+    @classmethod
+    def _handle_voucher_removal(cls, instance, cleaned_input):
+        """Handle voucher removal from draft order by decreasing voucher usage."""
+        from ....discount.utils.voucher import decrease_voucher_usage
+        
+        # Check if voucher was removed (was present before but not in cleaned_input)
+        if (
+            instance.voucher_code 
+            and instance.voucher 
+            and (
+                "voucher" in cleaned_input and cleaned_input["voucher"] is None
+                or "voucher_code" in cleaned_input and cleaned_input["voucher_code"] is None
+            )
+            and instance.channel.include_draft_order_in_voucher_usage
+        ):
+            # Find the voucher code instance that was being used
+            from ....discount.models import VoucherCode
+            try:
+                code_instance = VoucherCode.objects.get(
+                    code=instance.voucher_code, 
+                    voucher=instance.voucher
+                )
+                decrease_voucher_usage(
+                    instance.voucher,
+                    code_instance,
+                    instance.user_email or instance.user and instance.user.email,
+                    decrease_voucher_customer_usage=False,
+                )
+            except VoucherCode.DoesNotExist:
+                pass
+
+    @classmethod
+    def save(cls, info: ResolveInfo, instance, cleaned_input):
+        # Handle voucher removal before saving
+        if "voucher" in cleaned_input or "voucher_code" in cleaned_input:
+            cls._handle_voucher_removal(instance, cleaned_input)
+            
+        manager = get_plugin_manager_promise(info.context).get()
+        app = get_app_promise(info.context).get()
+        return cls._save_draft_order(
+            info,
+            instance,
+            cleaned_input,
+            is_new_instance=False,
+            app=app,
+            manager=manager,
+        )
+>>>>>>> REPLACE
+
+FILE: saleor/graphql/order/mutations/draft_order_create.py
+<<<<<<< SEARCH
+from ....discount.utils.voucher import (
+    get_active_voucher_code,
+    get_voucher_code_instance,
+    increase_voucher_usage,
+)
+=======
+from ....discount.utils.voucher import (
+    get_active_voucher_code,
+    get_voucher_code_instance,
+    increase_voucher_usage,
+    decrease_voucher_usage,
+)
+>>>>>>> REPLACE
+
+FILE: saleor/graphql/order/mutations/draft_order_create.py
+<<<<<<< SEARCH
+    @classmethod
+    def handle_order_voucher(cls, cleaned_input, instance, voucher):
+        code_instance = cleaned_input.pop("voucher_code_instance", None)
+        channel = instance.channel
+        if channel.include_draft_order_in_voucher_usage:
+            increase_voucher_usage(
+                voucher,
+                code_instance,
+                instance.user_email or instance.user and instance.user.email,
+                increase_voucher_customer_usage=False,
+            )
+=======
+    @classmethod
+    def handle_order_voucher(cls, cleaned_input, instance, voucher):
+        code_instance = cleaned_input.pop("voucher_code_instance", None)
+        channel = instance.channel
+        if channel.include_draft_order_in_voucher_usage:
+            increase_voucher_usage(
+                voucher,
+                code_instance,
+                instance.user_email or instance.user and instance.user.email,
+                increase_voucher_customer_usage=False,
+            )
+
+    @classmethod
+    def _handle_voucher_removal(cls, instance, cleaned_input):
+        """Handle voucher removal from draft order by decreasing voucher usage."""
+        # Check if voucher was removed (was present before but not in cleaned_input)
+        if (
+            instance.voucher_code 
+            and instance.voucher 
+            and (
+                "voucher" in cleaned_input and cleaned_input["voucher"] is None
+                or "voucher_code" in cleaned_input and cleaned_input["voucher_code"] is None
+            )
+            and instance.channel.include_draft_order_in_voucher_usage
+        ):
+            # Find the voucher code instance that was being used
+            try:
+                code_instance = VoucherCode.objects.get(
+                    code=instance.voucher_code, 
+                    voucher=instance.voucher
+                )
+                decrease_voucher_usage(
+                    instance.voucher,
+                    code_instance,
+                    instance.user_email or instance.user and instance.user.email,
+                    decrease_voucher_customer_usage=False,
+                )
+            except VoucherCode.DoesNotExist:
+                pass
+>>>>>>> REPLACE
+
+FILE: saleor/graphql/order/mutations/draft_order_create.py
+<<<<<<< SEARCH
+            # Save any changes create/update the draft
+            cls._commit_changes(info, instance, cleaned_input, is_new_instance, app)
+
+            if voucher := cleaned_input.get("voucher"):
+                cls.handle_order_voucher(cleaned_input, instance, voucher)
+=======
+            # Save any changes create/update the draft
+            cls._commit_changes(info, instance, cleaned_input, is_new_instance, app)
+
+            # Handle voucher removal
+            cls._handle_voucher_removal(instance, cleaned_input)
+
+            if voucher := cleaned_input.get("voucher"):
+                cls.handle_order_voucher(cleaned_input, instance, voucher)
+>>>>>>> REPLACE

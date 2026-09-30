@@ -1,0 +1,57 @@
+diff --git a/saleor/payment/gateways/stripe/plugin.py b/saleor/payment/gateways/stripe/plugin.py
+--- a/saleor/payment/gateways/stripe/plugin.py
++++ b/saleor/payment/gateways/stripe/plugin.py
+@@ -223,6 +223,7 @@
+         intent_id = None
+         kind = TransactionKind.ACTION_TO_CONFIRM
+         action_required = True
++        payment_method_info = None
+         if intent:
+             kind, action_required = self._get_transaction_details_for_stripe_status(
+                 intent.status
+@@ -230,6 +231,7 @@
+             client_secret = intent.client_secret
+             raw_response = intent.last_response.data
+             intent_id = intent.id
++            payment_method_info = get_payment_method_details(intent)
+ 
+         return GatewayResponse(
+             is_success=True if not error else False,
+@@ -243,6 +245,7 @@
+             action_required_data={"client_secret": client_secret, "id": intent_id},
+             customer_id=customer.id if customer else None,
+             psp_reference=intent.id if intent else None,
++            payment_method_info=payment_method_info,
+         )
+ 
+     @require_active_plugin
+diff --git a/saleor/payment/gateways/stripe/webhooks.py b/saleor/payment/gateways/stripe/webhooks.py
+--- a/saleor/payment/gateways/stripe/webhooks.py
++++ b/saleor/payment/gateways/stripe/webhooks.py
+@@ -156,6 +156,7 @@
+ def _update_payment_with_new_transaction(
+     payment: Payment, stripe_object: StripeObject, kind: str, amount: str, currency: str
+ ):
++    payment_method_info = get_payment_method_details(stripe_object)
+     gateway_response = GatewayResponse(
+         kind=kind,
+         action_required=False,
+@@ -166,6 +167,7 @@
+         error=None,
+         raw_response=stripe_object.last_response,
+         psp_reference=stripe_object.id,
++        payment_method_info=payment_method_info,
+     )
+     transaction = create_transaction(
+         payment,
+diff --git a/saleor/payment/utils.py b/saleor/payment/utils.py
+--- a/saleor/payment/utils.py
++++ b/saleor/payment/utils.py
+@@ -217,6 +217,7 @@
+         customer_id=gateway_response.customer_id,
+         gateway_response=gateway_response.raw_response or {},
+         action_required_data=gateway_response.action_required_data or {},
++        payment_method_info=gateway_response.payment_method_info,
+     )
+     return txn
+ 

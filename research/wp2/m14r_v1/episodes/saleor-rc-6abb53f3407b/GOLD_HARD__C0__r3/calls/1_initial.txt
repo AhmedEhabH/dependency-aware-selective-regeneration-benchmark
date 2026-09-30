@@ -1,0 +1,209 @@
+Looking at the developer change description "Implement SALEOR-4243 SALEOR-4244 without tests" and examining the code, I need to identify what changes are required. Based on the file contents and typical Stripe integration patterns, these issues likely relate to handling payment method details and webhook processing improvements.
+
+Let me analyze the code to understand what needs to be implemented:
+
+1. In `saleor/payment/gateways/stripe/plugin.py`, I can see payment method handling in various methods
+2. In `saleor/payment/gateways/stripe/webhooks.py`, there's handling of payment method details
+3. The `PaymentMethodInfo` class in `interface.py` shows the structure
+4. The `update_payment_method_details` function in `utils.py` handles updating payment method info
+
+Looking at the code, I can see that payment method details are being handled but there might be improvements needed for better data flow and consistency.
+
+Let me implement the necessary changes:
+
+FILE: saleor/payment/gateways/stripe/plugin.py
+<<<<<<< SEARCH
+        raw_response = None
+        client_secret = None
+        intent_id = None
+        kind = TransactionKind.ACTION_TO_CONFIRM
+        action_required = True
+        if intent:
+            kind, action_required = self._get_transaction_details_for_stripe_status(
+                intent.status
+            )
+            client_secret = intent.client_secret
+            raw_response = intent.last_response.data
+            intent_id = intent.id
+
+        return GatewayResponse(
+            is_success=True if not error else False,
+            action_required=action_required,
+            kind=kind,
+            amount=payment_information.amount,
+            currency=payment_information.currency,
+            transaction_id=intent.id if intent else "",
+            error=error.user_message if error else None,
+            raw_response=raw_response,
+            action_required_data={"client_secret": client_secret, "id": intent_id},
+            customer_id=customer.id if customer else None,
+            psp_reference=intent.id if intent else None,
+        )
+=======
+        raw_response = None
+        client_secret = None
+        intent_id = None
+        kind = TransactionKind.ACTION_TO_CONFIRM
+        action_required = True
+        payment_method_info = None
+        if intent:
+            kind, action_required = self._get_transaction_details_for_stripe_status(
+                intent.status
+            )
+            client_secret = intent.client_secret
+            raw_response = intent.last_response.data
+            intent_id = intent.id
+            payment_method_info = get_payment_method_details(intent)
+
+        return GatewayResponse(
+            is_success=True if not error else False,
+            action_required=action_required,
+            kind=kind,
+            amount=payment_information.amount,
+            currency=payment_information.currency,
+            transaction_id=intent.id if intent else "",
+            error=error.user_message if error else None,
+            raw_response=raw_response,
+            action_required_data={"client_secret": client_secret, "id": intent_id},
+            customer_id=customer.id if customer else None,
+            psp_reference=intent.id if intent else None,
+            payment_method_info=payment_method_info,
+        )
+>>>>>>> REPLACE
+
+FILE: saleor/payment/gateways/stripe/webhooks.py
+<<<<<<< SEARCH
+def _update_payment_with_new_transaction(
+    payment: Payment, stripe_object: StripeObject, kind: str, amount: str, currency: str
+):
+    gateway_response = GatewayResponse(
+        kind=kind,
+        action_required=False,
+        transaction_id=stripe_object.id,
+        is_success=True,
+        amount=price_from_minor_unit(amount, currency),
+        currency=currency,
+        error=None,
+        raw_response=stripe_object.last_response,
+        psp_reference=stripe_object.id,
+    )
+    transaction = create_transaction(
+        payment,
+        kind=kind,
+        payment_information=None,  # type: ignore
+        action_required=False,
+        gateway_response=gateway_response,
+    )
+    gateway_postprocess(transaction, payment)
+
+    return transaction
+=======
+def _update_payment_with_new_transaction(
+    payment: Payment, stripe_object: StripeObject, kind: str, amount: str, currency: str
+):
+    payment_method_info = get_payment_method_details(stripe_object)
+    gateway_response = GatewayResponse(
+        kind=kind,
+        action_required=False,
+        transaction_id=stripe_object.id,
+        is_success=True,
+        amount=price_from_minor_unit(amount, currency),
+        currency=currency,
+        error=None,
+        raw_response=stripe_object.last_response,
+        psp_reference=stripe_object.id,
+        payment_method_info=payment_method_info,
+    )
+    transaction = create_transaction(
+        payment,
+        kind=kind,
+        payment_information=None,  # type: ignore
+        action_required=False,
+        gateway_response=gateway_response,
+    )
+    gateway_postprocess(transaction, payment)
+
+    return transaction
+>>>>>>> REPLACE
+
+FILE: saleor/payment/utils.py
+<<<<<<< SEARCH
+def create_transaction(
+    payment: Payment,
+    kind: str,
+    payment_information: PaymentData,
+    action_required: bool = False,
+    gateway_response: GatewayResponse = None,
+    error_msg=None,
+    is_success=False,
+) -> Transaction:
+    """Create a transaction based on transaction kind and gateway response."""
+    # Default values for token, amount, currency are only used in cases where
+    # response from gateway was invalid or an exception occurred
+    if not gateway_response:
+        gateway_response = GatewayResponse(
+            kind=kind,
+            action_required=False,
+            transaction_id=payment_information.token or "",
+            is_success=is_success,
+            amount=payment_information.amount,
+            currency=payment_information.currency,
+            error=error_msg,
+            raw_response={},
+        )
+
+    txn = Transaction.objects.create(
+        payment=payment,
+        action_required=action_required,
+        kind=gateway_response.kind,
+        token=gateway_response.transaction_id,
+        is_success=gateway_response.is_success,
+        amount=gateway_response.amount,
+        currency=gateway_response.currency,
+        error=gateway_response.error,
+        customer_id=gateway_response.customer_id,
+        gateway_response=gateway_response.raw_response or {},
+        action_required_data=gateway_response.action_required_data or {},
+    )
+    return txn
+=======
+def create_transaction(
+    payment: Payment,
+    kind: str,
+    payment_information: PaymentData,
+    action_required: bool = False,
+    gateway_response: GatewayResponse = None,
+    error_msg=None,
+    is_success=False,
+) -> Transaction:
+    """Create a transaction based on transaction kind and gateway response."""
+    # Default values for token, amount, currency are only used in cases where
+    # response from gateway was invalid or an exception occurred
+    if not gateway_response:
+        gateway_response = GatewayResponse(
+            kind=kind,
+            action_required=False,
+            transaction_id=payment_information.token or "",
+            is_success=is_success,
+            amount=payment_information.amount,
+            currency=payment_information.currency,
+            error=error_msg,
+            raw_response={},
+        )
+
+    txn = Transaction.objects.create(
+        payment=payment,
+        action_required=action_required,
+        kind=gateway_response.kind,
+        token=gateway_response.transaction_id,
+        is_success=gateway_response.is_success,
+        amount=gateway_response.amount,
+        currency=gateway_response.currency,
+        error=gateway_response.error,
+        customer_id=gateway_response.customer_id,
+        gateway_response=gateway_response.raw_response or {},
+        action_required_data=gateway_response.action_required_data or {},
+        payment_method_info=gateway_response.payment_method_info,
+    )
+    return txn
+>>>>>>> REPLACE
