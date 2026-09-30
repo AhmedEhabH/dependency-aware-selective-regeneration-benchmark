@@ -1,0 +1,36 @@
+diff --git a/saleor/graphql/product/bulk_mutations/products.py b/saleor/graphql/product/bulk_mutations/products.py
+--- a/saleor/graphql/product/bulk_mutations/products.py
++++ b/saleor/graphql/product/bulk_mutations/products.py
+@@ -741,12 +741,12 @@
+                 product_variant=variant, warehouse=warehouse
+             )
+ 
+-            if is_created or (stock.quantity == 0 and stock_data["quantity"] > 0):
++            if is_created or (stock.quantity <= 0 and stock_data["quantity"] > 0):
+                 transaction.on_commit(
+                     lambda: manager.product_variant_back_in_stock(stock)
+                 )
+ 
+-            if stock_data["quantity"] <= 0:
++            if stock_data["quantity"] <= 0 and stock.quantity > 0:
+                 transaction.on_commit(
+                     lambda: manager.product_variant_out_of_stock(stock)
+                 )
+diff --git a/saleor/warehouse/management.py b/saleor/warehouse/management.py
+--- a/saleor/warehouse/management.py
++++ b/saleor/warehouse/management.py
+@@ -214,9 +214,12 @@
+         available_stock_now = Allocation.objects.available_quantity_for_stock(
+             allocation_before_update.stock
+         )
++        # Handle case where stock quantity might be negative
++        stock_available_quantity = max(allocation_before_update.stock_available_quantity, 0)
++        available_stock_now_adjusted = max(available_stock_now, 0)
+         if (
+-            allocation_before_update.stock_available_quantity == 0
+-            and available_stock_now > 0
++            stock_available_quantity == 0
++            and available_stock_now_adjusted > 0
+         ):
+             transaction.on_commit(
+                 lambda: manager.product_variant_back_in_stock(

@@ -1,0 +1,36 @@
+Looking at the developer change description "New payload structure" and examining the files, I can see that the gift card notification system needs to be updated to use a new payload structure. 
+
+Currently, the `send_gift_card_notification` function creates a flat payload with individual fields, but based on the pattern I can see in other parts of the code (like the sendgrid tasks), there's likely a move toward a more structured payload approach where related data is grouped into nested objects.
+
+Looking at the sendgrid tasks, I can see that other notifications use a more structured approach with nested objects like `"user": {"id": ...}` instead of flat fields like `"user_id"`.
+
+Let me update the gift card notification to use a more structured payload:
+
+FILE: saleor/giftcard/notifications.py
+<<<<<<< SEARCH
+def send_gift_card_notification(user, app, email, gift_card, manager):
+    """Trigger sending a gift card notification for the given recipient."""
+    payload = {
+        "user_id": user.id if user else None,
+        "app_id": app.id if app else None,
+        "recipient_email": email,
+        "gift_card_id": gift_card.id,
+        "code": gift_card.code,
+        **get_site_context(),
+    }
+    manager.notify(NotifyEventType.SEND_GIFT_CARD, payload=payload)
+=======
+def send_gift_card_notification(user, app, email, gift_card, manager):
+    """Trigger sending a gift card notification for the given recipient."""
+    payload = {
+        "user": {"id": user.id} if user else None,
+        "app": {"id": app.id} if app else None,
+        "recipient_email": email,
+        "gift_card": {
+            "id": gift_card.id,
+            "code": gift_card.code,
+        },
+        **get_site_context(),
+    }
+    manager.notify(NotifyEventType.SEND_GIFT_CARD, payload=payload)
+>>>>>>> REPLACE

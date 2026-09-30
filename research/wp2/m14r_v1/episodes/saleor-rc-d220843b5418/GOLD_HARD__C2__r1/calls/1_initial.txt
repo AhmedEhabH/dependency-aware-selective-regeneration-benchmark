@@ -1,0 +1,69 @@
+Looking at the issue description and the code, I need to prevent circular payload generation when listing shipping methods for checkout. The problem appears to be in the `resolve_shipping_methods_for_checkout` function which could potentially cause circular references when generating payloads.
+
+Let me examine the code more carefully:
+
+1. In `saleor/graphql/webhook/resolvers.py`, the `resolve_shipping_methods_for_checkout` function fetches checkout lines and info, then gets all shipping methods
+2. This function is used in `saleor/graphql/webhook/subscription_types.py` in the `ShippingListMethodsForCheckout` and `CheckoutFilterShippingMethods` classes
+
+The issue is likely that when generating payloads for these shipping method events, there could be circular references between the checkout and shipping methods. Let me fix this by modifying the resolver to avoid potential circular payload generation.
+
+FILE: saleor/graphql/webhook/resolvers.py
+<<<<<<< SEARCH
+def resolve_shipping_methods_for_checkout(
+    info: ResolveInfo,
+    checkout,
+    manager,
+    database_connection_name: str = settings.DATABASE_CONNECTION_DEFAULT_NAME,
+):
+    lines, _ = fetch_checkout_lines(
+        checkout, database_connection_name=database_connection_name
+    )
+    shipping_channel_listings = checkout.channel.shipping_method_listings.all()
+    checkout_info = fetch_checkout_info(
+        checkout,
+        lines,
+        manager,
+        shipping_channel_listings,
+        database_connection_name=database_connection_name,
+    )
+    all_shipping_methods = get_all_shipping_methods_list(
+        checkout_info,
+    )
+    return all_shipping_methods
+=======
+def resolve_shipping_methods_for_checkout(
+    info: ResolveInfo,
+    checkout,
+    manager,
+    database_connection_name: str = settings.DATABASE_CONNECTION_DEFAULT_NAME,
+):
+    lines, _ = fetch_checkout_lines(
+        checkout, database_connection_name=database_connection_name
+    )
+    shipping_channel_listings = checkout.channel.shipping_method_listings.all()
+    checkout_info = fetch_checkout_info(
+        checkout,
+        lines,
+        manager,
+        shipping_channel_listings,
+        database_connection_name=database_connection_name,
+    )
+    all_shipping_methods = get_all_shipping_methods_list(
+        checkout_info,
+    )
+    # Prevent circular payload generation by returning only essential shipping method data
+    return [
+        {
+            "id": method.id,
+            "name": method.name,
+            "code": method.code,
+            "price": method.price,
+            "minimum_order_price": method.minimum_order_price,
+            "maximum_order_price": method.maximum_order_price,
+            "minimum_order_weight": method.minimum_order_weight,
+            "maximum_order_weight": method.maximum_order_weight,
+            "type": method.type,
+        }
+        for method in all_shipping_methods
+    ]
+>>>>>>> REPLACE

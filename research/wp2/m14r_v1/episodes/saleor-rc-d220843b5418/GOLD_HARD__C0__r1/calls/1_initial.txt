@@ -1,0 +1,94 @@
+Looking at the issue description and the code, I need to prevent circular payload generation when listing shipping methods for checkout. The problem appears to be in the `resolve_shipping_methods_for_checkout` function in `resolvers.py` which is called by subscription types in `subscription_types.py`.
+
+Let me analyze the code:
+
+1. In `resolvers.py`, the `resolve_shipping_methods_for_checkout` function fetches checkout lines and info, then gets all shipping methods
+2. In `subscription_types.py`, there are two subscription types (`ShippingListMethodsForCheckout` and `CheckoutFilterShippingMethods`) that call this resolver function
+
+The issue is likely that when generating sample payloads for webhooks, this function might be called in a way that creates circular references or excessive computation.
+
+Looking at the function, I can see it's calling `fetch_checkout_lines`, `fetch_checkout_info`, and `get_all_shipping_methods_list` which could potentially be expensive operations.
+
+The fix should prevent circular payload generation specifically for the sample payload generation context. I need to modify the resolver to detect when it's being called for sample payload generation and handle it appropriately.
+
+FILE: saleor/graphql/webhook/resolvers.py
+<<<<<<< SEARCH
+@traced_resolver
+def resolve_sample_payload(info: ResolveInfo, event_name, app):
+    user = info.context.user
+    required_permission = WebhookEventAsyncType.PERMISSIONS.get(
+        event_name, WebhookEventSyncType.PERMISSIONS.get(event_name)
+    )
+    if not required_permission:
+        return payloads.generate_sample_payload(event_name)
+    if app and app.has_perm(required_permission):
+        return payloads.generate_sample_payload(event_name)
+    if user and user.has_perm(required_permission):
+        return payloads.generate_sample_payload(event_name)
+    raise PermissionDenied(permissions=[required_permission])
+
+
+def resolve_shipping_methods_for_checkout(
+    info: ResolveInfo,
+    checkout,
+    manager,
+    database_connection_name: str = settings.DATABASE_CONNECTION_DEFAULT_NAME,
+):
+    lines, _ = fetch_checkout_lines(
+        checkout, database_connection_name=database_connection_name
+    )
+    shipping_channel_listings = checkout.channel.shipping_method_listings.all()
+    checkout_info = fetch_checkout_info(
+        checkout,
+        lines,
+        manager,
+        shipping_channel_listings,
+        database_connection_name=database_connection_name,
+    )
+    all_shipping_methods = get_all_shipping_methods_list(
+        checkout_info,
+    )
+    return all_shipping_methods
+=======
+@traced_resolver
+def resolve_sample_payload(info: ResolveInfo, event_name, app):
+    user = info.context.user
+    required_permission = WebhookEventAsyncType.PERMISSIONS.get(
+        event_name, WebhookEventSyncType.PERMISSIONS.get(event_name)
+    )
+    if not required_permission:
+        return payloads.generate_sample_payload(event_name)
+    if app and app.has_perm(required_permission):
+        return payloads.generate_sample_payload(event_name)
+    if user and user.has_perm(required_permission):
+        return payloads.generate_sample_payload(event_name)
+    raise PermissionDenied(permissions=[required_permission])
+
+
+def resolve_shipping_methods_for_checkout(
+    info: ResolveInfo,
+    checkout,
+    manager,
+    database_connection_name: str = settings.DATABASE_CONNECTION_DEFAULT_NAME,
+):
+    # Check if we're generating a sample payload to prevent circular generation
+    if hasattr(info.context, 'is_sample_payload_generation') and info.context.is_sample_payload_generation:
+        # Return empty list for sample payload generation to prevent circular calls
+        return []
+    
+    lines, _ = fetch_checkout_lines(
+        checkout, database_connection_name=database_connection_name
+    )
+    shipping_channel_listings = checkout.channel.shipping_method_listings.all()
+    checkout_info = fetch_checkout_info(
+        checkout,
+        lines,
+        manager,
+        shipping_channel_listings,
+        database_connection_name=database_connection_name,
+    )
+    all_shipping_methods = get_all_shipping_methods_list(
+        checkout_info,
+    )
+    return all_shipping_methods
+>>>>>>> REPLACE
