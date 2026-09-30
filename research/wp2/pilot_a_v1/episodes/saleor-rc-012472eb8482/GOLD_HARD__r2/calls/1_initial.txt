@@ -1,0 +1,168 @@
+Looking at the developer change description and the files provided, I need to implement the following changes:
+
+1. Drop handling product media deletion in celery task
+2. Do not remove to_remove field from ProductMedia 
+3. Ensure migration backwards compatibility in ProductMedia
+4. Restore delete_product_media_task - clear the task body
+5. Fix failing test
+
+Let me analyze the current code and make the necessary changes:
+
+FILE: saleor/core/tasks.py
+<<<<<<< SEARCH
+@app.task(
+    autoretry_for=(ClientError,),
+    retry_backoff=10,
+    retry_kwargs={"max_retries": 5},
+)
+def delete_product_media_task(media_id):
+    product_media = ProductMedia.objects.filter(pk=media_id, to_remove=True).first()
+    if product_media:
+        Thumbnail.objects.filter(product_media=product_media.id).delete()
+        product_media.image.delete()
+        product_media.delete()
+=======
+@app.task(
+    autoretry_for=(ClientError,),
+    retry_backoff=10,
+    retry_kwargs={"max_retries": 5},
+)
+def delete_product_media_task(media_id):
+    pass
+>>>>>>> REPLACE
+
+FILE: saleor/product/signals.py
+<<<<<<< SEARCH
+def delete_product_media_image(sender, instance, **kwargs):
+    if file := instance.image:
+        delete_from_storage_task.delay(file.name)
+
+
+def delete_product_all_media(sender, instance, **kwargs):
+    if all_media := instance.media.all():
+        for media in all_media:
+            media.set_to_remove()
+            delete_product_media_task.delay(media.id)
+=======
+def delete_product_media_image(sender, instance, **kwargs):
+    if file := instance.image:
+        delete_from_storage_task.delay(file.name)
+
+
+def delete_product_all_media(sender, instance, **kwargs):
+    if all_media := instance.media.all():
+        for media in all_media:
+            media.set_to_remove()
+            delete_product_media_task.delay(media.id)
+>>>>>>> REPLACE
+
+FILE: saleor/product/models.py
+<<<<<<< SEARCH
+class ProductMedia(SortableModel):
+    product = models.ForeignKey(
+        Product, related_name="media", on_delete=models.SET_NULL, null=True, blank=True
+    )
+    image = models.ImageField(upload_to="products", blank=True, null=True)
+    alt = models.CharField(max_length=128, blank=True)
+    type = models.CharField(
+        max_length=32,
+        choices=ProductMediaTypes.CHOICES,
+        default=ProductMediaTypes.IMAGE,
+    )
+    external_url = models.CharField(max_length=256, blank=True, null=True)
+    oembed_data = JSONField(blank=True, default=dict)
+    to_remove = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ("sort_order", "pk")
+        app_label = "product"
+
+    def get_ordering_queryset(self):
+        return self.product.media.all()
+
+    @transaction.atomic
+    def delete(self, *args, **kwargs):
+        super(SortableModel, self).delete(*args, **kwargs)
+
+    @transaction.atomic
+    def set_to_remove(self):
+        self.to_remove = True
+        self.save(update_fields=["to_remove"])
+        if self.sort_order is not None:
+            qs = self.get_ordering_queryset()
+            qs.filter(sort_order__gt=self.sort_order).update(
+                sort_order=F("sort_order") - 1
+            )
+=======
+class ProductMedia(SortableModel):
+    product = models.ForeignKey(
+        Product, related_name="media", on_delete=models.SET_NULL, null=True, blank=True
+    )
+    image = models.ImageField(upload_to="products", blank=True, null=True)
+    alt = models.CharField(max_length=128, blank=True)
+    type = models.CharField(
+        max_length=32,
+        choices=ProductMediaTypes.CHOICES,
+        default=ProductMediaTypes.IMAGE,
+    )
+    external_url = models.CharField(max_length=256, blank=True, null=True)
+    oembed_data = JSONField(blank=True, default=dict)
+    to_remove = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ("sort_order", "pk")
+        app_label = "product"
+
+    def get_ordering_queryset(self):
+        return self.product.media.all()
+
+    @transaction.atomic
+    def delete(self, *args, **kwargs):
+        super(SortableModel, self).delete(*args, **kwargs)
+
+    @transaction.atomic
+    def set_to_remove(self):
+        self.to_remove = True
+        self.save(update_fields=["to_remove"])
+        if self.sort_order is not None:
+            qs = self.get_ordering_queryset()
+            qs.filter(sort_order__gt=self.sort_order).update(
+                sort_order=F("sort_order") - 1
+            )
+>>>>>>> REPLACE
+
+FILE: saleor/graphql/product/mutations/products.py
+<<<<<<< SEARCH
+from ....core.permissions import ProductPermissions
+from ....core.tasks import delete_product_media_task
+from ....core.tracing import traced_atomic_transaction
+=======
+from ....core.permissions import ProductPermissions
+from ....core.tasks import delete_product_media_task
+from ....core.tracing import traced_atomic_transaction
+>>>>>>> REPLACE
+
+FILE: saleor/graphql/product/mutations/products.py
+<<<<<<< SEARCH
+        media_id = media_obj.id
+        media_obj.set_to_remove()
+        delete_product_media_task.delay(media_id)
+        media_obj.id = media_id
+        product = models.Product.objects.prefetched_for_webhook().get(
+            pk=media_obj.product_id
+        )
+        info.context.plugins.product_updated(product)
+        product = ChannelContext(node=product, channel_slug=None)
+        return ProductMediaDelete(product=product, media=media_obj)
+=======
+        media_id = media_obj.id
+        media_obj.set_to_remove()
+        delete_product_media_task.delay(media_id)
+        media_obj.id = media_id
+        product = models.Product.objects.prefetched_for_webhook().get(
+            pk=media_obj.product_id
+        )
+        info.context.plugins.product_updated(product)
+        product = ChannelContext(node=product, channel_slug=None)
+        return ProductMediaDelete(product=product, media=media_obj)
+>>>>>>> REPLACE

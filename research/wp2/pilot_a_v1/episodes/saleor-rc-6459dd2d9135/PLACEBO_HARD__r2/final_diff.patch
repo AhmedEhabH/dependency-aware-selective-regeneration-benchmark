@@ -1,0 +1,15 @@
+diff --git a/saleor/graphql/core/types/common.py b/saleor/graphql/core/types/common.py
+--- a/saleor/graphql/core/types/common.py
++++ b/saleor/graphql/core/types/common.py
+@@ -527,6 +527,11 @@
+         description="List of channels IDs which causes the error.",
+         required=False,
+     )
++    countries = NonNullList(
++        graphene.String,
++        description="List of country codes which causes the error.",
++        required=False,
++    )
+ 
+     class Meta:
+         doc_category = DOC_CATEGORY_SHIPPING

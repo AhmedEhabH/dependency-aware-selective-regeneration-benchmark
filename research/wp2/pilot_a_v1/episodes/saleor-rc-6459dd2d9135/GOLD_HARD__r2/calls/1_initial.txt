@@ -1,0 +1,57 @@
+Looking at the developer change description, I need to fix an error on shipping zone update mutation when countries are missing. The changes mentioned are:
+1. Add setdefault for shipping zone countries
+2. Fix typo 
+3. Add method for extending shipping zone countries
+
+Let me analyze the code to find where the issue occurs. Looking at the `ShippingZoneMixin.clean_default` method, I can see that it accesses `data["countries"]` directly, but when updating a shipping zone, the countries field might not be present in the input data, which would cause a KeyError.
+
+The fix should ensure that `countries` key exists in the data dictionary before trying to access it, and provide a method to extend shipping zone countries properly.
+
+FILE: saleor/graphql/shipping/mutations/shippings.py
+<<<<<<< SEARCH
+    @classmethod
+    def clean_default(cls, instance, data):
+        default = data.get("default")
+        if default:
+            if default_shipping_zone_exists(instance.pk):
+                raise ValidationError(
+                    {
+                        "default": ValidationError(
+                            "Default shipping zone already exists.",
+                            code=ShippingErrorCode.ALREADY_EXISTS.value,
+                        )
+                    }
+                )
+            else:
+                countries = get_countries_without_shipping_zone()
+                data["countries"].extend([country for country in countries])
+        else:
+            data["default"] = False
+        return data
+=======
+    @classmethod
+    def clean_default(cls, instance, data):
+        default = data.get("default")
+        if default:
+            if default_shipping_zone_exists(instance.pk):
+                raise ValidationError(
+                    {
+                        "default": ValidationError(
+                            "Default shipping zone already exists.",
+                            code=ShippingErrorCode.ALREADY_EXISTS.value,
+                        )
+                    }
+                )
+            else:
+                countries = get_countries_without_shipping_zone()
+                cls.extend_shipping_zone_countries(data, countries)
+        else:
+            data["default"] = False
+        return data
+
+    @classmethod
+    def extend_shipping_zone_countries(cls, data, countries):
+        """Extend shipping zone countries with additional countries."""
+        data.setdefault("countries", [])
+        data["countries"].extend([country for country in countries])
+>>>>>>> REPLACE

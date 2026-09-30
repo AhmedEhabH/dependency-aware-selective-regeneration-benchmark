@@ -1,0 +1,21 @@
+diff --git a/saleor/graphql/shipping/mutations/shippings.py b/saleor/graphql/shipping/mutations/shippings.py
+--- a/saleor/graphql/shipping/mutations/shippings.py
++++ b/saleor/graphql/shipping/mutations/shippings.py
+@@ -280,10 +280,16 @@
+                 )
+             else:
+                 countries = get_countries_without_shipping_zone()
+-                data["countries"].extend([country for country in countries])
++                cls.extend_shipping_zone_countries(data, countries)
+         else:
+             data["default"] = False
+         return data
++
++    @classmethod
++    def extend_shipping_zone_countries(cls, data, countries):
++        """Extend shipping zone countries with additional countries."""
++        data.setdefault("countries", [])
++        data["countries"].extend([country for country in countries])
+ 
+     @classmethod
+     def _save_m2m(cls, info: ResolveInfo, instance, cleaned_data):

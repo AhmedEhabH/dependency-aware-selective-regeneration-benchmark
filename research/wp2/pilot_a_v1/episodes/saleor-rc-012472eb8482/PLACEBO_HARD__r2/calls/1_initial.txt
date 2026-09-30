@@ -1,0 +1,269 @@
+Based on the developer change description about dropping handling product media deletion in celery task and ensuring migration backwards compatibility, here are the necessary changes:
+
+FILE: saleor/core/permissions/enums.py
+<<<<<<< SEARCH
+from enum import Enum
+from typing import Iterable, List
+
+from django.contrib.auth.models import Permission
+=======
+from enum import Enum
+from typing import Iterable, List
+
+from django.contrib.auth.models import Permission
+>>>>>>> REPLACE
+
+FILE: saleor/graphql/decorators.py
+<<<<<<< SEARCH
+from enum import Enum
+from functools import wraps
+from typing import Iterable, Union
+
+from graphql.execution.base import ResolveInfo
+
+from ..attribute import AttributeType
+from ..core.exceptions import PermissionDenied
+from ..core.permissions import (
+    PagePermissions,
+    PageTypePermissions,
+    ProductPermissions,
+    ProductTypePermissions,
+    has_one_of_permissions,
+    is_app,
+    is_staff_user,
+    one_of_permissions_or_auth_filter_required,
+)
+from ..core.permissions import permission_required as core_permission_required
+from .utils import get_user_or_app_from_context
+=======
+from enum import Enum
+from functools import wraps
+from typing import Iterable, Union
+
+from graphql.execution.base import ResolveInfo
+
+from ..attribute import AttributeType
+from ..core.exceptions import PermissionDenied
+from ..core.permissions import (
+    PagePermissions,
+    PageTypePermissions,
+    ProductPermissions,
+    ProductTypePermissions,
+    has_one_of_permissions,
+    is_app,
+    is_staff_user,
+    one_of_permissions_or_auth_filter_required,
+)
+from ..core.permissions import permission_required as core_permission_required
+from .utils import get_user_or_app_from_context
+>>>>>>> REPLACE
+
+FILE: saleor/graphql/order/utils.py
+<<<<<<< SEARCH
+from collections import defaultdict
+from typing import TYPE_CHECKING, Dict, Iterable, List, Optional
+
+import graphene
+from django.core.exceptions import ValidationError
+
+from ...core.exceptions import InsufficientStock
+from ...order.error_codes import OrderErrorCode
+from ...order.utils import get_valid_shipping_methods_for_order
+from ...plugins.manager import PluginsManager
+from ...product.models import Product, ProductChannelListing, ProductVariant
+from ...shipping.interface import ShippingMethodData
+from ...shipping.utils import convert_to_shipping_method_data
+from ...warehouse.availability import check_stock_and_preorder_quantity
+from ..core.validators import validate_variants_available_in_channel
+
+if TYPE_CHECKING:
+    from ...channel.models import Channel
+    from ...order.models import Order
+from dataclasses import dataclass
+
+T_ERRORS = Dict[str, List[ValidationError]]
+=======
+from collections import defaultdict
+from typing import TYPE_CHECKING, Dict, Iterable, List, Optional
+
+import graphene
+from django.core.exceptions import ValidationError
+
+from ...core.exceptions import InsufficientStock
+from ...order.error_codes import OrderErrorCode
+from ...order.utils import get_valid_shipping_methods_for_order
+from ...plugins.manager import PluginsManager
+from ...product.models import Product, ProductChannelListing, ProductVariant
+from ...shipping.interface import ShippingMethodData
+from ...shipping.utils import convert_to_shipping_method_data
+from ...warehouse.availability import check_stock_and_preorder_quantity
+from ..core.validators import validate_variants_available_in_channel
+
+if TYPE_CHECKING:
+    from ...channel.models import Channel
+    from ...order.models import Order
+from dataclasses import dataclass
+
+T_ERRORS = Dict[str, List[ValidationError]]
+>>>>>>> REPLACE
+
+FILE: saleor/plugins/user_email/notify_events.py
+<<<<<<< SEARCH
+from typing import TYPE_CHECKING
+
+from ..email_common import get_email_subject, get_email_template_or_default
+from . import constants
+from .tasks import (
+    send_account_confirmation_email_task,
+    send_account_delete_confirmation_email_task,
+    send_fulfillment_confirmation_email_task,
+    send_fulfillment_update_email_task,
+    send_gift_card_email_task,
+    send_invoice_email_task,
+    send_order_canceled_email_task,
+    send_order_confirmation_email_task,
+    send_order_confirmed_email_task,
+    send_order_refund_email_task,
+    send_password_reset_email_task,
+    send_payment_confirmation_email_task,
+    send_request_email_change_email_task,
+    send_set_user_password_email_task,
+    send_user_change_email_notification_task,
+)
+
+if TYPE_CHECKING:
+    from .plugin import UserEmailPlugin
+=======
+from typing import TYPE_CHECKING
+
+from ..email_common import get_email_subject, get_email_template_or_default
+from . import constants
+from .tasks import (
+    send_account_confirmation_email_task,
+    send_account_delete_confirmation_email_task,
+    send_fulfillment_confirmation_email_task,
+    send_fulfillment_update_email_task,
+    send_gift_card_email_task,
+    send_invoice_email_task,
+    send_order_canceled_email_task,
+    send_order_confirmation_email_task,
+    send_order_confirmed_email_task,
+    send_order_refund_email_task,
+    send_password_reset_email_task,
+    send_payment_confirmation_email_task,
+    send_request_email_change_email_task,
+    send_set_user_password_email_task,
+    send_user_change_email_notification_task,
+)
+
+if TYPE_CHECKING:
+    from .plugin import UserEmailPlugin
+>>>>>>> REPLACE
+
+FILE: saleor/webhook/models.py
+<<<<<<< SEARCH
+from django.db import models
+
+from ..app.models import App
+from ..app.validators import AppURLValidator
+
+
+class WebhookURLField(models.URLField):
+    default_validators = [
+        AppURLValidator(schemes=["http", "https", "awssqs", "gcpubsub"])
+    ]
+
+
+class Webhook(models.Model):
+    name = models.CharField(max_length=255, null=True, blank=True)
+    app = models.ForeignKey(App, related_name="webhooks", on_delete=models.CASCADE)
+    target_url = WebhookURLField(max_length=255)
+    is_active = models.BooleanField(default=True)
+    secret_key = models.CharField(max_length=255, null=True, blank=True)
+    subscription_query = models.TextField(null=True, blank=True)
+
+    class Meta:
+        ordering = ("pk",)
+
+    def __str__(self):
+        return self.name
+
+
+class WebhookEvent(models.Model):
+    webhook = models.ForeignKey(
+        Webhook, related_name="events", on_delete=models.CASCADE
+    )
+    event_type = models.CharField("Event type", max_length=128, db_index=True)
+
+    def __repr__(self):
+        return self.event_type
+=======
+from django.db import models
+
+from ..app.models import App
+from ..app.validators import AppURLValidator
+
+
+class WebhookURLField(models.URLField):
+    default_validators = [
+        AppURLValidator(schemes=["http", "https", "awssqs", "gcpubsub"])
+    ]
+
+
+class Webhook(models.Model):
+    name = models.CharField(max_length=255, null=True, blank=True)
+    app = models.ForeignKey(App, related_name="webhooks", on_delete=models.CASCADE)
+    target_url = WebhookURLField(max_length=255)
+    is_active = models.BooleanField(default=True)
+    secret_key = models.CharField(max_length=255, null=True, blank=True)
+    subscription_query = models.TextField(null=True, blank=True)
+
+    class Meta:
+        ordering = ("pk",)
+
+    def __str__(self):
+        return self.name
+
+
+class WebhookEvent(models.Model):
+    webhook = models.ForeignKey(
+        Webhook, related_name="events", on_delete=models.CASCADE
+    )
+    event_type = models.CharField("Event type", max_length=128, db_index=True)
+
+    def __repr__(self):
+        return self.event_type
+>>>>>>> REPLACE
+
+FILE: saleor/webhook/observability/tracing.py
+<<<<<<< SEARCH
+from contextlib import contextmanager
+
+import opentracing
+
+
+@contextmanager
+def opentracing_trace(span_name, component):
+    with opentracing.global_tracer().start_active_span(
+        f"observability.{span_name}"
+    ) as scope:
+        span = scope.span
+        span.set_tag("service.name", "observability")
+        span.set_tag(opentracing.tags.COMPONENT, component)
+        yield
+=======
+from contextlib import contextmanager
+
+import opentracing
+
+
+@contextmanager
+def opentracing_trace(span_name, component):
+    with opentracing.global_tracer().start_active_span(
+        f"observability.{span_name}"
+    ) as scope:
+        span = scope.span
+        span.set_tag("service.name", "observability")
+        span.set_tag(opentracing.tags.COMPONENT, component)
+        yield
+>>>>>>> REPLACE

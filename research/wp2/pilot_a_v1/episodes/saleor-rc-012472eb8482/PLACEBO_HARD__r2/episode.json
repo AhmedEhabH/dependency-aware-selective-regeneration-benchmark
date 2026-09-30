@@ -1,0 +1,80 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v21",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-012472eb8482",
+ "arm": "PLACEBO_HARD",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/core/permissions/enums.py",
+  "saleor/graphql/decorators.py",
+  "saleor/graphql/order/utils.py",
+  "saleor/plugins/user_email/notify_events.py",
+  "saleor/webhook/models.py",
+  "saleor/webhook/observability/tracing.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/core/permissions/enums.py",
+   "saleor/graphql/decorators.py",
+   "saleor/graphql/order/utils.py",
+   "saleor/plugins/user_email/notify_events.py",
+   "saleor/webhook/models.py",
+   "saleor/webhook/observability/tracing.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/core/permissions/enums.py",
+   "saleor/graphql/decorators.py",
+   "saleor/graphql/order/utils.py",
+   "saleor/plugins/user_email/notify_events.py",
+   "saleor/webhook/models.py",
+   "saleor/webhook/observability/tracing.py"
+  ]
+ },
+ "prompt_sha256": "0d8e2ee04838cfa3ccee06c4ec9513d52ef7c92f273c743d765e6eaf2814faa0",
+ "request_sha_initial": "2e33a1be26f9c568cd6055702ad5ecffb159a8e26de586a9681a11164fe920d8",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "repair_request_sha256": "",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790762181-wXhmYiQCDz9MAp8NO1YA",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 6908,
+   "completion_tokens": 1715,
+   "cost_usd_actual": 0.0037458,
+   "cost_usd_nominal": 0.0037458,
+   "finish_reason": "stop",
+   "response_sha256": "2096b0ef46882e4377633423d587dc46d6c28a374e0beee711e173a8ab2d4a4f",
+   "request_sha": "2e33a1be26f9c568cd6055702ad5ecffb159a8e26de586a9681a11164fe920d8",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\pilot_a_v1\\episodes\\saleor-rc-012472eb8482\\PLACEBO_HARD__r2\\calls\\1_initial.txt",
+   "raw_sha256": "2096b0ef46882e4377633423d587dc46d6c28a374e0beee711e173a8ab2d4a4f"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "edited_files": [
+  "saleor/core/permissions/enums.py",
+  "saleor/graphql/decorators.py",
+  "saleor/graphql/order/utils.py",
+  "saleor/plugins/user_email/notify_events.py",
+  "saleor/webhook/models.py",
+  "saleor/webhook/observability/tracing.py"
+ ],
+ "diff_sha256": "16ec795185b645d8d57bd90786f83612f045ee5efe642dd1520f3496ef3b03d3",
+ "envelope": {},
+ "whitespace_tolerant_blocks": [],
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-30T09:56:41Z",
+ "episode_sha256": "3c0299a605f76a44dc309be8c57581dade39a9a0b0605cd24af88c16517e81a0"
+}

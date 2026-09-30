@@ -1,0 +1,64 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v21",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-6459dd2d9135",
+ "arm": "GOLD_HARD",
+ "status": "APPLIED",
+ "editable_set": [
+  "SECURITY.md",
+  "saleor/graphql/shipping/mutations/shippings.py"
+ ],
+ "excluded": {
+  "editable": [
+   "SECURITY.md",
+   "saleor/graphql/shipping/mutations/shippings.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "SECURITY.md",
+   "saleor/graphql/shipping/mutations/shippings.py"
+  ]
+ },
+ "prompt_sha256": "afc0ba3c36e69bb9acb6611b8e85b46b0314a59af708415e85100a042bf95fbe",
+ "request_sha_initial": "1767c82c18c10f63c663447b949f92c06dcdab8cf9b0bc2f03853f3f13b26981",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "repair_request_sha256": "",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790762083-r5XcgGtJW8kDQ1xCGYL1",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 6654,
+   "completion_tokens": 520,
+   "cost_usd_actual": 0.0024746,
+   "cost_usd_nominal": 0.0024746,
+   "finish_reason": "stop",
+   "response_sha256": "bd40ccfbecca976ddb0d499872d7945502ffc29fe32e47d96ddbd61bd2eb137e",
+   "request_sha": "1767c82c18c10f63c663447b949f92c06dcdab8cf9b0bc2f03853f3f13b26981",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\pilot_a_v1\\episodes\\saleor-rc-6459dd2d9135\\GOLD_HARD__r1\\calls\\1_initial.txt",
+   "raw_sha256": "bd40ccfbecca976ddb0d499872d7945502ffc29fe32e47d96ddbd61bd2eb137e"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "edited_files": [
+  "SECURITY.md",
+  "saleor/graphql/shipping/mutations/shippings.py"
+ ],
+ "diff_sha256": "0bbe1b5c517e7cd13aafea28a241a86316820bde57d9b185ed2556b1ac1b33eb",
+ "envelope": {},
+ "whitespace_tolerant_blocks": [],
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-30T09:54:54Z",
+ "episode_sha256": "bdaff73c00101b11bf3cf6b1b547a5b06c45430ba3ada63f8bbc72317fcdaa03"
+}

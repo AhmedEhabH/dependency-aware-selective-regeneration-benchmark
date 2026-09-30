@@ -1,0 +1,13 @@
+diff --git a/saleor/core/tasks.py b/saleor/core/tasks.py
+--- a/saleor/core/tasks.py
++++ b/saleor/core/tasks.py
+@@ -38,8 +38,4 @@
+     retry_kwargs={"max_retries": 5},
+ )
+ def delete_product_media_task(media_id):
+-    product_media = ProductMedia.objects.filter(pk=media_id, to_remove=True).first()
+-    if product_media:
+-        Thumbnail.objects.filter(product_media=product_media.id).delete()
+-        product_media.image.delete()
+-        product_media.delete()
++    pass

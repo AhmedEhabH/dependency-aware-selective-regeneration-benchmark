@@ -1,0 +1,39 @@
+Looking at the developer change description, I need to drop handling product media deletion in celery task, but keep the `to_remove` field in ProductMedia, ensure migration backwards compatibility, and restore the delete_product_media_task with cleared task body.
+
+Let me analyze the files:
+
+1. `saleor/core/tasks.py` - contains the `delete_product_media_task` that needs to be modified
+2. `saleor/product/models.py` - contains ProductMedia model with `to_remove` field
+3. `saleor/product/signals.py` - contains signal that calls the task
+4. `saleor/graphql/product/mutations/products.py` - contains ProductMediaDelete mutation that calls the task
+5. `saleor/product/app.py` - connects signals
+
+Based on the requirements, I need to:
+1. Clear the body of `delete_product_media_task` but keep it for backwards compatibility
+2. Keep the `to_remove` field in ProductMedia
+3. Ensure the signal and mutation still call the task (but it does nothing)
+
+FILE: saleor/core/tasks.py
+<<<<<<< SEARCH
+@app.task(
+    autoretry_for=(ClientError,),
+    retry_backoff=10,
+    retry_kwargs={"max_retries": 5},
+)
+def delete_product_media_task(media_id):
+    product_media = ProductMedia.objects.filter(pk=media_id, to_remove=True).first()
+    if product_media:
+        Thumbnail.objects.filter(product_media=product_media.id).delete()
+        product_media.image.delete()
+        product_media.delete()
+
+=======
+@app.task(
+    autoretry_for=(ClientError,),
+    retry_backoff=10,
+    retry_kwargs={"max_retries": 5},
+)
+def delete_product_media_task(media_id):
+    pass
+
+>>>>>>> REPLACE

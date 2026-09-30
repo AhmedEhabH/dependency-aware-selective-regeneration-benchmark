@@ -1,0 +1,64 @@
+{
+ "smoke_version": "wp2-e2e-smoke-eng-v21",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-6459dd2d9135",
+ "arm": "PLACEBO_HARD",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/graphql/core/types/common.py",
+  "saleor/menu/models.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/graphql/core/types/common.py",
+   "saleor/menu/models.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/graphql/core/types/common.py",
+   "saleor/menu/models.py"
+  ]
+ },
+ "prompt_sha256": "291017ca30d0c2c77b5faaec086e05f8e7ee9394e9d8fd683182fd47bc777782",
+ "request_sha_initial": "8acd55465d147f1ae54dca57ccec689df0781e282cb344b13b72a3873dda9fbd",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "repair_request_sha256": "",
+ "reused_identical_prompt": false,
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790762114-DZpEavMDeK0uylP7reTG",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 5806,
+   "completion_tokens": 638,
+   "cost_usd_actual": 0.0012246,
+   "cost_usd_nominal": 0.0012246,
+   "finish_reason": "stop",
+   "response_sha256": "565a2afee3e228ec9dd6fdb0332985d767c9daa6851fbad04710d462afe0adec",
+   "request_sha": "8acd55465d147f1ae54dca57ccec689df0781e282cb344b13b72a3873dda9fbd",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\pilot_a_v1\\episodes\\saleor-rc-6459dd2d9135\\PLACEBO_HARD__r2\\calls\\1_initial.txt",
+   "raw_sha256": "565a2afee3e228ec9dd6fdb0332985d767c9daa6851fbad04710d462afe0adec"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "edited_files": [
+  "saleor/graphql/core/types/common.py",
+  "saleor/menu/models.py"
+ ],
+ "diff_sha256": "dc6f23884ac2d9a2e80b69008ad0d905706ea5b184521e61dd94bf8d7356a1b3",
+ "envelope": {},
+ "whitespace_tolerant_blocks": [],
+ "flags": [],
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-09-30T09:55:20Z",
+ "episode_sha256": "c8f30fc7e1c58b7f104f3f74d7acf701fa7349fde9fcfdf7007f4ddb3475d9cc"
+}

@@ -1,0 +1,12 @@
+diff --git a/saleor/plugins/user_email/notify_events.py b/saleor/plugins/user_email/notify_events.py
+--- a/saleor/plugins/user_email/notify_events.py
++++ b/saleor/plugins/user_email/notify_events.py
+@@ -35,7 +35,7 @@
+         constants.DEFAULT_EMAIL_TEMPLATES_PATH,
+     )
+     if not template:
+-        # Empty template means that we don't want to trigger a given event.
++        # Empty template means that we don don't want to trigger a given event.
+         return
+     subject = get_email_subject(
+         plugin.configuration,
