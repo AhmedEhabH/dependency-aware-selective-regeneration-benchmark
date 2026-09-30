@@ -1,0 +1,82 @@
+{
+ "amendment_sha256": "5997f0aa073f4dc9d3c1394379c6b4003efb416fbc7cbe0f0eabc05c1973bb32",
+ "artifact": "m14a_e1_addendum",
+ "artifact_sha256": "df377b0ab241f98a56163e32221e4110120f7bc2ae74740014c91b8325bba854",
+ "n_patch_startup_failure": 2,
+ "n_unique_evaluations": 29,
+ "rows": [
+  {
+   "arm": "GOLD_HARD",
+   "arm_labels": [
+    "GOLD_HARD__r2"
+   ],
+   "decision": "PATCH_STARTUP_FAILURE",
+   "diagnostics": "research/wp2/pilot_a_v1/evaluations/diagnostics/saleor-rc-b14def73518c/u_073711c62862/e1_diagnostics.json",
+   "diff_sha256": "073711c628625c41dee5d00ff258b6dea658c42e056b769880ef61385f241406",
+   "edited_files_in_log": [
+    "saleor/product/models.py"
+   ],
+   "label": "u_073711c62862",
+   "missing_runs": [
+    "C_0",
+    "C_1",
+    "C_2",
+    "U_0",
+    "U_1",
+    "U_2"
+   ],
+   "rcs": {
+    "C_0": 1,
+    "C_1": 1,
+    "C_2": 1,
+    "U_0": 1,
+    "U_1": 1,
+    "U_2": 1
+   },
+   "scored": {
+    "f2p_task": "FAIL",
+    "p2p_s_task": "FAIL",
+    "p2p_u200_task": "FAIL",
+    "resolved": false
+   },
+   "task_id": "saleor-rc-b14def73518c"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "arm_labels": [
+    "GOLD_HARD__r1"
+   ],
+   "decision": "PATCH_STARTUP_FAILURE",
+   "diagnostics": "research/wp2/pilot_a_v1/evaluations/diagnostics/saleor-rc-b14def73518c/u_f1aeafb9e0ee/e1_diagnostics.json",
+   "diff_sha256": "f1aeafb9e0ee2761590aad6ff2649bb614e56498c6de92d2d9e65e59fccf9ccf",
+   "edited_files_in_log": [
+    "saleor/product/models.py"
+   ],
+   "label": "u_f1aeafb9e0ee",
+   "missing_runs": [
+    "C_0",
+    "C_1",
+    "C_2",
+    "U_0",
+    "U_1",
+    "U_2"
+   ],
+   "rcs": {
+    "C_0": 1,
+    "C_1": 1,
+    "C_2": 1,
+    "U_0": 1,
+    "U_1": 1,
+    "U_2": 1
+   },
+   "scored": {
+    "f2p_task": "FAIL",
+    "p2p_s_task": "FAIL",
+    "p2p_u200_task": "FAIL",
+    "resolved": false
+   },
+   "task_id": "saleor-rc-b14def73518c"
+  }
+ ],
+ "rule_id": "M14A_E1_PATCH_STARTUP_FAILURE_V1"
+}
