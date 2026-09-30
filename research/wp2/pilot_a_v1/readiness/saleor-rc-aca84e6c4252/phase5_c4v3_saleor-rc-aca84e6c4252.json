@@ -1,0 +1,206 @@
+{
+ "task_id": "saleor-rc-aca84e6c4252",
+ "status": "DONE",
+ "era_key": "py312",
+ "target_commit": "aca84e6c4252d50457aaa12f9ef1491452f0f637",
+ "counts": {
+  "BEHAVIORAL_F2P": 7,
+  "SYMBOL_ABSENCE_F2P": 0,
+  "PARENT_COLLECTION_ERROR": 0,
+  "FLAKY": 0,
+  "TARGET_ORACLE_INVALID": 0,
+  "P2P_ONLY": 3,
+  "OTHER_REVIEW_REQUIRED": 0
+ },
+ "eligibility": {
+  "PRIMARY_BEHAVIORAL_F2P_ELIGIBLE": true,
+  "EXTENDED_F2P_ELIGIBLE": true,
+  "n_behavioral_f2p": 7,
+  "n_symbol_absence_f2p": 0,
+  "n_parent_collection_error": 0,
+  "environment_valid": true,
+  "task_collection_failure": false,
+  "semantics_version": "oracle-semantics-v2-2026-09-23"
+ },
+ "classification": "BEHAVIORAL_F2P",
+ "n_nodes": 10,
+ "n_test_files": 1,
+ "wall_s": 370.2,
+ "operations": {
+  "target_wall_s": 194.5,
+  "parent_wall_s": 370.2,
+  "target_error": null,
+  "parent_error": null
+ },
+ "node_records": [
+  {
+   "node_id": "saleor/graphql/account/tests/mutations/account/test_account_register.py::test_account_register_properly_filter_errors",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/account/tests/mutations/account/test_account_register.py::test_account_register_returns_empty_id",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/account/tests/mutations/account/test_account_register.py::test_customer_register",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/account/tests/mutations/account/test_account_register.py::test_customer_register_disabled_email_confirmation",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/account/tests/mutations/account/test_account_register.py::test_customer_register_generates_valid_token",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/account/tests/mutations/account/test_account_register.py::test_customer_register_no_channel_email_confirmation_unset",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/account/tests/mutations/account/test_account_register.py::test_customer_register_no_redirect_url",
+   "v3_class": "P2P_ONLY",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/account/tests/mutations/account/test_account_register.py::test_customer_register_race_codition",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/account/tests/mutations/account/test_account_register.py::test_customer_register_twice",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  },
+  {
+   "node_id": "saleor/graphql/account/tests/mutations/account/test_account_register.py::test_customer_register_upper_case_email",
+   "v3_class": "BEHAVIORAL_F2P",
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ]
+  }
+ ],
+ "manifest": {
+  "task_id": "saleor-rc-aca84e6c4252",
+  "target_commit": "aca84e6c4252d50457aaa12f9ef1491452f0f637",
+  "era": "py312",
+  "frozen_base_image_id": "sha256:0c185699947d75d5866e57dfb10bba25cca05dc58ca3fd2f75446ee8b0e41394",
+  "harness_v3_version": "wp2-harness-v3-2026-09-26",
+  "runner_sha": "558ba4f90b1348be0c0447a3dd5d54a613a63444",
+  "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+  "lockfile_sha256": "a96e478850beab57553028393cad555b2a7500997e4ffd895988585cde003ea2",
+  "nofile_soft": 65536,
+  "nofile_hard": 65536,
+  "clock_pre_post": {
+   "pre": 0.05991,
+   "post": null
+  },
+  "C4_EFFECTIVE_WORKERS": 1,
+  "db_names": {
+   "t": "saleor_v3_aca84e6c4252_t",
+   "p": "saleor_v3_aca84e6c4252_p"
+  },
+  "main_recipe_signature": "20beed9b97eff58082d1775654968fd177b885f3752741692eb4b555a5294a59",
+  "dev_test_closure": {
+   "mechanism": "uv",
+   "n_pins": 0,
+   "pins_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "n_unsupported": 0
+  }
+ },
+ "evidence_sha256": "82d97a50e7c0406013c1114eaff2bfcb8ea52d9326a46df1aa2f04eba4b8352a"
+}

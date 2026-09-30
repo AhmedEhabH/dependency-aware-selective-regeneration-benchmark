@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="7" skipped="0" tests="10" time="155.273" timestamp="2026-09-30T02:59:57.805184+00:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.account.tests.mutations.account.test_account_register" name="test_account_register_properly_filter_errors" time="154.355" /><testcase classname="saleor.graphql.account.tests.mutations.account.test_account_register" name="test_account_register_returns_empty_id" time="0.072"><failure message="AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 23, 'column': 9}], 'path': ['accountRegister', 'user', 'checkout', 'id'], 'extensions': {'exception': {'code': 'AttributeError'}}}]">api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7fd4334253a0&gt;
+channel_PLN = &lt;Channel: c-pln&gt;
+site_settings = &lt;SiteSettings: SiteSettings object (3)&gt;
+customer_user = &lt;User: 6bdcd4e5-59b3-43d1-a7f8-f29175812ff1&gt;
+
+    def test_account_register_returns_empty_id(
+        api_client, channel_PLN, site_settings, customer_user
+    ):
+        # given
+        site_settings.enable_account_confirmation_by_email = False
+        site_settings.save(update_fields=["enable_account_confirmation_by_email"])
+    
+        variables = {
+            "input": {
+                "email": customer_user.email,
+                "password": "Password",
+            }
+        }
+    
+        # when
+        response = api_client.post_graphql(ACCOUNT_REGISTER_MUTATION, variables)
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/account/tests/mutations/account/test_account_register.py:474: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 23, 'column': 9}], 'path': ['accountRegister', 'user', 'checkout', 'id'], 'extensions': {'exception': {'code': 'AttributeError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.account.tests.mutations.account.test_account_register" name="test_customer_register" time="0.070"><failure message="AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 23, 'column': 9}], 'path': ['accountRegister', 'user', 'checkout', 'id'], 'extensions': {'exception': {'code': 'AttributeError'}}}]">mocked_finish_creating_user = &lt;MagicMock name='finish_creating_user' id='140549350795856'&gt;
+mocked_notify = &lt;MagicMock name='notify' id='140549350794176'&gt;
+mocked_generator = &lt;MagicMock name='make_token' id='140549350793936'&gt;
+api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7fd432d87dd0&gt;
+channel_PLN = &lt;Channel: c-pln&gt;
+order = &lt;Order #UUID('2bfd1ac0-f91c-4198-ac70-48f619c6e190')&gt;
+site_settings = &lt;SiteSettings: SiteSettings object (4)&gt;
+
+    @override_settings(
+        ENABLE_ACCOUNT_CONFIRMATION_BY_EMAIL=True, ALLOWED_CLIENT_HOSTS=["localhost"]
+    )
+    @patch("saleor.account.notifications.token_generator.make_token")
+    @patch("saleor.plugins.manager.PluginsManager.notify")
+    @patch(
+        "saleor.graphql.account.mutations.account.account_register.finish_creating_user",
+        wraps=finish_creating_user,
+    )
+    def test_customer_register(
+        mocked_finish_creating_user,
+        mocked_notify,
+        mocked_generator,
+        api_client,
+        channel_PLN,
+        order,
+        site_settings,
+    ):
+        # given
+        mocked_generator.return_value = "token"
+        email = "customer@example.com"
+    
+        redirect_url = "http://localhost:3000"
+        variables = {
+            "input": {
+                "email": email,
+                "password": "Password",
+                "redirectUrl": redirect_url,
+                "firstName": "saleor",
+                "lastName": "rocks",
+                "languageCode": "PL",
+                "metadata": [{"key": "meta", "value": "data"}],
+                "channel": channel_PLN.slug,
+            }
+        }
+        query = ACCOUNT_REGISTER_MUTATION
+        mutation_name = "accountRegister"
+    
+        # when
+        response = api_client.post_graphql(query, variables)
+    
+        # then
+        new_user = User.objects.get(email=email)
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/account/tests/mutations/account/test_account_register.py:142: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 23, 'column': 9}], 'path': ['accountRegister', 'user', 'checkout', 'id'], 'extensions': {'exception': {'code': 'AttributeError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.account.tests.mutations.account.test_account_register" name="test_customer_register_disabled_email_confirmation" time="0.046" /><testcase classname="saleor.graphql.account.tests.mutations.account.test_account_register" name="test_customer_register_generates_valid_token" time="0.064"><failure message="AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 23, 'column': 9}], 'path': ['accountRegister', 'user', 'checkout', 'id'], 'extensions': {'exception': {'code': 'AttributeError'}}}]">mocked_notify = &lt;MagicMock name='notify' id='140549357806192'&gt;
+api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7fd4328b83e0&gt;
+channel_PLN = &lt;Channel: c-pln&gt;
+order = &lt;Order #UUID('801e48e7-8aff-4672-86ce-ef6d94b867fa')&gt;
+site_settings = &lt;SiteSettings: SiteSettings object (6)&gt;
+
+    @override_settings(
+        ENABLE_ACCOUNT_CONFIRMATION_BY_EMAIL=True, ALLOWED_CLIENT_HOSTS=["localhost"]
+    )
+    @patch("saleor.plugins.manager.PluginsManager.notify")
+    def test_customer_register_generates_valid_token(
+        mocked_notify,
+        api_client,
+        channel_PLN,
+        order,
+        site_settings,
+    ):
+        # given
+        email = "customer@example.com"
+        redirect_url = "http://localhost:3000"
+        variables = {
+            "input": {
+                "email": email,
+                "password": "Password",
+                "redirectUrl": redirect_url,
+                "firstName": "saleor",
+                "lastName": "rocks",
+                "languageCode": "PL",
+                "metadata": [{"key": "meta", "value": "data"}],
+                "channel": channel_PLN.slug,
+            }
+        }
+    
+        # when
+        response = api_client.post_graphql(ACCOUNT_REGISTER_MUTATION, variables)
+        new_user = User.objects.get(email=email)
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/account/tests/mutations/account/test_account_register.py:322: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 23, 'column': 9}], 'path': ['accountRegister', 'user', 'checkout', 'id'], 'extensions': {'exception': {'code': 'AttributeError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.account.tests.mutations.account.test_account_register" name="test_customer_register_no_channel_email_confirmation_unset" time="0.047"><failure message="AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 23, 'column': 9}], 'path': ['accountRegister', 'user', 'checkout', 'id'], 'extensions': {'exception': {'code': 'AttributeError'}}}]">mocked_notify = &lt;MagicMock name='notify' id='140549358206848'&gt;
+api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7fd4329193a0&gt;
+channel_PLN = &lt;Channel: c-pln&gt;
+site_settings = &lt;SiteSettings: SiteSettings object (7)&gt;
+
+    @patch("saleor.plugins.manager.PluginsManager.notify")
+    def test_customer_register_no_channel_email_confirmation_unset(
+        mocked_notify, api_client, channel_PLN, site_settings
+    ):
+        # given
+        site_settings.enable_account_confirmation_by_email = False
+        site_settings.save(update_fields=["enable_account_confirmation_by_email"])
+    
+        email = "customer@example.com"
+        redirect_url = "http://localhost:3000"
+        variables = {
+            "input": {
+                "email": email,
+                "password": "Password",
+                "redirectUrl": redirect_url,
+                "firstName": "saleor",
+                "lastName": "rocks",
+                "languageCode": "PL",
+                "metadata": [{"key": "meta", "value": "data"}],
+            }
+        }
+    
+        # when
+        response = api_client.post_graphql(ACCOUNT_REGISTER_MUTATION, variables)
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/account/tests/mutations/account/test_account_register.py:420: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 23, 'column': 9}], 'path': ['accountRegister', 'user', 'checkout', 'id'], 'extensions': {'exception': {'code': 'AttributeError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.account.tests.mutations.account.test_account_register" name="test_customer_register_no_redirect_url" time="0.024" /><testcase classname="saleor.graphql.account.tests.mutations.account.test_account_register" name="test_customer_register_race_codition" time="0.047"><failure message="AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 23, 'column': 9}], 'path': ['accountRegister', 'user', 'checkout', 'id'], 'extensions': {'exception': {'code': 'AttributeError'}}}]">mocked_finish_creating_user = &lt;MagicMock name='finish_creating_user' id='140549347174608'&gt;
+mocked_notify = &lt;MagicMock name='notify' id='140549359914784'&gt;
+mocked_generator = &lt;MagicMock name='make_token' id='140549359922512'&gt;
+api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7fd431e95850&gt;
+channel_PLN = &lt;Channel: c-pln&gt;
+
+    @override_settings(
+        ENABLE_ACCOUNT_CONFIRMATION_BY_EMAIL=True, ALLOWED_CLIENT_HOSTS=["localhost"]
+    )
+    @patch("saleor.account.notifications.token_generator.make_token")
+    @patch("saleor.plugins.manager.PluginsManager.notify")
+    @patch(
+        "saleor.graphql.account.mutations.account.account_register.finish_creating_user",
+        wraps=finish_creating_user,
+    )
+    def test_customer_register_race_codition(
+        mocked_finish_creating_user,
+        mocked_notify,
+        mocked_generator,
+        api_client,
+        channel_PLN,
+    ):
+        # given
+        mocked_generator.return_value = "token"
+        email = "customer@example.com"
+    
+        redirect_url = "http://localhost:3000"
+        variables = {
+            "input": {
+                "email": email,
+                "password": "Password",
+                "redirectUrl": redirect_url,
+                "firstName": "saleor",
+                "lastName": "rocks",
+                "languageCode": "PL",
+                "channel": channel_PLN.slug,
+            }
+        }
+    
+        def create_new_user(*args, **kwargs):
+            User.objects.create(email=email)
+    
+        # when
+        with race_condition.RunBefore(
+            "saleor.graphql.account.mutations.account.account_register."
+            "AccountRegister.save_and_create_task",
+            create_new_user,
+        ):
+            response = api_client.post_graphql(ACCOUNT_REGISTER_MUTATION, variables)
+    
+        # then
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/account/tests/mutations/account/test_account_register.py:528: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 23, 'column': 9}], 'path': ['accountRegister', 'user', 'checkout', 'id'], 'extensions': {'exception': {'code': 'AttributeError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.account.tests.mutations.account.test_account_register" name="test_customer_register_twice" time="0.067"><failure message="AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 23, 'column': 9}], 'path': ['accountRegister', 'user', 'checkout', 'id'], 'extensions': {'exception': {'code': 'AttributeError'}}}]">mocked_finish_creating_user = &lt;MagicMock name='finish_creating_user' id='140549343918896'&gt;
+mocked_notify = &lt;MagicMock name='notify' id='140549356543088'&gt;
+mocked_generator = &lt;MagicMock name='make_token' id='140549356549424'&gt;
+api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7fd431fffa70&gt;
+channel_PLN = &lt;Channel: c-pln&gt;
+order = &lt;Order #UUID('a577c85b-daed-4956-9a6a-fb94b907ef66')&gt;
+site_settings = &lt;SiteSettings: SiteSettings object (10)&gt;
+
+    @override_settings(
+        ENABLE_ACCOUNT_CONFIRMATION_BY_EMAIL=True, ALLOWED_CLIENT_HOSTS=["localhost"]
+    )
+    @patch("saleor.account.notifications.token_generator.make_token")
+    @patch("saleor.plugins.manager.PluginsManager.notify")
+    @patch(
+        "saleor.graphql.account.mutations.account.account_register.finish_creating_user",
+        wraps=finish_creating_user,
+    )
+    def test_customer_register_twice(
+        mocked_finish_creating_user,
+        mocked_notify,
+        mocked_generator,
+        api_client,
+        channel_PLN,
+        order,
+        site_settings,
+    ):
+        # given
+        mocked_generator.return_value = "token"
+        email = "customer@example.com"
+    
+        redirect_url = "http://localhost:3000"
+        variables = {
+            "input": {
+                "email": email,
+                "password": "Password",
+                "redirectUrl": redirect_url,
+                "firstName": "saleor",
+                "lastName": "rocks",
+                "languageCode": "PL",
+                "metadata": [{"key": "meta", "value": "data"}],
+                "channel": channel_PLN.slug,
+            }
+        }
+        query = ACCOUNT_REGISTER_MUTATION
+        mutation_name = "accountRegister"
+    
+        # when
+        response = api_client.post_graphql(query, variables)
+    
+        # then
+        new_user = User.objects.get(email=email)
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/account/tests/mutations/account/test_account_register.py:222: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 23, 'column': 9}], 'path': ['accountRegister', 'user', 'checkout', 'id'], 'extensions': {'exception': {'code': 'AttributeError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase><testcase classname="saleor.graphql.account.tests.mutations.account.test_account_register" name="test_customer_register_upper_case_email" time="0.043"><failure message="AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 23, 'column': 9}], 'path': ['accountRegister', 'user', 'checkout', 'id'], 'extensions': {'exception': {'code': 'AttributeError'}}}]">api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7fd4316db980&gt;
+site_settings = &lt;SiteSettings: SiteSettings object (11)&gt;
+
+    @override_settings(ENABLE_ACCOUNT_CONFIRMATION_BY_EMAIL=False)
+    def test_customer_register_upper_case_email(api_client, site_settings):
+        # given
+        site_settings.enable_account_confirmation_by_email = False
+        site_settings.save(update_fields=["enable_account_confirmation_by_email"])
+    
+        email = "CUSTOMER@example.com"
+        variables = {"input": {"email": email, "password": "Password"}}
+    
+        # when
+        response = api_client.post_graphql(ACCOUNT_REGISTER_MUTATION, variables)
+&gt;       content = get_graphql_content(response)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+saleor/graphql/account/tests/mutations/account/test_account_register.py:388: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Extract GraphQL content from the API response.
+    
+        Optionally ignore protocol-level errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: [{'message': 'Internal Server Error', 'locations': [{'line': 23, 'column': 9}], 'path': ['accountRegister', 'user', 'checkout', 'id'], 'extensions': {'exception': {'code': 'AttributeError'}}}]
+
+saleor/graphql/tests/utils.py:18: AssertionError</failure></testcase></testsuite></testsuites>
