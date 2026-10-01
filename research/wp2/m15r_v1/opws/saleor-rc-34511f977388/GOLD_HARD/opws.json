@@ -1,0 +1,45 @@
+{
+ "artifact": "m15r_opws_result",
+ "artifact_sha256": "aaf2722828f887e23d7339e0fbb61b5a561d0a96625cff25ed1eae649d794218",
+ "evaluation_source": "READINESS_POSITIVE_CONTROL",
+ "file_prf": {
+  "f1": 1.0,
+  "n_editable": 1,
+  "n_gold": 1,
+  "precision": 1.0,
+  "recall": 1.0,
+  "tp": 1
+ },
+ "identity": "9ce026e2a82a492b5aeda12ba96d4c7a33be3c947b4cce1c42d43322ef819f90",
+ "kind": "REUSE_SCOPED_GOLD",
+ "nodes": {
+  "f2p_intermittent": 0,
+  "f2p_pass3": 1,
+  "f2p_total": 1,
+  "s_deterministic": 0,
+  "s_intermittent": 0,
+  "s_missing": 0,
+  "u_deterministic": 0,
+  "u_intermittent": 0,
+  "u_missing": 0
+ },
+ "opws_files": [
+  "saleor/graphql/discount/bulk_mutations.py"
+ ],
+ "opws_robust": true,
+ "opws_strict": true,
+ "robust": {
+  "f2p_task": "PASS",
+  "p2p_s_task": "PASS",
+  "p2p_u200_task": "PASS",
+  "resolved": true
+ },
+ "selector": "GOLD_HARD",
+ "strict": {
+  "f2p_task": "PASS",
+  "p2p_s_task": "PASS",
+  "p2p_u200_task": "PASS",
+  "resolved": true
+ },
+ "task_id": "saleor-rc-34511f977388"
+}

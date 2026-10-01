@@ -1,0 +1,2071 @@
+{
+ "diff_sha256": "9f6af76f39aa4b252a15c89c964f82e30720f5b33d50cc16c1a374274be3e968",
+ "e1_decision": "ALL_JUNIT_PRESENT",
+ "eval_identity": "saleor-rc-102e4e5b25e8/9f6af76f39aa4b252a15c89c964f82e30720f5b33d50cc16c1a374274be3e968",
+ "evaluation_sha256": "27e6422462b170ee61ca7f5afebe49c4d96fa669f816506728ff5a0c09396d98",
+ "evaluation_source": "READINESS_POSITIVE_CONTROL",
+ "groups": {
+  "C": {
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_attribute_input_for_page[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_attribute_input_for_page[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_attribute_input_for_page_empty_values_given[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_attribute_input_for_page_empty_values_given[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_attribute_input_for_page_lack_of_required_attribute": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_attribute_input_for_page_multiple_errors": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_attribute_input_for_page_no_values_given[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_attribute_input_for_page_no_values_given[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_attribute_input_for_page_too_many_values_given[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_attribute_input_for_page_too_many_values_given[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_attribute_input_for_product_creation_multiple_errors[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_attribute_input_for_product_creation_multiple_errors[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_attribute_input_for_product_empty_values_given[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_attribute_input_for_product_empty_values_given[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_attribute_input_for_product_lack_of_required_attribute": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_attribute_input_for_product_no_values_given[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_attribute_input_for_product_no_values_given[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_attribute_input_for_product_too_many_values_given[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_attribute_input_for_product_too_many_values_given[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_attributes_with_file_input_type_for_product[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_attributes_with_file_input_type_for_product[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_attributes_with_file_input_type_for_product_empty_file_value[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_attributes_with_file_input_type_for_product_empty_file_value[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_attributes_with_file_input_type_for_product_no_file_given[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_attributes_with_file_input_type_for_product_no_file_given[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_file_url": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_file_url_in_attribute_assignment_mixin_invalid_url[/ab/cd.jpg]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_file_url_in_attribute_assignment_mixin_invalid_url[/media/Test.jpg]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_file_url_in_attribute_assignment_mixin_invalid_url[Test.jpg]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_file_url_in_attribute_assignment_mixin_invalid_url[http://localhost:8000/media/Test.jpg]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_input_for_product[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_input_for_product[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_multiselect_attribute_by_id_and_value[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_multiselect_attribute_by_id_and_value[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_multiselect_attribute_duplicated_external_refs[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_multiselect_attribute_duplicated_external_refs[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_multiselect_attribute_duplicated_ids[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_multiselect_attribute_duplicated_ids[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_multiselect_attribute_duplicated_values[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_multiselect_attribute_duplicated_values[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_not_required_attrs_with_file_input_type_for_product_no_file_given[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_not_required_attrs_with_file_input_type_for_product_no_file_given[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_numeric_attributes_input_for_product[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_numeric_attributes_input_for_product[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_numeric_attributes_input_for_product_not_numeric_value_given[False-  ]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_numeric_attributes_input_for_product_not_numeric_value_given[False-12.se]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_numeric_attributes_input_for_product_not_numeric_value_given[False-qvd]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_numeric_attributes_input_for_product_not_numeric_value_given[True-  ]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_numeric_attributes_input_for_product_not_numeric_value_given[True-12.se]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_numeric_attributes_input_for_product_not_numeric_value_given[True-qvd]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_numeric_attributes_pass_null_value[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_numeric_attributes_pass_null_value[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_numeric_attributes_value_required[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_numeric_attributes_value_required[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_rich_text_attributes_input_for_product_only_image_block[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_rich_text_attributes_input_for_product_only_image_block[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_selectable_attribute_by_external_reference[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_selectable_attribute_by_external_reference[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_selectable_attribute_by_id_and_external_reference[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_selectable_attribute_by_id_and_external_reference[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_selectable_attribute_by_id_and_value[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_selectable_attribute_by_id_and_value[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_selectable_attribute_by_value_and_external_reference[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_selectable_attribute_by_value_and_external_reference[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_selectable_attribute_max_length_exceeded[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_selectable_attribute_max_length_exceeded[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_selectable_attribute_value_required[False-None]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_selectable_attribute_value_required[False-]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_selectable_attribute_value_required[True-None]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_selectable_attribute_value_required[True-]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_selectable_attributes_pass_null_value[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_selectable_attributes_pass_null_value[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_variant_attribute_duplicated_values_given[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_variant_attribute_duplicated_values_given[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_variant_attribute_empty_values_given[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_variant_attribute_empty_values_given[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_variant_attribute_input[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_variant_attribute_input[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_variant_attribute_input_empty_values_given[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_variant_attribute_input_empty_values_given[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_variant_attribute_input_multiple_errors[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_variant_attribute_input_multiple_errors[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_variant_attribute_input_no_values_given[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_variant_attribute_input_no_values_given[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_variant_attribute_too_many_values_given[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_clean_variant_attribute_too_many_values_given[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_pre_save_multiselect_external_reference_action": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_prepare_attribute_values": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_prepare_attribute_values_prefer_the_slug_match": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_prepare_attribute_values_that_gives_the_same_slug": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_attribute_value_input_accepts_reference_payloads[product_type_product_reference_attribute-value_payload0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_attribute_value_input_accepts_reference_payloads[product_type_product_single_reference_attribute-value_payload1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_attribute_value_input_combines_invalid_entries": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_attribute_value_input_rejects_empty_values[attributes0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_attribute_value_input_rejects_empty_values[attributes1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_attribute_value_input_rejects_invalid_reference_payloads[product_type_product_reference_attribute-value_payload0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_attribute_value_input_rejects_invalid_reference_payloads[product_type_product_single_reference_attribute-value_payload1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_attribute_value_input_rejects_multiple_value_keys": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_attribute_value_input_rejects_numeric_reference": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes[False--3.5]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes[False--3.6]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes[False-0_0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes[False-0_1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes[False-2.56_0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes[False-2.56_1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes[True--3.5]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes[True--3.6]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes[True-0_0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes[True-0_1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes[True-2.56_0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes[True-2.56_1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes_input_for_product_blank_value[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes_input_for_product_blank_value[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes_input_for_product_more_than_one_value_given[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes_input_for_product_more_than_one_value_given[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes_input_none_as_values[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes_input_none_as_values[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes_invalid_number[False-0,56]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes_invalid_number[False-20k]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes_invalid_number[False-True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes_invalid_number[False-e-10]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes_invalid_number[False-number]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes_invalid_number[True-0,56]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes_invalid_number[True-20k]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes_invalid_number[True-True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes_invalid_number[True-e-10]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_numeric_attributes_invalid_number[True-number]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_rich_text_attributes_input_for_product_only_embed_block[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_rich_text_attributes_input_for_product_only_embed_block[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_selectable_attributes_by_id[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_selectable_attributes_by_id[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_selectable_attributes_by_value[False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/test_utils.py::test_validate_selectable_attributes_by_value[True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_pages.py::test_products_query_with_attr_slug_and_attribute_value_reference_to_pages[scenario0-\\n    query($where: ProductFilterInput!, $channel: String) {\\n      products(first: 10, filter: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_pages.py::test_products_query_with_attr_slug_and_attribute_value_reference_to_pages[scenario0-\\n    query($where: ProductWhereInput!, $channel: String) {\\n      products(first: 10, where: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_pages.py::test_products_query_with_attr_slug_and_attribute_value_reference_to_pages[scenario1-\\n    query($where: ProductFilterInput!, $channel: String) {\\n      products(first: 10, filter: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_pages.py::test_products_query_with_attr_slug_and_attribute_value_reference_to_pages[scenario1-\\n    query($where: ProductWhereInput!, $channel: String) {\\n      products(first: 10, where: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_pages.py::test_products_query_with_attr_slug_and_attribute_value_reference_to_pages[scenario2-\\n    query($where: ProductFilterInput!, $channel: String) {\\n      products(first: 10, filter: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_pages.py::test_products_query_with_attr_slug_and_attribute_value_reference_to_pages[scenario2-\\n    query($where: ProductWhereInput!, $channel: String) {\\n      products(first: 10, where: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_pages.py::test_products_query_with_attr_slug_and_attribute_value_reference_to_pages[scenario3-\\n    query($where: ProductFilterInput!, $channel: String) {\\n      products(first: 10, filter: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_pages.py::test_products_query_with_attr_slug_and_attribute_value_reference_to_pages[scenario3-\\n    query($where: ProductWhereInput!, $channel: String) {\\n      products(first: 10, where: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_pages.py::test_products_query_with_attr_slug_and_attribute_value_referenced_page_ids[scenario0-\\n    query($where: ProductFilterInput!, $channel: String) {\\n      products(first: 10, filter: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_pages.py::test_products_query_with_attr_slug_and_attribute_value_referenced_page_ids[scenario0-\\n    query($where: ProductWhereInput!, $channel: String) {\\n      products(first: 10, where: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_pages.py::test_products_query_with_attr_slug_and_attribute_value_referenced_page_ids[scenario1-\\n    query($where: ProductFilterInput!, $channel: String) {\\n      products(first: 10, filter: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_pages.py::test_products_query_with_attr_slug_and_attribute_value_referenced_page_ids[scenario1-\\n    query($where: ProductWhereInput!, $channel: String) {\\n      products(first: 10, where: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_pages.py::test_products_query_with_attr_slug_and_attribute_value_referenced_page_ids[scenario2-\\n    query($where: ProductFilterInput!, $channel: String) {\\n      products(first: 10, filter: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_pages.py::test_products_query_with_attr_slug_and_attribute_value_referenced_page_ids[scenario2-\\n    query($where: ProductWhereInput!, $channel: String) {\\n      products(first: 10, where: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_pages.py::test_products_query_with_attr_slug_and_attribute_value_referenced_page_ids[scenario3-\\n    query($where: ProductFilterInput!, $channel: String) {\\n      products(first: 10, filter: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_pages.py::test_products_query_with_attr_slug_and_attribute_value_referenced_page_ids[scenario3-\\n    query($where: ProductWhereInput!, $channel: String) {\\n      products(first: 10, where: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_pages.py::test_products_query_with_attribute_value_reference_to_pages[product_type_page_reference_attribute-containsAll-1-\\n    query($where: ProductFilterInput!, $channel: String) {\\n      products(first: 10, filter: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_pages.py::test_products_query_with_attribute_value_reference_to_pages[product_type_page_reference_attribute-containsAll-1-\\n    query($where: ProductWhereInput!, $channel: String) {\\n      products(first: 10, where: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_pages.py::test_products_query_with_attribute_value_reference_to_pages[product_type_page_reference_attribute-containsAny-2-\\n    query($where: ProductFilterInput!, $channel: String) {\\n      products(first: 10, filter: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_pages.py::test_products_query_with_attribute_value_reference_to_pages[product_type_page_reference_attribute-containsAny-2-\\n    query($where: ProductWhereInput!, $channel: String) {\\n      products(first: 10, where: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_pages.py::test_products_query_with_attribute_value_reference_to_pages[product_type_page_single_reference_attribute-containsAll-1-\\n    query($where: ProductFilterInput!, $channel: String) {\\n      products(first: 10, filter: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_pages.py::test_products_query_with_attribute_value_reference_to_pages[product_type_page_single_reference_attribute-containsAll-1-\\n    query($where: ProductWhereInput!, $channel: String) {\\n      products(first: 10, where: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_pages.py::test_products_query_with_attribute_value_reference_to_pages[product_type_page_single_reference_attribute-containsAny-2-\\n    query($where: ProductFilterInput!, $channel: String) {\\n      products(first: 10, filter: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_pages.py::test_products_query_with_attribute_value_reference_to_pages[product_type_page_single_reference_attribute-containsAny-2-\\n    query($where: ProductWhereInput!, $channel: String) {\\n      products(first: 10, where: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_products.py::test_products_query_with_attr_slug_and_attribute_value_reference_to_products[product_type_product_reference_attribute-containsAll-1-product1_values1-product2_values1-search_values1-\\n    query($where: ProductFilterInput!, $channel: String) {\\n      products(first: 10, filter: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_products.py::test_products_query_with_attr_slug_and_attribute_value_reference_to_products[product_type_product_reference_attribute-containsAll-1-product1_values1-product2_values1-search_values1-\\n    query($where: ProductWhereInput!, $channel: String) {\\n      products(first: 10, where: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_products.py::test_products_query_with_attr_slug_and_attribute_value_reference_to_products[product_type_product_reference_attribute-containsAny-2-product1_values0-product2_values0-search_values0-\\n    query($where: ProductFilterInput!, $channel: String) {\\n      products(first: 10, filter: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_products.py::test_products_query_with_attr_slug_and_attribute_value_reference_to_products[product_type_product_reference_attribute-containsAny-2-product1_values0-product2_values0-search_values0-\\n    query($where: ProductWhereInput!, $channel: String) {\\n      products(first: 10, where: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_products.py::test_products_query_with_attr_slug_and_attribute_value_reference_to_products[product_type_product_single_reference_attribute-containsAll-2-product1_values3-product2_values3-search_values3-\\n    query($where: ProductFilterInput!, $channel: String) {\\n      products(first: 10, filter: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_products.py::test_products_query_with_attr_slug_and_attribute_value_reference_to_products[product_type_product_single_reference_attribute-containsAll-2-product1_values3-product2_values3-search_values3-\\n    query($where: ProductWhereInput!, $channel: String) {\\n      products(first: 10, where: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_products.py::test_products_query_with_attr_slug_and_attribute_value_reference_to_products[product_type_product_single_reference_attribute-containsAny-2-product1_values2-product2_values2-search_values2-\\n    query($where: ProductFilterInput!, $channel: String) {\\n      products(first: 10, filter: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_products.py::test_products_query_with_attr_slug_and_attribute_value_reference_to_products[product_type_product_single_reference_attribute-containsAny-2-product1_values2-product2_values2-search_values2-\\n    query($where: ProductWhereInput!, $channel: String) {\\n      products(first: 10, where: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_products.py::test_products_query_with_attr_slug_and_attribute_value_referenced_product_ids[product_type_product_reference_attribute-containsAll-2-product_value_assignments1-search_indices1-\\n    query($where: ProductFilterInput!, $channel: String) {\\n      products(first: 10, filter: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_products.py::test_products_query_with_attr_slug_and_attribute_value_referenced_product_ids[product_type_product_reference_attribute-containsAll-2-product_value_assignments1-search_indices1-\\n    query($where: ProductWhereInput!, $channel: String) {\\n      products(first: 10, where: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_products.py::test_products_query_with_attr_slug_and_attribute_value_referenced_product_ids[product_type_product_reference_attribute-containsAny-3-product_value_assignments0-search_indices0-\\n    query($where: ProductFilterInput!, $channel: String) {\\n      products(first: 10, filter: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_products.py::test_products_query_with_attr_slug_and_attribute_value_referenced_product_ids[product_type_product_reference_attribute-containsAny-3-product_value_assignments0-search_indices0-\\n    query($where: ProductWhereInput!, $channel: String) {\\n      products(first: 10, where: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_products.py::test_products_query_with_attr_slug_and_attribute_value_referenced_product_ids[product_type_product_single_reference_attribute-containsAll-1-product_value_assignments3-search_indices3-\\n    query($where: ProductFilterInput!, $channel: String) {\\n      products(first: 10, filter: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_products.py::test_products_query_with_attr_slug_and_attribute_value_referenced_product_ids[product_type_product_single_reference_attribute-containsAll-1-product_value_assignments3-search_indices3-\\n    query($where: ProductWhereInput!, $channel: String) {\\n      products(first: 10, where: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_products.py::test_products_query_with_attr_slug_and_attribute_value_referenced_product_ids[product_type_product_single_reference_attribute-containsAny-3-product_value_assignments2-search_indices2-\\n    query($where: ProductFilterInput!, $channel: String) {\\n      products(first: 10, filter: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_products.py::test_products_query_with_attr_slug_and_attribute_value_referenced_product_ids[product_type_product_single_reference_attribute-containsAny-3-product_value_assignments2-search_indices2-\\n    query($where: ProductWhereInput!, $channel: String) {\\n      products(first: 10, where: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_products.py::test_products_query_with_attribute_value_reference_to_products[product_type_product_reference_attribute-containsAll-1-\\n    query($where: ProductFilterInput!, $channel: String) {\\n      products(first: 10, filter: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_products.py::test_products_query_with_attribute_value_reference_to_products[product_type_product_reference_attribute-containsAll-1-\\n    query($where: ProductWhereInput!, $channel: String) {\\n      products(first: 10, where: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_products.py::test_products_query_with_attribute_value_reference_to_products[product_type_product_reference_attribute-containsAny-2-\\n    query($where: ProductFilterInput!, $channel: String) {\\n      products(first: 10, filter: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_products.py::test_products_query_with_attribute_value_reference_to_products[product_type_product_reference_attribute-containsAny-2-\\n    query($where: ProductWhereInput!, $channel: String) {\\n      products(first: 10, where: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_products.py::test_products_query_with_attribute_value_reference_to_products[product_type_product_single_reference_attribute-containsAll-1-\\n    query($where: ProductFilterInput!, $channel: String) {\\n      products(first: 10, filter: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_products.py::test_products_query_with_attribute_value_reference_to_products[product_type_product_single_reference_attribute-containsAll-1-\\n    query($where: ProductWhereInput!, $channel: String) {\\n      products(first: 10, where: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_products.py::test_products_query_with_attribute_value_reference_to_products[product_type_product_single_reference_attribute-containsAny-2-\\n    query($where: ProductFilterInput!, $channel: String) {\\n      products(first: 10, filter: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_products.py::test_products_query_with_attribute_value_reference_to_products[product_type_product_single_reference_attribute-containsAny-2-\\n    query($where: ProductWhereInput!, $channel: String) {\\n      products(first: 10, where: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_variants.py::test_products_query_with_attr_slug_and_attribute_value_reference_to_product_variants[scenario0-\\n    query($where: ProductFilterInput!, $channel: String) {\\n      products(first: 10, filter: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_variants.py::test_products_query_with_attr_slug_and_attribute_value_reference_to_product_variants[scenario0-\\n    query($where: ProductWhereInput!, $channel: String) {\\n      products(first: 10, where: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_variants.py::test_products_query_with_attr_slug_and_attribute_value_reference_to_product_variants[scenario1-\\n    query($where: ProductFilterInput!, $channel: String) {\\n      products(first: 10, filter: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_variants.py::test_products_query_with_attr_slug_and_attribute_value_reference_to_product_variants[scenario1-\\n    query($where: ProductWhereInput!, $channel: String) {\\n      products(first: 10, where: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_variants.py::test_products_query_with_attr_slug_and_attribute_value_reference_to_product_variants[scenario2-\\n    query($where: ProductFilterInput!, $channel: String) {\\n      products(first: 10, filter: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_variants.py::test_products_query_with_attr_slug_and_attribute_value_reference_to_product_variants[scenario2-\\n    query($where: ProductWhereInput!, $channel: String) {\\n      products(first: 10, where: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_variants.py::test_products_query_with_attr_slug_and_attribute_value_reference_to_product_variants[scenario3-\\n    query($where: ProductFilterInput!, $channel: String) {\\n      products(first: 10, filter: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_variants.py::test_products_query_with_attr_slug_and_attribute_value_reference_to_product_variants[scenario3-\\n    query($where: ProductWhereInput!, $channel: String) {\\n      products(first: 10, where: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_variants.py::test_products_query_with_attr_slug_attribute_value_referenced_variant_ids[scenario0-\\n    query($where: ProductFilterInput!, $channel: String) {\\n      products(first: 10, filter: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_variants.py::test_products_query_with_attr_slug_attribute_value_referenced_variant_ids[scenario0-\\n    query($where: ProductWhereInput!, $channel: String) {\\n      products(first: 10, where: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_variants.py::test_products_query_with_attr_slug_attribute_value_referenced_variant_ids[scenario1-\\n    query($where: ProductFilterInput!, $channel: String) {\\n      products(first: 10, filter: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_variants.py::test_products_query_with_attr_slug_attribute_value_referenced_variant_ids[scenario1-\\n    query($where: ProductWhereInput!, $channel: String) {\\n      products(first: 10, where: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_variants.py::test_products_query_with_attr_slug_attribute_value_referenced_variant_ids[scenario2-\\n    query($where: ProductFilterInput!, $channel: String) {\\n      products(first: 10, filter: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_variants.py::test_products_query_with_attr_slug_attribute_value_referenced_variant_ids[scenario2-\\n    query($where: ProductWhereInput!, $channel: String) {\\n      products(first: 10, where: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_variants.py::test_products_query_with_attr_slug_attribute_value_referenced_variant_ids[scenario3-\\n    query($where: ProductFilterInput!, $channel: String) {\\n      products(first: 10, filter: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_variants.py::test_products_query_with_attr_slug_attribute_value_referenced_variant_ids[scenario3-\\n    query($where: ProductWhereInput!, $channel: String) {\\n      products(first: 10, where: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_variants.py::test_products_query_with_attribute_value_reference_to_product_variants[product_type_variant_reference_attribute-containsAll-1-\\n    query($where: ProductFilterInput!, $channel: String) {\\n      products(first: 10, filter: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_variants.py::test_products_query_with_attribute_value_reference_to_product_variants[product_type_variant_reference_attribute-containsAll-1-\\n    query($where: ProductWhereInput!, $channel: String) {\\n      products(first: 10, where: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_variants.py::test_products_query_with_attribute_value_reference_to_product_variants[product_type_variant_reference_attribute-containsAny-2-\\n    query($where: ProductFilterInput!, $channel: String) {\\n      products(first: 10, filter: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_variants.py::test_products_query_with_attribute_value_reference_to_product_variants[product_type_variant_reference_attribute-containsAny-2-\\n    query($where: ProductWhereInput!, $channel: String) {\\n      products(first: 10, where: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_variants.py::test_products_query_with_attribute_value_reference_to_product_variants[product_type_variant_single_reference_attribute-containsAll-1-\\n    query($where: ProductFilterInput!, $channel: String) {\\n      products(first: 10, filter: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_variants.py::test_products_query_with_attribute_value_reference_to_product_variants[product_type_variant_single_reference_attribute-containsAll-1-\\n    query($where: ProductWhereInput!, $channel: String) {\\n      products(first: 10, where: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_variants.py::test_products_query_with_attribute_value_reference_to_product_variants[product_type_variant_single_reference_attribute-containsAny-2-\\n    query($where: ProductFilterInput!, $channel: String) {\\n      products(first: 10, filter: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_references_variants.py::test_products_query_with_attribute_value_reference_to_product_variants[product_type_variant_single_reference_attribute-containsAny-2-\\n    query($where: ProductWhereInput!, $channel: String) {\\n      products(first: 10, where: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  },
+  "U": {
+   "saleor/graphql/account/tests/mutations/authentication/test_external_logout.py::test_external_logout": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/mutations/authentication/test_token_verify.py::test_verify_access_token": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/mutations/permission_group/test_permission_group_delete.py::test_group_delete_mutation_out_of_scope_permission": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/mutations/staff/test_address_set_default.py::test_set_default_address": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/queries/test_customers_where_filtering.py::test_customers_filter_by_ids": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/queries/test_me.py::test_me_query_checkouts_calculate_flat_taxes[\\n    query Me {\\n        me {\\n            id\\n            email\\n            checkouts(first: 10) {\\n                edges {\\n                    node {\\n                        id\\n                        lines{\\n                            totalPrice {\\n                                currency\\n                                gross {\\n                                    amount\\n                                }\\n                            }\\n                        }\\n                    }\\n                }\\n                totalCount\\n            }\\n        }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/queries/test_permission_group.py::test_app_no_permission_query_group_federation": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/account/tests/queries/test_staff_users_sorting.py::test_query_staff_members_with_sort[customer_sort2-result_order2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/app/tests/mutations/test_app_retry_install.py::test_retry_install_app_mutation_with_another_app_installed_but_marked_to_be_removed": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/app/tests/queries/test_app.py::test_app_query_breaker_last_change_board_disabled": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/benchmark/test_attribute.py::test_attribute_translation": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/benchmark/test_attribute.py::test_attribute_value_translation": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/benchmark/test_attribute.py::test_query_attribute": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/benchmark/test_attribute.py::test_query_attributes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/deprecated/test_attributes.py::test_attributes_query_with_filter": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_bulk_create.py::test_attribute_bulk_create_dropdown_with_invalid_row_and_reject_failed_rows": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_bulk_create.py::test_attribute_bulk_create_dropdown_with_one_invalid_value_and_ignore_failed": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_bulk_create.py::test_attribute_bulk_create_dropdown_with_values": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_bulk_create.py::test_attribute_bulk_create_with_duplicated_external_reference_in_values": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_bulk_create.py::test_attribute_bulk_create_with_existing_external_ref": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_bulk_create.py::test_attribute_bulk_create_with_existing_external_reference_in_values": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_bulk_create.py::test_attribute_bulk_create_with_file_input_type_and_invalid_settings": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_bulk_create.py::test_attribute_bulk_create_with_reference_types": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_bulk_create.py::test_attribute_bulk_create_with_to_long_name": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_bulk_update.py::test_attribute_bulk_update_add_value_with_existing_name": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_bulk_update.py::test_attribute_bulk_update_invalid_reference_types": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_bulk_update.py::test_attribute_bulk_update_reference_types": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_bulk_update.py::test_attribute_bulk_update_removes_invalid_value": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_bulk_update.py::test_attribute_bulk_update_removes_value": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_bulk_update.py::test_attribute_bulk_update_removes_value_with_invalid_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_bulk_update.py::test_attribute_bulk_update_trigger_webhook": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_bulk_update.py::test_attribute_bulk_update_with_deprecated_fields": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_create.py::test_create_attribute_and_attribute_values_errors[Red color-red color-Provided values are not unique.-AttributeErrorCode.UNIQUE]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_create.py::test_create_attribute_with_file_input_type_and_invalid_one_settings_value[storefrontSearchPosition-4]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_create.py::test_create_attribute_with_reference_input_type_entity_type_not_given": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_create.py::test_create_attribute_with_reference_input_type_invalid_settings[PRODUCT]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_create.py::test_create_attribute_with_reference_input_type_values_given[PRODUCT]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_create.py::test_create_attribute_with_reference_types_invalid_input_type": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_create.py::test_create_not_swatch_attribute_provide_not_valid_data[value-blue]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_create.py::test_create_product_reference_attribute_with_reference_types[REFERENCE]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_create.py::test_create_reference_attribute_with_reference_types_not_valid_entity_type[COLLECTION]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_delete.py::test_delete_attribute": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_delete.py::test_delete_attribute_by_both_id_and_external_reference": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_delete.py::test_delete_attribute_by_external_reference": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_delete.py::test_delete_attribute_by_external_reference_not_existing": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_delete.py::test_delete_attribute_trigger_webhook": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_delete.py::test_delete_file_attribute": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_reorder_values.py::test_sort_values_trigger_webhook": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_reorder_values.py::test_sort_values_within_attribute": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_reorder_values.py::test_sort_values_within_attribute_invalid_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_reorder_values.py::test_sort_values_within_attribute_invalid_product_type": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_update.py::test_update_attribute_and_add_attribute_values_errors[Red color -Red color-Provided values are not unique.-AttributeErrorCode.UNIQUE]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_update.py::test_update_attribute_provide_existing_value_name": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_update.py::test_update_attribute_reference_types[single-reference]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_update.py::test_update_attribute_slug[--Slug value cannot be blank.]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_update.py::test_update_attribute_slug_and_name[None--New name-Slug value cannot be blank.-slug]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_update.py::test_update_attribute_slug_and_name[test-slug---This field cannot be blank.-name]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_update.py::test_update_attribute_with_file_input_type_invalid_settings": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_update.py::test_update_attribute_with_reference_types_invalid_input_type": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_update.py::test_update_attribute_with_reference_types_page_types_provided_for_variant_ref": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_value_create.py::test_create_attribute_value": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_value_create.py::test_create_attribute_value_not_unique_name": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_value_create.py::test_create_attribute_value_provide_not_allowed_input_data[contentType-jpeg]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_value_create.py::test_create_attribute_value_trigger_webhooks": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_value_create.py::test_create_attribute_value_with_non_unique_external_reference": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_value_create.py::test_create_attribute_value_with_the_same_name_as_different_attribute_value": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_value_create.py::test_create_swatch_attribute_value_with_file": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_value_create.py::test_create_swatch_attribute_value_with_value_and_file": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_value_create.py::test_validate_value_is_unique": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_value_delete.py::test_delete_attribute_value": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_value_delete.py::test_delete_attribute_value_by_both_id_and_external_reference": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_value_delete.py::test_delete_attribute_value_by_external_reference": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_value_delete.py::test_delete_attribute_value_by_external_reference_not_existing": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_value_delete.py::test_delete_attribute_value_product_search_document_updated": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_value_delete.py::test_delete_attribute_value_product_search_document_updated_variant_attribute": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_value_delete.py::test_delete_attribute_value_trigger_webhooks": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_value_delete.py::test_delete_attribute_value_update_search_index_dirty_in_product": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_value_delete.py::test_delete_file_attribute_value": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_value_update.py::test_update_attribute_value_by_both_id_and_external_reference": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_value_update.py::test_update_attribute_value_by_external_reference": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_value_update.py::test_update_attribute_value_by_external_reference_not_existing": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_value_update.py::test_update_attribute_value_product_search_document_updated_variant_attribute": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_value_update.py::test_update_attribute_value_with_non_unique_external_reference": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_value_update.py::test_update_swatch_attribute_value": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_value_update.py::test_update_swatch_attribute_value_clear_file_value[additional_field0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_value_update.py::test_update_swatch_attribute_value_clear_file_value[additional_field2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_attribute_value_update.py::test_update_swatch_attribute_value_clear_value[additional_field2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_bulk_delete.py::test_delete_attribute_values": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_bulk_delete.py::test_delete_attribute_values_search_document_updated": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_bulk_delete.py::test_delete_attribute_values_trigger_webhook": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_bulk_delete.py::test_delete_attributes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_bulk_delete.py::test_delete_attributes_products_search_document_updated": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/mutations/test_bulk_delete.py::test_delete_attributes_trigger_webhooks": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_filter.py::test_atribute_values_with_filtering_slugs[filter_by0-2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_filter.py::test_attributes_filter_by_product_type_with_empty_value": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_filter.py::test_filter_attributes_by_global_id_list": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_filter.py::test_filter_attributes_in_category_not_in_listings_by_staff_without_manage_products": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_filter.py::test_filter_attributes_in_category_not_published_by_app_without_manage_products": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_filter.py::test_filter_attributes_in_category_not_published_by_staff_without_manage_products": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_filter.py::test_filter_attributes_in_category_not_visible_in_listings_by_staff_with_perm": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_filter.py::test_filter_in_collection_not_published_by_customer": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_filtering_with_channels.py::test_attributes_with_filtering_without_channel[inCollection]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_filtering_with_channels.py::test_products_with_alternative_filtering_with_channel_as_staff_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_filtering_with_channels.py::test_products_with_filtering_not_existing_channel[inCategory]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_filtering_with_channels.py::test_products_with_filtering_not_existing_channel[inCollection]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_filtering_with_channels.py::test_products_with_filtering_with_channel_as_staff_user[inCategory-5]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_filtering_with_channels.py::test_products_with_filtering_with_channel_as_staff_user[inCollection-5]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_filtering_with_channels.py::test_products_with_filtering_with_not_published_as_anonymous_client[inCategory-0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_filtering_with_channels.py::test_products_with_filtering_with_not_published_as_anonymous_client[inCollection-0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_filtering_with_channels.py::test_products_with_filtering_with_not_visible_in_listings_as_staff_user[inCategory-5]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_pagination.py::test_attributes_pagination_with_filtering[filter_by0-attributes_order0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_pagination.py::test_attributes_pagination_with_filtering[filter_by1-attributes_order1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_pagination.py::test_attributes_pagination_with_filtering[filter_by2-attributes_order2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_pagination.py::test_attributes_pagination_with_filtering[filter_by3-attributes_order3]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_pagination.py::test_attributes_pagination_with_filtering_in_category": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_pagination.py::test_attributes_pagination_with_filtering_in_collection": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_pagination.py::test_attributes_pagination_with_sorting[sort_by0-attributes_order0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_pagination.py::test_attributes_pagination_with_sorting[sort_by1-attributes_order1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_pagination.py::test_attributes_pagination_with_sorting[sort_by2-attributes_order2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_query.py::test_attributes_query_ids_not_exists": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_query.py::test_attributes_with_choice_flag[boolean-False]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_query.py::test_attributes_with_choice_flag[multiselect-True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_query.py::test_get_attribute_reference_product_types_limit_exceeded": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_query.py::test_get_reference_variant_attribute_with_reference_types": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_query.py::test_get_single_product_attribute_with_file_value": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_query.py::test_get_single_reference_page_attribute_with_reference_types": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_query.py::test_get_single_swatch_attribute_by_staff": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_query.py::test_retrieving_the_restricted_attributes_restricted[visible_in_storefront-True]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_where.py::test_attributes_filter_by_choices_name[where4-indexes4]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_where.py::test_attributes_filter_by_choices_search[Non-existent-indexes5]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_where.py::test_attributes_filter_by_input_type[where0-indexes0]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_where.py::test_attributes_filter_by_name[where1-indexes1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_where.py::test_attributes_filter_by_name[where5-indexes5]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_where.py::test_attributes_filter_by_value_required[False-indexes1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_where.py::test_attributes_filter_in_category_not_in_listings_by_staff_without_manage_products": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_where.py::test_attributes_filter_in_category_not_visible_in_listings_by_customer": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attribute_where.py::test_attributes_filter_in_collection_not_published_by_staff_with_perm": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attributes_sort.py::test_attributes_of_products_are_sorted_on_product": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attributes_sort.py::test_attributes_of_products_are_sorted_on_variant": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attributes_sort.py::test_sort_attribute_choices_by_name": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attributes_sort.py::test_sort_attribute_choices_by_slug": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attributes_sort.py::test_sort_attributes_by_default_sorting": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_attributes_sort.py::test_sort_attributes_by_slug": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_selected_attribute.py::test_assigned_multi_collection_reference_attribute": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_selected_attribute.py::test_assigned_multi_page_reference_attribute": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_selected_attribute.py::test_assigned_multi_product_reference_attribute": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_selected_attribute.py::test_assigned_single_category_reference_attribute": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_selected_attribute.py::test_assigned_single_collection_reference_attribute": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_selected_attribute.py::test_assigned_single_product_reference_attribute": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_selected_attribute.py::test_assigned_text_attribute_translation": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/queries/test_selected_attribute.py::test_attribute_value_name_when_referenced_product_was_changed": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/type_handlers/test_reference_handler.py::test_reference_handler_clean_and_validate_collection_reference": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/type_handlers/test_reference_handler.py::test_reference_handler_clean_and_validate_invalid_page_reference_type": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/type_handlers/test_reference_handler.py::test_reference_handler_clean_and_validate_invalid_reference": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/type_handlers/test_reference_handler.py::test_reference_handler_clean_and_validate_product_reference": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/type_handlers/test_reference_handler.py::test_reference_handler_pre_save_value": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/type_handlers/test_reference_handler.py::test_single_reference_handler_clean_and_validate_collection_reference": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/type_handlers/test_reference_handler.py::test_single_reference_handler_clean_and_validate_product_ref_with_reference_types": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/type_handlers/test_reference_handler.py::test_single_reference_handler_pre_save_value": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/attribute/tests/type_handlers/test_reference_handler.py::test_single_reference_handlers_clean_and_validate_value_required": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/channel/tests/dataloaders/test_by_transaction.py::test_batch_load_handles_duplicate_transaction_ids": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/deprecated/test_checkout.py::test_checkout_by_token": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/mutations/test_checkout_remove_promo_code.py::test_checkout_remove_promo_code_invalid_object_type": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/checkout/tests/test_checkout_digital.py::test_remove_shipping_method_if_only_digital_in_checkout": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/discount/tests/deprecated/test_voucher.py::test_staff_query_voucher_by_invalid_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/giftcard/tests/benchmark/test_gift_card_mutations.py::test_update_gift_card": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/giftcard/tests/mutations/test_gift_card_create.py::test_create_gift_card_with_expiry_date_type_invalid[date_value1]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/giftcard/tests/queries/test_gift_card_search.py::test_query_gift_cards_with_search[banana-indexes2]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/giftcard/tests/queries/test_gift_card_sorting.py::test_sorting_gift_cards_by_product[DESC]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/menu/tests/mutations/test_menu_delete.py::test_delete_menu_trigger_webhook": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/menu/tests/queries/test_menu.py::test_menu_query_by_name": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/menu/tests/queries/test_menu_item.py::test_staff_query_menu_item_by_invalid_id": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/order/tests/deprecated/test_order.py::test_update_order_line_discount_old_id[draft]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/order/tests/mutations/test_order_update_shipping.py::test_order_shipping_update_mutation_properly_recalculate_total": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/order/tests/queries/test_order_get_variants.py::test_get_variant_from_order_line_variant_not_published_as_admin": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/order/tests/queries/test_order_line.py::test_order_query_product_image_size_and_format_given_proxy_url_returned": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/order/tests/queries/test_order_with_filter.py::test_order_query_with_filter_status[orders_filter0-2-unfulfilled]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/order/tests/queries/test_pagination.py::test_order_query_pagination_with_filter_payment_status[orders_filter5-0-fully-refunded-orders_order5]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/page/tests/deprecated/test_page_sorting.py::test_query_pages_with_sort[page_sort9-result_order9]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_stored_payment_method_request_delete.py::test_stored_payment_method_request_delete_app_returned_failure_event": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/payment/tests/mutations/test_transaction_create.py::test_transaction_create_with_both_payment_method_details_inputs": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/plugins/tests/test_mutation_plugin_update.py::test_plugin_configuration_update_channel_slug_required": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/benchmark/test_homepage.py::test_retrieve_product_list": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/mutations/test_collection_add_products.py::test_add_products_to_collection_on_sale_trigger_discounted_price_recalculation": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/products_filtrations/test_over_attributes_date.py::test_products_query_with_attribute_value_date[date_input2-1-\\n    query($where: ProductWhereInput!, $channel: String) {\\n      products(first: 10, where: $where, channel: $channel) {\\n        edges {\\n          node {\\n            id\\n            name\\n            slug\\n          }\\n        }\\n      }\\n    }\\n]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/test_categories_query.py::test_category_level": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/queries/test_product_variants_query.py::test_fetch_all_variants_staff_user_without_channel": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/product/tests/test_bulk_delete.py::test_delete_product_types_with_file_attributes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/shipping/tests/mutations/test_shipping_method_channel_listing_update.py::test_shipping_method_channel_listing_update_with_negative_min_value": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/shipping/tests/mutations/test_shipping_price_delete.py::test_delete_shipping_method_trigger_webhook": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/shipping/tests/mutations/test_shipping_price_remove_product_from_exclude.py::test_remove_products_from_excluded_products_for_shipping_method_trigger_webhook[app]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/shop/tests/mutations/test_refund_settings_update.py::test_refund_settings_update_no_permission_customer": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/shop/tests/mutations/test_shop_domain_update.py::test_shop_domain_update": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/shop/tests/queries/test_gift_card_settings.py::test_gift_card_settings_query_as_staff": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/tax/tests/queries/test_tax_classes.py::test_tax_classes_query_staff_user": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/tests/test_middleware.py::test_middleware_invalid_name": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/translations/tests/mutations/test_category_translate.py::test_category_translate_without_slug": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/warehouse/tests/bulk_mutations/test_stock_bulk_update.py::test_stocks_bulk_update_when_stock_not_exists": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/warehouse/tests/queries/test_warehouses_filtering.py::test_query_warehouse_with_filters_by_click_and_collect_option[disabled-DISABLED]": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "saleor/graphql/webhook/tests/queries/test_event_delivery_query.py::test_webhook_delivery_attempt_query": [
+    "passed",
+    "passed",
+    "passed"
+   ]
+  }
+ },
+ "label": "u_9f6af76f39aa",
+ "labels": [
+  "OPWS:GOLD_HARD"
+ ],
+ "nodes": {
+  "f2p_intermittent": 0,
+  "f2p_pass3": 25,
+  "f2p_total": 25,
+  "s_deterministic": 0,
+  "s_intermittent": 0,
+  "s_missing": 0,
+  "u_deterministic": 0,
+  "u_intermittent": 0,
+  "u_missing": 0
+ },
+ "robust": {
+  "f2p_task": "PASS",
+  "p2p_s_task": "PASS",
+  "p2p_u200_task": "PASS",
+  "resolved": true
+ },
+ "sources": [
+  "research/wp2/m15r_v1/opws/saleor-rc-102e4e5b25e8/GOLD_HARD/opws_diff.patch"
+ ],
+ "status": "DONE",
+ "strict": {
+  "f2p_task": "PASS",
+  "p2p_s_task": "PASS",
+  "p2p_u200_task": "PASS",
+  "resolved": true
+ },
+ "task_id": "saleor-rc-102e4e5b25e8",
+ "tree_sha": "69635085e56f3b97388a6f05a80cf43788b6170e"
+}
