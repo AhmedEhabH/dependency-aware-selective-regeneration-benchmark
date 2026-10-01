@@ -90,6 +90,30 @@
    "event": "START",
    "phase": "Q07_AGENT_PREFREEZE",
    "utc": "2026-10-01T10:24:32Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "Q07_AGENT_PREFREEZE",
+   "utc": "2026-10-01T10:24:39Z"
+  },
+  {
+   "detail": "Agent localization r1-r3 per member (PAID, frozen protocol v3)",
+   "event": "START",
+   "phase": "Q08_AGENT",
+   "utc": "2026-10-01T10:24:39Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "Q08_AGENT",
+   "utc": "2026-10-01T10:34:02Z"
+  },
+  {
+   "detail": "freeze scopes (GOLD/RMCSS/AGENT r1-r3), G0 prompt audit, S2/S3 plans",
+   "event": "START",
+   "phase": "Q09_FREEZE",
+   "utc": "2026-10-01T10:34:02Z"
   }
  ],
  "phases": {
@@ -150,6 +174,22 @@
    "status": "PASS"
   },
   "Q07_AGENT_PREFREEZE": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-10-01T10:24:39Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "Q08_AGENT": {
+   "attempts": 0,
+   "failures": 0,
+   "iterations": 5,
+   "passed_utc": "2026-10-01T10:34:02Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "Q09_FREEZE": {
    "attempts": 0,
    "failures": 0,
    "iterations": 0,
