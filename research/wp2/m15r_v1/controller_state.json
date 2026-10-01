@@ -174,6 +174,36 @@
    "event": "START",
    "phase": "Q14_S2_GENERATION_FREEZE",
    "utc": "2026-10-01T13:22:18Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "Q14_S2_GENERATION_FREEZE",
+   "utc": "2026-10-01T13:22:27Z"
+  },
+  {
+   "detail": "S2 unique-diff evaluation plan",
+   "event": "START",
+   "phase": "Q15_S2_EVAL_PLAN",
+   "utc": "2026-10-01T13:22:27Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "Q15_S2_EVAL_PLAN",
+   "utc": "2026-10-01T13:22:31Z"
+  },
+  {
+   "detail": "S2 evaluation (zero API, workers=1, E1 semantics)",
+   "event": "START",
+   "phase": "Q16_S2_EVALUATE",
+   "utc": "2026-10-01T13:22:31Z"
+  },
+  {
+   "detail": "EVAL_ERROR: exit mapped to STOP:EVAL_ERROR\n--- last log: logs/controller/20261001T162232_Q16_S2_EVALUATE.log ---\n$ C:\\Users\\Ahmed\\AppData\\Local\\anaconda3\\python.exe scripts/wp2_m15r_run.py evaluate --stage s2 --max-evals 4\n[m15r-eval-s2] saleor-rc-05df3bec57e2 92ad6bc54edc -> strict=False robust=False f2p=FAIL\n[m15r-eval-s2] saleor-rc-05df3bec57e2 f002daefd35f -> strict=False robust=False f2p=FAIL\nM15R_STOP evaluate code=79: evaluation infrastructure error: JUnit missing: ['C_0', 'C_1', 'C_2', 'U_0', 'U_1', 'U_2'] (E1 decision INFRA_UNCLASSIFIED; diagnostics e1_diagnostics.json)",
+   "event": "STOP",
+   "phase": "Q16_S2_EVALUATE",
+   "utc": "2026-10-01T13:33:55Z"
   }
  ],
  "phases": {
@@ -290,6 +320,22 @@
    "status": "PASS"
   },
   "Q14_S2_GENERATION_FREEZE": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-10-01T13:22:27Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "Q15_S2_EVAL_PLAN": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-10-01T13:22:31Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "Q16_S2_EVALUATE": {
    "attempts": 0,
    "failures": 0,
    "iterations": 0,
@@ -299,5 +345,14 @@
  },
  "plan": "WP2_M15R_V1",
  "plan_sha256": "f4b406358129491cce55b2fa2459230b6d7cb356e217f6960300ce00f4595481",
- "stop": null
+ "stop": {
+  "detail": "exit mapped to STOP:EVAL_ERROR\n--- last log: logs/controller/20261001T162232_Q16_S2_EVALUATE.log ---\n$ C:\\Users\\Ahmed\\AppData\\Local\\anaconda3\\python.exe scripts/wp2_m15r_run.py evaluate --stage s2 --max-evals 4\n[m15r-eval-s2] saleor-rc-05df3bec57e2 92ad6bc54edc -> strict=False robust=False f2p=FAIL\n[m15r-eval-s2] saleor-rc-05df3bec57e2 f002daefd35f -> strict=False robust=False f2p=FAIL\nM15R_STOP evaluate code=79: evaluation infrastructure error: JUnit missing: ['C_0', 'C_1', 'C_2', 'U_0', 'U_1', 'U_2'] (E1 decision INFRA_UNCLASSIFIED; diagnostics e1_diagnostics.json)",
+  "exports": {
+   "light": 0
+  },
+  "phase": "Q16_S2_EVALUATE",
+  "resumable": true,
+  "token": "EVAL_ERROR",
+  "utc": "2026-10-01T13:33:55Z"
+ }
 }
