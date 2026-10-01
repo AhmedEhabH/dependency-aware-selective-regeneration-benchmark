@@ -1,0 +1,17 @@
+diff --git a/saleor/graphql/checkout/resolvers.py b/saleor/graphql/checkout/resolvers.py
+index e02920461..a86f99a58 100644
+--- a/saleor/graphql/checkout/resolvers.py
++++ b/saleor/graphql/checkout/resolvers.py
+@@ -15,10 +15,8 @@ def resolve_checkouts(channel_slug):
+     return queryset
+ 
+ 
+-def resolve_checkout(info, token, channel_slug):
+-    checkout = models.Checkout.objects.filter(
+-        token=token, channel__slug=channel_slug
+-    ).first()
++def resolve_checkout(info, token):
++    checkout = models.Checkout.objects.filter(token=token).first()
+ 
+     if checkout is None:
+         return None

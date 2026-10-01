@@ -1,0 +1,416 @@
+diff --git a/saleor/core/prices.py b/saleor/core/prices.py
+index 5739efcb0..a68bf3c25 100644
+--- a/saleor/core/prices.py
++++ b/saleor/core/prices.py
+@@ -1,15 +1,23 @@
+ from decimal import Decimal
+-from typing import TYPE_CHECKING, Union
++from typing import TYPE_CHECKING, Iterable, Union
+ 
+ from babel.numbers import get_currency_precision
+ 
+ if TYPE_CHECKING:
++    from django.db.models import Model
+     from prices import Money, TaxedMoney, TaxedMoneyRange
+ 
++MoneyTypes = Union["TaxedMoney", "Money", Decimal, "TaxedMoneyRange"]
+ 
+-def quantize_price(
+-    price: Union["TaxedMoney", "Money", Decimal, "TaxedMoneyRange"], currency: str
+-) -> Union["TaxedMoney", "Money", Decimal, "TaxedMoneyRange"]:
++
++def quantize_price(price: MoneyTypes, currency: str) -> MoneyTypes:
+     precision = get_currency_precision(currency)
+     number_places = Decimal(10) ** -precision
+     return price.quantize(number_places)
++
++
++def quantize_price_fields(model: "Model", fields: Iterable[str], currency: str) -> None:
++    for field in fields:
++        setattr(
++            model, field, quantize_price(getattr(model, field) or Decimal(0), currency)
++        )
+diff --git a/saleor/order/notifications.py b/saleor/order/notifications.py
+index 410ad5c55..202c4c919 100644
+--- a/saleor/order/notifications.py
++++ b/saleor/order/notifications.py
+@@ -1,3 +1,4 @@
++from decimal import Decimal
+ from typing import TYPE_CHECKING, Iterable, List, Optional
+ from urllib.parse import urlencode
+ 
+@@ -6,6 +7,7 @@ from django.forms import model_to_dict
+ from ..account.models import StaffNotificationRecipient
+ from ..core.notification.utils import get_site_context
+ from ..core.notify_events import NotifyEventType
++from ..core.prices import quantize_price, quantize_price_fields
+ from ..core.utils.url import prepare_url
+ from ..discount import OrderDiscountType
+ from ..product import ProductMediaTypes
+@@ -14,8 +16,6 @@ from ..product.product_images import AVAILABLE_PRODUCT_SIZES, get_thumbnail
+ from .models import FulfillmentLine, Order, OrderLine
+ 
+ if TYPE_CHECKING:
+-    from decimal import Decimal
+-
+     from ..account.models import User  # noqa: F401
+     from ..app.models import App
+ 
+@@ -100,6 +100,8 @@ def get_order_line_payload(line: "OrderLine"):
+             "product": get_product_payload(line.variant.product),
+             "variant": get_product_variant_payload(line.variant),
+         }
++    currency = line.currency
++
+     return {
+         "id": line.id,
+         "product": variant_dependent_fields.get("product"),  # type: ignore
+@@ -112,13 +114,15 @@ def get_order_line_payload(line: "OrderLine"):
+         "product_variant_id": line.product_variant_id,
+         "quantity": line.quantity,
+         "quantity_fulfilled": line.quantity_fulfilled,
+-        "currency": line.currency,
+-        "unit_price_net_amount": line.unit_price.net.amount,
+-        "unit_price_gross_amount": line.unit_price.gross.amount,
+-        "unit_tax_amount": line.unit_price.tax.amount,
+-        "total_gross_amount": line.total_price.gross.amount,
+-        "total_net_amount": line.total_price.net.amount,
+-        "total_tax_amount": line.total_price.tax.amount,
++        "currency": currency,
++        "unit_price_net_amount": quantize_price(line.unit_price.net.amount, currency),
++        "unit_price_gross_amount": quantize_price(
++            line.unit_price.gross.amount, currency
++        ),
++        "unit_tax_amount": quantize_price(line.unit_price.tax.amount, currency),
++        "total_gross_amount": quantize_price(line.total_price.gross.amount, currency),
++        "total_net_amount": quantize_price(line.total_price.net.amount, currency),
++        "total_tax_amount": quantize_price(line.total_price.tax.amount, currency),
+         "tax_rate": line.tax_rate,
+         "is_shipping_required": line.is_shipping_required,
+         "is_digital": line.is_digital,
+@@ -193,7 +197,6 @@ ORDER_MODEL_FIELDS = [
+     "token",
+     "display_gross_prices",
+     "currency",
+-    "discount_amount",
+     "total_gross_amount",
+     "total_net_amount",
+     "undiscounted_total_gross_amount",
+@@ -205,6 +208,13 @@ ORDER_MODEL_FIELDS = [
+     "language_code",
+ ]
+ 
++ORDER_PRICE_FIELDS = [
++    "total_gross_amount",
++    "total_net_amount",
++    "undiscounted_total_gross_amount",
++    "undiscounted_total_net_amount",
++]
++
+ 
+ def get_custom_order_payload(order: Order):
+     payload = {
+@@ -220,7 +230,7 @@ def get_default_order_payload(order: "Order", redirect_url: str = ""):
+     if redirect_url:
+         order_details_url = prepare_order_details_url(order, redirect_url)
+     subtotal = order.get_subtotal()
+-    tax = order.total_gross_amount - order.total_net_amount
++    tax = order.total_gross_amount - order.total_net_amount or Decimal(0)
+ 
+     lines = order.lines.prefetch_related(
+         "variant__product__media",
+@@ -228,6 +238,8 @@ def get_default_order_payload(order: "Order", redirect_url: str = ""):
+         "variant__product__attributes__assignment__attribute",
+         "variant__product__attributes__values",
+     ).all()
++    currency = order.currency
++    quantize_price_fields(order, fields=ORDER_PRICE_FIELDS, currency=currency)
+     order_payload = model_to_dict(order, fields=ORDER_MODEL_FIELDS)
+     order_payload.update(
+         {
+@@ -238,9 +250,9 @@ def get_default_order_payload(order: "Order", redirect_url: str = ""):
+             "shipping_price_gross_amount": order.shipping_price_gross_amount,
+             "order_details_url": order_details_url,
+             "email": order.get_customer_email(),
+-            "subtotal_gross_amount": subtotal.gross.amount,
+-            "subtotal_net_amount": subtotal.net.amount,
+-            "tax_amount": tax,
++            "subtotal_gross_amount": quantize_price(subtotal.gross.amount, currency),
++            "subtotal_net_amount": quantize_price(subtotal.net.amount, currency),
++            "tax_amount": quantize_price(tax, currency),
+             "lines": get_lines_payload(lines),
+             "billing_address": get_address_payload(order.billing_address),
+             "shipping_address": get_address_payload(order.shipping_address),
+@@ -350,6 +362,7 @@ def send_fulfillment_update(order, fulfillment, manager):
+ def send_payment_confirmation(order, manager):
+     """Send notification with the payment confirmation."""
+     payment = order.get_last_payment()
++    payment_currency = payment.currency
+     payload = {
+         "order": get_default_order_payload(order),
+         "recipient_email": order.get_customer_email(),
+@@ -357,9 +370,11 @@ def send_payment_confirmation(order, manager):
+             "created": payment.created,
+             "modified": payment.modified,
+             "charge_status": payment.charge_status,
+-            "total": payment.total,
+-            "captured_amount": payment.captured_amount,
+-            "currency": payment.currency,
++            "total": quantize_price(payment.total, payment_currency),
++            "captured_amount": quantize_price(
++                payment.captured_amount, payment_currency
++            ),
++            "currency": payment_currency,
+         },
+         **get_site_context(),
+     }
+@@ -395,7 +410,7 @@ def send_order_refunded_confirmation(
+     payload = {
+         "order": get_default_order_payload(order),
+         "recipient_email": order.get_customer_email(),
+-        "amount": amount,
++        "amount": quantize_price(amount, currency),
+         "currency": currency,
+         **get_site_context(),
+     }
+diff --git a/saleor/webhook/payloads.py b/saleor/webhook/payloads.py
+index 1a982bf1b..6c27c67bf 100644
+--- a/saleor/webhook/payloads.py
++++ b/saleor/webhook/payloads.py
+@@ -9,6 +9,7 @@ from django.db.models import F, QuerySet, Sum
+ 
+ from ..attribute.models import AttributeValueTranslation
+ from ..checkout.models import Checkout
++from ..core.prices import quantize_price, quantize_price_fields
+ from ..core.utils import build_absolute_uri
+ from ..core.utils.anonymization import (
+     anonymize_checkout,
+@@ -70,13 +71,20 @@ ORDER_FIELDS = (
+     "shipping_price_net_amount",
+     "shipping_price_gross_amount",
+     "shipping_tax_rate",
++    "weight",
++    "private_metadata",
++    "metadata",
+     "total_net_amount",
+     "total_gross_amount",
++    "undiscounted_total_net_amount",
++    "undiscounted_total_gross_amount",
++)
++
++ORDER_PRICE_FIELDS = (
+     "shipping_price_net_amount",
+     "shipping_price_gross_amount",
+-    "weight",
+-    "private_metadata",
+-    "metadata",
++    "total_net_amount",
++    "total_gross_amount",
+     "undiscounted_total_net_amount",
+     "undiscounted_total_gross_amount",
+ )
+@@ -118,6 +126,21 @@ def generate_order_lines_payload(lines: Iterable[OrderLine]):
+         "undiscounted_total_price_gross_amount",
+         "tax_rate",
+     )
++    line_price_fields = (
++        "unit_price_gross_amount",
++        "unit_price_net_amount",
++        "unit_discount_amount",
++        "total_price_net_amount",
++        "total_price_gross_amount",
++        "undiscounted_unit_price_net_amount",
++        "undiscounted_unit_price_gross_amount",
++        "undiscounted_total_price_net_amount",
++        "undiscounted_total_price_gross_amount",
++    )
++
++    for line in lines:
++        quantize_price_fields(line, line_price_fields, line.currency)
++
+     serializer = PayloadSerializer()
+     return serializer.serialize(
+         lines,
+@@ -156,6 +179,7 @@ def generate_order_payload(order: "Order"):
+         "shipping_refund_amount",
+         "total_refund_amount",
+     )
++    fulfillment_price_fields = ("shipping_refund_amount", "total_refund_amount")
+     payment_fields = (
+         "gateway",
+         "payment_method_type",
+@@ -180,7 +204,7 @@ def generate_order_payload(order: "Order"):
+         "billing_country_code",
+         "billing_country_area",
+     )
+-
++    payment_price_fields = ("captured_amount", "total")
+     discount_fields = (
+         "type",
+         "value_type",
+@@ -190,29 +214,45 @@ def generate_order_payload(order: "Order"):
+         "translated_name",
+         "reason",
+     )
++    discount_price_fields = ("amount_value",)
+ 
+     channel_fields = ("slug", "currency_code")
+     shipping_method_fields = ("name", "type", "currency", "price_amount")
+ 
+     lines = order.lines.all()
++    fulfillments = order.fulfillments.all()
++    payments = order.payments.all()
++    discounts = order.discounts.all()
++
++    quantize_price_fields(order, ORDER_PRICE_FIELDS, order.currency)
++
++    for fulfillment in fulfillments:
++        quantize_price_fields(fulfillment, fulfillment_price_fields, order.currency)
++
++    for payment in payments:
++        quantize_price_fields(payment, payment_price_fields, order.currency)
++
++    for discount in discounts:
++        quantize_price_fields(discount, discount_price_fields, order.currency)
+ 
+     fulfillments_data = serializer.serialize(
+-        order.fulfillments.all(),
++        fulfillments,
+         fields=fulfillment_fields,
+         extra_dict_data={
+             "lines": lambda f: json.loads(generate_fulfillment_lines_payload(f))
+         },
+     )
++
+     order_data = serializer.serialize(
+         [order],
+         fields=ORDER_FIELDS,
+         additional_fields={
+             "channel": (lambda o: o.channel, channel_fields),
+             "shipping_method": (lambda o: o.shipping_method, shipping_method_fields),
+-            "payments": (lambda o: o.payments.all(), payment_fields),
++            "payments": (lambda _: payments, payment_fields),
+             "shipping_address": (lambda o: o.shipping_address, ADDRESS_FIELDS),
+             "billing_address": (lambda o: o.billing_address, ADDRESS_FIELDS),
+-            "discounts": (lambda o: o.discounts.all(), discount_fields),
++            "discounts": (lambda _: discounts, discount_fields),
+         },
+         extra_dict_data={
+             "original": graphene.Node.to_global_id("Order", order.original_id),
+@@ -292,6 +332,8 @@ def generate_sale_payload(
+ def generate_invoice_payload(invoice: "Invoice"):
+     serializer = PayloadSerializer()
+     invoice_fields = ("id", "number", "external_url", "created")
++    if invoice.order is not None:
++        quantize_price_fields(invoice.order, ORDER_PRICE_FIELDS, invoice.order.currency)
+     return serializer.serialize(
+         [invoice],
+         fields=invoice_fields,
+@@ -314,6 +356,9 @@ def generate_checkout_payload(checkout: "Checkout"):
+         "metadata",
+         "channel",
+     )
++
++    checkout_price_fields = ("discount_amount",)
++    quantize_price_fields(checkout, checkout_price_fields, checkout.currency)
+     user_fields = ("email", "first_name", "last_name")
+     shipping_method_fields = ("name", "type", "currency", "price_amount")
+     lines_dict_data = serialize_checkout_lines(checkout)
+@@ -564,20 +609,36 @@ def generate_fulfillment_lines_payload(fulfillment: Fulfillment):
+                 if fl.order_line.variant
+                 else None
+             ),
+-            "unit_price_net": lambda fl: fl.order_line.unit_price_net_amount,
+-            "unit_price_gross": lambda fl: fl.order_line.unit_price_gross_amount,
++            "unit_price_net": lambda fl: quantize_price(
++                fl.order_line.unit_price_net_amount, fl.order_line.currency
++            ),
++            "unit_price_gross": lambda fl: quantize_price(
++                fl.order_line.unit_price_gross_amount, fl.order_line.currency
++            ),
+             "undiscounted_unit_price_net": (
+-                lambda fl: fl.order_line.undiscounted_unit_price.net.amount
++                lambda fl: quantize_price(
++                    fl.order_line.undiscounted_unit_price.net.amount,
++                    fl.order_line.currency,
++                )
+             ),
+             "undiscounted_unit_price_gross": (
+-                lambda fl: fl.order_line.undiscounted_unit_price.gross.amount
++                lambda fl: quantize_price(
++                    fl.order_line.undiscounted_unit_price.gross.amount,
++                    fl.order_line.currency,
++                )
+             ),
+             "total_price_net_amount": (
+-                lambda fl: fl.order_line.undiscounted_unit_price.net.amount
++                lambda fl: quantize_price(
++                    fl.order_line.undiscounted_unit_price.net.amount,
++                    fl.order_line.currency,
++                )
+                 * fl.quantity
+             ),
+             "total_price_gross_amount": (
+-                lambda fl: fl.order_line.undiscounted_unit_price.gross.amount
++                lambda fl: quantize_price(
++                    fl.order_line.undiscounted_unit_price.gross.amount,
++                    fl.order_line.currency,
++                )
+                 * fl.quantity
+             ),
+             "currency": lambda fl: fl.order_line.currency,
+@@ -601,8 +662,15 @@ def generate_fulfillment_payload(fulfillment: Fulfillment):
+         "shipping_refund_amount",
+         "total_refund_amount",
+     )
++    fulfillment_price_fields = (
++        "shipping_refund_amount",
++        "total_refund_amount",
++    )
+     order = fulfillment.order
+     order_country = get_order_country(order)
++    quantize_price_fields(
++        fulfillment, fulfillment_price_fields, fulfillment.order.currency
++    )
+     fulfillment_line = fulfillment.lines.first()
+     if fulfillment_line and fulfillment_line.stock:
+         warehouse = fulfillment_line.stock.warehouse
+@@ -642,6 +710,7 @@ def generate_page_payload(page: Page):
+ 
+ def generate_payment_payload(payment_data: "PaymentData"):
+     data = asdict(payment_data)
++    data["amount"] = quantize_price(data["amount"], data["currency"])
+     payment_app_data = from_payment_app_id(data["gateway"])
+     if payment_app_data:
+         data["payment_method"] = payment_app_data.name
+diff --git a/saleor/webhook/serializers.py b/saleor/webhook/serializers.py
+index fc012dd7b..12f49368a 100644
+--- a/saleor/webhook/serializers.py
++++ b/saleor/webhook/serializers.py
+@@ -5,6 +5,7 @@ import graphene
+ 
+ from ..attribute import AttributeInputType
+ from ..checkout.fetch import fetch_checkout_lines
++from ..core.prices import quantize_price
+ from ..product.models import Product
+ 
+ if TYPE_CHECKING:
+@@ -16,6 +17,7 @@ if TYPE_CHECKING:
+ def serialize_checkout_lines(checkout: "Checkout") -> List[dict]:
+     data = []
+     channel = checkout.channel
++    currency = channel.currency_code
+     for line_info in fetch_checkout_lines(checkout):
+         variant = line_info.variant
+         channel_listing = line_info.channel_listing
+@@ -27,8 +29,8 @@ def serialize_checkout_lines(checkout: "Checkout") -> List[dict]:
+                 "sku": variant.sku,
+                 "variant_id": variant.get_global_id(),
+                 "quantity": line_info.line.quantity,
+-                "base_price": str(base_price.amount),
+-                "currency": channel.currency_code,
++                "base_price": str(quantize_price(base_price.amount, currency)),
++                "currency": currency,
+                 "full_name": variant.display_product(),
+                 "product_name": product.name,
+                 "variant_name": variant.name,

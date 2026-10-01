@@ -1,0 +1,927 @@
+{
+ "artifact": "m15r_opws_plan",
+ "items": [
+  {
+   "diff_path": "research/wp2/m15r_v1/opws/saleor-rc-05df3bec57e2/GOLD_HARD/opws_diff.patch",
+   "diff_sha256_raw": "61f172cc2d3989626a498411e5b02e5a257b83ff72841672520f1fdac354d7d1",
+   "file_prf": {
+    "f1": 0.8,
+    "n_editable": 4,
+    "n_gold": 6,
+    "precision": 1.0,
+    "recall": 0.666667,
+    "tp": 4
+   },
+   "identity": "e7908e64e183a4c32aa6eff4919268137d38493156ba602ac3abdfd98b96a9ea",
+   "kind": "REUSE_SCOPED_GOLD",
+   "opws_files": [
+    "saleor/graphql/core/types/common.py",
+    "saleor/graphql/product/bulk_mutations/product_bulk_create.py",
+    "saleor/graphql/product/bulk_mutations/product_variant_bulk_create.py",
+    "saleor/graphql/product/bulk_mutations/product_variant_bulk_update.py"
+   ],
+   "selector": "GOLD_HARD",
+   "task_id": "saleor-rc-05df3bec57e2"
+  },
+  {
+   "diff_path": "research/wp2/m15r_v1/opws/saleor-rc-05df3bec57e2/RMCSS_HARD/opws_diff.patch",
+   "diff_sha256_raw": "a4f145c44cfb3b68540f80c546869758be6445d54b7174a81ddb7a61c8bbcc37",
+   "file_prf": {
+    "f1": 0.444444,
+    "n_editable": 3,
+    "n_gold": 6,
+    "precision": 0.666667,
+    "recall": 0.333333,
+    "tp": 2
+   },
+   "identity": "c5bc86a8d7f3ffb2f544a5711245ce4b0054d9bcc166b6846f128a3c726a6b53",
+   "kind": "EVALUATE",
+   "opws_files": [
+    "saleor/graphql/core/types/common.py",
+    "saleor/graphql/product/bulk_mutations/product_variant_bulk_create.py"
+   ],
+   "selector": "RMCSS_HARD",
+   "task_id": "saleor-rc-05df3bec57e2"
+  },
+  {
+   "diff_path": "research/wp2/m15r_v1/opws/saleor-rc-05df3bec57e2/AGENT_HARD__r1/opws_diff.patch",
+   "diff_sha256_raw": "a4f145c44cfb3b68540f80c546869758be6445d54b7174a81ddb7a61c8bbcc37",
+   "file_prf": {
+    "f1": 0.5,
+    "n_editable": 2,
+    "n_gold": 6,
+    "precision": 1.0,
+    "recall": 0.333333,
+    "tp": 2
+   },
+   "identity": "c5bc86a8d7f3ffb2f544a5711245ce4b0054d9bcc166b6846f128a3c726a6b53",
+   "kind": "EVALUATE",
+   "opws_files": [
+    "saleor/graphql/core/types/common.py",
+    "saleor/graphql/product/bulk_mutations/product_variant_bulk_create.py"
+   ],
+   "selector": "AGENT_HARD:r1",
+   "task_id": "saleor-rc-05df3bec57e2"
+  },
+  {
+   "diff_path": "research/wp2/m15r_v1/opws/saleor-rc-05df3bec57e2/AGENT_HARD__r2/opws_diff.patch",
+   "diff_sha256_raw": "50fe422dac288dc666207a3a1493afa53b202f372f077352b3fe6503ee961fcc",
+   "file_prf": {
+    "f1": 0.285714,
+    "n_editable": 1,
+    "n_gold": 6,
+    "precision": 1.0,
+    "recall": 0.166667,
+    "tp": 1
+   },
+   "identity": "f5e8e94d50c1cb2a09f9b6215da60ca83ee7585fd00fde9f3b9e000d2d38b416",
+   "kind": "EVALUATE",
+   "opws_files": [
+    "saleor/graphql/core/types/common.py"
+   ],
+   "selector": "AGENT_HARD:r2",
+   "task_id": "saleor-rc-05df3bec57e2"
+  },
+  {
+   "diff_path": "research/wp2/m15r_v1/opws/saleor-rc-05df3bec57e2/AGENT_HARD__r3/opws_diff.patch",
+   "diff_sha256_raw": "50fe422dac288dc666207a3a1493afa53b202f372f077352b3fe6503ee961fcc",
+   "file_prf": {
+    "f1": 0.285714,
+    "n_editable": 1,
+    "n_gold": 6,
+    "precision": 1.0,
+    "recall": 0.166667,
+    "tp": 1
+   },
+   "identity": "f5e8e94d50c1cb2a09f9b6215da60ca83ee7585fd00fde9f3b9e000d2d38b416",
+   "kind": "EVALUATE",
+   "opws_files": [
+    "saleor/graphql/core/types/common.py"
+   ],
+   "selector": "AGENT_HARD:r3",
+   "task_id": "saleor-rc-05df3bec57e2"
+  },
+  {
+   "diff_path": "research/wp2/m15r_v1/opws/saleor-rc-0a39d039049d/GOLD_HARD/opws_diff.patch",
+   "diff_sha256_raw": "def08c92ee637e284fe7e0f2be40d9f4eeefffafb4e2337446da0b1709683987",
+   "file_prf": {
+    "f1": 0.8,
+    "n_editable": 2,
+    "n_gold": 3,
+    "precision": 1.0,
+    "recall": 0.666667,
+    "tp": 2
+   },
+   "identity": "455d442035682ac5c6bcc1d8b0df9c2202c3dc581e9007761c1b36fb828cc6a2",
+   "kind": "REUSE_SCOPED_GOLD",
+   "opws_files": [
+    "CHANGELOG.md",
+    "saleor/graphql/product/bulk_mutations/product_variant_bulk_create.py"
+   ],
+   "selector": "GOLD_HARD",
+   "task_id": "saleor-rc-0a39d039049d"
+  },
+  {
+   "diff_path": "research/wp2/m15r_v1/opws/saleor-rc-0a39d039049d/RMCSS_HARD/opws_diff.patch",
+   "diff_sha256_raw": "fff4c3d01f3c75259507d9ca82e584fb1be2679b7741e1f09f90c4d7b8b82341",
+   "file_prf": {
+    "f1": 0.2,
+    "n_editable": 7,
+    "n_gold": 3,
+    "precision": 0.142857,
+    "recall": 0.333333,
+    "tp": 1
+   },
+   "identity": "a57c5ef56b25f01b86269c3cbd341155dc8d37f54c9d9f4cf46bcff8f1cf4d5c",
+   "kind": "EVALUATE",
+   "opws_files": [
+    "saleor/graphql/product/bulk_mutations/product_variant_bulk_create.py"
+   ],
+   "selector": "RMCSS_HARD",
+   "task_id": "saleor-rc-0a39d039049d"
+  },
+  {
+   "diff_path": "research/wp2/m15r_v1/opws/saleor-rc-0a39d039049d/AGENT_HARD__r1/opws_diff.patch",
+   "diff_sha256_raw": "fff4c3d01f3c75259507d9ca82e584fb1be2679b7741e1f09f90c4d7b8b82341",
+   "file_prf": {
+    "f1": 0.4,
+    "n_editable": 2,
+    "n_gold": 3,
+    "precision": 0.5,
+    "recall": 0.333333,
+    "tp": 1
+   },
+   "identity": "a57c5ef56b25f01b86269c3cbd341155dc8d37f54c9d9f4cf46bcff8f1cf4d5c",
+   "kind": "EVALUATE",
+   "opws_files": [
+    "saleor/graphql/product/bulk_mutations/product_variant_bulk_create.py"
+   ],
+   "selector": "AGENT_HARD:r1",
+   "task_id": "saleor-rc-0a39d039049d"
+  },
+  {
+   "diff_path": "research/wp2/m15r_v1/opws/saleor-rc-0a39d039049d/AGENT_HARD__r2/opws_diff.patch",
+   "diff_sha256_raw": "fff4c3d01f3c75259507d9ca82e584fb1be2679b7741e1f09f90c4d7b8b82341",
+   "file_prf": {
+    "f1": 0.333333,
+    "n_editable": 3,
+    "n_gold": 3,
+    "precision": 0.333333,
+    "recall": 0.333333,
+    "tp": 1
+   },
+   "identity": "a57c5ef56b25f01b86269c3cbd341155dc8d37f54c9d9f4cf46bcff8f1cf4d5c",
+   "kind": "EVALUATE",
+   "opws_files": [
+    "saleor/graphql/product/bulk_mutations/product_variant_bulk_create.py"
+   ],
+   "selector": "AGENT_HARD:r2",
+   "task_id": "saleor-rc-0a39d039049d"
+  },
+  {
+   "diff_sha256_raw": "",
+   "file_prf": {
+    "f1": 0.0,
+    "n_editable": 2,
+    "n_gold": 3,
+    "precision": 0.0,
+    "recall": 0.0,
+    "tp": 0
+   },
+   "identity": "",
+   "kind": "EMPTY_BY_CONSTRUCTION",
+   "opws_files": [],
+   "selector": "AGENT_HARD:r3",
+   "task_id": "saleor-rc-0a39d039049d"
+  },
+  {
+   "diff_path": "research/wp2/m15r_v1/opws/saleor-rc-102e4e5b25e8/GOLD_HARD/opws_diff.patch",
+   "diff_sha256_raw": "79f96ed6fcb02c6feba83dd0f96424d300cfef4d79c54198e1bb9d39ccfb8623",
+   "file_prf": {
+    "f1": 1.0,
+    "n_editable": 1,
+    "n_gold": 1,
+    "precision": 1.0,
+    "recall": 1.0,
+    "tp": 1
+   },
+   "identity": "9f6af76f39aa4b252a15c89c964f82e30720f5b33d50cc16c1a374274be3e968",
+   "kind": "REUSE_SCOPED_GOLD",
+   "opws_files": [
+    "saleor/graphql/attribute/shared_filters.py"
+   ],
+   "selector": "GOLD_HARD",
+   "task_id": "saleor-rc-102e4e5b25e8"
+  },
+  {
+   "diff_sha256_raw": "",
+   "file_prf": {
+    "f1": 0.0,
+    "n_editable": 3,
+    "n_gold": 1,
+    "precision": 0.0,
+    "recall": 0.0,
+    "tp": 0
+   },
+   "identity": "",
+   "kind": "EMPTY_BY_CONSTRUCTION",
+   "opws_files": [],
+   "selector": "RMCSS_HARD",
+   "task_id": "saleor-rc-102e4e5b25e8"
+  },
+  {
+   "diff_sha256_raw": "",
+   "file_prf": {
+    "f1": 0.0,
+    "n_editable": 2,
+    "n_gold": 1,
+    "precision": 0.0,
+    "recall": 0.0,
+    "tp": 0
+   },
+   "identity": "",
+   "kind": "EMPTY_BY_CONSTRUCTION",
+   "opws_files": [],
+   "selector": "AGENT_HARD:r1",
+   "task_id": "saleor-rc-102e4e5b25e8"
+  },
+  {
+   "diff_sha256_raw": "",
+   "file_prf": {
+    "f1": 0.0,
+    "n_editable": 2,
+    "n_gold": 1,
+    "precision": 0.0,
+    "recall": 0.0,
+    "tp": 0
+   },
+   "identity": "",
+   "kind": "EMPTY_BY_CONSTRUCTION",
+   "opws_files": [],
+   "selector": "AGENT_HARD:r2",
+   "task_id": "saleor-rc-102e4e5b25e8"
+  },
+  {
+   "diff_sha256_raw": "",
+   "file_prf": {
+    "f1": 0.0,
+    "n_editable": 2,
+    "n_gold": 1,
+    "precision": 0.0,
+    "recall": 0.0,
+    "tp": 0
+   },
+   "identity": "",
+   "kind": "EMPTY_BY_CONSTRUCTION",
+   "opws_files": [],
+   "selector": "AGENT_HARD:r3",
+   "task_id": "saleor-rc-102e4e5b25e8"
+  },
+  {
+   "diff_path": "research/wp2/m15r_v1/opws/saleor-rc-34511f977388/GOLD_HARD/opws_diff.patch",
+   "diff_sha256_raw": "64501a346016bad98a71ef82b879aeb44af8b777b176b9c9fd9637bf009bc4d8",
+   "file_prf": {
+    "f1": 1.0,
+    "n_editable": 1,
+    "n_gold": 1,
+    "precision": 1.0,
+    "recall": 1.0,
+    "tp": 1
+   },
+   "identity": "9ce026e2a82a492b5aeda12ba96d4c7a33be3c947b4cce1c42d43322ef819f90",
+   "kind": "REUSE_SCOPED_GOLD",
+   "opws_files": [
+    "saleor/graphql/discount/bulk_mutations.py"
+   ],
+   "selector": "GOLD_HARD",
+   "task_id": "saleor-rc-34511f977388"
+  },
+  {
+   "diff_path": "research/wp2/m15r_v1/opws/saleor-rc-34511f977388/RMCSS_HARD/opws_diff.patch",
+   "diff_sha256_raw": "64501a346016bad98a71ef82b879aeb44af8b777b176b9c9fd9637bf009bc4d8",
+   "file_prf": {
+    "f1": 0.4,
+    "n_editable": 4,
+    "n_gold": 1,
+    "precision": 0.25,
+    "recall": 1.0,
+    "tp": 1
+   },
+   "identity": "9ce026e2a82a492b5aeda12ba96d4c7a33be3c947b4cce1c42d43322ef819f90",
+   "kind": "REUSE_SCOPED_GOLD",
+   "opws_files": [
+    "saleor/graphql/discount/bulk_mutations.py"
+   ],
+   "selector": "RMCSS_HARD",
+   "task_id": "saleor-rc-34511f977388"
+  },
+  {
+   "diff_sha256_raw": "",
+   "file_prf": {
+    "f1": 0.0,
+    "n_editable": 1,
+    "n_gold": 1,
+    "precision": 0.0,
+    "recall": 0.0,
+    "tp": 0
+   },
+   "identity": "",
+   "kind": "EMPTY_BY_CONSTRUCTION",
+   "opws_files": [],
+   "selector": "AGENT_HARD:r1",
+   "task_id": "saleor-rc-34511f977388"
+  },
+  {
+   "diff_path": "research/wp2/m15r_v1/opws/saleor-rc-34511f977388/AGENT_HARD__r2/opws_diff.patch",
+   "diff_sha256_raw": "64501a346016bad98a71ef82b879aeb44af8b777b176b9c9fd9637bf009bc4d8",
+   "file_prf": {
+    "f1": 0.666667,
+    "n_editable": 2,
+    "n_gold": 1,
+    "precision": 0.5,
+    "recall": 1.0,
+    "tp": 1
+   },
+   "identity": "9ce026e2a82a492b5aeda12ba96d4c7a33be3c947b4cce1c42d43322ef819f90",
+   "kind": "REUSE_SCOPED_GOLD",
+   "opws_files": [
+    "saleor/graphql/discount/bulk_mutations.py"
+   ],
+   "selector": "AGENT_HARD:r2",
+   "task_id": "saleor-rc-34511f977388"
+  },
+  {
+   "diff_sha256_raw": "",
+   "file_prf": {
+    "f1": 0.0,
+    "n_editable": 1,
+    "n_gold": 1,
+    "precision": 0.0,
+    "recall": 0.0,
+    "tp": 0
+   },
+   "identity": "",
+   "kind": "EMPTY_BY_CONSTRUCTION",
+   "opws_files": [],
+   "selector": "AGENT_HARD:r3",
+   "task_id": "saleor-rc-34511f977388"
+  },
+  {
+   "diff_path": "research/wp2/m15r_v1/opws/saleor-rc-436f52ee3d0c/GOLD_HARD/opws_diff.patch",
+   "diff_sha256_raw": "395985a5b6f1adc4239f52b77fb8f3fa2c586141e09b3eb4adc9bc42fbc99618",
+   "file_prf": {
+    "f1": 1.0,
+    "n_editable": 1,
+    "n_gold": 1,
+    "precision": 1.0,
+    "recall": 1.0,
+    "tp": 1
+   },
+   "identity": "c9d151beed57acaffeec89ea4df39e0b93ff4f6274d4175f6c1e51104cb9718a",
+   "kind": "REUSE_SCOPED_GOLD",
+   "opws_files": [
+    "saleor/graphql/utils/filters.py"
+   ],
+   "selector": "GOLD_HARD",
+   "task_id": "saleor-rc-436f52ee3d0c"
+  },
+  {
+   "diff_sha256_raw": "",
+   "file_prf": {
+    "f1": 0.0,
+    "n_editable": 13,
+    "n_gold": 1,
+    "precision": 0.0,
+    "recall": 0.0,
+    "tp": 0
+   },
+   "identity": "",
+   "kind": "EMPTY_BY_CONSTRUCTION",
+   "opws_files": [],
+   "selector": "RMCSS_HARD",
+   "task_id": "saleor-rc-436f52ee3d0c"
+  },
+  {
+   "diff_sha256_raw": "",
+   "file_prf": {
+    "f1": 0.0,
+    "n_editable": 2,
+    "n_gold": 1,
+    "precision": 0.0,
+    "recall": 0.0,
+    "tp": 0
+   },
+   "identity": "",
+   "kind": "EMPTY_BY_CONSTRUCTION",
+   "opws_files": [],
+   "selector": "AGENT_HARD:r1",
+   "task_id": "saleor-rc-436f52ee3d0c"
+  },
+  {
+   "diff_sha256_raw": "",
+   "file_prf": {
+    "f1": 0.0,
+    "n_editable": 2,
+    "n_gold": 1,
+    "precision": 0.0,
+    "recall": 0.0,
+    "tp": 0
+   },
+   "identity": "",
+   "kind": "EMPTY_BY_CONSTRUCTION",
+   "opws_files": [],
+   "selector": "AGENT_HARD:r2",
+   "task_id": "saleor-rc-436f52ee3d0c"
+  },
+  {
+   "diff_sha256_raw": "",
+   "file_prf": {
+    "f1": 0.0,
+    "n_editable": 2,
+    "n_gold": 1,
+    "precision": 0.0,
+    "recall": 0.0,
+    "tp": 0
+   },
+   "identity": "",
+   "kind": "EMPTY_BY_CONSTRUCTION",
+   "opws_files": [],
+   "selector": "AGENT_HARD:r3",
+   "task_id": "saleor-rc-436f52ee3d0c"
+  },
+  {
+   "diff_path": "research/wp2/m15r_v1/opws/saleor-rc-60c8722863c1/GOLD_HARD/opws_diff.patch",
+   "diff_sha256_raw": "a3e60e3ad6b565b370137ecd74af671a155acbff7909e7830de98239e406fa2f",
+   "file_prf": {
+    "f1": 1.0,
+    "n_editable": 2,
+    "n_gold": 2,
+    "precision": 1.0,
+    "recall": 1.0,
+    "tp": 2
+   },
+   "identity": "0093476b255dd2cc7a7becc3a15338d203315d87f2a67bf9ae7ecc462d124181",
+   "kind": "REUSE_SCOPED_GOLD",
+   "opws_files": [
+    "saleor/graphql/product/bulk_mutations/products.py",
+    "saleor/graphql/product/utils.py"
+   ],
+   "selector": "GOLD_HARD",
+   "task_id": "saleor-rc-60c8722863c1"
+  },
+  {
+   "diff_path": "research/wp2/m15r_v1/opws/saleor-rc-60c8722863c1/RMCSS_HARD/opws_diff.patch",
+   "diff_sha256_raw": "84b1ea1ab0f75aea3d72a31a879456b7ad88719d6dc2f927ff6a56c7e9a055e8",
+   "file_prf": {
+    "f1": 0.25,
+    "n_editable": 6,
+    "n_gold": 2,
+    "precision": 0.166667,
+    "recall": 0.5,
+    "tp": 1
+   },
+   "identity": "9e5634bb488cb5eeaf97a7c5b6e508c4262c886d1c7770007482edd6dc96bec5",
+   "kind": "EVALUATE",
+   "opws_files": [
+    "saleor/graphql/product/bulk_mutations/products.py"
+   ],
+   "selector": "RMCSS_HARD",
+   "task_id": "saleor-rc-60c8722863c1"
+  },
+  {
+   "diff_path": "research/wp2/m15r_v1/opws/saleor-rc-60c8722863c1/AGENT_HARD__r1/opws_diff.patch",
+   "diff_sha256_raw": "84b1ea1ab0f75aea3d72a31a879456b7ad88719d6dc2f927ff6a56c7e9a055e8",
+   "file_prf": {
+    "f1": 0.666667,
+    "n_editable": 1,
+    "n_gold": 2,
+    "precision": 1.0,
+    "recall": 0.5,
+    "tp": 1
+   },
+   "identity": "9e5634bb488cb5eeaf97a7c5b6e508c4262c886d1c7770007482edd6dc96bec5",
+   "kind": "EVALUATE",
+   "opws_files": [
+    "saleor/graphql/product/bulk_mutations/products.py"
+   ],
+   "selector": "AGENT_HARD:r1",
+   "task_id": "saleor-rc-60c8722863c1"
+  },
+  {
+   "diff_path": "research/wp2/m15r_v1/opws/saleor-rc-60c8722863c1/AGENT_HARD__r2/opws_diff.patch",
+   "diff_sha256_raw": "84b1ea1ab0f75aea3d72a31a879456b7ad88719d6dc2f927ff6a56c7e9a055e8",
+   "file_prf": {
+    "f1": 0.666667,
+    "n_editable": 1,
+    "n_gold": 2,
+    "precision": 1.0,
+    "recall": 0.5,
+    "tp": 1
+   },
+   "identity": "9e5634bb488cb5eeaf97a7c5b6e508c4262c886d1c7770007482edd6dc96bec5",
+   "kind": "EVALUATE",
+   "opws_files": [
+    "saleor/graphql/product/bulk_mutations/products.py"
+   ],
+   "selector": "AGENT_HARD:r2",
+   "task_id": "saleor-rc-60c8722863c1"
+  },
+  {
+   "diff_path": "research/wp2/m15r_v1/opws/saleor-rc-60c8722863c1/AGENT_HARD__r3/opws_diff.patch",
+   "diff_sha256_raw": "84b1ea1ab0f75aea3d72a31a879456b7ad88719d6dc2f927ff6a56c7e9a055e8",
+   "file_prf": {
+    "f1": 0.666667,
+    "n_editable": 1,
+    "n_gold": 2,
+    "precision": 1.0,
+    "recall": 0.5,
+    "tp": 1
+   },
+   "identity": "9e5634bb488cb5eeaf97a7c5b6e508c4262c886d1c7770007482edd6dc96bec5",
+   "kind": "EVALUATE",
+   "opws_files": [
+    "saleor/graphql/product/bulk_mutations/products.py"
+   ],
+   "selector": "AGENT_HARD:r3",
+   "task_id": "saleor-rc-60c8722863c1"
+  },
+  {
+   "diff_path": "research/wp2/m15r_v1/opws/saleor-rc-99d963aed3e5/GOLD_HARD/opws_diff.patch",
+   "diff_sha256_raw": "62098a6166d7740fd4b03ed0fa3cf37ea546c5e43e8c46ab7d99cfec042e9469",
+   "file_prf": {
+    "f1": 0.857143,
+    "n_editable": 3,
+    "n_gold": 4,
+    "precision": 1.0,
+    "recall": 0.75,
+    "tp": 3
+   },
+   "identity": "ff8832b07f7cd88cbb1a6b39bdd2f42c30dfa2be36350a0a2c4a738af55e3873",
+   "kind": "REUSE_SCOPED_GOLD",
+   "opws_files": [
+    "saleor/graphql/checkout/resolvers.py",
+    "saleor/graphql/checkout/schema.py",
+    "saleor/graphql/core/fields.py"
+   ],
+   "selector": "GOLD_HARD",
+   "task_id": "saleor-rc-99d963aed3e5"
+  },
+  {
+   "diff_path": "research/wp2/m15r_v1/opws/saleor-rc-99d963aed3e5/RMCSS_HARD/opws_diff.patch",
+   "diff_sha256_raw": "84ab4ec62646f136ff5847994674aac037d417fb7190f87f7e8915d6aec0e1c4",
+   "file_prf": {
+    "f1": 0.333333,
+    "n_editable": 2,
+    "n_gold": 4,
+    "precision": 0.5,
+    "recall": 0.25,
+    "tp": 1
+   },
+   "identity": "32706aead0ebf5d5173917c23953eb161fdbd80441afdc88403dd836392270b5",
+   "kind": "EVALUATE",
+   "opws_files": [
+    "saleor/graphql/checkout/schema.py"
+   ],
+   "selector": "RMCSS_HARD",
+   "task_id": "saleor-rc-99d963aed3e5"
+  },
+  {
+   "diff_path": "research/wp2/m15r_v1/opws/saleor-rc-99d963aed3e5/AGENT_HARD__r1/opws_diff.patch",
+   "diff_sha256_raw": "5cc4700ce0fd39924c2ea13b1351ef8d914ba092840e65f9e28bf28b19ca60a0",
+   "file_prf": {
+    "f1": 0.285714,
+    "n_editable": 3,
+    "n_gold": 4,
+    "precision": 0.333333,
+    "recall": 0.25,
+    "tp": 1
+   },
+   "identity": "42c2a476386f043109fc34e35d6b24d06725b6a8ef809f10dc5ea530249b269b",
+   "kind": "EVALUATE",
+   "opws_files": [
+    "saleor/graphql/checkout/resolvers.py"
+   ],
+   "selector": "AGENT_HARD:r1",
+   "task_id": "saleor-rc-99d963aed3e5"
+  },
+  {
+   "diff_path": "research/wp2/m15r_v1/opws/saleor-rc-99d963aed3e5/AGENT_HARD__r2/opws_diff.patch",
+   "diff_sha256_raw": "5cc4700ce0fd39924c2ea13b1351ef8d914ba092840e65f9e28bf28b19ca60a0",
+   "file_prf": {
+    "f1": 0.25,
+    "n_editable": 4,
+    "n_gold": 4,
+    "precision": 0.25,
+    "recall": 0.25,
+    "tp": 1
+   },
+   "identity": "42c2a476386f043109fc34e35d6b24d06725b6a8ef809f10dc5ea530249b269b",
+   "kind": "EVALUATE",
+   "opws_files": [
+    "saleor/graphql/checkout/resolvers.py"
+   ],
+   "selector": "AGENT_HARD:r2",
+   "task_id": "saleor-rc-99d963aed3e5"
+  },
+  {
+   "diff_path": "research/wp2/m15r_v1/opws/saleor-rc-99d963aed3e5/AGENT_HARD__r3/opws_diff.patch",
+   "diff_sha256_raw": "c8e18a7c1aff4aca675bdf94d5dd388e1e66e0a47265d4d6e59a176fa1f4f229",
+   "file_prf": {
+    "f1": 0.571429,
+    "n_editable": 3,
+    "n_gold": 4,
+    "precision": 0.666667,
+    "recall": 0.5,
+    "tp": 2
+   },
+   "identity": "e73f44d3c35050009129fe1262ef19aa63fc772c0770607ba88d69c4a4a09a63",
+   "kind": "EVALUATE",
+   "opws_files": [
+    "saleor/graphql/checkout/resolvers.py",
+    "saleor/graphql/checkout/schema.py"
+   ],
+   "selector": "AGENT_HARD:r3",
+   "task_id": "saleor-rc-99d963aed3e5"
+  },
+  {
+   "diff_path": "research/wp2/m15r_v1/opws/saleor-rc-ded69f9c7097/GOLD_HARD/opws_diff.patch",
+   "diff_sha256_raw": "b5e1ebd503065c90e0a4aed544929658dc974bbd47d80c6ea29145a737aaef4d",
+   "file_prf": {
+    "f1": 1.0,
+    "n_editable": 2,
+    "n_gold": 2,
+    "precision": 1.0,
+    "recall": 1.0,
+    "tp": 2
+   },
+   "identity": "af4caade15ea521ccb587b1fdf016880bdb30f0c3dfcad18e7e61d4690873aa5",
+   "kind": "REUSE_SCOPED_GOLD",
+   "opws_files": [
+    "CHANGELOG.md",
+    "saleor/graphql/product/bulk_mutations/products.py"
+   ],
+   "selector": "GOLD_HARD",
+   "task_id": "saleor-rc-ded69f9c7097"
+  },
+  {
+   "diff_sha256_raw": "",
+   "file_prf": {
+    "f1": 0.0,
+    "n_editable": 2,
+    "n_gold": 2,
+    "precision": 0.0,
+    "recall": 0.0,
+    "tp": 0
+   },
+   "identity": "",
+   "kind": "EMPTY_BY_CONSTRUCTION",
+   "opws_files": [],
+   "selector": "RMCSS_HARD",
+   "task_id": "saleor-rc-ded69f9c7097"
+  },
+  {
+   "diff_sha256_raw": "",
+   "file_prf": {
+    "f1": 0.0,
+    "n_editable": 0,
+    "n_gold": 2,
+    "precision": 0.0,
+    "recall": 0.0,
+    "tp": 0
+   },
+   "identity": "",
+   "kind": "EMPTY_BY_CONSTRUCTION",
+   "opws_files": [],
+   "selector": "AGENT_HARD:r1",
+   "task_id": "saleor-rc-ded69f9c7097"
+  },
+  {
+   "diff_sha256_raw": "",
+   "file_prf": {
+    "f1": 0.0,
+    "n_editable": 0,
+    "n_gold": 2,
+    "precision": 0.0,
+    "recall": 0.0,
+    "tp": 0
+   },
+   "identity": "",
+   "kind": "EMPTY_BY_CONSTRUCTION",
+   "opws_files": [],
+   "selector": "AGENT_HARD:r2",
+   "task_id": "saleor-rc-ded69f9c7097"
+  },
+  {
+   "diff_sha256_raw": "",
+   "file_prf": {
+    "f1": 0.0,
+    "n_editable": 3,
+    "n_gold": 2,
+    "precision": 0.0,
+    "recall": 0.0,
+    "tp": 0
+   },
+   "identity": "",
+   "kind": "EMPTY_BY_CONSTRUCTION",
+   "opws_files": [],
+   "selector": "AGENT_HARD:r3",
+   "task_id": "saleor-rc-ded69f9c7097"
+  },
+  {
+   "diff_path": "research/wp2/m15r_v1/opws/saleor-rc-eacffa70e721/GOLD_HARD/opws_diff.patch",
+   "diff_sha256_raw": "1ac03780e718de5b0946b73a133fed5b3450540fa5ee0df63f25c20ad09c5f13",
+   "file_prf": {
+    "f1": 1.0,
+    "n_editable": 3,
+    "n_gold": 3,
+    "precision": 1.0,
+    "recall": 1.0,
+    "tp": 3
+   },
+   "identity": "d9ac55f251ccd983d47be47497e1b090bff2a372035f5257dc5037635eceda6d",
+   "kind": "REUSE_SCOPED_GOLD",
+   "opws_files": [
+    "CHANGELOG.md",
+    "saleor/account/notifications.py",
+    "saleor/order/notifications.py"
+   ],
+   "selector": "GOLD_HARD",
+   "task_id": "saleor-rc-eacffa70e721"
+  },
+  {
+   "diff_path": "research/wp2/m15r_v1/opws/saleor-rc-eacffa70e721/RMCSS_HARD/opws_diff.patch",
+   "diff_sha256_raw": "d2a7859277717cab5888be42bf1c34c2062a12ef07404b1f895e896de403c70a",
+   "file_prf": {
+    "f1": 0.333333,
+    "n_editable": 3,
+    "n_gold": 3,
+    "precision": 0.333333,
+    "recall": 0.333333,
+    "tp": 1
+   },
+   "identity": "34b633994ada4f07b8ddbff0b2feac8c74c823c6762d626e230712ae2cd5eab6",
+   "kind": "EVALUATE",
+   "opws_files": [
+    "saleor/account/notifications.py"
+   ],
+   "selector": "RMCSS_HARD",
+   "task_id": "saleor-rc-eacffa70e721"
+  },
+  {
+   "diff_path": "research/wp2/m15r_v1/opws/saleor-rc-eacffa70e721/AGENT_HARD__r1/opws_diff.patch",
+   "diff_sha256_raw": "d2a7859277717cab5888be42bf1c34c2062a12ef07404b1f895e896de403c70a",
+   "file_prf": {
+    "f1": 0.25,
+    "n_editable": 5,
+    "n_gold": 3,
+    "precision": 0.2,
+    "recall": 0.333333,
+    "tp": 1
+   },
+   "identity": "34b633994ada4f07b8ddbff0b2feac8c74c823c6762d626e230712ae2cd5eab6",
+   "kind": "EVALUATE",
+   "opws_files": [
+    "saleor/account/notifications.py"
+   ],
+   "selector": "AGENT_HARD:r1",
+   "task_id": "saleor-rc-eacffa70e721"
+  },
+  {
+   "diff_path": "research/wp2/m15r_v1/opws/saleor-rc-eacffa70e721/AGENT_HARD__r2/opws_diff.patch",
+   "diff_sha256_raw": "d2a7859277717cab5888be42bf1c34c2062a12ef07404b1f895e896de403c70a",
+   "file_prf": {
+    "f1": 0.333333,
+    "n_editable": 3,
+    "n_gold": 3,
+    "precision": 0.333333,
+    "recall": 0.333333,
+    "tp": 1
+   },
+   "identity": "34b633994ada4f07b8ddbff0b2feac8c74c823c6762d626e230712ae2cd5eab6",
+   "kind": "EVALUATE",
+   "opws_files": [
+    "saleor/account/notifications.py"
+   ],
+   "selector": "AGENT_HARD:r2",
+   "task_id": "saleor-rc-eacffa70e721"
+  },
+  {
+   "diff_sha256_raw": "",
+   "file_prf": {
+    "f1": 0.0,
+    "n_editable": 2,
+    "n_gold": 3,
+    "precision": 0.0,
+    "recall": 0.0,
+    "tp": 0
+   },
+   "identity": "",
+   "kind": "EMPTY_BY_CONSTRUCTION",
+   "opws_files": [],
+   "selector": "AGENT_HARD:r3",
+   "task_id": "saleor-rc-eacffa70e721"
+  },
+  {
+   "diff_path": "research/wp2/m15r_v1/opws/saleor-rc-f383043e4be3/GOLD_HARD/opws_diff.patch",
+   "diff_sha256_raw": "369cec5b7500623a7398e4645a03fa3b81b18434818000cc51bf09e1fc43d6dd",
+   "file_prf": {
+    "f1": 1.0,
+    "n_editable": 4,
+    "n_gold": 4,
+    "precision": 1.0,
+    "recall": 1.0,
+    "tp": 4
+   },
+   "identity": "e741931840a08090d0cbdeaea7efb4e2e1f28db51be4c24fcf604be8b14395e7",
+   "kind": "REUSE_SCOPED_GOLD",
+   "opws_files": [
+    "saleor/core/prices.py",
+    "saleor/order/notifications.py",
+    "saleor/webhook/payloads.py",
+    "saleor/webhook/serializers.py"
+   ],
+   "selector": "GOLD_HARD",
+   "task_id": "saleor-rc-f383043e4be3"
+  },
+  {
+   "diff_path": "research/wp2/m15r_v1/opws/saleor-rc-f383043e4be3/RMCSS_HARD/opws_diff.patch",
+   "diff_sha256_raw": "660bf7be8cd04693d4a5a44846471c74321600ac519dfbc5198d48c927dcd7c6",
+   "file_prf": {
+    "f1": 0.333333,
+    "n_editable": 2,
+    "n_gold": 4,
+    "precision": 0.5,
+    "recall": 0.25,
+    "tp": 1
+   },
+   "identity": "9669914a98c08ccc24414fd1d20074de62bebc63a59f0648f4beecccca7c4d23",
+   "kind": "EVALUATE",
+   "opws_files": [
+    "saleor/webhook/payloads.py"
+   ],
+   "selector": "RMCSS_HARD",
+   "task_id": "saleor-rc-f383043e4be3"
+  },
+  {
+   "diff_path": "research/wp2/m15r_v1/opws/saleor-rc-f383043e4be3/AGENT_HARD__r1/opws_diff.patch",
+   "diff_sha256_raw": "8cf07c29304c27a4ee9799def327b13be5f2a2d741dd8688385a85cba065975d",
+   "file_prf": {
+    "f1": 0.571429,
+    "n_editable": 3,
+    "n_gold": 4,
+    "precision": 0.666667,
+    "recall": 0.5,
+    "tp": 2
+   },
+   "identity": "f513e2c31b1fd34750c290343adbe8be0c38a9526c34d9b37b88c889ab3ba8e4",
+   "kind": "EVALUATE",
+   "opws_files": [
+    "saleor/webhook/payloads.py",
+    "saleor/webhook/serializers.py"
+   ],
+   "selector": "AGENT_HARD:r1",
+   "task_id": "saleor-rc-f383043e4be3"
+  },
+  {
+   "diff_path": "research/wp2/m15r_v1/opws/saleor-rc-f383043e4be3/AGENT_HARD__r2/opws_diff.patch",
+   "diff_sha256_raw": "8cf07c29304c27a4ee9799def327b13be5f2a2d741dd8688385a85cba065975d",
+   "file_prf": {
+    "f1": 0.571429,
+    "n_editable": 3,
+    "n_gold": 4,
+    "precision": 0.666667,
+    "recall": 0.5,
+    "tp": 2
+   },
+   "identity": "f513e2c31b1fd34750c290343adbe8be0c38a9526c34d9b37b88c889ab3ba8e4",
+   "kind": "EVALUATE",
+   "opws_files": [
+    "saleor/webhook/payloads.py",
+    "saleor/webhook/serializers.py"
+   ],
+   "selector": "AGENT_HARD:r2",
+   "task_id": "saleor-rc-f383043e4be3"
+  },
+  {
+   "diff_path": "research/wp2/m15r_v1/opws/saleor-rc-f383043e4be3/AGENT_HARD__r3/opws_diff.patch",
+   "diff_sha256_raw": "660bf7be8cd04693d4a5a44846471c74321600ac519dfbc5198d48c927dcd7c6",
+   "file_prf": {
+    "f1": 0.333333,
+    "n_editable": 2,
+    "n_gold": 4,
+    "precision": 0.5,
+    "recall": 0.25,
+    "tp": 1
+   },
+   "identity": "9669914a98c08ccc24414fd1d20074de62bebc63a59f0648f4beecccca7c4d23",
+   "kind": "EVALUATE",
+   "opws_files": [
+    "saleor/webhook/payloads.py"
+   ],
+   "selector": "AGENT_HARD:r3",
+   "task_id": "saleor-rc-f383043e4be3"
+  }
+ ],
+ "rule": "P_S = gold non-test diff restricted to (selector editable INTERSECT gold-changed files); empty P_S = FAIL by construction; P_S identical to the scoped gold = S0 positive evaluation reused; otherwise frozen evaluator + E1",
+ "sha256": "53751e57cb1e30b0a09f62835f43c2847b79ea70caba9ea15d3c7a34309c7c5d"
+}

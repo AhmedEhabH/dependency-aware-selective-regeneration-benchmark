@@ -1,0 +1,42 @@
+diff --git a/saleor/graphql/product/bulk_mutations/products.py b/saleor/graphql/product/bulk_mutations/products.py
+index 1c17f1360..f05f7393c 100644
+--- a/saleor/graphql/product/bulk_mutations/products.py
++++ b/saleor/graphql/product/bulk_mutations/products.py
+@@ -469,14 +469,15 @@ class ProductVariantBulkCreate(BaseMutation):
+         sku_list = []
+         used_attribute_values = get_used_variants_attribute_values(product)
+         for index, variant_data in enumerate(variants):
+-            try:
+-                cls.validate_duplicated_attribute_values(
+-                    variant_data.attributes, used_attribute_values
+-                )
+-            except ValidationError as exc:
+-                errors["attributes"].append(
+-                    ValidationError(exc.message, exc.code, params={"index": index})
+-                )
++            if variant_data.attributes:
++                try:
++                    cls.validate_duplicated_attribute_values(
++                        variant_data.attributes, used_attribute_values
++                    )
++                except ValidationError as exc:
++                    errors["attributes"].append(
++                        ValidationError(exc.message, exc.code, params={"index": index})
++                    )
+ 
+             variant_data["product_type"] = product.product_type
+             variant_data["product"] = product
+diff --git a/saleor/graphql/product/utils.py b/saleor/graphql/product/utils.py
+index 134ab0c28..5bddfe449 100644
+--- a/saleor/graphql/product/utils.py
++++ b/saleor/graphql/product/utils.py
+@@ -64,7 +64,8 @@ def get_used_variants_attribute_values(product):
+     used_attribute_values = []
+     for variant in variants:
+         attribute_values = get_used_attribute_values_for_variant(variant)
+-        used_attribute_values.append(attribute_values)
++        if attribute_values:
++            used_attribute_values.append(attribute_values)
+     return used_attribute_values
+ 
+ 
