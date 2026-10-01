@@ -1,0 +1,45 @@
+{
+ "analysis_set_for_s3": [],
+ "artifact": "m15r_s2_gate",
+ "artifact_sha256": "0ec3b4dd4ff467d72eabcee4dc2e709274ad3a2182428e845bf4ce001a3fd959",
+ "gold_robust_episodes": 3,
+ "gold_solvable_tasks": [
+  "saleor-rc-436f52ee3d0c"
+ ],
+ "per_task_robust": {
+  "saleor-rc-05df3bec57e2": 0,
+  "saleor-rc-0a39d039049d": 0,
+  "saleor-rc-102e4e5b25e8": 0,
+  "saleor-rc-34511f977388": 0,
+  "saleor-rc-436f52ee3d0c": 3,
+  "saleor-rc-60c8722863c1": 0,
+  "saleor-rc-99d963aed3e5": 0,
+  "saleor-rc-ded69f9c7097": 0,
+  "saleor-rc-eacffa70e721": 0,
+  "saleor-rc-f383043e4be3": 0
+ },
+ "per_task_strict": {
+  "saleor-rc-05df3bec57e2": 0,
+  "saleor-rc-0a39d039049d": 0,
+  "saleor-rc-102e4e5b25e8": 0,
+  "saleor-rc-34511f977388": 0,
+  "saleor-rc-436f52ee3d0c": 3,
+  "saleor-rc-60c8722863c1": 0,
+  "saleor-rc-99d963aed3e5": 0,
+  "saleor-rc-ded69f9c7097": 0,
+  "saleor-rc-eacffa70e721": 0,
+  "saleor-rc-f383043e4be3": 0
+ },
+ "strict_view": {
+  "episodes": 3,
+  "solvable": 1
+ },
+ "thresholds": {
+  "min_robust_episodes": 6,
+  "min_solvable_tasks": 4,
+  "n_episodes": 30,
+  "n_tasks": 10
+ },
+ "token": "M15R_GOLD_FLOOR_FAIL_NO_GENERATION_CLAIM",
+ "verdict": "FAIL"
+}
