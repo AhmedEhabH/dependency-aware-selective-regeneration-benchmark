@@ -1,5 +1,7 @@
 {
  "acks": [],
+ "complete": true,
+ "completed_utc": "2026-10-01T03:14:25Z",
  "history": [
   {
    "detail": "M14R kit self-tests (zero network)",
@@ -138,6 +140,48 @@
    "event": "START",
    "phase": "R11_GENERATION_FREEZE",
    "utc": "2026-09-30T22:52:17Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "R11_GENERATION_FREEZE",
+   "utc": "2026-09-30T22:52:26Z"
+  },
+  {
+   "detail": "task-scoped unique-diff evaluation plan",
+   "event": "START",
+   "phase": "R12_EVAL_PLAN",
+   "utc": "2026-09-30T22:52:26Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "R12_EVAL_PLAN",
+   "utc": "2026-09-30T22:52:31Z"
+  },
+  {
+   "detail": "evaluate unique diffs (zero API, workers=1, E1 semantics)",
+   "event": "START",
+   "phase": "R13_EVALUATE",
+   "utc": "2026-09-30T22:52:31Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "R13_EVALUATE",
+   "utc": "2026-10-01T03:14:19Z"
+  },
+  {
+   "detail": "mechanical M14R summary, taxonomy and frozen decision rule",
+   "event": "START",
+   "phase": "R14_SUMMARY",
+   "utc": "2026-10-01T03:14:19Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "R14_SUMMARY",
+   "utc": "2026-10-01T03:14:25Z"
   }
  ],
  "phases": {
@@ -230,11 +274,36 @@
    "status": "PASS"
   },
   "R11_GENERATION_FREEZE": {
-   "attempts": 0,
+   "attempts": 1,
    "failures": 0,
    "iterations": 0,
+   "passed_utc": "2026-09-30T22:52:26Z",
    "runs": 1,
-   "status": "RUNNING"
+   "status": "PASS"
+  },
+  "R12_EVAL_PLAN": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-09-30T22:52:31Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "R13_EVALUATE": {
+   "attempts": 0,
+   "failures": 0,
+   "iterations": 22,
+   "passed_utc": "2026-10-01T03:14:19Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "R14_SUMMARY": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-10-01T03:14:25Z",
+   "runs": 1,
+   "status": "PASS"
   }
  },
  "plan": "WP2_M14R_V1",
