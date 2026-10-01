@@ -1,0 +1,24 @@
+diff --git a/saleor/graphql/discount/bulk_mutations.py b/saleor/graphql/discount/bulk_mutations.py
+--- a/saleor/graphql/discount/bulk_mutations.py
++++ b/saleor/graphql/discount/bulk_mutations.py
+@@ -26,12 +26,16 @@
+     @classmethod
+     def bulk_action(cls, info, queryset):
+         sales = list(queryset)
++        sale_pks = {sale.pk for sale in sales}
+         queryset.delete()
+         for sale in sales:
+-            previous_catalogue = fetch_catalogue_info(sale)
+-            info.context.plugins.sale_deleted(
+-                sale, convert_catalogue_info_to_global_ids(previous_catalogue)
+-            )
++            # Ensure that all sale variants and products are included in the
++            # plugin call, as the relation between them is deleted cascade.
++            if sale.pk in sale_pks:
++                previous_catalogue = fetch_catalogue_info(sale)
++                info.context.plugins.sale_deleted(
++                    sale, convert_catalogue_info_to_global_ids(previous_catalogue)
++                )
+ 
+ 
+ class VoucherBulkDelete(ModelBulkDeleteMutation):

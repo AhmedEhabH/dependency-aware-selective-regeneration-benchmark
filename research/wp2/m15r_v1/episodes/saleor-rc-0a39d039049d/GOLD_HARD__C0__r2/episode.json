@@ -1,0 +1,68 @@
+{
+ "smoke_version": "wp2-m14r-v1",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-0a39d039049d",
+ "arm": "GOLD_HARD",
+ "label": "GOLD_HARD__C0__r2",
+ "variant": "G0",
+ "context": "C0",
+ "replicate": "r2",
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-10-01T11:25:49Z",
+ "status": "APPLIED",
+ "editable_set": [
+  "CHANGELOG.md",
+  "saleor/graphql/product/bulk_mutations/product_variant_bulk_create.py"
+ ],
+ "excluded": {
+  "editable": [
+   "CHANGELOG.md",
+   "saleor/graphql/product/bulk_mutations/product_variant_bulk_create.py"
+  ],
+  "excluded_large": [
+   "saleor/graphql/schema.graphql"
+  ],
+  "excluded_budget": [],
+  "raw": [
+   "CHANGELOG.md",
+   "saleor/graphql/product/bulk_mutations/product_variant_bulk_create.py",
+   "saleor/graphql/schema.graphql"
+  ]
+ },
+ "prompt_sha256": "e16d08a4d1275e1284509740458f626b7fe51bfc4e7d606b625d66c81798cd07",
+ "request_sha_initial": "31eafe9de37f43f31158f00666fa0a51419dcc83eef95d26eeb37e9d1c09cd7e",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "context_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790853949-QGabTZjt9QMHD3WlMnwa",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 41163,
+   "completion_tokens": 723,
+   "cost_usd_actual": 0.0130303,
+   "cost_usd_nominal": 0.0130303,
+   "finish_reason": "stop",
+   "response_sha256": "92ce2d3a57bf85399ed17a70ce79e58eabcc72a554483e02129d46d086e74a8b",
+   "request_sha": "31eafe9de37f43f31158f00666fa0a51419dcc83eef95d26eeb37e9d1c09cd7e",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\m15r_v1\\episodes\\saleor-rc-0a39d039049d\\GOLD_HARD__C0__r2\\calls\\1_initial.txt",
+   "raw_sha256": "92ce2d3a57bf85399ed17a70ce79e58eabcc72a554483e02129d46d086e74a8b"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "produced_by": "initial",
+ "edited_files": [
+  "CHANGELOG.md",
+  "saleor/graphql/product/bulk_mutations/product_variant_bulk_create.py"
+ ],
+ "diff_sha256": "7b1f4f75ab184fc07c4ea0468917d96f0930ba24b2879af6fe90d0cc4ccc8d2a",
+ "episode_sha256": "2664061d9cfaf7d2de03ad9e46bda13d84f28462c0dc7846337d968d8759e1fd"
+}

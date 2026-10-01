@@ -1,0 +1,17 @@
+diff --git a/saleor/graphql/core/types/common.py b/saleor/graphql/core/types/common.py
+--- a/saleor/graphql/core/types/common.py
++++ b/saleor/graphql/core/types/common.py
+@@ -455,6 +455,13 @@
+ 
+ 
+ class ProductVariantBulkError(Error):
++    path = graphene.String(
++        description=(
++            "Path to field that caused the error. A value of `null` indicates that "
++            "the error isn't associated with a particular field."
++        ),
++        required=False,
++    )
+     code = ProductVariantBulkErrorCode(description="The error code.", required=True)
+     attributes = NonNullList(
+         graphene.ID,

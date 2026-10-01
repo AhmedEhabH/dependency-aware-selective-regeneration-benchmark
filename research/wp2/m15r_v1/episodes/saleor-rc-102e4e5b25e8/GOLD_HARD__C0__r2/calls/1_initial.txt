@@ -1,0 +1,49 @@
+Looking at the code, I can see that there's a function `validate_attribute_value_reference_input` that validates reference attribute inputs, but it's missing handling for SINGLE_REFERENCE attribute types. The issue mentions fixing "SINGLE_REFERENCE filtering not working", which suggests the current implementation only handles multi-reference inputs but not single reference inputs.
+
+Let me examine the code more carefully. I can see that the function processes reference inputs with "contains_all" and "contains_any" keys, but SINGLE_REFERENCE attributes would typically have a single value rather than these array-based filters.
+
+Looking at the validation logic, I need to add support for SINGLE_REFERENCE input validation. The current code assumes all reference inputs use "contains_all" or "contains_any", but SINGLE_REFERENCE would use direct value assignment.
+
+```python
+FILE: saleor/graphql/attribute/shared_filters.py
+<<<<<<< SEARCH
+def _has_valid_reference_global_ids(
+    single_key_value: CONTAINS_TYPING,
+) -> bool:
+    for global_id in single_key_value.get("contains_all", []):
+        if not _has_valid_reference_global_id(global_id):
+            return False
+    for global_id in single_key_value.get("contains_any", []):
+        if not _has_valid_reference_global_id(global_id):
+            return False
+    return True
+=======
+def _has_valid_reference_global_ids(
+    single_key_value: CONTAINS_TYPING,
+) -> bool:
+    for global_id in single_key_value.get("contains_all", []):
+        if not _has_valid_reference_global_id(global_id):
+            return False
+    for global_id in single_key_value.get("contains_any", []):
+        if not _has_valid_reference_global_id(global_id):
+            return False
+    return True
+
+
+def _has_valid_single_reference_global_id(value: str) -> bool:
+    try:
+        obj_type, _ = from_global_id_or_error(value)
+    except GraphQLError:
+        return False
+
+    if obj_type not in (
+        "Page",
+        "Product",
+        "ProductVariant",
+        "Category",
+        "Collection",
+    ):
+        return False
+    return True
+>>>>>>> REPLACE
+```

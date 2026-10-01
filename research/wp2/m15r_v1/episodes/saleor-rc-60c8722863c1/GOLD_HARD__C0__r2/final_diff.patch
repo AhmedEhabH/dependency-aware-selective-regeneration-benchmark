@@ -1,0 +1,18 @@
+diff --git a/saleor/graphql/product/bulk_mutations/products.py b/saleor/graphql/product/bulk_mutations/products.py
+--- a/saleor/graphql/product/bulk_mutations/products.py
++++ b/saleor/graphql/product/bulk_mutations/products.py
+@@ -456,12 +456,12 @@
+                 attribute_values[attr.id] = attr["boolean"]
+             else:
+                 attribute_values[attr.id].extend(attr.get("values", []))
+-        if attribute_values in used_attribute_values:
++        if dict(attribute_values) in (dict(item) for item in used_attribute_values):
+             raise ValidationError(
+                 "Duplicated attribute values for product variant.",
+                 ProductErrorCode.DUPLICATED_INPUT_ITEM,
+             )
+-        used_attribute_values.append(attribute_values)
++        used_attribute_values.append(dict(attribute_values))
+ 
+     @classmethod
+     def clean_variants(cls, info, variants, product, errors):

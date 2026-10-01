@@ -1,0 +1,117 @@
+FILE: saleor/graphql/checkout/resolvers.py
+<<<<<<< SEARCH
+    return queryset
+
+
+def resolve_checkouts(channel_slug):
+    queryset = models.Checkout.objects.all()
+    if channel_slug:
+        queryset = queryset.filter(channel__slug=channel_slug)
+    return queryset
+
+
+def resolve_checkout(info, token, channel_slug):
+    checkout = models.Checkout.objects.filter(
+        token=token, channel__slug=channel_slug
+    ).first()
+
+    if checkout is None:
+        return None
+=======
+    return queryset
+
+
+def resolve_checkouts():
+    queryset = models.Checkout.objects.all()
+    return queryset
+
+
+def resolve_checkout(info, token):
+    checkout = models.Checkout.objects.filter(token=token).first()
+
+    if checkout is None:
+        return None
+>>>>>>> REPLACE
+
+### File: saleor/graphql/checkout/schema.py
+<<<<<<< SEARCH
+from ..core.fields import (
+    BaseDjangoConnectionField,
+    FieldWithChannel,
+    PrefetchingConnectionField,
+)
+=======
+from ..core.fields import (
+    BaseDjangoConnectionField,
+    PrefetchingConnectionField,
+)
+>>>>>>> REPLACE
+
+### File: saleor/graphql/checkout/schema.py
+<<<<<<< SEARCH
+
+class CheckoutQueries(graphene.ObjectType):
+    checkout = FieldWithChannel(
+        Checkout,
+        description="Look up a checkout by token and slug of channel.",
+        token=graphene.Argument(UUID, description="The checkout's token."),
+    )
+=======
+
+class CheckoutQueries(graphene.ObjectType):
+    checkout = graphene.Field(
+        Checkout,
+        description="Look up a checkout by token.",
+        token=graphene.Argument(UUID, description="The checkout's token."),
+    )
+>>>>>>> REPLACE
+
+### File: saleor/graphql/checkout/schema.py
+<<<<<<< SEARCH
+    )
+
+    def resolve_checkout(self, info, token, channel):
+        return resolve_checkout(info, token, channel)
+
+    @permission_required(CheckoutPermissions.MANAGE_CHECKOUTS)
+    def resolve_checkouts(self, *_args, channel=None, **_kwargs):
+        return resolve_checkouts(channel)
+
+    def resolve_checkout_line(self, info, id):
+        return graphene.Node.get_node_from_global_id(info, id, CheckoutLine)
+=======
+    )
+
+    def resolve_checkout(self, info, token, channel=None):
+        return resolve_checkout(info, token)
+
+    @permission_required(CheckoutPermissions.MANAGE_CHECKOUTS)
+    def resolve_checkouts(self, *_args, **_kwargs):
+        return resolve_checkouts()
+
+    def resolve_checkout_line(self, info, id):
+        return graphene.Node.get_node_from_global_id(info, id, CheckoutLine)
+>>>>>>> REPLACE
+
+### File: saleor/graphql/core/fields.py
+<<<<<<< SEARCH
+        )
+
+
+class FieldWithChannel(graphene.Field):
+    def __init__(self, type, *args, **kwargs):
+        kwargs.setdefault(
+            "channel",
+            graphene.Argument(
+                graphene.String,
+                description=(
+                    "Slug of the channel for which the data should be returned."
+                ),
+            ),
+        )
+        super().__init__(type, *args, **kwargs)
+=======
+        )
+
+
+>>>>>>> REPLACE

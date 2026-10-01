@@ -1,0 +1,87 @@
+Looking at the developer change description, I need to add a `path` field to `ProductVariantBulkError`. 
+
+Let me examine the current `ProductVariantBulkError` class in the common.py file. I can see it currently inherits from `Error` and doesn't have a `path` field. Looking at the `BulkError` class, I can see it already has a `path` field defined.
+
+The task is to add the `path` field to `ProductVariantBulkError`. Based on the code structure, I should modify the `ProductVariantBulkError` class to include the `path` field similar to how it's defined in the `BulkError` class.
+
+FILE: saleor/graphql/core/types/common.py
+<<<<<<< SEARCH
+class ProductVariantBulkError(Error):
+    code = ProductVariantBulkErrorCode(description="The error code.", required=True)
+    attributes = NonNullList(
+        graphene.ID,
+        description="List of attributes IDs which causes the error.",
+        required=False,
+    )
+    values = NonNullList(
+        graphene.ID,
+        description="List of attribute values IDs which causes the error.",
+        required=False,
+    )
+    warehouses = NonNullList(
+        graphene.ID,
+        description="List of warehouse IDs which causes the error.",
+        required=False,
+    )
+    stocks = NonNullList(
+        graphene.ID,
+        description="List of stocks IDs which causes the error." + ADDED_IN_312,
+        required=False,
+    )
+    channels = NonNullList(
+        graphene.ID,
+        description="List of channel IDs which causes the error." + ADDED_IN_312,
+        required=False,
+    )
+    channel_listings = NonNullList(
+        graphene.ID,
+        description="List of channel listings IDs which causes the error.",
+        required=False,
+    )
+
+    class Meta:
+        doc_category = DOC_CATEGORY_PRODUCTS
+=======
+class ProductVariantBulkError(Error):
+    path = graphene.String(
+        description=(
+            "Path to field that caused the error. A value of `null` indicates that "
+            "the error isn't associated with a particular field."
+        ),
+        required=False,
+    )
+    code = ProductVariantBulkErrorCode(description="The error code.", required=True)
+    attributes = NonNullList(
+        graphene.ID,
+        description="List of attributes IDs which causes the error.",
+        required=False,
+    )
+    values = NonNullList(
+        graphene.ID,
+        description="List of attribute values IDs which causes the error.",
+        required=False,
+    )
+    warehouses = NonNullList(
+        graphene.ID,
+        description="List of warehouse IDs which causes the error.",
+        required=False,
+    )
+    stocks = NonNullList(
+        graphene.ID,
+        description="List of stocks IDs which causes the error." + ADDED_IN_312,
+        required=False,
+    )
+    channels = NonNullList(
+        graphene.ID,
+        description="List of channel IDs which causes the error." + ADDED_IN_312,
+        required=False,
+    )
+    channel_listings = NonNullList(
+        graphene.ID,
+        description="List of channel listings IDs which causes the error.",
+        required=False,
+    )
+
+    class Meta:
+        doc_category = DOC_CATEGORY_PRODUCTS
+>>>>>>> REPLACE

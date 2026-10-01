@@ -1,0 +1,26 @@
+FILE: saleor/graphql/discount/bulk_mutations.py
+<<<<<<< SEARCH
+    @classmethod
+    def bulk_action(cls, info, queryset):
+        sales = list(queryset)
+        queryset.delete()
+        for sale in sales:
+            previous_catalogue = fetch_catalogue_info(sale)
+            info.context.plugins.sale_deleted(
+                sale, convert_catalogue_info_to_global_ids(previous_catalogue)
+            )
+=======
+    @classmethod
+    def bulk_action(cls, info, queryset):
+        sales = list(queryset)
+        sale_pks = {sale.pk for sale in sales}
+        queryset.delete()
+        for sale in sales:
+            # Ensure that all sale variants and products are included in the
+            # plugin call, as the relation between them is deleted cascade.
+            if sale.pk in sale_pks:
+                previous_catalogue = fetch_catalogue_info(sale)
+                info.context.plugins.sale_deleted(
+                    sale, convert_catalogue_info_to_global_ids(previous_catalogue)
+                )
+>>>>>>> REPLACE

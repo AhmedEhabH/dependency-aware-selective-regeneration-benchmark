@@ -1,0 +1,27 @@
+diff --git a/saleor/graphql/attribute/shared_filters.py b/saleor/graphql/attribute/shared_filters.py
+--- a/saleor/graphql/attribute/shared_filters.py
++++ b/saleor/graphql/attribute/shared_filters.py
+@@ -378,6 +378,23 @@
+     for global_id in single_key_value.get("contains_any", []):
+         if not _has_valid_reference_global_id(global_id):
+             return False
++    return True
++
++
++def _has_valid_single_reference_global_id(value: str) -> bool:
++    try:
++        obj_type, _ = from_global_id_or_error(value)
++    except GraphQLError:
++        return False
++
++    if obj_type not in (
++        "Page",
++        "Product",
++        "ProductVariant",
++        "Category",
++        "Collection",
++    ):
++        return False
+     return True
+ 
+ 
