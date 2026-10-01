@@ -1,0 +1,353 @@
+{
+ "agent_ceiling_usd": 1.25,
+ "artifact": "m15r_agent_prefreeze",
+ "artifact_sha256": "af0b98a8fda0e0ca2f27e4e6d5e0f27f2f10a88259f6f0c972f4309de820c217",
+ "auth_artifact_sha256": "ca9f1eea95da09a7de0df3140cff6dfd79d77edc9145479d99e15be6167c4789",
+ "bundles": {
+  "saleor-rc-05df3bec57e2": {
+   "candidate_universe_norm_sha256": "32a710c8394f2fba3ae9f4bf6ab6ca1975fae69dc7a90c40cd995e34e50def03",
+   "intent_norm_sha256": "ec7bb11c631851fcde29d0d933efcc0b690e933214fb0fc88ab766f25422e264",
+   "parent_commit": "7465cc83ba5b18f998c0a94938b2624cbd0a3d9e",
+   "universe_size": 809
+  },
+  "saleor-rc-0a39d039049d": {
+   "candidate_universe_norm_sha256": "9bd13c8c8a026943b5e37b0f54976c738eb42790206aa34b2c21b2817cb0e671",
+   "intent_norm_sha256": "34c54b6fc67b7e8ceddb6e468243ce537475aa77e50ca5538e2378bbbf7463d3",
+   "parent_commit": "99beb91bb2a5018b053b5eceed30835fdf92ba80",
+   "universe_size": 791
+  },
+  "saleor-rc-102e4e5b25e8": {
+   "candidate_universe_norm_sha256": "d8fe96fe0b1939bc880d07b0e35293c506394fdaf29024215eba62d4852ee914",
+   "intent_norm_sha256": "a4291aee1755573571f4966d119b75b3137978c82514c49af6834cbdcae899f0",
+   "parent_commit": "32204a92273145fa86aaba0c83ff43c28446c4ca",
+   "universe_size": 1099
+  },
+  "saleor-rc-34511f977388": {
+   "candidate_universe_norm_sha256": "65b72bdd0f820bbecb1adffdc7a52cdd4998b9dd9051e01873b3ef20f264d1e9",
+   "intent_norm_sha256": "7d6c3ee85d44ed85a157af54215983b7a3ec09a5b7f1edce1dfe851618e1e20f",
+   "parent_commit": "50d7c634ea5d5bb0cc7f30e8064d24a3b3d18e26",
+   "universe_size": 675
+  },
+  "saleor-rc-436f52ee3d0c": {
+   "candidate_universe_norm_sha256": "ce28187b33b98e3beb70778c682f3b7324c0cb07691f3bd6016e8c9955d3148b",
+   "intent_norm_sha256": "3ce38552a7d4830a5ae13f7df87d07fb5813267cd8a0af60857117483e88a879",
+   "parent_commit": "b1e48ada134a47bb7257ae38d0a080f2202f67b8",
+   "universe_size": 684
+  },
+  "saleor-rc-60c8722863c1": {
+   "candidate_universe_norm_sha256": "d31162508b70ed1e8f868a85294574f0e1b80a3d773ce99040da804904a84c61",
+   "intent_norm_sha256": "aa14a602b3948f3de44acb52efb589b0cec21f95d3abfd0cdc0f8d7b9d3a59d3",
+   "parent_commit": "b659fc29459f62706630a921ea23e7e1e5e4f710",
+   "universe_size": 683
+  },
+  "saleor-rc-99d963aed3e5": {
+   "candidate_universe_norm_sha256": "37096d918ce9543750ca2c9fcc959a6aaa60d116c1cc05efa59681da92f31faf",
+   "intent_norm_sha256": "0a46697ef7f6b3e34c6ce88a7f169dc357528cc662792acf4167f1d46b0da7d3",
+   "parent_commit": "837b01ea9111d6b9de4d03bc5468507908c716a6",
+   "universe_size": 458
+  },
+  "saleor-rc-ded69f9c7097": {
+   "candidate_universe_norm_sha256": "4753095e82a2ed2b7b82fdc7546474214d4d79d08ca702a392528faa2e698306",
+   "intent_norm_sha256": "3ce8bad51758ae1fd45a64bdf382918288ddfcbfc96a60153b512bf9408e00fd",
+   "parent_commit": "e277326e929cf0829631c142af688de86eccc455",
+   "universe_size": 771
+  },
+  "saleor-rc-eacffa70e721": {
+   "candidate_universe_norm_sha256": "fc3912fe1e915187bb2be9e85370a1327529825f3b38fde2d8f67c3e5e0417a8",
+   "intent_norm_sha256": "61c00fcaa5b037a109364297bd50f40839d772c31aa9526e473c2352ad5d00ff",
+   "parent_commit": "3d4e4592a7d692a19034d46149a07025f3491290",
+   "universe_size": 632
+  },
+  "saleor-rc-f383043e4be3": {
+   "candidate_universe_norm_sha256": "61a78bbcead64c8730bd17595c4ebf2f57aed7647854993ea634ad7bbb758fc0",
+   "intent_norm_sha256": "4b3663868ce6866545d7ee307074f0aa2907636de33dca600c73675b3f220ca7",
+   "parent_commit": "495501a2ae9b1028e388610412e9bf1056b00352",
+   "universe_size": 550
+  }
+ },
+ "code_norm_sha256": {
+  "scripts/saleor_portability_fix.py": "98a933d00ebb4f4a96718c4224bfaf0baf060c400b9ab064bfb8c3a2daa4fce4",
+  "scripts/wp1b_budget_model_v2.py": "8fae9b826323543ae2fac15ef499b774e50ade503109111ffd0cbc2e5fc958c7",
+  "scripts/wp1b_main_run.py": "1dda2a8b8a4627804620f6a382cd23b9e31199c06e65435d045546d0a543891f",
+  "scripts/wp2_m15r_run.py": "51f961c2dc27681031530dde5c4cbd2ff73e014ca569e35633aa9176d0a3b7d7",
+  "src/benchmark/strategies/iterative_agent.py": "123b9bc0321752d1804af8f585b8a76c88fc52bade67ccb9fedbed8fcb48c8f2",
+  "src/benchmark/strategies/repository_tools.py": "2f913ef19a01ef180d202ac51036573b07ac6b3024c77f5fc7d89e66c1fa8eab",
+  "src/benchmark/wp1b/label_guard.py": "6903d7ec2e99ebb0c10530aab1e68aad9ae2ad8ff151d3cd8c43ecbb73a9f757",
+  "src/benchmark/wp1b/main_runner.py": "da299f646eab29052e8dcd52f1686c2e7deb66567cfd609bc4fb8bcf76a850be",
+  "src/benchmark/wp1b/resilient_backend.py": "faed9b8c5fa480daab3679b7d5d8dd9a6b38acf676eb0b0d467e9175a1ae7f2b",
+  "src/benchmark/wp1b/telemetry.py": "257389792035bf610153fdea6ea67ed99841fd1f42a5f8befee235f5c2e91154"
+ },
+ "design_artifact_sha256": "e350bb5be3f456fc74897f833df772c8df1bf288bb0cd1ce962dfac1335db0a7",
+ "items": [
+  {
+   "key": "saleor-rc-05df3bec57e2#r1",
+   "rep": "r1",
+   "replicate": 1,
+   "task_id": "saleor-rc-05df3bec57e2"
+  },
+  {
+   "key": "saleor-rc-0a39d039049d#r1",
+   "rep": "r1",
+   "replicate": 1,
+   "task_id": "saleor-rc-0a39d039049d"
+  },
+  {
+   "key": "saleor-rc-102e4e5b25e8#r1",
+   "rep": "r1",
+   "replicate": 1,
+   "task_id": "saleor-rc-102e4e5b25e8"
+  },
+  {
+   "key": "saleor-rc-34511f977388#r1",
+   "rep": "r1",
+   "replicate": 1,
+   "task_id": "saleor-rc-34511f977388"
+  },
+  {
+   "key": "saleor-rc-436f52ee3d0c#r1",
+   "rep": "r1",
+   "replicate": 1,
+   "task_id": "saleor-rc-436f52ee3d0c"
+  },
+  {
+   "key": "saleor-rc-60c8722863c1#r1",
+   "rep": "r1",
+   "replicate": 1,
+   "task_id": "saleor-rc-60c8722863c1"
+  },
+  {
+   "key": "saleor-rc-99d963aed3e5#r1",
+   "rep": "r1",
+   "replicate": 1,
+   "task_id": "saleor-rc-99d963aed3e5"
+  },
+  {
+   "key": "saleor-rc-ded69f9c7097#r1",
+   "rep": "r1",
+   "replicate": 1,
+   "task_id": "saleor-rc-ded69f9c7097"
+  },
+  {
+   "key": "saleor-rc-eacffa70e721#r1",
+   "rep": "r1",
+   "replicate": 1,
+   "task_id": "saleor-rc-eacffa70e721"
+  },
+  {
+   "key": "saleor-rc-f383043e4be3#r1",
+   "rep": "r1",
+   "replicate": 1,
+   "task_id": "saleor-rc-f383043e4be3"
+  },
+  {
+   "key": "saleor-rc-05df3bec57e2#r2",
+   "rep": "r2",
+   "replicate": 2,
+   "task_id": "saleor-rc-05df3bec57e2"
+  },
+  {
+   "key": "saleor-rc-0a39d039049d#r2",
+   "rep": "r2",
+   "replicate": 2,
+   "task_id": "saleor-rc-0a39d039049d"
+  },
+  {
+   "key": "saleor-rc-102e4e5b25e8#r2",
+   "rep": "r2",
+   "replicate": 2,
+   "task_id": "saleor-rc-102e4e5b25e8"
+  },
+  {
+   "key": "saleor-rc-34511f977388#r2",
+   "rep": "r2",
+   "replicate": 2,
+   "task_id": "saleor-rc-34511f977388"
+  },
+  {
+   "key": "saleor-rc-436f52ee3d0c#r2",
+   "rep": "r2",
+   "replicate": 2,
+   "task_id": "saleor-rc-436f52ee3d0c"
+  },
+  {
+   "key": "saleor-rc-60c8722863c1#r2",
+   "rep": "r2",
+   "replicate": 2,
+   "task_id": "saleor-rc-60c8722863c1"
+  },
+  {
+   "key": "saleor-rc-99d963aed3e5#r2",
+   "rep": "r2",
+   "replicate": 2,
+   "task_id": "saleor-rc-99d963aed3e5"
+  },
+  {
+   "key": "saleor-rc-ded69f9c7097#r2",
+   "rep": "r2",
+   "replicate": 2,
+   "task_id": "saleor-rc-ded69f9c7097"
+  },
+  {
+   "key": "saleor-rc-eacffa70e721#r2",
+   "rep": "r2",
+   "replicate": 2,
+   "task_id": "saleor-rc-eacffa70e721"
+  },
+  {
+   "key": "saleor-rc-f383043e4be3#r2",
+   "rep": "r2",
+   "replicate": 2,
+   "task_id": "saleor-rc-f383043e4be3"
+  },
+  {
+   "key": "saleor-rc-05df3bec57e2#r3",
+   "rep": "r3",
+   "replicate": 3,
+   "task_id": "saleor-rc-05df3bec57e2"
+  },
+  {
+   "key": "saleor-rc-0a39d039049d#r3",
+   "rep": "r3",
+   "replicate": 3,
+   "task_id": "saleor-rc-0a39d039049d"
+  },
+  {
+   "key": "saleor-rc-102e4e5b25e8#r3",
+   "rep": "r3",
+   "replicate": 3,
+   "task_id": "saleor-rc-102e4e5b25e8"
+  },
+  {
+   "key": "saleor-rc-34511f977388#r3",
+   "rep": "r3",
+   "replicate": 3,
+   "task_id": "saleor-rc-34511f977388"
+  },
+  {
+   "key": "saleor-rc-436f52ee3d0c#r3",
+   "rep": "r3",
+   "replicate": 3,
+   "task_id": "saleor-rc-436f52ee3d0c"
+  },
+  {
+   "key": "saleor-rc-60c8722863c1#r3",
+   "rep": "r3",
+   "replicate": 3,
+   "task_id": "saleor-rc-60c8722863c1"
+  },
+  {
+   "key": "saleor-rc-99d963aed3e5#r3",
+   "rep": "r3",
+   "replicate": 3,
+   "task_id": "saleor-rc-99d963aed3e5"
+  },
+  {
+   "key": "saleor-rc-ded69f9c7097#r3",
+   "rep": "r3",
+   "replicate": 3,
+   "task_id": "saleor-rc-ded69f9c7097"
+  },
+  {
+   "key": "saleor-rc-eacffa70e721#r3",
+   "rep": "r3",
+   "replicate": 3,
+   "task_id": "saleor-rc-eacffa70e721"
+  },
+  {
+   "key": "saleor-rc-f383043e4be3#r3",
+   "rep": "r3",
+   "replicate": 3,
+   "task_id": "saleor-rc-f383043e4be3"
+  }
+ ],
+ "items_sha256": "f99ef3259e58b28136506ed9ef56648d6d5268fe28ca20fd508ac6b647283f33",
+ "membership_artifact_sha256": "55bd7ca9c8e49be4d0e9c3522edfd64a70f92aabb7d3baf1d478b861e09c6109",
+ "model_api_calls": 0,
+ "protocol": "wp1b_frozen_agent_protocol_v3",
+ "protocol_norm_sha256": "0029b7a100c0809108bfb16cd64c67e790c410954a96ec1d29014fa30497797d",
+ "replicate_rule": "replicate r uses Agent run r (fresh run per task per replicate)",
+ "rmcss_predictions_norm_sha256": "f96888c22191dbf0a9dc636f275cedc0e33526aeaa69b42cd993456b80995c0a",
+ "worst_case_per_task": {
+  "saleor-rc-05df3bec57e2": {
+   "base_prompt_chars": 35697.0,
+   "base_prompt_tokens": 11198.1489,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_prompt_tokens": 107679.40719999999,
+   "worst_case_total_tokens": 115871.40719999999,
+   "worst_case_usd": 0.04049582215999999
+  },
+  "saleor-rc-0a39d039049d": {
+   "base_prompt_chars": 34766.0,
+   "base_prompt_tokens": 10906.0942,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_prompt_tokens": 105342.9696,
+   "worst_case_total_tokens": 113534.9696,
+   "worst_case_usd": 0.039794890879999996
+  },
+  "saleor-rc-102e4e5b25e8": {
+   "base_prompt_chars": 52816.0,
+   "base_prompt_tokens": 16568.3792,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_prompt_tokens": 150641.2496,
+   "worst_case_total_tokens": 158833.2496,
+   "worst_case_usd": 0.053384374879999995
+  },
+  "saleor-rc-34511f977388": {
+   "base_prompt_chars": 28224.0,
+   "base_prompt_tokens": 8853.8688,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_prompt_tokens": 88925.16639999999,
+   "worst_case_total_tokens": 97117.16639999999,
+   "worst_case_usd": 0.03486954992
+  },
+  "saleor-rc-436f52ee3d0c": {
+   "base_prompt_chars": 28692.0,
+   "base_prompt_tokens": 9000.6804,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_prompt_tokens": 90099.65920000001,
+   "worst_case_total_tokens": 98291.65920000001,
+   "worst_case_usd": 0.03522189776
+  },
+  "saleor-rc-60c8722863c1": {
+   "base_prompt_chars": 28556.0,
+   "base_prompt_tokens": 8958.0172,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_prompt_tokens": 89758.3536,
+   "worst_case_total_tokens": 97950.3536,
+   "worst_case_usd": 0.03511950608
+  },
+  "saleor-rc-99d963aed3e5": {
+   "base_prompt_chars": 18361.0,
+   "base_prompt_tokens": 5759.8457,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_prompt_tokens": 64172.9816,
+   "worst_case_total_tokens": 72364.9816,
+   "worst_case_usd": 0.02744389448
+  },
+  "saleor-rc-ded69f9c7097": {
+   "base_prompt_chars": 33684.0,
+   "base_prompt_tokens": 10566.6708,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_prompt_tokens": 102627.5824,
+   "worst_case_total_tokens": 110819.5824,
+   "worst_case_usd": 0.03898027472
+  },
+  "saleor-rc-eacffa70e721": {
+   "base_prompt_chars": 26287.0,
+   "base_prompt_tokens": 8246.231899999999,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_prompt_tokens": 84064.0712,
+   "worst_case_total_tokens": 92256.0712,
+   "worst_case_usd": 0.03341122136
+  },
+  "saleor-rc-f383043e4be3": {
+   "base_prompt_chars": 22100.0,
+   "base_prompt_tokens": 6932.7699999999995,
+   "worst_case_completion_tokens": 8192.0,
+   "worst_case_prompt_tokens": 73556.37599999999,
+   "worst_case_total_tokens": 81748.37599999999,
+   "worst_case_usd": 0.030258912799999996
+  }
+ },
+ "worst_case_total_usd": 1.106941
+}

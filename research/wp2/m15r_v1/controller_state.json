@@ -1,0 +1,163 @@
+{
+ "acks": [],
+ "history": [
+  {
+   "detail": "M15-R kit self-tests (zero network)",
+   "event": "START",
+   "phase": "Q00_KIT_SELFTEST",
+   "utc": "2026-10-01T05:21:28Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "Q00_KIT_SELFTEST",
+   "utc": "2026-10-01T05:21:42Z"
+  },
+  {
+   "detail": "design/M14R/Pilot-A immutability + Pilot-B protection guard (zero API)",
+   "event": "START",
+   "phase": "Q01_GUARD",
+   "utc": "2026-10-01T05:21:42Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "Q01_GUARD",
+   "utc": "2026-10-01T05:21:47Z"
+  },
+  {
+   "detail": "S0 readiness: empty-diff negative + scoped-gold positive (zero API, Docker)",
+   "event": "START",
+   "phase": "Q02_READINESS",
+   "utc": "2026-10-01T05:21:47Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "Q02_READINESS",
+   "utc": "2026-10-01T06:52:51Z"
+  },
+  {
+   "detail": "apply the frozen readiness rule (>= 6 READY tasks)",
+   "event": "START",
+   "phase": "Q03_MEMBERSHIP",
+   "utc": "2026-10-01T06:52:51Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "Q03_MEMBERSHIP",
+   "utc": "2026-10-01T06:52:55Z"
+  },
+  {
+   "detail": "human authorization check (cap <= $3 for Agent + S2 + S3)",
+   "event": "START",
+   "phase": "Q04_AUTH",
+   "utc": "2026-10-01T10:23:59Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "Q04_AUTH",
+   "utc": "2026-10-01T10:24:03Z"
+  },
+  {
+   "detail": "offline environment doctor",
+   "event": "START",
+   "phase": "Q05_DOCTOR_OFFLINE",
+   "utc": "2026-10-01T10:24:03Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "Q05_DOCTOR_OFFLINE",
+   "utc": "2026-10-01T10:24:18Z"
+  },
+  {
+   "detail": "read-only provider/credit/pricing doctor (zero model calls)",
+   "event": "START",
+   "phase": "Q06_DOCTOR_PAID",
+   "utc": "2026-10-01T10:24:18Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "Q06_DOCTOR_PAID",
+   "utc": "2026-10-01T10:24:32Z"
+  },
+  {
+   "detail": "Agent localization prefreeze: manifest, worst cases, code hashes",
+   "event": "START",
+   "phase": "Q07_AGENT_PREFREEZE",
+   "utc": "2026-10-01T10:24:32Z"
+  }
+ ],
+ "phases": {
+  "Q00_KIT_SELFTEST": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-10-01T05:21:42Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "Q01_GUARD": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-10-01T05:21:47Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "Q02_READINESS": {
+   "attempts": 0,
+   "failures": 0,
+   "iterations": 10,
+   "passed_utc": "2026-10-01T06:52:51Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "Q03_MEMBERSHIP": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-10-01T06:52:55Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "Q04_AUTH": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-10-01T10:24:03Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "Q05_DOCTOR_OFFLINE": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-10-01T10:24:18Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "Q06_DOCTOR_PAID": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-10-01T10:24:32Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "Q07_AGENT_PREFREEZE": {
+   "attempts": 0,
+   "failures": 0,
+   "iterations": 0,
+   "runs": 1,
+   "status": "RUNNING"
+  }
+ },
+ "plan": "WP2_M15R_V1",
+ "plan_sha256": "f4b406358129491cce55b2fa2459230b6d7cb356e217f6960300ce00f4595481",
+ "stop": null
+}
