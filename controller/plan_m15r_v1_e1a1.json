@@ -1,0 +1,410 @@
+{
+ "id": "WP2_M15R_V1_E1A1",
+ "settings": {
+  "state_file": "research/wp2/m15r_v1/controller_state_e1a1.json",
+  "report_dir": "research/wp2/m15r_v1/controller_reports_e1a1",
+  "stop_flag": "logs/M15R_STOP.flag",
+  "kit_manifest": "controller/KIT_MANIFEST_M15R_E1A1.json",
+  "git_commit": true,
+  "git_push": true,
+  "remote": "origin",
+  "branch": "main",
+  "stop_commit_prefixes": [
+   "research/wp2/m15r_v1/"
+  ],
+  "resumable_tokens": [
+   "NOT_AUTHORIZED",
+   "PAID_PREFLIGHT_FAIL",
+   "E2E_PROVIDER_OUTAGE",
+   "HOLD_ACTIVE",
+   "USER_STOP_FLAG",
+   "EVAL_ERROR",
+   "CLOSE_FAIL",
+   "POST_ACTION_FAILED",
+   "FINAL_ACTION_FAILED"
+  ],
+  "exports": {
+   "light": [
+    "{python}",
+    "scripts/wp2_export_light.py",
+    "--profile",
+    "controller/light_profile_m15r_e1a1.json",
+    "--label",
+    "{label}"
+   ]
+  },
+  "final_actions": [
+   {
+    "type": "commit",
+    "prefixes": [
+     "research/wp2/m15r_v1/",
+     "docs/WP2_M15R_V1_RESULT.md"
+    ],
+    "message": "evidence(wp2): close M15-R V1 (E1A1)"
+   },
+   {
+    "type": "push"
+   },
+   {
+    "type": "tag",
+    "name": "wp2-m15r-v1-result-{date}",
+    "message": "WP2 M15-R V1 result (E1A1 continuation)"
+   },
+   {
+    "type": "exports",
+    "label": "M15R_RESULT",
+    "required": [
+     "light"
+    ]
+   }
+  ]
+ },
+ "phases": [
+  {
+   "id": "A00_KIT_SELFTEST",
+   "title": "M15-R + E1A1 + frozen E1 self-tests (zero network)",
+   "command": [
+    "{python}",
+    "-m",
+    "pytest",
+    "-q",
+    "-p",
+    "no:cacheprovider",
+    "tests/unit/wp2/m15r",
+    "tests/unit/wp2/m14a/test_m14a_e1.py"
+   ],
+   "timeout_s": 1200,
+   "fail_token": "KIT_SELFTEST_FAIL",
+   "allowed_write_prefixes": []
+  },
+  {
+   "id": "A01_E1A1_VERIFY",
+   "title": "amendment record, frozen files, freezes, pre-amendment records (zero API)",
+   "requires": [
+    "A00_KIT_SELFTEST"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m15r_e1a1.py",
+    "verify"
+   ],
+   "timeout_s": 900,
+   "fail_token": "M15R_INVARIANT",
+   "exit_codes": {
+    "78": "STOP:M15R_INVARIANT"
+   },
+   "allowed_write_prefixes": []
+  },
+  {
+   "id": "A02_S2_EVALUATE",
+   "title": "S2 evaluation under frozen E1 + E1A1 (zero API, workers=1)",
+   "requires": [
+    "A01_E1A1_VERIFY"
+   ],
+   "kind": "loop",
+   "pre_checks": [
+    {
+     "type": "command_ok",
+     "command": [
+      "{python}",
+      "scripts/wp2_m15r_run.py",
+      "generation-freeze-verify",
+      "--stage",
+      "s2"
+     ],
+     "fail_token": "GENERATION_FREEZE_DRIFT"
+    }
+   ],
+   "done_checks": [
+    {
+     "type": "command_ok",
+     "command": [
+      "{python}",
+      "scripts/wp2_m15r_run.py",
+      "eval-complete",
+      "--stage",
+      "s2"
+     ]
+    }
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m15r_e1a1.py",
+    "evaluate",
+    "--stage",
+    "s2",
+    "--max-evals",
+    "4"
+   ],
+   "timeout_s": 10800,
+   "max_retries": 1,
+   "max_iterations": 40,
+   "fail_token": "EVAL_ERROR",
+   "exit_codes": {
+    "79": "STOP:EVAL_ERROR",
+    "78": "STOP:M15R_INVARIANT"
+   },
+   "progress": {
+    "glob": "research/wp2/m15r_v1/evaluations/unique/**/evaluation.json"
+   },
+   "allowed_write_prefixes": [
+    "research/wp2/m15r_v1/evaluations/",
+    "research/wp2/m15r_v1/junit/"
+   ],
+   "commit_each_iteration": true,
+   "commit_message": "evidence(wp2): M15-R S2 evaluation progress (E1A1)"
+  },
+  {
+   "id": "A03_S2_GATE",
+   "title": "S2 GOLD viability gate (records PASS or GOLD_FLOOR_FAIL; never a STOP)",
+   "requires": [
+    "A02_S2_EVALUATE"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m15r_run.py",
+    "s2-gate"
+   ],
+   "timeout_s": 900,
+   "fail_token": "SUMMARY_FAIL",
+   "exit_codes": {
+    "78": "STOP:M15R_INVARIANT"
+   },
+   "allowed_write_prefixes": [
+    "research/wp2/m15r_v1/s2_gate.json"
+   ],
+   "commit_message": "evidence(wp2): M15-R S2 gate (E1A1 continuation)"
+  },
+  {
+   "id": "A04_S3_GENERATE",
+   "title": "S3 RMCSS/AGENT x r1-r3 with G0 (PAID; no-op unless the S2 gate passed)",
+   "requires": [
+    "A03_S2_GATE"
+   ],
+   "kind": "loop",
+   "pre_checks": [
+    {
+     "type": "command_ok",
+     "command": [
+      "{python}",
+      "scripts/wp2_m15r_run.py",
+      "freeze-verify"
+     ],
+     "fail_token": "FREEZE_DRIFT"
+    }
+   ],
+   "done_checks": [
+    {
+     "type": "command_ok",
+     "command": [
+      "{python}",
+      "scripts/wp2_m15r_run.py",
+      "generation-complete",
+      "--stage",
+      "s3"
+     ]
+    }
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m15r_run.py",
+    "generate",
+    "--stage",
+    "s3",
+    "--max-new",
+    "10",
+    "--max-seconds",
+    "5400"
+   ],
+   "timeout_s": 7200,
+   "max_retries": 0,
+   "max_iterations": 20,
+   "fail_token": "GENERATION_FAIL",
+   "exit_codes": {
+    "3": "STOP:HOLD_ACTIVE",
+    "4": "STOP:USER_STOP_FLAG",
+    "33": "STOP:PAID_PREFLIGHT_FAIL",
+    "75": "STOP:E2E_PROVIDER_OUTAGE",
+    "76": "STOP:E2E_REQUEST_REJECTED",
+    "77": "STOP:E2E_BUDGET_STOP",
+    "78": "STOP:M15R_INVARIANT",
+    "32": "STOP:NOT_AUTHORIZED"
+   },
+   "progress": {
+    "glob": "research/wp2/m15r_v1/episodes/*/*/episode.json"
+   },
+   "allowed_write_prefixes": [
+    "research/wp2/m15r_v1/episodes/",
+    "research/wp2/m15r_v1/cache_namespaces/",
+    "research/wp2/m15r_v1/ledger/",
+    "research/wp2/m15r_v1/transport/"
+   ],
+   "commit_each_iteration": true,
+   "commit_message": "evidence(wp2): M15-R S3 generation progress"
+  },
+  {
+   "id": "A05_S3_GENERATION_FREEZE",
+   "title": "S3 generation freeze before evaluation",
+   "requires": [
+    "A04_S3_GENERATE"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m15r_run.py",
+    "generation-freeze",
+    "--stage",
+    "s3"
+   ],
+   "timeout_s": 900,
+   "pass_checks": [
+    {
+     "type": "command_ok",
+     "command": [
+      "{python}",
+      "scripts/wp2_m15r_run.py",
+      "generation-freeze-verify",
+      "--stage",
+      "s3"
+     ],
+     "fail_token": "GENERATION_FREEZE_DRIFT"
+    }
+   ],
+   "fail_token": "GENERATION_FREEZE_FAIL",
+   "exit_codes": {
+    "78": "STOP:M15R_INVARIANT"
+   },
+   "allowed_write_prefixes": [
+    "research/wp2/m15r_v1/generation_freeze_s3.json"
+   ],
+   "post_actions": [
+    {
+     "type": "commit",
+     "prefixes": [
+      "research/wp2/m15r_v1/"
+     ],
+     "message": "evidence(wp2): freeze M15-R S3 generation"
+    },
+    {
+     "type": "push"
+    }
+   ]
+  },
+  {
+   "id": "A06_S3_EVAL_PLAN",
+   "title": "S3 unique-diff evaluation plan",
+   "requires": [
+    "A05_S3_GENERATION_FREEZE"
+   ],
+   "pre_checks": [
+    {
+     "type": "command_ok",
+     "command": [
+      "{python}",
+      "scripts/wp2_m15r_run.py",
+      "generation-freeze-verify",
+      "--stage",
+      "s3"
+     ],
+     "fail_token": "GENERATION_FREEZE_DRIFT"
+    }
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m15r_run.py",
+    "eval-plan",
+    "--stage",
+    "s3"
+   ],
+   "timeout_s": 900,
+   "fail_token": "EVAL_PLAN_FAIL",
+   "exit_codes": {
+    "78": "STOP:M15R_INVARIANT"
+   },
+   "allowed_write_prefixes": [
+    "research/wp2/m15r_v1/evaluations/plan_s3.json"
+   ],
+   "commit_message": "evidence(wp2): freeze M15-R S3 evaluation plan"
+  },
+  {
+   "id": "A07_S3_EVALUATE",
+   "title": "S3 evaluation under frozen E1 + E1A1 (zero API, workers=1)",
+   "requires": [
+    "A06_S3_EVAL_PLAN"
+   ],
+   "kind": "loop",
+   "pre_checks": [
+    {
+     "type": "command_ok",
+     "command": [
+      "{python}",
+      "scripts/wp2_m15r_run.py",
+      "generation-freeze-verify",
+      "--stage",
+      "s3"
+     ],
+     "fail_token": "GENERATION_FREEZE_DRIFT"
+    }
+   ],
+   "done_checks": [
+    {
+     "type": "command_ok",
+     "command": [
+      "{python}",
+      "scripts/wp2_m15r_run.py",
+      "eval-complete",
+      "--stage",
+      "s3"
+     ]
+    }
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m15r_e1a1.py",
+    "evaluate",
+    "--stage",
+    "s3",
+    "--max-evals",
+    "4"
+   ],
+   "timeout_s": 10800,
+   "max_retries": 1,
+   "max_iterations": 40,
+   "fail_token": "EVAL_ERROR",
+   "exit_codes": {
+    "79": "STOP:EVAL_ERROR",
+    "78": "STOP:M15R_INVARIANT"
+   },
+   "progress": {
+    "glob": "research/wp2/m15r_v1/evaluations/unique/**/evaluation.json"
+   },
+   "allowed_write_prefixes": [
+    "research/wp2/m15r_v1/evaluations/",
+    "research/wp2/m15r_v1/junit/"
+   ],
+   "commit_each_iteration": true,
+   "commit_message": "evidence(wp2): M15-R S3 evaluation progress (E1A1)"
+  },
+  {
+   "id": "A08_SUMMARY",
+   "title": "mechanical M15-R summary (descriptive; no winner tokens)",
+   "requires": [
+    "A07_S3_EVALUATE"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m15r_run.py",
+    "summary"
+   ],
+   "timeout_s": 900,
+   "fail_token": "SUMMARY_FAIL",
+   "exit_codes": {
+    "78": "STOP:M15R_INVARIANT"
+   },
+   "allowed_write_prefixes": [
+    "research/wp2/m15r_v1/m15r_summary.json",
+    "docs/WP2_M15R_V1_RESULT.md"
+   ],
+   "commit_message": "evidence(wp2): M15-R V1 summary (E1A1 continuation)"
+  }
+ ]
+}

@@ -1,0 +1,88 @@
+{
+ "artifact": "m15r_e1a1_amendment",
+ "artifact_sha256": "43b2347a6cf0b389e8100f593dba49e8b419e4f3739b8f7c03684915f2dd0ce7",
+ "changes": "evaluation classification only, for states frozen E1 classifies as INFRA_UNCLASSIFIED; zero model/API calls; no generated output, patch, scope, Agent output, episode, plan or ledger is edited",
+ "date": "2026-10-01",
+ "discovery": {
+  "frozen_e1_decision": "INFRA_UNCLASSIFIED",
+  "frozen_e1_diagnostics": "research/wp2/m15r_v1/evaluations/diagnostics/saleor-rc-0a39d039049d/u_2d7cf6d90275/e1_diagnostics.json",
+  "frozen_e1_diagnostics_artifact_sha256": "f4f794dfda5ca3553663aa7743f1762ad5b67cf6731beef858285a3fb043fbbb",
+  "identity": "saleor-rc-0a39d039049d / u_2d7cf6d90275 (S2 GOLD_HARD__C0__r3)",
+  "light_sha256": "95e43ba638d8111c21cd4b72d588b6e3286f22e8434bb7f9439fbbcad8ac1bf1",
+  "observed": "6/6 active runs rc=1, identical log sha 454cde87..., last line 'AssertionError: Found different types with the same name in the schema: Date, Date.' raised from graphene/types/typemap.py; parent_starts_ok=true",
+  "phase": "Q16_S2_EVALUATE",
+  "stop_report": "research/wp2/m15r_v1/controller_reports/STOP_EVAL_ERROR_20261001T163355.md",
+  "stop_token": "EVAL_ERROR (resumable)",
+  "utc": "2026-10-01T13:33:55Z"
+ },
+ "frozen_files_unchanged": {
+  "controller/KIT_MANIFEST_M15R.json": "1573fe0f61df0acf472615a93651cde8e8894d2b4812117860a1fff23316d5c0",
+  "controller/plan_m15r_v1.json": "f4b406358129491cce55b2fa2459230b6d7cb356e217f6960300ce00f4595481",
+  "research/wp2/m15r_v1/frozen_scopes.json": "f0abbca67145934b762608e3249468ec25e14be072118c8422fd3527d6896568",
+  "research/wp2/m15r_v1/generation_freeze_s2.json": "2e81bd5c6461e70f220c57f52f178bd0ddc6cdf0cf0bcf0755c76219d1fa4d3d",
+  "research/wp2/m15r_v1/m15r_design_freeze_v1.json": "1fd68354005709f99b22f08c636287466c54252bf2401bf93144987f9be8258e",
+  "research/wp2/m15r_v1/m15r_freeze.json": "c00d484c7a751fc7a4f3d6fbbbd38a2fce3cc35430cdc464f574d60d235973c6",
+  "research/wp2/m15r_v1/opws_summary.json": "529ce5e0c6d2b0e9a3df831b90a6f9623cbbf48d70953d8b015da4768674c3b6",
+  "research/wp2/m15r_v1/s2_generation_plan.json": "e0e45435ac6575dc4a8a78e8abad6567ed8ace737b0e55c7a7b97bd58bbb0713",
+  "research/wp2/m15r_v1/s3_generation_plan.json": "432a4697b69bcb4161863a7c48ce421199d7e5279c15d6b7ef69702e6c8a5476",
+  "scripts/wp2_m14a_evalcore.py": "f9ba65ff3d453b5d620ce6f5ac1a58d2d3659ef7f7aab734867d6ec21fd6ddff",
+  "scripts/wp2_m14a_evalcore_e1.py": "6f028ad4eb99a19cc7c3b3a1d6defa51e1e5f7e72f76a2deeffffa51609365db",
+  "scripts/wp2_m14r_core.py": "2e19975df631f0a9f6e0888e800480819ca2bb5fe5244722fd19b617b2920491",
+  "scripts/wp2_m14r_run.py": "9fdee029e54f411b0e2349c8ba8b373dc446c0e44af358ed88610b2da6bb5316",
+  "scripts/wp2_m15r_run.py": "51f961c2dc27681031530dde5c4cbd2ff73e014ca569e35633aa9176d0a3b7d7"
+ },
+ "implementation": "scripts/wp2_m15r_e1a1.py (wraps the frozen evaluate_state_e1; frozen module unchanged)",
+ "model_api_calls": 0,
+ "not_affected": [
+  "M14A/M14R/Pilot-A evidence and published scores",
+  "M15-R S0/S1 results (OPWS token unchanged)"
+ ],
+ "original_plan": "controller/plan_m15r_v1.json stays STOPPED at Q16_S2_EVALUATE (historical); not resumed",
+ "original_plan_phases_pass": [
+  "Q00_KIT_SELFTEST",
+  "Q01_GUARD",
+  "Q02_READINESS",
+  "Q03_MEMBERSHIP",
+  "Q04_AUTH",
+  "Q05_DOCTOR_OFFLINE",
+  "Q06_DOCTOR_PAID",
+  "Q07_AGENT_PREFREEZE",
+  "Q08_AGENT",
+  "Q09_FREEZE",
+  "Q10_OPWS_PLAN",
+  "Q11_OPWS_EVALUATE",
+  "Q12_OPWS_SUMMARY",
+  "Q13_S2_GENERATE",
+  "Q14_S2_GENERATION_FREEZE",
+  "Q15_S2_EVAL_PLAN"
+ ],
+ "pre_amendment_records": {
+  "research/wp2/m15r_v1/evaluations/diagnostics/saleor-rc-0a39d039049d/u_2d7cf6d90275/e1_diagnostics.json": "234bd4cb6f7840cc2727749dfe74d2ff75fe0fdcede9397fbac3ce9be596390a",
+  "research/wp2/m15r_v1/evaluations/unique/saleor-rc-05df3bec57e2/92ad6bc54edc5f5f7348ffe46b30cf9f7e37df02eb16044ee012b4a81378cca6/evaluation.json": "7d2404f21d747e285967ae03a402bad32d2bc9a9362f542f1e76e80bf1f27027",
+  "research/wp2/m15r_v1/evaluations/unique/saleor-rc-05df3bec57e2/f002daefd35f784d9446af41ef4bfcd8445f0327a7354aa09bb2f066e136f453/evaluation.json": "3a6e171be3e7088dd50683aacf181763ac8d1531f69140c301b0a0a21f11ccbc"
+ },
+ "rationale": "The patch declares graphene.Date while the repository already registers a scalar named Date; GraphQL schema construction fails at import, before pytest can write JUnit. The parent tree starts in the same environment, so the failure is caused by the patch and is a scientific outcome (frozen E1 semantics: every node 'missing' = not passed). Frozen E1 R3 requires an edited file in the traceback; this failure is raised from Graphene frames, hence INFRA_UNCLASSIFIED.",
+ "reevaluate_existing_records": false,
+ "rule_constants": {
+  "applies_to_e1_decision": "INFRA_UNCLASSIFIED",
+  "decision": "PATCH_STARTUP_FAILURE_E1A1",
+  "frame_re": "graphene/types/",
+  "missing_outcome": "missing",
+  "rc_range": [
+   1,
+   127
+  ],
+  "require_all_runs_missing": true,
+  "require_edited_paths": true,
+  "require_parent_starts_ok": true,
+  "rule_id": "M15R_E1A1_GRAPHQL_DUPLICATE_TYPE_STARTUP_V1",
+  "signature_position": "last non-empty line of every run's log tail",
+  "signature_re": "^(?:E\\s+)?AssertionError: Found different types with the same name in the schema: \\S"
+ },
+ "rule_constants_sha256": "dac13085678bba40a4cb25f1b7495aafbf164144b8d5ac75f0ff8b2a6533c170",
+ "rule_id": "M15R_E1A1_GRAPHQL_DUPLICATE_TYPE_STARTUP_V1",
+ "scope": "M15-R continuation: S2 and S3 evaluation (controller/plan_m15r_v1_e1a1.json)",
+ "stop_rule": "any other INFRA_UNCLASSIFIED or infrastructure failure remains a resumable EVAL_ERROR for brain review",
+ "version": "M15R-E1A1",
+ "why_no_reevaluation": "E1A1 returns the frozen E1 result unchanged whenever frozen E1 does not raise; it can only replace an INFRA_UNCLASSIFIED stop (which writes no record). Every record written before the amendment (S0 readiness controls; S1 OPWS unique records: 10 reused S0 positives + 8 evaluated ALL_JUNIT_PRESENT + 2 frozen-E1 PATCH_STARTUP_FAILURE; S2: 2 ALL_JUNIT_PRESENT) is therefore exactly what E1A1 would write. Re-running Docker on them would only add new flaky draws to fixed evidence."
+}
