@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="250" time="22.776" timestamp="2026-09-30T19:07:37.030192-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_address_create_return_user" time="1.736" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_confirmation" time="0.121" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_confirmation_invalid_token" time="0.024" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_confirmation_invalid_user" time="0.047" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_delete" time="0.089" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_delete_anonymous_user" time="0.020" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_delete_invalid_token" time="0.022" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_delete_other_customer_token" time="0.053" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_delete_staff_user" time="0.019" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_request_deletion" time="0.029" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_request_deletion_all_storefront_hosts_allowed" time="0.053" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_request_deletion_anonymous_user" time="0.019" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_request_deletion_storefront_hosts_not_allowed" time="0.022" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_request_deletion_subdomain" time="0.056" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_request_deletion_token_validation" time="0.060" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_reset_password" time="0.052" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_reset_password_all_storefront_hosts_allowed" time="0.056" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_reset_password_invalid_email" time="0.023" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_reset_password_storefront_hosts_not_allowed" time="0.021" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_reset_password_subdomain" time="0.052" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_reset_password_user_is_inactive" time="0.025" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_address_delete_mutation" time="0.068" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_address_delete_mutation_as_app" time="0.059" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_address_not_created_after_validation_fails" time="0.058" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_address_query_as_anonymous_user" time="0.019" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_address_query_as_app_with_permission" time="0.035" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_address_query_as_app_without_permission" time="0.027" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_address_query_as_not_owner" time="0.023" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_address_query_as_owner" time="0.026" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_address_query_invalid_id" time="0.018" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_address_query_with_invalid_object_type" time="0.021" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_address_update_mutation" time="0.089" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_address_validation_rules" time="0.027" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_address_validation_rules_fields_in_camel_case" time="0.019" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_address_validation_rules_with_country_area" time="0.043" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_anonymous_user_create_address" time="0.018" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_change_active_status_for_himself" time="0.040" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_change_active_status_for_superuser" time="0.040" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_create_address_mutation" time="0.062" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_can_not_see_other_users_data" time="0.038" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_change_default_address" time="0.052" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_change_default_address_invalid_address" time="0.031" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_create" time="0.146" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_create_address" time="0.075" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_create_default_address" time="0.132" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_create_send_password_with_url" time="0.056" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_create_with_invalid_url" time="0.045" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_create_with_not_allowed_url" time="0.048" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_create_without_send_password" time="0.054" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_delete" time="0.074" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_delete_address_for_other[\n    mutation deleteUserAddress($id: ID!) {\n        accountAddressDelete(id: $id) {\n            address {\n                city\n            }\n            user {\n                id\n            }\n        }\n    }\n]" time="0.036" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_delete_address_for_other[\n    mutation deleteUserAddress($id: ID!) {\n        addressDelete(id: $id) {\n            address {\n                city\n            }\n            user {\n                id\n            }\n        }\n    }\n]" time="0.036" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_delete_by_app" time="0.068" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_delete_errors" time="0.021" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_delete_own_address" time="0.054" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_register" time="0.043" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_register_disabled_email_confirmation" time="0.024" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_register_no_redirect_url" time="0.020" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_set_address_as_default" time="0.051" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_update" time="0.216" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_update_address_for_other[\n    mutation updateAccountAddress($addressId: ID!, $address: AddressInput!) {\n        accountAddressUpdate(id: $addressId, input: $address) {\n            address {\n                city\n            }\n            user {\n                id\n            }\n        }\n    }\n]" time="0.062" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_update_address_for_other[\n    mutation updateUserAddress($addressId: ID!, $address: AddressInput!) {\n        addressUpdate(id: $addressId, input: $address) {\n            address {\n                city\n            }\n            user {\n                id\n            }\n        }\n    }\n]" time="0.050" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_update_generates_event_when_changing_email" time="0.076" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_update_generates_event_when_changing_email_by_app" time="0.070" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_update_own_address" time="0.087" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_update_own_address_not_updated_when_validation_fails" time="0.073" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_update_without_any_changes_generates_no_event" time="0.069" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_email_update" time="0.042" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_email_update_to_existing_email" time="0.027" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_logged_customer_update_addresses" time="0.116" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_logged_customer_update_addresses_invalid_billing_address" time="0.066" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_logged_customer_update_addresses_invalid_shipping_address" time="0.027" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_logged_customer_update_anonymous_user" time="0.020" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_logged_customer_update_names" time="0.037" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_logged_customer_updates_language_code" time="0.043" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_me_checkout_tokens_with_channel" time="0.031" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_me_checkout_tokens_with_inactive_channel" time="0.031" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_me_checkout_tokens_with_not_existing_channel" time="0.027" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_me_checkout_tokens_without_channel_param" time="0.028" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_me_checkout_tokens_without_channel_param_inactive_channel" time="0.030" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_me_query" time="0.031" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_me_query_anonymous_client" time="0.020" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_me_query_checkout" time="0.045" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_me_query_checkout_with_inactive_channel" time="0.043" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_me_query_customer_can_not_see_note" time="0.057" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_me_user_permissions_query" time="0.042" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_me_with_cancelled_fulfillments" time="0.139" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_password_change" time="0.027" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_password_change_incorrect_old_password" time="0.023" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_password_change_invalid_new_password" time="0.024" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customer_members_with_filter_search[customer_filter0-2]" time="0.051" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customer_members_with_filter_search[customer_filter1-1]" time="0.050" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customer_members_with_filter_search[customer_filter2-1]" time="0.053" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customer_members_with_filter_search[customer_filter3-1]" time="0.052" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customer_members_with_filter_search[customer_filter4-1]" time="0.050" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customer_members_with_filter_search[customer_filter5-1]" time="0.053" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customer_members_with_filter_search[customer_filter6-1]" time="0.052" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customer_members_with_filter_search[customer_filter7-1]" time="0.050" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customer_user" time="0.069" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customer_user_app" time="0.060" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customer_user_app_no_permission" time="0.047" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customer_user_with_orders" time="0.083" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers" time="0.069" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_search_without_duplications" time="0.054" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_filter_date_joined[customer_filter0-1]" time="0.078" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_filter_date_joined[customer_filter1-1]" time="0.089" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_filter_date_joined[customer_filter2-1]" time="0.084" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_filter_date_joined[customer_filter3-2]" time="0.081" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_filter_metadata" time="0.060" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_filter_placed_orders[customer_filter0-1]" time="0.091" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_filter_placed_orders[customer_filter1-1]" time="0.091" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_filter_placed_orders[customer_filter2-1]" time="0.089" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_filter_placed_orders[customer_filter3-2]" time="0.087" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_filter_placed_orders_[customer_filter0-1]" time="0.097" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_filter_placed_orders_[customer_filter1-2]" time="0.089" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_filter_placed_orders_[customer_filter2-2]" time="0.090" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_filter_placed_orders_[customer_filter3-2]" time="0.089" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_sort[customer_sort0-result_order0]" time="0.036" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_sort[customer_sort1-result_order1]" time="0.037" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_sort[customer_sort2-result_order2]" time="0.035" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_sort[customer_sort3-result_order3]" time="0.035" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_sort[customer_sort4-result_order4]" time="0.038" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_sort[customer_sort5-result_order5]" time="0.037" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_sort[customer_sort6-result_order6]" time="0.037" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_sort[customer_sort7-result_order7]" time="0.038" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff" time="0.068" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_members_app_no_permission" time="0.036" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_members_with_filter_search[staff_member_filter0-2]" time="0.053" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_members_with_filter_search[staff_member_filter1-1]" time="0.051" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_members_with_filter_search[staff_member_filter2-1]" time="0.052" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_members_with_filter_search[staff_member_filter3-1]" time="0.053" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_members_with_filter_search[staff_member_filter4-1]" time="0.054" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_members_with_filter_search[staff_member_filter5-1]" time="0.051" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_members_with_filter_search[staff_member_filter6-2]" time="0.053" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_members_with_filter_status[staff_member_filter0-1]" time="0.044" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_members_with_filter_status[staff_member_filter1-2]" time="0.048" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_members_with_sort[customer_sort0-result_order0]" time="0.036" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_members_with_sort[customer_sort1-result_order1]" time="0.036" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_members_with_sort[customer_sort2-result_order2]" time="0.032" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_members_with_sort[customer_sort3-result_order3]" time="0.035" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_members_with_sort[customer_sort4-result_order4]" time="0.034" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_members_with_sort[customer_sort5-result_order5]" time="0.032" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_members_with_sort[customer_sort6-result_order6]" time="0.032" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_members_with_sort[customer_sort7-result_order7]" time="0.034" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_user" time="0.084" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_user_with_order_and_without_manage_orders_perm" time="0.061" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_user_with_orders_and_manage_orders_perm" time="0.068" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_user_by_email_address" time="0.044" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_user_by_id_and_email" time="0.044" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_request_email_change" time="0.029" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_request_email_change_to_existing_email" time="0.028" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_request_email_change_with_invalid_password" time="0.025" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_request_email_change_with_invalid_redirect_url" time="0.028" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_request_password_reset_email_for_staff" time="0.055" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_set_default_address" time="0.071" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_set_password" time="0.066" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_set_password_invalid_email" time="0.026" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_set_password_invalid_password" time="0.051" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_set_password_invalid_token" time="0.023" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_bulk_set_active" time="0.051" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_bulk_set_not_active" time="0.045" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_create" time="0.106" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_create_app_no_permission" time="0.048" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_create_out_of_scope_group" time="0.111" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_create_send_password_with_url" time="0.089" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_create_with_invalid_url" time="0.047" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_create_with_not_allowed_url" time="0.045" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_create_without_send_password" time="0.055" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_delete" time="0.067" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_delete_all_permissions_manageable" time="0.074" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_delete_app_no_permission" time="0.032" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_delete_errors" time="0.031" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_delete_left_not_manageable_permissions" time="0.087" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_delete_out_of_scope_user" time="0.078" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_delete_with_avatar" time="0.076" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_update" time="0.061" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_update_app_no_permission" time="0.046" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_update_deactivate_with_manage_staff_all_perms_manageable" time="0.075" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_update_deactivate_with_manage_staff_left_not_manageable_perms" time="0.079" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_update_doesnt_change_existing_avatar" time="0.065" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_update_duplicated_input_items" time="0.055" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_update_errors" time="0.039" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_update_groups_and_permissions" time="0.081" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_update_out_of_scope_groups" time="0.091" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_update_out_of_scope_user" time="0.069" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_user_avatar_delete_mutation" time="0.020" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_user_avatar_delete_mutation_permission" time="0.019" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_user_avatar_update_mutation" time="0.032" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_user_avatar_update_mutation_image_exists" time="0.046" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_user_avatar_update_mutation_permission" time="0.022" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_user_delete_errors" time="0.018" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_user_query_anonymous_user" time="0.025" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_user_query_as_app" time="0.052" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_user_query_invalid_id[']" time="0.044" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_user_query_invalid_id[abc]" time="0.248" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_user_query_object_with_given_id_does_not_exist" time="0.041" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_user_query_object_with_invalid_object_type" time="0.047" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_user_query_permission_manage_staff_get_customer" time="0.044" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_user_query_permission_manage_staff_get_staff" time="0.041" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_user_query_permission_manage_users_get_customer" time="0.043" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_user_query_permission_manage_users_get_staff" time="0.045" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_user_with_cancelled_fulfillments" time="0.123" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_who_can_see_user" time="0.066" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_capture_payment" time="0.282" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_confirm_payment[auth-requires_capture]" time="0.222" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_confirm_payment[capture-succeeded]" time="0.230" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_confirm_payment_action_required_status[requires_action]" time="0.217" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_confirm_payment_action_required_status[requires_confirmation]" time="0.221" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_confirm_payment_action_required_status[requires_payment_method]" time="0.223" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_confirm_payment_for_webhook[auth]" time="0.219" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_confirm_payment_for_webhook[capture]" time="0.232" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_confirm_payment_incorrect_payment_intent" time="0.232" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_confirm_payment_processing_status" time="0.244" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_pre_save_plugin_configuration" time="0.023" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_pre_save_plugin_configuration_removes_webhook_when_disabled" time="0.020" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_process_payment" time="0.226" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_process_payment_offline" time="0.223"><failure message="AssertionError: expected call not found.&#10;Expected: create(api_key='secret_key', amount='8000', currency='USD', capture_method='automatic', customer=&lt;Mock name='create()' id='129362187970688'&gt;, payment_method='pm_ID', off_session=False, metadata={'channel': 'main', 'payment_id': 'UGF5bWVudDo4NA=='}, receipt_email='test@example.com', stripe_version='2020-08-27')&#10;Actual: create(api_key='secret_key', amount='8000', currency='USD', capture_method='automatic', stripe_version='2020-08-27', customer=&lt;Mock name='create()' id='129362187970688'&gt;, payment_method='pm_ID', off_session=True, confirm=True, metadata={'channel': 'main', 'payment_id': 'UGF5bWVudDo4NA=='}, receipt_email='test@example.com')&#10;&#10;pytest introspection follows:&#10;&#10;Kwargs:&#10;assert {'amount': '8...m': True, ...} == {'amount': '8...': 'USD', ...}&#10;  &#10;  Omitting 9 identical items, use -vv to show&#10;  Differing items:&#10;  {'off_session': True} != {'off_session': False}&#10;  Left contains 1 more item:&#10;  {'confirm': True}&#10;  Use -v to get more diff">self = &lt;MagicMock name='create' id='129362188228064'&gt;, args = ()
+kwargs = {'amount': '8000', 'api_key': 'secret_key', 'capture_method': 'automatic', 'currency': 'USD', ...}
+expected = call(api_key='secret_key', amount='8000', currency='USD', capture_method='automatic', customer=&lt;Mock name='create()' i...a={'channel': 'main', 'payment_id': 'UGF5bWVudDo4NA=='}, receipt_email='test@example.com', stripe_version='2020-08-27')
+actual = call(api_key='secret_key', amount='8000', currency='USD', capture_method='automatic', stripe_version='2020-08-27', cus...n=True, confirm=True, metadata={'channel': 'main', 'payment_id': 'UGF5bWVudDo4NA=='}, receipt_email='test@example.com')
+_error_message = &lt;function NonCallableMock.assert_called_with.&lt;locals&gt;._error_message at 0x75a77b3cbf70&gt;
+cause = None
+
+    def assert_called_with(self, /, *args, **kwargs):
+        """assert that the last call was made with the specified arguments.
+    
+        Raises an AssertionError if the args and keyword args passed in are
+        different to the last call to the mock."""
+        if self.call_args is None:
+            expected = self._format_mock_call_signature(args, kwargs)
+            actual = 'not called.'
+            error_message = ('expected call not found.\nExpected: %s\nActual: %s'
+                    % (expected, actual))
+            raise AssertionError(error_message)
+    
+        def _error_message():
+            msg = self._format_mock_failure_message(args, kwargs)
+            return msg
+        expected = self._call_matcher(_Call((args, kwargs), two=True))
+        actual = self._call_matcher(self.call_args)
+        if actual != expected:
+            cause = expected if isinstance(expected, Exception) else None
+&gt;           raise AssertionError(_error_message()) from cause
+E           AssertionError: expected call not found.
+E           Expected: create(api_key='secret_key', amount='8000', currency='USD', capture_method='automatic', customer=&lt;Mock name='create()' id='129362187970688'&gt;, payment_method='pm_ID', off_session=False, metadata={'channel': 'main', 'payment_id': 'UGF5bWVudDo4NA=='}, receipt_email='test@example.com', stripe_version='2020-08-27')
+E           Actual: create(api_key='secret_key', amount='8000', currency='USD', capture_method='automatic', stripe_version='2020-08-27', customer=&lt;Mock name='create()' id='129362187970688'&gt;, payment_method='pm_ID', off_session=True, confirm=True, metadata={'channel': 'main', 'payment_id': 'UGF5bWVudDo4NA=='}, receipt_email='test@example.com')
+
+/usr/local/lib/python3.9/unittest/mock.py:907: AssertionError
+
+During handling of the above exception, another exception occurred:
+
+self = &lt;MagicMock name='create' id='129362188228064'&gt;, args = ()
+kwargs = {'amount': '8000', 'api_key': 'secret_key', 'capture_method': 'automatic', 'currency': 'USD', ...}
+
+    def assert_called_once_with(self, /, *args, **kwargs):
+        """assert that the mock was called exactly once and that that call was
+        with the specified arguments."""
+        if not self.call_count == 1:
+            msg = ("Expected '%s' to be called once. Called %s times.%s"
+                   % (self._mock_name or 'mock',
+                      self.call_count,
+                      self._calls_repr()))
+            raise AssertionError(msg)
+&gt;       return self.assert_called_with(*args, **kwargs)
+E       AssertionError: expected call not found.
+E       Expected: create(api_key='secret_key', amount='8000', currency='USD', capture_method='automatic', customer=&lt;Mock name='create()' id='129362187970688'&gt;, payment_method='pm_ID', off_session=False, metadata={'channel': 'main', 'payment_id': 'UGF5bWVudDo4NA=='}, receipt_email='test@example.com', stripe_version='2020-08-27')
+E       Actual: create(api_key='secret_key', amount='8000', currency='USD', capture_method='automatic', stripe_version='2020-08-27', customer=&lt;Mock name='create()' id='129362187970688'&gt;, payment_method='pm_ID', off_session=True, confirm=True, metadata={'channel': 'main', 'payment_id': 'UGF5bWVudDo4NA=='}, receipt_email='test@example.com')
+E       
+E       pytest introspection follows:
+E       
+E       Kwargs:
+E       assert {'amount': '8...m': True, ...} == {'amount': '8...': 'USD', ...}
+E         
+E         Omitting 9 identical items, use -vv to show
+E         Differing items:
+E         {'off_session': True} != {'off_session': False}
+E         Left contains 1 more item:
+E         {'confirm': True}
+E         Use -v to get more diff
+
+/usr/local/lib/python3.9/unittest/mock.py:919: AssertionError
+
+During handling of the above exception, another exception occurred:
+
+mocked_payment_intent = &lt;MagicMock name='create' id='129362188228064'&gt;
+mocked_customer_create = &lt;MagicMock name='create' id='129362191374416'&gt;
+stripe_plugin = &lt;function stripe_plugin.&lt;locals&gt;.fun at 0x75a77b3cb790&gt;
+payment_stripe_for_checkout = Payment(gateway=saleor.payments.stripe, is_active=True, created=2026-10-01 00:07:52.758605+00:00, charge_status=not-charged)
+channel_USD = &lt;Channel: main&gt;, customer_user = &lt;User: test@example.com&gt;
+
+    @patch("saleor.payment.gateways.stripe.stripe_api.stripe.Customer.create")
+    @patch("saleor.payment.gateways.stripe.stripe_api.stripe.PaymentIntent.create")
+    def test_process_payment_offline(
+        mocked_payment_intent,
+        mocked_customer_create,
+        stripe_plugin,
+        payment_stripe_for_checkout,
+        channel_USD,
+        customer_user,
+    ):
+        customer = Mock()
+        mocked_customer_create.return_value = customer
+    
+        payment_intent = Mock()
+        mocked_payment_intent.return_value = payment_intent
+    
+        client_secret = "client-secret"
+        dummy_response = {
+            "id": "evt_1Ip9ANH1Vac4G4dbE9ch7zGS",
+        }
+        payment_intent_id = "payment-intent-id"
+        payment_intent.id = payment_intent_id
+        payment_intent.client_secret = client_secret
+        payment_intent.last_response.data = dummy_response
+        payment_intent.status = SUCCESS_STATUS
+    
+        plugin = stripe_plugin(auto_capture=True)
+    
+        payment_stripe_for_checkout.checkout.user = customer_user
+        payment_stripe_for_checkout.checkout.email = customer_user.email
+        payment_info = create_payment_information(
+            payment_stripe_for_checkout,
+            customer_id=None,
+            store_source=True,
+            additional_data={"payment_method_id": "pm_ID", "off_session": True},
+        )
+    
+        response = plugin.process_payment(payment_info, None)
+    
+        assert response.is_success is True
+        assert response.action_required is False
+        assert response.kind == TransactionKind.CAPTURE
+        assert response.amount == payment_info.amount
+        assert response.currency == payment_info.currency
+        assert response.transaction_id == payment_intent_id
+        assert response.error is None
+        assert response.raw_response == dummy_response
+        assert response.action_required_data == {
+            "client_secret": client_secret,
+            "id": payment_intent_id,
+        }
+    
+        api_key = plugin.config.connection_params["secret_api_key"]
+&gt;       mocked_payment_intent.assert_called_once_with(
+            api_key=api_key,
+            amount=price_to_minor_unit(payment_info.amount, payment_info.currency),
+            currency=payment_info.currency,
+            capture_method=AUTOMATIC_CAPTURE_METHOD,
+            customer=customer,
+            payment_method="pm_ID",
+            # todo: was
+            # confirm=True,
+            # off_session=True,
+            # todo: is
+            off_session=False,
+            metadata={
+                "channel": channel_USD.slug,
+                "payment_id": payment_info.graphql_payment_id,
+            },
+            receipt_email=payment_stripe_for_checkout.checkout.email,
+            stripe_version=STRIPE_API_VERSION,
+        )
+E       AssertionError: expected call not found.
+E       Expected: create(api_key='secret_key', amount='8000', currency='USD', capture_method='automatic', customer=&lt;Mock name='create()' id='129362187970688'&gt;, payment_method='pm_ID', off_session=False, metadata={'channel': 'main', 'payment_id': 'UGF5bWVudDo4NA=='}, receipt_email='test@example.com', stripe_version='2020-08-27')
+E       Actual: create(api_key='secret_key', amount='8000', currency='USD', capture_method='automatic', stripe_version='2020-08-27', customer=&lt;Mock name='create()' id='129362187970688'&gt;, payment_method='pm_ID', off_session=True, confirm=True, metadata={'channel': 'main', 'payment_id': 'UGF5bWVudDo4NA=='}, receipt_email='test@example.com')
+E       
+E       pytest introspection follows:
+E       
+E       Kwargs:
+E       assert {'amount': '8...m': True, ...} == {'amount': '8...': 'USD', ...}
+E         
+E         Omitting 9 identical items, use -vv to show
+E         Differing items:
+E         {'off_session': True} != {'off_session': False}
+E         Left contains 1 more item:
+E         {'confirm': True}
+E         Use -v to get more diff
+
+saleor/payment/gateways/stripe/tests/test_plugin.py:572: AssertionError</failure></testcase><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_process_payment_with_customer" time="0.216" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_process_payment_with_customer_and_future_usage" time="0.220" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_process_payment_with_customer_and_payment_method" time="0.242" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_process_payment_with_customer_and_payment_method_raises_card_error" time="0.250"><failure message="AssertionError: expected call not found.&#10;Expected: create(api_key='secret_key', amount='8000', currency='USD', capture_method='automatic', customer=&lt;Mock name='create()' id='129362192527264'&gt;, payment_method='pm_ID', off_session=False, metadata={'channel': 'main', 'payment_id': 'UGF5bWVudDo4OA=='}, receipt_email='test@example.com', stripe_version='2020-08-27')&#10;Actual: create(api_key='secret_key', amount='8000', currency='USD', capture_method='automatic', stripe_version='2020-08-27', customer=&lt;Mock name='create()' id='129362192527264'&gt;, payment_method='pm_ID', off_session=True, confirm=True, metadata={'channel': 'main', 'payment_id': 'UGF5bWVudDo4OA=='}, receipt_email='test@example.com')&#10;&#10;pytest introspection follows:&#10;&#10;Kwargs:&#10;assert {'amount': '8...m': True, ...} == {'amount': '8...': 'USD', ...}&#10;  &#10;  Omitting 9 identical items, use -vv to show&#10;  Differing items:&#10;  {'off_session': True} != {'off_session': False}&#10;  Left contains 1 more item:&#10;  {'confirm': True}&#10;  Use -v to get more diff">self = &lt;MagicMock name='create' id='129362192525440'&gt;, args = ()
+kwargs = {'amount': '8000', 'api_key': 'secret_key', 'capture_method': 'automatic', 'currency': 'USD', ...}
+expected = call(api_key='secret_key', amount='8000', currency='USD', capture_method='automatic', customer=&lt;Mock name='create()' i...a={'channel': 'main', 'payment_id': 'UGF5bWVudDo4OA=='}, receipt_email='test@example.com', stripe_version='2020-08-27')
+actual = call(api_key='secret_key', amount='8000', currency='USD', capture_method='automatic', stripe_version='2020-08-27', cus...n=True, confirm=True, metadata={'channel': 'main', 'payment_id': 'UGF5bWVudDo4OA=='}, receipt_email='test@example.com')
+_error_message = &lt;function NonCallableMock.assert_called_with.&lt;locals&gt;._error_message at 0x75a77b816d30&gt;
+cause = None
+
+    def assert_called_with(self, /, *args, **kwargs):
+        """assert that the last call was made with the specified arguments.
+    
+        Raises an AssertionError if the args and keyword args passed in are
+        different to the last call to the mock."""
+        if self.call_args is None:
+            expected = self._format_mock_call_signature(args, kwargs)
+            actual = 'not called.'
+            error_message = ('expected call not found.\nExpected: %s\nActual: %s'
+                    % (expected, actual))
+            raise AssertionError(error_message)
+    
+        def _error_message():
+            msg = self._format_mock_failure_message(args, kwargs)
+            return msg
+        expected = self._call_matcher(_Call((args, kwargs), two=True))
+        actual = self._call_matcher(self.call_args)
+        if actual != expected:
+            cause = expected if isinstance(expected, Exception) else None
+&gt;           raise AssertionError(_error_message()) from cause
+E           AssertionError: expected call not found.
+E           Expected: create(api_key='secret_key', amount='8000', currency='USD', capture_method='automatic', customer=&lt;Mock name='create()' id='129362192527264'&gt;, payment_method='pm_ID', off_session=False, metadata={'channel': 'main', 'payment_id': 'UGF5bWVudDo4OA=='}, receipt_email='test@example.com', stripe_version='2020-08-27')
+E           Actual: create(api_key='secret_key', amount='8000', currency='USD', capture_method='automatic', stripe_version='2020-08-27', customer=&lt;Mock name='create()' id='129362192527264'&gt;, payment_method='pm_ID', off_session=True, confirm=True, metadata={'channel': 'main', 'payment_id': 'UGF5bWVudDo4OA=='}, receipt_email='test@example.com')
+
+/usr/local/lib/python3.9/unittest/mock.py:907: AssertionError
+
+During handling of the above exception, another exception occurred:
+
+self = &lt;MagicMock name='create' id='129362192525440'&gt;, args = ()
+kwargs = {'amount': '8000', 'api_key': 'secret_key', 'capture_method': 'automatic', 'currency': 'USD', ...}
+
+    def assert_called_once_with(self, /, *args, **kwargs):
+        """assert that the mock was called exactly once and that that call was
+        with the specified arguments."""
+        if not self.call_count == 1:
+            msg = ("Expected '%s' to be called once. Called %s times.%s"
+                   % (self._mock_name or 'mock',
+                      self.call_count,
+                      self._calls_repr()))
+            raise AssertionError(msg)
+&gt;       return self.assert_called_with(*args, **kwargs)
+E       AssertionError: expected call not found.
+E       Expected: create(api_key='secret_key', amount='8000', currency='USD', capture_method='automatic', customer=&lt;Mock name='create()' id='129362192527264'&gt;, payment_method='pm_ID', off_session=False, metadata={'channel': 'main', 'payment_id': 'UGF5bWVudDo4OA=='}, receipt_email='test@example.com', stripe_version='2020-08-27')
+E       Actual: create(api_key='secret_key', amount='8000', currency='USD', capture_method='automatic', stripe_version='2020-08-27', customer=&lt;Mock name='create()' id='129362192527264'&gt;, payment_method='pm_ID', off_session=True, confirm=True, metadata={'channel': 'main', 'payment_id': 'UGF5bWVudDo4OA=='}, receipt_email='test@example.com')
+E       
+E       pytest introspection follows:
+E       
+E       Kwargs:
+E       assert {'amount': '8...m': True, ...} == {'amount': '8...': 'USD', ...}
+E         
+E         Omitting 9 identical items, use -vv to show
+E         Differing items:
+E         {'off_session': True} != {'off_session': False}
+E         Left contains 1 more item:
+E         {'confirm': True}
+E         Use -v to get more diff
+
+/usr/local/lib/python3.9/unittest/mock.py:919: AssertionError
+
+During handling of the above exception, another exception occurred:
+
+mocked_payment_intent = &lt;MagicMock name='create' id='129362192525440'&gt;
+mocked_customer_create = &lt;MagicMock name='create' id='129362194807488'&gt;
+stripe_plugin = &lt;function stripe_plugin.&lt;locals&gt;.fun at 0x75a77b816b80&gt;
+payment_stripe_for_checkout = Payment(gateway=saleor.payments.stripe, is_active=True, created=2026-10-01 00:07:53.975101+00:00, charge_status=not-charged)
+channel_USD = &lt;Channel: main&gt;, customer_user = &lt;User: test@example.com&gt;
+
+    @patch("saleor.payment.gateways.stripe.stripe_api.stripe.Customer.create")
+    @patch("saleor.payment.gateways.stripe.stripe_api.stripe.PaymentIntent.create")
+    def test_process_payment_with_customer_and_payment_method_raises_card_error(
+        mocked_payment_intent,
+        mocked_customer_create,
+        stripe_plugin,
+        payment_stripe_for_checkout,
+        channel_USD,
+        customer_user,
+    ):
+        customer = Mock()
+        mocked_customer_create.return_value = customer
+    
+        payment_intent = Mock()
+        stripe_error_object = StripeError()
+        stripe_error_object.error = StripeError()
+        stripe_error_object.error.payment_intent = payment_intent
+        mocked_payment_intent.side_effect = stripe_error_object
+    
+        client_secret = "client-secret"
+        dummy_response = {
+            "id": "evt_1Ip9ANH1Vac4G4dbE9ch7zGS",
+        }
+        payment_intent_id = "payment-intent-id"
+        payment_intent.id = payment_intent_id
+        payment_intent.client_secret = client_secret
+        payment_intent.last_response.data = dummy_response
+        payment_intent.status = SUCCESS_STATUS
+    
+        plugin = stripe_plugin(auto_capture=True)
+    
+        payment_stripe_for_checkout.checkout.user = customer_user
+        payment_stripe_for_checkout.checkout.email = customer_user.email
+    
+        payment_info = create_payment_information(
+            payment_stripe_for_checkout,
+            customer_id=None,
+            store_source=True,
+            additional_data={"payment_method_id": "pm_ID", "off_session": True},
+        )
+    
+        response = plugin.process_payment(payment_info, None)
+    
+        assert response.is_success is True
+        assert response.action_required is False
+        assert response.kind == TransactionKind.CAPTURE
+        assert response.amount == payment_info.amount
+        assert response.currency == payment_info.currency
+        assert response.transaction_id == payment_intent_id
+        assert response.error is None
+        assert response.raw_response == dummy_response
+        assert response.action_required_data == {
+            "client_secret": client_secret,
+            "id": payment_intent_id,
+        }
+    
+        api_key = plugin.config.connection_params["secret_api_key"]
+&gt;       mocked_payment_intent.assert_called_once_with(
+            api_key=api_key,
+            amount=price_to_minor_unit(payment_info.amount, payment_info.currency),
+            currency=payment_info.currency,
+            capture_method=AUTOMATIC_CAPTURE_METHOD,
+            customer=customer,
+            payment_method="pm_ID",
+            # todo: was
+            # confirm=True,
+            # off_session=True,
+            # todo: is
+            off_session=False,
+            metadata={
+                "channel": channel_USD.slug,
+                "payment_id": payment_info.graphql_payment_id,
+            },
+            receipt_email=payment_stripe_for_checkout.checkout.email,
+            stripe_version=STRIPE_API_VERSION,
+        )
+E       AssertionError: expected call not found.
+E       Expected: create(api_key='secret_key', amount='8000', currency='USD', capture_method='automatic', customer=&lt;Mock name='create()' id='129362192527264'&gt;, payment_method='pm_ID', off_session=False, metadata={'channel': 'main', 'payment_id': 'UGF5bWVudDo4OA=='}, receipt_email='test@example.com', stripe_version='2020-08-27')
+E       Actual: create(api_key='secret_key', amount='8000', currency='USD', capture_method='automatic', stripe_version='2020-08-27', customer=&lt;Mock name='create()' id='129362192527264'&gt;, payment_method='pm_ID', off_session=True, confirm=True, metadata={'channel': 'main', 'payment_id': 'UGF5bWVudDo4OA=='}, receipt_email='test@example.com')
+E       
+E       pytest introspection follows:
+E       
+E       Kwargs:
+E       assert {'amount': '8...m': True, ...} == {'amount': '8...': 'USD', ...}
+E         
+E         Omitting 9 identical items, use -vv to show
+E         Differing items:
+E         {'off_session': True} != {'off_session': False}
+E         Left contains 1 more item:
+E         {'confirm': True}
+E         Use -v to get more diff
+
+saleor/payment/gateways/stripe/tests/test_plugin.py:656: AssertionError</failure></testcase><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_process_payment_with_disabled_order_auto_confirmation" time="0.209" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_process_payment_with_error" time="0.207" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_process_payment_with_manual_capture" time="0.244" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_process_payment_with_payment_method_types" time="0.229" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_refund_payment" time="0.260" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_validate_plugin_configuration_correct_configuration" time="0.018" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_validate_plugin_configuration_incorrect_configuration" time="0.017" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_validate_plugin_configuration_missing_required_fields" time="0.017" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_validate_plugin_configuration_validate_only_when_active" time="0.017" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_void_payment" time="0.255" /><testcase classname="saleor.payment.gateways.stripe.tests.test_webhooks" name="test_handle_authorized_payment_intent_for_checkout" time="0.335" /><testcase classname="saleor.payment.gateways.stripe.tests.test_webhooks" name="test_handle_authorized_payment_intent_for_order" time="0.262" /><testcase classname="saleor.payment.gateways.stripe.tests.test_webhooks" name="test_handle_authorized_payment_intent_for_processing_order_payment" time="0.256" /><testcase classname="saleor.payment.gateways.stripe.tests.test_webhooks" name="test_handle_failed_payment_intent_for_checkout" time="0.229" /><testcase classname="saleor.payment.gateways.stripe.tests.test_webhooks" name="test_handle_failed_payment_intent_for_order" time="0.268" /><testcase classname="saleor.payment.gateways.stripe.tests.test_webhooks" name="test_handle_fully_refund" time="0.297" /><testcase classname="saleor.payment.gateways.stripe.tests.test_webhooks" name="test_handle_partial_refund" time="0.290" /><testcase classname="saleor.payment.gateways.stripe.tests.test_webhooks" name="test_handle_processing_payment_intent_for_checkout" time="0.327" /><testcase classname="saleor.payment.gateways.stripe.tests.test_webhooks" name="test_handle_processing_payment_intent_for_order" time="0.265" /><testcase classname="saleor.payment.gateways.stripe.tests.test_webhooks" name="test_handle_refund_already_processed" time="0.262" /><testcase classname="saleor.payment.gateways.stripe.tests.test_webhooks" name="test_handle_successful_payment_intent_for_checkout" time="0.362" /><testcase classname="saleor.payment.gateways.stripe.tests.test_webhooks" name="test_handle_successful_payment_intent_for_order" time="0.324" /><testcase classname="saleor.payment.gateways.stripe.tests.test_webhooks" name="test_handle_successful_payment_intent_for_order_with_auth_payment" time="0.334" /><testcase classname="saleor.payment.gateways.stripe.tests.test_webhooks" name="test_handle_successful_payment_intent_for_order_with_pending_payment" time="0.310" /><testcase classname="saleor.payment.gateways.stripe.tests.test_webhooks" name="test_handle_webhook_events[payment_intent.amount_capturable_updated-handle_authorized_payment_intent]" time="0.018" /><testcase classname="saleor.payment.gateways.stripe.tests.test_webhooks" name="test_handle_webhook_events[payment_intent.canceled-handle_failed_payment_intent]" time="0.022" /><testcase classname="saleor.payment.gateways.stripe.tests.test_webhooks" name="test_handle_webhook_events[payment_intent.payment_failed-handle_failed_payment_intent]" time="0.030" /><testcase classname="saleor.payment.gateways.stripe.tests.test_webhooks" name="test_handle_webhook_events[payment_intent.processing-handle_processing_payment_intent]" time="0.023" /><testcase classname="saleor.payment.gateways.stripe.tests.test_webhooks" name="test_handle_webhook_events[payment_intent.succeeded-handle_successful_payment_intent]" time="0.031" /></testsuite></testsuites>

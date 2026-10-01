@@ -1,0 +1,2471 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="21" skipped="0" tests="250" time="23.892" timestamp="2026-09-30T19:02:27.187269-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_address_create_return_user" time="1.780" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_confirmation" time="0.115" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_confirmation_invalid_token" time="0.022" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_confirmation_invalid_user" time="0.048" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_delete" time="0.074" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_delete_anonymous_user" time="0.019" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_delete_invalid_token" time="0.024" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_delete_other_customer_token" time="0.051" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_delete_staff_user" time="0.019" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_request_deletion" time="0.028" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_request_deletion_all_storefront_hosts_allowed" time="0.053" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_request_deletion_anonymous_user" time="0.017" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_request_deletion_storefront_hosts_not_allowed" time="0.024" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_request_deletion_subdomain" time="0.052" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_request_deletion_token_validation" time="0.053" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_reset_password" time="0.051" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_reset_password_all_storefront_hosts_allowed" time="0.053" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_reset_password_invalid_email" time="0.021" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_reset_password_storefront_hosts_not_allowed" time="0.020" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_reset_password_subdomain" time="0.057" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_account_reset_password_user_is_inactive" time="0.027" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_address_delete_mutation" time="0.080" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_address_delete_mutation_as_app" time="0.068" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_address_not_created_after_validation_fails" time="0.061" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_address_query_as_anonymous_user" time="0.018" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_address_query_as_app_with_permission" time="0.033" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_address_query_as_app_without_permission" time="0.024" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_address_query_as_not_owner" time="0.023" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_address_query_as_owner" time="0.024" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_address_query_invalid_id" time="0.018" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_address_query_with_invalid_object_type" time="0.021" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_address_update_mutation" time="0.092" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_address_validation_rules" time="0.025" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_address_validation_rules_fields_in_camel_case" time="0.019" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_address_validation_rules_with_country_area" time="0.042" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_anonymous_user_create_address" time="0.018" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_change_active_status_for_himself" time="0.040" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_change_active_status_for_superuser" time="0.040" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_create_address_mutation" time="0.056" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_can_not_see_other_users_data" time="0.031" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_change_default_address" time="0.041" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_change_default_address_invalid_address" time="0.026" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_create" time="0.143" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_create_address" time="0.069" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_create_default_address" time="0.124" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_create_send_password_with_url" time="0.053" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_create_with_invalid_url" time="0.044" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_create_with_not_allowed_url" time="0.041" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_create_without_send_password" time="0.048" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_delete" time="0.066" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_delete_address_for_other[\n    mutation deleteUserAddress($id: ID!) {\n        accountAddressDelete(id: $id) {\n            address {\n                city\n            }\n            user {\n                id\n            }\n        }\n    }\n]" time="0.032" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_delete_address_for_other[\n    mutation deleteUserAddress($id: ID!) {\n        addressDelete(id: $id) {\n            address {\n                city\n            }\n            user {\n                id\n            }\n        }\n    }\n]" time="0.034" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_delete_by_app" time="0.062" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_delete_errors" time="0.018" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_delete_own_address" time="0.051" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_register" time="0.042" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_register_disabled_email_confirmation" time="0.024" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_register_no_redirect_url" time="0.017" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_set_address_as_default" time="0.042" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_update" time="0.130" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_update_address_for_other[\n    mutation updateAccountAddress($addressId: ID!, $address: AddressInput!) {\n        accountAddressUpdate(id: $addressId, input: $address) {\n            address {\n                city\n            }\n            user {\n                id\n            }\n        }\n    }\n]" time="0.031" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_update_address_for_other[\n    mutation updateUserAddress($addressId: ID!, $address: AddressInput!) {\n        addressUpdate(id: $addressId, input: $address) {\n            address {\n                city\n            }\n            user {\n                id\n            }\n        }\n    }\n]" time="0.030" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_update_generates_event_when_changing_email" time="0.057" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_update_generates_event_when_changing_email_by_app" time="0.048" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_update_own_address" time="0.082" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_update_own_address_not_updated_when_validation_fails" time="0.067" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_customer_update_without_any_changes_generates_no_event" time="0.052" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_email_update" time="0.031" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_email_update_to_existing_email" time="0.024" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_logged_customer_update_addresses" time="0.111" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_logged_customer_update_addresses_invalid_billing_address" time="0.059" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_logged_customer_update_addresses_invalid_shipping_address" time="0.026" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_logged_customer_update_anonymous_user" time="0.021" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_logged_customer_update_names" time="0.032" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_logged_customer_updates_language_code" time="0.035" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_me_checkout_tokens_with_channel" time="0.028" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_me_checkout_tokens_with_inactive_channel" time="0.032" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_me_checkout_tokens_with_not_existing_channel" time="0.029" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_me_checkout_tokens_without_channel_param" time="0.029" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_me_checkout_tokens_without_channel_param_inactive_channel" time="0.027" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_me_query" time="0.030" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_me_query_anonymous_client" time="0.021" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_me_query_checkout" time="0.033" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_me_query_checkout_with_inactive_channel" time="0.032" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_me_query_customer_can_not_see_note" time="0.047" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_me_user_permissions_query" time="0.035" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_me_with_cancelled_fulfillments" time="0.136" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_password_change" time="0.027" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_password_change_incorrect_old_password" time="0.024" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_password_change_invalid_new_password" time="0.024" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customer_members_with_filter_search[customer_filter0-2]" time="0.053" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customer_members_with_filter_search[customer_filter1-1]" time="0.050" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customer_members_with_filter_search[customer_filter2-1]" time="0.052" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customer_members_with_filter_search[customer_filter3-1]" time="0.050" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customer_members_with_filter_search[customer_filter4-1]" time="0.050" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customer_members_with_filter_search[customer_filter5-1]" time="0.047" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customer_members_with_filter_search[customer_filter6-1]" time="0.049" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customer_members_with_filter_search[customer_filter7-1]" time="0.055" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customer_user" time="0.070" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customer_user_app" time="0.068" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customer_user_app_no_permission" time="0.046" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customer_user_with_orders" time="0.078" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers" time="0.057" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_search_without_duplications" time="0.051" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_filter_date_joined[customer_filter0-1]" time="0.075" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_filter_date_joined[customer_filter1-1]" time="0.075" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_filter_date_joined[customer_filter2-1]" time="0.074" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_filter_date_joined[customer_filter3-2]" time="0.077" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_filter_metadata" time="0.052" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_filter_placed_orders[customer_filter0-1]" time="0.080" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_filter_placed_orders[customer_filter1-1]" time="0.086" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_filter_placed_orders[customer_filter2-1]" time="0.072" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_filter_placed_orders[customer_filter3-2]" time="0.089" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_filter_placed_orders_[customer_filter0-1]" time="0.109" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_filter_placed_orders_[customer_filter1-2]" time="0.147" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_filter_placed_orders_[customer_filter2-2]" time="0.110" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_filter_placed_orders_[customer_filter3-2]" time="0.100" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_sort[customer_sort0-result_order0]" time="0.042" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_sort[customer_sort1-result_order1]" time="0.040" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_sort[customer_sort2-result_order2]" time="0.035" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_sort[customer_sort3-result_order3]" time="0.035" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_sort[customer_sort4-result_order4]" time="0.040" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_sort[customer_sort5-result_order5]" time="0.034" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_sort[customer_sort6-result_order6]" time="0.036" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_customers_with_sort[customer_sort7-result_order7]" time="0.037" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff" time="0.093" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_members_app_no_permission" time="0.041" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_members_with_filter_search[staff_member_filter0-2]" time="0.050" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_members_with_filter_search[staff_member_filter1-1]" time="0.049" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_members_with_filter_search[staff_member_filter2-1]" time="0.049" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_members_with_filter_search[staff_member_filter3-1]" time="0.049" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_members_with_filter_search[staff_member_filter4-1]" time="0.054" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_members_with_filter_search[staff_member_filter5-1]" time="0.049" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_members_with_filter_search[staff_member_filter6-2]" time="0.050" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_members_with_filter_status[staff_member_filter0-1]" time="0.056" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_members_with_filter_status[staff_member_filter1-2]" time="0.043" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_members_with_sort[customer_sort0-result_order0]" time="0.035" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_members_with_sort[customer_sort1-result_order1]" time="0.050" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_members_with_sort[customer_sort2-result_order2]" time="0.034" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_members_with_sort[customer_sort3-result_order3]" time="0.034" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_members_with_sort[customer_sort4-result_order4]" time="0.034" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_members_with_sort[customer_sort5-result_order5]" time="0.034" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_members_with_sort[customer_sort6-result_order6]" time="0.034" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_members_with_sort[customer_sort7-result_order7]" time="0.035" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_user" time="0.083" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_user_with_order_and_without_manage_orders_perm" time="0.059" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_staff_user_with_orders_and_manage_orders_perm" time="0.064" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_user_by_email_address" time="0.043" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_query_user_by_id_and_email" time="0.041" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_request_email_change" time="0.031" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_request_email_change_to_existing_email" time="0.024" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_request_email_change_with_invalid_password" time="0.023" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_request_email_change_with_invalid_redirect_url" time="0.025" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_request_password_reset_email_for_staff" time="0.051" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_set_default_address" time="0.064" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_set_password" time="0.054" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_set_password_invalid_email" time="0.027" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_set_password_invalid_password" time="0.051" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_set_password_invalid_token" time="0.026" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_bulk_set_active" time="0.049" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_bulk_set_not_active" time="0.046" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_create" time="0.107" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_create_app_no_permission" time="0.047" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_create_out_of_scope_group" time="0.111" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_create_send_password_with_url" time="0.098" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_create_with_invalid_url" time="0.051" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_create_with_not_allowed_url" time="0.049" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_create_without_send_password" time="0.057" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_delete" time="0.068" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_delete_all_permissions_manageable" time="0.078" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_delete_app_no_permission" time="0.038" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_delete_errors" time="0.029" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_delete_left_not_manageable_permissions" time="0.090" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_delete_out_of_scope_user" time="0.075" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_delete_with_avatar" time="0.086" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_update" time="0.070" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_update_app_no_permission" time="0.039" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_update_deactivate_with_manage_staff_all_perms_manageable" time="0.070" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_update_deactivate_with_manage_staff_left_not_manageable_perms" time="0.078" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_update_doesnt_change_existing_avatar" time="0.064" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_update_duplicated_input_items" time="0.055" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_update_errors" time="0.042" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_update_groups_and_permissions" time="0.082" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_update_out_of_scope_groups" time="0.096" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_staff_update_out_of_scope_user" time="0.075" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_user_avatar_delete_mutation" time="0.020" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_user_avatar_delete_mutation_permission" time="0.019" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_user_avatar_update_mutation" time="0.035" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_user_avatar_update_mutation_image_exists" time="0.053" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_user_avatar_update_mutation_permission" time="0.021" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_user_delete_errors" time="0.017" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_user_query_anonymous_user" time="0.019" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_user_query_as_app" time="0.042" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_user_query_invalid_id[']" time="0.044" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_user_query_invalid_id[abc]" time="0.230" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_user_query_object_with_given_id_does_not_exist" time="0.039" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_user_query_object_with_invalid_object_type" time="0.045" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_user_query_permission_manage_staff_get_customer" time="0.046" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_user_query_permission_manage_staff_get_staff" time="0.040" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_user_query_permission_manage_users_get_customer" time="0.047" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_user_query_permission_manage_users_get_staff" time="0.043" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_user_with_cancelled_fulfillments" time="0.127" /><testcase classname="saleor.graphql.account.tests.test_account" name="test_who_can_see_user" time="0.064" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_capture_payment" time="0.324"><failure message="TypeError: Transaction() got an unexpected keyword argument 'payment_method_info'">mocked_capture = &lt;MagicMock name='capture' id='128054874926480'&gt;
+payment_stripe_for_order = Payment(gateway=saleor.payments.stripe, is_active=True, created=2026-10-01 00:02:40.013959+00:00, charge_status=not-charged)
+order_with_lines = &lt;Order #116&gt;
+stripe_plugin = &lt;function stripe_plugin.&lt;locals&gt;.fun at 0x7477199359d0&gt;
+
+    @patch("saleor.payment.gateways.stripe.stripe_api.stripe.PaymentIntent.capture")
+    def test_capture_payment(
+        mocked_capture, payment_stripe_for_order, order_with_lines, stripe_plugin
+    ):
+        payment = payment_stripe_for_order
+    
+        payment_intent_id = "ABC"
+        payment_intent = StripeObject(id=payment_intent_id)
+        payment_intent["amount"] = price_to_minor_unit(payment.total, payment.currency)
+        payment_intent["status"] = SUCCESS_STATUS
+        payment_intent["currency"] = payment.currency
+        payment_intent["last_response"] = StripeObject()
+        payment_intent["last_response"]["data"] = {"response": "json"}
+    
+        mocked_capture.return_value = payment_intent
+    
+        payment_info = create_payment_information(
+            payment,
+            payment_token=payment_intent_id,
+        )
+        gateway_response = GatewayResponse(
+            kind=TransactionKind.AUTH,
+            action_required=False,
+            transaction_id=payment_intent_id,
+            is_success=True,
+            amount=payment_info.amount,
+            currency=payment_info.currency,
+            error="",
+            raw_response={},
+        )
+    
+&gt;       create_transaction(
+            payment=payment,
+            payment_information=payment_info,
+            kind=TransactionKind.AUTH,
+            gateway_response=gateway_response,
+        )
+
+saleor/payment/gateways/stripe/tests/test_plugin.py:1064: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/payment/utils.py:208: in create_transaction
+    txn = Transaction.objects.create(
+/opt/venv/lib/python3.9/site-packages/django/db/models/manager.py:85: in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+/opt/venv/lib/python3.9/site-packages/django/db/models/query.py:451: in create
+    obj = self.model(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = Transaction(type=auth, is_success=True, created=None), args = ()
+kwargs = {'payment_method_info': None}
+cls = &lt;class 'saleor.payment.models.Transaction'&gt;
+opts = &lt;Options for Transaction&gt;, _setattr = &lt;built-in function setattr&gt;
+_DEFERRED = &lt;Deferred field&gt;
+fields_iter = &lt;tuple_iterator object at 0x747718fddeb0&gt;, val = False
+field = &lt;django.db.models.fields.BooleanField: already_processed&gt;
+is_related_object = False
+rel_obj = Payment(gateway=saleor.payments.stripe, is_active=True, created=2026-10-01 00:02:40.013959+00:00, charge_status=not-charged)
+property_names = frozenset({'pk'})
+
+    def __init__(self, *args, **kwargs):
+        # Alias some things as locals to avoid repeat global lookups
+        cls = self.__class__
+        opts = self._meta
+        _setattr = setattr
+        _DEFERRED = DEFERRED
+        if opts.abstract:
+            raise TypeError('Abstract models cannot be instantiated.')
+    
+        pre_init.send(sender=cls, args=args, kwargs=kwargs)
+    
+        # Set up the storage for instance state
+        self._state = ModelState()
+    
+        # There is a rather weird disparity here; if kwargs, it's set, then args
+        # overrides it. It should be one or the other; don't duplicate the work
+        # The reason for the kwargs check is that standard iterator passes in by
+        # args, and instantiation for iteration is 33% faster.
+        if len(args) &gt; len(opts.concrete_fields):
+            # Daft, but matches old exception sans the err msg.
+            raise IndexError("Number of args exceeds number of fields")
+    
+        if not kwargs:
+            fields_iter = iter(opts.concrete_fields)
+            # The ordering of the zip calls matter - zip throws StopIteration
+            # when an iter throws it. So if the first iter throws it, the second
+            # is *not* consumed. We rely on this, so don't change the order
+            # without changing the logic.
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+        else:
+            # Slower, kwargs-ready version.
+            fields_iter = iter(opts.fields)
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+                kwargs.pop(field.name, None)
+    
+        # Now we're left with the unprocessed fields that *must* come from
+        # keywords, or default.
+    
+        for field in fields_iter:
+            is_related_object = False
+            # Virtual field
+            if field.attname not in kwargs and field.column is None:
+                continue
+            if kwargs:
+                if isinstance(field.remote_field, ForeignObjectRel):
+                    try:
+                        # Assume object instance was passed in.
+                        rel_obj = kwargs.pop(field.name)
+                        is_related_object = True
+                    except KeyError:
+                        try:
+                            # Object instance wasn't passed in -- must be an ID.
+                            val = kwargs.pop(field.attname)
+                        except KeyError:
+                            val = field.get_default()
+                else:
+                    try:
+                        val = kwargs.pop(field.attname)
+                    except KeyError:
+                        # This is done with an exception rather than the
+                        # default argument on pop because we don't want
+                        # get_default() to be evaluated, and then not used.
+                        # Refs #12057.
+                        val = field.get_default()
+            else:
+                val = field.get_default()
+    
+            if is_related_object:
+                # If we are passed a related instance, set it using the
+                # field.name instead of field.attname (e.g. "user" instead of
+                # "user_id") so that the object gets properly cached (and type
+                # checked) by the RelatedObjectDescriptor.
+                if rel_obj is not _DEFERRED:
+                    _setattr(self, field.name, rel_obj)
+            else:
+                if val is not _DEFERRED:
+                    _setattr(self, field.attname, val)
+    
+        if kwargs:
+            property_names = opts._property_names
+            for prop in tuple(kwargs):
+                try:
+                    # Any remaining kwargs must correspond to properties or
+                    # virtual fields.
+                    if prop in property_names or opts.get_field(prop):
+                        if kwargs[prop] is not _DEFERRED:
+                            _setattr(self, prop, kwargs[prop])
+                        del kwargs[prop]
+                except (AttributeError, FieldDoesNotExist):
+                    pass
+            for kwarg in kwargs:
+&gt;               raise TypeError("%s() got an unexpected keyword argument '%s'" % (cls.__name__, kwarg))
+E               TypeError: Transaction() got an unexpected keyword argument 'payment_method_info'
+
+/opt/venv/lib/python3.9/site-packages/django/db/models/base.py:503: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_confirm_payment[auth-requires_capture]" time="0.242" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_confirm_payment[capture-succeeded]" time="0.208" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_confirm_payment_action_required_status[requires_action]" time="0.213" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_confirm_payment_action_required_status[requires_confirmation]" time="0.233" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_confirm_payment_action_required_status[requires_payment_method]" time="0.242" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_confirm_payment_for_webhook[auth]" time="0.225" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_confirm_payment_for_webhook[capture]" time="0.214" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_confirm_payment_incorrect_payment_intent" time="0.227" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_confirm_payment_processing_status" time="0.257" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_pre_save_plugin_configuration" time="0.031" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_pre_save_plugin_configuration_removes_webhook_when_disabled" time="0.021" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_process_payment" time="0.253"><failure message="TypeError: 'Mock' object is not subscriptable">mocked_payment_intent = &lt;MagicMock name='create' id='128054877139776'&gt;
+mocked_customer = &lt;MagicMock name='create' id='128054878265744'&gt;
+stripe_plugin = &lt;function stripe_plugin.&lt;locals&gt;.fun at 0x74771970c430&gt;
+payment_stripe_for_checkout = Payment(gateway=saleor.payments.stripe, is_active=True, created=2026-10-01 00:02:42.743016+00:00, charge_status=not-charged)
+channel_USD = &lt;Channel: main&gt;
+
+    @patch("saleor.payment.gateways.stripe.stripe_api.stripe.Customer.create")
+    @patch("saleor.payment.gateways.stripe.stripe_api.stripe.PaymentIntent.create")
+    def test_process_payment(
+        mocked_payment_intent,
+        mocked_customer,
+        stripe_plugin,
+        payment_stripe_for_checkout,
+        channel_USD,
+    ):
+        payment_intent = Mock()
+        mocked_payment_intent.return_value = payment_intent
+        client_secret = "client-secret"
+        dummy_response = {
+            "id": "evt_1Ip9ANH1Vac4G4dbE9ch7zGS",
+        }
+        payment_intent_id = "payment-intent-id"
+        payment_intent.id = payment_intent_id
+        payment_intent.client_secret = client_secret
+        payment_intent.last_response.data = dummy_response
+        payment_intent.status = "requires_payment_method"
+    
+        plugin = stripe_plugin(auto_capture=True)
+    
+        payment_info = create_payment_information(
+            payment_stripe_for_checkout,
+        )
+    
+&gt;       response = plugin.process_payment(payment_info, None)
+
+saleor/payment/gateways/stripe/tests/test_plugin.py:188: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/payment/gateways/utils.py:13: in wrapped
+    return fn(self, *args, **kwargs)
+saleor/payment/gateways/stripe/plugin.py:234: in process_payment
+    payment_method_info = get_payment_method_details(intent)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+payment_intent = &lt;Mock name='create()' id='128054870916352'&gt;
+
+    def get_payment_method_details(
+        payment_intent: StripeObject,
+    ) -&gt; Optional[PaymentMethodInfo]:
+        charges = payment_intent.get("charges", None)
+        payment_method_info = None
+        if charges:
+            charges_data = charges.get("data", [])
+            if not charges_data:
+                return None
+&gt;           charge_data = charges_data[-1]
+E           TypeError: 'Mock' object is not subscriptable
+
+saleor/payment/gateways/stripe/stripe_api.py:307: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_process_payment_offline" time="0.228"><failure message="TypeError: 'Mock' object is not subscriptable">mocked_payment_intent = &lt;MagicMock name='create' id='128054880869152'&gt;
+mocked_customer_create = &lt;MagicMock name='create' id='128054880247968'&gt;
+stripe_plugin = &lt;function stripe_plugin.&lt;locals&gt;.fun at 0x74771aa3aaf0&gt;
+payment_stripe_for_checkout = Payment(gateway=saleor.payments.stripe, is_active=True, created=2026-10-01 00:02:42.993733+00:00, charge_status=not-charged)
+channel_USD = &lt;Channel: main&gt;, customer_user = &lt;User: test@example.com&gt;
+
+    @patch("saleor.payment.gateways.stripe.stripe_api.stripe.Customer.create")
+    @patch("saleor.payment.gateways.stripe.stripe_api.stripe.PaymentIntent.create")
+    def test_process_payment_offline(
+        mocked_payment_intent,
+        mocked_customer_create,
+        stripe_plugin,
+        payment_stripe_for_checkout,
+        channel_USD,
+        customer_user,
+    ):
+        customer = Mock()
+        mocked_customer_create.return_value = customer
+    
+        payment_intent = Mock()
+        mocked_payment_intent.return_value = payment_intent
+    
+        client_secret = "client-secret"
+        dummy_response = {
+            "id": "evt_1Ip9ANH1Vac4G4dbE9ch7zGS",
+        }
+        payment_intent_id = "payment-intent-id"
+        payment_intent.id = payment_intent_id
+        payment_intent.client_secret = client_secret
+        payment_intent.last_response.data = dummy_response
+        payment_intent.status = SUCCESS_STATUS
+    
+        plugin = stripe_plugin(auto_capture=True)
+    
+        payment_stripe_for_checkout.checkout.user = customer_user
+        payment_stripe_for_checkout.checkout.email = customer_user.email
+        payment_info = create_payment_information(
+            payment_stripe_for_checkout,
+            customer_id=None,
+            store_source=True,
+            additional_data={"payment_method_id": "pm_ID", "off_session": True},
+        )
+    
+&gt;       response = plugin.process_payment(payment_info, None)
+
+saleor/payment/gateways/stripe/tests/test_plugin.py:556: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/payment/gateways/utils.py:13: in wrapped
+    return fn(self, *args, **kwargs)
+saleor/payment/gateways/stripe/plugin.py:234: in process_payment
+    payment_method_info = get_payment_method_details(intent)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+payment_intent = &lt;Mock name='create()' id='128054891051376'&gt;
+
+    def get_payment_method_details(
+        payment_intent: StripeObject,
+    ) -&gt; Optional[PaymentMethodInfo]:
+        charges = payment_intent.get("charges", None)
+        payment_method_info = None
+        if charges:
+            charges_data = charges.get("data", [])
+            if not charges_data:
+                return None
+&gt;           charge_data = charges_data[-1]
+E           TypeError: 'Mock' object is not subscriptable
+
+saleor/payment/gateways/stripe/stripe_api.py:307: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_process_payment_with_customer" time="0.239"><failure message="TypeError: 'Mock' object is not subscriptable">mocked_payment_intent = &lt;MagicMock name='create' id='128054876300192'&gt;
+mocked_customer_create = &lt;MagicMock name='create' id='128054876325440'&gt;
+stripe_plugin = &lt;function stripe_plugin.&lt;locals&gt;.fun at 0x74771970c550&gt;
+payment_stripe_for_checkout = Payment(gateway=saleor.payments.stripe, is_active=True, created=2026-10-01 00:02:43.254112+00:00, charge_status=not-charged)
+channel_USD = &lt;Channel: main&gt;, customer_user = &lt;User: test@example.com&gt;
+
+    @patch("saleor.payment.gateways.stripe.stripe_api.stripe.Customer.create")
+    @patch("saleor.payment.gateways.stripe.stripe_api.stripe.PaymentIntent.create")
+    def test_process_payment_with_customer(
+        mocked_payment_intent,
+        mocked_customer_create,
+        stripe_plugin,
+        payment_stripe_for_checkout,
+        channel_USD,
+        customer_user,
+    ):
+        customer = StripeObject(id="cus_id")
+        mocked_customer_create.return_value = customer
+    
+        payment_intent = Mock()
+        mocked_payment_intent.return_value = payment_intent
+    
+        client_secret = "client-secret"
+        dummy_response = {
+            "id": "evt_1Ip9ANH1Vac4G4dbE9ch7zGS",
+        }
+        payment_intent_id = "payment-intent-id"
+        payment_intent.id = payment_intent_id
+        payment_intent.client_secret = client_secret
+        payment_intent.last_response.data = dummy_response
+        payment_intent.status = "requires_payment_method"
+    
+        plugin = stripe_plugin(auto_capture=True)
+    
+        payment_stripe_for_checkout.checkout.user = customer_user
+        payment_stripe_for_checkout.checkout.email = customer_user.email
+        payment_info = create_payment_information(
+            payment_stripe_for_checkout,
+            customer_id=None,
+            store_source=True,
+        )
+    
+&gt;       response = plugin.process_payment(payment_info, None)
+
+saleor/payment/gateways/stripe/tests/test_plugin.py:255: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/payment/gateways/utils.py:13: in wrapped
+    return fn(self, *args, **kwargs)
+saleor/payment/gateways/stripe/plugin.py:234: in process_payment
+    payment_method_info = get_payment_method_details(intent)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+payment_intent = &lt;Mock name='create()' id='128054876301296'&gt;
+
+    def get_payment_method_details(
+        payment_intent: StripeObject,
+    ) -&gt; Optional[PaymentMethodInfo]:
+        charges = payment_intent.get("charges", None)
+        payment_method_info = None
+        if charges:
+            charges_data = charges.get("data", [])
+            if not charges_data:
+                return None
+&gt;           charge_data = charges_data[-1]
+E           TypeError: 'Mock' object is not subscriptable
+
+saleor/payment/gateways/stripe/stripe_api.py:307: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_process_payment_with_customer_and_future_usage" time="0.296"><failure message="TypeError: 'Mock' object is not subscriptable">mocked_payment_intent = &lt;MagicMock name='create' id='128054874871888'&gt;
+mocked_customer_create = &lt;MagicMock name='create' id='128054877597856'&gt;
+stripe_plugin = &lt;function stripe_plugin.&lt;locals&gt;.fun at 0x74771aa2b940&gt;
+payment_stripe_for_checkout = Payment(gateway=saleor.payments.stripe, is_active=True, created=2026-10-01 00:02:43.572299+00:00, charge_status=not-charged)
+channel_USD = &lt;Channel: main&gt;, customer_user = &lt;User: test@example.com&gt;
+
+    @patch("saleor.payment.gateways.stripe.stripe_api.stripe.Customer.create")
+    @patch("saleor.payment.gateways.stripe.stripe_api.stripe.PaymentIntent.create")
+    def test_process_payment_with_customer_and_future_usage(
+        mocked_payment_intent,
+        mocked_customer_create,
+        stripe_plugin,
+        payment_stripe_for_checkout,
+        channel_USD,
+        customer_user,
+    ):
+        customer = Mock()
+        mocked_customer_create.return_value = customer
+    
+        payment_intent = Mock()
+        mocked_payment_intent.return_value = payment_intent
+    
+        client_secret = "client-secret"
+        dummy_response = {
+            "id": "evt_1Ip9ANH1Vac4G4dbE9ch7zGS",
+        }
+        payment_intent_id = "payment-intent-id"
+        payment_intent.id = payment_intent_id
+        payment_intent.client_secret = client_secret
+        payment_intent.last_response.data = dummy_response
+        payment_intent.status = SUCCESS_STATUS
+    
+        plugin = stripe_plugin(auto_capture=True)
+    
+        payment_stripe_for_checkout.checkout.user = customer_user
+        payment_stripe_for_checkout.checkout.email = customer_user.email
+        payment_info = create_payment_information(
+            payment_stripe_for_checkout,
+            customer_id=None,
+            store_source=True,
+            additional_data={"setup_future_usage": "off_session"},
+        )
+    
+&gt;       response = plugin.process_payment(payment_info, None)
+
+saleor/payment/gateways/stripe/tests/test_plugin.py:329: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/payment/gateways/utils.py:13: in wrapped
+    return fn(self, *args, **kwargs)
+saleor/payment/gateways/stripe/plugin.py:234: in process_payment
+    payment_method_info = get_payment_method_details(intent)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+payment_intent = &lt;Mock name='create()' id='128054879544416'&gt;
+
+    def get_payment_method_details(
+        payment_intent: StripeObject,
+    ) -&gt; Optional[PaymentMethodInfo]:
+        charges = payment_intent.get("charges", None)
+        payment_method_info = None
+        if charges:
+            charges_data = charges.get("data", [])
+            if not charges_data:
+                return None
+&gt;           charge_data = charges_data[-1]
+E           TypeError: 'Mock' object is not subscriptable
+
+saleor/payment/gateways/stripe/stripe_api.py:307: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_process_payment_with_customer_and_payment_method" time="0.270"><failure message="TypeError: 'Mock' object is not subscriptable">mocked_payment_intent = &lt;MagicMock name='create' id='128054875690704'&gt;
+mocked_customer_create = &lt;MagicMock name='create' id='128054876347216'&gt;
+stripe_plugin = &lt;function stripe_plugin.&lt;locals&gt;.fun at 0x74771aa2b430&gt;
+payment_stripe_for_checkout = Payment(gateway=saleor.payments.stripe, is_active=True, created=2026-10-01 00:02:43.885439+00:00, charge_status=not-charged)
+channel_USD = &lt;Channel: main&gt;, customer_user = &lt;User: test@example.com&gt;
+
+    @patch("saleor.payment.gateways.stripe.stripe_api.stripe.Customer.create")
+    @patch("saleor.payment.gateways.stripe.stripe_api.stripe.PaymentIntent.create")
+    def test_process_payment_with_customer_and_payment_method(
+        mocked_payment_intent,
+        mocked_customer_create,
+        stripe_plugin,
+        payment_stripe_for_checkout,
+        channel_USD,
+        customer_user,
+    ):
+        customer = Mock()
+        mocked_customer_create.return_value = customer
+    
+        payment_intent = Mock()
+        mocked_payment_intent.return_value = payment_intent
+    
+        client_secret = "client-secret"
+        dummy_response = {
+            "id": "evt_1Ip9ANH1Vac4G4dbE9ch7zGS",
+        }
+        payment_intent_id = "payment-intent-id"
+        payment_intent.id = payment_intent_id
+        payment_intent.client_secret = client_secret
+        payment_intent.last_response.data = dummy_response
+        payment_intent.status = SUCCESS_STATUS
+    
+        plugin = stripe_plugin(auto_capture=True)
+    
+        payment_stripe_for_checkout.checkout.user = customer_user
+        payment_stripe_for_checkout.checkout.email = customer_user.email
+        payment_info = create_payment_information(
+            payment_stripe_for_checkout,
+            customer_id=None,
+            store_source=True,
+            additional_data={"payment_method_id": "pm_ID"},
+        )
+    
+&gt;       response = plugin.process_payment(payment_info, None)
+
+saleor/payment/gateways/stripe/tests/test_plugin.py:404: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/payment/gateways/utils.py:13: in wrapped
+    return fn(self, *args, **kwargs)
+saleor/payment/gateways/stripe/plugin.py:234: in process_payment
+    payment_method_info = get_payment_method_details(intent)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+payment_intent = &lt;Mock name='create()' id='128054857563536'&gt;
+
+    def get_payment_method_details(
+        payment_intent: StripeObject,
+    ) -&gt; Optional[PaymentMethodInfo]:
+        charges = payment_intent.get("charges", None)
+        payment_method_info = None
+        if charges:
+            charges_data = charges.get("data", [])
+            if not charges_data:
+                return None
+&gt;           charge_data = charges_data[-1]
+E           TypeError: 'Mock' object is not subscriptable
+
+saleor/payment/gateways/stripe/stripe_api.py:307: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_process_payment_with_customer_and_payment_method_raises_card_error" time="0.221"><failure message="TypeError: 'Mock' object is not subscriptable">mocked_payment_intent = &lt;MagicMock name='create' id='128054878970016'&gt;
+mocked_customer_create = &lt;MagicMock name='create' id='128054875306880'&gt;
+stripe_plugin = &lt;function stripe_plugin.&lt;locals&gt;.fun at 0x74771aa2b8b0&gt;
+payment_stripe_for_checkout = Payment(gateway=saleor.payments.stripe, is_active=True, created=2026-10-01 00:02:44.133527+00:00, charge_status=not-charged)
+channel_USD = &lt;Channel: main&gt;, customer_user = &lt;User: test@example.com&gt;
+
+    @patch("saleor.payment.gateways.stripe.stripe_api.stripe.Customer.create")
+    @patch("saleor.payment.gateways.stripe.stripe_api.stripe.PaymentIntent.create")
+    def test_process_payment_with_customer_and_payment_method_raises_card_error(
+        mocked_payment_intent,
+        mocked_customer_create,
+        stripe_plugin,
+        payment_stripe_for_checkout,
+        channel_USD,
+        customer_user,
+    ):
+        customer = Mock()
+        mocked_customer_create.return_value = customer
+    
+        payment_intent = Mock()
+        stripe_error_object = StripeError()
+        stripe_error_object.error = StripeError()
+        stripe_error_object.error.payment_intent = payment_intent
+        mocked_payment_intent.side_effect = stripe_error_object
+    
+        client_secret = "client-secret"
+        dummy_response = {
+            "id": "evt_1Ip9ANH1Vac4G4dbE9ch7zGS",
+        }
+        payment_intent_id = "payment-intent-id"
+        payment_intent.id = payment_intent_id
+        payment_intent.client_secret = client_secret
+        payment_intent.last_response.data = dummy_response
+        payment_intent.status = SUCCESS_STATUS
+    
+        plugin = stripe_plugin(auto_capture=True)
+    
+        payment_stripe_for_checkout.checkout.user = customer_user
+        payment_stripe_for_checkout.checkout.email = customer_user.email
+    
+        payment_info = create_payment_information(
+            payment_stripe_for_checkout,
+            customer_id=None,
+            store_source=True,
+            additional_data={"payment_method_id": "pm_ID", "off_session": True},
+        )
+    
+&gt;       response = plugin.process_payment(payment_info, None)
+
+saleor/payment/gateways/stripe/tests/test_plugin.py:640: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/payment/gateways/utils.py:13: in wrapped
+    return fn(self, *args, **kwargs)
+saleor/payment/gateways/stripe/plugin.py:234: in process_payment
+    payment_method_info = get_payment_method_details(intent)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+payment_intent = &lt;Mock id='128054878829152'&gt;
+
+    def get_payment_method_details(
+        payment_intent: StripeObject,
+    ) -&gt; Optional[PaymentMethodInfo]:
+        charges = payment_intent.get("charges", None)
+        payment_method_info = None
+        if charges:
+            charges_data = charges.get("data", [])
+            if not charges_data:
+                return None
+&gt;           charge_data = charges_data[-1]
+E           TypeError: 'Mock' object is not subscriptable
+
+saleor/payment/gateways/stripe/stripe_api.py:307: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_process_payment_with_disabled_order_auto_confirmation" time="0.219"><failure message="TypeError: 'Mock' object is not subscriptable">mocked_payment_intent = &lt;MagicMock name='create' id='128054880883280'&gt;
+stripe_plugin = &lt;function stripe_plugin.&lt;locals&gt;.fun at 0x74771aa2b700&gt;
+payment_stripe_for_checkout = Payment(gateway=saleor.payments.stripe, is_active=True, created=2026-10-01 00:02:44.549488+00:00, charge_status=not-charged)
+site_settings = &lt;SiteSettings: mirumee.com&gt;, channel_USD = &lt;Channel: main&gt;
+
+    @patch("saleor.payment.gateways.stripe.stripe_api.stripe.PaymentIntent.create")
+    def test_process_payment_with_disabled_order_auto_confirmation(
+        mocked_payment_intent,
+        stripe_plugin,
+        payment_stripe_for_checkout,
+        site_settings,
+        channel_USD,
+    ):
+        payment_intent = Mock()
+        mocked_payment_intent.return_value = payment_intent
+        client_secret = "client-secret"
+        dummy_response = {
+            "id": "evt_1Ip9ANH1Vac4G4dbE9ch7zGS",
+        }
+        payment_intent_id = "payment-intent-id"
+        payment_intent.id = payment_intent_id
+        payment_intent.client_secret = client_secret
+        payment_intent.last_response.data = dummy_response
+        payment_intent.status = "requires_payment_method"
+    
+        plugin = stripe_plugin(auto_capture=True)
+    
+        payment_info = create_payment_information(
+            payment_stripe_for_checkout,
+        )
+        site_settings.automatically_confirm_all_new_orders = False
+        site_settings.save()
+&gt;       response = plugin.process_payment(payment_info, None)
+
+saleor/payment/gateways/stripe/tests/test_plugin.py:710: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/payment/gateways/utils.py:13: in wrapped
+    return fn(self, *args, **kwargs)
+saleor/payment/gateways/stripe/plugin.py:234: in process_payment
+    payment_method_info = get_payment_method_details(intent)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+payment_intent = &lt;Mock name='create()' id='128054877456992'&gt;
+
+    def get_payment_method_details(
+        payment_intent: StripeObject,
+    ) -&gt; Optional[PaymentMethodInfo]:
+        charges = payment_intent.get("charges", None)
+        payment_method_info = None
+        if charges:
+            charges_data = charges.get("data", [])
+            if not charges_data:
+                return None
+&gt;           charge_data = charges_data[-1]
+E           TypeError: 'Mock' object is not subscriptable
+
+saleor/payment/gateways/stripe/stripe_api.py:307: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_process_payment_with_error" time="0.214" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_process_payment_with_manual_capture" time="0.212"><failure message="TypeError: 'Mock' object is not subscriptable">mocked_payment_intent = &lt;MagicMock name='create' id='128054877362832'&gt;
+stripe_plugin = &lt;function stripe_plugin.&lt;locals&gt;.fun at 0x74771aa2b280&gt;
+payment_stripe_for_checkout = Payment(gateway=saleor.payments.stripe, is_active=True, created=2026-10-01 00:02:45.001097+00:00, charge_status=not-charged)
+channel_USD = &lt;Channel: main&gt;
+
+    @patch("saleor.payment.gateways.stripe.stripe_api.stripe.PaymentIntent.create")
+    def test_process_payment_with_manual_capture(
+        mocked_payment_intent, stripe_plugin, payment_stripe_for_checkout, channel_USD
+    ):
+        payment_intent = Mock()
+        mocked_payment_intent.return_value = payment_intent
+        client_secret = "client-secret"
+        dummy_response = {
+            "id": "evt_1Ip9ANH1Vac4G4dbE9ch7zGS",
+        }
+        payment_intent_id = "payment-intent-id"
+        payment_intent.id = payment_intent_id
+        payment_intent.client_secret = client_secret
+        payment_intent.last_response.data = dummy_response
+    
+        plugin = stripe_plugin(auto_capture=False)
+    
+        payment_info = create_payment_information(
+            payment_stripe_for_checkout,
+        )
+    
+&gt;       plugin.process_payment(payment_info, None)
+
+saleor/payment/gateways/stripe/tests/test_plugin.py:761: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/payment/gateways/utils.py:13: in wrapped
+    return fn(self, *args, **kwargs)
+saleor/payment/gateways/stripe/plugin.py:234: in process_payment
+    payment_method_info = get_payment_method_details(intent)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+payment_intent = &lt;Mock name='create()' id='128054871933088'&gt;
+
+    def get_payment_method_details(
+        payment_intent: StripeObject,
+    ) -&gt; Optional[PaymentMethodInfo]:
+        charges = payment_intent.get("charges", None)
+        payment_method_info = None
+        if charges:
+            charges_data = charges.get("data", [])
+            if not charges_data:
+                return None
+&gt;           charge_data = charges_data[-1]
+E           TypeError: 'Mock' object is not subscriptable
+
+saleor/payment/gateways/stripe/stripe_api.py:307: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_process_payment_with_payment_method_types" time="0.227"><failure message="TypeError: 'Mock' object is not subscriptable">mocked_payment_intent = &lt;MagicMock name='create' id='128054869745232'&gt;
+mocked_customer_create = &lt;MagicMock name='create' id='128054874903024'&gt;
+stripe_plugin = &lt;function stripe_plugin.&lt;locals&gt;.fun at 0x74771aa3a310&gt;
+payment_stripe_for_checkout = Payment(gateway=saleor.payments.stripe, is_active=True, created=2026-10-01 00:02:45.247096+00:00, charge_status=not-charged)
+channel_USD = &lt;Channel: main&gt;, customer_user = &lt;User: test@example.com&gt;
+
+    @patch("saleor.payment.gateways.stripe.stripe_api.stripe.Customer.create")
+    @patch("saleor.payment.gateways.stripe.stripe_api.stripe.PaymentIntent.create")
+    def test_process_payment_with_payment_method_types(
+        mocked_payment_intent,
+        mocked_customer_create,
+        stripe_plugin,
+        payment_stripe_for_checkout,
+        channel_USD,
+        customer_user,
+    ):
+        customer = Mock()
+        mocked_customer_create.return_value = customer
+    
+        payment_intent = Mock()
+        mocked_payment_intent.return_value = payment_intent
+    
+        client_secret = "client-secret"
+        dummy_response = {
+            "id": "evt_1Ip9ANH1Vac4G4dbE9ch7zGS",
+        }
+        payment_intent_id = "payment-intent-id"
+        payment_intent.id = payment_intent_id
+        payment_intent.client_secret = client_secret
+        payment_intent.last_response.data = dummy_response
+        payment_intent.status = SUCCESS_STATUS
+    
+        plugin = stripe_plugin(auto_capture=True)
+    
+        payment_stripe_for_checkout.checkout.user = customer_user
+        payment_stripe_for_checkout.checkout.email = customer_user.email
+        payment_stripe_for_checkout.save()
+        payment_info = create_payment_information(
+            payment_stripe_for_checkout,
+            customer_id=None,
+            store_source=True,
+            additional_data={"payment_method_types": ["p24", "card"]},
+        )
+    
+&gt;       response = plugin.process_payment(payment_info, None)
+
+saleor/payment/gateways/stripe/tests/test_plugin.py:481: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/payment/gateways/utils.py:13: in wrapped
+    return fn(self, *args, **kwargs)
+saleor/payment/gateways/stripe/plugin.py:234: in process_payment
+    payment_method_info = get_payment_method_details(intent)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+payment_intent = &lt;Mock name='create()' id='128054875379408'&gt;
+
+    def get_payment_method_details(
+        payment_intent: StripeObject,
+    ) -&gt; Optional[PaymentMethodInfo]:
+        charges = payment_intent.get("charges", None)
+        payment_method_info = None
+        if charges:
+            charges_data = charges.get("data", [])
+            if not charges_data:
+                return None
+&gt;           charge_data = charges_data[-1]
+E           TypeError: 'Mock' object is not subscriptable
+
+saleor/payment/gateways/stripe/stripe_api.py:307: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_refund_payment" time="0.238"><failure message="TypeError: Transaction() got an unexpected keyword argument 'payment_method_info'">mocked_refund = &lt;MagicMock name='create' id='128054877193840'&gt;
+payment_stripe_for_order = Payment(gateway=saleor.payments.stripe, is_active=True, created=2026-10-01 00:02:45.481957+00:00, charge_status=not-charged)
+order_with_lines = &lt;Order #117&gt;
+stripe_plugin = &lt;function stripe_plugin.&lt;locals&gt;.fun at 0x74771aa2bee0&gt;
+
+    @patch("saleor.payment.gateways.stripe.stripe_api.stripe.Refund.create")
+    def test_refund_payment(
+        mocked_refund, payment_stripe_for_order, order_with_lines, stripe_plugin
+    ):
+        payment = payment_stripe_for_order
+    
+        payment_intent_id = "ABC"
+        refund_object = StripeObject(id=payment_intent_id)
+        refund_object["amount"] = price_to_minor_unit(payment.total, payment.currency)
+        refund_object["status"] = SUCCESS_STATUS
+        refund_object["currency"] = payment.currency
+        refund_object["last_response"] = StripeObject()
+        refund_object["last_response"]["data"] = {"response": "json"}
+    
+        mocked_refund.return_value = refund_object
+    
+        payment_info = create_payment_information(
+            payment,
+            payment_token=payment_intent_id,
+        )
+        gateway_response = GatewayResponse(
+            kind=TransactionKind.CAPTURE,
+            action_required=False,
+            transaction_id=payment_intent_id,
+            is_success=True,
+            amount=payment_info.amount,
+            currency=payment_info.currency,
+            error="",
+            raw_response={},
+        )
+    
+&gt;       create_transaction(
+            payment=payment,
+            payment_information=payment_info,
+            kind=TransactionKind.CAPTURE,
+            gateway_response=gateway_response,
+        )
+
+saleor/payment/gateways/stripe/tests/test_plugin.py:1114: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/payment/utils.py:208: in create_transaction
+    txn = Transaction.objects.create(
+/opt/venv/lib/python3.9/site-packages/django/db/models/manager.py:85: in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+/opt/venv/lib/python3.9/site-packages/django/db/models/query.py:451: in create
+    obj = self.model(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = Transaction(type=capture, is_success=True, created=None), args = ()
+kwargs = {'payment_method_info': None}
+cls = &lt;class 'saleor.payment.models.Transaction'&gt;
+opts = &lt;Options for Transaction&gt;, _setattr = &lt;built-in function setattr&gt;
+_DEFERRED = &lt;Deferred field&gt;
+fields_iter = &lt;tuple_iterator object at 0x747719198160&gt;, val = False
+field = &lt;django.db.models.fields.BooleanField: already_processed&gt;
+is_related_object = False
+rel_obj = Payment(gateway=saleor.payments.stripe, is_active=True, created=2026-10-01 00:02:45.481957+00:00, charge_status=not-charged)
+property_names = frozenset({'pk'})
+
+    def __init__(self, *args, **kwargs):
+        # Alias some things as locals to avoid repeat global lookups
+        cls = self.__class__
+        opts = self._meta
+        _setattr = setattr
+        _DEFERRED = DEFERRED
+        if opts.abstract:
+            raise TypeError('Abstract models cannot be instantiated.')
+    
+        pre_init.send(sender=cls, args=args, kwargs=kwargs)
+    
+        # Set up the storage for instance state
+        self._state = ModelState()
+    
+        # There is a rather weird disparity here; if kwargs, it's set, then args
+        # overrides it. It should be one or the other; don't duplicate the work
+        # The reason for the kwargs check is that standard iterator passes in by
+        # args, and instantiation for iteration is 33% faster.
+        if len(args) &gt; len(opts.concrete_fields):
+            # Daft, but matches old exception sans the err msg.
+            raise IndexError("Number of args exceeds number of fields")
+    
+        if not kwargs:
+            fields_iter = iter(opts.concrete_fields)
+            # The ordering of the zip calls matter - zip throws StopIteration
+            # when an iter throws it. So if the first iter throws it, the second
+            # is *not* consumed. We rely on this, so don't change the order
+            # without changing the logic.
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+        else:
+            # Slower, kwargs-ready version.
+            fields_iter = iter(opts.fields)
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+                kwargs.pop(field.name, None)
+    
+        # Now we're left with the unprocessed fields that *must* come from
+        # keywords, or default.
+    
+        for field in fields_iter:
+            is_related_object = False
+            # Virtual field
+            if field.attname not in kwargs and field.column is None:
+                continue
+            if kwargs:
+                if isinstance(field.remote_field, ForeignObjectRel):
+                    try:
+                        # Assume object instance was passed in.
+                        rel_obj = kwargs.pop(field.name)
+                        is_related_object = True
+                    except KeyError:
+                        try:
+                            # Object instance wasn't passed in -- must be an ID.
+                            val = kwargs.pop(field.attname)
+                        except KeyError:
+                            val = field.get_default()
+                else:
+                    try:
+                        val = kwargs.pop(field.attname)
+                    except KeyError:
+                        # This is done with an exception rather than the
+                        # default argument on pop because we don't want
+                        # get_default() to be evaluated, and then not used.
+                        # Refs #12057.
+                        val = field.get_default()
+            else:
+                val = field.get_default()
+    
+            if is_related_object:
+                # If we are passed a related instance, set it using the
+                # field.name instead of field.attname (e.g. "user" instead of
+                # "user_id") so that the object gets properly cached (and type
+                # checked) by the RelatedObjectDescriptor.
+                if rel_obj is not _DEFERRED:
+                    _setattr(self, field.name, rel_obj)
+            else:
+                if val is not _DEFERRED:
+                    _setattr(self, field.attname, val)
+    
+        if kwargs:
+            property_names = opts._property_names
+            for prop in tuple(kwargs):
+                try:
+                    # Any remaining kwargs must correspond to properties or
+                    # virtual fields.
+                    if prop in property_names or opts.get_field(prop):
+                        if kwargs[prop] is not _DEFERRED:
+                            _setattr(self, prop, kwargs[prop])
+                        del kwargs[prop]
+                except (AttributeError, FieldDoesNotExist):
+                    pass
+            for kwarg in kwargs:
+&gt;               raise TypeError("%s() got an unexpected keyword argument '%s'" % (cls.__name__, kwarg))
+E               TypeError: Transaction() got an unexpected keyword argument 'payment_method_info'
+
+/opt/venv/lib/python3.9/site-packages/django/db/models/base.py:503: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_validate_plugin_configuration_correct_configuration" time="0.027" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_validate_plugin_configuration_incorrect_configuration" time="0.020" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_validate_plugin_configuration_missing_required_fields" time="0.019" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_validate_plugin_configuration_validate_only_when_active" time="0.016" /><testcase classname="saleor.payment.gateways.stripe.tests.test_plugin" name="test_void_payment" time="0.249"><failure message="TypeError: Transaction() got an unexpected keyword argument 'payment_method_info'">mocked_cancel = &lt;MagicMock name='cancel' id='128054869387392'&gt;
+payment_stripe_for_order = Payment(gateway=saleor.payments.stripe, is_active=True, created=2026-10-01 00:02:45.882475+00:00, charge_status=not-charged)
+order_with_lines = &lt;Order #118&gt;
+stripe_plugin = &lt;function stripe_plugin.&lt;locals&gt;.fun at 0x7477199350d0&gt;
+
+    @patch("saleor.payment.gateways.stripe.stripe_api.stripe.PaymentIntent.cancel")
+    def test_void_payment(
+        mocked_cancel, payment_stripe_for_order, order_with_lines, stripe_plugin
+    ):
+        payment = payment_stripe_for_order
+    
+        payment_intent_id = "ABC"
+        payment_intent = StripeObject(id=payment_intent_id)
+        payment_intent["amount"] = price_to_minor_unit(payment.total, payment.currency)
+        payment_intent["status"] = SUCCESS_STATUS
+        payment_intent["currency"] = payment.currency
+        payment_intent["last_response"] = StripeObject()
+        payment_intent["last_response"]["data"] = {"response": "json"}
+    
+        mocked_cancel.return_value = payment_intent
+    
+        payment_info = create_payment_information(
+            payment,
+            payment_token=payment_intent_id,
+        )
+        gateway_response = GatewayResponse(
+            kind=TransactionKind.AUTH,
+            action_required=False,
+            transaction_id=payment_intent_id,
+            is_success=True,
+            amount=payment_info.amount,
+            currency=payment_info.currency,
+            error="",
+            raw_response={},
+        )
+    
+&gt;       create_transaction(
+            payment=payment,
+            payment_information=payment_info,
+            kind=TransactionKind.AUTH,
+            gateway_response=gateway_response,
+        )
+
+saleor/payment/gateways/stripe/tests/test_plugin.py:1164: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/payment/utils.py:208: in create_transaction
+    txn = Transaction.objects.create(
+/opt/venv/lib/python3.9/site-packages/django/db/models/manager.py:85: in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+/opt/venv/lib/python3.9/site-packages/django/db/models/query.py:451: in create
+    obj = self.model(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = Transaction(type=auth, is_success=True, created=None), args = ()
+kwargs = {'payment_method_info': None}
+cls = &lt;class 'saleor.payment.models.Transaction'&gt;
+opts = &lt;Options for Transaction&gt;, _setattr = &lt;built-in function setattr&gt;
+_DEFERRED = &lt;Deferred field&gt;
+fields_iter = &lt;tuple_iterator object at 0x7477194ffb50&gt;, val = False
+field = &lt;django.db.models.fields.BooleanField: already_processed&gt;
+is_related_object = False
+rel_obj = Payment(gateway=saleor.payments.stripe, is_active=True, created=2026-10-01 00:02:45.882475+00:00, charge_status=not-charged)
+property_names = frozenset({'pk'})
+
+    def __init__(self, *args, **kwargs):
+        # Alias some things as locals to avoid repeat global lookups
+        cls = self.__class__
+        opts = self._meta
+        _setattr = setattr
+        _DEFERRED = DEFERRED
+        if opts.abstract:
+            raise TypeError('Abstract models cannot be instantiated.')
+    
+        pre_init.send(sender=cls, args=args, kwargs=kwargs)
+    
+        # Set up the storage for instance state
+        self._state = ModelState()
+    
+        # There is a rather weird disparity here; if kwargs, it's set, then args
+        # overrides it. It should be one or the other; don't duplicate the work
+        # The reason for the kwargs check is that standard iterator passes in by
+        # args, and instantiation for iteration is 33% faster.
+        if len(args) &gt; len(opts.concrete_fields):
+            # Daft, but matches old exception sans the err msg.
+            raise IndexError("Number of args exceeds number of fields")
+    
+        if not kwargs:
+            fields_iter = iter(opts.concrete_fields)
+            # The ordering of the zip calls matter - zip throws StopIteration
+            # when an iter throws it. So if the first iter throws it, the second
+            # is *not* consumed. We rely on this, so don't change the order
+            # without changing the logic.
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+        else:
+            # Slower, kwargs-ready version.
+            fields_iter = iter(opts.fields)
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+                kwargs.pop(field.name, None)
+    
+        # Now we're left with the unprocessed fields that *must* come from
+        # keywords, or default.
+    
+        for field in fields_iter:
+            is_related_object = False
+            # Virtual field
+            if field.attname not in kwargs and field.column is None:
+                continue
+            if kwargs:
+                if isinstance(field.remote_field, ForeignObjectRel):
+                    try:
+                        # Assume object instance was passed in.
+                        rel_obj = kwargs.pop(field.name)
+                        is_related_object = True
+                    except KeyError:
+                        try:
+                            # Object instance wasn't passed in -- must be an ID.
+                            val = kwargs.pop(field.attname)
+                        except KeyError:
+                            val = field.get_default()
+                else:
+                    try:
+                        val = kwargs.pop(field.attname)
+                    except KeyError:
+                        # This is done with an exception rather than the
+                        # default argument on pop because we don't want
+                        # get_default() to be evaluated, and then not used.
+                        # Refs #12057.
+                        val = field.get_default()
+            else:
+                val = field.get_default()
+    
+            if is_related_object:
+                # If we are passed a related instance, set it using the
+                # field.name instead of field.attname (e.g. "user" instead of
+                # "user_id") so that the object gets properly cached (and type
+                # checked) by the RelatedObjectDescriptor.
+                if rel_obj is not _DEFERRED:
+                    _setattr(self, field.name, rel_obj)
+            else:
+                if val is not _DEFERRED:
+                    _setattr(self, field.attname, val)
+    
+        if kwargs:
+            property_names = opts._property_names
+            for prop in tuple(kwargs):
+                try:
+                    # Any remaining kwargs must correspond to properties or
+                    # virtual fields.
+                    if prop in property_names or opts.get_field(prop):
+                        if kwargs[prop] is not _DEFERRED:
+                            _setattr(self, prop, kwargs[prop])
+                        del kwargs[prop]
+                except (AttributeError, FieldDoesNotExist):
+                    pass
+            for kwarg in kwargs:
+&gt;               raise TypeError("%s() got an unexpected keyword argument '%s'" % (cls.__name__, kwarg))
+E               TypeError: Transaction() got an unexpected keyword argument 'payment_method_info'
+
+/opt/venv/lib/python3.9/site-packages/django/db/models/base.py:503: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.stripe.tests.test_webhooks" name="test_handle_authorized_payment_intent_for_checkout" time="0.254"><failure message="TypeError: Transaction() got an unexpected keyword argument 'payment_method_info'">wrapped_checkout_complete = &lt;MagicMock name='complete_checkout' id='128054878160784'&gt;
+payment_stripe_for_checkout = Payment(gateway=saleor.payments.stripe, is_active=True, created=2026-10-01 00:02:46.423140+00:00, charge_status=not-charged)
+checkout_with_items = &lt;Checkout: Checkout object (2daf61d4-ac33-41e7-a400-e810963cea74)&gt;
+stripe_plugin = &lt;function stripe_plugin.&lt;locals&gt;.fun at 0x7477198165e0&gt;
+channel_USD = &lt;Channel: main&gt;
+
+    @patch(
+        "saleor.payment.gateways.stripe.webhooks.complete_checkout", wraps=complete_checkout
+    )
+    def test_handle_authorized_payment_intent_for_checkout(
+        wrapped_checkout_complete,
+        payment_stripe_for_checkout,
+        checkout_with_items,
+        stripe_plugin,
+        channel_USD,
+    ):
+        payment = payment_stripe_for_checkout
+        payment.to_confirm = True
+        payment.save()
+        payment.transactions.create(
+            is_success=True,
+            action_required=True,
+            kind=TransactionKind.ACTION_TO_CONFIRM,
+            amount=payment.total,
+            currency=payment.currency,
+            token="ABC",
+            gateway_response={},
+        )
+        plugin = stripe_plugin()
+        payment_intent = StripeObject(id="ABC", last_response={})
+        payment_intent["amount"] = price_to_minor_unit(payment.total, payment.currency)
+        payment_intent["currency"] = payment.currency
+        payment_intent["status"] = AUTHORIZED_STATUS
+&gt;       handle_authorized_payment_intent(payment_intent, plugin.config, channel_USD.slug)
+
+saleor/payment/gateways/stripe/tests/test_webhooks.py:224: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/payment/gateways/stripe/webhooks.py:221: in handle_authorized_payment_intent
+    _process_payment_with_checkout(
+saleor/payment/gateways/stripe/webhooks.py:194: in _process_payment_with_checkout
+    _finalize_checkout(checkout, payment, payment_intent, kind, amount, currency)
+saleor/payment/gateways/stripe/webhooks.py:130: in _finalize_checkout
+    create_transaction(
+saleor/payment/utils.py:208: in create_transaction
+    txn = Transaction.objects.create(
+/opt/venv/lib/python3.9/site-packages/django/db/models/manager.py:85: in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+/opt/venv/lib/python3.9/site-packages/django/db/models/query.py:451: in create
+    obj = self.model(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = Transaction(type=auth, is_success=True, created=None), args = ()
+kwargs = {'payment_method_info': None}
+cls = &lt;class 'saleor.payment.models.Transaction'&gt;
+opts = &lt;Options for Transaction&gt;, _setattr = &lt;built-in function setattr&gt;
+_DEFERRED = &lt;Deferred field&gt;
+fields_iter = &lt;tuple_iterator object at 0x74771910fdc0&gt;, val = False
+field = &lt;django.db.models.fields.BooleanField: already_processed&gt;
+is_related_object = False
+rel_obj = Payment(gateway=saleor.payments.stripe, is_active=True, created=2026-10-01 00:02:46.423140+00:00, charge_status=not-charged)
+property_names = frozenset({'pk'})
+
+    def __init__(self, *args, **kwargs):
+        # Alias some things as locals to avoid repeat global lookups
+        cls = self.__class__
+        opts = self._meta
+        _setattr = setattr
+        _DEFERRED = DEFERRED
+        if opts.abstract:
+            raise TypeError('Abstract models cannot be instantiated.')
+    
+        pre_init.send(sender=cls, args=args, kwargs=kwargs)
+    
+        # Set up the storage for instance state
+        self._state = ModelState()
+    
+        # There is a rather weird disparity here; if kwargs, it's set, then args
+        # overrides it. It should be one or the other; don't duplicate the work
+        # The reason for the kwargs check is that standard iterator passes in by
+        # args, and instantiation for iteration is 33% faster.
+        if len(args) &gt; len(opts.concrete_fields):
+            # Daft, but matches old exception sans the err msg.
+            raise IndexError("Number of args exceeds number of fields")
+    
+        if not kwargs:
+            fields_iter = iter(opts.concrete_fields)
+            # The ordering of the zip calls matter - zip throws StopIteration
+            # when an iter throws it. So if the first iter throws it, the second
+            # is *not* consumed. We rely on this, so don't change the order
+            # without changing the logic.
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+        else:
+            # Slower, kwargs-ready version.
+            fields_iter = iter(opts.fields)
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+                kwargs.pop(field.name, None)
+    
+        # Now we're left with the unprocessed fields that *must* come from
+        # keywords, or default.
+    
+        for field in fields_iter:
+            is_related_object = False
+            # Virtual field
+            if field.attname not in kwargs and field.column is None:
+                continue
+            if kwargs:
+                if isinstance(field.remote_field, ForeignObjectRel):
+                    try:
+                        # Assume object instance was passed in.
+                        rel_obj = kwargs.pop(field.name)
+                        is_related_object = True
+                    except KeyError:
+                        try:
+                            # Object instance wasn't passed in -- must be an ID.
+                            val = kwargs.pop(field.attname)
+                        except KeyError:
+                            val = field.get_default()
+                else:
+                    try:
+                        val = kwargs.pop(field.attname)
+                    except KeyError:
+                        # This is done with an exception rather than the
+                        # default argument on pop because we don't want
+                        # get_default() to be evaluated, and then not used.
+                        # Refs #12057.
+                        val = field.get_default()
+            else:
+                val = field.get_default()
+    
+            if is_related_object:
+                # If we are passed a related instance, set it using the
+                # field.name instead of field.attname (e.g. "user" instead of
+                # "user_id") so that the object gets properly cached (and type
+                # checked) by the RelatedObjectDescriptor.
+                if rel_obj is not _DEFERRED:
+                    _setattr(self, field.name, rel_obj)
+            else:
+                if val is not _DEFERRED:
+                    _setattr(self, field.attname, val)
+    
+        if kwargs:
+            property_names = opts._property_names
+            for prop in tuple(kwargs):
+                try:
+                    # Any remaining kwargs must correspond to properties or
+                    # virtual fields.
+                    if prop in property_names or opts.get_field(prop):
+                        if kwargs[prop] is not _DEFERRED:
+                            _setattr(self, prop, kwargs[prop])
+                        del kwargs[prop]
+                except (AttributeError, FieldDoesNotExist):
+                    pass
+            for kwarg in kwargs:
+&gt;               raise TypeError("%s() got an unexpected keyword argument '%s'" % (cls.__name__, kwarg))
+E               TypeError: Transaction() got an unexpected keyword argument 'payment_method_info'
+
+/opt/venv/lib/python3.9/site-packages/django/db/models/base.py:503: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.stripe.tests.test_webhooks" name="test_handle_authorized_payment_intent_for_order" time="0.296" /><testcase classname="saleor.payment.gateways.stripe.tests.test_webhooks" name="test_handle_authorized_payment_intent_for_processing_order_payment" time="0.283" /><testcase classname="saleor.payment.gateways.stripe.tests.test_webhooks" name="test_handle_failed_payment_intent_for_checkout" time="0.248"><failure message="TypeError: Transaction() got an unexpected keyword argument 'payment_method_info'">stripe_plugin = &lt;function stripe_plugin.&lt;locals&gt;.fun at 0x74771aa31f70&gt;
+payment_stripe_for_checkout = Payment(gateway=saleor.payments.stripe, is_active=True, created=2026-10-01 00:02:47.332268+00:00, charge_status=not-charged)
+channel_USD = &lt;Channel: main&gt;
+
+    def test_handle_failed_payment_intent_for_checkout(
+        stripe_plugin, payment_stripe_for_checkout, channel_USD
+    ):
+        payment = payment_stripe_for_checkout
+        payment.transactions.create(
+            is_success=True,
+            action_required=True,
+            kind=TransactionKind.ACTION_TO_CONFIRM,
+            amount=payment.total,
+            currency=payment.currency,
+            token="ABC",
+            gateway_response={},
+        )
+    
+        plugin = stripe_plugin()
+    
+        payment_intent = StripeObject(id="ABC", last_response={})
+        payment_intent["amount"] = payment.total
+        payment_intent["currency"] = payment.currency
+        payment_intent["status"] = FAILED_STATUSES[0]
+    
+&gt;       handle_failed_payment_intent(payment_intent, plugin.config, channel_USD.slug)
+
+saleor/payment/gateways/stripe/tests/test_webhooks.py:363: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/payment/gateways/stripe/webhooks.py:241: in handle_failed_payment_intent
+    _update_payment_with_new_transaction(
+saleor/payment/gateways/stripe/webhooks.py:172: in _update_payment_with_new_transaction
+    transaction = create_transaction(
+saleor/payment/utils.py:208: in create_transaction
+    txn = Transaction.objects.create(
+/opt/venv/lib/python3.9/site-packages/django/db/models/manager.py:85: in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+/opt/venv/lib/python3.9/site-packages/django/db/models/query.py:451: in create
+    obj = self.model(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = Transaction(type=cancel, is_success=True, created=None), args = ()
+kwargs = {'payment_method_info': None}
+cls = &lt;class 'saleor.payment.models.Transaction'&gt;
+opts = &lt;Options for Transaction&gt;, _setattr = &lt;built-in function setattr&gt;
+_DEFERRED = &lt;Deferred field&gt;
+fields_iter = &lt;tuple_iterator object at 0x7477190e9160&gt;, val = False
+field = &lt;django.db.models.fields.BooleanField: already_processed&gt;
+is_related_object = False
+rel_obj = Payment(gateway=saleor.payments.stripe, is_active=True, created=2026-10-01 00:02:47.332268+00:00, charge_status=not-charged)
+property_names = frozenset({'pk'})
+
+    def __init__(self, *args, **kwargs):
+        # Alias some things as locals to avoid repeat global lookups
+        cls = self.__class__
+        opts = self._meta
+        _setattr = setattr
+        _DEFERRED = DEFERRED
+        if opts.abstract:
+            raise TypeError('Abstract models cannot be instantiated.')
+    
+        pre_init.send(sender=cls, args=args, kwargs=kwargs)
+    
+        # Set up the storage for instance state
+        self._state = ModelState()
+    
+        # There is a rather weird disparity here; if kwargs, it's set, then args
+        # overrides it. It should be one or the other; don't duplicate the work
+        # The reason for the kwargs check is that standard iterator passes in by
+        # args, and instantiation for iteration is 33% faster.
+        if len(args) &gt; len(opts.concrete_fields):
+            # Daft, but matches old exception sans the err msg.
+            raise IndexError("Number of args exceeds number of fields")
+    
+        if not kwargs:
+            fields_iter = iter(opts.concrete_fields)
+            # The ordering of the zip calls matter - zip throws StopIteration
+            # when an iter throws it. So if the first iter throws it, the second
+            # is *not* consumed. We rely on this, so don't change the order
+            # without changing the logic.
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+        else:
+            # Slower, kwargs-ready version.
+            fields_iter = iter(opts.fields)
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+                kwargs.pop(field.name, None)
+    
+        # Now we're left with the unprocessed fields that *must* come from
+        # keywords, or default.
+    
+        for field in fields_iter:
+            is_related_object = False
+            # Virtual field
+            if field.attname not in kwargs and field.column is None:
+                continue
+            if kwargs:
+                if isinstance(field.remote_field, ForeignObjectRel):
+                    try:
+                        # Assume object instance was passed in.
+                        rel_obj = kwargs.pop(field.name)
+                        is_related_object = True
+                    except KeyError:
+                        try:
+                            # Object instance wasn't passed in -- must be an ID.
+                            val = kwargs.pop(field.attname)
+                        except KeyError:
+                            val = field.get_default()
+                else:
+                    try:
+                        val = kwargs.pop(field.attname)
+                    except KeyError:
+                        # This is done with an exception rather than the
+                        # default argument on pop because we don't want
+                        # get_default() to be evaluated, and then not used.
+                        # Refs #12057.
+                        val = field.get_default()
+            else:
+                val = field.get_default()
+    
+            if is_related_object:
+                # If we are passed a related instance, set it using the
+                # field.name instead of field.attname (e.g. "user" instead of
+                # "user_id") so that the object gets properly cached (and type
+                # checked) by the RelatedObjectDescriptor.
+                if rel_obj is not _DEFERRED:
+                    _setattr(self, field.name, rel_obj)
+            else:
+                if val is not _DEFERRED:
+                    _setattr(self, field.attname, val)
+    
+        if kwargs:
+            property_names = opts._property_names
+            for prop in tuple(kwargs):
+                try:
+                    # Any remaining kwargs must correspond to properties or
+                    # virtual fields.
+                    if prop in property_names or opts.get_field(prop):
+                        if kwargs[prop] is not _DEFERRED:
+                            _setattr(self, prop, kwargs[prop])
+                        del kwargs[prop]
+                except (AttributeError, FieldDoesNotExist):
+                    pass
+            for kwarg in kwargs:
+&gt;               raise TypeError("%s() got an unexpected keyword argument '%s'" % (cls.__name__, kwarg))
+E               TypeError: Transaction() got an unexpected keyword argument 'payment_method_info'
+
+/opt/venv/lib/python3.9/site-packages/django/db/models/base.py:503: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.stripe.tests.test_webhooks" name="test_handle_failed_payment_intent_for_order" time="0.269"><failure message="TypeError: Transaction() got an unexpected keyword argument 'payment_method_info'">stripe_plugin = &lt;function stripe_plugin.&lt;locals&gt;.fun at 0x747719935af0&gt;
+payment_stripe_for_order = Payment(gateway=saleor.payments.stripe, is_active=True, created=2026-10-01 00:02:47.630006+00:00, charge_status=not-charged)
+channel_USD = &lt;Channel: main&gt;
+
+    def test_handle_failed_payment_intent_for_order(
+        stripe_plugin, payment_stripe_for_order, channel_USD
+    ):
+        payment = payment_stripe_for_order
+        payment.transactions.create(
+            is_success=True,
+            action_required=True,
+            kind=TransactionKind.ACTION_TO_CONFIRM,
+            amount=payment.total,
+            currency=payment.currency,
+            token="ABC",
+            gateway_response={},
+        )
+    
+        plugin = stripe_plugin()
+    
+        payment_intent = StripeObject(id="ABC", last_response={})
+        payment_intent["amount"] = payment.total
+        payment_intent["currency"] = payment.currency
+        payment_intent["status"] = FAILED_STATUSES[0]
+    
+&gt;       handle_failed_payment_intent(payment_intent, plugin.config, channel_USD.slug)
+
+saleor/payment/gateways/stripe/tests/test_webhooks.py:394: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/payment/gateways/stripe/webhooks.py:241: in handle_failed_payment_intent
+    _update_payment_with_new_transaction(
+saleor/payment/gateways/stripe/webhooks.py:172: in _update_payment_with_new_transaction
+    transaction = create_transaction(
+saleor/payment/utils.py:208: in create_transaction
+    txn = Transaction.objects.create(
+/opt/venv/lib/python3.9/site-packages/django/db/models/manager.py:85: in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+/opt/venv/lib/python3.9/site-packages/django/db/models/query.py:451: in create
+    obj = self.model(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = Transaction(type=cancel, is_success=True, created=None), args = ()
+kwargs = {'payment_method_info': None}
+cls = &lt;class 'saleor.payment.models.Transaction'&gt;
+opts = &lt;Options for Transaction&gt;, _setattr = &lt;built-in function setattr&gt;
+_DEFERRED = &lt;Deferred field&gt;
+fields_iter = &lt;tuple_iterator object at 0x74771962a6a0&gt;, val = False
+field = &lt;django.db.models.fields.BooleanField: already_processed&gt;
+is_related_object = False
+rel_obj = Payment(gateway=saleor.payments.stripe, is_active=True, created=2026-10-01 00:02:47.630006+00:00, charge_status=not-charged)
+property_names = frozenset({'pk'})
+
+    def __init__(self, *args, **kwargs):
+        # Alias some things as locals to avoid repeat global lookups
+        cls = self.__class__
+        opts = self._meta
+        _setattr = setattr
+        _DEFERRED = DEFERRED
+        if opts.abstract:
+            raise TypeError('Abstract models cannot be instantiated.')
+    
+        pre_init.send(sender=cls, args=args, kwargs=kwargs)
+    
+        # Set up the storage for instance state
+        self._state = ModelState()
+    
+        # There is a rather weird disparity here; if kwargs, it's set, then args
+        # overrides it. It should be one or the other; don't duplicate the work
+        # The reason for the kwargs check is that standard iterator passes in by
+        # args, and instantiation for iteration is 33% faster.
+        if len(args) &gt; len(opts.concrete_fields):
+            # Daft, but matches old exception sans the err msg.
+            raise IndexError("Number of args exceeds number of fields")
+    
+        if not kwargs:
+            fields_iter = iter(opts.concrete_fields)
+            # The ordering of the zip calls matter - zip throws StopIteration
+            # when an iter throws it. So if the first iter throws it, the second
+            # is *not* consumed. We rely on this, so don't change the order
+            # without changing the logic.
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+        else:
+            # Slower, kwargs-ready version.
+            fields_iter = iter(opts.fields)
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+                kwargs.pop(field.name, None)
+    
+        # Now we're left with the unprocessed fields that *must* come from
+        # keywords, or default.
+    
+        for field in fields_iter:
+            is_related_object = False
+            # Virtual field
+            if field.attname not in kwargs and field.column is None:
+                continue
+            if kwargs:
+                if isinstance(field.remote_field, ForeignObjectRel):
+                    try:
+                        # Assume object instance was passed in.
+                        rel_obj = kwargs.pop(field.name)
+                        is_related_object = True
+                    except KeyError:
+                        try:
+                            # Object instance wasn't passed in -- must be an ID.
+                            val = kwargs.pop(field.attname)
+                        except KeyError:
+                            val = field.get_default()
+                else:
+                    try:
+                        val = kwargs.pop(field.attname)
+                    except KeyError:
+                        # This is done with an exception rather than the
+                        # default argument on pop because we don't want
+                        # get_default() to be evaluated, and then not used.
+                        # Refs #12057.
+                        val = field.get_default()
+            else:
+                val = field.get_default()
+    
+            if is_related_object:
+                # If we are passed a related instance, set it using the
+                # field.name instead of field.attname (e.g. "user" instead of
+                # "user_id") so that the object gets properly cached (and type
+                # checked) by the RelatedObjectDescriptor.
+                if rel_obj is not _DEFERRED:
+                    _setattr(self, field.name, rel_obj)
+            else:
+                if val is not _DEFERRED:
+                    _setattr(self, field.attname, val)
+    
+        if kwargs:
+            property_names = opts._property_names
+            for prop in tuple(kwargs):
+                try:
+                    # Any remaining kwargs must correspond to properties or
+                    # virtual fields.
+                    if prop in property_names or opts.get_field(prop):
+                        if kwargs[prop] is not _DEFERRED:
+                            _setattr(self, prop, kwargs[prop])
+                        del kwargs[prop]
+                except (AttributeError, FieldDoesNotExist):
+                    pass
+            for kwarg in kwargs:
+&gt;               raise TypeError("%s() got an unexpected keyword argument '%s'" % (cls.__name__, kwarg))
+E               TypeError: Transaction() got an unexpected keyword argument 'payment_method_info'
+
+/opt/venv/lib/python3.9/site-packages/django/db/models/base.py:503: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.stripe.tests.test_webhooks" name="test_handle_fully_refund" time="0.281"><failure message="TypeError: Transaction() got an unexpected keyword argument 'payment_method_info'">stripe_plugin = &lt;function stripe_plugin.&lt;locals&gt;.fun at 0x747719935ca0&gt;
+payment_stripe_for_order = Payment(gateway=saleor.payments.stripe, is_active=True, created=2026-10-01 00:02:48.156078+00:00, charge_status=not-charged)
+channel_USD = &lt;Channel: main&gt;
+
+    def test_handle_fully_refund(stripe_plugin, payment_stripe_for_order, channel_USD):
+        payment = payment_stripe_for_order
+        payment.captured_amount = payment.total
+        payment.save()
+        payment.transactions.create(
+            is_success=True,
+            action_required=True,
+            kind=TransactionKind.CAPTURE,
+            amount=payment.total,
+            currency=payment.currency,
+            token="ABC",
+            gateway_response={},
+        )
+        plugin = stripe_plugin()
+    
+        refund = StripeObject(id="refund_id")
+        refund["amount"] = price_to_minor_unit(payment.total, payment.currency)
+        refund["currency"] = payment.currency
+        refund["last_response"] = None
+    
+        charge = StripeObject()
+        charge["payment_intent"] = "ABC"
+        charge["refunds"] = StripeObject()
+        charge["refunds"]["data"] = [refund]
+    
+&gt;       handle_refund(charge, plugin.config, channel_USD.slug)
+
+saleor/payment/gateways/stripe/tests/test_webhooks.py:428: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/payment/gateways/stripe/webhooks.py:363: in handle_refund
+    refund_transaction = _update_payment_with_new_transaction(
+saleor/payment/gateways/stripe/webhooks.py:172: in _update_payment_with_new_transaction
+    transaction = create_transaction(
+saleor/payment/utils.py:208: in create_transaction
+    txn = Transaction.objects.create(
+/opt/venv/lib/python3.9/site-packages/django/db/models/manager.py:85: in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+/opt/venv/lib/python3.9/site-packages/django/db/models/query.py:451: in create
+    obj = self.model(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = Transaction(type=refund, is_success=True, created=None), args = ()
+kwargs = {'payment_method_info': None}
+cls = &lt;class 'saleor.payment.models.Transaction'&gt;
+opts = &lt;Options for Transaction&gt;, _setattr = &lt;built-in function setattr&gt;
+_DEFERRED = &lt;Deferred field&gt;
+fields_iter = &lt;tuple_iterator object at 0x74771926ad00&gt;, val = False
+field = &lt;django.db.models.fields.BooleanField: already_processed&gt;
+is_related_object = False
+rel_obj = Payment(gateway=saleor.payments.stripe, is_active=True, created=2026-10-01 00:02:48.156078+00:00, charge_status=not-charged)
+property_names = frozenset({'pk'})
+
+    def __init__(self, *args, **kwargs):
+        # Alias some things as locals to avoid repeat global lookups
+        cls = self.__class__
+        opts = self._meta
+        _setattr = setattr
+        _DEFERRED = DEFERRED
+        if opts.abstract:
+            raise TypeError('Abstract models cannot be instantiated.')
+    
+        pre_init.send(sender=cls, args=args, kwargs=kwargs)
+    
+        # Set up the storage for instance state
+        self._state = ModelState()
+    
+        # There is a rather weird disparity here; if kwargs, it's set, then args
+        # overrides it. It should be one or the other; don't duplicate the work
+        # The reason for the kwargs check is that standard iterator passes in by
+        # args, and instantiation for iteration is 33% faster.
+        if len(args) &gt; len(opts.concrete_fields):
+            # Daft, but matches old exception sans the err msg.
+            raise IndexError("Number of args exceeds number of fields")
+    
+        if not kwargs:
+            fields_iter = iter(opts.concrete_fields)
+            # The ordering of the zip calls matter - zip throws StopIteration
+            # when an iter throws it. So if the first iter throws it, the second
+            # is *not* consumed. We rely on this, so don't change the order
+            # without changing the logic.
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+        else:
+            # Slower, kwargs-ready version.
+            fields_iter = iter(opts.fields)
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+                kwargs.pop(field.name, None)
+    
+        # Now we're left with the unprocessed fields that *must* come from
+        # keywords, or default.
+    
+        for field in fields_iter:
+            is_related_object = False
+            # Virtual field
+            if field.attname not in kwargs and field.column is None:
+                continue
+            if kwargs:
+                if isinstance(field.remote_field, ForeignObjectRel):
+                    try:
+                        # Assume object instance was passed in.
+                        rel_obj = kwargs.pop(field.name)
+                        is_related_object = True
+                    except KeyError:
+                        try:
+                            # Object instance wasn't passed in -- must be an ID.
+                            val = kwargs.pop(field.attname)
+                        except KeyError:
+                            val = field.get_default()
+                else:
+                    try:
+                        val = kwargs.pop(field.attname)
+                    except KeyError:
+                        # This is done with an exception rather than the
+                        # default argument on pop because we don't want
+                        # get_default() to be evaluated, and then not used.
+                        # Refs #12057.
+                        val = field.get_default()
+            else:
+                val = field.get_default()
+    
+            if is_related_object:
+                # If we are passed a related instance, set it using the
+                # field.name instead of field.attname (e.g. "user" instead of
+                # "user_id") so that the object gets properly cached (and type
+                # checked) by the RelatedObjectDescriptor.
+                if rel_obj is not _DEFERRED:
+                    _setattr(self, field.name, rel_obj)
+            else:
+                if val is not _DEFERRED:
+                    _setattr(self, field.attname, val)
+    
+        if kwargs:
+            property_names = opts._property_names
+            for prop in tuple(kwargs):
+                try:
+                    # Any remaining kwargs must correspond to properties or
+                    # virtual fields.
+                    if prop in property_names or opts.get_field(prop):
+                        if kwargs[prop] is not _DEFERRED:
+                            _setattr(self, prop, kwargs[prop])
+                        del kwargs[prop]
+                except (AttributeError, FieldDoesNotExist):
+                    pass
+            for kwarg in kwargs:
+&gt;               raise TypeError("%s() got an unexpected keyword argument '%s'" % (cls.__name__, kwarg))
+E               TypeError: Transaction() got an unexpected keyword argument 'payment_method_info'
+
+/opt/venv/lib/python3.9/site-packages/django/db/models/base.py:503: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.stripe.tests.test_webhooks" name="test_handle_partial_refund" time="0.250"><failure message="TypeError: Transaction() got an unexpected keyword argument 'payment_method_info'">stripe_plugin = &lt;function stripe_plugin.&lt;locals&gt;.fun at 0x747719816c10&gt;
+payment_stripe_for_order = Payment(gateway=saleor.payments.stripe, is_active=True, created=2026-10-01 00:02:48.496148+00:00, charge_status=not-charged)
+channel_USD = &lt;Channel: main&gt;
+
+    def test_handle_partial_refund(stripe_plugin, payment_stripe_for_order, channel_USD):
+        payment = payment_stripe_for_order
+        payment.captured_amount = payment.total
+        payment.save()
+        payment.transactions.create(
+            is_success=True,
+            action_required=True,
+            kind=TransactionKind.CAPTURE,
+            amount=payment.total,
+            currency=payment.currency,
+            token="ABC",
+            gateway_response={},
+        )
+        plugin = stripe_plugin()
+    
+        refund = StripeObject(id="refund_id")
+        refund["amount"] = price_to_minor_unit(Decimal("10"), payment.currency)
+        refund["currency"] = payment.currency
+        refund["last_response"] = None
+    
+        charge = StripeObject()
+        charge["payment_intent"] = "ABC"
+        charge["refunds"] = StripeObject()
+        charge["refunds"]["data"] = [refund]
+    
+&gt;       handle_refund(charge, plugin.config, channel_USD.slug)
+
+saleor/payment/gateways/stripe/tests/test_webhooks.py:462: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/payment/gateways/stripe/webhooks.py:363: in handle_refund
+    refund_transaction = _update_payment_with_new_transaction(
+saleor/payment/gateways/stripe/webhooks.py:172: in _update_payment_with_new_transaction
+    transaction = create_transaction(
+saleor/payment/utils.py:208: in create_transaction
+    txn = Transaction.objects.create(
+/opt/venv/lib/python3.9/site-packages/django/db/models/manager.py:85: in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+/opt/venv/lib/python3.9/site-packages/django/db/models/query.py:451: in create
+    obj = self.model(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = Transaction(type=refund, is_success=True, created=None), args = ()
+kwargs = {'payment_method_info': None}
+cls = &lt;class 'saleor.payment.models.Transaction'&gt;
+opts = &lt;Options for Transaction&gt;, _setattr = &lt;built-in function setattr&gt;
+_DEFERRED = &lt;Deferred field&gt;
+fields_iter = &lt;tuple_iterator object at 0x7477190d4cd0&gt;, val = False
+field = &lt;django.db.models.fields.BooleanField: already_processed&gt;
+is_related_object = False
+rel_obj = Payment(gateway=saleor.payments.stripe, is_active=True, created=2026-10-01 00:02:48.496148+00:00, charge_status=not-charged)
+property_names = frozenset({'pk'})
+
+    def __init__(self, *args, **kwargs):
+        # Alias some things as locals to avoid repeat global lookups
+        cls = self.__class__
+        opts = self._meta
+        _setattr = setattr
+        _DEFERRED = DEFERRED
+        if opts.abstract:
+            raise TypeError('Abstract models cannot be instantiated.')
+    
+        pre_init.send(sender=cls, args=args, kwargs=kwargs)
+    
+        # Set up the storage for instance state
+        self._state = ModelState()
+    
+        # There is a rather weird disparity here; if kwargs, it's set, then args
+        # overrides it. It should be one or the other; don't duplicate the work
+        # The reason for the kwargs check is that standard iterator passes in by
+        # args, and instantiation for iteration is 33% faster.
+        if len(args) &gt; len(opts.concrete_fields):
+            # Daft, but matches old exception sans the err msg.
+            raise IndexError("Number of args exceeds number of fields")
+    
+        if not kwargs:
+            fields_iter = iter(opts.concrete_fields)
+            # The ordering of the zip calls matter - zip throws StopIteration
+            # when an iter throws it. So if the first iter throws it, the second
+            # is *not* consumed. We rely on this, so don't change the order
+            # without changing the logic.
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+        else:
+            # Slower, kwargs-ready version.
+            fields_iter = iter(opts.fields)
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+                kwargs.pop(field.name, None)
+    
+        # Now we're left with the unprocessed fields that *must* come from
+        # keywords, or default.
+    
+        for field in fields_iter:
+            is_related_object = False
+            # Virtual field
+            if field.attname not in kwargs and field.column is None:
+                continue
+            if kwargs:
+                if isinstance(field.remote_field, ForeignObjectRel):
+                    try:
+                        # Assume object instance was passed in.
+                        rel_obj = kwargs.pop(field.name)
+                        is_related_object = True
+                    except KeyError:
+                        try:
+                            # Object instance wasn't passed in -- must be an ID.
+                            val = kwargs.pop(field.attname)
+                        except KeyError:
+                            val = field.get_default()
+                else:
+                    try:
+                        val = kwargs.pop(field.attname)
+                    except KeyError:
+                        # This is done with an exception rather than the
+                        # default argument on pop because we don't want
+                        # get_default() to be evaluated, and then not used.
+                        # Refs #12057.
+                        val = field.get_default()
+            else:
+                val = field.get_default()
+    
+            if is_related_object:
+                # If we are passed a related instance, set it using the
+                # field.name instead of field.attname (e.g. "user" instead of
+                # "user_id") so that the object gets properly cached (and type
+                # checked) by the RelatedObjectDescriptor.
+                if rel_obj is not _DEFERRED:
+                    _setattr(self, field.name, rel_obj)
+            else:
+                if val is not _DEFERRED:
+                    _setattr(self, field.attname, val)
+    
+        if kwargs:
+            property_names = opts._property_names
+            for prop in tuple(kwargs):
+                try:
+                    # Any remaining kwargs must correspond to properties or
+                    # virtual fields.
+                    if prop in property_names or opts.get_field(prop):
+                        if kwargs[prop] is not _DEFERRED:
+                            _setattr(self, prop, kwargs[prop])
+                        del kwargs[prop]
+                except (AttributeError, FieldDoesNotExist):
+                    pass
+            for kwarg in kwargs:
+&gt;               raise TypeError("%s() got an unexpected keyword argument '%s'" % (cls.__name__, kwarg))
+E               TypeError: Transaction() got an unexpected keyword argument 'payment_method_info'
+
+/opt/venv/lib/python3.9/site-packages/django/db/models/base.py:503: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.stripe.tests.test_webhooks" name="test_handle_processing_payment_intent_for_checkout" time="0.217"><failure message="TypeError: Transaction() got an unexpected keyword argument 'payment_method_info'">wrapped_checkout_complete = &lt;MagicMock name='complete_checkout' id='128054874905808'&gt;
+payment_stripe_for_checkout = Payment(gateway=saleor.payments.stripe, is_active=True, created=2026-10-01 00:02:48.821936+00:00, charge_status=not-charged)
+checkout_with_items = &lt;Checkout: Checkout object (e14af834-d80a-494f-b0a2-81d1c1790e17)&gt;
+stripe_plugin = &lt;function stripe_plugin.&lt;locals&gt;.fun at 0x7477195bbee0&gt;
+channel_USD = &lt;Channel: main&gt;
+
+    @patch(
+        "saleor.payment.gateways.stripe.webhooks.complete_checkout", wraps=complete_checkout
+    )
+    def test_handle_processing_payment_intent_for_checkout(
+        wrapped_checkout_complete,
+        payment_stripe_for_checkout,
+        checkout_with_items,
+        stripe_plugin,
+        channel_USD,
+    ):
+        payment = payment_stripe_for_checkout
+        payment.to_confirm = True
+        payment.save()
+        payment.transactions.create(
+            is_success=True,
+            action_required=True,
+            kind=TransactionKind.ACTION_TO_CONFIRM,
+            amount=payment.total,
+            currency=payment.currency,
+            token="ABC",
+            gateway_response={},
+        )
+        plugin = stripe_plugin()
+        payment_intent = StripeObject(id="ABC", last_response={})
+        payment_intent["amount"] = price_to_minor_unit(payment.total, payment.currency)
+        payment_intent["currency"] = payment.currency
+        payment_intent["status"] = PROCESSING_STATUS
+&gt;       handle_processing_payment_intent(payment_intent, plugin.config, channel_USD.slug)
+
+saleor/payment/gateways/stripe/tests/test_webhooks.py:330: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/payment/gateways/stripe/webhooks.py:268: in handle_processing_payment_intent
+    _process_payment_with_checkout(
+saleor/payment/gateways/stripe/webhooks.py:194: in _process_payment_with_checkout
+    _finalize_checkout(checkout, payment, payment_intent, kind, amount, currency)
+saleor/payment/gateways/stripe/webhooks.py:130: in _finalize_checkout
+    create_transaction(
+saleor/payment/utils.py:208: in create_transaction
+    txn = Transaction.objects.create(
+/opt/venv/lib/python3.9/site-packages/django/db/models/manager.py:85: in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+/opt/venv/lib/python3.9/site-packages/django/db/models/query.py:451: in create
+    obj = self.model(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = Transaction(type=pending, is_success=True, created=None), args = ()
+kwargs = {'payment_method_info': None}
+cls = &lt;class 'saleor.payment.models.Transaction'&gt;
+opts = &lt;Options for Transaction&gt;, _setattr = &lt;built-in function setattr&gt;
+_DEFERRED = &lt;Deferred field&gt;
+fields_iter = &lt;tuple_iterator object at 0x7477191588b0&gt;, val = False
+field = &lt;django.db.models.fields.BooleanField: already_processed&gt;
+is_related_object = False
+rel_obj = Payment(gateway=saleor.payments.stripe, is_active=True, created=2026-10-01 00:02:48.821936+00:00, charge_status=not-charged)
+property_names = frozenset({'pk'})
+
+    def __init__(self, *args, **kwargs):
+        # Alias some things as locals to avoid repeat global lookups
+        cls = self.__class__
+        opts = self._meta
+        _setattr = setattr
+        _DEFERRED = DEFERRED
+        if opts.abstract:
+            raise TypeError('Abstract models cannot be instantiated.')
+    
+        pre_init.send(sender=cls, args=args, kwargs=kwargs)
+    
+        # Set up the storage for instance state
+        self._state = ModelState()
+    
+        # There is a rather weird disparity here; if kwargs, it's set, then args
+        # overrides it. It should be one or the other; don't duplicate the work
+        # The reason for the kwargs check is that standard iterator passes in by
+        # args, and instantiation for iteration is 33% faster.
+        if len(args) &gt; len(opts.concrete_fields):
+            # Daft, but matches old exception sans the err msg.
+            raise IndexError("Number of args exceeds number of fields")
+    
+        if not kwargs:
+            fields_iter = iter(opts.concrete_fields)
+            # The ordering of the zip calls matter - zip throws StopIteration
+            # when an iter throws it. So if the first iter throws it, the second
+            # is *not* consumed. We rely on this, so don't change the order
+            # without changing the logic.
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+        else:
+            # Slower, kwargs-ready version.
+            fields_iter = iter(opts.fields)
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+                kwargs.pop(field.name, None)
+    
+        # Now we're left with the unprocessed fields that *must* come from
+        # keywords, or default.
+    
+        for field in fields_iter:
+            is_related_object = False
+            # Virtual field
+            if field.attname not in kwargs and field.column is None:
+                continue
+            if kwargs:
+                if isinstance(field.remote_field, ForeignObjectRel):
+                    try:
+                        # Assume object instance was passed in.
+                        rel_obj = kwargs.pop(field.name)
+                        is_related_object = True
+                    except KeyError:
+                        try:
+                            # Object instance wasn't passed in -- must be an ID.
+                            val = kwargs.pop(field.attname)
+                        except KeyError:
+                            val = field.get_default()
+                else:
+                    try:
+                        val = kwargs.pop(field.attname)
+                    except KeyError:
+                        # This is done with an exception rather than the
+                        # default argument on pop because we don't want
+                        # get_default() to be evaluated, and then not used.
+                        # Refs #12057.
+                        val = field.get_default()
+            else:
+                val = field.get_default()
+    
+            if is_related_object:
+                # If we are passed a related instance, set it using the
+                # field.name instead of field.attname (e.g. "user" instead of
+                # "user_id") so that the object gets properly cached (and type
+                # checked) by the RelatedObjectDescriptor.
+                if rel_obj is not _DEFERRED:
+                    _setattr(self, field.name, rel_obj)
+            else:
+                if val is not _DEFERRED:
+                    _setattr(self, field.attname, val)
+    
+        if kwargs:
+            property_names = opts._property_names
+            for prop in tuple(kwargs):
+                try:
+                    # Any remaining kwargs must correspond to properties or
+                    # virtual fields.
+                    if prop in property_names or opts.get_field(prop):
+                        if kwargs[prop] is not _DEFERRED:
+                            _setattr(self, prop, kwargs[prop])
+                        del kwargs[prop]
+                except (AttributeError, FieldDoesNotExist):
+                    pass
+            for kwarg in kwargs:
+&gt;               raise TypeError("%s() got an unexpected keyword argument '%s'" % (cls.__name__, kwarg))
+E               TypeError: Transaction() got an unexpected keyword argument 'payment_method_info'
+
+/opt/venv/lib/python3.9/site-packages/django/db/models/base.py:503: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.stripe.tests.test_webhooks" name="test_handle_processing_payment_intent_for_order" time="0.238" /><testcase classname="saleor.payment.gateways.stripe.tests.test_webhooks" name="test_handle_refund_already_processed" time="0.279" /><testcase classname="saleor.payment.gateways.stripe.tests.test_webhooks" name="test_handle_successful_payment_intent_for_checkout" time="0.226"><failure message="TypeError: Transaction() got an unexpected keyword argument 'payment_method_info'">wrapped_checkout_complete = &lt;MagicMock name='complete_checkout' id='128054871199456'&gt;
+payment_stripe_for_checkout = Payment(gateway=saleor.payments.stripe, is_active=True, created=2026-10-01 00:02:49.802631+00:00, charge_status=not-charged)
+checkout_with_items = &lt;Checkout: Checkout object (51666204-ce2f-43ed-86e0-dbba0bbdc0ce)&gt;
+stripe_plugin = &lt;function stripe_plugin.&lt;locals&gt;.fun at 0x7477199353a0&gt;
+channel_USD = &lt;Channel: main&gt;
+
+    @patch(
+        "saleor.payment.gateways.stripe.webhooks.complete_checkout", wraps=complete_checkout
+    )
+    def test_handle_successful_payment_intent_for_checkout(
+        wrapped_checkout_complete,
+        payment_stripe_for_checkout,
+        checkout_with_items,
+        stripe_plugin,
+        channel_USD,
+    ):
+        payment = payment_stripe_for_checkout
+        payment.to_confirm = True
+        payment.save()
+        payment.transactions.create(
+            is_success=True,
+            action_required=True,
+            kind=TransactionKind.ACTION_TO_CONFIRM,
+            amount=payment.total,
+            currency=payment.currency,
+            token="ABC",
+            gateway_response={},
+        )
+        plugin = stripe_plugin()
+        payment_intent = StripeObject(id="ABC", last_response={})
+        payment_intent["amount_received"] = price_to_minor_unit(
+            payment.total, payment.currency
+        )
+        payment_intent["setup_future_usage"] = None
+        payment_intent["currency"] = payment.currency
+        payment_intent["status"] = SUCCESS_STATUS
+    
+&gt;       handle_successful_payment_intent(payment_intent, plugin.config, channel_USD.slug)
+
+saleor/payment/gateways/stripe/tests/test_webhooks.py:62: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/payment/gateways/stripe/webhooks.py:321: in handle_successful_payment_intent
+    _process_payment_with_checkout(
+saleor/payment/gateways/stripe/webhooks.py:194: in _process_payment_with_checkout
+    _finalize_checkout(checkout, payment, payment_intent, kind, amount, currency)
+saleor/payment/gateways/stripe/webhooks.py:130: in _finalize_checkout
+    create_transaction(
+saleor/payment/utils.py:208: in create_transaction
+    txn = Transaction.objects.create(
+/opt/venv/lib/python3.9/site-packages/django/db/models/manager.py:85: in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+/opt/venv/lib/python3.9/site-packages/django/db/models/query.py:451: in create
+    obj = self.model(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = Transaction(type=capture, is_success=True, created=None), args = ()
+kwargs = {'payment_method_info': None}
+cls = &lt;class 'saleor.payment.models.Transaction'&gt;
+opts = &lt;Options for Transaction&gt;, _setattr = &lt;built-in function setattr&gt;
+_DEFERRED = &lt;Deferred field&gt;
+fields_iter = &lt;tuple_iterator object at 0x747719105970&gt;, val = False
+field = &lt;django.db.models.fields.BooleanField: already_processed&gt;
+is_related_object = False
+rel_obj = Payment(gateway=saleor.payments.stripe, is_active=True, created=2026-10-01 00:02:49.802631+00:00, charge_status=not-charged)
+property_names = frozenset({'pk'})
+
+    def __init__(self, *args, **kwargs):
+        # Alias some things as locals to avoid repeat global lookups
+        cls = self.__class__
+        opts = self._meta
+        _setattr = setattr
+        _DEFERRED = DEFERRED
+        if opts.abstract:
+            raise TypeError('Abstract models cannot be instantiated.')
+    
+        pre_init.send(sender=cls, args=args, kwargs=kwargs)
+    
+        # Set up the storage for instance state
+        self._state = ModelState()
+    
+        # There is a rather weird disparity here; if kwargs, it's set, then args
+        # overrides it. It should be one or the other; don't duplicate the work
+        # The reason for the kwargs check is that standard iterator passes in by
+        # args, and instantiation for iteration is 33% faster.
+        if len(args) &gt; len(opts.concrete_fields):
+            # Daft, but matches old exception sans the err msg.
+            raise IndexError("Number of args exceeds number of fields")
+    
+        if not kwargs:
+            fields_iter = iter(opts.concrete_fields)
+            # The ordering of the zip calls matter - zip throws StopIteration
+            # when an iter throws it. So if the first iter throws it, the second
+            # is *not* consumed. We rely on this, so don't change the order
+            # without changing the logic.
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+        else:
+            # Slower, kwargs-ready version.
+            fields_iter = iter(opts.fields)
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+                kwargs.pop(field.name, None)
+    
+        # Now we're left with the unprocessed fields that *must* come from
+        # keywords, or default.
+    
+        for field in fields_iter:
+            is_related_object = False
+            # Virtual field
+            if field.attname not in kwargs and field.column is None:
+                continue
+            if kwargs:
+                if isinstance(field.remote_field, ForeignObjectRel):
+                    try:
+                        # Assume object instance was passed in.
+                        rel_obj = kwargs.pop(field.name)
+                        is_related_object = True
+                    except KeyError:
+                        try:
+                            # Object instance wasn't passed in -- must be an ID.
+                            val = kwargs.pop(field.attname)
+                        except KeyError:
+                            val = field.get_default()
+                else:
+                    try:
+                        val = kwargs.pop(field.attname)
+                    except KeyError:
+                        # This is done with an exception rather than the
+                        # default argument on pop because we don't want
+                        # get_default() to be evaluated, and then not used.
+                        # Refs #12057.
+                        val = field.get_default()
+            else:
+                val = field.get_default()
+    
+            if is_related_object:
+                # If we are passed a related instance, set it using the
+                # field.name instead of field.attname (e.g. "user" instead of
+                # "user_id") so that the object gets properly cached (and type
+                # checked) by the RelatedObjectDescriptor.
+                if rel_obj is not _DEFERRED:
+                    _setattr(self, field.name, rel_obj)
+            else:
+                if val is not _DEFERRED:
+                    _setattr(self, field.attname, val)
+    
+        if kwargs:
+            property_names = opts._property_names
+            for prop in tuple(kwargs):
+                try:
+                    # Any remaining kwargs must correspond to properties or
+                    # virtual fields.
+                    if prop in property_names or opts.get_field(prop):
+                        if kwargs[prop] is not _DEFERRED:
+                            _setattr(self, prop, kwargs[prop])
+                        del kwargs[prop]
+                except (AttributeError, FieldDoesNotExist):
+                    pass
+            for kwarg in kwargs:
+&gt;               raise TypeError("%s() got an unexpected keyword argument '%s'" % (cls.__name__, kwarg))
+E               TypeError: Transaction() got an unexpected keyword argument 'payment_method_info'
+
+/opt/venv/lib/python3.9/site-packages/django/db/models/base.py:503: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.stripe.tests.test_webhooks" name="test_handle_successful_payment_intent_for_order" time="0.273" /><testcase classname="saleor.payment.gateways.stripe.tests.test_webhooks" name="test_handle_successful_payment_intent_for_order_with_auth_payment" time="0.248"><failure message="TypeError: Transaction() got an unexpected keyword argument 'payment_method_info'">wrapped_checkout_complete = &lt;MagicMock name='complete_checkout' id='128054870020208'&gt;
+payment_stripe_for_order = Payment(gateway=saleor.payments.stripe, is_active=True, created=2026-10-01 00:02:50.367796+00:00, charge_status=not-charged)
+stripe_plugin = &lt;function stripe_plugin.&lt;locals&gt;.fun at 0x7477195b85e0&gt;
+channel_USD = &lt;Channel: main&gt;
+
+    @patch(
+        "saleor.payment.gateways.stripe.webhooks.complete_checkout", wraps=complete_checkout
+    )
+    def test_handle_successful_payment_intent_for_order_with_auth_payment(
+        wrapped_checkout_complete, payment_stripe_for_order, stripe_plugin, channel_USD
+    ):
+        payment = payment_stripe_for_order
+    
+        plugin = stripe_plugin()
+    
+        payment_intent = StripeObject(id="token", last_response={})
+        payment_intent["amount_received"] = price_to_minor_unit(
+            payment.total, payment.currency
+        )
+        payment_intent["currency"] = payment.currency
+        payment_intent["setup_future_usage"] = None
+        payment_intent["status"] = SUCCESS_STATUS
+    
+&gt;       handle_successful_payment_intent(payment_intent, plugin.config, channel_USD.slug)
+
+saleor/payment/gateways/stripe/tests/test_webhooks.py:154: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/payment/gateways/stripe/webhooks.py:303: in handle_successful_payment_intent
+    capture_transaction = _update_payment_with_new_transaction(
+saleor/payment/gateways/stripe/webhooks.py:172: in _update_payment_with_new_transaction
+    transaction = create_transaction(
+saleor/payment/utils.py:208: in create_transaction
+    txn = Transaction.objects.create(
+/opt/venv/lib/python3.9/site-packages/django/db/models/manager.py:85: in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+/opt/venv/lib/python3.9/site-packages/django/db/models/query.py:451: in create
+    obj = self.model(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = Transaction(type=capture, is_success=True, created=None), args = ()
+kwargs = {'payment_method_info': None}
+cls = &lt;class 'saleor.payment.models.Transaction'&gt;
+opts = &lt;Options for Transaction&gt;, _setattr = &lt;built-in function setattr&gt;
+_DEFERRED = &lt;Deferred field&gt;
+fields_iter = &lt;tuple_iterator object at 0x7477198145e0&gt;, val = False
+field = &lt;django.db.models.fields.BooleanField: already_processed&gt;
+is_related_object = False
+rel_obj = Payment(gateway=saleor.payments.stripe, is_active=True, created=2026-10-01 00:02:50.367796+00:00, charge_status=not-charged)
+property_names = frozenset({'pk'})
+
+    def __init__(self, *args, **kwargs):
+        # Alias some things as locals to avoid repeat global lookups
+        cls = self.__class__
+        opts = self._meta
+        _setattr = setattr
+        _DEFERRED = DEFERRED
+        if opts.abstract:
+            raise TypeError('Abstract models cannot be instantiated.')
+    
+        pre_init.send(sender=cls, args=args, kwargs=kwargs)
+    
+        # Set up the storage for instance state
+        self._state = ModelState()
+    
+        # There is a rather weird disparity here; if kwargs, it's set, then args
+        # overrides it. It should be one or the other; don't duplicate the work
+        # The reason for the kwargs check is that standard iterator passes in by
+        # args, and instantiation for iteration is 33% faster.
+        if len(args) &gt; len(opts.concrete_fields):
+            # Daft, but matches old exception sans the err msg.
+            raise IndexError("Number of args exceeds number of fields")
+    
+        if not kwargs:
+            fields_iter = iter(opts.concrete_fields)
+            # The ordering of the zip calls matter - zip throws StopIteration
+            # when an iter throws it. So if the first iter throws it, the second
+            # is *not* consumed. We rely on this, so don't change the order
+            # without changing the logic.
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+        else:
+            # Slower, kwargs-ready version.
+            fields_iter = iter(opts.fields)
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+                kwargs.pop(field.name, None)
+    
+        # Now we're left with the unprocessed fields that *must* come from
+        # keywords, or default.
+    
+        for field in fields_iter:
+            is_related_object = False
+            # Virtual field
+            if field.attname not in kwargs and field.column is None:
+                continue
+            if kwargs:
+                if isinstance(field.remote_field, ForeignObjectRel):
+                    try:
+                        # Assume object instance was passed in.
+                        rel_obj = kwargs.pop(field.name)
+                        is_related_object = True
+                    except KeyError:
+                        try:
+                            # Object instance wasn't passed in -- must be an ID.
+                            val = kwargs.pop(field.attname)
+                        except KeyError:
+                            val = field.get_default()
+                else:
+                    try:
+                        val = kwargs.pop(field.attname)
+                    except KeyError:
+                        # This is done with an exception rather than the
+                        # default argument on pop because we don't want
+                        # get_default() to be evaluated, and then not used.
+                        # Refs #12057.
+                        val = field.get_default()
+            else:
+                val = field.get_default()
+    
+            if is_related_object:
+                # If we are passed a related instance, set it using the
+                # field.name instead of field.attname (e.g. "user" instead of
+                # "user_id") so that the object gets properly cached (and type
+                # checked) by the RelatedObjectDescriptor.
+                if rel_obj is not _DEFERRED:
+                    _setattr(self, field.name, rel_obj)
+            else:
+                if val is not _DEFERRED:
+                    _setattr(self, field.attname, val)
+    
+        if kwargs:
+            property_names = opts._property_names
+            for prop in tuple(kwargs):
+                try:
+                    # Any remaining kwargs must correspond to properties or
+                    # virtual fields.
+                    if prop in property_names or opts.get_field(prop):
+                        if kwargs[prop] is not _DEFERRED:
+                            _setattr(self, prop, kwargs[prop])
+                        del kwargs[prop]
+                except (AttributeError, FieldDoesNotExist):
+                    pass
+            for kwarg in kwargs:
+&gt;               raise TypeError("%s() got an unexpected keyword argument '%s'" % (cls.__name__, kwarg))
+E               TypeError: Transaction() got an unexpected keyword argument 'payment_method_info'
+
+/opt/venv/lib/python3.9/site-packages/django/db/models/base.py:503: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.stripe.tests.test_webhooks" name="test_handle_successful_payment_intent_for_order_with_pending_payment" time="0.242"><failure message="TypeError: Transaction() got an unexpected keyword argument 'payment_method_info'">wrapped_checkout_complete = &lt;MagicMock name='complete_checkout' id='128054878769840'&gt;
+payment_stripe_for_order = Payment(gateway=saleor.payments.stripe, is_active=True, created=2026-10-01 00:02:50.859923+00:00, charge_status=not-charged)
+stripe_plugin = &lt;function stripe_plugin.&lt;locals&gt;.fun at 0x747719584e50&gt;
+channel_USD = &lt;Channel: main&gt;
+
+    @patch(
+        "saleor.payment.gateways.stripe.webhooks.complete_checkout", wraps=complete_checkout
+    )
+    def test_handle_successful_payment_intent_for_order_with_pending_payment(
+        wrapped_checkout_complete, payment_stripe_for_order, stripe_plugin, channel_USD
+    ):
+        payment = payment_stripe_for_order
+        transaction = payment.transactions.first()
+        transaction.kind = TransactionKind.PENDING
+        transaction.save()
+    
+        plugin = stripe_plugin()
+    
+        payment_intent = StripeObject(id="token", last_response={})
+        payment_intent["amount_received"] = price_to_minor_unit(
+            payment.total, payment.currency
+        )
+        payment_intent["currency"] = payment.currency
+        payment_intent["setup_future_usage"] = None
+        payment_intent["status"] = SUCCESS_STATUS
+    
+&gt;       handle_successful_payment_intent(payment_intent, plugin.config, channel_USD.slug)
+
+saleor/payment/gateways/stripe/tests/test_webhooks.py:186: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/payment/gateways/stripe/webhooks.py:303: in handle_successful_payment_intent
+    capture_transaction = _update_payment_with_new_transaction(
+saleor/payment/gateways/stripe/webhooks.py:172: in _update_payment_with_new_transaction
+    transaction = create_transaction(
+saleor/payment/utils.py:208: in create_transaction
+    txn = Transaction.objects.create(
+/opt/venv/lib/python3.9/site-packages/django/db/models/manager.py:85: in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+/opt/venv/lib/python3.9/site-packages/django/db/models/query.py:451: in create
+    obj = self.model(**kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = Transaction(type=capture, is_success=True, created=None), args = ()
+kwargs = {'payment_method_info': None}
+cls = &lt;class 'saleor.payment.models.Transaction'&gt;
+opts = &lt;Options for Transaction&gt;, _setattr = &lt;built-in function setattr&gt;
+_DEFERRED = &lt;Deferred field&gt;
+fields_iter = &lt;tuple_iterator object at 0x7477198cf6a0&gt;, val = False
+field = &lt;django.db.models.fields.BooleanField: already_processed&gt;
+is_related_object = False
+rel_obj = Payment(gateway=saleor.payments.stripe, is_active=True, created=2026-10-01 00:02:50.859923+00:00, charge_status=not-charged)
+property_names = frozenset({'pk'})
+
+    def __init__(self, *args, **kwargs):
+        # Alias some things as locals to avoid repeat global lookups
+        cls = self.__class__
+        opts = self._meta
+        _setattr = setattr
+        _DEFERRED = DEFERRED
+        if opts.abstract:
+            raise TypeError('Abstract models cannot be instantiated.')
+    
+        pre_init.send(sender=cls, args=args, kwargs=kwargs)
+    
+        # Set up the storage for instance state
+        self._state = ModelState()
+    
+        # There is a rather weird disparity here; if kwargs, it's set, then args
+        # overrides it. It should be one or the other; don't duplicate the work
+        # The reason for the kwargs check is that standard iterator passes in by
+        # args, and instantiation for iteration is 33% faster.
+        if len(args) &gt; len(opts.concrete_fields):
+            # Daft, but matches old exception sans the err msg.
+            raise IndexError("Number of args exceeds number of fields")
+    
+        if not kwargs:
+            fields_iter = iter(opts.concrete_fields)
+            # The ordering of the zip calls matter - zip throws StopIteration
+            # when an iter throws it. So if the first iter throws it, the second
+            # is *not* consumed. We rely on this, so don't change the order
+            # without changing the logic.
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+        else:
+            # Slower, kwargs-ready version.
+            fields_iter = iter(opts.fields)
+            for val, field in zip(args, fields_iter):
+                if val is _DEFERRED:
+                    continue
+                _setattr(self, field.attname, val)
+                kwargs.pop(field.name, None)
+    
+        # Now we're left with the unprocessed fields that *must* come from
+        # keywords, or default.
+    
+        for field in fields_iter:
+            is_related_object = False
+            # Virtual field
+            if field.attname not in kwargs and field.column is None:
+                continue
+            if kwargs:
+                if isinstance(field.remote_field, ForeignObjectRel):
+                    try:
+                        # Assume object instance was passed in.
+                        rel_obj = kwargs.pop(field.name)
+                        is_related_object = True
+                    except KeyError:
+                        try:
+                            # Object instance wasn't passed in -- must be an ID.
+                            val = kwargs.pop(field.attname)
+                        except KeyError:
+                            val = field.get_default()
+                else:
+                    try:
+                        val = kwargs.pop(field.attname)
+                    except KeyError:
+                        # This is done with an exception rather than the
+                        # default argument on pop because we don't want
+                        # get_default() to be evaluated, and then not used.
+                        # Refs #12057.
+                        val = field.get_default()
+            else:
+                val = field.get_default()
+    
+            if is_related_object:
+                # If we are passed a related instance, set it using the
+                # field.name instead of field.attname (e.g. "user" instead of
+                # "user_id") so that the object gets properly cached (and type
+                # checked) by the RelatedObjectDescriptor.
+                if rel_obj is not _DEFERRED:
+                    _setattr(self, field.name, rel_obj)
+            else:
+                if val is not _DEFERRED:
+                    _setattr(self, field.attname, val)
+    
+        if kwargs:
+            property_names = opts._property_names
+            for prop in tuple(kwargs):
+                try:
+                    # Any remaining kwargs must correspond to properties or
+                    # virtual fields.
+                    if prop in property_names or opts.get_field(prop):
+                        if kwargs[prop] is not _DEFERRED:
+                            _setattr(self, prop, kwargs[prop])
+                        del kwargs[prop]
+                except (AttributeError, FieldDoesNotExist):
+                    pass
+            for kwarg in kwargs:
+&gt;               raise TypeError("%s() got an unexpected keyword argument '%s'" % (cls.__name__, kwarg))
+E               TypeError: Transaction() got an unexpected keyword argument 'payment_method_info'
+
+/opt/venv/lib/python3.9/site-packages/django/db/models/base.py:503: TypeError</failure></testcase><testcase classname="saleor.payment.gateways.stripe.tests.test_webhooks" name="test_handle_webhook_events[payment_intent.amount_capturable_updated-handle_authorized_payment_intent]" time="0.018" /><testcase classname="saleor.payment.gateways.stripe.tests.test_webhooks" name="test_handle_webhook_events[payment_intent.canceled-handle_failed_payment_intent]" time="0.018" /><testcase classname="saleor.payment.gateways.stripe.tests.test_webhooks" name="test_handle_webhook_events[payment_intent.payment_failed-handle_failed_payment_intent]" time="0.018" /><testcase classname="saleor.payment.gateways.stripe.tests.test_webhooks" name="test_handle_webhook_events[payment_intent.processing-handle_processing_payment_intent]" time="0.018" /><testcase classname="saleor.payment.gateways.stripe.tests.test_webhooks" name="test_handle_webhook_events[payment_intent.succeeded-handle_successful_payment_intent]" time="0.027" /></testsuite></testsuites>
