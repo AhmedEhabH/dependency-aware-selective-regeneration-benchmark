@@ -1,0 +1,77 @@
+FILE: CHANGELOG.md
+<<<<<<< SEARCH
+# Changelog
+
+All notable, unreleased changes to this project will be documented in this file. For the released changes, please visit the [Releases](https://github.com/mirumee/saleor/releases) page.
+
+# Unreleased
+- Migrate order line id from int to UUID - #9637 by @IKarbowiak
+  - Changed the order line `id` from `int` to `UUID`, the old ids still can be used
+=======
+# Changelog
+
+All notable, unreleased changes to this project will be documented in this file. For the released changes, please visit the [Releases](https://github.com/mirumee/saleor/releases) page.
+
+# Unreleased
+- Hide private metadata in notification payloads - #9849 by @SzymJ
+- Migrate order line id from int to UUID - #9637 by @IKarbowiak
+  - Changed the order line `id` from `int` to `UUID`, the old ids still can be used
+>>>>>>> REPLACE
+
+ FILE: saleor/account/notifications.py
+<<<<<<< SEARCH
+def get_default_user_payload(user: User):
+    return {
+        "id": to_global_id_or_none(user),
+        "email": user.email,
+        "first_name": user.first_name,
+        "last_name": user.last_name,
+        "is_staff": user.is_staff,
+        "is_active": user.is_active,
+        "private_metadata": user.private_metadata,
+        "metadata": user.metadata,
+        "language_code": user.language_code,
+    }
+=======
+def get_default_user_payload(user: User):
+    return {
+        "id": to_global_id_or_none(user),
+        "email": user.email,
+        "first_name": user.first_name,
+        "last_name": user.last_name,
+        "is_staff": user.is_staff,
+        "is_active": user.is_active,
+        "metadata": user.metadata,
+        "language_code": user.language_code,
+    }
+>>>>>>> REPLACE
+
+ FILE: saleor/order/notifications.py
+<<<<<<< SEARCH
+ORDER_MODEL_FIELDS = [
+    "display_gross_prices",
+    "currency",
+    "total_gross_amount",
+    "total_net_amount",
+    "undiscounted_total_gross_amount",
+    "undiscounted_total_net_amount",
+    "status",
+    "metadata",
+    "private_metadata",
+    "user_id",
+    "language_code",
+]
+=======
+ORDER_MODEL_FIELDS = [
+    "display_gross_prices",
+    "currency",
+    "total_gross_amount",
+    "total_net_amount",
+    "undiscounted_total_gross_amount",
+    "undiscounted_total_net_amount",
+    "status",
+    "metadata",
+    "user_id",
+    "language_code",
+]
+>>>>>>> REPLACE

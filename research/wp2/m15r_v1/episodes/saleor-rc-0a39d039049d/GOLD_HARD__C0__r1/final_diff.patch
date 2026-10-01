@@ -1,0 +1,59 @@
+diff --git a/saleor/graphql/product/bulk_mutations/product_variant_bulk_create.py b/saleor/graphql/product/bulk_mutations/product_variant_bulk_create.py
+--- a/saleor/graphql/product/bulk_mutations/product_variant_bulk_create.py
++++ b/saleor/graphql/product/bulk_mutations/product_variant_bulk_create.py
+@@ -114,6 +114,55 @@
+         required=False,
+         description=(
+             "The boolean value of an attribute to resolve. "
++            "If the passed value is non-existent, it will be created."
++        ),
++    )
++    date = graphene.Date(
++        required=False,
++        description=(
++            "The date value of an attribute to resolve. "
++            "If the passed value is non-existent, it will be created."
++        ),
++    )
++    dateTime = graphene.DateTime(
++        required=False,
++        description=(
++            "The date time value of an attribute to resolve. "
++            "If the passed value is non-existent, it will be created."
++        ),
++    )
++    text = graphene.String(
++        required=False,
++        description=(
++            "The text value of an attribute to resolve. "
++            "If the passed value is non-existent, it will be created."
++        ),
++    )
++    numeric = graphene.Decimal(
++        required=False,
++        description=(
++            "The numeric value of an attribute to resolve. "
++            "If the passed value is non-existent, it will be created."
++        ),
++    )
++    file = graphene.String(
++        required=False,
++        description=(
++            "The file URL of an attribute to resolve. "
++            "If the passed value is non-existent, it will be created."
++        ),
++    )
++    reference = graphene.ID(
++        required=False,
++        description=(
++            "The reference ID of an attribute to resolve. "
++            "If the passed value is non-existent, it will be created."
++        ),
++    )
++    richText = graphene.JSONString(
++        required=False,
++        description=(
++            "The rich text value of an attribute to resolve. "
+             "If the passed value is non-existent, it will be created."
+         ),
+     )

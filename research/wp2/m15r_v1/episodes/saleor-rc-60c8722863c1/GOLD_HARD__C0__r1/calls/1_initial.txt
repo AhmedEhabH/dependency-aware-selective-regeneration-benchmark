@@ -1,0 +1,48 @@
+Looking at the developer change description, I need to update attribute validation in the `productVariantBulkCreate` mutation. Based on the code provided, I can see that the validation logic for attribute values needs to be enhanced.
+
+Let me analyze the current implementation:
+
+1. In `ProductVariantBulkCreate`, there's a method `validate_duplicated_attribute_values` that checks for duplicate attribute values
+2. The `clean_variants` method calls this validation
+3. The validation uses `get_used_variants_attribute_values` from the utils module
+
+The issue appears to be in how boolean attribute values are handled in the validation. Looking at the code, I can see that in `validate_duplicated_attribute_values`, boolean values are stored directly while other values are extended from a list.
+
+Let me examine the validation logic more carefully and update it:
+
+FILE: saleor/graphql/product/bulk_mutations/products.py
+<<<<<<< SEARCH
+    @classmethod
+    def validate_duplicated_attribute_values(
+        cls, attributes_data, used_attribute_values, instance=None
+    ):
+        attribute_values = defaultdict(list)
+        for attr in attributes_data:
+            if "boolean" in attr:
+                attribute_values[attr.id] = attr["boolean"]
+            else:
+                attribute_values[attr.id].extend(attr.get("values", []))
+        if attribute_values in used_attribute_values:
+            raise ValidationError(
+                "Duplicated attribute values for product variant.",
+                ProductErrorCode.DUPLICATED_INPUT_ITEM,
+            )
+        used_attribute_values.append(attribute_values)
+=======
+    @classmethod
+    def validate_duplicated_attribute_values(
+        cls, attributes_data, used_attribute_values, instance=None
+    ):
+        attribute_values = defaultdict(list)
+        for attr in attributes_data:
+            if "boolean" in attr:
+                attribute_values[attr.id] = [attr["boolean"]]
+            else:
+                attribute_values[attr.id].extend(attr.get("values", []))
+        if attribute_values in used_attribute_values:
+            raise ValidationError(
+                "Duplicated attribute values for product variant.",
+                ProductErrorCode.DUPLICATED_INPUT_ITEM,
+            )
+        used_attribute_values.append(attribute_values)
+>>>>>>> REPLACE

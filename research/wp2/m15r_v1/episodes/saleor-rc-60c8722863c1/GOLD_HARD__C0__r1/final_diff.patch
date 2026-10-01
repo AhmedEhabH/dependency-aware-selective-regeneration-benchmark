@@ -1,0 +1,12 @@
+diff --git a/saleor/graphql/product/bulk_mutations/products.py b/saleor/graphql/product/bulk_mutations/products.py
+--- a/saleor/graphql/product/bulk_mutations/products.py
++++ b/saleor/graphql/product/bulk_mutations/products.py
+@@ -453,7 +453,7 @@
+         attribute_values = defaultdict(list)
+         for attr in attributes_data:
+             if "boolean" in attr:
+-                attribute_values[attr.id] = attr["boolean"]
++                attribute_values[attr.id] = [attr["boolean"]]
+             else:
+                 attribute_values[attr.id].extend(attr.get("values", []))
+         if attribute_values in used_attribute_values:

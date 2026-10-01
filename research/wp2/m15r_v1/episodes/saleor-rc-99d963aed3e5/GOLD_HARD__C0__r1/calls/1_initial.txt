@@ -1,0 +1,128 @@
+FILE: saleor/graphql/checkout/resolvers.py
+<<<<<<< SEARCH
+
+
+def resolve_checkouts(channel_slug):
+    queryset = models.Checkout.objects.all()
+    if channel_slug:
+        queryset = queryset.filter(channel__slug=channel_slug)
+    return queryset
+
+
+def resolve_checkout(info, token, channel_slug):
+    checkout = models.Checkout.objects.filter(
+        token=token, channel__slug=channel_slug
+    ).first()
+
+    if checkout is None:
+        return None
+=======
+
+
+def resolve_checkouts():
+    queryset = models.Checkout.objects.all()
+    return queryset
+
+
+def resolve_checkout(info, token):
+    checkout = models.Checkout.objects.filter(token=token).first()
+
+    if checkout is None:
+        return None
+>>>>>>> REPLACE
+
+### Undoing the removal of channel_slug parameter in resolve_checkouts function
+>>>>>>> REPLACE
+
+FILE: saleor/graphql/checkout/resolvers.py
+<<<<<<< SEARCH
+def resolve_checkouts():
+    queryset = models.Checkout.objects.all()
+    return queryset
+
+
+def resolve_checkout(info, token):
+    checkout = models.Checkout.objects.filter(token=token).first()
+
+=======
+def resolve_checkouts(channel_slug):
+    queryset = models.Checkout.objects.all()
+    if channel_slug:
+        queryset = queryset.filter(channel__slug=channel_slug)
+    return queryset
+
+
+def resolve_checkout(info, token, channel_slug):
+    checkout = models.Checkout.objects.filter(
+        token=token, channel__slug=channel_slug
+    ).first()
+
+>>>>>>> REPLACE
+
+### Reverting resolve_checkout to accept channel_slug again
+>>>>>>> REPLACE
+
+FILE: saleor/graphql/checkout/schema.py
+<<<<<<< SEARCH
+class CheckoutQueries(graphene.ObjectType):
+    checkout = FieldWithChannel(
+        Checkout,
+        description="Look up a checkout by token and slug of channel.",
+        token=graphene.Argument(UUID, description="The checkout's token."),
+    )
+    # FIXME we could optimize the below field
+    checkouts = BaseDjangoConnectionField(
+        Checkout,
+        description="List of checkouts.",
+        channel=graphene.String(
+            description="Slug of a channel for which the data should be returned."
+        ),
+    )
+    checkout_line = graphene.Field(
+        CheckoutLine,
+        id=graphene.Argument(graphene.ID, description="ID of the checkout line."),
+        description="Look up a checkout line by ID.",
+    )
+    checkout_lines = PrefetchingConnectionField(
+        CheckoutLine, description="List of checkout lines."
+    )
+
+    def resolve_checkout(self, info, token, channel):
+        return resolve_checkout(info, token, channel)
+
+    @permission_required(CheckoutPermissions.MANAGE_CHECKOUTS)
+    def resolve_checkouts(self, *_args, channel=None, **_kwargs):
+        return resolve_checkouts(channel)
+
+=======
+class CheckoutQueries(graphene.ObjectType):
+    checkout = graphene.Field(
+        Checkout,
+        description="Look up a checkout by token.",
+        token=graphene.Argument(UUID, description="The checkout's token."),
+    )
+    # FIXME we could optimize the below field
+    checkouts = BaseDjangoConnectionField(
+        Checkout,
+        description="List of checkouts.",
+    )
+    checkout_line = graphene.Field(
+        CheckoutLine,
+        id=graphene.Argument(graphene.ID, description="ID of the checkout line."),
+        description="Look up a checkout line by ID.",
+    )
+    checkout_lines = PrefetchingConnectionField(
+        CheckoutLine, description="List of checkout lines."
+    )
+
+    def resolve_checkout(self, info, token):
+        return resolve_checkout(info, token)
+
+    @permission_required(CheckoutPermissions.MANAGE_CHECKOUTS)
+    def resolve_checkouts(self, *_args, **_kwargs):
+        return resolve_checkouts()
+
+>>>>>>> REPLACE
+
+### Removing channel argument from checkout field and adjusting resolvers accordingly
+>>>>>>> REPLACE

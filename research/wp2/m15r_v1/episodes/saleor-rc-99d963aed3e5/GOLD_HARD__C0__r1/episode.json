@@ -1,0 +1,72 @@
+{
+ "smoke_version": "wp2-m14r-v1",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-99d963aed3e5",
+ "arm": "GOLD_HARD",
+ "label": "GOLD_HARD__C0__r1",
+ "variant": "G0",
+ "context": "C0",
+ "replicate": "r1",
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-10-01T11:18:01Z",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/graphql/checkout/resolvers.py",
+  "saleor/graphql/checkout/schema.py",
+  "saleor/graphql/core/fields.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/graphql/checkout/resolvers.py",
+   "saleor/graphql/checkout/schema.py",
+   "saleor/graphql/core/fields.py"
+  ],
+  "excluded_large": [
+   "saleor/graphql/schema.graphql"
+  ],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/graphql/checkout/resolvers.py",
+   "saleor/graphql/checkout/schema.py",
+   "saleor/graphql/core/fields.py",
+   "saleor/graphql/schema.graphql"
+  ]
+ },
+ "prompt_sha256": "5beaccd8be4cdfc0041fb09bfe3b5c602694ec201bcaf6174767ac95b18d6b14",
+ "request_sha_initial": "18b51c1f0a1e9b95f360685d0b63e88cde648c862d84e866fdd69fea569b3fa0",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "context_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790853485-U67mPMwA3k0apVltMtcB",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 2848,
+   "completion_tokens": 771,
+   "cost_usd_actual": 0.0015838,
+   "cost_usd_nominal": 0.0015838,
+   "finish_reason": "stop",
+   "response_sha256": "d5b9244543dda0ab3098f98efdb22ca2d0dd1ece5fe549885c4a150a0d3414bd",
+   "request_sha": "18b51c1f0a1e9b95f360685d0b63e88cde648c862d84e866fdd69fea569b3fa0",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\m15r_v1\\episodes\\saleor-rc-99d963aed3e5\\GOLD_HARD__C0__r1\\calls\\1_initial.txt",
+   "raw_sha256": "d5b9244543dda0ab3098f98efdb22ca2d0dd1ece5fe549885c4a150a0d3414bd"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "produced_by": "initial",
+ "edited_files": [
+  "saleor/graphql/checkout/resolvers.py",
+  "saleor/graphql/checkout/schema.py",
+  "saleor/graphql/core/fields.py"
+ ],
+ "diff_sha256": "10facf47eb166ef848d5aec352321ba81973f7f4ccf0d96ba408b9242dab6042",
+ "episode_sha256": "451336cf81b6162066bf304881d1e43b463c5b0ba68964efccb3ce32e4b746a3"
+}

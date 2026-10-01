@@ -1,0 +1,12 @@
+diff --git a/saleor/graphql/core/types/common.py b/saleor/graphql/core/types/common.py
+--- a/saleor/graphql/core/types/common.py
++++ b/saleor/graphql/core/types/common.py
+@@ -454,7 +454,7 @@
+         doc_category = DOC_CATEGORY_PRODUCTS
+ 
+ 
+-class ProductVariantBulkError(Error):
++class ProductVariantBulkError(BulkError):
+     code = ProductVariantBulkErrorCode(description="The error code.", required=True)
+     attributes = NonNullList(
+         graphene.ID,

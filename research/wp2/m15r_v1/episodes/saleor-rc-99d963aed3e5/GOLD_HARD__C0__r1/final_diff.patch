@@ -1,0 +1,41 @@
+diff --git a/saleor/graphql/checkout/schema.py b/saleor/graphql/checkout/schema.py
+--- a/saleor/graphql/checkout/schema.py
++++ b/saleor/graphql/checkout/schema.py
+@@ -29,18 +29,15 @@
+ 
+ 
+ class CheckoutQueries(graphene.ObjectType):
+-    checkout = FieldWithChannel(
++    checkout = graphene.Field(
+         Checkout,
+-        description="Look up a checkout by token and slug of channel.",
++        description="Look up a checkout by token.",
+         token=graphene.Argument(UUID, description="The checkout's token."),
+     )
+     # FIXME we could optimize the below field
+     checkouts = BaseDjangoConnectionField(
+         Checkout,
+         description="List of checkouts.",
+-        channel=graphene.String(
+-            description="Slug of a channel for which the data should be returned."
+-        ),
+     )
+     checkout_line = graphene.Field(
+         CheckoutLine,
+@@ -51,12 +48,12 @@
+         CheckoutLine, description="List of checkout lines."
+     )
+ 
+-    def resolve_checkout(self, info, token, channel):
+-        return resolve_checkout(info, token, channel)
++    def resolve_checkout(self, info, token):
++        return resolve_checkout(info, token)
+ 
+     @permission_required(CheckoutPermissions.MANAGE_CHECKOUTS)
+-    def resolve_checkouts(self, *_args, channel=None, **_kwargs):
+-        return resolve_checkouts(channel)
++    def resolve_checkouts(self, *_args, **_kwargs):
++        return resolve_checkouts()
+ 
+     def resolve_checkout_line(self, info, id):
+         return graphene.Node.get_node_from_global_id(info, id, CheckoutLine)

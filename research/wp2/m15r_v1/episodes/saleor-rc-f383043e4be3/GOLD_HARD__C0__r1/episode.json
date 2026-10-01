@@ -1,0 +1,73 @@
+{
+ "smoke_version": "wp2-m14r-v1",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-f383043e4be3",
+ "arm": "GOLD_HARD",
+ "label": "GOLD_HARD__C0__r1",
+ "variant": "G0",
+ "context": "C0",
+ "replicate": "r1",
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-10-01T11:22:33Z",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/core/prices.py",
+  "saleor/order/notifications.py",
+  "saleor/webhook/payloads.py",
+  "saleor/webhook/serializers.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/core/prices.py",
+   "saleor/order/notifications.py",
+   "saleor/webhook/payloads.py",
+   "saleor/webhook/serializers.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/core/prices.py",
+   "saleor/order/notifications.py",
+   "saleor/webhook/payloads.py",
+   "saleor/webhook/serializers.py"
+  ]
+ },
+ "prompt_sha256": "95647255dcdecae6ff57dabd53d4a12421ec88935c209f26564bcc4151c51c06",
+ "request_sha_initial": "61978ae2629a5f427030c87a00280a3cb78d33aa1aca52bcfa8ec842887ef9fd",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "context_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790853758-DDnQaMbEhBan6hV398aW",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 9199,
+   "completion_tokens": 4271,
+   "cost_usd_actual": 0.0069891,
+   "cost_usd_nominal": 0.0069891,
+   "finish_reason": "stop",
+   "response_sha256": "416af769dcc16f0e79267b70ab08c357a28f47a19f90cc1848a3af959976960a",
+   "request_sha": "61978ae2629a5f427030c87a00280a3cb78d33aa1aca52bcfa8ec842887ef9fd",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\m15r_v1\\episodes\\saleor-rc-f383043e4be3\\GOLD_HARD__C0__r1\\calls\\1_initial.txt",
+   "raw_sha256": "416af769dcc16f0e79267b70ab08c357a28f47a19f90cc1848a3af959976960a"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "produced_by": "initial",
+ "edited_files": [
+  "saleor/core/prices.py",
+  "saleor/order/notifications.py",
+  "saleor/webhook/payloads.py",
+  "saleor/webhook/serializers.py"
+ ],
+ "diff_sha256": "30291e76524121bce4c13d1b5c5170e97228d8a584a01c45dc936e4a48b179c2",
+ "episode_sha256": "5aec915b56f8a38905515a5627dac7526d8e0f33cbc855aaa595a7613e2c74f0"
+}

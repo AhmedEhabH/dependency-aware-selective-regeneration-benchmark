@@ -1,0 +1,183 @@
+diff --git a/saleor/graphql/attribute/shared_filters.py b/saleor/graphql/attribute/shared_filters.py
+--- a/saleor/graphql/attribute/shared_filters.py
++++ b/saleor/graphql/attribute/shared_filters.py
+@@ -220,6 +220,68 @@
+     )
+ 
+ 
++def get_attribute_values_by_single_reference_global_ids(
++    global_ids: list[str], 
++    db_connection_name: str,
++    attr_id: int | None = None,
++) -> QuerySet[AttributeValue]:
++    """Get attribute values by single reference global IDs."""
++    grouped_ids = clean_up_referenced_global_ids(global_ids)
++    
++    # Build query for each reference type
++    queries = []
++    if grouped_ids["Product"]:
++        queries.append(
++            AttributeValue.objects.using(db_connection_name).filter(
++                attribute_id=attr_id if attr_id else True,
++                attribute__input_type=AttributeInputType.SINGLE_REFERENCE,
++                reference_product_id__in=grouped_ids["Product"]
++            )
++        )
++    if grouped_ids["ProductVariant"]:
++        queries.append(
++            AttributeValue.objects.using(db_connection_name).filter(
++                attribute_id=attr_id if attr_id else True,
++                attribute__input_type=AttributeInputType.SINGLE_REFERENCE,
++                reference_variant_id__in=grouped_ids["ProductVariant"]
++            )
++        )
++    if grouped_ids["Page"]:
++        queries.append(
++            AttributeValue.objects.using(db_connection_name).filter(
++                attribute_id=attr_id if attr_id else True,
++                attribute__input_type=AttributeInputType.SINGLE_REFERENCE,
++                reference_page_id__in=grouped_ids["Page"]
++            )
++        )
++    if grouped_ids["Category"]:
++        queries.append(
++            AttributeValue.objects.using(db_connection_name).filter(
++                attribute_id=attr_id if attr_id else True,
++                attribute__input_type=AttributeInputType.SINGLE_REFERENCE,
++                reference_category_id__in=grouped_ids["Category"]
++            )
++        )
++    if grouped_ids["Collection"]:
++        queries.append(
++            AttributeValue.objects.using(db_connection_name).filter(
++                attribute_id=attr_id if attr_id else True,
++                attribute__input_type=AttributeInputType.SINGLE_REFERENCE,
++                reference_collection_id__in=grouped_ids["Collection"]
++            )
++        )
++    
++    # Combine all queries using union
++    if not queries:
++        return AttributeValue.objects.using(db_connection_name).none()
++    
++    result_query = queries[0]
++    for query in queries[1:]:
++        result_query = result_query.union(query)
++    
++    return result_query
++
++
+ def _get_attribute_values_by_referenced_product_identifiers(
+     field_name: str,
+     identifiers: list[str] | list[int],
+@@ -367,6 +429,101 @@
+     ):
+         return False
+     return True
++
++
++def validate_single_reference_input(
++    attr_id: int | None,
++    reference_value: dict,
++    db_connection_name: str,
++) -> QuerySet[AttributeValue]:
++    """Validate and get attribute values for SINGLE_REFERENCE input."""
++    if not reference_value:
++        return AttributeValue.objects.using(db_connection_name).none()
++        
++    # Handle referenced_ids (global IDs)
++    if "referenced_ids" in reference_value:
++        single_key_value = reference_value["referenced_ids"]
++        if "contains_all" in single_key_value:
++            global_ids = single_key_value["contains_all"]
++            return get_attribute_values_by_single_reference_global_ids(
++                global_ids, db_connection_name, attr_id
++            )
++        elif "contains_any" in single_key_value:
++            global_ids = single_key_value["contains_any"]
++            return get_attribute_values_by_single_reference_global_ids(
++                global_ids, db_connection_name, attr_id
++            )
++    
++    # Handle other reference types (page_slugs, product_slugs, etc.)
++    queries = []
++    
++    if "page_slugs" in reference_value:
++        single_key_value = reference_value["page_slugs"]
++        if "contains_all" in single_key_value:
++            queries.append(get_attribute_values_by_referenced_page_slugs(
++                single_key_value["contains_all"], db_connection_name
++            ))
++        elif "contains_any" in single_key_value:
++            queries.append(get_attribute_values_by_referenced_page_slugs(
++                single_key_value["contains_any"], db_connection_name
++            ))
++            
++    if "product_slugs" in reference_value:
++        single_key_value = reference_value["product_slugs"]
++        if "contains_all" in single_key_value:
++            queries.append(get_attribute_values_by_referenced_product_slugs(
++                single_key_value["contains_all"], db_connection_name
++            ))
++        elif "contains_any" in single_key_value:
++            queries.append(get_attribute_values_by_referenced_product_slugs(
++                single_key_value["contains_any"], db_connection_name
++            ))
++            
++    if "product_variant_skus" in reference_value:
++        single_key_value = reference_value["product_variant_skus"]
++        if "contains_all" in single_key_value:
++            queries.append(get_attribute_values_by_referenced_variant_skus(
++                single_key_value["contains_all"], db_connection_name
++            ))
++        elif "contains_any" in single_key_value:
++            queries.append(get_attribute_values_by_referenced_variant_skus(
++                single_key_value["contains_any"], db_connection_name
++            ))
++            
++    if "category_slugs" in reference_value:
++        single_key_value = reference_value["category_slugs"]
++        if "contains_all" in single_key_value:
++            queries.append(get_attribute_values_by_referenced_category_slugs(
++                single_key_value["contains_all"], db_connection_name
++            ))
++        elif "contains_any" in single_key_value:
++            queries.append(get_attribute_values_by_referenced_category_slugs(
++                single_key_value["contains_any"], db_connection_name
++            ))
++            
++    if "collection_slugs" in reference_value:
++        single_key_value = reference_value["collection_slugs"]
++        if "contains_all" in single_key_value:
++            queries.append(get_attribute_values_by_referenced_collection_slugs(
++                single_key_value["contains_all"], db_connection_name
++            ))
++        elif "contains_any" in single_key_value:
++            queries.append(get_attribute_values_by_referenced_collection_slugs(
++                single_key_value["contains_any"], db_connection_name
++            ))
++    
++    # Combine queries
++    if not queries:
++        return AttributeValue.objects.using(db_connection_name).none()
++        
++    result_query = queries[0]
++    for query in queries[1:]:
++        result_query = result_query.union(query)
++        
++    if attr_id:
++        result_query = result_query.filter(attribute_id=attr_id)
++        
++    return result_query
+ 
+ 
+ def _has_valid_reference_global_ids(
+@@ -539,6 +696,8 @@
+                 invalid_input_type_list.append(index_str)
+             if "reference" == value_key and input_type != AttributeInputType.REFERENCE:
+                 invalid_input_type_list.append(index_str)
++            if "reference" == value_key and input_type != AttributeInputType.SINGLE_REFERENCE:
++                invalid_input_type_list.append(index_str)
+ 
+     validate_attribute_value_reference_input(reference_value_list)
+ 

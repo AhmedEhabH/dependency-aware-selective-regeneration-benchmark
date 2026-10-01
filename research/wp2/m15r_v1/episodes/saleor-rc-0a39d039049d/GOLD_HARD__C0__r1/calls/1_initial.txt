@@ -1,0 +1,100 @@
+Looking at the changelog entry and the code, I need to add support for all attribute types in variant bulk mutations. The key change is that the `BulkAttributeValueInput` class needs to support all attribute types, not just the basic ones.
+
+Let me examine the current `BulkAttributeValueInput` class and see what's missing. Looking at the code, I can see it only supports `id`, `values` (for string values), and `boolean` fields. However, according to the changelog and the nature of product attributes in Saleor, we need to support all attribute types including:
+
+- Plain text
+- Numeric 
+- Date
+- Date time
+- Rich text
+- File
+- Reference (product, page, etc.)
+- Swatch
+
+FILE: saleor/graphql/product/bulk_mutations/product_variant_bulk_create.py
+<<<<<<< SEARCH
+class BulkAttributeValueInput(InputObjectType):
+    id = graphene.ID(description="ID of the selected attribute.")
+    values = NonNullList(
+        graphene.String,
+        required=False,
+        description=(
+            "The value or slug of an attribute to resolve. "
+            "If the passed value is non-existent, it will be created."
+        ),
+    )
+    boolean = graphene.Boolean(
+        required=False,
+        description=(
+            "The boolean value of an attribute to resolve. "
+            "If the passed value is non-existent, it will be created."
+        ),
+    )
+=======
+class BulkAttributeValueInput(InputObjectType):
+    id = graphene.ID(description="ID of the selected attribute.")
+    values = NonNullList(
+        graphene.String,
+        required=False,
+        description=(
+            "The value or slug of an attribute to resolve. "
+            "If the passed value is non-existent, it will be created."
+        ),
+    )
+    boolean = graphene.Boolean(
+        required=False,
+        description=(
+            "The boolean value of an attribute to resolve. "
+            "If the passed value is non-existent, it will be created."
+        ),
+    )
+    date = graphene.Date(
+        required=False,
+        description=(
+            "The date value of an attribute to resolve. "
+            "If the passed value is non-existent, it will be created."
+        ),
+    )
+    dateTime = graphene.DateTime(
+        required=False,
+        description=(
+            "The date time value of an attribute to resolve. "
+            "If the passed value is non-existent, it will be created."
+        ),
+    )
+    text = graphene.String(
+        required=False,
+        description=(
+            "The text value of an attribute to resolve. "
+            "If the passed value is non-existent, it will be created."
+        ),
+    )
+    numeric = graphene.Decimal(
+        required=False,
+        description=(
+            "The numeric value of an attribute to resolve. "
+            "If the passed value is non-existent, it will be created."
+        ),
+    )
+    file = graphene.String(
+        required=False,
+        description=(
+            "The file URL of an attribute to resolve. "
+            "If the passed value is non-existent, it will be created."
+        ),
+    )
+    reference = graphene.ID(
+        required=False,
+        description=(
+            "The reference ID of an attribute to resolve. "
+            "If the passed value is non-existent, it will be created."
+        ),
+    )
+    richText = graphene.JSONString(
+        required=False,
+        description=(
+            "The rich text value of an attribute to resolve. "
+            "If the passed value is non-existent, it will be created."
+        ),
+    )
+>>>>>>> REPLACE

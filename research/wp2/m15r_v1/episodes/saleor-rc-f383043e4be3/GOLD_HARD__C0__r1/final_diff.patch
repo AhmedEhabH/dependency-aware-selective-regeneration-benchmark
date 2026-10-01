@@ -1,0 +1,129 @@
+diff --git a/saleor/order/notifications.py b/saleor/order/notifications.py
+--- a/saleor/order/notifications.py
++++ b/saleor/order/notifications.py
+@@ -6,6 +6,7 @@
+ from ..account.models import StaffNotificationRecipient
+ from ..core.notification.utils import get_site_context
+ from ..core.notify_events import NotifyEventType
++from ..core.prices import quantize_price
+ from ..core.utils.url import prepare_url
+ from ..discount import OrderDiscountType
+ from ..product import ProductMediaTypes
+@@ -113,20 +114,20 @@
+         "quantity": line.quantity,
+         "quantity_fulfilled": line.quantity_fulfilled,
+         "currency": line.currency,
+-        "unit_price_net_amount": line.unit_price.net.amount,
+-        "unit_price_gross_amount": line.unit_price.gross.amount,
+-        "unit_tax_amount": line.unit_price.tax.amount,
+-        "total_gross_amount": line.total_price.gross.amount,
+-        "total_net_amount": line.total_price.net.amount,
+-        "total_tax_amount": line.total_price.tax.amount,
++        "unit_price_net_amount": quantize_price(line.unit_price.net.amount, line.currency),
++        "unit_price_gross_amount": quantize_price(line.unit_price.gross.amount, line.currency),
++        "unit_tax_amount": quantize_price(line.unit_price.tax.amount, line.currency),
++        "total_gross_amount": quantize_price(line.total_price.gross.amount, line.currency),
++        "total_net_amount": quantize_price(line.total_price.net.amount, line.currency),
++        "total_tax_amount": quantize_price(line.total_price.tax.amount, line.currency),
+         "tax_rate": line.tax_rate,
+         "is_shipping_required": line.is_shipping_required,
+         "is_digital": line.is_digital,
+         "digital_url": digital_url,
+-        "unit_discount_value": line.unit_discount_value,
++        "unit_discount_value": quantize_price(line.unit_discount_value, line.currency),
+         "unit_discount_reason": line.unit_discount_reason,
+         "unit_discount_type": line.unit_discount_type,
+-        "unit_discount_amount": line.unit_discount_amount,
++        "unit_discount_amount": quantize_price(line.unit_discount_amount, line.currency),
+     }
+ 
+ 
+@@ -234,13 +235,13 @@
+             "number": order.id,
+             "channel_slug": order.channel.slug,
+             "created": str(order.created),
+-            "shipping_price_net_amount": order.shipping_price_net_amount,
+-            "shipping_price_gross_amount": order.shipping_price_gross_amount,
++            "shipping_price_net_amount": quantize_price(order.shipping_price_net_amount, order.currency),
++            "shipping_price_gross_amount": quantize_price(order.shipping_price_gross_amount, order.currency),
+             "order_details_url": order_details_url,
+             "email": order.get_customer_email(),
+-            "subtotal_gross_amount": subtotal.gross.amount,
+-            "subtotal_net_amount": subtotal.net.amount,
+-            "tax_amount": tax,
++            "subtotal_gross_amount": quantize_price(subtotal.gross.amount, order.currency),
++            "subtotal_net_amount": quantize_price(subtotal.net.amount, order.currency),
++            "tax_amount": quantize_price(tax, order.currency),
+             "lines": get_lines_payload(lines),
+             "billing_address": get_address_payload(order.billing_address),
+             "shipping_address": get_address_payload(order.shipping_address),
+diff --git a/saleor/webhook/payloads.py b/saleor/webhook/payloads.py
+--- a/saleor/webhook/payloads.py
++++ b/saleor/webhook/payloads.py
+@@ -9,6 +9,7 @@
+ 
+ from ..attribute.models import AttributeValueTranslation
+ from ..checkout.models import Checkout
++from ..core.prices import quantize_price
+ from ..core.utils import build_absolute_uri
+ from ..core.utils.anonymization import (
+     anonymize_checkout,
+@@ -124,8 +125,8 @@
+         fields=line_fields,
+         extra_dict_data={
+             "product_variant_id": (lambda l: l.product_variant_id),
+-            "total_price_net_amount": (lambda l: l.total_price.net.amount),
+-            "total_price_gross_amount": (lambda l: l.total_price.gross.amount),
++            "total_price_net_amount": (lambda l: quantize_price(l.total_price.net.amount, l.currency)),
++            "total_price_gross_amount": (lambda l: quantize_price(l.total_price.gross.amount, l.currency)),
+             "allocations": (lambda l: prepare_order_lines_allocations_payload(l)),
+         },
+     )
+@@ -564,21 +565,19 @@
+                 if fl.order_line.variant
+                 else None
+             ),
+-            "unit_price_net": lambda fl: fl.order_line.unit_price_net_amount,
+-            "unit_price_gross": lambda fl: fl.order_line.unit_price_gross_amount,
++            "unit_price_net": lambda fl: quantize_price(fl.order_line.unit_price_net_amount, fl.order_line.currency),
++            "unit_price_gross": lambda fl: quantize_price(fl.order_line.unit_price_gross_amount, fl.order_line.currency),
+             "undiscounted_unit_price_net": (
+-                lambda fl: fl.order_line.undiscounted_unit_price.net.amount
++                lambda fl: quantize_price(fl.order_line.undiscounted_unit_price.net.amount, fl.order_line.currency)
+             ),
+             "undiscounted_unit_price_gross": (
+-                lambda fl: fl.order_line.undiscounted_unit_price.gross.amount
++                lambda fl: quantize_price(fl.order_line.undiscounted_unit_price.gross.amount, fl.order_line.currency)
+             ),
+             "total_price_net_amount": (
+-                lambda fl: fl.order_line.undiscounted_unit_price.net.amount
+-                * fl.quantity
++                lambda fl: quantize_price(fl.order_line.undiscounted_unit_price.net.amount * fl.quantity, fl.order_line.currency)
+             ),
+             "total_price_gross_amount": (
+-                lambda fl: fl.order_line.undiscounted_unit_price.gross.amount
+-                * fl.quantity
++                lambda fl: quantize_price(fl.order_line.undiscounted_unit_price.gross.amount * fl.quantity, fl.order_line.currency)
+             ),
+             "currency": lambda fl: fl.order_line.currency,
+             "warehouse_id": lambda fl: graphene.Node.to_global_id(
+diff --git a/saleor/webhook/serializers.py b/saleor/webhook/serializers.py
+--- a/saleor/webhook/serializers.py
++++ b/saleor/webhook/serializers.py
+@@ -5,6 +5,7 @@
+ 
+ from ..attribute import AttributeInputType
+ from ..checkout.fetch import fetch_checkout_lines
++from ..core.prices import quantize_price
+ from ..product.models import Product
+ 
+ if TYPE_CHECKING:
+@@ -27,7 +28,7 @@
+                 "sku": variant.sku,
+                 "variant_id": variant.get_global_id(),
+                 "quantity": line_info.line.quantity,
+-                "base_price": str(base_price.amount),
++                "base_price": str(quantize_price(base_price.amount, channel.currency_code)),
+                 "currency": channel.currency_code,
+                 "full_name": variant.display_product(),
+                 "product_name": product.name,

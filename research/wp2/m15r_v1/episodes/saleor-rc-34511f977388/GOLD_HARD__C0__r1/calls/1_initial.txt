@@ -1,0 +1,34 @@
+FILE: saleor/graphql/discount/bulk_mutations.py
+<<<<<<< SEARCH
+    @classmethod
+    def bulk_action(cls, info, queryset):
+        sales = list(queryset)
+        queryset.delete()
+        for sale in sales:
+            previous_catalogue = fetch_catalogue_info(sale)
+            info.context.plugins.sale_deleted(
+                sale, convert_catalogue_info_to_global_ids(previous_catalogue)
+            )
+
+
+class VoucherBulkDelete(ModelBulkDeleteMutation):
+=======
+    @classmethod
+    def bulk_action(cls, info, queryset):
+        sales = list(queryset)
+        sale_ids = {sale.id for sale in sales}
+        queryset.delete()
+        for sale in sales:
+            # Fetch catalogue information only if the sale is not yet deleted to avoid
+            # problems when the relationship is removed after deletion
+            if sale.pk not in sale_ids:
+                continue
+            previous_catalogue = fetch_catalogue_info(sale)
+            info.context.plugins.sale_deleted(
+                sale, convert_catalogue_info_to_global_ids(previous_catalogue)
+            )
+
+
+class VoucherBulkDelete(ModelBulkDeleteMutation):
+>>>>>>> REPLACE
+```
