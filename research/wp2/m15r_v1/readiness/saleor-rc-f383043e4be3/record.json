@@ -1,0 +1,71 @@
+{
+ "artifact": "m15r_readiness_task",
+ "artifact_sha256": "e6d7e10e05e3ed729979d83e8837f31db4bb82e4ae4b2aee180e2e0a0d6cd111",
+ "decision": "READY",
+ "model_api_calls": 0,
+ "negative": {
+  "nodes": {
+   "f2p_intermittent": 0,
+   "f2p_pass3": 0,
+   "f2p_total": 6,
+   "s_deterministic": 0,
+   "s_intermittent": 0,
+   "s_missing": 0,
+   "u_deterministic": 0,
+   "u_intermittent": 0,
+   "u_missing": 0
+  },
+  "robust": {
+   "f2p_task": "FAIL",
+   "p2p_s_task": "PASS",
+   "p2p_u200_task": "PASS",
+   "resolved": false
+  },
+  "strict": {
+   "f2p_task": "FAIL",
+   "p2p_s_task": "PASS",
+   "p2p_u200_task": "PASS",
+   "resolved": false
+  },
+  "tree_sha": "61744114e7e2269b724089d4a7e58e550b23da94"
+ },
+ "positive": {
+  "e1_decision": "ALL_JUNIT_PRESENT",
+  "editable": [
+   "saleor/core/prices.py",
+   "saleor/order/notifications.py",
+   "saleor/webhook/payloads.py",
+   "saleor/webhook/serializers.py"
+  ],
+  "excluded_budget": [],
+  "excluded_large": [],
+  "nodes": {
+   "f2p_intermittent": 0,
+   "f2p_pass3": 6,
+   "f2p_total": 6,
+   "s_deterministic": 0,
+   "s_intermittent": 0,
+   "s_missing": 0,
+   "u_deterministic": 0,
+   "u_intermittent": 0,
+   "u_missing": 0
+  },
+  "robust": {
+   "f2p_task": "PASS",
+   "p2p_s_task": "PASS",
+   "p2p_u200_task": "PASS",
+   "resolved": true
+  },
+  "scoped_diff_identity": "e741931840a08090d0cbdeaea7efb4e2e1f28db51be4c24fcf604be8b14395e7",
+  "scoped_diff_sha256": "369cec5b7500623a7398e4645a03fa3b81b18434818000cc51bf09e1fc43d6dd",
+  "strict": {
+   "f2p_task": "PASS",
+   "p2p_s_task": "PASS",
+   "p2p_u200_task": "PASS",
+   "resolved": true
+  },
+  "tree_sha": "d54147a0ab5c552d9dfae2865dbe1414c4035b59"
+ },
+ "task_id": "saleor-rc-f383043e4be3",
+ "utc": "2026-10-01T06:42:47Z"
+}
