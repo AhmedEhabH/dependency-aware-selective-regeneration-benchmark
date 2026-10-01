@@ -1,0 +1,69 @@
+{
+ "artifact": "m15r_readiness_task",
+ "artifact_sha256": "db67f411a34c03a95bffcd5ad24e868fb95c24323a527b6980e546deb9b01fae",
+ "decision": "READY",
+ "model_api_calls": 0,
+ "negative": {
+  "nodes": {
+   "f2p_intermittent": 0,
+   "f2p_pass3": 0,
+   "f2p_total": 1,
+   "s_deterministic": 0,
+   "s_intermittent": 0,
+   "s_missing": 0,
+   "u_deterministic": 0,
+   "u_intermittent": 0,
+   "u_missing": 0
+  },
+  "robust": {
+   "f2p_task": "FAIL",
+   "p2p_s_task": "PASS",
+   "p2p_u200_task": "PASS",
+   "resolved": false
+  },
+  "strict": {
+   "f2p_task": "FAIL",
+   "p2p_s_task": "PASS",
+   "p2p_u200_task": "PASS",
+   "resolved": false
+  },
+  "tree_sha": "d2dce17faeb32fbb8eea55b995da463741ad1758"
+ },
+ "positive": {
+  "e1_decision": "ALL_JUNIT_PRESENT",
+  "editable": [
+   "saleor/graphql/product/bulk_mutations/products.py",
+   "saleor/graphql/product/utils.py"
+  ],
+  "excluded_budget": [],
+  "excluded_large": [],
+  "nodes": {
+   "f2p_intermittent": 0,
+   "f2p_pass3": 1,
+   "f2p_total": 1,
+   "s_deterministic": 0,
+   "s_intermittent": 0,
+   "s_missing": 0,
+   "u_deterministic": 0,
+   "u_intermittent": 0,
+   "u_missing": 0
+  },
+  "robust": {
+   "f2p_task": "PASS",
+   "p2p_s_task": "PASS",
+   "p2p_u200_task": "PASS",
+   "resolved": true
+  },
+  "scoped_diff_identity": "0093476b255dd2cc7a7becc3a15338d203315d87f2a67bf9ae7ecc462d124181",
+  "scoped_diff_sha256": "a3e60e3ad6b565b370137ecd74af671a155acbff7909e7830de98239e406fa2f",
+  "strict": {
+   "f2p_task": "PASS",
+   "p2p_s_task": "PASS",
+   "p2p_u200_task": "PASS",
+   "resolved": true
+  },
+  "tree_sha": "62793f2c6a8aeb2e74982ef941a09fa38aff434c"
+ },
+ "task_id": "saleor-rc-60c8722863c1",
+ "utc": "2026-10-01T06:00:43Z"
+}
