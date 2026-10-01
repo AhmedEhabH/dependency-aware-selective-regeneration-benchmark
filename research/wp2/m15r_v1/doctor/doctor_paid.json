@@ -1,0 +1,66 @@
+{
+ "artifact": "m15r_doctor",
+ "artifact_sha256": "6ea4ec864bebc077a9ada02178d44e76fe019563def7447f340e5ab4cef36727",
+ "checks": {
+  "agent_pricing": {
+   "ok": true,
+   "value": {
+    "artifact": "m15r_agent_pricing_preflight",
+    "completion_per_1m_usd": 1.0,
+    "live_metadata_available": true,
+    "no_drift": true,
+    "prompt_per_1m_usd": 0.3,
+    "utc": "2026-10-01T10:24:29Z"
+   }
+  },
+  "api_key": {
+   "ok": true
+  },
+  "credit_ge_5": {
+   "ok": true,
+   "value": 30.0
+  },
+  "disk_free_gib": {
+   "ok": true,
+   "value": 28.4
+  },
+  "generation_pricing": {
+   "completion_per_1m": 1.0,
+   "ok": true,
+   "prompt_per_1m": 0.3,
+   "quantization": "fp4",
+   "ratio": 1.0,
+   "status": -2,
+   "uptime_last_30m": 94.4025406907503
+  },
+  "images": {
+   "ok": true,
+   "value": {
+    "era_images": {
+     "wp2-era-py312": "sha256:0c185699947d75d5866e57dfb10bba25cca05dc58ca3fd2f75446ee8b0e41394",
+     "wp2-era-py38": "sha256:1cc60658b6a282c3bfe7c42312478a1983950927d348b47dce99e1a58e7a8c60",
+     "wp2-era-py39": "sha256:ddc08d7e685517764dfa2606a760d5b3f09d57840d8a0bbcef366db67cd99ef8"
+    },
+    "errors": [],
+    "postgres": {
+     "image_id": "sha256:f7d23353e1b15400d22ebe31189f4d314b87a4c129cc400c8c2d8d4ca127bf81",
+     "repo_digests": [
+      "postgres@sha256:f7d23353e1b15400d22ebe31189f4d314b87a4c129cc400c8c2d8d4ca127bf81"
+     ]
+    }
+   }
+  },
+  "postgres_clock": {
+   "ok": true,
+   "value": "PASS"
+  },
+  "saleor_cache": {
+   "ok": true,
+   "value": "dist/pilot-repo-cache/saleor"
+  }
+ },
+ "mode": "paid",
+ "model_api_calls": 0,
+ "pass": true,
+ "utc": "2026-10-01T10:24:29Z"
+}
