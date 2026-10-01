@@ -1,0 +1,20 @@
+{
+ "artifact_sha256": "51ec699dccc71b3d3b79c257aa55124d6ca49e2fec48c4ad01c53a96b64c612b",
+ "empty_reason": "none",
+ "infra_failure": false,
+ "model_calls": 8,
+ "prediction_empty": false,
+ "replicate": "r3",
+ "selected_paths": [
+  "saleor/core/notification/mutation_handler.py",
+  "saleor/graphql/notifications/mutations/external_notification_trigger.py"
+ ],
+ "task_id": "saleor-rc-eacffa70e721",
+ "token_usage": {
+  "completion_tokens": 278,
+  "prompt_tokens": 62786,
+  "total_tokens": 63064,
+  "usd_cost": 0.019113799999999997
+ },
+ "work_key": "saleor-rc-eacffa70e721#r3"
+}

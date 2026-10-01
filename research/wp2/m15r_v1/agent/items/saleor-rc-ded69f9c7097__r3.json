@@ -1,0 +1,21 @@
+{
+ "artifact_sha256": "6c94b1db3bec555a5b46e8e0ded829a4a5a88763dc7c88e874403d4b76ef84af",
+ "empty_reason": "none",
+ "infra_failure": false,
+ "model_calls": 8,
+ "prediction_empty": false,
+ "replicate": "r3",
+ "selected_paths": [
+  "saleor/product/utils/availability.py",
+  "saleor/warehouse/availability.py",
+  "saleor/warehouse/models.py"
+ ],
+ "task_id": "saleor-rc-ded69f9c7097",
+ "token_usage": {
+  "completion_tokens": 341,
+  "prompt_tokens": 76761,
+  "total_tokens": 77102,
+  "usd_cost": 0.0233693
+ },
+ "work_key": "saleor-rc-ded69f9c7097#r3"
+}
