@@ -1,0 +1,87 @@
+Looking at the developer change description, I need to add a `path` field to `ProductVariantBulkError`. 
+
+Let me examine the current `ProductVariantBulkError` class in the common.py file and see how other similar error classes are structured.
+
+From the code, I can see that:
+1. There's already a `BulkError` base class that includes a `path` field
+2. `ProductVariantBulkError` currently inherits from `Error` instead of `BulkError`
+3. Other bulk error classes like `CustomerBulkUpdateError` and `ProductBulkCreateError` inherit from `BulkError`
+
+I need to:
+1. Make `ProductVariantBulkError` inherit from `BulkError` instead of `Error`
+2. This will automatically give it the `path` field from the base `BulkError` class
+
+FILE: saleor/graphql/core/types/common.py
+<<<<<<< SEARCH
+class ProductVariantBulkError(Error):
+    code = ProductVariantBulkErrorCode(description="The error code.", required=True)
+    attributes = NonNullList(
+        graphene.ID,
+        description="List of attributes IDs which causes the error.",
+        required=False,
+    )
+    values = NonNullList(
+        graphene.ID,
+        description="List of attribute values IDs which causes the error.",
+        required=False,
+    )
+    warehouses = NonNullList(
+        graphene.ID,
+        description="List of warehouse IDs which causes the error.",
+        required=False,
+    )
+    stocks = NonNullList(
+        graphene.ID,
+        description="List of stocks IDs which causes the error." + ADDED_IN_312,
+        required=False,
+    )
+    channels = NonNullList(
+        graphene.ID,
+        description="List of channel IDs which causes the error." + ADDED_IN_312,
+        required=False,
+    )
+    channel_listings = NonNullList(
+        graphene.ID,
+        description="List of channel listings IDs which causes the error.",
+        required=False,
+    )
+
+    class Meta:
+        doc_category = DOC_CATEGORY_PRODUCTS
+=======
+class ProductVariantBulkError(BulkError):
+    code = ProductVariantBulkErrorCode(description="The error code.", required=True)
+    attributes = NonNullList(
+        graphene.ID,
+        description="List of attributes IDs which causes the error.",
+        required=False,
+    )
+    values = NonNullList(
+        graphene.ID,
+        description="List of attribute values IDs which causes the error.",
+        required=False,
+    )
+    warehouses = NonNullList(
+        graphene.ID,
+        description="List of warehouse IDs which causes the error.",
+        required=False,
+    )
+    stocks = NonNullList(
+        graphene.ID,
+        description="List of stocks IDs which causes the error." + ADDED_IN_312,
+        required=False,
+    )
+    channels = NonNullList(
+        graphene.ID,
+        description="List of channel IDs which causes the error." + ADDED_IN_312,
+        required=False,
+    )
+    channel_listings = NonNullList(
+        graphene.ID,
+        description="List of channel listings IDs which causes the error.",
+        required=False,
+    )
+
+    class Meta:
+        doc_category = DOC_CATEGORY_PRODUCTS
+>>>>>>> REPLACE

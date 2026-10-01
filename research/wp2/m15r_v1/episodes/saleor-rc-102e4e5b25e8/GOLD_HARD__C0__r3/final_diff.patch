@@ -1,0 +1,70 @@
+diff --git a/saleor/graphql/attribute/shared_filters.py b/saleor/graphql/attribute/shared_filters.py
+--- a/saleor/graphql/attribute/shared_filters.py
++++ b/saleor/graphql/attribute/shared_filters.py
+@@ -416,6 +416,9 @@
+             continue
+         for key in value:
+             single_key_value = value[key]
++            if not isinstance(single_key_value, dict):
++                invalid_input_type_error.add(index)
++                continue
+             if (
+                 "contains_all" in single_key_value
+                 and "contains_any" in single_key_value
+@@ -433,15 +436,26 @@
+                 and not single_key_value["contains_any"]
+             ):
+                 empty_input_value_error.add(index)
++                continue
+             if key == "referenced_ids":
+-                if not _has_valid_reference_global_ids(single_key_value):
+-                    invalid_reference_global_id_error.add(index)
++                # Validate global IDs in contains_all
++                if "contains_all" in single_key_value:
++                    for global_id in single_key_value["contains_all"]:
++                        if not _has_valid_reference_global_id(global_id):
++                            invalid_reference_global_id_error.add(index)
++                            break
++                # Validate global IDs in contains_any
++                if "contains_any" in single_key_value:
++                    for global_id in single_key_value["contains_any"]:
++                        if not _has_valid_reference_global_id(global_id):
++                            invalid_reference_global_id_error.add(index)
++                            break
+ 
+     if invalid_reference_global_id_error:
+         raise GraphQLError(
+             message=(
+                 "Invalid input for reference attributes. For attribute input on positions: "
+-                f"{', '.join(invalid_reference_global_id_error)}. "
++                f"{', '.join(sorted(invalid_reference_global_id_error))}. "
+                 "Provided values must contain valid global IDs."
+             )
+         )
+@@ -449,7 +463,7 @@
+         raise GraphQLError(
+             message=(
+                 "Invalid input for reference attributes. For attribute input on positions: "
+-                f"{', '.join(invalid_input_type_error)}. "
++                f"{', '.join(sorted(invalid_input_type_error))}. "
+                 "Provided values must contains 'containsAll' or 'containsAny' key."
+             )
+         )
+@@ -457,7 +471,7 @@
+         raise GraphQLError(
+             message=(
+                 "Invalid input for reference attributes. For attribute input on positions: "
+-                f"{', '.join(empty_input_value_error)}. "
++                f"{', '.join(sorted(empty_input_value_error))}. "
+                 "Provided values cannot be null or empty."
+             )
+         )
+@@ -465,7 +479,7 @@
+         raise GraphQLError(
+             message=(
+                 "Invalid input for reference attributes. For attribute input on positions: "
+-                f"{', '.join(duplicated_error)}. "
++                f"{', '.join(sorted(duplicated_error))}. "
+                 "Cannot provide both 'containsAll' and 'containsAny' for the same reference filter."
+             )
+         )

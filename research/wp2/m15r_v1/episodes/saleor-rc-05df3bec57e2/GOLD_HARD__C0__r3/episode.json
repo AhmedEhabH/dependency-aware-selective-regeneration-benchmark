@@ -1,0 +1,78 @@
+{
+ "smoke_version": "wp2-m14r-v1",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-05df3bec57e2",
+ "arm": "GOLD_HARD",
+ "label": "GOLD_HARD__C0__r3",
+ "variant": "G0",
+ "context": "C0",
+ "replicate": "r3",
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-10-01T13:10:13Z",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/graphql/core/types/common.py",
+  "saleor/graphql/product/bulk_mutations/product_bulk_create.py",
+  "saleor/graphql/product/bulk_mutations/product_variant_bulk_create.py",
+  "saleor/graphql/product/bulk_mutations/product_variant_bulk_update.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/graphql/core/types/common.py",
+   "saleor/graphql/product/bulk_mutations/product_bulk_create.py",
+   "saleor/graphql/product/bulk_mutations/product_variant_bulk_create.py",
+   "saleor/graphql/product/bulk_mutations/product_variant_bulk_update.py"
+  ],
+  "excluded_large": [
+   "CHANGELOG.md",
+   "saleor/graphql/schema.graphql"
+  ],
+  "excluded_budget": [],
+  "raw": [
+   "CHANGELOG.md",
+   "saleor/graphql/core/types/common.py",
+   "saleor/graphql/product/bulk_mutations/product_bulk_create.py",
+   "saleor/graphql/product/bulk_mutations/product_variant_bulk_create.py",
+   "saleor/graphql/product/bulk_mutations/product_variant_bulk_update.py",
+   "saleor/graphql/schema.graphql"
+  ]
+ },
+ "prompt_sha256": "da99f19e27e272ce09254c2b8fb17b5d355d3ec765c4160dae198ab95f3cfe72",
+ "request_sha_initial": "8346bda18c06f956d2af7d326a516d167d8a7eac87e491ba7c0d8d947c0c24ad",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "context_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790860214-GopH32081sxGQi0EwOKY",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 21297,
+   "completion_tokens": 652,
+   "cost_usd_actual": 0.0070411,
+   "cost_usd_nominal": 0.0070411,
+   "finish_reason": "stop",
+   "response_sha256": "729059abdc30061278d2c9de68b774f4a7e9d4518519015d786f057c33d2bb0a",
+   "request_sha": "8346bda18c06f956d2af7d326a516d167d8a7eac87e491ba7c0d8d947c0c24ad",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\m15r_v1\\episodes\\saleor-rc-05df3bec57e2\\GOLD_HARD__C0__r3\\calls\\1_initial.txt",
+   "raw_sha256": "729059abdc30061278d2c9de68b774f4a7e9d4518519015d786f057c33d2bb0a"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "produced_by": "initial",
+ "edited_files": [
+  "saleor/graphql/core/types/common.py",
+  "saleor/graphql/product/bulk_mutations/product_bulk_create.py",
+  "saleor/graphql/product/bulk_mutations/product_variant_bulk_create.py",
+  "saleor/graphql/product/bulk_mutations/product_variant_bulk_update.py"
+ ],
+ "diff_sha256": "92ad6bc54edc5f5f7348ffe46b30cf9f7e37df02eb16044ee012b4a81378cca6",
+ "episode_sha256": "15f90df241f63a5f557d0c212a79697bfc4f70c7c9285d10d9aed7c8fdf86db5"
+}

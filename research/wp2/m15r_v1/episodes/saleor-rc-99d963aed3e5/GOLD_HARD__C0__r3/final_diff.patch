@@ -1,0 +1,84 @@
+diff --git a/saleor/graphql/checkout/resolvers.py b/saleor/graphql/checkout/resolvers.py
+--- a/saleor/graphql/checkout/resolvers.py
++++ b/saleor/graphql/checkout/resolvers.py
+@@ -8,17 +8,13 @@
+     return queryset
+ 
+ 
+-def resolve_checkouts(channel_slug):
++def resolve_checkouts():
+     queryset = models.Checkout.objects.all()
+-    if channel_slug:
+-        queryset = queryset.filter(channel__slug=channel_slug)
+     return queryset
+ 
+ 
+-def resolve_checkout(info, token, channel_slug):
+-    checkout = models.Checkout.objects.filter(
+-        token=token, channel__slug=channel_slug
+-    ).first()
++def resolve_checkout(info, token):
++    checkout = models.Checkout.objects.filter(token=token).first()
+ 
+     if checkout is None:
+         return None
+diff --git a/saleor/graphql/checkout/schema.py b/saleor/graphql/checkout/schema.py
+--- a/saleor/graphql/checkout/schema.py
++++ b/saleor/graphql/checkout/schema.py
+@@ -29,18 +29,15 @@
+ 
+ 
+ class CheckoutQueries(graphene.ObjectType):
+-    checkout = FieldWithChannel(
++    checkout = graphene.Field(
+         Checkout,
+-        description="Look up a checkout by token and slug of channel.",
++        description="Look up a checkout by token.",
+         token=graphene.Argument(UUID, description="The checkout's token."),
+     )
+     # FIXME we could optimize the below field
+     checkouts = BaseDjangoConnectionField(
+         Checkout,
+         description="List of checkouts.",
+-        channel=graphene.String(
+-            description="Slug of a channel for which the data should be returned."
+-        ),
+     )
+     checkout_line = graphene.Field(
+         CheckoutLine,
+@@ -51,12 +48,12 @@
+         CheckoutLine, description="List of checkout lines."
+     )
+ 
+-    def resolve_checkout(self, info, token, channel):
+-        return resolve_checkout(info, token, channel)
++    def resolve_checkout(self, info, token):
++        return resolve_checkout(info, token)
+ 
+     @permission_required(CheckoutPermissions.MANAGE_CHECKOUTS)
+-    def resolve_checkouts(self, *_args, channel=None, **_kwargs):
+-        return resolve_checkouts(channel)
++    def resolve_checkouts(self, *_args, **_kwargs):
++        return resolve_checkouts()
+ 
+     def resolve_checkout_line(self, info, id):
+         return graphene.Node.get_node_from_global_id(info, id, CheckoutLine)
+diff --git a/saleor/graphql/core/fields.py b/saleor/graphql/core/fields.py
+--- a/saleor/graphql/core/fields.py
++++ b/saleor/graphql/core/fields.py
+@@ -230,15 +230,3 @@
+         return connection
+ 
+ 
+-class FieldWithChannel(graphene.Field):
+-    def __init__(self, type, *args, **kwargs):
+-        kwargs.setdefault(
+-            "channel",
+-            graphene.Argument(
+-                graphene.String,
+-                description=(
+-                    "Slug of the channel for which the data should be returned."
+-                ),
+-            ),
+-        )
+-        super().__init__(type, *args, **kwargs)

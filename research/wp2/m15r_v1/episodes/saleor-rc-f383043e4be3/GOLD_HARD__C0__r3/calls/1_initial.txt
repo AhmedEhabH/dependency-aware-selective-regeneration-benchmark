@@ -1,0 +1,336 @@
+Looking at the change description and the provided files, I need to implement money-like types quantization in webhooks/notifications. The issue is that monetary values in webhooks and notifications are not being properly quantized according to currency precision.
+
+Let me analyze the files:
+
+1. `saleor/core/prices.py` already has a `quantize_price` function
+2. `saleor/order/notifications.py` contains notification payload generation
+3. `saleor/webhook/payloads.py` contains webhook payload generation
+4. `saleor/webhook/serializers.py` contains serialization logic
+
+I need to import and use the `quantize_price` function in the webhook and notification payload generation to ensure monetary values are properly quantized.
+
+FILE: saleor/order/notifications.py
+<<<<<<< SEARCH
+from ..product.product_images import AVAILABLE_PRODUCT_SIZES, get_thumbnail
+from ..product.models import DigitalContentUrl, Product, ProductMedia, ProductVariant
+from ..product.product_images import AVAILABLE_PRODUCT_SIZES, get_thumbnail
+from .models import FulfillmentLine, Order, OrderLine
+=======
+from ..product.product_images import AVAILABLE_PRODUCT_SIZES, get_thumbnail
+from ..product.models import DigitalContentUrl, Product, ProductMedia, ProductVariant
+from ..product.product_images import AVAILABLE_PRODUCT_SIZES, get_thumbnail
+from .models import FulfillmentLine, Order, OrderLine
+
+from ..core.prices import quantize_price
+>>>>>>> REPLACE
+
+FILE: saleor/order/notifications.py
+<<<<<<< SEARCH
+def get_order_line_payload(line: "OrderLine"):
+    digital_url = ""
+    if line.is_digital:
+        content = DigitalContentUrl.objects.filter(line=line).first()
+        digital_url = content.get_absolute_url() if content else None  # type: ignore
+    variant_dependent_fields = {}
+    if line.variant:
+        variant_dependent_fields = {
+            "product": get_product_payload(line.variant.product),
+            "variant": get_product_variant_payload(line.variant),
+        }
+    return {
+        "id": line.id,
+        "product": variant_dependent_fields.get("product"),  # type: ignore
+        "product_name": line.product_name,
+        "translated_product_name": line.translated_product_name or line.product_name,
+        "variant_name": line.variant_name,
+        "variant": variant_dependent_fields.get("variant"),  # type: ignore
+        "translated_variant_name": line.translated_variant_name or line.variant_name,
+        "product_sku": line.product_sku,
+        "product_variant_id": line.product_variant_id,
+        "quantity": line.quantity,
+        "quantity_fulfilled": line.quantity_fulfilled,
+        "currency": line.currency,
+        "unit_price_net_amount": line.unit_price.net.amount,
+        "unit_price_gross_amount": line.unit_price.gross.amount,
+        "unit_tax_amount": line.unit_price.tax.amount,
+        "total_gross_amount": line.total_price.gross.amount,
+        "total_net_amount": line.total_price.net.amount,
+        "total_tax_amount": line.total_price.tax.amount,
+        "tax_rate": line.tax_rate,
+        "is_shipping_required": line.is_shipping_required,
+        "is_digital": line.is_digital,
+        "digital_url": digital_url,
+        "unit_discount_value": line.unit_discount_value,
+        "unit_discount_reason": line.unit_discount_reason,
+        "unit_discount_type": line.unit_discount_type,
+        "unit_discount_amount": line.unit_discount_amount,
+    }
+=======
+def get_order_line_payload(line: "OrderLine"):
+    digital_url = ""
+    if line.is_digital:
+        content = DigitalContentUrl.objects.filter(line=line).first()
+        digital_url = content.get_absolute_url() if content else None  # type: ignore
+    variant_dependent_fields = {}
+    if line.variant:
+        variant_dependent_fields = {
+            "product": get_product_payload(line.variant.product),
+            "variant": get_product_variant_payload(line.variant),
+        }
+    currency = line.currency
+    return {
+        "id": line.id,
+        "product": variant_dependent_fields.get("product"),  # type: ignore
+        "product_name": line.product_name,
+        "translated_product_name": line.translated_product_name or line.product_name,
+        "variant_name": line.variant_name,
+        "variant": variant_dependent_fields.get("variant"),  # type: ignore
+        "translated_variant_name": line.translated_variant_name or line.variant_name,
+        "product_sku": line.product_sku,
+        "product_variant_id": line.product_variant_id,
+        "quantity": line.quantity,
+        "quantity_fulfilled": line.quantity_fulfilled,
+        "currency": currency,
+        "unit_price_net_amount": quantize_price(line.unit_price.net.amount, currency),
+        "unit_price_gross_amount": quantize_price(line.unit_price.gross.amount, currency),
+        "unit_tax_amount": quantize_price(line.unit_price.tax.amount, currency),
+        "total_gross_amount": quantize_price(line.total_price.gross.amount, currency),
+        "total_net_amount": quantize_price(line.total_price.net.amount, currency),
+        "total_tax_amount": quantize_price(line.total_price.tax.amount, currency),
+        "tax_rate": line.tax_rate,
+        "is_shipping_required": line.is_shipping_required,
+        "is_digital": line.is_digital,
+        "digital_url": digital_url,
+        "unit_discount_value": quantize_price(line.unit_discount_value, currency),
+        "unit_discount_reason": line.unit_discount_reason,
+        "unit_discount_type": line.unit_discount_type,
+        "unit_discount_amount": quantize_price(line.unit_discount_amount, currency),
+    }
+>>>>>>> REPLACE
+
+FILE: saleor/order/notifications.py
+<<<<<<< SEARCH
+def get_discounts_payload(order):
+    order_discounts = order.discounts.all()
+    voucher_discount = None
+    all_discounts = []
+    discount_amount = 0
+    for order_discount in order_discounts:
+        dicount_obj = {
+            "type": order_discount.type,
+            "value_type": order_discount.value_type,
+            "value": order_discount.value,
+            "amount_value": order_discount.amount_value,
+            "name": order_discount.name,
+            "translated_name": order_discount.translated_name,
+            "reason": order_discount.reason,
+        }
+        all_discounts.append(dicount_obj)
+        if order_discount.type == OrderDiscountType.VOUCHER:
+            voucher_discount = dicount_obj
+        discount_amount += order_discount.amount_value
+
+    return {
+        "voucher_discount": voucher_discount,
+        "discounts": all_discounts,
+        "discount_amount": discount_amount,
+    }
+=======
+def get_discounts_payload(order):
+    order_discounts = order.discounts.all()
+    voucher_discount = None
+    all_discounts = []
+    discount_amount = 0
+    currency = order.currency
+    for order_discount in order_discounts:
+        dicount_obj = {
+            "type": order_discount.type,
+            "value_type": order_discount.value_type,
+            "value": order_discount.value,
+            "amount_value": quantize_price(order_discount.amount_value, currency),
+            "name": order_discount.name,
+            "translated_name": order_discount.translated_name,
+            "reason": order_discount.reason,
+        }
+        all_discounts.append(dicount_obj)
+        if order_discount.type == OrderDiscountType.VOUCHER:
+            voucher_discount = dicount_obj
+        discount_amount += order_discount.amount_value
+
+    return {
+        "voucher_discount": voucher_discount,
+        "discounts": all_discounts,
+        "discount_amount": quantize_price(discount_amount, currency),
+    }
+>>>>>>> REPLACE
+
+FILE: saleor/order/notifications.py
+<<<<<<< SEARCH
+    subtotal = order.get_subtotal()
+    tax = order.total_gross_amount - order.total_net_amount
+
+    lines = order.lines.prefetch_related(
+        "variant__product__media",
+        "variant__media",
+        "variant__product__attributes__assignment__attribute",
+        "variant__product__attributes__values",
+    ).all()
+    order_payload = model_to_dict(order, fields=ORDER_MODEL_FIELDS)
+    order_payload.update(
+        {
+            "number": order.id,
+            "channel_slug": order.channel.slug,
+            "created": str(order.created),
+            "shipping_price_net_amount": order.shipping_price_net_amount,
+            "shipping_price_gross_amount": order.shipping_price_gross_amount,
+            "order_details_url": order_details_url,
+            "email": order.get_customer_email(),
+            "subtotal_gross_amount": subtotal.gross.amount,
+            "subtotal_net_amount": subtotal.net.amount,
+            "tax_amount": tax,
+            "lines": get_lines_payload(lines),
+            "billing_address": get_address_payload(order.billing_address),
+            "shipping_address": get_address_payload(order.shipping_address),
+            "shipping_method_name": order.shipping_method_name,
+            "collection_point_name": order.collection_point_name,
+            **get_discounts_payload(order),
+        }
+    )
+    return order_payload
+=======
+    subtotal = order.get_subtotal()
+    tax = order.total_gross_amount - order.total_net_amount
+    currency = order.currency
+
+    lines = order.lines.prefetch_related(
+        "variant__product__media",
+        "variant__media",
+        "variant__product__attributes__assignment__attribute",
+        "variant__product__attributes__values",
+    ).all()
+    order_payload = model_to_dict(order, fields=ORDER_MODEL_FIELDS)
+    order_payload.update(
+        {
+            "number": order.id,
+            "channel_slug": order.channel.slug,
+            "created": str(order.created),
+            "shipping_price_net_amount": quantize_price(order.shipping_price_net_amount, currency),
+            "shipping_price_gross_amount": quantize_price(order.shipping_price_gross_amount, currency),
+            "order_details_url": order_details_url,
+            "email": order.get_customer_email(),
+            "subtotal_gross_amount": quantize_price(subtotal.gross.amount, currency),
+            "subtotal_net_amount": quantize_price(subtotal.net.amount, currency),
+            "tax_amount": quantize_price(tax, currency),
+            "lines": get_lines_payload(lines),
+            "billing_address": get_address_payload(order.billing_address),
+            "shipping_address": get_address_payload(order.shipping_address),
+            "shipping_method_name": order.shipping_method_name,
+            "collection_point_name": order.collection_point_name,
+            **get_discounts_payload(order),
+        }
+    )
+    return order_payload
+>>>>>>> REPLACE
+
+FILE: saleor/webhook/payloads.py
+<<<<<<< SEARCH
+from ..warehouse.models import Stock, Warehouse
+from .event_types import WebhookEventType
+from .payload_serializers import PayloadSerializer
+from .serializers import (
+    serialize_checkout_lines,
+    serialize_product_or_variant_attributes,
+)
+=======
+from ..warehouse.models import Stock, Warehouse
+from .event_types import WebhookEventType
+from .payload_serializers import PayloadSerializer
+from .serializers import (
+    serialize_checkout_lines,
+    serialize_product_or_variant_attributes,
+)
+
+from ..core.prices import quantize_price
+>>>>>>> REPLACE
+
+FILE: saleor/webhook/payloads.py
+<<<<<<< SEARCH
+    serializer = PayloadSerializer()
+    return serializer.serialize(
+        lines,
+        fields=line_fields,
+        extra_dict_data={
+            "product_variant_id": (lambda l: l.product_variant_id),
+            "total_price_net_amount": (lambda l: l.total_price.net.amount),
+            "total_price_gross_amount": (lambda l: l.total_price.gross.amount),
+            "allocations": (lambda l: prepare_order_lines_allocations_payload(l)),
+        },
+    )
+=======
+    serializer = PayloadSerializer()
+    return serializer.serialize(
+        lines,
+        fields=line_fields,
+        extra_dict_data={
+            "product_variant_id": (lambda l: l.product_variant_id),
+            "total_price_net_amount": (lambda l: quantize_price(l.total_price.net.amount, l.currency)),
+            "total_price_gross_amount": (lambda l: quantize_price(l.total_price.gross.amount, l.currency)),
+            "allocations": (lambda l: prepare_order_lines_allocations_payload(l)),
+        },
+    )
+>>>>>>> REPLACE
+
+FILE: saleor/webhook/serializers.py
+<<<<<<< SEARCH
+from ..product.models import Product
+
+if TYPE_CHECKING:
+    # pylint: disable=unused-import
+    from ..checkout.models import Checkout
+    from ..product.models import ProductVariant
+=======
+from ..product.models import Product
+
+from ..core.prices import quantize_price
+
+if TYPE_CHECKING:
+    # pylint: disable=unused-import
+    from ..checkout.models import Checkout
+    from ..product.models import ProductVariant
+>>>>>>> REPLACE
+
+FILE: saleor/webhook/serializers.py
+<<<<<<< SEARCH
+        product = variant.product
+        base_price = variant.get_price(product, collections, channel, channel_listing)
+        data.append(
+            {
+                "sku": variant.sku,
+                "variant_id": variant.get_global_id(),
+                "quantity": line_info.line.quantity,
+                "base_price": str(base_price.amount),
+                "currency": channel.currency_code,
+                "full_name": variant.display_product(),
+                "product_name": product.name,
+                "variant_name": variant.name,
+                "attributes": serialize_product_or_variant_attributes(variant),
+            }
+        )
+=======
+        product = variant.product
+        base_price = variant.get_price(product, collections, channel, channel_listing)
+        currency = channel.currency_code
+        data.append(
+            {
+                "sku": variant.sku,
+                "variant_id": variant.get_global_id(),
+                "quantity": line_info.line.quantity,
+                "base_price": str(quantize_price(base_price.amount, currency)),
+                "currency": currency,
+                "full_name": variant.display_product(),
+                "product_name": product.name,
+                "variant_name": variant.name,
+                "attributes": serialize_product_or_variant_attributes(variant),
+            }
+        )
+>>>>>>> REPLACE

@@ -1,0 +1,34 @@
+{
+ "request": {
+  "model": "qwen/qwen3-coder",
+  "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+  "provider": "deepinfra/turbo",
+  "temperature": 0.0,
+  "top_p": 1.0,
+  "max_tokens": 8192,
+  "messages": [
+   {
+    "role": "system",
+    "content": "You are a senior Python/Django engineer working on the Saleor e-commerce repository at a historical commit.\nYou receive a developer change description and the complete current contents of the files you are allowed to edit.\nImplement the described change by editing ONLY those files.\n\nOutput ONLY edit blocks in this exact format and nothing else:\n\nFILE: <path exactly as given>\n<<<<<<< SEARCH\n<exact lines copied from the current file>\n=======\n<replacement lines>\n>>>>>>> REPLACE\n\nRules:\n1. Put a FILE line before every block. Several blocks may target the same file; they are applied in order.\n2. The SEARCH text must match exactly one contiguous region of the current file, character for character, including indentation and blank lines. Include enough lines to make it unique.\n3. To add code, SEARCH for an existing anchor line and REPLACE it with the anchor line plus the new lines.\n4. Do not edit any file that is not listed. Do not create files. Do not delete files. Do not edit tests.\n5. Keep the code valid for the stated Python version.\n6. No explanations. No markdown code fences."
+   },
+   {
+    "role": "user",
+    "content": "DEVELOPER CHANGE DESCRIPTION\nfix bulk delete mutation for sales (#10553)\n\nPYTHON VERSION REQUIREMENT\nPython >= 3.9\n\nEDITABLE FILES (1)\n===== FILE: saleor/graphql/discount/bulk_mutations.py (57 lines) =====\nimport graphene\n\nfrom ...core.permissions import DiscountPermissions\nfrom ...discount import models\nfrom ...discount.utils import fetch_catalogue_info\nfrom ..core.mutations import ModelBulkDeleteMutation\nfrom ..core.types import DiscountError, NonNullList\nfrom .mutations.utils import convert_catalogue_info_to_global_ids\nfrom .types import Sale, Voucher\n\n\nclass SaleBulkDelete(ModelBulkDeleteMutation):\n    class Arguments:\n        ids = NonNullList(\n            graphene.ID, required=True, description=\"List of sale IDs to delete.\"\n        )\n\n    class Meta:\n        description = \"Deletes sales.\"\n        model = models.Sale\n        object_type = Sale\n        permissions = (DiscountPermissions.MANAGE_DISCOUNTS,)\n        error_type_class = DiscountError\n        error_type_field = \"discount_errors\"\n\n    @classmethod\n    def bulk_action(cls, info, queryset):\n        sales = list(queryset)\n        queryset.delete()\n        for sale in sales:\n            previous_catalogue = fetch_catalogue_info(sale)\n            info.context.plugins.sale_deleted(\n                sale, convert_catalogue_info_to_global_ids(previous_catalogue)\n            )\n\n\nclass VoucherBulkDelete(ModelBulkDeleteMutation):\n    class Arguments:\n        ids = NonNullList(\n            graphene.ID, required=True, description=\"List of voucher IDs to delete.\"\n        )\n\n    class Meta:\n        description = \"Deletes vouchers.\"\n        model = models.Voucher\n        object_type = Voucher\n        permissions = (DiscountPermissions.MANAGE_DISCOUNTS,)\n        error_type_class = DiscountError\n        error_type_field = \"discount_errors\"\n\n    @classmethod\n    def bulk_action(cls, info, queryset):\n        vouchers = list(queryset)\n        queryset.delete()\n        for voucher in vouchers:\n            info.context.plugins.voucher_deleted(voucher)\n\n===== END FILE: saleor/graphql/discount/bulk_mutations.py ====="
+   }
+  ]
+ },
+ "request_sha": "43ff17d684bd73f52b1ea3149ee6909a662294d4d4d854f4439451516cb1c6bb",
+ "provider_call": true,
+ "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\m15r_v1\\episodes\\saleor-rc-34511f977388\\GOLD_HARD__C0__r3\\calls\\1_initial.txt",
+ "text": "FILE: saleor/graphql/discount/bulk_mutations.py\n<<<<<<< SEARCH\n    @classmethod\n    def bulk_action(cls, info, queryset):\n        sales = list(queryset)\n        queryset.delete()\n        for sale in sales:\n            previous_catalogue = fetch_catalogue_info(sale)\n            info.context.plugins.sale_deleted(\n                sale, convert_catalogue_info_to_global_ids(previous_catalogue)\n            )\n=======\n    @classmethod\n    def bulk_action(cls, info, queryset):\n        sales = list(queryset)\n        sale_ids = {sale.id for sale in sales}\n        queryset.delete()\n        for sale in sales:\n            # Ensure we don't call plugin methods for sales that were already deleted\n            if sale.id in sale_ids:\n                previous_catalogue = fetch_catalogue_info(sale)\n                info.context.plugins.sale_deleted(\n                    sale, convert_catalogue_info_to_global_ids(previous_catalogue)\n                )\n>>>>>>> REPLACE",
+ "response_sha256": "8e8faf754ac24a1d0dfc631a62e6d520895a4f1a629118e2363d666dde5f1816",
+ "finish_reason": "stop",
+ "prompt_tokens": 674,
+ "completion_tokens": 188,
+ "cost_usd": 0.0003486,
+ "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+ "provider": "deepinfra/turbo",
+ "request_id": "gen-1790860306-tP0FpuW4UiqBgfNg3gbk",
+ "raw_sha256": "8e8faf754ac24a1d0dfc631a62e6d520895a4f1a629118e2363d666dde5f1816",
+ "created_time": "2026-10-01T13:12:03Z"
+}

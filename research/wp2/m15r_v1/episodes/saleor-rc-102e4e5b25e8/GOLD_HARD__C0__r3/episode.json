@@ -1,0 +1,61 @@
+{
+ "smoke_version": "wp2-m14r-v1",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-102e4e5b25e8",
+ "arm": "GOLD_HARD",
+ "label": "GOLD_HARD__C0__r3",
+ "variant": "G0",
+ "context": "C0",
+ "replicate": "r3",
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-10-01T13:11:10Z",
+ "status": "APPLIED",
+ "editable_set": [
+  "saleor/graphql/attribute/shared_filters.py"
+ ],
+ "excluded": {
+  "editable": [
+   "saleor/graphql/attribute/shared_filters.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "saleor/graphql/attribute/shared_filters.py"
+  ]
+ },
+ "prompt_sha256": "b51748f44814b3d79ddc4b8cf6a5dae74b08a8f5c275d039e73fe6ace6346a47",
+ "request_sha_initial": "51efc9dff67b49e00d6642af00b2c419e9800f736dc27b2286e3b8440ff9877c",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "context_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790860270-I91ZcSMrAp3SjnHJ0hrL",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 4323,
+   "completion_tokens": 1449,
+   "cost_usd_actual": 0.0027043,
+   "cost_usd_nominal": 0.0027043,
+   "finish_reason": "stop",
+   "response_sha256": "dd55456294821cc2f80d66c86fe2953362e3fafa83907f6a8189f5e55c97af3b",
+   "request_sha": "51efc9dff67b49e00d6642af00b2c419e9800f736dc27b2286e3b8440ff9877c",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\m15r_v1\\episodes\\saleor-rc-102e4e5b25e8\\GOLD_HARD__C0__r3\\calls\\1_initial.txt",
+   "raw_sha256": "dd55456294821cc2f80d66c86fe2953362e3fafa83907f6a8189f5e55c97af3b"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "produced_by": "initial",
+ "edited_files": [
+  "saleor/graphql/attribute/shared_filters.py"
+ ],
+ "diff_sha256": "dda2c2b7f3f2b34d53bd9a2659541f847be9536307473f30d302eefff871b83a",
+ "episode_sha256": "3aafeadaf7503eaeefa28d69098b64cc2fe3f9f927f4722270e9744f5bca1cdf"
+}

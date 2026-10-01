@@ -1,0 +1,160 @@
+Looking at the developer change description and the provided files, I need to update attribute validation in the `productVariantBulkCreate` mutation. The issue appears to be in how attribute values are validated for uniqueness when creating product variants in bulk.
+
+Let me examine the relevant code in the `ProductVariantBulkCreate` class and the utility functions that handle attribute validation.
+
+The main issue seems to be in the `validate_duplicated_attribute_values` method and how it interacts with the `get_used_variants_attribute_values` function. Looking at the code, I can see that the validation logic needs to be updated to properly handle attribute value comparisons.
+
+FILE: saleor/graphql/product/bulk_mutations/products.py
+<<<<<<< SEARCH
+    @classmethod
+    def validate_duplicated_attribute_values(
+        cls, attributes_data, used_attribute_values, instance=None
+    ):
+        attribute_values = defaultdict(list)
+        for attr in attributes_data:
+            if "boolean" in attr:
+                attribute_values[attr.id] = attr["boolean"]
+            else:
+                attribute_values[attr.id].extend(attr.get("values", []))
+        if attribute_values in used_attribute_values:
+            raise ValidationError(
+                "Duplicated attribute values for product variant.",
+                ProductErrorCode.DUPLICATED_INPUT_ITEM,
+            )
+        used_attribute_values.append(attribute_values)
+=======
+    @classmethod
+    def validate_duplicated_attribute_values(
+        cls, attributes_data, used_attribute_values, instance=None
+    ):
+        attribute_values = defaultdict(list)
+        for attr in attributes_data:
+            if "boolean" in attr:
+                attribute_values[attr.id] = attr["boolean"]
+            else:
+                attribute_values[attr.id].extend(attr.get("values", []))
+        if attribute_values in used_attribute_values:
+            raise ValidationError(
+                "Duplicated attribute values for product variant.",
+                ProductErrorCode.DUPLICATED_INPUT_ITEM,
+            )
+        used_attribute_values.append(attribute_values)
+>>>>>>> REPLACE
+
+FILE: saleor/graphql/product/utils.py
+<<<<<<< SEARCH
+def get_used_variants_attribute_values(product):
+    """Create list of attributes values for all existing `ProductVariants` for product.
+
+    Sample result is:
+    [
+        {
+            "attribute_1_global_id": ["ValueAttr1_1"],
+            "attribute_2_global_id": ["ValueAttr2_1"]
+        },
+        ...
+        {
+            "attribute_1_global_id": ["ValueAttr1_2"],
+            "attribute_2_global_id": ["ValueAttr2_2"]
+        }
+    ]
+    """
+    variants = (
+        product.variants.prefetch_related("attributes__values")
+        .prefetch_related("attributes__assignment")
+        .all()
+    )
+    used_attribute_values = []
+    for variant in variants:
+        attribute_values = get_used_attribute_values_for_variant(variant)
+        used_attribute_values.append(attribute_values)
+    return used_attribute_values
+=======
+def get_used_variants_attribute_values(product):
+    """Create list of attributes values for all existing `ProductVariants` for product.
+
+    Sample result is:
+    [
+        {
+            "attribute_1_global_id": ["ValueAttr1_1"],
+            "attribute_2_global_id": ["ValueAttr2_1"]
+        },
+        ...
+        {
+            "attribute_1_global_id": ["ValueAttr1_2"],
+            "attribute_2_global_id": ["ValueAttr2_2"]
+        }
+    ]
+    """
+    variants = (
+        product.variants.prefetch_related("attributes__values")
+        .prefetch_related("attributes__assignment")
+        .all()
+    )
+    used_attribute_values = []
+    for variant in variants:
+        attribute_values = get_used_attribute_values_for_variant(variant)
+        used_attribute_values.append(attribute_values)
+    return used_attribute_values
+>>>>>>> REPLACE
+
+FILE: saleor/graphql/product/bulk_mutations/products.py
+<<<<<<< SEARCH
+    @classmethod
+    def clean_variants(cls, info, variants, product, errors):
+        cleaned_inputs = []
+        sku_list = []
+        used_attribute_values = get_used_variants_attribute_values(product)
+        for index, variant_data in enumerate(variants):
+            try:
+                cls.validate_duplicated_attribute_values(
+                    variant_data.attributes, used_attribute_values
+                )
+            except ValidationError as exc:
+                errors["attributes"].append(
+                    ValidationError(exc.message, exc.code, params={"index": index})
+                )
+
+            variant_data["product_type"] = product.product_type
+            variant_data["product"] = product
+            cleaned_input = cls.clean_variant_input(
+                info, None, variant_data, errors, index
+            )
+
+            cleaned_inputs.append(cleaned_input if cleaned_input else None)
+
+            if cleaned_input["sku"]:
+                cls.validate_duplicated_sku(
+                    cleaned_input["sku"], index, sku_list, errors
+                )
+        return cleaned_inputs
+=======
+    @classmethod
+    def clean_variants(cls, info, variants, product, errors):
+        cleaned_inputs = []
+        sku_list = []
+        used_attribute_values = get_used_variants_attribute_values(product)
+        for index, variant_data in enumerate(variants):
+            try:
+                cls.validate_duplicated_attribute_values(
+                    variant_data.attributes, used_attribute_values
+                )
+            except ValidationError as exc:
+                errors["attributes"].append(
+                    ValidationError(exc.message, exc.code, params={"index": index})
+                )
+
+            variant_data["product_type"] = product.product_type
+            variant_data["product"] = product
+            cleaned_input = cls.clean_variant_input(
+                info, None, variant_data, errors, index
+            )
+
+            cleaned_inputs.append(cleaned_input if cleaned_input else None)
+
+            if cleaned_input["sku"]:
+                cls.validate_duplicated_sku(
+                    cleaned_input["sku"], index, sku_list, errors
+                )
+        return cleaned_inputs
+>>>>>>> REPLACE

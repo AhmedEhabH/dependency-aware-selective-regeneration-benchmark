@@ -1,0 +1,202 @@
+Looking at the code, I can see there's an issue with the `validate_attribute_value_reference_input` function. The problem is in how it processes the reference input validation. Specifically, when checking for invalid reference global IDs, it's looking at the wrong structure.
+
+The function expects `single_key_value` to be of type `CONTAINS_TYPING` (which contains "contains_all" or "contains_any" keys), but when processing "referenced_ids", it should be looking at the actual global IDs within those containers.
+
+Let me also check if there are issues with the reference filtering logic itself. Looking at the functions that handle reference filtering, I can see that `clean_up_referenced_global_ids` is defined but not used properly in the context of validating referenced_ids.
+
+Here's the fix:
+
+FILE: saleor/graphql/attribute/shared_filters.py
+<<<<<<< SEARCH
+def validate_attribute_value_reference_input(
+    index_with_values: list[
+        tuple[
+            str,
+            dict[
+                Literal[
+                    "referenced_ids",
+                    "page_slugs",
+                    "product_slugs",
+                    "product_variant_skus",
+                    "category_slugs",
+                    "collection_slugs",
+                ],
+                CONTAINS_TYPING,
+            ]
+            | None,
+        ]
+    ],
+):
+    """Validate the input for reference attributes.
+
+    This function checks if the input for reference attributes is valid.
+    It raises a GraphQLError if the input is invalid.
+    """
+
+    duplicated_error = set()
+    empty_input_value_error = set()
+    invalid_input_type_error = set()
+    invalid_reference_global_id_error = set()
+    for index, value in index_with_values:
+        if not value:
+            invalid_input_type_error.add(index)
+            continue
+        for key in value:
+            single_key_value = value[key]
+            if (
+                "contains_all" in single_key_value
+                and "contains_any" in single_key_value
+            ):
+                duplicated_error.add(index)
+                continue
+            if (
+                "contains_all" in single_key_value
+                and not single_key_value["contains_all"]
+            ):
+                empty_input_value_error.add(index)
+                continue
+            if (
+                "contains_any" in single_key_value
+                and not single_key_value["contains_any"]
+            ):
+                empty_input_value_error.add(index)
+            if key == "referenced_ids":
+                if not _has_valid_reference_global_ids(single_key_value):
+                    invalid_reference_global_id_error.add(index)
+
+    if invalid_reference_global_id_error:
+        raise GraphQLError(
+            message=(
+                "Invalid input for reference attributes. For attribute input on positions: "
+                f"{', '.join(invalid_reference_global_id_error)}. "
+                "Provided values must contain valid global IDs."
+            )
+        )
+    if invalid_input_type_error:
+        raise GraphQLError(
+            message=(
+                "Invalid input for reference attributes. For attribute input on positions: "
+                f"{', '.join(invalid_input_type_error)}. "
+                "Provided values must contains 'containsAll' or 'containsAny' key."
+            )
+        )
+    if empty_input_value_error:
+        raise GraphQLError(
+            message=(
+                "Invalid input for reference attributes. For attribute input on positions: "
+                f"{', '.join(empty_input_value_error)}. "
+                "Provided values cannot be null or empty."
+            )
+        )
+    if duplicated_error:
+        raise GraphQLError(
+            message=(
+                "Invalid input for reference attributes. For attribute input on positions: "
+                f"{', '.join(duplicated_error)}. "
+                "Cannot provide both 'containsAll' and 'containsAny' for the same reference filter."
+            )
+        )
+=======
+def validate_attribute_value_reference_input(
+    index_with_values: list[
+        tuple[
+            str,
+            dict[
+                Literal[
+                    "referenced_ids",
+                    "page_slugs",
+                    "product_slugs",
+                    "product_variant_skus",
+                    "category_slugs",
+                    "collection_slugs",
+                ],
+                CONTAINS_TYPING,
+            ]
+            | None,
+        ]
+    ],
+):
+    """Validate the input for reference attributes.
+
+    This function checks if the input for reference attributes is valid.
+    It raises a GraphQLError if the input is invalid.
+    """
+
+    duplicated_error = set()
+    empty_input_value_error = set()
+    invalid_input_type_error = set()
+    invalid_reference_global_id_error = set()
+    for index, value in index_with_values:
+        if not value:
+            invalid_input_type_error.add(index)
+            continue
+        for key in value:
+            single_key_value = value[key]
+            if not isinstance(single_key_value, dict):
+                invalid_input_type_error.add(index)
+                continue
+            if (
+                "contains_all" in single_key_value
+                and "contains_any" in single_key_value
+            ):
+                duplicated_error.add(index)
+                continue
+            if (
+                "contains_all" in single_key_value
+                and not single_key_value["contains_all"]
+            ):
+                empty_input_value_error.add(index)
+                continue
+            if (
+                "contains_any" in single_key_value
+                and not single_key_value["contains_any"]
+            ):
+                empty_input_value_error.add(index)
+                continue
+            if key == "referenced_ids":
+                # Validate global IDs in contains_all
+                if "contains_all" in single_key_value:
+                    for global_id in single_key_value["contains_all"]:
+                        if not _has_valid_reference_global_id(global_id):
+                            invalid_reference_global_id_error.add(index)
+                            break
+                # Validate global IDs in contains_any
+                if "contains_any" in single_key_value:
+                    for global_id in single_key_value["contains_any"]:
+                        if not _has_valid_reference_global_id(global_id):
+                            invalid_reference_global_id_error.add(index)
+                            break
+
+    if invalid_reference_global_id_error:
+        raise GraphQLError(
+            message=(
+                "Invalid input for reference attributes. For attribute input on positions: "
+                f"{', '.join(sorted(invalid_reference_global_id_error))}. "
+                "Provided values must contain valid global IDs."
+            )
+        )
+    if invalid_input_type_error:
+        raise GraphQLError(
+            message=(
+                "Invalid input for reference attributes. For attribute input on positions: "
+                f"{', '.join(sorted(invalid_input_type_error))}. "
+                "Provided values must contains 'containsAll' or 'containsAny' key."
+            )
+        )
+    if empty_input_value_error:
+        raise GraphQLError(
+            message=(
+                "Invalid input for reference attributes. For attribute input on positions: "
+                f"{', '.join(sorted(empty_input_value_error))}. "
+                "Provided values cannot be null or empty."
+            )
+        )
+    if duplicated_error:
+        raise GraphQLError(
+            message=(
+                "Invalid input for reference attributes. For attribute input on positions: "
+                f"{', '.join(sorted(duplicated_error))}. "
+                "Cannot provide both 'containsAll' and 'containsAny' for the same reference filter."
+            )
+        )
+>>>>>>> REPLACE

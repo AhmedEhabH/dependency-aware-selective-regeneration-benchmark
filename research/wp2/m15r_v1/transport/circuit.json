@@ -35,9 +35,24 @@
    "detail": "",
    "event": "CLOSED_AFTER_SUCCESS",
    "t": 1790859212.5726283
+  },
+  {
+   "detail": "4 attempts exhausted; statuses=[429, 429, 429, 429]",
+   "event": "OPEN",
+   "t": 1790859313.1588004
+  },
+  {
+   "detail": "4 attempts exhausted; statuses=[429, 429, 429, 429]",
+   "event": "COOLDOWN",
+   "t": 1790859313.1588004
+  },
+  {
+   "detail": "",
+   "event": "CLOSED_AFTER_SUCCESS",
+   "t": 1790860249.0712607
   }
  ],
- "last_event": 1790859212.5726283,
+ "last_event": 1790860249.0712607,
  "outage_started": null,
  "state": "CLOSED"
 }

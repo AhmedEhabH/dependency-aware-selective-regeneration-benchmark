@@ -1,0 +1,133 @@
+FILE: saleor/graphql/checkout/resolvers.py
+<<<<<<< SEARCH
+    return queryset
+
+
+def resolve_checkouts(channel_slug):
+    queryset = models.Checkout.objects.all()
+    if channel_slug:
+        queryset = queryset.filter(channel__slug=channel_slug)
+    return queryset
+
+
+def resolve_checkout(info, token, channel_slug):
+    checkout = models.Checkout.objects.filter(
+        token=token, channel__slug=channel_slug
+    ).first()
+
+    if checkout is None:
+        return None
+=======
+    return queryset
+
+
+def resolve_checkouts():
+    queryset = models.Checkout.objects.all()
+    return queryset
+
+
+def resolve_checkout(info, token):
+    checkout = models.Checkout.objects.filter(token=token).first()
+
+    if checkout is None:
+        return None
+>>>>>>> REPLACE
+
+### Explanation of Changes in `resolvers.py`:
+
+1. **Removed `channel_slug` parameter** from `resolve_checkouts()` since the channel filtering is no longer needed.
+2. **Removed `channel_slug` parameter** from `resolve_checkout()` and updated the filter to only use `token`.
+3. Removed the logic related to checking the channel slug when resolving a single checkout.
+
+FILE: saleor/graphql/checkout/schema.py
+<<<<<<< SEARCH
+class CheckoutQueries(graphene.ObjectType):
+    checkout = FieldWithChannel(
+        Checkout,
+        description="Look up a checkout by token and slug of channel.",
+        token=graphene.Argument(UUID, description="The checkout's token."),
+    )
+    # FIXME we could optimize the below field
+    checkouts = BaseDjangoConnectionField(
+        Checkout,
+        description="List of checkouts.",
+        channel=graphene.String(
+            description="Slug of a channel for which the data should be returned."
+        ),
+    )
+    checkout_line = graphene.Field(
+        CheckoutLine,
+        id=graphene.Argument(graphene.ID, description="ID of the checkout line."),
+        description="Look up a checkout line by ID.",
+    )
+    checkout_lines = PrefetchingConnectionField(
+        CheckoutLine, description="List of checkout lines."
+    )
+
+    def resolve_checkout(self, info, token, channel):
+        return resolve_checkout(info, token, channel)
+
+    @permission_required(CheckoutPermissions.MANAGE_CHECKOUTS)
+    def resolve_checkouts(self, *_args, channel=None, **_kwargs):
+        return resolve_checkouts(channel)
+
+    def resolve_checkout_line(self, info, id):
+        return graphene.Node.get_node_from_global_id(info, id, CheckoutLine)
+=======
+class CheckoutQueries(graphene.ObjectType):
+    checkout = graphene.Field(
+        Checkout,
+        description="Look up a checkout by token.",
+        token=graphene.Argument(UUID, description="The checkout's token."),
+    )
+    # FIXME we could optimize the below field
+    checkouts = BaseDjangoConnectionField(
+        Checkout,
+        description="List of checkouts.",
+    )
+    checkout_line = graphene.Field(
+        CheckoutLine,
+        id=graphene.Argument(graphene.ID, description="ID of the checkout line."),
+        description="Look up a checkout line by ID.",
+    )
+    checkout_lines = PrefetchingConnectionField(
+        CheckoutLine, description="List of checkout lines."
+    )
+
+    def resolve_checkout(self, info, token):
+        return resolve_checkout(info, token)
+
+    @permission_required(CheckoutPermissions.MANAGE_CHECKOUTS)
+    def resolve_checkouts(self, *_args, **_kwargs):
+        return resolve_checkouts()
+
+    def resolve_checkout_line(self, info, id):
+        return graphene.Node.get_node_from_global_id(info, id, CheckoutLine)
+>>>>>>> REPLACE
+
+### Explanation of Changes in `schema.py`:
+
+1. Replaced `FieldWithChannel` with regular `graphene.Field` for the `checkout` query, removing the `channel` argument.
+2. Removed the `channel` argument from the `checkouts` field.
+3. Updated resolver methods (`resolve_checkout`, `resolve_checkouts`) to remove references to the `channel` parameter.
+
+FILE: saleor/graphql/core/fields.py
+<<<<<<< SEARCH
+class FieldWithChannel(graphene.Field):
+    def __init__(self, type, *args, **kwargs):
+        kwargs.setdefault(
+            "channel",
+            graphene.Argument(
+                graphene.String,
+                description=(
+                    "Slug of the channel for which the data should be returned."
+                ),
+            ),
+        )
+        super().__init__(type, *args, **kwargs)
+=======
+>>>>>>> REPLACE
+
+### Explanation of Changes in `fields.py`:
+
+1. Completely removed the `FieldWithChannel` class as it's no longer used anywhere after the changes above.

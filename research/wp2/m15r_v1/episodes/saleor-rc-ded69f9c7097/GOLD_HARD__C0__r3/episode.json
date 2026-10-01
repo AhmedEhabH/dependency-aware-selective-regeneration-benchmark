@@ -1,0 +1,65 @@
+{
+ "smoke_version": "wp2-m14r-v1",
+ "interface_version": "wp2-e2e-interface-v2",
+ "task_id": "saleor-rc-ded69f9c7097",
+ "arm": "GOLD_HARD",
+ "label": "GOLD_HARD__C0__r3",
+ "variant": "G0",
+ "context": "C0",
+ "replicate": "r3",
+ "spec_sha256": "163731c797a2c23293eba386edf0c805694d8cf35f2e3bd0cc60502df245125d",
+ "created_utc": "2026-10-01T13:13:10Z",
+ "status": "APPLIED",
+ "editable_set": [
+  "CHANGELOG.md",
+  "saleor/graphql/product/bulk_mutations/products.py"
+ ],
+ "excluded": {
+  "editable": [
+   "CHANGELOG.md",
+   "saleor/graphql/product/bulk_mutations/products.py"
+  ],
+  "excluded_large": [],
+  "excluded_budget": [],
+  "raw": [
+   "CHANGELOG.md",
+   "saleor/graphql/product/bulk_mutations/products.py"
+  ]
+ },
+ "prompt_sha256": "f30041fceb97f87f019b1a3149e215392d58e58112bf55c3c48357191f737c76",
+ "request_sha_initial": "0dfe97694dd888f5edfddf6c9c4cda4f571223623578024e0e104140adb2503e",
+ "request_sha_repair": "",
+ "repair_component_hashes": {},
+ "context_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+ "calls": [
+  {
+   "kind": "initial",
+   "index": 1,
+   "request_id": "gen-1790860391-TibAIQUthev7t7mkgIBx",
+   "route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+   "provider": "deepinfra/turbo",
+   "prompt_tokens": 41704,
+   "completion_tokens": 206,
+   "cost_usd_actual": 0.0126756,
+   "cost_usd_nominal": 0.0126756,
+   "finish_reason": "stop",
+   "response_sha256": "9c15bba47c76d66f3cd7614a449ec39a84975a73c3a1bf7025e324793908c1c2",
+   "request_sha": "0dfe97694dd888f5edfddf6c9c4cda4f571223623578024e0e104140adb2503e",
+   "provider_call": true,
+   "raw_file": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\research\\wp2\\m15r_v1\\episodes\\saleor-rc-ded69f9c7097\\GOLD_HARD__C0__r3\\calls\\1_initial.txt",
+   "raw_sha256": "9c15bba47c76d66f3cd7614a449ec39a84975a73c3a1bf7025e324793908c1c2"
+  }
+ ],
+ "validation": {
+  "initial": [],
+  "repair": []
+ },
+ "repair_used": false,
+ "produced_by": "initial",
+ "edited_files": [
+  "CHANGELOG.md",
+  "saleor/graphql/product/bulk_mutations/products.py"
+ ],
+ "diff_sha256": "2eb6920bd1951682e1102a151b78e6e35953fc79ae1fff964ab2759a7fe268c3",
+ "episode_sha256": "d6db607dc80ad6de26ceb0892b399e9ae403e2550d6cd6d54b0d98127c5d44d0"
+}
