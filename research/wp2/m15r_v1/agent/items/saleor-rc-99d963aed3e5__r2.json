@@ -1,0 +1,22 @@
+{
+ "artifact_sha256": "174287a7694befbd878712dcd9779eb1f044db5ef0ffc6a6fb7872c86c0c879a",
+ "empty_reason": "none",
+ "infra_failure": false,
+ "model_calls": 8,
+ "prediction_empty": false,
+ "replicate": "r2",
+ "selected_paths": [
+  "saleor/checkout/models.py",
+  "saleor/checkout/utils.py",
+  "saleor/graphql/checkout/resolvers.py",
+  "saleor/graphql/checkout/types.py"
+ ],
+ "task_id": "saleor-rc-99d963aed3e5",
+ "token_usage": {
+  "completion_tokens": 332,
+  "prompt_tokens": 53894,
+  "total_tokens": 54226,
+  "usd_cost": 0.016500199999999996
+ },
+ "work_key": "saleor-rc-99d963aed3e5#r2"
+}
