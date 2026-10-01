@@ -1,0 +1,1381 @@
+{
+ "diff_sha256": "9669914a98c08ccc24414fd1d20074de62bebc63a59f0648f4beecccca7c4d23",
+ "e1_decision": "PATCH_STARTUP_FAILURE",
+ "eval_identity": "saleor-rc-f383043e4be3/9669914a98c08ccc24414fd1d20074de62bebc63a59f0648f4beecccca7c4d23",
+ "evaluation_sha256": "888b2266949b1bad136b21ddb313fa15d984a79e0e98d4e95e02f75a08e1c47c",
+ "evaluation_source": "OPWS_EVALUATED",
+ "groups": {
+  "C": {
+   "saleor/order/tests/test_notifications.py::test_get_address_payload": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_notifications.py::test_get_custom_order_payload": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_notifications.py::test_get_default_fulfillment_payload": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_notifications.py::test_get_default_order_payload": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_notifications.py::test_get_order_line_payload": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_notifications.py::test_get_order_line_payload_deleted_variant": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_notifications.py::test_send_confirmation_emails_without_addresses_for_order": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_notifications.py::test_send_confirmation_emails_without_addresses_for_payment": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_notifications.py::test_send_email_order_canceled_by_app": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_notifications.py::test_send_email_order_canceled_by_user": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_notifications.py::test_send_email_order_confirmation": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_notifications.py::test_send_email_order_confirmation_for_cc": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_notifications.py::test_send_email_order_refunded_by_app": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_notifications.py::test_send_email_order_refunded_by_user": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_notifications.py::test_send_email_payment_confirmation": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_notifications.py::test_send_fulfillment_confirmation_by_app": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_notifications.py::test_send_fulfillment_confirmation_by_user": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_notifications.py::test_send_fulfillment_update": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_payloads.py::test_generate_base_product_variant_payload": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_payloads.py::test_generate_checkout_lines_payload": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_payloads.py::test_generate_choices_attribute_value_translation_payload": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_payloads.py::test_generate_collection_point_payload": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_payloads.py::test_generate_customer_payload": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_payloads.py::test_generate_fulfillment_lines_payload": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_payloads.py::test_generate_fulfillment_lines_payload_deleted_variant": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_payloads.py::test_generate_invoice_payload": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_payloads.py::test_generate_list_gateways_payload": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_payloads.py::test_generate_order_payload": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_payloads.py::test_generate_payment_payload": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_payloads.py::test_generate_product_translation_payload": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_payloads.py::test_generate_product_variant_deleted_payload": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_payloads.py::test_generate_product_variant_payload": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_payloads.py::test_generate_product_variant_translation_payload": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_payloads.py::test_generate_product_variant_with_external_media_payload": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_payloads.py::test_generate_product_variant_without_sku_payload": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_payloads.py::test_generate_sale_payload_no_previous_and_current_has_empty_catalogue_lists": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_payloads.py::test_generate_sale_payload_with_current_only_has_empty_added_fields": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_payloads.py::test_generate_sale_payload_with_current_only_has_empty_removed_fields": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_payloads.py::test_generate_unique_page_attribute_value_translation_payload": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_payloads.py::test_generate_unique_product_attribute_value_translation_payload": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_payloads.py::test_generate_unique_variant_attribute_value_translation_payload": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_payloads.py::test_genereate_sale_payload_calculates_set_differences": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_payloads.py::test_order_line_without_sku_still_has_id": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_payloads.py::test_order_lines_have_all_required_fields": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_checkout_payload[click_and_collect]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_checkout_payload[regular]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_customer_payload": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[Non_existing_event]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[None]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[draft_order_created]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[draft_order_deleted]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[draft_order_updated]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[order_cancelled]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[order_created]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[order_fulfilled]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[order_fully_paid]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[order_updated]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[product_created]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_empty_response_[product_updated]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_fulfillment_created": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_order[order_cancelled-canceled]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_order[order_created-unfulfilled]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_order[order_fulfilled-fulfilled]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_order[order_fully_paid-fulfilled]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_payload_order[order_updated-canceled]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_sample_payloads.py::test_generate_sample_product_payload": [
+    "missing",
+    "missing",
+    "missing"
+   ]
+  },
+  "U": {
+   "saleor/core/tests/test_analytics.py::test_get_order_payloads": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_analytics.py::test_get_order_without_sku_payloads": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_analytics.py::test_get_view_payloads": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_analytics.py::test_report_order_has_no_errors": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_anonymize.py::test_obfuscate_address": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_anonymize.py::test_obfuscate_address_no_address": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_anonymize.py::test_obfuscate_email": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_anonymize.py::test_obfuscate_email_example_email": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_anonymize.py::test_obfuscate_email_no_at_in_email": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_anonymize.py::test_obfuscate_string": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_anonymize.py::test_obfuscate_string_empty_string": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_anonymize.py::test_obfuscate_string_phone_string": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_incorect_type_of_token[Bearer]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_incorect_type_of_token[JWT]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_incorrect_token[Bearer]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_incorrect_token[JWT]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_missing_header": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_missing_token[JWT]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_owner_field_is_missing[Bearer]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_owner_field_is_missing[JWT]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_saleor_is_not_owner_of_token[Bearer]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_saleor_is_not_owner_of_token[JWT]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_token_expired[Bearer]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_use_default_header_as_a_fallback": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_user_authenticated[Bearer]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_user_authenticated[JWT]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_user_deactivated[JWT]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_user_deactivated_token[Bearer]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_user_doesnt_exist[JWT]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_user_doesnt_have_permissions_from_token[Bearer]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_user_doesnt_have_permissions_from_token[JWT]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_user_payload_doesnt_have_user_token[JWT]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_user_with_limited_permissions[user_permissions0-app_permissions0-expected_limited_permissions0]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_user_with_limited_permissions[user_permissions1-app_permissions1-expected_limited_permissions1]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_user_with_limited_permissions[user_permissions2-app_permissions2-expected_limited_permissions2]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_user_with_limited_permissions[user_permissions3-app_permissions3-expected_limited_permissions3]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_default_header.py::test_user_with_limited_permissions[user_permissions4-app_permissions4-expected_limited_permissions4]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_incorect_type_of_token": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_incorrect_token": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_missing_header": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_missing_token": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_saleor_is_not_owner_of_token": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_token_expired": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_use_authorization_bearer_header_when_authorization_is_provided[Basic]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_use_authorization_bearer_header_when_authorization_is_provided[Bearer]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_use_saleor_header_as_a_first_try": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_user_authenticated": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_user_deactivated": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_user_deactivated_token": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_user_doesnt_exist": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_user_doesnt_have_permissions_from_token": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_user_payload_doesnt_have_user_token": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_user_with_limited_permissions[user_permissions0-app_permissions0-expected_limited_permissions0]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_user_with_limited_permissions[user_permissions1-app_permissions1-expected_limited_permissions1]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_user_with_limited_permissions[user_permissions2-app_permissions2-expected_limited_permissions2]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_user_with_limited_permissions[user_permissions3-app_permissions3-expected_limited_permissions3]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_user_with_limited_permissions[user_permissions4-app_permissions4-expected_limited_permissions4]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_auth_backend_saleor_header.py::test_user_with_limited_permissions[user_permissions5-app_permissions5-expected_limited_permissions5]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_core.py::test_build_absolute_uri": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_core.py::test_cleardb_passes_with_force_flag_in_debug_off": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_core.py::test_create_address": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_core.py::test_create_channels": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_core.py::test_create_channels_with_default_channel_slug": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_core.py::test_create_fake_order": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_core.py::test_create_fake_users": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_core.py::test_create_superuser": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_core.py::test_create_thumbnails": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_core.py::test_create_vouchers": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_core.py::test_delete_versatile_image": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_core.py::test_generate_unique_slug_with_slugable_field[40.5-405-2]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_core.py::test_generate_unique_slug_with_slugable_field[FM1+-fm1-2]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_core.py::test_generate_unique_slug_with_slugable_field[Paint-paint]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_core.py::test_generate_unique_slug_with_slugable_field[Shirt-shirt]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_core.py::test_generate_unique_slug_with_slugable_field[\\u0632\\u064a\\u0648\\u062a-\\u0632\\u064a\\u0648\\u062a]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_core.py::test_generate_unique_slug_with_slugable_field[default type-default-type-2]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_core.py::test_get_client_ip[256.0.0.1-127.0.0.1]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_core.py::test_get_client_ip[::1-::1]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_core.py::test_get_client_ip[None-127.0.0.1]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_core.py::test_get_client_ip[invalid,8.8.8.8-8.8.8.8]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_core.py::test_get_currency_for_country[country0-PLN]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_core.py::test_get_currency_for_country[country2-GBP]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_core.py::test_storages_set_s3_bucket_domain": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_editorjs.py::test_clean_editor_js[The Saleor Sale is snowed <a href=\"https://docs.saleor.io/docs/\">. Test.]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_editorjs.py::test_clean_editor_js[The Saleor Winter Sale is snowed <a >]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_editorjs.py::test_clean_editor_js[The Saleor Winter Sale is snowed <a href=\"https://docs.saleor.io/docs/\">. Test <a href=\"https://docs.saleor.io/docs/\">.]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_editorjs.py::test_clean_editor_js[The Saleor Winter Sale is snowed <a href=\"https://docs.saleor.io/docs/\">]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_editorjs.py::test_clean_editor_js[The Saleor Winter Sale is snowed under with seasonal offers. Unreal products at unreal prices. Literally, they are not real products, but the Saleor demo store is a genuine e-commerce leader.]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_editorjs.py::test_clean_editor_js[]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_editorjs.py::test_clean_editor_js_for_complex_description": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_editorjs.py::test_clean_editor_js_for_list": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_editorjs.py::test_clean_editor_js_for_list_invalid_url": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_editorjs.py::test_clean_editor_js_invalid_url": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_editorjs.py::test_clean_editor_js_no_blocks": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_editorjs.py::test_clean_editor_js_no_data": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_jwt.py::test_create_access_token_for_app_extension_staff_user_with_more_permissions": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_jwt.py::test_create_access_token_for_app_extension_with_more_permissions": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_middleware.py::test_jwt_refresh_token_middleware": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_middleware.py::test_jwt_refresh_token_middleware_samesite_debug_mode": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_middleware.py::test_jwt_refresh_token_middleware_samesite_none": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_middleware.py::test_jwt_refresh_token_middleware_token_without_expire": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_notification.py::test_validate_and_get_channel": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_notification.py::test_validate_and_get_channel_for_inactive_channel": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_notification.py::test_validate_and_get_channel_for_lack_of_input": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_notification.py::test_validate_and_get_channel_for_non_existing_slug": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_postgresql_search.py::test_storefront_product_fuzzy_name_search[Arabica-0]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_postgresql_search.py::test_storefront_product_fuzzy_name_search[blue-1]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_postgresql_search.py::test_storefront_product_fuzzy_name_search[chicken-2]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_postgresql_search.py::test_storefront_product_fuzzy_name_search[cool-1]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_postgresql_search.py::test_storefront_product_fuzzy_name_search[roast-2]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_tasks.py::test_delete_from_storage_task": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_tasks.py::test_delete_from_storage_task_file_that_not_exists": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_url.py::test_prepare_url": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_weight.py::test_convert_weight": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_weight.py::test_convert_weight_to_default_weight_unit[g-expected_value1]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_weight.py::test_convert_weight_to_default_weight_unit[kg-expected_value0]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_weight.py::test_convert_weight_to_default_weight_unit[lb-expected_value2]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_weight.py::test_convert_weight_to_default_weight_unit[oz-expected_value3]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/core/tests/test_weight.py::test_get_default_weight_unit": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_fulfillments_actions.py::test_create_fulfillments": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_fulfillments_actions.py::test_create_fulfillments_many_warehouses": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_fulfillments_actions.py::test_create_fulfillments_require_approval": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_fulfillments_actions.py::test_create_fulfillments_require_approval_as_app": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_fulfillments_actions.py::test_create_fulfillments_warehouse_without_stock": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_fulfillments_actions.py::test_create_fulfillments_with_one_line_empty_quantity": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_fulfillments_actions.py::test_create_fulfillments_with_variant_without_inventory_tracking": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_fulfillments_actions.py::test_create_fulfillments_with_variant_without_inventory_tracking_and_without_stock": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_fulfillments_actions.py::test_create_fulfillments_without_allocations": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_fulfillments_actions.py::test_create_fulfillments_without_notification": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_fulfillments_actions.py::test_create_fullfilment_with_out_of_stock_webhook": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_fulfillments_actions.py::test_create_fullfilment_with_out_of_stock_webhook_not_triggered": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order.py::test_add_variant_to_draft_order_adds_line_for_variant_with_price_0": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order.py::test_category_voucher_checkout_discount_raises_not_applicable": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order.py::test_display_translated_order_line_name[product----product]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order.py::test_display_translated_order_line_name[product-variant--variantPl-product (variantPl)]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order.py::test_display_translated_order_line_name[product-variant-productPL--productPL (variant)]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order.py::test_display_translated_order_line_name[product-variant-productPL-variantPl-productPL (variantPl)]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order.py::test_email_sent_event_with_app[event_fulfillment_digital_links_notification-digital_links]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order.py::test_email_sent_event_with_user[event_payment_confirmed_notification-payment_confirmation]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order.py::test_email_sent_event_with_user_without_app[event_fulfillment_confirmed_notification-fulfillment_confirmation]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order.py::test_email_sent_event_without_user_pk[event_order_confirmation_notification-order_confirmation]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order.py::test_email_sent_event_without_user_pk[event_payment_confirmed_notification-payment_confirmation]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order.py::test_get_discount_for_order_specific_products_voucher[10000-fixed-False-86.1]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order.py::test_get_discount_for_order_specific_products_voucher[5-fixed-False-25]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order.py::test_get_order_weight_non_existing_product": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order.py::test_get_voucher_discount_for_order_voucher_validation": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order.py::test_order_queryset_drafts": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order.py::test_ordered_item_change_quantity": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order.py::test_send_fulfillment_order_lines_mails_by_app[True-True]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order.py::test_shipping_voucher_checkout_discount_not_applicable_returns_zero[100-9-100-10-specific_product]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order.py::test_shipping_voucher_checkout_discount_not_applicable_returns_zero[99-10-100-10-specific_product]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order.py::test_shipping_voucher_order_discount[10-50-percentage-5]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order.py::test_total_setter": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order.py::test_validate_fulfillment_tracking_number_as_url": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order.py::test_validate_voucher_in_order_without_voucher": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_actions.py::test_cancel_fulfillment": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_actions.py::test_cancel_fulfillment_variant_witout_inventory_tracking": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_actions.py::test_cancel_order": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_actions.py::test_clean_mark_order_as_paid": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_actions.py::test_fulfill_digital_lines": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_actions.py::test_fulfill_order_lines": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_actions.py::test_fulfill_order_lines_multiple_lines": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_actions.py::test_fulfill_order_lines_with_variant_deleted": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_actions.py::test_fulfill_order_lines_without_inventory_tracking": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_actions.py::test_handle_fully_paid_order": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_actions.py::test_handle_fully_paid_order_digital_lines": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_actions.py::test_handle_fully_paid_order_no_email": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_actions.py::test_mark_as_paid": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_actions.py::test_mark_as_paid_no_billing_address": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_actions.py::test_mark_as_paid_with_external_reference": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_actions.py::test_order_refunded_by_app": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_actions.py::test_order_refunded_by_user": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_actions_create_fulfillments_for_returned_products.py::test_create_return_fulfillment_only_fulfillment_lines": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_actions_create_fulfillments_for_returned_products.py::test_create_return_fulfillment_only_fulfillment_lines_replace_order": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_actions_create_fulfillments_for_returned_products.py::test_create_return_fulfillment_only_order_lines": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_actions_create_fulfillments_for_returned_products.py::test_create_return_fulfillment_only_order_lines_included_shipping_costs": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_actions_create_fulfillments_for_returned_products.py::test_create_return_fulfillment_only_order_lines_with_refund": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_actions_create_fulfillments_for_returned_products.py::test_create_return_fulfillment_only_order_lines_with_replace_request": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_actions_create_fulfillments_for_returned_products.py::test_create_return_fulfillment_with_lines_already_refunded": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_actions_refund_products.py::test_create_refund_fulfillment_custom_amount": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_actions_refund_products.py::test_create_refund_fulfillment_included_shipping_costs": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_actions_refund_products.py::test_create_refund_fulfillment_only_fulfillment_lines": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_actions_refund_products.py::test_create_refund_fulfillment_only_order_lines": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_utils.py::test_add_gift_cards_to_order": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_utils.py::test_add_gift_cards_to_order_no_checkout_user": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_utils.py::test_add_variant_to_order": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[draft-5-2-0-3]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[draft-5-5-0-0]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[unconfirmed-2-0-0-2]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_utils.py::test_change_quantity_generates_proper_event[unconfirmed-2-5-3-0]": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_utils.py::test_change_quantity_update_line_fields": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_utils.py::test_get_valid_shipping_methods_for_order": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_utils.py::test_get_valid_shipping_methods_for_order_no_channel_shipping_zones": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_utils.py::test_get_valid_shipping_methods_for_order_no_shipping_address": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_utils.py::test_get_valid_shipping_methods_for_order_shipping_not_required": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_utils.py::test_match_draft_order_with_new_user": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_utils.py::test_match_orders_with_new_user": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/order/tests/test_order_utils.py::test_update_taxes_for_order_lines": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_payload_serializers.py::test_python_serializer_extra_model_fields": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_payload_serializers.py::test_python_serializer_extra_model_fields_incorrect_fields": [
+    "missing",
+    "missing",
+    "missing"
+   ],
+   "saleor/webhook/tests/test_webhook_serializers.py::test_serialize_product_attributes": [
+    "missing",
+    "missing",
+    "missing"
+   ]
+  }
+ },
+ "label": "u_9669914a98c0",
+ "labels": [
+  "OPWS:RMCSS_HARD"
+ ],
+ "nodes": {
+  "f2p_intermittent": 0,
+  "f2p_pass3": 0,
+  "f2p_total": 6,
+  "s_deterministic": 0,
+  "s_intermittent": 0,
+  "s_missing": 61,
+  "u_deterministic": 0,
+  "u_intermittent": 0,
+  "u_missing": 200
+ },
+ "robust": {
+  "f2p_task": "FAIL",
+  "p2p_s_task": "FAIL",
+  "p2p_u200_task": "FAIL",
+  "resolved": false
+ },
+ "sources": [
+  "research/wp2/m15r_v1/opws/saleor-rc-f383043e4be3/RMCSS_HARD/opws_diff.patch"
+ ],
+ "status": "DONE",
+ "strict": {
+  "f2p_task": "FAIL",
+  "p2p_s_task": "FAIL",
+  "p2p_u200_task": "FAIL",
+  "resolved": false
+ },
+ "task_id": "saleor-rc-f383043e4be3",
+ "tree_sha": "133938a5141d67668597dbbd6db512e74e482205"
+}

@@ -1,0 +1,45 @@
+{
+ "artifact": "m15r_opws_result",
+ "artifact_sha256": "f916a42769d6e15fba4905415b26a4a2be7cf5dc0011f4dda0b6773a9e52031a",
+ "evaluation_source": "OPWS_EVALUATED",
+ "file_prf": {
+  "f1": 0.333333,
+  "n_editable": 2,
+  "n_gold": 4,
+  "precision": 0.5,
+  "recall": 0.25,
+  "tp": 1
+ },
+ "identity": "9669914a98c08ccc24414fd1d20074de62bebc63a59f0648f4beecccca7c4d23",
+ "kind": "EVALUATE",
+ "nodes": {
+  "f2p_intermittent": 0,
+  "f2p_pass3": 0,
+  "f2p_total": 6,
+  "s_deterministic": 0,
+  "s_intermittent": 0,
+  "s_missing": 61,
+  "u_deterministic": 0,
+  "u_intermittent": 0,
+  "u_missing": 200
+ },
+ "opws_files": [
+  "saleor/webhook/payloads.py"
+ ],
+ "opws_robust": false,
+ "opws_strict": false,
+ "robust": {
+  "f2p_task": "FAIL",
+  "p2p_s_task": "FAIL",
+  "p2p_u200_task": "FAIL",
+  "resolved": false
+ },
+ "selector": "RMCSS_HARD",
+ "strict": {
+  "f2p_task": "FAIL",
+  "p2p_s_task": "FAIL",
+  "p2p_u200_task": "FAIL",
+  "resolved": false
+ },
+ "task_id": "saleor-rc-f383043e4be3"
+}
