@@ -1,0 +1,1523 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="46" skipped="0" tests="265" time="19.324" timestamp="2026-10-01T14:31:42.796325-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_anonymous_client_cant_fetch_checkout_user" time="0.934"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee4f351c0&gt;
+checkout = Checkout(quantity=0)
+
+    def test_anonymous_client_cant_fetch_checkout_user(api_client, checkout):
+        query = QUERY_CHECKOUT_USER_ID
+        variables = {"token": str(checkout.token)}
+        response = api_client.post_graphql(query, variables)
+&gt;       assert_no_permission(response)
+
+saleor/graphql/checkout/tests/test_checkout.py:2204: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["message"] == (
+            "You do not have permission to perform this action"
+        ), content["errors"]
+E       AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:24: AssertionError</failure></testcase><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_authorized_access_to_checkout_user_as_customer" time="0.027"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">user_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee498ba90&gt;
+checkout = Checkout(quantity=0), customer_user = &lt;User: test@example.com&gt;
+
+    def test_authorized_access_to_checkout_user_as_customer(
+        user_api_client, checkout, customer_user,
+    ):
+        query = QUERY_CHECKOUT_USER_ID
+        checkout.user = customer_user
+        checkout.save()
+    
+        variables = {"token": str(checkout.token)}
+        customer_user_id = graphene.Node.to_global_id("User", customer_user.id)
+    
+        response = user_api_client.post_graphql(query, variables)
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/checkout/tests/test_checkout.py:2218: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_authorized_access_to_checkout_user_as_staff" time="0.024"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee41ee9a0&gt;
+checkout = Checkout(quantity=0), customer_user = &lt;User: test@example.com&gt;
+permission_manage_users = &lt;Permission: account | user | Manage customers.&gt;
+permission_manage_checkouts = &lt;Permission: checkout | checkout | Manage checkouts&gt;
+
+    def test_authorized_access_to_checkout_user_as_staff(
+        staff_api_client,
+        checkout,
+        customer_user,
+        permission_manage_users,
+        permission_manage_checkouts,
+    ):
+        query = QUERY_CHECKOUT_USER_ID
+        checkout.user = customer_user
+        checkout.save()
+    
+        variables = {"token": str(checkout.token)}
+        customer_user_id = graphene.Node.to_global_id("User", customer_user.id)
+    
+        response = staff_api_client.post_graphql(
+            query,
+            variables,
+            permissions=[permission_manage_users, permission_manage_checkouts],
+            check_no_permissions=False,
+        )
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/checkout/tests/test_checkout.py:2242: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_authorized_access_to_checkout_user_as_staff_no_permission" time="0.024"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee41c38b0&gt;
+checkout = Checkout(quantity=0), customer_user = &lt;User: test@example.com&gt;
+permission_manage_checkouts = &lt;Permission: checkout | checkout | Manage checkouts&gt;
+
+    def test_authorized_access_to_checkout_user_as_staff_no_permission(
+        staff_api_client, checkout, customer_user, permission_manage_checkouts,
+    ):
+        query = QUERY_CHECKOUT_USER_ID
+    
+        checkout.user = customer_user
+        checkout.save()
+    
+        variables = {"token": str(checkout.token)}
+    
+        response = staff_api_client.post_graphql(
+            query,
+            variables,
+            permissions=[permission_manage_checkouts],
+            check_no_permissions=False,
+        )
+&gt;       assert_no_permission(response)
+
+saleor/graphql/checkout/tests/test_checkout.py:2262: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["message"] == (
+            "You do not have permission to perform this action"
+        ), content["errors"]
+E       AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:24: AssertionError</failure></testcase><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_available_payment_gateways" time="0.077"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 5}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee45027f0&gt;
+checkout_with_item = Checkout(quantity=3)
+expected_dummy_gateway = {'config': [{'field': 'store_customer_card', 'value': 'false'}], 'currencies': ['USD', 'PLN'], 'id': 'mirumee.payments.dummy', 'name': 'Dummy'}
+
+    def test_checkout_available_payment_gateways(
+        api_client, checkout_with_item, expected_dummy_gateway,
+    ):
+        query = GET_CHECKOUT_PAYMENTS_QUERY
+        variables = {"token": str(checkout_with_item.token)}
+        response = api_client.post_graphql(query, variables)
+    
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/checkout/tests/test_checkout.py:1090: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 5}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_available_payment_gateways_currency_specified_EUR" time="0.069"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 5}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee4833af0&gt;
+checkout_with_item = Checkout(quantity=3)
+expected_dummy_gateway = {'config': [{'field': 'store_customer_card', 'value': 'false'}], 'currencies': ['USD', 'PLN'], 'id': 'mirumee.payments.dummy', 'name': 'Dummy'}
+sample_gateway = None
+
+    def test_checkout_available_payment_gateways_currency_specified_EUR(
+        api_client, checkout_with_item, expected_dummy_gateway, sample_gateway
+    ):
+        checkout_with_item.currency = "EUR"
+        checkout_with_item.save(update_fields=["currency"])
+    
+        query = GET_CHECKOUT_PAYMENTS_QUERY
+    
+        variables = {"token": str(checkout_with_item.token)}
+        response = api_client.post_graphql(query, variables)
+    
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/checkout/tests/test_checkout.py:1127: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 5}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_available_payment_gateways_currency_specified_USD" time="0.067"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 5}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee5417730&gt;
+checkout_with_item = Checkout(quantity=3)
+expected_dummy_gateway = {'config': [{'field': 'store_customer_card', 'value': 'false'}], 'currencies': ['USD', 'PLN'], 'id': 'mirumee.payments.dummy', 'name': 'Dummy'}
+sample_gateway = None
+
+    def test_checkout_available_payment_gateways_currency_specified_USD(
+        api_client, checkout_with_item, expected_dummy_gateway, sample_gateway,
+    ):
+        checkout_with_item.currency = "USD"
+        checkout_with_item.save(update_fields=["currency"])
+    
+        query = GET_CHECKOUT_PAYMENTS_QUERY
+    
+        variables = {"token": str(checkout_with_item.token)}
+        response = api_client.post_graphql(query, variables)
+    
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/checkout/tests/test_checkout.py:1108: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 5}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_available_shipping_methods" time="0.067"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 5}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee48dd670&gt;
+checkout_with_item = Checkout(quantity=3)
+address = &lt;Address: Mirumee Software - John Doe&gt;
+shipping_zone = &lt;ShippingZone: Europe&gt;
+
+    def test_checkout_available_shipping_methods(
+        api_client, checkout_with_item, address, shipping_zone
+    ):
+        checkout_with_item.shipping_address = address
+        checkout_with_item.save()
+    
+        query = GET_CHECKOUT_AVAILABLE_SHIPPING_METHODS
+        variables = {"token": checkout_with_item.token}
+        response = api_client.post_graphql(query, variables)
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/checkout/tests/test_checkout.py:1157: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 5}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_available_shipping_methods_with_price_displayed[gross-13-True]" time="0.072"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 5}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">expected_price_type = 'gross', expected_price = 13, display_gross_prices = True
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x721ee48339a0&gt;
+api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee4d45550&gt;
+checkout_with_item = Checkout(quantity=3)
+address = &lt;Address: Mirumee Software - John Doe&gt;
+shipping_zone = &lt;ShippingZone: Europe&gt;
+site_settings = &lt;SiteSettings: mirumee.com&gt;
+
+    @pytest.mark.parametrize(
+        "expected_price_type, expected_price, display_gross_prices",
+        (("gross", 13, True), ("net", 10, False)),
+    )
+    def test_checkout_available_shipping_methods_with_price_displayed(
+        expected_price_type,
+        expected_price,
+        display_gross_prices,
+        monkeypatch,
+        api_client,
+        checkout_with_item,
+        address,
+        shipping_zone,
+        site_settings,
+    ):
+        shipping_method = shipping_zone.shipping_methods.first()
+        shipping_price = shipping_method.channel_listings.get(
+            channel_id=checkout_with_item.channel_id
+        ).price
+        taxed_price = TaxedMoney(net=Money(10, "USD"), gross=Money(13, "USD"))
+        apply_taxes_to_shipping_mock = mock.Mock(return_value=taxed_price)
+        monkeypatch.setattr(
+            PluginsManager, "apply_taxes_to_shipping", apply_taxes_to_shipping_mock
+        )
+        site_settings.display_gross_prices = display_gross_prices
+        site_settings.save()
+        checkout_with_item.shipping_address = address
+        checkout_with_item.save()
+    
+        query = GET_CHECKOUT_AVAILABLE_SHIPPING_METHODS
+    
+        variables = {"token": checkout_with_item.token}
+        response = api_client.post_graphql(query, variables)
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/checkout/tests/test_checkout.py:1197: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 5}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_available_shipping_methods_with_price_displayed[net-10-False]" time="0.071"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 5}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">expected_price_type = 'net', expected_price = 10, display_gross_prices = False
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x721ef1af4970&gt;
+api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ef1af4580&gt;
+checkout_with_item = Checkout(quantity=3)
+address = &lt;Address: Mirumee Software - John Doe&gt;
+shipping_zone = &lt;ShippingZone: Europe&gt;
+site_settings = &lt;SiteSettings: mirumee.com&gt;
+
+    @pytest.mark.parametrize(
+        "expected_price_type, expected_price, display_gross_prices",
+        (("gross", 13, True), ("net", 10, False)),
+    )
+    def test_checkout_available_shipping_methods_with_price_displayed(
+        expected_price_type,
+        expected_price,
+        display_gross_prices,
+        monkeypatch,
+        api_client,
+        checkout_with_item,
+        address,
+        shipping_zone,
+        site_settings,
+    ):
+        shipping_method = shipping_zone.shipping_methods.first()
+        shipping_price = shipping_method.channel_listings.get(
+            channel_id=checkout_with_item.channel_id
+        ).price
+        taxed_price = TaxedMoney(net=Money(10, "USD"), gross=Money(13, "USD"))
+        apply_taxes_to_shipping_mock = mock.Mock(return_value=taxed_price)
+        monkeypatch.setattr(
+            PluginsManager, "apply_taxes_to_shipping", apply_taxes_to_shipping_mock
+        )
+        site_settings.display_gross_prices = display_gross_prices
+        site_settings.save()
+        checkout_with_item.shipping_address = address
+        checkout_with_item.save()
+    
+        query = GET_CHECKOUT_AVAILABLE_SHIPPING_METHODS
+    
+        variables = {"token": checkout_with_item.token}
+        response = api_client.post_graphql(query, variables)
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/checkout/tests/test_checkout.py:1197: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 5}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_billing_address_update" time="0.104" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_create" time="0.132" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_create_available_for_purchase_from_tomorrow_product" time="0.075" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_create_cannot_add_invalid_quantities[-1-The quantity should be higher than zero.-CheckoutErrorCode.ZERO_QUANTITY]" time="0.064" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_create_cannot_add_invalid_quantities[51-Cannot add more than 50 times this item.-CheckoutErrorCode.QUANTITY_GREATER_THAN_LIMIT]" time="0.060" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_create_check_lines_quantity" time="0.075" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_create_check_lines_quantity_for_zone_insufficient_stocks" time="0.082" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_create_check_lines_quantity_multiple_warehouse" time="0.075" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_create_default_email_for_logged_in_customer" time="0.095" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_create_logged_in_customer" time="0.101" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_create_logged_in_customer_custom_addresses" time="0.141" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_create_logged_in_customer_custom_email" time="0.094" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_create_multiple_warehouse" time="0.116" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_create_required_country_billing_address" time="0.062" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_create_required_country_shipping_address" time="0.063" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_create_required_email" time="0.069" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_create_reuse_checkout" time="0.065" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_create_sets_country_from_shipping_address_country" time="0.129" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_create_triggers_webhooks" time="0.375" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_create_unavailable_for_purchase_product" time="0.065" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_create_with_default_channel" time="0.111" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_create_with_inactive_and_active_default_channel" time="0.114" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_create_with_inactive_and_two_active_default_channel" time="0.057" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_create_with_inactive_channel" time="0.057" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_create_with_inactive_channel_slug" time="0.055" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_create_with_inactive_default_channel" time="0.117" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_create_with_invalid_channel_slug" time="0.056" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_create_with_many_active_default_channel" time="0.055" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_create_with_many_inactive_default_channel" time="0.057" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_create_with_multiple_channel_with_channel_slug" time="0.117" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_create_with_multiple_channel_without_channel_slug" time="0.057" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_create_with_null_as_addresses" time="0.083" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_create_with_variant_without_inventory_tracking" time="0.052" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_customer_attach" time="0.082" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_customer_detach" time="0.081" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_email_update" time="0.074" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_email_update_validation" time="0.071" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_line_delete" time="0.079" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_line_delete_by_zero_quantity" time="0.088" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_lines_add" time="0.113" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_lines_add_check_lines_quantity" time="0.068" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_lines_add_empty_checkout" time="0.093" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_lines_add_too_many" time="0.075" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_lines_add_variant_without_inventory_tracking" time="0.061" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_lines_add_with_available_for_purchase_from_tomorrow_product" time="0.077" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_lines_add_with_unavailable_for_purchase_product" time="0.076" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_lines_add_with_unpublished_product" time="0.080" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_lines_invalid_variant_id" time="0.060" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_lines_update" time="0.107" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_lines_update_check_lines_quantity" time="0.077" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_lines_update_invalid_checkout_id" time="0.017" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_lines_update_with_chosen_shipping" time="0.126" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_lines_update_with_unpublished_product" time="0.078" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_no_available_shipping_methods_without_address" time="0.064"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 5}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee493fdc0&gt;
+checkout_with_item = Checkout(quantity=3)
+
+    def test_checkout_no_available_shipping_methods_without_address(
+        api_client, checkout_with_item
+    ):
+        query = GET_CHECKOUT_AVAILABLE_SHIPPING_METHODS
+        variables = {"token": checkout_with_item.token}
+        response = api_client.post_graphql(query, variables)
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/checkout/tests/test_checkout.py:1212: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 5}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_no_available_shipping_methods_without_lines" time="0.016"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 5}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee2da0820&gt;
+checkout = Checkout(quantity=0)
+
+    def test_checkout_no_available_shipping_methods_without_lines(api_client, checkout):
+        query = GET_CHECKOUT_AVAILABLE_SHIPPING_METHODS
+    
+        variables = {"token": checkout.token}
+        response = api_client.post_graphql(query, variables)
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/checkout/tests/test_checkout.py:1223: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 5}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_prices" time="0.066"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">user_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee2a7e340&gt;
+checkout_with_item = Checkout(quantity=3)
+
+    def test_checkout_prices(user_api_client, checkout_with_item):
+        query = """
+        query getCheckout($token: UUID!) {
+            checkout(token: $token) {
+               token,
+               totalPrice {
+                    currency
+                    gross {
+                        amount
+                    }
+                }
+                subtotalPrice {
+                    currency
+                    gross {
+                        amount
+                    }
+                }
+               lines {
+                    totalPrice {
+                        currency
+                        gross {
+                            amount
+                        }
+                    }
+               }
+            }
+        }
+        """
+        variables = {"token": str(checkout_with_item.token)}
+        response = user_api_client.post_graphql(query, variables)
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/checkout/tests/test_checkout.py:2461: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_shipping_address_update" time="0.110" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_shipping_address_update_changes_checkout_country" time="0.118" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_shipping_address_update_insufficient_stocks" time="0.118" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_shipping_address_update_with_phone_country_prefix[+44 (113) 892-1113]" time="0.114" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_shipping_address_update_with_phone_country_prefix[+48321321888]" time="0.111" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_shipping_address_update_with_phone_country_prefix[00 44 (0) 20 7839 1377]" time="0.105" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_shipping_address_update_without_phone_country_prefix" time="0.110" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_shipping_address_with_invalid_phone_number_returns_error" time="0.073" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_shipping_method_update[False]" time="0.075" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_checkout_shipping_method_update[True]" time="0.077" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_clean_checkout" time="0.137" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_clean_checkout_invalid_shipping_method" time="0.086" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_clean_checkout_no_billing_address" time="0.064" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_clean_checkout_no_payment" time="0.070" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_clean_checkout_no_shipping_address" time="0.065" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_clean_checkout_no_shipping_method" time="0.068" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_clean_shipping_method_after_shipping_address_changes_stay_the_same" time="0.082" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_clean_shipping_method_does_nothing_if_no_shipping_method" time="0.060" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_create_checkout_with_unpublished_product" time="0.088" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_fetch_checkout_by_token" time="0.070"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">user_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee5386df0&gt;
+checkout_with_item = Checkout(quantity=3)
+
+    def test_fetch_checkout_by_token(user_api_client, checkout_with_item):
+        query = """
+        query getCheckout($token: UUID!) {
+            checkout(token: $token) {
+               token,
+               lines {
+                    variant {
+                        product {
+                            name
+                        }
+                    }
+               }
+            }
+        }
+        """
+        variables = {
+            "token": str(checkout_with_item.token),
+            "channel": checkout_with_item.channel.slug,
+        }
+        response = user_api_client.post_graphql(query, variables)
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/checkout/tests/test_checkout.py:2183: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_fetch_checkout_invalid_token" time="0.017"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">user_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee421c940&gt;
+channel_USD = &lt;Channel: main&gt;
+
+    def test_fetch_checkout_invalid_token(user_api_client, channel_USD):
+        variables = {"token": str(uuid.uuid4())}
+        response = user_api_client.post_graphql(QUERY_CHECKOUT, variables)
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/checkout/tests/test_checkout.py:2426: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_query_anonymous_customer_channel_checkout_as_anonymous_customer" time="0.015"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee2db2580&gt;
+checkout = Checkout(quantity=0)
+
+    def test_query_anonymous_customer_channel_checkout_as_anonymous_customer(
+        api_client, checkout
+    ):
+        query = QUERY_CHECKOUT_CHANNEL_SLUG
+        checkout_token = str(checkout.token)
+        channel_slug = checkout.channel.slug
+        variables = {"token": checkout_token}
+    
+        response = api_client.post_graphql(query, variables)
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/checkout/tests/test_checkout.py:2302: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_query_anonymous_customer_channel_checkout_as_customer" time="0.020"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">user_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee2d381c0&gt;
+checkout = Checkout(quantity=0)
+
+    def test_query_anonymous_customer_channel_checkout_as_customer(
+        user_api_client, checkout
+    ):
+        query = QUERY_CHECKOUT_CHANNEL_SLUG
+        checkout_token = str(checkout.token)
+        channel_slug = checkout.channel.slug
+        variables = {
+            "token": checkout_token,
+        }
+    
+        response = user_api_client.post_graphql(query, variables)
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/checkout/tests/test_checkout.py:2319: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_query_anonymous_customer_checkout_as_anonymous_customer" time="0.015"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee2d99dc0&gt;
+checkout = Checkout(quantity=0)
+
+    def test_query_anonymous_customer_checkout_as_anonymous_customer(api_client, checkout):
+        variables = {"token": str(checkout.token), "channel": checkout.channel.slug}
+        response = api_client.post_graphql(QUERY_CHECKOUT, variables)
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/checkout/tests/test_checkout.py:2277: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_query_anonymous_customer_checkout_as_app" time="0.021"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee41c3d90&gt;
+checkout = Checkout(quantity=0)
+permission_manage_checkouts = &lt;Permission: checkout | checkout | Manage checkouts&gt;
+
+    def test_query_anonymous_customer_checkout_as_app(
+        app_api_client, checkout, permission_manage_checkouts
+    ):
+        variables = {"token": str(checkout.token)}
+        response = app_api_client.post_graphql(
+            QUERY_CHECKOUT,
+            variables,
+            permissions=[permission_manage_checkouts],
+            check_no_permissions=False,
+        )
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/checkout/tests/test_checkout.py:2356: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_query_anonymous_customer_checkout_as_customer" time="0.019"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">user_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee2cb1f70&gt;
+checkout = Checkout(quantity=0)
+
+    def test_query_anonymous_customer_checkout_as_customer(user_api_client, checkout):
+        variables = {"token": str(checkout.token)}
+        response = user_api_client.post_graphql(QUERY_CHECKOUT, variables)
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/checkout/tests/test_checkout.py:2328: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_query_anonymous_customer_checkout_as_staff_user" time="0.018"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee2cb4ac0&gt;
+checkout = Checkout(quantity=0)
+permission_manage_checkouts = &lt;Permission: checkout | checkout | Manage checkouts&gt;
+
+    def test_query_anonymous_customer_checkout_as_staff_user(
+        staff_api_client, checkout, permission_manage_checkouts
+    ):
+        variables = {"token": str(checkout.token)}
+        response = staff_api_client.post_graphql(
+            QUERY_CHECKOUT,
+            variables,
+            permissions=[permission_manage_checkouts],
+            check_no_permissions=False,
+        )
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/checkout/tests/test_checkout.py:2342: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_query_checkout_line" time="0.067" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_query_checkout_lines" time="0.079" /><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_query_checkouts" time="0.081"><failure message="AssertionError: [{'message': &quot;resolve_checkouts() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 9}], 'path': ['checkouts'], 'extensions': {'exception': {'code': 'TypeError'}}}]">checkout_with_item = Checkout(quantity=3)
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee481afa0&gt;
+permission_manage_checkouts = &lt;Permission: checkout | checkout | Manage checkouts&gt;
+
+    def test_query_checkouts(
+        checkout_with_item, staff_api_client, permission_manage_checkouts
+    ):
+        query = """
+        {
+            checkouts(first: 20) {
+                edges {
+                    node {
+                        token
+                    }
+                }
+            }
+        }
+        """
+        checkout = checkout_with_item
+        response = staff_api_client.post_graphql(
+            query, {}, permissions=[permission_manage_checkouts]
+        )
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/checkout/tests/test_checkout.py:2569: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "resolve_checkouts() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 9}], 'path': ['checkouts'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_query_customer_checkout_as_anonymous_customer" time="0.019"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee2db6340&gt;
+checkout = Checkout(quantity=0), customer_user = &lt;User: test@example.com&gt;
+
+    def test_query_customer_checkout_as_anonymous_customer(
+        api_client, checkout, customer_user
+    ):
+        checkout.user = customer_user
+        checkout.save(update_fields=["user"])
+        variables = {"token": str(checkout.token)}
+        response = api_client.post_graphql(QUERY_CHECKOUT, variables)
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/checkout/tests/test_checkout.py:2367: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_query_customer_checkout_as_app" time="0.023"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee4edfb20&gt;
+checkout = Checkout(quantity=0), customer_user = &lt;User: test@example.com&gt;
+permission_manage_checkouts = &lt;Permission: checkout | checkout | Manage checkouts&gt;
+
+    def test_query_customer_checkout_as_app(
+        staff_api_client, checkout, customer_user, permission_manage_checkouts
+    ):
+        checkout.user = customer_user
+        checkout.save(update_fields=["user"])
+        variables = {"token": str(checkout.token)}
+        response = staff_api_client.post_graphql(
+            QUERY_CHECKOUT,
+            variables,
+            permissions=[permission_manage_checkouts],
+            check_no_permissions=False,
+        )
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/checkout/tests/test_checkout.py:2419: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_query_customer_checkout_as_customer" time="0.021"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">user_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee2d10a00&gt;
+checkout = Checkout(quantity=0), customer_user = &lt;User: test@example.com&gt;
+
+    def test_query_customer_checkout_as_customer(user_api_client, checkout, customer_user):
+        checkout.user = customer_user
+        checkout.save(update_fields=["user"])
+        variables = {"token": str(checkout.token)}
+        response = user_api_client.post_graphql(QUERY_CHECKOUT, variables)
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/checkout/tests/test_checkout.py:2376: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_query_customer_checkout_as_staff_user" time="0.024"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee2d451c0&gt;
+checkout = Checkout(quantity=0), customer_user = &lt;User: test@example.com&gt;
+permission_manage_checkouts = &lt;Permission: checkout | checkout | Manage checkouts&gt;
+
+    def test_query_customer_checkout_as_staff_user(
+        app_api_client, checkout, customer_user, permission_manage_checkouts
+    ):
+        checkout.user = customer_user
+        checkout.save(update_fields=["user"])
+        variables = {"token": str(checkout.token)}
+        response = app_api_client.post_graphql(
+            QUERY_CHECKOUT,
+            variables,
+            permissions=[permission_manage_checkouts],
+            check_no_permissions=False,
+        )
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/checkout/tests/test_checkout.py:2403: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_query_other_customer_checkout_as_customer" time="0.020"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">user_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee541ff40&gt;
+checkout = Checkout(quantity=0), staff_user = &lt;User: staff_test@example.com&gt;
+
+    def test_query_other_customer_checkout_as_customer(
+        user_api_client, checkout, staff_user
+    ):
+        checkout.user = staff_user
+        checkout.save(update_fields=["user"])
+        variables = {"token": str(checkout.token)}
+        response = user_api_client.post_graphql(QUERY_CHECKOUT, variables)
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/checkout/tests/test_checkout.py:2387: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_query_with_channel" time="0.019"><failure message="AssertionError: [{'message': 'Unknown argument &quot;channel&quot; on field &quot;checkouts&quot; of type &quot;Query&quot;.', 'locations': [{'line': 3, 'column': 30}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">checkouts_list = [Checkout(quantity=0), Checkout(quantity=0), Checkout(quantity=0), Checkout(quantity=0), Checkout(quantity=0)]
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee2cdc550&gt;
+permission_manage_checkouts = &lt;Permission: checkout | checkout | Manage checkouts&gt;
+channel_USD = &lt;Channel: main&gt;
+
+    def test_query_with_channel(
+        checkouts_list, staff_api_client, permission_manage_checkouts, channel_USD
+    ):
+        query = """
+        query CheckoutsQuery($channel: String) {
+            checkouts(first: 20, channel: $channel) {
+                edges {
+                    node {
+                        token
+                    }
+                }
+            }
+        }
+        """
+        variables = {"channel": channel_USD.slug}
+&gt;       response = staff_api_client.post_graphql(
+            query, variables, permissions=[permission_manage_checkouts]
+        )
+
+saleor/graphql/checkout/tests/test_checkout.py:2589: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+saleor/graphql/tests/fixtures.py:95: in post_graphql
+    assert_no_permission(response)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["message"] == (
+            "You do not have permission to perform this action"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Unknown argument "channel" on field "checkouts" of type "Query".', 'locations': [{'line': 3, 'column': 30}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:24: AssertionError</failure></testcase><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_query_without_channel" time="0.032"><failure message="AssertionError: [{'message': &quot;resolve_checkouts() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 9}], 'path': ['checkouts'], 'extensions': {'exception': {'code': 'TypeError'}}}]">checkouts_list = [Checkout(quantity=0), Checkout(quantity=0), Checkout(quantity=0), Checkout(quantity=0), Checkout(quantity=0)]
+staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee2e3ff10&gt;
+permission_manage_checkouts = &lt;Permission: checkout | checkout | Manage checkouts&gt;
+
+    def test_query_without_channel(
+        checkouts_list, staff_api_client, permission_manage_checkouts
+    ):
+        query = """
+        {
+            checkouts(first: 20) {
+                edges {
+                    node {
+                        token
+                    }
+                }
+            }
+        }
+        """
+        response = staff_api_client.post_graphql(
+            query, {}, permissions=[permission_manage_checkouts]
+        )
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/checkout/tests/test_checkout.py:2613: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "resolve_checkouts() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 9}], 'path': ['checkouts'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.checkout.tests.test_checkout" name="test_update_checkout_shipping_method_if_invalid" time="0.109" /><testcase classname="saleor.graphql.checkout.tests.test_checkout_digital" name="test_checkout_has_no_available_shipping_methods" time="0.052"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 13}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee2a7ea90&gt;
+checkout_with_digital_item = Checkout(quantity=1)
+address = &lt;Address: Mirumee Software - John Doe&gt;
+shipping_zone = &lt;ShippingZone: Europe&gt;
+
+    def test_checkout_has_no_available_shipping_methods(
+        api_client, checkout_with_digital_item, address, shipping_zone
+    ):
+        """Test no shipping method are available on digital orders."""
+    
+        query = """
+            query getCheckout($token: UUID!) {
+                checkout(token: $token) {
+                    availableShippingMethods {
+                        name
+                    }
+                }
+            }
+        """
+    
+        checkout = checkout_with_digital_item
+    
+        # Put a shipping address, to ensure it is still handled properly
+        checkout.shipping_address = address
+        checkout.save(update_fields=["shipping_address"])
+    
+        variables = {"token": checkout.token}
+        response = api_client.post_graphql(query, variables)
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/checkout/tests/test_checkout_digital.py:88: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 13}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.checkout.tests.test_checkout_digital" name="test_checkout_line_delete_remove_shipping_if_removed_product_with_shipping" time="0.113" /><testcase classname="saleor.graphql.checkout.tests.test_checkout_digital" name="test_checkout_lines_update_remove_shipping_if_removed_product_with_shipping" time="0.122" /><testcase classname="saleor.graphql.checkout.tests.test_checkout_digital" name="test_checkout_update_shipping_address" time="0.049" /><testcase classname="saleor.graphql.checkout.tests.test_checkout_digital" name="test_checkout_update_shipping_method" time="0.052" /><testcase classname="saleor.graphql.checkout.tests.test_checkout_digital" name="test_create_checkout[False]" time="0.060" /><testcase classname="saleor.graphql.checkout.tests.test_checkout_digital" name="test_create_checkout[True]" time="0.090" /><testcase classname="saleor.graphql.checkout.tests.test_checkout_digital" name="test_remove_shipping_method_if_only_digital_in_checkout" time="0.047" /><testcase classname="saleor.graphql.checkout.tests.test_checkout_promo_codes" name="test_checkout_add_category_code_checkout_with_sale" time="0.140" /><testcase classname="saleor.graphql.checkout.tests.test_checkout_promo_codes" name="test_checkout_add_collection_voucher_code_checkout_with_sale" time="0.134" /><testcase classname="saleor.graphql.checkout.tests.test_checkout_promo_codes" name="test_checkout_add_gift_card_code" time="0.091" /><testcase classname="saleor.graphql.checkout.tests.test_checkout_promo_codes" name="test_checkout_add_gift_card_code_in_active_gift_card" time="0.072" /><testcase classname="saleor.graphql.checkout.tests.test_checkout_promo_codes" name="test_checkout_add_gift_card_code_in_expired_gift_card" time="0.074" /><testcase classname="saleor.graphql.checkout.tests.test_checkout_promo_codes" name="test_checkout_add_many_gift_card_code" time="0.094" /><testcase classname="saleor.graphql.checkout.tests.test_checkout_promo_codes" name="test_checkout_add_products_voucher_code_checkout_with_sale" time="0.132" /><testcase classname="saleor.graphql.checkout.tests.test_checkout_promo_codes" name="test_checkout_add_promo_code_invalid_checkout" time="0.016" /><testcase classname="saleor.graphql.checkout.tests.test_checkout_promo_codes" name="test_checkout_add_promo_code_invalid_promo_code" time="0.064" /><testcase classname="saleor.graphql.checkout.tests.test_checkout_promo_codes" name="test_checkout_add_same_gift_card_code" time="0.091" /><testcase classname="saleor.graphql.checkout.tests.test_checkout_promo_codes" name="test_checkout_add_specific_product_voucher_code_checkout_with_sale" time="0.121" /><testcase classname="saleor.graphql.checkout.tests.test_checkout_promo_codes" name="test_checkout_add_voucher_code" time="0.093" /><testcase classname="saleor.graphql.checkout.tests.test_checkout_promo_codes" name="test_checkout_add_voucher_code_checkout_with_sale" time="0.117" /><testcase classname="saleor.graphql.checkout.tests.test_checkout_promo_codes" name="test_checkout_add_voucher_code_not_applicable_voucher" time="0.082" /><testcase classname="saleor.graphql.checkout.tests.test_checkout_promo_codes" name="test_checkout_add_voucher_code_not_assigned_to_channel" time="0.072" /><testcase classname="saleor.graphql.checkout.tests.test_checkout_promo_codes" name="test_checkout_get_gift_card_code" time="0.070"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 3}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">user_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee2da0e50&gt;
+checkout_with_gift_card = Checkout(quantity=3)
+
+    def test_checkout_get_gift_card_code(user_api_client, checkout_with_gift_card):
+        gift_card = checkout_with_gift_card.gift_cards.first()
+        variables = {"token": str(checkout_with_gift_card.token)}
+        response = user_api_client.post_graphql(
+            QUERY_GET_CHECKOUT_GIFT_CARD_CODES, variables
+        )
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/checkout/tests/test_checkout_promo_codes.py:164: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 3}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.checkout.tests.test_checkout_promo_codes" name="test_checkout_get_gift_card_code_without_gift_card" time="0.019"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 3}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">user_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee2c58d30&gt;
+checkout = Checkout(quantity=0)
+
+    def test_checkout_get_gift_card_code_without_gift_card(user_api_client, checkout):
+        variables = {"token": str(checkout.token)}
+        response = user_api_client.post_graphql(
+            QUERY_GET_CHECKOUT_GIFT_CARD_CODES, variables
+        )
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/checkout/tests/test_checkout_promo_codes.py:194: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 3}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.checkout.tests.test_checkout_promo_codes" name="test_checkout_get_gift_card_codes" time="0.073"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 3}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">user_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee2cb6070&gt;
+checkout_with_gift_card = Checkout(quantity=3)
+gift_card_created_by_staff = &lt;GiftCard: GiftCard object (25)&gt;
+
+    def test_checkout_get_gift_card_codes(
+        user_api_client, checkout_with_gift_card, gift_card_created_by_staff
+    ):
+        checkout_with_gift_card.gift_cards.add(gift_card_created_by_staff)
+        checkout_with_gift_card.save()
+        gift_card_first = checkout_with_gift_card.gift_cards.first()
+        gift_card_last = checkout_with_gift_card.gift_cards.last()
+        variables = {"token": str(checkout_with_gift_card.token)}
+        response = user_api_client.post_graphql(
+            QUERY_GET_CHECKOUT_GIFT_CARD_CODES, variables
+        )
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/checkout/tests/test_checkout_promo_codes.py:181: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 3}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.checkout.tests.test_checkout_promo_codes" name="test_checkout_get_total_with_gift_card" time="0.088" /><testcase classname="saleor.graphql.checkout.tests.test_checkout_promo_codes" name="test_checkout_get_total_with_many_gift_card" time="0.094" /><testcase classname="saleor.graphql.checkout.tests.test_checkout_promo_codes" name="test_checkout_get_total_with_more_money_on_gift_card" time="0.083" /><testcase classname="saleor.graphql.checkout.tests.test_checkout_promo_codes" name="test_checkout_lines_delete_with_not_applicable_voucher" time="0.107" /><testcase classname="saleor.graphql.checkout.tests.test_checkout_promo_codes" name="test_checkout_remove_gift_card_code" time="0.078" /><testcase classname="saleor.graphql.checkout.tests.test_checkout_promo_codes" name="test_checkout_remove_one_of_gift_cards" time="0.083" /><testcase classname="saleor.graphql.checkout.tests.test_checkout_promo_codes" name="test_checkout_remove_promo_code_invalid_checkout" time="0.019" /><testcase classname="saleor.graphql.checkout.tests.test_checkout_promo_codes" name="test_checkout_remove_promo_code_invalid_promo_code" time="0.070" /><testcase classname="saleor.graphql.checkout.tests.test_checkout_promo_codes" name="test_checkout_remove_voucher_code" time="0.073" /><testcase classname="saleor.graphql.checkout.tests.test_checkout_promo_codes" name="test_checkout_remove_voucher_code_with_inactive_channel" time="0.076" /><testcase classname="saleor.graphql.checkout.tests.test_checkout_promo_codes" name="test_checkout_shipping_address_update_with_not_applicable_voucher" time="0.148" /><testcase classname="saleor.graphql.checkout.tests.test_checkout_promo_codes" name="test_checkout_totals_use_discounts" time="0.071"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee2dd0ca0&gt;
+checkout_with_item = Checkout(quantity=3), sale = Sale(name='Sale', type=fixed)
+channel_USD = &lt;Channel: main&gt;
+
+    def test_checkout_totals_use_discounts(
+        api_client, checkout_with_item, sale, channel_USD
+    ):
+        checkout = checkout_with_item
+        # make sure that we're testing a variant that is actually on sale
+        product = checkout.lines.first().variant.product
+        sale.products.add(product)
+    
+        query = """
+        query getCheckout($token: UUID) {
+            checkout(token: $token) {
+                lines {
+                    totalPrice {
+                        gross {
+                            amount
+                        }
+                    }
+                }
+                totalPrice {
+                    gross {
+                        amount
+                    }
+                }
+                subtotalPrice {
+                    gross {
+                        amount
+                    }
+                }
+            }
+        }
+        """
+    
+        variables = {"token": str(checkout.token)}
+        response = api_client.post_graphql(query, variables)
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/checkout/tests/test_checkout_promo_codes.py:118: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.core.tests.test_scalars" name="test_uuid_scalar_value_passed_as_variable" time="0.018"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 5}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee2d66a30&gt;
+checkout = Checkout(quantity=0)
+
+    def test_uuid_scalar_value_passed_as_variable(api_client, checkout):
+        variables = {"token": str(checkout.token)}
+        response = api_client.post_graphql(QUERY_CHECKOUT, variables)
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/core/tests/test_scalars.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 5}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.core.tests.test_scalars" name="test_uuid_scalar_value_passed_in_input" time="0.015"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 13}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee2d99100&gt;
+checkout = Checkout(quantity=0)
+
+    def test_uuid_scalar_value_passed_in_input(api_client, checkout):
+        token = checkout.token
+    
+        query = f"""
+            query{{
+                checkout(token: "{token}") {{
+                    token
+                }}
+            }}
+        """
+        response = api_client.post_graphql(query)
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/core/tests/test_scalars.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 13}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.core.tests.test_scalars" name="test_uuid_scalar_wrong_value_passed_as_variable" time="0.015" /><testcase classname="saleor.graphql.core.tests.test_scalars" name="test_uuid_scalar_wrong_value_passed_in_input" time="0.015" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_app_as_anonymous_user" time="0.015" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_app_as_app" time="0.021" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_app_as_customer" time="0.023" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_app_as_staff" time="0.022" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_attribute_as_anonymous_user" time="0.018" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_attribute_as_app" time="0.023" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_attribute_as_customer" time="0.026" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_attribute_as_staff" time="0.024" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_category_as_anonymous_user" time="0.016" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_category_as_app" time="0.022" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_category_as_customer" time="0.025" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_category_as_staff" time="0.026" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_checkout_as_anonymous_user" time="0.016"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee2a827c0&gt;
+checkout = Checkout(quantity=0)
+
+    def test_query_private_meta_for_checkout_as_anonymous_user(api_client, checkout):
+        # given
+        variables = {"token": checkout.pk}
+    
+        # when
+        response = api_client.post_graphql(QUERY_CHECKOUT_PRIVATE_META, variables)
+    
+        # then
+&gt;       assert_no_permission(response)
+
+saleor/graphql/meta/tests/test_meta_queries.py:1537: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["message"] == (
+            "You do not have permission to perform this action"
+        ), content["errors"]
+E       AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:24: AssertionError</failure></testcase><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_checkout_as_app" time="0.023"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee2dce1f0&gt;
+checkout = Checkout(quantity=0), customer_user = &lt;User: test@example.com&gt;
+permission_manage_checkouts = &lt;Permission: checkout | checkout | Manage checkouts&gt;
+
+    def test_query_private_meta_for_checkout_as_app(
+        app_api_client, checkout, customer_user, permission_manage_checkouts
+    ):
+        # given
+        checkout.user = customer_user
+        checkout.store_value_in_private_metadata({PRIVATE_KEY: PRIVATE_VALUE})
+        checkout.save(update_fields=["user", "private_metadata"])
+        variables = {"token": checkout.pk}
+    
+        # when
+        response = app_api_client.post_graphql(
+            QUERY_CHECKOUT_PRIVATE_META,
+            variables,
+            [permission_manage_checkouts],
+            check_no_permissions=False,  # Remove after fix #5245
+        )
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/meta/tests/test_meta_queries.py:1609: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_checkout_as_customer" time="0.019"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">user_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee2d10190&gt;
+checkout = Checkout(quantity=0)
+
+    def test_query_private_meta_for_checkout_as_customer(user_api_client, checkout):
+        # given
+        checkout.user = user_api_client.user
+        checkout.save(update_fields=["user"])
+        variables = {"token": checkout.pk}
+    
+        # when
+        response = user_api_client.post_graphql(QUERY_CHECKOUT_PRIVATE_META, variables)
+    
+        # then
+&gt;       assert_no_permission(response)
+
+saleor/graphql/meta/tests/test_meta_queries.py:1566: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["message"] == (
+            "You do not have permission to perform this action"
+        ), content["errors"]
+E       AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:24: AssertionError</failure></testcase><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_checkout_as_staff" time="0.021"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee2d383d0&gt;
+checkout = Checkout(quantity=0), customer_user = &lt;User: test@example.com&gt;
+permission_manage_checkouts = &lt;Permission: checkout | checkout | Manage checkouts&gt;
+
+    def test_query_private_meta_for_checkout_as_staff(
+        staff_api_client, checkout, customer_user, permission_manage_checkouts
+    ):
+        # given
+        checkout.user = customer_user
+        checkout.store_value_in_private_metadata({PRIVATE_KEY: PRIVATE_VALUE})
+        checkout.save(update_fields=["user", "private_metadata"])
+        variables = {"token": checkout.pk}
+    
+        # when
+        response = staff_api_client.post_graphql(
+            QUERY_CHECKOUT_PRIVATE_META,
+            variables,
+            [permission_manage_checkouts],
+            check_no_permissions=False,  # Remove after fix #5245
+        )
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/meta/tests/test_meta_queries.py:1585: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_collection_as_anonymous_user" time="0.018" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_collection_as_app" time="0.024" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_collection_as_customer" time="0.027" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_collection_as_staff" time="0.023" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_customer_as_app" time="0.031" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_customer_as_staff" time="0.033" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_digital_content_as_anonymous_user" time="0.031" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_digital_content_as_app" time="0.040" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_digital_content_as_customer" time="0.190" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_digital_content_as_staff" time="0.038" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_draft_order_as_anonymous_user" time="0.071" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_draft_order_as_app" time="0.077" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_draft_order_as_customer" time="0.073" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_draft_order_as_staff" time="0.076" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_fulfillment_as_anonymous_user" time="0.101" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_fulfillment_as_app" time="0.103" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_fulfillment_as_customer" time="0.104" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_fulfillment_as_staff" time="0.103" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_me_as_customer" time="0.023" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_me_as_staff_with_manage_customer" time="0.029" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_me_as_staff_with_manage_staff" time="0.029" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_order_as_anonymous_user" time="0.018" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_order_as_app" time="0.028" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_order_as_customer" time="0.026" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_order_as_staff" time="0.035" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_order_by_token_as_anonymous_user" time="0.030" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_order_by_token_as_app" time="0.033" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_order_by_token_as_customer" time="0.028" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_order_by_token_as_staff" time="0.026" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_other_customer_checkout_as_anonymous_user" time="0.019"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee2b72700&gt;
+checkout = Checkout(quantity=0), customer_user = &lt;User: test@example.com&gt;
+
+    def test_query_private_meta_for_other_customer_checkout_as_anonymous_user(
+        api_client, checkout, customer_user
+    ):
+        # given
+        checkout.user = customer_user
+        checkout.save(update_fields=["user"])
+        variables = {"token": checkout.pk}
+    
+        # when
+        response = api_client.post_graphql(QUERY_CHECKOUT_PRIVATE_META, variables)
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/meta/tests/test_meta_queries.py:1550: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_product_as_anonymous_user" time="0.057" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_product_as_app" time="0.060" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_product_as_customer" time="0.063" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_product_as_staff" time="0.060" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_product_type_as_anonymous_user" time="0.025" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_product_type_as_app" time="0.034" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_product_type_as_customer" time="0.035" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_product_type_as_staff" time="0.032" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_product_variant_as_anonymous_user" time="0.058" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_product_variant_as_app" time="0.061" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_product_variant_as_customer" time="0.068" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_product_variant_as_staff" time="0.063" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_staff_as_app" time="0.026" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_private_meta_for_staff_as_other_staff" time="0.034" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_app_as_anonymous_user" time="0.015" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_app_as_app" time="0.021" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_app_as_customer" time="0.026" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_app_as_staff" time="0.024" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_attribute_as_anonymous_user" time="0.019" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_attribute_as_app" time="0.025" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_attribute_as_customer" time="0.022" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_attribute_as_staff" time="0.020" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_category_as_anonymous_user" time="0.016" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_category_as_app" time="0.022" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_category_as_customer" time="0.020" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_category_as_staff" time="0.018" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_checkout_as_anonymous_user" time="0.016"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee2d45d30&gt;
+checkout = Checkout(quantity=0)
+
+    def test_query_public_meta_for_checkout_as_anonymous_user(api_client, checkout):
+        # given
+        checkout.store_value_in_metadata({PUBLIC_KEY: PUBLIC_VALUE})
+        checkout.save(update_fields=["metadata"])
+        variables = {"token": checkout.pk}
+    
+        # when
+        response = api_client.post_graphql(QUERY_CHECKOUT_PUBLIC_META, variables)
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/meta/tests/test_meta_queries.py:165: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_checkout_as_app" time="0.025"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee2850d00&gt;
+checkout = Checkout(quantity=0), customer_user = &lt;User: test@example.com&gt;
+permission_manage_checkouts = &lt;Permission: checkout | checkout | Manage checkouts&gt;
+
+    def test_query_public_meta_for_checkout_as_app(
+        app_api_client, checkout, customer_user, permission_manage_checkouts
+    ):
+        # given
+        checkout.user = customer_user
+        checkout.store_value_in_metadata({PUBLIC_KEY: PUBLIC_VALUE})
+        checkout.save(update_fields=["user", "metadata"])
+        variables = {"token": checkout.pk}
+    
+        # when
+        response = app_api_client.post_graphql(
+            QUERY_CHECKOUT_PUBLIC_META,
+            variables,
+            [permission_manage_checkouts],
+            check_no_permissions=False,  # Remove after fix #5245
+        )
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/meta/tests/test_meta_queries.py:247: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_checkout_as_customer" time="0.022"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">user_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee2d0d6a0&gt;
+checkout = Checkout(quantity=0)
+
+    def test_query_public_meta_for_checkout_as_customer(user_api_client, checkout):
+        # given
+        checkout.user = user_api_client.user
+        checkout.store_value_in_metadata({PUBLIC_KEY: PUBLIC_VALUE})
+        checkout.save(update_fields=["user", "metadata"])
+        variables = {"token": checkout.pk}
+    
+        # when
+        response = user_api_client.post_graphql(QUERY_CHECKOUT_PUBLIC_META, variables)
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/meta/tests/test_meta_queries.py:199: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_checkout_as_staff" time="0.023"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee2dda370&gt;
+checkout = Checkout(quantity=0), customer_user = &lt;User: test@example.com&gt;
+permission_manage_checkouts = &lt;Permission: checkout | checkout | Manage checkouts&gt;
+
+    def test_query_public_meta_for_checkout_as_staff(
+        staff_api_client, checkout, customer_user, permission_manage_checkouts
+    ):
+        # given
+        checkout.user = customer_user
+        checkout.store_value_in_metadata({PUBLIC_KEY: PUBLIC_VALUE})
+        checkout.save(update_fields=["user", "metadata"])
+        variables = {"token": checkout.pk}
+    
+        # when
+        response = staff_api_client.post_graphql(
+            QUERY_CHECKOUT_PUBLIC_META,
+            variables,
+            [permission_manage_checkouts],
+            check_no_permissions=False,  # Remove after fix #5245
+        )
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/meta/tests/test_meta_queries.py:223: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_collection_as_anonymous_user" time="0.020" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_collection_as_app" time="0.025" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_collection_as_customer" time="0.030" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_collection_as_staff" time="0.028" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_customer_as_app" time="0.035" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_customer_as_staff" time="0.041" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_digital_content_as_anonymous_user" time="0.034" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_digital_content_as_app" time="0.043" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_digital_content_as_customer" time="0.043" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_digital_content_as_staff" time="0.040" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_draft_order_as_anonymous_user" time="0.074" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_draft_order_as_app" time="0.081" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_draft_order_as_customer" time="0.076" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_draft_order_as_staff" time="0.081" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_fulfillment_as_anonymous_user" time="0.106" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_fulfillment_as_app" time="0.105" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_fulfillment_as_customer" time="0.104" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_fulfillment_as_staff" time="0.109" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_me_as_customer" time="0.018" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_me_as_staff" time="0.016" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_order_as_anonymous_user" time="0.020" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_order_as_app" time="0.028" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_order_as_customer" time="0.028" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_order_as_staff" time="0.030" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_order_by_token_as_anonymous_user" time="0.021" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_order_by_token_as_app" time="0.027" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_order_by_token_as_customer" time="0.022" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_order_by_token_as_staff" time="0.024" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_other_customer_checkout_as_anonymous_user" time="0.021"><failure message="AssertionError: [{'message': &quot;resolve_checkout() missing 1 required positional argument: 'channel_slug'&quot;, 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]">api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x721ee2b18d60&gt;
+checkout = Checkout(quantity=0), customer_user = &lt;User: test@example.com&gt;
+
+    def test_query_public_meta_for_other_customer_checkout_as_anonymous_user(
+        api_client, checkout, customer_user
+    ):
+        # given
+        checkout.user = customer_user
+        checkout.store_value_in_metadata({PUBLIC_KEY: PUBLIC_VALUE})
+        checkout.save(update_fields=["user", "metadata"])
+        variables = {"token": checkout.pk}
+    
+        # when
+        response = api_client.post_graphql(QUERY_CHECKOUT_PUBLIC_META, variables)
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/meta/tests/test_meta_queries.py:184: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=200, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': "resolve_checkout() missing 1 required positional argument: 'channel_slug'", 'locations': [{'line': 3, 'column': 9}], 'path': ['checkout'], 'extensions': {'exception': {'code': 'TypeError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_product_as_anonymous_user" time="0.058" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_product_as_app" time="0.065" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_product_as_customer" time="0.070" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_product_as_staff" time="0.063" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_product_type_as_anonymous_user" time="0.027" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_product_type_as_app" time="0.029" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_product_type_as_customer" time="0.030" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_product_type_as_staff" time="0.028" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_product_variant_as_anonymous_user" time="0.060" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_product_variant_as_app" time="0.064" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_product_variant_as_customer" time="0.069" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_product_variant_as_staff" time="0.065" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_staff_as_app" time="0.033" /><testcase classname="saleor.graphql.meta.tests.test_meta_queries" name="test_query_public_meta_for_staff_as_other_staff" time="0.038" /></testsuite></testsuites>
