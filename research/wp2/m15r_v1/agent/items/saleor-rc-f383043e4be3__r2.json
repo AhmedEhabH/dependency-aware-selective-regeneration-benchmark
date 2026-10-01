@@ -1,0 +1,21 @@
+{
+ "artifact_sha256": "effbb27ed491d97033de7d6e3c585df0845dd091f9c180b55488a1f857c5540b",
+ "empty_reason": "none",
+ "infra_failure": false,
+ "model_calls": 7,
+ "prediction_empty": false,
+ "replicate": "r2",
+ "selected_paths": [
+  "saleor/plugins/webhook/utils.py",
+  "saleor/webhook/payloads.py",
+  "saleor/webhook/serializers.py"
+ ],
+ "task_id": "saleor-rc-f383043e4be3",
+ "token_usage": {
+  "completion_tokens": 251,
+  "prompt_tokens": 51697,
+  "total_tokens": 51948,
+  "usd_cost": 0.0157601
+ },
+ "work_key": "saleor-rc-f383043e4be3#r2"
+}

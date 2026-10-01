@@ -1,0 +1,20 @@
+{
+ "artifact_sha256": "fffaa3df390f1adb45337c6fa2b1f657ac4334cac84299a2e3ceb09765ef3fe4",
+ "empty_reason": "none",
+ "infra_failure": false,
+ "model_calls": 8,
+ "prediction_empty": false,
+ "replicate": "r3",
+ "selected_paths": [
+  "saleor/graphql/attribute/bulk_mutations.py",
+  "saleor/graphql/product/bulk_mutations/product_variant_bulk_update.py"
+ ],
+ "task_id": "saleor-rc-0a39d039049d",
+ "token_usage": {
+  "completion_tokens": 338,
+  "prompt_tokens": 80879,
+  "total_tokens": 81217,
+  "usd_cost": 0.024601700000000004
+ },
+ "work_key": "saleor-rc-0a39d039049d#r3"
+}
