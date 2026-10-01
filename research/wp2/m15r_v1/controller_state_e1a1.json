@@ -1,5 +1,7 @@
 {
  "acks": [],
+ "complete": true,
+ "completed_utc": "2026-10-01T19:51:43Z",
  "history": [
   {
    "detail": "M15-R + E1A1 + frozen E1 self-tests (zero network)",
@@ -66,6 +68,48 @@
    "event": "START",
    "phase": "A05_S3_GENERATION_FREEZE",
    "utc": "2026-10-01T19:51:28Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "A05_S3_GENERATION_FREEZE",
+   "utc": "2026-10-01T19:51:32Z"
+  },
+  {
+   "detail": "S3 unique-diff evaluation plan",
+   "event": "START",
+   "phase": "A06_S3_EVAL_PLAN",
+   "utc": "2026-10-01T19:51:32Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "A06_S3_EVAL_PLAN",
+   "utc": "2026-10-01T19:51:37Z"
+  },
+  {
+   "detail": "S3 evaluation under frozen E1 + E1A1 (zero API, workers=1)",
+   "event": "START",
+   "phase": "A07_S3_EVALUATE",
+   "utc": "2026-10-01T19:51:37Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "A07_S3_EVALUATE",
+   "utc": "2026-10-01T19:51:39Z"
+  },
+  {
+   "detail": "mechanical M15-R summary (descriptive; no winner tokens)",
+   "event": "START",
+   "phase": "A08_SUMMARY",
+   "utc": "2026-10-01T19:51:39Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "A08_SUMMARY",
+   "utc": "2026-10-01T19:51:43Z"
   }
  ],
  "phases": {
@@ -110,11 +154,36 @@
    "status": "PASS"
   },
   "A05_S3_GENERATION_FREEZE": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-10-01T19:51:32Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "A06_S3_EVAL_PLAN": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-10-01T19:51:37Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "A07_S3_EVALUATE": {
    "attempts": 0,
    "failures": 0,
    "iterations": 0,
+   "passed_utc": "2026-10-01T19:51:39Z",
    "runs": 1,
-   "status": "RUNNING"
+   "status": "PASS"
+  },
+  "A08_SUMMARY": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-10-01T19:51:43Z",
+   "runs": 1,
+   "status": "PASS"
   }
  },
  "plan": "WP2_M15R_V1_E1A1",
