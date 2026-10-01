@@ -2475,3 +2475,13 @@ Mission-11 one-shot (sole authoritative directive, supersedes Mission-10B STOP-f
 - The 015eb6c5 delta is evidence/docs only (no production/scientific code change), so the
   frozen scientific content is unchanged. The tag was moved FORWARD to 015eb6c5 to satisfy
   the explicit gate condition; no scientific bytes changed.
+
+## Decision WP2_RESHAPE_M14R_TO_M15R (2026-10-01) - append-only ledger entry
+- Transition: `M14R_FLOOR_NOT_MET` -> M15-R / OPWS (Pilot-B scope sufficiency).
+- Trigger: M14R V1 summary `research/wp2/m14r_v1/m14r_summary.json` (artifact_sha256 e595ea1f78d02d91ce3f0161d11b511cb88e1e669ede93b0872ebd4b5fdc053b), token M14R_FLOOR_NOT_MET, winner G0 (fallback); LIGHT M14R_RESULT sha256 fa7b05332d69b899b6229a6edc650d422bc320f295a56372c8aa4f75813fce6a.
+- Decision record: `docs/WP2_RESHAPE_INDEPENDENT_REVIEW_2026-10-01.md` (LF sha256 4fa59d1a2c314b705d5a5988f8c9423e0dbeb046059fa63255730ff2ced0dcc4), verdict WP2_RESHAPE_REVIEW_PASS_WITH_CHANGES; frozen design `research/wp2/m15r_v1/m15r_design_freeze_v1.json` (artifact_sha256 e350bb5be3f456fc74897f833df772c8df1bf288bb0cd1ce962dfac1335db0a7); machine-readable entry `research/wp2/m15r_v1/reshape_decision_ledger_entry.json` (artifact_sha256 69fcc65814d9109ddbebd9fd698b824ae68b68ea9b6e78eb7da99f8019d82a05).
+- Population: frozen Pilot-B list (pilot_final_membership artifact_sha256 72d935e613718660c6f3db3eb6d41ccc47793c42562cba868b356f16b3e3872c). Primary endpoint OPWS_ROBUST (strict co-reported); S2/S3 G0 generation gated by the GOLD floor; descriptive only; no winner tokens.
+- Wording errata adopted (supersede the review's phrasing in section 1 bullet 1 and section 2 item 1): (1) "In M14R, success concentrated consistently in the same 4/13 tasks under all variants and replicates we tried" - not "success is a task property"; (2) best-of-k evidence shows only that selection cannot create solutions absent from the candidate pool; it does not show that richer input or a stronger model is useless.
+- Rejected: WP2 Option A as written; Option C now. Fallback: Option B if M15R_POOL_INSUFFICIENT.
+- Not part of M15-R: any stronger-model diagnostic (optional, separate, ENG-only, design-only; not built).
+- No reinterpretation: M14R, Pilot-A (PILOT_A_GENERATOR_FLOOR_HOLD), E1 and all earlier evidence are unchanged byte-for-byte; nothing was re-scored; no pushed tag moved.

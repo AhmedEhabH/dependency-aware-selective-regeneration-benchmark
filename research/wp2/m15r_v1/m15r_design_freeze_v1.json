@@ -1,0 +1,229 @@
+{
+ "agent_localization": {
+  "authorization_binding": "the prefreeze records the authorization hash; the Agent run and the freeze refuse a changed authorization",
+  "ceiling_usd": "min(human cap, 1.25); the prefreeze refuses if the Agent worst case exceeds it",
+  "completion_cap": 1024,
+  "failure_semantics": "frozen protocol: EMPTY only after 3 failing sessions (infra flag); provider outage = resumable STOP",
+  "label_guard": "WP-1b audit-hook guard + evaluator-only, readiness, OPWS and evaluation roots blocked",
+  "max_agent_calls": 8,
+  "model_route": "openrouter:qwen/qwen3-coder@deepinfra/turbo",
+  "runner": "benchmark.wp1b.main_runner.MainRunner (as scripts/wp2_dev_agent_scope_run.py); manifest = members x r1..r3 (replicate-major order)",
+  "tag_gate": "every wp2-m15r-v1-agent-freeze-* tag present on origin (normally one; a resumed Q07 can add a same-content tag) equals origin and the working tree for agent code, protocol, budget model, prefreeze, design and evaluator-only dirs; unpushed local tags are ignored",
+  "temperature": 0.0,
+  "worst_case": "budget-model v2 per task (label-free), frozen in agent_prefreeze.json"
+ },
+ "arms": {
+  "AGENT_HARD": "frozen protocol-v3 Agent (D5 unchanged): 3 fresh localizations per member (r1, r2, r3); replicate r uses run r; all Agent scopes frozen, committed, tagged and pushed before S1",
+  "GOLD_HARD": "reference: gold-changed non-test files (D42), D35 filter",
+  "RMCSS_HARD": "frozen RM-CSS realization-A out-of-fold predictions (file hash pinned before S0); empty after D35 = NO_SCOPE (the method's outcome)",
+  "editable_filter": "identical D35 filter for every arm (benchmark.wp2.e2e.scopes.editable_filter)",
+  "excluded": [
+   "SIP (WP1-only)",
+   "PLACEBO (not repeated)",
+   "any stronger-model diagnostic"
+  ]
+ },
+ "artifact": "m15r_design_freeze_v1",
+ "artifact_sha256": "e350bb5be3f456fc74897f833df772c8df1bf288bb0cd1ce962dfac1335db0a7",
+ "budget": {
+  "agent_ceiling_usd": 1.25,
+  "authorization_cap_usd_max": 3.0,
+  "authorization_cap_usd_min": 2.0,
+  "cap_binds": "Agent spend is the offset of the generation ledger, so the human cap binds all paid work",
+  "expected_usd": {
+   "agent": 0.75,
+   "s2": 0.15,
+   "s3": 0.35
+  },
+  "min_rule": "cap - Agent worst case >= 0.75 (S2/S3 generation headroom incl. the 0.12 reserve)",
+  "pricing_checks": "doctor-paid before the Agent; live generation pricing before every paid generation chunk",
+  "worst_episode_reserve_usd": 0.12
+ },
+ "claims": "descriptive only (n <= 10); no superiority or non-inferiority claim; no winner tokens",
+ "core_constants_sha256": "cf6a53d96a680a1626ac9910945eb6008e34f5978d5d3a172fe9c1732a9789c3",
+ "date": "2026-10-01",
+ "endpoints": {
+  "also": [
+   "taxonomy (M14R precedence)",
+   "F2P node progress",
+   "tokens/calls/$: Agent ledger (frozen list price) + generation ledger (provider-reported)"
+  ],
+  "co_reported": "RESOLVED_STRICT (D50-D52)",
+  "primary_generation": "RESOLVED_ROBUST (M14R core)"
+ },
+ "leakage_barriers": [
+  "gold diff used only by evaluator-side code (S0 positive, OPWS)",
+  "selectors and generator never see gold diff, tests or outcomes",
+  "RM-CSS predictions file hash pinned before S0, no tuning",
+  "Agent scopes frozen before S1",
+  "every planned G0 prompt scanned at the freeze for F2P/P2P node ids and changed-test paths (blocking)",
+  "Pilot-A, ENG, M14R and Pilot-B evidence roots separated (research/wp2/m15r_v1 only)"
+ ],
+ "pins": {
+  "file_norm_sha256": {
+   "docs/WP2_RESHAPE_INDEPENDENT_REVIEW_2026-10-01.md": "4fa59d1a2c314b705d5a5988f8c9423e0dbeb046059fa63255730ff2ced0dcc4",
+   "research/memory-rescue-v2/final_oof_predictions_A.json": "f96888c22191dbf0a9dc636f275cedc0e33526aeaa69b42cd993456b80995c0a",
+   "research/wp1b/wp1b_budget_model_v2.json": "5a8218cb3bfcbd85df186d499072c1b85555d5d0339a7600b4f422aa418bcb00",
+   "research/wp1b/wp1b_decision_rules_v2.json": "8dd4430f0cea3590db66ac0ba1478fd2921bd240840b940d355b01fa5bd92a11",
+   "research/wp1b/wp1b_frozen_agent_protocol_v3.json": "0029b7a100c0809108bfb16cd64c67e790c410954a96ec1d29014fa30497797d",
+   "research/wp2/oracle_confirmation_linux_v2_2026-09-23/dev_census_2026-09-23.json": "a478c2dd8b04bf6f91c078267817ac36cfefcb4a1c9d016b2c71018286254e3a",
+   "research/wp2/pilot_a_v1/evaluator_only/pilot_a_evaluator_sets_v1.json": "4c4a75c6aac7cc6ba61f6080f7f5d3940dad9fc80c315908b37abc01ef9bbccf",
+   "research/wp2/pilot_a_v1/pilot_final_membership.json": "8f63fca9e6235e0bb85e992b3f1aad89a48e87b245ab00d23f6d9db40dba8c7f",
+   "research/wp2/wp2_dev_unchanged_p2p_candidate_inventory_v1_2026-09-25.json": "89f784a42e7b8edb59f1f9146d25bac4ea421d13d6510a7fc7bb728ff1532e17",
+   "scripts/saleor_portability_fix.py": "98a933d00ebb4f4a96718c4224bfaf0baf060c400b9ab064bfb8c3a2daa4fce4",
+   "scripts/wp1b_budget_model_v2.py": "8fae9b826323543ae2fac15ef499b774e50ade503109111ffd0cbc2e5fc958c7",
+   "scripts/wp1b_main_run.py": "1dda2a8b8a4627804620f6a382cd23b9e31199c06e65435d045546d0a543891f",
+   "src/benchmark/strategies/iterative_agent.py": "123b9bc0321752d1804af8f585b8a76c88fc52bade67ccb9fedbed8fcb48c8f2",
+   "src/benchmark/strategies/repository_tools.py": "2f913ef19a01ef180d202ac51036573b07ac6b3024c77f5fc7d89e66c1fa8eab",
+   "src/benchmark/wp1b/label_guard.py": "6903d7ec2e99ebb0c10530aab1e68aad9ae2ad8ff151d3cd8c43ecbb73a9f757",
+   "src/benchmark/wp1b/main_runner.py": "da299f646eab29052e8dcd52f1686c2e7deb66567cfd609bc4fb8bcf76a850be",
+   "src/benchmark/wp1b/resilient_backend.py": "faed9b8c5fa480daab3679b7d5d8dd9a6b38acf676eb0b0d467e9175a1ae7f2b",
+   "src/benchmark/wp1b/telemetry.py": "257389792035bf610153fdea6ea67ed99841fd1f42a5f8befee235f5c2e91154"
+  },
+  "m14a_e1_amendment_artifact_sha256": "5997f0aa073f4dc9d3c1394379c6b4003efb416fbc7cbe0f0eabc05c1973bb32",
+  "m14r_design_artifact_sha256": "4d3e73fac6f4095622f448ff85cc4e53aa7cf493ded14c698447b477943bc68f",
+  "m14r_g0_source_norm_sha256": {
+   "scripts/wp2_m14a_evalcore.py": "f9ba65ff3d453b5d620ce6f5ac1a58d2d3659ef7f7aab734867d6ec21fd6ddff",
+   "scripts/wp2_m14a_evalcore_e1.py": "6f028ad4eb99a19cc7c3b3a1d6defa51e1e5f7e72f76a2deeffffa51609365db",
+   "scripts/wp2_m14a_run.py": "a903dfc93097f2028302e6d85f4a85d42032ebb571de3232fd8a3445992c6ffe",
+   "scripts/wp2_m14r_core.py": "2e19975df631f0a9f6e0888e800480819ca2bb5fe5244722fd19b617b2920491",
+   "scripts/wp2_m14r_run.py": "9fdee029e54f411b0e2349c8ba8b373dc446c0e44af358ed88610b2da6bb5316",
+   "src/benchmark/wp2/e2e/evaluate.py": "ef7abab3e330ca9c9f62b5cb9b4d960e0ee6544e98f2898c35e7948dda3149a1",
+   "src/benchmark/wp2/e2e/evaluator_sets.py": "582e7c6eb6fff6ce8ceb57c75ca762127ded318c2d0e78a81009f66baad93ea7",
+   "src/benchmark/wp2/e2e/generate.py": "74528f0af945324a24b64ad66bcc9c5221e395ab0694fa3d8ecb80c974eb4605",
+   "src/benchmark/wp2/e2e/generate_v2.py": "adb4e57a897bb6191b547f99321d5a816563761fe19f098e2318e94ee899db57",
+   "src/benchmark/wp2/e2e/patch_format.py": "16394a60c8061f624283758591be0be733574a39b6a3a7130413eb9291ae35f6",
+   "src/benchmark/wp2/e2e/prompt.py": "0e47b6ea3717cdcd3db6bd6d26bb4ffa68dd731e6da73b0f040af9f7b0fa7a70",
+   "src/benchmark/wp2/e2e/pycompile.py": "e003ab873760ff038619ded4bacadd14ef383f92859a3c1290974d23c9da537c",
+   "src/benchmark/wp2/e2e/response_cache.py": "5b4347b099b6026df1fdf99baeadbaacd976fe4247131d34306898c1f5b6f55c",
+   "src/benchmark/wp2/e2e/scopes.py": "fb7f4e8179627039fad00cddb685d10f18dac308f68273e43af4877f696469eb",
+   "src/benchmark/wp2/e2e/spec.py": "62f90ffe419fc73fa7474e303114b3f654a501db2f15e275965f2c1dbbb1a2f9",
+   "src/benchmark/wp2/e2e/task_inputs.py": "f22f95ee98995e545004d8fcb985871505ce5f655b702db434ac6dd919abdac8",
+   "src/benchmark/wp2/e2e_v21/generate.py": "562769c97acf2b7bce3fcc122b90a17cd0d24c13d0b856e650b27f70bffbb057",
+   "src/benchmark/wp2/e2e_v22/circuit.py": "b9553e91297604a6926e0ddac25ac63152fae9836546b5aae455bbcb1426c12e",
+   "src/benchmark/wp2/e2e_v22/transport.py": "05b0a7330973896fe15b008a87518591f09c64525447fd1a65b8c6236358a80a",
+   "src/benchmark/wp2/harness_v3.py": "9df9813e0b0b303ef02d4b91b3c0e3f0f722bfa5a814addc124ad2b11ee07c72"
+  },
+  "m14r_light_sha256": "fa7b05332d69b899b6229a6edc650d422bc320f295a56372c8aa4f75813fce6a",
+  "m14r_summary_artifact_sha256": "e595ea1f78d02d91ce3f0161d11b511cb88e1e669ede93b0872ebd4b5fdc053b",
+  "pilot_a_light_sha256": "49d31ba405f2df56722d882d6b216e0b83ca1954e370336245c6203a96c47da5",
+  "pilot_a_summary_artifact_sha256": "3f809a8d2ceee534ac40f37191e0d44807200e88997c8ac10aa9d5caf85a37b9",
+  "pilot_final_membership_artifact_sha256": "72d935e613718660c6f3db3eb6d41ccc47793c42562cba868b356f16b3e3872c",
+  "pilot_sets_artifact_sha256": "e294171a8f48c67f4aaa191df25a8105601185c24a5dc5bb9cd775786f9520cf"
+ },
+ "population": {
+  "guard": [
+   "disjoint from Pilot-A, M14R ENG candidates and every Pilot-A/E1 evaluated task",
+   "Pilot-A readiness gold_empty_ok = true with record hash equal to the frozen membership",
+   "no Pilot-B generation/evaluation output anywhere before the freeze",
+   "M14R and Pilot-A frozen evidence verify byte-for-byte"
+  ],
+  "insufficient_token": "M15R_POOL_INSUFFICIENT (fallback: WP2 Option B, human review)",
+  "min_members": 6,
+  "pilot_b_tasks": [
+   "saleor-rc-436f52ee3d0c",
+   "saleor-rc-34511f977388",
+   "saleor-rc-0a39d039049d",
+   "saleor-rc-60c8722863c1",
+   "saleor-rc-05df3bec57e2",
+   "saleor-rc-99d963aed3e5",
+   "saleor-rc-eacffa70e721",
+   "saleor-rc-ded69f9c7097",
+   "saleor-rc-f383043e4be3",
+   "saleor-rc-102e4e5b25e8"
+  ],
+  "readiness": "S0 per task (zero API): (1) negative = empty diff: strict F2P FAIL and robust preservation PASS/UNDEFINED; (2) positive = gold non-test diff restricted to the frozen GOLD_HARD editable set: robust RESOLVED (E1 semantics, parent_starts_ok=true). Members = READY tasks.",
+  "source": "research/wp2/pilot_a_v1/pilot_final_membership.json (REDUCED_10, B)"
+ },
+ "question": "On the frozen Pilot-B tasks, does each selector's editable scope SUFFICE for the developer's own fix (OPWS), independent of any generator; and, only where the frozen G0 generator can solve a task under GOLD scope, how do the selectors' scopes behave end-to-end?",
+ "required_files": [
+  "scripts/wp2_m14a_run.py",
+  "scripts/wp2_m14a_evalcore.py",
+  "scripts/wp2_m14a_evalcore_e1.py",
+  "scripts/wp2_m14r_run.py",
+  "scripts/wp2_m14r_core.py",
+  "scripts/wp2_linux_dryrun.py",
+  "scripts/wp2_export_light.py",
+  "scripts/wp1b_openrouter_key_usage.py",
+  "scripts/wp1b_provider_pricing_preflight.py",
+  "scripts/wp2_e2e_v22_doctor.py",
+  "src/benchmark/wp1b/git_gate.py",
+  "src/benchmark/llm/openrouter_backend.py",
+  "research/wp2/pilot_v1_design/pilot_selection.json"
+ ],
+ "source_review": {
+  "path": "docs/WP2_RESHAPE_INDEPENDENT_REVIEW_2026-10-01.md",
+  "section": "11 M15_RESHAPE_FREEZE",
+  "verdict": "WP2_RESHAPE_REVIEW_PASS_WITH_CHANGES",
+  "wording_errata": [
+   "Replace 'success is a task property' by: In M14R, success concentrated consistently in the same 4/13 tasks under all variants and replicates we tried.",
+   "Best-of-k evidence shows only that selection cannot create solutions absent from the candidate pool; it does not show that richer input or a stronger model is useless."
+  ]
+ },
+ "stages": {
+  "S0": "readiness (zero API, Docker)",
+  "S1_OPWS_PRIMARY": {
+   "co_reported": [
+    "OPWS_STRICT",
+    "file-level precision/recall/F1 of the editable set vs gold-changed non-test files",
+    "editable files and characters",
+    "deterministic G0 prompt characters (no call)",
+    "Agent replicate agreement on OPWS_ROBUST + mean pairwise Jaccard",
+    "paired per-task RMCSS vs each Agent replicate and vs Agent majority",
+    "strict/robust discordance"
+   ],
+   "definition": "P_S = gold non-test diff restricted to (selector editable INTERSECT gold-changed non-test files); evaluated with the frozen evaluator (3 reps, fresh DB, workers=1) + E1 semantics",
+   "empty_P_S": "OPWS = FAIL by construction (no evaluation)",
+   "gold_changed_files": "frozen GOLD_HARD raw definition (benchmark.wp2.e2e.scopes.gold_raw_scope): modified/deleted non-test files; added and renamed files are excluded, as in Smoke, Pilot-A and M14R (stated as a limitation)",
+   "identical_to_scoped_gold": "reuse the S0 positive evaluation (same identity)",
+   "model_calls": 0,
+   "primary_endpoint": "OPWS_ROBUST",
+   "reference": "GOLD_HARD (= S0 positive)",
+   "selectors": [
+    "RMCSS_HARD",
+    "AGENT_HARD:r1",
+    "AGENT_HARD:r2",
+    "AGENT_HARD:r3"
+   ],
+   "start_condition": "the scope freeze is committed, tagged and on origin (checked by opws-plan)"
+  },
+  "S2_GOLD_VIABILITY": {
+   "fail_token": "M15R_GOLD_FLOOR_FAIL_NO_GENERATION_CLAIM (S3 skipped; S1 stands)",
+   "gate": "PASS iff GOLD-solvable tasks (>=1 robust resolve) >= ceil(0.4 n) AND GOLD robust episodes >= ceil(0.2 * 3n)",
+   "generator": "M14R run_base_episode with context C0 (G0), executed unchanged; source hashes pinned (m14r_g0_source_norm_sha256)",
+   "items": "GOLD_HARD x r1..r3 x members"
+  },
+  "S3_SELECTOR_GENERATION": {
+   "analysis_set": "GOLD-solvable tasks only (predeclared); all tasks reported descriptively",
+   "condition": "S2 gate PASS",
+   "items": "RMCSS_HARD and AGENT_HARD x r1..r3 x members (AGENT rep r uses run r)"
+  }
+ },
+ "status": "DESIGN_FROZEN_BEFORE_ANY_M15R_OUTPUT (zero M15-R API calls, zero Pilot-B outputs at freeze)",
+ "tokens": {
+  "non_resumable": [
+   "M15R_GUARD_FAIL",
+   "M15R_INVARIANT",
+   "E2E_BUDGET_STOP",
+   "E2E_REQUEST_REJECTED"
+  ],
+  "resumable_stops": [
+   "READINESS_ENV_FAIL",
+   "EVAL_ERROR",
+   "E2E_PROVIDER_OUTAGE",
+   "HOLD_ACTIVE",
+   "PAID_PREFLIGHT_FAIL",
+   "NOT_AUTHORIZED",
+   "USER_STOP_FLAG"
+  ],
+  "terminal_facts": [
+   "M15R_POOL_INSUFFICIENT",
+   "M15R_OPWS_COMPLETE",
+   "M15R_GOLD_FLOOR_FAIL_NO_GENERATION_CLAIM",
+   "M15R_COMPLETE_DESCRIPTIVE"
+  ],
+  "winner_tokens": []
+ },
+ "transition": "M15-R result -> human review -> separately frozen M16 (OPWS-MAIN). Nothing starts automatically.",
+ "version": "M15R-V1"
+}

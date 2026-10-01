@@ -1,0 +1,44 @@
+{
+ "artifact": "wp2_decision_ledger_entry",
+ "artifact_sha256": "69fcc65814d9109ddbebd9fd698b824ae68b68ea9b6e78eb7da99f8019d82a05",
+ "date": "2026-10-01",
+ "decision": {
+  "design_artifact_sha256": "e350bb5be3f456fc74897f833df772c8df1bf288bb0cd1ce962dfac1335db0a7",
+  "design_path": "research/wp2/m15r_v1/m15r_design_freeze_v1.json",
+  "fallback": "WP2 Option B if M15R_POOL_INSUFFICIENT",
+  "next": "M15-R (Pilot-B scope sufficiency); primary endpoint OPWS_ROBUST; gated G0 generation (S2/S3)",
+  "pilot_b_membership_artifact_sha256": "72d935e613718660c6f3db3eb6d41ccc47793c42562cba868b356f16b3e3872c",
+  "rejected": [
+   "WP2 Option A as written",
+   "WP2 Option C now"
+  ],
+  "review_norm_sha256": "4fa59d1a2c314b705d5a5988f8c9423e0dbeb046059fa63255730ff2ced0dcc4",
+  "review_path": "docs/WP2_RESHAPE_INDEPENDENT_REVIEW_2026-10-01.md",
+  "review_verdict": "WP2_RESHAPE_REVIEW_PASS_WITH_CHANGES"
+ },
+ "decision_id": "WP2_RESHAPE_M14R_TO_M15R_2026-10-01",
+ "no_reinterpretation": [
+  "M14R evidence, tokens and scores unchanged (M14R_FLOOR_NOT_MET, winner G0)",
+  "Pilot-A unchanged (PILOT_A_GENERATOR_FLOOR_HOLD); E1 amendment unchanged",
+  "no prior result re-scored; no pushed tag moved"
+ ],
+ "not_in_m15r": "any stronger-model diagnostic (an optional, separate, ENG-only, design-only proposal; not built)",
+ "recorded_by": "M15-R kit installer (append-only; DECISIONS.md prefix verified byte-identical)",
+ "reviews": [
+  "brain independent review 2026-10-01 (PASS_WITH_CHANGES)",
+  "ChatGPT review 2026-10-01: agrees with M15-R/OPWS; two wording corrections adopted"
+ ],
+ "transition": "M14R_FLOOR_NOT_MET -> M15-R/OPWS",
+ "trigger": {
+  "m14r_design_artifact_sha256": "4d3e73fac6f4095622f448ff85cc4e53aa7cf493ded14c698447b477943bc68f",
+  "m14r_light_sha256": "fa7b05332d69b899b6229a6edc650d422bc320f295a56372c8aa4f75813fce6a",
+  "m14r_summary_artifact_sha256": "e595ea1f78d02d91ce3f0161d11b511cb88e1e669ede93b0872ebd4b5fdc053b",
+  "m14r_summary_path": "research/wp2/m14r_v1/m14r_summary.json",
+  "m14r_token": "M14R_FLOOR_NOT_MET",
+  "m14r_winner": "G0"
+ },
+ "wording_errata_adopted": [
+  "Replace 'success is a task property' by: In M14R, success concentrated consistently in the same 4/13 tasks under all variants and replicates we tried.",
+  "Best-of-k evidence shows only that selection cannot create solutions absent from the candidate pool; it does not show that richer input or a stronger model is useless."
+ ]
+}
