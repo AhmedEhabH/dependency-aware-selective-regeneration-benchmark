@@ -150,6 +150,30 @@
    "event": "START",
    "phase": "Q12_OPWS_SUMMARY",
    "utc": "2026-10-01T11:15:51Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "Q12_OPWS_SUMMARY",
+   "utc": "2026-10-01T11:15:58Z"
+  },
+  {
+   "detail": "S2 GOLD_HARD x r1-r3 with G0 (PAID)",
+   "event": "START",
+   "phase": "Q13_S2_GENERATE",
+   "utc": "2026-10-01T11:15:58Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "Q13_S2_GENERATE",
+   "utc": "2026-10-01T13:22:18Z"
+  },
+  {
+   "detail": "S2 generation freeze before evaluation",
+   "event": "START",
+   "phase": "Q14_S2_GENERATION_FREEZE",
+   "utc": "2026-10-01T13:22:18Z"
   }
  ],
  "phases": {
@@ -250,6 +274,22 @@
    "status": "PASS"
   },
   "Q12_OPWS_SUMMARY": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-10-01T11:15:58Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "Q13_S2_GENERATE": {
+   "attempts": 0,
+   "failures": 0,
+   "iterations": 3,
+   "passed_utc": "2026-10-01T13:22:18Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "Q14_S2_GENERATION_FREEZE": {
    "attempts": 0,
    "failures": 0,
    "iterations": 0,
