@@ -1,0 +1,123 @@
+{
+ "acks": [],
+ "history": [
+  {
+   "detail": "M15-R + E1A1 + frozen E1 self-tests (zero network)",
+   "event": "START",
+   "phase": "A00_KIT_SELFTEST",
+   "utc": "2026-10-01T18:40:22Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "A00_KIT_SELFTEST",
+   "utc": "2026-10-01T18:40:43Z"
+  },
+  {
+   "detail": "amendment record, frozen files, freezes, pre-amendment records (zero API)",
+   "event": "START",
+   "phase": "A01_E1A1_VERIFY",
+   "utc": "2026-10-01T18:40:43Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "A01_E1A1_VERIFY",
+   "utc": "2026-10-01T18:40:45Z"
+  },
+  {
+   "detail": "S2 evaluation under frozen E1 + E1A1 (zero API, workers=1)",
+   "event": "START",
+   "phase": "A02_S2_EVALUATE",
+   "utc": "2026-10-01T18:40:45Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "A02_S2_EVALUATE",
+   "utc": "2026-10-01T19:51:23Z"
+  },
+  {
+   "detail": "S2 GOLD viability gate (records PASS or GOLD_FLOOR_FAIL; never a STOP)",
+   "event": "START",
+   "phase": "A03_S2_GATE",
+   "utc": "2026-10-01T19:51:23Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "A03_S2_GATE",
+   "utc": "2026-10-01T19:51:27Z"
+  },
+  {
+   "detail": "S3 RMCSS/AGENT x r1-r3 with G0 (PAID; no-op unless the S2 gate passed)",
+   "event": "START",
+   "phase": "A04_S3_GENERATE",
+   "utc": "2026-10-01T19:51:27Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "A04_S3_GENERATE",
+   "utc": "2026-10-01T19:51:28Z"
+  },
+  {
+   "detail": "S3 generation freeze before evaluation",
+   "event": "START",
+   "phase": "A05_S3_GENERATION_FREEZE",
+   "utc": "2026-10-01T19:51:28Z"
+  }
+ ],
+ "phases": {
+  "A00_KIT_SELFTEST": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-10-01T18:40:43Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "A01_E1A1_VERIFY": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-10-01T18:40:45Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "A02_S2_EVALUATE": {
+   "attempts": 0,
+   "failures": 0,
+   "iterations": 5,
+   "passed_utc": "2026-10-01T19:51:23Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "A03_S2_GATE": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-10-01T19:51:27Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "A04_S3_GENERATE": {
+   "attempts": 0,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-10-01T19:51:28Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "A05_S3_GENERATION_FREEZE": {
+   "attempts": 0,
+   "failures": 0,
+   "iterations": 0,
+   "runs": 1,
+   "status": "RUNNING"
+  }
+ },
+ "plan": "WP2_M15R_V1_E1A1",
+ "plan_sha256": "6ec43d41d9bc69a58c30ba1c7769d1b5b4376147d40bea2ecab904778b682d6c",
+ "stop": null
+}
