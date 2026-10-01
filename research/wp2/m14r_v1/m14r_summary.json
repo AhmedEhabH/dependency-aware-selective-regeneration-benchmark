@@ -1,0 +1,4010 @@
+{
+ "applied_without_evaluation": 0,
+ "architecture_scope_violations": 0,
+ "artifact": "m14r_summary",
+ "artifact_sha256": "e595ea1f78d02d91ce3f0161d11b511cb88e1e669ede93b0872ebd4b5fdc053b",
+ "auto_execution_of_M15": false,
+ "decision": {
+  "checks": {
+   "G1": {
+    "better_tasks": 1,
+    "direction": true,
+    "gain": false,
+    "invalid": true,
+    "worse_tasks": 0
+   },
+   "G2": {
+    "better_tasks": 1,
+    "direction": true,
+    "gain": false,
+    "invalid": true,
+    "worse_tasks": 1
+   },
+   "G3": {
+    "better_tasks": 1,
+    "direction": true,
+    "gain": false,
+    "invalid": true,
+    "worse_tasks": 1
+   }
+  },
+  "eligible": [],
+  "next": "HUMAN_DECISION_WP2_RESHAPE",
+  "thresholds": {
+   "floor_resolved_min": 8,
+   "floor_tasks_min": 5,
+   "max_extra_invalid_vs_g0": 3,
+   "min_gain_vs_g0": 3,
+   "n_gold_episodes_per_variant": 39,
+   "placebo_robust_max": 1
+  },
+  "token": "M14R_FLOOR_NOT_MET",
+  "winner": "G0"
+ },
+ "design_artifact_sha256": "4d3e73fac6f4095622f448ff85cc4e53aa7cf493ded14c698447b477943bc68f",
+ "mandatory_wording": "M14R is a development probe on DEV_TRAIN_ENG only. It selects a generator variant for a future, separately frozen M15; it is not an RM-CSS-vs-Agent comparison and supports no selector claim. Pilot-A remains PILOT_A_GENERATOR_FLOOR_HOLD.",
+ "members": [
+  "saleor-rc-2d45b76a52f2",
+  "saleor-rc-39b4138e8550",
+  "saleor-rc-644f33094857",
+  "saleor-rc-6abb53f3407b",
+  "saleor-rc-74538ea00ce9",
+  "saleor-rc-823b899757ab",
+  "saleor-rc-8f76ddc6267f",
+  "saleor-rc-93b20d78c011",
+  "saleor-rc-c3b9e396b07d",
+  "saleor-rc-d220843b5418",
+  "saleor-rc-dc6ac9d252df",
+  "saleor-rc-e03ee76d2b89",
+  "saleor-rc-e25cf9b4a837"
+ ],
+ "n_tasks": 13,
+ "per_task_gold_robust": {
+  "G0": {
+   "saleor-rc-2d45b76a52f2": 1,
+   "saleor-rc-39b4138e8550": 0,
+   "saleor-rc-644f33094857": 0,
+   "saleor-rc-6abb53f3407b": 0,
+   "saleor-rc-74538ea00ce9": 0,
+   "saleor-rc-823b899757ab": 0,
+   "saleor-rc-8f76ddc6267f": 1,
+   "saleor-rc-93b20d78c011": 0,
+   "saleor-rc-c3b9e396b07d": 0,
+   "saleor-rc-d220843b5418": 0,
+   "saleor-rc-dc6ac9d252df": 0,
+   "saleor-rc-e03ee76d2b89": 3,
+   "saleor-rc-e25cf9b4a837": 3
+  },
+  "G1": {
+   "saleor-rc-2d45b76a52f2": 1,
+   "saleor-rc-39b4138e8550": 0,
+   "saleor-rc-644f33094857": 0,
+   "saleor-rc-6abb53f3407b": 0,
+   "saleor-rc-74538ea00ce9": 0,
+   "saleor-rc-823b899757ab": 0,
+   "saleor-rc-8f76ddc6267f": 2,
+   "saleor-rc-93b20d78c011": 0,
+   "saleor-rc-c3b9e396b07d": 0,
+   "saleor-rc-d220843b5418": 0,
+   "saleor-rc-dc6ac9d252df": 0,
+   "saleor-rc-e03ee76d2b89": 3,
+   "saleor-rc-e25cf9b4a837": 3
+  },
+  "G2": {
+   "saleor-rc-2d45b76a52f2": 1,
+   "saleor-rc-39b4138e8550": 0,
+   "saleor-rc-644f33094857": 0,
+   "saleor-rc-6abb53f3407b": 0,
+   "saleor-rc-74538ea00ce9": 0,
+   "saleor-rc-823b899757ab": 0,
+   "saleor-rc-8f76ddc6267f": 3,
+   "saleor-rc-93b20d78c011": 0,
+   "saleor-rc-c3b9e396b07d": 0,
+   "saleor-rc-d220843b5418": 0,
+   "saleor-rc-dc6ac9d252df": 0,
+   "saleor-rc-e03ee76d2b89": 1,
+   "saleor-rc-e25cf9b4a837": 3
+  },
+  "G3": {
+   "saleor-rc-2d45b76a52f2": 1,
+   "saleor-rc-39b4138e8550": 0,
+   "saleor-rc-644f33094857": 0,
+   "saleor-rc-6abb53f3407b": 0,
+   "saleor-rc-74538ea00ce9": 0,
+   "saleor-rc-823b899757ab": 0,
+   "saleor-rc-8f76ddc6267f": 3,
+   "saleor-rc-93b20d78c011": 0,
+   "saleor-rc-c3b9e396b07d": 0,
+   "saleor-rc-d220843b5418": 0,
+   "saleor-rc-dc6ac9d252df": 0,
+   "saleor-rc-e03ee76d2b89": 1,
+   "saleor-rc-e25cf9b4a837": 3
+  }
+ },
+ "per_variant": {
+  "G0": {
+   "gold_applied": 35,
+   "gold_cost_usd": 0.1758963,
+   "gold_f2p": 10,
+   "gold_invalid": 4,
+   "gold_mean_tokens": 14350.0,
+   "gold_n": 39,
+   "gold_robust": 8,
+   "gold_strict": 8,
+   "placebo_n": 13,
+   "placebo_robust": 0,
+   "placebo_strict": 0,
+   "static_outcomes_gold": {
+    "": 39
+   },
+   "tasks_any": 4,
+   "taxonomy_gold": {
+    "F2P_PASS_PRESERVATION_FAIL": 2,
+    "FORMAT_INVALID": 4,
+    "NO_OP": 1,
+    "PARTIAL_F2P_PROGRESS": 2,
+    "PATCH_STARTUP_FAILURE": 4,
+    "RESOLVED": 8,
+    "ZERO_F2P_PROGRESS": 18
+   },
+   "taxonomy_placebo": {
+    "FORMAT_INVALID": 2,
+    "NO_OP": 3,
+    "PATCH_STARTUP_FAILURE": 3,
+    "ZERO_F2P_PROGRESS": 5
+   }
+  },
+  "G1": {
+   "gold_applied": 35,
+   "gold_cost_usd": 0.205213,
+   "gold_f2p": 11,
+   "gold_invalid": 4,
+   "gold_mean_tokens": 16843.3,
+   "gold_n": 39,
+   "gold_robust": 9,
+   "gold_strict": 9,
+   "placebo_n": 13,
+   "placebo_robust": 0,
+   "placebo_strict": 0,
+   "static_outcomes_gold": {
+    "ADOPTED": 5,
+    "BASE_NOT_APPLIED": 4,
+    "CLEAN": 30
+   },
+   "tasks_any": 4,
+   "taxonomy_gold": {
+    "F2P_PASS_PRESERVATION_FAIL": 2,
+    "FORMAT_INVALID": 4,
+    "NO_OP": 1,
+    "PARTIAL_F2P_PROGRESS": 2,
+    "PATCH_STARTUP_FAILURE": 1,
+    "RESOLVED": 9,
+    "ZERO_F2P_PROGRESS": 20
+   },
+   "taxonomy_placebo": {
+    "FORMAT_INVALID": 2,
+    "NO_OP": 3,
+    "PATCH_STARTUP_FAILURE": 3,
+    "ZERO_F2P_PROGRESS": 5
+   }
+  },
+  "G2": {
+   "gold_applied": 38,
+   "gold_cost_usd": 0.2548556,
+   "gold_f2p": 10,
+   "gold_invalid": 1,
+   "gold_mean_tokens": 21174.4,
+   "gold_n": 39,
+   "gold_robust": 8,
+   "gold_strict": 8,
+   "placebo_n": 13,
+   "placebo_robust": 0,
+   "placebo_strict": 0,
+   "static_outcomes_gold": {
+    "": 39
+   },
+   "tasks_any": 4,
+   "taxonomy_gold": {
+    "F2P_PASS_PRESERVATION_FAIL": 2,
+    "FORMAT_INVALID": 1,
+    "PARTIAL_F2P_PROGRESS": 3,
+    "PATCH_STARTUP_FAILURE": 5,
+    "RESOLVED": 8,
+    "ZERO_F2P_PROGRESS": 20
+   },
+   "taxonomy_placebo": {
+    "FORMAT_INVALID": 2,
+    "NO_OP": 6,
+    "PATCH_STARTUP_FAILURE": 2,
+    "ZERO_F2P_PROGRESS": 3
+   }
+  },
+  "G3": {
+   "gold_applied": 38,
+   "gold_cost_usd": 0.2819229,
+   "gold_f2p": 10,
+   "gold_invalid": 1,
+   "gold_mean_tokens": 24162.3,
+   "gold_n": 39,
+   "gold_robust": 8,
+   "gold_strict": 8,
+   "placebo_n": 13,
+   "placebo_robust": 0,
+   "placebo_strict": 0,
+   "static_outcomes_gold": {
+    "ADOPTED": 5,
+    "BASE_NOT_APPLIED": 1,
+    "CLEAN": 33
+   },
+   "tasks_any": 4,
+   "taxonomy_gold": {
+    "F2P_PASS_PRESERVATION_FAIL": 2,
+    "FORMAT_INVALID": 1,
+    "PARTIAL_F2P_PROGRESS": 3,
+    "PATCH_STARTUP_FAILURE": 5,
+    "RESOLVED": 8,
+    "ZERO_F2P_PROGRESS": 20
+   },
+   "taxonomy_placebo": {
+    "FORMAT_INVALID": 2,
+    "NO_OP": 6,
+    "PATCH_STARTUP_FAILURE": 2,
+    "ZERO_F2P_PROGRESS": 3
+   }
+  }
+ },
+ "provider_reported_total_cost_usd": 0.5726227,
+ "provider_reported_total_tokens": 1852982,
+ "rows": [
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0022164,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "INVALID_AFTER_REPAIR",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-2d45b76a52f2",
+   "taxonomy": {
+    "detail": "INVALID_AFTER_REPAIR",
+    "label": "FORMAT_INVALID"
+   },
+   "tokens": 5826,
+   "variant": "G0"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0018056,
+   "f2p_pass": true,
+   "label": "GOLD_HARD__C2__r1",
+   "replicate": "r1",
+   "robust_resolved": true,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": true,
+   "task_id": "saleor-rc-2d45b76a52f2",
+   "taxonomy": {
+    "detail": "",
+    "label": "RESOLVED"
+   },
+   "tokens": 3934,
+   "variant": "G2"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0027373,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-39b4138e8550",
+   "taxonomy": {
+    "detail": "+DETERMINISTIC_PRESERVATION_BREAK",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 8402,
+   "variant": "G0"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0064991,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-39b4138e8550",
+   "taxonomy": {
+    "detail": "+DETERMINISTIC_PRESERVATION_BREAK",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 18199,
+   "variant": "G2"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0130535,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-644f33094857",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 55989,
+   "variant": "G0"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0197392,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-644f33094857",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 79644,
+   "variant": "G2"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0050629,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-6abb53f3407b",
+   "taxonomy": {
+    "detail": "+DETERMINISTIC_PRESERVATION_BREAK",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 12526,
+   "variant": "G0"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0078897,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-6abb53f3407b",
+   "taxonomy": {
+    "detail": "+DETERMINISTIC_PRESERVATION_BREAK",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 20208,
+   "variant": "G2"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0023694,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-74538ea00ce9",
+   "taxonomy": {
+    "detail": "+DETERMINISTIC_PRESERVATION_BREAK",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 6772,
+   "variant": "G0"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0055433,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-74538ea00ce9",
+   "taxonomy": {
+    "detail": "+DETERMINISTIC_PRESERVATION_BREAK",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 16274,
+   "variant": "G2"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0060887,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-823b899757ab",
+   "taxonomy": {
+    "detail": "",
+    "label": "PATCH_STARTUP_FAILURE"
+   },
+   "tokens": 17840,
+   "variant": "G0"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0085696,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-823b899757ab",
+   "taxonomy": {
+    "detail": "",
+    "label": "PATCH_STARTUP_FAILURE"
+   },
+   "tokens": 25817,
+   "variant": "G2"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0055491,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-8f76ddc6267f",
+   "taxonomy": {
+    "detail": "",
+    "label": "PATCH_STARTUP_FAILURE"
+   },
+   "tokens": 17252,
+   "variant": "G0"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0084735,
+   "f2p_pass": true,
+   "label": "GOLD_HARD__C2__r1",
+   "replicate": "r1",
+   "robust_resolved": true,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": true,
+   "task_id": "saleor-rc-8f76ddc6267f",
+   "taxonomy": {
+    "detail": "",
+    "label": "RESOLVED"
+   },
+   "tokens": 26605,
+   "variant": "G2"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0076023,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-93b20d78c011",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 21352,
+   "variant": "G0"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0094888,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-93b20d78c011",
+   "taxonomy": {
+    "detail": "",
+    "label": "PARTIAL_F2P_PROGRESS"
+   },
+   "tokens": 28748,
+   "variant": "G2"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0045544,
+   "f2p_pass": true,
+   "label": "GOLD_HARD__C0__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-c3b9e396b07d",
+   "taxonomy": {
+    "detail": "PRESERVATION_DETERMINISTIC",
+    "label": "F2P_PASS_PRESERVATION_FAIL"
+   },
+   "tokens": 11218,
+   "variant": "G0"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0070726,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-c3b9e396b07d",
+   "taxonomy": {
+    "detail": "+DETERMINISTIC_PRESERVATION_BREAK",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 20015,
+   "variant": "G2"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0072028,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-d220843b5418",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 22300,
+   "variant": "G0"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0096508,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-d220843b5418",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 31066,
+   "variant": "G2"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0019776,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-dc6ac9d252df",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 5816,
+   "variant": "G0"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0032184,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-dc6ac9d252df",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 8969,
+   "variant": "G2"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0007214,
+   "f2p_pass": true,
+   "label": "GOLD_HARD__C0__r1",
+   "replicate": "r1",
+   "robust_resolved": true,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": true,
+   "task_id": "saleor-rc-e03ee76d2b89",
+   "taxonomy": {
+    "detail": "",
+    "label": "RESOLVED"
+   },
+   "tokens": 2021,
+   "variant": "G0"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0007643,
+   "f2p_pass": true,
+   "label": "GOLD_HARD__C2__r1",
+   "replicate": "r1",
+   "robust_resolved": true,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": true,
+   "task_id": "saleor-rc-e03ee76d2b89",
+   "taxonomy": {
+    "detail": "",
+    "label": "RESOLVED"
+   },
+   "tokens": 2324,
+   "variant": "G2"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0004774,
+   "f2p_pass": true,
+   "label": "GOLD_HARD__C0__r1",
+   "replicate": "r1",
+   "robust_resolved": true,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": true,
+   "task_id": "saleor-rc-e25cf9b4a837",
+   "taxonomy": {
+    "detail": "",
+    "label": "RESOLVED"
+   },
+   "tokens": 1338,
+   "variant": "G0"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0010333,
+   "f2p_pass": true,
+   "label": "GOLD_HARD__C2__r1",
+   "replicate": "r1",
+   "robust_resolved": true,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": true,
+   "task_id": "saleor-rc-e25cf9b4a837",
+   "taxonomy": {
+    "detail": "",
+    "label": "RESOLVED"
+   },
+   "tokens": 3223,
+   "variant": "G2"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0003484,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C0__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-2d45b76a52f2",
+   "taxonomy": {
+    "detail": "",
+    "label": "PATCH_STARTUP_FAILURE"
+   },
+   "tokens": 817,
+   "variant": "G0"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0009646,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C2__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-2d45b76a52f2",
+   "taxonomy": {
+    "detail": "",
+    "label": "NO_OP"
+   },
+   "tokens": 2000,
+   "variant": "G2"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0015929,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C0__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-39b4138e8550",
+   "taxonomy": {
+    "detail": "",
+    "label": "PATCH_STARTUP_FAILURE"
+   },
+   "tokens": 3941,
+   "variant": "G0"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0038915,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C2__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-39b4138e8550",
+   "taxonomy": {
+    "detail": "",
+    "label": "PATCH_STARTUP_FAILURE"
+   },
+   "tokens": 12286,
+   "variant": "G2"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0031305,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C0__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-644f33094857",
+   "taxonomy": {
+    "detail": "",
+    "label": "NO_OP"
+   },
+   "tokens": 7973,
+   "variant": "G0"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0025179,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C2__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "INVALID_AFTER_REPAIR",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-644f33094857",
+   "taxonomy": {
+    "detail": "INVALID_AFTER_REPAIR",
+    "label": "FORMAT_INVALID"
+   },
+   "tokens": 11776,
+   "variant": "G2"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.001543,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C0__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "INVALID_AFTER_REPAIR",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-6abb53f3407b",
+   "taxonomy": {
+    "detail": "INVALID_AFTER_REPAIR",
+    "label": "FORMAT_INVALID"
+   },
+   "tokens": 6842,
+   "variant": "G0"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0028587,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C2__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "INVALID_AFTER_REPAIR",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-6abb53f3407b",
+   "taxonomy": {
+    "detail": "INVALID_AFTER_REPAIR",
+    "label": "FORMAT_INVALID"
+   },
+   "tokens": 13483,
+   "variant": "G2"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0014672,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C0__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-74538ea00ce9",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 3263,
+   "variant": "G0"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0025758,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C2__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-74538ea00ce9",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 7072,
+   "variant": "G2"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0013488,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C0__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-823b899757ab",
+   "taxonomy": {
+    "detail": "",
+    "label": "PATCH_STARTUP_FAILURE"
+   },
+   "tokens": 2404,
+   "variant": "G0"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0021365,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C2__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-823b899757ab",
+   "taxonomy": {
+    "detail": "",
+    "label": "PATCH_STARTUP_FAILURE"
+   },
+   "tokens": 5120,
+   "variant": "G2"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0048085,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C0__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-8f76ddc6267f",
+   "taxonomy": {
+    "detail": "",
+    "label": "NO_OP"
+   },
+   "tokens": 13360,
+   "variant": "G0"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0065971,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C2__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-8f76ddc6267f",
+   "taxonomy": {
+    "detail": "",
+    "label": "NO_OP"
+   },
+   "tokens": 21440,
+   "variant": "G2"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0009387,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C0__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-93b20d78c011",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 2388,
+   "variant": "G0"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0028698,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C2__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-93b20d78c011",
+   "taxonomy": {
+    "detail": "",
+    "label": "NO_OP"
+   },
+   "tokens": 8332,
+   "variant": "G2"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0025191,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C0__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-c3b9e396b07d",
+   "taxonomy": {
+    "detail": "",
+    "label": "NO_OP"
+   },
+   "tokens": 8447,
+   "variant": "G0"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0092448,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C2__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-c3b9e396b07d",
+   "taxonomy": {
+    "detail": "",
+    "label": "NO_OP"
+   },
+   "tokens": 19656,
+   "variant": "G2"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0023271,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C0__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-d220843b5418",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 6729,
+   "variant": "G0"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0038017,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C2__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-d220843b5418",
+   "taxonomy": {
+    "detail": "",
+    "label": "NO_OP"
+   },
+   "tokens": 11268,
+   "variant": "G2"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0038894,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C0__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-dc6ac9d252df",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 11785,
+   "variant": "G0"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0084534,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C2__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-dc6ac9d252df",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 22933,
+   "variant": "G2"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0021971,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C0__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "INVALID_AFTER_REPAIR",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-e03ee76d2b89",
+   "taxonomy": {
+    "detail": "INVALID_AFTER_REPAIR",
+    "label": "FORMAT_INVALID"
+   },
+   "tokens": 9632,
+   "variant": "G0"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0048543,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C2__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-e03ee76d2b89",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 13848,
+   "variant": "G2"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0003869,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C0__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-e25cf9b4a837",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 1076,
+   "variant": "G0"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0007836,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C2__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-e25cf9b4a837",
+   "taxonomy": {
+    "detail": "",
+    "label": "NO_OP"
+   },
+   "tokens": 2267,
+   "variant": "G2"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0018701,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "",
+   "status": "INVALID_AFTER_REPAIR",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-2d45b76a52f2",
+   "taxonomy": {
+    "detail": "INVALID_AFTER_REPAIR",
+    "label": "FORMAT_INVALID"
+   },
+   "tokens": 5391,
+   "variant": "G0"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0016106,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-2d45b76a52f2",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 6791,
+   "variant": "G2"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0038083,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-39b4138e8550",
+   "taxonomy": {
+    "detail": "+DETERMINISTIC_PRESERVATION_BREAK",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 9473,
+   "variant": "G0"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0051311,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-39b4138e8550",
+   "taxonomy": {
+    "detail": "",
+    "label": "PATCH_STARTUP_FAILURE"
+   },
+   "tokens": 16831,
+   "variant": "G2"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0144536,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "",
+   "status": "INVALID_AFTER_REPAIR",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-644f33094857",
+   "taxonomy": {
+    "detail": "INVALID_AFTER_REPAIR",
+    "label": "FORMAT_INVALID"
+   },
+   "tokens": 58840,
+   "variant": "G0"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0165764,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "",
+   "status": "INVALID_AFTER_REPAIR",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-644f33094857",
+   "taxonomy": {
+    "detail": "INVALID_AFTER_REPAIR",
+    "label": "FORMAT_INVALID"
+   },
+   "tokens": 74344,
+   "variant": "G2"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0038601,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-6abb53f3407b",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 13448,
+   "variant": "G0"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0069357,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-6abb53f3407b",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 19254,
+   "variant": "G2"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0030304,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-74538ea00ce9",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 7433,
+   "variant": "G0"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0058563,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-74538ea00ce9",
+   "taxonomy": {
+    "detail": "",
+    "label": "PATCH_STARTUP_FAILURE"
+   },
+   "tokens": 16635,
+   "variant": "G2"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0058533,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-823b899757ab",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 17643,
+   "variant": "G0"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0082586,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-823b899757ab",
+   "taxonomy": {
+    "detail": "",
+    "label": "PATCH_STARTUP_FAILURE"
+   },
+   "tokens": 25506,
+   "variant": "G2"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0055621,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-8f76ddc6267f",
+   "taxonomy": {
+    "detail": "",
+    "label": "PATCH_STARTUP_FAILURE"
+   },
+   "tokens": 17265,
+   "variant": "G0"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0084775,
+   "f2p_pass": true,
+   "label": "GOLD_HARD__C2__r2",
+   "replicate": "r2",
+   "robust_resolved": true,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": true,
+   "task_id": "saleor-rc-8f76ddc6267f",
+   "taxonomy": {
+    "detail": "",
+    "label": "RESOLVED"
+   },
+   "tokens": 26609,
+   "variant": "G2"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0071003,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-93b20d78c011",
+   "taxonomy": {
+    "detail": "",
+    "label": "PARTIAL_F2P_PROGRESS"
+   },
+   "tokens": 20850,
+   "variant": "G0"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0094918,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-93b20d78c011",
+   "taxonomy": {
+    "detail": "",
+    "label": "PARTIAL_F2P_PROGRESS"
+   },
+   "tokens": 28751,
+   "variant": "G2"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0043784,
+   "f2p_pass": true,
+   "label": "GOLD_HARD__C0__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-c3b9e396b07d",
+   "taxonomy": {
+    "detail": "PRESERVATION_DETERMINISTIC",
+    "label": "F2P_PASS_PRESERVATION_FAIL"
+   },
+   "tokens": 11042,
+   "variant": "G0"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0070676,
+   "f2p_pass": true,
+   "label": "GOLD_HARD__C2__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-c3b9e396b07d",
+   "taxonomy": {
+    "detail": "PRESERVATION_DETERMINISTIC",
+    "label": "F2P_PASS_PRESERVATION_FAIL"
+   },
+   "tokens": 20010,
+   "variant": "G2"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0069748,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-d220843b5418",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 22072,
+   "variant": "G0"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0096558,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-d220843b5418",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 31023,
+   "variant": "G2"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0022462,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-dc6ac9d252df",
+   "taxonomy": {
+    "detail": "",
+    "label": "NO_OP"
+   },
+   "tokens": 6043,
+   "variant": "G0"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0031156,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-dc6ac9d252df",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 8815,
+   "variant": "G2"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0007526,
+   "f2p_pass": true,
+   "label": "GOLD_HARD__C0__r2",
+   "replicate": "r2",
+   "robust_resolved": true,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": true,
+   "task_id": "saleor-rc-e03ee76d2b89",
+   "taxonomy": {
+    "detail": "",
+    "label": "RESOLVED"
+   },
+   "tokens": 2049,
+   "variant": "G0"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0007913,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-e03ee76d2b89",
+   "taxonomy": {
+    "detail": "+DETERMINISTIC_PRESERVATION_BREAK",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 2303,
+   "variant": "G2"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0004774,
+   "f2p_pass": true,
+   "label": "GOLD_HARD__C0__r2",
+   "replicate": "r2",
+   "robust_resolved": true,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": true,
+   "task_id": "saleor-rc-e25cf9b4a837",
+   "taxonomy": {
+    "detail": "",
+    "label": "RESOLVED"
+   },
+   "tokens": 1338,
+   "variant": "G0"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0010333,
+   "f2p_pass": true,
+   "label": "GOLD_HARD__C2__r2",
+   "replicate": "r2",
+   "robust_resolved": true,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": true,
+   "task_id": "saleor-rc-e25cf9b4a837",
+   "taxonomy": {
+    "detail": "",
+    "label": "RESOLVED"
+   },
+   "tokens": 3223,
+   "variant": "G2"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0011203,
+   "f2p_pass": true,
+   "label": "GOLD_HARD__C0__r3",
+   "replicate": "r3",
+   "robust_resolved": true,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": true,
+   "task_id": "saleor-rc-2d45b76a52f2",
+   "taxonomy": {
+    "detail": "",
+    "label": "RESOLVED"
+   },
+   "tokens": 2438,
+   "variant": "G0"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.001896,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2__r3",
+   "replicate": "r3",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-2d45b76a52f2",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 7075,
+   "variant": "G2"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0027153,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0__r3",
+   "replicate": "r3",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-39b4138e8550",
+   "taxonomy": {
+    "detail": "+DETERMINISTIC_PRESERVATION_BREAK",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 8380,
+   "variant": "G0"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0063531,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2__r3",
+   "replicate": "r3",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-39b4138e8550",
+   "taxonomy": {
+    "detail": "+DETERMINISTIC_PRESERVATION_BREAK",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 18053,
+   "variant": "G2"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0095148,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0__r3",
+   "replicate": "r3",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-644f33094857",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 27860,
+   "variant": "G0"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.010699,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2__r3",
+   "replicate": "r3",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-644f33094857",
+   "taxonomy": {
+    "detail": "+DETERMINISTIC_PRESERVATION_BREAK",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 35505,
+   "variant": "G2"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0046845,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0__r3",
+   "replicate": "r3",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-6abb53f3407b",
+   "taxonomy": {
+    "detail": "+DETERMINISTIC_PRESERVATION_BREAK",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 12186,
+   "variant": "G0"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0092351,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2__r3",
+   "replicate": "r3",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-6abb53f3407b",
+   "taxonomy": {
+    "detail": "+DETERMINISTIC_PRESERVATION_BREAK",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 37851,
+   "variant": "G2"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0023704,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0__r3",
+   "replicate": "r3",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-74538ea00ce9",
+   "taxonomy": {
+    "detail": "+DETERMINISTIC_PRESERVATION_BREAK",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 6773,
+   "variant": "G0"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0059603,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2__r3",
+   "replicate": "r3",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-74538ea00ce9",
+   "taxonomy": {
+    "detail": "",
+    "label": "PATCH_STARTUP_FAILURE"
+   },
+   "tokens": 16739,
+   "variant": "G2"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0059323,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0__r3",
+   "replicate": "r3",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-823b899757ab",
+   "taxonomy": {
+    "detail": "",
+    "label": "PATCH_STARTUP_FAILURE"
+   },
+   "tokens": 17722,
+   "variant": "G0"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0082356,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2__r3",
+   "replicate": "r3",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-823b899757ab",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 25483,
+   "variant": "G2"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0055531,
+   "f2p_pass": true,
+   "label": "GOLD_HARD__C0__r3",
+   "replicate": "r3",
+   "robust_resolved": true,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": true,
+   "task_id": "saleor-rc-8f76ddc6267f",
+   "taxonomy": {
+    "detail": "",
+    "label": "RESOLVED"
+   },
+   "tokens": 17256,
+   "variant": "G0"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0084875,
+   "f2p_pass": true,
+   "label": "GOLD_HARD__C2__r3",
+   "replicate": "r3",
+   "robust_resolved": true,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": true,
+   "task_id": "saleor-rc-8f76ddc6267f",
+   "taxonomy": {
+    "detail": "",
+    "label": "RESOLVED"
+   },
+   "tokens": 26619,
+   "variant": "G2"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0065263,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0__r3",
+   "replicate": "r3",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-93b20d78c011",
+   "taxonomy": {
+    "detail": "",
+    "label": "PARTIAL_F2P_PROGRESS"
+   },
+   "tokens": 20276,
+   "variant": "G0"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0089918,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2__r3",
+   "replicate": "r3",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-93b20d78c011",
+   "taxonomy": {
+    "detail": "",
+    "label": "PARTIAL_F2P_PROGRESS"
+   },
+   "tokens": 28251,
+   "variant": "G2"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0045134,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0__r3",
+   "replicate": "r3",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-c3b9e396b07d",
+   "taxonomy": {
+    "detail": "+DETERMINISTIC_PRESERVATION_BREAK",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 11177,
+   "variant": "G0"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0071586,
+   "f2p_pass": true,
+   "label": "GOLD_HARD__C2__r3",
+   "replicate": "r3",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-c3b9e396b07d",
+   "taxonomy": {
+    "detail": "PRESERVATION_DETERMINISTIC",
+    "label": "F2P_PASS_PRESERVATION_FAIL"
+   },
+   "tokens": 20101,
+   "variant": "G2"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0095531,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0__r3",
+   "replicate": "r3",
+   "robust_resolved": false,
+   "static": "",
+   "status": "INVALID_AFTER_REPAIR",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-d220843b5418",
+   "taxonomy": {
+    "detail": "INVALID_AFTER_REPAIR",
+    "label": "FORMAT_INVALID"
+   },
+   "tokens": 44575,
+   "variant": "G0"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0095918,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2__r3",
+   "replicate": "r3",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-d220843b5418",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 31007,
+   "variant": "G2"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0022436,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0__r3",
+   "replicate": "r3",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-dc6ac9d252df",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 6082,
+   "variant": "G0"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0027204,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2__r3",
+   "replicate": "r3",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-dc6ac9d252df",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 8471,
+   "variant": "G2"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.000711,
+   "f2p_pass": true,
+   "label": "GOLD_HARD__C0__r3",
+   "replicate": "r3",
+   "robust_resolved": true,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": true,
+   "task_id": "saleor-rc-e03ee76d2b89",
+   "taxonomy": {
+    "detail": "",
+    "label": "RESOLVED"
+   },
+   "tokens": 2049,
+   "variant": "G0"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0007433,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2__r3",
+   "replicate": "r3",
+   "robust_resolved": false,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-e03ee76d2b89",
+   "taxonomy": {
+    "detail": "+DETERMINISTIC_PRESERVATION_BREAK",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 2303,
+   "variant": "G2"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0004774,
+   "f2p_pass": true,
+   "label": "GOLD_HARD__C0__r3",
+   "replicate": "r3",
+   "robust_resolved": true,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": true,
+   "task_id": "saleor-rc-e25cf9b4a837",
+   "taxonomy": {
+    "detail": "",
+    "label": "RESOLVED"
+   },
+   "tokens": 1338,
+   "variant": "G0"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0010333,
+   "f2p_pass": true,
+   "label": "GOLD_HARD__C2__r3",
+   "replicate": "r3",
+   "robust_resolved": true,
+   "static": "",
+   "status": "APPLIED",
+   "strict_resolved": true,
+   "task_id": "saleor-rc-e25cf9b4a837",
+   "taxonomy": {
+    "detail": "",
+    "label": "RESOLVED"
+   },
+   "tokens": 3223,
+   "variant": "G2"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0022164,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "BASE_NOT_APPLIED",
+   "status": "INVALID_AFTER_REPAIR",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-2d45b76a52f2",
+   "taxonomy": {
+    "detail": "INVALID_AFTER_REPAIR",
+    "label": "FORMAT_INVALID"
+   },
+   "tokens": 5826,
+   "variant": "G1"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0018056,
+   "f2p_pass": true,
+   "label": "GOLD_HARD__C2S__r1",
+   "replicate": "r1",
+   "robust_resolved": true,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": true,
+   "task_id": "saleor-rc-2d45b76a52f2",
+   "taxonomy": {
+    "detail": "",
+    "label": "RESOLVED"
+   },
+   "tokens": 3934,
+   "variant": "G3"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0027373,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-39b4138e8550",
+   "taxonomy": {
+    "detail": "+DETERMINISTIC_PRESERVATION_BREAK",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 8402,
+   "variant": "G1"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0064991,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-39b4138e8550",
+   "taxonomy": {
+    "detail": "+DETERMINISTIC_PRESERVATION_BREAK",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 18199,
+   "variant": "G3"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0130535,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-644f33094857",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 55989,
+   "variant": "G1"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0197392,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-644f33094857",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 79644,
+   "variant": "G3"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0050629,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-6abb53f3407b",
+   "taxonomy": {
+    "detail": "+DETERMINISTIC_PRESERVATION_BREAK",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 12526,
+   "variant": "G1"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0078897,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-6abb53f3407b",
+   "taxonomy": {
+    "detail": "+DETERMINISTIC_PRESERVATION_BREAK",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 20208,
+   "variant": "G3"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0023694,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-74538ea00ce9",
+   "taxonomy": {
+    "detail": "+DETERMINISTIC_PRESERVATION_BREAK",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 6772,
+   "variant": "G1"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0055433,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-74538ea00ce9",
+   "taxonomy": {
+    "detail": "+DETERMINISTIC_PRESERVATION_BREAK",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 16274,
+   "variant": "G3"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0128732,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "ADOPTED",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-823b899757ab",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 37229,
+   "variant": "G1"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0166186,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "ADOPTED",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-823b899757ab",
+   "taxonomy": {
+    "detail": "",
+    "label": "PATCH_STARTUP_FAILURE"
+   },
+   "tokens": 52064,
+   "variant": "G3"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0108286,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "ADOPTED",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-8f76ddc6267f",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 34723,
+   "variant": "G1"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0084735,
+   "f2p_pass": true,
+   "label": "GOLD_HARD__C2S__r1",
+   "replicate": "r1",
+   "robust_resolved": true,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": true,
+   "task_id": "saleor-rc-8f76ddc6267f",
+   "taxonomy": {
+    "detail": "",
+    "label": "RESOLVED"
+   },
+   "tokens": 26605,
+   "variant": "G3"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0157429,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "ADOPTED",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-93b20d78c011",
+   "taxonomy": {
+    "detail": "",
+    "label": "PATCH_STARTUP_FAILURE"
+   },
+   "tokens": 44594,
+   "variant": "G1"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0094888,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-93b20d78c011",
+   "taxonomy": {
+    "detail": "",
+    "label": "PARTIAL_F2P_PROGRESS"
+   },
+   "tokens": 28748,
+   "variant": "G3"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0045544,
+   "f2p_pass": true,
+   "label": "GOLD_HARD__C0S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-c3b9e396b07d",
+   "taxonomy": {
+    "detail": "PRESERVATION_DETERMINISTIC",
+    "label": "F2P_PASS_PRESERVATION_FAIL"
+   },
+   "tokens": 11218,
+   "variant": "G1"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0070726,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-c3b9e396b07d",
+   "taxonomy": {
+    "detail": "+DETERMINISTIC_PRESERVATION_BREAK",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 20015,
+   "variant": "G3"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0072028,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-d220843b5418",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 22300,
+   "variant": "G1"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0096508,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-d220843b5418",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 31066,
+   "variant": "G3"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0019776,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-dc6ac9d252df",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 5816,
+   "variant": "G1"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0032184,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-dc6ac9d252df",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 8969,
+   "variant": "G3"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0007214,
+   "f2p_pass": true,
+   "label": "GOLD_HARD__C0S__r1",
+   "replicate": "r1",
+   "robust_resolved": true,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": true,
+   "task_id": "saleor-rc-e03ee76d2b89",
+   "taxonomy": {
+    "detail": "",
+    "label": "RESOLVED"
+   },
+   "tokens": 2021,
+   "variant": "G1"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0007643,
+   "f2p_pass": true,
+   "label": "GOLD_HARD__C2S__r1",
+   "replicate": "r1",
+   "robust_resolved": true,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": true,
+   "task_id": "saleor-rc-e03ee76d2b89",
+   "taxonomy": {
+    "detail": "",
+    "label": "RESOLVED"
+   },
+   "tokens": 2324,
+   "variant": "G3"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0004774,
+   "f2p_pass": true,
+   "label": "GOLD_HARD__C0S__r1",
+   "replicate": "r1",
+   "robust_resolved": true,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": true,
+   "task_id": "saleor-rc-e25cf9b4a837",
+   "taxonomy": {
+    "detail": "",
+    "label": "RESOLVED"
+   },
+   "tokens": 1338,
+   "variant": "G1"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0010333,
+   "f2p_pass": true,
+   "label": "GOLD_HARD__C2S__r1",
+   "replicate": "r1",
+   "robust_resolved": true,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": true,
+   "task_id": "saleor-rc-e25cf9b4a837",
+   "taxonomy": {
+    "detail": "",
+    "label": "RESOLVED"
+   },
+   "tokens": 3223,
+   "variant": "G3"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0003484,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C0S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-2d45b76a52f2",
+   "taxonomy": {
+    "detail": "",
+    "label": "PATCH_STARTUP_FAILURE"
+   },
+   "tokens": 817,
+   "variant": "G1"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0009646,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C2S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-2d45b76a52f2",
+   "taxonomy": {
+    "detail": "",
+    "label": "NO_OP"
+   },
+   "tokens": 2000,
+   "variant": "G3"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0015929,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C0S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-39b4138e8550",
+   "taxonomy": {
+    "detail": "",
+    "label": "PATCH_STARTUP_FAILURE"
+   },
+   "tokens": 3941,
+   "variant": "G1"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0038915,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C2S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-39b4138e8550",
+   "taxonomy": {
+    "detail": "",
+    "label": "PATCH_STARTUP_FAILURE"
+   },
+   "tokens": 12286,
+   "variant": "G3"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0031305,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C0S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-644f33094857",
+   "taxonomy": {
+    "detail": "",
+    "label": "NO_OP"
+   },
+   "tokens": 7973,
+   "variant": "G1"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0025179,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C2S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "BASE_NOT_APPLIED",
+   "status": "INVALID_AFTER_REPAIR",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-644f33094857",
+   "taxonomy": {
+    "detail": "INVALID_AFTER_REPAIR",
+    "label": "FORMAT_INVALID"
+   },
+   "tokens": 11776,
+   "variant": "G3"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.001543,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C0S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "BASE_NOT_APPLIED",
+   "status": "INVALID_AFTER_REPAIR",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-6abb53f3407b",
+   "taxonomy": {
+    "detail": "INVALID_AFTER_REPAIR",
+    "label": "FORMAT_INVALID"
+   },
+   "tokens": 6842,
+   "variant": "G1"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0028587,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C2S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "BASE_NOT_APPLIED",
+   "status": "INVALID_AFTER_REPAIR",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-6abb53f3407b",
+   "taxonomy": {
+    "detail": "INVALID_AFTER_REPAIR",
+    "label": "FORMAT_INVALID"
+   },
+   "tokens": 13483,
+   "variant": "G3"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0014672,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C0S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-74538ea00ce9",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 3263,
+   "variant": "G1"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0025758,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C2S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-74538ea00ce9",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 7072,
+   "variant": "G3"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0013488,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C0S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-823b899757ab",
+   "taxonomy": {
+    "detail": "",
+    "label": "PATCH_STARTUP_FAILURE"
+   },
+   "tokens": 2404,
+   "variant": "G1"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0021365,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C2S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-823b899757ab",
+   "taxonomy": {
+    "detail": "",
+    "label": "PATCH_STARTUP_FAILURE"
+   },
+   "tokens": 5120,
+   "variant": "G3"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0048085,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C0S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-8f76ddc6267f",
+   "taxonomy": {
+    "detail": "",
+    "label": "NO_OP"
+   },
+   "tokens": 13360,
+   "variant": "G1"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0065971,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C2S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-8f76ddc6267f",
+   "taxonomy": {
+    "detail": "",
+    "label": "NO_OP"
+   },
+   "tokens": 21440,
+   "variant": "G3"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0009387,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C0S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-93b20d78c011",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 2388,
+   "variant": "G1"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0028698,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C2S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-93b20d78c011",
+   "taxonomy": {
+    "detail": "",
+    "label": "NO_OP"
+   },
+   "tokens": 8332,
+   "variant": "G3"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0025191,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C0S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-c3b9e396b07d",
+   "taxonomy": {
+    "detail": "",
+    "label": "NO_OP"
+   },
+   "tokens": 8447,
+   "variant": "G1"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0092448,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C2S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-c3b9e396b07d",
+   "taxonomy": {
+    "detail": "",
+    "label": "NO_OP"
+   },
+   "tokens": 19656,
+   "variant": "G3"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0023271,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C0S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-d220843b5418",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 6729,
+   "variant": "G1"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0038017,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C2S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-d220843b5418",
+   "taxonomy": {
+    "detail": "",
+    "label": "NO_OP"
+   },
+   "tokens": 11268,
+   "variant": "G3"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0038894,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C0S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-dc6ac9d252df",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 11785,
+   "variant": "G1"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0158929,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C2S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "ADOPTED",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-dc6ac9d252df",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 46556,
+   "variant": "G3"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0021971,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C0S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "BASE_NOT_APPLIED",
+   "status": "INVALID_AFTER_REPAIR",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-e03ee76d2b89",
+   "taxonomy": {
+    "detail": "INVALID_AFTER_REPAIR",
+    "label": "FORMAT_INVALID"
+   },
+   "tokens": 9632,
+   "variant": "G1"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0048543,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C2S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-e03ee76d2b89",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 13848,
+   "variant": "G3"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0003869,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C0S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-e25cf9b4a837",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 1076,
+   "variant": "G1"
+  },
+  {
+   "arm": "PLACEBO_HARD",
+   "cost_usd": 0.0007836,
+   "f2p_pass": false,
+   "label": "PLACEBO_HARD__C2S__r1",
+   "replicate": "r1",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-e25cf9b4a837",
+   "taxonomy": {
+    "detail": "",
+    "label": "NO_OP"
+   },
+   "tokens": 2267,
+   "variant": "G3"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0018701,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0S__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "BASE_NOT_APPLIED",
+   "status": "INVALID_AFTER_REPAIR",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-2d45b76a52f2",
+   "taxonomy": {
+    "detail": "INVALID_AFTER_REPAIR",
+    "label": "FORMAT_INVALID"
+   },
+   "tokens": 5391,
+   "variant": "G1"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0016106,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2S__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-2d45b76a52f2",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 6791,
+   "variant": "G3"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0038083,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0S__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-39b4138e8550",
+   "taxonomy": {
+    "detail": "+DETERMINISTIC_PRESERVATION_BREAK",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 9473,
+   "variant": "G1"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0103937,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2S__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "ADOPTED",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-39b4138e8550",
+   "taxonomy": {
+    "detail": "",
+    "label": "PATCH_STARTUP_FAILURE"
+   },
+   "tokens": 33993,
+   "variant": "G3"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0144536,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0S__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "BASE_NOT_APPLIED",
+   "status": "INVALID_AFTER_REPAIR",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-644f33094857",
+   "taxonomy": {
+    "detail": "INVALID_AFTER_REPAIR",
+    "label": "FORMAT_INVALID"
+   },
+   "tokens": 58840,
+   "variant": "G1"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0165764,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2S__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "BASE_NOT_APPLIED",
+   "status": "INVALID_AFTER_REPAIR",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-644f33094857",
+   "taxonomy": {
+    "detail": "INVALID_AFTER_REPAIR",
+    "label": "FORMAT_INVALID"
+   },
+   "tokens": 74344,
+   "variant": "G3"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0038601,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0S__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-6abb53f3407b",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 13448,
+   "variant": "G1"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0069357,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2S__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-6abb53f3407b",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 19254,
+   "variant": "G3"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0030304,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0S__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-74538ea00ce9",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 7433,
+   "variant": "G1"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0058563,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2S__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-74538ea00ce9",
+   "taxonomy": {
+    "detail": "",
+    "label": "PATCH_STARTUP_FAILURE"
+   },
+   "tokens": 16635,
+   "variant": "G3"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0058533,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0S__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-823b899757ab",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 17643,
+   "variant": "G1"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0119063,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2S__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "ADOPTED",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-823b899757ab",
+   "taxonomy": {
+    "detail": "",
+    "label": "PATCH_STARTUP_FAILURE"
+   },
+   "tokens": 51998,
+   "variant": "G3"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0079961,
+   "f2p_pass": true,
+   "label": "GOLD_HARD__C0S__r2",
+   "replicate": "r2",
+   "robust_resolved": true,
+   "static": "ADOPTED",
+   "status": "APPLIED",
+   "strict_resolved": true,
+   "task_id": "saleor-rc-8f76ddc6267f",
+   "taxonomy": {
+    "detail": "",
+    "label": "RESOLVED"
+   },
+   "tokens": 35202,
+   "variant": "G1"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0084775,
+   "f2p_pass": true,
+   "label": "GOLD_HARD__C2S__r2",
+   "replicate": "r2",
+   "robust_resolved": true,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": true,
+   "task_id": "saleor-rc-8f76ddc6267f",
+   "taxonomy": {
+    "detail": "",
+    "label": "RESOLVED"
+   },
+   "tokens": 26609,
+   "variant": "G3"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0071003,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0S__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-93b20d78c011",
+   "taxonomy": {
+    "detail": "",
+    "label": "PARTIAL_F2P_PROGRESS"
+   },
+   "tokens": 20850,
+   "variant": "G1"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0094918,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2S__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-93b20d78c011",
+   "taxonomy": {
+    "detail": "",
+    "label": "PARTIAL_F2P_PROGRESS"
+   },
+   "tokens": 28751,
+   "variant": "G3"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0043784,
+   "f2p_pass": true,
+   "label": "GOLD_HARD__C0S__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-c3b9e396b07d",
+   "taxonomy": {
+    "detail": "PRESERVATION_DETERMINISTIC",
+    "label": "F2P_PASS_PRESERVATION_FAIL"
+   },
+   "tokens": 11042,
+   "variant": "G1"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0070676,
+   "f2p_pass": true,
+   "label": "GOLD_HARD__C2S__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-c3b9e396b07d",
+   "taxonomy": {
+    "detail": "PRESERVATION_DETERMINISTIC",
+    "label": "F2P_PASS_PRESERVATION_FAIL"
+   },
+   "tokens": 20010,
+   "variant": "G3"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0069748,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0S__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-d220843b5418",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 22072,
+   "variant": "G1"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0096558,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2S__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-d220843b5418",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 31023,
+   "variant": "G3"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0022462,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0S__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-dc6ac9d252df",
+   "taxonomy": {
+    "detail": "",
+    "label": "NO_OP"
+   },
+   "tokens": 6043,
+   "variant": "G1"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0031156,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2S__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-dc6ac9d252df",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 8815,
+   "variant": "G3"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0007526,
+   "f2p_pass": true,
+   "label": "GOLD_HARD__C0S__r2",
+   "replicate": "r2",
+   "robust_resolved": true,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": true,
+   "task_id": "saleor-rc-e03ee76d2b89",
+   "taxonomy": {
+    "detail": "",
+    "label": "RESOLVED"
+   },
+   "tokens": 2049,
+   "variant": "G1"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0007913,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2S__r2",
+   "replicate": "r2",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-e03ee76d2b89",
+   "taxonomy": {
+    "detail": "+DETERMINISTIC_PRESERVATION_BREAK",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 2303,
+   "variant": "G3"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0004774,
+   "f2p_pass": true,
+   "label": "GOLD_HARD__C0S__r2",
+   "replicate": "r2",
+   "robust_resolved": true,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": true,
+   "task_id": "saleor-rc-e25cf9b4a837",
+   "taxonomy": {
+    "detail": "",
+    "label": "RESOLVED"
+   },
+   "tokens": 1338,
+   "variant": "G1"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0010333,
+   "f2p_pass": true,
+   "label": "GOLD_HARD__C2S__r2",
+   "replicate": "r2",
+   "robust_resolved": true,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": true,
+   "task_id": "saleor-rc-e25cf9b4a837",
+   "taxonomy": {
+    "detail": "",
+    "label": "RESOLVED"
+   },
+   "tokens": 3223,
+   "variant": "G3"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0011203,
+   "f2p_pass": true,
+   "label": "GOLD_HARD__C0S__r3",
+   "replicate": "r3",
+   "robust_resolved": true,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": true,
+   "task_id": "saleor-rc-2d45b76a52f2",
+   "taxonomy": {
+    "detail": "",
+    "label": "RESOLVED"
+   },
+   "tokens": 2438,
+   "variant": "G1"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.001896,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2S__r3",
+   "replicate": "r3",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-2d45b76a52f2",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 7075,
+   "variant": "G3"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0027153,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0S__r3",
+   "replicate": "r3",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-39b4138e8550",
+   "taxonomy": {
+    "detail": "+DETERMINISTIC_PRESERVATION_BREAK",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 8380,
+   "variant": "G1"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0063531,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2S__r3",
+   "replicate": "r3",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-39b4138e8550",
+   "taxonomy": {
+    "detail": "+DETERMINISTIC_PRESERVATION_BREAK",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 18053,
+   "variant": "G3"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0095148,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0S__r3",
+   "replicate": "r3",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-644f33094857",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 27860,
+   "variant": "G1"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.010699,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2S__r3",
+   "replicate": "r3",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-644f33094857",
+   "taxonomy": {
+    "detail": "+DETERMINISTIC_PRESERVATION_BREAK",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 35505,
+   "variant": "G3"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0046845,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0S__r3",
+   "replicate": "r3",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-6abb53f3407b",
+   "taxonomy": {
+    "detail": "+DETERMINISTIC_PRESERVATION_BREAK",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 12186,
+   "variant": "G1"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0158087,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2S__r3",
+   "replicate": "r3",
+   "robust_resolved": false,
+   "static": "ADOPTED",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-6abb53f3407b",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 58109,
+   "variant": "G3"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0023704,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0S__r3",
+   "replicate": "r3",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-74538ea00ce9",
+   "taxonomy": {
+    "detail": "+DETERMINISTIC_PRESERVATION_BREAK",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 6773,
+   "variant": "G1"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0059603,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2S__r3",
+   "replicate": "r3",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-74538ea00ce9",
+   "taxonomy": {
+    "detail": "",
+    "label": "PATCH_STARTUP_FAILURE"
+   },
+   "tokens": 16739,
+   "variant": "G3"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0126104,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0S__r3",
+   "replicate": "r3",
+   "robust_resolved": false,
+   "static": "ADOPTED",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-823b899757ab",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 36922,
+   "variant": "G1"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.01177,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2S__r3",
+   "replicate": "r3",
+   "robust_resolved": false,
+   "static": "ADOPTED",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-823b899757ab",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 51853,
+   "variant": "G3"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0055531,
+   "f2p_pass": true,
+   "label": "GOLD_HARD__C0S__r3",
+   "replicate": "r3",
+   "robust_resolved": true,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": true,
+   "task_id": "saleor-rc-8f76ddc6267f",
+   "taxonomy": {
+    "detail": "",
+    "label": "RESOLVED"
+   },
+   "tokens": 17256,
+   "variant": "G1"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0084875,
+   "f2p_pass": true,
+   "label": "GOLD_HARD__C2S__r3",
+   "replicate": "r3",
+   "robust_resolved": true,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": true,
+   "task_id": "saleor-rc-8f76ddc6267f",
+   "taxonomy": {
+    "detail": "",
+    "label": "RESOLVED"
+   },
+   "tokens": 26619,
+   "variant": "G3"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0065263,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0S__r3",
+   "replicate": "r3",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-93b20d78c011",
+   "taxonomy": {
+    "detail": "",
+    "label": "PARTIAL_F2P_PROGRESS"
+   },
+   "tokens": 20276,
+   "variant": "G1"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0089918,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2S__r3",
+   "replicate": "r3",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-93b20d78c011",
+   "taxonomy": {
+    "detail": "",
+    "label": "PARTIAL_F2P_PROGRESS"
+   },
+   "tokens": 28251,
+   "variant": "G3"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0045134,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0S__r3",
+   "replicate": "r3",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-c3b9e396b07d",
+   "taxonomy": {
+    "detail": "+DETERMINISTIC_PRESERVATION_BREAK",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 11177,
+   "variant": "G1"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0071586,
+   "f2p_pass": true,
+   "label": "GOLD_HARD__C2S__r3",
+   "replicate": "r3",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-c3b9e396b07d",
+   "taxonomy": {
+    "detail": "PRESERVATION_DETERMINISTIC",
+    "label": "F2P_PASS_PRESERVATION_FAIL"
+   },
+   "tokens": 20101,
+   "variant": "G3"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0095531,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0S__r3",
+   "replicate": "r3",
+   "robust_resolved": false,
+   "static": "BASE_NOT_APPLIED",
+   "status": "INVALID_AFTER_REPAIR",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-d220843b5418",
+   "taxonomy": {
+    "detail": "INVALID_AFTER_REPAIR",
+    "label": "FORMAT_INVALID"
+   },
+   "tokens": 44575,
+   "variant": "G1"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0095918,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2S__r3",
+   "replicate": "r3",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-d220843b5418",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 31007,
+   "variant": "G3"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0022436,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C0S__r3",
+   "replicate": "r3",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-dc6ac9d252df",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 6082,
+   "variant": "G1"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0027204,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2S__r3",
+   "replicate": "r3",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-dc6ac9d252df",
+   "taxonomy": {
+    "detail": "",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 8471,
+   "variant": "G3"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.000711,
+   "f2p_pass": true,
+   "label": "GOLD_HARD__C0S__r3",
+   "replicate": "r3",
+   "robust_resolved": true,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": true,
+   "task_id": "saleor-rc-e03ee76d2b89",
+   "taxonomy": {
+    "detail": "",
+    "label": "RESOLVED"
+   },
+   "tokens": 2049,
+   "variant": "G1"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0007433,
+   "f2p_pass": false,
+   "label": "GOLD_HARD__C2S__r3",
+   "replicate": "r3",
+   "robust_resolved": false,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": false,
+   "task_id": "saleor-rc-e03ee76d2b89",
+   "taxonomy": {
+    "detail": "+DETERMINISTIC_PRESERVATION_BREAK",
+    "label": "ZERO_F2P_PROGRESS"
+   },
+   "tokens": 2303,
+   "variant": "G3"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0004774,
+   "f2p_pass": true,
+   "label": "GOLD_HARD__C0S__r3",
+   "replicate": "r3",
+   "robust_resolved": true,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": true,
+   "task_id": "saleor-rc-e25cf9b4a837",
+   "taxonomy": {
+    "detail": "",
+    "label": "RESOLVED"
+   },
+   "tokens": 1338,
+   "variant": "G1"
+  },
+  {
+   "arm": "GOLD_HARD",
+   "cost_usd": 0.0010333,
+   "f2p_pass": true,
+   "label": "GOLD_HARD__C2S__r3",
+   "replicate": "r3",
+   "robust_resolved": true,
+   "static": "CLEAN",
+   "status": "APPLIED",
+   "strict_resolved": true,
+   "task_id": "saleor-rc-e25cf9b4a837",
+   "taxonomy": {
+    "detail": "",
+    "label": "RESOLVED"
+   },
+   "tokens": 3223,
+   "variant": "G3"
+  }
+ ],
+ "strict_endpoint_sensitivity": {
+  "token": "M14R_FLOOR_NOT_MET",
+  "winner": "G0"
+ },
+ "token": "M14R_FLOOR_NOT_MET",
+ "winner": "G0"
+}
