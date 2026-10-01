@@ -114,6 +114,42 @@
    "event": "START",
    "phase": "Q09_FREEZE",
    "utc": "2026-10-01T10:34:02Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "Q09_FREEZE",
+   "utc": "2026-10-01T10:34:22Z"
+  },
+  {
+   "detail": "S1 OPWS plan: restricted gold diffs per selector (zero API)",
+   "event": "START",
+   "phase": "Q10_OPWS_PLAN",
+   "utc": "2026-10-01T10:34:22Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "Q10_OPWS_PLAN",
+   "utc": "2026-10-01T10:34:40Z"
+  },
+  {
+   "detail": "S1 OPWS evaluation (zero API, workers=1, E1 semantics)",
+   "event": "START",
+   "phase": "Q11_OPWS_EVALUATE",
+   "utc": "2026-10-01T10:34:40Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "Q11_OPWS_EVALUATE",
+   "utc": "2026-10-01T11:15:51Z"
+  },
+  {
+   "detail": "S1 OPWS summary (primary, descriptive)",
+   "event": "START",
+   "phase": "Q12_OPWS_SUMMARY",
+   "utc": "2026-10-01T11:15:51Z"
   }
  ],
  "phases": {
@@ -190,6 +226,30 @@
    "status": "PASS"
   },
   "Q09_FREEZE": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-10-01T10:34:22Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "Q10_OPWS_PLAN": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-10-01T10:34:40Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "Q11_OPWS_EVALUATE": {
+   "attempts": 0,
+   "failures": 0,
+   "iterations": 5,
+   "passed_utc": "2026-10-01T11:15:51Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "Q12_OPWS_SUMMARY": {
    "attempts": 0,
    "failures": 0,
    "iterations": 0,

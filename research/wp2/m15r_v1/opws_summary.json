@@ -1,0 +1,438 @@
+{
+ "agent_mean_pairwise_jaccard": 0.5,
+ "agent_replicate_agreement_tasks": 7,
+ "artifact": "m15r_opws_summary",
+ "artifact_sha256": "7d4900a1feb2f07dc99a66b260dc1e963eb473fdc1873ec3b6e41ee094fef5c4",
+ "descriptive_only": true,
+ "design_artifact_sha256": "e350bb5be3f456fc74897f833df772c8df1bf288bb0cd1ce962dfac1335db0a7",
+ "instrument_valid": true,
+ "mandatory_wording": "OPWS asks whether the developer's own patch, restricted to the files a selector allowed, still passes the hidden tests. It is independent of any generator, does not penalise over-selection (cost is reported separately), and credits no alternative fix. Gold-changed files follow the frozen GOLD_HARD definition (modified/deleted non-test files; added and renamed files are excluded, as in Smoke, Pilot-A and M14R). n <= 10 Pilot-B tasks: descriptive only, no superiority claim.",
+ "members": [
+  "saleor-rc-05df3bec57e2",
+  "saleor-rc-0a39d039049d",
+  "saleor-rc-102e4e5b25e8",
+  "saleor-rc-34511f977388",
+  "saleor-rc-436f52ee3d0c",
+  "saleor-rc-60c8722863c1",
+  "saleor-rc-99d963aed3e5",
+  "saleor-rc-ded69f9c7097",
+  "saleor-rc-eacffa70e721",
+  "saleor-rc-f383043e4be3"
+ ],
+ "n_evaluated_or_reused": 34,
+ "n_tasks": 10,
+ "paired_rmcss_vs_agent": {
+  "RMCSS_vs_AGENT_HARD:r1": {
+   "agent_only": 0,
+   "rmcss_only": 1,
+   "ties": 9
+  },
+  "RMCSS_vs_AGENT_HARD:r2": {
+   "agent_only": 0,
+   "rmcss_only": 0,
+   "ties": 10
+  },
+  "RMCSS_vs_AGENT_HARD:r3": {
+   "agent_only": 1,
+   "rmcss_only": 2,
+   "ties": 7
+  },
+  "RMCSS_vs_AGENT_MAJORITY": {
+   "agent_only": 0,
+   "rmcss_only": 1,
+   "ties": 9
+  }
+ },
+ "per_selector": {
+  "AGENT_HARD:r1": {
+   "empty_by_construction": 4,
+   "mean_editable_files": 2.1,
+   "mean_f1": 0.267381,
+   "mean_g0_prompt_chars": 30259.1,
+   "mean_precision": 0.37,
+   "mean_recall": 0.225,
+   "mean_scope_chars": 28812.1,
+   "n_tasks": 10,
+   "no_scope": 1,
+   "opws_robust": 2,
+   "opws_strict": 2
+  },
+  "AGENT_HARD:r2": {
+   "empty_by_construction": 3,
+   "mean_editable_files": 2.1,
+   "mean_f1": 0.310714,
+   "mean_g0_prompt_chars": 36097.3,
+   "mean_precision": 0.408333,
+   "mean_recall": 0.308333,
+   "mean_scope_chars": 34651.5,
+   "n_tasks": 10,
+   "no_scope": 1,
+   "opws_robust": 3,
+   "opws_strict": 3
+  },
+  "AGENT_HARD:r3": {
+   "empty_by_construction": 6,
+   "mean_editable_files": 1.9,
+   "mean_f1": 0.185714,
+   "mean_g0_prompt_chars": 27936.4,
+   "mean_precision": 0.316667,
+   "mean_recall": 0.141667,
+   "mean_scope_chars": 26378.5,
+   "n_tasks": 10,
+   "no_scope": 0,
+   "opws_robust": 2,
+   "opws_strict": 2
+  },
+  "GOLD_HARD": {
+   "empty_by_construction": 0,
+   "mean_editable_files": 2.3,
+   "mean_f1": 0.945714,
+   "mean_g0_prompt_chars": 64822.1,
+   "mean_precision": 1.0,
+   "mean_recall": 0.908333,
+   "mean_scope_chars": 63220.6,
+   "n_tasks": 10,
+   "no_scope": 0,
+   "opws_robust": 10,
+   "opws_strict": 10
+  },
+  "RMCSS_HARD": {
+   "empty_by_construction": 3,
+   "mean_editable_files": 4.5,
+   "mean_f1": 0.229444,
+   "mean_g0_prompt_chars": 77368.8,
+   "mean_precision": 0.255952,
+   "mean_recall": 0.3,
+   "mean_scope_chars": 75469.1,
+   "n_tasks": 10,
+   "no_scope": 0,
+   "opws_robust": 3,
+   "opws_strict": 3
+  }
+ },
+ "per_task": {
+  "saleor-rc-05df3bec57e2": {
+   "AGENT_HARD:r1": {
+    "f1": 0.5,
+    "kind": "EVALUATE",
+    "opws_robust": false,
+    "opws_strict": false
+   },
+   "AGENT_HARD:r2": {
+    "f1": 0.285714,
+    "kind": "EVALUATE",
+    "opws_robust": false,
+    "opws_strict": false
+   },
+   "AGENT_HARD:r3": {
+    "f1": 0.285714,
+    "kind": "EVALUATE",
+    "opws_robust": false,
+    "opws_strict": false
+   },
+   "GOLD_HARD": {
+    "f1": 0.8,
+    "kind": "REUSE_SCOPED_GOLD",
+    "opws_robust": true,
+    "opws_strict": true
+   },
+   "RMCSS_HARD": {
+    "f1": 0.444444,
+    "kind": "EVALUATE",
+    "opws_robust": false,
+    "opws_strict": false
+   }
+  },
+  "saleor-rc-0a39d039049d": {
+   "AGENT_HARD:r1": {
+    "f1": 0.4,
+    "kind": "EVALUATE",
+    "opws_robust": true,
+    "opws_strict": true
+   },
+   "AGENT_HARD:r2": {
+    "f1": 0.333333,
+    "kind": "EVALUATE",
+    "opws_robust": true,
+    "opws_strict": true
+   },
+   "AGENT_HARD:r3": {
+    "f1": 0.0,
+    "kind": "EMPTY_BY_CONSTRUCTION",
+    "opws_robust": false,
+    "opws_strict": false
+   },
+   "GOLD_HARD": {
+    "f1": 0.8,
+    "kind": "REUSE_SCOPED_GOLD",
+    "opws_robust": true,
+    "opws_strict": true
+   },
+   "RMCSS_HARD": {
+    "f1": 0.2,
+    "kind": "EVALUATE",
+    "opws_robust": true,
+    "opws_strict": true
+   }
+  },
+  "saleor-rc-102e4e5b25e8": {
+   "AGENT_HARD:r1": {
+    "f1": 0.0,
+    "kind": "EMPTY_BY_CONSTRUCTION",
+    "opws_robust": false,
+    "opws_strict": false
+   },
+   "AGENT_HARD:r2": {
+    "f1": 0.0,
+    "kind": "EMPTY_BY_CONSTRUCTION",
+    "opws_robust": false,
+    "opws_strict": false
+   },
+   "AGENT_HARD:r3": {
+    "f1": 0.0,
+    "kind": "EMPTY_BY_CONSTRUCTION",
+    "opws_robust": false,
+    "opws_strict": false
+   },
+   "GOLD_HARD": {
+    "f1": 1.0,
+    "kind": "REUSE_SCOPED_GOLD",
+    "opws_robust": true,
+    "opws_strict": true
+   },
+   "RMCSS_HARD": {
+    "f1": 0.0,
+    "kind": "EMPTY_BY_CONSTRUCTION",
+    "opws_robust": false,
+    "opws_strict": false
+   }
+  },
+  "saleor-rc-34511f977388": {
+   "AGENT_HARD:r1": {
+    "f1": 0.0,
+    "kind": "EMPTY_BY_CONSTRUCTION",
+    "opws_robust": false,
+    "opws_strict": false
+   },
+   "AGENT_HARD:r2": {
+    "f1": 0.666667,
+    "kind": "REUSE_SCOPED_GOLD",
+    "opws_robust": true,
+    "opws_strict": true
+   },
+   "AGENT_HARD:r3": {
+    "f1": 0.0,
+    "kind": "EMPTY_BY_CONSTRUCTION",
+    "opws_robust": false,
+    "opws_strict": false
+   },
+   "GOLD_HARD": {
+    "f1": 1.0,
+    "kind": "REUSE_SCOPED_GOLD",
+    "opws_robust": true,
+    "opws_strict": true
+   },
+   "RMCSS_HARD": {
+    "f1": 0.4,
+    "kind": "REUSE_SCOPED_GOLD",
+    "opws_robust": true,
+    "opws_strict": true
+   }
+  },
+  "saleor-rc-436f52ee3d0c": {
+   "AGENT_HARD:r1": {
+    "f1": 0.0,
+    "kind": "EMPTY_BY_CONSTRUCTION",
+    "opws_robust": false,
+    "opws_strict": false
+   },
+   "AGENT_HARD:r2": {
+    "f1": 0.0,
+    "kind": "EMPTY_BY_CONSTRUCTION",
+    "opws_robust": false,
+    "opws_strict": false
+   },
+   "AGENT_HARD:r3": {
+    "f1": 0.0,
+    "kind": "EMPTY_BY_CONSTRUCTION",
+    "opws_robust": false,
+    "opws_strict": false
+   },
+   "GOLD_HARD": {
+    "f1": 1.0,
+    "kind": "REUSE_SCOPED_GOLD",
+    "opws_robust": true,
+    "opws_strict": true
+   },
+   "RMCSS_HARD": {
+    "f1": 0.0,
+    "kind": "EMPTY_BY_CONSTRUCTION",
+    "opws_robust": false,
+    "opws_strict": false
+   }
+  },
+  "saleor-rc-60c8722863c1": {
+   "AGENT_HARD:r1": {
+    "f1": 0.666667,
+    "kind": "EVALUATE",
+    "opws_robust": true,
+    "opws_strict": true
+   },
+   "AGENT_HARD:r2": {
+    "f1": 0.666667,
+    "kind": "EVALUATE",
+    "opws_robust": true,
+    "opws_strict": true
+   },
+   "AGENT_HARD:r3": {
+    "f1": 0.666667,
+    "kind": "EVALUATE",
+    "opws_robust": true,
+    "opws_strict": true
+   },
+   "GOLD_HARD": {
+    "f1": 1.0,
+    "kind": "REUSE_SCOPED_GOLD",
+    "opws_robust": true,
+    "opws_strict": true
+   },
+   "RMCSS_HARD": {
+    "f1": 0.25,
+    "kind": "EVALUATE",
+    "opws_robust": true,
+    "opws_strict": true
+   }
+  },
+  "saleor-rc-99d963aed3e5": {
+   "AGENT_HARD:r1": {
+    "f1": 0.285714,
+    "kind": "EVALUATE",
+    "opws_robust": false,
+    "opws_strict": false
+   },
+   "AGENT_HARD:r2": {
+    "f1": 0.25,
+    "kind": "EVALUATE",
+    "opws_robust": false,
+    "opws_strict": false
+   },
+   "AGENT_HARD:r3": {
+    "f1": 0.571429,
+    "kind": "EVALUATE",
+    "opws_robust": true,
+    "opws_strict": true
+   },
+   "GOLD_HARD": {
+    "f1": 0.857143,
+    "kind": "REUSE_SCOPED_GOLD",
+    "opws_robust": true,
+    "opws_strict": true
+   },
+   "RMCSS_HARD": {
+    "f1": 0.333333,
+    "kind": "EVALUATE",
+    "opws_robust": false,
+    "opws_strict": false
+   }
+  },
+  "saleor-rc-ded69f9c7097": {
+   "AGENT_HARD:r1": {
+    "f1": 0.0,
+    "kind": "EMPTY_BY_CONSTRUCTION",
+    "opws_robust": false,
+    "opws_strict": false
+   },
+   "AGENT_HARD:r2": {
+    "f1": 0.0,
+    "kind": "EMPTY_BY_CONSTRUCTION",
+    "opws_robust": false,
+    "opws_strict": false
+   },
+   "AGENT_HARD:r3": {
+    "f1": 0.0,
+    "kind": "EMPTY_BY_CONSTRUCTION",
+    "opws_robust": false,
+    "opws_strict": false
+   },
+   "GOLD_HARD": {
+    "f1": 1.0,
+    "kind": "REUSE_SCOPED_GOLD",
+    "opws_robust": true,
+    "opws_strict": true
+   },
+   "RMCSS_HARD": {
+    "f1": 0.0,
+    "kind": "EMPTY_BY_CONSTRUCTION",
+    "opws_robust": false,
+    "opws_strict": false
+   }
+  },
+  "saleor-rc-eacffa70e721": {
+   "AGENT_HARD:r1": {
+    "f1": 0.25,
+    "kind": "EVALUATE",
+    "opws_robust": false,
+    "opws_strict": false
+   },
+   "AGENT_HARD:r2": {
+    "f1": 0.333333,
+    "kind": "EVALUATE",
+    "opws_robust": false,
+    "opws_strict": false
+   },
+   "AGENT_HARD:r3": {
+    "f1": 0.0,
+    "kind": "EMPTY_BY_CONSTRUCTION",
+    "opws_robust": false,
+    "opws_strict": false
+   },
+   "GOLD_HARD": {
+    "f1": 1.0,
+    "kind": "REUSE_SCOPED_GOLD",
+    "opws_robust": true,
+    "opws_strict": true
+   },
+   "RMCSS_HARD": {
+    "f1": 0.333333,
+    "kind": "EVALUATE",
+    "opws_robust": false,
+    "opws_strict": false
+   }
+  },
+  "saleor-rc-f383043e4be3": {
+   "AGENT_HARD:r1": {
+    "f1": 0.571429,
+    "kind": "EVALUATE",
+    "opws_robust": false,
+    "opws_strict": false
+   },
+   "AGENT_HARD:r2": {
+    "f1": 0.571429,
+    "kind": "EVALUATE",
+    "opws_robust": false,
+    "opws_strict": false
+   },
+   "AGENT_HARD:r3": {
+    "f1": 0.333333,
+    "kind": "EVALUATE",
+    "opws_robust": false,
+    "opws_strict": false
+   },
+   "GOLD_HARD": {
+    "f1": 1.0,
+    "kind": "REUSE_SCOPED_GOLD",
+    "opws_robust": true,
+    "opws_strict": true
+   },
+   "RMCSS_HARD": {
+    "f1": 0.333333,
+    "kind": "EVALUATE",
+    "opws_robust": false,
+    "opws_strict": false
+   }
+  }
+ },
+ "primary_endpoint": "OPWS_ROBUST",
+ "strict_robust_discordance": 0,
+ "token": "M15R_OPWS_COMPLETE"
+}
