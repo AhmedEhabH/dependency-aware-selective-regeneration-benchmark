@@ -1,0 +1,45 @@
+{
+ "artifact": "m15r_opws_result",
+ "artifact_sha256": "75404918d75f90cc89bde8ccb544b17c1ba753cbef9a6b07249594dc0ef9e959",
+ "evaluation_source": "OPWS_EVALUATED",
+ "file_prf": {
+  "f1": 0.25,
+  "n_editable": 4,
+  "n_gold": 4,
+  "precision": 0.25,
+  "recall": 0.25,
+  "tp": 1
+ },
+ "identity": "42c2a476386f043109fc34e35d6b24d06725b6a8ef809f10dc5ea530249b269b",
+ "kind": "EVALUATE",
+ "nodes": {
+  "f2p_intermittent": 0,
+  "f2p_pass3": 0,
+  "f2p_total": 43,
+  "s_deterministic": 0,
+  "s_intermittent": 0,
+  "s_missing": 0,
+  "u_deterministic": 0,
+  "u_intermittent": 0,
+  "u_missing": 0
+ },
+ "opws_files": [
+  "saleor/graphql/checkout/resolvers.py"
+ ],
+ "opws_robust": false,
+ "opws_strict": false,
+ "robust": {
+  "f2p_task": "FAIL",
+  "p2p_s_task": "PASS",
+  "p2p_u200_task": "PASS",
+  "resolved": false
+ },
+ "selector": "AGENT_HARD:r2",
+ "strict": {
+  "f2p_task": "FAIL",
+  "p2p_s_task": "PASS",
+  "p2p_u200_task": "PASS",
+  "resolved": false
+ },
+ "task_id": "saleor-rc-99d963aed3e5"
+}
