@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="6" skipped="0" tests="6" time="31.327" timestamp="2026-09-30T19:58:51.183672-05:00" hostname="DESKTOP-B2BKOBJ"><testcase classname="saleor.graphql.product.tests.test_product_set_availability_for_purchase" name="test_product_set_availability_for_purchase_by_app" time="32.630"><failure message="AssertionError: [{'message': 'Unknown argument &quot;isAvailable&quot; on field &quot;productSetAvailabilityForPurchase&quot; of type &quot;Mutation&quot;. Did you mean &quot;isAvailableForPurchase&quot;?', 'locations': [{'line': 6, 'column': 29}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Field &quot;productSetAvailabilityForPurchase&quot; argument &quot;isAvailableForPurchase&quot; of type &quot;Boolean!&quot; is required but not provided.', 'locations': [{'line': 5, 'column': 9}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7e66a85ee9a0&gt;
+permission_manage_products = &lt;Permission: product | product | Manage products.&gt;
+product = &lt;saleor.product.models.Product(pk=1, name='Test product')&gt;
+
+    def test_product_set_availability_for_purchase_by_app(
+        app_api_client, permission_manage_products, product
+    ):
+        # given
+        query = MUTATION_PRODUCT_SET_AVAILABILITY_FOR_PURCHASE
+    
+        app = app_api_client.app
+        app.permissions.add(permission_manage_products)
+    
+        variables = {
+            "id": graphene.Node.to_global_id("Product", product.pk),
+            "is_available": True,
+        }
+    
+        # when
+        response = app_api_client.post_graphql(query, variables)
+    
+        # then
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/product/tests/test_product_set_availability_for_purchase.py:97: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = _get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': 'Unknown argument "isAvailable" on field "productSetAvailabilityForPurchase" of type "Mutation". Did you mean "isAvailableForPurchase"?', 'locations': [{'line': 6, 'column': 29}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Field "productSetAvailabilityForPurchase" argument "isAvailableForPurchase" of type "Boolean!" is required but not provided.', 'locations': [{'line': 5, 'column': 9}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.test_product_set_availability_for_purchase" name="test_product_set_availability_for_purchase_by_app_no_permissions" time="0.057"><failure message="AssertionError: [{'message': 'Unknown argument &quot;isAvailable&quot; on field &quot;productSetAvailabilityForPurchase&quot; of type &quot;Mutation&quot;. Did you mean &quot;isAvailableForPurchase&quot;?', 'locations': [{'line': 6, 'column': 29}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Field &quot;productSetAvailabilityForPurchase&quot; argument &quot;isAvailableForPurchase&quot; of type &quot;Boolean!&quot; is required but not provided.', 'locations': [{'line': 5, 'column': 9}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">app_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7e66a7e32580&gt;
+product = &lt;saleor.product.models.Product(pk=2, name='Test product')&gt;
+
+    def test_product_set_availability_for_purchase_by_app_no_permissions(
+        app_api_client, product
+    ):
+        # given
+        query = MUTATION_PRODUCT_SET_AVAILABILITY_FOR_PURCHASE
+    
+        start_date = datetime.date(1999, 1, 1)
+    
+        variables = {
+            "id": graphene.Node.to_global_id("Product", product.pk),
+            "is_available": True,
+            "start_date": start_date,
+        }
+    
+        # when
+        response = app_api_client.post_graphql(query, variables)
+    
+        # then
+&gt;       assert_no_permission(response)
+
+saleor/graphql/product/tests/test_product_set_availability_for_purchase.py:126: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = _get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["message"] == (
+            "You do not have permission to perform this action"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Unknown argument "isAvailable" on field "productSetAvailabilityForPurchase" of type "Mutation". Did you mean "isAvailableForPurchase"?', 'locations': [{'line': 6, 'column': 29}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Field "productSetAvailabilityForPurchase" argument "isAvailableForPurchase" of type "Boolean!" is required but not provided.', 'locations': [{'line': 5, 'column': 9}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:24: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.test_product_set_availability_for_purchase" name="test_product_set_availability_for_purchase_by_customer" time="0.060"><failure message="AssertionError: [{'message': 'Unknown argument &quot;isAvailable&quot; on field &quot;productSetAvailabilityForPurchase&quot; of type &quot;Mutation&quot;. Did you mean &quot;isAvailableForPurchase&quot;?', 'locations': [{'line': 6, 'column': 29}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Field &quot;productSetAvailabilityForPurchase&quot; argument &quot;isAvailableForPurchase&quot; of type &quot;Boolean!&quot; is required but not provided.', 'locations': [{'line': 5, 'column': 9}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">user_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7e66a829a190&gt;
+product = &lt;saleor.product.models.Product(pk=3, name='Test product')&gt;
+
+    def test_product_set_availability_for_purchase_by_customer(user_api_client, product):
+        # given
+        query = MUTATION_PRODUCT_SET_AVAILABILITY_FOR_PURCHASE
+    
+        start_date = datetime.date(1999, 1, 1)
+    
+        variables = {
+            "id": graphene.Node.to_global_id("Product", product.pk),
+            "is_available": True,
+            "start_date": start_date,
+        }
+    
+        # when
+        response = user_api_client.post_graphql(query, variables)
+    
+        # then
+&gt;       assert_no_permission(response)
+
+saleor/graphql/product/tests/test_product_set_availability_for_purchase.py:145: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = _get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["message"] == (
+            "You do not have permission to perform this action"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Unknown argument "isAvailable" on field "productSetAvailabilityForPurchase" of type "Mutation". Did you mean "isAvailableForPurchase"?', 'locations': [{'line': 6, 'column': 29}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Field "productSetAvailabilityForPurchase" argument "isAvailableForPurchase" of type "Boolean!" is required but not provided.', 'locations': [{'line': 5, 'column': 9}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:24: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.test_product_set_availability_for_purchase" name="test_product_set_availability_for_purchase_by_staff" time="0.058"><failure message="AssertionError: [{'message': 'Unknown argument &quot;isAvailable&quot; on field &quot;productSetAvailabilityForPurchase&quot; of type &quot;Mutation&quot;. Did you mean &quot;isAvailableForPurchase&quot;?', 'locations': [{'line': 6, 'column': 29}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Field &quot;productSetAvailabilityForPurchase&quot; argument &quot;isAvailableForPurchase&quot; of type &quot;Boolean!&quot; is required but not provided.', 'locations': [{'line': 5, 'column': 9}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7e66a80da610&gt;
+permission_manage_products = &lt;Permission: product | product | Manage products.&gt;
+product = &lt;saleor.product.models.Product(pk=4, name='Test product')&gt;
+
+    def test_product_set_availability_for_purchase_by_staff(
+        staff_api_client, permission_manage_products, product
+    ):
+        # given
+        query = MUTATION_PRODUCT_SET_AVAILABILITY_FOR_PURCHASE
+    
+        staff_user = staff_api_client.user
+        staff_user.user_permissions.add(permission_manage_products)
+    
+        start_date = datetime.date(1999, 1, 1)
+    
+        variables = {
+            "id": graphene.Node.to_global_id("Product", product.pk),
+            "is_available": True,
+            "start_date": start_date,
+        }
+    
+        # when
+        response = staff_api_client.post_graphql(query, variables)
+    
+        # then
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/product/tests/test_product_set_availability_for_purchase.py:49: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = _get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': 'Unknown argument "isAvailable" on field "productSetAvailabilityForPurchase" of type "Mutation". Did you mean "isAvailableForPurchase"?', 'locations': [{'line': 6, 'column': 29}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Field "productSetAvailabilityForPurchase" argument "isAvailableForPurchase" of type "Boolean!" is required but not provided.', 'locations': [{'line': 5, 'column': 9}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.test_product_set_availability_for_purchase" name="test_product_set_availability_for_purchase_by_staff_no_permissions" time="0.054"><failure message="AssertionError: [{'message': 'Unknown argument &quot;isAvailable&quot; on field &quot;productSetAvailabilityForPurchase&quot; of type &quot;Mutation&quot;. Did you mean &quot;isAvailableForPurchase&quot;?', 'locations': [{'line': 6, 'column': 29}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Field &quot;productSetAvailabilityForPurchase&quot; argument &quot;isAvailableForPurchase&quot; of type &quot;Boolean!&quot; is required but not provided.', 'locations': [{'line': 5, 'column': 9}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7e66a8158f70&gt;
+product = &lt;saleor.product.models.Product(pk=5, name='Test product')&gt;
+
+    def test_product_set_availability_for_purchase_by_staff_no_permissions(
+        staff_api_client, product
+    ):
+        # given
+        query = MUTATION_PRODUCT_SET_AVAILABILITY_FOR_PURCHASE
+    
+        start_date = datetime.date(1999, 1, 1)
+    
+        variables = {
+            "id": graphene.Node.to_global_id("Product", product.pk),
+            "is_available": True,
+            "start_date": start_date,
+        }
+    
+        # when
+        response = staff_api_client.post_graphql(query, variables)
+    
+        # then
+&gt;       assert_no_permission(response)
+
+saleor/graphql/product/tests/test_product_set_availability_for_purchase.py:76: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def assert_no_permission(response):
+        content = _get_graphql_content_from_response(response)
+        assert "errors" in content, content
+&gt;       assert content["errors"][0]["message"] == (
+            "You do not have permission to perform this action"
+        ), content["errors"]
+E       AssertionError: [{'message': 'Unknown argument "isAvailable" on field "productSetAvailabilityForPurchase" of type "Mutation". Did you mean "isAvailableForPurchase"?', 'locations': [{'line': 6, 'column': 29}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Field "productSetAvailabilityForPurchase" argument "isAvailableForPurchase" of type "Boolean!" is required but not provided.', 'locations': [{'line': 5, 'column': 9}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:24: AssertionError</failure></testcase><testcase classname="saleor.graphql.product.tests.test_product_set_availability_for_purchase" name="test_product_set_availability_for_purchase_is_available_false_and_start_date_given" time="0.059"><failure message="AssertionError: [{'message': 'Unknown argument &quot;isAvailable&quot; on field &quot;productSetAvailabilityForPurchase&quot; of type &quot;Mutation&quot;. Did you mean &quot;isAvailableForPurchase&quot;?', 'locations': [{'line': 6, 'column': 29}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Field &quot;productSetAvailabilityForPurchase&quot; argument &quot;isAvailableForPurchase&quot; of type &quot;Boolean!&quot; is required but not provided.', 'locations': [{'line': 5, 'column': 9}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]">staff_api_client = &lt;saleor.graphql.tests.fixtures.ApiClient object at 0x7e66a7ef6970&gt;
+permission_manage_products = &lt;Permission: product | product | Manage products.&gt;
+product = &lt;saleor.product.models.Product(pk=6, name='Test product')&gt;
+
+    def test_product_set_availability_for_purchase_is_available_false_and_start_date_given(
+        staff_api_client, permission_manage_products, product
+    ):
+        # given
+        query = MUTATION_PRODUCT_SET_AVAILABILITY_FOR_PURCHASE
+    
+        staff_user = staff_api_client.user
+        staff_user.user_permissions.add(permission_manage_products)
+    
+        start_date = datetime.date(1999, 1, 1)
+    
+        variables = {
+            "id": graphene.Node.to_global_id("Product", product.pk),
+            "is_available": False,
+            "start_date": start_date,
+        }
+    
+        # when
+        response = staff_api_client.post_graphql(query, variables)
+    
+        # then
+&gt;       content = get_graphql_content(response)
+
+saleor/graphql/product/tests/test_product_set_availability_for_purchase.py:169: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = &lt;JsonResponse status_code=400, "application/json"&gt;
+
+    def get_graphql_content(response, *, ignore_errors: bool = False):
+        """Gets GraphQL content from the response, and optionally checks if it
+        contains any operating-related errors, eg. schema errors or lack of
+        permissions.
+        """
+        content = _get_graphql_content_from_response(response)
+        if not ignore_errors:
+&gt;           assert "errors" not in content, content["errors"]
+E           AssertionError: [{'message': 'Unknown argument "isAvailable" on field "productSetAvailabilityForPurchase" of type "Mutation". Did you mean "isAvailableForPurchase"?', 'locations': [{'line': 6, 'column': 29}], 'extensions': {'exception': {'code': 'GraphQLError'}}}, {'message': 'Field "productSetAvailabilityForPurchase" argument "isAvailableForPurchase" of type "Boolean!" is required but not provided.', 'locations': [{'line': 5, 'column': 9}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]
+
+saleor/graphql/tests/utils.py:17: AssertionError</failure></testcase></testsuite></testsuites>
