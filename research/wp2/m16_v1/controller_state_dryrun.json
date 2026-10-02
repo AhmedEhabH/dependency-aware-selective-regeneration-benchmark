@@ -1,0 +1,78 @@
+{
+ "acks": [],
+ "history": [
+  {
+   "detail": "M16 unit tests (zero network, zero Docker)",
+   "event": "START",
+   "phase": "R00_KIT_SELFTEST",
+   "utc": "2026-10-02T12:10:46Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "R00_KIT_SELFTEST",
+   "utc": "2026-10-02T12:11:00Z"
+  },
+  {
+   "detail": "guard (dry-run stage): design, amendments in pushed kit tag, pins, protected pools, C: >= 20 GiB",
+   "event": "START",
+   "phase": "R01_GUARD",
+   "utc": "2026-10-02T12:11:00Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "R01_GUARD",
+   "utc": "2026-10-02T12:11:08Z"
+  },
+  {
+   "detail": "R2 MAIN adapter: ENG identity, MAIN closures fail-closed, commits (zero Docker)",
+   "event": "START",
+   "phase": "R02_ADAPTER_VERIFY",
+   "utc": "2026-10-02T12:11:08Z"
+  },
+  {
+   "detail": "M16_ADAPTER_FAIL: command failed\n--- last log: logs/controller/20261002T151108_R02_ADAPTER_VERIFY.log ---\n$ C:\\Users\\Ahmed\\AppData\\Local\\anaconda3\\python.exe scripts/wp2_m16_run.py adapter-verify\nTraceback (most recent call last):\n  File \"C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\scripts\\wp2_m16_run.py\", line 1803, in <module>\n    raise SystemExit(main())\n                     ^^^^^^\n  File \"C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\scripts\\wp2_m16_run.py\", line 1786, in main\n    rc = fns[a.cmd]()\n         ^^^^^^^^^^^^\n  File \"C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\scripts\\wp2_m16_run.py\", line 586, in adapter_verify\n    rec = hist[t][\"manifest\"][\"dev_test_closure\"]\n          ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^\nKeyError: 'dev_test_closure'",
+   "event": "STOP",
+   "phase": "R02_ADAPTER_VERIFY",
+   "utc": "2026-10-02T12:11:20Z"
+  }
+ ],
+ "phases": {
+  "R00_KIT_SELFTEST": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-10-02T12:11:00Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "R01_GUARD": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-10-02T12:11:08Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "R02_ADAPTER_VERIFY": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "runs": 1,
+   "status": "RUNNING"
+  }
+ },
+ "plan": "WP2_M16_V1_DRYRUN",
+ "plan_sha256": "16b3895a747073a6c677709612a085bc1a7068f0c2b4ccd3ef5cc392c23e47e8",
+ "stop": {
+  "detail": "command failed\n--- last log: logs/controller/20261002T151108_R02_ADAPTER_VERIFY.log ---\n$ C:\\Users\\Ahmed\\AppData\\Local\\anaconda3\\python.exe scripts/wp2_m16_run.py adapter-verify\nTraceback (most recent call last):\n  File \"C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\scripts\\wp2_m16_run.py\", line 1803, in <module>\n    raise SystemExit(main())\n                     ^^^^^^\n  File \"C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\scripts\\wp2_m16_run.py\", line 1786, in main\n    rc = fns[a.cmd]()\n         ^^^^^^^^^^^^\n  File \"C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\scripts\\wp2_m16_run.py\", line 586, in adapter_verify\n    rec = hist[t][\"manifest\"][\"dev_test_closure\"]\n          ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^\nKeyError: 'dev_test_closure'",
+  "exports": {
+   "light": 0
+  },
+  "phase": "R02_ADAPTER_VERIFY",
+  "resumable": false,
+  "token": "M16_ADAPTER_FAIL",
+  "utc": "2026-10-02T12:11:20Z"
+ }
+}
