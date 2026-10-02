@@ -1,15 +1,15 @@
 {
   "schema": "live_status_v1",
-  "as_of_local": "2026-09-28 (Africa/Cairo)",
-  "evidence_snapshot": "First WP-2 E2E Smoke ENG v1 COMPLETE (2026-09-28). Token E2E_SMOKE_FLOOR_EFFECT (SG1-SG3 PASS; SG4 floor GOLD RESOLVED 0/14 not met). 56 episodes; 8 APPLIED, 47 INVALID_AFTER_REPAIR (model SEARCH/REPLACE format adherence), 1 NO_SCOPE. AGENT_HARD RESOLVED 1/14 (e03ee76d2b89); GOLD/RMCSS/PLACEBO 0/14. Spend agent \\.371 / smoke \\.257 / total \\.628 (ceiling \\.50). Pipeline validation only; no comparative claim.",
-  "phase": "Phase 5 - End-to-End Selective Regeneration (WP-2 E2E Smoke ENG v1 COMPLETE: FLOOR_EFFECT)",
-  "position": "First E2E Smoke ENG v1 COMPLETE (E2E_SMOKE_FLOOR_EFFECT). Instrument validated (G-POS/G-NEG/G-FORMAT/G-LEAK/G-BUDGET PASS); the frozen qwen3-coder SEARCH/REPLACE generator produced mostly invalid-format outputs. Next: brain/Ahmed review -> Pilot design.",
-  "position_short": "E2E Smoke ENG v1 COMPLETE: FLOOR_EFFECT (GOLD RESOLVED 0/14)",
-  "now_short": "Mission-10B closed + env closure complete. Next: Mission-11 Part B (E2E instrument, zero API) then zero-API controls before any paid Smoke.",
-  "next_action": "Brain/Ahmed review of the E2E Smoke result -> Pilot design. No Stage C, Pilot, holdout, or MAIN execution.",
-  "next_short": "Mission-11 Part B: E2E instrument (zero API) -> controls -> paid Smoke",
-  "priority_chain": "MAIN_297 DONE -> WP-2 census DONE -> Oracle Confirmation DONE -> Linux V2 oracle+DEV pool DONE -> Mission-08 DEV P2P inventory + SMALL pilot DONE -> Mission-09 P2P-S + P2P-U V2 freeze + ENG execution DONE -> Mission-10A environment test-dependency audit DONE (ENV_AUDIT_INCONCLUSIVE) -> targeted environment-validity follow-up (awaiting approval) -> DEV Smoke freeze -> full DEV-47 P2P-U cap200 -> Pilot -> Research Run -> Mission-10B ENG oracle + P2P-S/P2P-U V3 DONE (ENG_SMOKE_READY) -> WP-2 Env Closure V3.1 DONE (dev-dep losses fixed) -> Mission-11 Part B E2E instrument -> zero-API controls -> paid first E2E Smoke",
-  "weakest_risk": "Environment now proven for the ENG split (fixture/collection/pip/vcr green, stable 0.996). Remaining risks: W2 (workers=2) NOT_TESTED; a few ENV_INSTALL_BLOCKED dev pins (codecov removed from PyPI, python-magic-bin no Linux wheel, pywin32) - none required by preflight; single-repo ENG split (n=16). 786 RESERVE stays sealed.",
+  "as_of_local": "2026-10-02 (Africa/Cairo)",
+  "evidence_snapshot": "WP1 primary evidence complete (Saleor RESERVE-300; MAIN_297 selection-only non-inferiority and efficiency). WP2 supporting evidence closed/consolidated (Smoke v2.2 engineering pipeline; Pilot-A and M14R supporting negatives; M15-R OPWS Pilot-B descriptive). M16-v1 CLOSED as a pre-experiment adapter failure; no MAIN OPWS outcome exists. C0->C6 documentation closure complete, stopped at G0_BRAIN_REVIEW (decision: finalize the durable research baseline before any new science).",
+  "phase": "Phase 6 - Durable research baseline finalization (WP1 primary + WP2 supporting closed)",
+  "position": "C0->C6 documentation/closure complete (2026-10-02); G0_BRAIN_REVIEW completed by the scientific brain with decision to finalize a durable research baseline before any new science. M16-v1 closed pre-experiment (adapter failure, no MAIN outcome). Primary claim-bearing evidence is WP1 selection correctness/efficiency; WP2 is supporting/downstream.",
+  "position_short": "C0->C6 closure DONE; G0_BRAIN_REVIEW: finalize durable baseline before new science; M16-v1 closed pre-experiment (no MAIN outcome)",
+  "now_short": "T2 baseline finalization: current LIVE status, corrected future LIGHT naming, commit/push/tag, fresh LIGHT; then seminar/proposal vs one optional targeted external-validity decision.",
+  "next_action": "Finalize and freeze the durable research baseline (this T2), then the brain decides: seminar/proposal first vs exactly one optional targeted external-validity pilot.",
+  "next_short": "Baseline finalization -> G1 decision (seminar/proposal vs one optional targeted external-validity pilot)",
+  "priority_chain": "MAIN_297 DONE -> WP-2 census DONE -> Oracle Confirmation DONE -> Linux V2 oracle+DEV pool DONE -> Mission-08 DEV P2P inventory + SMALL pilot DONE -> Mission-09 P2P-S + P2P-U V2 freeze + ENG execution DONE -> Mission-10A environment test-dependency audit DONE (ENV_AUDIT_INCONCLUSIVE) -> targeted environment-validity follow-up (awaiting approval) -> DEV Smoke freeze -> full DEV-47 P2P-U cap200 -> Pilot -> Research Run -> Mission-10B ENG oracle + P2P-S/P2P-U V3 DONE (ENG_SMOKE_READY) -> WP-2 Env Closure V3.1 DONE (dev-dep losses fixed) -> Mission-11 Part B E2E instrument -> zero-API controls -> paid first E2E Smoke -> C0->C6 documentation closure DONE -> G0_BRAIN_REVIEW DONE (finalize durable baseline before new science) -> T2 baseline finalization (current LIVE status, LIGHT naming correction, commit/push/tag, fresh LIGHT) -> G1: seminar/proposal vs one optional targeted generalization pilot",
+  "weakest_risk": "No active M16 run, no active generator experiment, no active polyglot experiment. Primary thesis evidence is WP1 selection correctness/efficiency; WP2 remains supporting/downstream. Governance risk is claim discipline: every statement must stay selection-only, descriptive (n<=10), or supporting-negative exactly as frozen in the claim registry.",
   "wp1b_short": "Paid same-protocol comparison of a repository agent vs SIP vs RM-CSS on MAIN_297 (G1: delta=0.05 NI rule; G2: cap 1024; decision rules v2). RESULT: RMCSS_NONINFERIOR_AT_LOWER_COST (NI_SUPPORTED); D −0.0062 [−0.0449,+0.0308] Q5 −0.0383; RM-CSS cheaper. Variance 15x3 pooled F1 0.389/0.438/0.479, pairwise exact match 0.444. X1-X11 exploratory labelled. Total agent spend $8.34 (main $7.15 + variance $1.19). Post-MAIN_297: claim sheet + docs closure complete; AG16 prereg verified, runner needs brain bundle; WP-2 zero-API census complete.",
   "pipeline": [
     {
@@ -125,6 +125,42 @@
       "status": "NOT STARTED (awaits approval)",
       "note": "est ~4.9-8.1 h serial central 6.7 h; overnight-feasible with resume; zero-node tasks UNDEFINED",
       "idx": 18
+    },
+    {
+      "step": "WP-2 E2E Smoke v2.2",
+      "status": "DONE",
+      "note": "62 generation episodes; APPLIED 50; invalid-after-repair 11; no-scope 1; engineering pipeline only",
+      "idx": 19
+    },
+    {
+      "step": "WP-2 Pilot-A / M14R generator probes",
+      "status": "DONE (SUPPORTING NEGATIVE)",
+      "note": "generator floor not removed; GOLD/PLACEBO RESOLVED 0; robust episodes 8/9/8/8",
+      "idx": 20
+    },
+    {
+      "step": "WP-2 M15-R OPWS Pilot-B",
+      "status": "DONE (DESCRIPTIVE)",
+      "note": "GOLD 10/10; RM-CSS 3/10; Agent r1/r2/r3 2/10,3/10,2/10; n=10",
+      "idx": 21
+    },
+    {
+      "step": "M16-v1 OPWS-MAIN instrument",
+      "status": "CLOSED (PRE-EXPERIMENT)",
+      "note": "R02_ADAPTER_VERIFY STOP M16_ADAPTER_FAIL; R00 kit 102/102 PASS; no MAIN outcome",
+      "idx": 22
+    },
+    {
+      "step": "C0->C6 documentation/closure",
+      "status": "DONE",
+      "note": "ledger/results/claims/methods/threats/README landing/research-status/repro-audit/LIGHT convention",
+      "idx": 23
+    },
+    {
+      "step": "G0_BRAIN_REVIEW",
+      "status": "DONE",
+      "note": "brain decision: finalize durable baseline before new science",
+      "idx": 24
     }
   ],
   "preflight": [
@@ -303,6 +339,11 @@
       "workflow": "E2E generation + repair",
       "calls": "not frozen yet",
       "note": "defined by WP-2"
+    },
+    {
+      "workflow": "M15-R OPWS + generation (Pilot-B n=10)",
+      "calls": "228 agent-localization calls (30 runs)",
+      "note": "agent localization $0.6448 frozen list price; generation provider-reported $0.2478 / 715,438 tokens; descriptive only"
     }
   ],
   "authorization": [
@@ -360,6 +401,16 @@
       "item": "Full DEV-47 P2P-U cap200 + Smoke freeze",
       "status": "NOT AUTHORIZED",
       "note": "requires Ahmed decision; estimates ready (DEV ~6.7 h central)"
+    },
+    {
+      "item": "C0->C6 closure + G0_BRAIN_REVIEW",
+      "status": "DONE",
+      "note": "documentation/evidence consolidation only; brain decision: finalize durable baseline before new science"
+    },
+    {
+      "item": "M16-v1 MAIN OPWS run",
+      "status": "NOT AUTHORIZED / CLOSED",
+      "note": "closed pre-experiment adapter failure; no MAIN outcome; a future attempt requires a separately designed, brain-approved M16-v2"
     }
   ],
   "key_numbers": {
@@ -485,5 +536,6 @@
       "note": "v1 results and tags unchanged; SG1 corrected to FAIL (DF1 evidence integrity, DF2 instrument deviation)",
       "evidence": "research/wp2/e2e_smoke_eng_v1/erratum/"
     }
-  }
+  },
+  "end_to_end_status": "WP-2 supporting evidence is closed and consolidated (Smoke v2.2 engineering pipeline; Pilot-A and M14R supporting negatives; M15-R OPWS Pilot-B descriptive); M16-v1 closed pre-experiment with **no** MAIN OPWS outcome. Primary claim-bearing evidence is WP1 selection-only correctness/efficiency. **No** active M16 run, **no** active generator experiment, **no** active polyglot experiment."
 }

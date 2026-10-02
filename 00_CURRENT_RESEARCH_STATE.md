@@ -17,7 +17,7 @@ artifact paths are NOT renamed; old reports keep their original wording.
 
 ## LIVE STATUS — single current-state source of truth
 
-**Position:** First E2E Smoke ENG v1 COMPLETE (E2E_SMOKE_FLOOR_EFFECT). Instrument validated (G-POS/G-NEG/G-FORMAT/G-LEAK/G-BUDGET PASS); the frozen qwen3-coder SEARCH/REPLACE generator produced mostly invalid-format outputs. Next: brain/Ahmed review -> Pilot design.
+**Position:** C0->C6 documentation/closure complete (2026-10-02); G0_BRAIN_REVIEW completed by the scientific brain with decision to finalize a durable research baseline before any new science. M16-v1 closed pre-experiment (adapter failure, no MAIN outcome). Primary claim-bearing evidence is WP1 selection correctness/efficiency; WP2 is supporting/downstream.
 
 **Research pipeline:**
 
@@ -42,6 +42,12 @@ artifact paths are NOT renamed; old reports keep their original wording.
 | WP-2 preservation oracle (P2P-S + P2P-U V2) | FROZEN (Mission-09) | P2P-S 46/47 defined; P2P-U V2 rule+membership frozen; ENG cap200+cap400 executed, repeatability 1.0 |
 | Mission-10A environment test-dependency audit | DONE (ENV_AUDIT_INCONCLUSIVE) | proven pytest-django-queries/pytest-mock declared-but-not-installed in V2; 41/41 P2P-U cap200 COLLECTION_ERROR explained; probe recovered 18/18 SET A but SET B non-regression failed (1 V2 node flip, JWT iat clock-skew); STOP probe; no V3 |
 | Full DEV-47 P2P-U cap200 execution | NOT STARTED (awaits approval) | est ~4.9-8.1 h serial central 6.7 h; overnight-feasible with resume; zero-node tasks UNDEFINED |
+| WP-2 E2E Smoke v2.2 | DONE | 62 generation episodes; APPLIED 50; invalid-after-repair 11; no-scope 1; engineering pipeline only |
+| WP-2 Pilot-A / M14R generator probes | DONE (SUPPORTING NEGATIVE) | generator floor not removed; GOLD/PLACEBO RESOLVED 0; robust episodes 8/9/8/8 |
+| WP-2 M15-R OPWS Pilot-B | DONE (DESCRIPTIVE) | GOLD 10/10; RM-CSS 3/10; Agent r1/r2/r3 2/10,3/10,2/10; n=10 |
+| M16-v1 OPWS-MAIN instrument | CLOSED (PRE-EXPERIMENT) | R02_ADAPTER_VERIFY STOP M16_ADAPTER_FAIL; R00 kit 102/102 PASS; no MAIN outcome |
+| C0->C6 documentation/closure | DONE | ledger/results/claims/methods/threats/README landing/research-status/repro-audit/LIGHT convention |
+| G0_BRAIN_REVIEW | DONE | brain decision: finalize durable baseline before new science |
 
 **LLM-call accounting:**
 
@@ -58,6 +64,7 @@ artifact paths are NOT renamed; old reports keep their original wording.
 | Variance substudy 15x3 | 331 logical / 341 HTTP attempts | ledger $1.194 · pooled F1 0.389/0.438/0.479 · pairwise exact match 0.444 · 0 EMPTY |
 | WP-2 zero-API MAIN_297 census | 0 | deterministic read-only git diff over already-opened case metadata; $0.00 |
 | E2E generation + repair | not frozen yet | defined by WP-2 |
+| M15-R OPWS + generation (Pilot-B n=10) | 228 agent-localization calls (30 runs) | agent localization $0.6448 frozen list price; generation provider-reported $0.2478 / 715,438 tokens; descriptive only |
 
 **Authorized / not authorized:**
 
@@ -74,12 +81,14 @@ artifact paths are NOT renamed; old reports keep their original wording.
 | Mission-09 ENG P2P-U V2 execution (cap200 + cap400) | DONE | 8 executable ENG tasks x 2 caps, workers=1, 3+3 reps, integrity PASS; no Smoke/full-DEV/MAIN execution |
 | Mission-10A environment test-dependency audit (zero-API, Tier T3) | DONE (ENV_AUDIT_INCONCLUSIVE) | proven declared-but-not-installed dev/test group in frozen V2; ENG-only scratch probe (task 1) recovered 18/18 SET A; SET B non-regression FAILED (1 V2 BEHAVIORAL_F2P node flip) -> STOP per preregistered S2; no V3 build, no generation, no Smoke |
 | Full DEV-47 P2P-U cap200 + Smoke freeze | NOT AUTHORIZED | requires Ahmed decision; estimates ready (DEV ~6.7 h central) |
+| C0->C6 closure + G0_BRAIN_REVIEW | DONE | documentation/evidence consolidation only; brain decision: finalize durable baseline before new science |
+| M16-v1 MAIN OPWS run | NOT AUTHORIZED / CLOSED | closed pre-experiment adapter failure; no MAIN outcome; a future attempt requires a separately designed, brain-approved M16-v2 |
 
-**Next action:** Brain/Ahmed review of the E2E Smoke result -> Pilot design. No Stage C, Pilot, holdout, or MAIN execution.
+**Next action:** Finalize and freeze the durable research baseline (this T2), then the brain decides: seminar/proposal first vs exactly one optional targeted external-validity pilot.
 
-**End-to-end status:** WP-2 has **not started**; E2E-G6 F2P/P2P oracle has **not started**; **no** E2E Smoke, Pilot or Research Run exists yet.
+**End-to-end status:** WP-2 supporting evidence is closed and consolidated (Smoke v2.2 engineering pipeline; Pilot-A and M14R supporting negatives; M15-R OPWS Pilot-B descriptive); M16-v1 closed pre-experiment with **no** MAIN OPWS outcome. Primary claim-bearing evidence is WP1 selection-only correctness/efficiency. **No** active M16 run, **no** active generator experiment, **no** active polyglot experiment.
 
-*Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-09-28 (Africa/Cairo).*
+*Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-10-02 (Africa/Cairo).*
 <!-- LIVE_STATUS:END -->
 
 **CURRENT TRUTH (2026-09-21, WP1B_TOOLFIX_LIVESTATUS — CALIBRATION-3b DONE;

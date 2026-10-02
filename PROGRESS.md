@@ -1,10 +1,20 @@
-# PROGRESS.md — Execution Source of Truth
+# PROGRESS.md — Single Current Source of Truth
+
+**As of:** 2026-10-02
+**Project:** Dependency-Aware Selective Regeneration Benchmark
+**Primary scientific object:** repository-level affected-file / editable change-scope correctness
+**Primary metric:** file-level impact correctness (file-level F1)
+**Execution roles:** ChatGPT = scientific brain; OpenCode + DeepSeek = builder/executor; Claude = independent reviewer.
+
+> This file is the current operational source of truth. Historical experiment detail remains in frozen artifacts, `docs/EXPERIMENT_LEDGER.md`, `docs/RESULTS_SUMMARY.md`, and `DECISIONS.md`; it is not duplicated here.
+
+---
 
 <!-- LIVE_STATUS:BEGIN -->
 
 ## LIVE STATUS — single current-state source of truth
 
-**Position:** First E2E Smoke ENG v1 COMPLETE (E2E_SMOKE_FLOOR_EFFECT). Instrument validated (G-POS/G-NEG/G-FORMAT/G-LEAK/G-BUDGET PASS); the frozen qwen3-coder SEARCH/REPLACE generator produced mostly invalid-format outputs. Next: brain/Ahmed review -> Pilot design.
+**Position:** C0->C6 documentation/closure complete (2026-10-02); G0_BRAIN_REVIEW completed by the scientific brain with decision to finalize a durable research baseline before any new science. M16-v1 closed pre-experiment (adapter failure, no MAIN outcome). Primary claim-bearing evidence is WP1 selection correctness/efficiency; WP2 is supporting/downstream.
 
 **Research pipeline:**
 
@@ -29,6 +39,12 @@
 | WP-2 preservation oracle (P2P-S + P2P-U V2) | FROZEN (Mission-09) | P2P-S 46/47 defined; P2P-U V2 rule+membership frozen; ENG cap200+cap400 executed, repeatability 1.0 |
 | Mission-10A environment test-dependency audit | DONE (ENV_AUDIT_INCONCLUSIVE) | proven pytest-django-queries/pytest-mock declared-but-not-installed in V2; 41/41 P2P-U cap200 COLLECTION_ERROR explained; probe recovered 18/18 SET A but SET B non-regression failed (1 V2 node flip, JWT iat clock-skew); STOP probe; no V3 |
 | Full DEV-47 P2P-U cap200 execution | NOT STARTED (awaits approval) | est ~4.9-8.1 h serial central 6.7 h; overnight-feasible with resume; zero-node tasks UNDEFINED |
+| WP-2 E2E Smoke v2.2 | DONE | 62 generation episodes; APPLIED 50; invalid-after-repair 11; no-scope 1; engineering pipeline only |
+| WP-2 Pilot-A / M14R generator probes | DONE (SUPPORTING NEGATIVE) | generator floor not removed; GOLD/PLACEBO RESOLVED 0; robust episodes 8/9/8/8 |
+| WP-2 M15-R OPWS Pilot-B | DONE (DESCRIPTIVE) | GOLD 10/10; RM-CSS 3/10; Agent r1/r2/r3 2/10,3/10,2/10; n=10 |
+| M16-v1 OPWS-MAIN instrument | CLOSED (PRE-EXPERIMENT) | R02_ADAPTER_VERIFY STOP M16_ADAPTER_FAIL; R00 kit 102/102 PASS; no MAIN outcome |
+| C0->C6 documentation/closure | DONE | ledger/results/claims/methods/threats/README landing/research-status/repro-audit/LIGHT convention |
+| G0_BRAIN_REVIEW | DONE | brain decision: finalize durable baseline before new science |
 
 **LLM-call accounting:**
 
@@ -45,6 +61,7 @@
 | Variance substudy 15x3 | 331 logical / 341 HTTP attempts | ledger $1.194 · pooled F1 0.389/0.438/0.479 · pairwise exact match 0.444 · 0 EMPTY |
 | WP-2 zero-API MAIN_297 census | 0 | deterministic read-only git diff over already-opened case metadata; $0.00 |
 | E2E generation + repair | not frozen yet | defined by WP-2 |
+| M15-R OPWS + generation (Pilot-B n=10) | 228 agent-localization calls (30 runs) | agent localization $0.6448 frozen list price; generation provider-reported $0.2478 / 715,438 tokens; descriptive only |
 
 **Authorized / not authorized:**
 
@@ -61,624 +78,236 @@
 | Mission-09 ENG P2P-U V2 execution (cap200 + cap400) | DONE | 8 executable ENG tasks x 2 caps, workers=1, 3+3 reps, integrity PASS; no Smoke/full-DEV/MAIN execution |
 | Mission-10A environment test-dependency audit (zero-API, Tier T3) | DONE (ENV_AUDIT_INCONCLUSIVE) | proven declared-but-not-installed dev/test group in frozen V2; ENG-only scratch probe (task 1) recovered 18/18 SET A; SET B non-regression FAILED (1 V2 BEHAVIORAL_F2P node flip) -> STOP per preregistered S2; no V3 build, no generation, no Smoke |
 | Full DEV-47 P2P-U cap200 + Smoke freeze | NOT AUTHORIZED | requires Ahmed decision; estimates ready (DEV ~6.7 h central) |
+| C0->C6 closure + G0_BRAIN_REVIEW | DONE | documentation/evidence consolidation only; brain decision: finalize durable baseline before new science |
+| M16-v1 MAIN OPWS run | NOT AUTHORIZED / CLOSED | closed pre-experiment adapter failure; no MAIN outcome; a future attempt requires a separately designed, brain-approved M16-v2 |
 
-**Next action:** Brain/Ahmed review of the E2E Smoke result -> Pilot design. No Stage C, Pilot, holdout, or MAIN execution.
+**Next action:** Finalize and freeze the durable research baseline (this T2), then the brain decides: seminar/proposal first vs exactly one optional targeted external-validity pilot.
 
-**End-to-end status:** WP-2 has **not started**; E2E-G6 F2P/P2P oracle has **not started**; **no** E2E Smoke, Pilot or Research Run exists yet.
+**End-to-end status:** WP-2 supporting evidence is closed and consolidated (Smoke v2.2 engineering pipeline; Pilot-A and M14R supporting negatives; M15-R OPWS Pilot-B descriptive); M16-v1 closed pre-experiment with **no** MAIN OPWS outcome. Primary claim-bearing evidence is WP1 selection-only correctness/efficiency. **No** active M16 run, **no** active generator experiment, **no** active polyglot experiment.
 
-*Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-09-28 (Africa/Cairo).*
+*Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-10-02 (Africa/Cairo).*
 <!-- LIVE_STATUS:END -->
 
-## MISSION-10A — GOAL -> OUTCOMES -> DRIVERS -> ACTIONS -> SCHEDULE -> TRACKING -> REFLECTION
+---
 
-**GOAL:** Reach the first generated-patch experiment with a scientifically
-valid, historically reproducible, frozen environment/evaluator.
+## أين نحن الآن
 
-**OUTCOMES:**
-- environment completeness decision closed (decision token **ENV_AUDIT_INCONCLUSIVE**)
-- error-TOI causes explained quantitatively (41/41 P2P-U cap200; 98.7% of py312 C4 error records)
-- V2 kept or V3 recommended based on preregistered evidence (probe recovered 18/18 SET A, but S2 non-regression failed)
-- no generation before freeze
-- all five evaluation dimensions retain a valid measurement substrate
+- The documentation/closure mission **C0→C6 is complete** and correctly stopped at `G0_BRAIN_REVIEW`.
+- The 2026-10-02 **T2 closure-finalization task** is the current authorized work: LIVE status brought current, the future LIGHT filename convention corrected, then commit/push/tag of the durable baseline, a fresh corrected-convention LIGHT, and STOP at `G1_SCIENCE_DECISION`.
+- Reported Git identity at that gate:
+  - branch: `main`
+  - HEAD: `3280a658ac488dc64f44fef050c1f8ea993a58c9`
+  - origin/main: same commit
+- The closure mission produced **4 modified tracked files + 10 new files**, but they are still **uncommitted** because the task graph did not authorize a commit.
+- The mandatory project export `project-2026-10-02-1855.zip` does **not** contain the new uncommitted closure documents; the closure LIGHT does. This is an important durability finding.
+- `docs/LIVE_STATUS.json` / rendered LIVE block is stale (as-of 2026-09-28) and no longer represents the actual WP2 closure state.
+- M16-v1 is **closed** as a pre-experiment adapter/instrument qualification failure:
+  - R00 self-tests: PASS
+  - R01 guard: PASS
+  - R02 adapter verification: FAIL-CLOSED
+  - no R03 selection
+  - no real dry-run Docker execution
+  - no MAIN OPWS outcome
+  - no R2B/R2C continuation
+- Primary thesis evidence is already in WP1; WP2 is supporting/downstream evidence.
 
-**DRIVERS:** historical lockfile fidelity · declared test dependency
-completeness · plugin load correctness · node-level non-regression ·
-deterministic evidence · leakage firewall.
+**Current evidence picture:**
+- Saleor RESERVE-300: RM-CSS F1 `0.3569` vs SIP `0.2647`; Δ `+0.0921`, 95% CI `[0.0691, 0.1156]`.
+- MAIN_297 selection-only: Agent `0.3631`, RM-CSS `0.3568`, SIP `0.2652`.
+- MAIN_297: non-inferiority at preregistered margin `0.05` supported; margin `0.03` inconclusive. This is **not** equivalence or superiority.
+- Efficiency vs Agent: RM-CSS ≈ `0.2746×` model calls and ≈ `0.2134×` generation tokens.
+- E2E Smoke v2.2: 62 generation episodes; APPLIED 50; invalid-after-repair 11; no-scope 1. This validates the engineering pipeline, not selector superiority.
+- Pilot-A: GOLD RESOLVED 0; PLACEBO RESOLVED 0 → generator floor.
+- M14R: tested G0/G1/G2/G3 variants did not remove the generator floor.
+- M15-R OPWS Pilot-B (n=10): GOLD 10/10; RM-CSS 3/10; Agent r1/r2/r3 = 2/10, 3/10, 2/10. Descriptive only.
+- M15-R generation: Gold-solvable 1/10; robust episodes 3; no valid generation-based selector comparison.
+- M16-v1: no MAIN scientific outcome; method/instrument closure only.
 
-**ACTIONS:** Mission-10A audit -> decision (ENV_AUDIT_INCONCLUSIVE) -> STOP.
-
-**SCHEDULE:** current mission only; no V3/Smoke execution scheduled
-automatically.
-
-**TRACKING:**
-- error taxonomy coverage: C4 3,682 error-TOI / P2P-U 41 / C2 rescue 3,304
-- declared-but-not-installed %: 37/37 cause rows; 41/41 P2P-U nodes
-- probe recovered nodes: 18/18 (task 1 SET A)
-- non-regression count: 55/56 unchanged; 1 transition
-- audit decision token: **ENV_AUDIT_INCONCLUSIVE**
-- commit/tag/export: see STOP report
-
-**REFLECTION:**
-1. Evidence that changed our understanding: the V2 parent failure for
-   `test_update_voucher` was a JWT `iat` clock-skew flake that resolved to
-   P2P_ONLY on re-execution — V2 oracle classification instability, not a
-   dependency defect.
-2. Earlier assumption wrong: "pytest 'error' == collection error" — the 41
-   P2P-U nodes are SETUP (missing fixture), and the C4 error majority is
-   DB/migration environment, not missing test plugins.
-3. What saved time: reusing frozen V2 exec/runner patterns for the scratch
-   probe and the deterministic taxonomy in the shared audit module.
-4. Single next change with highest validity/productivity payoff: a
-   clock-skew-robust oracle + V2 BEHAVIORAL_F2P flakiness audit before any
-   Env V3 freeze.
-
-**NORTH STAR:** Number of tasks eventually evaluated E2E across ALL five
-dimensions under a frozen, valid environment/evaluator (localization-only tasks
-do not count).
-
-## MISSION-10B — GOAL -> OUTCOMES -> DRIVERS -> ACTIONS -> SCHEDULE -> TRACKING -> REFLECTION
-
-**GOAL:** Produce a valid frozen evaluator/harness and reach ENG Smoke
-readiness without spending API/model budget prematurely. Harness V3 is an
-infrastructure-only correction (nofile / DB lifecycle / lock-exact
-dependencies / clock preflight); oracle scientific semantics stay unchanged.
-
-**OUTCOMES (so far):**
-- corrected root-cause attribution: node-level, not task-level
-- V3 decision (pending Phase-4 mechanical gate)
-- recovered valid oracle coverage if warranted
-- zero clean-node regressions (S2' target)
-- ENG Smoke-ready evaluator (gate-gated)
-- full C4 corrected if gate passes
-
-**DRIVERS:** node-level causal attribution · FD headroom · DB isolation ·
-historical lock fidelity · clock stability · deterministic concurrency ·
-evidence integrity.
-
-**ACTIONS:** RCA -> freeze -> 4-task w1 probe -> gate -> w2 equivalence ->
-ENG C4 -> P2P-S/P2P-U ENG -> ENG_SMOKE_READY -> remaining C4.
-
-**SCHEDULE:** Phase-1 RCA COMPLETE (2026-09-26). Phases 2-4 next (freeze,
-probe, gate). Phase 5 auto-continues iff Phase-4 gate passes.
-
-**TRACKING (Phase-1 durable results):**
-- C4 reconciliation exact: 3,727 = 2,592 STABLE + 1,055 MIXED + 35 MISSING +
-  45 FAILED_ONLY (mismatch 0)
-- materiality: 2,592 stable-family nodes (INFRA 2,511 + MISSING_FIXTURE 81) /
-  3,682 = 70.4% (node-level; >> 20% gate)
-- EMFILE: 29 C4 tasks (py38/py39), 9,676 target rep-records, 2,511 stable
-  nodes (68.2% of error-TOI); C2 rescue 58/159; ENG 10 EMFILE tasks all
-  NOT_PRIMARY
-- EMFILE FIX EFFICACY: TRUE (A reproduces at nofile=1024 max 714 FDs; B at
-  nofile=65536 max 2,287 FDs, 261 passed / 1 genuine behavioral fail)
-- DB reuse: WRONG_CONSTRAINTS 1,095/1,098 WC-r2 nodes follow EMFILE-r0 in the
-  same (task,state) DB -> partial-DB reuse SUPPORTED
-- install failures: C4 24/24 + C2 60/60 = LOCKFILE_INCOMPATIBILITY (V2 never
-  used historical lockfiles; dev/test group omitted)
-- clock: host<->WSL skew -1.85s (WARN); container +0.9-1.1s ahead of WSL;
-  AT_RISK_F2P C4=2 C2=1 (JWT iat ImmatureSignatureError)
-- probe tasks lockfile: all poetry.lock; exact dev versions extracted
-- Phase-3 4-task ENG probe (workers=1): ALL COMPLETE. c3b9e396b07d 416 TOI->1,
-  e25cf9b4a837 252 TOI->0, 74538ea00ce9 0 TOI (1 V2_DEFECT_CORRECTION:
-  test_update_voucher JWT clock-skew), 8f76ddc6267f V3==V2. 667 V2-invalid
-  nodes recovered to valid oracle classes. 0 EMFILE across all 66 V3 junit.
-  integrity PASS on all 4.
-- Phase-4 mechanical gate: **ALL PASS** -> TOKEN=HARNESS_V3_RECOMMENDED,
-  AUTO-CONTINUE Phase 5 (gate.json/gate.md). MATERIALITY 2592/3647=71.1%,
-  RECOVERY 667, FIX_EFFICACY PASS, SAFETY PASS, REGRESSIONS=0,
-  V2_DEFECT_CORRECTIONS=1.
-- Phase-5 correction (2026-09-26): STAGE A ran SEQUENTIALLY (effective
-  workers=1). C4_EFFECTIVE_WORKERS=1. **W1_RERUN_REPRODUCIBILITY = PASS**
-  (4/4 probes, 0 node-class mismatches vs Phase-3). **W2_EQUIVALENCE =
-  NOT_TESTED** (task-level concurrency never exercised; no claim of
-  concurrency determinism). Resume hardened: skip only if DONE + evidence +
-  SHA256 + integrity verify; partial state discarded.
-- decision token: **HARNESS_V3_RECOMMENDED (Phase-4 gate passed)**
-- commit/tag/export: see STOP report at mission end
-
-**REFLECTION (Phase 1):**
-1. Evidence that changed understanding: node-level STABLE_CAUSE shows EMFILE
-   is the dominant C4 TOI cause (68%), and WRONG_CONSTRAINTS is NOT an
-   independent cause — it is the reuse of an EMFILE-partial DB (1,095/1,098
-   nodes). Mission-10A's truncated parser missed this because it never
-   read full error text.
-2. Earlier assumption wrong: the C4 error majority is not "DB/other" but
-   specifically INFRA:EMFILE during test-DB creation/migrations, hidden by
-   V2's default nofile=1024 container limit.
-3. What saved time: reusing frozen V2 runner/exec patterns, the Mission-09
-   resource sampler concept, and the frozen era images as the V3 base runtime
-   (no new image build).
-4. Single highest-payoff next step: freeze Harness V3 + run the 4-task ENG
-   probe under workers=1, then evaluate the Phase-4 mechanical gate.
-5. Phase-3/4 result: the Phase-4 gate passed (HARNESS_V3_RECOMMENDED) with
-   667 V2-invalid nodes recovered under V3, 0 EMFILE residue, 0 regressions.
-   The single V2_DEFECT_CORRECTION (test_update_voucher) confirms the
-   clock-skew mechanism Mission-10A suspected.
-
-**NORTH STAR:** Tasks eventually evaluated E2E across all five dimensions
-under a frozen, valid, reproducible environment/evaluator.
-
-**Role:** Execution source of truth (what is being executed now, last completed
-task, immediate next step, blockers). Scientific truth lives in
-`00_CURRENT_RESEARCH_STATE.md`; decisions are recorded append-only in
-`DECISIONS.md`.
-
-**Branch:** `wp1b/main-297-2026-09-22` (overnight mission
-`OPENCODE_OVERNIGHT_WP1B_MAIN297_FULL_2026-09-22`; MAIN_297 + variance 15×3 +
-scoring + X1–X11; result `RMCSS_NONINFERIOR_AT_LOWER_COST`, NI_SUPPORTED).
-Main merged; result tag `wp1b-main297-result-2026-09-22`.
-**Scientific closure commit:** `8b2d1b6` (merge of
-`research/oracle-gap-bidirectional-repair-2026-09-18`; immutable scientific
-fact)
-**Scientific closure tag peel:** `8b2d1b6` (tag
-`oracle-gap-bidirectional-repair-2026-09-18`; immutable scientific fact)
-**Live HEAD / origin/main:** runtime git facts — a tracked file cannot embed
-its own final live HEAD SHA (committing metadata changes HEAD again). Query
-at read time: `git rev-parse HEAD`, `git rev-parse origin/main`,
-`git status --porcelain`.
-**Model:** openrouter/deepseek/deepseek-v4-flash-0731 (OpenCode coding model;
-NOT the WP-1 scientific arm model — the frozen SIP scientific model is
-qwen/qwen3-coder @ deepinfra/turbo, see research/wp1a/)
-**Task:** WP1B_TOOLFIX_LIVESTATUS_2026-09-21 (T3) - **COMPLETE: DECISION =
-CALIBRATION_3B_DONE(CG-1..CG-11 PASS).** Calibration-3 reclassified
-**`GATE_V1_PASS / INSTRUMENT_INVALID`** (D1). D2 fix
-(`WP1B_G11_TOOL_BUDGET_2026_09_21`): `search_text` no longer consumes
-`MAX_DISTINCT_FILES`; `read_file` keeps 30. Gate v2 (CG-10/CG-11) FAILS on old
-Calibration-3 (RED) and **PASSES on Calibration-3b (GREEN)** — 21 calls, 3
-successful reads, 0 instrument errors, $0.070028 ≤ $0.25, cost ratios ≤ 1.2.
-A4 telemetry (tool_ok/tool_error + search telemetry). LIVE_STATUS single source
-of truth rendered into FOUR current-facing files. README/GLOSSARY/AGENTS.md
-updated. **STOP after Phase C (contract §6 step 7).** MAIN_297/variance NOT
-authorized (D5/D7 NO) — requires a separate explicit Ahmed decision after he
-reviews Calibration-3b. 786 sealed RESERVE outcomes untouched.
-**Previous task - WP-1b Calibration-3 (2026-09-21; D6 YES, ceiling $0.25):**
-**COMPLETE: DECISION = CALIBRATION_DONE(CG-1..CG-9 PASS)** ($0.081142; 24
-calls; 0 cap hits; 0 EMPTY; 0 observation truncation) — **subsequently
-reclassified `GATE_V1_PASS / INSTRUMENT_INVALID`** by the tool-budget defect
-mission (D1).
-Previous task - SALEOR_RESERVE_300_RMCSS
-(2026-09-20; PRIMARY `SALEOR_RESERVE_300_RMCSS_PASS` + SECONDARY
-`SECONDARY_CROSS_REPO_TRANSFER_PASS`; RM-CSS F1 0.3569 vs SIP 0.2647, Delta F1
-+0.0921 CI [+0.0691,+0.1156]).
+**LIGHT naming decision, effective for future exports only:**
+- Filename format is now:
+  `project-light-YYYY-MM-DD-HHMM.zip`
+- Example:
+  `project-light-2026-10-02-1855.zip`
+- The timestamp is the machine's timezone-aware local creation time at minute precision.
+- Historical LIGHT files are never renamed.
+- The exporter `scripts/wp2_export_light.py` and its tests now implement this
+  convention (T2 finalization); a same-minute collision fails closed.
 
 ---
 
+## آخر إنجاز (2026-10-02 · Tier T3 closure/documentation mission)
+
+Completed C0→C6:
+
+- archived the final M16-v1 STOP evidence;
+- created the M16-v1 closure document;
+- consolidated the experiment ledger, results summary, and claim registry;
+- converted README into a research landing page;
+- added methods, threats-to-validity, research-status, and reproducibility-audit documents;
+- implemented and tested a future LIGHT naming mechanism (now superseded by the filename correction recorded above);
+- produced a closure LIGHT and project export;
+- stopped correctly at the human/ChatGPT review gate.
+
+Validation reported by OpenCode:
+- `py_compile`: PASS
+- Ruff: PASS
+- Mypy: PASS
+- `git diff --check`: PASS
+- exporter tests: 4/4 PASS
+- M16 kit tests: 102/102 PASS
+- live-status tests: 3/3 PASS
+- README model/SVG tests: PASS
+- full suite: 4486 passed, 34 skipped, 6 initially failed
+  - 3 mission-caused failures were fixed and re-verified
+  - 3 remaining failures are pre-existing/environmental and already documented
+
+**What we learned:**
+1. The thesis is **not blocked by generation**. Generation is a downstream bottleneck and supporting negative result; the primary thesis contribution is change-scope selection.
+2. RM-CSS already has its strongest evidence in the frozen WP1 selection-only studies.
+3. OPWS is useful for scope-sufficiency evidence, but M16-v1 showed that a larger MAIN OPWS study needs a cleaner separately designed instrument if it is ever revisited.
+4. We should not continue an amendment chain merely to force M16 through preflight.
+5. The repository had a truth/durability gap: current documentation was uncommitted, LIVE_STATUS was stale, and the large project export omitted the new uncommitted closure files.
+6. Documentation and governance now matter as much as another experiment: claims must be frozen before we decide whether another study is scientifically necessary.
+
+**What we conclude:**
+- The central comparison is **RM-CSS vs bounded Repository Agent at the selection stage**, with SIP as the simpler baseline.
+- We do **not** claim RM-CSS is E2E-superior to Agent.
+- We do **not** claim generator correctness is solved.
+- We do **not** claim language-agnostic generalization.
+- A polyglot/Grafana study is optional external-validity work, not the next automatic step.
+
 ---
 
-**Previous task (2026-09-20, one-shot untouched confirmatory; SUPERSEDED by the
-execution-defect correction):** STAGE5_V2_FINAL -
-FINAL THESIS IMPACT-LOCALIZATION FREEZE + ONE-SHOT STAGE-5 CONFIRMATORY
-EVALUATION (T3; $0.544067) - **COMPLETE:
-`STAGE5_V2_FINAL_CONFIRMATION_FAIL`** (frozen negative; pooled Delta F1 −0.0588,
-CI [−0.1119, −0.0084]; A and B FAIL; both repos negative; V2 did not survive
-untouched confirmation; method-search phase CLOSED). **The first Stage-5 run is
-now EXECUTION-INVALID (P86: finite -1e9 sentinel embedding-coverage defect);
-its FAIL label is superseded by
-`STAGE5_V2_EXECUTION_INVALID_EMBEDDING_COVERAGE_DEFECT`.** Previous task -
-ISSUE-GROUNDED INTENT HEADROOM -
-DOES A REAL PRE-CHANGE PROBLEM DESCRIPTION FIX THE INFORMATION BOTTLENECK?
-(2026-09-20; T3 DEVELOPMENT; minimal-cost) - **COMPLETE:
-`ISSUE_GROUNDED_INTENT_SIGNAL_NOT_SUPPORTED`** (frozen negative; strict
-temporal rule leaves 12 djangocms + 0 saleor clean paired tasks; djangoCMS
-Recall@20 point-rises 0.6875->0.7188 but paired CI crosses zero and median
-rank worsens; Saleor unevaluable; no full issue-grounded pipeline justified;
-Stage 5 stays PAUSED/SEALED). Previous task - PARENT-ONLY REPOSITORY MEMORY
-RESCUE V2 - HISTORY-AUGMENTED DEEP FALSE-NEGATIVE RECOVERY
-(2026-09-20; T3 DEVELOPMENT; ZERO API) — **COMPLETE:
-`PARENT_ONLY_REPOSITORY_MEMORY_RESCUE_V2_FAIL`** (frozen negative; parent-only
-repository-history memory recovers deep dense misses at the candidate level
-but the unchanged final-set gate fails on djangoCMS — Delta-F1 CI crosses zero
-in BOTH realizations A and B; Saleor passes; Stage 5 stays PAUSED/SEALED).
+## الخطوة القادمة المباشرة (Next)
+
+**No new experiment starts here.**
+
+The 2026-10-02 **T2 closure-finalization task** is the current authorized work. It makes the repository durable and internally consistent before any new science:
+
+1. `docs/LIVE_STATUS.json` and the rendered LIVE block updated to the true 2026-10-02 state (C0→C6 done, G0_BRAIN_REVIEW done, M16-v1 closed pre-experiment);
+2. the **future** LIGHT filename convention corrected from
+   `project-light-YYYYMMDDTHHMMSSZ.zip`
+   to the user-approved
+   `project-light-YYYY-MM-DD-HHMM.zip`
+   (timezone-aware local time, minute precision, same-minute collision fails closed);
+3. only the directly affected exporter test/spec/README references updated;
+4. historical LIGHT names verified untouched;
+5. targeted validation plus the required regression suite rerun;
+6. the complete C0→C6 closure + this finalization committed and pushed as a durable milestone;
+7. an evidence tag `msc-research-baseline-2026-10-02` frozen by this mission's explicit authorization;
+8. a new LIGHT produced whose name follows the corrected convention;
+9. STOP at `G1_SCIENCE_DECISION` for ChatGPT review.
+
+**Immediate next after this T2:**
+`Brain decision: seminar/proposal first vs exactly one optional targeted external-validity pilot.`
+
+**No polyglot repository, no M16-v2, no new generation run, and no selector retuning before that gate.**
 
 ---
 
-## Current active state (2026-09-22, normalized)
+## الهدف القريب (الساعات / الأيام القادمة)
 
-- **Phase:** 5 — End-to-End Selective Regeneration.
-- **Localization method selection:** CLOSED — `IMPACT_LOCALIZATION_METHOD_SELECTION_CLOSED`
-  permanent; RM-CSS is the frozen method.
-- **Frozen scientific result (unchanged):** SALEOR_RESERVE_300_RMCSS — RM-CSS
-  F1 0.3569 vs SIP 0.2647, Delta F1 +0.0921 CI [+0.0691,+0.1156]; secondary
-  cross-repo transfer PASS.
-- **WP-1b MAIN_297 (2026-09-22):** COMPLETE and FROZEN. Primary result =
-  `RMCSS_NONINFERIOR_AT_LOWER_COST` (decision rules v2, `NI_SUPPORTED`).
-  P n=297: D −0.0062 [−0.0449,+0.0308], Q5 −0.0383. S n=295 (2 parser-failure
-  EMPTY dropped): D −0.0115 [−0.0502,+0.0255], Q5 −0.0434. Agent F1 0.363 vs
-  RM-CSS 0.357 vs SIP 0.265 (pooled micro-F1). RM-CSS cheaper (View A: 0.27×
-  calls, 0.21× generative tokens/task). Variance 15×3 pooled F1
-  0.389/0.438/0.479, pairwise exact match 0.444. X1-X11 exploratory labelled.
-  Selection-stage result, NOT E2E. Run spend $7.15 (main) + $1.19 (variance);
-  billed OpenRouter deltas are descriptive ($3.43 main, $0.62 variance) and are
-  never the normalized cost verdict.
-- **WP-1b post-MAIN_297 closure (2026-09-22, ZERO API):** claim sheet
-  (`docs/WP1B_CLAIM_SHEET_2026-09-22.md`), robustness/limitations
-  (`docs/WP1B_POSTHOC_ROBUSTNESS_AND_LIMITATIONS_2026-09-22.md`), README/FAQ
-  correction, impact declaration committed before substantive edits, decision
-  block appended to `DECISIONS.md`.
-- **AG16 (budget sensitivity, MAIN_50):** PREREGISTERED, NOT RUNNABLE. Design
-  frozen before MAIN_297 outputs (8 → 16 calls; 2000 → 8000 chars; ceilings
-  $0.80 cal / $12.20 MAIN_50). A separate brain-built/tested bundle is
-  required (`iterative_agent_budget.py` + golden parity `(8,2000)` + dry-run
-  + AG16 calibration gating + parameterized paid runner + AG16 scoring).
-  Readiness audit + brain handoff package:
-  `docs/WP1B_AG16_READINESS_2026-09-22.md`,
-  `research/wp1b/wp1b_ag16_harness_requirements_2026-09-22.json`,
-  `exports/WP1B_AG16_BRAIN_HANDOFF_2026-09-22/`. Zero paid calls this mission.
-- **WP-2 zero-API MAIN_297 census (2026-09-22):** DONE, deterministic planning
-  evidence only. 297/297 materializable in the local Saleor cache (0 metadata/
-  materialization problems); read-only git diff parent..target; 20
-  STRONG_F2P_CANDIDATE, 200 MODIFIED_TEST_CANDIDATE, 77 NO_CHANGED_TEST_EVIDENCE;
-  never F2P_CONFIRMED. Environment feasibility recorded; proposal-only Smoke
-  candidates (8) selected outcome-blind:
-  `docs/WP2_MAIN297_ZERO_API_CENSUS_2026-09-22.md`, `research/wp2/`.
-- **WP-2 Oracle Confirmation + Design v1 (2026-09-22, ZERO API):** deterministic
-  harness built and validated (isolated worktrees, per-(task,state) test DB,
-  per-file evaluator, frozen failure taxonomy). All 220 changed-test candidates
-  attempted: **8 primary behavioral F2P + 1 symbol-absence F2P confirmed**;
-  207 ENV_BROKEN (Windows host: native libs, `?` in filenames, Unix-only
-  `resource` module); 2 FLAKY; 2 TARGET_ORACLE_INVALID. Environment-validity
-  audit separated harness defects (fixed) from genuine blockers. WP-2 causal
-  Design v1, power/assay-sensitivity planning, and Smoke proposal v2 emitted.
-  See `docs/WP2_E2E_CAUSAL_DESIGN_V1_2026-09-22.md`,
-  `docs/WP2_ORACLE_CONFIRMATION_REPORT_2026-09-22.md`,
-  `research/wp2/wp2_oracle_environment_validity_audit_2026-09-22.json`.
-- **Remaining untouched Saleor RESERVE:** 786 tasks (outcomes unread, never
-  accessed).
-- **Pending:** version-aware Saleor environment bundle (dominant blocker);
-  WP-2 shared E2E instrument (NOT STARTED); E2E-G6 F2P/P2P oracle (NOT STARTED);
-  Smoke / Pilot / Research Run (NOT STARTED). AG16 runner implementation (needs
-  brain-built/tested bundle + D6 authorization).
-- **No E2E scientific claim exists yet.** No Smoke / Pilot / Research Run.
-- **Next:** Brain/Ahmed review WP-2 Design v1 + Smoke v2 (8 confirmed oracle
-  tasks); build a version-aware Saleor environment bundle to lift the
-  environment blocker; in parallel build/review the AG16 executable bundle. Then
-  AG16 sensitivity and WP-2 Smoke can be authorized.
+Freeze a **clean, committed, pushed, reproducible thesis evidence baseline**.
 
-## Historical per-experiment records
+Definition of done:
 
-The full-suite state and closure blocks below are retained as historical
-records of prior, already-closed experiments (PARENT_ONLY_REPOSITORY_MEMORY_RESCUE_V2,
-ISSUE_GROUNDED_INTENT_HEADROOM, STAGE5_V2_FINAL). They are NOT active
-execution state.
+- one current `PROGRESS.md`;
+- current LIVE_STATUS matches the actual WP1/WP2 state;
+- README, claim registry, results summary, and experiment ledger agree;
+- the new LIGHT naming is exactly `project-light-YYYY-MM-DD-HHMM.zip`;
+- historical LIGHTs remain immutable;
+- all mission changes are committed and pushed;
+- tests and reproducibility checks are recorded;
+- a fresh LIGHT contains everything needed for ChatGPT/Claude review;
+- no new scientific result is introduced during this cleanup.
 
-## WP-0 (2026-09-20) — G7 Ground-Truth Leakage Fix (ArtifactUniverse de-repo)
+After that baseline is frozen, the immediate scientific decision is:
+**Brain decision: seminar/proposal first vs exactly one optional targeted external-validity pilot.**
 
-**Task:** WP-0 — G7 Ground-Truth Leakage Fix. **Branch:**
-`fix/wp0-artifact-universe-no-ground-truth`. **Tier:** T3. **Scientific API
-spend:** $0.00. **Measurement-infrastructure repair; no scientific claim.**
+---
 
-- **Completed (AC-0.1..AC-0.5 + independent audit):** `_build_artifact_universe`
-  now derives the eligible artifact universe from the parent-commit repository
-  state for every non-fixture execution; legacy fixture behavior moved behind
-  explicit `allow_ground_truth_universe` (default False) and auditable on
-  `RunRecord`; fail-closed config (fixture incompatible with regeneration and
-  with selection-only); pass-through in `PipelineConfig`.
-- **RED->GREEN:** regression test
-  `test_production_universe_never_consults_expected_affected` failed pre-fix
-  (universe was `{'hidden/secret.py'}` — ground truth) and passed post-fix
-  (repository-derived). New suite
-  `tests/unit/test_artifact_universe_no_ground_truth.py` 14/14.
-- **AC-0.1 hidden-truth independence:** PASS (140-file repo universe built
-  with hidden proxy unreadable, ground-truth path absent, flag False).
-- **AC-0.2 static search:** PASS (only guarded fixture occurrence of
-  `expected_affected_artifacts` in execution code; no proxy/hidden reads).
-- **AC-0.3 3-task sanity:** PASS — repo-derived vs public candidate-universe
-  counts: 140/140, 152/152, 140/140 (djangocms-rc-06ecf3a8e8de,
-  -0daae01f2f65, -0fec81224889).
-- **AC-0.4:** new + affected regression suites pass; ruff PASS; mypy strict
-  PASS; py_compile PASS; git diff --check PASS.
-- **AC-0.5:** `selective_updates/records/SU-0012-artifact-universe-derepo.md`.
-- **Independent audit:** 6/6 PASS (computed without importing audited helpers).
-- **Governance:** DECISIONS.md — Decision WP0 + full event/deferral ledger
-  (LED-A..S) appended; `WP0_SCOPE_AMENDMENT_RUNRECORD_AUDITABILITY` ACCEPTED.
-- **Status:** WP-0 acceptance criteria all PASS; integrated into `main` via
-  fast-forward (commit `6eb0b2c`); no scientific tag; no E2E scientific claim.
-  Legacy fixture behavior is explicit-opt-in only via
-  `allow_ground_truth_universe` (default False), auditable on `RunRecord`.
+## الهدف المتوسط (أكتوبر 2026)
 
-**Next step (NOT started):** WP-1b Calibration + Main n=50 Selection Run —
-AWAITING AHMED AUTHORIZATION (WP-1a preparation COMPLETE; see
-`research/wp1a/`). WP-2 E2E Phase-0 instrument DEFERRED. G6 oracle
-unresolved. No Smoke / Pilot / Research Run. No E2E scientific claim allowed.
+Produce a seminar/proposal-ready research package in which every claim is traceable and defensible.
 
-## WP-1b Preflight Freeze (2026-09-21) - Phase 0/A/B COMPLETE (T3; zero API)
+Target outputs:
 
-**Task:** WP1B_PREFLIGHT_FREEZE_2026-09-21. **Branch:**
-wp1b/preflight-freeze-2026-09-21. **Tier:** T3. **Scientific API spend:**
-\.00 through Phases 0/A/B. Pre-result freeze; no paid inference yet.
+- final RQs and thesis story;
+- concise Methods section;
+- canonical Results tables/figures;
+- Threats to Validity;
+- systematic-mapping / novelty evidence sufficient to defend the contribution;
+- reproducibility package;
+- proposal/seminar deck and private defense notes;
+- explicit decision on whether one more experiment is worth its cost.
 
-- **Phase 0 (git sync):** origin/main was at 87c86f5; pushed local main 1ae7058
-  (push succeeded on the 60s retry after an initial network failure); verified
-  local main == origin/main == 1ae7058 via ls-remote; branch created.
-- **Phase A1 (test mutation):** the four WP-1 generator entry points
-  (wp1a_independent_audit, wp1a_acceptance_report, wp1b_closure_recompute,
-  wp1b_variance_substudy_selection) now accept --out <dir> so tests redirect
-  outputs to a pytest tmp_path; default human-run behaviour byte-identical.
-  NEW artifacts store repository-relative POSIX paths. Added
-  tests/unit/test_no_tracked_artifact_mutation.py (6 tests) proving the four
-  generators do not mutate tracked artifacts/ and research/wp1a/ files.
-  Absolute-path leak recorded as a cosmetic defect in DECISIONS.md (frozen
-  artifacts not rewritten). A1 acceptance: targeted WP-0/WP-1 suite green,
-  git status --porcelain empty (AC-P1/AC-P2).
-- **Phase A2 (name the 5 pre-existing failures):** full suite on clean checkout
-  = 5 failed / 3700 passed / 35 skipped. Recorded node IDs + classes in
-  docs/KNOWN_TEST_FAILURES_2026-09-21.md and
-  artifacts/known_test_failures_2026-09-21.json (REAL_DEFECT x3,
-  ENV_OR_DATA_MISSING x2). New full-suite acceptance rule: failing node-ID set
-  == known list (AC-P3). TODO.md REAL_DEFECT entries added.
-- **Phase A3 (audit packet v2):** exports/wp1a_independent_audit_packet_2026-09-21_v2/
-  (v1 untouched) adds the coefficient-order trap (lr_coef = continuous +
-  boolean, NOT feature_names; 0/300 vs 174/300) and the FULL-only inputs list
-  (public candidate_universe.json / dependency_graph.json / saleor manifest).
-- **Phase A4 (export member):** restored the provenance-verified D13R2
-  pilot-kaggle-upload.zip (SHA 65269528...) from _historical_archive into dist/
-  so the FULL export includes it; DECISIONS.md line.
-- **Appendix R re-derivation:** every R number independently re-derived with
-  scripts/wp1b_appendix_r_rederivation.py; 125 comparisons, 0 disagreements,
-  status ALL_AGREE (research/wp1b/wp1b_appendix_r_agreement.json).
-- **Phase B1 (budget v2, G8):** research/wp1b/wp1b_budget_model_v2.json. Real
-  ArtifactUniverse per task (production path, allow_ground_truth_universe=False)
-  + exact initial prompt rendered; worst case (8 calls, cap 1024); totals for
-  Calibration-3/Main-50/150/297/variance(15x3) x1.5; NO ceiling below worst case
-  x1.5 (cal 0.202<=0.25; main-297 18.640<=21.50; variance 3.025<=3.50);
-  underestimate factor ~3.40x vs v1. Abort rule v2 preregistered (AC-P6).
-- **Phase B2 (sample-size, G9):** wp1b_main_297_manifest.json (n=297, first 50
-  == WP-1a MAIN_50 exact, calibration absent, hashes recorded),
-  wp1b_main_150_manifest.json (n=149; one calibration task removed),
-  wp1b_main_50_manifest.json (unchanged). Power doc
-  docs/WP1B_POWER_AND_SAMPLE_SIZE_2026-09-21.md re-derives R-C (AGREE) (AC-P7).
-- **Phase B3 (freeze G1):** research/wp1b/wp1b_ni_margin_frozen.json +
-  docs/WP1B_NI_MARGIN_FROZEN_2026-09-21.md (Delta=0.05, Q5 rule, inheritance,
-  coherence anchor, relative size) (AC-P8).
-- **Phase B4 (decision rules v2):** research/wp1b/wp1b_decision_rules_v2.json
-  (P/S dual analysis, seven ordered quality verdicts, cost CHEAPER rule, five
-  final categories; 'dominance' retired) (AC-P9).
-- **Phase B5 (freeze G2):** DECISIONS.md WP1B_G2_COMPLETION_CAP_2026_09_21
-  EFFECTIVE (D3); research/wp1b/wp1b_frozen_agent_protocol_v2.json (cap 1024);
-  tests/unit/test_wp1b_g2_cap_freeze.py asserts 1024 + frozen SIP/RM-CSS
-  artifacts unchanged (AC-P10).
-- **Phase B6 (agent telemetry, G10):** additive per-call sidecar JSONL +
-  per-task observation metrics in iterative_agent.py + telemetry.py; behavior
-  preservation proven by stub-backend golden test
-  (tests/unit/test_wp1b_agent_telemetry_golden.py); disclosure
-  docs/WP1B_AGENT_BASELINE_DISCLOSURE_2026-09-21.md (AC-P11).
-- **Phase B7 (exploratory prereg):** research/wp1b/wp1b_exploratory_prereg.json
-  X1-X5, status EXPLORATORY_PREREGISTERED, only after primary frozen/tagged
-  (AC-P12).
-- **Validation:** ruff PASS, mypy strict PASS (production files), git diff
-  --check PASS; targeted WP-0/WP-1 suite 47 passed; no new artifact contains an
-  absolute machine path (AC-P13); API spend \.00 (AC-P14).
+Possible scientific extension after that decision:
 
-**Next step:** B8 integration (merge --no-ff to main, annotated tag
-wp1b-preflight-freeze-2026-09-21, push main + tag, PROGRESS/00_CURRENT/
-START_HERE updates, TRUE LIGHT export), then Phase C Calibration-3 (D6 YES,
-cap 1024, ceiling 0.25). MAIN_297/variance NOT authorized (D7 NO) until Ahmed
-reviews the Calibration-3 STOP report.
+**WP3 polyglot feasibility pilot**, not a full study.
 
-## WP-1b Calibration-3 (2026-09-21) - EXECUTED; STOP after Phase C (D7 = NO)
+Candidate: Grafana only if it passes a 10-commit feasibility gate without becoming another infrastructure project. A smaller mixed-language repository is preferred if Grafana requires disproportionate engineering.
 
-**Phase C run (D6 YES, ceiling \.25):** exactly the 3 tasks in
-research/wp1a/wp1_calibration_3_manifest.json with protocol v2 (cap 1024),
-frozen qwen/qwen3-coder @ deepinfra/turbo, temp 0.0. Ran via
-scripts/wp1b_calibration_run.py into research/wp1b/calibration-3-2026-09-21/.
+The pilot, if authorized, should measure feasibility only:
+- checkout/build reproducibility;
+- test availability;
+- changed-test evidence;
+- mining quality;
+- selector-input compatibility;
+- runtime/resource cost;
+- cross-language vs single-language changes.
 
-- **Cost:** cumulative \.081142 <= \.25 (per task 0.033858 / 0.031420 /
-  0.015865). Per-task / B1 worst-case ratios 0.636 / 0.617 / 0.523 - all
-  within 1.2x (BUDGET_MODEL_V2_OK).
-- **Gate:** CG-1..CG-9 all PASS.
-- **Instrument:** 0 cap hits, 0 observation truncations, 0 EMPTY (all valid
-  finals), finish-reason distribution 24x stop; 24 per-call sidecar records.
-- **Not scored against labels** (instrument check only).
-- **STOP after Phase C:** the main run (MAIN_297) and the variance substudy
-  are NOT authorized (D7 = NO). MAIN_297 requires a new explicit Ahmed
-  authorization after he reviews the Calibration-3 STOP report.
-- Branch: wp1b/calibration-3-2026-09-21 (calibration records + gate result).
+Go to a 30–50 commit study only if the pilot passes the predeclared gate.
 
-**Next step:** Ahmed reviews the Calibration-3 STOP report; then a new
-authorization (D7 = YES) is required before MAIN_297 / variance. The 786 sealed
-Saleor RESERVE outcomes remain untouched.\n
-## Mission-10B Phase-5 ENG V3 (2026-09-26) - reconciliation BEFORE P2P-S/P2P-U
+---
 
-- ENG candidates total: 29 (frozen DEV_TRAIN_ENG C4 members)
-- executable (DONE): 22
-- ENV_INSTALL_BLOCKED: 7 (deterministic env-blocked, permitted by 17.2/18)
-  - py312 poetry package-mode=false with unsatisfiable lock
-    (python-magic-bin==0.4.14 no Linux wheel): 6e0a2cfc9287, 6f1f1720fc7c,
-    7dcf89985e0c, 836d01d8429f, 939093a9c65c, a8e6a4dd55fe
-  - dfe77ac1c5dc: whole-file collection failure after fallback repair;
-    reclassified DONE->ENV_INSTALL_BLOCKED (bookkeeping; no rerun per
-    directive); NOT a scientific blocker for ENG_SMOKE_READY
-- oracle-valid (V3 BEHAVIORAL_F2P): 14 (V2 8 -> V3 14)
-- behavioral-primary: 14; symbol-only: 2
-- V2->V3 recovered tasks: 644f33094857, 6abb53f3407b, 823b899757ab,
-  93b20d78c011, c3b9e396b07d, dc6ac9d252df, e25cf9b4a837 (7 recovered;
-  mostly EMFILE-elimination recoveries)
-- V2->V3 lost tasks: dfe77ac1c5dc (env-blocked; no V3 nodes)
-- REGRESSIONS (S2'): 0; V2_DEFECT_CORRECTIONS: 1
-  (test_update_voucher JWT clock-skew); recovered nodes: 1,324
-- ENG_V3_ORACLE_READY checkpoint persisted (eng_v3_oracle_ready.json)\n
-## Mission-10B reconciliation checkpoint (2026-09-26) - STOP for GO before P2P-U execution
+## الهدف البعيد
 
-- ENG total 29 | ENV blocked 7 | Executable 22 | Behavioral 14 | Symbol 2 |
-  Beh AND Sym 0 | Symbol-only 2 | **Oracle-valid union 16** | P2P-S defined 14 |
-  P2P-S undefined 2.
-- ENG_V3_ORACLE_READY v2 (eng_v3_oracle_ready.json): oracle_valid_count = 16
-  (len(behavioral UNION symbol), mechanical). recovered = 8 tasks (V3 union -
-  V2 union), lost = 1 (dfe77ac1c5dc). V2 union 9 -> V3 union 16.
-- P2P-S V3 v2 (p2p_s_v3_eng.json): population = oracle_valid_union; defined iff
-  v3_count > 0; invariants PASS. Supersedes v1 (invalid population).
-- P2P-U V3 rediscovery: TRUE rediscovery under Harness V3 for all 16 union
-  tasks; 9258154b8a0b zero candidates -> P2P-U UNDEFINED. Touched-production
-  derivation = exact frozen changed_paths_linux/is_test_path_v2 (E-check PASS:
-  unknown/known/proximity equal V2 on all 7 frozen-membership tasks).
-- P2P-U V3 execution population: 15 tasks (16 union minus 9258154b8a0b
-  zero-candidate).
-- **STOPPED for GO before any cap200/cap400 execution per directive.**
+A thesis and benchmark artifact that are publishable, reproducible, and scientifically narrow enough to defend.
 
-## Mission-11 one-shot (started 2026-09-26-1955)
+The final research story should answer:
 
-AUTHORIZATION BLOCK (Ahmed Ehab, issued by sending the mission file):
-- AU1 GO: Mission-10B Phase 5B P2P-U V3 ENG execution (15 tasks x cap200+cap400, workers=1)
-- AU2 Engineering hardening of the P2P-U V3 executor before AU1 (no scientific change)
-- AU3 ENG_SMOKE_READY + Mission-10B closure (STOP report, tag, FULL + LIGHT exports)
-- AU4 Build the WP-2 shared E2E instrument (generator + validator + repair + evaluator) - ZERO API
-- AU5 Zero-API instrument controls (format, positive, negative, leakage, budget)
-- AU6 PAID: frozen protocol-v3 Agent file selection on 16 DEV_TRAIN_ENG oracle-valid tasks (ceiling $1.00)
-- AU7 PAID: first E2E Smoke generation on 14 ENG behavioral tasks x 4 arms x 1 replicate (ceiling $4.50)
-- AU8 Evaluation of generated patches (F2P + P2P-S + P2P-U cap200), workers=1
-- Hard total paid ceiling for this whole file: $5.50
-- NA1: no Stage C / non-ENG C4 / C2/MAIN V3 / full DEV-47 P2P-U
-- NA2: no generation on DEV_TRAIN_ASSAY_HOLDOUT, DEV_VALIDATION, MAIN, INTERNAL_TEST, RESERVE
-- NA3: no Pilot, Research Run, RMCSS_SOFT, GOLD_MINUS_ONE, TITLE_ONLY, SPEC_AUGMENTED
-- NA4: no workers=2 anywhere
-- NA5: no change to oracle semantics, Harness V3, P2P-U rule/salt/caps, splits, populations
-- NA6: no model/API call before step C1 passes, or outside AU6/AU7
+1. **Impact Correctness:** how accurately can we select the repository files affected by a requested change?
+2. **Efficiency:** can RM-CSS achieve selection quality close to a bounded repository Agent with materially fewer model interactions/tokens?
+3. **Functional / Preservation support:** when the selected scope is used downstream, what evidence exists that required behavior is preserved or that missing files matter?
+4. **Architecture Compliance:** can the selected scope and artifacts obey the frozen repository/schema contracts?
+5. **Generalization:** only if additional evidence justifies it, how well do the findings transfer beyond Saleor/Python?
 
-## Mission-11 A2 - P2P-U V3 executor hardening (2026-09-26)
+The end goal is **not** “make every E2E generator succeed.”
+The end goal is a defensible contribution around **resource-efficient repository change-scope selection for LLM-assisted software evolution**, with downstream execution evidence used to bound—not replace—the primary selection claim.
 
-- H1-H8 implemented in scripts/wp2_m10b_p2pu_v3_eng.py (no scientific change):
-  raw JUnit persistence + hashes, ENV_FAIL_P2PU detection (never classified),
-  INTEGRITY_FAIL (never swallowed), monotonic wall clock + clock pre/post,
-  evidence_sha256 + verify_unit resume, collection_session_abort (D18),
-  --max-units chunking + P2PU_STOP.flag + progress file, complete manifest.
-- New runner_sha256 = b7658d75b093366165f0c5cb98b7e28e10bc763f89982e6845eb9a09c4070b42
-- tests/unit/wp2/test_m10b_p2pu_v3_hardening.py: 16/16 PASS; ruff clean.
-- `--all-tasks --max-units 0` plan: 32 units (D12 order), 2 UNDEFINED
-  (9258154b8a0b cap200/cap400), 30 planned for execution.
+---
 
-## Mission-11 TODO (live, per MISSION-11 §6)
+## Blockers الحالية
 
-```
-[✓] A1 Bootstrap + state verification
-[✓] A2 Harden P2P-U V3 executor (H1-H9) + tests
-[✓] A3 P2P-U V3 ENG execution - 32/32 units (30 DONE + 2 UNDEFINED)
-[✓] A4 P2P-U summary + preservation sets freeze
-[✓] A5 Evaluator sets + ENG_SMOKE_READY
-[✓] A6 Mission-10B closure (report, tag, exports, C4_STOP.flag)
-[✓] B1 Mission-11 impact declaration + E2E spec constants
-[✓] B2-B9 E2E instrument modules
-[✓] B10 Unit tests RED/GREEN
-[✓] B11 Zero-API controls: G-FORMAT / G-POS / G-NEG / G-LEAK / G-BUDGET
-[✓] B12 INSTRUMENT_READY checkpoint
-[✓] C1 Paid preflight (key, credit, pricing, route)
-[✓] C2 DEV Agent scopes (16 tasks, $0.371)
-[✓] C3 Scope freeze + Smoke freeze + tag
-[✓] D1 Smoke generation - 56/56 episodes
-[✓] D2 Smoke evaluation - complete
-[✓] D3 Smoke summary + gates
-[✓] D4 Smoke closure (report, docs, tag, exports)
-```
+### Immediate blocker
+The repository closure is being made durable by the 2026-10-02 **T2
+closure-finalization task**:
+- C0→C6 changes are committed and pushed on `main`;
+- `docs/LIVE_STATUS.json` and the rendered LIVE block are current to 2026-10-02;
+- the mandatory project export is recreated after commit so it contains the committed closure files;
+- the future LIGHT filename format is corrected to `project-light-YYYY-MM-DD-HHMM.zip`.
 
-## Mission-11 A4 addendum - DEV/TEST DEPENDENCY COVERAGE AUDIT (2026-09-26)
+This was the **single critical bottleneck** before new science; after the T2
+freezes the baseline (tag `msc-research-baseline-2026-10-02`), the next
+scientific decision is the brain's G1 call: **seminar/proposal first vs exactly
+one optional targeted external-validity pilot.**
 
-- P2P-U V3 ENG complete: 32/32 units terminal (30 DONE + 2 UNDEFINED), all
-  verify_unit OK, summary + invariants PASS, D19 agreement >= 0.99, no C07.
-- Addendum audit (zero API) -> research/wp2/harness_v3_2026-09-26/dev_deps_gap_audit.json:
-  - Cause taxonomy over persisted JUnit (non-STABLE nodes, both caps):
-    MISSING_FIXTURE:count_queries 144, MISSING_FIXTURE:mocker 20,
-    SOCKET_BLOCKED 132, ASSERTION 25, COLLECTION/SETUP 3, OTHER 27, FLAKY 19.
-  - HARNESS_V3_DEP_POLICY_COMPLIANCE = FAIL for 7 oracle-valid ENG tasks
-    (22ec4dab0154, 644f33094857, 6abb53f3407b, 823b899757ab, 82c56bde0e34,
-    93b20d78c011, e03ee76d2b89): pytest-django-queries / pytest-mock ARE
-    historically declared in the target poetry.lock but NOT installed in V3
-    (poetry+requirements.txt install path omits the dev group; these tasks are
-    outside LOCKED_DEV_DEPS).
-  - P2P coverage loss confirmed: 164 MISSING_FIXTURE nodes are P2P-U candidates
-    that would classify STABLE_P2P under a faithful environment (M10A probe
-    recovered 18/18 on 74538ea00ce9, which V3 now installs via LOCKED_DEV_DEPS).
-  - VCR/socket: SocketBlockedError nodes use @pytest.mark.vcr but pytest-recording
-    is NOT historically declared for those tasks -> NOT a declared-but-missing gap.
-  - C4_DEP_GAP_IMPACT = INCONCLUSIVE (phase5_c4v3_* persists outcomes, not failure
-    text; M10A reconciliation attributed 234 count_queries + 12 mocker across ENG C4;
-    M10A token was ENV_AUDIT_INCONCLUSIVE).
-  - Chunk-2 record correction: interrupted invocation had timeout=10,800,000 ms
-    (3h) and was tool-call aborted after ~23.4 min (NOT a 2-minute default
-    timeout); verified resume preserved the completed unit and reran the
-    incomplete unit from scratch.
-- Per addendum item 6: HARNESS_V3_DEV_DEPS_GAP -> STOP before A5 / ENG_SMOKE_READY /
-  any paid Smoke call. No repair performed (addendum item 7).
+### Not blockers to the thesis
+- M16-v1 failure is not a blocker; it is closed pre-experiment method evidence.
+- Generator floor is not a blocker to the primary thesis claim.
+- Lack of a polyglot study is not currently a blocker.
+- Three known environmental test failures are not caused by the closure mission, but must remain disclosed.
 
+### Big picture
+The research already has a primary claim-bearing comparison:
+**RM-CSS vs bounded Agent on file-level selection quality and efficiency.**
+Everything now should strengthen the credibility, reproducibility, scope, and external validity of that claim—not create a second thesis by accident.
 
-## WP-2 Environment Closure V3.1 (started 2026-09-27) - authorized Mission-11 continuation
+### Small picture
+The next code/document delta should touch only:
+- `PROGRESS.md` now;
+- in the next authorized T2: LIVE status, LIGHT exporter naming, directly affected tests/docs, and Git/release metadata.
 
-AUTHORIZATION: supersedes previous V3.1/environment-repair instructions where they conflict.
-- Primary goal: close historical test-environment problem SYSTEMATICALLY (rule-derived, not task patched).
-- No paid/API/model call during V3.1 closure. Paid Mission-11 authorization usable only after closure + A5/A6 + C1 pass.
-- No change to scientific semantics; existing MAIN recipe kept by default; V3.1 is ADDITIVE (exact historically-declared dev/test closure).
-
-VISIBLE TODO (durable): env_closure_v31_progress.json + native Todo.
-E0.1-E0.5 DONE (docs, git identity f86007e4, protected hashes before, resource baseline, TODO).
-
-## WP-2 Environment Closure V3.1 - COMPLETE (2026-09-27)
-
-- Rule-based historical dev/test closure (dep_compiler.py) + additive runtime fragment.
-- OLD vs CORRECTED environments compared (16/16); rerun scope = 14 affected / 2 unaffected.
-- Preflight gate PASS (collection, fixture-resolution, pip check, VCR all green).
-- Corrected reruns: C4 14/14, P2P-U rediscovery 14/14, P2P-U cap evidence 32/32 DONE verified.
-- Impact: MISSING_FIXTURE 164->0, SOCKET_BLOCKED 132->0, stable rate 0.956->0.996,
-  HARNESS_V3_DEP_POLICY_COMPLIANCE FAIL->PASS. Oracle-valid union=16, behavioral=14,
-  symbol=2 UNCHANGED (authorization set intact).
-- 9258154b8a0b recovered from P2P-U zero-candidate (now defined).
-- ENG_ENVIRONMENT_CLOSURE_READY.json persisted. Paid spend $0.00.
-- Resume Mission-11 at A5.1.
-
-## WP-2 E2E Smoke ENG v1 - RESULT (2026-09-28)
-
-E2E_SMOKE_FLOOR_EFFECT. GOLD 0/14 | RMCSS 0/14 | AGENT 1/14 | PLACEBO 0/14.
-Spend $0.605 total (<= $5.50). Report: docs/WP2_E2E_SMOKE_ENG_V1_REPORT_2026-09-28.md.
-
-## WP-2 E2E Smoke ENG v1 - ERRATUM (2026-09-28)
-
-Token corrected mechanically: `E2E_SMOKE_FLOOR_EFFECT` -> `E2E_SMOKE_INSTRUMENT_INVALID`
-(DF1-DF5 reproduced; SG1 FAIL from evidence integrity + blind repair). v1 results
-and tags unchanged. See docs/WP2_E2E_SMOKE_ENG_V1_ERRATUM_2026-09-28.md and
-research/wp2/e2e_smoke_eng_v1/erratum/.
-
-## Mission-11 spend reconciliation erratum (2026-09-28)
-
-- Authoritative spend recomputed mechanically from the raw paid-call ledgers:
-  Agent = sum of `usd` in agent_dev_eng/spend_ledger.jsonl (128 calls) = $0.370939;
-  Smoke = sum of `cost_usd` in ledger/spend_ledger.jsonl (102 calls) = $0.257437;
-  TOTAL = $0.628376 (ceiling $5.50).
-- Difference source: `agent_scopes_dev_eng.json` previously reported
-  total_cost_usd = $0.348237, computed from run-record token_usage at the frozen
-  list price. The authoritative billed ledger value is $0.370939 (+$0.022702,
-  provider actual billing). generation_freeze.json spend_usd = $0.257437 already
-  matched the smoke ledger.
-- Corrected everywhere: agent $0.371 / smoke $0.257 / total $0.628. Earlier
-  reports stating $0.348 / $0.605 are superseded by this erratum.
-
-## Mission-12 (started 2026-09-28)
-
-AUTHORIZATION: Smoke v1 erratum (docs + evidence; v1 results NOT edited), fix 5
-verified E2E instrument defects + interface v2 (zero API), zero-API controls v2,
-PAID Smoke v2 (14 ENG tasks x 4 arms x 1 replicate + variance probe), ceiling
-$2.00, evaluation (F2P + P2P-S + P2P-U cap200, workers=1). FORBIDDEN: new Agent
-run, RM-CSS/scope/model/route/temperature/max_tokens change, Stage C/holdout/
-MAIN/Pilot, v1 result edits, v1 tag moves, workers=2. Authority:
-MISSION_12_SMOKE_ERRATUM_INTERFACE_V2_SMOKE_V2_2026-09-28.md.
-
-### Mission-12 TODO (live, one [•] at a time)
-
-[ ] A1 Bootstrap + state verification
-[ ] A2 Protect Smoke-v1 evidence
-[ ] B1-B6 Verify defects DF1-DF5 mechanically
-[ ] C1-C3 Smoke-v1 erratum
-[ ] D1-D2 Message API + full-context repair
-[ ] E1-E3 Run-level request cache
-[ ] F1-F2 Finish reason + raw evidence
-[ ] G1-G4 Interface-v2
-[ ] H1-H5 Expressibility freeze
-[ ] I1-I14 Unit-test gate
-[ ] J1-J10 Zero-API controls
-[ ] K1-K11 Paid preflight
-[ ] L1-L19 Smoke-v2 freeze
-[ ] M Main generation 0/56
-[ ] N Variance probe 0/6
-[ ] O Generation freeze
-[ ] P Evaluation
-[ ] Q Summary
-[ ] R Gates
-[ ] S Next-step rule
-[ ] U Closure
-[ ] WAIT_FOR_AHMED
+### Critical unlock
+Once the repository is current, committed, pushed, and export-complete, the brain can make a clean scientific decision:
+**stop experimenting and write/present, or authorize exactly one targeted generalization study.**

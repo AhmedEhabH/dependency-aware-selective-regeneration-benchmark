@@ -2507,3 +2507,21 @@ Mission-11 one-shot (sole authoritative directive, supersedes Mission-10B STOP-f
 - Later V3.1/P2P-U records cover at most the 16-task oracle-valid union (<= 16/29 ENG tasks): reported, never used as a substitute.
 - Unchanged: design freeze 959a23f1b9caff5a342439e8ea6c7243f8f6c5a0e53eed64b0d5c9ecb5856982, constants, thresholds, Route B, OPWS endpoint, quarantine, R1, ADAPTER_VERSION, plans, frozen pins, historical evidence. Kit tag wp2-m16-v1-kit-2026-10-02 (753e391932679d9d321021675684d0fd48308f07) unchanged; amendment tag wp2-m16-v1-r2a-2026-10-02.
 - Restart: the original STOP is not acked or resumed; the dry-run restarts from R00 under controller/plan_m16_v1_dryrun_r2a.json (new state file); failed evidence archived under research/wp2/m16_v1/r2a/. Installed with zero API, zero Docker, zero WSL. MAIN not authorized.
+
+## Decision WP2_M16_V1_CLOSURE (2026-10-02) - M16-v1 closed: pre-experiment adapter failure, no MAIN outcome (append-only entry)
+
+- Final real run (WP2_M16_V1_DRYRUN_R2A): R00_KIT_SELFTEST PASS (102 tests), R01_GUARD PASS, R02_ADAPTER_VERIFY STOP token M16_ADAPTER_FAIL, resumable=False. STOP report research/wp2/m16_v1/controller_reports_dryrun_r2a/STOP_M16_ADAPTER_FAIL_20261002T160619.md; state research/wp2/m16_v1/controller_state_dryrun_r2a.json; adapter report research/wp2/m16_v1/adapter/adapter_report.json (artifact_sha256 256a1b185cfca704c2c2e7a6cfb1528b8f88a68122a6b4c939a00695358ce5e8).
+- Final R02 violations (fail-closed, 4): ENG_IDENTITY INSTALL_MODE_DIFFERS_FROM_RECORD on saleor-rc-939093a9c65c, saleor-rc-a8e6a4dd55fe, saleor-rc-f73c4e95c828 (3 ENG install-mode mismatches); MAIN DEV_GROUP_DECLARED_BUT_MECHANISM_NONE on saleor-rc-f76d0093b450 (1 MAIN task, mechanism none).
+- Not reached: R03/R04/R05; MAIN (controller/plan_m16_v1.json never started); no OPWS outcome, no selector-vs-gold overlap, no P_S, no coverage class; no result-driven redesign (no R2B/R2C exists).
+- Final LIGHT project-LIGHT-STOP_M16_ADAPTER_FAIL-2026-10-02-1606.zip sha256 32465cf2f07fca11dd7f276695036779d08e36719cb85fd7a3d13e11e6c1f08f; cold copy D:\wp2_cold\ verified identical.
+- Decision: M16-v1 CLOSED as pre-experiment adapter/instrument failure. No R2B/R2C chain; no MAIN run; no resume/ack of any M16 controller. A future attempt requires a separately designed, brain-approved M16-v2. All frozen evidence preserved unchanged; closure record docs/M16_V1_CLOSURE_2026-10-02.md.
+
+## Decision T2_FINALIZE_RESEARCH_BASELINE (2026-10-02) - Finalize durable research baseline; corrected future LIGHT naming (append-only entry)
+
+- Future LIGHT export filename is exactly `project-light-YYYY-MM-DD-HHMM.zip` (minute precision).
+- The filename uses the machine's timezone-aware local creation time at export time; the internal manifest retains an unambiguous timezone-aware creation timestamp (UTC ISO-8601 `created_utc` plus `created_local` with offset and `local_offset`).
+- An exact-name (same-minute) collision fails closed: the exporter never overwrites and never invents suffixes.
+- Historical LIGHT artifacts remain immutable; none were renamed, rewritten, moved, or deleted in this task (e.g. project-LIGHT-STOP_M16_ADAPTER_FAIL-2026-10-02-1606.zip stays as-is).
+- M16-v1 remains CLOSED as a pre-experiment adapter/instrument qualification failure; no MAIN OPWS outcome exists; no M16-v2 was created.
+- No new scientific experiment occurred in this task; no metric, threshold, selector, dataset, RQ, or claim was changed.
+- This task is durability/documentation only: LIVE status brought current, exporter naming corrected, docs synced, baseline committed/pushed and tagged msc-research-baseline-2026-10-02.

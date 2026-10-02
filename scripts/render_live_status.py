@@ -89,9 +89,12 @@ def render(data: dict) -> str:
     out.append("")
     out.append(f"**Next action:** {data['next_action']}")
     out.append("")
-    out.append("**End-to-end status:** WP-2 has **not started**; E2E-G6 F2P/P2P "
-               "oracle has **not started**; **no** E2E Smoke, Pilot or Research Run "
-               "exists yet.")
+    _legacy_end_to_end = (
+        "WP-2 has **not started**; E2E-G6 F2P/P2P oracle has **not started**; "
+        "**no** E2E Smoke, Pilot or Research Run exists yet."
+    )
+    out.append("**End-to-end status:** "
+               f"{data.get('end_to_end_status', _legacy_end_to_end)}")
     out.append("")
     out.append(f"*Source: `docs/LIVE_STATUS.json` (schema `{data['schema']}`), "
                f"rendered by `scripts/render_live_status.py`. As of "
