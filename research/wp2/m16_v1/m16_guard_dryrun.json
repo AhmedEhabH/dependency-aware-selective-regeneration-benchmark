@@ -1,6 +1,6 @@
 {
  "artifact": "m16_guard_dryrun",
- "artifact_sha256": "8fc064b352b390e71f0207fa019998beaa248d83300d72bb30a67b4d16f30c51",
+ "artifact_sha256": "f62802f8119e67edf5d894529a0b085fa2dbdbb709aed5f0d070a52bd50fd7c5",
  "design": "959a23f1b9caff5a342439e8ea6c7243f8f6c5a0e53eed64b0d5c9ecb5856982",
  "firewall": {
   "blocked_dirs": [
@@ -62,13 +62,43 @@
   "pilot_a_b": []
  },
  "provider_env_removed": [],
+ "r2a": {
+  "added_files": {
+   "controller/plan_m16_v1_dryrun_r2a.json": "d188d989df64970f4e9a82d8e75a91289759c54364ede051d6d6e287980c71cb",
+   "docs/MISSION_M16_DRYRUN_R2A_HUMAN_2026-10-02.md": "7b0b33e427368c5b07dd1f251a671c919a7e2937e0e66f036482ab482d1486b7",
+   "docs/WP2_M16_R2A_AMENDMENT_2026-10-02.md": "2a5c811c0b7d95432543bcbf7e56e80254835772a76638b9552ab9a2fe074080",
+   "scripts/wp2_m16_r2a.py": "e472dedff153585c7d4cdf940506881b57f234e1d9c23cc283f2772bf6f12c30",
+   "tests/unit/wp2/m16/test_m16_r2a.py": "6fbd5a3c7f5fc8ea13cd367fca57e272f654bf10c8badb0692f899b6edf58b05"
+  },
+  "amended_files": {
+   "scripts/wp2_m16_run.py": {
+    "kit_lf_sha256": "481dfddddb6b8b2c3dc1e3a5ffb81dae675ee8267c45564dbcb9b3b3bf2ac66a",
+    "r2a_lf_sha256": "13b2f89ed15880a142575749fdc032d7594626bccff44756b127c0484c601a95"
+   },
+   "tests/unit/wp2/m16/sim/simulate.py": {
+    "kit_lf_sha256": "0a7e54f0ddff8e6c4732c9006be67884f49f476d201033b8bb1d6f5d9124918e",
+    "r2a_lf_sha256": "e7f05a87c1c7f545aeba0b90eaf37f937be7399fa248807800a052a912ef1c90"
+   }
+  },
+  "commit": "086838526b9cc194e3a1a1c203d36f07d71f108d",
+  "ls_remote": "c58e439294192363b6459d353e96c6ab577a9d50\trefs/tags/wp2-m16-v1-r2a-2026-10-02\n086838526b9cc194e3a1a1c203d36f07d71f108d\trefs/tags/wp2-m16-v1-r2a-2026-10-02^{}",
+  "objects": {
+   "commit": "086838526b9cc194e3a1a1c203d36f07d71f108d",
+   "remote_object": "c58e439294192363b6459d353e96c6ab577a9d50",
+   "tag": "wp2-m16-v1-r2a-2026-10-02",
+   "tag_object": "c58e439294192363b6459d353e96c6ab577a9d50"
+  },
+  "record_sha256": "d86d2f88c8d68447e2bf9f3dcf773f4a147002507c1cbef95f262ab0b0c85a73",
+  "rule_id": "M16_R2A_ENG_IDENTITY_HIST_SCHEMA_V1",
+  "tag": "wp2-m16-v1-r2a-2026-10-02"
+ },
  "resources": {
-  "c_free_gib": 35.082,
+  "c_free_gib": 36.743,
   "hold": false,
   "hold_gib": 20.0,
   "warn": false,
   "warn_gib": 25.0
  },
  "stage": "dryrun",
- "utc": "2026-10-02T12:11:04Z"
+ "utc": "2026-10-02T12:55:53Z"
 }
