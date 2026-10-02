@@ -1,0 +1,78 @@
+{
+ "acks": [],
+ "history": [
+  {
+   "detail": "M16 unit tests (zero network, zero Docker)",
+   "event": "START",
+   "phase": "R00_KIT_SELFTEST",
+   "utc": "2026-10-02T12:55:27Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "R00_KIT_SELFTEST",
+   "utc": "2026-10-02T12:55:45Z"
+  },
+  {
+   "detail": "guard (dry-run stage): design, amendments in pushed kit tag, pins, protected pools, C: >= 20 GiB",
+   "event": "START",
+   "phase": "R01_GUARD",
+   "utc": "2026-10-02T12:55:45Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "R01_GUARD",
+   "utc": "2026-10-02T12:55:57Z"
+  },
+  {
+   "detail": "R2 MAIN adapter: ENG identity, MAIN closures fail-closed, commits (zero Docker)",
+   "event": "START",
+   "phase": "R02_ADAPTER_VERIFY",
+   "utc": "2026-10-02T12:55:57Z"
+  },
+  {
+   "detail": "M16_ADAPTER_FAIL: exit mapped to STOP:M16_ADAPTER_FAIL\n--- last log: logs/controller/20261002T155557_R02_ADAPTER_VERIFY.log ---\n$ C:\\Users\\Ahmed\\AppData\\Local\\anaconda3\\python.exe scripts/wp2_m16_run.py adapter-verify\nM16_ADAPTER_FAIL R2 fail-closed: 4 violation(s): ['ENG_IDENTITY:saleor-rc-939093a9c65c:INSTALL_MODE_DIFFERS_FROM_RECORD', 'ENG_IDENTITY:saleor-rc-a8e6a4dd55fe:INSTALL_MODE_DIFFERS_FROM_RECORD', 'ENG_IDENTITY:saleor-rc-f73c4e95c828:INSTALL_MODE_DIFFERS_FROM_RECORD']",
+   "event": "STOP",
+   "phase": "R02_ADAPTER_VERIFY",
+   "utc": "2026-10-02T13:06:19Z"
+  }
+ ],
+ "phases": {
+  "R00_KIT_SELFTEST": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-10-02T12:55:45Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "R01_GUARD": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-10-02T12:55:57Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "R02_ADAPTER_VERIFY": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "runs": 1,
+   "status": "RUNNING"
+  }
+ },
+ "plan": "WP2_M16_V1_DRYRUN_R2A",
+ "plan_sha256": "d188d989df64970f4e9a82d8e75a91289759c54364ede051d6d6e287980c71cb",
+ "stop": {
+  "detail": "exit mapped to STOP:M16_ADAPTER_FAIL\n--- last log: logs/controller/20261002T155557_R02_ADAPTER_VERIFY.log ---\n$ C:\\Users\\Ahmed\\AppData\\Local\\anaconda3\\python.exe scripts/wp2_m16_run.py adapter-verify\nM16_ADAPTER_FAIL R2 fail-closed: 4 violation(s): ['ENG_IDENTITY:saleor-rc-939093a9c65c:INSTALL_MODE_DIFFERS_FROM_RECORD', 'ENG_IDENTITY:saleor-rc-a8e6a4dd55fe:INSTALL_MODE_DIFFERS_FROM_RECORD', 'ENG_IDENTITY:saleor-rc-f73c4e95c828:INSTALL_MODE_DIFFERS_FROM_RECORD']",
+  "exports": {
+   "light": 0
+  },
+  "phase": "R02_ADAPTER_VERIFY",
+  "resumable": false,
+  "token": "M16_ADAPTER_FAIL",
+  "utc": "2026-10-02T13:06:19Z"
+ }
+}
