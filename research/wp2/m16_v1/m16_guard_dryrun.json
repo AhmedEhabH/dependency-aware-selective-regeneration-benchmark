@@ -1,0 +1,74 @@
+{
+ "artifact": "m16_guard_dryrun",
+ "artifact_sha256": "8fc064b352b390e71f0207fa019998beaa248d83300d72bb30a67b4d16f30c51",
+ "design": "959a23f1b9caff5a342439e8ea6c7243f8f6c5a0e53eed64b0d5c9ecb5856982",
+ "firewall": {
+  "blocked_dirs": [
+   "research/wp1b/main-297-2026-09-22/",
+   "research/wp1b/variance-15x3-2026-09-22/",
+   "research/wp2/m16_v1/scopes/",
+   "research/wp2/m16_v1/opws/"
+  ],
+  "blocked_files": [
+   "research/wp1a/sip_rmcss_per_task_predictions.json",
+   "research/stage5-v2-final/deployment_artifact.json",
+   "research/wp2/wp2_main_census_metadata_v2_2026-09-23.json",
+   "exports/WP1A_WP1B_SCIENTIFIC_CLOSURE_2026-09-21/research__wp1a__sip_rmcss_per_task_predictions.json"
+  ],
+  "blocked_suffixes": [
+   ".zip"
+  ],
+  "events": [
+   "open",
+   "subprocess.Popen",
+   "os.system",
+   "os.exec",
+   "os.posix_spawn",
+   "os.spawn",
+   "socket.connect"
+  ],
+  "installed": true,
+  "mode": "full",
+  "network": "loopback only"
+ },
+ "frame_220_sha256": "cd14874f5a3739130b33f28fcb5dd89def00ee5256473590de528c0489e765a4",
+ "historical_trees": {
+  "research/memory-rescue-v2": "a6c57f2232fd43ecac6544b28b23aed7497b216a",
+  "research/stage5-v2-final": "4090ed8a5932b4db2f91537117231be427bdd542",
+  "research/wp1a": "e2c15127ac2d1dd43848ee8f8f206e1210302344",
+  "research/wp1b": "933a221a1c3dfec604e1b40e59001cdfbd0d3ae0",
+  "research/wp2/harness_v3_2026-09-26": "fc42b70a69b0c0c2b88bac632512df216c0f1c1f",
+  "research/wp2/m14r_v1": "88fbcd13fef2ceeca4843e4826b5b0c56c383cce",
+  "research/wp2/m15r_v1": "3f52b138efd139ef3f5c6388c1167c8b0cf41c0e",
+  "research/wp2/oracle_confirmation_linux_v2_2026-09-23": "db76ef75eb11d98a79d724b3603257ac3b9290db",
+  "research/wp2/pilot_a_v1": "d0644bc10f448aa8e032bef9bd0bf0f85b521ead"
+ },
+ "kit_tag": {
+  "commit": "753e391932679d9d321021675684d0fd48308f07",
+  "ls_remote": "01e9d429c2c3a0071446d1ce8f33ce1a3f34f7e3\trefs/tags/wp2-m16-v1-kit-2026-10-02\n753e391932679d9d321021675684d0fd48308f07\trefs/tags/wp2-m16-v1-kit-2026-10-02^{}",
+  "objects": {
+   "commit": "753e391932679d9d321021675684d0fd48308f07",
+   "remote_object": "01e9d429c2c3a0071446d1ce8f33ce1a3f34f7e3",
+   "tag": "wp2-m16-v1-kit-2026-10-02",
+   "tag_object": "01e9d429c2c3a0071446d1ce8f33ce1a3f34f7e3"
+  },
+  "tag": "wp2-m16-v1-kit-2026-10-02"
+ },
+ "model_api_calls": 0,
+ "protected_overlap": {
+  "dev_census": [],
+  "m14r": [],
+  "oof_a": [],
+  "pilot_a_b": []
+ },
+ "provider_env_removed": [],
+ "resources": {
+  "c_free_gib": 35.082,
+  "hold": false,
+  "hold_gib": 20.0,
+  "warn": false,
+  "warn_gib": 25.0
+ },
+ "stage": "dryrun",
+ "utc": "2026-10-02T12:11:04Z"
+}
