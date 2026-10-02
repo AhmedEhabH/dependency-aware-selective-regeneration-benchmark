@@ -1,0 +1,247 @@
+{
+ "id": "WP2_M16_V1_DRYRUN_R2A",
+ "phases": [
+  {
+   "allowed_write_prefixes": [],
+   "command": [
+    "{python}",
+    "-m",
+    "pytest",
+    "-q",
+    "-p",
+    "no:cacheprovider",
+    "tests/unit/wp2/m16"
+   ],
+   "fail_token": "KIT_SELFTEST_FAIL",
+   "id": "R00_KIT_SELFTEST",
+   "timeout_s": 1800,
+   "title": "M16 unit tests (zero network, zero Docker)"
+  },
+  {
+   "allowed_write_prefixes": [
+    "research/wp2/m16_v1/m16_guard_dryrun.json"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m16_run.py",
+    "guard",
+    "--stage",
+    "dryrun"
+   ],
+   "commit_message": "evidence(wp2): M16 guard (dry-run)",
+   "exit_codes": {
+    "3": "STOP:HOLD_ACTIVE",
+    "33": "STOP:M16_PREFLIGHT",
+    "34": "STOP:M16_RESOURCE_GATE",
+    "35": "STOP:M16_ADAPTER_FAIL",
+    "36": "STOP:M16_FIREWALL",
+    "37": "STOP:M16_TAG_GATE",
+    "4": "STOP:USER_STOP_FLAG",
+    "78": "STOP:M16_INVARIANT",
+    "79": "STOP:EVAL_ERROR"
+   },
+   "fail_token": "M16_INVARIANT",
+   "id": "R01_GUARD",
+   "requires": [
+    "R00_KIT_SELFTEST"
+   ],
+   "timeout_s": 1800,
+   "title": "guard (dry-run stage): design, amendments in pushed kit tag, pins, protected pools, C: >= 20 GiB"
+  },
+  {
+   "allowed_write_prefixes": [
+    "research/wp2/m16_v1/adapter/"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m16_run.py",
+    "adapter-verify"
+   ],
+   "commit_message": "evidence(wp2): M16 R2 adapter verification",
+   "exit_codes": {
+    "3": "STOP:HOLD_ACTIVE",
+    "33": "STOP:M16_PREFLIGHT",
+    "34": "STOP:M16_RESOURCE_GATE",
+    "35": "STOP:M16_ADAPTER_FAIL",
+    "36": "STOP:M16_FIREWALL",
+    "37": "STOP:M16_TAG_GATE",
+    "4": "STOP:USER_STOP_FLAG",
+    "78": "STOP:M16_INVARIANT",
+    "79": "STOP:EVAL_ERROR"
+   },
+   "fail_token": "M16_ADAPTER_FAIL",
+   "id": "R02_ADAPTER_VERIFY",
+   "requires": [
+    "R01_GUARD"
+   ],
+   "timeout_s": 7200,
+   "title": "R2 MAIN adapter: ENG identity, MAIN closures fail-closed, commits (zero Docker)"
+  },
+  {
+   "allowed_write_prefixes": [
+    "research/wp2/m16_v1/dryrun/selection.json"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m16_run.py",
+    "dryrun-select"
+   ],
+   "commit_message": "evidence(wp2): M16 dry-run selection",
+   "exit_codes": {
+    "3": "STOP:HOLD_ACTIVE",
+    "33": "STOP:M16_PREFLIGHT",
+    "34": "STOP:M16_RESOURCE_GATE",
+    "35": "STOP:M16_ADAPTER_FAIL",
+    "36": "STOP:M16_FIREWALL",
+    "37": "STOP:M16_TAG_GATE",
+    "4": "STOP:USER_STOP_FLAG",
+    "78": "STOP:M16_INVARIANT",
+    "79": "STOP:EVAL_ERROR"
+   },
+   "fail_token": "M16_INVARIANT",
+   "id": "R03_DRYRUN_SELECT",
+   "requires": [
+    "R02_ADAPTER_VERIFY"
+   ],
+   "timeout_s": 3600,
+   "title": "deterministic selector-blind dry-run selection (one task per era)"
+  },
+  {
+   "allowed_write_prefixes": [
+    "research/wp2/m16_v1/dryrun/"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m16_run.py",
+    "dryrun-execute",
+    "--max-tasks",
+    "1"
+   ],
+   "commit_each_iteration": true,
+   "commit_message": "evidence(wp2): M16 dry-run progress",
+   "done_checks": [
+    {
+     "command": [
+      "{python}",
+      "scripts/wp2_m16_run.py",
+      "dryrun-complete"
+     ],
+     "type": "command_ok"
+    }
+   ],
+   "exit_codes": {
+    "3": "STOP:HOLD_ACTIVE",
+    "33": "STOP:M16_PREFLIGHT",
+    "34": "STOP:M16_RESOURCE_GATE",
+    "35": "STOP:M16_ADAPTER_FAIL",
+    "36": "STOP:M16_FIREWALL",
+    "37": "STOP:M16_TAG_GATE",
+    "4": "STOP:USER_STOP_FLAG",
+    "78": "STOP:M16_INVARIANT",
+    "79": "STOP:EVAL_ERROR"
+   },
+   "fail_token": "EVAL_ERROR",
+   "id": "R04_DRYRUN_EXECUTE",
+   "kind": "loop",
+   "max_iterations": 6,
+   "max_retries": 1,
+   "progress": {
+    "glob": "research/wp2/m16_v1/dryrun/*/record.json"
+   },
+   "requires": [
+    "R03_DRYRUN_SELECT"
+   ],
+   "timeout_s": 10800,
+   "title": "3-task resource dry-run (R1 oracle construction + measurements)"
+  },
+  {
+   "allowed_write_prefixes": [
+    "research/wp2/m16_v1/dryrun/resource_gate.json"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m16_run.py",
+    "resource-gate"
+   ],
+   "commit_message": "evidence(wp2): M16 resource gate",
+   "exit_codes": {
+    "3": "STOP:HOLD_ACTIVE",
+    "33": "STOP:M16_PREFLIGHT",
+    "34": "STOP:M16_S3_REQUIRED",
+    "35": "STOP:M16_ADAPTER_FAIL",
+    "36": "STOP:M16_FIREWALL",
+    "37": "STOP:M16_TAG_GATE",
+    "4": "STOP:USER_STOP_FLAG",
+    "78": "STOP:M16_INVARIANT",
+    "79": "STOP:EVAL_ERROR"
+   },
+   "fail_token": "M16_S3_REQUIRED",
+   "id": "R05_RESOURCE_GATE",
+   "requires": [
+    "R04_DRYRUN_EXECUTE"
+   ],
+   "timeout_s": 3600,
+   "title": "projected C: free at Q09 end >= 25 GiB, else S3 required (resumable STOP)"
+  }
+ ],
+ "settings": {
+  "branch": "main",
+  "exports": {
+   "light": [
+    "{python}",
+    "scripts/wp2_export_light.py",
+    "--profile",
+    "controller/light_profile_m16.json",
+    "--label",
+    "{label}"
+   ]
+  },
+  "final_actions": [
+   {
+    "message": "evidence(wp2): M16 resource dry-run",
+    "prefixes": [
+     "research/wp2/m16_v1/"
+    ],
+    "type": "commit"
+   },
+   {
+    "type": "push"
+   },
+   {
+    "message": "WP2 M16 resource dry-run",
+    "name": "wp2-m16-v1-dryrun",
+    "type": "tag"
+   },
+   {
+    "label": "M16_DRYRUN",
+    "required": [
+     "light"
+    ],
+    "type": "exports"
+   }
+  ],
+  "git_commit": true,
+  "git_push": true,
+  "kit_manifest": "controller/KIT_MANIFEST_M16.json",
+  "remote": "origin",
+  "report_dir": "research/wp2/m16_v1/controller_reports_dryrun_r2a",
+  "resumable_tokens": [
+   "NOT_YET",
+   "HOLD_ACTIVE",
+   "USER_STOP_FLAG",
+   "EVAL_ERROR",
+   "M16_PREFLIGHT",
+   "M16_S3_REQUIRED",
+   "M16_RESOURCE_GATE",
+   "M16_TAG_GATE",
+   "POST_ACTION_FAILED",
+   "FINAL_ACTION_FAILED",
+   "NO_PROGRESS"
+  ],
+  "state_file": "research/wp2/m16_v1/controller_state_dryrun_r2a.json",
+  "stop_commit_prefixes": [
+   "research/wp2/m16_v1/"
+  ],
+  "stop_flag": "logs/M16_STOP.flag"
+ }
+}

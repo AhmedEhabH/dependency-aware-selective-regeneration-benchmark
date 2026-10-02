@@ -1,0 +1,2054 @@
+{
+ "artifact": "m16_r2a_failed_dryrun_archive",
+ "artifact_sha256": "24c997aef6254b4c5719392985dd305eff000ed6ba1f26fb3f5ffccc9f97c3e3",
+ "docker_calls": 0,
+ "files": {
+  "research/wp2/m16_v1/controller_reports_dryrun/STOP_M16_ADAPTER_FAIL_20261002T151120.md": {
+   "archived_as": "research/wp2/m16_v1/r2a/failed_dryrun_2026-10-02/controller_reports_dryrun/STOP_M16_ADAPTER_FAIL_20261002T151120.md",
+   "lf_sha256": "629e8011dd082bac74cca734169c9469260b5183fde5f8a0508915f361a3f248",
+   "raw_sha256": "573cb7d2ed0dc8beab71258d340f1ce40372b760baf227877e536096bef35b6c"
+  },
+  "research/wp2/m16_v1/controller_state_dryrun.json": {
+   "archived_as": "research/wp2/m16_v1/r2a/failed_dryrun_2026-10-02/controller_state_dryrun.json",
+   "lf_sha256": "f5ebebf2ff99dbd125348c3b5914684131d3725cbbd775496a2a4be0b5d4f6ec",
+   "raw_sha256": "99bdc4acdac6cbd3f5291b4efac209994607327830328d7d428a415f77db1885"
+  },
+  "research/wp2/m16_v1/m16_guard_dryrun.json": {
+   "archived_as": "research/wp2/m16_v1/r2a/failed_dryrun_2026-10-02/m16_guard_dryrun.json",
+   "lf_sha256": "43bd0d84aa4f12d20ba49340150675fef41328b8c5b27e7b52c672dfaa5b21f1",
+   "raw_sha256": "43bd0d84aa4f12d20ba49340150675fef41328b8c5b27e7b52c672dfaa5b21f1"
+  }
+ },
+ "historical_schema": {
+  "by_status": {
+   "DONE": {
+    "NOT_RECORDED_ABSENT": 8,
+    "NOT_RECORDED_NULL": 0,
+    "RECORDED": 14,
+    "UNKNOWN_SCHEMA": 0,
+    "n": 22
+   },
+   "ENV_INSTALL_BLOCKED": {
+    "NOT_RECORDED_ABSENT": 7,
+    "NOT_RECORDED_NULL": 0,
+    "RECORDED": 0,
+    "UNKNOWN_SCHEMA": 0,
+    "n": 7
+   }
+  },
+  "closure_state_counts": {
+   "NOT_RECORDED_ABSENT": 15,
+   "RECORDED": 14
+  },
+  "duplicates": {},
+  "effective_record": "last record of a task_id wins (unchanged kit semantics)",
+  "fatal": [],
+  "n_nonblank_lines": 29,
+  "n_tasks": 29,
+  "path": "research/wp2/harness_v3_2026-09-26/phase5_c4_v3_per_task.jsonl",
+  "per_line": [
+   {
+    "closure": "NOT_RECORDED_ABSENT",
+    "closure_keys": null,
+    "line": 1,
+    "manifest_keys": [
+     "clock_pre_post",
+     "db_names",
+     "era",
+     "frozen_base_image_id",
+     "harness_v3_version",
+     "install_mode",
+     "lockfile_sha256",
+     "nofile_hard",
+     "nofile_soft",
+     "runner_sha",
+     "target_commit",
+     "task_id",
+     "worker_count"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-9698135fe4fc",
+    "top_keys": [
+     "classification",
+     "counts",
+     "eligibility",
+     "era_key",
+     "evidence_sha256",
+     "manifest",
+     "n_nodes",
+     "n_test_files",
+     "node_records",
+     "operations",
+     "status",
+     "target_commit",
+     "task_id",
+     "wall_s"
+    ]
+   },
+   {
+    "closure": "NOT_RECORDED_ABSENT",
+    "closure_keys": null,
+    "line": 2,
+    "manifest_keys": [
+     "clock_pre_post",
+     "db_names",
+     "era",
+     "frozen_base_image_id",
+     "harness_v3_version",
+     "install_mode",
+     "lockfile_sha256",
+     "nofile_hard",
+     "nofile_soft",
+     "runner_sha",
+     "target_commit",
+     "task_id",
+     "worker_count"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-a1a7a223bba2",
+    "top_keys": [
+     "classification",
+     "counts",
+     "eligibility",
+     "era_key",
+     "evidence_sha256",
+     "manifest",
+     "n_nodes",
+     "n_test_files",
+     "node_records",
+     "operations",
+     "status",
+     "target_commit",
+     "task_id",
+     "wall_s"
+    ]
+   },
+   {
+    "closure": "NOT_RECORDED_ABSENT",
+    "closure_keys": null,
+    "line": 3,
+    "manifest_keys": [
+     "clock_pre_post",
+     "db_names",
+     "era",
+     "frozen_base_image_id",
+     "harness_v3_version",
+     "install_mode",
+     "lockfile_sha256",
+     "nofile_hard",
+     "nofile_soft",
+     "runner_sha",
+     "target_commit",
+     "task_id",
+     "worker_count"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-ba60125e45a0",
+    "top_keys": [
+     "classification",
+     "counts",
+     "eligibility",
+     "era_key",
+     "evidence_sha256",
+     "manifest",
+     "n_nodes",
+     "n_test_files",
+     "node_records",
+     "operations",
+     "status",
+     "target_commit",
+     "task_id",
+     "wall_s"
+    ]
+   },
+   {
+    "closure": "NOT_RECORDED_ABSENT",
+    "closure_keys": null,
+    "line": 4,
+    "manifest_keys": [
+     "C4_EFFECTIVE_WORKERS",
+     "clock_pre_post",
+     "db_names",
+     "era",
+     "frozen_base_image_id",
+     "harness_v3_version",
+     "install_mode",
+     "lockfile_sha256",
+     "nofile_hard",
+     "nofile_soft",
+     "runner_sha",
+     "target_commit",
+     "task_id"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-2a7f13c25908",
+    "top_keys": [
+     "classification",
+     "counts",
+     "eligibility",
+     "era_key",
+     "evidence_sha256",
+     "manifest",
+     "n_nodes",
+     "n_test_files",
+     "node_records",
+     "operations",
+     "status",
+     "target_commit",
+     "task_id",
+     "wall_s"
+    ]
+   },
+   {
+    "closure": "NOT_RECORDED_ABSENT",
+    "closure_keys": null,
+    "line": 5,
+    "manifest_keys": [
+     "C4_EFFECTIVE_WORKERS",
+     "clock_pre_post",
+     "db_names",
+     "era",
+     "frozen_base_image_id",
+     "harness_v3_version",
+     "install_mode",
+     "lockfile_sha256",
+     "nofile_hard",
+     "nofile_soft",
+     "runner_sha",
+     "target_commit",
+     "task_id"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-f73c4e95c828",
+    "top_keys": [
+     "classification",
+     "counts",
+     "eligibility",
+     "era_key",
+     "evidence_sha256",
+     "manifest",
+     "n_nodes",
+     "n_test_files",
+     "node_records",
+     "operations",
+     "status",
+     "target_commit",
+     "task_id",
+     "wall_s"
+    ]
+   },
+   {
+    "closure": "NOT_RECORDED_ABSENT",
+    "closure_keys": null,
+    "line": 6,
+    "manifest_keys": [
+     "C4_EFFECTIVE_WORKERS",
+     "clock_pre_post",
+     "db_names",
+     "era",
+     "frozen_base_image_id",
+     "harness_v3_version",
+     "install_mode",
+     "lockfile_sha256",
+     "nofile_hard",
+     "nofile_soft",
+     "runner_sha",
+     "target_commit",
+     "task_id"
+    ],
+    "status": "ENV_INSTALL_BLOCKED",
+    "task_id": "saleor-rc-6e0a2cfc9287",
+    "top_keys": [
+     "classification",
+     "counts",
+     "eligibility",
+     "era_key",
+     "evidence_sha256",
+     "manifest",
+     "n_nodes",
+     "n_test_files",
+     "node_records",
+     "operations",
+     "status",
+     "target_commit",
+     "task_id",
+     "wall_s"
+    ]
+   },
+   {
+    "closure": "NOT_RECORDED_ABSENT",
+    "closure_keys": null,
+    "line": 7,
+    "manifest_keys": [
+     "C4_EFFECTIVE_WORKERS",
+     "clock_pre_post",
+     "db_names",
+     "era",
+     "frozen_base_image_id",
+     "harness_v3_version",
+     "install_mode",
+     "lockfile_sha256",
+     "nofile_hard",
+     "nofile_soft",
+     "runner_sha",
+     "target_commit",
+     "task_id"
+    ],
+    "status": "ENV_INSTALL_BLOCKED",
+    "task_id": "saleor-rc-6f1f1720fc7c",
+    "top_keys": [
+     "classification",
+     "counts",
+     "eligibility",
+     "era_key",
+     "evidence_sha256",
+     "manifest",
+     "n_nodes",
+     "n_test_files",
+     "node_records",
+     "operations",
+     "status",
+     "target_commit",
+     "task_id",
+     "wall_s"
+    ]
+   },
+   {
+    "closure": "NOT_RECORDED_ABSENT",
+    "closure_keys": null,
+    "line": 8,
+    "manifest_keys": [
+     "C4_EFFECTIVE_WORKERS",
+     "clock_pre_post",
+     "db_names",
+     "era",
+     "frozen_base_image_id",
+     "harness_v3_version",
+     "install_mode",
+     "lockfile_sha256",
+     "nofile_hard",
+     "nofile_soft",
+     "runner_sha",
+     "target_commit",
+     "task_id"
+    ],
+    "status": "ENV_INSTALL_BLOCKED",
+    "task_id": "saleor-rc-836d01d8429f",
+    "top_keys": [
+     "classification",
+     "counts",
+     "eligibility",
+     "era_key",
+     "evidence_sha256",
+     "manifest",
+     "n_nodes",
+     "n_test_files",
+     "node_records",
+     "operations",
+     "status",
+     "target_commit",
+     "task_id",
+     "wall_s"
+    ]
+   },
+   {
+    "closure": "NOT_RECORDED_ABSENT",
+    "closure_keys": null,
+    "line": 9,
+    "manifest_keys": [
+     "C4_EFFECTIVE_WORKERS",
+     "clock_pre_post",
+     "db_names",
+     "era",
+     "frozen_base_image_id",
+     "harness_v3_version",
+     "install_mode",
+     "lockfile_sha256",
+     "nofile_hard",
+     "nofile_soft",
+     "runner_sha",
+     "target_commit",
+     "task_id"
+    ],
+    "status": "ENV_INSTALL_BLOCKED",
+    "task_id": "saleor-rc-7dcf89985e0c",
+    "top_keys": [
+     "classification",
+     "counts",
+     "eligibility",
+     "era_key",
+     "evidence_sha256",
+     "manifest",
+     "n_nodes",
+     "n_test_files",
+     "node_records",
+     "operations",
+     "status",
+     "target_commit",
+     "task_id",
+     "wall_s"
+    ]
+   },
+   {
+    "closure": "NOT_RECORDED_ABSENT",
+    "closure_keys": null,
+    "line": 10,
+    "manifest_keys": [
+     "C4_EFFECTIVE_WORKERS",
+     "clock_pre_post",
+     "db_names",
+     "era",
+     "frozen_base_image_id",
+     "harness_v3_version",
+     "install_mode",
+     "lockfile_sha256",
+     "nofile_hard",
+     "nofile_soft",
+     "runner_sha",
+     "target_commit",
+     "task_id"
+    ],
+    "status": "ENV_INSTALL_BLOCKED",
+    "task_id": "saleor-rc-939093a9c65c",
+    "top_keys": [
+     "classification",
+     "counts",
+     "eligibility",
+     "era_key",
+     "evidence_sha256",
+     "manifest",
+     "n_nodes",
+     "n_test_files",
+     "node_records",
+     "operations",
+     "status",
+     "target_commit",
+     "task_id",
+     "wall_s"
+    ]
+   },
+   {
+    "closure": "NOT_RECORDED_ABSENT",
+    "closure_keys": null,
+    "line": 11,
+    "manifest_keys": [
+     "C4_EFFECTIVE_WORKERS",
+     "clock_pre_post",
+     "db_names",
+     "era",
+     "frozen_base_image_id",
+     "harness_v3_version",
+     "install_mode",
+     "lockfile_sha256",
+     "nofile_hard",
+     "nofile_soft",
+     "runner_sha",
+     "target_commit",
+     "task_id"
+    ],
+    "status": "ENV_INSTALL_BLOCKED",
+    "task_id": "saleor-rc-a8e6a4dd55fe",
+    "top_keys": [
+     "classification",
+     "counts",
+     "eligibility",
+     "era_key",
+     "evidence_sha256",
+     "manifest",
+     "n_nodes",
+     "n_test_files",
+     "node_records",
+     "operations",
+     "status",
+     "target_commit",
+     "task_id",
+     "wall_s"
+    ]
+   },
+   {
+    "closure": "NOT_RECORDED_ABSENT",
+    "closure_keys": null,
+    "line": 12,
+    "manifest_keys": [
+     "C4_EFFECTIVE_WORKERS",
+     "clock_pre_post",
+     "db_names",
+     "era",
+     "frozen_base_image_id",
+     "harness_v3_version",
+     "install_mode",
+     "lockfile_sha256",
+     "nofile_hard",
+     "nofile_soft",
+     "runner_sha",
+     "target_commit",
+     "task_id"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-d220843b5418",
+    "top_keys": [
+     "classification",
+     "counts",
+     "eligibility",
+     "era_key",
+     "evidence_sha256",
+     "manifest",
+     "n_nodes",
+     "n_test_files",
+     "node_records",
+     "operations",
+     "status",
+     "target_commit",
+     "task_id",
+     "wall_s"
+    ]
+   },
+   {
+    "closure": "NOT_RECORDED_ABSENT",
+    "closure_keys": null,
+    "line": 13,
+    "manifest_keys": [
+     "C4_EFFECTIVE_WORKERS",
+     "clock_pre_post",
+     "db_names",
+     "era",
+     "frozen_base_image_id",
+     "harness_v3_version",
+     "install_mode",
+     "lockfile_sha256",
+     "nofile_hard",
+     "nofile_soft",
+     "runner_sha",
+     "target_commit",
+     "task_id"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-39b4138e8550",
+    "top_keys": [
+     "classification",
+     "counts",
+     "eligibility",
+     "era_key",
+     "evidence_sha256",
+     "manifest",
+     "n_nodes",
+     "n_test_files",
+     "node_records",
+     "operations",
+     "status",
+     "target_commit",
+     "task_id",
+     "wall_s"
+    ]
+   },
+   {
+    "closure": "NOT_RECORDED_ABSENT",
+    "closure_keys": null,
+    "line": 14,
+    "manifest_keys": [
+     "C4_EFFECTIVE_WORKERS",
+     "clock_pre_post",
+     "db_names",
+     "era",
+     "frozen_base_image_id",
+     "harness_v3_version",
+     "install_mode",
+     "lockfile_sha256",
+     "nofile_hard",
+     "nofile_soft",
+     "runner_sha",
+     "target_commit",
+     "task_id"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-c662d3a7e759",
+    "top_keys": [
+     "classification",
+     "counts",
+     "eligibility",
+     "era_key",
+     "evidence_sha256",
+     "manifest",
+     "n_nodes",
+     "n_test_files",
+     "node_records",
+     "operations",
+     "status",
+     "target_commit",
+     "task_id",
+     "wall_s"
+    ]
+   },
+   {
+    "closure": "NOT_RECORDED_ABSENT",
+    "closure_keys": null,
+    "line": 15,
+    "manifest_keys": [
+     "C4_EFFECTIVE_WORKERS",
+     "clock_pre_post",
+     "db_names",
+     "era",
+     "frozen_base_image_id",
+     "harness_v3_version",
+     "install_mode",
+     "lockfile_sha256",
+     "nofile_hard",
+     "nofile_soft",
+     "runner_sha",
+     "target_commit",
+     "task_id"
+    ],
+    "status": "ENV_INSTALL_BLOCKED",
+    "task_id": "saleor-rc-dfe77ac1c5dc",
+    "top_keys": [
+     "bookkeeping_note",
+     "classification",
+     "counts",
+     "eligibility",
+     "era_key",
+     "evidence_sha256",
+     "manifest",
+     "n_nodes",
+     "n_test_files",
+     "node_records",
+     "operations",
+     "status",
+     "target_commit",
+     "task_id",
+     "wall_s"
+    ]
+   },
+   {
+    "closure": "RECORDED",
+    "closure_keys": [
+     "mechanism",
+     "n_pins",
+     "n_unsupported",
+     "pins_sha256"
+    ],
+    "line": 16,
+    "manifest_keys": [
+     "C4_EFFECTIVE_WORKERS",
+     "clock_pre_post",
+     "db_names",
+     "dev_test_closure",
+     "era",
+     "frozen_base_image_id",
+     "harness_v3_version",
+     "install_mode",
+     "lockfile_sha256",
+     "main_recipe_signature",
+     "nofile_hard",
+     "nofile_soft",
+     "runner_sha",
+     "target_commit",
+     "task_id"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-82c56bde0e34",
+    "top_keys": [
+     "classification",
+     "counts",
+     "eligibility",
+     "era_key",
+     "evidence_sha256",
+     "manifest",
+     "n_nodes",
+     "n_test_files",
+     "node_records",
+     "operations",
+     "status",
+     "target_commit",
+     "task_id",
+     "wall_s"
+    ]
+   },
+   {
+    "closure": "RECORDED",
+    "closure_keys": [
+     "mechanism",
+     "n_pins",
+     "n_unsupported",
+     "pins_sha256"
+    ],
+    "line": 17,
+    "manifest_keys": [
+     "C4_EFFECTIVE_WORKERS",
+     "clock_pre_post",
+     "db_names",
+     "dev_test_closure",
+     "era",
+     "frozen_base_image_id",
+     "harness_v3_version",
+     "install_mode",
+     "lockfile_sha256",
+     "main_recipe_signature",
+     "nofile_hard",
+     "nofile_soft",
+     "runner_sha",
+     "target_commit",
+     "task_id"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-9258154b8a0b",
+    "top_keys": [
+     "classification",
+     "counts",
+     "eligibility",
+     "era_key",
+     "evidence_sha256",
+     "manifest",
+     "n_nodes",
+     "n_test_files",
+     "node_records",
+     "operations",
+     "status",
+     "target_commit",
+     "task_id",
+     "wall_s"
+    ]
+   },
+   {
+    "closure": "RECORDED",
+    "closure_keys": [
+     "mechanism",
+     "n_pins",
+     "n_unsupported",
+     "pins_sha256"
+    ],
+    "line": 18,
+    "manifest_keys": [
+     "C4_EFFECTIVE_WORKERS",
+     "clock_pre_post",
+     "db_names",
+     "dev_test_closure",
+     "era",
+     "frozen_base_image_id",
+     "harness_v3_version",
+     "install_mode",
+     "lockfile_sha256",
+     "main_recipe_signature",
+     "nofile_hard",
+     "nofile_soft",
+     "runner_sha",
+     "target_commit",
+     "task_id"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-6abb53f3407b",
+    "top_keys": [
+     "classification",
+     "counts",
+     "eligibility",
+     "era_key",
+     "evidence_sha256",
+     "manifest",
+     "n_nodes",
+     "n_test_files",
+     "node_records",
+     "operations",
+     "status",
+     "target_commit",
+     "task_id",
+     "wall_s"
+    ]
+   },
+   {
+    "closure": "RECORDED",
+    "closure_keys": [
+     "mechanism",
+     "n_pins",
+     "n_unsupported",
+     "pins_sha256"
+    ],
+    "line": 19,
+    "manifest_keys": [
+     "C4_EFFECTIVE_WORKERS",
+     "clock_pre_post",
+     "db_names",
+     "dev_test_closure",
+     "era",
+     "frozen_base_image_id",
+     "harness_v3_version",
+     "install_mode",
+     "lockfile_sha256",
+     "main_recipe_signature",
+     "nofile_hard",
+     "nofile_soft",
+     "runner_sha",
+     "target_commit",
+     "task_id"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-93b20d78c011",
+    "top_keys": [
+     "classification",
+     "counts",
+     "eligibility",
+     "era_key",
+     "evidence_sha256",
+     "manifest",
+     "n_nodes",
+     "n_test_files",
+     "node_records",
+     "operations",
+     "status",
+     "target_commit",
+     "task_id",
+     "wall_s"
+    ]
+   },
+   {
+    "closure": "RECORDED",
+    "closure_keys": [
+     "mechanism",
+     "n_pins",
+     "n_unsupported",
+     "pins_sha256"
+    ],
+    "line": 20,
+    "manifest_keys": [
+     "C4_EFFECTIVE_WORKERS",
+     "clock_pre_post",
+     "db_names",
+     "dev_test_closure",
+     "era",
+     "frozen_base_image_id",
+     "harness_v3_version",
+     "install_mode",
+     "lockfile_sha256",
+     "main_recipe_signature",
+     "nofile_hard",
+     "nofile_soft",
+     "runner_sha",
+     "target_commit",
+     "task_id"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-644f33094857",
+    "top_keys": [
+     "classification",
+     "counts",
+     "eligibility",
+     "era_key",
+     "evidence_sha256",
+     "manifest",
+     "n_nodes",
+     "n_test_files",
+     "node_records",
+     "operations",
+     "status",
+     "target_commit",
+     "task_id",
+     "wall_s"
+    ]
+   },
+   {
+    "closure": "RECORDED",
+    "closure_keys": [
+     "mechanism",
+     "n_pins",
+     "n_unsupported",
+     "pins_sha256"
+    ],
+    "line": 21,
+    "manifest_keys": [
+     "C4_EFFECTIVE_WORKERS",
+     "clock_pre_post",
+     "db_names",
+     "dev_test_closure",
+     "era",
+     "frozen_base_image_id",
+     "harness_v3_version",
+     "install_mode",
+     "lockfile_sha256",
+     "main_recipe_signature",
+     "nofile_hard",
+     "nofile_soft",
+     "runner_sha",
+     "target_commit",
+     "task_id"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-2d45b76a52f2",
+    "top_keys": [
+     "classification",
+     "counts",
+     "eligibility",
+     "era_key",
+     "evidence_sha256",
+     "manifest",
+     "n_nodes",
+     "n_test_files",
+     "node_records",
+     "operations",
+     "status",
+     "target_commit",
+     "task_id",
+     "wall_s"
+    ]
+   },
+   {
+    "closure": "RECORDED",
+    "closure_keys": [
+     "mechanism",
+     "n_pins",
+     "n_unsupported",
+     "pins_sha256"
+    ],
+    "line": 22,
+    "manifest_keys": [
+     "C4_EFFECTIVE_WORKERS",
+     "clock_pre_post",
+     "db_names",
+     "dev_test_closure",
+     "era",
+     "frozen_base_image_id",
+     "harness_v3_version",
+     "install_mode",
+     "lockfile_sha256",
+     "main_recipe_signature",
+     "nofile_hard",
+     "nofile_soft",
+     "runner_sha",
+     "target_commit",
+     "task_id"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-e03ee76d2b89",
+    "top_keys": [
+     "classification",
+     "counts",
+     "eligibility",
+     "era_key",
+     "evidence_sha256",
+     "manifest",
+     "n_nodes",
+     "n_test_files",
+     "node_records",
+     "operations",
+     "status",
+     "target_commit",
+     "task_id",
+     "wall_s"
+    ]
+   },
+   {
+    "closure": "RECORDED",
+    "closure_keys": [
+     "mechanism",
+     "n_pins",
+     "n_unsupported",
+     "pins_sha256"
+    ],
+    "line": 23,
+    "manifest_keys": [
+     "C4_EFFECTIVE_WORKERS",
+     "clock_pre_post",
+     "db_names",
+     "dev_test_closure",
+     "era",
+     "frozen_base_image_id",
+     "harness_v3_version",
+     "install_mode",
+     "lockfile_sha256",
+     "main_recipe_signature",
+     "nofile_hard",
+     "nofile_soft",
+     "runner_sha",
+     "target_commit",
+     "task_id"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-22ec4dab0154",
+    "top_keys": [
+     "classification",
+     "counts",
+     "eligibility",
+     "era_key",
+     "evidence_sha256",
+     "manifest",
+     "n_nodes",
+     "n_test_files",
+     "node_records",
+     "operations",
+     "status",
+     "target_commit",
+     "task_id",
+     "wall_s"
+    ]
+   },
+   {
+    "closure": "RECORDED",
+    "closure_keys": [
+     "mechanism",
+     "n_pins",
+     "n_unsupported",
+     "pins_sha256"
+    ],
+    "line": 24,
+    "manifest_keys": [
+     "C4_EFFECTIVE_WORKERS",
+     "clock_pre_post",
+     "db_names",
+     "dev_test_closure",
+     "era",
+     "frozen_base_image_id",
+     "harness_v3_version",
+     "install_mode",
+     "lockfile_sha256",
+     "main_recipe_signature",
+     "nofile_hard",
+     "nofile_soft",
+     "runner_sha",
+     "target_commit",
+     "task_id"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-dc6ac9d252df",
+    "top_keys": [
+     "classification",
+     "counts",
+     "eligibility",
+     "era_key",
+     "evidence_sha256",
+     "manifest",
+     "n_nodes",
+     "n_test_files",
+     "node_records",
+     "operations",
+     "status",
+     "target_commit",
+     "task_id",
+     "wall_s"
+    ]
+   },
+   {
+    "closure": "RECORDED",
+    "closure_keys": [
+     "mechanism",
+     "n_pins",
+     "n_unsupported",
+     "pins_sha256"
+    ],
+    "line": 25,
+    "manifest_keys": [
+     "C4_EFFECTIVE_WORKERS",
+     "clock_pre_post",
+     "db_names",
+     "dev_test_closure",
+     "era",
+     "frozen_base_image_id",
+     "harness_v3_version",
+     "install_mode",
+     "lockfile_sha256",
+     "main_recipe_signature",
+     "nofile_hard",
+     "nofile_soft",
+     "runner_sha",
+     "target_commit",
+     "task_id"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-823b899757ab",
+    "top_keys": [
+     "classification",
+     "counts",
+     "eligibility",
+     "era_key",
+     "evidence_sha256",
+     "manifest",
+     "n_nodes",
+     "n_test_files",
+     "node_records",
+     "operations",
+     "status",
+     "target_commit",
+     "task_id",
+     "wall_s"
+    ]
+   },
+   {
+    "closure": "RECORDED",
+    "closure_keys": [
+     "mechanism",
+     "n_pins",
+     "n_unsupported",
+     "pins_sha256"
+    ],
+    "line": 26,
+    "manifest_keys": [
+     "C4_EFFECTIVE_WORKERS",
+     "clock_pre_post",
+     "db_names",
+     "dev_test_closure",
+     "era",
+     "frozen_base_image_id",
+     "harness_v3_version",
+     "install_mode",
+     "lockfile_sha256",
+     "main_recipe_signature",
+     "nofile_hard",
+     "nofile_soft",
+     "runner_sha",
+     "target_commit",
+     "task_id"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-c3b9e396b07d",
+    "top_keys": [
+     "classification",
+     "counts",
+     "eligibility",
+     "era_key",
+     "evidence_sha256",
+     "manifest",
+     "n_nodes",
+     "n_test_files",
+     "node_records",
+     "operations",
+     "status",
+     "target_commit",
+     "task_id",
+     "wall_s"
+    ]
+   },
+   {
+    "closure": "RECORDED",
+    "closure_keys": [
+     "mechanism",
+     "n_pins",
+     "n_unsupported",
+     "pins_sha256"
+    ],
+    "line": 27,
+    "manifest_keys": [
+     "C4_EFFECTIVE_WORKERS",
+     "clock_pre_post",
+     "db_names",
+     "dev_test_closure",
+     "era",
+     "frozen_base_image_id",
+     "harness_v3_version",
+     "install_mode",
+     "lockfile_sha256",
+     "main_recipe_signature",
+     "nofile_hard",
+     "nofile_soft",
+     "runner_sha",
+     "target_commit",
+     "task_id"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-e25cf9b4a837",
+    "top_keys": [
+     "classification",
+     "counts",
+     "eligibility",
+     "era_key",
+     "evidence_sha256",
+     "manifest",
+     "n_nodes",
+     "n_test_files",
+     "node_records",
+     "operations",
+     "status",
+     "target_commit",
+     "task_id",
+     "wall_s"
+    ]
+   },
+   {
+    "closure": "RECORDED",
+    "closure_keys": [
+     "mechanism",
+     "n_pins",
+     "n_unsupported",
+     "pins_sha256"
+    ],
+    "line": 28,
+    "manifest_keys": [
+     "C4_EFFECTIVE_WORKERS",
+     "clock_pre_post",
+     "db_names",
+     "dev_test_closure",
+     "era",
+     "frozen_base_image_id",
+     "harness_v3_version",
+     "install_mode",
+     "lockfile_sha256",
+     "main_recipe_signature",
+     "nofile_hard",
+     "nofile_soft",
+     "runner_sha",
+     "target_commit",
+     "task_id"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-8f76ddc6267f",
+    "top_keys": [
+     "classification",
+     "counts",
+     "eligibility",
+     "era_key",
+     "evidence_sha256",
+     "manifest",
+     "n_nodes",
+     "n_test_files",
+     "node_records",
+     "operations",
+     "status",
+     "target_commit",
+     "task_id",
+     "wall_s"
+    ]
+   },
+   {
+    "closure": "RECORDED",
+    "closure_keys": [
+     "mechanism",
+     "n_pins",
+     "n_unsupported",
+     "pins_sha256"
+    ],
+    "line": 29,
+    "manifest_keys": [
+     "C4_EFFECTIVE_WORKERS",
+     "clock_pre_post",
+     "db_names",
+     "dev_test_closure",
+     "era",
+     "frozen_base_image_id",
+     "harness_v3_version",
+     "install_mode",
+     "lockfile_sha256",
+     "main_recipe_signature",
+     "nofile_hard",
+     "nofile_soft",
+     "runner_sha",
+     "target_commit",
+     "task_id"
+    ],
+    "status": "DONE",
+    "task_id": "saleor-rc-74538ea00ce9",
+    "top_keys": [
+     "classification",
+     "counts",
+     "eligibility",
+     "era_key",
+     "evidence_sha256",
+     "manifest",
+     "n_nodes",
+     "n_test_files",
+     "node_records",
+     "operations",
+     "status",
+     "target_commit",
+     "task_id",
+     "wall_s"
+    ]
+   }
+  ],
+  "record_shapes": [
+   {
+    "closure_keys": [
+     "mechanism",
+     "n_pins",
+     "n_unsupported",
+     "pins_sha256"
+    ],
+    "manifest_keys": [
+     "C4_EFFECTIVE_WORKERS",
+     "clock_pre_post",
+     "db_names",
+     "dev_test_closure",
+     "era",
+     "frozen_base_image_id",
+     "harness_v3_version",
+     "install_mode",
+     "lockfile_sha256",
+     "main_recipe_signature",
+     "nofile_hard",
+     "nofile_soft",
+     "runner_sha",
+     "target_commit",
+     "task_id"
+    ],
+    "n": 14,
+    "top_keys": [
+     "classification",
+     "counts",
+     "eligibility",
+     "era_key",
+     "evidence_sha256",
+     "manifest",
+     "n_nodes",
+     "n_test_files",
+     "node_records",
+     "operations",
+     "status",
+     "target_commit",
+     "task_id",
+     "wall_s"
+    ]
+   },
+   {
+    "closure_keys": null,
+    "manifest_keys": [
+     "C4_EFFECTIVE_WORKERS",
+     "clock_pre_post",
+     "db_names",
+     "era",
+     "frozen_base_image_id",
+     "harness_v3_version",
+     "install_mode",
+     "lockfile_sha256",
+     "nofile_hard",
+     "nofile_soft",
+     "runner_sha",
+     "target_commit",
+     "task_id"
+    ],
+    "n": 1,
+    "top_keys": [
+     "bookkeeping_note",
+     "classification",
+     "counts",
+     "eligibility",
+     "era_key",
+     "evidence_sha256",
+     "manifest",
+     "n_nodes",
+     "n_test_files",
+     "node_records",
+     "operations",
+     "status",
+     "target_commit",
+     "task_id",
+     "wall_s"
+    ]
+   },
+   {
+    "closure_keys": null,
+    "manifest_keys": [
+     "C4_EFFECTIVE_WORKERS",
+     "clock_pre_post",
+     "db_names",
+     "era",
+     "frozen_base_image_id",
+     "harness_v3_version",
+     "install_mode",
+     "lockfile_sha256",
+     "nofile_hard",
+     "nofile_soft",
+     "runner_sha",
+     "target_commit",
+     "task_id"
+    ],
+    "n": 11,
+    "top_keys": [
+     "classification",
+     "counts",
+     "eligibility",
+     "era_key",
+     "evidence_sha256",
+     "manifest",
+     "n_nodes",
+     "n_test_files",
+     "node_records",
+     "operations",
+     "status",
+     "target_commit",
+     "task_id",
+     "wall_s"
+    ]
+   },
+   {
+    "closure_keys": null,
+    "manifest_keys": [
+     "clock_pre_post",
+     "db_names",
+     "era",
+     "frozen_base_image_id",
+     "harness_v3_version",
+     "install_mode",
+     "lockfile_sha256",
+     "nofile_hard",
+     "nofile_soft",
+     "runner_sha",
+     "target_commit",
+     "task_id",
+     "worker_count"
+    ],
+    "n": 3,
+    "top_keys": [
+     "classification",
+     "counts",
+     "eligibility",
+     "era_key",
+     "evidence_sha256",
+     "manifest",
+     "n_nodes",
+     "n_test_files",
+     "node_records",
+     "operations",
+     "status",
+     "target_commit",
+     "task_id",
+     "wall_s"
+    ]
+   }
+  ],
+  "rule_id": "M16_R2A_ENG_IDENTITY_HIST_SCHEMA_V1",
+  "tasks_with_recorded_closure": [
+   "saleor-rc-22ec4dab0154",
+   "saleor-rc-2d45b76a52f2",
+   "saleor-rc-644f33094857",
+   "saleor-rc-6abb53f3407b",
+   "saleor-rc-74538ea00ce9",
+   "saleor-rc-823b899757ab",
+   "saleor-rc-82c56bde0e34",
+   "saleor-rc-8f76ddc6267f",
+   "saleor-rc-9258154b8a0b",
+   "saleor-rc-93b20d78c011",
+   "saleor-rc-c3b9e396b07d",
+   "saleor-rc-dc6ac9d252df",
+   "saleor-rc-e03ee76d2b89",
+   "saleor-rc-e25cf9b4a837"
+  ],
+  "tasks_without_recorded_closure": [
+   "saleor-rc-2a7f13c25908",
+   "saleor-rc-39b4138e8550",
+   "saleor-rc-6e0a2cfc9287",
+   "saleor-rc-6f1f1720fc7c",
+   "saleor-rc-7dcf89985e0c",
+   "saleor-rc-836d01d8429f",
+   "saleor-rc-939093a9c65c",
+   "saleor-rc-9698135fe4fc",
+   "saleor-rc-a1a7a223bba2",
+   "saleor-rc-a8e6a4dd55fe",
+   "saleor-rc-ba60125e45a0",
+   "saleor-rc-c662d3a7e759",
+   "saleor-rc-d220843b5418",
+   "saleor-rc-dfe77ac1c5dc",
+   "saleor-rc-f73c4e95c828"
+  ]
+ },
+ "kit": {
+  "commit": "753e391932679d9d321021675684d0fd48308f07",
+  "origin": "01e9d429c2c3a0071446d1ce8f33ce1a3f34f7e3\trefs/tags/wp2-m16-v1-kit-2026-10-02\n753e391932679d9d321021675684d0fd48308f07\trefs/tags/wp2-m16-v1-kit-2026-10-02^{}",
+  "tag": "wp2-m16-v1-kit-2026-10-02"
+ },
+ "later_closure_survey": {
+  "eng_tasks_covered_by_later_records": [
+   "saleor-rc-22ec4dab0154",
+   "saleor-rc-2d45b76a52f2",
+   "saleor-rc-39b4138e8550",
+   "saleor-rc-644f33094857",
+   "saleor-rc-6abb53f3407b",
+   "saleor-rc-74538ea00ce9",
+   "saleor-rc-823b899757ab",
+   "saleor-rc-82c56bde0e34",
+   "saleor-rc-8f76ddc6267f",
+   "saleor-rc-9258154b8a0b",
+   "saleor-rc-93b20d78c011",
+   "saleor-rc-c3b9e396b07d",
+   "saleor-rc-d220843b5418",
+   "saleor-rc-dc6ac9d252df",
+   "saleor-rc-e03ee76d2b89",
+   "saleor-rc-e25cf9b4a837"
+  ],
+  "eng_tasks_not_covered": [
+   "saleor-rc-2a7f13c25908",
+   "saleor-rc-6e0a2cfc9287",
+   "saleor-rc-6f1f1720fc7c",
+   "saleor-rc-7dcf89985e0c",
+   "saleor-rc-836d01d8429f",
+   "saleor-rc-939093a9c65c",
+   "saleor-rc-9698135fe4fc",
+   "saleor-rc-a1a7a223bba2",
+   "saleor-rc-a8e6a4dd55fe",
+   "saleor-rc-ba60125e45a0",
+   "saleor-rc-c662d3a7e759",
+   "saleor-rc-dfe77ac1c5dc",
+   "saleor-rc-f73c4e95c828"
+  ],
+  "eng_tasks_total": 29,
+  "files_scanned": 227,
+  "files_with_closure": {
+   "research/wp2/harness_v3_2026-09-26/env_closure_v31_corrected_env/saleor-rc-22ec4dab0154/record.json": {
+    "eng_tasks": [
+     "saleor-rc-22ec4dab0154"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/env_closure_v31_corrected_env/saleor-rc-2d45b76a52f2/record.json": {
+    "eng_tasks": [
+     "saleor-rc-2d45b76a52f2"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/env_closure_v31_corrected_env/saleor-rc-39b4138e8550/record.json": {
+    "eng_tasks": [
+     "saleor-rc-39b4138e8550"
+    ],
+    "mechanisms": [
+     "uv"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/env_closure_v31_corrected_env/saleor-rc-644f33094857/record.json": {
+    "eng_tasks": [
+     "saleor-rc-644f33094857"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/env_closure_v31_corrected_env/saleor-rc-6abb53f3407b/record.json": {
+    "eng_tasks": [
+     "saleor-rc-6abb53f3407b"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/env_closure_v31_corrected_env/saleor-rc-74538ea00ce9/record.json": {
+    "eng_tasks": [
+     "saleor-rc-74538ea00ce9"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/env_closure_v31_corrected_env/saleor-rc-823b899757ab/record.json": {
+    "eng_tasks": [
+     "saleor-rc-823b899757ab"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/env_closure_v31_corrected_env/saleor-rc-82c56bde0e34/record.json": {
+    "eng_tasks": [
+     "saleor-rc-82c56bde0e34"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/env_closure_v31_corrected_env/saleor-rc-8f76ddc6267f/record.json": {
+    "eng_tasks": [
+     "saleor-rc-8f76ddc6267f"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/env_closure_v31_corrected_env/saleor-rc-9258154b8a0b/record.json": {
+    "eng_tasks": [
+     "saleor-rc-9258154b8a0b"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/env_closure_v31_corrected_env/saleor-rc-93b20d78c011/record.json": {
+    "eng_tasks": [
+     "saleor-rc-93b20d78c011"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/env_closure_v31_corrected_env/saleor-rc-c3b9e396b07d/record.json": {
+    "eng_tasks": [
+     "saleor-rc-c3b9e396b07d"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/env_closure_v31_corrected_env/saleor-rc-d220843b5418/record.json": {
+    "eng_tasks": [
+     "saleor-rc-d220843b5418"
+    ],
+    "mechanisms": [
+     "uv"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/env_closure_v31_corrected_env/saleor-rc-dc6ac9d252df/record.json": {
+    "eng_tasks": [
+     "saleor-rc-dc6ac9d252df"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/env_closure_v31_corrected_env/saleor-rc-e03ee76d2b89/record.json": {
+    "eng_tasks": [
+     "saleor-rc-e03ee76d2b89"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/env_closure_v31_corrected_env/saleor-rc-e25cf9b4a837/record.json": {
+    "eng_tasks": [
+     "saleor-rc-e25cf9b4a837"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/p2pu_v3_eng_saleor-rc-22ec4dab0154_cap200.json": {
+    "eng_tasks": [
+     "saleor-rc-22ec4dab0154"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/p2pu_v3_eng_saleor-rc-22ec4dab0154_cap400.json": {
+    "eng_tasks": [
+     "saleor-rc-22ec4dab0154"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/p2pu_v3_eng_saleor-rc-2d45b76a52f2_cap200.json": {
+    "eng_tasks": [
+     "saleor-rc-2d45b76a52f2"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/p2pu_v3_eng_saleor-rc-2d45b76a52f2_cap400.json": {
+    "eng_tasks": [
+     "saleor-rc-2d45b76a52f2"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/p2pu_v3_eng_saleor-rc-644f33094857_cap200.json": {
+    "eng_tasks": [
+     "saleor-rc-644f33094857"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/p2pu_v3_eng_saleor-rc-644f33094857_cap400.json": {
+    "eng_tasks": [
+     "saleor-rc-644f33094857"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/p2pu_v3_eng_saleor-rc-6abb53f3407b_cap200.json": {
+    "eng_tasks": [
+     "saleor-rc-6abb53f3407b"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/p2pu_v3_eng_saleor-rc-6abb53f3407b_cap400.json": {
+    "eng_tasks": [
+     "saleor-rc-6abb53f3407b"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/p2pu_v3_eng_saleor-rc-74538ea00ce9_cap200.json": {
+    "eng_tasks": [
+     "saleor-rc-74538ea00ce9"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/p2pu_v3_eng_saleor-rc-74538ea00ce9_cap400.json": {
+    "eng_tasks": [
+     "saleor-rc-74538ea00ce9"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/p2pu_v3_eng_saleor-rc-823b899757ab_cap200.json": {
+    "eng_tasks": [
+     "saleor-rc-823b899757ab"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/p2pu_v3_eng_saleor-rc-823b899757ab_cap400.json": {
+    "eng_tasks": [
+     "saleor-rc-823b899757ab"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/p2pu_v3_eng_saleor-rc-82c56bde0e34_cap200.json": {
+    "eng_tasks": [
+     "saleor-rc-82c56bde0e34"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/p2pu_v3_eng_saleor-rc-82c56bde0e34_cap400.json": {
+    "eng_tasks": [
+     "saleor-rc-82c56bde0e34"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/p2pu_v3_eng_saleor-rc-8f76ddc6267f_cap200.json": {
+    "eng_tasks": [
+     "saleor-rc-8f76ddc6267f"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/p2pu_v3_eng_saleor-rc-8f76ddc6267f_cap400.json": {
+    "eng_tasks": [
+     "saleor-rc-8f76ddc6267f"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/p2pu_v3_eng_saleor-rc-9258154b8a0b_cap200.json": {
+    "eng_tasks": [
+     "saleor-rc-9258154b8a0b"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/p2pu_v3_eng_saleor-rc-9258154b8a0b_cap400.json": {
+    "eng_tasks": [
+     "saleor-rc-9258154b8a0b"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/p2pu_v3_eng_saleor-rc-93b20d78c011_cap200.json": {
+    "eng_tasks": [
+     "saleor-rc-93b20d78c011"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/p2pu_v3_eng_saleor-rc-93b20d78c011_cap400.json": {
+    "eng_tasks": [
+     "saleor-rc-93b20d78c011"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/p2pu_v3_eng_saleor-rc-c3b9e396b07d_cap200.json": {
+    "eng_tasks": [
+     "saleor-rc-c3b9e396b07d"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/p2pu_v3_eng_saleor-rc-c3b9e396b07d_cap400.json": {
+    "eng_tasks": [
+     "saleor-rc-c3b9e396b07d"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/p2pu_v3_eng_saleor-rc-dc6ac9d252df_cap200.json": {
+    "eng_tasks": [
+     "saleor-rc-dc6ac9d252df"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/p2pu_v3_eng_saleor-rc-dc6ac9d252df_cap400.json": {
+    "eng_tasks": [
+     "saleor-rc-dc6ac9d252df"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/p2pu_v3_eng_saleor-rc-e03ee76d2b89_cap200.json": {
+    "eng_tasks": [
+     "saleor-rc-e03ee76d2b89"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/p2pu_v3_eng_saleor-rc-e03ee76d2b89_cap400.json": {
+    "eng_tasks": [
+     "saleor-rc-e03ee76d2b89"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/p2pu_v3_eng_saleor-rc-e25cf9b4a837_cap200.json": {
+    "eng_tasks": [
+     "saleor-rc-e25cf9b4a837"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/p2pu_v3_eng_saleor-rc-e25cf9b4a837_cap400.json": {
+    "eng_tasks": [
+     "saleor-rc-e25cf9b4a837"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/phase5_c4v3_saleor-rc-22ec4dab0154.json": {
+    "eng_tasks": [
+     "saleor-rc-22ec4dab0154"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/phase5_c4v3_saleor-rc-2d45b76a52f2.json": {
+    "eng_tasks": [
+     "saleor-rc-2d45b76a52f2"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/phase5_c4v3_saleor-rc-644f33094857.json": {
+    "eng_tasks": [
+     "saleor-rc-644f33094857"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/phase5_c4v3_saleor-rc-6abb53f3407b.json": {
+    "eng_tasks": [
+     "saleor-rc-6abb53f3407b"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/phase5_c4v3_saleor-rc-74538ea00ce9.json": {
+    "eng_tasks": [
+     "saleor-rc-74538ea00ce9"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/phase5_c4v3_saleor-rc-823b899757ab.json": {
+    "eng_tasks": [
+     "saleor-rc-823b899757ab"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/phase5_c4v3_saleor-rc-82c56bde0e34.json": {
+    "eng_tasks": [
+     "saleor-rc-82c56bde0e34"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/phase5_c4v3_saleor-rc-8f76ddc6267f.json": {
+    "eng_tasks": [
+     "saleor-rc-8f76ddc6267f"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/phase5_c4v3_saleor-rc-9258154b8a0b.json": {
+    "eng_tasks": [
+     "saleor-rc-9258154b8a0b"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/phase5_c4v3_saleor-rc-93b20d78c011.json": {
+    "eng_tasks": [
+     "saleor-rc-93b20d78c011"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/phase5_c4v3_saleor-rc-c3b9e396b07d.json": {
+    "eng_tasks": [
+     "saleor-rc-c3b9e396b07d"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/phase5_c4v3_saleor-rc-dc6ac9d252df.json": {
+    "eng_tasks": [
+     "saleor-rc-dc6ac9d252df"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/phase5_c4v3_saleor-rc-e03ee76d2b89.json": {
+    "eng_tasks": [
+     "saleor-rc-e03ee76d2b89"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   },
+   "research/wp2/harness_v3_2026-09-26/phase5_c4v3_saleor-rc-e25cf9b4a837.json": {
+    "eng_tasks": [
+     "saleor-rc-e25cf9b4a837"
+    ],
+    "mechanisms": [
+     "poetry"
+    ],
+    "n_tasks": 1
+   }
+  },
+  "mechanism_agrees_with_phase5_record": [
+   "saleor-rc-22ec4dab0154",
+   "saleor-rc-2d45b76a52f2",
+   "saleor-rc-644f33094857",
+   "saleor-rc-6abb53f3407b",
+   "saleor-rc-74538ea00ce9",
+   "saleor-rc-823b899757ab",
+   "saleor-rc-82c56bde0e34",
+   "saleor-rc-8f76ddc6267f",
+   "saleor-rc-9258154b8a0b",
+   "saleor-rc-93b20d78c011",
+   "saleor-rc-c3b9e396b07d",
+   "saleor-rc-dc6ac9d252df",
+   "saleor-rc-e03ee76d2b89",
+   "saleor-rc-e25cf9b4a837"
+  ],
+  "mechanism_disagrees_with_phase5_record": [],
+  "root": "research/wp2/harness_v3_2026-09-26",
+  "skipped": [],
+  "use": "report only; R2A never reads these files in the verifier and never backfills history"
+ },
+ "light": {
+  "bytes": 248031,
+  "path": "C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project-LIGHT-STOP_M16_ADAPTER_FAIL-2026-10-02-1511.zip",
+  "sha256": "7521b192cd2d7b251c05ee2cdb71818330599d709844a5d2d8e5fd5c82036f9c"
+ },
+ "model_api_calls": 0,
+ "originals_kept_in_place": true,
+ "phases": {
+  "R00_KIT_SELFTEST": "PASS",
+  "R01_GUARD": "PASS",
+  "R02_ADAPTER_VERIFY": "RUNNING"
+ },
+ "plan": {
+  "id": "WP2_M16_V1_DRYRUN",
+  "path": "controller/plan_m16_v1_dryrun.json",
+  "plan_sha256": "16b3895a747073a6c677709612a085bc1a7068f0c2b4ccd3ef5cc392c23e47e8"
+ },
+ "restart_plan": "controller/plan_m16_v1_dryrun_r2a.json",
+ "rule_id": "M16_R2A_ENG_IDENTITY_HIST_SCHEMA_V1",
+ "stop": {
+  "detail": "command failed\n--- last log: logs/controller/20261002T151108_R02_ADAPTER_VERIFY.log ---\n$ C:\\Users\\Ahmed\\AppData\\Local\\anaconda3\\python.exe scripts/wp2_m16_run.py adapter-verify\nTraceback (most recent call last):\n  File \"C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\scripts\\wp2_m16_run.py\", line 1803, in <module>\n    raise SystemExit(main())\n                     ^^^^^^\n  File \"C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\scripts\\wp2_m16_run.py\", line 1786, in main\n    rc = fns[a.cmd]()\n         ^^^^^^^^^^^^\n  File \"C:\\Users\\Ahmed\\Desktop\\OpenCode\\master-2026-07-21-2355\\project\\scripts\\wp2_m16_run.py\", line 586, in adapter_verify\n    rec = hist[t][\"manifest\"][\"dev_test_closure\"]\n          ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^\nKeyError: 'dev_test_closure'",
+  "exports": {
+   "light": 0
+  },
+  "phase": "R02_ADAPTER_VERIFY",
+  "resumable": false,
+  "token": "M16_ADAPTER_FAIL",
+  "utc": "2026-10-02T12:11:20Z"
+ },
+ "stop_commit": "0d96211f217878d93f6749758853d6f3cdcc0804",
+ "wsl_calls": 0
+}

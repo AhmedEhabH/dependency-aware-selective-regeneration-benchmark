@@ -115,11 +115,15 @@ def synth(root: Path, sim: Path, seed: int = 16) -> dict:
               "research/wp2/m15r_v1/m15r_e1a1_amendment.json"):
         wj(root, f, {"sim": True, "path": f})
     lock = lambda tgt: hashlib.sha256(("L" + tgt[:6]).encode()).hexdigest()[:16]  # noqa: E731
+
+    def hist(t: str, status: str, with_closure: bool) -> dict:          # R2A: mixed historical schema
+        m = {"install_mode": "LOCK_EXACT_MAIN_PLUS_DEV", "lockfile_sha256": lock("e" * 40)}
+        if with_closure:                                                 # V3.1-era record
+            m["dev_test_closure"] = {"mechanism": "poetry", "n_pins": 1, "pins_sha256": "p", "n_unsupported": 0}
+        return {"task_id": t, "status": status, "target_commit": "e" * 40, "manifest": m}
     (root / "research/wp2/harness_v3_2026-09-26/phase5_c4_v3_per_task.jsonl").write_text("".join(
-        json.dumps({"task_id": t, "target_commit": "e" * 40, "manifest": {
-            "dev_test_closure": {"mechanism": "poetry", "n_pins": 1, "pins_sha256": "p", "n_unsupported": 0},
-            "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV", "lockfile_sha256": lock("e" * 40)}}) + "\n"
-        for t in dev[:3]), encoding="utf-8")
+        json.dumps(r) + "\n" for r in (hist(dev[0], "DONE", True), hist(dev[1], "ENV_INSTALL_BLOCKED", False),
+                                       hist(dev[2], "DONE", False))), encoding="utf-8")
     wj(root, "research/wp2/pilot_a_v1/pilot_final_membership.json", {"A": [], "B": []})
     wj(root, "research/wp2/pilot_v1_design/pilot_selection.json", {"pilot_a_tasks": [], "pilot_b_tasks": []})
     wj(root, "research/wp2/m14r_v1/m14r_design_freeze_v1.json", {"population": {"candidate_tasks": []}})
@@ -145,7 +149,7 @@ def build(tmp: Path) -> tuple[Path, Path, Path, dict]:
     for d in (root, sim, cold):
         d.mkdir(parents=True)
     design = json.loads((P / R / "m16_design_freeze_v1.json").read_text(encoding="utf-8"))
-    copy_files = set(design["kit_code_files"]) | {
+    copy_files = set(design["kit_code_files"]) | {"scripts/wp2_m16_r2a.py",
         "scripts/wp2_ctl_v224.py", "scripts/wp2_export_light.py", "scripts/wp2_m14r_core.py",
         "src/benchmark/__init__.py", "src/benchmark/wp2/__init__.py", "src/benchmark/wp1b/__init__.py",
         "src/benchmark/wp2/oracle_semantics_v2.py", "src/benchmark/wp1b/git_gate.py", "scripts/__init__.py",
@@ -186,7 +190,7 @@ def build(tmp: Path) -> tuple[Path, Path, Path, dict]:
             if ph["id"].endswith("_KIT_SELFTEST"):
                 ph["command"] = ["{python}", "-c", "print('unit tests run separately in the simulation')"]
         wj(root, pf, plan)
-    kit = sorted(set(design["kit_code_files"]) | {"controller/plan_m16_v1.json", "controller/plan_m16_v1_dryrun.json",
+    kit = sorted(set(design["kit_code_files"]) | {"scripts/wp2_m16_r2a.py", "controller/plan_m16_v1.json", "controller/plan_m16_v1_dryrun.json",
                                                   "controller/light_profile_m16.json", "scripts/wp2_ctl_v224.py",
                                                   R + "m16_design_freeze_v1.json"})
     wj(root, "controller/KIT_MANIFEST_M16.json", {"files": {f: norm(root / f) for f in kit}})

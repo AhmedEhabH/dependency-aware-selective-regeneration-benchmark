@@ -1,11 +1,19 @@
 {
+ "amendment": {
+  "id": "M16/R2A",
+  "kit_manifest_at_kit_tag_lf_sha256": "6c127eebed60559ef006440bb0f85b0871cbc676835306e2b74bcf45853634b2",
+  "record": "research/wp2/m16_v1/m16_r2a_adapter_verifier_amendment.json",
+  "tag": "wp2-m16-v1-r2a-2026-10-02"
+ },
  "artifact": "KIT_MANIFEST_M16",
  "design_artifact_sha256": "959a23f1b9caff5a342439e8ea6c7243f8f6c5a0e53eed64b0d5c9ecb5856982",
  "files": {
   "controller/light_profile_m16.json": "e647cb5b4cb5dfd099d699030d91f956c29787f1d0468f6523c7c4e2e34bbbca",
   "controller/plan_m16_v1.json": "016666efc1b7537b38a669fe65f19ca1318860a547ef21af07f9a679cbbe5eb5",
   "controller/plan_m16_v1_dryrun.json": "16b3895a747073a6c677709612a085bc1a7068f0c2b4ccd3ef5cc392c23e47e8",
+  "controller/plan_m16_v1_dryrun_r2a.json": "d188d989df64970f4e9a82d8e75a91289759c54364ede051d6d6e287980c71cb",
   "docs/MISSION_M16_DRYRUN_HUMAN_2026-10-02.md": "6a1882f1ff136e09a4803f71fea049c13bcecf356bc8b5168fc2a7ea8602878c",
+  "docs/MISSION_M16_DRYRUN_R2A_HUMAN_2026-10-02.md": "7b0b33e427368c5b07dd1f251a671c919a7e2937e0e66f036482ab482d1486b7",
   "docs/MISSION_M16_INSTALL_2026-10-02.md": "3ba8b4a7df3a625d1a112096b2b38dead9dfbad3c420ad23bae5c28256df9d45",
   "docs/MISSION_M16_MAIN_RUN_HUMAN_2026-10-02.md": "866ecb431b162e70d49543c237e5d3c6c867aee66fd1b15659644b3fdb7e4971",
   "docs/MISSION_M16_S3_MAINTENANCE_HUMAN_2026-10-02.md": "06747d9b656b44de2a51be970c8e3fe7bbfdc6721a16571aacd7c24518adab9b",
@@ -13,9 +21,11 @@
   "docs/WP2_M16_DESIGN_FREEZE_2026-10-02.md": "aff98528c43e791a223fb179bfa1a93542178f8c4f63db2ce4c881ab38a25c43",
   "docs/WP2_M16_OPWS_MAIN_REVIEW_PACKAGE_2026-10-02.md": "5136e779b4644dbd77bda80b95d487298a13dc8c61813cf6c968f2a494057df9",
   "docs/WP2_M16_OPWS_MAIN_REVIEW_PACKAGE_v2_2026-10-02.md": "59558173a7223a37e47a6512955606d4d98271d4c9c7f79a093faf3259b4a032",
+  "docs/WP2_M16_R2A_AMENDMENT_2026-10-02.md": "2a5c811c0b7d95432543bcbf7e56e80254835772a76638b9552ab9a2fe074080",
   "research/wp2/m16_v1/m16_design_freeze_v1.json": "3139d86acd976afe9c82885866366be8ea82efd9d695650d48a03d6f86b20550",
   "research/wp2/m16_v1/m16_l_opws_quarantine_amendment.json": "25eb83d13965b521b322f8e9c60b5afbbd87ef95bf62b1997d200e1472b7f74c",
   "research/wp2/m16_v1/m16_r1_repetition_amendment.json": "3edb5aa58c3579255dd7c121b2f64ce14802c16ecffe7a21c4f635e41d01e404",
+  "research/wp2/m16_v1/m16_r2a_adapter_verifier_amendment.json": "382cd625ba21b9a49823643c2c273dfee7b8a966b3ea9b076fe1f97eda1b1a85",
   "scripts/wp2_ctl_v224.py": "f5d3e6929eb0b1b79ee66e16b86624e2003cbd28a711004abb0e8b8337931f9a",
   "scripts/wp2_export_light.py": "c799c92b721beb6ce9e3b8aa83fd6f0971db9fbd7b3198ef557ed1d13b7eb982",
   "scripts/wp2_linux_dryrun.py": "5a786978804673a20e5ce2335379a0fcd9fd8f2ba23a04b12308690184dc16b8",
@@ -31,8 +41,9 @@
   "scripts/wp2_m16_firewall.py": "a92e361193a49058b424022aeced0c1ad1eb10361137a2c5390a060c666a05aa",
   "scripts/wp2_m16_maint.py": "a88235937e1ee9c79c10c14042f902f36d00c023b74fab7388993d7c5512dd96",
   "scripts/wp2_m16_r1.py": "dba776a00bb13b38f1fc26a6d0d70a458751e526505153b858355682b5f8f0fc",
+  "scripts/wp2_m16_r2a.py": "e472dedff153585c7d4cdf940506881b57f234e1d9c23cc283f2772bf6f12c30",
   "scripts/wp2_m16_resource.py": "7fdac5045dfe58222f6446cfed8ef218d1f7761dc5f84be55b5460466ea7c0d3",
-  "scripts/wp2_m16_run.py": "481dfddddb6b8b2c3dc1e3a5ffb81dae675ee8267c45564dbcb9b3b3bf2ac66a",
+  "scripts/wp2_m16_run.py": "13b2f89ed15880a142575749fdc032d7594626bccff44756b127c0484c601a95",
   "scripts/wp2_m16_stats.py": "fa2a52e6fe0e562afc0fe22272c7a3a95672fbc812446b10306fcc7038caf459",
   "src/benchmark/wp1b/git_gate.py": "297d605b3d14a75b62384d5a468d890b28cf7cf3c68ceb9c3776bdc50f84c633",
   "src/benchmark/wp2/dep_compiler.py": "cea50006e7fa7c9ab549569e084acb9859bbbb5b570bcc2d797fcb5491152abb",
@@ -46,15 +57,16 @@
   "src/benchmark/wp2/p2p_inventory_dev_v1.py": "1bfd35e126da8a17db6fbb559ee1ff62bd292c9bf7a9895aea9f9c461cea8f6d",
   "src/benchmark/wp2/p2p_u_v2.py": "ca3fd51db6b4e223556dd8512070639d346b714dc562858894cde0d1106a9491",
   "tests/unit/wp2/m16/sim/sim_world.py": "bf993ab07ab5bce0ca00ed5a9839aa3fc223a6d6123a60db301570a1396de9a8",
-  "tests/unit/wp2/m16/sim/simulate.py": "0a7e54f0ddff8e6c4732c9006be67884f49f476d201033b8bb1d6f5d9124918e",
+  "tests/unit/wp2/m16/sim/simulate.py": "e7f05a87c1c7f545aeba0b90eaf37f937be7399fa248807800a052a912ef1c90",
   "tests/unit/wp2/m16/test_m16_adapter.py": "e6d12854ae18e39d334245e74445f494d945bea0a2353d44c6cb84a284ff6b6a",
   "tests/unit/wp2/m16/test_m16_firewall.py": "e3126a7e9b17915b794d1575b75265d5acf01f2f15e70bd823d1757e52b1e675",
   "tests/unit/wp2/m16/test_m16_gates.py": "112a6f2eb94f2d4a1f8a5ce6fa9b6582b7678ad008303cd6d9b7ef04a43e948f",
   "tests/unit/wp2/m16/test_m16_maint.py": "99e8a1951ac6eae3eb8712c40e805a847990608991ae8a51313c0e5f6cb81265",
   "tests/unit/wp2/m16/test_m16_r1.py": "4c718b3588041a5d981982d8d4437fdd0e792ed75c4b3b704f423fd1935e8534",
+  "tests/unit/wp2/m16/test_m16_r2a.py": "6fbd5a3c7f5fc8ea13cd367fca57e272f654bf10c8badb0692f899b6edf58b05",
   "tests/unit/wp2/m16/test_m16_stats.py": "ffc3fd1c8685d600a4eeaa246be10f6431a29d87822c46d2609301b52bd87068"
  },
  "hash": "sha256 over bytes with CRLF->LF for text",
  "kit": "WP2_M16_V1",
- "version": "v1-brain"
+ "version": "v1-brain+r2a"
 }

@@ -1,0 +1,88 @@
+{
+ "added_files": {
+  "controller/plan_m16_v1_dryrun_r2a.json": "d188d989df64970f4e9a82d8e75a91289759c54364ede051d6d6e287980c71cb",
+  "docs/MISSION_M16_DRYRUN_R2A_HUMAN_2026-10-02.md": "7b0b33e427368c5b07dd1f251a671c919a7e2937e0e66f036482ab482d1486b7",
+  "docs/WP2_M16_R2A_AMENDMENT_2026-10-02.md": "2a5c811c0b7d95432543bcbf7e56e80254835772a76638b9552ab9a2fe074080",
+  "scripts/wp2_m16_r2a.py": "e472dedff153585c7d4cdf940506881b57f234e1d9c23cc283f2772bf6f12c30",
+  "tests/unit/wp2/m16/test_m16_r2a.py": "6fbd5a3c7f5fc8ea13cd367fca57e272f654bf10c8badb0692f899b6edf58b05"
+ },
+ "amended_files": {
+  "scripts/wp2_m16_run.py": {
+   "kit_lf_sha256": "481dfddddb6b8b2c3dc1e3a5ffb81dae675ee8267c45564dbcb9b3b3bf2ac66a",
+   "r2a_lf_sha256": "13b2f89ed15880a142575749fdc032d7594626bccff44756b127c0484c601a95"
+  },
+  "tests/unit/wp2/m16/sim/simulate.py": {
+   "kit_lf_sha256": "0a7e54f0ddff8e6c4732c9006be67884f49f476d201033b8bb1d6f5d9124918e",
+   "r2a_lf_sha256": "e7f05a87c1c7f545aeba0b90eaf37f937be7399fa248807800a052a912ef1c90"
+  }
+ },
+ "amends": {
+  "adapter_version": "m16-r2-main-input-adapter-v1",
+  "design_artifact_sha256": "959a23f1b9caff5a342439e8ea6c7243f8f6c5a0e53eed64b0d5c9ecb5856982",
+  "kit_commit": "753e391932679d9d321021675684d0fd48308f07",
+  "kit_manifest_at_kit_tag_lf_sha256": "6c127eebed60559ef006440bb0f85b0871cbc676835306e2b74bcf45853634b2",
+  "kit_tag": "wp2-m16-v1-kit-2026-10-02"
+ },
+ "approved_basis": "Review Package v2 section 12 R2 (reviewer): 'Q02 asserts both that ENG outputs are identical and that MAIN closure != none wherever a dev group is declared'; human relay of the R2A instruction (2026-10-02)",
+ "artifact": "m16_r2a_adapter_verifier_amendment",
+ "artifact_sha256": "d86d2f88c8d68447e2bf9f3dcf773f4a147002507c1cbef95f262ab0b0c85a73",
+ "date": "2026-10-02",
+ "docker_calls_at_install": 0,
+ "historical_input": {
+  "lf_sha256": "fe7a94efc85a45fccb818108cec2f6c9b4ec20770d58103d83aba0650c35d5e3",
+  "path": "research/wp2/harness_v3_2026-09-26/phase5_c4_v3_per_task.jsonl",
+  "written": "never (read-only; no field is backfilled)"
+ },
+ "id": "M16/R2A",
+ "integrity_manifest": "controller/KIT_MANIFEST_M16.json hash list updated (original preserved in the kit tag)",
+ "later_record_audit": "Phase-5 ENG V3 (2026-09-26): 29 ENG tasks (22 DONE, 7 ENV_INSTALL_BLOCKED). V3.1 closure (2026-09-27) reran C4 for 14 affected tasks of the 16-task oracle-valid union; P2P-U V3 covers only that union. Later records can therefore cover at most 16/29 ENG tasks and never the ENV_INSTALL_BLOCKED tasks: they cannot replace the identity test. Their coverage is surveyed report-only at install (archive record) and is never read by the verifier.",
+ "model_api_calls": 0,
+ "restart": {
+  "final_tag": "wp2-m16-v1-dryrun (unchanged design tag; READY ancestry kit -> R2A -> dryrun)",
+  "plan": "controller/plan_m16_v1_dryrun_r2a.json",
+  "plan_id": "WP2_M16_V1_DRYRUN_R2A",
+  "reason": "the original STOP is RESUMABLE=False and its R00/R01 PASS used pre-amendment code: it is neither acked nor resumed; every phase reruns from R00 under a new state file; the original state and STOP report stay in place and are archived under research/wp2/m16_v1/r2a/failed_dryrun_2026-10-02/",
+  "state_file": "research/wp2/m16_v1/controller_state_dryrun_r2a.json"
+ },
+ "rule": "Rule M16_R2A_ENG_IDENTITY_HIST_SCHEMA_V1 (applied by scripts/wp2_m16_run.py::adapter_verify):\n 1. REQUIRED for EVERY historical ENG record (no status is exempt):\n      frozen closure == adapted closure (canonical sha)   <- the reviewer-approved R2 ENG identity test\n      frozen lookup  == adapted lookup (parent, target, era)\n      install mode of the target manifests == recorded manifest.install_mode\n      lock signature of the target manifests == recorded manifest.lockfile_sha256\n 2. ADDITIONAL provenance only where the historical record itself carries manifest.dev_test_closure:\n      every recorded brief key (mechanism, n_pins, pins_sha256, n_unsupported) equals the adapted closure.\n    A record without the field is NOT_RECORDED. Nothing is backfilled, inferred, or written to history.\n 3. Fail-closed schema: an unparsable line, a non-object line, a missing task_id, a missing target_commit /\n    manifest / manifest.install_mode / manifest.lockfile_sha256, a recorded closure that is neither absent,\n    null nor a dict carrying 'mechanism', or an empty file is a violation (STOP 35, report written first).\n 4. The per-record schema, the per-status coverage and the duplicates are reported (historical_schema).\nThe MAIN checks (all 220 rows, lookup/era, commits, declared dev group -> mechanism != none) are unchanged.\n",
+ "rule_constants_sha256": "dfbd0522f45b928918d2a4ec25a076e2776acbe79775176120d16d97ab6d887c",
+ "rule_id": "M16_R2A_ENG_IDENTITY_HIST_SCHEMA_V1",
+ "rule_sha256": "218d8818b9e05e6595da9bb01d716c0760f329dcadc86467e6e1d611bf63b2ed",
+ "status": "ADOPTED_BEFORE_DRYRUN_RESTART (effective when the amendment commit is tagged wp2-m16-v1-r2a-2026-10-02 and pushed; the original kit tag is unchanged)",
+ "tag": "wp2-m16-v1-r2a-2026-10-02",
+ "trigger": {
+  "error": "KeyError: 'dev_test_closure' at scripts/wp2_m16_run.py:586",
+  "light": {
+   "name": "project-LIGHT-STOP_M16_ADAPTER_FAIL-2026-10-02-1511.zip",
+   "sha256": "7521b192cd2d7b251c05ee2cdb71818330599d709844a5d2d8e5fd5c82036f9c"
+  },
+  "not_reached": [
+   "R03_DRYRUN_SELECT",
+   "R04_DRYRUN_EXECUTE (Docker)",
+   "R05_RESOURCE_GATE",
+   "MAIN"
+  ],
+  "passed_before": [
+   "R00_KIT_SELFTEST (81/81)",
+   "R01_GUARD"
+  ],
+  "phase": "R02_ADAPTER_VERIFY",
+  "plan": "WP2_M16_V1_DRYRUN",
+  "resumable": false,
+  "token": "M16_ADAPTER_FAIL"
+ },
+ "unchanged": [
+  "design freeze and every constant/threshold",
+  "Route B",
+  "OPWS_ROBUST endpoint and estimand",
+  "quarantine amendment",
+  "R1 amendment",
+  "ADAPTER_VERSION and scripts/wp2_m16_adapter.py",
+  "firewall, stats, resource gate",
+  "controller/plan_m16_v1.json and plan_m16_v1_dryrun.json",
+  "all frozen pins and historical evidence",
+  "selector predictions; no selector-vs-gold reading",
+  "MAIN R2 checks (220 rows, lookup/era, commits, dev group -> mechanism != none)"
+ ],
+ "wsl_calls_at_install": 0
+}

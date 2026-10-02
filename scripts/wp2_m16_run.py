@@ -17,6 +17,11 @@ mirror unreachable), 4 stop flag, 33 preflight (resumable), 34 resource gate / S
 (resumable), 35 R2 adapter fail-closed (non-resumable), 36 firewall violation
 (non-resumable), 37 tag gate (resumable), 78 invariant (non-resumable), 79 evaluation /
 execution infrastructure (resumable).
+
+Amendment R2A (2026-10-02, tag wp2-m16-v1-r2a-2026-10-02; scripts/wp2_m16_r2a.py and
+research/wp2/m16_v1/m16_r2a_adapter_verifier_amendment.json): adapter_verify applies the historical-schema
+rule M16_R2A_ENG_IDENTITY_HIST_SCHEMA_V1; the guard verifies the amended files against the R2A tag and every
+other kit file against the kit tag; READY ancestry is kit -> R2A -> dryrun -> ... when the record exists.
 """
 from __future__ import annotations
 
@@ -44,6 +49,7 @@ for _p in (PROJECT, PROJECT / "src"):
 from scripts import wp2_m16_adapter as adapter  # noqa: E402
 from scripts import wp2_m16_firewall as firewall  # noqa: E402
 from scripts import wp2_m16_r1 as r1  # noqa: E402
+from scripts import wp2_m16_r2a as r2a  # noqa: E402
 from scripts import wp2_m16_resource as resource  # noqa: E402
 from scripts import wp2_m16_stats as stats  # noqa: E402
 
@@ -56,6 +62,7 @@ GUARD = {"main": ROOT / "m16_guard.json", "dryrun": ROOT / "m16_guard_dryrun.jso
 ADAPTER_DIR = ROOT / "adapter"
 SHADOW = PROJECT / "_workspace/tmp/m16_shadow_root"   # regenerable, hash-pinned in the report
 ADAPTER_REPORT = ADAPTER_DIR / "adapter_report.json"
+R2A_RECORD = ROOT / "m16_r2a_adapter_verifier_amendment.json"
 DRY = ROOT / "dryrun"
 DRY_SEL = DRY / "selection.json"
 DRY_GATE = DRY / "resource_gate.json"
@@ -331,6 +338,10 @@ def ready_pushed() -> dict:
     info = pushed_tag(TAGS["ready"], [READY_MEMBERSHIP, SETS, ELIG])
     e, s = pushed_tag(TAGS["eligibility"], [ELIG]), pushed_tag(TAGS["evalsets"], [SETS, SETS_FREEZE])
     k, dr = pushed_tag(TAGS["kit"], [DESIGN]), pushed_tag(TAGS["dryrun"], [DESIGN])
+    if R2A_RECORD.exists():                                     # R2A: kit -> r2a -> dryrun
+        a = pushed_tag(r2a.TAG, [R2A_RECORD])
+        require(is_ancestor(k["commit"], a["commit"]) and is_ancestor(a["commit"], dr["commit"]),
+                "kit -> R2A -> dryrun tag ancestry violated", EXIT_TAG)
     require(is_ancestor(k["commit"], dr["commit"]) and is_ancestor(dr["commit"], e["commit"]) and
             is_ancestor(e["commit"], s["commit"]) and is_ancestor(s["commit"], info["commit"]),
             "kit -> dryrun -> eligibility -> evalsets -> READY tag ancestry violated", EXIT_TAG)
@@ -368,6 +379,29 @@ def historical_verify() -> int:
     return 0
 
 
+# ------------------------------------------------------------------ amendment R2A gate
+def r2a_gate(d: dict) -> dict:
+    """Without the R2A record every kit code file must equal the kit tag (original behaviour). With it:
+    record self-hash + rule id + kit commit + design; the R2A tag is unique, on origin, an ancestor of HEAD,
+    a descendant of the kit tag and holds the record and every amended/added code file byte-identically."""
+    if not R2A_RECORD.exists():
+        return {}
+    rec = load(R2A_RECORD)
+    require(hash_ok(rec), "R2A amendment record hash")
+    kit_commit = tag_commit(TAGS["kit"])
+    files = sorted(set(rec.get("amended_files", {})) | set(rec.get("added_files", {})))
+    shas = {f: norm_sha(PROJECT / f) for f in files if (PROJECT / f).exists()}
+    bad = r2a.record_problems(rec, kit_commit=kit_commit, design_sha=DESIGN_SHA, files_lf_sha=shas)
+    require(not bad, f"R2A amendment record: {bad[:5]}")
+    require(set(rec["amended_files"]) <= set(d["kit_code_files"]) | {"tests/unit/wp2/m16/sim/simulate.py"},
+            "R2A amends a file outside the M16 kit")
+    code = [PROJECT / f for f in files if f.startswith("scripts/")]
+    info = pushed_tag(r2a.TAG, [R2A_RECORD] + code)
+    require(is_ancestor(kit_commit, info["commit"]), "R2A tag is not a descendant of the kit tag", EXIT_TAG)
+    return {**info, "rule_id": rec["rule_id"], "record_sha256": rec["artifact_sha256"],
+            "amended_files": rec["amended_files"], "added_files": rec["added_files"]}
+
+
 # ------------------------------------------------------------------ guard
 def protected_overlap(main: set[str]) -> dict[str, list[str]]:
     from benchmark.wp2.oracle_semantics_v2 import assert_task_allowed
@@ -392,8 +426,9 @@ def guard(stage: str) -> int:
     require(text_sha(q["text"]) == d["pins"]["quarantine_text_sha256"], "quarantine text drift")
     require(hash_ok(a) and a["artifact_sha256"] == d["pins"]["r1_amendment_artifact_sha256"]
             and a["rule_constants_sha256"] == r1.rule_constants_sha(), "R1 amendment drift")
+    amended = r2a_gate(d)                                       # {} when no R2A record exists
     kit = pushed_tag(TAGS["kit"], [DESIGN, QUARANTINE, R1_AMENDMENT] +
-                     [PROJECT / f for f in d["kit_code_files"]])
+                     [PROJECT / f for f in d["kit_code_files"] if f not in amended.get("amended_files", {})])
     for f, h in d["pins"]["file_norm_sha256"].items():
         if firewall.path_blocked(PROJECT / f, str(PROJECT)):
             continue                                  # selector inputs are verified at Q08
@@ -409,7 +444,7 @@ def guard(stage: str) -> int:
         require(not (ROOT / sub).exists(), f"{sub}/ exists before Q08 (absence check)")
     h = hold_check()
     rec = {"artifact": f"m16_guard_{stage}", "artifact_sha256": "", "design": DESIGN_SHA,
-           "stage": stage, "kit_tag": kit, "historical_trees": trees_head,
+           "stage": stage, "kit_tag": kit, "r2a": amended, "historical_trees": trees_head,
            "frame_220_sha256": sha_obj(frame()), "protected_overlap": ov,
            "provider_env_removed": scrub_provider_env(), "firewall": firewall.config(),
            "resources": h, "model_api_calls": 0, "utc": now()}
@@ -573,30 +608,19 @@ def adapter_verify() -> int:
     design()
     w = world()
     readme = adapter.build_shadow(PROJECT, SHADOW)
-    hist = {}
-    for line in (PROJECT / "research/wp2/harness_v3_2026-09-26/phase5_c4_v3_per_task.jsonl"
-                 ).read_text(encoding="utf-8").splitlines():
-        if line.strip():
-            r = json.loads(line)
-            hist[r["task_id"]] = r
-    violations: list[str] = []
+    # R2A: historical-schema-aware ENG identity (scripts/wp2_m16_r2a.py); history is read, never written
+    hist, census = r2a.parse_history((PROJECT / r2a.HIST_REL).read_text(encoding="utf-8"))
+    violations: list[str] = [f"HIST_SCHEMA:{x}" for x in census["fatal"]]
     eng = {}
     for t in sorted(hist):
-        frozen_c, adapted_c = w.closure(t, adapted=False), w.closure(t, adapted=True)
-        rec = hist[t]["manifest"]["dev_test_closure"]
-        brief = {k: adapter.closure_brief(adapted_c)[k] for k in ("mechanism", "n_pins", "pins_sha256",
-                                                                  "n_unsupported")}
-        same = adapter.sha_obj(frozen_c) == adapter.sha_obj(adapted_c)
-        match_hist = brief == {k: rec.get(k) for k in brief}
-        lk_f, lk_a = w.frozen_lookup(t), w.adapted_lookup(t)
-        mf = w.target_manifests(hist[t]["target_commit"])
-        mode_ok = w.install_mode(mf) == hist[t]["manifest"]["install_mode"]
-        lock_ok = w.lock_signature(mf) == hist[t]["manifest"]["lockfile_sha256"]
-        eng[t] = {"closure_identical": same, "matches_recorded_manifest": match_hist,
-                  "lookup_identical": lk_f == lk_a, "install_mode_matches_record": mode_ok,
-                  "lockfile_sha_matches_record": lock_ok}
-        if not (same and match_hist and lk_f == lk_a and mode_ok and lock_ok):
-            violations.append(f"ENG_IDENTITY:{t}:{eng[t]}")
+        rec = hist[t]
+        mf = w.target_manifests(rec["target_commit"]) if rec.get("target_commit") else {}
+        eng[t] = r2a.eng_check(
+            rec, frozen_closure=w.closure(t, adapted=False), adapted_closure=w.closure(t, adapted=True),
+            frozen_lookup=w.frozen_lookup(t), adapted_lookup=w.adapted_lookup(t),
+            install_mode=w.install_mode(mf) if mf else None, lock_signature=w.lock_signature(mf) if mf else None,
+            sha_obj=adapter.sha_obj, brief=adapter.closure_brief)
+        violations += [f"ENG_IDENTITY:{t}:{x}" for x in eng[t]["violations"]]
     rows = rows220()
     main = {}
     for t, row in sorted(rows.items()):
@@ -618,6 +642,8 @@ def adapter_verify() -> int:
     write(ADAPTER_REPORT, self_hash({
         "artifact": "m16_adapter_report", "artifact_sha256": "", "version": adapter.ADAPTER_VERSION,
         "verdict": verdict, "shadow": readme, "eng_identity": eng, "main": main,
+        "r2a": {"rule_id": r2a.RULE_ID, "historical_schema": census,
+                "provenance_coverage": r2a.provenance_coverage(eng)},
         "mechanism_counts": dict(Counter(v["mechanism"] for v in main.values())),
         "install_mode_counts": dict(Counter(v["install_mode"] for v in main.values())),
         "n_distinct_lock_signatures": len({v["lock_signature"] for v in main.values()}),
