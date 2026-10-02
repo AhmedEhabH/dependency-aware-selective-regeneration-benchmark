@@ -1,0 +1,43 @@
+{
+ "approved_by": "independent reviewer decision R1 = option (b) with provenance safeguards (2026-10-02)",
+ "artifact": "m16_r1_repetition_amendment",
+ "artifact_sha256": "9f652e7c015e38bfe82f406de0521bc35179f9728dbcabf9ca06adf033dc87f0",
+ "change": "retention only: frozen run_state_v3 is called unchanged with its raw_junit_dir argument; the per-repetition JUnit files are parsed with the frozen parser into per-node 3-lists that are passed to the frozen classify_node_v2 through a verbatim copy of the phase5 loop",
+ "date": "2026-10-02",
+ "disclosure_required": "thesis/report must state that historical ENG V3 oracle construction collapsed repetitions to the last repetition and is not retrospectively reinterpreted",
+ "frozen_files": {
+  "scripts/wp2_m10b_phase5_c4_v3.py": "64a1869b42b4382d6b6445bf5180e83b43fd544c4abd65a7d283f50b37c7824a",
+  "src/benchmark/wp2/harness_v3.py": "9df9813e0b0b303ef02d4b91b3c0e3f0f722bfa5a814addc124ad2b11ee07c72",
+  "src/benchmark/wp2/oracle_confirmation.py": "96ecbe61fc4755ad8677d21af16aecbaaae873e9ced88fa315c6e3b7bcf97201",
+  "src/benchmark/wp2/oracle_semantics_v2.py": "aa85f4953bea36974b77340c38fe8219e5a8d577d5e786ff74c06de2fc07423d"
+ },
+ "historical_fact": "frozen harness_v3.run_state_v3 merges the 3 repetitions with dict.update (last repetition wins) and phase5.run_task passes [outcome]*3 to classify_node_v2; ENG/M14R/M15-R oracle sets were built that way and are NOT re-computed or re-interpreted",
+ "infrastructure_refinement": [
+  "container incomplete (no ALL_RUNS_DONE, no INSTALL marker)",
+  "RUNS_SCRIPT_WRITE_FAIL",
+  "INSTALL_SCRIPT_WRITE_FAIL",
+  "JUnit parse error",
+  "TimeoutExpired / OSError / CalledProcessError"
+ ],
+ "install_blocked": "frozen INSTALL_FAIL on 2 consecutive attempts of the same task",
+ "missing_junit_with_container_complete": "frozen pseudo-node <test_file> = 'error' in that repetition",
+ "model_api_calls": 0,
+ "rule_constants_sha256": "c54be06967ae68bbfc6fc8c541489c495e1faeb0abd80bc3d39d3fd1ba2bbab3",
+ "rule_id": "M16_R1_REPETITION_RETENTION_V1",
+ "scope": "every task of the frozen 220 MAIN oracle frame (dry-run and Q03); no other population",
+ "status": "ADOPTED_PRE_RUN (selector-blind; frozen, tagged and pushed with the kit before Q03)",
+ "tests": [
+  "identical triples reproduce the frozen phase5.run_task classification (real function, mocked IO)",
+  "PASS/PASS/FAIL, PASS/FAIL/PASS, FAIL/PASS/PASS (both states) reach FLAKY",
+  "the frozen run_state_v3 (mocked IO) and the R1 path agree on the node universe and on the last repetition",
+  "M16 never writes outside research/wp2/m16_v1 (controller allowed writes + historical-verify)"
+ ],
+ "unchanged": [
+  "classify_node_v2 and its precedence",
+  "task_eligibility_v2 (environment_valid=True, task_collection_failure=False as frozen)",
+  "test-file selection (phase5.changed_test_files)",
+  "lock-first install (lock_install_script), dev/test closure semantics",
+  "containers, DB policy, nofile, 3 repetitions per changed-test file",
+  "failure-text merge (dict.update)"
+ ]
+}

@@ -1,0 +1,818 @@
+{
+ "id": "WP2_M16_V1",
+ "phases": [
+  {
+   "allowed_write_prefixes": [],
+   "command": [
+    "{python}",
+    "-m",
+    "pytest",
+    "-q",
+    "-p",
+    "no:cacheprovider",
+    "tests/unit/wp2/m16"
+   ],
+   "fail_token": "KIT_SELFTEST_FAIL",
+   "id": "Q00_KIT_SELFTEST",
+   "timeout_s": 1800,
+   "title": "M16 unit tests (zero network, zero Docker)"
+  },
+  {
+   "allowed_write_prefixes": [
+    "research/wp2/m16_v1/mirror/"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m16_run.py",
+    "mirror",
+    "--stage",
+    "dryrun"
+   ],
+   "commit_message": "evidence(wp2): M16 cold mirror (dry-run)",
+   "exit_codes": {
+    "3": "STOP:HOLD_ACTIVE",
+    "33": "STOP:M16_PREFLIGHT",
+    "34": "STOP:M16_RESOURCE_GATE",
+    "35": "STOP:M16_ADAPTER_FAIL",
+    "36": "STOP:M16_FIREWALL",
+    "37": "STOP:M16_TAG_GATE",
+    "4": "STOP:USER_STOP_FLAG",
+    "78": "STOP:M16_INVARIANT",
+    "79": "STOP:EVAL_ERROR"
+   },
+   "fail_token": "M16_INVARIANT",
+   "id": "Q00M_MIRROR_DRYRUN",
+   "requires": [
+    "Q00_KIT_SELFTEST"
+   ],
+   "timeout_s": 3600,
+   "title": "cold mirror of the pushed dry-run evidence (D:\\wp2_cold)"
+  },
+  {
+   "allowed_write_prefixes": [
+    "research/wp2/m16_v1/m16_guard.json"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m16_run.py",
+    "guard",
+    "--stage",
+    "main"
+   ],
+   "commit_message": "evidence(wp2): M16 guard (main)",
+   "exit_codes": {
+    "3": "STOP:HOLD_ACTIVE",
+    "33": "STOP:M16_PREFLIGHT",
+    "34": "STOP:M16_RESOURCE_GATE",
+    "35": "STOP:M16_ADAPTER_FAIL",
+    "36": "STOP:M16_FIREWALL",
+    "37": "STOP:M16_TAG_GATE",
+    "4": "STOP:USER_STOP_FLAG",
+    "78": "STOP:M16_INVARIANT",
+    "79": "STOP:EVAL_ERROR"
+   },
+   "fail_token": "M16_INVARIANT",
+   "id": "Q01_GUARD",
+   "requires": [
+    "Q00M_MIRROR_DRYRUN"
+   ],
+   "timeout_s": 1800,
+   "title": "guard (main): design, amendments in pushed kit tag, pins, historical trees, protected pools, absence of scopes/opws, resource gate re-check"
+  },
+  {
+   "allowed_write_prefixes": [
+    "research/wp2/m16_v1/adapter/"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m16_run.py",
+    "adapter-verify"
+   ],
+   "commit_message": "evidence(wp2): M16 R2 adapter verification (main)",
+   "exit_codes": {
+    "3": "STOP:HOLD_ACTIVE",
+    "33": "STOP:M16_PREFLIGHT",
+    "34": "STOP:M16_RESOURCE_GATE",
+    "35": "STOP:M16_ADAPTER_FAIL",
+    "36": "STOP:M16_FIREWALL",
+    "37": "STOP:M16_TAG_GATE",
+    "4": "STOP:USER_STOP_FLAG",
+    "78": "STOP:M16_INVARIANT",
+    "79": "STOP:EVAL_ERROR"
+   },
+   "fail_token": "M16_ADAPTER_FAIL",
+   "id": "Q02_ADAPTER_VERIFY",
+   "requires": [
+    "Q01_GUARD"
+   ],
+   "timeout_s": 7200,
+   "title": "R2 MAIN adapter re-verification (zero Docker)"
+  },
+  {
+   "allowed_write_prefixes": [
+    "research/wp2/m16_v1/oracle/"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m16_run.py",
+    "oracle",
+    "--max-tasks",
+    "4"
+   ],
+   "commit_each_iteration": true,
+   "commit_message": "evidence(wp2): M16 oracle progress",
+   "done_checks": [
+    {
+     "command": [
+      "{python}",
+      "scripts/wp2_m16_run.py",
+      "oracle-complete"
+     ],
+     "type": "command_ok"
+    }
+   ],
+   "exit_codes": {
+    "3": "STOP:HOLD_ACTIVE",
+    "33": "STOP:M16_PREFLIGHT",
+    "34": "STOP:M16_RESOURCE_GATE",
+    "35": "STOP:M16_ADAPTER_FAIL",
+    "36": "STOP:M16_FIREWALL",
+    "37": "STOP:M16_TAG_GATE",
+    "4": "STOP:USER_STOP_FLAG",
+    "78": "STOP:M16_INVARIANT",
+    "79": "STOP:EVAL_ERROR"
+   },
+   "fail_token": "EVAL_ERROR",
+   "id": "Q03_ORACLE",
+   "kind": "loop",
+   "max_iterations": 120,
+   "max_retries": 1,
+   "progress": {
+    "glob": "research/wp2/m16_v1/oracle/*/record.json"
+   },
+   "requires": [
+    "Q02_ADAPTER_VERIFY"
+   ],
+   "timeout_s": 14400,
+   "title": "C4-V3 + R1 oracle construction on the frozen 220 (zero API)"
+  },
+  {
+   "allowed_write_prefixes": [
+    "research/wp2/m16_v1/m16_v3_eligibility.json"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m16_run.py",
+    "eligibility-freeze"
+   ],
+   "exit_codes": {
+    "3": "STOP:HOLD_ACTIVE",
+    "33": "STOP:M16_PREFLIGHT",
+    "34": "STOP:M16_RESOURCE_GATE",
+    "35": "STOP:M16_ADAPTER_FAIL",
+    "36": "STOP:M16_FIREWALL",
+    "37": "STOP:M16_TAG_GATE",
+    "4": "STOP:USER_STOP_FLAG",
+    "78": "STOP:M16_INVARIANT",
+    "79": "STOP:EVAL_ERROR"
+   },
+   "fail_token": "M16_INVARIANT",
+   "id": "Q04_ELIGIBILITY_FREEZE",
+   "pass_checks": [
+    {
+     "command": [
+      "{python}",
+      "scripts/wp2_m16_run.py",
+      "eligibility-verify"
+     ],
+     "type": "command_ok"
+    }
+   ],
+   "post_actions": [
+    {
+     "message": "evidence(wp2): M16 eligibility freeze",
+     "prefixes": [
+      "research/wp2/m16_v1/"
+     ],
+     "type": "commit"
+    },
+    {
+     "type": "push"
+    },
+    {
+     "message": "WP2 M16 V3 eligibility freeze",
+     "name": "wp2-m16-v1-eligibility",
+     "type": "tag"
+    }
+   ],
+   "requires": [
+    "Q03_ORACLE"
+   ],
+   "timeout_s": 3600,
+   "title": "eligibility freeze + V4 recomputation, tag, push"
+  },
+  {
+   "allowed_write_prefixes": [
+    "research/wp2/m16_v1/mirror/"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m16_run.py",
+    "mirror",
+    "--stage",
+    "eligibility"
+   ],
+   "commit_message": "evidence(wp2): M16 cold mirror (eligibility)",
+   "exit_codes": {
+    "3": "STOP:HOLD_ACTIVE",
+    "33": "STOP:M16_PREFLIGHT",
+    "34": "STOP:M16_RESOURCE_GATE",
+    "35": "STOP:M16_ADAPTER_FAIL",
+    "36": "STOP:M16_FIREWALL",
+    "37": "STOP:M16_TAG_GATE",
+    "4": "STOP:USER_STOP_FLAG",
+    "78": "STOP:M16_INVARIANT",
+    "79": "STOP:EVAL_ERROR"
+   },
+   "fail_token": "M16_INVARIANT",
+   "id": "Q04M_MIRROR",
+   "requires": [
+    "Q04_ELIGIBILITY_FREEZE"
+   ],
+   "timeout_s": 3600,
+   "title": "cold mirror (eligibility)"
+  },
+  {
+   "allowed_write_prefixes": [
+    "research/wp2/m16_v1/evalsets/"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m16_run.py",
+    "evalsets",
+    "--max-tasks",
+    "3"
+   ],
+   "commit_each_iteration": true,
+   "commit_message": "evidence(wp2): M16 evaluator-set progress",
+   "done_checks": [
+    {
+     "command": [
+      "{python}",
+      "scripts/wp2_m16_run.py",
+      "evalsets-complete"
+     ],
+     "type": "command_ok"
+    }
+   ],
+   "exit_codes": {
+    "3": "STOP:HOLD_ACTIVE",
+    "33": "STOP:M16_PREFLIGHT",
+    "34": "STOP:M16_RESOURCE_GATE",
+    "35": "STOP:M16_ADAPTER_FAIL",
+    "36": "STOP:M16_FIREWALL",
+    "37": "STOP:M16_TAG_GATE",
+    "4": "STOP:USER_STOP_FLAG",
+    "78": "STOP:M16_INVARIANT",
+    "79": "STOP:EVAL_ERROR"
+   },
+   "fail_token": "EVAL_ERROR",
+   "id": "Q05A_EVALSETS",
+   "kind": "loop",
+   "max_iterations": 120,
+   "max_retries": 1,
+   "progress": {
+    "glob": "research/wp2/m16_v1/evalsets/*/evalset.json"
+   },
+   "requires": [
+    "Q04M_MIRROR"
+   ],
+   "timeout_s": 14400,
+   "title": "P2P-S + P2P-U200 (V3 rediscovery, cap200, 3+3) per eligible task"
+  },
+  {
+   "allowed_write_prefixes": [
+    "research/wp2/m16_v1/evaluator_only/",
+    "research/wp2/m16_v1/m16_evalsets_freeze.json"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m16_run.py",
+    "evalsets-freeze"
+   ],
+   "exit_codes": {
+    "3": "STOP:HOLD_ACTIVE",
+    "33": "STOP:M16_PREFLIGHT",
+    "34": "STOP:M16_RESOURCE_GATE",
+    "35": "STOP:M16_ADAPTER_FAIL",
+    "36": "STOP:M16_FIREWALL",
+    "37": "STOP:M16_TAG_GATE",
+    "4": "STOP:USER_STOP_FLAG",
+    "78": "STOP:M16_INVARIANT",
+    "79": "STOP:EVAL_ERROR"
+   },
+   "fail_token": "M16_INVARIANT",
+   "id": "Q05B_EVALSETS_FREEZE",
+   "post_actions": [
+    {
+     "message": "evidence(wp2): M16 evalsets freeze",
+     "prefixes": [
+      "research/wp2/m16_v1/"
+     ],
+     "type": "commit"
+    },
+    {
+     "type": "push"
+    },
+    {
+     "message": "WP2 M16 MAIN evaluator sets (V3, R1)",
+     "name": "wp2-m16-v1-evalsets",
+     "type": "tag"
+    }
+   ],
+   "requires": [
+    "Q05A_EVALSETS"
+   ],
+   "timeout_s": 3600,
+   "title": "evaluator-set freeze, tag, push"
+  },
+  {
+   "allowed_write_prefixes": [
+    "research/wp2/m16_v1/mirror/"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m16_run.py",
+    "mirror",
+    "--stage",
+    "evalsets"
+   ],
+   "commit_message": "evidence(wp2): M16 cold mirror (evalsets)",
+   "exit_codes": {
+    "3": "STOP:HOLD_ACTIVE",
+    "33": "STOP:M16_PREFLIGHT",
+    "34": "STOP:M16_RESOURCE_GATE",
+    "35": "STOP:M16_ADAPTER_FAIL",
+    "36": "STOP:M16_FIREWALL",
+    "37": "STOP:M16_TAG_GATE",
+    "4": "STOP:USER_STOP_FLAG",
+    "78": "STOP:M16_INVARIANT",
+    "79": "STOP:EVAL_ERROR"
+   },
+   "fail_token": "M16_INVARIANT",
+   "id": "Q05M_MIRROR",
+   "requires": [
+    "Q05B_EVALSETS_FREEZE"
+   ],
+   "timeout_s": 3600,
+   "title": "cold mirror (evaluator sets)"
+  },
+  {
+   "allowed_write_prefixes": [
+    "research/wp2/m16_v1/readiness/",
+    "research/wp2/m16_v1/junit/"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m16_run.py",
+    "readiness",
+    "--max-tasks",
+    "3"
+   ],
+   "commit_each_iteration": true,
+   "commit_message": "evidence(wp2): M16 readiness progress",
+   "done_checks": [
+    {
+     "command": [
+      "{python}",
+      "scripts/wp2_m16_run.py",
+      "readiness-complete"
+     ],
+     "type": "command_ok"
+    }
+   ],
+   "exit_codes": {
+    "3": "STOP:HOLD_ACTIVE",
+    "33": "STOP:M16_PREFLIGHT",
+    "34": "STOP:M16_RESOURCE_GATE",
+    "35": "STOP:M16_ADAPTER_FAIL",
+    "36": "STOP:M16_FIREWALL",
+    "37": "STOP:M16_TAG_GATE",
+    "4": "STOP:USER_STOP_FLAG",
+    "78": "STOP:M16_INVARIANT",
+    "79": "STOP:EVAL_ERROR"
+   },
+   "fail_token": "EVAL_ERROR",
+   "id": "Q06_READINESS",
+   "kind": "loop",
+   "max_iterations": 120,
+   "max_retries": 1,
+   "progress": {
+    "glob": "research/wp2/m16_v1/readiness/*/record.json"
+   },
+   "requires": [
+    "Q05M_MIRROR"
+   ],
+   "timeout_s": 14400,
+   "title": "selector-blind readiness (empty-diff negative + scoped-gold positive)"
+  },
+  {
+   "allowed_write_prefixes": [
+    "research/wp2/m16_v1/m16_ready_membership.json"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m16_run.py",
+    "ready-freeze"
+   ],
+   "exit_codes": {
+    "3": "STOP:HOLD_ACTIVE",
+    "33": "STOP:M16_PREFLIGHT",
+    "34": "STOP:M16_RESOURCE_GATE",
+    "35": "STOP:M16_ADAPTER_FAIL",
+    "36": "STOP:M16_FIREWALL",
+    "37": "STOP:M16_TAG_GATE",
+    "4": "STOP:USER_STOP_FLAG",
+    "78": "STOP:M16_INVARIANT",
+    "79": "STOP:EVAL_ERROR"
+   },
+   "fail_token": "M16_INVARIANT",
+   "id": "Q07_READY_FREEZE",
+   "pass_checks": [
+    {
+     "command": [
+      "{python}",
+      "scripts/wp2_m16_run.py",
+      "ready-verify"
+     ],
+     "type": "command_ok"
+    }
+   ],
+   "post_actions": [
+    {
+     "message": "evidence(wp2): M16 ready freeze",
+     "prefixes": [
+      "research/wp2/m16_v1/"
+     ],
+     "type": "commit"
+    },
+    {
+     "type": "push"
+    },
+    {
+     "message": "WP2 M16 READY membership (selector-blind)",
+     "name": "wp2-m16-v1-ready",
+     "type": "tag"
+    }
+   ],
+   "requires": [
+    "Q06_READINESS"
+   ],
+   "timeout_s": 3600,
+   "title": "READY membership freeze + V3 recomputation + pool gate, unique tag, push"
+  },
+  {
+   "allowed_write_prefixes": [
+    "research/wp2/m16_v1/mirror/"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m16_run.py",
+    "mirror",
+    "--stage",
+    "ready"
+   ],
+   "commit_message": "evidence(wp2): M16 cold mirror (ready)",
+   "exit_codes": {
+    "3": "STOP:HOLD_ACTIVE",
+    "33": "STOP:M16_PREFLIGHT",
+    "34": "STOP:M16_RESOURCE_GATE",
+    "35": "STOP:M16_ADAPTER_FAIL",
+    "36": "STOP:M16_FIREWALL",
+    "37": "STOP:M16_TAG_GATE",
+    "4": "STOP:USER_STOP_FLAG",
+    "78": "STOP:M16_INVARIANT",
+    "79": "STOP:EVAL_ERROR"
+   },
+   "fail_token": "M16_INVARIANT",
+   "id": "Q07M_MIRROR",
+   "requires": [
+    "Q07_READY_FREEZE"
+   ],
+   "timeout_s": 3600,
+   "title": "cold mirror (READY)"
+  },
+  {
+   "allowed_write_prefixes": [
+    "research/wp2/m16_v1/scopes/",
+    "research/wp2/m16_v1/opws/"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m16_run.py",
+    "scopes"
+   ],
+   "exit_codes": {
+    "3": "STOP:HOLD_ACTIVE",
+    "33": "STOP:M16_PREFLIGHT",
+    "34": "STOP:M16_RESOURCE_GATE",
+    "35": "STOP:M16_ADAPTER_FAIL",
+    "36": "STOP:M16_FIREWALL",
+    "37": "STOP:M16_TAG_GATE",
+    "4": "STOP:USER_STOP_FLAG",
+    "78": "STOP:M16_INVARIANT",
+    "79": "STOP:EVAL_ERROR"
+   },
+   "fail_token": "M16_TAG_GATE",
+   "id": "Q08_SCOPES",
+   "post_actions": [
+    {
+     "message": "evidence(wp2): M16 scopes freeze",
+     "prefixes": [
+      "research/wp2/m16_v1/"
+     ],
+     "type": "commit"
+    },
+    {
+     "type": "push"
+    },
+    {
+     "message": "WP2 M16 frozen scopes + OPWS plan",
+     "name": "wp2-m16-v1-scopes",
+     "type": "tag"
+    }
+   ],
+   "requires": [
+    "Q07M_MIRROR"
+   ],
+   "timeout_s": 7200,
+   "title": "P1 gate, then scope materialization + OPWS plan (first selector access), tag, push"
+  },
+  {
+   "allowed_write_prefixes": [],
+   "command": [
+    "{python}",
+    "scripts/wp2_m16_run.py",
+    "scopes-verify"
+   ],
+   "exit_codes": {
+    "3": "STOP:HOLD_ACTIVE",
+    "33": "STOP:M16_PREFLIGHT",
+    "34": "STOP:M16_RESOURCE_GATE",
+    "35": "STOP:M16_ADAPTER_FAIL",
+    "36": "STOP:M16_FIREWALL",
+    "37": "STOP:M16_TAG_GATE",
+    "4": "STOP:USER_STOP_FLAG",
+    "78": "STOP:M16_INVARIANT",
+    "79": "STOP:EVAL_ERROR"
+   },
+   "fail_token": "M16_INVARIANT",
+   "id": "Q08V_SCOPES_VERIFY",
+   "requires": [
+    "Q08_SCOPES"
+   ],
+   "timeout_s": 3600,
+   "title": "P2 binding vs origin + V1 ancestry + diff hashes"
+  },
+  {
+   "allowed_write_prefixes": [
+    "research/wp2/m16_v1/mirror/"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m16_run.py",
+    "mirror",
+    "--stage",
+    "scopes"
+   ],
+   "commit_message": "evidence(wp2): M16 cold mirror (scopes)",
+   "exit_codes": {
+    "3": "STOP:HOLD_ACTIVE",
+    "33": "STOP:M16_PREFLIGHT",
+    "34": "STOP:M16_RESOURCE_GATE",
+    "35": "STOP:M16_ADAPTER_FAIL",
+    "36": "STOP:M16_FIREWALL",
+    "37": "STOP:M16_TAG_GATE",
+    "4": "STOP:USER_STOP_FLAG",
+    "78": "STOP:M16_INVARIANT",
+    "79": "STOP:EVAL_ERROR"
+   },
+   "fail_token": "M16_INVARIANT",
+   "id": "Q08M_MIRROR",
+   "requires": [
+    "Q08V_SCOPES_VERIFY"
+   ],
+   "timeout_s": 3600,
+   "title": "cold mirror (scopes)"
+  },
+  {
+   "allowed_write_prefixes": [
+    "research/wp2/m16_v1/opws/",
+    "research/wp2/m16_v1/junit/",
+    "research/wp2/m16_v1/m16_opws_complete.json"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m16_run.py",
+    "opws-evaluate",
+    "--max-evals",
+    "6"
+   ],
+   "commit_each_iteration": true,
+   "commit_message": "evidence(wp2): M16 OPWS progress",
+   "done_checks": [
+    {
+     "command": [
+      "{python}",
+      "scripts/wp2_m16_run.py",
+      "opws-complete"
+     ],
+     "type": "command_ok"
+    }
+   ],
+   "exit_codes": {
+    "3": "STOP:HOLD_ACTIVE",
+    "33": "STOP:M16_PREFLIGHT",
+    "34": "STOP:M16_RESOURCE_GATE",
+    "35": "STOP:M16_ADAPTER_FAIL",
+    "36": "STOP:M16_FIREWALL",
+    "37": "STOP:M16_TAG_GATE",
+    "4": "STOP:USER_STOP_FLAG",
+    "78": "STOP:M16_INVARIANT",
+    "79": "STOP:EVAL_ERROR"
+   },
+   "fail_token": "EVAL_ERROR",
+   "id": "Q09_OPWS_EVALUATE",
+   "kind": "loop",
+   "max_iterations": 120,
+   "max_retries": 1,
+   "progress": {
+    "glob": "research/wp2/m16_v1/opws/*/*/opws.json"
+   },
+   "requires": [
+    "Q08M_MIRROR"
+   ],
+   "timeout_s": 14400,
+   "title": "OPWS evaluation of PARTIAL items (frozen evaluator + E1 + E1A1)"
+  },
+  {
+   "allowed_write_prefixes": [
+    "research/wp2/m16_v1/m16_opws_complete.json"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m16_run.py",
+    "opws-complete"
+   ],
+   "commit_message": "evidence(wp2): M16 OPWS complete",
+   "exit_codes": {
+    "3": "STOP:HOLD_ACTIVE",
+    "33": "STOP:M16_PREFLIGHT",
+    "34": "STOP:M16_RESOURCE_GATE",
+    "35": "STOP:M16_ADAPTER_FAIL",
+    "36": "STOP:M16_FIREWALL",
+    "37": "STOP:M16_TAG_GATE",
+    "4": "STOP:USER_STOP_FLAG",
+    "78": "STOP:M16_INVARIANT",
+    "79": "STOP:EVAL_ERROR"
+   },
+   "fail_token": "M16_INVARIANT",
+   "id": "Q10_OPWS_COMPLETE",
+   "requires": [
+    "Q09_OPWS_EVALUATE"
+   ],
+   "timeout_s": 3600,
+   "title": "completeness of every planned identity"
+  },
+  {
+   "allowed_write_prefixes": [
+    "research/wp2/m16_v1/analysis/"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m16_run.py",
+    "analyze"
+   ],
+   "commit_message": "evidence(wp2): M16 analysis",
+   "exit_codes": {
+    "3": "STOP:HOLD_ACTIVE",
+    "33": "STOP:M16_PREFLIGHT",
+    "34": "STOP:M16_RESOURCE_GATE",
+    "35": "STOP:M16_ADAPTER_FAIL",
+    "36": "STOP:M16_FIREWALL",
+    "37": "STOP:M16_TAG_GATE",
+    "4": "STOP:USER_STOP_FLAG",
+    "78": "STOP:M16_INVARIANT",
+    "79": "STOP:EVAL_ERROR"
+   },
+   "fail_token": "M16_INVARIANT",
+   "id": "Q11_ANALYZE",
+   "requires": [
+    "Q10_OPWS_COMPLETE"
+   ],
+   "timeout_s": 7200,
+   "title": "estimation-first analysis + tokens (no winner labels)"
+  },
+  {
+   "allowed_write_prefixes": [
+    "research/wp2/m16_v1/m16_summary.json",
+    "docs/WP2_M16_V1_RESULT.md"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m16_run.py",
+    "summary"
+   ],
+   "commit_message": "evidence(wp2): M16 summary",
+   "exit_codes": {
+    "3": "STOP:HOLD_ACTIVE",
+    "33": "STOP:M16_PREFLIGHT",
+    "34": "STOP:M16_RESOURCE_GATE",
+    "35": "STOP:M16_ADAPTER_FAIL",
+    "36": "STOP:M16_FIREWALL",
+    "37": "STOP:M16_TAG_GATE",
+    "4": "STOP:USER_STOP_FLAG",
+    "78": "STOP:M16_INVARIANT",
+    "79": "STOP:EVAL_ERROR"
+   },
+   "fail_token": "M16_INVARIANT",
+   "id": "Q12_SUMMARY",
+   "pass_checks": [
+    {
+     "command": [
+      "{python}",
+      "scripts/wp2_m16_run.py",
+      "historical-verify"
+     ],
+     "type": "command_ok"
+    }
+   ],
+   "requires": [
+    "Q11_ANALYZE"
+   ],
+   "timeout_s": 3600,
+   "title": "summary + generated claims (forbidden-wording check) + historical verify"
+  }
+ ],
+ "settings": {
+  "branch": "main",
+  "exports": {
+   "light": [
+    "{python}",
+    "scripts/wp2_export_light.py",
+    "--profile",
+    "controller/light_profile_m16.json",
+    "--label",
+    "{label}"
+   ]
+  },
+  "final_actions": [
+   {
+    "message": "evidence(wp2): close M16 OPWS-MAIN V1",
+    "prefixes": [
+     "research/wp2/m16_v1/",
+     "docs/WP2_M16_V1_RESULT.md"
+    ],
+    "type": "commit"
+   },
+   {
+    "type": "push"
+   },
+   {
+    "message": "WP2 M16 OPWS-MAIN V1 result",
+    "name": "wp2-m16-v1-result",
+    "type": "tag"
+   },
+   {
+    "label": "M16_RESULT",
+    "required": [
+     "light"
+    ],
+    "type": "exports"
+   }
+  ],
+  "git_commit": true,
+  "git_push": true,
+  "kit_manifest": "controller/KIT_MANIFEST_M16.json",
+  "remote": "origin",
+  "report_dir": "research/wp2/m16_v1/controller_reports",
+  "resumable_tokens": [
+   "NOT_YET",
+   "HOLD_ACTIVE",
+   "USER_STOP_FLAG",
+   "EVAL_ERROR",
+   "M16_PREFLIGHT",
+   "M16_S3_REQUIRED",
+   "M16_RESOURCE_GATE",
+   "M16_TAG_GATE",
+   "POST_ACTION_FAILED",
+   "FINAL_ACTION_FAILED",
+   "NO_PROGRESS"
+  ],
+  "state_file": "research/wp2/m16_v1/controller_state.json",
+  "stop_commit_prefixes": [
+   "research/wp2/m16_v1/"
+  ],
+  "stop_flag": "logs/M16_STOP.flag"
+ }
+}

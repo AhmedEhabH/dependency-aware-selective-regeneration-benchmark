@@ -1,0 +1,247 @@
+{
+ "artifact": "m16_design_freeze_v1",
+ "artifact_sha256": "959a23f1b9caff5a342439e8ea6c7243f8f6c5a0e53eed64b0d5c9ecb5856982",
+ "claims": {
+  "forbidden_terms": [
+   "non-inferior",
+   "noninferior",
+   "non-inferiority",
+   "equivalent",
+   "equivalence",
+   "as good as",
+   "better than"
+  ],
+  "permitted_negations": [
+   "M16 does not show that either selection is more sufficient, and it does not show that they are equivalent.",
+   "The band is an interpretive yardstick, not a non-inferiority or equivalence margin."
+  ],
+  "scope_sentence": "Saleor only; tasks with changed-test evidence, a V3-installable environment, >= 1 V3 behavioral F2P node and a passing selector-blind readiness check; gold restricted to modified/deleted non-test files (added and renamed files excluded); one Agent run per task."
+ },
+ "constants": {
+  "adapter_version": "m16-r2-main-input-adapter-v1",
+  "amended_max": 0.1,
+  "band": 0.1,
+  "dryrun_salt": "wp2-m16-dryrun-v1-2026-10-02",
+  "firewall": {
+   "blocked_dirs": [
+    "research/wp1b/main-297-2026-09-22/",
+    "research/wp1b/variance-15x3-2026-09-22/",
+    "research/wp2/m16_v1/scopes/",
+    "research/wp2/m16_v1/opws/"
+   ],
+   "blocked_files": [
+    "research/wp1a/sip_rmcss_per_task_predictions.json",
+    "research/stage5-v2-final/deployment_artifact.json",
+    "research/wp2/wp2_main_census_metadata_v2_2026-09-23.json",
+    "exports/WP1A_WP1B_SCIENTIFIC_CLOSURE_2026-09-21/research__wp1a__sip_rmcss_per_task_predictions.json"
+   ],
+   "blocked_suffixes": [
+    ".zip"
+   ],
+   "events": [
+    "open",
+    "subprocess.Popen",
+    "os.system",
+    "os.exec",
+    "os.posix_spawn",
+    "os.spawn",
+    "socket.connect"
+   ],
+   "network": "loopback only"
+  },
+  "listwise_drop_max": 0.1,
+  "max_infra_attempts": 3,
+  "pool_min": 40,
+  "r1_rule_constants_sha256": "c54be06967ae68bbfc6fc8c541489c495e1faeb0abd80bc3d39d3fd1ba2bbab3",
+  "resource": {
+   "hold_gib": 20.0,
+   "plan_floor_gib": 25.0,
+   "safety_gib": 2.0,
+   "warn_gib": 25.0,
+   "workload": {
+    "evidence_tasks": 220,
+    "opws_containers": 479,
+    "oracle_containers": 440,
+    "p2pu_containers": 660,
+    "readiness_containers": 440
+   }
+  },
+  "stats_version": "m16-stats-v1",
+  "tags": {
+   "dryrun": "wp2-m16-v1-dryrun",
+   "eligibility": "wp2-m16-v1-eligibility",
+   "evalsets": "wp2-m16-v1-evalsets",
+   "kit": "wp2-m16-v1-kit-2026-10-02",
+   "ready": "wp2-m16-v1-ready",
+   "result": "wp2-m16-v1-result",
+   "scopes": "wp2-m16-v1-scopes"
+  }
+ },
+ "date": "2026-10-02",
+ "deviations_from_review_v2": [
+  "JUnit missing while the container completed keeps the frozen pseudo-node semantics (v2 said infra)",
+  "a JUnit parse error and a P2P-U rediscovery container rc != 0 are infrastructure (detection only)",
+  "INFRA_UNRESOLVED requires 3 attempts spanning >= 2 engine invocations (each infra STOP 79 ends the engine process and the controller run, so in practice >= 2 human controller runs)",
+  "amended-item rate = E1A1-amended OPWS_EVALUATED items / OPWS_EVALUATED items over analysed tasks",
+  "resource consumption per state = max(VHDX allocated growth, C: free drop, in-guest used delta)",
+  "CLOCK_BLOCKED stops without consuming an attempt",
+  "added-file-allowance sensitivity (O3) is NOT implemented in this kit (needs extra Docker runs); listed open",
+  "the dry-run oracle evidence is not reused by Q03 (all 220 are executed in Q03)"
+ ],
+ "estimands": {
+  "descriptive": [
+   "E-D1 transportability of file-level F1 (T*, complement, 297)",
+   "E-D2 Agent replicates on the overlap",
+   "E-D3 sufficiency per editable file",
+   "per-era and per-gold-size-tercile delta",
+   "listwise adversarial bounds",
+   "sensitivity excluding E1A1-amended tasks"
+  ],
+  "primary": "delta = theta(RMCSS_HARD) - theta(AGENT_MAIN) on OPWS_ROBUST, paired over T*",
+  "primary_interval": "Tango (1998) asymptotic score 95% CI",
+  "secondary": [
+   "theta per selector (Clopper-Pearson)",
+   "decomposition P(FULL) + P(PARTIAL and pass); pi = P(pass | PARTIAL)",
+   "delta on OPWS_STRICT"
+  ],
+  "sensitivity_interval": "Newcombe (1998) method 10",
+  "supporting_tests": [
+   "exact conditional McNemar (two-sided)",
+   "mid-p McNemar"
+  ]
+ },
+ "hypotheses": "none confirmatory; one supporting test of H0: delta = 0 reported with the CI",
+ "kit_code_files": [
+  "scripts/wp2_m16_run.py",
+  "scripts/wp2_m16_adapter.py",
+  "scripts/wp2_m16_r1.py",
+  "scripts/wp2_m16_firewall.py",
+  "scripts/wp2_m16_stats.py",
+  "scripts/wp2_m16_resource.py",
+  "scripts/wp2_m16_maint.py"
+ ],
+ "model_api_calls": 0,
+ "pins": {
+  "file_norm_sha256": {
+   "research/memory-rescue-v2/final_oof_predictions_A.json": "f96888c22191dbf0a9dc636f275cedc0e33526aeaa69b42cd993456b80995c0a",
+   "research/wp1a/sip_rmcss_per_task_predictions.json": "3ae3864d09be9a024e2cbf6dc9e31ab46844efe71d1862e8dda784a26ee8b841",
+   "research/wp1b/main-297-2026-09-22/agent_run_records.jsonl": "f9114669b409531539dbef7d6d29aea5bcd08d399718a831586c15d0536b0751",
+   "research/wp1b/variance-15x3-2026-09-22/agent_run_records.jsonl": "5330ac153b5bf1b45e5bb9d8d5d937b164d5a6d7ffceb2f871847f61120a8d2e",
+   "research/wp1b/wp1b_main_297_manifest.json": "2cc92dad1b6fec291992534efd7d9d0eb44b9c45045612508a509ed0a68fd98e",
+   "research/wp2/harness_v3_2026-09-26/harness_v3_spec.json": "5e948f1c74e306221d0bd956f1c001ab792f25eba7da64c30188fe764443624f",
+   "research/wp2/harness_v3_2026-09-26/phase5_c4_v3_per_task.jsonl": "fe7a94efc85a45fccb818108cec2f6c9b4ec20770d58103d83aba0650c35d5e3",
+   "research/wp2/m14r_v1/m14r_design_freeze_v1.json": "9e3fd438c9fa2f69264ba887565fc8804d5d06a3fe3dd25561629d01c7f5ce60",
+   "research/wp2/m15r_v1/m15r_e1a1_amendment.json": "47b0a178fae5a590ffa5bd4010cbbed1911827b449c0f847f1661614eb8ce49c",
+   "research/wp2/main_generation_quarantine_2026-09-23.json": "8aced87949315ee686855b70e90f9ede99c921e3ba25f82833168b97f4f61f46",
+   "research/wp2/oracle_confirmation_linux_v2_2026-09-23/dev_census_2026-09-23.json": "a478c2dd8b04bf6f91c078267817ac36cfefcb4a1c9d016b2c71018286254e3a",
+   "research/wp2/oracle_confirmation_linux_v2_2026-09-23/dev_split_v2_2026-09-23.json": "a124fc8a3700df5bcbfd702bc5c3b0072f72486f3e51b191c26754fcbd9b7573",
+   "research/wp2/oracle_confirmation_linux_v2_2026-09-23/per_task_v2.jsonl": "6564e8af4004caf6e18e65842a730438f2fc86f3f9f5043cff1ff98e5792a636",
+   "research/wp2/oracle_confirmation_linux_v2_2026-09-23/summary_v2.json": "0ecfdedd4377b0cf8a2ca83fb267acf35743303a2915723d9681fb7723bd85e1",
+   "research/wp2/oracle_confirmation_linux_v2_2026-09-23/wp2_unchanged_p2p_candidate_inventory_v1_final_2026-09-25.json": "a5393a7658072a8b444dcca22fb36ab2c8998944146c9ab4aea744a429a43f9a",
+   "research/wp2/pilot_a_v1/pilot_final_membership.json": "8f63fca9e6235e0bb85e992b3f1aad89a48e87b245ab00d23f6d9db40dba8c7f",
+   "research/wp2/pilot_v1_design/pilot_selection.json": "60b62f2d50a438f350d3d77569ff5ffd45d730117fb4846bb51db0c3d6be0725",
+   "research/wp2/protected_pools_untouched_proof_2026-09-23.json": "e77538db32ae9578295b4c8f3ec8d9b3a0b79d7389bee4d9818ac1e2ce486b62",
+   "research/wp2/wp2_dev_unchanged_p2p_candidate_inventory_v1_2026-09-25.json": "89f784a42e7b8edb59f1f9146d25bac4ea421d13d6510a7fc7bb728ff1532e17",
+   "research/wp2/wp2_oracle_confirmation_selection_2026-09-22.json": "0f494cc760e08d713079e6e4289fd2918f5d19b4d064724a270e5633a8d32954",
+   "research/wp2/wp2_p2p_u_v2_membership_2026-09-25.json": "3b661d8b485346af4282592db9e4103f00e13ba46be5a12022af02cd09c5a992",
+   "research/wp2/wp2_p2p_u_v2_rule_freeze_2026-09-25.json": "aa7f9741e564e5c435c11c4eba30c5ccaca35862d2312c3bb793e6135f4958a5",
+   "research/wp2/wp2_saleor_main297_census_2026-09-22.json": "d4912cfaf650a4401846d9d63bcd5886b8f95f096b95b6a38f61ddf7a9e12cfa",
+   "scripts/wp2_ctl_v224.py": "f5d3e6929eb0b1b79ee66e16b86624e2003cbd28a711004abb0e8b8337931f9a",
+   "scripts/wp2_export_light.py": "c799c92b721beb6ce9e3b8aa83fd6f0971db9fbd7b3198ef557ed1d13b7eb982",
+   "scripts/wp2_linux_dryrun.py": "5a786978804673a20e5ce2335379a0fcd9fd8f2ba23a04b12308690184dc16b8",
+   "scripts/wp2_m10b_p2pu_v3_eng.py": "72e153d5687ffe4914ecd39fa70c0515d0a038c48949331a81250d598d5270c4",
+   "scripts/wp2_m10b_phase5_c4_v3.py": "64a1869b42b4382d6b6445bf5180e83b43fd544c4abd65a7d283f50b37c7824a",
+   "scripts/wp2_m14a_evalcore.py": "f9ba65ff3d453b5d620ce6f5ac1a58d2d3659ef7f7aab734867d6ec21fd6ddff",
+   "scripts/wp2_m14a_evalcore_e1.py": "6f028ad4eb99a19cc7c3b3a1d6defa51e1e5f7e72f76a2deeffffa51609365db",
+   "scripts/wp2_m14r_core.py": "2e19975df631f0a9f6e0888e800480819ca2bb5fe5244722fd19b617b2920491",
+   "scripts/wp2_m14r_run.py": "9fdee029e54f411b0e2349c8ba8b373dc446c0e44af358ed88610b2da6bb5316",
+   "scripts/wp2_m15r_e1a1.py": "a8bfb3ee6c7a7c6c6719279811b2e565e85c6839a286010313410fe28a63f9ca",
+   "scripts/wp2_m15r_run.py": "51f961c2dc27681031530dde5c4cbd2ff73e014ca569e35633aa9176d0a3b7d7",
+   "src/benchmark/wp1b/git_gate.py": "297d605b3d14a75b62384d5a468d890b28cf7cf3c68ceb9c3776bdc50f84c633",
+   "src/benchmark/wp2/dep_compiler.py": "cea50006e7fa7c9ab549569e084acb9859bbbb5b570bcc2d797fcb5491152abb",
+   "src/benchmark/wp2/e2e/evaluate.py": "ef7abab3e330ca9c9f62b5cb9b4d960e0ee6544e98f2898c35e7948dda3149a1",
+   "src/benchmark/wp2/e2e/evaluator_sets.py": "582e7c6eb6fff6ce8ceb57c75ca762127ded318c2d0e78a81009f66baad93ea7",
+   "src/benchmark/wp2/e2e/scopes.py": "fb7f4e8179627039fad00cddb685d10f18dac308f68273e43af4877f696469eb",
+   "src/benchmark/wp2/e2e/spec.py": "62f90ffe419fc73fa7474e303114b3f654a501db2f15e275965f2c1dbbb1a2f9",
+   "src/benchmark/wp2/harness_v3.py": "9df9813e0b0b303ef02d4b91b3c0e3f0f722bfa5a814addc124ad2b11ee07c72",
+   "src/benchmark/wp2/oracle_confirmation.py": "96ecbe61fc4755ad8677d21af16aecbaaae873e9ced88fa315c6e3b7bcf97201",
+   "src/benchmark/wp2/oracle_semantics_v2.py": "aa85f4953bea36974b77340c38fe8219e5a8d577d5e786ff74c06de2fc07423d",
+   "src/benchmark/wp2/p2p_inventory_dev_v1.py": "1bfd35e126da8a17db6fbb559ee1ff62bd292c9bf7a9895aea9f9c461cea8f6d",
+   "src/benchmark/wp2/p2p_u_v2.py": "ca3fd51db6b4e223556dd8512070639d346b714dc562858894cde0d1106a9491"
+  },
+  "quarantine_amendment_artifact_sha256": "e4e0fabf4123afa4a50e6f293d7ffebc7feb99067a916eba2b63545bbb5177de",
+  "quarantine_text_sha256": "79b808fb1691a60f6244dd7129b7dc6e53993a39a7fc5db60c7c2eb51a2a2ef3",
+  "r1_amendment_artifact_sha256": "9f652e7c015e38bfe82f406de0521bc35179f9728dbcabf9ca06adf033dc87f0"
+ },
+ "population": {
+  "eligibility": "harness V3 + R1 + R2; status DONE and PRIMARY_BEHAVIORAL_F2P_ELIGIBLE",
+  "evaluable": "READY = negative control valid AND scoped-gold positive RESOLVED_ROBUST",
+  "frame": "frozen 220 = wp2_oracle_confirmation_selection_2026-09-22 (20 STRONG + 200 MODIFIED)",
+  "sampled": "every READY task (census); no subsampling"
+ },
+ "proof_scope_after_ready": [
+  "P1 unique pushed READY tag + file-in-tag + ancestry (kit -> dryrun -> eligibility -> evalsets -> READY -> HEAD)",
+  "P2 plan binding re-checked against origin at Q08, Q08V, Q09 and Q11",
+  "P3 audit-hook firewall (open, subprocess argv, socket) in selector-blind phases; network-only hook (non-loopback socket) in Q08-Q12",
+  "P4 absence of scopes/ and opws/ before Q08",
+  "V1 git ancestry of every commit that touches scopes/ or opws/",
+  "V3/V4 recomputation of READY and eligibility from evidence"
+ ],
+ "question": "On Saleor MAIN tasks with a valid V3 behavioral oracle that pass selector-blind readiness: how often does the developer's own non-test patch, restricted to the editable files of a frozen WP1 selection, still pass the hidden tests robustly, and by how much does that differ between the WP1 RM-CSS selection and the WP1 Agent main-run selection?",
+ "rules": {
+  "eligibility": "design doc section 5.1 (classify_node_v2 + task_eligibility_v2 under V3, R1, R2)",
+  "infra": "3 attempts over >= 2 invocations -> *_INFRA_UNRESOLVED; never scored; OPWS -> listwise drop",
+  "install_blocked": "frozen INSTALL_FAIL on 2 consecutive attempts",
+  "opws_robust": "wp2_m14r_core.score_robust(...).resolved on the restricted gold diff (E1 + E1A1)",
+  "opws_strict": "wp2_m14r_core.score_strict(...).resolved",
+  "p2p_s": "P2P_ONLY nodes of the R1 oracle (stable PASS 3/3 on both states)",
+  "p2p_u200": "MAIN inventory -> V3 rediscovery (collect at target) -> frozen v2 rule cap200 -> 3+3 -> STABLE_P2P",
+  "readiness": "M15-R readiness_task semantics; decide_ready pure function",
+  "stopping": "no outcome-based interim looks; census completes unless a terminal STOP"
+ },
+ "source_review": {
+  "decisions": {
+   "Q1": "formal M16/L-OPWS amendment",
+   "Q2": "Route B on all 220",
+   "Q3": "P2P-U200 in OPWS_ROBUST",
+   "Q4": "OPWS_ROBUST primary; estimation-first",
+   "R1": "option (b), versioned M16 wrapper, historical untouched",
+   "R2": "MAIN input adapter, fail-closed",
+   "S1": "WSL/Docker stays on C:; D:\\wp2_cold for cold evidence/backups only",
+   "S3": "conditional, explicit allow-list"
+  },
+  "review_v1": "docs/WP2_M16_OPWS_MAIN_REVIEW_PACKAGE_2026-10-02.md",
+  "review_v2": "docs/WP2_M16_OPWS_MAIN_REVIEW_PACKAGE_v2_2026-10-02.md"
+ },
+ "status": "FROZEN_ON_INSTALL (candidate until the installer commits, tags and pushes it)",
+ "tokens": {
+  "band_position": [
+   "CI_INSIDE_DESCRIPTIVE_BAND",
+   "CI_CROSSES_BAND_EDGE",
+   "CI_WIDER_THAN_BAND",
+   "CI_OUTSIDE_BAND"
+  ],
+  "ci_position": [
+   "DIFFERENCE_CI_EXCLUDES_ZERO_POSITIVE",
+   "DIFFERENCE_CI_EXCLUDES_ZERO_NEGATIVE",
+   "DIFFERENCE_CI_INCLUDES_ZERO"
+  ],
+  "method_agreement": [
+   "CONCORDANT",
+   "DISCORDANT"
+  ],
+  "never_issued": [
+   "NONINFERIOR",
+   "EQUIVALENT",
+   "*_HIGHER_ESTIMATE",
+   "any winner label"
+  ],
+  "run_status": [
+   "M16_STOP_<reason>",
+   "M16_INSTRUMENT_REVIEW",
+   "M16_POOL_INSUFFICIENT_DESCRIPTIVE_ONLY",
+   "M16_OPWS_COMPLETE"
+  ]
+ },
+ "version": "m16-v1"
+}

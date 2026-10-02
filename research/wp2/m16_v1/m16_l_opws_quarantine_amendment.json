@@ -1,0 +1,22 @@
+{
+ "amends": {
+  "path": "research/wp2/main_generation_quarantine_2026-09-23.json",
+  "sha256_lf": "8aced87949315ee686855b70e90f9ede99c921e3ba25f82833168b97f4f61f46",
+  "sha256_raw": "4de0833958ec1b54bb4307f7ee34d3ffdbe4b9029a31c78975e0a1c130019766"
+ },
+ "approved_by": "independent reviewer decision Q1 (2026-10-02), human relay",
+ "artifact": "m16_l_opws_quarantine_amendment",
+ "artifact_sha256": "e4e0fabf4123afa4a50e6f293d7ffebc7feb99067a916eba2b63545bbb5177de",
+ "date": "2026-10-02",
+ "enforcement": [
+  "engine guard verifies this record (self-hash + design pin) and that it is in the pushed kit tag",
+  "selector-input firewall in every selector-blind phase",
+  "scope materialization only after the unique READY tag is on origin (P1/P2)",
+  "controller allowed-write prefixes restricted to research/wp2/m16_v1 and docs/WP2_M16_V1_RESULT.md"
+ ],
+ "id": "M16/L-OPWS",
+ "model_api_calls": 0,
+ "status": "ADOPTED_PRE_RUN (effective when the kit commit is tagged and pushed)",
+ "text": "M16/L-OPWS — MAIN QUARANTINE AMENDMENT (pre-run, pre-outcome)\n\nStatus: adopted before any M16 phase runs; recorded, tagged and pushed to origin\nbefore the first M16 Docker phase. It amends, and does not replace,\nresearch/wp2/main_generation_quarantine_2026-09-23.json\n(sha256 of the raw bytes 4de0833958ec1b54bb4307f7ee34d3ffdbe4b9029a31c78975e0a1c130019766;\nLF-normalized 8aced87949315ee686855b70e90f9ede99c921e3ba25f82833168b97f4f61f46).\n\n1. Scope. MAIN = the 297 task ids of research/wp1b/wp1b_main_297_manifest.json\n   (task_ids_sha256 1678dbaa3793588df4b82dce7d7b2d29586b612698e12a1c4d52ce32f4ccbceb;\n   file sha256 d858316667c4a3e28f7bf759001dc1fd8746b93c710592ff646f3f91584811eb raw,\n   2cc92dad1b6fec291992534efd7d9d0eb44b9c45045612508a509ed0a68fd98e LF-normalized). Nothing in this amendment\n   applies to INTERNAL_TEST or RESERVE, which remain sealed and untouched.\n\n2. What remains prohibited on MAIN (unchanged and extended):\n   code generation; prompt design or tuning; repair or retry-policy tuning;\n   generator debugging; Smoke; assay Pilot; selector training, re-fitting,\n   re-thresholding or re-running; Agent re-localization; any threshold, cap,\n   margin or rule tuning informed by MAIN outcomes.\n\n3. What M16 is permitted to do on MAIN (and nothing else):\n   (a) zero-model-API evaluator/oracle construction under frozen harness V3\n       (C4-V3 classification, P2P-S, P2P-U200 rediscovery and execution);\n   (b) zero-model-API, selector-blind readiness (empty-diff negative control,\n       scoped-gold positive control);\n   (c) zero-model-API OPWS: applying the developer's own non-test patch,\n       restricted to the editable files of selections that were already frozen\n       in WP1 (RM-CSS realization A, threshold 0.2, from\n       research/wp1a/sip_rmcss_per_task_predictions.json; Agent protocol v3 main\n       run and the 15x3 variance replicates, from research/wp1b/), and scoring it\n       with the frozen evaluator.\n   No new selection of any kind is produced by M16.\n\n4. Binding constraints on the use of M16 outcomes. \"M16 outcomes\" means every\n   M16 artifact that depends on a selector's editable set: P_S, coverage class,\n   OPWS records and every summary statistic. These outcomes must not be used to\n   alter: task membership of any study; selector parameters or thresholds;\n   prompts; caps, margins or decision rules; or the design of any later MAIN\n   study. M16 outcomes may be reported, analysed as pre-registered, and cited.\n\n5. Later MAIN studies. Any later end-to-end (generation) evaluation on MAIN must\n   use either (i) the full frozen M16 V3-READY census, with no subsetting by any\n   M16 outcome, or (ii) a separately protected pool untouched by M16. The\n   V3-READY census itself is selector-blind and may be reused as a frame.\n\n6. Irrevocability. This amendment cannot be relaxed after any M16 outcome\n   artifact exists. Any later change to the MAIN quarantine requires a new\n   decision record that states explicitly that M16 outcomes were known, and it\n   cannot retroactively validate a use prohibited in section 4.\n\n7. Violation. Any use prohibited in sections 2 or 4 invalidates the affected\n   later claim, and the violation is recorded in DECISIONS.md. M16's own claims\n   remain those of its frozen design.\n",
+ "text_sha256": "79b808fb1691a60f6244dd7129b7dc6e53993a39a7fc5db60c7c2eb51a2a2ef3"
+}
