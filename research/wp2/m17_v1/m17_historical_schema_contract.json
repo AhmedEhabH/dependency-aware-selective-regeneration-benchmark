@@ -1,0 +1,86 @@
+{
+ "artifact": "m17_historical_schema_contract",
+ "mission": "M17_P02",
+ "date": "2026-10-02",
+ "version": "m17-hist-schema-v1",
+ "purpose": "Eliminate the M16 adapter-failure class BEFORE any Docker run. Defines every distinct historical manifest/schema shape in the MAIN frame and reusable ENG/V3 evidence, the explicit source precedence for each resolved field, and the fail-closed rules for missing values.",
+ "inputs": {
+  "main_frame": "research/wp2/wp2_oracle_confirmation_selection_2026-09-22.json",
+  "main_census": "research/wp2/wp2_saleor_main297_census_2026-09-22.json",
+  "per_task_v2": "research/wp2/oracle_confirmation_linux_v2_2026-09-23/per_task_v2.jsonl",
+  "phase5_eng_v3": "research/wp2/harness_v3_2026-09-26/phase5_c4_v3_per_task.jsonl",
+  "env_closure_v31": "research/wp2/harness_v3_2026-09-26/env_closure_v31_dev_closures.json",
+  "p2p_u_v2_rule_freeze": "research/wp2/wp2_p2p_u_v2_rule_freeze_2026-09-25.json",
+  "harness_v3_spec": "research/wp2/harness_v3_2026-09-26/harness_v3_spec.json"
+ },
+ "schema_classes": {
+  "MAIN_CENSUS_ROW": {
+   "shape": "flat task row",
+   "fields": ["task_id", "parent_commit", "target_commit", "status", "f2p_candidacy", "test_command", "n_changed", "n_production", "n_test", "n_test_added", "n_test_modified", "n_test_deleted", "n_migration", "n_config_or_infra", "parent_available", "target_available", "error"],
+   "present_in": "wp2_saleor_main297_census_2026-09-22.json (297 rows)",
+   "missing_rule": "Missing task_id/parent_commit/target_commit is a hard violation (ADAPTER_UNRESOLVED).",
+   "resolution_path": "no default; fail-closed"
+  },
+  "ORACLE_SELECTION_ROW": {
+   "shape": "flat task row",
+   "fields": ["task_id", "f2p_candidacy", "env_family", "migration_or_config_heavy", "changed_source_bin", "n_modified_test_files_bin"],
+   "present_in": "wp2_oracle_confirmation_selection_2026-09-22.json (220 rows)",
+   "missing_rule": "task_id required; nullable planning bins stay null and are NOT re-derived.",
+   "resolution_path": "no default; null preserved"
+  },
+  "PER_TASK_V2_RECORD": {
+   "shape": "oracle_harness_schema_v2 record",
+   "fields": ["task_id", "status", "classification", "counts", "eligibility", "canary", "n_nodes", "n_test_files", "wall_s", "era_key", "provenance"],
+   "sub_shape_provenance": ["harness_version", "harness_commit_sha", "classifier_bundle_sha256", "os_distro", "container_image_tag", "container_image_digest", "python_executable", "python_version", "installer_version", "lockfile_sha256", "dependency_pip_freeze_hash", "environment_fingerprint", "parent_commit", "target_commit", "timestamp", "test_command", "test_patch_rule_sha256", "junit_sha256", "output_sha256", "postgres_version", "postgres_image_digest", "schema", "provenance_sha256"],
+   "present_in": "oracle_confirmation_linux_v2_2026-09-23/per_task_v2.jsonl (220 rows)",
+   "missing_rule": "era_key NOT in (py38, py39, py312) is a hard violation. Missing lockfile_sha256 is NOT_RECORDED_ABSENT (never guessed).",
+   "resolution_path": "era: PER_TASK_V2 only. lockfile: PER_TASK_V2 provenance only."
+  },
+  "PHASE5_ENG_MANIFEST_V3_NO_CLOSURE": {
+   "shape": "13-key manifest WITHOUT dev_test_closure (two key-subshapes)",
+   "key_subshapes": [
+    ["clock_pre_post", "db_names", "era", "frozen_base_image_id", "harness_v3_version", "install_mode", "lockfile_sha256", "nofile_hard", "nofile_soft", "runner_sha", "target_commit", "task_id", "worker_count"],
+    ["C4_EFFECTIVE_WORKERS", "clock_pre_post", "db_names", "era", "frozen_base_image_id", "harness_v3_version", "install_mode", "lockfile_sha256", "nofile_hard", "nofile_soft", "runner_sha", "target_commit", "task_id"]
+   ],
+   "present_in": "phase5_c4_v3_per_task.jsonl (15 records: 3 + 12)",
+   "missing_rule": "Recorded install_mode and lockfile_sha256 are REQUIRED for identity; dev_test_closure is NOT_RECORDED_ABSENT.",
+   "closure_status": "NOT_RECORDED_ABSENT",
+   "resolution_path": "identity: recorded fields only. closure: NOT_RECORDED (never backfilled)."
+  },
+  "PHASE5_ENG_MANIFEST_V31_WITH_CLOSURE": {
+   "shape": "15-key manifest WITH dev_test_closure",
+   "fields": ["C4_EFFECTIVE_WORKERS", "clock_pre_post", "db_names", "dev_test_closure", "era", "frozen_base_image_id", "harness_v3_version", "install_mode", "lockfile_sha256", "main_recipe_signature", "nofile_hard", "nofile_soft", "runner_sha", "target_commit", "task_id"],
+   "present_in": "phase5_c4_v3_per_task.jsonl (14 records)",
+   "missing_rule": "Recorded closure brief keys compared exactly where present; null field is NOT_RECORDED_NULL.",
+   "closure_status": "RECORDED",
+   "resolution_path": "identity: recorded fields. closure: recorded brief only."
+  },
+  "ENV_CLOSURE_V31_PER_TASK": {
+   "shape": "per_task dict of closure briefs",
+   "fields": ["mechanism", "pins", "n_unsupported", "era_key", "python_version", "note"],
+   "present_in": "env_closure_v31_dev_closures.json",
+   "missing_rule": "Coverage is a subset of ENG (16-task oracle-valid union max); never a substitute for the frozen identity test.",
+   "resolution_path": "provenance/checking source only; not the primary identity source"
+  }
+ },
+ "source_precedence": {
+  "era": ["PER_TASK_V2_RECORD.era_key"],
+  "install_mode": ["PHASE5_ENG_MANIFEST (recorded install_mode) for ENG identity; MAIN: derived from target-commit manifests (uv.lock/poetry.lock/requirements) as MECHANISM_DERIVED, classified NOT_RECORDED_IN_FROZEN_V2 otherwise"],
+  "lockfile": ["PER_TASK_V2_RECORD.provenance.lockfile_sha256 for MAIN; PHASE5_ENG_MANIFEST.lockfile_sha256 for ENG identity"],
+  "dev_test_closure": ["PHASE5_ENG_MANIFEST_V31_WITH_CLOSURE.dev_test_closure where recorded; else NOT_RECORDED_ABSENT/NULL; NEVER backfilled"],
+  "target_commit": ["MAIN_CENSUS_ROW.target_commit (cross-checked equal to PER_TASK_V2 provenance.target_commit)"]
+ },
+ "fail_closed_rules": [
+  "A missing value is NEVER replaced by a guessed default.",
+  "If a dev/test group is declared in the target manifests, the closure mechanism cannot silently become 'none'. A declared dev group with mechanism=none is a hard violation (DEV_GROUP_DECLARED_BUT_MECHANISM_NONE).",
+  "If the exact closure is not historically recorded, provenance is NOT_RECORDED; it is never backfilled from selector-dependent evidence.",
+  "Later V3/V3.1/P2P-U records are used ONLY as explicitly declared provenance/checking sources (at most the 16-task ENG union), never as a substitute for the frozen identity test.",
+  "Every transformation is deterministic and independently unit-testable; no network, no Docker, no selector file access.",
+  "Any task that cannot be resolved through the defined paths is classified ADAPTER_UNRESOLVED before Docker."
+ ],
+ "acceptance": {
+  "no_schema_class_without_resolution_path": true,
+  "unresolved_classification": "ADAPTER_UNRESOLVED",
+  "adapter_output_independent_of_selector_files": true
+ }
+}

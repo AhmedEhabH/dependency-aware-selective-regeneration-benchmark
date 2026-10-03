@@ -84,7 +84,7 @@ Full rows with artifact paths and allowed interpretation:
 
 ## LIVE STATUS — single current-state source of truth
 
-**Position:** C0->C6 documentation/closure complete (2026-10-02); G0_BRAIN_REVIEW completed by the scientific brain with decision to finalize a durable research baseline before any new science. M16-v1 closed pre-experiment (adapter failure, no MAIN outcome). Primary claim-bearing evidence is WP1 selection correctness/efficiency; WP2 is supporting/downstream.
+**Position:** M17 Phase0B-v2 (2026-10-03): executable M17 qualification kit FROZEN with the brain-approved corrected 12-task membership; ZERO Docker/WSL/API; qualification NOT run. M16-v1 closed pre-experiment. Primary claim-bearing evidence is WP1 selection correctness/efficiency; WP2 supporting/downstream.
 
 **Research pipeline:**
 
@@ -115,6 +115,7 @@ Full rows with artifact paths and allowed interpretation:
 | M16-v1 OPWS-MAIN instrument | CLOSED (PRE-EXPERIMENT) | R02_ADAPTER_VERIFY STOP M16_ADAPTER_FAIL; R00 kit 102/102 PASS; no MAIN outcome |
 | C0->C6 documentation/closure | DONE | ledger/results/claims/methods/threats/README landing/research-status/repro-audit/LIGHT convention |
 | G0_BRAIN_REVIEW | DONE | brain decision: finalize durable baseline before new science |
+| M17 Phase0B-v2 executable qualification kit | KIT_FROZEN (zero-Docker, zero-API) | runner/adapter/manifest/real-controller integration; qualification NOT run; membership corrected (f76d out, bcd9f6 in) + brain-approved; next: brain review then real 12-task qualification |
 
 **LLM-call accounting:**
 
@@ -151,11 +152,11 @@ Full rows with artifact paths and allowed interpretation:
 | C0->C6 closure + G0_BRAIN_REVIEW | DONE | documentation/evidence consolidation only; brain decision: finalize durable baseline before new science |
 | M16-v1 MAIN OPWS run | NOT AUTHORIZED / CLOSED | closed pre-experiment adapter failure; no MAIN outcome; a future attempt requires a separately designed, brain-approved M16-v2 |
 
-**Next action:** Finalize and freeze the durable research baseline (this T2), then the brain decides: seminar/proposal first vs exactly one optional targeted external-validity pilot.
+**Next action:** Await ChatGPT brain review of the M17 qualification kit before the REAL 12-task qualification. Do NOT run the 12 tasks, MAIN, OPWS, Docker, WSL, or any model/API call until then.
 
-**End-to-end status:** WP-2 supporting evidence is closed and consolidated (Smoke v2.2 engineering pipeline; Pilot-A and M14R supporting negatives; M15-R OPWS Pilot-B descriptive); M16-v1 closed pre-experiment with **no** MAIN OPWS outcome. Primary claim-bearing evidence is WP1 selection-only correctness/efficiency. **No** active M16 run, **no** active generator experiment, **no** active polyglot experiment.
+**End-to-end status:** M17 executable qualification kit frozen (zero-Docker, zero-API); qualification NOT run. WP-2 supporting evidence closed/consolidated; M16-v1 closed pre-experiment; no active scientific run.
 
-*Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-10-02 (Africa/Cairo).*
+*Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-10-03 (Africa/Cairo).*
 <!-- LIVE_STATUS:END -->
 
 > **Closure note (2026-10-02):** the WP-2 instrument trail (Smoke v2.2 →

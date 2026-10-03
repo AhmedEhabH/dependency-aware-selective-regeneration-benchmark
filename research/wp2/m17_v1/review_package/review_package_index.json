@@ -1,0 +1,83 @@
+{
+ "adapter_report": "../adapter/adapter_report.json (ENG 29/29, MAIN 219/1)",
+ "artifact": "m17_review_package",
+ "date": "2026-10-03",
+ "exact_hashes": {
+  "controller/KIT_MANIFEST_M17.json": "c98e92402d31aee58cadff6fb0e4ec90d2bb476271891b5008640ebc8eb19e45",
+  "research/wp2/m17_v1/m17_m16_root_cause_map.json": "2566bd05c2e103d8bf58cd81e99a0180f2307382cb76b90c21022e78cb72051c",
+  "research/wp2/m17_v1/m17_qualification_membership_v2_approved.json": "edd9d5f6106e0e487ccf77bcded2bef0cf2c4c0c1a8a0736243614daa43168ef",
+  "scripts/wp2_m17_adapter.py": "5a1d4f2ca267c78214ccbff29b179e1917f7ed47708b056bdcc373530fec9df7",
+  "scripts/wp2_m17_contract.py": "dadec431ffdb08b4161e09ec73a0665db63ec2dd8f53671aee406e37bcf7b442",
+  "scripts/wp2_m17_run.py": "5ee23a82ed01d2b297221fa96daf250dfe9dc06898bbaba463f3c54f159cf2a9"
+ },
+ "git": {
+  "baseline_tag": "msc-research-baseline-2026-10-02",
+  "head": "f7412ec0031a4585df9c4102a9e18607cf2d7db8",
+  "origin_main": "f7412ec0031a4585df9c4102a9e18607cf2d7db8"
+ },
+ "kit_manifest": {
+  "members": 34,
+  "membership_sha256": "75c13be8b44080407944291db8d7c2809e2ddd0fff8cc03ca6e80cfb9ded6cee",
+  "verified_frame_count": 220
+ },
+ "m16_root_cause": "m17_m16_root_cause_map.json (4/4 violations mapped)",
+ "membership": {
+  "added": [
+   "saleor-rc-bcd9f60d2aef"
+  ],
+  "approved_12": [
+   "saleor-rc-14a682044ca4",
+   "saleor-rc-663543eaf563",
+   "saleor-rc-7b1e8cee95d5",
+   "saleor-rc-7e42fc67ce72",
+   "saleor-rc-8220a53473bb",
+   "saleor-rc-9b88221ba8c2",
+   "saleor-rc-a9e79dac40a2",
+   "saleor-rc-ba4ff17faab4",
+   "saleor-rc-bcd9f60d2aef",
+   "saleor-rc-d361479ab7da",
+   "saleor-rc-e0890780bf56",
+   "saleor-rc-e28ca6ad6442"
+  ],
+  "approved_file": "m17_qualification_membership_v2_approved.json",
+  "approved_sha": "75c13be8b44080407944291db8d7c2809e2ddd0fff8cc03ca6e80cfb9ded6cee",
+  "candidate_12": [
+   "saleor-rc-14a682044ca4",
+   "saleor-rc-663543eaf563",
+   "saleor-rc-7b1e8cee95d5",
+   "saleor-rc-7e42fc67ce72",
+   "saleor-rc-8220a53473bb",
+   "saleor-rc-9b88221ba8c2",
+   "saleor-rc-a9e79dac40a2",
+   "saleor-rc-ba4ff17faab4",
+   "saleor-rc-bcd9f60d2aef",
+   "saleor-rc-d361479ab7da",
+   "saleor-rc-e0890780bf56",
+   "saleor-rc-e28ca6ad6442"
+  ],
+  "candidate_file": "m17_qualification_membership_v2_candidate.json",
+  "candidate_sha": "75c13be8b44080407944291db8d7c2809e2ddd0fff8cc03ca6e80cfb9ded6cee",
+  "excluded": [
+   "saleor-rc-f76d0093b450"
+  ],
+  "old_12": [
+   "saleor-rc-14a682044ca4",
+   "saleor-rc-663543eaf563",
+   "saleor-rc-7b1e8cee95d5",
+   "saleor-rc-7e42fc67ce72",
+   "saleor-rc-8220a53473bb",
+   "saleor-rc-9b88221ba8c2",
+   "saleor-rc-a9e79dac40a2",
+   "saleor-rc-ba4ff17faab4",
+   "saleor-rc-d361479ab7da",
+   "saleor-rc-e0890780bf56",
+   "saleor-rc-e28ca6ad6442",
+   "saleor-rc-f76d0093b450"
+  ],
+  "old_file": "m17_qualification_membership.json",
+  "old_sha": "3effa42878ed63ad3f89ca4492618cb3e04a8f6d53f4726ffa12722ac5d56a14",
+  "reason": "ADAPTER_UNRESOLVED DEV_GROUP_DECLARED_BUT_MECHANISM_NONE (frozen harness closure mechanism=none with declared dev group)"
+ },
+ "mission": "M17_PHASE0B_V2",
+ "zero_model_policy": true
+}

@@ -1,0 +1,441 @@
+{
+ "id": "WP2_M17_V1_MAIN",
+ "status": "DESIGN_ONLY_NOT_AUTHORIZED",
+ "note": "Full-run design built in Phase 0 but NOT authorized to run. Requires brain review of the qualification evidence first.",
+ "phases": [
+  {
+   "allowed_write_prefixes": [],
+   "command": [
+    "{python}",
+    "-m",
+    "pytest",
+    "-q",
+    "-p",
+    "no:cacheprovider",
+    "tests/unit/wp2/m17"
+   ],
+   "fail_token": "M17_KIT_SELFTEST_FAIL",
+   "id": "Q00_KIT_SELFTEST",
+   "timeout_s": 1800,
+   "title": "M17 unit tests (zero network, zero Docker, zero WSL)"
+  },
+  {
+   "allowed_write_prefixes": [
+    "research/wp2/m17_v1/m17_guard_main.json"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m17_run.py",
+    "guard",
+    "--stage",
+    "main"
+   ],
+   "exit_codes": {
+    "3": "STOP:HOLD_ACTIVE",
+    "4": "STOP:USER_STOP_FLAG",
+    "33": "STOP:M17_PREFLIGHT",
+    "34": "STOP:M17_RESOURCE_GATE",
+    "35": "STOP:M17_ADAPTER_FAIL",
+    "36": "STOP:M17_FIREWALL",
+    "37": "STOP:M17_TAG_GATE",
+    "78": "STOP:M17_INVARIANT",
+    "79": "STOP:EVAL_ERROR"
+   },
+   "fail_token": "M17_INVARIANT",
+   "id": "Q01_GUARD",
+   "requires": [
+    "Q00_KIT_SELFTEST"
+   ],
+   "timeout_s": 1800,
+   "title": "guard: frozen design/membership hashes, protected pools, resource gates, absence checks"
+  },
+  {
+   "allowed_write_prefixes": [
+    "research/wp2/m17_v1/adapter/"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m17_run.py",
+    "adapter-verify"
+   ],
+   "commit_message": "evidence(wp2): M17 adapter verification (main stage)",
+   "exit_codes": {
+    "3": "STOP:HOLD_ACTIVE",
+    "4": "STOP:USER_STOP_FLAG",
+    "33": "STOP:M17_PREFLIGHT",
+    "34": "STOP:M17_RESOURCE_GATE",
+    "35": "STOP:M17_ADAPTER_FAIL",
+    "36": "STOP:M17_FIREWALL",
+    "37": "STOP:M17_TAG_GATE",
+    "78": "STOP:M17_INVARIANT",
+    "79": "STOP:EVAL_ERROR"
+   },
+   "fail_token": "M17_ADAPTER_FAIL",
+   "id": "Q02_ADAPTER_VERIFY",
+   "requires": [
+    "Q01_GUARD"
+   ],
+   "timeout_s": 7200,
+   "title": "clean adapter on all 220 frame tasks (zero Docker)"
+  },
+  {
+   "allowed_write_prefixes": [
+    "research/wp2/m17_v1/oracle/"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m17_run.py",
+    "oracle",
+    "--frame",
+    "all",
+    "--resumable",
+    "--max-items",
+    "1"
+   ],
+   "commit_message": "evidence(wp2): M17 V3 oracle progress",
+   "exit_codes": {
+    "3": "STOP:HOLD_ACTIVE",
+    "4": "STOP:USER_STOP_FLAG",
+    "33": "STOP:M17_PREFLIGHT",
+    "34": "STOP:M17_RESOURCE_GATE",
+    "35": "STOP:M17_ADAPTER_FAIL",
+    "36": "STOP:M17_FIREWALL",
+    "37": "STOP:M17_TAG_GATE",
+    "78": "STOP:M17_INVARIANT",
+    "79": "STOP:EVAL_ERROR"
+   },
+   "fail_token": "M17_INVARIANT",
+   "id": "Q03_ORACLE",
+   "requires": [
+    "Q02_ADAPTER_VERIFY"
+   ],
+   "timeout_s": 5400000,
+   "title": "V3 oracle construction over all 220 tasks in the frozen selector-blind frame (workers=1, resumable by task identity)"
+  },
+  {
+   "allowed_write_prefixes": [
+    "research/wp2/m17_v1/eligibility/"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m17_run.py",
+    "eligibility-freeze"
+   ],
+   "commit_message": "evidence(wp2): M17 eligibility freeze",
+   "exit_codes": {
+    "3": "STOP:HOLD_ACTIVE",
+    "4": "STOP:USER_STOP_FLAG",
+    "33": "STOP:M17_PREFLIGHT",
+    "34": "STOP:M17_RESOURCE_GATE",
+    "35": "STOP:M17_ADAPTER_FAIL",
+    "36": "STOP:M17_FIREWALL",
+    "37": "STOP:M17_TAG_GATE",
+    "78": "STOP:M17_INVARIANT",
+    "79": "STOP:EVAL_ERROR"
+   },
+   "fail_token": "M17_INVARIANT",
+   "id": "Q04_ELIGIBILITY_FREEZE",
+   "requires": [
+    "Q03_ORACLE"
+   ],
+   "timeout_s": 3600,
+   "title": "eligibility freeze + commit/tag/push (selector-blind)"
+  },
+  {
+   "allowed_write_prefixes": [
+    "research/wp2/m17_v1/evalsets/"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m17_run.py",
+    "evalsets",
+    "--resumable",
+    "--max-items",
+    "1"
+   ],
+   "commit_message": "evidence(wp2): M17 P2P-S/P2P-U progress",
+   "exit_codes": {
+    "3": "STOP:HOLD_ACTIVE",
+    "4": "STOP:USER_STOP_FLAG",
+    "33": "STOP:M17_PREFLIGHT",
+    "34": "STOP:M17_RESOURCE_GATE",
+    "35": "STOP:M17_ADAPTER_FAIL",
+    "36": "STOP:M17_FIREWALL",
+    "37": "STOP:M17_TAG_GATE",
+    "78": "STOP:M17_INVARIANT",
+    "79": "STOP:EVAL_ERROR"
+   },
+   "fail_token": "M17_INVARIANT",
+   "id": "Q05_EVALSETS",
+   "requires": [
+    "Q04_ELIGIBILITY_FREEZE"
+   ],
+   "timeout_s": 5400000,
+   "title": "P2P-S and frozen P2P-U rule execution/discovery on eligible tasks (selector-blind)"
+  },
+  {
+   "allowed_write_prefixes": [
+    "research/wp2/m17_v1/readiness/"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m17_run.py",
+    "readiness",
+    "--resumable",
+    "--max-items",
+    "1"
+   ],
+   "commit_message": "evidence(wp2): M17 readiness progress",
+   "exit_codes": {
+    "3": "STOP:HOLD_ACTIVE",
+    "4": "STOP:USER_STOP_FLAG",
+    "33": "STOP:M17_PREFLIGHT",
+    "34": "STOP:M17_RESOURCE_GATE",
+    "35": "STOP:M17_ADAPTER_FAIL",
+    "36": "STOP:M17_FIREWALL",
+    "37": "STOP:M17_TAG_GATE",
+    "78": "STOP:M17_INVARIANT",
+    "79": "STOP:EVAL_ERROR"
+   },
+   "fail_token": "M17_INVARIANT",
+   "id": "Q06_READINESS",
+   "requires": [
+    "Q05_EVALSETS"
+   ],
+   "timeout_s": 5400000,
+   "title": "selector-blind readiness (negative + positive controls)"
+  },
+  {
+   "allowed_write_prefixes": [
+    "research/wp2/m17_v1/ready/"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m17_run.py",
+    "ready-freeze"
+   ],
+   "commit_message": "evidence(wp2): M17 READY census freeze",
+   "exit_codes": {
+    "3": "STOP:HOLD_ACTIVE",
+    "4": "STOP:USER_STOP_FLAG",
+    "33": "STOP:M17_PREFLIGHT",
+    "34": "STOP:M17_RESOURCE_GATE",
+    "35": "STOP:M17_ADAPTER_FAIL",
+    "36": "STOP:M17_FIREWALL",
+    "37": "STOP:M17_TAG_GATE",
+    "78": "STOP:M17_INVARIANT",
+    "79": "STOP:EVAL_ERROR"
+   },
+   "fail_token": "M17_POOL_INSUFFICIENT",
+   "id": "Q07_READY_FREEZE",
+   "requires": [
+    "Q06_READINESS"
+   ],
+   "timeout_s": 3600,
+   "title": "READY census freeze + commit/tag/push; pool gate n_READY >= 40"
+  },
+  {
+   "allowed_write_prefixes": [
+    "research/wp2/m17_v1/scopes/"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m17_run.py",
+    "scopes"
+   ],
+   "commit_message": "evidence(wp2): M17 scope materialization",
+   "exit_codes": {
+    "3": "STOP:HOLD_ACTIVE",
+    "4": "STOP:USER_STOP_FLAG",
+    "33": "STOP:M17_PREFLIGHT",
+    "34": "STOP:M17_RESOURCE_GATE",
+    "35": "STOP:M17_ADAPTER_FAIL",
+    "36": "STOP:M17_FIREWALL",
+    "37": "STOP:M17_TAG_GATE",
+    "78": "STOP:M17_INVARIANT",
+    "79": "STOP:EVAL_ERROR"
+   },
+   "fail_token": "M17_TAG_GATE",
+   "id": "Q08_SCOPES",
+   "requires": [
+    "Q07_READY_FREEZE"
+   ],
+   "timeout_s": 3600,
+   "title": "materialize frozen RM-CSS and Agent MAIN scopes ONLY after READY frozen and pushed (P1-P4)"
+  },
+  {
+   "allowed_write_prefixes": [
+    "research/wp2/m17_v1/opws/"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m17_run.py",
+    "opws-evaluate",
+    "--resumable",
+    "--max-items",
+    "1"
+   ],
+   "commit_message": "evidence(wp2): M17 OPWS progress",
+   "exit_codes": {
+    "3": "STOP:HOLD_ACTIVE",
+    "4": "STOP:USER_STOP_FLAG",
+    "33": "STOP:M17_PREFLIGHT",
+    "34": "STOP:M17_RESOURCE_GATE",
+    "35": "STOP:M17_ADAPTER_FAIL",
+    "36": "STOP:M17_FIREWALL",
+    "37": "STOP:M17_TAG_GATE",
+    "78": "STOP:M17_INVARIANT",
+    "79": "STOP:EVAL_ERROR"
+   },
+   "fail_token": "M17_INVARIANT",
+   "id": "Q09_OPWS",
+   "requires": [
+    "Q08_SCOPES"
+   ],
+   "timeout_s": 5400000,
+   "title": "OPWS evaluate on the ENTIRE READY census"
+  },
+  {
+   "allowed_write_prefixes": [],
+   "command": [
+    "{python}",
+    "scripts/wp2_m17_run.py",
+    "opws-complete"
+   ],
+   "exit_codes": {
+    "3": "STOP:HOLD_ACTIVE",
+    "4": "STOP:USER_STOP_FLAG",
+    "33": "STOP:M17_PREFLIGHT",
+    "34": "STOP:M17_RESOURCE_GATE",
+    "35": "STOP:M17_ADAPTER_FAIL",
+    "36": "STOP:M17_FIREWALL",
+    "37": "STOP:M17_TAG_GATE",
+    "78": "STOP:M17_INVARIANT",
+    "79": "STOP:EVAL_ERROR"
+   },
+   "fail_token": "M17_INVARIANT",
+   "id": "Q10_COMPLETENESS",
+   "requires": [
+    "Q09_OPWS"
+   ],
+   "timeout_s": 1800,
+   "title": "completeness check: every planned identity has a valid record or is listed INFRA_UNRESOLVED"
+  },
+  {
+   "allowed_write_prefixes": [
+    "research/wp2/m17_v1/analysis/"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m17_run.py",
+    "analyze"
+   ],
+   "commit_message": "evidence(wp2): M17 paired analysis",
+   "exit_codes": {
+    "3": "STOP:HOLD_ACTIVE",
+    "4": "STOP:USER_STOP_FLAG",
+    "33": "STOP:M17_PREFLIGHT",
+    "34": "STOP:M17_RESOURCE_GATE",
+    "35": "STOP:M17_ADAPTER_FAIL",
+    "36": "STOP:M17_FIREWALL",
+    "37": "STOP:M17_TAG_GATE",
+    "78": "STOP:M17_INVARIANT",
+    "79": "STOP:EVAL_ERROR"
+   },
+   "fail_token": "M17_INVARIANT",
+   "id": "Q11_ANALYSIS",
+   "requires": [
+    "Q10_COMPLETENESS"
+   ],
+   "timeout_s": 3600,
+   "title": "paired analysis: theta_RMCSS, theta_AGENT, delta, CI, McNemar, FULL/PARTIAL/NONE, P/R/F1, efficiency, representativeness"
+  },
+  {
+   "allowed_write_prefixes": [
+    "research/wp2/m17_v1/summary/"
+   ],
+   "command": [
+    "{python}",
+    "scripts/wp2_m17_run.py",
+    "summary"
+   ],
+   "commit_message": "evidence(wp2): M17 summary + result tag",
+   "exit_codes": {
+    "3": "STOP:HOLD_ACTIVE",
+    "4": "STOP:USER_STOP_FLAG",
+    "33": "STOP:M17_PREFLIGHT",
+    "34": "STOP:M17_RESOURCE_GATE",
+    "35": "STOP:M17_ADAPTER_FAIL",
+    "36": "STOP:M17_FIREWALL",
+    "37": "STOP:M17_TAG_GATE",
+    "78": "STOP:M17_INVARIANT",
+    "79": "STOP:EVAL_ERROR"
+   },
+   "fail_token": "M17_INVARIANT",
+   "id": "Q12_SUMMARY",
+   "requires": [
+    "Q11_ANALYSIS"
+   ],
+   "timeout_s": 1800,
+   "title": "summary + result tag + LIGHT"
+  }
+ ],
+ "settings": {
+  "branch": "main",
+  "exports": {
+   "light": [
+    "{python}",
+    "scripts/wp2_export_light.py",
+    "--profile",
+    "controller/light_profile_m17.json",
+    "--label",
+    "{label}"
+   ]
+  },
+  "final_actions": [
+   {
+    "message": "evidence(wp2): M17 full MAIN census result",
+    "prefixes": [
+     "research/wp2/m17_v1/"
+    ],
+    "type": "commit"
+   },
+   {
+    "type": "push"
+   },
+   {
+    "name": "wp2-m17-v1-result",
+    "type": "tag"
+   },
+   {
+    "label": "M17_RESULT",
+    "required": [
+     "light"
+    ],
+    "type": "exports"
+   }
+  ],
+  "git_commit": true,
+  "git_push": true,
+  "kit_manifest": "controller/KIT_MANIFEST_M17.json",
+  "remote": "origin",
+  "report_dir": "research/wp2/m17_v1/controller_reports_main",
+  "resumable_tokens": [
+   "NOT_YET",
+   "HOLD_ACTIVE",
+   "USER_STOP_FLAG",
+   "EVAL_ERROR",
+   "M17_PREFLIGHT",
+   "M17_RESOURCE_GATE",
+   "M17_TAG_GATE",
+   "POST_ACTION_FAILED",
+   "FINAL_ACTION_FAILED",
+   "NO_PROGRESS"
+  ],
+  "state_file": "research/wp2/m17_v1/controller_state_main.json",
+  "stop_commit_prefixes": [
+   "research/wp2/m17_v1/"
+  ],
+  "stop_flag": "logs/M17_STOP.flag"
+ }
+}

@@ -1,0 +1,28 @@
+{
+ "include": [
+  "controller/plan_m17_v1_qualification.json",
+  "controller/plan_m17_v1_main.json",
+  "controller/light_profile_m17_qualification.json",
+  "controller/light_profile_m17.json",
+  "controller/KIT_MANIFEST_M17.json",
+  "scripts/wp2_m17_run.py",
+  "scripts/wp2_m17_adapter.py",
+  "scripts/wp2_m17_contract.py",
+  "scripts/wp2_m17_p01_census.py",
+  "scripts/wp2_m17_p04_qualification.py",
+  "tests/unit/wp2/m17/*.py",
+  "tests/unit/wp2/m17/sim/*.py",
+  "research/wp2/m17_v1/*.json",
+  "research/wp2/m17_v1/**/*.json",
+  "research/wp2/m17_v1/STOP_M17_QUAL_STRATA_CHANGED_2026-10-03.md",
+  "research/wp2/m17_v1/controller_reports_qualification/**",
+  "PROGRESS.md",
+  "DECISIONS.md",
+  "pyproject.toml",
+  "research/wp2/m17_v1/review_package/*",
+  "research/wp2/m17_v1/review_package/**/*"
+ ],
+ "max_file_bytes": 5242880,
+ "max_total_bytes": 47185920,
+ "name_prefix": "project-LIGHT"
+}

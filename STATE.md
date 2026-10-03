@@ -5,6 +5,30 @@ are appended; corrections are new entries.
 
 ---
 
+## STATE 2026-10-03 - M17 Phase0B-v2 executable qualification kit frozen
+
+- **Head:** `f7412ec0031a4585df9c4102a9e18607cf2d7db8` (branch `main`) pre-freeze; this
+  mission stages the M17 kit for the exact-path freeze commit
+  `feat(wp2): freeze M17 executable qualification kit` + annotated tag
+  `wp2-m17-v1-kit-2026-10-02`.
+- **M17 Phase0B-v2:** built and validated the REAL zero-Docker M17 executable
+  qualification kit: adapter rebuilt from frozen harness semantics
+  (`scripts/wp2_m17_adapter.py`), real runner (`scripts/wp2_m17_run.py`),
+  F2P/P2P contract module (`scripts/wp2_m17_contract.py`), kit manifest
+  (`controller/KIT_MANIFEST_M17.json`), real-controller fake-world integration
+  (8 scenarios PASS), P2P/F2P contract + failure-injection suite PASS, 109 M17
+  unit tests PASS. ZERO Docker / WSL / API; qualification NOT run; MAIN NOT run.
+- **Qualification membership (brain-approved 2026-10-03):** corrected 12-task
+  membership in `m17_qualification_membership_v2_approved.json`; the old
+  Phase-0 membership and the v2 candidate are both preserved for auditability.
+  `saleor-rc-f76d0093b450` is recorded ADAPTER_UNRESOLVED
+  (DEV_GROUP_DECLARED_BUT_MECHANISM_NONE) and kept in the 220-frame ledger.
+- **M16-v1:** remains CLOSED pre-experiment (no MAIN outcome). M15-R immutable.
+- **Next:** STOP at `M17_QUALIFICATION_READY_REVIEW`; await ChatGPT brain review
+  before the REAL 12-task qualification. No scientific run until approved.
+
+---
+
 ## STATE 2026-10-02 - M16-v1 closed; documentation/research closure phase
 
 - **Head:** `3280a658ac488dc64f44fef050c1f8ea993a58c9` (branch `main`)

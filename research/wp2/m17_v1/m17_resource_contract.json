@@ -1,0 +1,35 @@
+{
+ "artifact": "m17_resource_contract",
+ "mission": "M17_P05",
+ "date": "2026-10-02",
+ "version": "m17-resource-v1",
+ "rules": {
+  "workers": 1,
+  "no_parallel_docker_evaluation": true,
+  "no_model_api_calls": true,
+  "protect_wp2_uv_cache": true,
+  "protect_wp2_pg": true,
+  "no_blanket_docker_prune": true,
+  "no_recursive_delete_of_junctions": true,
+  "wsl_distro_move": "NOT_AUTHORIZED_IN_PHASE0_OR_QUALIFICATION_WITHOUT_SEPARATE_BRAIN_AUTHORIZATION",
+  "d_drive_usage": "cold evidence mirrors and LIGHT backups only",
+  "v3_per_task_containers": "ephemeral (docker run --rm)",
+  "worktree_and_temp_db_cleanup": "task-by-task only after evidence is durably hashed",
+  "evidence_files_never_deleted_during_run": true
+ },
+ "disk_gates": {
+  "baseline_recorded_phase0": {
+   "c_total_gib": 476,
+   "c_free_gib": 37,
+   "d_total_gib": 1862,
+   "d_free_gib": 437,
+   "recorded_utc": "2026-10-02",
+   "note": "Phase 0 records the baseline only; no maintenance is performed."
+  },
+  "projected_final_c_free_lt_25_gib": "M17_RESOURCE_REVIEW",
+  "actual_c_free_lt_20_gib": "HARD HOLD",
+  "d_cold_root_unavailable": "HOLD"
+ },
+ "maintenance_policy": "No maintenance in Phase 0. Any conditional maintenance in a later phase requires separate authorization and follows the M16 S3 pattern (frozen inventory, explicit allow-list, one volume at a time, never a prune).",
+ "acceptance": "M17_P05_RESOURCE_PASS"
+}

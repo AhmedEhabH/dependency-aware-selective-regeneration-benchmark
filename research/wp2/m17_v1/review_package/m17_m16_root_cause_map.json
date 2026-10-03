@@ -1,0 +1,103 @@
+{
+  "artifact": "m17_m16_root_cause_map",
+  "mission": "M17_PHASE0B_V2",
+  "date": "2026-10-03",
+  "purpose": "K01: map every real M16 R2A violation to the exact frozen harness function/data path M17 uses instead and the exact M17 prevention test. Derived by re-deriving values from the real repository (never copied from previous reports).",
+  "m16_r2a_source": "research/wp2/m16_v1/controller_reports_dryrun_r2a/STOP_M16_ADAPTER_FAIL_20261002T160619.md",
+  "m16_r2a_adapter_report": "research/wp2/m16_v1/adapter/adapter_report.json",
+  "m16_r2a_rule": "M16_R2A_ENG_IDENTITY_HIST_SCHEMA_V1 (scripts/wp2_m16_r2a.py)",
+  "frozen_baseline": {
+    "commit": "f7412ec0031a4585df9c4102a9e18607cf2d7db8",
+    "tag": "msc-research-baseline-2026-10-02",
+    "harness_v3_commit_at_baseline": "25b4fbd83f5578b38421d5cc2671b632d682c754",
+    "dep_compiler_commit_at_baseline": "b1076b86"
+  },
+  "summary": {
+    "n_violations": 4,
+    "eng_install_mode_mismatch": "3 ENG records record manifest.install_mode=LOCK_EXACT_MAIN_PLUS_DEV but the CURRENT frozen harness lock_install_script derives V2_MAIN_PLUS_EXACT_LOCKED_DEV from the same target manifests. The recorded value was produced by an OLDER harness runner whose lock_install_script lacked the package-mode=false distinction (returned LOCK_EXACT for any poetry+dev_group). Harness commit 25b4fbd8 (2026-09-28) added the package-mode check, changing the derived mode. M16 R2A compared current-harness derivation against the stale recorded value (record-vs-derivation), producing a false mismatch.",
+    "main_dev_group_mechanism_none": "1 MAIN task (saleor-rc-f76d0093b450) declares a dev/test group in pyproject.toml (frozen dep_compiler.pyproject_dev_group_names returns 29 names) but the frozen derive_dev_test_closure on its target manifests returns mechanism=none (no lock; requirements_dev.txt exact pins are not collected by the frozen _pins_from_req_files path). M16 reused the DEV-census-gated v31_dev_closure for MAIN tasks and flagged DEV_GROUP_DECLARED_BUT_MECHANISM_NONE.",
+    "root_cause_class": "M16 R2A compared CURRENT frozen-harness derivations against stale RECORDED values / used a DEV-census-gated closure path for MAIN tasks. M17 removes record-vs-projection identity and derives install mode, lockfile, and dev/test closure from the frozen harness path on the same target manifests, with fail-closed ADAPTER_UNRESOLVED where frozen code cannot resolve."
+  },
+  "violations": [
+    {
+      "task_id": "saleor-rc-939093a9c65c",
+      "violation_type": "ENG_IDENTITY:INSTALL_MODE_DIFFERS_FROM_RECORD",
+      "historical_source": {
+        "phase5_record": "research/wp2/harness_v3_2026-09-26/phase5_c4_v3_per_task.jsonl",
+        "recorded_install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+        "recorded_lockfile_sha256": "9e148a3bf68f64a803ec865ef36ab2de76eede01a2dff6289df22fbb0cf18d90",
+        "recorded_status": "ENV_INSTALL_BLOCKED",
+        "runner_sha_that_produced_record": "df6e17718aa2c351f1234026f5360ad7cc86a7ba",
+        "target_commit": "939093a9c65c9e4becdad7e38ae91d3943385696"
+      },
+      "why_m16_failed": "M16 R2A rule required 'install mode of the target manifests == recorded manifest.install_mode'. M16 derived install mode via the CURRENT frozen lock_install_script on the target manifests. For this poetry+dev_group task (poetry.lock + pyproject.toml with [tool.poetry.group.dev.dependencies], NO requirements.txt, NO package-mode=false), the CURRENT frozen harness derives V2_MAIN_PLUS_EXACT_LOCKED_DEV (fallback), but the Phase-5 record was written by an OLDER harness runner (df6e1771) whose lock_install_script returned LOCK_EXACT_MAIN_PLUS_DEV for any poetry+dev_group (no package-mode check). The check compared current derivation vs stale record -> INSTALL_MODE_DIFFERS_FROM_RECORD false positive.",
+      "frozen_harness_function_data_path_m17_uses_instead": {
+        "install_mode": "benchmark.wp2.harness_v3.lock_install_script(target_manifests(target_commit))[1] on the ORIGINAL frozen inputs and on M17 adapter-normalized inputs; derived-vs-derived comparison, independent provenance",
+        "lockfile": "benchmark.wp2.harness_v3.lockfile_sha256(target_manifests(target_commit))",
+        "closure": "benchmark.wp2.harness_v3.v31_dev_closure or benchmark.wp2.dep_compiler.derive_dev_test_closure on target manifests (frozen V3/V3.1 path)",
+        "note": "The historical recorded value is REFERENCE provenance only; the CURRENT frozen harness is the authority. No value is copied from the Phase-5 record."
+      },
+      "m17_prevention_test": "test_eng_identity_derived_matches_frozen_harness_all_29 (adapter ENG install_mode/lockfile/closure equals the frozen-harness derivation from the same target manifests for all 29 ENG records; derived-vs-derived) + test_m16_eng_flagged_tasks_now_match_frozen_harness (the 3 historically-flagged tasks record install_mode=V2_MAIN_PLUS_EXACT_LOCKED_DEV with DERIVED provenance and PASS identity)"
+    },
+    {
+      "task_id": "saleor-rc-a8e6a4dd55fe",
+      "violation_type": "ENG_IDENTITY:INSTALL_MODE_DIFFERS_FROM_RECORD",
+      "historical_source": {
+        "phase5_record": "research/wp2/harness_v3_2026-09-26/phase5_c4_v3_per_task.jsonl",
+        "recorded_install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+        "recorded_lockfile_sha256": "77c0f169645381d95b8fbabb1dcd336baeeaaf94f0a8bee94184a1ea7fbb1b17",
+        "recorded_status": "ENV_INSTALL_BLOCKED",
+        "runner_sha_that_produced_record": "df6e17718aa2c351f1234026f5360ad7cc86a7ba",
+        "target_commit": "a8e6a4dd55fe54ad2da46203f8d1aad121e832c5"
+      },
+      "why_m16_failed": "Same class as saleor-rc-939093a9c65c: current frozen lock_install_script derives V2_MAIN_PLUS_EXACT_LOCKED_DEV from the target manifests (poetry+dev_group, package-mode default true, no requirements.txt) while the Phase-5 record (produced by older runner df6e1771) recorded LOCK_EXACT_MAIN_PLUS_DEV.",
+      "frozen_harness_function_data_path_m17_uses_instead": {
+        "install_mode": "benchmark.wp2.harness_v3.lock_install_script(target_manifests(target_commit))[1], derived-vs-derived with independent provenance",
+        "lockfile": "benchmark.wp2.harness_v3.lockfile_sha256(target_manifests(target_commit))",
+        "closure": "benchmark.wp2.harness_v3.v31_dev_closure / dep_compiler.derive_dev_test_closure on target manifests"
+      },
+      "m17_prevention_test": "test_eng_identity_derived_matches_frozen_harness_all_29 + test_m16_eng_flagged_tasks_now_match_frozen_harness"
+    },
+    {
+      "task_id": "saleor-rc-f73c4e95c828",
+      "violation_type": "ENG_IDENTITY:INSTALL_MODE_DIFFERS_FROM_RECORD",
+      "historical_source": {
+        "phase5_record": "research/wp2/harness_v3_2026-09-26/phase5_c4_v3_per_task.jsonl",
+        "recorded_install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+        "recorded_lockfile_sha256": "c4e2ee535cf1531bb12b7e0b27985a8f4b46cdf9966fe1cae312aab090dcb6e7",
+        "recorded_status": "DONE",
+        "runner_sha_that_produced_record": "6b610bbda3a7f087aeeab3279d724f703d207acf",
+        "target_commit": "f73c4e95c8284a906566538028eeb845f8ecadf3"
+      },
+      "why_m16_failed": "Same class as the other two ENG mismatches. The older runner 6b610bbb (like df6e1771) had no package-mode check in lock_install_script and recorded LOCK_EXACT_MAIN_PLUS_DEV for poetry+dev_group; the CURRENT frozen harness derives V2_MAIN_PLUS_EXACT_LOCKED_DEV from the same manifests.",
+      "frozen_harness_function_data_path_m17_uses_instead": {
+        "install_mode": "benchmark.wp2.harness_v3.lock_install_script(target_manifests(target_commit))[1], derived-vs-derived with independent provenance",
+        "lockfile": "benchmark.wp2.harness_v3.lockfile_sha256(target_manifests(target_commit))",
+        "closure": "benchmark.wp2.harness_v3.v31_dev_closure / dep_compiler.derive_dev_test_closure on target manifests"
+      },
+      "m17_prevention_test": "test_eng_identity_derived_matches_frozen_harness_all_29 + test_m16_eng_flagged_tasks_now_match_frozen_harness"
+    },
+    {
+      "task_id": "saleor-rc-f76d0093b450",
+      "violation_type": "MAIN:DEV_GROUP_DECLARED_BUT_MECHANISM_NONE",
+      "historical_source": {
+        "adapter_report": "research/wp2/m16_v1/adapter/adapter_report.json (main['saleor-rc-f76d0093b450'])",
+        "m16_recorded_mechanism": "none",
+        "m16_recorded_declares_dev_group": true,
+        "m16_recorded_install_mode": "V2_MAIN_PLUS_EXACT_LOCKED_DEV",
+        "m16_recorded_lock_signature": "87604128ffe69880b8dff2fb17b731ce437ffcaa820863849a3f95b5566d6972",
+        "target_commit": "f76d0093b450308b07adaafc930faa660a2a2fd7",
+        "target_manifests": ["pyproject.toml", "requirements.txt", "requirements_dev.txt"]
+      },
+      "why_m16_failed": "M16 derived the MAIN closure via the DEV-census-gated v31_dev_closure(task_id) path and a hand-written declares_dev_group check. For this task the frozen derive_dev_test_closure (no lock file; requirements_dev.txt exact pins not collected by frozen _pins_from_req_files because parse_requirements strips the '==' operator) returns mechanism=none while the target manifests DO declare a dev/test group (frozen dep_compiler.pyproject_dev_group_names returns 29 names). M16 correctly detected the mismatch but had no fail-closed resolution path, so it STOPPED.",
+      "frozen_harness_function_data_path_m17_uses_instead": {
+        "install_mode": "benchmark.wp2.harness_v3.lock_install_script(target_manifests(target_commit))[1] (derives V2_MAIN_PLUS_EXACT_LOCKED_DEV for this task)",
+        "declares_dev_group": "benchmark.wp2.dep_compiler.pyproject_dev_group_names(pyproject_text) non-empty (frozen compiler/parser)",
+        "dev_test_closure": "benchmark.wp2.dep_compiler.derive_dev_test_closure(target_manifests, python_version=era) (the exact function v31_dev_closure calls internally; NOT the DEV-census-gated v31_dev_closure for MAIN tasks)",
+        "resolution": "declares_dev_group=True and frozen closure mechanism=none -> ADAPTER_UNRESOLVED with reason DEV_GROUP_DECLARED_MECHANISM_NONE (fail-closed, never guessed)"
+      },
+      "m17_prevention_test": "test_main_f76d_dev_group_mechanism_none_adapter_unresolved (f76d0093b450 is classified ADAPTER_UNRESOLVED with reason DEV_GROUP_DECLARED_MECHANISM_NONE; no resolved MAIN task ever has declares_dev_group=True with mechanism=none)"
+    }
+  ],
+  "acceptance": "M17_K01_ROOT_CAUSE_PASS"
+}

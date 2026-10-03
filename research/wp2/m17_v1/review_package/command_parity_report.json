@@ -1,0 +1,166 @@
+{
+ "main_auth_gate_token": "M17_MAIN_NOT_AUTHORIZED (exit 33 M17_PREFLIGHT before any scientific execution)",
+ "main_plan": [
+  {
+   "command": [
+    "guard",
+    "--stage",
+    "main"
+   ],
+   "phase": "Q01_GUARD",
+   "resolved": true
+  },
+  {
+   "command": [
+    "adapter-verify"
+   ],
+   "phase": "Q02_ADAPTER_VERIFY",
+   "resolved": true
+  },
+  {
+   "command": [
+    "oracle",
+    "--frame",
+    "all",
+    "--resumable",
+    "--max-items",
+    "1"
+   ],
+   "phase": "Q03_ORACLE",
+   "resolved": true
+  },
+  {
+   "command": [
+    "eligibility-freeze"
+   ],
+   "phase": "Q04_ELIGIBILITY_FREEZE",
+   "resolved": true
+  },
+  {
+   "command": [
+    "evalsets",
+    "--resumable",
+    "--max-items",
+    "1"
+   ],
+   "phase": "Q05_EVALSETS",
+   "resolved": true
+  },
+  {
+   "command": [
+    "readiness",
+    "--resumable",
+    "--max-items",
+    "1"
+   ],
+   "phase": "Q06_READINESS",
+   "resolved": true
+  },
+  {
+   "command": [
+    "ready-freeze"
+   ],
+   "phase": "Q07_READY_FREEZE",
+   "resolved": true
+  },
+  {
+   "command": [
+    "scopes"
+   ],
+   "phase": "Q08_SCOPES",
+   "resolved": true
+  },
+  {
+   "command": [
+    "opws-evaluate",
+    "--resumable",
+    "--max-items",
+    "1"
+   ],
+   "phase": "Q09_OPWS",
+   "resolved": true
+  },
+  {
+   "command": [
+    "opws-complete"
+   ],
+   "phase": "Q10_COMPLETENESS",
+   "resolved": true
+  },
+  {
+   "command": [
+    "analyze"
+   ],
+   "phase": "Q11_ANALYSIS",
+   "resolved": true
+  },
+  {
+   "command": [
+    "summary"
+   ],
+   "phase": "Q12_SUMMARY",
+   "resolved": true
+  }
+ ],
+ "qualification_plan": [
+  {
+   "command": [
+    "guard",
+    "--stage",
+    "qualification"
+   ],
+   "phase": "Q01_GUARD",
+   "resolved": true
+  },
+  {
+   "command": [
+    "adapter-verify"
+   ],
+   "phase": "Q02_ADAPTER_VERIFY",
+   "resolved": true
+  },
+  {
+   "command": [
+    "qualification",
+    "--members",
+    "research/wp2/m17_v1/m17_qualification_membership_v2_approved.json",
+    "--resumable",
+    "--max-items",
+    "1"
+   ],
+   "phase": "Q03_QUALIFICATION_RUN",
+   "resolved": true
+  },
+  {
+   "command": [
+    "qualification-report"
+   ],
+   "phase": "Q04_QUALIFICATION_REPORT",
+   "resolved": true
+  },
+  {
+   "command": [
+    "resource-projection"
+   ],
+   "phase": "Q05_RESOURCE_PROJECTION",
+   "resolved": true
+  }
+ ],
+ "runner_subcommands": [
+  "guard",
+  "adapter-verify",
+  "qualification",
+  "qualification-report",
+  "resource-projection",
+  "oracle",
+  "eligibility-freeze",
+  "evalsets",
+  "readiness",
+  "ready-freeze",
+  "scopes",
+  "opws-evaluate",
+  "opws-complete",
+  "analyze",
+  "summary"
+ ]
+}

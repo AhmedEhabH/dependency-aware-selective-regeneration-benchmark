@@ -2525,3 +2525,33 @@ Mission-11 one-shot (sole authoritative directive, supersedes Mission-10B STOP-f
 - M16-v1 remains CLOSED as a pre-experiment adapter/instrument qualification failure; no MAIN OPWS outcome exists; no M16-v2 was created.
 - No new scientific experiment occurred in this task; no metric, threshold, selector, dataset, RQ, or claim was changed.
 - This task is durability/documentation only: LIVE status brought current, exporter naming corrected, docs synced, baseline committed/pushed and tagged msc-research-baseline-2026-10-02.
+
+
+## DECISION 2026-10-03 — M17 K03: corrected qualification membership approved by brain
+
+- Context: M17 Phase0B-v2 K02 rebuilt the adapter from frozen harness semantics.
+  The Phase-0 P01/P04 used hand-written manifest_mechanism_derived; the corrected
+  adapter derives install mode / dev-group / closure from the frozen harness
+  (lock_install_script, dep_compiler.pyproject_dev_group_names, derive_dev_test_closure).
+- ENG identity: 29/29 PASS (derived-vs-derived through the frozen harness; the 3 M16
+  flagged ENG records now derive V2_MAIN_PLUS_EXACT_LOCKED_DEV and pass; recorded values
+  kept as reference only, no copy-vs-copy).
+- MAIN accounting: 219 resolved / 1 ADAPTER_UNRESOLVED (saleor-rc-f76d0093b450
+  DEV_GROUP_DECLARED_BUT_MECHANISM_NONE - the exact M16 R2A fail-closed class).
+- K03 recomputed the qualification strata with corrected values: the py39,requirements
+  stratum (1 task) disappeared because that task is ADAPTER_UNRESOLVED. The 12-task
+  membership changed: saleor-rc-f76d0093b450 out, saleor-rc-bcd9f60d2aef in
+  (deterministic per-stratum min-sha + global backfill). STOP M17_QUAL_STRATA_CHANGED was
+  raised with old/new strata, old/new 12, and cause.
+- Brain decision (2026-10-03): APPROVED the corrected membership. This is an instrument
+  correction before any qualification outcome, not outcome-based task selection.
+- Preserved: original 220-task MAIN frame; saleor-rc-f76d0093b450 recorded as
+  ADAPTER_UNRESOLVED (not deleted from the population ledger); old Phase-0 membership
+  (research/wp2/m17_v1/m17_qualification_membership.json) and corrected candidate
+  (m17_qualification_membership_v2_candidate.json) both kept for auditability.
+- Approved artifact: research/wp2/m17_v1/m17_qualification_membership_v2_approved.json
+  membership_sha256 75c13be8b44080407944291db8d7c2809e2ddd0fff8cc03ca6e80cfb9ded6cee.
+- No metric, readiness rule, selector, threshold, gold set, or outcome rule changed.
+- Next: K04 runner -> K05 manifest -> K06 controller integration -> K07 contract tests ->
+  K08 validation -> K09 review package/LIGHT -> K10 freeze (exact paths) then STOP at
+  M17_QUALIFICATION_READY_REVIEW.

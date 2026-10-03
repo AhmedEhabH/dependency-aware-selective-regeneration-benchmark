@@ -1,0 +1,27 @@
+M17 Phase0B-v2 validation summary (K08) - 2026-10-03
+
+M17 test suite (tests/unit/wp2/m17): 109/109 PASS
+  - test_m17_adapter.py            (ENG identity 29/29 derived-vs-derived; MAIN 220 accounting; fail-closed ENG reader)
+  - test_m17_runner.py             (command parity both plans; MAIN auth gates; resumable/idempotent qualification; unknown-command fail-closed)
+  - test_m17_controller_real.py    (real wp2_ctl_v224.py, 8 scenarios in a throwaway git repo)
+  - test_m17_manifest.py           (verify-kit passes; one-byte drift fails; governance facts)
+  - test_m17_f2p_p2p_contract.py   (F2P/P2P contracts; 12 failure-injection cases)
+  - test_m17_controller_sim.py     (Phase-0 plan structure/simulation)
+  - test_m17_firewall.py           (selector firewall / static imports)
+  - test_m17_qualification_determinism.py (membership determinism)
+  - test_m17_schema_mutation.py    (fail-closed historical-schema reader)
+
+Frozen harness tests: dep_compiler 18/18, oracle_semantics_v2 31/31,
+  linux_adapter 6/6, era_resolver 11/11 = 66/66 PASS
+
+Real-controller fake-world integration (K06) scenarios:
+  1. happy path through qualification-report/resource-projection -> COMPLETE (exit 0)
+  2. adapter violation                                    -> STOP M17_ADAPTER_FAIL
+  3. resource HOLD                                       -> STOP HOLD_ACTIVE
+  4. resumable infrastructure interruption               -> STOP EVAL_ERROR then COMPLETE
+  5. duplicate resume                                    -> COMPLETE, no duplicate evidence
+  6. unknown command                                     -> STOP M17_INVARIANT
+  7. manifest drift                                      -> KIT_TAMPERED (exit 2)
+  8. selector-firewall violation                         -> STOP M17_FIREWALL
+
+Static validation: py_compile OK; ruff 0 errors; mypy clean (scripts.* excluded per repo convention); git diff --check clean.

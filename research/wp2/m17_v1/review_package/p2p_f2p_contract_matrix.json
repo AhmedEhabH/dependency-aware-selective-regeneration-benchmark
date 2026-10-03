@@ -1,0 +1,113 @@
+{
+ "f2p_contract": [
+  {
+   "check": "obtains frozen failing-to-passing node set from frozen evaluator artifacts",
+   "pass": true,
+   "test": "test_f2p_node_set_from_frozen_selector_blind"
+  },
+  {
+   "check": "passes exact nodes to the evaluator boundary; records per-node status",
+   "pass": true,
+   "test": "test_f2p_all_pass_resolves"
+  },
+  {
+   "check": "cannot mark resolved when required F2P nodes absent/unresolved",
+   "pass": true,
+   "test": "test_f2p_missing_nodes_block_resolution / test_f2p_unresolved_node_blocks"
+  },
+  {
+   "check": "strict/robust semantics preserved",
+   "pass": true,
+   "test": "test_terminal_classify_*"
+  }
+ ],
+ "failure_injection": [
+  {
+   "assert": "mechanism none (no silent install)",
+   "injected": "missing pytest/dev pin",
+   "test": "test_inject_missing_pytest_dev_pin_fails_closed"
+  },
+  {
+   "assert": "equals frozen lock_install_script",
+   "injected": "wrong install mode",
+   "test": "test_inject_wrong_install_mode_matches_frozen_harness"
+  },
+  {
+   "assert": "ADAPTER_UNRESOLVED",
+   "injected": "declared dev group + closure none",
+   "test": "test_inject_declared_dev_group_closure_none_fails_closed"
+  },
+  {
+   "assert": "different lockfile sha detected",
+   "injected": "lockfile mismatch",
+   "test": "test_inject_lockfile_mismatch_detected"
+  },
+  {
+   "assert": "ENG reader fails closed",
+   "injected": "unknown schema",
+   "test": "test_inject_unknown_schema_eng_reader_fails_closed"
+  },
+  {
+   "assert": "ENG reader fails closed",
+   "injected": "duplicate task",
+   "test": "test_inject_duplicate_task_fails_closed"
+  },
+  {
+   "assert": "ENG reader fails closed",
+   "injected": "missing target commit",
+   "test": "test_inject_missing_target_commit_fails_closed"
+  },
+  {
+   "assert": "ENG reader fails closed",
+   "injected": "missing lockfile",
+   "test": "test_inject_missing_lockfile_fails_closed"
+  },
+  {
+   "assert": "EVAL_ERROR / INFRA_UNRESOLVED",
+   "injected": "fake Docker startup failure",
+   "test": "test_inject_fake_docker_startup_failure_maps_to_infra"
+  },
+  {
+   "assert": "F2P_UNRESOLVED",
+   "injected": "F2P all fail",
+   "test": "test_inject_f2p_all_fail_and_partial_and_p2p_regression_terminal_tokens"
+  },
+  {
+   "assert": "F2P_PARTIAL",
+   "injected": "F2P partial",
+   "test": "test_inject_f2p_all_fail_and_partial_and_p2p_regression_terminal_tokens"
+  },
+  {
+   "assert": "P2P_REGRESSION",
+   "injected": "P2P regression",
+   "test": "test_inject_f2p_all_fail_and_partial_and_p2p_regression_terminal_tokens"
+  },
+  {
+   "assert": "RESOLVED",
+   "injected": "all behavioral tests pass",
+   "test": "test_terminal_classify_all_pass_resolved"
+  }
+ ],
+ "p2p_contract": [
+  {
+   "check": "frozen P2P-S/P2P-U identities are selector-blind",
+   "pass": true,
+   "test": "test_p2p_nodes_selector_blind"
+  },
+  {
+   "check": "unchanged-test preservation recorded separately from F2P",
+   "pass": true,
+   "test": "test_p2p_regression_terminal"
+  },
+  {
+   "check": "P2P failure cannot be silently reclassified as infra success",
+   "pass": true,
+   "test": "test_p2p_failure_not_reclassified_as_infra"
+  },
+  {
+   "check": "robust aggregation deterministic",
+   "pass": true,
+   "test": "test_robust_aggregate_deterministic"
+  }
+ ]
+}

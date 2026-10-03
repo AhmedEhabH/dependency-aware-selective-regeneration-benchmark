@@ -1,0 +1,6 @@
+The M17 kit files are untracked (Phase-0 artifacts plus this mission's new
+files: runner, contract, manifest, tests, sim). The tracked diff (full_diff.patch)
+is the DECISIONS.md membership-decision append. All kit file exact hashes are in
+review_package_index.json and controller/KIT_MANIFEST_M17.json. The diff will be
+materialized by the K10 exact-path commit; the review package therefore embeds
+the same source files verbatim under the paths listed in review_package_index.json.

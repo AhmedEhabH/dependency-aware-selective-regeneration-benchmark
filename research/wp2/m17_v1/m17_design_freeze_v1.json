@@ -1,0 +1,112 @@
+{
+ "artifact": "m17_design_freeze_v1",
+ "mission": "M17_P07",
+ "date": "2026-10-02",
+ "status": "DESIGN_FROZEN_CANDIDATE",
+ "tier": "T3 - new scientific evaluation instrument",
+ "mission_doc": "C:/Users/Ahmed/Desktop/OpenCode/master-2026-07-21-2355/_workspace/active/M17_OPWS_MAIN_CLEAN_REBUILD_PHASE0_2026-10-02.md",
+ "baseline": {
+  "tag": "msc-research-baseline-2026-10-02",
+  "commit": "f7412ec0031a4585df9c4102a9e18607cf2d7db8",
+  "verified": "tag peels to the frozen baseline commit; HEAD == origin/main == tag"
+ },
+ "m15r": {
+  "result_tag": "wp2-m15r-v1-result-2026-10-01",
+  "result_doc": "docs/WP2_M15R_V1_RESULT.md",
+  "opws_result_doc": "docs/WP2_M15R_V1_OPWS_RESULT.md",
+  "design_freeze": "research/wp2/m15r_v1/m15r_design_freeze_v1.json",
+  "note": "M15-R evidence immutable; Pilot-B n=10 descriptive."
+ },
+ "m16": {
+  "status": "CLOSED_PRE_EXPERIMENT_IMMUTABLE",
+  "final_stop": "M16_ADAPTER_FAIL at R02_ADAPTER_VERIFY (resumable=False)",
+  "closure_doc": "docs/M16_V1_CLOSURE_2026-10-02.md",
+  "final_stop_report": "research/wp2/m16_v1/controller_reports_dryrun_r2a/STOP_M16_ADAPTER_FAIL_20261002T160619.md",
+  "state_file": "research/wp2/m16_v1/controller_state_dryrun_r2a.json",
+  "kit_tag": "wp2-m16-v1-kit-2026-10-02",
+  "r2a_tag": "wp2-m16-v1-r2a-2026-10-02",
+  "note": "M16-v1 immutable; no R2B/R2C exists; no continuation under m16_v1."
+ },
+ "frozen_inputs_sha256": {
+  "research/wp1b/wp1b_main_297_manifest.json": "d858316667c4a3e28f7bf759001dc1fd8746b93c710592ff646f3f91584811eb",
+  "research/wp1a/sip_rmcss_per_task_predictions.json": "76f16217f11043338ebfeb2c402bc4eaef8e6673394d93232fc41ddb21123e8f",
+  "research/stage5-v2-final/deployment_artifact.json": "7e9f82bc4d0a4acba114e80000a4246cb05e9f9b01a1ca2ce3c7c0a672dc4171",
+  "research/wp1b/main-297-2026-09-22/wp1b_agent_predictions.json": "c0b85dc7170327f283c977116e46d0deec0a2907d172137349b9b3dac3abc743",
+  "research/wp1b/main-297-2026-09-22/agent_run_records.jsonl": "0000435a92bdd6540c532e572bf70faaab19d11435c2169b53cf20680e20a017",
+  "research/wp1b/variance-15x3-2026-09-22/wp1b_agent_predictions.json": "29df49d33d698be8ab187e3ece13d38d0f873068c8b404a84512fb2c11ceeb7b",
+  "research/wp1b/variance-15x3-2026-09-22/agent_run_records.jsonl": "eabc7a0bbe8dae9774b7c6a3e29d8d7f08d318966c5d54aac26cb76a0f00f648",
+  "docs/WP1B_CLAIM_SHEET_2026-09-22.md": "41e7d560f9ffbf8d9fc589ab8b62922634451426acab0fb976b9df2918614a58",
+  "research/wp2/wp2_saleor_main297_census_2026-09-22.json": "6146237d353376632d729e159761470b46fc5eb300fa9def971d5faf7b1f60c0",
+  "research/wp2/wp2_oracle_confirmation_selection_2026-09-22.json": "8e7ba9df495496ede8747b356b8cd3b39fa93d16c4f51a4ef08da705af15b79d",
+  "research/wp2/oracle_confirmation_linux_v2_2026-09-23/summary_v2.json": "c94a5f77edc4d24ba8ee2fe69fe4c712b0edd7fede321f951958ea070de8470e",
+  "research/wp2/oracle_confirmation_linux_v2_2026-09-23/per_task_v2.jsonl": "7fdeeb936ea84e7ef47a461e940671ee628114d9a1d960f29a0be008eddce021",
+  "research/wp2/main_generation_quarantine_2026-09-23.json": "4de0833958ec1b54bb4307f7ee34d3ffdbe4b9029a31c78975e0a1c130019766",
+  "research/wp2/protected_pools_untouched_proof_2026-09-23.json": "53ebdf0c499d663dd13dbb0cab381f0020ad8ef00cc359a54d47d5dd88dbf378",
+  "research/wp2/wp2_p2p_u_v2_rule_freeze_2026-09-25.json": "f33e74479b991c269a574498934f1d93ddf1921625aa249c2ef0c28df8c129a7",
+  "research/wp2/harness_v3_2026-09-26/harness_v3_spec.json": "5d0ec5e70c11cd4ab4f2e30687b6327738f037a2b94ef8ee5c0ac34c674d73f2",
+  "research/wp2/m14r_v1/m14r_design_freeze_v1.json": "9e3fd438c9fa2f69264ba887565fc8804d5d06a3fe3dd25561629d01c7f5ce60",
+  "research/wp2/m15r_v1/m15r_design_freeze_v1.json": "1fd68354005709f99b22f08c636287466c54252bf2401bf93144987f9be8258e",
+  "research/wp2/m15r_v1/m15r_e1a1_amendment.json": "47b0a178fae5a590ffa5bd4010cbbed1911827b449c0f847f1661614eb8ce49c",
+  "scripts/wp2_m10b_phase5_c4_v3.py": "7689d4a83a89fc5359c8f939c3d9eda0a162ef3d9d9ef263a88f2be4ca2ddf66",
+  "scripts/wp2_m14a_evalcore.py": "f9ba65ff3d453b5d620ce6f5ac1a58d2d3659ef7f7aab734867d6ec21fd6ddff",
+  "scripts/wp2_m14a_evalcore_e1.py": "6f028ad4eb99a19cc7c3b3a1d6defa51e1e5f7e72f76a2deeffffa51609365db",
+  "scripts/wp2_m15r_e1a1.py": "a8bfb3ee6c7a7c6c6719279811b2e565e85c6839a286010313410fe28a63f9ca",
+  "scripts/wp2_m14a_readiness.py": "155cc1f3faecd0171e6f0438198d54af0a49d49489b9224f7df52a1d8c2dc389"
+ },
+ "frame": {
+  "source": "research/wp2/wp2_oracle_confirmation_selection_2026-09-22.json",
+  "n_tasks": 220,
+  "n_unique": 220,
+  "verified_vs_census_and_pertask": true
+ },
+ "selector_blind": {
+  "no_selector_inference": true,
+  "rmcss": "frozen WP1 predictions only",
+  "agent_main": "frozen WP1b MAIN run only",
+  "agent_r1_r3": "supporting overlap/variance where already frozen only",
+  "no_selector_derived_artifact_influences_eligibility_or_ready": true
+ },
+ "no_phase0_constraints": {
+  "no_docker": true,
+  "no_wsl": true,
+  "no_model_api": true,
+  "no_outcome_based_task_selection": true,
+  "no_change_to_frozen_definitions": true
+ },
+ "full_run_plan": "controller/plan_m17_v1_main.json",
+ "planned_phases": {
+  "Q00_Q02": "guard + adapter + frozen inputs",
+  "Q03": "V3 oracle construction over ALL tasks in the frozen selector-blind frame",
+  "Q04": "eligibility freeze + commit/tag/push",
+  "Q05": "P2P-S and frozen P2P-U rule execution/discovery on eligible tasks",
+  "Q06": "selector-blind readiness",
+  "Q07": "READY census freeze + commit/tag/push",
+  "pool_gate": "n_READY >= 40 => estimation analysis allowed; otherwise descriptive only",
+  "Q08": "materialize frozen RM-CSS and Agent MAIN scopes ONLY after READY frozen and pushed",
+  "Q09": "OPWS evaluate on the entire READY census",
+  "Q10": "completeness check",
+  "Q11": "paired analysis: theta_RMCSS, theta_AGENT, delta, CI, McNemar, FULL/PARTIAL/NONE, P/R/F1, efficiency, representativeness",
+  "Q12": "summary + result tag + LIGHT"
+ },
+ "endpoint": {
+  "primary": "OPWS_ROBUST in {0,1} per task and selector",
+  "co_reported": ["OPWS_STRICT", "file-level P/R/F1 vs historical changed-file gold", "scope size", "coverage class FULL/PARTIAL/NONE", "preservation outcomes", "paired RM-CSS vs Agent contrasts", "infrastructure exclusions", "representativeness of READY vs MAIN_297"]
+ },
+ "statistics": {
+  "frame": "entire READY census, not a hand-picked sample",
+  "pool_rule_n_ready_ge_40": "paired estimation with confidence intervals",
+  "pool_rule_n_ready_lt_40": "descriptive/supporting only",
+  "primary_comparison": "delta_OPWS = theta_RMCSS - theta_AGENT_MAIN",
+  "method": "paired analysis only; no winner token"
+ },
+ "phase0_outputs": {
+  "census_audit": "research/wp2/m17_v1/m17_main_frame_audit.json",
+  "schema_contract": "research/wp2/m17_v1/m17_historical_schema_contract.json",
+  "qualification_membership": "research/wp2/m17_v1/m17_qualification_membership.json",
+  "resource_contract": "research/wp2/m17_v1/m17_resource_contract.json",
+  "qualification_plan": "controller/plan_m17_v1_qualification.json",
+  "adapter": "scripts/wp2_m17_adapter.py",
+  "tests": "tests/unit/wp2/m17/"
+ },
+ "acceptance": "M17_P07_MAIN_DESIGN_PASS"
+}

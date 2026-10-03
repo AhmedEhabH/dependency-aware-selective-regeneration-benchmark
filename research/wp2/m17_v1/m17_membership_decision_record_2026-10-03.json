@@ -1,0 +1,50 @@
+{
+ "approved_file": "research/wp2/m17_v1/m17_qualification_membership_v2_approved.json",
+ "approved_membership": [
+  "saleor-rc-14a682044ca4",
+  "saleor-rc-663543eaf563",
+  "saleor-rc-7b1e8cee95d5",
+  "saleor-rc-7e42fc67ce72",
+  "saleor-rc-8220a53473bb",
+  "saleor-rc-9b88221ba8c2",
+  "saleor-rc-a9e79dac40a2",
+  "saleor-rc-ba4ff17faab4",
+  "saleor-rc-bcd9f60d2aef",
+  "saleor-rc-d361479ab7da",
+  "saleor-rc-e0890780bf56",
+  "saleor-rc-e28ca6ad6442"
+ ],
+ "approved_membership_sha256": "75c13be8b44080407944291db8d7c2809e2ddd0fff8cc03ca6e80cfb9ded6cee",
+ "artifact": "m17_membership_decision_record",
+ "artifact_sha256": "9128c41a8efd06f56ab04f0439c7ea8d6bedd74696674403e6f5d3a80bb336c3",
+ "candidate_file": "research/wp2/m17_v1/m17_qualification_membership_v2_candidate.json",
+ "constraints": "No metric/readiness/selector/threshold/gold-set/outcome-rule change; instrument correction only; not outcome-based task selection.",
+ "date": "2026-10-03",
+ "decision": "APPROVED_BY_BRAIN",
+ "decision_source": "BRAIN DECISION \u2014 M17 K03 (2026-10-03)",
+ "excluded": [
+  "saleor-rc-f76d0093b450"
+ ],
+ "exclusion_reason": "ADAPTER_UNRESOLVED \u2014 frozen harness reports a declared dev group with closure mechanism=none",
+ "mission": "M17_PHASE0B_V2",
+ "old_membership": [
+  "saleor-rc-14a682044ca4",
+  "saleor-rc-663543eaf563",
+  "saleor-rc-7b1e8cee95d5",
+  "saleor-rc-7e42fc67ce72",
+  "saleor-rc-8220a53473bb",
+  "saleor-rc-9b88221ba8c2",
+  "saleor-rc-a9e79dac40a2",
+  "saleor-rc-ba4ff17faab4",
+  "saleor-rc-d361479ab7da",
+  "saleor-rc-e0890780bf56",
+  "saleor-rc-e28ca6ad6442",
+  "saleor-rc-f76d0093b450"
+ ],
+ "old_membership_file": "research/wp2/m17_v1/m17_qualification_membership.json",
+ "old_membership_sha256": "3effa42878ed63ad3f89ca4492618cb3e04a8f6d53f4726ffa12722ac5d56a14",
+ "populations_ledger": "saleor-rc-f76d0093b450 remains in the 220-frame population ledger (m17_main_frame_audit.json) and adapter report as ADAPTER_UNRESOLVED; not deleted.",
+ "replacement": [
+  "saleor-rc-bcd9f60d2aef"
+ ]
+}
