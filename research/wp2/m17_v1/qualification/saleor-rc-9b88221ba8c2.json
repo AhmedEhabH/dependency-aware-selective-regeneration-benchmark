@@ -1,0 +1,1493 @@
+{
+ "adapter_record_sha256": "2541812091ad317985d9961ef570f1df2e1fa80e58a3c62689774e9dc6bb0469",
+ "artifact": "m17_qualification_task",
+ "artifact_sha256": "8d23312d3f7be8155d0a40fd92d5e68193dee9640f0ddf8c2fef477893de7ba3",
+ "classification": "NOT_PRIMARY",
+ "clock_pre": -2.573438,
+ "counts": {
+  "BEHAVIORAL_F2P": 0,
+  "FLAKY": 0,
+  "OTHER_REVIEW_REQUIRED": 0,
+  "P2P_ONLY": 94,
+  "PARENT_COLLECTION_ERROR": 0,
+  "SYMBOL_ABSENCE_F2P": 3,
+  "TARGET_ORACLE_INVALID": 0
+ },
+ "dev_test_closure": {
+  "mechanism": "poetry",
+  "n_pins": 72,
+  "n_unsupported": 0,
+  "pins_sha256": "328da2897591b0813e4b4390fb4f34c2a4faec21e87e8959b6672445f89ebec5"
+ },
+ "disk_free_after_gib": 49.197,
+ "disk_free_before_gib": 49.479,
+ "disk_growth_gib": 0.282,
+ "eligibility": {
+  "EXTENDED_F2P_ELIGIBLE": true,
+  "PRIMARY_BEHAVIORAL_F2P_ELIGIBLE": false,
+  "environment_valid": true,
+  "n_behavioral_f2p": 0,
+  "n_parent_collection_error": 0,
+  "n_symbol_absence_f2p": 3,
+  "semantics_version": "oracle-semantics-v2-2026-09-23",
+  "task_collection_failure": false
+ },
+ "era_key": "py39",
+ "executor": "scripts.wp2_m17_exec.RealExecutor",
+ "f2p_contract": {
+  "blockers": [],
+  "frozen_v2_f2p_count": 3,
+  "obtained_f2p_nodes": [
+   "saleor/app/tests/test_installation_utils.py::test_install_app_created_app_trigger_webhook",
+   "saleor/graphql/app/tests/mutations/test_app_create.py::test_app_create_trigger_webhook",
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_app_installed"
+  ],
+  "per_node_status": {
+   "saleor/app/tests/test_installation_utils.py::test_install_app_created_app_trigger_webhook": "passed",
+   "saleor/graphql/app/tests/mutations/test_app_create.py::test_app_create_trigger_webhook": "passed",
+   "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_app_installed": "passed"
+  },
+  "resolved_against_frozen_v2_count": true
+ },
+ "frozen_base_image_id": "sha256:ddc08d7e685517764dfa2606a760d5b3f09d57840d8a0bbcef366db67cd99ef8",
+ "frozen_status": "DONE",
+ "infra_reasons": [],
+ "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+ "junit_raw_sha256": "77a975c43a27b51b5c4b98c7e9870beca9ada5149b623bae11b81c89d2db53f0",
+ "locked_dev_fragment_sha256": "efb28cca24adbf73fa8ad64841941ec2626ddf319e39d80588341d30f92b629e",
+ "lockfile_sha256": "b7a6a34f0c59f8a06c524afdc8e7b466f3d796dba0378dd5d2643c852f5801f7",
+ "model_api_calls": 0,
+ "n_nodes": 97,
+ "n_test_files": 4,
+ "node_records": [
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_created_app",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_created_app_trigger_webhook",
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "SYMBOL_ABSENCE_F2P"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_extension_incorrect_url[/app]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_extension_incorrect_url[127.0.0.1:8080/app]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_extension_incorrect_url[]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_extension_incorrect_url[http:/127.0.0.1:8080/app]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_extension_incorrect_url[www.example.com/app]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_extension_incorrect_values[target]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_extension_incorrect_values[type]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_extension_incorrect_values[view]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_extension_ivalid_permission",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_extension_permission_out_of_scope[app_permissions0-extension_permissions0]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_extension_permission_out_of_scope[app_permissions1-extension_permissions1]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_with_extension",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_create.py::test_app_create_mutation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_create.py::test_app_create_mutation_no_permissions",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_create.py::test_app_create_mutation_out_of_scope_permissions",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_create.py::test_app_create_mutation_superuser_can_create_app_with_any_perms",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_create.py::test_app_create_trigger_webhook",
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "SYMBOL_ABSENCE_F2P"
+  },
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_create.py::test_app_is_not_allowed_to_call_create_mutation_for_app",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_app_deleted",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_app_installed",
+   "parent_outcomes": [
+    "error",
+    "error",
+    "error"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "SYMBOL_ABSENCE_F2P"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_app_status_changed[False]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_app_status_changed[True]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_app_updated",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_category_created",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_category_deleted",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_category_updated",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_channel_created",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_channel_deleted",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_channel_status_changed[False]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_channel_status_changed[True]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_channel_updated",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_checkout_create",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_checkout_update",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_collection_created",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_collection_deleted",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_collection_updated",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_create_deliveries_for_subscriptions_document_executed_with_error",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_create_deliveries_for_subscriptions_unsubscribable_event",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_customer_created",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_customer_updated",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_draft_order_created",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_draft_order_deleted",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_draft_order_updated",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_fulfillment_canceled",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_fulfillment_created",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_gift_card_created",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_gift_card_deleted",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_gift_card_status_changed[False]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_gift_card_status_changed[True]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_gift_card_updated",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_invoice_deleted",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_invoice_requested",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_invoice_sent",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_menu_created",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_menu_deleted",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_menu_item_created",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_menu_item_deleted",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_menu_item_updated",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_menu_updated",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_order_cancelled",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_order_confirmed",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_order_created",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_order_fulfilled",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_order_fully_paid",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_order_updated",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_page_created",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_page_deleted",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_page_updated",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_product_created",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_product_created_multiple_events_in_subscription",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_product_deleted",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_product_updated",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_product_variant_back_in_stock",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_product_variant_created",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_product_variant_deleted",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_product_variant_out_of_stock",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_product_variant_updated",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_sale_created",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_sale_deleted",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_sale_updated",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_shipping_price_created",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_shipping_price_deleted",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_shipping_price_updated",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_shipping_zone_created",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_shipping_zone_deleted",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_shipping_zone_updated",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_validate_invalid_multiple_subscriptions",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_validate_invalid_query_and_subscription",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_validate_invalid_subscription_and_query",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_validate_subscription_query_invalid",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_validate_subscription_query_valid",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_validate_subscription_query_valid_with_fragment",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_voucher_created",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_voucher_deleted",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_voucher_updated",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  }
+ ],
+ "operations": {
+  "p": {
+   "container_complete": true,
+   "db_name": "saleor_v3_9b88221ba8c2_p",
+   "error": null,
+   "r1": {
+    "missing_junit": [],
+    "parse_errors": [],
+    "raw_hashes": {
+     "9b88221ba8c2_p_r0_f0": "6a2417c787de023cc9c99f1a3bf160cc16540f0c226fb5e6edd3e463b1a40149",
+     "9b88221ba8c2_p_r0_f1": "e9f2afd730426ed4bb38b061bd599e842aba1c8d2508663c89b272b6406b6a4c",
+     "9b88221ba8c2_p_r0_f2": "1c9803fe4c71ca3645a367dd522b6b7071f614d861530d855532267af64ec6bc",
+     "9b88221ba8c2_p_r0_f3": "1b9133b948ab8798f33bdce9863b28bf82e6b897c5b0a2ad55e78795f284c657",
+     "9b88221ba8c2_p_r1_f0": "e696c13bc30f3b91fe5ae594c184ea49aa44557044cc75ec4aaaa701c71187d3",
+     "9b88221ba8c2_p_r1_f1": "f2c0e123965348ab28d520d0f77897f20e69f396e552099cce3d166beaa81c58",
+     "9b88221ba8c2_p_r1_f2": "7f757f5a595c3e87228b344e1225e840774bc928693c7c3d5b1212b81eb060be",
+     "9b88221ba8c2_p_r1_f3": "3581f651cf58905641f7293754a6b73e6a1f19b4c7ec506ac2ecd00d36645e6c",
+     "9b88221ba8c2_p_r2_f0": "726cfad12b8905f38963617f7c4570a4cbbc00081e53117e936fd295724f439b",
+     "9b88221ba8c2_p_r2_f1": "051269ee1094476f0b2de83a21bddf156a53c21efae3b042c9061bc861d4c774",
+     "9b88221ba8c2_p_r2_f2": "8d8519293d57ca22e9c7b4eb7e61371978df9f59d6858c13d9c85c8e49bbdfa7",
+     "9b88221ba8c2_p_r2_f3": "7e63ffd8bdd976b0eaeba0f7b2102294ab7e27780c62abb25eef0b16d9db473a"
+    }
+   },
+   "returncode": 0,
+   "wall_s": 183.6
+  },
+  "t": {
+   "container_complete": true,
+   "db_name": "saleor_v3_9b88221ba8c2_t",
+   "error": null,
+   "r1": {
+    "missing_junit": [],
+    "parse_errors": [],
+    "raw_hashes": {
+     "9b88221ba8c2_t_r0_f0": "e90df54aea0bf0d9073df344ba0da2bd34abe9fb66b8974fc1048986b38189a9",
+     "9b88221ba8c2_t_r0_f1": "89c875cc23dee60df728776d20244806cfddc8706c4f826fedf86a7a90e7c9bb",
+     "9b88221ba8c2_t_r0_f2": "6b49935ec0927d9716778a23799239eda44fe32657ab0228a8c5c276f0720ca6",
+     "9b88221ba8c2_t_r0_f3": "2f2b3447b97f207c01fdcdba7191e4d2a70336dab924bc05f4512b8d81e37b32",
+     "9b88221ba8c2_t_r1_f0": "78f9646b5894d5570bda2e9f9c0232aab213596335d814accb9f1dee7eab810f",
+     "9b88221ba8c2_t_r1_f1": "e4ce751c240608636a199abafc921fd89c38782ad71e1f83ac8b034010dee3bc",
+     "9b88221ba8c2_t_r1_f2": "04c7977e13120da2e6eef646ffde7de7c49b02ee03a96cea3ebb300728d37e9d",
+     "9b88221ba8c2_t_r1_f3": "0086370de09fd8542559bbcb75108080b8a14a7fda28df7323ace66afd7054b7",
+     "9b88221ba8c2_t_r2_f0": "96f62a07e292256d17b8d8d762ebe22cf32c9619136ce21bb0681619522555f2",
+     "9b88221ba8c2_t_r2_f1": "d8be59f6a2bd279071811b614a71b0d00c617313fd3198a53afeebf0d34276e6",
+     "9b88221ba8c2_t_r2_f2": "6f764533039b947b99286737aa3fbc6a0b1df6509e764c6e7356e3823ef99185",
+     "9b88221ba8c2_t_r2_f3": "d071f32ffdaa7c8b8eaf727b4ebadfe424d418f21ebcce840964bc5b0d9502f3"
+    }
+   },
+   "returncode": 0,
+   "wall_s": 197.3
+  }
+ },
+ "parent_commit": "1a78e37e24738b7d48f4f3bf48f6be7387c80f43",
+ "parent_failure_text": {
+  "saleor/app/tests/test_installation_utils.py::test_install_app_created_app_trigger_webhook": "mocked_webhook_trigger = <MagicMock name='trigger_webhooks_async' id='123424498230128'>\nmocked_get_webhooks_for_event = <MagicMock name='get_webhooks_for_event' id='123424494516448'>\nany_webhook = <Webhook: Any webhook>\napp_manifest = {'about': 'Sample Saleor App serving as an example.', 'appUrl': '', 'configurationUrl': 'http://127.0.0.1:5000/configuration/', 'dataPrivacy': '', ...}\napp_installation = <AppInstallation: AppInstallation object (30)>\nmonkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7041016cbfd0>\npermission_manage_products = <Permission: product | product | Manage products.>\nsettings = <pytest_django.fixtures.SettingsWrapper object at 0x7041016615b0>\n\n    @patch(\"saleor.plugins.webhook.plugin.get_webhooks_for_event\")\n    @patch(\"saleor.plugins.webhook.plugin.trigger_webhooks_async\")\n    def test_install_app_created_app_trigger_webhook(\n        mocked_webhook_trigger,\n        mocked_get_webhooks_for_event,\n        any_webhook,\n        app_manifest,\n        app_installation,\n        monkeypatch,\n        permission_manage_products,\n        settings,\n    ):\n        # given\n        mocked_get_webhooks_for_event.return_value = [any_webhook]\n        settings.PLUGINS = [\"saleor.plugins.webhook.plugin.WebhookPlugin\"]\n    \n        app_manifest[\"permissions\"] = [\"MANAGE_PRODUCTS\"]\n        mocked_get_response = Mock()\n        mocked_get_response.json.return_value = app_manifest\n    \n        monkeypatch.setattr(requests, \"get\", Mock(return_value=mocked_get_response))\n        monkeypatch.setattr(\"saleor.app.installation_utils.send_app_token\", Mock())\n    \n        app_installation.permissions.set([permission_manage_products])\n    \n        # when\n        app, _ = install_app(app_installation, activate=True)\n    \n        # then\n        mocked_webhook_trigger.assert_called_once_with(\n            {\n                \"id\": graphene.Node.to_global_id(\"App\", app.id),\n                \"is_active\": app.is_active,\n                \"name\": app.name,\n            },\n>           WebhookEventAsyncType.APP_INSTALLED,\n            [any_webhook],\n            app,\n            None,\n        )\nE       AttributeError: type object 'WebhookEventAsyncType' has no attribute 'APP_INSTALLED'\n\nsaleor/app/tests/test_installation_utils.py:70: AttributeError",
+  "saleor/graphql/app/tests/mutations/test_app_create.py::test_app_create_trigger_webhook": "mocked_webhook_trigger = <MagicMock name='trigger_webhooks_async' id='138413846009936'>\nmocked_get_webhooks_for_event = <MagicMock name='get_webhooks_for_event' id='138413843966656'>\nany_webhook = <Webhook: Any webhook>\npermission_manage_apps = <Permission: app | app | Manage apps>\npermission_manage_products = <Permission: product | product | Manage products.>\nstaff_api_client = <saleor.graphql.tests.fixtures.ApiClient object at 0x7de2fcdd0fd0>\nstaff_user = <User: staff_test@example.com>\nsettings = <pytest_django.fixtures.SettingsWrapper object at 0x7de2fcca16a0>\n\n    @mock.patch(\"saleor.plugins.webhook.plugin.get_webhooks_for_event\")\n    @mock.patch(\"saleor.plugins.webhook.plugin.trigger_webhooks_async\")\n    def test_app_create_trigger_webhook(\n        mocked_webhook_trigger,\n        mocked_get_webhooks_for_event,\n        any_webhook,\n        permission_manage_apps,\n        permission_manage_products,\n        staff_api_client,\n        staff_user,\n        settings,\n    ):\n        # given\n        mocked_get_webhooks_for_event.return_value = [any_webhook]\n        settings.PLUGINS = [\"saleor.plugins.webhook.plugin.WebhookPlugin\"]\n    \n        staff_user.user_permissions.add(permission_manage_products)\n    \n        variables = {\n            \"name\": \"Trigger Test\",\n            \"permissions\": [PermissionEnum.MANAGE_PRODUCTS.name],\n        }\n    \n        # when\n        response = staff_api_client.post_graphql(\n            APP_CREATE_MUTATION, variables=variables, permissions=(permission_manage_apps,)\n        )\n        content = get_graphql_content(response)\n        app = App.objects.get(name=variables[\"name\"])\n    \n        # then\n        assert content[\"data\"][\"appCreate\"][\"app\"]\n        mocked_webhook_trigger.assert_called_once_with(\n            {\n                \"id\": graphene.Node.to_global_id(\"App\", app.id),\n                \"is_active\": app.is_active,\n                \"name\": app.name,\n            },\n>           WebhookEventAsyncType.APP_INSTALLED,\n            [any_webhook],\n            app,\n            SimpleLazyObject(lambda: staff_api_client.user),\n        )\nE       AttributeError: type object 'WebhookEventAsyncType' has no attribute 'APP_INSTALLED'\n\nsaleor/graphql/app/tests/mutations/test_app_create.py:108: AttributeError",
+  "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_app_installed": "subscription_webhook = <function subscription_webhook.<locals>.fun at 0x7d44f4c630d0>\n\n    @pytest.fixture\n    def subscription_app_installed_webhook(subscription_webhook):\n        return subscription_webhook(\n>           APP_INSTALLED_SUBSCRIPTION_QUERY, WebhookEventAsyncType.APP_INSTALLED\n        )\nE       AttributeError: type object 'WebhookEventAsyncType' has no attribute 'APP_INSTALLED'\n\nsaleor/plugins/webhook/tests/subscription_webhooks/fixtures.py:52: AttributeError"
+ },
+ "parent_failure_text_sha256": "2dd98548bd850017d682ab15209b7c825225c265f9c522491d9aebaa344f9328",
+ "rule_constants_sha256": "c54be06967ae68bbfc6fc8c541489c495e1faeb0abd80bc3d39d3fd1ba2bbab3",
+ "rule_id": "M16_R1_REPETITION_RETENTION_V1",
+ "status": "DONE",
+ "target_commit": "9b88221ba8c270b183ef17f6288045fcbe1fee96",
+ "task_id": "saleor-rc-9b88221ba8c2",
+ "test_files": [
+  "saleor/app/tests/test_installation_utils.py",
+  "saleor/graphql/app/tests/mutations/test_app_create.py",
+  "saleor/plugins/webhook/tests/subscription_webhooks/fixtures.py",
+  "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py"
+ ],
+ "wall_s": 386.2
+}
