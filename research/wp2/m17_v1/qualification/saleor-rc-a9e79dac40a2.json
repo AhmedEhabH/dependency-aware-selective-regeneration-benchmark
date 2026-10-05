@@ -1,0 +1,62 @@
+{
+ "adapter_record_sha256": "6c145d735f250e090e05b63a236c5a7c8094d447cb7e0c6b4fe19df66693f033",
+ "artifact": "m17_qualification_task",
+ "artifact_sha256": "097bd2b12edf4bf741e1f3cea791df7f64288941b677636fbb83b9740b1f656d",
+ "clock_pre": -2.515881,
+ "dev_test_closure": {
+  "mechanism": "poetry",
+  "n_pins": 118,
+  "n_unsupported": 0,
+  "pins_sha256": "942b7c9d5aab460dff6198042854c4aca18e56256d8c1751fef834e4142904ec"
+ },
+ "disk_free_after_gib": 49.185,
+ "disk_free_before_gib": 49.191,
+ "disk_growth_gib": 0.0068,
+ "era_key": "py312",
+ "executor": "scripts.wp2_m17_exec.RealExecutor",
+ "f2p_contract": {
+  "blockers": [],
+  "frozen_v2_f2p_count": 0,
+  "obtained_f2p_nodes": [],
+  "per_node_status": {},
+  "resolved_against_frozen_v2_count": true
+ },
+ "frozen_base_image_id": "sha256:0c185699947d75d5866e57dfb10bba25cca05dc58ca3fd2f75446ee8b0e41394",
+ "frozen_status": "ENV_INSTALL_BLOCKED",
+ "infra_reasons": [],
+ "install_blocked_rule": "2 consecutive INSTALL_FAIL attempts",
+ "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+ "locked_dev_fragment_sha256": "c522aad25918cdb37fe801dbf19354b4ade817e31d4014e8155725cb0215fbec",
+ "lockfile_sha256": "a9f251e7244d6e1b0e8af87a49c8d7e0d8c819c360dfe40fcd98a90920b4c651",
+ "model_api_calls": 0,
+ "n_test_files": 2,
+ "operations": {
+  "p": {
+   "container_complete": false,
+   "db_name": "saleor_v3_a9e79dac40a2_p",
+   "error": "INSTALL_FAIL",
+   "r1": {},
+   "returncode": null,
+   "wall_s": 4.5
+  },
+  "t": {
+   "container_complete": false,
+   "db_name": "saleor_v3_a9e79dac40a2_t",
+   "error": "INSTALL_FAIL",
+   "r1": {},
+   "returncode": null,
+   "wall_s": 5.3
+  }
+ },
+ "parent_commit": "ccd3960acd1d058528d9796c2b9ff096f28d848e",
+ "rule_constants_sha256": "c54be06967ae68bbfc6fc8c541489c495e1faeb0abd80bc3d39d3fd1ba2bbab3",
+ "rule_id": "M16_R1_REPETITION_RETENTION_V1",
+ "status": "ENV_INSTALL_BLOCKED",
+ "target_commit": "a9e79dac40a2f203417a5e822c26d62359f6645c",
+ "task_id": "saleor-rc-a9e79dac40a2",
+ "test_files": [
+  "saleor/app/tests/test_validators.py",
+  "saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py"
+ ],
+ "wall_s": 16.2
+}
