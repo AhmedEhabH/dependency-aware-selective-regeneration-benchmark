@@ -1,0 +1,1403 @@
+{
+ "adapter_record_sha256": "886b563e78de65e8de7f79cdda86214521eb32efaefe18559b89ea0fa44f1cdf",
+ "artifact": "m17_qualification_task",
+ "artifact_sha256": "b09e6b3fd2ad58f675e1ecf30f6efc720aac77ff7204684baa0af9c313b7812f",
+ "classification": "BEHAVIORAL_F2P",
+ "clock_pre": -2.318654,
+ "counts": {
+  "BEHAVIORAL_F2P": 1,
+  "FLAKY": 0,
+  "OTHER_REVIEW_REQUIRED": 0,
+  "P2P_ONLY": 91,
+  "PARENT_COLLECTION_ERROR": 0,
+  "SYMBOL_ABSENCE_F2P": 0,
+  "TARGET_ORACLE_INVALID": 0
+ },
+ "dev_test_closure": {
+  "mechanism": "uv",
+  "n_pins": 0,
+  "n_unsupported": 0,
+  "pins_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+ },
+ "disk_free_after_gib": 47.165,
+ "disk_free_before_gib": 47.377,
+ "disk_growth_gib": 0.2125,
+ "eligibility": {
+  "EXTENDED_F2P_ELIGIBLE": true,
+  "PRIMARY_BEHAVIORAL_F2P_ELIGIBLE": true,
+  "environment_valid": true,
+  "n_behavioral_f2p": 1,
+  "n_parent_collection_error": 0,
+  "n_symbol_absence_f2p": 0,
+  "semantics_version": "oracle-semantics-v2-2026-09-23",
+  "task_collection_failure": false
+ },
+ "era_key": "py312",
+ "executor": "scripts.wp2_m17_exec.RealExecutor",
+ "f2p_contract": {
+  "blockers": [],
+  "frozen_v2_f2p_count": 1,
+  "obtained_f2p_nodes": [
+   "saleor/graphql/core/tests/test_file_validation.py::test_is_valid_image_content_type[image/jpg-True]"
+  ],
+  "per_node_status": {
+   "saleor/graphql/core/tests/test_file_validation.py::test_is_valid_image_content_type[image/jpg-True]": "passed"
+  },
+  "resolved_against_frozen_v2_count": true
+ },
+ "frozen_base_image_id": "sha256:0c185699947d75d5866e57dfb10bba25cca05dc58ca3fd2f75446ee8b0e41394",
+ "frozen_status": "DONE",
+ "infra_reasons": [],
+ "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+ "junit_raw_sha256": "249b928ba266b8a3d5f94b0bb5828304fa94fa18904d43b66ab85f09731701c2",
+ "locked_dev_fragment_sha256": "dda4a32309f4ccd9c41db7d0886bb9378fabc499d8619137fdbbbea93c77dd26",
+ "lockfile_sha256": "d960985cac14ec08ce2ea45cc2a6f19bd9e1f9b287ab946280071a1ba6914828",
+ "model_api_calls": 0,
+ "n_nodes": 92,
+ "n_test_files": 2,
+ "node_records": [
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_clean_image_file",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_clean_image_file_exif_validation_raising_error",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_clean_image_file_file_extension_not_supported_by_thumbnails",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_clean_image_file_in_avif_format",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_clean_image_file_invalid_content_type",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_clean_image_file_invalid_file_extension",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_clean_image_file_invalid_image_mime_type",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_clean_image_file_issue_with_file_opening",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_clean_image_file_no_file",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_clean_image_file_no_file_extension",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_clean_image_file_with_captialized_extension",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_detect_mime_type_reads_file_content",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_detect_mime_type_success",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_get_mime_type[  image/png; charset=binary-image/png]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_get_mime_type[ Text/HTML ; Charset=UTF-8 -text/html]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_get_mime_type[-]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_get_mime_type[APPLICATION/JSON;CHARSET=UTF-8-application/json]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_get_mime_type[None-None]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_get_mime_type[image/jpeg-image/jpeg]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_get_mime_type[text/css; charset=UTF-8-text/css]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_get_mime_type[text/html; charset=utf-8-text/html]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_is_image_mimetype_invalid_mimetype",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_is_image_mimetype_valid_mimetype",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_is_supported_image_mimetype_invalid_mimetype",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_is_supported_image_mimetype_valid_mimetype",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_is_valid_image_content_type[None-False]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_is_valid_image_content_type[application/json-False]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_is_valid_image_content_type[application/pdf-False]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_is_valid_image_content_type[image/avif-True]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_is_valid_image_content_type[image/bmp-True]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_is_valid_image_content_type[image/gif-True]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_is_valid_image_content_type[image/jpeg-True]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_is_valid_image_content_type[image/jpg-True]",
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "BEHAVIORAL_F2P"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_is_valid_image_content_type[image/png-True]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_is_valid_image_content_type[image/tiff-True]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_is_valid_image_content_type[image/webp-True]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_is_valid_image_content_type[text/plain-False]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_validate_upload_file_detects_spoofed_content_type",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_validate_upload_file_invalid_file_type[data-text/csv]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_validate_upload_file_invalid_file_type[test-image/jpeg]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_validate_upload_file_invalid_file_type[test.jpg-image/png]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_validate_upload_file_invalid_file_type[test.pdf-image/jpeg]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_validate_upload_file_invalid_file_type[test.png-image/jpeg]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_validate_upload_file_unsupported_mime_type[archive.rar-application/x-rar-compressed]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_validate_upload_file_unsupported_mime_type[archive.tar.gz-application/gzip]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_validate_upload_file_unsupported_mime_type[archive.zip-application/zip]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_validate_upload_file_unsupported_mime_type[test.html-text/html]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_validate_upload_file_unsupported_mime_type[test.js-application/javascript]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_validate_upload_file_unsupported_mime_type[test.svg-image/svg+xml]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_validate_upload_file_unsupported_mime_type[test.xml-application/xml]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_validate_upload_file_valid_files[audio.m4a-audio/mp4]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_validate_upload_file_valid_files[audio.mp3-audio/mpeg]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_validate_upload_file_valid_files[data.csv-text/csv]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_validate_upload_file_valid_files[file.txt-text/plain]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_validate_upload_file_valid_files[test.JPG-image/jpeg]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_validate_upload_file_valid_files[test.gif-image/gif]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_validate_upload_file_valid_files[test.jpeg-image/jpeg]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_validate_upload_file_valid_files[test.jpg-image/jpeg]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_validate_upload_file_valid_files[test.png-image/png]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_validate_upload_file_valid_files[test.webp-image/webp]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_validate_upload_file_valid_files[video.mp4-video/mp4]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/core/tests/test_file_validation.py::test_validate_upload_file_valid_files[video.webm-video/webm]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/thumbnail/tests/test_utils.py::test_get_filename_from_url_unique",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/thumbnail/tests/test_utils.py::test_get_filename_from_url_with_long_name_is_trimmed",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/thumbnail/tests/test_utils.py::test_get_filename_from_url_with_query_params",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/thumbnail/tests/test_utils.py::test_get_filename_from_url_with_query_params_path",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/thumbnail/tests/test_utils.py::test_get_filename_from_url_with_short_name_is_not_trimmed",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/thumbnail/tests/test_utils.py::test_get_filename_from_url_without_extension[http://example.com/image-image/jpeg-.jpg]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/thumbnail/tests/test_utils.py::test_get_filename_from_url_without_extension[http://example.com/image-image/jpg-.jpg]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/thumbnail/tests/test_utils.py::test_get_filename_from_url_without_extension[http://example.com/image-image/png-.png]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/thumbnail/tests/test_utils.py::test_get_filename_from_url_without_extension[http://example.com/image?token=12345/6789-image/webp-.webp]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/thumbnail/tests/test_utils.py::test_get_image_or_proxy_url_proxy_url_returned",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/thumbnail/tests/test_utils.py::test_get_image_or_proxy_url_thumbnail_url_returned",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/thumbnail/tests/test_utils.py::test_get_thumbnail_size[1-32]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/thumbnail/tests/test_utils.py::test_get_thumbnail_size[15000-4096]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/thumbnail/tests/test_utils.py::test_get_thumbnail_size[16-32]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/thumbnail/tests/test_utils.py::test_get_thumbnail_size[256-256]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/thumbnail/tests/test_utils.py::test_get_thumbnail_size[60-64]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/thumbnail/tests/test_utils.py::test_get_thumbnail_size[80-64]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/thumbnail/tests/test_utils.py::test_get_thumbnail_size[8000-4096]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/thumbnail/tests/test_utils.py::test_prepare_image_proxy_url[1-None]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/thumbnail/tests/test_utils.py::test_prepare_image_proxy_url[100-WEBP]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/thumbnail/tests/test_utils.py::test_prepare_image_proxy_url[200-]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/thumbnail/tests/test_utils.py::test_prepare_image_proxy_url[64-AVIF]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/thumbnail/tests/test_utils.py::test_prepare_thumbnail_file_name[test.txt-20-None-test_thumbnail_20.txt]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/thumbnail/tests/test_utils.py::test_prepare_thumbnail_file_name[test/test.txt-20-None-test/test_thumbnail_20.txt]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/thumbnail/tests/test_utils.py::test_prepare_thumbnail_file_name[test/test.txt-40-webp-test/test_thumbnail_40.webp]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/thumbnail/tests/test_utils.py::test_prepare_thumbnail_file_name[test/test_23.03.2022.txt-40-webp-test/test_23.03.2022_thumbnail_40.webp]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/thumbnail/tests/test_utils.py::test_processed_image_preprocess_method_called[avif]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/thumbnail/tests/test_utils.py::test_processed_image_preprocess_method_called[webp]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/thumbnail/tests/test_utils.py::test_processed_image_preprocess_with_exif_corrupted[avif]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/thumbnail/tests/test_utils.py::test_processed_image_preprocess_with_exif_corrupted[webp]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  }
+ ],
+ "operations": {
+  "p": {
+   "container_complete": true,
+   "db_name": "saleor_v3_d361479ab7da_p",
+   "error": null,
+   "r1": {
+    "missing_junit": [],
+    "parse_errors": [],
+    "raw_hashes": {
+     "d361479ab7da_p_r0_f0": "cf70757272df468daa8950cfed32484c49a2ad0b9ae5118c37663bf52b887701",
+     "d361479ab7da_p_r0_f1": "0394179ec6cbf6778c82efc349d371ac2b11c2863a29b91818e532bdf09fd8f6",
+     "d361479ab7da_p_r1_f0": "79b0efb6f8e020f3588c74c284691d870cfa877f57da4d6d8fcda4e67c9add90",
+     "d361479ab7da_p_r1_f1": "a8881c2cf88e409483b09d9d9e988e8bb4b76e43503618a921f55965f350e9a8",
+     "d361479ab7da_p_r2_f0": "b30a7f1ff6c9357ee1e015a18f377bd0bb54f61ec4d2d5984cee882e8ff25c6e",
+     "d361479ab7da_p_r2_f1": "c8c75747ba9c331652984d1f0abcc3fc5cea081239e76afcaaf6979d76531b21"
+    }
+   },
+   "returncode": 0,
+   "wall_s": 209.7
+  },
+  "t": {
+   "container_complete": true,
+   "db_name": "saleor_v3_d361479ab7da_t",
+   "error": null,
+   "r1": {
+    "missing_junit": [],
+    "parse_errors": [],
+    "raw_hashes": {
+     "d361479ab7da_t_r0_f0": "e136d39bc37de3e25644978a6a54ab4341730a97af954d32f4da8065aaaa1274",
+     "d361479ab7da_t_r0_f1": "7d7e1124ce1b1558f5016b7130e11f97a91de66e14a2553550d616cfb893176f",
+     "d361479ab7da_t_r1_f0": "6da137017f772a3b20938b48b87ab461522ce8b9738378bac0c716aa0d30502b",
+     "d361479ab7da_t_r1_f1": "b2a6505363bbde606f31f7e3f3e29e428c205e0e62731fbd801190348545b0f2",
+     "d361479ab7da_t_r2_f0": "ecabc80ec1fba93958c0a16a20119d9c27332610d2f7e471ddb2a5e0e105b68f",
+     "d361479ab7da_t_r2_f1": "bb6959b7c705f8ac65ab1d63f9133ec23399b8a21661db3048d772d96a3f5628"
+    }
+   },
+   "returncode": 0,
+   "wall_s": 227.5
+  }
+ },
+ "parent_commit": "e46cc8120e2265a30811a58f140f1f13bcbe1470",
+ "parent_failure_text": {
+  "saleor/graphql/core/tests/test_file_validation.py::test_is_valid_image_content_type[image/jpg-True]": "content_type = 'image/jpg', is_valid = True\n\n    @pytest.mark.parametrize(\n        (\"content_type\", \"is_valid\"),\n        [\n            (\"image/jpeg\", True),\n            (\"image/jpg\", True),\n            (\"image/png\", True),\n            (\"image/gif\", True),\n            (\"image/bmp\", True),\n            (\"image/tiff\", True),\n            (\"image/webp\", True),\n            (\"image/avif\", True),\n            (\"application/json\", False),\n            (\"text/plain\", False),\n            (\"application/pdf\", False),\n            (None, False),\n        ],\n    )\n    def test_is_valid_image_content_type(content_type, is_valid):\n        # when\n        result = is_valid_image_content_type(content_type)\n    \n        # then\n>       assert result == is_valid\nE       assert False == True\n\nsaleor/graphql/core/tests/test_file_validation.py:88: AssertionError"
+ },
+ "parent_failure_text_sha256": "a61b0e4e0f892e6bc88521a2fdd7e7fe5b52fa1296c87e6c08ea1648583a27e0",
+ "rule_constants_sha256": "c54be06967ae68bbfc6fc8c541489c495e1faeb0abd80bc3d39d3fd1ba2bbab3",
+ "rule_id": "M16_R1_REPETITION_RETENTION_V1",
+ "status": "DONE",
+ "target_commit": "d361479ab7da3060cf26e8dbb52c9aab89fab0c0",
+ "task_id": "saleor-rc-d361479ab7da",
+ "test_files": [
+  "saleor/graphql/core/tests/test_file_validation.py",
+  "saleor/thumbnail/tests/test_utils.py"
+ ],
+ "wall_s": 443.2
+}
