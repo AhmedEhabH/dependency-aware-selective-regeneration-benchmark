@@ -1,0 +1,1924 @@
+{
+ "adapter_record_sha256": "03cde76fbe5b15b4208ce99a1831c3fbc62113103cdb0831b22f43d691ebc362",
+ "artifact": "m17_qualification_task",
+ "artifact_sha256": "e6d0d9d018a02aff0866ff0da9c233b520c3a7d8f09cef283e9048dd74414971",
+ "classification": "BEHAVIORAL_F2P",
+ "clock_pre": -2.70602,
+ "counts": {
+  "BEHAVIORAL_F2P": 9,
+  "FLAKY": 0,
+  "OTHER_REVIEW_REQUIRED": 0,
+  "P2P_ONLY": 119,
+  "PARENT_COLLECTION_ERROR": 0,
+  "SYMBOL_ABSENCE_F2P": 0,
+  "TARGET_ORACLE_INVALID": 0
+ },
+ "dev_test_closure": {
+  "mechanism": "poetry",
+  "n_pins": 74,
+  "n_unsupported": 0,
+  "pins_sha256": "f51d6f5590f98276e6aa0f0f95a7f701d340392065b5b0f94a4b3dd810f1f289"
+ },
+ "disk_free_after_gib": 47.385,
+ "disk_free_before_gib": 47.452,
+ "disk_growth_gib": 0.0669,
+ "eligibility": {
+  "EXTENDED_F2P_ELIGIBLE": true,
+  "PRIMARY_BEHAVIORAL_F2P_ELIGIBLE": true,
+  "environment_valid": true,
+  "n_behavioral_f2p": 9,
+  "n_parent_collection_error": 0,
+  "n_symbol_absence_f2p": 0,
+  "semantics_version": "oracle-semantics-v2-2026-09-23",
+  "task_collection_failure": false
+ },
+ "era_key": "py39",
+ "executor": "scripts.wp2_m17_exec.RealExecutor",
+ "f2p_contract": {
+  "blockers": [],
+  "frozen_v2_f2p_count": 9,
+  "obtained_f2p_nodes": [
+   "saleor/graphql/translations/tests/test_translations.py::test_nested_page_attribute_translation",
+   "saleor/graphql/translations/tests/test_translations.py::test_nested_product_attribute_translation",
+   "saleor/graphql/translations/tests/test_translations.py::test_nested_product_variant_attribute_translation",
+   "saleor/graphql/translations/tests/test_translations.py::test_page_attribute_value_plain_text_translation",
+   "saleor/graphql/translations/tests/test_translations.py::test_page_attribute_value_rich_text_translation",
+   "saleor/graphql/translations/tests/test_translations.py::test_product_attribute_value_plain_text_translation",
+   "saleor/graphql/translations/tests/test_translations.py::test_product_attribute_value_rich_text_translation",
+   "saleor/graphql/translations/tests/test_translations.py::test_product_variant_attribute_value_plain_text_translation",
+   "saleor/graphql/translations/tests/test_translations.py::test_product_variant_attribute_value_rich_text_translation"
+  ],
+  "per_node_status": {
+   "saleor/graphql/translations/tests/test_translations.py::test_nested_page_attribute_translation": "passed",
+   "saleor/graphql/translations/tests/test_translations.py::test_nested_product_attribute_translation": "passed",
+   "saleor/graphql/translations/tests/test_translations.py::test_nested_product_variant_attribute_translation": "passed",
+   "saleor/graphql/translations/tests/test_translations.py::test_page_attribute_value_plain_text_translation": "passed",
+   "saleor/graphql/translations/tests/test_translations.py::test_page_attribute_value_rich_text_translation": "passed",
+   "saleor/graphql/translations/tests/test_translations.py::test_product_attribute_value_plain_text_translation": "passed",
+   "saleor/graphql/translations/tests/test_translations.py::test_product_attribute_value_rich_text_translation": "passed",
+   "saleor/graphql/translations/tests/test_translations.py::test_product_variant_attribute_value_plain_text_translation": "passed",
+   "saleor/graphql/translations/tests/test_translations.py::test_product_variant_attribute_value_rich_text_translation": "passed"
+  },
+  "resolved_against_frozen_v2_count": true
+ },
+ "frozen_base_image_id": "sha256:ddc08d7e685517764dfa2606a760d5b3f09d57840d8a0bbcef366db67cd99ef8",
+ "frozen_status": "DONE",
+ "infra_reasons": [],
+ "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+ "junit_raw_sha256": "dc6b278f1dbe5551784bdf9faa06e98be145e698f1d4b68356809ace2a507d49",
+ "locked_dev_fragment_sha256": "cc7302a6adecf2e3a6a7a4b10d9c4e36977948d5a781355b1a8b6b8800d4e1eb",
+ "lockfile_sha256": "3ce0fc64dfaf1f668d080c4fe7998e0413715e60728ee4991b1cf685fabf88bd",
+ "model_api_calls": 0,
+ "n_nodes": 128,
+ "n_test_files": 1,
+ "node_records": [
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_attribute_create_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_attribute_create_translation_by_translatable_content_id",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_attribute_no_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_attribute_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_attribute_update_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_attribute_value_create_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_attribute_value_create_translation_by_translatable_content_id",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_attribute_value_no_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_attribute_value_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_attribute_value_update_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_category_create_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_category_create_translation_by_translatable_content_id",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_category_create_translation_for_description",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_category_create_translation_for_description_name_as_null",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_category_no_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_category_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_category_translation_without_description",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_category_update_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_collection_create_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_collection_create_translation_by_translatable_content_id",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_collection_create_translation_for_description",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_collection_create_translation_for_description_name_as_null",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_collection_no_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_collection_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_collection_translation_mutation_validates_inputs_length",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_collection_translation_without_description",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_collection_update_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_menu_item_create_translation_by_translatable_content_id",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_menu_item_no_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_menu_item_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_menu_item_update_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_nested_page_attribute_translation",
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "BEHAVIORAL_F2P"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_nested_product_attribute_translation",
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "BEHAVIORAL_F2P"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_nested_product_variant_attribute_translation",
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "BEHAVIORAL_F2P"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_page_attribute_value_plain_text_translation",
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "BEHAVIORAL_F2P"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_page_attribute_value_rich_text_translation",
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "BEHAVIORAL_F2P"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_page_create_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_page_create_translation_by_translatable_content_id",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_page_create_translation_for_content",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_page_create_translation_for_content_title_as_null",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_page_no_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_page_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_page_translation_without_content",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_page_update_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_plain_text_attribute_value_create_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_plain_text_attribute_value_update_translation_empty_name",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_plain_text_attribute_value_update_translation_name_null",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_plain_text_attribute_value_update_translation_name_set_manually",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_plain_text_attribute_value_update_translation_only_plain_text",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_plain_text_attribute_value_update_translation_only_plain_text_long_text",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_product_and_attribute_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_product_attribute_value_plain_text_translation",
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "BEHAVIORAL_F2P"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_product_attribute_value_rich_text_translation",
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "BEHAVIORAL_F2P"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_product_create_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_product_create_translation_by_invalid_translatable_content_id",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_product_create_translation_by_translatable_content_id",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_product_create_translation_for_description",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_product_create_translation_for_description_and_name_as_null",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_product_create_translation_validates_name_length",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_product_create_translation_with_app",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_product_no_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_product_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_product_translation_with_app",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_product_translation_without_description",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_product_update_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_product_variant_attribute_value_plain_text_translation",
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "BEHAVIORAL_F2P"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_product_variant_attribute_value_rich_text_translation",
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "BEHAVIORAL_F2P"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_product_variant_create_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_product_variant_create_translation_by_translatable_content_id",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_product_variant_no_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_product_variant_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_product_variant_translation_mutation_validates_inputs_length",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_product_variant_update_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_rich_text_attribute_value_create_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_rich_text_attribute_value_update_translation_only_rich_text",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_rich_text_attribute_value_update_translation_only_rich_text_empty_name",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_rich_text_attribute_value_update_translation_only_rich_text_long_text",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_rich_text_attribute_value_update_translation_only_rich_text_name_null",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_rich_text_attribute_value_update_translation_only_rich_text_name_set_manually",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_sale_create_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_sale_create_translation_by_translatable_content_id",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_sale_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_sale_update_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_shipping_method_create_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_shipping_method_create_translation_by_translatable_content_id",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_shipping_method_no_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_shipping_method_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_shipping_method_update_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_shop_create_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_shop_no_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_shop_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_shop_translation_validates_values_lengths",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_shop_update_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_translation_query_attribute",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_translation_query_attribute_value",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_translation_query_category",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_translation_query_collection",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_translation_query_incorrect_kind",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_translation_query_menu_item",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_translation_query_no_permission",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_translation_query_page[False-perm_codenames1]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_translation_query_page[False-perm_codenames2]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_translation_query_page[True-perm_codenames0]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_translation_query_product",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_translation_query_sale[perm_codenames0-False]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_translation_query_sale[perm_codenames1-True]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_translation_query_shipping_method[perm_codenames0-False]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_translation_query_shipping_method[perm_codenames1-True]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_translation_query_variant",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_translation_query_voucher[perm_codenames0-False]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_translation_query_voucher[perm_codenames1-True]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_translations_query[EnumMeta.ATTRIBUTE-AttributeTranslatableContent]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_translations_query[EnumMeta.ATTRIBUTE_VALUE-AttributeValueTranslatableContent]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_translations_query[EnumMeta.CATEGORY-CategoryTranslatableContent]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_translations_query[EnumMeta.COLLECTION-CollectionTranslatableContent]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_translations_query[EnumMeta.MENU_ITEM-MenuItemTranslatableContent]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_translations_query[EnumMeta.PAGE-PageTranslatableContent]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_translations_query[EnumMeta.PRODUCT-ProductTranslatableContent]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_translations_query[EnumMeta.SALE-SaleTranslatableContent]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_translations_query[EnumMeta.SHIPPING_METHOD-ShippingMethodTranslatableContent]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_translations_query[EnumMeta.VARIANT-ProductVariantTranslatableContent]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_translations_query[EnumMeta.VOUCHER-VoucherTranslatableContent]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_translations_query_inline_fragment",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_voucher_create_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_voucher_create_translation_by_translatable_content_id",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_voucher_no_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_voucher_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/translations/tests/test_translations.py::test_voucher_update_translation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  }
+ ],
+ "operations": {
+  "p": {
+   "container_complete": true,
+   "db_name": "saleor_v3_bcd9f60d2aef_p",
+   "error": null,
+   "r1": {
+    "missing_junit": [],
+    "parse_errors": [],
+    "raw_hashes": {
+     "bcd9f60d2aef_p_r0_f0": "96c7f699859f4887577903f5b219c6acb868277e5e76e05df12c1d7f74001391",
+     "bcd9f60d2aef_p_r1_f0": "493b0010dc885944328ff3ef6878a382ac98b58d4d6bdd4077bbf8ba428e35b0",
+     "bcd9f60d2aef_p_r2_f0": "28dc15fdefbb9a4a0205285bc7b7d52c299606c68a3c655e42520f3bf9311e32"
+    }
+   },
+   "returncode": 0,
+   "wall_s": 180.4
+  },
+  "t": {
+   "container_complete": true,
+   "db_name": "saleor_v3_bcd9f60d2aef_t",
+   "error": null,
+   "r1": {
+    "missing_junit": [],
+    "parse_errors": [],
+    "raw_hashes": {
+     "bcd9f60d2aef_t_r0_f0": "f00a70bddf89584a8a56aafa5693c427c1bd8330f4e6aab8d6707413470a75c2",
+     "bcd9f60d2aef_t_r1_f0": "75fdc039398dbdab81242686ecaafe32d726b6eaa5fdaf7fb31f919ad6249b04",
+     "bcd9f60d2aef_t_r2_f0": "55c25fcbf82b1e6400b2b0b758ad1919ecb287dac2a3feac58da67c7875da3a5"
+    }
+   },
+   "returncode": 0,
+   "wall_s": 198.1
+  }
+ },
+ "parent_commit": "938f0c027422449bf39b9a0962149ba4204f24a2",
+ "parent_failure_text": {
+  "saleor/graphql/translations/tests/test_translations.py::test_nested_page_attribute_translation": "staff_api_client = <saleor.graphql.tests.fixtures.ApiClient object at 0x7a703efb1df0>\nplain_text_attribute_page_type = <Attribute: Plain text>\npage = <Page: Test page>\npermission_manage_translations = <Permission: site | site settings | Manage translations.>\npermission_manage_pages = <Permission: page | page | Manage pages.>\n\n    def test_nested_page_attribute_translation(\n        staff_api_client,\n        plain_text_attribute_page_type,\n        page,\n        permission_manage_translations,\n        permission_manage_pages,\n    ):\n        # given\n        page_type = page.page_type\n        page_type.page_attributes.set([plain_text_attribute_page_type])\n        attribute_value = plain_text_attribute_page_type.values.first()\n    \n        associate_attribute_values_to_instance(\n            page, plain_text_attribute_page_type, attribute_value\n        )\n    \n        text = \"Test attribute translation\"\n        plain_text_attribute_page_type.translations.create(language_code=\"pl\", name=text)\n    \n        page_id = graphene.Node.to_global_id(\"Page\", page.id)\n    \n        query = PAGE_ATTRIBUTE_VALUES_TRANSLATION_QUERY\n        variables = {\n            \"id\": page_id,\n            \"kind\": TranslatableKinds.PAGE.name,\n            \"languageCode\": LanguageCodeEnum.PL.name,\n        }\n    \n        # when\n>       response = staff_api_client.post_graphql(\n            query, variables, permissions=[permission_manage_translations]\n        )\n\nsaleor/graphql/translations/tests/test_translations.py:4003: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \nsaleor/graphql/tests/fixtures.py:99: in post_graphql\n    assert_no_permission(response)\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nresponse = <JsonResponse status_code=400, \"application/json\">\n\n    def assert_no_permission(response):\n        content = get_graphql_content_from_response(response)\n        assert \"errors\" in content, content\n>       assert content[\"errors\"][0][\"extensions\"][\"exception\"][\"code\"] == (\n            \"PermissionDenied\"\n        ), content[\"errors\"]\nE       AssertionError: [{'message': 'Cannot query field \"attribute\" on type \"AttributeValueTranslatableContent\". Did you mean \"attributeValue\"?', 'locations': [{'line': 18, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]\n\nsaleor/graphql/tests/utils.py:24: AssertionError",
+  "saleor/graphql/translations/tests/test_translations.py::test_nested_product_attribute_translation": "staff_api_client = <saleor.graphql.tests.fixtures.ApiClient object at 0x7a703e8139d0>\nplain_text_attribute = <Attribute: Plain text>\nproduct = <saleor.product.models.Product(pk=171, name='Test product')>\npermission_manage_translations = <Permission: site | site settings | Manage translations.>\n\n    def test_nested_product_attribute_translation(\n        staff_api_client,\n        plain_text_attribute,\n        product,\n        permission_manage_translations,\n    ):\n        # given\n        product_type = product.product_type\n        product_type.product_attributes.set([plain_text_attribute])\n    \n        product_attr_value = plain_text_attribute.values.first()\n        associate_attribute_values_to_instance(\n            product, plain_text_attribute, product_attr_value\n        )\n    \n        text = \"Test attribute translation\"\n        plain_text_attribute.translations.create(language_code=\"pl\", name=text)\n    \n        product_id = graphene.Node.to_global_id(\"Product\", product.id)\n    \n        query = PRODUCT_ATTRIBUTE_VALUES_TRANSLATION_QUERY\n        variables = {\n            \"id\": product_id,\n            \"kind\": TranslatableKinds.PRODUCT.name,\n            \"languageCode\": LanguageCodeEnum.PL.name,\n        }\n    \n        # when\n>       response = staff_api_client.post_graphql(\n            query, variables, permissions=[permission_manage_translations]\n        )\n\nsaleor/graphql/translations/tests/test_translations.py:3708: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \nsaleor/graphql/tests/fixtures.py:99: in post_graphql\n    assert_no_permission(response)\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nresponse = <JsonResponse status_code=400, \"application/json\">\n\n    def assert_no_permission(response):\n        content = get_graphql_content_from_response(response)\n        assert \"errors\" in content, content\n>       assert content[\"errors\"][0][\"extensions\"][\"exception\"][\"code\"] == (\n            \"PermissionDenied\"\n        ), content[\"errors\"]\nE       AssertionError: [{'message': 'Cannot query field \"attribute\" on type \"AttributeValueTranslatableContent\". Did you mean \"attributeValue\"?', 'locations': [{'line': 19, 'column': 25}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]\n\nsaleor/graphql/tests/utils.py:24: AssertionError",
+  "saleor/graphql/translations/tests/test_translations.py::test_nested_product_variant_attribute_translation": "staff_api_client = <saleor.graphql.tests.fixtures.ApiClient object at 0x7a703ea81f70>\nvariant = <ProductVariant: SKU_A>\nplain_text_attribute = <Attribute: Plain text>\npermission_manage_translations = <Permission: site | site settings | Manage translations.>\n\n    def test_nested_product_variant_attribute_translation(\n        staff_api_client,\n        variant,\n        plain_text_attribute,\n        permission_manage_translations,\n    ):\n        # given\n        product_type = variant.product.product_type\n        product_type.variant_attributes.set([plain_text_attribute])\n    \n        attribute_value = plain_text_attribute.values.first()\n        associate_attribute_values_to_instance(\n            variant, plain_text_attribute, attribute_value\n        )\n    \n        text = \"Test attribute translation\"\n        plain_text_attribute.translations.create(language_code=\"pl\", name=text)\n    \n        variant_id = graphene.Node.to_global_id(\"ProductVariant\", variant.id)\n    \n        query = PRODUCT_VARIANT_ATTRIBUTE_VALUES_TRANSLATION_QUERY\n        variables = {\n            \"id\": variant_id,\n            \"kind\": TranslatableKinds.VARIANT.name,\n            \"languageCode\": LanguageCodeEnum.PL.name,\n        }\n    \n        # when\n>       response = staff_api_client.post_graphql(\n            query, variables, permissions=[permission_manage_translations]\n        )\n\nsaleor/graphql/translations/tests/test_translations.py:3857: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \nsaleor/graphql/tests/fixtures.py:99: in post_graphql\n    assert_no_permission(response)\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nresponse = <JsonResponse status_code=400, \"application/json\">\n\n    def assert_no_permission(response):\n        content = get_graphql_content_from_response(response)\n        assert \"errors\" in content, content\n>       assert content[\"errors\"][0][\"extensions\"][\"exception\"][\"code\"] == (\n            \"PermissionDenied\"\n        ), content[\"errors\"]\nE       AssertionError: [{'message': 'Cannot query field \"attribute\" on type \"AttributeValueTranslatableContent\". Did you mean \"attributeValue\"?', 'locations': [{'line': 19, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]\n\nsaleor/graphql/tests/utils.py:24: AssertionError",
+  "saleor/graphql/translations/tests/test_translations.py::test_page_attribute_value_plain_text_translation": "staff_api_client = <saleor.graphql.tests.fixtures.ApiClient object at 0x7a703ebdbee0>\nplain_text_attribute_page_type = <Attribute: Plain text>\npage = <Page: Test page>\npermission_manage_translations = <Permission: site | site settings | Manage translations.>\npermission_manage_pages = <Permission: page | page | Manage pages.>\n\n    def test_page_attribute_value_plain_text_translation(\n        staff_api_client,\n        plain_text_attribute_page_type,\n        page,\n        permission_manage_translations,\n        permission_manage_pages,\n    ):\n        # given\n        page_type = page.page_type\n        page_type.page_attributes.set([plain_text_attribute_page_type])\n        attribute_value = plain_text_attribute_page_type.values.first()\n    \n        associate_attribute_values_to_instance(\n            page, plain_text_attribute_page_type, attribute_value\n        )\n    \n        text = \"Test plain text translation\"\n        attribute_value.translations.create(language_code=\"pl\", plain_text=text)\n    \n        page_id = graphene.Node.to_global_id(\"Page\", page.id)\n    \n        query = PAGE_ATTRIBUTE_VALUES_TRANSLATION_QUERY\n    \n        variables = {\n            \"id\": page_id,\n            \"kind\": TranslatableKinds.PAGE.name,\n            \"languageCode\": LanguageCodeEnum.PL.name,\n        }\n    \n        # when\n>       response = staff_api_client.post_graphql(\n            query, variables, permissions=[permission_manage_translations]\n        )\n\nsaleor/graphql/translations/tests/test_translations.py:3961: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \nsaleor/graphql/tests/fixtures.py:99: in post_graphql\n    assert_no_permission(response)\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nresponse = <JsonResponse status_code=400, \"application/json\">\n\n    def assert_no_permission(response):\n        content = get_graphql_content_from_response(response)\n        assert \"errors\" in content, content\n>       assert content[\"errors\"][0][\"extensions\"][\"exception\"][\"code\"] == (\n            \"PermissionDenied\"\n        ), content[\"errors\"]\nE       AssertionError: [{'message': 'Cannot query field \"attribute\" on type \"AttributeValueTranslatableContent\". Did you mean \"attributeValue\"?', 'locations': [{'line': 18, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]\n\nsaleor/graphql/tests/utils.py:24: AssertionError",
+  "saleor/graphql/translations/tests/test_translations.py::test_page_attribute_value_rich_text_translation": "staff_api_client = <saleor.graphql.tests.fixtures.ApiClient object at 0x7a703e9e1e80>\npage_with_rich_text_attribute = <Page: Test page>\npermission_manage_translations = <Permission: site | site settings | Manage translations.>\npage_type_with_rich_text_attribute = <PageType: PageType object (73)>\npermission_manage_pages = <Permission: page | page | Manage pages.>\n\n    def test_page_attribute_value_rich_text_translation(\n        staff_api_client,\n        page_with_rich_text_attribute,\n        permission_manage_translations,\n        page_type_with_rich_text_attribute,\n        permission_manage_pages,\n    ):\n        rich_text = dummy_editorjs(\"Test_dummy_data\")\n        variant_attr = page_type_with_rich_text_attribute.page_attributes.first()\n        attribute_value = variant_attr.values.first()\n        attribute_value.translations.create(language_code=\"pl\", rich_text=rich_text)\n    \n        page_id = graphene.Node.to_global_id(\"Page\", page_with_rich_text_attribute.id)\n    \n        query = PAGE_ATTRIBUTE_VALUES_TRANSLATION_QUERY\n    \n        variables = {\n            \"id\": page_id,\n            \"kind\": TranslatableKinds.PAGE.name,\n            \"languageCode\": LanguageCodeEnum.PL.name,\n        }\n>       response = staff_api_client.post_graphql(\n            query, variables, permissions=[permission_manage_translations]\n        )\n\nsaleor/graphql/translations/tests/test_translations.py:3920: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \nsaleor/graphql/tests/fixtures.py:99: in post_graphql\n    assert_no_permission(response)\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nresponse = <JsonResponse status_code=400, \"application/json\">\n\n    def assert_no_permission(response):\n        content = get_graphql_content_from_response(response)\n        assert \"errors\" in content, content\n>       assert content[\"errors\"][0][\"extensions\"][\"exception\"][\"code\"] == (\n            \"PermissionDenied\"\n        ), content[\"errors\"]\nE       AssertionError: [{'message': 'Cannot query field \"attribute\" on type \"AttributeValueTranslatableContent\". Did you mean \"attributeValue\"?', 'locations': [{'line': 18, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]\n\nsaleor/graphql/tests/utils.py:24: AssertionError",
+  "saleor/graphql/translations/tests/test_translations.py::test_product_attribute_value_plain_text_translation": "staff_api_client = <saleor.graphql.tests.fixtures.ApiClient object at 0x7a703e82d3d0>\nplain_text_attribute = <Attribute: Plain text>\nproduct = <saleor.product.models.Product(pk=170, name='Test product')>\npermission_manage_translations = <Permission: site | site settings | Manage translations.>\n\n    def test_product_attribute_value_plain_text_translation(\n        staff_api_client,\n        plain_text_attribute,\n        product,\n        permission_manage_translations,\n    ):\n        # given\n        product_type = product.product_type\n        product_type.product_attributes.set([plain_text_attribute])\n    \n        product_attr_value = plain_text_attribute.values.first()\n        associate_attribute_values_to_instance(\n            product, plain_text_attribute, product_attr_value\n        )\n    \n        text = \"Test plain text translation\"\n        product_attr_value.translations.create(language_code=\"pl\", plain_text=text)\n    \n        product_id = graphene.Node.to_global_id(\"Product\", product.id)\n    \n        query = PRODUCT_ATTRIBUTE_VALUES_TRANSLATION_QUERY\n        variables = {\n            \"id\": product_id,\n            \"kind\": TranslatableKinds.PRODUCT.name,\n            \"languageCode\": LanguageCodeEnum.PL.name,\n        }\n    \n        # when\n>       response = staff_api_client.post_graphql(\n            query, variables, permissions=[permission_manage_translations]\n        )\n\nsaleor/graphql/translations/tests/test_translations.py:3667: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \nsaleor/graphql/tests/fixtures.py:99: in post_graphql\n    assert_no_permission(response)\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nresponse = <JsonResponse status_code=400, \"application/json\">\n\n    def assert_no_permission(response):\n        content = get_graphql_content_from_response(response)\n        assert \"errors\" in content, content\n>       assert content[\"errors\"][0][\"extensions\"][\"exception\"][\"code\"] == (\n            \"PermissionDenied\"\n        ), content[\"errors\"]\nE       AssertionError: [{'message': 'Cannot query field \"attribute\" on type \"AttributeValueTranslatableContent\". Did you mean \"attributeValue\"?', 'locations': [{'line': 19, 'column': 25}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]\n\nsaleor/graphql/tests/utils.py:24: AssertionError",
+  "saleor/graphql/translations/tests/test_translations.py::test_product_attribute_value_rich_text_translation": "staff_api_client = <saleor.graphql.tests.fixtures.ApiClient object at 0x7a703ec4f400>\nproduct_with_rich_text_attribute = [<saleor.product.models.Product(pk=169, name='Test product')>, <ProductVariant: 123>]\npermission_manage_translations = <Permission: site | site settings | Manage translations.>\n\n    def test_product_attribute_value_rich_text_translation(\n        staff_api_client,\n        product_with_rich_text_attribute,\n        permission_manage_translations,\n    ):\n        # given\n        rich_text = dummy_editorjs(\"Test_dummy_data\")\n        assigned_attribute = product_with_rich_text_attribute[0].attributes.first()\n        attribute_value = assigned_attribute.attribute.values.first()\n        attribute_value.translations.create(language_code=\"pl\", rich_text=rich_text)\n    \n        product_id = graphene.Node.to_global_id(\n            \"Product\", product_with_rich_text_attribute[0].id\n        )\n    \n        query = PRODUCT_ATTRIBUTE_VALUES_TRANSLATION_QUERY\n        variables = {\n            \"id\": product_id,\n            \"kind\": TranslatableKinds.PRODUCT.name,\n            \"languageCode\": LanguageCodeEnum.PL.name,\n        }\n    \n        # when\n>       response = staff_api_client.post_graphql(\n            query, variables, permissions=[permission_manage_translations]\n        )\n\nsaleor/graphql/translations/tests/test_translations.py:3626: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \nsaleor/graphql/tests/fixtures.py:99: in post_graphql\n    assert_no_permission(response)\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nresponse = <JsonResponse status_code=400, \"application/json\">\n\n    def assert_no_permission(response):\n        content = get_graphql_content_from_response(response)\n        assert \"errors\" in content, content\n>       assert content[\"errors\"][0][\"extensions\"][\"exception\"][\"code\"] == (\n            \"PermissionDenied\"\n        ), content[\"errors\"]\nE       AssertionError: [{'message': 'Cannot query field \"attribute\" on type \"AttributeValueTranslatableContent\". Did you mean \"attributeValue\"?', 'locations': [{'line': 19, 'column': 25}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]\n\nsaleor/graphql/tests/utils.py:24: AssertionError",
+  "saleor/graphql/translations/tests/test_translations.py::test_product_variant_attribute_value_plain_text_translation": "staff_api_client = <saleor.graphql.tests.fixtures.ApiClient object at 0x7a703e8b44c0>\nvariant = <ProductVariant: SKU_A>\nplain_text_attribute = <Attribute: Plain text>\npermission_manage_translations = <Permission: site | site settings | Manage translations.>\n\n    def test_product_variant_attribute_value_plain_text_translation(\n        staff_api_client,\n        variant,\n        plain_text_attribute,\n        permission_manage_translations,\n    ):\n        # given\n        product_type = variant.product.product_type\n        product_type.variant_attributes.set([plain_text_attribute])\n    \n        attribute_value = plain_text_attribute.values.first()\n        associate_attribute_values_to_instance(\n            variant, plain_text_attribute, attribute_value\n        )\n    \n        text = \"Test plain text translation\"\n        attribute_value.translations.create(language_code=\"pl\", plain_text=text)\n    \n        variant_id = graphene.Node.to_global_id(\"ProductVariant\", variant.id)\n    \n        query = PRODUCT_VARIANT_ATTRIBUTE_VALUES_TRANSLATION_QUERY\n        variables = {\n            \"id\": variant_id,\n            \"kind\": TranslatableKinds.VARIANT.name,\n            \"languageCode\": LanguageCodeEnum.PL.name,\n        }\n    \n        # when\n>       response = staff_api_client.post_graphql(\n            query, variables, permissions=[permission_manage_translations]\n        )\n\nsaleor/graphql/translations/tests/test_translations.py:3816: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \nsaleor/graphql/tests/fixtures.py:99: in post_graphql\n    assert_no_permission(response)\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nresponse = <JsonResponse status_code=400, \"application/json\">\n\n    def assert_no_permission(response):\n        content = get_graphql_content_from_response(response)\n        assert \"errors\" in content, content\n>       assert content[\"errors\"][0][\"extensions\"][\"exception\"][\"code\"] == (\n            \"PermissionDenied\"\n        ), content[\"errors\"]\nE       AssertionError: [{'message': 'Cannot query field \"attribute\" on type \"AttributeValueTranslatableContent\". Did you mean \"attributeValue\"?', 'locations': [{'line': 19, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]\n\nsaleor/graphql/tests/utils.py:24: AssertionError",
+  "saleor/graphql/translations/tests/test_translations.py::test_product_variant_attribute_value_rich_text_translation": "staff_api_client = <saleor.graphql.tests.fixtures.ApiClient object at 0x7a703ebc70d0>\nproduct_with_rich_text_attribute = [<saleor.product.models.Product(pk=172, name='Test product')>, <ProductVariant: 123>]\npermission_manage_translations = <Permission: site | site settings | Manage translations.>\nproduct_type_with_rich_text_attribute = <saleor.product.models.ProductType(pk=172, name='Default Type')>\n\n    def test_product_variant_attribute_value_rich_text_translation(\n        staff_api_client,\n        product_with_rich_text_attribute,\n        permission_manage_translations,\n        product_type_with_rich_text_attribute,\n    ):\n        # given\n        rich_text = dummy_editorjs(\"Test_dummy_data\")\n        variant_attr = product_type_with_rich_text_attribute.variant_attributes.first()\n        attribute_value = variant_attr.values.first()\n        attribute_value.translations.create(language_code=\"pl\", rich_text=rich_text)\n    \n        variant_id = graphene.Node.to_global_id(\n            \"ProductVariant\", product_with_rich_text_attribute[1].id\n        )\n    \n        query = PRODUCT_VARIANT_ATTRIBUTE_VALUES_TRANSLATION_QUERY\n        variables = {\n            \"id\": variant_id,\n            \"kind\": TranslatableKinds.VARIANT.name,\n            \"languageCode\": LanguageCodeEnum.PL.name,\n        }\n    \n        # when\n>       response = staff_api_client.post_graphql(\n            query, variables, permissions=[permission_manage_translations]\n        )\n\nsaleor/graphql/translations/tests/test_translations.py:3775: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \nsaleor/graphql/tests/fixtures.py:99: in post_graphql\n    assert_no_permission(response)\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nresponse = <JsonResponse status_code=400, \"application/json\">\n\n    def assert_no_permission(response):\n        content = get_graphql_content_from_response(response)\n        assert \"errors\" in content, content\n>       assert content[\"errors\"][0][\"extensions\"][\"exception\"][\"code\"] == (\n            \"PermissionDenied\"\n        ), content[\"errors\"]\nE       AssertionError: [{'message': 'Cannot query field \"attribute\" on type \"AttributeValueTranslatableContent\". Did you mean \"attributeValue\"?', 'locations': [{'line': 19, 'column': 21}], 'extensions': {'exception': {'code': 'GraphQLError'}}}]\n\nsaleor/graphql/tests/utils.py:24: AssertionError"
+ },
+ "parent_failure_text_sha256": "525ca384575a223d801e5b469cfc305d22ffeee845bc66d5441c3f7cb307a572",
+ "rule_constants_sha256": "c54be06967ae68bbfc6fc8c541489c495e1faeb0abd80bc3d39d3fd1ba2bbab3",
+ "rule_id": "M16_R1_REPETITION_RETENTION_V1",
+ "status": "DONE",
+ "target_commit": "bcd9f60d2aef8553e5ba522f2acd8437d7a0b7f2",
+ "task_id": "saleor-rc-bcd9f60d2aef",
+ "test_files": [
+  "saleor/graphql/translations/tests/test_translations.py"
+ ],
+ "wall_s": 384.8
+}
