@@ -1,0 +1,164 @@
+{
+ "adapter_record_sha256": "5548c2e05576558cd611aed5c40f56742f2f5412b3d413192c770e2c1d994638",
+ "artifact": "m17_qualification_task",
+ "artifact_sha256": "5d9ae278bb4230aa0ba04abf25effdb7905882c2b0d675e8b4e5b997440bb82a",
+ "classification": "BEHAVIORAL_F2P",
+ "clock_pre": -2.597346,
+ "counts": {
+  "BEHAVIORAL_F2P": 1,
+  "FLAKY": 0,
+  "OTHER_REVIEW_REQUIRED": 0,
+  "P2P_ONLY": 3,
+  "PARENT_COLLECTION_ERROR": 0,
+  "SYMBOL_ABSENCE_F2P": 0,
+  "TARGET_ORACLE_INVALID": 0
+ },
+ "dev_test_closure": {
+  "mechanism": "uv",
+  "n_pins": 0,
+  "n_unsupported": 0,
+  "pins_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+ },
+ "disk_free_after_gib": 47.086,
+ "disk_free_before_gib": 47.155,
+ "disk_growth_gib": 0.0691,
+ "eligibility": {
+  "EXTENDED_F2P_ELIGIBLE": true,
+  "PRIMARY_BEHAVIORAL_F2P_ELIGIBLE": true,
+  "environment_valid": true,
+  "n_behavioral_f2p": 1,
+  "n_parent_collection_error": 0,
+  "n_symbol_absence_f2p": 0,
+  "semantics_version": "oracle-semantics-v2-2026-09-23",
+  "task_collection_failure": false
+ },
+ "era_key": "py312",
+ "executor": "scripts.wp2_m17_exec.RealExecutor",
+ "f2p_contract": {
+  "blockers": [],
+  "frozen_v2_f2p_count": 1,
+  "obtained_f2p_nodes": [
+   "saleor/graphql/product/tests/mutations/test_collection_add_products.py::test_add_products_to_collection_with_product_without_variants"
+  ],
+  "per_node_status": {
+   "saleor/graphql/product/tests/mutations/test_collection_add_products.py::test_add_products_to_collection_with_product_without_variants": "passed"
+  },
+  "resolved_against_frozen_v2_count": true
+ },
+ "frozen_base_image_id": "sha256:0c185699947d75d5866e57dfb10bba25cca05dc58ca3fd2f75446ee8b0e41394",
+ "frozen_status": "DONE",
+ "infra_reasons": [],
+ "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+ "junit_raw_sha256": "2f313dc7ad344c32d1b41e4a22d291cac32bf5916a88c8536c99a6dcf1cafca9",
+ "locked_dev_fragment_sha256": "dda4a32309f4ccd9c41db7d0886bb9378fabc499d8619137fdbbbea93c77dd26",
+ "lockfile_sha256": "c9c30d94c7978c88d8806c1e38d99372bd69a6c510d6aff79e2d7c23e3da6d75",
+ "model_api_calls": 0,
+ "n_nodes": 4,
+ "n_test_files": 1,
+ "node_records": [
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_collection_add_products.py::test_add_products_to_collection",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_collection_add_products.py::test_add_products_to_collection_on_sale_trigger_discounted_price_recalculation",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_collection_add_products.py::test_add_products_to_collection_trigger_product_updated_webhook",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/product/tests/mutations/test_collection_add_products.py::test_add_products_to_collection_with_product_without_variants",
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "BEHAVIORAL_F2P"
+  }
+ ],
+ "operations": {
+  "p": {
+   "container_complete": true,
+   "db_name": "saleor_v3_e0890780bf56_p",
+   "error": null,
+   "r1": {
+    "missing_junit": [],
+    "parse_errors": [],
+    "raw_hashes": {
+     "e0890780bf56_p_r0_f0": "7fe611c0d036101b208b9e9cb0af5c628d6cc868719c2b19a3884a37c8caefe1",
+     "e0890780bf56_p_r1_f0": "6bab2bc6a3be73c350e5f5bc801049ee66460e522af25ce191636e53fc4a20b2",
+     "e0890780bf56_p_r2_f0": "e23612d45c337fe87abcd85781cade9dfa9950775bfb4ae70225c63650a40adc"
+    }
+   },
+   "returncode": 0,
+   "wall_s": 189.8
+  },
+  "t": {
+   "container_complete": true,
+   "db_name": "saleor_v3_e0890780bf56_t",
+   "error": null,
+   "r1": {
+    "missing_junit": [],
+    "parse_errors": [],
+    "raw_hashes": {
+     "e0890780bf56_t_r0_f0": "f6239aeb4f763bfb6420efdeb84ed11f5d357d5a773ac1af752475a267f8889e",
+     "e0890780bf56_t_r1_f0": "9ce2a3a89ca814352eec5f3c49ab0bff9a6b6cd53e8d85f49262a7b69ad55636",
+     "e0890780bf56_t_r2_f0": "6419369872b08fb598ea62228e375e91f2d8cb58ea547456866f41084aecaca3"
+    }
+   },
+   "returncode": 0,
+   "wall_s": 194.6
+  }
+ },
+ "parent_commit": "2dd70df51c47bfe2e966ee060da805a9d7e0535f",
+ "parent_failure_text": {
+  "saleor/graphql/product/tests/mutations/test_collection_add_products.py::test_add_products_to_collection_with_product_without_variants": "staff_api_client = <saleor.graphql.tests.fixtures.ApiClient object at 0x7bd759a538f0>\ncollection = <Collection: Collection>\nproduct_list = [<Product: pk=34, name='Test product 1'>, <Product: pk=35, name='Test product 2'>, <Product: pk=36, name='Test product 3'>]\npermission_manage_products = <Permission: Product | product | Manage products.>\n\n    def test_add_products_to_collection_with_product_without_variants(\n        staff_api_client, collection, product_list, permission_manage_products\n    ):\n        # given\n        query = COLLECTION_ADD_PRODUCTS_MUTATION\n        product_list[0].variants.all().delete()\n        collection_id = graphene.Node.to_global_id(\"Collection\", collection.id)\n        product_ids = [\n            graphene.Node.to_global_id(\"Product\", product.pk) for product in product_list\n        ]\n        variables = {\"id\": collection_id, \"products\": product_ids}\n        products_before = collection.products.count()\n    \n        # when\n        response = staff_api_client.post_graphql(\n            query, variables, permissions=[permission_manage_products]\n        )\n    \n        # then\n        content = get_graphql_content(response)\n        data = content[\"data\"][\"collectionAddProducts\"][\"collection\"]\n>       assert data[\"products\"][\"totalCount\"] == products_before + len(product_ids)\n               ^^^^^^^^^^^^^^^^\nE       TypeError: 'NoneType' object is not subscriptable\n\nsaleor/graphql/product/tests/mutations/test_collection_add_products.py:121: TypeError"
+ },
+ "parent_failure_text_sha256": "c244c5c1f5be3f1d8e87632f2a337fcb141ae803bf5bc5b680233a0da28a1233",
+ "rule_constants_sha256": "c54be06967ae68bbfc6fc8c541489c495e1faeb0abd80bc3d39d3fd1ba2bbab3",
+ "rule_id": "M16_R1_REPETITION_RETENTION_V1",
+ "status": "DONE",
+ "target_commit": "e0890780bf56856d2b20ac14b1786749309450ae",
+ "task_id": "saleor-rc-e0890780bf56",
+ "test_files": [
+  "saleor/graphql/product/tests/mutations/test_collection_add_products.py"
+ ],
+ "wall_s": 390.4
+}
