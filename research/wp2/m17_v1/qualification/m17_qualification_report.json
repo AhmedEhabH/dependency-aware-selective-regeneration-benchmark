@@ -1,0 +1,416 @@
+{
+ "artifact": "m17_qualification_report",
+ "artifact_sha256": "3b3dcea52d4537a9ecbaa1d7393a61c9cb7c33eb4d96027613643adcac0315c2",
+ "model_api_calls": 0,
+ "n_done": 12,
+ "n_members": 12,
+ "per_task": {
+  "saleor-rc-14a682044ca4": {
+   "classification": "BEHAVIORAL_F2P",
+   "counts": {
+    "BEHAVIORAL_F2P": 38,
+    "FLAKY": 2,
+    "OTHER_REVIEW_REQUIRED": 0,
+    "P2P_ONLY": 625,
+    "PARENT_COLLECTION_ERROR": 0,
+    "SYMBOL_ABSENCE_F2P": 8,
+    "TARGET_ORACLE_INVALID": 0
+   },
+   "disk_growth_gib": 0.7535,
+   "era": "py39",
+   "executor": "scripts.wp2_m17_exec.RealExecutor",
+   "f2p_contract": {
+    "blockers": [],
+    "frozen_v2_f2p_count": 0,
+    "obtained_f2p_nodes": [
+     "saleor/checkout/tests/test_checkout_complete.py::test_create_order_store_shipping_prices",
+     "saleor/checkout/tests/test_checkout_complete.py::test_create_order_store_shipping_prices_with_free_shipping_voucher",
+     "saleor/checkout/tests/test_checkout_complete.py::test_process_shipping_data_for_order_dont_store_customer_click_and_collect_address",
+     "saleor/checkout/tests/test_checkout_complete.py::test_process_shipping_data_for_order_store_customer_shipping_address",
+     "saleor/checkout/tests/test_order_from_checkout.py::test_create_order_from_checkout_store_shipping_prices",
+     "saleor/checkout/tests/test_order_from_checkout.py::test_create_order_from_store_shipping_prices_with_free_shipping_voucher",
+     "saleor/graphql/checkout/tests/mutations/test_checkout_complete_with_payment.py::test_checkout_complete",
+     "saleor/graphql/checkout/tests/mutations/test_checkout_complete_with_payment.py::test_checkout_complete_0_total_value",
+     "saleor/graphql/checkout/tests/mutations/test_checkout_complete_with_transactions.py::test_checkout_with_authorized",
+     "saleor/graphql/checkout/tests/mutations/test_checkout_complete_with_transactions.py::test_checkout_with_total_0",
+     "saleor/graphql/order/tests/mutations/test_draft_order_create.py::test_draft_order_create_create_no_shipping_method",
+     "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_undiscounted_base_shipping_price_set",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_discounts_query",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_line_discount_query",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_authorize_status[total_authorized0-total_charged0-FULL]",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_authorize_status[total_authorized1-total_charged1-FULL]",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_authorize_status[total_authorized2-total_charged2-FULL]",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_authorize_status[total_authorized3-total_charged3-NONE]",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_authorize_status[total_authorized4-total_charged4-PARTIAL]",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_authorize_status[total_authorized5-total_charged5-PARTIAL]",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_authorize_status[total_authorized6-total_charged6-PARTIAL]",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_charge_status[total_authorized0-total_charged0-NONE]",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_charge_status[total_authorized1-total_charged1-NONE]",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_charge_status[total_authorized2-total_charged2-NONE]",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_charge_status[total_authorized3-total_charged3-PARTIAL]",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_charge_status[total_authorized4-total_charged4-PARTIAL]",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_charge_status[total_authorized5-total_charged5-FULL]",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_denormalized_shipping_tax_class_data",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_external_shipping_method",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_in_pln_channel",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_payment_status_with_total_fulfillment_refund_equal_to_order_total",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_price_overridden",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_shipping_method_channel_listing_does_not_exist",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_total_price_is_0",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_with_transactions_details",
+     "saleor/order/tests/test_apply_order_discount.py::test_apply_order_discounts_voucher_entire_order_and_manual_discount_fixed",
+     "saleor/order/tests/test_fetch_order_prices.py::test_fetch_order_prices_manual_discount_and_catalogue_discount_flat_rates",
+     "saleor/order/tests/test_fetch_order_prices.py::test_fetch_order_prices_manual_discount_and_gift_discount_flat_rates",
+     "saleor/order/tests/test_fetch_order_prices.py::test_fetch_order_prices_manual_discount_and_order_discount_flat_rates",
+     "saleor/order/tests/test_fetch_order_prices.py::test_fetch_order_prices_manual_order_discount_and_voucher_apply_once_per_order",
+     "saleor/order/tests/test_fetch_order_prices.py::test_fetch_order_prices_manual_order_discount_voucher_specific_product",
+     "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_taxes.py::test_draft_order_calculate_taxes_apply_once_per_order_voucher",
+     "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_taxes.py::test_draft_order_calculate_taxes_entire_order_voucher",
+     "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_taxes.py::test_draft_order_calculate_taxes_line_discount",
+     "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_taxes.py::test_order_calculate_taxes_specific_product_voucher"
+    ],
+    "per_node_status": {
+     "saleor/checkout/tests/test_checkout_complete.py::test_create_order_store_shipping_prices": "passed",
+     "saleor/checkout/tests/test_checkout_complete.py::test_create_order_store_shipping_prices_with_free_shipping_voucher": "passed",
+     "saleor/checkout/tests/test_checkout_complete.py::test_process_shipping_data_for_order_dont_store_customer_click_and_collect_address": "passed",
+     "saleor/checkout/tests/test_checkout_complete.py::test_process_shipping_data_for_order_store_customer_shipping_address": "passed",
+     "saleor/checkout/tests/test_order_from_checkout.py::test_create_order_from_checkout_store_shipping_prices": "passed",
+     "saleor/checkout/tests/test_order_from_checkout.py::test_create_order_from_store_shipping_prices_with_free_shipping_voucher": "passed",
+     "saleor/graphql/checkout/tests/mutations/test_checkout_complete_with_payment.py::test_checkout_complete": "passed",
+     "saleor/graphql/checkout/tests/mutations/test_checkout_complete_with_payment.py::test_checkout_complete_0_total_value": "passed",
+     "saleor/graphql/checkout/tests/mutations/test_checkout_complete_with_transactions.py::test_checkout_with_authorized": "passed",
+     "saleor/graphql/checkout/tests/mutations/test_checkout_complete_with_transactions.py::test_checkout_with_total_0": "passed",
+     "saleor/graphql/order/tests/mutations/test_draft_order_create.py::test_draft_order_create_create_no_shipping_method": "passed",
+     "saleor/graphql/order/tests/mutations/test_draft_order_update.py::test_draft_order_update_undiscounted_base_shipping_price_set": "passed",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_discounts_query": "passed",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_line_discount_query": "passed",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query": "passed",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_authorize_status[total_authorized0-total_charged0-FULL]": "passed",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_authorize_status[total_authorized1-total_charged1-FULL]": "passed",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_authorize_status[total_authorized2-total_charged2-FULL]": "passed",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_authorize_status[total_authorized3-total_charged3-NONE]": "passed",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_authorize_status[total_authorized4-total_charged4-PARTIAL]": "passed",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_authorize_status[total_authorized5-total_charged5-PARTIAL]": "passed",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_authorize_status[total_authorized6-total_charged6-PARTIAL]": "passed",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_charge_status[total_authorized0-total_charged0-NONE]": "passed",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_charge_status[total_authorized1-total_charged1-NONE]": "passed",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_charge_status[total_authorized2-total_charged2-NONE]": "passed",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_charge_status[total_authorized3-total_charged3-PARTIAL]": "passed",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_charge_status[total_authorized4-total_charged4-PARTIAL]": "passed",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_charge_status[total_authorized5-total_charged5-FULL]": "passed",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_denormalized_shipping_tax_class_data": "passed",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_external_shipping_method": "passed",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_in_pln_channel": "passed",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_payment_status_with_total_fulfillment_refund_equal_to_order_total": "passed",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_price_overridden": "passed",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_shipping_method_channel_listing_does_not_exist": "passed",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_total_price_is_0": "passed",
+     "saleor/graphql/order/tests/queries/test_order.py::test_order_query_with_transactions_details": "passed",
+     "saleor/order/tests/test_apply_order_discount.py::test_apply_order_discounts_voucher_entire_order_and_manual_discount_fixed": "passed",
+     "saleor/order/tests/test_fetch_order_prices.py::test_fetch_order_prices_manual_discount_and_catalogue_discount_flat_rates": "passed",
+     "saleor/order/tests/test_fetch_order_prices.py::test_fetch_order_prices_manual_discount_and_gift_discount_flat_rates": "passed",
+     "saleor/order/tests/test_fetch_order_prices.py::test_fetch_order_prices_manual_discount_and_order_discount_flat_rates": "passed",
+     "saleor/order/tests/test_fetch_order_prices.py::test_fetch_order_prices_manual_order_discount_and_voucher_apply_once_per_order": "passed",
+     "saleor/order/tests/test_fetch_order_prices.py::test_fetch_order_prices_manual_order_discount_voucher_specific_product": "passed",
+     "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_taxes.py::test_draft_order_calculate_taxes_apply_once_per_order_voucher": "passed",
+     "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_taxes.py::test_draft_order_calculate_taxes_entire_order_voucher": "passed",
+     "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_taxes.py::test_draft_order_calculate_taxes_line_discount": "passed",
+     "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_taxes.py::test_order_calculate_taxes_specific_product_voucher": "passed"
+    },
+    "resolved_against_frozen_v2_count": true
+   },
+   "status": "DONE"
+  },
+  "saleor-rc-663543eaf563": {
+   "classification": null,
+   "counts": null,
+   "disk_growth_gib": 0.0123,
+   "era": "py312",
+   "executor": "scripts.wp2_m17_exec.RealExecutor",
+   "f2p_contract": {
+    "blockers": [],
+    "frozen_v2_f2p_count": 0,
+    "obtained_f2p_nodes": [],
+    "per_node_status": {},
+    "resolved_against_frozen_v2_count": true
+   },
+   "status": "ENV_INSTALL_BLOCKED"
+  },
+  "saleor-rc-7b1e8cee95d5": {
+   "classification": null,
+   "counts": null,
+   "disk_growth_gib": 0.0069,
+   "era": "py312",
+   "executor": "scripts.wp2_m17_exec.RealExecutor",
+   "f2p_contract": {
+    "blockers": [],
+    "frozen_v2_f2p_count": 0,
+    "obtained_f2p_nodes": [],
+    "per_node_status": {},
+    "resolved_against_frozen_v2_count": true
+   },
+   "status": "ENV_INSTALL_BLOCKED"
+  },
+  "saleor-rc-7e42fc67ce72": {
+   "classification": "BEHAVIORAL_F2P",
+   "counts": {
+    "BEHAVIORAL_F2P": 3,
+    "FLAKY": 0,
+    "OTHER_REVIEW_REQUIRED": 0,
+    "P2P_ONLY": 114,
+    "PARENT_COLLECTION_ERROR": 0,
+    "SYMBOL_ABSENCE_F2P": 0,
+    "TARGET_ORACLE_INVALID": 0
+   },
+   "disk_growth_gib": 0.3073,
+   "era": "py312",
+   "executor": "scripts.wp2_m17_exec.RealExecutor",
+   "f2p_contract": {
+    "blockers": [],
+    "frozen_v2_f2p_count": 3,
+    "obtained_f2p_nodes": [
+     "saleor/app/tests/test_app_commands.py::test_creates_app_from_manifest_skips_sending_token_when_target_url_not_provided",
+     "saleor/app/tests/test_installation_utils.py::test_install_app_manifest_data_without_token_target_url",
+     "saleor/app/tests/test_validators.py::test_new_tab_relative_url_without_app_url"
+    ],
+    "per_node_status": {
+     "saleor/app/tests/test_app_commands.py::test_creates_app_from_manifest_skips_sending_token_when_target_url_not_provided": "passed",
+     "saleor/app/tests/test_installation_utils.py::test_install_app_manifest_data_without_token_target_url": "passed",
+     "saleor/app/tests/test_validators.py::test_new_tab_relative_url_without_app_url": "passed"
+    },
+    "resolved_against_frozen_v2_count": true
+   },
+   "status": "DONE"
+  },
+  "saleor-rc-8220a53473bb": {
+   "classification": "NOT_PRIMARY",
+   "counts": {
+    "BEHAVIORAL_F2P": 0,
+    "FLAKY": 0,
+    "OTHER_REVIEW_REQUIRED": 0,
+    "P2P_ONLY": 0,
+    "PARENT_COLLECTION_ERROR": 0,
+    "SYMBOL_ABSENCE_F2P": 0,
+    "TARGET_ORACLE_INVALID": 2
+   },
+   "disk_growth_gib": 0.0151,
+   "era": "py38",
+   "executor": "scripts.wp2_m17_exec.RealExecutor",
+   "f2p_contract": {
+    "blockers": [],
+    "frozen_v2_f2p_count": 0,
+    "obtained_f2p_nodes": [],
+    "per_node_status": {},
+    "resolved_against_frozen_v2_count": true
+   },
+   "status": "DONE"
+  },
+  "saleor-rc-9b88221ba8c2": {
+   "classification": "NOT_PRIMARY",
+   "counts": {
+    "BEHAVIORAL_F2P": 0,
+    "FLAKY": 0,
+    "OTHER_REVIEW_REQUIRED": 0,
+    "P2P_ONLY": 94,
+    "PARENT_COLLECTION_ERROR": 0,
+    "SYMBOL_ABSENCE_F2P": 3,
+    "TARGET_ORACLE_INVALID": 0
+   },
+   "disk_growth_gib": 0.282,
+   "era": "py39",
+   "executor": "scripts.wp2_m17_exec.RealExecutor",
+   "f2p_contract": {
+    "blockers": [],
+    "frozen_v2_f2p_count": 3,
+    "obtained_f2p_nodes": [
+     "saleor/app/tests/test_installation_utils.py::test_install_app_created_app_trigger_webhook",
+     "saleor/graphql/app/tests/mutations/test_app_create.py::test_app_create_trigger_webhook",
+     "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_app_installed"
+    ],
+    "per_node_status": {
+     "saleor/app/tests/test_installation_utils.py::test_install_app_created_app_trigger_webhook": "passed",
+     "saleor/graphql/app/tests/mutations/test_app_create.py::test_app_create_trigger_webhook": "passed",
+     "saleor/plugins/webhook/tests/subscription_webhooks/test_create_deliveries_for_subscription.py::test_app_installed": "passed"
+    },
+    "resolved_against_frozen_v2_count": true
+   },
+   "status": "DONE"
+  },
+  "saleor-rc-a9e79dac40a2": {
+   "classification": null,
+   "counts": null,
+   "disk_growth_gib": 0.0068,
+   "era": "py312",
+   "executor": "scripts.wp2_m17_exec.RealExecutor",
+   "f2p_contract": {
+    "blockers": [],
+    "frozen_v2_f2p_count": 0,
+    "obtained_f2p_nodes": [],
+    "per_node_status": {},
+    "resolved_against_frozen_v2_count": true
+   },
+   "status": "ENV_INSTALL_BLOCKED"
+  },
+  "saleor-rc-ba4ff17faab4": {
+   "classification": "BEHAVIORAL_F2P",
+   "counts": {
+    "BEHAVIORAL_F2P": 1,
+    "FLAKY": 0,
+    "OTHER_REVIEW_REQUIRED": 0,
+    "P2P_ONLY": 366,
+    "PARENT_COLLECTION_ERROR": 0,
+    "SYMBOL_ABSENCE_F2P": 0,
+    "TARGET_ORACLE_INVALID": 0
+   },
+   "disk_growth_gib": 1.7128,
+   "era": "py39",
+   "executor": "scripts.wp2_m17_exec.RealExecutor",
+   "f2p_contract": {
+    "blockers": [],
+    "frozen_v2_f2p_count": 0,
+    "obtained_f2p_nodes": [
+     "saleor/graphql/product/tests/test_variant.py::test_update_variant_with_text_attribute"
+    ],
+    "per_node_status": {
+     "saleor/graphql/product/tests/test_variant.py::test_update_variant_with_text_attribute": "passed"
+    },
+    "resolved_against_frozen_v2_count": true
+   },
+   "status": "DONE"
+  },
+  "saleor-rc-bcd9f60d2aef": {
+   "classification": "BEHAVIORAL_F2P",
+   "counts": {
+    "BEHAVIORAL_F2P": 9,
+    "FLAKY": 0,
+    "OTHER_REVIEW_REQUIRED": 0,
+    "P2P_ONLY": 119,
+    "PARENT_COLLECTION_ERROR": 0,
+    "SYMBOL_ABSENCE_F2P": 0,
+    "TARGET_ORACLE_INVALID": 0
+   },
+   "disk_growth_gib": 0.0669,
+   "era": "py39",
+   "executor": "scripts.wp2_m17_exec.RealExecutor",
+   "f2p_contract": {
+    "blockers": [],
+    "frozen_v2_f2p_count": 9,
+    "obtained_f2p_nodes": [
+     "saleor/graphql/translations/tests/test_translations.py::test_nested_page_attribute_translation",
+     "saleor/graphql/translations/tests/test_translations.py::test_nested_product_attribute_translation",
+     "saleor/graphql/translations/tests/test_translations.py::test_nested_product_variant_attribute_translation",
+     "saleor/graphql/translations/tests/test_translations.py::test_page_attribute_value_plain_text_translation",
+     "saleor/graphql/translations/tests/test_translations.py::test_page_attribute_value_rich_text_translation",
+     "saleor/graphql/translations/tests/test_translations.py::test_product_attribute_value_plain_text_translation",
+     "saleor/graphql/translations/tests/test_translations.py::test_product_attribute_value_rich_text_translation",
+     "saleor/graphql/translations/tests/test_translations.py::test_product_variant_attribute_value_plain_text_translation",
+     "saleor/graphql/translations/tests/test_translations.py::test_product_variant_attribute_value_rich_text_translation"
+    ],
+    "per_node_status": {
+     "saleor/graphql/translations/tests/test_translations.py::test_nested_page_attribute_translation": "passed",
+     "saleor/graphql/translations/tests/test_translations.py::test_nested_product_attribute_translation": "passed",
+     "saleor/graphql/translations/tests/test_translations.py::test_nested_product_variant_attribute_translation": "passed",
+     "saleor/graphql/translations/tests/test_translations.py::test_page_attribute_value_plain_text_translation": "passed",
+     "saleor/graphql/translations/tests/test_translations.py::test_page_attribute_value_rich_text_translation": "passed",
+     "saleor/graphql/translations/tests/test_translations.py::test_product_attribute_value_plain_text_translation": "passed",
+     "saleor/graphql/translations/tests/test_translations.py::test_product_attribute_value_rich_text_translation": "passed",
+     "saleor/graphql/translations/tests/test_translations.py::test_product_variant_attribute_value_plain_text_translation": "passed",
+     "saleor/graphql/translations/tests/test_translations.py::test_product_variant_attribute_value_rich_text_translation": "passed"
+    },
+    "resolved_against_frozen_v2_count": true
+   },
+   "status": "DONE"
+  },
+  "saleor-rc-d361479ab7da": {
+   "classification": "BEHAVIORAL_F2P",
+   "counts": {
+    "BEHAVIORAL_F2P": 1,
+    "FLAKY": 0,
+    "OTHER_REVIEW_REQUIRED": 0,
+    "P2P_ONLY": 91,
+    "PARENT_COLLECTION_ERROR": 0,
+    "SYMBOL_ABSENCE_F2P": 0,
+    "TARGET_ORACLE_INVALID": 0
+   },
+   "disk_growth_gib": 0.2125,
+   "era": "py312",
+   "executor": "scripts.wp2_m17_exec.RealExecutor",
+   "f2p_contract": {
+    "blockers": [],
+    "frozen_v2_f2p_count": 1,
+    "obtained_f2p_nodes": [
+     "saleor/graphql/core/tests/test_file_validation.py::test_is_valid_image_content_type[image/jpg-True]"
+    ],
+    "per_node_status": {
+     "saleor/graphql/core/tests/test_file_validation.py::test_is_valid_image_content_type[image/jpg-True]": "passed"
+    },
+    "resolved_against_frozen_v2_count": true
+   },
+   "status": "DONE"
+  },
+  "saleor-rc-e0890780bf56": {
+   "classification": "BEHAVIORAL_F2P",
+   "counts": {
+    "BEHAVIORAL_F2P": 1,
+    "FLAKY": 0,
+    "OTHER_REVIEW_REQUIRED": 0,
+    "P2P_ONLY": 3,
+    "PARENT_COLLECTION_ERROR": 0,
+    "SYMBOL_ABSENCE_F2P": 0,
+    "TARGET_ORACLE_INVALID": 0
+   },
+   "disk_growth_gib": 0.0691,
+   "era": "py312",
+   "executor": "scripts.wp2_m17_exec.RealExecutor",
+   "f2p_contract": {
+    "blockers": [],
+    "frozen_v2_f2p_count": 1,
+    "obtained_f2p_nodes": [
+     "saleor/graphql/product/tests/mutations/test_collection_add_products.py::test_add_products_to_collection_with_product_without_variants"
+    ],
+    "per_node_status": {
+     "saleor/graphql/product/tests/mutations/test_collection_add_products.py::test_add_products_to_collection_with_product_without_variants": "passed"
+    },
+    "resolved_against_frozen_v2_count": true
+   },
+   "status": "DONE"
+  },
+  "saleor-rc-e28ca6ad6442": {
+   "classification": "BEHAVIORAL_F2P",
+   "counts": {
+    "BEHAVIORAL_F2P": 5,
+    "FLAKY": 0,
+    "OTHER_REVIEW_REQUIRED": 0,
+    "P2P_ONLY": 1,
+    "PARENT_COLLECTION_ERROR": 0,
+    "SYMBOL_ABSENCE_F2P": 0,
+    "TARGET_ORACLE_INVALID": 0
+   },
+   "disk_growth_gib": 1.0615,
+   "era": "py39",
+   "executor": "scripts.wp2_m17_exec.RealExecutor",
+   "f2p_contract": {
+    "blockers": [],
+    "frozen_v2_f2p_count": 0,
+    "obtained_f2p_nodes": [
+     "saleor/attribute/tests/models/test_base.py::test_attribute_value_setting_up_max_sort_order",
+     "saleor/attribute/tests/models/test_base.py::test_attribute_value_sort_order_when_attribute_has_other_values",
+     "saleor/attribute/tests/models/test_base.py::test_max_sort_order_0_when_deleting_attribute_value_with_sort_order_0",
+     "saleor/attribute/tests/models/test_base.py::test_max_sort_order_none_when_deleting_attribute_value_with_sort_order_0",
+     "saleor/attribute/tests/models/test_base.py::test_max_sort_order_when_deleting_attribute_value"
+    ],
+    "per_node_status": {
+     "saleor/attribute/tests/models/test_base.py::test_attribute_value_setting_up_max_sort_order": "passed",
+     "saleor/attribute/tests/models/test_base.py::test_attribute_value_sort_order_when_attribute_has_other_values": "passed",
+     "saleor/attribute/tests/models/test_base.py::test_max_sort_order_0_when_deleting_attribute_value_with_sort_order_0": "passed",
+     "saleor/attribute/tests/models/test_base.py::test_max_sort_order_none_when_deleting_attribute_value_with_sort_order_0": "passed",
+     "saleor/attribute/tests/models/test_base.py::test_max_sort_order_when_deleting_attribute_value": "passed"
+    },
+    "resolved_against_frozen_v2_count": true
+   },
+   "status": "DONE"
+  }
+ },
+ "utc": "2026-10-05T09:54:48Z"
+}
