@@ -1,0 +1,195 @@
+{
+  "id": "WP2_M17_V1_ORACLE_AUTHORIZED",
+  "status": "AUTHORIZED_SELECTOR_BLIND_THROUGH_ELIGIBILITY_ONLY",
+  "note": "Brain-authorized unattended scope ends at eligibility freeze. No evalsets/readiness/selectors.",
+  "phases": [
+    {
+      "id": "Q00_KIT_SELFTEST",
+      "title": "M17 unit tests",
+      "command": [
+        "{python}",
+        "-m",
+        "pytest",
+        "-q",
+        "-p",
+        "no:cacheprovider",
+        "tests/unit/wp2/m17"
+      ],
+      "allowed_write_prefixes": [],
+      "timeout_s": 1800,
+      "fail_token": "M17_KIT_SELFTEST_FAIL"
+    },
+    {
+      "id": "Q01_GUARD",
+      "title": "M17 MAIN selector-blind guard",
+      "requires": [
+        "Q00_KIT_SELFTEST"
+      ],
+      "command": [
+        "{python}",
+        "scripts/wp2_m17_run.py",
+        "guard",
+        "--stage",
+        "main"
+      ],
+      "allowed_write_prefixes": [
+        "research/wp2/m17_v1/m17_guard_main.json"
+      ],
+      "timeout_s": 1800,
+      "fail_token": "M17_INVARIANT",
+      "exit_codes": {
+        "3": "STOP:HOLD_ACTIVE",
+        "4": "STOP:USER_STOP_FLAG",
+        "33": "STOP:M17_PREFLIGHT",
+        "34": "STOP:M17_RESOURCE_GATE",
+        "35": "STOP:M17_ADAPTER_FAIL",
+        "36": "STOP:M17_FIREWALL",
+        "37": "STOP:M17_TAG_GATE",
+        "78": "STOP:M17_INVARIANT",
+        "79": "STOP:EVAL_ERROR"
+      }
+    },
+    {
+      "id": "Q02_ADAPTER_VERIFY",
+      "title": "M17 adapter verify all 220",
+      "requires": [
+        "Q01_GUARD"
+      ],
+      "command": [
+        "{python}",
+        "scripts/wp2_m17_run.py",
+        "adapter-verify"
+      ],
+      "allowed_write_prefixes": [
+        "research/wp2/m17_v1/adapter/"
+      ],
+      "timeout_s": 7200,
+      "fail_token": "M17_ADAPTER_FAIL",
+      "exit_codes": {
+        "3": "STOP:HOLD_ACTIVE",
+        "4": "STOP:USER_STOP_FLAG",
+        "33": "STOP:M17_PREFLIGHT",
+        "34": "STOP:M17_RESOURCE_GATE",
+        "35": "STOP:M17_ADAPTER_FAIL",
+        "36": "STOP:M17_FIREWALL",
+        "37": "STOP:M17_TAG_GATE",
+        "78": "STOP:M17_INVARIANT",
+        "79": "STOP:EVAL_ERROR"
+      }
+    },
+    {
+      "id": "Q03_ORACLE",
+      "title": "REAL selector-blind V3+R1 MAIN oracle over 220 ledger (219 executable + 1 explicit unresolved)",
+      "requires": [
+        "Q02_ADAPTER_VERIFY"
+      ],
+      "kind": "loop",
+      "max_iterations": 120,
+      "max_retries": 1,
+      "command": [
+        "{python}",
+        "scripts/wp2_m17_exec.py",
+        "oracle",
+        "--max-items",
+        "4"
+      ],
+      "done_checks": [
+        {
+          "type": "command_ok",
+          "command": [
+            "{python}",
+            "scripts/wp2_m17_exec.py",
+            "oracle-complete"
+          ]
+        }
+      ],
+      "progress": {
+        "glob": "research/wp2/m17_v1/oracle/*/record.json"
+      },
+      "commit_each_iteration": true,
+      "commit_message": "evidence(wp2): M17 oracle progress",
+      "allowed_write_prefixes": [
+        "research/wp2/m17_v1/oracle/"
+      ],
+      "timeout_s": 14400,
+      "fail_token": "EVAL_ERROR",
+      "exit_codes": {
+        "1": "CONTINUE",
+        "3": "STOP:HOLD_ACTIVE",
+        "4": "STOP:USER_STOP_FLAG",
+        "33": "STOP:M17_PREFLIGHT",
+        "34": "STOP:M17_RESOURCE_GATE",
+        "35": "STOP:M17_ADAPTER_FAIL",
+        "36": "STOP:M17_FIREWALL",
+        "78": "STOP:M17_INVARIANT",
+        "79": "STOP:EVAL_ERROR"
+      }
+    },
+    {
+      "id": "Q04_ELIGIBILITY_FREEZE",
+      "title": "Selector-blind eligibility freeze; HARD STOP after this phase",
+      "requires": [
+        "Q03_ORACLE"
+      ],
+      "command": [
+        "{python}",
+        "scripts/wp2_m17_exec.py",
+        "eligibility-freeze"
+      ],
+      "allowed_write_prefixes": [
+        "research/wp2/m17_v1/eligibility/"
+      ],
+      "timeout_s": 3600,
+      "fail_token": "M17_INVARIANT",
+      "commit_message": "evidence(wp2): M17 eligibility freeze",
+      "exit_codes": {
+        "1": "STOP:NOT_YET",
+        "3": "STOP:HOLD_ACTIVE",
+        "4": "STOP:USER_STOP_FLAG",
+        "33": "STOP:M17_PREFLIGHT",
+        "34": "STOP:M17_RESOURCE_GATE",
+        "35": "STOP:M17_ADAPTER_FAIL",
+        "36": "STOP:M17_FIREWALL",
+        "78": "STOP:M17_INVARIANT",
+        "79": "STOP:EVAL_ERROR"
+      }
+    }
+  ],
+  "settings": {
+    "branch": "main",
+    "remote": "origin",
+    "git_commit": true,
+    "git_push": true,
+    "kit_manifest": "controller/KIT_MANIFEST_M17.json",
+    "report_dir": "research/wp2/m17_v1/controller_reports_oracle",
+    "state_file": "research/wp2/m17_v1/controller_state_oracle.json",
+    "stop_flag": "logs/M17_STOP.flag",
+    "stop_token": "M17_ELIGIBILITY_REVIEW",
+    "resumable_tokens": [
+      "NOT_YET",
+      "HOLD_ACTIVE",
+      "USER_STOP_FLAG",
+      "EVAL_ERROR",
+      "M17_PREFLIGHT",
+      "M17_RESOURCE_GATE",
+      "POST_ACTION_FAILED",
+      "NO_PROGRESS"
+    ],
+    "stop_commit_prefixes": [
+      "research/wp2/m17_v1/"
+    ],
+    "final_actions": [
+      {
+        "type": "commit",
+        "message": "evidence(wp2): M17 selector-blind oracle + eligibility",
+        "prefixes": [
+          "research/wp2/m17_v1/oracle/",
+          "research/wp2/m17_v1/eligibility/"
+        ]
+      },
+      {
+        "type": "push"
+      }
+    ]
+  }
+}

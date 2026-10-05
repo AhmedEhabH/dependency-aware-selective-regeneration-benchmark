@@ -56,6 +56,9 @@ def copy_kit(root: Path) -> None:
     """Copy the M17 kit code + the frozen inputs the adapter/runner read."""
     files = [
         "scripts/wp2_m17_run.py",
+        "scripts/wp2_m17_exec.py",
+        "scripts/wp2_m16_r1.py",
+        "scripts/wp2_m16_firewall.py",
         "scripts/wp2_m17_adapter.py",
         "scripts/wp2_m17_contract.py",
         "scripts/wp2_m17_p01_census.py",
@@ -134,7 +137,7 @@ def build(tmp: Path) -> tuple[Path, Path, dict]:
     # KIT_MANIFEST_M17 for the throwaway world (re-hash the copied files)
     manifest = {"files": {}}
     for rel in [
-        "scripts/wp2_m17_run.py", "scripts/wp2_m17_adapter.py",
+        "scripts/wp2_m17_run.py", "scripts/wp2_m17_exec.py", "scripts/wp2_m17_adapter.py",
         "scripts/wp2_m17_p01_census.py", "scripts/wp2_m17_p04_qualification.py",
         "controller/plan_m17_v1_qualification.json", "controller/plan_m17_v1_main.json",
         "controller/light_profile_m17.json", "controller/light_profile_m17_qualification.json",
@@ -161,6 +164,7 @@ def build(tmp: Path) -> tuple[Path, Path, dict]:
     sh(["git", "push", "-q", "origin", "main"], root)
     env = dict(os.environ)
     env["M17_EXECUTOR_MODULE"] = "tests.unit.wp2.m17.sim.fake_executor"
+    env["M17_ALLOW_FAKE_EXECUTOR"] = "1"
     env["M17_SALEOR_CACHE"] = str((P / "dist/pilot-repo-cache/saleor").resolve())
     env["PYTHONPATH"] = os.pathsep.join([str(root / "src"), str(root),
                                         env.get("PYTHONPATH", "")])

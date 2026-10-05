@@ -176,9 +176,11 @@ def test_qualification_report_deterministic_and_never_crashes(tmp_path):
 
     orig_qual = run.QUAL_ROOT
     orig_report = run.REPORT
+    orig_prog = run.PROGRESS
     orig_adapter_rep = run.ADAPTER_REPORT
     run.QUAL_ROOT = tmp_path / "qual"
     run.REPORT = tmp_path / "qual" / "report.json"
+    run.PROGRESS = tmp_path / "qual" / "progress.json"
     run.EXECUTOR = Fake()
     # adapter report must be present for the report command; use the real one
     assert run.ADAPTER_REPORT.exists()
@@ -192,6 +194,7 @@ def test_qualification_report_deterministic_and_never_crashes(tmp_path):
     finally:
         run.QUAL_ROOT = orig_qual
         run.REPORT = orig_report
+        run.PROGRESS = orig_prog
         run.ADAPTER_REPORT = orig_adapter_rep
         run.EXECUTOR = None
 

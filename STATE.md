@@ -5,6 +5,32 @@ are appended; corrections are new entries.
 
 ---
 
+## STATE 2026-10-05 - M17 real qualification + oracle kit frozen (harness timing fix)
+
+- **Head:** `629eb900969e98908af95fac953d07721d7c7c45` pre-freeze; this
+  mission resolves the M17 controller-real test timeout and freezes the real
+  qualification + oracle kit at commit
+  `feat(wp2): freeze M17 real qualification and oracle kit` + annotated tag
+  `wp2-m17-v1-real-oracle-kit-2026-10-03`.
+- **Harness timing fix (test-harness only):** `test_m17_controller_real.py`
+  timeout raised 1800 -> 5400 seconds. Direct real-controller fake-world
+  simulation passes all 8 scenarios but requires ~3384-3820 s on this machine.
+  Production controller/executor semantics and simulation logic unchanged;
+  timeout remains finite to preserve hang protection.
+- **Validation (all green):** targeted controller-real 1/1 PASS; full M17
+  110/110 PASS; frozen harness 66/66 PASS (dep_compiler 18, oracle_semantics_v2
+  31, linux_adapter 6, era_resolver 11); real-controller fake-world 8/8 PASS;
+  KIT manifest verify-kit PASS; selector/API/autopilot guards PASS; leak gate
+  PASS (research/wp2/m17_v1 unchanged, no test-generated qualification
+  records); Ruff 0 errors; py_compile PASS; git diff --check PASS.
+- **M17 Phase0B-v2:** ZERO Docker / WSL / API; qualification NOT run; MAIN NOT
+  run. Brain-approved corrected 12-task membership unchanged.
+- **M16-v1:** remains CLOSED pre-experiment (no MAIN outcome). M15-R immutable.
+- **Next:** STOP_TOKEN=M17_REAL_ORACLE_KIT_READY; await ChatGPT brain review
+  before the REAL 12-task qualification. No scientific run until approved.
+
+---
+
 ## STATE 2026-10-03 - M17 Phase0B-v2 executable qualification kit frozen
 
 - **Head:** `f7412ec0031a4585df9c4102a9e18607cf2d7db8` (branch `main`) pre-freeze; this

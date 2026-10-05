@@ -22,7 +22,7 @@ import os
 DEFAULT_WORLD = {"default_status": "DONE", "per_task": {}}
 
 
-class FakeInfraError(RuntimeError):
+class FakeInfraError(OSError):
     """Simulated infrastructure interruption (maps to EVAL_ERROR / resume)."""
 
 
@@ -75,11 +75,19 @@ class FakeExecutor:
                 "TARGET_ORACLE_INVALID": 0,
                 "OTHER_REVIEW_REQUIRED": 0,
             },
-            "node_records": [{"node_id": n, "v3_class": c} for n, c in sorted(nodes.items())],
+            "node_records": [
+                {
+                    "node_id": n,
+                    "v3_class": c,
+                    "target_outcomes": ["passed", "passed", "passed"],
+                    "parent_outcomes": ["failed", "failed", "failed"],
+                }
+                for n, c in sorted(nodes.items())
+            ],
             "f2p_nodes": sorted(n for n, c in nodes.items() if c == "BEHAVIORAL_F2P"),
             "p2p_nodes": sorted(n for n, c in nodes.items() if c == "STABLE_P2P"),
             "wall_s": 1.0,
-            "executor": "fake",
+            "executor": "tests.unit.wp2.m17.sim.fake_executor.FakeExecutor",
         }
         return rec
 

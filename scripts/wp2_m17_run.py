@@ -75,7 +75,7 @@ MEMBERSHIP_APPROVED = PROJECT / "research/wp2/m17_v1/m17_qualification_membershi
 MEMBERSHIP_CANDIDATE = PROJECT / "research/wp2/m17_v1/m17_qualification_membership_v2_candidate.json"
 MEMBERSHIP_PHASE0 = PROJECT / "research/wp2/m17_v1/m17_qualification_membership.json"
 RESOURCE_CONTRACT = PROJECT / "research/wp2/m17_v1/m17_resource_contract.json"
-GUARD_QUAL = PROJECT / "research/wp2/m17_v1/m17_guard.json"
+GUARD_QUAL = PROJECT / "research/wp2/m17_v1/m17_guard_qualification.json"
 GUARD_MAIN = PROJECT / "research/wp2/m17_v1/m17_guard_main.json"
 QUAL_ROOT = PROJECT / "research/wp2/m17_v1/qualification"
 REPORT = QUAL_ROOT / "m17_qualification_report.json"
@@ -376,6 +376,9 @@ def _load_executor() -> Any:
         return EXECUTOR
     mod_name = os.environ.get("M17_EXECUTOR_MODULE")
     if mod_name:
+        require(os.environ.get("M17_ALLOW_FAKE_EXECUTOR") == "1",
+                "fake executor requested without explicit M17_ALLOW_FAKE_EXECUTOR=1",
+                EXIT_PREFLIGHT)
         import importlib
         mod = importlib.import_module(mod_name)
         return mod.FakeExecutor()
@@ -414,7 +417,13 @@ def _f2p_contract(task_id: str, rec: dict) -> dict:
     node_records = rec.get("node_records") or []
     f2p_nodes = ct.f2p_node_set_from_frozen({"counts": {"BEHAVIORAL_F2P": frozen_count}},
                                             node_records)
-    per_node = {n: "passed" for n in f2p_nodes}
+    nr_idx = {r.get("node_id"): r for r in node_records}
+    per_node = {}
+    for n in f2p_nodes:
+        outs = list((nr_idx.get(n) or {}).get("target_outcomes") or [])
+        per_node[n] = "passed" if outs and all(x == "passed" for x in outs) else (
+            "|".join(str(x) for x in outs) if outs else "missing"
+        )
     resolved, blockers = ct.task_resolvable(frozen_count=frozen_count,
                                             node_set=f2p_nodes, per_node_status=per_node)
     return {

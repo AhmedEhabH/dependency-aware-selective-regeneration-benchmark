@@ -17,7 +17,7 @@ artifact paths are NOT renamed; old reports keep their original wording.
 
 ## LIVE STATUS — single current-state source of truth
 
-**Position:** M17 Phase0B-v2 (2026-10-03): executable M17 qualification kit FROZEN with the brain-approved corrected 12-task membership; ZERO Docker/WSL/API; qualification NOT run. M16-v1 closed pre-experiment. Primary claim-bearing evidence is WP1 selection correctness/efficiency; WP2 supporting/downstream.
+**Position:** M17 Phase0B-v2 (2026-10-05): M17 REAL qualification + oracle kit FROZEN (tag wp2-m17-v1-real-oracle-kit-2026-10-03); controller-real harness timing fixed (timeout 1800 -> 5400 s, finite hang protection preserved); M17 110/110, frozen harness 66/66, real-controller fake-world 8/8, KIT manifest + selector/API/autopilot guards PASS. ZERO Docker/WSL/API; qualification NOT run. M16-v1 closed pre-experiment. Primary claim-bearing evidence is WP1 selection correctness/efficiency; WP2 supporting/downstream.
 
 **Research pipeline:**
 
@@ -48,7 +48,7 @@ artifact paths are NOT renamed; old reports keep their original wording.
 | M16-v1 OPWS-MAIN instrument | CLOSED (PRE-EXPERIMENT) | R02_ADAPTER_VERIFY STOP M16_ADAPTER_FAIL; R00 kit 102/102 PASS; no MAIN outcome |
 | C0->C6 documentation/closure | DONE | ledger/results/claims/methods/threats/README landing/research-status/repro-audit/LIGHT convention |
 | G0_BRAIN_REVIEW | DONE | brain decision: finalize durable baseline before new science |
-| M17 Phase0B-v2 executable qualification kit | KIT_FROZEN (zero-Docker, zero-API) | runner/adapter/manifest/real-controller integration; qualification NOT run; membership corrected (f76d out, bcd9f6 in) + brain-approved; next: brain review then real 12-task qualification |
+| M17 Phase0B-v2 real qualification + oracle kit | KIT_FROZEN (zero-Docker, zero-API) | real-controller harness timing fixed (timeout 1800->5400 s); M17 110/110, frozen harness 66/66, real-controller fake-world 8/8, KIT manifest + selector/API/autopilot guards PASS; tag wp2-m17-v1-real-oracle-kit-2026-10-03; qualification NOT run; next: brain review then real 12-task qualification |
 
 **LLM-call accounting:**
 
@@ -87,9 +87,9 @@ artifact paths are NOT renamed; old reports keep their original wording.
 
 **Next action:** Await ChatGPT brain review of the M17 qualification kit before the REAL 12-task qualification. Do NOT run the 12 tasks, MAIN, OPWS, Docker, WSL, or any model/API call until then.
 
-**End-to-end status:** M17 executable qualification kit frozen (zero-Docker, zero-API); qualification NOT run. WP-2 supporting evidence closed/consolidated; M16-v1 closed pre-experiment; no active scientific run.
+**End-to-end status:** M17 real + oracle kit frozen (zero-Docker, zero-API; tag wp2-m17-v1-real-oracle-kit-2026-10-03); harness timing fixed; 110/110 M17, 66/66 frozen harness, 8/8 real-controller PASS; qualification NOT run. WP-2 supporting evidence closed/consolidated; M16-v1 closed pre-experiment; no active scientific run.
 
-*Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-10-03 (Africa/Cairo).*
+*Source: `docs/LIVE_STATUS.json` (schema `live_status_v1`), rendered by `scripts/render_live_status.py`. As of 2026-10-05 (Africa/Cairo).*
 <!-- LIVE_STATUS:END -->
 
 **CURRENT TRUTH (2026-09-21, WP1B_TOOLFIX_LIVESTATUS — CALIBRATION-3b DONE;

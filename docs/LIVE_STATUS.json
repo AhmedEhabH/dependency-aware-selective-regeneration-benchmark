@@ -1,11 +1,11 @@
 {
  "schema": "live_status_v1",
- "as_of_local": "2026-10-03 (Africa/Cairo)",
+ "as_of_local": "2026-10-05 (Africa/Cairo)",
  "evidence_snapshot": "WP1 primary evidence complete (Saleor RESERVE-300; MAIN_297 selection-only non-inferiority and efficiency). WP2 supporting evidence closed/consolidated (Smoke v2.2 engineering pipeline; Pilot-A and M14R supporting negatives; M15-R OPWS Pilot-B descriptive). M16-v1 CLOSED as a pre-experiment adapter failure; no MAIN OPWS outcome exists. C0->C6 documentation closure complete, stopped at G0_BRAIN_REVIEW (decision: finalize the durable research baseline before any new science).",
  "phase": "Phase 6 - Durable research baseline finalization (WP1 primary + WP2 supporting closed)",
- "position": "M17 Phase0B-v2 (2026-10-03): executable M17 qualification kit FROZEN with the brain-approved corrected 12-task membership; ZERO Docker/WSL/API; qualification NOT run. M16-v1 closed pre-experiment. Primary claim-bearing evidence is WP1 selection correctness/efficiency; WP2 supporting/downstream.",
- "position_short": "M17 qualification kit FROZEN (zero-Docker); brain-approved membership; qualification NOT run; awaiting brain review before the real 12-task qualification",
- "now_short": "M17 kit freeze done -> STOP M17_QUALIFICATION_READY_REVIEW -> brain review of the qualification evidence",
+ "position": "M17 Phase0B-v2 (2026-10-05): M17 REAL qualification + oracle kit FROZEN (tag wp2-m17-v1-real-oracle-kit-2026-10-03); controller-real harness timing fixed (timeout 1800 -> 5400 s, finite hang protection preserved); M17 110/110, frozen harness 66/66, real-controller fake-world 8/8, KIT manifest + selector/API/autopilot guards PASS. ZERO Docker/WSL/API; qualification NOT run. M16-v1 closed pre-experiment. Primary claim-bearing evidence is WP1 selection correctness/efficiency; WP2 supporting/downstream.",
+ "position_short": "M17 real + oracle kit FROZEN (tag wp2-m17-v1-real-oracle-kit-2026-10-03); harness timing fixed; 110/110 M17 + 66/66 frozen harness + 8/8 real-controller PASS; qualification NOT run; awaiting brain review",
+ "now_short": "M17 real + oracle kit freeze done -> STOP_TOKEN=M17_REAL_ORACLE_KIT_READY -> brain review of the qualification evidence",
  "next_action": "Await ChatGPT brain review of the M17 qualification kit before the REAL 12-task qualification. Do NOT run the 12 tasks, MAIN, OPWS, Docker, WSL, or any model/API call until then.",
  "next_short": "Brain review of the M17 qualification kit -> real 12-task qualification (only after approval)",
  "priority_chain": "MAIN_297 DONE -> WP-2 census DONE -> Oracle Confirmation DONE -> Linux V2 oracle+DEV pool DONE -> Mission-08 DEV P2P inventory + SMALL pilot DONE -> Mission-09 P2P-S + P2P-U V2 freeze + ENG execution DONE -> Mission-10A environment test-dependency audit DONE (ENV_AUDIT_INCONCLUSIVE) -> targeted environment-validity follow-up (awaiting approval) -> DEV Smoke freeze -> full DEV-47 P2P-U cap200 -> Pilot -> Research Run -> Mission-10B ENG oracle + P2P-S/P2P-U V3 DONE (ENG_SMOKE_READY) -> WP-2 Env Closure V3.1 DONE (dev-dep losses fixed) -> Mission-11 Part B E2E instrument -> zero-API controls -> paid first E2E Smoke -> C0->C6 documentation closure DONE -> G0_BRAIN_REVIEW DONE (finalize durable baseline before new science) -> T2 baseline finalization (current LIVE status, LIGHT naming correction, commit/push/tag, fresh LIGHT) -> G1: seminar/proposal vs one optional targeted generalization pilot",
@@ -163,9 +163,9 @@
    "idx": 24
   },
   {
-   "step": "M17 Phase0B-v2 executable qualification kit",
+   "step": "M17 Phase0B-v2 real qualification + oracle kit",
    "status": "KIT_FROZEN (zero-Docker, zero-API)",
-   "note": "runner/adapter/manifest/real-controller integration; qualification NOT run; membership corrected (f76d out, bcd9f6 in) + brain-approved; next: brain review then real 12-task qualification",
+   "note": "real-controller harness timing fixed (timeout 1800->5400 s); M17 110/110, frozen harness 66/66, real-controller fake-world 8/8, KIT manifest + selector/API/autopilot guards PASS; tag wp2-m17-v1-real-oracle-kit-2026-10-03; qualification NOT run; next: brain review then real 12-task qualification",
    "idx": 25
   }
  ],
@@ -543,5 +543,5 @@
    "evidence": "research/wp2/e2e_smoke_eng_v1/erratum/"
   }
  },
- "end_to_end_status": "M17 executable qualification kit frozen (zero-Docker, zero-API); qualification NOT run. WP-2 supporting evidence closed/consolidated; M16-v1 closed pre-experiment; no active scientific run."
+ "end_to_end_status": "M17 real + oracle kit frozen (zero-Docker, zero-API; tag wp2-m17-v1-real-oracle-kit-2026-10-03); harness timing fixed; 110/110 M17, 66/66 frozen harness, 8/8 real-controller PASS; qualification NOT run. WP-2 supporting evidence closed/consolidated; M16-v1 closed pre-experiment; no active scientific run."
 }

@@ -2555,3 +2555,26 @@ Mission-11 one-shot (sole authoritative directive, supersedes Mission-10B STOP-f
 - Next: K04 runner -> K05 manifest -> K06 controller integration -> K07 contract tests ->
   K08 validation -> K09 review package/LIGHT -> K10 freeze (exact paths) then STOP at
   M17_QUALIFICATION_READY_REVIEW.
+
+
+## DECISION 2026-10-05 - M17 controller-real test timeout raised 1800 -> 5400 s (test-harness timing only)
+
+- Context: `tests/unit/wp2/m17/test_m17_controller_real.py` hardcoded
+  timeout=1800 s, but the direct real-controller fake-world simulation requires
+  ~3384-3820 seconds on this machine, so the pytest wrapper timed out while the
+  direct simulation passed all 8 scenarios.
+- The test-harness timeout was raised from 1800 to 5400 seconds.
+- Reason: direct simulation passes all 8 scenarios but requires ~3384-3820
+  seconds on this machine.
+- Production controller/executor semantics unchanged; simulation logic
+  unchanged; test file replaced byte-for-byte (source/destination SHA-256
+  7d7c57f17e6faf966842a9724248ef384419cb91bf1862d5a713c20f7662868e).
+- Timeout remains finite (5400 s) to preserve hang protection.
+- Verified: targeted controller-real 1/1 PASS (3653 s); full M17 110/110 PASS;
+  frozen harness 66/66 PASS; real-controller fake-world 8/8 PASS; KIT manifest
+  verify-kit PASS; selector/API/autopilot guards PASS; leak gate PASS; Ruff 0
+  errors; py_compile PASS; git diff --check PASS.
+- Freeze: commit `feat(wp2): freeze M17 real qualification and oracle kit` +
+  annotated tag `wp2-m17-v1-real-oracle-kit-2026-10-03`.
+- Next: STOP_TOKEN=M17_REAL_ORACLE_KIT_READY; await ChatGPT brain review before
+  the REAL 12-task qualification. No scientific run until approved.

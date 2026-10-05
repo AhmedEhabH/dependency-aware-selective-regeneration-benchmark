@@ -66,7 +66,8 @@ def test_qualification_plan_phases_sequential():
     plan = json.loads(QUAL_PLAN.read_text(encoding="utf-8"))
     ids = [ph["id"] for ph in plan["phases"]]
     assert ids == ["Q00_KIT_SELFTEST", "Q01_GUARD", "Q02_ADAPTER_VERIFY",
-                   "Q03_QUALIFICATION_RUN", "Q04_QUALIFICATION_REPORT", "Q05_RESOURCE_PROJECTION"]
+                   "Q03_QUALIFICATION_RUN", "Q04_QUALIFICATION_REPORT",
+                   "Q05_QUALIFICATION_GATE", "Q06_RESOURCE_PROJECTION"]
     for ph in plan["phases"]:
         assert ph["id"] not in ("Q08_SCOPES", "Q09_OPWS")  # qualification never materializes scopes
 
@@ -101,8 +102,8 @@ def test_qualification_non_resumable_stop():
 
 def test_resource_review_state_maps_to_m17_resume_token():
     plan = json.loads(QUAL_PLAN.read_text(encoding="utf-8"))
-    q05 = [ph for ph in plan["phases"] if ph["id"] == "Q05_RESOURCE_PROJECTION"][0]
-    assert q05["fail_token"] == "M17_RESOURCE_REVIEW"
+    q06 = [ph for ph in plan["phases"] if ph["id"] == "Q06_RESOURCE_PROJECTION"][0]
+    assert q06["fail_token"] == "M17_RESOURCE_REVIEW"
     assert "M17_RESOURCE_GATE" in plan["settings"]["resumable_tokens"]
 
 

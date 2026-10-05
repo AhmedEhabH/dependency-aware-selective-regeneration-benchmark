@@ -20,7 +20,7 @@ def test_m17_real_controller_eight_scenarios():
     import subprocess
 
     r = subprocess.run([sys.executable, str(SIM)], cwd=str(P), capture_output=True,
-                       text=True, encoding="utf-8", errors="replace", timeout=1800)
+                       text=True, encoding="utf-8", errors="replace", timeout=5400)
     if r.returncode != 0:
         raise AssertionError(f"sim failed rc={r.returncode}\n{r.stdout[-4000:]}\n{r.stderr[-4000:]}")
     assert "M17_K06_REAL_CONTROLLER_PASS" in r.stdout
