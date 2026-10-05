@@ -2578,3 +2578,38 @@ Mission-11 one-shot (sole authoritative directive, supersedes Mission-10B STOP-f
   annotated tag `wp2-m17-v1-real-oracle-kit-2026-10-03`.
 - Next: STOP_TOKEN=M17_REAL_ORACLE_KIT_READY; await ChatGPT brain review before
   the REAL 12-task qualification. No scientific run until approved.
+
+
+## DECISION 2026-10-05 - M17 launch timing amendment: selftest controller timeouts 1800 -> 7200 s
+
+- Context: independent final brain audit found one launch blocker not covered by
+  the previous checklist. Observed wall time of the final M17 suite: full M17
+  110/110 ~4746 s; controller-real test alone ~3653 s. However Q00_KIT_SELFTEST
+  in BOTH live controller plans had timeout_s = 1800, so an unattended real run
+  would likely be killed by the controller during a healthy selftest before
+  qualification/oracle begins.
+- Amended Q00_KIT_SELFTEST timeout_s from 1800 to 7200 in BOTH:
+  - controller/plan_m17_v1_qualification.json
+  - controller/plan_m17_v1_oracle_authorized.json
+- Reason: timeout must exceed empirically observed healthy runtime (~4746 s full
+  M17 suite) with margin (7200 s).
+- Preserved per plan: qualification Q03_QUALIFICATION_RUN timeout_s = 5400;
+  oracle Q02_ADAPTER_VERIFY = 7200, Q03_ORACLE = 14400,
+  Q04_ELIGIBILITY_FREEZE = 3600. Only Q00 changed in each plan.
+- P2P invariance verified against parent commit b74662be: all phase IDs, all
+  commands, all requires edges, all write-prefixes, all exit-code mappings, all
+  stop tokens unchanged. No selector phase, no model/API route, no membership
+  change, no oracle command change (scientific-semantics-free diff).
+- KIT_MANIFEST_M17.json updated for exactly the two changed plan files
+  (qualification plan SHA256 01cff0ff8ec7a95e15e6854081e61d371812c24233d1e2c603f86b34b6464012;
+  oracle plan SHA256 d68aa318e2fa6812668a0bd7b96dc78d5fc9bcf0dab7848777b69aff950568d9).
+- Targeted validation (no full 80-min M17 rerun; no executable Python change):
+  JSON parse both plans PASS; git diff --check PASS; M17 plan/manifest targeted
+  tests 17/17 PASS; verify-kit PASS; static selector/API/autopilot guards
+  10/10 PASS.
+- Production/scientific semantics unchanged; prior tag
+  `wp2-m17-v1-real-oracle-kit-2026-10-03` remains immutable (NOT moved/recreated).
+- Freeze: commit `fix(wp2): raise M17 selftest controller timeouts` + new
+  annotated tag `wp2-m17-v1-real-oracle-kit-r1-2026-10-05`.
+- Next: STOP_TOKEN=M17_LAUNCH_READY; await brain review before the REAL 12-task
+  qualification. No scientific run until approved.
