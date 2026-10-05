@@ -1,0 +1,62 @@
+{
+ "adapter_record_sha256": "ffe731a03eb5e7032284eb9ae860a9032d5737e5f1724ea5572a0f963915e10e",
+ "artifact": "m17_qualification_task",
+ "artifact_sha256": "9511c92d3e46a4125f8e2cbbec301adca02d519257e710ab765861244604afcb",
+ "clock_pre": -2.224757,
+ "dev_test_closure": {
+  "mechanism": "poetry",
+  "n_pins": 119,
+  "n_unsupported": 0,
+  "pins_sha256": "ebee7ac448677e0e1a33c8e8560947d0fb6963f042f227bd0a571a41c301b6e6"
+ },
+ "disk_free_after_gib": 49.816,
+ "disk_free_before_gib": 49.823,
+ "disk_growth_gib": 0.0069,
+ "era_key": "py312",
+ "executor": "scripts.wp2_m17_exec.RealExecutor",
+ "f2p_contract": {
+  "blockers": [],
+  "frozen_v2_f2p_count": 0,
+  "obtained_f2p_nodes": [],
+  "per_node_status": {},
+  "resolved_against_frozen_v2_count": true
+ },
+ "frozen_base_image_id": "sha256:0c185699947d75d5866e57dfb10bba25cca05dc58ca3fd2f75446ee8b0e41394",
+ "frozen_status": "ENV_INSTALL_BLOCKED",
+ "infra_reasons": [],
+ "install_blocked_rule": "2 consecutive INSTALL_FAIL attempts",
+ "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+ "locked_dev_fragment_sha256": "a92de4bcc0c024021214404b756ef3a76a3d96baef2b3fb5a6e7e4e2a936a720",
+ "lockfile_sha256": "5340db30ede8ebef9fd5209199292e145f367ef3c2ee634840c7427418c80097",
+ "model_api_calls": 0,
+ "n_test_files": 2,
+ "operations": {
+  "p": {
+   "container_complete": false,
+   "db_name": "saleor_v3_7b1e8cee95d5_p",
+   "error": "INSTALL_FAIL",
+   "r1": {},
+   "returncode": null,
+   "wall_s": 4.1
+  },
+  "t": {
+   "container_complete": false,
+   "db_name": "saleor_v3_7b1e8cee95d5_t",
+   "error": "INSTALL_FAIL",
+   "r1": {},
+   "returncode": null,
+   "wall_s": 4.5
+  }
+ },
+ "parent_commit": "e848f046c912cf0b4ecb2b311af6ab9ed62368cd",
+ "rule_constants_sha256": "c54be06967ae68bbfc6fc8c541489c495e1faeb0abd80bc3d39d3fd1ba2bbab3",
+ "rule_id": "M16_R1_REPETITION_RETENTION_V1",
+ "status": "ENV_INSTALL_BLOCKED",
+ "target_commit": "7b1e8cee95d53c6662953ff86a63d8b1761055a7",
+ "task_id": "saleor-rc-7b1e8cee95d5",
+ "test_files": [
+  "saleor/graphql/attribute/tests/queries/test_attribute_query.py",
+  "saleor/graphql/attribute/tests/queries/test_attribute_where.py"
+ ],
+ "wall_s": 14.2
+}
