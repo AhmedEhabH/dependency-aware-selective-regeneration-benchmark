@@ -1,0 +1,138 @@
+{
+ "acks": [],
+ "history": [
+  {
+   "detail": "M17 unit tests (zero network, zero Docker, zero WSL)",
+   "event": "START",
+   "phase": "Q00_KIT_SELFTEST",
+   "utc": "2026-10-05T06:51:27Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "Q00_KIT_SELFTEST",
+   "utc": "2026-10-05T08:02:16Z"
+  },
+  {
+   "detail": "guard: frozen P01/P02/P04/P05 hashes, membership freeze, protected pools, resource gates, absence checks (no scopes/, no opws/)",
+   "event": "START",
+   "phase": "Q01_GUARD",
+   "utc": "2026-10-05T08:02:16Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "Q01_GUARD",
+   "utc": "2026-10-05T08:02:18Z"
+  },
+  {
+   "detail": "clean adapter: ENG identity (29/29), all 220 MAIN frame rows, ADAPTER_UNRESOLVED fail-closed (zero Docker)",
+   "event": "START",
+   "phase": "Q02_ADAPTER_VERIFY",
+   "utc": "2026-10-05T08:02:18Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "Q02_ADAPTER_VERIFY",
+   "utc": "2026-10-05T08:04:13Z"
+  },
+  {
+   "detail": "REAL 12-task selector-blind V3+R1 qualification; one task per loop",
+   "event": "START",
+   "phase": "Q03_QUALIFICATION_RUN",
+   "utc": "2026-10-05T08:04:13Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "Q03_QUALIFICATION_RUN",
+   "utc": "2026-10-05T09:54:47Z"
+  },
+  {
+   "detail": "produce the qualification report (deterministic terminal classification per task; environmental failures classified, never crash the instrument)",
+   "event": "START",
+   "phase": "Q04_QUALIFICATION_REPORT",
+   "utc": "2026-10-05T09:54:47Z"
+  },
+  {
+   "detail": "",
+   "event": "PASS",
+   "phase": "Q04_QUALIFICATION_REPORT",
+   "utc": "2026-10-05T09:54:52Z"
+  },
+  {
+   "detail": "Pre-registered mechanical qualification gate before unattended MAIN oracle",
+   "event": "START",
+   "phase": "Q05_QUALIFICATION_GATE",
+   "utc": "2026-10-05T09:54:52Z"
+  },
+  {
+   "detail": "M17_QUALIFICATION_GATE_FAIL: exit mapped to STOP:M17_QUALIFICATION_GATE_FAIL\n--- last log: logs/controller/20261005T125452_Q05_QUALIFICATION_GATE.log ---\n$ C:\\Users\\Ahmed\\AppData\\Local\\anaconda3\\python.exe scripts/wp2_m17_exec.py qualification-gate\nM17_QG_FAIL {\"done_at_least_10\":false,\"done_each_represented_era\":true,\"firewall_clean\":true,\"infra_unresolved_le_1\":true,\"no_missing_fixture_or_socket_blocked\":true,\"projected_c_free_ge_25_gib\":false,\"r1_triplets_complete\":true,\"real_executor_only\":true,\"records_12_of_12\":true,\"v2_primary_f2p_retention_at_least_half\":true}",
+   "event": "STOP",
+   "phase": "Q05_QUALIFICATION_GATE",
+   "utc": "2026-10-05T09:54:53Z"
+  }
+ ],
+ "phases": {
+  "Q00_KIT_SELFTEST": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-10-05T08:02:16Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "Q01_GUARD": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-10-05T08:02:18Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "Q02_ADAPTER_VERIFY": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-10-05T08:04:13Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "Q03_QUALIFICATION_RUN": {
+   "attempts": 0,
+   "failures": 0,
+   "iterations": 12,
+   "passed_utc": "2026-10-05T09:54:47Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "Q04_QUALIFICATION_REPORT": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "passed_utc": "2026-10-05T09:54:52Z",
+   "runs": 1,
+   "status": "PASS"
+  },
+  "Q05_QUALIFICATION_GATE": {
+   "attempts": 1,
+   "failures": 0,
+   "iterations": 0,
+   "runs": 1,
+   "status": "RUNNING"
+  }
+ },
+ "plan": "WP2_M17_V1_QUALIFICATION",
+ "plan_sha256": "01cff0ff8ec7a95e15e6854081e61d371812c24233d1e2c603f86b34b6464012",
+ "stop": {
+  "detail": "exit mapped to STOP:M17_QUALIFICATION_GATE_FAIL\n--- last log: logs/controller/20261005T125452_Q05_QUALIFICATION_GATE.log ---\n$ C:\\Users\\Ahmed\\AppData\\Local\\anaconda3\\python.exe scripts/wp2_m17_exec.py qualification-gate\nM17_QG_FAIL {\"done_at_least_10\":false,\"done_each_represented_era\":true,\"firewall_clean\":true,\"infra_unresolved_le_1\":true,\"no_missing_fixture_or_socket_blocked\":true,\"projected_c_free_ge_25_gib\":false,\"r1_triplets_complete\":true,\"real_executor_only\":true,\"records_12_of_12\":true,\"v2_primary_f2p_retention_at_least_half\":true}",
+  "exports": {
+   "light": 0
+  },
+  "phase": "Q05_QUALIFICATION_GATE",
+  "resumable": false,
+  "token": "M17_QUALIFICATION_GATE_FAIL",
+  "utc": "2026-10-05T09:54:53Z"
+ }
+}

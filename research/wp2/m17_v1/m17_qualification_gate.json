@@ -1,0 +1,46 @@
+{
+ "artifact": "m17_qualification_gate",
+ "artifact_sha256": "6e4427d8ccb81f068e5b2afb4ec9ba426ef6c70e5cbfd8616e665b828066ead6",
+ "checks": {
+  "done_at_least_10": false,
+  "done_each_represented_era": true,
+  "firewall_clean": true,
+  "infra_unresolved_le_1": true,
+  "no_missing_fixture_or_socket_blocked": true,
+  "projected_c_free_ge_25_gib": false,
+  "r1_triplets_complete": true,
+  "real_executor_only": true,
+  "records_12_of_12": true,
+  "v2_primary_f2p_retention_at_least_half": true
+ },
+ "done_eras": [
+  "py312",
+  "py38",
+  "py39"
+ ],
+ "mean_disk_growth_gib": 0.3756,
+ "model_api_calls": 0,
+ "n_done": 9,
+ "n_infra_unresolved": 0,
+ "pass": false,
+ "projected_c_free_after_219_gib": -36.23,
+ "represented_eras": [
+  "py312",
+  "py38",
+  "py39"
+ ],
+ "rule_id": "M17_QG_V1_2026-10-03",
+ "utc": "2026-10-05T09:54:53Z",
+ "v2_primary_tasks": [
+  "saleor-rc-7e42fc67ce72",
+  "saleor-rc-bcd9f60d2aef",
+  "saleor-rc-d361479ab7da",
+  "saleor-rc-e0890780bf56"
+ ],
+ "v3_retained_behavioral_f2p": [
+  "saleor-rc-7e42fc67ce72",
+  "saleor-rc-bcd9f60d2aef",
+  "saleor-rc-d361479ab7da",
+  "saleor-rc-e0890780bf56"
+ ]
+}

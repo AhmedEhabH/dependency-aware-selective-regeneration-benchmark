@@ -1,0 +1,40 @@
+{
+ "absence_checks": [],
+ "artifact": "m17_guard_qualification",
+ "artifact_sha256": "e86210b686173916ca7aea3929d0be9d5140e078620f90c9abea5ebbd893f146",
+ "design_sha256": "b09ae765d9c2715f2dd01684eed6b8aa3a06e9b699fafb5480653a606b6bea7c",
+ "frame_220_sha256": "cd14874f5a3739130b33f28fcb5dd89def00ee5256473590de528c0489e765a4",
+ "kit_manifest": {
+  "exists": true,
+  "verified": true
+ },
+ "membership": [
+  "saleor-rc-14a682044ca4",
+  "saleor-rc-663543eaf563",
+  "saleor-rc-7b1e8cee95d5",
+  "saleor-rc-7e42fc67ce72",
+  "saleor-rc-8220a53473bb",
+  "saleor-rc-9b88221ba8c2",
+  "saleor-rc-a9e79dac40a2",
+  "saleor-rc-ba4ff17faab4",
+  "saleor-rc-bcd9f60d2aef",
+  "saleor-rc-d361479ab7da",
+  "saleor-rc-e0890780bf56",
+  "saleor-rc-e28ca6ad6442"
+ ],
+ "membership_file": "research/wp2/m17_v1/m17_qualification_membership_v2_approved.json",
+ "membership_sha256": "75c13be8b44080407944291db8d7c2809e2ddd0fff8cc03ca6e80cfb9ded6cee",
+ "model_api_calls": 0,
+ "protected_overlap": {
+  "dev_census": [],
+  "m14r": [],
+  "pilot_a_b": []
+ },
+ "resource": {
+  "c_free_gib": 50.61,
+  "hold_gib": 20.0,
+  "warn_gib": 25.0
+ },
+ "stage": "qualification",
+ "utc": "2026-10-05T08:02:17Z"
+}
