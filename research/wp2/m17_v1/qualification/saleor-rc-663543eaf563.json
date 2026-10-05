@@ -1,0 +1,64 @@
+{
+ "adapter_record_sha256": "d39558fed4b324de776519a0aace4e3ce1fe317373a4c659cc8c7beea83b80f2",
+ "artifact": "m17_qualification_task",
+ "artifact_sha256": "fe18a6241a6a44afe5030e4c48195c32393a6ce6486be6f444e59e7fd202901a",
+ "clock_pre": -2.144834,
+ "dev_test_closure": {
+  "mechanism": "poetry",
+  "n_pins": 118,
+  "n_unsupported": 0,
+  "pins_sha256": "942b7c9d5aab460dff6198042854c4aca18e56256d8c1751fef834e4142904ec"
+ },
+ "disk_free_after_gib": 50.056,
+ "disk_free_before_gib": 50.069,
+ "disk_growth_gib": 0.0123,
+ "era_key": "py312",
+ "executor": "scripts.wp2_m17_exec.RealExecutor",
+ "f2p_contract": {
+  "blockers": [],
+  "frozen_v2_f2p_count": 0,
+  "obtained_f2p_nodes": [],
+  "per_node_status": {},
+  "resolved_against_frozen_v2_count": true
+ },
+ "frozen_base_image_id": "sha256:0c185699947d75d5866e57dfb10bba25cca05dc58ca3fd2f75446ee8b0e41394",
+ "frozen_status": "ENV_INSTALL_BLOCKED",
+ "infra_reasons": [],
+ "install_blocked_rule": "2 consecutive INSTALL_FAIL attempts",
+ "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+ "locked_dev_fragment_sha256": "c522aad25918cdb37fe801dbf19354b4ade817e31d4014e8155725cb0215fbec",
+ "lockfile_sha256": "a9f251e7244d6e1b0e8af87a49c8d7e0d8c819c360dfe40fcd98a90920b4c651",
+ "model_api_calls": 0,
+ "n_test_files": 4,
+ "operations": {
+  "p": {
+   "container_complete": false,
+   "db_name": "saleor_v3_663543eaf563_p",
+   "error": "INSTALL_FAIL",
+   "r1": {},
+   "returncode": null,
+   "wall_s": 4.6
+  },
+  "t": {
+   "container_complete": false,
+   "db_name": "saleor_v3_663543eaf563_t",
+   "error": "INSTALL_FAIL",
+   "r1": {},
+   "returncode": null,
+   "wall_s": 5.0
+  }
+ },
+ "parent_commit": "da11036b099a0251646a4d32987cc205cc327101",
+ "rule_constants_sha256": "c54be06967ae68bbfc6fc8c541489c495e1faeb0abd80bc3d39d3fd1ba2bbab3",
+ "rule_id": "M16_R1_REPETITION_RETENTION_V1",
+ "status": "ENV_INSTALL_BLOCKED",
+ "target_commit": "663543eaf563e773983e2482b667c45bc540d54b",
+ "task_id": "saleor-rc-663543eaf563",
+ "test_files": [
+  "saleor/payment/tests/test_utils/__init__.py",
+  "saleor/payment/tests/test_utils/test_parse_transaction_action_data_for_action_webhook.py",
+  "saleor/payment/tests/test_utils/test_parse_transaction_action_data_for_session_webhook.py",
+  "saleor/payment/tests/test_utils/test_utils.py"
+ ],
+ "wall_s": 15.1
+}
