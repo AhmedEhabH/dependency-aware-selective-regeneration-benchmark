@@ -1,0 +1,151 @@
+{
+ "adapter_record_sha256": "d0b6aa6748303359a2e0b8966be65a43abae94eaf8e2ec4705679031c61dddfa",
+ "artifact": "m17_qualification_task",
+ "artifact_sha256": "46d0385fffedf04db0f00d0fc227c7579f37aea85a2c0c630b049e6b6359206a",
+ "classification": "NOT_PRIMARY",
+ "clock_pre": -2.568993,
+ "counts": {
+  "BEHAVIORAL_F2P": 0,
+  "FLAKY": 0,
+  "OTHER_REVIEW_REQUIRED": 0,
+  "P2P_ONLY": 0,
+  "PARENT_COLLECTION_ERROR": 0,
+  "SYMBOL_ABSENCE_F2P": 0,
+  "TARGET_ORACLE_INVALID": 2
+ },
+ "dev_test_closure": {
+  "mechanism": "poetry",
+  "n_pins": 68,
+  "n_unsupported": 0,
+  "pins_sha256": "08b85f81502bd0d689f4f70733354228ff8416a2b80faa2677b5067321f1a9d7"
+ },
+ "disk_free_after_gib": 49.49,
+ "disk_free_before_gib": 49.505,
+ "disk_growth_gib": 0.0151,
+ "eligibility": {
+  "EXTENDED_F2P_ELIGIBLE": false,
+  "PRIMARY_BEHAVIORAL_F2P_ELIGIBLE": false,
+  "environment_valid": true,
+  "n_behavioral_f2p": 0,
+  "n_parent_collection_error": 0,
+  "n_symbol_absence_f2p": 0,
+  "semantics_version": "oracle-semantics-v2-2026-09-23",
+  "task_collection_failure": false
+ },
+ "era_key": "py38",
+ "executor": "scripts.wp2_m17_exec.RealExecutor",
+ "f2p_contract": {
+  "blockers": [],
+  "frozen_v2_f2p_count": 0,
+  "obtained_f2p_nodes": [],
+  "per_node_status": {},
+  "resolved_against_frozen_v2_count": true
+ },
+ "frozen_base_image_id": "sha256:1cc60658b6a282c3bfe7c42312478a1983950927d348b47dce99e1a58e7a8c60",
+ "frozen_status": "DONE",
+ "infra_reasons": [],
+ "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+ "junit_raw_sha256": "dc8b9e9c9bd752d7781d509bf8aa796c05bf9a94ca9b1776c3ce3ec39d3520e5",
+ "locked_dev_fragment_sha256": "39b2115a09c208d3fac81cbf5395efb4392e82da74ec52d0cce8f6c43bee7efd",
+ "lockfile_sha256": "e7ff88020af91cd7e75f3ab35548c9337fcff275a3f085c18a7c2ff132d0d021",
+ "model_api_calls": 0,
+ "n_nodes": 2,
+ "n_test_files": 2,
+ "node_records": [
+  {
+   "node_id": "tests/api/test_csv.py",
+   "parent_outcomes": [
+    "error",
+    "error",
+    "error"
+   ],
+   "target_outcomes": [
+    "error",
+    "error",
+    "error"
+   ],
+   "v3_class": "TARGET_ORACLE_INVALID"
+  },
+  {
+   "node_id": "tests/test_csv_export.py",
+   "parent_outcomes": [
+    "error",
+    "error",
+    "error"
+   ],
+   "target_outcomes": [
+    "error",
+    "error",
+    "error"
+   ],
+   "v3_class": "TARGET_ORACLE_INVALID"
+  }
+ ],
+ "operations": {
+  "p": {
+   "container_complete": true,
+   "db_name": "saleor_v3_8220a53473bb_p",
+   "error": null,
+   "r1": {
+    "missing_junit": [
+     "8220a53473bb_p_r0_f0",
+     "8220a53473bb_p_r0_f1",
+     "8220a53473bb_p_r1_f0",
+     "8220a53473bb_p_r1_f1",
+     "8220a53473bb_p_r2_f0",
+     "8220a53473bb_p_r2_f1"
+    ],
+    "parse_errors": [],
+    "raw_hashes": {
+     "8220a53473bb_p_r0_f0": "add1c9bc732926da2060698c0b6e95734f7b7c554613a4ad66df111e83168150",
+     "8220a53473bb_p_r0_f1": "add1c9bc732926da2060698c0b6e95734f7b7c554613a4ad66df111e83168150",
+     "8220a53473bb_p_r1_f0": "add1c9bc732926da2060698c0b6e95734f7b7c554613a4ad66df111e83168150",
+     "8220a53473bb_p_r1_f1": "add1c9bc732926da2060698c0b6e95734f7b7c554613a4ad66df111e83168150",
+     "8220a53473bb_p_r2_f0": "add1c9bc732926da2060698c0b6e95734f7b7c554613a4ad66df111e83168150",
+     "8220a53473bb_p_r2_f1": "add1c9bc732926da2060698c0b6e95734f7b7c554613a4ad66df111e83168150"
+    }
+   },
+   "returncode": 0,
+   "wall_s": 19.4
+  },
+  "t": {
+   "container_complete": true,
+   "db_name": "saleor_v3_8220a53473bb_t",
+   "error": null,
+   "r1": {
+    "missing_junit": [
+     "8220a53473bb_t_r0_f0",
+     "8220a53473bb_t_r0_f1",
+     "8220a53473bb_t_r1_f0",
+     "8220a53473bb_t_r1_f1",
+     "8220a53473bb_t_r2_f0",
+     "8220a53473bb_t_r2_f1"
+    ],
+    "parse_errors": [],
+    "raw_hashes": {
+     "8220a53473bb_t_r0_f0": "add1c9bc732926da2060698c0b6e95734f7b7c554613a4ad66df111e83168150",
+     "8220a53473bb_t_r0_f1": "add1c9bc732926da2060698c0b6e95734f7b7c554613a4ad66df111e83168150",
+     "8220a53473bb_t_r1_f0": "add1c9bc732926da2060698c0b6e95734f7b7c554613a4ad66df111e83168150",
+     "8220a53473bb_t_r1_f1": "add1c9bc732926da2060698c0b6e95734f7b7c554613a4ad66df111e83168150",
+     "8220a53473bb_t_r2_f0": "add1c9bc732926da2060698c0b6e95734f7b7c554613a4ad66df111e83168150",
+     "8220a53473bb_t_r2_f1": "add1c9bc732926da2060698c0b6e95734f7b7c554613a4ad66df111e83168150"
+    }
+   },
+   "returncode": 0,
+   "wall_s": 79.1
+  }
+ },
+ "parent_commit": "3459d2b68cef1a85443d6f867caa8330017303fa",
+ "parent_failure_text": {},
+ "parent_failure_text_sha256": "83b8c5a92a69b4490618a8370b7f6154791c1c4dcb9a1cfa13b6fc499bcf6f81",
+ "rule_constants_sha256": "c54be06967ae68bbfc6fc8c541489c495e1faeb0abd80bc3d39d3fd1ba2bbab3",
+ "rule_id": "M16_R1_REPETITION_RETENTION_V1",
+ "status": "DONE",
+ "target_commit": "8220a53473bb67bbb247490cbd043c56dac4568c",
+ "task_id": "saleor-rc-8220a53473bb",
+ "test_files": [
+  "tests/api/test_csv.py",
+  "tests/test_csv_export.py"
+ ],
+ "wall_s": 103.4
+}
