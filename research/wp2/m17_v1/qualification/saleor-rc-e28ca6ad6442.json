@@ -1,0 +1,204 @@
+{
+ "adapter_record_sha256": "48a846929f942506e43da3c0d78959fb56c4ebe6f3271fcb50030fc1e2543fa3",
+ "artifact": "m17_qualification_task",
+ "artifact_sha256": "f26fedd65b82e779e5d7b7d242d7524a0684eec3964e51269e6cb10996a9193b",
+ "classification": "BEHAVIORAL_F2P",
+ "clock_pre": -2.600324,
+ "counts": {
+  "BEHAVIORAL_F2P": 5,
+  "FLAKY": 0,
+  "OTHER_REVIEW_REQUIRED": 0,
+  "P2P_ONLY": 1,
+  "PARENT_COLLECTION_ERROR": 0,
+  "SYMBOL_ABSENCE_F2P": 0,
+  "TARGET_ORACLE_INVALID": 0
+ },
+ "dev_test_closure": {
+  "mechanism": "poetry",
+  "n_pins": 38,
+  "n_unsupported": 0,
+  "pins_sha256": "4ecef3016e91ac1fedcafbbbd40a31d86e83fc308ede7e5cbf7a4701d0e2c9d2"
+ },
+ "disk_free_after_gib": 46.021,
+ "disk_free_before_gib": 47.083,
+ "disk_growth_gib": 1.0615,
+ "eligibility": {
+  "EXTENDED_F2P_ELIGIBLE": true,
+  "PRIMARY_BEHAVIORAL_F2P_ELIGIBLE": true,
+  "environment_valid": true,
+  "n_behavioral_f2p": 5,
+  "n_parent_collection_error": 0,
+  "n_symbol_absence_f2p": 0,
+  "semantics_version": "oracle-semantics-v2-2026-09-23",
+  "task_collection_failure": false
+ },
+ "era_key": "py39",
+ "executor": "scripts.wp2_m17_exec.RealExecutor",
+ "f2p_contract": {
+  "blockers": [],
+  "frozen_v2_f2p_count": 0,
+  "obtained_f2p_nodes": [
+   "saleor/attribute/tests/models/test_base.py::test_attribute_value_setting_up_max_sort_order",
+   "saleor/attribute/tests/models/test_base.py::test_attribute_value_sort_order_when_attribute_has_other_values",
+   "saleor/attribute/tests/models/test_base.py::test_max_sort_order_0_when_deleting_attribute_value_with_sort_order_0",
+   "saleor/attribute/tests/models/test_base.py::test_max_sort_order_none_when_deleting_attribute_value_with_sort_order_0",
+   "saleor/attribute/tests/models/test_base.py::test_max_sort_order_when_deleting_attribute_value"
+  ],
+  "per_node_status": {
+   "saleor/attribute/tests/models/test_base.py::test_attribute_value_setting_up_max_sort_order": "passed",
+   "saleor/attribute/tests/models/test_base.py::test_attribute_value_sort_order_when_attribute_has_other_values": "passed",
+   "saleor/attribute/tests/models/test_base.py::test_max_sort_order_0_when_deleting_attribute_value_with_sort_order_0": "passed",
+   "saleor/attribute/tests/models/test_base.py::test_max_sort_order_none_when_deleting_attribute_value_with_sort_order_0": "passed",
+   "saleor/attribute/tests/models/test_base.py::test_max_sort_order_when_deleting_attribute_value": "passed"
+  },
+  "resolved_against_frozen_v2_count": true
+ },
+ "frozen_base_image_id": "sha256:ddc08d7e685517764dfa2606a760d5b3f09d57840d8a0bbcef366db67cd99ef8",
+ "frozen_status": "DONE",
+ "infra_reasons": [],
+ "install_mode": "V2_MAIN_PLUS_EXACT_LOCKED_DEV",
+ "junit_raw_sha256": "11fe6ee5fb78a06d94b4f3eb4d1b9ee4f79583b36add771188a3dbb06ef90f7a",
+ "locked_dev_fragment_sha256": "d90f0a113f20f84f87528f09a027934232a8f53b97ac88c923df158887ae7142",
+ "lockfile_sha256": "77c0f169645381d95b8fbabb1dcd336baeeaaf94f0a8bee94184a1ea7fbb1b17",
+ "model_api_calls": 0,
+ "n_nodes": 6,
+ "n_test_files": 1,
+ "node_records": [
+  {
+   "node_id": "saleor/attribute/tests/models/test_base.py::test_attribute_value_setting_up_max_sort_order",
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "BEHAVIORAL_F2P"
+  },
+  {
+   "node_id": "saleor/attribute/tests/models/test_base.py::test_attribute_value_sort_order_when_attribute_has_other_values",
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "BEHAVIORAL_F2P"
+  },
+  {
+   "node_id": "saleor/attribute/tests/models/test_base.py::test_attribute_value_using_max_sort_order_from_parent",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/attribute/tests/models/test_base.py::test_max_sort_order_0_when_deleting_attribute_value_with_sort_order_0",
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "BEHAVIORAL_F2P"
+  },
+  {
+   "node_id": "saleor/attribute/tests/models/test_base.py::test_max_sort_order_none_when_deleting_attribute_value_with_sort_order_0",
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "BEHAVIORAL_F2P"
+  },
+  {
+   "node_id": "saleor/attribute/tests/models/test_base.py::test_max_sort_order_when_deleting_attribute_value",
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "BEHAVIORAL_F2P"
+  }
+ ],
+ "operations": {
+  "p": {
+   "container_complete": true,
+   "db_name": "saleor_v3_e28ca6ad6442_p",
+   "error": null,
+   "r1": {
+    "missing_junit": [],
+    "parse_errors": [],
+    "raw_hashes": {
+     "e28ca6ad6442_p_r0_f0": "7d6f6295aa2f856fe9676d7669e0900b769b63f8222bebd3e7fae6313e539b36",
+     "e28ca6ad6442_p_r1_f0": "8d557dab4a33918a284a535140aa57a9a3f49e31d238410bd78280b14014b843",
+     "e28ca6ad6442_p_r2_f0": "6d6204260054a9c210b7dbf78b421574bd1ab4a7bee7119c781a43e021c7b5c7"
+    }
+   },
+   "returncode": 0,
+   "wall_s": 168.3
+  },
+  "t": {
+   "container_complete": true,
+   "db_name": "saleor_v3_e28ca6ad6442_t",
+   "error": null,
+   "r1": {
+    "missing_junit": [],
+    "parse_errors": [],
+    "raw_hashes": {
+     "e28ca6ad6442_t_r0_f0": "04a9145db2e39d208e5ca705f727711603ec0ff1302848a30d406278e758606b",
+     "e28ca6ad6442_t_r1_f0": "11cec3e65601a22bc2f9a16d63ef7bcae1eabc79c634a90646fa533b53e1583b",
+     "e28ca6ad6442_t_r2_f0": "ab079a7037e2ca19d17783c5dad6d3d3f6fa074ac3c8cf38b6535ee9871ee014"
+    }
+   },
+   "returncode": 0,
+   "wall_s": 358.0
+  }
+ },
+ "parent_commit": "5b2ee678d86ceadd6f97b7e8c8f9be7ddb44d4fe",
+ "parent_failure_text": {
+  "saleor/attribute/tests/models/test_base.py::test_attribute_value_setting_up_max_sort_order": "def test_attribute_value_setting_up_max_sort_order():\n        # given\n        attribute = Attribute.objects.create(\n            slug=\"test-slug\",\n            name=\"test name\",\n            type=AttributeType.PRODUCT_TYPE,\n        )\n        assert attribute.max_sort_order is None\n    \n        # when\n        attribute_value = AttributeValue.objects.create(\n            attribute=attribute, name=\"value\", slug=\"value\"\n        )\n    \n        # then\n>       assert attribute_value.sort_order == 0\nE       assert 1 == 0\nE        +  where 1 = <AttributeValue: value>.sort_order\n\nsaleor/attribute/tests/models/test_base.py:20: AssertionError",
+  "saleor/attribute/tests/models/test_base.py::test_attribute_value_sort_order_when_attribute_has_other_values": "def test_attribute_value_sort_order_when_attribute_has_other_values():\n        # given\n        attribute = Attribute.objects.create(\n            slug=\"test-slug\",\n            name=\"test name\",\n            type=AttributeType.PRODUCT_TYPE,\n        )\n        AttributeValue.objects.create(\n            attribute=attribute, name=\"value\", slug=\"value\", sort_order=1\n        )\n>       assert attribute.max_sort_order == 0\nE       assert 1 == 0\nE        +  where 1 = <Attribute: test name>.max_sort_order\n\nsaleor/attribute/tests/models/test_base.py:54: AssertionError",
+  "saleor/attribute/tests/models/test_base.py::test_max_sort_order_0_when_deleting_attribute_value_with_sort_order_0": "def test_max_sort_order_0_when_deleting_attribute_value_with_sort_order_0():\n        # given\n        attribute = Attribute.objects.create(\n            slug=\"test-slug\",\n            name=\"test name\",\n            type=AttributeType.PRODUCT_TYPE,\n        )\n        value = AttributeValue.objects.create(\n            attribute=attribute, name=\"value\", slug=\"value\"\n        )\n        value2 = AttributeValue.objects.create(\n            attribute=attribute, name=\"value2\", slug=\"value2\"\n        )\n    \n        attribute.max_sort_order = 0\n        attribute.save()\n        assert attribute.max_sort_order == 0\n>       assert value.sort_order == 0\nE       assert 1 == 0\nE        +  where 1 = <AttributeValue: value>.sort_order\n\nsaleor/attribute/tests/models/test_base.py:138: AssertionError",
+  "saleor/attribute/tests/models/test_base.py::test_max_sort_order_none_when_deleting_attribute_value_with_sort_order_0": "def test_max_sort_order_none_when_deleting_attribute_value_with_sort_order_0():\n        # given\n        attribute = Attribute.objects.create(\n            slug=\"test-slug\",\n            name=\"test name\",\n            type=AttributeType.PRODUCT_TYPE,\n        )\n        value = AttributeValue.objects.create(\n            attribute=attribute, name=\"value\", slug=\"value\", sort_order=1\n        )\n        value2 = AttributeValue.objects.create(\n            attribute=attribute, name=\"value2\", slug=\"value2\"\n        )\n    \n        attribute.max_sort_order = None\n        attribute.save()\n        assert attribute.max_sort_order is None\n>       assert value.sort_order == 0\nE       assert 1 == 0\nE        +  where 1 = <AttributeValue: value>.sort_order\n\nsaleor/attribute/tests/models/test_base.py:108: AssertionError",
+  "saleor/attribute/tests/models/test_base.py::test_max_sort_order_when_deleting_attribute_value": "def test_max_sort_order_when_deleting_attribute_value():\n        # given\n        attribute = Attribute.objects.create(\n            slug=\"test-slug\",\n            name=\"test name\",\n            type=AttributeType.PRODUCT_TYPE,\n        )\n        value = AttributeValue.objects.create(\n            attribute=attribute, name=\"value\", slug=\"value\", sort_order=1\n        )\n        value2 = AttributeValue.objects.create(\n            attribute=attribute, name=\"value2\", slug=\"value2\", sort_order=2\n        )\n>       assert attribute.max_sort_order == 1\nE       assert 2 == 1\nE        +  where 2 = <Attribute: test name>.max_sort_order\n\nsaleor/attribute/tests/models/test_base.py:79: AssertionError"
+ },
+ "parent_failure_text_sha256": "2b0d82395eb3754256e753e2551c391ba8a0e5c5ed8f3d94fffe372c0812ecfd",
+ "rule_constants_sha256": "c54be06967ae68bbfc6fc8c541489c495e1faeb0abd80bc3d39d3fd1ba2bbab3",
+ "rule_id": "M16_R1_REPETITION_RETENTION_V1",
+ "status": "DONE",
+ "target_commit": "e28ca6ad6442fa4f407e7e38d3d78239cba6a43b",
+ "task_id": "saleor-rc-e28ca6ad6442",
+ "test_files": [
+  "saleor/attribute/tests/models/test_base.py"
+ ],
+ "wall_s": 532.3
+}
