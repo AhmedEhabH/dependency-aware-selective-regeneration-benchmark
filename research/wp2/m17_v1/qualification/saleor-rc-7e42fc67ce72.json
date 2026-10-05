@@ -1,0 +1,1773 @@
+{
+ "adapter_record_sha256": "8edc00838ed6cbbb96be35de6931b4c6b752825a617dc197288af3ea9fd9e841",
+ "artifact": "m17_qualification_task",
+ "artifact_sha256": "ceefd1466d45eb39b19428a93ca04e902e744c9858ac9a9d78c79d28dc8b9c30",
+ "classification": "BEHAVIORAL_F2P",
+ "clock_pre": -2.561257,
+ "counts": {
+  "BEHAVIORAL_F2P": 3,
+  "FLAKY": 0,
+  "OTHER_REVIEW_REQUIRED": 0,
+  "P2P_ONLY": 114,
+  "PARENT_COLLECTION_ERROR": 0,
+  "SYMBOL_ABSENCE_F2P": 0,
+  "TARGET_ORACLE_INVALID": 0
+ },
+ "dev_test_closure": {
+  "mechanism": "uv",
+  "n_pins": 0,
+  "n_unsupported": 0,
+  "pins_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+ },
+ "disk_free_after_gib": 49.503,
+ "disk_free_before_gib": 49.81,
+ "disk_growth_gib": 0.3073,
+ "eligibility": {
+  "EXTENDED_F2P_ELIGIBLE": true,
+  "PRIMARY_BEHAVIORAL_F2P_ELIGIBLE": true,
+  "environment_valid": true,
+  "n_behavioral_f2p": 3,
+  "n_parent_collection_error": 0,
+  "n_symbol_absence_f2p": 0,
+  "semantics_version": "oracle-semantics-v2-2026-09-23",
+  "task_collection_failure": false
+ },
+ "era_key": "py312",
+ "executor": "scripts.wp2_m17_exec.RealExecutor",
+ "f2p_contract": {
+  "blockers": [],
+  "frozen_v2_f2p_count": 3,
+  "obtained_f2p_nodes": [
+   "saleor/app/tests/test_app_commands.py::test_creates_app_from_manifest_skips_sending_token_when_target_url_not_provided",
+   "saleor/app/tests/test_installation_utils.py::test_install_app_manifest_data_without_token_target_url",
+   "saleor/app/tests/test_validators.py::test_new_tab_relative_url_without_app_url"
+  ],
+  "per_node_status": {
+   "saleor/app/tests/test_app_commands.py::test_creates_app_from_manifest_skips_sending_token_when_target_url_not_provided": "passed",
+   "saleor/app/tests/test_installation_utils.py::test_install_app_manifest_data_without_token_target_url": "passed",
+   "saleor/app/tests/test_validators.py::test_new_tab_relative_url_without_app_url": "passed"
+  },
+  "resolved_against_frozen_v2_count": true
+ },
+ "frozen_base_image_id": "sha256:0c185699947d75d5866e57dfb10bba25cca05dc58ca3fd2f75446ee8b0e41394",
+ "frozen_status": "DONE",
+ "infra_reasons": [],
+ "install_mode": "LOCK_EXACT_MAIN_PLUS_DEV",
+ "junit_raw_sha256": "887ab792a843332cf438b9b1d8a215c50833a2ef7457b9285ae5908dfc6e7a7b",
+ "locked_dev_fragment_sha256": "dda4a32309f4ccd9c41db7d0886bb9378fabc499d8619137fdbbbea93c77dd26",
+ "lockfile_sha256": "a4c21a2deb52e20e52b691857fd5adae8f130e6844626c18b3aaebc688eb2d66",
+ "model_api_calls": 0,
+ "n_nodes": 117,
+ "n_test_files": 4,
+ "node_records": [
+  {
+   "node_id": "saleor/app/tests/test_app_commands.py::test_app_has_all_required_permissions",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_app_commands.py::test_creates_app_from_manifest",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_app_commands.py::test_creates_app_from_manifest_activate_app",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_app_commands.py::test_creates_app_from_manifest_app_has_all_required_permissions",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_app_commands.py::test_creates_app_from_manifest_fails_on_already_installed_app",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_app_commands.py::test_creates_app_from_manifest_installation_failed",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_app_commands.py::test_creates_app_from_manifest_quiet_skips_already_installed_app",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_app_commands.py::test_creates_app_from_manifest_sends_token_when_target_url_provided",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_app_commands.py::test_creates_app_from_manifest_skips_sending_token_when_target_url_not_provided",
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "BEHAVIORAL_F2P"
+  },
+  {
+   "node_id": "saleor/app/tests/test_app_commands.py::test_creates_app_object",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_app_commands.py::test_creates_app_with_identifier",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_app_commands.py::test_sends_data_to_target_url",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_fetch_brand_data_task[app]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_fetch_brand_data_task[app_installation]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_fetch_brand_data_task_for_removed_app",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_fetch_brand_data_task_retry",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_fetch_brand_data_task_saving_brand_data",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_fetch_brand_data_task_saving_deleted_object",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_fetch_brand_data_task_terminated",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_fetch_brand_data_task_terminated_when_brand_data_fetched",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_fetch_icon_image",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_fetch_icon_image_content_length",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_fetch_icon_image_file_too_big",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_fetch_icon_image_invalid_type",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_created_app",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_created_app_trigger_webhook",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_created_app_with_audience",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_extension_incorrect_url[/app]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_extension_incorrect_url[127.0.0.1:8080/app]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_extension_incorrect_url[]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_extension_incorrect_url[http:/127.0.0.1:8080/app]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_extension_incorrect_url[www.example.com/app]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_extension_incorrect_values[target]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_extension_incorrect_values[type]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_extension_incorrect_values[view]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_extension_invalid_permission",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_extension_permission_out_of_scope[app_permissions0-extension_permissions0]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_extension_permission_out_of_scope[app_permissions1-extension_permissions1]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_manifest_data_without_token_target_url",
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "BEHAVIORAL_F2P"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_webhook_incorrect_custom_headers",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_webhook_incorrect_query",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_webhook_incorrect_url",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_when_saleor_version_unsupported",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_with_author",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_with_brand_data",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_with_empty_author",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_with_extension",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_with_extension_new_tab_target",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_with_extension_post_method",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_with_extension_widget",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_with_required_saleor_version",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_with_webhook",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_with_webhook_incorrect_is_active_value",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_with_webhook_is_active[False]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_install_app_with_webhook_is_active[True]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_validate_app_install_response",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_validate_app_install_response_when_wrong_error_message[Exception]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_validate_app_install_response_when_wrong_error_message[json_response0]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_installation_utils.py::test_validate_app_install_response_when_wrong_error_message[json_response1]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_validators.py::test_brand_validator_required_fields",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_validators.py::test_brand_validator_with_invalid_logo_url[example.com/logo.png]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_validators.py::test_brand_validator_with_invalid_logo_url[https://exmple.com/logo.jpg]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_validators.py::test_brand_validator_with_invalid_logo_url[https://exmple.com/logo]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_validators.py::test_clean_author[ Acme Ltd -Acme Ltd]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_validators.py::test_clean_author[None-None]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_validators.py::test_clean_required_saleor_version[*-3.12.1-True]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_validators.py::test_clean_required_saleor_version[3.8 - 3.9 || ~3.10.2 || 3.11.* || 3.12.x-3.12.1-True]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_validators.py::test_clean_required_saleor_version[^3.12-3.12.0-a-False]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_validators.py::test_clean_required_saleor_version[^3.12-3.13.0-a-True]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_validators.py::test_clean_required_saleor_version[^3.12-4.0.0-False]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_validators.py::test_clean_required_saleor_version[^3.12.0-0 <=3.14-3.12.0-a-True]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_validators.py::test_clean_required_saleor_version_optional",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_validators.py::test_clean_required_saleor_version_raise_for_saleor_version",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_validators.py::test_clean_required_saleor_version_with_invalid_range[3.12]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_validators.py::test_clean_required_saleor_version_with_invalid_range[3.8-3.9]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_validators.py::test_clean_required_saleor_version_with_invalid_range[3]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_validators.py::test_clean_required_saleor_version_with_invalid_range[^3w.11]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_validators.py::test_clean_required_saleor_version_with_invalid_range[required_version2]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_validators.py::test_new_tab_relative_url_without_app_url",
+   "parent_outcomes": [
+    "failed",
+    "failed",
+    "failed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "BEHAVIORAL_F2P"
+  },
+  {
+   "node_id": "saleor/app/tests/test_validators.py::test_parse_version",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_validators.py::test_validate_invalid_url",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/app/tests/test_validators.py::test_validate_url",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py::test_app_fetch_manifest",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py::test_app_fetch_manifest_custom_saleor_headers",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py::test_app_fetch_manifest_extension_with_absolute_url",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py::test_app_fetch_manifest_extension_with_invalid_absolute_url",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py::test_app_fetch_manifest_extension_with_relative_url",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py::test_app_fetch_manifest_extension_without_options",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py::test_app_fetch_manifest_extensions_invalid_permission",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py::test_app_fetch_manifest_extensions_permission_out_of_scope[app_permissions0-extension_permissions0]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py::test_app_fetch_manifest_extensions_permission_out_of_scope[app_permissions1-extension_permissions1]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py::test_app_fetch_manifest_handle_exception",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py::test_app_fetch_manifest_incorrect_permission_in_manifest",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py::test_app_fetch_manifest_missing_extension_fields[label]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py::test_app_fetch_manifest_missing_extension_fields[mount]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py::test_app_fetch_manifest_missing_extension_fields[url]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py::test_app_fetch_manifest_missing_fields[id]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py::test_app_fetch_manifest_missing_fields[name]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py::test_app_fetch_manifest_missing_fields[version]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py::test_app_fetch_manifest_missing_permission",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py::test_app_fetch_manifest_timeout",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py::test_app_fetch_manifest_unable_to_connect",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py::test_app_fetch_manifest_with_audience",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py::test_app_fetch_manifest_with_author",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py::test_app_fetch_manifest_with_brand_data[None-png-None]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py::test_app_fetch_manifest_with_brand_data[original-png-0]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py::test_app_fetch_manifest_with_brand_data[webp-webp-120]",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py::test_app_fetch_manifest_with_empty_author",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py::test_app_fetch_manifest_with_extensions",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py::test_app_fetch_manifest_with_invalid_brand_data",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py::test_app_fetch_manifest_with_invalid_required_saleor_version",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py::test_app_fetch_manifest_with_new_tab_extension_settings",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py::test_app_fetch_manifest_with_required_saleor_version",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py::test_app_fetch_manifest_with_widget_extension_settings",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py::test_app_fetch_manifest_wrong_format_of_response",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py::test_fetch_manifest_app_with_same_identifier_installed_but_marked_to_be_removed",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  },
+  {
+   "node_id": "saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py::test_fetch_manifest_fail_when_app_with_same_identifier_already_installed",
+   "parent_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "target_outcomes": [
+    "passed",
+    "passed",
+    "passed"
+   ],
+   "v3_class": "P2P_ONLY"
+  }
+ ],
+ "operations": {
+  "p": {
+   "container_complete": true,
+   "db_name": "saleor_v3_7e42fc67ce72_p",
+   "error": null,
+   "r1": {
+    "missing_junit": [],
+    "parse_errors": [],
+    "raw_hashes": {
+     "7e42fc67ce72_p_r0_f0": "a417c42994e072eebc45dd151a250bcc7bb3e3da054eeecd62a28345db647a4a",
+     "7e42fc67ce72_p_r0_f1": "16276a5c20f66d2b122d0be326586245f806a31de5570859209cd4b7ca29ab97",
+     "7e42fc67ce72_p_r0_f2": "b8e710a90c667db2346b0a776253127017710aac5b6050dade0d4a6755d1a337",
+     "7e42fc67ce72_p_r0_f3": "fe2158cd0cd7c82d8da218d6d81a2d5909ad4afe31715836be88c8bd5adc3705",
+     "7e42fc67ce72_p_r1_f0": "2b78ef5df6ac15fb32e50d76b8e7cd44265ab35e9eba92510374dc68213c27a0",
+     "7e42fc67ce72_p_r1_f1": "06863ef76c51341c315788d2ea2ff111508ce357fc2744887744579c364b55a4",
+     "7e42fc67ce72_p_r1_f2": "df33ba90d9cbf4add57c41e516d289dbcb832456fad8297b840e0f004d245654",
+     "7e42fc67ce72_p_r1_f3": "5060de033c7bce2abb45d5b9b664470e1c2fccffae24a9aa563114d4aa05aad1",
+     "7e42fc67ce72_p_r2_f0": "951d93f2b356658cd1b1f4ba2a5e6b3f44e47d86e2a9544ba077ec9dadd9fa80",
+     "7e42fc67ce72_p_r2_f1": "7486a2de64223113f96a81dfaa896ed95974bcade278a6ddb19b2222689cda3f",
+     "7e42fc67ce72_p_r2_f2": "d741c53f72d06c0c7feaba1751cd28f6ff44544380369bf2ad1c7d149cfcb3f6",
+     "7e42fc67ce72_p_r2_f3": "8d384a9f84fe71b0a94bf14f88bf3c1aca3f62cac6df945b89d64123a5e1fd26"
+    }
+   },
+   "returncode": 0,
+   "wall_s": 297.3
+  },
+  "t": {
+   "container_complete": true,
+   "db_name": "saleor_v3_7e42fc67ce72_t",
+   "error": null,
+   "r1": {
+    "missing_junit": [],
+    "parse_errors": [],
+    "raw_hashes": {
+     "7e42fc67ce72_t_r0_f0": "2b53646a11dee27b0b55e5f7463df20de6f4b47c2e4dafb4a25738841806e1c6",
+     "7e42fc67ce72_t_r0_f1": "c5245c786d6ebecdf4c7e2523bee62cd7b663c167ab1179690a16c80de7620a9",
+     "7e42fc67ce72_t_r0_f2": "974d02cbe5138135b932837466f75d8eb69eec2dbe52eb49564b061d3bb54820",
+     "7e42fc67ce72_t_r0_f3": "386b7607c7458ef10fa2950bc59ed85f056e12015d68ede6b831cc947bda4fdf",
+     "7e42fc67ce72_t_r1_f0": "b102e05985acae3e81e3452b566e73bdbcb3d33b10889c19763f37005b07bea3",
+     "7e42fc67ce72_t_r1_f1": "74c65f035f3921e257cc786dfd0e571b483f6607460e71d4d3311c86824df2d1",
+     "7e42fc67ce72_t_r1_f2": "e7062b0c964144b1b30c24c1e4e589a386ee75ac531c9929545ce73ab0b827c2",
+     "7e42fc67ce72_t_r1_f3": "aa01eb9ddb1528662efcc54b5ef18883d1b788666d19adf0616dff3b61de1d0e",
+     "7e42fc67ce72_t_r2_f0": "95ea01585ebab8d54b0e6087e888046c13fcfdfef92145b1c4e13b0d953221d1",
+     "7e42fc67ce72_t_r2_f1": "dd3d7271433ea01d866d2789e90ca9042dc7975dd93a7ff872a2f6b7f4853423",
+     "7e42fc67ce72_t_r2_f2": "9ddd2621f1598abeb2c957ed34cbcafcad8bf902d0306d8de899c3c76a4ba848",
+     "7e42fc67ce72_t_r2_f3": "c45616832620b132ea3a9564dcab9e933f26fb2d79120f61b0fffe2687acd187"
+    }
+   },
+   "returncode": 0,
+   "wall_s": 317.2
+  }
+ },
+ "parent_commit": "798632158394c9f2911e6d36e8e424fd55007dc4",
+ "parent_failure_text": {
+  "saleor/app/tests/test_app_commands.py::test_creates_app_from_manifest_skips_sending_token_when_target_url_not_provided": "monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7df35557e7e0>\napp_manifest = {'about': 'Sample Saleor App serving as an example.', 'appUrl': '', 'author': None, 'configurationUrl': 'http://127.0.0.1:5000/configuration/', ...}\n\n    def test_creates_app_from_manifest_skips_sending_token_when_target_url_not_provided(\n        monkeypatch, app_manifest\n    ):\n        # given\n        app_manifest.pop(\"tokenTargetUrl\")\n    \n        mocked_get = Mock(return_value=Mock())\n        mocked_get.return_value.json = Mock(return_value=app_manifest)\n    \n        mocked_post = Mock(return_value=Mock())\n        mocked_post.return_value.status_code = 200\n    \n        def _side_effect(_self, method, *args, **kwargs):\n            if method == \"GET\":\n                func = mocked_get\n            elif method == \"POST\":\n                func = mocked_post\n            else:\n                raise NotImplementedError(\"Method not implemented\", method)\n            return func(method, *args, **kwargs)\n    \n        monkeypatch.setattr(HTTPSession, \"request\", _side_effect)\n        manifest_url = \"http://localhost:3000/manifest\"\n    \n        # when\n>       call_command(\"install_app\", manifest_url)\n\nsaleor/app/tests/test_app_commands.py:129: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n/opt/venv/lib/python3.12/site-packages/django/core/management/__init__.py:194: in call_command\n    return command.execute(*args, **defaults)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n/opt/venv/lib/python3.12/site-packages/django/core/management/base.py:464: in execute\n    output = self.handle(*args, **options)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nsaleor/app/management/commands/install_app.py:76: in handle\n    raise e\nsaleor/app/management/commands/install_app.py:69: in handle\n    app, token = install_app(app_job, activate)\n                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nsaleor/app/installation_utils.py:221: in install_app\n    clean_manifest_data(manifest_data, raise_for_saleor_version=True)\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nmanifest_data = {'about': 'Sample Saleor App serving as an example.', 'appUrl': '', 'author': None, 'configurationUrl': 'http://127.0.0.1:5000/configuration/', ...}\nraise_for_saleor_version = True\n\n    def clean_manifest_data(manifest_data, raise_for_saleor_version=False):\n        errors: T_ERRORS = defaultdict(list)\n    \n        _validate_required_fields(manifest_data, errors)\n    \n        try:\n            if \"tokenTargetUrl\" in manifest_data:\n                _clean_app_url(manifest_data[\"tokenTargetUrl\"])\n        except (ValidationError, AttributeError):\n            errors[\"tokenTargetUrl\"].append(\n                ValidationError(\n                    \"Incorrect format.\",\n                    code=AppErrorCode.INVALID_URL_FORMAT.value,\n                )\n            )\n    \n        try:\n            manifest_data[\"requiredSaleorVersion\"] = _clean_required_saleor_version(\n                manifest_data.get(\"requiredSaleorVersion\"), raise_for_saleor_version\n            )\n        except ValidationError as e:\n            errors[\"requiredSaleorVersion\"].append(e)\n    \n        try:\n            manifest_data[\"author\"] = _clean_author(manifest_data.get(\"author\"))\n        except ValidationError as e:\n            errors[\"author\"].append(e)\n    \n        try:\n            brand_validator(manifest_data.get(\"brand\"))\n        except ValidationError as e:\n            errors[\"brand\"].append(e)\n    \n        saleor_permissions = get_permissions().annotate(\n            formatted_codename=Concat(\"content_type__app_label\", Value(\".\"), \"codename\")\n        )\n        try:\n            app_permissions = _clean_permissions(\n                manifest_data.get(\"permissions\", []), saleor_permissions\n            )\n        except ValidationError as e:\n            errors[\"permissions\"].append(e)\n            app_permissions = []\n    \n        manifest_data[\"permissions\"] = app_permissions\n        i",
+  "saleor/app/tests/test_installation_utils.py::test_install_app_manifest_data_without_token_target_url": "app_manifest = {'about': 'Sample Saleor App serving as an example.', 'appUrl': '', 'author': None, 'configurationUrl': 'http://127.0.0.1:5000/configuration/', ...}\napp_installation = <AppInstallation: AppInstallation object (128)>\nmonkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x719e98ae9be0>\npermission_manage_products = <Permission: Product | product | Manage products.>\n\n    def test_install_app_manifest_data_without_token_target_url(\n        app_manifest, app_installation, monkeypatch, permission_manage_products\n    ):\n        # given\n        app_manifest.pop(\"tokenTargetUrl\")\n    \n        app_manifest[\"permissions\"] = [\"MANAGE_PRODUCTS\"]\n        mocked_get_response = Mock()\n        mocked_get_response.json.return_value = app_manifest\n    \n        monkeypatch.setattr(HTTPSession, \"request\", Mock(return_value=mocked_get_response))\n        mocked_post = Mock()\n        monkeypatch.setattr(requests, \"post\", mocked_post)\n    \n        app_installation.permissions.set([permission_manage_products])\n    \n        # when\n>       install_app(app_installation, activate=True)\n\nsaleor/app/tests/test_installation_utils.py:757: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \nsaleor/app/installation_utils.py:221: in install_app\n    clean_manifest_data(manifest_data, raise_for_saleor_version=True)\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nmanifest_data = {'about': 'Sample Saleor App serving as an example.', 'appUrl': '', 'author': None, 'configurationUrl': 'http://127.0.0.1:5000/configuration/', ...}\nraise_for_saleor_version = True\n\n    def clean_manifest_data(manifest_data, raise_for_saleor_version=False):\n        errors: T_ERRORS = defaultdict(list)\n    \n        _validate_required_fields(manifest_data, errors)\n    \n        try:\n            if \"tokenTargetUrl\" in manifest_data:\n                _clean_app_url(manifest_data[\"tokenTargetUrl\"])\n        except (ValidationError, AttributeError):\n            errors[\"tokenTargetUrl\"].append(\n                ValidationError(\n                    \"Incorrect format.\",\n                    code=AppErrorCode.INVALID_URL_FORMAT.value,\n                )\n            )\n    \n        try:\n            manifest_data[\"requiredSaleorVersion\"] = _clean_required_saleor_version(\n                manifest_data.get(\"requiredSaleorVersion\"), raise_for_saleor_version\n            )\n        except ValidationError as e:\n            errors[\"requiredSaleorVersion\"].append(e)\n    \n        try:\n            manifest_data[\"author\"] = _clean_author(manifest_data.get(\"author\"))\n        except ValidationError as e:\n            errors[\"author\"].append(e)\n    \n        try:\n            brand_validator(manifest_data.get(\"brand\"))\n        except ValidationError as e:\n            errors[\"brand\"].append(e)\n    \n        saleor_permissions = get_permissions().annotate(\n            formatted_codename=Concat(\"content_type__app_label\", Value(\".\"), \"codename\")\n        )\n        try:\n            app_permissions = _clean_permissions(\n                manifest_data.get(\"permissions\", []), saleor_permissions\n            )\n        except ValidationError as e:\n            errors[\"permissions\"].append(e)\n            app_permissions = []\n    \n        manifest_data[\"permissions\"] = app_permissions\n        if (\n            app := App.objects.not_removed()\n            .filter(identifier=manifest_data.get(\"id\"))\n            .first()\n        ):\n            errors[\"identifier\"].append(\n                ValidationError(\n                    f\"App with the same identifier is already installed: {app.name}\",\n                    code=AppErrorCode.UNIQUE.value,\n                )\n            )\n    \n        if manifest_data.get(\"id\") == GIFT_CARD_PAYMENT_GATEWAY_ID:\n            errors[\"identifier\"].append(\n                ValidationError(\n                    \"App with this identifier cannot be installed\",\n                    code=AppErrorCode.UNIQUE.value,\n                )\n            )\n   ",
+  "saleor/app/tests/test_validators.py::test_new_tab_relative_url_without_app_url": "app_manifest = {'about': 'Sample Saleor App serving as an example.', 'appUrl': None, 'configurationUrl': 'http://127.0.0.1:5000/configuration/', 'dataPrivacy': '', ...}\n\n    def test_new_tab_relative_url_without_app_url(app_manifest):\n        # given\n        app_manifest[\"appUrl\"] = None\n    \n        extension = {\n            \"url\": \"/relative/path\",\n            \"target\": \"new_tab\",\n        }\n    \n        app_manifest[\"extensions\"] = [extension]\n    \n        # when & then\n>       with pytest.raises(ValidationError):\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       Failed: DID NOT RAISE <class 'django.core.exceptions.ValidationError'>\n\nsaleor/app/tests/test_validators.py:109: Failed"
+ },
+ "parent_failure_text_sha256": "52c82d7dbeca980366539daa4ad67eee0c3a4bf5652c8e3d73fbb70aba14563b",
+ "rule_constants_sha256": "c54be06967ae68bbfc6fc8c541489c495e1faeb0abd80bc3d39d3fd1ba2bbab3",
+ "rule_id": "M16_R1_REPETITION_RETENTION_V1",
+ "status": "DONE",
+ "target_commit": "7e42fc67ce72770720440781fc83685a48bd91b8",
+ "task_id": "saleor-rc-7e42fc67ce72",
+ "test_files": [
+  "saleor/app/tests/test_app_commands.py",
+  "saleor/app/tests/test_installation_utils.py",
+  "saleor/app/tests/test_validators.py",
+  "saleor/graphql/app/tests/mutations/test_app_fetch_manifest.py"
+ ],
+ "wall_s": 620.8
+}
