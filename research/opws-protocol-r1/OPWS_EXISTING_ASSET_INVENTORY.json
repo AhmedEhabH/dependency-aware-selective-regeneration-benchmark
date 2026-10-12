@@ -1,0 +1,287 @@
+{
+  "mission": "M17_OPWS_PROTOCOL_FREEZE_R1",
+  "artifact": "opws_existing_asset_inventory",
+  "phase": "P1",
+  "date": "2026-10-12",
+  "search_domain": "CURRENT worktree only (D:/wp2_opws_protocol_r1) plus explicit READ-ONLY authorities named in the mission. Full-D7 in-progress paths were never enumerated, listed, or opened.",
+  "full_d7_partial_outcomes_read": false,
+  "owner_correction_note": "main.pdf is HISTORICAL ONLY. It does NOT override newer frozen repository scientific authority (frozen protocol freezes, design freezes, independent-review artifacts, and pre-registered plan artifacts listed in this inventory are authoritative for R1). No OPWS semantic is derived from main.pdf.",
+  "authority_ranking": {
+    "0": "Frozen pre-registered plan/design artifacts in this worktree (e.g., m17_design_freeze_v1.json, controller/plan_m17_v1_main.json, BASELINE_PROTOCOL_FREEZE_R2.json, AGENTLESS_STYLE_ADAPTATION_PROTOCOL_FREEZE.json)",
+    "1": "Frozen evidence artifacts (manifest, gold proxies, per-arm prediction artifacts, census)",
+    "2": "Frozen instrument implementations (m15r, m14r, m14a, p2p, wp2 e2e scopes)",
+    "3": "Independent review documents (docs/WP2_RESHAPE_INDEPENDENT_REVIEW_2026-10-01.md)",
+    "4": "main.pdf = HISTORICAL ONLY; never overrides items above"
+  },
+  "note": "This inventory only records PREDEFINED artifacts that ALREADY existed at the mission start hash 83399ff. It establishes which existing semantics are reused by the frozen OPWS R1 protocol so that no duplicate implementation is created.",
+  "universe_semantics": {
+    "source": "per-task frozen real-commit-impact-dataset-v1 public/candidate_universe.json (present for 297/297 MAIN_297 tasks)",
+    "normalization": "repository-relative paths, forward slashes, exact strings as stored in candidate_universe records",
+    "exclusions": "the frozen universe already encodes the canonical production .py predicate; no scoring-time exclusion added",
+    "prediction_outside_universe_policy": "never silently dropped; counted in invalid_prediction_count and recorded per task"
+  },
+  "gold_semantics": {
+    "source": "research/saleor-reserve-300-rmcss/saleor_reserve_300_proxies.json",
+    "role": "observed historical changed non-test file paths = known reference NON-TEST patch file identity; evaluation-only",
+    "normalization": "repository-relative, forward slashes",
+    "opened_once": true
+  },
+  "assets": [
+    {
+      "path": "main.pdf",
+      "purpose": "Referenced as primary scientific evaluation authority is NOT the case for R1. Owner correction: main.pdf is HISTORICAL ONLY and must not override newer frozen repository scientific authority.",
+      "status": "HISTORICAL_ONLY",
+      "authority_level": "HISTORICAL_CONTEXT_ONLY",
+      "reuse_decision": "NOT_AUTHORITATIVE",
+      "reason": "Owner correction #1: no OPWS R1 semantic is derived from main.pdf; the frozen repository plan/design artifacts above are the operative authority."
+    },
+    {
+      "path": "scripts/wp2_m15r_run.py",
+      "purpose": "M15-R Pilot-B OPWS executor: opws_paths (selector editable INTERSECT gold-changed non-test files), opws_plan (scoped gold diff freeze), opws_evaluate (E1 evaluation + reuse of readiness positive control), opws_complete, compute_opws_summary. Zero model API.",
+      "status": "FROZEN historical evidence (Pilot-B n=10 descriptive)",
+      "authority_level": "INSTRUMENT_PRECEDENT",
+      "reuse_decision": "REUSE_SEMANTICS_ONLY",
+      "reason": "OPWS execution order, scoped-restriction rule, unique-evaluation reuse, and fail-closed infra handling are the direct precedent. New artifact asks the same scope-restriction question on the future Full-D7 READY population; opws record/summary fields are redesigned to the R1 normalized joint taxonomy."
+    },
+    {
+      "path": "scripts/wp2_m14r_run.py",
+      "purpose": "M14-R readiness: scoped_gold_diff(task_id, editable) = git diff parent target restricted to editable paths; positive/negative control execution; READY/NOT_READY taxonomy (NEGATIVE_CONTROL_INVALID, EMPTY_SCOPED_GOLD, SCOPED_GOLD_DOES_NOT_APPLY, SCOPED_GOLD_NOT_RESOLVED).",
+      "status": "FROZEN historical evidence (Pilot-A/B midline)",
+      "authority_level": "INSTRUMENT_PRECEDENT",
+      "reuse_decision": "REUSE_SEMANTICS_ONLY",
+      "reason": "Restricted reference-patch application semantics (git diff <parent> <target> -- <selected files>) are exactly the OPWS patch-application semantic and are reused verbatim, not reinvented."
+    },
+    {
+      "path": "scripts/wp2_m14a_evalcore.py",
+      "purpose": "Evaluation core: per-node group scoring, strict/robust aggregation, gold-empty canary, EvalInfraError infrastructure exception (fail-closed, never scientific evidence), gold_diff applicability check.",
+      "status": "FROZEN historical evidence",
+      "authority_level": "INSTRUMENT_PRECEDENT",
+      "reuse_decision": "REUSE_SEMANTICS_ONLY",
+      "reason": "Preserves strict/robust scoring and the infra-vs-science boundary that R1's taxonomy must keep intact (P7/P10)."
+    },
+    {
+      "path": "scripts/wp2_m14a_evalcore_e1.py",
+      "purpose": "E1 evaluator: evaluate_state_e1, rule_constants, INFRA_PARTIAL_MISSING / INFRA_UNCLASSIFIED / INFRA_PARENT_UNVERIFIED infra classification, missing-JUnit fail-closed.",
+      "status": "FROZEN historical evidence",
+      "authority_level": "INSTRUMENT_PRECEDENT",
+      "reuse_decision": "REUSE_SEMANTICS_ONLY",
+      "reason": "Provides the executable behavioral contract boundary (frozen evaluator + E1) that OPWS R1's TEST_CONTRACT_INVALID / ENVIRONMENT_INVALID codes key off."
+    },
+    {
+      "path": "scripts/wp2_m14a_readiness.py",
+      "purpose": "Pilot-A readiness + membership: deterministic per-task READY computation with reasons (NO_BEHAVIORAL_F2P, P2P_UNDEFINED, GOLD_EMPTY_CHECK_FAILED, GOLD_DIFF_NOT_APPLICABLE); readiness record; finalize_after_readiness.",
+      "status": "FROZEN historical evidence",
+      "authority_level": "INSTRUMENT_PRECEDENT",
+      "reuse_decision": "REUSE_NAMING_CONTRACT",
+      "reason": "The eligibility funnel's ENV_READY gate must reuse the existing readiness vocabulary rather than invent a new 'ready' definition. OPWS_ELIGIBLE is a distinct, additional OPWS-behavior-contract gate."
+    },
+    {
+      "path": "scripts/wp2_m17_contract.py",
+      "purpose": "M17 K07 F2P/P2P contract logic: frozen F2P node set, task_resolvable, P2P-S/P2P-U selector-blind node extraction, terminal classification (RESOLVED / F2P_UNRESOLVED / F2P_PARTIAL / P2P_REGRESSION / INFRA_UNRESOLVED / ENV_INSTALL_BLOCKED).",
+      "status": "FROZEN design artifact",
+      "authority_level": "FROZEN_CONTRACT",
+      "reuse_decision": "REUSE_VOCABULARY",
+      "reason": "Preservation nodes and terminal classification naming used by Full-D7 evaluation must be the same vocabulary referenced by OPWS R1."
+    },
+    {
+      "path": "research/wp2/m15r_v1/m15r_design_freeze_v1.json",
+      "purpose": "M15-R design freeze: OPWS_ROBUST primary, OPWS_STRICT co-reported, selector-blind, zero generator API.",
+      "status": "FROZEN historical evidence",
+      "authority_level": "FROZEN_CONTRACT",
+      "reuse_decision": "REUSE_DEFINITIONAL_PARITY",
+      "reason": "OPWS RO1 keeps the same central scientific question while standardizing the per-arm joint taxonomy and sufficiency-scope frontier."
+    },
+    {
+      "path": "research/wp2/m17_v1/m17_design_freeze_v1.json",
+      "purpose": "M17 design freeze: endpoint OPWS_ROBUST per task and selector; co-reported OPWS_STRICT, file P/R/F1, scope size, preservation outcomes, paired RM-CSS vs Agent contrasts; statistics = paired estimation, READY census, n<40 descriptive.",
+      "status": "FROZEN design artifact (2026-10-02)",
+      "authority_level": "FROZEN_CONTRACT",
+      "reuse_decision": "REUSE_DEFINITIONAL_PARITY",
+      "reason": "R1 protocol inherits the M17 endpoint and paired-analysis framing and extends registration to the full arm registry, sufficiency-scope frontier, and population-binding schema."
+    },
+    {
+      "path": "controller/plan_m17_v1_main.json",
+      "purpose": "M17 main phase plan: guard, adapter-verify, oracle, eligibility-freeze, evalsets, readiness, ready-freeze, scopes, opws-evaluate, opws-complete, analyze, summary. Environment = no Docker; WSL/Docker on C:; D: cold evidence.",
+      "status": "FROZEN plan artifact",
+      "authority_level": "FROZEN_CONTRACT",
+      "reuse_decision": "REUSE_EXECUTION_ORDER",
+      "reason": "Task-major OPWS execution with immutable-environment reuse per task matches M17's scopes->opws-evaluate ordering; R1 freezes ordering rules before outcomes."
+    },
+    {
+      "path": "research/wp1b/wp1b_main_297_manifest.json",
+      "purpose": "Frozen MAIN_297 manifest: 297 ordered task IDs and sha256. Population source for every arm and for the future Full-D7 READY binding.",
+      "status": "FROZEN evidence",
+      "authority_level": "SOURCE_OF_TRUTH",
+      "reuse_decision": "REUSE_EXACTLY",
+      "reason": "Task identity and ordering for the frame come from this manifest; not re-derived."
+    },
+    {
+      "path": "research/wp1a/sip_rmcss_per_task_predictions.json",
+      "purpose": "Frozen per-task RM-CSS and SIP predicted file sets on MAIN_297 (rmcss_predicted_set, sip_predicted_set, per-task hashes).",
+      "status": "FROZEN evidence",
+      "authority_level": "ARM_ARTIFACT",
+      "reuse_decision": "REUSE_EXACTLY",
+      "reason": "Authoritative selected-scope file lists for the RM_CSS and SIP arms (scope semantics = frozen prediction file lists)."
+    },
+    {
+      "path": "research/wp1b/main-297-2026-09-22/wp1b_agent_predictions.json",
+      "purpose": "Frozen protocol-v3 Agent MAIN_297 predictions (selected_paths, per-task) with empty_reason, infra_failure, forced_final, replicate markers.",
+      "status": "FROZEN evidence",
+      "authority_level": "ARM_ARTIFACT",
+      "reuse_decision": "REUSE_EXACTLY",
+      "reason": "Authoritative selected-scope file lists for the AGENT arm (MAIN run; selection-only)."
+    },
+    {
+      "path": "research/saleor-reserve-300-rmcss/saleor_reserve_300_proxies.json",
+      "purpose": "Frozen observed changed non-test path sets (gold proxies) for the 300-task reserve population.",
+      "status": "FROZEN evidence",
+      "authority_level": "GOLD_SOURCE",
+      "reuse_decision": "REUSE_EXACTLY (evaluation-only)",
+      "reason": "Ground truth = historical changed non-test files. Used to define the reference NON-TEST patch file set and GOLD arm under the perfect-generator assumption."
+    },
+    {
+      "path": "research/saleor-reserve-300-rmcss/saleor_reserve_300_sample.json",
+      "purpose": "Frozen 300-task sample with parent/target commit identity and eligibility.",
+      "status": "FROZEN evidence",
+      "authority_level": "SOURCE_OF_TRUTH",
+      "reuse_decision": "REUSE_EXACTLY",
+      "reason": "Parent/target commit identity used to materialize reference patch content."
+    },
+    {
+      "path": "research/wp2/wp2_saleor_main297_census_2026-09-22.json",
+      "purpose": "MAIN_297 census: per-task parent/target commits, changed paths, test-file predicate, inferable test commands, F2P candidacy classification.",
+      "status": "FROZEN evidence",
+      "authority_level": "SOURCE_OF_TRUTH",
+      "reuse_decision": "REUSE_EXACTLY",
+      "reason": "Defines the repository-relative file identity, parent/target commits, and test-command inference used by the R1 scope-hash and behavior-contract semantics."
+    },
+    {
+      "path": "benchmark_data/real_commit_impact_saleor/scientific/<task_id>/public/candidate_universe.json",
+      "purpose": "Per-task frozen selectable repository-file universe (production .py via canonical predicate).",
+      "status": "FROZEN data",
+      "authority_level": "SELECTABLE_UNIVERSE",
+      "reuse_decision": "REUSE_EXACTLY",
+      "reason": "RANDOM_SIZE_MATCHED_RM_CSS and SELECT_ALL draw from this same frozen selectable universe."
+    },
+    {
+      "path": "src/benchmark/cheap_baselines/tokenize.py",
+      "purpose": "Deterministic tokenizer (snake/camel boundary split, lowercased, alphanumeric, frozen stopwords) used by BM25/DENSE retrieval baselines.",
+      "status": "FROZEN implementation",
+      "authority_level": "IMPLEMENTATION_REFERENCE",
+      "reuse_decision": "REUSE_REFERENCE_ONLY",
+      "reason": "R1 statistical plan does not re-score retrieval; it reuses the frozen per-arm prediction artifacts already produced with these semantics."
+    },
+    {
+      "path": "src/benchmark/wp1b/main_scoring.py",
+      "purpose": "Paired task bootstrap (10,000 resamples) delta-F1 inference with frozen seed 20260920 (MAIN_297).",
+      "status": "FROZEN implementation",
+      "authority_level": "STATISTICS_REFERENCE",
+      "reuse_decision": "REUSE_ALGORITHM (seed/count re-frozen for OPWS)",
+      "reason": "The paired-bootstrap-on-tasks algorithm is reused verbatim; OPWS R1 freezes its own PAIRED_BOOTSTRAP = 10000 and BOOTSTRAP_SEED = 20261012 (per mission predeclaration)."
+    },
+    {
+      "path": "scripts/wp2_p2p_s_freeze_v1.py",
+      "purpose": "P2P-S = SWE-bench-aligned changed-test PASS_TO_PASS preservation set (STABLE_P2P).",
+      "status": "FROZEN implementation",
+      "authority_level": "PRESERVATION_CONTRACT",
+      "reuse_decision": "REUSE_EXACTLY",
+      "reason": "Preservation-pass identity comes from the existing frozen P2P-S/P2P-U contracts, not a redefinition."
+    },
+    {
+      "path": "scripts/wp2_p2p_u_v2_exec.py",
+      "purpose": "P2P-U V2 extended preservation (unchanged-test registry, outcome-blind cap200, STABLE_P2P).",
+      "status": "FROZEN implementation",
+      "authority_level": "PRESERVATION_CONTRACT",
+      "reuse_decision": "REUSE_EXACTLY",
+      "reason": "Preservation-pass identities must match the existing unchanged-test preservation contract."
+    },
+    {
+      "path": "src/benchmark/wp2/e2e/scopes.py",
+      "purpose": "Scope builders: GOLD_HARD = target-changed non-test paths; RMCSS_HARD; AGENT_HARD; editable_filter; commits_of.",
+      "status": "FROZEN implementation",
+      "authority_level": "SCOPE_NORMALIZATION_REFERENCE",
+      "reuse_decision": "REUSE_SEMANTICS_ONLY",
+      "reason": "The repository-relative, forward-slash, deduplicated file-identity convention for scope normalization is reused (MAIN_297-report-native), per mission P5."
+    },
+    {
+      "path": "D:/wp2_comp_baselines/research/competitor-baselines-r2/per_task_predictions_r2.json",
+      "purpose": "Frozen per-task selected file sets for BM25@1/3/5/10, DENSE@1/3/5/10, SIZE_MATCHED controls, BM25_TO_CIA_1HOP/2HOP, C_ORACLE_1HOP/2HOP, SIP, RM-CSS, AGENT on MAIN_297, with gold, universe_size, invalid-count accounting.",
+      "status": "FROZEN read-only authority evidence",
+      "authority_level": "ARM_ARTIFACT (competitor evidence)",
+      "reuse_decision": "REUSE_EXACTLY (read-only)",
+      "reason": "This is the frozen prediction artifact for the retrieval arms (DENSE_K3/K10, BM25_K3/K10), the CIA-style structural control (BM25_TO_CIA_1HOP), and a cross-check of SIP/RM-CSS/AGENT selection lists."
+    },
+    {
+      "path": "D:/wp2_comp_baselines/research/competitor-baselines-r2/BASELINE_PROTOCOL_FREEZE_R2.json",
+      "purpose": "Frozen R2 baseline protocol: candidate-universe semantics, size-matched rule, paired bootstrap constants (10000, seed 20261012), BM25/DENSE/CIA decoding details.",
+      "status": "FROZEN read-only authority evidence",
+      "authority_level": "PROTOCOL_REFERENCE",
+      "reuse_decision": "REUSE_NOMENCLATURE_AND_CONSTANTS",
+      "reason": "Confirms the pre-existing frozen univeral baseline semantics and constants that OPWS R1 must not contradict."
+    },
+    {
+      "path": "D:/wp2_agentless_main297/research/competitor-agentless-r1/agentless_r1_prediction_freeze.json",
+      "purpose": "Frozen Agentless-style MAIN_297 localization predictions (prediction_set, validity, raw_output_sha256).",
+      "status": "FROZEN read-only authority evidence",
+      "authority_level": "ARM_ARTIFACT (competitor evidence)",
+      "reuse_decision": "REUSE_EXACTLY (read-only)",
+      "reason": "Authoritative selected-file lists for the AGENTLESS_STYLE_ADAPTATION arm (NEVER labeled exact/official Agentless reproduction)."
+    },
+    {
+      "path": "D:/wp2_agentless_main297/research/competitor-agentless-r1/AGENTLESS_STYLE_ADAPTATION_PROTOCOL_FREEZE.json",
+      "purpose": "Frozen label boundary for AGENTLESS_STYLE_ADAPTATION: file-level localization comparator only; NOT exact published Agentless reproduction.",
+      "status": "FROZEN read-only authority evidence",
+      "authority_level": "LABEL_CONTRACT",
+      "reuse_decision": "REUSE_EXACTLY",
+      "reason": "The forbidden-label contract for the Agentless arm is already frozen and is inherited verbatim."
+    },
+    {
+      "path": "docs/WP2_RESHAPE_INDEPENDENT_REVIEW_2026-10-01.md",
+      "purpose": "Independent review that established OPWS as the generator-independent scope-sufficiency endpoint and listed OPWS assumptions/limitations.",
+      "status": "FROZEN historical evidence",
+      "authority_level": "SCIENTIFIC_RATIONALE",
+      "reuse_decision": "REUSE_INTERPRETATION_BOUNDARY",
+      "reason": "The interpretation boundary (P2) mirrors this review: OPWS removes the generator, is not functional-correctness proof, does not penalize over-selection in OPWS, alternative fixes not credited."
+    },
+    {
+      "path": "docs/WP2_M15R_V1_OPWS_RESULT.md",
+      "purpose": "M15-R Pilot-B OPWS result documentation (descriptive).",
+      "status": "FROZEN historical evidence",
+      "authority_level": "CONTEXT",
+      "reuse_decision": "CONTEXT_ONLY",
+      "reason": "Not reused as OPWS R1 evidence (separate population); only documents the earlier instrument."
+    },
+    {
+      "path": "docs/M16_V1_CLOSURE_2026-10-02.md",
+      "purpose": "M16-v1 OPWS-MAIN attempt closed pre-experiment as an adapter failure (no MAIN OPWS outcome).",
+      "status": "FROZEN historical evidence",
+      "authority_level": "CONTEXT_LESSON",
+      "reuse_decision": "CONTEXT_ONLY",
+      "reason": "R1 execution handoff must make adapter/behavior-contract resolution a mandatory pre-execution gate to avoid repeating the M16 adapter-verify failure."
+    },
+    {
+      "path": "research/wp2/m17_v1/m17_qualification_membership_v2_approved.json",
+      "purpose": "M17 qualification membership (12-task candidate list, strata).",
+      "status": "FROZEN evidence",
+      "authority_level": "QUALIFICATION_CONTEXT",
+      "reuse_decision": "CONTEXT_ONLY",
+      "reason": "The final OPWS R1 population is the FUTURE Full-D7 READY population; this qualification list is not the bound population."
+    },
+    {
+      "path": "scripts/wp2_m16_run.py",
+      "purpose": "M16-v1 runner (closed): scoped_gold_diff adapter, firewall.",
+      "status": "FROZEN historical (closed)",
+      "authority_level": "CONTEXT_LESSON",
+      "reuse_decision": "CONTEXT_ONLY",
+      "reason": "Adapter-verify gate lessons inform P13 validator's OPWS_INVALID / TEST_CONTRACT_INVALID provisions."
+    },
+    {
+      "path": "scripts/wp2_m17_run.py",
+      "purpose": "M17 qualification/main runner CLI: guard, adapter-verify, oracle, eligibility-freeze, evalsets, readiness, ready-freeze, scopes, opws-evaluate, opws-complete, analyze, summary. MAIN commands blocked in zero-Docker kits.",
+      "status": "FROZEN harness",
+      "authority_level": "EXECUTION_HARNESS",
+      "reuse_decision": "REUSE_COMMAND_VOCABULARY",
+      "reason": "The OPWS execution handoff contract references the existing command vocabulary (ready-freeze, scopes, opws-evaluate, analyze) so handoff is unambiguous."
+    }
+  ]
+}

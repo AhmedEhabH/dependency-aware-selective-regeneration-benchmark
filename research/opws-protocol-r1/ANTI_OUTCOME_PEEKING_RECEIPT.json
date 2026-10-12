@@ -1,0 +1,25 @@
+{
+  "mission": "M17_OPWS_PROTOCOL_FREEZE_R1",
+  "mission_class": "T3_EVALUATION_PROTOCOL_DESIGN_AND_PRE_REGISTRATION_FREEZE_ONLY",
+  "created_at": "2026-10-12",
+  "entry_branch": "parallel/opws-protocol-r1-2026-10-12",
+  "entry_head": "83399ff875c7793286d66311afb6c62071ea04b3",
+  "forbidden_read_paths": [
+    "D:\\wp2_sf_full_d7_r1",
+    "D:\\wp2_sf_full_d7_r1_store"
+  ],
+  "full_d7_partial_outcomes_read": false,
+  "full_d7_worktree_modified": false,
+  "full_d7_store_modified": false,
+  "opws_executed": false,
+  "oracle_patches_run": false,
+  "docker_run": false,
+  "behavioral_or_preservation_tests_run": false,
+  "pilot_opws_run": false,
+  "full_d7_final_ready_population_hash": "UNBOUND_PENDING_FULL_D7",
+  "full_d7_final_ready_task_count": "UNBOUND_PENDING_FULL_D7",
+  "opws_bound_population_hash": "UNBOUND_PENDING_FULL_D7",
+  "scientific_api_calls_for_model_under_test": false,
+  "orchestration_note": "OpenCode coding/orchestration model usage is NOT a benchmark/model-under-test API call.",
+  "declaration": "This protocol freeze was authored WITHOUT inspecting, reading, modifying, or reasoning from any partial Full-D7 outcome. Full D7 identity/hash remains unbound until Full D7 freezes."
+}

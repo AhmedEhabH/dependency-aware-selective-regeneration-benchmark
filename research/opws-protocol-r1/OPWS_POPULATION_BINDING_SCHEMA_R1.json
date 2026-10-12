@@ -1,0 +1,48 @@
+{
+  "mission": "M17_OPWS_PROTOCOL_FREEZE_R1",
+  "artifact": "opws_population_binding_schema_r1",
+  "phase": "P11",
+  "freeze_date": "2026-10-12",
+  "status": "FROZEN_SCHEMA_ONLY",
+  "purpose": "Schema for LATER binding of the OPWS population, executed only after Full D7 freezes. This schema file is frozen now with UNBOUND placeholders; a later binding fills only the binding fields. It may NOT change protocol semantics.",
+  "freeze_may_not_contain_guessed_values": true,
+  "current_values": {
+    "full_d7_evidence_commit": "UNBOUND_PENDING_FULL_D7",
+    "full_d7_tag": "UNBOUND_PENDING_FULL_D7",
+    "full_d7_ready_population_file": "UNBOUND_PENDING_FULL_D7",
+    "full_d7_ready_population_sha256": "UNBOUND_PENDING_FULL_D7",
+    "n_env_ready": "UNBOUND_PENDING_FULL_D7",
+    "behavior_contract_manifest": "UNBOUND_PENDING_FULL_D7",
+    "behavior_contract_manifest_sha256": "UNBOUND_PENDING_FULL_D7",
+    "n_opws_eligible": "UNBOUND_PENDING_FULL_D7",
+    "n_primary_paired": "UNBOUND_PENDING_FULL_D7",
+    "ordered_task_ids": "UNBOUND_PENDING_FULL_D7",
+    "ordered_task_ids_sha256": "UNBOUND_PENDING_FULL_D7",
+    "binding_created_at": "UNBOUND_PENDING_FULL_D7",
+    "protocol_sha256": "UNBOUND_PENDING_FULL_D7"
+  },
+  "schema_fields": {
+    "full_d7_evidence_commit": "the Full-D7 frozen evidence commit that produced the READY census",
+    "full_d7_tag": "the Full-D7 frozen evidence tag",
+    "full_d7_ready_population_file": "path to the frozen Full-D7 READY population file",
+    "full_d7_ready_population_sha256": "sha256 of the frozen Full-D7 READY population file",
+    "n_env_ready": "number of environment-READY tasks in the frozen census",
+    "behavior_contract_manifest": "path to the frozen behavior-contract manifest (adapter + evaluator contract per task)",
+    "behavior_contract_manifest_sha256": "sha256 of the behavior-contract manifest",
+    "n_opws_eligible": "number of OPWS-eligible tasks (OPWS_ELIGIBILITY_FUNNEL_R1.json stages)",
+    "n_primary_paired": "number of PRIMARY_PAIRED_ELIGIBLE tasks (RM-CSS vs AGENT paired population)",
+    "ordered_task_ids": "ordered, deduplicated, deterministic list of bound task IDs",
+    "ordered_task_ids_sha256": "canonical sha256 of the ordered task-ID list",
+    "binding_created_at": "UTC ISO timestamp when the binding record is written (after Full D7 freeze)",
+    "protocol_sha256": "sha256 of the released OPWS protocol freeze (tag peel hash at binding time)"
+  },
+  "unbound_placeholder": "UNBOUND_PENDING_FULL_D7",
+  "binding_rules": [
+    "Population binding happens ONLY after Full D7 freezes AND after the Full-D7 scope/census issue is resolved AND a valid population hash is frozen (owner correction #3).",
+    "The final OPWS population is NEVER guessed. No interim binding may be created in this freeze mission.",
+    "Later bindings may fill only the schema fields; they must not change any protocol semantic, folder, estimand, seed, bootstrap, or taxonomy in this freeze.",
+    "The binding record must be self-hashed and stored under the mission artifacts so the bound identity is immutable.",
+    "Any gap between the funnel (OPWS_ELIGIBLE) and the paired population (PRIMARY_PAIRED_ELIGIBLE) must be reported task-by-task with reason codes.",
+    "If Full D7 READY count < 40, per the frozen M17 design the OPWS analysis is descriptive/supporting only; this does not change the schema."
+  ]
+}

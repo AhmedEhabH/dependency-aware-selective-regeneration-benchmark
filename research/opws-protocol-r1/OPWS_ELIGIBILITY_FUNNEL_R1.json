@@ -1,0 +1,91 @@
+{
+  "mission": "M17_OPWS_PROTOCOL_FREEZE_R1",
+  "artifact": "opws_eligibility_funnel_r1",
+  "phase": "P3",
+  "freeze_date": "2026-10-12",
+  "status": "FROZEN",
+  "purpose": "Deterministic, outcome-blind funnel deciding OPWS paired-analysis eligibility. No task is removed based on an observed OPWS result.",
+  "stages": [
+    {
+      "id": "STAGE_1_FROZEN_TASK_UNIVERSE",
+      "name": "frozen task universe",
+      "scope": "MAIN / frozen task universe (MAIN_297 manifest ordered task IDs)",
+      "source": "research/wp1b/wp1b_main_297_manifest.json",
+      "gate": "task id present in the frozen manifest and in the future Full-D7 frame",
+      "outcome": "in_universe: bool"
+    },
+    {
+      "id": "STAGE_2_TEST_EVIDENCE",
+      "name": "test evidence available",
+      "scope": "frozen evaluator F2P node set for the task",
+      "source": "frozen Full-D7 evaluator artifacts (BEHAVIORAL_F2P / SYMBOL_ABSENCE_F2P node records, bounded by frozen counts)",
+      "gate": "frozen per-task F2P count > 0 and node identities resolvable (no MISSING_F2P_NODES)",
+      "outcome": "test_evidence: bool"
+    },
+    {
+      "id": "STAGE_3_BEHAVIOR_CONTRACT_RESOLVED",
+      "name": "adapter / behavior contract resolved",
+      "scope": "frozen behavior contract (adapter verified + E1 evaluator available + test command deterministic)",
+      "source": "frozen Full-D7 adapter verification records",
+      "gate": "adapter resolved for the task; test command determined; evaluator boundary instantiable",
+      "outcome": "behavior_contract: bool"
+    },
+    {
+      "id": "STAGE_4_ENV_READY",
+      "name": "Full-D7 environment READY",
+      "scope": "environment readiness from the frozen Full-D7 READY census",
+      "source": "Full-D7 readiness records (negative + positive controls; READY decision) at final frozen census",
+      "gate": "frozen Full-D7 readiness record says READY (environment controls passed)",
+      "outcome": "env_ready: bool",
+      "note": "ENV_READY alone does NOT imply OPWS_ELIGIBLE. This is exactly the distinction the mission requires."
+    },
+    {
+      "id": "STAGE_5_BEHAVIOR_CONTRACT_EXECUTABLE",
+      "name": "behavior contract executable on OPWS worktree",
+      "scope": "preflight that the frozen behavior contract can run against an OPWS-patched worktree (no patch-application or evaluator-runtime blocker)",
+      "gate": "dry preflight accepts the OPWS patching scheme; no PATCH_APPLICATION_INVALID / TEST_CONTRACT_INVALID at the eligibility layer",
+      "outcome": "behavior_executable: bool"
+    },
+    {
+      "id": "STAGE_6_OPWS_ELIGIBLE",
+      "name": "OPWS eligible",
+      "scope": "task eligible for at least the diagnostic arms (GOLD / SELECT_ALL) under the OPWS contract",
+      "gate": "in_universe AND test_evidence AND behavior_contract AND env_ready AND behavior_executable",
+      "outcome": "opws_eligible: bool"
+    },
+    {
+      "id": "STAGE_7_PRIMARY_PAIRED_ELIGIBLE",
+      "name": "primary paired eligible",
+      "scope": "task eligible for the PRIMARY paired comparison RM-CSS vs AGENT",
+      "gate": "opws_eligible AND both RM_CSS and AGENT frozen prediction artifacts resolve for the task (valid non-invalid scope recordings) AND GOLD validity control resolvable for the task",
+      "outcome": "primary_paired_eligible: bool",
+      "reason_codes_prefix": "PRIMARY_PAIRED_EXCLUDED_"
+    }
+  ],
+  "distinct_markers": {
+    "ENV_READY": "environment readiness only (Full-D7 READY census)",
+    "OPWS_ELIGIBLE": "environment-ready AND complete OPWS contract resolvable for the task",
+    "PRIMARY_PAIRED_ELIGIBLE": "OPWS eligible AND RM_CSS+AGENT scope artifacts + GOLD validity available (paired subpopulation)"
+  },
+  "eligibility_reason_codes": {
+    "IN_UNIVERSE": "task in frozen MAIN_297 universe",
+    "NOT_IN_UNIVERSE": "task not in frozen universe",
+    "TEST_EVIDENCE_MISSING": "no frozen F2P node evidence",
+    "BEHAVIOR_CONTRACT_MISSING": "adapter/evaluator contract unresolved",
+    "ENV_NOT_READY": "Full-D7 environment not READY",
+    "BEHAVIOR_CONTRACT_NOT_EXECUTABLE": "behavior contract not executable on OPWS worktree",
+    "OPWS_ELIGIBLE": "all OPWS eligibility gates pass",
+    "PRIMARY_PAIRED_ELIGIBLE": "OPWS eligible and paired scope artifacts + GOLD validity available",
+    "PRIMARY_PAIRED_EXCLUDED_RMCSS_ARTIFACT": "RM_CSS scope artifact invalid/missing for task",
+    "PRIMARY_PAIRED_EXCLUDED_AGENT_ARTIFACT": "AGENT scope artifact invalid/missing for task",
+    "PRIMARY_PAIRED_EXCLUDED_GOLD_CONTROL": "GOLD validity control not resolvable for task"
+  },
+  "hard_rules": [
+    "No task may be removed from any eligibility stage based on an observed OPWS result.",
+    "OPWS scientific failures (BEHAVIOR_FAIL / PRESERVATION_FAIL / BEHAVIOR_AND_PRESERVATION_FAIL) on eligible tasks are data, never reasons to drop the task.",
+    "INFRASTRUCTURE / TEST_CONTRACT / ARM_PREDICTION invalids are recorded with exact reason codes in OPWS_INVALID_TASKS.json and reported; they are not silent exclusions.",
+    "Eligibility is evaluated once on the final frozen population; the eligibility manifest is hashed and bound with the population.",
+    "GOLD diagnostic failures tied to the behavior/preservation contract invalidate the task (OPWS_INVALID), not a scientific arm failure (see P8)."
+  ],
+  "binding_note": "The instantiated Full-D7 eligibility manifest (per-task stage outcomes and reason codes) is a LATER population-binding-era artifact. This freeze fixes only the funnel logic, stage order, gate definitions, markers, and reason-code vocabulary."
+}

@@ -1,0 +1,40 @@
+{
+  "mission": "M17_OPWS_PROTOCOL_FREEZE_R1",
+  "artifact": "opws_gold_select_all_validity_controls_r1",
+  "phase": "P8",
+  "freeze_date": "2026-10-12",
+  "status": "FROZEN",
+  "purpose": "Frozen validity/ceiling control contract for GOLD (diagnostic floor) and SELECT_ALL (maximal ceiling). Predeclared before outcomes; governs task invalidation, never selector tuning.",
+  "GOLD": {
+    "role": "DIAGNOSTIC_ONLY",
+    "expected": "under correct oracle-patch semantics GOLD reconstructs the complete reference non-test patch (all historically changed non-test files) for an otherwise valid task",
+    "meaning_of_gold_pass": "instrument sanity: the scoped reference patch restricted to all historically changed non-test files satisfies the frozen behavior + preservation contract",
+    "meaning_of_gold_fail": {
+      "if_due_to_behavior_or_preservation_contract": "task is OPWS_INVALID (OPWS_INVALID_CONTROL_FAILURE) and is NOT counted as an arm scientific failure",
+      "if_harness_consistency": "see consistency rule below"
+    },
+    "forbidden": ["presented as a competitive method", "used to tune any selector"]
+  },
+  "SELECT_ALL": {
+    "role": "CEILING_CONTROL",
+    "expected": "under correct oracle-patch semantics SELECT_ALL reconstructs the complete reference non-test patch for an otherwise valid task when the reference patch's non-test files are all inside the frozen selectable universe",
+    "meaning_of_select_all_fail": "if SELECT_ALL fails for a reason attributable to the behavior/preservation contract on a task where GOLD passes with the SAME effective reference patch, task is OPWS_INVALID (OPWS_INVALID_CONTROL_FAILURE); never a selector scientific failure",
+    "ceiling_purpose": "provides a maximal-scope anchor on the sufficiency-scope frontier"
+  },
+  "predeclared_rules": [
+    "If GOLD fails for a reason attributable to the behavior/preservation contract, the task is OPWS_INVALID_CONTROL_FAILURE and is NOT counted as an arm scientific failure. Report the task and reason.",
+    "If SELECT_ALL and GOLD DISAGREE where their EFFECTIVE REFERENCE PATCH is identical (same set of reference non-test files), classify the task as HARNESS_CONSISTENCY_FAILURE and report it; do not tune selectors based on such cases.",
+    "No silent exclusions. Every invalidated task and reason is written to OPWS_INVALID_TASKS.json.",
+    "Effective-reference-patch equality is defined by the identity tuple: same task, same reference non-test file set reachable by each control arm's scope, same behavior contract, same preservation contract, same environment.",
+    "The ceiling meaning of SELECT_ALL is scope-maximal, not 'perfect selector'. The frontier shows SELECT_ALL at its maximal scope size."
+  ],
+  "harness_consistency_failure": {
+    "code": "HARNESS_CONSISTENCY_FAILURE",
+    "meaning": "GOLD and SELECT_ALL disagree where their effective reference patch is identical",
+    "action": "report in OPWS_INVALID_TASKS.json; owner review; never used to alter selectors"
+  },
+  "invalidation_reporting": {
+    "file": "OPWS_INVALID_TASKS.json",
+    "fields_min": ["task_id", "arm_id", "invalid_code", "reason", "effective_reference_patch_identity"]
+  }
+}

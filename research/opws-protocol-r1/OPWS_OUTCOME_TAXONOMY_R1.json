@@ -1,0 +1,94 @@
+{
+  "mission": "M17_OPWS_PROTOCOL_FREEZE_R1",
+  "artifact": "opws_outcome_taxonomy_r1",
+  "phase": "P6",
+  "freeze_date": "2026-10-12",
+  "status": "FROZEN",
+  "purpose": "Frozen outcome classification taxonomy distinguishing SCIENTIFIC failure from INVALID infrastructure. Never convert infrastructure failure into behavioral insufficiency. Never silently discard failures.",
+  "taxonomy": {
+    "OPWS_PASS": {
+      "category": "SCIENTIFIC",
+      "meaning": "behavior_sufficient == 1 AND preservation_pass == 1",
+      "scientific": true
+    },
+    "BEHAVIOR_FAIL": {
+      "category": "SCIENTIFIC",
+      "meaning": "behavior_sufficient == 0 AND preservation_pass == 1 (frozen F2P not all passing on scoped reference patch)",
+      "scientific": true
+    },
+    "PRESERVATION_FAIL": {
+      "category": "SCIENTIFIC",
+      "meaning": "behavior_sufficient == 1 AND preservation_pass == 0 (behavior passed but a frozen stable-pass preservation identity regressed)",
+      "scientific": true
+    },
+    "BEHAVIOR_AND_PRESERVATION_FAIL": {
+      "category": "SCIENTIFIC",
+      "meaning": "behavior_sufficient == 0 AND preservation_pass == 0",
+      "scientific": true
+    },
+    "PATCH_APPLICATION_INVALID": {
+      "category": "INVALID_INFRASTRUCTURE",
+      "meaning": "the scoped reference patch could not be applied cleanly (rejects/conflicts) to the frozen parent state under the frozen patch semantics",
+      "scientific": false,
+      "never_counts_as": "behavioral insufficiency"
+    },
+    "TEST_CONTRACT_INVALID": {
+      "category": "INVALID_CONTRACT",
+      "meaning": "frozen behavior/preservation contract cannot be instantiated for this task (frozen F2P node set missing/unresolved, bad node identity, evaluator boundary not resolvable)",
+      "scientific": false
+    },
+    "ENVIRONMENT_INVALID": {
+      "category": "INVALID_INFRASTRUCTURE",
+      "meaning": "the frozen environment cannot be materialized/run as frozen (clean-state, dependency, or evaluator-environment defect), not a scientific outcome",
+      "scientific": false
+    },
+    "INFRASTRUCTURE_TRANSIENT": {
+      "category": "INVALID_INFRASTRUCTURE",
+      "meaning": "recognized transient infrastructure signature (container startup, network blip, transient filesystem error) matching a PREDECLARED signature, no scientific result produced",
+      "scientific": false,
+      "retry": "ALLOWED once, only if matched signature and no scientific result; retry must not alter scope/patch/env/test contract/timeout/arm/task; both attempts recorded"
+    },
+    "INFRASTRUCTURE_FATAL": {
+      "category": "INVALID_INFRASTRUCTURE",
+      "meaning": "infrastructure failure not matching any predeclared transient signature or persisting past the retry; owner review required",
+      "scientific": false
+    },
+    "ARM_PREDICTION_INVALID": {
+      "category": "INVALID_ARM",
+      "meaning": "the frozen arm prediction artifact for this task/arm is invalid (unresolvable, malformed, or a listed path fails the added-file rule and cannot be recovered); recorded, never counts as scientific failure",
+      "scientific": false
+    },
+    "OPWS_INVALID_CONTROL_FAILURE": {
+      "category": "INVALID_TASK_CONTROL",
+      "meaning": "a validity/control arm (GOLD or SELECT_ALL) failed for a reason attributable to the behavior/preservation contract; the task is OPWS_INVALID and is NOT a scientific arm failure",
+      "scientific": false
+    },
+    "UNKNOWN_FAIL_CLOSED": {
+      "category": "FAIL_CLOSED",
+      "meaning": "any unclassifiable failure; treated as fail-closed, owner review required, never silently dropped",
+      "scientific": false
+    }
+  },
+  "scientific_classes": [
+    "OPWS_PASS",
+    "BEHAVIOR_FAIL",
+    "PRESERVATION_FAIL",
+    "BEHAVIOR_AND_PRESERVATION_FAIL"
+  ],
+  "invalid_classes": [
+    "PATCH_APPLICATION_INVALID",
+    "TEST_CONTRACT_INVALID",
+    "ENVIRONMENT_INVALID",
+    "INFRASTRUCTURE_TRANSIENT",
+    "INFRASTRUCTURE_FATAL",
+    "ARM_PREDICTION_INVALID",
+    "OPWS_INVALID_CONTROL_FAILURE",
+    "UNKNOWN_FAIL_CLOSED"
+  ],
+  "hard_rules": [
+    "Infrastructure failure is never converted into behavioral insufficiency.",
+    "Failures are never silently discarded; every classified record is written and counted.",
+    "OPWS_INVALID_CONTROL_FAILURE and ARM_PREDICTION_INVALID tasks are reported in OPWS_INVALID_TASKS.json with reason; they are excluded from arm scientific denominators with the reason visible.",
+    "UNKNOWN_FAIL_CLOSED blocks scientific interpretation until owner review."
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "mission": "M17_OPWS_PROTOCOL_FREEZE_R1",
+  "artifact": "opws_arm_registry_r1",
+  "phase": "P4",
+  "freeze_date": "2026-10-12",
+  "status": "FROZEN",
+  "purpose": "Frozen arm registry for the OPWS R1 protocol. Every registered arm's selected file scope for a task comes from a pre-existing FROZEN prediction artifact. No new predictions are produced by this mission.",
+  "registry_start_hash": "83399ff875c7793286d66311afb6c62071ea04b3",
+  "population_unbound": true,
+  "population_note": "Artifacts below cover the frozen MAIN_297 manifest population (297 tasks). The final OPWS population is the FUTURE Full-D7 READY binding; per-task arm-level scope lists are read from these frozen artifacts only for tasks in the bound population. Full D7 outcomes were NOT consulted.",
+  "constants": {
+    "RANDOM_SEED": 20261012
+  },
+  "arms": [
+    {
+      "arm_id": "GOLD",
+      "role": "DIAGNOSTIC_ONLY",
+      "scope_source": "research/saleor-reserve-300-rmcss/saleor_reserve_300_proxies.json (observed historical changed NON-TEST file set per task)",
+      "scope_capability": "complete reference non-test patch (all historically changed non-test files)",
+      "forbidden_presentation": ["competitive method", "ordinary comparator", "winner token"],
+      "note": "Diagnostic floor/validity control only. NEVER presented as a competitive method. Under correct oracle-patch semantics GOLD must reconstruct the full reference non-test patch."
+    },
+    {
+      "arm_id": "SELECT_ALL",
+      "role": "CEILING_CONTROL",
+      "scope_source": "per-task frozen selectable repository-file universe (benchmark_data/real_commit_impact_saleor/scientific/<task>/public/candidate_universe.json)",
+      "scope_capability": "maximal canonical scope (entire frozen selectable universe)",
+      "forbidden_presentation": ["ordinary competitor", "tradeoff headline"],
+      "note": "Ceiling/control because its scope is maximal. Not an ordinary competitor."
+    },
+    {
+      "arm_id": "RANDOM_SIZE_MATCHED_RM_CSS",
+      "role": "RANDOM_SIZE_MATCHED_CONTROL",
+      "scope_source": "deterministically sampled from the same frozen selectable universe with the same selected-file count as RM-CSS for that task (sampling below)",
+      "scope_capability": "size-matched random scope",
+      "random_contract": {
+        "same_selected_file_count": "|scope| == RM-CSS scope size for the same task",
+        "universe": "same frozen selectable repository-file universe used by RM-CSS for that task",
+        "seed": 20261012,
+        "deterministic": true,
+        "no_gold_exclusion": "no file excluded based on gold labels",
+        "no_outcome_inspection": "no OPWS outcomes inspected",
+        "saturation": "if universe size < requested scope size, select the complete universe and record saturation",
+        "no_resample_on_outcome": true
+      }
+    },
+    {
+      "arm_id": "BM25_TO_CIA_1HOP",
+      "role": "CIA_STYLE_ADAPTATION_CONTROL",
+      "scope_source": "D:/wp2_comp_baselines/research/competitor-baselines-r2/per_task_predictions_r2.json (BM25_TO_CIA_1HOP_selected per task)",
+      "scope_capability": "structural adaptation control (BM25 retrieval expanded by one-hop",
+      "forbidden_labels": ["EXACT_CIA", "OFFICIAL_CIA_REPRODUCTION", "published CIA"],
+      "note": "Structural/control arm registered because its frozen prediction artifact is confirmed in the R2 freeze. NEVER labeled as exact published CIA."
+    },
+    {
+      "arm_id": "DENSE_K3",
+      "role": "RETRIEVAL_BASELINE",
+      "scope_source": "D:/wp2_comp_baselines/research/competitor-baselines-r2/per_task_predictions_r2.json (DENSE@3_selected per task)",
+      "scope_capability": "dense retrieval top-3"
+    },
+    {
+      "arm_id": "DENSE_K10",
+      "role": "RETRIEVAL_BASELINE",
+      "scope_source": "D:/wp2_comp_baselines/research/competitor-baselines-r2/per_task_predictions_r2.json (DENSE@10_selected per task)",
+      "scope_capability": "dense retrieval top-10"
+    },
+    {
+      "arm_id": "BM25_K3",
+      "role": "RETRIEVAL_BASELINE",
+      "scope_source": "D:/wp2_comp_baselines/research/competitor-baselines-r2/per_task_predictions_r2.json (BM25@3_selected per task)",
+      "scope_capability": "BM25 retrieval top-3"
+    },
+    {
+      "arm_id": "BM25_K10",
+      "role": "RETRIEVAL_BASELINE",
+      "scope_source": "D:/wp2_comp_baselines/research/competitor-baselines-r2/per_task_predictions_r2.json (BM25@10_selected per task)",
+      "scope_capability": "BM25 retrieval top-10"
+    },
+    {
+      "arm_id": "SIP",
+      "role": "SELECTIVE_BASELINE",
+      "scope_source": "research/wp1a/sip_rmcss_per_task_predictions.json (sip_predicted_set per task)",
+      "scope_capability": "selective project inference baseline"
+    },
+    {
+      "arm_id": "AGENTLESS_STYLE_ADAPTATION",
+      "role": "LITERATURE_INSPIRED_LOCALIZATION_ADAPTATION",
+      "scope_source": "D:/wp2_agentless_main297/research/competitor-agentless-r1/agentless_r1_prediction_freeze.json (prediction_set per task)",
+      "forbidden_labels": ["EXACT_AGENTLESS", "OFFICIAL_AGENTLESS_REPRODUCTION"],
+      "scope_capability": "file-level localization adaptation (Agentless style) on the frozen MAIN_297 population"
+    },
+    {
+      "arm_id": "AGENT",
+      "role": "BUDGET_BOUNDED_ITERATIVE_AGENT",
+      "scope_source": "research/wp1b/main-297-2026-09-22/wp1b_agent_predictions.json (selected_paths per task, protocol v3)",
+      "scope_capability": "budget-bounded iterative agent selected file scope"
+    },
+    {
+      "arm_id": "RM_CSS",
+      "role": "OUR_METHOD",
+      "scope_source": "research/wp1a/sip_rmcss_per_task_predictions.json (rmcss_predicted_set per task)",
+      "scope_capability": "primary proposed selection method",
+      "primary_comparison": "RM_CSS vs AGENT on the primary paired eligible population"
+    }
+  ],
+  "arm_artifact_resolution": {
+    "all_core_arms_resolved": true,
+    "unresolved_arms": [],
+    "note": "Every named arm's frozen prediction artifact exists and is identified unambiguously. No ARM_ARTIFACT_UNRESOLVED is recorded for any core arm."
+  },
+  "arm_id_uniqueness": {
+    "unique": true,
+    "arm_order": [
+      "RM_CSS",
+      "AGENT",
+      "AGENTLESS_STYLE_ADAPTATION",
+      "SIP",
+      "DENSE_K3",
+      "DENSE_K10",
+      "BM25_K3",
+      "BM25_K10",
+      "BM25_TO_CIA_1HOP",
+      "SELECT_ALL",
+      "RANDOM_SIZE_MATCHED_RM_CSS",
+      "GOLD"
+    ]
+  },
+  "selection_lists_semantics": {
+    "normalization": "repository-relative forward-slash paths, exactly as stored in each frozen artifact",
+    "dedup": "duplicate paths removed before scope-hash (set semantics); duplicates counted in duplicate_prediction_count",
+    "empty_prediction": "EMPTY prediction is a VALID zero-size scope, not missing data",
+    "added_file_rule": "paths absent at the parent commit are counted as invalid_prediction_path_count and excluded from the OPWS patch with per-task/arm reason",
+    "no_post_hoc_editing": "no path is added based on gold/reference-patch knowledge"
+  }
+}

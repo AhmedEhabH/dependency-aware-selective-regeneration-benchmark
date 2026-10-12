@@ -1,0 +1,79 @@
+{
+  "mission": "M17_OPWS_PROTOCOL_FREEZE_R1",
+  "artifact": "opws_metric_contract_r1",
+  "phase": "P7",
+  "freeze_date": "2026-10-12",
+  "status": "FROZEN",
+  "purpose": "Frozen per-task and aggregate metric contract for OPWS R1. Deterministic identities; no runtime treated as LLM token efficiency.",
+  "schema_version": "opws_metric_contract_v1",
+  "primary_per_task_metrics": {
+    "behavior_sufficient": {
+      "type": "binary",
+      "domain": [0, 1],
+      "definition": "1 iff every required frozen F2P node passes on the OPWS-patched worktree (strict semantics)"
+    },
+    "preservation_pass": {
+      "type": "binary",
+      "domain": [0, 1],
+      "definition": "1 iff every frozen stable-pass preservation identity passes on the OPWS worktree"
+    },
+    "opws_joint_pass": {
+      "type": "binary",
+      "domain": [0, 1],
+      "definition": "behavior_sufficient AND preservation_pass"
+    },
+    "scope_size_files": {
+      "type": "non_negative_integer",
+      "definition": "|canonical normalized selected file list| for the task/arm"
+    },
+    "selected_scope_hash": {
+      "type": "sha256_string",
+      "definition": "canonical deterministic scope hash (OPWS_SCOPE_SEMANTICS_R1.json)"
+    }
+  },
+  "co_reported_per_task": {
+    "historical_recall": "|scope intersect gold non-test| / |gold non-test|",
+    "recall_gap": "historical_recall < 1 AND opws_joint_pass == 1; interpretation limited to 'historically changed non-test file not required under the frozen observed behavior+preservation contract'",
+    "outcome_class": "OPWS_OUTCOME_TAXONOMY_R1.json classification",
+    "patch_status_code": "raw scoped patch-application status when not clean",
+    "duplicate_prediction_count": "duplicate paths removed from scope at normalization",
+    "invalid_prediction_path_count": "listed paths absent at parent, excluded, with reason"
+  },
+  "optional_execution_diagnostics": {
+    "wall_time_seconds": "full OPWS execution wall time",
+    "patch_apply_seconds": "scoped reference patch application time",
+    "test_seconds": "frozen behavior+preservation test execution time",
+    "schema_note": "diagnostics are execution metadata ONLY; OPWS runtime is NOT LLM token efficiency and is NOT compared across arms as an efficiency metric"
+  },
+  "primary_aggregate_outcomes_per_arm": {
+    "BEHAVIOR_SUFFICIENCY_RATE": "mean(behavior_sufficient) over the arm's eligible task denominator",
+    "PRESERVATION_PASS_RATE": "mean(preservation_pass) over the arm's eligible task denominator",
+    "JOINT_OPWS_PASS_RATE": "mean(opws_joint_pass) over the arm's eligible task denominator",
+    "MEAN_SCOPE_SIZE": "mean(scope_size_files)",
+    "MEDIAN_SCOPE_SIZE": "median(scope_size_files)",
+    "SCOPE_SIZE_DISTRIBUTION": "full scope-size distribution (counts and percentiles; include for each arm - mean/median/sd/p01/p25/p50/p75/p99)"
+  },
+  "aggregate_denominator_rule": "denominator = tasks in the bound population that are OPWS_ELIGIBLE for that arm, after invalid classes are removed to OPWS_INVALID_TASKS.json with visible reasons; never silently excluded",
+  "primary_rq3_visualization": "sufficiency-scope frontier: x = scope_size_files, y = behavior_sufficiency/joint pass rate; one point per arm per task with per-arm aggregates and per-task scatter",
+  "frontier_table_fields": [
+    "arm_id",
+    "joint_opws_pass_rate",
+    "behavior_sufficiency_rate",
+    "preservation_rate",
+    "mean_scope_size",
+    "median_scope_size",
+    "n_eligible"
+  ],
+  "metric_identities_frozen": [
+    "behavior_sufficient",
+    "preservation_pass",
+    "opws_joint_pass",
+    "scope_size_files",
+    "selected_scope_hash",
+    "BEHAVIOR_SUFFICIENCY_RATE",
+    "PRESERVATION_PASS_RATE",
+    "JOINT_OPWS_PASS_RATE",
+    "MEAN_SCOPE_SIZE",
+    "MEDIAN_SCOPE_SIZE"
+  ]
+}

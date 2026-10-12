@@ -1,0 +1,231 @@
+{
+ "artifact": "opws_protocol_r1_validation_report",
+ "checks": [
+  {
+   "details": [
+    "PASS artifact id",
+    "PASS phase P2",
+    "PASS opws_definition present",
+    "PASS perfect-generator question",
+    "PASS forbidden label 'generated-code correctness'",
+    "PASS required wording 'behavioral sufficiency ... perfect-generator'",
+    "PASS opws_executed_here False"
+   ],
+   "name": "protocol schema (OPWS_PROTOCOL_R1.json)",
+   "passed": true
+  },
+  {
+   "details": [
+    "PASS no duplicate arm ids",
+    "PASS uniqueness flag",
+    "PASS arm registered: RM_CSS",
+    "PASS RM_CSS role == OUR_METHOD",
+    "PASS arm registered: AGENT",
+    "PASS AGENT role == BUDGET_BOUNDED_ITERATIVE_AGENT",
+    "PASS arm registered: AGENTLESS_STYLE_ADAPTATION",
+    "PASS AGENTLESS_STYLE_ADAPTATION role == LITERATURE_INSPIRED_LOCALIZATION_ADAPTATION",
+    "PASS arm registered: SIP",
+    "PASS SIP role == SELECTIVE_BASELINE",
+    "PASS arm registered: DENSE_K3",
+    "PASS DENSE_K3 role == RETRIEVAL_BASELINE",
+    "PASS arm registered: DENSE_K10",
+    "PASS DENSE_K10 role == RETRIEVAL_BASELINE",
+    "PASS arm registered: BM25_K3",
+    "PASS BM25_K3 role == RETRIEVAL_BASELINE",
+    "PASS arm registered: BM25_K10",
+    "PASS BM25_K10 role == RETRIEVAL_BASELINE",
+    "PASS arm registered: BM25_TO_CIA_1HOP",
+    "PASS BM25_TO_CIA_1HOP role == CIA_STYLE_ADAPTATION_CONTROL",
+    "PASS arm registered: SELECT_ALL",
+    "PASS SELECT_ALL role == CEILING_CONTROL",
+    "PASS arm registered: RANDOM_SIZE_MATCHED_RM_CSS",
+    "PASS RANDOM_SIZE_MATCHED_RM_CSS role == RANDOM_SIZE_MATCHED_CONTROL",
+    "PASS arm registered: GOLD",
+    "PASS GOLD role == DIAGNOSTIC_ONLY",
+    "PASS GOLD diagnostic-only",
+    "PASS SELECT_ALL ceiling/control",
+    "PASS Agentless forbidden labels present",
+    "PASS Agentless exact-reproduction labels forbidden",
+    "PASS CIA-style exact-reproduction labels forbidden",
+    "PASS SELECT_ALL scope = candidate universe",
+    "PASS RANDOM seed == 20261012",
+    "PASS all core arm artifacts resolved"
+   ],
+   "name": "arm registry (OPWS_ARM_REGISTRY_R1.json)",
+   "passed": true
+  },
+  {
+   "details": [
+    "PASS metric identity present: behavior_sufficient",
+    "PASS metric identity present: preservation_pass",
+    "PASS metric identity present: opws_joint_pass",
+    "PASS metric identity present: scope_size_files",
+    "PASS metric identity present: selected_scope_hash",
+    "PASS metric identity present: BEHAVIOR_SUFFICIENCY_RATE",
+    "PASS metric identity present: PRESERVATION_PASS_RATE",
+    "PASS metric identity present: JOINT_OPWS_PASS_RATE",
+    "PASS metric identity present: MEAN_SCOPE_SIZE",
+    "PASS metric identity present: MEDIAN_SCOPE_SIZE",
+    "PASS aggregate identity: BEHAVIOR_SUFFICIENCY_RATE",
+    "PASS aggregate identity: PRESERVATION_PASS_RATE",
+    "PASS aggregate identity: JOINT_OPWS_PASS_RATE",
+    "PASS aggregate identity: MEAN_SCOPE_SIZE",
+    "PASS aggregate identity: MEDIAN_SCOPE_SIZE",
+    "PASS opws_joint_pass definition",
+    "PASS runtime-not-token-efficiency note present"
+   ],
+   "name": "metric contract (OPWS_METRIC_CONTRACT_R1.json)",
+   "passed": true
+  },
+  {
+   "details": [
+    "PASS bootstrap count",
+    "PASS bootstrap seed",
+    "PASS paired method mentioned",
+    "PASS no NI margin declared",
+    "PASS population schema forbids guessed values",
+    "PASS protocol json NI margin NONE",
+    "PASS protocol json bootstrap count",
+    "PASS protocol json bootstrap seed"
+   ],
+   "name": "statistical constants (P10)",
+   "passed": true
+  },
+  {
+   "details": [
+    "PASS full_d7_evidence_commit == UNBOUND_PENDING_FULL_D7",
+    "PASS full_d7_tag == UNBOUND_PENDING_FULL_D7",
+    "PASS full_d7_ready_population_file == UNBOUND_PENDING_FULL_D7",
+    "PASS full_d7_ready_population_sha256 == UNBOUND_PENDING_FULL_D7",
+    "PASS n_env_ready == UNBOUND_PENDING_FULL_D7",
+    "PASS behavior_contract_manifest == UNBOUND_PENDING_FULL_D7",
+    "PASS behavior_contract_manifest_sha256 == UNBOUND_PENDING_FULL_D7",
+    "PASS n_opws_eligible == UNBOUND_PENDING_FULL_D7",
+    "PASS n_primary_paired == UNBOUND_PENDING_FULL_D7",
+    "PASS ordered_task_ids == UNBOUND_PENDING_FULL_D7",
+    "PASS ordered_task_ids_sha256 == UNBOUND_PENDING_FULL_D7",
+    "PASS binding_created_at == UNBOUND_PENDING_FULL_D7",
+    "PASS protocol_sha256 == UNBOUND_PENDING_FULL_D7"
+   ],
+   "name": "population remains UNBOUND",
+   "passed": true
+  },
+  {
+   "details": [
+    "PASS no OPWS_EXECUTION_MANIFEST.json found",
+    "PASS no OPWS_TASK_ARM_RESULTS.jsonl found",
+    "PASS no OPWS_PHYSICAL_EXECUTION_MAP.json found",
+    "PASS no OPWS_FAILURE_TAXONOMY_COUNTS.json found",
+    "PASS no OPWS_ARM_SUMMARY.json found",
+    "PASS no OPWS_PAIRED_COMPARISONS.json found",
+    "PASS no OPWS_BOOTSTRAP_RESULTS.json found",
+    "PASS no OPWS_SUFFICIENCY_SCOPE_FRONTIER.csv found",
+    "PASS no OPWS_INVALID_TASKS.json found",
+    "PASS no OPWS_EXECUTION_RECEIPT.json found"
+   ],
+   "name": "no OPWS result/output files exist (no execution)",
+   "passed": true
+  },
+  {
+   "details": [
+    "PASS full_d7_partial_outcomes_read == False",
+    "PASS full_d7_worktree_modified == False",
+    "PASS full_d7_store_modified == False",
+    "PASS opws_executed == False",
+    "PASS scientific_api_calls_for_model_under_test == False",
+    "PASS full_d7_final_ready_population_hash UNBOUND"
+   ],
+   "name": "anti-outcome-peeking receipt",
+   "passed": true
+  },
+  {
+   "details": [
+    "PASS protocol md handles 'generated-code correctness' correctly",
+    "PASS protocol md handles 'EXACT_AGENTLESS' correctly",
+    "PASS protocol md handles 'OFFICIAL_AGENTLESS_REPRODUCTION' correctly",
+    "PASS forbidden phrase present only as a prohibition context"
+   ],
+   "name": "forbidden labels absent from frozen docs",
+   "passed": true
+  },
+  {
+   "details": [
+    "PASS git status readable"
+   ],
+   "name": "global current-status docs read-only (mission policy)",
+   "passed": true
+  },
+  {
+   "details": [
+    "PASS canonical scope hash == sha256",
+    "PASS EMPTY scope valid (empty_scope_hash defined)",
+    "PASS GOLD asserted evaluation-only",
+    "PASS no gold/reference backfill into predictions",
+    "PASS EMPTY prediction is a VALID zero-size scope"
+   ],
+   "name": "scope semantics (OPWS_SCOPE_SEMANTICS_R1.json)",
+   "passed": true
+  },
+  {
+   "details": [
+    "PASS ENV_READY vs OPWS_ELIGIBLE vs PRIMARY_PAIRED_ELIGIBLE distinct",
+    "PASS no removal based on observed OPWS result",
+    "PASS OPWS_ELIGIBLE and PRIMARY_PAIRED_ELIGIBLE stages present"
+   ],
+   "name": "eligibility funnel (OPWS_ELIGIBILITY_FUNNEL_R1.json)",
+   "passed": true
+  },
+  {
+   "details": [
+    "PASS taxonomy code present: OPWS_PASS",
+    "PASS taxonomy code present: BEHAVIOR_FAIL",
+    "PASS taxonomy code present: PRESERVATION_FAIL",
+    "PASS taxonomy code present: BEHAVIOR_AND_PRESERVATION_FAIL",
+    "PASS taxonomy code present: PATCH_APPLICATION_INVALID",
+    "PASS taxonomy code present: TEST_CONTRACT_INVALID",
+    "PASS taxonomy code present: ENVIRONMENT_INVALID",
+    "PASS taxonomy code present: INFRASTRUCTURE_TRANSIENT",
+    "PASS taxonomy code present: INFRASTRUCTURE_FATAL",
+    "PASS taxonomy code present: ARM_PREDICTION_INVALID",
+    "PASS taxonomy code present: OPWS_INVALID_CONTROL_FAILURE",
+    "PASS taxonomy code present: UNKNOWN_FAIL_CLOSED",
+    "PASS patch-invalid never scientific",
+    "PASS infrastructure failure never behavioral",
+    "PASS failures never silently discarded"
+   ],
+   "name": "outcome taxonomy (OPWS_OUTCOME_TAXONOMY_R1.json)",
+   "passed": true
+  },
+  {
+   "details": [
+    "PASS 5-tuple dedup identity (TASK_ID, SCOPE_HASH, REFERENCE_PATCH_HASH, TEST_CONTRACT_HASH, ENVIRONMENT_ID)",
+    "PASS no size-only dedup (equal sizes with different hashes are different executions)",
+    "PASS dedup conditions require equal SCOPE_HASH",
+    "PASS task-major deterministic ordering",
+    "PASS scientific failures never rerun",
+    "PASS transient infra max retry == 1",
+    "PASS Linux worktree materialization rule"
+   ],
+   "name": "execution + dedup contract (OPWS_EXECUTION_REUSE_DEDUP_R1.json)",
+   "passed": true
+  },
+  {
+   "details": [
+    "PASS receipt docker_run == False",
+    "PASS receipt oracle_patches_run == False",
+    "PASS receipt behavioral_or_preservation_tests_run == False",
+    "PASS receipt pilot_opws_run == False",
+    "PASS receipt opws_executed == False",
+    "PASS global current-status docs untouched"
+   ],
+   "name": "no Docker / no OPWS / no Full-D7 modification",
+   "passed": true
+  }
+ ],
+ "date": "2026-10-12",
+ "full_d7_partial_outcomes_read": false,
+ "generated_sha256": "d7e4596b07af9659d73656a97a1f2fe7f71f54ccb432c9556aab273961cbadb0",
+ "opws_executed": false,
+ "overall_passed": true,
+ "phase": "P17"
+}

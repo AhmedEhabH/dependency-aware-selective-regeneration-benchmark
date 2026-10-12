@@ -1,0 +1,45 @@
+{
+  "mission": "M17_OPWS_PROTOCOL_FREEZE_R1",
+  "artifact": "opws_scope_semantics_r1",
+  "phase": "P5",
+  "freeze_date": "2026-10-12",
+  "status": "FROZEN",
+  "purpose": "Freeze the exact scope-semantics and canonical scope-hash convention used by OPWS R1. These semantics reuse the repository-relative normalized file-identity convention already used by MAIN_297 / the frozen prediction artifacts. No prediction is changed by this contract.",
+  "scope_for_each_arm_task": {
+    "task_id": "frozen task identity from the MAIN_297 manifest (later bounded to the frozen Full-D7 READY population)",
+    "arm_id": "arm id in OPWS_ARM_REGISTRY_R1.json",
+    "normalized_selected_file_list": "repository-relative paths, POSIX forward slashes, deduplicated, sorted lexicographically (byte order) for hashing; exactly the paths stored in the frozen prediction artifact",
+    "selected_file_count": "len(normalized_selected_file_list)",
+    "selected_scope_hash": "canonical deterministic scope hash defined below"
+  },
+  "existing_convention_reuse": {
+    "file_identity": "repository-relative, forward slashes, exact strings as stored in the frozen artifacts (census / proxies / candidate_universe / per-arm prediction artifacts)",
+    "no_os_slash_dependency": "paths are never OS-normalized (no backslash conversion, no drive letters, no case folding)",
+    "no_aliases": "a path has exactly one canonical spelling; no symlink aliasing is applied",
+    "no_duplicates": "duplicate paths are removed before hashing; the duplicate count is recorded (duplicate_prediction_count)"
+  },
+  "canonical_scope_hash_definition": {
+    "algorithm": "sha256",
+    "canonical_json": "json.dumps(normalized_selected_file_list, sort_keys=False) with separators=('\\'\\',\\'\\':\\'\\') on the ALREADY SORTED list",
+    "hash_input": "the canonical JSON string encoded utf-8",
+    "empty_scope_hash": "defined for the EMPTY list; EMPTY prediction is a VALID zero-size scope (selected_file_count == 0), never missing data",
+    "reference_implementation": "scripts/opws_protocol_r1_validate.py -> compute_canonical_scope_hash(paths)",
+    "determinism_property": "same set of paths in any input order yields the same hash after normalization+sorted canonical serialization"
+  },
+  "scope_records_manifest": {
+    "schema": "OPWS_SCOPE_MANIFEST (later binding-era artifact)",
+    "record_fields_min": ["task_id", "arm_id", "normalized_selected_file_list", "selected_file_count", "selected_scope_hash"],
+    "population_bound_note": "Per-arm/per-task scope manifests are materialized AFTER population binding from the frozen artifacts; this freeze fixes the semantics, not the (unbound) task list.",
+    "no_gold_backfill": "no path is added to any arm's list based on gold or reference-patch knowledge",
+    "emph_empty_valid": "an arm with an empty selected list is recorded as scope_size 0 and opws scope-hash of the empty list; it is NOT omitted"
+  },
+  "selection_source_priority": {
+    "RM_CSS_SIP": "research/wp1a/sip_rmcss_per_task_predictions.json",
+    "AGENT": "research/wp1b/main-297-2026-09-22/wp1b_agent_predictions.json",
+    "AGENTLESS_STYLE_ADAPTATION": "D:/wp2_agentless_main297/research/competitor-agentless-r1/agentless_r1_prediction_freeze.json",
+    "DENSE_K3_K10_BM25_K3_K10_BM25_TO_CIA_1HOP": "D:/wp2_comp_baselines/research/competitor-baselines-r2/per_task_predictions_r2.json",
+    "SELECT_ALL": "per-task frozen candidate_universe.json (entire selectable universe)",
+    "RANDOM_SIZE_MATCHED_RM_CSS": "deterministic size-matched sample (seed 20261012) from the same per-task universe",
+    "GOLD": "research/saleor-reserve-300-rmcss/saleor_reserve_300_proxies.json (evaluation-only)"
+  }
+}

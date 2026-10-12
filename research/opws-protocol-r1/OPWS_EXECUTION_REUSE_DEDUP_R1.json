@@ -1,0 +1,63 @@
+{
+  "mission": "M17_OPWS_PROTOCOL_FREEZE_R1",
+  "artifact": "opws_execution_reuse_dedup_contract_r1",
+  "phase": "P9",
+  "freeze_date": "2026-10-12",
+  "status": "FROZEN",
+  "purpose": "Frozen execution-ordering and semantics-preserving physical-deduplication contract. Deterministic ordering is fixed BEFORE outcomes exist. Dedup is an efficiency optimization only and never changes logical arm-level results.",
+  "environment_rule": {
+    "opws_worktree_materialization": "INSIDE LINUX from git objects only; Windows/NTFS-materialized trees are INVALID for OPWS execution",
+    "owner_correction_ref": "OWNER-CORRECTION #7"
+  },
+  "physical_execution_identity": {
+    "fields": ["TASK_ID", "SCOPE_HASH", "REFERENCE_PATCH_HASH", "TEST_CONTRACT_HASH", "ENVIRONMENT_ID"],
+    "note": "All five fields must be equal before two logical arm records MAY share one physical OPWS execution."
+  },
+  "scope_deduplication": {
+    "enabled": true,
+    "rule": "If multiple arms on the SAME task produce exactly the same canonical selected scope hash AND the reference patch hash, test-contract hash, and environment id are all equal, they MAY share one physical OPWS execution.",
+    "result_mapping": "the single physical execution result is mapped back to every corresponding logical arm record.",
+    "conditions_for_reuse": {
+      "TASK_ID": "equal",
+      "SCOPE_HASH": "equal",
+      "REFERENCE_PATCH_HASH": "equal",
+      "TEST_CONTRACT_HASH": "equal",
+      "ENVIRONMENT_ID": "equal"
+    },
+    "forbidden": "never deduplicate merely because scope sizes are equal; equal sizes with different scope hashes are different physical executions",
+    "recorded_fields_min": ["physical_execution_id", "logical_arm_ids", "dedup_reason"],
+    "map_file": "OPWS_PHYSICAL_EXECUTION_MAP.json"
+  },
+  "execution_order": {
+    "principle": "deterministic ordering fixed BEFORE outcomes exist; not derived from expected success, gold overlap, or any observed outcome",
+    "ordering": "task-major",
+    "task_key": "bound population ordered task IDs (frozen manifest order at binding)",
+    "within_task": "unique canonical scopes for that task ordered deterministically by scope_hash (stable IDs); then logical-arm mapping",
+    "zero_ordering_inputs_from_outcomes": "no ordering by expected success; no ordering using gold overlap; no reliance on Full-D7 outcomes beyond the final frozen eligibility binding",
+    "reason": "task-major ordering enables safe immutable environment reuse per task where the existing harness supports it"
+  },
+  "rerun_policy": {
+    "scientific_failures": "NO outcome-based reruns. Scientific classes (OPWS_PASS / BEHAVIOR_FAIL / PRESERVATION_FAIL / BEHAVIOR_AND_PRESERVATION_FAIL) are never rerun.",
+    "infrastructure_transient": {
+      "max_retry": 1,
+      "condition": "only if the failure matches a PREDECLARED infrastructure transient signature AND no scientific result was produced",
+      "immutable": ["scope", "patch", "environment", "test contract", "timeout", "arm", "task"],
+      "recording": "both attempts are recorded",
+      "no_such_signature_or_uncertain": "FAIL_CLOSED / owner review"
+    },
+    "predeclared_transient_signatures": "container startup failure, transient network error, transient filesystem/IO lock error, WSL boot race (established in frozen readiness/evaluator infrastructure)"
+  },
+  "physical_execution_result_identity": {
+    "fields_min": [
+      "physical_execution_id",
+      "task_id",
+      "scope_hash",
+      "reference_patch_hash",
+      "test_contract_hash",
+      "environment_id",
+      "outcome_class",
+      "per_task_metrics",
+      "timestamps_utc"
+    ]
+  }
+}

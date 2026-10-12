@@ -1,0 +1,103 @@
+{
+  "mission": "M17_OPWS_PROTOCOL_FREEZE_R1",
+  "artifact": "opws_protocol_r1",
+  "phase": "P2",
+  "freeze_date": "2026-10-12",
+  "branch": "parallel/opws-protocol-r1-2026-10-12",
+  "mission_start_head": "83399ff875c7793286d66311afb6c62071ea04b3",
+  "status": "FROZEN_BEFORE_FULL_D7_POPULATION_BINDING_AND_BEFORE_ANY_OPWS_EXECUTION",
+  "opws_definition": "Oracle Patch Within Scope: start from the frozen parent-commit state, apply only the known reference NON-TEST patch content for files permitted by the selector's selected scope, leave reference-changed files outside the scope at the parent state, run the frozen behavior contract, run the frozen preservation contract, classify.",
+  "perfect_generator_question": "Assuming a perfect generator that could reproduce the known reference change for files selected by this scope, is the selected scope behaviorally sufficient under the frozen test contract?",
+  "interpretation_boundary": {
+    "opws_pass_means": "the selected scope was sufficient for the observed frozen behavior + preservation contract when the known reference patch was used inside that scope (perfect-generator assumption).",
+    "opws_pass_does_not_mean": [
+      "LLM-generated code would be correct",
+      "arbitrary future edits would succeed",
+      "the selector identified every historically changed file",
+      "the selector is a complete causal oracle",
+      "production correctness is proven",
+      "functional correctness of generated code has been demonstrated"
+    ],
+    "forbidden_label": "generated-code correctness",
+    "required_wording": "behavioral sufficiency under the reference-patch / perfect-generator assumption"
+  },
+  "scientific_authority": {
+    "main_pdf_status": "HISTORICAL_ONLY",
+    "main_pdf_does_not_override": true,
+    "operative_authorities": [
+      "research/wp2/m17_v1/m17_design_freeze_v1.json",
+      "controller/plan_m17_v1_main.json",
+      "research/wp2/m15r_v1/m15r_design_freeze_v1.json",
+      "scripts/wp2_m15r_run.py",
+      "scripts/wp2_m14r_run.py",
+      "scripts/wp2_m14a_evalcore.py",
+      "scripts/wp2_m14a_evalcore_e1.py",
+      "scripts/wp2_m14a_readiness.py",
+      "scripts/wp2_m17_contract.py",
+      "docs/WP2_RESHAPE_INDEPENDENT_REVIEW_2026-10-01.md",
+      "D:/wp2_comp_baselines/research/competitor-baselines-r2/BASELINE_PROTOCOL_FREEZE_R2.json",
+      "D:/wp2_agentless_main297/research/competitor-agentless-r1/AGENTLESS_STYLE_ADAPTATION_PROTOCOL_FREEZE.json"
+    ]
+  },
+  "clean_state_requirement": {
+    "start": "frozen PARENT commit state (exact historical pre-change repository state)",
+    "materialization": "inside LINUX from git objects ONLY; Windows/NTFS-materialized trees are INVALID for OPWS execution",
+    "interpretation_note": "The mission phrase 'exact historical target repository state' is interpreted with the frozen precedent (scoped_gold_diff = git diff <parent> <target> -- <selected>, applied onto the parent worktree): post-change reference content is defined by the frozen target-commit git objects; the OPWS worktree is parent state plus only the scoped reference patch content.",
+    "owner_correction_ref": "OWNER-CORRECTION #7 (Linux worktree rule)"
+  },
+  "patch_application_semantics": {
+    "convention": "git diff <parent> <target> -- <selected files>, per selected non-test path, deterministic",
+    "reference_source": "frozen gold proxies (observed changed non-test paths) + frozen parent/target git objects",
+    "status_semantics": {
+      "MODIFIED": "hunk applied onto parent file; selectable by parent-commit selectors",
+      "DELETED": "deletion hunk applied; file absent after OPWS patch; selectable by parent-commit selectors",
+      "RENAMED": "old path selectable at parent (deletion side); new path NOT parent-visible (addition side; reference-derived arms only)",
+      "ADDED": "NOT selectable by any parent-commit selector; reference-derived arms (GOLD/SELECT_ALL) may include it as full-file creation from target-commit blob"
+    },
+    "added_file_rule": "a parent-commit-selector scope never contains a newly ADDED file; if a frozen prediction lists a path absent at parent it is NOT silently dropped - counted as invalid_prediction_path_count and excluded with reason per task/arm",
+    "primary_treatment": "scoped reference patch including ADDED/RENAMED-new-path reference files for reference-derived arms, as defined above",
+    "sensitivity_analysis": "secondary treatment in which reference ADDED and RENAMED-new-path files are excluded from EVERY scope; both primary and sensitivity results reported; any disagreement is reported as a sensitivity-limit note",
+    "reference_test_changes": "test-file changes are NOT part of any selector scope; they belong to the COMMON behavior contract applied IDENTICALLY across all arms for a given task",
+    "owner_correction_ref": "OWNER-CORRECTION #2 (M/A/D/R semantics frozen before outcomes; primary + sensitivity)"
+  },
+  "behavior_contract": {
+    "f2p_node_set_source": "frozen evaluator artifacts (BEHAVIORAL_F2P, SYMBOL_ABSENCE_F2P), bounded by frozen per-task count, selector-blind",
+    "execution": "frozen evaluator + E1 on the OPWS-patched worktree; per-node status recording; non-passing F2P node blocks resolution (fail-closed)",
+    "behavior_sufficient": "1 iff every required frozen F2P node is present and passes (strict semantics)"
+  },
+  "preservation_contract": {
+    "p2p_s": "frozen SWE-bench-aligned changed-test PASS_TO_PASS identities",
+    "p2p_u": "frozen unchanged-test STABLE_P2P identities (outcome-blind cap-200, STABLE over 3 reps)",
+    "defined_if": "p2p_s_defined OR p2p_u_cap200_defined (existing M17 rule)",
+    "preservation_pass": "1 iff every frozen stable-pass preservation identity still passes on the OPWS worktree",
+    "no_silent_reclassify": true
+  },
+  "metrics": {
+    "behavior_sufficient": {"domain": [0, 1]},
+    "preservation_pass": {"domain": [0, 1]},
+    "opws_joint_pass": "behavior_sufficient AND preservation_pass",
+    "scope_size_files": "|canonical normalized selected file list|",
+    "historical_recall": "|scope intersect gold non-test files| / |gold non-test files|",
+    "recall_gap": "historical_recall < 1 AND opws_joint_pass; interpretation LIMITED to 'some historically changed non-test file was not required under the frozen observed behavior + preservation contract'; NOT selector completeness evidence; NOT a failure",
+    "diagnostics_optional": ["wall_time_seconds", "patch_apply_seconds", "test_seconds"],
+    "opws_runtime_not_token_efficiency": true,
+    "owner_correction_ref": "OWNER-CORRECTION #5 (RECALL_GAP predeclared)"
+  },
+  "statistical_summary": {
+    "primary_inference": "paired effect estimates + 95% CI on the paired eligible population",
+    "bootstrap": {"n_resamples": 10000, "seed": 20261012, "unit": "task (paired)"},
+    "ni_margin": "NONE. No non-inferiority/equivalence margin is chosen in this freeze; no margin may be introduced post-hoc to compensate for small n; any future margin requires independent pre-outcome justification in DECISIONS.md",
+    "primary_object": "sufficiency-scope frontier (joint/behavioral sufficiency vs scope size)",
+    "rq6": "DESIGN_ONLY and deferred to a separate future amendment; NOT executed in this mission; does not gate RQ3",
+    "owner_correction_ref": ["OWNER-CORRECTION #4 (no NI margin)", "OWNER-CORRECTION #6 (RQ6 deferred)"]
+  },
+  "binding_boundary": {
+    "full_d7_ready_population_hash": "UNBOUND_PENDING_FULL_D7",
+    "full_d7_ready_task_count": "UNBOUND_PENDING_FULL_D7",
+    "opws_bound_population_hash": "UNBOUND_PENDING_FULL_D7",
+    "binding_requires": "Full-D7 scope/census issue resolved AND a valid population hash frozen",
+    "binding_may_only": "write the population-binding schema; SHALL NOT alter protocol semantics",
+    "opws_executed_here": false,
+    "owner_correction_ref": "OWNER-CORRECTION #3 (no binding before valid Freeze)"
+  }
+}
