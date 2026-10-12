@@ -57,8 +57,8 @@ def collect() -> dict[str, bytes]:
         p = ROOT / rel
         if p.is_file():
             files[rel] = p.read_bytes()
-    # final git diff (unstaged + staged vs HEAD)
-    files["m17/final_git_diff.patch"] = git(["diff", "HEAD"]).encode("utf-8")
+    # final git diff vs mission base (captures all mission changes)
+    files["m17/final_git_diff.patch"] = git(["diff", "9380e42f78d07c0047fc36d8b9f37886015f2fb8"]).encode("utf-8")
     # verification records
     files["m17/commit_verification.txt"] = (
         "BRANCH=" + git(["branch", "--show-current"]).strip() + "\n"
