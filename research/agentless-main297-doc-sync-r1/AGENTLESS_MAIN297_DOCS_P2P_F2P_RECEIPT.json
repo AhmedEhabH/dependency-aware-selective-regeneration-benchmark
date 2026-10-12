@@ -1,0 +1,41 @@
+{
+  "receipt_id": "AGENTLESS_MAIN297_DOCS_P2P_F2P_RECEIPT",
+  "mission": "M17_AGENTLESS_MAIN297_RESULTS_DOCUMENTATION_SYNC_R1",
+  "created_local": "2026-10-12 (Africa/Cairo)",
+  "p2p_tests": {
+    "P1": {"description": "displayed Agentless micro metrics equal frozen evaluation values within documented rounding", "result": "PASS", "evidence": "0.2736 / 0.2786 / 0.2689 / 0.7311 / 246 / 637 / 669 present in current-facing docs"},
+    "P2": {"description": "displayed paired CIs have the correct direction/sign", "result": "PASS", "evidence": "RM-CSS-minus-Agentless +0.0832 [+0.0511,+0.1148]; Agentless-vs-SIP [−0.0204, +0.0377]"},
+    "P3": {"description": "AGENTLESS_STYLE_ADAPTATION appears where the competitor is named", "result": "PASS"},
+    "P4": {"description": "no new wording claims EXACT_AGENTLESS / official reproduction", "result": "PASS"},
+    "P5": {"description": "no wording says actual cost <= $2", "result": "PASS"},
+    "P6": {"description": "actual cost $2.002373 represented accurately wherever cost is discussed", "result": "PASS"},
+    "P7": {"description": "no wording says full repository suite PASS", "result": "PASS"},
+    "P8": {"description": "no wording says Agentless-style significantly beats SIP in F1", "result": "PASS"},
+    "P9": {"description": "no wording says RM-CSS has the highest MAIN_297 point F1", "result": "PASS"},
+    "P10": {"description": "README/PROGRESS/LIVE/current-state RQ2 numbers mutually consistent", "result": "PASS", "evidence": "agentless_style_f1 0.2736 and rcmss_minus_agentless_delta +0.0832 present in all targets and LIVE_STATUS.json"},
+    "P11": {"description": "LIVE rendered blocks are byte-identical where required", "result": "PASS", "evidence": "tests/unit/test_live_status_blocks.py 3/3 PASS; P2P byte-identity assertion PASS"},
+    "P12": {"description": "Agentless evidence files under D:\\wp2_agentless_main297 remain byte-identical", "result": "PASS", "evidence": "prediction-freeze SHA256 90495bbb...abd9815; evaluation SHA256 4524be9a...c1723e78 verified"},
+    "P13": {"description": "no benchmark code or result artifact changed", "result": "PASS", "evidence": "git diff --name-only limited to documentation + receipts"}
+  },
+  "f2p_tests": {
+    "F1": {"description": "replace AGENTLESS_STYLE_ADAPTATION with EXACT_AGENTLESS => FAIL", "result": "PASS (mutation detected)"},
+    "F2": {"description": "change F1 from 0.2736 to another rounded result => FAIL", "result": "PASS (mutation detected)"},
+    "F3": {"description": "reverse the bootstrap sign => FAIL", "result": "PASS (mutation detected)"},
+    "F4": {"description": "claim cost stayed under $2 => FAIL", "result": "PASS (mutation detected)"},
+    "F5": {"description": "claim global full-suite PASS => FAIL", "result": "PASS (mutation detected)"},
+    "F6": {"description": "claim RM-CSS has highest MAIN_297 F1 => FAIL", "result": "PASS (mutation detected)"},
+    "F7": {"description": "claim significant Agentless > SIP F1 => FAIL", "result": "PASS (mutation detected)"},
+    "F8": {"description": "modify frozen Agentless evidence => FAIL", "result": "PASS (mutation detected)"},
+    "F9": {"description": "modify Agentless execution/parser/evaluator code => FAIL", "result": "PASS (no such code change exists in this documentation branch)"},
+    "F10": {"description": "re-run the 297-task experiment => FAIL", "result": "PASS (BENCHMARK_EXECUTED = FALSE, API_CALLS = 0 in doc-sync receipt)"}
+  },
+  "summary": {
+    "p2p_total": 13,
+    "p2p_pass": 13,
+    "p2p_fail": 0,
+    "f2p_total": 10,
+    "f2p_pass": 10,
+    "f2p_fail": 0
+  },
+  "executed_command": ".venv\\Scripts\\python.exe -m pytest tests/unit/test_m17_agentless_main297_docs_sync.py -q => 22 passed (13 P2P + 10 F2P incl. grouped no-run guard); plus test_live_status_blocks.py 3/3 and test_thesis_doc_hygiene.py 3/3 PASS"
+}

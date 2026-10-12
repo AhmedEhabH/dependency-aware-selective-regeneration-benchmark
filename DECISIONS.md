@@ -2613,3 +2613,51 @@ Mission-11 one-shot (sole authoritative directive, supersedes Mission-10B STOP-f
   annotated tag `wp2-m17-v1-real-oracle-kit-r1-2026-10-05`.
 - Next: STOP_TOKEN=M17_LAUNCH_READY; await brain review before the REAL 12-task
   qualification. No scientific run until approved.
+
+
+## DECISION 2026-10-12 - Agentless-style MAIN_297 adaptation evidence label + cost/budget disclosure (append-only entry)
+
+- Context: the M17 Agentless-style MAIN_297 adaptation
+  (`AGENTLESS_STYLE_ADAPTATION`) is complete and frozen on the
+  `parallel/agentless-main297-2026-10-12` branch (evidence commit
+  `a62605e3`, annotated tag `wp2-m17-agentless-style-main297-2026-10-12`).
+  This documentation mission (M17_AGENTLESS_MAIN297_RESULTS_DOCUMENTATION_SYNC_R1,
+  branch `parallel/agentless-results-doc-sync-2026-10-12`) synchronizes
+  current-facing documentation only. ZERO benchmark/model API calls; ZERO
+  re-scoring; ZERO modification to frozen Agentless evidence.
+- Decision 1 - permanent scientific label: use exactly
+  `AGENTLESS_STYLE_ADAPTATION` wherever the competitor is named in
+  current-facing documentation; never rename it `EXACT_AGENTLESS`,
+  `OFFICIAL_AGENTLESS`, or `AGENTLESS_REPRODUCTION`. The adaptation is a
+  file-level localization comparator on the frozen MAIN_297; it is not an
+  exact published-Agentless reproduction.
+- Decision 2 - cost disclosure: treat $2.002373 as the actual empirical
+  experimental API cost and disclose that the frozen $2 fail-closed threshold
+  was crossed by the final task, after which execution stopped immediately with
+  no subsequent task or adaptive rerun. Never write "cost stayed under $2" or
+  "actual cost <= $2". The pre-run deterministic token estimator materially
+  under-estimated provider-reported input tokens (efficiency-method note, not an
+  empirical result; historical estimates are not rewritten).
+- Decision 3 - validation debt classification: treat the repository-wide
+  non-green full-suite snapshot on the Agentless branch (4632 passed / 47
+  skipped / 36 failed; 21 environment/parquet + 6 missing-data-fixture + 9
+  unrelated other-domain/branch-state; affected cluster rerun 98 PASS / 2 FAIL
+  on missing `dist/real-commit-cache/djangocms`) as integration-validation
+  debt, not as Agentless empirical failure and never as a passing regression
+  suite. Mission-specific validation passed (targeted Agentless pytest 29/29,
+  py_compile PASS, git diff --check PASS).
+- Code-quality note: the frozen mission scripts carry pre-output frozen
+  implementation quality debt (Ruff 1 F401 unused-import finding; Mypy 5
+  type-annotation findings); these are not longstanding repository debt, did
+  not alter runtime evaluation, and are NOT patched by documentation missions.
+- Verification: prediction-freeze SHA256
+  `90495bbb2c8d66a2c9a079cb2dfcd6e1cbf929c01972f1331df4242cdabd9815`;
+  evaluation SHA256
+  `4524be9a04d4328dcc598e42d7aa59607696899096261745383a4225c1723e78`;
+  P2P/F2P documentation assertions PASS; LIVE status render byte-consistency
+  3/3 PASS; doc-hygiene 3/3 PASS; git diff --check PASS.
+- Freeze: this documentation sync commit on
+  `parallel/agentless-results-doc-sync-2026-10-12` + annotated tag
+  `m17-agentless-main297-doc-sync-r1-2026-10-12`.
+- Next: review of the M17 qualification kit before the REAL 12-task
+  qualification (Track A unchanged). No scientific run until approved.

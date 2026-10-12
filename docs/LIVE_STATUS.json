@@ -1,16 +1,16 @@
 {
  "schema": "live_status_v1",
- "as_of_local": "2026-10-05 (Africa/Cairo)",
- "evidence_snapshot": "WP1 primary evidence complete (Saleor RESERVE-300; MAIN_297 selection-only non-inferiority and efficiency). WP2 supporting evidence closed/consolidated (Smoke v2.2 engineering pipeline; Pilot-A and M14R supporting negatives; M15-R OPWS Pilot-B descriptive). M16-v1 CLOSED as a pre-experiment adapter failure; no MAIN OPWS outcome exists. C0->C6 documentation closure complete, stopped at G0_BRAIN_REVIEW (decision: finalize the durable research baseline before any new science).",
- "phase": "Phase 6 - Durable research baseline finalization (WP1 primary + WP2 supporting closed)",
- "position": "M17 Phase0B-v2 (2026-10-05): M17 REAL qualification + oracle kit FROZEN (tag wp2-m17-v1-real-oracle-kit-2026-10-03, launch amendment tag wp2-m17-v1-real-oracle-kit-r1-2026-10-05); controller-real harness timing fixed (timeout 1800 -> 5400 s); selftest controller timeouts raised 1800 -> 7200 s in both live plans; M17 110/110, frozen harness 66/66, real-controller fake-world 8/8, KIT manifest + selector/API/autopilot guards PASS. ZERO Docker/WSL/API; qualification NOT run. M16-v1 closed pre-experiment. Primary claim-bearing evidence is WP1 selection correctness/efficiency; WP2 supporting/downstream.",
- "position_short": "M17 real + oracle kit FROZEN (tags wp2-m17-v1-real-oracle-kit-2026-10-03 / -r1-2026-10-05); harness + selftest timing fixed; 110/110 M17 + 66/66 frozen harness + 8/8 real-controller PASS; qualification NOT run; awaiting review",
- "now_short": "M17 launch timing amendment done -> STOP_TOKEN=M17_LAUNCH_READY -> review of the qualification evidence",
- "next_action": "Await review of the M17 qualification kit before the REAL 12-task qualification. Do NOT run the 12 tasks, MAIN, OPWS, Docker, WSL, or any model/API call until then.",
+ "as_of_local": "2026-10-12 (Africa/Cairo)",
+ "evidence_snapshot": "WP1 primary evidence complete (Saleor RESERVE-300; MAIN_297 selection-only non-inferiority and efficiency). RQ2 strengthened by the frozen M17 Agentless-style MAIN_297 adaptation (AGENTLESS_STYLE_ADAPTATION; file-level localization comparator on the frozen MAIN_297; micro F1 0.2736; not an exact published-Agentless reproduction). WP2 supporting evidence closed/consolidated (Smoke v2.2 engineering pipeline; Pilot-A and M14R supporting negatives; M15-R OPWS Pilot-B descriptive). M16-v1 CLOSED as a pre-experiment adapter failure; no MAIN OPWS outcome exists. C0->C6 documentation closure complete, stopped at G0_BRAIN_REVIEW (decision: finalize the durable research baseline before any new science). M17 REAL qualification + oracle kit remain FROZEN (zero-Docker, zero-API); qualification NOT run; Track A environment-qualification status unchanged.",
+ "phase": "Phase 6 - Durable research baseline finalization (WP1 primary + WP2 supporting closed; RQ2 Agentless-style comparator documented)",
+ "position": "M17 Agentless-style MAIN_297 adaptation COMPLETE and FROZEN (2026-10-12; tag wp2-m17-agentless-style-main297-2026-10-12, evidence commit a62605e3): pre-registered file-level localization comparator AGENTLESS_STYLE_ADAPTATION scored on the frozen MAIN_297 with the same file-level evaluator as RM-CSS/SIP/Agent; micro F1 0.2736 (TP 246 / FP 637 / FN 669); paired task-bootstrap 10,000 (seed 20261012): RM-CSS minus Agentless +0.0832 [+0.0511,+0.1148]; Agent minus Agentless +0.0894 [+0.0552,+0.1260]; Agentless minus SIP +0.0084 [-0.0204,+0.0377] (CI crosses zero). Experimental API cost $2.002373: the frozen $2 fail-closed threshold was crossed by the final task and execution stopped immediately afterward. M17 REAL qualification + oracle kit remain FROZEN (tags wp2-m17-v1-real-oracle-kit-2026-10-03 / -r1-2026-10-05); qualification NOT run. Track A keeps its independent environment-qualification status.",
+ "position_short": "M17 Agentless-style MAIN_297 adaptation COMPLETE + FROZEN (micro F1 0.2736; RQ2 strengthened); M17 real + oracle kit still FROZEN (qualification NOT run); Track A unchanged",
+ "now_short": "Agentless-style MAIN_297 evidence documented (zero new API) -> awaiting review of the M17 qualification kit",
+ "next_action": "Await review of the M17 qualification kit before the REAL 12-task qualification. Do NOT run the 12 tasks, MAIN, OPWS, Docker, WSL, or any model/API call until then. The Agentless-style adaptation is COMPLETE and frozen; do NOT rerun or extend it.",
  "next_short": "Review of the M17 qualification kit -> real 12-task qualification (only after approval)",
- "priority_chain": "MAIN_297 DONE -> WP-2 census DONE -> Oracle Confirmation DONE -> Linux V2 oracle+DEV pool DONE -> Mission-08 DEV P2P inventory + SMALL pilot DONE -> Mission-09 P2P-S + P2P-U V2 freeze + ENG execution DONE -> Mission-10A environment test-dependency audit DONE (ENV_AUDIT_INCONCLUSIVE) -> targeted environment-validity follow-up (awaiting approval) -> DEV Smoke freeze -> full DEV-47 P2P-U cap200 -> Pilot -> Research Run -> Mission-10B ENG oracle + P2P-S/P2P-U V3 DONE (ENG_SMOKE_READY) -> WP-2 Env Closure V3.1 DONE (dev-dep losses fixed) -> Mission-11 Part B E2E instrument -> zero-API controls -> paid first E2E Smoke -> C0->C6 documentation closure DONE -> G0_BRAIN_REVIEW DONE (finalize durable baseline before new science) -> T2 baseline finalization (current LIVE status, LIGHT naming correction, commit/push/tag, fresh LIGHT) -> G1: seminar/proposal vs one optional targeted generalization pilot",
- "weakest_risk": "No active M16 run, no active generator experiment, no active polyglot experiment. Primary thesis evidence is WP1 selection correctness/efficiency; WP2 remains supporting/downstream. Governance risk is claim discipline: every statement must stay selection-only, descriptive (n<=10), or supporting-negative exactly as frozen in the claim registry.",
- "wp1b_short": "Paid same-protocol comparison of a repository agent vs SIP vs RM-CSS on MAIN_297 (G1: delta=0.05 NI rule; G2: cap 1024; decision rules v2). RESULT: RMCSS_NONINFERIOR_AT_LOWER_COST (NI_SUPPORTED); D −0.0062 [−0.0449,+0.0308] Q5 −0.0383; RM-CSS cheaper. Variance 15x3 pooled F1 0.389/0.438/0.479, pairwise exact match 0.444. X1-X11 exploratory labelled. Total agent spend $8.34 (main $7.15 + variance $1.19). Post-MAIN_297: claim sheet + docs closure complete; AG16 prereg verified, runner needs a built bundle; WP-2 zero-API census complete.",
+ "priority_chain": "MAIN_297 DONE -> WP-2 census DONE -> Oracle Confirmation DONE -> Linux V2 oracle+DEV pool DONE -> Mission-08 DEV P2P inventory + SMALL pilot DONE -> Mission-09 P2P-S + P2P-U V2 freeze + ENG execution DONE -> Mission-10A environment test-dependency audit DONE (ENV_AUDIT_INCONCLUSIVE) -> targeted environment-validity follow-up (awaiting approval) -> DEV Smoke freeze -> full DEV-47 P2P-U cap200 -> Pilot -> Research Run -> Mission-10B ENG oracle + P2P-S/P2P-U V3 DONE (ENG_SMOKE_READY) -> WP-2 Env Closure V3.1 DONE (dev-dep losses fixed) -> Mission-11 Part B E2E instrument -> zero-API controls -> paid first E2E Smoke -> C0->C6 documentation closure DONE -> G0_BRAIN_REVIEW DONE (finalize durable baseline before new science) -> T2 baseline finalization (current LIVE status, LIGHT naming correction, commit/push/tag, fresh LIGHT) -> M17 Agentless-style MAIN_297 adaptation DONE + FROZEN (RQ2 strengthened) -> G1: seminar/proposal vs one optional targeted generalization pilot",
+ "weakest_risk": "No active M16 run, no active generator experiment, no active polyglot experiment. Primary thesis evidence is WP1 selection correctness/efficiency; WP2 remains supporting/downstream. RQ2 comparator evidence: AGENTLESS_STYLE_ADAPTATION is a literature-inspired localization comparator, NOT an exact published-Agentless reproduction; DENSE@3 point estimate (~0.2746) is close to/slightly above Agentless-style (0.2736) with no statistical-separation claim between them. Governance risk is claim discipline: every statement must stay selection-only, descriptive (n<=10), or supporting-negative exactly as frozen in the claim registry.",
+ "wp1b_short": "Paid same-protocol comparison of a repository agent vs SIP vs RM-CSS on MAIN_297 (G1: delta=0.05 NI rule; G2: cap 1024; decision rules v2). RESULT: RMCSS_NONINFERIOR_AT_LOWER_COST (NI_SUPPORTED); D −0.0062 [−0.0449,+0.0308] Q5 −0.0383; RM-CSS cheaper. Variance 15x3 pooled F1 0.389/0.438/0.479, pairwise exact match 0.444. X1-X11 exploratory labelled. Total agent spend $8.34 (main $7.15 + variance $1.19). Post-MAIN_297: claim sheet + docs closure complete; AG16 prereg verified, runner needs a built bundle; WP-2 zero-API census complete. RQ2: frozen Agentless-style MAIN_297 adaptation (AGENTLESS_STYLE_ADAPTATION) micro F1 0.2736; RM-CSS remains above it (paired bootstrap +0.0832 [+0.0511,+0.1148]); Agentless-style vs SIP CI crosses zero; DENSE@3 point estimate 0.2746 close to/slightly above Agentless-style.",
  "pipeline": [
   {
    "step": "Localization method selection",
@@ -161,12 +161,18 @@
    "status": "DONE",
    "note": "review decision: finalize durable baseline before new science",
    "idx": 24
-  },
+   },
   {
    "step": "M17 Phase0B-v2 real qualification + oracle kit",
    "status": "KIT_FROZEN (zero-Docker, zero-API)",
    "note": "real-controller harness timing fixed (timeout 1800->5400 s); selftest controller timeouts raised 1800->7200 s in both live plans (launch amendment); M17 110/110, frozen harness 66/66, real-controller fake-world 8/8, KIT manifest + selector/API/autopilot guards PASS; tags wp2-m17-v1-real-oracle-kit-2026-10-03 / -r1-2026-10-05; qualification NOT run; next: review then real 12-task qualification",
    "idx": 25
+  },
+  {
+   "step": "M17 Agentless-style MAIN_297 adaptation",
+   "status": "DONE (FROZEN)",
+   "note": "AGENTLESS_STYLE_ADAPTATION file-level localization comparator on frozen MAIN_297; micro F1 0.2736; paired bootstrap (10,000, seed 20261012) RM-CSS minus Agentless +0.0832 [+0.0511,+0.1148]; Agentless vs SIP CI crosses zero; experimental API cost $2.002373 (final task crossed the $2 fail-closed threshold, then stopped); zero re-scoring; evidence commit a62605e3 tag wp2-m17-agentless-style-main297-2026-10-12",
+   "idx": 26
   }
  ],
  "preflight": [
@@ -350,6 +356,11 @@
    "workflow": "M15-R OPWS + generation (Pilot-B n=10)",
    "calls": "228 agent-localization calls (30 runs)",
    "note": "agent localization $0.6448 frozen list price; generation provider-reported $0.2478 / 715,438 tokens; descriptive only"
+  },
+  {
+   "workflow": "Agentless-style MAIN_297 adaptation",
+   "calls": "297 coder calls (1/task)",
+   "note": "299 HTTP attempts · 2 retries · 0 failures · 6,555,810 prompt / 35,628 completion tokens · 1065.162 s summed latency · experimental API cost $2.002373 (final task crossed the $2 fail-closed threshold, then stopped; no subsequent call)"
   }
  ],
  "authorization": [
@@ -417,19 +428,35 @@
    "item": "M16-v1 MAIN OPWS run",
    "status": "NOT AUTHORIZED / CLOSED",
    "note": "closed pre-experiment adapter failure; no MAIN outcome; a future attempt requires a separately designed, review-approved M16-v2"
+  },
+  {
+   "item": "M17 Agentless-style MAIN_297 adaptation",
+   "status": "DONE (FROZEN)",
+   "note": "pre-registered AGENTLESS_STYLE_ADAPTATION comparator; 297/297 real records; zero re-scoring; experimental API cost $2.002373 with final-call budget-ceiling crossing disclosed; evidence frozen at a62605e3 tag wp2-m17-agentless-style-main297-2026-10-12"
   }
- ],
- "key_numbers": {
-  "sip_f1": "0.2647",
-  "rmcss_f1": "0.3569",
-  "delta_f1": "+0.0921",
-  "ci": "[+0.0691, +0.1156]",
-  "rmcss_p": "0.4256",
-  "rmcss_r": "0.3073",
-  "rmcss_fnr": "0.6927",
-  "reserve_unread": "786"
- },
- "schema_note": "Keys are consumed by build_study_deck.py and by the README/START_HERE renderer. Keep every key; update values after each mission.",
+  ],
+  "key_numbers": {
+   "sip_f1": "0.2647",
+   "rmcss_f1": "0.3569",
+   "delta_f1": "+0.0921",
+   "ci": "[+0.0691, +0.1156]",
+   "rmcss_p": "0.4256",
+   "rmcss_r": "0.3073",
+   "rmcss_fnr": "0.6927",
+   "reserve_unread": "786",
+   "agentless_style_f1": "0.2736",
+   "agentless_style_p": "0.2786",
+   "agentless_style_r": "0.2689",
+   "agentless_style_fnr": "0.7311",
+   "agentless_micro_tp_fp_fn": "246 / 637 / 669",
+   "rmcss_minus_agentless_delta": "+0.0832",
+   "rmcss_minus_agentless_ci": "[+0.0511, +0.1148]",
+   "agentless_minus_sip_delta": "+0.0084",
+   "agentless_minus_sip_ci": "[-0.0204, +0.0377]",
+   "dense3_f1": "0.2746",
+   "agentless_api_cost": "2.002373"
+  },
+  "schema_note": "Keys are consumed by build_study_deck.py and by the README/START_HERE renderer. Keep every key; update values after each mission.",
  "live_recall": {
   "chapter": "Where we are now",
   "questions": [
@@ -448,11 +475,11 @@
     "s": "LIVE",
     "ar": "إصلاح الحلقة مش tuning: بيعيد معلومات الـharness كان شايلها، بدون labels، وبيرجّح المنافس قبل المقارنة — اتجاه محافظ ومسجل مرة واحدة."
    },
-   {
-    "a": "MAIN_297 (297 tasks, protocol v3) scored with decision rules v2: RMCSS_NONINFERIOR_AT_LOWER_COST (NI_SUPPORTED). P: D −0.0062 [−0.0449,+0.0308], Q5 −0.0383; S: D −0.0115 [−0.0502,+0.0255], Q5 −0.0434. RM-CSS is non-inferior to the budget-bounded agent at lower cost (View A: 0.27× calls, 0.21× generative tokens/task). Variance 15x3 pooled F1 0.389/0.438/0.479. Next: Ahmed decides D6 (AG16 budget-sensitivity on MAIN_50) and WP-2.",
-    "s": "LIVE",
-    "ar": "MAIN_297 اتحسب بقواعد v2: RM-CSS غير أدنى من الـagent الأرخص (NI_SUPPORTED). D −0.0062 والقرار ميكانيكي من الـJSON. الجاي: قرار D6 (AG16) وبداية WP-2."
-   }
+{
+     "a": "MAIN_297 (297 tasks, protocol v3) scored with decision rules v2: RMCSS_NONINFERIOR_AT_LOWER_COST (NI_SUPPORTED). P: D −0.0062 [−0.0449,+0.0308], Q5 −0.0383; S: D −0.0115 [−0.0502,+0.0255], Q5 −0.0434. RM-CSS is non-inferior to the budget-bounded agent at lower cost (View A: 0.27× calls, 0.21× generative tokens/task). Variance 15x3 pooled F1 0.389/0.438/0.479. RQ2: the frozen Agentless-style MAIN_297 adaptation (AGENTLESS_STYLE_ADAPTATION) reached micro F1 0.2736, below RM-CSS (paired bootstrap +0.0832 [+0.0511,+0.1148]); its paired CI vs SIP crosses zero. Next: Ahmed decides D6 (AG16 budget-sensitivity on MAIN_50) and WP-2.",
+     "s": "LIVE",
+     "ar": "MAIN_297 اتحسب بقواعد v2: RM-CSS غير أدنى من الـagent الأرخص (NI_SUPPORTED). D −0.0062 والقرار ميكانيكي من الـJSON. RQ2: تكييف Agentless-style المتحفظ وصل F1 0.2736 — أعلى من SIP قرب الحدود لكن أقل من RM-CSS بفاصل يخصم الصفر. الجاي: قرار D6 (AG16) وبداية WP-2."
+    }
   ]
  },
  "wp1b_main297": {
@@ -543,5 +570,5 @@
    "evidence": "research/wp2/e2e_smoke_eng_v1/erratum/"
   }
  },
- "end_to_end_status": "M17 real + oracle kit frozen (zero-Docker, zero-API; tags wp2-m17-v1-real-oracle-kit-2026-10-03 / -r1-2026-10-05); harness timing fixed; selftest controller timeouts raised 1800->7200 s in both live plans; 110/110 M17, 66/66 frozen harness, 8/8 real-controller PASS; qualification NOT run. WP-2 supporting evidence closed/consolidated; M16-v1 closed pre-experiment; no active scientific run."
+ "end_to_end_status": "M17 real + oracle kit frozen (zero-Docker, zero-API; tags wp2-m17-v1-real-oracle-kit-2026-10-03 / -r1-2026-10-05); harness timing fixed; selftest controller timeouts raised 1800->7200 s in both live plans; 110/110 M17, 66/66 frozen harness, 8/8 real-controller PASS; qualification NOT run. RQ2: Agentless-style MAIN_297 adaptation complete and frozen (micro F1 0.2736; RM-CSS above it with paired CI excluding zero; Agentless vs SIP CI crosses zero; DENSE@3 point estimate 0.2746 close/slightly above, no separation claim). WP-2 supporting evidence closed/consolidated; M16-v1 closed pre-experiment; no active scientific run."
 }

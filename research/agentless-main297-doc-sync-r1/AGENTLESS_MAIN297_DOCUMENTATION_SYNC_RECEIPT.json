@@ -1,0 +1,82 @@
+{
+  "receipt_id": "AGENTLESS_MAIN297_DOCUMENTATION_SYNC_RECEIPT",
+  "mission": "M17_AGENTLESS_MAIN297_RESULTS_DOCUMENTATION_SYNC_R1",
+  "mission_class": "T2",
+  "created_local": "2026-10-12 (Africa/Cairo)",
+  "purpose": "Synchronize current-facing project documentation with the frozen M17 Agentless-style MAIN_297 empirical result. ZERO benchmark API calls; ZERO model calls; ZERO benchmark execution; ZERO re-scoring; ZERO modification to frozen Agentless evidence.",
+  "scientific_invariance": {
+    "SCIENTIFIC_RESULT_CHANGED": false,
+    "PREDICTIONS_CHANGED": false,
+    "BOOTSTRAP_CHANGED": false,
+    "PROTOCOL_CHANGED": false,
+    "BENCHMARK_EXECUTED": false,
+    "API_CALLS": 0,
+    "AGENTLESS_EVIDENCE_MODIFIED": false
+  },
+  "source_evidence": {
+    "experiment_branch": "parallel/agentless-main297-2026-10-12",
+    "evidence_commit": "a62605e33b0e66c307a86e83859971b00f3ec37c",
+    "evidence_tag": "wp2-m17-agentless-style-main297-2026-10-12",
+    "prediction_freeze_sha256": "90495bbb2c8d66a2c9a079cb2dfcd6e1cbf929c01972f1331df4242cdabd9815",
+    "evaluation_sha256": "4524be9a04d4328dcc598e42d7aa59607696899096261745383a4225c1723e78",
+    "run_records": "research/competitor-agentless-r1/run/agentless_r1_run_records.jsonl (297 records)",
+    "execution_receipt": "research/competitor-agentless-r1/M17_AGENTLESS_STYLE_MAIN297_EXECUTION_RECEIPT.json",
+    "test_receipt": "research/competitor-agentless-r1/M17_AGENTLESS_STYLE_MAIN297_TEST_RECEIPT.json",
+    "protocol_freeze": "research/competitor-agentless-r1/AGENTLESS_STYLE_ADAPTATION_PROTOCOL_FREEZE.json",
+    "evaluation_label": "AGENTLESS_STYLE_ADAPTATION",
+    "label_never_renamed_to": ["EXACT_AGENTLESS", "OFFICIAL_AGENTLESS", "AGENTLESS_REPRODUCTION"]
+  },
+  "canonical_result_documented": {
+    "population": {"n": 297, "real_records": 297, "missing": 0, "duplicates": 0, "substitutions": 0},
+    "micro": {"tp": 246, "fp": 637, "fn": 669, "precision": 0.2785956964892412, "recall": 0.26885245901639343, "f1": 0.27363737486095663, "fnr": 0.7311475409836066},
+    "macro_f1": 0.27474769899012325,
+    "selected_set_size": {"mean": 2.973063973063973, "median": 3},
+    "empty_or_malfunction_count": 1,
+    "efficiency": {"llm_calls": 297, "http_attempts": 299, "retries": 2, "api_failures": 0, "prompt_tokens": 6555810, "completion_tokens": 35628, "summed_latency_seconds": 1065.162, "api_cost_usd": 2.002373}
+  },
+  "budget_disclosure": {
+    "hard_ceiling_usd": 2.0,
+    "actual_cumulative_cost_usd": 2.002373,
+    "final_task_crossed_ceiling": true,
+    "fail_closed_fired_immediately": true,
+    "no_subsequent_call": true,
+    "allowed_wording": "The frozen $2 fail-closed threshold was crossed by the final task, producing a cumulative experimental API cost of $2.002373; execution stopped immediately afterward, with no subsequent task or adaptive rerun.",
+    "forbidden_wording": ["cost stayed under $2", "actual cost <= $2"]
+  },
+  "validation_disclosure": {
+    "mission_specific": {"targeted_agentless_pytest": "29/29 PASS", "py_compile": "PASS", "git_diff_check": "PASS"},
+    "branch_snapshot_full_suite": {"passed": 4632, "skipped": 47, "failed": 36, "full_suite_pass_claim": false},
+    "classification": {"environment_parquet_before_repair": 21, "missing_data_fixture": 6, "unrelated_other_domain_or_branch_state": 9},
+    "affected_cluster_rerun_after_repair": {"passed": 98, "failed": 2, "cause": "missing dist/real-commit-cache/djangocms fixture"},
+    "framing": "Integration-validation debt, not Agentless empirical-result debt; no reported failure referenced the Agentless mission files."
+  },
+  "code_quality_disclosure": {
+    "ruff": "1 F401 unused import finding",
+    "mypy": "5 type-annotation findings",
+    "classification": "pre-output frozen implementation quality debt / post-freeze non-semantic maintenance debt",
+    "modified_by_this_mission": false
+  },
+  "documentation_files_changed": [
+    "docs/LIVE_STATUS.json",
+    "README.md",
+    "PROGRESS.md",
+    "START_HERE_CURRENT_2026-09-21b.md",
+    "00_CURRENT_RESEARCH_STATE.md",
+    "docs/CLAIM_REGISTRY.md",
+    "DECISIONS.md",
+    "tests/unit/test_m17_agentless_main297_docs_sync.py",
+    "research/agentless-main297-doc-sync-r1/AGENTLESS_MAIN297_DOCUMENTATION_SYNC_RECEIPT.json",
+    "research/agentless-main297-doc-sync-r1/AGENTLESS_MAIN297_DOCS_P2P_F2P_RECEIPT.json"
+  ],
+  "p2p_f2p_result": "SEE research/agentless-main297-doc-sync-r1/AGENTLESS_MAIN297_DOCS_P2P_F2P_RECEIPT.json",
+  "success_flags": {
+    "AGENTLESS_RESULTS_DOCUMENTED": true,
+    "LABEL_IS_AGENTLESS_STYLE_ADAPTATION": true,
+    "RQ2_UPDATED": true,
+    "ACTUAL_COST_DISCLOSED": true,
+    "FINAL_CALL_BUDGET_CROSSING_DISCLOSED": true,
+    "GLOBAL_FULL_SUITE_FALSE_PASS_CLAIM": false,
+    "FROZEN_AGENTLESS_EVIDENCE_MODIFIED": false,
+    "BENCHMARK_EXECUTED": false
+  }
+}

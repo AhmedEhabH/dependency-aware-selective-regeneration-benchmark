@@ -30,6 +30,33 @@ mirrors the claim freeze in the control pack
 3. Generator capability is a separate downstream bottleneck (Pilot-A, M14R,
    M15-R generation all negative/floor-not-met).
 
+## RQ2 — Agentless-style localization comparator (2026-10-12)
+
+**EMPIRICAL — Agentless-style MAIN_297 scores (frozen):** the pre-registered
+`AGENTLESS_STYLE_ADAPTATION` file-level localization comparator scored micro
+F1 0.2736 (P 0.2786 / R 0.2689; TP 246 / FP 637 / FN 669; FNR 0.7311) on the
+frozen MAIN_297 population with the same file-level evaluator as RM-CSS/SIP/
+Agent. Experimental API cost $2.002373 (297 calls; 6,555,810 prompt / 35,628
+completion tokens).
+
+**EMPIRICAL — paired bootstrap (10,000 resamples, seed 20261012):**
+- RM-CSS minus Agentless: ΔF1 +0.0832, 95% CI [+0.0511, +0.1148] (excludes
+  zero; RM-CSS higher).
+- Agent minus Agentless: ΔF1 +0.0894, 95% CI [+0.0552, +0.1260] (excludes
+  zero; Agent higher).
+- Agentless minus SIP: ΔF1 +0.0084, 95% CI [−0.0204, +0.0377] (crosses zero).
+
+**INTERPRETIVE:** the Agentless-style adaptation supplies a stronger
+literature-inspired localization comparator than simple retrieval alone
+(BM25 / DENSE@K / size-matched controls). DENSE@3 point estimate 0.2746 is
+close to/slightly above Agentless-style 0.2736; no statistical separation is
+claimed between them.
+
+**FORBIDDEN:** "exact Agentless reproduction"; "RM-CSS beats official
+Agentless"; "RM-CSS is best overall"; "Agentless-style significantly beats SIP
+in F1" (paired CI crosses zero); "the $2 fail-closed budget was not crossed"
+(the final task crossed it; cumulative cost $2.002373).
+
 ## Unsupported / forbidden claims
 
 1. **RM-CSS is E2E-superior to the Agent.** Forbidden. MAIN_297 is
@@ -53,6 +80,18 @@ mirrors the claim freeze in the control pack
 - M16-v1 statements must state "pre-experiment adapter failure, no MAIN outcome".
 - Any graph-ablation statement must carry "may improve precision at material
   token cost; no universal graph claim".
+- Agentless statements must name the adaptation exactly `AGENTLESS_STYLE_ADAPTATION`
+  (never `EXACT_AGENTLESS` / `OFFICIAL_AGENTLESS` / `AGENTLESS_REPRODUCTION`)
+  and must carry "file-level localization comparator; not an exact
+  published-Agentless reproduction".
+- Cost statements about the Agentless adaptation must state that the frozen $2
+  fail-closed threshold was crossed by the final task (cumulative experimental
+  API cost $2.002373) with execution stopping immediately afterward; never
+  write "cost stayed under $2" or "actual cost <= $2".
+- Repository-wide non-green suite results on the Agentless branch snapshot must
+  be described as integration-validation debt (environment / missing-fixture /
+  unrelated cross-domain branch-state failures), never as Agentless experiment
+  failures and never as a passing regression suite.
 - No claim may present a negative result as a positive one, and no claim may
   pool M16-v1 with any result-bearing experiment.
 
